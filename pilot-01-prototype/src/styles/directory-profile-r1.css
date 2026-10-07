@@ -568,8 +568,10 @@
   .yellow-pages--directory .yellow-card--directory .yellow-card__actions {
     align-self: center;
     margin: 0;
-    grid-template-columns: auto auto minmax(10.5rem, auto) minmax(12rem, auto);
+    /* Fixed tracks so every row's buttons line up as columns down the list. */
+    grid-template-columns: 10rem 12.75rem 11.75rem 12.75rem;
   }
+  .yellow-pages--directory .yellow-card--directory .yellow-card__actions > :is(a, button, span) { white-space: normal; }
 }
 
 /* Expanded conditions: fit text + benefit on one side, facts on the other, tops aligned. */
@@ -707,11 +709,15 @@
 }
 .yellow-pages--directory .yellow-pages__expand:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 3px; }
 
+/* The page scroller is not the viewport (body clips overflow), so the tray is fixed. */
 .yellow-pages--directory .yellow-pages__compare-tray {
-  position: sticky;
-  z-index: 6;
+  position: fixed;
+  z-index: 60;
+  inset-inline: 16px;
   inset-block-end: 16px;
-  margin-block-start: 16px;
+  width: auto;
+  max-width: 44rem;
+  margin-inline: auto;
   padding: 10px 10px 10px 18px;
   border: 1px solid rgba(111, 144, 255, 0.45);
   border-radius: 14px;
@@ -879,8 +885,6 @@
   .v3-profile-page .v3-venue-hero > .v3-profile-reading-layout > .v3-profile-action-column {
     grid-column: 2;
     grid-row: 1 / span 2;
-    position: sticky;
-    top: 24px;
     align-self: start;
   }
   .v3-profile-page .v3-venue-hero > :not(.v3-venue-identity):not(.v3-profile-reading-layout) { grid-column: 1 / -1; }
@@ -973,6 +977,7 @@
 .v3-profile-page .v3-profile-reading-overview > .v3-profile-primary-actions { padding-block-start: 0; }
 .v3-profile-page .v3-profile-reading-overview > .v3-relationship-note {
   max-width: 68ch;
+  margin-block: 16px 0;
   padding: 0;
   border: 0;
   font-size: 0.8125rem;
@@ -1069,8 +1074,8 @@
   cursor: pointer;
 }
 .v3-profile-page .v3-similar-disclosure__summary::-webkit-details-marker { display: none; }
-.v3-profile-page .v3-similar-disclosure__summary > h2 { flex: 1 1 auto; margin: 0; order: 1; }
-.v3-profile-page .v3-similar-disclosure__summary > span { order: 2; margin: 0; color: var(--muted); font-size: 0.875rem; }
+.v3-profile-page .v3-similar-disclosure__summary > h2 { flex: 0 1 auto; max-width: none; margin: 0; order: 1; }
+.v3-profile-page .v3-similar-disclosure__summary > span { order: 2; margin: 0 0 0 auto; margin-inline-start: auto; color: var(--muted); font-size: 0.875rem; }
 .v3-profile-page .v3-similar-disclosure__summary > b {
   order: 3;
   position: static;
