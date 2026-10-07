@@ -26,5 +26,10 @@ jobs:
             echo; echo "running containers: $(docker ps -q | wc -l)"
             docker stats --no-stream --format "{{.Name}} {{.CPUPerc}} {{.MemUsage}}" | sort -k3 -h | tail -15
             echo; grep -o "127.0.0.1:[0-9]*" /www/server/panel/vhost/nginx/nexualpha.com.conf
-            echo; docker ps --format "{{.Names}} {{.Status}} {{.Ports}}" | grep nexualpha-web | head -40'
+            echo; docker ps --format "{{.Names}} {{.Status}} {{.Ports}}" | grep nexualpha-web | head -60
+            echo; echo "== /data top usage"; du -xsh /data/* 2>/dev/null | sort -h | tail -12
+            echo; echo "== /data/wwwroot top"; du -xsh /data/wwwroot/* 2>/dev/null | sort -h | tail -25
+            echo; echo "== wwwroot counts"; ls /data/wwwroot | sed -E "s/[0-9].*//" | sort | uniq -c | sort -rn | head
+            echo; echo "== docker disk"; docker system df
+            echo; echo "== recent OOM"; dmesg -T 2>/dev/null | grep -i -E "out of memory|killed process" | tail -5'
           rm -f ~/.ssh/k
