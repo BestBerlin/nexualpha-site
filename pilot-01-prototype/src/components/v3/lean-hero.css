@@ -370,7 +370,7 @@
   color: #71717a;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-family: var(--font-mono, 'JetBrains Mono', 'SF Mono', monospace);
+  font-family: var(--font-mono);
 }
 
 .telemetry-panel__cell-val {
@@ -381,7 +381,8 @@
   line-height: 1.15;
   margin: 2px 0 4px;
   font-variant-numeric: tabular-nums;
-  font-family: 'JetBrains Mono', 'SF Mono', var(--font-mono), monospace;
+  font-family: var(--font-ui);
+  font-variant-numeric: tabular-nums;
   text-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
 }
 
@@ -408,7 +409,7 @@
 
 .telemetry-panel__code-pill {
   color: #cbd5e1;
-  font-family: 'JetBrains Mono', 'SF Mono', monospace;
+  font-family: var(--font-code);
   background: #000000;
   border: 1px dashed rgba(255, 255, 255, 0.15);
   border-radius: 8px;

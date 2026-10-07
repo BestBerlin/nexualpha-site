@@ -1,0 +1,72 @@
+/*
+ * R1 type system: UI labels use the UI face; monospace is reserved for values
+ * people copy (referral codes, bot commands, hashes).
+ *
+ * Tokens (styles/tokens.css):
+ *   --font-ui     UI face for every label, chip, domain and data value
+ *   --font-code   monospace, only for copyable code values
+ *   --font-mono / --font-data   legacy names, now aliases of --font-ui so the
+ *                 ~200 existing label rules stop rendering as a debug console
+ *   --label-*     the single eyebrow/label style
+ */
+
+/* Copyable code values keep a monospace face and tabular figures. */
+:is(
+  .yellow-card__code strong,
+  .v3-venue-quick-registration__code strong,
+  .v3-rebate-code-btn strong,
+  .v3-versus-code strong,
+  .v3-matrix-code-val,
+  .v3-decision-code-val,
+  .v3-faq-code-chip,
+  .bleed-copy-code-btn,
+  .tg-cmd-card__command,
+  .tg-cmd-card__prompt,
+  .tg-cmd-card__sample-code,
+  .registration-card__code-value
+):not(#_) {
+  font-family: var(--font-code);
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+
+/* Numbers set in the UI face line up in columns. */
+:is(
+  .yellow-card__meta-val,
+  .fee-terminal__rate-main,
+  .fee-terminal__rate-meta,
+  .bleed-vol-value,
+  .bleed-track-val,
+  .bleed-stat-val,
+  .v3-matrix-main-val,
+  .v3-matrix-rebate-num,
+  .v3-matrix-leverage,
+  .sentiment-index__value,
+  .onchain-board td
+) {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Recorded domains read as UI text, not code. */
+:is(.yellow-card__domain, .v3-domain-pill, .registration-card__domain-badge, .v3-back-link):not(#_) {
+  font-family: var(--font-ui);
+  letter-spacing: 0;
+}
+
+/* One eyebrow/label style for page-level labels. */
+:is(.home-section-nav__label, .crossroads__eyebrow, .platform-matcher__summary-kicker, .platform-matcher__summary-context > span, .crawl-priority-links__group > span, .yellow-card__meta-key):not(#_) {
+  font-family: var(--font-ui);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  line-height: 1.3;
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-case);
+}
+
+/* Letter-spacing is a Latin convention; it breaks Arabic joining. */
+:is([dir="rtl"], :lang(ar), :lang(zh), :lang(ja), :lang(ko)) {
+  --label-tracking: 0;
+}
+
+/* Chinese pages: the UI face follows the CJK reading stack (v3-layout-stability). */
+html:is(:lang(zh-CN), :lang(zh-Hans)) { --font-ui: var(--v3-cjk-sc-font); }
+html:is(:lang(zh-TW), :lang(zh-Hant)) { --font-ui: var(--v3-cjk-tc-font); }
