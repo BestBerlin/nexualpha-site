@@ -240,6 +240,23 @@
   }
 }
 
+/* Mobile quick choice (some locales): an in-page jump, so a quiet outline, not a signup button. */
+#top.v3-compare-page .v3-compare-quick-actions__cta {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--r1-rule-strong);
+  background: transparent;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: none;
+}
+#top.v3-compare-page .v3-compare-quick-actions__meta { color: var(--muted); font-size: 12.5px; }
+
 /* ---------- Matrix ---------- */
 #top.v3-compare-page .v3-metric-matrix-section { padding-block: clamp(32px, 4vw, 48px) 0; margin: 0 auto; }
 #top.v3-compare-page .v3-matrix-header { gap: 10px; margin-block-end: 24px; }
