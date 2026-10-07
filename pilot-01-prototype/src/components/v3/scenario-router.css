@@ -1,0 +1,25 @@
+.scenario-router { padding-top: clamp(24px, 2.6vw, 38px); padding-bottom: clamp(26px, 2.8vw, 40px); }
+.scenario-router__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.scenario-router__grid > button {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  min-height: 112px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(63, 111, 255, .055), rgba(255, 255, 255, .014));
+  color: var(--ink);
+  text-align: left;
+  transition: transform var(--motion-fast), border-color var(--motion-fast), background var(--motion-fast);
+}
+.scenario-router__grid > button:hover,
+.scenario-router__grid > button.is-active { border-color: rgba(111, 144, 255, .7); background: linear-gradient(180deg, rgba(63, 111, 255, .14), rgba(255, 255, 255, .025)); transform: translateY(-2px); }
+.scenario-router__grid > button:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 3px; }
+.scenario-router__grid > button > span { color: var(--blue-text); font-family: var(--font-data); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.scenario-router__grid > button > strong { font-size: 18px; letter-spacing: -.03em; line-height: 1.12; text-wrap: balance; }
+.scenario-router__grid > button > div { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.scenario-router__grid > button > div > span { display: inline-flex; align-items: center; gap: 7px; min-width: 0; color: var(--muted); font-size: 12px; }
+.scenario-router__grid .v2-brand--compact { width: 24px; height: 24px; flex: 0 0 24px; background: transparent; }
+@media (max-width: 780px) { .scenario-router__grid { grid-template-columns: 1fr; } .scenario-router__grid > button { min-height: 104px; } }
+@media (prefers-reduced-motion: reduce) { .scenario-router__grid > button { transition: none; } .scenario-router__grid > button:hover { transform: none; } }

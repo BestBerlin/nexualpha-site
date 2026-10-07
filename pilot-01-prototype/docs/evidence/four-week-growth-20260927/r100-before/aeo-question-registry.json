@@ -1,0 +1,2150 @@
+[
+  {
+    "id": "hk-residence-platform",
+    "market": "HK",
+    "locale": "en",
+    "intent": "eligibility",
+    "question": "Which crypto platforms publish a Hong Kong licensing or platform-status record?",
+    "canonicalPath": "/hk",
+    "sourceUrls": [
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators",
+      "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+      "https://support.hashkey.com/hc/en-gb/articles/48860678459801-Deposit-Guide-for-eDDA",
+      "https://www.osl.com/hk-en/bits/article/osl-account-opening-and-2fa-setup-guide",
+      "https://www.osl.com/hk-en/support/article/kA0fv00000002BVCAY?channel=PPXtZS"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hk-hkd-funding",
+    "market": "HK",
+    "locale": "en",
+    "intent": "funding",
+    "question": "What HKD or on-chain funding route should a Hong Kong user verify before opening an account?",
+    "canonicalPath": "/hk",
+    "sourceUrls": [
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators",
+      "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+      "https://support.hashkey.com/hc/en-gb/articles/48860678459801-Deposit-Guide-for-eDDA",
+      "https://www.osl.com/hk-en/bits/article/osl-account-opening-and-2fa-setup-guide",
+      "https://www.osl.com/hk-en/support/article/kA0fv00000002BVCAY?channel=PPXtZS"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hk-product-scope",
+    "market": "HK",
+    "locale": "zh-Hant",
+    "intent": "product",
+    "question": "香港居民如何核對平台與目標產品是否適用？",
+    "canonicalPath": "/hk?locale=zh-Hant",
+    "sourceUrls": [
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators",
+      "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+      "https://support.hashkey.com/hc/en-gb/articles/48860678459801-Deposit-Guide-for-eDDA",
+      "https://www.osl.com/hk-en/bits/article/osl-account-opening-and-2fa-setup-guide",
+      "https://www.osl.com/hk-en/support/article/kA0fv00000002BVCAY?channel=PPXtZS"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hk-account-stage",
+    "market": "HK",
+    "locale": "en",
+    "intent": "account",
+    "question": "What identity and residence checks should be confirmed before a Hong Kong crypto account decision?",
+    "canonicalPath": "/hk",
+    "sourceUrls": [
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators",
+      "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+      "https://support.hashkey.com/hc/en-gb/articles/48860678459801-Deposit-Guide-for-eDDA",
+      "https://www.osl.com/hk-en/bits/article/osl-account-opening-and-2fa-setup-guide",
+      "https://www.osl.com/hk-en/support/article/kA0fv00000002BVCAY?channel=PPXtZS"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hk-osl-account-verification",
+    "market": "HK",
+    "locale": "en",
+    "intent": "account",
+    "question": "What identity, address and bank-verification steps does OSL publish for a Hong Kong account opening?",
+    "canonicalPath": "/hk",
+    "sourceUrls": [
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators",
+      "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+      "https://support.hashkey.com/hc/en-gb/articles/48860678459801-Deposit-Guide-for-eDDA",
+      "https://www.osl.com/hk-en/bits/article/osl-account-opening-and-2fa-setup-guide",
+      "https://www.osl.com/hk-en/support/article/kA0fv00000002BVCAY?channel=PPXtZS"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hk-osl-funding",
+    "market": "HK",
+    "locale": "en",
+    "intent": "funding",
+    "question": "What should a Hong Kong user verify about the official OSL funding and account-activation route before proceeding?",
+    "canonicalPath": "/hk",
+    "sourceUrls": [
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators",
+      "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+      "https://support.hashkey.com/hc/en-gb/articles/48860678459801-Deposit-Guide-for-eDDA",
+      "https://www.osl.com/hk-en/bits/article/osl-account-opening-and-2fa-setup-guide",
+      "https://www.osl.com/hk-en/support/article/kA0fv00000002BVCAY?channel=PPXtZS"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hk-sfc-platform-status-zh-hant",
+    "market": "HK",
+    "locale": "zh-Hant",
+    "intent": "regulation",
+    "question": "香港使用者如何用 SFC 名單核對平台狀態，而不把名單誤認為開戶或產品保證？",
+    "canonicalPath": "/hk",
+    "sourceUrls": [
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators",
+      "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+      "https://support.hashkey.com/hc/en-gb/articles/48860678459801-Deposit-Guide-for-eDDA",
+      "https://www.osl.com/hk-en/bits/article/osl-account-opening-and-2fa-setup-guide",
+      "https://www.osl.com/hk-en/support/article/kA0fv00000002BVCAY?channel=PPXtZS"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hk-hkd-edda-bank-zh-hant",
+    "market": "HK",
+    "locale": "zh-Hant",
+    "intent": "funding",
+    "question": "香港用戶在使用 HKD 銀行轉帳或 eDDA 前，需要核對哪些本人帳戶、費用與 hold 條件？",
+    "canonicalPath": "/hk",
+    "sourceUrls": [
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators",
+      "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+      "https://support.hashkey.com/hc/en-gb/articles/48860678459801-Deposit-Guide-for-eDDA",
+      "https://www.osl.com/hk-en/bits/article/osl-account-opening-and-2fa-setup-guide",
+      "https://www.osl.com/hk-en/support/article/kA0fv00000002BVCAY?channel=PPXtZS"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hk-proof-address-product-scope-zh-hant",
+    "market": "HK",
+    "locale": "zh-Hant",
+    "intent": "account",
+    "question": "香港用戶在提交身分與地址證明後，還要如何核對產品範圍與帳戶狀態？",
+    "canonicalPath": "/hk",
+    "sourceUrls": [
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators",
+      "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+      "https://support.hashkey.com/hc/en-gb/articles/48860678459801-Deposit-Guide-for-eDDA",
+      "https://www.osl.com/hk-en/bits/article/osl-account-opening-and-2fa-setup-guide",
+      "https://www.osl.com/hk-en/support/article/kA0fv00000002BVCAY?channel=PPXtZS"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "eu-mica-register",
+    "market": "EU",
+    "locale": "en",
+    "intent": "regulation",
+    "question": "Where can a user check the current ESMA MiCA register before comparing a crypto platform?",
+    "canonicalPath": "/eu",
+    "sourceUrls": [
+      "https://www.esma.europa.eu/et/node/200055",
+      "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "eu-member-state",
+    "market": "EU",
+    "locale": "en",
+    "intent": "jurisdiction",
+    "question": "Why must a European crypto platform decision be checked by country and service scope?",
+    "canonicalPath": "/eu",
+    "sourceUrls": [
+      "https://www.esma.europa.eu/et/node/200055",
+      "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "eu-sepa-funding",
+    "market": "EU",
+    "locale": "en",
+    "intent": "funding",
+    "question": "What EUR or SEPA funding conditions should an EU user verify on the official platform page?",
+    "canonicalPath": "/eu",
+    "sourceUrls": [
+      "https://www.esma.europa.eu/et/node/200055",
+      "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "eu-product-availability",
+    "market": "EU",
+    "locale": "de",
+    "intent": "product",
+    "question": "Welche Produkt- und Wohnsitzbedingungen sollte man in der EU vor der Kontoeröffnung prüfen?",
+    "canonicalPath": "/eu?locale=de",
+    "sourceUrls": [
+      "https://www.esma.europa.eu/et/node/200055",
+      "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "eu-product-availability-ja",
+    "market": "EU",
+    "locale": "ja",
+    "intent": "product",
+    "question": "EUで暗号資産プラットフォームを選ぶ前に、商品と居住地の条件をどう確認すべきですか？",
+    "canonicalPath": "/eu?locale=ja",
+    "sourceUrls": [
+      "https://www.esma.europa.eu/et/node/200055",
+      "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "eu-jurisdiction-ko",
+    "market": "EU",
+    "locale": "ko",
+    "intent": "jurisdiction",
+    "question": "유럽에서 플랫폼을 비교하기 전에 국가와 서비스 범위를 확인해야 하는 이유는 무엇인가요?",
+    "canonicalPath": "/eu?locale=ko",
+    "sourceUrls": [
+      "https://www.esma.europa.eu/et/node/200055",
+      "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "eu-register-tr",
+    "market": "EU",
+    "locale": "tr",
+    "intent": "regulation",
+    "question": "AB'de bir kripto platformunu karşılaştırmadan önce MiCA kaydı ve hizmet kapsamı nasıl kontrol edilir?",
+    "canonicalPath": "/eu?locale=tr",
+    "sourceUrls": [
+      "https://www.esma.europa.eu/et/node/200055",
+      "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "eu-product-fr",
+    "market": "EU",
+    "locale": "fr",
+    "intent": "product",
+    "question": "Quelles conditions de produit et de résidence faut-il vérifier avant de choisir une plateforme crypto dans l’UE ?",
+    "canonicalPath": "/eu?locale=fr",
+    "sourceUrls": [
+      "https://www.esma.europa.eu/et/node/200055",
+      "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "eu-jurisdiction-es",
+    "market": "EU",
+    "locale": "es",
+    "intent": "jurisdiction",
+    "question": "¿Por qué hay que comprobar el país y el alcance del servicio antes de elegir una plataforma en la UE?",
+    "canonicalPath": "/eu?locale=es",
+    "sourceUrls": [
+      "https://www.esma.europa.eu/et/node/200055",
+      "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "eu-coinbase-payment-method",
+    "market": "EU",
+    "locale": "en",
+    "intent": "funding",
+    "question": "Which SEPA and payment-method conditions should an EU user verify in the official platform flow?",
+    "canonicalPath": "/eu",
+    "sourceUrls": [
+      "https://www.esma.europa.eu/et/node/200055",
+      "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "eu-coinbase-identity",
+    "market": "EU",
+    "locale": "en",
+    "intent": "account",
+    "question": "What identity and official-domain checks should an EU user complete before uploading documents to a platform?",
+    "canonicalPath": "/eu",
+    "sourceUrls": [
+      "https://www.esma.europa.eu/et/node/200055",
+      "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uk-fca-register",
+    "market": "UK",
+    "locale": "en",
+    "intent": "regulation",
+    "question": "How can a UK user check whether a cryptoasset firm appears in the FCA register?",
+    "canonicalPath": "/uk",
+    "sourceUrls": [
+      "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+      "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+      "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uk-residence-route",
+    "market": "UK",
+    "locale": "en",
+    "intent": "eligibility",
+    "question": "Which UK residence and identity conditions should be checked before choosing a crypto platform?",
+    "canonicalPath": "/uk",
+    "sourceUrls": [
+      "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+      "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+      "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uk-gbp-funding",
+    "market": "UK",
+    "locale": "en",
+    "intent": "funding",
+    "question": "What GBP funding method and account limits should a UK user confirm on the official site?",
+    "canonicalPath": "/uk",
+    "sourceUrls": [
+      "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+      "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+      "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uk-product-scope",
+    "market": "UK",
+    "locale": "en",
+    "intent": "product",
+    "question": "Does UK registration status establish that every product is available to every account?",
+    "canonicalPath": "/uk",
+    "sourceUrls": [
+      "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+      "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+      "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uk-register-tr",
+    "market": "UK",
+    "locale": "tr",
+    "intent": "regulation",
+    "question": "Birleşik Krallık'ta bir kripto şirketinin FCA kaydını karşılaştırmadan önce nasıl kontrol edebilirsiniz?",
+    "canonicalPath": "/uk?locale=tr",
+    "sourceUrls": [
+      "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+      "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+      "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uk-product-ja",
+    "market": "UK",
+    "locale": "ja",
+    "intent": "product",
+    "question": "英国で登録された暗号資産会社でも、すべての商品が利用できるとは限らない理由は何ですか？",
+    "canonicalPath": "/uk?locale=ja",
+    "sourceUrls": [
+      "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+      "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+      "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uk-account-ko",
+    "market": "UK",
+    "locale": "ko",
+    "intent": "eligibility",
+    "question": "영국에서 암호화폐 플랫폼을 선택하기 전에 거주지와 신원 조건을 어떻게 확인해야 하나요?",
+    "canonicalPath": "/uk?locale=ko",
+    "sourceUrls": [
+      "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+      "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+      "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uk-product-de",
+    "market": "UK",
+    "locale": "de",
+    "intent": "product",
+    "question": "Welche Produkt- und Wohnsitzbedingungen sollten Nutzer im Vereinigten Königreich vor der Kontoeröffnung prüfen?",
+    "canonicalPath": "/uk?locale=de",
+    "sourceUrls": [
+      "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+      "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+      "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uk-register-fr",
+    "market": "UK",
+    "locale": "fr",
+    "intent": "regulation",
+    "question": "Comment vérifier le registre FCA avant de comparer une plateforme crypto au Royaume-Uni ?",
+    "canonicalPath": "/uk?locale=fr",
+    "sourceUrls": [
+      "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+      "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+      "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uk-coinbase-account",
+    "market": "UK",
+    "locale": "en",
+    "intent": "account",
+    "question": "What identity and appropriateness checks should a UK user complete before using a crypto platform?",
+    "canonicalPath": "/uk",
+    "sourceUrls": [
+      "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+      "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+      "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uk-coinbase-gbp",
+    "market": "UK",
+    "locale": "en",
+    "intent": "funding",
+    "question": "What GBP bank-account matching and funding steps should a UK user verify in the official platform flow?",
+    "canonicalPath": "/uk",
+    "sourceUrls": [
+      "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+      "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+      "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+      "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "jp-fsa-register",
+    "market": "JP",
+    "locale": "ja",
+    "intent": "regulation",
+    "question": "日本で暗号資産交換業者の登録情報を確認するには、どの公式情報源を見ればよいですか？",
+    "canonicalPath": "/jp?locale=ja",
+    "sourceUrls": [
+      "https://www.fsa.go.jp/en/regulated/licensed/en_kasoutuka.pdf",
+      "https://bitflyer.com/en-jp/s/how-to-start",
+      "https://bitflyer.com/en-jp/faq"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "jp-identity",
+    "market": "JP",
+    "locale": "ja",
+    "intent": "eligibility",
+    "question": "日本の利用者は、口座開設前に本人確認と居住地の条件をどう確認すべきですか？",
+    "canonicalPath": "/jp?locale=ja",
+    "sourceUrls": [
+      "https://www.fsa.go.jp/en/regulated/licensed/en_kasoutuka.pdf",
+      "https://bitflyer.com/en-jp/s/how-to-start",
+      "https://bitflyer.com/en-jp/faq"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "jp-jpy-funding",
+    "market": "JP",
+    "locale": "ja",
+    "intent": "funding",
+    "question": "日本円の入金方法と本人名義口座の条件は、どこで確認できますか？",
+    "canonicalPath": "/jp?locale=ja",
+    "sourceUrls": [
+      "https://www.fsa.go.jp/en/regulated/licensed/en_kasoutuka.pdf",
+      "https://bitflyer.com/en-jp/s/how-to-start",
+      "https://bitflyer.com/en-jp/faq"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "jp-product-scope",
+    "market": "JP",
+    "locale": "ja",
+    "intent": "product",
+    "question": "日本の登録事業者であれば、すべての現物商品を利用できると考えてよいですか？",
+    "canonicalPath": "/jp?locale=ja",
+    "sourceUrls": [
+      "https://www.fsa.go.jp/en/regulated/licensed/en_kasoutuka.pdf",
+      "https://bitflyer.com/en-jp/s/how-to-start",
+      "https://bitflyer.com/en-jp/faq"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "kr-regulatory-context",
+    "market": "KR",
+    "locale": "ko",
+    "intent": "regulation",
+    "question": "한국에서 가상자산 플랫폼을 비교하기 전에 금융위원회 공식 규제 맥락을 어떻게 확인해야 하나요?",
+    "canonicalPath": "/kr?locale=ko",
+    "sourceUrls": [
+      "https://www.fsc.go.kr/eng/pr010101/81698",
+      "https://www.kofiu.go.kr/eng/legislation/legislation.do",
+      "https://support.upbit.com/hc/ko/articles/900006825383-%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94",
+      "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "kr-identity",
+    "market": "KR",
+    "locale": "ko",
+    "intent": "eligibility",
+    "question": "한국 이용자는 계정 개설 전에 거주지와 본인확인 조건을 어떻게 확인해야 하나요?",
+    "canonicalPath": "/kr?locale=ko",
+    "sourceUrls": [
+      "https://www.fsc.go.kr/eng/pr010101/81698",
+      "https://www.kofiu.go.kr/eng/legislation/legislation.do",
+      "https://support.upbit.com/hc/ko/articles/900006825383-%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94",
+      "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "kr-krw-funding",
+    "market": "KR",
+    "locale": "ko",
+    "intent": "funding",
+    "question": "원화 입금과 본인 명의 은행계좌 조건은 어디에서 확인할 수 있나요?",
+    "canonicalPath": "/kr?locale=ko",
+    "sourceUrls": [
+      "https://www.fsc.go.kr/eng/pr010101/81698",
+      "https://www.kofiu.go.kr/eng/legislation/legislation.do",
+      "https://support.upbit.com/hc/ko/articles/900006825383-%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94",
+      "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "kr-product-scope",
+    "market": "KR",
+    "locale": "ko",
+    "intent": "product",
+    "question": "한국의 규제 맥락이 모든 플랫폼 상품을 이용할 수 있다는 뜻인가요?",
+    "canonicalPath": "/kr?locale=ko",
+    "sourceUrls": [
+      "https://www.fsc.go.kr/eng/pr010101/81698",
+      "https://www.kofiu.go.kr/eng/legislation/legislation.do",
+      "https://support.upbit.com/hc/ko/articles/900006825383-%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94",
+      "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "kr-upbit-account-verification",
+    "market": "KR",
+    "locale": "ko",
+    "intent": "account",
+    "question": "업비트에서 가입과 고객확인을 진행하기 전에 어떤 본인인증 조건을 공식 안내에서 확인해야 하나요?",
+    "canonicalPath": "/kr?locale=ko",
+    "sourceUrls": [
+      "https://www.fsc.go.kr/eng/pr010101/81698",
+      "https://www.kofiu.go.kr/eng/legislation/legislation.do",
+      "https://support.upbit.com/hc/ko/articles/900006825383-%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94",
+      "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "kr-upbit-krw-funding",
+    "market": "KR",
+    "locale": "ko",
+    "intent": "funding",
+    "question": "업비트에서 원화 입출금을 준비할 때 실명확인 계좌와 2채널 인증 조건을 어디에서 확인할 수 있나요?",
+    "canonicalPath": "/kr?locale=ko",
+    "sourceUrls": [
+      "https://www.fsc.go.kr/eng/pr010101/81698",
+      "https://www.kofiu.go.kr/eng/legislation/legislation.do",
+      "https://support.upbit.com/hc/ko/articles/900006825383-%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94",
+      "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "sg-mas-dpt-directory",
+    "market": "SG",
+    "locale": "en",
+    "intent": "regulation",
+    "question": "How should a Singapore user check MAS Digital Payment Token service context before comparing platforms?",
+    "canonicalPath": "/sg",
+    "sourceUrls": [
+      "https://eservices.mas.gov.sg/fid/institution?activity=Digital+Payment+Token+Service",
+      "https://www.mas.gov.sg/regulation/payments/licensing-for-payment-service-providers/types-of-payment-services",
+      "https://www.coinbase.com/en-sg",
+      "https://www.independentreserve.com/"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "sg-identity-account",
+    "market": "SG",
+    "locale": "en",
+    "intent": "account",
+    "question": "Which identity, residence and service-entity checks should Singapore users verify before opening a crypto account?",
+    "canonicalPath": "/sg",
+    "sourceUrls": [
+      "https://eservices.mas.gov.sg/fid/institution?activity=Digital+Payment+Token+Service",
+      "https://www.mas.gov.sg/regulation/payments/licensing-for-payment-service-providers/types-of-payment-services",
+      "https://www.coinbase.com/en-sg",
+      "https://www.independentreserve.com/"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "sg-sgd-funding",
+    "market": "SG",
+    "locale": "en",
+    "intent": "funding",
+    "question": "What SGD funding route should a Singapore user confirm in the official account flow before depositing?",
+    "canonicalPath": "/sg",
+    "sourceUrls": [
+      "https://eservices.mas.gov.sg/fid/institution?activity=Digital+Payment+Token+Service",
+      "https://www.mas.gov.sg/regulation/payments/licensing-for-payment-service-providers/types-of-payment-services",
+      "https://www.coinbase.com/en-sg",
+      "https://www.independentreserve.com/"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "sg-product-scope",
+    "market": "SG",
+    "locale": "en",
+    "intent": "product",
+    "question": "Does a Singapore-facing crypto platform page or MAS listing prove every product and benefit is available?",
+    "canonicalPath": "/sg",
+    "sourceUrls": [
+      "https://eservices.mas.gov.sg/fid/institution?activity=Digital+Payment+Token+Service",
+      "https://www.mas.gov.sg/regulation/payments/licensing-for-payment-service-providers/types-of-payment-services",
+      "https://www.coinbase.com/en-sg",
+      "https://www.independentreserve.com/"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tr-spk-register",
+    "market": "TR",
+    "locale": "tr",
+    "intent": "regulation",
+    "question": "Türkiye'de bir kripto varlık hizmet sağlayıcısını karşılaştırmadan önce SPK'nın güncel geçici listesi nasıl kontrol edilmelidir?",
+    "canonicalPath": "/tr/markets/turkiye",
+    "sourceUrls": [
+      "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+      "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi",
+      "https://www.paribu.com/destek/getting-started/account-verification",
+      "https://www.paribu.com/destek/try-transactions/try-deposit"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tr-account-verification",
+    "market": "TR",
+    "locale": "tr",
+    "intent": "account",
+    "question": "Türkiye'de hesap açmadan önce kimlik, yüz, yatırımcı profili ve adres doğrulama adımları nasıl kontrol edilmelidir?",
+    "canonicalPath": "/tr/markets/turkiye",
+    "sourceUrls": [
+      "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+      "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi",
+      "https://www.paribu.com/destek/getting-started/account-verification",
+      "https://www.paribu.com/destek/try-transactions/try-deposit"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tr-try-funding",
+    "market": "TR",
+    "locale": "tr",
+    "intent": "funding",
+    "question": "Paribu'da TRY yatırmadan önce banka hesabı ve transfer koşulları nereden doğrulanmalıdır?",
+    "canonicalPath": "/tr/markets/turkiye",
+    "sourceUrls": [
+      "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+      "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi",
+      "https://www.paribu.com/destek/getting-started/account-verification",
+      "https://www.paribu.com/destek/try-transactions/try-deposit"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tr-platform-status",
+    "market": "TR",
+    "locale": "tr",
+    "intent": "eligibility",
+    "question": "SPK listesindeki bir platform kaydı veya tasfiye durumu, her ürünün ve hesabın Türkiye'de kullanılabileceği anlamına gelir mi?",
+    "canonicalPath": "/tr/markets/turkiye",
+    "sourceUrls": [
+      "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+      "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi",
+      "https://www.paribu.com/destek/getting-started/account-verification",
+      "https://www.paribu.com/destek/try-transactions/try-deposit"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "us-fincen-msb-non-endorsement",
+    "market": "US",
+    "locale": "en",
+    "intent": "regulation",
+    "question": "Does FinCEN MSB registration prove that a U.S. crypto platform is endorsed or safe for every account?",
+    "canonicalPath": "/us",
+    "sourceUrls": [
+      "https://www.fincen.gov/resources/money-services-business-msb-registration",
+      "https://www.fincen.gov/resources/statutes-regulations/guidance/application-fincens-regulations-persons-administering",
+      "https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/crypto-assets-federal-securities-laws",
+      "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
+      "https://www.nmlsconsumeraccess.org/",
+      "https://www.dfs.ny.gov/virtual_currency_businesses",
+      "https://help.coinbase.com/en/exchange/trading-and-funding/funding-your-account-with-usd",
+      "https://support.kraken.com/in/articles/quick-start-for-clients-in-the-united-states",
+      "https://support.kraken.com/hc/articles/4408922630676-ACH-withdrawals",
+      "https://support.binance.us/en/articles/9842801-how-to-create-your-account-pass-identity-verification-basic-advanced",
+      "https://support.binance.us/en/collections/10384430-deposits-withdrawals"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "us-state-license-boundary",
+    "market": "US",
+    "locale": "en",
+    "intent": "jurisdiction",
+    "question": "Which NMLS or NYDFS state-license checks should a U.S. user review before relying on a crypto account route?",
+    "canonicalPath": "/us",
+    "sourceUrls": [
+      "https://www.fincen.gov/resources/money-services-business-msb-registration",
+      "https://www.fincen.gov/resources/statutes-regulations/guidance/application-fincens-regulations-persons-administering",
+      "https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/crypto-assets-federal-securities-laws",
+      "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
+      "https://www.nmlsconsumeraccess.org/",
+      "https://www.dfs.ny.gov/virtual_currency_businesses",
+      "https://help.coinbase.com/en/exchange/trading-and-funding/funding-your-account-with-usd",
+      "https://support.kraken.com/in/articles/quick-start-for-clients-in-the-united-states",
+      "https://support.kraken.com/hc/articles/4408922630676-ACH-withdrawals",
+      "https://support.binance.us/en/articles/9842801-how-to-create-your-account-pass-identity-verification-basic-advanced",
+      "https://support.binance.us/en/collections/10384430-deposits-withdrawals"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "us-usd-account-funding",
+    "market": "US",
+    "locale": "en",
+    "intent": "funding",
+    "question": "What USD, ACH, wire, bank-name and withdrawal-hold checks should a U.S. user verify in the official account flow?",
+    "canonicalPath": "/us",
+    "sourceUrls": [
+      "https://www.fincen.gov/resources/money-services-business-msb-registration",
+      "https://www.fincen.gov/resources/statutes-regulations/guidance/application-fincens-regulations-persons-administering",
+      "https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/crypto-assets-federal-securities-laws",
+      "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
+      "https://www.nmlsconsumeraccess.org/",
+      "https://www.dfs.ny.gov/virtual_currency_businesses",
+      "https://help.coinbase.com/en/exchange/trading-and-funding/funding-your-account-with-usd",
+      "https://support.kraken.com/in/articles/quick-start-for-clients-in-the-united-states",
+      "https://support.kraken.com/hc/articles/4408922630676-ACH-withdrawals",
+      "https://support.binance.us/en/articles/9842801-how-to-create-your-account-pass-identity-verification-basic-advanced",
+      "https://support.binance.us/en/collections/10384430-deposits-withdrawals"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "us-product-scope-spot",
+    "market": "US",
+    "locale": "en",
+    "intent": "product",
+    "question": "Does a U.S. spot account route prove that staking, derivatives, rewards or every crypto asset is available?",
+    "canonicalPath": "/us",
+    "sourceUrls": [
+      "https://www.fincen.gov/resources/money-services-business-msb-registration",
+      "https://www.fincen.gov/resources/statutes-regulations/guidance/application-fincens-regulations-persons-administering",
+      "https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/crypto-assets-federal-securities-laws",
+      "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
+      "https://www.nmlsconsumeraccess.org/",
+      "https://www.dfs.ny.gov/virtual_currency_businesses",
+      "https://help.coinbase.com/en/exchange/trading-and-funding/funding-your-account-with-usd",
+      "https://support.kraken.com/in/articles/quick-start-for-clients-in-the-united-states",
+      "https://support.kraken.com/hc/articles/4408922630676-ACH-withdrawals",
+      "https://support.binance.us/en/articles/9842801-how-to-create-your-account-pass-identity-verification-basic-advanced",
+      "https://support.binance.us/en/collections/10384430-deposits-withdrawals"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "br-pix-deposit",
+    "market": "BR",
+    "locale": "pt-BR",
+    "intent": "funding",
+    "question": "Como conferir depósito Pix/BRL antes de escolher uma corretora cripto?",
+    "canonicalPath": "/br/pix",
+    "sourceUrls": [
+      "https://www.binance.com/pt-BR/support/faq/detail/53636607eebc42dbb513863b49bba98f",
+      "https://www.okx.com/help/how-do-i-deposit-brl"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "br-pix-recipient-check",
+    "market": "BR",
+    "locale": "pt-BR",
+    "intent": "funding",
+    "question": "No depósito Pix, o CPF do pagador e o CNPJ do recebedor são a mesma verificação?",
+    "canonicalPath": "/br/pix",
+    "sourceUrls": [
+      "https://www.okx.com/help/how-do-i-deposit-brl"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-10-02",
+    "answerBoundary": "Distinguish sender identity from recipient details in the official OKX BRL/Pix flow; confirm current instructions in the user's account; do not infer eligibility, other-platform processors or a static Pix key."
+  },
+  {
+    "id": "br-pix-withdraw",
+    "market": "BR",
+    "locale": "pt-BR",
+    "intent": "funding",
+    "question": "Quais condições confirmar antes de sacar BRL por Pix de uma corretora cripto?",
+    "canonicalPath": "/br/pix",
+    "sourceUrls": [
+      "https://www.binance.com/pt-BR/support/faq/detail/08722a3b5ad7465e8c74ddc0240cec4c",
+      "https://www.okx.com/help/how-do-i-withdraw-brl"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "br-pix-withdrawal-checklist",
+    "market": "BR",
+    "locale": "pt-BR",
+    "intent": "funding",
+    "question": "Como revisar saque Pix em BRL antes de retirar fundos de uma corretora cripto?",
+    "canonicalPath": "/br/saque-pix",
+    "sourceUrls": [
+      "https://www.binance.com/pt-BR/support/faq/detail/08722a3b5ad7465e8c74ddc0240cec4c",
+      "https://www.okx.com/help/how-do-i-withdraw-brl",
+      "https://www.okx.com/help/where-do-i-find-limits-fees-and-processing-time-details-for-cash-deposit"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "br-fee-estimate",
+    "market": "BR",
+    "locale": "pt-BR",
+    "intent": "cost",
+    "question": "Por que uma estimativa de taxas não substitui a tabela oficial da conta?",
+    "canonicalPath": "/br",
+    "sourceUrls": [
+      "https://www.okx.com/help/where-do-i-find-limits-fees-and-processing-time-details-for-cash-deposit"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "br-referral-boundary",
+    "market": "BR",
+    "locale": "pt-BR",
+    "intent": "trust",
+    "question": "Um link de parceiro garante bônus ou desconto para todo usuário brasileiro?",
+    "canonicalPath": "/br",
+    "sourceUrls": [
+      "https://www.okx.com/help/brazil-referral-program-terms-and-conditions"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "br-kyc-cpf-checklist",
+    "market": "BR",
+    "locale": "pt-BR",
+    "intent": "account",
+    "question": "O que revisar sobre KYC, CPF, titularidade bancária e benefício antes de abrir conta cripto no Brasil?",
+    "canonicalPath": "/br/kyc-cpf",
+    "sourceUrls": [
+      "https://www.gov.br/receitafederal/pt-br/assuntos/meu-cpf",
+      "https://www.binance.com/pt-BR/support/faq/detail/2604a5d35bd947d485dc30d865539e3e",
+      "https://www.okx.com/help/how-do-i-deposit-brl"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "mx-spei-route",
+    "market": "MX",
+    "locale": "es",
+    "intent": "funding",
+    "question": "¿Qué debe confirmar un usuario mexicano sobre SPEI antes de elegir una plataforma?",
+    "canonicalPath": "/mx",
+    "sourceUrls": [
+      "https://www.banxico.org.mx/servicios/spei_-informacion-banco-mex.html",
+      "https://www.binance.com/es-MX/support/faq/detail/c45b457e73a14580ab6be95f10bef5b5",
+      "https://www.binance.com/es-MX/support/faq/detail/588ca3bd6b214a17bf1070a8189fb809",
+      "https://www.gob.mx/cnbv/acciones-y-programas/sector-fintech"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "mx-account-es",
+    "market": "MX",
+    "locale": "es",
+    "intent": "account",
+    "question": "¿Qué debe revisar un usuario mexicano sobre identidad, residencia y cuenta antes de seguir la ruta oficial?",
+    "canonicalPath": "/mx?locale=es",
+    "sourceUrls": [
+      "https://www.banxico.org.mx/servicios/spei_-informacion-banco-mex.html",
+      "https://www.binance.com/es-MX/support/faq/detail/c45b457e73a14580ab6be95f10bef5b5",
+      "https://www.binance.com/es-MX/support/faq/detail/588ca3bd6b214a17bf1070a8189fb809",
+      "https://www.gob.mx/cnbv/acciones-y-programas/sector-fintech"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "mx-product-scope-es",
+    "market": "MX",
+    "locale": "es",
+    "intent": "product",
+    "question": "¿Cómo debe comprobar un usuario mexicano que el producto que busca está disponible para su cuenta y región?",
+    "canonicalPath": "/mx?locale=es",
+    "sourceUrls": [
+      "https://www.banxico.org.mx/servicios/spei_-informacion-banco-mex.html",
+      "https://www.binance.com/es-MX/support/faq/detail/c45b457e73a14580ab6be95f10bef5b5",
+      "https://www.binance.com/es-MX/support/faq/detail/588ca3bd6b214a17bf1070a8189fb809",
+      "https://www.gob.mx/cnbv/acciones-y-programas/sector-fintech"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "mx-platform-comparison",
+    "market": "MX",
+    "locale": "es",
+    "intent": "comparison",
+    "question": "¿Cómo comparar Binance, OKX y otros candidatos para México sin asumir que todos tienen MXN o SPEI?",
+    "canonicalPath": "/mx/comparar",
+    "sourceUrls": [
+      "https://www.banxico.org.mx/servicios/spei_-informacion-banco-mex.html",
+      "https://www.binance.com/es-MX/support/faq/detail/c45b457e73a14580ab6be95f10bef5b5",
+      "https://www.binance.com/es-MX/support/faq/detail/588ca3bd6b214a17bf1070a8189fb809",
+      "https://www.gob.mx/cnbv/acciones-y-programas/sector-fintech"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "mx-cost-scenario",
+    "market": "MX",
+    "locale": "es",
+    "intent": "cost",
+    "question": "¿Qué costes debe separar un usuario mexicano antes de depositar MXN o abrir una orden spot?",
+    "canonicalPath": "/mx/costos",
+    "sourceUrls": [
+      "https://www.banxico.org.mx/servicios/spei_-informacion-banco-mex.html",
+      "https://www.binance.com/es-MX/support/faq/detail/c45b457e73a14580ab6be95f10bef5b5",
+      "https://www.binance.com/es-MX/support/faq/detail/588ca3bd6b214a17bf1070a8189fb809",
+      "https://www.gob.mx/cnbv/acciones-y-programas/sector-fintech"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "mx-account-benefit-boundary",
+    "market": "MX",
+    "locale": "es",
+    "intent": "account",
+    "question": "¿Qué diferencia hay entre enlace de partner, código, beneficio y aprobación de cuenta para México?",
+    "canonicalPath": "/mx/conta",
+    "sourceUrls": [
+      "https://www.banxico.org.mx/servicios/spei_-informacion-banco-mex.html",
+      "https://www.binance.com/es-MX/support/faq/detail/c45b457e73a14580ab6be95f10bef5b5",
+      "https://www.binance.com/es-MX/support/faq/detail/588ca3bd6b214a17bf1070a8189fb809",
+      "https://www.gob.mx/cnbv/acciones-y-programas/sector-fintech"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tw-bank-verification",
+    "market": "TW",
+    "locale": "zh-Hant",
+    "intent": "account",
+    "question": "台灣使用者在選擇平台前，應如何核對銀行驗證與服務主體？",
+    "canonicalPath": "/tw",
+    "sourceUrls": [
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004301",
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004000",
+      "https://www.fsc.gov.tw/userfiles/file/1141114%E5%AE%8C%E6%88%90%E6%B4%97%E9%8C%A2%E9%98%B2%E5%88%B6%E7%99%BB%E8%A8%98%E4%B9%8BVASP%E6%A5%AD%E8%80%85%E5%90%8D%E5%96%AE%28%E6%9B%B4%E6%8B%93%E8%8D%92%E8%B3%87%E6%9C%AC%E9%A1%8D.pdf",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000026522-max-%E6%96%B0%E5%8F%B0%E5%B9%A3%E5%85%A5%E9%87%91%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000027069-%E8%A8%BB%E5%86%8A%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000016129-%E5%A6%82%E4%BD%95%E9%A9%97%E8%AD%89%E9%8A%80%E8%A1%8A%E5%B8%B3%E8%99%9F-"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tw-fsc-act-effective-boundary",
+    "market": "TW",
+    "locale": "zh-Hant",
+    "intent": "regulation",
+    "question": "《虛擬資產服務法》已公布但部分條文尚未施行時，台灣使用者應如何判讀目前適用的監管狀態？",
+    "canonicalPath": "/tw",
+    "sourceUrls": [
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004301",
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004000",
+      "https://www.fsc.gov.tw/userfiles/file/1141114%E5%AE%8C%E6%88%90%E6%B4%97%E9%8C%A2%E9%98%B2%E5%88%B6%E7%99%BB%E8%A8%98%E4%B9%8BVASP%E6%A5%AD%E8%80%85%E5%90%8D%E5%96%AE%28%E6%9B%B4%E6%8B%93%E8%8D%92%E8%B3%87%E6%9C%AC%E9%A1%8D.pdf",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000026522-max-%E6%96%B0%E5%8F%B0%E5%B9%A3%E5%85%A5%E9%87%91%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000027069-%E8%A8%BB%E5%86%8A%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000016129-%E5%A6%82%E4%BD%95%E9%A9%97%E8%AD%89%E9%8A%80%E8%A1%8A%E5%B8%B3%E8%99%9F-"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tw-fsc-aml-registration-list",
+    "market": "TW",
+    "locale": "zh-Hant",
+    "intent": "regulation",
+    "question": "如何使用金管會完成洗錢防制登記的 VASP 名單核對業者與登記業務，而不把登記誤認為帳戶或產品保證？",
+    "canonicalPath": "/tw",
+    "sourceUrls": [
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004301",
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004000",
+      "https://www.fsc.gov.tw/userfiles/file/1141114%E5%AE%8C%E6%88%90%E6%B4%97%E9%8C%A2%E9%98%B2%E5%88%B6%E7%99%BB%E8%A8%98%E4%B9%8BVASP%E6%A5%AD%E8%80%85%E5%90%8D%E5%96%AE%28%E6%9B%B4%E6%8B%93%E8%8D%92%E8%B3%87%E6%9C%AC%E9%A1%8D.pdf",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000026522-max-%E6%96%B0%E5%8F%B0%E5%B9%A3%E5%85%A5%E9%87%91%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000027069-%E8%A8%BB%E5%86%8A%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000016129-%E5%A6%82%E4%BD%95%E9%A9%97%E8%AD%89%E9%8A%80%E8%A1%8A%E5%B8%B3%E8%99%9F-"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tw-product-scope",
+    "market": "TW",
+    "locale": "zh-Hant",
+    "intent": "product",
+    "question": "台灣使用者如何核對平台、產品與居住地條件是否相符？",
+    "canonicalPath": "/tw?locale=zh-Hant",
+    "sourceUrls": [
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004301",
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004000",
+      "https://www.fsc.gov.tw/userfiles/file/1141114%E5%AE%8C%E6%88%90%E6%B4%97%E9%8C%A2%E9%98%B2%E5%88%B6%E7%99%BB%E8%A8%98%E4%B9%8BVASP%E6%A5%AD%E8%80%85%E5%90%8D%E5%96%AE%28%E6%9B%B4%E6%8B%93%E8%8D%92%E8%B3%87%E6%9C%AC%E9%A1%8D.pdf",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000026522-max-%E6%96%B0%E5%8F%B0%E5%B9%A3%E5%85%A5%E9%87%91%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000027069-%E8%A8%BB%E5%86%8A%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000016129-%E5%A6%82%E4%BD%95%E9%A9%97%E8%AD%89%E9%8A%80%E8%A1%8A%E5%B8%B3%E8%99%9F-"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tw-max-registration",
+    "market": "TW",
+    "locale": "zh-Hant",
+    "intent": "account",
+    "question": "在 MAX 申請帳號前，台灣使用者應先確認哪些身分辨識與帳戶等級條件？",
+    "canonicalPath": "/tw?locale=zh-Hant",
+    "sourceUrls": [
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004301",
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004000",
+      "https://www.fsc.gov.tw/userfiles/file/1141114%E5%AE%8C%E6%88%90%E6%B4%97%E9%8C%A2%E9%98%B2%E5%88%B6%E7%99%BB%E8%A8%98%E4%B9%8BVASP%E6%A5%AD%E8%80%85%E5%90%8D%E5%96%AE%28%E6%9B%B4%E6%8B%93%E8%8D%92%E8%B3%87%E6%9C%AC%E9%A1%8D.pdf",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000026522-max-%E6%96%B0%E5%8F%B0%E5%B9%A3%E5%85%A5%E9%87%91%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000027069-%E8%A8%BB%E5%86%8A%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000016129-%E5%A6%82%E4%BD%95%E9%A9%97%E8%AD%89%E9%8A%80%E8%A1%8A%E5%B8%B3%E8%99%9F-"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tw-max-bank-verification",
+    "market": "TW",
+    "locale": "zh-Hant",
+    "intent": "funding",
+    "question": "在 MAX 綁定新台幣銀行帳戶前，應如何核對本人帳戶與入金啟用條件？",
+    "canonicalPath": "/tw?locale=zh-Hant",
+    "sourceUrls": [
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004301",
+      "https://law.fsc.gov.tw/LawContent.aspx?id=GL004000",
+      "https://www.fsc.gov.tw/userfiles/file/1141114%E5%AE%8C%E6%88%90%E6%B4%97%E9%8C%A2%E9%98%B2%E5%88%B6%E7%99%BB%E8%A8%98%E4%B9%8BVASP%E6%A5%AD%E8%80%85%E5%90%8D%E5%96%AE%28%E6%9B%B4%E6%8B%93%E8%8D%92%E8%B3%87%E6%9C%AC%E9%A1%8D.pdf",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000026522-max-%E6%96%B0%E5%8F%B0%E5%B9%A3%E5%85%A5%E9%87%91%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000027069-%E8%A8%BB%E5%86%8A%E6%95%99%E5%AD%B8",
+      "https://support.maicoin.com/zh-TW/support/solutions/articles/32000016129-%E5%A6%82%E4%BD%95%E9%A9%97%E8%AD%89%E9%8A%80%E8%A1%8A%E5%B8%B3%E8%99%9F-"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "id-va-qris-route",
+    "market": "ID",
+    "locale": "id",
+    "intent": "funding",
+    "question": "Apa yang harus diverifikasi pengguna Indonesia tentang VA atau QRIS sebelum memilih platform?",
+    "canonicalPath": "/id",
+    "sourceUrls": [
+      "https://ojk.go.id/id/berita-dan-kegiatan/siaran-pers/Pages/Bappebti-Kemendag-Alihkan-Tugas-Aset-Keuangan-Digital-termasuk-Aset-Kripto-serta-Derivatif-Keuangan-kepada-OJK-dan-BI.aspx",
+      "https://bappebti.go.id/calon_pedagang_aset_kripto",
+      "https://support.tokocrypto.com/hc/en-us/articles/31314362562829-Tokocrypto-Deposit-Guide",
+      "https://support.tokocrypto.com/hc/en-us/articles/19368690221069-Understanding-Referral-Codes-on-Tokocrypto"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "id-account-stage",
+    "market": "ID",
+    "locale": "id",
+    "intent": "account",
+    "question": "Apa yang perlu diperiksa pengguna Indonesia tentang identitas, wilayah, dan produk sebelum mengikuti jalur resmi?",
+    "canonicalPath": "/id?locale=id",
+    "sourceUrls": [
+      "https://ojk.go.id/id/berita-dan-kegiatan/siaran-pers/Pages/Bappebti-Kemendag-Alihkan-Tugas-Aset-Keuangan-Digital-termasuk-Aset-Kripto-serta-Derivatif-Keuangan-kepada-OJK-dan-BI.aspx",
+      "https://bappebti.go.id/calon_pedagang_aset_kripto",
+      "https://support.tokocrypto.com/hc/en-us/articles/31314362562829-Tokocrypto-Deposit-Guide",
+      "https://support.tokocrypto.com/hc/en-us/articles/19368690221069-Understanding-Referral-Codes-on-Tokocrypto"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "vn-official-source-review",
+    "market": "VN",
+    "locale": "vi",
+    "intent": "regulation",
+    "question": "Người dùng Việt Nam nên kiểm tra nguồn chính thức nào trước khi chọn nền tảng crypto?",
+    "canonicalPath": "/vn?locale=vi",
+    "sourceUrls": [],
+    "status": "pending-source-review",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "vn-funding-account-check",
+    "market": "VN",
+    "locale": "vi",
+    "intent": "funding",
+    "question": "Trước khi nạp VND hoặc USDT, người dùng Việt Nam cần xác minh gì trong tài khoản chính thức?",
+    "canonicalPath": "/vn?locale=vi",
+    "sourceUrls": [],
+    "status": "pending-source-review",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-fee-tier-clock",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "cost",
+    "question": "How does Hyperliquid calculate fee tiers before a user compares perps or spot trading costs?",
+    "canonicalPath": "/exchanges/hyperliquid",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-fees-before-trading",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "cost",
+    "question": "What should a user check when searching Hyperliquid fees before connecting a wallet or placing a perp order?",
+    "canonicalPath": "/exchanges/hyperliquid",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/contract-specifications"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-funding-payment",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "funding",
+    "question": "How should a user read Hyperliquid funding payments before holding a perpetual position?",
+    "canonicalPath": "/exchanges/hyperliquid",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-referral-cashback-boundary",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "trust",
+    "question": "Does Hyperliquid publish a referral discount, a cashback offer, or both, and where should the boundary be checked?",
+    "canonicalPath": "/exchanges/hyperliquid",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/referrals",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-funded-account-boundary",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "account",
+    "question": "What should be verified about Hyperliquid sub-accounts, API wallets and account modes before treating a funded-account claim as valid?",
+    "canonicalPath": "/exchanges/hyperliquid",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/sub-accounts",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/nonces-and-api-wallets",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/account-abstraction-modes"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-funded-account-meaning",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "account",
+    "question": "Does a Hyperliquid funded account query refer to wallet collateral, sub-accounts, vault participation or a third-party prop-trading claim?",
+    "canonicalPath": "/exchanges/hyperliquid",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/sub-accounts",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/nonces-and-api-wallets",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/vaults"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-vault-subaccount-discount-boundary",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "account",
+    "question": "Why should Hyperliquid vaults and sub-accounts be separated from referral-discount or funded-account searches?",
+    "canonicalPath": "/exchanges/hyperliquid",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/referrals",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/vaults",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/sub-accounts"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-testnet-faucet",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "testing",
+    "question": "Why does the Hyperliquid testnet faucet not prove that a mainnet account or promotion is available?",
+    "canonicalPath": "/exchanges/hyperliquid",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/onboarding/testnet-faucet"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-fee-account-check-ko",
+    "market": "PROTOCOL",
+    "locale": "ko",
+    "intent": "cost",
+    "question": "Hyperliquid를 사용하기 전에 수수료, 펀딩, 청산과 하위 계정 조건을 어떻게 확인해야 하나요?",
+    "canonicalPath": "/ko/exchanges/hyperliquid",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/sub-accounts"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-fee-account-check-tr",
+    "market": "PROTOCOL",
+    "locale": "tr",
+    "intent": "cost",
+    "question": "Hyperliquid kullanmadan önce ücret, funding, likidasyon ve alt hesap koşulları nasıl kontrol edilir?",
+    "canonicalPath": "/tr/exchanges/hyperliquid",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/sub-accounts"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-affiliate-boundary-en",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "trust",
+    "question": "Does a Uniswap affiliate program search prove consumer referral or cashback eligibility?",
+    "canonicalPath": "/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/trading/swapping-api/faqs",
+      "https://developers.uniswap.org/docs/trading/custom-interface-links"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-10-02",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-affiliate-boundary-zh-Hans",
+    "market": "PROTOCOL",
+    "locale": "zh-Hans",
+    "intent": "trust",
+    "question": "搜索 Uniswap affiliate program 能证明消费者推荐或返现资格吗？",
+    "canonicalPath": "/zh-hans/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/trading/swapping-api/faqs",
+      "https://developers.uniswap.org/docs/trading/custom-interface-links"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-10-02",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-affiliate-boundary-zh-Hant",
+    "market": "PROTOCOL",
+    "locale": "zh-Hant",
+    "intent": "trust",
+    "question": "搜尋 Uniswap affiliate program 能證明消費者推薦或返現資格嗎？",
+    "canonicalPath": "/zh-hant/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/trading/swapping-api/faqs",
+      "https://developers.uniswap.org/docs/trading/custom-interface-links"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-10-02",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-fee-versions",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "cost",
+    "question": "How do Uniswap fee rules differ across v2, v3 and v4 before a user compares swap costs?",
+    "canonicalPath": "/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/get-started/concepts/fees",
+      "https://developers.uniswap.org/docs/protocols/v4/concepts/dynamic-fees"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-v4-deployment-check",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "deployment",
+    "question": "Where should a user verify current Uniswap v4 contract deployments before trusting a chain-specific route?",
+    "canonicalPath": "/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/protocols/v4/deployments"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-testnet-hook-path",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "testing",
+    "question": "What local or test environment should a developer use before treating a Uniswap v4 hook route as production-ready?",
+    "canonicalPath": "/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/protocols/v4/guides/hooks/getting-started"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-testnet-production-boundary",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "testing",
+    "question": "Does a Uniswap testnet or local hook test prove that a production swap route is safe for a real wallet?",
+    "canonicalPath": "/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/protocols/v4/guides/hooks/getting-started",
+      "https://developers.uniswap.org/docs/protocols/v4/deployments"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-testnet-contract-route",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "deployment",
+    "question": "Which Uniswap contract deployment and network route should be checked after a testnet experiment and before using the official app?",
+    "canonicalPath": "/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/protocols/v4/deployments",
+      "https://developers.uniswap.org/docs/get-started/quickstart"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-wallet-route-test",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "execution",
+    "question": "How should an official Uniswap app URL be tested before using it as a swap CTA?",
+    "canonicalPath": "/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/get-started/quickstart",
+      "https://developers.uniswap.org/docs/protocols/permit2/overview"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-api-web-testnet-scope",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "testing",
+    "question": "Which Uniswap testnets are available through the API versus the official web interface?",
+    "canonicalPath": "/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/trading/swapping-api/supported-chains"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-mainnet-wallet-preview-boundary",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "execution",
+    "question": "Why does a Uniswap testnet or API result not replace the mainnet wallet transaction preview before signing?",
+    "canonicalPath": "/exchanges/uniswap",
+    "sourceUrls": [
+      "https://app.uniswap.org/",
+      "https://developers.uniswap.org/docs/get-started/quickstart",
+      "https://support.uniswap.org/hc/en-us/articles/8370549680909-How-to-swap-tokens"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-token-router-permit2-spender",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "trust",
+    "question": "How do the token contract, Universal Router, Permit2 contract and spender differ before a Uniswap wallet signature?",
+    "canonicalPath": "/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/protocols/universal-router/overview",
+      "https://developers.uniswap.org/docs/protocols/permit2/overview",
+      "https://support.uniswap.org/hc/en-us/articles/26757826138637-What-is-a-token-contract-address",
+      "https://support.uniswap.org/hc/en-us/articles/40050562560781-Crypto-Wallet-Signature-Scams",
+      "https://support.uniswap.org/hc/en-us/articles/15724901841037-How-to-revoke-a-token-approval"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-approval-revoke-boundary",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "trust",
+    "question": "Why does disconnecting a wallet from Uniswap not revoke token approvals or Permit2 permissions?",
+    "canonicalPath": "/exchanges/uniswap",
+    "sourceUrls": [
+      "https://support.uniswap.org/hc/en-us/articles/25380237324685-How-to-revoke-token-approvals",
+      "https://developers.uniswap.org/docs/protocols/permit2/overview"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-testnet-route-ko",
+    "market": "PROTOCOL",
+    "locale": "ko",
+    "intent": "testing",
+    "question": "Uniswap 테스트넷, v4 훅, 배포 주소와 지갑 서명 경로를 실거래 전에 어떻게 확인해야 하나요?",
+    "canonicalPath": "/ko/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/protocols/v4/deployments",
+      "https://developers.uniswap.org/docs/protocols/v4/guides/hooks/getting-started"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "uniswap-testnet-route-tr",
+    "market": "PROTOCOL",
+    "locale": "tr",
+    "intent": "testing",
+    "question": "Uniswap testnet, v4 hook, dağıtım adresi ve cüzdan imza yolu canlı swap öncesi nasıl doğrulanır?",
+    "canonicalPath": "/tr/exchanges/uniswap",
+    "sourceUrls": [
+      "https://developers.uniswap.org/docs/protocols/v4/deployments",
+      "https://developers.uniswap.org/docs/protocols/v4/guides/hooks/getting-started"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "jupiter-swap-ultra-route",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "execution",
+    "question": "How should a user compare Jupiter Swap and Ultra routes before signing a Solana wallet transaction?",
+    "canonicalPath": "/exchanges/jupiter",
+    "sourceUrls": [
+      "https://dev.jup.ag/docs/swap",
+      "https://dev.jup.ag/docs/ultra"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "jupiter-token-mint-check",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "trust",
+    "question": "Where should a user verify Jupiter token mints and list status before treating a Solana route as safe?",
+    "canonicalPath": "/exchanges/jupiter",
+    "sourceUrls": [
+      "https://dev.jup.ag/docs/tokens"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "jupiter-platform-fee-boundary",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "cost",
+    "question": "Why does a Jupiter quote not prove that platform fees, wallet fees or Solana network costs are absent?",
+    "canonicalPath": "/exchanges/jupiter",
+    "sourceUrls": [
+      "https://dev.jup.ag/docs/swap"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "jupiter-wallet-transaction-review",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "execution",
+    "question": "What should be reviewed in the final wallet-built transaction before using a Jupiter route?",
+    "canonicalPath": "/exchanges/jupiter",
+    "sourceUrls": [
+      "https://dev.jup.ag/docs/swap"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "jupiter-route-fee-check-ko",
+    "market": "PROTOCOL",
+    "locale": "ko",
+    "intent": "execution",
+    "question": "Jupiter Swap 또는 Ultra 경로에서 토큰 mint, 플랫폼 수수료, 슬리피지와 지갑 트랜잭션은 어떻게 확인해야 하나요?",
+    "canonicalPath": "/ko/exchanges/jupiter",
+    "sourceUrls": [
+      "https://dev.jup.ag/docs/swap",
+      "https://dev.jup.ag/docs/ultra",
+      "https://dev.jup.ag/docs/tokens"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "jupiter-route-fee-check-tr",
+    "market": "PROTOCOL",
+    "locale": "tr",
+    "intent": "execution",
+    "question": "Jupiter Swap veya Ultra rotasında token mint, platform ücreti, slippage ve cüzdan işlemi nasıl kontrol edilir?",
+    "canonicalPath": "/tr/exchanges/jupiter",
+    "sourceUrls": [
+      "https://dev.jup.ag/docs/swap",
+      "https://dev.jup.ag/docs/ultra",
+      "https://dev.jup.ag/docs/tokens"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "aerodrome-base-network-check",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "execution",
+    "question": "What Base network, bridge and wallet conditions should be checked before using Aerodrome?",
+    "canonicalPath": "/exchanges/aerodrome",
+    "sourceUrls": [
+      "https://aerodrome.finance/docs"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "aerodrome-pool-fee-check",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "cost",
+    "question": "How should a user verify Aerodrome pool fees before comparing standard and Slipstream liquidity?",
+    "canonicalPath": "/exchanges/aerodrome",
+    "sourceUrls": [
+      "https://aerodrome.finance/docs"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "aerodrome-incentive-boundary",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "trust",
+    "question": "Why does using an Aerodrome swap route not automatically create veAERO voting or reward entitlement?",
+    "canonicalPath": "/exchanges/aerodrome",
+    "sourceUrls": [
+      "https://aerodrome.finance/docs"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "aerodrome-launch-liquidity",
+    "market": "PROTOCOL",
+    "locale": "en",
+    "intent": "liquidity",
+    "question": "What should be checked about launched and locked liquidity before treating an Aerodrome pool as suitable?",
+    "canonicalPath": "/exchanges/aerodrome",
+    "sourceUrls": [
+      "https://aerodrome.finance/docs/launcher"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "aerodrome-pool-fee-check-ko",
+    "market": "PROTOCOL",
+    "locale": "ko",
+    "intent": "cost",
+    "question": "Aerodrome에서 Base 네트워크, 풀 주소, Slipstream 유형, 수수료와 veAERO 보상 경계는 어떻게 확인해야 하나요?",
+    "canonicalPath": "/ko/exchanges/aerodrome",
+    "sourceUrls": [
+      "https://aerodrome.finance/docs",
+      "https://aerodrome.finance/docs/launcher"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "aerodrome-pool-fee-check-tr",
+    "market": "PROTOCOL",
+    "locale": "tr",
+    "intent": "cost",
+    "question": "Aerodrome'da Base ağı, pool adresi, Slipstream tipi, ücretler ve veAERO ödül sınırı nasıl kontrol edilir?",
+    "canonicalPath": "/tr/exchanges/aerodrome",
+    "sourceUrls": [
+      "https://aerodrome.finance/docs",
+      "https://aerodrome.finance/docs/launcher"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "bybit-bitget-stock-exposure-boundary",
+    "market": "COMPARISON",
+    "locale": "en",
+    "intent": "product",
+    "question": "Does a Bybit vs Bitget comparison prove that real stocks, tokenized stocks or stock perpetuals are available?",
+    "canonicalPath": "/compare/bybit-vs-bitget",
+    "sourceUrls": [
+      "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure",
+      "https://www.bitget.com/support/articles/12560603817155"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "bybit-bitget-copy-trading-checks",
+    "market": "COMPARISON",
+    "locale": "en",
+    "intent": "account",
+    "question": "What should be checked before using a Bybit or Bitget copy-trading signup route?",
+    "canonicalPath": "/compare/bybit-vs-bitget",
+    "sourceUrls": [
+      "https://www.bybit.com/en/help-center/article/Individual-KYC-FAQ",
+      "https://www.bitget.com/support/articles/12560603795184"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "bybit-bitget-fee-source-date",
+    "market": "COMPARISON",
+    "locale": "en",
+    "intent": "cost",
+    "question": "Why should Bybit and Bitget fee comparisons be checked against the official source date before registration?",
+    "canonicalPath": "/compare/bybit-vs-bitget",
+    "sourceUrls": [
+      "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure",
+      "https://www.bitget.com/support/articles/12560603820584"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "bybit-bitget-stock-exposure-ko",
+    "market": "COMPARISON",
+    "locale": "ko",
+    "intent": "product",
+    "question": "Bybit과 Bitget 비교에서 실제 주식, tokenized stock, stock perpetual과 카피트레이딩을 어떻게 구분해야 하나요?",
+    "canonicalPath": "/ko/compare/bybit-vs-bitget",
+    "sourceUrls": [
+      "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure",
+      "https://www.bitget.com/support/articles/12560603817155"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "bybit-bitget-stock-exposure-tr",
+    "market": "COMPARISON",
+    "locale": "tr",
+    "intent": "product",
+    "question": "Bybit ve Bitget karşılaştırmasında gerçek hisse, tokenized stock, stock perpetual ve copy trading nasıl ayrılmalı?",
+    "canonicalPath": "/tr/compare/bybit-vs-bitget",
+    "sourceUrls": [
+      "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure",
+      "https://www.bitget.com/support/articles/12560603817155"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "no-kyc-access-ko",
+    "market": "TOPIC",
+    "locale": "ko",
+    "intent": "access",
+    "question": "No-KYC 암호화폐 플랫폼을 비교할 때 지갑 연결, 출금, 지역 제한과 추가 본인확인 가능성을 어떻게 확인해야 하나요?",
+    "canonicalPath": "/ko/topics/no-kyc",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/overview",
+      "https://help.dydx.trade/en/articles/166990-dydx-chain-overview",
+      "https://www.mexc.com/support"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "no-kyc-access-tr",
+    "market": "TOPIC",
+    "locale": "tr",
+    "intent": "access",
+    "question": "No-KYC kripto platformları karşılaştırılırken cüzdan bağlantısı, çekim, bölge sınırı ve ek kimlik kontrolü nasıl doğrulanır?",
+    "canonicalPath": "/tr/topics/no-kyc",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/overview",
+      "https://help.dydx.trade/en/articles/166990-dydx-chain-overview",
+      "https://www.mexc.com/support"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tokenized-treasury-legal-claim",
+    "market": "ARTICLE",
+    "locale": "en",
+    "intent": "structure",
+    "question": "When someone searches tokenized treasury, what legal claim should be checked before comparing yield?",
+    "canonicalPath": "/topics/tokenized-treasuries",
+    "sourceUrls": [
+      "https://www.treasurydirect.gov/marketable-securities/buying-a-marketable-security/",
+      "https://www.sec.gov/newsroom/speeches-statements/corp-fin-statement-tokenized-securities-012826-statement-tokenized-securities",
+      "https://www.sec.gov/newsroom/speeches-statements/peirce-statement-tokenized-securities-070925",
+      "https://www.blackrock.com/corporate/compliance/scams-and-fraud/blackrock-token-addresses",
+      "https://www.franklintempleton.com/investments/options/money-market-funds/products/29386/SINGLCLASS/franklin-on-chain-u-s-government-money-fund/FOBXX"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "tokenized-treasury-buidl-benji-boundary",
+    "market": "ARTICLE",
+    "locale": "en",
+    "intent": "trust",
+    "question": "Do BUIDL and BENJI give the same ownership, redemption and transfer rights as directly holding Treasury bills?",
+    "canonicalPath": "/topics/tokenized-treasuries",
+    "sourceUrls": [
+      "https://www.treasurydirect.gov/marketable-securities/buying-a-marketable-security/",
+      "https://www.sec.gov/newsroom/speeches-statements/corp-fin-statement-tokenized-securities-012826-statement-tokenized-securities",
+      "https://www.sec.gov/newsroom/speeches-statements/peirce-statement-tokenized-securities-070925",
+      "https://www.blackrock.com/corporate/compliance/scams-and-fraud/blackrock-token-addresses",
+      "https://www.franklintempleton.com/investments/options/money-market-funds/products/29386/SINGLCLASS/franklin-on-chain-u-s-government-money-fund/FOBXX"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "okx-usd-usdc-migration-instid",
+    "market": "ARTICLE",
+    "locale": "en",
+    "intent": "operations",
+    "question": "What must OKX API users change when USD spot pairs migrate to USDC instruments?",
+    "canonicalPath": "/news/okx-usd-to-usdc-spot-pair-migration",
+    "sourceUrls": [
+      "https://www.okx.com/en-us/help/okx-to-migrate-usd-spot-trading-pairs",
+      "https://www.okx.com/en-us/help/changes-to-usd-spot-trading-pairs-sg",
+      "https://www.okx.com/docs-v5/log_en/",
+      "https://www.okx.com/en-us/help/unified-usd-orderbook-faq",
+      "https://www.circle.com/legal/usdc-terms"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "okx-usd-usdc-migration-orders-bots",
+    "market": "ARTICLE",
+    "locale": "en",
+    "intent": "operations",
+    "question": "What should OKX users check about open orders, margin positions and trading bots before the USD to USDC migration deadline?",
+    "canonicalPath": "/news/okx-usd-to-usdc-spot-pair-migration",
+    "sourceUrls": [
+      "https://www.okx.com/en-us/help/okx-to-migrate-usd-spot-trading-pairs",
+      "https://www.okx.com/en-us/help/changes-to-usd-spot-trading-pairs-sg",
+      "https://www.okx.com/docs-v5/log_en/",
+      "https://www.okx.com/en-us/help/unified-usd-orderbook-faq",
+      "https://www.circle.com/legal/usdc-terms"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-dydx-perp-fee-funding",
+    "market": "ARTICLE",
+    "locale": "en",
+    "intent": "comparison",
+    "question": "How should a trader compare Hyperliquid and dYdX fees, funding and margin mechanics before opening a perp position?",
+    "canonicalPath": "/news/hyperliquid-vs-dydx",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/liquidations",
+      "https://help.dydx.trade/en/articles/166995-trading-fees-on-dydx",
+      "https://help.dydx.trade/en/articles/166992-default-funding-rates-on-dydx",
+      "https://help.dydx.trade/en/articles/166991-liquidations-on-dydx-chain"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "hyperliquid-dydx-liquidation-oracle-boundary",
+    "market": "ARTICLE",
+    "locale": "en",
+    "intent": "risk",
+    "question": "Why do Hyperliquid and dYdX liquidation and oracle docs not prove live execution quality or jurisdictional access?",
+    "canonicalPath": "/news/hyperliquid-vs-dydx",
+    "sourceUrls": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding",
+      "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/liquidations",
+      "https://help.dydx.trade/en/articles/166995-trading-fees-on-dydx",
+      "https://help.dydx.trade/en/articles/166992-default-funding-rates-on-dydx",
+      "https://help.dydx.trade/en/articles/166991-liquidations-on-dydx-chain"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "intl-country-product",
+    "market": "OTHER",
+    "locale": "en",
+    "intent": "discovery",
+    "question": "How should a user set country and product context before treating a crypto registration route as available?",
+    "canonicalPath": "/int",
+    "sourceUrls": [],
+    "status": "pending-source-review",
+    "reviewedAt": "2026-09-16",
+    "answerBoundary": "Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "compliant-fiat-name-match",
+    "market": "GLOBAL",
+    "locale": "en",
+    "intent": "funding",
+    "question": "Does a same-name bank transfer guarantee that fiat funding will not be frozen?",
+    "canonicalPath": "/topics/compliant-exchanges",
+    "sourceUrls": [
+      "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-10-02",
+    "answerBoundary": "HashKey Exchange general deposit name matching is a platform-specific deposit check, not a rule for every platform or withdrawal route. SFC platform status does not guarantee account approval, receipt of funds or freedom from freezes. Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "compliant-hashkey-onboarding",
+    "market": "GLOBAL",
+    "locale": "en",
+    "intent": "funding",
+    "question": "What account and bank conditions should be checked before opening or funding a HashKey account?",
+    "canonicalPath": "/topics/compliant-exchanges",
+    "sourceUrls": [
+      "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-10-02",
+    "answerBoundary": "Verify service entity, residence, intended product, account documents, bank verification and current funding terms separately. Address proof, a visa, a named bank or a fixed wire amount is not automatic account approval or activation. Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  },
+  {
+    "id": "compliant-okx-freeze-terms",
+    "market": "GLOBAL",
+    "locale": "en",
+    "intent": "terms",
+    "question": "What conditions should be checked for an OKX P2P frozen compensation merchant?",
+    "canonicalPath": "/topics/compliant-exchanges",
+    "sourceUrls": [
+      "https://www.okx.com/en-us/help/freeze-coverage-faq"
+    ],
+    "status": "source-linked",
+    "reviewedAt": "2026-10-02",
+    "answerBoundary": "Verify current region, service entity, merchant and order labels, documents, exclusions, deadlines and limits. OKX frozen compensation terms do not guarantee coverage, compensation, a fixed payment or an insurance-fund advance for every P2P order or bank freeze. Answer with the cited source and the user's declared country, product and account context; do not infer eligibility or a promotion."
+  }
+]

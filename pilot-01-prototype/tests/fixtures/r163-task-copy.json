@@ -1,0 +1,141 @@
+{
+  "modes": {
+    "en": [
+      "I’ve chosen",
+      "Compare first"
+    ],
+    "zh-Hans": [
+      "已选平台",
+      "先做比较"
+    ],
+    "zh-Hant": [
+      "已選平台",
+      "先做比較"
+    ],
+    "ja": [
+      "利用先は決定済み",
+      "まず比較"
+    ],
+    "ko": [
+      "플랫폼 선택 완료",
+      "먼저 비교"
+    ],
+    "tr": [
+      "Platformu seçtim",
+      "Önce karşılaştır"
+    ],
+    "es": [
+      "Ya elegí",
+      "Comparar primero"
+    ],
+    "pt-BR": [
+      "Já escolhi",
+      "Comparar primeiro"
+    ],
+    "fr": [
+      "J’ai choisi",
+      "Comparer d’abord"
+    ],
+    "de": [
+      "Bereits gewählt",
+      "Zuerst vergleichen"
+    ],
+    "ru": [
+      "Уже выбрано",
+      "Сначала сравнить"
+    ],
+    "ar": [
+      "اخترت منصة",
+      "المقارنة أولًا"
+    ],
+    "id": [
+      "Sudah memilih",
+      "Bandingkan dulu"
+    ],
+    "vi": [
+      "Đã chọn",
+      "So sánh trước"
+    ],
+    "it": [
+      "Ho già scelto",
+      "Prima confronta"
+    ]
+  },
+  "compact": {
+    "en": [
+      "Check before signup",
+      "Third-party signup: check code {code} before submitting; enter it manually if missing.",
+      "Official signup ↗"
+    ],
+    "zh-Hans": [
+      "注册前核对",
+      "第三方注册：提交前核对邀请码 {code}，未预填请手动填写。",
+      "前往官方注册 ↗"
+    ],
+    "zh-Hant": [
+      "註冊前核對",
+      "第三方註冊：提交前核對邀請碼 {code}，未預填請手動填寫。",
+      "前往官方註冊 ↗"
+    ],
+    "ja": [
+      "登録前に確認",
+      "第三者の登録ページで、送信前に紹介コード {code} を確認。未入力なら手入力してください。",
+      "公式登録へ ↗"
+    ],
+    "ko": [
+      "가입 전 확인",
+      "제3자 가입 페이지에서 제출 전 추천 코드 {code}를 확인하세요. 미리 입력되지 않았다면 직접 입력하세요.",
+      "공식 가입으로 ↗"
+    ],
+    "tr": [
+      "Kayıt öncesi kontrol",
+      "Üçüncü taraf kayıt sayfasında, göndermeden önce {code} referans kodunu kontrol edin; dolu değilse elle girin.",
+      "Resmi kayıt ↗"
+    ],
+    "es": [
+      "Antes del registro",
+      "En el registro de terceros, verifica el código {code} antes de enviar; si falta, introdúcelo manualmente.",
+      "Registro oficial ↗"
+    ],
+    "pt-BR": [
+      "Antes do cadastro",
+      "No cadastro de terceiros, confira o código {code} antes de enviar; se não vier preenchido, digite manualmente.",
+      "Cadastro oficial ↗"
+    ],
+    "fr": [
+      "Avant l’inscription",
+      "Sur le site tiers, vérifiez le code {code} avant de valider l’inscription ; s’il manque, saisissez-le manuellement.",
+      "Inscription officielle ↗"
+    ],
+    "de": [
+      "Vor der Registrierung",
+      "Bei der Registrierung auf der Drittseite Code {code} vor dem Absenden prüfen; fehlt er, manuell eingeben.",
+      "Offizielle Registrierung ↗"
+    ],
+    "ru": [
+      "Перед регистрацией",
+      "На сторонней странице регистрации проверьте код {code} перед отправкой; если он не заполнен, введите вручную.",
+      "Официальная регистрация ↗"
+    ],
+    "ar": [
+      "قبل التسجيل",
+      "في صفحة تسجيل الطرف الثالث، تحقق من رمز الدعوة {code} قبل الإرسال؛ إن لم يُملأ، أدخله يدويًا.",
+      "التسجيل الرسمي ↗"
+    ],
+    "id": [
+      "Sebelum mendaftar",
+      "Di halaman pendaftaran pihak ketiga, periksa kode {code} sebelum mengirim; jika belum terisi, masukkan manual.",
+      "Pendaftaran resmi ↗"
+    ],
+    "vi": [
+      "Trước khi đăng ký",
+      "Trên trang đăng ký bên thứ ba, kiểm tra mã {code} trước khi gửi; nếu chưa điền sẵn, hãy nhập thủ công.",
+      "Đăng ký chính thức ↗"
+    ],
+    "it": [
+      "Prima di registrarti",
+      "Nella registrazione sul sito terzo, verifica il codice {code} prima di inviare; se manca, inseriscilo manualmente.",
+      "Registrazione ufficiale ↗"
+    ]
+  }
+}

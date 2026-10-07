@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-01T16:33:22.887630+00:00",
+  "method": "Official Upbit support pages opened and read through web tool; text only, tutorial screenshots not examined",
+  "sources": [
+    {
+      "url": "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC",
+      "title": "원화 입출금 방법 (모바일)",
+      "checkedScope": "Mobile KRW deposit/withdrawal method and authentication instructions; not bank eligibility verification"
+    },
+    {
+      "url": "https://support.upbit.com/hc/ko/articles/900006825383-%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94",
+      "title": "회원 가입은 어떻게 하나요?",
+      "checkedScope": "Membership, identity and account verification instructions; not universal exchange eligibility or bank-side acceptance"
+    }
+  ],
+  "boundary": "No bank-side source checked. No unconditional eligibility, specific partner-bank acceptance, fees or transaction assurance adopted. Official article text read, illustrative screenshots not inspected."
+}

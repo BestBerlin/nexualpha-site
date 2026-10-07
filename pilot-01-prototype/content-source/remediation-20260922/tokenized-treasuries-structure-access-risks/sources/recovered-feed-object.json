@@ -1,0 +1,360 @@
+{
+  "slug": "tokenized-treasuries-structure-access-risks",
+  "status": "PUBLISHED",
+  "category": "research",
+  "categoryName": {
+    "en": "Source-Backed Decision Guide",
+    "zh-Hans": "源头核验决策指南"
+  },
+  "publishedAt": "2026-09-07T23:42:33.000Z",
+  "updatedAt": "2026-09-15T14:20:00.000Z",
+  "readTime": "15 min",
+  "author": "NexuAlpha Research Desk",
+  "title": {
+    "en": "Tokenized Treasuries: BUIDL, BENJI, Ownership, Redemption and Access Risks",
+    "zh-Hans": "代币化美债：产品结构、准入方式与必须核验的风险",
+    "ja": "トークン化国債：仕組み、アクセス、確認すべきリスク",
+    "ko": "토큰화 국채: 구조, 접근 방식과 투자자가 확인할 위험",
+    "tr": "Tokenleştirilmiş Hazine tahvilleri: Yapı, erişim ve kontrol edilmesi gereken riskler",
+    "es": "Bonos del Tesoro tokenizados: estructura, acceso y riesgos que conviene revisar",
+    "pt-BR": "Treasuries tokenizados: estrutura, acesso e riscos que investidores devem verificar",
+    "fr": "Bons du Trésor tokenisés : structure, accès et risques à vérifier",
+    "de": "Tokenisierte US-Staatsanleihen: Struktur, Zugang und zu prüfende Risiken",
+    "ar": "الخزائن المرمّزة: الهيكل والوصول والمخاطر التي يجب فحصها",
+    "ru": "Токенизированные казначейские облигации: структура, доступ и риски",
+    "id": "Treasury bertoken: struktur, akses, dan risiko yang perlu diperiksa",
+    "vi": "Trái phiếu Kho bạc token hóa: cấu trúc, quyền tiếp cận và rủi ro cần kiểm tra",
+    "it": "Treasury tokenizzati: struttura, accesso e rischi da verificare"
+  },
+  "summary": {
+    "en": "Separate the token label from the legal instrument across BUIDL, BENJI, OUSG-style exposure and other tokenized Treasury routes before treating them as Treasury bills, fund shares, tokenized securities or intermediary claims.",
+    "zh-Hans": "一篇回答“什么是代币化美债”的源头核验指南，区分 token 名称、法律工具、发行方、记录方、托管方、赎回权、费用、地区准入、链上控制和官方来源链。",
+    "ja": "BUIDL、BENJI、直接保有、ステーブルコイン、償還、移転代理人の管理と商品リスクを出典付きで整理します。",
+    "ko": "BUIDL, BENJI, 직접 국채 보유, 스테이블코인, 상환, 이전대행기관 통제와 상품 위험을 출처와 함께 설명합니다.",
+    "tr": "BUIDL, BENJI, doğrudan Hazine sahipliği, stablecoin, itfa, transfer acentesi kontrolleri ve ürün risklerini kaynaklarla açıklar.",
+    "es": "Guía basada en fuentes sobre BUIDL, BENJI, propiedad directa de bonos, stablecoins, reembolsos, controles del agente de transferencias y riesgos del producto.",
+    "pt-BR": "Guia baseada em fontes sobre BUIDL, BENJI, posse direta de Treasuries, stablecoins, resgate, controles do agente de transferência e riscos do produto.",
+    "fr": "Guide sourcé sur BUIDL, BENJI, la détention directe de Treasuries, les stablecoins, le rachat, les contrôles de l’agent de transfert et les risques.",
+    "de": "Quellenbasierter Leitfaden zu BUIDL, BENJI, direktem Treasury-Besitz, Stablecoins, Rücknahme, Transferstellenkontrollen und Produktrisiken.",
+    "ar": "دليل قائم على المصادر حول BUIDL وBENJI وامتلاك الخزانة مباشرة والعملات المستقرة والاسترداد وضوابط وكيل التحويل ومخاطر المنتج.",
+    "ru": "Разбор BUIDL, BENJI, прямого владения казначейскими бумагами, стейблкоинов, погашения, контроля трансфер-агента и рисков продукта.",
+    "id": "Panduan berbasis sumber tentang BUIDL, BENJI, kepemilikan Treasury langsung, stablecoin, penebusan, kontrol agen transfer, dan risiko produk.",
+    "vi": "Hướng dẫn dựa trên nguồn về BUIDL, BENJI, sở hữu Kho bạc trực tiếp, stablecoin, mua lại, kiểm soát đại lý chuyển nhượng và rủi ro sản phẩm.",
+    "it": "Guida basata su fonti a BUIDL, BENJI, possesso diretto dei Treasury, stablecoin, rimborso, controlli dell’agente di trasferimento e rischi del prodotto."
+  },
+  "content": {
+    "en": "## Direct answer\n\nA tokenized Treasury is a digital or blockchain-recorded route to Treasury-linked exposure, but the token itself does not automatically mean direct ownership of a U.S. Treasury bill. The claim may be a direct security record, a regulated fund share represented on chain, a tokenized security or fund interest, an intermediary claim, or a reserve-backed product. The safe first question is: what legal instrument does this token represent, and which official source proves that claim?\n\nFor searchers comparing BUIDL, BENJI or a generic tokenized Treasury product, do not compare headline yield first. Compare the legal instrument, issuer, transfer agent or recordkeeper, custodian, redemption counterparty, transfer controls, investor eligibility, fee source, official token address and official account route first. Only then compare current yield in the live official document or logged-in account screen.\n\nNexuAlpha's boundary is narrow. This page explains source-backed structures and checklists; it does not verify a specific user's legal eligibility, account approval, tax treatment, private fee, live yield, wallet approval or redemption right. Content revised: September 15, 2026. Source evidence last checked: September 15, 2026.\n\n## Tokenized Treasury definition and source-bound checks\n\nUse this compact matrix before reading the long structure notes. It is designed for `tokenized treasury` and `tokenized treasuries` searches where the user needs a definition, not a product ranking.\n\n| Field | What to verify first | Official source entry | Boundary |\n| --- | --- | --- | --- |\n| Definition | Is the token a direct security record, fund share, security token, intermediary claim or reserve-backed exposure? | TreasuryDirect, SEC statements, prospectus or issuer filing | A wallet balance is not enough to prove direct Treasury ownership. |\n| Underlying assets | Treasury bills, government securities, cash, repos, fund shares or reserves | TreasuryDirect, fund prospectus, SEC EDGAR, issuer page | Portfolio assets and token-holder rights are different fields. |\n| Issuer and recordkeeper | Issuer, transfer agent, registrar, broker, platform or smart-contract record | SEC filing, transfer-agent agreement, fund documents | Onchain display may not be the official ownership record. |\n| Custody and service providers | Custodian, adviser, service provider, wallet admin and chain controls | Prospectus, service agreement, official token-address page | Custody of assets and control of token transfers can be split. |\n| Redemption and fees | Who redeems, when, in what asset, with which expense, waiver or network cost | Prospectus, platform terms, issuer terms, logged-in account screen | Current yield and private fee terms can change and require live official confirmation. |\n| Region and eligibility | Country, investor type, KYC/KYB, sanctions check and whitelisted wallet | Official onboarding page or account flow | Public pages do not prove a specific user's approval. |\n| Onchain vs legal rights | Transferability, freeze/admin rights, official register and beneficial ownership | SEC/FINRA statements, prospectus, token-address page | A transferable token does not automatically create unrestricted redemption or legal title. |\n\n## BUIDL vs BENJI quick answer\n\nBUIDL and BENJI should not be collapsed into one generic tokenized Treasury label. BUIDL research starts with BlackRock, SEC filings, Securitize service documents, official token addresses and private-fund eligibility. BENJI research starts with Franklin Templeton's FOBXX page, prospectus, Benji platform materials, transfer-agent recordkeeping language and app or portal access. The user-visible wallet experience may look similar, but issuer, recordkeeper, chain support, transfer controls, redemption process and investor eligibility remain separate checks.\n\n## Official-source entry points\n\nStart with TreasuryDirect for direct Treasury bills, SEC or EDGAR materials for securities and fund filings, BlackRock or Securitize materials for BUIDL-specific addresses and service roles, and Franklin Templeton materials for BENJI/FOBXX fund and transfer-agent details. If one of issuer, recordkeeper, custodian, redemption counterparty, fee source or regional eligibility cannot be tied to an official source, mark that field pending instead of turning it into a yield comparison.\n\n## Cluster navigation: article, topic checklist and hub\n\nUse this article when the search task is to read the dated source trail behind tokenized Treasury structure, BUIDL, BENJI, OUSG-style exposure, recordkeepers, custodians and redemption controls. Use the tokenized Treasuries topic page for the evergreen comparison checklist, and use the tokenized assets hub when the user still needs to choose between Treasuries, tokenized stocks and stock perpetuals.\n\n## Answer-ready classification\n\n| User question | Best first check | Why it matters |\n| --- | --- | --- |\n| Do I own Treasury bills directly? | TreasuryDirect, broker confirmation, or fund prospectus | A fund share or tokenized claim is not the same legal instrument as a bill or note. |\n| Can I redeem for cash? | Redemption section, transfer agent, platform terms | Onchain ownership display does not prove same-day redemption or unrestricted transfer. |\n| Can my wallet receive or transfer it? | Whitelist, KYC and transfer-control rules | Permissioned tokens can reject, freeze or restrict movements. |\n| Is the yield comparable? | Official fund page and current account screen | Yield, expenses and access can vary by class, entity and date. |\n| Is it closer to a stablecoin? | Reserve, issuer and redemption terms | Stablecoin terms and fund-share terms create different claims. |\n\n## Search intent shortcut: tokenized treasury vs Treasury bill\n\nWhen a user searches `tokenized treasury`, the practical answer is: first identify what the token legally represents. A direct Treasury bill has an issuer, CUSIP, auction or brokerage record and maturity. A tokenized Treasury product may instead be a money-market fund share, tokenized security record, intermediary claim or reserve-backed exposure. Compare recordkeeper, custodian, redemption path, transfer restrictions and investor eligibility before comparing yield.\n\n## Collateral and margin-use checkpoint\n\nIf the search intent is tokenized Treasury collateral, do not stop at the product name or headline yield. Verify the valuation source, margin haircut, permitted chains, transfer controls, redemption timing, custodian role and what happens if the issuer, platform, custodian or chain is unavailable. Missing evidence should be marked unknown rather than converted into a zero-cost or cash-equivalent assumption.\n\n## Query follow-up: margin, fees and redemption\n\nFor searches about tokenized Treasury margin or yield, start with three source fields before looking at a percentage: whether the product is a fund share, security token, stablecoin reserve exposure or platform claim; whether fees come from the fund, platform, service provider, network or account route; and whether redemption settles through the issuer, transfer agent, broker, app or another counterparty. Treat missing margin or fee evidence as unknown, not as zero cost.\n\n## Claim-source map for quick comparison\n\n| Searcher wants to know... | Source to open first | Safe reading |\n| --- | --- | --- |\n| \"Do I own a Treasury bill?\" | TreasuryDirect or broker record | Direct ownership depends on the government-security or intermediary record, not a token label. |\n| \"What is BUIDL?\" | BlackRock, SEC filings, and Securitize service documents | Treat it as a fund/service-document question: issuer, transfer-agent services, onboarding, token issuance, burns, redemptions and official addresses are separate fields. |\n| \"What is BENJI?\" | Franklin Templeton FOBXX page, prospectus, and Benji platform materials | Treat it as a registered fund-share and transfer-agent recordkeeping question, with permissioned wallets and transfer controls. |\n| \"Is this like a stablecoin?\" | Product documents plus issuer or reserve terms | Stablecoin, tokenized fund share and crypto-yield product are different legal routes even when all reference cash or Treasuries. |\n| \"Can I redeem?\" | Prospectus, platform terms, transfer-agent or issuer terms | Redemption eligibility, cutoff, settlement asset, fee and suspension language matter more than the wallet display. |\n\n## Operating checklist before using a tokenized Treasury route\n\n1. Identify the exact legal instrument: direct Treasury security, fund share, tokenized fund interest, platform claim or stablecoin exposure.\n2. Save the official source that names the issuer, transfer agent, custodian or platform recordkeeper.\n3. Confirm whether the wallet or account must be whitelisted before purchase or transfer.\n4. Read redemption timing, cutoff, settlement method and any administrative wallet instructions.\n5. Separate user-facing costs from network fees, fund expenses and platform charges.\n6. Treat unknown regional eligibility, tax treatment and account approval as unknown until the logged-in official flow confirms them.\n\n## Intent match: what to decide in 60 seconds\n\nIf the question is \"are tokenized Treasuries safe?\" the better first question is \"what claim do I actually hold?\" A direct Treasury bill points to a government security record. A registered money-market fund token points to fund shares and a transfer-agent record. An institutional private-fund token points to subscription documents, eligibility rules and service-provider controls. A stablecoin or reserve-backed exposure points to issuer terms and redemption rules. These routes can all reference Treasuries, but they do not give the same ownership, redemption or transfer rights.\n\nUse this page as a document checklist, not as a ranking. For each product, save the official issuer page, prospectus or filing, token-address page if one exists, custody or service-provider description, redemption terms and account-eligibility language. If one of those documents is missing, mark the field unknown instead of assuming direct Treasury ownership.\n\n## What direct Treasury ownership looks like\n\nTreasuryDirect describes marketable Treasury securities as Treasury bills, notes, bonds, TIPS, and floating rate notes. To buy one, an investor bids in an auction. Retail buyers can use TreasuryDirect for non-competitive bids; a bank, broker, or dealer can handle competitive or non-competitive bids. Each auction has a CUSIP, and TreasuryDirect sets a $100 minimum bid.\n\nThe direct route is plain even when the mechanics are not instant. A Treasury bill is sold at a discount or at par and pays face value at maturity. Treasury notes have fixed terms and pay interest every six months. The investor is dealing with a U.S. Treasury security, not a private token issued by a fund or platform.\n\nThat baseline matters because many tokenized products borrow Treasury language while delivering a different exposure. A user may hold fund shares represented on chain, a token that references fund shares, or a claim through an issuer. A portfolio may hold Treasury bills, cash, or repos, but that does not make every token holder the direct owner of those securities.\n\n## What \"tokenized Treasury\" can mean\n\nAn SEC staff statement on tokenized securities separates issuer-sponsored and third-party models. In an issuer-sponsored model, the issuer or its agent integrates distributed ledger technology into the official securityholder record. In a third-party model, another party tokenizes a security or interest and creates separate legal, operational, and regulatory questions.\n\nFINRA makes a similar distinction. Tokenized securities can involve assets issued and transferred on a blockchain where the issuer or transfer agent maintains the registry, or traditional assets held by an intermediary that recognizes token holders as beneficial owners. Those structures may look similar in a wallet, but their legal plumbing is different.\n\nThat is why the SEC's reminder is useful: tokenization is not magic. Putting a security, fund share, or claim on a blockchain does not transform the underlying asset. If the product is a security, securities rules and offering documents still matter. If it is a fund share, fund governance, custody, redemption terms, and eligibility matter. If it is an intermediary token, the intermediary's solvency and controls matter.\n\n## The five layers to inspect\n\nA serious review should separate five layers. The asset layer shows whether the product holds Treasury bills, government securities, cash, repos, fund shares, or a mix. The issuer layer shows whether the buyer receives a registered fund share, private fund interest, note, or other security. The recordkeeping layer shows whether the official record is held by a transfer agent, broker, smart contract, platform, or intermediary. The service-provider layer shows who holds assets, handles subscriptions and redemptions, checks KYC/KYB/AML, maintains contracts, and distributes income. The blockchain layer shows network choice, whitelists, transfer restrictions, admin controls, and failure paths.\n\n## BUIDL as one institutional example\n\nBUIDL refers to the BlackRock USD Institutional Digital Liquidity Fund. BlackRock publishes official BUIDL token addresses and warns users to verify them because fake tokens can imitate real names. A tokenized fund is not just a ticker in a wallet; address verification is part of product safety.\n\nSEC EDGAR filings identify BlackRock USD Institutional Digital Liquidity Fund Ltd. as the issuer in a Form D notice. A separate filed agreement between Securitize LLC and the fund describes a British Virgin Islands domiciled fund exempt from the Investment Company Act of 1940 under section 3(c)(7), with shares represented as digital asset security tokens.\n\nThe same agreement describes services that go well beyond a listing page: onboarding, KYC/KYB/AML and sanctions checks, compliance monitoring, transfer agent and registrar functions, token deployment, smart contract maintenance, issuances and burns, peer-to-peer transfer recording, redemption burns and USD payment, distribution processing, reinvestments, and shareholder records.\n\nThe lesson is not \"BUIDL is good\" or \"BUIDL is bad.\" The lesson is that the structure has identifiable parties and documents. Investors should check issuer, eligibility, exemption, transfer-agent role, official token addresses, approved chains, redemption mechanics, and service-provider responsibilities before treating the token as Treasury exposure.\n\n## BENJI as a registered fund example\n\nBENJI is tied to Franklin Templeton's Franklin OnChain U.S. Government Money Fund, ticker FOBXX. Franklin describes BENJI as the token representation of a U.S.-registered money market fund that uses public blockchain technology for recordkeeping.\n\nThe prospectus is more important than the headline. It says the fund's transfer agent maintains the official record of share ownership through a proprietary blockchain-integrated system that uses traditional book-entry features and public blockchain networks. The system is permissioned, uses whitelisted wallets, and includes administrative controls.\n\nThat structure is not the same as a permissionless token. The prospectus says the transfer agent can correct errors and unauthorized transactions and limit transferability. It also says recording fund shares on blockchain does not affect the fund's investments. The fund intends to invest at least 99.5% of assets in government securities, cash, and repurchase agreements collateralized fully by government securities or cash.\n\nThe purchase and redemption language also matters. The prospectus says individual investors use the Benji app, institutional investors may use the institutional portal, and the fund collects AML and KYC information before account opening. Purchases and redemptions can be requested through the app or portal, but are processed during normal business hours on business days.\n\n## Where yield and fees come from\n\nTokenized Treasury products are often marketed around yield, but the source must be decomposed. A direct Treasury bill earns through discount-to-face-value mechanics. A note or bond pays interest according to its terms. A tokenized money market fund distributes income from its portfolio after fund economics. The portfolio may include government securities, cash, and repurchase agreements rather than one specific Treasury held directly by the token holder.\n\nFund expenses, waivers, platform fees, network fees, service-provider fees, and intermediary economics can change realized return. Franklin's summary prospectus says public blockchain network fees are the responsibility of the investment manager or its affiliates for that fund, but that is product-specific. BUIDL-related filed agreements include redacted fee schedules, reinforcing that service economics exist even when all numbers are not public.\n\nNo evergreen article should present a current yield number as timeless. Yields move with interest rates, portfolios, fee waivers, credit conditions, cash-instrument demand, and product rules. A good comparison uses current official documents, not a stale screenshot or marketing table.\n\n## Subscription, redemption, and on-chain transfer\n\nThe user experience may feel crypto-native: a wallet shows a token, a dashboard shows a balance, and transfers may use familiar networks. The underlying controls can still be institutional and permissioned. In BENJI's case, Franklin describes app and portal access, supported networks, peer-to-peer transferability, and USDC conversion milestones. The prospectus clarifies that the transfer agent controls the official recordkeeping system and can limit transferability.\n\nBUIDL's filed agreement points to a similar control theme from a different structure. Transfer-agent services include issuances, burns, redemption burns, USD payment processing, peer-to-peer transfer recording, distributions, and shareholder records. That is not the same as saying any wallet can redeem with the fund at any hour.\n\nFor investors, redemption is the test. Who has the right to redeem? Is redemption direct with the issuer or through an approved platform? Are there business-hour limits, cutoffs, liquidity conditions, minimums, identity checks, sanctions checks, or jurisdiction restrictions? If a token trades on chain or through an exchange, can its market price deviate from NAV?\n\n## The risk map\n\nThe first risk is legal-form risk. A token may represent a fund share, security entitlement, note, receipt, or contractual claim. The documents should identify the registered owner, beneficial owner, transfer agent, custodian, and redemption counterparty.\n\nThe second risk is eligibility risk. Some products are retail-accessible only in specified jurisdictions; others are institutional, private, or limited to qualified purchasers. A product page may still exclude a country, account, wallet, or intermediary.\n\nThe third risk is fund and blockchain risk. BlackRock and Franklin publish money market fund warnings: a fund can seek to maintain a $1.00 share price without guaranteeing it, and such investments are not bank accounts or FDIC-insured deposits. Franklin also lists blockchain risks around issuance, redemption, transfer, custody, recordkeeping, transaction delays, consensus failures, regulation, technical flaws, compromised cryptography, access problems, fees, forks, and private-key loss.\n\nThe fourth risk is counterparty and service-provider risk. A tokenized structure may involve the issuer, manager, transfer agent, registrar, platform, custodian, wallet provider, blockchain network, broker, liquidity provider, and distribution channel. A failure at any layer may matter.\n\nThe fifth risk is stablecoin confusion. FINRA describes stablecoins as crypto assets that attempt to maintain a stable value relative to a reference asset. A tokenized Treasury fund share is different. It may use a stable share-price target or trade near one dollar, but its value comes from fund documentation and portfolio assets, not merely a peg promise.\n\n## Direct Treasuries vs tokenized Treasuries vs stablecoins vs crypto yield\n\n| Question | Direct Treasury | Tokenized Treasury fund or security | Stablecoin | Crypto yield product |\n| --- | --- | --- | --- | --- |\n| What is the core claim? | A Treasury security bought through TreasuryDirect or an intermediary | A fund share, security token, or issuer/intermediary claim | A token intended to track a reference price | A lending, staking, structured, or platform yield arrangement |\n| Who keeps the record? | TreasuryDirect, broker, dealer, or custodian | Transfer agent, issuer, platform, intermediary, and blockchain records | Stablecoin issuer, reserve manager, wallet/platform records | Protocol, exchange, lending platform, or custodian |\n| What drives income? | Bill discount or coupon terms | Fund portfolio income minus product economics | Usually not investor yield by default | Borrower rates, staking rewards, incentives, funding, or strategy returns |\n| Can it move on chain? | No, not as a native token | Sometimes, often with whitelist or transfer controls | Yes, depending on chain and issuer controls | Depends on protocol or platform |\n| Main due-diligence question | Which CUSIP, maturity, price, yield, and custody route? | What legal instrument does the token represent, and who can redeem? | What reserves, attestations, redemption rights, and issuer risks exist? | Where does yield come from, and who can fail? |\n\n## Practical checklist\n\nStart with the instrument. Is it a registered fund share, private fund interest, note, certificate, security entitlement, or contractual claim? Then identify the official recordkeeper.\n\nCheck the portfolio. \"Treasury-backed\" may mean Treasury bills, agency obligations, repos, cash, fund shares, or a broader cash-management portfolio. If the product says it aims to maintain $1.00, check whether that is a target, accounting method, or guarantee.\n\nCheck eligibility and transferability. Can your account legally buy it? Can your wallet receive it? Are transfers limited to whitelisted addresses? Can the administrator correct or freeze records?\n\nCheck redemption. Find cutoffs, business-hour rules, minimums, portal requirements, identity checks, settlement asset, fees, and liquidity conditions. A 24/7 token balance does not automatically create 24/7 fund redemption.\n\nCheck address and chain authenticity. BlackRock's official BUIDL address page exists because fake-token risk is real. Never rely on a token name alone. Verify official domains, contract addresses, networks, documents, and platform notices.\n\nFinally, compare the product to your actual job. If you want a specific maturity and direct government security exposure, TreasuryDirect or a brokered Treasury may be clearer. If you want blockchain-transferable fund-share exposure and accept transfer-agent controls, a tokenized fund may fit another job. If you only need settlement liquidity, a stablecoin may be simpler but brings reserve, issuer, and redemption questions. If a product advertises unusually high yield, treat it as a separate risk product until the yield source is proven.\n\n## Continue checking on NexuAlpha\n\nUse this page as the document-reading step, then continue through the neutral venue paths instead of treating a product name as a buy signal. If the question is exchange access, compare Coinbase and Kraken from their venue profiles and the Coinbase-vs-Kraken comparison. If the question is product type, read the tokenized stocks versus stock perpetuals guide and the CEX versus DEX versus perp DEX route map. If the question is evaluation method, use the methodology page and carry forward the same fields: legal instrument, recordkeeper, custodian, redemption path, transfer limits and official sources.\n\nNexuAlpha does not rank tokenized Treasury products by yield in this article. The useful next step is to make the product comparable without collapsing legal rights, custody, redemption and regional eligibility into one marketing number.\n\n## FAQ\n\n### Are tokenized Treasuries the same as directly owning Treasury bills?\n\nUsually no. Some products hold Treasury bills or government securities, but the token holder may own fund shares or another claim rather than a specific Treasury CUSIP.\n\n### Does blockchain transfer mean unrestricted transfer?\n\nNo. Some tokenized securities and funds use permissioned wallets, whitelists, transfer-agent controls, or platform restrictions.\n\n### Are BUIDL and BENJI stablecoins?\n\nThey should not be treated as ordinary stablecoins. They are fund or tokenized-security structures with documents, eligibility rules, transfer-agent or platform controls, and investment risks.\n\n### Can a tokenized Treasury product lose money?\n\nYes. Money market funds can seek a stable $1.00 share price without guaranteeing it. Blockchain, liquidity, credit, interest-rate, operational, cyber, and service-provider risks also matter.\n\n### Do BUIDL and BENJI give the same kind of claim?\n\nNo. The public sources reviewed here describe different legal and operational structures. BUIDL is discussed through BlackRock and filed fund/service documents; BENJI is tied to Franklin Templeton's registered fund prospectus and transfer-agent recordkeeping language. A wallet balance can make both feel similar at the interface layer, but the claim, eligibility path, transfer controls and redemption mechanics must be checked separately.\n\n### What should I check before comparing tokenized Treasury yield?\n\nCheck the legal instrument, issuer, recordkeeper, custodian or service provider, redemption counterparty, cutoff timing, wallet whitelist, transfer restrictions, expenses, platform fees, network fees and regional eligibility. Yield should be read from the current official page or account screen after those items are known.\n\n### Is a tokenized Treasury the same as a stablecoin?\n\nNot necessarily. Some tokenized Treasury products are fund shares or securities; a stablecoin is governed by issuer terms, reserve disclosures and redemption rules. Both may reference cash, Treasury bills or government money-market funds, but the holder's legal claim and redemption route can differ.\n\n## Source and review note\n\nSources were checked on 2026-09-07 UTC. This article uses official or first-party materials: TreasuryDirect, SEC, FINRA, BlackRock, Securitize, and Franklin Templeton. It is educational research for product comparison and is not investment, legal, tax, or financial advice.",
+    "zh-Hans": "## 直接答案\n\n代币化美债是一种以数字化或链上记录方式呈现的美债相关敞口，但 token 本身不自动等于直接持有美国 Treasury bill。它可能是直接证券记录、链上表示的受监管基金份额、证券或基金权益 token、中介权益，也可能是带储备安排的产品。第一步不是比较收益率，而是确认这个 token 在法律上代表什么，以及哪个官方来源能证明这个权利。\n\n比较 BUIDL、BENJI 或任何代币化美债产品时，应先核验法律工具、发行方、过户代理或记录方、托管或服务商、赎回对手方、转让控制、投资者资格、费用来源、官方 token 地址和账户路径，然后再看官方文件或本人账户里的实时收益。\n\nNexuAlpha 的边界很明确：本文解释来源支持的结构与检查清单，不核验某个用户的法律资格、账户批准、税务处理、私人费率或实时收益。内容修订日期：2026 年 9 月 15 日。来源证据最近核验日期：2026 年 9 月 15 日。\n\n## 代币化美债定义与来源核验矩阵\n\n这个紧凑矩阵用于回答 tokenized treasury 或代币化美债搜索意图：先定义权利，再比较产品，而不是先比较收益率。\n\n| 字段 | 第一核验点 | 官方来源入口 | 边界 |\n| --- | --- | --- | --- |\n| 定义 | token 是直接证券记录、基金份额、证券 token、中介权益还是储备敞口？ | TreasuryDirect、SEC 声明、招募说明书或发行文件 | 钱包余额不足以证明直接持有美国国债。 |\n| 底层资产 | Treasury bills、政府证券、现金、回购、基金份额或储备 | TreasuryDirect、基金招募说明书、SEC EDGAR、发行方页面 | 组合资产与 token 持有人权利是两件事。 |\n| 发行方与记录方 | 发行方、过户代理、注册登记方、券商、平台或智能合约记录 | SEC 文件、服务协议、基金文件 | 链上显示未必就是官方持有人记录。 |\n| 托管与服务商 | 托管方、投顾、服务商、钱包管理和链上控制 | 招募说明书、服务协议、官方 token 地址页 | 资产托管和 token 转让控制可能分离。 |\n| 赎回与费用 | 谁赎回、何时赎回、用什么资产结算、有哪些费用或豁免 | 招募说明书、平台条款、发行方条款、本人账户屏幕 | 当前收益和私人费率会变化，需要实时官方确认。 |\n| 地区与资格 | 国家、投资者类型、KYC/KYB、制裁检查和钱包白名单 | 官方准入页面或账户流程 | 公开页面不能证明某个用户已经获批。 |\n| 链上与法律权利 | 转让、冻结、管理员权限、官方登记和受益所有权 | SEC/FINRA 声明、招募说明书、token 地址页 | token 可转让不等于无限制赎回或法律所有权。 |\n\n## 官方来源入口\n\n直接 Treasury bill 从 TreasuryDirect 开始；证券和基金结构从 SEC 或 EDGAR、招募说明书和发行方文件开始；BUIDL 相关问题从 BlackRock 或 Securitize 的官方地址和服务角色资料开始；BENJI/FOBXX 从 Franklin Templeton 的基金和过户代理文件开始。如果发行方、记录方、托管方、赎回对手方、费用来源或地区资格无法对应到官方来源，应标记为待核验，而不是写成收益率比较。\n\n## 可引用分类\n\n| 用户问题 | 第一核验点 | 为什么重要 |\n| --- | --- | --- |\n| 我是否直接持有美国国债？ | TreasuryDirect、券商确认或基金招募说明书 | 基金份额或代币化权益不等同于直接持有国债。 |\n| 我能否赎回成现金？ | 赎回条款、过户代理、平台条款 | 链上显示持有不等于可以即时赎回或自由转移。 |\n| 我的钱包能否接收或转移？ | 白名单、KYC 与转移控制规则 | 许可型代币可能拒绝、冻结或限制转移。 |\n| 收益是否可直接比较？ | 官方基金页面与本人账户屏幕 | 收益、费用和准入可能因份额类别、实体和日期变化。 |\n| 它是否更像稳定币？ | 储备、发行方与赎回条款 | 稳定币条款与基金份额条款对应的是不同权利。 |\n\n## 搜索意图直答：代币化美债和直接国债的区别\n\n当用户搜索 tokenized treasury 或代币化美债时，第一步不是看收益率，而是确认这个 token 在法律上代表什么。直接 Treasury bill 有发行方、CUSIP、拍卖或券商记录和到期日；代币化美债产品可能是货币市场基金份额、代币化证券记录、中介权益或带储备安排的敞口。比较收益前，先核验记录方、托管方、赎回路径、转让限制和投资者资格。\n\n## 抵押与保证金用途核对\n\n如果搜索意图是代币化美债抵押或保证金用途，不要停留在产品名称或表面收益率。应核对估值来源、抵押折扣、许可链、转让控制、赎回时间、托管方角色，以及发行方、平台、托管方或链不可用时的处理方式。缺少证据时应标记为未知，而不是写成零成本或现金等价。\n\n## 查询补充：保证金、费用与赎回\n\n如果搜索意图是代币化美债保证金、收益或费用，先核对三个来源字段：产品到底是基金份额、证券 token、稳定币储备敞口还是平台权益；费用来自基金、平台、服务商、网络还是账户路径；赎回由发行方、转让代理、券商、App 还是其他对手方结算。缺少保证金或费用证据时，应标记为未知，而不是写成零成本。\n\n## Claim-source 快速对照\n\n| 搜索者想确认什么 | 先打开哪类来源 | 安全读法 |\n| --- | --- | --- |\n| “我是否直接持有 Treasury bill？” | TreasuryDirect 或经纪商记录 | 直接持有取决于政府证券或中介记录，不取决于 token 名称。 |\n| “BUIDL 到底是什么？” | BlackRock、SEC 归档和 Securitize 服务文件 | 按基金和服务文件阅读：发行人、转让代理服务、准入、token 发行、销毁、赎回和官方地址是不同字段。 |\n| “BENJI 到底是什么？” | Franklin Templeton FOBXX 页面、招募说明书和 Benji 平台资料 | 按注册基金份额和转让代理记录阅读，并单独检查白名单钱包和转让控制。 |\n| “这是否像稳定币？” | 产品文件加发行方或储备条款 | 稳定币、代币化基金份额、加密收益产品是不同法律路径，即便都引用现金或美债。 |\n| “我能不能赎回？” | 招募说明书、平台条款、转让代理或发行方条款 | 赎回资格、cutoff、结算资产、费用和暂停条款，比钱包显示更重要。 |\n\n## 使用前操作清单\n\n1. 先确认法律工具：直接国债、基金份额、代币化基金权益、平台权益或稳定币敞口。\n2. 保存能说明发行方、过户代理、托管方或平台记录方的官方来源。\n3. 核验购买或转移前是否需要钱包白名单或账户审批。\n4. 阅读赎回时间、截止点、结算方式和管理赎回钱包说明。\n5. 分开看用户成本、网络费、基金费用和平台收费。\n6. 地区资格、税务处理和账户审批未知时，保持未知，直到登录后的官方流程确认。\n\n## 60 秒意图直答\n\n如果问题是“代币化美债安全吗”，更准确的第一问是“我到底持有什么权利”。直接国债对应政府证券记录；注册货币市场基金代币对应基金份额和过户代理记录；机构私募基金代币对应认购文件、准入规则和服务商控制；稳定币或储备支持敞口对应发行方条款和赎回规则。它们都可能引用美国国债，但所有权、赎回权和转让权不一样。\n\n把本文当成文件核验清单，而不是排名。每个产品都要保存官方发行方页面、招股书或备案文件、官方代币地址页面、托管或服务商说明、赎回条款和账户资格语言。如果某个文件缺失，就把该字段标为未知，不要推定为直接持有美国国债。\n\n## 直接持有美国国债是什么样\n\nTreasuryDirect 对市场化美国国债的描述很清楚：投资者可以通过 TreasuryDirect 账户，或者通过银行、经纪商、交易商，在拍卖中购买 Treasury bills、notes、bonds、TIPS 和浮息票据。TreasuryDirect 只支持非竞争性投标；银行、经纪商或交易商可以处理竞争性和非竞争性投标。每次拍卖对应具体证券和 CUSIP，最低投标金额通常为 100 美元，并以 100 美元递增。\n\n这条路径并不是完全没有摩擦，但法律结构相对直观。Treasury bills 通常以折价或面值出售，到期支付面值；Treasury notes 期限为 2、3、5、7 或 10 年，每六个月支付固定利息；Treasury bonds 期限为 20 或 30 年，也每六个月支付固定利息。投资者面对的是美国财政部发行的具体证券，而不是某个基金或平台发行的链上 token。\n\n这个基准很重要，因为很多代币化美债产品使用“美债”“国债收益”“Treasury exposure”这样的表达，但实际给到的是另一层风险暴露。底层组合可能持有国债、政府证券、现金或回购协议，用户持有的却可能是基金份额、代币化证券记录，或通过发行人、中介、平台确认的受益关系。这两者不能混为一谈。\n\n## “代币化美债”到底可能指什么\n\nSEC 公司财务部工作人员在 2026 年关于代币化证券的声明中，把代币化证券大体分为两类。一类是发行人或其代理人主导的代币化：分布式账本被整合进发行人的官方持有人记录，链上转让可以对应官方持有人记录的变更。另一类是第三方或非发行人主导的代币化：第三方把已有证券或权益做成 token，这会产生不同的法律和监管问题。\n\nFINRA 给投资者的解释也类似。代币化证券可能是发行人或转让代理在链上维护登记簿的资产，也可能是传统形式的证券由中介作为登记持有人持有，再由中介承认 token 持有人为受益所有人。两种结构在钱包里都可能表现为一个余额，但法律“水管”完全不同。\n\n同时，SEC 委员 Hester Peirce 在 2025 年的个人声明提醒：代币化并不神奇。把证券、基金份额或合约权益放到区块链上，并不会改变底层资产的法律性质。如果它是证券，证券规则和发行文件仍然重要；如果它是基金份额，基金治理、转让代理、托管、赎回、费用和投资者资格仍然重要；如果它是中介发行的 token，中介的偿付能力、内部控制和持有人确认规则就会变得很重要。\n\n## 需要拆开的五层结构\n\n第一层是底层资产。产品到底持有什么？是短期美国国债、其他政府证券、现金、回购协议、另一只基金的份额，还是这些资产的组合？收益和流动性的源头在这一层，但 token 持有人未必直接拥有每一只底层证券。\n\n第二层是发行人或基金。用户买到的是注册货币市场基金份额、私募基金权益、票据、凭证，还是其他证券或合约工具？发行主体在美国注册、离岸设立、豁免发行，还是仅面向合格投资者？产品名字里出现 Treasury，并不等于投资者直接拥有美国国债。\n\n第三层是记录保存。谁维护官方所有权记录？是基金转让代理、经纪商、发行人、链上智能合约、代币化平台，还是传统中介？钱包余额可以很重要，但决定法律权利的记录有时并不只在钱包里。\n\n第四层是托管和服务商。谁持有底层资产？谁处理申购、赎回、KYC、KYB、AML、制裁筛查、智能合约维护、收益分配和税务材料？代币化产品往往比直接持有国债多出很多运营节点。\n\n第五层是链上层。产品部署在哪些网络？是否只允许白名单钱包转让？管理员是否可以冻结、纠错或限制转让？私钥由谁保管？如果网络拥堵、分叉、桥接故障或智能合约出现漏洞，谁承担后果？这些问题不能用“上链了所以更透明”一句话带过。\n\n## BUIDL：一个机构化结构样本\n\nBUIDL 指向 BlackRock USD Institutional Digital Liquidity Fund。BlackRock 在其官方防诈骗资源页列出了 BUIDL 的官方 token 地址，并提醒用户逐字核验地址，因为假 token 可能使用真实产品名称来误导用户。这个细节本身就说明：代币化基金不是钱包里的一个名字那么简单，合约地址、官方域名和发行文件都要对上。\n\nSEC EDGAR 的 Form D 文件识别了 BlackRock USD Institutional Digital Liquidity Fund Ltd. 这个发行主体，并显示其为豁免发行背景。另一份 SEC 归档的 Securitize LLC 与 BlackRock USD Institutional Digital Liquidity Fund Ltd. 之间的平台服务、转让代理和登记协议，描述该发行人为英属维尔京群岛基金，并通过 1940 Act section 3(c)(7) 豁免，以数字资产证券 token 的形式表示基金份额。\n\n这份协议也说明，Securitize 的角色不是一个普通网页入口。服务包括投资者 onboarding、KYC/KYB/AML 和制裁筛查、发行人管理后台、一级发行入口、投资者合规监控、转让代理和登记职能、token 部署、智能合约维护、token 发行与销毁、P2P 转让记录、赎回销毁和美元付款处理、分配和再投资、股东记录维护等。\n\n对 NexuAlpha 的读者来说，BUIDL 的关键不是“好”或“坏”，而是它有可以核验的结构：发行人是谁，是否豁免发行，谁是转让代理和平台服务商，官方 token 地址是什么，哪些链被支持，谁可以申购赎回，转让和合规监控如何进行。只有这些问题被拆开，所谓“美债上链”才有实际含义。\n\n## BENJI：一个注册基金结构样本\n\nBENJI 与 Franklin Templeton 的 Franklin OnChain U.S. Government Money Fund 相关，基金代码为 FOBXX。Franklin 把 BENJI 描述为这只美国注册货币市场基金份额的 token 表示，并强调该基金使用公共区块链技术处理交易和记录份额所有权。Franklin 2026 年 4 月的新闻稿称，该基金是第一只使用公共区块链作为官方记录系统来处理交易和记录份额所有权的美国注册共同基金。\n\n但标题没有招募说明书重要。Franklin 的招募说明书写明，基金的转让代理通过一个专有的区块链整合系统维护官方份额所有权记录，这个系统结合传统记账式记录和一个或多个公共区块链网络。它不是完全无需许可的 token 系统，而是一个 permissioned system：相关智能合约或 token 配置包含白名单钱包和管理控制功能。\n\n招募说明书还写明，转让代理负责维护任何相关区块链网络上基金份额所有权的准确性，并有能力纠正错误和未授权交易、限制基金份额的可转让性。也就是说，链上记录是产品设计的一部分，但不是放弃发行人、基金、转让代理和合规控制。\n\n该基金的投资策略也说明，区块链记录并不改变基金投资本身。基金意图成为政府货币市场基金，并按照 1940 Act Rule 2a-7 的框架，将至少 99.5% 的总资产投资于政府证券、现金，以及由政府证券或现金完全抵押的回购协议。招募说明书还明确表示，该基金不会投资公共无许可区块链的原生加密资产。\n\n申购赎回也不是单纯链上点击。招募说明书说明，个人投资者开户需要使用 Benji by Franklin Templeton 应用，机构投资者可以使用机构网页门户；开户前基金会按照反洗钱和了解客户政策收集信息。份额可以通过应用或门户申购赎回，但处理发生在正常工作日的正常营业时间内。换句话说，钱包余额可以 24 小时显示，基金处理流程未必 24 小时运行。\n\n## 收益和费用从哪里来\n\n代币化美债经常围绕收益率传播，但收益来源必须拆开看。直接买 Treasury bill，收益来自折价买入和到期按面值兑付；直接买 note 或 bond，收益来自对应证券条款下的利息和价格变化。代币化货币市场基金的收益则来自基金组合产生的净投资收益，再受到基金费用、服务商费用、豁免费用、平台经济和分配规则影响。\n\nFranklin 招募说明书中对该基金的表述是，基金投资政府证券、现金和由政府证券或现金完全抵押的回购协议，并力图维持 1 美元稳定份额价格。但它也明确提醒，基金收益会变化，1 美元份额价格不被保证，基金不是银行账户，不受 FDIC 或其他政府机构保险或担保。BlackRock 对货币市场基金的风险披露也有类似提醒：即便基金寻求维持稳定净值，投资者仍可能亏钱，基金发起人没有法律义务提供支持。\n\n因此，任何代币化美债文章都不应该把某个当前收益率写成永恒优势。收益会随利率、组合持仓、费用、费用豁免、信用环境、现金工具需求和产品规则变化。真正有用的比较，不是复制营销页面上的 yield，而是在决策当天重新看官方文件和产品条款。\n\n## 申购、赎回与链上转让\n\n代币化产品的使用体验可能很像加密产品：钱包里有 token，后台里有余额，可以看到链和地址，甚至可以 P2P 转让。但底层控制仍可能是机构化、白名单化和合规化的。\n\nBENJI 方面，Franklin 的资料展示了移动端应用、机构网页界面、多个网络上线、P2P 转让和 USDC 转换等里程碑；但招募说明书强调，官方份额记录由转让代理控制，转让可以被限制。BUIDL 方面，SEC 归档协议同样描述了发行、销毁、赎回销毁、美元付款、P2P 转让记录、分配和股东记录等转让代理服务。\n\n投资者最该看的不是“能不能转”，而是“转了以后权利是否完整”。谁有资格赎回？赎回是直接面对发行人，还是通过批准平台？是否有工作日、营业时间、cutoff、最低金额、身份核验、制裁筛查、地区限制、流动性条件或费用？二级市场买到的 token 是否享有和一级申购者相同的赎回权？链上价格是否可能偏离基金净值？这些都是关键问题。\n\n## 主要风险图谱\n\n第一是法律形式风险。token 可能代表基金份额、证券权益、票据、凭证或合同请求权。标签不够，发行文件和所有权记录才重要。\n\n第二是准入风险。有些产品只面向机构或合格投资者，有些只在特定司法辖区开放，有些需要白名单钱包或指定平台账户。一个产品页面写着可用，不等于你的国家、账户、钱包和身份类型都可用。\n\n第三是货币市场基金风险。即便基金投资美国政府证券，也不等于没有亏损风险。Franklin 和 BlackRock 的资料都提示，基金可寻求维持 1 美元份额价格，但不能保证一定维持；基金不是银行账户，也不是 FDIC 保险存款；投资美国政府相关证券也不等于由美国政府担保基金份额表现。\n\n第四是链上和智能合约风险。Franklin 招募说明书列出的风险包括：交易处理延迟、网络节点无法达成共识、监管变化、转让代理系统技术缺陷、私钥保管问题、密码学或安全措施被攻破、链上访问中断、链上费用波动、网络分叉，以及投资者自管钱包私钥丢失等。\n\n第五是服务商和对手方风险。代币化产品可能同时涉及发行人、基金管理人、次级顾问、转让代理、登记机构、托管方、钱包服务商、区块链网络、经纪商、流动性提供方和分销渠道。即使底层美债市场正常，其中一个节点出问题，也可能影响用户申购、赎回、转让或取回资金。\n\n第六是稳定币混淆风险。FINRA 把 stablecoin 描述为试图维持相对于美元等参考资产稳定价值的加密资产。代币化货币市场基金份额不是普通稳定币。它可能围绕 1 美元份额价格运作，也可能在链上转让，但其价值来源、投资风险和权利边界来自基金文件、资产组合、转让代理记录和申赎安排，而不是单纯的锚定承诺。\n\n## 三类产品怎么区分\n\n| 问题 | 直接持有美国国债 | 代币化美债基金或证券 | 稳定币或加密收益产品 |\n| --- | --- | --- | --- |\n| 核心权利 | 通过 TreasuryDirect 或中介持有具体 Treasury security | 基金份额、代币化证券记录或发行人/中介确认的权益 | 稳定币是锚定价格产品；收益产品可能是借贷、质押、结构化策略或平台安排 |\n| 官方记录 | TreasuryDirect、经纪商、交易商或托管方 | 转让代理、发行人、平台、中介和链上记录共同构成 | 发行人、储备管理方、平台、钱包或协议记录 |\n| 收益来源 | 国债折价、票息和市场价格变化 | 基金组合收入减去费用和产品经济 | 储备收益、借贷利率、质押奖励、平台补贴或策略收益，需要单独核验 |\n| 是否原生上链 | 否 | 有时是，但通常有白名单、转让代理或平台限制 | 取决于稳定币或协议所在链 |\n| 最关键核验 | CUSIP、期限、价格、收益率、托管路径 | token 代表什么法律工具，谁可赎回，谁维护官方记录 | 储备、审计、赎回、对手方、协议风险和监管状态 |\n\n## 使用前的核验清单\n\n先确认法律工具。它是注册基金份额、私募基金权益、票据、凭证、证券权益，还是合同请求权？再确认官方记录方是谁。高质量披露应能说明转让代理、发行人、中介或平台在记录保存中的角色。\n\n再确认底层资产。“Treasury-backed”可能表示短期国债、政府机构证券、回购协议、现金、另一只基金份额，或更广泛的现金管理组合。若产品宣称维持 1 美元价格，要确认这是目标、估值方法还是担保。多数情况下，这不是担保。\n\n然后看资格和转让。你的账户是否能买？你的地区是否支持？你的钱包能否接收？是否必须白名单？管理员是否可冻结、纠错或限制转让？个人投资者和机构投资者是否使用不同入口？\n\n接着看赎回。赎回截止时间、工作日规则、最低金额、身份核验、结算资产、费用、流动性条件是什么？链上余额 24 小时存在，并不自动意味着基金 24 小时处理赎回。\n\n最后看地址和链的真实性。BlackRock 官方列出 BUIDL 地址并提醒防范假 token，这说明只看 token 名字风险很大。应同时核验官方域名、合约地址、网络、发行文件、平台通知和转让代理信息。\n\n如果你的目标是持有某个期限的美国国债，TreasuryDirect 或经纪商渠道可能更清楚。如果你的目标是可链上转让的基金份额暴露，并能接受白名单、转让代理和赎回限制，代币化基金可能服务的是另一个需求。如果你只是需要链上结算流动性，稳定币更简单，但它有自己的储备、发行人和赎回风险。如果某个产品给出异常高收益，先把它当作单独风险产品，直到收益来源被充分证明。\n\n## 在 NexuAlpha 继续核验\n\n把本文当作文档阅读步骤，然后继续走中立的站内决策路径，而不是把产品名称当成购买信号。如果问题是交易所准入，可以继续看 Coinbase、Kraken 的交易所档案和 Coinbase-vs-Kraken 对比。如果问题是产品类型，可以继续看代币化股票与股票永续合约文章，以及 CEX、DEX、Perp DEX 的路径图。如果问题是评价方法，就回到 methodology 页面，并沿用同一组字段：法律工具、记录维护方、托管方、赎回路径、转让限制和官方来源。\n\n本文不按收益率给代币化美债产品排序。更有用的下一步，是先让产品可比较，而不是把法律权利、托管、赎回和地区资格压成一个营销数字。\n\n## FAQ\n\n### 代币化美债等于直接买 Treasury bill 吗？\n\n通常不等于。某些产品的底层可能持有 Treasury bills 或政府证券，但 token 持有人可能持有的是基金份额或其他权益，不一定直接拥有某个 CUSIP。法律答案取决于发行文件和官方所有权记录。\n\n### 能链上转账是否代表可以自由转让？\n\n不代表。代币化证券或基金常见白名单钱包、转让代理控制、平台限制和合规筛查。BENJI 招募说明书明确描述了 permissioned 的区块链整合记录系统。\n\n### BUIDL 和 BENJI 是稳定币吗？\n\n不应把它们当成普通稳定币。它们与基金、代币化证券、转让代理、申赎、资格和投资风险相关。稳定币通常是试图追踪美元等参考资产价格的 token。\n\n### 代币化美债会亏钱吗？\n\n会。货币市场基金可以寻求维持 1 美元份额价格，但不能保证一定做到。利率、信用、流动性、赎回、运营、网络、私钥、智能合约、网络分叉、服务商和网络安全风险都可能影响结果。\n\n### NexuAlpha 后续比较这类产品时应该展示什么？\n\n应展示发行人、产品类型、司法辖区限制、赎回路径、转让限制、官方来源、支持网络、托管模型和风险披露，而不是只按广告收益率排序。\n\n### BUIDL 和 BENJI 给的是同一种权利吗？\n\n不是。本文核验的公开来源显示，它们的法律和运营结构不同。BUIDL 需要结合 BlackRock 官方信息和基金/服务文件理解；BENJI 需要结合 Franklin Templeton 注册基金招股书和过户代理记录语言理解。钱包余额会让界面体验变得相似，但持有人权利、准入路径、转让控制和赎回机制要分别核验。\n\n### 比较代币化美债收益前先看什么？\n\n先看法律工具、发行方、记录维护方、托管方或服务商、赎回对手方、截止时间、钱包白名单、转让限制、基金费用、平台费用、链上费用和地区资格。收益应在这些项目明确之后，再读取当前官方页面或登录后账户界面。\n\n### 代币化美债等同于稳定币吗？\n\n不一定。有些代币化美债产品是基金份额或证券；稳定币则受发行方条款、储备披露和赎回规则约束。两者都可能引用现金、短期美债或政府货币市场基金，但持有人的法律权利和赎回路径可能不同。\n\n## 来源与审校说明\n\n资料核验时间为 2026-09-07 UTC。本文优先使用官方和一手来源，包括 TreasuryDirect、SEC、FINRA、BlackRock、Securitize 和 Franklin Templeton。本文仅用于产品比较和教育研究，不构成投资、法律、税务或财务建议。"
+  },
+  "sources": [
+    {
+      "id": "treasurydirect-buying",
+      "url": "https://www.treasurydirect.gov/marketable-securities/buying-a-marketable-security/",
+      "publisher": "TreasuryDirect",
+      "title": "Buying a Treasury Marketable Security",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Official U.S. Treasury source for buying marketable Treasury securities, auctions, TreasuryDirect, bank/broker/dealer channels, minimum bid size, and transfer holding-period details."
+    },
+    {
+      "id": "treasurydirect-bills",
+      "url": "https://www.treasurydirect.gov/marketable-securities/treasury-bills/",
+      "publisher": "TreasuryDirect",
+      "title": "Treasury Bills",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Official source for Treasury bill maturities, discount/par sale mechanics, minimum purchase, and tax treatment."
+    },
+    {
+      "id": "treasurydirect-notes",
+      "url": "https://www.treasurydirect.gov/marketable-securities/treasury-notes/",
+      "publisher": "TreasuryDirect",
+      "title": "Treasury Notes",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Official source for Treasury note maturities, fixed interest, semiannual payments, and marketability."
+    },
+    {
+      "id": "sec-tokenized-securities-2026",
+      "url": "https://www.sec.gov/newsroom/speeches-statements/corp-fin-statement-tokenized-securities-012826-statement-tokenized-securities",
+      "publisher": "U.S. Securities and Exchange Commission",
+      "title": "Statement on Tokenized Securities",
+      "publishedAt": "2026-01-28T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Official SEC staff statement describing issuer-sponsored and third-party tokenized securities models; it is not a Commission rule or legally binding guidance.",
+      "updatedAt": "2026-01-30T00:00:00Z"
+    },
+    {
+      "id": "sec-peirce-tokenization-2025",
+      "url": "https://www.sec.gov/newsroom/speeches-statements/peirce-statement-tokenized-securities-070925",
+      "publisher": "U.S. Securities and Exchange Commission",
+      "title": "Enchanting, but Not Magical: A Statement on the Tokenization of Securities",
+      "publishedAt": "2025-07-09T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Official SEC commissioner statement that tokenization does not change the underlying asset's legal nature."
+    },
+    {
+      "id": "finra-crypto-assets",
+      "url": "https://www.finra.org/investors/investing/investment-products/crypto-assets",
+      "publisher": "FINRA",
+      "title": "Crypto Assets",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Investor-education source for tokenized securities models, stablecoins, crypto custody, and investor-protection limits."
+    },
+    {
+      "id": "blackrock-buidl-addresses",
+      "url": "https://www.blackrock.com/corporate/compliance/scams-and-fraud/blackrock-token-addresses",
+      "publisher": "BlackRock",
+      "title": "BlackRock Token Addresses",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "BlackRock first-party source listing official BUIDL token addresses and warning users to verify addresses."
+    },
+    {
+      "id": "sec-buidl-form-d",
+      "url": "https://www.sec.gov/Archives/edgar/data/2013810/000201439024000001/xslFormDX01/primary_doc.xml",
+      "publisher": "U.S. Securities and Exchange Commission EDGAR",
+      "title": "Form D: BlackRock USD Institutional Digital Liquidity Fund Ltd.",
+      "publishedAt": "2024-03-14T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "EDGAR filing identifying the BUIDL issuer, jurisdiction, and exempt offering context."
+    },
+    {
+      "id": "sec-buidl-securitize-agreement",
+      "url": "https://www.sec.gov/Archives/edgar/data/2094496/000121390026042685/ea026411904ex10-9.htm",
+      "publisher": "U.S. Securities and Exchange Commission EDGAR",
+      "title": "Platform Services, Transfer Agent and Registrar Agreement between Securitize LLC and BlackRock USD Institutional Digital Liquidity Fund Ltd.",
+      "publishedAt": "2024-03-14T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Filed agreement describing BUIDL shares as digital asset security tokens and Securitize services including onboarding, KYC/KYB/AML, transfer agent, registrar, issuances, burns, redemptions, and records."
+    },
+    {
+      "id": "blackrock-liquidity-disclosures",
+      "url": "https://www.blackrock.com/cash/en-us/products/product-screener",
+      "publisher": "BlackRock",
+      "title": "BlackRock Liquidity Funds - Products",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "BlackRock first-party money-market-fund risk disclosure covering no guarantee, no FDIC/government insurance, and possible liquidity fees or suspensions."
+    },
+    {
+      "id": "franklin-fobxx-page",
+      "url": "https://www.franklintempleton.com/investments/options/money-market-funds/products/29386/SINGLCLASS/franklin-on-chain-u-s-government-money-fund/FOBXX",
+      "publisher": "Franklin Templeton",
+      "title": "Franklin OnChain U.S. Government Money Fund - FOBXX",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Franklin first-party fund page for documents, performance context, risks, and jurisdictional availability limitations."
+    },
+    {
+      "id": "franklin-prospectus-9001-psum",
+      "url": "https://www.franklintempleton.com/forms-literature/download-preview/9001-PSUM",
+      "publisher": "Franklin Templeton",
+      "title": "Franklin OnChain U.S. Government Money Fund - Summary Prospectus",
+      "publishedAt": "2026-08-01T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Prospectus source for investment strategy, transfer-agent blockchain-integrated recordkeeping, permissioned wallet controls, purchase/redemption processing, minimums, taxes, and blockchain risks."
+    },
+    {
+      "id": "franklin-benji-platform",
+      "url": "https://digitalassets.franklintempleton.com/benji/",
+      "publisher": "Franklin Templeton Digital Assets",
+      "title": "Invest with Benji",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Franklin first-party platform page for BENJI/FOBXX positioning, platform access, networks, and P2P/USDC milestone context."
+    },
+    {
+      "id": "franklin-benji-five-years",
+      "url": "https://www.franklintempleton.com/press-releases/news-room/2026/franklin-templeton-stellar-development-foundation-mark-five-years-of-benji-the-first-u.s.-registered-tokenized-money-market-fund",
+      "publisher": "Franklin Templeton",
+      "title": "Franklin Templeton, Stellar Development Foundation Mark Five Years of BENJI",
+      "publishedAt": "2026-04-30T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Franklin first-party release describing BENJI as a U.S.-registered money market fund using public blockchain as system of record and giving context on P2P transferability and AUM."
+    },
+    {
+      "id": "securitize-buidl-page",
+      "url": "https://securitize.io/blackrock/buidl",
+      "publisher": "Securitize",
+      "title": "Introducing the BlackRock BUIDL Fund",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Securitize first-party landing page identifying the BlackRock BUIDL Fund and Securitize distribution channel."
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "text": "Direct ownership of a marketable U.S. Treasury is acquired through TreasuryDirect or a bank, broker, or dealer at auction, with Treasury bills, notes, bonds, TIPS, and FRNs identified by CUSIP and minimum bids of $100.",
+      "sourceIds": [
+        "treasurydirect-buying",
+        "treasurydirect-bills",
+        "treasurydirect-notes"
+      ],
+      "risk": "low"
+    },
+    {
+      "id": "c2",
+      "text": "Tokenized Treasury products are not a single legal structure; as described in an SEC staff statement and FINRA investor material, tokenized securities can be issuer-sponsored records or third-party/intermediary structures, and tokenization does not change the underlying asset's legal character.",
+      "sourceIds": [
+        "sec-tokenized-securities-2026",
+        "sec-peirce-tokenization-2025",
+        "finra-crypto-assets"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c3",
+      "text": "BUIDL is associated with BlackRock USD Institutional Digital Liquidity Fund Ltd.; SEC filings identify the issuer and describe Securitize services around investor onboarding, transfer-agent/registrar functions, token issuances and burns, redemptions, distributions, smart-contract maintenance, and shareholder records.",
+      "sourceIds": [
+        "blackrock-buidl-addresses",
+        "sec-buidl-form-d",
+        "sec-buidl-securitize-agreement",
+        "securitize-buidl-page"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c4",
+      "text": "Franklin's BENJI represents shares of the Franklin OnChain U.S. Government Money Fund; its prospectus says the transfer agent maintains official share ownership through a blockchain-integrated, permissioned recordkeeping system and can correct unauthorized transactions or limit transferability.",
+      "sourceIds": [
+        "franklin-fobxx-page",
+        "franklin-prospectus-9001-psum",
+        "franklin-benji-platform",
+        "franklin-benji-five-years"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c5",
+      "text": "Tokenized Treasury fund yield generally comes from fund holdings such as government securities, cash, and repurchase agreements, minus fund and service economics; it is not the same as the holder directly receiving coupon or bill-discount income from a Treasury security.",
+      "sourceIds": [
+        "franklin-prospectus-9001-psum",
+        "franklin-fobxx-page",
+        "blackrock-liquidity-disclosures"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c6",
+      "text": "Important risk checks include eligibility and jurisdiction, fund documents, transfer-agent controls, redemption windows, liquidity, smart-contract and key-management risk, cyber risk, counterparty/service-provider risk, and the possibility that a stable $1.00 share price is not guaranteed.",
+      "sourceIds": [
+        "franklin-prospectus-9001-psum",
+        "franklin-fobxx-page",
+        "blackrock-liquidity-disclosures",
+        "finra-crypto-assets"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c7",
+      "text": "Tokenized Treasuries should be distinguished from stablecoins and crypto yield products: stablecoins aim to track a reference price, while tokenized securities/funds depend on securities-law documentation, fund governance, and transfer-agent or intermediary records.",
+      "sourceIds": [
+        "finra-crypto-assets",
+        "sec-tokenized-securities-2026",
+        "franklin-prospectus-9001-psum"
+      ],
+      "risk": "medium"
+    }
+  ],
+  "relatedVenues": [
+    "coinbase",
+    "kraken"
+  ],
+  "seo": {
+    "title": "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Risks",
+    "description": "Answer what is a tokenized treasury with a dated explainer that separates the token label from the legal instrument, custody chain and redemption rights.",
+    "primaryKeyword": "tokenized Treasuries BUIDL BENJI ownership redemption risks",
+    "canonicalStatus": "future",
+    "noindex": false,
+    "futureCanonical": "https://nexualpha.com/articles/tokenized-treasuries-structure-access-risks",
+    "internalLinkTargets": [
+      "/topics/tokenized-treasuries",
+      "/topics/tokenized-assets",
+      "/topics/tokenized-stocks-vs-perpetuals",
+      "/news/tokenized-stocks-vs-stock-perpetuals",
+      "/exchanges/coinbase",
+      "/exchanges/kraken",
+      "/news/coinbase-vs-kraken",
+      "/methodology",
+      "/factbook/coinbase",
+      "/factbook/kraken"
+    ],
+    "canonical": "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks",
+    "languageCanonicals": {
+      "en": "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks",
+      "zh-Hans": "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks?locale=zh-Hans"
+    }
+  },
+  "aeo": {
+    "reviewedAt": "2026-09-15T14:20:00.000Z",
+    "directAnswer": "A tokenized Treasury is not automatically direct ownership of a U.S. Treasury bill. It can be a direct security record, regulated fund share, tokenized security or fund interest, intermediary claim, or reserve-backed exposure. BUIDL and BENJI should be reviewed as separate issuer, recordkeeper, eligibility, transfer-control and redemption structures before any yield comparison. Use the tokenized Treasuries topic page for the evergreen checklist before comparing yield or platform routes.",
+    "answerBoundaries": [
+      "Do not infer investor eligibility from a public product page.",
+      "Do not treat onchain transferability as proof of unrestricted redemption.",
+      "Do not compare headline yield before checking legal instrument, recordkeeper and custodian.",
+      "Do not equate a token balance with direct ownership of a specific Treasury CUSIP.",
+      "Use the topic checklist for evergreen comparison; use this article for the dated source trail behind BUIDL, BENJI and OUSG-style tokenized Treasury exposure."
+    ],
+    "decisionChecklist": [
+      "onchain versus legal rights: wallet balance, transfer control, official register, beneficial ownership and redemption rights are separate fields",
+      "region access: account country, investor type, wallet whitelist, KYC/KYB and sanctions checks",
+      "official source entry: TreasuryDirect, SEC EDGAR, fund prospectus, issuer page, transfer-agent document, official token-address page",
+      "underlying asset: Treasury bill, government security, cash, repo, fund share, reserve or intermediary claim",
+      "definition: token label versus legal instrument",
+      "search intent: direct Treasury bill, BUIDL, BENJI, stablecoin, or yield product",
+      "legal instrument and issuer",
+      "official recordkeeper or transfer agent",
+      "custodian, broker, fund adviser, or service provider",
+      "wallet, platform, country, and investor-type eligibility",
+      "redemption counterparty, cutoff, settlement asset, and suspension rights",
+      "transfer restrictions, whitelist rules, and admin controls",
+      "fee, expense, network-cost, and current-yield source",
+      "official token address, domain, and document trail",
+      "regional and tax/account advice boundary",
+      "Do not use a headline yield comparison until the recordkeeper, custodian, redemption counterparty and fee source are identified.",
+      "Collateral or margin usefulness needs a separate source for valuation, haircut, permitted chains, transfer controls and platform failure treatment."
+    ],
+    "questions": [
+      "Is a tokenized Treasury a fund share, security token, direct Treasury bill or reserve-backed claim?",
+      "Which official source proves issuer, custodian, recordkeeper and redemption rights for a tokenized Treasury product?",
+      "Do tokenized Treasuries mean I own Treasury bills directly?",
+      "What is the difference between BUIDL and BENJI?",
+      "Who keeps the official ownership record for a tokenized Treasury product?",
+      "Can a tokenized Treasury holder redeem for cash directly?",
+      "What should I verify before comparing tokenized Treasury yield?",
+      "How should I continue from this article to a neutral venue or custody checklist?",
+      "What fees, margin terms and redemption path should I verify before comparing tokenized Treasury yield?",
+      "Which source proves the official recordkeeper for a tokenized Treasury product?",
+      "What should be checked before using tokenized Treasuries as collateral or margin support?",
+      "Should a tokenized Treasury searcher read the article or the topic checklist first?"
+    ]
+  },
+  "geo": {
+    "reviewedAt": "2026-09-15T14:20:00.000Z",
+    "citationUse": "Use as a dated source-reading explainer for tokenized Treasury structure, BUIDL, BENJI, OUSG-style exposure, recordkeeper and redemption-risk questions; cite the topic page for evergreen comparison checklists.",
+    "primaryQuestion": "What should a user verify before treating a tokenized Treasury product as a Treasury-like holding?"
+  },
+  "sourceStatus": "PUBLIC_SOURCE_MAPPED",
+  "availableLocales": [
+    "en",
+    "zh-Hans"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "r93-uniswap-affiliate-boundary",
+  "createdAt": "2026-10-02",
+  "status": "draft_pending_manual_review",
+  "approvedAt": null,
+  "publishedAt": null,
+  "nativeReview": "pending",
+  "onsiteFirst": "https://nexualpha.com/exchanges/uniswap",
+  "draft": "Searching for a Uniswap affiliate program? Start with the NexuAlpha source check: developer integration fees and interface links do not establish consumer referral or cashback eligibility. Review the official sources and any separate current program terms before acting. https://nexualpha.com/exchanges/uniswap",
+  "reviewConditions": [
+    "Wait for accepted website release",
+    "Verify current official source scope",
+    "Review native editorial wording",
+    "Receive explicit thread sending authorization"
+  ],
+  "telegramApiCalls": 0,
+  "telegramMessagesSent": 0
+}

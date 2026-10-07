@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "generatedAt": "2026-10-04T20:46:19.460Z",
+  "batchId": "20261005T0435",
+  "mode": "PUBLISHED",
+  "packageCount": 5,
+  "importedCount": 5,
+  "rejectedCount": 0,
+  "rejected": [],
+  "slugs": [
+    "cftc-sec-tokenized-collateral-vs-tokenized-securities-boundary-map",
+    "chainlink-ccip-cross-chain-token-standard-transfer-risk-map",
+    "coinbase-advanced-trade-create-order-auth-reconciliation-checklist",
+    "exchange-api-key-scope-ip-whitelist-expiry-disclosure-radar",
+    "how-to-onboard-uniswap-v3-liquidity-wallet-mint-and-fee-controls"
+  ],
+  "rollbackBlocked": [],
+  "retainedCount": 411,
+  "totalCount": 416
+}

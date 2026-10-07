@@ -1,0 +1,53 @@
+{
+  "name": "crypto-aggregate-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "npm run db:generate && npm run openapi:generate && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "db:generate": "prisma generate",
+    "db:validate": "prisma validate",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:test:preflight": "node scripts/preflight-test-database.mjs",
+    "db:test:safety": "node --test scripts/test-database-safety.test.mjs",
+    "db:test:verify": "node scripts/preflight-test-database.mjs && npm run db:migrate:deploy && npm run test:db && npm run db:fixture:read-models",
+    "db:fixture:read-models": "node scripts/require-test-database.mjs && npm run build && node scripts/verify-site-policy-read-models.mjs",
+    "fixture:outbound:inspect": "npm run build && node dist/scripts/inspect-outbound-fixture.js",
+    "fixture:consent:inspect": "npm run build && node dist/scripts/inspect-subscription-consent-fixture.js",
+    "official:candidate:dry-run": "npm run build && node dist/scripts/dry-run-official-candidate.js",
+    "official:candidates:discover:dry-run": "npm run build && node dist/scripts/discover-official-candidates.js",
+    "official:candidate:submit": "npm run build && node dist/scripts/submit-official-candidate.js",
+    "official:candidate:review": "npm run build && node dist/scripts/review-official-candidate.js",
+    "asset:capability:dry-run": "npm run build && node dist/scripts/dry-run-asset-capability.js",
+    "conversion:claim:dry-run": "npm run build && node dist/scripts/dry-run-conversion-claim.js",
+    "db:reset:test": "node scripts/require-test-database.mjs --destructive && prisma migrate reset --force",
+    "openapi:generate": "openapi-typescript openapi.yaml -o src/generated/openapi.d.ts",
+    "openapi:validate": "node scripts/validate-openapi.mjs",
+    "worker": "node dist/worker.js",
+    "start": "node dist/server.js",
+    "dev": "npm run build && npm run start",
+    "test": "npm run openapi:validate && npm run build && node --test dist/tests/*.test.js",
+    "test:db": "node scripts/require-test-database.mjs && npm run build && node --test dist/tests/database-*.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/pg": "8.15.5",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "openapi-typescript": "7.13.0",
+    "pg": "8.16.3",
+    "prisma": "7.10.0",
+    "typescript": "^5.0.0",
+    "yaml": "2.8.1"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0",
+    "dotenv": "16.6.1",
+    "pg-boss": "12.29.0"
+  }
+}

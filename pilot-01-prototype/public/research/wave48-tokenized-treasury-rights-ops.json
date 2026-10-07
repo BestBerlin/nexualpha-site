@@ -1,0 +1,277 @@
+{
+  "id": "wave48-tokenized-treasury-rights-ops",
+  "version": "2026-09-15",
+  "canonical": "https://nexualpha.com/research/wave48-tokenized-treasury-rights-ops.json",
+  "title": "Wave48 tokenized Treasury rights and operations citation asset",
+  "purpose": "Machine-readable research snapshot for comparing tokenized Treasury and Treasury-backed products by legal claim, recordkeeper, custody, redemption, eligibility, yield basis, and unresolved limits.",
+  "boundary": {
+    "notInvestmentAdvice": true,
+    "notLegalAdvice": true,
+    "noSignupOrReferralRoute": true,
+    "notLiveYieldOrEligibility": true,
+    "sourcePolicy": "Use current issuer, fund, platform, SEC, or official documentation sources. Preserve unknowns instead of filling gaps from promotional or secondary summaries.",
+    "checkedAt": "2026-09-15"
+  },
+  "requiredFields": [
+    "legalClaimOrIssuerSpv",
+    "recordkeeper",
+    "custody",
+    "redemption",
+    "eligibilityJurisdiction",
+    "yieldBasis",
+    "checkedAt",
+    "sourceUrl",
+    "unknownsLimits"
+  ],
+  "products": [
+    {
+      "id": "superstate-invesco-ustb",
+      "name": "USTB",
+      "productName": "Invesco Short Duration US Government Securities Fund",
+      "productType": "tokenized-private-fund-share",
+      "legalClaimOrIssuerSpv": "Ownership in the fund is represented by USTB, held either as a token or in book-entry recordkeeping. The fund is described as a series of a Delaware Statutory Trust.",
+      "recordkeeper": "Superstate Services LLC is listed as transfer agent; the product page also says token-level permissioning and allowlisted wallets are part of Superstate's framework.",
+      "custody": "The Bank of New York Mellon is listed as custodian. USTB can be held on Ethereum, Solana, Plume, or in book-entry form according to the product page.",
+      "redemption": "Subscriptions and redemptions are facilitated through USD or USDC with liquidity each market day. Same-day timing is shown: immediate for USDC; USD cutoff at 5pm ET for subscription and 1pm ET for redemption. USDC redemption depends on Circle and separate risks.",
+      "eligibilityJurisdiction": "The page states the fund offers Accredited Investors and Qualified Purchasers access and that the information is intended for Accredited Investors and Qualified Purchasers that are US residents.",
+      "yieldBasis": "30-day yield is defined as accrued net income from underlying holdings over the past thirty days divided by average outstanding shares and last calculated NAV, annualized and inclusive of fees and expenses.",
+      "checkedAt": "2026-09-15",
+      "sourceUrl": "https://superstate.com/assets/ustb",
+      "sourceType": "official-product-page",
+      "sourceEvidence": [
+        "Superstate USTB page lines 50-67 describe representation, redemption, eligibility, structure, custodian, investment manager, and transfer agent.",
+        "Superstate USTB page lines 123-129 define offering boundary, 30-day yield, and USDC redemption caveat.",
+        "Superstate USTB page lines 130-179 list risk factors and transfer restrictions."
+      ],
+      "unknownsLimits": [
+        "Offering memorandum details are referenced but not reproduced in full in the public page.",
+        "USDC redemptions rely on Circle and dynamic fund/third-party conditions.",
+        "Portfolio holdings shown publicly are dated and unaudited.",
+        "This record does not verify live investor approval, wallet allowlist state, or live redemption capacity."
+      ]
+    },
+    {
+      "id": "ondo-ousg",
+      "name": "OUSG",
+      "productName": "Ondo Short-Term US Treasuries Fund",
+      "productType": "qualified-access-fund-limited-partnership-interest",
+      "legalClaimOrIssuerSpv": "OUSG is described as limited partnership interests. The issuer is Ondo I LP, a Delaware limited partnership. The issuer is not registered as an investment company under the 1940 Act.",
+      "recordkeeper": "Ondo public materials identify Ondo Finance Inc. as tokenization services provider to the fund; the public product page does not name a separate transfer agent in the reviewed lines.",
+      "custody": "The product page states the portfolio includes high-quality assets such as tokenized Treasury funds, bank deposits, and USDC. It does not provide a single custodian field in the reviewed public page.",
+      "redemption": "The product page states 24/7 stablecoin mints and redemptions, liquidity via USDC 24/7 and USD daily, and minimum instant mint/redemption of $5K. Non-instant minimums are $100K investment and $50K redemption.",
+      "eligibilityJurisdiction": "Accredited investors and Qualified Purchasers in eligible countries, including the US, after onboarding to Qualified-Access Funds. OUSG is offered and sold in reliance on Regulation D Rule 506(c).",
+      "yieldBasis": "Ondo describes OUSG as exposure to short-term US Treasuries and money market funds. Public page yield data is based on 7-day and 30-day average income net of expenses; yields are past-performance metrics and may vary.",
+      "checkedAt": "2026-09-15",
+      "sourceUrl": "https://ondo.finance/ousg",
+      "sourceType": "official-product-page",
+      "sourceEvidence": [
+        "Ondo OUSG page lines 60-90 cover exposure, fees, eligibility, primary assets, liquidity, legal structure, and compliance.",
+        "Ondo OUSG page lines 135-160 describe instant mint/redemption, portfolio backing, reporting, and 3(c)(7)/Rule 506(c) framing.",
+        "Ondo OUSG page lines 339-352 explain eligible buyers, onboarding, backing, and investment/redemption minimums.",
+        "Ondo OUSG page lines 382-395 identify issuer and adviser context and no-advice boundary."
+      ],
+      "unknownsLimits": [
+        "Public page does not name every custodian, administrator, or control provider in one structured service-provider table.",
+        "Current portfolio mix changes over time and should be rechecked before publication.",
+        "Eligibility depends on onboarding and jurisdictional review.",
+        "This record does not verify live mint or redemption execution."
+      ]
+    },
+    {
+      "id": "ondo-usdy",
+      "name": "USDY",
+      "productName": "Ondo US Dollar Yield Token",
+      "productType": "regulation-s-tokenized-note-yieldcoin",
+      "legalClaimOrIssuerSpv": "USDY is described as debt issued by a bankruptcy-remote entity. Ondo's legal disclosure identifies the issuer as Ondo Global Markets (BVI) Limited, a British Virgin Islands business company, while the public summary table also displays an issuer-domicile field that should be reconciled against the current offering documents. The token gives economic exposure to short-term US Treasuries but not rights to hold or receive US Treasuries.",
+      "recordkeeper": "Ondo Finance Inc. provides tokenization services to, and is an equity holder of, Ondo Global Markets (BVI) Limited. The reviewed public page does not name a separate transfer agent.",
+      "custody": "USDY is described as secured by a portfolio of short-term US Treasuries with daily proof of reserves and third-party oversight. Public portfolio lines show US Treasuries, cash equivalents, and bank deposits; the reviewed page does not map each reserve asset to a named custodian.",
+      "redemption": "Daily subscriptions and redemptions are stated. The FAQ says USDY can only be redeemed by non-US persons or entities and that USD bank-wire redemption is to non-US bank accounts.",
+      "eligibilityJurisdiction": "Accessible to non-US individuals and institutional investors. Offered under Regulation S; not available in the US or to US persons except under an available registration exemption. Additional jurisdiction restrictions apply.",
+      "yieldBasis": "USDY accrues yield daily. The accumulating token reflects income in an increasing share price; rUSDY is a rebasing version. APY is set monthly by Ondo under USDY governing documents.",
+      "checkedAt": "2026-09-15",
+      "sourceUrl": "https://ondo.finance/usdy",
+      "sourceType": "official-product-page",
+      "sourceEvidence": [
+        "Ondo USDY page lines 61-90 describe eligibility, underlying assets, liquidity, legal structure, and Regulation S.",
+        "Ondo USDY page lines 177-204 describe accumulating and rebasing yield mechanics.",
+        "Ondo USDY page lines 247-252 describe Treasury-backed reserves and attestations.",
+        "Ondo USDY page lines 459-467 describe eligibility, redemption by non-US persons, and bank-wire limitation.",
+        "Ondo USDY page lines 502-520 identify legal restrictions, issuer, economic exposure limit, and APY basis.",
+        "Ondo USDY current crawl also showed an issuer-domicile summary field that should not override the legal issuer disclosure without current offering-document review."
+      ],
+      "unknownsLimits": [
+        "Public page does not disclose a single complete custody map for all reserve assets in the reviewed lines.",
+        "Issuer domicile presentation should be reconciled against current offering documents because the public page summary and legal disclosure are not identical in wording.",
+        "Eligibility and restrictions can vary by jurisdiction and onboarding.",
+        "USDY is not a stablecoin and not a direct Treasury holding.",
+        "This record does not verify live redemption availability, daily attestations, or wallet-specific restrictions."
+      ]
+    },
+    {
+      "id": "franklin-benji-fobxx",
+      "name": "BENJI / FOBXX",
+      "productName": "Franklin OnChain U.S. Government Money Fund",
+      "productType": "us-registered-government-money-market-fund-with-blockchain-recordkeeping",
+      "legalClaimOrIssuerSpv": "Fund shares are mutual-fund shares in Franklin OnChain U.S. Government Money Fund. Public materials say one share is represented by one BENJI token; SEC prospectus language says recording shares on blockchain does not affect fund investments.",
+      "recordkeeper": "The SEC summary prospectus says the Fund's transfer agent maintains the official record of share ownership through a proprietary blockchain-integrated system and has full control over fund and shareholder records in that system.",
+      "custody": "The reviewed summary prospectus excerpt focuses on recordkeeping and investment policy rather than naming a custody provider. The fund invests as a Government money market fund under Rule 2a-7.",
+      "redemption": "The reviewed public prospectus excerpt does not provide an operational redemption cutoff table. Franklin's public site requires reading the prospectus and summary prospectus for fund terms.",
+      "eligibilityJurisdiction": "Franklin's public site says it is intended for U.S. residents and U.S. investors; non-U.S. investors should use local Franklin Templeton sites. The precise account/channel eligibility should be checked in current fund documents.",
+      "yieldBasis": "Government money market fund seeking current income while preserving capital and liquidity; SEC excerpt states at least 99.5% of total assets in Government securities, cash, and fully collateralized repurchase agreements.",
+      "checkedAt": "2026-09-15",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1786958/000174177325002849/c497k.htm",
+      "secondaryOfficialUrl": "https://www.franklintempleton.com/investments/options/money-market-funds/products/29386/SINGLCLASS/franklin-on-chain-u-s-government-money-fund/FOBXX",
+      "sourceType": "sec-summary-prospectus",
+      "sourceEvidence": [
+        "SEC summary prospectus search result lines state transfer-agent official recordkeeping and transfer-agent control of blockchain-integrated records.",
+        "SEC summary prospectus search result lines state the recordkeeping system is permissioned and that the transfer agent can correct errors, unauthorized transactions, and transferability.",
+        "Franklin official product page lines 8-18 identify FOBXX, the Franklin OnChain U.S. Government Money Fund, and its prospectus/document links.",
+        "Franklin official product page lines 80-146 identify the fund description, ticker FOBXX, fund number BENJI, CUSIP, and U.S. government money-market investment policy.",
+        "Franklin official product page lines 164-178 and 405-421 show current 7-day yield fields as dated, past-performance fund data rather than a recommendation.",
+        "Franklin public site lines 135-158 state prospectus review, U.S. resident boundary, no-investment-advice language, and investment-product risk language."
+      ],
+      "unknownsLimits": [
+        "The SEC page was available through search/open snippets; this asset should re-open and archive the exact prospectus before public promotion.",
+        "Custody and redemption fields need the current full prospectus and account materials before being treated as complete.",
+        "Blockchain recordkeeping is controlled by the transfer agent and should not be treated as permissionless bearer-token ownership.",
+        "This record does not verify live app access, BENJI wallet eligibility, or investor account status."
+      ]
+    },
+    {
+      "id": "blackrock-buidl",
+      "name": "BUIDL",
+      "productName": "BlackRock USD Institutional Digital Liquidity Fund",
+      "productType": "tokenized-private-fund-share",
+      "legalClaimOrIssuerSpv": "SEC Form D identifies BlackRock USD Institutional Digital Liquidity Fund Ltd. as the issuer. BlackRock's official token-address page identifies the token name as BlackRock USD Institutional Digital Liquidity Fund (BUIDL).",
+      "recordkeeper": "Securitize presents BUIDL as exclusively available on Securitize, and its official press page announces BUIDL. A public source line naming the transfer-agent function was not captured in this pass, so the precise recordkeeper role is left as unknown pending offering documents or a current official operations page.",
+      "custody": "Unknown from the official pages captured in this pass. Do not infer custodian or reserve composition from secondary summaries in this machine-readable asset.",
+      "redemption": "Unknown from the official pages captured in this pass. Securitize product access is official, but public redemption mechanics were not captured in a sufficiently detailed primary-source page.",
+      "eligibilityJurisdiction": "SEC Form D confirms a private securities offering notice for the issuer. Investor status, jurisdictional availability, and minimums should be verified from current Securitize/BlackRock offering documents.",
+      "yieldBasis": "Unknown from captured primary sources beyond the product being a tokenized liquidity fund. Yield, distribution, and asset-allocation details require current offering documents.",
+      "checkedAt": "2026-09-15",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/2013810/000201439024000001/xslFormDX01/primary_doc.xml",
+      "secondaryOfficialUrl": "https://securitize.io/blackrock/buidl",
+      "officialTokenAddressUrl": "https://www.blackrock.com/corporate/compliance/scams-and-fraud/blackrock-token-addresses",
+      "sourceType": "sec-form-d-plus-official-platform-page",
+      "sourceEvidence": [
+        "SEC Form D search/open result identifies BlackRock USD Institutional Digital Liquidity Fund Ltd. as issuer and a March 14, 2024 filing.",
+        "Securitize BUIDL page lines 0-2 identify the BlackRock BUIDL Fund as exclusively available on Securitize.",
+        "BlackRock official token-address page lines 200-232 identifies the token name as BlackRock USD Institutional Digital Liquidity Fund (BUIDL), lists official chain addresses, and warns that address verification is separate from avoiding fake tokens."
+      ],
+      "unknownsLimits": [
+        "Recordkeeper, custodian, redemption, eligibility, minimums, and yield basis are not completed from captured primary sources.",
+        "Requires current offering memorandum or official Securitize account documentation before operational comparison.",
+        "Official token-address verification is separate from legal entitlement, holder eligibility, or redemption right.",
+        "This record intentionally avoids filling gaps from secondary summaries."
+      ]
+    }
+  ],
+  "comparisonNotes": [
+    "USTB, OUSG, USDY, BENJI/FOBXX, and BUIDL should not be collapsed into one generic Treasury-token bucket.",
+    "Legal wrapper and recordkeeper are separate from wallet display or chain address.",
+    "Redemption language can mean issuer redemption, protocol-enabled redemption, daily fund liquidity, peer-to-peer transfer, or secondary-market liquidity; keep those paths separate.",
+    "Eligibility and jurisdiction are operational gates, not marketing footnotes.",
+    "Yield figures are dated source facts, not forecasts or recommendations."
+  ],
+  "findings": [
+    {
+      "id": "wave57-tokenized-treasury-route-separation",
+      "asOf": "2026-09-16T00:00:00+08:00",
+      "statement": "The reviewed tokenized Treasury matrix covers five products across four distinct product types. AEO/GEO systems and human readers should separate issuer/legal wrapper, recordkeeper, custody, redemption, eligibility jurisdiction and yield basis before comparing yield, token addresses or venue access.",
+      "stats": {
+        "reviewedProductCount": 5,
+        "distinctProductTypeCount": 4,
+        "requiredFieldCount": 9,
+        "sourceRegisterCount": 8
+      },
+      "canonicalOwner": "https://nexualpha.com/topics/tokenized-treasuries",
+      "machineReadableAsset": "https://nexualpha.com/research/wave48-tokenized-treasury-rights-ops.json",
+      "evidenceProductIds": [
+        "superstate-invesco-ustb",
+        "ondo-ousg",
+        "ondo-usdy",
+        "franklin-benji-fobxx",
+        "blackrock-buidl"
+      ],
+      "comparisonBoundary": "Do not collapse fund shares, limited-partnership interests, tokenized notes, money-market-fund blockchain recordkeeping and private tokenized fund shares into one generic yield bucket.",
+      "limitations": "Dated source-review finding; not legal advice, investment advice, live yield data, product ranking, account eligibility, signup eligibility, registration outcome, ownership guarantee, redemption guarantee, commercial outbound route or private commercial claim."
+    }
+  ],
+  "sourceRegister": [
+    {
+      "id": "superstate-ustb",
+      "url": "https://superstate.com/assets/ustb",
+      "publisher": "Superstate",
+      "sourceType": "official-product-page",
+      "checkedAt": "2026-09-15"
+    },
+    {
+      "id": "ondo-ousg",
+      "url": "https://ondo.finance/ousg",
+      "publisher": "Ondo Finance",
+      "sourceType": "official-product-page",
+      "checkedAt": "2026-09-15"
+    },
+    {
+      "id": "ondo-usdy",
+      "url": "https://ondo.finance/usdy",
+      "publisher": "Ondo Finance",
+      "sourceType": "official-product-page",
+      "checkedAt": "2026-09-15"
+    },
+    {
+      "id": "franklin-benji-sec",
+      "url": "https://www.sec.gov/Archives/edgar/data/1786958/000174177325002849/c497k.htm",
+      "publisher": "U.S. SEC EDGAR / Franklin Templeton filing",
+      "sourceType": "sec-summary-prospectus",
+      "checkedAt": "2026-09-15"
+    },
+    {
+      "id": "franklin-benji-product",
+      "url": "https://www.franklintempleton.com/investments/options/money-market-funds/products/29386/SINGLCLASS/franklin-on-chain-u-s-government-money-fund/FOBXX",
+      "publisher": "Franklin Templeton",
+      "sourceType": "official-product-page",
+      "checkedAt": "2026-09-15"
+    },
+    {
+      "id": "blackrock-buidl-sec",
+      "url": "https://www.sec.gov/Archives/edgar/data/2013810/000201439024000001/xslFormDX01/primary_doc.xml",
+      "publisher": "U.S. SEC EDGAR",
+      "sourceType": "sec-form-d",
+      "checkedAt": "2026-09-15"
+    },
+    {
+      "id": "securitize-buidl",
+      "url": "https://securitize.io/blackrock/buidl",
+      "publisher": "Securitize",
+      "sourceType": "official-platform-page",
+      "checkedAt": "2026-09-15"
+    },
+    {
+      "id": "blackrock-buidl-token-addresses",
+      "url": "https://www.blackrock.com/corporate/compliance/scams-and-fraud/blackrock-token-addresses",
+      "publisher": "BlackRock",
+      "sourceType": "official-token-address-page",
+      "checkedAt": "2026-09-15"
+    }
+  ],
+  "description": "Dated machine-readable research snapshot comparing tokenized Treasury and Treasury-backed products by legal claim, recordkeeper, custody, redemption, eligibility, yield basis and unresolved limits.",
+  "publisher": {
+    "name": "NexuAlpha",
+    "url": "https://nexualpha.com/",
+    "contactPoint": "mailto:contact@nexualpha.com"
+  },
+  "author": {
+    "name": "NexuAlpha Editorial Research",
+    "type": "Organization",
+    "url": "https://nexualpha.com/methodology"
+  },
+  "contact": "mailto:contact@nexualpha.com",
+  "correctionsContact": "mailto:contact@nexualpha.com",
+  "license": "https://nexualpha.com/methodology#data-license",
+  "licenseScope": "Access does not grant redistribution rights. NexuAlpha reserves rights in the original compilation, field definitions, normalized values and limitation notes in this dataset. Third-party source documents, names, trademarks and linked source materials remain subject to their own owners and terms. Contact contact@nexualpha.com for reuse, republication or licensing requests.",
+  "methodologyUrl": "https://nexualpha.com/methodology#data-license",
+  "createdAt": "2026-09-15",
+  "updatedAt": "2026-09-16",
+  "preferredCitation": "NexuAlpha Editorial Research. (2026). Wave48 tokenized Treasury rights and operations citation asset. NexuAlpha. https://nexualpha.com/research/wave48-tokenized-treasury-rights-ops.json"
+}

@@ -1,0 +1,28 @@
+{
+  "beforeHash": "4c950ca43150078f2d0d82bba1b90872779e18f1f141c082333a20c9a9734057",
+  "oldBlock": "        <details className=\"v3-compare-research-paths\" data-compare-task=\"research\">\n          <summary>\n            <strong>{compareSectionDisclosureCopy(locale, \"research\")}</strong>\n            <span>{compareLabels.curatedHint || text.verifyBefore}</span>\n            <b aria-hidden=\"true\">＋</b>\n          </summary>\n          <div className=\"v3-compare-research-paths__body\">\n            <CompareGoldMatrixNav currentSlugs={selected} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />\n            <OnsiteTelegramBotHandoff\n              canonicalPath={`/compare/${compareSlugKey}`}\n              locale={locale}\n              market={market}\n              product={product}\n              placement={`compare-onsite-bot-handoff-${compareSlugKey}`}\n            />\n            <ResearchComparison profiles={profiles} locale={locale} />\n          </div>\n        </details>\n",
+  "movedBlock": "            <CompareGoldMatrixNav currentSlugs={selected} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />\n            <OnsiteTelegramBotHandoff\n              canonicalPath={`/compare/${compareSlugKey}`}\n              locale={locale}\n              market={market}\n              product={product}\n              placement={`compare-onsite-bot-handoff-${compareSlugKey}`}\n            />\n",
+  "sourceAnchor": "        <summary id=\"compare-sources\">{text.verifyBefore}</summary>\n",
+  "researchCall": "            <ResearchComparison profiles={profiles} locale={locale} />\n",
+  "similarAnchor": "      <p>{text.ctaLocked}</p>\n    </details>\n  </main>;\n}\n\nexport function NotFoundPage",
+  "oldSummary": "<summary className=\"section-lead v3-similar-disclosure__summary\"><h2>{text.detailCompare}</h2>",
+  "newSummary": "<summary className=\"section-lead v3-similar-disclosure__summary\"><h2>{compareContinueResearchCopy[locale] || compareContinueResearchCopy.en}</h2>",
+  "dictionary": "\nconst compareContinueResearchCopy = {\n  \"en\": \"Continue research\",\n  \"zh-Hans\": \"继续研究\",\n  \"zh-Hant\": \"繼續研究\",\n  \"ja\": \"調査を続ける\",\n  \"ko\": \"조사 계속하기\",\n  \"tr\": \"Araştırmaya devam edin\",\n  \"ar\": \"متابعة البحث\",\n  \"es\": \"Continuar la investigación\",\n  \"pt-BR\": \"Continuar a pesquisa\",\n  \"fr\": \"Poursuivre la recherche\",\n  \"de\": \"Recherche fortsetzen\",\n  \"ru\": \"Продолжить исследование\",\n  \"id\": \"Lanjutkan penelitian\",\n  \"vi\": \"Tiếp tục nghiên cứu\",\n  \"it\": \"Continuare la ricerca\"\n};\n",
+  "labels": {
+    "en": "Continue research",
+    "zh-Hans": "继续研究",
+    "zh-Hant": "繼續研究",
+    "ja": "調査を続ける",
+    "ko": "조사 계속하기",
+    "tr": "Araştırmaya devam edin",
+    "ar": "متابعة البحث",
+    "es": "Continuar la investigación",
+    "pt-BR": "Continuar a pesquisa",
+    "fr": "Poursuivre la recherche",
+    "de": "Recherche fortsetzen",
+    "ru": "Продолжить исследование",
+    "id": "Lanjutkan penelitian",
+    "vi": "Tiếp tục nghiên cứu",
+    "it": "Continuare la ricerca"
+  }
+}

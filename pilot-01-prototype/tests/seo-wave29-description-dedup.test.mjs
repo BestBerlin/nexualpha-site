@@ -1,0 +1,110 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+import { computeRouteSeo } from "../src/data/seo-injection.js";
+import { parsePublicRoute } from "../src/data/locale-routing.js";
+import { normalizeNewsFeed } from "../src/data/news-feed-client.js";
+import { routeInventory, INDEXABLE_LOCALES } from "../scripts/generate-prerender-manifest.mjs";
+import { buildSearchPublicationEligibility, selectSitemapPublicationEntries } from "../scripts/sitemap-publication-policy.mjs";
+import worker from "../worker/index.js";
+
+const wave28Report = JSON.parse(await readFile(new URL("../../artifacts/seo/wave28-indexable-content-duplication-final.json", import.meta.url), "utf8"));
+const shell = '<!doctype html><html><head><title>Base</title><meta name="description" content="Base"></head><body><div id="root"></div></body></html>';
+const unsafeClaims = /\b(guaranteed|risk-free|real-time yield|live yield|safe route|route safety guaranteed|available in every region|regional availability guaranteed|private commission|佣金比例|返佣|稳赚|无风险)\b/i;
+const invitationTokens = /nexu888|11350287|LUCKX|CANDY007|INS898|luckybitcoin/i;
+const feedText = await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8");
+const articles = normalizeNewsFeed(JSON.parse(feedText));
+const publicationEligibility = buildSearchPublicationEligibility(
+  selectSitemapPublicationEntries(routeInventory(articles), articles, { allLocales: INDEXABLE_LOCALES }),
+);
+
+function urlForMember(member) {
+  const url = new URL(member.canonical);
+  return `${url.pathname}${url.search}` || "/";
+}
+
+function normalizePath(path) {
+  const url = new URL(`https://nexualpha.com${path}`);
+  const locale = url.searchParams.get("locale");
+  if (!locale) return path;
+  url.searchParams.delete("locale");
+  const prefix = locale.toLowerCase() === "en" ? "" : `/${locale.toLowerCase()}`;
+  return `${prefix}${url.pathname}${url.search}${url.hash}` || "/";
+}
+
+function expectedRobots(path) {
+  const url = new URL(`https://nexualpha.com${normalizePath(path)}`);
+  const route = parsePublicRoute(url.pathname, url.searchParams);
+  return publicationEligibility.has(route.contentPathname, route.locale) ? "index,follow" : "noindex,follow";
+}
+
+function assets() {
+  return {
+    async fetch(request) {
+      const path = new URL(request.url).pathname;
+      if (path === "/index.html") return new Response(shell, { headers: { "content-type": "text/html; charset=utf-8" } });
+      if (path === "/content/news-feed.json") return Response.json({ articles: [] });
+      if (path === "/prerender-manifest.json") return new Response("missing", { status: 404 });
+      return new Response("missing", { status: 404 });
+    },
+  };
+}
+
+async function workerMetadata(path) {
+  path = normalizePath(path);
+  const response = await worker.fetch(
+    new Request(`https://nexualpha.com${path}`, { headers: { accept: "text/html" } }),
+    { ASSETS: assets() },
+  );
+  const html = await response.text();
+  return {
+    status: response.status,
+    title: html.match(/<title[^>]*>([^<]*)<\/title>/)?.[1] || "",
+    description: html.match(/<meta name="description" content="([^"]*)"/)?.[1] || "",
+    robots: html.match(/<meta name="robots" content="([^"]*)"/)?.[1] || "",
+    canonical: html.match(/rel="canonical" href="([^"]+)"/)?.[1] || "",
+    html,
+  };
+}
+
+test("Wave29 eliminates the Wave28 duplicate description groups without indexability changes", async () => {
+  assert.equal(wave28Report.totals.duplicateDescriptionGroups, 20, "Wave29 test should track the authoritative Wave28 baseline");
+
+  for (const group of wave28Report.duplicateDescriptions) {
+    const current = [];
+    for (const member of group.members) {
+      const path = urlForMember(member);
+      const client = computeRouteSeo({ url: normalizePath(path) });
+      const served = await workerMetadata(path);
+      assert.equal(client.status, 200, path);
+      assert.equal(served.status, 200, path);
+      assert.equal(client.robots, expectedRobots(path), path);
+      assert.equal(served.robots, client.robots, path);
+      assert.equal(served.canonical, client.canonical, path);
+      assert.equal(served.description, client.description, path);
+      assert.doesNotMatch(`${client.title}\n${client.description}\n${served.html}`, unsafeClaims, path);
+      assert.doesNotMatch(`${client.description}`, invitationTokens, path);
+      if (client.robots === "index,follow") current.push(client.description);
+    }
+    assert.equal(new Set(current).size, current.length, `description group should be split: ${group.value}`);
+  }
+});
+
+test("Wave29 targeted zh-Hant descriptions are genuinely localized for high-value route types", async () => {
+  const cases = [
+    ["/?locale=zh-Hant", /獨立整理加密平台公開費率/],
+    ["/compare/binance-vs-bybit?locale=zh-Hant", /比較 Binance vs Bybit 的手續費/],
+    ["/compare/okx-vs-bybit?locale=zh-Hant", /比較 OKX vs Bybit 的手續費/],
+    ["/exchanges/backpack?locale=zh-Hant", /Backpack 手續費、產品、帳戶條件與官方來源/],
+    ["/exchanges/raydium?locale=zh-Hant", /Raydium 手續費、產品、帳戶條件與官方來源/],
+  ];
+
+  for (const [path, pattern] of cases) {
+    const client = computeRouteSeo({ url: normalizePath(path) });
+    const served = await workerMetadata(path);
+    assert.match(client.description, pattern, path);
+    assert.equal(served.description, client.description, path);
+    assert.equal(client.robots, expectedRobots(path), path);
+    assert.equal(served.robots, client.robots, path);
+  }
+});

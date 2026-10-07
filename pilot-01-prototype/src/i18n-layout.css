@@ -1,0 +1,12 @@
+.hero-copy h1{max-width:520px}
+
+@media(max-width:700px){.hero-copy h1{max-width:345px}}
+
+@media(max-width:700px){.market-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;overflow:visible}.market-tabs button{min-width:0;min-height:52px;padding:6px;font-size:13px;line-height:1.2;white-space:normal}}
+
+@media(min-width:701px){.desktop-language-select{display:none}.header-side{position:relative}.globe{display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;background:transparent;color:#e4e7ea;cursor:pointer}.locale-menu{position:absolute;z-index:10;top:38px;right:126px;display:grid;max-height:360px;overflow:auto;padding:6px;background:#091620;border:1px solid #40505c}.locale-menu button{min-width:160px;min-height:44px;border:0;background:transparent;color:#fff;text-align:left;font:inherit}.locale-menu button:hover,.locale-menu button:focus-visible{background:#193958}}
+
+.quiet,.actions a,.compare,.conditions{transition:color 180ms ease,border-color 180ms ease,transform 120ms ease}.quiet:hover,.actions a:hover,.compare:hover,.conditions:hover{color:#1f5fe8;border-color:#1f5fe8}.quiet:active,.actions a:active,.compare:active,.conditions:active{transform:translateY(1px)}
+@media(prefers-reduced-motion:reduce){.quiet,.actions a,.compare,.conditions{transition:none}.quiet:active,.actions a:active,.compare:active,.conditions:active{transform:none}}
+
+.opportunity-state-summary{display:flex;align-items:center;gap:12px;margin-top:18px}.current-state-chip{display:inline-flex;align-items:center;min-height:38px;padding:7px 11px;border:1px solid #1f5fe8;border-radius:5px;background:#e9efff;color:#1f5fe8;font-size:14px;font-weight:650}.scenario-toggle,.scenario-close{min-height:38px}.scenario-disclosure{margin-top:12px;padding-top:12px;border-top:1px solid #d4d0c8}.scenario-disclosure .state-picker{margin-top:0}.scenario-close{margin-top:12px}@media(max-width:700px){.opportunity-state-summary{align-items:stretch;flex-direction:column;gap:8px}.scenario-toggle{width:100%;text-align:left}.scenario-disclosure .state-picker{gap:8px}.scenario-disclosure .state-picker button{min-height:44px}}

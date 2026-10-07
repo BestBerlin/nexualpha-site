@@ -1,0 +1,102 @@
+{
+  "originalPath": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/state/article-ledger.jsonl",
+  "originalSHA256": "f48a10099b0c68c4cd0f400d84f86c5b02a3c6dc3d69209d1b683eede2969e87",
+  "selection": "batchId=20261005T0435 AND event=READABLE_PUBLICATION_CONFIRMED",
+  "records": [
+    {
+      "version": 1,
+      "eventId": "20261005T0435:cftc-sec-tokenized-collateral-vs-tokenized-securities-boundary-map:READABLE_PUBLICATION_CONFIRMED",
+      "event": "READABLE_PUBLICATION_CONFIRMED",
+      "searchState": "READABLE_UNREVIEWED",
+      "recordedAt": "2026-10-04T20:46:53.065Z",
+      "batchId": "20261005T0435",
+      "packageId": "cftc-sec-tokenized-collateral-securities-boundary-20261005",
+      "slug": "cftc-sec-tokenized-collateral-vs-tokenized-securities-boundary-map",
+      "status": "PUBLISHED",
+      "canonical": "https://nexualpha.com/news/cftc-sec-tokenized-collateral-vs-tokenized-securities-boundary-map",
+      "locales": [
+        "en",
+        "zh-Hans"
+      ],
+      "sitemapAction": "EXCLUDED_UNREVIEWED",
+      "indexNowAction": "NOT_SUBMITTED_UNREVIEWED",
+      "indexNowStatus": null
+    },
+    {
+      "version": 1,
+      "eventId": "20261005T0435:chainlink-ccip-cross-chain-token-standard-transfer-risk-map:READABLE_PUBLICATION_CONFIRMED",
+      "event": "READABLE_PUBLICATION_CONFIRMED",
+      "searchState": "READABLE_UNREVIEWED",
+      "recordedAt": "2026-10-04T20:46:53.065Z",
+      "batchId": "20261005T0435",
+      "packageId": "chainlink-ccip-cross-chain-token-standard-transfer-risk-20261005",
+      "slug": "chainlink-ccip-cross-chain-token-standard-transfer-risk-map",
+      "status": "PUBLISHED",
+      "canonical": "https://nexualpha.com/news/chainlink-ccip-cross-chain-token-standard-transfer-risk-map",
+      "locales": [
+        "en",
+        "zh-Hans"
+      ],
+      "sitemapAction": "EXCLUDED_UNREVIEWED",
+      "indexNowAction": "NOT_SUBMITTED_UNREVIEWED",
+      "indexNowStatus": null
+    },
+    {
+      "version": 1,
+      "eventId": "20261005T0435:coinbase-advanced-trade-create-order-auth-reconciliation-checklist:READABLE_PUBLICATION_CONFIRMED",
+      "event": "READABLE_PUBLICATION_CONFIRMED",
+      "searchState": "READABLE_UNREVIEWED",
+      "recordedAt": "2026-10-04T20:46:53.065Z",
+      "batchId": "20261005T0435",
+      "packageId": "coinbase-advanced-trade-create-order-auth-reconciliation-20261005",
+      "slug": "coinbase-advanced-trade-create-order-auth-reconciliation-checklist",
+      "status": "PUBLISHED",
+      "canonical": "https://nexualpha.com/news/coinbase-advanced-trade-create-order-auth-reconciliation-checklist",
+      "locales": [
+        "en",
+        "zh-Hans"
+      ],
+      "sitemapAction": "EXCLUDED_UNREVIEWED",
+      "indexNowAction": "NOT_SUBMITTED_UNREVIEWED",
+      "indexNowStatus": null
+    },
+    {
+      "version": 1,
+      "eventId": "20261005T0435:exchange-api-key-scope-ip-whitelist-expiry-disclosure-radar:READABLE_PUBLICATION_CONFIRMED",
+      "event": "READABLE_PUBLICATION_CONFIRMED",
+      "searchState": "READABLE_UNREVIEWED",
+      "recordedAt": "2026-10-04T20:46:53.065Z",
+      "batchId": "20261005T0435",
+      "packageId": "exchange-api-key-scope-ip-whitelist-expiry-radar-20261005",
+      "slug": "exchange-api-key-scope-ip-whitelist-expiry-disclosure-radar",
+      "status": "PUBLISHED",
+      "canonical": "https://nexualpha.com/news/exchange-api-key-scope-ip-whitelist-expiry-disclosure-radar",
+      "locales": [
+        "en",
+        "zh-Hans"
+      ],
+      "sitemapAction": "EXCLUDED_UNREVIEWED",
+      "indexNowAction": "NOT_SUBMITTED_UNREVIEWED",
+      "indexNowStatus": null
+    },
+    {
+      "version": 1,
+      "eventId": "20261005T0435:how-to-onboard-uniswap-v3-liquidity-wallet-mint-and-fee-controls:READABLE_PUBLICATION_CONFIRMED",
+      "event": "READABLE_PUBLICATION_CONFIRMED",
+      "searchState": "READABLE_UNREVIEWED",
+      "recordedAt": "2026-10-04T20:46:53.065Z",
+      "batchId": "20261005T0435",
+      "packageId": "uniswap-v3-liquidity-wallet-onboarding-20261005",
+      "slug": "how-to-onboard-uniswap-v3-liquidity-wallet-mint-and-fee-controls",
+      "status": "PUBLISHED",
+      "canonical": "https://nexualpha.com/news/how-to-onboard-uniswap-v3-liquidity-wallet-mint-and-fee-controls",
+      "locales": [
+        "en",
+        "zh-Hans"
+      ],
+      "sitemapAction": "EXCLUDED_UNREVIEWED",
+      "indexNowAction": "NOT_SUBMITTED_UNREVIEWED",
+      "indexNowStatus": null
+    }
+  ]
+}

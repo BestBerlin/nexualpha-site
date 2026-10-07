@@ -1,0 +1,17 @@
+{
+  "name": "NexuAlpha Perp DEX Cost-Field Dictionary",
+  "version": "2026-09-15",
+  "scope": "A comparison schema for costs and risk mechanics. It does not publish live rates or recommend a venue.",
+  "fields": [
+    { "id": "trading-fee", "label": "Trading fee", "record": ["maker rate", "taker rate", "volume window", "account tier", "product scope"] },
+    { "id": "funding", "label": "Funding payment", "record": ["direction", "interval", "formula", "cap", "price input"] },
+    { "id": "spread-slippage", "label": "Spread and slippage", "record": ["notional size", "timestamp", "bid-ask spread", "impact price", "market state"] },
+    { "id": "collateral-settlement", "label": "Collateral and settlement asset", "record": ["accepted collateral", "haircut or LTV", "settlement asset", "withdrawal route"] },
+    { "id": "margin", "label": "Margin model", "record": ["account mode", "initial margin", "maintenance margin", "market tier", "position-size effect"] },
+    { "id": "oracle-mark", "label": "Oracle, index and mark price", "record": ["source", "update method", "funding use", "PnL use", "liquidation use"] },
+    { "id": "liquidation", "label": "Liquidation and backstop", "record": ["trigger price", "maintenance rule", "penalty", "partial-close behavior", "backstop", "deleveraging"] },
+    { "id": "transfer-network", "label": "Transfer and network cost", "record": ["network fee", "bridge step", "withdrawal fee", "settlement delay", "exit route"] }
+  ],
+  "canonical": "https://nexualpha.com/topics/derivatives#perp-cost-field-dictionary",
+  "methodology": "https://nexualpha.com/methodology"
+}

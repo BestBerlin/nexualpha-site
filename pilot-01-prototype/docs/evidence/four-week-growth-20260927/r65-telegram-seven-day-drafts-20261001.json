@@ -1,0 +1,153 @@
+{
+  "createdAt": "2026-10-01T15:29:42.557907+00:00",
+  "status": "draft_only",
+  "productionEvidence": "r64-final-release-20261001.json",
+  "productionBuildId": "3.0-20261001T-R64-HYDRATION-CONTEXT-OKX-WINDOW",
+  "window": {
+    "start": "2026-10-01",
+    "end": "2026-10-07",
+    "meaning": "seven-day manual review window, not send schedule"
+  },
+  "calendar": [
+    {
+      "date": "2026-10-01",
+      "draftIds": [
+        "okx-historical-window"
+      ],
+      "state": "pending_manual_review"
+    },
+    {
+      "date": "2026-10-02",
+      "draftIds": [],
+      "state": "no_new_draft_review_or_observe_only"
+    },
+    {
+      "date": "2026-10-03",
+      "draftIds": [
+        "hyperliquid-fees"
+      ],
+      "state": "pending_manual_review"
+    },
+    {
+      "date": "2026-10-04",
+      "draftIds": [],
+      "state": "no_new_draft_review_or_observe_only"
+    },
+    {
+      "date": "2026-10-05",
+      "draftIds": [
+        "uniswap-testnet"
+      ],
+      "state": "pending_manual_review"
+    },
+    {
+      "date": "2026-10-06",
+      "draftIds": [],
+      "state": "no_new_draft_review_or_observe_only"
+    },
+    {
+      "date": "2026-10-07",
+      "draftIds": [],
+      "state": "no_new_draft_review_or_observe_only"
+    }
+  ],
+  "drafts": [
+    {
+      "id": "okx-historical-window",
+      "reviewTargetDate": "2026-10-01",
+      "locale": "en",
+      "market": "GLOBAL",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "firstOnsiteUrl": "https://nexualpha.com/news/okx-usd-to-usdc-spot-pair-migration?locale=en&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r65_okx_historical_window",
+      "draftCopy": "OKX migration: check current account state against the historical schedule\n\nThe announced September 23 launch and September 30 delisting windows are historical dates. They do not confirm account-specific completion. Log in to check affected pairs, current orders, margin, bots, API identifiers and quote-currency settings. NexuAlpha explains the dated announcement and current-check boundaries.\n\nhttps://nexualpha.com/news/okx-usd-to-usdc-spot-pair-migration?locale=en&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r65_okx_historical_window",
+      "sourceEvidence": [
+        {
+          "url": "https://www.okx.com/en-us/help/okx-to-migrate-usd-spot-trading-pairs",
+          "originalAccessedAt": "2026-09-15T06:24:00Z",
+          "scope": "migration announcement",
+          "boundedRecheckDate": "2026-10-01"
+        },
+        {
+          "url": "https://www.okx.com/en-us/help/changes-to-usd-spot-trading-pairs-sg",
+          "originalAccessedAt": "2026-09-15T06:24:00Z",
+          "scope": "migration announcement",
+          "boundedRecheckDate": "2026-10-01",
+          "recheckEvidenceUrl": "https://www.okx.com/en-sg/help/changes-to-usd-spot-trading-pairs-sg",
+          "originalUrlReadStatus": "web_tool_unreadable",
+          "recheckEvidence": "r64-okx-historical-window-implementation-20261001.md"
+        }
+      ],
+      "evidenceBoundary": "Two migration announcements rechecked October 1; all six sources were not newly reviewed. Country and account applicability remain conditional.",
+      "requiredReview": [
+        "Live R64 landing and locale",
+        "Official source freshness and regional/account scope",
+        "English editorial approval",
+        "Explicit thread publication authorization"
+      ],
+      "botDeepLink": null
+    },
+    {
+      "id": "hyperliquid-fees",
+      "reviewTargetDate": "2026-10-03",
+      "locale": "en",
+      "market": "GLOBAL",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "firstOnsiteUrl": "https://nexualpha.com/exchanges/hyperliquid?locale=en&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r65_hyperliquid_fees",
+      "draftCopy": "Hyperliquid fees: trading fees and funding are separate\n\nThe official fee table checked October 1 lists Tier 0 base perp maker/taker rates of 0.015%/0.045%, and spot maker/taker rates of 0.040%/0.070%. These dated base rates are not live quotes or guaranteed account rates. A hypothetical USD 1,000 single-side perp taker fill at the base rate costs USD 0.45 before discounts, funding, spread/slippage and transfers. Compare the assumptions on NexuAlpha before deciding.\n\nhttps://nexualpha.com/exchanges/hyperliquid?locale=en&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r65_hyperliquid_fees",
+      "sourceEvidence": [
+        {
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+          "boundedRecheckDate": "2026-10-01",
+          "scope": "fee-table only"
+        }
+      ],
+      "evidenceBoundary": "Only fee-table check is fresh; remaining venue review remains September 22. No guaranteed discount, product access or execution outcome.",
+      "requiredReview": [
+        "Live R64 landing and locale",
+        "Official source freshness and regional/account scope",
+        "English editorial approval",
+        "Explicit thread publication authorization"
+      ],
+      "botDeepLink": null
+    },
+    {
+      "id": "uniswap-testnet",
+      "reviewTargetDate": "2026-10-05",
+      "locale": "en",
+      "market": "GLOBAL",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "firstOnsiteUrl": "https://nexualpha.com/exchanges/uniswap?locale=en&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r65_uniswap_testnet",
+      "draftCopy": "Uniswap testnets: practice mode and API support are different\n\nTest coins have no real-world value. Uniswap Wallet/Extension practice uses Settings, Advanced, Testnet mode; these are not ordinary web-interface instructions. The developer API support table has a separate scope. Check the documented differences on NexuAlpha. Before mainnet use, verify official app, chain, token contract, approval or Permit2 spender, gas asset and final wallet transaction preview. Testnet support does not prove mainnet liquidity or token safety.\n\nhttps://nexualpha.com/exchanges/uniswap?locale=en&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r65_uniswap_testnet",
+      "sourceEvidence": [
+        {
+          "url": "https://support.uniswap.org/hc/en-us/articles/39884112333197-How-do-I-use-testnets-on-Uniswap",
+          "boundedRecheckDate": "2026-10-01",
+          "scope": "Wallet/Extension practice guidance"
+        },
+        {
+          "url": "https://developers.uniswap.org/docs/trading/swapping-api/supported-chains",
+          "boundedRecheckDate": "2026-10-01",
+          "scope": "documented API versus web support"
+        }
+      ],
+      "evidenceBoundary": "Documented support, not browser-observed ordinary web toggle. Remaining full venue source review remains September 22.",
+      "requiredReview": [
+        "Live R64 landing and locale",
+        "Official source freshness and regional/account scope",
+        "English editorial approval",
+        "Explicit thread publication authorization"
+      ],
+      "botDeepLink": null
+    }
+  ],
+  "sendingEnabled": false,
+  "apiCalls": [],
+  "registrationResults": null,
+  "growthResults": null
+}

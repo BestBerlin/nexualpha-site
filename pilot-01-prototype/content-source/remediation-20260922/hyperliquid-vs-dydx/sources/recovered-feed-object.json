@@ -1,0 +1,300 @@
+{
+  "slug": "hyperliquid-vs-dydx",
+  "status": "PUBLISHED",
+  "category": "research",
+  "categoryName": {
+    "en": "Perp DEX Comparison",
+    "zh-Hans": "永续 DEX 对比"
+  },
+  "publishedAt": "2026-09-07T11:43:01.000Z",
+  "updatedAt": "2026-09-15T12:15:00.000Z",
+  "readTime": "15 min",
+  "author": "NexuAlpha Research Desk",
+  "title": {
+    "en": "Hyperliquid vs dYdX: Fees, Funding, Margin and Liquidation Checks",
+    "zh-Hans": "Hyperliquid vs dYdX：永续合约 DEX 的费用、资金费率、保证金与强平机制对比",
+    "ja": "HyperliquidとdYdX：Perpetual DEXの手数料、Funding、証拠金、清算",
+    "ko": "Hyperliquid와 dYdX: Perpetual DEX 수수료, 펀딩, 마진과 청산",
+    "tr": "Hyperliquid ve dYdX: Perpetual DEX ücretleri, funding, marjin ve likidasyon",
+    "es": "Hyperliquid frente a dYdX: comisiones, funding, margen y liquidación en Perp DEX",
+    "pt-BR": "Hyperliquid vs. dYdX: taxas, funding, margem e liquidação em Perp DEX",
+    "fr": "Hyperliquid et dYdX : frais, funding, marge et liquidation sur les Perp DEX",
+    "de": "Hyperliquid vs. dYdX: Gebühren, Funding, Margin und Liquidation bei Perp DEX",
+    "ar": "Hyperliquid وdYdX: رسوم Perp DEX والتمويل والهامش والتصفية",
+    "ru": "Hyperliquid и dYdX: комиссии Perp DEX, funding, маржа и ликвидация",
+    "id": "Hyperliquid vs dYdX: biaya, funding, margin, dan likuidasi Perp DEX",
+    "vi": "Hyperliquid và dYdX: phí Perp DEX, funding, margin và thanh lý",
+    "it": "Hyperliquid e dYdX: commissioni Perp DEX, funding, margine e liquidazione"
+  },
+  "summary": {
+    "en": "This Hyperliquid vs dYdX news article is a dated source-reading explainer for crypto perpetual mechanics: fees, funding, collateral path, account mode, oracle input, liquidation process, backstop design, wallet route and regional-access unknowns.",
+    "zh-Hans": "一篇基于来源的 Hyperliquid vs dYdX 解释型文章，帮助永续 DEX 交易者在使用决策清单前理解费用、资金费率、保证金、强平设计、预言机输入与未知执行风险。",
+    "ja": "手数料、Funding、証拠金、清算、オラクルと主要な不明点を出典付きで比較します。",
+    "ko": "수수료, 펀딩, 마진, 청산 메커니즘, 오라클과 주요 미확인 사항을 출처와 함께 비교합니다.",
+    "tr": "Perpetual DEX yatırımcıları için ücret, funding, marjin, likidasyon, oracle ve temel bilinmeyenleri kaynaklarla karşılaştırır.",
+    "es": "Comparación basada en fuentes para traders de Perp DEX sobre comisiones, funding, margen, liquidación, oráculos y principales incógnitas.",
+    "pt-BR": "Comparação baseada em fontes para traders de Perp DEX sobre taxas, funding, margem, liquidação, oráculos e principais pontos desconhecidos.",
+    "fr": "Comparaison sourcée pour les traders de Perp DEX sur les frais, funding, marge, liquidation, oracles et inconnues clés.",
+    "de": "Quellenbasierter Vergleich für Perp-DEX-Trader zu Gebühren, Funding, Margin, Liquidationsmechanik, Oracles und offenen Fragen.",
+    "ar": "مقارنة قائمة على المصادر للمتداولين تشمل الرسوم والتمويل والهامش وآليات التصفية والأوراكل وأهم النقاط المجهولة.",
+    "ru": "Сравнение на основе источников: комиссии, funding, маржа, ликвидация, оракулы и ключевые неизвестные.",
+    "id": "Perbandingan berbasis sumber tentang biaya, funding, margin, mekanisme likuidasi, oracle, dan hal-hal yang belum jelas.",
+    "vi": "So sánh dựa trên nguồn về phí, funding, margin, cơ chế thanh lý, oracle và các điểm chưa rõ.",
+    "it": "Confronto basato su fonti su commissioni, funding, margine, meccanismi di liquidazione, oracle e principali incognite."
+  },
+  "content": {
+    "en": "## Direct answer\n\nHyperliquid and dYdX are both perpetual-focused DEX venues, but they should not be compared with a lazy \"which one wins?\" frame. The better question is: which risk engine, fee model, funding process and liquidation design can you understand well enough before you trade?\n\nHyperliquid's public docs are unusually explicit about fee tables, HYPE staking discounts, hourly funding, HyperCore margin state, order-book-first liquidation attempts and the liquidator vault backstop. dYdX's Help Center is explicit about a maker-taker model, trailing 30-day taker-volume fee logic, governance-adjustable funding parameters, validator-driven oracle prices, liquidity tiers, protocol-generated liquidation matches and insurance-fund handling. Neither source set, by itself, proves which venue has better real-time execution, deeper liquidity across every market, broader legal availability, or stronger security outcomes.\n\n## Page role: news explainer, not the comparison page\n\nThis article is the dated source-reading explainer for Hyperliquid and dYdX mechanics. Use it to understand the source trail, terminology and open unknowns. Use the Hyperliquid vs dYdX comparison page when the task is to choose a route or compare current account, wallet, fee, funding, collateral and liquidation checks side by side.\n\n## Decision map by trader type\n\n| Trader type | Hyperliquid questions | dYdX questions | What remains unproven by docs alone |\n| --- | --- | --- | --- |\n| Fee-sensitive taker | Which fee tier and staking discount applies? | Which 30-day taker-volume tier applies? | The user's realized spread, slippage and account-specific fee. |\n| Funding-sensitive holder | How often funding is charged and how the rate is derived. | Which funding parameters and governance settings apply. | Future funding path and position-level outcome. |\n| Liquidation-risk trader | How margin state, oracle inputs and liquidation attempts work. | How oracle prices, liquidity tiers and protocol matches work. | Stress-market execution and exact fill quality. |\n| Market maker | Maker rebates, order-book behavior and risk controls. | Maker fee tier, liquidity rules and API behavior. | Depth, uptime and strategy profitability. |\n| Region-constrained user | Whether the official interface and terms permit access. | Whether the official interface and terms permit access. | Personal eligibility, KYC result and legal availability. |\n\nNexuAlpha's comparison is deliberately conditional. It translates official mechanics into a decision checklist, but it does not publish a winner, private fee promise, jurisdictional access verdict or liquidation guarantee. Evidence reviewed: September 14, 2026.\n\n## Search intent shortcut: crypto perpetual platform\n\nIf you searched for \"crypto perpetual platform\" or \"Hyperliquid vs dYdX fees,\" start with the mechanics that can change the outcome of a real trade. Compare the maker/taker fee tier, funding interval, collateral asset, margin mode, oracle source, liquidation path, official app domain and wallet signing route. A low headline fee is not enough if the account, wallet, market or jurisdiction path is not available to the user.\n\nFor answer-engine extraction, the safest comparison is conditional: Hyperliquid and dYdX can both be useful Perp DEX research routes, but the right next step depends on whether the user needs self-custody access, API trading, lower taker cost, clearer liquidation documentation, or a better-understood funding process. Public docs do not prove live liquidity, personal eligibility or realized slippage.\n\n## 60-second pre-trade checklist\n\n| Decision field | Hyperliquid question | dYdX question | Keep unknown until verified |\n| --- | --- | --- | --- |\n| Fees | Which rolling-volume tier and discount applies? | Which trailing-volume tier applies? | Realized spread and account-specific cost. |\n| Funding | How is funding derived and charged? | Which governance-adjustable funding parameters apply? | Future funding path for a specific position. |\n| Margin | What collateral and account mode are active? | Which margin and collateral rules apply to the market? | Private account settings and liquidation distance. |\n| Liquidation | What oracle and maintenance checks trigger action? | What oracle, liquidity tier and protocol match rules apply? | Stress-market fill quality and downtime behavior. |\n| Access | Can the official interface and wallet route be used from this context? | Can the official interface and wallet route be used from this context? | Region, account, API and legal availability. |\n\n## What is being compared\n\nThis article compares the public mechanics a trader can verify before using either venue:\n\n- How fees are tiered and what variables affect the quoted fee.\n- How funding is calculated and charged.\n- What margin state the venue tracks.\n- Which price inputs influence liquidation and trigger checks.\n- What happens when a position falls below maintenance requirements.\n- Which facts remain unknown from public documentation alone.\n\nThe point is not to crown a universal winner. Perpetual venues are systems. A trader who wants low headline fees, a trader who wants governance-mediated risk parameters, a market maker, a long-tail alt trader and a user in a restricted jurisdiction are not asking the same question.\n\n## Quick comparison table\n\n| Dimension | Hyperliquid | dYdX |\n|---|---|---|\n| Primary product scope in this article | Perpetuals on HyperCore, with spot and HIP-3 notes only where fee mechanics require them | Perpetual trading on dYdX Chain as described by dYdX Help Center |\n| Fee model | Rolling 14-day weighted volume determines fee tier; perps and spot have separate schedules; HYPE staking tiers can discount trading fees | Maker-taker model; taker fees are described as based on trailing 30-day USD volume across perpetual order books |\n| Entry-level public fee detail | Hyperliquid publishes perps and spot tables in the docs, including base tier values and staking-tier columns | Help Center explains the mechanism and points users to the fee schedule/current position in the interface or linked docs |\n| Funding interval | Paid every hour; the 8-hour formula is applied as one eighth each hour | Funding is described as hourly, based on samples over the prior hour under default v4 software assumptions |\n| Funding control variables | Premium against oracle price plus an interest component; docs state a 4% hourly cap | Premium samples, market parameters and governance-controllable settings |\n| Margin model | Clearinghouse manages perps margin state per address; cross margin is default and isolated margin is supported | Liquidity tiers and margin fractions define market risk parameters; cross and isolated liquidation calculations are documented |\n| Oracle and mark price | Validators publish spot oracle prices every 3 seconds; oracle is used in funding and as part of mark price for margining and liquidations | Validators determine aggregated oracle prices; oracle prices are used for collateralization, liquidation decisions and triggerable orders |\n| Liquidation path | If equity falls below maintenance margin, liquidation attempts route through market orders on the book; backstop liquidation can transfer risk to the liquidator vault | If account value falls below maintenance margin requirement, protocol-generated liquidation matches use a calculated fillable price; profits/losses interact with the insurance fund |\n| What this article does not verify | Live depth, fill quality, security superiority, user eligibility, or real-time operational status | Live depth, fill quality, security superiority, user eligibility, or real-time operational status |\n\n## Fees: two different clocks\n\nHyperliquid's fee page uses a 14-day weighted-volume system. Perp and spot volume count together for tiering, but spot volume counts double in the stated weighted-volume formula. The same page separates perp and spot fee schedules, shows staking tiers from Wood through Diamond, and explains that maker rebates are paid continuously to the trading wallet. It also includes special treatment for HIP-3 perps, aligned quote assets and growth mode.\n\nThat level of public table detail is useful for traders who model costs before opening an account-sized strategy. You can see the baseline, the tier thresholds, how HYPE staking changes the rate columns, and where edge cases may apply. It still does not tell you your full cost of trading. Slippage, funding, liquidation exposure, withdrawal or bridge costs, jurisdictional onboarding and wallet operations sit outside a simple maker-taker table.\n\ndYdX's Help Center frames fees around a maker-taker model. Maker orders rest on the order book and add depth; taker orders cross existing maker orders and remove liquidity. The Help Center states that taker fees are based on total USD trading volume over a trailing 30-day period across perpetual order books. It also says filled orders are charged, cancelled open orders are not charged by default, and trade fees by default accrue to validators and stakers, subject to governance adjustment.\n\nThe practical difference is the measurement window and the level of public fee-table extractability in the source set used here. Hyperliquid's docs make the fee grid easy to cite from the fetched page. dYdX's Help Center explains the model and points to where current fee tier information is located. A careful comparison should not fill that gap by inventing rates. If a user needs exact current dYdX tier values, the right next check is the linked official fee schedule or the live interface.\n\n## Funding: both are trying to pull perps back toward an index\n\nFunding is the carry mechanism that keeps a perpetual contract from drifting too far from its reference price. Both venues use funding to push the perp price back toward the underlying market, but the details matter.\n\nHyperliquid states that funding is paid hourly. Its formula is built around a premium index and an interest-rate component, with the premium sampled every 5 seconds and averaged over the hour. The docs also state that the funding payment uses position size, oracle price and funding rate; specifically, the oracle price, not the mark price, converts position size into notional value. Hyperliquid also documents a 4% per-hour funding cap.\n\ndYdX describes funding under default v4 software assumptions. It states that perpetual contracts have no expiry, so funding payments incentivize perp prices to trade close to the underlying. The Help Center gives a premium formula based on impact bid, impact ask and index price. It also describes a one-minute sample period and hourly funding tick in which the average of prior samples becomes the funding rate. Governance can adjust multiple funding parameters.\n\nFor a trader, this is not just academic. Funding affects realized P&L while a position remains open. A low entry fee can be overwhelmed by holding a position through repeated adverse funding intervals. A comparison page that ignores funding is really comparing order placement, not trading economics.\n\n## Margin state: address-level state versus tiered market parameters\n\nHyperliquid's clearinghouse page says the perps clearinghouse is part of HyperCore execution state and manages each address's perp margin state, including balance and positions. Deposits are first credited to cross margin balance, positions are opened in cross margin by default, and isolated margin is supported when the user allocates margin to a specific position.\n\nThat design makes the cross-versus-isolated decision central. Cross margin may use more account collateral as buffer, while isolated margin separates the liquidation risk of one position from the rest of the account. Hyperliquid's liquidation docs also explain that cross liquidation and isolated liquidation behave differently during backstop liquidation: cross positions and cross margin can transfer together, while an isolated position and its isolated margin can transfer without touching the user's cross margin and positions.\n\ndYdX approaches the public explanation through liquidity tiers and margin fractions. Its Help Center says liquidity tiers group markets of similar size and liquidity into standardized risk parameters. Those tiers affect initial margin fraction, maintenance margin fraction and impact notional. The Help Center also describes a safety tier where initial margin fraction can move to 100%, meaning full notional collateral is required.\n\nThe difference in documentation emphasis is worth noticing. Hyperliquid's docs read like a direct explanation of account state and liquidation flow. dYdX's Help Center reads like a parameterized protocol model: tiers, governance, margins, oracle prices and fillable prices.\n\n## Oracles and liquidation price: do not trade off a single screen number\n\nHyperliquid validators publish spot oracle prices for each perp asset every 3 seconds. The oracle is used to compute funding rates and is part of the mark price used for margining, liquidations and TP/SL triggers. The docs describe the oracle as a weighted median of several exchange spot mid prices for many assets, with validator submissions then weighted by stake for the final oracle price used by the clearinghouse.\n\nHyperliquid's liquidation page adds a second warning: liquidations use mark price, which combines external CEX prices with Hyperliquid's book state. During volatility or on highly leveraged positions, mark price may differ meaningfully from visible book price. The page advises using the exact formula for precise liquidation monitoring.\n\ndYdX says oracle prices are aggregated prices used to keep accounts collateralized after trades, determine liquidation, and trigger stop-limit or take-profit orders. Validators calculate and verify oracle prices, and the block proposer suggests price changes that other validators accept or reject under rules intended to prevent misuse or extreme movement.\n\nFor the user, the point is plain: the number on the trading screen is not the whole risk engine. Oracle calculation, mark-price construction, margin tier and liquidation path all affect the actual point at which the system forces action.\n\n## Liquidations: order book first versus protocol-generated matches\n\nHyperliquid liquidation starts when account equity falls below maintenance margin. The docs say positions are first attempted to be closed by sending market orders to the book. If that closes enough risk, the user keeps remaining collateral. If the account falls below two thirds of maintenance margin without successful liquidation through the book, a backstop liquidation can happen through the liquidator vault. The docs also state there is no clearance fee on liquidations, and that most liquidation flow is sent directly to the order book.\n\ndYdX's Help Center states that accounts whose total value falls below maintenance margin requirement may have positions automatically closed by the liquidation engine. The closing mechanism is a protocol-generated liquidation match using a calculated fillable price as the limit price against order-book liquidity. Profits or losses from liquidation are taken on by the insurance fund. The Help Center also says the liquidation engine attempts to leave funds in accounts of positive value after a maximum liquidation penalty of 1.5%, subject to governance adjustment. The same official documentation warns that up to the entire remaining value of an account may be taken as a liquidation penalty and transferred to the insurance fund; the 1.5% parameter and outcome depend on the default software, account state and governance changes.\n\nNeither design should be described as harmless. Liquidation is forced execution in a stressed state. The useful comparison is whether you understand the path:\n\n- What price determines eligibility?\n- Does the venue use oracle price, mark price, book price, or a calculated fillable price?\n- Is there a partial liquidation route?\n- What fund or vault absorbs shortfall or backstop risk?\n- What happens to remaining collateral?\n- Which parameters can governance or market configuration change?\n\nIf those answers are unclear for the market you are trading, the right position size is probably smaller.\n\n## Questions to verify before choosing a venue\n\nIf you care about fee tiers, verify the current table, volume window and any account-specific discount. If you care about margin isolation, compare the exact cross and isolated liquidation boundaries for the intended market. If you care about funding, inspect the current formula, samples, caps and governance-controlled parameters. Developers should also verify API behavior, source dates and any differences between documentation and the live interface. These checks do not establish that either venue is suitable for a person or jurisdiction.\n\n## Verification notes and limitations\n\nEvidence was checked on 2026-09-07 UTC from official Hyperliquid Docs and dYdX Help Center pages. Hyperliquid pages were read through their markdown endpoints. dYdX pages were read through the indexed Help Center pages.\n\nThis article intentionally excludes unsupported claims:\n\n- No claim that Hyperliquid has better liquidity than dYdX across all markets.\n- No claim that dYdX is safer than Hyperliquid, or the reverse.\n- No claim that either venue is available in a user's country.\n- No claim that current live execution quality matches the public docs.\n- No affiliate or commercial ranking link.\n\nThose exclusions make the piece less flashy, but much more usable. A comparison that does not separate verified mechanics from market rumor is not research; it is decoration.\n\n## FAQ\n\n### Is Hyperliquid cheaper than dYdX?\n\nNot universally. Hyperliquid publishes detailed fee tables with 14-day weighted-volume tiers and HYPE staking discounts. dYdX documents a maker-taker model and trailing 30-day taker-volume basis, with current fee information available through official surfaces. Your real cost also includes funding, slippage, market depth, wallet operations and liquidation risk.\n\n### Which venue has better liquidation mechanics?\n\nThe official documents describe different liquidation designs, not a simple quality ranking. Hyperliquid first attempts liquidation through market orders on the book and can use the liquidator vault as a backstop. dYdX uses protocol-generated liquidation matches and an insurance-fund mechanism. Which is preferable depends on the market, volatility, position size and the user's risk controls.\n\n### Do both venues use oracle prices?\n\nYes. Hyperliquid validators publish oracle prices that feed funding and mark-price-related risk checks. dYdX validators determine aggregated oracle prices used for collateralization, liquidation and triggerable order types. The exact oracle path matters because a visible last trade price may not be the decisive risk price.\n\n### Should beginners use cross margin or isolated margin?\n\nThis article does not choose a margin mode for beginners. On Hyperliquid, cross and isolated positions have different collateral and backstop-liquidation boundaries; dYdX documents its own market and account calculations. Read the current venue-specific rules, confirm which balance can be affected, and do not infer one universal beginner setting.\n\n### Where does NexuAlpha connect this research?\n\nThis page connects to NexuAlpha's internal profiles for Hyperliquid and dYdX. Future supporting coverage can include a perpetual DEX fee guide, a funding-rate explainer, a liquidation-risk calculator article and a jurisdiction availability checklist. Those additions should be linked only after their own evidence and publishing checks pass.\n\n## Editorial disclosure\n\nNexuAlpha compares venues from public evidence and separates verified facts from unknowns. This article contains no investment recommendation, no affiliate destination and no claim that either venue is suitable for every user.",
+    "zh-Hans": "## 直接结论\n\nHyperliquid 和 dYdX 都是以永续合约为核心的 DEX 交易场景，但它们不应该被粗暴地写成“谁赢谁输”。更专业的问题应该是：你能不能在交易前看清它的费用时钟、资金费率算法、保证金状态、预言机输入以及强平路径。\n\n从本次官方来源看，Hyperliquid 的公开文档对费用表、HYPE 质押折扣、小时级资金费率、HyperCore 保证金状态、优先打到订单簿的强平尝试，以及 liquidator vault 兜底机制写得比较细。dYdX Help Center 则明确说明了 maker-taker 费用模型、基于过去 30 天永续订单簿美元成交量的 taker 费用逻辑、可由治理调整的资金费率参数、验证者参与的预言机价格、流动性等级、协议生成的强平撮合以及保险基金处理。仅凭这组来源，不能证明哪一边所有市场的实时流动性更深、成交质量更好、安全结果更强，或者在哪些司法辖区一定可用。\n\n## 按交易者类型拆解决策\n\n| 交易者类型 | Hyperliquid 要问什么 | dYdX 要问什么 | 仅靠文档仍无法证明什么 |\n| --- | --- | --- | --- |\n| 关注 taker 成本 | 适用哪个费率档位和质押折扣？ | 适用哪个 30 天 taker 成交量档位？ | 用户真实点差、滑点和账户级费率。 |\n| 关注资金费率 | 资金费率多久收取、如何形成？ | 适用哪些资金费率参数和治理设置？ | 未来资金费率路径和仓位级结果。 |\n| 关注强平风险 | 保证金状态、预言机输入和强平尝试如何工作？ | 预言机价格、流动性层级和协议撮合如何工作？ | 压力行情执行与具体成交质量。 |\n| 做市或高频用户 | maker 返还、订单簿行为和风控如何设计？ | maker 费率档、流动性规则和 API 行为如何设计？ | 深度、可用性和策略收益。 |\n| 受地区限制用户 | 官方界面与条款是否允许访问？ | 官方界面与条款是否允许访问？ | 个人资格、KYC 结果和法律可用性。 |\n\nNexuAlpha 的对比是条件式的：它把官方机制翻译成决策清单，但不发布赢家、不承诺私人费率、不判断地区准入，也不保证强平结果。证据复核日期：2026 年 9 月 14 日。\n\n## 本文到底比较什么\n\n这篇文章只比较交易者在使用前能从官方资料里验证的机制：\n\n- 费用如何分层，哪些变量会影响费率。\n- 资金费率如何计算和收取。\n- 保证金状态如何被系统管理。\n- 哪些价格输入会影响强平和触发单。\n- 当仓位跌破维持保证金要求时，系统如何处理。\n- 哪些问题仍然无法从公开文档中确认。\n\n这不是一篇营销榜单，也不是给某个平台站台。永续合约交易所本质上是一套风险引擎。低手续费用户、做市用户、长尾币用户、治理参与者、受地域限制的用户，以及只想小额试用的用户，问的不是同一个问题。\n\n## 快速对比表\n\n| 维度 | Hyperliquid | dYdX |\n|---|---|---|\n| 本文覆盖范围 | HyperCore 上的永续合约；只有费用机制需要时才提 spot 和 HIP-3 | dYdX Help Center 描述的 dYdX Chain 永续合约交易 |\n| 费用模型 | 滚动 14 天加权成交量决定费用等级；永续和现货有不同费率表；HYPE 质押等级可带来交易费折扣 | maker-taker 模型；taker 费用按过去 30 天永续订单簿总美元成交量计算 |\n| 公开费率可读性 | 文档内直接给出 perps 与 spot 表格，包括基础层级、成交量门槛和质押折扣列 | Help Center 解释机制，并指向前端或官方链接查看当前费率与用户等级 |\n| 资金费率 | 每小时支付；8 小时公式按每小时八分之一执行 | Help Center 描述为每小时收取，基于上一小时样本计算，参数受治理影响 |\n| 资金费率变量 | 相对 oracle price 的 premium，加上固定 interest component；文档列出每小时 cap | premium 样本、impact bid/ask、index price、市场参数以及治理可调参数 |\n| 保证金 | clearinghouse 管理每个地址的永续保证金状态；cross margin 默认，支持 isolated margin | 流动性等级和保证金比例定义市场风险参数；文档描述了 cross 与 isolated 的强平价格计算 |\n| 预言机与风控价格 | 验证者每 3 秒发布 spot oracle price；用于资金费率，并作为 mark price 的组成部分参与保证金、强平和 TP/SL | 验证者确定聚合 oracle price；用于抵押充足性、强平判断和触发单 |\n| 强平路径 | equity 低于维持保证金时，先通过订单簿市价单尝试平仓；失败或风险恶化时可由 liquidator vault 兜底 | 账户价值低于维持保证金要求时，协议生成强平撮合，用 fillable price 与订单簿流动性成交；损益与保险基金相关 |\n| 本文不验证 | 所有市场实时深度、成交质量、安全优劣、地域可用性、实时运营状态 | 所有市场实时深度、成交质量、安全优劣、地域可用性、实时运营状态 |\n\n## 费用：两套不同的时间窗口\n\nHyperliquid 的费用页使用滚动 14 天加权成交量。永续和现货成交量会共同影响费用等级，但文档说明 spot volume 在加权公式里按两倍计入。这个页面还把 perps 与 spot 的费率表分开列出，展示 Wood 到 Diamond 的 HYPE 质押等级，并说明 maker rebate 会在每笔交易中持续支付到交易钱包。HIP-3 perps、aligned quote assets、growth mode 等特殊情况，也在同一费用体系里说明。\n\n这个信息密度对高频交易者、策略交易者和成本敏感用户很有价值。至少你能在交易前看到基础费率、等级门槛、质押折扣如何进入表格，以及哪些产品线有特殊规则。但这仍然不是“完整交易成本”。滑点、资金费率、强平损耗、出入金或跨链成本、钱包操作风险、地域合规限制，都不在一个 maker-taker 表格里解决。\n\ndYdX Help Center 则把费用解释为 maker-taker 模型。maker order 是不会立即成交、挂在订单簿上的订单，会增加订单簿深度；taker order 则会立刻吃掉已有 maker order，从订单簿移除流动性。Help Center 明确说明，taker 费用基于过去 30 天所有永续订单簿的美元成交量。它还说明，默认情况下取消未成交订单不收费，费用只发生在成交订单上，并且费用默认归属验证者和质押者，但相关设置可由治理调整。\n\n这两边真正的差异不是“谁宣传得更便宜”，而是计量窗口和公开资料的颗粒度。Hyperliquid 的费用表在本次抓取的官方 markdown 中直接可引用。dYdX 的 Help Center 解释机制，并指向前端或官方链接查看当前费率位置。专业写法不能在这里补脑一个不存在的数字。如果用户要精确比较当前 dYdX 某一档费率，就应该继续查看 dYdX 官方费率表或登录界面，而不是由文章猜。\n\n## 资金费率：不是手续费，但会真实影响持仓成本\n\n资金费率是永续合约最容易被新手忽略的成本。它的作用是让没有到期日的永续合约价格不要长期偏离参考价格。两边都通过资金费率来让合约价格向基础市场靠拢，但公式、采样和控制参数不同。\n\nHyperliquid 文档说明资金费率每小时支付。其公式围绕 premium index 和 interest-rate component 展开，premium 每 5 秒采样并在一个小时内取平均。文档还说明，资金费率支付额使用 position size、oracle price 与 funding rate 计算；也就是说，用 oracle price 把仓位规模转为名义价值，而不是用 mark price。文档还写明 funding capped at 4%/hour。\n\ndYdX 在默认 v4 软件假设下解释资金费率。Help Center 说明永续合约没有到期日，因此资金费率用于激励合约价格贴近底层资产价格。页面给出基于 impact bid、impact ask 与 index price 的 premium 公式，并说明在默认设置中，区块提议者提交 funding premium vote，系统按 funding-sample 周期取样，最终在 funding-tick 周期把过去样本平均为资金费率。相关参数可由治理控制。\n\n对交易者来说，资金费率不是文档里的数学装饰。你开仓时看到的手续费可能很低，但如果持仓期间连续支付不利 funding，实际损益会被慢慢吃掉。只比手续费、不比资金费率，本质上只是在比较下单成本，而不是比较交易经济性。\n\n## 保证金状态：账户级状态与市场等级参数\n\nHyperliquid 的 clearinghouse 页面说明，perps clearinghouse 是 HyperCore execution state 的一部分，负责管理每个地址的永续保证金状态，包括 balance 和 positions。存入资金会先进入 cross margin balance，仓位默认也是 cross margin，同时支持 isolated margin。isolated margin 的意义是把特定仓位的保证金和风险从其他仓位中分离出来。\n\n这让 cross 与 isolated 的选择变得很关键。cross margin 可能让更多账户资金成为缓冲，使仓位更不容易马上触发强平；但它也意味着风险会影响更大的账户余额。isolated margin 则更容易做单仓位风险隔离。Hyperliquid 的强平文档进一步说明，cross 仓位在 backstop liquidation 时，cross positions 和 cross margin 可能一起转移；isolated 仓位被 backstop liquidation 时，则转移该 isolated position 和 isolated margin，用户的 cross margin 与其他 cross positions 不受影响。\n\ndYdX 的公开解释重点在 liquidity tiers 与 margin fractions。Help Center 表示，liquidity tiers 会把相似规模和流动性的市场放入标准化风险参数组，并影响 initial margin fraction、maintenance margin fraction、impact notional 等指标。页面还提到 safety tier：当市场出现特殊问题时，初始保证金比例可以提高到 100%，意味着交易者需要用完整名义价值作为抵押。\n\n这不是“谁更好”的问题，而是文档表达重心不同。Hyperliquid 更像在直接解释账户状态和强平流程。dYdX 更像在解释一套参数化协议模型：等级、治理、保证金、预言机价格和 fillable price。\n\n## 预言机与强平价格：屏幕上的一个价格不等于风控价格\n\nHyperliquid 官方文档说，验证者每 3 秒为每个永续资产发布 spot oracle price。oracle price 用于计算资金费率，也是 mark price 的组成部分，而 mark price 又用于保证金、强平和 TP/SL 触发。文档还说明，许多资产的 spot oracle price 由多个交易所 spot mid price 的加权中位数计算，再由验证者提交，最终 clearinghouse 使用按质押权重加权后的中位数。\n\nHyperliquid 的强平页面还特别提示：强平使用 mark price，mark price 结合外部 CEX 价格与 Hyperliquid 自身订单簿状态。在高波动或高杠杆仓位下，mark price 可能和你眼前看到的 book price 有明显差异。文档建议想精确监控强平，需要使用准确公式。\n\ndYdX Help Center 则说明，oracle prices 是聚合价格，用于交易后确认账户抵押是否充足、判断账户何时应该强平，以及触发 stop-limit 和 take-profit 等订单。验证者会持续计算 fair market price，区块提议者在区块内提出价格变化，其他验证者再按规则判断是否接受，从而避免不合理或极端变动。\n\n用户要抓住一个现实点：交易界面上的最后成交价，不一定就是风控系统真正用来判断你的价格。预言机路径、mark price 构成、margin tier、liquidity tier、fillable price，都会影响强平边界。\n\n## 强平：订单簿优先，与协议生成撮合\n\nHyperliquid 的强平起点是账户 equity 低于 maintenance margin。官方文档说明，系统会先把仓位以 market orders 发到订单簿，尝试全部或部分平仓。如果风险被平掉，剩余抵押物仍归交易者。如果账户 equity 跌破维持保证金的三分之二，且没有通过订单簿成功强平，则可能通过 liquidator vault 发生 backstop liquidation。文档还说明，多数强平流会直接进入订单簿，且没有 CEX 风格的 liquidation clearance fee。\n\ndYdX Help Center 说明，当账户总价值低于 maintenance margin requirement，仓位可能被 liquidation engine 自动关闭。这个关闭机制是 protocol-generated liquidation matches，使用计算出的 fillable price 作为限价，与订单簿里的流动性撮合。强平产生的利润或亏损由 insurance fund 承担。页面还说明，在默认 v4 软件中，强平引擎会尝试在支付最高 1.5% liquidation penalty 后，让正价值账户尽量保留资金；该 1.5% 也受治理调整影响。官方文档同时警告，强平时最多可将账户全部剩余价值作为 penalty 转入保险基金；1.5% 参数及结果受默认软件、账户状态和治理调整影响。\n\n两种机制都不应该被写成“轻松安全”。强平是压力状态下的强制执行。真正值得比较的是：\n\n- 哪个价格决定账户进入强平状态？\n- 使用 oracle price、mark price、book price，还是计算出来的 fillable price？\n- 是否有部分强平？\n- 哪个基金或 vault 承接亏损或兜底风险？\n- 剩余抵押物如何处理？\n- 哪些参数可能被治理或市场配置改变？\n\n如果这些问题在你交易的具体市场上还没有答案，那仓位规模就不应该激进。\n\n## 选择平台前应核对的问题\n\n如果关注费率，应核对当前费率表、计量窗口和账户实际折扣；如果关注风险隔离，应比较目标市场中 cross 与 isolated 的具体强平边界；如果关注资金费率，应检查当前公式、采样、上限与治理参数。开发者还应核对 API 行为、来源日期，以及文档与实时界面是否一致。这些检查不能推出任一平台一定适合某个人或司法辖区。\n\n## 验证说明与限制\n\n本次证据检查时间为 2026-09-07 UTC。Hyperliquid 来源来自官方 GitBook markdown endpoint；dYdX 来源来自官方 Help Center 页面。\n\n本文主动排除了以下无法被本次来源证明的说法：\n\n- 不声称 Hyperliquid 在所有市场的流动性都优于 dYdX。\n- 不声称 dYdX 比 Hyperliquid 更安全，反过来也不声称。\n- 不声称任一平台在某个用户所在国家一定可用。\n- 不声称当前实时成交质量等同于公开文档描述。\n- 不加入 affiliate 链接或商业排名跳转。\n\n这些限制会让文章少一点刺激，但更像研究。不能区分已验证机制和市场传言的比较文章，只是在包装观点，不是在帮用户做判断。\n\n## FAQ\n\n### Hyperliquid 一定比 dYdX 便宜吗？\n\n不能这样说。Hyperliquid 官方文档给出详细费用表、14 天加权成交量等级和 HYPE 质押折扣。dYdX Help Center 说明 maker-taker 模型与过去 30 天 taker 成交量逻辑，并通过官方界面或链接查看当前费率。真实成本还包括 funding、滑点、市场深度、钱包操作、出入金路径和强平风险。\n\n### 哪个平台强平机制更好？\n\n公开文档只能说明机制不同，不能直接推出优劣。Hyperliquid 先通过订单簿 market orders 尝试强平，必要时由 liquidator vault 兜底。dYdX 使用协议生成的强平撮合和 insurance fund 机制。哪个更适合，要看市场、波动、仓位规模以及用户自己的风控。\n\n### 两边都使用预言机价格吗？\n\n是的。Hyperliquid 的验证者会发布 oracle price，用于 funding 与 mark-price 相关风控。dYdX 的验证者确定聚合 oracle price，用于抵押充足性、强平和触发单。最后成交价不等于最终风控价格，这点对杠杆交易非常重要。\n\n### 新手应该用 cross margin 还是 isolated margin？\n\n本文不替新手选择保证金模式。Hyperliquid 的 cross 与 isolated 仓位有不同的抵押物和 backstop liquidation 边界，dYdX 也有自己的市场与账户计算方式。应阅读目标平台当前规则，确认哪些余额可能受影响，不能推导出一个适用于所有新手的设置。\n\n### NexuAlpha 如何连接这篇研究？\n\n本文连接到 NexuAlpha 站内的 Hyperliquid 与 dYdX 平台档案。后续还可补充永续 DEX 费用指南、资金费率解释、强平风险计算器文章和司法辖区可用性检查清单；这些页面必须各自通过证据核验与发布检查后再建立链接。\n\n## 编辑披露\n\nNexuAlpha 只基于公开证据比较交易平台，并把已验证事实和未知项分开。本文不包含投资推荐，不包含 affiliate 跳转，也不声称任一平台适合所有用户。"
+  },
+  "sources": [
+    {
+      "id": "hl-fees",
+      "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees.md",
+      "publisher": "Hyperliquid Docs",
+      "title": "Fees",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "hl-funding",
+      "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding.md",
+      "publisher": "Hyperliquid Docs",
+      "title": "Funding",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "hl-liquidations",
+      "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/liquidations.md",
+      "publisher": "Hyperliquid Docs",
+      "title": "Liquidations",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "hl-oracle",
+      "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/oracle.md",
+      "publisher": "Hyperliquid Docs",
+      "title": "Oracle",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "hl-clearinghouse",
+      "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/clearinghouse.md",
+      "publisher": "Hyperliquid Docs",
+      "title": "Clearinghouse",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "dydx-fees",
+      "url": "https://help.dydx.trade/en/articles/166995-trading-fees-on-dydx",
+      "publisher": "dYdX Help Center",
+      "title": "Trading fees on dYdX",
+      "publishedAt": "2026-04-23T00:00:00Z",
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "dydx-funding",
+      "url": "https://help.dydx.trade/en/articles/166992-default-funding-rates-on-dydx",
+      "publisher": "dYdX Help Center",
+      "title": "Default funding rates on dYdX",
+      "publishedAt": "2026-04-23T00:00:00Z",
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "dydx-liquidations",
+      "url": "https://help.dydx.trade/en/articles/166991-liquidations-on-dydx-chain",
+      "publisher": "dYdX Help Center",
+      "title": "Liquidations on dYdX Chain",
+      "publishedAt": "2026-04-23T00:00:00Z",
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "dydx-oracle",
+      "url": "https://help.dydx.trade/en/articles/166990-oracle-prices-on-dydx-chain",
+      "publisher": "dYdX Help Center",
+      "title": "Oracle prices on dYdX Chain",
+      "publishedAt": "2026-04-23T00:00:00Z",
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "dydx-liquidity",
+      "url": "https://help.dydx.trade/en/articles/166993-default-liquidity-tiers-on-dydx-chain",
+      "publisher": "dYdX Help Center",
+      "title": "Default Liquidity Tiers on dYdX Chain",
+      "publishedAt": "2026-04-23T00:00:00Z",
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "text": "Hyperliquid uses a rolling 14-day weighted volume system for fee tiers, with separate perp and spot schedules and additional staking-tier discounts.",
+      "sourceIds": [
+        "hl-fees"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c2",
+      "text": "dYdX describes a maker-taker model in which taker fees are based on trailing 30-day USD volume across perpetual order books, and the current schedule is surfaced through the dYdX interface or linked docs.",
+      "sourceIds": [
+        "dydx-fees"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c3",
+      "text": "Hyperliquid funding is paid hourly, uses a premium component against the spot oracle price, has a fixed interest component described in the docs, and is capped at 4% per hour.",
+      "sourceIds": [
+        "hl-funding"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c4",
+      "text": "dYdX funding in the default v4 software is calculated from premium samples and is subject to governance-controlled parameters.",
+      "sourceIds": [
+        "dydx-funding"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c5",
+      "text": "Hyperliquid liquidations occur when equity falls below maintenance margin, first route liquidation attempts through market orders on the book, and may use the liquidator vault as a backstop.",
+      "sourceIds": [
+        "hl-liquidations"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c6",
+      "text": "dYdX Chain liquidations use protocol-generated matches and an insurance-fund mechanism under default v4 software assumptions; official documentation warns that up to the entire remaining account value may be taken as a liquidation penalty.",
+      "sourceIds": [
+        "dydx-liquidations"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c7",
+      "text": "Hyperliquid oracle prices are published by validators every three seconds and are used for funding, mark price, margining, liquidations, and TP/SL triggers.",
+      "sourceIds": [
+        "hl-oracle"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c8",
+      "text": "dYdX oracle prices are validator-determined aggregated prices used for collateralization, liquidation checks, and triggerable order types.",
+      "sourceIds": [
+        "dydx-oracle"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c9",
+      "text": "dYdX liquidity tiers group markets into standardized risk parameters and can affect initial margin fraction, maintenance margin fraction, impact notional, and safety-tier handling.",
+      "sourceIds": [
+        "dydx-liquidity"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c10",
+      "text": "The comparison does not verify overall liquidity, volume leadership, security superiority, or user eligibility by jurisdiction; those remain outside this source set.",
+      "sourceIds": [
+        "hl-fees",
+        "hl-liquidations",
+        "dydx-fees",
+        "dydx-liquidations"
+      ],
+      "risk": "low"
+    }
+  ],
+  "relatedVenues": [
+    "hyperliquid",
+    "dydx"
+  ],
+  "seo": {
+    "title": "Hyperliquid vs dYdX: Perp DEX Fees, Funding, Margin and Liquidation Checks",
+    "description": "This Hyperliquid vs dYdX news article is a dated source-reading explainer for crypto perpetual mechanics: fees, funding, collateral path, account mode, oracle input, liquidation process, backstop design, wallet route and regional-access unknowns.",
+    "primaryKeyword": "Hyperliquid vs dYdX perp DEX fees funding liquidation",
+    "canonicalStatus": "future",
+    "noindex": false,
+    "futureCanonical": "https://nexualpha.com/research/hyperliquid-vs-dydx",
+    "robotsReason": "STAGING_ONLY: no content-publish-contract.json and no verified live article route.",
+    "canonical": "https://nexualpha.com/news/hyperliquid-vs-dydx",
+    "internalLinkTargets": [
+      "/compare/hyperliquid-vs-dydx",
+      "/exchanges/hyperliquid",
+      "/exchanges/dydx",
+      "/topics/no-kyc",
+      "/rates",
+      "/news/tokenized-treasuries-structure-access-risks"
+    ]
+  },
+  "aeo": {
+    "reviewedAt": "2026-09-15T12:15:00.000Z",
+    "directAnswer": "This Hyperliquid vs dYdX news article is a dated source-reading explainer for crypto perpetual mechanics: fees, funding, collateral path, account mode, oracle input, liquidation process, backstop design, wallet route and regional-access unknowns. Use the comparison page when the task is to choose a current route or compare decision checks side by side.",
+    "answerBoundaries": [
+      "Do not claim a universal Perp DEX winner from static documentation.",
+      "Do not convert fee tables into a user-specific trading-cost promise.",
+      "Do not infer jurisdictional access, liquidation outcomes or live execution quality without account and market evidence.",
+      "Do not treat self-custody wallet access as the same decision as a custodial exchange signup.",
+      "Use the comparison page for current route decisions; use this news article for the dated source-reading explainer."
+    ],
+    "decisionChecklist": [
+      "maker and taker fee tier",
+      "funding interval and funding-rate source",
+      "collateral asset and deposit route",
+      "cross or isolated margin state",
+      "oracle input and index construction",
+      "liquidation trigger and partial-liquidation flow",
+      "insurance fund, liquidator vault or backstop handling",
+      "official app domain and wallet signing path",
+      "regional account or interface access",
+      "API, order type and sub-account requirements"
+    ],
+    "questions": [
+      "How should I compare Hyperliquid and dYdX fees before trading?",
+      "Which platform has the clearer funding and margin checklist, Hyperliquid or dYdX?",
+      "Does Hyperliquid vs dYdX prove which Perp DEX is safer?",
+      "What liquidation and oracle checks matter before using a Perp DEX?",
+      "Is Hyperliquid or dYdX better for a no-custody perpetual trading route?",
+      "What remains unknown from public Hyperliquid and dYdX documentation alone?",
+      "Should I read the Hyperliquid vs dYdX news explainer or the comparison page?"
+    ]
+  },
+  "geo": {
+    "reviewedAt": "2026-09-14T13:58:00.000Z",
+    "citationUse": "Use as a dated source-reading explainer for Hyperliquid vs dYdX mechanics; cite the comparison page for current side-by-side route decisions.",
+    "primaryQuestion": "How should a trader compare Hyperliquid and dYdX before opening a Perp DEX position?"
+  },
+  "sourceStatus": "PUBLIC_SOURCE_MAPPED",
+  "availableLocales": [
+    "en",
+    "zh-Hans"
+  ]
+}

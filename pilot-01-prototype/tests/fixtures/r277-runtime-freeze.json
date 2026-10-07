@@ -1,0 +1,18 @@
+{
+  "src/components/v3/FactbookPage.jsx": {
+    "currentSha": "00c284bd70a8de9b5046f37b518436c420cba16d5f9de8c5fc52653826163c1c",
+    "baselineSha": "46a3428c9148d7347760568a8aa58139a9b61d1b6e356c896c257993e668b627"
+  },
+  "src/components/v3/RegistrationCard.jsx": {
+    "currentSha": "fa1fb17c93c4c8e053fa9c3a39a9f8b50474103737e98470ea8ef7961d1f3582",
+    "baselineSha": "fd202ec855934cb3f2ae4158422541a52f203bd82ad1d2f3e19a95973eaec5cb"
+  },
+  "src/components/v3/TraderWizardModal.jsx": {
+    "currentSha": "d84a15cec024dc44af58a03c3a3dc6bfd846caa9fc7c80a4acd04d32b54f8c02",
+    "baselineSha": "506fef857fec4344a7aa55cae80896dace805d0fc7709b4265d3bc8bd4bc0d71"
+  },
+  "src/components/v3/news/news-detail-page.css": {
+    "currentSha": "e0a2c2a6b3732b0a002b5cb7de6e9ccc71725344bf5cc03f0dde13c27aeb05aa",
+    "baselineSha": "59d44e807206bd147acb284fc3053b1d3fe2df8686a853328422da1ecb2bcfee"
+  }
+}

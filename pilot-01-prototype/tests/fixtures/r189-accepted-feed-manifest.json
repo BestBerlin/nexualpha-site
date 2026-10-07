@@ -1,0 +1,27 @@
+{
+  "schema": "nexualpha-versioned-accepted-feed-v1",
+  "acceptedRelease": "3.0-20261005T-R130-MATERIAL",
+  "feedSHA256": "961e10b507cb6a5c59507593ac3e6026b5dd62eb4be0f96a7446cfb9ba19125e",
+  "articleCount": 416,
+  "historicalFeedSHA256": "6bdbbd21a9f8f4ed6ed36307fbc582fbdaf633cb673f157f6a3e97c7bd318f08",
+  "publisherRunId": "20261004T204614Z",
+  "publisherBatchId": "20261005T0435",
+  "publisherReceiptSHA256": "5d7bea5a2e271bc24f256f0103baf9112937d34097ef3ece14b3a0af6189c69d",
+  "publisherLedgerSelectionSHA256": "846985365c5fdaea22083dd90cfe02a21c802782b4164368693a2d75e52d7a08",
+  "promotedReceiptSHA256": "1bad1e21e23aebe316b17bee22d40fc5aec7edd6f23c3d2d0a7ea97db1f4bf4f",
+  "promotionManifest": {
+    "originalPath": "/Users/bestberlin/Documents/ChatGPT/Crypto聚合/release-candidates/r130-material-hierarchy/production/PROMOTION-MANIFEST.json",
+    "sha256": "44f960d09a05430413e125ea283e91b2b0c9c8a8b83387abe3182ebd958512e9",
+    "buildId": "3.0-20261005T-R130-MATERIAL",
+    "clientFeedSHA256": "961e10b507cb6a5c59507593ac3e6026b5dd62eb4be0f96a7446cfb9ba19125e",
+    "ssrFeedSHA256": "961e10b507cb6a5c59507593ac3e6026b5dd62eb4be0f96a7446cfb9ba19125e"
+  },
+  "newBatchSlugs": [
+    "cftc-sec-tokenized-collateral-vs-tokenized-securities-boundary-map",
+    "chainlink-ccip-cross-chain-token-standard-transfer-risk-map",
+    "coinbase-advanced-trade-create-order-auth-reconciliation-checklist",
+    "exchange-api-key-scope-ip-whitelist-expiry-disclosure-radar",
+    "how-to-onboard-uniswap-v3-liquidity-wallet-mint-and-fee-controls"
+  ],
+  "boundary": "Historical readable publication and accepted-release byte preservation; not present search indexing, editorial approval for unreviewed records, registration, conversion or permanent-current feed."
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "before": "  assert.match(checklistHtml, /data-mobile-expanded=\"false\"/);\n  assert.match(checklistHtml, /class=\"venue-readiness__mobile-toggle\"/);",
+    "after": "  assert.match(checklistHtml, /<details class=\"venue-readiness__disclosure\"><summary class=\"venue-readiness__summary\">/);\n  assert.doesNotMatch(checklistHtml, /<details[^>]*\\bopen(?:=|\\s|>)/);\n  assert.match(checklistHtml, /<h2 id=\"venue-readiness-bitget\">[^<]+<\\/h2><strong>0\\/4[^<]*<\\/strong>/);"
+  },
+  {
+    "before": "  assert.match(readinessCss, /\\.venue-readiness\\[data-mobile-expanded=\"false\"\\] \\.venue-readiness__grid,/);\n  assert.match(readinessCss, /\\.venue-readiness\\[data-mobile-expanded=\"false\"\\] \\.venue-readiness__foot \\{[\\s\\S]*display: none;/);",
+    "after": "  assert.match(readinessCss, /\\.venue-readiness__summary \\{[\\s\\S]*min-block-size: 44px;/);\n  assert.match(readinessCss, /\\.venue-readiness__summary:focus-visible/);\n  assert.doesNotMatch(readinessCss, /data-mobile-expanded/);"
+  },
+  {
+    "before": "  assert.ok(handoffStart > summaryStart, \"checklist does not duplicate the existing registration handoff section\");",
+    "after": "  assert.ok(handoffStart > checklistStart, \"original readiness precedes the main registration handoff\");\n  assert.ok(summaryStart > handoffStart, \"main registration precedes the secondary route summary\");\n  assert.equal((html.match(/id=\"registration-path\"/g) || []).length, 1, \"registration handoff ID remains unique\");"
+  }
+]

@@ -1,0 +1,259 @@
+{
+  "createdAt": "2026-10-01T19:15:09Z",
+  "status": "draft_review_queue_only",
+  "reviewWindow": {
+    "start": "2026-10-02",
+    "end": "2026-10-08",
+    "meaning": "seven-day manual review queue, not a Telegram send schedule or approval record"
+  },
+  "landingContext": "NexuAlpha-first: every draft's first action points to a NexuAlpha onsite URL for source-bound review before any third-party venue action. This queue adds no commission disclosure, no referral destination, no exchange signup claim and no commercial result.",
+  "sourceQueues": [
+    "docs/evidence/four-week-growth-20260927/r65-telegram-seven-day-drafts-20261001.json",
+    "docs/evidence/four-week-growth-20260927/r69-telegram-seven-day-review-addendum-20261002.json",
+    "docs/evidence/four-week-growth-20260927/r71-telegram-review-status-addendum-20261002.json",
+    "docs/evidence/four-week-growth-20260927/r72-telegram-review-addendum-20261002.json"
+  ],
+  "releaseCheckpoint": {
+    "source": "docs/evidence/four-week-growth-20260927/r74-final-release-20261002.json",
+    "buildId": "3.0-20261002T-R74-COLD-ATTRIBUTION",
+    "status": "PUBLIC_ACCEPTED",
+    "boundary": "No registration uplift, fresh Search Console, IndexNow, Lighthouse or AI citation evidence; no Telegram sends."
+  },
+  "calendar": [
+    {
+      "date": "2026-10-02",
+      "queueAction": "review_existing_okx_historical_window",
+      "draftIds": [
+        "okx-historical-window"
+      ],
+      "state": "pending_manual_review"
+    },
+    {
+      "date": "2026-10-03",
+      "queueAction": "review_existing_hyperliquid_fee_scope",
+      "draftIds": [
+        "hyperliquid-fees"
+      ],
+      "state": "pending_manual_review"
+    },
+    {
+      "date": "2026-10-04",
+      "queueAction": "review_existing_br_pix_ownership_scope",
+      "draftIds": [
+        "br-pix-ownership-r72"
+      ],
+      "state": "pending_manual_review"
+    },
+    {
+      "date": "2026-10-05",
+      "queueAction": "review_existing_uniswap_testnet_scope",
+      "draftIds": [
+        "uniswap-testnet"
+      ],
+      "state": "pending_manual_review"
+    },
+    {
+      "date": "2026-10-06",
+      "queueAction": "native_korean_editorial_review",
+      "draftIds": [
+        "kr-funding-verification"
+      ],
+      "state": "pending_native_language_review"
+    },
+    {
+      "date": "2026-10-07",
+      "queueAction": "cross_draft_source_and_lifecycle_gate_check",
+      "draftIds": [
+        "okx-historical-window",
+        "hyperliquid-fees",
+        "uniswap-testnet",
+        "kr-funding-verification",
+        "br-pix-ownership-r72"
+      ],
+      "state": "review_only_no_publication"
+    },
+    {
+      "date": "2026-10-08",
+      "queueAction": "publication_authorization_checkpoint",
+      "draftIds": [
+        "okx-historical-window",
+        "hyperliquid-fees",
+        "uniswap-testnet",
+        "kr-funding-verification",
+        "br-pix-ownership-r72"
+      ],
+      "state": "blocked_until_explicit_thread_publication_authorization"
+    }
+  ],
+  "drafts": [
+    {
+      "id": "okx-historical-window",
+      "sourceQueue": "docs/evidence/four-week-growth-20260927/r65-telegram-seven-day-drafts-20261001.json",
+      "draftSourcePath": "docs/evidence/four-week-growth-20260927/r65-telegram-seven-day-drafts-20261001.json",
+      "originalReviewTargetDate": "2026-10-01",
+      "r75ReviewDate": "2026-10-02",
+      "locale": "en",
+      "market": "GLOBAL",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "firstOnsiteUrl": "https://nexualpha.com/news/okx-usd-to-usdc-spot-pair-migration?locale=en&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r65_okx_historical_window",
+      "topic": "OKX migration schedule is historical; current account state must be checked in the official account and current platform screens.",
+      "originalEvidenceDates": [
+        "2026-09-15T06:24:00Z",
+        "2026-10-01"
+      ],
+      "retainedGates": [
+        "Live landing and locale review",
+        "Official source freshness and regional/account scope",
+        "English editorial approval",
+        "Explicit thread publication authorization"
+      ],
+      "retainedBoundaries": [
+        "Country and account applicability remain conditional.",
+        "No current account completion, signup, registration, conversion or commission result is asserted."
+      ]
+    },
+    {
+      "id": "hyperliquid-fees",
+      "sourceQueue": "docs/evidence/four-week-growth-20260927/r65-telegram-seven-day-drafts-20261001.json",
+      "draftSourcePath": "docs/evidence/four-week-growth-20260927/r65-telegram-seven-day-drafts-20261001.json",
+      "originalReviewTargetDate": "2026-10-03",
+      "r75ReviewDate": "2026-10-03",
+      "locale": "en",
+      "market": "GLOBAL",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "firstOnsiteUrl": "https://nexualpha.com/exchanges/hyperliquid?locale=en&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r65_hyperliquid_fees",
+      "topic": "Trading fee table and funding are separate; dated base-rate examples are assumptions, not account quotes.",
+      "originalEvidenceDates": [
+        "2026-10-01",
+        "2026-09-22"
+      ],
+      "retainedGates": [
+        "Live landing and locale review",
+        "Official source freshness and regional/account scope",
+        "English editorial approval",
+        "Explicit thread publication authorization"
+      ],
+      "retainedBoundaries": [
+        "Only fee-table check is fresh; remaining venue review remains September 22.",
+        "No guaranteed discount, product access, execution, signup, conversion or commission result is asserted."
+      ]
+    },
+    {
+      "id": "br-pix-ownership-r72",
+      "sourceQueue": "docs/evidence/four-week-growth-20260927/r72-telegram-review-addendum-20261002.json",
+      "draftSourcePath": "docs/evidence/four-week-growth-20260927/r72-telegram-br-pix-draft-20261002.md",
+      "originalReviewTargetDate": null,
+      "r75ReviewDate": "2026-10-04",
+      "locale": "pt-BR",
+      "market": "BR",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "firstOnsiteUrl": "https://nexualpha.com/br/pix?locale=pt-BR&market=BR&product=spot&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+      "topic": "Before using Pix with a crypto exchange, verify holder identity, account data, method details, limits, costs and status in official flows.",
+      "originalEvidenceDates": [
+        "2026-10-01T17:17:48.325820+00:00"
+      ],
+      "evidencePaths": [
+        "docs/evidence/four-week-growth-20260927/r72-br-pix-official-source-recheck-20261002.json",
+        "docs/evidence/four-week-growth-20260927/r72-br-draft-landing-browser-20261002.json",
+        "docs/evidence/four-week-growth-20260927/r72-public-browser-journey-20261002.json"
+      ],
+      "retainedGates": [
+        "Portuguese native/manual editorial review",
+        "Explicit thread publication authorization",
+        "Private Telegram lifecycle acceptance remains separate"
+      ],
+      "retainedBoundaries": [
+        "No fee, bank success, account eligibility, partnership attribution, benefit, signup, conversion or commission result is asserted.",
+        "Tracking retention was publicly accepted for the onsite journey, not Bot, collector or partner attribution proof."
+      ]
+    },
+    {
+      "id": "uniswap-testnet",
+      "sourceQueue": "docs/evidence/four-week-growth-20260927/r65-telegram-seven-day-drafts-20261001.json",
+      "draftSourcePath": "docs/evidence/four-week-growth-20260927/r65-telegram-seven-day-drafts-20261001.json",
+      "originalReviewTargetDate": "2026-10-05",
+      "r75ReviewDate": "2026-10-05",
+      "locale": "en",
+      "market": "GLOBAL",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "firstOnsiteUrl": "https://nexualpha.com/exchanges/uniswap?locale=en&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r65_uniswap_testnet",
+      "topic": "Uniswap Wallet/Extension testnet practice and developer API support have separate scopes; testnet support does not prove mainnet liquidity or token safety.",
+      "originalEvidenceDates": [
+        "2026-10-01",
+        "2026-09-22"
+      ],
+      "evidencePaths": [
+        "docs/evidence/four-week-growth-20260927/uniswap-testnet-practice-source-check-20261001.md"
+      ],
+      "retainedGates": [
+        "Live landing and locale review",
+        "Official source freshness and regional/account scope",
+        "English editorial approval",
+        "Explicit thread publication authorization"
+      ],
+      "retainedBoundaries": [
+        "Documented support is not browser-observed ordinary web toggle evidence.",
+        "No mainnet execution, token safety, signup, conversion or commission result is asserted."
+      ]
+    },
+    {
+      "id": "kr-funding-verification",
+      "sourceQueue": "docs/evidence/four-week-growth-20260927/r69-telegram-seven-day-review-addendum-20261002.json",
+      "draftSourcePath": "docs/evidence/four-week-growth-20260927/r69-telegram-kr-draft-20261002.md",
+      "originalReviewTargetDate": "2026-10-06",
+      "r75ReviewDate": "2026-10-06",
+      "locale": "ko",
+      "market": "KR",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "firstOnsiteUrl": "https://nexualpha.com/kr?locale=ko&market=KR&product=research&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r69_kr_funding_check",
+      "topic": "Before KRW deposit, separate exchange signup, identity verification, account verification and actual KRW deposit or withdrawal eligibility.",
+      "originalEvidenceDates": [
+        "2026-10-01T16:33:22.887630+00:00"
+      ],
+      "evidencePaths": [
+        "docs/evidence/four-week-growth-20260927/r69-kr-official-source-recheck-20261002.json",
+        "docs/evidence/four-week-growth-20260927/r69-kr-draft-landing-http-20261002.json",
+        "docs/evidence/four-week-growth-20260927/r70-kr-draft-landing-browser-20261002.json",
+        "docs/evidence/four-week-growth-20260927/r70-public-browser-acceptance-20261002.json",
+        "docs/evidence/four-week-growth-20260927/r71-telegram-review-status-addendum-20261002.json"
+      ],
+      "retainedGates": [
+        "Korean native editorial approval",
+        "Official source freshness and bank-side applicability before adding bank-specific claims",
+        "Explicit thread publication authorization",
+        "Private Telegram lifecycle acceptance remains pending dedicated account and scope"
+      ],
+      "retainedBoundaries": [
+        "No bank-side source checked; no unconditional eligibility, specific partner-bank acceptance, fees or transaction assurance adopted.",
+        "One AI citation is an internal selection signal only, not public endorsement, citation-rate, traffic-growth, signup, conversion or commission proof."
+      ]
+    }
+  ],
+  "globalRetainedGates": {
+    "nativeLanguageReview": "PENDING for ko and pt-BR; English drafts still require manual editorial approval.",
+    "sourceScopeReview": "PENDING per-draft where only bounded source slices were freshly checked.",
+    "privateTelegramLifecycle": "PENDING_DEDICATED_ACCOUNT_AND_SCOPE per r71 open gates; no private commands executed.",
+    "publicationAuthorization": "PENDING for every draft; explicit thread authorization is required before any Telegram channel/group/private send.",
+    "commercialEdits": "NOT_AUTHORIZED; invitation links, codes, partner registry and venue data remain untouched."
+  },
+  "sideEffects": {
+    "telegramApiCalls": [],
+    "messagesSent": 0,
+    "sourceEdits": 0,
+    "commercialEdits": 0,
+    "publicationApprovals": 0,
+    "newDraftsCreated": 0
+  },
+  "registrationResults": null,
+  "growthResults": null
+}

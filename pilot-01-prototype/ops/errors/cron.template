@@ -1,0 +1,2 @@
+CRON_TZ=UTC
+20 0 * * * root /usr/sbin/logrotate /data/private/nexualpha/ops/errors/logrotate.conf

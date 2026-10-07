@@ -1,0 +1,72 @@
+/* Source notes are static: no simulated feed, motion, or duplicated reading. */
+.rebate-ticker-bar {
+  background: rgba(10, 14, 20, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.rebate-ticker__container,
+.rebate-ticker__details { min-width: 0; }
+.rebate-ticker__summary {
+  display: list-item;
+  list-style-position: inside;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding-block: 10px;
+  color: #cbd5e1;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  text-align: start;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.rebate-ticker__summary::marker { color: #94a3b8; }
+.rebate-ticker__tag { font-weight: 600; color: #cbd5e1; }
+.rebate-ticker__action-label { color: #94a3b8; }
+.rebate-ticker__notes {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+  padding-block-end: 12px;
+}
+.rebate-ticker__note {
+  min-width: 0;
+  padding-block-start: 12px;
+  border-block-start: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: start;
+}
+.rebate-ticker__badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #94a3b8;
+}
+.rebate-ticker__text {
+  margin-block: 4px 0;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.rebate-ticker__item {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  box-sizing: border-box;
+  color: #93c5fd;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  text-align: start;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.rebate-ticker__summary:focus-visible,
+.rebate-ticker__item:focus-visible {
+  outline: 2px solid #8fb0ff;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.rebate-ticker__item:hover { color: #ffffff; }

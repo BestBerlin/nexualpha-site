@@ -1,0 +1,10 @@
+{
+  "observedAt": "2026-10-01T16:33:58.746184+00:00",
+  "requestedUrl": "https://nexualpha.com/kr?locale=ko&market=KR&product=research&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r69_kr_funding_check",
+  "finalUrl": "https://nexualpha.com/kr?locale=ko&market=KR&product=research&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r69_kr_funding_check",
+  "status": 200,
+  "canonical": "https://nexualpha.com/kr",
+  "htmlLang": "ko",
+  "htmlSha256": "27393629eaa945d6021bcd3fc43e0b56518490575ee1a65c7361396226d7ad78",
+  "boundary": "Public SSR HTTP only, not hydration/context browser verification, bank eligibility, index evidence or a CTA event submission."
+}

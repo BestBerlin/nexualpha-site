@@ -1,0 +1,176 @@
+/* MarketFearGreedPanel 样式 */
+.sentiment-section {
+  padding-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sentiment__header {
+  margin-bottom: 1.25rem;
+}
+
+.sentiment__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #34d399;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+
+.sentiment__pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+  animation: sentiment-pulse 1.8s infinite;
+}
+
+@keyframes sentiment-pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+}
+
+.sentiment__title {
+  font-size: clamp(1.35rem, 2.8vw, 1.875rem);
+  font-weight: 750;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.375rem;
+}
+
+.sentiment__subtitle {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.sentiment__grid {
+  display: grid;
+  grid-template-columns: 4fr 7fr;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 900px) {
+  .sentiment__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sentiment__card {
+  background: rgba(13, 17, 23, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.sentiment-index__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.sentiment-index__label {
+  font-size: 0.8125rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.sentiment-index__badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.sentiment-index__value-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sentiment-index__value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  line-height: 1;
+}
+
+.sentiment-index__meter-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.sentiment-index__meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f87171 0%, #fbbf24 50%, #34d399 100%);
+  border-radius: 9999px;
+}
+
+.sentiment-tickers__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.875rem;
+  height: 100%;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .sentiment-tickers__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.sentiment-ticker {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sentiment-ticker__symbol {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-weight: 600;
+}
+
+.sentiment-ticker__price {
+  font-size: 1rem;
+  color: #ffffff;
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+
+.sentiment-ticker__change {
+  font-size: 0.75rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-weight: 600;
+}
+
+.text-red { color: #f87171; }
+
+.sentiment__advice-box {
+  background: rgba(56, 189, 248, 0.06);
+  border: 1px dashed rgba(56, 189, 248, 0.25);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  color: #cbd5e1;
+}

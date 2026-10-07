@@ -1,0 +1,37 @@
+{
+  "baselineSHA": "f063243966287ccaff5080c2bfaef3acf3c91ae9c69d3fac77cbd4951a0d90ab",
+  "old": {
+    "en": "The primary route stays in the hero card and mobile sticky bar so this block remains informational.",
+    "zh-Hans": "主注册链接保留在首屏官方入口和移动吸底条，避免重复按钮干扰选择。",
+    "zh-Hant": "主註冊連結保留在首屏官方入口和移動吸底條，避免重複按鈕干擾選擇。",
+    "es": "La ruta principal permanece en la tarjeta inicial y en la barra móvil para que este bloque sea solo informativo.",
+    "pt-BR": "A rota principal permanece no cartão inicial e na barra móvel para manter este bloco apenas informativo.",
+    "fr": "Le parcours principal reste dans la carte initiale et la barre mobile afin que ce bloc demeure informatif.",
+    "de": "Der Hauptweg bleibt in der Einstiegskarte und der mobilen Leiste, damit dieser Abschnitt informativ bleibt.",
+    "ja": "主要ルートは最初のカードとモバイル固定バーに残し、この欄は確認情報だけを表示します。",
+    "ko": "주요 경로는 첫 카드와 모바일 고정 바에 유지하고, 이 영역은 확인 정보만 제공합니다.",
+    "ar": "يبقى المسار الرئيسي في البطاقة الأولى والشريط الثابت على الهاتف ليظل هذا القسم للمعلومات فقط.",
+    "tr": "Ana rota ilk kartta ve mobil sabit çubukta kalır; bu bölüm yalnızca bilgi verir.",
+    "ru": "Основной маршрут остаётся в первой карточке и мобильной панели, а этот блок служит только для информации.",
+    "id": "Rute utama tetap berada di kartu awal dan bilah seluler agar bagian ini hanya berisi informasi.",
+    "vi": "Lộ trình chính vẫn nằm ở thẻ đầu và thanh cố định trên di động để phần này chỉ cung cấp thông tin.",
+    "it": "Il percorso principale resta nella scheda iniziale e nella barra mobile, così questa sezione rimane informativa."
+  },
+  "new": {
+    "en": "Review invitation details and account conditions.",
+    "zh-Hans": "查看邀请信息与账户条件。",
+    "zh-Hant": "查看邀請資訊與帳戶條件。",
+    "es": "Revisa los datos de invitación y las condiciones de la cuenta.",
+    "pt-BR": "Confira os dados do convite e as condições da conta.",
+    "fr": "Consultez les informations d’invitation et les conditions du compte.",
+    "de": "Einladungsdetails und Kontobedingungen prüfen.",
+    "ja": "招待情報と口座条件を確認できます。",
+    "ko": "초대 정보와 계정 조건을 확인하세요.",
+    "ar": "راجع تفاصيل الدعوة وشروط الحساب.",
+    "tr": "Davet bilgilerini ve hesap koşullarını inceleyin.",
+    "ru": "Проверьте данные приглашения и условия аккаунта.",
+    "id": "Periksa informasi undangan dan ketentuan akun.",
+    "vi": "Xem thông tin lời mời và điều kiện tài khoản.",
+    "it": "Consulta i dettagli dell’invito e le condizioni del conto."
+  }
+}

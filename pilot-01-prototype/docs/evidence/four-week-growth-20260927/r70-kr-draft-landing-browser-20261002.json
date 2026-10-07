@@ -1,0 +1,103 @@
+{
+  "observedAt": "2026-10-01T16:37:04.362Z",
+  "method": "Actual Chrome post-load DOM and screenshot; no partner signup or bot send",
+  "state": {
+    "canonical": "https://nexualpha.com/kr",
+    "h1": [
+      "한국: 본인확인과 원화 입금 조건을 먼저 확인하세요"
+    ],
+    "lang": "ko",
+    "links": [
+      {
+        "href": "https://nexualpha.com/ko/telegram",
+        "text": "Telegram 리서치"
+      },
+      {
+        "href": "https://nexualpha.com/exchanges?market=KR&product=spot&locale=ko&utm_source=regional_preview&utm_campaign=kr-research-preview&account_stage=new_account&funding=KRW+deposit+and+withdrawal",
+        "text": "후보부터 좁히기이용 후보 확인가입 전에 지역, 상품, 계정 단계를 유지한 채 후보를 확인합니다."
+      },
+      {
+        "href": "https://nexualpha.com/exchanges?market=KR&product=spot&locale=ko&utm_source=regional_preview&utm_campaign=kr-research-preview&account_stage=new_account&funding=KRW+deposit+and+withdrawal",
+        "text": "검토된 비교 조합 없음먼저 후보 두 개 선택지역 후보 목록에서 비교할 플랫폼을 먼저 선택합니다."
+      },
+      {
+        "href": "https://nexualpha.com/ko/telegram?account_stage=new_account&funding=KRW+deposit+and+withdrawal&return=https%3A%2F%2Ft.me%2FNexuAlphaAssistantBot%3Fstart%3Dpartner_desk_m_KR_l_ko_t_spot_c_6b5nma%26account_stage%3Dnew_account%26funding%3DKRW%2Bdeposit%2Band%2Bwithdrawal&market=KR&product=spot",
+        "text": "안내가 필요하다면조건을 이어서 진행지역과 상품 조건을 사이트에 저장한 뒤 Telegram에서 계속합니다."
+      },
+      {
+        "href": "https://nexualpha.com/exchanges?market=KR&product=spot&locale=ko&utm_source=regional_preview&utm_campaign=kr-research-preview&account_stage=new_account&funding=KRW+deposit+and+withdrawal",
+        "text": "후보"
+      },
+      {
+        "href": "https://nexualpha.com/exchanges?market=KR&product=spot&locale=ko&utm_source=regional_preview&utm_campaign=kr-research-preview&account_stage=new_account&funding=KRW+deposit+and+withdrawal#exchanges",
+        "text": "후보 선택"
+      },
+      {
+        "href": "https://nexualpha.com/ko/telegram?market=KR&product=spot&account_stage=new_account&funding=KRW+deposit+and+withdrawal&scenario=selected",
+        "text": "Telegram"
+      },
+      {
+        "href": "https://nexualpha.com/ko/telegram?account_stage=new_account&funding=KRW+deposit+and+withdrawal&return=https%3A%2F%2Ft.me%2FNexuAlphaAssistantBot%3Fstart%3Dpartner_desk_m_KR_l_ko_t_spot_c_6b5nma%26account_stage%3Dnew_account%26funding%3DKRW%2Bdeposit%2Band%2Bwithdrawal&market=KR&product=spot",
+        "text": "Telegram에서 계속→"
+      },
+      {
+        "href": "https://nexualpha.com/exchanges?market=KR&product=spot&locale=ko&utm_source=regional_preview&utm_campaign=kr-research-preview&account_stage=new_account&funding=KRW+deposit+and+withdrawal",
+        "text": "한국 조건으로 플랫폼 후보 보기market=KR을 유지한 채 계정 조건과 공식 출처를 먼저 비교합니다."
+      },
+      {
+        "href": "https://nexualpha.com/exchanges?market=KR&product=spot&locale=ko&utm_source=regional_preview&utm_campaign=kr-research-preview&account_stage=new_account&funding=KRW+deposit+and+withdrawal",
+        "text": "한국 조건으로 플랫폼 후보 보기market=KR을 유지한 채 공식 출처와 계정 조건을 먼저 비교합니다."
+      },
+      {
+        "href": "https://nexualpha.com/exchanges?market=KR&product=spot&locale=ko&utm_source=regional_preview&utm_campaign=kr-research-preview&account_stage=new_account&funding=KRW+deposit+and+withdrawal",
+        "text": "개설 조건 비교"
+      },
+      {
+        "href": "https://nexualpha.com/exchanges?market=KR&product=spot&locale=ko&utm_source=regional_preview&utm_campaign=kr-research-preview&account_stage=existing_account&funding=KRW+deposit+and+withdrawal",
+        "text": "계정 조건 확인"
+      },
+      {
+        "href": "https://www.kofiu.go.kr/eng/legislation/legislation.do",
+        "text": "금융정보분석원 가상자산사업자 안내공식 안내와 사업자 맥락을 확인하는 출처입니다. 실제 계정 조건은 플랫폼 화면에서 확인해야 합니다."
+      },
+      {
+        "href": "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC",
+        "text": "Upbit 원화 입출금 안내KRW 입출금과 실명계좌 조건을 확인하는 출처입니다. NexuAlpha의 자격 또는 혜택 보장이 아닙니다."
+      },
+      {
+        "href": "https://nexualpha.com/ko/exchanges#policy",
+        "text": "이용 조건 및 위험 고지"
+      }
+    ],
+    "selections": [
+      {
+        "label": "언어",
+        "selected": "한국어",
+        "value": "ko"
+      },
+      {
+        "label": null,
+        "selected": "대한민국 · KRW",
+        "value": "KR"
+      },
+      {
+        "label": null,
+        "selected": "현물",
+        "value": "spot"
+      },
+      {
+        "label": null,
+        "selected": "KRW 입출금",
+        "value": "KRW deposit and withdrawal"
+      },
+      {
+        "label": null,
+        "selected": "처음 계정",
+        "value": "new_account"
+      }
+    ],
+    "title": "한국 암호화폐 플랫폼 조사: 본인확인, 원화 입출금과 상품 범위 — NexuAlpha",
+    "url": "https://nexualpha.com/kr?locale=ko&market=KR&product=research&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r69_kr_funding_check"
+  },
+  "boundary": "One browser current viewport. Korean page and market KR retained; product=research resolves site regional spot default, not claimed preserved as a trading selection. No exhaustive native language or whole-site/mobile acceptance."
+}

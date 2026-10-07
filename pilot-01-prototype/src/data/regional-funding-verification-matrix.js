@@ -1,0 +1,403 @@
+export const REGIONAL_FUNDING_MATRIX_REVIEWED_AT = "2026-09-28";
+
+export const REGIONAL_FUNDING_MATRIX_PUBLIC_JSON = "/research/regional-funding-verification-matrix.json";
+export const REGIONAL_FUNDING_MATRIX_PUBLIC_CSV = "/research/regional-funding-verification-matrix.csv";
+export const REGIONAL_FUNDING_MATRIX_SCOPE = "Local fiat and payment-route verification checklist for selected regional crypto platform research pages.";
+export const REGIONAL_FUNDING_MATRIX_BOUNDARY = "This asset is a research checklist. It does not prove account approval, funding availability, product access, user benefits, fees, processing time or registration outcome for a specific user.";
+export const REGIONAL_FUNDING_MATRIX_METHODOLOGY = "Rows use existing reviewed NexuAlpha source registries and official regulator, payment-system or platform support pages. Account-specific outcomes remain pending until shown in the official logged-in account flow.";
+
+const source = (label, url, role, reviewedAt = REGIONAL_FUNDING_MATRIX_REVIEWED_AT) => Object.freeze({
+  label,
+  url,
+  role,
+  reviewedAt,
+});
+
+const row = (entry) => Object.freeze({
+  status: "source-linked",
+  reviewedAt: REGIONAL_FUNDING_MATRIX_REVIEWED_AT,
+  ...entry,
+  paymentRails: Object.freeze(entry.paymentRails || []),
+  accountScreenChecks: Object.freeze(entry.accountScreenChecks || []),
+  feeOrTimingChecks: Object.freeze(entry.feeOrTimingChecks || []),
+  officialSources: Object.freeze(entry.officialSources || []),
+  unknowns: Object.freeze(entry.unknowns || []),
+});
+
+export const REGIONAL_FUNDING_VERIFICATION_MATRIX = Object.freeze([
+  row({
+    id: "br-brl-pix",
+    market: "BR",
+    marketName: "Brazil",
+    locale: "pt-BR",
+    fiatCurrency: "BRL",
+    paymentRails: ["Pix", "TED", "BRL bank transfer"],
+    accountScreenChecks: [
+      "Confirm BRL and Pix or bank-transfer visibility inside the logged-in official account.",
+      "Match CPF or CNPJ, account holder name, bank account ownership and order status before sending funds.",
+      "Treat deposit and withdrawal as separate checks; one visible path does not prove the other path is available.",
+    ],
+    feeOrTimingChecks: [
+      "Read the current account screen for minimum and maximum amount, fee, processing time and returned-payment conditions.",
+      "Model trading fee, fixed deposit cost, spread and withdrawal cost separately before treating the route as ready.",
+    ],
+    officialSources: [
+      source("Banco Central do Brasil Pix FAQ", "https://www.bcb.gov.br/estabilidadefinanceira/perguntaserespostaspix", "official-payment-system-reference", "2026-09-14"),
+      source("Binance Brasil BRL deposit guidance", "https://www.binance.com/pt-BR/support/faq/detail/53636607eebc42dbb513863b49bba98f", "official-platform-guidance", "2026-09-08"),
+      source("Binance Brasil BRL bank-transfer FAQ", "https://www.binance.com/pt-BR/support/faq/detail/2604a5d35bd947d485dc30d865539e3e", "official-platform-guidance", "2026-09-08"),
+      source("OKX BRL Pix deposit guidance", "https://www.okx.com/help/how-do-i-deposit-brl", "official-platform-guidance", "2026-09-08"),
+      source("OKX BRL limits, fees and processing-time guidance", "https://www.okx.com/help/where-do-i-find-limits-fees-and-processing-time-details-for-cash-deposit", "official-platform-guidance", "2026-09-08"),
+    ],
+    unknowns: [
+      "Whether Pix, TED, deposit or withdrawal appears for the specific logged-in account.",
+      "Whether CPF or CNPJ, name match, limits, fees, processing time and any benefit remain valid at action time.",
+    ],
+    cannotPromise: "Does not prove that a specific user can open an account, deposit or withdraw BRL, receive a benefit, or get a fixed fee result.",
+  }),
+  row({
+    id: "mx-mxn-spei",
+    market: "MX",
+    marketName: "Mexico",
+    locale: "es",
+    fiatCurrency: "MXN",
+    paymentRails: ["SPEI", "MXN bank transfer", "Medá account route"],
+    accountScreenChecks: [
+      "Confirm MXN and SPEI visibility inside the current official account flow before treating a platform route as usable.",
+      "Check CURP, identity status, Medá or platform account status, beneficiary details and bank-account ownership before sending funds.",
+      "Separate deposit, withdrawal, trading product and campaign checks; an official SPEI guide does not prove all account routes are enabled.",
+    ],
+    feeOrTimingChecks: [
+      "Read the live order screen for minimum and maximum amount, fee, processing time and returned-payment conditions before funding.",
+      "Keep quoted processing time, account-specific fees and final trading cost pending until the official account screen shows them.",
+    ],
+    officialSources: [
+      source("Banco de México SPEI information", "https://www.banxico.org.mx/servicios/spei_-informacion-banco-mex.html", "official-payment-system-reference"),
+      source("Binance MXN and SPEI deposit guidance", "https://www.binance.com/es-MX/support/faq/detail/c45b457e73a14580ab6be95f10bef5b5", "official-platform-guidance"),
+      source("Binance Mexico account guidance", "https://www.binance.com/es-MX/support/faq/detail/588ca3bd6b214a17bf1070a8189fb809", "official-platform-guidance"),
+      source("CNBV fintech and virtual-asset framework", "https://www.gob.mx/cnbv/acciones-y-programas/sector-fintech", "official-regulatory-reference"),
+    ],
+    unknowns: [
+      "Whether MXN, SPEI or the Medá route appears for the specific logged-in account.",
+      "Whether CURP, beneficiary details, bank-account ownership, fees, timing, product scope or benefits pass the current account flow.",
+    ],
+    cannotPromise: "Does not prove that a specific user can open a Mexico account, use SPEI or MXN, pass identity checks, receive a benefit, or get a fixed fee or timing result.",
+  }),
+  row({
+    id: "tw-twd-personal-bank",
+    market: "TW",
+    marketName: "Taiwan",
+    locale: "zh-Hant",
+    fiatCurrency: "TWD",
+    paymentRails: ["TWD personal bank-account transfer", "TWD deposit where shown", "TWD withdrawal where shown", "on-chain crypto transfer where shown"],
+    accountScreenChecks: [
+      "先核對金管會目前適用的洗錢防制登記規範、完成登記名單與業者登記的業務類別；登記不是金管會背書，也不代表特定帳戶或產品可用。",
+      "確認 KYC 已完成，平台帳戶姓名與本人銀行帳戶戶名一致，且匯款帳戶已在官方帳戶流程完成驗證，再進行新臺幣轉帳。",
+      "入金與出金必須分開核對；能入金不代表能提領，銀行轉帳與鏈上轉入或轉出也可能有不同的帳戶限制。",
+      "將現貨、質押、借貸、保證金與衍生性商品分開核對；平台或業者出現在登記名單，不代表每項產品均可提供給該使用者。",
+    ],
+    feeOrTimingChecks: [
+      "在官方登入帳戶畫面核對當下的新臺幣入金與出金限額、手續費、銀行處理時間、退匯條件與帳戶限制。",
+      "在官方產品頁或下單畫面核對現貨與其他產品的費用及風險條件；公開說明不能取代帳戶當下顯示的條件。",
+      "費用、限額、到帳時間與審核時間一律保持 unknown，直到官方登入帳戶在操作當下顯示具體結果。",
+    ],
+    officialSources: [
+      source("Taiwan FSC Virtual Asset Service Act", "https://law.fsc.gov.tw/LawContent.aspx?id=GL004301", "official-legislation", "2026-09-29"),
+      source("Taiwan FSC anti-money-laundering registration rules for VASPs", "https://law.fsc.gov.tw/LawContent.aspx?id=GL004000", "official-regulatory-reference", "2026-09-29"),
+      source("Taiwan FSC list of VASPs that completed AML registration", "https://www.fsc.gov.tw/userfiles/file/1141114%E5%AE%8C%E6%88%90%E6%B4%97%E9%8C%A2%E9%98%B2%E5%88%B6%E7%99%BB%E8%A8%98%E4%B9%8BVASP%E6%A5%AD%E8%80%85%E5%90%8D%E5%96%AE%28%E6%9B%B4%E6%8B%93%E8%8D%92%E8%B3%87%E6%9C%AC%E9%A1%8D.pdf", "official-register", "2026-09-29"),
+      source("MAX New Taiwan dollar deposit guidance", "https://support.maicoin.com/zh-TW/support/solutions/articles/32000026522-max-%E6%96%B0%E5%8F%B0%E5%B9%A3%E5%85%A5%E9%87%91%E6%95%99%E5%AD%B8", "official-platform-guidance", "2026-09-29"),
+      source("MAX Exchange bank-account verification guide", "https://support.maicoin.com/zh-TW/support/solutions/articles/32000016129-%E5%A6%82%E4%BD%95%E9%A9%97%E8%AD%89%E9%8A%80%E8%A1%8C%E5%B8%B3%E8%99%9F-", "official-platform-guidance", "2026-09-29"),
+    ],
+    unknowns: [
+      "《虛擬資產服務法》雖已公布，但金管會法規頁標示全部或部分條文尚未施行；不得把未施行的許可制度寫成目前已全面生效。",
+      "特定使用者能否通過 KYC、姓名比對、本人銀行帳戶驗證、居住地或其他帳戶審查。",
+      "新臺幣入金、新臺幣出金、鏈上轉入與鏈上轉出是否分別出現在該登入帳戶，以及各自的費用、限額、到帳與審核時間。",
+      "現貨、質押、借貸、保證金、期貨或其他衍生性商品是否適用於該服務主體、帳戶與使用者。",
+    ],
+    cannotPromise: "不保證特定業者、帳戶或產品在台灣可用，也不保證 KYC、本人銀行帳戶、新臺幣入金或出金、鏈上轉帳、現貨或其他產品、費用、限額、到帳時間、審核結果或任何使用者權益。",
+  }),
+  row({
+    id: "id-idr-va-qris",
+    market: "ID",
+    marketName: "Indonesia",
+    locale: "id",
+    fiatCurrency: "IDR",
+    paymentRails: ["IDR bank virtual account", "QRIS where shown", "wallet route where shown", "on-chain crypto transfer where shown"],
+    accountScreenChecks: [
+      "Mulai dari konteks OJK/Bappebti dan cocokkan nama badan usaha, domain resmi, serta layanan yang benar sebelum membuka rute akun.",
+      "Konfirmasi verifikasi identitas, negara domisili, nomor ponsel, email, dan level akun di alur resmi sebelum deposit.",
+      "Periksa deposit dan penarikan secara terpisah; VA bank, QRIS, wallet, dan crypto transfer dapat memiliki status, biaya, batas, dan waktu proses berbeda.",
+      "Pisahkan spot, futures, promosi, referral, dan produk lain; sumber regulator atau panduan deposit tidak membuktikan produk tersedia untuk akun tertentu.",
+    ],
+    feeOrTimingChecks: [
+      "Baca layar akun resmi untuk minimum, maksimum, biaya, waktu proses, status order, pengembalian dana, serta bank atau provider yang didukung.",
+      "Biaya, batas, waktu proses, referral, promosi, dan akses produk tetap unknown sampai terlihat di akun resmi pada saat tindakan.",
+    ],
+    officialSources: [
+      source("OJK and Bappebti transition announcement for crypto assets", "https://ojk.go.id/id/berita-dan-kegiatan/siaran-pers/Pages/Bappebti-Kemendag-Alihkan-Tugas-Aset-Keuangan-Digital-termasuk-Aset-Kripto-serta-Derivatif-Keuangan-kepada-OJK-dan-BI.aspx", "official-regulatory-reference", "2026-09-29"),
+      source("Bappebti prospective physical crypto-asset trader list", "https://bappebti.go.id/calon_pedagang_aset_kripto", "official-register", "2026-09-29"),
+      source("Tokocrypto IDR deposit guidance", "https://support.tokocrypto.com/hc/en-us/articles/31314362562829-Tokocrypto-Deposit-Guide", "official-platform-guidance", "2026-09-29"),
+      source("Tokocrypto referral-code guidance", "https://support.tokocrypto.com/hc/en-us/articles/19368690221069-Understanding-Referral-Codes-on-Tokocrypto", "official-platform-guidance", "2026-09-29"),
+    ],
+    unknowns: [
+      "Apakah pengguna tertentu lolos KYC, domisili, verifikasi ponsel, email, dan level akun.",
+      "Apakah VA bank, QRIS, wallet, deposit IDR, penarikan IDR, atau transfer crypto muncul untuk akun yang sedang login.",
+      "Apakah biaya, batas, waktu proses, status order, refund, referral, promosi, spot, futures, atau produk lain tetap berlaku pada saat tindakan.",
+    ],
+    cannotPromise: "Tidak membuktikan persetujuan akun, ketersediaan IDR funding, VA bank, QRIS, wallet, transfer crypto, produk spot atau futures, hasil biaya, waktu proses, referral, promosi, atau atribusi pendaftaran untuk pengguna tertentu.",
+  }),
+  row({
+    id: "us-usd-ach-wire-card",
+    market: "US",
+    marketName: "United States",
+    locale: "en",
+    fiatCurrency: "USD",
+    paymentRails: ["ACH", "wire transfer", "debit card", "on-chain crypto transfer"],
+    accountScreenChecks: [
+      "Confirm US residence, state, identity-verification status and the official service entity before comparing USD funding routes.",
+      "Verify the linked bank account is in the user's legal name, matches the platform account name and is owned by the user before using ACH, wire or debit-card routes.",
+      "Check deposit and withdrawal availability separately; ACH, wire, debit-card add-cash, cash-out and crypto-send permissions can have different holds or account restrictions.",
+      "Separate spot account funding from derivatives or margin eligibility; US futures or spot-margin products require a distinct account, terms and eligibility review.",
+    ],
+    feeOrTimingChecks: [
+      "Read the official account screen for current ACH, wire, debit-card and crypto-transfer limits, holds, fees, processing time and rejection conditions.",
+      "Record state exclusions before acting; Kraken official pages identify excluded or limited US states for domestic funding, fiat transfers, crypto transfers and platform services.",
+      "Keep product-specific costs, withdrawal availability, funding holds and derivatives collateral rules pending until the official account flow shows them.",
+    ],
+    officialSources: [
+      source("Coinbase North America payment-method verification", "https://help.coinbase.com/en/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-namerica-latam", "official-platform-guidance", "2026-09-28"),
+      source("Coinbase US bank-account payment-method guidance", "https://help.coinbase.com/en/pro/getting-started/adding-a-payment-method/using-a-bank-account-as-a-payment-method-for-us-customers", "official-platform-guidance", "2026-09-28"),
+      source("Coinbase United States user agreement", "https://www.coinbase.com/legal/user_agreement/united_states", "official-platform-terms", "2026-09-28"),
+      source("Coinbase US derivatives introduction", "https://help.coinbase.com/en/coinbase/derivatives/us-derivatives-intro", "official-platform-guidance", "2026-09-28"),
+      source("Kraken US domestic funding requirements", "https://support.kraken.com/articles/360000410446-requirements-to-access-united-states-us-domestic-funding", "official-platform-guidance", "2026-09-28"),
+      source("Kraken licensed and regulated status with US state restrictions", "https://support.kraken.com/articles/where-is-kraken-licensed-or-regulated", "official-platform-guidance", "2026-09-28"),
+      source("FinCEN MSB Registration Web site notice", "https://www.fincen.gov/msb-registration-web-site", "official-regulatory-reference", "2026-09-28"),
+    ],
+    unknowns: [
+      "Whether the specific user passes identity, residence, SSN, proof-of-address, bank-name, phone, account-ownership or payment-provider checks.",
+      "Whether ACH, wire transfer, debit-card, cash-out, crypto deposit, crypto withdrawal or on-chain send appears for the specific logged-in account.",
+      "Which platform-specific state exclusions apply at action time, including domestic funding exclusions, fiat-transfer limits, crypto-transfer limits and product availability.",
+      "Whether the user's intended route is spot trading, on-chain transfer, US futures, spot margin or another derivatives product with separate eligibility and risk disclosures.",
+    ],
+    cannotPromise: "Does not prove account approval, US state availability, USD funding availability, ACH, wire, debit-card, on-chain transfer, spot trading, derivatives access, fee outcome, timing outcome or benefit eligibility for a specific user.",
+  }),
+  row({
+    id: "eu-eur-sepa",
+    market: "EU",
+    marketName: "European Union",
+    locale: "en",
+    fiatCurrency: "EUR",
+    paymentRails: ["SEPA", "bank transfer", "card", "on-chain USDT fallback"],
+    accountScreenChecks: [
+      "Confirm the service entity, country of residence and official domain before comparing funding routes.",
+      "Check whether EUR, SEPA or card funding is shown for the current country and account stage.",
+      "Verify identity status, bank-account name match, product scope and deposit or withdrawal direction separately.",
+    ],
+    feeOrTimingChecks: [
+      "Use the official account screen for supported country, fee, limit and settlement timing.",
+      "Keep country-specific compliance and payment-method availability pending until the platform account shows it.",
+    ],
+    officialSources: [
+      source("ESMA databases and registers: Interim MiCA Register", "https://www.esma.europa.eu/et/node/200055", "official-register"),
+      source("ESMA MiCA register rulebook", "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white", "official-rulebook"),
+      source("Coinbase EMEA payment-method verification", "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea", "official-platform-guidance"),
+      source("Coinbase EMEA identity verification guidance", "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification", "official-platform-guidance"),
+    ],
+    unknowns: [
+      "Which EU member-state entity, residence country and product permissions apply to the specific user.",
+      "Whether SEPA, card, fees, settlement timing or user benefits appear in the current official account screen.",
+    ],
+    cannotPromise: "Does not prove one universal EU route; account approval, country coverage, SEPA availability, product access and user benefits remain account-specific.",
+  }),
+  row({
+    id: "uk-gbp-bank",
+    market: "UK",
+    marketName: "United Kingdom",
+    locale: "en",
+    fiatCurrency: "GBP",
+    paymentRails: ["GBP bank transfer", "card", "SEPA where shown", "on-chain USDT fallback"],
+    accountScreenChecks: [
+      "Confirm UK residence, identity or appropriateness checks and the official service entity before funding.",
+      "Check GBP funding visibility, bank-account name match and platform onboarding status inside the official account.",
+      "Verify product scope and marketing or onboarding terms before treating a registration route as ready.",
+    ],
+    feeOrTimingChecks: [
+      "Read the official account screen for GBP deposit or withdrawal fee, limit, processing time and rejection conditions.",
+      "Keep account-specific benefits, campaigns and product access pending until shown in the official flow.",
+    ],
+    officialSources: [
+      source("FCA cryptoasset registration guidance", "https://www.fca.org.uk/firms/cryptoassets/who-needs-register", "official-guidance"),
+      source("FCA cryptoasset registration process", "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration", "official-guidance"),
+      source("Coinbase UK account creation and identity checks", "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account", "official-platform-guidance"),
+      source("Coinbase UK GBP funding guidance", "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea", "official-platform-guidance"),
+    ],
+    unknowns: [
+      "Whether the specific UK user passes residence, identity, appropriateness or onboarding checks.",
+      "Whether GBP funding, bank-name matching, fees, timing, product access or benefits appear in the current official account screen.",
+    ],
+    cannotPromise: "Does not prove registration approval, GBP funding availability, product access, fee outcome or benefit eligibility for a specific user.",
+  }),
+  row({
+    id: "jp-jpy-bank",
+    market: "JP",
+    marketName: "Japan",
+    locale: "ja",
+    fiatCurrency: "JPY",
+    paymentRails: ["JPY deposit", "registered bank account in user's name", "crypto transfer route pending account confirmation"],
+    accountScreenChecks: [
+      "Confirm the provider appears in the current FSA registered crypto-asset exchange provider context before comparing signup routes.",
+      "Check identity verification, registered personal information and a bank account in the user's own name before JPY funding.",
+      "Verify JPY deposit visibility, crypto transfer availability and product scope inside the current official account flow.",
+    ],
+    feeOrTimingChecks: [
+      "Read the official account or fee page for current JPY deposit, withdrawal, trading fee, reflection timing and rejection conditions.",
+      "Keep fees, account approval timing, supported products and benefit eligibility pending until shown by the official account flow.",
+    ],
+    officialSources: [
+      source("Japan FSA registered crypto-asset exchange providers", "https://www.fsa.go.jp/en/regulated/licensed/en_kasoutuka.pdf", "official-register"),
+      source("bitFlyer Japan how to start", "https://bitflyer.com/en-jp/s/how-to-start", "official-platform-guidance"),
+      source("bitFlyer Japan official FAQ", "https://bitflyer.com/en-jp/faq", "official-platform-guidance"),
+    ],
+    unknowns: [
+      "Whether the specific user passes Japan identity, residence and registered-bank-account checks.",
+      "Whether JPY deposit or withdrawal, crypto transfer, timing, fees, product scope or benefits appear in the current official account flow.",
+    ],
+    cannotPromise: "Does not prove registration approval, JPY funding availability, bank-account approval, crypto transfer availability, product access, fee outcome or benefit eligibility for a specific user.",
+  }),
+  row({
+    id: "hk-hkd-edda",
+    market: "HK",
+    marketName: "Hong Kong",
+    locale: "zh-Hant",
+    fiatCurrency: "HKD",
+    // Keep the first rail as the stable decision-passport token used by existing
+    // URLs and saved sessions. The UI localizes this value for zh-Hant.
+    paymentRails: ["HKD bank transfer", "帳戶顯示時才可使用的 eDDA", "須以帳戶確認的鏈上加密資產轉帳"],
+    accountScreenChecks: [
+      "先核對平台名稱、服務主體與 SFC 公開狀態，再比較 HKD 或鏈上入金路徑；SFC 名單不是帳戶批准或產品適用保證。",
+      "在官方平台流程內確認身分、地址證明、2FA、銀行驗證狀態與本人銀行帳戶名稱是否一致。",
+      "分開核對 HKD 銀行轉帳、eDDA、鏈上轉入或轉出，以及目標產品是否在目前帳戶可見。",
+    ],
+    feeOrTimingChecks: [
+      "最低金額、銀行處理時間、手續費、限額、hold、退回或拒收渠道規則，以官方帳戶畫面或平台支援頁為準。",
+      "HKD 入金可用性、產品範圍、費用、到帳時間、hold 與用戶權益，一律保持 unknown，直到官方帳戶流程顯示。",
+    ],
+    officialSources: [
+      source("SFC licensed virtual asset trading platforms", "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms", "official-register"),
+      source("SFC virtual asset platform requirements", "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators", "official-guidance"),
+      source("HashKey Exchange fiat currency deposit guidelines", "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General", "official-platform-guidance"),
+      source("HashKey Exchange eDDA deposit guide", "https://support.hashkey.com/hc/en-gb/articles/48860678459801-Deposit-Guide-for-eDDA", "official-platform-guidance"),
+      source("OSL Hong Kong account verification process", "https://www.osl.com/hk-en/support/article/kA0fv00000002BVCAY?channel=PPXtZS", "official-platform-guidance"),
+    ],
+    unknowns: [
+      "特定使用者能否通過身分、地址證明、銀行驗證、2FA 或本人銀行帳戶名稱比對。",
+      "HKD 銀行轉帳、eDDA、鏈上轉帳、費用、hold、到帳時間、產品範圍或用戶權益是否出現在目前官方帳戶畫面。",
+    ],
+    cannotPromise: "不保證特定使用者能開戶、完成 HKD 入金、取得 eDDA 或銀行授權、使用鏈上轉帳、取得產品權限、固定費用／到帳結果、用戶權益或任何註冊歸因。",
+  }),
+  row({
+    id: "kr-krw-real-name",
+    market: "KR",
+    marketName: "Korea",
+    locale: "ko",
+    fiatCurrency: "KRW",
+    paymentRails: ["KRW deposit and withdrawal", "real-name bank account where shown", "crypto transfer route pending account confirmation"],
+    accountScreenChecks: [
+      "Confirm the official FSC or KOFIU regulatory context before comparing a Korean account route.",
+      "Check signup, customer verification, real-name bank account, two-channel authentication and account level inside the official platform flow.",
+      "Verify KRW deposit or withdrawal, crypto transfer and intended product scope separately for the current account.",
+    ],
+    feeOrTimingChecks: [
+      "Read the official account screen or platform support page for KRW amount limits, fees, processing time, rejection conditions and authentication requirements.",
+      "Keep KRW funding availability, product scope, fees, timing and user benefits pending until the official account flow shows them.",
+    ],
+    officialSources: [
+      source("FSC Korea Virtual Asset User Protection Act overview", "https://www.fsc.go.kr/eng/pr010101/81698", "official-regulatory-reference"),
+      source("Korea Financial Intelligence Unit virtual-asset business guidance", "https://www.kofiu.go.kr/eng/legislation/legislation.do", "official-regulatory-reference"),
+      source("Upbit Korea account registration and customer verification", "https://support.upbit.com/hc/ko/articles/900006825383-%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94", "official-platform-guidance"),
+      source("Upbit Korea KRW deposit and withdrawal guidance", "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC", "official-platform-guidance"),
+    ],
+    unknowns: [
+      "Whether the specific user can complete customer verification, real-name bank-account checks or two-channel authentication.",
+      "Whether KRW funding, crypto transfer, fees, timing, product scope or benefits appear in the current official account screen.",
+    ],
+    cannotPromise: "Does not prove account approval, KRW funding availability, real-name bank-account approval, crypto transfer availability, product access, fee outcome or benefit eligibility for a specific user.",
+  }),
+  row({
+    id: "sg-sgd-account",
+    market: "SG",
+    marketName: "Singapore",
+    locale: "en",
+    fiatCurrency: "SGD",
+    paymentRails: ["SGD funding route pending account-screen confirmation", "PayNow or FAST only when shown inside the official account", "crypto transfer route pending account-screen confirmation"],
+    accountScreenChecks: [
+      "Confirm MAS Digital Payment Token service context and the official service entity, then treat them as account-screen verification inputs only.",
+      "Check identity, residence, account information and supported payment methods inside the current official account flow.",
+      "Verify whether SGD funding, PayNow, FAST, crypto transfer and the intended product are visible for the current account before acting.",
+    ],
+    feeOrTimingChecks: [
+      "Use the official account screen or platform support page for payment method, minimum amount, fee, limit, processing time and rejection conditions.",
+      "Keep SGD funding, PayNow, FAST, product scope, fees, timing and user benefits pending until the official account flow shows them.",
+    ],
+    officialSources: [
+      source("MAS Financial Institutions Directory: Digital Payment Token Service", "https://eservices.mas.gov.sg/fid/institution?activity=Digital+Payment+Token+Service", "official-register"),
+      source("MAS types of payment services: Digital Payment Token service", "https://www.mas.gov.sg/regulation/payments/licensing-for-payment-service-providers/types-of-payment-services", "official-regulatory-reference"),
+      source("Coinbase Singapore official account entry", "https://www.coinbase.com/en-sg", "official-platform-guidance"),
+      source("Independent Reserve Singapore official SGD funding entry", "https://www.independentreserve.com/", "official-platform-guidance"),
+    ],
+    unknowns: [
+      "Whether the specific user can complete identity, residence, account information or payment-method checks.",
+      "Whether SGD funding, PayNow, FAST, crypto transfer, fees, timing, product scope or benefits appear in the current official account screen.",
+    ],
+    cannotPromise: "Does not prove account approval, SGD funding availability, PayNow or FAST availability, crypto transfer availability, product access, fee outcome or benefit eligibility for a specific user.",
+  }),
+  row({
+    id: "tr-try-bank",
+    market: "TR",
+    marketName: "Türkiye",
+    locale: "tr",
+    fiatCurrency: "TRY",
+    paymentRails: ["TRY bank transfer", "matching bank account where shown", "crypto transfer route pending account confirmation"],
+    accountScreenChecks: [
+      "Confirm the current SPK operation and liquidation lists before treating a Turkish platform route as available.",
+      "Treat a name on the SPK liquidation list, including Bitget Teknoloji AŞ while it appears there, as a stop-and-review signal rather than a usable Türkiye funding route.",
+      "Check identity, face, investor-profile, address and account-verification steps inside the official platform flow.",
+      "Verify whether TRY deposit, crypto transfer and the intended product are visible for the current account before acting.",
+    ],
+    feeOrTimingChecks: [
+      "Use the official account screen or platform support page for bank-transfer conditions, fees, limits, timing and rejected-payment conditions.",
+      "Keep TRY funding availability, product scope, fees, timing and user benefits pending until the official account flow shows them.",
+    ],
+    officialSources: [
+      source("SPK crypto-asset service providers in operation", "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi", "official-register"),
+      source("SPK crypto-asset service providers in liquidation", "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi", "official-register"),
+      source("Paribu account verification guidance", "https://www.paribu.com/destek/getting-started/account-verification", "official-platform-guidance"),
+      source("Paribu Turkish lira deposit guidance", "https://www.paribu.com/destek/try-transactions/try-deposit", "official-platform-guidance"),
+    ],
+    unknowns: [
+      "Whether the specific user can pass identity, face, investor-profile, address or account-verification steps.",
+      "Whether TRY funding, bank-account matching, crypto transfer, fees, timing, product scope or benefits appear in the current official account screen.",
+      "Whether a named provider has moved between the SPK operation list and liquidation list since this review.",
+    ],
+    cannotPromise: "Does not prove account approval, TRY funding availability, bank-account approval, crypto transfer availability, product access, provider status, fee outcome or benefit eligibility for a specific user.",
+  }),
+]);
+
+export function regionalFundingRowsForMarkets(markets = []) {
+  const selected = new Set(markets.map((market) => String(market || "").toUpperCase()).filter(Boolean));
+  if (!selected.size) return REGIONAL_FUNDING_VERIFICATION_MATRIX;
+  return REGIONAL_FUNDING_VERIFICATION_MATRIX.filter((entry) => selected.has(entry.market));
+}
+
+export function regionalFundingRowsForMarket(market) {
+  return regionalFundingRowsForMarkets([market]);
+}
+
+export function regionalFundingMatrixSummary(markets = []) {
+  const rows = regionalFundingRowsForMarkets(markets);
+  return {
+    reviewedAt: REGIONAL_FUNDING_MATRIX_REVIEWED_AT,
+    markets: rows.map((entry) => entry.market),
+    currencies: [...new Set(rows.map((entry) => entry.fiatCurrency))],
+    rows,
+  };
+}

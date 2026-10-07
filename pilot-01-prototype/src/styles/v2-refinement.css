@@ -1,0 +1,130 @@
+/* Finder-led direction refinement: the command deck must carry the hero. */
+@media (min-width: 781px) {
+  .finder-rows { display: grid; grid-template-columns: 1fr; }
+  .finder-rows label { display: grid; grid-template-columns: 144px 1fr; align-items: center; min-height: 48px; padding: 0 16px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .hero-grid { min-height: 760px; }
+}
+
+@media (max-width: 780px) {
+  .finder-rows { grid-template-columns: 1fr; }
+  .finder-rows label { grid-template-columns: 112px 1fr; min-height: 44px; }
+  .finder-rows label:nth-of-type(3), .finder-rows label:nth-of-type(4) { display: none; }
+  .finder-mobile-trigger { display: block; min-height: 44px; }
+}
+
+.section-lead > p, .venue-list article button { color: var(--blue-text); }
+.market-rail__items { cursor: grab; user-select: none; }.market-rail__items:active { cursor: grabbing; }
+.market-rail__items article.is-current { box-shadow: inset 0 2px 0 var(--positive); }
+.compare-details { margin-top: -1px; padding: 16px; border: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.compare-row span.is-different { color: var(--positive); box-shadow: inset 2px 0 0 var(--positive); }
+.asset-filter { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 10px 18px; align-items: center; margin: -10px 0 28px; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.asset-filter > span { color: var(--muted); font-family: var(--font-data); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.asset-filter > div { display: flex; flex-wrap: wrap; gap: 7px; }.asset-filter button { min-height: 36px; padding: 0 11px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--muted); font-size: 13px; }.asset-filter button.is-selected { border-color: var(--blue); background: rgba(63,111,255,.14); color: var(--ink); }.asset-filter p { grid-column: 2; margin: 0; color: var(--muted); font-size: 13px; }
+.listing-stream article.is-open { background: var(--surface-2); }
+.opportunity-ledger { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.opportunity-ledger article { display: grid; grid-template-rows: auto auto 1fr auto; gap: 13px; min-height: 218px; padding: 20px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: linear-gradient(180deg, rgba(255,255,255,.025), transparent); }
+.opportunity-ledger article:last-child { border-right: 0; }
+.opportunity-ledger__meta, .opportunity-ledger__action, .listing-actions, .venue-actions { display: flex; align-items: center; gap: 10px; }
+.opportunity-ledger__meta { justify-content: space-between; color: var(--muted); font-family: var(--font-data); font-size: 11px; }
+.opportunity-ledger b { font-size: 21px; line-height: 1.15; letter-spacing: -.025em; }
+.opportunity-ledger p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.opportunity-ledger__action { justify-content: space-between; }
+.opportunity-ledger__action > span { color: var(--muted); font-size: 13px; }
+.opportunity-ledger__action button, .listing-actions button, .venue-actions button { min-height: 38px; padding: 0 11px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--ink); }
+.opportunity-ledger__action button:disabled { color: var(--muted); opacity: .78; }
+.state-chip { display: inline-flex; align-items: center; min-height: 24px; padding: 0 8px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font-family: var(--font-data); font-size: 10px; }
+.state-chip--active, .state-chip--partner, .state-chip--sponsored { color: var(--positive); }
+.state-chip--pending, .state-chip--upcoming, .state-chip--stale { color: var(--warning); }
+.state-chip--expired, .state-chip--restricted, .state-chip--no-offer { color: var(--danger); }
+.listing-actions { justify-content: flex-end; }
+.listing-actions button[aria-pressed="true"] { border-color: var(--positive); color: var(--positive); }
+.venue-list article.is-open { align-items: start; background: var(--surface-2); }
+.venue-actions { justify-content: flex-end; }
+.venue-detail { grid-column: 1 / -1; margin: -6px 0 16px; padding: 12px 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+[dir="rtl"] .featured-ticket { padding-right: 40px; padding-left: 0; border-right: 1px solid var(--line); border-left: 0; }
+[dir="rtl"] .market-rail__items article, [dir="rtl"] .compare-row span, [dir="rtl"] .compare-matrix__head button { border-right: 1px solid var(--line); border-left: 0; }
+[dir="rtl"] .command-results button { text-align: right; }
+
+.design-system .v2-header > span { margin-left: auto; color: var(--warning); font-family: var(--font-data); font-size: 11px; }
+.design-system__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.design-system__grid article { padding: 20px; border: 1px solid var(--line); background: var(--surface-1); }
+.design-system__grid h2 { margin: 0 0 20px; font-size: 20px; }
+.design-system__grid article > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; border-bottom: 1px solid var(--line); }
+.design-system__grid article > div:last-child { border: 0; }
+.design-system__grid article > div > span { color: var(--muted); font-family: var(--font-data); font-size: 12px; }
+.ds-state { padding: 6px 9px; border: 1px solid var(--line); border-radius: 3px; font-size: 12px; }
+.ds-state--verified { color: var(--positive); }.ds-state--restricted,.ds-state--expired { color: var(--danger); }.ds-state--pending { color: var(--warning); }
+.ds-swatches span { display: block; width: 38px; height: 28px; color: transparent; }.ds-swatches span:nth-child(1) { background: var(--market); }.ds-swatches span:nth-child(2) { background: var(--surface-3); }.ds-swatches span:nth-child(3) { background: var(--blue); }.ds-swatches span:nth-child(4) { background: var(--positive); }
+@media(max-width:780px){.design-system__grid{grid-template-columns:1fr}.design-system .v2-header > span{font-size:9px}}
+@media(max-width:780px){.opportunity-ledger{grid-template-columns:1fr}.opportunity-ledger article{min-height:0;border-right:0}.listing-actions,.venue-actions{justify-content:flex-start;flex-wrap:wrap}[dir="rtl"] .featured-ticket{padding-right:0;border-right:0}}
+@media(max-width:780px){.asset-filter{grid-template-columns:1fr;gap:9px}.asset-filter p{grid-column:auto}}
+
+/* Selected NexuAlpha lockup: the same complete mark remains visible at every breakpoint. */
+ .v2-wordmark.nexualpha-wordmark { display: inline-flex; align-items: center; justify-content: flex-start; gap: 9px; height: 44px; color: var(--ink); line-height: 1; }
+.nexualpha-wordmark__mark { display: block; width: 42px; height: 42px; overflow: hidden; flex: 0 0 42px; }
+.nexualpha-wordmark__label { display: inline-flex; align-items: baseline; padding-top: .03em; color: #F5F7FA; font-family: var(--font-display); font-size: 24px; font-weight: 740; letter-spacing: -.065em; line-height: 1; }
+.nexualpha-wordmark__label span { color: #4B76FF; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+@media(max-width:780px){.v2-wordmark.nexualpha-wordmark{gap:7px}.nexualpha-wordmark__mark{display:block}.nexualpha-wordmark__label{display:inline-flex}}
+.v2-footer .nexualpha-wordmark { height: 36px; align-self: center; }
+.v2-footer .nexualpha-wordmark__mark { width: 32px; height: 32px; flex-basis: 32px; }
+.v2-footer .nexualpha-wordmark__label { font-size: 18px; }
+@media(max-width:780px){.v2-footer .nexualpha-wordmark{height:36px;gap:7px}.v2-footer .nexualpha-wordmark__mark{display:block}.v2-footer .nexualpha-wordmark__label{display:inline-flex}}
+
+/* Shared layout constraints: each module uses the same shell, rhythm and control line. */
+:root { --section-space: clamp(68px, 8vw, 110px); --grid-gap: clamp(24px, 3vw, 44px); --control-height: 44px; }
+.hero-grid { gap: var(--grid-gap); }
+.v2-section, .routes-section { padding-top: var(--section-space); padding-bottom: var(--section-space); }
+.v2-header__tools select, .filter-bar button, .compare-tray > button:not(.button-primary), .button-quiet { min-height: var(--control-height); }
+.section-lead { align-items: baseline; }
+.section-lead h2 { max-inline-size: 18ch; }
+.section-lead > span { max-inline-size: 34ch; }
+.compare-matrix__head { position: sticky; top: 0; z-index: 3; background: var(--market); }
+.listing-stream__head, .venue-list__head { position: sticky; top: 0; z-index: 2; background: var(--market); }
+.v2-reveal { opacity: 0; transform: translateY(16px); transition: opacity var(--motion-standard) ease, transform var(--motion-standard) ease; }
+.v2-reveal.is-revealed { opacity: 1; transform: none; }
+.button-primary:focus-visible, .button-quiet:focus-visible, .filter-bar button:focus-visible, .compare-matrix button:focus-visible, .venue-list button:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 3px; }
+.button-primary:active { transform: translateY(1px); }
+@media(max-width:780px){.compare-matrix__head,.listing-stream__head,.venue-list__head{position:static}.section-lead h2,.section-lead>span{max-inline-size:none}.v2-reveal{transform:none}}
+
+/* Homepage hierarchy: a navigation-only research path makes the product scope visible before any catalogue data. */
+.research-path { margin-top: clamp(30px, 4vw, 54px); border-top: 1px solid var(--line); }
+.research-path__heading { display: grid; grid-template-columns: minmax(132px, .72fr) minmax(0, 2fr); gap: 22px; padding: 16px 0 18px; }
+.research-path__heading p, .research-path__steps span { margin: 0; color: var(--blue-text); font-family: var(--font-data); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.research-path__heading h2 { max-width: 32ch; margin: 0; color: var(--ink); font-size: clamp(17px, 1.65vw, 22px); font-weight: 580; letter-spacing: -.027em; line-height: 1.28; }
+.research-path__steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.research-path__steps a { display: grid; grid-template-rows: auto auto 1fr; gap: 10px; min-height: 164px; padding: 17px 18px 18px; border-right: 1px solid var(--line); color: inherit; text-decoration: none; transition: background-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease; }
+.research-path__steps a:last-child { border-right: 0; }
+.research-path__steps a:hover { background: var(--surface-2); box-shadow: inset 0 2px 0 var(--blue); }
+.research-path__steps a:focus-visible { outline: 2px solid var(--blue-text); outline-offset: -3px; }
+.research-path__steps b { color: var(--ink); font-size: 15px; letter-spacing: -.015em; }
+.research-path__steps p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+@media (max-width: 780px) {
+  .research-path { margin-top: 32px; }
+  .research-path__heading { display: block; padding: 14px 0 18px; }
+  .research-path__heading h2 { margin-top: 8px; }
+  .research-path__steps { grid-template-columns: 1fr; }
+  .research-path__steps a { min-height: 0; padding: 16px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+  .research-path__steps a:last-child { border-bottom: 0; }
+  .research-path__steps a:hover { box-shadow: inset 2px 0 0 var(--blue); }
+}
+
+@media (prefers-reduced-motion: reduce) { .research-path__steps a { transition: none; } }
+[dir="rtl"] .research-path__steps a { border-right: 0; border-left: 1px solid var(--line); }
+[dir="rtl"] .research-path__steps a:last-child { border-left: 0; }
+@media (max-width: 780px) { [dir="rtl"] .research-path__steps a { border-left: 0; } }
+
+/* Shared navigation: location feedback without changing destinations. */
+.v2-header .v2-nav a[data-active="true"],
+#v2-mobile-menu nav a[data-active="true"] {
+  color: var(--blue-text);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .35em;
+}
+.v2-header .v2-nav a:focus-visible,
+#v2-mobile-menu nav a:focus-visible {
+  outline: 2px solid var(--blue-text);
+  outline-offset: 3px;
+}

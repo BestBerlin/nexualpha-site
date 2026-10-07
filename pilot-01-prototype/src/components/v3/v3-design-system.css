@@ -1,0 +1,347 @@
+/* ================================================================
+   NexuAlpha v3.5 Global Design System
+   Cyber-Fintech Dark Terminal — Bloomberg x Hyperliquid Aesthetic
+   ================================================================ */
+
+/* @property declarations must come first */
+@property --nxa-beam-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --yc-beam-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --cr-beam-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --tg-beam-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+:root {
+  --nxa-bg-base:        #07080b;
+  --nxa-bg-surface:     #0d0e12;
+  --nxa-bg-elevated:    #111318;
+  --nxa-bg-glass:       rgba(13, 14, 18, 0.72);
+  --nxa-border-dim:     rgba(255, 255, 255, 0.06);
+  --nxa-border-subtle:  rgba(255, 255, 255, 0.10);
+  --nxa-border-medium:  rgba(255, 255, 255, 0.16);
+  --nxa-blue:           #38bdf8;
+  --nxa-blue-glow:      rgba(56, 189, 248, 0.35);
+  --nxa-blue-dim:       rgba(56, 189, 248, 0.12);
+  --nxa-green:          #34d399;
+  --nxa-green-glow:     rgba(52, 211, 153, 0.35);
+  --nxa-green-dim:      rgba(52, 211, 153, 0.12);
+  --nxa-gold:           #f59e0b;
+  --nxa-gold-glow:      rgba(245, 158, 11, 0.35);
+  --nxa-gold-dim:       rgba(245, 158, 11, 0.12);
+  --nxa-purple:         #c084fc;
+  --nxa-purple-glow:    rgba(192, 132, 252, 0.35);
+  --nxa-red:            #f87171;
+  --nxa-red-dim:        rgba(248, 113, 113, 0.12);
+  --nxa-text-primary:   #f8fafc;
+  --nxa-text-secondary: #94a3b8;
+  --nxa-text-muted:     #4b5563;
+  --nxa-ease-spring:    cubic-bezier(0.16, 1, 0.3, 1);
+  --nxa-ease-out:       cubic-bezier(0.0, 0, 0.2, 1);
+  --nxa-duration-fast:  150ms;
+  --nxa-duration-med:   250ms;
+  --nxa-duration-slow:  400ms;
+
+  /* ─── 间距八档阶梯（4px 基准网格）─── */
+  --sp-1: 4px;   --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
+  --sp-5: 20px;  --sp-6: 24px;  --sp-8: 32px;  --sp-10: 40px;
+  --sp-12: 48px; --sp-16: 64px;
+
+  /* ─── 响应式 Section 间距 ─── */
+  --section-gap-xs:  clamp(16px, 1.6vw, 20px);
+  --section-gap-sm:  clamp(24px, 2.4vw, 32px);
+  --section-gap-md:  clamp(32px, 3.2vw, 44px);
+  --section-gap-lg:  clamp(40px, 4.0vw, 56px);
+
+  /* ─── 圆角三档 ─── */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+
+  /* ─── Fluid Type Scale ─── */
+  --text-xs:    clamp(10px, 0.9vw,  11px);
+  --text-sm:    clamp(12px, 1.1vw,  13px);
+  --text-base:  clamp(13px, 1.2vw,  15px);
+  --text-md:    clamp(15px, 1.4vw,  17px);
+  --text-lg:    clamp(17px, 1.6vw,  19px);
+  --text-xl:    clamp(19px, 1.9vw,  22px);
+  --text-2xl:   clamp(22px, 2.2vw,  28px);
+  --text-3xl:   clamp(26px, 2.8vw,  38px);
+  --text-hero:  clamp(34px, 4.2vw,  62px);
+
+  /* ─── CJK 行高补偿 ─── */
+  --lh-cjk-base:    1.75;
+  --lh-cjk-heading: 1.38;
+  --lh-latin-base:  1.6;
+  --lh-latin-heading: 1.12;
+
+  /* ─── 统一 border Token（归一化三套命名）─── */
+  --border-dim:     rgba(255, 255, 255, 0.06);  /* 替代 --nxa-border-dim, --line（极淡）*/
+  --border-subtle:  rgba(255, 255, 255, 0.10);  /* 替代 --border-subtle（基准）*/
+  --border-medium:  rgba(255, 255, 255, 0.16);  /* 替代 --nxa-border-medium */
+  --border-strong:  rgba(255, 255, 255, 0.24);  /* hover 强调 */
+
+  /* ─── 统一卡片背景 Token ─── */
+  --surface-0:  #07080b;                        /* 页面底层 */
+  --surface-1:  rgba(255, 255, 255, 0.04);      /* 普通卡片 */
+  --surface-2:  rgba(255, 255, 255, 0.065);     /* 悬停卡片 */
+  --surface-3:  rgba(17, 19, 24, 0.98);         /* 弹层/Sheet */
+  --surface-glass: rgba(13, 14, 18, 0.72);      /* 玻璃拟态 */
+
+  /* ─── 设备断点（供 JS 使用）─── */
+  --bp-sm:  375px;
+  --bp-md:  430px;
+  --bp-lg:  768px;
+  --bp-xl:  1024px;
+  --bp-2xl: 1280px;
+  --bp-3xl: 1536px;
+}
+
+/* Border Beam global */
+.nxa-beam-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.nxa-beam-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--nxa-beam-angle, 0deg),
+    transparent 0deg,
+    transparent 300deg,
+    var(--nxa-blue) 340deg,
+    rgba(255, 255, 255, 0.85) 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+  animation: nxa-beam-rotate 6s linear infinite paused;
+}
+.nxa-beam-card:hover::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+@keyframes nxa-beam-rotate { to { --nxa-beam-angle: 360deg; } }
+
+/* Pulse Ring */
+.nxa-pulse-ring {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+.nxa-pulse-ring--green  { background: var(--nxa-green); box-shadow: 0 0 8px var(--nxa-green-glow); }
+.nxa-pulse-ring--blue   { background: var(--nxa-blue);  box-shadow: 0 0 8px var(--nxa-blue-glow); }
+.nxa-pulse-ring--gold   { background: var(--nxa-gold);  box-shadow: 0 0 8px var(--nxa-gold-glow); }
+.nxa-pulse-ring--red    { background: var(--nxa-red);   box-shadow: 0 0 8px rgba(248,113,113,0.35); }
+.nxa-pulse-ring::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  animation: nxa-pulse-expand 2.4s cubic-bezier(0.0, 0, 0.2, 1) infinite;
+  opacity: 0;
+}
+.nxa-pulse-ring--green::after { color: var(--nxa-green); }
+.nxa-pulse-ring--blue::after  { color: var(--nxa-blue); }
+.nxa-pulse-ring--gold::after  { color: var(--nxa-gold); }
+@keyframes nxa-pulse-expand {
+  0%   { transform: scale(0.8); opacity: 0.8; }
+  70%  { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Glassmorphism */
+.nxa-glass {
+  background: rgba(13, 14, 18, 0.72);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  border: 1px solid var(--nxa-border-subtle);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06),
+    0 32px 64px -16px rgba(0, 0, 0, 0.7);
+}
+
+/* Utility badges */
+.nxa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  border: 1px solid currentColor;
+}
+.nxa-badge--blue   { color: var(--nxa-blue);  background: var(--nxa-blue-dim); border-color: rgba(56,189,248,0.3); }
+.nxa-badge--green  { color: var(--nxa-green); background: var(--nxa-green-dim); border-color: rgba(52,211,153,0.3); }
+.nxa-badge--gold   { color: var(--nxa-gold);  background: var(--nxa-gold-dim); border-color: rgba(245,158,11,0.3); }
+.nxa-badge--purple { color: var(--nxa-purple); background: rgba(192,132,252,0.1); border-color: rgba(192,132,252,0.3); }
+.nxa-badge--red    { color: var(--nxa-red);   background: var(--nxa-red-dim); border-color: rgba(248,113,113,0.3); }
+
+/* Gradient text */
+.nxa-text-gradient-blue {
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nxa-text-gradient-gold {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #ef8c0f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nxa-text-gradient-green {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card entry animation */
+.nxa-card-enter {
+  animation: nxa-card-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes nxa-card-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Ticker scroll */
+.nxa-ticker-wrap {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+.nxa-ticker-track {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  animation: nxa-ticker-scroll 30s linear infinite;
+}
+.nxa-ticker-wrap:hover .nxa-ticker-track {
+  animation-play-state: paused;
+}
+@keyframes nxa-ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ================================================================
+   NexuAlpha v4.0 Motion & Stagger System
+   ================================================================ */
+
+/* Stagger 入场（配合 IntersectionObserver / .is-revealed 类） */
+.nxa-stagger > * {
+  opacity: 0;
+  transform: translateY(10px) scale(0.99);
+  transition:
+    opacity var(--nxa-duration-slow) var(--nxa-ease-spring),
+    transform var(--nxa-duration-slow) var(--nxa-ease-spring);
+}
+.nxa-stagger.is-revealed > *:nth-child(1)  { opacity: 1; transform: none; transition-delay:   0ms; }
+.nxa-stagger.is-revealed > *:nth-child(2)  { opacity: 1; transform: none; transition-delay:  50ms; }
+.nxa-stagger.is-revealed > *:nth-child(3)  { opacity: 1; transform: none; transition-delay: 100ms; }
+.nxa-stagger.is-revealed > *:nth-child(4)  { opacity: 1; transform: none; transition-delay: 150ms; }
+.nxa-stagger.is-revealed > *:nth-child(5)  { opacity: 1; transform: none; transition-delay: 200ms; }
+.nxa-stagger.is-revealed > *:nth-child(6)  { opacity: 1; transform: none; transition-delay: 240ms; }
+.nxa-stagger.is-revealed > *:nth-child(7)  { opacity: 1; transform: none; transition-delay: 280ms; }
+.nxa-stagger.is-revealed > *:nth-child(8)  { opacity: 1; transform: none; transition-delay: 310ms; }
+.nxa-stagger.is-revealed > *:nth-child(n+9) { opacity: 1; transform: none; transition-delay: 330ms; }
+
+/* Scroll-driven 节标题渐入（渐进增强）*/
+@supports (animation-timeline: scroll()) {
+  .nxa-scroll-reveal {
+    animation: nxa-card-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 28%;
+  }
+}
+
+/* Tab / Filter 内容切换过渡 */
+.nxa-tab-panel {
+  transition: opacity 0.18s ease, transform 0.18s var(--nxa-ease-out);
+}
+.nxa-tab-panel[hidden],
+.nxa-tab-panel[aria-hidden="true"] {
+  opacity: 0;
+  transform: translateY(5px);
+  pointer-events: none;
+}
+
+/* 数字计数器（配合 CSS @property 动画）*/
+@property --nxa-n {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+.nxa-counter-animate {
+  animation: nxa-count 1.2s var(--nxa-ease-out) forwards;
+  counter-reset: n var(--nxa-n);
+}
+.nxa-counter-animate::after { content: counter(n); }
+@keyframes nxa-count {
+  from { --nxa-n: 0; }
+  to   { --nxa-n: var(--nxa-target, 100); }
+}
+
+/* Shimmer Skeleton 加载骨架 */
+.nxa-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.09) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: nxa-shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes nxa-shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* 无障碍：减弱动效 */
+@media (prefers-reduced-motion: reduce) {
+  .nxa-stagger > *,
+  .nxa-tab-panel,
+  .nxa-counter-animate,
+  .nxa-skeleton {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .nxa-scroll-reveal { animation: none !important; }
+}

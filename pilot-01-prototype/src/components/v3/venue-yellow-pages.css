@@ -1,0 +1,1850 @@
+/* 平台黄页核心网格样式 */
+.yellow-pages {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.25rem 0 1.75rem;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: visible;
+  box-sizing: border-box;
+}
+
+.yellow-pages__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.yellow-pages__title {
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.yellow-pages__lead {
+  font-size: 0.9375rem;
+  color: var(--muted, #98a2b3);
+  max-width: 42rem;
+  margin: 0 auto;
+  line-height: 1.6;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.yellow-pages__context {
+  margin: 0;
+  max-width: 48rem;
+  color: #e2e8f0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(56, 189, 248, 0.24);
+  border-radius: 0.55rem;
+  background: rgba(14, 116, 144, 0.12);
+}
+
+.yellow-pages__decision-strip {
+  width: 100%;
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.85rem;
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, rgba(30, 41, 99, 0.28), rgba(15, 23, 42, 0.62));
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.yellow-pages__decision-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: baseline;
+  color: #e0e7ff;
+  font-size: 0.82rem;
+}
+
+.yellow-pages__decision-header span {
+  color: #a5b4fc;
+  font-size: 0.72rem;
+}
+
+.yellow-pages__decision-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.yellow-pages__decision-card {
+  display: grid;
+  gap: 0.28rem;
+  min-height: 5.5rem;
+  padding: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.55rem;
+  background: rgba(15, 23, 42, 0.66);
+}
+
+.yellow-pages__decision-card--verify {
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.yellow-pages__decision-label {
+  color: #93c5fd;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.yellow-pages__decision-card strong {
+  color: #f8fafc;
+  font-size: 0.95rem;
+}
+
+.yellow-pages__decision-card small {
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+.yellow-pages__decision-card a {
+  color: #bfdbfe;
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.yellow-pages__decision-toggle {
+  display: none;
+  width: fit-content;
+  min-height: 2.35rem;
+  padding: .48rem .7rem;
+  border: 1px solid rgba(129, 140, 248, .45);
+  border-radius: .5rem;
+  background: rgba(30, 41, 99, .35);
+  color: #c7d2fe;
+  font: inherit;
+  font-size: .76rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 680px) {
+  .yellow-pages__decision-grid { grid-template-columns: 1fr; }
+  .yellow-pages__decision-header { display: grid; }
+  .yellow-pages__decision-card--mobile-collapsed { display: none; }
+  .yellow-pages__decision-toggle { display: inline-flex; align-items: center; justify-content: center; }
+}
+
+.yellow-card__market-fit {
+  color: #7dd3fc;
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* 分类切换 Tabs */
+.yellow-pages__tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.375rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.25rem;
+  border-radius: 0.625rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.yellow-pages__tab {
+  background: transparent;
+  border: none;
+  color: var(--muted, #98a2b3);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  min-width: 0;
+  min-block-size: 44px;
+  line-height: 1.25;
+  text-align: center;
+  transition: all 0.15s ease;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.yellow-pages__tab:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.yellow-pages__tab[data-active="true"] {
+  background: var(--cobalt, #1570ef);
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* 黄页卡片网格 */
+.yellow-pages__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: stretch;
+}
+
+.yellow-pages__grid--directory {
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+}
+
+.yellow-pages__grid--compact .yellow-card:nth-child(n + 7) {
+  display: none;
+}
+
+/* Full directories keep every card in the document for crawlability, while
+   the first viewport stays focused on the first decision set. */
+.yellow-pages__grid--collapsed .yellow-card:nth-child(n + 7) {
+  display: none;
+}
+
+.yellow-pages__expand {
+  justify-self: center;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
+  color: #dbeafe;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.yellow-pages__expand-count--mobile {
+  display: none;
+}
+
+.yellow-pages__compact-more .yellow-pages__expand-count--mobile {
+  display: inline;
+}
+
+.yellow-pages__expand:hover,
+.yellow-pages__expand:focus-visible {
+  border-color: rgba(96, 165, 250, 0.65);
+  background: rgba(30, 64, 175, 0.42);
+}
+
+/* Compact homepage cards keep the choice and CTA visible; detailed metrics live
+   on the platform profile and full directory where the user has opted in. */
+.yellow-pages__grid--compact .yellow-card__fit,
+.yellow-pages__grid--compact .yellow-card__meta-grid,
+.yellow-pages__grid--compact .yellow-card__perk-row {
+  display: none;
+}
+.yellow-pages__grid--compact .yellow-card__facts-disclosure {
+  display: none;
+}
+.yellow-pages__grid--compact .yellow-card {
+  min-height: 0;
+}
+
+.yellow-pages__compact-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 12px;
+  color: var(--muted, #98a2b3);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.yellow-pages__compact-more a {
+  color: #dbeafe;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.yellow-pages__compact-more a:hover,
+.yellow-pages__compact-more a:focus-visible {
+  color: #fff;
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  .yellow-pages__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .yellow-pages__grid--directory {
+    grid-template-columns: 1fr;
+  }
+
+  .yellow-card--directory {
+    grid-template-columns: 1fr;
+  }
+
+  .yellow-card--directory .yellow-card__top {
+    grid-template-columns: minmax(13rem, 1fr) minmax(13rem, 0.9fr);
+  }
+
+  .yellow-card--directory .yellow-card__domain-row {
+    justify-content: flex-start;
+  }
+
+  .yellow-card--directory .yellow-card__actions {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .yellow-pages {
+    gap: 0.7rem;
+    padding-block: 0.65rem 0.9rem;
+  }
+
+  .yellow-pages__header {
+    gap: 0.4rem;
+  }
+
+  .yellow-pages__grid {
+    grid-template-columns: 1fr;
+    gap: 0.62rem;
+  }
+
+  .yellow-card--directory {
+    padding: 0.72rem;
+    contain-intrinsic-size: 0 188px;
+  }
+
+  .yellow-card--directory .yellow-card__top,
+  .yellow-card--directory .yellow-card__directory-details {
+    grid-template-columns: 1fr;
+  }
+
+  .yellow-card--directory .yellow-card__actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .yellow-card__facts-disclosure--directory,
+  .yellow-card__perk-row--directory {
+    grid-column: 1;
+  }
+
+  /* Keep the first mobile decision set short; the full directory remains
+     rendered and is available through the explicit expansion control. */
+  .yellow-pages__grid--compact .yellow-card:nth-child(n + 4) {
+    display: none;
+  }
+  .yellow-pages__grid--collapsed .yellow-card:nth-child(n + 4) {
+    display: none;
+  }
+
+  .yellow-pages__expand-count--desktop {
+    display: none;
+  }
+
+  .yellow-pages__expand-count--mobile {
+    display: inline;
+  }
+
+  .yellow-card {
+    padding: 0.78rem;
+    contain-intrinsic-size: 0 220px;
+  }
+}
+
+@media (max-width: 430px) {
+  .yellow-pages__grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .yellow-pages__header {
+    text-align: left;
+  }
+  .yellow-pages__title {
+    font-size: 1.375rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .yellow-pages__grid {
+    gap: 0.625rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .yellow-pages__lead {
+    font-size: 0.875rem;
+  }
+  .yellow-pages__tab {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.6rem;
+  }
+}
+
+.yellow-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-1, #12161c);
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  /* Keep the first decision set responsive on long directories. Offscreen
+     cards remain in the DOM for crawlability, but their layout/paint work is
+     deferred until the user approaches them. */
+  content-visibility: auto;
+  contain-intrinsic-size: 0 320px;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.yellow-card--directory {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 0.8rem 1rem;
+  min-height: 0;
+  height: auto;
+  padding: 0.85rem;
+  contain-intrinsic-size: 0 148px;
+}
+
+.yellow-card--directory .yellow-card__top {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 0.78fr) minmax(0, auto);
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.yellow-card--directory .yellow-card__identity,
+.yellow-card--directory .yellow-card__domain-row {
+  height: auto;
+  min-height: 44px;
+}
+
+.yellow-card--directory .yellow-card__reward-badge,
+.yellow-card--directory > .yellow-card__top > .yellow-card__fit,
+.yellow-card--directory > .yellow-card__top > .yellow-card__facts-disclosure,
+.yellow-card--directory > div:not(.yellow-card__directory-details) > .yellow-card__perk-row {
+  display: none;
+}
+
+.yellow-card--directory .yellow-card__actions {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin-top: 0;
+}
+
+.yellow-card--directory .yellow-card__btn-compare {
+  grid-column: auto;
+  min-block-size: 44px;
+}
+
+/* Full directory: one primary route, supporting research and utility controls. */
+.yellow-card--directory .yellow-card__actions > :is(a,button) {
+  min-block-size: 44px;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+.yellow-card--directory .yellow-card__btn-detail {
+  background: var(--bg-surface);
+  border-color: var(--border-subtle);
+  box-shadow: none;
+}
+.yellow-card--directory .yellow-card__btn-toggle,
+.yellow-card--directory .yellow-card__btn-compare:not(.is-selected) {
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+  box-shadow: none;
+}
+.yellow-card--directory .yellow-card__btn-toggle[aria-expanded="true"],
+.yellow-card--directory .yellow-card__btn-compare.is-selected {
+  background: rgba(30, 64, 175, 0.34);
+  border-color: rgba(96, 165, 250, 0.8);
+  color: var(--ink);
+}
+.yellow-card--directory .yellow-card__actions > :is(a,button):focus-visible {
+  outline: 2px solid var(--blue-text);
+  outline-offset: 3px;
+}
+.yellow-card--directory .yellow-card__btn-compare:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+@media (hover: hover) and (pointer: fine) {
+  .yellow-card--directory .yellow-card__btn-toggle:hover,
+  .yellow-card--directory .yellow-card__btn-compare:not(.is-selected):not(:disabled):hover {
+    background: var(--bg-surface-hover);
+    border-color: var(--border-subtle);
+    color: var(--ink);
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  .yellow-card--directory .yellow-card__actions > :is(a,button):hover { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yellow-card--directory .yellow-card__actions > :is(a,button) { transition: none !important; transform: none; }
+}
+.yellow-card__facts-section--directory { grid-column: 1 / 2; margin: 0; min-width: 0; }
+.yellow-card__facts-section--directory > .yellow-card__facts-heading {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 680px) {
+  .yellow-card__facts-section--directory { grid-column: 1 / -1; }
+}
+
+.yellow-card__btn-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 44px;
+  min-width: 0;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.65);
+  color: #bfdbfe;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+  cursor: pointer;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.yellow-card__btn-toggle:hover,
+.yellow-card__btn-toggle:focus-visible {
+  border-color: rgba(96, 165, 250, 0.8);
+  background: rgba(30, 64, 175, 0.34);
+  color: #fff;
+}
+
+.yellow-card__directory-details {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.78fr);
+  gap: 0.7rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.yellow-card__directory-details[hidden] {
+  display: none;
+}
+
+.yellow-card__fit--directory {
+  display: block;
+  height: auto;
+  min-height: 0;
+  -webkit-line-clamp: 3;
+}
+
+.yellow-card__facts-disclosure--directory,
+.yellow-card__perk-row--directory {
+  margin: 0;
+}
+
+.yellow-card__facts-disclosure--directory {
+  grid-column: 1 / 2;
+}
+
+.yellow-card__perk-row--directory {
+  grid-column: 2 / 3;
+  align-self: stretch;
+}
+
+.yellow-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.yellow-card__top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.yellow-card__identity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-width: 0;
+  height: 36px;
+  box-sizing: border-box;
+}
+
+.yellow-card__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.yellow-card__name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.yellow-card__category {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  border-radius: 9999px;
+  background: var(--bg-surface, rgba(255, 255, 255, 0.05));
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.yellow-card__domain-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  height: 22px;
+  box-sizing: border-box;
+}
+
+.yellow-card__domain {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: #60a5fa;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 20px;
+  line-height: 20px;
+  box-sizing: border-box;
+}
+
+.yellow-card__por-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  white-space: nowrap;
+}
+
+.yellow-card__reward-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(16, 185, 129, 0.12) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 0.2rem 0;
+}
+
+.yellow-card__reward-text {
+  font-size: 0.75rem;
+  font-weight: 650;
+  color: #fbbf24;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.yellow-card__fit {
+  font-size: 0.8125rem;
+  color: var(--muted, #94a3b8);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+  height: 2.9rem;
+  min-height: 2.9rem;
+  box-sizing: border-box;
+}
+
+.yellow-card__meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-dim, rgba(255, 255, 255, 0.06));
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.yellow-card__facts-disclosure > summary { display: none; }
+
+/* 邀请码及福利信息 */
+.yellow-card__perk-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem 0.7rem;
+  background: var(--bg-surface, rgba(255, 255, 255, 0.025));
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.07));
+  border-radius: 6px;
+  margin: 0.75rem 0 0.5rem 0;
+  font-size: 0.75rem;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 邀请码标签行 */
+.yellow-card__perk-code-line {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.yellow-card__code {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-weight: 700;
+  color: #f1f5f9;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.yellow-card__code--btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  transition: all 0.15s ease;
+  vertical-align: middle;
+}
+
+.yellow-card__code--btn:hover {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: #60a5fa;
+  transform: translateY(-1px);
+}
+
+.yellow-card__code-icon {
+  font-size: 0.6875rem;
+  opacity: 0.7;
+}
+
+/* 复制浮动提示胶囊 */
+.yellow-pages__toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(56, 189, 248, 0.2);
+  padding: 8px 16px;
+  border-radius: 9999px;
+  color: #f8fafc;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 99999;
+  animation: toast-slide-up 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.yellow-pages__toast-check {
+  color: #34d399;
+  font-weight: 700;
+}
+
+@keyframes toast-slide-up {
+  from { opacity: 0; transform: translate(-50%, 15px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.yellow-card__perk-text {
+  color: #34d399;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  font-size: 0.7rem;
+  min-width: 0;
+}
+
+.yellow-card__perk-text--neutral {
+  color: var(--muted, #8592a3);
+}
+
+/* 操作行 */
+.yellow-card__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.yellow-card__btn-detail {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.1));
+  background: var(--bg-surface, rgba(255, 255, 255, 0.03));
+  color: #e2e8f0;
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 550;
+  min-width: 0;
+  min-block-size: 44px;
+  line-height: 1.25;
+  text-align: center;
+  transition: all 0.15s ease;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.yellow-card__btn-detail:hover {
+  background: var(--bg-surface-hover, rgba(255, 255, 255, 0.08));
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.yellow-card__btn-register {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
+  background: #EDEDED;
+  color: #09090B !important;
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 1px 0 0 #ffffff, 0 1px 3px rgba(0, 0, 0, 0.2);
+  min-width: 0;
+  min-block-size: 44px;
+  line-height: 1.25;
+  text-align: center;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.yellow-card__btn-register:hover {
+  background: #FFFFFF;
+  color: #000000 !important;
+  box-shadow: inset 0 1px 0 0 #ffffff, 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.yellow-card__btn-compare {
+  grid-column: 1 / -1;
+  min-block-size: 2.35rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  border-radius: 6px;
+  background: rgba(30, 64, 175, 0.12);
+  color: #bfdbfe;
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.yellow-card__btn-compare:hover,
+.yellow-card__btn-compare:focus-visible,
+.yellow-card__btn-compare.is-selected {
+  border-color: rgba(96, 165, 250, 0.8);
+  background: rgba(30, 64, 175, 0.34);
+  color: #fff;
+}
+
+.yellow-card__btn-compare:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.yellow-pages__compare-tray {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  border-radius: 0.7rem;
+  background: rgba(30, 64, 175, 0.14);
+  color: #dbeafe;
+  font-size: 0.8rem;
+}
+
+.yellow-pages__compare-tray > div {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 0 0 auto;
+}
+
+.yellow-pages__compare-open,
+.yellow-pages__compare-clear {
+  min-block-size: 2.25rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.yellow-pages__compare-open {
+  background: #dbeafe;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.yellow-pages__compare-clear {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: transparent;
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .yellow-pages__grid--compact .yellow-card {
+    padding: 0.72rem;
+  }
+
+  .yellow-pages__grid--compact .yellow-card__top {
+    gap: 0.48rem;
+  }
+
+  .yellow-pages__grid--compact .yellow-card__actions {
+    margin-top: 0.48rem;
+  }
+
+  .yellow-card__actions {
+    /* Keep the two primary decisions in one row on narrow screens. The
+       compare action remains full width below them, so every action stays
+       reachable without turning each card into a three-row button stack. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .yellow-pages__compare-tray {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .yellow-pages__compare-tray > div {
+    flex-wrap: wrap;
+  }
+}
+
+/* ── 承重柱三：新增筛选控件 + 信任评分 + 元数据行 ── */
+
+.yellow-pages__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding-block-start: 4px;
+}
+
+.yellow-pages__search {
+  display: grid;
+  gap: 0.35rem;
+  width: min(100%, 32rem);
+  text-align: start;
+}
+
+.yellow-pages__search-label {
+  color: var(--muted, #9aa5b5);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.yellow-pages__search-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.yellow-pages__search-control input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding-block: 0.65rem;
+  padding-inline-start: 0.8rem;
+  padding-inline-end: calc(44px + 0.35rem + 0.75rem);
+  border: 1px solid var(--line, rgba(180,196,211,.16));
+  border-radius: 0.55rem;
+  background: var(--surface-2, #121a24);
+  color: var(--ink, #f5f7fa);
+  font: inherit;
+  font-size: 0.85rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.yellow-pages__search-control input::placeholder { color: #718096; }
+.yellow-pages__search-control input:focus { border-color: #4f7cff; box-shadow: 0 0 0 2px rgba(79,124,255,.18); }
+
+.yellow-pages__search-input::-webkit-search-cancel-button {
+  display: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.yellow-pages__search-clear {
+  position: absolute;
+  inset-inline-end: 0.35rem;
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  border-radius: 0.35rem;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.yellow-pages__search-clear:hover,
+.yellow-pages__search-clear:focus-visible { background: rgba(148,163,184,.14); color: #fff; }
+
+.yellow-pages__filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.yellow-pages__chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--line, rgba(180,196,211,.16));
+  background: transparent;
+  color: var(--muted, #9aa5b5);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 180ms;
+  white-space: nowrap;
+}
+
+.yellow-pages__chip:hover {
+  border-color: #315ccf;
+  color: #6f90ff;
+  background: rgba(49,92,207,.1);
+}
+
+.yellow-pages__chip--active {
+  background: rgba(49,92,207,.18);
+  border-color: #315ccf;
+  color: #6f90ff;
+  font-weight: 600;
+}
+
+.yellow-pages__sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.yellow-pages__sort-label {
+  font-size: 12px;
+  color: var(--muted, #9aa5b5);
+  white-space: nowrap;
+}
+
+.yellow-pages__sort-select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--line, rgba(180,196,211,.16));
+  background: var(--surface-2, #121a24);
+  color: var(--ink, #f5f7fa);
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+}
+
+.yellow-pages__sort-select:focus {
+  border-color: #315ccf;
+}
+
+/* 卡片徽章行：category + trust score */
+.yellow-card__badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.yellow-card__trust {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid currentColor;
+  opacity: .85;
+}
+
+/* 元数据行：固定三列等宽网格（费率 + KYC + 地区） */
+.yellow-card__meta-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--border-dim, rgba(255, 255, 255, 0.06));
+  box-sizing: border-box;
+}
+
+.yellow-card__meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.yellow-card__meta-key {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted, #94a3b8);
+  opacity: .75;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.yellow-card__meta-val {
+  font-size: 11px;
+  color: #f1f5f9;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.yellow-card__meta-val--warning {
+  color: #fbbf24;
+}
+
+.yellow-card__meta-val--success {
+  color: #34d399;
+}
+
+.yellow-card__meta-val--highlight {
+  color: #38bdf8;
+}
+
+.yellow-card__meta-item--restricted {
+  cursor: help;
+}
+
+/* H5 移动端体验重塑：横向惯性滑轨与弹性反馈 */
+@media (max-width: 780px) {
+  .yellow-card__facts-disclosure > summary {
+    display: flex;
+    align-items: center;
+    min-height: 2.35rem;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--border-dim, rgba(255, 255, 255, 0.08));
+    border-radius: 6px;
+    color: #bfdbfe;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.35;
+    cursor: pointer;
+    list-style: none;
+  }
+  .yellow-card__facts-disclosure > summary::-webkit-details-marker { display: none; }
+  .yellow-card__facts-disclosure > summary::before {
+    content: "+";
+    display: inline-grid;
+    place-items: center;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-right: 0.45rem;
+    border: 1px solid rgba(147, 197, 253, 0.45);
+    border-radius: 50%;
+    font-family: var(--font-mono, monospace);
+  }
+  .yellow-card__facts-disclosure[open] > summary::before { content: "−"; }
+  .yellow-card__facts-disclosure[open] > .yellow-card__meta-grid { margin-top: 0.5rem; }
+
+  .yellow-pages__tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 6px 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    background: rgba(255, 255, 255, 0.02);
+    scrollbar-width: none;
+  }
+  .yellow-pages__tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .yellow-pages__tab {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+  .yellow-pages__tab:active {
+    transform: scale(0.95);
+  }
+
+  .yellow-pages__controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .yellow-pages__filter-chips {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 4px 0;
+    scrollbar-width: none;
+  }
+  .yellow-pages__filter-chips::-webkit-scrollbar {
+    display: none;
+  }
+  .yellow-pages__chip {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  .yellow-pages__chip:active {
+    transform: scale(0.94);
+  }
+
+  .yellow-pages__sort {
+    justify-content: flex-end;
+    padding-inline: 4px;
+  }
+
+  .yellow-card:active {
+    transform: scale(0.985);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .yellow-card__btn-detail:active,
+  .yellow-card__btn-register:active {
+    transform: scale(0.95);
+  }
+}
+
+
+/* ================================================================
+   v3.5 Yellow Card — Border Beam Laser Hover Enhancement
+   ================================================================ */
+
+.yellow-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
+}
+
+.yellow-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--yc-beam-angle, 0deg),
+    transparent 0deg,
+    transparent 280deg,
+    rgba(56, 189, 248, 0.9) 330deg,
+    rgba(255, 255, 255, 0.95) 355deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+  animation: yc-beam-spin 5s linear infinite paused;
+}
+
+.yellow-card:hover::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes yc-beam-spin { to { --yc-beam-angle: 360deg; } }
+
+.yellow-card:hover {
+  border-color: rgba(56, 189, 248, 0.22);
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.06),
+    0 16px 40px -8px rgba(0, 0, 0, 0.7),
+    0 0 30px -10px rgba(56, 189, 248, 0.18);
+}
+
+/* PoR 绿盾呼吸动效增强 */
+.yellow-card__por-pill {
+  position: relative;
+}
+.yellow-card__por-pill::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 6px;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  animation: por-pill-breathe 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes por-pill-breathe {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50%       { opacity: 1; transform: scale(1.04); }
+}
+
+/* 迎新奖励徽章光晕扫过 */
+.yellow-card__reward-badge {
+  position: relative;
+  overflow: hidden;
+}
+.yellow-card__reward-badge::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 50%, transparent 100%);
+  animation: reward-sheen 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes reward-sheen {
+  0%   { left: -100%; }
+  35%  { left: 150%; }
+  100% { left: 150%; }
+}
+
+/* 注册按钮 hover 光圈 */
+.yellow-card__btn-register {
+  position: relative;
+  overflow: hidden;
+}
+.yellow-card__btn-register::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.yellow-card__btn-register:hover::after {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .yellow-card::before { display: none; }
+}
+
+
+.yellow-pages__empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  padding: clamp(2rem, 5vw, 3rem);
+  border: 1px dashed rgba(148, 163, 184, 0.28);
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.52);
+  text-align: center;
+}
+
+.yellow-pages__empty h2 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+}
+
+.yellow-pages__empty p {
+  max-width: 38rem;
+  margin: 0;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.yellow-pages__empty button,
+.yellow-pages__region-return {
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  border: 1px solid rgba(56, 189, 248, 0.38);
+  border-radius: 8px;
+  background: rgba(56, 189, 248, 0.12);
+  color: #bae6fd;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.yellow-pages__empty button:focus-visible,
+.yellow-pages__region-return:focus-visible {
+  outline: 3px solid rgba(56, 189, 248, 0.75);
+  outline-offset: 3px;
+}
+
+.yellow-pages__region-return { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+.yellow-pages__region-return:hover { background: rgba(56, 189, 248, 0.2); }
+
+
+
+
+/* R119 desktop directory shrink safety: grid items default to min-width:auto,
+   which can let the action column grow wider than the card even when the grid
+   tracks use minmax(0,...). Keep every direct card cell and action control
+   shrinkable without clipping the document. */
+.yellow-card--directory > div,
+.yellow-card--directory .yellow-card__top,
+.yellow-card--directory .yellow-card__actions,
+.yellow-card--directory .yellow-card__actions > *,
+.yellow-card--directory .yellow-card__identity,
+.yellow-card--directory .yellow-card__brand,
+.yellow-card--directory .yellow-card__badges,
+.yellow-card--directory .yellow-card__domain-row,
+.yellow-card--directory .yellow-card__domain {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.yellow-card--directory .yellow-card__actions > * {
+  width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.yellow-card--directory .yellow-card__name,
+.yellow-card--directory .yellow-card__domain span,
+.yellow-card--directory .yellow-card__category,
+.yellow-card--directory .yellow-card__trust,
+.yellow-card--directory .yellow-card__market-fit {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* R119 mobile directory containment: these rules intentionally live after the
+   base card rules, because the earlier responsive rules were overwritten by
+   later directory card declarations in the compiled cascade. */
+@media (max-width: 1180px) {
+  .yellow-pages,
+  .yellow-pages__header,
+  .yellow-pages__grid,
+  .yellow-card--directory,
+  .yellow-card--directory .yellow-card__top,
+  .yellow-card__directory-details,
+  .yellow-card--directory .yellow-card__actions {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .yellow-pages__title,
+  .yellow-pages__lead,
+  .yellow-pages__context,
+  .yellow-card__fit,
+  .yellow-card__perk-text,
+  .yellow-card__name {
+    overflow-wrap: anywhere;
+  }
+
+  .yellow-card--directory {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .yellow-card--directory .yellow-card__top,
+  .yellow-card__directory-details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .yellow-card__facts-disclosure--directory,
+  .yellow-card__perk-row--directory {
+    grid-column: 1;
+  }
+
+  .yellow-card--directory .yellow-card__domain-row,
+  .yellow-card__identity,
+  .yellow-card__badges,
+  .yellow-card__perk-code-line {
+    flex-wrap: wrap;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .yellow-card__domain,
+  .yellow-card__category,
+  .yellow-card__trust,
+  .yellow-card__market-fit,
+  .yellow-card__por-pill,
+  .yellow-card__code,
+  .yellow-card__code--btn {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .yellow-card--directory .yellow-card__actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+  }
+
+  .yellow-card__btn-toggle,
+  .yellow-card__btn-detail,
+  .yellow-card__btn-register,
+  .yellow-card__btn-compare {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 430px) {
+  .yellow-pages__tabs,
+  .yellow-pages__filter-chips {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding-inline: 0;
+  }
+
+  .yellow-pages__tab,
+  .yellow-pages__chip {
+    max-width: min(78vw, 18rem);
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .yellow-pages__sort {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  .yellow-pages__sort-select {
+    max-width: 100%;
+  }
+}
+
+/* R120 home compact yellow-page cards: keep the homepage cards readable on
+   320/390/412px without clipping badges or shrinking CTA columns past their
+   content. Directory cards have separate R119 containment rules above. */
+.yellow-pages__grid--compact .yellow-card,
+.yellow-pages__grid--compact .yellow-card__top,
+.yellow-pages__grid--compact .yellow-card__identity,
+.yellow-pages__grid--compact .yellow-card__brand,
+.yellow-pages__grid--compact .yellow-card__badges,
+.yellow-pages__grid--compact .yellow-card__actions,
+.yellow-pages__grid--compact .yellow-card__actions > * {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.yellow-pages__grid--compact .yellow-card__identity {
+  align-items: flex-start;
+  flex-wrap: wrap;
+  height: auto;
+}
+
+.yellow-pages__grid--compact .yellow-card__brand {
+  flex: 1 1 10rem;
+}
+
+.yellow-pages__grid--compact .yellow-card__badges {
+  flex: 0 1 100%;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.yellow-pages__grid--compact .yellow-card__category,
+.yellow-pages__grid--compact .yellow-card__trust {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+}
+
+.yellow-pages__grid--compact .yellow-card__actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.yellow-pages__grid--compact .yellow-card__btn-detail,
+.yellow-pages__grid--compact .yellow-card__btn-register,
+.yellow-pages__grid--compact .yellow-card__btn-compare {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding-inline: 0.48rem;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.yellow-pages__grid--compact .yellow-card__domain-row {
+  height: auto;
+  min-height: 22px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.yellow-pages__grid--compact .yellow-card__domain {
+  height: auto;
+  line-height: 1.35;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 360px) {
+  .yellow-pages__grid--compact .yellow-card__actions {
+    gap: 0.42rem;
+  }
+
+  .yellow-pages__grid--compact .yellow-card__btn-detail,
+  .yellow-pages__grid--compact .yellow-card__btn-register,
+  .yellow-pages__grid--compact .yellow-card__btn-compare {
+    padding-inline: 0.4rem;
+    font-size: 0.78rem;
+  }
+}
+
+/* Mobile choices remain visible without a hidden horizontal gesture. */
+@media (max-width: 780px) {
+  .yellow-pages .yellow-pages__tabs,
+  .yellow-pages .yellow-pages__filter-chips {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: visible;
+    scroll-snap-type: none;
+    justify-content: stretch;
+    box-sizing: border-box;
+  }
+
+  .yellow-pages .yellow-pages__tab,
+  .yellow-pages .yellow-pages__chip {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 44px;
+    padding: 8px 10px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    box-sizing: border-box;
+  }
+}
+
+/* R197: visible sorting focus and scoped reduced-motion directory feedback. */
+.yellow-pages__sort-select:focus-visible {
+  outline: 2px solid var(--blue-text, #8fb0ff);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .yellow-pages .yellow-card::before,
+  .yellow-pages .yellow-card__por-pill::before,
+  .yellow-pages .yellow-card__reward-badge::before,
+  .yellow-pages .yellow-pages__toast {
+    animation: none;
+  }
+  .yellow-pages .yellow-card,
+  .yellow-pages .yellow-card::before,
+  .yellow-pages .yellow-card__code--btn,
+  .yellow-pages .yellow-pages__tab,
+  .yellow-pages .yellow-pages__chip,
+  .yellow-pages .yellow-card__btn-detail,
+  .yellow-pages .yellow-card__btn-register {
+    transition: none !important;
+  }
+  .yellow-pages .yellow-card:hover,
+  .yellow-pages .yellow-card:active,
+  .yellow-pages .yellow-card__code--btn:hover,
+  .yellow-pages .yellow-pages__tab:active,
+  .yellow-pages .yellow-pages__chip:active,
+  .yellow-pages .yellow-card__btn-detail:active,
+  .yellow-pages .yellow-card__btn-register:active {
+    transform: none;
+  }
+}
+
+.yellow-card__copy-feedback {
+  display: flex;
+  flex: 1 0 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  color: #cbd5e1;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.yellow-card__copy-feedback--failed {
+  color: #fca5a5;
+}
+
+.yellow-card__copy-manual {
+  min-width: min(9rem, 100%);
+  max-width: 100%;
+  min-height: 44px;
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  border-radius: 0.55rem;
+  background: rgba(15, 23, 42, 0.75);
+  color: #f8fafc;
+  font: 700 0.78rem var(--font-mono, ui-monospace, monospace);
+  padding: 0.45rem 0.55rem;
+}
+
+/* Full-directory reading axis: identity owns its line, actions own enough
+   width for translated verbs. Homepage compact rows retain their cascade. */
+.yellow-card--directory {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+}
+.yellow-card--directory .yellow-card__top {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.35rem;
+  align-content: start;
+}
+.yellow-card--directory .yellow-card__identity {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.35rem;
+}
+.yellow-card--directory .yellow-card__brand {
+  inline-size: 100%;
+  flex-shrink: 0;
+}
+.yellow-card--directory .yellow-card__name {
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: normal;
+  word-break: normal;
+  white-space: normal;
+}
+.yellow-card--directory .yellow-card__badges {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.yellow-card--directory .yellow-card__domain-row {
+  min-block-size: 0;
+  justify-content: flex-start;
+}
+.yellow-card--directory .yellow-card__actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+}
+.yellow-card--directory .yellow-card__actions > :is(a,button) {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+@media (max-width: 1180px) {
+  .yellow-card--directory {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 1180px) {
+  .yellow-card--directory .yellow-card__identity {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .yellow-card--directory .yellow-card__brand {
+    inline-size: auto;
+  }
+}

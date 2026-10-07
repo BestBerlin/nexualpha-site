@@ -1,0 +1,572 @@
+/* TradingBleedAnalyzer 样式 */
+.bleed-analyzer-section {
+  padding-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.bleed-analyzer__container {
+  background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(244, 63, 94, 0.08), transparent 70%),
+              rgba(13, 17, 23, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 16px;
+  padding: clamp(16px, 3.5vw, 40px);
+  min-width: 0;
+  box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.6);
+}
+
+.bleed-analyzer__header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.bleed-analyzer__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: #fb7185;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.bleed-analyzer__pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fb7185;
+  box-shadow: 0 0 0 0 rgba(251, 113, 133, 0.7);
+  animation: bleed-pulse 1.8s infinite;
+}
+
+@keyframes bleed-pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(251, 113, 133, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(251, 113, 133, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(251, 113, 133, 0); }
+}
+
+.bleed-analyzer__title {
+  font-size: clamp(1.6rem, 3.5vw, 2.35rem);
+  font-weight: 750;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
+}
+
+.bleed-analyzer__subtitle {
+  font-size: clamp(0.875rem, 1.6vw, 1.05rem);
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 左右网格 */
+.bleed-analyzer__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 3vw, 32px);
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .bleed-analyzer__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.bleed-analyzer__controls {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: clamp(12px, 2.5vw, 24px);
+}
+
+.bleed-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.bleed-label {
+  font-size: 0.8125rem;
+  font-weight: 650;
+  color: #cbd5e1;
+}
+
+.bleed-venue-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bleed-venue-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #94a3b8;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bleed-venue-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.bleed-venue-btn--active {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+}
+
+.bleed-type-pills {
+  display: flex;
+  gap: 8px;
+}
+
+.bleed-type-btn {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 8px;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bleed-type-btn--active {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+}
+
+.bleed-slider-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bleed-vol-value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.bleed-slider {
+  width: 100%;
+  accent-color: #38bdf8;
+  cursor: pointer;
+}
+
+.bleed-slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.6875rem;
+  color: #64748b;
+}
+
+/* 诊断结果卡片 */
+.bleed-analyzer__verdict-card {
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.06) 0%, rgba(13, 17, 23, 0.95) 100%);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.bleed-verdict__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bleed-verdict__tag {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+
+.bleed-verdict__venue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.bleed-verdict__heading {
+  font-size: 1.25rem;
+  font-weight: 750;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.bleed-verdict__alert {
+  font-size: 0.8125rem;
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.08);
+  border-left: 3px solid #ef4444;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.bleed-dual-track {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.bleed-track-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bleed-track-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.375rem 0.75rem;
+  font-size: 0.78125rem;
+}
+
+.bleed-track-title {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.bleed-track-title--red { color: #f87171; }
+.bleed-track-title--green { color: #34d399; }
+
+.bleed-track-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.bleed-track-dot--red {
+  background: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
+}
+
+.bleed-track-dot--green {
+  background: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+}
+
+.bleed-track-val {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.bleed-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bleed-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bleed-progress-fill--red {
+  background: linear-gradient(90deg, #b91c1c, #ef4444);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.bleed-progress-fill--green {
+  background: linear-gradient(90deg, #059669, #34d399);
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.6);
+}
+
+.bleed-verdict__numbers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+  gap: 1rem;
+}
+
+.bleed-stat-box {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bleed-stat-box--bleed { border-color: rgba(248, 113, 113, 0.3); }
+.bleed-stat-box--reclaim {
+  border-color: rgba(52, 211, 153, 0.3);
+  background: radial-gradient(circle at 50% 0%, rgba(52, 211, 153, 0.08), transparent 80%), rgba(0, 0, 0, 0.4);
+}
+
+.bleed-stat-label {
+  font-size: 0.6875rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.bleed-stat-val {
+  font-size: 1.45rem;
+  overflow-wrap: anywhere;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.bleed-solution-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 1.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.bleed-solution-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bleed-solution-title {
+  font-size: 0.8125rem;
+  font-weight: 650;
+  color: #ffffff;
+}
+
+.bleed-seats-counter {
+  font-size: 0.71875rem;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  animation: pulse-seats 2s infinite ease-in-out;
+}
+
+@keyframes pulse-seats {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(0.98); }
+}
+
+.bleed-code-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.bleed-copy-code-btn {
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px dashed rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: all 0.15s ease;
+}
+
+.bleed-copy-code-btn:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+}
+
+.bleed-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bleed-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8125rem 1.25rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff !important;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4);
+  transition: all 0.2s ease;
+}
+
+.bleed-cta-btn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 24px rgba(16, 185, 129, 0.55);
+  transform: translateY(-1px);
+}
+
+.bleed-tg-sync-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  background: rgba(41, 182, 246, 0.1);
+  border: 1px solid rgba(41, 182, 246, 0.3);
+  color: #38bdf8 !important;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.bleed-tg-sync-btn:hover {
+  background: rgba(41, 182, 246, 0.18);
+  border-color: #38bdf8;
+  color: #ffffff !important;
+}
+
+.bleed-tg-icon {
+  flex-shrink: 0;
+}
+
+.bleed-embed-row {
+  margin-top: 6px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bleed-embed-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #64748b;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bleed-embed-btn:hover {
+  border-color: #38bdf8;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.05);
+}
+
+.bleed-copy-status {
+  flex: 1 0 100%;
+  min-width: 0;
+  color: #fbbf24;
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.bleed-manual-copy {
+  flex: 1 0 100%;
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  box-sizing: border-box;
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.95);
+  color: #e2e8f0;
+  padding: 8px 10px;
+  font: 0.8125rem/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.bleed-manual-copy--embed {
+  min-height: 74px;
+  resize: vertical;
+}
+
+.bleed-fee-source {
+  margin: -2px 0 12px;
+  color: #9fb0c8;
+  font-size: 0.75rem;
+}
+
+.bleed-fee-source summary {
+  cursor: pointer;
+  color: #a9cdfd;
+}
+
+.bleed-fee-source p {
+  margin: 6px 0;
+  line-height: 1.45;
+}
+
+.bleed-fee-source a {
+  color: #a9cdfd;
+  text-underline-offset: 3px;
+}
+
+/* Calculator controls keep native range visuals with a full touch hit area. */
+.bleed-analyzer-section .bleed-copy-code-btn {
+  min-block-size: 44px;
+  box-sizing: border-box;
+}
+.bleed-analyzer-section .bleed-slider {
+  height: 44px;
+  box-sizing: border-box;
+}
+.bleed-analyzer-section .bleed-copy-code-btn:focus-visible,
+.bleed-analyzer-section .bleed-slider:focus-visible {
+  outline: 2px solid var(--blue-text, #38bdf8);
+  outline-offset: 3px;
+}

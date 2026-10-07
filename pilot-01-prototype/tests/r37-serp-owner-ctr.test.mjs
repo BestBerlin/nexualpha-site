@@ -1,0 +1,87 @@
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+
+import {
+  PRIORITY_QUERY_OWNER_REGISTRY,
+  priorityCanonicalOwnerPath,
+  priorityOwnerForPath,
+  priorityOwnerForQuery,
+} from "../src/data/priority-query-owner-registry.js";
+import { priorityVenueAnswerFor } from "../src/data/priority-venue-answers.js";
+import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
+import { tokenizedAssetPage } from "../src/data/tokenized-assets-cluster.js";
+
+const protectedFiles = {
+  "src/data/partner-registry.js": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
+  "src/data/venue-database.js": "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52",
+  "src/data/public-cta.js": "675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3",
+  "src/data/regional-cta.js": "a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665",
+};
+
+test("R37 maps observed zero-click SERP queries to one canonical owner each", () => {
+  const cases = [
+    ["hyperliquid fees", "/exchanges/hyperliquid"],
+    ["hyperliquid funded account", "/exchanges/hyperliquid"],
+    ["hyperliquid cashback", "/exchanges/hyperliquid"],
+    ["uniswap testnet", "/exchanges/uniswap"],
+    ["bitget 与 bybit uta对比", "/compare/bybit-vs-bitget"],
+    ["bybit bitget uta", "/compare/bybit-vs-bitget"],
+    ["what are tokenized treasuries", "/topics/tokenized-treasuries"],
+  ];
+
+  for (const [query, expectedPath] of cases) {
+    assert.equal(priorityOwnerForQuery(query)?.canonicalOwnerPath, expectedPath, query);
+    assert.equal(priorityCanonicalOwnerPath(query), expectedPath, query);
+  }
+});
+
+test("R37 owner registry keeps support pages from competing with canonical owners", () => {
+  const expectations = [
+    ["hyperliquid-decision", "/exchanges/hyperliquid", "/compare/hyperliquid-vs-dydx"],
+    ["uniswap-testnet-mainnet", "/exchanges/uniswap", "/compare/uniswap-vs-jupiter"],
+    ["bybit-vs-bitget-decision", "/compare/bybit-vs-bitget", "/topics/tokenized-stocks-vs-perpetuals"],
+    ["tokenized-treasuries", "/topics/tokenized-treasuries", "/news/tokenized-treasuries-structure-access-risks"],
+  ];
+
+  for (const [id, ownerPath, supportPath] of expectations) {
+    const owner = PRIORITY_QUERY_OWNER_REGISTRY[id];
+    assert.equal(owner.canonicalOwnerPath, ownerPath, id);
+    assert.equal(owner.supportPath, supportPath, id);
+    assert.equal(priorityOwnerForPath(ownerPath)?.canonicalOwnerPath, ownerPath, id);
+    assert.equal(priorityOwnerForPath(supportPath)?.canonicalOwnerPath, ownerPath, id);
+    assert.ok(owner.ownerBoundary.includes("should"), `${id}: boundary should explain ownership`);
+  }
+});
+
+test("R37 owner pages expose extractable answers for the observed query language", () => {
+  const hyperliquid = JSON.stringify(priorityVenueAnswerFor("hyperliquid", "en"));
+  assert.match(hyperliquid, /rolling 14-day fee tier/i);
+  assert.match(hyperliquid, /funded-account/i);
+  assert.match(hyperliquid, /cashback|referral discount/i);
+  assert.match(hyperliquid, /vaults or sub-accounts/i);
+
+  const uniswap = JSON.stringify(priorityVenueAnswerFor("uniswap", "en"));
+  assert.match(uniswap, /Uniswap testnet/i);
+  assert.match(uniswap, /mainnet liquidity/i);
+  assert.match(uniswap, /Permit2/i);
+  assert.match(uniswap, /disconnecting a wallet revoke/i);
+
+  const bybitBitget = JSON.stringify(compareDirectAnswerFor("bybit-vs-bitget", "zh-Hans"));
+  assert.match(bybitBitget, /UTA|统一交易账户/);
+  assert.match(bybitBitget, /支持抵押品/);
+  assert.match(bybitBitget, /清算规则/);
+
+  const tokenizedTreasuries = JSON.stringify(tokenizedAssetPage("tokenized-treasuries"));
+  assert.match(tokenizedTreasuries, /issuer/i);
+  assert.match(tokenizedTreasuries, /recordkeeper/i);
+  assert.match(tokenizedTreasuries, /redemption/i);
+});
+
+test("R37 does not change protected invitation and CTA registries", async () => {
+  for (const [relativePath, expectedSha] of Object.entries(protectedFiles)) {
+    const source = await readFile(new URL(`../${relativePath}`, import.meta.url));
+    assert.equal(createHash("sha256").update(source).digest("hex"), expectedSha, relativePath);
+  }
+});

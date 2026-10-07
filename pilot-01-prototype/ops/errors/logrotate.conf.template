@@ -1,0 +1,12 @@
+"@@BASE@@/errors.jsonl" {
+    daily
+    rotate 31
+    maxage 30
+    dateext
+    dateformat -%Y%m%d
+    dateyesterday
+    missingok
+    notifempty
+    nocreate
+    nocompress
+}

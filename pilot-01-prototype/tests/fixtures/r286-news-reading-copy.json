@@ -1,0 +1,248 @@
+{
+  "baselineSha": "d2dbb4aadb1347478fbcaa8bb116354e677d82e06564c7b8b677604bf4cbd9bc",
+  "feedSha": "399059b1434a94325fa95b54b5a452887756b2ca9d4d0f674e41f4c9f6d6e5b6",
+  "hunks": [
+    {
+      "locale": "en",
+      "field": "title",
+      "before": "title: \"Market News & Exchange Research Reports\"",
+      "after": "title: \"News & Research\""
+    },
+    {
+      "locale": "en",
+      "field": "subtitle",
+      "before": "subtitle: \"Verified source data with zero marketing fluff. Direct insights on fee changes, compliance, and benchmarks.\"",
+      "after": "subtitle: \"Explore platform choices, trading costs and policy changes through analysis linked to official sources.\""
+    },
+    {
+      "locale": "zh-Hans",
+      "field": "title",
+      "before": "title: \"实时新闻与交易所深度研报\"",
+      "after": "title: \"新闻与研究\""
+    },
+    {
+      "locale": "zh-Hans",
+      "field": "subtitle",
+      "before": "subtitle: \"无营销水文，源头数据交叉核验。为您提供费率变动、合规风向与 CEX/DEX 深度比较文章。\"",
+      "after": "subtitle: \"通过附有官方来源的分析，了解平台选择、交易成本与政策变化。\""
+    },
+    {
+      "locale": "zh-Hant",
+      "field": "title",
+      "before": "title: \"實時新聞與交易所深度研報\"",
+      "after": "title: \"新聞與研究\""
+    },
+    {
+      "locale": "zh-Hant",
+      "field": "subtitle",
+      "before": "subtitle: \"無營銷水文，源頭數據交叉核驗。為您提供費率變動、合規風向與 CEX/DEX 深度比較文章。\"",
+      "after": "subtitle: \"透過附有官方來源的分析，了解平台選擇、交易成本與政策變化。\""
+    },
+    {
+      "locale": "ja",
+      "field": "title",
+      "before": "title: \"市場ニュースと取引所リサーチ\"",
+      "after": "title: \"ニュースとリサーチ\""
+    },
+    {
+      "locale": "ja",
+      "field": "subtitle",
+      "before": "subtitle: \"マーケティング文句を避け、手数料、規制、CEX/DEX比較を出典付きで確認します。\"",
+      "after": "subtitle: \"公式資料に基づく分析で、プラットフォーム選び、取引コスト、政策の変化を確認できます。\""
+    },
+    {
+      "locale": "ko",
+      "field": "title",
+      "before": "title: \"시장 뉴스 및 거래소 리서치\"",
+      "after": "title: \"뉴스와 리서치\""
+    },
+    {
+      "locale": "ko",
+      "field": "subtitle",
+      "before": "subtitle: \"마케팅 문구 없이 수수료, 규제와 CEX/DEX 비교를 출처와 함께 확인합니다.\"",
+      "after": "subtitle: \"공식 출처를 바탕으로 한 분석으로 플랫폼 선택, 거래 비용, 정책 변화를 살펴보세요.\""
+    },
+    {
+      "locale": "tr",
+      "field": "title",
+      "before": "title: \"Piyasa haberleri ve borsa araştırmaları\"",
+      "after": "title: \"Haberler ve araştırma\""
+    },
+    {
+      "locale": "tr",
+      "field": "subtitle",
+      "before": "subtitle: \"Pazarlama söylemi olmadan ücretleri, mevzuatı ve CEX/DEX karşılaştırmalarını kaynaklarıyla inceleyin.\"",
+      "after": "subtitle: \"Resmî kaynaklara dayanan analizlerle platform seçimini, işlem maliyetlerini ve politika değişikliklerini inceleyin.\""
+    },
+    {
+      "locale": "es",
+      "field": "title",
+      "before": "title:\"Noticias del mercado e informes de investigación\"",
+      "after": "title:\"Noticias e investigación\""
+    },
+    {
+      "locale": "es",
+      "field": "subtitle",
+      "before": "subtitle:\"Datos verificados en la fuente, sin contenido promocional. Consulta tarifas, cumplimiento y comparativas CEX/DEX.\"",
+      "after": "subtitle:\"Explora la elección de plataformas, los costes de negociación y los cambios normativos con análisis vinculados a fuentes oficiales.\""
+    },
+    {
+      "locale": "pt-BR",
+      "field": "title",
+      "before": "title:\"Notícias do mercado e relatórios de pesquisa\"",
+      "after": "title:\"Notícias e pesquisa\""
+    },
+    {
+      "locale": "pt-BR",
+      "field": "subtitle",
+      "before": "subtitle:\"Dados verificados na fonte, sem texto promocional. Consulte taxas, conformidade e comparações CEX/DEX.\"",
+      "after": "subtitle:\"Entenda a escolha de plataformas, os custos de negociação e as mudanças regulatórias com análises baseadas em fontes oficiais.\""
+    },
+    {
+      "locale": "fr",
+      "field": "title",
+      "before": "title:\"Actualités du marché et rapports de recherche\"",
+      "after": "title:\"Actualités et recherche\""
+    },
+    {
+      "locale": "fr",
+      "field": "subtitle",
+      "before": "subtitle:\"Données vérifiées à la source, sans contenu promotionnel. Consultez frais, conformité et comparaisons CEX/DEX.\"",
+      "after": "subtitle:\"Consultez des analyses fondées sur des sources officielles pour choisir une plateforme et comprendre les frais et les évolutions réglementaires.\""
+    },
+    {
+      "locale": "de",
+      "field": "title",
+      "before": "title:\"Marktnachrichten und Research-Berichte\"",
+      "after": "title:\"Nachrichten und Research\""
+    },
+    {
+      "locale": "de",
+      "field": "subtitle",
+      "before": "subtitle:\"Quellengeprüfte Daten ohne Werbetexte. Gebühren, Compliance und CEX/DEX-Vergleiche im Überblick.\"",
+      "after": "subtitle:\"Analysen mit offiziellen Quellen helfen bei der Plattformwahl und beim Verständnis von Handelskosten und regulatorischen Änderungen.\""
+    },
+    {
+      "locale": "ru",
+      "field": "title",
+      "before": "title:\"Новости рынка и исследовательские отчёты\"",
+      "after": "title:\"Новости и исследования\""
+    },
+    {
+      "locale": "ru",
+      "field": "subtitle",
+      "before": "subtitle:\"Данные проверены по источникам, без рекламного шума. Комиссии, регулирование и сравнения CEX/DEX.\"",
+      "after": "subtitle:\"Изучайте выбор платформ, торговые издержки и изменения регулирования с помощью анализа на основе официальных источников.\""
+    },
+    {
+      "locale": "ar",
+      "field": "title",
+      "before": "title:\"أخبار السوق وتقارير أبحاث المنصات\"",
+      "after": "title:\"الأخبار والأبحاث\""
+    },
+    {
+      "locale": "ar",
+      "field": "subtitle",
+      "before": "subtitle:\"بيانات موثقة من مصادرها بلا محتوى تسويقي. راجع الرسوم والامتثال ومقارنات CEX/DEX.\"",
+      "after": "subtitle:\"اطّلع على تحليلات تستند إلى مصادر رسمية لفهم اختيار المنصات وتكاليف التداول والتغييرات التنظيمية.\""
+    },
+    {
+      "locale": "id",
+      "field": "title",
+      "before": "title:\"Berita pasar dan laporan riset platform\"",
+      "after": "title:\"Berita dan riset\""
+    },
+    {
+      "locale": "id",
+      "field": "subtitle",
+      "before": "subtitle:\"Data diverifikasi dari sumbernya, tanpa teks promosi. Tinjau biaya, kepatuhan, dan perbandingan CEX/DEX.\"",
+      "after": "subtitle:\"Pelajari pilihan platform, biaya perdagangan, dan perubahan kebijakan melalui analisis yang merujuk pada sumber resmi.\""
+    },
+    {
+      "locale": "vi",
+      "field": "title",
+      "before": "title:\"Tin thị trường và báo cáo nghiên cứu\"",
+      "after": "title:\"Tin tức và nghiên cứu\""
+    },
+    {
+      "locale": "vi",
+      "field": "subtitle",
+      "before": "subtitle:\"Dữ liệu được xác minh từ nguồn, không quảng cáo. Xem phí, tuân thủ và so sánh CEX/DEX.\"",
+      "after": "subtitle:\"Tìm hiểu cách chọn nền tảng, chi phí giao dịch và thay đổi chính sách qua các phân tích dựa trên nguồn chính thức.\""
+    },
+    {
+      "locale": "it",
+      "field": "title",
+      "before": "title:\"Notizie di mercato e report di ricerca\"",
+      "after": "title:\"Notizie e ricerca\""
+    },
+    {
+      "locale": "it",
+      "field": "subtitle",
+      "before": "subtitle:\"Dati verificati alla fonte, senza contenuti promozionali. Consulta commissioni, conformità e confronti CEX/DEX.\"",
+      "after": "subtitle:\"Approfondisci la scelta delle piattaforme, i costi di negoziazione e i cambiamenti normativi con analisi basate su fonti ufficiali.\""
+    }
+  ],
+  "copy": {
+    "en": {
+      "title": "News & Research",
+      "subtitle": "Explore platform choices, trading costs and policy changes through analysis linked to official sources."
+    },
+    "zh-Hans": {
+      "title": "新闻与研究",
+      "subtitle": "通过附有官方来源的分析，了解平台选择、交易成本与政策变化。"
+    },
+    "zh-Hant": {
+      "title": "新聞與研究",
+      "subtitle": "透過附有官方來源的分析，了解平台選擇、交易成本與政策變化。"
+    },
+    "ja": {
+      "title": "ニュースとリサーチ",
+      "subtitle": "公式資料に基づく分析で、プラットフォーム選び、取引コスト、政策の変化を確認できます。"
+    },
+    "ko": {
+      "title": "뉴스와 리서치",
+      "subtitle": "공식 출처를 바탕으로 한 분석으로 플랫폼 선택, 거래 비용, 정책 변화를 살펴보세요."
+    },
+    "tr": {
+      "title": "Haberler ve araştırma",
+      "subtitle": "Resmî kaynaklara dayanan analizlerle platform seçimini, işlem maliyetlerini ve politika değişikliklerini inceleyin."
+    },
+    "es": {
+      "title": "Noticias e investigación",
+      "subtitle": "Explora la elección de plataformas, los costes de negociación y los cambios normativos con análisis vinculados a fuentes oficiales."
+    },
+    "pt-BR": {
+      "title": "Notícias e pesquisa",
+      "subtitle": "Entenda a escolha de plataformas, os custos de negociação e as mudanças regulatórias com análises baseadas em fontes oficiais."
+    },
+    "fr": {
+      "title": "Actualités et recherche",
+      "subtitle": "Consultez des analyses fondées sur des sources officielles pour choisir une plateforme et comprendre les frais et les évolutions réglementaires."
+    },
+    "de": {
+      "title": "Nachrichten und Research",
+      "subtitle": "Analysen mit offiziellen Quellen helfen bei der Plattformwahl und beim Verständnis von Handelskosten und regulatorischen Änderungen."
+    },
+    "ru": {
+      "title": "Новости и исследования",
+      "subtitle": "Изучайте выбор платформ, торговые издержки и изменения регулирования с помощью анализа на основе официальных источников."
+    },
+    "ar": {
+      "title": "الأخبار والأبحاث",
+      "subtitle": "اطّلع على تحليلات تستند إلى مصادر رسمية لفهم اختيار المنصات وتكاليف التداول والتغييرات التنظيمية."
+    },
+    "id": {
+      "title": "Berita dan riset",
+      "subtitle": "Pelajari pilihan platform, biaya perdagangan, dan perubahan kebijakan melalui analisis yang merujuk pada sumber resmi."
+    },
+    "vi": {
+      "title": "Tin tức và nghiên cứu",
+      "subtitle": "Tìm hiểu cách chọn nền tảng, chi phí giao dịch và thay đổi chính sách qua các phân tích dựa trên nguồn chính thức."
+    },
+    "it": {
+      "title": "Notizie e ricerca",
+      "subtitle": "Approfondisci la scelta delle piattaforme, i costi di negoziazione e i cambiamenti normativi con analisi basate su fonti ufficiali."
+    }
+  }
+}

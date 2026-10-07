@@ -1,0 +1,1 @@
+:root{--font-sans:var(--font-body)}body{font-family:var(--font-body)}.hero-copy h1,.decision h2,.opportunity h2,.section-heading h2{font-family:var(--font-display)}.detail,.fact strong,.decision-table strong,.decision-table p,.listing-rows p{font-family:var(--font-data)}

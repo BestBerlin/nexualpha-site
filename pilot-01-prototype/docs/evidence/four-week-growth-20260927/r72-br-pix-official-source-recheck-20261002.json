@@ -1,0 +1,53 @@
+{
+  "observedAt": "2026-10-01T17:17:48.325820+00:00",
+  "method": "Actual web tool read of three official help articles; paraphrase-level claim check, no official-account or banking action.",
+  "sources": [
+    {
+      "id": "okx-brl-pix-deposit",
+      "url": "https://www.okx.com/help/how-do-i-deposit-brl",
+      "visibleUpdated": "2026-09-11",
+      "supported": [
+        "BRL/Pix flow is account-dependent and Brazilian-customer scoped",
+        "name and CPF match checks",
+        "method-screen limits/fees/processing details"
+      ],
+      "notAdopted": [
+        "fixed account minimum or guaranteed processing speed"
+      ]
+    },
+    {
+      "id": "okx-brl-pix-withdraw",
+      "url": "https://www.okx.com/help/how-do-i-withdraw-brl",
+      "visibleUpdated": "2026-09-02",
+      "supported": [
+        "bank-account verification and matching identity",
+        "preview and payment-method checks before withdrawal"
+      ],
+      "notAdopted": [
+        "guaranteed bank approval or universal availability"
+      ]
+    },
+    {
+      "id": "binance-brl-pix-withdraw",
+      "url": "https://www.binance.com/pt-BR/support/faq/detail/08722a3b5ad7465e8c74ddc0240cec4c",
+      "visiblePublished": "2021-01-22",
+      "visibleUpdated": null,
+      "supported": [
+        "destination bank-account ownership matches Binance holder",
+        "fees when present and order history checks"
+      ],
+      "notAdopted": [
+        "published processing timing as a universal current guarantee"
+      ]
+    }
+  ],
+  "pageReview": {
+    "paths": [
+      "/br/pix",
+      "/br/saque-pix"
+    ],
+    "existingCopy": "Existing account/method/identity/cost/status checklist remains supported by checked scope; no contradictory broad promise identified.",
+    "decision": "Keep current source-bound page copy stable. Do not refresh all source dates from partial three-article read."
+  },
+  "boundary": "Source readability does not establish account eligibility, partnership attribution, benefit, bank success, current fee or search lift. No invitation change."
+}

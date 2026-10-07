@@ -1,0 +1,130 @@
+/* H5 底部常驻悬浮导航栏 (Mobile Bottom Nav Dock) */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 780px) {
+  .mobile-bottom-nav {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(7, 8, 10, 0.78);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.6);
+    padding: 6px 12px calc(6px + env(safe-area-inset-bottom, 8px));
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
+  }
+
+  .mobile-bottom-nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  .mobile-bottom-nav__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    padding: 6px 8px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 54px;
+    border-radius: 8px;
+    transition: color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-bottom-nav__item:active {
+    transform: scale(0.92);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .mobile-bottom-nav__item:focus-visible {
+    outline: 2px solid #8fb0ff;
+    outline-offset: 3px;
+  }
+
+  .mobile-bottom-nav__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+  }
+
+  .mobile-bottom-nav__label {
+    color: #e2e8f0;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+  }
+
+  /* 避免底部内容被 Dock 遮挡 */
+  body:has(.mobile-bottom-nav) {
+    --mobile-bottom-nav-reserve: calc(var(--mobile-bottom-nav-height, 80px) + 8px);
+    padding-bottom: var(--mobile-bottom-nav-reserve);
+  }
+
+  /* Detail and deep-compare routes own their decision controls. Keep the
+     shared dock out of the rendered action hierarchy even during hydration. */
+  body:has(.v3-profile-page) .mobile-bottom-nav,
+  body:has(.v3-compare-page) .mobile-bottom-nav {
+    display: none;
+  }
+
+  body:has(.v3-profile-page),
+  body:has(.v3-compare-page) {
+    --mobile-bottom-nav-reserve: 0px;
+    padding-bottom: 0;
+  }
+
+}
+
+/* iOS 安全区适配（刘海屏 / Dynamic Island）*/
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .mobile-bottom-nav {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 6px);
+  }
+}
+
+/* R170: preserve task links while making location and focus boundaries explicit. */
+@media (max-width: 780px) {
+  .mobile-bottom-nav__item {
+    min-height: 44px;
+    min-width: 0;
+    flex: 1 1 0;
+    padding: 6px 3px;
+  }
+  .mobile-bottom-nav__label {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+    text-align: center;
+  }
+  .mobile-bottom-nav__item[aria-current] {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  html:has(.mobile-bottom-nav):not(:has(.v3-profile-page, .v3-compare-page)) {
+    scroll-padding-bottom: calc(var(--mobile-bottom-nav-height, 80px) + 8px);
+  }
+}
+
+/* Reduced motion retains pressed colors without decorative compression. */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-bottom-nav__item:active { transform: none; }
+}

@@ -1,0 +1,332 @@
+{
+  "assetId": "wave48-perp-dex-cost-citations",
+  "version": "2026-09-15",
+  "checkedAt": "2026-09-15T22:43:11+08:00",
+  "canonical": "https://nexualpha.com/research/wave48-perp-dex-cost-citations.json",
+  "boundary": "Dated research snapshot for citation and comparison. This is not a live quote, not a trading recommendation, and not a referral or campaign eligibility claim.",
+  "protectedPartnerRegistrySha256": "224be8f328b4b780b96dc0580f3258e81395ded8b5d3640558ae65fad75249f2",
+  "findings": [
+    {
+      "id": "wave56-perp-dex-cost-stack-requires-multiple-fields",
+      "asOf": "2026-09-15T22:43:11+08:00",
+      "statement": "Across the four reviewed Perp DEX venues, all 24 required venue-field records are source-backed as known, and every venue still requires cost review across fee, funding, collateral, margin, oracle and liquidation fields rather than a single static fee or live funding quote.",
+      "method": "Count known status records across the six required fields for Hyperliquid, dYdX, GMX and Aevo, then review the limitation notes for live-rate, market-specific, tier-specific and liquidation dependencies.",
+      "evidence": [
+        {
+          "venue": "hyperliquid",
+          "fields": ["fee", "funding", "collateral", "margin", "oracle", "liquidation"],
+          "sourceHosts": ["hyperliquid.gitbook.io"],
+          "limitSummary": "Base fee tier, funding, leverage, margin tier, oracle and liquidation behavior are condition-dependent."
+        },
+        {
+          "venue": "dydx",
+          "fields": ["fee", "funding", "collateral", "margin", "oracle", "liquidation"],
+          "sourceHosts": ["docs.dydx.xyz"],
+          "limitSummary": "Fee schedules, funding, margin fractions and liquidation parameters are market-specific or governance/community adjustable."
+        },
+        {
+          "venue": "gmx",
+          "fields": ["fee", "funding", "collateral", "margin", "oracle", "liquidation"],
+          "sourceHosts": ["docs.gmx.io"],
+          "limitSummary": "Position fees are only one part of the stack; price impact, borrowing, funding, oracle pricing, liquidity and market configuration can change costs."
+        },
+        {
+          "venue": "aevo",
+          "fields": ["fee", "funding", "collateral", "margin", "oracle", "liquidation"],
+          "sourceHosts": ["www.aevo.xyz"],
+          "limitSummary": "Published standard fee and ETH perp parameters are dated examples; funding, collateral support, portfolio margin and liquidation rules remain instrument-specific."
+        }
+      ],
+      "stats": {
+        "reviewedVenueCount": 4,
+        "requiredFieldCount": 6,
+        "knownVenueFieldRecords": 24
+      },
+      "limitations": "This finding is derived from the dated Wave48 source matrix. It is not a live-rate feed, venue ranking, trading recommendation, registration route, referral claim or account eligibility decision."
+    }
+  ],
+  "schema": {
+    "requiredVenueFields": [
+      "fee",
+      "funding",
+      "collateral",
+      "margin",
+      "oracle",
+      "liquidation"
+    ],
+    "fieldShape": {
+      "status": "known | unknown",
+      "value": "short normalized value",
+      "sourceUrl": "primary or official source URL",
+      "sourceLabel": "human-readable source label",
+      "checkedAt": "ISO timestamp",
+      "limits": "limits and caveats for this field"
+    }
+  },
+  "venues": [
+    {
+      "id": "hyperliquid",
+      "name": "Hyperliquid",
+      "type": "PERP_DEX",
+      "checkedAt": "2026-09-15T22:43:11+08:00",
+      "limits": [
+        "Fee tiers, staking discounts, aligned quote asset rules, HIP-3 deployer settings, and growth mode can change the all-in fee.",
+        "Funding is market-specific and changes hourly; this snapshot records the protocol formula, not a live rate.",
+        "Max leverage and maintenance margin depend on the asset and margin tier."
+      ],
+      "fields": {
+        "fee": {
+          "status": "known",
+          "value": "Perps tier 0 base rate: 0.045% taker, 0.015% maker; lower tiers and staking discounts may apply.",
+          "sourceUrl": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+          "sourceLabel": "Hyperliquid Docs - Fees",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Base tier only; all-in rate can be modified by user tier, staking, aligned quote assets, referral discounts, HIP-3 deployer fee scale, and growth mode."
+        },
+        "funding": {
+          "status": "known",
+          "value": "Hourly peer-to-peer funding; no fee collected on funding payments. Formula uses premium plus a clamped interest component and spot oracle notional conversion.",
+          "sourceUrl": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding",
+          "sourceLabel": "Hyperliquid Docs - Funding",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Records mechanism only; live funding by market must be fetched separately."
+        },
+        "collateral": {
+          "status": "known",
+          "value": "Deposits are credited to cross margin balance; isolated margin can allocate margin to a specific position.",
+          "sourceUrl": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/clearinghouse",
+          "sourceLabel": "Hyperliquid Docs - Clearinghouse",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "The source establishes margin-balance behavior, not a complete collateral token matrix for every listed or HIP-3 market."
+        },
+        "margin": {
+          "status": "known",
+          "value": "Cross margin is default; isolated and strict-isolated modes exist. Required opening margin is position_size * mark_price / leverage.",
+          "sourceUrl": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/margining",
+          "sourceLabel": "Hyperliquid Docs - Margining",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Asset-specific max leverage and margin tiers must be checked at trade time."
+        },
+        "oracle": {
+          "status": "known",
+          "value": "Funding uses spot oracle price; oracle prices are computed by validators as weighted medians of CEX spot prices.",
+          "sourceUrl": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding",
+          "sourceLabel": "Hyperliquid Docs - Funding",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "The liquidation page separately notes mark price combines external CEX prices with Hyperliquid book state."
+        },
+        "liquidation": {
+          "status": "known",
+          "value": "Liquidation occurs when account equity drops below maintenance margin; most liquidations are sent to the book, with backstop liquidation below 2/3 maintenance margin.",
+          "sourceUrl": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/liquidations",
+          "sourceLabel": "Hyperliquid Docs - Liquidations",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Liquidation price can move with funding, PnL, other cross positions, and asset-specific maintenance leverage."
+        }
+      }
+    },
+    {
+      "id": "dydx",
+      "name": "dYdX",
+      "type": "PERP_DEX",
+      "checkedAt": "2026-09-15T22:43:11+08:00",
+      "limits": [
+        "dYdX docs state fee schedules and risk parameters are subject to governance/community adjustment.",
+        "Funding, margin fractions, and liquidation parameters are market-specific and should be checked through current market/API state before use.",
+        "The docs point users to the frontend for the latest fee schedule."
+      ],
+      "fields": {
+        "fee": {
+          "status": "known",
+          "value": "Official docs list tier 1 as 5.0 bps taker and 1.0 bps maker for 30d trailing volume under $1M.",
+          "sourceUrl": "https://docs.dydx.xyz/concepts/trading/rewards",
+          "sourceLabel": "dYdX Documentation - Rewards, Fees and Parameters",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Governance-adjustable; docs advise checking the dYdX frontend fees page for latest schedule."
+        },
+        "funding": {
+          "status": "known",
+          "value": "Hourly funding based on premium samples; formula is (Premium Component / 8) + Interest Rate Component.",
+          "sourceUrl": "https://docs.dydx.xyz/concepts/trading/funding",
+          "sourceLabel": "dYdX Documentation - Funding",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "This is the mechanism, not a live market rate; isolated market interest settings can differ."
+        },
+        "collateral": {
+          "status": "known",
+          "value": "Total account value includes the quote asset USDC balance plus position value; quoteBalance changes with transfers, position changes, funding, and liquidations.",
+          "sourceUrl": "https://docs.dydx.xyz/concepts/trading/margin",
+          "sourceLabel": "dYdX Documentation - Margin",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Records margin accounting from docs; current supported deposits and operational availability must be checked separately."
+        },
+        "margin": {
+          "status": "known",
+          "value": "Markets have initial and maintenance margin fractions; single-position requirements are abs(size * oracle price * fraction).",
+          "sourceUrl": "https://docs.dydx.xyz/concepts/trading/margin",
+          "sourceLabel": "dYdX Documentation - Margin",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Initial margin can scale with open interest; market liquidity tier parameters can change."
+        },
+        "oracle": {
+          "status": "known",
+          "value": "Margin and liquidation calculations use oracle price for market valuation.",
+          "sourceUrl": "https://docs.dydx.xyz/concepts/trading/liquidations",
+          "sourceLabel": "dYdX Documentation - Liquidations",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "This asset does not enumerate all oracle source constituents; it records the documented dependency on oracle price."
+        },
+        "liquidation": {
+          "status": "known",
+          "value": "Accounts whose total value falls below maintenance margin may have positions automatically closed by the liquidation engine; maximum liquidation penalty is documented as 1.5%.",
+          "sourceUrl": "https://docs.dydx.xyz/concepts/trading/liquidations",
+          "sourceLabel": "dYdX Documentation - Liquidations",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Penalty and liquidation configuration are governance-adjustable; position may be partially or fully closed."
+        }
+      }
+    },
+    {
+      "id": "gmx",
+      "name": "GMX",
+      "type": "PERP_DEX",
+      "checkedAt": "2026-09-15T22:43:11+08:00",
+      "limits": [
+        "GMX fees include position fees, swap fees, price impact, borrowing, funding, and network/execution costs.",
+        "Market configuration, risk oracle parameters, liquidity depth, and chain can change current costs.",
+        "GMX V2 uses flexible collateral and oracle-based pricing, so exposure can differ from standard stablecoin-margined linear perps."
+      ],
+      "fields": {
+        "fee": {
+          "status": "known",
+          "value": "Open/close position fee is commonly 0.04% or 0.06% of position size depending on whether the trade improves or worsens long/short open interest balance.",
+          "sourceUrl": "https://docs.gmx.io/docs/trading/fees/",
+          "sourceLabel": "GMX Docs - Fees",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "TradFi markets and market-specific parameters can differ; price impact and borrowing/funding are additional costs or credits."
+        },
+        "funding": {
+          "status": "known",
+          "value": "Funding fees may be a cost or credit while a position is open; rate changes over time based on long/short market balance.",
+          "sourceUrl": "https://docs.gmx.io/docs/trading/fees/",
+          "sourceLabel": "GMX Docs - Fees",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Live funding rate is visible in interface; snapshot records mechanism only."
+        },
+        "collateral": {
+          "status": "known",
+          "value": "GMX V2 uses linear USD-based PnL with flexible collateral; positions can use wallet funds or GMX Account funds depending on chain and flow.",
+          "sourceUrl": "https://docs.gmx.io/docs/trading/overview/",
+          "sourceLabel": "GMX Docs - Trading overview",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Supported chains and deposit/withdrawal tokens differ between direct wallet trading and GMX Account."
+        },
+        "margin": {
+          "status": "known",
+          "value": "Position rows expose size, net value, collateral, leverage, mark price, and liquidation price; max leverage derives from market risk configuration.",
+          "sourceUrl": "https://docs.gmx.io/docs/trading/order-types/",
+          "sourceLabel": "GMX Docs - Positions and order types",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Max leverage can change by market, liquidity, session, and interface caps."
+        },
+        "oracle": {
+          "status": "known",
+          "value": "GMX uses oracle-based pricing sourced from aggregated exchange data to reduce liquidation risk from temporary wicks.",
+          "sourceUrl": "https://docs.gmx.io/docs/trading/overview/",
+          "sourceLabel": "GMX Docs - Trading overview",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "TradFi markets have additional freshness thresholds and risk oracle parameters."
+        },
+        "liquidation": {
+          "status": "known",
+          "value": "A position is liquidated when remaining collateral after losses, accrued fees, and capped negative price impact falls below the market minimum collateral threshold, typically 0.25% to 1% of position size.",
+          "sourceUrl": "https://docs.gmx.io/docs/trading/liquidations/",
+          "sourceLabel": "GMX Docs - Liquidations and ADL",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Effective threshold is the greater of percentage threshold and absolute minimum collateral floor; borrow and funding fees move liquidation price over time."
+        }
+      }
+    },
+    {
+      "id": "aevo",
+      "name": "Aevo",
+      "type": "PERP_DEX",
+      "checkedAt": "2026-09-15T22:43:11+08:00",
+      "limits": [
+        "Aevo docs still show standard perpetual fees while also saying standard fees will soon be reduced following AGP-3 approval; treat values as a dated docs snapshot until the current fee schedule is verified.",
+        "Perp specs are shown for ETH perpetuals as an official representative contract; other assets can differ.",
+        "Portfolio margin can alter requirements for hedged multi-instrument accounts."
+      ],
+      "fields": {
+        "fee": {
+          "status": "known",
+          "value": "Perpetuals standard fees: 0.08% taker and 0.05% maker; ETH perpetual spec repeats these values.",
+          "sourceUrl": "https://www.aevo.xyz/docs/aevo-products/aevo-exchange/fees/perpetuals-fees.md",
+          "sourceLabel": "Aevo Documentation - Perpetuals Fees",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Multiple fee tiers are available; the official page includes a 'will soon get reduced' AGP-3 note, so this asset does not claim a current all-in rate."
+        },
+        "funding": {
+          "status": "known",
+          "value": "Funding payments are peer-to-peer every 1 hour; Aevo does not charge a fee on funding.",
+          "sourceUrl": "https://www.aevo.xyz/docs/aevo-products/aevo-exchange/technical-architecture/perpetual-futures-funding-rate.md",
+          "sourceLabel": "Aevo Documentation - Perpetual Futures Funding Rate",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Mechanism only; live funding varies by market and time, and Aevo documents nonstandard funding intervals for selected instruments plus authority to modify intervals in extreme volatility."
+        },
+        "collateral": {
+          "status": "known",
+          "value": "Aevo supports options, perpetuals, and structured products in a unified single margin account; ETH perps quote asset is USDC.",
+          "sourceUrl": "https://www.aevo.xyz/docs/aevo-products/aevo-exchange.md",
+          "sourceLabel": "Aevo Documentation - AEVO Exchange",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "This summarizes the unified margin system and representative ETH perp quote asset, not every supported deposit asset."
+        },
+        "margin": {
+          "status": "known",
+          "value": "ETH perpetual futures spec: 5% initial margin, 3% maintenance margin, 20x max leverage; portfolio margin may reduce requirements for hedged portfolios.",
+          "sourceUrl": "https://www.aevo.xyz/docs/aevo-products/aevo-exchange/trading-on-aevo/perpetuals-specifications/eth-perpetual-futures.md",
+          "sourceLabel": "Aevo Documentation - ETH Perpetual Futures",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Representative ETH perp values; other contracts can have different parameters."
+        },
+        "oracle": {
+          "status": "known",
+          "value": "Aevo uses a custom internal oracle and constructs an index from spot prices on centralized exchanges after filtering disconnected or deviating sources.",
+          "sourceUrl": "https://www.aevo.xyz/docs/aevo-products/aevo-exchange/technical-architecture/index-price.md",
+          "sourceLabel": "Aevo Documentation - Index Price",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "ETH index constituents are documented; constituent sets for other assets must be checked individually."
+        },
+        "liquidation": {
+          "status": "known",
+          "value": "Cross-margin portfolio liquidation starts when account balance minus open orders minus maintenance margin breaches requirements; process cancels orders, incrementally liquidates, then can use insurance fund or ADL.",
+          "sourceUrl": "https://www.aevo.xyz/docs/aevo-products/aevo-exchange/technical-architecture/liquidations.md",
+          "sourceLabel": "Aevo Documentation - Liquidations",
+          "checkedAt": "2026-09-15T22:43:11+08:00",
+          "limits": "Liquidation fee is asset-tier dependent; ETH perp spec lists 1% of liquidated position value."
+        }
+      }
+    }
+  ],
+  "title": "Wave48 Perp DEX cost citations",
+  "description": "Dated machine-readable source review comparing Perp DEX fee, funding, collateral, margin, oracle and liquidation fields across Hyperliquid, dYdX, GMX and Aevo. Wave56 finding: all 24 reviewed venue-field records are source-backed as known, but each venue still requires cost review across the full field stack rather than a single static fee or live funding quote.",
+  "publisher": {
+    "name": "NexuAlpha",
+    "url": "https://nexualpha.com/",
+    "contactPoint": "mailto:contact@nexualpha.com"
+  },
+  "author": {
+    "name": "NexuAlpha Editorial Research",
+    "type": "Organization",
+    "url": "https://nexualpha.com/methodology"
+  },
+  "contact": "mailto:contact@nexualpha.com",
+  "correctionsContact": "mailto:contact@nexualpha.com",
+  "license": "https://nexualpha.com/methodology#data-license",
+  "licenseScope": "Access does not grant redistribution rights. NexuAlpha reserves rights in the original compilation, field definitions, normalized values and limitation notes in this dataset. Third-party source documents, names, trademarks and linked source materials remain subject to their own owners and terms. Contact contact@nexualpha.com for reuse, republication or licensing requests.",
+  "methodologyUrl": "https://nexualpha.com/methodology#data-license",
+  "createdAt": "2026-09-15T22:43:11+08:00",
+  "updatedAt": "2026-09-16T01:24:05+08:00",
+  "preferredCitation": "NexuAlpha Editorial Research. (2026). Wave48 Perp DEX cost citations. NexuAlpha. https://nexualpha.com/research/wave48-perp-dex-cost-citations.json"
+}

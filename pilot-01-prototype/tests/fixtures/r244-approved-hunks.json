@@ -1,0 +1,44 @@
+{
+  "src/components/v3/international/BrazilDecisionPage.jsx": [
+    {
+      "before": "",
+      "after": "  const isEntryPage = page.path === \"/br\";\n"
+    },
+    {
+      "before": "  return (\n    <main\n      className={`v2-page v3-page br-decision${isComparisonPage ? \" br-decision--comparison\" : \"\"}`}\n      id=\"top\"\n      lang={pageLocale}\n      dir=\"ltr\"\n      data-testid=\"brazil-decision-page\"\n      data-requested-locale={requestedLocale === pageLocale ? undefined : requestedLocale}\n      data-locale-fallback={requestedLocale === pageLocale ? undefined : pageLocale}\n    >\n      <section className={`br-hero v2-shell${isComparisonPage ? \" br-hero--comparison\" : \"\"}`}>\n",
+      "after": "  const heroSection = (\n    <section className={`br-hero v2-shell${isComparisonPage ? \" br-hero--comparison\" : \"\"}`}>\n"
+    },
+    {
+      "before": "        {!isComparisonPage ? earlyNextStepSection : null}\n",
+      "after": "        {!isComparisonPage && !isEntryPage ? earlyNextStepSection : null}\n"
+    },
+    {
+      "before": "\n      {isComparisonPage ? shortlistSection : null}\n\n      <section className=\"br-answer v2-shell\" id=\"br-market-content\">\n",
+      "after": "  );\n  const answerSection = (\n    <section className=\"br-answer v2-shell\" id=\"br-market-content\">\n"
+    },
+    {
+      "before": "\n      {isComparisonPage ? earlyNextStepSection : null}\n\n",
+      "after": "  );\n  const continuationSection = (\n    <>\n"
+    },
+    {
+      "before": "",
+      "after": "    </>\n  );\n\n  return (\n    <main\n      className={`v2-page v3-page br-decision${isComparisonPage ? \" br-decision--comparison\" : \"\"}`}\n      id=\"top\"\n      lang={pageLocale}\n      dir=\"ltr\"\n      data-testid=\"brazil-decision-page\"\n      data-requested-locale={requestedLocale === pageLocale ? undefined : requestedLocale}\n      data-locale-fallback={requestedLocale === pageLocale ? undefined : pageLocale}\n    >\n      {isEntryPage ? (\n        <section className=\"br-primary-workbench\" aria-label={copy.label}>\n          {heroSection}\n          {answerSection}\n          {shortlistSection}\n        </section>\n      ) : heroSection}\n\n      {isComparisonPage ? shortlistSection : null}\n\n      {!isEntryPage ? answerSection : null}\n\n      {isComparisonPage ? earlyNextStepSection : null}\n\n      {isEntryPage ? (\n        <details className=\"br-continuation-disclosure v2-shell\">\n          <summary>{copy.readPath}</summary>\n          {earlyNextStepSection}\n          {continuationSection}\n        </details>\n      ) : continuationSection}\n"
+    },
+    {
+      "before": "      {!isComparisonPage ? shortlistSection : null}\n",
+      "after": "      {!isComparisonPage && !isEntryPage ? shortlistSection : null}\n"
+    }
+  ],
+  "src/components/v3/international/brazil-decision-page.css": [
+    {
+      "before": "",
+      "after": "\n/* /br entry: choose and estimate before supplementary research. */\n.br-primary-workbench { min-width: 0; }\n.br-primary-workbench > .br-shortlist { padding-top: 16px; }\n.br-continuation-disclosure { margin-block: 16px; }\n.br-continuation-disclosure > summary {\n  display: list-item;\n  min-height: 44px;\n  padding: 12px 16px;\n  border: 1px solid var(--border-subtle, rgba(180, 196, 211, .18));\n  border-radius: 8px;\n  color: var(--text-primary, #f8fbff);\n  cursor: pointer;\n}\n.br-continuation-disclosure > summary:focus-visible {\n  outline: 2px solid #8fb0ff;\n  outline-offset: 3px;\n}\n.br-continuation-disclosure > .v2-shell { width: 100%; }\n"
+    }
+  ],
+  "tests/brazil-decision.test.mjs": [
+    {
+      "before": "  assert.ok(early > hero && early < answer, \"early recommendation stays inside the non-comparison hero flow\");\n  assert.ok(answer < chain && chain < nextSteps && nextSteps < shortlist, \"non-comparison route keeps shortlist after support flow\");\n",
+      "after": "  assert.ok(hero < answer && answer < shortlist && shortlist < early, \"entry shortlist precedes supplementary recommendations\");\n  assert.ok(early < chain && chain < nextSteps, \"all supporting routes retain their original relative sequence\");\n"
+    }
+  ]
+}

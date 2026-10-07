@@ -1,0 +1,841 @@
+{
+  "version": 1,
+  "scope": "NexuAlpha indexable content duplication audit dispositions",
+  "generatedFrom": "../artifacts/seo/wave29-indexable-content-duplication.json",
+  "policy": "Only advisory duplicate H1 groups that represent the same entity, pair, topic, or static utility heading across localized canonicals may be allowlisted. Titles, descriptions, body fingerprints, locale fallback risks, and thin pages must not be silently ignored.",
+  "items": [
+    {
+      "field": "h1",
+      "value": "bybit vs bitget",
+      "paths": [
+        "/compare/bybit-vs-bitget"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "ru",
+        "tr",
+        "vi",
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "hyperliquid vs dydx",
+      "paths": [
+        "/compare/hyperliquid-vs-dydx"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "ru",
+        "tr",
+        "vi",
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "binance vs bybit",
+      "paths": [
+        "/compare/binance-vs-bybit"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "ru",
+        "tr",
+        "vi"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "binance vs kraken",
+      "paths": [
+        "/compare/binance-vs-kraken"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "ru",
+        "tr",
+        "vi"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "binance vs mexc",
+      "paths": [
+        "/compare/binance-vs-mexc"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "ru",
+        "tr",
+        "vi"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "binance vs okx",
+      "paths": [
+        "/compare/binance-vs-okx"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "ru",
+        "tr",
+        "vi"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "crypto perpetual platform comparison: binance, bybit and hyperliquid",
+      "paths": [
+        "/topics/derivatives"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "ru",
+        "tr",
+        "vi"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 names the same topic cluster across localized canonicals; title and description carry localized intent and source boundaries."
+    },
+    {
+      "field": "h1",
+      "value": "gate.io vs mexc",
+      "paths": [
+        "/compare/gate-io-vs-mexc"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "ru",
+        "tr",
+        "vi"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "okx vs bybit",
+      "paths": [
+        "/compare/okx-vs-bybit"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "ru",
+        "tr",
+        "vi"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "okx vs mexc",
+      "paths": [
+        "/compare/okx-vs-mexc"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "ru",
+        "tr",
+        "vi"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "published fee and market terms regulated crypto exchanges for fiat on/off-ramp (2026): hashkey vs kraken vs okx",
+      "paths": [
+        "/topics/compliant-exchanges"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "ru",
+        "tr",
+        "vi"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 names the same topic cluster across localized canonicals; title and description carry localized intent and source boundaries."
+    },
+    {
+      "field": "h1",
+      "value": "top no-kyc crypto exchanges & privacy trading (2026): hyperliquid vs dydx vs mexc",
+      "paths": [
+        "/topics/no-kyc"
+      ],
+      "locales": [
+        "ar",
+        "de",
+        "en",
+        "es",
+        "fr",
+        "id",
+        "it",
+        "ja",
+        "pt-BR",
+        "ru",
+        "vi"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 names the same topic cluster across localized canonicals; title and description carry localized intent and source boundaries."
+    },
+    {
+      "field": "h1",
+      "value": "embed real-time crypto fee intelligence on your blog or research portal",
+      "paths": [
+        "/partners"
+      ],
+      "locales": [
+        "de",
+        "en",
+        "es",
+        "fr",
+        "ja",
+        "ko",
+        "pt-BR",
+        "tr"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because this static utility page keeps one product/function heading across localized canonicals; metadata and surrounding copy carry localization."
+    },
+    {
+      "field": "h1",
+      "value": "nexualpha rating methodology & data audit framework",
+      "paths": [
+        "/methodology"
+      ],
+      "locales": [
+        "de",
+        "en",
+        "es",
+        "fr",
+        "pt-BR"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because this static utility page keeps one product/function heading across localized canonicals; metadata and surrounding copy carry localization."
+    },
+    {
+      "field": "h1",
+      "value": "estimate your current exchange's annual base-fee cost",
+      "paths": [
+        "/embed/calculator"
+      ],
+      "locales": [
+        "en",
+        "es",
+        "pt-BR"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because this static utility page keeps one product/function heading across localized canonicals; metadata and surrounding copy carry localization."
+    },
+    {
+      "field": "h1",
+      "value": "2026 免实名与去中心化隐私交易平台评测:hyperliquid vs dydx vs mexc 选型底牌",
+      "paths": [
+        "/topics/no-kyc"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 names the same topic cluster across localized canonicals; title and description carry localized intent and source boundaries."
+    },
+    {
+      "field": "h1",
+      "value": "2026 全球合规法币出入金与防冻卡交易所白皮书:hashkey vs kraken vs okx 深度测评",
+      "paths": [
+        "/topics/compliant-exchanges"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 names the same topic cluster across localized canonicals; title and description carry localized intent and source boundaries."
+    },
+    {
+      "field": "h1",
+      "value": "2026 高波动土狗打新与 meme 币交易平台独立研究选型指南:mexc vs gate.io vs raydium",
+      "paths": [
+        "/topics/meme-coins"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 names the same topic cluster across localized canonicals; title and description carry localized intent and source boundaries."
+    },
+    {
+      "field": "h1",
+      "value": "aerodrome 来源审阅事实库",
+      "paths": [
+        "/factbook/aerodrome"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "aevo 来源审阅事实库",
+      "paths": [
+        "/factbook/aevo"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "backpack 来源审阅事实库",
+      "paths": [
+        "/factbook/backpack"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "binance (币安) vs bybit",
+      "paths": [
+        "/compare/binance-vs-bybit"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "binance (币安) vs kraken (海妖)",
+      "paths": [
+        "/compare/binance-vs-kraken"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "binance (币安) vs mexc (抹茶)",
+      "paths": [
+        "/compare/binance-vs-mexc"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "binance (币安) vs okx (欧易)",
+      "paths": [
+        "/compare/binance-vs-okx"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "binance 来源审阅事实库",
+      "paths": [
+        "/factbook/binance"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "bitget 来源审阅事实库",
+      "paths": [
+        "/factbook/bitget"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "bybit 来源审阅事实库",
+      "paths": [
+        "/factbook/bybit"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "coinbase 来源审阅事实库",
+      "paths": [
+        "/factbook/coinbase"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "curve 来源审阅事实库",
+      "paths": [
+        "/factbook/curve"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "deribit 来源审阅事实库",
+      "paths": [
+        "/factbook/deribit"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "drift 来源审阅事实库",
+      "paths": [
+        "/factbook/drift"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "dydx 来源审阅事实库",
+      "paths": [
+        "/factbook/dydx"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "gate.io (芝麻开门) vs mexc (抹茶)",
+      "paths": [
+        "/compare/gate-io-vs-mexc"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "gate.io 来源审阅事实库",
+      "paths": [
+        "/factbook/gate-io"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "gmx 来源审阅事实库",
+      "paths": [
+        "/factbook/gmx"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "hashkey global 来源审阅事实库",
+      "paths": [
+        "/factbook/hashkey"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "htx 来源审阅事实库",
+      "paths": [
+        "/factbook/htx"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "hyperliquid 来源审阅事实库",
+      "paths": [
+        "/factbook/hyperliquid"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "jupiter 来源审阅事实库",
+      "paths": [
+        "/factbook/jupiter"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "kraken 来源审阅事实库",
+      "paths": [
+        "/factbook/kraken"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "kucoin 来源审阅事实库",
+      "paths": [
+        "/factbook/kucoin"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "mexc 来源审阅事实库",
+      "paths": [
+        "/factbook/mexc"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "nexualpha 评测方法论与数据审计标准",
+      "paths": [
+        "/methodology"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because this static utility page keeps one product/function heading across localized canonicals; metadata and surrounding copy carry localization."
+    },
+    {
+      "field": "h1",
+      "value": "okx (欧易) vs bybit",
+      "paths": [
+        "/compare/okx-vs-bybit"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "okx (欧易) vs mexc (抹茶)",
+      "paths": [
+        "/compare/okx-vs-mexc"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 is the exact comparison entity pair; localized metadata and body copy carry the locale-specific search intent while the pair name remains an entity label."
+    },
+    {
+      "field": "h1",
+      "value": "okx 来源审阅事实库",
+      "paths": [
+        "/factbook/okx"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "pancakeswap 来源审阅事实库",
+      "paths": [
+        "/factbook/pancakeswap"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "raydium 来源审阅事实库",
+      "paths": [
+        "/factbook/raydium"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "uniswap 来源审阅事实库",
+      "paths": [
+        "/factbook/uniswap"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because Factbook H1s keep the venue entity name plus source-review label; zh-Hans and zh-Hant are separate localized canonicals with shared brand/entity naming."
+    },
+    {
+      "field": "h1",
+      "value": "为您的网站、博客或研报接入 实时加密费率量化组件",
+      "paths": [
+        "/partners"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because this static utility page keeps one product/function heading across localized canonicals; metadata and surrounding copy carry localization."
+    },
+    {
+      "field": "h1",
+      "value": "交易所手续费基准终端",
+      "paths": [
+        "/rates"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because this static utility page keeps one product/function heading across localized canonicals; metadata and surrounding copy carry localization."
+    },
+    {
+      "field": "h1",
+      "value": "加密永续合约平台比较:binance、bybit 与 hyperliquid",
+      "paths": [
+        "/topics/derivatives"
+      ],
+      "locales": [
+        "zh-Hans",
+        "zh-Hant"
+      ],
+      "disposition": "allow",
+      "reason": "Allowed because the H1 names the same topic cluster across localized canonicals; title and description carry localized intent and source boundaries."
+    }
+  ]
+}

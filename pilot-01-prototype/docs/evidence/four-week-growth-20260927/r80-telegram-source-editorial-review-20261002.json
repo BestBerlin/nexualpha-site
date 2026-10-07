@@ -1,0 +1,166 @@
+{
+  "createdAt": "2026-10-01T20:07:34.648259+00:00",
+  "productionBaseline": "R76",
+  "scope": "Five existing drafts; bounded claim/source review and SSR landing checks, not native editorial certification or publication approval",
+  "originalQueueSha256": "52f4ab54f4f76f80fd7ab6cdda4efaff0b031c95596bca8c07408a371b1f3cd8",
+  "originalQueueModified": false,
+  "reviews": [
+    {
+      "draftId": "okx-historical-window",
+      "technicalLanding": "PASS_HTTP_SSR_ONLY",
+      "sourceClaimReview": "SUPPORTED_BOUNDED",
+      "sourceScope": "Two dated US/SG announcements support the historical schedule and order/bot/API distinction. Current account completion and region applicability remain unverified.",
+      "sourcesReadThisPass": [
+        "https://www.okx.com/en-us/help/okx-to-migrate-usd-spot-trading-pairs",
+        "https://www.okx.com/en-sg/help/changes-to-usd-spot-trading-pairs-sg"
+      ],
+      "reviewedAt": "2026-10-01T20:07:34.648259+00:00",
+      "editorialApproval": null,
+      "nativeCertification": null,
+      "publicationAuthorization": null,
+      "approvedAt": null,
+      "publishedAt": null,
+      "originalEvidenceDates": [
+        "2026-09-15T06:24:00Z",
+        "2026-10-01"
+      ],
+      "retainedGates": [
+        "Live landing and locale review",
+        "Official source freshness and regional/account scope",
+        "English editorial approval",
+        "Explicit thread publication authorization"
+      ]
+    },
+    {
+      "draftId": "hyperliquid-fees",
+      "technicalLanding": "PASS_HTTP_SSR_ONLY",
+      "sourceClaimReview": "REVISION_CANDIDATE",
+      "sourceScope": "Tier0 base example still matches current table; scope it to the relevant perp market and account. HIP3/quote-asset/tier adjustments mean base examples are not universal costs. Fee-table only rechecked; funding source not rechecked.",
+      "sourcesReadThisPass": [
+        "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees"
+      ],
+      "reviewedAt": "2026-10-01T20:07:34.648259+00:00",
+      "editorialApproval": null,
+      "nativeCertification": null,
+      "publicationAuthorization": null,
+      "approvedAt": null,
+      "publishedAt": null,
+      "originalEvidenceDates": [
+        "2026-10-01",
+        "2026-09-22"
+      ],
+      "retainedGates": [
+        "Live landing and locale review",
+        "Official source freshness and regional/account scope",
+        "English editorial approval",
+        "Explicit thread publication authorization"
+      ]
+    },
+    {
+      "draftId": "br-pix-ownership-r72",
+      "technicalLanding": "PASS_HTTP_SSR_ONLY",
+      "sourceClaimReview": "REVISION_CANDIDATE",
+      "sourceScope": "Official deposit/withdrawal articles support sender identity and separate recipient verification, method limits/costs and account-specific scope. Add the R76 distinction without fixed recipient keys or success promises. Binance source not rechecked this pass.",
+      "sourcesReadThisPass": [
+        "https://www.okx.com/help/how-do-i-deposit-brl",
+        "https://www.okx.com/help/how-do-i-withdraw-brl"
+      ],
+      "reviewedAt": "2026-10-01T20:07:34.648259+00:00",
+      "editorialApproval": null,
+      "nativeCertification": null,
+      "publicationAuthorization": null,
+      "approvedAt": null,
+      "publishedAt": null,
+      "originalEvidenceDates": [
+        "2026-10-01T17:17:48.325820+00:00"
+      ],
+      "retainedGates": [
+        "Portuguese native/manual editorial review",
+        "Explicit thread publication authorization",
+        "Private Telegram lifecycle acceptance remains separate"
+      ]
+    },
+    {
+      "draftId": "uniswap-testnet",
+      "technicalLanding": "PASS_HTTP_SSR_ONLY",
+      "sourceClaimReview": "SUPPORTED_BOUNDED",
+      "sourceScope": "Wallet/Extension settings guidance and separate API/web support scopes confirmed. No ordinary web-toggle visual verification, token-value or mainnet-safety certification. Newly visible router sunset requires separate source/detail review, not silently inserted into this testnet draft.",
+      "sourcesReadThisPass": [
+        "https://support.uniswap.org/hc/en-us/articles/39884112333197-How-do-I-use-testnets-on-Uniswap",
+        "https://developers.uniswap.org/docs/trading/swapping-api/supported-chains"
+      ],
+      "reviewedAt": "2026-10-01T20:07:34.648259+00:00",
+      "editorialApproval": null,
+      "nativeCertification": null,
+      "publicationAuthorization": null,
+      "approvedAt": null,
+      "publishedAt": null,
+      "originalEvidenceDates": [
+        "2026-10-01",
+        "2026-09-22"
+      ],
+      "retainedGates": [
+        "Live landing and locale review",
+        "Official source freshness and regional/account scope",
+        "English editorial approval",
+        "Explicit thread publication authorization"
+      ]
+    },
+    {
+      "draftId": "kr-funding-verification",
+      "technicalLanding": "PASS_HTTP_SSR_ONLY",
+      "sourceClaimReview": "SUPPORTED_BOUNDED",
+      "sourceScope": "Upbit text supports separate signup/account/customer/two-channel requirements. No tutorial-image review or bank-side eligibility source; keep bank-specific/generalized acceptance claims excluded.",
+      "sourcesReadThisPass": [
+        "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC",
+        "https://support.upbit.com/hc/ko/articles/900006825383-%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94"
+      ],
+      "reviewedAt": "2026-10-01T20:07:34.648259+00:00",
+      "editorialApproval": null,
+      "nativeCertification": null,
+      "publicationAuthorization": null,
+      "approvedAt": null,
+      "publishedAt": null,
+      "originalEvidenceDates": [
+        "2026-10-01T16:33:22.887630+00:00"
+      ],
+      "retainedGates": [
+        "Korean native editorial approval",
+        "Official source freshness and bank-side applicability before adding bank-specific claims",
+        "Explicit thread publication authorization",
+        "Private Telegram lifecycle acceptance remains pending dedicated account and scope"
+      ]
+    }
+  ],
+  "revisionCandidates": [
+    {
+      "id": "hyperliquid-fees-r80-candidate",
+      "supersedesOnlyAfterApproval": "hyperliquid-fees",
+      "status": "draft_revision_pending_manual_review",
+      "locale": "en",
+      "firstOnsiteUrl": "https://nexualpha.com/exchanges/hyperliquid?locale=en&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r65_hyperliquid_fees",
+      "draftCopy": "Hyperliquid: check the fee assumptions before comparing\n\nFor a hypothetical USD 1,000 single-side fill at a 0.045% perp taker base rate, the trading fee alone is USD 0.45. This is an example, not your account quote. Product, market and account adjustments can change the rate; funding, spread, slippage and transfers are separate checks.\n\nOpen the NexuAlpha checklist to compare the assumptions and follow the official fee source before deciding.\n\nhttps://nexualpha.com/exchanges/hyperliquid?locale=en&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r65_hyperliquid_fees",
+      "createdAt": "2026-10-01T20:07:34.648259+00:00",
+      "approvedAt": null,
+      "publishedAt": null,
+      "sourceReviewArtifact": "r80-telegram-source-editorial-review-20261002.json"
+    },
+    {
+      "id": "br-pix-ownership-r72-r80-candidate",
+      "supersedesOnlyAfterApproval": "br-pix-ownership-r72",
+      "status": "draft_revision_pending_manual_review",
+      "locale": "pt-BR",
+      "firstOnsiteUrl": "https://nexualpha.com/br/pix?locale=pt-BR&market=BR&product=spot&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+      "draftCopy": "Pix em corretoras cripto: confira quem paga e quem recebe\n\nConfira o nome e o CPF do titular da conta que envia o Pix. Separadamente, confira o nome e o CNPJ do recebedor no fluxo oficial e na tela do banco. Antes de confirmar, revise os limites, custos e status exibidos. O cadastro não comprova que a sua conta já pode depositar ou sacar.\n\nVeja o checklist do NexuAlpha e as fontes oficiais antes de escolher o próximo passo.\n\nhttps://nexualpha.com/br/pix?locale=pt-BR&market=BR&product=spot&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+      "createdAt": "2026-10-01T20:07:34.648259+00:00",
+      "approvedAt": null,
+      "publishedAt": null,
+      "sourceReviewArtifact": "r80-telegram-source-editorial-review-20261002.json"
+    }
+  ],
+  "sendingEnabled": false,
+  "messagesSent": 0,
+  "registrationResults": null,
+  "growthResults": null,
+  "nextAction": "Manual language review of two candidates; preserve original queue/history and authorization gates. Future publisher main orchestration still untested."
+}

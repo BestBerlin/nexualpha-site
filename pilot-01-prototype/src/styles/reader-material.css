@@ -1,0 +1,54 @@
+/* Reading roles are local; legacy surface tokens and action colors stay intact. */
+.v3-page,
+.topic-guide-page,
+.news-detail-page {
+  --reader-material-context: #0c1219;
+  --reader-material-decision: #101b28;
+  --reader-material-rule: #29323e;
+  --reader-material-decision-rule: #405878;
+}
+
+/* Supporting context: quieter than the next decision, stable across nesting. */
+.v3-page .v3-venue-decision-strip article,
+.v3-compare-page .v3-compare-support-disclosure > summary,
+.v3-compare-page .v3-versus-card--supporting,
+.v3-page .v3-detail-grid article,
+.topic-guide-page .topic-stat-card,
+.news-detail-page .news-detail__local-brief {
+  background: var(--reader-material-context);
+  border-color: var(--reader-material-rule);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Actual account/next-step containers keep distinct weight without glow. */
+.v3-page .registration-card,
+.news-detail-page .news-detail__decision-box {
+  background: var(--reader-material-decision);
+  border-color: var(--reader-material-decision-rule);
+  box-shadow: none;
+}
+
+/* Sources are evidence to read, with no success or eligibility signal. */
+.v3-page .v3-source-board article {
+  background: transparent;
+  border-color: var(--reader-material-rule);
+  box-shadow: none;
+}
+
+/* Unknown/checking statistics do not all need an attention-grabbing top beam. */
+.topic-guide-page .topic-stat-card::before {
+  background: none;
+}
+
+/* R217: actual first decisions share material, preserving news cyan left emphasis. */
+.v3-compare-page .v3-compare-final-choice-card,
+.news-detail-page .news-detail__first-decision {
+  background: var(--reader-material-decision);
+  border-color: var(--reader-material-decision-rule);
+  box-shadow: none;
+}
+.news-detail-page .news-detail__first-decision {
+  border-left-color: #22d3ee;
+}

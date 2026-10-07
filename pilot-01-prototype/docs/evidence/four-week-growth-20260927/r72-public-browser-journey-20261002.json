@@ -1,0 +1,18 @@
+{
+  "status": "PASS_BOUNDED_HYDRATED_CHAIN",
+  "pix": "https://nexualpha.com/br/pix?locale=pt-BR&market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+  "costs": "https://nexualpha.com/br/custos?locale=pt-BR&market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+  "compare": "https://nexualpha.com/br/comparar?locale=pt-BR&market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+  "rendered": {
+    "canonical": "https://nexualpha.com/br/comparar",
+    "h1": "Comparar Binance e OKX antes do cadastro no Brasil",
+    "lang": "pt-BR",
+    "trackedOnsiteLinks": [
+      "/br/pix?locale=pt-BR&market=BR&product=spot&platform=binance&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+      "/br/kyc-cpf?locale=pt-BR&market=BR&product=spot&platform=binance&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+      "/br/pix?locale=pt-BR&market=BR&product=spot&platform=binance&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check"
+    ],
+    "url": "https://nexualpha.com/br/comparar?locale=pt-BR&market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check"
+  },
+  "boundary": "Actual Chrome Pix→Costs→Compare after hydration. No Telegram send, external registration or upstream attribution outcome tested. Cold navigation not certified."
+}

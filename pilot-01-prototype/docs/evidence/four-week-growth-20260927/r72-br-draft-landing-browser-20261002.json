@@ -1,0 +1,22 @@
+{
+  "status": "PASS_BOUNDED",
+  "observed": {
+    "canonical": "https://nexualpha.com/br/pix",
+    "h1": "Brazil Pix/BRL em corretora cripto: checklist de depósito e saque",
+    "lang": "pt-BR",
+    "marketControl": [
+      "pt-BR",
+      "BR",
+      "spot",
+      ""
+    ],
+    "onsiteNextLinks": [
+      "/br/comparar?locale=pt-BR&market=BR&product=spot&platform=binance&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0",
+      "/br/comparar?locale=pt-BR&market=BR&product=spot&platform=okx&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0"
+    ],
+    "robots": "index,follow",
+    "title": "Brazil Pix/BRL em corretora cripto: checklist de depósito e saque | NexuAlpha",
+    "url": "https://nexualpha.com/br/pix?locale=pt-BR&market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=tg_channel&utm_campaign=r72_br_pix_ownership_check"
+  },
+  "boundary": "Actual public Chrome pt-BR landing, no account creation, external CTA click or Telegram send; native editorial approval pending."
+}

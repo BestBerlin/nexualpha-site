@@ -1,0 +1,14 @@
+[
+  {
+    "before": "import { useEffect, useMemo, useState } from \"react\";\n",
+    "after": "import { useEffect, useMemo, useRef, useState } from \"react\";\n"
+  },
+  {
+    "before": "",
+    "after": "  const copyFeedbackTimerRef = useRef(null);\n  const copyRequestRef = useRef(0);\n  const copyMountedRef = useRef(true);\n\n  // Copy feedback belongs to the current mounted venue and the latest request.\n  useEffect(() => {\n    copyMountedRef.current = true;\n    setCopied(false);\n    return () => {\n      copyMountedRef.current = false;\n      copyRequestRef.current += 1;\n      if (copyFeedbackTimerRef.current !== null) {\n        clearTimeout(copyFeedbackTimerRef.current);\n        copyFeedbackTimerRef.current = null;\n      }\n    };\n  }, [venueSlug]);\n"
+  },
+  {
+    "before": "  const handleCopy = () => {\n    if (!visiblePartner.inviteCode) return;\n    try {\n      if (navigator.clipboard?.writeText) {\n        navigator.clipboard.writeText(visiblePartner.inviteCode);\n      } else {\n        const textarea = document.createElement(\"textarea\");\n        textarea.value = visiblePartner.inviteCode;\n        document.body.appendChild(textarea);\n        textarea.select();\n        document.execCommand(\"copy\");\n        document.body.removeChild(textarea);\n      }\n      setCopied(true);\n      setTimeout(() => setCopied(false), 2000);\n    } catch {\n      setCopied(false);\n    }\n  };\n",
+    "after": "  const handleCopy = async () => {\n    if (!visiblePartner.inviteCode) return;\n    const request = ++copyRequestRef.current;\n    if (copyFeedbackTimerRef.current !== null) {\n      clearTimeout(copyFeedbackTimerRef.current);\n      copyFeedbackTimerRef.current = null;\n    }\n    setCopied(false);\n    try {\n      if (navigator.clipboard?.writeText) {\n        await navigator.clipboard.writeText(visiblePartner.inviteCode);\n      } else {\n        const textarea = document.createElement(\"textarea\");\n        textarea.value = visiblePartner.inviteCode;\n        document.body.appendChild(textarea);\n        try {\n          textarea.select();\n          if (document.execCommand(\"copy\") !== true) throw new Error(\"Copy was not confirmed\");\n        } finally {\n          document.body.removeChild(textarea);\n        }\n      }\n      if (!copyMountedRef.current || request !== copyRequestRef.current) return;\n      setCopied(true);\n      copyFeedbackTimerRef.current = setTimeout(() => {\n        if (copyMountedRef.current && request === copyRequestRef.current) {\n          setCopied(false);\n          copyFeedbackTimerRef.current = null;\n        }\n      }, 2000);\n    } catch {\n      if (copyMountedRef.current && request === copyRequestRef.current) setCopied(false);\n    }\n  };\n"
+  }
+]

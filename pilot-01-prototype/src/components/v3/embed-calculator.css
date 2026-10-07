@@ -1,0 +1,110 @@
+/* Embed Calculator Container */
+.embed-container {
+  min-height: auto;
+  background: var(--market, #070a0e);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.embed-content {
+  flex: 0 1 auto;
+}
+
+.embed-attribution-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: rgba(18, 26, 36, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 8px;
+  margin-top: 0;
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 600px) {
+  .embed-attribution-bar {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
+.embed-attribution-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.embed-logo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+}
+
+.embed-attribution-text {
+  color: #94a3b8;
+}
+
+.embed-attribution-text strong {
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.embed-attribution-link {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+
+.embed-attribution-link:hover {
+  color: #7dd3fc;
+  text-decoration: underline;
+}
+
+
+/* Compact only the embedded calculator shell. The standalone analyzer keeps its normal spacing. */
+.embed-container--calculator {
+  padding: 8px;
+  gap: 10px;
+}
+
+.embed-container--calculator .bleed-analyzer-section {
+  padding-block: 0;
+}
+
+.embed-container--calculator .bleed-analyzer__container {
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.embed-container--calculator .bleed-analyzer__header {
+  margin-bottom: 1rem;
+}
+
+.embed-container--calculator .bleed-analyzer__controls,
+.embed-container--calculator .bleed-analyzer__verdict-card,
+.embed-container--calculator .bleed-solution-box {
+  padding: 12px;
+}
+
+.embed-container--calculator .bleed-analyzer__grid {
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .embed-container--calculator {
+    padding: 6px;
+  }
+
+  .embed-container--calculator .bleed-analyzer__container {
+    padding: 10px;
+  }
+}

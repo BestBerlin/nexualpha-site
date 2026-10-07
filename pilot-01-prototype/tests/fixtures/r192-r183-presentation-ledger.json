@@ -1,0 +1,58 @@
+{
+  "from": "R176",
+  "to": "R183 v2 runtime with v3 corrected tests",
+  "beforeSHA256": "fb910b78378403bd23e4d1f911d51555d390d437d02c9aac18c0ce0fcf9310c8",
+  "afterSHA256": "caa128a549fc3acb2dc598b3cae5afe9e56ee336480dcdc0446248127cb7b61d",
+  "hunks": [
+    {
+      "oldStart": 2503,
+      "oldEnd": 2503,
+      "before": "",
+      "after": "\nconst DERIVATIVES_ROUTE_TASK_COPY = {\n  en: { chooser: \"Choose route to inspect\", selected: \"Selected route\", evidence: \"Next evidence\", costDictionary: \"Cost-field dictionary\", routeLabels: { \"cex-account\": \"CEX\", \"wallet-perp-dex\": \"Wallet DEX\", \"specialist-options-perps\": \"Options\", \"gmx-pool-route\": \"GMX\" } },\n  \"zh-Hans\": { chooser: \"选择要核对的路线\", selected: \"已选路线\", evidence: \"下一步证据\", costDictionary: \"成本字段词典\", routeLabels: { \"cex-account\": \"CEX账户\", \"wallet-perp-dex\": \"钱包DEX\", \"specialist-options-perps\": \"期权\", \"gmx-pool-route\": \"GMX\" } },\n  \"zh-Hant\": { chooser: \"選擇要核對的路線\", selected: \"已選路線\", evidence: \"下一步證據\", costDictionary: \"成本欄位詞典\", routeLabels: { \"cex-account\": \"CEX帳戶\", \"wallet-perp-dex\": \"錢包DEX\", \"specialist-options-perps\": \"期權\", \"gmx-pool-route\": \"GMX\" } },\n  ja: { chooser: \"確認するルートを選択\", selected: \"選択中のルート\", evidence: \"次の確認材料\", costDictionary: \"コスト項目辞書\", routeLabels: { \"cex-account\": \"CEX口座\", \"wallet-perp-dex\": \"ウォレットDEX\", \"specialist-options-perps\": \"オプション\", \"gmx-pool-route\": \"GMX\" } },\n  ko: { chooser: \"검토할 경로 선택\", selected: \"선택한 경로\", evidence: \"다음 확인 자료\", costDictionary: \"비용 항목 사전\", routeLabels: { \"cex-account\": \"CEX 계정\", \"wallet-perp-dex\": \"지갑 DEX\", \"specialist-options-perps\": \"옵션\", \"gmx-pool-route\": \"GMX\" } },\n  tr: { chooser: \"İncelenecek rotayı seç\", selected: \"Seçili rota\", evidence: \"Sonraki kanıt\", costDictionary: \"Maliyet alanı sözlüğü\", routeLabels: { \"cex-account\": \"CEX hesabı\", \"wallet-perp-dex\": \"Cüzdan DEX\", \"specialist-options-perps\": \"Opsiyon\", \"gmx-pool-route\": \"GMX\" } },\n  ar: { chooser: \"اختر المسار للمراجعة\", selected: \"المسار المحدد\", evidence: \"الدليل التالي\", costDictionary: \"قاموس حقول التكلفة\", routeLabels: { \"cex-account\": \"حساب CEX\", \"wallet-perp-dex\": \"DEX محفظة\", \"specialist-options-perps\": \"خيارات\", \"gmx-pool-route\": \"GMX\" } },\n  es: { chooser: \"Elige ruta a revisar\", selected: \"Ruta seleccionada\", evidence: \"Siguiente evidencia\", costDictionary: \"Diccionario de costes\", routeLabels: { \"cex-account\": \"Cuenta CEX\", \"wallet-perp-dex\": \"DEX wallet\", \"specialist-options-perps\": \"Opciones\", \"gmx-pool-route\": \"GMX\" } },\n  \"pt-BR\": { chooser: \"Escolha a rota para revisar\", selected: \"Rota selecionada\", evidence: \"Próxima evidência\", costDictionary: \"Dicionário de custos\", routeLabels: { \"cex-account\": \"Conta CEX\", \"wallet-perp-dex\": \"DEX carteira\", \"specialist-options-perps\": \"Opções\", \"gmx-pool-route\": \"GMX\" } },\n  fr: { chooser: \"Choisir le parcours à vérifier\", selected: \"Parcours sélectionné\", evidence: \"Preuve suivante\", costDictionary: \"Dictionnaire des coûts\", routeLabels: { \"cex-account\": \"Compte CEX\", \"wallet-perp-dex\": \"DEX wallet\", \"specialist-options-perps\": \"Options\", \"gmx-pool-route\": \"GMX\" } },\n  de: { chooser: \"Route zur Prüfung wählen\", selected: \"Gewählte Route\", evidence: \"Nächster Nachweis\", costDictionary: \"Kostenfeld-Lexikon\", routeLabels: { \"cex-account\": \"CEX-Konto\", \"wallet-perp-dex\": \"Wallet-DEX\", \"specialist-options-perps\": \"Optionen\", \"gmx-pool-route\": \"GMX\" } },\n  ru: { chooser: \"Выберите маршрут для проверки\", selected: \"Выбранный маршрут\", evidence: \"Следующее подтверждение\", costDictionary: \"Словарь полей затрат\", routeLabels: { \"cex-account\": \"Аккаунт CEX\", \"wallet-perp-dex\": \"DEX-кошелёк\", \"specialist-options-perps\": \"Опционы\", \"gmx-pool-route\": \"GMX\" } },\n  id: { chooser: \"Pilih rute untuk ditinjau\", selected: \"Rute terpilih\", evidence: \"Bukti berikutnya\", costDictionary: \"Kamus biaya\", routeLabels: { \"cex-account\": \"Akun CEX\", \"wallet-perp-dex\": \"DEX dompet\", \"specialist-options-perps\": \"Opsi\", \"gmx-pool-route\": \"GMX\" } },\n  vi: { chooser: \"Chọn tuyến để kiểm tra\", selected: \"Tuyến đã chọn\", evidence: \"Bằng chứng tiếp theo\", costDictionary: \"Từ điển chi phí\", routeLabels: { \"cex-account\": \"Tài khoản CEX\", \"wallet-perp-dex\": \"DEX ví\", \"specialist-options-perps\": \"Quyền chọn\", \"gmx-pool-route\": \"GMX\" } },\n  it: { chooser: \"Scegli il percorso da verificare\", selected: \"Percorso selezionato\", evidence: \"Prossima prova\", costDictionary: \"Dizionario dei costi\", routeLabels: { \"cex-account\": \"Conto CEX\", \"wallet-perp-dex\": \"DEX wallet\", \"specialist-options-perps\": \"Opzioni\", \"gmx-pool-route\": \"GMX\" } },\n};\n\nfunction derivativesTaskUi(localeKey) {\n  return DERIVATIVES_ROUTE_TASK_COPY[localeKey] || DERIVATIVES_ROUTE_TASK_COPY.en;\n}\n\nfunction derivativesRouteShortLabel(routeId, localeKey) {\n  const copy = derivativesTaskUi(localeKey);\n  return copy.routeLabels?.[routeId] || DERIVATIVES_ROUTE_TASK_COPY.en.routeLabels[routeId] || routeId;\n}\n\n"
+    },
+    {
+      "oldStart": 2702,
+      "oldEnd": 2702,
+      "before": "",
+      "after": "  const derivativesTaskCopy = derivativesTaskUi(localeKey);\n  const [selectedDerivativeRouteId, setSelectedDerivativeRouteId] = useState(null);\n  const derivativeRouteDetailsRef = useRef({});\n  const selectDerivativeRoute = (routeId) => {\n    setSelectedDerivativeRouteId(routeId);\n    const detail = derivativeRouteDetailsRef.current[routeId];\n    if (detail) detail.open = true;\n  };\n"
+    },
+    {
+      "oldStart": 3093,
+      "oldEnd": 3093,
+      "before": "",
+      "after": "          <div className=\"topic-derivatives-route-picker\" role=\"group\" aria-label={derivativesTaskCopy.chooser}>\n            {derivativesDecisionRoutes.map((route) => {\n              const routeText = route.copy?.[localeKey] || route.copy?.en;\n              const shortLabel = derivativesRouteShortLabel(route.id, localeKey);\n              const isSelected = selectedDerivativeRouteId === route.id;\n              return <button key={route.id} type=\"button\" className=\"topic-derivatives-route-choice\" data-derivatives-route-choice={route.id} aria-pressed={isSelected} aria-label={`${shortLabel}: ${routeText.title}`} onClick={() => selectDerivativeRoute(route.id)}>{shortLabel}</button>;\n            })}\n          </div>\n"
+    },
+    {
+      "oldStart": 3097,
+      "oldEnd": 3097,
+      "before": "",
+      "after": "              const isSelected = selectedDerivativeRouteId === route.id;\n"
+    },
+    {
+      "oldStart": 3098,
+      "oldEnd": 3101,
+      "before": "                <article key={route.id} className=\"topic-derivatives-route-card\" data-derivatives-route-id={route.id}>\n                  <details className=\"topic-derivatives-route-detail\">\n                    <summary>{routeText.title}</summary>\n",
+      "after": "                <article key={route.id} className={`topic-derivatives-route-card${isSelected ? \" is-selected\" : \"\"}`} data-derivatives-route-id={route.id} data-derivatives-route-state={isSelected ? \"selected\" : (selectedDerivativeRouteId ? \"available\" : \"unselected\")}>\n                  <details className=\"topic-derivatives-route-detail\" open={isSelected || undefined} ref={(node) => {\n                    if (node) derivativeRouteDetailsRef.current[route.id] = node;\n                    else delete derivativeRouteDetailsRef.current[route.id];\n                  }} onToggle={(event) => {\n                    if (event.currentTarget.open) setSelectedDerivativeRouteId(route.id);\n                    else if (selectedDerivativeRouteId === route.id) setSelectedDerivativeRouteId(null);\n                  }}>\n                    <summary>{routeText.title}{isSelected && <span className=\"topic-derivatives-route-selected\">{derivativesTaskCopy.selected}</span>}</summary>\n"
+    },
+    {
+      "oldStart": 3106,
+      "oldEnd": 3106,
+      "before": "",
+      "after": "                    <div className=\"topic-derivatives-evidence-next\">\n                      <span>{derivativesTaskCopy.evidence}</span>\n                      <a href={localizedRouteHref(\"/topics/derivatives#perp-cost-field-dictionary\", { locale, market, product })} data-cta-kind=\"research\" data-cta-placement=\"topic-derivatives-route-evidence\" data-growth-decision=\"perp_cost_dictionary\" data-growth-placement=\"topic-derivatives-route-evidence\" data-growth-market={market} data-growth-product={product}>{derivativesTaskCopy.costDictionary} →</a>\n                    </div>\n"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "release-candidates/r183-derivatives-route-task/SOURCE-FREEZE-v3.json",
+      "sha256": "2949833bc33dca885f049bf24f3ade5efaaa6a254d89a6b4576b65f1fea23913"
+    },
+    {
+      "path": "release-candidates/r183-derivatives-route-task/reviews/INDEPENDENT-V2-REVIEW.md",
+      "sha256": "a33d299f0f713a1065202d3449bf67200b57b9d95b5a3c1f12372c9fe1f5f79f"
+    },
+    {
+      "path": "release-candidates/r183-derivatives-route-task/reviews/INDEPENDENT-V2-IDENTITY.json",
+      "sha256": "b9b675fcb71f33d9baf2beff9ff7a1ecb2e3b72b0517e5c5aba2249ae84cde08"
+    }
+  ]
+}

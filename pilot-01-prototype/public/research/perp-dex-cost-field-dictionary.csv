@@ -1,0 +1,9 @@
+field_id,field_name,minimum_comparison_record
+trading-fee,Trading fee,"maker rate; taker rate; volume window; account tier; product scope"
+funding,Funding payment,"direction; interval; formula; cap; price input"
+spread-slippage,Spread and slippage,"notional size; timestamp; bid-ask spread; impact price; market state"
+collateral-settlement,Collateral and settlement asset,"accepted collateral; haircut or LTV; settlement asset; withdrawal route"
+margin,Margin model,"account mode; initial margin; maintenance margin; market tier; position-size effect"
+oracle-mark,Oracle index and mark price,"source; update method; funding use; PnL use; liquidation use"
+liquidation,Liquidation and backstop,"trigger price; maintenance rule; penalty; partial-close behavior; backstop; deleveraging"
+transfer-network,Transfer and network cost,"network fee; bridge step; withdrawal fee; settlement delay; exit route"

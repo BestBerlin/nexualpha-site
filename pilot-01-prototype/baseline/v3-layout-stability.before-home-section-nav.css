@@ -1,0 +1,1508 @@
+/* V3 layout stability: multilingual rhythm, dense directory flow, and overflow control. */
+:root {
+  --v3-section-y: clamp(24px, 2.6vw, 36px);
+  --v3-section-y-tight: clamp(18px, 1.8vw, 26px);
+  --v3-copy-measure: 62ch;
+}
+
+.v2-page,
+.v2-shell,
+.v2-section,
+.v2-footer,
+.hero-grid,
+.hero-copy,
+.featured-ticket,
+.scenario-router,
+.scenario-router__grid,
+.venue-explorer__controls,
+.venue-grid,
+.venue-card {
+  min-inline-size: 0;
+}
+
+.hero-command {
+  padding-block: clamp(28px, 2.8vw, 42px) clamp(32px, 3.2vw, 48px);
+}
+
+.hero-grid {
+  align-items: start;
+  min-height: 0;
+}
+
+/* The disclosure is a note, not a flex spacer. Its old 220px flex basis was
+   applied vertically after the hero changed from a row into a column. */
+.hero-copy > .hero-disclosure {
+  flex: none;
+  display: block;
+  max-inline-size: 65ch;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.hero-copy > .hero-eyebrow {
+  margin: 0 0 14px;
+}
+
+@media (min-width: 781px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(380px, .78fr);
+    gap: clamp(34px, 3.9vw, 58px);
+  }
+
+  .featured-ticket {
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-grid {
+    grid-template-columns: minmax(610px, 1fr) minmax(390px, .66fr);
+  }
+}
+
+.hero-eyebrow,
+.section-lead > p {
+  letter-spacing: .06em;
+}
+
+/* Homepage hero H1 is owned here so older visual-gate files cannot reintroduce
+   conflicting measures across locales or breakpoints. */
+.hero-copy h1 {
+  max-inline-size: min(880px, 20ch);
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(48px, 4.2vw, 68px);
+  font-weight: 680;
+  letter-spacing: 0;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+html:lang(zh-CN) .hero-copy h1,
+html:lang(zh-TW) .hero-copy h1,
+html:lang(ja) .hero-copy h1,
+html:lang(ko) .hero-copy h1 {
+  max-inline-size: 13ch;
+  font-size: clamp(48px, 4.45vw, 68px);
+}
+
+@media (min-width: 1100px) {
+  html:lang(zh-CN) .hero-copy h1,
+  html:lang(zh-Hans) .hero-copy h1,
+  html:lang(zh-TW) .hero-copy h1,
+  html:lang(zh-Hant) .hero-copy h1 {
+    max-inline-size: min(100%, 720px);
+    font-size: clamp(46px, 3.75vw, 58px);
+  }
+}
+
+@media (max-width: 780px) {
+  .hero-copy h1,
+  html:lang(zh-CN) .hero-copy h1,
+  html:lang(zh-TW) .hero-copy h1,
+  html:lang(ja) .hero-copy h1,
+  html:lang(ko) .hero-copy h1 {
+    max-inline-size: 100%;
+    font-size: clamp(40px, 11vw, 48px);
+  }
+}
+
+
+.hero-copy > p {
+  max-inline-size: min(var(--v3-copy-measure), 100%);
+}
+
+.command-finder--compact {
+  inline-size: min(100%, 720px);
+}
+
+.featured-ticket h2 {
+  font-size: clamp(24px, 2vw, 32px);
+  letter-spacing: 0;
+  line-height: 1.14;
+  text-wrap: balance;
+}
+
+.featured-ticket--directory .preview-note {
+  max-inline-size: 52ch;
+}
+
+.ticket-readiness {
+  grid-template-columns: 1fr;
+}
+
+.ticket-readiness span {
+  min-width: 0;
+}
+
+.ticket-readiness span b {
+  margin-right: 2px;
+}
+
+.ticket-compare__pair {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ticket-compare__venue {
+  min-width: 0;
+}
+
+.ticket-compare__venue div {
+  min-width: 0;
+}
+
+.v2-section,
+.routes-section {
+  padding-block: var(--v3-section-y);
+}
+
+.hero-command + .scenario-router,
+.scenario-router + .explorer-section {
+  padding-top: var(--v3-section-y-tight);
+}
+
+.scenario-router {
+  padding-bottom: var(--v3-section-y-tight);
+}
+
+.scenario-router__grid > button {
+  min-height: 124px;
+}
+
+.scenario-router__grid > button > strong {
+  line-height: 1.22;
+}
+
+.scenario-router__grid > button > div > span {
+  min-width: 0;
+}
+
+.v3-page .v2-section {
+  padding-block: clamp(42px, 4vw, 64px);
+}
+
+.v3-page .v2-section:first-of-type {
+  padding-top: clamp(34px, 3.2vw, 52px);
+}
+
+.section-lead,
+.v3-page .section-lead,
+.explorer-section .section-lead,
+.v3-page .explorer-section .section-lead {
+  grid-template-columns: minmax(118px, .48fr) minmax(360px, 1.28fr) minmax(280px, .84fr);
+  gap: 16px clamp(20px, 2.4vw, 34px);
+  align-items: start;
+  margin-bottom: 22px;
+}
+
+.section-lead h1,
+.section-lead h2,
+.v3-page .section-lead h1,
+.v3-page .section-lead h2,
+.explorer-section .section-lead h1 {
+  max-inline-size: 22ch;
+  font-size: clamp(32px, 2.75vw, 46px);
+  letter-spacing: 0;
+  line-height: 1.08;
+}
+
+html:lang(en) .section-lead h1,
+html:lang(en) .section-lead h2,
+html:lang(en) .explorer-section .section-lead h1 {
+  max-inline-size: 26ch;
+}
+
+.section-lead > span,
+.v3-page .section-lead > span {
+  max-inline-size: 44ch;
+  line-height: 1.55;
+}
+
+.venue-explorer__controls {
+  align-items: center;
+  margin: 0 0 22px;
+}
+
+.venue-explorer__tools {
+  flex-wrap: wrap;
+}
+
+.venue-grid.venue-grid--cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.venue-card {
+  min-height: 0;
+  padding: 16px;
+}
+
+.venue-card__decision {
+  min-height: 0;
+}
+
+.command-input:focus-within {
+  outline: 2px solid var(--blue-text);
+  outline-offset: 2px;
+}
+
+.command-input input {
+  min-height: 44px;
+}
+
+.v2-nav a,
+.v3-back-link,
+.v3-page a.button-primary,
+.v3-page a.button-quiet,
+.v3-source-board article > a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.v2-nav a,
+.v2-header__tools button {
+  min-height: 36px;
+}
+
+.v3-back-link,
+.v3-source-board article > a,
+.v3-action-map__grid a,
+.v3-action-map__footer a {
+  min-height: 28px;
+}
+
+.v3-action-map__grid a,
+.v3-action-map__footer a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.v3-source-board__summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 12px;
+  padding-block: 12px;
+  border-block: 1px solid var(--line);
+}
+
+.v3-source-board__summary span,
+.v3-source-board__summary small {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.v3-source-board__summary strong {
+  color: var(--ink);
+  font-family: var(--font-data);
+}
+
+.v3-source-board__summary small {
+  grid-column: 1 / -1;
+}
+
+.v3-activity-center .v3-page-hero {
+  padding-bottom: clamp(24px, 2.4vw, 34px);
+}
+
+.v3-activity-center .v3-page-hero + .v2-section {
+  padding-block: clamp(30px, 3vw, 44px);
+}
+
+@media (min-width: 781px) {
+  .v3-profile-decision {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+  }
+}
+
+.v3-profile-decision article {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.v3-profile-decision article > h3 {
+  margin: 0;
+  max-inline-size: 19ch;
+  line-height: 1.08;
+}
+
+.v3-detail-list {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.v3-detail-list li {
+  position: relative;
+  padding-inline-start: 16px;
+  color: var(--muted);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.v3-detail-list li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: .72em;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--blue-text);
+  box-shadow: 0 0 14px rgba(55, 102, 255, .7);
+}
+
+/* Arabic prose labels must not inherit tracked Latin data typography. */
+html:lang(ar) .v3-back-link,
+html:lang(ar) .v3-independent-badge,
+html:lang(ar) .v3-decision-brief > span,
+html:lang(ar) .v3-decision-brief dt,
+html:lang(ar) .v3-profile-decision article > span {
+  font-family: var(--font-body);
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+.v3-profile-decision__handoff {
+  border-color: rgba(55, 102, 255, .28);
+  background:
+    radial-gradient(circle at 100% 0, rgba(55, 102, 255, .13), transparent 42%),
+    var(--panel-soft);
+}
+
+.v3-locked-handoff {
+  display: grid;
+  gap: 10px;
+}
+
+.v3-locked-handoff span,
+.v3-locked-handoff em {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.v3-locked-handoff h3 {
+  margin: 0;
+}
+
+.v3-locked-handoff p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.v3-locked-handoff small {
+  min-width: 0;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.v3-locked-handoff button {
+  justify-self: start;
+  border: 1px solid rgba(124, 141, 172, .28);
+  border-radius: 999px;
+  padding: 10px 14px;
+  color: rgba(236, 242, 255, .72);
+  background: rgba(124, 141, 172, .08);
+  cursor: not-allowed;
+}
+
+.v3-compare-verdict {
+  padding-top: clamp(34px, 3vw, 52px);
+}
+
+.v3-compare-verdict__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 14px;
+}
+
+.v3-compare-verdict__card {
+  display: grid;
+  gap: 16px;
+  padding: clamp(18px, 2vw, 24px);
+  border: 1px solid rgba(124, 141, 172, .18);
+  border-radius: 26px;
+  background:
+    linear-gradient(150deg, rgba(55, 102, 255, .11), transparent 48%),
+    rgba(8, 14, 24, .82);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
+  min-inline-size: 0;
+}
+
+.v3-compare-verdict__pending-details {
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, .06);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+}
+
+.v3-compare-verdict__pending-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  min-height: 42px;
+  color: #cbd5e1;
+  font-size: .78rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.v3-compare-verdict__pending-details > summary::-webkit-details-marker { display: none; }
+.v3-compare-verdict__pending-details[open] > summary span { transform: rotate(45deg); }
+
+.v3-compare-verdict__card > div:first-child {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.v3-compare-verdict__card b,
+.v3-compare-verdict__card small {
+  min-width: 0;
+}
+
+.v3-compare-verdict__card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.v3-compare-verdict__card dl div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.v3-compare-verdict__card dt {
+  color: var(--blue-text);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.v3-compare-verdict__card dd {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.v3-compare-verdict__card a,
+.v3-profile-decision article > a,
+.v3-compare-cards__grid a {
+  align-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+}
+
+.venue-card__route {
+  padding-block: 12px;
+}
+
+.venue-card__facts div {
+  min-height: 0;
+  padding: 11px;
+}
+
+@media (min-width: 1500px) {
+  .v2-page .venue-grid.venue-grid--cards,
+  .v3-page .venue-grid.venue-grid--cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .v3-page .v3-source-board {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .featured-ticket--directory {
+    padding: clamp(22px, 2.3vw, 30px);
+  }
+
+  .featured-ticket--directory .ticket-actions {
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .hero-grid,
+  .section-lead,
+  .v3-page .section-lead,
+  .explorer-section .section-lead,
+  .v3-page .explorer-section .section-lead {
+    grid-template-columns: 1fr;
+    grid-template-areas: none;
+  }
+
+  .v3-page .explorer-section .section-lead > p,
+  .v3-page .explorer-section .section-lead > h1,
+  .v3-page .explorer-section .section-lead > span {
+    grid-area: auto;
+  }
+
+  .section-lead h1,
+  .section-lead h2,
+  .explorer-section .section-lead h1 {
+    max-inline-size: 24ch;
+  }
+}
+
+/* CJK copy fits a balanced split at wide-tablet sizes; the former 1100px
+   breakpoint pushed the entire comparison panel below a half-empty hero. */
+@media (min-width: 981px) and (max-width: 1100px) {
+  html:is(:lang(zh-CN), :lang(zh-Hans), :lang(zh-TW), :lang(zh-Hant)) .hero-grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  html:is(:lang(zh-CN), :lang(zh-Hans), :lang(zh-TW), :lang(zh-Hant)) .hero-copy h1 {
+    max-inline-size: 100%;
+    font-size: clamp(40px, 4.1vw, 46px);
+  }
+
+  html:is(:lang(zh-CN), :lang(zh-Hans), :lang(zh-TW), :lang(zh-Hant)) .hero-cta-row > a {
+    flex: 0 1 auto;
+  }
+}
+
+@media (max-width: 780px) {
+  .hero-command {
+    padding: 24px 0 36px;
+  }
+
+  .v2-section.scenario-router,
+  .scenario-router {
+    padding-block: 30px;
+  }
+
+  .scenario-router__grid {
+    gap: 10px;
+  }
+
+  .scenario-router__grid > button {
+    min-height: 104px;
+    padding: 16px;
+  }
+
+  .scenario-router + .explorer-section {
+    padding-top: 32px;
+  }
+
+  .ticket-compare__pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .featured-ticket {
+    margin-top: 24px;
+    padding: 18px;
+  }
+
+  .featured-ticket h2 {
+    font-size: 26px;
+  }
+
+  .ticket-readiness {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ticket-readiness span:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .venue-card {
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .venue-card__route {
+    padding-block: 10px;
+  }
+
+  .venue-card__facts b,
+  .venue-card__decision {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+  }
+
+  .venue-card__facts b {
+    -webkit-line-clamp: 3;
+  }
+
+  .venue-card__decision {
+    min-height: 0;
+    -webkit-line-clamp: 3;
+  }
+
+  .venue-card__decision small {
+    display: none;
+  }
+
+  .v3-activity-center .v3-page-hero {
+    gap: 20px;
+    padding-block: 22px 28px;
+  }
+
+  .v2-section,
+  .routes-section,
+  .v3-page .v2-section {
+    padding-block: clamp(32px, 8vw, 46px);
+  }
+
+  .section-lead,
+  .v3-page .section-lead,
+  .explorer-section .section-lead,
+  .v3-page .explorer-section .section-lead {
+    display: block;
+  }
+}
+
+@media (min-width: 380px) and (max-width: 780px) {
+  .venue-card__facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .v3-page .v3-source-board,
+  .v3-source-board {
+    grid-template-columns: 1fr;
+  }
+
+  .v3-source-list,
+  .v3-source-list__meta,
+  .v3-source-list__meta p,
+  .v3-source-list__meta span,
+  .v3-source-list__meta strong,
+  .v3-source-board article,
+  .v3-activity-list article {
+    min-inline-size: 0;
+  }
+
+  .v3-source-list__meta p {
+    display: grid;
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+    align-items: start;
+  }
+
+  .v3-source-list__meta strong {
+    overflow-wrap: anywhere;
+    text-align: start;
+  }
+}
+
+@media (max-width: 480px) {
+  .v3-source-list__meta p {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+}
+
+/* V3.0 layout closeout: dense enough to feel alive, but still readable across
+   English, Simplified Chinese, and Traditional Chinese. */
+.v3-page .v2-section {
+  padding-block: clamp(34px, 3.2vw, 52px);
+}
+
+.v3-page .section-lead,
+.v3-page .explorer-section .section-lead {
+  margin-bottom: 18px;
+}
+
+.v3-page .section-lead h1,
+.v3-page .section-lead h2 {
+  font-size: clamp(30px, 2.55vw, 42px);
+  line-height: 1.08;
+}
+
+.v3-profile-decision,
+.v3-compare-verdict__grid,
+.v3-compare-cards__grid,
+.v3-action-map__grid {
+  gap: 12px;
+}
+
+.v3-profile-decision article,
+.v3-compare-verdict__card,
+.v3-source-board article {
+  padding: clamp(16px, 1.8vw, 22px);
+}
+
+/* Compare verdict cards carry the same four checks for each venue. Keep the
+   mobile reading order intact, but tighten the repeated card chrome so the
+   decision section does not become a long stack of near-identical blocks. */
+@media (max-width: 700px) {
+  .v3-compare-verdict {
+    padding-block: 28px;
+  }
+
+  .v3-compare-verdict .section-lead {
+    margin-bottom: 12px;
+  }
+
+  .v3-compare-verdict__grid {
+    gap: 8px;
+  }
+
+  .v3-compare-verdict__card {
+    gap: 8px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .v3-compare-verdict__card dl {
+    gap: 6px;
+  }
+
+  .v3-compare-verdict__card dl div {
+    gap: 2px;
+  }
+
+  .v3-compare-verdict__card dt {
+    font-size: 9px;
+    line-height: 1.35;
+  }
+
+  .v3-compare-verdict__card dd {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .v3-compare-verdict__card a {
+    font-size: 12px;
+  }
+}
+
+.v3-page .venue-card {
+  gap: 11px;
+  padding: 15px;
+}
+
+.v3-page .venue-card__facts {
+  gap: 9px;
+}
+
+.v3-page .venue-card__facts div {
+  padding: 10px;
+}
+
+.v3-page .venue-card__identity b,
+.v3-page .venue-card__route strong,
+.v3-page .venue-card__facts b,
+.v3-page .venue-card__decision {
+  overflow-wrap: anywhere;
+}
+
+.v3-page .venue-card__identity b {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.v3-page .venue-actions a,
+.v3-page .venue-actions button,
+.v3-page .button-primary,
+.v3-page .button-quiet {
+  min-height: 44px;
+}
+
+@media (min-width: 1200px) {
+  .v3-page .venue-grid.venue-grid--cards,
+  .v2-page .venue-grid.venue-grid--cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .v3-page .v2-section {
+    padding-block: clamp(28px, 7vw, 40px);
+  }
+
+  .v3-page .section-lead,
+  .v3-page .explorer-section .section-lead {
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .v3-page .section-lead h1,
+  .v3-page .section-lead h2 {
+    font-size: clamp(30px, 8vw, 38px);
+    max-inline-size: 100%;
+  }
+
+  .venue-grid.venue-grid--cards,
+  .v2-page .venue-grid.venue-grid--cards,
+  .v3-page .venue-grid.venue-grid--cards,
+  .venue-grid.venue-grid--list,
+  .v3-page .venue-grid.venue-grid--list {
+    grid-template-columns: 1fr;
+  }
+
+  .venue-card__facts,
+  .v3-page .venue-card__facts,
+  .venue-grid--list .venue-card__facts {
+    grid-template-columns: 1fr;
+  }
+
+  .v3-page .venue-card__route strong,
+  .v3-page .venue-card__facts b,
+  .v3-page .venue-card__decision {
+    -webkit-line-clamp: unset;
+  }
+}
+
+/* Final effective V3.0 layout contract. This file is imported last; keep the
+   section lead, venue card, and homepage handoff rules here so they do not
+   compete with older release-gate declarations. */
+.platform-matcher,
+.explorer-section--compact {
+  --section-lead-display: grid;
+  --section-lead-columns: minmax(0, 1fr);
+  --section-lead-areas: "eyebrow" "title" "summary";
+  --section-lead-title-measure: 100%;
+  --section-lead-summary-measure: 52rem;
+  --section-lead-summary-margin: 0;
+  --section-lead-wrap: balance;
+}
+
+.section-lead,
+.v3-page .section-lead,
+.explorer-section .section-lead,
+.v3-page .explorer-section .section-lead {
+  display: var(--section-lead-display, grid);
+  grid-template-columns: var(--section-lead-columns, minmax(0, .86fr) minmax(320px, 1.14fr));
+  grid-template-areas: var(--section-lead-areas, "eyebrow summary" "title summary");
+  gap: 8px clamp(20px, 2.4vw, 34px);
+  align-items: end;
+}
+
+.section-lead > p,
+.v3-page .section-lead > p,
+.explorer-section .section-lead > p {
+  grid-area: eyebrow;
+  margin-bottom: 0;
+}
+
+.section-lead h1,
+.section-lead h2,
+.v3-page .section-lead h1,
+.v3-page .section-lead h2,
+.explorer-section .section-lead h1 {
+  grid-area: title;
+  max-inline-size: var(--section-lead-title-measure, 22ch);
+}
+
+.section-lead > span,
+.v3-page .section-lead > span,
+.explorer-section .section-lead > span {
+  grid-area: summary;
+  align-self: center;
+  max-inline-size: var(--section-lead-summary-measure, 58ch);
+  text-wrap: var(--section-lead-wrap, pretty);
+}
+
+.venue-card__identity {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* A dialog owns its backdrop and scroll region; the old finder positioning
+   alone left keyboard focus and small-screen overflow outside the overlay. */
+.search-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: clamp(16px, 8vh, 80px) 16px;
+  background: rgba(2, 6, 12, .84);
+}
+.search-dialog-backdrop .search-dialog {
+  position: static;
+  transform: none;
+  width: min(680px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: clamp(18px, 3vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #10151d;
+}
+.search-dialog h2 { margin: 0 0 18px; font-size: 24px; }
+.search-dialog .command-results { position: static; max-height: min(56vh, 440px); overflow-y: auto; }
+.search-dialog > button { min-height: 44px; margin-top: 16px; }
+.build-identity { display: block; margin-top: 8px; font: 10px/1.5 var(--font-data); color: var(--muted); }
+
+.venue-card__identity:hover b {
+  color: #fff;
+}
+
+.venue-card__facts,
+.v3-page .venue-card__facts,
+.venue-grid--list .venue-card__facts {
+  grid-template-columns: 1fr;
+}
+
+.explorer-section--compact .venue-card__facts {
+  display: none;
+}
+
+.venue-explorer__more {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 18px;
+}
+
+.venue-explorer__more a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 44px;
+  padding-inline: 16px;
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+@media (max-width: 1100px) {
+  .section-lead,
+  .v3-page .section-lead,
+  .explorer-section .section-lead,
+  .v3-page .explorer-section .section-lead {
+    grid-template-columns: 1fr;
+    grid-template-areas: "eyebrow" "title" "summary";
+    align-items: start;
+  }
+}
+
+@media (max-width: 700px) {
+  .section-lead,
+  .v3-page .section-lead,
+  .explorer-section .section-lead,
+  .v3-page .explorer-section .section-lead {
+    display: var(--section-lead-display, block);
+    margin-bottom: 16px;
+  }
+
+  .venue-explorer__more a {
+    width: 100%;
+  }
+}
+
+/* Mobile hero CTAs must not inherit the old 220px flex basis when the CTA row
+   stacks into a column. This is a cross-locale layout bug, not CJK-only. */
+@media (max-width: 780px) {
+  .hero-cta-row > a,
+  .hero-cta-row > button {
+    flex: 0 0 auto;
+    min-block-size: 48px;
+    block-size: auto;
+  }
+}
+
+/* Mobile decision pages should keep the next action within a short scroll.
+   The desktop section rhythm is too generous when the same evidence cards
+   stack into one column, especially on venue profiles and comparisons. */
+@media (max-width: 700px) {
+  .v3-profile-page .v2-section,
+  .v3-compare-page .v2-section {
+    padding-block: 24px 28px;
+  }
+
+  .v3-profile-page .v3-page-hero,
+  .v3-compare-page .v3-page-hero {
+    padding-block: 22px 26px;
+  }
+}
+
+/* Venue profile mobile CRO pass: the first decision cards should read like a
+   decision strip at 390/430px, not like three narrow desktop cards. */
+@media (max-width: 520px) {
+  .v3-venue-decision-strip {
+    grid-template-columns: 1fr !important;
+    gap: 8px;
+  }
+
+  .v3-venue-decision-strip article,
+  .v3-venue-decision-strip article:last-child {
+    grid-column: auto;
+    display: grid;
+    grid-template-columns: minmax(72px, .34fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 6px 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+
+  .v3-venue-decision-strip span {
+    min-inline-size: 0;
+    font-size: 10px;
+    line-height: 1.25;
+    letter-spacing: .04em;
+    overflow-wrap: anywhere;
+  }
+
+  .v3-venue-decision-strip strong {
+    min-inline-size: 0;
+    font-size: clamp(.86rem, 3.5vw, .94rem);
+    line-height: 1.38;
+    overflow-wrap: anywhere;
+  }
+
+  .v3-profile-decision {
+    gap: 8px;
+  }
+
+  .v3-profile-decision article {
+    gap: 8px;
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .v3-profile-decision article > h3 {
+    max-inline-size: none;
+    font-size: clamp(1rem, 4.2vw, 1.1rem);
+    line-height: 1.15;
+  }
+
+  .v3-detail-list {
+    gap: 6px;
+  }
+
+  .v3-detail-list li {
+    padding-inline-start: 12px;
+    line-height: 1.42;
+  }
+
+  .v3-registration-notes > summary {
+    min-height: 50px;
+  }
+
+  .v3-registration-notes__body {
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+/* Active CJK typography contract. Keep selectors
+   matched to real DOM so Chinese rhythm does not rely on weaker :where() rules. */
+:root {
+  --v3-cjk-sc-font: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Pilot Noto SC", "Source Han Sans SC", "Hiragino Sans GB", system-ui, sans-serif;
+  --v3-cjk-tc-font: "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", "Pilot Noto TC", "Source Han Sans TC", system-ui, sans-serif;
+  /* Equivalent default sizing, while honoring larger reading preferences. */
+  --v3-cjk-body-size: clamp(1rem, 1.08vw, 1.125rem);
+  --v3-cjk-body-line: 1.72;
+  --v3-cjk-aux-size: clamp(.8125rem, .88vw, .875rem);
+}
+
+html:lang(zh-CN) body,
+html:lang(zh-Hans) body {
+  --v3-cjk-font: var(--v3-cjk-sc-font);
+  font-family: var(--v3-cjk-sc-font);
+}
+
+html:lang(zh-TW) body,
+html:lang(zh-Hant) body {
+  --v3-cjk-font: var(--v3-cjk-tc-font);
+  font-family: var(--v3-cjk-tc-font);
+}
+
+html:lang(zh-CN) body,
+html:lang(zh-Hans) body,
+html:lang(zh-TW) body,
+html:lang(zh-Hant) body {
+  line-height: 1.65;
+  letter-spacing: 0;
+  line-break: strict;
+  hanging-punctuation: allow-end;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-spacing-trim: trim-start;
+  font-synthesis-weight: none;
+}
+
+/* These reading roles previously inherited 10–12px Latin/data styling.
+   Keep their Chinese labels legible without changing brand marks or domains. */
+html:is(:lang(zh-CN), :lang(zh-Hans), :lang(zh-TW), :lang(zh-Hant)) :is(
+  .hero-disclosure,
+  .venue-explorer__view button,
+  .venue-explorer__sort > span,
+  .venue-explorer__count,
+  .venue-card__facts span,
+  .venue-card__decision > span,
+  .venue-card__decision > small,
+  .decision-workbench__status > span,
+  .crypto-sentiment__eyebrow,
+  .crypto-sentiment time,
+  .crypto-sentiment__meta a > span,
+  .v3-decision-brief > small,
+  .v3-action-map__handoff > small,
+  .v3-compare-verdict__card dt,
+  .v3-deep-compare__head > span,
+  .v3-deep-compare__row > b,
+  .v3-similar-grid a small,
+  .activity-center-v3__source-grid dt
+) {
+  font-family: var(--v3-cjk-font);
+  font-size: var(--v3-cjk-aux-size);
+  line-height: 1.6;
+  letter-spacing: .02em;
+}
+
+html:lang(zh-CN) :is(.hero-copy h1, .section-lead h1, .section-lead h2, .featured-ticket h2, .home-decision-panel__intro h2, .v3-page .section-lead h1, .v3-page .section-lead h2, .v3-page-hero h1, .v3-venue-hero h1, .activity-center-v3__head h1, .research-heading h2, .v3-decision-brief h2, .v3-conversion-intent h2, .v3-detail-grid h3, .v3-route-grid h3, .v3-activity-list h3, .activity-card-v3 h2, .activity-card-v3 h3, .v3-action-map__grid h3, .v3-compare-cards__grid h3, .platform-matcher__intents button > strong, .platform-matcher__panel-head strong),
+html:lang(zh-Hans) :is(.hero-copy h1, .section-lead h1, .section-lead h2, .featured-ticket h2, .home-decision-panel__intro h2, .v3-page .section-lead h1, .v3-page .section-lead h2, .v3-page-hero h1, .v3-venue-hero h1, .activity-center-v3__head h1, .research-heading h2, .v3-decision-brief h2, .v3-conversion-intent h2, .v3-detail-grid h3, .v3-route-grid h3, .v3-activity-list h3, .activity-card-v3 h2, .activity-card-v3 h3, .v3-action-map__grid h3, .v3-compare-cards__grid h3, .platform-matcher__intents button > strong, .platform-matcher__panel-head strong) {
+  font-family: var(--v3-cjk-sc-font);
+}
+
+html:lang(zh-TW) :is(.hero-copy h1, .section-lead h1, .section-lead h2, .featured-ticket h2, .home-decision-panel__intro h2, .v3-page .section-lead h1, .v3-page .section-lead h2, .v3-page-hero h1, .v3-venue-hero h1, .activity-center-v3__head h1, .research-heading h2, .v3-decision-brief h2, .v3-conversion-intent h2, .v3-detail-grid h3, .v3-route-grid h3, .v3-activity-list h3, .activity-card-v3 h2, .activity-card-v3 h3, .v3-action-map__grid h3, .v3-compare-cards__grid h3, .platform-matcher__intents button > strong, .platform-matcher__panel-head strong),
+html:lang(zh-Hant) :is(.hero-copy h1, .section-lead h1, .section-lead h2, .featured-ticket h2, .home-decision-panel__intro h2, .v3-page .section-lead h1, .v3-page .section-lead h2, .v3-page-hero h1, .v3-venue-hero h1, .activity-center-v3__head h1, .research-heading h2, .v3-decision-brief h2, .v3-conversion-intent h2, .v3-detail-grid h3, .v3-route-grid h3, .v3-activity-list h3, .activity-card-v3 h2, .activity-card-v3 h3, .v3-action-map__grid h3, .v3-compare-cards__grid h3, .platform-matcher__intents button > strong, .platform-matcher__panel-head strong) {
+  font-family: var(--v3-cjk-tc-font);
+}
+
+html:lang(zh-CN) :is(.hero-copy h1, .section-lead h1, .section-lead h2, .featured-ticket h2, .home-decision-panel__intro h2, .v3-page .section-lead h1, .v3-page .section-lead h2, .v3-page-hero h1, .v3-venue-hero h1, .activity-center-v3__head h1, .research-heading h2, .v3-decision-brief h2, .v3-conversion-intent h2, .v3-detail-grid h3, .v3-route-grid h3, .v3-activity-list h3, .activity-card-v3 h2, .activity-card-v3 h3, .v3-action-map__grid h3, .v3-compare-cards__grid h3, .platform-matcher__intents button > strong, .platform-matcher__panel-head strong),
+html:lang(zh-Hans) :is(.hero-copy h1, .section-lead h1, .section-lead h2, .featured-ticket h2, .home-decision-panel__intro h2, .v3-page .section-lead h1, .v3-page .section-lead h2, .v3-page-hero h1, .v3-venue-hero h1, .activity-center-v3__head h1, .research-heading h2, .v3-decision-brief h2, .v3-conversion-intent h2, .v3-detail-grid h3, .v3-route-grid h3, .v3-activity-list h3, .activity-card-v3 h2, .activity-card-v3 h3, .v3-action-map__grid h3, .v3-compare-cards__grid h3, .platform-matcher__intents button > strong, .platform-matcher__panel-head strong),
+html:lang(zh-TW) :is(.hero-copy h1, .section-lead h1, .section-lead h2, .featured-ticket h2, .home-decision-panel__intro h2, .v3-page .section-lead h1, .v3-page .section-lead h2, .v3-page-hero h1, .v3-venue-hero h1, .activity-center-v3__head h1, .research-heading h2, .v3-decision-brief h2, .v3-conversion-intent h2, .v3-detail-grid h3, .v3-route-grid h3, .v3-activity-list h3, .activity-card-v3 h2, .activity-card-v3 h3, .v3-action-map__grid h3, .v3-compare-cards__grid h3, .platform-matcher__intents button > strong, .platform-matcher__panel-head strong),
+html:lang(zh-Hant) :is(.hero-copy h1, .section-lead h1, .section-lead h2, .featured-ticket h2, .home-decision-panel__intro h2, .v3-page .section-lead h1, .v3-page .section-lead h2, .v3-page-hero h1, .v3-venue-hero h1, .activity-center-v3__head h1, .research-heading h2, .v3-decision-brief h2, .v3-conversion-intent h2, .v3-detail-grid h3, .v3-route-grid h3, .v3-activity-list h3, .activity-card-v3 h2, .activity-card-v3 h3, .v3-action-map__grid h3, .v3-compare-cards__grid h3, .platform-matcher__intents button > strong, .platform-matcher__panel-head strong) {
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.14;
+}
+
+html:lang(zh-CN) :is(.hero-copy > p:not(.hero-eyebrow), .section-lead > span, .featured-ticket dd, .preview-note, .home-decision-panel__intro p, .platform-matcher__intents button > small, .platform-matcher__decision dd, .platform-matcher__venues a > span:last-child, .venue-card__decision, .v3-venue-hero p, .activity-center-v3__head span, .activity-center-v3__sources-head span, .activity-center-v3__gate span, .activity-center-v3__gate li, .activity-card-v3 p, .activity-center-v3__empty p, .activity-center-v3__source-grid p, .research-heading p, .research-facts dd, .research-table, .research-table td, .research-table td p, .research-differences, .research-references, .v3-decision-brief > p, .v3-decision-brief dd, .v3-funnel__steps p, .v3-detail-grid p, .v3-detail-list li, .v3-route-grid p, .v3-route-grid li, .v3-source-list p, .v3-source-list__meta p, .v3-activity-list p, .v3-conversion-intent li p, .v3-conversion-intent > p, .v3-action-map__grid p, .v3-action-map__grid li, .v3-compare-cards__grid p, .v3-compare-cards__grid li, .v3-deep-compare__row span),
+html:lang(zh-Hans) :is(.hero-copy > p:not(.hero-eyebrow), .section-lead > span, .featured-ticket dd, .preview-note, .home-decision-panel__intro p, .platform-matcher__intents button > small, .platform-matcher__decision dd, .platform-matcher__venues a > span:last-child, .venue-card__decision, .v3-venue-hero p, .activity-center-v3__head span, .activity-center-v3__sources-head span, .activity-center-v3__gate span, .activity-center-v3__gate li, .activity-card-v3 p, .activity-center-v3__empty p, .activity-center-v3__source-grid p, .research-heading p, .research-facts dd, .research-table, .research-table td, .research-table td p, .research-differences, .research-references, .v3-decision-brief > p, .v3-decision-brief dd, .v3-funnel__steps p, .v3-detail-grid p, .v3-detail-list li, .v3-route-grid p, .v3-route-grid li, .v3-source-list p, .v3-source-list__meta p, .v3-activity-list p, .v3-conversion-intent li p, .v3-conversion-intent > p, .v3-action-map__grid p, .v3-action-map__grid li, .v3-compare-cards__grid p, .v3-compare-cards__grid li, .v3-deep-compare__row span) {
+  font-family: var(--v3-cjk-sc-font);
+}
+
+html:lang(zh-TW) :is(.hero-copy > p:not(.hero-eyebrow), .section-lead > span, .featured-ticket dd, .preview-note, .home-decision-panel__intro p, .platform-matcher__intents button > small, .platform-matcher__decision dd, .platform-matcher__venues a > span:last-child, .venue-card__decision, .v3-venue-hero p, .activity-center-v3__head span, .activity-center-v3__sources-head span, .activity-center-v3__gate span, .activity-center-v3__gate li, .activity-card-v3 p, .activity-center-v3__empty p, .activity-center-v3__source-grid p, .research-heading p, .research-facts dd, .research-table, .research-table td, .research-table td p, .research-differences, .research-references, .v3-decision-brief > p, .v3-decision-brief dd, .v3-funnel__steps p, .v3-detail-grid p, .v3-detail-list li, .v3-route-grid p, .v3-route-grid li, .v3-source-list p, .v3-source-list__meta p, .v3-activity-list p, .v3-conversion-intent li p, .v3-conversion-intent > p, .v3-action-map__grid p, .v3-action-map__grid li, .v3-compare-cards__grid p, .v3-compare-cards__grid li, .v3-deep-compare__row span),
+html:lang(zh-Hant) :is(.hero-copy > p:not(.hero-eyebrow), .section-lead > span, .featured-ticket dd, .preview-note, .home-decision-panel__intro p, .platform-matcher__intents button > small, .platform-matcher__decision dd, .platform-matcher__venues a > span:last-child, .venue-card__decision, .v3-venue-hero p, .activity-center-v3__head span, .activity-center-v3__sources-head span, .activity-center-v3__gate span, .activity-center-v3__gate li, .activity-card-v3 p, .activity-center-v3__empty p, .activity-center-v3__source-grid p, .research-heading p, .research-facts dd, .research-table, .research-table td, .research-table td p, .research-differences, .research-references, .v3-decision-brief > p, .v3-decision-brief dd, .v3-funnel__steps p, .v3-detail-grid p, .v3-detail-list li, .v3-route-grid p, .v3-route-grid li, .v3-source-list p, .v3-source-list__meta p, .v3-activity-list p, .v3-conversion-intent li p, .v3-conversion-intent > p, .v3-action-map__grid p, .v3-action-map__grid li, .v3-compare-cards__grid p, .v3-compare-cards__grid li, .v3-deep-compare__row span) {
+  font-family: var(--v3-cjk-tc-font);
+}
+
+html:lang(zh-CN) :is(.hero-copy > p:not(.hero-eyebrow), .section-lead > span, .featured-ticket dd, .preview-note, .home-decision-panel__intro p, .platform-matcher__intents button > small, .platform-matcher__decision dd, .platform-matcher__venues a > span:last-child, .venue-card__decision, .v3-venue-hero p, .activity-center-v3__head span, .activity-center-v3__sources-head span, .activity-center-v3__gate span, .activity-center-v3__gate li, .activity-card-v3 p, .activity-center-v3__empty p, .activity-center-v3__source-grid p, .research-heading p, .research-facts dd, .research-table, .research-table td, .research-table td p, .research-differences, .research-references, .v3-decision-brief > p, .v3-decision-brief dd, .v3-funnel__steps p, .v3-detail-grid p, .v3-detail-list li, .v3-route-grid p, .v3-route-grid li, .v3-source-list p, .v3-source-list__meta p, .v3-activity-list p, .v3-conversion-intent li p, .v3-conversion-intent > p, .v3-action-map__grid p, .v3-action-map__grid li, .v3-compare-cards__grid p, .v3-compare-cards__grid li, .v3-deep-compare__row span),
+html:lang(zh-Hans) :is(.hero-copy > p:not(.hero-eyebrow), .section-lead > span, .featured-ticket dd, .preview-note, .home-decision-panel__intro p, .platform-matcher__intents button > small, .platform-matcher__decision dd, .platform-matcher__venues a > span:last-child, .venue-card__decision, .v3-venue-hero p, .activity-center-v3__head span, .activity-center-v3__sources-head span, .activity-center-v3__gate span, .activity-center-v3__gate li, .activity-card-v3 p, .activity-center-v3__empty p, .activity-center-v3__source-grid p, .research-heading p, .research-facts dd, .research-table, .research-table td, .research-table td p, .research-differences, .research-references, .v3-decision-brief > p, .v3-decision-brief dd, .v3-funnel__steps p, .v3-detail-grid p, .v3-detail-list li, .v3-route-grid p, .v3-route-grid li, .v3-source-list p, .v3-source-list__meta p, .v3-activity-list p, .v3-conversion-intent li p, .v3-conversion-intent > p, .v3-action-map__grid p, .v3-action-map__grid li, .v3-compare-cards__grid p, .v3-compare-cards__grid li, .v3-deep-compare__row span),
+html:lang(zh-TW) :is(.hero-copy > p:not(.hero-eyebrow), .section-lead > span, .featured-ticket dd, .preview-note, .home-decision-panel__intro p, .platform-matcher__intents button > small, .platform-matcher__decision dd, .platform-matcher__venues a > span:last-child, .venue-card__decision, .v3-venue-hero p, .activity-center-v3__head span, .activity-center-v3__sources-head span, .activity-center-v3__gate span, .activity-center-v3__gate li, .activity-card-v3 p, .activity-center-v3__empty p, .activity-center-v3__source-grid p, .research-heading p, .research-facts dd, .research-table, .research-table td, .research-table td p, .research-differences, .research-references, .v3-decision-brief > p, .v3-decision-brief dd, .v3-funnel__steps p, .v3-detail-grid p, .v3-detail-list li, .v3-route-grid p, .v3-route-grid li, .v3-source-list p, .v3-source-list__meta p, .v3-activity-list p, .v3-conversion-intent li p, .v3-conversion-intent > p, .v3-action-map__grid p, .v3-action-map__grid li, .v3-compare-cards__grid p, .v3-compare-cards__grid li, .v3-deep-compare__row span),
+html:lang(zh-Hant) :is(.hero-copy > p:not(.hero-eyebrow), .section-lead > span, .featured-ticket dd, .preview-note, .home-decision-panel__intro p, .platform-matcher__intents button > small, .platform-matcher__decision dd, .platform-matcher__venues a > span:last-child, .venue-card__decision, .v3-venue-hero p, .activity-center-v3__head span, .activity-center-v3__sources-head span, .activity-center-v3__gate span, .activity-center-v3__gate li, .activity-card-v3 p, .activity-center-v3__empty p, .activity-center-v3__source-grid p, .research-heading p, .research-facts dd, .research-table, .research-table td, .research-table td p, .research-differences, .research-references, .v3-decision-brief > p, .v3-decision-brief dd, .v3-funnel__steps p, .v3-detail-grid p, .v3-detail-list li, .v3-route-grid p, .v3-route-grid li, .v3-source-list p, .v3-source-list__meta p, .v3-activity-list p, .v3-conversion-intent li p, .v3-conversion-intent > p, .v3-action-map__grid p, .v3-action-map__grid li, .v3-compare-cards__grid p, .v3-compare-cards__grid li, .v3-deep-compare__row span) {
+  font-size: var(--v3-cjk-body-size);
+  line-height: var(--v3-cjk-body-line);
+  letter-spacing: 0;
+}
+
+html:lang(zh-CN) :is(.hero-eyebrow, .section-lead > p, .ticket-kicker, .platform-matcher__intents button > span, .platform-matcher__panel-head span, .platform-matcher__decision dt, .platform-matcher__identity small, .platform-matcher__source, .v3-back-link, .v3-independent-badge, .v3-snapshot-strip span, .v3-decision-brief > span, .v3-decision-brief dt, .v3-funnel__steps span, .v3-detail-grid article > span, .v3-route-grid article > span, .v3-source-list h3, .v3-source-list__meta span, .v3-activity-list article > span, .activity-center-v3__head p, .activity-center-v3__sources-head p, .activity-center-v3__filters b, .activity-card-v3 small, .research-heading small, .research-language-note, .research-facts dt, .research-table th, .research-table td::before, .v3-action-map__grid article > span, .v3-compare-card__head small, .v3-action-map__handoff dt, .v3-action-map__footer span),
+html:lang(zh-Hans) :is(.hero-eyebrow, .section-lead > p, .ticket-kicker, .platform-matcher__intents button > span, .platform-matcher__panel-head span, .platform-matcher__decision dt, .platform-matcher__identity small, .platform-matcher__source, .v3-back-link, .v3-independent-badge, .v3-snapshot-strip span, .v3-decision-brief > span, .v3-decision-brief dt, .v3-funnel__steps span, .v3-detail-grid article > span, .v3-route-grid article > span, .v3-source-list h3, .v3-source-list__meta span, .v3-activity-list article > span, .activity-center-v3__head p, .activity-center-v3__sources-head p, .activity-center-v3__filters b, .activity-card-v3 small, .research-heading small, .research-language-note, .research-facts dt, .research-table th, .research-table td::before, .v3-action-map__grid article > span, .v3-compare-card__head small, .v3-action-map__handoff dt, .v3-action-map__footer span) {
+  font-family: var(--v3-cjk-sc-font);
+}
+
+html:lang(zh-TW) :is(.hero-eyebrow, .section-lead > p, .ticket-kicker, .platform-matcher__intents button > span, .platform-matcher__panel-head span, .platform-matcher__decision dt, .platform-matcher__identity small, .platform-matcher__source, .v3-back-link, .v3-independent-badge, .v3-snapshot-strip span, .v3-decision-brief > span, .v3-decision-brief dt, .v3-funnel__steps span, .v3-detail-grid article > span, .v3-route-grid article > span, .v3-source-list h3, .v3-source-list__meta span, .v3-activity-list article > span, .activity-center-v3__head p, .activity-center-v3__sources-head p, .activity-center-v3__filters b, .activity-card-v3 small, .research-heading small, .research-language-note, .research-facts dt, .research-table th, .research-table td::before, .v3-action-map__grid article > span, .v3-compare-card__head small, .v3-action-map__handoff dt, .v3-action-map__footer span),
+html:lang(zh-Hant) :is(.hero-eyebrow, .section-lead > p, .ticket-kicker, .platform-matcher__intents button > span, .platform-matcher__panel-head span, .platform-matcher__decision dt, .platform-matcher__identity small, .platform-matcher__source, .v3-back-link, .v3-independent-badge, .v3-snapshot-strip span, .v3-decision-brief > span, .v3-decision-brief dt, .v3-funnel__steps span, .v3-detail-grid article > span, .v3-route-grid article > span, .v3-source-list h3, .v3-source-list__meta span, .v3-activity-list article > span, .activity-center-v3__head p, .activity-center-v3__sources-head p, .activity-center-v3__filters b, .activity-card-v3 small, .research-heading small, .research-language-note, .research-facts dt, .research-table th, .research-table td::before, .v3-action-map__grid article > span, .v3-compare-card__head small, .v3-action-map__handoff dt, .v3-action-map__footer span) {
+  font-family: var(--v3-cjk-tc-font);
+}
+
+html:lang(zh-CN) :is(.hero-eyebrow, .section-lead > p, .ticket-kicker, .platform-matcher__intents button > span, .platform-matcher__panel-head span, .platform-matcher__decision dt, .platform-matcher__identity small, .platform-matcher__source, .v3-back-link, .v3-independent-badge, .v3-snapshot-strip span, .v3-decision-brief > span, .v3-decision-brief dt, .v3-funnel__steps span, .v3-detail-grid article > span, .v3-route-grid article > span, .v3-source-list h3, .v3-source-list__meta span, .v3-activity-list article > span, .activity-center-v3__head p, .activity-center-v3__sources-head p, .activity-center-v3__filters b, .activity-card-v3 small, .research-heading small, .research-language-note, .research-facts dt, .research-table th, .research-table td::before, .v3-action-map__grid article > span, .v3-compare-card__head small, .v3-action-map__handoff dt, .v3-action-map__footer span),
+html:lang(zh-Hans) :is(.hero-eyebrow, .section-lead > p, .ticket-kicker, .platform-matcher__intents button > span, .platform-matcher__panel-head span, .platform-matcher__decision dt, .platform-matcher__identity small, .platform-matcher__source, .v3-back-link, .v3-independent-badge, .v3-snapshot-strip span, .v3-decision-brief > span, .v3-decision-brief dt, .v3-funnel__steps span, .v3-detail-grid article > span, .v3-route-grid article > span, .v3-source-list h3, .v3-source-list__meta span, .v3-activity-list article > span, .activity-center-v3__head p, .activity-center-v3__sources-head p, .activity-center-v3__filters b, .activity-card-v3 small, .research-heading small, .research-language-note, .research-facts dt, .research-table th, .research-table td::before, .v3-action-map__grid article > span, .v3-compare-card__head small, .v3-action-map__handoff dt, .v3-action-map__footer span),
+html:lang(zh-TW) :is(.hero-eyebrow, .section-lead > p, .ticket-kicker, .platform-matcher__intents button > span, .platform-matcher__panel-head span, .platform-matcher__decision dt, .platform-matcher__identity small, .platform-matcher__source, .v3-back-link, .v3-independent-badge, .v3-snapshot-strip span, .v3-decision-brief > span, .v3-decision-brief dt, .v3-funnel__steps span, .v3-detail-grid article > span, .v3-route-grid article > span, .v3-source-list h3, .v3-source-list__meta span, .v3-activity-list article > span, .activity-center-v3__head p, .activity-center-v3__sources-head p, .activity-center-v3__filters b, .activity-card-v3 small, .research-heading small, .research-language-note, .research-facts dt, .research-table th, .research-table td::before, .v3-action-map__grid article > span, .v3-compare-card__head small, .v3-action-map__handoff dt, .v3-action-map__footer span),
+html:lang(zh-Hant) :is(.hero-eyebrow, .section-lead > p, .ticket-kicker, .platform-matcher__intents button > span, .platform-matcher__panel-head span, .platform-matcher__decision dt, .platform-matcher__identity small, .platform-matcher__source, .v3-back-link, .v3-independent-badge, .v3-snapshot-strip span, .v3-decision-brief > span, .v3-decision-brief dt, .v3-funnel__steps span, .v3-detail-grid article > span, .v3-route-grid article > span, .v3-source-list h3, .v3-source-list__meta span, .v3-activity-list article > span, .activity-center-v3__head p, .activity-center-v3__sources-head p, .activity-center-v3__filters b, .activity-card-v3 small, .research-heading small, .research-language-note, .research-facts dt, .research-table th, .research-table td::before, .v3-action-map__grid article > span, .v3-compare-card__head small, .v3-action-map__handoff dt, .v3-action-map__footer span) {
+  font-size: var(--v3-cjk-aux-size);
+  line-height: 1.6;
+  letter-spacing: .02em;
+}
+
+/* ── v4.0 全局溢出护盾 ── */
+body {
+  overflow-x: hidden;
+}
+
+.v2-page,
+.v3-page,
+.v2-shell,
+[class*="__grid"],
+[class*="__container"],
+[class*="__header"] {
+  max-width: 100%;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+/* 强制所有图片不超出父容器 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+.home-section-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 42px;
+  border-block: 1px solid var(--line);
+  background: color-mix(in srgb, var(--market) 94%, transparent);
+  backdrop-filter: blur(12px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.home-section-nav::-webkit-scrollbar { display: none; }
+.home-section-nav__label { color: var(--muted); font: 10px/1 var(--font-data); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.home-section-nav a { color: var(--ink); font-size: 12px; text-decoration: none; white-space: nowrap; }
+.home-section-nav a:hover { color: var(--blue); }
+
+.home-research-drawer {
+  width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 480px) {
+  .home-section-nav { gap: 8px; }
+  .home-section-nav a { white-space: normal; max-width: 28vw; overflow-wrap: anywhere; line-height: 1.15; text-align: center; }
+}
+
+.home-research-drawer > summary {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 66px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.home-research-drawer > summary::-webkit-details-marker { display: none; }
+.home-research-drawer > summary strong { color: var(--ink); font-size: 15px; }
+.home-research-drawer > summary span { color: var(--muted); font-size: 12px; }
+.home-research-drawer > summary b { color: var(--blue); font-size: 22px; font-weight: 400; }
+.home-research-drawer[open] > summary b { transform: rotate(45deg); }
+.home-research-drawer:not([open]) > .home-research-drawer__body { display: none; }
+.home-research-drawer__body { padding-bottom: 24px; }
+.home-research-drawer__body > * { width: 100%; }
+.home-research-drawer__body > * + * { border-top: 1px solid var(--line); }
+
+/* Homepage progressive disclosure: keep the decision path short while preserving
+   the full calculator for users who explicitly ask for it. */
+.home-analyzer-drawer {
+  width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+}
+.home-analyzer-drawer > summary {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 66px;
+  cursor: pointer;
+  list-style: none;
+}
+.home-analyzer-drawer > summary::-webkit-details-marker { display: none; }
+.home-analyzer-drawer > summary strong { color: var(--ink); font-size: 15px; }
+.home-analyzer-drawer > summary span { color: var(--muted); font-size: 12px; }
+.home-analyzer-drawer > summary b { color: var(--blue); font-size: 22px; font-weight: 400; }
+.home-analyzer-drawer[open] > summary b { transform: rotate(45deg); }
+.home-analyzer-drawer:not([open]) > .home-analyzer-drawer__body { display: none; }
+.home-analyzer-drawer__body { padding-bottom: 24px; }
+.home-analyzer-drawer__body > .trading-bleed-analyzer { margin-block: 0; }
+
+.v3-profile-cost-conditions,
+.v3-profile-evidence-drawer {
+  width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+}
+
+.v3-profile-cost-conditions > summary,
+.v3-profile-evidence-drawer > summary {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 66px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.v3-profile-cost-conditions > summary::-webkit-details-marker,
+.v3-profile-evidence-drawer > summary::-webkit-details-marker { display: none; }
+.v3-profile-cost-conditions > summary strong,
+.v3-profile-evidence-drawer > summary strong { color: var(--ink); font-size: 15px; }
+.v3-profile-cost-conditions > summary span,
+.v3-profile-evidence-drawer > summary span { color: var(--muted); font-size: 12px; }
+.v3-profile-cost-conditions > summary b,
+.v3-profile-evidence-drawer > summary b { color: var(--blue); font-size: 22px; font-weight: 400; }
+.v3-profile-cost-conditions[open] > summary b,
+.v3-profile-evidence-drawer[open] > summary b { transform: rotate(45deg); }
+.v3-profile-cost-conditions:not([open]) > .v3-profile-cost-conditions__body,
+.v3-profile-evidence-drawer:not([open]) > .v3-profile-evidence-drawer__body { display: none; }
+.v3-profile-cost-conditions__body,
+.v3-profile-evidence-drawer__body { padding-bottom: 24px; }
+.v3-profile-cost-conditions__body > *,
+.v3-profile-evidence-drawer__body > * { width: 100%; }
+
+.v3-profile-cost-conditions {
+  margin-top: 4px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.v3-profile-cost-conditions__body {
+  display: grid;
+  gap: 16px;
+  padding-top: 12px;
+}
+
+.v3-profile-cost-conditions__body .v3-detail-calculator,
+.v3-profile-cost-conditions__body .v3-fee-matrix-section {
+  margin: 0;
+}
+
+.v3-profile-cost-conditions__body .v3-fee-matrix-section {
+  width: 100%;
+  max-width: none;
+  padding-inline: 0;
+}
+
+.v3-compare-research-paths {
+  border-block: 1px solid var(--line);
+}
+
+.v3-compare-research-paths > summary {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 62px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.v3-compare-research-paths > summary::-webkit-details-marker { display: none; }
+.v3-compare-research-paths > summary strong { color: var(--ink); font-size: 14px; }
+.v3-compare-research-paths > summary span { color: var(--muted); font-size: 12px; }
+.v3-compare-research-paths > summary b { color: var(--blue-text); font-size: 22px; font-weight: 400; }
+.v3-compare-research-paths[open] > summary b { transform: rotate(45deg); }
+.v3-compare-research-paths:not([open]) > .v3-compare-research-paths__body { display: none; }
+.v3-compare-research-paths__body { display: grid; gap: 12px; padding-bottom: 18px; }
+.v3-compare-research-paths__body > * { margin-block: 0; }
+
+.v3-registration-notes {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+}
+.v3-registration-notes > summary {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  cursor: pointer;
+  list-style: none;
+}
+.v3-registration-notes > summary::-webkit-details-marker { display: none; }
+.v3-registration-notes > summary strong { color: var(--ink); font-size: 14px; }
+.v3-registration-notes > summary span { color: var(--muted); font-size: 12px; }
+.v3-registration-notes > summary b { color: var(--blue); font-size: 21px; font-weight: 400; }
+.v3-registration-notes[open] > summary b { transform: rotate(45deg); }
+.v3-registration-notes:not([open]) > .v3-registration-notes__body { display: none; }
+.v3-registration-notes__body { display: grid; gap: 18px; padding: 0 0 18px; }
+.v3-registration-notes__body > .v3-detail-list,
+.v3-registration-notes__body > .venue-decision { margin: 0; }
+
+@media (max-width: 780px) {
+  .home-section-nav { margin-inline: 0; width: 100%; padding-inline: var(--page-pad); gap: 10px; justify-content: space-between; }
+  .home-section-nav__label { display: none; }
+  .home-section-nav a { font-size: 11px; }
+  .home-research-drawer { width: 100%; padding-inline: var(--page-pad); box-sizing: border-box; }
+  .home-research-drawer > summary { grid-template-columns: 1fr auto; gap: 4px 10px; padding-block: 10px; }
+  .home-research-drawer > summary span { grid-column: 1 / -1; }
+  .home-research-drawer__body { margin-inline: calc(-1 * var(--page-pad)); }
+  .home-research-drawer__body > * { width: auto; margin-inline: var(--page-pad); }
+  .home-analyzer-drawer { width: 100%; padding-inline: var(--page-pad); box-sizing: border-box; }
+  .home-analyzer-drawer > summary { grid-template-columns: 1fr auto; gap: 4px 10px; padding-block: 10px; }
+  .home-analyzer-drawer > summary span { grid-column: 1 / -1; }
+  .home-analyzer-drawer__body { margin-inline: calc(-1 * var(--page-pad)); }
+  .home-analyzer-drawer__body > * { width: auto; margin-inline: var(--page-pad); }
+  .v3-profile-cost-conditions,
+  .v3-profile-evidence-drawer { width: 100%; padding-inline: var(--page-pad); box-sizing: border-box; }
+  .v3-profile-cost-conditions > summary,
+  .v3-profile-evidence-drawer > summary { grid-template-columns: 1fr auto; gap: 4px 10px; padding-block: 10px; }
+  .v3-profile-cost-conditions > summary span,
+  .v3-profile-evidence-drawer > summary span { grid-column: 1 / -1; }
+  .v3-profile-cost-conditions__body,
+  .v3-profile-evidence-drawer__body { margin-inline: calc(-1 * var(--page-pad)); }
+  .v3-profile-cost-conditions__body > *,
+  .v3-profile-evidence-drawer__body > * { width: auto; margin-inline: var(--page-pad); }
+  .v3-compare-research-paths > summary { grid-template-columns: 1fr auto; gap: 4px 10px; padding-block: 10px; }
+  .v3-compare-research-paths > summary span { grid-column: 1 / -1; }
+}
+
+/* Comparison SSR geometry must be available before lazy ResearchPanels loads.
+   Keep these scoped values identical through hydration; research.css owns only
+   research-panel internals, not the comparison page frame. */
+.v3-page .v2-section.v3-compare-disclosure-section { padding-block:12px; }
+.v3-compare-disclosure-section .research-references { margin-block-start:0; }
+.v3-compare-disclosure-section .research-references summary {
+  box-sizing:border-box;
+  min-block-size:44px;
+  padding-block:10px;
+}
+.v3-compare-disclosure-section .v3-deep-compare { margin-block-start:12px; }
+.v3-compare-page .v3-similar-grid {
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));
+}
+.v3-compare-page .v3-similar-grid a { flex-wrap:wrap; padding-block:12px; }
+.v3-compare-page .v3-similar-grid a small {
+  margin-left:0;
+  margin-inline-start:auto;
+  font-family:var(--font-body);
+  font-size:.8125rem;
+}
+.v3-compare-page .v3-page-hero { grid-template-columns:1fr; gap:14px; padding-block:24px; }
+.v3-compare-page .v3-page-hero .v3-venue-hero { grid-column:1 / -1; gap:10px; }
+.v3-compare-page .v3-page-hero h1 { font-size:clamp(30px,3vw,46px); max-width:none; margin:0; text-wrap:balance; }
+/* Comparison navigation stays secondary without pushing the decision below the fold. */
+.v3-compare-page .v3-back-link { min-block-size:44px; margin-block-end:0; font-family:var(--font-body); }
+.v3-compare-page .decision-return-link { margin-block:0.25rem; }
+.v3-compare-page .v3-page-hero p { font-size:15px; }
+.v3-compare-page .v3-page-hero .v3-relationship-note { font-size:12px; }
+.v3-compare-name-alias { white-space:nowrap; }
+.v3-compare-support-disclosure { min-inline-size:0; }
+.v3-compare-support-disclosure > summary {
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  min-block-size:44px; padding:12px 16px; border:1px solid var(--line);
+  border-radius:8px; color:var(--ink); background:var(--surface-1); cursor:pointer;
+  font-size:.875rem; line-height:1.5; list-style:none;
+}
+.v3-compare-support-disclosure > summary::-webkit-details-marker { display:none; }
+.v3-compare-support-disclosure > summary:focus-visible { outline:2px solid var(--blue-text); outline-offset:3px; }
+.v3-compare-support-disclosure[open] > summary span { transform:rotate(45deg); }
+
+/* R165: the sole complete partner action precedes optional profile research. */
+.v3-profile-page .v3-profile-main-registration {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  width: 100%;
+}
+.v3-profile-page .v3-profile-main-registration > .v3-detail-grid__handoff {
+  min-width: 0;
+  margin: 0;
+}
+.v3-profile-page .v3-profile-main-registration .registration-card {
+  width: 100%;
+  min-width: 0;
+}

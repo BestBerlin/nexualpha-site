@@ -1,0 +1,92 @@
+.decision-path-rail {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: .8rem;
+  margin: 0 0 1.25rem;
+  padding: .7rem .85rem;
+  border: 1px solid rgba(56, 189, 248, .2);
+  border-radius: .8rem;
+  background: rgba(8, 15, 29, .72);
+}
+
+.decision-path-rail__label {
+  color: #7dd3fc;
+  font: 700 .65rem/1.2 ui-monospace, SFMono-Regular, monospace;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+
+.decision-path-rail__links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .5rem;
+}
+
+.decision-path-rail__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .45rem;
+  min-width: 0;
+  min-height: 44px;
+  min-width: 44px;
+  padding: .55rem .65rem;
+  border: 1px solid rgba(148, 163, 184, .2);
+  border-radius: .55rem;
+  color: #cbd5e1;
+  font-size: .78rem;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.decision-path-rail__link span {
+  color: #94a3b8;
+  font: 700 .65rem/1 ui-monospace, SFMono-Regular, monospace;
+}
+
+.decision-path-rail__link b { color: #94a3b8; }
+.decision-path-rail__link:hover,
+.decision-path-rail__link:focus-visible {
+  border-color: rgba(56, 189, 248, .6);
+  color: #f8fafc;
+}
+.decision-path-rail__link.is-primary {
+  border-color: rgba(56, 189, 248, .4);
+  background: rgba(14, 116, 144, .16);
+  color: #e0f2fe;
+}
+.decision-path-rail__link.is-primary b { color: #38bdf8; }
+
+@media (max-width: 640px) {
+  .decision-path-rail {
+    grid-template-columns: 1fr;
+    gap: .4rem;
+  }
+
+  .decision-path-rail__links {
+    grid-template-columns: minmax(0, 1fr);
+    gap: .4rem;
+  }
+
+  .decision-path-rail .decision-path-rail__links > .decision-path-rail__link {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: .5rem;
+    min-width: 44px;
+    min-height: 44px;
+    padding: .5rem .55rem;
+    font-size: .78rem;
+    line-height: 1.25;
+  }
+
+  .decision-path-rail__link span {
+    font-size: .65rem;
+    justify-self: start;
+  }
+
+  .decision-path-rail__link b {
+    justify-self: end;
+  }
+}

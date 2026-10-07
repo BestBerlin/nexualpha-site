@@ -1,0 +1,31 @@
+{
+  "reviewedAt": "2026-10-02",
+  "queryEvidence": {
+    "query": "uniswap affiliate program",
+    "impressions": 2,
+    "clicks": 0,
+    "averagePosition": 19.5,
+    "reportCutoff": "2026-09-28",
+    "boundary": "Historical GSC pair only; insufficient for CTR experiment or commercial demand inference."
+  },
+  "sources": [
+    {
+      "url": "https://developers.uniswap.org/docs/trading/swapping-api/faqs",
+      "supports": "Integrator-configured swap fee mechanisms; does not establish consumer affiliate eligibility.",
+      "visiblePublicationDate": null
+    },
+    {
+      "url": "https://developers.uniswap.org/docs/trading/custom-interface-links",
+      "supports": "Prefilled interface linking within v2 documentation context; not reward entitlement.",
+      "visiblePublicationDate": null
+    }
+  ],
+  "independentReview": "Heading context issue corrected; single-source derived retrieval records approved.",
+  "documentationConflict": "FAQ integratorFees and aggregator_quote API-key fee fields differ. No implementation parameters, rates or amount promises added.",
+  "outcomes": {
+    "rankLift": null,
+    "clickLift": null,
+    "registrations": null,
+    "telegramMessagesSent": 0
+  }
+}

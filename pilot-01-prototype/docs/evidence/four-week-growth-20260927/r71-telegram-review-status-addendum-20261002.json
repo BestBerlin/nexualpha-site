@@ -1,0 +1,44 @@
+{
+  "recordedAt": "2026-10-01T17:12:44.264128+00:00",
+  "productionBuildId": "3.0-20261002T-R70-REGION-RETURN",
+  "sourceQueue": "r69-telegram-seven-day-review-addendum-20261002.json",
+  "reviewWindowUnchanged": {
+    "start": "2026-10-02",
+    "end": "2026-10-08",
+    "meaning": "seven-day manual review window, not send schedule"
+  },
+  "draftId": "kr-funding-verification",
+  "exactLandingUrlUnchanged": "https://nexualpha.com/kr?locale=ko&market=KR&product=research&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r69_kr_funding_check",
+  "draftCopyUnchanged": true,
+  "approval": null,
+  "publishedAt": null,
+  "gates": {
+    "officialSupportSourceRecheck": {
+      "status": "PASS_BOUNDED",
+      "evidence": "r69-kr-official-source-recheck-20261002.json",
+      "notProven": "bank acceptance, account eligibility, specific rate or transaction result"
+    },
+    "publicLandingBrowser": {
+      "status": "PASS_BOUNDED",
+      "evidence": "r70-kr-draft-landing-browser-20261002.json",
+      "note": "research product parameter resolves regional spot default; no claim that research is trading selection"
+    },
+    "publicDirectoryRecovery": {
+      "status": "PASS_BOUNDED",
+      "evidence": "r70-public-browser-acceptance-20261002.json"
+    },
+    "nativeEditorialReview": {
+      "status": "PENDING",
+      "reviewer": null
+    },
+    "publicationAuthorization": {
+      "status": "PENDING"
+    },
+    "privateLifecycleAcceptance": {
+      "status": "PENDING_DEDICATED_ACCOUNT_AND_SCOPE",
+      "evidence": "r71-telegram-open-gates-20261002.md"
+    }
+  },
+  "status": "DRAFT_ONLY_NOT_APPROVED",
+  "boundary": "Later acceptance addendum; historical source queue retained. No Telegram message/send API or account change."
+}

@@ -1,0 +1,61 @@
+/* Profile-only progressive disclosure; original actions and evidence remain. */
+.v3-profile-page .v3-profile-primary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 0;
+}
+.v3-profile-page .v3-profile-primary-actions .button-quiet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 44px;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.v3-profile-page .v3-profile-answer-conditions,
+.v3-profile-page .v3-profile-decision-context,
+.v3-profile-page .v3-profile-secondary-research {
+  min-width: 0;
+  border-block: 1px solid var(--reader-material-rule, var(--line));
+}
+.v3-profile-page .v3-profile-answer-conditions > summary,
+.v3-profile-page .v3-profile-decision-context > summary,
+.v3-profile-page .v3-profile-secondary-research > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-block-size: 44px;
+  padding-block: 10px;
+  color: var(--ink);
+  font-size: .875rem;
+  line-height: 1.5;
+  cursor: pointer;
+  list-style: none;
+  overflow-wrap: anywhere;
+}
+.v3-profile-page .v3-profile-answer-conditions > summary::-webkit-details-marker,
+.v3-profile-page .v3-profile-decision-context > summary::-webkit-details-marker,
+.v3-profile-page .v3-profile-secondary-research > summary::-webkit-details-marker {
+  display: none;
+}
+.v3-profile-page .v3-profile-answer-conditions > summary:focus-visible,
+.v3-profile-page .v3-profile-decision-context > summary:focus-visible,
+.v3-profile-page .v3-profile-secondary-research > summary:focus-visible {
+  outline: 2px solid var(--blue-text);
+  outline-offset: 3px;
+}
+.v3-profile-page .v3-profile-secondary-research__body {
+  display: grid;
+  gap: 12px;
+  padding-block-end: 14px;
+  min-width: 0;
+}
+.v3-profile-page .v3-profile-secondary-research__body .v3-hero-tg-btn {
+  justify-self: start;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}

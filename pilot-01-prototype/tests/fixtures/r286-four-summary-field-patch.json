@@ -1,0 +1,42 @@
+{
+  "fullBeforeSha": "399059b1434a94325fa95b54b5a452887756b2ca9d4d0f674e41f4c9f6d6e5b6",
+  "summaryBeforeSha": "e1cfb270e510e771755934f9765e69f5c45b4b2c7dd56b43bf128c5b28ad497b",
+  "items": [
+    {
+      "slug": "binance-coinbase-kraken-okx-websocket-order-state-controls",
+      "old": "本文面向需要谨慎决策的操作者、研究员和用户：在依赖某个交易所、代币化资产流程、储备证明页面、支付轨道或 API 集成之前，到底要先核验什么。它不是价格预测，不是平台开户建议，不是法律、税务或投资意见，也不鼓励入金、转账或开放权限。真正有用的输出是一张停止/继续清单：把已核验事实、编辑判断和仍未核验条件分开。",
+      "new": "这篇对比要解决的问题，不是四家交易所的 WebSocket 能否统一接入，而是下单确认、最终成交状态、撤单失败与断线回补该如何分别对账。Binance 证据来自 User Data Stream；Coinbase 是 Exchange WebSocket channels；Kraken 覆盖 add_order 与 cancel_order；OKX 提供 order channel。接入前，应先写清认证权限、订阅范围、确认语义、撤单规则、重连回补与 REST 对账。",
+      "markdownPath": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/reviews/2026-10-06-four-summary-editorial-drafts/candidates/binance-coinbase-kraken-okx-websocket-order-state-controls/article.zh-Hans.md",
+      "markdownSha": "55e054849aaddc223b5d0edf15c64fc47eb5b328bef8d64ba9c34c103bcbbeeb",
+      "mapPath": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/reviews/2026-10-06-four-summary-editorial-drafts/candidates/binance-coinbase-kraken-okx-websocket-order-state-controls/SUMMARY-SOURCE-MAP.md",
+      "mapSha": "b2881976a76298b176616470b70fa48329642f8ad8f77898cd2fee0c357af67d"
+    },
+    {
+      "slug": "binance-user-data-stream-api-reconnect-readiness-checklist",
+      "old": "本文面向需要谨慎决策的操作者、研究员和用户：在依赖某个交易所、代币化资产流程、储备证明页面、支付轨道或 API 集成之前，到底要先核验什么。它不是价格预测，不是平台开户建议，不是法律、税务或投资意见，也不鼓励入金、转账或开放权限。真正有用的输出是一张停止/继续清单：把已核验事实、编辑判断和仍未核验条件分开。",
+      "new": "这篇文章要回答的不是“怎么连上 WebSocket”，而是 Binance 私有账户流断线后，还能不能继续让机器人相信本地账本。核心问题是断线期间有没有漏掉账户事件，恢复后能否把余额、成交与订单状态重新对齐。官方 User Data Stream 只证明账户与订单事件、订单更新字段存在；REST 安全文档、WebSocket 说明和 changelog 共同指向另一层决策：重连后必须查事件缺口、用 REST 回补并核对时间戳，API key 权限和接口变更也要逐次复核。",
+      "markdownPath": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/reviews/2026-10-06-four-summary-editorial-drafts/candidates/binance-user-data-stream-api-reconnect-readiness-checklist/article.zh-Hans.md",
+      "markdownSha": "1e4651e8f0c311169e7bbf4b61115a7f2bb3ef1768a4375df7f5287a1c350971",
+      "mapPath": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/reviews/2026-10-06-four-summary-editorial-drafts/candidates/binance-user-data-stream-api-reconnect-readiness-checklist/SUMMARY-SOURCE-MAP.md",
+      "mapSha": "f044223a3be5b67b4362c5426baec6399e3421ffae76fa1486b03e27a00151e2"
+    },
+    {
+      "slug": "fsb-bis-cross-border-payment-crypto-stablecoin-oversight-map",
+      "old": "本文面向需要谨慎决策的操作者、研究员和用户：在依赖某个交易所、代币化资产流程、储备证明页面、支付轨道或 API 集成之前，到底要先核验什么。它不是价格预测，不是平台开户建议，不是法律、税务或投资意见，也不鼓励入金、转账或开放权限。真正有用的输出是一张停止/继续清单：把已核验事实、编辑判断和仍未核验条件分开。",
+      "new": "这篇文章把“跨境支付更快”拆成可核验的监管问题：谁治理支付桥或稳定币发行方，何时产生法律最终性，技术连接是否等于规则互操作，事故中是否有韧性与连续性，制裁/AML 会不会冻结或拒绝交易，以及发行方、平台或支付桥不在用户辖区时，投诉、退款和追索路径是否真实存在。",
+      "markdownPath": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/reviews/2026-10-06-four-summary-editorial-drafts/candidates/fsb-bis-cross-border-payment-crypto-stablecoin-oversight-map/article.zh-Hans.md",
+      "markdownSha": "de34866100c31b5b41c90012bd9dc3e76d1db97364f9e6c67e5d744bd7ab9e1e",
+      "mapPath": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/reviews/2026-10-06-four-summary-editorial-drafts/candidates/fsb-bis-cross-border-payment-crypto-stablecoin-oversight-map/SUMMARY-SOURCE-MAP.md",
+      "mapSha": "a00470265972ac8d126c6ad1156c046b39dc5d3abb6579d81f2c4c8e7b62801e"
+    },
+    {
+      "slug": "how-to-onboard-uniswap-v3-liquidity-wallet-mint-and-fee-controls",
+      "old": "本文只处理可由当前官方或机构来源支撑的决策问题。它不预测价格，不承诺收益，不声称任何平台、API、钱包、稳定币轨道、托管路线、代币化资产或政策框架天然安全，也不把本地草稿、历史队列、旧截图、搜索摘要或 AI 摘要当成当前事实。",
+      "new": "Uniswap v3 流动性上手不是开设托管账户，而是由钱包签署智能合约交互。官方文档分别覆盖流动性设置与铸造头寸；建仓后，用户还可以按需追加流动性、收取费用，或参考单跳兑换流程。行动前应核对代币、池地址、价格区间、授权额度和交易数据；这些资料不能替用户证明前端可用性、钱包恢复能力、未来 Gas 成本或收益，任一对象或头寸状态不清楚就先不要签名。",
+      "markdownPath": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/reviews/2026-10-06-four-summary-editorial-drafts/candidates/how-to-onboard-uniswap-v3-liquidity-wallet-mint-and-fee-controls/article.zh-Hans.md",
+      "markdownSha": "1822a605091afee4e19d4ba1d3189301f707d7c005fe279a1ebfae5df8f8c775",
+      "mapPath": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/reviews/2026-10-06-four-summary-editorial-drafts/candidates/how-to-onboard-uniswap-v3-liquidity-wallet-mint-and-fee-controls/SUMMARY-SOURCE-MAP.md",
+      "mapSha": "53c220f6556e264ed0818d1c787dd62b39df9212752ad3b75ce932436648d80e"
+    }
+  ]
+}

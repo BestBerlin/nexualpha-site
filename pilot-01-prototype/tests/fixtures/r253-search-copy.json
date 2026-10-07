@@ -1,0 +1,77 @@
+{
+  "en": [
+    "Search platforms",
+    "Enter a platform or category",
+    "Clear search"
+  ],
+  "zh-Hans": [
+    "搜索平台",
+    "输入平台名称或类型",
+    "清除搜索"
+  ],
+  "zh-Hant": [
+    "搜尋平台",
+    "輸入平台名稱或類型",
+    "清除搜尋"
+  ],
+  "ja": [
+    "プラットフォームを検索",
+    "プラットフォーム名または種類を入力",
+    "検索をクリア"
+  ],
+  "ko": [
+    "플랫폼 검색",
+    "플랫폼 이름 또는 유형 입력",
+    "검색 지우기"
+  ],
+  "tr": [
+    "Platform ara",
+    "Platform adı veya türü girin",
+    "Aramayı temizle"
+  ],
+  "ar": [
+    "البحث عن منصة",
+    "أدخل اسم المنصة أو نوعها",
+    "مسح البحث"
+  ],
+  "es": [
+    "Buscar plataformas",
+    "Introduce el nombre o tipo de plataforma",
+    "Borrar búsqueda"
+  ],
+  "pt-BR": [
+    "Buscar plataformas",
+    "Digite o nome ou tipo de plataforma",
+    "Limpar busca"
+  ],
+  "fr": [
+    "Rechercher une plateforme",
+    "Saisissez le nom ou le type de plateforme",
+    "Effacer la recherche"
+  ],
+  "de": [
+    "Plattformen suchen",
+    "Plattformnamen oder Typ eingeben",
+    "Suche löschen"
+  ],
+  "ru": [
+    "Поиск платформ",
+    "Введите название или тип платформы",
+    "Очистить поиск"
+  ],
+  "id": [
+    "Cari platform",
+    "Masukkan nama atau jenis platform",
+    "Hapus pencarian"
+  ],
+  "vi": [
+    "Tìm nền tảng",
+    "Nhập tên hoặc loại nền tảng",
+    "Xóa tìm kiếm"
+  ],
+  "it": [
+    "Cerca piattaforme",
+    "Inserisci il nome o il tipo di piattaforma",
+    "Cancella ricerca"
+  ]
+}

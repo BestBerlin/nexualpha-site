@@ -1,0 +1,80 @@
+import { writeFile } from "node:fs/promises";
+import {
+  REGIONAL_FUNDING_MATRIX_BOUNDARY,
+  REGIONAL_FUNDING_MATRIX_METHODOLOGY,
+  REGIONAL_FUNDING_MATRIX_REVIEWED_AT,
+  REGIONAL_FUNDING_MATRIX_SCOPE,
+  REGIONAL_FUNDING_VERIFICATION_MATRIX,
+} from "../src/data/regional-funding-verification-matrix.js";
+
+const jsonPath = "public/research/regional-funding-verification-matrix.json";
+const csvPath = "public/research/regional-funding-verification-matrix.csv";
+
+function csvValue(value) {
+  const text = Array.isArray(value)
+    ? value.map((item) => String(item).replace(/[;,]/g, "")).join("|")
+    : String(value ?? "").replace(/[;,]/g, "");
+  return /["\n,|]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}
+
+const payload = {
+  version: 3,
+  assetType: "regional-funding-verification-matrix",
+  reviewedAt: REGIONAL_FUNDING_MATRIX_REVIEWED_AT,
+  scope: REGIONAL_FUNDING_MATRIX_SCOPE,
+  boundary: REGIONAL_FUNDING_MATRIX_BOUNDARY,
+  methodology: REGIONAL_FUNDING_MATRIX_METHODOLOGY,
+  sourceBoundary: REGIONAL_FUNDING_MATRIX_BOUNDARY,
+  rows: REGIONAL_FUNDING_VERIFICATION_MATRIX,
+};
+
+const header = [
+  "id",
+  "market",
+  "marketName",
+  "locale",
+  "fiatCurrency",
+  "paymentRails",
+  "accountScreenChecks",
+  "feeOrTimingChecks",
+  "unknowns",
+  "officialSourceLabels",
+  "officialSourceRoles",
+  "officialSourceReviewedAt",
+  "officialSourceUrls",
+  "cannotPromise",
+  "reviewedAt",
+  "status",
+];
+const lines = [header.join(",")];
+
+for (const row of REGIONAL_FUNDING_VERIFICATION_MATRIX) {
+  lines.push([
+    row.id,
+    row.market,
+    row.marketName,
+    row.locale,
+    row.fiatCurrency,
+    row.paymentRails,
+    row.accountScreenChecks,
+    row.feeOrTimingChecks,
+    row.unknowns,
+    row.officialSources.map((source) => source.label),
+    row.officialSources.map((source) => source.role),
+    row.officialSources.map((source) => source.reviewedAt),
+    row.officialSources.map((source) => source.url),
+    row.cannotPromise,
+    row.reviewedAt,
+    row.status,
+  ].map(csvValue).join(","));
+}
+
+await writeFile(jsonPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+await writeFile(csvPath, `${lines.join("\n")}\n`, "utf8");
+
+console.log(JSON.stringify({
+  jsonPath,
+  csvPath,
+  rows: REGIONAL_FUNDING_VERIFICATION_MATRIX.length,
+  markets: REGIONAL_FUNDING_VERIFICATION_MATRIX.map((row) => row.market),
+}, null, 2));

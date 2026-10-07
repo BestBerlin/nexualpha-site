@@ -1,0 +1,43 @@
+.compare-section.compare-dock {
+  position: static;
+  min-height: 0;
+  padding-block: 28px 24px;
+}
+
+.compare-dock__lead {
+  position: static;
+  inline-size: auto;
+  block-size: auto;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+}
+
+.decision-workbench--dock {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  transform: none;
+  background:
+    radial-gradient(circle at 82% 20%, rgba(63, 111, 255, .2), transparent 34%),
+    linear-gradient(135deg, rgba(15, 20, 28, .96), rgba(7, 10, 14, .94));
+  backdrop-filter: blur(18px);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .44);
+}
+
+.decision-workbench--dock .button-primary:not(:disabled) {
+  box-shadow: 0 8px 26px rgba(49, 92, 207, .32);
+}
+
+@media (max-width: 780px) {
+  .decision-workbench--dock {
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+    padding: 14px;
+  }
+
+  .decision-workbench--dock .decision-workbench__status b {
+    font-size: 16px;
+  }
+}

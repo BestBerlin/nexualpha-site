@@ -1,0 +1,8 @@
+{
+  "src/components/v3/news/news-list-page.css": "40f71909d104bb4832b30c6ed52f09d2ac2d1d4eb42b5a0657495aa1e4e43235",
+  "src/components/v3/news/NewsListPage.jsx": "efa22788e6b55baa553434e588dddcfa0f3affaecf6cbb9037796441295750af",
+  "src/components/v3/DecisionPathRail.jsx": "3ab2b581e692db9260d4668ec36358d2c06ce4bf9a402b18f77fb1404a7d8cc2",
+  "src/components/v3/decision-path-rail.css": "66e93407792b97ff9b4dd1650229fa4bf3fd793633627d8a392f909ed2acb3c4",
+  "src/data/partner-registry.js": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
+  "public/content/news-feed.json": "399059b1434a94325fa95b54b5a452887756b2ca9d4d0f674e41f4c9f6d6e5b6"
+}

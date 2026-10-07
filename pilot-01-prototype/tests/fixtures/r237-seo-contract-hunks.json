@@ -1,0 +1,18 @@
+[
+  {
+    "before": "import { normalizeNewsFeed } from \"../src/data/news-feed-client.js\";",
+    "after": "import { normalizeNewsFeed, localizedNewsSummary } from \"../src/data/news-feed-client.js\";"
+  },
+  {
+    "before": "  assert.match(visibleHtml, new RegExp(article.summary.en.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&').slice(0, 80)));",
+    "after": "  assert.ok(visibleHtml.includes(localizedNewsSummary(article, 'ja').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('\"', '&quot;')), 'owned Japanese summary follows the existing display helper');"
+  },
+  {
+    "before": "[`/ja/news/${article.slug}`, `https://nexualpha.com/news/${article.slug}`, 'en', 'en']",
+    "after": "[`/ja/news/${article.slug}`, `https://nexualpha.com/news/${article.slug}`, 'ja', 'en']"
+  },
+  {
+    "before": "[`/zh-hant/news/${article.slug}`, `https://nexualpha.com${localizedPath(`/news/${article.slug}`, 'zh-Hans')}`, 'zh-Hans', 'zh-Hans']",
+    "after": "[`/zh-hant/news/${article.slug}`, `https://nexualpha.com${localizedPath(`/news/${article.slug}`, 'zh-Hans')}`, 'zh-Hant', 'zh-Hans']"
+  }
+]

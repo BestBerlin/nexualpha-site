@@ -1,0 +1,355 @@
+{
+  "slug": "tokenized-treasuries-structure-access-risks",
+  "status": "STAGED",
+  "recovery": {
+    "recoveredFrom": "public/content/news-feed.json",
+    "recoveredAt": "2026-09-22T00:00:00.000Z",
+    "recoveryMethod": "Recovered maintenance source from the already published feed object; this is not the original authoring package.",
+    "feedSha256": "b2c4d24cfc56f02352337af0e90578f9dcb7e83c29aa80c6d6c92ee381de59d7",
+    "snapshotSha256": "3a25272d0a5e550f82b17278566858531e5bd1056981580b0dbed37941d62070",
+    "originalPublishedAt": "2026-09-07T23:42:33.000Z",
+    "originalUpdatedAt": "2026-09-15T14:20:00.000Z",
+    "originalAuthor": "NexuAlpha Research Desk",
+    "originalSourceStatus": "PUBLIC_SOURCE_MAPPED"
+  },
+  "author": "NexuAlpha Research Desk",
+  "publishedAt": "2026-09-07T23:42:33.000Z",
+  "updatedAt": "2026-09-15T14:20:00.000Z",
+  "titles": {
+    "en": "Tokenized Treasuries: BUIDL, BENJI, Ownership, Redemption and Access Risks",
+    "zh-Hans": "代币化美债：产品结构、准入方式与必须核验的风险"
+  },
+  "summaries": {
+    "en": "Understand what a tokenized Treasury represents: compare BUIDL and BENJI ownership records, eligibility, fees, wallet controls and redemption conditions.",
+    "zh-Hans": "一篇回答“什么是代币化美债”的源头核验指南，区分 token 名称、法律工具、发行方、记录方、托管方、赎回权、费用、地区准入、链上控制和官方来源链。"
+  },
+  "bodyFiles": {
+    "en": "body-en.md",
+    "zh-Hans": "body-zh-Hans.md"
+  },
+  "sources": [
+    {
+      "id": "treasurydirect-buying",
+      "url": "https://www.treasurydirect.gov/marketable-securities/buying-a-marketable-security/",
+      "publisher": "TreasuryDirect",
+      "title": "Buying a Treasury Marketable Security",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Official U.S. Treasury source for buying marketable Treasury securities, auctions, TreasuryDirect, bank/broker/dealer channels, minimum bid size, and transfer holding-period details."
+    },
+    {
+      "id": "treasurydirect-bills",
+      "url": "https://www.treasurydirect.gov/marketable-securities/treasury-bills/",
+      "publisher": "TreasuryDirect",
+      "title": "Treasury Bills",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Official source for Treasury bill maturities, discount/par sale mechanics, minimum purchase, and tax treatment."
+    },
+    {
+      "id": "treasurydirect-notes",
+      "url": "https://www.treasurydirect.gov/marketable-securities/treasury-notes/",
+      "publisher": "TreasuryDirect",
+      "title": "Treasury Notes",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Official source for Treasury note maturities, fixed interest, semiannual payments, and marketability."
+    },
+    {
+      "id": "sec-tokenized-securities-2026",
+      "url": "https://www.sec.gov/newsroom/speeches-statements/corp-fin-statement-tokenized-securities-012826-statement-tokenized-securities",
+      "publisher": "U.S. Securities and Exchange Commission",
+      "title": "Statement on Tokenized Securities",
+      "publishedAt": "2026-01-28T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Official SEC staff statement describing issuer-sponsored and third-party tokenized securities models; it is not a Commission rule or legally binding guidance.",
+      "updatedAt": "2026-01-30T00:00:00Z"
+    },
+    {
+      "id": "sec-peirce-tokenization-2025",
+      "url": "https://www.sec.gov/newsroom/speeches-statements/peirce-statement-tokenized-securities-070925",
+      "publisher": "U.S. Securities and Exchange Commission",
+      "title": "Enchanting, but Not Magical: A Statement on the Tokenization of Securities",
+      "publishedAt": "2025-07-09T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Official SEC commissioner statement that tokenization does not change the underlying asset's legal nature."
+    },
+    {
+      "id": "finra-crypto-assets",
+      "url": "https://www.finra.org/investors/investing/investment-products/crypto-assets",
+      "publisher": "FINRA",
+      "title": "Crypto Assets",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Investor-education source for tokenized securities models, stablecoins, crypto custody, and investor-protection limits."
+    },
+    {
+      "id": "blackrock-buidl-addresses",
+      "url": "https://www.blackrock.com/corporate/compliance/scams-and-fraud/blackrock-token-addresses",
+      "publisher": "BlackRock",
+      "title": "BlackRock Token Addresses",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "BlackRock first-party source listing official BUIDL token addresses and warning users to verify addresses."
+    },
+    {
+      "id": "sec-buidl-form-d",
+      "url": "https://www.sec.gov/Archives/edgar/data/2013810/000201439024000001/xslFormDX01/primary_doc.xml",
+      "publisher": "U.S. Securities and Exchange Commission EDGAR",
+      "title": "Form D: BlackRock USD Institutional Digital Liquidity Fund Ltd.",
+      "publishedAt": "2024-03-14T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "EDGAR filing identifying the BUIDL issuer, jurisdiction, and exempt offering context."
+    },
+    {
+      "id": "sec-buidl-securitize-agreement",
+      "url": "https://www.sec.gov/Archives/edgar/data/2094496/000121390026042685/ea026411904ex10-9.htm",
+      "publisher": "U.S. Securities and Exchange Commission EDGAR",
+      "title": "Platform Services, Transfer Agent and Registrar Agreement between Securitize LLC and BlackRock USD Institutional Digital Liquidity Fund Ltd.",
+      "publishedAt": "2024-03-14T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Filed agreement describing BUIDL shares as digital asset security tokens and Securitize services including onboarding, KYC/KYB/AML, transfer agent, registrar, issuances, burns, redemptions, and records."
+    },
+    {
+      "id": "blackrock-liquidity-disclosures",
+      "url": "https://www.blackrock.com/cash/en-us/products/product-screener",
+      "publisher": "BlackRock",
+      "title": "BlackRock Liquidity Funds - Products",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "BlackRock first-party money-market-fund risk disclosure covering no guarantee, no FDIC/government insurance, and possible liquidity fees or suspensions."
+    },
+    {
+      "id": "franklin-fobxx-page",
+      "url": "https://www.franklintempleton.com/investments/options/money-market-funds/products/29386/SINGLCLASS/franklin-on-chain-u-s-government-money-fund/FOBXX",
+      "publisher": "Franklin Templeton",
+      "title": "Franklin OnChain U.S. Government Money Fund - FOBXX",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Franklin first-party fund page for documents, performance context, risks, and jurisdictional availability limitations."
+    },
+    {
+      "id": "franklin-prospectus-9001-psum",
+      "url": "https://www.franklintempleton.com/forms-literature/download-preview/9001-PSUM",
+      "publisher": "Franklin Templeton",
+      "title": "Franklin OnChain U.S. Government Money Fund - Summary Prospectus",
+      "publishedAt": "2026-08-01T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Prospectus source for investment strategy, transfer-agent blockchain-integrated recordkeeping, permissioned wallet controls, purchase/redemption processing, minimums, taxes, and blockchain risks."
+    },
+    {
+      "id": "franklin-benji-platform",
+      "url": "https://digitalassets.franklintempleton.com/benji/",
+      "publisher": "Franklin Templeton Digital Assets",
+      "title": "Invest with Benji",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Franklin first-party platform page for BENJI/FOBXX positioning, platform access, networks, and P2P/USDC milestone context."
+    },
+    {
+      "id": "franklin-benji-five-years",
+      "url": "https://www.franklintempleton.com/press-releases/news-room/2026/franklin-templeton-stellar-development-foundation-mark-five-years-of-benji-the-first-u.s.-registered-tokenized-money-market-fund",
+      "publisher": "Franklin Templeton",
+      "title": "Franklin Templeton, Stellar Development Foundation Mark Five Years of BENJI",
+      "publishedAt": "2026-04-30T00:00:00Z",
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Franklin first-party release describing BENJI as a U.S.-registered money market fund using public blockchain as system of record and giving context on P2P transferability and AUM."
+    },
+    {
+      "id": "securitize-buidl-page",
+      "url": "https://securitize.io/blackrock/buidl",
+      "publisher": "Securitize",
+      "title": "Introducing the BlackRock BUIDL Fund",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T23:42:33Z",
+      "primary": true,
+      "role": "Securitize first-party landing page identifying the BlackRock BUIDL Fund and Securitize distribution channel."
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "text": "Direct ownership of a marketable U.S. Treasury is acquired through TreasuryDirect or a bank, broker, or dealer at auction, with Treasury bills, notes, bonds, TIPS, and FRNs identified by CUSIP and minimum bids of $100.",
+      "sourceIds": [
+        "treasurydirect-buying",
+        "treasurydirect-bills",
+        "treasurydirect-notes"
+      ],
+      "risk": "low"
+    },
+    {
+      "id": "c2",
+      "text": "Tokenized Treasury products are not a single legal structure; as described in an SEC staff statement and FINRA investor material, tokenized securities can be issuer-sponsored records or third-party/intermediary structures, and tokenization does not change the underlying asset's legal character.",
+      "sourceIds": [
+        "sec-tokenized-securities-2026",
+        "sec-peirce-tokenization-2025",
+        "finra-crypto-assets"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c3",
+      "text": "BUIDL is associated with BlackRock USD Institutional Digital Liquidity Fund Ltd.; SEC filings identify the issuer and describe Securitize services around investor onboarding, transfer-agent/registrar functions, token issuances and burns, redemptions, distributions, smart-contract maintenance, and shareholder records.",
+      "sourceIds": [
+        "blackrock-buidl-addresses",
+        "sec-buidl-form-d",
+        "sec-buidl-securitize-agreement",
+        "securitize-buidl-page"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c4",
+      "text": "Franklin's BENJI represents shares of the Franklin OnChain U.S. Government Money Fund; its prospectus says the transfer agent maintains official share ownership through a blockchain-integrated, permissioned recordkeeping system and can correct unauthorized transactions or limit transferability.",
+      "sourceIds": [
+        "franklin-fobxx-page",
+        "franklin-prospectus-9001-psum",
+        "franklin-benji-platform",
+        "franklin-benji-five-years"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c5",
+      "text": "Tokenized Treasury fund yield generally comes from fund holdings such as government securities, cash, and repurchase agreements, minus fund and service economics; it is not the same as the holder directly receiving coupon or bill-discount income from a Treasury security.",
+      "sourceIds": [
+        "franklin-prospectus-9001-psum",
+        "franklin-fobxx-page",
+        "blackrock-liquidity-disclosures"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c6",
+      "text": "Important risk checks include eligibility and jurisdiction, fund documents, transfer-agent controls, redemption windows, liquidity, smart-contract and key-management risk, cyber risk, counterparty/service-provider risk, and the possibility that a stable $1.00 share price is not guaranteed.",
+      "sourceIds": [
+        "franklin-prospectus-9001-psum",
+        "franklin-fobxx-page",
+        "blackrock-liquidity-disclosures",
+        "finra-crypto-assets"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c7",
+      "text": "Tokenized Treasuries should be distinguished from stablecoins and crypto yield products: stablecoins aim to track a reference price, while tokenized securities/funds depend on securities-law documentation, fund governance, and transfer-agent or intermediary records.",
+      "sourceIds": [
+        "finra-crypto-assets",
+        "sec-tokenized-securities-2026",
+        "franklin-prospectus-9001-psum"
+      ],
+      "risk": "medium"
+    }
+  ],
+  "relatedVenues": [
+    "coinbase",
+    "kraken"
+  ],
+  "seo": {
+    "title": "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Risks",
+    "description": "Understand what a tokenized Treasury represents: compare BUIDL and BENJI ownership records, eligibility, fees, wallet controls and redemption conditions.",
+    "primaryKeyword": "tokenized Treasuries BUIDL BENJI ownership redemption risks",
+    "noindex": false,
+    "internalLinkTargets": [
+      "/topics/tokenized-treasuries",
+      "/topics/tokenized-assets",
+      "/topics/tokenized-stocks-vs-perpetuals",
+      "/news/tokenized-stocks-vs-stock-perpetuals",
+      "/exchanges/coinbase",
+      "/exchanges/kraken",
+      "/news/coinbase-vs-kraken",
+      "/methodology",
+      "/factbook/coinbase",
+      "/factbook/kraken"
+    ],
+    "canonical": "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks",
+    "languageCanonicals": {
+      "en": "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks",
+      "zh-Hans": "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks?locale=zh-Hans"
+    }
+  },
+  "aeo": {
+    "reviewedAt": "2026-09-22T01:35:23.602Z",
+    "directAnswer": "A tokenized Treasury is a blockchain-recorded claim linked to Treasury exposure, not necessarily direct ownership of a Treasury security. BUIDL and BENJI have different fund, recordkeeping, access and redemption arrangements; the product documents determine the holder rights.",
+    "answerBoundaries": [
+      "Do not infer investor eligibility from a public product page.",
+      "Do not treat onchain transferability as proof of unrestricted redemption.",
+      "Do not compare headline yield before checking legal instrument, recordkeeper and custodian.",
+      "Do not equate a token balance with direct ownership of a specific Treasury CUSIP.",
+      "Use the topic checklist for evergreen comparison; use this article for the dated source trail behind BUIDL, BENJI and OUSG-style tokenized Treasury exposure."
+    ],
+    "decisionChecklist": [
+      "onchain versus legal rights: wallet balance, transfer control, official register, beneficial ownership and redemption rights are separate fields",
+      "region access: account country, investor type, wallet whitelist, KYC/KYB and sanctions checks",
+      "official source entry: TreasuryDirect, SEC EDGAR, fund prospectus, issuer page, transfer-agent document, official token-address page",
+      "underlying asset: Treasury bill, government security, cash, repo, fund share, reserve or intermediary claim",
+      "definition: token label versus legal instrument",
+      "search intent: direct Treasury bill, BUIDL, BENJI, stablecoin, or yield product",
+      "legal instrument and issuer",
+      "official recordkeeper or transfer agent",
+      "custodian, broker, fund adviser, or service provider",
+      "wallet, platform, country, and investor-type eligibility",
+      "redemption counterparty, cutoff, settlement asset, and suspension rights",
+      "transfer restrictions, whitelist rules, and admin controls",
+      "fee, expense, network-cost, and current-yield source",
+      "official token address, domain, and document trail",
+      "regional and tax/account advice boundary",
+      "Do not use a headline yield comparison until the recordkeeper, custodian, redemption counterparty and fee source are identified.",
+      "Collateral or margin usefulness needs a separate source for valuation, haircut, permitted chains, transfer controls and platform failure treatment."
+    ],
+    "questions": [
+      "Is a tokenized Treasury a fund share, security token, direct Treasury bill or reserve-backed claim?",
+      "Which official source proves issuer, custodian, recordkeeper and redemption rights for a tokenized Treasury product?",
+      "Do tokenized Treasuries mean I own Treasury bills directly?",
+      "What is the difference between BUIDL and BENJI?",
+      "Who keeps the official ownership record for a tokenized Treasury product?",
+      "Can a tokenized Treasury holder redeem for cash directly?",
+      "What should I verify before comparing tokenized Treasury yield?",
+      "How should I continue from this article to a neutral venue or custody checklist?",
+      "What fees, margin terms and redemption path should I verify before comparing tokenized Treasury yield?",
+      "Which source proves the official recordkeeper for a tokenized Treasury product?",
+      "What should be checked before using tokenized Treasuries as collateral or margin support?",
+      "Should a tokenized Treasury searcher read the article or the topic checklist first?"
+    ]
+  },
+  "geo": {
+    "reviewedAt": "2026-09-22T01:35:23.602Z",
+    "citationUse": "Use this explanation to distinguish Treasury-linked exposure from the legal instrument, ownership register and redemption rights.",
+    "primaryQuestion": "What should a user verify before treating a tokenized Treasury product as a Treasury-like holding?"
+  },
+  "review": {
+    "reviewState": "INDEPENDENT_REVIEW_PASSED",
+    "reviewedAt": "2026-09-22T01:35:23.602Z",
+    "reviewedBy": "Independent Codex editorial and source review",
+    "passes": [
+      "source_and_claim",
+      "editorial_quality",
+      "seo_aeo_geo",
+      "compliance_and_commercial"
+    ],
+    "pendingPasses": [],
+    "evidence": [
+      "sources/recovery.md",
+      "sources/source-editorial-review.md",
+      "sources/recovered-feed-object.json",
+      "sources/recovered-feed-object.sha256",
+      "../../../docs/evidence/remediation-phase3-20260922/recovered-articles-final-review.md",
+      "../../../docs/evidence/remediation-phase3-20260922/recovered-articles-shortened-review.md"
+    ],
+    "note": "Final frozen bilingual bodies accepted in recovered-articles-shortened-review.md; original publication date and author retained. Agent review, not human certification."
+  }
+}

@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+const css=await readFile(new URL('../src/styles/profile-refinement.css',import.meta.url),'utf8');
+const before=await readFile(new URL('../../research-css/profile-refinement.before.css',import.meta.url),'utf8');
+const append=await readFile(new URL('../../research-css/APPEND.css',import.meta.url),'utf8');
+test('inverse removal restores exact original profile motion/focus CSS',()=>{assert.equal(css,before+append);assert.equal(css.slice(0,-append.length),before);});
+test('research layout stays scoped with natural source order and no hiding or animation',()=>{const selectors=append.replace(/\/\*[\s\S]*?\*\//g,'').match(/[^{}]+(?=\{)/g).filter(s=>!s.trim().startsWith('@'));for(const s of selectors) assert.ok(s.trim().startsWith('.v3-profile-page .v3-profile-research-hub'));assert.doesNotMatch(append,/(?:^|[;{]\s*)(?:order|animation|transition|transform|overflow|height)\s*:|display\s*:\s*none|!important/);assert.match(append,/@media \(min-width: 1100px\)/);assert.match(append,/grid-template-columns: minmax\(0, \.28fr\) minmax\(0, 1fr\)/);assert.match(append,/\.v3-profile-decision\s*\{\s*display: block/);});
+test('partner registry exact protected hash',async()=>{const bytes=await readFile(new URL('../src/data/partner-registry.js',import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),'8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');});

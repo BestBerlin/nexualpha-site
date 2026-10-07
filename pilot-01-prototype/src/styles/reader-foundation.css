@@ -1,0 +1,85 @@
+/* Shared source-reading roles. Keep browser root-size preferences and CTA fills. */
+:root {
+  --reader-support-size: .875rem;
+  --reader-meta-size: .8125rem;
+  --reader-support-line: 1.6;
+}
+
+.v3-page .v3-source-list__meta p {
+  font-size: var(--reader-support-size);
+  line-height: var(--reader-support-line);
+}
+.v3-page .v3-source-list__meta span {
+  font-family: var(--font-body);
+  font-size: var(--reader-meta-size);
+  line-height: var(--reader-support-line);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.v3-page .v3-source-list a {
+  min-block-size: 44px;
+  min-width: 0;
+  font-size: var(--reader-support-size);
+  line-height: var(--reader-support-line);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.v3-page .v3-source-list a small {
+  font-size: var(--reader-meta-size);
+  line-height: var(--reader-support-line);
+}
+.topic-guide-page .topic-source-register__item > small {
+  font-family: var(--font-body);
+  font-size: var(--reader-meta-size);
+  line-height: var(--reader-support-line);
+}
+.topic-guide-page .topic-source-register__item a {
+  min-block-size: 44px;
+  min-width: 0;
+  font-size: var(--reader-support-size);
+  line-height: var(--reader-support-line);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.v3-page .v3-versus-source-link {
+  min-block-size: 44px;
+  min-width: 0;
+  max-width: 100%;
+  font-size: var(--reader-support-size);
+  line-height: var(--reader-support-line);
+  align-items: baseline;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: anywhere;
+}
+.v3-page .v3-versus-source-link .v3-versus-source-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.v3-page .v3-source-list a:hover,
+.v3-page .v3-source-list a:focus-visible,
+.topic-guide-page .topic-source-register__item a:hover,
+.topic-guide-page .topic-source-register__item a:focus-visible,
+.v3-page .v3-versus-source-link:hover,
+.v3-page .v3-versus-source-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
+.v3-page .v3-source-list a:focus-visible,
+.topic-guide-page .topic-source-register__item a:focus-visible,
+.v3-page .v3-versus-source-link:focus-visible {
+  outline: 2px solid var(--blue-text);
+  outline-offset: 3px;
+}
+.crawl-priority-links__groups .crawl-priority-links__group > span {
+  color: var(--blue-text);
+}
+
+/* R217: explanatory copy in actual first decisions, not RelatedResearch. */
+.news-detail-page .news-detail__first-decision .top-decision-box__copy p,
+.v3-compare-page .v3-compare-final-choice-card__head p {
+  font-size: var(--reader-support-size);
+  line-height: var(--reader-support-line);
+  color: var(--muted);
+}

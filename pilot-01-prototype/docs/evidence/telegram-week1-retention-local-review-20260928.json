@@ -1,0 +1,66 @@
+{
+  "review": "telegram_week1_retention_local_review",
+  "generatedAt": "2026-09-28T00:00:00.000Z",
+  "status": "PASS_LOCAL_CONTRACT_ONLY",
+  "scope": {
+    "telegramApiCalls": 0,
+    "telegramMessagesSent": 0,
+    "realAccountsOperated": 0,
+    "externalSubmissions": 0,
+    "partnerRegistryEdited": false,
+    "protectedUserCommandsExecuted": []
+  },
+  "contract": {
+    "source": "src/data/telegram-config.js#TELEGRAM_WEEK1_RETENTION_LOOP",
+    "status": "local_draft_contract",
+    "scenarioCount": 3,
+    "firstHopPolicy": "NexuAlpha onsite route before Bot follow-up or exchange handoff",
+    "subscriptionDefault": "off_until_explicit_opt_in"
+  },
+  "scenarios": [
+    {
+      "id": "br-spot-pix-choice",
+      "market": "BR",
+      "locale": "pt-BR",
+      "product": "spot",
+      "candidateVenues": ["binance", "okx", "bitget"],
+      "firstOnsiteRoute": "/br/conta?locale=pt-BR&market=BR&product=spot&tg_funnel=retention_week1",
+      "reviewState": "ready_for_manual_local_acceptance"
+    },
+    {
+      "id": "global-perp-compare-choice",
+      "market": "GLOBAL",
+      "locale": "en",
+      "product": "perpetuals",
+      "candidateVenues": ["hyperliquid", "dydx", "bybit"],
+      "firstOnsiteRoute": "/compare/hyperliquid-vs-dydx?market=GLOBAL&product=perpetuals&tg_funnel=retention_week1",
+      "reviewState": "ready_for_manual_local_acceptance"
+    },
+    {
+      "id": "kr-dex-source-check",
+      "market": "KR",
+      "locale": "ko",
+      "product": "dex",
+      "candidateVenues": ["uniswap", "jupiter", "hyperliquid"],
+      "firstOnsiteRoute": "/ko/exchanges/uniswap?market=KR&product=dex&tg_funnel=retention_week1",
+      "reviewState": "ready_for_manual_local_acceptance"
+    }
+  ],
+  "protectedBoundaries": {
+    "noRawExchangeRegistrationUrls": true,
+    "noInviteCodes": true,
+    "noPrivateCommissionTerms": true,
+    "noSignupKycDepositTradeRebateCommissionClaims": true,
+    "protectedUserActionCommands": ["/choice", "/stop", "/delete"],
+    "protectedUserActionCommandPolicy": "document acceptance behavior only; never execute on behalf of a user"
+  },
+  "anonymousReviewWindows": {
+    "24h": ["landingVisits", "onsiteNextStepClicks", "botStartsIfVisible", "subscriptionOptIns", "unsubscribes", "sourceLocaleOrCtaIssues"],
+    "7d": ["landingVisits", "onsiteNextStepClicks", "botStartsIfVisible", "subscriptionOptIns", "unsubscribes", "sourceLocaleOrCtaIssues"]
+  },
+  "limitations": [
+    "This is a local contract and manual acceptance pack; it does not prove Telegram delivery, traffic, registrations or conversions.",
+    "HTTP rendering and visible browser review remain separate checks before any human-authorized publication.",
+    "Partner invitation links and invite codes remain protected and were not inspected or changed by this review."
+  ]
+}

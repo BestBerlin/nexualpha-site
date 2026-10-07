@@ -1,0 +1,36 @@
+{
+  "editingPack": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/reviews/2026-10-05-three-candidate-governance/three-article-mobile-first-screen-condensed-candidates.md",
+  "editingPackSha256": "157cb62d5edcbd902ae0f52b4b20d10f6cb75c8ab127ee7184e027b5a8c73f35",
+  "bodies": {
+    "bybit-vs-bitget-passkey-withdrawal-control-boundary": {
+      "en": {
+        "before": "Bybit documents a 24-hour withdrawal restriction after removing a passkey or making certain security changes. Bitget documents device-held passkey keys, official-domain binding, Google Authenticator for withdrawals and irreversible wrong-address risk, but the retained sources do not establish the same 24-hour hold. Use this comparison before changing authentication factors or funding either account, and recheck the signed-in withdrawal controls and any account-specific review.",
+        "after": "Bybit documents a 24-hour withdrawal restriction after passkey removal or certain security changes. Bitget documents device-held keys, official-domain binding and Google Authenticator for withdrawals, but retained sources do not establish the same hold. Before changing factors or funding either account, recheck signed-in controls; account-specific reviews and recovery timing remain unknown."
+      },
+      "zh-Hans": {
+        "before": "Bybit 明确说明，移除 Passkey 或进行部分账户安全变更后，可能触发 24 小时提现限制。Bitget 当前资料支持设备保存私钥、官方域名绑定、提现依赖 Google Authenticator 以及错误地址不可逆，但不能据此复制 Bybit 的 24 小时限制结论。更改认证因子或向任一账户转入资金前，应重新核对登录后的提现控制与账户专项风控。",
+        "after": "Bybit 说明移除 Passkey 或部分安全变更可能触发 24 小时提现限制；Bitget 资料仅证明设备私钥、官方域名绑定和提现所需的 Google Authenticator，不能据此套用同一冷却期。更改认证因子或入金前，应核对登录后的控制；账户专项审核与恢复时间仍未知。"
+      }
+    },
+    "how-to-compare-crypto-exchange-fee-schedules-without-missing-costs": {
+      "en": {
+        "before": "OKX, Kraken, Gate, MEXC and Bitget each publish official fee information, but the pages organize costs around different products, roles, tiers or VIP conditions. Compare the same product and maker/taker role, then add the current account tier and withdrawal route; if any of those inputs is unknown, the lowest visible rate is not a valid total-cost comparison. Recheck the signed-in fee and withdrawal screens before placing the order or moving funds.",
+        "after": "Official fee pages organize costs differently across products, maker/taker roles, tiers and VIP conditions. Compare the same product and order role, then add your live account tier and withdrawal route. If any input is unknown, the lowest displayed rate is not a total-cost estimate; spreads, promotions and network fees may still change."
+      },
+      "zh-Hans": {
+        "before": "OKX、Kraken、Gate、MEXC 与 Bitget 都提供官方费率资料，但各页面按不同产品、挂单/吃单角色、账户等级或 VIP 条件组织费用。应在同一产品和订单角色下比较，再加入本人账户等级与提现路径；任何一项未知时，页面上最低数字都不能代表总成本。下单或转账前，还要重新查看登录后的费率与提现界面。",
+        "after": "官方费率页按不同产品、挂单/吃单角色、等级和 VIP 条件组织成本。比较时应统一产品与订单角色，再加入本人实时等级和提现路径；任一输入未知，最低展示费率都不能代表总成本。价差、活动资格和网络费仍需在下单或转账前核对。"
+      }
+    },
+    "kraken-okx-bybit-regional-availability-decision-map": {
+      "en": {
+        "before": "Kraken publishes licensing or regulatory-location material, OKX publishes terms that govern user obligations and restrictions, and Bybit publishes a restricted-countries help page. Use those sources to check residence, serving entity and the exact product before onboarding or funding; a public availability page still does not prove that a private account has passed identity, risk or product-specific review. Recheck the current terms and the signed-in account result whenever the region, product or funding route changes.",
+        "after": "Kraken publishes licensing or regulatory-location material, OKX publishes governing terms, and Bybit publishes restricted-country guidance. Use them to check residence, serving entity and exact product before onboarding or funding. Public pages do not prove private-account approval; identity, risk and product reviews—and later rule changes—remain account- and time-specific."
+      },
+      "zh-Hans": {
+        "before": "Kraken 提供许可或监管地点资料，OKX 通过服务条款说明用户义务与限制，Bybit 则提供受限国家帮助页。开户或入金前，应据此核对居住地、服务实体和具体产品；公开可用性页面仍不能证明私人账户已通过身份、风险或产品专项审核。地区、产品或资金路径变化后，应重新查看当前条款和登录后的账户结果。",
+        "after": "Kraken 提供许可或监管地点资料，OKX 提供服务条款，Bybit 提供受限国家指引。开户或入金前，应核对居住地、服务实体和具体产品；公开页面不能证明私人账户已获批准。身份、风险和产品审核结果，以及后续规则变化，仍取决于账户与核验时间。"
+      }
+    }
+  }
+}

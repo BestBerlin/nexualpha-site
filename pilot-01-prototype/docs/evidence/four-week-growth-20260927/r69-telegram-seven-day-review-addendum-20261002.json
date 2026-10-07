@@ -1,0 +1,91 @@
+{
+  "createdAt": "2026-10-01T16:33:22.887630+00:00",
+  "status": "draft_only",
+  "productionBuildId": "3.0-20261001T-R64-HYDRATION-CONTEXT-OKX-WINDOW",
+  "window": {
+    "start": "2026-10-02",
+    "end": "2026-10-08",
+    "meaning": "seven-day manual review window, not send schedule"
+  },
+  "previousQueue": "r65-telegram-seven-day-drafts-20261001.json",
+  "drafts": [
+    {
+      "id": "kr-funding-verification",
+      "reviewTargetDate": "2026-10-06",
+      "locale": "ko",
+      "market": "KR",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "firstOnsiteUrl": "https://nexualpha.com/kr?locale=ko&market=KR&product=research&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r69_kr_funding_check",
+      "draftCopy": "원화 입금 전, 확인할 순서\n\n거래소 고객센터에서 원화 입출금 안내와 가입·본인확인 조건을 먼저 확인하세요. 가입 시 계좌 인증과 실제 원화 입출금에 필요한 조건은 구분해서 확인해야 합니다. 앱의 현재 안내와 은행의 공식 안내도 함께 확인하세요.\n\nNexuAlpha 한국 조사 페이지에서 확인할 항목과 공식 출처를 살펴보세요. 계정별 이용 가능 여부나 입금 성공을 보장하는 안내는 아닙니다.\n\nhttps://nexualpha.com/kr?locale=ko&market=KR&product=research&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r69_kr_funding_check",
+      "sourceEvidence": [
+        {
+          "url": "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC",
+          "title": "원화 입출금 방법 (모바일)",
+          "checkedScope": "Mobile KRW deposit/withdrawal method and authentication instructions; not bank eligibility verification"
+        },
+        {
+          "url": "https://support.upbit.com/hc/ko/articles/900006825383-%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94",
+          "title": "회원 가입은 어떻게 하나요?",
+          "checkedScope": "Membership, identity and account verification instructions; not universal exchange eligibility or bank-side acceptance"
+        }
+      ],
+      "internalSelectionSignal": "One visible anonymous ChatGPT citation in R68, not public endorsement or stable citation share",
+      "evidenceBoundary": "No bank-side source checked. No unconditional eligibility, specific partner-bank acceptance, fees or transaction assurance adopted. Official article text read, illustrative screenshots not inspected. Exact tracked landing HTTP200, htmlLang=ko, clean canonical=/kr verified; browser hydration/context still pending. Korean native editorial review pending.",
+      "requiredReview": [
+        "Exact tracked landing HTTP and browser locale/context",
+        "Korean native editorial approval",
+        "Official source freshness and bank-side applicability before adding bank-specific claims",
+        "Explicit thread publication authorization"
+      ],
+      "botDeepLink": null,
+      "landingHttpEvidence": "r69-kr-draft-landing-http-20261002.json"
+    }
+  ],
+  "carryoverDraftIds": [
+    "okx-historical-window",
+    "hyperliquid-fees",
+    "uniswap-testnet"
+  ],
+  "carryoverBoundary": "Carryover three drafts retain original evidence dates and unapproved status in immutable previous queue; no new freshness or approval asserted.",
+  "calendar": [
+    {
+      "date": "2026-10-02",
+      "draftIds": [],
+      "state": "observe_or_review_existing_drafts_only"
+    },
+    {
+      "date": "2026-10-03",
+      "draftIds": [],
+      "state": "observe_or_review_existing_drafts_only"
+    },
+    {
+      "date": "2026-10-04",
+      "draftIds": [],
+      "state": "observe_or_review_existing_drafts_only"
+    },
+    {
+      "date": "2026-10-05",
+      "draftIds": [],
+      "state": "observe_or_review_existing_drafts_only"
+    },
+    {
+      "date": "2026-10-06",
+      "draftIds": [
+        "kr-funding-verification"
+      ],
+      "state": "pending_manual_review"
+    },
+    {
+      "date": "2026-10-07",
+      "draftIds": [],
+      "state": "observe_or_review_existing_drafts_only"
+    },
+    {
+      "date": "2026-10-08",
+      "draftIds": [],
+      "state": "observe_or_review_existing_drafts_only"
+    }
+  ]
+}

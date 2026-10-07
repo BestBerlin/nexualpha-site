@@ -1,0 +1,43 @@
+{
+  "before": {
+    "canonical": "https://nexualpha.com/ko/exchanges",
+    "lang": "ko",
+    "overflow": false,
+    "returnLink": "/kr?market=KR&product=spot&account_stage=existing_account&locale=ko&utm_source=regional_preview&utm_campaign=kr-research-preview",
+    "title": "암호화폐 거래소 목록 및 수수료 비교 (2026) — NexuAlpha",
+    "url": "https://nexualpha.com/ko/exchanges?market=KR&product=spot&funding=KRW&account_stage=existing_account"
+  },
+  "after": {
+    "h1": "한국: 본인확인과 원화 입금 조건을 먼저 확인하세요",
+    "lang": "ko",
+    "links": [
+      "/exchanges?market=KR&product=spot&locale=ko&utm_source=regional_preview&utm_campaign=kr-research-preview&account_stage=existing_account&funding=KRW+deposit+and+withdrawal",
+      "/exchanges?market=KR&product=spot&locale=ko&utm_source=regional_preview&utm_campaign=kr-research-preview&account_stage=existing_account&funding=KRW+deposit+and+withdrawal",
+      "/ko/telegram?account_stage=existing_account&funding=KRW+deposit+and+withdrawal&return=https%3A%2F%2Ft.me%2FNexuAlphaAssistantBot%3Fstart%3Dpartner_desk_m_KR_l_ko_t_spot_c_1lndzf%26account_stage%3Dexisting_account%26funding%3DKRW%2Bdeposit%2Band%2Bwithdrawal&market=KR&product=spot"
+    ],
+    "stage": [
+      {
+        "label": "언어",
+        "value": "ko"
+      },
+      {
+        "label": null,
+        "value": "KR"
+      },
+      {
+        "label": null,
+        "value": "spot"
+      },
+      {
+        "label": null,
+        "value": "KRW deposit and withdrawal"
+      },
+      {
+        "label": null,
+        "value": "existing_account"
+      }
+    ],
+    "url": "https://nexualpha.com/kr?locale=ko&market=KR&product=spot&account_stage=existing_account&utm_source=regional_preview&utm_campaign=kr-research-preview"
+  },
+  "boundary": "Actual Chrome public mobile return path. No signup or Telegram send."
+}

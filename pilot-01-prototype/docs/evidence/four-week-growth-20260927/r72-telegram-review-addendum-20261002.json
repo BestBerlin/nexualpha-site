@@ -1,0 +1,31 @@
+{
+  "createdAt": "2026-10-01T17:17:48.325820+00:00",
+  "status": "draft_only",
+  "reviewWindow": {
+    "from": "2026-10-02",
+    "to": "2026-10-08",
+    "meaning": "manual review window, not scheduled publication"
+  },
+  "previousQueues": [
+    "r65-telegram-seven-day-drafts-20261001.json",
+    "r69-telegram-seven-day-review-addendum-20261002.json"
+  ],
+  "newDraft": {
+    "id": "br-pix-ownership-r72",
+    "locale": "pt-BR",
+    "firstOnsiteUrl": "https://nexualpha.com/br/pix?locale=pt-BR&market=BR&product=spot&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+    "copy": "Antes de usar Pix com uma corretora cripto, confira o titular\n\nAbra o fluxo oficial de BRL/Pix e confira os dados da sua conta, a titularidade bancária e os detalhes do método. Antes de confirmar, revise os limites, custos e status exibidos. Um link de cadastro não comprova que a sua conta já pode depositar ou sacar.\n\nNo NexuAlpha, organize essas verificações e consulte as fontes oficiais antes de escolher o próximo passo.\n\nhttps://nexualpha.com/br/pix?locale=pt-BR&market=BR&product=spot&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+    "approvedAt": null,
+    "publishedAt": null,
+    "nativeEditorialReview": "PENDING",
+    "publicLandingHttp": "PASS_HTTP200",
+    "publicLandingBrowser": "PASS_BOUNDED",
+    "sourceEvidence": "r72-br-pix-official-source-recheck-20261002.json",
+    "browserEvidence": "r72-br-draft-landing-browser-20261002.json",
+    "trackingBoundary": "manual_draft inbound→hydrated Pix→Costs→Compare source/medium/campaign retention publicly accepted after R72. No Bot/collector/partner attribution proof.",
+    "httpFinalUrl": "https://nexualpha.com/br/pix?locale=pt-BR&market=BR&product=spot&utm_source=tg_channel&utm_medium=manual_draft&utm_campaign=r72_br_pix_ownership_check",
+    "publicJourneyEvidence": "r72-public-browser-journey-20261002.json"
+  },
+  "boundary": "New internal research draft only; no public Telegram sending authorization inferred.",
+  "productionBuildId": "3.0-20261002T-R72-MEDIUM-RETURN"
+}

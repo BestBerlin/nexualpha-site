@@ -1,0 +1,137 @@
+.outbound-handoff {
+  display: grid;
+  gap: .625rem;
+  min-width: 0;
+}
+
+.outbound-handoff h3,
+.outbound-handoff p,
+.outbound-handoff dl {
+  margin: 0;
+}
+
+.outbound-handoff h3 {
+  color: var(--ink);
+  font-size: .9375rem;
+  line-height: 1.35;
+}
+
+.outbound-handoff dl {
+  display: grid;
+  gap: 0;
+}
+
+.outbound-handoff dl div {
+  display: grid;
+  grid-template-columns: minmax(5.875rem, .72fr) minmax(0, 1.28fr);
+  gap: .625rem;
+  padding: .5rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.outbound-handoff dt,
+.outbound-handoff dd,
+.outbound-handoff small {
+  margin: 0;
+  font-size: .8125rem;
+  line-height: 1.5;
+}
+
+.outbound-handoff dt,
+.outbound-handoff small {
+  color: var(--muted);
+}
+
+.outbound-handoff dd,
+.outbound-handoff__host {
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.outbound-handoff p {
+  color: var(--muted);
+  font-size: .875rem;
+  line-height: 1.55;
+}
+
+.outbound-handoff p span {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.outbound-handoff__consent {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: .625rem;
+  align-items: start;
+  min-height: 2.75rem;
+  padding-block: .25rem;
+  color: var(--ink);
+  font-size: .875rem;
+  line-height: 1.45;
+}
+
+.outbound-handoff__consent input {
+  width: 1rem;
+  height: 1rem;
+  margin-top: .125rem;
+  accent-color: var(--blue);
+}
+
+.outbound-handoff__country {
+  display: grid;
+  gap: .375rem;
+  min-height: 2.75rem;
+  color: var(--muted);
+  font-size: .8125rem;
+  line-height: 1.4;
+}
+
+.outbound-handoff__country select {
+  min-height: 2.75rem;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: .375rem;
+  background: rgba(255, 255, 255, .04);
+  color: var(--ink);
+  font: inherit;
+}
+
+.outbound-handoff button {
+  width: fit-content;
+  min-height: 2.75rem;
+  padding: .5625rem .75rem;
+  border: 1px solid rgba(63, 111, 255, .42);
+  border-radius: .375rem;
+  background: rgba(63, 111, 255, .08);
+  color: var(--blue-text);
+  font: inherit;
+  font-size: .875rem;
+  font-weight: 700;
+}
+
+.outbound-handoff button:disabled {
+  cursor: not-allowed;
+  border-style: dashed;
+  color: var(--muted);
+  background: rgba(255, 255, 255, .025);
+}
+
+.outbound-handoff__error {
+  color: var(--warning);
+}
+
+.outbound-handoff--compact {
+  padding-top: .125rem;
+}
+
+.v3-detail-grid__handoff {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 780px) {
+  .outbound-handoff dl div {
+    grid-template-columns: 1fr;
+    gap: .1875rem;
+  }
+}

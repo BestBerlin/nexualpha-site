@@ -1,0 +1,4 @@
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+CRON_TZ=UTC
+15 0 * * * root timeout 300 /usr/bin/python3 @@OPS@@/daily-cta.py --apply >/dev/null 2>&1

@@ -1,0 +1,294 @@
+{
+  "slug": "hyperliquid-vs-dydx",
+  "status": "STAGED",
+  "recovery": {
+    "recoveredFrom": "public/content/news-feed.json",
+    "recoveredAt": "2026-09-22T00:00:00.000Z",
+    "recoveryMethod": "Recovered maintenance source from the already published feed object; this is not the original authoring package.",
+    "feedSha256": "b2c4d24cfc56f02352337af0e90578f9dcb7e83c29aa80c6d6c92ee381de59d7",
+    "snapshotSha256": "41696638c2a96547c4a97b238ad891f3a1efe229a7bc3a1894dd55806d52c391",
+    "originalPublishedAt": "2026-09-07T11:43:01.000Z",
+    "originalUpdatedAt": "2026-09-15T12:15:00.000Z",
+    "originalAuthor": "NexuAlpha Research Desk",
+    "originalSourceStatus": "PUBLIC_SOURCE_MAPPED"
+  },
+  "author": "NexuAlpha Research Desk",
+  "publishedAt": "2026-09-07T11:43:01.000Z",
+  "updatedAt": "2026-09-15T12:15:00.000Z",
+  "titles": {
+    "en": "Hyperliquid vs dYdX: Fees, Funding, Margin and Liquidation Checks",
+    "zh-Hans": "Hyperliquid vs dYdX：永续合约 DEX 的费用、资金费率、保证金与强平机制对比"
+  },
+  "summaries": {
+    "en": "Compare Hyperliquid and dYdX fee tiers, funding, margin and liquidation mechanics, with official sources and account conditions to check before trading.",
+    "zh-Hans": "一篇基于来源的 Hyperliquid vs dYdX 解释型文章，帮助永续 DEX 交易者在使用决策清单前理解费用、资金费率、保证金、强平设计、预言机输入与未知执行风险。"
+  },
+  "bodyFiles": {
+    "en": "body-en.md",
+    "zh-Hans": "body-zh-Hans.md"
+  },
+  "sources": [
+    {
+      "id": "hl-fees",
+      "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees.md",
+      "publisher": "Hyperliquid Docs",
+      "title": "Fees",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "hl-funding",
+      "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding.md",
+      "publisher": "Hyperliquid Docs",
+      "title": "Funding",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "hl-liquidations",
+      "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/liquidations.md",
+      "publisher": "Hyperliquid Docs",
+      "title": "Liquidations",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "hl-oracle",
+      "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/oracle.md",
+      "publisher": "Hyperliquid Docs",
+      "title": "Oracle",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "hl-clearinghouse",
+      "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/clearinghouse.md",
+      "publisher": "Hyperliquid Docs",
+      "title": "Clearinghouse",
+      "publishedAt": null,
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "dydx-fees",
+      "url": "https://help.dydx.trade/en/articles/166995-trading-fees-on-dydx",
+      "publisher": "dYdX Help Center",
+      "title": "Trading fees on dYdX",
+      "publishedAt": "2026-04-23T00:00:00Z",
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "dydx-funding",
+      "url": "https://help.dydx.trade/en/articles/166992-default-funding-rates-on-dydx",
+      "publisher": "dYdX Help Center",
+      "title": "Default funding rates on dYdX",
+      "publishedAt": "2026-04-23T00:00:00Z",
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "dydx-liquidations",
+      "url": "https://help.dydx.trade/en/articles/166991-liquidations-on-dydx-chain",
+      "publisher": "dYdX Help Center",
+      "title": "Liquidations on dYdX Chain",
+      "publishedAt": "2026-04-23T00:00:00Z",
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "dydx-oracle",
+      "url": "https://help.dydx.trade/en/articles/166990-oracle-prices-on-dydx-chain",
+      "publisher": "dYdX Help Center",
+      "title": "Oracle prices on dYdX Chain",
+      "publishedAt": "2026-04-23T00:00:00Z",
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    },
+    {
+      "id": "dydx-liquidity",
+      "url": "https://help.dydx.trade/en/articles/166993-default-liquidity-tiers-on-dydx-chain",
+      "publisher": "dYdX Help Center",
+      "title": "Default Liquidity Tiers on dYdX Chain",
+      "publishedAt": "2026-04-23T00:00:00Z",
+      "accessedAt": "2026-09-07T11:43:01Z",
+      "primary": true,
+      "role": null
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "text": "Hyperliquid uses a rolling 14-day weighted volume system for fee tiers, with separate perp and spot schedules and additional staking-tier discounts.",
+      "sourceIds": [
+        "hl-fees"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c2",
+      "text": "dYdX describes a maker-taker model in which taker fees are based on trailing 30-day USD volume across perpetual order books, and the current schedule is surfaced through the dYdX interface or linked docs.",
+      "sourceIds": [
+        "dydx-fees"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c3",
+      "text": "Hyperliquid funding is paid hourly, uses a premium component against the spot oracle price, has a fixed interest component described in the docs, and is capped at 4% per hour.",
+      "sourceIds": [
+        "hl-funding"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c4",
+      "text": "dYdX funding in the default v4 software is calculated from premium samples and is subject to governance-controlled parameters.",
+      "sourceIds": [
+        "dydx-funding"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c5",
+      "text": "Hyperliquid liquidations occur when equity falls below maintenance margin, first route liquidation attempts through market orders on the book, and may use the liquidator vault as a backstop.",
+      "sourceIds": [
+        "hl-liquidations"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c6",
+      "text": "dYdX Chain liquidations use protocol-generated matches and an insurance-fund mechanism under default v4 software assumptions; official documentation warns that up to the entire remaining account value may be taken as a liquidation penalty.",
+      "sourceIds": [
+        "dydx-liquidations"
+      ],
+      "risk": "high"
+    },
+    {
+      "id": "c7",
+      "text": "Hyperliquid oracle prices are published by validators every three seconds and are used for funding, mark price, margining, liquidations, and TP/SL triggers.",
+      "sourceIds": [
+        "hl-oracle"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c8",
+      "text": "dYdX oracle prices are validator-determined aggregated prices used for collateralization, liquidation checks, and triggerable order types.",
+      "sourceIds": [
+        "dydx-oracle"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c9",
+      "text": "dYdX liquidity tiers group markets into standardized risk parameters and can affect initial margin fraction, maintenance margin fraction, impact notional, and safety-tier handling.",
+      "sourceIds": [
+        "dydx-liquidity"
+      ],
+      "risk": "medium"
+    },
+    {
+      "id": "c10",
+      "text": "The comparison does not verify overall liquidity, volume leadership, security superiority, or user eligibility by jurisdiction; those remain outside this source set.",
+      "sourceIds": [
+        "hl-fees",
+        "hl-liquidations",
+        "dydx-fees",
+        "dydx-liquidations"
+      ],
+      "risk": "low"
+    }
+  ],
+  "relatedVenues": [
+    "hyperliquid",
+    "dydx"
+  ],
+  "seo": {
+    "title": "Hyperliquid vs dYdX: Perp DEX Fees, Funding, Margin and Liquidation Checks",
+    "description": "Compare Hyperliquid and dYdX fee tiers, funding, margin and liquidation mechanics, with official sources and account conditions to check before trading.",
+    "primaryKeyword": "Hyperliquid vs dYdX perp DEX fees funding liquidation",
+    "noindex": false,
+    "canonical": "https://nexualpha.com/news/hyperliquid-vs-dydx",
+    "internalLinkTargets": [
+      "/compare/hyperliquid-vs-dydx",
+      "/exchanges/hyperliquid",
+      "/exchanges/dydx",
+      "/topics/no-kyc",
+      "/rates",
+      "/news/tokenized-treasuries-structure-access-risks"
+    ]
+  },
+  "aeo": {
+    "reviewedAt": "2026-09-22T01:35:23.602Z",
+    "directAnswer": "Hyperliquid and dYdX differ in fee-tier lookback periods, margin controls and liquidation mechanics. Compare the fees for your account, the relevant market funding and margin rules, and official access conditions; documentation alone cannot establish a universal winner.",
+    "answerBoundaries": [
+      "Do not claim a universal Perp DEX winner from static documentation.",
+      "Do not convert fee tables into a user-specific trading-cost promise.",
+      "Do not infer jurisdictional access, liquidation outcomes or live execution quality without account and market evidence.",
+      "Do not treat self-custody wallet access as the same decision as a custodial exchange signup.",
+      "Use the comparison page for current route decisions; use this news article for the dated source-reading explainer."
+    ],
+    "decisionChecklist": [
+      "maker and taker fee tier",
+      "funding interval and funding-rate source",
+      "collateral asset and deposit route",
+      "cross or isolated margin state",
+      "oracle input and index construction",
+      "liquidation trigger and partial-liquidation flow",
+      "insurance fund, liquidator vault or backstop handling",
+      "official app domain and wallet signing path",
+      "regional account or interface access",
+      "API, order type and sub-account requirements"
+    ],
+    "questions": [
+      "How should I compare Hyperliquid and dYdX fees before trading?",
+      "Which platform has the clearer funding and margin checklist, Hyperliquid or dYdX?",
+      "Does Hyperliquid vs dYdX prove which Perp DEX is safer?",
+      "What liquidation and oracle checks matter before using a Perp DEX?",
+      "Is Hyperliquid or dYdX better for a no-custody perpetual trading route?",
+      "What remains unknown from public Hyperliquid and dYdX documentation alone?",
+      "Should I read the Hyperliquid vs dYdX news explainer or the comparison page?"
+    ]
+  },
+  "geo": {
+    "reviewedAt": "2026-09-22T01:35:23.602Z",
+    "citationUse": "Use the documented fee, funding, margin and liquidation mechanisms with their stated scope; check current account conditions separately.",
+    "primaryQuestion": "How should a trader compare Hyperliquid and dYdX before opening a Perp DEX position?"
+  },
+  "review": {
+    "reviewState": "INDEPENDENT_REVIEW_PASSED",
+    "reviewedAt": "2026-09-22T01:35:23.602Z",
+    "reviewedBy": "Independent Codex editorial and source review",
+    "passes": [
+      "source_and_claim",
+      "editorial_quality",
+      "seo_aeo_geo",
+      "compliance_and_commercial"
+    ],
+    "pendingPasses": [],
+    "evidence": [
+      "sources/recovery.md",
+      "sources/source-editorial-review.md",
+      "sources/recovered-feed-object.json",
+      "sources/recovered-feed-object.sha256",
+      "../../../docs/evidence/remediation-phase3-20260922/recovered-articles-final-review.md",
+      "../../../docs/evidence/remediation-phase3-20260922/recovered-articles-shortened-review.md"
+    ],
+    "note": "Final frozen bilingual bodies accepted in recovered-articles-shortened-review.md; original publication date and author retained. Agent review, not human certification."
+  }
+}

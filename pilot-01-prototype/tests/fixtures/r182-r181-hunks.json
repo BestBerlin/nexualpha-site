@@ -1,0 +1,34 @@
+{
+  "src/components/v3/LeanHero.jsx": [
+    {
+      "before": "  };\n",
+      "after": "  };\n  const compactHomeTaskCopy = {\n    ru: { change: \"Сменить\", copy: \"Копировать\", copyFull: \"Скопировать код\", signup: \"Регистрация ↗\" },\n    fr: { change: \"Changer\", copy: \"Copier\", copyFull: \"Copier le code\", signup: \"Inscription ↗\" },\n    \"pt-BR\": { change: \"Trocar\", copy: \"Copiar\", copyFull: \"Copiar código\", signup: \"Cadastro ↗\" },\n    tr: { change: \"Değiştir\", copy: \"Kopyala\", copyFull: \"Kodu kopyala\", signup: \"Kayıt ↗\" },\n    it: { change: \"Cambia\", copy: \"Copia\", copyFull: \"Copia codice\", signup: \"Registrazione ↗\" },\n  };\n"
+    },
+    {
+      "before": "  const modeTaskCopy = homeModeTaskCopy[locale] || homeModeTaskCopy[localeBase] || homeModeTaskCopy.en;\n  const chooserTaskLabel = platformChooserTaskCopy[locale] || platformChooserTaskCopy[localeBase] || platformChooserTaskCopy.en;\n",
+      "after": "  const modeTaskCopy = homeModeTaskCopy[locale] || homeModeTaskCopy[localeBase] || homeModeTaskCopy.en;\n  const compactHomeTask = compactHomeTaskCopy[locale] || compactHomeTaskCopy[localeBase];\n  const fullChooserTaskLabel = platformChooserTaskCopy[locale] || platformChooserTaskCopy[localeBase] || platformChooserTaskCopy.en;\n  const chooserTaskLabel = compactHomeTask?.change || fullChooserTaskLabel;\n"
+    },
+    {
+      "before": "  const selected = venues.find((venue) => venue.slug === selectedSlug) || venues[0];\n  const chooserSummaryAriaLabel = locale === \"ja\" ? `${selected.name}、プラットフォームを変更` : undefined;\n  const compactCopyLabel = locale === \"ja\" ? \"コピー\" : undefined;\n  const compactCopyAriaLabel = locale === \"ja\" ? \"コードをコピー\" : undefined;\n",
+      "after": "  const selected = venues.find((venue) => venue.slug === selectedSlug) || venues[0];\n  const chooserSummaryAriaLabel = locale === \"ja\" ? `${selected.name}、プラットフォームを変更` : compactHomeTask ? `${selected.name}: ${fullChooserTaskLabel}` : undefined;\n  const compactCopyLabel = locale === \"ja\" ? \"コピー\" : compactHomeTask?.copy;\n  const compactCopyAriaLabel = locale === \"ja\" ? \"コードをコピー\" : compactHomeTask?.copyFull;\n"
+    },
+    {
+      "before": "                  compactCopyAriaLabel={compactCopyAriaLabel}\n",
+      "after": "                  compactCopyAriaLabel={compactCopyAriaLabel}\n                  compactSignupLabel={compactHomeTask?.signup}\n"
+    }
+  ],
+  "src/components/v3/RegistrationCard.jsx": [
+    {
+      "before": "\nexport function RegistrationCard({ venueSlug, fallbackDomain, locale = \"en\", market, product, accountStage, funding, compact = false, compactCopyLabel, compactCopyAriaLabel }) {\n",
+      "after": "\nexport function RegistrationCard({ venueSlug, fallbackDomain, locale = \"en\", market, product, accountStage, funding, compact = false, compactCopyLabel, compactCopyAriaLabel, compactSignupLabel }) {\n"
+    },
+    {
+      "before": "        className=\"registration-card__primary-btn\"\n",
+      "after": "        className=\"registration-card__primary-btn\"\n        aria-label={compactInviteTask && compactSignupLabel ? compactInviteTask.action : undefined}\n"
+    },
+    {
+      "before": "      >\n        {compactInviteTask ? compactInviteTask.action : (visiblePartner.hasReferral ? copy.openSignup : copy.openApp)}\n",
+      "after": "      >\n        {compactInviteTask ? (compactSignupLabel || compactInviteTask.action) : (visiblePartner.hasReferral ? copy.openSignup : copy.openApp)}\n"
+    }
+  ]
+}

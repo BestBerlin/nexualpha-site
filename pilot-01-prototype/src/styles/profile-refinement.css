@@ -1,0 +1,332 @@
+/* R290: original-brand platform dossier with a distinct account checkpoint. */
+.v3-profile-page .v3-venue-identity { align-items: flex-start; }
+.v3-profile-page .v3-venue-identity__badges { gap: .45rem; }
+.v3-profile-page .v3-domain-pill { background: transparent; border-color: var(--line); box-shadow: none; }
+.v3-profile-page .v3-venue-direct-answer { background: transparent; border-inline: 0; border-color: var(--line); border-radius: 0; box-shadow: none; }
+.v3-profile-page .v3-venue-direct-answer__reviewed { color: var(--muted); }
+.v3-profile-page .v3-venue-direct-answer__links { gap: .5rem 1rem; }
+
+/* Readiness is neutral; checking boxes does not establish platform eligibility. */
+.v3-profile-page .venue-readiness { background: transparent; border-color: var(--line); border-radius: 0; box-shadow: none; }
+.v3-profile-page .venue-readiness__disclosure { background: transparent; border-color: var(--line); border-radius: 0; box-shadow: none; }
+.v3-profile-page .venue-readiness__summary { background: transparent; }
+
+/* Keep one strong registration surface; nested material becomes readable rules. */
+.v3-profile-page .v3-profile-main-registration > .v3-detail-grid__handoff { background: transparent; border: 0; box-shadow: none; }
+.v3-profile-page .v3-profile-main-registration .registration-card { background: var(--reader-material-decision, var(--surface-2)); border-color: var(--reader-material-decision-rule, var(--line)); box-shadow: none; }
+.v3-profile-page .v3-profile-main-registration .registration-card__code-section { background: transparent; border-inline: 0; border-block-color: var(--line); border-radius: 0; padding-inline: 0; }
+.v3-profile-page .v3-profile-main-registration .registration-card__next-step,
+.v3-profile-page .v3-profile-main-registration .registration-card__preflight { background: transparent; border-inline: 0; border-color: var(--line); border-radius: 0; padding-inline: 0; }
+.v3-profile-page .v3-profile-main-registration .registration-card__mobile-route-details { background: transparent; border-color: var(--line); border-inline: 0; border-radius: 0; }
+.v3-profile-page .v3-profile-primary-actions .button-quiet,
+.v3-profile-page .v3-profile-registration-review-link { background: transparent; border-color: var(--line); box-shadow: none; }
+
+/* Visible profile judgments share a research axis, separate from account actions. */
+.v3-profile-page .v3-profile-reading-overview > .v3-profile-decision-context {
+  padding-block: 16px;
+  min-width: 0;
+}
+.v3-profile-page .v3-profile-decision-context > h2 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin-block: 0;
+}
+.v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip article {
+  grid-template-columns: minmax(0, .35fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 8px 16px;
+  padding: 12px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip article + article { border-block-start: 1px solid var(--line); }
+.v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip span {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--muted);
+}
+.v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip strong { font-size: 16px; line-height: 1.6; font-weight: 500; }
+.v3-profile-page .v3-profile-reading-overview > .v3-profile-primary-actions { padding-block-start: 8px; }
+.v3-profile-page .v3-profile-reading-overview > .v3-relationship-note { margin: 0; line-height: 1.6; }
+@media (max-width: 640px) {
+  .v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip article { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+}
+
+/* Actual source-linked data keep numbers and their conditions together. */
+.v3-profile-page .v3-metric-tile { background: transparent; border-inline: 0; border-color: var(--line); border-radius: 0; box-shadow: none; }
+.v3-profile-page .v3-metric-tile__label,
+.v3-profile-page .v3-metric-tile__sub { color: var(--muted); }
+.v3-profile-page .v3-detail-calculator,
+.v3-profile-page .v3-fee-matrix-card,
+.v3-profile-page .v3-por-card,
+.v3-profile-page .v3-security-card { background: var(--reader-material-context, var(--surface-1)); border-color: var(--reader-material-rule, var(--line)); box-shadow: none; }
+
+/* Native research sections retain their existing widths, negative margins and open state. */
+.v3-profile-page .v3-profile-answer-conditions,
+.v3-profile-page .v3-profile-decision-context,
+.v3-profile-page .v3-profile-secondary-research,
+.v3-profile-page .v3-venue-invitation-disclosure,
+.v3-profile-page .v3-profile-cost-conditions,
+.v3-profile-page .v3-profile-evidence-drawer,
+.v3-profile-page .v3-registration-notes { background: transparent; border-color: var(--line); border-radius: 0; box-shadow: none; }
+.v3-profile-page .v3-profile-answer-conditions > summary,
+.v3-profile-page .v3-profile-decision-context > summary,
+.v3-profile-page .v3-profile-secondary-research > summary,
+.v3-profile-page .v3-profile-cost-conditions > summary,
+.v3-profile-page .v3-profile-evidence-drawer > summary,
+.v3-profile-page .v3-registration-notes > summary { background: transparent; min-block-size: 44px; }
+
+/* Questions and alternatives form an editorial index rather than repeated promotion cards. */
+.v3-profile-page .v3-faq-card { background: transparent; border-inline: 0; border-color: var(--line); border-radius: 0; box-shadow: none; }
+.v3-profile-page .v3-faq-item { background: transparent; border-inline: 0; border-color: var(--line); border-radius: 0; box-shadow: none; }
+.v3-profile-page .v3-activity-panel--empty { background: transparent; border-color: var(--line); box-shadow: none; }
+.v3-profile-page .v3-alternative-list > li { background: transparent; border-inline: 0; border-color: var(--line); border-radius: 0; box-shadow: none; }
+.v3-profile-page .v3-similar-disclosure:not([open]) { padding-block: 0; }
+.v3-profile-page .v3-similar-disclosure__summary { min-block-size: 56px; background: transparent; }
+
+/* New quiet surfaces retain strong keyboard indication and truthful copied state. */
+.v3-profile-page .v3-profile-answer-conditions > summary:focus-visible,
+.v3-profile-page .v3-profile-decision-context > summary:focus-visible,
+.v3-profile-page .v3-profile-secondary-research > summary:focus-visible,
+.v3-profile-page .v3-profile-cost-conditions > summary:focus-visible,
+.v3-profile-page .v3-profile-evidence-drawer > summary:focus-visible,
+.v3-profile-page .v3-registration-notes > summary:focus-visible,
+.v3-profile-page .venue-readiness__summary:focus-visible,
+.v3-profile-page .v3-similar-disclosure__summary:focus-visible,
+.v3-profile-page .registration-card__copy-btn:focus-visible,
+.v3-profile-page .registration-card__primary-btn:focus-visible,
+.v3-profile-page .registration-card__mobile-route-summary:focus-visible,
+.v3-profile-page .v3-profile-primary-actions .button-quiet:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 3px; }
+.v3-profile-page .registration-card__primary-btn { transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease; }
+.v3-profile-page .registration-card__copy-btn { transition: background-color 150ms ease, border-color 150ms ease; }
+@media (hover: hover) and (pointer: fine) {
+ .v3-profile-page .v3-profile-primary-actions .button-quiet:hover { border-color: var(--blue-text); }
+ .v3-profile-page .registration-card__copy-btn:not([data-copied="true"]):hover { border-color: var(--blue-text); }
+}
+@media (hover: none), (pointer: coarse) {
+ .v3-profile-page .registration-card__primary-btn:hover { transform: none; }
+ .v3-profile-page .registration-card__copy-btn:not([data-copied="true"]):hover { background: var(--surface-2); border-color: var(--line); }
+ .v3-profile-page .v3-profile-primary-actions .button-quiet:hover { background: transparent; border-color: var(--line); }
+}
+@media (prefers-reduced-motion: reduce) {
+ .v3-profile-page .registration-card__copy-btn,
+ .v3-profile-page .registration-card__primary-btn,
+ .v3-profile-page .v3-profile-primary-actions .button-quiet { transition: none; transform: none; }
+}
+
+/* R292: the overview and account checkpoint share one deliberate reading plane. */
+.v3-profile-page .v3-profile-reading-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 40px);
+  align-items: start;
+  min-width: 0;
+}
+.v3-profile-page .v3-profile-reading-overview,
+.v3-profile-page .v3-profile-action-column {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  min-width: 0;
+  max-width: 100%;
+}
+.v3-profile-page .v3-profile-reading-overview > .v3-venue-direct-answer {
+  margin-block-start: 0;
+  padding-inline: 0;
+}
+.v3-profile-page .v3-profile-reading-overview > .v3-venue-direct-answer > strong {
+  font-weight: 600;
+  line-height: 1.45;
+}
+.v3-profile-page .v3-profile-action-column .v3-profile-main-registration {
+  align-content: start;
+}
+@media (min-width: 1100px) {
+  .v3-profile-page .v3-profile-reading-layout {
+    grid-template-columns: minmax(0, 1.1fr) minmax(20rem, .9fr);
+    column-gap: clamp(24px, 3vw, 48px);
+  }
+}
+
+/* Chapter titles and full hints align consistently, without narrowing source prose. */
+.v3-profile-page .v3-registration-notes > summary,
+.v3-profile-page .v3-profile-cost-conditions > summary,
+.v3-profile-page .v3-profile-evidence-drawer > summary,
+.v3-profile-page .v3-profile-secondary-research > summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 12px;
+  padding-block: 12px;
+  min-block-size: 56px;
+}
+.v3-profile-page .v3-registration-notes > summary > strong,
+.v3-profile-page .v3-profile-cost-conditions > summary > strong,
+.v3-profile-page .v3-profile-evidence-drawer > summary > strong,
+.v3-profile-page .v3-profile-secondary-research > summary > strong {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+}
+.v3-profile-page .v3-registration-notes > summary > span,
+.v3-profile-page .v3-profile-cost-conditions > summary > span,
+.v3-profile-page .v3-profile-evidence-drawer > summary > span {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+.v3-profile-page .v3-registration-notes > summary > b,
+.v3-profile-page .v3-profile-cost-conditions > summary > b,
+.v3-profile-page .v3-profile-evidence-drawer > summary > b,
+.v3-profile-page .v3-profile-secondary-research > summary > span[aria-hidden="true"] {
+  grid-column: 2;
+  grid-row: 1;
+}
+.v3-profile-page .v3-faq-card__header {
+  display: grid;
+  gap: 8px;
+  text-align: start;
+}
+.v3-profile-page .v3-faq-card__title,
+.v3-profile-page .v3-faq-card__lead {
+  margin-block: 0;
+}
+.v3-profile-page .v3-faq-section .v3-faq-card {
+  padding-inline: 0;
+}
+.v3-profile-page .v3-activity-panel .section-lead {
+  margin-block-end: 16px;
+  text-align: start;
+}
+.v3-profile-page .v3-similar-disclosure__summary {
+  padding-block: 12px;
+}
+
+/* R294: three visible research chapters, one continuous reading surface. */
+.v3-profile-page .v3-profile-research-hub {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+.v3-profile-page .v3-profile-research-hub .v3-profile-research-chapter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding-block: 24px;
+  border-block-start: 1px solid var(--line);
+  min-width: 0;
+}
+.v3-profile-page .v3-profile-research-hub .v3-profile-research-chapter__heading {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  line-height: 1.45;
+  text-align: start;
+  min-width: 0;
+}
+.v3-profile-page .v3-profile-research-hub .v3-profile-research-chapter__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  min-width: 0;
+}
+.v3-profile-page .v3-profile-research-hub :is(.v3-registration-notes,.v3-profile-cost-conditions,.v3-profile-evidence-drawer,.v3-profile-secondary-research) {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.v3-profile-page .v3-profile-research-hub :is(.v3-registration-notes,.v3-profile-cost-conditions,.v3-profile-evidence-drawer,.v3-profile-secondary-research) > summary {
+  padding-inline: 0;
+}
+.v3-profile-page .v3-profile-research-hub :is(.v3-registration-notes__body,.v3-profile-cost-conditions__body,.v3-profile-evidence-drawer__body,.v3-profile-secondary-research__body) {
+  padding-inline: 0;
+  padding-block: 16px;
+}
+.v3-profile-page .v3-profile-research-hub .v3-profile-decision {
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+@media (min-width: 1100px) {
+  .v3-profile-page .v3-profile-research-hub .v3-profile-research-chapter {
+    grid-template-columns: minmax(0, .28fr) minmax(0, 1fr);
+    column-gap: clamp(24px, 3vw, 48px);
+    align-items: start;
+  }
+}
+
+/* R294 iteration 2: chapter boundaries own the rhythm, not nested panel borders. */
+.v3-profile-page .v3-profile-research-hub :is(.v3-registration-notes,.v3-profile-cost-conditions,.v3-profile-evidence-drawer,.v3-profile-secondary-research) {
+  border: 0;
+}
+.v3-profile-page .v3-profile-research-hub .v3-profile-account-disclosure > .v3-registration-notes__body {
+  gap: 24px;
+}
+.v3-profile-page .v3-profile-research-hub .v3-profile-account-section {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.v3-profile-page .v3-profile-research-hub .v3-profile-account-section__heading {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: start;
+}
+.v3-profile-page .v3-profile-research-hub .v3-profile-account-section__hint {
+  margin-block: 6px 0;
+  line-height: 1.6;
+  text-align: start;
+}
+.v3-profile-page .v3-profile-research-hub .v3-profile-account-section > :is(.v3-profile-cost-conditions__body,.v3-registration-notes__body) {
+  margin: 0;
+  padding-block: 16px 0;
+  padding-inline: 0;
+}
+@media (max-width: 640px) {
+  .v3-profile-page .v3-profile-research-hub .v3-profile-research-chapter {
+    padding-block: 20px;
+    gap: 12px;
+  }
+}
+
+/* R305: real action-first DOM, with the established desktop research columns. */
+@media (min-width: 1100px) {
+  .v3-profile-page .v3-profile-reading-layout > .v3-profile-reading-overview {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .v3-profile-page .v3-profile-reading-layout > .v3-profile-action-column {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+@media (max-width: 1099px) {
+  .v3-profile-page .v3-profile-reading-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .v3-profile-page .v3-profile-action-column .registration-card__primary-btn,
+  .v3-profile-page .v3-profile-action-column .registration-card__copy-btn,
+  .v3-profile-page .v3-profile-action-column .registration-card__mobile-route-summary {
+    min-block-size: 44px;
+  }
+}

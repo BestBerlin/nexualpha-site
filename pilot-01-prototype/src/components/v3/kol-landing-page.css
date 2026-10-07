@@ -1,0 +1,188 @@
+/* KolLandingPage 样式 */
+.kol-page {
+  min-height: auto;
+  padding-bottom: clamp(1rem, 2vw, 1.75rem);
+}
+
+.kol-hero {
+  padding-top: clamp(1.25rem, 2.5vw, 2rem);
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 1.25rem;
+}
+
+.kol-hero__header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.kol-hero__avatar-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(52, 211, 153, 0.2));
+  border: 2px solid rgba(56, 189, 248, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  flex-shrink: 0;
+}
+
+.kol-hero__badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 0.375rem;
+}
+
+.kol-hero__title {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 750;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.kol-hero__handle {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  margin: 0;
+}
+
+.kol-hero__bio-box {
+  background: rgba(13, 17, 23, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  color: #cbd5e1;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.kol-hero__bio-box p {
+  margin: 0;
+}
+
+/* 推荐卡片网格 */
+.kol-venues__title {
+  font-size: 1.35rem;
+  font-weight: 750;
+  color: #ffffff;
+  margin: 0 0 1rem;
+  letter-spacing: -0.02em;
+}
+
+.kol-venues__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .kol-venues__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kol-venue-card {
+  background: rgba(13, 17, 23, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kol-venue-card:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+  transform: translateY(-2px);
+}
+
+.kol-venue-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kol-venue-card__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kol-venue-card__name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.kol-venue-card__tag {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.kol-venue-card__code-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: #94a3b8;
+}
+
+.kol-venue-card__code {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.9375rem;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.kol-venue-card__benefit {
+  font-size: 0.8125rem;
+  color: #cbd5e1;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.kol-venue-card__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background: #EDEDED;
+  color: #09090B !important;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.kol-venue-card__cta:hover {
+  background: #ffffff;
+}
+
+.v2-page.v3-page.kol-page {
+  min-height: auto;
+}

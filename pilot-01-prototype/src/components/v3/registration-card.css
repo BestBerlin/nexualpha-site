@@ -1,0 +1,677 @@
+/* 现代金融极简风：注册与邀请码卡片 */
+.registration-card {
+  display: grid;
+  gap: 1.25rem;
+  box-sizing: border-box;
+  max-width: 100%;
+  background: var(--surface-1, #12161c);
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  color: var(--ink, #f0f4f8);
+  font-family: inherit;
+  scroll-margin-top: 1.25rem;
+}
+
+.registration-card *,
+.registration-card *::before,
+.registration-card *::after {
+  box-sizing: inherit;
+}
+
+.registration-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+}
+
+.registration-card__domain-box {
+  display: flex;
+  align-items: center;
+  flex: 1 1 16rem;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.registration-card__domain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: rgba(46, 144, 250, 0.1);
+  border: 1px solid rgba(46, 144, 250, 0.25);
+  color: #53b1fd;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 500;
+}
+
+.registration-card__domain-badge b {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.registration-card__domain-hint {
+  color: var(--muted, #8592a3);
+  font-size: 0.8125rem;
+}
+
+.registration-card__regional-context {
+  flex-basis: 100%;
+  color: #bfdbfe;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.registration-card__passport {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid rgba(83, 177, 253, 0.22);
+  border-radius: 0.5rem;
+  background: rgba(46, 144, 250, 0.06);
+}
+
+.registration-card__passport > strong {
+  color: #bfdbfe;
+  font-size: 0.78rem;
+}
+
+.registration-card__passport > span {
+  display: inline-flex;
+  gap: 0.28rem;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.registration-card__passport small { color: var(--muted, #8592a3); }
+.registration-card__passport b { color: var(--ink, #f0f4f8); font-size: 0.78rem; overflow-wrap: anywhere; }
+.registration-card__passport a { margin-inline-start: auto; color: #53b1fd; font-size: 0.76rem; }
+
+.registration-card__body {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* 邀请码专属区域 */
+.registration-card__code-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+}
+
+.registration-card__code-section > * {
+  min-width: 0;
+}
+
+.registration-card__code-info {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.registration-card__code-label {
+  font-size: 0.8125rem;
+  color: var(--muted, #8592a3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.registration-card__code-value {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.08em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.registration-card__benefit {
+  font-size: 0.875rem;
+  color: #47cd89;
+  overflow-wrap: anywhere;
+}
+
+.registration-card__copy-btn {
+  background: var(--surface-2, #1d242d);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  min-height: 44px;
+  padding: 0.625rem 1.125rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.registration-card__copy-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.registration-card__copy-btn:focus-visible,
+.registration-card__primary-btn:focus-visible,
+.registration-card__research-actions a:focus-visible,
+.registration-card__mobile-route-details > summary:focus-visible,
+.registration-card__disclosure-details summary:focus-visible {
+  outline: 2px solid var(--blue-text, #53b1fd);
+  outline-offset: 3px;
+}
+
+.registration-card__copy-btn[data-copied="true"] {
+  background: #027a48;
+  border-color: #12b76a;
+  color: #fff;
+}
+
+/* 主操作按钮与注册链接 */
+
+.registration-card__mobile-route-details {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.registration-card__mobile-route-details > summary {
+  display: none;
+}
+
+.registration-card__mobile-route-body {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.registration-card__next-step {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid rgba(71, 205, 137, 0.18);
+  border-radius: 0.5rem;
+  background: rgba(18, 183, 106, 0.075);
+}
+
+.registration-card__next-step span {
+  color: #7dd3fc;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.registration-card__next-step b {
+  color: #d9f99d;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.registration-card__action-group {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.registration-card__state-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.registration-card__state-list p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.registration-card__state-list span {
+  color: var(--muted, #98a2b3);
+  font-size: 0.8125rem;
+}
+
+.registration-card__state-list b {
+  color: #e4e7ec;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  text-align: end;
+  overflow-wrap: anywhere;
+}
+
+.registration-card__preflight {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid rgba(71, 205, 137, 0.18);
+  border-radius: 0.5rem;
+  background: rgba(18, 183, 106, 0.065);
+}
+
+.registration-card__preflight strong {
+  color: #a6f4c5;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.registration-card__preflight span {
+  color: #d0d5dd;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.registration-card__primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 0;
+  max-width: 100%;
+  background: var(--cobalt, #1570ef);
+  color: #fff !important;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  min-height: 44px;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
+  text-align: center;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.registration-card__primary-btn:hover {
+  background: #175cd3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(21, 112, 239, 0.35);
+}
+
+.registration-card__primary-btn--official {
+  background: rgba(15, 23, 42, 0.86);
+  border-color: rgba(83, 177, 253, 0.4);
+  color: #bfdbfe !important;
+  box-shadow: none;
+}
+
+.registration-card__primary-btn--official:hover {
+  background: rgba(30, 41, 59, 0.92);
+  box-shadow: 0 4px 12px rgba(83, 177, 253, 0.16);
+}
+
+.registration-card__primary-btn--disabled {
+  cursor: not-allowed;
+  background: rgba(148, 163, 184, 0.16);
+  color: var(--muted, #98a2b3) !important;
+  box-shadow: none;
+}
+
+.registration-card__primary-btn--disabled:hover {
+  background: rgba(148, 163, 184, 0.16);
+  transform: none;
+  box-shadow: none;
+}
+
+.registration-card__url-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--muted, #8592a3);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.registration-card__url-text {
+  color: var(--muted, #98a2b3);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.registration-card__research-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.625rem;
+}
+
+.registration-card__research-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+  color: #d0d5dd;
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.registration-card__research-actions a:hover {
+  border-color: rgba(83, 177, 253, 0.42);
+  color: #fff;
+}
+
+/* 透明披露声明 */
+.registration-card__disclosure {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--muted, #667085);
+  border-top: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+  padding-top: 0.875rem;
+  margin: 0;
+}
+
+.registration-card__disclosure b {
+  color: var(--ink, #d0d5dd);
+  font-weight: 600;
+}
+
+.registration-card__disclosure > span { margin-inline-start: 0.25rem; }
+.registration-card__disclosure-details { margin-top: 0.45rem; }
+.registration-card__disclosure-details summary {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  color: var(--blue-text, #53b1fd);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.registration-card__disclosure-details p { margin: 0.4rem 0 0; }
+
+/* The detail-page handoff repeats the hero's domain and full URL. Keep this
+   lower decision point compact while preserving the code, disclosure, and CTA. */
+.registration-card--compact {
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.registration-card--compact .registration-card__head {
+  padding-bottom: 0.75rem;
+}
+
+.registration-card--compact .registration-card__head > small.registration-card__domain-hint {
+  display: none;
+}
+
+.registration-card--compact .registration-card__body {
+  gap: 0.75rem;
+}
+
+.registration-card--compact .registration-card__code-section {
+  padding: 0.75rem 1rem;
+}
+
+.registration-card--compact .registration-card__url-row {
+  display: none;
+}
+
+.registration-card--compact .registration-card__research-actions {
+  grid-template-columns: 1fr;
+}
+
+.registration-card--compact .registration-card__disclosure {
+  padding-top: 0.625rem;
+}
+
+@media (max-width: 640px) {
+  .registration-card__passport {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 0.55rem;
+  }
+
+  .registration-card__passport > strong,
+  .registration-card__passport > a { grid-column: 1 / -1; }
+  .registration-card__passport > a { margin-inline-start: 0; }
+  .registration-card__state-list p {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .registration-card__state-list b {
+    text-align: start;
+  }
+
+  .registration-card__research-actions {
+    grid-template-columns: 1fr;
+  }
+
+
+}
+
+
+/* Progressive disclosure applies to compact cards at every viewport width. */
+.registration-card--compact .registration-card__mobile-route-details {
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.registration-card--compact .registration-card__mobile-route-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding: 0.7rem 0.85rem;
+  color: #dbeafe;
+  cursor: pointer;
+  list-style: none;
+}
+
+.registration-card--compact .registration-card__mobile-route-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.registration-card__mobile-route-summary span {
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.registration-card__mobile-route-summary strong {
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+
+.registration-card__mobile-route-summary small {
+  color: var(--muted, #98a2b3);
+  font-size: 0.76rem;
+  overflow-wrap: anywhere;
+}
+
+.registration-card--compact .registration-card__mobile-route-details:not([open]) .registration-card__mobile-route-body {
+  display: none;
+}
+
+.registration-card--compact .registration-card__mobile-route-details[open] .registration-card__mobile-route-body {
+  padding: 0 0.75rem 0.75rem;
+}
+
+.registration-card--compact .registration-card__mobile-route-summary:focus-visible {
+  outline: 2px solid var(--primary, #60a5fa);
+  outline-offset: 2px;
+}
+
+/* R156: compact code and copy are one check row; full benefit and conditions remain visible. */
+.registration-card--compact .registration-card__code-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem 0.75rem;
+  padding: 0.65rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.registration-card--compact .registration-card__code-info { min-width: 0; }
+.registration-card--compact .registration-card__code-value { overflow-wrap: anywhere; }
+.registration-card--compact .registration-card__copy-btn {
+  min-height: 44px;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.registration-card--compact .registration-card__code-benefit {
+  grid-column: 1 / -1;
+}
+.registration-card--compact .registration-card__preflight {
+  padding: 0.5rem 0;
+  border: 0;
+  border-block-start: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0;
+  background: transparent;
+}
+
+.registration-card--compact .registration-card__code-info:only-child {
+  grid-column: 1 / -1;
+}
+
+/* R158: compact alignment keeps complete conditions and current text sizes. */
+.registration-card--compact,
+.registration-card--compact .registration-card__body,
+.registration-card--compact .registration-card__action-group { gap: 8px; }
+.registration-card--compact .registration-card__code-section { padding-block: 8px; }
+.registration-card--compact .registration-card__primary-btn {
+  padding: 12px;
+  min-height: 44px;
+}
+/* Remove the empty grid box only when the already-hidden domain is its only information. */
+.growth-direct-workbench .growth-selected-route .registration-card--compact .registration-card__head:not(:has(.registration-card__regional-context, .registration-card__passport)) {
+  display: contents;
+}
+
+/* R171: keep attributed codes intact; narrow profile cards give Copy its own row. */
+.v3-profile-main-registration .registration-card--compact {
+  container-type: inline-size;
+  container-name: profile-registration;
+}
+.v3-profile-main-registration .registration-card--compact .registration-card__code-value {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+@container profile-registration (max-width: 24rem) {
+  .v3-profile-main-registration .registration-card--compact .registration-card__code-section {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* R174: use the viewport for the queried card itself; keep domain text on its own row. */
+@media (max-width: 780px) {
+  .v3-profile-main-registration .registration-card--compact {
+    padding-inline: 12px;
+  }
+}
+@container profile-registration (max-width: 24rem) {
+  .v3-profile-main-registration .registration-card--compact .registration-card__domain-box {
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .v3-profile-main-registration .registration-card--compact .registration-card__domain-badge {
+    padding-inline: 0.375rem;
+  }
+}
+
+/* Home-only qualified identity: the complete code owns space; copy words no longer compete. */
+.registration-card--compact .registration-card__code-section--home-identity {
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 4px 8px;
+  padding-block: 4px;
+}
+.registration-card__code-section--home-identity .registration-card__code-info { gap: 2px; }
+.registration-card__code-section--home-identity .registration-card__copy-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  min-height: 44px;
+  padding: 0;
+}
+.registration-card__code-section--home-identity .registration-card__home-copy-label,
+.registration-card__code-section--home-identity .registration-card__home-copy-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.registration-card__code-section--home-identity[data-home-code-wide="true"] .registration-card__code-info { display: contents; }
+.registration-card__code-section--home-identity[data-home-code-wide="true"] .registration-card__code-label { grid-column: 1; grid-row: 1; }
+.registration-card__code-section--home-identity[data-home-code-wide="true"] .registration-card__copy-btn { grid-column: 2; grid-row: 1; }
+.registration-card__code-section--home-identity[data-home-code-wide="true"] .registration-card__code-value { grid-column: 1 / -1; grid-row: 2; }
+
+/* R306: truthful entry context follows the existing account reading axis. */
+.registration-card__entry-context {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  text-align: start;
+}
+.registration-card__entry-context .registration-card__code-info {
+  gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+}
+.registration-card__entry-context-title {
+  display: block;
+  color: var(--muted);
+  font-size: .75rem;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.registration-card__entry-context-body {
+  display: block;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  max-width: 100%;
+}

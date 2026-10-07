@@ -1,0 +1,34 @@
+{
+  "src/components/v3/VenueYellowPages.jsx": [
+    {
+      "before": "function getUi(locale) {",
+      "after": "const directorySearchCopy = {\n  \"en\": {\n    \"searchLabel\": \"Search platforms\",\n    \"searchPlaceholder\": \"Enter a platform or category\",\n    \"clearSearch\": \"Clear search\"\n  },\n  \"zh-Hans\": {\n    \"searchLabel\": \"搜索平台\",\n    \"searchPlaceholder\": \"输入平台名称或类型\",\n    \"clearSearch\": \"清除搜索\"\n  },\n  \"zh-Hant\": {\n    \"searchLabel\": \"搜尋平台\",\n    \"searchPlaceholder\": \"輸入平台名稱或類型\",\n    \"clearSearch\": \"清除搜尋\"\n  },\n  \"ja\": {\n    \"searchLabel\": \"プラットフォームを検索\",\n    \"searchPlaceholder\": \"プラットフォーム名または種類を入力\",\n    \"clearSearch\": \"検索をクリア\"\n  },\n  \"ko\": {\n    \"searchLabel\": \"플랫폼 검색\",\n    \"searchPlaceholder\": \"플랫폼 이름 또는 유형 입력\",\n    \"clearSearch\": \"검색 지우기\"\n  },\n  \"tr\": {\n    \"searchLabel\": \"Platform ara\",\n    \"searchPlaceholder\": \"Platform adı veya türü girin\",\n    \"clearSearch\": \"Aramayı temizle\"\n  },\n  \"ar\": {\n    \"searchLabel\": \"البحث عن منصة\",\n    \"searchPlaceholder\": \"أدخل اسم المنصة أو نوعها\",\n    \"clearSearch\": \"مسح البحث\"\n  },\n  \"es\": {\n    \"searchLabel\": \"Buscar plataformas\",\n    \"searchPlaceholder\": \"Introduce el nombre o tipo de plataforma\",\n    \"clearSearch\": \"Borrar búsqueda\"\n  },\n  \"pt-BR\": {\n    \"searchLabel\": \"Buscar plataformas\",\n    \"searchPlaceholder\": \"Digite o nome ou tipo de plataforma\",\n    \"clearSearch\": \"Limpar busca\"\n  },\n  \"fr\": {\n    \"searchLabel\": \"Rechercher une plateforme\",\n    \"searchPlaceholder\": \"Saisissez le nom ou le type de plateforme\",\n    \"clearSearch\": \"Effacer la recherche\"\n  },\n  \"de\": {\n    \"searchLabel\": \"Plattformen suchen\",\n    \"searchPlaceholder\": \"Plattformnamen oder Typ eingeben\",\n    \"clearSearch\": \"Suche löschen\"\n  },\n  \"ru\": {\n    \"searchLabel\": \"Поиск платформ\",\n    \"searchPlaceholder\": \"Введите название или тип платформы\",\n    \"clearSearch\": \"Очистить поиск\"\n  },\n  \"id\": {\n    \"searchLabel\": \"Cari platform\",\n    \"searchPlaceholder\": \"Masukkan nama atau jenis platform\",\n    \"clearSearch\": \"Hapus pencarian\"\n  },\n  \"vi\": {\n    \"searchLabel\": \"Tìm nền tảng\",\n    \"searchPlaceholder\": \"Nhập tên hoặc loại nền tảng\",\n    \"clearSearch\": \"Xóa tìm kiếm\"\n  },\n  \"it\": {\n    \"searchLabel\": \"Cerca piattaforme\",\n    \"searchPlaceholder\": \"Inserisci il nome o il tipo di piattaforma\",\n    \"clearSearch\": \"Cancella ricerca\"\n  }\n};\n\nfunction getUi(locale) {"
+    },
+    {
+      "before": "  const directoryCopyForLocale = directoryUiCopy[normalizedLocale] || directoryUiCopy.en;",
+      "after": "  const directoryCopyForLocale = directoryUiCopy[normalizedLocale] || directoryUiCopy.en;\n  const searchCopy = directorySearchCopy[normalizedLocale] || directorySearchCopy.en;"
+    },
+    {
+      "before": "return { ...uiText[\"zh-Hans\"], ...directoryCopyForLocale };",
+      "after": "return { ...uiText[\"zh-Hans\"], ...directoryCopyForLocale, ...searchCopy };"
+    },
+    {
+      "before": "return { ...uiText[\"zh-Hant\"], ...directoryCopyForLocale };",
+      "after": "return { ...uiText[\"zh-Hant\"], ...directoryCopyForLocale, ...searchCopy };"
+    },
+    {
+      "before": "      searchLabel: text.platformType || uiText.en.searchLabel,\n      searchPlaceholder: text.platformType || uiText.en.searchPlaceholder,",
+      "after": "      ...searchCopy,"
+    },
+    {
+      "before": "return { ...uiText.en, ...directoryCopyForLocale, sourceReviewed:",
+      "after": "return { ...uiText.en, ...directoryCopyForLocale, ...searchCopy, sourceReviewed:"
+    }
+  ],
+  "src/components/v3/venue-yellow-pages.css": [
+    {
+      "before": ".yellow-pages__search-clear {\n  position: absolute;\n  inset-inline-end: 0.35rem;\n  min-width: 2rem;\n  min-height: 2rem;",
+      "after": ".yellow-pages__search-clear {\n  position: absolute;\n  inset-inline-end: 0.35rem;\n  min-width: 44px;\n  min-height: 44px;"
+    }
+  ]
+}

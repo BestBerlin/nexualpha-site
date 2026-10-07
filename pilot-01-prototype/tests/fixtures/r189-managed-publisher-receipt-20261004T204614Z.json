@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "runId": "20261004T204614Z",
+  "startedAt": "2026-10-04T20:46:14.185Z",
+  "batchDir": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/staging/2026-10-05/20261005T0435",
+  "status": "PUBLISHED_AND_VERIFIED",
+  "preflight": {
+    "publishReady": true,
+    "mode": "PUBLISH_READY",
+    "reasons": []
+  },
+  "validation": {
+    "packageCount": 5,
+    "validCount": 5,
+    "invalidCount": 0
+  },
+  "reviewedPublication": {
+    "articleCount": 312,
+    "authoritySha256": "85e367576923edd5aadaed25a5c7396eaf845f8f0540e8667d9da950603a4f9f",
+    "searchBudget": 312,
+    "sha256": "a0a90f4f18cd632413110c06f4baa95fe6f5887b451eb0f9c0ef499ddd650ed9",
+    "source": "/content/search-publication-report.json",
+    "unreviewedBatchPolicy": "readable-noindex-until-reviewed-website-release",
+    "effectiveArticleCount": 312,
+    "unreviewedBatchCount": 5
+  },
+  "homepageBefore": {
+    "sha256": "d8fab98f962a2a522ef8bc07583ebac206091b6bb267b0ff4fdd14ed3fab0dfb",
+    "status": 200
+  },
+  "sitemapBefore": {
+    "status": 200,
+    "urlCount": 861,
+    "uniqueUrlCount": 861,
+    "sha256": "1281f0dcb68002aa24a07b00db3f25dc478a04683132c7b6ff9354ca865601ef"
+  },
+  "publicBaseline": {
+    "feedArticleCount": 411,
+    "feedSha256": "a44fa0003ea632242e697033c1f3de2ac5b42d1183466ef78c6decd4a910d8cd",
+    "sitemapUrlCount": 861,
+    "llmsSha256": "7b9aee85779e866345856b260d9764ba038cb266d6834dea2b93e2cd762f98de"
+  },
+  "generated": {
+    "articleCount": 416,
+    "batchId": "20261005T0435",
+    "sitemapUrlCount": 861,
+    "sitemapUniqueUrlCount": 861,
+    "sitemapBaselineEntriesRestored": 0,
+    "sitemapUnreviewedBaselineUrlsExcluded": 0,
+    "feedSha256": "961e10b507cb6a5c59507593ac3e6026b5dd62eb4be0f96a7446cfb9ba19125e"
+  },
+  "installTargets": {
+    "local": [
+      "/Users/bestberlin/Documents/ChatGPT/Crypto聚合/pilot-01-prototype/public",
+      "/Users/bestberlin/Documents/ChatGPT/nexuAlpha-deploy/client"
+    ],
+    "remote": [
+      "/data/wwwroot/nexualpha.com",
+      "/data/wwwroot/nexualpha-growth-3.0-20261004T-R118-R110-VISUAL"
+    ],
+    "localFingerprintsBefore": {
+      "websitePublic": "a44fa0003ea632242e697033c1f3de2ac5b42d1183466ef78c6decd4a910d8cd",
+      "deployClient": "a44fa0003ea632242e697033c1f3de2ac5b42d1183466ef78c6decd4a910d8cd"
+    }
+  },
+  "backups": {
+    "local": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/state/publish-backups/20261004T204614Z",
+    "remote": "/data/backups/nexualpha/content-prepublish-20261004T204614Z.tgz",
+    "localSnapshots": [
+      {
+        "root": "/Users/bestberlin/Documents/ChatGPT/Crypto聚合/pilot-01-prototype/public",
+        "backup": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/state/publish-backups/20261004T204614Z/0",
+        "missing": []
+      },
+      {
+        "root": "/Users/bestberlin/Documents/ChatGPT/nexuAlpha-deploy/client",
+        "backup": "/Users/bestberlin/Documents/AEO Crypto Factory/deployment/nexualpha-content-engine/state/publish-backups/20261004T204614Z/1",
+        "missing": []
+      }
+    ]
+  },
+  "publicVerification": {
+    "articleCount": 5,
+    "sitemapStatus": 200,
+    "sitemapUrlCount": 861,
+    "sitemapUniqueUrlCount": 861,
+    "sitemapPreservedUrlCount": 861,
+    "homepageSha256": "d8fab98f962a2a522ef8bc07583ebac206091b6bb267b0ff4fdd14ed3fab0dfb",
+    "feedArticleCount": 416
+  },
+  "indexNow": {
+    "accepted": false,
+    "status": null,
+    "reason": "SKIPPED_UNREVIEWED",
+    "submittedUrlCount": 0,
+    "urls": []
+  },
+  "publicationStates": {
+    "readableArticleCount": 5,
+    "reviewedIndexableArticleCount": 0,
+    "readableUnreviewedArticleCount": 5
+  },
+  "completedAt": "2026-10-04T20:46:53.074Z"
+}

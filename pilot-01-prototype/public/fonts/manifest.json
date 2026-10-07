@@ -1,0 +1,393 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-09-01",
+  "provider": "Google Fonts CSS API (official)",
+  "files": [
+    {
+      "file": "latin-400-700.woff2",
+      "family": "Inter",
+      "weight": null,
+      "locales": [
+        "en",
+        "es",
+        "pt-BR",
+        "fr",
+        "de",
+        "tr",
+        "ru",
+        "id",
+        "vi",
+        "it"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&text=%20'()%2C-.%2F2%3A%3BABCDEFGHIKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz%C2%B7%C3%8A%C3%A0%C3%A1%C3%A3%C3%A4%C3%A7%C3%A8%C3%A9%C3%AA%C3%AC%C3%AD%C3%AE%C3%B1%C3%B3%C3%B5%C3%B6%C3%B9%C3%BA%C3%BC%C4%90%C4%91%C4%9F%C4%B0%C4%B1%C5%9E%C5%9F%C6%B0%D0%91%D0%92%D0%93%D0%94%D0%98%D0%99%D0%9B%D0%9D%D0%9E%D0%9F%D0%A0%D0%A1%D0%A2%D0%AB%D0%B0%D0%B1%D0%B2%D0%B3%D0%B4%D0%B5%D0%B6%D0%B7%D0%B8%D0%B9%D0%BA%D0%BB%D0%BC%D0%BD%D0%BE%D0%BF%D1%80%D1%81%D1%82%D1%83%D1%84%D1%86%D1%87%D1%88%D1%8B%D1%8C%D1%8E%D1%8F%D1%91%E1%BA%A1%E1%BA%A3%E1%BA%A5%E1%BA%A7%E1%BA%AD%E1%BA%AF%E1%BA%B5%E1%BA%B7%E1%BA%BE%E1%BA%BF%E1%BB%81%E1%BB%83%E1%BB%87%E1%BB%8B%E1%BB%91%E1%BB%93%E1%BB%95%E1%BB%99%E1%BB%9A%E1%BB%9D%E1%BB%9F%E1%BB%A3%E1%BB%A9%E1%BB%AF%E1%BB%B1",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=UcCo3FwrK3iLTfvgaQE783qgHb5TAlom_5zRQ3wK3pZW_DGaVtAIxvnN1aCEKGPeTdIceD5m6khMG5FcZ0ZoHYKr3KYX52BT7nWDNKx1DyfUcOlG-OpPYP2Ah6k4gUvl7taBSZpvehQf37g2OYKa05QhVXSJI4id15f60KEAVGtEG63WjGvUMyMc2jNMC7yagAsnYIrax2EE-fI9y4iQjssiDe3lqYwkAKaeYOJNFpAhMgDimL4y2QM_zXS5iC3901Ugco5rHwkr24DC6QBW0hUTRRj7kLndMFNspXEIw_h6jHZNyRRsmKpBSR3tTFT2HRhwYX4hG5ZT_rnva_1MNJ0qisvJNBhhURfhy_FLvTuqLN3mOxLrNGcfnERfUKzKmc5ymNlrHomF-A&skey=c491285d6722e4fa&v=v20",
+      "sourceSha256": "be8f7625cbb472410f8681da028e3f8ce7f44cfeaaa387d1caef61ea9c9a1717",
+      "outputSha256": "be8f7625cbb472410f8681da028e3f8ce7f44cfeaaa387d1caef61ea9c9a1717",
+      "bytes": 42784,
+      "unicodeRange": "U+20, U+27-29, U+2c-2f, U+32, U+3a-3b, U+41-49, U+4b-5a, U+61-7a, U+b7, U+ca, U+e0-e1, U+e3-e4, U+e7-ea, U+ec-ee, U+f1, U+f3, U+f5-f6, U+f9-fa, U+fc, U+110-111, U+11f, U+130-131, U+15e-15f, U+1b0, U+411-414, U+418-419, U+41b, U+41d-422, U+42b, U+430-444, U+446-448, U+44b-44c, U+44e-44f, U+451, U+1ea1, U+1ea3, U+1ea5, U+1ea7, U+1ead, U+1eaf, U+1eb5, U+1eb7, U+1ebe-1ebf, U+1ec1, U+1ec3, U+1ec7, U+1ecb, U+1ed1, U+1ed3, U+1ed5, U+1ed9-1eda, U+1edd, U+1edf, U+1ee3, U+1ee9, U+1eef, U+1ef1"
+    },
+    {
+      "file": "zh-Hans-400.woff2",
+      "family": "Noto Sans SC",
+      "weight": 400,
+      "locales": [
+        "zh-Hans"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&text=%20-.%2F2%3A%3BACHIQUacdefghilmnopqrstuvwyz%C2%B7%E3%80%81%E3%80%82%E4%B8%8A%E4%B8%8B%E4%B8%AD%E4%B8%BA%E4%BA%A4%E4%BB%98%E4%BB%A3%E4%BB%A5%E4%BB%B6%E4%BB%B7%E4%BC%98%E4%BC%9A%E4%BD%93%E4%BD%9C%E4%BD%BF%E4%BF%A1%E5%80%BC%E5%86%B3%E5%8A%A8%E5%8C%96%E5%8C%BA%E5%8F%AA%E5%8F%AF%E5%8F%B0%E5%8F%B7%E5%90%88%E5%9C%A8%E5%9C%B0%E5%9C%BA%E5%A7%8B%E5%AE%98%E5%AE%B6%E5%AF%B9%E5%B7%B2%E5%B8%81%E5%B8%82%E5%B9%B3%E5%BC%80%E6%83%A0%E6%88%96%E6%89%80%E6%89%8D%E6%8A%8A%E6%8E%A5%E6%90%9C%E6%96%87%E6%96%B0%E6%96%B9%E6%98%8E%E6%98%93%E6%9C%80%E6%9C%89%E6%9D%A1%E6%9D%A5%E6%9F%A5%E6%A0%87%E6%A0%B8%E6%AC%BE%E6%AF%94%E6%B3%A8%E6%BA%90%E7%8B%AC%E7%94%A8%E7%9C%8B%E7%A0%94%E7%A1%AE%E7%A5%A8%E7%A9%B6%E7%AB%8B%E7%AD%96%E7%AE%80%E7%B4%A2%E7%BA%BF%E8%82%A1%E8%83%BD%E8%A1%8C%E8%AF%81%E8%AF%B4%E8%AF%B7%E8%AF%B8%E8%BD%AC%E8%BE%83%E9%80%82%E9%93%BE%E9%AA%8C%EF%BC%8C",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=k3kXo84MPvpLmixcA63oeALhLIiP-Q_MX666Njmpj7ZcKbebtSEckVQISiyNPK09TQF6yi1CpBtnedDwI1r3OPTQYZKdPiWjU-RXCp0rzZa4A0zbeU0BOg61u2rkgKdzWDH637YcAWzB3uJe4LdqKeSG_ErRwSw-0Js5Bt1jGT7XKnCKhSw0Qp-W5CZT3yyNXw8T3wqDO3ifatGzjwvPYxvv2tIAl4p216panUboz_2P9oB_bGj6Pz0ap7hcxd7KL5eDyWwJCor3At7nhBOWqkW-7iTe9oO9kKZ6QtfNizk0-p3vdJKc82BEdwCuFjQFOtwS_pvUPh1N1JQJuoxGnkiFrWDnH4oEh08djBWUSdeZswQUY5fGjNFJC-Trs_CmIn7x4zXGaSDzDggtlGtNfZgomP_UKQL-zwePM1gGkQPLRsQioGPO&skey=cf0bb10b5602fdc3&v=v40",
+      "sourceSha256": "fbb0aa7d1023e0dc2b6d1ab6a2ad750fc3842a18953aa53a2ed7a67dbd281a2e",
+      "outputSha256": "fbb0aa7d1023e0dc2b6d1ab6a2ad750fc3842a18953aa53a2ed7a67dbd281a2e",
+      "bytes": 32608,
+      "unicodeRange": "U+20, U+2d-2f, U+32, U+3a-3b, U+41, U+43, U+48-49, U+51, U+55, U+61, U+63-69, U+6c-77, U+79-7a, U+b7, U+3001-3002, U+4e0a-4e0b, U+4e2d, U+4e3a, U+4ea4, U+4ed8, U+4ee3, U+4ee5, U+4ef6-4ef7, U+4f18, U+4f1a, U+4f53, U+4f5c, U+4f7f, U+4fe1, U+503c, U+51b3, U+52a8, U+5316, U+533a, U+53ea, U+53ef-53f0, U+53f7, U+5408, U+5728, U+5730, U+573a, U+59cb, U+5b98, U+5bb6, U+5bf9, U+5df2, U+5e01-5e02, U+5e73, U+5f00, U+60e0, U+6216, U+6240, U+624d, U+628a, U+63a5, U+641c, U+6587, U+65b0, U+65b9, U+660e, U+6613, U+6700, U+6709, U+6761, U+6765, U+67e5, U+6807, U+6838, U+6b3e, U+6bd4, U+6ce8, U+6e90, U+72ec, U+7528, U+770b, U+7814, U+786e, U+7968, U+7a76, U+7acb, U+7b56, U+7b80, U+7d22, U+7ebf, U+80a1, U+80fd, U+884c, U+8bc1, U+8bf4, U+8bf7-8bf8, U+8f6c, U+8f83, U+9002, U+94fe, U+9a8c, U+ff0c"
+    },
+    {
+      "file": "zh-Hans-500.woff2",
+      "family": "Noto Sans SC",
+      "weight": 500,
+      "locales": [
+        "zh-Hans"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&text=%20-.%2F2%3A%3BACHIQUacdefghilmnopqrstuvwyz%C2%B7%E3%80%81%E3%80%82%E4%B8%8A%E4%B8%8B%E4%B8%AD%E4%B8%BA%E4%BA%A4%E4%BB%98%E4%BB%A3%E4%BB%A5%E4%BB%B6%E4%BB%B7%E4%BC%98%E4%BC%9A%E4%BD%93%E4%BD%9C%E4%BD%BF%E4%BF%A1%E5%80%BC%E5%86%B3%E5%8A%A8%E5%8C%96%E5%8C%BA%E5%8F%AA%E5%8F%AF%E5%8F%B0%E5%8F%B7%E5%90%88%E5%9C%A8%E5%9C%B0%E5%9C%BA%E5%A7%8B%E5%AE%98%E5%AE%B6%E5%AF%B9%E5%B7%B2%E5%B8%81%E5%B8%82%E5%B9%B3%E5%BC%80%E6%83%A0%E6%88%96%E6%89%80%E6%89%8D%E6%8A%8A%E6%8E%A5%E6%90%9C%E6%96%87%E6%96%B0%E6%96%B9%E6%98%8E%E6%98%93%E6%9C%80%E6%9C%89%E6%9D%A1%E6%9D%A5%E6%9F%A5%E6%A0%87%E6%A0%B8%E6%AC%BE%E6%AF%94%E6%B3%A8%E6%BA%90%E7%8B%AC%E7%94%A8%E7%9C%8B%E7%A0%94%E7%A1%AE%E7%A5%A8%E7%A9%B6%E7%AB%8B%E7%AD%96%E7%AE%80%E7%B4%A2%E7%BA%BF%E8%82%A1%E8%83%BD%E8%A1%8C%E8%AF%81%E8%AF%B4%E8%AF%B7%E8%AF%B8%E8%BD%AC%E8%BE%83%E9%80%82%E9%93%BE%E9%AA%8C%EF%BC%8C",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=k3kXo84MPvpLmixcA63oeALhLIiP-Q_MX666Njmpj7ZcKbebtSEckVQISiyNPK09TQF6yi1CpBtnedDwI1r3OPTQYZKdPiWjU-RXCp0rzZa4A0zbeU0BOg61u2rkgKdzWDH637YcAWzB3uJe4LdqKeSG_ErRwSw-0Js5Bt1jGT7XKnCKhSw0Qp-W5CZT3yyNXw8T3wqDO3ifatGzjwvPYxvv2tIAl4p216panUboz_2P9oB_bGj6Pz0ap7hcxd7KL5eDyWwJCor3At7nhBOWqkW-7iTe9oO9kKZ6QtfNizk0-p3vdJKc82BEdwCuFjQFOtwS_pvUPh1N1JQJuoxGnkiFrWDnH4oEh08djBWUSdeZswQUY5fGjNFJC-Trs_CmIn7x4zXGaSDzDggtlGtNfZgomP_UKQL-zwePM1gGkQPLRsQioGPO&skey=cf0bb10b5602fdc3&v=v40",
+      "sourceSha256": "fbb0aa7d1023e0dc2b6d1ab6a2ad750fc3842a18953aa53a2ed7a67dbd281a2e",
+      "outputSha256": "fbb0aa7d1023e0dc2b6d1ab6a2ad750fc3842a18953aa53a2ed7a67dbd281a2e",
+      "bytes": 32608,
+      "unicodeRange": "U+20, U+2d-2f, U+32, U+3a-3b, U+41, U+43, U+48-49, U+51, U+55, U+61, U+63-69, U+6c-77, U+79-7a, U+b7, U+3001-3002, U+4e0a-4e0b, U+4e2d, U+4e3a, U+4ea4, U+4ed8, U+4ee3, U+4ee5, U+4ef6-4ef7, U+4f18, U+4f1a, U+4f53, U+4f5c, U+4f7f, U+4fe1, U+503c, U+51b3, U+52a8, U+5316, U+533a, U+53ea, U+53ef-53f0, U+53f7, U+5408, U+5728, U+5730, U+573a, U+59cb, U+5b98, U+5bb6, U+5bf9, U+5df2, U+5e01-5e02, U+5e73, U+5f00, U+60e0, U+6216, U+6240, U+624d, U+628a, U+63a5, U+641c, U+6587, U+65b0, U+65b9, U+660e, U+6613, U+6700, U+6709, U+6761, U+6765, U+67e5, U+6807, U+6838, U+6b3e, U+6bd4, U+6ce8, U+6e90, U+72ec, U+7528, U+770b, U+7814, U+786e, U+7968, U+7a76, U+7acb, U+7b56, U+7b80, U+7d22, U+7ebf, U+80a1, U+80fd, U+884c, U+8bc1, U+8bf4, U+8bf7-8bf8, U+8f6c, U+8f83, U+9002, U+94fe, U+9a8c, U+ff0c"
+    },
+    {
+      "file": "zh-Hans-600.woff2",
+      "family": "Noto Sans SC",
+      "weight": 600,
+      "locales": [
+        "zh-Hans"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&text=%20-.%2F2%3A%3BACHIQUacdefghilmnopqrstuvwyz%C2%B7%E3%80%81%E3%80%82%E4%B8%8A%E4%B8%8B%E4%B8%AD%E4%B8%BA%E4%BA%A4%E4%BB%98%E4%BB%A3%E4%BB%A5%E4%BB%B6%E4%BB%B7%E4%BC%98%E4%BC%9A%E4%BD%93%E4%BD%9C%E4%BD%BF%E4%BF%A1%E5%80%BC%E5%86%B3%E5%8A%A8%E5%8C%96%E5%8C%BA%E5%8F%AA%E5%8F%AF%E5%8F%B0%E5%8F%B7%E5%90%88%E5%9C%A8%E5%9C%B0%E5%9C%BA%E5%A7%8B%E5%AE%98%E5%AE%B6%E5%AF%B9%E5%B7%B2%E5%B8%81%E5%B8%82%E5%B9%B3%E5%BC%80%E6%83%A0%E6%88%96%E6%89%80%E6%89%8D%E6%8A%8A%E6%8E%A5%E6%90%9C%E6%96%87%E6%96%B0%E6%96%B9%E6%98%8E%E6%98%93%E6%9C%80%E6%9C%89%E6%9D%A1%E6%9D%A5%E6%9F%A5%E6%A0%87%E6%A0%B8%E6%AC%BE%E6%AF%94%E6%B3%A8%E6%BA%90%E7%8B%AC%E7%94%A8%E7%9C%8B%E7%A0%94%E7%A1%AE%E7%A5%A8%E7%A9%B6%E7%AB%8B%E7%AD%96%E7%AE%80%E7%B4%A2%E7%BA%BF%E8%82%A1%E8%83%BD%E8%A1%8C%E8%AF%81%E8%AF%B4%E8%AF%B7%E8%AF%B8%E8%BD%AC%E8%BE%83%E9%80%82%E9%93%BE%E9%AA%8C%EF%BC%8C",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=k3kXo84MPvpLmixcA63oeALhLIiP-Q_MX666Njmpj7ZcKbebtSEckVQISiyNPK09TQF6yi1CpBtnedDwI1r3OPTQYZKdPiWjU-RXCp0rzZa4A0zbeU0BOg61u2rkgKdzWDH637YcAWzB3uJe4LdqKeSG_ErRwSw-0Js5Bt1jGT7XKnCKhSw0Qp-W5CZT3yyNXw8T3wqDO3ifatGzjwvPYxvv2tIAl4p216panUboz_2P9oB_bGj6Pz0ap7hcxd7KL5eDyWwJCor3At7nhBOWqkW-7iTe9oO9kKZ6QtfNizk0-p3vdJKc82BEdwCuFjQFOtwS_pvUPh1N1JQJuoxGnkiFrWDnH4oEh08djBWUSdeZswQUY5fGjNFJC-Trs_CmIn7x4zXGaSDzDggtlGtNfZgomP_UKQL-zwePM1gGkQPLRsQioGPO&skey=cf0bb10b5602fdc3&v=v40",
+      "sourceSha256": "fbb0aa7d1023e0dc2b6d1ab6a2ad750fc3842a18953aa53a2ed7a67dbd281a2e",
+      "outputSha256": "fbb0aa7d1023e0dc2b6d1ab6a2ad750fc3842a18953aa53a2ed7a67dbd281a2e",
+      "bytes": 32608,
+      "unicodeRange": "U+20, U+2d-2f, U+32, U+3a-3b, U+41, U+43, U+48-49, U+51, U+55, U+61, U+63-69, U+6c-77, U+79-7a, U+b7, U+3001-3002, U+4e0a-4e0b, U+4e2d, U+4e3a, U+4ea4, U+4ed8, U+4ee3, U+4ee5, U+4ef6-4ef7, U+4f18, U+4f1a, U+4f53, U+4f5c, U+4f7f, U+4fe1, U+503c, U+51b3, U+52a8, U+5316, U+533a, U+53ea, U+53ef-53f0, U+53f7, U+5408, U+5728, U+5730, U+573a, U+59cb, U+5b98, U+5bb6, U+5bf9, U+5df2, U+5e01-5e02, U+5e73, U+5f00, U+60e0, U+6216, U+6240, U+624d, U+628a, U+63a5, U+641c, U+6587, U+65b0, U+65b9, U+660e, U+6613, U+6700, U+6709, U+6761, U+6765, U+67e5, U+6807, U+6838, U+6b3e, U+6bd4, U+6ce8, U+6e90, U+72ec, U+7528, U+770b, U+7814, U+786e, U+7968, U+7a76, U+7acb, U+7b56, U+7b80, U+7d22, U+7ebf, U+80a1, U+80fd, U+884c, U+8bc1, U+8bf4, U+8bf7-8bf8, U+8f6c, U+8f83, U+9002, U+94fe, U+9a8c, U+ff0c"
+    },
+    {
+      "file": "zh-Hans-700.woff2",
+      "family": "Noto Sans SC",
+      "weight": 700,
+      "locales": [
+        "zh-Hans"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&text=%20-.%2F2%3A%3BACHIQUacdefghilmnopqrstuvwyz%C2%B7%E3%80%81%E3%80%82%E4%B8%8A%E4%B8%8B%E4%B8%AD%E4%B8%BA%E4%BA%A4%E4%BB%98%E4%BB%A3%E4%BB%A5%E4%BB%B6%E4%BB%B7%E4%BC%98%E4%BC%9A%E4%BD%93%E4%BD%9C%E4%BD%BF%E4%BF%A1%E5%80%BC%E5%86%B3%E5%8A%A8%E5%8C%96%E5%8C%BA%E5%8F%AA%E5%8F%AF%E5%8F%B0%E5%8F%B7%E5%90%88%E5%9C%A8%E5%9C%B0%E5%9C%BA%E5%A7%8B%E5%AE%98%E5%AE%B6%E5%AF%B9%E5%B7%B2%E5%B8%81%E5%B8%82%E5%B9%B3%E5%BC%80%E6%83%A0%E6%88%96%E6%89%80%E6%89%8D%E6%8A%8A%E6%8E%A5%E6%90%9C%E6%96%87%E6%96%B0%E6%96%B9%E6%98%8E%E6%98%93%E6%9C%80%E6%9C%89%E6%9D%A1%E6%9D%A5%E6%9F%A5%E6%A0%87%E6%A0%B8%E6%AC%BE%E6%AF%94%E6%B3%A8%E6%BA%90%E7%8B%AC%E7%94%A8%E7%9C%8B%E7%A0%94%E7%A1%AE%E7%A5%A8%E7%A9%B6%E7%AB%8B%E7%AD%96%E7%AE%80%E7%B4%A2%E7%BA%BF%E8%82%A1%E8%83%BD%E8%A1%8C%E8%AF%81%E8%AF%B4%E8%AF%B7%E8%AF%B8%E8%BD%AC%E8%BE%83%E9%80%82%E9%93%BE%E9%AA%8C%EF%BC%8C",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=k3kXo84MPvpLmixcA63oeALhLIiP-Q_MX666Njmpj7ZcKbebtSEckVQISiyNPK09TQF6yi1CpBtnedDwI1r3OPTQYZKdPiWjU-RXCp0rzZa4A0zbeU0BOg61u2rkgKdzWDH637YcAWzB3uJe4LdqKeSG_ErRwSw-0Js5Bt1jGT7XKnCKhSw0Qp-W5CZT3yyNXw8T3wqDO3ifatGzjwvPYxvv2tIAl4p216panUboz_2P9oB_bGj6Pz0ap7hcxd7KL5eDyWwJCor3At7nhBOWqkW-7iTe9oO9kKZ6QtfNizk0-p3vdJKc82BEdwCuFjQFOtwS_pvUPh1N1JQJuoxGnkiFrWDnH4oEh08djBWUSdeZswQUY5fGjNFJC-Trs_CmIn7x4zXGaSDzDggtlGtNfZgomP_UKQL-zwePM1gGkQPLRsQioGPO&skey=cf0bb10b5602fdc3&v=v40",
+      "sourceSha256": "fbb0aa7d1023e0dc2b6d1ab6a2ad750fc3842a18953aa53a2ed7a67dbd281a2e",
+      "outputSha256": "fbb0aa7d1023e0dc2b6d1ab6a2ad750fc3842a18953aa53a2ed7a67dbd281a2e",
+      "bytes": 32608,
+      "unicodeRange": "U+20, U+2d-2f, U+32, U+3a-3b, U+41, U+43, U+48-49, U+51, U+55, U+61, U+63-69, U+6c-77, U+79-7a, U+b7, U+3001-3002, U+4e0a-4e0b, U+4e2d, U+4e3a, U+4ea4, U+4ed8, U+4ee3, U+4ee5, U+4ef6-4ef7, U+4f18, U+4f1a, U+4f53, U+4f5c, U+4f7f, U+4fe1, U+503c, U+51b3, U+52a8, U+5316, U+533a, U+53ea, U+53ef-53f0, U+53f7, U+5408, U+5728, U+5730, U+573a, U+59cb, U+5b98, U+5bb6, U+5bf9, U+5df2, U+5e01-5e02, U+5e73, U+5f00, U+60e0, U+6216, U+6240, U+624d, U+628a, U+63a5, U+641c, U+6587, U+65b0, U+65b9, U+660e, U+6613, U+6700, U+6709, U+6761, U+6765, U+67e5, U+6807, U+6838, U+6b3e, U+6bd4, U+6ce8, U+6e90, U+72ec, U+7528, U+770b, U+7814, U+786e, U+7968, U+7a76, U+7acb, U+7b56, U+7b80, U+7d22, U+7ebf, U+80a1, U+80fd, U+884c, U+8bc1, U+8bf4, U+8bf7-8bf8, U+8f6c, U+8f83, U+9002, U+94fe, U+9a8c, U+ff0c"
+    },
+    {
+      "file": "zh-Hant-400.woff2",
+      "family": "Noto Sans TC",
+      "weight": 400,
+      "locales": [
+        "zh-Hant"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&text=%20-.%2F2%3A%3BACHIQTUacdefghilmnopqrstuvwyz%C2%B7%E3%80%81%E3%80%82%E4%B8%8A%E4%B8%8B%E4%B8%AD%E4%BA%A4%E4%BB%98%E4%BB%A3%E4%BB%A5%E4%BB%B6%E4%BD%9C%E4%BD%BF%E4%BE%86%E5%80%BC%E5%83%B9%E5%84%AA%E5%8B%95%E5%8C%96%E5%8D%80%E5%8F%AA%E5%8F%AF%E5%8F%B0%E5%90%88%E5%9C%A8%E5%9C%B0%E5%A0%B4%E5%A7%8B%E5%AE%98%E5%AE%B6%E5%B0%8B%E5%B0%8D%E5%B7%B2%E5%B8%82%E5%B9%A3%E5%B9%B3%E6%83%A0%E6%88%96%E6%89%80%E6%89%8D%E6%8A%8A%E6%90%9C%E6%96%87%E6%96%B0%E6%96%B9%E6%98%8E%E6%98%93%E6%9C%80%E6%9C%83%E6%9C%89%E6%9F%A5%E6%A0%B8%E6%A2%9D%E6%A8%99%E6%AC%BE%E6%AF%94%E6%B1%BA%E6%BA%90%E7%82%BA%E7%8D%A8%E7%94%A8%E7%9C%8B%E7%A0%94%E7%A2%BA%E7%A4%BA%E7%A5%A8%E7%A9%B6%E7%AB%8B%E7%AD%96%E7%B5%90%E7%B7%9A%E7%B9%81%E8%82%A1%E8%83%BD%E8%99%9F%E8%A1%8C%E8%A8%8A%E8%AA%AA%E8%AB%8B%E8%AB%B8%E8%AD%89%E8%BC%83%E8%BD%89%E9%80%A3%E9%81%A9%E9%96%8B%E9%A9%97%E9%AB%94%EF%BC%8C",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=-nF7OG829Oofr2wohFbTp9iFOisNA_djedLTwkbe7hBf8y3-6YSf_V1_hju2L9HlxR7NuXad52kMvr3OJohRYPrg1IaXdMcGM6ozFYRPujbOVpr5j0XkxyZkAK3jVUfyJ9h8BFa_Oqle_aD1jKasLv3pcjApHR_OnYr-fWQwNyMxXfJxM8wafDTfs93q3afwC4ipjq83hfULC_paBZAmzqPdnqHiizJjtp1_nSibtt6Bs88UK3nyqqlDwjRYN5JAKk5M8gfgFbOXonn0OQTx9OU9fdULut9Y_rIij9mqTuHHL-tElQCb0c71_-irn74__Du0VdsISwNNV4PGoz3_h-TvUpZPjeH96UV6MknmTyyYAL4HZY_O9xSM2lMezGfjUHPWdAe6lcNlsIOZni8FMs4Wl-gtUlr0rdWYQDGSfUf1UtstAVdkvw&skey=3904269dc8bdd0a1&v=v39",
+      "sourceSha256": "22abd8c53892cae21d533ed40916ad4f65a270937e540e9b002ba1db04c179a2",
+      "outputSha256": "22abd8c53892cae21d533ed40916ad4f65a270937e540e9b002ba1db04c179a2",
+      "bytes": 36740,
+      "unicodeRange": "U+20, U+2d-2f, U+32, U+3a-3b, U+41, U+43, U+48-49, U+51, U+54-55, U+61, U+63-69, U+6c-77, U+79-7a, U+b7, U+3001-3002, U+4e0a-4e0b, U+4e2d, U+4ea4, U+4ed8, U+4ee3, U+4ee5, U+4ef6, U+4f5c, U+4f7f, U+4f86, U+503c, U+50f9, U+512a, U+52d5, U+5316, U+5340, U+53ea, U+53ef-53f0, U+5408, U+5728, U+5730, U+5834, U+59cb, U+5b98, U+5bb6, U+5c0b, U+5c0d, U+5df2, U+5e02, U+5e63, U+5e73, U+60e0, U+6216, U+6240, U+624d, U+628a, U+641c, U+6587, U+65b0, U+65b9, U+660e, U+6613, U+6700, U+6703, U+6709, U+67e5, U+6838, U+689d, U+6a19, U+6b3e, U+6bd4, U+6c7a, U+6e90, U+70ba, U+7368, U+7528, U+770b, U+7814, U+78ba, U+793a, U+7968, U+7a76, U+7acb, U+7b56, U+7d50, U+7dda, U+7e41, U+80a1, U+80fd, U+865f, U+884c, U+8a0a, U+8aaa, U+8acb, U+8af8, U+8b49, U+8f03, U+8f49, U+9023, U+9069, U+958b, U+9a57, U+9ad4, U+ff0c"
+    },
+    {
+      "file": "zh-Hant-500.woff2",
+      "family": "Noto Sans TC",
+      "weight": 500,
+      "locales": [
+        "zh-Hant"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&text=%20-.%2F2%3A%3BACHIQTUacdefghilmnopqrstuvwyz%C2%B7%E3%80%81%E3%80%82%E4%B8%8A%E4%B8%8B%E4%B8%AD%E4%BA%A4%E4%BB%98%E4%BB%A3%E4%BB%A5%E4%BB%B6%E4%BD%9C%E4%BD%BF%E4%BE%86%E5%80%BC%E5%83%B9%E5%84%AA%E5%8B%95%E5%8C%96%E5%8D%80%E5%8F%AA%E5%8F%AF%E5%8F%B0%E5%90%88%E5%9C%A8%E5%9C%B0%E5%A0%B4%E5%A7%8B%E5%AE%98%E5%AE%B6%E5%B0%8B%E5%B0%8D%E5%B7%B2%E5%B8%82%E5%B9%A3%E5%B9%B3%E6%83%A0%E6%88%96%E6%89%80%E6%89%8D%E6%8A%8A%E6%90%9C%E6%96%87%E6%96%B0%E6%96%B9%E6%98%8E%E6%98%93%E6%9C%80%E6%9C%83%E6%9C%89%E6%9F%A5%E6%A0%B8%E6%A2%9D%E6%A8%99%E6%AC%BE%E6%AF%94%E6%B1%BA%E6%BA%90%E7%82%BA%E7%8D%A8%E7%94%A8%E7%9C%8B%E7%A0%94%E7%A2%BA%E7%A4%BA%E7%A5%A8%E7%A9%B6%E7%AB%8B%E7%AD%96%E7%B5%90%E7%B7%9A%E7%B9%81%E8%82%A1%E8%83%BD%E8%99%9F%E8%A1%8C%E8%A8%8A%E8%AA%AA%E8%AB%8B%E8%AB%B8%E8%AD%89%E8%BC%83%E8%BD%89%E9%80%A3%E9%81%A9%E9%96%8B%E9%A9%97%E9%AB%94%EF%BC%8C",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=-nF7OG829Oofr2wohFbTp9iFOisNA_djedLTwkbe7hBf8y3-6YSf_V1_hju2L9HlxR7NuXad52kMvr3OJohRYPrg1IaXdMcGM6ozFYRPujbOVpr5j0XkxyZkAK3jVUfyJ9h8BFa_Oqle_aD1jKasLv3pcjApHR_OnYr-fWQwNyMxXfJxM8wafDTfs93q3afwC4ipjq83hfULC_paBZAmzqPdnqHiizJjtp1_nSibtt6Bs88UK3nyqqlDwjRYN5JAKk5M8gfgFbOXonn0OQTx9OU9fdULut9Y_rIij9mqTuHHL-tElQCb0c71_-irn74__Du0VdsISwNNV4PGoz3_h-TvUpZPjeH96UV6MknmTyyYAL4HZY_O9xSM2lMezGfjUHPWdAe6lcNlsIOZni8FMs4Wl-gtUlr0rdWYQDGSfUf1UtstAVdkvw&skey=3904269dc8bdd0a1&v=v39",
+      "sourceSha256": "22abd8c53892cae21d533ed40916ad4f65a270937e540e9b002ba1db04c179a2",
+      "outputSha256": "22abd8c53892cae21d533ed40916ad4f65a270937e540e9b002ba1db04c179a2",
+      "bytes": 36740,
+      "unicodeRange": "U+20, U+2d-2f, U+32, U+3a-3b, U+41, U+43, U+48-49, U+51, U+54-55, U+61, U+63-69, U+6c-77, U+79-7a, U+b7, U+3001-3002, U+4e0a-4e0b, U+4e2d, U+4ea4, U+4ed8, U+4ee3, U+4ee5, U+4ef6, U+4f5c, U+4f7f, U+4f86, U+503c, U+50f9, U+512a, U+52d5, U+5316, U+5340, U+53ea, U+53ef-53f0, U+5408, U+5728, U+5730, U+5834, U+59cb, U+5b98, U+5bb6, U+5c0b, U+5c0d, U+5df2, U+5e02, U+5e63, U+5e73, U+60e0, U+6216, U+6240, U+624d, U+628a, U+641c, U+6587, U+65b0, U+65b9, U+660e, U+6613, U+6700, U+6703, U+6709, U+67e5, U+6838, U+689d, U+6a19, U+6b3e, U+6bd4, U+6c7a, U+6e90, U+70ba, U+7368, U+7528, U+770b, U+7814, U+78ba, U+793a, U+7968, U+7a76, U+7acb, U+7b56, U+7d50, U+7dda, U+7e41, U+80a1, U+80fd, U+865f, U+884c, U+8a0a, U+8aaa, U+8acb, U+8af8, U+8b49, U+8f03, U+8f49, U+9023, U+9069, U+958b, U+9a57, U+9ad4, U+ff0c"
+    },
+    {
+      "file": "zh-Hant-600.woff2",
+      "family": "Noto Sans TC",
+      "weight": 600,
+      "locales": [
+        "zh-Hant"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&text=%20-.%2F2%3A%3BACHIQTUacdefghilmnopqrstuvwyz%C2%B7%E3%80%81%E3%80%82%E4%B8%8A%E4%B8%8B%E4%B8%AD%E4%BA%A4%E4%BB%98%E4%BB%A3%E4%BB%A5%E4%BB%B6%E4%BD%9C%E4%BD%BF%E4%BE%86%E5%80%BC%E5%83%B9%E5%84%AA%E5%8B%95%E5%8C%96%E5%8D%80%E5%8F%AA%E5%8F%AF%E5%8F%B0%E5%90%88%E5%9C%A8%E5%9C%B0%E5%A0%B4%E5%A7%8B%E5%AE%98%E5%AE%B6%E5%B0%8B%E5%B0%8D%E5%B7%B2%E5%B8%82%E5%B9%A3%E5%B9%B3%E6%83%A0%E6%88%96%E6%89%80%E6%89%8D%E6%8A%8A%E6%90%9C%E6%96%87%E6%96%B0%E6%96%B9%E6%98%8E%E6%98%93%E6%9C%80%E6%9C%83%E6%9C%89%E6%9F%A5%E6%A0%B8%E6%A2%9D%E6%A8%99%E6%AC%BE%E6%AF%94%E6%B1%BA%E6%BA%90%E7%82%BA%E7%8D%A8%E7%94%A8%E7%9C%8B%E7%A0%94%E7%A2%BA%E7%A4%BA%E7%A5%A8%E7%A9%B6%E7%AB%8B%E7%AD%96%E7%B5%90%E7%B7%9A%E7%B9%81%E8%82%A1%E8%83%BD%E8%99%9F%E8%A1%8C%E8%A8%8A%E8%AA%AA%E8%AB%8B%E8%AB%B8%E8%AD%89%E8%BC%83%E8%BD%89%E9%80%A3%E9%81%A9%E9%96%8B%E9%A9%97%E9%AB%94%EF%BC%8C",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=-nF7OG829Oofr2wohFbTp9iFOisNA_djedLTwkbe7hBf8y3-6YSf_V1_hju2L9HlxR7NuXad52kMvr3OJohRYPrg1IaXdMcGM6ozFYRPujbOVpr5j0XkxyZkAK3jVUfyJ9h8BFa_Oqle_aD1jKasLv3pcjApHR_OnYr-fWQwNyMxXfJxM8wafDTfs93q3afwC4ipjq83hfULC_paBZAmzqPdnqHiizJjtp1_nSibtt6Bs88UK3nyqqlDwjRYN5JAKk5M8gfgFbOXonn0OQTx9OU9fdULut9Y_rIij9mqTuHHL-tElQCb0c71_-irn74__Du0VdsISwNNV4PGoz3_h-TvUpZPjeH96UV6MknmTyyYAL4HZY_O9xSM2lMezGfjUHPWdAe6lcNlsIOZni8FMs4Wl-gtUlr0rdWYQDGSfUf1UtstAVdkvw&skey=3904269dc8bdd0a1&v=v39",
+      "sourceSha256": "22abd8c53892cae21d533ed40916ad4f65a270937e540e9b002ba1db04c179a2",
+      "outputSha256": "22abd8c53892cae21d533ed40916ad4f65a270937e540e9b002ba1db04c179a2",
+      "bytes": 36740,
+      "unicodeRange": "U+20, U+2d-2f, U+32, U+3a-3b, U+41, U+43, U+48-49, U+51, U+54-55, U+61, U+63-69, U+6c-77, U+79-7a, U+b7, U+3001-3002, U+4e0a-4e0b, U+4e2d, U+4ea4, U+4ed8, U+4ee3, U+4ee5, U+4ef6, U+4f5c, U+4f7f, U+4f86, U+503c, U+50f9, U+512a, U+52d5, U+5316, U+5340, U+53ea, U+53ef-53f0, U+5408, U+5728, U+5730, U+5834, U+59cb, U+5b98, U+5bb6, U+5c0b, U+5c0d, U+5df2, U+5e02, U+5e63, U+5e73, U+60e0, U+6216, U+6240, U+624d, U+628a, U+641c, U+6587, U+65b0, U+65b9, U+660e, U+6613, U+6700, U+6703, U+6709, U+67e5, U+6838, U+689d, U+6a19, U+6b3e, U+6bd4, U+6c7a, U+6e90, U+70ba, U+7368, U+7528, U+770b, U+7814, U+78ba, U+793a, U+7968, U+7a76, U+7acb, U+7b56, U+7d50, U+7dda, U+7e41, U+80a1, U+80fd, U+865f, U+884c, U+8a0a, U+8aaa, U+8acb, U+8af8, U+8b49, U+8f03, U+8f49, U+9023, U+9069, U+958b, U+9a57, U+9ad4, U+ff0c"
+    },
+    {
+      "file": "zh-Hant-700.woff2",
+      "family": "Noto Sans TC",
+      "weight": 700,
+      "locales": [
+        "zh-Hant"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&text=%20-.%2F2%3A%3BACHIQTUacdefghilmnopqrstuvwyz%C2%B7%E3%80%81%E3%80%82%E4%B8%8A%E4%B8%8B%E4%B8%AD%E4%BA%A4%E4%BB%98%E4%BB%A3%E4%BB%A5%E4%BB%B6%E4%BD%9C%E4%BD%BF%E4%BE%86%E5%80%BC%E5%83%B9%E5%84%AA%E5%8B%95%E5%8C%96%E5%8D%80%E5%8F%AA%E5%8F%AF%E5%8F%B0%E5%90%88%E5%9C%A8%E5%9C%B0%E5%A0%B4%E5%A7%8B%E5%AE%98%E5%AE%B6%E5%B0%8B%E5%B0%8D%E5%B7%B2%E5%B8%82%E5%B9%A3%E5%B9%B3%E6%83%A0%E6%88%96%E6%89%80%E6%89%8D%E6%8A%8A%E6%90%9C%E6%96%87%E6%96%B0%E6%96%B9%E6%98%8E%E6%98%93%E6%9C%80%E6%9C%83%E6%9C%89%E6%9F%A5%E6%A0%B8%E6%A2%9D%E6%A8%99%E6%AC%BE%E6%AF%94%E6%B1%BA%E6%BA%90%E7%82%BA%E7%8D%A8%E7%94%A8%E7%9C%8B%E7%A0%94%E7%A2%BA%E7%A4%BA%E7%A5%A8%E7%A9%B6%E7%AB%8B%E7%AD%96%E7%B5%90%E7%B7%9A%E7%B9%81%E8%82%A1%E8%83%BD%E8%99%9F%E8%A1%8C%E8%A8%8A%E8%AA%AA%E8%AB%8B%E8%AB%B8%E8%AD%89%E8%BC%83%E8%BD%89%E9%80%A3%E9%81%A9%E9%96%8B%E9%A9%97%E9%AB%94%EF%BC%8C",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=-nF7OG829Oofr2wohFbTp9iFOisNA_djedLTwkbe7hBf8y3-6YSf_V1_hju2L9HlxR7NuXad52kMvr3OJohRYPrg1IaXdMcGM6ozFYRPujbOVpr5j0XkxyZkAK3jVUfyJ9h8BFa_Oqle_aD1jKasLv3pcjApHR_OnYr-fWQwNyMxXfJxM8wafDTfs93q3afwC4ipjq83hfULC_paBZAmzqPdnqHiizJjtp1_nSibtt6Bs88UK3nyqqlDwjRYN5JAKk5M8gfgFbOXonn0OQTx9OU9fdULut9Y_rIij9mqTuHHL-tElQCb0c71_-irn74__Du0VdsISwNNV4PGoz3_h-TvUpZPjeH96UV6MknmTyyYAL4HZY_O9xSM2lMezGfjUHPWdAe6lcNlsIOZni8FMs4Wl-gtUlr0rdWYQDGSfUf1UtstAVdkvw&skey=3904269dc8bdd0a1&v=v39",
+      "sourceSha256": "22abd8c53892cae21d533ed40916ad4f65a270937e540e9b002ba1db04c179a2",
+      "outputSha256": "22abd8c53892cae21d533ed40916ad4f65a270937e540e9b002ba1db04c179a2",
+      "bytes": 36740,
+      "unicodeRange": "U+20, U+2d-2f, U+32, U+3a-3b, U+41, U+43, U+48-49, U+51, U+54-55, U+61, U+63-69, U+6c-77, U+79-7a, U+b7, U+3001-3002, U+4e0a-4e0b, U+4e2d, U+4ea4, U+4ed8, U+4ee3, U+4ee5, U+4ef6, U+4f5c, U+4f7f, U+4f86, U+503c, U+50f9, U+512a, U+52d5, U+5316, U+5340, U+53ea, U+53ef-53f0, U+5408, U+5728, U+5730, U+5834, U+59cb, U+5b98, U+5bb6, U+5c0b, U+5c0d, U+5df2, U+5e02, U+5e63, U+5e73, U+60e0, U+6216, U+6240, U+624d, U+628a, U+641c, U+6587, U+65b0, U+65b9, U+660e, U+6613, U+6700, U+6703, U+6709, U+67e5, U+6838, U+689d, U+6a19, U+6b3e, U+6bd4, U+6c7a, U+6e90, U+70ba, U+7368, U+7528, U+770b, U+7814, U+78ba, U+793a, U+7968, U+7a76, U+7acb, U+7b56, U+7d50, U+7dda, U+7e41, U+80a1, U+80fd, U+865f, U+884c, U+8a0a, U+8aaa, U+8acb, U+8af8, U+8b49, U+8f03, U+8f49, U+9023, U+9069, U+958b, U+9a57, U+9ad4, U+ff0c"
+    },
+    {
+      "file": "ja-400.woff2",
+      "family": "Noto Sans JP",
+      "weight": 400,
+      "locales": [
+        "ja"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&text=%20%2C-.%2F2%3A%3BAJQabcdefghijklmnopqrstuvwy%C2%B7%E3%80%81%E3%80%82%E3%81%97%E3%81%99%E3%81%9B%E3%81%9F%E3%81%A1%E3%81%A6%E3%81%AA%E3%81%AB%E3%81%AF%E3%81%B8%E3%81%BE%E3%81%BF%E3%82%81%E3%82%8B%E3%82%92%E3%82%A1%E3%82%AA%E3%82%AF%E3%82%B0%E3%82%B7%E3%82%B9%E3%82%BD%E3%83%88%E3%83%8A%E3%83%91%E3%83%95%E3%83%9D%E3%83%AA%E3%83%AB%E3%83%B3%E3%83%BC%E4%B8%8A%E4%BB%B6%E5%85%AC%E5%88%9D%E5%88%A9%E5%8B%95%E5%8F%96%E5%8F%AF%E5%9C%B0%E5%9F%9F%E5%A0%B1%E5%A0%B4%E5%A7%8B%E5%AE%9A%E5%AF%BE%E5%B8%82%E5%BC%8F%E5%BC%95%E5%BD%B9%E6%80%9D%E6%83%85%E6%84%8F%E6%89%80%E6%96%B0%E6%97%A5%E6%98%8E%E6%9C%80%E6%9C%AC%E6%9D%A1%E6%9F%BB%E6%A0%AA%E6%A4%9C%E6%AF%94%E6%B1%BA%E6%B8%88%E7%8B%AC%E7%94%A8%E7%A2%BA%E7%A4%BA%E7%A7%BB%E7%AB%8B%E7%B4%A2%E8%83%BD%E8%A1%8C%E8%A6%8B%E8%A6%8F%E8%A8%BC%E8%AA%8D%E8%AA%9E%E8%AA%BF%E8%B1%A1%E8%BC%83%E9%81%A9%E9%96%8B",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=-F62fjtqLzI2JPCgQBnw7HFowwII2ldXa-g1OPRO4KnI7fV16aH1AtoDI8AlSTZ7MAEgkgtRtbIYeskRx5_c6VnpthNBrco_TXwqWDBe-aEIn8S4DPI_3tpkoljvshtGoZZfpmzo4pwt_-0tm_xBAkR_UaNMxbh8h9zKXh8a_Qt5D1Va4rE-_cpJU7TCwLR8GN2COroJ8vJN1hJAeCIKRFusyQ10_7Z77-_TlwK-h-3XbCLiYixGNSWXiEEkD62FfjeuMuLzYA6rmCDfzfYd0jwjeh032Q2KF9kqgk4DT5aYvETCyMphhYgkdhuo2l1cUib6Ce8cnBtAD3WP5xttq-Jd1Unwziz8WsPs5KQVpvJD6HHOMg4VMobQ8iCCyucOhd22z1Yi-Z_HU1gK9FNEqdFDRL8Za4LqIIerFf0NP41jRyfWM0787VFh2_MMEp7VLt8JJcCv_Ve6mHywPtK5i56N0REh54AVco58KBnnkAo1tkgGRL7pg_XpVh54DX_Epd1jF3Pw&skey=72472b0eb8793570&v=v56",
+      "sourceSha256": "5fa4508492b68d1b1421bc6a82c1b9f4e7ff94b4dc23c509d2147db9ac792d07",
+      "outputSha256": "5fa4508492b68d1b1421bc6a82c1b9f4e7ff94b4dc23c509d2147db9ac792d07",
+      "bytes": 49556,
+      "unicodeRange": "U+20, U+2c-2f, U+32, U+3a-3b, U+41, U+4a, U+51, U+61-77, U+79, U+b7, U+3001-3002, U+3057-305c, U+305f-3062, U+3066-3067, U+306a-306b, U+306f-3071, U+3078-307a, U+307e-307f, U+3081, U+308b, U+3092, U+3099-309a, U+30a1, U+30aa, U+30af-30b0, U+30b7-30ba, U+30bd-30be, U+30c8-30ca, U+30cf-30d1, U+30d5-30d7, U+30db-30dd, U+30ea-30eb, U+30f3, U+30fc, U+4e0a, U+4ef6, U+516c, U+521d, U+5229, U+52d5, U+53d6, U+53ef, U+5730, U+57df, U+5831, U+5834, U+59cb, U+5b9a, U+5bfe, U+5e02, U+5f0f, U+5f15, U+5f79, U+601d, U+60c5, U+610f, U+6240, U+65b0, U+65e5, U+660e, U+6700, U+672c, U+6761, U+67fb, U+682a, U+691c, U+6bd4, U+6c7a, U+6e08, U+72ec, U+7528, U+78ba, U+793a, U+79fb, U+7acb, U+7d22, U+80fd, U+884c, U+898b, U+898f, U+8a3c, U+8a8d, U+8a9e, U+8abf, U+8c61, U+8f03, U+9069, U+958b"
+    },
+    {
+      "file": "ja-500.woff2",
+      "family": "Noto Sans JP",
+      "weight": 500,
+      "locales": [
+        "ja"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&text=%20%2C-.%2F2%3A%3BAJQabcdefghijklmnopqrstuvwy%C2%B7%E3%80%81%E3%80%82%E3%81%97%E3%81%99%E3%81%9B%E3%81%9F%E3%81%A1%E3%81%A6%E3%81%AA%E3%81%AB%E3%81%AF%E3%81%B8%E3%81%BE%E3%81%BF%E3%82%81%E3%82%8B%E3%82%92%E3%82%A1%E3%82%AA%E3%82%AF%E3%82%B0%E3%82%B7%E3%82%B9%E3%82%BD%E3%83%88%E3%83%8A%E3%83%91%E3%83%95%E3%83%9D%E3%83%AA%E3%83%AB%E3%83%B3%E3%83%BC%E4%B8%8A%E4%BB%B6%E5%85%AC%E5%88%9D%E5%88%A9%E5%8B%95%E5%8F%96%E5%8F%AF%E5%9C%B0%E5%9F%9F%E5%A0%B1%E5%A0%B4%E5%A7%8B%E5%AE%9A%E5%AF%BE%E5%B8%82%E5%BC%8F%E5%BC%95%E5%BD%B9%E6%80%9D%E6%83%85%E6%84%8F%E6%89%80%E6%96%B0%E6%97%A5%E6%98%8E%E6%9C%80%E6%9C%AC%E6%9D%A1%E6%9F%BB%E6%A0%AA%E6%A4%9C%E6%AF%94%E6%B1%BA%E6%B8%88%E7%8B%AC%E7%94%A8%E7%A2%BA%E7%A4%BA%E7%A7%BB%E7%AB%8B%E7%B4%A2%E8%83%BD%E8%A1%8C%E8%A6%8B%E8%A6%8F%E8%A8%BC%E8%AA%8D%E8%AA%9E%E8%AA%BF%E8%B1%A1%E8%BC%83%E9%81%A9%E9%96%8B",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=-F62fjtqLzI2JPCgQBnw7HFowwII2ldXa-g1OPRO4KnI7fV16aH1AtoDI8AlSTZ7MAEgkgtRtbIYeskRx5_c6VnpthNBrco_TXwqWDBe-aEIn8S4DPI_3tpkoljvshtGoZZfpmzo4pwt_-0tm_xBAkR_UaNMxbh8h9zKXh8a_Qt5D1Va4rE-_cpJU7TCwLR8GN2COroJ8vJN1hJAeCIKRFusyQ10_7Z77-_TlwK-h-3XbCLiYixGNSWXiEEkD62FfjeuMuLzYA6rmCDfzfYd0jwjeh032Q2KF9kqgk4DT5aYvETCyMphhYgkdhuo2l1cUib6Ce8cnBtAD3WP5xttq-Jd1Unwziz8WsPs5KQVpvJD6HHOMg4VMobQ8iCCyucOhd22z1Yi-Z_HU1gK9FNEqdFDRL8Za4LqIIerFf0NP41jRyfWM0787VFh2_MMEp7VLt8JJcCv_Ve6mHywPtK5i56N0REh54AVco58KBnnkAo1tkgGRL7pg_XpVh54DX_Epd1jF3Pw&skey=72472b0eb8793570&v=v56",
+      "sourceSha256": "5fa4508492b68d1b1421bc6a82c1b9f4e7ff94b4dc23c509d2147db9ac792d07",
+      "outputSha256": "5fa4508492b68d1b1421bc6a82c1b9f4e7ff94b4dc23c509d2147db9ac792d07",
+      "bytes": 49556,
+      "unicodeRange": "U+20, U+2c-2f, U+32, U+3a-3b, U+41, U+4a, U+51, U+61-77, U+79, U+b7, U+3001-3002, U+3057-305c, U+305f-3062, U+3066-3067, U+306a-306b, U+306f-3071, U+3078-307a, U+307e-307f, U+3081, U+308b, U+3092, U+3099-309a, U+30a1, U+30aa, U+30af-30b0, U+30b7-30ba, U+30bd-30be, U+30c8-30ca, U+30cf-30d1, U+30d5-30d7, U+30db-30dd, U+30ea-30eb, U+30f3, U+30fc, U+4e0a, U+4ef6, U+516c, U+521d, U+5229, U+52d5, U+53d6, U+53ef, U+5730, U+57df, U+5831, U+5834, U+59cb, U+5b9a, U+5bfe, U+5e02, U+5f0f, U+5f15, U+5f79, U+601d, U+60c5, U+610f, U+6240, U+65b0, U+65e5, U+660e, U+6700, U+672c, U+6761, U+67fb, U+682a, U+691c, U+6bd4, U+6c7a, U+6e08, U+72ec, U+7528, U+78ba, U+793a, U+79fb, U+7acb, U+7d22, U+80fd, U+884c, U+898b, U+898f, U+8a3c, U+8a8d, U+8a9e, U+8abf, U+8c61, U+8f03, U+9069, U+958b"
+    },
+    {
+      "file": "ja-600.woff2",
+      "family": "Noto Sans JP",
+      "weight": 600,
+      "locales": [
+        "ja"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&text=%20%2C-.%2F2%3A%3BAJQabcdefghijklmnopqrstuvwy%C2%B7%E3%80%81%E3%80%82%E3%81%97%E3%81%99%E3%81%9B%E3%81%9F%E3%81%A1%E3%81%A6%E3%81%AA%E3%81%AB%E3%81%AF%E3%81%B8%E3%81%BE%E3%81%BF%E3%82%81%E3%82%8B%E3%82%92%E3%82%A1%E3%82%AA%E3%82%AF%E3%82%B0%E3%82%B7%E3%82%B9%E3%82%BD%E3%83%88%E3%83%8A%E3%83%91%E3%83%95%E3%83%9D%E3%83%AA%E3%83%AB%E3%83%B3%E3%83%BC%E4%B8%8A%E4%BB%B6%E5%85%AC%E5%88%9D%E5%88%A9%E5%8B%95%E5%8F%96%E5%8F%AF%E5%9C%B0%E5%9F%9F%E5%A0%B1%E5%A0%B4%E5%A7%8B%E5%AE%9A%E5%AF%BE%E5%B8%82%E5%BC%8F%E5%BC%95%E5%BD%B9%E6%80%9D%E6%83%85%E6%84%8F%E6%89%80%E6%96%B0%E6%97%A5%E6%98%8E%E6%9C%80%E6%9C%AC%E6%9D%A1%E6%9F%BB%E6%A0%AA%E6%A4%9C%E6%AF%94%E6%B1%BA%E6%B8%88%E7%8B%AC%E7%94%A8%E7%A2%BA%E7%A4%BA%E7%A7%BB%E7%AB%8B%E7%B4%A2%E8%83%BD%E8%A1%8C%E8%A6%8B%E8%A6%8F%E8%A8%BC%E8%AA%8D%E8%AA%9E%E8%AA%BF%E8%B1%A1%E8%BC%83%E9%81%A9%E9%96%8B",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=-F62fjtqLzI2JPCgQBnw7HFowwII2ldXa-g1OPRO4KnI7fV16aH1AtoDI8AlSTZ7MAEgkgtRtbIYeskRx5_c6VnpthNBrco_TXwqWDBe-aEIn8S4DPI_3tpkoljvshtGoZZfpmzo4pwt_-0tm_xBAkR_UaNMxbh8h9zKXh8a_Qt5D1Va4rE-_cpJU7TCwLR8GN2COroJ8vJN1hJAeCIKRFusyQ10_7Z77-_TlwK-h-3XbCLiYixGNSWXiEEkD62FfjeuMuLzYA6rmCDfzfYd0jwjeh032Q2KF9kqgk4DT5aYvETCyMphhYgkdhuo2l1cUib6Ce8cnBtAD3WP5xttq-Jd1Unwziz8WsPs5KQVpvJD6HHOMg4VMobQ8iCCyucOhd22z1Yi-Z_HU1gK9FNEqdFDRL8Za4LqIIerFf0NP41jRyfWM0787VFh2_MMEp7VLt8JJcCv_Ve6mHywPtK5i56N0REh54AVco58KBnnkAo1tkgGRL7pg_XpVh54DX_Epd1jF3Pw&skey=72472b0eb8793570&v=v56",
+      "sourceSha256": "5fa4508492b68d1b1421bc6a82c1b9f4e7ff94b4dc23c509d2147db9ac792d07",
+      "outputSha256": "5fa4508492b68d1b1421bc6a82c1b9f4e7ff94b4dc23c509d2147db9ac792d07",
+      "bytes": 49556,
+      "unicodeRange": "U+20, U+2c-2f, U+32, U+3a-3b, U+41, U+4a, U+51, U+61-77, U+79, U+b7, U+3001-3002, U+3057-305c, U+305f-3062, U+3066-3067, U+306a-306b, U+306f-3071, U+3078-307a, U+307e-307f, U+3081, U+308b, U+3092, U+3099-309a, U+30a1, U+30aa, U+30af-30b0, U+30b7-30ba, U+30bd-30be, U+30c8-30ca, U+30cf-30d1, U+30d5-30d7, U+30db-30dd, U+30ea-30eb, U+30f3, U+30fc, U+4e0a, U+4ef6, U+516c, U+521d, U+5229, U+52d5, U+53d6, U+53ef, U+5730, U+57df, U+5831, U+5834, U+59cb, U+5b9a, U+5bfe, U+5e02, U+5f0f, U+5f15, U+5f79, U+601d, U+60c5, U+610f, U+6240, U+65b0, U+65e5, U+660e, U+6700, U+672c, U+6761, U+67fb, U+682a, U+691c, U+6bd4, U+6c7a, U+6e08, U+72ec, U+7528, U+78ba, U+793a, U+79fb, U+7acb, U+7d22, U+80fd, U+884c, U+898b, U+898f, U+8a3c, U+8a8d, U+8a9e, U+8abf, U+8c61, U+8f03, U+9069, U+958b"
+    },
+    {
+      "file": "ja-700.woff2",
+      "family": "Noto Sans JP",
+      "weight": 700,
+      "locales": [
+        "ja"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&text=%20%2C-.%2F2%3A%3BAJQabcdefghijklmnopqrstuvwy%C2%B7%E3%80%81%E3%80%82%E3%81%97%E3%81%99%E3%81%9B%E3%81%9F%E3%81%A1%E3%81%A6%E3%81%AA%E3%81%AB%E3%81%AF%E3%81%B8%E3%81%BE%E3%81%BF%E3%82%81%E3%82%8B%E3%82%92%E3%82%A1%E3%82%AA%E3%82%AF%E3%82%B0%E3%82%B7%E3%82%B9%E3%82%BD%E3%83%88%E3%83%8A%E3%83%91%E3%83%95%E3%83%9D%E3%83%AA%E3%83%AB%E3%83%B3%E3%83%BC%E4%B8%8A%E4%BB%B6%E5%85%AC%E5%88%9D%E5%88%A9%E5%8B%95%E5%8F%96%E5%8F%AF%E5%9C%B0%E5%9F%9F%E5%A0%B1%E5%A0%B4%E5%A7%8B%E5%AE%9A%E5%AF%BE%E5%B8%82%E5%BC%8F%E5%BC%95%E5%BD%B9%E6%80%9D%E6%83%85%E6%84%8F%E6%89%80%E6%96%B0%E6%97%A5%E6%98%8E%E6%9C%80%E6%9C%AC%E6%9D%A1%E6%9F%BB%E6%A0%AA%E6%A4%9C%E6%AF%94%E6%B1%BA%E6%B8%88%E7%8B%AC%E7%94%A8%E7%A2%BA%E7%A4%BA%E7%A7%BB%E7%AB%8B%E7%B4%A2%E8%83%BD%E8%A1%8C%E8%A6%8B%E8%A6%8F%E8%A8%BC%E8%AA%8D%E8%AA%9E%E8%AA%BF%E8%B1%A1%E8%BC%83%E9%81%A9%E9%96%8B",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=-F62fjtqLzI2JPCgQBnw7HFowwII2ldXa-g1OPRO4KnI7fV16aH1AtoDI8AlSTZ7MAEgkgtRtbIYeskRx5_c6VnpthNBrco_TXwqWDBe-aEIn8S4DPI_3tpkoljvshtGoZZfpmzo4pwt_-0tm_xBAkR_UaNMxbh8h9zKXh8a_Qt5D1Va4rE-_cpJU7TCwLR8GN2COroJ8vJN1hJAeCIKRFusyQ10_7Z77-_TlwK-h-3XbCLiYixGNSWXiEEkD62FfjeuMuLzYA6rmCDfzfYd0jwjeh032Q2KF9kqgk4DT5aYvETCyMphhYgkdhuo2l1cUib6Ce8cnBtAD3WP5xttq-Jd1Unwziz8WsPs5KQVpvJD6HHOMg4VMobQ8iCCyucOhd22z1Yi-Z_HU1gK9FNEqdFDRL8Za4LqIIerFf0NP41jRyfWM0787VFh2_MMEp7VLt8JJcCv_Ve6mHywPtK5i56N0REh54AVco58KBnnkAo1tkgGRL7pg_XpVh54DX_Epd1jF3Pw&skey=72472b0eb8793570&v=v56",
+      "sourceSha256": "5fa4508492b68d1b1421bc6a82c1b9f4e7ff94b4dc23c509d2147db9ac792d07",
+      "outputSha256": "5fa4508492b68d1b1421bc6a82c1b9f4e7ff94b4dc23c509d2147db9ac792d07",
+      "bytes": 49556,
+      "unicodeRange": "U+20, U+2c-2f, U+32, U+3a-3b, U+41, U+4a, U+51, U+61-77, U+79, U+b7, U+3001-3002, U+3057-305c, U+305f-3062, U+3066-3067, U+306a-306b, U+306f-3071, U+3078-307a, U+307e-307f, U+3081, U+308b, U+3092, U+3099-309a, U+30a1, U+30aa, U+30af-30b0, U+30b7-30ba, U+30bd-30be, U+30c8-30ca, U+30cf-30d1, U+30d5-30d7, U+30db-30dd, U+30ea-30eb, U+30f3, U+30fc, U+4e0a, U+4ef6, U+516c, U+521d, U+5229, U+52d5, U+53d6, U+53ef, U+5730, U+57df, U+5831, U+5834, U+59cb, U+5b9a, U+5bfe, U+5e02, U+5f0f, U+5f15, U+5f79, U+601d, U+60c5, U+610f, U+6240, U+65b0, U+65e5, U+660e, U+6700, U+672c, U+6761, U+67fb, U+682a, U+691c, U+6bd4, U+6c7a, U+6e08, U+72ec, U+7528, U+78ba, U+793a, U+79fb, U+7acb, U+7d22, U+80fd, U+884c, U+898b, U+898f, U+8a3c, U+8a8d, U+8a9e, U+8abf, U+8c61, U+8f03, U+9069, U+958b"
+    },
+    {
+      "file": "ko-400.woff2",
+      "family": "Noto Sans KR",
+      "weight": 400,
+      "locales": [
+        "ko"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&text=%20%2C-.%2F2%3A%3BAIKQUacdefghiklmnopqrstuvwxy%C2%B7%EA%B0%80%EA%B1%B0%EA%B1%B4%EA%B2%80%EA%B2%B0%EA%B3%B3%EA%B3%B5%EA%B5%90%EA%B5%AD%EA%B7%9C%EA%B7%B8%EA%B8%B8%EB%84%88%EB%84%90%EB%8A%94%EB%8A%A5%EB%8B%88%EB%8B%A4%EB%8F%84%EB%8F%85%EB%8F%99%EB%90%A8%EB%90%A9%EB%95%8C%EB%98%90%EB%9E%98%EB%A1%9C%EB%A5%BC%EB%A6%AC%EB%A6%BD%EB%A7%81%EB%A7%8C%EB%B9%84%EC%82%AC%EC%83%81%EC%83%89%EC%84%9C%EC%84%B8%EC%86%8C%EC%88%98%EC%8B%9C%EC%8B%9D%EC%8B%A0%EC%96%B4%EC%97%AD%EC%98%AE%EC%9A%94%EC%9A%A9%EC%9C%A0%EC%9C%BC%EC%9D%84%EC%9D%98%EC%9D%B4%EC%9D%B8%EC%9E%88%EC%9E%91%EC%9E%A5%EC%A0%81%EC%A0%95%EC%A1%B0%EC%A3%BC%EC%A6%9D%EC%A7%80%EC%B1%85%EC%B2%98%EC%B6%9C%EC%B9%98%ED%81%AC%ED%81%B0%ED%83%9D%ED%86%A0%ED%8A%B8%ED%8C%8C%ED%91%9C%ED%95%98%ED%95%9C%ED%95%A9%ED%96%89%ED%98%9C%ED%98%B8%ED%99%95",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=PbykFmXiEBPT4ITbgNA5Cgm203Tq4JImIGUT4g9fd4b6zzdpLrGtATcs0ijwrNSXRPAV8mDJgHgWNQiQrVaWpM_5_5qvGYlT1gBQKOkgmmpvwCx9yskq5xb-s8_KsxUB9uD-BxFIMbX4lefA01g5o8ci6HW6aVuj0RXSA6RmTyspZNhUig70Qwrb_L70c2bONeqygHBrktITdJK6i-SyLUjgSNRHyO1KZBx_UpRUvLeBQW9ILwK901XrI_g7GpN2pqfcnYOc-Ci-P6y_pEj69u3Fxyz3mst6KhRNMaBwAWsyFai0EQxOqosK8v5-YjLV3b9UP2FRoLIsluaSfNrfVks6yUTu00UcxGvhjR-yG7JrXAZQh0HYBq3C6u8m32bKaRzkVGwpHdOOXM_xnWGepbJzDA&skey=87e7ee645936e2c7&v=v39",
+      "sourceSha256": "aa41ee125319b98cc89ee14269ebe490dc7d264e5121f7eaa194483dc5a8e2af",
+      "outputSha256": "aa41ee125319b98cc89ee14269ebe490dc7d264e5121f7eaa194483dc5a8e2af",
+      "bytes": 19204,
+      "unicodeRange": "U+20, U+2c-2f, U+32, U+3a-3b, U+41, U+49, U+4b, U+51, U+55, U+61, U+63-69, U+6b-79, U+b7, U+ac00, U+ac70, U+ac74, U+ac80, U+acb0, U+acf3, U+acf5, U+ad50, U+ad6d, U+addc, U+adf8, U+ae38, U+b108, U+b110, U+b294, U+b2a5, U+b2c8, U+b2e4, U+b3c4-b3c5, U+b3d9, U+b428-b429, U+b54c, U+b610, U+b798, U+b85c, U+b97c, U+b9ac, U+b9bd, U+b9c1, U+b9cc, U+be44, U+c0ac, U+c0c1, U+c0c9, U+c11c, U+c138, U+c18c, U+c218, U+c2dc-c2dd, U+c2e0, U+c5b4, U+c5ed, U+c62e, U+c694, U+c6a9, U+c720, U+c73c, U+c744, U+c758, U+c774, U+c778, U+c788, U+c791, U+c7a5, U+c801, U+c815, U+c870, U+c8fc, U+c99d, U+c9c0, U+cc45, U+cc98, U+cd9c, U+ce58, U+d06c, U+d070, U+d0dd, U+d1a0, U+d2b8, U+d30c, U+d45c, U+d558, U+d55c, U+d569, U+d589, U+d61c, U+d638, U+d655"
+    },
+    {
+      "file": "ko-500.woff2",
+      "family": "Noto Sans KR",
+      "weight": 500,
+      "locales": [
+        "ko"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&text=%20%2C-.%2F2%3A%3BAIKQUacdefghiklmnopqrstuvwxy%C2%B7%EA%B0%80%EA%B1%B0%EA%B1%B4%EA%B2%80%EA%B2%B0%EA%B3%B3%EA%B3%B5%EA%B5%90%EA%B5%AD%EA%B7%9C%EA%B7%B8%EA%B8%B8%EB%84%88%EB%84%90%EB%8A%94%EB%8A%A5%EB%8B%88%EB%8B%A4%EB%8F%84%EB%8F%85%EB%8F%99%EB%90%A8%EB%90%A9%EB%95%8C%EB%98%90%EB%9E%98%EB%A1%9C%EB%A5%BC%EB%A6%AC%EB%A6%BD%EB%A7%81%EB%A7%8C%EB%B9%84%EC%82%AC%EC%83%81%EC%83%89%EC%84%9C%EC%84%B8%EC%86%8C%EC%88%98%EC%8B%9C%EC%8B%9D%EC%8B%A0%EC%96%B4%EC%97%AD%EC%98%AE%EC%9A%94%EC%9A%A9%EC%9C%A0%EC%9C%BC%EC%9D%84%EC%9D%98%EC%9D%B4%EC%9D%B8%EC%9E%88%EC%9E%91%EC%9E%A5%EC%A0%81%EC%A0%95%EC%A1%B0%EC%A3%BC%EC%A6%9D%EC%A7%80%EC%B1%85%EC%B2%98%EC%B6%9C%EC%B9%98%ED%81%AC%ED%81%B0%ED%83%9D%ED%86%A0%ED%8A%B8%ED%8C%8C%ED%91%9C%ED%95%98%ED%95%9C%ED%95%A9%ED%96%89%ED%98%9C%ED%98%B8%ED%99%95",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=PbykFmXiEBPT4ITbgNA5Cgm203Tq4JImIGUT4g9fd4b6zzdpLrGtATcs0ijwrNSXRPAV8mDJgHgWNQiQrVaWpM_5_5qvGYlT1gBQKOkgmmpvwCx9yskq5xb-s8_KsxUB9uD-BxFIMbX4lefA01g5o8ci6HW6aVuj0RXSA6RmTyspZNhUig70Qwrb_L70c2bONeqygHBrktITdJK6i-SyLUjgSNRHyO1KZBx_UpRUvLeBQW9ILwK901XrI_g7GpN2pqfcnYOc-Ci-P6y_pEj69u3Fxyz3mst6KhRNMaBwAWsyFai0EQxOqosK8v5-YjLV3b9UP2FRoLIsluaSfNrfVks6yUTu00UcxGvhjR-yG7JrXAZQh0HYBq3C6u8m32bKaRzkVGwpHdOOXM_xnWGepbJzDA&skey=87e7ee645936e2c7&v=v39",
+      "sourceSha256": "aa41ee125319b98cc89ee14269ebe490dc7d264e5121f7eaa194483dc5a8e2af",
+      "outputSha256": "aa41ee125319b98cc89ee14269ebe490dc7d264e5121f7eaa194483dc5a8e2af",
+      "bytes": 19204,
+      "unicodeRange": "U+20, U+2c-2f, U+32, U+3a-3b, U+41, U+49, U+4b, U+51, U+55, U+61, U+63-69, U+6b-79, U+b7, U+ac00, U+ac70, U+ac74, U+ac80, U+acb0, U+acf3, U+acf5, U+ad50, U+ad6d, U+addc, U+adf8, U+ae38, U+b108, U+b110, U+b294, U+b2a5, U+b2c8, U+b2e4, U+b3c4-b3c5, U+b3d9, U+b428-b429, U+b54c, U+b610, U+b798, U+b85c, U+b97c, U+b9ac, U+b9bd, U+b9c1, U+b9cc, U+be44, U+c0ac, U+c0c1, U+c0c9, U+c11c, U+c138, U+c18c, U+c218, U+c2dc-c2dd, U+c2e0, U+c5b4, U+c5ed, U+c62e, U+c694, U+c6a9, U+c720, U+c73c, U+c744, U+c758, U+c774, U+c778, U+c788, U+c791, U+c7a5, U+c801, U+c815, U+c870, U+c8fc, U+c99d, U+c9c0, U+cc45, U+cc98, U+cd9c, U+ce58, U+d06c, U+d070, U+d0dd, U+d1a0, U+d2b8, U+d30c, U+d45c, U+d558, U+d55c, U+d569, U+d589, U+d61c, U+d638, U+d655"
+    },
+    {
+      "file": "ko-600.woff2",
+      "family": "Noto Sans KR",
+      "weight": 600,
+      "locales": [
+        "ko"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&text=%20%2C-.%2F2%3A%3BAIKQUacdefghiklmnopqrstuvwxy%C2%B7%EA%B0%80%EA%B1%B0%EA%B1%B4%EA%B2%80%EA%B2%B0%EA%B3%B3%EA%B3%B5%EA%B5%90%EA%B5%AD%EA%B7%9C%EA%B7%B8%EA%B8%B8%EB%84%88%EB%84%90%EB%8A%94%EB%8A%A5%EB%8B%88%EB%8B%A4%EB%8F%84%EB%8F%85%EB%8F%99%EB%90%A8%EB%90%A9%EB%95%8C%EB%98%90%EB%9E%98%EB%A1%9C%EB%A5%BC%EB%A6%AC%EB%A6%BD%EB%A7%81%EB%A7%8C%EB%B9%84%EC%82%AC%EC%83%81%EC%83%89%EC%84%9C%EC%84%B8%EC%86%8C%EC%88%98%EC%8B%9C%EC%8B%9D%EC%8B%A0%EC%96%B4%EC%97%AD%EC%98%AE%EC%9A%94%EC%9A%A9%EC%9C%A0%EC%9C%BC%EC%9D%84%EC%9D%98%EC%9D%B4%EC%9D%B8%EC%9E%88%EC%9E%91%EC%9E%A5%EC%A0%81%EC%A0%95%EC%A1%B0%EC%A3%BC%EC%A6%9D%EC%A7%80%EC%B1%85%EC%B2%98%EC%B6%9C%EC%B9%98%ED%81%AC%ED%81%B0%ED%83%9D%ED%86%A0%ED%8A%B8%ED%8C%8C%ED%91%9C%ED%95%98%ED%95%9C%ED%95%A9%ED%96%89%ED%98%9C%ED%98%B8%ED%99%95",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=PbykFmXiEBPT4ITbgNA5Cgm203Tq4JImIGUT4g9fd4b6zzdpLrGtATcs0ijwrNSXRPAV8mDJgHgWNQiQrVaWpM_5_5qvGYlT1gBQKOkgmmpvwCx9yskq5xb-s8_KsxUB9uD-BxFIMbX4lefA01g5o8ci6HW6aVuj0RXSA6RmTyspZNhUig70Qwrb_L70c2bONeqygHBrktITdJK6i-SyLUjgSNRHyO1KZBx_UpRUvLeBQW9ILwK901XrI_g7GpN2pqfcnYOc-Ci-P6y_pEj69u3Fxyz3mst6KhRNMaBwAWsyFai0EQxOqosK8v5-YjLV3b9UP2FRoLIsluaSfNrfVks6yUTu00UcxGvhjR-yG7JrXAZQh0HYBq3C6u8m32bKaRzkVGwpHdOOXM_xnWGepbJzDA&skey=87e7ee645936e2c7&v=v39",
+      "sourceSha256": "aa41ee125319b98cc89ee14269ebe490dc7d264e5121f7eaa194483dc5a8e2af",
+      "outputSha256": "aa41ee125319b98cc89ee14269ebe490dc7d264e5121f7eaa194483dc5a8e2af",
+      "bytes": 19204,
+      "unicodeRange": "U+20, U+2c-2f, U+32, U+3a-3b, U+41, U+49, U+4b, U+51, U+55, U+61, U+63-69, U+6b-79, U+b7, U+ac00, U+ac70, U+ac74, U+ac80, U+acb0, U+acf3, U+acf5, U+ad50, U+ad6d, U+addc, U+adf8, U+ae38, U+b108, U+b110, U+b294, U+b2a5, U+b2c8, U+b2e4, U+b3c4-b3c5, U+b3d9, U+b428-b429, U+b54c, U+b610, U+b798, U+b85c, U+b97c, U+b9ac, U+b9bd, U+b9c1, U+b9cc, U+be44, U+c0ac, U+c0c1, U+c0c9, U+c11c, U+c138, U+c18c, U+c218, U+c2dc-c2dd, U+c2e0, U+c5b4, U+c5ed, U+c62e, U+c694, U+c6a9, U+c720, U+c73c, U+c744, U+c758, U+c774, U+c778, U+c788, U+c791, U+c7a5, U+c801, U+c815, U+c870, U+c8fc, U+c99d, U+c9c0, U+cc45, U+cc98, U+cd9c, U+ce58, U+d06c, U+d070, U+d0dd, U+d1a0, U+d2b8, U+d30c, U+d45c, U+d558, U+d55c, U+d569, U+d589, U+d61c, U+d638, U+d655"
+    },
+    {
+      "file": "ko-700.woff2",
+      "family": "Noto Sans KR",
+      "weight": 700,
+      "locales": [
+        "ko"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&text=%20%2C-.%2F2%3A%3BAIKQUacdefghiklmnopqrstuvwxy%C2%B7%EA%B0%80%EA%B1%B0%EA%B1%B4%EA%B2%80%EA%B2%B0%EA%B3%B3%EA%B3%B5%EA%B5%90%EA%B5%AD%EA%B7%9C%EA%B7%B8%EA%B8%B8%EB%84%88%EB%84%90%EB%8A%94%EB%8A%A5%EB%8B%88%EB%8B%A4%EB%8F%84%EB%8F%85%EB%8F%99%EB%90%A8%EB%90%A9%EB%95%8C%EB%98%90%EB%9E%98%EB%A1%9C%EB%A5%BC%EB%A6%AC%EB%A6%BD%EB%A7%81%EB%A7%8C%EB%B9%84%EC%82%AC%EC%83%81%EC%83%89%EC%84%9C%EC%84%B8%EC%86%8C%EC%88%98%EC%8B%9C%EC%8B%9D%EC%8B%A0%EC%96%B4%EC%97%AD%EC%98%AE%EC%9A%94%EC%9A%A9%EC%9C%A0%EC%9C%BC%EC%9D%84%EC%9D%98%EC%9D%B4%EC%9D%B8%EC%9E%88%EC%9E%91%EC%9E%A5%EC%A0%81%EC%A0%95%EC%A1%B0%EC%A3%BC%EC%A6%9D%EC%A7%80%EC%B1%85%EC%B2%98%EC%B6%9C%EC%B9%98%ED%81%AC%ED%81%B0%ED%83%9D%ED%86%A0%ED%8A%B8%ED%8C%8C%ED%91%9C%ED%95%98%ED%95%9C%ED%95%A9%ED%96%89%ED%98%9C%ED%98%B8%ED%99%95",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=PbykFmXiEBPT4ITbgNA5Cgm203Tq4JImIGUT4g9fd4b6zzdpLrGtATcs0ijwrNSXRPAV8mDJgHgWNQiQrVaWpM_5_5qvGYlT1gBQKOkgmmpvwCx9yskq5xb-s8_KsxUB9uD-BxFIMbX4lefA01g5o8ci6HW6aVuj0RXSA6RmTyspZNhUig70Qwrb_L70c2bONeqygHBrktITdJK6i-SyLUjgSNRHyO1KZBx_UpRUvLeBQW9ILwK901XrI_g7GpN2pqfcnYOc-Ci-P6y_pEj69u3Fxyz3mst6KhRNMaBwAWsyFai0EQxOqosK8v5-YjLV3b9UP2FRoLIsluaSfNrfVks6yUTu00UcxGvhjR-yG7JrXAZQh0HYBq3C6u8m32bKaRzkVGwpHdOOXM_xnWGepbJzDA&skey=87e7ee645936e2c7&v=v39",
+      "sourceSha256": "aa41ee125319b98cc89ee14269ebe490dc7d264e5121f7eaa194483dc5a8e2af",
+      "outputSha256": "aa41ee125319b98cc89ee14269ebe490dc7d264e5121f7eaa194483dc5a8e2af",
+      "bytes": 19204,
+      "unicodeRange": "U+20, U+2c-2f, U+32, U+3a-3b, U+41, U+49, U+4b, U+51, U+55, U+61, U+63-69, U+6b-79, U+b7, U+ac00, U+ac70, U+ac74, U+ac80, U+acb0, U+acf3, U+acf5, U+ad50, U+ad6d, U+addc, U+adf8, U+ae38, U+b108, U+b110, U+b294, U+b2a5, U+b2c8, U+b2e4, U+b3c4-b3c5, U+b3d9, U+b428-b429, U+b54c, U+b610, U+b798, U+b85c, U+b97c, U+b9ac, U+b9bd, U+b9c1, U+b9cc, U+be44, U+c0ac, U+c0c1, U+c0c9, U+c11c, U+c138, U+c18c, U+c218, U+c2dc-c2dd, U+c2e0, U+c5b4, U+c5ed, U+c62e, U+c694, U+c6a9, U+c720, U+c73c, U+c744, U+c758, U+c774, U+c778, U+c788, U+c791, U+c7a5, U+c801, U+c815, U+c870, U+c8fc, U+c99d, U+c9c0, U+cc45, U+cc98, U+cd9c, U+ce58, U+d06c, U+d070, U+d0dd, U+d1a0, U+d2b8, U+d30c, U+d45c, U+d558, U+d55c, U+d569, U+d589, U+d61c, U+d638, U+d655"
+    },
+    {
+      "file": "ar-400.woff2",
+      "family": "Noto Sans Arabic",
+      "weight": 400,
+      "locales": [
+        "ar"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&text=%20%2C-.%2F%3A%3BALMQRSTabcdefghiklmnopqrstuvwx%C2%B7%D8%A1%D8%A3%D8%A5%D8%A7%D8%A8%D8%A9%D8%AA%D8%AB%D8%AC%D8%AD%D8%AF%D8%B1%D8%B2%D8%B3%D8%B4%D8%B5%D8%B6%D8%B7%D8%B9%D9%80%D9%81%D9%82%D9%83%D9%84%D9%85%D9%86%D9%87%D9%88%D9%89%D9%8A%D9%8B%D9%8E%D9%8F%D9%91",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=nwpCtLGrOAZMl5nJ_wfgRg3DrWFZWsnVBJ_sS6tlqHHFlg43tY3IxQi7nhyyLgC1gBvJUFKQ2AI3FzS1BPAfXRL-AgjCQcedlNMKrRMSBlzOZRWjpcBbwebdSRYq7ynqlCUPYDIf-KDM020fAnlLZnoCQDrN921AwN4aOIPiqK5-Pg6i3OjmQ2XowXkzflPQnJaxENQ_CuiF1hb1UA&skey=f979c51db865377e&v=v33",
+      "sourceSha256": "e2aa4c8a812d4b92e40e53b4d006da8a379b9fc1d4f73f428d056fb45bef161e",
+      "outputSha256": "e2aa4c8a812d4b92e40e53b4d006da8a379b9fc1d4f73f428d056fb45bef161e",
+      "bytes": 37356,
+      "unicodeRange": "U+20, U+2c-2f, U+3a-3b, U+41, U+4c-4d, U+51-54, U+61-69, U+6b-78, U+b7, U+621, U+623-62d, U+62f, U+631-637, U+639, U+640-64b, U+64e-64f, U+651, U+654-655"
+    },
+    {
+      "file": "ar-500.woff2",
+      "family": "Noto Sans Arabic",
+      "weight": 500,
+      "locales": [
+        "ar"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&text=%20%2C-.%2F%3A%3BALMQRSTabcdefghiklmnopqrstuvwx%C2%B7%D8%A1%D8%A3%D8%A5%D8%A7%D8%A8%D8%A9%D8%AA%D8%AB%D8%AC%D8%AD%D8%AF%D8%B1%D8%B2%D8%B3%D8%B4%D8%B5%D8%B6%D8%B7%D8%B9%D9%80%D9%81%D9%82%D9%83%D9%84%D9%85%D9%86%D9%87%D9%88%D9%89%D9%8A%D9%8B%D9%8E%D9%8F%D9%91",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=nwpCtLGrOAZMl5nJ_wfgRg3DrWFZWsnVBJ_sS6tlqHHFlg43tY3IxQi7nhyyLgC1gBvJUFKQ2AI3FzS1BPAfXRL-AgjCQcedlNMKrRMSBlzOZRWjpcBbwebdSRYq7ynqlCUPYDIf-KDM020fAnlLZnoCQDrN921AwN4aOIPiqK5-Pg6i3OjmQ2XowXkzflPQnJaxENQ_CuiF1hb1UA&skey=f979c51db865377e&v=v33",
+      "sourceSha256": "e2aa4c8a812d4b92e40e53b4d006da8a379b9fc1d4f73f428d056fb45bef161e",
+      "outputSha256": "e2aa4c8a812d4b92e40e53b4d006da8a379b9fc1d4f73f428d056fb45bef161e",
+      "bytes": 37356,
+      "unicodeRange": "U+20, U+2c-2f, U+3a-3b, U+41, U+4c-4d, U+51-54, U+61-69, U+6b-78, U+b7, U+621, U+623-62d, U+62f, U+631-637, U+639, U+640-64b, U+64e-64f, U+651, U+654-655"
+    },
+    {
+      "file": "ar-600.woff2",
+      "family": "Noto Sans Arabic",
+      "weight": 600,
+      "locales": [
+        "ar"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&text=%20%2C-.%2F%3A%3BALMQRSTabcdefghiklmnopqrstuvwx%C2%B7%D8%A1%D8%A3%D8%A5%D8%A7%D8%A8%D8%A9%D8%AA%D8%AB%D8%AC%D8%AD%D8%AF%D8%B1%D8%B2%D8%B3%D8%B4%D8%B5%D8%B6%D8%B7%D8%B9%D9%80%D9%81%D9%82%D9%83%D9%84%D9%85%D9%86%D9%87%D9%88%D9%89%D9%8A%D9%8B%D9%8E%D9%8F%D9%91",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=nwpCtLGrOAZMl5nJ_wfgRg3DrWFZWsnVBJ_sS6tlqHHFlg43tY3IxQi7nhyyLgC1gBvJUFKQ2AI3FzS1BPAfXRL-AgjCQcedlNMKrRMSBlzOZRWjpcBbwebdSRYq7ynqlCUPYDIf-KDM020fAnlLZnoCQDrN921AwN4aOIPiqK5-Pg6i3OjmQ2XowXkzflPQnJaxENQ_CuiF1hb1UA&skey=f979c51db865377e&v=v33",
+      "sourceSha256": "e2aa4c8a812d4b92e40e53b4d006da8a379b9fc1d4f73f428d056fb45bef161e",
+      "outputSha256": "e2aa4c8a812d4b92e40e53b4d006da8a379b9fc1d4f73f428d056fb45bef161e",
+      "bytes": 37356,
+      "unicodeRange": "U+20, U+2c-2f, U+3a-3b, U+41, U+4c-4d, U+51-54, U+61-69, U+6b-78, U+b7, U+621, U+623-62d, U+62f, U+631-637, U+639, U+640-64b, U+64e-64f, U+651, U+654-655"
+    },
+    {
+      "file": "ar-700.woff2",
+      "family": "Noto Sans Arabic",
+      "weight": 700,
+      "locales": [
+        "ar"
+      ],
+      "sourceCssUrl": "https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&text=%20%2C-.%2F%3A%3BALMQRSTabcdefghiklmnopqrstuvwx%C2%B7%D8%A1%D8%A3%D8%A5%D8%A7%D8%A8%D8%A9%D8%AA%D8%AB%D8%AC%D8%AD%D8%AF%D8%B1%D8%B2%D8%B3%D8%B4%D8%B5%D8%B6%D8%B7%D8%B9%D9%80%D9%81%D9%82%D9%83%D9%84%D9%85%D9%86%D9%87%D9%88%D9%89%D9%8A%D9%8B%D9%8E%D9%8F%D9%91",
+      "sourceWoff2Url": "https://fonts.gstatic.com/l/font?kit=nwpCtLGrOAZMl5nJ_wfgRg3DrWFZWsnVBJ_sS6tlqHHFlg43tY3IxQi7nhyyLgC1gBvJUFKQ2AI3FzS1BPAfXRL-AgjCQcedlNMKrRMSBlzOZRWjpcBbwebdSRYq7ynqlCUPYDIf-KDM020fAnlLZnoCQDrN921AwN4aOIPiqK5-Pg6i3OjmQ2XowXkzflPQnJaxENQ_CuiF1hb1UA&skey=f979c51db865377e&v=v33",
+      "sourceSha256": "e2aa4c8a812d4b92e40e53b4d006da8a379b9fc1d4f73f428d056fb45bef161e",
+      "outputSha256": "e2aa4c8a812d4b92e40e53b4d006da8a379b9fc1d4f73f428d056fb45bef161e",
+      "bytes": 37356,
+      "unicodeRange": "U+20, U+2c-2f, U+3a-3b, U+41, U+4c-4d, U+51-54, U+61-69, U+6b-78, U+b7, U+621, U+623-62d, U+62f, U+631-637, U+639, U+640-64b, U+64e-64f, U+651, U+654-655"
+    },
+    {
+      "file": "Inter-OFL.txt",
+      "license": true,
+      "sourceUrl": "https://raw.githubusercontent.com/rsms/inter/master/LICENSE.txt",
+      "sourceSha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a",
+      "outputSha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a",
+      "bytes": 4380
+    },
+    {
+      "file": "Noto-CJK-OFL.txt",
+      "license": true,
+      "sourceUrl": "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/LICENSE",
+      "sourceSha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+      "outputSha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+      "bytes": 4301
+    },
+    {
+      "file": "Noto-Arabic-OFL.txt",
+      "license": true,
+      "sourceUrl": "https://raw.githubusercontent.com/notofonts/arabic/main/OFL.txt",
+      "sourceSha256": "a7a5a25eb188bf1cd96982030d53e23c33485c69b1044a562254226857ee13af",
+      "outputSha256": "a7a5a25eb188bf1cd96982030d53e23c33485c69b1044a562254226857ee13af",
+      "bytes": 4382
+    }
+  ],
+  "localeCoverage": {
+    "latin": {
+      "locales": [
+        "en",
+        "es",
+        "pt-BR",
+        "fr",
+        "de",
+        "tr",
+        "ru",
+        "id",
+        "vi",
+        "it"
+      ],
+      "catalogCodepoints": 158,
+      "unicodeRange": "U+20, U+27-29, U+2c-2f, U+32, U+3a-3b, U+41-49, U+4b-5a, U+61-7a, U+b7, U+ca, U+e0-e1, U+e3-e4, U+e7-ea, U+ec-ee, U+f1, U+f3, U+f5-f6, U+f9-fa, U+fc, U+110-111, U+11f, U+130-131, U+15e-15f, U+1b0, U+411-414, U+418-419, U+41b, U+41d-422, U+42b, U+430-444, U+446-448, U+44b-44c, U+44e-44f, U+451, U+1ea1, U+1ea3, U+1ea5, U+1ea7, U+1ead, U+1eaf, U+1eb5, U+1eb7, U+1ebe-1ebf, U+1ec1, U+1ec3, U+1ec7, U+1ecb, U+1ed1, U+1ed3, U+1ed5, U+1ed9-1eda, U+1edd, U+1edf, U+1ee3, U+1ee9, U+1eef, U+1ef1",
+      "fallback": "System UI fallback remains intentional for future catalog characters."
+    },
+    "zh-Hans": {
+      "locales": [
+        "zh-Hans"
+      ],
+      "catalogCodepoints": 124,
+      "unicodeRange": "U+20, U+2d-2f, U+32, U+3a-3b, U+41, U+43, U+48-49, U+51, U+55, U+61, U+63-69, U+6c-77, U+79-7a, U+b7, U+3001-3002, U+4e0a-4e0b, U+4e2d, U+4e3a, U+4ea4, U+4ed8, U+4ee3, U+4ee5, U+4ef6-4ef7, U+4f18, U+4f1a, U+4f53, U+4f5c, U+4f7f, U+4fe1, U+503c, U+51b3, U+52a8, U+5316, U+533a, U+53ea, U+53ef-53f0, U+53f7, U+5408, U+5728, U+5730, U+573a, U+59cb, U+5b98, U+5bb6, U+5bf9, U+5df2, U+5e01-5e02, U+5e73, U+5f00, U+60e0, U+6216, U+6240, U+624d, U+628a, U+63a5, U+641c, U+6587, U+65b0, U+65b9, U+660e, U+6613, U+6700, U+6709, U+6761, U+6765, U+67e5, U+6807, U+6838, U+6b3e, U+6bd4, U+6ce8, U+6e90, U+72ec, U+7528, U+770b, U+7814, U+786e, U+7968, U+7a76, U+7acb, U+7b56, U+7b80, U+7d22, U+7ebf, U+80a1, U+80fd, U+884c, U+8bc1, U+8bf4, U+8bf7-8bf8, U+8f6c, U+8f83, U+9002, U+94fe, U+9a8c, U+ff0c",
+      "fallback": "System UI fallback remains intentional for future catalog characters."
+    },
+    "zh-Hant": {
+      "locales": [
+        "zh-Hant"
+      ],
+      "catalogCodepoints": 125,
+      "unicodeRange": "U+20, U+2d-2f, U+32, U+3a-3b, U+41, U+43, U+48-49, U+51, U+54-55, U+61, U+63-69, U+6c-77, U+79-7a, U+b7, U+3001-3002, U+4e0a-4e0b, U+4e2d, U+4ea4, U+4ed8, U+4ee3, U+4ee5, U+4ef6, U+4f5c, U+4f7f, U+4f86, U+503c, U+50f9, U+512a, U+52d5, U+5316, U+5340, U+53ea, U+53ef-53f0, U+5408, U+5728, U+5730, U+5834, U+59cb, U+5b98, U+5bb6, U+5c0b, U+5c0d, U+5df2, U+5e02, U+5e63, U+5e73, U+60e0, U+6216, U+6240, U+624d, U+628a, U+641c, U+6587, U+65b0, U+65b9, U+660e, U+6613, U+6700, U+6703, U+6709, U+67e5, U+6838, U+689d, U+6a19, U+6b3e, U+6bd4, U+6c7a, U+6e90, U+70ba, U+7368, U+7528, U+770b, U+7814, U+78ba, U+793a, U+7968, U+7a76, U+7acb, U+7b56, U+7d50, U+7dda, U+7e41, U+80a1, U+80fd, U+865f, U+884c, U+8a0a, U+8aaa, U+8acb, U+8af8, U+8b49, U+8f03, U+8f49, U+9023, U+9069, U+958b, U+9a57, U+9ad4, U+ff0c",
+      "fallback": "System UI fallback remains intentional for future catalog characters."
+    },
+    "ja": {
+      "locales": [
+        "ja"
+      ],
+      "catalogCodepoints": 123,
+      "unicodeRange": "U+20, U+2c-2f, U+32, U+3a-3b, U+41, U+4a, U+51, U+61-77, U+79, U+b7, U+3001-3002, U+3057-305c, U+305f-3062, U+3066-3067, U+306a-306b, U+306f-3071, U+3078-307a, U+307e-307f, U+3081, U+308b, U+3092, U+3099-309a, U+30a1, U+30aa, U+30af-30b0, U+30b7-30ba, U+30bd-30be, U+30c8-30ca, U+30cf-30d1, U+30d5-30d7, U+30db-30dd, U+30ea-30eb, U+30f3, U+30fc, U+4e0a, U+4ef6, U+516c, U+521d, U+5229, U+52d5, U+53d6, U+53ef, U+5730, U+57df, U+5831, U+5834, U+59cb, U+5b9a, U+5bfe, U+5e02, U+5f0f, U+5f15, U+5f79, U+601d, U+60c5, U+610f, U+6240, U+65b0, U+65e5, U+660e, U+6700, U+672c, U+6761, U+67fb, U+682a, U+691c, U+6bd4, U+6c7a, U+6e08, U+72ec, U+7528, U+78ba, U+793a, U+79fb, U+7acb, U+7d22, U+80fd, U+884c, U+898b, U+898f, U+8a3c, U+8a8d, U+8a9e, U+8abf, U+8c61, U+8f03, U+9069, U+958b",
+      "fallback": "System UI fallback remains intentional for future catalog characters."
+    },
+    "ko": {
+      "locales": [
+        "ko"
+      ],
+      "catalogCodepoints": 118,
+      "unicodeRange": "U+20, U+2c-2f, U+32, U+3a-3b, U+41, U+49, U+4b, U+51, U+55, U+61, U+63-69, U+6b-79, U+b7, U+ac00, U+ac70, U+ac74, U+ac80, U+acb0, U+acf3, U+acf5, U+ad50, U+ad6d, U+addc, U+adf8, U+ae38, U+b108, U+b110, U+b294, U+b2a5, U+b2c8, U+b2e4, U+b3c4-b3c5, U+b3d9, U+b428-b429, U+b54c, U+b610, U+b798, U+b85c, U+b97c, U+b9ac, U+b9bd, U+b9c1, U+b9cc, U+be44, U+c0ac, U+c0c1, U+c0c9, U+c11c, U+c138, U+c18c, U+c218, U+c2dc-c2dd, U+c2e0, U+c5b4, U+c5ed, U+c62e, U+c694, U+c6a9, U+c720, U+c73c, U+c744, U+c758, U+c774, U+c778, U+c788, U+c791, U+c7a5, U+c801, U+c815, U+c870, U+c8fc, U+c99d, U+c9c0, U+cc45, U+cc98, U+cd9c, U+ce58, U+d06c, U+d070, U+d0dd, U+d1a0, U+d2b8, U+d30c, U+d45c, U+d558, U+d55c, U+d569, U+d589, U+d61c, U+d638, U+d655",
+      "fallback": "System UI fallback remains intentional for future catalog characters."
+    },
+    "ar": {
+      "locales": [
+        "ar"
+      ],
+      "catalogCodepoints": 72,
+      "unicodeRange": "U+20, U+2c-2f, U+3a-3b, U+41, U+4c-4d, U+51-54, U+61-69, U+6b-78, U+b7, U+621, U+623-62d, U+62f, U+631-637, U+639, U+640-64b, U+64e-64f, U+651, U+654-655",
+      "fallback": "System UI fallback remains intentional for future catalog characters."
+    }
+  }
+}

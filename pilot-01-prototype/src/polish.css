@@ -1,0 +1,1 @@
+.header-side{position:relative}.header-side select{position:absolute;z-index:2;left:0;width:30px;height:34px;opacity:0;cursor:pointer}.header-side .region-select{position:static;z-index:auto;width:auto;height:auto;opacity:1;appearance:none;border:0;background:transparent;color:#e4e7ea;font:inherit;cursor:pointer}@media(max-width:700px){.header-side select{width:25px;height:30px}}

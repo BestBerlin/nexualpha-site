@@ -1,0 +1,14 @@
+[
+  {
+    "old": "});\n\nexport function RegistrationCard({ venueSlug, fallbackDomain, locale = \"en\", market, product, accountStage, funding, compact = false }) {\n  const [copied, setCopied] = useState(false);\n  const copy = registrationRuntimeCopy(locale, getCopy(locale));\n",
+    "new": "});\n\nexport function RegistrationCard({ venueSlug, fallbackDomain, locale = \"en\", market, product, accountStage, funding, compact = false, compactCopyLabel, compactCopyAriaLabel }) {\n  const [copied, setCopied] = useState(false);\n  const copy = registrationRuntimeCopy(locale, getCopy(locale));\n"
+  },
+  {
+    "old": "  const [mobileRouteOpen, setMobileRouteOpen] = useState(() => !compact);\n  const disabledActionLabel = publicCta.hasPartnerRoute ? regionStateText : copy.unavailable;\n\n  useEffect(() => {\n",
+    "new": "  const [mobileRouteOpen, setMobileRouteOpen] = useState(() => !compact);\n  const disabledActionLabel = publicCta.hasPartnerRoute ? regionStateText : copy.unavailable;\n  const copyButtonLabel = copied ? copy.copied : (compactCopyLabel || copy.copyCode);\n  const copyButtonAriaLabel = compactCopyAriaLabel ? (copied ? copy.copied : compactCopyAriaLabel) : undefined;\n\n  useEffect(() => {\n"
+  },
+  {
+    "old": "              onClick={handleCopy}\n              data-copied={copied}\n            >\n              {copied ? copy.copied : copy.copyCode}\n            </button>\n            {compact && benefitText && <span className=\"registration-card__benefit registration-card__code-benefit\">{benefitText}</span>}\n",
+    "new": "              onClick={handleCopy}\n              data-copied={copied}\n              aria-label={copyButtonAriaLabel}\n            >\n              {copyButtonLabel}\n            </button>\n            {compact && benefitText && <span className=\"registration-card__benefit registration-card__code-benefit\">{benefitText}</span>}\n"
+  }
+]

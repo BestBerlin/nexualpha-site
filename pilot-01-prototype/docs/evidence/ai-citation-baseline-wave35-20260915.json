@@ -1,0 +1,1508 @@
+{
+  "id": "wave35-ai-citation-baseline-20260915",
+  "capturedAt": "2026-09-15T08:04:21Z",
+  "sourceQuerySet": "docs/strategy/aeo-first-20-publication-map-20260914.md",
+  "scope": "Baseline-only evidence capture for current public web/search visibility and reproducible citation readiness across the fixed first 20 AEO questions.",
+  "boundary": "This artifact records public search result snippets returned during this run and UNKNOWN status for unavailable answer-engine citation surfaces. It does not claim Google Search Console impressions, rankings, traffic lift, signup lift, commission, production deployment, or real answer-engine inclusion. It does not expose private partner economics or invitation-link alternates.",
+  "methodology": [
+    "Use the 20 exact questions from docs/strategy/aeo-first-20-publication-map-20260914.md without rewriting the query text.",
+    "Run public web/search retrieval for the exact questions and inspect returned result titles/snippets/domains for NexuAlpha presence and dominant source types.",
+    "Classify competitor/source types conservatively from the visible domain and snippet context only.",
+    "Mark ChatGPT, Perplexity and Gemini answer-engine citation checks UNKNOWN when no reproducible public surface is available in this run.",
+    "Keep this as a reproducible baseline artifact; do not mutate production or partner-link code."
+  ],
+  "unavailableAnswerEngineSurfaces": [
+    {
+      "platform": "ChatGPT",
+      "surface": "answer_engine_citations",
+      "status": "UNKNOWN",
+      "reason": "No public reproducible query/citation surface was available in this run."
+    },
+    {
+      "platform": "Perplexity",
+      "surface": "answer_engine_citations",
+      "status": "UNKNOWN",
+      "reason": "No public reproducible query/citation surface was available in this run."
+    },
+    {
+      "platform": "Gemini",
+      "surface": "answer_engine_citations",
+      "status": "UNKNOWN",
+      "reason": "No public reproducible query/citation surface was available in this run."
+    }
+  ],
+  "partnerRegistrySha256": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
+  "summary": {
+    "queryCount": 20,
+    "publicWebChecks": 20,
+    "answerEngineChecksMarkedUnknown": 60,
+    "nexuAlphaAppearedInCapturedWebResults": 0,
+    "nexuAlphaAppearedInCapturedWebResultsRate": "0/20",
+    "dominantSourcePattern": "Official regulator/payment pages win regulatory and payment-rail queries; platform help pages win funding queries; affiliate/SEO/media pages fill gaps when official intent is ambiguous.",
+    "sharedGaps": [
+      "NexuAlpha has indexed Brazil, Hong Kong, EU, UK, Japan and Korea carriers, but did not appear in the 20 captured public result sets.",
+      "NexuAlpha has indexed country carriers for Brazil, Hong Kong, EU, UK, Japan, Korea and Türkiye; Mexico, Taiwan and Indonesia remain noindex previews.",
+      "Answer engines were not publicly reproducible in this run; their citation state remains UNKNOWN instead of being inferred from web search.",
+      "Referral-language queries are noisy; public answers must separate partner routes, user-benefit eligibility and official account-screen confirmation.",
+      "Funding-route questions require official support links, visible review dates and account-stage boundaries."
+    ],
+    "nextActions": [
+      "Strengthen the existing indexed Brazil, Hong Kong, EU, UK, Japan and Korea carriers before creating adjacent pages.",
+      "Keep Mexico, Taiwan and Indonesia noindex until original-language and official-source QA pass; deepen the existing indexed Türkiye hub.",
+      "Add compact publisher, last-reviewed, methodology and reusable JSON/CSV asset signals to existing high-value pages.",
+      "Keep private referral economics and invitation-link alternates out of public AEO assets while preserving protected CTA links in product code.",
+      "Repeat this 20-query baseline after material hub updates and keep public-search evidence separate from answer-engine evidence."
+    ]
+  },
+  "queries": [
+    {
+      "number": 1,
+      "registryId": "br-pix-deposit",
+      "language": "pt-BR",
+      "query": "Como conferir o caminho oficial de depósito em BRL ou Pix antes de escolher uma plataforma?",
+      "existingCarrierFromPublicationMap": "/br/pix",
+      "publicationDecisionFromMap": "Strengthen indexed Brazil Pix page, not a new page.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "Como conferir o caminho oficial de depósito em BRL ou Pix antes de escolher uma plataforma?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "support.kraken.com",
+              "sourceType": "official_platform_help",
+              "url": "https://support.kraken.com/pt/articles/how-to-deposit-brazilian-real",
+              "snippetBoundary": "Kraken support result for BRL deposit via PIX; account flow snippet only."
+            },
+            {
+              "domain": "help.crypto.com",
+              "sourceType": "official_platform_help",
+              "url": "https://help.crypto.com/pt/articles/4914244-deposito-em-brl-via-rede-pix-ted",
+              "snippetBoundary": "Crypto.com help result for BRL via PIX/TED deposit method."
+            },
+            {
+              "domain": "bcb.gov.br",
+              "sourceType": "official_regulator_payment",
+              "url": "https://www.bcb.gov.br/",
+              "snippetBoundary": "Banco Central result appeared for Brazilian payment context."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Como conferir o caminho oficial de depósito em BRL ou Pix antes de escolher uma plataforma?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Como conferir o caminho oficial de depósito em BRL ou Pix antes de escolher uma plataforma?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Como conferir o caminho oficial de depósito em BRL ou Pix antes de escolher uma plataforma?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "official_platform_help",
+        "official_regulator_payment"
+      ],
+      "observation": "Official platform help and Brazilian payment-system education dominate; NexuAlpha did not appear.",
+      "actionableGap": "NexuAlpha needs a compact, source-bounded direct answer on the mapped carrier before expecting citation pickup; avoid thin standalone pages unless the hub is ready."
+    },
+    {
+      "number": 2,
+      "registryId": "br-pix-withdraw",
+      "language": "pt-BR",
+      "query": "Quais condições devo confirmar antes de sacar BRL por Pix?",
+      "existingCarrierFromPublicationMap": "/br/pix",
+      "publicationDecisionFromMap": "Add withdrawal subsection to indexed Pix page.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "Quais condições devo confirmar antes de sacar BRL por Pix?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "support.kraken.com",
+              "sourceType": "official_platform_help",
+              "url": "https://support.kraken.com/",
+              "snippetBoundary": "Kraken support result for BRL withdrawal steps."
+            },
+            {
+              "domain": "qinv.com.br",
+              "sourceType": "local_crypto_finance_seo",
+              "url": "https://www.qinv.com.br/",
+              "snippetBoundary": "Brazil crypto withdrawal SEO guide result with Pix framing."
+            },
+            {
+              "domain": "avenue.us",
+              "sourceType": "official_financial_platform_help",
+              "url": "https://avenue.us/",
+              "snippetBoundary": "Avenue help result about BRL withdrawal route limits."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Quais condições devo confirmar antes de sacar BRL por Pix?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Quais condições devo confirmar antes de sacar BRL por Pix?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Quais condições devo confirmar antes de sacar BRL por Pix?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "local_crypto_finance_seo",
+        "official_financial_platform_help",
+        "official_platform_help"
+      ],
+      "observation": "Exchange/platform help and local finance SEO pages dominate; NexuAlpha did not appear.",
+      "actionableGap": "NexuAlpha needs a compact, source-bounded direct answer on the mapped carrier before expecting citation pickup; avoid thin standalone pages unless the hub is ready."
+    },
+    {
+      "number": 3,
+      "registryId": "br-fee-estimate",
+      "language": "pt-BR",
+      "query": "Por que uma estimativa de taxas não substitui a tabela oficial da conta?",
+      "existingCarrierFromPublicationMap": "/br/custos",
+      "publicationDecisionFromMap": "Strengthen indexed Brazil costs page.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "Por que uma estimativa de taxas não substitui a tabela oficial da conta?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "caixa.gov.br",
+              "sourceType": "official_bank_fee_pdf",
+              "url": "https://www.caixa.gov.br/",
+              "snippetBoundary": "Official tariff table PDF result for fee-table intent."
+            },
+            {
+              "domain": "licitacoesecontratos.tcu.gov.br",
+              "sourceType": "government_reference",
+              "url": "https://licitacoesecontratos.tcu.gov.br/",
+              "snippetBoundary": "Government reference result about estimates and official price sources."
+            },
+            {
+              "domain": "bingx.com",
+              "sourceType": "official_platform_seo",
+              "url": "https://bingx.com/",
+              "snippetBoundary": "Crypto platform guide result mixing Pix and fee language."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Por que uma estimativa de taxas não substitui a tabela oficial da conta?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Por que uma estimativa de taxas não substitui a tabela oficial da conta?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Por que uma estimativa de taxas não substitui a tabela oficial da conta?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "government_reference",
+        "official_bank_fee_pdf",
+        "official_platform_seo"
+      ],
+      "observation": "Official tariff/reference pages and exchange SEO content dominate; NexuAlpha did not appear.",
+      "actionableGap": "NexuAlpha needs a compact, source-bounded direct answer on the mapped carrier before expecting citation pickup; avoid thin standalone pages unless the hub is ready."
+    },
+    {
+      "number": 4,
+      "registryId": "br-referral-boundary",
+      "language": "pt-BR",
+      "query": "Um link de parceiro garante bônus ou desconto para todo usuário brasileiro?",
+      "existingCarrierFromPublicationMap": "/br/conta",
+      "publicationDecisionFromMap": "Strengthen indexed Brazil account/referral boundary page.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "Um link de parceiro garante bônus ou desconto para todo usuário brasileiro?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "lomadee.com.br",
+              "sourceType": "affiliate_marketing_network",
+              "url": "https://www.lomadee.com.br/",
+              "snippetBoundary": "Affiliate coupon-program result, not a crypto-user boundary answer."
+            },
+            {
+              "domain": "passageirodeprimeira.com",
+              "sourceType": "consumer_rewards_media",
+              "url": "https://passageirodeprimeira.com/",
+              "snippetBoundary": "Rewards-program article result for bonus intent."
+            },
+            {
+              "domain": "voeazul.com.br",
+              "sourceType": "brand_rewards_program",
+              "url": "https://www.voeazul.com.br/",
+              "snippetBoundary": "Brand club/rewards result for benefits language."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Um link de parceiro garante bônus ou desconto para todo usuário brasileiro?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Um link de parceiro garante bônus ou desconto para todo usuário brasileiro?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Um link de parceiro garante bônus ou desconto para todo usuário brasileiro?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "affiliate_marketing_network",
+        "brand_rewards_program",
+        "consumer_rewards_media"
+      ],
+      "observation": "Generic affiliate and rewards content dominates; crypto-specific boundary answer is weak in captured results.",
+      "actionableGap": "NexuAlpha needs a compact, source-bounded direct answer on the mapped carrier before expecting citation pickup; avoid thin standalone pages unless the hub is ready."
+    },
+    {
+      "number": 5,
+      "registryId": "hk-residence-platform",
+      "language": "en-HK",
+      "query": "Which crypto platforms publish a Hong Kong licensing or platform-status record?",
+      "existingCarrierFromPublicationMap": "/hk noindex preview",
+      "publicationDecisionFromMap": "Needs real HK country publication before coverage claim.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "Which crypto platforms publish a Hong Kong licensing or platform-status record?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "sfc.hk",
+              "sourceType": "official_regulator",
+              "url": "https://www.sfc.hk/",
+              "snippetBoundary": "SFC lists virtual asset trading platform status."
+            },
+            {
+              "domain": "fintechnews.hk",
+              "sourceType": "industry_media",
+              "url": "https://fintechnews.hk/",
+              "snippetBoundary": "Media list names licensed Hong Kong providers."
+            },
+            {
+              "domain": "scmp.com",
+              "sourceType": "news_media",
+              "url": "https://www.scmp.com/",
+              "snippetBoundary": "News result on Hong Kong crypto exchange licensing."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Which crypto platforms publish a Hong Kong licensing or platform-status record?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Which crypto platforms publish a Hong Kong licensing or platform-status record?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Which crypto platforms publish a Hong Kong licensing or platform-status record?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "industry_media",
+        "news_media",
+        "official_regulator"
+      ],
+      "observation": "SFC official pages and Hong Kong industry/news lists dominate; NexuAlpha did not appear.",
+      "actionableGap": "Deepen the existing indexed Hong Kong hub; do not create a second country page. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/hk",
+      "currentIndexStatus": "indexable: en",
+      "currentAction": "Deepen the existing indexed Hong Kong hub; do not create a second country page."
+    },
+    {
+      "number": 6,
+      "registryId": "hk-hkd-funding",
+      "language": "en-HK",
+      "query": "What HKD or on-chain funding route should a Hong Kong user verify before opening an account?",
+      "existingCarrierFromPublicationMap": "/hk noindex preview",
+      "publicationDecisionFromMap": "Add funding module inside HK hub, not thin page.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "What HKD or on-chain funding route should a Hong Kong user verify before opening an account?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "wise.com",
+              "sourceType": "financial_platform_help",
+              "url": "https://wise.com/help/articles/12CQfcpIVOHULnFNNzBgmE/how-do-i-receive-money-with-my-hkd-account-details",
+              "snippetBoundary": "Wise HKD account-details result for funding route mechanics."
+            },
+            {
+              "domain": "newhedge.io",
+              "sourceType": "crypto_affiliate_seo",
+              "url": "https://newhedge.io/buy/hong-kong",
+              "snippetBoundary": "Affiliate-style Hong Kong exchange guide result."
+            },
+            {
+              "domain": "airwallex.com",
+              "sourceType": "financial_platform_guide",
+              "url": "https://www.airwallex.com/en-hk/blog/open-foreign-currency-account",
+              "snippetBoundary": "Foreign-currency account guide result for Hong Kong."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "What HKD or on-chain funding route should a Hong Kong user verify before opening an account?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "What HKD or on-chain funding route should a Hong Kong user verify before opening an account?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "What HKD or on-chain funding route should a Hong Kong user verify before opening an account?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "crypto_affiliate_seo",
+        "financial_platform_guide",
+        "financial_platform_help"
+      ],
+      "observation": "Financial platform guides and crypto affiliate pages dominate; NexuAlpha did not appear.",
+      "actionableGap": "Add or improve the funding module inside the existing indexed Hong Kong hub. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/hk",
+      "currentIndexStatus": "indexable: en",
+      "currentAction": "Add or improve the funding module inside the existing indexed Hong Kong hub."
+    },
+    {
+      "number": 7,
+      "registryId": "eu-mica-register",
+      "language": "en-EU",
+      "query": "Where can a user check the current ESMA MiCA register before comparing a crypto platform?",
+      "existingCarrierFromPublicationMap": "/eu noindex preview plus indexed MiCA news support",
+      "publicationDecisionFromMap": "Build durable EU hub and link the existing news support article.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "Where can a user check the current ESMA MiCA register before comparing a crypto platform?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "esma.europa.eu",
+              "sourceType": "official_regulator",
+              "url": "https://www.esma.europa.eu/",
+              "snippetBoundary": "ESMA MiCA register result with interim register language."
+            },
+            {
+              "domain": "casptracker.eu",
+              "sourceType": "third_party_directory",
+              "url": "https://casptracker.eu/",
+              "snippetBoundary": "CASP tracker result points users back to official ESMA register."
+            },
+            {
+              "domain": "paybis.com",
+              "sourceType": "exchange_seo_content",
+              "url": "https://paybis.com/",
+              "snippetBoundary": "Exchange content result about MiCA-licensed exchanges."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Where can a user check the current ESMA MiCA register before comparing a crypto platform?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Where can a user check the current ESMA MiCA register before comparing a crypto platform?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Where can a user check the current ESMA MiCA register before comparing a crypto platform?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "exchange_seo_content",
+        "official_regulator",
+        "third_party_directory"
+      ],
+      "observation": "Official ESMA plus third-party CASP directories dominate; NexuAlpha did not appear.",
+      "actionableGap": "Deepen the existing indexed EU hub and retain the MiCA article as supporting evidence. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/eu",
+      "currentIndexStatus": "indexable: en",
+      "currentAction": "Deepen the existing indexed EU hub and retain the MiCA article as supporting evidence."
+    },
+    {
+      "number": 8,
+      "registryId": "eu-member-state",
+      "language": "en-EU",
+      "query": "Why must a European crypto platform decision be checked by country and service scope?",
+      "existingCarrierFromPublicationMap": "/eu noindex preview",
+      "publicationDecisionFromMap": "Include service-scope explanation inside EU hub.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "Why must a European crypto platform decision be checked by country and service scope?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "esma.europa.eu",
+              "sourceType": "official_regulator",
+              "url": "https://www.esma.europa.eu/",
+              "snippetBoundary": "Official ESMA result surfaced for MiCA context."
+            },
+            {
+              "domain": "lw.com",
+              "sourceType": "law_firm_analysis",
+              "url": "https://www.lw.com/",
+              "snippetBoundary": "Law-firm tracker result explains register/status scope."
+            },
+            {
+              "domain": "cyfrin.io",
+              "sourceType": "crypto_education_seo",
+              "url": "https://www.cyfrin.io/",
+              "snippetBoundary": "Crypto education guide result for MiCA regulation."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Why must a European crypto platform decision be checked by country and service scope?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Why must a European crypto platform decision be checked by country and service scope?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Why must a European crypto platform decision be checked by country and service scope?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "crypto_education_seo",
+        "law_firm_analysis",
+        "official_regulator"
+      ],
+      "observation": "Regulator, law-firm and crypto education pages dominate; NexuAlpha did not appear.",
+      "actionableGap": "Improve service-scope explanation inside the existing indexed EU hub. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/eu",
+      "currentIndexStatus": "indexable: en",
+      "currentAction": "Improve service-scope explanation inside the existing indexed EU hub."
+    },
+    {
+      "number": 9,
+      "registryId": "eu-sepa-funding",
+      "language": "en-EU",
+      "query": "What EUR or SEPA funding conditions should an EU user verify on the official platform page?",
+      "existingCarrierFromPublicationMap": "/eu noindex preview",
+      "publicationDecisionFromMap": "Add SEPA funding module inside EU hub.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "What EUR or SEPA funding conditions should an EU user verify on the official platform page?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "ecb.europa.eu",
+              "sourceType": "official_central_bank",
+              "url": "https://www.ecb.europa.eu/paym/retail/sepa/html/index.en.html",
+              "snippetBoundary": "ECB SEPA overview result for euro payment rails."
+            },
+            {
+              "domain": "europeanpaymentscouncil.eu",
+              "sourceType": "official_payment_scheme",
+              "url": "https://www.europeanpaymentscouncil.eu/what-we-do/other-schemes/verification-payee",
+              "snippetBoundary": "EPC Verification of Payee result for SEPA checks."
+            },
+            {
+              "domain": "iban.com",
+              "sourceType": "payment_reference_seo",
+              "url": "https://www.iban.com/verification-of-payee",
+              "snippetBoundary": "Payment reference result for SEPA payee verification."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "What EUR or SEPA funding conditions should an EU user verify on the official platform page?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "What EUR or SEPA funding conditions should an EU user verify on the official platform page?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "What EUR or SEPA funding conditions should an EU user verify on the official platform page?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "official_central_bank",
+        "official_payment_scheme",
+        "payment_reference_seo"
+      ],
+      "observation": "Official payment-system sources dominate; NexuAlpha did not appear.",
+      "actionableGap": "Improve the SEPA funding module inside the existing indexed EU hub. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/eu",
+      "currentIndexStatus": "indexable: en",
+      "currentAction": "Improve the SEPA funding module inside the existing indexed EU hub."
+    },
+    {
+      "number": 10,
+      "registryId": "uk-fca-register",
+      "language": "en-GB",
+      "query": "How can a UK user check whether a cryptoasset firm appears in the FCA register?",
+      "existingCarrierFromPublicationMap": "/uk noindex preview",
+      "publicationDecisionFromMap": "Publish UK hub before CTA expansion.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "How can a UK user check whether a cryptoasset firm appears in the FCA register?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "fca.org.uk",
+              "sourceType": "official_regulator",
+              "url": "https://www.fca.org.uk/",
+              "snippetBoundary": "FCA register result for checking authorised firms."
+            },
+            {
+              "domain": "register.fca.org.uk",
+              "sourceType": "official_register",
+              "url": "https://register.fca.org.uk/",
+              "snippetBoundary": "FCA register resource result."
+            },
+            {
+              "domain": "coinpass.com",
+              "sourceType": "exchange_education",
+              "url": "https://www.coinpass.com/",
+              "snippetBoundary": "Cryptoasset register explainer result."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "How can a UK user check whether a cryptoasset firm appears in the FCA register?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "How can a UK user check whether a cryptoasset firm appears in the FCA register?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "How can a UK user check whether a cryptoasset firm appears in the FCA register?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "exchange_education",
+        "official_register",
+        "official_regulator"
+      ],
+      "observation": "Official FCA surfaces dominate with some exchange education; NexuAlpha did not appear.",
+      "actionableGap": "Deepen the existing indexed UK hub before CTA expansion. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/uk",
+      "currentIndexStatus": "indexable: en",
+      "currentAction": "Deepen the existing indexed UK hub before CTA expansion."
+    },
+    {
+      "number": 11,
+      "registryId": "uk-gbp-funding",
+      "language": "en-GB",
+      "query": "What GBP funding method and account limits should a UK user confirm on the official site?",
+      "existingCarrierFromPublicationMap": "/uk noindex preview",
+      "publicationDecisionFromMap": "Add GBP funding module inside UK hub.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "What GBP funding method and account limits should a UK user confirm on the official site?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "starlingbank.com",
+              "sourceType": "bank_payment_guide",
+              "url": "https://www.starlingbank.com/",
+              "snippetBoundary": "Faster Payments guide result includes scheme and account-limit framing."
+            },
+            {
+              "domain": "stripe.com",
+              "sourceType": "payment_platform_guide",
+              "url": "https://stripe.com/",
+              "snippetBoundary": "GBP bank-transfer guide result."
+            },
+            {
+              "domain": "wise.com",
+              "sourceType": "financial_platform_guide",
+              "url": "https://wise.com/",
+              "snippetBoundary": "UK international-transfer limits result."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "What GBP funding method and account limits should a UK user confirm on the official site?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "What GBP funding method and account limits should a UK user confirm on the official site?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "What GBP funding method and account limits should a UK user confirm on the official site?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "bank_payment_guide",
+        "financial_platform_guide",
+        "payment_platform_guide"
+      ],
+      "observation": "Bank/payment-provider guides dominate; NexuAlpha did not appear.",
+      "actionableGap": "Improve the GBP funding module inside the existing indexed UK hub. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/uk",
+      "currentIndexStatus": "indexable: en",
+      "currentAction": "Improve the GBP funding module inside the existing indexed UK hub."
+    },
+    {
+      "number": 12,
+      "registryId": "jp-fsa-register",
+      "language": "ja-JP",
+      "query": "日本で暗号資産交換業者の登録情報を確認するには、どの公式情報源を見ればよいですか？",
+      "existingCarrierFromPublicationMap": "/jp noindex preview",
+      "publicationDecisionFromMap": "Create Japanese-original country page before claiming answer coverage.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "日本で暗号資産交換業者の登録情報を確認するには、どの公式情報源を見ればよいですか？",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "fsa.go.jp",
+              "sourceType": "official_regulator",
+              "url": "https://www.fsa.go.jp/",
+              "snippetBoundary": "金融庁の暗号資産交換業者登録一覧が出現。"
+            },
+            {
+              "domain": "gov-online.go.jp",
+              "sourceType": "official_government_education",
+              "url": "https://www.gov-online.go.jp/",
+              "snippetBoundary": "政府広報の注意喚起結果が出現。"
+            },
+            {
+              "domain": "rakuten-wallet.co.jp",
+              "sourceType": "exchange_education",
+              "url": "https://www.rakuten-wallet.co.jp/",
+              "snippetBoundary": "交換業者の登録一覧確認に触れる取引所系解説。"
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "日本で暗号資産交換業者の登録情報を確認するには、どの公式情報源を見ればよいですか？"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "日本で暗号資産交換業者の登録情報を確認するには、どの公式情報源を見ればよいですか？"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "日本で暗号資産交換業者の登録情報を確認するには、どの公式情報源を見ればよいですか？"
+        }
+      ],
+      "dominantSourceTypes": [
+        "exchange_education",
+        "official_government_education",
+        "official_regulator"
+      ],
+      "observation": "金融庁と政府広報が強く、取引所解説も出る。NexuAlpha は出現せず。",
+      "actionableGap": "Deepen the existing indexed Japanese-original country hub. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/jp",
+      "currentIndexStatus": "indexable: ja",
+      "currentAction": "Deepen the existing indexed Japanese-original country hub."
+    },
+    {
+      "number": 13,
+      "registryId": "jp-jpy-funding",
+      "language": "ja-JP",
+      "query": "日本円の入金方法と本人名義口座の条件は、どこで確認できますか?",
+      "existingCarrierFromPublicationMap": "/jp noindex preview",
+      "publicationDecisionFromMap": "Add JPY funding module inside Japan hub.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "日本円の入金方法と本人名義口座の条件は、どこで確認できますか?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "coincheck.com",
+              "sourceType": "official_platform_help",
+              "url": "https://faq.coincheck.com/",
+              "snippetBoundary": "Coincheck FAQ result for JPY withdrawal/deposit handling."
+            },
+            {
+              "domain": "bitpoint.co.jp",
+              "sourceType": "official_platform_help",
+              "url": "https://www.bitpoint.co.jp/",
+              "snippetBoundary": "BITPoint legal-currency deposit/withdrawal result."
+            },
+            {
+              "domain": "jibunbank.co.jp",
+              "sourceType": "bank_help",
+              "url": "https://www.jibunbank.co.jp/",
+              "snippetBoundary": "Bank-account deposit/help result for account details."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "日本円の入金方法と本人名義口座の条件は、どこで確認できますか?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "日本円の入金方法と本人名義口座の条件は、どこで確認できますか?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "日本円の入金方法と本人名義口座の条件は、どこで確認できますか?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "bank_help",
+        "official_platform_help"
+      ],
+      "observation": "Japanese exchange help and bank help dominate; NexuAlpha did not appear.",
+      "actionableGap": "Improve the JPY funding module inside the existing indexed Japan hub. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/jp",
+      "currentIndexStatus": "indexable: ja",
+      "currentAction": "Improve the JPY funding module inside the existing indexed Japan hub."
+    },
+    {
+      "number": 14,
+      "registryId": "kr-regulatory-context",
+      "language": "ko-KR",
+      "query": "한국에서 가상자산 플랫폼을 비교하기 전에 금융위원회 공식 규제 맥락을 어떻게 확인해야 하나요?",
+      "existingCarrierFromPublicationMap": "/kr noindex preview",
+      "publicationDecisionFromMap": "Create Korean-original country page.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "한국에서 가상자산 플랫폼을 비교하기 전에 금융위원회 공식 규제 맥락을 어떻게 확인해야 하나요?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "fsc.go.kr",
+              "sourceType": "official_regulator",
+              "url": "https://www.fsc.go.kr/",
+              "snippetBoundary": "FSC press release result for virtual-asset context."
+            },
+            {
+              "domain": "hankyung.com",
+              "sourceType": "news_media",
+              "url": "https://www.hankyung.com/",
+              "snippetBoundary": "News result tells users to check FIU-listed providers."
+            },
+            {
+              "domain": "decentlaw.io",
+              "sourceType": "law_firm_analysis",
+              "url": "https://decentlaw.io/",
+              "snippetBoundary": "Law-firm Korean market/regulation analysis result."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "한국에서 가상자산 플랫폼을 비교하기 전에 금융위원회 공식 규제 맥락을 어떻게 확인해야 하나요?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "한국에서 가상자산 플랫폼을 비교하기 전에 금융위원회 공식 규제 맥락을 어떻게 확인해야 하나요?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "한국에서 가상자산 플랫폼을 비교하기 전에 금융위원회 공식 규제 맥락을 어떻게 확인해야 하나요?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "law_firm_analysis",
+        "news_media",
+        "official_regulator"
+      ],
+      "observation": "FSC/news/legal sources dominate; NexuAlpha did not appear.",
+      "actionableGap": "Deepen the existing indexed Korean-original country hub. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/kr",
+      "currentIndexStatus": "indexable: ko",
+      "currentAction": "Deepen the existing indexed Korean-original country hub."
+    },
+    {
+      "number": 15,
+      "registryId": "kr-krw-funding",
+      "language": "ko-KR",
+      "query": "원화 입금과 본인 명의 은행계좌 조건은 어디에서 확인할 수 있나요?",
+      "existingCarrierFromPublicationMap": "/kr noindex preview",
+      "publicationDecisionFromMap": "Add KRW funding module inside Korea hub.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "원화 입금과 본인 명의 은행계좌 조건은 어디에서 확인할 수 있나요?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "payinfo.or.kr",
+              "sourceType": "official_financial_utility",
+              "url": "https://www.payinfo.or.kr/",
+              "snippetBoundary": "Account information service result for own-name account verification."
+            },
+            {
+              "domain": "useb.co.kr",
+              "sourceType": "identity_verification_vendor",
+              "url": "https://blog.useb.co.kr/",
+              "snippetBoundary": "1-won verification explainer result."
+            },
+            {
+              "domain": "alchera.ai",
+              "sourceType": "identity_verification_vendor",
+              "url": "https://www.alchera.ai/",
+              "snippetBoundary": "Financial 1-won verification result."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "원화 입금과 본인 명의 은행계좌 조건은 어디에서 확인할 수 있나요?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "원화 입금과 본인 명의 은행계좌 조건은 어디에서 확인할 수 있나요?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "원화 입금과 본인 명의 은행계좌 조건은 어디에서 확인할 수 있나요?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "identity_verification_vendor",
+        "official_financial_utility"
+      ],
+      "observation": "Financial utility and identity-verification vendors dominate; NexuAlpha did not appear.",
+      "actionableGap": "Improve the KRW funding module inside the existing indexed Korea hub. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/kr",
+      "currentIndexStatus": "indexable: ko",
+      "currentAction": "Improve the KRW funding module inside the existing indexed Korea hub."
+    },
+    {
+      "number": 16,
+      "registryId": "tr-spk-register",
+      "language": "tr-TR",
+      "query": "Türkiye'de bir kripto varlık hizmet sağlayıcısını karşılaştırmadan önce SPK'nın güncel listesini nasıl kontrol edebilirsiniz?",
+      "existingCarrierFromPublicationMap": "/tr not dedicated in sitemap",
+      "publicationDecisionFromMap": "Create Turkey country page.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "Türkiye'de bir kripto varlık hizmet sağlayıcısını karşılaştırmadan önce SPK'nın güncel listesini nasıl kontrol edebilirsiniz?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "spk.gov.tr",
+              "sourceType": "official_regulator",
+              "url": "https://spk.gov.tr/",
+              "snippetBoundary": "SPK crypto-asset service provider lists result."
+            },
+            {
+              "domain": "fintechtime.com",
+              "sourceType": "industry_media",
+              "url": "https://fintechtime.com/",
+              "snippetBoundary": "Industry-news result about SPK temporary list."
+            },
+            {
+              "domain": "erdem-erdem.av.tr",
+              "sourceType": "law_firm_analysis",
+              "url": "https://www.erdem-erdem.av.tr/",
+              "snippetBoundary": "Law-firm result about SPK crypto platform regulations."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Türkiye'de bir kripto varlık hizmet sağlayıcısını karşılaştırmadan önce SPK'nın güncel listesini nasıl kontrol edebilirsiniz?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Türkiye'de bir kripto varlık hizmet sağlayıcısını karşılaştırmadan önce SPK'nın güncel listesini nasıl kontrol edebilirsiniz?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Türkiye'de bir kripto varlık hizmet sağlayıcısını karşılaştırmadan önce SPK'nın güncel listesini nasıl kontrol edebilirsiniz?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "industry_media",
+        "law_firm_analysis",
+        "official_regulator"
+      ],
+      "observation": "Official SPK source dominates with media/law commentary; NexuAlpha did not appear.",
+      "actionableGap": "Deepen the existing indexed Türkiye hub with the SPK verification path. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/tr/markets/turkiye",
+      "currentIndexStatus": "indexable: tr",
+      "currentAction": "Deepen the existing indexed Türkiye hub with the SPK verification path."
+    },
+    {
+      "number": 17,
+      "registryId": "tr-try-funding",
+      "language": "tr-TR",
+      "query": "Paribu'da TRY yatırmadan önce banka hesabı ve transfer koşulları nereden doğrulanmalıdır?",
+      "existingCarrierFromPublicationMap": "/tr not dedicated in sitemap",
+      "publicationDecisionFromMap": "Add TRY funding module inside Turkey hub.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "Paribu'da TRY yatırmadan önce banka hesabı ve transfer koşulları nereden doğrulanmalıdır?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "paribu.com",
+              "sourceType": "official_platform_help",
+              "url": "https://www.paribu.com/",
+              "snippetBoundary": "Paribu official result for TL deposit via bank transfer."
+            },
+            {
+              "domain": "sikayetvar.com",
+              "sourceType": "consumer_complaints",
+              "url": "https://www.sikayetvar.com/",
+              "snippetBoundary": "Complaint result around deposit/withdrawal verification issues."
+            },
+            {
+              "domain": "gidahatti.com",
+              "sourceType": "consumer_howto_media",
+              "url": "https://www.gidahatti.com/",
+              "snippetBoundary": "Older Paribu how-to result mentioning TL deposit menu."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Paribu'da TRY yatırmadan önce banka hesabı ve transfer koşulları nereden doğrulanmalıdır?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Paribu'da TRY yatırmadan önce banka hesabı ve transfer koşulları nereden doğrulanmalıdır?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Paribu'da TRY yatırmadan önce banka hesabı ve transfer koşulları nereden doğrulanmalıdır?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "consumer_complaints",
+        "consumer_howto_media",
+        "official_platform_help"
+      ],
+      "observation": "Official Paribu help plus consumer complaint/how-to pages dominate; NexuAlpha did not appear.",
+      "actionableGap": "Improve the TRY funding module inside the existing indexed Türkiye hub. Add a compact source-bounded answer, review date, methodology link and official-source path.",
+      "currentCarrier": "/tr/markets/turkiye",
+      "currentIndexStatus": "indexable: tr",
+      "currentAction": "Improve the TRY funding module inside the existing indexed Türkiye hub."
+    },
+    {
+      "number": 18,
+      "registryId": "mx-spei-route",
+      "language": "es-MX",
+      "query": "¿Qué debe confirmar un usuario mexicano sobre SPEI antes de elegir una plataforma?",
+      "existingCarrierFromPublicationMap": "/mx noindex preview",
+      "publicationDecisionFromMap": "Create Mexico hub after source QA.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "¿Qué debe confirmar un usuario mexicano sobre SPEI antes de elegir una plataforma?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "banxico.org.mx",
+              "sourceType": "official_central_bank",
+              "url": "https://www.banxico.org.mx/",
+              "snippetBoundary": "Banxico SPEI result on verifying transfer information."
+            },
+            {
+              "domain": "mercadopago.com.mx",
+              "sourceType": "payment_platform_guide",
+              "url": "https://www.mercadopago.com.mx/",
+              "snippetBoundary": "Mercado Pago SPEI explainer result."
+            },
+            {
+              "domain": "bbva.mx",
+              "sourceType": "bank_education",
+              "url": "https://www.bbva.mx/",
+              "snippetBoundary": "BBVA SPEI how-to result."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "¿Qué debe confirmar un usuario mexicano sobre SPEI antes de elegir una plataforma?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "¿Qué debe confirmar un usuario mexicano sobre SPEI antes de elegir una plataforma?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "¿Qué debe confirmar un usuario mexicano sobre SPEI antes de elegir una plataforma?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "bank_education",
+        "official_central_bank",
+        "payment_platform_guide"
+      ],
+      "observation": "Official central-bank and large payment/bank explainers dominate; NexuAlpha did not appear.",
+      "actionableGap": "NexuAlpha needs a compact, source-bounded direct answer on the mapped carrier before expecting citation pickup; avoid thin standalone pages unless the hub is ready.",
+      "currentCarrier": "/mx",
+      "currentIndexStatus": "noindex: en preview",
+      "currentAction": "Keep the Mexico preview out of the index until Spanish source and language QA pass."
+    },
+    {
+      "number": 19,
+      "registryId": "tw-bank-verification",
+      "language": "zh-Hant-TW",
+      "query": "台灣使用者在選擇平台前，應如何核對銀行驗證與服務主體？",
+      "existingCarrierFromPublicationMap": "/tw noindex preview",
+      "publicationDecisionFromMap": "Create Taiwan Traditional Chinese hub.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "台灣使用者在選擇平台前，應如何核對銀行驗證與服務主體？",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "fsc.gov.tw",
+              "sourceType": "official_regulator_pdf",
+              "url": "https://www.fsc.gov.tw/websitedowndoc?file=chfsc%2F202408231118470.pdf&filedisplay=%E9%87%91%E8%9E%8D%E6%9C%8D%E5%8B%99%E6%A5%AD%E8%BE%A6%E7%90%86%E6%95%B8%E4%BD%8D%E8%BA%AB%E5%88%86%E9%A9%97%E8%AD%89%E6%8C%87%E5%BC%95%28%E8%AA%AA%E6%98%8E%E5%B0%8D%E7%85%A7%E8%A1%A8%29_v.pdf",
+              "snippetBoundary": "FSC digital identity verification guidance PDF result."
+            },
+            {
+              "domain": "law.lia-roc.org.tw",
+              "sourceType": "legal_reference",
+              "url": "https://law.lia-roc.org.tw/Law/Content?lsid=FL102313",
+              "snippetBoundary": "Legal text mirror for digital identity verification guidance."
+            },
+            {
+              "domain": "fubon.com",
+              "sourceType": "bank_onboarding_help",
+              "url": "https://www.fubon.com/banking/event/deposit/FubonDSAPromotion/index.html",
+              "snippetBoundary": "Bank account verification onboarding result."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "台灣使用者在選擇平台前，應如何核對銀行驗證與服務主體？"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "台灣使用者在選擇平台前，應如何核對銀行驗證與服務主體？"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "台灣使用者在選擇平台前，應如何核對銀行驗證與服務主體？"
+        }
+      ],
+      "dominantSourceTypes": [
+        "bank_onboarding_help",
+        "legal_reference",
+        "official_regulator_pdf"
+      ],
+      "observation": "Taiwan regulator/legal/bank verification results dominate; NexuAlpha did not appear.",
+      "actionableGap": "NexuAlpha needs a compact, source-bounded direct answer on the mapped carrier before expecting citation pickup; avoid thin standalone pages unless the hub is ready.",
+      "currentCarrier": "/tw",
+      "currentIndexStatus": "noindex: en preview",
+      "currentAction": "Keep the Taiwan preview out of the index until Traditional Chinese source and language QA pass."
+    },
+    {
+      "number": 20,
+      "registryId": "id-va-qris-route",
+      "language": "id-ID",
+      "query": "Apa yang harus diverifikasi pengguna Indonesia tentang VA atau QRIS sebelum memilih platform?",
+      "existingCarrierFromPublicationMap": "/id noindex preview",
+      "publicationDecisionFromMap": "Create Indonesia hub after local-source validation.",
+      "checks": [
+        {
+          "platform": "search_engine_web",
+          "surface": "web.search_query_result_snippets",
+          "capturedAt": "2026-09-15T08:04:21Z",
+          "exactQuery": "Apa yang harus diverifikasi pengguna Indonesia tentang VA atau QRIS sebelum memilih platform?",
+          "nexuAlphaCited": "no",
+          "nexuAlphaEvidence": [],
+          "resultBoundary": "Captured result titles/snippets returned by the web.search_query tool on 2026-09-15; this is not a full rank, impression or answer-engine citation claim.",
+          "dominantSources": [
+            {
+              "domain": "bi.go.id",
+              "sourceType": "official_central_bank",
+              "url": "https://www.bi.go.id/",
+              "snippetBoundary": "Bank Indonesia QRIS official result."
+            },
+            {
+              "domain": "finpay.id",
+              "sourceType": "licensed_payment_provider",
+              "url": "https://www.finpay.id/",
+              "snippetBoundary": "Finpay QRIS and VA payment-method guide result."
+            },
+            {
+              "domain": "ezeelink.co.id",
+              "sourceType": "licensed_payment_provider",
+              "url": "https://ezeelink.co.id/",
+              "snippetBoundary": "QRIS license/provider guide result."
+            }
+          ]
+        },
+        {
+          "platform": "ChatGPT",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Apa yang harus diverifikasi pengguna Indonesia tentang VA atau QRIS sebelum memilih platform?"
+        },
+        {
+          "platform": "Perplexity",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Apa yang harus diverifikasi pengguna Indonesia tentang VA atau QRIS sebelum memilih platform?"
+        },
+        {
+          "platform": "Gemini",
+          "surface": "answer_engine",
+          "nexuAlphaCited": "unknown",
+          "availability": "UNKNOWN",
+          "reason": "No public, reproducible citation surface was available in this run; no answer was fabricated.",
+          "exactQuery": "Apa yang harus diverifikasi pengguna Indonesia tentang VA atau QRIS sebelum memilih platform?"
+        }
+      ],
+      "dominantSourceTypes": [
+        "licensed_payment_provider",
+        "official_central_bank"
+      ],
+      "observation": "Bank Indonesia and licensed payment-provider content dominate; NexuAlpha did not appear.",
+      "actionableGap": "NexuAlpha needs a compact, source-bounded direct answer on the mapped carrier before expecting citation pickup; avoid thin standalone pages unless the hub is ready.",
+      "currentCarrier": "/id",
+      "currentIndexStatus": "noindex: en preview",
+      "currentAction": "Keep the Indonesia preview out of the index until Indonesian source and language QA pass."
+    }
+  ],
+  "currentRouteInventory": {
+    "buildId": "3.0-20260915T074534",
+    "checkedAt": "2026-09-15",
+    "boundary": "Current route inventory supersedes the 2026-09-14 publication-map status while retaining its fixed 20-question set."
+  }
+}

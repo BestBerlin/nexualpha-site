@@ -1,0 +1,56 @@
+/* A compact sourced reading, not a narrow card in a full-height section. */
+.v2-section.live-market-signal {
+  padding-block: 14px;
+}
+
+.crypto-sentiment {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+  align-items: start;
+  gap: 10px 20px;
+  inline-size: 100%;
+  min-inline-size: 0;
+  color: var(--muted);
+}
+
+.crypto-sentiment > * { min-inline-size: 0; }
+.crypto-sentiment__reading {
+  display: grid;
+  grid-column: 1;
+  grid-row: 1;
+  gap: 6px;
+}
+.crypto-sentiment__eyebrow { color: var(--blue-text); font-size: .875rem; line-height: 1.6; }
+.crypto-sentiment strong { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; color: var(--ink); font-size: 28px; font-variant-numeric: tabular-nums; line-height: 1.15; }
+.crypto-sentiment strong small { color: var(--muted); font-size: .875rem; font-weight: 500; }
+.crypto-sentiment__meta {
+  display: grid;
+  grid-column: 2;
+  grid-row: 1;
+  justify-items: end;
+  gap: 4px;
+  text-align: end;
+}
+.crypto-sentiment__meta a,
+.crypto-sentiment time,
+.crypto-sentiment p { margin: 0; font-size: var(--v3-cjk-aux-size, .875rem); line-height: 1.6; overflow-wrap: anywhere; }
+.crypto-sentiment p {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-block-start: 4px;
+  text-wrap: pretty;
+}
+.crypto-sentiment a { color: var(--ink); text-underline-offset: 3px; }
+.crypto-sentiment a [dir="ltr"] { display: inline-block; unicode-bidi: isolate; }
+.crypto-sentiment--stale strong { color: var(--warning); }
+
+@media (max-width: 780px) {
+  .crypto-sentiment { grid-template-columns: 1fr; gap: 8px; }
+  .crypto-sentiment__reading,
+  .crypto-sentiment__meta,
+  .crypto-sentiment p {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .crypto-sentiment__meta { justify-items: start; text-align: start; }
+}

@@ -1,0 +1,106 @@
+.v3-onsite-telegram-handoff {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  margin: 1.25rem 0 0;
+  padding: 1rem;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(15, 23, 42, 0.88));
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+}
+
+.v3-onsite-telegram-handoff__eyebrow {
+  display: inline-flex;
+  margin-bottom: 0.35rem;
+  color: #67e8f9;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.v3-onsite-telegram-handoff h2 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.18;
+}
+
+.v3-onsite-telegram-handoff p {
+  max-width: 62ch;
+  margin: 0.45rem 0 0;
+  color: rgba(226, 232, 240, 0.78);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.v3-onsite-telegram-handoff ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.7rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.v3-onsite-telegram-handoff li {
+  padding: 0.28rem 0.55rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 999px;
+  color: rgba(226, 232, 240, 0.72);
+  background: rgba(15, 23, 42, 0.45);
+  font-size: 0.76rem;
+}
+
+.v3-onsite-telegram-handoff__button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 170px;
+  padding: 0.78rem 1rem;
+  border-radius: 14px;
+  color: #03111f;
+  background: linear-gradient(135deg, #67e8f9, #22d3ee);
+  font-weight: 850;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(34, 211, 238, 0.22);
+}
+
+.v3-onsite-telegram-handoff__button:hover {
+  transform: translateY(-1px);
+}
+
+.v3-onsite-telegram-handoff--compact {
+  gap: 0.75rem;
+  margin: 0.9rem 0 0;
+  padding: 0.8rem 0.9rem;
+  border-radius: 14px;
+}
+
+.v3-onsite-telegram-handoff--compact h2 {
+  font-size: clamp(0.98rem, 1.4vw, 1.12rem);
+}
+
+.v3-onsite-telegram-handoff--compact p {
+  margin-top: 0.32rem;
+  font-size: 0.84rem;
+}
+
+.v3-onsite-telegram-handoff--compact .v3-onsite-telegram-handoff__button {
+  min-width: 150px;
+  padding: 0.66rem 0.82rem;
+  border-radius: 12px;
+  font-size: 0.86rem;
+}
+
+@media (max-width: 720px) {
+  .v3-onsite-telegram-handoff {
+    grid-template-columns: 1fr;
+    padding: 0.9rem;
+  }
+
+  .v3-onsite-telegram-handoff__button {
+    width: 100%;
+  }
+}

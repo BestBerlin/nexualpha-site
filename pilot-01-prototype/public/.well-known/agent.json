@@ -1,0 +1,57 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "nexualpha_crypto_research_api",
+  "name_for_human": "NexuAlpha Crypto Research API",
+  "description_for_model": "Source-bound cryptocurrency platform research API. Compares published base fee scenarios, checks domain legitimacy against NexuAlpha's official-domain registry, and returns Proof-of-Reserves review status as unknown or pending unless an official source has been reviewed. It does not verify rebates, certify reserve adequacy, or choose an exchange for the user.",
+  "description_for_human": "Compare published crypto platform fee scenarios, check official domains, and review source-bound PoR status notes.",
+  "auth": {
+    "type": "none"
+  },
+  "directory_type": "tool_directory",
+  "base_url": "https://nexualpha.com",
+  "tools": [
+    {
+      "name": "get_lowest_fee_route",
+      "description": "Returns a source-bound comparison of published base fee scenarios based on 30-day trading volume and market type. It does not verify rebates, account-tier discounts, liquidity, spreads, slippage, or final signup terms.",
+      "endpoint": "/api/v1/agent/lowest-fee",
+      "method": "GET",
+      "parameters": {
+        "volume": {
+          "type": "number",
+          "description": "30-day rolling trading volume in USD (e.g. 50000)."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["spot", "futures"],
+          "description": "Market type: 'spot' or 'futures'."
+        }
+      }
+    },
+    {
+      "name": "verify_exchange_domain",
+      "description": "Validates a URL or domain against NexuAlpha's official-domain registry and returns whether the domain matches a known official venue domain.",
+      "endpoint": "/api/v1/agent/verify-domain",
+      "method": "GET",
+      "parameters": {
+        "domain": {
+          "type": "string",
+          "description": "Hostname or domain to check, e.g. 'binance.com' or 'okx.com'."
+        }
+      }
+    },
+    {
+      "name": "get_por_status",
+      "description": "Returns source-bound Proof-of-Reserves review status. Unknown or unreviewed reserve, audit, and protection-fund claims remain pending and must be checked against the venue's current official disclosure.",
+      "endpoint": "/api/v1/agent/por-status",
+      "method": "GET",
+      "parameters": {
+        "slug": {
+          "type": "string",
+          "description": "Exchange identifier (e.g. 'binance', 'okx', 'bybit', 'gate-io', 'mexc')."
+        }
+      }
+    }
+  ],
+  "contact_email": "agents@nexualpha.com",
+  "legal_info_url": "https://nexualpha.com/methodology"
+}

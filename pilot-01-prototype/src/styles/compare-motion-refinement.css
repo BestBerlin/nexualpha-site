@@ -1,0 +1,35 @@
+/* R288: comparison feedback stays local, deliberate and motion-safe. */
+.v3-compare-page .v3-matrix-cta-btn,
+.v3-compare-page .v3-gold-matrix-card,
+.v3-compare-page .v3-decision-action-btn {
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+.v3-compare-page .v3-decision-side-card {
+  transition: border-color .2s ease, transform .2s ease;
+}
+.v3-compare-page .v3-faq-item {
+  transition: background-color .2s ease, border-color .2s ease;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .v3-compare-page .v3-matrix-cta-btn:hover,
+  .v3-compare-page .v3-gold-matrix-card:hover,
+  .v3-compare-page .v3-decision-side-card:hover,
+  .v3-compare-page .v3-decision-action-btn:hover {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v3-compare-page .v3-matrix-cta-btn,
+  .v3-compare-page .v3-gold-matrix-card,
+  .v3-compare-page .v3-decision-side-card,
+  .v3-compare-page .v3-decision-action-btn {
+    transition: none !important;
+    transform: none !important;
+  }
+  .v3-compare-page .v3-faq-item,
+  .v3-compare-page .v3-faq-arrow {
+    transition: none !important;
+  }
+}

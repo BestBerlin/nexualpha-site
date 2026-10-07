@@ -1,0 +1,4 @@
+{
+  "before": "  assert.match(v3Css, /v3-profile-page \\.v3-venue-summary[\\s\\S]*-webkit-line-clamp: 3/);",
+  "after": "  const profileSummaryRule = v3Css.match(/\\.v3-profile-page \\.v3-venue-summary \\{([^}]*)\\}/)?.[1];\n  assert.ok(profileSummaryRule, \"existing precise mobile profile summary rule remains\");\n  assert.match(profileSummaryRule, /display: block;/);\n  assert.match(profileSummaryRule, /overflow: visible;/);\n  assert.doesNotMatch(profileSummaryRule, /-webkit-line-clamp|-webkit-box-orient/);"
+}

@@ -1,0 +1,954 @@
+/* NexuAlpha Programmatic SEO (pSEO) 细分赛道专题页面样式体系 */
+
+.topic-guide-page {
+  padding: 20px 0 48px;
+  background: var(--market, #070a0e);
+  color: #f8fafc;
+  min-height: auto;
+}
+
+.topic-guide-page__inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* 顶部全赛道导航条 (Topic Switcher Strip) */
+.topic-nav-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 6px;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  margin-bottom: 28px;
+  scrollbar-width: thin;
+}
+
+.topic-nav-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.topic-nav-strip::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+.topic-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.topic-nav-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.topic-nav-btn.active {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
+}
+
+/* 页面 Hero 头部 */
+.topic-header {
+  margin-bottom: 32px;
+}
+
+.topic-header__badge-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.topic-header__badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+}
+
+.topic-header__category {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.28);
+}
+
+.topic-header__date {
+  font-size: 0.8125rem;
+  color: #94a3b8;
+}
+
+.topic-header__title {
+  font-size: clamp(1.85rem, 3.6vw, 2.75rem);
+  font-weight: 850;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px;
+  line-height: 1.2;
+}
+
+.topic-header__subtitle {
+  font-size: 1.125rem;
+  color: #94a3b8;
+  max-width: 900px;
+  margin: 0 0 24px;
+  line-height: 1.6;
+}
+
+.topic-header__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.topic-decision-rail {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 20px;
+  align-items: center;
+  margin: 0 0 32px;
+  padding: 18px 20px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-left: 3px solid #38bdf8;
+  background: rgba(8, 47, 73, 0.28);
+}
+
+.topic-decision-rail__eyebrow {
+  color: #7dd3fc;
+  font: 700 0.7rem/1.2 var(--font-mono, monospace);
+  letter-spacing: 0.12em;
+}
+
+.topic-decision-rail h2 {
+  margin: 6px 0 5px;
+  color: #f8fafc;
+  font-size: 1.1rem;
+}
+
+.topic-decision-rail p {
+  margin: 0;
+  color: #a7b6c8;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.topic-source-detail {
+  margin-top: 10px;
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  background: rgba(15, 23, 42, 0.42);
+}
+
+#perp-cost-field-dictionary {
+  scroll-margin-top: 88px;
+}
+
+.topic-source-detail > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  color: #dbeafe;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.topic-source-detail > summary:focus-visible {
+  outline: 2px solid #7dd3fc;
+  outline-offset: 2px;
+}
+
+.topic-source-detail__links {
+  display: grid;
+  gap: 8px;
+  padding: 0 12px 12px;
+}
+
+.topic-source-detail__links a {
+  color: #7dd3fc;
+  overflow-wrap: anywhere;
+}
+
+.topic-cost-dictionary__grid {
+  padding: 0 12px 12px;
+}
+
+.topic-cost-dictionary__grid small {
+  display: block;
+  margin-top: 8px;
+  color: #bae6fd;
+  line-height: 1.5;
+}
+
+.topic-section-disclosure {
+  margin: 0 0 32px;
+}
+
+.topic-matrix-disclosure {
+  margin-bottom: 0;
+}
+
+.topic-section-disclosure > summary {
+  display: none;
+}
+
+.topic-disclosure > summary {
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  color: #dbeafe;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.55);
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 700;
+  list-style: none;
+}
+
+.topic-disclosure > summary::-webkit-details-marker { display: none; }
+.topic-disclosure > summary span { color: #7dd3fc; font-size: 1.1rem; }
+.topic-disclosure__body { padding-top: 14px; }
+
+@media (max-width: 640px) {
+  .topic-decision-rail {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 15px;
+  }
+
+  .topic-section-disclosure > summary { display: flex; }
+  .topic-section-disclosure:not([open]) > .topic-disclosure__body { display: none; }
+  .topic-section-disclosure[open] > .topic-disclosure__body { padding-top: 10px; }
+  .topic-section-disclosure .topic-section { margin-bottom: 0; }
+}
+
+@media (min-width: 641px) {
+  .topic-section-disclosure > .topic-disclosure__body { padding-top: 0; }
+}
+
+.topic-header__pill {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+}
+
+/* 4 核心量化指标卡片网格 */
+.topic-quick-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+@media (max-width: 860px) {
+  .topic-quick-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .topic-quick-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .topic-stat-card {
+    padding: 13px 12px;
+  }
+
+  .topic-stat-card__value {
+    font-size: 1.18rem;
+  }
+
+  .topic-stat-card__desc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+}
+
+.topic-stat-card {
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.topic-stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+  opacity: 0.6;
+}
+
+.topic-stat-card__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.topic-stat-card__value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #38bdf8;
+  font-family: var(--font-mono, monospace);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.topic-stat-card__desc {
+  font-size: 0.8125rem;
+  color: #94a3b8;
+}
+
+/* 通用区块样式 */
+.topic-section {
+  margin-bottom: 40px;
+}
+
+.topic-section:last-child {
+  margin-bottom: 0;
+}
+
+.topic-section__header {
+  margin-bottom: 24px;
+}
+
+.topic-section__title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topic-section__subtitle {
+  font-size: 0.9375rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 痛点卡片网格 */
+.topic-pain-points {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 860px) {
+  .topic-pain-points {
+    grid-template-columns: 1fr;
+  }
+}
+
+.topic-pain-card {
+  background: rgba(23, 23, 33, 0.6);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.topic-pain-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.topic-pain-card__icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.topic-pain-card__title {
+  font-size: 1.0625rem;
+  font-weight: 750;
+  color: #fca5a5;
+  margin: 0 0 10px;
+}
+
+.topic-pain-card__desc {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 评测维度 4 柱 */
+.topic-eval-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .topic-eval-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.topic-eval-card {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+.topic-eval-card h4 {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #38bdf8;
+  margin: 0 0 6px;
+}
+
+.topic-eval-card p {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 平台横向对决打分表 (Showdown Table) */
+.topic-showdown-wrap {
+  overflow-x: auto;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  margin-bottom: 32px;
+}
+
+.topic-showdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 780px;
+}
+
+.topic-showdown-table th {
+  background: rgba(30, 41, 59, 0.7);
+  padding: 14px 16px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.topic-showdown-table td {
+  padding: 16px;
+  font-size: 0.875rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  vertical-align: middle;
+}
+
+.topic-showdown-table tr:last-child td {
+  border-bottom: none;
+}
+
+.topic-showdown-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.topic-platform-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.topic-platform-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.topic-platform-type {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.topic-badge-pill {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  margin-top: 4px;
+  width: fit-content;
+}
+
+.topic-score-cell {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.25rem;
+  font-weight: 850;
+  color: #10b981;
+}
+
+.topic-net-fee {
+  color: #38bdf8;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+}
+
+.topic-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 750;
+  text-decoration: none;
+  background: linear-gradient(135deg, #0369a1 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.topic-cta-btn:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+  transform: translateY(-1px);
+}
+
+.topic-rebate-tag {
+  font-size: 0.6875rem;
+  color: #34d399;
+  font-weight: 600;
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* 避坑指南卡片网格 */
+.topic-pitfalls-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 860px) {
+  .topic-pitfalls-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.topic-pitfall-card {
+  background: rgba(18, 24, 38, 0.7);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-left: 4px solid #f59e0b;
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+
+.topic-pitfall-card h3 {
+  font-size: 0.9375rem;
+  font-weight: 750;
+  color: #fde68a;
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+
+.topic-pitfall-card p {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Zero-Click FAQ 模块 */
+.topic-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.topic-faq-item {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px 24px;
+  transition: border-color 0.2s ease;
+}
+
+.topic-faq-item:hover {
+  border-color: rgba(56, 189, 248, 0.25);
+}
+
+.topic-faq-q {
+  font-size: 1.05rem;
+  font-weight: 750;
+  color: #ffffff;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.topic-faq-q span {
+  color: #38bdf8;
+  font-size: 1.125rem;
+}
+
+.topic-faq-a {
+  font-size: 0.9375rem;
+  color: #94a3b8;
+  line-height: 1.65;
+  margin: 0;
+  padding-left: 26px;
+}
+
+/* Telegram 极速唤醒卡片 */
+.topic-tg-box {
+  background: linear-gradient(135deg, rgba(14, 116, 144, 0.15) 0%, rgba(2, 132, 199, 0.15) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 14px;
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .topic-tg-box {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.topic-tg-content h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 6px;
+}
+
+.topic-tg-content p {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin: 0 0 14px;
+}
+
+.topic-tg-commands {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topic-tg-cmd-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8125rem;
+}
+
+.topic-tg-code {
+  font-family: var(--font-mono, monospace);
+  background: rgba(0, 0, 0, 0.4);
+  color: #38bdf8;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  font-weight: 700;
+}
+
+.topic-tg-cmd-desc {
+  color: #cbd5e1;
+}
+
+.topic-tg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 750;
+  color: #ffffff;
+  background: #0369a1;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.topic-tg-btn:hover {
+  background: #0369a1;
+  transform: translateY(-1px);
+}
+
+/* 底部其他赛道专题互链矩阵 */
+.topic-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 860px) {
+  .topic-matrix-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.topic-matrix-card {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.topic-matrix-card:hover {
+  background: rgba(30, 41, 59, 0.4);
+  border-color: rgba(56, 189, 248, 0.3);
+  transform: translateY(-2px);
+}
+
+.topic-matrix-card__tag {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 8px;
+}
+
+.topic-matrix-card__title {
+  font-size: 0.9375rem;
+  font-weight: 750;
+  color: #ffffff;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+.topic-matrix-card__desc {
+  font-size: 0.8125rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0 0 14px;
+  flex-grow: 1;
+}
+
+.topic-matrix-card__arrow {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.v2-page.v3-page.topic-guide-page {
+  min-height: auto;
+}
+
+.topic-source-register {
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.topic-source-register__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.75rem;
+}
+
+.topic-source-register__item {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.9rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.topic-source-register__item > span {
+  color: #7dd3fc;
+  font-size: 0.75rem;
+}
+
+.topic-source-register__item > small {
+  color: #94a3b8;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+}
+
+.topic-source-register__item > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.topic-source-register__item a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: #c4b5fd;
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.topic-intent-redirect {
+  margin: 1rem 0;
+  padding: 0.9rem;
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  border-radius: 14px;
+  background: rgba(8, 47, 73, 0.18);
+}
+
+.topic-intent-redirect__eyebrow {
+  display: inline-flex;
+  margin-bottom: 0.35rem;
+  color: #7dd3fc;
+  font: 700 0.68rem/1.2 var(--font-mono, monospace);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.topic-intent-redirect p {
+  margin: 0 0 0.75rem;
+  color: #b6c4d5;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.topic-nav-strip--intent {
+  margin-top: 0.4rem;
+}
+
+.topic-derivatives-routes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.topic-derivatives-route-card {
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(125, 211, 252, 0.18);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.48);
+}
+
+.topic-derivatives-route-detail {
+  min-width: 0;
+}
+
+.topic-derivatives-route-detail > summary {
+  min-height: 28px;
+  color: #e0f2fe;
+  cursor: pointer;
+  font-size: 0.94rem;
+  font-weight: 800;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.topic-derivatives-route-detail > summary:focus-visible {
+  outline: 2px solid #7dd3fc;
+  outline-offset: 3px;
+}
+
+.topic-derivatives-route-detail p,
+.topic-derivatives-route-detail li {
+  color: #94a3b8;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.topic-derivatives-route-detail p {
+  margin: 8px 0;
+}
+
+.topic-derivatives-route-detail ul {
+  margin: 8px 0 10px 18px;
+  padding: 0;
+}
+
+.topic-derivatives-route-detail .topic-nav-strip {
+  margin: 8px 0 0;
+}
+
+.topic-derivatives-route-card .topic-nav-btn {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.topic-derivatives-route-primary {
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 7px 10px;
+  color: #bae6fd;
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.25);
+}
+
+@media (max-width: 768px) {
+  .topic-derivatives-routes {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .topic-derivatives-route-card {
+    padding: 9px 10px;
+  }
+}

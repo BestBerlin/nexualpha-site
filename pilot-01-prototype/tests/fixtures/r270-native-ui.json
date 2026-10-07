@@ -1,0 +1,123 @@
+{
+  "en": {
+    "sourceBackedResearch": "Source-Backed Research"
+  },
+  "zh-Hans": {
+    "researchIndex": "研究索引",
+    "researchIndexBody": "按文章浏览已审核的研究档案。",
+    "sourceBackedResearch": "有来源依据的研究"
+  },
+  "zh-Hant": {
+    "researchIndex": "研究索引",
+    "researchIndexBody": "按文章瀏覽已審閱的研究檔案。",
+    "sourceBackedResearch": "有來源依據的研究"
+  },
+  "ja": {
+    "emptyBody": "記事を一時的に表示できません。後ほど再度お試しください。",
+    "emptyCategory": "このカテゴリーにはまだ記事がありません",
+    "emptyCategoryBody": "すべての記事から、プラットフォームや取引コストについて確認できます。",
+    "loadingBody": "出典を確認した最新コンテンツを読み込んでいます。",
+    "researchIndex": "リサーチ一覧",
+    "researchIndexBody": "確認済みの資料を記事ごとに閲覧できます。",
+    "sourceBackedResearch": "出典に基づくリサーチ"
+  },
+  "ko": {
+    "emptyBody": "기사를 일시적으로 표시할 수 없습니다. 잠시 후 다시 시도해 주세요.",
+    "emptyCategory": "이 카테고리에는 아직 기사가 없습니다",
+    "emptyCategoryBody": "전체 기사에서 플랫폼과 거래 비용을 살펴보세요.",
+    "loadingBody": "출처를 확인한 최신 콘텐츠를 읽고 있습니다.",
+    "researchIndex": "리서치 목록",
+    "researchIndexBody": "검토된 자료를 기사별로 살펴보세요.",
+    "sourceBackedResearch": "출처에 근거한 리서치"
+  },
+  "tr": {
+    "emptyBody": "Makaleler geçici olarak kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
+    "emptyCategory": "Bu kategoride henüz makale yok",
+    "emptyCategoryBody": "Platformları ve işlem maliyetlerini incelemek için tüm makalelere göz atın.",
+    "loadingBody": "Kaynakları kontrol edilmiş en yeni içerik okunuyor.",
+    "researchIndex": "Araştırma dizini",
+    "researchIndexBody": "İncelenmiş arşive makale bazında göz atın.",
+    "sourceBackedResearch": "Kaynaklara dayalı araştırma"
+  },
+  "pt-BR": {
+    "emptyBody": "Os artigos estão temporariamente indisponíveis. Tente novamente mais tarde.",
+    "emptyCategory": "Ainda não há artigos nesta categoria",
+    "emptyCategoryBody": "Veja todos os artigos para explorar plataformas e custos de negociação.",
+    "loadingBody": "Carregando o conteúdo mais recente com fontes verificadas.",
+    "researchIndex": "Índice de pesquisa",
+    "researchIndexBody": "Explore o arquivo revisado por artigo.",
+    "sourceBackedResearch": "PESQUISA COM BASE EM FONTES"
+  },
+  "es": {
+    "emptyBody": "Los artículos no están disponibles temporalmente. Inténtalo de nuevo más tarde.",
+    "emptyCategory": "Aún no hay artículos en esta categoría",
+    "emptyCategoryBody": "Consulta todos los artículos para explorar plataformas y costes de negociación.",
+    "loadingBody": "Cargando el contenido más reciente con fuentes verificadas.",
+    "researchIndex": "Índice de investigación",
+    "researchIndexBody": "Explora el archivo revisado por artículo.",
+    "sourceBackedResearch": "INVESTIGACIÓN BASADA EN FUENTES"
+  },
+  "fr": {
+    "emptyBody": "Les articles sont temporairement indisponibles. Réessayez plus tard.",
+    "emptyCategory": "Aucun article dans cette catégorie pour le moment",
+    "emptyCategoryBody": "Consultez tous les articles pour découvrir les plateformes et les coûts de trading.",
+    "loadingBody": "Chargement des derniers contenus vérifiés à partir des sources.",
+    "researchIndex": "Index des recherches",
+    "researchIndexBody": "Parcourez les archives examinées, article par article.",
+    "sourceBackedResearch": "RECHERCHE ÉTAYÉE PAR DES SOURCES"
+  },
+  "de": {
+    "emptyBody": "Artikel sind vorübergehend nicht verfügbar. Bitte versuchen Sie es später erneut.",
+    "emptyCategory": "In dieser Kategorie gibt es noch keine Artikel",
+    "emptyCategoryBody": "Alle Artikel zeigen weitere Informationen zu Plattformen und Handelskosten.",
+    "loadingBody": "Die neuesten quellengeprüften Inhalte werden geladen.",
+    "researchIndex": "Rechercheverzeichnis",
+    "researchIndexBody": "Durchsuchen Sie das geprüfte Archiv nach Artikeln.",
+    "sourceBackedResearch": "QUELLENGESTÜTZTE RECHERCHE"
+  },
+  "ru": {
+    "emptyBody": "Статьи временно недоступны. Попробуйте позже.",
+    "emptyCategory": "В этой категории пока нет статей",
+    "emptyCategoryBody": "Откройте все статьи, чтобы изучить площадки и торговые расходы.",
+    "loadingBody": "Загружаются свежие материалы с проверенными источниками.",
+    "researchIndex": "Каталог исследований",
+    "researchIndexBody": "Просматривайте проверенный архив по статьям.",
+    "sourceBackedResearch": "ИССЛЕДОВАНИЯ НА ОСНОВЕ ИСТОЧНИКОВ"
+  },
+  "ar": {
+    "emptyBody": "المقالات غير متاحة مؤقتًا. يُرجى المحاولة لاحقًا.",
+    "emptyCategory": "لا توجد مقالات في هذه الفئة بعد",
+    "emptyCategoryBody": "تصفح كل المقالات لاستكشاف المنصات وتكاليف التداول.",
+    "loadingBody": "جارٍ تحميل أحدث المحتوى الذي جرى التحقق من مصادره.",
+    "researchIndex": "فهرس الأبحاث",
+    "researchIndexBody": "تصفح الأرشيف المُراجع حسب المقالة.",
+    "sourceBackedResearch": "أبحاث تستند إلى المصادر"
+  },
+  "id": {
+    "emptyBody": "Artikel sementara tidak tersedia. Coba lagi nanti.",
+    "emptyCategory": "Belum ada artikel dalam kategori ini",
+    "emptyCategoryBody": "Lihat semua artikel untuk mempelajari platform dan biaya perdagangan.",
+    "loadingBody": "Memuat konten terbaru yang sumbernya telah diperiksa.",
+    "researchIndex": "Indeks riset",
+    "researchIndexBody": "Jelajahi arsip yang telah ditinjau berdasarkan artikel.",
+    "sourceBackedResearch": "RISET BERDASARKAN SUMBER"
+  },
+  "vi": {
+    "emptyBody": "Các bài viết tạm thời không khả dụng. Vui lòng thử lại sau.",
+    "emptyCategory": "Chưa có bài viết trong danh mục này",
+    "emptyCategoryBody": "Xem tất cả bài viết để tìm hiểu nền tảng và chi phí giao dịch.",
+    "loadingBody": "Đang tải nội dung mới nhất đã kiểm tra nguồn.",
+    "researchIndex": "Mục lục nghiên cứu",
+    "researchIndexBody": "Duyệt kho nội dung đã rà soát theo từng bài viết.",
+    "sourceBackedResearch": "NGHIÊN CỨU DỰA TRÊN NGUỒN"
+  },
+  "it": {
+    "emptyBody": "Gli articoli non sono temporaneamente disponibili. Riprova più tardi.",
+    "emptyCategory": "Non ci sono ancora articoli in questa categoria",
+    "emptyCategoryBody": "Consulta tutti gli articoli per approfondire piattaforme e costi di trading.",
+    "loadingBody": "Caricamento dei contenuti più recenti con fonti verificate.",
+    "researchIndex": "Indice delle ricerche",
+    "researchIndexBody": "Sfoglia l’archivio revisionato per articolo.",
+    "sourceBackedResearch": "RICERCA BASATA SU FONTI"
+  }
+}

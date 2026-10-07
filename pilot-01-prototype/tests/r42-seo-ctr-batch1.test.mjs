@@ -1,0 +1,102 @@
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+
+import { computeRouteSeo } from "../src/data/seo-injection.js";
+import { routeMetadata } from "../worker/index.js";
+
+const feed = JSON.parse(await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8"));
+
+const forbidden = /11350287|nexu888|LUCKX|CANDY007|INS898|1836370407|luckybitcoin|bsmkweb|partner\.bitget|topzhjdgxcb|backpack\.exchange\/join|private commission|commission rate|guaranteed signup|guaranteed registration/i;
+
+const protectedHashes = {
+  "../src/data/partner-registry.js": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
+  "../src/data/venue-database.js": "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52",
+  "../src/data/public-cta.js": "675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3",
+  "../src/data/regional-cta.js": "a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665",
+};
+
+function article(slug) {
+  const row = feed.articles.find((item) => item.slug === slug);
+  assert.ok(row, `${slug} article exists`);
+  return row;
+}
+
+function assets() {
+  return {
+    fetch: async (request) => {
+      const pathname = new URL(request.url).pathname;
+      if (pathname === "/content/news-feed.json") return new Response(JSON.stringify(feed), { status: 200, headers: { "content-type": "application/json" } });
+      if (pathname === "/content/news-feed.sha256.txt") return new Response("r42-test", { status: 200, headers: { "content-type": "text/plain" } });
+      return new Response("missing", { status: 404, headers: { "content-type": "text/plain" } });
+    },
+  };
+}
+
+function graph(metadata) {
+  const schema = metadata.schema?.["@graph"] || metadata.schema || [];
+  return Array.isArray(schema) ? schema : [schema];
+}
+
+function schemaText(value) {
+  return JSON.stringify(value.schemas || value.schema || value);
+}
+
+test("R42 SEO CTR batch sharpens four owner pages without changing commercial links", async () => {
+  const cases = [
+    {
+      path: "/news/hyperliquid-vs-dydx",
+      article: article("hyperliquid-vs-dydx"),
+      title: /Hyperliquid vs dYdX: Fees, Funding and Liquidation — NexuAlpha/,
+      description: /oracle, wallet and recovery mechanics/,
+      schema: /Should I choose Hyperliquid or dYdX for perp DEX trading/,
+    },
+    {
+      path: "/news/okx-usd-to-usdc-spot-pair-migration",
+      article: article("okx-usd-to-usdc-spot-pair-migration"),
+      title: /OKX USD to USDC Migration: API, Orders and Bot Checklist — NexuAlpha/,
+      description: /open orders, bots, API instId and tradeQuoteCcy fields/,
+      schema: /OKX USD to USDC spot-pair migration/,
+    },
+    {
+      path: "/exchanges/deribit",
+      title: /Deribit Options Fees, 10% User Discount, Migration and Entity Checks/,
+      description: /six-month 10% user fee discount terms/,
+      schema: /crypto options, futures, perpetuals, margin models, API execution or liquidation mechanics/,
+    },
+    {
+      path: "/topics/tokenized-stocks-vs-perpetuals",
+      title: /Tokenized Stocks vs Stock Perps: Rights and Liquidation — NexuAlpha/,
+      description: /ownership rights, custody, dividends, funding, margin, liquidation/,
+      schema: /Verify the legal claim before comparing price exposure/,
+      related: "https://nexualpha.com/news/tokenized-stocks-vs-stock-perpetuals",
+    },
+  ];
+
+  for (const item of cases) {
+    const client = computeRouteSeo({ url: item.path, ...(item.article ? { article: item.article } : {}) });
+    const server = await routeMetadata(new URL(`https://nexualpha.com${item.path}`), { ASSETS: assets() });
+    const joined = `${client.title}\n${client.description}\n${server.title}\n${server.description}\n${schemaText(client)}\n${schemaText(server)}`;
+
+    assert.equal(client.status, 200, item.path);
+    assert.equal(server.status, 200, item.path);
+    assert.equal(client.canonical, `https://nexualpha.com${item.path}`, item.path);
+    assert.equal(server.canonical, `https://nexualpha.com${item.path}`, item.path);
+    assert.equal(client.title, server.title, item.path);
+    assert.equal(client.description, server.description, item.path);
+    assert.match(client.title, item.title, item.path);
+    assert.match(client.description, item.description, item.path);
+    assert.match(joined, item.schema, item.path);
+    if (item.related) assert.match(joined, new RegExp(item.related.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), item.path);
+    assert.doesNotMatch(joined, forbidden, item.path);
+  }
+});
+
+test("R42 SEO CTR batch keeps protected referral and CTA data untouched", async () => {
+  for (const [relativePath, expected] of Object.entries(protectedHashes)) {
+    const data = await readFile(new URL(relativePath, import.meta.url));
+    const actual = createHash("sha256").update(data).digest("hex");
+    assert.equal(actual, expected, relativePath);
+  }
+});

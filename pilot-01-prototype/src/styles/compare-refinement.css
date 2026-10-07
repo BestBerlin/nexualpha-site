@@ -1,0 +1,292 @@
+/* R288: one original-brand comparison reading path, without changing data or DOM. */
+.v3-compare-page .v3-venue-hero { background: transparent; box-shadow: none; }
+.v3-compare-page .v3-independent-badge { background: transparent; border-color: transparent; padding-inline: 0; color: var(--muted); box-shadow: none; }
+.v3-compare-page .v3-compare-decision-nav { background: transparent; box-shadow: none; border-inline: 0; border-radius: 0; }
+.v3-compare-page .v3-compare-decision-nav__links a { background: transparent; border-color: transparent; border-radius: 0; min-block-size: 44px; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: .3em; }
+
+/* One account decision surface; platform facts are chapters inside it. */
+.v3-compare-page .v3-compare-final-choice-card { background: var(--reader-material-decision, var(--surface-2)); border-color: var(--reader-material-decision-rule, var(--line)); box-shadow: none; }
+.v3-compare-page .v3-compare-final-choice-card__head { padding-block-end: .8rem; border-block-end: 1px solid var(--line); }
+.v3-compare-page .v3-compare-final-choice-card__head > span { color: var(--muted); }
+.v3-compare-page .v3-compare-final-choice-card__venue { background: transparent; border-color: transparent; border-radius: 0; box-shadow: none; padding-inline: 0; }
+.v3-compare-page .v3-compare-final-choice-card__venue + .v3-compare-final-choice-card__venue { border-inline-start-color: var(--line); padding-inline-start: .85rem; }
+.v3-compare-page .v3-compare-final-choice-card__venue dt { color: var(--muted); }
+.v3-compare-page .v3-compare-final-choice-card__actions { padding-block-start: .8rem; border-block-start: 1px solid var(--line); }
+
+/* The actual source-linked comparison table owns the data rhythm. */
+.v3-compare-page .v3-matrix-header { gap: .5rem; }
+.v3-compare-page .v3-matrix-eyebrow { color: var(--muted); }
+.v3-compare-page .v3-matrix-title { color: var(--ink); }
+.v3-compare-page .v3-matrix-table-wrap { background: var(--surface-1); box-shadow: none; border-color: var(--line); border-radius: 8px; }
+.v3-compare-page .v3-matrix-table th,
+.v3-compare-page .v3-matrix-table td { border-block-end-color: var(--line); }
+.v3-compare-page .v3-matrix-th--dim,
+.v3-compare-page .v3-matrix-th--venue { background: var(--surface-2); }
+.v3-compare-page .v3-matrix-td--dim { background: var(--surface-1); }
+.v3-compare-page .v3-matrix-main-val { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.v3-compare-page .v3-matrix-sub-val { font-family: var(--font-body); }
+/* Deeper suitability reads as paired text, rather than a second dashboard. */
+.v3-compare-page .v3-compare-verdict__card,
+.v3-compare-page .v3-decision-side-card { background: transparent; border-color: var(--line); border-inline: 0; border-radius: 0; box-shadow: none; }
+.v3-compare-page .v3-compare-verdict .section-lead,
+.v3-compare-page .v3-decision-lead { text-align: start; }
+.v3-compare-page .v3-decision-subtitle { margin-inline: 0; }
+
+/* Sources and subsequent research are a quiet ruled index, with full native disclosure. */
+.v3-compare-page .v3-compare-research-paths,
+.v3-compare-page .v3-compare-support-disclosure,
+.v3-compare-page .v3-compare-snapshot-disclosure,
+.v3-compare-page .v3-compare-section-disclosure,
+.v3-compare-page .v3-compare-disclosure-section .research-references,
+.v3-compare-page .v3-similar-disclosure { background: transparent; border-color: var(--line); border-inline: 0; border-radius: 0; box-shadow: none; }
+.v3-compare-page .v3-compare-research-paths > summary,
+.v3-compare-page .v3-compare-support-disclosure > summary,
+.v3-compare-page .v3-compare-snapshot-disclosure > summary,
+.v3-compare-page .v3-compare-section-disclosure > summary,
+.v3-compare-page .v3-compare-disclosure-section .research-references > summary,
+.v3-compare-page .v3-similar-disclosure__summary { background: transparent; border-radius: 0; min-block-size: 44px; padding-inline: 0; }
+.v3-compare-page .v3-similar-grid a { background: transparent; border-color: var(--line); border-inline: 0; border-radius: 0; box-shadow: none; }
+@media (max-width: 680px) {
+ .v3-compare-page .v3-compare-final-choice-card__venue + .v3-compare-final-choice-card__venue { border-inline-start-color: transparent; border-block-start-color: var(--line); padding-inline-start: 0; padding-block-start: .85rem; }
+}
+
+/* FAQ is readable question-led research, not another nested promotion panel. */
+.v3-compare-page .v3-faq-card { background: transparent; border-inline: 0; border-radius: 0; box-shadow: none; border-color: var(--line); padding-inline: 0; }
+.v3-compare-page .v3-faq-item { background: transparent; border-inline: 0; border-radius: 0; box-shadow: none; border-color: var(--line); }
+.v3-compare-page .v3-faq-card__eyebrow { color: var(--muted); }
+
+/* Quiet index retains an explicit keyboard and pointer affordance. */
+.v3-compare-page .v3-compare-decision-nav__links a:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+ .v3-compare-page .v3-compare-decision-nav__links a:hover { text-decoration-color: currentColor; }
+}
+
+/* Measured rhythm: native closed summaries do not inherit full section gutters. */
+.v3-compare-page .v3-compare-snapshot-disclosure:not([open]) { padding-block: 0; }
+.v3-compare-page .v3-compare-snapshot-disclosure > summary { min-block-size: 56px; }
+/* Exact existing v2-shell geometry; no second inner gutter. */
+.v3-compare-page .v3-compare-section-disclosure { width: min(var(--content), calc(100% - 2 * var(--page-pad))); max-width: 100%; margin-inline: auto; padding-inline: 0; box-sizing: border-box; }
+
+/* Three-platform mobile support: existing inline columns must not make narrow text pillars. */
+@media (max-width: 680px) {
+ .v3-compare-page .v3-versus-card--supporting[style] { grid-template-columns: minmax(0, 1fr) !important; }
+ .v3-compare-page .v3-versus-card--supporting[style] > .v3-versus-side { display: flex; flex-direction: column; grid-row: auto; padding-inline: 0; border-left: 0; border-right: 0; border-inline: 0; }
+ .v3-compare-page .v3-versus-card--supporting[style] > .v3-versus-side + .v3-versus-side { border-block-start: 1px solid var(--reader-material-rule, var(--line)); padding-block-start: .85rem; }
+ .v3-compare-page .v3-versus-card--supporting[style] > .v3-versus-side > .v3-versus-side__footer { flex-wrap: wrap; }
+ .v3-compare-page .v3-versus-card--supporting[style] > .v3-versus-side > .v3-versus-side__footer > .v3-versus-btn { inline-size: 100%; white-space: normal; overflow-wrap: anywhere; box-sizing: border-box; }
+}
+
+/* R301: question, source-bound matrix, then the complete account choice. */
+.v3-compare-page .v3-page-hero { padding-block: 20px 16px; }
+.v3-compare-page .v3-venue-hero { gap: 12px; }
+.v3-compare-page .v3-compare-reading-context { display: grid; gap: 12px; min-width: 0; }
+.v3-compare-page .v3-compare-reading-context > p { margin: 0; max-inline-size: 65ch; }
+.v3-compare-page .v3-compare-reading-context .v3-compare-reading-metadata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 12px;
+  min-width: 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.v3-compare-page .v3-compare-decision-nav {
+  padding-inline: 0;
+  padding-block: 8px;
+  margin-block: 4px 0;
+}
+.v3-compare-page .v3-compare-decision-nav__links { gap: 4px 16px; flex-wrap: wrap; min-width: 0; }
+.v3-compare-page .v3-compare-quick-actions__item {
+  background: transparent;
+  border-inline: 0;
+  border-radius: 0;
+  padding-inline: 0;
+  box-shadow: none;
+}
+.v3-compare-page .v3-metric-matrix-section { padding-block-start: 16px; }
+.v3-compare-page .v3-matrix-header {
+  align-items: flex-start;
+  text-align: start;
+  gap: 8px;
+  margin-block-end: 16px;
+}
+.v3-compare-page .v3-matrix-subtitle {
+  margin-inline: 0;
+  text-align: start;
+}
+.v3-compare-page .v3-matrix-table-wrap { border-radius: 0; }
+.v3-compare-page .v3-matrix-td--dim {
+  font-weight: 600;
+  vertical-align: top;
+}
+.v3-compare-page .v3-matrix-table td { vertical-align: top; }
+.v3-compare-page #compare-final-choice {
+  width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+  max-width: 100%;
+  margin-inline: auto;
+  margin-block: 24px;
+  box-sizing: border-box;
+  scroll-margin-block-start: 6rem;
+}
+.v3-compare-page #compare-final-choice .v3-compare-final-choice-card {
+  margin: 0;
+  padding: 24px;
+  border-radius: 0;
+}
+.v3-compare-page #compare-final-choice .v3-compare-final-choice-card__head {
+  text-align: start;
+  margin-block-end: 20px;
+}
+.v3-compare-page #compare-final-choice .v3-compare-final-choice-card__venue dl {
+  gap: 16px;
+}
+.v3-compare-page #compare-final-choice .v3-compare-final-choice-card__venue dt {
+  margin-block-end: 4px;
+}
+.v3-compare-page #compare-final-choice .v3-compare-final-choice-card__actions {
+  margin-block-start: 20px;
+}
+@media (max-width: 680px) {
+  .v3-compare-page .v3-page-hero { padding-block: 16px 8px; }
+  .v3-compare-page .v3-metric-matrix-section { padding-block-start: 12px; }
+  .v3-compare-page .v3-compare-quick-actions { gap: 8px; }
+  .v3-compare-page #compare-final-choice { margin-block: 20px; }
+  .v3-compare-page #compare-final-choice .v3-compare-final-choice-card {
+    padding: 16px 0;
+    border-inline: 0;
+  }
+}
+
+/* The original supporting disclosure now stands after evidence and choice. */
+.v3-compare-page #compare-versus-card.v3-compare-support-disclosure {
+  width: min(var(--content), calc(100% - 2 * var(--page-pad)));
+  max-width: 100%;
+  margin-inline: auto;
+  margin-block: 24px;
+  padding-inline: 0;
+  box-sizing: border-box;
+  scroll-margin-block-start: 6rem;
+}
+@media (max-width: 680px) {
+  .v3-compare-page #compare-versus-card.v3-compare-support-disclosure { margin-block: 20px; }
+}
+
+/* R302: native navigation to the matrix metrics that actually exist. */
+.v3-compare-page .v3-matrix-jump {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-block: 12px 16px;
+  padding-block: 8px;
+  border-block: 1px solid var(--line);
+}
+.v3-compare-page .v3-matrix-jump > label {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.v3-compare-page .v3-matrix-jump > select {
+  flex: 1 1 16rem;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  min-block-size: 44px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--surface-1);
+  color: var(--ink);
+  font: inherit;
+}
+.v3-compare-page .v3-matrix-jump > select:focus-visible,
+.v3-compare-page [data-metric-key]:focus-visible {
+  outline: 2px solid var(--blue-text);
+  outline-offset: 3px;
+}
+.v3-compare-page [data-metric-key] { scroll-margin-block-start: 6rem; }
+.v3-compare-page .v3-matrix-table [data-metric-key]:focus-visible > :is(th,td) {
+  background: var(--surface-2);
+}
+@media (max-width: 680px) {
+  .v3-compare-page .v3-matrix-jump {
+    gap: 6px 12px;
+    margin-block: 8px 12px;
+  }
+}
+
+/* R303: one metric followed by every venue, without mobile horizontal scrolling. */
+.v3-compare-page .v3-matrix-mobile-venue { display: none; }
+@media (max-width: 768px) {
+  .v3-compare-page .v3-matrix-scroll-hint { display: none; }
+  .v3-compare-page .v3-matrix-table-wrap { overflow-x: visible; }
+  .v3-compare-page .v3-matrix-table {
+    display: block;
+    min-width: 0;
+    width: 100%;
+    table-layout: auto;
+  }
+  .v3-compare-page .v3-matrix-table > colgroup { display: none; }
+  .v3-compare-page .v3-matrix-table > thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+  .v3-compare-page .v3-matrix-table > tbody { display: block; }
+  .v3-compare-page .v3-matrix-table tbody tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    border-block-end: 1px solid var(--line);
+    padding-block: 12px;
+  }
+  .v3-compare-page .v3-matrix-table tbody tr > :is(th,td) {
+    display: block;
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    position: static;
+    padding: 8px 12px;
+    border: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    background: transparent;
+  }
+  .v3-compare-page .v3-matrix-mobile-venue {
+    display: block;
+    margin-block-end: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .v3-compare-page .v3-matrix-dim-title { font-size: 16px; line-height: 1.45; }
+  .v3-compare-page :is(.v3-matrix-dim-hint,.v3-matrix-sub-val) { font-size: 14px; line-height: 1.5; }
+  .v3-compare-page .v3-matrix-cell-stack { gap: 6px; min-width: 0; }
+  .v3-compare-page .v3-matrix-table td a { overflow-wrap: anywhere; }
+}
+
+@media (max-width: 768px) {
+  .v3-compare-page .v3-matrix-table tbody tr > :is(th,td) { text-align: start; }
+  .v3-compare-page .v3-matrix-cell-stack { align-items: flex-start; }
+  .v3-compare-page .v3-matrix-main-val { justify-content: flex-start; }
+}
+
+@media (max-width: 768px) {
+  .v3-compare-page .v3-matrix-action-cell { align-items: flex-start; }
+  .v3-compare-page .v3-matrix-action-cell .v3-matrix-cta-btn {
+    width: auto;
+    max-width: 100%;
+    justify-content: flex-start;
+    text-align: start;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}

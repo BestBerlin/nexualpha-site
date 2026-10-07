@@ -1,0 +1,3054 @@
+{
+  "version": "2026-10-01-context-review-30day-v1",
+  "createdAt": "2026-10-01",
+  "status": "draft_only",
+  "cadenceDays": 30,
+  "calendarBoundary": "Review target dates only; no scheduled delivery or publication authorization.",
+  "requiredReturnParams": [
+    "tg_return",
+    "tg_expires",
+    "tg_market",
+    "tg_locale",
+    "tg_product",
+    "tg_campaign"
+  ],
+  "allowedContextFields": [
+    "route",
+    "venue",
+    "pair",
+    "market",
+    "locale",
+    "product",
+    "campaign",
+    "accountStage",
+    "funding"
+  ],
+  "reviewWindows": [
+    "24h",
+    "7d"
+  ],
+  "slots": [
+    {
+      "day": 1,
+      "id": "mx-spei-account-readiness",
+      "market": "MX",
+      "locale": "es",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/mx?locale=es&market=MX&product=spot&account_stage=new_account&funding=SPEI",
+      "returnContext": {
+        "route": "/mx",
+        "market": "MX",
+        "locale": "es",
+        "product": "spot",
+        "accountStage": "new_account",
+        "funding": "SPEI",
+        "campaign": "week4_mx_spei_return"
+      },
+      "botDeepLinkAction": {
+        "action": "partner_desk",
+        "market": "MX",
+        "locale": "es",
+        "product": "spot",
+        "campaign": "week4_mx_spei_return"
+      },
+      "reviewFocus": "SPEI, MXN, account-name match and official account flow remain separate checks.",
+      "title": "SPEI y comprobación de cuenta",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-01",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "SPEI y comprobación de cuenta\n\nRevisa las fuentes fechadas y las condiciones de tu cuenta en NexuAlpha antes de elegir el siguiente paso.\nhttps://nexualpha.com/mx?locale=es&market=MX&product=spot&account_stage=new_account&funding=SPEI",
+      "sourceEvidence": [
+        {
+          "url": "https://www.banxico.org.mx/servicios/spei_-informacion-banco-mex.html",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.binance.com/es-MX/support/faq/detail/c45b457e73a14580ab6be95f10bef5b5",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.binance.com/es-MX/support/faq/detail/588ca3bd6b214a17bf1070a8189fb809",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.gob.mx/cnbv/acciones-y-programas/sector-fintech",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "SPEI, MXN, account-name match and official account flow remain separate checks.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 2,
+      "id": "br-pix-account-readiness",
+      "market": "BR",
+      "locale": "pt-BR",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/br/conta?locale=pt-BR&market=BR&product=spot&account_stage=new_account&funding=Pix",
+      "returnContext": {
+        "route": "/br/conta",
+        "market": "BR",
+        "locale": "pt-BR",
+        "product": "spot",
+        "accountStage": "new_account",
+        "funding": "Pix",
+        "campaign": "week4_br_pix_return"
+      },
+      "botDeepLinkAction": {
+        "action": "partner_desk",
+        "market": "BR",
+        "locale": "pt-BR",
+        "product": "spot",
+        "campaign": "week4_br_pix_return"
+      },
+      "reviewFocus": "CPF, Pix, platform screen and product access must be checked before any signup path.",
+      "title": "Pix e conta: verificações separadas",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-02",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Pix e conta: verificações separadas\n\nConfira as fontes datadas e as condições da conta na NexuAlpha antes de escolher o próximo passo.\nhttps://nexualpha.com/br/conta?locale=pt-BR&market=BR&product=spot&account_stage=new_account&funding=Pix",
+      "sourceEvidence": [
+        {
+          "sourceId": "binance-brl-transfer-faq",
+          "url": "https://www.binance.com/pt-BR/support/faq/detail/2604a5d35bd947d485dc30d865539e3e",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/conta",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "binance-terms-br",
+          "url": "https://www.binance.com/pt-BR/terms",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/conta",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-pix-deposit",
+          "url": "https://www.okx.com/help/how-do-i-deposit-brl",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/conta",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brazil-referral-terms",
+          "url": "https://www.okx.com/help/brazil-referral-program-terms-and-conditions",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/conta",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "CPF, Pix, platform screen and product access must be checked before any signup path.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 3,
+      "id": "jp-exchange-source-check",
+      "market": "JP",
+      "locale": "ja",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/jp?locale=ja&market=JP&product=spot",
+      "returnContext": {
+        "route": "/jp",
+        "market": "JP",
+        "locale": "ja",
+        "product": "spot",
+        "campaign": "week4_jp_source_return"
+      },
+      "botDeepLinkAction": {
+        "action": "partner_desk",
+        "market": "JP",
+        "locale": "ja",
+        "product": "spot",
+        "campaign": "week4_jp_source_return"
+      },
+      "reviewFocus": "Japanese copy must keep official-source and account-result boundaries visible.",
+      "title": "日本の利用条件を公式情報で確認",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-03",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "日本の利用条件を公式情報で確認\n\n次の操作を選ぶ前に、NexuAlphaで日付付きの情報源とアカウント条件を確認してください。\nhttps://nexualpha.com/jp?locale=ja&market=JP&product=spot",
+      "sourceEvidence": [
+        {
+          "url": "https://www.fsa.go.jp/en/regulated/licensed/en_kasoutuka.pdf",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "JP",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://bitflyer.com/en-jp/s/how-to-start",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "JP",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://bitflyer.com/en-jp/faq",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "JP",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Japanese copy must keep official-source and account-result boundaries visible.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 4,
+      "id": "kr-dex-domain-check",
+      "market": "KR",
+      "locale": "ko",
+      "product": "dex",
+      "type": "venue",
+      "firstOnsiteRoute": "/ko/exchanges/uniswap?market=KR&product=dex",
+      "returnContext": {
+        "venue": "uniswap",
+        "market": "KR",
+        "locale": "ko",
+        "product": "dex",
+        "campaign": "week4_kr_dex_return"
+      },
+      "botDeepLinkAction": {
+        "action": "verify_domain",
+        "venue": "uniswap",
+        "market": "KR",
+        "locale": "ko",
+        "product": "dex",
+        "campaign": "week4_kr_dex_return"
+      },
+      "reviewFocus": "Wallet route, official app, chain and token address precede any signature.",
+      "title": "지갑 연결 전 공식 경로 확인",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-04",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "지갑 연결 전 공식 경로 확인\n\n다음 단계를 선택하기 전에 NexuAlpha에서 날짜가 표시된 출처와 계정 조건을 확인하세요.\nhttps://nexualpha.com/ko/exchanges/uniswap?market=KR&product=dex",
+      "sourceEvidence": [
+        {
+          "url": "https://www.fsc.go.kr/eng/pr010101/81698",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "KR",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.kofiu.go.kr/eng/legislation/legislation.do",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "KR",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.upbit.com/hc/ko/articles/900006825383-%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EC%9A%94",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "KR",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.upbit.com/hc/ko/articles/900005596266-%EC%9B%90%ED%99%94-%EC%9E%85%EC%B6%9C%EA%B8%88-%EB%B0%A9%EB%B2%95-%EB%AA%A8%EB%B0%94%EC%9D%BC",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "KR",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap official app",
+          "url": "https://app.uniswap.org/",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap quickstart",
+          "url": "https://developers.uniswap.org/docs/get-started/quickstart",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap supported chains",
+          "url": "https://developers.uniswap.org/docs/trading/swapping-api/supported-chains",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap testnet support",
+          "url": "https://support.uniswap.org/hc/en-us/articles/14580495154445-Testnets-on-Uniswap",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap Wallet/Extension testnet mode",
+          "url": "https://support.uniswap.org/hc/en-us/articles/39884112333197-How-do-I-use-testnets-on-Uniswap",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap Universal Router",
+          "url": "https://developers.uniswap.org/docs/protocols/universal-router/overview",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap v4 deployments",
+          "url": "https://developers.uniswap.org/docs/protocols/v4/deployments",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap Permit2 overview",
+          "url": "https://developers.uniswap.org/docs/protocols/permit2/overview",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap swap support",
+          "url": "https://support.uniswap.org/hc/en-us/articles/8370549680909-How-to-swap-tokens",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap revoke approvals support",
+          "url": "https://support.uniswap.org/hc/en-us/articles/25380237324685-How-to-revoke-token-approvals",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Wallet route, official app, chain and token address precede any signature.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 5,
+      "id": "tr-spk-market-check",
+      "market": "TR",
+      "locale": "tr",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/markets/turkiye?locale=tr&market=TR&product=spot",
+      "returnContext": {
+        "route": "/markets/turkiye",
+        "market": "TR",
+        "locale": "tr",
+        "product": "spot",
+        "campaign": "week4_tr_spk_return"
+      },
+      "botDeepLinkAction": {
+        "action": "partner_desk",
+        "market": "TR",
+        "locale": "tr",
+        "product": "spot",
+        "campaign": "week4_tr_spk_return"
+      },
+      "reviewFocus": "SPK list context does not prove account eligibility, TRY rail or product access.",
+      "title": "Türkiye için kaynak ve hesap kontrolü",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-05",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Türkiye için kaynak ve hesap kontrolü\n\nSonraki adımı seçmeden önce NexuAlpha üzerinde tarihli kaynakları ve hesap koşullarını kontrol edin.\nhttps://nexualpha.com/markets/turkiye?locale=tr&market=TR&product=spot",
+      "sourceEvidence": [
+        {
+          "url": "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "TR",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "TR",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.paribu.com/destek/getting-started/account-verification",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "TR",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.paribu.com/destek/try-transactions/try-deposit",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "TR",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "SPK list context does not prove account eligibility, TRY rail or product access.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 6,
+      "id": "hk-account-language-route",
+      "market": "HK",
+      "locale": "zh-Hant",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/hk?locale=zh-Hant&market=HK&product=spot",
+      "returnContext": {
+        "route": "/hk",
+        "market": "HK",
+        "locale": "zh-Hant",
+        "product": "spot",
+        "campaign": "week4_hk_account_return"
+      },
+      "botDeepLinkAction": {
+        "action": "monitor",
+        "venue": "okx",
+        "market": "HK",
+        "locale": "zh-Hant",
+        "product": "spot",
+        "campaign": "week4_hk_account_return"
+      },
+      "reviewFocus": "Traditional Chinese path keeps region, account and product checks separate.",
+      "title": "香港帳戶與產品條件",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-06",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "香港帳戶與產品條件\n\n選擇下一步前，請在 NexuAlpha 核對附日期的來源與帳戶條件。\nhttps://nexualpha.com/hk?locale=zh-Hant&market=HK&product=spot",
+      "sourceEvidence": [
+        {
+          "url": "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "HK",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "HK",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.hashkey.com/hc/en-gb/articles/25794717042585-HashKey-Exchange-fiat-currency-deposit-guidelines-General",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "HK",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.hashkey.com/hc/en-gb/articles/48860678459801-Deposit-Guide-for-eDDA",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "HK",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.osl.com/hk-en/bits/article/osl-account-opening-and-2fa-setup-guide",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "HK",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.osl.com/hk-en/support/article/kA0fv00000002BVCAY?channel=PPXtZS",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "HK",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Traditional Chinese path keeps region, account and product checks separate.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 7,
+      "id": "sg-comparison-next-step",
+      "market": "SG",
+      "locale": "en",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/sg?market=SG&product=spot",
+      "returnContext": {
+        "route": "/sg",
+        "market": "SG",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "week4_sg_compare_return"
+      },
+      "botDeepLinkAction": {
+        "action": "compare",
+        "pair": "binance-vs-okx",
+        "market": "SG",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "week4_sg_compare_return"
+      },
+      "reviewFocus": "Compare published differences first; do not imply approval or account benefit.",
+      "title": "Singapore: compare before choosing",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-07",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Singapore: compare before choosing\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/sg?market=SG&product=spot",
+      "sourceEvidence": [
+        {
+          "url": "https://eservices.mas.gov.sg/fid/institution?activity=Digital+Payment+Token+Service",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "SG",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.mas.gov.sg/regulation/payments/licensing-for-payment-service-providers/types-of-payment-services",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "SG",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.coinbase.com/en-sg",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "SG",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.independentreserve.com/",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "SG",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Compare published differences first; do not imply approval or account benefit.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 8,
+      "id": "tw-law-effective-boundary",
+      "market": "TW",
+      "locale": "zh-Hant",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/tw?locale=zh-Hant&market=TW&product=spot",
+      "returnContext": {
+        "route": "/tw",
+        "market": "TW",
+        "locale": "zh-Hant",
+        "product": "spot",
+        "campaign": "week4_tw_source_return"
+      },
+      "botDeepLinkAction": {
+        "action": "monitor",
+        "venue": "binance",
+        "market": "TW",
+        "locale": "zh-Hant",
+        "product": "spot",
+        "campaign": "week4_tw_source_return"
+      },
+      "reviewFocus": "Law-effective timing, AML registration and account outcome stay separate.",
+      "title": "台灣法規來源與生效日期",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-08",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "台灣法規來源與生效日期\n\n選擇下一步前，請在 NexuAlpha 核對附日期的來源與帳戶條件。\nhttps://nexualpha.com/tw?locale=zh-Hant&market=TW&product=spot",
+      "sourceEvidence": [
+        {
+          "url": "https://law.fsc.gov.tw/LawContent.aspx?id=GL004301",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "TW",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://law.fsc.gov.tw/LawContent.aspx?id=GL004000",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "TW",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.fsc.gov.tw/userfiles/file/1141114%E5%AE%8C%E6%88%90%E6%B4%97%E9%8C%A2%E9%98%B2%E5%88%B6%E7%99%BB%E8%A8%98%E4%B9%8BVASP%E6%A5%AD%E8%80%85%E5%90%8D%E5%96%AE%28%E6%9B%B4%E6%8B%93%E8%8D%92%E8%B3%87%E6%9C%AC%E9%A1%8D.pdf",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "TW",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.maicoin.com/zh-TW/support/solutions/articles/32000026522-max-%E6%96%B0%E5%8F%B0%E5%B9%A3%E5%85%A5%E9%87%91%E6%95%99%E5%AD%B8",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "TW",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.maicoin.com/zh-TW/support/solutions/articles/32000027069-%E8%A8%BB%E5%86%8A%E6%95%99%E5%AD%B8",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "TW",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.maicoin.com/zh-TW/support/solutions/articles/32000016129-%E5%A6%82%E4%BD%95%E9%A9%97%E8%AD%89%E9%8A%80%E8%A1%8A%E5%B8%B3%E8%99%9F-",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "TW",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Law-effective timing, AML registration and account outcome stay separate.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 9,
+      "id": "us-source-policy-aeo",
+      "market": "US",
+      "locale": "en",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/us?market=US&product=spot",
+      "returnContext": {
+        "route": "/us",
+        "market": "US",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "week4_us_source_return"
+      },
+      "botDeepLinkAction": {
+        "action": "verify_domain",
+        "venue": "coinbase",
+        "market": "US",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "week4_us_source_return"
+      },
+      "reviewFocus": "Source policy and state/account constraints cannot become signup advice.",
+      "title": "US account and product boundaries",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-09",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "US account and product boundaries\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/us?market=US&product=spot",
+      "sourceEvidence": [
+        {
+          "url": "https://www.fincen.gov/resources/money-services-business-msb-registration",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "US",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.fincen.gov/resources/statutes-regulations/guidance/application-fincens-regulations-persons-administering",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "US",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.sec.gov/resources-small-businesses/capital-raising-building-blocks/crypto-assets-federal-securities-laws",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "US",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "US",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.nmlsconsumeraccess.org/",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "US",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.dfs.ny.gov/virtual_currency_businesses",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "US",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://help.coinbase.com/en/exchange/trading-and-funding/funding-your-account-with-usd",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "US",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.kraken.com/in/articles/quick-start-for-clients-in-the-united-states",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "US",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.kraken.com/hc/articles/4408922630676-ACH-withdrawals",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "US",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.binance.us/en/articles/9842801-how-to-create-your-account-pass-identity-verification-basic-advanced",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "US",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.binance.us/en/collections/10384430-deposits-withdrawals",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "US",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Source policy and state/account constraints cannot become signup advice.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 10,
+      "id": "eu-miCA-source-review",
+      "market": "EU",
+      "locale": "en",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/eu?market=EU&product=spot",
+      "returnContext": {
+        "route": "/eu",
+        "market": "EU",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "week4_eu_mica_return"
+      },
+      "botDeepLinkAction": {
+        "action": "monitor",
+        "venue": "kraken",
+        "market": "EU",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "week4_eu_mica_return"
+      },
+      "reviewFocus": "MiCA, country, fiat rail and product scope are reviewed before platform action.",
+      "title": "EU service entity and product checks",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-10",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "EU service entity and product checks\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/eu?market=EU&product=spot",
+      "sourceEvidence": [
+        {
+          "url": "https://www.esma.europa.eu/et/node/200055",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "EU",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-109-register-crypto-asset-white",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "EU",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://help.coinbase.com/en-gb/coinbase/getting-started/add-a-payment-method/add-and-verify-pm-emea",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "EU",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/id-doc-verification",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "EU",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "MiCA, country, fiat rail and product scope are reviewed before platform action.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 11,
+      "id": "uk-fca-account-scope",
+      "market": "UK",
+      "locale": "en",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/uk?market=UK&product=spot",
+      "returnContext": {
+        "route": "/uk",
+        "market": "UK",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "week4_uk_fca_return"
+      },
+      "botDeepLinkAction": {
+        "action": "monitor",
+        "venue": "kraken",
+        "market": "UK",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "week4_uk_fca_return"
+      },
+      "reviewFocus": "FCA-facing language stays research-only and excludes product-access promises.",
+      "title": "UK account scope and official sources",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-11",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "UK account scope and official sources\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/uk?market=UK&product=spot",
+      "sourceEvidence": [
+        {
+          "url": "https://www.fca.org.uk/firms/cryptoassets/who-needs-register",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "UK",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.fca.org.uk/firms/cryptoassets/how-apply-registration",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "UK",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://help.coinbase.com/en-gb/coinbase/getting-started/getting-started-with-coinbase/create-a-coinbase-account",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "UK",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/depositing-or-withdrawing-fiat-money/funding-your-account-emea",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "UK",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "FCA-facing language stays research-only and excludes product-access promises.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 12,
+      "id": "id-bappebti-source-route",
+      "market": "ID",
+      "locale": "id",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/id?locale=id&market=ID&product=spot",
+      "returnContext": {
+        "route": "/id",
+        "market": "ID",
+        "locale": "id",
+        "product": "spot",
+        "campaign": "week4_id_source_return"
+      },
+      "botDeepLinkAction": {
+        "action": "verify_domain",
+        "venue": "binance",
+        "market": "ID",
+        "locale": "id",
+        "product": "spot",
+        "campaign": "week4_id_source_return"
+      },
+      "reviewFocus": "Indonesian route keeps regulator, account flow and referral outcome independent.",
+      "title": "Indonesia: sumber dan kondisi akun",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-12",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Indonesia: sumber dan kondisi akun\n\nPeriksa sumber bertanggal dan ketentuan akun di NexuAlpha sebelum memilih langkah berikutnya.\nhttps://nexualpha.com/id?locale=id&market=ID&product=spot",
+      "sourceEvidence": [
+        {
+          "url": "https://ojk.go.id/id/berita-dan-kegiatan/siaran-pers/Pages/Bappebti-Kemendag-Alihkan-Tugas-Aset-Keuangan-Digital-termasuk-Aset-Kripto-serta-Derivatif-Keuangan-kepada-OJK-dan-BI.aspx",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "ID",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://bappebti.go.id/calon_pedagang_aset_kripto",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "ID",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.tokocrypto.com/hc/en-us/articles/31314362562829-Tokocrypto-Deposit-Guide",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "ID",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://support.tokocrypto.com/hc/en-us/articles/19368690221069-Understanding-Referral-Codes-on-Tokocrypto",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "ID",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Indonesian route keeps regulator, account flow and referral outcome independent.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 13,
+      "id": "global-perp-dex-compare",
+      "market": "GLOBAL",
+      "locale": "en",
+      "product": "perpetuals",
+      "type": "compare",
+      "firstOnsiteRoute": "/compare/hyperliquid-vs-dydx?market=GLOBAL&product=perpetuals",
+      "returnContext": {
+        "pair": "hyperliquid-vs-dydx",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "perpetuals",
+        "campaign": "week4_perp_compare_return"
+      },
+      "botDeepLinkAction": {
+        "action": "compare",
+        "pair": "hyperliquid-vs-dydx",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "perpetuals",
+        "campaign": "week4_perp_compare_return"
+      },
+      "reviewFocus": "Funding, liquidation, custody model and bridge route are distinct checks.",
+      "title": "Perpetual DEX: funding and custody",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-13",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Perpetual DEX: funding and custody\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/compare/hyperliquid-vs-dydx?market=GLOBAL&product=perpetuals",
+      "sourceEvidence": [
+        {
+          "label": "Hyperliquid fees",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/hyperliquid-vs-dydx",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Hyperliquid funding",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/hyperliquid-vs-dydx",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Hyperliquid liquidations",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/liquidations",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/hyperliquid-vs-dydx",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "dYdX onboarding FAQs",
+          "url": "https://docs.dydx.xyz/concepts/onboarding-faqs",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/hyperliquid-vs-dydx",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "dYdX trading fees and parameters",
+          "url": "https://docs.dydx.xyz/concepts/trading/rewards_fees_and_parameters",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/hyperliquid-vs-dydx",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Funding, liquidation, custody model and bridge route are distinct checks.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 14,
+      "id": "global-registration-path-safety",
+      "market": "GLOBAL",
+      "locale": "en",
+      "product": "spot",
+      "type": "venue",
+      "firstOnsiteRoute": "/exchanges/bitget?market=GLOBAL&product=spot",
+      "returnContext": {
+        "venue": "bitget",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "week4_bitget_path_return"
+      },
+      "botDeepLinkAction": {
+        "action": "monitor",
+        "venue": "bitget",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "week4_bitget_path_return"
+      },
+      "reviewFocus": "Registration path can be inspected only on NexuAlpha; Telegram copy must not paste invite URLs or codes.",
+      "title": "Inspect the Bitget path on NexuAlpha",
+      "origin": "existing-14day-template",
+      "reviewTargetDate": "2026-10-14",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Inspect the Bitget path on NexuAlpha\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/exchanges/bitget?market=GLOBAL&product=spot",
+      "sourceEvidence": [
+        {
+          "label": "Bybit xStocks FAQ",
+          "url": "https://www.bybit.com/en/help-center/article/FAQ-xStocks-on-Bybit",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bybit Trading Fee Structure",
+          "url": "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bybit Individual KYC FAQ",
+          "url": "https://www.bybit.com/en/help-center/article/Individual-KYC-FAQ",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bybit Copy Trading Profit Sharing",
+          "url": "https://www.bybit.com/en/help-center/article/Copy-Trading-Profit-Sharing-Explained",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bybit Unified Trading Account",
+          "url": "https://www.bybit.com/en/help-center/article/Unified-Trading-Account-Asset-Page",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bybit UTA FAQ",
+          "url": "https://www.bybit.com/en/help-center/article/FAQ-Unified-Trading-Account",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Futures Services Agreement",
+          "url": "https://www.bitget.com/support/articles/7700532076057",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Product Fees FAQ",
+          "url": "https://www.bitget.com/support/articles/12560603892733",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Trading Fees FAQ",
+          "url": "https://www.bitget.com/support/articles/12560603892734",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Futures Fees Guide",
+          "url": "https://www.bitget.com/support/articles/12560603817155",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Identity Verification",
+          "url": "https://www.bitget.com/support/articles/12560603795184",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Copy Trading Profit-Sharing",
+          "url": "https://www.bitget.com/support/articles/9083311039641",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Unified Trading Account",
+          "url": "https://www.bitget.com/support/articles/12560603885783",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget UTA API FAQ",
+          "url": "https://www.bitget.com/support/articles/12560603890654",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Registration path can be inspected only on NexuAlpha; Telegram copy must not paste invite URLs or codes.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 15,
+      "id": "br-pix-deposit",
+      "market": "BR",
+      "locale": "pt-BR",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/br/pix?market=BR&product=spot&locale=pt-BR",
+      "returnContext": {
+        "route": "/br/pix",
+        "market": "BR",
+        "locale": "pt-BR",
+        "product": "spot",
+        "campaign": "oct01_br_pix_deposit"
+      },
+      "title": "Pix: confira a rota de depósito",
+      "reviewFocus": "Match BRL deposit method, account holder and current platform screen.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-15",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Pix: confira a rota de depósito\n\nConfira as fontes datadas e as condições da conta na NexuAlpha antes de escolher o próximo passo.\nhttps://nexualpha.com/br/pix?market=BR&product=spot&locale=pt-BR",
+      "sourceEvidence": [
+        {
+          "sourceId": "binance-brl-pix-deposit",
+          "url": "https://www.binance.com/pt-BR/support/faq/detail/53636607eebc42dbb513863b49bba98f",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "binance-brl-transfer-faq",
+          "url": "https://www.binance.com/pt-BR/support/faq/detail/2604a5d35bd947d485dc30d865539e3e",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "binance-brl-pix-buy",
+          "url": "https://www.binance.com/pt-BR/support/faq/detail/b90065c7a7d44d0bb8b2ac7dc2cb0391",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-pix-deposit",
+          "url": "https://www.okx.com/help/how-do-i-deposit-brl",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-pix-withdraw",
+          "url": "https://www.okx.com/help/how-do-i-withdraw-brl",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-limits-fees",
+          "url": "https://www.okx.com/help/where-do-i-find-limits-fees-and-processing-time-details-for-cash-deposit",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "bcb-pix-speed-availability",
+          "url": "https://www.bcb.gov.br/meubc/faqs/p/porque-o-pix-e-um-sucesso",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-pix-deposit-learn",
+          "url": "https://www.okx.com/en-br/learn/deposito-pix-okx",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Match BRL deposit method, account holder and current platform screen.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 16,
+      "id": "br-pix-withdraw",
+      "market": "BR",
+      "locale": "pt-BR",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/br/saque-pix?market=BR&product=spot&locale=pt-BR",
+      "returnContext": {
+        "route": "/br/saque-pix",
+        "market": "BR",
+        "locale": "pt-BR",
+        "product": "spot",
+        "campaign": "oct01_br_pix_withdraw"
+      },
+      "title": "Pix: confira a rota de saque",
+      "reviewFocus": "Separate withdrawal availability, destination account and displayed costs.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-16",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Pix: confira a rota de saque\n\nConfira as fontes datadas e as condições da conta na NexuAlpha antes de escolher o próximo passo.\nhttps://nexualpha.com/br/saque-pix?market=BR&product=spot&locale=pt-BR",
+      "sourceEvidence": [
+        {
+          "sourceId": "binance-brl-pix-withdraw",
+          "url": "https://www.binance.com/pt-BR/support/faq/detail/08722a3b5ad7465e8c74ddc0240cec4c",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/saque-pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-pix-withdraw",
+          "url": "https://www.okx.com/help/how-do-i-withdraw-brl",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/saque-pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-limits-fees",
+          "url": "https://www.okx.com/help/where-do-i-find-limits-fees-and-processing-time-details-for-cash-deposit",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/saque-pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "bcb-pix-faq",
+          "url": "https://www.bcb.gov.br/estabilidadefinanceira/perguntaserespostaspix",
+          "recordedReviewDate": "2026-09-14T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/saque-pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "receita-federal-cpf",
+          "url": "https://www.gov.br/receitafederal/pt-br/assuntos/meu-cpf",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/saque-pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "bcb-pix-med",
+          "url": "https://bcb.gov.br/meubc/faqs/p/o-que-e-e-como-funciona-o-mecanismo-especial-de-devolucao-med",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/saque-pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-pix-deposit-learn",
+          "url": "https://www.okx.com/en-br/learn/deposito-pix-okx",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/saque-pix",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Separate withdrawal availability, destination account and displayed costs.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 17,
+      "id": "br-cpf-identity",
+      "market": "BR",
+      "locale": "pt-BR",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/br/kyc-cpf?market=BR&product=spot&locale=pt-BR",
+      "returnContext": {
+        "route": "/br/kyc-cpf",
+        "market": "BR",
+        "locale": "pt-BR",
+        "product": "spot",
+        "campaign": "oct01_br_cpf_identity"
+      },
+      "title": "CPF e verificação de identidade",
+      "reviewFocus": "Separate CPF documentation from KYC approval; verify the official flow.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-17",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "CPF e verificação de identidade\n\nConfira as fontes datadas e as condições da conta na NexuAlpha antes de escolher o próximo passo.\nhttps://nexualpha.com/br/kyc-cpf?market=BR&product=spot&locale=pt-BR",
+      "sourceEvidence": [
+        {
+          "sourceId": "binance-brl-transfer-faq",
+          "url": "https://www.binance.com/pt-BR/support/faq/detail/2604a5d35bd947d485dc30d865539e3e",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/kyc-cpf",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "binance-terms-br",
+          "url": "https://www.binance.com/pt-BR/terms",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/kyc-cpf",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-pix-deposit",
+          "url": "https://www.okx.com/help/how-do-i-deposit-brl",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/kyc-cpf",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-pix-withdraw",
+          "url": "https://www.okx.com/help/how-do-i-withdraw-brl",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/kyc-cpf",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-limits-fees",
+          "url": "https://www.okx.com/help/where-do-i-find-limits-fees-and-processing-time-details-for-cash-deposit",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/kyc-cpf",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "receita-federal-cpf",
+          "url": "https://www.gov.br/receitafederal/pt-br/assuntos/meu-cpf",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/kyc-cpf",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-pix-deposit-learn",
+          "url": "https://www.okx.com/en-br/learn/deposito-pix-okx",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/kyc-cpf",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Separate CPF documentation from KYC approval; verify the official flow.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 18,
+      "id": "br-cost-assumptions",
+      "market": "BR",
+      "locale": "pt-BR",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/br/custos?market=BR&product=spot&locale=pt-BR",
+      "returnContext": {
+        "route": "/br/custos",
+        "market": "BR",
+        "locale": "pt-BR",
+        "product": "spot",
+        "campaign": "oct01_br_cost_assumptions"
+      },
+      "title": "Custos: revise as premissas",
+      "reviewFocus": "Review editable fee assumptions; do not claim a live or guaranteed net rate.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-18",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Custos: revise as premissas\n\nConfira as fontes datadas e as condições da conta na NexuAlpha antes de escolher o próximo passo.\nhttps://nexualpha.com/br/custos?market=BR&product=spot&locale=pt-BR",
+      "sourceEvidence": [
+        {
+          "sourceId": "binance-brl-pix-deposit",
+          "url": "https://www.binance.com/pt-BR/support/faq/detail/53636607eebc42dbb513863b49bba98f",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/custos",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-pix-deposit",
+          "url": "https://www.okx.com/help/how-do-i-deposit-brl",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/custos",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-limits-fees",
+          "url": "https://www.okx.com/help/where-do-i-find-limits-fees-and-processing-time-details-for-cash-deposit",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/custos",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "receita-cripto-servico",
+          "url": "https://www.gov.br/pt-br/servicos/declarar-operacoes-com-criptoativos",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/custos",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "receita-irpf-2026-cripto",
+          "url": "https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/perguntas-e-respostas/dirpf/p-r-irpf-2026-v1-00-2026-04-23.pdf",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br/custos",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Review editable fee assumptions; do not claim a live or guaranteed net rate.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 19,
+      "id": "br-shortlist-review",
+      "market": "BR",
+      "locale": "pt-BR",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/br?market=BR&product=spot&locale=pt-BR",
+      "returnContext": {
+        "route": "/br",
+        "market": "BR",
+        "locale": "pt-BR",
+        "product": "spot",
+        "campaign": "oct01_br_shortlist_review"
+      },
+      "title": "Compare sua lista de plataformas",
+      "reviewFocus": "Check shortlist suitability and Pix evidence without inventing local eligibility.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-19",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Compare sua lista de plataformas\n\nConfira as fontes datadas e as condições da conta na NexuAlpha antes de escolher o próximo passo.\nhttps://nexualpha.com/br?market=BR&product=spot&locale=pt-BR",
+      "sourceEvidence": [
+        {
+          "sourceId": "binance-brl-pix-deposit",
+          "url": "https://www.binance.com/pt-BR/support/faq/detail/53636607eebc42dbb513863b49bba98f",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "binance-brl-transfer-faq",
+          "url": "https://www.binance.com/pt-BR/support/faq/detail/2604a5d35bd947d485dc30d865539e3e",
+          "recordedReviewDate": "2026-09-22T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "binance-brl-pix-buy",
+          "url": "https://www.binance.com/pt-BR/support/faq/detail/b90065c7a7d44d0bb8b2ac7dc2cb0391",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-pix-deposit",
+          "url": "https://www.okx.com/help/how-do-i-deposit-brl",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        },
+        {
+          "sourceId": "okx-brl-limits-fees",
+          "url": "https://www.okx.com/help/where-do-i-find-limits-fees-and-processing-time-details-for-cash-deposit",
+          "recordedReviewDate": "2026-09-08T00:00:00.000Z",
+          "registry": "src/data/brazil-market.js",
+          "sourceOwner": "/br",
+          "scope": "regional_source_context",
+          "locale": "pt-BR",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Check shortlist suitability and Pix evidence without inventing local eligibility.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 20,
+      "id": "mx-spei-funding",
+      "market": "MX",
+      "locale": "es",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/mx/conta?market=MX&product=spot&locale=es",
+      "returnContext": {
+        "route": "/mx/conta",
+        "market": "MX",
+        "locale": "es",
+        "product": "spot",
+        "campaign": "oct01_mx_spei_funding"
+      },
+      "title": "SPEI: revisa la titularidad de la cuenta",
+      "reviewFocus": "Check SPEI account identity and funding steps; preserve research/noindex policy.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-20",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "SPEI: revisa la titularidad de la cuenta\n\nRevisa las fuentes fechadas y las condiciones de tu cuenta en NexuAlpha antes de elegir el siguiente paso.\nhttps://nexualpha.com/mx/conta?market=MX&product=spot&locale=es",
+      "sourceEvidence": [
+        {
+          "url": "https://www.banxico.org.mx/servicios/spei_-informacion-banco-mex.html",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.binance.com/es-MX/support/faq/detail/c45b457e73a14580ab6be95f10bef5b5",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.binance.com/es-MX/support/faq/detail/588ca3bd6b214a17bf1070a8189fb809",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.gob.mx/cnbv/acciones-y-programas/sector-fintech",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Check SPEI account identity and funding steps; preserve research/noindex policy.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 21,
+      "id": "mx-comparison",
+      "market": "MX",
+      "locale": "es",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/mx/comparar?market=MX&product=spot&locale=es",
+      "returnContext": {
+        "route": "/mx/comparar",
+        "market": "MX",
+        "locale": "es",
+        "product": "spot",
+        "campaign": "oct01_mx_comparison"
+      },
+      "title": "Compara antes de elegir",
+      "reviewFocus": "Review local scope and meaningful platform differences before any handoff.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-21",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Compara antes de elegir\n\nRevisa las fuentes fechadas y las condiciones de tu cuenta en NexuAlpha antes de elegir el siguiente paso.\nhttps://nexualpha.com/mx/comparar?market=MX&product=spot&locale=es",
+      "sourceEvidence": [
+        {
+          "url": "https://www.banxico.org.mx/servicios/spei_-informacion-banco-mex.html",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.binance.com/es-MX/support/faq/detail/c45b457e73a14580ab6be95f10bef5b5",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.binance.com/es-MX/support/faq/detail/588ca3bd6b214a17bf1070a8189fb809",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.gob.mx/cnbv/acciones-y-programas/sector-fintech",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Review local scope and meaningful platform differences before any handoff.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 22,
+      "id": "mx-cost-assumptions",
+      "market": "MX",
+      "locale": "es",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/mx/costos?market=MX&product=spot&locale=es",
+      "returnContext": {
+        "route": "/mx/costos",
+        "market": "MX",
+        "locale": "es",
+        "product": "spot",
+        "campaign": "oct01_mx_cost_assumptions"
+      },
+      "title": "Costos en MXN: comprueba las premisas",
+      "reviewFocus": "Separate published trading fees from funding, conversion and withdrawal assumptions.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-22",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Costos en MXN: comprueba las premisas\n\nRevisa las fuentes fechadas y las condiciones de tu cuenta en NexuAlpha antes de elegir el siguiente paso.\nhttps://nexualpha.com/mx/costos?market=MX&product=spot&locale=es",
+      "sourceEvidence": [
+        {
+          "url": "https://www.banxico.org.mx/servicios/spei_-informacion-banco-mex.html",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.binance.com/es-MX/support/faq/detail/c45b457e73a14580ab6be95f10bef5b5",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.binance.com/es-MX/support/faq/detail/588ca3bd6b214a17bf1070a8189fb809",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        },
+        {
+          "url": "https://www.gob.mx/cnbv/acciones-y-programas/sector-fintech",
+          "recordedReviewDate": "2026-09-15",
+          "registry": "src/data/international-source-registry.js",
+          "sourceOwner": "MX",
+          "scope": "region_qualification_context",
+          "locale": null,
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Separate published trading fees from funding, conversion and withdrawal assumptions.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 23,
+      "id": "hyperliquid-fee-stack",
+      "market": "GLOBAL",
+      "locale": "en",
+      "product": "perpetuals",
+      "type": "venue",
+      "firstOnsiteRoute": "/exchanges/hyperliquid?market=GLOBAL&product=perpetuals&locale=en",
+      "returnContext": {
+        "venue": "hyperliquid",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "perpetuals",
+        "campaign": "oct01_hyperliquid_fee_stack"
+      },
+      "title": "Hyperliquid: fees and funding are separate",
+      "reviewFocus": "Published fees, funding, account mode and liquidation conditions are separate checks.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-23",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Hyperliquid: fees and funding are separate\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/exchanges/hyperliquid?market=GLOBAL&product=perpetuals&locale=en",
+      "sourceEvidence": [
+        {
+          "label": "Hyperliquid Fees",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/hyperliquid",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Hyperliquid Funding",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/hyperliquid",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Hyperliquid Referrals",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/referrals",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/hyperliquid",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Hyperliquid Liquidations",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/liquidations",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/hyperliquid",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Hyperliquid USDC",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/usdc",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/hyperliquid",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Hyperliquid account abstraction modes",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/account-abstraction-modes",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/hyperliquid",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Hyperliquid vaults",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/vaults",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/hyperliquid",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Hyperliquid sub-accounts",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/sub-accounts",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/hyperliquid",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Hyperliquid nonces and API wallets",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/nonces-and-api-wallets",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/hyperliquid",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Hyperliquid HIP-3 builder-deployed perpetuals",
+          "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hyperliquid-improvement-proposals-hips/hip-3-builder-deployed-perpetuals",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/hyperliquid",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Published fees, funding, account mode and liquidation conditions are separate checks.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 24,
+      "id": "uniswap-wallet-preview",
+      "market": "GLOBAL",
+      "locale": "en",
+      "product": "dex",
+      "type": "venue",
+      "firstOnsiteRoute": "/exchanges/uniswap?market=GLOBAL&product=dex&locale=en",
+      "returnContext": {
+        "venue": "uniswap",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "dex",
+        "campaign": "oct01_uniswap_wallet_preview"
+      },
+      "title": "Uniswap: check chain and wallet preview",
+      "reviewFocus": "Verify deployment address, approval and swap preview; do not imply testnet asset value.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-24",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Uniswap: check chain and wallet preview\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/exchanges/uniswap?market=GLOBAL&product=dex&locale=en",
+      "sourceEvidence": [
+        {
+          "label": "Uniswap official app",
+          "url": "https://app.uniswap.org/",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap quickstart",
+          "url": "https://developers.uniswap.org/docs/get-started/quickstart",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap supported chains",
+          "url": "https://developers.uniswap.org/docs/trading/swapping-api/supported-chains",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap testnet support",
+          "url": "https://support.uniswap.org/hc/en-us/articles/14580495154445-Testnets-on-Uniswap",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap Wallet/Extension testnet mode",
+          "url": "https://support.uniswap.org/hc/en-us/articles/39884112333197-How-do-I-use-testnets-on-Uniswap",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap Universal Router",
+          "url": "https://developers.uniswap.org/docs/protocols/universal-router/overview",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap v4 deployments",
+          "url": "https://developers.uniswap.org/docs/protocols/v4/deployments",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap Permit2 overview",
+          "url": "https://developers.uniswap.org/docs/protocols/permit2/overview",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap swap support",
+          "url": "https://support.uniswap.org/hc/en-us/articles/8370549680909-How-to-swap-tokens",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap revoke approvals support",
+          "url": "https://support.uniswap.org/hc/en-us/articles/25380237324685-How-to-revoke-token-approvals",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/uniswap",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Verify deployment address, approval and swap preview; do not imply testnet asset value.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 25,
+      "id": "gmx-pool-cost",
+      "market": "GLOBAL",
+      "locale": "en",
+      "product": "perpetuals",
+      "type": "venue",
+      "firstOnsiteRoute": "/exchanges/gmx?market=GLOBAL&product=perpetuals&locale=en",
+      "returnContext": {
+        "venue": "gmx",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "perpetuals",
+        "campaign": "oct01_gmx_pool_cost"
+      },
+      "title": "GMX: pool liquidity and borrowing costs",
+      "reviewFocus": "Separate pool liquidity, collateral, funding and borrowing fee mechanics.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-25",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "GMX: pool liquidity and borrowing costs\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/exchanges/gmx?market=GLOBAL&product=perpetuals&locale=en",
+      "sourceEvidence": [
+        {
+          "label": "GMX introduction",
+          "url": "https://docs.gmx.io/docs/intro/",
+          "recordedReviewDate": "2026-09-28",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/gmx",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "GMX fees",
+          "url": "https://docs.gmx.io/docs/trading/fees/",
+          "recordedReviewDate": "2026-09-28",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/gmx",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "GMX liquidations",
+          "url": "https://docs.gmx.io/docs/trading/liquidations/",
+          "recordedReviewDate": "2026-09-28",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/gmx",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "GMX order types",
+          "url": "https://docs.gmx.io/docs/trading/order-types/",
+          "recordedReviewDate": "2026-09-28",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/gmx",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "GMX referrals",
+          "url": "https://docs.gmx.io/docs/referrals/",
+          "recordedReviewDate": "2026-09-28",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/gmx",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Separate pool liquidity, collateral, funding and borrowing fee mechanics.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 26,
+      "id": "deribit-margin-scope",
+      "market": "GLOBAL",
+      "locale": "en",
+      "product": "perpetuals",
+      "type": "venue",
+      "firstOnsiteRoute": "/exchanges/deribit?market=GLOBAL&product=perpetuals&locale=en",
+      "returnContext": {
+        "venue": "deribit",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "perpetuals",
+        "campaign": "oct01_deribit_margin_scope"
+      },
+      "title": "Deribit: margin and API environments",
+      "reviewFocus": "Review product, margin and test/production environments without eligibility promises.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-26",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Deribit: margin and API environments\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/exchanges/deribit?market=GLOBAL&product=perpetuals&locale=en",
+      "sourceEvidence": [
+        {
+          "label": "Deribit Fees",
+          "url": "https://support.deribit.com/hc/en-us/articles/25944746248989-Fees",
+          "recordedReviewDate": "2026-09-29",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/deribit",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Deribit Affiliate Program and migration notice",
+          "url": "https://support.deribit.com/hc/en-us/articles/25944777728797-Affiliate-Program",
+          "recordedReviewDate": "2026-09-29",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/deribit",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Deribit Liquidations",
+          "url": "https://support.deribit.com/hc/en-us/articles/25944769313309-Liquidations",
+          "recordedReviewDate": "2026-09-29",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/deribit",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Deribit Margin Types",
+          "url": "https://support.deribit.com/hc/en-us/articles/25944811317149-Margin-types-and-usage",
+          "recordedReviewDate": "2026-09-29",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/deribit",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Deribit API documentation",
+          "url": "https://docs.deribit.com/",
+          "recordedReviewDate": "2026-09-29",
+          "registry": "src/data/priority-venue-answers.js",
+          "sourceOwner": "/exchanges/deribit",
+          "scope": "platform_mechanics",
+          "locale": "en",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Review product, margin and test/production environments without eligibility promises.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 27,
+      "id": "cex-fee-vs-access",
+      "market": "GLOBAL",
+      "locale": "en",
+      "product": "spot",
+      "type": "compare",
+      "firstOnsiteRoute": "/compare/binance-vs-okx?market=GLOBAL&product=spot&locale=en",
+      "returnContext": {
+        "pair": "binance-vs-okx",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "oct01_cex_fee_vs_access"
+      },
+      "title": "Binance vs OKX: cost and account access",
+      "reviewFocus": "Compare published cost, custody and account requirements without benefit guarantees.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-27",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Binance vs OKX: cost and account access\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/compare/binance-vs-okx?market=GLOBAL&product=spot&locale=en",
+      "sourceEvidence": [
+        {
+          "label": "Binance trading fee schedule",
+          "url": "https://www.binance.com/en/fee/trading",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/binance-vs-okx",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Binance identity verification",
+          "url": "https://www.binance.com/en/support/faq/detail/360027287111",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/binance-vs-okx",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "OKX fees",
+          "url": "https://www.okx.com/fees",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/binance-vs-okx",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "OKX identity verification",
+          "url": "https://www.okx.com/help/individual-identity-verification-eligibility-review-time-and-supported",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/binance-vs-okx",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Compare published cost, custody and account requirements without benefit guarantees.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 28,
+      "id": "copy-trading-scope",
+      "market": "GLOBAL",
+      "locale": "en",
+      "product": "perpetuals",
+      "type": "compare",
+      "firstOnsiteRoute": "/compare/bybit-vs-bitget?market=GLOBAL&product=perpetuals&locale=en",
+      "returnContext": {
+        "pair": "bybit-vs-bitget",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "perpetuals",
+        "campaign": "oct01_copy_trading_scope"
+      },
+      "title": "Bybit vs Bitget: derivatives and copy-trading scope",
+      "reviewFocus": "Separate copy trading risk and derivatives access from registration.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-28",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Bybit vs Bitget: derivatives and copy-trading scope\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/compare/bybit-vs-bitget?market=GLOBAL&product=perpetuals&locale=en",
+      "sourceEvidence": [
+        {
+          "label": "Bybit xStocks FAQ",
+          "url": "https://www.bybit.com/en/help-center/article/FAQ-xStocks-on-Bybit",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bybit Trading Fee Structure",
+          "url": "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bybit Individual KYC FAQ",
+          "url": "https://www.bybit.com/en/help-center/article/Individual-KYC-FAQ",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bybit Copy Trading Profit Sharing",
+          "url": "https://www.bybit.com/en/help-center/article/Copy-Trading-Profit-Sharing-Explained",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bybit Unified Trading Account",
+          "url": "https://www.bybit.com/en/help-center/article/Unified-Trading-Account-Asset-Page",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bybit UTA FAQ",
+          "url": "https://www.bybit.com/en/help-center/article/FAQ-Unified-Trading-Account",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Futures Services Agreement",
+          "url": "https://www.bitget.com/support/articles/7700532076057",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Product Fees FAQ",
+          "url": "https://www.bitget.com/support/articles/12560603892733",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Trading Fees FAQ",
+          "url": "https://www.bitget.com/support/articles/12560603892734",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Futures Fees Guide",
+          "url": "https://www.bitget.com/support/articles/12560603817155",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Identity Verification",
+          "url": "https://www.bitget.com/support/articles/12560603795184",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Copy Trading Profit-Sharing",
+          "url": "https://www.bitget.com/support/articles/9083311039641",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget Unified Trading Account",
+          "url": "https://www.bitget.com/support/articles/12560603885783",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Bitget UTA API FAQ",
+          "url": "https://www.bitget.com/support/articles/12560603890654",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/bybit-vs-bitget",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Separate copy trading risk and derivatives access from registration.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 29,
+      "id": "swap-routing",
+      "market": "GLOBAL",
+      "locale": "en",
+      "product": "dex",
+      "type": "compare",
+      "firstOnsiteRoute": "/compare/uniswap-vs-jupiter?market=GLOBAL&product=dex&locale=en",
+      "returnContext": {
+        "pair": "uniswap-vs-jupiter",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "dex",
+        "campaign": "oct01_swap_routing"
+      },
+      "title": "Uniswap vs Jupiter: chain and routing",
+      "reviewFocus": "Review ecosystem, execution path and token/chain verification before signing.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-29",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Uniswap vs Jupiter: chain and routing\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/compare/uniswap-vs-jupiter?market=GLOBAL&product=dex&locale=en",
+      "sourceEvidence": [
+        {
+          "label": "Uniswap official app",
+          "url": "https://app.uniswap.org/",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/uniswap-vs-jupiter",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap supported chains",
+          "url": "https://developers.uniswap.org/docs/trading/swapping-api/supported-chains",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/uniswap-vs-jupiter",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap Universal Router",
+          "url": "https://developers.uniswap.org/docs/protocols/universal-router/overview",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/uniswap-vs-jupiter",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Uniswap Permit2",
+          "url": "https://developers.uniswap.org/docs/protocols/permit2/overview",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/uniswap-vs-jupiter",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Jupiter Swap API",
+          "url": "https://dev.jup.ag/docs/swap",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/uniswap-vs-jupiter",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Jupiter Ultra API",
+          "url": "https://dev.jup.ag/docs/ultra",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/uniswap-vs-jupiter",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Jupiter Tokens API",
+          "url": "https://dev.jup.ag/docs/tokens",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/uniswap-vs-jupiter",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Jupiter Support Hub",
+          "url": "https://support.jup.ag/",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/uniswap-vs-jupiter",
+          "scope": "platform_comparison",
+          "locale": "en",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Review ecosystem, execution path and token/chain verification before signing.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    },
+    {
+      "day": 30,
+      "id": "rates-scenario-review",
+      "market": "GLOBAL",
+      "locale": "en",
+      "product": "spot",
+      "type": "regional",
+      "firstOnsiteRoute": "/rates?market=GLOBAL&product=spot&locale=en",
+      "returnContext": {
+        "route": "/rates",
+        "market": "GLOBAL",
+        "locale": "en",
+        "product": "spot",
+        "campaign": "oct01_rates_scenario_review"
+      },
+      "title": "Fee scenarios: assumptions before totals",
+      "reviewFocus": "Confirm maker/taker and scenario assumptions; no live rate or account outcome claim.",
+      "origin": "distinct-second-fortnight-decision",
+      "reviewTargetDate": "2026-10-30",
+      "status": "draft_pending_manual_review",
+      "approvedAt": null,
+      "publishedAt": null,
+      "draftCopy": "Fee scenarios: assumptions before totals\n\nReview the dated sources and account conditions on NexuAlpha before choosing your next step.\nhttps://nexualpha.com/rates?market=GLOBAL&product=spot&locale=en",
+      "sourceEvidence": [
+        {
+          "label": "Binance trading fee schedule",
+          "url": "https://www.binance.com/en/fee/trading",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/binance-vs-okx",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "Binance identity verification",
+          "url": "https://www.binance.com/en/support/faq/detail/360027287111",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/binance-vs-okx",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "OKX fees",
+          "url": "https://www.okx.com/fees",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/binance-vs-okx",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        },
+        {
+          "label": "OKX identity verification",
+          "url": "https://www.okx.com/help/individual-identity-verification-eligibility-review-time-and-supported",
+          "recordedReviewDate": "2026-09-22",
+          "registry": "src/data/compare-direct-answers.js",
+          "sourceOwner": "/compare/binance-vs-okx",
+          "scope": "supporting_context_only",
+          "locale": "en",
+          "provesRegionQualification": false
+        }
+      ],
+      "reviewConditions": [
+        "Verify live landing HTTP, locale and page scope.",
+        "Reopen registered official sources and record the actual review date; existing dates are historical.",
+        "Review sourceOwner and scope separately: platform mechanics and supporting context do not establish regional eligibility or a reviewed landing decision.",
+        "Confirm maker/taker and scenario assumptions; no live rate or account outcome claim.",
+        "Reject unsupported eligibility, live rates, rewards or partner outcomes.",
+        "Mint anonymous return URL at review time; check its TTL and allowed fields.",
+        "Publication requires separate explicit authorization; leave approvedAt and publishedAt null until evidence exists."
+      ]
+    }
+  ],
+  "generatedAt": "2026-10-01",
+  "validationStatus": "PASS_LOCAL_CONTRACT_ONLY",
+  "productionLandingReview": "pending_manual_review",
+  "scope": {
+    "cadenceDays": 30,
+    "selectedSlotCount": 30,
+    "telegramApiCalls": 0,
+    "telegramMessagesSent": 0,
+    "externalSubmissions": 0,
+    "partnerRegistryEdited": false
+  },
+  "returnUrlPolicy": "Mint TTL-limited URLs when the slot is actually reviewed; never schedule stored sample URLs.",
+  "validation": {
+    "checkedSlots": 30,
+    "problems": []
+  }
+}

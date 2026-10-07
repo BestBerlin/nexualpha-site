@@ -1,0 +1,170 @@
+/* LiveConversionProof — 示例决策路径浮动提示，不表示实时用户活动 */
+.conversion-proof-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 320px;
+  background: rgba(13, 17, 23, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.15);
+  border-radius: 12px;
+  padding: 10px 14px;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.conversion-proof-toast--in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.conversion-proof-toast--out {
+  opacity: 0;
+  transform: translateY(12px) scale(0.95);
+}
+
+.conversion-proof__avatar {
+  font-size: 1.25rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.conversion-proof__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.conversion-proof__label {
+  margin-bottom: 0.2rem;
+  color: #94a3b8;
+  font-size: 0.625rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+}
+
+.conversion-proof__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.conversion-proof__user {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #94a3b8;
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+
+.conversion-proof__time {
+  font-size: 0.625rem;
+  color: #94a3b8;
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+
+.conversion-proof__action {
+  font-size: 0.8125rem;
+  font-weight: 650;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conversion-proof__perk {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #34d399;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conversion-proof__pulse {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #64748b;
+  box-shadow: none;
+}
+
+@media (max-width: 780px) {
+  /* Optional illustrative content adds no task on small screens. Keep the
+     mobile footer and navigation free of extra rotating example panels. */
+  .conversion-proof-toast { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .conversion-proof-toast {
+    transition: none;
+    transform: none;
+  }
+}
+@media (max-height: 500px) {
+  .conversion-proof-toast {
+    display: none;
+  }
+}
+
+
+/* Reader controls remain visible while only the illustrative text transitions. */
+.conversion-proof__example {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  transition: opacity 0.35s ease;
+}
+.conversion-proof__example--in { opacity: 1; }
+.conversion-proof__example--out { opacity: 0; }
+.conversion-proof__control {
+  align-self: flex-start;
+  min-height: 44px;
+  min-width: 44px;
+  max-width: 100%;
+  padding: 0.4rem 0.6rem;
+  margin-top: 0.25rem;
+  border: 1px solid #64748b;
+  border-radius: 6px;
+  background: #0d1117;
+  color: #e2e8f0;
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: start;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.conversion-proof__control:focus-visible {
+  outline: 2px solid #6f90ff;
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .conversion-proof__example { transition: none; }
+}
+
+/* The homepage example belongs to opened research tools, never an overlay. */
+.home-research-drawer__body .conversion-proof-toast {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  max-width: none;
+  box-sizing: border-box;
+  pointer-events: auto;
+}
