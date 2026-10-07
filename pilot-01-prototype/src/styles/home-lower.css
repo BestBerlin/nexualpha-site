@@ -15,7 +15,6 @@
 /* ---------- Section headings: one hierarchy for every lower section ---------- */
 .home-refinement:not(#_) :is(.crossroads__title, .yellow-pages__title) {
   margin: 0 0 12px;
-  font-family: var(--font-display);
   font-size: var(--hl-h2);
   font-weight: 700;
   line-height: 1.12;
