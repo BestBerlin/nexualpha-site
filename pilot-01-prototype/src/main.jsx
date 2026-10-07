@@ -26,6 +26,7 @@ import "./styles/compare-refinement.css";
 import "./styles/compare-motion-refinement.css";
 import "./styles/profile-refinement.css";
 import "./styles/home-lower.css";
+import "./styles/home-first-screen.css";
 import "./styles/type-system.css";
 
 // Capture once before any child effect can normalize the current history URL.
