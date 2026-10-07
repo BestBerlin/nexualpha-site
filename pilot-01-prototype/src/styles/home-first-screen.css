@@ -49,6 +49,7 @@
   transition: border-color 140ms ease, background-color 140ms ease;
 }
 .v2-header .v2-header__tools select:hover { border-color: rgba(180, 196, 211, 0.34); }
+.v2-header .v2-wordmark:focus-visible { outline: 2px solid var(--blue-text, #6f90ff); outline-offset: 4px; border-radius: 10px; }
 .v2-header .v2-header__tools select:focus-visible { outline: 2px solid var(--blue-text, #6f90ff); outline-offset: 2px; }
 
 /* ---------- Source notes: a quiet utility on the hero meta line ---------- */
@@ -464,6 +465,7 @@
   place-items: center;
   inline-size: 24px;
   block-size: 24px;
+  margin-inline-end: -5px;
   color: var(--hfs-accent);
   font-weight: 400;
   transition: transform 200ms var(--hfs-ease);
