@@ -12,3 +12,4 @@ dist/
 pilot-01-prototype/tests/fixtures/r276-precise-test-contracts.json
 pilot-01-prototype/tests/fixtures/r237-approved-inverses.json
 __pycache__/
+.claude/
