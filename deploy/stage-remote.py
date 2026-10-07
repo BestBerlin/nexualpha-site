@@ -34,9 +34,16 @@ def sh(*a, **k):
     return subprocess.run(list(a), check=True, **k)
 
 
-def get(port, path, timeout=30):
-    with urllib.request.urlopen('http://127.0.0.1:%s%s' % (port, path), timeout=timeout) as resp:
-        return resp.status, resp.read().decode('utf-8', 'replace')
+def get(port, path, timeout=60, tries=3):
+    last = None
+    for _ in range(tries):
+        try:
+            with urllib.request.urlopen('http://127.0.0.1:%s%s' % (port, path), timeout=timeout) as resp:
+                return resp.status, resp.read().decode('utf-8', 'replace')
+        except Exception as e:
+            last = e
+            time.sleep(2)
+    raise last
 
 
 def cta_links(html):
@@ -77,6 +84,16 @@ if live_build != BASELINE and '-GH-' not in live_build:
 if live_build == BUILD_ID:
     sys.exit('ABORT %s is already live' % BUILD_ID)
 print('live %s (%s on %s) is a known base' % (live_build, old, old_port))
+
+# Remove leftovers of earlier FAILED stagings (container + release dir without a state file).
+for line in out('docker', 'ps', '-a', '--format', '{{.Names}}').splitlines():
+    if line.startswith('nexualpha-web-gh-') and line != old:
+        rel = line[len('nexualpha-web-'):]
+        root = '/data/wwwroot/nexualpha-release-%s' % rel
+        if not pathlib.Path(root + '.state.json').exists():
+            print('removing leftover of failed staging: %s' % line)
+            subprocess.run(['docker', 'rm', '-f', line], stdout=subprocess.DEVNULL)
+            subprocess.run(['rm', '-rf', '--', root])
 
 if pathlib.Path(ROOT).exists():
     sys.exit('ABORT %s already exists' % ROOT)
@@ -125,10 +142,10 @@ for net in (info.get('NetworkSettings', {}).get('Networks') or {}):
 
 def preflight():
     for r in ROUTES:
-        status, _ = get(new_port, r)
+        status, _ = get(new_port, r, 30, 1)
         if status != 200:
             raise RuntimeError('%s -> %s' % (r, status))
-    got = json.loads(get(new_port, '/version.json')[1])['buildId']
+    got = json.loads(get(new_port, '/version.json', 30, 1)[1])['buildId']
     if got != BUILD_ID:
         raise RuntimeError('buildId %s != %s' % (got, BUILD_ID))
 
@@ -136,6 +153,7 @@ def preflight():
 def abort(msg):
     subprocess.run(['docker', 'logs', '--tail', '40', NEW])
     subprocess.run(['docker', 'rm', '-f', NEW])
+    subprocess.run(['rm', '-rf', '--', ROOT])
     sys.exit('ABORT %s; standby removed, live site untouched' % msg)
 
 
@@ -154,8 +172,11 @@ print('preflight: %d routes 200, buildId %s' % (len(ROUTES), BUILD_ID))
 
 cta_diff = []
 for page in CTA_PAGES:
-    a = cta_links(get(old_port, page)[1])
-    b = cta_links(get(new_port, page)[1])
+    try:
+        a = cta_links(get(old_port, page)[1])
+        b = cta_links(get(new_port, page)[1])
+    except Exception as e:
+        abort('could not compare registration links on %s: %s' % (page, e))
     if a != b:
         cta_diff.append('%s: removed %s added %s' % (page, sorted(set(a) - set(b)), sorted(set(b) - set(a))))
     print('cta %s: live %d / standby %d links%s' % (page, len(a), len(b), '' if a == b else '  DIFFERENT'))
