@@ -445,7 +445,7 @@
 .crawl-priority-links:not(#_) .crawl-priority-links__group a {
   display: inline-flex;
   align-items: center;
-  min-block-size: 32px;
+  padding-block: 6px;
   font-size: 14px;
   line-height: 1.35;
   color: #c9d1dc;
@@ -478,7 +478,7 @@
     "logo nav"
     "summary nav"
     "policies copy";
-  column-gap: clamp(24px, 5vw, 72px);
+  column-gap: 0;
   row-gap: 10px;
   align-items: start;
 }
@@ -486,6 +486,7 @@
 .clean-footer:not(#_) .clean-footer__summary {
   grid-area: summary;
   max-inline-size: 28rem;
+  padding-inline-end: 32px;
   font-size: 14px;
   line-height: 1.55;
   color: var(--muted);
@@ -493,6 +494,7 @@
 .clean-footer:not(#_) .clean-footer__nav--primary {
   grid-area: nav;
   align-self: center;
+  padding-inline-start: 32px;
   justify-content: flex-end;
   column-gap: 28px;
 }
@@ -526,6 +528,7 @@
   grid-area: copy;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   min-block-size: 44px;
   margin-block-start: 28px;
   padding-block-start: 1px;
@@ -555,8 +558,8 @@
     padding-block: 18px;
   }
   .home-refinement:not(#_) :is(.home-analyzer-drawer, .home-research-drawer) > summary > b,
-  .home-refinement:not(#_) .platform-matcher__summary > i { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
-  .home-refinement:not(#_) .platform-matcher__summary > i { grid-row: 1 / span 3; align-self: center; }
+  .home-refinement:not(#_) .platform-matcher__summary > i { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .home-refinement:not(#_) .platform-matcher__summary > i { grid-row: 1 / span 3; }
   .home-refinement:not(#_) :is(.home-analyzer-drawer, .home-research-drawer) > summary > strong,
   .home-refinement:not(#_) .platform-matcher__summary-copy > strong { font-size: 17px; }
   .home-refinement:not(#_) .platform-matcher__summary-context {
@@ -596,7 +599,9 @@
     grid-template-areas: "logo" "summary" "nav" "policies" "copy";
     row-gap: 8px;
   }
+  .clean-footer:not(#_) .clean-footer__summary { padding-inline-end: 0; }
   .clean-footer:not(#_) .clean-footer__nav--primary {
+    padding-inline-start: 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     justify-content: start;
@@ -605,7 +610,7 @@
     margin-block-start: 12px;
   }
   .clean-footer:not(#_) .clean-footer__policies { margin-block-start: 16px; }
-  .clean-footer:not(#_) .clean-footer__copyright { margin-block-start: 0; border: 0; min-block-size: 32px; }
+  .clean-footer:not(#_) .clean-footer__copyright { justify-content: flex-start; margin-block-start: 0; border: 0; min-block-size: 32px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
