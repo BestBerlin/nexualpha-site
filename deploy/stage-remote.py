@@ -40,8 +40,19 @@ def get(port, path, timeout=30):
 
 
 def cta_links(html):
-    hrefs = re.findall(r'href="([^"]+)"', html)
-    return sorted(set(h for h in hrefs if h.startswith('http') and any(m in h.lower() for m in CTA_MARKERS)))
+    found = set()
+    for tag in re.findall(r'<a\b[^>]*>', html):
+        m = re.search(r'href="([^"]+)"', tag)
+        if not m or not m.group(1).startswith('http'):
+            continue
+        # tg_expires is a build-time timestamp (changes on every build), not part of the partner link
+        href = re.sub(r'tg_expires=\d+', 'tg_expires=N', m.group(1))
+        if 'sponsored' in tag or any(k in href.lower() for k in CTA_MARKERS):
+            found.add(href)
+    # referral codes shown on registration cards
+    for code in re.findall(r'registration-card__code-value[^>]*>([^<]+)<', html):
+        found.add('code:' + code.strip())
+    return sorted(found)
 
 
 conf = CONF.read_text()
