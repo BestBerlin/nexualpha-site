@@ -390,7 +390,7 @@
 .v3-matrix-main-val {
   font-size: 0.9375rem;
   font-weight: 700;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+  font-family: var(--font-ui);
   color: #ffffff;
   letter-spacing: -0.01em;
   display: inline-flex;
@@ -404,7 +404,7 @@
   font-size: 0.75rem;
   color: var(--muted, #98a2b3);
   line-height: 1.3;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+  font-family: var(--font-ui);
 }
 
 /* 返佣醒目数值 */
@@ -412,7 +412,7 @@
   font-size: 1.25rem;
   font-weight: 800;
   color: #12b76a;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+  font-family: var(--font-ui);
   display: inline-flex;
   align-items: baseline;
   gap: 2px;
@@ -548,7 +548,7 @@
   font-size: 1.1875rem;
   font-weight: 800;
   color: #fdb022;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+  font-family: var(--font-ui);
 }
 
 /* 迎新礼包 */
@@ -586,7 +586,7 @@
 
 .v3-matrix-code-val {
   color: #53b1fd;
-  font-family: -apple-system, BlinkMacSystemFont, monospace;
+  font-family: var(--font-code);
   font-weight: 700;
   margin-left: 2px;
 }
@@ -1084,7 +1084,7 @@
 .v3-decision-code-val {
   color: #fdb022;
   font-weight: 700;
-  font-family: monospace;
+  font-family: var(--font-code);
 }
 
 .v3-decision-action-btn {
@@ -1306,7 +1306,7 @@
   border-radius: 4px;
   background: rgba(253, 176, 34, 0.15);
   color: #fdb022;
-  font-family: monospace;
+  font-family: var(--font-code);
   font-weight: 700;
 }
 

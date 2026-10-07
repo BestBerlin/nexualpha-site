@@ -368,7 +368,7 @@ function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
   const groups = (groupsByScope[scope] || groupsByScope.home)
     .filter((group) => group !== "brazil" || locale === "pt-BR" || locale === "en");
   return <nav className="crawl-priority-links v2-shell" data-crawl-priority-links={scope} aria-label={copy.label}>
-    <details className="crawl-priority-links__details">
+    <details className="crawl-priority-links__details" open>
       <summary className="crawl-priority-links__intro">
         <strong>{copy.label}</strong>
         <span>{copy.note}</span>
