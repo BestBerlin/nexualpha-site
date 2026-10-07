@@ -546,6 +546,13 @@
   margin-block-start: 6px;
 }
 .yellow-pages--directory .yellow-card--directory .yellow-card__actions > :is(a, button, span) { white-space: normal; }
+@container r1-list (max-width: 639px) {
+  .yellow-pages--directory .yellow-card--directory .yellow-card__actions > :is(a, button, span) {
+    gap: 6px;
+    padding-inline: 10px;
+    font-size: 0.8125rem;
+  }
+}
 
 @container r1-list (min-width: 640px) {
   .yellow-pages--directory .yellow-card--directory .yellow-card__actions {
@@ -855,7 +862,8 @@
 }
 .v3-profile-page .v3-venue-identity h1 {
   margin: 0;
-  font-size: clamp(2.125rem, 1.3rem + 2.6vw, 3.5rem);
+  max-width: 22ch;
+  font-size: clamp(2.125rem, 1.3rem + 2vw, 3rem);
   line-height: 1.04;
   letter-spacing: -0.035em;
   font-weight: 700;
@@ -976,7 +984,7 @@
 }
 .v3-profile-page .v3-profile-reading-overview > .v3-profile-primary-actions { padding-block-start: 0; }
 .v3-profile-page .v3-profile-reading-overview > .v3-relationship-note {
-  max-width: 68ch;
+  max-width: 80ch;
   margin-block: 16px 0;
   padding: 0;
   border: 0;
@@ -1108,7 +1116,45 @@
   .v3-profile-page > .v2-section { padding-block: 44px; }
 }
 
+/* Short pre-signing checklist (Uniswap): title and hint were running together on one line. */
+.v3-profile-page .v3-uniswap-short-checklist {
+  border: 1px solid var(--r1-rule);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.015);
+}
+.v3-profile-page .v3-uniswap-short-checklist > summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 10px;
+  row-gap: 4px;
+  align-items: baseline;
+  padding: 16px 18px;
+  cursor: pointer;
+  list-style: none;
+}
+.v3-profile-page .v3-uniswap-short-checklist > summary::-webkit-details-marker { display: none; }
+.v3-profile-page .v3-uniswap-short-checklist > summary::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1;
+  inline-size: 12px;
+  block-size: 12px;
+  align-self: center;
+  background: var(--blue-text);
+  -webkit-mask: var(--r1-icon-chevron) center / contain no-repeat;
+  mask: var(--r1-icon-chevron) center / contain no-repeat;
+  transform: rotate(-90deg);
+  transition: transform 200ms var(--r1-ease);
+}
+[dir="rtl"] .v3-profile-page .v3-uniswap-short-checklist > summary::before { transform: rotate(90deg); }
+.v3-profile-page .v3-uniswap-short-checklist[open] > summary::before { transform: none; }
+.v3-profile-page .v3-uniswap-short-checklist > summary > span { grid-column: 2; grid-row: 1; font-size: 1rem; font-weight: 600; color: var(--ink); }
+.v3-profile-page .v3-uniswap-short-checklist > summary > small { grid-column: 2; display: block; font-size: 0.8125rem; line-height: 1.5; color: var(--muted); }
+.v3-profile-page .v3-uniswap-short-checklist > summary:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 2px; }
+.v3-profile-page .v3-uniswap-short-checklist[open] > :not(summary) { margin-inline: 18px; margin-block-end: 16px; }
+
 @media (prefers-reduced-motion: reduce) {
+  .v3-profile-page .v3-uniswap-short-checklist > summary::before { transition: none; }
   .v3-profile-page .v3-venue-hero > .v3-profile-reading-layout > .v3-profile-action-column { transition: none; }
   .v3-profile-page .v3-venue-direct-answer__links > a,
   .v3-profile-page .v3-back-link { transition: none; }
