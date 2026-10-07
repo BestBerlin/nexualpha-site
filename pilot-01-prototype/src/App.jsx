@@ -718,14 +718,14 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "regionalDecision") return pageShell(<RegionalMarketPreview market={route.market} locale={route.locale || locale} decisionPath={route.decisionPath} decisionPassport={decisionPassport} />);
   if (route.name === "methodology") return pageShell(<AuditMethodologyPage locale={locale} />);
   if (route.name === "partners") return pageShell(<PartnerEmbedGuide locale={locale} />);
-  if (route.name === "telegram") return pageShell(<main className="v2-page v3-page" id="top" dir={getTextDirection(locale)}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
+  if (route.name === "telegram") return pageShell(<main className="v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
   if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);
   if (route.name === "factbookCollection") return pageShell(<CollectionHubPage kind="factbook" locale={locale} />);
   if (route.name === "tokenizedAssets") return pageShell(<TokenizedAssetsPage slug={route.slug} locale={locale} />, { crawlScope: "tokenized" });
   if (route.name === "topic") return pageShell(<TopicGuidePage slug={route.slug} locale={locale} market={route.market} product={route.product} venues={command.venueCatalog} />);
   if (route.name === "factbook") return pageShell(<FactbookPage slug={route.slug} locale={locale} market={route.market} product={route.product} />);
   if (route.name === "kolLanding") return pageShell(<KolLandingPage kolHandle={route.kol} locale={locale} market={route.market} product={route.product} />);
-  if (route.name === "rateTerminal") return pageShell(<main className="v2-page v3-page" id="top">
+  if (route.name === "rateTerminal") return pageShell(<main className="v2-page v3-page r1-rates-page" id="top">
     <section className="v2-section v2-shell">
       <span className="v3-independent-badge">{({ "zh-Hant": "手續費計算", ja: "手数料比較", ko: "수수료 비교", tr: "Ücret karşılaştırması", ar: "مقارنة الرسوم", "pt-BR": "Comparação de taxas", es: "Comparación de comisiones", fr: "Comparaison des frais", de: "Gebührenvergleich", ru: "Сравнение комиссий", id: "Perbandingan biaya", vi: "Đối chiếu phí", it: "Confronto delle commissioni" }[locale] || (locale.startsWith("zh") ? "手续费计算" : "Fee benchmark"))}</span>
       <h1>{({

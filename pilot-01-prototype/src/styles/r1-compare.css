@@ -138,7 +138,7 @@
 #top.v3-compare-page .v3-venue-hero { gap: 20px; padding: 0; }
 #top.v3-compare-page .v3-venue-hero > h1 {
   margin: 0;
-  max-inline-size: 24ch;
+  max-inline-size: 19em;
   font-size: clamp(2rem, 1.25rem + 2.4vw, 3rem);
   line-height: 1.08;
   letter-spacing: -.022em;
@@ -198,7 +198,7 @@
 #top.v3-compare-page .v3-compare-decision-nav__links a:hover { color: var(--ink); background-size: 100% 1px; }
 #top.v3-compare-page .v3-relationship-note {
   margin: 0;
-  padding-block: 14px 0;
+  padding-block: 16px 20px;
   border: 0;
   color: var(--muted);
   font-size: 13px;
@@ -219,6 +219,7 @@
     padding-inline: var(--page-pad);
     padding-block-end: 8px;
     overflow-x: auto;
+    scroll-padding-inline: var(--page-pad);
     scroll-snap-type: x proximity;
     scrollbar-width: none;
   }
@@ -238,7 +239,7 @@
 }
 
 /* ---------- Matrix ---------- */
-#top.v3-compare-page .v3-metric-matrix-section { padding-block: var(--r1-section) 0; margin: 0 auto; }
+#top.v3-compare-page .v3-metric-matrix-section { padding-block: clamp(32px, 4vw, 48px) 0; margin: 0 auto; }
 #top.v3-compare-page .v3-matrix-header { gap: 10px; margin-block-end: 24px; }
 #top.v3-compare-page .v3-matrix-eyebrow { color: var(--muted); font-size: 13px; letter-spacing: .02em; text-transform: none; }
 #top.v3-compare-page .v3-matrix-title {
@@ -302,7 +303,8 @@
 #top.v3-compare-page .v3-matrix-td--dim { background: transparent; }
 #top.v3-compare-page .v3-matrix-dim-title { display: block; font-size: 15px; font-weight: 650; line-height: 1.35; color: var(--ink); }
 #top.v3-compare-page .v3-matrix-dim-hint { display: block; margin-block-start: 4px; font-size: 13px; font-weight: 400; line-height: 1.5; color: var(--muted); }
-#top.v3-compare-page .v3-matrix-cell-stack { display: grid; justify-items: start; gap: 8px; text-align: start; }
+#top.v3-compare-page .v3-matrix-cell-stack { display: grid; justify-items: start; align-items: start; justify-content: stretch; gap: 8px; text-align: start; }
+#top.v3-compare-page .v3-matrix-cell-stack > * { justify-self: start; margin-inline: 0; }
 #top.v3-compare-page .v3-matrix-main-val {
   display: block;
   justify-content: flex-start;
@@ -332,6 +334,7 @@
 }
 #top.v3-compare-page .v3-matrix-action-cell {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
@@ -390,7 +393,7 @@
 #top.v3-compare-page .v3-compare-final-choice-card__head > span { color: var(--muted); font-size: 13px; letter-spacing: .02em; text-transform: none; }
 #top.v3-compare-page .v3-compare-final-choice-card__head > h2 {
   margin: 0;
-  max-inline-size: 36ch;
+  max-inline-size: 26em;
   font-size: clamp(1.375rem, 1rem + 1.1vw, 1.875rem);
   line-height: 1.2;
   letter-spacing: -.015em;
@@ -456,6 +459,7 @@
   padding: 0;
   display: inline-flex;
   align-items: center;
+  justify-content: flex-start;
   background: none;
   border: 0;
   color: var(--blue-text);
@@ -618,3 +622,22 @@
   #top.v3-compare-page *::after { transition-duration: .01ms !important; }
   #top.v3-compare-page [data-cta-kind]:hover { transform: none !important; }
 }
+
+/* FAQ expander and the mobile matrix toggle follow the same quiet outline. */
+#top.v3-compare-page :is(.v3-faq-list__expand, .v3-matrix-expand) {
+  min-block-size: 44px;
+  padding: 0 18px;
+  border-radius: 8px;
+  border: 1px solid var(--r1-rule-strong);
+  background: transparent;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: none;
+  transition: border-color .18s ease, background-color .18s ease;
+}
+#top.v3-compare-page :is(.v3-faq-list__expand, .v3-matrix-expand):hover { border-color: var(--blue-text); background: rgba(255, 255, 255, .04); }
+#top.v3-compare-page .v3-faq-list__expand { align-self: flex-start; margin-block: 20px 0; }
+#top.v3-compare-page .v3-matrix-expand { inline-size: 100%; margin-block: 12px 0; }
+#top.v3-compare-page #compare-faq { padding-block-end: 8px; }
+#top.v3-compare-page .v3-compare-disclosure-section { margin-block-start: 40px; }
