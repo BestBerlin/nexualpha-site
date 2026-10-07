@@ -25,6 +25,7 @@ import "./styles/home-refinement.css";
 import "./styles/compare-refinement.css";
 import "./styles/compare-motion-refinement.css";
 import "./styles/profile-refinement.css";
+import "./styles/home-first-screen.css";
 
 // Capture once before any child effect can normalize the current history URL.
 const capturedBrowserUrl = typeof window !== "undefined" ? window.location.href : undefined;
