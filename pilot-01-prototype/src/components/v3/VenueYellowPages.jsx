@@ -853,7 +853,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
   }, [contextualVenues, selectedCategory, filters, sortBy, searchQuery, locale, effectiveAccountStage, decisions.primary]);
 
   return (
-    <section className="yellow-pages v2-shell" id="exchanges">
+    <section className={`yellow-pages v2-shell${compact ? "" : " yellow-pages--directory"}`} id="exchanges">
       <div className="yellow-pages__header">
         <HeadingTag className="yellow-pages__title">{ui.sectionTitle}</HeadingTag>
         <p className="yellow-pages__lead">{ui.sectionLead}</p>
@@ -1024,9 +1024,9 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
           const canOpenRegistration = ctaState !== "blocked" && hasReferral && /^https:\/\//i.test(registrationUrl);
 
           const catClass = String(venue.category || "").toLowerCase().replace(/\s+/g, "-");
-          const detailExpanded = compactDirectory && (expandedVenueDetails === null ? index === 0 : expandedVenueDetails.includes(venue.slug));
+          const detailExpanded = compactDirectory && (expandedVenueDetails || []).includes(venue.slug);
           const toggleVenueDetails = () => setExpandedVenueDetails((current) => {
-            const seed = current === null && filteredVenues[0] ? [filteredVenues[0].slug] : [...(current || [])];
+            const seed = [...(current || [])];
             if (seed.includes(venue.slug)) return seed.filter((slug) => slug !== venue.slug);
             return [...seed, venue.slug];
           });
@@ -1130,24 +1130,6 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
                       {detailToggleCopy(detailExpanded)}
                     </button>
                   )}
-                  {hasDetailPage ? (
-                    <a href={localizedHref(`/exchanges/${venue.slug}?${contextSearch}`, { locale })} className="yellow-card__btn-detail" style={{ color: "#e2e8f0", textDecoration: "none" }} data-cta-kind="research" data-cta-platform={venue.slug} data-cta-placement="directory-card-detail" data-growth-decision={venue.slug} data-growth-placement="directory-card-detail" data-growth-market={context.market} data-growth-product={context.product} data-growth-campaign={growthCampaign}>
-                      {ui.viewDetail}
-                    </a>
-                  ) : (
-                    <span className="yellow-card__btn-detail yellow-card__btn-detail--disabled" aria-disabled="true">
-                      {isZhLocale ? "详情待补充" : (dc.detailPending || ui.profilePending)}
-                    </span>
-                  )}
-                  {canOpenRegistration ? (
-                    <a href={registrationUrl} target="_blank" rel="sponsored noopener noreferrer" className="yellow-card__btn-register" data-cta-kind="registration" data-cta-platform={venue.slug} data-cta-placement="directory-card" data-growth-decision={venue.slug} data-growth-placement="directory-card" data-growth-market={context.market} data-growth-product={context.product} data-growth-campaign={growthCampaign}>
-                      {hasReferral ? ui.openSignup : ui.openApp}
-                    </a>
-                  ) : (
-                    <a href={localizedHref(`/exchanges/${venue.slug}?${contextSearch}#registration-path`, { locale })} className="yellow-card__btn-register yellow-card__btn-register--verify" data-cta-placement="directory-card-eligibility" data-growth-decision="regional_eligibility" data-growth-placement="directory-card-eligibility" data-growth-market={context.market} data-growth-product={context.product} data-growth-campaign={growthCampaign}>
-                      {isZhLocale ? "先核对地区资格" : (dc.verifyEligibility || ui.verifyEligibility)}
-                    </a>
-                  )}
                   {!compact && (
                     <button
                       type="button"
@@ -1165,6 +1147,24 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
                     >
                       {compareSelection.includes(venue.slug) ? ui.compareRemove : ui.compareSelect}
                     </button>
+                  )}
+                  {hasDetailPage ? (
+                    <a href={localizedHref(`/exchanges/${venue.slug}?${contextSearch}`, { locale })} className="yellow-card__btn-detail" style={{ color: "#e2e8f0", textDecoration: "none" }} data-cta-kind="research" data-cta-platform={venue.slug} data-cta-placement="directory-card-detail" data-growth-decision={venue.slug} data-growth-placement="directory-card-detail" data-growth-market={context.market} data-growth-product={context.product} data-growth-campaign={growthCampaign}>
+                      {ui.viewDetail}
+                    </a>
+                  ) : (
+                    <span className="yellow-card__btn-detail yellow-card__btn-detail--disabled" aria-disabled="true">
+                      {isZhLocale ? "详情待补充" : (dc.detailPending || ui.profilePending)}
+                    </span>
+                  )}
+                  {canOpenRegistration ? (
+                    <a href={registrationUrl} target="_blank" rel="sponsored noopener noreferrer" className="yellow-card__btn-register" data-cta-kind="registration" data-cta-platform={venue.slug} data-cta-placement="directory-card" data-growth-decision={venue.slug} data-growth-placement="directory-card" data-growth-market={context.market} data-growth-product={context.product} data-growth-campaign={growthCampaign}>
+                      {hasReferral ? ui.openSignup : ui.openApp}
+                    </a>
+                  ) : (
+                    <a href={localizedHref(`/exchanges/${venue.slug}?${contextSearch}#registration-path`, { locale })} className="yellow-card__btn-register yellow-card__btn-register--verify" data-cta-placement="directory-card-eligibility" data-growth-decision="regional_eligibility" data-growth-placement="directory-card-eligibility" data-growth-market={context.market} data-growth-product={context.product} data-growth-campaign={growthCampaign}>
+                      {isZhLocale ? "先核对地区资格" : (dc.verifyEligibility || ui.verifyEligibility)}
+                    </a>
                   )}
                 </div>
               </div>
