@@ -447,14 +447,15 @@
 
 /* route details row */
 .home-refinement .lean-hero .lean-hero__telemetry .registration-card--compact .registration-card__mobile-route-details {
+  display: block;
   margin-block-start: auto;
   border: 0;
   border-block-start: 1px solid var(--hfs-line);
   border-radius: 0;
 }
 .home-refinement .lean-hero .lean-hero__telemetry .registration-card--compact .registration-card__mobile-route-details > summary {
-  min-block-size: 56px;
-  padding: 12px 0 0;
+  min-block-size: 0;
+  padding: 16px 0 2px;
 }
 .home-refinement .lean-hero .registration-card__mobile-route-summary strong { color: #dfe6f0; font-size: 14px; font-weight: 600; }
 .home-refinement .lean-hero .registration-card__mobile-route-summary small { color: var(--hfs-quiet); font-size: 13px; }
@@ -594,7 +595,7 @@
   .home-refinement .lean-hero .registration-card--compact .registration-card__action-group { gap: 12px; padding-block: 12px 14px; }
   .home-refinement .lean-hero .lean-hero__secondary > .lean-hero__secondary-toggle { inline-size: 100%; justify-content: space-between; min-block-size: 44px; }
   .home-refinement .br-entry-link { padding: 12px 16px; }
-  .home-refinement .lean-hero .lean-hero__telemetry .registration-card--compact .registration-card__mobile-route-details > summary { min-block-size: 52px; padding: 12px 0 2px; }
+  .home-refinement .lean-hero .lean-hero__telemetry .registration-card--compact .registration-card__mobile-route-details > summary { padding-block: 12px 0; }
   .home-refinement .home-section-nav {
     flex-wrap: wrap;
     justify-content: flex-start;
