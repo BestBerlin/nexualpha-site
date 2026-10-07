@@ -321,8 +321,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  min-block-size: 64px;
-  padding: 0;
+  min-block-size: 0;
+  padding: 18px 0;
   list-style: none;
   font-size: 15px;
   line-height: 1.3;
@@ -591,23 +591,36 @@
   .home-refinement .lean-hero .growth-intent-switch { margin-inline: -16px; padding-inline: 16px; }
   .home-refinement .lean-hero .growth-intent-switch::after { inset-inline-start: 16px; inline-size: calc((100% - 32px) / 2); }
   .home-refinement .lean-hero .growth-intent-switch button { min-block-size: 48px; font-size: 14px; }
-  .home-refinement .lean-hero .lean-hero__telemetry .growth-platform-chooser__summary { min-block-size: 56px; }
+  .home-refinement .lean-hero .lean-hero__telemetry .growth-platform-chooser__summary { padding-block: 14px; }
   .home-refinement .lean-hero .registration-card__code-section--home-identity { padding-block: 14px 12px; }
   .home-refinement .lean-hero .registration-card__code-section--home-identity .registration-card__code-value { font-size: 24px; }
   .home-refinement .lean-hero .registration-card--compact .registration-card__action-group { gap: 12px; padding-block: 12px 14px; }
   .home-refinement .lean-hero .lean-hero__secondary > .lean-hero__secondary-toggle { inline-size: 100%; justify-content: space-between; min-block-size: 44px; }
   .home-refinement .br-entry-link { padding: 12px 16px; }
   .home-refinement .lean-hero .lean-hero__telemetry .registration-card--compact .registration-card__mobile-route-details > summary { padding-block: 12px 0; }
+  /* sticky index stays one 44px row on phones; the row scrolls instead of wrapping */
   .home-refinement .home-section-nav {
-    flex-wrap: wrap;
+    display: flex;
+    flex-wrap: nowrap;
     justify-content: flex-start;
-    gap: 0 20px;
+    gap: 0 22px;
     inline-size: var(--hfs-shell);
     margin-inline: auto;
     padding-inline: 0;
     min-block-size: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-mask-image: linear-gradient(var(--hfs-fade-dir, to right), #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(var(--hfs-fade-dir, to right), #000 calc(100% - 28px), transparent);
   }
-  .home-refinement .home-section-nav a { font-size: 14px; }
+  .home-refinement[dir="rtl"] .home-section-nav { --hfs-fade-dir: to left; }
+  .home-refinement .home-section-nav a {
+    flex: none;
+    padding: 0;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .home-refinement .home-section-nav a:last-child { padding-inline-end: 28px; }
 }
 
 @media (hover: none), (pointer: coarse) {
