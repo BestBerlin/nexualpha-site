@@ -28,6 +28,8 @@ import "./styles/profile-refinement.css";
 import "./styles/home-lower.css";
 import "./styles/home-first-screen.css";
 import "./styles/directory-profile-r1.css";
+import "./styles/r1-compare.css";
+import "./styles/r1-content.css";
 import "./styles/type-system.css";
 
 // Capture once before any child effect can normalize the current history URL.
