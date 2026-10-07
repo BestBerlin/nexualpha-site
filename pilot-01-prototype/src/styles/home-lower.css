@@ -80,9 +80,7 @@
   }
 }
 @media (hover: hover) and (pointer: fine) {
-  .home-refinement:not(#_) .crossroads .crossroads__card[data-decision-path]:hover {
-    background: var(--hl-row-hover);
-  }
+  .home-refinement:not(#_) .crossroads .crossroads__card[data-decision-path]:hover { background: transparent; }
   .home-refinement:not(#_) .crossroads__card:hover .crossroads__decision-label { color: var(--ink); }
   .home-refinement:not(#_) .crossroads .crossroads__card:hover .crossroads__arrow {
     color: var(--blue-text);
@@ -235,6 +233,7 @@
   color: var(--ink);
 }
 .home-refinement:not(#_) .platform-matcher__details[open] .platform-matcher__summary { border: 0; }
+.home-refinement:not(#_) .platform-matcher__body { padding: 0 0 28px; }
 
 /* ---------- Platform index ---------- */
 .home-refinement:not(#_) .yellow-pages {
@@ -347,10 +346,27 @@
   border-radius: 10px;
   transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, filter 180ms ease;
 }
+.home-refinement:not(#_) .yellow-pages__grid--compact .yellow-card--compact {
+  position: relative;
+  isolation: isolate;
+}
+.home-refinement:not(#_) .yellow-pages__grid--compact .yellow-card--compact::after {
+  content: "";
+  position: absolute;
+  inset-block: 4px;
+  inset-inline: -14px;
+  z-index: -1;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .035);
+  opacity: 0;
+  transition: opacity 200ms var(--hl-ease);
+  pointer-events: none;
+}
+@media (max-width: 760px) {
+  .home-refinement:not(#_) .yellow-pages__grid--compact .yellow-card--compact::after { content: none; }
+}
 @media (hover: hover) and (pointer: fine) {
-  .home-refinement:not(#_) .yellow-pages__grid--compact .yellow-card--compact:hover {
-    background: var(--hl-row-hover) !important;
-  }
+  .home-refinement:not(#_) .yellow-pages__grid--compact .yellow-card--compact:hover::after { opacity: 1; }
   .home-refinement:not(#_) .yellow-card--compact:hover .yellow-card__name { color: #fff; }
   .home-refinement:not(#_) .yellow-card--compact .yellow-card__btn-detail:hover { border-color: rgba(255, 255, 255, .28); }
 }
@@ -613,6 +629,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .home-refinement:not(#_) .yellow-card--compact::after,
   .home-refinement:not(#_) :is(.crossroads__card, .crossroads__arrow, .crossroads__decision-label, .yellow-card--compact, .yellow-card__name, .yellow-pages__compact-more a > span),
   .home-refinement:not(#_) :is(.home-analyzer-drawer, .home-research-drawer) > summary > b,
   .home-refinement:not(#_) .platform-matcher__summary > i,
