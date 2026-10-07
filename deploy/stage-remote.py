@@ -34,7 +34,7 @@ def sh(*a, **k):
     return subprocess.run(list(a), check=True, **k)
 
 
-def get(port, path, timeout=60, tries=3):
+def get(port, path, timeout=60, tries=4):
     last = None
     for _ in range(tries):
         try:
@@ -42,8 +42,9 @@ def get(port, path, timeout=60, tries=3):
                 return resp.status, resp.read().decode('utf-8', 'replace')
         except Exception as e:
             last = e
-            time.sleep(2)
-    raise last
+            print('  retry %s%s after %s' % (port, path, e))
+            time.sleep(5)
+    raise RuntimeError('port %s %s: %s' % (port, path, last))
 
 
 def cta_links(html):
@@ -151,6 +152,7 @@ def preflight():
 
 
 def abort(msg):
+    subprocess.run(['sh', '-c', 'uptime; free -m; docker stats --no-stream --format "{{.Name}} {{.CPUPerc}} {{.MemUsage}}" | sort -k3 -h | tail -8'])
     subprocess.run(['docker', 'logs', '--tail', '40', NEW])
     subprocess.run(['docker', 'rm', '-f', NEW])
     subprocess.run(['rm', '-rf', '--', ROOT])

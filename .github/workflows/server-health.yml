@@ -1,0 +1,30 @@
+name: Server health (read-only)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          . ./deploy/server.conf
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/k && chmod 600 ~/.ssh/k
+          cp deploy/known_hosts ~/.ssh/known_hosts
+          ssh -i ~/.ssh/k -o IdentitiesOnly=yes -o BatchMode=yes -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" '
+            uptime; echo; free -m; echo; df -h /data / | sed -n 1,4p; echo; nproc
+            echo; echo "running containers: $(docker ps -q | wc -l)"
+            docker stats --no-stream --format "{{.Name}} {{.CPUPerc}} {{.MemUsage}}" | sort -k3 -h | tail -15
+            echo; grep -o "127.0.0.1:[0-9]*" /www/server/panel/vhost/nginx/nexualpha.com.conf
+            echo; docker ps --format "{{.Names}} {{.Status}} {{.Ports}}" | grep nexualpha-web | head -40'
+          rm -f ~/.ssh/k
