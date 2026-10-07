@@ -248,7 +248,7 @@
   line-height: 1.15;
   letter-spacing: -.015em;
 }
-#top.v3-compare-page .v3-matrix-subtitle { margin: 0; max-inline-size: 68ch; color: var(--muted); font-size: 15px; line-height: 1.6; }
+#top.v3-compare-page .v3-matrix-subtitle { margin: 0; max-inline-size: 76ch; color: var(--muted); font-size: 15px; line-height: 1.6; }
 #top.v3-compare-page .v3-matrix-jump {
   margin: 0 0 16px;
   padding: 0;
