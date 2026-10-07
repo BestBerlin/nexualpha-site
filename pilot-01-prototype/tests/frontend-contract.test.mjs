@@ -1434,7 +1434,7 @@ test("full exchange directory uses compact expandable rows without changing home
   assert.match(venueYellowPages, /const compactDirectory = !compact/);
   assert.match(venueYellowPages, /yellow-pages__grid--directory/);
   assert.match(venueYellowPages, /yellow-card--directory/);
-  assert.match(venueYellowPages, /expandedVenueDetails === null \? index === 0/);
+  assert.match(venueYellowPages, /\(expandedVenueDetails \|\| \[\]\)\.includes\(venue\.slug\)/);
   assert.match(venueYellowPages, /aria-controls=\{`yellow-card-details-\$\{venue\.slug\}`\}/);
   assert.match(venueYellowPages, /className="yellow-card__btn-toggle"/);
   assert.match(venueYellowPages, /className="yellow-card__directory-details"/);
