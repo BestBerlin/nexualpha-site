@@ -1,0 +1,45 @@
+name: Rollback production
+
+# Manual only. Puts Nginx back on the container that was live before the given release.
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: "Release to undo (e.g. gh-20261008t1530-abc1234, shown in the deploy summary)"
+        required: true
+        type: string
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: SSH setup
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          . deploy/server.env
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+          cp deploy/known_hosts ~/.ssh/known_hosts
+          printf 'Host prod\n  HostName %s\n  Port %s\n  User %s\n  IdentityFile ~/.ssh/deploy_key\n  IdentitiesOnly yes\n  StrictHostKeyChecking yes\n  BatchMode yes\n' "$DEPLOY_HOST" "$DEPLOY_PORT" "$DEPLOY_USER" > ~/.ssh/config
+      - name: Roll back
+        env:
+          RELEASE: ${{ inputs.release }}
+        run: |
+          [[ "$RELEASE" =~ ^gh-[0-9a-z]+-[0-9a-f]{7}$ ]] || { echo "::error::invalid release name"; exit 1; }
+          ssh prod "env RELEASE=$RELEASE python3 -" < deploy/rollback-remote.py
+          sleep 3; curl -fsS "https://nexualpha.com/version.json?ts=$(date +%s)"; echo
+      - name: Remove key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key

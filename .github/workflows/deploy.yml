@@ -1,0 +1,126 @@
+name: Deploy to production
+
+# Manual only: Actions -> "Deploy to production" -> Run workflow.
+# build -> upload -> standby container + preflight + CTA-link gate -> Nginx cutover
+#       -> public checks -> automatic rollback if any public check fails.
+# The previous container keeps running, so a rollback is one Nginx switch.
+
+on:
+  workflow_dispatch:
+    inputs:
+      allow_cta_change:
+        description: "Allow registration/invite links to differ from live (normally NO)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    env:
+      RELEASE: ${{ needs.build.outputs.release }}
+      BUILD_ID: ${{ needs.build.outputs.build_id }}
+      SITE: https://nexualpha.com
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-package
+
+      - name: SSH setup
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          test -n "$DEPLOY_SSH_KEY" || { echo "::error::secret DEPLOY_SSH_KEY is not set"; exit 1; }
+          . deploy/server.env
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+          cp deploy/known_hosts ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<EOF
+          Host prod
+            HostName $DEPLOY_HOST
+            Port $DEPLOY_PORT
+            User $DEPLOY_USER
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+            BatchMode yes
+            ConnectTimeout 15
+          EOF
+          ssh prod 'echo connected; python3 --version'
+
+      - name: Live version must be a known base
+        run: |
+          live=$(curl -fsS "$SITE/version.json?ts=$(date +%s)" | sed -n 's/.*"buildId":"\([^"]*\)".*/\1/p')
+          base=$(cat BASELINE_BUILD_ID)
+          echo "live: $live"; echo "repo baseline: $base"
+          if [ "$live" != "$base" ] && [[ "$live" != *-GH-* ]]; then
+            echo "::error::Live build $live was not deployed from this repository. Stopping so we do not overwrite someone else's release."
+            exit 1
+          fi
+
+      - name: Upload package
+        run: |
+          sha256sum -c "nexualpha-ui-$RELEASE.tgz.sha256"
+          scp "nexualpha-ui-$RELEASE.tgz" "prod:/data/wwwroot/nexualpha-ui-$RELEASE.tgz"
+          remote=$(ssh prod "sha256sum /data/wwwroot/nexualpha-ui-$RELEASE.tgz" | cut -d' ' -f1)
+          test "$remote" = "$(cut -d' ' -f1 "nexualpha-ui-$RELEASE.tgz.sha256")" && echo "server sha256 matches"
+
+      - name: Start standby and preflight (live untouched)
+        run: |
+          ssh prod "env RELEASE=$RELEASE BUILD_ID=$BUILD_ID BASELINE_BUILD_ID=$(cat BASELINE_BUILD_ID) ALLOW_CTA_CHANGE=${{ inputs.allow_cta_change && '1' || '0' }} python3 -" < deploy/stage-remote.py
+
+      - name: Switch traffic
+        run: ssh prod "env RELEASE=$RELEASE python3 -" < deploy/cutover-remote.py
+
+      - name: Public checks (auto-rollback on failure)
+        id: verify
+        run: |
+          ok=""
+          for i in $(seq 1 20); do
+            got=$(curl -fsS "$SITE/version.json?ts=$(date +%s)" 2>/dev/null | sed -n 's/.*"buildId":"\([^"]*\)".*/\1/p')
+            [ "$got" = "$BUILD_ID" ] && { ok=1; break; }; sleep 3
+          done
+          [ -n "$ok" ] || { echo "::error::public version.json is ${got:-unreachable}, expected $BUILD_ID"; exit 1; }
+          echo "public version $got"
+          for r in / /zh-hans /exchanges /exchanges/binance /exchanges/bitget /exchanges/okx /compare/binance-vs-okx /activities /news /rates /telegram /br /methodology; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$SITE$r"); echo "$code $r"
+            [ "$code" = "200" ] || { echo "::error::$r returned $code"; exit 1; }
+          done
+          curl -fsS "$SITE/exchanges/binance" | grep -q "ref=11350287" || { echo "::error::Binance invite ref=11350287 missing"; exit 1; }
+          curl -fsS "$SITE/exchanges/bitget" | grep -q "C6PRAF" || { echo "::error::Bitget code C6PRAF missing"; exit 1; }
+          curl -fsS "$SITE/exchanges/okx" | grep -q "nexu888" || { echo "::error::OKX code nexu888 missing"; exit 1; }
+          echo "invite links present"
+
+      - name: Roll back
+        if: failure() && steps.verify.conclusion == 'failure'
+        run: |
+          ssh prod "env RELEASE=$RELEASE python3 -" < deploy/rollback-remote.py
+          echo "::error::Public checks failed; production was rolled back to the previous container."
+
+      - name: Summary
+        if: success()
+        run: |
+          {
+            echo "### Deployed $BUILD_ID"
+            echo "- release: \`$RELEASE\`"
+            echo "- previous container keeps running; to roll back run the **Rollback production** workflow with release \`$RELEASE\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Remove key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key

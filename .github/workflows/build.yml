@@ -1,0 +1,97 @@
+name: Build
+
+# Builds the site exactly like the production release builds (same 7 steps as BUILD.json)
+# and uploads the release package. Runs on every push to main; never deploys.
+# deploy.yml calls this workflow first and deploys the package it produced.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:
+    outputs:
+      build_id:
+        description: buildId baked into the package
+        value: ${{ jobs.build.outputs.build_id }}
+      release:
+        description: release name (package and container suffix)
+        value: ${{ jobs.build.outputs.release }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      build_id: ${{ steps.id.outputs.build_id }}
+      release: ${{ steps.id.outputs.release }}
+    defaults:
+      run:
+        working-directory: pilot-01-prototype
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: pilot-01-prototype/package-lock.json
+
+      - name: Release id
+        id: id
+        run: |
+          stamp=$(TZ=Asia/Shanghai date +%Y%m%dT%H%M)
+          sha=$(git rev-parse --short=7 HEAD)
+          echo "build_id=3.0-${stamp}-GH-${sha}" >> "$GITHUB_OUTPUT"
+          echo "release=gh-${stamp}-${sha}" | tr 'T' 't' >> "$GITHUB_OUTPUT"
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Generate i18n messages
+        run: npm run i18n:compile
+
+      - name: Hosting manifest
+        # .openai/hosting.json is not kept in git. The Docker server does not read it;
+        # prepare-sites-build only copies it into dist. Use the secret when present.
+        env:
+          HOSTING_JSON: ${{ secrets.HOSTING_JSON }}
+        run: |
+          mkdir -p .openai
+          if [ -n "$HOSTING_JSON" ]; then printf '%s' "$HOSTING_JSON" > .openai/hosting.json; else echo '{}' > .openai/hosting.json; fi
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build (client, ssr, news, prerender, sites, budget)
+        env:
+          BUILD_ID: ${{ steps.id.outputs.build_id }}
+        run: |
+          node node_modules/vite/bin/vite.js build
+          node node_modules/vite/bin/vite.js build --ssr src/entry-server.jsx --outDir dist/ssr
+          node scripts/build-news-ssr.mjs
+          node scripts/generate-prerender-manifest.mjs
+          node scripts/prepare-sites-build.mjs
+          node scripts/verify-build-budget.mjs --strict
+
+      - name: Check build output
+        run: |
+          got=$(node -e 'console.log(require("./dist/client/version.json").buildId)')
+          test "$got" = "${{ steps.id.outputs.build_id }}" || { echo "version.json buildId $got"; exit 1; }
+          echo "routes in prerender manifest: $(find dist -name '*manifest*.json' -maxdepth 3 | head -3)"
+
+      - name: Package
+        run: |
+          tar -czf "../nexualpha-ui-${{ steps.id.outputs.release }}.tgz" dist server server.mjs package.json src
+          cd .. && sha256sum "nexualpha-ui-${{ steps.id.outputs.release }}.tgz" | tee "nexualpha-ui-${{ steps.id.outputs.release }}.tgz.sha256"
+          ls -la nexualpha-ui-*
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-package
+          path: |
+            nexualpha-ui-${{ steps.id.outputs.release }}.tgz
+            nexualpha-ui-${{ steps.id.outputs.release }}.tgz.sha256
+          retention-days: 14
