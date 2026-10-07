@@ -24,7 +24,7 @@ Undo later with **Rollback production** and the release name from the deploy sum
 
 - Secret `DEPLOY_SSH_KEY`: dedicated key created by `deploy/setup-deploy-key.sh` (run on the Mac).
 - Optional secret `HOSTING_JSON`: contents of `.openai/hosting.json` (not used by the Docker server).
-- Server address in `deploy/server.env`; host keys pinned in `deploy/known_hosts`.
+- Server address in `deploy/server.conf`; host keys pinned in `deploy/known_hosts`.
 
 ## Not in git
 
