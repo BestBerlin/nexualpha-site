@@ -119,18 +119,18 @@
 
 /* ---------- Tool drawers: fee check, regional matcher, research tools ---------- */
 .home-refinement:not(#_) :is(.home-analyzer-drawer, .home-research-drawer) {
-  margin: 0;
+  margin-block: 0;
   border: 0;
   border-block-start: 1px solid var(--line);
   border-radius: 0;
   background: none;
 }
 .home-refinement:not(#_) .platform-matcher {
-  margin: 0;
-  padding: 0;
+  margin-block: 0;
+  padding-block: 0;
   border-block: 1px solid var(--line);
 }
-.home-refinement:not(#_) .platform-matcher__details { border: 0; margin: 0; }
+.home-refinement:not(#_) .platform-matcher__details { border: 0; margin-block: 0; }
 .home-refinement:not(#_) :is(.home-analyzer-drawer > summary, .home-research-drawer > summary, .platform-matcher__summary) {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto 36px;
@@ -240,7 +240,7 @@
 /* ---------- Platform index ---------- */
 .home-refinement:not(#_) .yellow-pages {
   padding-block: var(--hl-rhythm);
-  margin: 0;
+  margin-block: 0;
 }
 .home-refinement:not(#_) .yellow-pages__header { gap: 0; margin-block-end: 28px; }
 .home-refinement:not(#_) .yellow-pages__lead { margin-block-end: 28px; }
@@ -249,13 +249,18 @@
   margin-block-start: 0;
 }
 .home-refinement:not(#_) .yellow-pages__grid--compact .yellow-card--compact {
-  display: grid !important;
+  display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, .72fr) minmax(0, 1.15fr);
   column-gap: clamp(20px, 3vw, 40px);
   row-gap: 14px;
   align-items: center;
   padding: 18px 0 !important;
   transition: background-color 200ms var(--hl-ease) !important;
+}
+/* Keep the existing first-set limits: 6 rows on desktop, 3 on phones. */
+.home-refinement:not(#_) .yellow-pages__grid--compact .yellow-card--compact:nth-child(n + 7) { display: none; }
+@media (max-width: 680px) {
+  .home-refinement:not(#_) .yellow-pages__grid--compact .yellow-card--compact:nth-child(n + 4) { display: none; }
 }
 .home-refinement:not(#_) .yellow-card--compact > .yellow-card__top { display: contents; }
 .home-refinement:not(#_) .yellow-card--compact > .yellow-card__top > * { grid-column: 1 / -1; grid-row: 2; }
