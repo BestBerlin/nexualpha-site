@@ -58,7 +58,6 @@
   border: 2px solid var(--accent); border-radius: var(--s-1); background: var(--bg); color: var(--accent);
   font-family: var(--font-sans); font-size: var(--t-12); line-height: 1.15; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
 }
-.v6 .vb__ok { margin: 0; display: inline-flex; align-items: center; gap: var(--s-2); color: var(--accent); font-weight: 500; }
 
 .v6 .vb__code {
   display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); inline-size: 100%; text-align: start;
@@ -110,7 +109,6 @@
   .v6 .vb__route { margin-block-start: var(--s-12); }
 }
 
-
 /* the lookalike bar: the same address bar, but the domain is a copy. Differing characters are struck through and muted (no second accent). */
 .v6 .vb__bar--fake { min-block-size: 48px; padding-block: var(--s-2); border-style: dashed; border-color: var(--line); background: transparent; box-shadow: none; font-family: var(--font-mono); font-weight: 500; font-size: var(--t-16); color: var(--text); }
 .v6 .vb__lock--open { color: var(--text-muted); }
@@ -138,7 +136,7 @@
   .v6 .vb__route[data-armed]:not([data-live]) .vb__x { text-decoration-color: transparent; color: var(--text-muted); }
   .v6 .vb__route[data-armed]:not([data-live]) .vb__lock * { stroke-dashoffset: 1; }
   .v6 .vb__route[data-armed]:not([data-live]) .vb__stamp { opacity: 0; }
-  .v6 .vb__route[data-armed]:not([data-live]) .vb__ok, .v6 .vb__route[data-armed]:not([data-live]) .vb__note { opacity: 0; }
+  .v6 .vb__route[data-armed]:not([data-live]) .vb__note { opacity: 0; }
   .v6 .vb__route[data-armed]:not([data-live]) .vb__line i { transform: scaleY(0); }
   .v6 .vb__route[data-armed]:not([data-live]) .vb__node { border-color: var(--line-strong); color: var(--text-muted); }
 
@@ -162,7 +160,6 @@
   .v6 .vb__route[data-live] .vb__lock--open * { animation: none; }
   .v6 .vb__route[data-live] .vb__bar--official { animation: vb-bar 700ms var(--ease-out) calc(var(--t3) + 460ms) both; }
   .v6 .vb__route[data-live] .vb__stamp { animation: vb-stamp 380ms var(--ease-out) calc(var(--t3) + 460ms) both; }
-  .v6 .vb__route[data-live] .vb__ok { animation: vb-rise 400ms var(--ease-out) calc(var(--t3) + 700ms) both; }
   /* the route completes: line to 100%, stations light in order */
   .v6 .vb__route[data-live] .vb__line i { animation: vb-fill 1700ms var(--ease-out) 200ms both; }
   .v6 .vb__route[data-live] .vb__node { animation: vb-node 360ms var(--ease-out) both; }

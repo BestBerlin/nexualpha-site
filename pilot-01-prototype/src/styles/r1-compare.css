@@ -260,7 +260,6 @@
 /* ---------- Matrix ---------- */
 #top.v3-compare-page .v3-metric-matrix-section { padding-block: clamp(32px, 4vw, 48px) 0; margin: 0 auto; }
 #top.v3-compare-page .v3-matrix-header { gap: 10px; margin-block-end: 24px; }
-#top.v3-compare-page .v3-matrix-eyebrow { color: var(--muted); font-size: 13px; letter-spacing: .02em; text-transform: none; }
 #top.v3-compare-page .v3-matrix-title {
   margin: 0;
   font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
@@ -268,21 +267,6 @@
   letter-spacing: -.015em;
 }
 #top.v3-compare-page .v3-matrix-subtitle { margin: 0; max-inline-size: 76ch; color: var(--muted); font-size: 15px; line-height: 1.6; }
-#top.v3-compare-page .v3-matrix-jump {
-  margin: 0 0 16px;
-  padding: 0;
-  border: 0;
-  gap: 12px;
-}
-#top.v3-compare-page .v3-matrix-jump > label { font-size: 14px; }
-#top.v3-compare-page .v3-matrix-jump > select {
-  flex: 0 1 22rem;
-  border-radius: 8px;
-  border-color: var(--r1-rule-strong);
-  background-color: var(--surface-1);
-  transition: border-color .18s ease;
-}
-#top.v3-compare-page .v3-matrix-jump > select:hover { border-color: var(--blue-text); }
 
 #top.v3-compare-page .v3-matrix-table-wrap {
   margin: 0;
@@ -596,7 +580,6 @@
 #top.v3-compare-page .v3-faq-item { margin: 0; border: 0; border-block-end: 1px solid var(--r1-rule); border-radius: 0; background: none; }
 #top.v3-compare-page .v3-faq-summary { min-block-size: 64px; padding: 16px 0; gap: 16px; }
 #top.v3-compare-page .v3-faq-summary-left { gap: 14px; align-items: baseline; }
-#top.v3-compare-page .v3-faq-q-badge { flex: 0 0 auto; min-inline-size: 28px; padding: 2px 6px; border-radius: 6px; border: 1px solid var(--r1-rule-strong); background: none; color: var(--muted); font-size: 12px; text-align: center; }
 #top.v3-compare-page .v3-faq-q-text { font-size: 16px; font-weight: 600; line-height: 1.4; }
 #top.v3-compare-page .v3-faq-content { padding: 0 0 20px; padding-inline-start: 42px; max-inline-size: calc(68ch + 42px); color: var(--muted); font-size: 15px; line-height: 1.65; }
 #top.v3-compare-page .v3-faq-arrow { color: var(--muted); font-size: 11px; transition: transform .28s var(--r1-ease); }
@@ -657,6 +640,5 @@
 }
 #top.v3-compare-page :is(.v3-faq-list__expand, .v3-matrix-expand):hover { border-color: var(--blue-text); background: rgba(255, 255, 255, .04); }
 #top.v3-compare-page .v3-faq-list__expand { align-self: flex-start; margin-block: 20px 32px; }
-#top.v3-compare-page .v3-matrix-expand { inline-size: 100%; margin-block: 12px 0; }
 #top.v3-compare-page #compare-faq { padding-block-end: 8px; }
 #top.v3-compare-page .v3-compare-disclosure-section { margin-block-start: 40px; }

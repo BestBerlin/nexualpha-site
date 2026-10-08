@@ -117,8 +117,6 @@
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-section__title-group { display: grid; gap: var(--s-2, 8px); max-inline-size: 62ch; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-section__title { margin: 0; font-size: var(--t-28); line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; color: var(--n12); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-section__sub { margin: 0; max-inline-size: 62ch; font-size: var(--t-16); line-height: 1.55; font-weight: 400; color: var(--n11); }
-@media (min-width: 769px) { #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-section__tag { position: absolute; inset-block-start: var(--s-8, 32px); inset-inline-end: 0; padding: 0; } }
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-section__tag { order: 2; padding-block-start: var(--s-2, 8px); font-size: var(--t-12); line-height: 1.4; font-weight: 500; letter-spacing: 0.01em; color: var(--n10); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-section-disclosure__summary { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: start; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-section-disclosure__summary:focus-visible { outline-offset: 6px; border-radius: 8px; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-section-disclosure__hint { display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2, 8px); min-block-size: 44px; padding: var(--s-2, 8px) var(--s-4, 16px); border: 1px solid var(--n7); border-radius: 8px; background: transparent; color: var(--n12); font-size: var(--t-14); font-weight: 500; white-space: nowrap; transition: background-color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out); }
@@ -160,8 +158,6 @@
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-evidence dd small { max-inline-size: 62ch; font-size: var(--t-14); line-height: 1.55; color: var(--n10); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-value { font-size: var(--t-16); font-weight: 500; line-height: 1.4; color: var(--n12); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-value--figure { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: var(--t-28); line-height: 1.1; letter-spacing: -0.02em; font-weight: 500; }
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-evidence__row--focus dd .factbook-value--figure { color: var(--accent); }
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-evidence__flag { display: inline-flex; align-items: center; padding: 0 var(--s-2, 8px); min-block-size: 24px; border: 1px solid var(--n7); border-radius: 6px; font-size: var(--t-12); font-weight: 500; line-height: 1.4; color: var(--n11); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-evidence--compact { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); column-gap: var(--s-8, 32px); border-block-start: 0; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-evidence--compact .factbook-evidence__row { grid-template-columns: minmax(0, 1fr) auto; border-block-start: 0; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-evidence--compact { border-block-start: 1px solid var(--n7); }
@@ -175,7 +171,6 @@
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-merkle-link:hover { text-decoration-color: var(--accent); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-tag-kyc { display: inline-flex; align-items: center; min-block-size: 24px; padding: 0 var(--s-2, 8px); border: 1px solid var(--n7); border-radius: 6px; background: none; font-size: var(--t-12); font-weight: 600; letter-spacing: 0.02em; color: var(--n12); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-tag-kyc--mandatory { border-color: color-mix(in oklab, var(--red) 55%, transparent); color: var(--red); }
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-score-badge { padding: 0; border: 0; background: none; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-stage-list, #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-license-pills, #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-mirror-list { display: flex; flex-wrap: wrap; gap: var(--s-2, 8px); margin: 0; padding: 0; list-style: none; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-stage-list { display: grid; gap: var(--s-2, 8px); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-stage-item { margin: 0; padding: 0; font-size: var(--t-16); color: var(--n12); }
@@ -275,10 +270,6 @@
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-tag-kyc--mandatory { border-color: var(--n7); color: var(--n12); }
 
 /* unverified sections: one honest line, the fields named once (no repeated "pending" rows) */
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-evidence--pending .factbook-evidence__row { align-items: start; }
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-pending-fields { display: flex; flex-wrap: wrap; gap: var(--s-1, 4px) 0; margin: 0; padding: 0; list-style: none; font-size: var(--t-16); line-height: 1.5; color: var(--n11); }
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-pending-fields li { margin: 0; padding: 0; }
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-pending-fields li:not(:last-child)::after { content: "·"; margin-inline: var(--s-3, 12px); color: var(--n8); }
 /* PoR sub-columns share one baseline: heading, hairline, body */
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-por-details { gap: var(--s-12, 48px); margin-block-start: var(--s-8, 32px); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-por-details:has(> :only-child) { grid-template-columns: minmax(0, 1fr); }
@@ -295,15 +286,11 @@
   #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-venue-identity { flex-direction: row; }
   #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-venue-logo-wrap, #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-venue-logo-wrap [data-brand-slug] { inline-size: 48px !important; block-size: 48px !important; min-inline-size: 48px !important; max-inline-size: 48px !important; width: 48px !important; height: 48px !important; }
   #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-api-entry { grid-template-columns: minmax(0, 1fr); }
-  #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-pending-fields { display: grid; }
-  #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-pending-fields li::after { display: none; }
 }
 
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-body { margin-inline: auto; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-eyebrow { display: none; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-body__container { gap: var(--s-12, 48px); }
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-pending-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-1, 4px) var(--s-6, 24px); }
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-pending-fields li::after { display: none !important; }
 
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-hero { padding-block-start: var(--s-6, 24px); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-fee-records { border-block-end: 0; }

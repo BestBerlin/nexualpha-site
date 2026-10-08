@@ -161,7 +161,6 @@ body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label,
  * R3 (inner pages): one container, one disclosure row, honest tap targets, no second accent.
  * S = inner-page scope, X = specificity lift above legacy rules.
  * ===================================================================================================== */
-.v6-container { inline-size: min(100% - 48px, 1200px); margin-inline: auto; box-sizing: border-box; }
 
 /* container: matrix + methodology inners join the same 1200 / 24 edge (h1 at x=120, never 112) */
 :is(main, .factbook-page).v6:not(.home-refinement) :is(.mx-page__inner, .methodology-page__inner):not(#_):not(#_):not(#_):not(#_) {
@@ -195,7 +194,6 @@ body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label,
   display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); align-items: center; column-gap: 24px; row-gap: 0;
   min-block-size: 56px; padding: 0; margin: 0; border: 0; border-block-end: 1px solid var(--v6-hair);
 }
-:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-research-chapter__heading:not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); font-weight: 500; line-height: 1.35; letter-spacing: 0; margin: 0; max-inline-size: none; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-research-chapter__body:not(#_):not(#_):not(#_):not(#_) { min-inline-size: 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-research-chapter details:not(#_):not(#_):not(#_):not(#_) { border: 0; }
 @media (max-width: 640px) {

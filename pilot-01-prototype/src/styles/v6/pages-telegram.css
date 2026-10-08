@@ -77,12 +77,12 @@
 #top#top#top#top.v6.r1-telegram-page :is(.tg-command-disclosure, .tg-ops-pack) { margin: 0; padding: 0; border: 0; border-block: 1px solid var(--n6); border-radius: 0; background: none; }
 #top#top#top#top.v6.r1-telegram-page .tg-command-disclosure > summary > :is(span, small, strong) { font-size: inherit; }
 #top#top#top#top.v6.r1-telegram-page .tg-command-disclosure > summary small { font-size: var(--t-14); font-weight: 400; color: var(--n10); }
-#top#top#top#top.v6.r1-telegram-page .tg-deck__header, #top#top#top#top.v6.r1-telegram-page .tg-search-topics__header, #top#top#top#top.v6.r1-telegram-page .tg-manual-review__header { display: grid; gap: var(--s-2, 8px); margin: 0 0 var(--s-6, 24px); }
+#top#top#top#top.v6.r1-telegram-page .tg-deck__header { display: grid; gap: var(--s-2, 8px); margin: 0 0 var(--s-6, 24px); }
 #top#top#top#top.v6.r1-telegram-page :is(.tg-deck__badge, .tg-search-topics__badge, .tg-manual-review__badge, .tg-inbound-summary__badge, .tg-broadcast-badge) { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 #top#top#top#top.v6.r1-telegram-page :is(.tg-deck__title, .tg-search-topics__header :is(h2, h3), .tg-manual-review__header :is(h2, h3), .tg-inbound-summary__copy :is(h2, h3)) { margin: 0; font-size: var(--t-28); line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; color: var(--n12); }
 
 /* feature + command cards become plain columns */
-#top#top#top#top.v6.r1-telegram-page .tg-hub__features-grid, #top#top#top#top.v6.r1-telegram-page .tg-deck__grid, #top#top#top#top.v6.r1-telegram-page .tg-manual-review__grid, #top#top#top#top.v6.r1-telegram-page .tg-inbound-summary__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-8, 32px) var(--s-12, 48px); margin: 0; padding: 0; border: 0; background: none; }
+#top#top#top#top.v6.r1-telegram-page .tg-hub__features-grid, #top#top#top#top.v6.r1-telegram-page .tg-deck__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-8, 32px) var(--s-12, 48px); margin: 0; padding: 0; border: 0; background: none; }
 #top#top#top#top.v6.r1-telegram-page :is(.tg-feature-card, .tg-cmd-card, .tg-manual-review__card, .tg-inbound-summary__stat) { display: grid; align-content: start; gap: var(--s-2, 8px); margin: 0; padding: var(--s-4, 16px) 0 0; border: 0; border-block-start: 1px solid var(--n6); border-radius: 0; background: none; box-shadow: none; }
 #top#top#top#top.v6.r1-telegram-page :is(.tg-feature-card__title, .tg-cmd-card__name) { margin: 0; font-size: var(--t-16); line-height: 1.3; font-weight: 600; color: var(--n12); }
 #top#top#top#top.v6.r1-telegram-page :is(.tg-feature-card__desc, .tg-cmd-card__desc) { margin: 0; font-size: var(--t-14); line-height: 1.55; color: var(--n11); }
@@ -104,15 +104,6 @@
 #top#top#top#top.v6.r1-telegram-page .tg-btn--ghost svg { color: var(--n11); }
 
 /* queues = index: grouped text list, three calm columns, no chip look */
-#top#top#top#top.v6.r1-telegram-page .tg-search-topics__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 var(--s-12, 48px); margin: 0; padding: 0; }
-#top#top#top#top.v6.r1-telegram-page .tg-search-topic-card { display: grid; gap: 2px; align-content: start; margin: 0; padding: var(--s-3, 12px) 0; border: 0; border-block-start: 1px solid var(--n6); border-radius: 0; background: none; box-shadow: none; }
-#top#top#top#top.v6.r1-telegram-page .tg-search-topic-card__query { font-family: var(--v6-sans, inherit); font-size: var(--t-14); font-weight: 600; color: var(--n12); padding: 0; border: 0; background: none; }
-#top#top#top#top.v6.r1-telegram-page .tg-search-topic-card__meta { display: flex; flex-wrap: wrap; gap: var(--s-1, 4px) var(--s-4, 16px); margin: 0; padding: 0; }
-#top#top#top#top.v6.r1-telegram-page .tg-search-topic-card__meta a { display: inline-flex; align-items: center; min-block-size: 44px; padding: 0; border: 0; background: none; color: var(--n12); font-size: var(--t-14); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 4px; }
-#top#top#top#top.v6.r1-telegram-page .tg-search-topic-card__meta a:hover { text-decoration-color: var(--accent); }
-#top#top#top#top.v6.r1-telegram-page .tg-search-topic-card__meta .font-mono { font-family: var(--font-mono); font-size: var(--t-12); color: var(--n10); }
-#top#top#top#top.v6.r1-telegram-page .tg-search-topic-card p { margin: 0; font-size: var(--t-14); line-height: 1.5; color: var(--n11); }
-#top#top#top#top.v6.r1-telegram-page .tg-inbound-summary { display: grid; gap: var(--s-6, 24px); margin: 0 0 var(--s-8, 32px); padding: 0; border: 0; background: none; }
 
 @media (max-width: 1023px) {
   #top#top#top#top.v6.r1-telegram-page :is(.tg-hub__features-grid, .tg-deck__grid, .tg-manual-review__grid, .tg-inbound-summary__stats, .tg-search-topics__grid, .tg-return-rail__grid) { grid-template-columns: repeat(2, minmax(0, 1fr)); }

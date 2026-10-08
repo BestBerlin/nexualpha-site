@@ -1,8 +1,4 @@
 .v3-page { min-height: 100vh; }
-.v3-page .v2-reveal {
-  opacity: 1;
-  transform: none;
-}
 .v3-page .v2-section { padding: clamp(14px, 1.8vw, 22px) 0; }
 .v3-page .v2-section:first-of-type { padding-top: clamp(10px, 1.2vw, 16px); }
 .v3-page .v3-page-snapshot {
@@ -248,7 +244,6 @@
   border-color: rgba(125, 211, 252, .55);
   background: rgba(14, 165, 233, .16);
 }
-
 
 .v3-compare-direct-answer {
   display: grid;
@@ -1843,7 +1838,6 @@
   border-color: rgba(125, 211, 252, .55);
   background: rgba(14, 165, 233, .16);
 }
-
 
 .v3-compare-direct-answer {
   display: grid;

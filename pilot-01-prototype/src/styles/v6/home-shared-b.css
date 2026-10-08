@@ -1,0 +1,27 @@
+/* Rules of the home-only round files (home-r6/r7/r8, styles/v6/home.css) that also apply on inner routes: brand
+   fallback weight and the ja/ar font stacks. Copied verbatim at the slot of those files; originals stay in home.css. */
+/* from home-r6.css */
+#top.v6 .registration-card__mobile-route-body b, #top.v6 .registration-card__state-list b { font-weight: 600; }
+/* from home-r6.css */
+#top.v6 .cl-pop__names b, #top.v6 .v2-brand-fallback, #top.v6 .rf-node .v2-brand-fallback { font-weight: 600; }
+/* from home-r7.css */
+#top.v6:lang(ja) {
+  --font-sans: "Geist V5", "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Pilot Noto JP", sans-serif;
+  --v6-sans: var(--font-sans);
+}
+/* from home-r7.css */
+#top.v6:lang(ar) {
+  --font-sans: "Geist V5", "Noto Sans Arabic", "Noto Sans Arabic UI", "IBM Plex Sans Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Pilot Noto Arabic", sans-serif;
+  --v6-sans: var(--font-sans);
+}
+/* from home-r7.css */
+#top.v6:is(:lang(ja), :lang(ar)) { font-family: var(--font-sans); }
+/* from home-r7.css */
+#top.v6:lang(ar) :is(h1, h2, .rf-title, .v6-h1, .v6-h2, .v6-close__title):not(#_) { line-height: 1.25; }
+/* from home-r8.css */
+#top.v6:lang(ar) {
+  --font-sans: "Geist V5", "Pilot Noto Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif;
+  --v6-sans: var(--font-sans);
+}
+/* from home-r8.css */
+#top.v6:is(:lang(ja), :lang(ar)) { font-synthesis-weight: none; }

@@ -17,20 +17,6 @@ body {
   background-attachment: fixed;
 }
 
-.v2-header {
-  background: rgba(7, 8, 10, 0.72) !important;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08)) !important;
-}
-
-.v2-wordmark {
-  letter-spacing: -0.05em !important;
-  background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 /* Base Glass Panel Utilities */
 .glass-panel {
   background: var(--bg-surface, rgba(255, 255, 255, 0.03));
@@ -123,27 +109,10 @@ body {
   box-shadow: inset 0 1px 0 0 #ffffff, 0 2px 8px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(255, 255, 255, 0.15) !important;
 }
 
-.lean-hero__btn-secondary {
-  background: var(--bg-surface, rgba(255, 255, 255, 0.03)) !important;
-  color: #EDEDED !important;
-  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.09)) !important;
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04) !important;
-  border-radius: 8px !important;
-  backdrop-filter: blur(12px) !important;
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.lean-hero__btn-secondary:hover {
-  background: var(--bg-surface-hover, rgba(255, 255, 255, 0.07)) !important;
-  border-color: rgba(255, 255, 255, 0.18) !important;
-  color: #FFFFFF !important;
-}
-
 /* R153: scoped motion/input boundaries; preserve static presentation. */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .button-primary:hover,
-  .lean-hero__btn-primary:hover,
-  .lean-hero__btn-secondary:hover {
+  .lean-hero__btn-primary:hover {
     transform: translateY(-1px) !important;
   }
 }
@@ -151,8 +120,7 @@ body {
 /* Neutralize route-lazy Hero transforms where hovering movement is inappropriate. */
 @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
   .button-primary:hover,
-  .lean-hero__btn-primary:hover,
-  .lean-hero__btn-secondary:hover {
+  .lean-hero__btn-primary:hover {
     transform: none !important;
   }
 }
@@ -580,7 +548,6 @@ body {
     outline-color: Highlight;
   }
 }
-
 
 .v3-detail-calc__result {
   display: flex;
@@ -1280,58 +1247,10 @@ body {
 /* ==========================================================================
    Level 3: Verification & Share Receipt Modal / Bottom Sheet
    ========================================================================== */
-.frc__receipt-trigger-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: rgba(59, 130, 246, 0.15);
-  border: 1px solid rgba(59, 130, 246, 0.35);
-  color: #60a5fa;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  padding: 0.35rem 0.8rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.frc__receipt-trigger-btn:hover {
-  background: rgba(59, 130, 246, 0.28);
-  border-color: rgba(59, 130, 246, 0.6);
-  color: #93c5fd;
-  transform: translateY(-1px);
-}
-
-.frc-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  animation: frcFadeIn 0.2s ease-out;
-}
 
 @keyframes frcFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
-}
-
-.frc-receipt-sheet {
-  background: #090d16;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(59, 130, 246, 0.15);
-  border-radius: 16px;
-  max-width: 480px;
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  animation: frcSheetPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes frcSheetPop {
@@ -1345,197 +1264,12 @@ body {
   }
 }
 
-.frc-receipt-sheet__drag-handle {
-  display: none;
-}
-
-.frc-receipt-card {
-  padding: 1.75rem;
-  background: linear-gradient(180deg, rgba(20, 28, 45, 0.6) 0%, rgba(9, 13, 22, 0.95) 100%);
-}
-
-.frc-receipt-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
-}
-
-.frc-receipt-card__brand {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #94a3b8;
-}
-
-.frc-receipt-card__stamp {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #34d399;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.4);
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
-
-.frc-receipt-card__title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #f8fafc;
-  margin: 0 0 0.35rem;
-  letter-spacing: -0.02em;
-}
-
-.frc-receipt-card__desc {
-  font-size: 0.8125rem;
-  color: #94a3b8;
-  margin: 0 0 1.25rem;
-  line-height: 1.4;
-}
-
-.frc-receipt-card__data {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  margin-bottom: 1.25rem;
-}
-
-.frc-receipt-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.625rem 0;
-  font-size: 0.85rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.frc-receipt-row:last-child {
-  border-bottom: none;
-}
-
-.frc-receipt-row span {
-  color: #94a3b8;
-}
-
-.frc-receipt-row strong {
-  font-weight: 600;
-  color: #f1f5f9;
-}
-
-.frc-receipt-row strong.text-blue {
-  color: #60a5fa;
-  font-family: var(--font-mono, monospace);
-  letter-spacing: 0.05em;
-}
-
-.frc-receipt-row strong.text-green {
-  color: #34d399;
-  font-size: 1rem;
-  font-family: var(--font-mono, monospace);
-}
-
-.frc-receipt-row--highlight {
-  background: rgba(16, 185, 129, 0.08);
-  margin: 0 -1rem;
-  padding: 0.75rem 1rem;
-  border-radius: 0 0 8px 8px;
-  border-top: 1px dashed rgba(16, 185, 129, 0.3);
-}
-
-.frc-receipt-card__footer {
-  text-align: center;
-  margin-bottom: 1.25rem;
-}
-
-.frc-receipt-fingerprint {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6875rem;
-  color: #94a3b8;
-}
-
-.frc-receipt-actions {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.frc-receipt-copy-btn {
-  flex: 1;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 0.875rem;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-  transition: all 0.15s ease;
-}
-
-.frc-receipt-copy-btn:hover {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  transform: translateY(-1px);
-}
-
-.frc-receipt-close-btn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #cbd5e1;
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 0.75rem 1.25rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.frc-receipt-close-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-}
-
 /* Mobile Bottom Sheet Adaptation */
 @media (max-width: 640px) {
-  .frc-modal-overlay {
-    padding: 0;
-    align-items: flex-end;
-  }
-
-  .frc-receipt-sheet {
-    border-radius: 20px 20px 0 0;
-    max-width: 100%;
-    animation: frcSheetSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
-    padding-bottom: env(safe-area-inset-bottom, 1rem);
-  }
 
   @keyframes frcSheetSlideUp {
     from { transform: translateY(100%); }
     to { transform: translateY(0); }
-  }
-
-  .frc-receipt-sheet__drag-handle {
-    display: block;
-    width: 36px;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 2px;
-    margin: 0.75rem auto 0;
-  }
-
-  .frc-receipt-card {
-    padding: 1.25rem 1.25rem 1.5rem;
-  }
-
-  .frc-receipt-actions {
-    flex-direction: column;
   }
 }
 
@@ -1545,40 +1279,17 @@ body {
 @media (max-width: 780px) and (prefers-reduced-motion: no-preference), (hover: none) and (prefers-reduced-motion: no-preference) {
   button:active,
   .button-primary:active,
-  .lean-hero__btn-primary:active,
-  .lean-hero__btn-secondary:active,
-  .apv__btn-verify:active,
-  .frc__cta-btn:active,
-  .frc-calc-submit-btn:active,
-  .crossroads-card:active,
-  .frc-preset-chip:active,
-  .frc-platform-chip:active {
+  .lean-hero__btn-primary:active {
     transform: scale(0.96) !important;
     transition: transform 0.08s ease !important;
-  }
-
-  .telemetry-panel__cell:active {
-    transform: scale(0.97) !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    transition: transform 0.08s ease !important;
-  }
-
-  .lean-hero__pill:active {
-    opacity: 0.7;
-    transform: scale(0.95);
   }
 }
 
 /* R153 receipt/reduced transitions. */
 @media (prefers-reduced-motion: reduce) {
-  .frc-modal-overlay,
-  .frc-receipt-sheet {
-    animation: none !important;
-  }
 
   .button-primary,
-  .lean-hero__btn-primary,
-  .lean-hero__btn-secondary {
+  .lean-hero__btn-primary {
     transition: none !important;
   }
 }

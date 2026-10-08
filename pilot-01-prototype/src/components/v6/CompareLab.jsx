@@ -12,7 +12,7 @@ import { prefersReducedMotion } from "../../lib/v5/useInView.js";
 import { labText } from "../v3/LeanHeroCopyLab.js";
 import { comparePathFor } from "./compare-routes.js";
 import { useSharedSelection } from "./home-selection.js";
-import "../../styles/v6/compare-lab.css";
+// Styles: styles/v6/compare-lab.css via styles/v6/home.css (home-only stylesheet).
 
 const useIso = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";

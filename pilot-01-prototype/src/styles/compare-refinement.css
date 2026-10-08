@@ -15,7 +15,6 @@
 
 /* The actual source-linked comparison table owns the data rhythm. */
 .v3-compare-page .v3-matrix-header { gap: .5rem; }
-.v3-compare-page .v3-matrix-eyebrow { color: var(--muted); }
 .v3-compare-page .v3-matrix-title { color: var(--ink); }
 .v3-compare-page .v3-matrix-table-wrap { background: var(--surface-1); box-shadow: none; border-color: var(--line); border-radius: 8px; }
 .v3-compare-page .v3-matrix-table th,
@@ -33,13 +32,11 @@
 .v3-compare-page .v3-decision-subtitle { margin-inline: 0; }
 
 /* Sources and subsequent research are a quiet ruled index, with full native disclosure. */
-.v3-compare-page .v3-compare-research-paths,
 .v3-compare-page .v3-compare-support-disclosure,
 .v3-compare-page .v3-compare-snapshot-disclosure,
 .v3-compare-page .v3-compare-section-disclosure,
 .v3-compare-page .v3-compare-disclosure-section .research-references,
 .v3-compare-page .v3-similar-disclosure { background: transparent; border-color: var(--line); border-inline: 0; border-radius: 0; box-shadow: none; }
-.v3-compare-page .v3-compare-research-paths > summary,
 .v3-compare-page .v3-compare-support-disclosure > summary,
 .v3-compare-page .v3-compare-snapshot-disclosure > summary,
 .v3-compare-page .v3-compare-section-disclosure > summary,
@@ -172,35 +169,6 @@
 }
 
 /* R302: native navigation to the matrix metrics that actually exist. */
-.v3-compare-page .v3-matrix-jump {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 16px;
-  margin-block: 12px 16px;
-  padding-block: 8px;
-  border-block: 1px solid var(--line);
-}
-.v3-compare-page .v3-matrix-jump > label {
-  flex: 0 1 auto;
-  min-inline-size: 0;
-  color: var(--muted);
-  line-height: 1.5;
-}
-.v3-compare-page .v3-matrix-jump > select {
-  flex: 1 1 16rem;
-  min-inline-size: 0;
-  max-inline-size: 100%;
-  min-block-size: 44px;
-  padding: 8px 12px;
-  box-sizing: border-box;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  background: var(--surface-1);
-  color: var(--ink);
-  font: inherit;
-}
-.v3-compare-page .v3-matrix-jump > select:focus-visible,
 .v3-compare-page [data-metric-key]:focus-visible {
   outline: 2px solid var(--blue-text);
   outline-offset: 3px;
@@ -208,12 +176,6 @@
 .v3-compare-page [data-metric-key] { scroll-margin-block-start: 6rem; }
 .v3-compare-page .v3-matrix-table [data-metric-key]:focus-visible > :is(th,td) {
   background: var(--surface-2);
-}
-@media (max-width: 680px) {
-  .v3-compare-page .v3-matrix-jump {
-    gap: 6px 12px;
-    margin-block: 8px 12px;
-  }
 }
 
 /* R303: one metric followed by every venue, without mobile horizontal scrolling. */

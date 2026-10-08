@@ -56,42 +56,8 @@
   }
 
   /* ---- 4. Spotlight border: pointer position comes from --mx/--my set by lib/v5/spotlight.js ---- */
-  .v5 .spotlight {
-    position: relative;
-    isolation: isolate;
-    border-radius: var(--r-md);
-    background: var(--surface);
-    border: var(--hairline);
-  }
-  .v5 .spotlight::before,
-  .v5 .spotlight::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity var(--dur-2) var(--ease-out);
-  }
   /* surface wash under the cursor */
-  .v5 .spotlight::before {
-    z-index: -1;
-    background: radial-gradient(22rem circle at var(--mx, 50%) var(--my, 50%), rgb(255 255 255 / 0.05), transparent 65%);
-  }
   /* 1px ring lit near the cursor: gradient masked down to the border box only */
-  .v5 .spotlight::after {
-    padding: 1px;
-    background: radial-gradient(14rem circle at var(--mx, 50%) var(--my, 50%), var(--accent), transparent 70%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  }
-  .v5 .spotlight:hover::before,
-  .v5 .spotlight:hover::after,
-  .v5 .spotlight:focus-within::before,
-  .v5 .spotlight:focus-within::after {
-    opacity: 1;
-  }
 
   /* ---- 5. Border beam: a short accent arc travelling the border (use once, on the single hero panel) ---- */
   @keyframes v5-beam {
@@ -125,27 +91,6 @@
       translate: calc(-50% * var(--dir, 1)) 0;
     }
   }
-  .v5 .marquee {
-    --dir: 1;
-    overflow: hidden;
-    -webkit-mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-    mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  }
-  [dir="rtl"] .v5 .marquee,
-  .v5[dir="rtl"] .marquee {
-    --dir: -1;
-  }
-  .v5 .marquee__track {
-    display: flex;
-    inline-size: max-content;
-    gap: var(--marquee-gap, var(--s-12));
-    padding-inline-end: var(--marquee-gap, var(--s-12));
-    animation: v5-marquee var(--marquee-dur, 40s) linear infinite;
-  }
-  .v5 .marquee:hover .marquee__track,
-  .v5 .marquee:focus-within .marquee__track {
-    animation-play-state: paused;
-  }
 
   /* ---- 7. Scroll-driven progress + view() reveal (progressive enhancement) ---- */
   @supports (animation-timeline: scroll()) {
@@ -156,21 +101,6 @@
       to {
         transform: scaleX(1);
       }
-    }
-    .v5 .scroll-progress {
-      position: fixed;
-      inset-block-start: 0;
-      inset-inline: 0;
-      block-size: 2px;
-      z-index: var(--z-overlay);
-      background: var(--accent);
-      transform-origin: 0 50%;
-      animation: v5-progress linear both;
-      animation-timeline: scroll(root block);
-    }
-    [dir="rtl"] .v5 .scroll-progress,
-    .v5[dir="rtl"] .scroll-progress {
-      transform-origin: 100% 50%;
     }
     @keyframes v5-view-in {
       from {
@@ -185,35 +115,7 @@
       }
     }
     /* pure-CSS alternative to <Reveal>; do not combine with .reveal on the same element */
-    .v5 .reveal-scroll {
-      animation: v5-view-in linear both;
-      animation-timeline: view();
-      animation-range: entry 5% entry 45%;
-    }
   }
 }
 
 /* progress bar must not render at all when motion is reduced or unsupported */
-@media (prefers-reduced-motion: reduce) {
-  .v5 .scroll-progress {
-    display: none;
-  }
-  .v5 .marquee {
-    -webkit-mask: none;
-    mask: none;
-  }
-  .v5 .marquee__track {
-    inline-size: auto;
-    flex-wrap: wrap;
-    row-gap: var(--s-4);
-    padding-inline-end: 0;
-  }
-  .v5 .marquee__track [aria-hidden="true"] {
-    display: none;
-  }
-}
-@supports not (animation-timeline: scroll()) {
-  .v5 .scroll-progress {
-    display: none;
-  }
-}

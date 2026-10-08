@@ -105,46 +105,29 @@ html:has(> body > #root > main.v5, > body > #root > main > .v5) {
   font-weight: 600;
   text-wrap: balance;
 }
-.v5 h1,
-.v5 .t-display {
+.v5 h1 {
   font-size: var(--t-display);
   line-height: var(--lh-tight);
   letter-spacing: var(--track-display);
   font-weight: 600;
 }
-.v5 h2,
-.v5 .t-3xl {
+.v5 h2 {
   font-size: var(--t-3xl);
   line-height: var(--lh-tight);
   letter-spacing: var(--track-display);
 }
-.v5 h3,
-.v5 .t-2xl {
+.v5 h3 {
   font-size: var(--t-2xl);
   line-height: var(--lh-snug);
   letter-spacing: var(--track-heading);
 }
-.v5 h4,
-.v5 .t-xl {
+.v5 h4 {
   font-size: var(--t-xl);
   line-height: var(--lh-snug);
   letter-spacing: var(--track-heading);
 }
-.v5 .t-lg {
-  font-size: var(--t-lg);
-  line-height: 1.5;
-}
 .v5 .t-base {
   font-size: var(--t-base);
-}
-.v5 .t-sm {
-  font-size: var(--t-sm);
-  line-height: 1.5;
-}
-.v5 .t-xs {
-  font-size: var(--t-xs);
-  line-height: 1.4;
-  letter-spacing: var(--track-label);
 }
 .v5 p {
   margin-block: 0 var(--s-4);
@@ -153,24 +136,6 @@ html:has(> body > #root > main.v5, > body > #root > main > .v5) {
 }
 .v5 .measure {
   max-inline-size: var(--measure);
-}
-.v5 .measure-narrow {
-  max-inline-size: var(--measure-narrow);
-}
-.v5 .text-strong {
-  color: var(--text-strong);
-}
-.v5 .text-muted {
-  color: var(--text-muted);
-}
-.v5 .text-up {
-  color: var(--positive);
-}
-.v5 .text-down {
-  color: var(--negative);
-}
-.v5 .text-caution {
-  color: var(--caution);
 }
 .v5 .mono {
   font-family: var(--font-mono);
@@ -181,9 +146,6 @@ html:has(> body > #root > main.v5, > body > #root > main > .v5) {
   font-variant-numeric: tabular-nums lining-nums;
   font-feature-settings: "tnum", "zero";
   text-align: end;
-}
-.v5 .num-start {
-  text-align: start;
 }
 .v5 a {
   color: var(--text-strong);
@@ -233,24 +195,6 @@ html:has(> body > #root > main.v5, > body > #root > main > .v5) {
   border: var(--hairline);
   border-radius: var(--r-md);
 }
-.v5 .surface-raised {
-  background: var(--surface-raised);
-  border: var(--hairline);
-  border-radius: var(--r-md);
-  box-shadow: var(--inset-top), var(--shadow-2);
-}
-.v5 .surface-overlay {
-  background: var(--n3);
-  border: var(--hairline-strong);
-  border-radius: var(--r-lg);
-  box-shadow: var(--inset-top), var(--shadow-3);
-}
-.v5 .rule-top {
-  border-block-start: var(--hairline);
-}
-.v5 .rule-bottom {
-  border-block-end: var(--hairline);
-}
 
 /* ---------- buttons ---------- */
 .v5 .btn {
@@ -296,29 +240,6 @@ html:has(> body > #root > main.v5, > body > #root > main > .v5) {
 }
 .v5 .btn-primary:active {
   background: var(--accent-lo);
-}
-.v5 .btn-secondary {
-  background: var(--n3);
-  color: var(--text-strong);
-  border-color: var(--n7);
-}
-.v5 a.btn-secondary {
-  color: var(--text-strong);
-}
-.v5 .btn-secondary:hover {
-  background: var(--n4);
-  border-color: var(--n8);
-}
-.v5 .btn-ghost {
-  background: transparent;
-  color: var(--text);
-}
-.v5 a.btn-ghost {
-  color: var(--text);
-}
-.v5 .btn-ghost:hover {
-  background: var(--n3);
-  color: var(--text-strong);
 }
 .v5 .btn[aria-busy="true"] {
   position: relative;
@@ -378,21 +299,6 @@ html:has(> body > #root > main.v5, > body > #root > main > .v5) {
   font-weight: 500;
   line-height: 1.4;
 }
-.v5 .tag-up {
-  background: var(--accent-wash);
-  color: var(--accent);
-  border-color: color-mix(in oklab, var(--accent) 30%, var(--n3));
-}
-.v5 .tag-risk {
-  background: var(--red-wash);
-  color: var(--red);
-  border-color: color-mix(in oklab, var(--red) 30%, var(--n3));
-}
-.v5 .tag-caution {
-  background: var(--amber-wash);
-  color: var(--amber);
-  border-color: color-mix(in oklab, var(--amber) 30%, var(--n3));
-}
 
 /* ---------- table primitive ---------- */
 .v5 .table-wrap {
@@ -443,10 +349,6 @@ html:has(> body > #root > main.v5, > body > #root > main > .v5) {
 .v5 .table th:first-child {
   color: var(--text-strong);
 }
-.v5 .table-dense td,
-.v5 .table-dense th {
-  padding-block: var(--s-2);
-}
 
 /* ---------- row primitive: ruled list, one hairline BETWEEN rows (not a card per item) ---------- */
 .v5 .rows {
@@ -469,8 +371,7 @@ html:has(> body > #root > main.v5, > body > #root > main > .v5) {
 .v5 .row + .row {
   border-block-start: var(--hairline);
 }
-.v5 a.row:hover,
-.v5 .row-hover:hover {
+.v5 a.row:hover {
   background: var(--n2);
 }
 .v5 .row > .num {

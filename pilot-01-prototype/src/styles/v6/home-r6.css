@@ -12,8 +12,9 @@
 
 /* ---------- route lines: no glow; a 2px stroke and the travelling pulse carry the active route ---------- */
 #top.v6 .rf-route__line--on { filter: none; }
-#top.v6 .rr__fill { box-shadow: none; }
-#top.v6 .rf-svg { inset-block: 0; inset-inline: max(var(--gutter), calc((100% - var(--container)) / 2)); inline-size: auto; block-size: 100%; }
+/* An absolutely positioned <svg> with inline-size:auto takes its width from the viewBox ratio, not from the two insets;
+   the viewBox is the measured box, so width and measurement chased each other a pixel per frame. Stretch explicitly. */
+#top.v6 .rf-svg { inset-block: 0; inset-inline: max(var(--gutter), calc((100% - var(--container)) / 2)); inline-size: calc(100% - 2 * max(var(--gutter), calc((100% - var(--container)) / 2))); block-size: 100%; }
 /* the server draws the default routes on the nominal wide layout; narrower layouts wait for the measured geometry */
 @media (max-width: 73.99rem) { #top.v6 .rf-svg:not([data-live]) > g { display: none; } }
 
@@ -133,7 +134,6 @@
 #top.v6 .cl-chip:hover span :is(img, .v2-brand-fallback), #top.v6 .cl-chip input:checked + span :is(img, .v2-brand-fallback), #top.v6 .cl-chip input:focus-visible + span :is(img, .v2-brand-fallback) { filter: none; opacity: 1; }
 #top.v6 .cl-chip input:checked + span { border-color: var(--accent); background: var(--accent-wash); }
 #top.v6 .cl-chip__name { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; font-style: normal; }
-#top.v6 .cl-chip .cl-grip { display: none; }
 /* the venue name: a small label over the logo on hover / keyboard focus */
 #top.v6 .cl-chip::after { content: attr(data-name); position: absolute; z-index: 4; inset-block-end: calc(100% + var(--s-1)); inset-inline-start: 50%; translate: -50% var(--s-1); padding: 0 var(--s-2); border: 1px solid var(--n7); border-radius: var(--s-1); background: var(--n4); color: var(--text-strong); font-size: var(--t-12); line-height: 1.55; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity var(--dur-1) var(--ease-out), translate var(--dur-2) var(--ease-out); }
 #top.v6[dir="rtl"] .cl-chip::after { translate: 50% var(--s-1); }
@@ -199,9 +199,6 @@
 }
 @media (max-width: 73.99rem) { #top.v6.home-refinement .rf::after { content: none; } }
 /* docks: every reached node keeps the accent; only the current act's label is lit, passed labels return to text */
-#top.v6 .rr__lab { white-space: nowrap; max-inline-size: none; }
-#top.v6 .rr__dock[data-on="1"] .rr__lab { color: var(--text); }
-#top.v6 .rr__dock[data-cur] .rr__lab { color: var(--accent); }
 
 /* ---------- tap targets ---------- */
 #top.v6 .mobile-bottom-nav a, #top.v6 .mobile-bottom-nav button { min-inline-size: 44px; flex: 1 0 44px; }

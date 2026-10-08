@@ -12,62 +12,16 @@
 */
 
 /* 全局容器最大宽度（按断点收紧）*/
-.nxa-container {
-  width: 100%;
-  margin-inline: auto;
-  padding-inline: clamp(16px, 4vw, 24px);
-  max-width: 1340px;
-  box-sizing: border-box;
-}
-
-@media (max-width: 1280px) {
-  .nxa-container { max-width: 1180px; padding-inline: clamp(16px, 3vw, 22px); }
-}
-
-@media (max-width: 1024px) {
-  .nxa-container { padding-inline: clamp(16px, 2.5vw, 20px); }
-}
-
-@media (max-width: 768px) {
-  .nxa-container { padding-inline: 16px; }
-}
-
-@media (max-width: 430px) {
-  .nxa-container { padding-inline: 14px; }
-}
-
-@media (max-width: 375px) {
-  .nxa-container { padding-inline: 12px; }
-}
 
 /* ─── 通用隐藏工具类 ─── */
-.nxa-hide-xs { /* visible above 375 */ }
-@media (max-width: 374px) { .nxa-hide-xs { display: none !important; } }
-
-.nxa-hide-sm-down {
-  /* visible above 768 */
-}
-@media (max-width: 767px) { .nxa-hide-sm-down { display: none !important; } }
-
-.nxa-show-sm-down { display: none !important; }
-@media (max-width: 767px) { .nxa-show-sm-down { display: revert !important; } }
 
 /* ─── iOS 安全区域全局修复 ─── */
 /* 所有底部 Fixed 元素需 class="... nxa-safe-bottom" */
-.nxa-safe-bottom {
-  padding-bottom: calc(env(safe-area-inset-bottom) + var(--sp-2, 8px));
-}
-.nxa-safe-top {
-  padding-top: calc(env(safe-area-inset-top) + var(--sp-2, 8px));
-}
 
 /* ─── 竖屏/横屏强制断点 ─── */
 @media (orientation: landscape) and (max-height: 500px) {
   /* 横屏手机：压缩 Hero 高度，隐藏部分装饰元素 */
   .lean-hero {
     padding-block: var(--section-gap-xs, clamp(12px, 1.2vw, 16px));
-  }
-  .lean-hero__telemetry {
-    display: flex; /* The primary account route remains available in landscape. */
   }
 }

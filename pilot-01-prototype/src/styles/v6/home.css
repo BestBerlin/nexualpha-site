@@ -1,0 +1,12 @@
+/* Home-only v6 layer (route finder, compare lab, verify band, directory, closing band and the home rounds),
+   in their original cascade order. Built as the page-home-late chunk: linked after the entry stylesheet on "/"
+   and the locale homes only. */
+@import "./route-finder.css";
+@import "./compare-lab.css";
+@import "./verify-band.css";
+@import "./directory.css";
+@import "./closing.css";
+@import "./route-rail.css";
+@import "./home-r6.css";
+@import "./home-r7.css";
+@import "./home-r8.css";

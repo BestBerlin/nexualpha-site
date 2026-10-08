@@ -171,7 +171,6 @@
 .dir6 .dir6-btn:active { transform: scale(0.97); }
 .dir6 .dir6-btn--primary { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
 .dir6 .dir6-btn--primary:hover { background: var(--accent-hi); border-color: var(--accent-hi); }
-.dir6 .dir6-btn--ghost { border-color: transparent; color: var(--n11); }
 .dir6 .dir6-btn .dir6-ico { inline-size: 14px; block-size: 14px; }
 
 /* compact dock: one line, 56px, sticky in flow so it rests under the last row instead of covering it */

@@ -384,13 +384,6 @@ a.mx-id__name:hover { text-decoration-color: var(--accent); }
 .mx-dock__slot--empty { border-style: dashed; border-color: var(--n8); color: var(--text-muted); }
 .mx-dock__slot--empty .mx-dock__slotname { font-weight: 500; font-size: var(--t-xs); white-space: normal; }
 .mx-dock__ghost { flex: none; inline-size: 34px; block-size: 34px; border-radius: var(--r-sm); border: 1.5px dashed var(--n8); }
-.mx-dock__vs {
-  flex: none; display: grid; place-items: center;
-  inline-size: 30px; block-size: 30px; margin-inline: -10px; z-index: 1;
-  border-radius: 999px; background: var(--n1); color: var(--accent);
-  border: 1px solid color-mix(in oklab, var(--accent) 60%, var(--n1));
-  font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0;
-}
 .mx-dock__actions { display: flex; align-items: center; gap: var(--s-1); flex-wrap: wrap; }
 .mx-dock .mx-btn { min-block-size: 44px; }
 .mx[data-tray="open"] { padding-block-end: 7rem; }
@@ -488,7 +481,6 @@ a.mx-id__name:hover { text-decoration-color: var(--accent); }
     animation-delay: calc(var(--i, 0) * 34ms + 60ms);
   }
   .mx-dock { animation: mx-dock-in 520ms var(--ease-out) backwards; }
-  .mx-dock__vs { animation: mx-vs-in 560ms var(--ease-out) 120ms backwards; }
   .mx-dock__slot--full .v2-brand, .mx-dock__slot--full .v2-brand-fallback { animation: mx-pop 420ms var(--ease-out) backwards; }
   .mx-fee b { transition: color 200ms var(--ease-out); }
 }

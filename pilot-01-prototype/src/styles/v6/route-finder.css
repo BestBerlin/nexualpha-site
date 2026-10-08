@@ -9,7 +9,6 @@
   overflow-x: clip;
   background: var(--n1);
 }
-#top.v6 .rf-mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 #top.v6 .rf-sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* ---------- layout (stacked first) ---------- */
@@ -46,7 +45,6 @@
 #top.v6 .rf-nodes > .rf-label { order: 4; margin-block-start: var(--s-6); margin-inline-start: var(--s-12); }
 #top.v6 .rf-list, #top.v6 .rf-list > li { display: contents; list-style: none; }
 #top.v6 .rf-node, #top.v6 .rf-card { order: var(--ord, 10); margin-inline-start: var(--s-12); }
-#top.v6 .rf-foot { order: 100; margin-block-start: var(--s-12); }
 
 /* ---------- copy ---------- */
 #top.v6 .rf-title {
@@ -213,7 +211,6 @@
 #top.v6 .rf-node__name { grid-column: 2; grid-row: 1; align-self: end; }
 #top.v6 .rf-node__fee { grid-column: 2; grid-row: 2; align-self: start; font-size: var(--t-12); line-height: 1.55; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--text-muted); text-align: start; white-space: nowrap; }
 #top.v6 .rf-na { color: var(--text-muted); font-family: var(--font-sans); }
-#top.v6 .rf-node__k { color: var(--text-muted); font-weight: 500; }
 #top.v6 .rf-node__fee bdi { font-family: var(--font-mono); color: var(--text); }
 #top.v6 .rf-node[data-active="true"] .rf-node__fee bdi { color: var(--accent); }
 #top.v6 .rf-node[data-on="true"]:hover { background: var(--n2); border-color: var(--n8); }
@@ -323,7 +320,6 @@
 #top.v6 .rf-card .registration-card__disclosure-details { display: inline; }
 #top.v6 .rf-card .registration-card__disclosure-details p { font-size: var(--t-12); }
 
-
 /* tap targets and the one tactile CTA language (hero-side): magnetic hover via --tx/--ty (JS), spring press */
 #top.v6 .rf-card .registration-card__disclosure summary { display: inline; padding-block: var(--s-3); margin-block: calc(var(--s-3) * -1); }
 #top.v6 .rf-card .registration-card__mobile-route-summary { min-block-size: var(--s-12); font-size: var(--t-12); }
@@ -356,21 +352,6 @@
 #top.v6 .rf-link:hover { color: var(--text-strong); text-decoration-color: var(--text-strong); }
 
 /* ---------- foot: one quiet index row (Telegram, directory counts, Brazil entry, section nav). Small text, hairline, no pills. ---------- */
-#top.v6 .rf-foot {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-6);
-  padding-block-start: var(--s-3);
-  border-block-start: 1px solid var(--line);
-  font-size: var(--t-14); line-height: 1.55;
-}
-#top.v6 .rf-foot a { color: var(--text); text-decoration: none; transition: color var(--dur-1) var(--ease-out), text-decoration-color var(--dur-1) var(--ease-out); }
-#top.v6 .rf-foot a:hover { color: var(--text-strong); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 0.25em; }
-#top.v6 .rf-pills { order: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-4); }
-#top.v6 .rf-pill { display: inline-flex; align-items: center; min-block-size: var(--s-12); font-size: var(--t-14); color: var(--text-muted); }
-#top.v6 .rf-foot a.rf-pill { color: var(--text-muted); }
-#top.v6 .rf-tg { order: 3; display: inline-flex; align-items: center; gap: var(--s-2); min-block-size: var(--s-12); font-size: var(--t-14); }
-#top.v6 .rf-tg span:last-child { transition: translate var(--dur-2) var(--ease-out); }
-#top.v6 .rf-tg:hover span:last-child { translate: 2px -2px; }
-#top.v6 .rf-pill:focus-visible, #top.v6 .rf-foot a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--r-sm); }
 
 /* ---------- legacy strip, restyled: ticker, Brazil entry, section nav ---------- */
 #top.v6.home-refinement .rf .rebate-ticker-bar { inline-size: 100%; block-size: auto; margin: 0; padding: 0; background: none; border: 0; }
@@ -380,18 +361,6 @@
 #top.v6 .rf .rebate-ticker__text,
 #top.v6 .rf .rebate-ticker__item { font-size: var(--t-14); line-height: 1.55; min-block-size: var(--s-12); display: inline-flex; align-items: center; }
 #top.v6 .rf .rebate-ticker__badge { font-size: var(--t-12); }
-#top.v6.home-refinement .rf .rf-foot .br-entry-link {
-  order: 4; display: inline-flex; align-items: center; gap: var(--s-2); min-block-size: var(--s-12);
-  inline-size: auto; max-inline-size: 100%; margin: 0; padding: 0; border: 0; border-radius: 0; background: none;
-}
-#top.v6.home-refinement .rf .rf-foot .br-entry-link span { font-size: var(--t-14); line-height: 1.55; font-weight: 400; color: var(--text); }
-#top.v6.home-refinement .rf .rf-foot .br-entry-link small { display: none; }
-#top.v6 .rf .rf-foot .home-section-nav {
-  order: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-4);
-  inline-size: auto; max-inline-size: 100%; margin: 0 auto 0 0; margin-inline: 0 auto; padding: 0; border: 0; background: none; position: static;
-}
-#top.v6 .rf .rf-foot .home-section-nav__label { font-size: var(--t-12); line-height: 1.55; color: var(--text-muted); letter-spacing: 0; text-transform: none; }
-#top.v6 .rf .rf-foot .home-section-nav a { display: inline-flex; align-items: center; min-block-size: var(--s-12); font-size: var(--t-14); color: var(--text); text-decoration: none; }
 
 /* ---------- route map (full-bleed SVG behind the composition) ---------- */
 #top.v6 .rf-svg { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
@@ -453,7 +422,6 @@
   #top.v6 .rf-readout__facts .rf-na { font-size: var(--t-14); }
   #top.v6 .rf-readout[data-peek] .rf-readout__who b { color: var(--text-strong); }
   #top.v6 .rf-card .rf-facts, #top.v6 .rf-card__chk { display: none; }
-  #top.v6 .rf-foot { grid-column: 1 / -1; grid-row: 4; margin-block-start: var(--s-12); }
   #top.v6 .rf-intent { min-block-size: calc(var(--s-16) + var(--s-2)); }
   #top.v6 .rf-intent b { font-size: var(--t-14); }
   #top.v6 .rf-you { border-radius: 50%; block-size: calc(var(--s-8) + var(--s-1)); }
@@ -568,21 +536,8 @@
   #top.v6 .rf-node { order: 0; margin: 0; inline-size: auto; min-inline-size: 9.5rem; }
   #top.v6 .rf-node .rf-port { display: none; }
   #top.v6 .rf-card { order: 5; margin-inline-start: 0; margin-block-start: var(--s-4); }
-  #top.v6 .rf-foot { margin-block-start: var(--s-8); }
 }
 /* phone: the quiet index is ONE row that scrolls sideways (44px tall), not a 300px list */
-@media (max-width: 37.5rem) {
-  #top.v6 .rf-foot {
-    flex-wrap: nowrap; gap: var(--s-6); overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain;
-    margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--gutter), #000 calc(100% - var(--s-12)), transparent);
-    mask-image: linear-gradient(to right, transparent 0, #000 var(--gutter), #000 calc(100% - var(--s-12)), transparent);
-  }
-  #top.v6 .rf-foot::-webkit-scrollbar { display: none; }
-  #top.v6 .rf-foot > *, #top.v6 .rf .rf-foot .home-section-nav, #top.v6 .rf-pills { flex: none; flex-wrap: nowrap; white-space: nowrap; }
-  #top.v6 .rf-foot a, #top.v6 .rf-foot span { white-space: nowrap; }
-  #top.v6 .rf .rf-foot .home-section-nav__label { display: none; }
-}
 
 /* ======================= R5 ======================= */
 /* venue nodes light only once their route has landed (the lit set fans out with the routes, 40ms apart) */

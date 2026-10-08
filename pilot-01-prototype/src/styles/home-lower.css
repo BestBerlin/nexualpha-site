@@ -30,10 +30,6 @@
   color: var(--muted);
   text-wrap: pretty;
 }
-.home-refinement:not(#_) .crossroads__eyebrow {
-  margin: 0 0 14px;
-  color: var(--blue-text);
-}
 
 /* ---------- Comparison index ---------- */
 .home-refinement:not(#_) .crossroads {
@@ -486,18 +482,6 @@
   background: var(--market);
   text-align: start;
 }
-.clean-footer:not(#_) .clean-footer__inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas:
-    "logo nav"
-    "summary nav"
-    "policies copy";
-  column-gap: 0;
-  row-gap: 10px;
-  align-items: start;
-}
-.clean-footer:not(#_) .clean-footer__logo-wrap { grid-area: logo; justify-content: flex-start; margin-inline-start: -4px; }
 .clean-footer:not(#_) .clean-footer__summary {
   grid-area: summary;
   max-inline-size: 28rem;
@@ -609,11 +593,6 @@
   .crawl-priority-links:not(#_) .crawl-priority-links__groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px; }
 
   .clean-footer:not(#_) { padding-block: 40px 96px; }
-  .clean-footer:not(#_) .clean-footer__inner {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "logo" "summary" "nav" "policies" "copy";
-    row-gap: 8px;
-  }
   .clean-footer:not(#_) .clean-footer__summary { padding-inline-end: 0; }
   .clean-footer:not(#_) .clean-footer__nav--primary {
     padding-inline-start: 0;

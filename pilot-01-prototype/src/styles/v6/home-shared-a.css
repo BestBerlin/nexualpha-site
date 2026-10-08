@@ -1,0 +1,14 @@
+/* Rules of the home-only layer (styles/v6/home.css) that also apply on inner routes: the dock, the .v6 arrow token,
+   the #top.v6 positioning context. Copied verbatim into the shared layer at the slot their source files had, so inner
+   routes keep them; the originals stay in home.css so the home cascade is unchanged. Keep both copies in sync. */
+/* from directory.css */
+.v6 .mobile-bottom-nav a, .v6 .mobile-bottom-nav a:hover, .v6 .mobile-bottom-nav a:focus-visible, .v6 .mobile-bottom-nav button,
+.mobile-bottom-nav__item, .mobile-bottom-nav__item:hover, .mobile-bottom-nav__item *, .mobile-bottom-nav__label { text-decoration: none; }
+/* from directory.css */
+@media (hover: none), (pointer: coarse) {
+  .mobile-bottom-nav kbd, .mobile-bottom-nav [class*="kbd"], .nx-search__kbd { display: none; }
+}
+/* from closing.css */
+.v6 { --v6-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E"); }
+/* from route-rail.css */
+#top.v6 { position: relative; }

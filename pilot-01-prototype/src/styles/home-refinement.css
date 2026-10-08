@@ -1,15 +1,6 @@
 /* R287: original brand, a clearer homepage reading hierarchy. */
 .home-refinement { --home-section-space: clamp(1.8rem, 3.8vw, 3.2rem); }
 .home-refinement .lean-hero { background: none; padding-block: var(--home-section-space); }
-.home-refinement .lean-hero__title { background: none; -webkit-text-fill-color: currentColor; color: var(--ink, #f1f5f9); }
-.home-refinement .lean-hero__badge { border: 0; background: none; box-shadow: none; backdrop-filter: none; padding-inline: 0; border-radius: 0; }
-.home-refinement .lean-hero__badge-dot { box-shadow: none; }
-.home-refinement .lean-hero__subtitle { max-width: 34rem; }
-.home-refinement .lean-hero__actions { gap: .3rem 1rem; margin-top: 0; }
-.home-refinement .lean-hero__actions > :is(button,a) { background: transparent !important; border: 0 !important; border-radius: 0 !important; padding-inline: 0; min-inline-size: 44px; color: var(--ink, #f1f5f9) !important; box-shadow: none !important; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: .35em; }
-.home-refinement .lean-hero__actions > :is(button,a):focus-visible { outline: 2px solid var(--blue-text, #7dd3fc); outline-offset: 4px; }
-.home-refinement .lean-hero__secondary > .lean-hero__secondary-toggle { border: 0; background: none; padding-inline: 0; color: var(--muted); }
-.home-refinement .lean-hero__secondary { gap: .65rem; }
 .home-refinement .yellow-pages { padding-block: var(--home-section-space); }
 .home-refinement .yellow-pages__header { text-align: start; align-items: flex-start; }
 .home-refinement .yellow-pages__lead { margin-inline: 0; max-width: 42rem; }
@@ -18,21 +9,9 @@
 .home-refinement .home-section-nav { border-top: 0; }
 .home-refinement .home-section-nav a { display: inline-flex; align-items: center; min-height: 44px; }
 .home-refinement :is(.home-analyzer-drawer,.home-research-drawer) > summary { min-height: 64px; }
-@media (min-width: 1025px) {
- .home-refinement .lean-hero__container { column-gap: clamp(2rem, 5vw, 4.5rem); }
- .home-refinement .lean-hero__content { padding-block-start: .8rem; }
-}
 @media (max-width: 640px) {
  .home-refinement { --home-section-space: 1.5rem; }
- .home-refinement .lean-hero__secondary-body { align-items: flex-start; text-align: start; }
- .home-refinement .lean-hero__actions { align-items: flex-start; }
  .home-refinement .yellow-pages__header { align-items: stretch; }
-}
-@media (hover: hover) and (pointer: fine) {
- .home-refinement .lean-hero__actions > :is(button,a):hover { text-decoration-color: currentColor; }
-}
-@media (prefers-reduced-motion: reduce) {
- .home-refinement .lean-hero__actions > :is(button,a) { transition: none !important; transform: none !important; }
 }
 
 .home-refinement .platform-matcher { padding-block: 0; }
@@ -41,28 +20,17 @@
 .home-refinement .platform-matcher__body { padding-block: 1.25rem; }
 
 /* A single decision surface; nested controls use separators rather than panels. */
-.home-refinement .lean-hero__telemetry .growth-decision-panel { border-color: var(--line); box-shadow: none; }
-.home-refinement .lean-hero__telemetry .growth-platform-chooser { background: none; border-color: transparent; border-block-end-color: var(--line); border-radius: 0; }
-.home-refinement .lean-hero__telemetry .growth-platform-chooser__summary { padding-inline: 0; }
-.home-refinement .lean-hero__telemetry .registration-card--compact .registration-card__mobile-route-details { background: none; border-color: transparent; border-block-color: var(--line); border-radius: 0; }
-.home-refinement .lean-hero__telemetry .registration-card--compact .registration-card__mobile-route-details > summary { padding-inline: 0; }
 
 /* Intentional feedback; no sweeping sheen or touch hover displacement. */
 .home-refinement .registration-card__primary-btn,
 .home-refinement .registration-card__copy-btn { transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .15s ease; }
-.home-refinement .lean-hero__tg-cta::before { content: none; }
 @media (hover: none), (pointer: coarse) {
- .home-refinement .registration-card__primary-btn:hover,
- .home-refinement .lean-hero__tg-cta:hover,
- .home-refinement .lean-hero__tg-cta:hover .lean-hero__tg-arrow { transform: none !important; }
+ .home-refinement .registration-card__primary-btn:hover { transform: none !important; }
 }
 @media (prefers-reduced-motion: reduce) {
  .home-refinement .registration-card__primary-btn,
- .home-refinement .registration-card__copy-btn,
- .home-refinement .lean-hero__tg-cta,
- .home-refinement .lean-hero__tg-arrow { transition: none !important; transform: none !important; }
+ .home-refinement .registration-card__copy-btn { transition: none !important; transform: none !important; }
 }
-
 
 /* R293: one platform decision index, using the existing venue row anatomy. */
 .home-refinement .yellow-pages__grid--compact {
@@ -291,45 +259,6 @@
 }
 
 /* R296: brand research and the real account workbench share one desk. */
-.home-refinement .lean-hero .lean-hero__telemetry .growth-decision-panel {
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-}
-.home-refinement .lean-hero .growth-intent-switch {
-  padding: 0;
-  gap: 12px;
-  border: 0;
-  border-block-end: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
-}
-.home-refinement .lean-hero .growth-intent-switch button {
-  border: 0;
-  border-block-end: 2px solid transparent;
-  border-radius: 0;
-  background: transparent;
-  text-align: start;
-}
-.home-refinement .lean-hero .growth-intent-switch button.is-active {
-  border-block-end-color: var(--blue-text);
-  color: var(--ink);
-  background: transparent;
-}
-.home-refinement .lean-hero .growth-intent-switch button span {
-  border-radius: 0;
-  background: transparent;
-  color: inherit;
-}
-.home-refinement .lean-hero .growth-platform-chooser__identity {
-  color: var(--ink);
-  font-weight: 600;
-}
-.home-refinement .lean-hero .growth-platform-chooser__change {
-  color: var(--blue-text);
-}
 .home-refinement .lean-hero .registration-card--compact {
   border: 0;
   border-radius: 0;
@@ -344,49 +273,6 @@
 .home-refinement .lean-hero .registration-card__code-section--home-identity .registration-card__code-value {
   color: var(--ink);
 }
-.home-refinement .lean-hero .lean-hero__actions {
-  border-block-start: 1px solid var(--line);
-  padding-block-start: 8px;
-}
-@media (min-width: 1280px) {
-  .home-refinement .lean-hero .lean-hero__container {
-    align-items: start;
-    column-gap: clamp(32px, 4vw, 56px);
-  }
-  .home-refinement .lean-hero .lean-hero__content {
-    padding-block-start: 0;
-  }
-  .home-refinement .lean-hero .lean-hero__telemetry {
-    padding-inline-start: clamp(24px, 3vw, 40px);
-    border-inline-start: 1px solid var(--line);
-    align-self: start;
-    box-sizing: border-box;
-  }
-}
-@media (hover: hover) and (pointer: fine) {
-  .home-refinement .lean-hero .growth-intent-switch button:hover {
-    background: transparent;
-    border-block-end-color: var(--blue-text);
-  }
-}
-
-.home-refinement .lean-hero .growth-platform-chooser__identity strong { font-weight: 700; }
 .home-refinement .lean-hero .registration-card__code-section--home-identity { border-block-end: 1px solid var(--line); }
-.home-refinement .lean-hero .lean-hero__secondary { align-content: start; }
 
 /* Full-width intermediate hero keeps one account path in natural DOM sequence. */
-@media (min-width: 1025px) and (max-width: 1279px) {
-  .home-refinement .lean-hero .growth-direct-workbench {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto;
-    column-gap: 0;
-  }
-  .home-refinement .lean-hero .growth-direct-workbench > * {
-    grid-column: auto;
-    grid-row: auto;
-  }
-  .home-refinement .lean-hero .growth-direct-workbench > .growth-selected-route {
-    padding-inline-start: 0;
-    border-inline-start: 0;
-  }
-}

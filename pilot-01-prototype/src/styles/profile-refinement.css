@@ -80,13 +80,11 @@
 .v3-profile-page .v3-profile-secondary-research,
 .v3-profile-page .v3-venue-invitation-disclosure,
 .v3-profile-page .v3-profile-cost-conditions,
-.v3-profile-page .v3-profile-evidence-drawer,
 .v3-profile-page .v3-registration-notes { background: transparent; border-color: var(--line); border-radius: 0; box-shadow: none; }
 .v3-profile-page .v3-profile-answer-conditions > summary,
 .v3-profile-page .v3-profile-decision-context > summary,
 .v3-profile-page .v3-profile-secondary-research > summary,
 .v3-profile-page .v3-profile-cost-conditions > summary,
-.v3-profile-page .v3-profile-evidence-drawer > summary,
 .v3-profile-page .v3-registration-notes > summary { background: transparent; min-block-size: 44px; }
 
 /* Questions and alternatives form an editorial index rather than repeated promotion cards. */
@@ -102,7 +100,6 @@
 .v3-profile-page .v3-profile-decision-context > summary:focus-visible,
 .v3-profile-page .v3-profile-secondary-research > summary:focus-visible,
 .v3-profile-page .v3-profile-cost-conditions > summary:focus-visible,
-.v3-profile-page .v3-profile-evidence-drawer > summary:focus-visible,
 .v3-profile-page .v3-registration-notes > summary:focus-visible,
 .v3-profile-page .venue-readiness__summary:focus-visible,
 .v3-profile-page .v3-similar-disclosure__summary:focus-visible,
@@ -164,7 +161,6 @@
 /* Chapter titles and full hints align consistently, without narrowing source prose. */
 .v3-profile-page .v3-registration-notes > summary,
 .v3-profile-page .v3-profile-cost-conditions > summary,
-.v3-profile-page .v3-profile-evidence-drawer > summary,
 .v3-profile-page .v3-profile-secondary-research > summary {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -175,21 +171,18 @@
 }
 .v3-profile-page .v3-registration-notes > summary > strong,
 .v3-profile-page .v3-profile-cost-conditions > summary > strong,
-.v3-profile-page .v3-profile-evidence-drawer > summary > strong,
 .v3-profile-page .v3-profile-secondary-research > summary > strong {
   grid-column: 1;
   grid-row: 1;
   min-width: 0;
 }
 .v3-profile-page .v3-registration-notes > summary > span,
-.v3-profile-page .v3-profile-cost-conditions > summary > span,
-.v3-profile-page .v3-profile-evidence-drawer > summary > span {
+.v3-profile-page .v3-profile-cost-conditions > summary > span {
   grid-column: 1 / -1;
   grid-row: 2;
 }
 .v3-profile-page .v3-registration-notes > summary > b,
 .v3-profile-page .v3-profile-cost-conditions > summary > b,
-.v3-profile-page .v3-profile-evidence-drawer > summary > b,
 .v3-profile-page .v3-profile-secondary-research > summary > span[aria-hidden="true"] {
   grid-column: 2;
   grid-row: 1;
@@ -228,13 +221,6 @@
   border-block-start: 1px solid var(--line);
   min-width: 0;
 }
-.v3-profile-page .v3-profile-research-hub .v3-profile-research-chapter__heading {
-  margin: 0;
-  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
-  line-height: 1.45;
-  text-align: start;
-  min-width: 0;
-}
 .v3-profile-page .v3-profile-research-hub .v3-profile-research-chapter__body {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -247,9 +233,6 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-}
-.v3-profile-page .v3-profile-research-hub :is(.v3-registration-notes,.v3-profile-cost-conditions,.v3-profile-evidence-drawer,.v3-profile-secondary-research) > summary {
-  padding-inline: 0;
 }
 .v3-profile-page .v3-profile-research-hub :is(.v3-registration-notes__body,.v3-profile-cost-conditions__body,.v3-profile-evidence-drawer__body,.v3-profile-secondary-research__body) {
   padding-inline: 0;
@@ -274,9 +257,6 @@
 /* R294 iteration 2: chapter boundaries own the rhythm, not nested panel borders. */
 .v3-profile-page .v3-profile-research-hub :is(.v3-registration-notes,.v3-profile-cost-conditions,.v3-profile-evidence-drawer,.v3-profile-secondary-research) {
   border: 0;
-}
-.v3-profile-page .v3-profile-research-hub .v3-profile-account-disclosure > .v3-registration-notes__body {
-  gap: 24px;
 }
 .v3-profile-page .v3-profile-research-hub .v3-profile-account-section {
   margin: 0;

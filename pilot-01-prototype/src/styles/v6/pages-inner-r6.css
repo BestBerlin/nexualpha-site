@@ -97,7 +97,6 @@ main.v6:not(.home-refinement) .venue-readiness__foot button:not(#_):not(#_):not(
 main.v6:not(.home-refinement) .venue-readiness__foot button:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--n10, #9ba1a6); background: var(--n3, #18191b); }
 main.v6:not(.home-refinement) .venue-readiness__foot button:active:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transform: scale(0.97); }
 /* label-over-row eyebrows (Account and costs / Sources and security / Continue following) stay as headings for assistive tech only */
-main.v6:not(.home-refinement) .v3-profile-research-chapter__heading:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { position: absolute; inline-size: 1px; block-size: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 
 /* ---- defect 8: /compare — three groups below the matrix, codes once (decision card), sentence case, spaced tier, neutral '+' ---- */
 main.v6:not(.home-refinement) .v3-compare-group:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block: 0; margin-inline: auto; padding: 0; border: 0; border-block-start: 1px solid rgb(255 255 255 / 0.12); border-radius: 0; background: none; }
@@ -114,7 +113,6 @@ main.v6:not(.home-refinement) .v3-compare-final-choice-card:not(#_):not(#_):not(
 main.v6:not(.home-refinement) .v3-matrix-action-cell .v3-matrix-code-chip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
 main.v6:not(.home-refinement) .v3-matrix-dim-heading:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { text-transform: none; letter-spacing: 0; }
 main.v6:not(.home-refinement) .v3-fee-pair__tier:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: block; margin-block-start: 2px; font-size: 12px; font-weight: 400; color: var(--n10, #9ba1a6); }
-main.v6:not(.home-refinement) .v3-matrix-expand, .v3-matrix-expand > span:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n12, #edeef0); }
 
 /* ---- defect 11: /methodology and /telegram sections on a 4/8 split (heading left, text and its action right) ---- */
 @media (min-width: 64rem) {

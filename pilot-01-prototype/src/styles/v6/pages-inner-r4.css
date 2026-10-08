@@ -143,7 +143,6 @@ main.v3-profile-page.v6 .v3-venue-identity__info > .v3-venue-identity__badges:no
   }
   /* chapters in the 776px reading column: title row above its disclosure, body uses the full column */
   main.v3-profile-page.v6 .v3-profile-research-chapter:not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); row-gap: 0; padding-block-start: 24px; }
-  main.v3-profile-page.v6 .v3-profile-research-chapter__heading:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); font-weight: 500; color: var(--ink-3); }
 }
 
 /* ---------- #2 referral code panel on /exchanges/{slug}: one row, code shown once, never broken ---------- */
@@ -172,7 +171,6 @@ main.v3-profile-page.v6 .v3-venue-identity__info > .v3-venue-identity__badges:no
   display: inline-flex; align-items: center; min-block-size: 44px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 8px; font-size: var(--t-14); font-weight: 500; white-space: nowrap; text-decoration: none; color: var(--ink); flex: none;
 }
 /* the second and third copies of the code in the same disclosure are hidden (the copy button above is the one) */
-:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-account-disclosure :is(.v3-rebate-code-row, .v3-rebate-tag, .v3-fee-tip):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
 /* the 28px "User fee benefit" slide-card becomes one plain row */
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-rebate-card:not(#_):not(#_):not(#_):not(#_):not(#_) {
   display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; padding: 16px 0; margin: 0; border: 0; border-block-end: 1px solid var(--line); border-radius: 0; background: none; box-shadow: none; min-block-size: 0;
@@ -277,8 +275,6 @@ main.v6.collection-hub-page .v3-hero-actions .button-primary:not(#_):not(#_):not
 }
 :is(main, .factbook-page).v6:not(.home-refinement) .news-page__decision-rail > :first-child:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-end: 24px; }
 /* venue account disclosure: one copy of the benefit line, no inset tiles, fee matrix as a plain table section */
-:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-account-disclosure .v3-venue-rebate-card .v3-rebate-title:not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
-:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-account-disclosure :is(.v3-metric-tile, .v3-venue-rebate-card, .v3-detail-calculator, .v3-fee-matrix-section, .v3-profile-cost-conditions__body, .v3-profile-account-section):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline: 0 !important; margin-inline: 0 !important; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-fee-matrix-card:not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-radius: 0; background: none; box-shadow: none; padding: 24px 0 0; margin: 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-fee-matrix-card .v3-fee-matrix-title:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); margin: 0 0 4px; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-fee-matrix-card .v3-fee-matrix-sub:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); }

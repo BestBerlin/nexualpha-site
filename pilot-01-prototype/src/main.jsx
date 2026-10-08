@@ -116,3 +116,9 @@ import "./styles/v5/home.css";
 import "./styles/v5/matrix.css";
 import "./styles/v5/detail.css";
 import "./styles/v6/index.css";
+// Route-only layers (page-*-late chunks, see vite.config.mjs): after the shared layer in the cascade.
+import "./styles/v6/home.css";
+import "./styles/v6/pages-br.css";
+import "./styles/v6/pages-rates.css";
+import "./styles/v6/pages-factbook.css";
+import "./styles/v6/pages-telegram.css";

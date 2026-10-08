@@ -39,6 +39,14 @@ export default defineConfig({
           // This navigation is shared by several lazy routes. Otherwise Rollup
           // assigns its CSS to Factbook and route-specific HTML drops the style.
           if (id.endsWith("/src/components/v3/decision-path-rail.css")) return "shared-decision-rail";
+          // Route-only stylesheets. "-late" chunks are linked after the entry stylesheet ("-early" ones just before it; nexualpha-ordered-route-stylesheets below)
+          // so they keep their end-of-cascade position; the worker allow-lists each "page-*-" prefix per route.
+          if (id.endsWith("/src/styles/v6/home.css")) return "page-home-late";
+          if (id.endsWith("/src/components/v3/matcher.css") || id.endsWith("/src/components/v3/campaign-radar.css")) return "page-home-early";
+          if (id.endsWith("/src/styles/v6/pages-br.css")) return "page-br-late";
+          if (id.endsWith("/src/styles/v6/pages-rates.css")) return "page-rates-late";
+          if (id.endsWith("/src/styles/v6/pages-factbook.css")) return "page-factbook-late";
+          if (id.endsWith("/src/styles/v6/pages-telegram.css")) return "page-telegram-late";
           if (id.endsWith("/src/components/v3/decision-return-link.css")) return "shared-decision-return";
           if (id.includes("/node_modules/react/") || id.includes("/node_modules/react-dom/")) return "vendor-react";
           if (id.includes("/node_modules/@inlang/") || id.includes("/node_modules/@paraglide/")) return "vendor-i18n";
@@ -124,6 +132,29 @@ export default defineConfig({
     { name: "nexualpha-build-identity", generateBundle() {
       this.emitFile({ type: "asset", fileName: "version.json", source: JSON.stringify({ version: "3.0.0", buildId }) });
     } },
+    {
+      // Vite links every imported chunk's CSS before the entry stylesheet, in module order (route-only chunks can
+      // even land after it). Route-only layers split out of the entry bundle keep their original cascade slot:
+      // "-early-" chunks (top of the old entry bundle) go immediately before the entry link, "-late-" chunks
+      // (end of the old entry bundle) immediately after it.
+      name: "nexualpha-ordered-route-stylesheets",
+      transformIndexHtml: {
+        order: "post",
+        handler(html) {
+          const pick = (kind) => {
+            const tags = [];
+            html = html.replace(new RegExp(`\\s*<link\\b[^>]*rel="stylesheet"[^>]*href="[^"]*/assets/[\\w-]+-${kind}-[\\w-]+\\.css"[^>]*>`, "g"), (tag) => { tags.push(tag.trim()); return ""; });
+            return tags;
+          };
+          const early = pick("early");
+          const late = pick("late");
+          if (!early.length && !late.length) return html;
+          const entry = /<link\b[^>]*rel="stylesheet"[^>]*href="[^"]*\/assets\/index-[\w-]+\.css"[^>]*>/;
+          if (!entry.test(html)) throw new Error("ordered route stylesheets: entry stylesheet link not found");
+          return html.replace(entry, (tag) => [...early, tag, ...late].join("\n    "));
+        },
+      },
+    },
     react(),
     paraglideVitePlugin({
       project: "./project.inlang",
