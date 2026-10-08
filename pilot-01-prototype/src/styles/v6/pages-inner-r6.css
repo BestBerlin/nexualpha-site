@@ -73,11 +73,13 @@ main.v6:not(.home-refinement) :is(.mx-td, .ft-cell) :is(.mx-unch, .mx-fee, .ft-n
 main.v6:not(.home-refinement) .mx-id__meta:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; column-gap: 8px; row-gap: 2px; min-inline-size: 0; }
 main.v6:not(.home-refinement) .mx-nocompare:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex-basis: 100%; white-space: nowrap; font-size: 12px; line-height: 1.4; }
 @media (max-width: 47.99rem) {
-  main.v6:not(.home-refinement) .mx-row:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 2.25rem minmax(0, 1fr) auto; grid-template-areas: "pick name cta" "pick name code" "pick spot spot" "pick perp perp"; row-gap: 8px; }
-  main.v6:not(.home-refinement) .mx-row > .mx-td--nofee:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2 / -1; grid-row: 3; }
-  main.v6:not(.home-refinement) .mx-row > .mx-td--region.mx-td--has:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2 / -1; grid-row: 5; }
+  main.v6:not(.home-refinement) .mx-row:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 2.25rem minmax(0, 1fr) auto; grid-template-areas: "pick name name" "pick spot spot" "pick perp perp" "pick code cta"; row-gap: 8px; }
+  main.v6:not(.home-refinement) .mx-row > .mx-td--nofee:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2 / -1; grid-row: 2 / span 2; }
+  main.v6:not(.home-refinement) .mx-row > .mx-td--region.mx-td--has:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2 / -1; grid-row: 4; align-self: start; }
+  main.v6:not(.home-refinement) .mx-row > :is(.mx-td--code, .mx-td--cta):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 5; margin-block-start: 4px; }
   main.v6:not(.home-refinement) .mx-unch:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; }
-  main.v6:not(.home-refinement) .mx-td--code:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { justify-self: end; }
+  main.v6:not(.home-refinement) .mx-td--code:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; justify-self: start; }
+  main.v6:not(.home-refinement) .mx-td--cta:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 3; justify-self: end; }
 }
 
 /* ---- defect 7: venue profile — one primary (registration card), one quiet sources row, one secondary (compare) ---- */
@@ -134,3 +136,8 @@ main.v6:not(.home-refinement) .v3-matrix-expand, .v3-matrix-expand > span:not(#_
 }
 /* the gap from the last content block to the footer is section padding (128), never more */
 main.v6:not(.home-refinement) :is(.methodology-page__inner, .tg-hub-section, .factbook-page, .mx):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-end: 0; }
+
+/* /activities: with no reviewed feed items the empty state is one quiet line, not a card above populated rows */
+main.v6:not(.home-refinement) .activity-center-v3__empty:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; margin: 0; padding: 16px 0; border: 0; border-block: 1px solid rgb(255 255 255 / 0.12); border-radius: 0; background: none; box-shadow: none; }
+main.v6:not(.home-refinement) .activity-center-v3__empty p:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; font-size: 14px; line-height: 1.5; color: var(--n10, #9ba1a6); }
+main.v6:not(.home-refinement) .activity-center-v3__empty p strong:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-weight: 500; color: var(--n12, #edeef0); }
