@@ -16,6 +16,7 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { buildTelegramWebsiteFunnelContext } from "../../data/telegram-config.js";
 import { buildVenueFeeSummary } from "../../data/venue-fee-summary.js";
 import { reviewedFeeCopy } from "../../data/reviewed-fee-copy.js";
+import { matrixCopy } from "./exchange-matrix-copy.js";
 import { directoryContextSearch } from "../../data/directory-context.js";
 import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
@@ -505,7 +506,7 @@ function buildRateView(rate, locale, labels) {
 
 function renderRateCell(rate, labels) {
   if (!rate) {
-    return <span className="fee-terminal__unknown-chip fee-terminal__unknown-chip--plain">{labels.sourcePending}</span>;
+    return <span className="fee-terminal__unknown-chip fee-terminal__unknown-chip--plain">{labels.unchecked || labels.sourcePending}</span>;
   }
 
   return (
@@ -604,7 +605,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
   const localeKey = String(locale || "").split("-")[0];
   const normalizedLocale = normalizeLocale(locale);
   const t = copy[locale] || copy[localeKey] || copy[normalizedLocale] || (isHant ? copy["zh-Hant"] : isZh ? copy["zh-Hans"] : copy.en);
-  const labels = stateCopy[normalizedLocale] || stateCopy.en;
+  const labels = { ...(stateCopy[normalizedLocale] || stateCopy.en), unchecked: matrixCopy(locale).unchecked };
 
   const rows = MONITOR_SLUGS.map((slug) => {
     const db = venueDatabase[slug] || {};

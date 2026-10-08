@@ -10,6 +10,7 @@ import { reviewedFeeCopy } from '../../data/reviewed-fee-copy.js';
 import { DecisionReturnLink } from './DecisionReturnLink.jsx';
 import { costDecisionCopy, costDecisionStateCopy } from '../../data/cost-decision-copy.js';
 import { BrandMark } from '../brand/BrandMark.jsx';
+import { matrixCopy } from './exchange-matrix-copy.js';
 import './cost-decision.css';
 
 
@@ -54,6 +55,8 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
   const capped=Number.isFinite(rawAmount)&&rawAmount>MAX_VOLUME;
   const noVolume=!(amount>0);
   const stateUi=costDecisionStateCopy(locale);
+  // A fee that exchange-facts.js does not publish reads the same as on /exchanges: "Not yet checked".
+  const unchecked=matrixCopy(locale).unchecked;
   const number=new Intl.NumberFormat(locale,{maximumFractionDigits:2});
   const rateNumber=new Intl.NumberFormat(locale,{maximumFractionDigits:3});
   const feeText=feeSummaryCopy(locale);
@@ -83,7 +86,7 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
     const product = market === 'futuresFee' ? 'perpetuals' : 'spot';
     const cta = regionalVenueCta(slug, locale, regionMarket, product, { accountStage, funding });
     const displayRate = quote ? rateNumber.format(quote.rate*100) : null;
-    const displayCost = quote ? (noVolume ? '–' : number.format(amount*quote.rate)) : (ui.pending);
+    const displayCost = quote ? (noVolume ? '–' : number.format(amount*quote.rate)) : unchecked;
     const reviewedRate = quote?.reviewedRate;
     const sourceCopy = reviewedRate ? reviewedFeeCopy(reviewedRate, locale) : null;
     return { slug, venue, quote, product, cta, displayRate, displayCost, reviewedRate, sourceCopy };
@@ -139,7 +142,7 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
           const cost=quote?amount*quote.rate:0;
           const share=quote&&axisMax>0?Math.max(4,Math.round(cost/axisMax*100)):0;
           const delta=quote&&!noVolume&&!sameRate&&lowestReviewed?cost-lowestCost:0;
-          return <article key={slug}><h3>{venue.name}</h3><span className="rt-logo"><BrandMark slug={slug} compact /></span><p className={quote ? "cost-decision__amount" : "cost-decision__amount cost-decision__amount--pending"}>{displayCost}{quote && <small> USDT{ui.perMonth}</small>}</p><p className={displayRate ? undefined : "cost-decision__base--pending"}>{ui.base} {displayRate ? `${displayRate}%` : (ui.pending)}{delta>0 && <span className="rt-delta"> · {stateUi.delta.replace('{x}', number.format(delta))}</span>}</p><i className="rt-bar" aria-hidden="true" style={{'--w':`${share}%`}} />{reviewedRate && <details className="cost-decision__source"><summary>{feeText.checked}: {reviewedRate.checkedAt}</summary><p>{sourceCopy.tier} · {sourceCopy.scope}</p><p>{sourceCopy.conditions}</p><a href={reviewedRate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a></details>}<a className="rt-offer" href={researchHref(`/exchanges/${slug}#registration-path`,product)} data-cta-kind="research" data-cta-platform={slug} data-cta-placement="cost-calculator-eligibility" data-growth-decision={slug} data-growth-placement="cost-calculator-eligibility" data-growth-market={regionMarket} data-growth-product={product}>{ui.offer}</a><a className="cost-decision__cta" data-cta-kind={cta.direct ? 'registration' : 'research'} data-cta-platform={slug} data-cta-placement="cost-calculator" data-growth-decision={slug} data-growth-placement="cost-calculator" data-growth-market={regionMarket} data-growth-product={product} href={cta.ctaHref} target={cta.direct ? '_blank' : undefined} rel={cta.direct ? 'sponsored noopener noreferrer' : undefined}>{cta.direct ? (ui.register.replace('{venue}', venue.name)) : (ui.verify)} ↗</a></article>;
+          return <article key={slug}><h3>{venue.name}</h3><span className="rt-logo"><BrandMark slug={slug} compact /></span><p className={quote ? "cost-decision__amount" : "cost-decision__amount cost-decision__amount--pending"}>{displayCost}{quote && <small> USDT{ui.perMonth}</small>}</p><p className={displayRate ? undefined : "cost-decision__base--pending"}>{ui.base} {displayRate ? `${displayRate}%` : unchecked}{delta>0 && <span className="rt-delta"> · {stateUi.delta.replace('{x}', number.format(delta))}</span>}</p><i className="rt-bar" aria-hidden="true" style={{'--w':`${share}%`}} />{reviewedRate && <details className="cost-decision__source"><summary>{feeText.checked}: {reviewedRate.checkedAt}</summary><p>{sourceCopy.tier} · {sourceCopy.scope}</p><p>{sourceCopy.conditions}</p><a href={reviewedRate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a></details>}<a className="rt-offer" href={researchHref(`/exchanges/${slug}#registration-path`,product)} data-cta-kind="research" data-cta-platform={slug} data-cta-placement="cost-calculator-eligibility" data-growth-decision={slug} data-growth-placement="cost-calculator-eligibility" data-growth-market={regionMarket} data-growth-product={product}>{ui.offer}</a><a className="cost-decision__cta" data-cta-kind={cta.direct ? 'registration' : 'research'} data-cta-platform={slug} data-cta-placement="cost-calculator" data-growth-decision={slug} data-growth-placement="cost-calculator" data-growth-market={regionMarket} data-growth-product={product} href={cta.ctaHref} target={cta.direct ? '_blank' : undefined} rel={cta.direct ? 'sponsored noopener noreferrer' : undefined}>{cta.direct ? (ui.register.replace('{venue}', venue.name)) : (ui.verify)} ↗</a></article>;
         })}
       </div>
     </div>
