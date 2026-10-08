@@ -747,7 +747,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
               <tr className="ft-pending">
                 <td colSpan={colCount}>
                   <details>
-                    <summary><span className="ft-pending__count">{pendingGroup(pendingRows.length)}</span><span className="ft-pending__names" aria-hidden="true">{pendingRows.map((r) => r.name).join(" · ")}</span></summary>
+                    <summary><strong className="ft-pending__count">{pendingGroup(pendingRows.length)}</strong><small className="ft-pending__names" aria-hidden="true">{pendingRows.map((r) => r.name).join(" · ")}</small></summary>
                     <ul className="ft-pending__list">
                       {pendingRows.map((row) => (
                         <li key={row.slug}>

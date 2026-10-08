@@ -342,7 +342,7 @@
 #top#top#top#top#top#top.v6.r1-rates-page .ft-cond[open] { flex: 1 0 100%; }
 #top#top#top#top#top#top.v6.r1-rates-page .ft-checked time { font-variant-numeric: tabular-nums; font-size: var(--t-14); color: var(--n12); }
 #top#top#top#top#top#top.v6.r1-rates-page .ft-src { display: flex; flex-wrap: wrap; gap: 0 var(--s-3, 12px); }
-#top#top#top#top#top#top.v6.r1-rates-page .ft-src a, #top#top#top#top#top#top.v6.r1-rates-page .ft-cond > summary { display: inline-flex; align-items: center; min-block-size: 24px; padding: 0; font-family: inherit; font-size: var(--t-12); font-weight: 500; color: var(--n11); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 3px; cursor: pointer; transition: color var(--dur-1) var(--ease-out), text-decoration-color var(--dur-1) var(--ease-out); }
+#top#top#top#top#top#top.v6.r1-rates-page .ft-src a, #top#top#top#top#top#top.v6.r1-rates-page .ft-cond > summary { display: inline-flex; justify-content: flex-start; gap: 2px; inline-size: auto; min-inline-size: 0; align-items: center; min-block-size: 24px; padding: 0; font-family: inherit; font-size: var(--t-12); font-weight: 500; color: var(--n11); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 3px; cursor: pointer; transition: color var(--dur-1) var(--ease-out), text-decoration-color var(--dur-1) var(--ease-out); }
 #top#top#top#top#top#top.v6.r1-rates-page .ft-src a:hover, #top#top#top#top#top#top.v6.r1-rates-page .ft-cond > summary:hover { color: var(--n12); text-decoration-color: var(--accent); }
 #top#top#top#top#top#top.v6.r1-rates-page .ft-cond { margin: 0; padding: 0; border: 0; background: none; }
 #top#top#top#top#top#top.v6.r1-rates-page .ft-cond > summary { list-style: none; }
@@ -362,8 +362,8 @@
 #top#top#top#top#top#top.v6.r1-rates-page .ft-pending summary:hover { background: color-mix(in oklab, var(--n12) 4%, transparent); }
 #top#top#top#top#top#top.v6.r1-rates-page .ft-pending summary::after { content: "+"; font-size: var(--t-16); line-height: 1; color: var(--n10); transition: transform var(--dur-2) var(--ease-out); }
 #top#top#top#top#top#top.v6.r1-rates-page .ft-pending details[open] summary::after { transform: rotate(45deg); }
-#top#top#top#top#top#top.v6.r1-rates-page .ft-pending__count { font-size: var(--t-14); font-weight: 600; color: var(--n12); }
-#top#top#top#top#top#top.v6.r1-rates-page .ft-pending__names { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: var(--t-12); color: var(--n10); }
+#top#top#top#top#top#top.v6.r1-rates-page .ft-pending__count { font-size: var(--t-14); font-weight: 600; color: var(--n12); white-space: nowrap; }
+#top#top#top#top#top#top.v6.r1-rates-page .ft-pending__names { display: block; min-inline-size: 0; inline-size: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: var(--t-12); color: var(--n10); }
 #top#top#top#top#top#top.v6.r1-rates-page .ft-pending__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--s-8, 32px); margin: 0; padding: 0 var(--s-4, 16px) var(--s-4, 16px); list-style: none; }
 #top#top#top#top#top#top.v6.r1-rates-page .ft-pending__list li { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3, 12px); min-block-size: 64px; border-block-start: 1px solid var(--n4); }
 #top#top#top#top#top#top.v6.r1-rates-page .ft-pending__list .fee-terminal__cta-btn { flex: none; inline-size: auto; }
@@ -387,7 +387,8 @@
   #top#top#top#top#top#top.v6.r1-rates-page .ft-table td.ft-action { text-align: start; }
   #top#top#top#top#top#top.v6.r1-rates-page .ft-table .fee-terminal__cta-btn { max-inline-size: none; }
   #top#top#top#top#top#top.v6.r1-rates-page .ft-table tr.ft-pending { display: block; }
-  #top#top#top#top#top#top.v6.r1-rates-page .ft-table tr.ft-pending > td { display: block; }
+  #top#top#top#top#top#top.v6.r1-rates-page .ft-table tr.ft-pending > td { display: block; inline-size: 100%; padding: 0; border: 0; border-block-end: 1px solid var(--n6); }
+  #top#top#top#top#top#top.v6.r1-rates-page .ft-table tr.ft-pending { padding: 0; border: 0; }
   #top#top#top#top#top#top.v6.r1-rates-page .ft-pending summary { grid-template-columns: minmax(0, 1fr) auto; padding-inline: 0; }
   #top#top#top#top#top#top.v6.r1-rates-page .ft-pending__names { display: none; }
   #top#top#top#top#top#top.v6.r1-rates-page .ft-pending__list { grid-template-columns: minmax(0, 1fr); padding-inline: 0; }
