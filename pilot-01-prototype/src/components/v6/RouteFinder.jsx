@@ -4,7 +4,9 @@
 import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, useRef, useState } from "react";
 import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
 import { directoryLabel } from "./ClosingBand.jsx";
-import { RF_T, RF_HUB, pickLocale } from "../v3/LeanHeroCopyV6.js";
+import { RailSeg } from "./RouteRail.jsx";
+import { RF_T, RF_HUB, CLOSE_COPY, pickLocale } from "../v3/LeanHeroCopyV6.js";
+import { venueDatabase } from "../../data/venue-database.js";
 
 const NODE_SLUGS = ["binance", "okx", "bybit", "bitget", "kraken", "gate-io", "hyperliquid", "gmx"];
 const INTENTS = ["spot", "perps", "fiat", "chain"];
@@ -34,7 +36,18 @@ const Icon = ({ name }) => (
 const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isWide = () => typeof window !== "undefined" && window.matchMedia("(min-width: 74rem)").matches;
 const isStrip = () => typeof window !== "undefined" && window.matchMedia("(max-width: 37.5rem)").matches;
-const bareDomain = (d) => String(d || "").replace(/^(www|app)\./, "");
+// One official domain per venue, everywhere (gate, node chip, card, Verify): the recorded value, never shortened.
+const bareDomain = (d) => String(d || "").replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+// The chain(s) a decentralised venue runs on, from the venue record ("Decentralized (Arbitrum / Avalanche)").
+const chainOf = (slug) => {
+  const m = /^Decentralized \((.+)\)$/.exec(String(venueDatabase[slug]?.headquarters || ""));
+  if (!m) return null;
+  const parts = m[1].split(/\s*\/\s*/).filter(Boolean);
+  const named = parts.filter((x) => !/^multi-chain$/i.test(x));
+  return (named.length ? named : parts).slice(0, 2).join(" · ");
+};
+const NET = { en: "Network", "zh-Hans": "网络", "zh-Hant": "網路", ja: "ネットワーク", ko: "네트워크", tr: "Ağ", fr: "Réseau", de: "Netzwerk", es: "Red", "pt-BR": "Rede", ru: "Сеть", ar: "الشبكة", id: "Jaringan", vi: "Mạng lưới", it: "Rete" };
+const pairText = (locale, p) => `${fmt(locale, p[0])}/${fmt(locale, p[1])}%`;
 const verifiedPair = (f, key) => (f?.status === "verified" && Number.isFinite(f?.[key]?.[0]) && Number.isFinite(f?.[key]?.[1]) ? f[key] : null);
 const RTL = new Set(["ar", "he", "fa", "ur"]);
 
@@ -218,18 +231,22 @@ const withData = (intent, f) => ((intent === "spot" || intent === "perps")
 
 // Verified facts for one venue. Spot and perp show the checked figures; when neither is checked the readout says so once.
 // Only the on-ramp line may add its own "Not yet checked", because nothing for it has been checked.
-function Facts({ className, facts, intent, t, tick, locale }) {
+function Facts({ className, facts, intent, t, tick, locale, chain }) {
   const sp = verifiedPair(facts, "spot");
   const pp = verifiedPair(facts, "perp");
+  // On-chain: the venue's network is a recorded fact, shown first (the node above it shows the same value)
+  const net = intent === "chain" && chain ? <div data-on="true" className="rf-facts__net"><dt>{pickLocale(NET, locale)}</dt><dd><span lang="en" translate="no">{chain}</span></dd></div> : null;
   if (!sp && !pp) {
     return (
       <dl className={className}>
-        <div data-on="true" className="rf-facts__intent"><dt>{t.spot} · {t.perp} {t.mt}</dt><dd><span className="rf-na">{t.none}</span></dd></div>
+        {net}
+        <div data-on={!net} className="rf-facts__intent"><dt>{t.spot} · {t.perp} {t.mt}</dt><dd><span className="rf-na">{t.none}</span></dd></div>
       </dl>
     );
   }
   return (
     <dl className={className}>
+      {net}
       <div data-on={intent === "spot"}><dt>{t.spot} {t.mt}</dt><dd><FeePair pair={sp} tick={tick} none={t.none} locale={locale} /></dd></div>
       <div data-on={intent === "perps" || intent === "chain"}><dt>{t.perp} {t.mt}</dt><dd><FeePair pair={pp} tick={tick} none={t.none} locale={locale} /></dd></div>
       {intent === "fiat" && <div data-on="true" className="rf-facts__intent"><dt>{t.i[intent][0]}</dt><dd><span className="rf-na">{t.none}</span></dd></div>}
@@ -259,6 +276,7 @@ function Finder({ kit, tail, venues }) {
   const [slug, setSlug] = useState(() => pickDefault("spot"));
   const [pin, setPin] = useState(null); // a wallet venue being previewed (no account route, so no card)
   const [swap, setSwap] = useState(false); // the card head animates only on a user change, never on first paint
+  const [reroute, setReroute] = useState(false); // a venue change redraws only gate -> node -> card (320ms)
   const nodes = setFor(intent);
   const [hot, setHot] = useState(null);
   const [tick, setTick] = useState(0);
@@ -317,6 +335,7 @@ function Finder({ kit, tail, venues }) {
     setSlug(pickDefault(next));
     setPin(null);
     setSwap(true);
+    setReroute(false);
     setHot(null);
     setTick((n) => n + 1);
     // Stacked layout: the venues sit below the intents. Bring them into view on a deliberate tap (not keyboard arrow roving).
@@ -348,6 +367,7 @@ function Finder({ kit, tail, venues }) {
     if (!lit.includes(s)) return;
     const wallet = !partners.some((v) => v.slug === s);
     setPin(wallet ? s : null);
+    setReroute(true);
     if (!wallet) { setSlug(s); setSwap(true); }
     setTick((n) => n + 1);
     // Stacked list: the card opens inline under the node; keep the tapped node in view as the old card collapses. (The phone strip keeps the card below it.)
@@ -403,7 +423,7 @@ function Finder({ kit, tail, venues }) {
           <b key={peek.slug} translate="no" lang="en">{peek.name}</b>
           {peekFacts?.verifiedOn && <small>{t.chk} <bdi dir="ltr">{peekFacts.verifiedOn}</bdi></small>}
         </p>
-        <Facts className="rf-readout__facts" facts={peekFacts} intent={intent} t={t} locale={locale} tick={`${peek.slug}-${intent}`} />
+        <Facts className="rf-readout__facts" facts={peekFacts} intent={intent} t={t} locale={locale} tick={`${peek.slug}-${intent}`} chain={chainOf(peek.slug)} />
       </div>
       </div>
 
@@ -428,6 +448,9 @@ function Finder({ kit, tail, venues }) {
             const on = lit.includes(v.slug);
             const active = v.slug === activeSlug;
             const pair = intent === "chain" ? null : verifiedPair(EXCHANGE_FACTS[v.slug], nodeKey);
+            const chain = intent === "chain" ? chainOf(v.slug) : null;
+            // hover / focus chip: the recorded domain plus the checked fee for this intent (final values only)
+            const tip = verifiedPair(EXCHANGE_FACTS[v.slug], intent === "chain" || intent === "perps" ? "perp" : "spot");
             return (
               <li key={v.slug} style={{ "--arc": `${ARC[i] ?? 0}px` }}>
                 <button
@@ -454,11 +477,19 @@ function Finder({ kit, tail, venues }) {
                   <b className="rf-node__name" translate="no" lang="en">{v.name}</b>
                   <span className="rf-node__fee">
                     {on
-                      ? (pair
+                      ? (chain
+                        ? <span className="rf-node__net" lang="en" translate="no">{chain}</span>
+                        : pair
                         ? <><span className="rf-sr">{nodeKey === "perp" ? t.perp : t.spot} </span><bdi dir="ltr">{fmt(locale, pair[0])}/{fmt(locale, pair[1])}%</bdi></>
                         : <><span className="rf-node__dom" dir="ltr" translate="no">{bareDomain(v.officialDomain)}</span><span className="rf-sr"> {t.none}</span></>)
                       : <span className="rf-sr">{t.off}</span>}
                   </span>
+                  {on && (
+                    <span className="rf-chip" aria-hidden="true" dir="ltr">
+                      <span translate="no">{bareDomain(v.officialDomain)}</span>
+                      {tip && <bdi>{pairText(locale, tip)}</bdi>}
+                    </span>
+                  )}
                 </button>
               </li>
             );
@@ -469,16 +500,18 @@ function Finder({ kit, tail, venues }) {
       <div className="rf-card" id={panelId} ref={cardRef} role="region" aria-label={sel.name} style={{ "--ord": 11 + selIdx * 2, "--dock": `${g.dock || 0}px` }} data-swap={swap || undefined}>
         <div className="rf-card__head">
           <span className="rf-card__who" key={sel.slug}><BrandMark slug={sel.slug} priority /><b translate="no" lang="en">{sel.name}</b><small translate="no" lang="en">{sel.category}</small></span>
-          <Facts className="rf-facts" facts={facts} intent={intent} t={t} locale={locale} tick={tick} />
+          <Facts className="rf-facts" facts={facts} intent={intent} t={t} locale={locale} tick={tick} chain={chainOf(sel.slug)} />
           {facts?.verifiedOn && <p className="rf-card__chk">{t.chk} <bdi dir="ltr">{facts.verifiedOn}</bdi></p>}
         </div>
         {kit.card(sel.slug)}
       </div>
 
+      {/* one ghost button + one text link (the card holds the one filled CTA). The directory jump stays in the DOM in its
+          original order and shows on keyboard focus, like a skip link (the rail and the section nav also lead there). */}
       <div className="rf-actions">
-        <button type="button" className="rf-btn rf-btn--primary" onClick={kit.openWizard}>{kit.wizardLabel}</button>
-        <a className="rf-link" href={kit.exploreHref}>{directoryLabel(locale)}</a>
-        <a className="rf-btn rf-btn--ghost" href={kit.compareHref}>{kit.compareLabel}</a>
+        <button type="button" className="rf-btn rf-btn--ghost rf-btn--wizard" onClick={kit.openWizard}>{locale === "en" ? "Find my match in 30 seconds" : kit.wizardLabel}</button>
+        <a className="rf-link rf-link--skip" href={kit.exploreHref}>{directoryLabel(locale)}</a>
+        <a className="rf-link rf-link--compare" href={kit.compareHref}>{(CLOSE_COPY[locale] || CLOSE_COPY.en).cmp}<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M3 8h9M8.5 4l4 4-4 4" /></svg></a>
       </div>
 
       {/* The "On this page" nav stays in the DOM (keyboard / screen readers; visible on focus). Its acts are named on the
@@ -493,9 +526,15 @@ function Finder({ kit, tail, venues }) {
               <path className="rf-route__line" d={r.d} pathLength="1" />
             </g>
           ))}
+          {/* intent -> You -> gate: drawn (staged) on an intent change only; a venue change redraws gate -> node -> card in 320ms */}
+          {g.fan.length > 0 && g.chain.length > 0 && (
+            <g key={`${intent}-on`} className="rf-route is-on is-chain">
+              {g.chain.map((d, i) => <path key={i} className="rf-route__line rf-route__line--on" style={{ "--seg": i }} d={d} pathLength="1" />)}
+            </g>
+          )}
           {g.fan.length > 0 && (
-            <g key={`${intent}-${activeSlug}-on`} className="rf-route is-on">
-              {[...g.chain, ...g.fan].map((d, i) => <path key={i} className="rf-route__line rf-route__line--on" style={{ "--seg": i }} d={d} pathLength="1" />)}
+            <g key={`${intent}-${activeSlug}-on`} className={`rf-route is-on is-fan${reroute ? " is-re" : ""}`} style={{ "--base": g.chain.length }}>
+              {g.fan.map((d, i) => <path key={i} className="rf-route__line rf-route__line--on" style={{ "--seg": i }} d={d} pathLength="1" />)}
               <path className="rf-route__pulse" d={g.fan[0]} pathLength="1" />
             </g>
           )}
@@ -526,6 +565,7 @@ export function RouteFinder({ legacy, venues }) {
   return (
     <section className="rf" aria-label="NexuAlpha">
       {cloneElement(boundary, {}, ...parts)}
+      <RailSeg start />
     </section>
   );
 }

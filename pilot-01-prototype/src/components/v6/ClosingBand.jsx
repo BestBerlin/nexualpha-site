@@ -5,6 +5,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
 import { CLOSE_COPY, RAIL, pickLocale } from "../v3/LeanHeroCopyV6.js";
 import { LeanHero } from "../v3/LeanHero";
+import { RailDock, RailSeg } from "./RouteRail.jsx";
 import { BrazilEntryLink } from "../v3/international/BrazilDecisionPage.jsx";
 
 
@@ -69,6 +70,7 @@ export function ClosingBand({ legacy, locale = "en" }) {
       </div>
       <p className="v6-small v6-close__note">{t.note}</p>
     </div>
+    <RailSeg dest /><RailDock i={3} kind="dest" locale={locale} />
     </div>
     <div className="v6-close__index v6-wrap" ref={idx}>{legacy}
       {/* Moved here from the hero foot: the directory facets (same hrefs and labels the hero produced) and the Telegram / Brazil routes. */}

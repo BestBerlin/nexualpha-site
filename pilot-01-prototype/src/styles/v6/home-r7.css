@@ -1,0 +1,235 @@
+/* ======================= R7 (home) =======================
+ * Server-rendered page rail with a CSS scroll-driven fill; hero reading order (lede -> intents -> readout -> actions);
+ * one official domain per venue; node chips; 320ms re-route; a ~900ms Verify check; one Lab rail; closing index on the grid;
+ * explicit ar / ja families. Loaded last; logical properties only; scale steps 12/14/16/20/28/44/72; weights 400/500/600. */
+
+/* ---------- 1. page rail: static markup in every act (RouteRail.jsx), fill by animation-timeline: view() ---------- */
+#top.v6.home-refinement {
+  /* content edge (from the inline-start page edge) and the rail x: one 24px gutter outside it, half the margin when narrower.
+     Both keep their % until used, so they resolve against each act's full-width box. */
+  --rr-in: max(var(--gutter), (100% - var(--container)) / 2);
+  --rr-x: calc(var(--rr-in) - min(24px, var(--rr-in) / 2));
+  --rr-tick: clamp(0px, (100vw - var(--container)) / 2 - 32px, 16px);
+  --rr-line: var(--n6, rgb(255 255 255 / 0.14));
+}
+#top.v6 :is(.rr-seg, .rr-stub, .rr-start, .rr-dock) { display: none; }
+.v6-close__route { anchor-name: --rr-dest; }
+#top.v6 .rf-you { anchor-name: --rr-you; }
+@media (min-width: 48rem) {
+  #top.v6.home-refinement :is(.rf, .cl, .vb, .dir6, .v6-close__band) { position: relative; }
+  /* the R6 first-paint pseudo tracks are replaced by the real segments */
+  #top.v6.home-refinement :is(.rf, .cl, .vb, .dir6)::after { content: none; }
+  #top.v6 :is(.rr-seg, .rr-stub, .rr-start, .rr-dock) { display: block; position: absolute; z-index: 3; pointer-events: none; }
+  #top.v6 .rr-seg { inset-block: 0; inset-inline-start: calc(var(--rr-x) - 1px); inline-size: 2px; border-radius: 1px; background: var(--rr-line); }
+  #top.v6 .rr-seg__fill { position: absolute; inset: 0; border-radius: inherit; background: var(--accent); transform-origin: 50% 0; transform: scaleY(0); }
+  /* hero: from the You pill's centre line down to the act below; without anchor support, only the hero's foot pad */
+  #top.v6 .rr-seg--start { inset-block-start: auto; block-size: var(--section-pad); }
+  #top.v6 .rr-stub { inline-size: calc(min(24px, var(--rr-in) / 2) - 2px); block-size: 2px; margin-block-start: -1px; inset-inline-start: var(--rr-x); inset-block-start: calc(100% - var(--section-pad)); background: var(--accent); border-radius: 1px; }
+  #top.v6 .rr-start { inline-size: 10px; block-size: 10px; margin: -5px 0 0 -5px; inset-inline-start: var(--rr-x); inset-block-start: calc(100% - var(--section-pad)); border-radius: 50%; background: var(--accent); }
+  #top.v6[dir="rtl"] .rr-start { margin: -5px -5px 0 0; }
+  @supports (anchor-name: --a) {
+    #top.v6 .rr-seg--start { inset-block-start: anchor(--rr-you center); block-size: auto; }
+    #top.v6 :is(.rr-stub, .rr-start) { inset-block-start: anchor(--rr-you center); }
+  }
+  /* closing: from the band's top edge to the CTA route's start (its viewBox y = 34 of 40), where the rail becomes the CTA line */
+  #top.v6 .rr-seg--dest { inset-block: 0 auto; block-size: 0; }
+  #top.v6 .rr-dock--dest { inset-block-start: 0; }
+  @supports (anchor-name: --a) {
+    #top.v6 .rr-seg--dest { block-size: auto; inset-block-end: anchor(--rr-dest 85%); }
+    #top.v6 .rr-dock--dest { inset-block-start: anchor(--rr-dest 85%); }
+  }
+  /* docks: level with the act's H2 (sections start on their heading; half of its 44 x 1.15 line) */
+  #top.v6 .rr-dock { inset-inline-start: var(--rr-x); inset-block-start: 25px; inline-size: 0; block-size: 0; }
+  #top.v6 .rr-dock__node { position: absolute; inset-block-start: -5px; inset-inline-start: -5px; inline-size: 10px; block-size: 10px; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--n7, #3a3f47); background: var(--bg, #0e0e10); }
+  #top.v6 .rr-dock__tick { position: absolute; inset-block-start: -1px; inset-inline-start: 0; inline-size: var(--rr-tick); block-size: 2px; border-radius: 1px; background: var(--rr-line); }
+  #top.v6 .rr-dock--dest .rr-dock__tick { inline-size: calc(var(--rr-tick) + 8px); }
+  #top.v6 .rr-dock--dest .rr-dock__node { inset-block-start: -8px; inset-inline-start: -8px; inline-size: 16px; block-size: 16px; }
+  #top.v6 .rr-dock__lab { position: absolute; inset-inline-end: var(--s-3); inset-block-start: 0; translate: 0 -50%; display: none; font-style: normal; font-size: var(--t-12); line-height: 1.15; font-weight: 500; white-space: nowrap; color: var(--text-muted); }
+  #top.v6 .rr-dock--dest .rr-dock__lab { inset-inline-end: var(--s-4); }
+}
+@media (min-width: 48rem) and (max-width: 63.99rem) { #top.v6 :is(.rr-dock__tick, .rr-stub) { display: none; } }
+@media (max-width: 73.99rem) { #top.v6 :is(.rr-seg--start, .rr-stub, .rr-start) { display: none; } }
+@media (min-width: 87rem) { #top.v6 .rr-dock__lab { display: block; } }
+/* the fill follows one reading line at 62% of the viewport through every segment; a dock is lit while it is the current act
+   (crossed the line, not yet scrolled out), passed docks return to neutral; the destination stays lit once reached */
+@supports (animation-timeline: view()) {
+  @media (min-width: 48rem) and (prefers-reduced-motion: no-preference) {
+    #top.v6 .rr-seg__fill { animation: rr-fill linear both; animation-timeline: view(); animation-range: entry-crossing 38vh entry-crossing calc(100% + 38vh); }
+    #top.v6 .rr-dock--act :is(.rr-dock__node, .rr-dock__tick, .rr-dock__lab) { animation: rr-cur linear both; animation-timeline: view(); animation-range: cover 38vh cover 100vh; }
+    #top.v6 .rr-dock--act .rr-dock__node { animation-name: rr-cur-node; }
+    #top.v6 .rr-dock--act .rr-dock__tick { animation-name: rr-cur-tick; }
+    #top.v6 .rr-dock--dest :is(.rr-dock__node, .rr-dock__tick, .rr-dock__lab) { animation: rr-dest linear both; animation-timeline: view(); animation-range: cover 38vh cover calc(38vh + 1px); }
+    #top.v6 .rr-dock--dest .rr-dock__node { animation-name: rr-dest-node; }
+    #top.v6 .rr-dock--dest .rr-dock__tick { animation-name: rr-dest-tick; }
+  }
+}
+@keyframes rr-fill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes rr-cur { 0% { color: var(--text-muted); } 0.5%, 99% { color: var(--accent); } 100% { color: var(--text); } }
+@keyframes rr-cur-node { 0% { border-color: var(--n7, #3a3f47); background-color: var(--bg, #0e0e10); } 0.5%, 99% { border-color: var(--accent); background-color: var(--accent); } 100% { border-color: var(--text); background-color: var(--text); } }
+@keyframes rr-cur-tick { 0% { background-color: var(--rr-line); } 0.5%, 99% { background-color: var(--accent); } 100% { background-color: var(--text); } }
+@keyframes rr-dest { from { color: var(--text-muted); } to { color: var(--accent); } }
+@keyframes rr-dest-node { from { border-color: var(--n7, #3a3f47); } to { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); } }
+@keyframes rr-dest-tick { from { background-color: var(--rr-line); } to { background-color: var(--accent); } }
+
+/* ---------- 8. hero reading order: H1 -> lede -> intents -> readout -> actions (one ghost button + one text link) ---------- */
+@media (min-width: 74rem) {
+  #top.v6 .rf-grid { grid-template-rows: auto auto 1fr; }
+  #top.v6 .rf-copy { grid-row: 1; }
+  #top.v6 .rf-pick { grid-column: 1 / 5; grid-row: 2; align-self: start; display: grid; row-gap: var(--s-8); margin-block-start: var(--s-8); }
+  #top.v6 .rf-pick .rf-intents { grid-row: 1; grid-column: 1; margin: 0; padding: 0; }
+  #top.v6 .rf-pick .rf-readout { grid-row: 2; grid-column: 1; margin: 0; }
+  /* You -> gate sits level with the intent tiles (label row + half a 72px tile, minus half the 36px hub) */
+  #top.v6 .rf-hub { grid-row: 2; align-self: start; margin: calc(var(--s-8) + var(--t-12) * 1.55 + var(--s-3) + 18px) 0 0; }
+  #top.v6 .rf-actions { grid-column: 1 / 6; grid-row: 3; align-self: start; margin-block-start: var(--s-8); }
+}
+@media (min-width: 74rem) and (max-height: 820px) {
+  #top.v6 .rf-pick { margin-block-start: var(--s-4); row-gap: 0; }
+  #top.v6 .rf-hub { margin: calc(var(--s-4) + var(--t-12) * 1.55 + var(--s-3) + 6px) 0 0; }
+  #top.v6 .rf-actions { margin-block-start: var(--s-4); }
+}
+#top.v6 .rf-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-6); }
+#top.v6 .rf-actions .rf-btn--wizard { order: 0; display: inline-flex; flex: 0 1 auto; white-space: normal; text-align: center; background: transparent; color: var(--text-strong); border-color: var(--n7); }
+#top.v6 .rf-actions .rf-btn--wizard:hover { background: var(--n3); border-color: var(--n9); }
+#top.v6 .rf-actions .rf-link--compare {
+  order: 1; flex: 0 1 auto; display: inline-flex; align-items: center; gap: var(--s-2); min-block-size: 44px; padding: 0;
+  font-size: var(--t-16); line-height: 1.15; font-weight: 500; color: var(--text-strong); white-space: normal;
+  text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 0.3em;
+}
+#top.v6 .rf-actions .rf-link--compare svg { flex: none; color: var(--accent); transition: translate var(--dur-2) var(--ease-out); }
+#top.v6[dir="rtl"] .rf-actions .rf-link--compare svg { scale: -1 1; }
+#top.v6 .rf-actions .rf-link--compare:hover { text-decoration-color: var(--text-strong); }
+#top.v6 .rf-actions .rf-link--compare:hover svg { translate: 3px 0; }
+#top.v6[dir="rtl"] .rf-actions .rf-link--compare:hover svg { translate: -3px 0; }
+/* the directory jump: in the DOM (same order and href), shown like a skip link while it has keyboard focus */
+#top.v6 .rf-actions .rf-link--skip { order: 2; }
+#top.v6 .rf-actions .rf-link--skip:not(:focus) { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; padding: 0; margin: 0; }
+@media (max-width: 37.5rem) {
+  #top.v6 .rf-actions { flex-wrap: nowrap; gap: var(--s-4); }
+  #top.v6 .rf-actions .rf-btn--wizard { display: inline-flex; flex: 1 1 auto; min-inline-size: 0; }
+  #top.v6 .rf-actions .rf-link--compare { flex: 0 1 auto; font-size: var(--t-14); }
+}
+
+/* ---------- 3. on-chain nodes carry their network (the readout's first row shows the same value) ---------- */
+#top.v6 .rf-node__net { color: var(--text); font-family: var(--font-sans); letter-spacing: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#top.v6 .rf-node[data-active="true"] .rf-node__net { color: var(--text-strong); }
+#top.v6 :is(.rf-facts, .rf-readout__facts) .rf-facts__net dd { font-family: var(--font-sans); font-variant-numeric: normal; }
+#top.v6 :is(.rf-facts, .rf-readout__facts) .rf-facts__net { grid-column: 1 / -1; }
+#top.v6 .rf-gate > .rf-gate__dom { font-family: var(--font-mono); font-size: var(--t-12); letter-spacing: 0; }
+
+/* ---------- 6. node hover / focus: a 12px chip on the route's node end (official domain + checked fee, final values) ---------- */
+#top.v6 .rf-chip { display: none; }
+@media (min-width: 74rem) {
+  #top.v6 .rf-node { position: relative; overflow: visible; }
+  #top.v6 .rf-chip {
+    position: absolute; z-index: 4; inset-inline-end: calc(100% + var(--s-3)); inset-block-start: 50%; translate: var(--s-1) -50%;
+    display: inline-flex; align-items: center; gap: var(--s-2); padding: var(--s-1) var(--s-2); box-sizing: border-box;
+    border: 1px solid var(--n7); border-radius: var(--s-1); background: var(--n2); color: var(--text);
+    font-family: var(--font-mono); font-size: var(--t-12); line-height: 1.15; font-weight: 400; font-variant-numeric: tabular-nums;
+    white-space: nowrap; opacity: 0; pointer-events: none;
+    transition: opacity 120ms var(--ease-out), translate 120ms var(--ease-out);
+  }
+  #top.v6[dir="rtl"] .rf-chip { translate: calc(var(--s-1) * -1) -50%; }
+  #top.v6 .rf-chip bdi { color: var(--text-strong); }
+  #top.v6 .rf-node:is(:hover, :focus-visible) .rf-chip { opacity: 1; translate: 0 -50%; }
+}
+@media (min-width: 74rem) and (prefers-reduced-motion: reduce) { #top.v6 .rf-chip { transition: none; } }
+
+/* ---------- 7. routes: intent change = staged chain (<= 500ms); venue change = gate -> node -> card in 320ms ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  #top.v6 .rf-route.is-chain .rf-route__line--on { animation-duration: 160ms; animation-delay: calc(var(--seg, 0) * 100ms); animation-timing-function: var(--ease-out); }
+  #top.v6 .rf-route.is-fan .rf-route__line--on { animation-duration: 180ms; animation-delay: calc(var(--base, 0) * 100ms + var(--seg, 0) * 120ms); animation-timing-function: var(--ease-out); }
+  #top.v6 .rf-route.is-fan.is-re .rf-route__line--on { animation-duration: 180ms; animation-delay: calc(var(--seg, 0) * 140ms); }
+}
+@media (min-width: 74rem) and (prefers-reduced-motion: no-preference) { #top.v6 .rf-card { transition: translate 320ms var(--ease-out); } }
+
+/* ---------- 4. ja intent tiles: whole words, one line ---------- */
+#top.v6 .rf-grid:lang(ja) .rf-intent b { word-break: keep-all; line-break: strict; overflow-wrap: normal; white-space: nowrap; }
+
+/* ---------- 2 + 5. Verify: ~900ms check, nothing empty; stations top-aligned on one shared row grid ---------- */
+#top.v6 .vb__main, #top.v6 .vb__foot { display: grid; align-content: start; gap: var(--s-3); min-inline-size: 0; }
+#top.v6 .vb__foot .vb__bar--fake { margin-block-start: 0; }
+@media (min-width: 900px) {
+  #top.v6 .vb__route { grid-template-rows: auto auto auto; row-gap: 0; align-items: start; }
+  #top.v6 .vb__st { grid-row: 1 / span 3; display: grid; grid-template-rows: subgrid; row-gap: var(--s-6); align-content: start; }
+  #top.v6 .vb__body { grid-row: 2 / span 2; display: grid; grid-template-rows: subgrid; row-gap: var(--s-4); align-self: stretch; gap: var(--s-4); }
+  #top.v6 .vb__body > :last-child { margin-block-start: 0; }
+  #top.v6 .vb__main { grid-row: 1; }
+  #top.v6 .vb__foot { grid-row: 2; }
+}
+/* the lock and the stamp are there from the first frame; the sequence only adds emphasis (0-250 ink, 250-500 lookalike,
+   500-800 verdict). After it has played once (data-done), a venue switch crossfades the domains in 200ms. */
+#top.v6 .vb__lock * { stroke-dashoffset: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  #top.v6 .vb__route[data-armed]:not([data-live]) :is(.vb__lock *, .vb__stamp) { stroke-dashoffset: 0; opacity: 1; }
+  #top.v6 .vb__route[data-armed]:not([data-live]) .vb__bar--fake { opacity: 0.35; translate: 0 0; }
+  #top.v6 .vb__route[data-armed]:not([data-live]) :is(.vb__ok, .vb__note) { opacity: 0.35; }
+  #top.v6 .vb__route[data-live] .vb__bar--official .vb__typed { animation: vb-ink 250ms var(--ease-out) 0ms both; }
+  #top.v6 .vb__route[data-live] .vb__bar--fake { animation: vb-rise7 250ms var(--ease-out) 250ms both; }
+  #top.v6 .vb__route[data-live] .vb__bar--fake .vb__typed { animation: vb-ink 250ms var(--ease-out) 250ms both; }
+  #top.v6 .vb__route[data-live] .vb__x { animation: vb-strike 200ms var(--ease-out) 400ms both; }
+  #top.v6 .vb__route[data-live] .vb__note { animation: vb-rise7 250ms var(--ease-out) 450ms both; }
+  #top.v6 .vb__route[data-live] .vb__lock * { animation: none; }
+  #top.v6 .vb__route[data-live] .vb__bar--official { animation: vb-bar 300ms var(--ease-out) 500ms both; }
+  #top.v6 .vb__route[data-live] .vb__stamp { animation: vb-stamp7 160ms var(--ease-out) 500ms both; }
+  #top.v6 .vb__route[data-live] .vb__ok { animation: vb-rise7 250ms var(--ease-out) 550ms both; }
+  #top.v6 .vb__route[data-live] .vb__line i { animation: vb-fill 800ms var(--ease-out) 0ms both; }
+  #top.v6 .vb__route[data-live] .vb__st--1 .vb__node { animation-delay: 0ms; }
+  #top.v6 .vb__route[data-live] .vb__st--2 .vb__node { animation-delay: 250ms; }
+  #top.v6 .vb__route[data-live] .vb__st--3 .vb__node { animation-delay: 500ms; }
+  @media (min-width: 900px) { #top.v6 .vb__route[data-live] .vb__line i { animation-name: vb-fill-x; } }
+  /* after the first run: no replay. Only the remounted domain bars crossfade. */
+  #top.v6 .vb__route[data-done] :is(.vb__typed, .vb__bar, .vb__x, .vb__note, .vb__stamp, .vb__ok, .vb__node, .vb__line i) { animation: none; }
+  #top.v6 .vb__route[data-done] :is(.vb__bar--official .vb__typed, .vb__bar--fake .vb__typed) { animation: vb-xfade 200ms var(--ease-out) both; -webkit-mask-image: none; mask-image: none; }
+  #top.v6 .vb__route[data-done] .vb__bar--official { border-color: var(--accent); }
+}
+@keyframes vb-rise7 { from { opacity: 0.35; translate: 0 4px; } to { opacity: 1; translate: 0 0; } }
+@keyframes vb-stamp7 { 0% { transform: scale(1.18); } 100% { transform: none; } }
+@keyframes vb-xfade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- 5. one section rhythm: every act ends on one --section-pad (128 / 72), the directory included ---------- */
+#top.v6.home-refinement :is(.cl, .vb, .dir6).v6-section,
+#top.v6.home-refinement .dir6.v6-section:has(+ .v6-close) { padding-block: 0 var(--section-pad); }
+
+/* ---------- 11 + 12. Compare Lab: one shared logo rail for the active slot; picks react in the click frame ---------- */
+#top.v6 .cl-grid--pick { display: flex; flex-direction: column; align-items: center; gap: var(--s-2); }
+#top.v6 .cl-pick { inline-size: 100%; display: grid; justify-items: center; gap: var(--s-2); min-inline-size: 0; }
+#top.v6 .cl-pick .cl-pick__label { position: static; inline-size: auto; block-size: auto; overflow: visible; clip-path: none; white-space: nowrap; font-size: var(--t-12); line-height: 1.55; color: var(--text-muted); }
+#top.v6 .cl-pick .cl-chips, #top.v6 .cl-pick--a .cl-chips { justify-content: safe center; max-inline-size: 100%; }
+#top.v6 .cl-chip { transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out), translate 140ms var(--ease-out), box-shadow 140ms var(--ease-out); }
+#top.v6 .cl-chip[data-other] span { border-color: var(--n8); border-style: dashed; }
+#top.v6 .cl-chip[data-other] span :is(img, .v2-brand-fallback) { filter: none; opacity: 1; }
+#top.v6 .cl-id { transition: border-color 140ms var(--ease-out), background-color 140ms var(--ease-out), scale var(--dur-2) var(--ease-out); cursor: pointer; }
+#top.v6 .cl-id[data-active] { border-style: solid; border-color: var(--n8); background: var(--n2); }
+#top.v6 .cl-id:not([data-active]):hover { border-color: var(--n7); }
+@media (max-width: 47.99rem) { #top.v6 .cl-pick { justify-items: stretch; } #top.v6 .cl-pick .cl-pick__label { justify-self: start; } #top.v6 .cl-pick .cl-chips { justify-content: flex-start; } }
+
+/* ---------- 9. closing "Related research" at desktop: labels in cols 1-3, links in three 3-col cells (4-12) ---------- */
+@media (min-width: 1100px) {
+  .v6 .v6-close__index .crawl-priority-links__group:not(#_):not(#_):not(#_):not(#_),
+  .v6 .v6-close__index .crawl-priority-links__intro:not(#_):not(#_):not(#_):not(#_),
+  .v6 .v6-close__index .home-research-drawer > summary:not(#_):not(#_):not(#_):not(#_) { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+  .v6 .v6-close__index .crawl-priority-links__group > span:not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / span 3; grid-row: 1 / span 8; }
+  .v6 .v6-close__index .crawl-priority-links__group a:not(#_):not(#_):not(#_):not(#_) { grid-column: span 3; }
+  .v6 .v6-close__index .crawl-priority-links__group > span + a:not(#_):not(#_):not(#_):not(#_) { grid-column: 4 / span 3; }
+  .v6 .v6-close__index :is(.crawl-priority-links__intro strong, .home-research-drawer > summary > strong):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / span 3; }
+  .v6 .v6-close__index :is(.crawl-priority-links__intro span, .home-research-drawer > summary > span):not(#_):not(#_):not(#_):not(#_) { grid-column: 4 / span 8; }
+  .v6 .v6-close__index .home-research-drawer > summary > b:not(#_):not(#_):not(#_):not(#_) { grid-column: 12; }
+}
+
+/* ---------- 10. Arabic / Japanese: explicit families (Geist for Latin + figures, then a named system face), Arabic leading ---------- */
+/* the v5 tokens define --font-sans on main (.v5), so the locale stacks are set on main itself */
+#top.v6:lang(ja) {
+  --font-sans: "Geist V5", "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Pilot Noto JP", sans-serif;
+  --v6-sans: var(--font-sans);
+}
+#top.v6:lang(ar) {
+  --font-sans: "Geist V5", "Noto Sans Arabic", "Noto Sans Arabic UI", "IBM Plex Sans Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Pilot Noto Arabic", sans-serif;
+  --v6-sans: var(--font-sans);
+}
+#top.v6:is(:lang(ja), :lang(ar)) { font-family: var(--font-sans); }
+#top.v6:is(:lang(ja), :lang(ar)) .v6-close__index .crawl-priority-links__group > span:not(#_):not(#_) { font-family: var(--font-sans); }
+#top.v6:lang(ar) :is(h1, h2, .rf-title, .v6-h1, .v6-h2, .v6-close__title):not(#_) { line-height: 1.25; }
+
+/* ---------- tap targets: the focus-revealed section nav and the footer links reach 44 x 44 ---------- */
+#top.v6 .rf .rf-skip .home-section-nav a { min-inline-size: 44px; min-block-size: 44px; justify-content: center; padding-inline: var(--s-2); }
+#top.v6 .nx-ftr :is(.clean-footer__nav a, nav a) { min-inline-size: 44px; min-block-size: 44px; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; }

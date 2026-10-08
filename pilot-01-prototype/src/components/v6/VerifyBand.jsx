@@ -1,5 +1,6 @@
 // V6 act 3: "Verify before you leave" — a route of three stations (domain, code, disclosure).
 import { useEffect, useMemo, useRef, useState } from "react";
+import { RailDock, RailSeg } from "./RouteRail.jsx";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { getVerifyCopy } from "../v3/LeanHeroCopyVerify.js";
@@ -85,6 +86,9 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
   const timer = useRef(null);
   const route = useRef(null);
   const [armed, live] = useInViewOnce(route);
+  // the domain check plays once (about 900ms); afterwards a venue switch only crossfades the domains, the verdict stays
+  const [done, setDone] = useState(false);
+  useEffect(() => { if (!live) return undefined; const id = setTimeout(() => setDone(true), 950); return () => clearTimeout(id); }, [live]);
   const strip = useRef(null);
   useEffect(() => () => clearTimeout(timer.current), []);
   // a lab swap can change the active venue: keep its chip inside the scrolling row (horizontal only)
@@ -109,6 +113,7 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
 
   return (
     <section className="v6-section vb" id="verify" aria-labelledby="vb-title">
+      <RailSeg /><RailDock i={1} locale={locale} />
       <div className="v6-wrap">
         <header className="vb__head">
           <h2 className="v6-h1 vb__title" id="vb-title">{t.title}</h2>
@@ -122,15 +127,16 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
           </div>
         </header>
 
-        <ol className="vb__route" ref={route} data-armed={armed ? "" : undefined} data-live={live ? "" : undefined}>
+        <ol className="vb__route" ref={route} data-armed={armed ? "" : undefined} data-live={live ? "" : undefined} data-done={done ? "" : undefined}>
           <li className="vb__line" aria-hidden="true"><i /></li>
 
           <li className="vb__st vb__st--1">
             <span className="vb__node" aria-hidden="true"><Glyph kind="domain" /></span>
             <div className="vb__body">
+              <div className="vb__main">
               <h3 className="v6-h3">{t.s1t}</h3>
-              <div className="vb__bars" key={row.slug} style={{ "--n": chars.length, "--m": fake.length }}>
-                <div className="vb__proof vb__bar vb__bar--official" lang="en" translate="no" dir="ltr">
+              <div className="vb__bars" style={{ "--n": chars.length, "--m": fake.length }}>
+                <div className="vb__proof vb__bar vb__bar--official" key={row.slug} lang="en" translate="no" dir="ltr">
                   <span className="vb__sr">{row.domain}</span>
                   <svg className="vb__lock" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path pathLength="1" d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
@@ -140,7 +146,10 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
                   <span className="vb__typed" aria-hidden="true">{row.domain}</span>
                   <span className="vb__stamp" aria-hidden="true" lang={locale} translate="yes" dir="auto">{t.official}</span>
                 </div>
-                <div className="vb__bar vb__bar--fake" aria-hidden="true" lang="en" translate="no" dir="ltr">
+              </div>
+              </div>
+              <div className="vb__foot">
+                <div className="vb__bar vb__bar--fake" key={row.slug} aria-hidden="true" lang="en" translate="no" dir="ltr">
                   <svg className="vb__lock vb__lock--open" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M8 10.5V8a4 4 0 0 1 7.6-1.7" /><rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5" />
                   </svg>
@@ -148,16 +157,17 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
                   <span className="vb__tag" lang={locale} translate="yes" dir="auto">{t.fake}</span>
                 </div>
                 <span className="vb__sr">{`${t.fake}: ${fakeText}`}</span>
-              </div>
               <p className="v6-small vb__note">{fake.note && <span className="vb__diff" dir="ltr" lang="en" translate="no">{fake.note}</span>}{t.fakeNote}</p>
               <p className="v6-small vb__ok"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.8" /></svg>{t.s1ok}</p>
               <p className="v6-body vb__desc">{t.s1d}</p>
+              </div>
             </div>
           </li>
 
           <li className="vb__st vb__st--2">
             <span className="vb__node" aria-hidden="true"><Glyph kind="code" /></span>
             <div className="vb__body">
+              <div className="vb__main">
               <h3 className="v6-h3">{t.s2t}</h3>
               {row.code ? (
                 <button type="button" className="vb__proof vb__code" data-copied={copied ? "" : undefined} onClick={copy} aria-label={`${t.copy}: ${row.code}`}>
@@ -174,16 +184,21 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
                 <div className="vb__proof vb__code vb__code--none"><span className="vb__none">{t.none}</span></div>
               )}
               <span className="vb__sr" role="status" aria-live="polite">{copied ? t.copied : ""}</span>
-              <p className="v6-body vb__desc">{t.s2d}</p>
+              </div>
+              <div className="vb__foot"><p className="v6-body vb__desc">{t.s2d}</p></div>
             </div>
           </li>
 
           <li className="vb__st vb__st--3">
             <span className="vb__node" aria-hidden="true"><Glyph kind="disclosure" /></span>
             <div className="vb__body">
+              <div className="vb__main">
               <h3 className="v6-h3">{t.s3t}</h3>
               <p className="vb__proof vb__disc">{t.s3b}</p>
+              </div>
+              <div className="vb__foot">
               <button type="button" className="vb__link v6-small" onClick={goDisclosure}>{t.s3link}<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" /></svg></button>
+              </div>
             </div>
           </li>
         </ol>

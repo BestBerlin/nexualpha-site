@@ -3,6 +3,7 @@
 // compact rows used (publicCtaForVenue, regionalCtaState, localizedHref), in the same DOM order, so the link graph is unchanged.
 // Reveal is decoration only: every row, fee and code is visible in the server HTML and stays visible if JS or IO never runs.
 import { useEffect, useMemo, useRef, useState } from "react";
+import { RailDock, RailSeg } from "./RouteRail.jsx";
 import { BrandMark } from "../brand/BrandMark";
 import { PlatformMatcher } from "../v3/PlatformMatcher";
 import { getCopyFeedbackCopy, getFilters, getUi } from "../v3/VenueYellowPages";
@@ -259,6 +260,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
 
   return (
     <section className="dir6 v6-section" id="exchanges" data-dock={dockOpen || undefined} ref={secRef} aria-labelledby="dir6-title">
+      <RailSeg /><RailDock i={2} locale={locale} />
       <div className="v6-wrap">
         <header className="dir6-head">
           <h2 className="v6-h1" id="dir6-title">{ui.sectionTitle}</h2>

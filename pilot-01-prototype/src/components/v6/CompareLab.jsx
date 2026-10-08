@@ -1,6 +1,7 @@
 // V6 Act 2: Compare Lab. Paired ledger of verified fee figures that morphs between two chosen venues.
 // Only values present in EXCHANGE_FACTS are shown; anything else reads "Not yet checked". No ranking, no verdicts.
-import { useLayoutEffect, useEffect, useRef, useState } from "react";
+import { startTransition, useLayoutEffect, useEffect, useRef, useState } from "react";
+import { RailDock, RailSeg } from "./RouteRail.jsx";
 import { useScrollEdges } from "./useScrollEdges.js";
 import { BrandMark } from "../brand/BrandMark";
 import { getUi } from "../v3/CrossroadsCompare";
@@ -60,7 +61,7 @@ export function keepInStrip(strip, el) {
   if (d) strip.scrollBy({ left: d, behavior: prefersReducedMotion() ? "auto" : "smooth" });
 }
 
-function Chips({ slot, cur, chips, label, nameOf, onPick, onDown, onKey, hintId, grabbed }) {
+function Chips({ slot, cur, other, chips, label, nameOf, onPick, onDown, onKey, hintId, grabbed }) {
   const ref = useRef(null);
   useScrollEdges(ref);
   useEffect(() => { keepInStrip(ref.current, ref.current?.querySelector(`[data-venue="${cur}"]`)); }, [cur]);
@@ -69,7 +70,7 @@ function Chips({ slot, cur, chips, label, nameOf, onPick, onDown, onKey, hintId,
       <span className="cl-pick__label v6-meta" aria-hidden="true">{label}</span>
       <div className="cl-chips" ref={ref}>
         {chips.map((s) => (
-          <label key={s} className="cl-chip" data-venue={s} data-name={nameOf(s)} data-grabbed={grabbed === s || undefined} onPointerDown={(e) => onDown(e, s)} onDragStart={(e) => e.preventDefault()}>
+          <label key={s} className="cl-chip" data-venue={s} data-name={nameOf(s)} data-other={other === s || undefined} data-grabbed={grabbed === s || undefined} onPointerDown={(e) => onDown(e, s)} onDragStart={(e) => e.preventDefault()}>
             <input type="radio" name={`cl-slot-${slot}`} value={s} checked={cur === s} onChange={() => onPick(slot, s)} onKeyDown={(e) => onKey(e, s, slot)} aria-describedby={hintId} />
             <span translate="no"><BrandMark slug={s} compact /><em className="cl-chip__name">{nameOf(s)}</em></span>
           </label>
@@ -90,7 +91,14 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   const t = labText(locale);
   const ui = getUi(locale);
   const ctx = directoryContext({ locale });
-  const [a, b] = normalize(selected);
+  // The lab owns its pair: a pick re-renders the lab in the click frame (FLIP starts at once); the rest of the page
+  // (verify, directory) follows in a transition.
+  const selKey = normalize(selected).join(",");
+  const [pair, setPair] = useState(() => selKey.split(","));
+  useEffect(() => { setPair((p) => (p.join(",") === selKey ? p : selKey.split(","))); }, [selKey]);
+  const [a, b] = pair;
+  // One shared logo rail: it fills the active slot (the highlighted identity); click / Space on an identity makes it active.
+  const [slot, setSlot] = useState(1);
   const plate = useRef(null);
   const snapshot = useRef(null);
   const drag = useRef(null);
@@ -130,7 +138,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
     });
   }, [a, b]);
 
-  const commit = (na, nb) => { snap(); onSelectionChange?.([na, nb]); };
+  const commit = (na, nb) => { snap(); setPair([na, nb]); startTransition(() => { onSelectionChange?.([na, nb]); }); };
   const pick = (slot, slug) => {
     if (slot === 0) commit(slug, slug === b ? a : b);
     else commit(slug === a ? b : a, slug);
@@ -161,6 +169,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   const onKey = (e, slug, fromSlot) => {
     const rtl = e.currentTarget.closest("[dir='rtl']") ? -1 : 1;
     if (!held) {
+      if (e.key === " " && String(fromSlot).startsWith("id-")) { e.preventDefault(); setSlot(fromSlot === "id-a" ? 0 : 1); return; }
       if (e.key !== "Enter") return;
       e.preventDefault();
       const target = fromSlot === "id-a" ? 1 : fromSlot === "id-b" ? 0 : fromSlot;
@@ -326,7 +335,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   );
 
   const Identity = ({ slug, side }) => (
-    <div className={`cl-id cl-id--${side}`} data-flip={slug} data-slot={side === "a" ? 0 : 1} data-grabbed={held?.slug === slug || undefined} onPointerDown={(e) => onDown(e, slug)}
+    <div className={`cl-id cl-id--${side}`} data-flip={slug} data-slot={side === "a" ? 0 : 1} data-active={slot === (side === "a" ? 0 : 1) || undefined} data-grabbed={held?.slug === slug || undefined} onPointerDown={(e) => onDown(e, slug)} onClick={() => setSlot(side === "a" ? 0 : 1)}
       tabIndex={0} role="button" aria-label={`${side === "a" ? t.first : t.second}: ${nameOf(slug)}`} aria-describedby="cl-kbd-hint" onKeyDown={(e) => onKey(e, slug, `id-${side}`)} onBlur={() => { if (held?.slug === slug) setHeld(null); }}>
       <BrandMark slug={slug} />
       <div className="cl-id__text">
@@ -338,6 +347,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
 
   return (
     <section className="cl v6-section" id="compare" aria-labelledby="cl-title">
+      <RailSeg /><RailDock i={0} locale={locale} />
       <div className="v6-wrap">
         <header className="cl__head">
           <h2 className="v6-h1" id="cl-title">{ui.title}</h2>
@@ -368,8 +378,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
           </div>
 
           <div className="cl-grid cl-grid--pick">
-            <Chips slot={0} cur={a} chips={chips} label={t.first} nameOf={nameOf} onPick={pick} onDown={onDown} onKey={onKey} hintId="cl-kbd-hint" grabbed={held?.slug} />
-            <Chips slot={1} cur={b} chips={chips} label={t.second} nameOf={nameOf} onPick={pick} onDown={onDown} onKey={onKey} hintId="cl-kbd-hint" grabbed={held?.slug} />
+            <Chips slot={slot} cur={slot ? b : a} other={slot ? a : b} chips={chips} label={slot ? t.second : t.first} nameOf={nameOf} onPick={pick} onDown={onDown} onKey={onKey} hintId="cl-kbd-hint" grabbed={held?.slug} />
             <p className="cl-sr" id="cl-kbd-hint">{kbd.hint}</p>
           </div>
 
