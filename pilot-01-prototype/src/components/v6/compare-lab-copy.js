@@ -87,3 +87,28 @@ export const labText = (locale) => {
   const k = labCopy[locale] ? locale : labCopy[String(locale || "").split("-")[0]] ? String(locale).split("-")[0] : "en";
   return { ...labCopy[k], ...(labExtra[k] || labExtra.en) };
 };
+
+// Keyboard path for drag-to-slot: [hint, picked-up announcement ({n} = venue, {s} = slot label), cancelled].
+const KBD = {
+  en: ["Press Enter to pick up a venue, arrow keys to choose a slot, Enter to drop, Escape to cancel.", "Picked up {n}. Target: {s}. Arrow keys switch slot, Enter drops, Escape cancels.", "Move cancelled."],
+  "zh-Hans": ["按 Enter 拿起平台，方向键选择位置，再按 Enter 放下，Esc 取消。", "已拿起 {n}。目标：{s}。方向键切换位置，Enter 放下，Esc 取消。", "已取消移动。"],
+  "zh-Hant": ["按 Enter 拿起平台，方向鍵選擇位置，再按 Enter 放下，Esc 取消。", "已拿起 {n}。目標：{s}。方向鍵切換位置，Enter 放下，Esc 取消。", "已取消移動。"],
+  ja: ["Enterでプラットフォームを選び、矢印キーで枠を選んでEnterで配置、Escで取り消します。", "{n}を選択中。配置先：{s}。矢印キーで切替、Enterで配置、Escで取消。", "移動を取り消しました。"],
+  ko: ["Enter로 플랫폼을 집고, 방향키로 슬롯을 고른 뒤 Enter로 놓습니다. Esc는 취소입니다.", "{n} 선택됨. 대상: {s}. 방향키로 전환, Enter로 놓기, Esc로 취소.", "이동을 취소했습니다."],
+  tr: ["Bir platformu almak için Enter, yuva seçmek için ok tuşları, bırakmak için Enter, iptal için Escape.", "{n} alındı. Hedef: {s}. Ok tuşları yuvayı değiştirir, Enter bırakır, Escape iptal eder.", "Taşıma iptal edildi."],
+  es: ["Pulsa Enter para tomar una plataforma, flechas para elegir casilla, Enter para soltar y Escape para cancelar.", "{n} seleccionada. Destino: {s}. Flechas cambian casilla, Enter suelta, Escape cancela.", "Movimiento cancelado."],
+  "pt-BR": ["Pressione Enter para pegar uma plataforma, setas para escolher a posição, Enter para soltar e Esc para cancelar.", "{n} selecionada. Destino: {s}. Setas trocam a posição, Enter solta, Esc cancela.", "Movimento cancelado."],
+  fr: ["Entrée pour saisir une plateforme, flèches pour choisir l’emplacement, Entrée pour déposer, Échap pour annuler.", "{n} saisie. Cible : {s}. Flèches pour changer, Entrée pour déposer, Échap pour annuler.", "Déplacement annulé."],
+  de: ["Enter nimmt eine Plattform auf, Pfeiltasten wählen den Platz, Enter legt ab, Escape bricht ab.", "{n} aufgenommen. Ziel: {s}. Pfeiltasten wechseln, Enter legt ab, Escape bricht ab.", "Verschieben abgebrochen."],
+  ru: ["Enter — взять площадку, стрелки — выбрать слот, Enter — положить, Escape — отмена.", "{n} выбрана. Слот: {s}. Стрелки меняют слот, Enter — положить, Escape — отмена.", "Перемещение отменено."],
+  ar: ["اضغط Enter لالتقاط منصة، والأسهم لاختيار الخانة، وEnter للإفلات، وEscape للإلغاء.", "تم التقاط {n}. الهدف: {s}. الأسهم للتبديل، Enter للإفلات، Escape للإلغاء.", "أُلغي النقل."],
+  id: ["Tekan Enter untuk mengambil platform, panah untuk memilih slot, Enter untuk melepas, Escape untuk batal.", "{n} diambil. Tujuan: {s}. Panah mengganti slot, Enter melepas, Escape membatalkan.", "Pemindahan dibatalkan."],
+  vi: ["Nhấn Enter để chọn nền tảng, phím mũi tên để chọn vị trí, Enter để thả, Escape để hủy.", "Đã chọn {n}. Vị trí: {s}. Mũi tên để đổi, Enter để thả, Escape để hủy.", "Đã hủy di chuyển."],
+  it: ["Premi Invio per prendere una piattaforma, le frecce per scegliere lo slot, Invio per rilasciare, Esc per annullare.", "{n} selezionata. Destinazione: {s}. Frecce per cambiare, Invio per rilasciare, Esc per annullare.", "Spostamento annullato."],
+};
+export function labKbd(locale = "en") {
+  const l = String(locale || "en");
+  const row = KBD[l] || KBD[l === "zh-CN" ? "zh-Hans" : l === "zh-TW" ? "zh-Hant" : l.toLowerCase().startsWith("pt") ? "pt-BR" : l.split("-")[0]] || KBD.en;
+  const [hint, grabbed, cancelled] = row;
+  return { hint, grabbed, cancelled };
+}

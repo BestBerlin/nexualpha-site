@@ -633,7 +633,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
     };
   }).filter((r) => {
     if (filter === "cex") return r.category === "CEX";
-    if (filter === "dex") return r.category !== "CEX";
+    if (filter === "dex") return r.category === "Perp DEX";
     return true;
   });
   const hasHiddenRows = rows.length > 6;

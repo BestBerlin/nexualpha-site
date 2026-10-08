@@ -5,6 +5,7 @@ import { venueDatabase } from "../../data/venue-database.js";
 import { resolveCommercialClaim } from "../../data/commercial-claims.js";
 import { venueDecisionContent } from "../../data/venue-decision-content";
 import { compareSlug, v3Copy } from "../../data/v3-product";
+import { comparePathFor } from "../v6/compare-routes.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { defaultDirectoryCategory, directoryContext, directoryContextSearch, filterDirectoryVenues, regionalCtaState, regionalDirectoryCandidateState, venueMarketStatus } from "../../data/directory-context.js";
 import { buildRegionalDecisionSet } from "../../data/regional-decision.js";
@@ -786,7 +787,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
     return [...current, slug];
   });
   const compareHref = compareSelection.length === 2
-    ? localizedHref(`/compare/${compareSlug(compareSelection)}?${contextSearch}`, { locale })
+    ? localizedHref(`${comparePathFor(compareSelection).path}?${contextSearch}`, { locale })
     : null;
   const compactDirectory = !compact;
   const detailToggleCopy = (expanded) => {

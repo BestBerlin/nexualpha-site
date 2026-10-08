@@ -9,6 +9,7 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
 import { localizeRegionNote } from "./exchange-matrix-copy.js";
+import { hasCompareRoute, noCompareLabel } from "../v6/compare-routes.js";
 
 const SEGMENTS = [
   { id: "all", key: "all" },
@@ -160,7 +161,10 @@ export function ExchangeMatrix({
       return r.name;
     };
     const dir = sort.dir === "asc" ? 1 : -1;
+    // "Verified first" and a column sort compose: verified rows stay on top and each
+    // group is ordered by the active column (Array#sort is stable).
     return [...base].sort((a, b) => {
+      if (verifiedFirst && a.verified !== b.verified) return a.verified ? -1 : 1;
       const va = val(a);
       const vb = val(b);
       if (va == null && vb == null) return 0;
@@ -310,7 +314,8 @@ export function ExchangeMatrix({
             <tbody role="rowgroup">
               {sorted.map((r, index) => {
                 const selected = compareSelection.includes(r.slug);
-                const pickDisabled = !selected && compareFull;
+                const noRoute = !hasCompareRoute(r.slug);
+                const pickDisabled = !selected && (compareFull || noRoute);
                 const noFees = !r.spot && !r.perp;
                 return (
                   <tr
@@ -322,13 +327,13 @@ export function ExchangeMatrix({
                     style={{ "--i": Math.min(index, 14) }}
                   >
                     <td role="cell" className="mx-td mx-td--pick">
-                      <label className="mx-pick" title={selected ? ui.compareRemove : ui.compareSelect}>
+                      <label className="mx-pick" title={noRoute && !selected ? noCompareLabel(locale) : selected ? ui.compareRemove : ui.compareSelect} data-no-compare={noRoute || undefined}>
                         <input
                           type="checkbox"
                           checked={selected}
                           disabled={pickDisabled}
                           onChange={() => onToggleCompare(r.slug)}
-                          aria-label={`${selected ? ui.compareRemove : ui.compareSelect}: ${r.name}`}
+                          aria-label={noRoute && !selected ? `${r.name}: ${noCompareLabel(locale)}` : `${selected ? ui.compareRemove : ui.compareSelect}: ${r.name}`}
                           data-cta-kind="research"
                           data-cta-platform={r.slug}
                           data-cta-placement="directory-compare-select"
