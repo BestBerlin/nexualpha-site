@@ -168,7 +168,7 @@
           var bkey = [Math.round(mr.height), Math.round(br.top - mr.top), Math.round(br.height), vw, Math.round(x)].join(":");
           if (bkey === s.bkey) branch = s.branch;
           else {
-            if (len > 12) {
+            if (len >= 8) {
               var rects = obstacles(main);
               var cta = box.querySelector("a[rel~='sponsored'], [class*='primary'], [class*='cta']");
               var crr = cta ? cta.getBoundingClientRect() : null;
@@ -251,6 +251,8 @@
         var room = s.end - ny - 14 - lab.offsetHeight;
         var dy = Math.max(0, Math.min(HEADER - vy, room));
         lab.style.setProperty("--v6r-dy", Math.round(dy) + "px");
+        /* a label longer than the rest of its route fades out instead of sliding under the header */
+        lab.toggleAttribute("data-gone", HEADER - vy > room);
       }
     };
   }

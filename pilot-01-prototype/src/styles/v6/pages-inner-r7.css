@@ -44,9 +44,8 @@ main.v3-profile-page.v6 .v3-profile-sources-group__summary:not(#_):not(#_):not(#
 main.v3-profile-page.v6 .v3-profile-sources-group__summary::-webkit-details-marker:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
 main.v3-profile-page.v6 .v3-profile-sources-group__summary > strong:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: t; font-size: 20px; line-height: 1.25; font-weight: 600; }
 main.v3-profile-page.v6 .v3-profile-sources-group__summary > span:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: h; font-size: 14px; line-height: 1.5; color: var(--n10, #9ba1a6); }
-main.v3-profile-page.v6 .v3-profile-sources-group__summary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: g; justify-self: end; font-size: 16px; font-weight: 400; color: var(--n10, #9ba1a6); transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), color 160ms cubic-bezier(0.16, 1, 0.3, 1); }
+main.v3-profile-page.v6 .v3-profile-sources-group__summary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: g; justify-self: end; }
 main.v3-profile-page.v6 .v3-profile-sources-group__summary:hover > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n12, #edeef0); }
-main.v3-profile-page.v6 .v3-profile-sources-group[open] > .v3-profile-sources-group__summary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transform: rotate(45deg); }
 main.v3-profile-page.v6 .v3-profile-sources-group__body:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; gap: 48px; padding: 8px 0 48px; }
 main.v3-profile-page.v6 .v3-profile-sources-group__body > .v3-profile-research-chapter:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: block; margin: 0; padding: 0; border: 0; background: none; }
 main.v3-profile-page.v6 .v3-profile-sources-group__heading:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0 0 16px; font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; color: var(--n12, #edeef0); }
@@ -86,9 +85,6 @@ main.v6:not(.home-refinement) .v3-profile-primary-actions > a:not(#_):not(#_):no
 main.v3-profile-page.v6 .v3-similar-section__lead:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: block; margin: 0 0 24px; padding: 0; border: 0; }
 main.v3-profile-page.v6 .v3-similar-section__lead > h2:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; font-size: 28px; line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; }
 
-/* one disclosure glyph system: ＋ that turns to × when open (FAQ used ▼) */
-main.v6:not(.home-refinement) .v3-faq-arrow:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-block; font-size: 16px; font-weight: 400; line-height: 1; color: var(--n10, #9ba1a6); transform: none; transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), color 160ms cubic-bezier(0.16, 1, 0.3, 1); }
-main.v6:not(.home-refinement) details[open] > summary .v3-faq-arrow:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transform: rotate(45deg); color: var(--n12, #edeef0); }
 
 /* ============ /compare ============ */
 main.v3-compare-page.v6 .v3-page-hero h1:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { max-inline-size: none; text-wrap: balance; }
@@ -183,3 +179,8 @@ main.v6:not(.home-refinement).methodology-page a:is([href$=".json"], [href$=".cs
 
 /* ============ footer index: sentence-case group headings (no letter-spaced uppercase eyebrows) ============ */
 .crawl-priority-links .crawl-priority-links__group > span:not(#_):not(#_):not(#_):not(#_) { text-transform: none !important; letter-spacing: 0 !important; font-size: 14px; font-weight: 500; }
+
+/* the drawn plus/minus indicator (r4) keeps its transparent glyph inside its own 20px box, so the glyph's text box never
+ * spills into the rail gap beside the reading column */
+:is(main, .factbook-page).v6:not(.home-refinement) :is(details > summary > :is(b, span)[aria-hidden]:last-child, details > summary > b:last-child, details > summary .v3-faq-arrow):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { text-indent: 0; text-align: center; }
+.v6r .v6r__node[data-cur="1"] .v6r__lab[data-gone]:not(#_) { opacity: 0; }
