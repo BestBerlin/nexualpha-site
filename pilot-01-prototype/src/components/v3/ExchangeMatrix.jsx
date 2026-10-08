@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { BrandMark } from "../brand/BrandMark";
 import { partnerRegistry } from "../../data/partner-registry";
 import { venueDatabase } from "../../data/venue-database.js";
@@ -45,6 +45,47 @@ function ArrowIcon() {
   );
 }
 
+// Fee figure that counts up from zero when its column becomes the sort key (tick changes). Server and
+// reduced-motion render the final value, so the number is never wrong, only animated.
+function CountNum({ value, run, delay = 0 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const node = ref.current?.firstChild;
+    if (!run || !node || typeof window === "undefined") return undefined;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const final = fmtRate(value);
+    const decimals = final.split(".")[1]?.length || 0;
+    const dur = 650;
+    let raf = 0;
+    let start = 0;
+    const step = (now) => {
+      if (!start) start = now + delay;
+      const t = Math.min(Math.max((now - start) / dur, 0), 1);
+      const eased = 1 - Math.pow(1 - t, 4);
+      node.nodeValue = t >= 1 ? final : (value * eased).toFixed(decimals);
+      ref.current?.setAttribute("data-counting", t >= 1 ? "false" : "true");
+      if (t < 1) raf = requestAnimationFrame(step);
+    };
+    node.nodeValue = (0).toFixed(decimals);
+    raf = requestAnimationFrame(step);
+    return () => { cancelAnimationFrame(raf); node.nodeValue = final; };
+  }, [run, value, delay]);
+  return <b ref={ref}>{fmtRate(value)}</b>;
+}
+
+function DockSlot({ row, onRemove, mc }) {
+  if (!row) {
+    return <span className="mx-dock__slot mx-dock__slot--empty"><span className="mx-dock__ghost" aria-hidden="true" /><span className="mx-dock__slotname">{mc.pickMore}</span></span>;
+  }
+  return (
+    <button type="button" className="mx-dock__slot mx-dock__slot--full" onClick={onRemove} aria-label={`${mc.remove}: ${row.name}`} title={`${mc.remove}: ${row.name}`}>
+      <BrandMark slug={row.slug} compact />
+      <span className="mx-dock__slotname" translate="no">{row.name}</span>
+      <span className="mx-dock__x" aria-hidden="true">×</span>
+    </button>
+  );
+}
+
 export function ExchangeMatrix({
   venues,
   totalCount,
@@ -75,6 +116,7 @@ export function ExchangeMatrix({
 }) {
   const [sort, setSort] = useState({ key: null, dir: "asc" });
   const [tick, setTick] = useState(0);
+  const [verifiedFirst, setVerifiedFirst] = useState(false);
   const segRefs = useRef([]);
 
   const rows = useMemo(() => venues.map((venue) => {
@@ -112,7 +154,7 @@ export function ExchangeMatrix({
       perp,
       verified,
       verifiedOn: verified ? facts.verifiedOn : null,
-      region: facts?.regions?.[0] || null,
+      region: verified && facts.regions?.length ? facts.regions.join(" · ") : null,
       products: productList,
       hasDetailPage: Boolean(venueDecisionContent[venue.slug]),
       hasReferral: publicCta.hasReferral,
@@ -123,14 +165,15 @@ export function ExchangeMatrix({
   }), [venues, locale, market, product, accountStage, funding, mc]);
 
   const sorted = useMemo(() => {
-    if (!sort.key) return rows;
+    const base = verifiedFirst ? [...rows.filter((r) => r.verified), ...rows.filter((r) => !r.verified)] : rows;
+    if (!sort.key) return base;
     const val = (r) => {
       if (sort.key === "spot") return r.spot ? r.spot[1] : null;
       if (sort.key === "perp") return r.perp ? r.perp[1] : null;
       return r.name;
     };
     const dir = sort.dir === "asc" ? 1 : -1;
-    return [...rows].sort((a, b) => {
+    return [...base].sort((a, b) => {
       const va = val(a);
       const vb = val(b);
       if (va == null && vb == null) return 0;
@@ -139,7 +182,7 @@ export function ExchangeMatrix({
       if (typeof va === "string") return va.localeCompare(vb, locale) * dir;
       return (va - vb) * dir;
     });
-  }, [rows, sort, locale]);
+  }, [rows, sort, locale, verifiedFirst]);
 
   const cycleSort = (key) => {
     setTick((n) => n + 1);
@@ -181,12 +224,20 @@ export function ExchangeMatrix({
     </th>
   );
 
-  const emph = (key, node) => (sort.key === key && tick > 0 ? <span key={`${key}-${tick}`} className="mx-emph">{node}</span> : node);
-
-  const renderFee = (pair) => (
-    <span className="mx-fee num" dir="ltr" translate="no">
-      <b>{fmtRate(pair[0])}</b><i aria-hidden="true">/</i><b>{fmtRate(pair[1])}</b><u>%</u>
-    </span>
+  const renderFee = (pair, col, index) => {
+    const run = sort.key === col ? tick : 0;
+    const delay = Math.min(index, 10) * 28;
+    return (
+      <span className="mx-fee num" dir="ltr" translate="no">
+        <CountNum value={pair[0]} run={run} delay={delay} /><i aria-hidden="true">/</i><CountNum value={pair[1]} run={run} delay={delay} /><u>%</u>
+      </span>
+    );
+  };
+  const unchecked = (label) => (
+    <>
+      <span className="mx-unch" title={mc.check} aria-hidden="true">{mc.unchecked}</span>
+      <span className="mx-sr">{label}{mc.unchecked}. {mc.check}</span>
+    </>
   );
 
   return (
@@ -228,6 +279,10 @@ export function ExchangeMatrix({
           />
           {searchQuery ? <button type="button" className="mx-search__clear" onClick={onClearSearch} aria-label={ui.clearSearch}>×</button> : null}
         </div>
+        <button type="button" className="mx-toggle" aria-pressed={verifiedFirst} onClick={() => setVerifiedFirst((v) => !v)} title={mc.recommended}>
+          <span className="mx-toggle__box" aria-hidden="true"><svg viewBox="0 0 16 16" width="11" height="11" focusable="false"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+          <span>{mc.verifiedFirst}</span>
+        </button>
         <p className="mx-count num" role="status" aria-live="polite">
           <span>{mc.show}</span> <b>{venues.length}</b> <span>{mc.of}</span> <b>{totalCount}</b>
         </p>
@@ -327,17 +382,15 @@ export function ExchangeMatrix({
                     </th>
                     {noFees ? (
                       <td role="cell" className="mx-td mx-td--fee mx-td--nofee" colSpan={2} data-label={`${mc.spot} / ${mc.perp}`}>
-                        <span className="mx-dash" aria-hidden="true">&ndash;</span>
-                        <span className="mx-sr">{mc.spot}, {mc.perp}: </span>
-                        <span className="mx-check">{mc.check}</span>
+                        {unchecked(`${mc.spot}, ${mc.perp}: `)}
                       </td>
                     ) : (
                       <>
                         <td role="cell" className="mx-td mx-td--fee mx-td--spot" data-label={mc.spot}>
-                          {r.spot ? emph("spot", renderFee(r.spot)) : (<><span className="mx-dash" aria-hidden="true">&ndash;</span><span className="mx-sr">{mc.spot}: </span><span className="mx-check">{mc.check}</span></>)}
+                          {r.spot ? renderFee(r.spot, "spot", index) : unchecked(`${mc.spot}: `)}
                         </td>
                         <td role="cell" className="mx-td mx-td--fee mx-td--perp" data-label={mc.perp}>
-                          {r.perp ? emph("perp", renderFee(r.perp)) : (<><span className="mx-dash" aria-hidden="true">&ndash;</span><span className="mx-sr">{mc.perp}: </span><span className="mx-check">{mc.check}</span></>)}
+                          {r.perp ? renderFee(r.perp, "perp", index) : unchecked(`${mc.perp}: `)}
                         </td>
                       </>
                     )}
@@ -345,7 +398,7 @@ export function ExchangeMatrix({
                       <span translate="no">{r.products.join(mc.sep)}</span>
                     </td>
                     <td role="cell" className={`mx-td mx-td--region${r.region ? " mx-td--has" : ""}`} data-label={mc.region}>
-                      {r.region ? <span lang="en">{r.region}</span> : (<><span className="mx-dash" aria-hidden="true">&ndash;</span><span className="mx-sr">{mc.region}: {mc.check}</span></>)}
+                      {r.region ? <span lang="en">{r.region}</span> : (<><span className="mx-dash" aria-hidden="true">&ndash;</span><span className="mx-sr">{mc.region}: {mc.unchecked}</span></>)}
                     </td>
                     <td role="cell" className="mx-td mx-td--code" data-label={mc.code}>
                       {r.hasReferral && r.inviteCode ? (
@@ -408,9 +461,13 @@ export function ExchangeMatrix({
       )}
 
       {compareSelection.length > 0 ? (
-        <div className="mx-tray" role="status" aria-live="polite">
-          <p className="mx-tray__names"><span>{mc.tray}</span> <b translate="no">{compareSelection.map(nameOf).join(" + ")}</b></p>
-          <div className="mx-tray__actions">
+        <div className="mx-dock" role="region" aria-label={mc.tray} aria-live="polite">
+          <div className="mx-dock__pair">
+            <DockSlot key={`a-${compareSelection[0]}`} row={{ slug: compareSelection[0], name: nameOf(compareSelection[0]) }} onRemove={() => onToggleCompare(compareSelection[0])} mc={mc} />
+            <span className="mx-dock__vs" aria-hidden="true">{mc.vs}</span>
+            <DockSlot key={`b-${compareSelection[1] || "empty"}`} row={compareSelection[1] ? { slug: compareSelection[1], name: nameOf(compareSelection[1]) } : null} onRemove={() => onToggleCompare(compareSelection[1])} mc={mc} />
+          </div>
+          <div className="mx-dock__actions">
             {compareHref ? (
               <a
                 href={compareHref}
@@ -422,7 +479,7 @@ export function ExchangeMatrix({
                 data-growth-market={context.market}
                 data-growth-product={context.product}
               >{ui.compareOpen}<ArrowIcon /></a>
-            ) : <span className="mx-tray__hint">{ui.compareNeed}</span>}
+            ) : null}
             <button type="button" className="mx-btn mx-btn--ghost" onClick={onClearCompare}>{ui.compareClear}</button>
           </div>
         </div>
