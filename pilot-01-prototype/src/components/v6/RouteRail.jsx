@@ -3,6 +3,7 @@
 // aria-hidden, pointer-events none, lives in the inline-start gutter so it never touches content. Static without JS / reduced motion.
 // It docks onto the acts by querying their existing root class names at runtime, so it needs no props from them.
 import { useEffect, useRef, useState } from "react";
+import { RAIL, pickLocale } from "../v3/LeanHeroCopyV6.js";
 
 const ACTS = [".cl", ".vb", ".dir6"]; // compare lab, verify, directory; the destination is the closing CTA
 const DEST = ".v6-close__route"; // the closing CTA's route stroke: the rail's destination dock joins its start
@@ -53,22 +54,23 @@ export function RouteRail() {
         else sx = edge(yr) - 2; // stacked hero: stop at the pill
       } else { const rf = main.querySelector(".rf"); sy = rf ? rf.getBoundingClientRect().top - mr.top + 120 : 120; }
       startY = sy;
-      ACTS.forEach((sel) => {
+      const names = pickLocale(RAIL, document.documentElement.lang);
+      ACTS.forEach((sel, i) => {
         const act = main.querySelector(sel);
         if (!act) return;
         const h = act.querySelector(HEAD);
-        list.push({ y: h ? yOf(h) : yOf(act, false) + 48, kind: "act" });
+        list.push({ y: h ? yOf(h) : yOf(act, false) + 48, kind: "act", lab: names[i] });
       });
       const dest = main.querySelector(DEST);
       const close = main.querySelector(".v6-close");
       // the route stroke starts at its viewBox y=34 of 40, at the container edge: dock exactly there so the rail and the CTA route are one line
-      if (dest) { const r = dest.getBoundingClientRect(); list.push({ y: r.top - mr.top + r.height * (34 / 40), kind: "dest" }); }
-      else if (close) list.push({ y: yOf(close, false) + 64, kind: "dest" });
+      if (dest) { const r = dest.getBoundingClientRect(); list.push({ y: r.top - mr.top + r.height * (34 / 40), kind: "dest", lab: names[3] }); }
+      else if (close) list.push({ y: yOf(close, false) + 64, kind: "dest", lab: names[3] });
       const docks = list.filter((p) => Number.isFinite(p.y) && p.y > sy).sort((a, b) => a.y - b.y);
       total = docks.length ? docks[docks.length - 1].y - startY : 0;
       // act docks: a tick toward the act's heading (stops 8px short of the container edge); the destination tick reaches the edge
       const len = Math.max(0, inset - x - 8);
-      const next = { x: Math.round(x), start: Math.round(sy), total: Math.round(total), stub: Math.round(Math.max(0, sx - x - 4)), docks: docks.map((d) => ({ kind: d.kind, y: Math.round(d.y), len: d.kind === "dest" ? Math.max(0, inset - x) : len })) };
+      const next = { x: Math.round(x), start: Math.round(sy), total: Math.round(total), stub: Math.round(Math.max(0, sx - x - 4)), lab: x >= 72 ? Math.round(x - 16) : 0, docks: docks.map((d) => ({ kind: d.kind, lab: d.lab, y: Math.round(d.y), len: d.kind === "dest" ? Math.max(0, inset - x) : len })) };
       setGeo((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
     };
     const fill = () => {
@@ -119,6 +121,7 @@ export function RouteRail() {
           {g.docks.map((d, i) => (
             <span key={i} className={`rr__dock rr__dock--${d.kind}`} data-y={d.y} data-on="0" style={{ "--rr-ny": `${d.y}px`, "--rr-len": `${d.len}px` }}>
               {d.len > 4 && <i className="rr__tick" />}
+              {g.lab > 0 && d.lab && <em className="rr__lab" style={{ "--rr-lab": `${g.lab}px` }}>{d.lab}</em>}
               <b className="rr__node" />
             </span>
           ))}

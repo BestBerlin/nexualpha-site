@@ -11,7 +11,7 @@
 .v6 .vb__venue {
   min-height: 44px; padding-inline: var(--s-4); border-radius: var(--r-md);
   border: 1px solid var(--line); background: transparent; color: var(--text);
-  font: 500 var(--t-14)/1 var(--font-sans); cursor: pointer;
+  font: 500 var(--t-14)/1.15 var(--font-sans); cursor: pointer;
   transition: background var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
 }
 .v6 .vb__venue:hover { border-color: var(--line-strong); color: var(--text-strong); background: var(--surface); }
@@ -56,7 +56,7 @@
   position: absolute; inset-block-start: 0; inset-inline-end: var(--s-4); translate: 0 -50%; rotate: -4deg; transform-origin: 50% 50%;
   display: inline-flex; align-items: center; gap: var(--s-1); padding: var(--s-1) var(--s-2);
   border: 2px solid var(--accent); border-radius: var(--s-1); background: var(--bg); color: var(--accent);
-  font-family: var(--font-sans); font-size: var(--t-12); line-height: 1.2; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  font-family: var(--font-sans); font-size: var(--t-12); line-height: 1.15; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
 }
 .v6 .vb__ok { margin: 0; display: inline-flex; align-items: center; gap: var(--s-2); color: var(--accent); font-weight: 500; }
 
@@ -69,7 +69,7 @@
 .v6 .vb__code:active { transform: scale(0.985); }
 .v6 .vb__code--none { cursor: default; border-style: solid; border-color: var(--line); }
 .v6 .vb__code--none:hover { background: transparent; border-color: var(--line); }
-.v6 .vb__none { font: 500 var(--t-16)/1.4 var(--font-sans); letter-spacing: 0; color: var(--text); }
+.v6 .vb__none { font: 500 var(--t-16)/1.55 var(--font-sans); letter-spacing: 0; color: var(--text); }
 .v6 .vb__codeval { overflow-wrap: anywhere; min-inline-size: 0; transition: color var(--dur-2) var(--ease-out); }
 .v6 .vb__copy { display: inline-flex; align-items: center; gap: var(--s-2); color: var(--text); font-family: var(--font-sans); letter-spacing: 0; font-weight: 500; white-space: nowrap; flex: none; }
 .v6 .vb__copy svg { overflow: visible; }
@@ -117,11 +117,11 @@
 .v6 .vb__typed--fake { color: var(--text-muted); text-overflow: ellipsis; }
 /* the changed character: full-strength ink with a heavy underline (it was ADDED or swapped, never "deleted"); the rest of the copy is muted */
 .v6 .vb__x { color: var(--text-strong); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; text-decoration-color: var(--text-strong); }
-.v6 .vb__diff { display: inline-flex; align-items: center; margin-inline-end: var(--s-2); padding: 0 var(--s-2); border: 1px solid var(--line-strong); border-radius: var(--s-1); font-family: var(--font-mono); font-size: var(--t-12); line-height: 1.6; color: var(--text-strong); white-space: nowrap; }
+.v6 .vb__diff { display: inline-flex; align-items: center; margin-inline-end: var(--s-2); padding: 0 var(--s-2); border: 1px solid var(--line-strong); border-radius: var(--s-1); font-family: var(--font-mono); font-size: var(--t-12); line-height: 1.55; color: var(--text-strong); white-space: nowrap; }
 .v6 .vb__tag {
   margin-inline-start: auto; flex: none; display: inline-flex; align-items: center; padding: var(--s-1) var(--s-2);
   border: 1px solid var(--n8); border-radius: var(--s-1); color: var(--text-muted);
-  font-family: var(--font-sans); font-size: var(--t-12); line-height: 1.2; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  font-family: var(--font-sans); font-size: var(--t-12); line-height: 1.15; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
 }
 .v6 .vb__note { margin: 0; color: var(--text-muted); max-inline-size: var(--measure); }
 @media (min-width: 900px) { .v6 .vb__bar--fake { font-size: var(--t-20); } }

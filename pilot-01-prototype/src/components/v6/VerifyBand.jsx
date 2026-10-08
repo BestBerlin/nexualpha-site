@@ -2,7 +2,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { getVerifyCopy } from "./verify-copy.js";
+import { getVerifyCopy } from "../v3/LeanHeroCopyVerify.js";
+import { keepInStrip } from "./CompareLab.jsx";
 
 function useInViewOnce(ref) {
   const [on, setOn] = useState(false);
@@ -84,7 +85,10 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
   const timer = useRef(null);
   const route = useRef(null);
   const [armed, live] = useInViewOnce(route);
+  const strip = useRef(null);
   useEffect(() => () => clearTimeout(timer.current), []);
+  // a lab swap can change the active venue: keep its chip inside the scrolling row (horizontal only)
+  useEffect(() => { keepInStrip(strip.current, strip.current?.querySelector('[aria-pressed="true"]')); }, [row?.slug]);
   if (!row) return null;
 
   const copy = async () => {
@@ -110,7 +114,7 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
           <h2 className="v6-h1 vb__title" id="vb-title">{t.title}</h2>
           <div className="vb__aside">
             <p className="v6-body vb__lead">{t.lead}</p>
-            <div className="vb__venues" role="group" aria-label={t.venue}>
+            <div className="vb__venues" role="group" aria-label={t.venue} ref={strip}>
               {rows.map((r) => (
                 <button key={r.slug} type="button" className="vb__venue" aria-pressed={r.slug === row.slug} onClick={() => { setPick(r.slug); setCopied(false); }}>{r.name}</button>
               ))}

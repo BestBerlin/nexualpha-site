@@ -5,6 +5,7 @@ import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, 
 import { flushSync } from "react-dom";
 import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
 import { directoryLabel } from "./ClosingBand.jsx";
+import { RF_T, RF_HUB, pickLocale } from "../v3/LeanHeroCopyV6.js";
 
 const NODE_SLUGS = ["binance", "okx", "bybit", "bitget", "kraken", "gate-io", "hyperliquid", "gmx"];
 const INTENTS = ["spot", "perps", "fiat", "chain"];
@@ -16,33 +17,10 @@ const OFFERS = {
   chain: (v) => v.category !== "CEX",
 };
 
-const T = {
-  en: { chk: "Checked", group: "What do you want to do?", venues: "Venues for this route", none: "Not yet checked", spot: "Spot", perp: "Perp", off: "Not offered on this route", mt: "Maker / taker", i: { spot: ["Spot", "Buy and sell coins"], perps: ["Perps", "Leveraged contracts"], fiat: ["Fiat on-ramp", "Card, bank or P2P"], chain: ["On-chain", "DEX trading from a wallet"] } },
-  "zh-Hans": { chk: "核验于", group: "你想做什么?", venues: "适用此路线的平台", none: "尚未核验", spot: "现货", perp: "永续", off: "此路线不提供", mt: "挂单 / 吃单", i: { spot: ["现货", "买卖币种"], perps: ["永续合约", "杠杆合约"], fiat: ["法币入金", "银行卡、转账或 P2P"], chain: ["链上", "钱包直连 DEX 交易"] } },
-  "zh-Hant": { chk: "核驗於", group: "你想做什麼?", venues: "適用此路線的平台", none: "尚未核驗", spot: "現貨", perp: "永續", off: "此路線不提供", mt: "掛單 / 吃單", i: { spot: ["現貨", "買賣幣種"], perps: ["永續合約", "槓桿合約"], fiat: ["法幣入金", "銀行卡、轉帳或 P2P"], chain: ["鏈上", "錢包直連 DEX 交易"] } },
-  ja: { chk: "確認日", group: "何をしたいですか?", venues: "このルートの取引所", none: "未確認", spot: "現物", perp: "無期限", off: "このルートは非対応", mt: "メイカー / テイカー", i: { spot: ["現物", "コインの売買"], perps: ["無期限先物", "レバレッジ取引"], fiat: ["法定通貨入金", "カード・銀行・P2P"], chain: ["オンチェーン", "ウォレットからDEX取引"] } },
-  ko: { chk: "확인일", group: "무엇을 하고 싶으세요?", venues: "이 경로의 플랫폼", none: "확인 전", spot: "현물", perp: "무기한", off: "이 경로 미지원", mt: "메이커 / 테이커", i: { spot: ["현물", "코인 매매"], perps: ["무기한 선물", "레버리지 계약"], fiat: ["법정화폐 입금", "카드, 은행, P2P"], chain: ["온체인", "지갑에서 DEX 거래"] } },
-  tr: { chk: "Kontrol tarihi", group: "Ne yapmak istiyorsunuz?", venues: "Bu rotadaki platformlar", none: "Henüz kontrol edilmedi", spot: "Spot", perp: "Vadesiz", off: "Bu rotada yok", mt: "Maker / taker", i: { spot: ["Spot", "Coin al-sat"], perps: ["Vadesiz", "Kaldıraçlı sözleşmeler"], fiat: ["Fiat girişi", "Kart, banka veya P2P"], chain: ["Zincir üstü", "Cüzdanla DEX işlemi"] } },
-  es: { chk: "Revisado el", group: "¿Qué quieres hacer?", venues: "Plataformas para esta ruta", none: "Aún sin revisar", spot: "Spot", perp: "Perp", off: "No disponible en esta ruta", mt: "Maker / taker", i: { spot: ["Spot", "Compra y venta de monedas"], perps: ["Perpetuos", "Contratos con apalancamiento"], fiat: ["Entrada fiat", "Tarjeta, banco o P2P"], chain: ["On-chain", "DEX desde tu wallet"] } },
-  "pt-BR": { chk: "Verificado em", group: "O que você quer fazer?", venues: "Plataformas para esta rota", none: "Ainda não verificado", spot: "Spot", perp: "Perp", off: "Indisponível nesta rota", mt: "Maker / taker", i: { spot: ["Spot", "Compre e venda moedas"], perps: ["Perpétuos", "Contratos alavancados"], fiat: ["Entrada fiat", "Cartão, banco ou P2P"], chain: ["On-chain", "DEX direto da carteira"] } },
-  fr: { chk: "Vérifié le", group: "Que voulez-vous faire ?", venues: "Plateformes pour cette route", none: "Pas encore vérifié", spot: "Spot", perp: "Perp", off: "Non proposé sur cette route", mt: "Maker / taker", i: { spot: ["Spot", "Acheter et vendre"], perps: ["Perpétuels", "Contrats à effet de levier"], fiat: ["Entrée fiat", "Carte, banque ou P2P"], chain: ["On-chain", "DEX depuis le wallet"] } },
-  de: { chk: "Geprüft am", group: "Was möchten Sie tun?", venues: "Plattformen für diese Route", none: "Noch nicht geprüft", spot: "Spot", perp: "Perp", off: "Auf dieser Route nicht verfügbar", mt: "Maker / Taker", i: { spot: ["Spot", "Coins kaufen und verkaufen"], perps: ["Perps", "Hebel-Kontrakte"], fiat: ["Fiat-Einzahlung", "Karte, Bank oder P2P"], chain: ["On-Chain", "DEX direkt aus der Wallet"] } },
-  ru: { chk: "Проверено", group: "Что вы хотите сделать?", venues: "Платформы для этого маршрута", none: "Ещё не проверено", spot: "Спот", perp: "Бессрочные", off: "Недоступно на этом маршруте", mt: "Мейкер / тейкер", i: { spot: ["Спот", "Покупка и продажа монет"], perps: ["Перпетуалы", "Бессрочные контракты с плечом"], fiat: ["Ввод фиата", "Карта, банк или P2P"], chain: ["Ончейн", "DEX из кошелька"] } },
-  ar: { chk: "تاريخ التحقق", group: "ماذا تريد أن تفعل؟", venues: "المنصات لهذا المسار", none: "لم يُتحقق بعد", spot: "فوري", perp: "دائم", off: "غير متاح في هذا المسار", mt: "صانع / آخذ", i: { spot: ["فوري", "شراء العملات وبيعها"], perps: ["عقود دائمة", "عقود برافعة"], fiat: ["إيداع نقدي", "بطاقة أو بنك أو P2P"], chain: ["على السلسلة", "DEX من المحفظة"] } },
-  id: { chk: "Diperiksa", group: "Apa yang ingin Anda lakukan?", venues: "Platform untuk rute ini", none: "Belum diperiksa", spot: "Spot", perp: "Perp", off: "Tidak tersedia di rute ini", mt: "Maker / taker", i: { spot: ["Spot", "Beli dan jual koin"], perps: ["Perpetual", "Kontrak berleverage"], fiat: ["Setor fiat", "Kartu, bank, atau P2P"], chain: ["On-chain", "DEX langsung dari dompet"] } },
-  vi: { chk: "Kiểm tra ngày", group: "Bạn muốn làm gì?", venues: "Nền tảng cho lộ trình này", none: "Chưa kiểm tra", spot: "Giao ngay", perp: "Vĩnh cửu", off: "Không hỗ trợ ở lộ trình này", mt: "Maker / taker", i: { spot: ["Giao ngay", "Mua bán coin"], perps: ["Vĩnh cửu", "Hợp đồng đòn bẩy"], fiat: ["Nạp fiat", "Thẻ, ngân hàng hoặc P2P"], chain: ["On-chain", "DEX từ ví"] } },
-  it: { chk: "Verificato il", group: "Cosa vuoi fare?", venues: "Piattaforme per questa rotta", none: "Non ancora verificato", spot: "Spot", perp: "Perp", off: "Non disponibile su questa rotta", mt: "Maker / taker", i: { spot: ["Spot", "Compra e vendi monete"], perps: ["Perpetui", "Contratti con leva"], fiat: ["Ingresso fiat", "Carta, banca o P2P"], chain: ["On-chain", "DEX dal wallet"] } },
-};
-const copyFor = (locale) => T[locale] || T[String(locale || "en").split("-")[0]] || T.en;
+const copyFor = (locale) => pickLocale(RF_T, locale);
 
 // "You" origin + official-domain verify gate captions (every locale; English fallback).
-const HUB = {
-  en: ["You", "Official domain check"], "zh-Hans": ["你", "官方域名核验"], "zh-Hant": ["你", "官方網域核驗"], ja: ["あなた", "公式ドメイン確認"],
-  ko: ["나", "공식 도메인 확인"], tr: ["Siz", "Resmî alan adı kontrolü"], es: ["Tú", "Verificación del dominio oficial"], "pt-BR": ["Você", "Checagem do domínio oficial"],
-  fr: ["Vous", "Vérification du domaine officiel"], de: ["Sie", "Prüfung der offiziellen Domain"], ru: ["Вы", "Проверка официального домена"], ar: ["أنت", "فحص النطاق الرسمي"],
-  id: ["Anda", "Cek domain resmi"], vi: ["Bạn", "Kiểm tra tên miền chính thức"], it: ["Tu", "Verifica del dominio ufficiale"],
-};
-const hubFor = (locale) => HUB[locale] || HUB[String(locale || "en").split("-")[0]] || HUB.en;
+const hubFor = (locale) => pickLocale(RF_HUB, locale);
 
 const ICONS = {
   spot: <path d="M4 8h13m0 0-3-3m3 3-3 3M20 16H7m0 0 3-3m-3 3 3 3" />,
@@ -80,7 +58,7 @@ function Domain({ text }) {
 }
 
 // Route geometry, measured from the DOM so the SVG always meets the real ports (LTR/RTL; wide, stacked and phone strip).
-function useRoutes(stageRef, refs, intent, litKey, slug) {
+function useRoutes(stageRef, refs, intent, litKey, slug, noCard) {
   const [geo, setGeo] = useState({ w: 0, h: 0, base: [], chain: [], fan: [] });
   const raf = useRef(0);
   const { intentRefs, nodeRefs, youRef, gateRef, cardRef, listRef } = refs;
@@ -145,7 +123,7 @@ function useRoutes(stageRef, refs, intent, litKey, slug) {
         base.push({ slug: s, d });
         if (s === slug) {
           fan = [d];
-          if (wide && cardRef.current) {
+          if (wide && cardRef.current && !noCard) {
             const cr = cardRef.current.getBoundingClientRect();
             const x0 = rtl ? r.left : r.right;
             const x1 = rtl ? cr.right : cr.left;
@@ -158,7 +136,7 @@ function useRoutes(stageRef, refs, intent, litKey, slug) {
     }
     const next = { w: Math.round(sr.width), h: Math.round(sr.height), base, chain: [intro, link], fan };
     setGeo((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
-  }, [stageRef, intentRefs, nodeRefs, youRef, gateRef, cardRef, listRef, intent, litKey, slug]);
+  }, [stageRef, intentRefs, nodeRefs, youRef, gateRef, cardRef, listRef, intent, litKey, slug, noCard]);
   useEffect(() => {
     const schedule = () => { cancelAnimationFrame(raf.current); raf.current = requestAnimationFrame(measure); };
     schedule();
@@ -192,17 +170,27 @@ function Facts({ className, facts, intent, t, tick, locale }) {
   );
 }
 
-function Finder({ kit, tail }) {
+function Finder({ kit, tail, venues }) {
   const { locale } = kit;
   const t = copyFor(locale);
   const [youLabel, gateLabel] = hubFor(locale);
   const uid = useId();
-  const nodes = NODE_SLUGS.map((slug) => kit.venue(slug)).filter(Boolean);
-  const offered = (intent) => nodes.filter((v) => OFFERS[intent](v, EXCHANGE_FACTS[v.slug])).map((v) => v.slug);
+  const partners = NODE_SLUGS.map((s) => kit.venue(s)).filter(Boolean);
+  // On-chain gets its own node set from the venue catalog (wallet venues such as Uniswap / Jupiter, plus the perp DEXs),
+  // in catalog order. Wallet venues have no account route: picking one previews it, the card stays on a venue with a route.
+  const cat = (Array.isArray(venues) ? venues : []).filter((v) => v?.slug && v.category !== "CEX");
+  const ix = (v) => { const i = cat.findIndex((c) => c.slug === v.slug); return i < 0 ? 99 : i; };
+  const chainNodes = [...new Set([...partners.filter((v) => v.category !== "CEX").map((v) => v.slug), ...cat.filter((v) => v.category === "DEX").slice(0, 4).map((v) => v.slug), ...cat.map((v) => v.slug)])]
+    .slice(0, 8).map((s) => partners.find((v) => v.slug === s) || { ...cat.find((v) => v.slug === s), wallet: true }).sort((a, b) => ix(a) - ix(b));
+  const setFor = (k) => (k === "chain" && cat.length ? chainNodes : partners);
+  const offered = (intent) => setFor(intent).filter((v) => OFFERS[intent](v, EXCHANGE_FACTS[v.slug])).map((v) => v.slug);
   // Default node = first venue that actually has data for the intent (catalog order, never a ranking).
-  const pickDefault = (intent) => { const l = offered(intent); return l.find((s) => withData(intent, EXCHANGE_FACTS[s])) || l[0]; };
+  const pickDefault = (intent) => { const l = offered(intent).filter((s) => partners.some((v) => v.slug === s)); return l.find((s) => withData(intent, EXCHANGE_FACTS[s])) || l[0] || partners[0]?.slug; };
   const [intent, setIntent] = useState("spot");
-  const [slug, setSlug] = useState(() => pickDefault("spot") || nodes[0]?.slug);
+  const [slug, setSlug] = useState(() => pickDefault("spot"));
+  const [pin, setPin] = useState(null); // a wallet venue being previewed (no account route, so no card)
+  const [swap, setSwap] = useState(false); // the card animates only on a user change, never on first paint
+  const nodes = setFor(intent);
   const [hot, setHot] = useState(null);
   const [tick, setTick] = useState(0);
   const stageRef = useRef(null);
@@ -221,7 +209,7 @@ function Finder({ kit, tail }) {
   const primeRef = useRef(null);
   const reserveRef = useRef(0);
   reserveRef.current = reserve;
-  const geo = useRoutes(stageRef, { intentRefs, nodeRefs, youRef, gateRef, cardRef, listRef }, intent, litKey, slug);
+  const geo = useRoutes(stageRef, { intentRefs, nodeRefs, youRef, gateRef, cardRef, listRef }, intent, litKey, pin || slug, Boolean(pin));
 
   // Pointer light on the map grid + magnetic primary CTAs (progressive: static without JS or with reduced motion).
   useEffect(() => {
@@ -264,7 +252,7 @@ function Finder({ kit, tail }) {
       let max = 0;
       try {
         flushSync(() => setReserve(0));
-        for (const v of nodes) {
+        for (const v of partners) {
           flushSync(() => setSlug(v.slug));
           const h = cardRef.current?.getBoundingClientRect().height || 0;
           if (h > max) max = h;
@@ -289,6 +277,8 @@ function Finder({ kit, tail }) {
     if (!reserveRef.current) primeRef.current?.(); // measure every venue's card before anything changes
     setIntent(next);
     setSlug(pickDefault(next));
+    setPin(null);
+    setSwap(true);
     setHot(null);
     setTick((n) => n + 1);
     // Stacked layout: the venues sit below the intents. Bring them into view on a deliberate tap (not keyboard arrow roving).
@@ -318,20 +308,23 @@ function Finder({ kit, tail }) {
   const pickNode = (s) => {
     if (!lit.includes(s)) return;
     if (!reserveRef.current) primeRef.current?.();
-    setSlug(s);
+    const wallet = !partners.some((v) => v.slug === s);
+    setPin(wallet ? s : null);
+    if (!wallet) { setSlug(s); setSwap(true); }
     setTick((n) => n + 1);
     // Stacked list: the card opens inline under the node; keep the tapped node in view as the old card collapses. (The phone strip keeps the card below it.)
     if (!isWide() && !isStrip()) requestAnimationFrame(() => requestAnimationFrame(() => nodeRefs.current[s]?.scrollIntoView({ block: "start", behavior: reduced() ? "auto" : "smooth" })));
   };
   const hover = (s, on) => { if (on) { setHot(s); setTick((n) => n + 1); } };
-  const sel = nodes.find((v) => v.slug === slug) || nodes[0];
-  const peek = nodes.find((v) => v.slug === hot) || sel;
+  const sel = partners.find((v) => v.slug === slug) || partners[0];
+  const peek = nodes.find((v) => v.slug === hot) || nodes.find((v) => v.slug === pin) || sel;
   const facts = EXCHANGE_FACTS[sel.slug];
   const peekFacts = EXCHANGE_FACTS[peek.slug];
   const BrandMark = kit.BrandMark;
   const nodeKey = intent === "perps" ? "perp" : "spot";
   const panelId = `${uid}-panel`;
   const selIdx = Math.max(0, nodes.findIndex((v) => v.slug === sel.slug));
+  const activeSlug = pin || sel.slug;
 
   return (
     <>
@@ -392,7 +385,7 @@ function Finder({ kit, tail }) {
         <ul className="rf-list" aria-labelledby={`${uid}-n`}>
           {nodes.map((v, i) => {
             const on = lit.includes(v.slug);
-            const active = v.slug === sel.slug;
+            const active = v.slug === activeSlug;
             const pair = verifiedPair(EXCHANGE_FACTS[v.slug], nodeKey);
             return (
               <li key={v.slug}>
@@ -400,7 +393,7 @@ function Finder({ kit, tail }) {
                   type="button"
                   ref={(el) => { nodeRefs.current[v.slug] = el; }}
                   className="rf-node"
-                  style={{ "--ord": 10 + i * 2 }}
+                  style={{ "--ord": 10 + i * 2, "--k": Math.max(0, lit.indexOf(v.slug)) }}
                   data-on={on}
                   data-active={active}
                   data-hot={hot === v.slug ? "" : undefined}
@@ -430,7 +423,7 @@ function Finder({ kit, tail }) {
         </ul>
       </div>
 
-      <div className="rf-card" id={panelId} ref={cardRef} role="region" aria-label={sel.name} style={{ "--ord": 11 + selIdx * 2, ...(reserve ? { minBlockSize: `${reserve}px` } : null) }} key={sel.slug}>
+      <div className="rf-card" id={panelId} ref={cardRef} role="region" aria-label={sel.name} style={{ "--ord": 11 + selIdx * 2, ...(reserve ? { minBlockSize: `${reserve}px` } : null) }} key={sel.slug} data-swap={swap || undefined}>
         <div className="rf-card__head">
           <span className="rf-card__who"><BrandMark slug={sel.slug} priority /><b translate="no" lang="en">{sel.name}</b><small translate="no" lang="en">{sel.category}</small></span>
           <Facts className="rf-facts" facts={facts} intent={intent} t={t} locale={locale} tick={tick} />
@@ -445,25 +438,19 @@ function Finder({ kit, tail }) {
         <a className="rf-btn rf-btn--ghost" href={kit.compareHref}>{kit.compareLabel}</a>
       </div>
 
-      {/* One quiet index row at the foot of the hero: the legacy link carriers (Telegram, directory counts, Brazil entry, section nav)
-          stay in the DOM in their original order; they are just set as small text, not a pill cloud. */}
-      <div className="rf-foot">
-        <a className="rf-tg" href={kit.telegram.href} target="_blank" rel="noopener noreferrer"><span>{kit.telegram.label}</span><span aria-hidden="true">{"↗"}</span></a>
-        <div className="rf-pills">
-          {kit.pills.map((p) => <a key={p.text} href={p.href} className="rf-pill">{p.text}</a>)}
-        </div>
-        {tail}
-      </div>
+      {/* The "On this page" nav stays in the DOM (keyboard / screen readers; visible on focus). Its acts are named on the
+          page rail. Telegram, directory facets and the Brazil entry moved to the closing index. */}
+      <div className="rf-skip">{tail}</div>
 
       <svg className="rf-svg" width={geo.w} height={geo.h} viewBox={`0 0 ${geo.w || 1} ${geo.h || 1}`} aria-hidden="true" focusable="false">
         {geo.chain.map((d, i) => <path key={`s${i}`} className="rf-route__line rf-route__line--chain" d={d} />)}
         {geo.base.map((r, i) => (
-          <g key={`${intent}-${r.slug}`} className={`rf-route${hot === r.slug ? " is-hot" : ""}`} style={{ "--i": i }}>
+          <g key={`${intent}-${r.slug}`} className={`rf-route${hot === r.slug && r.slug !== activeSlug ? " is-hot" : ""}`} style={{ "--i": i }}>
             <path className="rf-route__line" d={r.d} pathLength="1" />
           </g>
         ))}
         {geo.fan.length > 0 && (
-          <g key={`${intent}-${sel.slug}-on`} className="rf-route is-on">
+          <g key={`${intent}-${activeSlug}-on`} className="rf-route is-on">
             {[...geo.chain, ...geo.fan].map((d, i) => <path key={i} className="rf-route__line rf-route__line--on" style={{ "--seg": i }} d={d} pathLength="1" />)}
             <path className="rf-route__pulse" d={geo.fan[0]} pathLength="1" />
           </g>
@@ -478,7 +465,7 @@ function Finder({ kit, tail }) {
 
 const nameOf = (el) => el?.type?.displayName || el?.type?.name || "";
 
-export function RouteFinder({ legacy }) {
+export function RouteFinder({ legacy, venues }) {
   // Re-host the legacy hero parts (ticker, hero, Brazil entry, section nav) inside the V6 layout. The Brazil entry and the section
   // nav move into the finder's quiet foot row; their hrefs keep the same DOM order (they followed the hero's links before too).
   const top = isValidElement(legacy) ? Children.toArray(legacy.props.children) : [];
@@ -487,9 +474,9 @@ export function RouteFinder({ legacy }) {
   const nav = top.find((el) => el !== boundary);
   const kids = Children.toArray(boundary.props.children);
   const brazil = kids.find((c) => nameOf(c).includes("Brazil"));
-  const tail = <>{brazil}{nav}</>;
+  const tail = nav;
   const parts = kids.filter((c) => c !== brazil).map((c) => (nameOf(c).includes("LeanHero")
-    ? cloneElement(c, { render: (kit) => <Finder kit={kit} tail={tail} /> })
+    ? cloneElement(c, { render: (kit) => <Finder kit={kit} tail={tail} venues={venues} /> })
     : c));
   return (
     <section className="rf" aria-label="NexuAlpha">

@@ -240,7 +240,6 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
     else { const end = Math.max(j, i + 1); for (let k = i; k < end; k += 1) items.push({ row: visible[k], key: visible[k].slug }); i = end; }
   }
   const selAt = items.map((it, i) => (it.row && compareSelection.includes(it.row.slug) ? i : -1)).filter((i) => i >= 0);
-  const firstSignup = visible.find((r) => r.canOpenRegistration)?.slug;
   const routeLo = selAt.length > 1 ? Math.min(...selAt) : -1;
   const routeHi = selAt.length > 1 ? Math.max(...selAt) : -1;
   const segIndex = Math.max(0, SEGMENTS.findIndex((s) => s.id === category));
@@ -471,7 +470,6 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                         target="_blank"
                         rel="sponsored noopener noreferrer"
                         className="dir6-cta"
-                        data-primary={r.slug === firstSignup || undefined}
                         data-cta-kind="registration"
                         data-cta-platform={r.slug}
                         data-cta-placement="directory-card"

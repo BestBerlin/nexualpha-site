@@ -1,0 +1,60 @@
+// V6 home copy (route finder, closing band, route rail). Lives beside LeanHero so it ships in the home chunk, not the app shell.
+export const RF_T = {
+  en: { chk: "Checked", group: "What do you want to do?", venues: "Venues for this route", none: "Not yet checked", spot: "Spot", perp: "Perp", off: "Not offered on this route", mt: "Maker / taker", i: { spot: ["Spot", "Buy and sell coins"], perps: ["Perps", "Leveraged contracts"], fiat: ["Fiat on-ramp", "Card, bank or P2P"], chain: ["On-chain", "DEX trading from a wallet"] } },
+  "zh-Hans": { chk: "核验于", group: "你想做什么?", venues: "适用此路线的平台", none: "尚未核验", spot: "现货", perp: "永续", off: "此路线不提供", mt: "挂单 / 吃单", i: { spot: ["现货", "买卖币种"], perps: ["永续合约", "杠杆合约"], fiat: ["法币入金", "银行卡、转账或 P2P"], chain: ["链上", "钱包直连 DEX 交易"] } },
+  "zh-Hant": { chk: "核驗於", group: "你想做什麼?", venues: "適用此路線的平台", none: "尚未核驗", spot: "現貨", perp: "永續", off: "此路線不提供", mt: "掛單 / 吃單", i: { spot: ["現貨", "買賣幣種"], perps: ["永續合約", "槓桿合約"], fiat: ["法幣入金", "銀行卡、轉帳或 P2P"], chain: ["鏈上", "錢包直連 DEX 交易"] } },
+  ja: { chk: "確認日", group: "何をしたいですか?", venues: "このルートの取引所", none: "未確認", spot: "現物", perp: "無期限", off: "このルートは非対応", mt: "メイカー / テイカー", i: { spot: ["現物", "コインの売買"], perps: ["無期限先物", "レバレッジ取引"], fiat: ["法定通貨入金", "カード・銀行・P2P"], chain: ["オンチェーン", "ウォレットからDEX取引"] } },
+  ko: { chk: "확인일", group: "무엇을 하고 싶으세요?", venues: "이 경로의 플랫폼", none: "확인 전", spot: "현물", perp: "무기한", off: "이 경로 미지원", mt: "메이커 / 테이커", i: { spot: ["현물", "코인 매매"], perps: ["무기한 선물", "레버리지 계약"], fiat: ["법정화폐 입금", "카드, 은행, P2P"], chain: ["온체인", "지갑에서 DEX 거래"] } },
+  tr: { chk: "Kontrol tarihi", group: "Ne yapmak istiyorsunuz?", venues: "Bu rotadaki platformlar", none: "Henüz kontrol edilmedi", spot: "Spot", perp: "Vadesiz", off: "Bu rotada yok", mt: "Maker / taker", i: { spot: ["Spot", "Coin al-sat"], perps: ["Vadesiz", "Kaldıraçlı sözleşmeler"], fiat: ["Fiat girişi", "Kart, banka veya P2P"], chain: ["Zincir üstü", "Cüzdanla DEX işlemi"] } },
+  es: { chk: "Revisado el", group: "¿Qué quieres hacer?", venues: "Plataformas para esta ruta", none: "Aún sin revisar", spot: "Spot", perp: "Perp", off: "No disponible en esta ruta", mt: "Maker / taker", i: { spot: ["Spot", "Compra y venta de monedas"], perps: ["Perpetuos", "Contratos con apalancamiento"], fiat: ["Entrada fiat", "Tarjeta, banco o P2P"], chain: ["On-chain", "DEX desde tu wallet"] } },
+  "pt-BR": { chk: "Verificado em", group: "O que você quer fazer?", venues: "Plataformas para esta rota", none: "Ainda não verificado", spot: "Spot", perp: "Perp", off: "Indisponível nesta rota", mt: "Maker / taker", i: { spot: ["Spot", "Compre e venda moedas"], perps: ["Perpétuos", "Contratos alavancados"], fiat: ["Entrada fiat", "Cartão, banco ou P2P"], chain: ["On-chain", "DEX direto da carteira"] } },
+  fr: { chk: "Vérifié le", group: "Que voulez-vous faire ?", venues: "Plateformes pour cette route", none: "Pas encore vérifié", spot: "Spot", perp: "Perp", off: "Non proposé sur cette route", mt: "Maker / taker", i: { spot: ["Spot", "Acheter et vendre"], perps: ["Perpétuels", "Contrats à effet de levier"], fiat: ["Entrée fiat", "Carte, banque ou P2P"], chain: ["On-chain", "DEX depuis le wallet"] } },
+  de: { chk: "Geprüft am", group: "Was möchten Sie tun?", venues: "Plattformen für diese Route", none: "Noch nicht geprüft", spot: "Spot", perp: "Perp", off: "Auf dieser Route nicht verfügbar", mt: "Maker / Taker", i: { spot: ["Spot", "Coins kaufen und verkaufen"], perps: ["Perps", "Hebel-Kontrakte"], fiat: ["Fiat-Einzahlung", "Karte, Bank oder P2P"], chain: ["On-Chain", "DEX direkt aus der Wallet"] } },
+  ru: { chk: "Проверено", group: "Что вы хотите сделать?", venues: "Платформы для этого маршрута", none: "Ещё не проверено", spot: "Спот", perp: "Бессрочные", off: "Недоступно на этом маршруте", mt: "Мейкер / тейкер", i: { spot: ["Спот", "Покупка и продажа монет"], perps: ["Перпетуалы", "Бессрочные контракты с плечом"], fiat: ["Ввод фиата", "Карта, банк или P2P"], chain: ["Ончейн", "DEX из кошелька"] } },
+  ar: { chk: "تاريخ التحقق", group: "ماذا تريد أن تفعل؟", venues: "المنصات لهذا المسار", none: "لم يُتحقق بعد", spot: "فوري", perp: "دائم", off: "غير متاح في هذا المسار", mt: "صانع / آخذ", i: { spot: ["فوري", "شراء العملات وبيعها"], perps: ["عقود دائمة", "عقود برافعة"], fiat: ["إيداع نقدي", "بطاقة أو بنك أو P2P"], chain: ["على السلسلة", "DEX من المحفظة"] } },
+  id: { chk: "Diperiksa", group: "Apa yang ingin Anda lakukan?", venues: "Platform untuk rute ini", none: "Belum diperiksa", spot: "Spot", perp: "Perp", off: "Tidak tersedia di rute ini", mt: "Maker / taker", i: { spot: ["Spot", "Beli dan jual koin"], perps: ["Perpetual", "Kontrak berleverage"], fiat: ["Setor fiat", "Kartu, bank, atau P2P"], chain: ["On-chain", "DEX langsung dari dompet"] } },
+  vi: { chk: "Kiểm tra ngày", group: "Bạn muốn làm gì?", venues: "Nền tảng cho lộ trình này", none: "Chưa kiểm tra", spot: "Giao ngay", perp: "Vĩnh cửu", off: "Không hỗ trợ ở lộ trình này", mt: "Maker / taker", i: { spot: ["Giao ngay", "Mua bán coin"], perps: ["Vĩnh cửu", "Hợp đồng đòn bẩy"], fiat: ["Nạp fiat", "Thẻ, ngân hàng hoặc P2P"], chain: ["On-chain", "DEX từ ví"] } },
+  it: { chk: "Verificato il", group: "Cosa vuoi fare?", venues: "Piattaforme per questa rotta", none: "Non ancora verificato", spot: "Spot", perp: "Perp", off: "Non disponibile su questa rotta", mt: "Maker / taker", i: { spot: ["Spot", "Compra e vendi monete"], perps: ["Perpetui", "Contratti con leva"], fiat: ["Ingresso fiat", "Carta, banca o P2P"], chain: ["On-chain", "DEX dal wallet"] } },
+};
+export const RF_HUB = {
+  en: ["You", "Official domain check"], "zh-Hans": ["你", "官方域名核验"], "zh-Hant": ["你", "官方網域核驗"], ja: ["あなた", "公式ドメイン確認"],
+  ko: ["나", "공식 도메인 확인"], tr: ["Siz", "Resmî alan adı kontrolü"], es: ["Tú", "Verificación del dominio oficial"], "pt-BR": ["Você", "Checagem do domínio oficial"],
+  fr: ["Vous", "Vérification du domaine officiel"], de: ["Sie", "Prüfung der offiziellen Domain"], ru: ["Вы", "Проверка официального домена"], ar: ["أنت", "فحص النطاق الرسمي"],
+  id: ["Anda", "Cek domain resmi"], vi: ["Bạn", "Kiểm tra tên miền chính thức"], it: ["Tu", "Verifica del dominio ufficiale"],
+};
+export const CLOSE_COPY = {
+  en: { title: "Pick your route. Then open the account.", lead: "Start from the directory, or put two platforms side by side first. Every sign-up link goes to the official page.", dir: "Browse the directory", cmp: "Compare two platforms", note: "Official sign-up pages only. Affiliate links are disclosed." },
+  "zh-Hans": { title: "选好路线，再去开户。", lead: "从平台目录开始，或先把两家平台并排对比。每个注册入口都指向官方页面。", dir: "浏览平台目录", cmp: "对比两家平台", note: "仅链接官方注册页，推广关系已披露。" },
+  "zh-Hant": { title: "選好路線，再去開戶。", lead: "從平台目錄開始，或先把兩家平台並排比較。每個註冊入口都指向官方頁面。", dir: "瀏覽平台目錄", cmp: "比較兩家平台", note: "僅連結官方註冊頁，推廣關係已揭露。" },
+  ja: { title: "ルートを選んで、口座を開く。", lead: "ディレクトリから始めるか、まず2つのプラットフォームを並べて比較。登録リンクはすべて公式ページに移動します。", dir: "ディレクトリを見る", cmp: "2社を比較する", note: "公式の登録ページのみ。アフィリエイト関係は開示しています。" },
+  ko: { title: "경로를 고르고, 계정을 여세요.", lead: "디렉터리에서 시작하거나 두 플랫폼을 먼저 나란히 비교하세요. 모든 가입 링크는 공식 페이지로 연결됩니다.", dir: "디렉터리 보기", cmp: "두 플랫폼 비교", note: "공식 가입 페이지만 연결하며 제휴 관계를 공개합니다." },
+  tr: { title: "Rotanı seç, sonra hesabı aç.", lead: "Dizinle başla ya da önce iki platformu yan yana karşılaştır. Tüm kayıt bağlantıları resmî sayfaya gider.", dir: "Dizine göz at", cmp: "İki platformu karşılaştır", note: "Yalnızca resmî kayıt sayfaları. Ortaklık ilişkisi açıkça belirtilir." },
+  ru: { title: "Выберите маршрут. Затем откройте счёт.", lead: "Начните с каталога или сначала сравните две платформы. Все ссылки на регистрацию ведут на официальные страницы.", dir: "Открыть каталог", cmp: "Сравнить две платформы", note: "Только официальные страницы регистрации. Партнёрские связи раскрыты." },
+  de: { title: "Route wählen. Dann Konto eröffnen.", lead: "Starten Sie im Verzeichnis oder stellen Sie zuerst zwei Plattformen gegenüber. Jeder Anmeldelink führt zur offiziellen Seite.", dir: "Verzeichnis ansehen", cmp: "Zwei Plattformen vergleichen", note: "Nur offizielle Anmeldeseiten. Affiliate-Beziehungen sind offengelegt." },
+  fr: { title: "Choisissez la route. Puis ouvrez le compte.", lead: "Commencez par l’annuaire, ou comparez d’abord deux plateformes côte à côte. Chaque lien d’inscription mène à la page officielle.", dir: "Parcourir l’annuaire", cmp: "Comparer deux plateformes", note: "Pages d’inscription officielles uniquement. Les liens d’affiliation sont indiqués." },
+  es: { title: "Elige la ruta. Luego abre la cuenta.", lead: "Empieza por el directorio o compara primero dos plataformas lado a lado. Cada enlace de registro lleva a la página oficial.", dir: "Ver el directorio", cmp: "Comparar dos plataformas", note: "Solo páginas de registro oficiales. Los enlaces de afiliado se declaran." },
+  "pt-BR": { title: "Escolha a rota. Depois abra a conta.", lead: "Comece pelo diretório ou compare duas plataformas lado a lado. Todo link de cadastro leva à página oficial.", dir: "Ver o diretório", cmp: "Comparar duas plataformas", note: "Apenas páginas oficiais de cadastro. Links de afiliado são divulgados." },
+  it: { title: "Scegli la rotta. Poi apri il conto.", lead: "Parti dalla directory o confronta prima due piattaforme fianco a fianco. Ogni link di registrazione porta alla pagina ufficiale.", dir: "Sfoglia la directory", cmp: "Confronta due piattaforme", note: "Solo pagine di registrazione ufficiali. I link di affiliazione sono dichiarati." },
+  id: { title: "Pilih rutenya. Lalu buka akun.", lead: "Mulai dari direktori, atau bandingkan dua platform berdampingan lebih dulu. Setiap tautan pendaftaran mengarah ke halaman resmi.", dir: "Lihat direktori", cmp: "Bandingkan dua platform", note: "Hanya halaman pendaftaran resmi. Tautan afiliasi diungkapkan." },
+  vi: { title: "Chọn lộ trình. Rồi mở tài khoản.", lead: "Bắt đầu từ danh bạ, hoặc đặt hai nền tảng cạnh nhau trước. Mọi liên kết đăng ký đều dẫn tới trang chính thức.", dir: "Xem danh bạ", cmp: "So sánh hai nền tảng", note: "Chỉ trang đăng ký chính thức. Liên kết tiếp thị liên kết được công khai." },
+  ar: { title: "اختر المسار. ثم افتح الحساب.", lead: "ابدأ من الدليل، أو قارن منصتين جنبًا إلى جنب أولًا. كل رابط تسجيل يقود إلى الصفحة الرسمية.", dir: "تصفّح الدليل", cmp: "قارن بين منصتين", note: "صفحات التسجيل الرسمية فقط. علاقات الإحالة معلنة." },
+};
+// Route-rail dock labels (act names) and the closing index's extra group labels: [compare, verify, directory, account, more]
+export const RAIL = {
+  en: ["Compare", "Verify", "Directory", "Open account", "More routes"],
+  "zh-Hans": ["对比", "核验", "目录", "开户", "更多入口"],
+  "zh-Hant": ["比較", "核驗", "目錄", "開戶", "更多入口"],
+  ja: ["比較", "確認", "一覧", "口座開設", "その他"],
+  ko: ["비교", "확인", "목록", "계정 개설", "더 보기"],
+  tr: ["Karşılaştır", "Doğrula", "Dizin", "Hesap aç", "Diğer rotalar"],
+  es: ["Comparar", "Verificar", "Directorio", "Abrir cuenta", "Más rutas"],
+  "pt-BR": ["Comparar", "Verificar", "Diretório", "Abrir conta", "Mais rotas"],
+  fr: ["Comparer", "Vérifier", "Annuaire", "Ouvrir un compte", "Autres routes"],
+  de: ["Vergleich", "Prüfen", "Verzeichnis", "Konto eröffnen", "Weitere Routen"],
+  ru: ["Сравнить", "Проверить", "Каталог", "Открыть счёт", "Другие маршруты"],
+  ar: ["قارن", "تحقق", "الدليل", "افتح حسابًا", "مسارات أخرى"],
+  id: ["Bandingkan", "Verifikasi", "Direktori", "Buka akun", "Rute lain"],
+  vi: ["So sánh", "Xác minh", "Danh bạ", "Mở tài khoản", "Lộ trình khác"],
+  it: ["Confronta", "Verifica", "Directory", "Apri il conto", "Altre rotte"],
+};
+export const pickLocale = (m, locale) => m[locale] || m[String(locale || "en").split("-")[0]] || m.en;

@@ -8,7 +8,7 @@ import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
 import { directoryContext } from "../../data/directory-context.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { prefersReducedMotion } from "../../lib/v5/useInView.js";
-import { labText } from "./compare-lab-copy.js";
+import { labText } from "../v3/LeanHeroCopyLab.js";
 import { comparePathFor } from "./compare-routes.js";
 import "../../styles/v6/compare-lab.css";
 
@@ -53,9 +53,17 @@ function Cell({ side, name, value, scale, other, locale, pending, text }) {
 
 const Arrow = () => <svg className="cl-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>;
 
+export function keepInStrip(strip, el) {
+  if (!strip || !el || strip.scrollWidth <= strip.clientWidth) return;
+  const sr = strip.getBoundingClientRect(), er = el.getBoundingClientRect(), pad = 24;
+  const d = er.left < sr.left + pad ? er.left - sr.left - pad : er.right > sr.right - pad ? er.right - sr.right + pad : 0;
+  if (d) strip.scrollBy({ left: d, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+}
+
 function Chips({ slot, cur, chips, label, nameOf, onPick, onDown, onKey, hintId, grabbed }) {
   const ref = useRef(null);
   useScrollEdges(ref);
+  useEffect(() => { keepInStrip(ref.current, ref.current?.querySelector(`[data-venue="${cur}"]`)); }, [cur]);
   return (
     <div className={`cl-pick cl-pick--${slot ? "b" : "a"}`} role="radiogroup" aria-label={label}>
       <span className="cl-pick__label v6-meta" aria-hidden="true">{label}</span>
@@ -347,19 +355,18 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
 
           <p className="cl-sr" role="status" aria-live="polite">{say || status}</p>
 
-          {gap && (
-            <div className="cl-gap" role="group" aria-label={t.gap}>
-              <p className="cl-gap__fig" aria-hidden="true">
-                <Fig v={gap.v} locale={locale} suffix="" className="cl-gap__num v6-num" />
-                <span className="cl-gap__unit v6-num">pp</span>
-              </p>
-              <p className="cl-gap__cap">
-                <span className="cl-gap__label v6-small">{t.gap}</span>
-                <span className="cl-gap__low v6-meta">{gap.low ? t.lower.replace("{n}", gap.low).replace("{row}", gap.row) : t.same}</span>
-              </p>
-              <span className="cl-sr">{`${t.gap}: ${fmt(gap.v, locale, " pp")}. ${gap.low ? t.lower.replace("{n}", gap.low).replace("{row}", gap.row) : t.same}`}</span>
-            </div>
-          )}
+          {/* Always mounted (no 80px jump): a venue without a checked spot fee shows a dash and "Not yet checked". */}
+          <div className="cl-gap" role="group" aria-label={t.gap} data-none={gap ? undefined : ""}>
+            <p className="cl-gap__fig" aria-hidden="true">
+              {gap ? <Fig v={gap.v} locale={locale} suffix="" className="cl-gap__num v6-num" /> : <span className="cl-gap__num v6-num">{"\u2013"}</span>}
+              <span className="cl-gap__unit v6-num">pp</span>
+            </p>
+            <p className="cl-gap__cap">
+              <span className="cl-gap__label v6-small">{t.gap}</span>
+              <span className="cl-gap__low v6-meta">{gap ? (gap.low ? t.lower.replace("{n}", gap.low).replace("{row}", gap.row) : t.same) : t.nc}</span>
+            </p>
+            <span className="cl-sr">{gap ? `${t.gap}: ${fmt(gap.v, locale, " pp")}. ${gap.low ? t.lower.replace("{n}", gap.low).replace("{row}", gap.row) : t.same}` : `${t.gap}: ${t.nc}`}</span>
+          </div>
 
           <div className="cl-ledger" id="bleed-analyzer">
             {rows.map((r) => (

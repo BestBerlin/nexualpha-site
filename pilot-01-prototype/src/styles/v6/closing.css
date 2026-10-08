@@ -5,8 +5,8 @@
   --idx-gap: var(--s-6);
   /* one graphite site: the band is a single step lighter (--n2), never a second (cream) theme. Turquoise only on the CTA and the live route. */
   --paper: var(--n2); --ink: var(--text-strong); --ink-2: var(--text); --ink-3: var(--text-muted);
-  /* The closing statement uses the hero display step: 72 desktop / 44 phone (never above the H1, never 138). */
-  --t-display: 2.75rem;
+  /* The closing statement sits on the section step (44 desktop / 28 phone): the hero H1 stays the single 72 peak. */
+  --t-display: 1.75rem;
   /* the directory above ends with half a section pad; the band opens with the other half: one 128 / 72 rhythm, no stacked void */
   --close-pad: calc(var(--section-pad) / 2);
   padding-block: 0;
@@ -26,7 +26,7 @@
   margin: 0; color: var(--ink); font-size: var(--t-display); line-height: 1.05; letter-spacing: -0.035em; font-weight: 600; text-wrap: balance; max-inline-size: 100%;
 }
 .v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { line-height: 1.15; letter-spacing: -0.02em; word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
-@media (min-width: 48rem) { .v6 .v6-close { --t-display: 4.5rem; } }
+@media (min-width: 48rem) { .v6 .v6-close { --t-display: 2.75rem; } }
 .v6 .v6-close .v6-close__title:lang(ar):not(#_):not(#_) { letter-spacing: 0; line-height: 1.15; }
 .v6 .v6-close__line { display: block; }
 .v6 .v6-close__w { display: inline-block; overflow: hidden; vertical-align: top; padding-block: 0.1em; margin-block: -0.1em; padding-inline: 0.02em; margin-inline: -0.02em; }
@@ -48,7 +48,7 @@
 .v6 [dir="rtl"] .v6-close__route { transform: scaleX(-1); }
 .v6 .v6-close .v6-close__cta:not(#_):not(#_) {
   flex: none; min-block-size: 56px; padding-inline: var(--s-8); border: 1px solid transparent; border-radius: var(--r-md);
-  background: var(--accent); color: var(--on-accent); font-size: var(--t-16); font-weight: 600; line-height: 1.2; white-space: nowrap; box-shadow: none;
+  background: var(--accent); color: var(--on-accent); font-size: var(--t-16); font-weight: 600; line-height: 1.15; white-space: nowrap; box-shadow: none;
   display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2); cursor: pointer; font-family: inherit;
   transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out), transform var(--dur-1) var(--ease-out);
 }
@@ -99,10 +99,10 @@
 }
 .v6 .v6-close__index .home-research-drawer > summary::-webkit-details-marker { display: none; }
 .v6 .v6-close__index .home-research-drawer > summary > strong:not(#_):not(#_) {
-  grid-column: 1 / span 4; grid-row: 1; font-size: var(--t-20); line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; color: var(--text-strong);
+  grid-column: 1 / span 4; grid-row: 1; font-size: var(--t-20); line-height: 1.15; font-weight: 600; letter-spacing: -0.01em; color: var(--text-strong);
 }
 .v6 .v6-close__index .home-research-drawer > summary > span:not(#_):not(#_) {
-  grid-column: 5 / span 7; grid-row: 1; font-size: var(--t-14); line-height: 1.5; color: var(--text-muted); max-inline-size: var(--measure);
+  grid-column: 5 / span 7; grid-row: 1; font-size: var(--t-14); line-height: 1.55; color: var(--text-muted); max-inline-size: var(--measure);
 }
 .v6 .v6-close__index .home-research-drawer > summary > b:not(#_):not(#_) {
   grid-column: 12; grid-row: 1; justify-self: end; align-self: center; position: relative; inline-size: 20px; block-size: 20px; font-size: var(--t-12); line-height: 20px; text-indent: 200%; white-space: nowrap; overflow: hidden;
@@ -128,10 +128,10 @@
 .v6 .v6-close__index .crawl-priority-links__intro::-webkit-details-marker { display: none; }
 .v6 .v6-close__index .crawl-priority-links__intro b:not(#_):not(#_) { display: none; }
 .v6 .v6-close__index .crawl-priority-links__intro strong:not(#_):not(#_) {
-  grid-column: 1 / span 4; grid-row: 1; font-size: var(--t-20); line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; color: var(--text-strong);
+  grid-column: 1 / span 4; grid-row: 1; font-size: var(--t-20); line-height: 1.15; font-weight: 600; letter-spacing: -0.01em; color: var(--text-strong);
 }
 .v6 .v6-close__index .crawl-priority-links__intro span:not(#_):not(#_) {
-  grid-column: 5 / span 7; max-inline-size: var(--measure); font-size: var(--t-14); line-height: 1.5; color: var(--text-muted);
+  grid-column: 5 / span 7; max-inline-size: var(--measure); font-size: var(--t-14); line-height: 1.55; color: var(--text-muted);
 }
 
 /* groups: label in cols 1-4, links flow in two columns (5-8, 9-12) */
@@ -142,11 +142,11 @@
 }
 .v6 .v6-close__index .crawl-priority-links__group > span:not(#_):not(#_) {
   grid-column: 1 / span 3; grid-row: 1 / span 8; margin: 0; padding-block: var(--s-3);
-  font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", "Pilot Noto Arabic", sans-serif; font-size: var(--t-14); line-height: 1.5; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-muted);
+  font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", "Pilot Noto Arabic", sans-serif; font-size: var(--t-14); line-height: 1.55; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-muted);
 }
 .v6 .v6-close__index .crawl-priority-links__group a:not(#_):not(#_) {
   grid-column: span 3; justify-self: start; display: inline-flex; align-items: center; min-block-size: 44px; max-inline-size: 100%;
-  padding-block: var(--s-2); font-size: var(--t-16); line-height: 1.35; font-weight: 400; letter-spacing: 0;
+  padding-block: var(--s-2); font-size: var(--t-16); line-height: 1.15; font-weight: 400; letter-spacing: 0;
   color: var(--n11); text-decoration: none; overflow-wrap: break-word;
   background: linear-gradient(var(--n12), var(--n12)) 0 calc(100% - 8px) / 0 1px no-repeat;
   transition: color var(--dur-1) var(--ease-out), background-size var(--dur-3) var(--ease-out);
@@ -216,13 +216,22 @@
 }
 
 /* The footer h2 loses to `.v5 h2` on the home (footer sits inside the v5 main); restore its intended small title. */
-.v6 .nx-ftr .nx-ftr__title { font-size: var(--t-16); line-height: 1.4; font-weight: 600; letter-spacing: -0.005em; }
+.v6 .nx-ftr .nx-ftr__title { font-size: var(--t-16); line-height: 1.55; font-weight: 600; letter-spacing: -0.005em; }
 
 /* ---------- footer on the page container (shared with every act: 1200 wide, 24px gutters), without touching shell.css ---------- */
 #top.v6 .nx-ftr__inner { inline-size: min(100% - 2 * var(--gutter), var(--container)); max-inline-size: none; padding-inline: 0; box-sizing: border-box; margin-inline: auto; }
 #top.v6 .nx-ftr { overflow-x: clip; }
 /* CJK clauses are unbreakable units: on a phone the display step drops to the 28 step so a clause never wraps (no stranded punctuation) */
-@media (max-width: 30rem) { .v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-display: 1.75rem; line-height: 1.25; } }
+@media (max-width: 30rem) { .v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-display: 1.75rem; line-height: 1.15; } }
 /* the act above closes with half a section pad (the band supplies the other half) */
 #top.v6 .dir6.v6-section:has(+ .v6-close) { padding-block-end: calc(var(--section-pad) / 2); }
 .v6 .v6-close__band { border-block-start: 1px solid var(--line); }
+
+/* ======================= R5 ======================= */
+/* the hero foot's links, re-homed as two more index rows (same anatomy as Related research) */
+.v6 .v6-close__index .v6-close__more:not(#_):not(#_) a.br-entry-link { display: inline-flex; align-items: center; inline-size: auto; margin: 0; padding-block: var(--s-2); padding-inline: 0; border: 0; border-radius: 0; background-color: transparent; }
+.v6 .v6-close__index .v6-close__more .br-entry-link span { font-size: var(--t-16); line-height: 1.15; font-weight: 400; color: inherit; }
+.v6 .v6-close__index .v6-close__more .br-entry-link small { display: none; }
+.v6 .v6-close__index .v6-close__more:last-child { border-block-end: 1px solid var(--line); }
+/* bottom nav: narrow labels (ja / ar) still get a 44px wide target */
+#top.v6 .mobile-bottom-nav :is(a, button).mobile-bottom-nav__item { min-inline-size: 48px; min-block-size: 44px; flex: 1 1 0; }
