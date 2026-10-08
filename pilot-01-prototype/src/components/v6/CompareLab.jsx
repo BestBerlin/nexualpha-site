@@ -286,7 +286,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   const fa = EXCHANGE_FACTS[a], fb = EXCHANGE_FACTS[b];
   const date = (f) => {
     if (f?.status !== "verified" || !f.verifiedOn) return null;
-    try { return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(f.verifiedOn)); } catch { return f.verifiedOn; }
+    return String(f.verifiedOn).slice(0, 10); // ISO, as on every inner page
   };
   const val = (f, g, i) => (f?.status === "verified" ? f[g]?.[i] ?? null : null);
   // Rows with no figure on either side disappear; whatever is missing is named once, in one quiet line.

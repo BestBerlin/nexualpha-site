@@ -128,23 +128,6 @@ const activitySupportSummary = {
   "it": "Note sulle fonti, regole di revisione e Telegram"
 };
 
-const activityEmptyFiltersSummary = {
-  "en": "Activity categories",
-  "zh-Hans": "活动分类",
-  "zh-Hant": "活動分類",
-  "ja": "お知らせの分類",
-  "ko": "소식 분류",
-  "tr": "Duyuru kategorileri",
-  "es": "Categorías de novedades",
-  "pt-BR": "Categorias de novidades",
-  "fr": "Catégories d’actualités",
-  "de": "Mitteilungskategorien",
-  "ru": "Категории объявлений",
-  "ar": "فئات الإعلانات",
-  "id": "Kategori pengumuman",
-  "vi": "Danh mục thông báo",
-  "it": "Categorie di annunci"
-};
 
 export function ActivityCenterV3({ locale = "en", market, product, venues = [], publicUpdates = [] }) {
   const activityLocaleUi = {
@@ -243,7 +226,8 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
         const count = category.key === "all"
           ? feedItemList.length
           : feedItemList.filter((update) => update.category === category.key).length;
-
+        // counts come from the same feed the rows render; an empty category is not offered as a filter
+        if (category.key !== "all" && count === 0) return null;
         return <button
           key={category.key}
           type="button"
@@ -252,7 +236,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
           onClick={() => setFilter(category.key)}
         >
           <span>{category.label}</span>
-          <b translate="no" lang="en">{count}</b>
+          <b className="activity-center-v3__chip-count" translate="no" lang="en">{count}</b>
         </button>;
       })}
     </div>
@@ -321,10 +305,6 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
       </div>
     </div>}
 
-    {feedItemList.length === 0 && <details className="activity-center-v3__support-details activity-center-v3__empty-filter-details">
-      <summary>{activityEmptyFiltersSummary[locale] || activityEmptyFiltersSummary.en}</summary>
-      {filterControls}
-    </details>}
 
     <section className="activity-center-v3__rewards activity-research-desk" aria-labelledby="activity-center-v3-rewards-title">
       <div className="activity-center-v3__sources-head activity-research-desk__heading">

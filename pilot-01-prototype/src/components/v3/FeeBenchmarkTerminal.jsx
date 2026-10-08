@@ -560,7 +560,8 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
     };
   }).filter((r) => {
     if (filter === "cex") return r.category === "CEX";
-    if (filter === "dex") return r.category === "Perp DEX";
+    if (filter === "dex") return r.category === "DEX";
+    if (filter === "perpdex") return r.category === "Perp DEX";
     return true;
   });
   // Venues with nothing checked collapse into one row; their links and actions stay in it.
@@ -675,27 +676,18 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
         <p className="fee-terminal__subtitle">{t.subtitle}</p>
 
         <nav className="fee-terminal__filters" aria-label={t.eyebrow}>
-          <button
-            type="button"
-            className={`fee-terminal__filter-btn ${filter === "all" ? "fee-terminal__filter-btn--active" : ""}`}
-            onClick={() => setFilter("all")}
-          >
-            {t.filterAll}
-          </button>
-          <button
-            type="button"
-            className={`fee-terminal__filter-btn ${filter === "cex" ? "fee-terminal__filter-btn--active" : ""}`}
-            onClick={() => setFilter("cex")}
-          >
-            {t.filterCex}
-          </button>
-          <button
-            type="button"
-            className={`fee-terminal__filter-btn ${filter === "dex" ? "fee-terminal__filter-btn--active" : ""}`}
-            onClick={() => setFilter("dex")}
-          >
-            {t.filterDex}
-          </button>
+          {/* the same segment set and labels as /exchanges: All / CEX / DEX / Perp DEX */}
+          {[["all", mx.all || "All"], ["cex", "CEX"], ["dex", "DEX"], ["perpdex", "Perp DEX"]].map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              aria-pressed={filter === key}
+              className={`fee-terminal__filter-btn ${filter === key ? "fee-terminal__filter-btn--active" : ""}`}
+              onClick={() => setFilter(key)}
+            >
+              <span translate={key === "all" ? undefined : "no"}>{label}</span>
+            </button>
+          ))}
         </nav>
       </header>
 

@@ -154,7 +154,9 @@ export function ExchangeMatrix({
   }), [venues, locale, market, product, accountStage, funding, mc]);
 
   const sorted = useMemo(() => {
-    const base = verifiedFirst ? [...rows.filter((r) => r.verified), ...rows.filter((r) => !r.verified)] : rows;
+    // "Verified" = at least one fee field published as checked; a venue showing "Not yet checked" never sorts into it.
+    const isChecked = (r) => Boolean(r.spot || r.perp);
+    const base = verifiedFirst ? [...rows.filter(isChecked), ...rows.filter((r) => !isChecked(r))] : rows;
     if (!sort.key) return base;
     const val = (r) => {
       if (sort.key === "spot") return r.spot ? r.spot[1] : null;
@@ -165,7 +167,7 @@ export function ExchangeMatrix({
     // "Verified first" and a column sort compose: verified rows stay on top and each
     // group is ordered by the active column (Array#sort is stable).
     return [...base].sort((a, b) => {
-      if (verifiedFirst && a.verified !== b.verified) return a.verified ? -1 : 1;
+      if (verifiedFirst && Boolean(a.spot || a.perp) !== Boolean(b.spot || b.perp)) return a.spot || a.perp ? -1 : 1;
       const va = val(a);
       const vb = val(b);
       if (va == null && vb == null) return 0;
@@ -221,7 +223,7 @@ export function ExchangeMatrix({
     const delay = Math.min(index, 10) * 28;
     return (
       <span className="mx-fee num" dir="ltr" translate="no">
-        <CountNum value={pair[0]} run={run} delay={delay} /><i aria-hidden="true">/</i><CountNum value={pair[1]} run={run} delay={delay} /><u>%</u>
+        <CountNum value={pair[0]} run={run} delay={delay} /><u>%</u><i aria-hidden="true">/</i><CountNum value={pair[1]} run={run} delay={delay} /><u>%</u>
       </span>
     );
   };
