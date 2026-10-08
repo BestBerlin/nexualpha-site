@@ -286,3 +286,4 @@ main.v6.collection-hub-page .v3-hero-actions .button-primary:not(#_):not(#_):not
 /* activities: status chips become one quiet 12px meta line */
 :is(main, .factbook-page).v6:not(.home-refinement) :is(.official-research__state, .official-research__recheck, .activity-center-v3 [class*="__state"]):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-radius: 0; background: none; padding: 0; min-block-size: 0; font-size: var(--t-12); font-weight: 500; color: var(--ink-2); }
 :is(main, .factbook-page).v6:not(.home-refinement) .official-research__states:not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > span:last-child:not([aria-hidden]):not([class]):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink-2); }
