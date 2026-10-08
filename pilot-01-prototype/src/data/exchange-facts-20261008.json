@@ -1,0 +1,231 @@
+{
+  "as_of": "2026-10-08",
+  "units": "percent",
+  "exchanges": [
+    {
+      "slug": "binance",
+      "name": "Binance",
+      "type": "cex",
+      "fees": {
+        "spot": {
+          "maker": 0.1,
+          "taker": 0.1,
+          "note": "Regular User tier, percent. Official fee schedule."
+        },
+        "perp": {
+          "maker": null,
+          "taker": null,
+          "note": "USDS-M base rates not shown on fetched page (FAQ gives only example 0.02/0.05); left null"
+        }
+      },
+      "discount": {
+        "token": "BNB",
+        "spot_pct": 25,
+        "perp_pct": 10,
+        "note": "Spot 25% per fee schedule columns; futures 10% per FAQ, requires BNB in futures account"
+      },
+      "kyc": null,
+      "restricted_regions": [],
+      "source_urls": [
+        "https://www.binance.com/en/fee/schedule",
+        "https://www.binance.com/en/support/faq/detail/360033544231"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "verified"
+    },
+    {
+      "slug": "okx",
+      "name": "OKX",
+      "type": "cex",
+      "fees": {
+        "spot": {
+          "maker": null,
+          "taker": null,
+          "note": "unverifiable: not retrievable from official page on verified_on date"
+        },
+        "perp": {
+          "maker": null,
+          "taker": null,
+          "note": "unverifiable: not retrievable from official page on verified_on date"
+        }
+      },
+      "discount": {},
+      "kyc": null,
+      "restricted_regions": [],
+      "source_urls": [
+        "https://www.okx.com/fees",
+        "https://www.okx.com/en-us/fees"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "unverifiable"
+    },
+    {
+      "slug": "bybit",
+      "name": "Bybit",
+      "type": "cex",
+      "fees": {
+        "spot": {
+          "maker": 0.1,
+          "taker": 0.1,
+          "note": "Non-VIP, percent"
+        },
+        "perp": {
+          "maker": 0.02,
+          "taker": 0.055,
+          "note": "Row labeled 'Perpetual & Futures' (not explicitly USDT); rates may vary by region"
+        }
+      },
+      "discount": {
+        "token": "MNT",
+        "note": "Page references paying fees in MNT but states no percentage; value null"
+      },
+      "kyc": null,
+      "restricted_regions": [],
+      "source_urls": [
+        "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "verified"
+    },
+    {
+      "slug": "bitget",
+      "name": "Bitget",
+      "type": "cex",
+      "fees": {
+        "spot": {
+          "maker": null,
+          "taker": null,
+          "note": "unverifiable: not retrievable from official page on verified_on date"
+        },
+        "perp": {
+          "maker": null,
+          "taker": null,
+          "note": "unverifiable: not retrievable from official page on verified_on date"
+        }
+      },
+      "discount": {},
+      "kyc": null,
+      "restricted_regions": [],
+      "source_urls": [
+        "https://www.bitget.com/fee"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "unverifiable"
+    },
+    {
+      "slug": "coinbase",
+      "name": "Coinbase",
+      "type": "cex",
+      "fees": {
+        "spot": {
+          "maker": null,
+          "taker": null,
+          "note": "unverifiable: not retrievable from official page on verified_on date"
+        },
+        "perp": {
+          "maker": null,
+          "taker": null,
+          "note": "unverifiable: not retrievable from official page on verified_on date"
+        }
+      },
+      "discount": {},
+      "kyc": null,
+      "restricted_regions": [],
+      "source_urls": [
+        "https://www.coinbase.com/advanced-fees",
+        "https://help.coinbase.com/en/coinbase/trading-and-funding/pricing-and-fees/fees"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "unverifiable"
+    },
+    {
+      "slug": "kraken",
+      "name": "Kraken",
+      "type": "cex",
+      "fees": {
+        "spot": {
+          "maker": 0.4,
+          "taker": 0.8,
+          "note": "Kraken Pro Tier 1 as extracted from fee schedule; re-check manually, figure looks high vs. historical 0.25/0.40"
+        },
+        "perp": {
+          "maker": 0.02,
+          "taker": 0.05,
+          "note": "Futures Tier 1 (<$5M 30d volume); futures not available to US/Canada/NZ customers per page"
+        }
+      },
+      "discount": {},
+      "kyc": null,
+      "restricted_regions": [
+        "US/Canada/NZ: futures unavailable (per fee page)"
+      ],
+      "source_urls": [
+        "https://www.kraken.com/features/fee-schedule",
+        "https://support.kraken.com/articles/360000381846-kraken-and-kyc-verification-levels"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "verified"
+    },
+    {
+      "slug": "hyperliquid",
+      "name": "Hyperliquid",
+      "type": "perp-dex",
+      "fees": {
+        "spot": {
+          "maker": 0.04,
+          "taker": 0.07,
+          "note": "Tier 0, percent"
+        },
+        "perp": {
+          "maker": 0.015,
+          "taker": 0.045,
+          "note": "Tier 0, percent"
+        }
+      },
+      "discount": {
+        "token": "HYPE",
+        "staking_tiers_pct": {
+          ">10": 5,
+          ">100": 10,
+          ">1000": 15,
+          ">10000": 20,
+          ">100000": 30,
+          ">500000": 40
+        },
+        "note": "Referral discount applies to first $25M volume; percentage not stated on page"
+      },
+      "kyc": null,
+      "restricted_regions": [],
+      "source_urls": [
+        "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "verified"
+    },
+    {
+      "slug": "uniswap",
+      "name": "Uniswap",
+      "type": "dex",
+      "fees": {
+        "spot": {
+          "maker": null,
+          "taker": null,
+          "note": "Interface/wallet fee 0% (Uniswap Labs charges none as of 2025-12-27); pool fee tiers not stated on page, so maker/taker null"
+        },
+        "perp": {
+          "maker": null,
+          "taker": null,
+          "note": "Not applicable"
+        }
+      },
+      "discount": {},
+      "kyc": null,
+      "restricted_regions": [],
+      "source_urls": [
+        "https://support.uniswap.org/hc/en-us/articles/20131678274957-What-fees-do-I-pay-on-Uniswap"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "verified"
+    }
+  ]
+}
