@@ -3313,7 +3313,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-matrix-main-val${d.spot?.publishable ? "" : " is-pending"}`}>
-                        {d.spot?.publishable ? <><span className="v3-fee-pair" translate="no">{d.spot.pair}</span><small className="v3-fee-pair__tier">{d.spot.tier}</small></> : localePending(locale)}
+                        {d.spot?.publishable ? <><span className="v3-fee-pair" translate="no">{d.spot.pair}</span><small className="v3-fee-pair__tier">{d.spot.tier}</small></> : matrixCopy(locale).unchecked}
                         {isWinner && <span className="v3-winner-badge v3-winner-badge--gold">{isZh ? "★ 费率最优" : "★ Best Spot"}</span>}
                       </span>
                       <span className="v3-matrix-sub-val">
@@ -3338,7 +3338,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-matrix-main-val${d.futures?.publishable ? "" : " is-pending"}`}>
-                        {d.futures?.publishable ? <><span className="v3-fee-pair" translate="no">{d.futures.pair}</span><small className="v3-fee-pair__tier">{d.futures.tier}</small></> : localePending(locale)}
+                        {d.futures?.publishable ? <><span className="v3-fee-pair" translate="no">{d.futures.pair}</span><small className="v3-fee-pair__tier">{d.futures.tier}</small></> : matrixCopy(locale).unchecked}
                         {isWinner && <span className="v3-winner-badge v3-winner-badge--gold">{isZh ? "★ 费率最优" : "★ Best Futures"}</span>}
                       </span>
                       <span className="v3-matrix-sub-val">

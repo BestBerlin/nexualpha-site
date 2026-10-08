@@ -728,14 +728,14 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
                 </td>
                 <td className="ft-cell" data-label={`${mx.spot} · ${mx.maker}`}>{renderRateCell(row.spotRate, labels)}</td>
                 <td className="ft-cell" data-label={`${mx.perp} · ${mx.maker}`}>{renderRateCell(row.futuresRate, labels)}</td>
-                <td className="ft-cell ft-checked" data-label={checkedLabel}>
+                <td className="ft-cell ft-checked-td" data-label={checkedLabel}><div className="ft-checked">
                   {checkedOn ? <time dateTime={checkedOn}>{checkedOn}</time> : <span className="ft-none">{labels.unchecked}</span>}
                   <span className="ft-src">{sources.map((href, i) => <a key={href} href={href} target="_blank" rel="noopener noreferrer">{labels.source}{sources.length > 1 ? ` ${i + 1}` : ""} ↗</a>)}</span>
                   {rates.length > 0 && <details className="ft-cond">
                     <summary>{labels.conditions}</summary>
                     {rates.map((r) => <p key={r.product}><b>{r.productLabel}</b> {r.scope} {r.conditions}</p>)}
                   </details>}
-                </td>
+                </div></td>
                 {hasBenefit && <td className="ft-cell ft-aux">{renderAuxChip(row.rebateDisplay, labels.commercialPending)}</td>}
                 {hasBenefit && <td className="ft-cell ft-aux">{row.netDisplay ? <span className="fee-terminal__net-rate">{row.netDisplay}</span> : <span className="ft-none">{labels.netPending}</span>}</td>}
                 {hasTrend && <td className="ft-cell ft-aux"><span className={`fee-terminal__trend-tag ${row.trend ? "" : "fee-terminal__trend-tag--pending"}`}>{row.trend || labels.trendPending}</span></td>}
