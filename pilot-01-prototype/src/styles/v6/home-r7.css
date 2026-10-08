@@ -107,9 +107,9 @@ body:has(> * main#top.v6.home-refinement), body:has(main#top.v6.home-refinement)
 #top.v6 .rf-actions .rf-link--skip { order: 2; }
 #top.v6 .rf-actions .rf-link--skip:not(:focus) { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; padding: 0; margin: 0; }
 @media (max-width: 37.5rem) {
-  #top.v6 .rf-actions { flex-wrap: nowrap; gap: var(--s-4); }
-  #top.v6 .rf-actions .rf-btn--wizard { display: inline-flex; flex: 1 1 auto; min-inline-size: 0; }
-  #top.v6 .rf-actions .rf-link--compare { flex: 0 1 auto; font-size: var(--t-14); }
+  #top.v6 .rf-actions { flex-wrap: wrap; gap: var(--s-2) var(--s-4); }
+  #top.v6 .rf-actions .rf-btn--wizard { display: inline-flex; flex: 1 1 100%; min-inline-size: 0; }
+  #top.v6 .rf-actions .rf-link--compare { flex: 0 1 auto; white-space: nowrap; }
 }
 
 /* the routes pass behind the display title: a map-label halo in the ground colour keeps every glyph clean */

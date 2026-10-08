@@ -509,7 +509,7 @@ function Finder({ kit, tail, venues }) {
       {/* one ghost button + one text link (the card holds the one filled CTA). The directory jump stays in the DOM in its
           original order and shows on keyboard focus, like a skip link (the rail and the section nav also lead there). */}
       <div className="rf-actions">
-        <button type="button" className="rf-btn rf-btn--ghost rf-btn--wizard" onClick={kit.openWizard}>{locale === "en" ? "Find my match in 30 seconds" : kit.wizardLabel}</button>
+        <button type="button" className="rf-btn rf-btn--ghost rf-btn--wizard" onClick={kit.openWizard}>{locale === "en" ? "Find my match in 30s" : kit.wizardLabel}</button>
         <a className="rf-link rf-link--skip" href={kit.exploreHref}>{directoryLabel(locale)}</a>
         <a className="rf-link rf-link--compare" href={kit.compareHref}>{(CLOSE_COPY[locale] || CLOSE_COPY.en).cmp}<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M3 8h9M8.5 4l4 4-4 4" /></svg></a>
       </div>
