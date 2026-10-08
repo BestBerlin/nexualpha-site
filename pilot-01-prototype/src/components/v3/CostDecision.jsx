@@ -10,7 +10,6 @@ import { reviewedFeeCopy } from '../../data/reviewed-fee-copy.js';
 import { DecisionReturnLink } from './DecisionReturnLink.jsx';
 import { costDecisionCopy } from '../../data/cost-decision-copy.js';
 import { BrandMark } from '../brand/BrandMark.jsx';
-import { useTween } from '../../lib/v6/useTween.js';
 import './cost-decision.css';
 
 
@@ -78,8 +77,6 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
     .filter(row=>Number.isFinite(row.quote?.rate))
     .sort((a,b)=>a.quote.rate-b.quote.rate)[0] || null;
   const maxCost=Math.max(0,...resultRows.map(row=>Number.isFinite(row.quote?.rate)?amount*row.quote.rate:0));
-  const shownCost=useTween(lowestReviewed ? amount*lowestReviewed.quote.rate : 0);
-  const figureFormat=new Intl.NumberFormat(locale,{maximumFractionDigits:2});
   return <section id="cost-scenario" className="cost-decision rt-cd" aria-labelledby={`${id}-title`}>
     <div className="cost-decision__intro rt-panel__intro">
       <h2 id={`${id}-title`}>{ui.title}</h2>
@@ -111,7 +108,7 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
     <div className="rt-result">
       {lowestReviewed && <div className="cost-decision__verdict rt-verdict">
         <span className="rt-verdict__base">{ui.base} {lowestReviewed.displayRate}%</span>
-        <strong><span className="rt-verdict__venue">{lowestReviewed.venue.name}</span> <span className="rt-verdict__figure" aria-hidden="true">{figureFormat.format(shownCost)}</span><span className="rt-sr">{lowestReviewed.venue.name} · {lowestReviewed.displayCost}</span> <span className="rt-verdict__unit">USDT{ui.perMonth}</span></strong>
+        <strong><span className="rt-verdict__venue">{lowestReviewed.venue.name}</span> <span className="rt-verdict__figure" key={lowestReviewed.displayCost} aria-hidden="true">{lowestReviewed.displayCost}</span><span className="rt-sr">{lowestReviewed.venue.name} · {lowestReviewed.displayCost}</span> <span className="rt-verdict__unit">USDT{ui.perMonth}</span></strong>
         <a href={researchHref(`/exchanges/${lowestReviewed.slug}#registration-path`,lowestReviewed.product)} data-cta-kind="research" data-cta-platform={lowestReviewed.slug} data-cta-placement="cost-calculator-lowest-reviewed" data-growth-decision={lowestReviewed.slug} data-growth-placement="cost-calculator-lowest-reviewed" data-growth-market={regionMarket} data-growth-product={lowestReviewed.product}>{ui.nextPlatform}</a>
       </div>}
       <div className="cost-decision__results" aria-live="polite">

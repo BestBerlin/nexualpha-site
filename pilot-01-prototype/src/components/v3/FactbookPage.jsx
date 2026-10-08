@@ -616,6 +616,8 @@ function publicFactbookVenue(raw, locale = "en") {
   return {
     ...raw,
     trustScore: null,
+    porVerified,
+    complianceVerified,
     feeVerified,
     tokenDiscount: {
       token: raw?.tokenDiscount?.token || null,
@@ -1167,7 +1169,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
   }, [filterCategory, locale]);
 
   return (
-    <div className="v6 factbook-page" id="factbook-root" dir="ltr">
+    <main className="v6 factbook-page" id="factbook-root" dir="ltr">
       {/* 极客终端审计头部 */}
       <div className="factbook-hero" role="region" aria-label={isHant ? "事實庫概覽" : isZh ? "事实库概览" : "Factbook overview"}>
         <div className="factbook-hero__container">
@@ -1381,7 +1383,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
       </nav>
 
       {/* 主数据体：高事实密度模块 */}
-      <main className="v6 factbook-body">
+      <div className="v6 factbook-body">
         <div className="factbook-body__container">
 
           {/* Fee source state governs presentation, never a numeric or pending-text guess. */}
@@ -1485,6 +1487,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             </button>
             <div className="factbook-section-disclosure__body" id="factbook-por-body">
 
+            {venue.porVerified ? (
             <dl className="factbook-evidence factbook-evidence--por">
               <div className="factbook-evidence__row">
                 <dt>{t.cardTotalPor}</dt>
@@ -1503,9 +1506,17 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 <dd><strong className={factbookValueClass(venue.por?.securityFund || "N/A")}>{venue.por?.securityFund || "N/A"}</strong><small>{venue.por?.fundAmount || "N/A"}</small></dd>
               </div>
             </dl>
+            ) : (
+            <dl className="factbook-evidence factbook-evidence--pending">
+              <div className="factbook-evidence__row">
+                <dt>{venue.por?.totalRatio}</dt>
+                <dd><ul className="factbook-pending-fields">{[t.cardTotalPor, t.cardCleanPor, t.cardNativeToken, t.cardSecurityFund].map((label) => <li key={label}>{label}</li>)}</ul><small>{venue.por?.securityFund} · {venue.por?.fundAmount}</small></dd>
+              </div>
+            </dl>
+            )}
 
             <div className="factbook-por-details">
-              <section className="factbook-evidence-group" aria-labelledby="factbook-coverage-title">
+              {venue.porVerified && <section className="factbook-evidence-group" aria-labelledby="factbook-coverage-title">
                 <h3 className="factbook-subheading" id="factbook-coverage-title">{t.assetCoverageTitle}</h3>
                 <dl className="factbook-evidence factbook-evidence--compact">
                   {venue.por?.assetCoverage && Object.keys(venue.por.assetCoverage).length ? Object.entries(venue.por.assetCoverage).map(([coin, ratio]) => (
@@ -1517,7 +1528,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                     <div className="factbook-evidence__row"><dt>{t.pendingLabel || "Pending"}</dt><dd><small>{t.assetCoverageTitle}</small></dd></div>
                   )}
                 </dl>
-              </section>
+              </section>}
 
               <section className="factbook-evidence-group" aria-labelledby="factbook-auditor-title">
                 <h3 className="factbook-subheading" id="factbook-auditor-title">{t.auditorLabel}</h3>
@@ -1548,6 +1559,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             </button>
             <div className="factbook-section-disclosure__body" id="factbook-compliance-body">
 
+            {venue.complianceVerified ? (
             <dl className="factbook-evidence factbook-evidence--wide">
               <div className="factbook-evidence__row">
                 <dt>{t.kycLevelLabel}</dt>
@@ -1592,6 +1604,21 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 <dd><span className="factbook-geo-text factbook-geo-text--danger">{(venue.compliance?.restrictedRegions || []).join("、")}</span></dd>
               </div>
             </dl>
+            ) : (
+            <dl className="factbook-evidence factbook-evidence--wide factbook-evidence--pending">
+              <div className="factbook-evidence__row">
+                <dt>{t.kycLevelLabel}</dt>
+                <dd>
+                  <span className={`factbook-tag-kyc factbook-tag-kyc--${venue.compliance?.kycLevel}`}>{venue.compliance?.kycLevel?.toUpperCase()}</span>
+                  <small>{isZh ? venue.compliance?.kycSummaryZh : venue.compliance?.kycSummaryEn}</small>
+                </dd>
+              </div>
+              <div className="factbook-evidence__row">
+                <dt>{venue.compliance?.antiFreezeRating}</dt>
+                <dd><ul className="factbook-pending-fields">{[t.kycStagesLabel, t.antiFreezeLabel, t.licensesLabel, t.supportedLabel, t.restrictedLabel].map((label) => <li key={label}>{label}</li>)}</ul></dd>
+              </div>
+            </dl>
+            )}
             </div>
           </section>
 
@@ -1712,7 +1739,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
           )}
 
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
