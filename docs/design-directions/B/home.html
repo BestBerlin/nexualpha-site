@@ -1,0 +1,190 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NexuAlpha - Compare crypto platforms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0f10;--panel:#131415;--raise:#181a1b;--line:#25282a;--line2:#363a3d;--ink:#e9e7e2;--mute:#9a9da0;--dim:#666a6e;--amber:#f2a93b;--amber-ink:#1a1203;--amber-dim:rgba(242,169,59,.12);
+--sans:"IBM Plex Sans","Carlito","Helvetica Neue",sans-serif;--mono:"JetBrains Mono","DejaVu Sans Mono",ui-monospace,monospace;
+--u:4px;--pad:32px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font:400 14px/20px var(--sans);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;min-width:320px}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1440px;margin:0 auto;padding:0 var(--pad)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px}
+.mono{font-family:var(--mono)}
+.lbl{font:500 11px/16px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+h1{font:500 48px/52px var(--sans);letter-spacing:-.025em}
+h2{font:500 28px/32px var(--sans);letter-spacing:-.015em}
+h3{font:500 20px/24px var(--sans);letter-spacing:-.01em}
+.lead{font-size:16px;line-height:24px;color:var(--mute)}
+/* top bar */
+.top{border-bottom:1px solid var(--line);position:relative}
+.top .wrap{display:flex;align-items:center;height:56px;gap:32px}
+.logo{display:flex;align-items:center;gap:8px;font:600 14px/16px var(--mono);letter-spacing:.14em}
+.logo i{width:16px;height:16px;border:1px solid var(--amber);display:block;position:relative}
+.logo i:after{content:"";position:absolute;left:3px;bottom:3px;width:8px;height:2px;background:var(--amber);box-shadow:0 -4px 0 var(--amber),0 -8px 0 var(--amber)}
+.nav{display:flex;gap:24px;font-size:14px;color:var(--mute)}
+.nav a.on{color:var(--ink);box-shadow:0 17px 0 -16px var(--amber)}
+.top .sp{flex:1}
+kbd{font:500 11px/16px var(--mono);color:var(--mute);border:1px solid var(--line2);border-bottom-width:2px;padding:0 6px;display:inline-block;min-width:20px;text-align:center;background:var(--panel)}
+.hint{display:flex;align-items:center;gap:8px;color:var(--mute);font-size:12px;line-height:16px}
+.status{display:flex;align-items:center;gap:8px}
+.dot{width:6px;height:6px;background:var(--amber);display:inline-block}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:32px;padding:0 12px;font:500 12px/16px var(--mono);letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--line2);color:var(--ink);background:transparent;white-space:nowrap}
+.btn.pri{background:var(--amber);border-color:var(--amber);color:var(--amber-ink);font-weight:600}
+.btn.lg{height:48px;padding:0 24px;font-size:12px}
+.btn svg{width:12px;height:12px}
+.seg{display:inline-flex;border:1px solid var(--line2);height:32px}
+.seg span{display:flex;align-items:center;padding:0 12px;font:500 12px/16px var(--mono);color:var(--mute);border-right:1px solid var(--line2);white-space:nowrap}
+.seg span:last-child{border-right:0}
+.seg span.on{background:var(--ink);color:var(--bg)}
+.chip{display:inline-flex;align-items:center;gap:4px;height:20px;padding:0 8px;border:1px solid var(--line2);font:500 11px/16px var(--mono);color:var(--mute);letter-spacing:.04em;white-space:nowrap}
+.chip.a{color:var(--amber);border-color:rgba(242,169,59,.5)}
+.code{display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 8px;border:1px dashed var(--line2);font:500 12px/16px var(--mono);color:var(--ink)}
+.code.none{color:var(--dim);border-style:solid;border-color:var(--line)}
+.mk{width:24px;height:24px;border:1px solid var(--line2);display:inline-flex;align-items:center;justify-content:center;font:600 11px/1 var(--mono);color:var(--ink);background:var(--raise);flex:none}
+/* hero */
+.hero{padding:64px 0 48px}
+.hero .grid{align-items:end}
+.hero h1{grid-column:1/9}
+.hero .side{grid-column:9/13;border-left:1px solid var(--line);padding-left:24px;display:grid;gap:16px}
+.hero .lead{grid-column:1/8;margin-top:24px;max-width:640px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:12px;line-height:16px}
+.kv dt{color:var(--mute);font-family:var(--mono)}.kv dd{font-family:var(--mono);text-align:right}
+/* matrix */
+.mx{border:1px solid var(--line2);background:var(--panel)}
+.mx-bar{display:flex;align-items:center;gap:16px;padding:12px 16px;border-bottom:1px solid var(--line2)}
+.mx-bar .sp{flex:1}
+.mx-bar .ttl{display:flex;align-items:baseline;gap:12px}
+.row{display:grid;grid-template-columns:32px 168px 96px 124px 128px minmax(150px,1fr) minmax(190px,1.2fr) 108px 204px;column-gap:16px;align-items:center;padding:0 16px;min-height:64px;border-bottom:1px solid var(--line);position:relative}
+.row:last-child{border-bottom:0}
+.row.hd{min-height:40px;background:var(--bg);border-bottom:1px solid var(--line2);position:static}
+.row.hd .lbl{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.row.hd .lbl.on{color:var(--amber)}
+.row.sel{background:var(--amber-dim)}
+.row.sel:before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--amber)}
+.cb{width:16px;height:16px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center}
+.row.sel .cb{background:var(--amber);border-color:var(--amber)}
+.cb svg{width:10px;height:10px;display:none}.row.sel .cb svg{display:block}
+.nm{display:flex;align-items:center;gap:12px;font-size:16px;line-height:20px;font-weight:500}
+.nm small{display:block;font:400 11px/16px var(--mono);color:var(--mute);letter-spacing:.02em}
+.fee{font:500 14px/20px var(--mono)}.fee em{color:var(--dim);font-style:normal;padding:0 4px}
+.fee small{display:block;font:400 11px/16px var(--mono);color:var(--mute)}
+.sp-c{display:flex;align-items:center;gap:8px;font:400 11px/16px var(--mono);color:var(--mute)}
+.sp-c svg{width:72px;height:24px;flex:none;overflow:visible}
+.prod{display:flex;flex-wrap:wrap;gap:4px}
+.reg{font-size:12px;line-height:16px;color:var(--mute)}
+.mx-foot{display:flex;gap:24px;align-items:center;padding:12px 16px;border-top:1px solid var(--line2);background:var(--bg);color:var(--mute);font:400 11px/16px var(--mono)}
+.mx-foot .sp{flex:1}
+.mob-only{display:none}
+/* compare entry */
+.cmpbar{display:flex;align-items:center;gap:24px;margin-top:24px;border:1px solid var(--amber);padding:16px 16px 16px 24px;background:var(--amber-dim)}
+.cmpbar .pair{display:flex;align-items:center;gap:16px;font-size:20px;line-height:24px;font-weight:500}
+.cmpbar .vs{font:500 11px/16px var(--mono);color:var(--amber);border:1px solid rgba(242,169,59,.5);padding:0 6px}
+.cmpbar .sp{flex:1}
+/* sections */
+.sec{padding:64px 0 0}
+.sec-h{display:flex;align-items:baseline;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--line2);margin-bottom:0}
+.sec-h .sp{flex:1}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--line)}
+.strip>div{padding:24px 24px 24px 24px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:8px;align-content:start}
+.strip .n{font:500 11px/16px var(--mono);color:var(--amber)}
+.strip p{color:var(--mute);font-size:14px;line-height:20px}
+.strip h3{font-size:16px;line-height:20px}
+.disc{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;padding:24px 0 64px;color:var(--mute);font-size:12px;line-height:16px}
+.disc p{grid-column:1/8}.disc .r{grid-column:9/13;font-family:var(--mono);font-size:11px}
+footer{border-top:1px solid var(--line)}
+footer .wrap{display:flex;gap:24px;height:56px;align-items:center;color:var(--dim);font:400 11px/16px var(--mono)}
+footer .sp{flex:1}
+@media(max-width:1180px){
+.row{grid-template-columns:32px 150px 72px 116px 120px minmax(110px,1fr) 104px 204px}
+.row .c-reg{display:none}
+.hero h1{grid-column:1/13}.hero .side{display:none}.hero .lead{grid-column:1/13}
+}
+@media(max-width:820px){
+:root{--pad:16px}
+.top .wrap{gap:16px;height:48px}.nav,.top .hint{display:none}
+h1{font-size:28px;line-height:32px}h2{font-size:20px;line-height:24px}
+.hero{padding:32px 0 24px}.hero .lead{margin-top:16px;font-size:14px;line-height:20px}
+.mx-bar{flex-wrap:wrap;gap:12px}.mx-bar .seg{max-width:100%;overflow:hidden}
+.row.hd{display:none}
+.row{grid-template-columns:1fr 1fr;grid-template-areas:"nm nm" "fee sp" "prod prod" "reg reg" "code cta";row-gap:12px;padding:16px;align-items:center}
+.row .c-sel{display:none}
+.row .c-nm{grid-area:nm}.row .c-type{display:none}.row .c-fee{grid-area:fee}.row .c-sp{grid-area:sp}
+.row .c-prod{grid-area:prod}.row .c-reg{display:block;grid-area:reg}.row .c-code{grid-area:code}.row .c-cta{grid-area:cta}
+.row .c-cta .btn{width:100%}
+.mob-only{display:inline-flex}
+.cmpbar{flex-wrap:wrap;gap:12px;padding:16px}.cmpbar .pair{font-size:16px;flex-wrap:wrap;gap:8px}.cmpbar .sp{display:none}.cmpbar .btn{width:100%}
+.strip{grid-template-columns:1fr 1fr}
+.sec{padding-top:40px}
+.disc p,.disc .r{grid-column:1/13}.disc .r{margin-top:8px}
+.mx-foot{flex-wrap:wrap;gap:8px 16px}
+footer .wrap{flex-wrap:wrap;height:auto;padding-top:16px;padding-bottom:16px;gap:8px 16px}
+}
+</style></head><body><header class="top"><div class="wrap"><a class="logo" href="#"><i></i>NEXUALPHA</a><nav class="nav"><a href="#" class=on>Compare</a><a href="#">Platforms</a><a href="#">Routes</a><a href="#">Method</a></nav><div class="sp"></div>
+<div class="hint"><kbd>/</kbd> Search <kbd>C</kbd> Compare</div><div class="status lbl"><span class="dot"></span>Data 08 Oct 2026</div></div></header>
+<main class="wrap"><section class="hero"><div class="grid"><h1>Compare crypto platforms and official account routes</h1>
+<aside class="side"><span class="lbl">Route status</span><dl class="kv"><dt>Platforms</dt><dd>08</dd><dt>Official routes</dt><dd>04</dd><dt>Last audit</dt><dd>08 OCT 2026</dd><dt>Fee basis</dt><dd>BASE TIER</dd></dl></aside>
+<p class="lead">Fees, products and regional limits side by side. Every signup link goes to the exchange's own page, with our referral code shown before you leave.</p></div></section>
+<section class="mx" aria-label="Comparison matrix"><div class="mx-bar"><div class="ttl"><h3>Platform matrix</h3><span class="lbl">8 platforms</span></div>
+<div class="sp"></div><div class="seg"><span class="on">All</span><span>CEX</span><span>DEX</span></div><div class="seg"><span class="on">Spot</span><span>Perps</span></div><div class="hint"><kbd>S</kbd> Sort <kbd>1-8</kbd> Select</div></div>
+<div class="row hd"><div></div><div class="lbl on">Platform <svg width="8" height="8" viewBox="0 0 8 8"><path d="M1 2h6L4 6.5z" fill="currentColor"/></svg></div><div class="lbl">Type</div><div class="lbl">Fee % M/T</div><div class="lbl">Tier curve</div><div class="lbl">Products</div><div class="lbl c-reg">Regions note</div><div class="lbl">Ref code</div><div></div></div><div class="row sel"><div class="c-sel"><span class="cb"><svg viewBox="0 0 10 10"><path d="M1.5 5.2 4 7.6 8.6 2.4" fill="none" stroke="#1a1203" stroke-width="1.6"/></svg></span></div>
+<div class="c-nm nm"><span class="mk">BN</span><span>Binance<small>Spot + Perps</small></span></div>
+<div class="c-type"><span class="chip">CEX</span></div>
+<div class="c-fee fee">0.100<em>/</em>0.100<small>0.017% top tier</small></div>
+<div class="c-sp sp-c"><svg viewBox="0 0 72 24" width="72" height="24"><line x1="0" x2="72" y1="23.5" y2="23.5" stroke="#25282a"/><path d="M0.0,2.0 L12.0,2.0 L12.0,4.4 L24.0,4.4 L24.0,6.8 L36.0,6.8 L36.0,9.2 L48.0,9.2 L48.0,16.5 L60.0,16.5 L60.0,22.0 L72.0,22.0" fill="none" stroke="#f2a93b" stroke-width="1.25"/><rect x="69" y="20.5" width="3" height="3" fill="#f2a93b"/></svg><span>6 tiers</span></div>
+<div class="c-prod prod"><span class="chip">Spot</span><span class="chip">Futures</span><span class="chip">Earn</span><span class="chip">Margin</span></div><div class="c-reg reg">Not open to US residents; Binance.US is separate. Check local rules.</div>
+<div class="c-code"><span class="code">11350287</span></div><div class="c-cta"><a class="btn pri" href="#">Open official signup <svg viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a></div></div><div class="row"><div class="c-sel"><span class="cb"><svg viewBox="0 0 10 10"><path d="M1.5 5.2 4 7.6 8.6 2.4" fill="none" stroke="#1a1203" stroke-width="1.6"/></svg></span></div>
+<div class="c-nm nm"><span class="mk">CB</span><span>Coinbase<small>Spot</small></span></div>
+<div class="c-type"><span class="chip">CEX</span></div>
+<div class="c-fee fee">0.400<em>/</em>0.600<small>0.050% top tier</small></div>
+<div class="c-sp sp-c"><svg viewBox="0 0 72 24" width="72" height="24"><line x1="0" x2="72" y1="23.5" y2="23.5" stroke="#25282a"/><path d="M0.0,2.0 L12.0,2.0 L12.0,9.3 L24.0,9.3 L24.0,14.7 L36.0,14.7 L36.0,16.5 L48.0,16.5 L48.0,19.5 L60.0,19.5 L60.0,22.0 L72.0,22.0" fill="none" stroke="#f2a93b" stroke-width="1.25"/><rect x="69" y="20.5" width="3" height="3" fill="#f2a93b"/></svg><span>6 tiers</span></div>
+<div class="c-prod prod"><span class="chip">Spot</span><span class="chip">Staking</span><span class="chip">Advanced</span></div><div class="c-reg reg">Available in US and many EU states; futures limited by region.</div>
+<div class="c-code"><span class="code none">No code</span></div><div class="c-cta"><a class="btn pri" href="#">Open official signup <svg viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a></div></div><div class="row"><div class="c-sel"><span class="cb"><svg viewBox="0 0 10 10"><path d="M1.5 5.2 4 7.6 8.6 2.4" fill="none" stroke="#1a1203" stroke-width="1.6"/></svg></span></div>
+<div class="c-nm nm"><span class="mk">BY</span><span>Bybit<small>Spot + Perps</small></span></div>
+<div class="c-type"><span class="chip">CEX</span></div>
+<div class="c-fee fee">0.100<em>/</em>0.100<small>0.030% top tier</small></div>
+<div class="c-sp sp-c"><svg viewBox="0 0 72 24" width="72" height="24"><line x1="0" x2="72" y1="23.5" y2="23.5" stroke="#25282a"/><path d="M0.0,2.0 L12.0,2.0 L12.0,9.1 L24.0,9.1 L24.0,12.0 L36.0,12.0 L36.0,14.9 L48.0,14.9 L48.0,19.1 L60.0,19.1 L60.0,22.0 L72.0,22.0" fill="none" stroke="#f2a93b" stroke-width="1.25"/><rect x="69" y="20.5" width="3" height="3" fill="#f2a93b"/></svg><span>6 tiers</span></div>
+<div class="c-prod prod"><span class="chip">Spot</span><span class="chip">Perps</span><span class="chip">Options</span><span class="chip">Earn</span></div><div class="c-reg reg">Restricted in US and several other regions. Verify before signup.</div>
+<div class="c-code"><span class="code">48553</span></div><div class="c-cta"><a class="btn pri" href="#">Open official signup <svg viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a></div></div><div class="row"><div class="c-sel"><span class="cb"><svg viewBox="0 0 10 10"><path d="M1.5 5.2 4 7.6 8.6 2.4" fill="none" stroke="#1a1203" stroke-width="1.6"/></svg></span></div>
+<div class="c-nm nm"><span class="mk">BG</span><span>Bitget<small>Spot + Perps</small></span></div>
+<div class="c-type"><span class="chip">CEX</span></div>
+<div class="c-fee fee">0.100<em>/</em>0.100<small>0.036% top tier</small></div>
+<div class="c-sp sp-c"><svg viewBox="0 0 72 24" width="72" height="24"><line x1="0" x2="72" y1="23.5" y2="23.5" stroke="#25282a"/><path d="M0.0,2.0 L12.0,2.0 L12.0,8.2 L24.0,8.2 L24.0,11.4 L36.0,11.4 L36.0,14.5 L48.0,14.5 L48.0,19.2 L60.0,19.2 L60.0,22.0 L72.0,22.0" fill="none" stroke="#f2a93b" stroke-width="1.25"/><rect x="69" y="20.5" width="3" height="3" fill="#f2a93b"/></svg><span>6 tiers</span></div>
+<div class="c-prod prod"><span class="chip">Spot</span><span class="chip">Perps</span><span class="chip">Copy trade</span></div><div class="c-reg reg">Not open to US residents; availability varies by country.</div>
+<div class="c-code"><span class="code">C6PRAF</span></div><div class="c-cta"><a class="btn pri" href="#">Open official signup <svg viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a></div></div><div class="row sel"><div class="c-sel"><span class="cb"><svg viewBox="0 0 10 10"><path d="M1.5 5.2 4 7.6 8.6 2.4" fill="none" stroke="#1a1203" stroke-width="1.6"/></svg></span></div>
+<div class="c-nm nm"><span class="mk">OK</span><span>OKX<small>Spot + Perps</small></span></div>
+<div class="c-type"><span class="chip">CEX</span></div>
+<div class="c-fee fee">0.080<em>/</em>0.100<small>0.030% top tier</small></div>
+<div class="c-sp sp-c"><svg viewBox="0 0 72 24" width="72" height="24"><line x1="0" x2="72" y1="23.5" y2="23.5" stroke="#25282a"/><path d="M0.0,2.0 L12.0,2.0 L12.0,4.9 L24.0,4.9 L24.0,7.7 L36.0,7.7 L36.0,10.6 L48.0,10.6 L48.0,16.3 L60.0,16.3 L60.0,22.0 L72.0,22.0" fill="none" stroke="#f2a93b" stroke-width="1.25"/><rect x="69" y="20.5" width="3" height="3" fill="#f2a93b"/></svg><span>6 tiers</span></div>
+<div class="c-prod prod"><span class="chip">Spot</span><span class="chip">Perps</span><span class="chip">Options</span><span class="chip">Web3</span></div><div class="c-reg reg">Regional entities in EU and others; US access limited.</div>
+<div class="c-code"><span class="code">nexu888</span></div><div class="c-cta"><a class="btn pri" href="#">Open official signup <svg viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a></div></div><div class="row"><div class="c-sel"><span class="cb"><svg viewBox="0 0 10 10"><path d="M1.5 5.2 4 7.6 8.6 2.4" fill="none" stroke="#1a1203" stroke-width="1.6"/></svg></span></div>
+<div class="c-nm nm"><span class="mk">KR</span><span>Kraken<small>Spot + Futures</small></span></div>
+<div class="c-type"><span class="chip">CEX</span></div>
+<div class="c-fee fee">0.250<em>/</em>0.400<small>0.100% top tier</small></div>
+<div class="c-sp sp-c"><svg viewBox="0 0 72 24" width="72" height="24"><line x1="0" x2="72" y1="23.5" y2="23.5" stroke="#25282a"/><path d="M0.0,2.0 L12.0,2.0 L12.0,5.3 L24.0,5.3 L24.0,11.3 L36.0,11.3 L36.0,12.7 L48.0,12.7 L48.0,16.7 L60.0,16.7 L60.0,22.0 L72.0,22.0" fill="none" stroke="#f2a93b" stroke-width="1.25"/><rect x="69" y="20.5" width="3" height="3" fill="#f2a93b"/></svg><span>6 tiers</span></div>
+<div class="c-prod prod"><span class="chip">Spot</span><span class="chip">Futures</span><span class="chip">Staking</span></div><div class="c-reg reg">Available in US (most states) and EU; product mix varies.</div>
+<div class="c-code"><span class="code none">No code</span></div><div class="c-cta"><a class="btn pri" href="#">Open official signup <svg viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a></div></div><div class="row"><div class="c-sel"><span class="cb"><svg viewBox="0 0 10 10"><path d="M1.5 5.2 4 7.6 8.6 2.4" fill="none" stroke="#1a1203" stroke-width="1.6"/></svg></span></div>
+<div class="c-nm nm"><span class="mk">HL</span><span>Hyperliquid<small>Perps</small></span></div>
+<div class="c-type"><span class="chip">DEX</span></div>
+<div class="c-fee fee">0.015<em>/</em>0.045<small>0.024% top tier</small></div>
+<div class="c-sp sp-c"><svg viewBox="0 0 72 24" width="72" height="24"><line x1="0" x2="72" y1="23.5" y2="23.5" stroke="#25282a"/><path d="M0.0,2.0 L12.0,2.0 L12.0,6.8 L24.0,6.8 L24.0,11.5 L36.0,11.5 L36.0,16.3 L48.0,16.3 L48.0,19.1 L60.0,19.1 L60.0,22.0 L72.0,22.0" fill="none" stroke="#f2a93b" stroke-width="1.25"/><rect x="69" y="20.5" width="3" height="3" fill="#f2a93b"/></svg><span>6 tiers</span></div>
+<div class="c-prod prod"><span class="chip">Perps</span><span class="chip">Spot</span></div><div class="c-reg reg">Onchain; no account. Frontend access restricted in some regions.</div>
+<div class="c-code"><span class="code none">No code</span></div><div class="c-cta"><a class="btn" href="#">Open official app <svg viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a></div></div><div class="row"><div class="c-sel"><span class="cb"><svg viewBox="0 0 10 10"><path d="M1.5 5.2 4 7.6 8.6 2.4" fill="none" stroke="#1a1203" stroke-width="1.6"/></svg></span></div>
+<div class="c-nm nm"><span class="mk">UN</span><span>Uniswap<small>Swap</small></span></div>
+<div class="c-type"><span class="chip">DEX</span></div>
+<div class="c-fee fee">0.300<em>/</em>0.300<small>0.010% top tier</small></div>
+<div class="c-sp sp-c"><svg viewBox="0 0 72 24" width="72" height="24"><line x1="0" x2="72" y1="23.5" y2="23.5" stroke="#25282a"/><path d="M0.0,2.0 L18.0,2.0 L18.0,16.1 L36.0,16.1 L36.0,21.2 L54.0,21.2 L54.0,22.0 L72.0,22.0" fill="none" stroke="#f2a93b" stroke-width="1.25"/><rect x="69" y="20.5" width="3" height="3" fill="#f2a93b"/></svg><span>4 tiers</span></div>
+<div class="c-prod prod"><span class="chip">Swap</span><span class="chip">Pools</span></div><div class="c-reg reg">Wallet-based; interface may geo-restrict. No signup route.</div>
+<div class="c-code"><span class="code none">No code</span></div><div class="c-cta"><a class="btn" href="#">Open official app <svg viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a></div></div>
+<div class="mx-foot"><span>Fee: maker / taker, base tier, spot unless noted</span><span class="sp"></span><span>Tier curve: taker fee by volume tier, own scale</span></div></section>
+<div class="cmpbar"><span class="lbl" style="color:var(--amber)">Compare</span><div class="pair"><span class="mk">BN</span>Binance<span class="vs">VS</span><span class="mk">OK</span>OKX</div><span class="sp"></span><div class="hint"><kbd>C</kbd> Swap <kbd>Enter</kbd> Open</div><a class="btn pri" href="#">Open compare <svg viewBox="0 0 12 12"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a></div>
+<section class="sec"><div class="sec-h"><h2>How we rate</h2><span class="sp"></span><span class="lbl">4 checks</span></div>
+<div class="strip"><div><span class="n">01</span><h3>Primary sources</h3><p>Fee pages, legal terms and regional notices read from the exchange itself.</p></div>
+<div><span class="n">02</span><h3>Dated snapshots</h3><p>Every figure stores the date it was read. Stale rows are flagged after 30 days.</p></div>
+<div><span class="n">03</span><h3>Route check</h3><p>Signup links are tested against the official domain before they go live.</p></div>
+<div><span class="n">04</span><h3>Paid placement</h3><p>Referral codes do not change order or scores. Sorting is by your chosen column.</p></div></div></section>
+<div class="disc"><p>NexuAlpha earns a commission when you sign up with a listed referral code. Fee tiers shown are base-level and indicative; confirm on the official page. Availability depends on your country of residence.</p><div class="r">Ref codes: BN 11350287 / BG C6PRAF / OKX nexu888 / BY 48553</div></div>
+</main><footer><div class="wrap"><span>NEXUALPHA / 2026</span><span>Not financial advice</span><span class="sp"></span><span>Referral disclosure</span><span>Method</span></div></footer></body></html>

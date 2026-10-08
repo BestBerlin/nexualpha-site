@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NexuAlpha Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1ECE2; --ink:#161412; --tomato:#E5381F; --paper-2:#E7E0D2;
+  --f-display:'Archivo','Inter Display','DejaVu Sans Condensed','Helvetica Neue',sans-serif;
+  --f-mono:'IBM Plex Mono','DejaVu Sans Mono',ui-monospace,monospace;
+  --t0:12px; --t1:15px; --t2:20px; --t3:32px; --t4:64px; --t5:120px; --t6:240px;
+  --gut:24px; --pad:48px;
+}
+@media (max-width:760px){:root{--t3:24px;--t4:44px;--t5:60px;--t6:136px;--gut:16px;--pad:16px}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--paper)}
+body{background:var(--paper);color:var(--ink);font:400 var(--t1)/24px var(--f-display);font-stretch:100%;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1440px;margin:0 auto;padding:0 var(--pad)}
+.g{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gut)}
+.lab{font:500 var(--t0)/16px var(--f-mono);text-transform:uppercase;letter-spacing:.08em}
+.disp{font-family:var(--f-display);font-weight:800;font-stretch:62%;text-transform:uppercase;letter-spacing:-.01em;line-height:.86}
+.rule{border-top:8px solid var(--ink)}
+.rule-t{border-top:2px solid var(--ink)}
+.red{background:var(--tomato);color:var(--ink)}
+.ink{background:var(--ink);color:var(--paper)}
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:900;font-stretch:62%;font-size:var(--t3);line-height:32px;text-transform:uppercase;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.logo i{display:inline-block;width:20px;height:20px;background:var(--tomato);border-radius:50%}
+.nav ul{display:flex;gap:32px;list-style:none}
+.nav a{border-bottom:2px solid transparent;padding-bottom:2px}
+.nav a.on,.nav a:hover{border-color:var(--ink)}
+@media(max-width:760px){.nav ul{gap:16px}.nav li:nth-child(n+3){display:none}}
+/* buttons */
+.cta{display:inline-flex;align-items:center;justify-content:space-between;gap:16px;height:48px;padding:0 16px;background:var(--ink);color:var(--paper);font:500 var(--t0)/16px var(--f-mono);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.cta:hover{background:var(--tomato);color:var(--ink)}
+.cta.on-red{background:var(--ink);color:var(--paper)}
+.cta.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.cta.paper{background:var(--paper);color:var(--ink)}
+/* hero */
+.hero{padding-top:48px}
+.hero .h1{grid-column:1/10;font-size:var(--t5);padding-bottom:40px}
+.hero .h1 em{font-style:normal;color:var(--tomato)}
+.hero .side{grid-column:10/13;grid-row:1/3;align-self:stretch;padding:24px;display:flex;flex-direction:column;justify-content:space-between;min-height:480px;margin-bottom:48px}
+.side .big{font-size:var(--t6);line-height:.8;font-weight:900;font-stretch:62%;letter-spacing:-.02em}
+.side p{font-weight:600;font-size:var(--t2);line-height:28px}
+.hero .lead{grid-column:1/7;font-size:var(--t2);line-height:28px;padding-bottom:48px}
+.hero .meta{grid-column:7/10;padding-bottom:48px;align-self:end}
+.hero .meta li{list-style:none;display:flex;justify-content:space-between;padding:8px 0;border-top:2px solid var(--ink)}
+@media(max-width:760px){
+ .hero{padding-top:24px}
+ .hero .h1,.hero .lead,.hero .meta{grid-column:1/13}
+ .hero .side{grid-column:1/13;grid-row:auto;min-height:0;margin:0 0 32px;flex-direction:row;align-items:flex-end;gap:16px}
+ .hero .h1{padding-bottom:24px}.hero .lead{padding-bottom:24px}.hero .meta{padding-bottom:32px}
+ .side p{font-size:var(--t1);line-height:20px;max-width:140px}
+}
+/* list */
+.lh{padding:12px 0;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gut)}
+.lh span:nth-child(1){grid-column:1/2}.lh span:nth-child(2){grid-column:2/6}.lh span:nth-child(3){grid-column:6/9}.lh span:nth-child(4){grid-column:9/13}
+@media(max-width:760px){.lh span:nth-child(n+3){display:none}.lh span:nth-child(2){grid-column:2/13}}
+.row{border-top:2px solid var(--ink);padding:24px 0 28px;grid-template-areas:"idx nm nm nm nm fee fee fee act act act act" ". vd vd vd vd vd vd vd act act act act";row-gap:8px;align-items:start}
+.row:hover{background:var(--paper-2)}
+.row .idx{grid-area:idx;padding-top:12px}
+.row .nm{grid-area:nm;font-size:var(--t4);font-weight:800;font-stretch:62%;line-height:.9;text-transform:uppercase;letter-spacing:-.01em}
+.row .fee{grid-area:fee;display:flex;flex-direction:column;gap:4px}
+.row .fee b{font-size:var(--t4);font-weight:800;font-stretch:62%;line-height:.9;color:var(--tomato);letter-spacing:-.01em;white-space:nowrap}
+.row .fee .lab{opacity:.75}
+.row .vd{grid-area:vd;max-width:560px}
+.row .act{grid-area:act;display:flex;flex-direction:column;gap:12px;align-self:end}
+.row .code{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:8px;font:500 var(--t0)/16px var(--f-mono);text-transform:uppercase;letter-spacing:.08em}
+.row .code b{font:600 var(--t2)/24px var(--f-mono);letter-spacing:.02em;text-transform:none}
+.row .code.none b{opacity:.35}
+.rows-end{border-top:8px solid var(--ink)}
+@media(max-width:760px){
+ .row{grid-template-areas:"idx nm nm nm nm nm nm nm nm nm nm nm" ". fee fee fee fee fee fee fee fee fee fee fee" ". vd vd vd vd vd vd vd vd vd vd vd" ". act act act act act act act act act act act";row-gap:8px;padding:20px 0 24px}
+ .row .idx{padding-top:4px}
+}
+/* compare entry */
+.cmp{margin-top:0;padding:48px 0 0;overflow:hidden}
+.cmp .row1{align-items:end;padding-bottom:0}
+.cmp .vs{grid-column:1/13;font-size:calc(var(--t6)*.86);line-height:.8;font-weight:900;font-stretch:62%;text-transform:uppercase;letter-spacing:-.02em;white-space:nowrap}
+.cmp .pick{grid-column:1/6;padding:24px 0}
+.cmp .pick .nm{font-size:var(--t4);line-height:.9;margin-top:8px}
+.cmp .txt{grid-column:6/10;padding:24px 0;font-size:var(--t2);line-height:28px}
+.cmp .go{grid-column:10/13;padding:24px 0 24px;align-self:end}
+.cmp .vs span{display:inline-block}
+.cmp .vs .o{color:var(--paper)}
+@media(max-width:760px){.cmp{padding-top:32px}.cmp .pick,.cmp .txt,.cmp .go{grid-column:1/13;padding:12px 0}.cmp .go{padding-bottom:32px}.cmp .txt{font-size:var(--t1);line-height:24px}}
+/* method */
+.meth{padding:0}
+.meth .cell{grid-column:span 3;padding:24px 0 48px;border-top:8px solid var(--ink)}
+.meth .n{font-size:var(--t6);line-height:.8;font-weight:900;font-stretch:62%;color:var(--tomato);margin-bottom:16px;letter-spacing:-.02em}
+.meth h4{font-size:var(--t3);line-height:32px;font-weight:800;font-stretch:62%;text-transform:uppercase;margin-bottom:8px}
+.meth p{max-width:280px}
+.meth .head{padding:48px 0 24px}
+.meth .head .disp{font-size:var(--t5)}
+@media(max-width:760px){.meth .cell{grid-column:1/13;padding-bottom:32px}.meth .n{font-size:var(--t5)}.meth .head{padding-top:48px}}
+/* footer */
+.foot{margin-top:48px;padding:48px 0 0;overflow:hidden}
+.foot .d{grid-column:1/7;font-size:var(--t1)}
+.foot .d p+p{margin-top:12px}
+.foot .l{grid-column:8/13;display:flex;gap:48px}
+.foot ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.foot .big{font-size:var(--t6);line-height:.78;font-weight:900;font-stretch:62%;text-transform:uppercase;letter-spacing:-.02em;color:var(--tomato);margin-top:48px;white-space:nowrap;transform:translateY(8%)}
+@media(max-width:760px){.foot .d,.foot .l{grid-column:1/13}.foot .l{margin-top:32px;gap:32px}.foot .big{font-size:calc(var(--t6)*1.12)}}
+</style></head><body>
+<div class="wrap"><nav class="nav"><a class="logo" href="home.html"><i></i>NexuAlpha</a><ul><li><a class="lab" href="compare.html">Compare</a></li><li><a class="lab on" href="home.html#list">Exchanges</a></li><li><a class="lab" href="home.html#method">Method</a></li><li><a class="lab" href="home.html#disclosure">Disclosure</a></li></ul></nav></div>
+<main>
+<section class="hero"><div class="wrap"><div class="rule"></div><div class="g" style="padding-top:32px">
+  <h1 class="h1 disp">Compare crypto platforms and <em>official</em> account routes</h1>
+  <aside class="side red"><span class="lab">Index</span><div class="big">08</div><p>platforms, one honest fee table.</p></aside>
+  <p class="lead">Every exchange below links to its own official signup page. Fees are published rates, verdicts are one line, and referral codes are shown in plain sight.</p>
+  <ul class="meta lab"><li><span>Platforms</span><span>08</span></li><li><span>Codes</span><span>04</span></li><li><span>Checked</span><span>Oct 2026</span></li></ul>
+</div></div></section>
+<section id="list"><div class="wrap"><div class="rule"></div>
+ <div class="lh lab"><span>No.</span><span>Platform &middot; Verdict</span><span>Fee range</span><span>Code &middot; Route</span></div>
+ <article class="row g"><span class="idx lab">01</span><h3 class="nm"><a href="binance.html">Binance</a></h3><div class="fee"><b>0.075–0.10%</b><span class="lab">Spot, base tier</span></div><p class="vd">Deepest order books and the widest product shelf; the default first account.</p><div class="act"><div class="code"><span>Code</span><b>11350287</b></div><a class="cta" href="#">Open official signup <span>&rarr;</span></a></div></article>
+<article class="row g"><span class="idx lab">02</span><h3 class="nm"><a href="#">Coinbase</a></h3><div class="fee"><b>0.00–0.60%</b><span class="lab">Maker, Advanced</span></div><p class="vd">Cleanest onboarding for US and EU users; retail fees run high, Advanced runs low.</p><div class="act"><div class="code none"><span>Code</span><b>None</b></div><a class="cta" href="#">Open official signup <span>&rarr;</span></a></div></article>
+<article class="row g"><span class="idx lab">03</span><h3 class="nm"><a href="#">Bybit</a></h3><div class="fee"><b>0.02–0.10%</b><span class="lab">Perp to spot</span></div><p class="vd">Derivatives-first with a fast interface; spot depth trails the top two.</p><div class="act"><div class="code"><span>Code</span><b>48553</b></div><a class="cta" href="#">Open official signup <span>&rarr;</span></a></div></article>
+<article class="row g"><span class="idx lab">04</span><h3 class="nm"><a href="#">Bitget</a></h3><div class="fee"><b>0.02–0.10%</b><span class="lab">Perp to spot</span></div><p class="vd">Strong copy-trading tools and a broad altcoin list at middle-of-pack fees.</p><div class="act"><div class="code"><span>Code</span><b>C6PRAF</b></div><a class="cta" href="#">Open official signup <span>&rarr;</span></a></div></article>
+<article class="row g"><span class="idx lab">05</span><h3 class="nm"><a href="#">OKX</a></h3><div class="fee"><b>0.02–0.10%</b><span class="lab">Perp to spot</span></div><p class="vd">Lowest base spot maker fee of the majors, plus a built-in on-chain wallet.</p><div class="act"><div class="code"><span>Code</span><b>nexu888</b></div><a class="cta" href="#">Open official signup <span>&rarr;</span></a></div></article>
+<article class="row g"><span class="idx lab">06</span><h3 class="nm"><a href="#">Kraken</a></h3><div class="fee"><b>0.00–0.40%</b><span class="lab">Maker, Pro</span></div><p class="vd">Long regulatory track record; fees fall quickly with 30-day volume.</p><div class="act"><div class="code none"><span>Code</span><b>None</b></div><a class="cta" href="#">Open official signup <span>&rarr;</span></a></div></article>
+<article class="row g"><span class="idx lab">07</span><h3 class="nm"><a href="#">Hyperliquid</a></h3><div class="fee"><b>0.015–0.045%</b><span class="lab">Perps, base tier</span></div><p class="vd">On-chain order book with no sign-up; self-custody, perps only.</p><div class="act"><div class="code none"><span>Code</span><b>None</b></div><a class="cta" href="#">Open official signup <span>&rarr;</span></a></div></article>
+<article class="row g"><span class="idx lab">08</span><h3 class="nm"><a href="#">Uniswap</a></h3><div class="fee"><b>0.01–1.00%</b><span class="lab">Pool tier</span></div><p class="vd">Swap straight from your wallet; pay pool and network fees, no account.</p><div class="act"><div class="code none"><span>Code</span><b>None</b></div><a class="cta" href="#">Open official signup <span>&rarr;</span></a></div></article>
+ </div></section>
+<section class="cmp red"><div class="wrap">
+ <div class="g row1"><div class="vs">Binance <span class="o">vs</span> OKX</div></div>
+ <div class="g" style="border-top:8px solid var(--ink);margin-top:24px">
+  <div class="pick"><p class="lab">Compare entry</p><p class="nm disp" style="font-size:var(--t4)">Two giants, one table</p></div>
+  <p class="txt">Spot and perp fees, discounts, regions and sign-up codes, side by side. Pick any two platforms.</p>
+  <div class="go"><a class="cta" href="compare.html">Start comparing <span>&rarr;</span></a></div></div>
+</div></section>
+<section class="meth" id="method"><div class="wrap">
+ <div class="g head"><div style="grid-column:1/9"><p class="lab">Method</p><h2 class="disp">How we score</h2></div></div>
+ <div class="g">
+  <div class="cell"><div class="n">01</div><h4>Published fees</h4><p>Base-tier maker and taker rates, copied from each fee page.</p></div>
+  <div class="cell"><div class="n">02</div><h4>Official routes</h4><p>Signup links go to the exchange itself, never a mirror.</p></div>
+  <div class="cell"><div class="n">03</div><h4>Live codes</h4><p>Each referral code is tested at signup before it is listed.</p></div>
+  <div class="cell"><div class="n">04</div><h4>Dated checks</h4><p>Every figure carries a check date and is re-read monthly.</p></div>
+ </div></div></section>
+</main>
+<footer class="foot ink" id="disclosure"><div class="wrap">
+ <div class="g"><div class="d">
+  <p class="lab" style="color:var(--tomato)">Disclosure</p>
+  <p>NexuAlpha earns a commission when you open an account through an official referral route. It costs you nothing extra and never changes how we score fees. Fee figures are published base-tier rates; confirm on the exchange before you trade. Not financial advice.</p>
+  <p class="lab">Rates checked Oct 2026</p></div>
+  <div class="l"><ul><li class="lab" style="opacity:.6">Site</li><li><a href="compare.html">Compare</a></li><li><a href="binance.html">Binance</a></li><li><a href="home.html#method">Method</a></li></ul>
+  <ul><li class="lab" style="opacity:.6">Legal</li><li>Referral policy</li><li>Risk notice</li><li>Contact</li></ul></div></div>
+ <div class="big">NexuAlpha</div></div></footer>
+</body></html>
