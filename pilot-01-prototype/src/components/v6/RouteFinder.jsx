@@ -150,13 +150,9 @@ function useRoutes(stageRef, refs, intent, litKey, slug) {
       const r = el.getBoundingClientRect();
       const bx = rtl ? r.right : r.left;
       const by = r.top + r.height / 2;
-      let d;
-      if (wide) {
-        const k = Math.abs(bx - origin[0]) * 0.55;
-        d = `M${X(origin[0])} ${Y(origin[1])}C${X(origin[0] + dir * k)} ${Y(origin[1])} ${X(bx - dir * k)} ${Y(by)} ${X(bx)} ${Y(by)}`;
-      } else {
-        d = `M${X(origin[0])} ${Y(origin[1])}V${Y(by - 10)}Q${X(origin[0])} ${Y(by)} ${X(origin[0] + dir * 10)} ${Y(by)}H${X(bx)}`;
-      }
+      // metro line: along the trunk, then a rounded branch into the node port (trunk sits just before the nodes on wide, on the rail when stacked)
+      const tx = wide ? bx - dir * 24 : origin[0];
+      const d = `M${X(origin[0])} ${Y(origin[1])}H${X(tx)}V${Y(by + (by > origin[1] ? -10 : 10))}Q${X(tx)} ${Y(by)} ${X(tx + dir * 10)} ${Y(by)}H${X(bx)}`;
       base.push({ slug: s, d });
       if (s === slug) {
         fan = [d];

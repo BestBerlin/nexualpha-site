@@ -177,7 +177,7 @@
   position: relative;
   appearance: none;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   column-gap: var(--s-3);
   min-block-size: var(--s-12);
@@ -195,12 +195,15 @@
 #top.v6 .rf-node .v2-brand { inline-size: var(--s-8); block-size: var(--s-8); border-radius: var(--r-sm); }
 #top.v6 .rf-node .v2-brand-fallback { inline-size: var(--s-8); block-size: var(--s-8); font-size: var(--t-12); }
 #top.v6 .rf-node__name { font-size: var(--t-16); line-height: 1.3; font-weight: 600; color: var(--text-strong); min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-#top.v6 .rf-node__fee { font-size: var(--t-14); line-height: 1.4; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--text); text-align: end; white-space: nowrap; }
+#top.v6 .rf-node .v2-brand, #top.v6 .rf-node .v2-brand-fallback { grid-row: 1 / 3; }
+#top.v6 .rf-node__name { grid-column: 2; grid-row: 1; align-self: end; }
+#top.v6 .rf-node__fee { grid-column: 2; grid-row: 2; align-self: start; font-size: var(--t-12); line-height: 1.4; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--text-muted); text-align: start; white-space: nowrap; }
 #top.v6 .rf-na { color: var(--text-muted); font-family: var(--font-sans); }
 #top.v6 .rf-node[data-on="true"]:hover { background: var(--n2); border-color: var(--n7); translate: calc(var(--s-1) * -1) 0; }
 #top.v6 .rf-node[data-on="true"]:active { translate: 0 1px; scale: 0.985; }
 #top.v6 .rf-node[data-active="true"] { background: var(--n3); border-color: var(--n9); }
 #top.v6 .rf-node[data-active="true"] .rf-node__fee { color: var(--accent); }
+#top.v6 .rf-node[data-on="true"]:hover .rf-node__fee { color: var(--text-strong); }
 #top.v6 .rf-node[data-on="false"] { opacity: 0.4; cursor: not-allowed; }
 #top.v6 .rf-node[data-on="false"] .v2-brand { filter: grayscale(1); }
 
@@ -302,7 +305,9 @@
 
 
 /* tap targets and the one tactile CTA language (hero-side): magnetic hover via --tx/--ty (JS), spring press */
-#top.v6 .rf-card .registration-card__disclosure summary { display: inline-flex; align-items: center; min-block-size: var(--s-12); }
+#top.v6 .rf-card .registration-card__disclosure summary { display: inline; padding-block: var(--s-3); margin-block: calc(var(--s-3) * -1); }
+#top.v6 .rf-card .registration-card__mobile-route-summary { min-block-size: var(--s-12); font-size: var(--t-12); }
+#top.v6 .rf-card .registration-card__mobile-route-summary strong { font-size: var(--t-12); }
 #top.v6 .rf-card .registration-card__primary-btn,
 #top.v6 .rf-btn--primary {
   transform: translate(var(--tx, 0px), var(--ty, 0px));
@@ -364,7 +369,8 @@
 #top.v6 .rf-tg:hover span:last-child { translate: var(--s-1) calc(var(--s-1) * -1); }
 
 /* ---------- legacy strip, restyled: ticker, Brazil entry, section nav ---------- */
-#top.v6 .rf .rebate-ticker-bar { inline-size: 100%; margin: 0; padding-block: var(--s-2) 0; background: none; border: 0; }
+#top.v6.home-refinement .rf .rebate-ticker-bar { inline-size: 100%; block-size: auto; margin: 0; padding: 0; background: none; border: 0; }
+#top.v6.home-refinement .rf .rebate-ticker__details { position: static; }
 #top.v6 .rf .rebate-ticker__container { inline-size: min(100% - 2 * var(--gutter), var(--container)); max-inline-size: none; margin-inline: auto; padding-inline: 0; }
 #top.v6 .rf .rebate-ticker__summary { font-size: var(--t-12); line-height: 1.4; min-block-size: var(--s-12); display: inline-flex; align-items: center; gap: var(--s-2); }
 #top.v6 .rf .rebate-ticker__text,
@@ -432,7 +438,8 @@
   #top.v6 .rf-list { display: grid; flex: 1; gap: var(--s-2); grid-auto-rows: minmax(var(--s-12), 1fr); margin: 0; padding: 0; }
   #top.v6 .rf-list > li { display: block; }
   #top.v6 .rf-node { order: 0; inline-size: 100%; block-size: 100%; margin: 0; }
-  #top.v6 .rf-card { order: 0; grid-column: 10 / 13; grid-row: 1 / 4; align-self: start; margin: var(--s-6) 0 0; padding: var(--s-6); }
+  #top.v6 .rf-card { order: 0; grid-column: 10 / 13; grid-row: 1 / 4; align-self: start; margin: var(--s-6) 0 0; padding: var(--s-4); }
+  #top.v6 .rf-lede { font-size: var(--t-20); }
   #top.v6 .rf-more { grid-column: 1 / -1; grid-row: 4; margin-block-start: var(--s-12); grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
   #top.v6 .rf-more__badge { grid-column: 1 / -1; }
   #top.v6 .rf-more__sub { grid-column: 1 / 7; }
