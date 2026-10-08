@@ -189,3 +189,7 @@
   .v6 .vb__venues::-webkit-scrollbar { display: none; }
   .v6 .vb__venue { flex: none; scroll-snap-align: start; white-space: nowrap; }
 }
+
+/* the referral code never breaks mid-number: the copy label gives way instead */
+.v6 .vb__code { flex-wrap: wrap; row-gap: var(--s-2); }
+.v6 .vb__codeval { overflow-wrap: normal; white-space: nowrap; }
