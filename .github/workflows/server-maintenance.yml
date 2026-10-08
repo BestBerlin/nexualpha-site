@@ -1,0 +1,40 @@
+name: Server maintenance
+
+# Manual only.
+# disk-report    read-only inventory of /data
+# remove-old-web remove every nexualpha-web-* container except the live one and the rollback
+#                target, and delete their release directories (owner approved 2026-10-08)
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        type: choice
+        options: [disk-report, remove-old-web]
+        default: disk-report
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          ACTION: ${{ inputs.action }}
+        run: |
+          . ./deploy/server.conf
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/k && chmod 600 ~/.ssh/k
+          cp deploy/known_hosts ~/.ssh/known_hosts
+          ssh -i ~/.ssh/k -o IdentitiesOnly=yes -o BatchMode=yes -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "env ACTION=$ACTION python3 -" < deploy/maintenance-remote.py
+          rm -f ~/.ssh/k
