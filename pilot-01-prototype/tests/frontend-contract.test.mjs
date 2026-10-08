@@ -815,7 +815,7 @@ test("activity reward research uses a responsive card grid without removing sour
   assert.match(activityCenterV3, /activity-center-v3__reward-grid/);
   assert.match(activityCenterV3, /activity-card-v3__conditions/);
   assert.match(activityCenterV3, /activity-center-v3__conditions-disclosure/);
-  assert.match(activityCenterV3, /rewardsText\.readSource/);
+  assert.match(activityCenterV3, /firstReadableSource\(record\).url/);
   assert.match(activityCenterV3Css, /\.activity-center-v3__reward-grid \{/);
   assert.match(activityCenterV3Css, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
   assert.match(activityCenterV3Css, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);

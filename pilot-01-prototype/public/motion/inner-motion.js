@@ -289,6 +289,12 @@
       pending.push(el);
     }
     if (!pending.length) return;
+    /* R9: where CSS scroll timelines exist the reveal is scroll-driven (pages-inner-r9.css animates [data-rv="v"] on its
+       view() timeline, forwards-only fill): no observer, nothing hidden before a block reaches the viewport. */
+    if (window.CSS && CSS.supports && CSS.supports("animation-timeline: view()")) {
+      for (var v = 0; v < pending.length; v++) pending[v].setAttribute("data-rv", "v");
+      return;
+    }
     s.io = new IntersectionObserver(function (entries) {
       for (var j = 0; j < entries.length; j++) {
         if (entries[j].isIntersecting) { entries[j].target.setAttribute("data-rv", "1"); s.io.unobserve(entries[j].target); }

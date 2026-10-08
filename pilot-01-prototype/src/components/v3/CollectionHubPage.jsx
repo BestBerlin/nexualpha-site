@@ -2,6 +2,21 @@ import React from "react";
 import { collectionHubCopy, factbookHubItems, topicHubItems } from "../../data/collection-hubs.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark";
+import { feeFact } from "../../data/exchange-facts.js";
+
+const hasCheckedFees = (slug) => feeFact(slug, "spot").state === "checked" || feeFact(slug, "perp").state === "checked";
+// Factbook rows group by venue type in their existing order (consecutive runs only, so the link order never changes);
+// other hubs stay one list.
+function groupsOf(kind, items) {
+  if (kind !== "factbook") return [{ key: "all", caption: null, items }];
+  const out = [];
+  for (const item of items) {
+    const key = item.category || "other";
+    if (!out.length || out[out.length - 1].key !== key) out.push({ key, caption: item.category || null, items: [] });
+    out[out.length - 1].items.push(item);
+  }
+  return out.length > 1 ? out : [{ key: "all", caption: null, items }];
+}
 
 export function CollectionHubPage({ kind, locale = "en" }) {
   const copy = collectionHubCopy(kind, locale);
@@ -41,9 +56,11 @@ export function CollectionHubPage({ kind, locale = "en" }) {
       </div>
     </section>
     <section className="v2-shell v3-section" aria-label={copy.itemLabel} data-route-label={copy.itemLabel}>
+      {groupsOf(kind, items).map((group) => <div className="r9-hub-group" key={group.key} data-hub-group={group.key}>
+      {group.caption && <p className="r9-hub-group__cap">{group.caption} <span className="v6-num">· {group.items.length}</span></p>}
       <div className="topic-grid">
-        {items.map((item) => (
-          <article className="topic-card" key={item.slug}>
+        {group.items.map((item) => (
+          <article className="topic-card" key={item.slug} data-fees={kind === "factbook" ? (hasCheckedFees(item.slug) ? "checked" : "pending") : undefined}>
             {kind === "factbook" ? <span className="topic-card__logo" aria-hidden="true"><BrandMark slug={item.slug} compact /></span> : null}
             <h2><a href={localizedHref(item.href, { locale })}>{item.title}</a></h2>
             <p>{item.description}</p>
@@ -63,6 +80,7 @@ export function CollectionHubPage({ kind, locale = "en" }) {
           </article>
         ))}
       </div>
+      </div>)}
     </section>
   </main>;
 }

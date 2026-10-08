@@ -23,7 +23,7 @@ const L = {
   it: { feesChecked: "Commissioni verificate", fees: "Commissioni", spot: "Spot", perp: "Perpetui", maker: "Maker", taker: "Taker", discount: "Sconto", check: "Vedi pagina ufficiale", checked: "Verificato", products: "Prodotti", eligibility: "Regioni e idoneità", spotSub: "Livello base", perpSub: "Livello base futures", pays: "pagando le commissioni in" },
 };
 
-const labels = (locale) => L[locale] || L[String(locale || "en").split("-")[0]] || L.en;
+export const labels = (locale) => L[locale] || L[String(locale || "en").split("-")[0]] || L.en;
 
 function HeroCount({ value, decimals, suffix, locale, className, text }) {
   const ref = useRef(null);
