@@ -289,6 +289,7 @@
 .v6 .cl-fees__body .bleed-analyzer__verdict-card { border-inline-start: 1px solid var(--n6) !important; padding-inline-start: var(--s-12) !important; }
 .v6 .cl-fees__body :is(.bleed-dual-track, .bleed-solution-box) { border: 0 !important; border-block-start: 1px solid var(--n6) !important; border-radius: 0 !important; background: none !important; padding-inline: 0 !important; }
 .v6 .cl-fees__body :is(.bleed-tg-sync-btn, .bleed-tg-sync-btn *, .bleed-tg-icon, .bleed-embed-btn, .bleed-copy-code-btn, a:not(.bleed-cta-btn)):not(#_):not(#_) { color: var(--text-strong) !important; }
+.v6 .cl-fees__body :is(button, a):not(.bleed-cta-btn, .bleed-venue-btn, .bleed-type-btn):not(#_):not(#_):not(#_) { color: var(--text-strong) !important; }
 .v6 .cl-fees__body .bleed-tg-sync-btn { border: 1px solid var(--n7) !important; background: transparent !important; text-decoration: none; }
 .v6 .cl-fees__body .bleed-cta-btn { color: var(--on-accent) !important; text-decoration: none; }
 @media (max-width: 47.99rem) { .v6 .cl-fees__body .bleed-analyzer__verdict-card { border-inline-start: 0 !important; padding-inline-start: 0 !important; border-block-start: 1px solid var(--n6) !important; padding-block-start: var(--s-6) !important; } .v6 .cl-fees__body .bleed-analyzer__grid { gap: var(--s-6); } }
