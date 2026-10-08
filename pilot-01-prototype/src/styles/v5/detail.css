@@ -17,6 +17,8 @@
   padding-inline: 0;
 }
 .v5-detail.v3-profile-page .v3-page-hero {
+  display: block;
+  grid-template-columns: none;
   padding-block: var(--s-6) var(--s-16);
   border: 0;
   background: none;
@@ -526,7 +528,6 @@
   .v5-detail.v3-profile-page .registration-card__body { padding: var(--s-4) var(--s-5) var(--s-5); gap: var(--s-4); }
   .v5-detail.v3-profile-page .registration-card__disclosure { padding-inline: var(--s-5); }
 }
-.v5-detail * { min-inline-size: 0; }
 .v5-detail.v3-profile-page { overflow-x: clip; }
 .v5-detail [dir="rtl"] .d5-figure, .v5-detail .d5-figure { unicode-bidi: plaintext; }
 .v5-detail.v3-profile-page .d5-lock { margin-inline-end: 2px; }
