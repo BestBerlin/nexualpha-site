@@ -39,13 +39,17 @@ export function ClosingBand({ legacy, locale = "en" }) {
   useEffect(() => {
     const el = ref.current;
     if (!el || typeof IntersectionObserver === "undefined") return undefined;
-    setPhase("armed");
-    const timer = window.setTimeout(() => setPhase("in"), 2400);
-    const io = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) { setPhase("in"); window.clearTimeout(timer); io.disconnect(); }
-    }, { threshold: 0.35 });
+    // Server HTML and no-JS stay fully visible. After mount the band is armed (paper sheet covered) and the reveal plays when
+    // the band is actually scrolled to: a visible wipe plus the headline rise. If IO somehow never reports, a scroll check does.
+    const open = () => { setPhase("in"); io.disconnect(); window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
+    const check = () => { const r = el.getBoundingClientRect(); if (r.top < window.innerHeight * 0.85 && r.bottom > 0) open(); };
+    const io = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) open(); }, { threshold: 0.2 });
     io.observe(el);
-    return () => { window.clearTimeout(timer); io.disconnect(); };
+    setPhase("armed");
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    const t = window.setTimeout(check, 400);
+    return () => { window.clearTimeout(t); io.disconnect(); window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
   }, []);
   // CJK has no spaces: rise per clause (never per glyph, so kinsoku line breaking stays intact).
   const cjk = /^(zh|ja)/.test(locale);
@@ -61,8 +65,8 @@ export function ClosingBand({ legacy, locale = "en" }) {
       <p className="v6-lead v6-close__lead">{t.lead}</p>
       <div className="v6-close__go">
         <svg className="v6-close__route" viewBox="0 0 600 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          <path className="track" d="M0 34 H150 C190 34 190 20 230 20 H600" />
-          <path className="draw" d="M0 34 H150 C190 34 190 20 230 20 H600" />
+          <path className="track" d="M0 34 H150 C190 34 190 20 230 20 H594" />
+          <path className="draw" d="M0 34 H150 C190 34 190 20 230 20 H594" />
         </svg>
         <GoForm href={localizedHref("/exchanges", { locale })} className="btn btn-primary v6-close__cta">{t.dir}<i className="v6-arrow" aria-hidden="true" /></GoForm>
         <GoForm href={localizedHref("/compare/binance-vs-okx", { locale })} className="v6-close__alt"><span>{t.cmp}</span><i className="v6-arrow" aria-hidden="true" /></GoForm>

@@ -176,7 +176,7 @@ export function MobileBottomNav({ locale, onSearch, brazil = false }) {
     },
     {
       id: "search",
-      label: labels.search || (isPt ? "Buscar" : isHant ? "搜尋 ⌘K" : isZh ? "搜索 ⌘K" : "Search"),
+      label: labels.search || (isPt ? "Buscar" : isHant ? "搜尋" : isZh ? "搜索" : "Search"),
       visibleLabel: compactLabels.search,
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

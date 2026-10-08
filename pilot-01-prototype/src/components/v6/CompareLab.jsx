@@ -1,6 +1,7 @@
 // V6 Act 2: Compare Lab. Paired ledger of verified fee figures that morphs between two chosen venues.
 // Only values present in EXCHANGE_FACTS are shown; anything else reads "Not yet checked". No ranking, no verdicts.
 import { useLayoutEffect, useEffect, useRef } from "react";
+import { useScrollEdges } from "./useScrollEdges.js";
 import { BrandMark } from "../brand/BrandMark";
 import { getUi } from "../v3/CrossroadsCompare";
 import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
@@ -26,25 +27,10 @@ function fmt(n, locale, suffix = "%") {
   return f.format(n) + suffix;
 }
 
-// Figure that counts from its previous value to the new one. Server and first paint carry the final value.
+// Figure: always the final, verified value. A change re-mounts the node and it rolls in (opacity + translate only);
+// no intermediate numbers are ever rendered, so a verified fee can never flash a wrong value.
 function Fig({ v, locale, suffix = "%", className = "cl-fig v6-num" }) {
-  const ref = useRef(null);
-  const prev = useRef(v);
-  useIso(() => {
-    const el = ref.current, from = prev.current;
-    prev.current = v;
-    if (!el || from === v || prefersReducedMotion()) return undefined;
-    let raf = 0; const t0 = performance.now();
-    const tick = (now) => {
-      const p = Math.min((now - t0) / 520, 1);
-      el.textContent = fmt(from + (v - from) * (p >= 1 ? 1 : 1 - 2 ** (-10 * p)), locale, suffix);
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    el.textContent = fmt(from, locale, suffix);
-    raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(raf); el.textContent = fmt(v, locale, suffix); };
-  }, [v, locale, suffix]);
-  return <span ref={ref} className={className}>{fmt(v, locale, suffix)}</span>;
+  return <span key={v} className={`${className} cl-roll`}>{fmt(v, locale, suffix)}</span>;
 }
 
 // One side of a ledger row. Bars share one scale per product (the larger of the two venues), the lower figure carries the accent.
@@ -66,6 +52,24 @@ function Cell({ side, name, value, scale, other, locale, pending, text }) {
 
 const Arrow = () => <svg className="cl-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>;
 
+function Chips({ slot, cur, chips, label, nameOf, onPick, onDown }) {
+  const ref = useRef(null);
+  useScrollEdges(ref);
+  return (
+    <div className={`cl-pick cl-pick--${slot ? "b" : "a"}`} role="radiogroup" aria-label={label}>
+      <span className="cl-pick__label v6-meta" aria-hidden="true">{label}</span>
+      <div className="cl-chips" ref={ref}>
+        {chips.map((s) => (
+          <label key={s} className="cl-chip" data-venue={s} onPointerDown={(e) => onDown(e, s)} onDragStart={(e) => e.preventDefault()}>
+            <input type="radio" name={`cl-slot-${slot}`} value={s} checked={cur === s} onChange={() => onPick(slot, s)} />
+            <span translate="no"><i className="cl-grip" aria-hidden="true" />{nameOf(s)}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function normalize(selected) {
   const out = [];
   for (const s of Array.isArray(selected) ? selected : []) if (typeof s === "string" && /^[a-z0-9-]+$/.test(s) && !out.includes(s)) out.push(s);
@@ -80,6 +84,8 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   const [a, b] = normalize(selected);
   const plate = useRef(null);
   const snapshot = useRef(null);
+  const drag = useRef(null);
+  const thud = useRef(null);
   const catalog = Object.fromEntries((Array.isArray(venues) ? venues : []).map((v) => [v.slug, v]));
   const nameOf = (s) => catalog[s]?.name || NAMES[s] || s;
   const typeOf = (s) => TYPES[EXCHANGE_FACTS[s]?.type] || catalog[s]?.category || "";
@@ -101,6 +107,11 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
     if (!m || !plate.current) return;
     snapshot.current = null;
     if (prefersReducedMotion()) return;
+    if (thud.current != null) {
+      const slot = plate.current.querySelector(`.cl-id[data-slot="${thud.current}"]`);
+      thud.current = null;
+      slot?.animate([{ scale: 0.94 }, { scale: 1.035, offset: 0.55 }, { scale: 1 }], { duration: 380, easing: EASE });
+    }
     plate.current.querySelectorAll("[data-flip]").forEach((el) => {
       const p = m[el.dataset.flip], r = el.getBoundingClientRect();
       if (p) {
@@ -114,6 +125,107 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   const pick = (slot, slug) => {
     if (slot === 0) commit(slug, slug === b ? a : b);
     else commit(slug === a ? b : a, slug);
+  };
+
+  // Direct manipulation: press a venue chip (or a venue already in a slot) and drag it onto a slot. Pointer events only, so it
+  // covers mouse, pen and touch (touch needs a short hold so the chip row can still scroll). The keyboard path is the chip
+  // radio rows themselves. Near a slot the dragged label is pulled toward its centre (magnetic), the slot lights up, and the
+  // drop lands with a small thud (plus a haptic tick where the device has one).
+  const live = useRef({});
+  live.current = { a, b, pick, nameOf };
+  const onDown = (e, slug) => {
+    const plateEl = plate.current;
+    if (!plateEl || (e.button != null && e.button > 0) || drag.current) return;
+    const touch = e.pointerType === "touch";
+    const st = { slug, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, active: false, hot: null, ghost: null, raf: 0, timer: 0, gx: e.clientX, gy: e.clientY };
+    drag.current = st;
+    const slotRects = () => [...plateEl.querySelectorAll(".cl-id[data-slot]")].map((el) => ({ el, slot: Number(el.dataset.slot), r: el.getBoundingClientRect() }));
+    const frame = () => {
+      st.raf = 0;
+      if (!st.active) return;
+      const slots = slotRects();
+      let best = null;
+      for (const s of slots) {
+        const dx = Math.max(s.r.left - st.x, 0, st.x - s.r.right), dy = Math.max(s.r.top - st.y, 0, st.y - s.r.bottom);
+        const d = Math.hypot(dx, dy);
+        if (d < 96 && (!best || d < best.d)) best = { ...s, d };
+      }
+      const hot = best ? best.slot : null;
+      if (hot !== st.hot) {
+        st.hot = hot;
+        slots.forEach((s) => { if (s.slot === hot) s.el.setAttribute("data-hot", ""); else s.el.removeAttribute("data-hot"); });
+        if (hot != null) { try { navigator.vibrate?.(6); } catch { /* no haptics */ } }
+      }
+      // magnetic pull: inside the field the label drifts toward the slot centre instead of sticking to the cursor
+      let tx = st.x, ty = st.y;
+      if (best) { const cx = (best.r.left + best.r.right) / 2, cy = (best.r.top + best.r.bottom) / 2; const k = best.d === 0 ? 0.55 : 0.4; tx = st.x + (cx - st.x) * k; ty = st.y + (cy - st.y) * k; }
+      st.gx += (tx - st.gx) * 0.38; st.gy += (ty - st.gy) * 0.38;
+      if (st.ghost) st.ghost.style.transform = `translate3d(${st.gx}px, ${st.gy}px, 0) translate(-50%, -50%) scale(${best ? 1.06 : 1})`;
+      if (Math.abs(tx - st.gx) + Math.abs(ty - st.gy) > 0.5) st.raf = requestAnimationFrame(frame);
+    };
+    const kick = () => { if (!st.raf) st.raf = requestAnimationFrame(frame); };
+    const start = () => {
+      st.active = true;
+      const g = document.createElement("div");
+      g.className = "cl-ghost"; g.setAttribute("aria-hidden", "true");
+      g.textContent = live.current.nameOf(slug);
+      g.style.transform = `translate3d(${st.x}px, ${st.y}px, 0) translate(-50%, -50%)`;
+      plateEl.appendChild(g);
+      st.ghost = g;
+      plateEl.setAttribute("data-dragging", "");
+      try { navigator.vibrate?.(8); } catch { /* no haptics */ }
+      kick();
+    };
+    const blockTouch = (ev) => { if (st.active) ev.preventDefault(); };
+    const move = (ev) => {
+      st.x = ev.clientX; st.y = ev.clientY;
+      const dist = Math.hypot(st.x - st.x0, st.y - st.y0);
+      if (!st.active) {
+        if (touch) { if (dist > 8) end(false); } else if (dist > 5) start();
+        return;
+      }
+      kick();
+    };
+    const end = (drop) => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", cancel);
+      window.removeEventListener("touchmove", blockTouch);
+      clearTimeout(st.timer);
+      if (st.raf) cancelAnimationFrame(st.raf);
+      drag.current = null;
+      if (!st.active) return;
+      plateEl.removeAttribute("data-dragging");
+      plateEl.querySelectorAll(".cl-id[data-hot]").forEach((el) => el.removeAttribute("data-hot"));
+      // the drag was a gesture, not a click: swallow the click the browser is about to synthesise
+      const swallow = (ev) => { ev.preventDefault(); ev.stopPropagation(); };
+      window.addEventListener("click", swallow, { capture: true, once: true });
+      setTimeout(() => window.removeEventListener("click", swallow, { capture: true }), 60);
+      const g = st.ghost;
+      const target = drop && st.hot != null ? slotRects().find((s) => s.slot === st.hot) : null;
+      if (target && g) {
+        const cx = (target.r.left + target.r.right) / 2, cy = (target.r.top + target.r.bottom) / 2;
+        const anim = g.animate([{ transform: g.style.transform, opacity: 1 }, { transform: `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%) scale(0.7)`, opacity: 0 }], { duration: 200, easing: EASE, fill: "forwards" });
+        anim.onfinish = () => g.remove();
+        thud.current = target.slot;
+        const { a: ca, b: cb, pick: cpick } = live.current;
+        if ((target.slot === 0 ? ca : cb) !== slug) cpick(target.slot, slug);
+        else target.el.animate([{ scale: 1 }, { scale: 0.96 }, { scale: 1.03 }, { scale: 1 }], { duration: 320, easing: EASE });
+        try { navigator.vibrate?.([10, 30, 10]); } catch { /* no haptics */ }
+      } else if (g) {
+        const anim = g.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: "forwards" });
+        anim.onfinish = () => g.remove();
+      }
+    };
+    const up = () => end(true);
+    const cancel = () => end(false);
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", cancel);
+    if (touch) {
+      window.addEventListener("touchmove", blockTouch, { passive: false });
+      st.timer = setTimeout(() => { if (drag.current === st) start(); }, 280);
+    }
   };
 
   const fa = EXCHANGE_FACTS[a], fb = EXCHANGE_FACTS[b];
@@ -152,22 +264,8 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
     </>
   );
 
-  const Picker = ({ slot, cur, label }) => (
-    <div className={`cl-pick cl-pick--${slot ? "b" : "a"}`} role="radiogroup" aria-label={label}>
-      <span className="cl-pick__label v6-meta" aria-hidden="true">{label}</span>
-      <div className="cl-chips">
-        {chips.map((s) => (
-          <label key={s} className="cl-chip">
-            <input type="radio" name={`cl-slot-${slot}`} value={s} checked={cur === s} onChange={() => pick(slot, s)} />
-            <span translate="no">{nameOf(s)}</span>
-          </label>
-        ))}
-      </div>
-    </div>
-  );
-
   const Identity = ({ slug, side }) => (
-    <div className={`cl-id cl-id--${side}`} data-flip={slug}>
+    <div className={`cl-id cl-id--${side}`} data-flip={slug} data-slot={side === "a" ? 0 : 1} onPointerDown={(e) => onDown(e, slug)}>
       <BrandMark slug={slug} />
       <div className="cl-id__text">
         <span className="cl-id__name" translate="no">{nameOf(slug)}</span>
@@ -180,14 +278,14 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
     <section className="cl v6-section" id="compare" aria-labelledby="cl-title">
       <div className="v6-wrap">
         <header className="cl__head">
-          <h2 className="v6-h2" id="cl-title">{ui.title}</h2>
+          <h2 className="v6-h1" id="cl-title">{ui.title}</h2>
           <p className="v6-lead">{ui.lead}</p>
         </header>
 
         <div className="cl__plate" ref={plate}>
           <div className="cl-grid cl-grid--pick">
-            {Picker({ slot: 0, cur: a, label: t.first })}
-            {Picker({ slot: 1, cur: b, label: t.second })}
+            <Chips slot={0} cur={a} chips={chips} label={t.first} nameOf={nameOf} onPick={pick} onDown={onDown} />
+            <Chips slot={1} cur={b} chips={chips} label={t.second} nameOf={nameOf} onPick={pick} onDown={onDown} />
           </div>
 
           <div className="cl-grid cl-grid--ids">
@@ -250,43 +348,44 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
               <span className="cl-sr"> ({nameOf(a)} / {nameOf(b)})</span>
             </a>
           </div>
-        </div>
 
-        <div className="cl-pop">
-          <h3 className="v6-h3">{t.popular}</h3>
-          <ul className="cl-pop__list">
-            {ui.pairs.map((pair) => (
-              <li key={pair.slug} className="cl-pop__item" data-active={isCurrent(pair) ? "1" : undefined}>
-                {isCurrent(pair) ? (
-                  <div className="cl-pop__link" aria-current="true">{popInner(pair)}</div>
-                ) : (
-                  <a
-                    className="cl-pop__link"
-                    href={href(pair.slug)}
-                    data-decision-path={({ "binance-vs-okx": "cex", "bybit-vs-bitget": "derivatives", "uniswap-vs-jupiter": "onchain", "hyperliquid-vs-dydx": "perp" })[pair.slug]}
-                    data-growth-decision={pair.slug}
-                    data-growth-placement="crossroads-compare-card"
-                    data-growth-product={pair.slug.includes("dydx") ? "perpetuals" : "spot"}
-                  >{popInner(pair)}</a>
-                )}
-                <button type="button" className="cl-pop__load v6-small" aria-pressed={isCurrent(pair)} onClick={() => commit(pair.left, pair.right)}>{t.preview}</button>
-              </li>
-            ))}
-          </ul>
-        </div>
+          <div className="cl-pop">
+            <h3 className="v6-h3">{t.popular}</h3>
+            <ul className="cl-pop__list">
+              {ui.pairs.map((pair) => (
+                <li key={pair.slug} className="cl-pop__item" data-active={isCurrent(pair) ? "1" : undefined}>
+                  {isCurrent(pair) ? (
+                    <div className="cl-pop__link" aria-current="true">{popInner(pair)}</div>
+                  ) : (
+                    <a
+                      className="cl-pop__link"
+                      href={href(pair.slug)}
+                      data-decision-path={({ "binance-vs-okx": "cex", "bybit-vs-bitget": "derivatives", "uniswap-vs-jupiter": "onchain", "hyperliquid-vs-dydx": "perp" })[pair.slug]}
+                      data-growth-decision={pair.slug}
+                      data-growth-placement="crossroads-compare-card"
+                      data-growth-product={pair.slug.includes("dydx") ? "perpetuals" : "spot"}
+                    >{popInner(pair)}</a>
+                  )}
+                  <button type="button" className="cl-pop__load v6-small" aria-pressed={isCurrent(pair)} onClick={() => commit(pair.left, pair.right)}>{t.preview}</button>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        {feeCheck && (
-          <details className="cl-fees" id="bleed-analyzer">
-            <summary className="cl-fees__sum">
-              <span className="cl-fees__text">
-                <strong className="v6-h3">{t.feeTitle}</strong>
-                <span className="v6-small">{t.feeSub}</span>
-              </span>
-              <span className="cl-fees__icon" aria-hidden="true" />
-            </summary>
-            <div className="cl-fees__body">{feeCheck}</div>
-          </details>
-        )}
+          {feeCheck && (
+            <details className="cl-fees" id="bleed-analyzer">
+              <summary className="cl-fees__sum">
+                <svg className="cl-fees__glyph" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="9" y="6" width="22" height="28" rx="3" /><path d="M14 13h12M14 20h2M19 20h2M24 20h2M14 26h2M19 26h2M24 26h2" /></svg>
+                <span className="cl-fees__text">
+                  <strong className="v6-h3">{t.feeTitle}</strong>
+                  <span className="v6-small">{t.feeSub}</span>
+                </span>
+                <span className="cl-fees__icon" aria-hidden="true" />
+              </summary>
+              <div className="cl-fees__body">{feeCheck}</div>
+            </details>
+          )}
+        </div>
       </div>
     </section>
   );

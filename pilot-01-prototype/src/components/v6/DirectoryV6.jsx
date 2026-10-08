@@ -17,6 +17,7 @@ import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { directoryContext, directoryContextSearch, filterDirectoryVenues, regionalCtaState, regionalDirectoryCandidateState, venueMarketStatus } from "../../data/directory-context.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
+import { useScrollEdges } from "./useScrollEdges.js";
 
 const SEGMENTS = [
   { id: "all", key: "all" },
@@ -61,6 +62,8 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
   const secRef = useRef(null);
   const [inView, setInView] = useState(false);
   const segRefs = useRef([]);
+  const chipsRef = useRef(null);
+  useScrollEdges(chipsRef);
   const copyTimer = useRef(null);
   const seenRef = useRef(new Set());
 
@@ -177,7 +180,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
   };
 
   // Progressive, decorative reveal. Rows are visible by default; rows below the fold get a one-shot hairline sweep and
-  // their fee numerals count up when they arrive. A timeout disarms everything if IO never fires.
+  // their (already final, verified) fee numerals slide up through a mask. No number is ever animated through other values. A timeout disarms everything if IO never fires.
   useEffect(() => {
     const el = secRef.current;
     if (!el || typeof IntersectionObserver === "undefined") return undefined;
@@ -189,30 +192,11 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
   useEffect(() => {
     const root = listRef.current;
     if (!root || typeof window === "undefined" || typeof IntersectionObserver === "undefined") return undefined;
-    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     const nodes = [...root.querySelectorAll(".dir6-row")];
-    const countUp = (row) => {
-      if (reduce) return;
-      row.querySelectorAll("[data-v]").forEach((el, i) => {
-        const node = el.firstChild;
-        if (!node) return;
-        const final = el.getAttribute("data-final") || node.nodeValue;
-        const target = Number(el.getAttribute("data-v"));
-        const decimals = (final.split(".")[1] || "").length;
-        const start = performance.now() + i * 60;
-        const step = (now) => {
-          const t = Math.min(Math.max((now - start) / 640, 0), 1);
-          node.nodeValue = t >= 1 ? final : (target * (1 - Math.pow(1 - t, 4))).toFixed(decimals);
-          if (t < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-      });
-    };
     const reveal = (row) => {
       seenRef.current.add(row.getAttribute("data-slug"));
       row.removeAttribute("data-armed");
       row.setAttribute("data-seen", "1");
-      countUp(row);
     };
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -289,7 +273,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
               );
             })}
           </div>
-          <div className="dir6-chips" role="group" aria-label="filters">
+          <div className="dir6-chips" role="group" aria-label="filters" ref={chipsRef}>
             {[["noKyc", fl.noKyc], ["por", fl.por], ["fiat", fl.fiat], ["highLev", fl.highLev]].map(([key, label]) => (
               <button key={key} type="button" className="dir6-chip" aria-pressed={filters[key]} onClick={() => toggleFilter(key)}>
                 <span className="dir6-chip__box" aria-hidden="true"><Icon name="check" /></span>
@@ -381,7 +365,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                       <span className="dir6-fee__lab" aria-hidden="true">{mc.spot}</span>
                       {r.spot ? (
                         <>
-                          <span className="dir6-fee__v v6-num" dir="ltr" translate="no"><b data-v={r.spot[0]} data-final={fmtRate(r.spot[0])}>{fmtRate(r.spot[0])}</b><i aria-hidden="true">/</i><b data-v={r.spot[1]} data-final={fmtRate(r.spot[1])}>{fmtRate(r.spot[1])}</b><u>%</u></span>
+                          <span className="dir6-fee__v v6-num" dir="ltr" translate="no"><b>{fmtRate(r.spot[0])}</b><i aria-hidden="true">/</i><b>{fmtRate(r.spot[1])}</b><u>%</u></span>
                           <span className="dir6-fee__m" dir="auto">{mc.checked} <time dateTime={r.verifiedOn}>{r.verifiedOn}</time></span>
                         </>
                       ) : (

@@ -5,8 +5,10 @@
   --idx-gap: var(--s-6);
   /* the one colour band on the page: bone paper against the graphite, ink type, turquoise only on the CTA and the live route */
   --paper: #ecebe5; --ink: #101113; --ink-2: #3b3e43; --ink-3: #5a5d62;
-  /* the single display step for this moment (the only size above the 72 hero step) */
-  --t-moment: clamp(3.5rem, 11.5cqi, 9rem);
+  /* DISPLAY STEP (documented, the only one): 138px at the 1200 container, scales with the stage down to the 44 step on a phone.
+     Everything else in this band sits on the 12/14/16/20/28/44/72 scale. */
+  --t-display: clamp(2.75rem, 11.5cqi, 8.625rem);
+  --close-pad: clamp(72px, 7vw, 96px);
   padding-block: 0;
   border-block-start: 0;
   overflow-x: clip;
@@ -15,17 +17,17 @@
 .v6 .v6-close ~ .nx-ftr { margin-block-start: 0; }
 
 /* ---------- full-bleed colour band + statement ---------- */
-.v6 .v6-close__band { background: var(--paper); color: var(--ink); padding-block: var(--section-pad); }
+.v6 .v6-close__band { position: relative; background: var(--paper); color: var(--ink); padding-block: var(--close-pad) var(--s-16); }
 .v6 .v6-close__stage {
   inline-size: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; container-type: inline-size;
   display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start;
 }
 .v6 .v6-close .v6-close__title:not(#_):not(#_) {
-  margin: 0; color: var(--ink); font-size: var(--t-moment); line-height: 0.92; letter-spacing: -0.05em; font-weight: 600; text-wrap: balance; max-inline-size: 100%;
+  margin: 0; color: var(--ink); font-size: var(--t-display); line-height: 0.92; letter-spacing: -0.05em; font-weight: 600; text-wrap: balance; max-inline-size: 100%;
 }
 .v6 .v6-close .v6-close__title[data-len="long"]:not(#_):not(#_) { letter-spacing: -0.045em; }
-.v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-moment: clamp(2.75rem, 8.6cqi, 8.5rem); line-height: 1.12; letter-spacing: -0.02em; word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
-.v6 .v6-close .v6-close__title:lang(ru):not(#_):not(#_) { --t-moment: clamp(3.5rem, 8.8cqi, 8.5rem); letter-spacing: -0.04em; }
+.v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-display: clamp(2.75rem, 8.6cqi, 8.5rem); line-height: 1.12; letter-spacing: -0.02em; word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
+.v6 .v6-close .v6-close__title:lang(ru):not(#_):not(#_) { --t-display: clamp(2.75rem, 8.8cqi, 8.5rem); letter-spacing: -0.04em; }
 .v6 .v6-close .v6-close__title:lang(ar):not(#_):not(#_) { letter-spacing: 0; line-height: 1.15; }
 .v6 .v6-close__line { display: block; }
 .v6 .v6-close__w { display: inline-block; overflow: hidden; vertical-align: top; padding-block: 0.1em; margin-block: -0.1em; padding-inline: 0.02em; margin-inline: -0.02em; }
@@ -37,7 +39,8 @@
   inline-size: 100%; margin-block-start: var(--s-8);
 }
 .v6 .v6-close__route {
-  flex: 1 1 0; min-inline-size: 0; block-size: 40px; overflow: visible; margin-inline-end: calc(-1 * var(--s-6) + 1px);
+  /* the route stops short of the button (24px gap, minus the 6px round cap): it arrives at the CTA, it never runs into it */
+  flex: 1 1 0; min-inline-size: 0; block-size: 40px; overflow: visible; margin-inline-end: 0;
 }
 .v6 .v6-close__route path { fill: none; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .v6 .v6-close__route .track { stroke: var(--ink); stroke-width: 12; }
@@ -66,7 +69,7 @@
 .v6 [dir="rtl"] .v6-close__alt::after { transform-origin: 100% 50%; }
 .v6 .v6-close__alt:hover::after,
 .v6 .v6-close__alt:focus-visible::after { transform: scaleX(1); }
-.v6 .v6-close__note { margin: var(--s-6) 0 0; color: var(--ink-3); max-inline-size: var(--measure); }
+.v6 .v6-close__note { margin: var(--s-6) 0 0; padding: 0; color: var(--ink-3); max-inline-size: var(--measure); }
 
 /* drawn arrow (mask, so it follows currentColor) */
 .v6 .v6-arrow {
@@ -80,7 +83,7 @@
 .v6 [dir="rtl"] :is(a, button):hover > .v6-arrow, .v6 [dir="rtl"] :is(a, button):focus-visible > .v6-arrow { transform: scaleX(-1) translateX(4px); }
 
 /* ---------- index: one 12-col grid, label 4 / content 8 ---------- */
-.v6 .v6-close__index { margin-block: 0; padding-block: var(--s-16); }
+.v6 .v6-close__index { margin-block: 0; padding-block: var(--s-12) var(--s-16); }
 
 .v6 .v6-close__index :is(.home-research-drawer, .crawl-priority-links):not(#_):not(#_) {
   inline-size: 100%; max-inline-size: none; margin: 0; padding: 0; border: 0; background: none;
@@ -163,16 +166,27 @@
 .v6 [dir="rtl"] .v6-close__index .crawl-priority-links__group a:focus-visible::after { transform: scaleX(-1); }
 .v6 .v6-close__index .crawl-priority-links__group a:focus-visible:not(#_):not(#_) { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--r-sm); }
 
-/* ---------- motion: one signature moment (the route fills, the headline rises), armed only after mount ---------- */
+/* ---------- motion: one signature moment. A graphite sheet wipes off the paper (600ms), the headline rises, the route fills.
+   Armed only after mount, so server HTML, no-JS and reduced-motion always show the finished band. ---------- */
+.v6 .v6-close__band::before { content: none; }
 @media (prefers-reduced-motion: no-preference) {
-  .v6 .v6-close__w > span { transition: transform 720ms var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
-  .v6 .v6-close__route .draw { transition: clip-path 1200ms var(--ease-out) 350ms; }
+  .v6 .v6-close__band::before {
+    content: ""; position: absolute; inset: 0; z-index: 3; background: var(--n1); pointer-events: none;
+    transform: scaleX(0); transform-origin: 100% 50%; transition: transform 600ms var(--ease-out);
+  }
+  .v6 [dir="rtl"] .v6-close__band::before { transform-origin: 0% 50%; }
+  .v6 .v6-close[data-phase="armed"] .v6-close__band::before { transform: scaleX(1); transition: none; }
+  .v6 .v6-close[data-phase="in"] .v6-close__band::before { transform: scaleX(0); }
+  .v6 .v6-close__w > span { transition: transform 720ms var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms + 200ms); }
+  .v6 .v6-close__route .draw { transition: clip-path 1000ms var(--ease-out) 600ms; }
   .v6 .v6-close :is(.v6-close__lead, .v6-close__cta, .v6-close__alt, .v6-close__note) {
     transition: opacity var(--dur-3) var(--ease-out), translate var(--dur-3) var(--ease-out);
   }
-  .v6 .v6-close__lead { transition-delay: 240ms; }
+  .v6 .v6-close__lead { transition-delay: 500ms; }
+  .v6 .v6-close__cta, .v6 .v6-close__alt { transition-delay: 700ms; }
   .v6 .v6-close[data-phase="armed"] .v6-close__w > span { transform: translateY(110%); }
   .v6 .v6-close[data-phase="armed"] .v6-close__route .draw { clip-path: inset(-8px 100% -8px 0); }
+  .v6 [dir="rtl"] .v6-close[data-phase="armed"] .v6-close__route .draw { clip-path: inset(-8px 100% -8px 0); }
   .v6 .v6-close[data-phase="armed"] :is(.v6-close__lead, .v6-close__alt, .v6-close__note) { opacity: 0; translate: 0 12px; }
 }
 
@@ -184,7 +198,8 @@
   .v6 .v6-close .v6-close__cta:not(#_):not(#_) { flex: 1 1 100%; min-inline-size: 0; padding-inline: var(--s-4); white-space: normal; text-align: center; }
   .v6 .v6-close__alt { flex: 1 1 100%; justify-content: flex-start; min-block-size: 44px; min-inline-size: 0; }
   .v6 .v6-close__alt::after { inset-block-end: 6px; }
-  .v6 .v6-close__index { padding-block: var(--s-12); }
+  .v6 .v6-close__index { padding-block: var(--s-8) var(--s-12); }
+  .v6 .v6-close__band { padding-block: var(--close-pad) var(--s-12); }
   .v6 .v6-close__index .home-research-drawer > summary:not(#_):not(#_),
   .v6 .v6-close__index .crawl-priority-links__intro:not(#_):not(#_) { display: block; padding-inline-end: 40px; }
   .v6 .v6-close__index .crawl-priority-links__intro:not(#_):not(#_) { padding-inline-end: 0; }
@@ -202,3 +217,9 @@
 
 /* The footer h2 loses to `.v5 h2` on the home (footer sits inside the v5 main); restore its intended small title. */
 .v6 .nx-ftr .nx-ftr__title { font-size: var(--t-16); line-height: 1.4; font-weight: 600; letter-spacing: -0.005em; }
+
+/* ---------- footer on the page container (shared with every act: 1200 wide, 24px gutters), without touching shell.css ---------- */
+#top.v6 .nx-ftr__inner { inline-size: min(100% - 2 * var(--gutter), var(--container)); max-inline-size: none; padding-inline: 0; box-sizing: border-box; margin-inline: auto; }
+#top.v6 .nx-ftr { overflow-x: clip; }
+/* CJK clauses are unbreakable units: on a phone the display step drops to the 28 step so a clause never wraps (no stranded punctuation) */
+@media (max-width: 30rem) { .v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-display: 1.75rem; line-height: 1.25; } }
