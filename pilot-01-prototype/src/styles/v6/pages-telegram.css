@@ -128,4 +128,12 @@
 }
 #top#top#top#top.v6.r1-telegram-page :is(.tg-broadcast-actions a, .tg-cta-buttons a) { color: var(--n12); border-color: var(--n7); background: transparent; }
 #top#top#top#top.v6.r1-telegram-page :is(.tg-hub__features-grid, .tg-feature-card, .tg-deck, .tg-deck__grid) { min-block-size: 0; block-size: auto; max-block-size: none; }
+/* legacy hub CSS sets sky-blue with !important: neutralise it here (same weight, higher specificity) */
+#top#top#top#top.v6.r1-telegram-page .tg-btn--ghost, #top#top#top#top.v6.r1-telegram-page .tg-cmd-btn--launch { color: var(--n12) !important; background: transparent; border-color: var(--n7); }
+#top#top#top#top.v6.r1-telegram-page :is(.tg-btn--ghost, .tg-cmd-btn--launch):hover { color: var(--n12) !important; background: var(--n3); border-color: var(--n10); }
+#top#top#top#top.v6.r1-telegram-page .tg-btn--secondary, #top#top#top#top.v6.r1-telegram-page .tg-btn--secondary:hover { color: var(--n12) !important; }
+#top#top#top#top.v6.r1-telegram-page .tg-btn--primary { color: var(--on-accent) !important; background: var(--accent); box-shadow: none; }
+#top#top#top#top.v6.r1-telegram-page .tg-btn--primary:hover { background: var(--accent-hi); }
+#top#top#top#top.v6.r1-telegram-page .tg-cta-buttons .tg-btn--primary, #top#top#top#top.v6.r1-telegram-page .tg-cta-buttons .tg-btn--primary:hover { color: var(--n12) !important; background: transparent; }
+#top#top#top#top.v6.r1-telegram-page .tg-cmd-btn--copy.is-copied { color: var(--accent) !important; border-color: var(--accent) !important; background: transparent !important; }
 @media (prefers-reduced-motion: reduce) { #top#top#top#top.v6.r1-telegram-page * { transition-duration: 0.01ms; animation-duration: 0.01ms; } }
