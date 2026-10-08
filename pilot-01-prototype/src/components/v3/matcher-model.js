@@ -120,6 +120,510 @@ const matcherDecisionCopyByLocale = {
     },
     failClosed: "至少需要兩個已審閱候選才開放比較；請先查看檔案並核驗地區適配。",
   },
+  ja: {
+    filters: {
+      kycPreference: "KYCの希望",
+      usageFrequency: "利用頻度",
+      usageScale: "利用規模",
+    },
+    options: {
+      kycPreference: {
+        unsure: "まだ決めていない",
+        kyc_ok: "KYCは問題ない",
+        avoid_kyc: "KYCなしを希望",
+      },
+      usageFrequency: {
+        monthly: "月1回程度",
+        weekly: "週1回程度",
+        daily: "毎日",
+      },
+      usageScale: {
+        small_size: "少額帯",
+        regular_size: "標準帯",
+        larger_size: "大口帯",
+      }
+    },
+    candidateLabels: {
+      score: "一致度",
+      reasons: "表示理由",
+      nextSteps: "次のステップ",
+      profile: "サイト内プロフィールを開く",
+      compare: "確認済みの2社を比較",
+      verify: "地域適合を確認",
+    },
+    reasons: {
+      sourceReviewed: "地域ソースの行を確認済み",
+      fundingRoute: "入金ルートが確認済みマトリクスに掲載",
+      accountConfirm: "アカウントのフローはログイン後の確認が必要",
+      kycConflict: "KYCなしの希望はアカウント型プラットフォームと両立しない",
+      paused: "一時停止中のソースはマッチング対象外",
+      frequency: "利用頻度は帯で扱います",
+      scale: "利用規模は金額ではなく帯で扱います",
+    },
+    failClosed: "比較には確認済みの候補が2つ以上必要です。代わりにプロフィールと確認手順をご利用ください。",
+  },
+  ko: {
+    filters: {
+      kycPreference: "KYC 선호",
+      usageFrequency: "이용 빈도",
+      usageScale: "이용 규모",
+    },
+    options: {
+      kycPreference: {
+        unsure: "아직 모름",
+        kyc_ok: "KYC 가능",
+        avoid_kyc: "KYC 없는 곳 선호",
+      },
+      usageFrequency: {
+        monthly: "월 1회 수준",
+        weekly: "주 1회 수준",
+        daily: "매일",
+      },
+      usageScale: {
+        small_size: "소액 구간",
+        regular_size: "일반 구간",
+        larger_size: "대규모 구간",
+      }
+    },
+    candidateLabels: {
+      score: "일치도",
+      reasons: "표시 이유",
+      nextSteps: "다음 단계",
+      profile: "사이트 내 프로필 열기",
+      compare: "검토된 두 곳 비교",
+      verify: "지역 적합성 확인",
+    },
+    reasons: {
+      sourceReviewed: "지역 출처 항목 검토 완료",
+      fundingRoute: "입금 경로가 검토된 매트릭스에 포함됨",
+      accountConfirm: "계정 절차는 로그인 후 확인이 필요함",
+      kycConflict: "KYC 없는 곳을 원하면 계정 기반 플랫폼과 맞지 않음",
+      paused: "중단된 출처는 매칭에서 제외됨",
+      frequency: "이용 빈도는 구간으로 처리합니다",
+      scale: "이용 규모는 금액이 아닌 구간으로 처리합니다",
+    },
+    failClosed: "비교하려면 검토된 후보가 두 곳 이상 필요합니다. 대신 프로필과 확인 절차를 이용하세요.",
+  },
+  tr: {
+    filters: {
+      kycPreference: "KYC tercihi",
+      usageFrequency: "Kullanım sıklığı",
+      usageScale: "Kullanım düzeyi",
+    },
+    options: {
+      kycPreference: {
+        unsure: "Henüz emin değilim",
+        kyc_ok: "KYC sorun değil",
+        avoid_kyc: "KYC istemiyorum",
+      },
+      usageFrequency: {
+        monthly: "Aylık",
+        weekly: "Haftalık",
+        daily: "Günlük",
+      },
+      usageScale: {
+        small_size: "Küçük düzey",
+        regular_size: "Orta düzey",
+        larger_size: "Büyük düzey",
+      }
+    },
+    candidateLabels: {
+      score: "Eşleşme puanı",
+      reasons: "Neden gösteriliyor",
+      nextSteps: "Sonraki adımlar",
+      profile: "Site içi profili aç",
+      compare: "İncelenen çifti karşılaştır",
+      verify: "Bölge uyumunu doğrula",
+    },
+    reasons: {
+      sourceReviewed: "Bölge kaynak satırı incelendi",
+      fundingRoute: "Para yatırma yolu incelenen matriste yer alıyor",
+      accountConfirm: "Hesap akışı için giriş yapıldıktan sonra doğrulama gerekiyor",
+      kycConflict: "KYC istememe tercihi hesap tabanlı platformlarla çelişiyor",
+      paused: "Duraklatılan kaynaklar eşleştirmeye dahil edilmez",
+      frequency: "Kullanım sıklığı düzey olarak ele alınır",
+      scale: "Kullanım ölçeği tutar değil, düzey olarak ele alınır",
+    },
+    failClosed: "Karşılaştırma için incelenmiş en az iki aday gerekir. Bunun yerine profil ve doğrulama adımlarını kullanın.",
+  },
+  es: {
+    filters: {
+      kycPreference: "Preferencia de KYC",
+      usageFrequency: "Ritmo de uso",
+      usageScale: "Nivel de uso",
+    },
+    options: {
+      kycPreference: {
+        unsure: "Aún no lo sé",
+        kyc_ok: "Acepto el KYC",
+        avoid_kyc: "Prefiero sin KYC",
+      },
+      usageFrequency: {
+        monthly: "Mensual",
+        weekly: "Semanal",
+        daily: "Diario",
+      },
+      usageScale: {
+        small_size: "Nivel bajo",
+        regular_size: "Nivel medio",
+        larger_size: "Nivel alto",
+      }
+    },
+    candidateLabels: {
+      score: "Puntuación de afinidad",
+      reasons: "Por qué se muestra",
+      nextSteps: "Próximos pasos",
+      profile: "Abrir perfil en el sitio",
+      compare: "Comparar el par revisado",
+      verify: "Verificar ajuste regional",
+    },
+    reasons: {
+      sourceReviewed: "La fila de la fuente regional está revisada",
+      fundingRoute: "La vía de depósito figura en la matriz revisada",
+      accountConfirm: "El flujo de la cuenta requiere confirmación con sesión iniciada",
+      kycConflict: "Preferir sin KYC choca con las plataformas basadas en cuenta",
+      paused: "Las fuentes en pausa se excluyen de la coincidencia",
+      frequency: "El ritmo de uso se trata como un nivel",
+      scale: "La escala de uso es un nivel, no un importe",
+    },
+    failClosed: "Hacen falta al menos dos candidatas revisadas para comparar. Usa en su lugar el perfil y los pasos de verificación.",
+  },
+  "pt-BR": {
+    filters: {
+      kycPreference: "Preferência de KYC",
+      usageFrequency: "Ritmo de uso",
+      usageScale: "Faixa de uso",
+    },
+    options: {
+      kycPreference: {
+        unsure: "Ainda não sei",
+        kyc_ok: "Aceito o KYC",
+        avoid_kyc: "Prefiro sem KYC",
+      },
+      usageFrequency: {
+        monthly: "Mensal",
+        weekly: "Semanal",
+        daily: "Diário",
+      },
+      usageScale: {
+        small_size: "Faixa pequena",
+        regular_size: "Faixa média",
+        larger_size: "Faixa grande",
+      }
+    },
+    candidateLabels: {
+      score: "Pontuação de afinidade",
+      reasons: "Por que aparece",
+      nextSteps: "Próximos passos",
+      profile: "Abrir perfil no site",
+      compare: "Comparar o par revisado",
+      verify: "Verificar adequação regional",
+    },
+    reasons: {
+      sourceReviewed: "A linha da fonte regional foi revisada",
+      fundingRoute: "A rota de depósito consta na matriz revisada",
+      accountConfirm: "O fluxo da conta ainda exige confirmação logado",
+      kycConflict: "A preferência por não ter KYC conflita com plataformas baseadas em conta",
+      paused: "Fontes pausadas ficam fora da correspondência",
+      frequency: "O ritmo de uso é tratado como faixa",
+      scale: "A escala de uso é uma faixa, não um valor",
+    },
+    failClosed: "São necessários pelo menos dois candidatos revisados para comparar. Use o perfil e as etapas de verificação.",
+  },
+  fr: {
+    filters: {
+      kycPreference: "Préférence KYC",
+      usageFrequency: "Rythme d’usage",
+      usageScale: "Niveau d’usage",
+    },
+    options: {
+      kycPreference: {
+        unsure: "Pas encore décidé",
+        kyc_ok: "KYC acceptable",
+        avoid_kyc: "Plutôt sans KYC",
+      },
+      usageFrequency: {
+        monthly: "Mensuel",
+        weekly: "Hebdomadaire",
+        daily: "Quotidien",
+      },
+      usageScale: {
+        small_size: "Petit palier",
+        regular_size: "Palier moyen",
+        larger_size: "Grand palier",
+      }
+    },
+    candidateLabels: {
+      score: "Score de correspondance",
+      reasons: "Pourquoi cet affichage",
+      nextSteps: "Étapes suivantes",
+      profile: "Ouvrir la fiche sur le site",
+      compare: "Comparer la paire vérifiée",
+      verify: "Vérifier l’adéquation régionale",
+    },
+    reasons: {
+      sourceReviewed: "La ligne de source régionale est vérifiée",
+      fundingRoute: "La voie de dépôt figure dans la matrice vérifiée",
+      accountConfirm: "Le parcours du compte demande encore une confirmation une fois connecté",
+      kycConflict: "Le refus du KYC est incompatible avec les plateformes à compte",
+      paused: "Les sources suspendues sont exclues de la correspondance",
+      frequency: "Le rythme d’usage est traité par palier",
+      scale: "L’échelle d’usage est un palier, pas un montant",
+    },
+    failClosed: "Il faut au moins deux candidats vérifiés pour comparer. Utilisez plutôt la fiche et les étapes de vérification.",
+  },
+  de: {
+    filters: {
+      kycPreference: "KYC-Präferenz",
+      usageFrequency: "Nutzungsrhythmus",
+      usageScale: "Nutzungsstufe",
+    },
+    options: {
+      kycPreference: {
+        unsure: "Noch unsicher",
+        kyc_ok: "KYC ist in Ordnung",
+        avoid_kyc: "Lieber ohne KYC",
+      },
+      usageFrequency: {
+        monthly: "Monatlich",
+        weekly: "Wöchentlich",
+        daily: "Täglich",
+      },
+      usageScale: {
+        small_size: "Kleine Stufe",
+        regular_size: "Mittlere Stufe",
+        larger_size: "Große Stufe",
+      }
+    },
+    candidateLabels: {
+      score: "Übereinstimmung",
+      reasons: "Warum das angezeigt wird",
+      nextSteps: "Nächste Schritte",
+      profile: "Profil auf der Seite öffnen",
+      compare: "Geprüftes Paar vergleichen",
+      verify: "Regionale Eignung prüfen",
+    },
+    reasons: {
+      sourceReviewed: "Die regionale Quellenzeile ist geprüft",
+      fundingRoute: "Der Einzahlungsweg steht in der geprüften Matrix",
+      accountConfirm: "Der Kontoablauf muss noch eingeloggt bestätigt werden",
+      kycConflict: "Der Wunsch nach „ohne KYC“ passt nicht zu kontobasierten Plattformen",
+      paused: "Pausierte Quellen sind vom Abgleich ausgeschlossen",
+      frequency: "Der Nutzungsrhythmus wird als Stufe behandelt",
+      scale: "Der Nutzungsumfang wird als Stufe geführt, nicht als Betrag",
+    },
+    failClosed: "Für einen Vergleich braucht es mindestens zwei geprüfte Kandidaten. Nutzen Sie stattdessen das Profil und die Prüfschritte.",
+  },
+  ru: {
+    filters: {
+      kycPreference: "Отношение к KYC",
+      usageFrequency: "Частота использования",
+      usageScale: "Уровень использования",
+    },
+    options: {
+      kycPreference: {
+        unsure: "Пока не знаю",
+        kyc_ok: "KYC приемлем",
+        avoid_kyc: "Лучше без KYC",
+      },
+      usageFrequency: {
+        monthly: "Раз в месяц",
+        weekly: "Раз в неделю",
+        daily: "Каждый день",
+      },
+      usageScale: {
+        small_size: "Малый уровень",
+        regular_size: "Средний уровень",
+        larger_size: "Крупный уровень",
+      }
+    },
+    candidateLabels: {
+      score: "Степень совпадения",
+      reasons: "Почему это показано",
+      nextSteps: "Следующие шаги",
+      profile: "Открыть профиль на сайте",
+      compare: "Сравнить проверенную пару",
+      verify: "Проверить региональную пригодность",
+    },
+    reasons: {
+      sourceReviewed: "Региональная строка источника проверена",
+      fundingRoute: "Способ пополнения есть в проверенной матрице",
+      accountConfirm: "Процесс в аккаунте нужно подтвердить после входа",
+      kycConflict: "Предпочтение «без KYC» противоречит платформам с аккаунтами",
+      paused: "Источники на паузе исключены из подбора",
+      frequency: "Частота использования учитывается как уровень",
+      scale: "Масштаб использования задаётся уровнем, а не суммой",
+    },
+    failClosed: "Для сравнения нужны минимум два проверенных кандидата. Воспользуйтесь профилем и шагами проверки.",
+  },
+  ar: {
+    filters: {
+      kycPreference: "تفضيل التحقق من الهوية (KYC)",
+      usageFrequency: "وتيرة الاستخدام",
+      usageScale: "مستوى الاستخدام",
+    },
+    options: {
+      kycPreference: {
+        unsure: "لم أحسم بعد",
+        kyc_ok: "التحقق من الهوية مقبول",
+        avoid_kyc: "أفضّل بدون تحقق",
+      },
+      usageFrequency: {
+        monthly: "شهرياً",
+        weekly: "أسبوعياً",
+        daily: "يومياً",
+      },
+      usageScale: {
+        small_size: "مستوى صغير",
+        regular_size: "مستوى متوسط",
+        larger_size: "مستوى كبير",
+      }
+    },
+    candidateLabels: {
+      score: "درجة التطابق",
+      reasons: "سبب العرض",
+      nextSteps: "الخطوات التالية",
+      profile: "افتح الملف داخل الموقع",
+      compare: "قارن الزوج المراجَع",
+      verify: "تحقق من الملاءمة الإقليمية",
+    },
+    reasons: {
+      sourceReviewed: "صف المصدر الإقليمي تمت مراجعته",
+      fundingRoute: "مسار الإيداع موجود في المصفوفة المراجَعة",
+      accountConfirm: "يتطلب مسار الحساب تأكيداً بعد تسجيل الدخول",
+      kycConflict: "تفضيل عدم التحقق من الهوية يتعارض مع المنصات المعتمدة على الحساب",
+      paused: "المصادر الموقوفة مؤقتاً مستبعدة من المطابقة",
+      frequency: "تُعامل وتيرة الاستخدام كمستوى",
+      scale: "يُعتمد مستوى للاستخدام لا مبلغ محدد",
+    },
+    failClosed: "يلزم مرشحان مراجَعان على الأقل للمقارنة. استخدم بدلاً من ذلك الملف وخطوات التحقق.",
+  },
+  id: {
+    filters: {
+      kycPreference: "Preferensi KYC",
+      usageFrequency: "Frekuensi penggunaan",
+      usageScale: "Tingkat penggunaan",
+    },
+    options: {
+      kycPreference: {
+        unsure: "Belum yakin",
+        kyc_ok: "KYC tidak masalah",
+        avoid_kyc: "Lebih suka tanpa KYC",
+      },
+      usageFrequency: {
+        monthly: "Bulanan",
+        weekly: "Mingguan",
+        daily: "Harian",
+      },
+      usageScale: {
+        small_size: "Tingkat kecil",
+        regular_size: "Tingkat menengah",
+        larger_size: "Tingkat besar",
+      }
+    },
+    candidateLabels: {
+      score: "Skor kecocokan",
+      reasons: "Alasan ditampilkan",
+      nextSteps: "Langkah berikutnya",
+      profile: "Buka profil di situs",
+      compare: "Bandingkan pasangan yang ditinjau",
+      verify: "Verifikasi kecocokan wilayah",
+    },
+    reasons: {
+      sourceReviewed: "Baris sumber wilayah sudah ditinjau",
+      fundingRoute: "Rute setoran ada di matriks yang ditinjau",
+      accountConfirm: "Alur akun masih perlu konfirmasi setelah login",
+      kycConflict: "Preferensi tanpa KYC bertentangan dengan platform berbasis akun",
+      paused: "Sumber yang dijeda tidak ikut dicocokkan",
+      frequency: "Frekuensi penggunaan ditangani sebagai tingkat",
+      scale: "Skala penggunaan memakai tingkat, bukan jumlah",
+    },
+    failClosed: "Perlu minimal dua kandidat yang sudah ditinjau untuk membandingkan. Gunakan profil dan langkah verifikasi.",
+  },
+  vi: {
+    filters: {
+      kycPreference: "Ưu tiên KYC",
+      usageFrequency: "Tần suất sử dụng",
+      usageScale: "Mức sử dụng",
+    },
+    options: {
+      kycPreference: {
+        unsure: "Chưa chắc",
+        kyc_ok: "Chấp nhận KYC",
+        avoid_kyc: "Muốn không KYC",
+      },
+      usageFrequency: {
+        monthly: "Hằng tháng",
+        weekly: "Hằng tuần",
+        daily: "Hằng ngày",
+      },
+      usageScale: {
+        small_size: "Mức nhỏ",
+        regular_size: "Mức vừa",
+        larger_size: "Mức lớn",
+      }
+    },
+    candidateLabels: {
+      score: "Điểm phù hợp",
+      reasons: "Lý do hiển thị",
+      nextSteps: "Bước tiếp theo",
+      profile: "Mở hồ sơ trên trang",
+      compare: "So sánh cặp đã rà soát",
+      verify: "Xác minh mức phù hợp theo khu vực",
+    },
+    reasons: {
+      sourceReviewed: "Dòng nguồn khu vực đã được rà soát",
+      fundingRoute: "Lộ trình nạp tiền có trong ma trận đã rà soát",
+      accountConfirm: "Quy trình tài khoản vẫn cần xác nhận sau khi đăng nhập",
+      kycConflict: "Ưu tiên không KYC xung đột với các nền tảng dùng tài khoản",
+      paused: "Nguồn đang tạm dừng bị loại khỏi việc ghép",
+      frequency: "Tần suất sử dụng được xử lý theo mức",
+      scale: "Quy mô sử dụng tính theo mức, không theo số tiền",
+    },
+    failClosed: "Cần ít nhất hai ứng viên đã rà soát mới so sánh được. Hãy dùng hồ sơ và các bước xác minh.",
+  },
+  it: {
+    filters: {
+      kycPreference: "Preferenza KYC",
+      usageFrequency: "Frequenza d’uso",
+      usageScale: "Livello d’uso",
+    },
+    options: {
+      kycPreference: {
+        unsure: "Non ancora deciso",
+        kyc_ok: "KYC accettabile",
+        avoid_kyc: "Meglio senza KYC",
+      },
+      usageFrequency: {
+        monthly: "Mensile",
+        weekly: "Settimanale",
+        daily: "Giornaliero",
+      },
+      usageScale: {
+        small_size: "Livello basso",
+        regular_size: "Livello medio",
+        larger_size: "Livello alto",
+      }
+    },
+    candidateLabels: {
+      score: "Punteggio di affinità",
+      reasons: "Perché viene mostrato",
+      nextSteps: "Prossimi passi",
+      profile: "Apri il profilo sul sito",
+      compare: "Confronta la coppia verificata",
+      verify: "Verifica l’idoneità regionale",
+    },
+    reasons: {
+      sourceReviewed: "La riga della fonte regionale è verificata",
+      fundingRoute: "La via di deposito è nella matrice verificata",
+      accountConfirm: "Il flusso dell’account richiede ancora conferma dopo l’accesso",
+      kycConflict: "La preferenza per nessun KYC è in conflitto con le piattaforme basate su account",
+      paused: "Le fonti in pausa sono escluse dall’abbinamento",
+      frequency: "La frequenza d’uso è gestita come livello",
+      scale: "La scala d’uso è un livello, non un importo",
+    },
+    failClosed: "Servono almeno due candidati verificati per confrontare. Usa invece il profilo e i passaggi di verifica.",
+  },
 };
 
 const copyByLocale = {
@@ -256,7 +760,7 @@ const copyByLocale = {
     intents: {
       accountCex: { label: "口座型 CEX", title: "口座ベースの取引所", body: "保管とログインは取引所口座側です。地域、KYC、入金、手数料、商品アクセスを確認します。", custody: "取引所口座での保管", model: "注文板と口座ルート", risk: "KYC、地域、手数料、出金、商品制限" },
       walletDex: { label: "ウォレット DEX", title: "ウォレット swap ルート", body: "ウォレット管理を保ったままオンチェーンで操作します。ドメイン、ネットワーク、コントラクト、流動性、Gas を確認します。", custody: "自己管理ウォレット", model: "オンチェーン swap とルーティング", risk: "コントラクト、経路、流動性、ネットワーク、Gas" },
-      onchainPerp: { label: "オンチェーン perp", title: "オンチェーン永久先物", body: "ウォレット型デリバティブでは担保、清算、オラクル、Funding、地域制限を追加確認します。", custody: "ウォレット担保管理", model: "オンチェーン永久契約", risk: "清算、レバレッジ、オラクル、Funding、契約リスク" },
+      onchainPerp: { label: "オンチェーン無期限", title: "オンチェーン永久先物", body: "ウォレット型デリバティブでは担保、清算、オラクル、資金調達率、地域制限を追加確認します。", custody: "ウォレット担保管理", model: "オンチェーン永久契約", risk: "清算、レバレッジ、オラクル、資金調達率、契約リスク" },
     },
   },
   ko: {
@@ -273,7 +777,7 @@ const copyByLocale = {
     intents: {
       accountCex: { label: "계정형 CEX", title: "계정 기반 거래소", body: "보관과 로그인은 거래소 계정에서 처리됩니다. 지역, KYC, 입금, 수수료, 상품 접근을 확인하세요.", custody: "거래소 계정 보관", model: "오더북과 계정 경로", risk: "KYC, 지역, 수수료, 출금, 상품 제한" },
       walletDex: { label: "월렛 DEX", title: "월렛 스왑 경로", body: "월렛 통제권을 유지하고 온체인에서 상호작용합니다. 도메인, 네트워크, 계약, 유동성, Gas 를 확인하세요.", custody: "자가 보관 월렛", model: "온체인 스왑과 라우팅", risk: "계약, 라우팅, 유동성, 네트워크, Gas" },
-      onchainPerp: { label: "온체인 perp", title: "온체인 무기한 플랫폼", body: "월렛 기반 파생상품은 담보, 청산, 오라클, funding, 관할 제한을 추가로 확인해야 합니다.", custody: "월렛 담보 통제", model: "온체인 무기한 계약", risk: "청산, 레버리지, 오라클, funding, 계약 위험" },
+      onchainPerp: { label: "온체인 무기한", title: "온체인 무기한 플랫폼", body: "월렛 기반 파생상품은 담보, 청산, 오라클, 펀딩, 관할 제한을 추가로 확인해야 합니다.", custody: "월렛 담보 통제", model: "온체인 무기한 계약", risk: "청산, 레버리지, 오라클, 펀딩, 계약 위험" },
     },
   },
   ar: {
@@ -290,7 +794,7 @@ const copyByLocale = {
     intents: {
       accountCex: { label: "CEX بحساب", title: "منصة تعتمد على الحساب", body: "الحفظ وتسجيل الدخول يتمان عبر حساب المنصة. افحص المنطقة و KYC والتمويل والرسوم وإتاحة المنتجات.", custody: "حفظ عبر حساب المنصة", model: "دفتر أوامر ومسارات حساب", risk: "KYC والمنطقة والرسوم والسحب وحدود المنتجات" },
       walletDex: { label: "DEX بمحفظة", title: "مسار تبديل بالمحفظة", body: "تبقى المحفظة تحت سيطرتك وتتفاعل على السلسلة. تحقق من النطاق والشبكة والعقد والسيولة والغاز.", custody: "محفظة ذاتية الحفظ", model: "تبديل وتوجيه على السلسلة", risk: "العقد والتوجيه والسيولة والشبكة والغاز" },
-      onchainPerp: { label: "Perp على السلسلة", title: "منصة عقود دائمة على السلسلة", body: "المشتقات عبر المحفظة تحتاج فحص الضمان والتصفية والأوراكل والتمويل والقيود القانونية.", custody: "تحكم المحفظة في الضمان", model: "عقود دائمة على السلسلة", risk: "التصفية والرافعة والأوراكل والتمويل ومخاطر العقد" },
+      onchainPerp: { label: "عقود دائمة على السلسلة", title: "منصة عقود دائمة على السلسلة", body: "المشتقات عبر المحفظة تحتاج فحص الضمان والتصفية والأوراكل والتمويل والقيود القانونية.", custody: "تحكم المحفظة في الضمان", model: "عقود دائمة على السلسلة", risk: "التصفية والرافعة والأوراكل والتمويل ومخاطر العقد" },
     },
   },
   tr: {
@@ -324,7 +828,7 @@ const copyByLocale = {
     intents: {
       accountCex: { label: "CEX с аккаунтом", title: "Биржа с учетной записью", body: "Хранение и вход находятся на стороне биржевого аккаунта. Проверьте регион, KYC, пополнение, комиссии и продукты.", custody: "Хранение в биржевом аккаунте", model: "Стакан заявок и аккаунтные маршруты", risk: "KYC, регион, комиссии, вывод и лимиты продуктов" },
       walletDex: { label: "DEX с кошельком", title: "Маршрут swap через кошелек", body: "Контроль кошелька остается у вас, взаимодействие идет on-chain. Проверьте домен, сеть, контракт, ликвидность и gas.", custody: "Самостоятельное хранение в кошельке", model: "On-chain swap и маршрутизация", risk: "Контракт, маршрут, ликвидность, сеть и gas" },
-      onchainPerp: { label: "On-chain perp", title: "Площадка on-chain perpetual", body: "Деривативы через кошелек требуют проверки залога, ликвидации, оракула, funding и юрисдикции.", custody: "Контроль залога в кошельке", model: "On-chain perpetual контракты", risk: "Ликвидация, плечо, оракул, funding и контракт" },
+      onchainPerp: { label: "Ончейн-перпетуалы", title: "Ончейн-площадка бессрочных контрактов", body: "Деривативы через кошелек требуют проверки залога, ликвидации, оракула, ставки финансирования и юрисдикции.", custody: "Контроль залога в кошельке", model: "Ончейн-бессрочные контракты", risk: "Ликвидация, плечо, оракул, ставка финансирования и контракт" },
     },
   },
   id: {

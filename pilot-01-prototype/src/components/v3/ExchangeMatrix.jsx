@@ -8,6 +8,7 @@ import { regionalCtaState, regionalDirectoryCandidateState, venueMarketStatus } 
 import { localizedHref } from "../../data/locale-routing.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
+import { localizeRegionNote } from "./exchange-matrix-copy.js";
 
 const SEGMENTS = [
   { id: "all", key: "all" },
@@ -140,7 +141,7 @@ export function ExchangeMatrix({
       perp,
       verified,
       verifiedOn: verified ? facts.verifiedOn : null,
-      region: verified && facts.regions?.length ? facts.regions.join(" · ") : null,
+      region: verified && facts.regions?.length ? facts.regions.map((note) => localizeRegionNote(note, locale)).join(" · ") : null,
       products: productList,
       hasDetailPage: Boolean(venueDecisionContent[venue.slug]),
       hasReferral: publicCta.hasReferral,

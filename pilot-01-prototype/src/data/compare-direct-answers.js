@@ -132,6 +132,14 @@ const BINANCE_OKX_INTERNAL_LINKS = [
   internal("Open OKX factbook", "/factbook/okx"),
 ];
 
+const BINANCE_OKX_INTERNAL_LINKS_DE = [
+  internal("Binance-Profil ansehen", "/exchanges/binance"),
+  internal("OKX-Profil ansehen", "/exchanges/okx"),
+  internal("Derivate-Leitfaden öffnen", "/topics/derivatives"),
+  internal("Binance-Factbook öffnen", "/factbook/binance"),
+  internal("OKX-Factbook öffnen", "/factbook/okx"),
+];
+
 const HYPERLIQUID_DYDX_INTERNAL_LINKS = [
   internal("Read the dated source explainer", "/news/hyperliquid-vs-dydx"),
   internal("Open no-KYC access guide", "/topics/no-kyc"),
@@ -278,7 +286,7 @@ export const compareDirectAnswers = {
       ],
       boundary: "Dieser Vergleich bestätigt keinen Produktzugang, keine regionale Eignung, keine KYC-Freigabe, keinen Nutzerbonus und keine finalen Handelskosten. Entscheidend ist der offizielle Konto- oder Wallet-Ablauf.",
       sourceLinks: BINANCE_OKX_SOURCE_LINKS,
-      internalLinks: BINANCE_OKX_INTERNAL_LINKS,
+      internalLinks: BINANCE_OKX_INTERNAL_LINKS_DE,
       faq: [
         faq("Ist Binance vs OKX vor allem ein Gebührenvergleich?", "Gebühren sind wichtig, reichen aber nicht aus. Prüfen Sie Produktumfang, KYC, regionale Eignung, Web3- oder Wallet-Routen, offizielle Ankündigungen und das Quelldatum jeder Aussage."),
         faq("Kann diese Seite entscheiden, ob mein Konto ein Produkt handeln darf?", "Nein. Die Seite grenzt die Prüfung ein. Finaler Zugang hängt vom aktuellen offiziellen Kontoablauf, Region, Verifizierungsstatus, Produktregeln und Plattformbedingungen ab."),

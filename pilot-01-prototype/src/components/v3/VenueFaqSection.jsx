@@ -339,7 +339,7 @@ export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} 
   const priorityAnswer = priorityVenueAnswerFor(venue.slug, locale);
   const faqs = priorityAnswer ? priorityAnswer.faq.map(([q, answer, citations = []]) => ({
     q,
-    a: <><p>{answer}</p><p className="v3-venue-direct-answer__links">{citations.map((href) => <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-faq-source">{priorityAnswer.sources.find(([, url]) => url === href)?.[0] || (isZh ? "官方来源" : "Official source")} ↗</a>)}</p></>,
+    a: <><p>{answer}</p><p className="v3-venue-direct-answer__links">{citations.map((href) => <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-faq-source">{(() => { const label = priorityAnswer.sources.find(([, url]) => url === href)?.[0]; return label ? <span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> : (isZh ? "官方来源" : (locale === "es" ? "Fuente oficial" : "Official source")); })()} ↗</a>)}</p></>,
   })) : getVenueFaqs(venue, profile, locale, db, partner);
   const locName = getLocalizedVenueName(venue, locale) || profile.name;
   const priorityUiByLocale = {

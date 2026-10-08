@@ -301,7 +301,7 @@ function BrazilAeoAnswers({ answers = [], sources }) {
                 <ul className="br-aeo-sources" aria-label="Fontes desta resposta">
                   {answerSources.map((source) => (
                     <li key={source.id}>
-                      <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>
+                      <a href={source.url} target="_blank" rel="noopener noreferrer" {...(source.titleLang ? { lang: source.titleLang, translate: "no" } : {})}>{source.title}</a>
                     </li>
                   ))}
                 </ul>
@@ -702,7 +702,22 @@ export function BrazilEntryLink({ locale = "en" }) {
   return (
     <a className="br-entry-link" href="/br" data-testid="brazil-entry-link">
       <span>{localRouteLabel || copy.entry}</span>
-      <small>{locale === "ja" ? "BRL・Pix・現物取引の候補" : locale === "ko" ? "BRL·Pix·현물 후보" : locale === "tr" ? "BRL, Pix, spot kısa listesi" : "BRL, Pix, spot shortlist"}</small>
+      <small>{{
+        "zh-Hans": "BRL、Pix、现货候选清单",
+        "zh-Hant": "BRL、Pix、現貨候選清單",
+        ja: "BRL・Pix・現物取引の候補",
+        ko: "BRL·Pix·현물 후보",
+        tr: "BRL, Pix, spot kısa listesi",
+        es: "BRL, Pix y selección de spot",
+        "pt-BR": "BRL, Pix e lista curta de spot",
+        fr: "BRL, Pix, sélection spot",
+        de: "BRL, Pix, Spot-Auswahl",
+        ru: "BRL, Pix, подборка спот-платформ",
+        ar: "BRL وPix وقائمة مختصرة للسبوت",
+        id: "BRL, Pix, daftar pendek spot",
+        vi: "BRL, Pix, danh sách spot rút gọn",
+        it: "BRL, Pix, selezione spot",
+      }[locale] || "BRL, Pix, spot shortlist"}</small>
     </a>
   );
 }
@@ -1113,7 +1128,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
         <ul>
           {contentSources.length ? contentSources.map((source) => (
             <li key={source.id}>
-              <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>
+              <a href={source.url} target="_blank" rel="noopener noreferrer" {...(source.titleLang ? { lang: source.titleLang, translate: "no" } : {})}>{source.title}</a>
               <time dateTime={source.checkedAt}>{new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(new Date(source.checkedAt))}</time>
             </li>
           )) : <li><span>{copy.officialCheck}</span></li>}

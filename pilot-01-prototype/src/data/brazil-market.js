@@ -32,24 +32,28 @@ export const BRAZIL_SOURCES = [
   {
     id: "okx-brl-pix-deposit",
     title: "OKX — How do I deposit BRL with Pix transfer?",
+    titleLang: "en",
     url: "https://www.okx.com/help/how-do-i-deposit-brl",
     checkedAt: "2026-10-02T00:00:00.000Z",
   },
   {
     id: "okx-brl-pix-withdraw",
     title: "OKX — How do I withdraw BRL with Pix transfer?",
+    titleLang: "en",
     url: "https://www.okx.com/help/how-do-i-withdraw-brl",
     checkedAt: "2026-09-22T00:00:00.000Z",
   },
   {
     id: "okx-brl-limits-fees",
     title: "OKX — Where do I find limits, fees and processing time details for cash deposit?",
+    titleLang: "en",
     url: "https://www.okx.com/help/where-do-i-find-limits-fees-and-processing-time-details-for-cash-deposit",
     checkedAt: "2026-09-08T00:00:00.000Z",
   },
   {
     id: "okx-brazil-referral-terms",
     title: "OKX — Brazil Referral Program Terms and Conditions",
+    titleLang: "en",
     url: "https://www.okx.com/help/brazil-referral-program-terms-and-conditions",
     checkedAt: "2026-09-08T00:00:00.000Z",
   },

@@ -65,6 +65,22 @@ const directoryCountCopy = {
     metricSub: `CEX ${directoryStats.cex} · DEX ${directoryStats.dex} · Perp DEX ${directoryStats.perpDex}`,
     verifiedStatus: `✓ ${directoryStats.total}サービスの出典を掲載。条件は各ページで確認`,
   },
+  ko: {
+    badge: `검증된 암호화폐 플랫폼 디렉터리 · ${directoryStats.total}개 플랫폼 · 무수탁`,
+    title: `전 세계 ${directoryStats.total}개 플랫폼 비교: 공개 조건, 출처, 공식 경로`,
+    pills: [`주요 CEX ${directoryStats.cex}곳`, `온체인 DEX ${directoryStats.dex}곳`, `고속 Perp DEX ${directoryStats.perpDex}곳`],
+    metricValue: `${directoryStats.total}개 플랫폼`,
+    metricSub: `CEX ${directoryStats.cex} · DEX ${directoryStats.dex} · Perp DEX ${directoryStats.perpDex}`,
+    verifiedStatus: `✓ ${directoryStats.total}개 플랫폼의 출처를 게재했으며 조건은 항목별로 확인하세요`,
+  },
+  tr: {
+    badge: `Doğrulanmış kripto platform dizini · ${directoryStats.total} platform · saklama yok`,
+    title: `Dünya genelinde ${directoryStats.total} platformun bağımsız karşılaştırması: yayımlanmış koşullar ve resmî kaynaklar`,
+    pills: [`${directoryStats.cex} önde gelen CEX`, `${directoryStats.dex} zincir üstü DEX`, `${directoryStats.perpDex} hızlı Perp DEX`],
+    metricValue: `${directoryStats.total} platform`,
+    metricSub: `${directoryStats.cex} CEX · ${directoryStats.dex} DEX · ${directoryStats.perpDex} Perp DEX`,
+    verifiedStatus: `✓ ${directoryStats.total} platformun kaynakları listelendi; koşullar tek tek kontrol edilmeli`,
+  },
 };
 
 function withDirectoryCounts(ui, locale) {

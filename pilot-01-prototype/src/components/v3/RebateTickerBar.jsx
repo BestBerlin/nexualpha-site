@@ -258,6 +258,8 @@ export function RebateTickerBar({ locale = "en", market = null, product = null }
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
   const tickerUi = {
+    "zh-Hans": { badge: { INFO: "信息", SOURCE: "来源", DEEP: "详情", RATE: "费率", UPDATE: "更新" } },
+    "zh-Hant": { badge: { INFO: "資訊", SOURCE: "來源", DEEP: "詳情", RATE: "費率", UPDATE: "更新" } },
     ja: { aria: "出典ステータス", tag: "出典メモ", viewAll: "すべて表示", hide: "閉じる", badge: { INFO: "情報", SOURCE: "出典", DEEP: "詳細", RATE: "手数料", UPDATE: "更新" } },
     ko: { aria: "출처 상태", tag: "출처 메모", viewAll: "전체 보기", hide: "닫기", badge: { INFO: "정보", SOURCE: "출처", DEEP: "상세", RATE: "수수료", UPDATE: "업데이트" } },
     tr: { aria: "Kaynak durumu", tag: "KAYNAK NOTLARI", viewAll: "Tümünü gör", hide: "Kapat", badge: { INFO: "BİLGİ", SOURCE: "KAYNAK", DEEP: "DETAY", RATE: "ÜCRET", UPDATE: "GÜNCEL" } },
