@@ -23,9 +23,8 @@ body:has(main.v6:not(.home-refinement)) {
   :is(main, .factbook-page).v6:not(.home-refinement) {
     /* discrete mobile steps (no fractional clamps): 12 / 14 / 16 / 18 / 24 / 32 */
     --t-20: 1.125rem; --t-28: 1.5rem; --t-44: 2rem;
-    --r4-head-gap: 24px;
   }
-  :is(main, .factbook-page).v6:not(.home-refinement) h1:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 2rem; line-height: 1.12; }
+  :is(main, .factbook-page).v6:not(.home-refinement) h1:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 2rem !important; line-height: 1.12 !important; }
   :is(main, .factbook-page).v6:not(.home-refinement) h2:not(summary > h2, summary h2, .v3-profile-research-chapter__heading, .topic-card > h2, .news-article-card__title):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 1.5rem; }
   :is(main, .factbook-page).v6:not(.home-refinement) h3:not(summary h3, .v3-profile-account-section__heading):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 1.125rem; }
 }
@@ -69,8 +68,17 @@ body:has(main.v6:not(.home-refinement)) {
 :is(main, .factbook-page).v6:not(.home-refinement) details[open] > summary > b:last-child:not(#_):not(#_):not(#_):not(#_):not(#_),
 :is(main, .factbook-page).v6:not(.home-refinement) details[open] > summary .v3-faq-arrow:not(#_):not(#_):not(#_):not(#_):not(#_) { background-size: 12px 1.5px, 0 0; transform: none; rotate: none; }
 :is(main, .factbook-page).v6:not(.home-refinement) details > summary:hover :is(b:last-child, [aria-hidden]:last-child, .v3-faq-arrow):not(#_):not(#_):not(#_):not(#_):not(#_) { opacity: 1; }
+/* summaries without an icon child draw the same indicator in ::after; legacy rules rotated it into a "\" */
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(:has(> :is(b, span)[aria-hidden]:last-child, > b:last-child, .v3-faq-arrow)):not([class*="disclosure-details"]):not(#_):not(#_):not(#_):not(#_):not(#_)::after {
+  content: ""; flex: none; display: block; inline-size: 20px; block-size: 20px; margin-inline-start: auto; position: static; inset: auto;
+  border: 0; border-radius: 0; box-shadow: none; transform: none; rotate: none; color: var(--ink); opacity: 0.72;
+  background: linear-gradient(currentColor, currentColor) center / 12px 1.5px no-repeat, linear-gradient(currentColor, currentColor) center / 1.5px 12px no-repeat;
+  transition: background-size 160ms cubic-bezier(0.16, 1, 0.3, 1), opacity 160ms;
+}
+:is(main, .factbook-page).v6:not(.home-refinement) details[open] > summary:not(:has(> :is(b, span)[aria-hidden]:last-child, > b:last-child, .v3-faq-arrow)):not([class*="disclosure-details"]):not(#_):not(#_):not(#_):not(#_):not(#_)::after { background-size: 12px 1.5px, 0 0; transform: none; rotate: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:has(> :is(b, span)[aria-hidden]:last-child, > b:last-child, .v3-faq-arrow):not(#_):not(#_):not(#_):not(#_):not(#_)::after { content: none; }
 /* a summary whose last child is a count ("0/4", "3") still gets the drawn indicator via ::after (system.css); keep the count beside the label */
-:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(strong, span):last-child:not([aria-hidden]):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline-start: 8px; font-weight: 400; color: var(--ink-2); }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(strong, span):last-child:not(:first-child):not([aria-hidden]):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline-start: 8px; font-weight: 400; color: var(--ink-2); }
 /* nested disclosures inside an opened one: quiet rows, no second frame */
 :is(main, .factbook-page).v6:not(.home-refinement) details[open] details:not(#_):not(#_):not(#_):not(#_):not(#_) { background: none; box-shadow: none; border-radius: 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) details[open] > :not(summary):first-of-type:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 8px; }
@@ -111,7 +119,7 @@ main.v3-profile-page.v6 > .v3-page-hero:not(#_):not(#_):not(#_):not(#_):not(#_) 
 main.v3-compare-page.v6 .v3-page-hero > .v3-back-link:not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; block-size: 24px; min-block-size: 24px; margin-block: 0 8px; padding: 0; } /* + the hero's 8px row-gap = 16 */
 main.v3-profile-page.v6 .v3-page-hero > .v3-back-link:not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
 main.v3-profile-page.v6 .v3-venue-identity:not(#_):not(#_):not(#_):not(#_):not(#_) { gap: 16px; margin-block-start: 0; padding-block-start: 0; }
-main.v3-profile-page.v6 .v3-venue-identity > :is(img, .v2-brand, .brand-mark, [class*="brand"]):first-child:not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: 24px !important; block-size: 24px !important; width: 24px !important; height: 24px !important; min-inline-size: 24px; border-radius: 6px; padding: 0 !important; margin: 0 !important; border: 0 !important; box-sizing: border-box; }
+main.v3-profile-page.v6 .v3-venue-identity > :is(img, .v2-brand, .brand-mark, [class*="brand"]):first-child:not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: 24px !important; block-size: 24px !important; width: 24px !important; height: 24px !important; min-inline-size: 24px; border-radius: 6px; padding: 0 !important; margin: 0 !important; border: 0 !important; box-sizing: border-box; flex: 0 0 24px !important; }
 main.v3-profile-page.v6 .v3-venue-identity__info:not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-direction: column; gap: 16px; }
 main.v3-profile-page.v6 .v3-venue-identity__info > h1:not(#_):not(#_):not(#_):not(#_):not(#_) { order: 1; margin: 0; }
 main.v3-profile-page.v6 .v3-venue-identity__info > .v3-venue-identity__badges:not(#_):not(#_):not(#_):not(#_):not(#_) { order: 2; margin: 0; }
@@ -206,7 +214,7 @@ main.v6.collection-hub-page .topic-card > .button-quiet:not(#_):not(#_):not(#_):
   grid-area: cta; justify-self: end; display: inline-flex; align-items: center; min-block-size: 44px; padding: 0 16px; margin: 0;
   border: 1px solid var(--line-2); border-radius: 8px; background: none; font-size: var(--t-14); font-weight: 500; white-space: nowrap; text-decoration: none; color: var(--ink);
 }
-main.v6.collection-hub-page .v3-hero-actions .button-primary:not(#_):not(#_):not(#_):not(#_):not(#_) { background: var(--accent); color: #06110f; border-color: transparent; }
+main.v6.collection-hub-page .v3-hero-actions .button-primary:not(#_):not(#_):not(#_):not(#_):not(#_) { background: var(--accent) !important; color: #06110f !important; border-color: transparent !important; }
 @media (max-width: 760px) {
   main.v6.collection-hub-page .topic-card:not(#_):not(#_):not(#_):not(#_):not(#_) {
     grid-template-columns: 32px minmax(0, 1fr); grid-template-areas: "logo title" "logo domain" "logo desc" "logo cta"; column-gap: 16px; row-gap: 4px; padding: 16px 0;
@@ -249,3 +257,20 @@ main.v6.collection-hub-page .v3-hero-actions .button-primary:not(#_):not(#_):not
 :is(main, .factbook-page).v6:not(.home-refinement) :is(.activity-center-v3__research-status, [class*="official-research"] [class*="status"]):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline; border: 0; background: none; padding: 0; font-size: var(--t-12); font-weight: 500; color: var(--ink-2); border-radius: 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) .activity-center-v3 details > summary:not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline-end: 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) .activity-center-v3 :is(.activity-center-v3__research-row, [class*="official-research__row"]):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline-end: 0; }
+
+/* ---------- R4 follow-ups ---------- */
+/* venue page: pre-registration checklist boxes become hairline rows inside the opened disclosure */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-registration-notes__body > .v3-profile-decision:not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; padding: 0; margin: 0; background: none; box-shadow: none; inline-size: auto; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-registration-notes__body :is(article.venue-decision, .v3-profile-account-decision article):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-block-end: 1px solid var(--line); border-radius: 0; background: none; box-shadow: none; padding: 16px 0; margin: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-registration-notes__body article.venue-decision h3:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); margin: 0 0 4px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-registration-notes__body article > span:not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink-2); font-size: var(--t-12); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-registration-notes__body article li::before { background: var(--ink-3) !important; border-color: var(--ink-3) !important; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-por-cold-warning strong:not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-ssl-indicator:not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--accent); }
+/* compare: persona lead is a 12px label, not a 20px grey heading */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-decision-persona-lead:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); font-weight: 500; line-height: 1.4; letter-spacing: 0.01em; margin-block: 16px 8px; }
+/* news footer column: starts on the title line */
+@media (min-width: 861px) {
+  :is(main, .factbook-page).v6:not(.home-refinement) .news-article-card > .news-article-card__footer:not(#_):not(#_):not(#_):not(#_):not(#_) { align-self: start; justify-content: flex-start; margin-block-start: 0; }
+}
+:is(main, .factbook-page).v6:not(.home-refinement) .news-page__decision-rail > :first-child:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-end: 24px; }
