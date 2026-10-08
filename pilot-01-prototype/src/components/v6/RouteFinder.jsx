@@ -296,11 +296,6 @@ function Finder({ kit }) {
         <p className="rf-lede">{kit.lede}</p>
       </div>
 
-      <div className="rf-actions">
-        <button type="button" className="rf-btn rf-btn--primary" onClick={kit.openWizard}>{kit.wizardLabel}</button>
-        <a className="rf-btn rf-btn--ghost" href={kit.compareHref}>{kit.compareLabel}</a>
-        <a className="rf-link" href={kit.exploreHref}>{kit.exploreLabel}</a>
-      </div>
 
       <div className="rf-intents">
         <p className="rf-label" id={`${uid}-g`}>{t.group}</p>
@@ -396,6 +391,12 @@ function Finder({ kit }) {
           </dl>
         </div>
         {kit.card(sel.slug)}
+      </div>
+
+      <div className="rf-actions">
+        <button type="button" className="rf-btn rf-btn--primary" onClick={kit.openWizard}>{kit.wizardLabel}</button>
+        <a className="rf-link" href={kit.exploreHref}>{kit.exploreLabel}</a>
+        <a className="rf-btn rf-btn--ghost" href={kit.compareHref}>{kit.compareLabel}</a>
       </div>
 
       <div className="rf-more">

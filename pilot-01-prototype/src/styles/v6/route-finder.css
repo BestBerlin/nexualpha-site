@@ -201,7 +201,7 @@
 #top.v6 .rf-node__name { grid-column: 2; grid-row: 1; align-self: end; }
 #top.v6 .rf-node__fee { grid-column: 2; grid-row: 2; align-self: start; font-size: var(--t-12); line-height: 1.4; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--text-muted); text-align: start; white-space: nowrap; }
 #top.v6 .rf-na { color: var(--text-muted); font-family: var(--font-sans); }
-#top.v6 .rf-node[data-on="true"]:hover { background: var(--n2); border-color: var(--n7); translate: calc(var(--s-1) * -1) 0; }
+#top.v6 .rf-node[data-on="true"]:hover { background: var(--n2); border-color: var(--n8); }
 #top.v6 .rf-node[data-on="true"]:active { translate: 0 1px; scale: 0.985; }
 #top.v6 .rf-node[data-active="true"] { background: var(--n3); border-color: var(--n9); }
 #top.v6 .rf-node[data-active="true"] .rf-node__fee { color: var(--accent); }
@@ -332,10 +332,10 @@
 }
 #top.v6 .rf-btn--primary { background: var(--accent); color: var(--on-accent); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25), 0 1px 2px rgb(0 0 0 / 0.4); }
 #top.v6 .rf-btn--primary:hover { background: var(--accent-hi); translate: 0 -1px; }
-#top.v6 .rf-btn--ghost { background: transparent; color: var(--text-strong); border-color: var(--n7); }
+#top.v6 .rf-btn--ghost { order: 1; background: transparent; color: var(--text-strong); border-color: var(--n7); }
 #top.v6 .rf-btn--ghost:hover { background: var(--n3); border-color: var(--n8); translate: 0 -1px; }
 #top.v6 .rf-btn--ghost:active { translate: 0 1px; scale: 0.97; }
-#top.v6 .rf-link { grid-column: 1 / -1; display: inline-flex; align-items: center; min-block-size: var(--s-12); font-size: var(--t-14); color: var(--text); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 0.25em; transition: color var(--dur-1) var(--ease-out), text-decoration-color var(--dur-1) var(--ease-out); }
+#top.v6 .rf-link { order: 2; grid-column: 1 / -1; display: inline-flex; align-items: center; min-block-size: var(--s-12); font-size: var(--t-14); color: var(--text); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 0.25em; transition: color var(--dur-1) var(--ease-out), text-decoration-color var(--dur-1) var(--ease-out); }
 #top.v6 .rf-link:hover { color: var(--text-strong); text-decoration-color: var(--text-strong); }
 
 /* ---------- more: sources, help, telegram, pills ---------- */
@@ -464,3 +464,5 @@
 /* CJK: phrase-aware wrapping inside the hero */
 #top.v6 .rf-grid:lang(ja) * { word-break: auto-phrase; line-break: strict; }
 #top.v6 .rf-grid:lang(zh-Hans) *, #top.v6 .rf-grid:lang(zh-Hant) *, #top.v6 .rf-grid:lang(ko) * { line-break: strict; }
+
+#top.v6 .rf-card .registration-card__url-text, #top.v6 .rf-card code { font-family: var(--font-mono); }
