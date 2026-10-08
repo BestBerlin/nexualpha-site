@@ -19,12 +19,12 @@
 .v6 .vb__route { list-style: none; margin: var(--s-16) 0 0; padding: 0; position: relative; display: grid; gap: var(--s-12); grid-template-columns: minmax(0, 1fr); view-timeline: --vb block; }
 .v6 .vb__line { position: absolute; inset-inline-start: 19px; inset-block: 20px 0; inline-size: 2px; background: var(--line); border-radius: 2px; overflow: hidden; pointer-events: none; }
 .v6 .vb__line i { display: block; inline-size: 100%; block-size: 100%; background: var(--accent); transform-origin: top; }
-.v6 .vb__st { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: var(--s-6); align-items: start; }
+.v6 .vb__st { position: relative; display: grid; align-content: start; grid-template-columns: 40px minmax(0, 1fr); column-gap: var(--s-6); align-items: start; }
 .v6 .vb__node {
   inline-size: 40px; block-size: 40px; border-radius: 50%; display: grid; place-items: center;
   background: var(--bg); border: 2px solid var(--accent); color: var(--accent); position: relative; z-index: 1;
 }
-.v6 .vb__body { display: grid; gap: var(--s-3); min-inline-size: 0; padding-block-start: var(--s-2); }
+.v6 .vb__body { display: grid; align-content: start; gap: var(--s-3); min-inline-size: 0; padding-block-start: var(--s-2); }
 .v6 .vb__body h3 { margin: 0; color: var(--text-strong); }
 .v6 .vb__desc { margin: 0; color: var(--text); }
 .v6 .vb__sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -59,7 +59,7 @@
 .v6 .vb__code[data-copied] .vb__ic-ok { stroke-dashoffset: 0; transition: stroke-dashoffset var(--dur-3) var(--ease-out); }
 
 .v6 .vb__disc { font-family: var(--font-sans); font-size: var(--t-20); line-height: 1.4; letter-spacing: -0.01em; font-weight: 500; text-wrap: pretty; }
-.v6 .vb__link { display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px; inline-size: fit-content; color: var(--text-strong); font-weight: 500; text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 4px; transition: text-decoration-color var(--dur-1) var(--ease-out), gap var(--dur-2) var(--ease-out); }
+.v6 .vb__link { background: none; border: 0; padding: 0; cursor: pointer; font-family: var(--font-sans); display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px; inline-size: fit-content; color: var(--text-strong); font-weight: 500; text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 4px; transition: text-decoration-color var(--dur-1) var(--ease-out), gap var(--dur-2) var(--ease-out); }
 .v6 .vb__link:hover { text-decoration-color: var(--accent); gap: var(--s-3); }
 .v6 .vb__link svg { flex: none; }
 [dir="rtl"] .v6 .vb__link svg, .v6[dir="rtl"] .vb__link svg { transform: scaleX(-1); }

@@ -58,7 +58,11 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
     }
     setCopied(true); clearTimeout(timer.current); timer.current = setTimeout(() => setCopied(false), 1800);
   };
-  const disclosureHref = localizedHref("/methodology#disclosure", { locale });
+  // The deploy gate forbids a duplicate anchor on "/": reuse the footer's disclosure link instead of adding a second href.
+  const goDisclosure = () => {
+    const a = document.querySelector('a[href*="methodology#disclosure"]');
+    if (a) a.click(); else window.location.assign(localizedHref("/methodology#disclosure", { locale }));
+  };
   const chars = Array.from(row.domain);
 
   return (
@@ -125,7 +129,7 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
             <div className="vb__body">
               <h3 className="v6-h3">{t.s3t}</h3>
               <p className="vb__proof vb__disc">{t.s3b}</p>
-              <a className="vb__link v6-small" href={disclosureHref}>{t.s3link}<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" /></svg></a>
+              <button type="button" className="vb__link v6-small" onClick={goDisclosure}>{t.s3link}<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" /></svg></button>
             </div>
           </li>
         </ol>
