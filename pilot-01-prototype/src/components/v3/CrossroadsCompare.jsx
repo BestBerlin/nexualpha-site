@@ -142,7 +142,6 @@ export function CrossroadsCompare({ locale = "en", market, product }) {
   return (
     <section className="crossroads v2-shell" id="compare">
       <div className="crossroads__header">
-        <p className="crossroads__eyebrow">{ui.eyebrow}</p>
         <h2 className="crossroads__title">{ui.title}</h2>
         <p className="crossroads__lead">{ui.lead}</p>
       </div>
@@ -173,7 +172,7 @@ export function CrossroadsCompare({ locale = "en", market, product }) {
               <BrandMark slug={pair.right} compact />
               <div className="crossroads__names">
                 <span className="crossroads__versus" translate="no" lang="en">
-                  {pair.leftName} <small style={{ color: "var(--muted)", fontWeight: 400 }}>vs</small> {pair.rightName}
+                  {pair.leftName} <small>vs</small> {pair.rightName}
                 </span>
               </div>
             </div>

@@ -602,6 +602,11 @@ function getFilters(locale) {
   return filterLabels.en;
 }
 
+const CHECKED_LABELS = {
+  en: "Checked", "zh-Hans": "核验于", "zh-Hant": "核驗於", ja: "確認日", ko: "확인일", tr: "Kontrol", es: "Revisado", "pt-BR": "Verificado", pt: "Verificado",
+  fr: "Vérifié", de: "Geprüft", ru: "Проверено", ar: "تم التحقق", id: "Dicek", vi: "Kiểm tra", it: "Verificato",
+};
+
 export function VenueYellowPages({ venues = [], locale = "en", market, product, accountStage, funding, headingLevel = 2, compact = false }) {
   const [selectedCategory, setSelectedCategory] = useState(() => defaultDirectoryCategory({ market, product }));
   const [filters, setFilters] = useState(() => emptyYellowPagesFilters());
@@ -1044,9 +1049,11 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
                     {context.scoped && displayMarketStatus === "matched" && <span className="yellow-card__market-fit">{regionalUi.matched}</span>}
                     {context.scoped && displayMarketStatus === "researchable" && <span className="yellow-card__market-fit yellow-card__market-fit--research">{regionalUi.researchable}</span>}
                     {context.scoped && displayMarketStatus === "paused" && <span className="yellow-card__market-fit yellow-card__market-fit--paused">{regionalUi.paused}</span>}
-                    <span className="yellow-card__trust yellow-card__trust--status" title={sourceReviewed ? ui.sourceReviewed : ui.sourcePending}>
-                      {sourceReviewed ? (isZhLocale ? "有来源研究" : ui.sourceReviewed) : (isZhLocale ? "待来源核验" : ui.sourcePending)}
-                    </span>
+                    {sourceReviewed && /^\d{4}-\d{2}-\d{2}/.test(String(db.decisionSourceReviewedAt)) && (
+                      <span className="yellow-card__trust yellow-card__trust--status">
+                        {(CHECKED_LABELS[locale] || CHECKED_LABELS[String(locale).split("-")[0]] || CHECKED_LABELS.en)} {String(db.decisionSourceReviewedAt).slice(0, 10)}
+                      </span>
+                    )}
                   </div>
                 </div>
 

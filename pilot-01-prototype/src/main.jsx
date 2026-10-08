@@ -112,3 +112,4 @@ if (bootstrap.hydrate) {
   createRoot(root).render(app);
 }
 import "./styles/v5/shell.css";
+import "./styles/v5/home.css";

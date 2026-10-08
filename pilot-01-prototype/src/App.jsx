@@ -744,7 +744,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "notFound") return pageShell(<NotFoundPage locale={locale} />);
 
   // 顶级转化漏斗首页：跑马灯 -> LeanHero首屏 -> 横向对比决策 -> 交易暗亏体检仪 -> 核心黄页开户 -> 辅助情报模块 -> 实时社交证明浮窗
-  return <main key={`locale-${locale}`} className="v2-page home-refinement" id="top" dir={getTextDirection(locale)}>
+  return <main key={`locale-${locale}`} className="v2-page home-refinement v5" id="top" dir={getTextDirection(locale)}>
     <Header copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <DeferredBoundary scope="home-hero">
       <RebateTickerBar locale={locale} />
