@@ -106,7 +106,15 @@ main.v6:not(.home-refinement) .official-research__checked:not(#_):not(#_):not(#_
 main.v6:not(.home-refinement) .official-research__checked .official-research__recheck:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline; padding: 0; border: 0; background: none; font-family: inherit; font-size: 12px; font-weight: 500; color: var(--n12, #edeef0); }
 
 /* ============ /factbook ============ */
-main.v6:not(.home-refinement) .topic-card__facts:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-family: "Geist Mono V5", ui-monospace, monospace; font-size: 12px; line-height: 1.4; color: var(--n10, #9ba1a6); font-variant-numeric: tabular-nums; }
+/* factbook rows: what the record holds (description from exchange-facts), then fields checked + date above the domain */
+main.v6.collection-hub-page .topic-card:has(.topic-card__facts):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 32px minmax(0, 1fr) 272px 160px; grid-template-areas: "logo title facts cta" "logo desc domain cta"; align-items: start; row-gap: 4px; padding-block: 16px; }
+main.v6.collection-hub-page .topic-card > p.topic-card__facts:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: facts; align-self: end; white-space: normal; overflow: visible; font-family: "Geist Mono V5", ui-monospace, monospace; font-size: 12px; line-height: 1.4; color: var(--n11, #b5bac0); font-variant-numeric: tabular-nums; }
+main.v6.collection-hub-page .topic-card:has(.topic-card__facts) > p.v3-section__meta:not(.topic-card__facts):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { align-self: start; }
+main.v6.collection-hub-page .topic-card:has(.topic-card__facts) > a.button-quiet:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { align-self: center; }
+@media (max-width: 760px) {
+  main.v6.collection-hub-page .topic-card:has(.topic-card__facts):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 32px minmax(0, 1fr); grid-template-areas: "logo title" "logo desc" "logo facts" "logo domain" "logo cta"; }
+  main.v6.collection-hub-page .topic-card:has(.topic-card__facts) > a.button-quiet:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { justify-self: start; margin-block-start: 8px; }
+}
 :is(main, .factbook-page).v6 .factbook-llm-copy-action:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 :is(main, .factbook-page).v6 .factbook-preview-toggle-btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
   display: inline-flex; align-items: center; gap: 8px; min-block-size: 44px; margin: 0; padding: 8px 16px; float: none; border: 1px solid var(--n7, #3a3f45); border-radius: 8px; background: transparent; color: var(--n12, #edeef0); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer;
