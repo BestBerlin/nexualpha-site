@@ -240,3 +240,11 @@
 
 .v6 .cl [data-brand-slug] { transform: none !important; }
 .v6 .cl-fees__body .bleed-verdict__venue, .v6 .cl-fees__body .bleed-manual-copy { font-family: var(--font-mono, "Geist Mono V5", ui-monospace, monospace); }
+.v6 .cl-fees__body .bleed-analyzer__verdict-card { background: var(--n3); border: var(--hairline); box-shadow: none; }
+.v6 .cl-fees__body .bleed-verdict__alert { background: transparent; border: 0; border-inline-start: 2px solid var(--n9); border-radius: 0; padding: var(--s-1) var(--s-3); }
+.v6 .cl-fees__body .bleed-vol-value, .v6 .cl-fees__body .bleed-copy-code-btn { color: var(--text-strong); }
+.v6 .cl-fees__body :where(.bleed-copy-code-btn, .bleed-embed-btn, .bleed-tg-sync-btn) { background: transparent; border: 1px solid var(--n7); color: var(--text); }
+.v6 .cl-fees__body :where(.bleed-copy-code-btn, .bleed-embed-btn, .bleed-tg-sync-btn):hover { border-color: var(--accent); color: var(--text-strong); }
+.v6 .cl-fees__body a:not(.bleed-cta-btn) { color: var(--text-strong); text-decoration-color: var(--accent); }
+.v6 .cl-fees__body .bleed-solution-box { background: transparent; border: 1px solid var(--n6); box-shadow: none; }
+.v6 .cl-fees__body .bleed-dual-track { background: transparent; border-color: var(--n6); }

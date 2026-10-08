@@ -296,7 +296,7 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
             </div>
 
             <h3 className="bleed-verdict__heading">{ui.bleedResultTitle}</h3>
-            <p className="bleed-verdict__alert">{ui.statusHigh}</p>
+            <p className="bleed-verdict__alert">{String(ui.statusHigh).replace(/^[^\p{L}\p{N}]+/u, "")}</p>
             {reviewedBaseFee && reviewedBaseFeeCopy && (
               <details className="bleed-fee-source">
                 <summary>{feeText.checked}: {reviewedBaseFee.checkedAt} · {formattedRate}% · {reviewedBaseFeeCopy.tier}</summary>
