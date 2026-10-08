@@ -2382,15 +2382,15 @@ const FACTBOOK_SOURCE_REVIEW_DATE = "2026-09-08";
 const HOME_ROUTE_MARKER = "NEXUALPHA_HOME_ROUTE_V1";
 const STATIC_ROUTE_MARKER = "NEXUALPHA_STATIC_ROUTE_V1";
 const NOT_FOUND_ROUTE_MARKER = "NEXUALPHA_NOT_FOUND_ROUTE_V1";
-const SHARED_ROUTE_STYLE_PREFIXES = Object.freeze(["index-", "shared-decision-rail-", "shared-decision-return-"]);
+const SHARED_ROUTE_STYLE_PREFIXES = Object.freeze(["index-", "core-", "shared-decision-rail-", "shared-decision-return-"]);
 const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [HOME_ROUTE_MARKER]: ["page-home-", "route-v3-home-", "route-v3-wizard-", "route-v3-pages-", "route-v3-registration-", "route-v3-calculators-", "route-v3-campaigns-", "route-v3-social-proof-", "route-international-", "route-rates-", "route-activity-", "route-onchain-", "route-telegram-", "route-market-"],
-  [EXCHANGES_ROUTE_MARKER]: ["route-v3-pages-"],
-  [VENUE_ROUTE_MARKER]: ["route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"],
-  [COMPARE_ROUTE_MARKER]: ["route-v3-pages-"],
+  [EXCHANGES_ROUTE_MARKER]: ["page-compare-", "page-directory-", "route-v3-pages-"],
+  [VENUE_ROUTE_MARKER]: ["page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"],
+  [COMPARE_ROUTE_MARKER]: ["page-compare-", "route-v3-pages-"],
   [ACTIVITIES_ROUTE_MARKER]: ["route-activity-"],
   [TOPIC_ROUTE_MARKER]: ["route-topic-guide-"],
-  [FACTBOOK_ROUTE_MARKER]: ["page-factbook-", "route-factbook-", "route-activity-"],
+  [FACTBOOK_ROUTE_MARKER]: ["page-factbook-", "page-detail-", "route-factbook-", "route-activity-"],
   [NEWS_ROUTE_MARKER]: ["route-news-", "route-activity-"],
   [ARTICLE_ROUTE_MARKER]: ["route-news-"],
 });
@@ -6418,14 +6418,14 @@ function optimizeRouteResourceHints(html, metadata, url) {
 function routeStylePrefixesForPath(url, metadata) {
   const publicRoute = parsePublicRoute(url?.pathname || "/", url?.searchParams || new URLSearchParams());
   const pathname = normalizePathname(publicRoute.contentPathname || url?.pathname || "/");
-  if (/^\/(mx|tw|hk)\/(?:comparar|conta)$/.test(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-v3-pages-"];
+  if (/^\/(mx|tw|hk)\/(?:comparar|conta)$/.test(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-compare-", "page-directory-", "route-v3-pages-"];
   if (/^\/(mx|tw|hk)\/costos$/.test(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-rates-", "route-rates-", "route-activity-"];
   if (brazilPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-br-", "route-international-"];
   if (REGIONAL_ROUTE_PATHS.has(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-international-"];
   if (pathname === "/") return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[HOME_ROUTE_MARKER]];
-  if (pathname === "/exchanges") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-v3-pages-"];
-  if (pathname.startsWith("/exchanges/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"];
-  if (pathname.startsWith("/compare/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-v3-pages-"];
+  if (pathname === "/exchanges") return [...SHARED_ROUTE_STYLE_PREFIXES, "page-compare-", "page-directory-", "route-v3-pages-"];
+  if (pathname.startsWith("/exchanges/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"];
+  if (pathname.startsWith("/compare/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-compare-", "route-v3-pages-"];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   if (pathname === "/news") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
   if (pathname.startsWith("/news/tokenized-treasuries")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
@@ -6434,7 +6434,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === "/topics/derivatives") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-", "route-v3-pages-"];
   if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-tokenized-assets-"];
   if (pathname === "/topics" || pathname.startsWith("/topics/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-"];
-  if (pathname === "/factbook" || pathname.startsWith("/factbook/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-factbook-", "route-factbook-", "route-activity-"];
+  if (pathname === "/factbook" || pathname.startsWith("/factbook/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-factbook-", "page-detail-", "route-factbook-", "route-activity-"];
   if (pathname.startsWith("/ref/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-kol-"];
   const exact = ROUTE_STYLE_PREFIXES_BY_PATH[pathname];
   if (exact) return [...SHARED_ROUTE_STYLE_PREFIXES, ...exact];

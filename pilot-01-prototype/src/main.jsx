@@ -21,17 +21,11 @@ import "./styles/fintech-premium.css";
 import "./styles/breakpoints.css";
 import "./styles/reader-foundation.css";
 import "./styles/reader-material.css";
-import "./styles/home-refinement.css";
-import "./styles/compare-refinement.css";
-import "./styles/compare-motion-refinement.css";
-import "./styles/profile-refinement.css";
-import "./styles/home-lower.css";
-import "./styles/home-first-screen.css";
-import "./styles/directory-profile-r1.css";
-import "./styles/r1-compare.css";
-import "./styles/r1-content.css";
-import "./styles/type-system.css";
-import "./styles/v5/index.css";
+// Mid cascade, split by route (chunk names and link order: vite.config.mjs; per-route allow-list: worker).
+import "./styles/split/home-mid1.css";
+import "./styles/split/compare-mid1.css";
+import "./styles/split/profile-mid1.css";
+import "./styles/split/core-b.css";
 
 // Capture once before any child effect can normalize the current history URL.
 const capturedBrowserUrl = typeof window !== "undefined" ? window.location.href : undefined;
@@ -111,10 +105,9 @@ if (bootstrap.hydrate) {
 } else {
   createRoot(root).render(app);
 }
-import "./styles/v5/shell.css";
-import "./styles/v5/home.css";
-import "./styles/v5/matrix.css";
-import "./styles/v5/detail.css";
+import "./styles/split/home-mid2.css";
+import "./styles/split/directory-mid2.css";
+import "./styles/split/detail-mid2.css";
 import "./styles/v6/index.css";
 // Route-only layers (page-*-late chunks, see vite.config.mjs): after the shared layer in the cascade.
 import "./styles/v6/home.css";

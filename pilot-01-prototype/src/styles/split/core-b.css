@@ -1,0 +1,9 @@
+/* Shared layer B (every route): r1 content, type system, v5 tokens/base/motion/shell. core-b chunk, linked after the
+   page-*-mid1 chunks. shared-b1 / shared-b2 are verbatim copies of rules from route-only files that also apply on
+   other routes (crawl links, :root tokens, #top.v5, registration lock); the originals stay in place. */
+@import "./shared-b1.css";
+@import "../r1-content.css";
+@import "../type-system.css";
+@import "../v5/index.css";
+@import "../v5/shell.css";
+@import "./shared-b2.css";

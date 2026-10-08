@@ -39,8 +39,18 @@ export default defineConfig({
           // This navigation is shared by several lazy routes. Otherwise Rollup
           // assigns its CSS to Factbook and route-specific HTML drops the style.
           if (id.endsWith("/src/components/v3/decision-path-rail.css")) return "shared-decision-rail";
-          // Route-only stylesheets. "-late" chunks are linked after the entry stylesheet ("-early" ones just before it; nexualpha-ordered-route-stylesheets below)
-          // so they keep their end-of-cascade position; the worker allow-lists each "page-*-" prefix per route.
+          // The entry stylesheet is split into ordered chunks (re-linked in cascade order by
+          // nexualpha-ordered-route-stylesheets below); the worker allow-lists each "page-*-" prefix per route.
+          // Shared cascade layers after the entry stylesheet (always linked; "core-" prefix).
+          if (id.endsWith("/src/styles/split/core-b.css")) return "core-b";
+          if (id.endsWith("/src/styles/v6/index.css")) return "core-c";
+          // Route-only layers of the mid cascade (slot 1: before core-b, slot 2: between core-b and core-c).
+          if (id.endsWith("/src/styles/split/home-mid1.css")) return "page-home-mid1";
+          if (id.endsWith("/src/styles/split/compare-mid1.css")) return "page-compare-mid1";
+          if (id.endsWith("/src/styles/split/profile-mid1.css")) return "page-profile-mid1";
+          if (id.endsWith("/src/styles/split/home-mid2.css")) return "page-home-mid2";
+          if (id.endsWith("/src/styles/split/directory-mid2.css")) return "page-directory-mid2";
+          if (id.endsWith("/src/styles/split/detail-mid2.css")) return "page-detail-mid2";
           if (id.endsWith("/src/styles/v6/home.css")) return "page-home-late";
           if (id.endsWith("/src/components/v3/matcher.css") || id.endsWith("/src/components/v3/campaign-radar.css")) return "page-home-early";
           if (id.endsWith("/src/styles/v6/pages-br.css")) return "page-br-late";
@@ -133,25 +143,25 @@ export default defineConfig({
       this.emitFile({ type: "asset", fileName: "version.json", source: JSON.stringify({ version: "3.0.0", buildId }) });
     } },
     {
-      // Vite links every imported chunk's CSS before the entry stylesheet, in module order (route-only chunks can
-      // even land after it). Route-only layers split out of the entry bundle keep their original cascade slot:
-      // "-early-" chunks (top of the old entry bundle) go immediately before the entry link, "-late-" chunks
-      // (end of the old entry bundle) immediately after it.
+      // The old single entry stylesheet is now a sequence of chunks. Vite links every imported chunk's CSS in module
+      // order (before, or for some chunks after, the entry link), so re-link them in cascade order around the entry:
+      //   *-early-*  index-*  *-mid1-*  core-b-*  *-mid2-*  core-c-*  *-late-*
+      // Every rule keeps its original position; the worker drops the page-* chunks a route does not use.
       name: "nexualpha-ordered-route-stylesheets",
       transformIndexHtml: {
         order: "post",
         handler(html) {
-          const pick = (kind) => {
+          const pick = (pattern) => {
             const tags = [];
-            html = html.replace(new RegExp(`\\s*<link\\b[^>]*rel="stylesheet"[^>]*href="[^"]*/assets/[\\w-]+-${kind}-[\\w-]+\\.css"[^>]*>`, "g"), (tag) => { tags.push(tag.trim()); return ""; });
+            html = html.replace(new RegExp(`\\s*<link\\b[^>]*rel="stylesheet"[^>]*href="[^"]*/assets/${pattern}-[\\w-]+\\.css"[^>]*>`, "g"), (tag) => { tags.push(tag.trim()); return ""; });
             return tags;
           };
-          const early = pick("early");
-          const late = pick("late");
-          if (!early.length && !late.length) return html;
+          const slots = ["[\\w-]+-early", "[\\w-]+-mid1", "core-b", "[\\w-]+-mid2", "core-c", "[\\w-]+-late"].map(pick);
+          if (!slots.some((tags) => tags.length)) return html;
           const entry = /<link\b[^>]*rel="stylesheet"[^>]*href="[^"]*\/assets\/index-[\w-]+\.css"[^>]*>/;
           if (!entry.test(html)) throw new Error("ordered route stylesheets: entry stylesheet link not found");
-          return html.replace(entry, (tag) => [...early, tag, ...late].join("\n    "));
+          const [early, ...after] = slots;
+          return html.replace(entry, (tag) => [...early, tag, ...after.flat()].join("\n    "));
         },
       },
     },

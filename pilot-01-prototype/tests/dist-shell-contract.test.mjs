@@ -73,19 +73,26 @@ test("client shell template has an empty #root for the SSR body", { skip: !built
   assert.match(read("index.html"), /<div id="root"><\/div>/);
 });
 
-test("dist CSS keeps the shell and key v6 component selectors", { skip: !built && "dist not built" }, () => {
+test("dist CSS keeps the shell and key v6 component selectors, linked in cascade order", { skip: !built && "dist not built" }, () => {
   const html = read("index.html");
   const linked = [...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*href="\/assets\/([^"]+\.css)"/g)].map((m) => m[1]);
-  const entry = linked.filter((f) => /^index-[\w-]+\.css$/.test(f));
-  assert.equal(entry.length, 1, `one entry stylesheet linked, got ${entry.join(",")}`);
-  const entryCss = readFileSync(new URL(`assets/${entry[0]}`, dist), "utf8");
-  const all = readdirSync(new URL("assets/", dist)).filter((f) => f.endsWith(".css") && linked.includes(f))
-    .map((f) => readFileSync(new URL(`assets/${f}`, dist), "utf8")).join("\n");
-  // shell rules every route depends on: in the render-blocking entry stylesheet
+  const css = (f) => readFileSync(new URL(`assets/${f}`, dist), "utf8");
+  // The former single entry stylesheet is a sequence: [*-early] index [*-mid1] core-b [*-mid2] core-c [*-late].
+  // Every route links index + core-*; the worker adds the page-* chunks the route uses. Order = cascade order.
+  const slot = (f) => /^index-/.test(f) ? 1 : /-early-/.test(f) ? 0 : /-mid1-/.test(f) ? 2 : /^core-b-/.test(f) ? 3
+    : /-mid2-/.test(f) ? 4 : /^core-c-/.test(f) ? 5 : /-late-/.test(f) ? 6 : -1;
+  const ordered = linked.filter((f) => slot(f) >= 0);
+  assert.equal(ordered.filter((f) => /^index-/.test(f)).length, 1, `one entry stylesheet linked, got ${ordered.join(",")}`);
+  for (const name of ["core-b", "core-c"]) assert.ok(ordered.some((f) => f.startsWith(`${name}-`)), `${name} chunk linked`);
+  assert.deepEqual(ordered.map(slot), [...ordered.map(slot)].sort((x, y) => x - y), `stylesheets out of cascade order: ${ordered.join(" ")}`);
+  assert.ok(linked.indexOf(ordered[0]) === linked.length - ordered.length, "split stylesheets come after every other chunk stylesheet");
+  const shell = ordered.filter((f) => /^(index|core)-/.test(f)).map(css).join("\n");
+  // shell rules every route depends on: in the always-linked shared stylesheets
   for (const needle of [".v6", ".nx-hdr", ".nx-ftr", ".mobile-bottom-nav", "body:has(>#root>main", "html:has(>body>#root>main"]) {
-    assert.ok(entryCss.includes(needle), `entry CSS ${entry[0]} lacks ${needle}`);
+    assert.ok(shell.includes(needle), `shared shell CSS lacks ${needle}`);
   }
   // key home / directory components: in the CSS the shell template links
+  const all = linked.map(css).join("\n");
   for (const needle of [".rf-svg", ".dir6-row", ".vb__route", ".rf-grid", ".cl-chip"]) {
     assert.ok(all.includes(needle), `linked CSS lacks ${needle}`);
   }
