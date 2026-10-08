@@ -1379,7 +1379,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
       </nav>
 
       {/* 主数据体：高事实密度模块 */}
-      <main className="factbook-body">
+      <main className="v6 factbook-body">
         <div className="factbook-body__container">
 
           {/* Fee source state governs presentation, never a numeric or pending-text guess. */}

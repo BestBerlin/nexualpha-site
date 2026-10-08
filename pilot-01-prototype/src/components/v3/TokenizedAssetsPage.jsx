@@ -78,7 +78,7 @@ export function TokenizedAssetsPage({ slug = "tokenized-assets", locale = "en" }
   const primaryNextAction = page.nextAction;
 
   return (
-    <main className="tokenized-assets-page v2-page" id="top">
+    <main className="v6 tokenized-assets-page v2-page" id="top">
       <section className="tokenized-assets-hero v2-shell">
         <span className="v3-independent-badge">{copy.eyebrow}</span>
         <p className="tokenized-assets-hero__date">{copy.updated}: {TOKENIZED_ASSET_CLUSTER_REVIEW_DATE}</p>

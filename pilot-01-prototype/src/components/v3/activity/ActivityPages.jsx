@@ -28,7 +28,7 @@ function SnapshotStrip({ items }) {
 
 export function ActivityCenterPage({ copy, locale, market, product, venues, updates }) {
   const profiles = venues.map((venue) => venueProfile(venue, locale));
-  return <main className="v2-page v3-page v3-activity-center" id="top">
+  return <main className="v6 v2-page v3-page v3-activity-center" id="top">
     <ActivityCenterV3 locale={locale} market={market} product={product} copy={copy} venues={profiles} publicUpdates={updates} />
   </main>;
 }
@@ -50,7 +50,7 @@ export function ActivityDetailPage({ copy, locale, market, product, update: cand
     { label: copy.decisionWorkbench.discovered, value: new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(update.discoveredAt)), hint: copy.common.verifiedSource },
     { label: copy.listings.expired, value: update.expiresAt ? new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(update.expiresAt)) : "—", hint: eligibility?.statusLabel ?? text.sourceState },
   ] : [];
-  return <main className={`v2-page v3-page v3-activity-detail${update ? "" : " v3-page--empty"}`} id="top">
+  return <main className={`v6 v2-page v3-page v3-activity-detail${update ? "" : " v3-page--empty"}`} id="top">
     <section className="v3-page-hero v2-shell">
       <a href={contextualHref("/activities", { locale, market, product })} className="v3-back-link">{text.activities}</a>
       <div className="v3-venue-hero">

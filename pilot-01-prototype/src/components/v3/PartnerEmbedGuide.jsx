@@ -59,7 +59,7 @@ export function PartnerEmbedGuide({ locale = "en" }) {
   });
 
   return (
-    <main className="v2-page v3-page partner-guide-page" id="top">
+    <main className="v6 v2-page v3-page partner-guide-page" id="top">
       <div className="v2-shell">
         {/* Breadcrumb */}
         <nav className="guide-breadcrumbs" aria-label="Breadcrumb">

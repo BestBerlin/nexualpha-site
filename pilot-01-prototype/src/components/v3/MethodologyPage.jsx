@@ -251,7 +251,7 @@ export function MethodologyPage({ locale = "en" }) {
   const fundingRoute = REGIONAL_FUNDING_ROUTE_COPY[locale] || REGIONAL_FUNDING_ROUTE_COPY[String(locale || "").split("-")[0]] || REGIONAL_FUNDING_ROUTE_COPY.en;
 
   return (
-    <main className="methodology-page v2-page" id="top" lang={locale} dir={getTextDirection(locale)}>
+    <main className="v6 methodology-page v2-page" id="top" lang={locale} dir={getTextDirection(locale)}>
       <div className="methodology-page__inner v2-shell">
         <header className="methodology-page__header">
           <div className="methodology-page__badge-row">

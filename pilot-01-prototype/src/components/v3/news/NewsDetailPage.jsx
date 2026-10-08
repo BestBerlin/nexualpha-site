@@ -595,7 +595,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
   if (feedState === "loading") {
     return (
-      <main className="v2-page v3-page news-detail-page v3-page--empty" id="top" aria-live="polite" aria-busy="true">
+      <main className="v6 v2-page v3-page news-detail-page v3-page--empty" id="top" aria-live="polite" aria-busy="true">
         <section className="v3-page-hero v2-shell" role="status">
           <div className="v3-venue-hero">
             <h1>{t.loadingTitle}</h1>
@@ -608,7 +608,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
   if (!article) {
     return (
-      <main className="v2-page v3-page news-detail-page v3-page--empty" id="top">
+      <main className="v6 v2-page v3-page news-detail-page v3-page--empty" id="top">
         <section className="v3-page-hero v2-shell">
           <a href={withContext("/news")} className="v3-back-link">
             {t.back}
@@ -643,7 +643,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   );
 
   return (
-    <main className="v2-page v3-page news-detail-page" id="top">
+    <main className="v6 v2-page v3-page news-detail-page" id="top">
       <article className="news-detail-container v2-shell">
         <nav className="news-detail__nav">
           <a href={withContext("/news")} className="news-detail__back">

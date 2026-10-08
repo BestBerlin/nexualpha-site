@@ -271,7 +271,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles }
   }, [activeCategory, query]);
 
   return (
-    <main className="v2-page v3-page news-page" id="top">
+    <main className="v6 v2-page v3-page news-page" id="top">
       <section className="news-hero v2-shell">
         <div className="news-hero__badge">
           <span className="news-hero__pulse"></span>

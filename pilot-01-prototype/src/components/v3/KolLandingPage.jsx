@@ -66,7 +66,7 @@ export function KolLandingPage({ kolHandle = "crypto-zhang", locale = "en", mark
   }[localeKey] || ["Open official registration ↗", "Review official terms first ↗"];
 
   return (
-    <main className="v2-page v3-page kol-page" id="top">
+    <main className="v6 v2-page v3-page kol-page" id="top">
       <section className="kol-hero v2-shell">
         <div className="kol-hero__header">
           <div className="kol-hero__avatar-wrap">

@@ -2182,7 +2182,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     </div>
   );
 
-  return <main className="v2-page v3-page v3-profile-page v5 v5-detail" id="top">
+  return <main className="v6 v2-page v3-page v3-profile-page v5 v5-detail" id="top">
     <section className="v3-page-hero v2-shell">
       <TelegramReturnBanner
         expectedKind="venue"
@@ -3833,7 +3833,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
         </div>
   );
 
-  return <main className="v2-page v3-page v3-compare-page" id="top">
+  return <main className="v6 v2-page v3-page v3-compare-page" id="top">
     {/* 移动端/桌面端吸顶 PK 表头 */}
     <div className={`v3-compare-sticky-bar${stickyCtaActive ? " is-active" : ""}`} aria-label={compareStickyAria(locale)} aria-hidden={!stickyCtaActive}>
       <div className="v3-compare-sticky-bar__inner">
@@ -4157,7 +4157,7 @@ const profileAccountDisclosureCopy = {
 
 export function NotFoundPage({ locale }) {
   const text = v3Copy(locale);
-  return <main className="v2-page v3-page v3-page--empty" id="top">
+  return <main className="v6 v2-page v3-page v3-page--empty" id="top">
     <section className="v3-page-hero v2-shell">
       <LocalLink locale={locale} href="/" className="v3-back-link">{text.home}</LocalLink>
       <div className="v3-venue-hero">

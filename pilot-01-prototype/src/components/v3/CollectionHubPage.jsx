@@ -8,7 +8,7 @@ export function CollectionHubPage({ kind, locale = "en" }) {
   const hubDecision = kind === "factbook" ? "factbook_source_record" : "topic_research_path";
   const hubProduct = kind === "factbook" ? "source-review" : "research";
 
-  return <main className="v2-page v3-page collection-hub-page" data-collection-hub={kind}>
+  return <main className="v6 v2-page v3-page collection-hub-page" data-collection-hub={kind}>
     <section className="v2-shell v3-section">
       <p className="eyebrow">{copy.eyebrow}</p>
       <h1>{copy.title}</h1>

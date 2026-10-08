@@ -1043,7 +1043,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
 
   return (
     <main
-      className={`v2-page v3-page br-decision${isComparisonPage ? " br-decision--comparison" : ""}`}
+      className={`v6 v2-page v3-page br-decision${isComparisonPage ? " br-decision--comparison" : ""}`}
       id="top"
       lang={pageLocale}
       dir="ltr"

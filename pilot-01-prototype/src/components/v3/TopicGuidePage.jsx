@@ -3035,7 +3035,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
   }[localeKey] || "The right next step depends on account model: exchange account, wallet-connected perp, specialist options venue, or pool-based GMX route.";
 
   return (
-    <main className="topic-guide-page v2-page">
+    <main className="v6 topic-guide-page v2-page">
       <div className="topic-guide-page__inner v2-shell">
         {/* 顶部全赛道导航条 (Topic Matrix Switcher) */}
         <nav className="topic-nav-strip topic-nav-strip--tracks" aria-label={topicUiResolved?.nav || (isZh ? zhCopy(isHant, "细分赛道专题导航") : "Topic Track Navigation")}>
