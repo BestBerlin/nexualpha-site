@@ -326,7 +326,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles }
         {feedState === "ready" && <p className="news-index-status" role="status" aria-live="polite">{searchCopy.results(articles.length)}</p>}
       </section>
 
-      <section className="news-grid-section v2-shell" aria-live="polite" aria-busy={feedState === "loading"}>
+      <section className="news-grid-section v2-shell" aria-live="polite" aria-busy={feedState === "loading"} data-route-label={t.all || copy.en.all}>
         {feedState === "loading" && (
           <div className="news-grid news-grid--loading" role="status" aria-label={t.loadingTitle}>
             {Array.from({ length: 6 }, (_, index) => (
@@ -443,7 +443,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles }
         <DecisionPathRail locale={locale} market={market} product={product} current="news" />
       </div>
         {feedState === "ready" && feedArticles.length > NEWS_INITIAL_VISIBLE_COUNT && (
-          <details className="news-research-index" id="news-research-index" data-ssr-indexable="true">
+          <details className="news-research-index" id="news-research-index" data-ssr-indexable="true" data-route-label={t.researchIndex || copy.en.researchIndex}>
             <summary className="news-research-index__summary">{t.researchIndex || copy.en.researchIndex}</summary>
             <p className="news-research-index__body">{t.researchIndexBody || copy.en.researchIndexBody}</p>
             <nav aria-label={t.researchIndex || copy.en.researchIndex} className="news-research-index__links">

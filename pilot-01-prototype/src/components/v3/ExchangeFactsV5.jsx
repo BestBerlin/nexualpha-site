@@ -1,5 +1,6 @@
 import { factsForVenue, feeFact, venueCheckedOn, feePct } from "../../data/exchange-facts.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
+import { venueDatabase } from "../../data/venue-database.js";
 import { useEffect, useRef } from "react";
 import { Reveal, prefersReducedMotion } from "../../lib/v5/index.js";
 
@@ -96,7 +97,16 @@ export function FactsStrip({ slug, locale }) {
 export function ExchangeFactsV5({ slug, locale, profile }) {
   const l = labels(locale);
   const hasList = (a) => Array.isArray(a) && a.length > 0;
-  const strengths = (hasList(profile?.strengths) ? profile.strengths : profile?.useCases) || [];
+  // "Products" lists actual product lines (spot, perps, fiat rails, on-chain), not editorial claims.
+  const mc = matrixCopy(locale);
+  const db = venueDatabase[slug] || {};
+  const category = db.category || profile?.category;
+  const perpChecked = Boolean(factsForVenue(slug)?.fields?.perp && feeFact(slug, "perp").state === "checked");
+  const strengths = [];
+  if (category && category !== "Perp DEX") strengths.push(mc.pSpot);
+  if (category === "Perp DEX" || (category === "CEX" && (db.futuresFee || perpChecked))) strengths.push(mc.pPerp);
+  if (category === "CEX" && hasList(db.fiatChannels)) strengths.push(`${mc.pFiat}: ${db.fiatChannels.join(", ")}`);
+  if (category && category !== "CEX") strengths.push(mc.pChain);
   const eligibility = [...(profile?.checks || []), ...(profile?.limitations || [])].slice(0, 6);
   if (!strengths.length && !eligibility.length) return null;
 

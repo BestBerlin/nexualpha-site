@@ -377,7 +377,8 @@ function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
     home: ["brazil", "compare", "tools", "tokenized"],
     directory: ["compare", "tools", "tokenized"],
     rates: ["compare", "tokenized"],
-    compare: ["tools", "tokenized"],
+    // three groups like the directory, so the Related research grid keeps three columns (the fee benchmark is a real next step here)
+    compare: ["compare", "tools", "tokenized"],
     tokenized: ["compare", "tools"],
   };
   const groups = (groupsByScope[scope] || groupsByScope.home)

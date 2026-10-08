@@ -171,6 +171,9 @@ const controlsCopy = {
   },
 };
 
+const COST_AT = { "pt-BR": "custo com", pt: "custo com", en: "cost at", "zh-Hans": "成本按", "zh-Hant": "成本按" };
+const costAtCopy = (locale) => COST_AT[locale] || COST_AT[String(locale || "").split("-")[0]] || COST_AT.en;
+
 export function copyFor(locale) {
   if (locale === "zh-Hans" || locale === "zh-Hant" || locale === "pt-BR") return controlsCopy[locale];
   const localized = {
@@ -1036,7 +1039,8 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
           </details>
           <div className="br-cost-strip" aria-live="polite" data-testid="brazil-cost-estimate">
             <span>{copy.costTitle}</span>
-            <span className="br-cost-basis">{copy.amount} <b>{formatCurrency(pageLocale, Number(state.amount) || 0)}</b></span><b aria-hidden="true" className="br-cost-figure">{formatCurrency(pageLocale, shownTotal)}</b><b className="br-sr">{formatCurrency(pageLocale, estimate.total)}</b>
+            {/* the figure always carries its basis: amount → cost, at the assumed bps (never a bare "R$ 1,00") */}
+            <span className="br-cost-basis">{copy.amount} <b>{formatCurrency(pageLocale, Number(state.amount) || 0)}</b> <span aria-hidden="true">→</span></span><b aria-hidden="true" className="br-cost-figure">{formatCurrency(pageLocale, shownTotal)}</b><span className="br-cost-bps">{costAtCopy(pageLocale)} {String(state.spotFeeBps || 0).replace(".", pageLocale.startsWith("pt") ? "," : ".")} bps</span><b className="br-sr">{formatCurrency(pageLocale, estimate.total)}</b>
             <small>{copy.costNote}</small>
           </div>
           <p className="br-decision-panel__status" aria-live="polite">{shareStatus || (!isBrazil ? copy.nonBr : isSpot ? copy.brOnly : copy.spotOnly)}</p>

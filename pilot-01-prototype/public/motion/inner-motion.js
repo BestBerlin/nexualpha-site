@@ -80,7 +80,14 @@
     }
     return out;
   }
-  function label(h) { return (h.getAttribute("data-route-label") || h.textContent || "").replace(/\s+/g, " ").trim(); }
+  /* labels name a section in at most three words (CJK: ten characters); the rail is a route, not a table of contents */
+  function label(h) {
+    var t = (h.getAttribute("data-route-label") || h.textContent || "").replace(/\s+/g, " ").trim();
+    var words = t.split(" ");
+    if (words.length > 3) t = words.slice(0, 3).join(" ").replace(/[,:;·&\-–—]+$/, "");
+    else if (words.length === 1 && t.length > 10 && /[\u3000-\u9fff\uac00-\ud7af]/.test(t)) t = t.slice(0, 10);
+    return t;
+  }
   function esc(t) { return t.replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   /* quarter-radius elbow: down the rail, then a curve into the horizontal run toward the destination (homepage route curve) */
   function elbow(len, rtl) {
@@ -127,9 +134,11 @@
       var px = rtl ? vw - x : x;
       var start = hr.top - mr.top + Math.min(hr.height / 2, 26);
       var docks = [];
-      for (var i = 0; i < heads.length && docks.length < 10; i++) {
+      for (var i = 0; i < heads.length && docks.length < 6; i++) {
         var h = heads[i];
         if (!visible(h) || h.getBoundingClientRect().width < 40 || h.closest(".v6r, [role='dialog'], nav, .v3-profile-action-column, .mx-dock")) continue;
+        /* sections, not rows: a heading inside a list item, card or table row is never a dock */
+        if (!h.hasAttribute("data-route-label") && h.closest("li, tr, .topic-card, .news-article-card")) continue;
         var r = h.getBoundingClientRect();
         var y = r.top - mr.top + Math.min(r.height / 2, 14);
         if (y > start + 48 && (!docks.length || y - docks[docks.length - 1].y > 48)) docks.push({ y: Math.round(y), t: label(h) });
@@ -142,8 +151,14 @@
         for (var j = primaries.length - 1; j >= 0; j--) {
           if (visible(primaries[j]) && !primaries[j].closest(".mx-dock")) { var pr = primaries[j].getBoundingClientRect(); var py = pr.top - mr.top + pr.height / 2; if (py > start + 48) { dest = py; break; } }
         }
-        end = Math.max(dest || 0, docks.length ? docks[docks.length - 1].y + 1 : 0, mr.height - 96);
-        if (dest && dest >= end - 1) end = dest;
+        var endEl = main.querySelector("[data-rail-end]");
+        if (endEl && visible(endEl)) {
+          /* the route ends where the page's content ends (e.g. the directory table), not in the empty tail below it */
+          end = Math.max(dest || 0, docks.length ? docks[docks.length - 1].y + 48 : start + 48, endEl.getBoundingClientRect().bottom - mr.top - 8);
+        } else {
+          end = Math.max(dest || 0, docks.length ? docks[docks.length - 1].y + 1 : 0, mr.height - 96);
+          if (dest && dest >= end - 1) end = dest;
+        }
       }
       docks = docks.filter(function (d) { return d.y < end - 32; });
       /* branch */

@@ -158,23 +158,21 @@ export function ExchangeMatrix({
     const isChecked = (r) => Boolean(r.spot || r.perp);
     const base = verifiedFirst ? [...rows.filter(isChecked), ...rows.filter((r) => !isChecked(r))] : rows;
     if (!sort.key) return base;
-    const val = (r) => {
-      if (sort.key === "spot") return r.spot ? r.spot[1] : null;
-      if (sort.key === "perp") return r.perp ? r.perp[1] : null;
-      return r.name;
-    };
+    const pair = (r) => (sort.key === "spot" ? r.spot : sort.key === "perp" ? r.perp : null);
     const dir = sort.dir === "asc" ? 1 : -1;
-    // "Verified first" and a column sort compose: verified rows stay on top and each
-    // group is ordered by the active column (Array#sort is stable).
+    const byName = (a, b) => a.name.localeCompare(b.name, locale);
+    // Neutral ordering: fee columns sort by taker, then maker (both in the chosen direction),
+    // then venue name A-Z, so source order never decides a tie. "Not yet checked" always sinks.
+    // "Verified first" composes: verified rows stay on top and each group follows the active column.
     return [...base].sort((a, b) => {
       if (verifiedFirst && Boolean(a.spot || a.perp) !== Boolean(b.spot || b.perp)) return a.spot || a.perp ? -1 : 1;
-      const va = val(a);
-      const vb = val(b);
-      if (va == null && vb == null) return 0;
-      if (va == null) return 1;
-      if (vb == null) return -1;
-      if (typeof va === "string") return va.localeCompare(vb, locale) * dir;
-      return (va - vb) * dir;
+      if (sort.key === "name") return byName(a, b) * dir;
+      const pa = pair(a);
+      const pb = pair(b);
+      if (!pa && !pb) return byName(a, b);
+      if (!pa) return 1;
+      if (!pb) return -1;
+      return (pa[1] - pb[1]) * dir || (pa[0] - pb[0]) * dir || byName(a, b);
     });
   }, [rows, sort, locale, verifiedFirst]);
 
@@ -290,7 +288,7 @@ export function ExchangeMatrix({
           {regionalReturnHref ? <a className="mx-btn mx-btn--ghost" href={regionalReturnHref} data-cta-placement="directory-empty-region-return">{ui.returnToRegion}</a> : null}
         </div>
       ) : (
-        <div className="mx-scroll" data-route-label={mc.table}>
+        <div className="mx-scroll" data-route-label={mc.table} data-rail-end="">
           <table className="mx-table" role="table" aria-label={mc.table} aria-rowcount={sorted.length + 1}>
             <colgroup>
               <col className="mx-col mx-col--pick" />

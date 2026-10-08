@@ -40,7 +40,7 @@ export function CollectionHubPage({ kind, locale = "en" }) {
         </a>
       </div>
     </section>
-    <section className="v2-shell v3-section" aria-label={copy.itemLabel}>
+    <section className="v2-shell v3-section" aria-label={copy.itemLabel} data-route-label={copy.itemLabel}>
       <div className="topic-grid">
         {items.map((item) => (
           <article className="topic-card" key={item.slug}>

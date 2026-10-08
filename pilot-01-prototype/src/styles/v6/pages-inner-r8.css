@@ -1,0 +1,107 @@
+/* V6 round 8: inner pages. Ten :not(#_) so every rule outranks the r4–r7 page files (4–9 ids).
+ * Type 12/14/16/20/28/44 · 4px spacing scale · turquoise only on signup, positive data and the active route. */
+
+/* ============ #2 brand tiles: one fixed 32px tile, whole logo visible (Bybit was scaled 1.35x and clipped to "BYB!T") ============ */
+img.v2-brand--bybit:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
+[data-brand-slug="bybit"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transform: none !important; }
+.v6 :is(.mx-id, .v3-alternative__identity, .topic-card__logo, .factbook-venue-pill, .official-research__identity, .activity-center-v3__research-identity, .rt-logo, .fee-terminal__cell-brand) img.v2-brand:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  inline-size: 32px !important; block-size: 32px !important; min-inline-size: 32px; flex: 0 0 32px;
+  object-fit: contain; border-radius: 6px; transform: none !important; overflow: hidden;
+}
+.v6 .rt-logo:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { overflow: hidden; display: grid; place-items: center; }
+
+/* ============ #3 /rates ============ */
+/* the method + next-step strip now follows the results in the DOM; its sentence is a caption, not a heading */
+.v6 #rate-terminal .rt-strip .cost-decision__next-copy:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; }
+.v6 #rate-terminal .rt-strip .cost-decision__next-copy span:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 14px; line-height: 1.5; color: var(--n11); }
+/* the tie / empty notice spans the whole result column, like the rows under it */
+.v6 #rate-terminal .rt-notice:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: auto; max-inline-size: none; justify-self: stretch; box-sizing: border-box; }
+
+/* ============ #4 one-line pending notes (factbook detail) ============ */
+.v6 .factbook-pending-line:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  margin: 0; padding-block: 16px; border-block-start: 1px solid var(--n6, rgb(255 255 255 / 0.12));
+  font-size: 14px; line-height: 1.5; color: var(--n11); max-inline-size: none;
+}
+
+/* ============ #5 compare + /br: one standard hairline disclosure (no open half-box) ============ */
+.v6 :is(.v3-matrix-pending-disclosure, .br-continuation-disclosure):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  border: 0; border-block-start: 1px solid var(--n6, rgb(255 255 255 / 0.12)); border-radius: 0; background: none; box-shadow: none;
+}
+.v6 :is(.v3-matrix-pending-disclosure, .br-continuation-disclosure) > summary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  border: 0; border-radius: 0; background: none; padding: 8px 0; min-block-size: 48px; color: var(--n12); font-size: 16px; font-weight: 500;
+}
+.v6 .v3-matrix-pending-disclosure > summary small:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: inherit; color: var(--n10); font-variant-numeric: tabular-nums; }
+.v6 .v3-matrix-pending-disclosure__body:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline: 0; }
+
+/* ============ #6 static step bullets: plain 8px route nodes, not radio rings ============ */
+.v6 :is(.br-node, .factbook-step-node):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  inline-size: 8px; block-size: 8px; margin-block-start: 8px; justify-self: center; border: 0; border-radius: 50%; background: var(--n9, #6b7178); box-shadow: none; transform: none;
+}
+.v6 :is(.br-node, .factbook-step-node):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_)::after { content: none; display: none; }
+.v6 .br-decision-path[data-chosen] .br-node:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: var(--accent); }
+
+/* ============ #7 accent only on signup ============ */
+/* "Launch Assistant Bot" is a Telegram route, not a signup: outline secondary */
+.v6 .tg-hub__quick-cta .tg-btn--primary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  border: 1px solid var(--n7); background: transparent; color: var(--n12); box-shadow: none;
+}
+.v6 .tg-hub__quick-cta .tg-btn--primary:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--n10); background: var(--n4); transform: none; }
+/* arrows on secondary next-step links are neutral */
+.v6 .decision-path-rail__link > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
+.v6 .decision-path-rail__link.is-primary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n10) !important; }
+.v6 .decision-path-rail__link:hover > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n12) !important; }
+
+/* ============ #8 hairlines span their container ============ */
+/* profile "Similar platforms": every row rule spans the list; name and summary share a top line; plain row links */
+main.v3-profile-page.v6 .v3-alternative-list:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); }
+main.v3-profile-page.v6 .v3-alternative-list > li:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: 100%; max-inline-size: none; justify-self: stretch; align-items: start; box-sizing: border-box; }
+main.v3-profile-page.v6 .v3-alternative__summary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 0; }
+main.v3-profile-page.v6 .v3-alternative__identity:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { align-self: start; }
+main.v3-profile-page.v6 .v3-alternative__actions a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: inline-flex; align-items: center; min-block-size: 44px; padding: 0; border: 0; border-radius: 0; background: none;
+  color: var(--n12); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 4px;
+}
+main.v3-profile-page.v6 .v3-alternative__actions:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; column-gap: 24px; row-gap: 0; }
+/* /telegram Q&A rows and command cards sit on the content edge (no -16px bleed, no 29px inset) */
+.v6 .tg-topic-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 0; padding-inline: 0; }
+.v6 .tg-deck:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline: 0; }
+.v6 .tg-feature-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 0; }
+/* /methodology: hero meta rule and pillar/list rows span 120–1320 */
+.v6 .methodology-page__research-trust:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { max-inline-size: none; inline-size: 100%; align-self: stretch; box-sizing: border-box; }
+.v6 .methodology-pillar-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 0; }
+.v6 :is(.methodology-page__funding-answer, .methodology-page__section) li:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 0; }
+/* /factbook detail: the fee notes' rules span the section */
+.v6 :is(.factbook-vip-pending, .factbook-fee-status):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { max-inline-size: none; }
+/* /activities: the last row's rule is the top of "Source notes…" (no second rule 32px below it) */
+.v6 .activity-center-v3__support-details:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-block-start: 0; margin-block-start: 0; }
+
+/* ============ #9 profile copy and states ============ */
+.v6 .venue-readiness__summary strong:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; flex: none; }
+.v6 .v3-activity-empty--line:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; font-size: 14px; line-height: 1.5; color: var(--n11); max-inline-size: none; }
+.v6 .v3-activity-empty--line a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; min-block-size: 44px; color: var(--n12); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 4px; }
+
+/* ============ #10 /exchanges: no tinted slab or seam; one page surface ============ */
+.v6 section.mx-page.v5:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: transparent; }
+
+/* ============ /methodology data links: 44px rows ============ */
+.v6 a[href^="/research/"][href$=".json"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
+.v6 a[href^="/research/"][href$=".csv"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: inline-flex !important; align-items: center; min-block-size: 44px !important; min-inline-size: 44px !important; justify-content: center;
+}
+
+/* ============ /factbook detail venue switcher: eight venues + "Show all", no chip inside a chip ============ */
+.v6 .factbook-venue-pill[hidden]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none !important; }
+.v6 .factbook-venue-pill img.v2-brand:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: 24px !important; block-size: 24px !important; min-inline-size: 24px; flex: 0 0 24px; border: 0; box-shadow: none; }
+.v6 .factbook-venue-pill-name:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; padding: 0; background: none; border-radius: 0; }
+.v6 .factbook-venue-more:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: inline-flex; align-items: center; min-block-size: 44px; padding: 0 4px; border: 0; background: none;
+  color: var(--n12); font: inherit; font-size: 14px; text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 4px; cursor: pointer;
+}
+
+/* ============ /br hero figure: demoted to 28px and always shown with its basis ============ */
+.v6 .br-cost-strip .br-cost-figure:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 28px; line-height: 1.15; }
+.v6 .br-cost-strip .br-cost-bps:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 12px; line-height: 1.4; color: var(--n10); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.v6 .br-cost-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-areas: "title fig" "basis bps" "note note"; }
+.v6 .br-cost-strip > .br-cost-bps:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: bps; justify-self: end; align-self: start; }
+/* the results' last row rule already separates the method strip: no second rule 32px below it */
+.v6 #rate-terminal .rt-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-block-start: 0; }

@@ -169,5 +169,5 @@ test("rates route exposes answer-first conversion bridge through source-bound CT
   assert.ok(section.indexOf("cost-decision__next-actions") < section.indexOf("cost-decision__results"), "next actions should come before results");
   assert.ok(section.includes(`href="${escapeHtml(binanceCta.ctaHref)}"`), "spot next step uses source-bound regionalVenueCta");
   assert.ok(section.includes(`href="${escapeHtml(bybitCta.ctaHref)}"`), "results keep the source-bound derivatives route");
-  assert.ok(section.indexOf("cost-decision__telegram") > section.indexOf("cost-decision__results"), "Telegram support is after the on-site results");
+  assert.ok(!section.includes("cost-decision__telegram"), "Telegram support appears once on the page, not inside the calculator");
 });
