@@ -117,7 +117,7 @@ const localizedPairDescriptions = {
   ],
 };
 
-function getUi(locale) {
+export function getUi(locale) {
   if (locale === "zh-Hans" || locale === "zh-CN") return uiText["zh-Hans"];
   if (locale === "zh-Hant" || locale === "zh-TW") return uiText["zh-Hant"];
   if (locale && locale !== "en") {
