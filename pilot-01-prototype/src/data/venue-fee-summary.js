@@ -1,6 +1,6 @@
 import { reviewedBaseFeesForVenue } from './reviewed-base-fees.js';
 
-// Base fees are independent of partner economics. A source review is required
+// Base fees come only from exchange-facts.js (through reviewed-base-fees.js) and are independent of partner economics. A source review is required
 // for each published number; a venue's base rate cannot imply its VIP schedule.
 const httpsSource = (value) => {
   try {
@@ -30,25 +30,11 @@ const completeRate = (rate) => {
   };
 };
 
-const dbFeeRate = (product, fee, db) => completeRate({
-  product,
-  makerRate: fee?.makerRate,
-  takerRate: fee?.takerRate,
-  tierKey: fee?.tierKey || `${product}-published-base`,
-  scopeKey: fee?.scopeKey || 'explicit-db-source-account-region-not-proven',
-  sourceUrl: fee?.sourceUrl || db.feeSourceUrl,
-  checkedAt: fee?.checkedAt || db.feeCheckedAt,
-  conditions: fee?.conditions,
-});
-
 export function buildVenueFeeSummary(db = {}, research = {}) {
   const reviewed = reviewedBaseFeesForVenue(db.slug);
   const reviewedRates = reviewed?.rates?.map(completeRate).filter(Boolean) || [];
-  const fallbackRates = reviewedRates.length ? [] : [
-    dbFeeRate('spot', db.spotFee, db),
-    dbFeeRate('futures', db.futuresFee, db),
-  ].filter(Boolean);
-  const rates = [...reviewedRates, ...fallbackRates];
+  // No fallback to venue-database fee copies: exchange-facts.js (via reviewed-base-fees.js) is the only source.
+  const rates = reviewedRates;
   const sources = [...new Set([
     ...rates.map(rate => rate.sourceUrl),
     ...(research.facts || []).filter(fact => fact.axis === 'fees').map(fact => httpsSource(fact.sourceUrl)).filter(Boolean),

@@ -7,6 +7,8 @@ import { bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { DecisionPathRail } from "./DecisionPathRail.jsx";
 import "./factbook-page.css";
+import { FactsStrip, feesCheckedLabel } from "./ExchangeFactsV5.jsx";
+import { discountFact, venueCheckedOn } from "../../data/exchange-facts.js";
 
 const factbookRecordCount = FACTBOOK_SLUGS.length;
 const comparisonDirectoryCount = neutralVenueCatalog.length;
@@ -1035,6 +1037,25 @@ const factbookFeeRecordCopy = {
   it: ["La verifica delle fonti delle commissioni attuali non è completa. Questi dati non permettono di calcolare il costo di negoziazione.", "Vedi i campi delle commissioni registrati", "Livelli e volumi sono dati di ricerca non verificati; conferma le condizioni attuali sulla piattaforma."]
 };
 
+// Shown when exchange-facts.js has checked base (non-VIP) fees for the venue. {date} = that check date.
+const factbookBaseFeeCheckedCopy = {
+  en: "Base (non-VIP) fees above were checked on the official fee page on {date}. VIP tiers, net rates and discounts below are unverified research records.",
+  "zh-Hans": "以上基础（非 VIP）费率已于 {date} 在官方费率页核对。下方 VIP 档位、净费率和折扣仍为待核验研究记录。",
+  "zh-Hant": "以上基礎（非 VIP）費率已於 {date} 在官方費率頁核對。下方 VIP 等級、淨費率和折扣仍為待核驗研究記錄。",
+  ja: "上記の基本（非VIP）手数料は {date} に公式手数料ページで確認しました。下のVIPランク、実質手数料、割引は未確認の調査記録です。",
+  ko: "위 기본(비VIP) 수수료는 {date}에 공식 수수료 페이지에서 확인했습니다. 아래 VIP 등급, 순수수료, 할인은 검증되지 않은 조사 기록입니다.",
+  tr: "Yukarıdaki temel (VIP dışı) ücretler {date} tarihinde resmî ücret sayfasında kontrol edildi. Aşağıdaki VIP kademeleri, net oranlar ve indirimler doğrulanmamış araştırma kayıtlarıdır.",
+  ar: "تم التحقق من الرسوم الأساسية (غير VIP) أعلاه في صفحة الرسوم الرسمية بتاريخ {date}. مستويات VIP والرسوم الصافية والخصومات أدناه سجلات بحث غير متحقق منها.",
+  es: "Las comisiones base (sin VIP) de arriba se verificaron en la página oficial de comisiones el {date}. Los niveles VIP, tarifas netas y descuentos de abajo son registros de investigación sin verificar.",
+  "pt-BR": "As taxas base (sem VIP) acima foram verificadas na página oficial de taxas em {date}. Níveis VIP, taxas líquidas e descontos abaixo são registros de pesquisa não verificados.",
+  fr: "Les frais de base (hors VIP) ci-dessus ont été vérifiés sur la page officielle des frais le {date}. Les niveaux VIP, frais nets et remises ci-dessous sont des données de recherche non vérifiées.",
+  de: "Die Basisgebühren (ohne VIP) oben wurden am {date} auf der offiziellen Gebührenseite geprüft. VIP-Stufen, Nettogebühren und Rabatte unten sind ungeprüfte Forschungsdaten.",
+  ru: "Базовые комиссии (без VIP) выше проверены на официальной странице комиссий {date}. Уровни VIP, чистые ставки и скидки ниже — непроверенные исследовательские записи.",
+  id: "Biaya dasar (non-VIP) di atas diperiksa di halaman biaya resmi pada {date}. Tingkat VIP, tarif bersih, dan diskon di bawah adalah catatan riset yang belum diverifikasi.",
+  vi: "Phí cơ bản (không VIP) ở trên đã được kiểm tra trên trang phí chính thức vào {date}. Bậc VIP, phí ròng và ưu đãi bên dưới là dữ liệu nghiên cứu chưa xác minh.",
+  it: "Le commissioni base (non VIP) qui sopra sono state verificate sulla pagina ufficiale delle commissioni il {date}. Livelli VIP, commissioni nette e sconti qui sotto sono dati di ricerca non verificati.",
+};
+
 function factbookValueClass(value) {
   const text = String(value ?? "");
   return /^[\s\d.,%$≈~<>+\-–/A-Za-z]{1,14}$/.test(text) && /\d/.test(text) ? "factbook-value factbook-value--figure" : "factbook-value";
@@ -1045,6 +1066,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
   const localeBase = String(locale || "").split("-")[0];
   const t = { ...(i18n[currentLocale] || i18n[localeBase] || i18n.en), ...(factbookLocaleOverrides[locale] || factbookLocaleOverrides[localeBase] || {}), ...(factbookRecordToolsCopy[locale] || factbookRecordToolsCopy[localeBase] || factbookRecordToolsCopy.en), ...factbookStateLabels(locale) };
   const feeRecordCopy = factbookFeeRecordCopy[locale] || factbookFeeRecordCopy[localeBase] || factbookFeeRecordCopy.en;
+  const baseFeesCheckedOn = venueCheckedOn(slug);
   const factbookUi = {
     ja: { solvency: "準備金と支払能力", regulation: "規制とKYC", endpoints: "エンドポイントとホワイトリスト", totalNote: "公式公開データの合計", nativeNote: "自社トークンへのエクスポージャー", expandReserve: "準備金データをすべて表示", expandCompliance: "コンプライアンスデータをすべて表示", expandSecurity: "セキュリティ端点をすべて表示" },
     ko: { solvency: "준비금 및 지급능력", regulation: "규제 및 KYC", endpoints: "엔드포인트 및 화이트리스트", totalNote: "공식 공개 데이터 총합", nativeNote: "자체 토큰 노출 위험", expandReserve: "전체 준비금 데이터 열기", expandCompliance: "전체 규제 데이터 열기", expandSecurity: "전체 기록된 엔드포인트 열기" },
@@ -1203,6 +1225,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
               <span className="factbook-audit-stamp">
                 {t.auditLabel}: {AUDIT_DATE}
               </span>
+              {feesCheckedLabel(venue.slug, locale) && <span className="factbook-audit-stamp factbook-audit-stamp--fees">{feesCheckedLabel(venue.slug, locale)}</span>}
               <span className="factbook-status-pill">
                 ● {t.verifiedBadge}
               </span>
@@ -1394,7 +1417,8 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 {venue.feeVerified && <p className="factbook-section__sub">{t.secVipSub}</p>}
               </div>
             </div>
-            {!venue.feeVerified && <p className="factbook-fee-status">{feeRecordCopy[0]}</p>}
+            <div className="v5-detail factbook-base-fees"><FactsStrip slug={venue.slug} locale={locale} /></div>
+            {!venue.feeVerified && <p className="factbook-fee-status">{baseFeesCheckedOn ? (factbookBaseFeeCheckedCopy[locale] || factbookBaseFeeCheckedCopy[localeBase] || factbookBaseFeeCheckedCopy.en).replace("{date}", baseFeesCheckedOn) : feeRecordCopy[0]}</p>}
             <FeeRecords className={venue.feeVerified ? "factbook-fee-reviewed" : "factbook-fee-records"}>
               {!venue.feeVerified && <><summary>{feeRecordCopy[1]}<span aria-hidden="true">＋</span></summary><p className="factbook-fee-records__note">{feeRecordCopy[2]}</p><p className="factbook-section__sub">{t.secVipSub}</p></>}
               <div className="factbook-fee-tabs">
@@ -1419,7 +1443,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
               <span className="factbook-formula-text">{t.thFormula}</span>
               {venue.tokenDiscount?.token !== "None" && (
                 <span className="factbook-token-discount-pill">
-        {t.tagDiscount}: {venue.tokenDiscount?.token || (isHant ? "待核驗" : isZh ? "待核验" : "Pending source review")} ({feeTab === "spot" ? venue.tokenDiscount?.spotDiscount : venue.tokenDiscount?.futuresDiscount})
+        {t.tagDiscount}: {venue.tokenDiscount?.token || (isHant ? "待核驗" : isZh ? "待核验" : "Pending source review")} ({(() => { const pct = discountFact(venue.slug, feeTab === "spot" ? "spot" : "perp"); return pct ? `−${pct}%` : (feeTab === "spot" ? venue.tokenDiscount?.spotDiscount : venue.tokenDiscount?.futuresDiscount); })()})
                 </span>
               )}
             </div>

@@ -476,7 +476,9 @@ function normalizeLocale(locale) {
 
 function formatRatePercent(value) {
   if (!Number.isFinite(value)) return null;
-  return `${(value * 100).toFixed(2)}%`;
+  // Three decimals when the third is significant (0.055%, 0.015%), never rounded into a different published figure.
+  const pct = Math.round(value * 1e7) / 1e5;
+  return `${pct.toFixed(Math.round(pct * 1000) % 10 ? 3 : 2)}%`;
 }
 
 function rateForProduct(summary, product) {

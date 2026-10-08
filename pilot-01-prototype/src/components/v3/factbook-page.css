@@ -1515,3 +1515,9 @@
 .factbook-fee-records[open] > summary span { transform: rotate(45deg); }
 .factbook-fee-records__note { color: #94a3b8; line-height: 1.5; max-width: 68ch; margin: .5rem 0 1rem; }
 .factbook-fee-records .factbook-fee-tabs { width: fit-content; max-width: 100%; flex-wrap: wrap; margin-bottom: 1rem; }
+
+/* Base fees from exchange-facts.js (single fee source), compact inside the factbook fee section. */
+.factbook-base-fees { margin-block: var(--s-4, 16px) var(--s-5, 24px); }
+.factbook-base-fees .d5-strip { display: grid; min-inline-size: 0; }
+.factbook-base-fees .d5-figure--hero,
+.factbook-base-fees .d5-strip .d5-dash { font-size: var(--t-2xl, 1.75rem); letter-spacing: -0.02em; }

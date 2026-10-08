@@ -19,3 +19,4 @@
 .cost-decision__verdict{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;margin:0 0 14px;padding:10px 12px;border:1px solid rgba(43,212,143,.24);border-radius:10px;background:rgba(43,212,143,.055)}
 .cost-decision__verdict span{color:#9fb0c4;font-size:12px;line-height:1.35}.cost-decision__verdict strong{min-width:0;color:#f2f7ff;font-size:14px;line-height:1.35;overflow-wrap:anywhere}.cost-decision__verdict a{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:6px 10px;border:1px solid rgba(169,205,253,.28);border-radius:8px;text-align:center;text-decoration:none;font-size:12px;font-weight:750;line-height:1.25}
 @media(max-width:540px){.cost-decision__verdict{grid-template-columns:1fr;gap:6px;margin-bottom:10px}.cost-decision__verdict a{min-height:38px}}
+.cost-decision__notice{margin:0 0 12px;font-size:14px;line-height:1.5}

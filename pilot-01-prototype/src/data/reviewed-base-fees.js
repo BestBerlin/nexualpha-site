@@ -1,75 +1,48 @@
-// Public base-fee records verified from official pages only.
+// Public base-fee records, derived ONLY from exchange-facts.js (the single fee source).
 // These records are independent from partner links, rebates, affiliate terms,
 // account-specific fee schedules, regional eligibility, and commission economics.
-const CHECKED_AT_2026_09_22 = "2026-09-22";
+// Rates here are fractions (0.001 = 0.10%); exchange-facts.js holds percent.
+// A product without a checked maker AND taker figure produces no record ("Not yet checked").
+import { EXCHANGE_FACTS, feeFact, primarySourceUrl } from "./exchange-facts.js";
 
-const rate = ({ product, makerRate, takerRate, tierKey, scopeKey, sourceUrl, checkedAt = CHECKED_AT_2026_09_22, conditions = [] }) => Object.freeze({
-  product,
-  makerRate,
-  takerRate,
-  tierKey,
-  scopeKey,
-  sourceUrl,
-  checkedAt,
-  conditions: Object.freeze([...conditions]),
+// Tier/scope keys select localized copy in reviewed-fee-copy.js. Spot keys for binance, bitget and bybit
+// keep their dedicated scope copy; every other record uses the generic public-source copy.
+const SCOPE = Object.freeze({
+  binance: { spot: ["regular-user", "public-spot-margin-base-account-region-not-proven-discounts-excluded"] },
+  bitget: { spot: ["standard-non-vip", "public-standard-spot-base-account-region-not-proven-bgb-discount-excluded"], futures: ["standard-non-vip", "public-usdt-m-futures-base-account-region-not-proven"] },
+  bybit: { spot: ["vip-0", "public-crypto-to-crypto-spot-base-region-account-not-proven-special-zones-excluded"], futures: ["vip-0", "public-perpetual-futures-base-region-account-not-proven"] },
+  okx: { spot: ["regular-user", "public-spot-base-account-region-not-proven"], futures: ["regular-user", "public-futures-base-account-region-not-proven"] },
+  "gate-io": { spot: ["vip-0", "public-spot-base-account-region-not-proven"], futures: ["vip-0", "public-usdt-perpetual-base-account-region-not-proven"] },
 });
 
-export const reviewedBaseFeesByVenue = Object.freeze({
-  binance: Object.freeze({
-    checkedAt: CHECKED_AT_2026_09_22,
-    rates: Object.freeze([
-      rate({
-        product: "spot",
-        makerRate: 0.001,
-        takerRate: 0.001,
-        tierKey: "regular-user",
-        scopeKey: "public-spot-margin-base-account-region-not-proven-discounts-excluded",
-        sourceUrl: "https://www.binance.com/en/fee/trading",
-        conditions: [
-          "Regular User row in Binance Spot & Margin public fee table",
-          "30D trade volume < 1,000,000 USD or BNB balance >= 0 BNB",
-          "BNB 25% off, USDC columns, VIP tiers, promotions, account-specific and regional terms are excluded",
-        ],
-      }),
-    ]),
-  }),
-  bitget: Object.freeze({
-    checkedAt: CHECKED_AT_2026_09_22,
-    rates: Object.freeze([
-      rate({
-        product: "spot",
-        makerRate: 0.001,
-        takerRate: 0.001,
-        tierKey: "standard-non-vip",
-        scopeKey: "public-standard-spot-base-account-region-not-proven-bgb-discount-excluded",
-        sourceUrl: "https://www.bitget.com/support/articles/12560603892734",
-        conditions: [
-          "Bitget Trading Fees FAQ standard spot fee before VIP tier or BGB discount",
-          "BGB fee-payment discount, VIP tiers, active promotions, account-specific and regional terms are excluded",
-          "Official page says users should confirm current rates on the live Fee Schedule before trading",
-        ],
-      }),
-    ]),
-  }),
-  bybit: Object.freeze({
-    checkedAt: CHECKED_AT_2026_09_22,
-    rates: Object.freeze([
-      rate({
-        product: "spot",
-        makerRate: 0.001,
-        takerRate: 0.001,
-        tierKey: "vip-0",
-        scopeKey: "public-crypto-to-crypto-spot-base-region-account-not-proven-special-zones-excluded",
-        sourceUrl: "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure",
-        conditions: [
-          "VIP 0 row under Spot Trading (Crypto-Crypto) public base table",
-          "Fiat spot pairs, Adventure Zone, xStocks, derivatives, options, Pro, VIP and market-maker schedules are excluded",
-          "Official page says actual fee rates may vary by region and logged-in My Fee Rate after identity verification",
-        ],
-      }),
-    ]),
-  }),
-});
+const toFraction = (pct) => Math.round(pct * 1e6) / 1e8;
+
+function record(slug, product) {
+  const fact = feeFact(slug, product === "futures" ? "perp" : "spot");
+  if (fact.state !== "checked" || !Number.isFinite(fact.maker) || !Number.isFinite(fact.taker)) return null;
+  const sourceUrl = primarySourceUrl(slug);
+  if (!sourceUrl) return null;
+  const [tierKey, scopeKey] = SCOPE[slug]?.[product] || ["unknown", `public-${product}-base-account-region-not-proven`];
+  return Object.freeze({
+    product,
+    makerRate: toFraction(fact.maker),
+    takerRate: toFraction(fact.taker),
+    tierKey,
+    scopeKey,
+    sourceUrl,
+    checkedAt: fact.checkedOn,
+    conditions: Object.freeze(fact.note ? [fact.note] : []),
+  });
+}
+
+export const reviewedBaseFeesByVenue = Object.freeze(Object.fromEntries(
+  Object.keys(EXCHANGE_FACTS).map((slug) => {
+    const rates = [record(slug, "spot"), record(slug, "futures")].filter(Boolean);
+    if (!rates.length) return null;
+    const checkedAt = rates.map((r) => r.checkedAt).sort().at(-1);
+    return [slug, Object.freeze({ checkedAt, rates: Object.freeze(rates) })];
+  }).filter(Boolean),
+));
 
 export function reviewedBaseFeesForVenue(slug) {
   const key = typeof slug === "string" ? slug.trim().toLowerCase() : "";

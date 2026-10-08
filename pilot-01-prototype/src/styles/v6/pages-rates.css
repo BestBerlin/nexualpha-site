@@ -312,3 +312,7 @@
 #top#top#top#top.v6.r1-rates-page .cost-decision__results .cost-decision__amount, #top#top#top#top.v6.r1-rates-page .cost-decision__results > article > p:not(.cost-decision__amount) { justify-self: end; text-align: end; }
 #top#top#top#top.v6.r1-rates-page .fee-terminal__rate-meta:nth-of-type(2) { overflow: visible; text-overflow: clip; max-inline-size: none; }
 @media (max-width: 640px) { #top#top#top#top.v6.r1-rates-page .cost-decision__results > article { grid-template-columns: 40px minmax(0, 1fr) auto; } }
+
+/* calculator state notice (empty volume, cap, same base rate) and per-row cost gap */
+#top#top#top#top.v6.r1-rates-page .rt-notice { margin: 0; padding: var(--s-3, 12px) var(--s-4, 16px); border-inline-start: 2px solid var(--n8); background: color-mix(in oklab, var(--n12) 4%, transparent); font-size: var(--t-14); line-height: 1.5; color: var(--n11); }
+#top#top#top#top.v6.r1-rates-page .rt-delta { color: var(--n11); font-variant-numeric: tabular-nums; }

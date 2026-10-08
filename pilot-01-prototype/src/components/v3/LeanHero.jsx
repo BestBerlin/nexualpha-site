@@ -10,6 +10,7 @@ import { v3Copy } from "../../data/v3-product.js";
 import { homeHeroH1 } from "../../content/home-copy.js";
 import { RegistrationCard } from "./RegistrationCard.jsx";
 import { reviewedBaseFeesForVenue } from "../../data/reviewed-base-fees.js";
+import { feeDisplay } from "../../data/exchange-facts.js";
 import "./lean-hero.css";
 import "./growth-conversion.css";
 
@@ -631,7 +632,7 @@ function partnerCard(slug, locale) {
     hasReferral: publicCta.hasReferral,
     rebatePercent,
     benefit: publicCta.benefit || (zh ? "用户权益待官方核验" : (v3Copy(locale).pendingReview || "User benefits require official verification")),
-    fee: db.spotFee?.display && db.feeCheckedAt ? db.spotFee.display : (zh ? "待来源核验" : ({ ja: "出典確認待ち", ko: "출처 확인 대기", tr: "Kaynak doğrulaması bekleniyor", fr: "Vérification de la source en attente", de: "Quellenprüfung ausstehend", ru: "Ожидается проверка источника", ar: "بانتظار التحقق من المصدر", id: "Menunggu verifikasi sumber", vi: "Đang chờ xác minh nguồn", it: "Verifica della fonte in sospeso" }[String(locale || "").split("-")[0]] || "Pending source review")),
+    fee: feeDisplay(slug, "spot") || (zh ? "待来源核验" : ({ ja: "出典確認待ち", ko: "출처 확인 대기", tr: "Kaynak doğrulaması bekleniyor", fr: "Vérification de la source en attente", de: "Quellenprüfung ausstehend", ru: "Ожидается проверка источника", ar: "بانتظار التحقق من المصدر", id: "Menunggu verifikasi sumber", vi: "Đang chờ xác minh nguồn", it: "Verifica della fonte in sospeso" }[String(locale || "").split("-")[0]] || "Pending source review")),
     kyc: db.kycCheckedAt
       ? (zh
         ? (db.kycSummary?.[locale] || db.kycSummary?.["zh-Hans"] || "以官方流程为准")

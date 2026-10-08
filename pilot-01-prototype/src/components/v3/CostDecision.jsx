@@ -8,11 +8,20 @@ import { buildTelegramWebsiteFunnelContext } from '../../data/telegram-config.js
 import { buildVenueFeeSummary, feeSummaryCopy } from '../../data/venue-fee-summary.js';
 import { reviewedFeeCopy } from '../../data/reviewed-fee-copy.js';
 import { DecisionReturnLink } from './DecisionReturnLink.jsx';
-import { costDecisionCopy } from '../../data/cost-decision-copy.js';
+import { costDecisionCopy, costDecisionStateCopy } from '../../data/cost-decision-copy.js';
 import { BrandMark } from '../brand/BrandMark.jsx';
 import './cost-decision.css';
 
 
+
+// Round axis maximum strictly above the highest cost (1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6, 8 × 10^k).
+function niceAxisMax(value) {
+  if (!(value > 0)) return 0;
+  const target = value * 1.2;
+  const k = Math.pow(10, Math.floor(Math.log10(target)));
+  const step = [1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10].find((m) => m * k >= target);
+  return step * k;
+}
 
 export function reviewedCostDecisionRate(venue, market = 'futuresFee', order = 'takerRate') {
   const product = market === 'futuresFee' ? 'perpetuals' : 'spot';
@@ -39,8 +48,14 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
   const [volume,setVolume]=useState('100000');
   const [market,setMarket]=useState(product === 'spot' ? 'spotFee' : 'futuresFee');
   const [order,setOrder]=useState('takerRate');
-  const amount=Math.max(0,Math.min(1e10,Number(volume)||0));
+  const MAX_VOLUME=1e10;
+  const rawAmount=Number(volume);
+  const amount=Math.max(0,Math.min(MAX_VOLUME,Number.isFinite(rawAmount)?rawAmount:0));
+  const capped=Number.isFinite(rawAmount)&&rawAmount>MAX_VOLUME;
+  const noVolume=!(amount>0);
+  const stateUi=costDecisionStateCopy(locale);
   const number=new Intl.NumberFormat(locale,{maximumFractionDigits:2});
+  const rateNumber=new Intl.NumberFormat(locale,{maximumFractionDigits:3});
   const feeText=feeSummaryCopy(locale);
   const researchHref=(path, selectedProduct)=>appendDecisionPassportQuery(
     localizedHref(path,{locale}),
@@ -67,8 +82,8 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
     const quote = reviewedCostDecisionRate(venue, market, order);
     const product = market === 'futuresFee' ? 'perpetuals' : 'spot';
     const cta = regionalVenueCta(slug, locale, regionMarket, product, { accountStage, funding });
-    const displayRate = quote ? number.format(quote.rate*100) : null;
-    const displayCost = quote ? number.format(amount*quote.rate) : (ui.pending);
+    const displayRate = quote ? rateNumber.format(quote.rate*100) : null;
+    const displayCost = quote ? (noVolume ? '–' : number.format(amount*quote.rate)) : (ui.pending);
     const reviewedRate = quote?.reviewedRate;
     const sourceCopy = reviewedRate ? reviewedFeeCopy(reviewedRate, locale) : null;
     return { slug, venue, quote, product, cta, displayRate, displayCost, reviewedRate, sourceCopy };
@@ -76,7 +91,14 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
   const lowestReviewed = resultRows
     .filter(row=>Number.isFinite(row.quote?.rate))
     .sort((a,b)=>a.quote.rate-b.quote.rate)[0] || null;
-  const maxCost=Math.max(0,...resultRows.map(row=>Number.isFinite(row.quote?.rate)?amount*row.quote.rate:0));
+  const checkedRows=resultRows.filter(row=>Number.isFinite(row.quote?.rate));
+  const maxCost=Math.max(0,...checkedRows.map(row=>amount*row.quote.rate));
+  // Bars share one explicit cost axis (0 → a round number above the highest cost), so equal costs read as equal
+  // and differences stay proportional; the note below says so in words when every checked rate is the same.
+  const axisMax=niceAxisMax(maxCost);
+  const sameRate=checkedRows.length>1&&checkedRows.every(row=>row.quote.rate===checkedRows[0].quote.rate);
+  const lowestCost=lowestReviewed?amount*lowestReviewed.quote.rate:0;
+  const notice=noVolume?stateUi.empty:capped?stateUi.capped.replace('{max}',number.format(MAX_VOLUME)):sameRate?stateUi.same.replace('{n}',String(checkedRows.length)):null;
   return <section id="cost-scenario" className="cost-decision rt-cd" aria-labelledby={`${id}-title`}>
     <div className="cost-decision__intro rt-panel__intro">
       <h2 id={`${id}-title`}>{ui.title}</h2>
@@ -106,15 +128,18 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
       <DecisionReturnLink href={decisionReturnHref} locale={locale} />
     </div>
     <div className="rt-result">
-      {lowestReviewed && <div className="cost-decision__verdict rt-verdict">
+      {notice && <p className="cost-decision__notice rt-notice" role="status">{notice}</p>}
+      {lowestReviewed && !noVolume && <div className="cost-decision__verdict rt-verdict">
         <span className="rt-verdict__base">{ui.base} {lowestReviewed.displayRate}%</span>
         <strong><span className="rt-verdict__venue">{lowestReviewed.venue.name}</span> <span className="rt-verdict__figure" key={lowestReviewed.displayCost} aria-hidden="true">{lowestReviewed.displayCost}</span><span className="rt-sr">{lowestReviewed.venue.name} · {lowestReviewed.displayCost}</span> <span className="rt-verdict__unit">USDT{ui.perMonth}</span></strong>
         <a href={researchHref(`/exchanges/${lowestReviewed.slug}#registration-path`,lowestReviewed.product)} data-cta-kind="research" data-cta-platform={lowestReviewed.slug} data-cta-placement="cost-calculator-lowest-reviewed" data-growth-decision={lowestReviewed.slug} data-growth-placement="cost-calculator-lowest-reviewed" data-growth-market={regionMarket} data-growth-product={lowestReviewed.product}>{ui.nextPlatform}</a>
       </div>}
       <div className="cost-decision__results" aria-live="polite">
         {resultRows.map(({slug,venue,quote,product,cta,displayRate,displayCost,reviewedRate,sourceCopy})=>{
-          const share=quote&&maxCost>0?Math.max(4,Math.round(amount*quote.rate/maxCost*100)):0;
-          return <article key={slug}><h3>{venue.name}</h3><span className="rt-logo"><BrandMark slug={slug} compact /></span><p className={quote ? "cost-decision__amount" : "cost-decision__amount cost-decision__amount--pending"}>{displayCost}{quote && <small> USDT{ui.perMonth}</small>}</p><p className={displayRate ? undefined : "cost-decision__base--pending"}>{ui.base} {displayRate ? `${displayRate}%` : (ui.pending)}</p><i className="rt-bar" aria-hidden="true" style={{'--w':`${share}%`}} />{reviewedRate && <details className="cost-decision__source"><summary>{feeText.checked}: {reviewedRate.checkedAt}</summary><p>{sourceCopy.tier} · {sourceCopy.scope}</p><p>{sourceCopy.conditions}</p><a href={reviewedRate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a></details>}<a className="rt-offer" href={researchHref(`/exchanges/${slug}#registration-path`,product)} data-cta-kind="research" data-cta-platform={slug} data-cta-placement="cost-calculator-eligibility" data-growth-decision={slug} data-growth-placement="cost-calculator-eligibility" data-growth-market={regionMarket} data-growth-product={product}>{ui.offer}</a><a className="cost-decision__cta" data-cta-kind={cta.direct ? 'registration' : 'research'} data-cta-platform={slug} data-cta-placement="cost-calculator" data-growth-decision={slug} data-growth-placement="cost-calculator" data-growth-market={regionMarket} data-growth-product={product} href={cta.ctaHref} target={cta.direct ? '_blank' : undefined} rel={cta.direct ? 'sponsored noopener noreferrer' : undefined}>{cta.direct ? (ui.register.replace('{venue}', venue.name)) : (ui.verify)} ↗</a></article>;
+          const cost=quote?amount*quote.rate:0;
+          const share=quote&&axisMax>0?Math.max(4,Math.round(cost/axisMax*100)):0;
+          const delta=quote&&!noVolume&&!sameRate&&lowestReviewed?cost-lowestCost:0;
+          return <article key={slug}><h3>{venue.name}</h3><span className="rt-logo"><BrandMark slug={slug} compact /></span><p className={quote ? "cost-decision__amount" : "cost-decision__amount cost-decision__amount--pending"}>{displayCost}{quote && <small> USDT{ui.perMonth}</small>}</p><p className={displayRate ? undefined : "cost-decision__base--pending"}>{ui.base} {displayRate ? `${displayRate}%` : (ui.pending)}{delta>0 && <span className="rt-delta"> · {stateUi.delta.replace('{x}', number.format(delta))}</span>}</p><i className="rt-bar" aria-hidden="true" style={{'--w':`${share}%`}} />{reviewedRate && <details className="cost-decision__source"><summary>{feeText.checked}: {reviewedRate.checkedAt}</summary><p>{sourceCopy.tier} · {sourceCopy.scope}</p><p>{sourceCopy.conditions}</p><a href={reviewedRate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a></details>}<a className="rt-offer" href={researchHref(`/exchanges/${slug}#registration-path`,product)} data-cta-kind="research" data-cta-platform={slug} data-cta-placement="cost-calculator-eligibility" data-growth-decision={slug} data-growth-placement="cost-calculator-eligibility" data-growth-market={regionMarket} data-growth-product={product}>{ui.offer}</a><a className="cost-decision__cta" data-cta-kind={cta.direct ? 'registration' : 'research'} data-cta-platform={slug} data-cta-placement="cost-calculator" data-growth-decision={slug} data-growth-placement="cost-calculator" data-growth-market={regionMarket} data-growth-product={product} href={cta.ctaHref} target={cta.direct ? '_blank' : undefined} rel={cta.direct ? 'sponsored noopener noreferrer' : undefined}>{cta.direct ? (ui.register.replace('{venue}', venue.name)) : (ui.verify)} ↗</a></article>;
         })}
       </div>
     </div>

@@ -6,6 +6,8 @@
  * and deterministic machine readability for LLMs, autonomous agents, and quants.
  */
 
+import { feeFact, primarySourceUrl } from "./exchange-facts.js";
+
 export const AUDIT_DATE = "2026-09-08";
 export const AUDIT_DECLARATION = {
   zh: "NexuAlpha 来源审阅基准：本事实库数据已隔离商业营销宣传；链上状态、官方 REST/WS 端点、监管注册与默克尔树证明均按记录来源逐项复核，不构成实时授权、安全保证或完整性承诺。",
@@ -1702,6 +1704,17 @@ export const FACTBOOK_SLUGS = Object.keys(FACTBOOK_REGISTRY);
  * an item-level source and timestamp have been recorded. Keeping this
  * boundary here protects both the Factbook copy action and the site llms files.
  */
+// Base (non-VIP) fees come only from exchange-facts.js; anything unchecked stays unasserted.
+function baseFeeLines(slug) {
+  const lines = [["Spot", "spot"], ["Perpetual", "perp"]].map(([label, product]) => {
+    const f = feeFact(slug, product);
+    if (f.state !== "checked") return `- ${label} base maker/taker fee: not yet checked.`;
+    const v = (x) => (x == null ? "not yet checked" : `${x}%`);
+    return `- ${label} base maker/taker fee: ${v(f.maker)} / ${v(f.taker)} (checked ${f.checkedOn} on the official fee page${primarySourceUrl(slug) ? ` ${primarySourceUrl(slug)}` : ""}).`;
+  });
+  return lines.join("\n");
+}
+
 export function generateLlmMarkdown(venue) {
   if (!venue) return "";
   const v = venue;
@@ -1736,7 +1749,7 @@ ${mirrors}
 ${list(v.compliance?.licensesEn)}
 
 ## Fees and incentives
-- A current fee value is not asserted by this public knowledge block.
+${baseFeeLines(v.slug)}
 - Any fee table or tier label below is a research pointer only; do not calculate a user's effective cost from it.
 ${tierNames}
 - Partner codes, rebates, welcome packages, commissions and other commercial terms are intentionally omitted from this machine-readable surface.
