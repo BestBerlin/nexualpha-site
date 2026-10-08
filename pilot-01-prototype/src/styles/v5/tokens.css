@@ -1,0 +1,135 @@
+/* NexuAlpha V5 tokens. Everything is scoped under .v5 so legacy pages are untouched.
+ * Pages opt in with <div class="v5">. Dark only: the brand is a restrained data-led finance surface.
+ *
+ * COLOUR
+ * Neutrals: a 12-step cool slate-graphite scale, hand-written, modelled on Radix slate-dark
+ * (1-2 app/surface, 3-5 component fills, 6-8 borders, 9-10 solid/muted text, 11-12 text).
+ * Signal: ONE accent, the turquoise check in the logo (#1FE0C0, public/brand/nexualpha/nexualpha-round.svg).
+ * Used for CTAs and positive/up values only. Semantic red/amber mean risk/warning only.
+ *
+ * CONTRAST (WCAG 2.x, computed; AA body >= 4.5, large/UI >= 3)
+ *   foreground           on --n1 (page)  on --n2   on --n3 (raised)  on --n4
+ *   --n12 text-strong       16.25         15.15      13.70            12.43
+ *   --n11 text (body)        9.06          8.45       7.64             6.93
+ *   --n10 text-muted         5.82          5.43       4.91             4.45 (do not use on n4+)
+ *   --n9  decorative only    3.68          3.43       3.10             2.82 (icons/rules, never text)
+ *   --accent                11.21         10.46       9.45             8.58
+ *   --accent-hi             12.65         11.80      10.67             9.68
+ *   --red   (risk text)      6.50          6.07       5.48             4.98
+ *   --amber (caution text)  10.53          9.82       8.88             8.06
+ *   --on-accent (#04130f) on --accent 11.29, on --accent-hi 12.74, on --accent-lo 8.57
+ *   hairline --n6 on --n1 1.65 (decorative), --n7 2.04, --n8 3.01 (use n8 for input/control edges, WCAG 1.4.11)
+ */
+
+.v5 {
+  color-scheme: dark;
+
+  /* ---- neutral scale (slate-graphite) ---- */
+  --n1: #111113;
+  --n2: #18191b;
+  --n3: #212225;
+  --n4: #272a2d;
+  --n5: #2e3135;
+  --n6: #363a3f;
+  --n7: #43484e;
+  --n8: #5a6169;
+  --n9: #696e77;
+  --n10: #8b8f98;
+  --n11: #b0b4ba;
+  --n12: #edeef0;
+
+  /* ---- semantic surfaces / text / lines ---- */
+  --bg: var(--n1);
+  --surface: var(--n2);
+  --surface-raised: var(--n3);
+  --surface-hover: var(--n4);
+  --text-strong: var(--n12);
+  --text: var(--n11);
+  --text-muted: var(--n10);
+  --line: var(--n6);
+  --line-strong: var(--n7);
+  --control-edge: var(--n8);
+
+  /* ---- signal accent (from logo check) ---- */
+  --accent: #1fe0c0;
+  --accent-hi: #4aebd0;
+  --accent-lo: #14c4a6;
+  --accent-wash: color-mix(in oklab, var(--accent) 12%, var(--n2));
+  --on-accent: #04130f;
+  --positive: var(--accent);
+
+  /* ---- risk ---- */
+  --red: #ff6369;
+  --red-wash: color-mix(in oklab, var(--red) 12%, var(--n2));
+  --amber: #f5b73d;
+  --amber-wash: color-mix(in oklab, var(--amber) 12%, var(--n2));
+  --negative: var(--red);
+  --caution: var(--amber);
+
+  /* ---- type families ---- */
+  --font-sans: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif;
+  --font-mono: "Geist Mono V5", ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+
+  /* ---- type scale: 8 steps, fluid, display <= 6rem ---- */
+  --t-xs: 0.75rem;
+  --t-sm: 0.875rem;
+  --t-base: 1rem;
+  --t-lg: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  --t-xl: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
+  --t-2xl: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+  --t-3xl: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
+  --t-display: clamp(2.75rem, 1.7rem + 4.4vw, 6rem);
+
+  --lh-tight: 1.05;
+  --lh-snug: 1.2;
+  --lh-body: 1.6;
+  --track-display: -0.035em;
+  --track-heading: -0.02em;
+  --track-label: 0.01em;
+  --measure: 70ch;
+  --measure-narrow: 52ch;
+
+  /* ---- spacing: 4px base ---- */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.25rem;
+  --s-6: 1.5rem;
+  --s-8: 2rem;
+  --s-10: 2.5rem;
+  --s-12: 3rem;
+  --s-16: 4rem;
+  --s-20: 5rem;
+  --s-24: 6rem;
+  --s-32: 8rem;
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2rem);
+  --page-max: 76rem;
+
+  /* ---- radii: three values ---- */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 14px;
+
+  /* ---- hairlines ---- */
+  --hairline: 1px solid var(--line);
+  --hairline-strong: 1px solid var(--line-strong);
+
+  /* ---- depth: offset + blur only, no zero-offset glow ---- */
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.35), 0 1px 1px rgb(0 0 0 / 0.2);
+  --shadow-2: 0 4px 12px -2px rgb(0 0 0 / 0.45), 0 2px 4px rgb(0 0 0 / 0.25);
+  --shadow-3: 0 18px 40px -12px rgb(0 0 0 / 0.6), 0 6px 12px -4px rgb(0 0 0 / 0.35);
+  --inset-top: inset 0 1px 0 rgb(255 255 255 / 0.04);
+
+  /* ---- motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 120ms;
+  --dur-2: 240ms;
+  --dur-3: 400ms;
+
+  /* ---- layers ---- */
+  --z-sticky: 10;
+  --z-overlay: 40;
+  --z-modal: 50;
+}

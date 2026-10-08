@@ -1,0 +1,490 @@
+/* NexuAlpha V5 base: fonts, type, surfaces, browser-surface theming, buttons, table/row primitives.
+ * Everything is scoped under .v5. Logical properties only (RTL safe).
+ *
+ * Font preload hints (add to the page <head> of any route that adopts V5; ~45KB total, do NOT preload mono unless
+ * the first viewport shows numbers in mono):
+ *   <link rel="preload" href="/fonts/geist/geist-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+ *   <link rel="preload" href="/fonts/geist/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+ * Latin only (U+0020-007E, Latin-1 punctuation, arrows, math). CJK/Arabic fall back to the existing Pilot Noto stacks.
+ * Geist is SIL OFL 1.1 (public/fonts/geist/Geist-OFL.txt).
+ */
+
+@font-face {
+  font-family: "Geist V5";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist/geist-sans-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono V5";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist/geist-mono-latin.woff2") format("woff2");
+}
+
+/* ---------- root surface ---------- */
+.v5 {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--t-base);
+  line-height: var(--lh-body);
+  font-feature-settings: "kern", "calt";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  min-block-size: 100dvh;
+  scrollbar-color: var(--n7) var(--n2);
+  scrollbar-width: thin;
+  accent-color: var(--accent);
+  caret-color: var(--accent);
+}
+.v5 *,
+.v5 *::before,
+.v5 *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- browser surfaces ---------- */
+.v5 ::selection {
+  background: color-mix(in oklab, var(--accent) 32%, var(--n1));
+  color: var(--n12);
+}
+.v5 * {
+  scrollbar-color: var(--n7) transparent;
+}
+.v5 ::-webkit-scrollbar {
+  inline-size: 10px;
+  block-size: 10px;
+}
+.v5 ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.v5 ::-webkit-scrollbar-thumb {
+  background: var(--n6);
+  border-radius: 999px;
+  border: 3px solid var(--n1);
+}
+.v5 ::-webkit-scrollbar-thumb:hover {
+  background: var(--n8);
+}
+.v5 :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+.v5 :focus:not(:focus-visible) {
+  outline: none;
+}
+.v5 input::placeholder,
+.v5 textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+.v5 hr {
+  border: 0;
+  border-block-start: var(--hairline);
+  margin-block: var(--s-8);
+}
+/* page-level scrollbar when a V5 page is mounted */
+html:has(.v5) {
+  scrollbar-color: var(--n7) var(--n1);
+  background: var(--n1);
+}
+
+/* ---------- type ---------- */
+.v5 h1,
+.v5 h2,
+.v5 h3,
+.v5 h4 {
+  margin: 0;
+  color: var(--text-strong);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  text-wrap: balance;
+}
+.v5 h1,
+.v5 .t-display {
+  font-size: var(--t-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-display);
+  font-weight: 600;
+}
+.v5 h2,
+.v5 .t-3xl {
+  font-size: var(--t-3xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-display);
+}
+.v5 h3,
+.v5 .t-2xl {
+  font-size: var(--t-2xl);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--track-heading);
+}
+.v5 h4,
+.v5 .t-xl {
+  font-size: var(--t-xl);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--track-heading);
+}
+.v5 .t-lg {
+  font-size: var(--t-lg);
+  line-height: 1.5;
+}
+.v5 .t-base {
+  font-size: var(--t-base);
+}
+.v5 .t-sm {
+  font-size: var(--t-sm);
+  line-height: 1.5;
+}
+.v5 .t-xs {
+  font-size: var(--t-xs);
+  line-height: 1.4;
+  letter-spacing: var(--track-label);
+}
+.v5 p {
+  margin-block: 0 var(--s-4);
+  max-inline-size: var(--measure);
+  text-wrap: pretty;
+}
+.v5 .measure {
+  max-inline-size: var(--measure);
+}
+.v5 .measure-narrow {
+  max-inline-size: var(--measure-narrow);
+}
+.v5 .text-strong {
+  color: var(--text-strong);
+}
+.v5 .text-muted {
+  color: var(--text-muted);
+}
+.v5 .text-up {
+  color: var(--positive);
+}
+.v5 .text-down {
+  color: var(--negative);
+}
+.v5 .text-caution {
+  color: var(--caution);
+}
+.v5 .mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "zero";
+}
+/* every numeric cell/figure: tabular, aligned to the inline-end */
+.v5 .num {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum", "zero";
+  text-align: end;
+}
+.v5 .num-start {
+  text-align: start;
+}
+.v5 a {
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-decoration-color: var(--n8);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out);
+}
+.v5 a:hover {
+  text-decoration-color: var(--accent);
+}
+.v5 code,
+.v5 kbd {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--n3);
+  border: var(--hairline);
+  border-radius: var(--r-sm);
+  padding-inline: 0.35em;
+  padding-block: 0.05em;
+}
+
+/* ---------- layout ---------- */
+.v5 .container {
+  inline-size: 100%;
+  max-inline-size: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.v5 .section {
+  padding-block: clamp(var(--s-16), 8vw, var(--s-32));
+}
+.v5 .stack > * + * {
+  margin-block-start: var(--stack, var(--s-4));
+}
+.v5 .cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap, var(--s-3));
+  align-items: center;
+}
+
+/* ---------- surfaces ---------- */
+.v5 .surface {
+  background: var(--surface);
+  border: var(--hairline);
+  border-radius: var(--r-md);
+}
+.v5 .surface-raised {
+  background: var(--surface-raised);
+  border: var(--hairline);
+  border-radius: var(--r-md);
+  box-shadow: var(--inset-top), var(--shadow-2);
+}
+.v5 .surface-overlay {
+  background: var(--n3);
+  border: var(--hairline-strong);
+  border-radius: var(--r-lg);
+  box-shadow: var(--inset-top), var(--shadow-3);
+}
+.v5 .rule-top {
+  border-block-start: var(--hairline);
+}
+.v5 .rule-bottom {
+  border-block-end: var(--hairline);
+}
+
+/* ---------- buttons ---------- */
+.v5 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-block-size: 44px;
+  padding-inline: var(--s-5);
+  padding-block: var(--s-2);
+  border: 1px solid transparent;
+  border-radius: var(--r-md);
+  font: inherit;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out),
+    transform var(--dur-1) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.v5 .btn:active {
+  transform: translateY(1px) scale(0.985);
+}
+.v5 .btn[disabled],
+.v5 .btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.v5 .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: var(--inset-top), 0 1px 2px rgb(0 0 0 / 0.4), 0 6px 14px -6px rgb(0 0 0 / 0.55);
+}
+.v5 a.btn-primary {
+  color: var(--on-accent);
+}
+.v5 .btn-primary:hover {
+  background: var(--accent-hi);
+}
+.v5 .btn-primary:active {
+  background: var(--accent-lo);
+}
+.v5 .btn-secondary {
+  background: var(--n3);
+  color: var(--text-strong);
+  border-color: var(--n7);
+}
+.v5 a.btn-secondary {
+  color: var(--text-strong);
+}
+.v5 .btn-secondary:hover {
+  background: var(--n4);
+  border-color: var(--n8);
+}
+.v5 .btn-ghost {
+  background: transparent;
+  color: var(--text);
+}
+.v5 a.btn-ghost {
+  color: var(--text);
+}
+.v5 .btn-ghost:hover {
+  background: var(--n3);
+  color: var(--text-strong);
+}
+.v5 .btn[aria-busy="true"] {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
+}
+
+/* ---------- inputs ---------- */
+.v5 .label {
+  display: block;
+  margin-block-end: var(--s-2);
+  color: var(--text-strong);
+  font-size: var(--t-sm);
+  font-weight: 500;
+}
+.v5 .input {
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding-inline: var(--s-3);
+  padding-block: var(--s-2);
+  background: var(--n2);
+  color: var(--text-strong);
+  border: 1px solid var(--control-edge);
+  border-radius: var(--r-md);
+  font: inherit;
+  font-size: var(--t-base);
+}
+.v5 .input:hover {
+  border-color: var(--n9);
+}
+.v5 .input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+.v5 .input[aria-invalid="true"] {
+  border-color: var(--red);
+}
+.v5 .field-error {
+  margin-block-start: var(--s-2);
+  color: var(--red);
+  font-size: var(--t-sm);
+}
+
+/* ---------- status text (never colour alone: pair with sign, word or icon) ---------- */
+.v5 .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding-inline: var(--s-2);
+  padding-block: 2px;
+  border: var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--n3);
+  color: var(--text);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  line-height: 1.4;
+}
+.v5 .tag-up {
+  background: var(--accent-wash);
+  color: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 30%, var(--n3));
+}
+.v5 .tag-risk {
+  background: var(--red-wash);
+  color: var(--red);
+  border-color: color-mix(in oklab, var(--red) 30%, var(--n3));
+}
+.v5 .tag-caution {
+  background: var(--amber-wash);
+  color: var(--amber);
+  border-color: color-mix(in oklab, var(--amber) 30%, var(--n3));
+}
+
+/* ---------- table primitive ---------- */
+.v5 .table-wrap {
+  overflow-x: auto;
+  border: var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+.v5 .table {
+  inline-size: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--t-sm);
+}
+.v5 .table th {
+  padding-inline: var(--s-4);
+  padding-block: var(--s-3);
+  text-align: start;
+  color: var(--text-muted);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  white-space: nowrap;
+  background: var(--n2);
+  border-block-end: var(--hairline-strong);
+  position: sticky;
+  inset-block-start: 0;
+}
+.v5 .table th.num {
+  text-align: end;
+}
+.v5 .table td {
+  padding-inline: var(--s-4);
+  padding-block: var(--s-3);
+  color: var(--text);
+  border-block-end: var(--hairline);
+  vertical-align: middle;
+}
+.v5 .table tbody tr:last-child td {
+  border-block-end: 0;
+}
+.v5 .table tbody tr {
+  transition: background-color var(--dur-1) var(--ease-out);
+}
+.v5 .table tbody tr:hover {
+  background: var(--n3);
+}
+.v5 .table td:first-child,
+.v5 .table th:first-child {
+  color: var(--text-strong);
+}
+.v5 .table-dense td,
+.v5 .table-dense th {
+  padding-block: var(--s-2);
+}
+
+/* ---------- row primitive: ruled list, one hairline BETWEEN rows (not a card per item) ---------- */
+.v5 .rows {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.v5 .row {
+  display: grid;
+  grid-template-columns: var(--cols, 1fr auto);
+  align-items: center;
+  gap: var(--s-4);
+  padding-block: var(--s-4);
+  padding-inline: var(--s-2);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--dur-1) var(--ease-out);
+}
+.v5 .row + .row {
+  border-block-start: var(--hairline);
+}
+.v5 a.row:hover,
+.v5 .row-hover:hover {
+  background: var(--n2);
+}
+.v5 .row > .num {
+  min-inline-size: 6ch;
+}
+
+/* ---------- small-screen floor ---------- */
+@media (max-width: 40rem) {
+  .v5 .row {
+    grid-template-columns: var(--cols-sm, 1fr auto);
+  }
+}
+@media (forced-colors: active) {
+  .v5 .btn-primary {
+    border-color: ButtonText;
+  }
+}

@@ -1,0 +1,219 @@
+/* NexuAlpha V5 motion. CSS-only primitives; everything animated lives under prefers-reduced-motion: no-preference.
+ * Without that preference (or without JS) content is simply visible: no hidden-until-animated state ever ships
+ * in the server HTML. Only transform, opacity, filter and mask are animated.
+ * Durations: --dur-1 120ms (feedback), --dur-2 240ms (state), --dur-3 400ms (entrance). Easing: --ease-out (expo-out).
+ */
+
+@property --v5-beam {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ---- 1. Reveal (state driven by <Reveal>/useInView: data-state hidden -> shown) ---- */
+  .v5 .reveal {
+    transition: opacity var(--dur-3) var(--ease-out), translate var(--dur-3) var(--ease-out),
+      filter var(--dur-3) var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 60ms);
+  }
+  .v5 .reveal[data-state="hidden"] {
+    opacity: 0;
+    translate: 0 14px;
+    filter: blur(6px);
+  }
+  .v5 .reveal[data-state="shown"] {
+    opacity: 1;
+    translate: 0 0;
+    filter: none;
+  }
+
+  /* ---- 2. Enter: first-viewport load-in, pure CSS, stagger with --i ---- */
+  @keyframes v5-enter {
+    from {
+      opacity: 0;
+      translate: 0 12px;
+      filter: blur(5px);
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+      filter: blur(0);
+    }
+  }
+  .v5 .enter {
+    animation: v5-enter var(--dur-3) var(--ease-out) backwards;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  /* ---- 3. Hover feedback ---- */
+  .v5 .lift {
+    transition: translate var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+  }
+  .v5 .lift:hover {
+    translate: 0 -2px;
+    box-shadow: var(--inset-top), var(--shadow-3);
+  }
+
+  /* ---- 4. Spotlight border: pointer position comes from --mx/--my set by lib/v5/spotlight.js ---- */
+  .v5 .spotlight {
+    position: relative;
+    isolation: isolate;
+    border-radius: var(--r-md);
+    background: var(--surface);
+    border: var(--hairline);
+  }
+  .v5 .spotlight::before,
+  .v5 .spotlight::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--dur-2) var(--ease-out);
+  }
+  /* surface wash under the cursor */
+  .v5 .spotlight::before {
+    z-index: -1;
+    background: radial-gradient(22rem circle at var(--mx, 50%) var(--my, 50%), rgb(255 255 255 / 0.05), transparent 65%);
+  }
+  /* 1px ring lit near the cursor: gradient masked down to the border box only */
+  .v5 .spotlight::after {
+    padding: 1px;
+    background: radial-gradient(14rem circle at var(--mx, 50%) var(--my, 50%), var(--accent), transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  }
+  .v5 .spotlight:hover::before,
+  .v5 .spotlight:hover::after,
+  .v5 .spotlight:focus-within::before,
+  .v5 .spotlight:focus-within::after {
+    opacity: 1;
+  }
+
+  /* ---- 5. Border beam: a short accent arc travelling the border (use once, on the single hero panel) ---- */
+  @keyframes v5-beam {
+    to {
+      --v5-beam: 360deg;
+    }
+  }
+  .v5 .beam {
+    position: relative;
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    border: var(--hairline);
+  }
+  .v5 .beam::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    padding: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: conic-gradient(from var(--v5-beam), transparent 0 80%, var(--accent) 92%, transparent 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation: v5-beam 6s linear infinite;
+  }
+
+  /* ---- 6. Logo marquee: pure CSS. Markup: .marquee > .marquee__track > [items][items aria-hidden copy] ---- */
+  @keyframes v5-marquee {
+    to {
+      translate: calc(-50% * var(--dir, 1)) 0;
+    }
+  }
+  .v5 .marquee {
+    --dir: 1;
+    overflow: hidden;
+    -webkit-mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  [dir="rtl"] .v5 .marquee,
+  .v5[dir="rtl"] .marquee {
+    --dir: -1;
+  }
+  .v5 .marquee__track {
+    display: flex;
+    inline-size: max-content;
+    gap: var(--marquee-gap, var(--s-12));
+    padding-inline-end: var(--marquee-gap, var(--s-12));
+    animation: v5-marquee var(--marquee-dur, 40s) linear infinite;
+  }
+  .v5 .marquee:hover .marquee__track,
+  .v5 .marquee:focus-within .marquee__track {
+    animation-play-state: paused;
+  }
+
+  /* ---- 7. Scroll-driven progress + view() reveal (progressive enhancement) ---- */
+  @supports (animation-timeline: scroll()) {
+    @keyframes v5-progress {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+    .v5 .scroll-progress {
+      position: fixed;
+      inset-block-start: 0;
+      inset-inline: 0;
+      block-size: 2px;
+      z-index: var(--z-overlay);
+      background: var(--accent);
+      transform-origin: 0 50%;
+      animation: v5-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+    [dir="rtl"] .v5 .scroll-progress,
+    .v5[dir="rtl"] .scroll-progress {
+      transform-origin: 100% 50%;
+    }
+    @keyframes v5-view-in {
+      from {
+        opacity: 0;
+        translate: 0 24px;
+        filter: blur(6px);
+      }
+      to {
+        opacity: 1;
+        translate: 0 0;
+        filter: blur(0);
+      }
+    }
+    /* pure-CSS alternative to <Reveal>; do not combine with .reveal on the same element */
+    .v5 .reveal-scroll {
+      animation: v5-view-in linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 45%;
+    }
+  }
+}
+
+/* progress bar must not render at all when motion is reduced or unsupported */
+@media (prefers-reduced-motion: reduce) {
+  .v5 .scroll-progress {
+    display: none;
+  }
+  .v5 .marquee {
+    -webkit-mask: none;
+    mask: none;
+  }
+  .v5 .marquee__track {
+    inline-size: auto;
+    flex-wrap: wrap;
+    row-gap: var(--s-4);
+    padding-inline-end: 0;
+  }
+  .v5 .marquee__track [aria-hidden="true"] {
+    display: none;
+  }
+}
+@supports not (animation-timeline: scroll()) {
+  .v5 .scroll-progress {
+    display: none;
+  }
+}
