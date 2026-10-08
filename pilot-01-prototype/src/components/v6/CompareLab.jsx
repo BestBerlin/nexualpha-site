@@ -8,7 +8,7 @@ import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
 import { directoryContext } from "../../data/directory-context.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { prefersReducedMotion } from "../../lib/v5/useInView.js";
-import { labKbd, labText } from "./compare-lab-copy.js";
+import { labText } from "./compare-lab-copy.js";
 import { comparePathFor } from "./compare-routes.js";
 import "../../styles/v6/compare-lab.css";
 
@@ -137,7 +137,8 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
 
   // Keyboard path for the same gesture: Enter picks a venue up (from a chip or a slot), the arrow keys choose the
   // target slot (it lights exactly like a pointer drag), Enter/Space drops it, Escape cancels.
-  const kbd = labKbd(locale);
+  // Announcements are built from strings the lab already localizes (slot labels, venue names) plus key names.
+  const kbd = { hint: `${t.first} / ${t.second}: Enter, \u2190 \u2192, Enter, Esc`, grabbed: "{n} \u2192 {s}", cancelled: "" };
   const [held, setHeld] = useState(null); // { slug, target }
   const [say, setSay] = useState("");
   const slotName = (n) => (n === 0 ? t.first : t.second);
@@ -176,7 +177,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
     } else if (e.key === "Escape" || e.key === "Tab") {
       if (e.key === "Escape") e.preventDefault();
       setHeld(null);
-      setSay(kbd.cancelled);
+      setSay(status);
     }
   };
   const onDown = (e, slug) => {

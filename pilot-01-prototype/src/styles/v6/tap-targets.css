@@ -1,0 +1,31 @@
+/* Touch targets: every inline action in main reaches 44px on touch screens (R3 inner #12).
+   Text links grow their hit box with padding + an equal negative margin, so nothing around them moves and nothing
+   visible changes. Bordered pills keep their drawn size and get a transparent hit extender instead. */
+@media (pointer: coarse), (max-width: 900px) {
+  /* Related research (every inner page): 34px -> 44px */
+  .crawl-priority-links__group a { padding-block: 11px; margin-block: -5px; }
+
+  /* /rates: venue names in the benchmark table and the per-venue "Offer & eligibility" link */
+  .fee-terminal__cell-brand a { display: inline-block; padding-block: 11px; margin-block: -11px; }
+  .cost-decision__results a.rt-offer { padding-block: 10px; margin-block: -10px; }
+
+  /* /telegram: topic links, "Continue in Bot", the secondary quick CTA */
+  .tg-topic-card__links a { padding-block: 11px; margin-block: -11px; }
+  .tg-topic-card__bot { padding-block: 13px; margin-block: -7px -13px; }
+  .tg-btn--secondary { position: relative; }
+  .tg-btn--secondary::after { content: ""; position: absolute; inset: -14px 0; }
+  /* command pills keep their 24px drawing; the hit area extends 10px above and below */
+  .tg-cmd-btn { position: relative; }
+  .tg-cmd-btn::after { content: ""; position: absolute; inset: -10px 0; }
+
+  /* /factbook index: record titles and "Open fact record" */
+  .topic-card h2 a, .topic-card h3 a { padding-block: 7px; }
+  .topic-card a.button-quiet { min-block-size: 44px; }
+
+  /* /factbook/{slug}: recorded domain and the venue decision link */
+  a.factbook-domain-link { padding-block: 12px; }
+  a.factbook-answer-card__link { min-block-size: 44px; }
+
+  /* checkbox rows: the whole label is the 44px target; the box itself keeps its drawn size */
+  label.research-differences { display: inline-flex; align-items: center; gap: 8px; min-block-size: 44px; cursor: pointer; }
+}

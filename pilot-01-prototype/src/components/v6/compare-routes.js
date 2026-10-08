@@ -20,21 +20,10 @@ export function comparePathFor(slugs = []) {
 }
 
 const NO_COMPARE_COPY = {
-  en: "No comparison page yet. See its Factbook record",
-  "zh-Hans": "暂无对比页面，请查看其资料档案",
-  "zh-Hant": "暫無比較頁面，請查看其資料檔案",
-  ja: "比較ページはまだありません。ファクトブックをご覧ください",
-  ko: "아직 비교 페이지가 없습니다. 팩트북을 확인하세요",
-  tr: "Henüz karşılaştırma sayfası yok. Factbook kaydına bakın",
-  es: "Aún no hay página de comparación. Consulta su ficha Factbook",
-  "pt-BR": "Ainda sem página de comparação. Veja a ficha no Factbook",
-  fr: "Pas encore de page de comparaison. Consultez sa fiche Factbook",
-  de: "Noch keine Vergleichsseite. Siehe Factbook-Eintrag",
-  ru: "Страницы сравнения пока нет. См. запись в Factbook",
-  ar: "لا توجد صفحة مقارنة بعد. راجع سجل Factbook",
-  id: "Belum ada halaman perbandingan. Lihat catatan Factbook",
-  vi: "Chưa có trang so sánh. Xem hồ sơ Factbook",
-  it: "Nessuna pagina di confronto per ora. Vedi la scheda Factbook",
+  en: "No comparison page yet", "zh-Hans": "暂无对比页", "zh-Hant": "暫無比較頁", ja: "比較ページなし", ko: "비교 페이지 없음",
+  tr: "Karşılaştırma sayfası yok", es: "Sin página de comparación", "pt-BR": "Sem página de comparação", fr: "Pas de page de comparaison",
+  de: "Keine Vergleichsseite", ru: "Нет страницы сравнения", ar: "لا توجد صفحة مقارنة", id: "Belum ada halaman perbandingan",
+  vi: "Chưa có trang so sánh", it: "Nessuna pagina di confronto",
 };
 export function noCompareLabel(locale = "en") {
   const l = String(locale || "en");
