@@ -260,13 +260,13 @@ function Finder({ kit }) {
           if (h > max) max = h;
         }
       } finally { flushSync(() => setSlug(keep)); }
-      setReserve(Math.ceil(max));
+      if (max > 0) setReserve(Math.ceil(max));
     };
     const later = () => { clearTimeout(timer); timer = setTimeout(prime, 220); };
-    const first = setTimeout(prime, 60);
+    const firsts = [80, 600, 1600].map((ms) => setTimeout(prime, ms)); // settle after hydration, fonts and images
     document.fonts?.ready?.then(later);
     window.addEventListener("resize", later);
-    return () => { clearTimeout(timer); clearTimeout(first); window.removeEventListener("resize", later); };
+    return () => { clearTimeout(timer); firsts.forEach(clearTimeout); window.removeEventListener("resize", later); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);
 
@@ -325,6 +325,7 @@ function Finder({ kit }) {
       </div>
 
 
+      <div className="rf-pick">
       <div className="rf-intents">
         <p className="rf-label" id={`${uid}-g`}>{t.group}</p>
         <div role="radiogroup" aria-labelledby={`${uid}-g`} className="rf-radios" onKeyDown={onRadioKey}>
@@ -350,6 +351,8 @@ function Finder({ kit }) {
       <div className="rf-readout" aria-hidden="true">
         <BigFee className="rf-big" pair={bigPair} locale={locale} tick={tick} none={t.none} />
         <p className="rf-readout__cap"><b translate="no" lang="en">{sel.name}</b> {feeIntent ? <>{feeKey === "perp" ? t.perp : t.spot} {t.mt} {bigPair ? <FeePair pair={bigPair} locale={locale} tick={tick} none={t.none} /> : t.none}</> : <>{t.i[intent][0]}: {t.none}</>}</p>
+      </div>
+
       </div>
 
       <div className="rf-hub" aria-hidden="true">
