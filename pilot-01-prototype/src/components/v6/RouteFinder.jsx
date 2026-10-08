@@ -137,7 +137,7 @@ function useRoutes(stageRef, refs, intent, litKey, slug) {
       link = `M${X(rtl ? yr.left : yr.right)} ${Y(yc)}H${X(rtl ? gr.right : gr.left)}`;
       origin = [rtl ? gr.left : gr.right, gr.top + gr.height / 2];
     } else {
-      const ux = yr.left + yr.width / 2;
+      const ux = rtl ? yr.right - 18 : yr.left + 18; // rail sits on the You / gate icon axis
       intro = `M${X(ax)} ${Y(ay)}C${X(ax)} ${Y(ay + 28)} ${X(ux)} ${Y(yr.top - 28)} ${X(ux)} ${Y(yr.top)}`;
       link = `M${X(ux)} ${Y(yr.bottom)}V${Y(gr.top + gr.height / 2)}`;
       origin = [ux, gr.top + gr.height / 2];
