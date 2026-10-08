@@ -235,3 +235,12 @@
 .v6 .v6-close__index .v6-close__more:last-child { border-block-end: 1px solid var(--line); }
 /* bottom nav: narrow labels (ja / ar) still get a 44px wide target */
 #top.v6 .mobile-bottom-nav :is(a, button).mobile-bottom-nav__item { min-inline-size: 48px; min-block-size: 44px; flex: 1 1 0; }
+/* Home: the shell and re-hosted legacy parts join the three line-heights too (1.15 UI / 1.55 body) */
+#top.v6.home-refinement :is(.nx-hdr, .nx-ftr) :is(a, button, span, kbd, li):not(#_) { line-height: 1.15; }
+#top.v6.home-refinement .nx-ftr :is(p, li a, ul a):not(#_):not(#_) { line-height: 1.55; }
+#top.v6.home-refinement :is(.rebate-ticker__tag, .rebate-ticker__action-label, .rebate-ticker__badge, .registration-card__preflight span):not(#_):not(#_) { line-height: 1.55; }
+#top.v6.home-refinement :is(.cl-foot .btn, .cl-foot .btn span, .platform-matcher__next-steps a, .v2-brand-fallback, .mobile-bottom-nav__label):not(#_):not(#_) { line-height: 1.15; }
+#top.v6.home-refinement .home-research-drawer > summary > b:not(#_):not(#_):not(#_) { line-height: 1.55; }
+/* index rows: the band and the index share one 128 rhythm (no stacked 180px void under the CTA) */
+.v6 .v6-close__band { padding-block-end: var(--s-12); }
+.v6 .v6-close__index { padding-block-start: var(--s-8); }
