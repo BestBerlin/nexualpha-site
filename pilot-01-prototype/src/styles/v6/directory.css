@@ -286,7 +286,8 @@
   .dir6 .dir6-list { border-block-start: 1px solid var(--n7); }
   .dir6 { --row-px: var(--s-2); }
   .dir6 .dir6-row { grid-template-columns: var(--pick) minmax(0, 1fr) auto; row-gap: var(--s-3); column-gap: var(--s-3); padding: var(--s-4) var(--row-px); align-items: center; }
-  .dir6 .dir6-list[data-collapsed] .dir6-row:nth-child(8) .dir6-rail { inset-block-end: 50%; }
+  .dir6 .dir6-rail, .dir6 .dir6-row[data-route]::before { display: none; }
+  .dir6 .dir6-row[data-selected] { box-shadow: inset 3px 0 0 var(--accent); }
   .dir6 .dir6-act { display: contents; }
   .dir6 .dir6-code { inline-size: auto; }
   .dir6 .dir6-chipcode { inline-size: auto; justify-content: flex-start; }

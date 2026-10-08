@@ -6,7 +6,7 @@
   /* the one colour band on the page: bone paper against the graphite, ink type, turquoise only on the CTA and the live route */
   --paper: #ecebe5; --ink: #101113; --ink-2: #3b3e43; --ink-3: #5a5d62;
   /* the single display step for this moment (the only size above the 72 hero step) */
-  --t-moment: clamp(2.75rem, 11.5cqi, 9rem);
+  --t-moment: clamp(3.5rem, 11.5cqi, 9rem);
   padding-block: 0;
   border-block-start: 0;
   overflow-x: clip;
@@ -138,7 +138,7 @@
 }
 .v6 .v6-close__index .crawl-priority-links__group > span:not(#_):not(#_) {
   grid-column: 1 / span 3; grid-row: 1 / span 8; margin: 0; padding-block: var(--s-3);
-  font-size: var(--t-14); line-height: 1.5; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-muted);
+  font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", "Pilot Noto Arabic", sans-serif; font-size: var(--t-14); line-height: 1.5; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-muted);
 }
 .v6 .v6-close__index .crawl-priority-links__group a:not(#_):not(#_) {
   grid-column: span 3; justify-self: start; display: inline-flex; align-items: center; min-block-size: 44px; max-inline-size: 100%;
