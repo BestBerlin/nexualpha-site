@@ -6,7 +6,7 @@
   /* the one colour band on the page: bone paper against the graphite, ink type, turquoise only on the CTA and the live route */
   --paper: #ecebe5; --ink: #101113; --ink-2: #3b3e43; --ink-3: #5a5d62;
   /* the single display step for this moment (the only size above the 72 hero step) */
-  --t-moment: clamp(2.75rem, 10.5cqi, 10.5rem);
+  --t-moment: clamp(2.75rem, 11.5cqi, 9rem);
   padding-block: 0;
   border-block-start: 0;
   overflow-x: clip;
@@ -17,13 +17,13 @@
 /* ---------- full-bleed colour band + statement ---------- */
 .v6 .v6-close__band { background: var(--paper); color: var(--ink); padding-block: var(--section-pad); }
 .v6 .v6-close__stage {
-  inline-size: min(100% - 2 * var(--gutter), 1392px); margin-inline: auto; container-type: inline-size;
+  inline-size: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; container-type: inline-size;
   display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start;
 }
 .v6 .v6-close .v6-close__title:not(#_):not(#_) {
   margin: 0; color: var(--ink); font-size: var(--t-moment); line-height: 0.92; letter-spacing: -0.05em; font-weight: 600; text-wrap: balance; max-inline-size: 100%;
 }
-.v6 .v6-close .v6-close__title[data-len="long"]:not(#_):not(#_) { --t-moment: clamp(2.75rem, 8.4cqi, 8.5rem); letter-spacing: -0.045em; }
+.v6 .v6-close .v6-close__title[data-len="long"]:not(#_):not(#_) { letter-spacing: -0.045em; }
 .v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-moment: clamp(2.75rem, 8.6cqi, 8.5rem); line-height: 1.12; letter-spacing: -0.02em; word-break: keep-all; line-break: strict; }
 .v6 .v6-close .v6-close__title:lang(ar):not(#_):not(#_) { letter-spacing: 0; line-height: 1.15; }
 .v6 .v6-close__line { display: block; }
@@ -101,7 +101,7 @@
   grid-column: 5 / span 7; grid-row: 1; font-size: var(--t-14); line-height: 1.5; color: var(--text-muted); max-inline-size: var(--measure);
 }
 .v6 .v6-close__index .home-research-drawer > summary > b:not(#_):not(#_) {
-  grid-column: 12; grid-row: 1; justify-self: end; align-self: center; position: relative; inline-size: 20px; block-size: 20px; font-size: 0; line-height: 0;
+  grid-column: 12; grid-row: 1; justify-self: end; align-self: center; position: relative; inline-size: 20px; block-size: 20px; font-size: var(--t-12); line-height: 20px; text-indent: 200%; white-space: nowrap; overflow: hidden;
   color: var(--text-strong); transition: transform var(--dur-2) var(--ease-out); transform: none;
 }
 .v6 .v6-close__index .home-research-drawer > summary > b::before,

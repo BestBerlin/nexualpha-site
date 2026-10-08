@@ -82,7 +82,7 @@
 .dir6 .dir6-row:hover .dir6-id .v2-brand, .dir6 .dir6-row:hover .dir6-id .v2-brand-fallback { transform: scale(1.06); }
 .dir6 .dir6-id__text { display: grid; gap: 2px; min-inline-size: 0; }
 .dir6 .dir6-namerow { display: flex; align-items: center; gap: var(--s-2); min-inline-size: 0; }
-.dir6 .dir6-name { min-inline-size: 0; padding-block: 12px; margin-block: -12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--n12); font-size: var(--t-16); font-weight: 600; line-height: 1.3; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; text-decoration-thickness: 1px; transition: text-decoration-color var(--dur-2) var(--ease-out); }
+.dir6 .dir6-name { min-inline-size: 44px; padding-block: 12px; margin-block: -12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--n12); font-size: var(--t-16); font-weight: 600; line-height: 1.3; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; text-decoration-thickness: 1px; transition: text-decoration-color var(--dur-2) var(--ease-out); }
 .dir6 a.dir6-name:hover { text-decoration-color: var(--accent); }
 /* the Official stamp: verified rows carry it; it lands once, like a rubber stamp */
 .dir6 .dir6-stamp { flex: none; display: inline-grid; place-items: center; inline-size: 20px; block-size: 20px; color: var(--accent); rotate: -12deg; }
@@ -199,7 +199,9 @@
 #top.v6 .dir6 .platform-matcher__summary:hover { background: color-mix(in oklab, var(--n12) 3%, transparent); }
 #top.v6 .dir6 .platform-matcher__details[open] > .platform-matcher__summary { border-block-end: 1px solid var(--n6); }
 #top.v6 .dir6 .platform-matcher__summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: var(--s-4); }
-#top.v6 .dir6 .platform-matcher__summary-kicker { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+#top.v6 .dir6 .platform-matcher :where(*:not(svg, svg *)) { font-family: inherit; }
+#top.v6 .dir6 .platform-matcher :where(b.v6-num, .platform-matcher__summary-context > b) { font-family: var(--font-mono); }
+#top.v6 .dir6 .platform-matcher__summary-kicker { font-size: var(--t-12); position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 #top.v6 .dir6 .platform-matcher__summary-copy { grid-column: 1; grid-row: 1; display: grid; gap: var(--s-1); min-inline-size: 0; grid-template-columns: minmax(0, 1fr); }
 #top.v6 .dir6 .platform-matcher__summary-copy > strong { grid-column: auto; grid-row: auto; font-size: var(--t-20); font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; color: var(--n12); }
 #top.v6 .dir6 .platform-matcher__summary-copy > small { grid-column: auto; grid-row: auto; font-size: var(--t-14); font-weight: 400; line-height: 1.5; color: var(--n11); }
