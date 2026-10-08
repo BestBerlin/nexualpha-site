@@ -580,7 +580,7 @@ test("homepage directory cards use progressive disclosure for repeated detail fi
 
 test("ticker source notes have a single static accessible presentation", () => {
   assert.doesNotMatch(rebateTicker, /rebate-ticker__loop-copy|tabIndex=\{-1\}/);
-  assert.match(rebateTicker, /SOURCE NOTES/);
+  assert.match(rebateTicker, /Source notes/);
   assert.doesNotMatch(rebateTicker, /LIVE FEED|aria-live/);
   assert.match(rebateTicker, /Source status notes/);
   assert.match(rebateTickerCss, /\.rebate-ticker__item:focus-visible/);

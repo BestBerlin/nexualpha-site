@@ -329,7 +329,7 @@ const directoryUiCopy = {
 const filterLabels = {
   "zh-Hans": { noKyc: "免 KYC", por: "储备金证明", fiat: "支持法币", highLev: "高杠杆 50x+", sortLabel: "排序", sortDefault: "推荐", sortFee: "已核验费率优先", sortRebate: "已核验用户权益优先" },
   "zh-Hant": { noKyc: "免 KYC", por: "儲備金證明", fiat: "支援法幣", highLev: "高槓桿 50x+", sortLabel: "排序", sortDefault: "推薦", sortFee: "已核驗費率優先", sortRebate: "已核驗用戶權益優先" },
-  en: { noKyc: "No KYC", por: "Proof of Reserves", fiat: "Fiat Support", highLev: "50x+ Leverage", sortLabel: "Sort", sortDefault: "Recommended", sortFee: "Verified fee first", sortRebate: "Verified user benefit first" },
+  en: { noKyc: "No KYC", por: "Proof of reserves", fiat: "Fiat support", highLev: "50x+ leverage", sortLabel: "Sort", sortDefault: "Recommended", sortFee: "Verified fee first", sortRebate: "Verified user benefit first" },
   ja: { noKyc: "KYC不要", por: "準備金証明", fiat: "法定通貨対応", highLev: "50倍以上", sortLabel: "並べ替え", sortDefault: "おすすめ", sortFee: "確認済み手数料優先", sortRebate: "確認済み特典優先" },
   ko: { noKyc: "KYC 없음", por: "준비금 증명", fiat: "법정화폐 지원", highLev: "50배 이상", sortLabel: "정렬", sortDefault: "추천", sortFee: "확인된 수수료 우선", sortRebate: "확인된 혜택 우선" },
   tr: { noKyc: "KYC yok", por: "Rezerv kanıtı", fiat: "Fiat desteği", highLev: "50x+ kaldıraç", sortLabel: "Sırala", sortDefault: "Önerilen", sortFee: "Doğrulanmış ücret önce", sortRebate: "Doğrulanmış avantaj önce" },

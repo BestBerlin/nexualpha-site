@@ -262,19 +262,19 @@ export function RebateTickerBar({ locale = "en", market = null, product = null }
     "zh-Hant": { badge: { INFO: "資訊", SOURCE: "來源", DEEP: "詳情", RATE: "費率", UPDATE: "更新" } },
     ja: { aria: "出典ステータス", tag: "出典メモ", viewAll: "すべて表示", hide: "閉じる", badge: { INFO: "情報", SOURCE: "出典", DEEP: "詳細", RATE: "手数料", UPDATE: "更新" } },
     ko: { aria: "출처 상태", tag: "출처 메모", viewAll: "전체 보기", hide: "닫기", badge: { INFO: "정보", SOURCE: "출처", DEEP: "상세", RATE: "수수료", UPDATE: "업데이트" } },
-    tr: { aria: "Kaynak durumu", tag: "KAYNAK NOTLARI", viewAll: "Tümünü gör", hide: "Kapat", badge: { INFO: "BİLGİ", SOURCE: "KAYNAK", DEEP: "DETAY", RATE: "ÜCRET", UPDATE: "GÜNCEL" } },
-    es: { aria: "Estado de fuentes", tag: "NOTAS DE FUENTES", viewAll: "Ver todo", hide: "Cerrar", badge: { INFO: "INFO", SOURCE: "FUENTE", DEEP: "DETALLE", RATE: "TARIFA", UPDATE: "ACTUALIZACIÓN" } },
-    "pt-BR": { aria: "Status das fontes", tag: "NOTAS DE FONTES", viewAll: "Ver tudo", hide: "Fechar", badge: { INFO: "INFO", SOURCE: "FONTE", DEEP: "DETALHE", RATE: "TAXA", UPDATE: "ATUALIZAÇÃO" } },
-    fr: { aria: "État des sources", tag: "NOTES DES SOURCES", viewAll: "Tout voir", hide: "Fermer", badge: { INFO: "INFO", SOURCE: "SOURCE", DEEP: "DÉTAIL", RATE: "FRAIS", UPDATE: "MISE À JOUR" } },
-    de: { aria: "Quellenstatus", tag: "QUELLENHINWEISE", viewAll: "Alle anzeigen", hide: "Schließen", badge: { INFO: "INFO", SOURCE: "QUELLE", DEEP: "DETAIL", RATE: "GEBÜHR", UPDATE: "UPDATE" } },
+    tr: { aria: "Kaynak durumu", tag: "Kaynak notları", viewAll: "Tümünü gör", hide: "Kapat", badge: { INFO: "BİLGİ", SOURCE: "KAYNAK", DEEP: "DETAY", RATE: "ÜCRET", UPDATE: "GÜNCEL" } },
+    es: { aria: "Estado de fuentes", tag: "Notas de fuentes", viewAll: "Ver todo", hide: "Cerrar", badge: { INFO: "INFO", SOURCE: "FUENTE", DEEP: "DETALLE", RATE: "TARIFA", UPDATE: "ACTUALIZACIÓN" } },
+    "pt-BR": { aria: "Status das fontes", tag: "Notas de fontes", viewAll: "Ver tudo", hide: "Fechar", badge: { INFO: "INFO", SOURCE: "FONTE", DEEP: "DETALHE", RATE: "TAXA", UPDATE: "ATUALIZAÇÃO" } },
+    fr: { aria: "État des sources", tag: "Notes des sources", viewAll: "Tout voir", hide: "Fermer", badge: { INFO: "INFO", SOURCE: "SOURCE", DEEP: "DÉTAIL", RATE: "FRAIS", UPDATE: "MISE À JOUR" } },
+    de: { aria: "Quellenstatus", tag: "Quellenhinweise", viewAll: "Alle anzeigen", hide: "Schließen", badge: { INFO: "INFO", SOURCE: "QUELLE", DEEP: "DETAIL", RATE: "GEBÜHR", UPDATE: "UPDATE" } },
     ru: { aria: "Статус источников", tag: "Источники", fullTag: "ЗАМЕТКИ ОБ ИСТОЧНИКАХ", viewAll: "Показать все", hide: "Закрыть", badge: { INFO: "ИНФО", SOURCE: "ИСТОЧНИК", DEEP: "ДЕТАЛИ", RATE: "КОМИССИЯ", UPDATE: "ОБНОВЛЕНИЕ" } },
     ar: { aria: "حالة المصادر", tag: "ملاحظات المصادر", viewAll: "عرض الكل", hide: "إغلاق", badge: { INFO: "معلومة", SOURCE: "مصدر", DEEP: "تفصيل", RATE: "رسوم", UPDATE: "تحديث" } },
-    id: { aria: "Status sumber", tag: "CATATAN SUMBER", viewAll: "Lihat semua", hide: "Tutup", badge: { INFO: "INFO", SOURCE: "SUMBER", DEEP: "DETAIL", RATE: "BIAYA", UPDATE: "PEMBARUAN" } },
-    vi: { aria: "Trạng thái nguồn", tag: "GHI CHÚ NGUỒN", viewAll: "Xem tất cả", hide: "Đóng", badge: { INFO: "THÔNG TIN", SOURCE: "NGUỒN", DEEP: "CHI TIẾT", RATE: "PHÍ", UPDATE: "CẬP NHẬT" } },
-    it: { aria: "Stato delle fonti", tag: "NOTE SULLE FONTI", viewAll: "Vedi tutto", hide: "Chiudi", badge: { INFO: "INFO", SOURCE: "FONTE", DEEP: "DETTAGLI", RATE: "COSTI", UPDATE: "AGGIORNAMENTO" } },
+    id: { aria: "Status sumber", tag: "Catatan sumber", viewAll: "Lihat semua", hide: "Tutup", badge: { INFO: "INFO", SOURCE: "SUMBER", DEEP: "DETAIL", RATE: "BIAYA", UPDATE: "PEMBARUAN" } },
+    vi: { aria: "Trạng thái nguồn", tag: "Ghi chú nguồn", viewAll: "Xem tất cả", hide: "Đóng", badge: { INFO: "THÔNG TIN", SOURCE: "NGUỒN", DEEP: "CHI TIẾT", RATE: "PHÍ", UPDATE: "CẬP NHẬT" } },
+    it: { aria: "Stato delle fonti", tag: "Note sulle fonti", viewAll: "Vedi tutto", hide: "Chiudi", badge: { INFO: "INFO", SOURCE: "FONTE", DEEP: "DETTAGLI", RATE: "COSTI", UPDATE: "AGGIORNAMENTO" } },
   }[locale] || {};
   const items = tickerData[locale] || (isHant ? tickerData["zh-Hant"] : isZh ? tickerData["zh-Hans"] : tickerData.en);
-  const sourceTag = tickerUi.tag || (isHant ? "來源提示" : isZh ? "来源提示" : "SOURCE NOTES");
+  const sourceTag = tickerUi.tag || (isHant ? "來源提示" : isZh ? "来源提示" : "Source notes");
   const sourceFullLabel = tickerUi.fullTag || null;
   const sourceRegionLabel = tickerUi.fullTag || tickerUi.aria || (isHant ? "來源狀態提示" : isZh ? "来源状态提示" : "Source status notes");
   const viewAllLabel = tickerUi.viewAll || (isHant ? "展開全部" : isZh ? "展开全部" : "View all");

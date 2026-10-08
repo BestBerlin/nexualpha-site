@@ -53,7 +53,7 @@
 #top.v6 .dir6 .dir6-match .platform-matcher__summary:hover > .platform-matcher__summary-copy > small:not(#_) { text-decoration-color: var(--accent); }
 #top.v6 .dir6 .dir6-match .platform-matcher__summary > i:not(#_) { inline-size: 24px; block-size: 24px; border-radius: var(--s-1); }
 /* "Showing n of m" + Reset own a full row, so toggling a filter never moves the list */
-#top.v6 .dir6 .dir6-count:not(#_) { flex: 1 0 100%; justify-content: flex-end; min-block-size: 44px; margin: 0; }
+#top.v6 .dir6 .dir6-count:not(#_) { flex: 1 0 100%; max-inline-size: none; justify-content: flex-end; min-block-size: 44px; margin: 0; }
 @media (max-width: 47.99rem) { #top.v6 .dir6 .dir6-count:not(#_) { justify-content: flex-start; } }
 
 /* ---------- 6. verify: every station reads heading -> instruction -> proof; no shared foot row, so no holes ---------- */

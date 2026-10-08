@@ -56,7 +56,14 @@ const methodsOf = (slug) => (Array.isArray(venueDatabase[slug]?.fiatChannels) ? 
 
 // Fee figure: ALWAYS the final verified value, in the first frame and on the server. Change is signalled by opacity/translate only
 // (a keyed remount replays the CSS entrance); no intermediate number is ever rendered.
-const fmt = (locale, v) => new Intl.NumberFormat(locale === "ar" ? "en" : locale, { minimumFractionDigits: 2, maximumFractionDigits: 3 }).format(v);
+// One formatter per locale (constructing Intl.NumberFormat per figure cost ~100ms of main thread per hero click).
+const FMT = new Map();
+const fmt = (locale, v) => {
+  const key = locale === "ar" ? "en" : locale;
+  let f = FMT.get(key);
+  if (!f) { f = new Intl.NumberFormat(key, { minimumFractionDigits: 2, maximumFractionDigits: 3 }); FMT.set(key, f); }
+  return f.format(v);
+};
 function Fee({ value, tick, locale }) {
   const text = fmt(locale, value);
   return <span key={tick} className="rf-fee">{text}</span>;

@@ -695,7 +695,7 @@ function getRegistrationNextStep(locale, { inviteCode, primaryRegistrationHref, 
 const compactInviteTaskCopy = Object.freeze({
   "en": {
     "title": "Check before sign-up",
-    "body": "Third-party signup: check the code above before submitting; enter it manually if missing.",
+    "body": "Third-party sign-up: check the code above before submitting; enter it manually if missing.",
     "action": "Official sign-up ↗"
   },
   "zh-Hans": {
