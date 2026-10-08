@@ -108,7 +108,7 @@
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-pill-rebate { padding: 0; border: 0; background: none; font-family: var(--font-mono); font-size: var(--t-12); font-weight: 500; color: var(--accent); }
 
 /* ---------- body sections: hairline-led, no cards ---------- */
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-body { padding: 0; margin-block: 0; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-body { padding: 0; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page main.factbook-body > .factbook-body__container { margin-block: 0; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-body { padding-block-start: var(--s-12, 48px); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-body__container { display: grid; gap: var(--s-16, 64px); margin-block: 0; padding-block-end: 0; }
@@ -232,7 +232,7 @@
 
 /* ================= R3 (inner-b): h1 in main at 44, flat sections on the site container, one primary, honest pending state ================= */
 /* the page root is now <main>: system.css already gives each top-level block the 1200 container, so inner wrappers fill it */
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page { --fb-w: 100%; padding-block: 0; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page { --fb-w: 100%; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page :is(.factbook-hero__container, .factbook-nav__container, .factbook-body__container) { inline-size: 100%; margin-inline: 0; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-hero { padding: 0; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-body { padding-block-start: 0; }
@@ -304,3 +304,9 @@
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-body__container { gap: var(--s-12, 48px); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-pending-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-1, 4px) var(--s-6, 24px); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-pending-fields li::after { display: none !important; }
+
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-hero { padding-block-start: var(--s-6, 24px); }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-fee-records { border-block-end: 0; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-evidence:not(.factbook-evidence--compact) > .factbook-evidence__row:last-child { border-block-end: 0; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-evidence.factbook-recorded-domain-card { border: 0; border-block-start: 1px solid var(--n6); }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-auditor-text { max-inline-size: none; }

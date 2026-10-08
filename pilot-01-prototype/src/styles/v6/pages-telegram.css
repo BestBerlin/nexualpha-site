@@ -14,13 +14,13 @@
 #top#top#top#top.v6.r1-telegram-page { background: none; color: var(--n11); }
 #top#top#top#top.v6.r1-telegram-page :is(a, button, summary):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 #top#top#top#top.v6.r1-telegram-page .tg-hub-section { padding: 0; }
-#top#top#top#top.v6.r1-telegram-page .tg-hub__container { display: grid; gap: var(--v6-gap, 72px); inline-size: 100%; max-inline-size: none; margin: 0; padding: 0; }
+#top#top#top#top.v6.r1-telegram-page .tg-hub__container { display: grid; gap: var(--s-12, 48px); inline-size: 100%; max-inline-size: none; margin: 0; padding: 0; }
 
 /* header + the one primary action */
 #top#top#top#top.v6.r1-telegram-page .tg-hub__header { display: grid; gap: var(--s-4, 16px); max-inline-size: 62ch; margin: 0; padding: 0; }
 #top#top#top#top.v6.r1-telegram-page .tg-hub__title { margin: 0; font-size: var(--t-44); line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; color: var(--n12); max-inline-size: 18ch; }
 #top#top#top#top.v6.r1-telegram-page .tg-hub__subtitle { margin: 0; font-size: var(--t-20); line-height: 1.5; color: var(--n11); max-inline-size: 62ch; }
-#top#top#top#top.v6.r1-telegram-page .tg-hub__quick-cta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3, 12px) var(--s-6, 24px); margin: calc(var(--s-6, 24px) - var(--v6-gap, 72px)) 0 0; }
+#top#top#top#top.v6.r1-telegram-page .tg-hub__quick-cta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3, 12px) var(--s-6, 24px); margin: calc(var(--s-6, 24px) - var(--s-12, 48px)) 0 0; }
 #top#top#top#top.v6.r1-telegram-page .tg-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2, 8px); min-block-size: 44px; padding: var(--s-2, 8px) var(--s-4, 16px); border: 1px solid var(--n7); border-radius: 8px; background: transparent; color: var(--n12); font-size: var(--t-14); font-weight: 500; line-height: 1.2; text-decoration: none; white-space: nowrap; box-shadow: none; transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), transform 160ms var(--ease-out); }
 #top#top#top#top.v6.r1-telegram-page .tg-btn:hover { border-color: var(--n10); background: var(--n3); transform: none; }
 #top#top#top#top.v6.r1-telegram-page .tg-btn:active { transform: scale(0.97); }
@@ -43,7 +43,7 @@
 #top#top#top#top.v6.r1-telegram-page .tg-topic-gateway__header p { margin: 0; font-size: var(--t-16); line-height: 1.55; color: var(--n11); }
 #top#top#top#top.v6.r1-telegram-page .tg-topic-gateway__badge { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 #top#top#top#top.v6.r1-telegram-page .tg-topic-gateway__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; border-block-start: 1px solid var(--n7); }
-#top#top#top#top.v6.r1-telegram-page .tg-topic-card { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); grid-template-areas: "q links" "a links" "a bot"; column-gap: var(--s-12, 48px); row-gap: var(--s-2, 8px); align-content: start; margin: 0; padding: var(--s-6, 24px) 0; border: 0; border-block-end: 1px solid var(--n6); border-radius: 0; background: none; box-shadow: none; }
+#top#top#top#top.v6.r1-telegram-page .tg-topic-card { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); grid-template-rows: auto 1fr auto; grid-template-areas: "q links" "a links" ". bot"; column-gap: var(--s-12, 48px); row-gap: var(--s-2, 8px); align-content: start; margin: 0; padding: var(--s-6, 24px) 0; border: 0; border-block-end: 1px solid var(--n6); border-radius: 0; background: none; box-shadow: none; }
 #top#top#top#top.v6.r1-telegram-page .tg-topic-card > :is(h2, h3, h4) { grid-area: q; margin: 0; font-size: var(--t-20); line-height: 1.25; letter-spacing: -0.01em; font-weight: 600; color: var(--n12); }
 #top#top#top#top.v6.r1-telegram-page .tg-topic-card > p { grid-area: a; margin: 0; max-inline-size: 52ch; font-size: var(--t-16); line-height: 1.55; color: var(--n11); }
 #top#top#top#top.v6.r1-telegram-page .tg-topic-card__links { grid-area: links; display: grid; justify-items: start; gap: 0; margin: 0; padding: 0; }
@@ -118,7 +118,7 @@
   #top#top#top#top.v6.r1-telegram-page :is(.tg-hub__features-grid, .tg-deck__grid, .tg-manual-review__grid, .tg-inbound-summary__stats, .tg-search-topics__grid, .tg-return-rail__grid) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
-  #top#top#top#top.v6.r1-telegram-page .tg-hub__container { gap: var(--v6-gap, 72px); }
+  #top#top#top#top.v6.r1-telegram-page .tg-hub__container { gap: var(--s-8, 32px); }
   #top#top#top#top.v6.r1-telegram-page :is(.tg-topic-card, .tg-hub__cta-box, .tg-hub__broadcast-banner) { grid-template-columns: minmax(0, 1fr); grid-template-areas: "q" "a" "links" "bot"; }
   #top#top#top#top.v6.r1-telegram-page .tg-hub__cta-box, #top#top#top#top.v6.r1-telegram-page .tg-hub__broadcast-banner { grid-template-areas: none; }
   #top#top#top#top.v6.r1-telegram-page :is(.tg-hub__features-grid, .tg-deck__grid, .tg-manual-review__grid, .tg-inbound-summary__stats, .tg-search-topics__grid, .tg-return-rail__grid) { grid-template-columns: minmax(0, 1fr); gap: var(--s-6, 24px); }

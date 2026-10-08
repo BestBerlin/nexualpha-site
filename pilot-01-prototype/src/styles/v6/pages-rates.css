@@ -239,7 +239,7 @@
 @keyframes rt-figure-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 /* result rows: one grid, uniform min height, pending rows identical */
-#top#top#top#top.v6.r1-rates-page .cost-decision__results > article { grid-template-columns: 40px minmax(0, 1fr) minmax(0, auto) 168px; grid-template-areas: "logo name amount cta" "logo offer base cta" ". bar bar cta" ". src src cta"; align-content: center; min-block-size: 96px; padding-block: var(--s-4, 16px); row-gap: var(--s-1, 4px); }
+#top#top#top#top.v6.r1-rates-page .cost-decision__results > article { grid-template-columns: 40px minmax(0, 1fr) 140px 168px; grid-template-areas: "logo name amount cta" "logo offer base cta" ". bar bar cta" ". src src cta"; align-content: center; min-block-size: 96px; padding-block: var(--s-4, 16px); row-gap: var(--s-1, 4px); }
 #top#top#top#top.v6.r1-rates-page .cost-decision__results > article > .rt-logo { align-self: center; grid-row: 1 / span 2; }
 #top#top#top#top.v6.r1-rates-page .cost-decision__results .cost-decision__cta { min-inline-size: 168px; inline-size: 168px; white-space: nowrap; }
 #top#top#top#top.v6.r1-rates-page .cost-decision__results .cost-decision__amount { font-size: var(--t-20); font-weight: 600; white-space: nowrap; }
@@ -308,3 +308,7 @@
 #top#top#top#top.v6.r1-rates-page .cost-decision__source > summary { font-size: var(--t-12); min-block-size: 32px; }
 #top#top#top#top.v6.r1-rates-page .rt-next .fee-terminal__next-step-actions { justify-content: start; justify-items: start; }
 #top#top#top#top.v6.r1-rates-page .rt-next .fee-terminal__next-step-actions a { justify-self: start; }
+
+#top#top#top#top.v6.r1-rates-page .cost-decision__results .cost-decision__amount, #top#top#top#top.v6.r1-rates-page .cost-decision__results > article > p:not(.cost-decision__amount) { justify-self: end; text-align: end; }
+#top#top#top#top.v6.r1-rates-page .fee-terminal__rate-meta:nth-of-type(2) { overflow: visible; text-overflow: clip; max-inline-size: none; }
+@media (max-width: 640px) { #top#top#top#top.v6.r1-rates-page .cost-decision__results > article { grid-template-columns: 40px minmax(0, 1fr) auto; } }
