@@ -140,7 +140,7 @@ const rawExchangeResearch = {
     facts: [
       fact(tr("Product map", "产品范围", "產品範圍"), tr("The public fee page separates Spot & Margin, NFT, P2P, and fiat-fee sections; derivative availability should be checked on product-specific Binance pages.", "公开费用页分列现货与杠杆、NFT、P2P 和法币费用；衍生品可用性应到 Binance 对应产品页单独核对。", "公開費用頁分列現貨與槓桿、NFT、P2P 和法幣費用；衍生品可用性應到 Binance 對應產品頁單獨核對。"), "https://www.binance.com/en/fee/trading"),
       fact(tr("Fee model", "费用模型", "費用模型"), tr("Spot fees are shown as maker/taker rates and tiered by 30-day trade volume and/or BNB balance.", "现货费用以 maker/taker 展示，并按 30 日交易量和/或 BNB 持仓分层。", "現貨費用以 maker/taker 展示，並按 30 日交易量和/或 BNB 持倉分層。"), "https://www.binance.com/en/fee/trading"),
-      fact(tr("Identity gate", "身份门槛", "身份門檻"), tr("Binance says new users must complete Verified identity verification to access products including crypto deposits and trades.", "Binance 说明新用户需要完成 Verified 身份验证，才能使用包括加密货币充值和交易在内的产品服务。", "Binance 說明新用戶需要完成 Verified 身份驗證，才能使用包括加密貨幣充值和交易在內的產品服務。"), "https://www.binance.com/en/support/faq/detail/360027287111"),
+      fact(tr("Identity gate", "身份门槛", "身份門檻"), tr("Binance says new users must complete Verified identity verification to access products including crypto deposits and trades.", "Binance 说明新用户需要完成基础身份验证，才能使用包括加密货币充值和交易在内的产品服务。", "Binance 說明新用戶需要完成基礎身份驗證，才能使用包括加密貨幣充值和交易在內的產品服務。"), "https://www.binance.com/en/support/faq/detail/360027287111"),
       fact(tr("Official update lane", "官方动态入口", "官方動態入口"), tr("The support announcement hub groups listings, campaigns, trading changes, and service notices for official update checks.", "支持公告中心集中展示上币、活动、交易调整和服务通知，适合核对官方动态。", "支援公告中心集中展示上幣、活動、交易調整和服務通知，適合核對官方動態。"), "https://www.binance.com/en/support/announcement"),
     ],
     sources: [

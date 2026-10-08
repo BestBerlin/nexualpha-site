@@ -158,7 +158,7 @@ export function PlatformMatcher({ locale = "en", venues = [], selected = [], dec
                     <span><BrandMark slug={candidate.slug} compact /> <b>{candidate.name}</b></span>
                     <em>{model.decision.copy.candidateLabels.score} {candidate.score}</em>
                   </div>
-                  <small>{candidate.statusLabel} · {candidate.sourceLabel}</small>
+                  <small>{candidate.statusLabel} · <span translate="no" lang="en">{candidate.sourceLabel}</span></small>
                   <ul className="platform-matcher__candidate-reasons" aria-label={model.decision.copy.candidateLabels.reasons}>
                     {candidate.reasons.map((reason) => <li key={reason}>{reason}</li>)}
                   </ul>

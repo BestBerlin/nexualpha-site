@@ -299,7 +299,7 @@ function BrazilAeoAnswers({ answers = [], sources }) {
                 <ul className="br-aeo-sources" aria-label="Fontes desta resposta">
                   {answerSources.map((source) => (
                     <li key={source.id}>
-                      <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>
+                      <a href={source.url} target="_blank" rel="noopener noreferrer" {...(source.titleLang ? { lang: source.titleLang, translate: "no" } : {})}>{source.title}</a>
                     </li>
                   ))}
                 </ul>

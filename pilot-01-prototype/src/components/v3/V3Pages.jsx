@@ -2267,7 +2267,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
               {venueDirectAnswerDetails}
               <div className="v3-venue-direct-answer__links">
                 {priorityAnswer.sources.map(([label, href]) => (
-                  <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-direct-answer-source">{label} ↗</a>
+                  <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-direct-answer-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</a>
                 ))}
                 {priorityAnswer.internalLinks?.slice(1).map(([label, href]) => (
                   <LocalLink key={href} locale={locale} href={venueDirectAnswerInternalHref(href)} data-cta-kind="research" data-cta-placement="venue-direct-answer-internal">{label}</LocalLink>
@@ -2278,7 +2278,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
             {(venueDirectAnswer.sources?.length || venueDirectAnswer.internalLinks?.length) && (
               <div className="v3-venue-direct-answer__links">
                 {!priorityAnswer && venueDirectAnswer.sources?.map(([label, href]) => (
-                  <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-direct-answer-source">{label} ↗</a>
+                  <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-direct-answer-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</a>
                 ))}
                 {(priorityAnswer ? venueDirectAnswer.internalLinks?.slice(0, 1) : venueDirectAnswer.internalLinks)?.map(([label, href]) => (
                   <LocalLink key={href} locale={locale} href={venueDirectAnswerInternalHref(href)} data-cta-kind="research" data-cta-placement="venue-direct-answer-internal">{label}</LocalLink>

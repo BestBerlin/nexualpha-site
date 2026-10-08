@@ -226,7 +226,7 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
           {(directAnswer.sourceLinks?.length || directAnswer.internalLinks?.length || ctas.length) && (
             <div className="v3-compare-direct-answer__links">
               {directAnswer.sourceLinks?.map(([label, href]) => (
-                <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="compare-direct-answer-source">{label} ↗</a>
+                <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="compare-direct-answer-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</a>
               ))}
               {directAnswer.internalLinks?.map(([label, href]) => (
                 <LocalLink key={href} locale={locale} href={contextualInternalHref(href, pageContext)} data-cta-kind="research" data-cta-placement="compare-direct-answer-internal">{label}</LocalLink>
