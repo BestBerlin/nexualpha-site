@@ -292,7 +292,7 @@ function Finder({ kit }) {
     <>
     <div className="rf-grid" ref={stageRef}>
       <div className="rf-copy">
-        <h1 className={`rf-title${Math.max(...String(kit.title).split(/\s+/).map((w) => w.length)) > 11 ? " rf-title--long" : ""}`}>{kit.title}</h1>
+        <h1 className={`rf-title${/\s/.test(String(kit.title).trim()) && Math.max(...String(kit.title).split(/\s+/).map((w) => w.length)) > 11 ? " rf-title--long" : ""}`}>{kit.title}</h1>
         <p className="rf-lede">{kit.lede}</p>
       </div>
 
@@ -326,7 +326,7 @@ function Finder({ kit }) {
 
       <div className="rf-readout" aria-hidden="true">
         <BigFee className="rf-big" pair={bigPair} locale={locale} tick={tick} />
-        <p className="rf-readout__cap"><b translate="no" lang="en">{sel.name}</b> {feeKey === "perp" ? t.perp : t.spot} {t.mt} <span dir="ltr">{facts?.status === "verified" && facts[feeKey] ? `${facts[feeKey][0]} / ${facts[feeKey][1]}%` : t.none}</span></p>
+        <p className="rf-readout__cap"><b translate="no" lang="en">{sel.name}</b> {feeKey === "perp" ? t.perp : t.spot} {t.mt} {facts?.status === "verified" && facts[feeKey] ? <FeePair pair={facts[feeKey]} locale={locale} tick={0} none={t.none} /> : t.none}</p>
       </div>
 
       <div className="rf-hub" aria-hidden="true">
