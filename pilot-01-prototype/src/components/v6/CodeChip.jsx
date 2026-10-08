@@ -17,15 +17,15 @@ export function CodeChip({ code, slug, placement, locale = "en", className = "" 
     timer.current = setTimeout(() => setState("idle"), ok ? 2200 : 6000);
   };
   return (
-    <span className={`cro-chip ${className}`.trim()} data-state={state === "idle" ? undefined : state}>
-      <button type="button" className="cro-chip__btn" onClick={onCopy} aria-label={`${t.copy}: ${code}`} data-cta-kind="code-copy" data-cta-platform={slug} data-cta-placement={placement}>
-        <span className="cro-chip__lab" aria-hidden="true">{t.code}</span>
-        <strong className="cro-chip__code" translate="no" lang="en" dir="ltr">{code}</strong>
-        <svg className="cro-chip__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <span className={`cro-code ${className}`.trim()} data-state={state === "idle" ? undefined : state}>
+      <button type="button" className="cro-code__btn" onClick={onCopy} aria-label={`${t.copy}: ${code}`} data-cta-kind="code-copy" data-cta-platform={slug} data-cta-placement={placement}>
+        <span className="cro-code__lab" aria-hidden="true">{t.code}</span>
+        <strong className="cro-code__code" translate="no" lang="en" dir="ltr">{code}</strong>
+        <svg className="cro-code__ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           {state === "done" ? <path d="M3.5 8.5l3 3 6-7" /> : <><rect x="5.5" y="5.5" width="8" height="8" rx="1.8" /><path d="M10.5 5.5v-1.2a1.8 1.8 0 0 0-1.8-1.8H4.3a1.8 1.8 0 0 0-1.8 1.8v4.4a1.8 1.8 0 0 0 1.8 1.8h1.2" /></>}
         </svg>
       </button>
-      <span className="cro-chip__pop" aria-hidden="true">{state === "fail" ? t.copyFail : t.copied}</span>
+      <span className="cro-code__pop" aria-hidden="true">{state === "fail" ? t.copyFail : t.copied}</span>
       <span className="cro-sr" role="status" aria-live="polite">{state === "done" ? t.copiedHint : state === "fail" ? t.copyFail : ""}</span>
     </span>
   );
