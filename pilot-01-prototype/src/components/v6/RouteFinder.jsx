@@ -33,6 +33,15 @@ const T = {
 };
 const copyFor = (locale) => T[locale] || T[String(locale || "en").split("-")[0]] || T.en;
 
+// "You" origin + official-domain verify gate captions (every locale; English fallback).
+const HUB = {
+  en: ["You", "Official domain check"], "zh-Hans": ["你", "官方域名核验"], "zh-Hant": ["你", "官方網域核驗"], ja: ["あなた", "公式ドメイン確認"],
+  ko: ["나", "공식 도메인 확인"], tr: ["Siz", "Resmî alan adı kontrolü"], es: ["Tú", "Verificación del dominio oficial"], "pt-BR": ["Você", "Checagem do domínio oficial"],
+  fr: ["Vous", "Vérification du domaine officiel"], de: ["Sie", "Prüfung der offiziellen Domain"], ru: ["Вы", "Проверка официального домена"], ar: ["أنت", "فحص النطاق الرسمي"],
+  id: ["Anda", "Cek domain resmi"], vi: ["Bạn", "Kiểm tra tên miền chính thức"], it: ["Tu", "Verifica del dominio ufficiale"],
+};
+const hubFor = (locale) => HUB[locale] || HUB[String(locale || "en").split("-")[0]] || HUB.en;
+
 const ICONS = {
   spot: <path d="M4 8h13m0 0-3-3m3 3-3 3M20 16H7m0 0 3-3m-3 3 3 3" />,
   perps: <path d="M4 17l5-5 3 3 7-8M15 7h4v4" />,
@@ -44,12 +53,14 @@ const Icon = ({ name }) => (
 );
 
 const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const isWide = () => typeof window !== "undefined" && window.matchMedia("(min-width: 74rem)").matches;
+const bareDomain = (d) => String(d || "").replace(/^(www|app)\./, "");
 
 // Fee figure: final value on the server and under reduced motion; counts up when `tick` changes (hover, focus, selection).
-function Fee({ value, locale, tick }) {
+function Fee({ value, locale, tick, min = 2, max = 3, ms = 400 }) {
   const ref = useRef(null);
   const first = useRef(true);
-  const fmt = useCallback((n) => `${new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 3 }).format(n)}`, [locale]);
+  const fmt = useCallback((n) => `${new Intl.NumberFormat(locale, { minimumFractionDigits: min, maximumFractionDigits: max }).format(n)}`, [locale, min, max]);
   useEffect(() => {
     const el = ref.current;
     if (first.current) { first.current = false; return undefined; }
@@ -57,13 +68,13 @@ function Fee({ value, locale, tick }) {
     let raf = 0;
     const t0 = performance.now();
     const step = (now) => {
-      const p = Math.min((now - t0) / 400, 1);
+      const p = Math.min((now - t0) / ms, 1);
       el.textContent = fmt(value * (p >= 1 ? 1 : 1 - 2 ** (-10 * p)));
       if (p < 1) raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
     return () => { cancelAnimationFrame(raf); el.textContent = fmt(value); };
-  }, [tick, value, fmt]);
+  }, [tick, value, fmt, ms]);
   return <span ref={ref}>{fmt(value)}</span>;
 }
 
@@ -72,42 +83,96 @@ function FeePair({ pair, locale, tick, none }) {
   return <span dir="ltr"><Fee value={pair[0]} locale={locale} tick={tick} /> / <Fee value={pair[1]} locale={locale} tick={tick} />%</span>;
 }
 
-function useRoutes(stageRef, intentRefs, nodeRefs, intent, litKey) {
-  const [geo, setGeo] = useState({ w: 0, h: 0, routes: [], from: null });
+// The gate stamps the official domain character by character.
+function Typed({ text }) {
+  const ref = useRef(null);
+  const first = useRef(true);
+  useEffect(() => {
+    const el = ref.current;
+    if (first.current) { first.current = false; return undefined; }
+    if (!el || reduced()) return undefined;
+    let i = 0;
+    el.textContent = "";
+    const id = setInterval(() => {
+      i += 1;
+      el.textContent = text.slice(0, i);
+      if (i >= text.length) clearInterval(id);
+    }, 26);
+    return () => { clearInterval(id); el.textContent = text; };
+  }, [text]);
+  return <span ref={ref} dir="ltr">{text}</span>;
+}
+
+// Route geometry, measured from the DOM so the SVG always meets the real ports (LTR/RTL, wide and stacked).
+function useRoutes(stageRef, refs, intent, litKey, slug) {
+  const [geo, setGeo] = useState({ w: 0, h: 0, base: [], chain: [], fan: [] });
   const raf = useRef(0);
+  const { intentRefs, nodeRefs, youRef, gateRef, cardRef } = refs;
   const measure = useCallback(() => {
     const stage = stageRef.current;
     const from = intentRefs.current[intent];
-    if (!stage || !from) return;
+    const you = youRef.current;
+    const gate = gateRef.current;
+    if (!stage || !from || !you || !gate) return;
     const sr = stage.getBoundingClientRect();
     const rtl = getComputedStyle(stage).direction === "rtl";
-    const fr = from.getBoundingClientRect();
-    const slugs = litKey ? litKey.split(",") : [];
-    const firstNode = nodeRefs.current[slugs[0]];
-    if (!firstNode) return;
-    const stacked = firstNode.getBoundingClientRect().top >= fr.bottom - 4;
-    const f1 = (n) => n.toFixed(1);
-    const a = stacked ? [fr.left + fr.width / 2 - sr.left, fr.bottom - sr.top] : [(rtl ? fr.left : fr.right) - sr.left, fr.top + fr.height / 2 - sr.top];
     const dir = rtl ? -1 : 1;
-    const routes = slugs.map((slug) => {
-      const el = nodeRefs.current[slug];
-      if (!el) return null;
+    const wide = isWide();
+    const f1 = (n) => n.toFixed(1);
+    const X = (x) => f1(x - sr.left);
+    const Y = (y) => f1(y - sr.top);
+    const fr = from.getBoundingClientRect();
+    const yr = you.getBoundingClientRect();
+    const gr = gate.getBoundingClientRect();
+    const slugs = litKey ? litKey.split(",") : [];
+    const ax = fr.left + fr.width / 2;
+    const ay = fr.bottom;
+    let intro;
+    let link;
+    let origin;
+    if (wide) {
+      const yc = yr.top + yr.height / 2;
+      const toYou = rtl ? yr.right : yr.left;
+      intro = `M${X(ax)} ${Y(ay)}V${Y(yc - 10)}Q${X(ax)} ${Y(yc)} ${X(ax + dir * 10)} ${Y(yc)}H${X(toYou)}`;
+      link = `M${X(rtl ? yr.left : yr.right)} ${Y(yc)}H${X(rtl ? gr.right : gr.left)}`;
+      origin = [rtl ? gr.left : gr.right, gr.top + gr.height / 2];
+    } else {
+      const ux = yr.left + yr.width / 2;
+      intro = `M${X(ax)} ${Y(ay)}C${X(ax)} ${Y(ay + 28)} ${X(ux)} ${Y(yr.top - 28)} ${X(ux)} ${Y(yr.top)}`;
+      link = `M${X(ux)} ${Y(yr.bottom)}V${Y(gr.top + gr.height / 2)}`;
+      origin = [ux, gr.top + gr.height / 2];
+    }
+    const base = [];
+    let fan = [];
+    slugs.forEach((s) => {
+      const el = nodeRefs.current[s];
+      if (!el) return;
       const r = el.getBoundingClientRect();
-      const b = [(rtl ? r.right : r.left) - sr.left, r.top + r.height / 2 - sr.top];
+      const bx = rtl ? r.right : r.left;
+      const by = r.top + r.height / 2;
       let d;
-      if (stacked) {
-        // metro line: down from the chosen intent to a rail beside the list, then a branch into each node port
-        const rail = b[0] - dir * 16;
-        d = `M${f1(a[0])} ${f1(a[1])}C${f1(a[0])} ${f1(a[1] + 32)} ${f1(rail)} ${f1(a[1] + 16)} ${f1(rail)} ${f1(a[1] + 48)}L${f1(rail)} ${f1(b[1] - 8)}Q${f1(rail)} ${f1(b[1])} ${f1(rail + dir * 8)} ${f1(b[1])}L${f1(b[0])} ${f1(b[1])}`;
+      if (wide) {
+        const k = Math.abs(bx - origin[0]) * 0.55;
+        d = `M${X(origin[0])} ${Y(origin[1])}C${X(origin[0] + dir * k)} ${Y(origin[1])} ${X(bx - dir * k)} ${Y(by)} ${X(bx)} ${Y(by)}`;
       } else {
-        const k = (b[0] - a[0]) * 0.55;
-        d = `M${f1(a[0])} ${f1(a[1])}C${f1(a[0] + k)} ${f1(a[1])} ${f1(b[0] - k)} ${f1(b[1])} ${f1(b[0])} ${f1(b[1])}`;
+        d = `M${X(origin[0])} ${Y(origin[1])}V${Y(by - 10)}Q${X(origin[0])} ${Y(by)} ${X(origin[0] + dir * 10)} ${Y(by)}H${X(bx)}`;
       }
-      return { slug, d };
-    }).filter(Boolean);
-    const next = { w: Math.round(sr.width), h: Math.round(sr.height), routes, from: a };
+      base.push({ slug: s, d });
+      if (s === slug) {
+        fan = [d];
+        if (wide && cardRef.current) {
+          const cr = cardRef.current.getBoundingClientRect();
+          const x0 = rtl ? r.left : r.right;
+          const x1 = rtl ? cr.right : cr.left;
+          const y1 = Math.min(Math.max(by, cr.top + 40), cr.bottom - 40);
+          const m = (x0 + x1) / 2;
+          fan.push(`M${X(x0)} ${Y(by)}C${X(m)} ${Y(by)} ${X(m)} ${Y(y1)} ${X(x1)} ${Y(y1)}`);
+        }
+      }
+    });
+    const next = { w: Math.round(sr.width), h: Math.round(sr.height), base, chain: [intro, link], fan };
     setGeo((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
-  }, [stageRef, intentRefs, nodeRefs, intent, litKey]);
+  }, [stageRef, intentRefs, nodeRefs, youRef, gateRef, cardRef, intent, litKey, slug]);
   useEffect(() => {
     const schedule = () => { cancelAnimationFrame(raf.current); raf.current = requestAnimationFrame(measure); };
     schedule();
@@ -115,52 +180,76 @@ function useRoutes(stageRef, intentRefs, nodeRefs, intent, litKey) {
     if (ro) {
       if (stageRef.current) ro.observe(stageRef.current);
       Object.values(nodeRefs.current).forEach((el) => el && ro.observe(el));
+      if (cardRef.current) ro.observe(cardRef.current);
     }
     window.addEventListener("resize", schedule);
     document.fonts?.ready?.then(schedule);
     return () => { cancelAnimationFrame(raf.current); ro?.disconnect(); window.removeEventListener("resize", schedule); };
-  }, [measure, stageRef, nodeRefs]);
+  }, [measure, stageRef, nodeRefs, cardRef]);
   return geo;
 }
+
+const withData = (intent, f) => ((intent === "spot" || intent === "perps")
+  ? f?.status === "verified" && Number.isFinite((intent === "perps" ? f.perp : f.spot)?.[0])
+  : true);
 
 function Finder({ kit }) {
   const { locale } = kit;
   const t = copyFor(locale);
+  const [youLabel, gateLabel] = hubFor(locale);
   const uid = useId();
   const nodes = NODE_SLUGS.map((slug) => kit.venue(slug)).filter(Boolean);
   const offered = (intent) => nodes.filter((v) => OFFERS[intent](v, EXCHANGE_FACTS[v.slug])).map((v) => v.slug);
+  // Default node = first venue that actually has data for the intent (catalog order, never a ranking).
+  const pickDefault = (intent) => { const l = offered(intent); return l.find((s) => withData(intent, EXCHANGE_FACTS[s])) || l[0]; };
   const [intent, setIntent] = useState("spot");
-  const [slug, setSlug] = useState(nodes[0]?.slug);
+  const [slug, setSlug] = useState(() => pickDefault("spot") || nodes[0]?.slug);
   const [hot, setHot] = useState(null);
   const [tick, setTick] = useState(0);
   const stageRef = useRef(null);
   const intentRefs = useRef({});
   const nodeRefs = useRef({});
+  const youRef = useRef(null);
+  const gateRef = useRef(null);
+  const cardRef = useRef(null);
   const lit = offered(intent);
   const litKey = lit.join(",");
-  const geo = useRoutes(stageRef, intentRefs, nodeRefs, intent, litKey);
+  const geo = useRoutes(stageRef, { intentRefs, nodeRefs, youRef, gateRef, cardRef }, intent, litKey, slug);
 
-  // Pointer light on the map grid (progressive: static without JS or with reduced motion).
+  // Pointer light on the map grid + magnetic primary CTAs (progressive: static without JS or with reduced motion).
   useEffect(() => {
     const el = stageRef.current;
     if (!el || reduced()) return undefined;
     let raf = 0;
+    const R = 96;
+    const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+    const CTA = ".rf-btn--primary, .registration-card__primary-btn";
     const move = (e) => {
+      const { clientX: x, clientY: y, pointerType } = e;
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         const r = el.getBoundingClientRect();
-        el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-        el.style.setProperty("--my", `${e.clientY - r.top}px`);
+        el.style.setProperty("--mx", `${x - r.left}px`);
+        el.style.setProperty("--my", `${y - r.top}px`);
+        if (pointerType === "touch") return;
+        el.querySelectorAll(CTA).forEach((b) => {
+          const q = b.getBoundingClientRect();
+          const near = x > q.left - R && x < q.right + R && y > q.top - R && y < q.bottom + R;
+          b.style.setProperty("--tx", near ? `${clamp((x - (q.left + q.width / 2)) * 0.16, -8, 8).toFixed(1)}px` : "0px");
+          b.style.setProperty("--ty", near ? `${clamp((y - (q.top + q.height / 2)) * 0.22, -6, 6).toFixed(1)}px` : "0px");
+        });
       });
     };
+    const leave = () => el.querySelectorAll(CTA).forEach((b) => { b.style.setProperty("--tx", "0px"); b.style.setProperty("--ty", "0px"); });
     el.addEventListener("pointermove", move);
-    return () => { cancelAnimationFrame(raf); el.removeEventListener("pointermove", move); };
+    el.addEventListener("pointerleave", leave);
+    return () => { cancelAnimationFrame(raf); el.removeEventListener("pointermove", move); el.removeEventListener("pointerleave", leave); };
   }, []);
 
   const pickIntent = (next) => {
     setIntent(next);
-    const l = offered(next);
-    if (!l.includes(slug)) setSlug(l[0]);
+    setSlug(pickDefault(next));
+    setHot(null);
     setTick((n) => n + 1);
   };
   const onRadioKey = (e) => {
@@ -176,12 +265,21 @@ function Finder({ kit }) {
     pickIntent(n);
     intentRefs.current[n]?.focus();
   };
-  const pickNode = (s) => { if (!lit.includes(s)) return; setSlug(s); setTick((n) => n + 1); };
+  const pickNode = (s) => {
+    if (!lit.includes(s)) return;
+    setSlug(s);
+    setTick((n) => n + 1);
+    // Narrow layout: the card opens inline under the node; keep the tapped node in view as the old card collapses.
+    if (!isWide()) requestAnimationFrame(() => requestAnimationFrame(() => nodeRefs.current[s]?.scrollIntoView({ block: "start", behavior: reduced() ? "auto" : "smooth" })));
+  };
   const sel = nodes.find((v) => v.slug === slug) || nodes[0];
+  const peek = nodes.find((v) => v.slug === hot) || sel;
   const facts = EXCHANGE_FACTS[sel.slug];
   const BrandMark = kit.BrandMark;
   const feeKey = intent === "perps" ? "perp" : "spot";
+  const bigPair = facts?.status === "verified" ? facts[feeKey] : null;
   const panelId = `${uid}-panel`;
+  const selIdx = Math.max(0, nodes.findIndex((v) => v.slug === sel.slug));
 
   return (
     <>
@@ -189,6 +287,12 @@ function Finder({ kit }) {
       <div className="rf-copy">
         <h1 className={`rf-title${Math.max(...String(kit.title).split(/\s+/).map((w) => w.length)) > 11 ? " rf-title--long" : ""}`}>{kit.title}</h1>
         <p className="rf-lede">{kit.lede}</p>
+      </div>
+
+      <div className="rf-actions">
+        <button type="button" className="rf-btn rf-btn--primary" onClick={kit.openWizard}>{kit.wizardLabel}</button>
+        <a className="rf-btn rf-btn--ghost" href={kit.compareHref}>{kit.compareLabel}</a>
+        <a className="rf-link" href={kit.exploreHref}>{kit.exploreLabel}</a>
       </div>
 
       <div className="rf-intents">
@@ -213,12 +317,24 @@ function Finder({ kit }) {
         </div>
       </div>
 
+      <div className="rf-hub" aria-hidden="true">
+        <span className="rf-you" ref={youRef}>{youLabel}</span>
+        <span className="rf-gate" ref={gateRef}>
+          <svg className="rf-gate__ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+            <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z" />
+            <path key={peek.slug} className="rf-gate__tick" pathLength="1" d="M8.5 12l2.5 2.5 4.5-5" />
+          </svg>
+          <Typed text={bareDomain(peek.officialDomain)} />
+        </span>
+        <span className="rf-gate__cap">{gateLabel}</span>
+      </div>
+
       <div className="rf-nodes">
         <p className="rf-label" id={`${uid}-n`}>
           {t.venues} <span className="rf-count" dir="ltr">{lit.length}/{nodes.length}</span>
         </p>
         <ul className="rf-list" aria-labelledby={`${uid}-n`}>
-          {nodes.map((v) => {
+          {nodes.map((v, i) => {
             const on = lit.includes(v.slug);
             const active = v.slug === sel.slug;
             const f = EXCHANGE_FACTS[v.slug];
@@ -229,6 +345,7 @@ function Finder({ kit }) {
                   type="button"
                   ref={(el) => { nodeRefs.current[v.slug] = el; }}
                   className="rf-node"
+                  style={{ "--ord": 10 + i * 2 }}
                   data-on={on}
                   data-active={active}
                   aria-pressed={active}
@@ -244,12 +361,11 @@ function Finder({ kit }) {
                 >
                   <i className="rf-port" aria-hidden="true" />
                   <BrandMark slug={v.slug} compact priority />
-                  <span className="rf-node__id">
-                    <b translate="no" lang="en">{v.name}</b>
-                    <small className="rf-mono" translate="no" lang="en" dir="ltr">{v.officialDomain}</small>
-                  </span>
-                  <span className="rf-node__fee rf-mono">
-                    {on ? <FeePair pair={pair} locale={locale} tick={hot === v.slug || active ? tick : 0} none={t.none} /> : <span className="rf-na">{t.off}</span>}
+                  <b className="rf-node__name" translate="no" lang="en">{v.name}</b>
+                  <span className="rf-node__fee">
+                    {on && pair && Number.isFinite(pair[0])
+                      ? <span dir="ltr"><Fee value={pair[0]} locale={locale} tick={hot === v.slug || active ? tick : 0} />%</span>
+                      : <><span className="rf-na" aria-hidden="true">{on ? "—" : ""}</span><span className="rf-sr">{on ? t.none : t.off}</span></>}
                   </span>
                 </button>
               </li>
@@ -258,21 +374,20 @@ function Finder({ kit }) {
         </ul>
       </div>
 
-      <div className="rf-card" id={panelId} role="region" aria-label={sel.name} key={sel.slug}>
+      <div className="rf-card" id={panelId} ref={cardRef} role="region" aria-label={sel.name} style={{ "--ord": 11 + selIdx * 2 }} key={sel.slug}>
         <div className="rf-card__head">
           <span className="rf-card__who"><BrandMark slug={sel.slug} priority /><b translate="no" lang="en">{sel.name}</b><small translate="no" lang="en">{sel.category}</small></span>
+          <p className="rf-big" aria-hidden="true" dir="ltr">
+            {bigPair && Number.isFinite(bigPair[0])
+              ? <><span className="rf-big__n"><Fee value={bigPair[0]} locale={locale} tick={tick} ms={620} /></span><span className="rf-big__u">%</span></>
+              : <span className="rf-big__n rf-big__n--na">{"—"}</span>}
+          </p>
           <dl className="rf-facts">
-            <div><dt>{t.spot} {t.mt}</dt><dd className="rf-mono"><FeePair pair={facts?.status === "verified" ? facts.spot : null} locale={locale} tick={tick} none={t.none} /></dd></div>
-            <div><dt>{t.perp} {t.mt}</dt><dd className="rf-mono"><FeePair pair={facts?.status === "verified" ? facts.perp : null} locale={locale} tick={tick} none={t.none} /></dd></div>
+            <div data-on={feeKey === "spot"}><dt>{t.spot} {t.mt}</dt><dd><FeePair pair={facts?.status === "verified" ? facts.spot : null} locale={locale} tick={tick} none={t.none} /></dd></div>
+            <div data-on={feeKey === "perp"}><dt>{t.perp} {t.mt}</dt><dd><FeePair pair={facts?.status === "verified" ? facts.perp : null} locale={locale} tick={tick} none={t.none} /></dd></div>
           </dl>
         </div>
         {kit.card(sel.slug)}
-      </div>
-
-      <div className="rf-actions">
-        <button type="button" className="rf-btn rf-btn--primary" onClick={kit.openWizard}>{kit.wizardLabel}</button>
-        <a className="rf-link" href={kit.exploreHref}>{kit.exploreLabel}</a>
-        <a className="rf-btn rf-btn--ghost" href={kit.compareHref}>{kit.compareLabel}</a>
       </div>
 
       <div className="rf-more">
@@ -282,22 +397,25 @@ function Finder({ kit }) {
           <h2>{kit.helpTitle}</h2>
           <p>{kit.helpLead}</p>
         </div>
-        <a className="rf-tg" href={kit.telegram.href} target="_blank" rel="noopener noreferrer"><span>{kit.telegram.label}</span><span aria-hidden="true">{"\u2197"}</span></a>
+        <a className="rf-tg" href={kit.telegram.href} target="_blank" rel="noopener noreferrer"><span>{kit.telegram.label}</span><span aria-hidden="true">{"↗"}</span></a>
         <div className="rf-pills">
           {kit.pills.map((p) => <a key={p.text} href={p.href} className="rf-pill">{p.text}</a>)}
         </div>
       </div>
 
       <svg className="rf-svg" width={geo.w} height={geo.h} viewBox={`0 0 ${geo.w || 1} ${geo.h || 1}`} aria-hidden="true" focusable="false">
-        {[...geo.routes].sort((x, y) => (x.slug === sel.slug) - (y.slug === sel.slug)).map((r, i) => {
-          const isSel = r.slug === sel.slug;
-          return (
-            <g key={`${intent}-${r.slug}`} className={`rf-route${isSel ? " is-on" : ""}${hot === r.slug ? " is-hot" : ""}`} style={{ "--i": i }}>
-              <path className="rf-route__line" d={r.d} pathLength="1" />
-              {isSel && <path className="rf-route__pulse" d={r.d} pathLength="1" />}
-            </g>
-          );
-        })}
+        {geo.chain.map((d, i) => <path key={`s${i}`} className="rf-route__line" d={d} />)}
+        {geo.base.map((r, i) => (
+          <g key={`${intent}-${r.slug}`} className={`rf-route${hot === r.slug ? " is-hot" : ""}`} style={{ "--i": i }}>
+            <path className="rf-route__line" d={r.d} pathLength="1" />
+          </g>
+        ))}
+        {geo.fan.length > 0 && (
+          <g key={`${intent}-${sel.slug}-on`} className="rf-route is-on">
+            {[...geo.chain, ...geo.fan].map((d, i) => <path key={i} className="rf-route__line rf-route__line--on" style={{ "--seg": i }} d={d} pathLength="1" />)}
+            <path className="rf-route__pulse" d={geo.fan[0]} pathLength="1" />
+          </g>
+        )}
       </svg>
       <span className="rf-sr" role="status">{t.i[intent][0]}: {lit.length}/{nodes.length}</span>
     </div>
