@@ -5,7 +5,7 @@
  */
 import React, { useState, useCallback, useEffect } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
-import { TELEGRAM_CONFIG, TELEGRAM_COMMANDS, TELEGRAM_MANUAL_REVIEW_POLICY, TELEGRAM_RESEARCH_PATHS, TELEGRAM_SEARCH_TOPIC_QUEUE, getTelegramDeepLink } from "../../data/telegram-config.js";
+import { TELEGRAM_CONFIG, TELEGRAM_COMMANDS, TELEGRAM_RESEARCH_PATHS, TELEGRAM_SEARCH_TOPIC_QUEUE, getTelegramDeepLink } from "../../data/telegram-config.js";
 import { buildTelegramReturnContext, readTelegramReturnContext, telegramReturnDataAttrs } from "../../data/telegram-decision-return.js";
 import "./telegram-bot-hub.css";
 
@@ -516,21 +516,21 @@ const expandableControlLabels = Object.freeze({
 });
 
 const editorialDisclosureLabels = {
-  "en": "Editorial notes and publication review",
-  "zh-Hans": "编辑说明与发布复核",
-  "zh-Hant": "編輯說明與發布複核",
-  "ja": "編集メモと公開確認",
-  "ko": "편집 안내 및 게시 검토",
-  "tr": "Editör notları ve yayın incelemesi",
-  "es": "Notas editoriales y revisión de publicación",
-  "pt-BR": "Notas editoriais e revisão da publicação",
-  "fr": "Notes éditoriales et vérification de publication",
-  "de": "Redaktionelle Hinweise und Veröffentlichungsprüfung",
-  "ru": "Редакционные заметки и проверка публикации",
-  "ar": "ملاحظات تحريرية ومراجعة النشر",
-  "id": "Catatan editorial dan tinjauan publikasi",
-  "vi": "Ghi chú biên tập và duyệt xuất bản",
-  "it": "Note editoriali e revisione della pubblicazione"
+  "en": "Questions answered on NexuAlpha",
+  "zh-Hans": "NexuAlpha 已解答的问题",
+  "zh-Hant": "NexuAlpha 已解答的問題",
+  "ja": "NexuAlpha で回答済みの質問",
+  "ko": "NexuAlpha에서 답한 질문",
+  "tr": "NexuAlpha'da yanıtlanan sorular",
+  "es": "Preguntas respondidas en NexuAlpha",
+  "pt-BR": "Perguntas respondidas no NexuAlpha",
+  "fr": "Questions traitées sur NexuAlpha",
+  "de": "Auf NexuAlpha beantwortete Fragen",
+  "ru": "Вопросы с ответами на NexuAlpha",
+  "ar": "أسئلة أجاب عنها NexuAlpha",
+  "id": "Pertanyaan yang dijawab di NexuAlpha",
+  "vi": "Câu hỏi đã được NexuAlpha trả lời",
+  "it": "Domande con risposta su NexuAlpha"
 };
 
 export function TelegramBotHub({ locale = "en", headingLevel = 2, market, product }) {
@@ -548,7 +548,6 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
   const expandableLabels = expandableControlLabels[localeBase];
   const SectionHeading = headingLevel === 1 ? "h2" : "h3";
   const CardHeading = headingLevel === 1 ? "h3" : "h4";
-  const reviewParams = [...TELEGRAM_MANUAL_REVIEW_POLICY.requiredPublicParams, ...TELEGRAM_MANUAL_REVIEW_POLICY.requiredTelegramContextParams];
   const telegramContext = {
     market: contextValue(market, "GLOBAL"),
     locale: contextValue(locale, "en"),
@@ -906,80 +905,20 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
           </div>
         </div>
 
-        <details className="tg-ops-pack">
+        {supportsTopicGateway && <details className="tg-ops-pack tg-public-topics-disclosure">
           <summary>{editorialDisclosureLabels[locale] || editorialDisclosureLabels[localeBase] || editorialDisclosureLabels.en}</summary>
-
-        <section className="tg-inbound-summary" aria-labelledby="telegram-inbound-title">
-          <div className="tg-inbound-summary__copy">
-            <span className="tg-inbound-summary__badge font-mono">{t.inboundBadge || copy.en.inboundBadge}</span>
-            <SectionHeading id="telegram-inbound-title">{t.inboundTitle || copy.en.inboundTitle}</SectionHeading>
-            <p>{t.inboundSubtitle || copy.en.inboundSubtitle}</p>
-          </div>
-          <div className="tg-inbound-summary__stats" role="group" aria-label={t.inboundBadge || copy.en.inboundBadge}>
-            {(t.inboundStats || copy.en.inboundStats).map(([value, label]) => (
-              <div key={`${value}-${label}`} className="tg-inbound-summary__stat">
-                <strong>{value}</strong>
-                <span>{label}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-
-          {supportsTopicGateway && <>
-          <section className="tg-search-topics" aria-labelledby="telegram-search-topic-title">
-            <div className="tg-search-topics__header">
-              <span className="tg-search-topics__badge font-mono">{t.searchBadge}</span>
-              <SectionHeading id="telegram-search-topic-title">{t.searchTitle}</SectionHeading>
-              <p>{t.searchSubtitle}</p>
-            </div>
-            <div className="tg-search-topics__grid">
+          <nav className="tg-public-topics" aria-label={editorialDisclosureLabels[locale] || editorialDisclosureLabels[localeBase] || editorialDisclosureLabels.en}>
+            <ul className="tg-public-topics__list">
               {TELEGRAM_SEARCH_TOPIC_QUEUE.map((topic) => (
-                <article key={topic.id} className="tg-search-topic-card">
-                  <span className="tg-search-topic-card__query font-mono">{topic.query}</span>
-                  <p>{topic.answer}</p>
-                  <div className="tg-search-topic-card__meta">
-                    <a href={localizedHref(topic.primaryPath, { locale, market: telegramContext.market, product: telegramContext.product })} data-cta-kind="internal" data-cta-placement="telegram-wave7-onsite" data-growth-decision={topic.id} data-growth-placement="telegram-search-topic-onsite" {...growthContextAttrs(topic.campaign)}>
-                      {t.searchPrimary} ↗
-                    </a>
-                    <span>{t.searchCadence}: {topic.cadence.replace(/_/g, " ")}</span>
-                    <span className="font-mono">{topic.campaign}</span>
-                  </div>
-                </article>
+                <li key={topic.id}>
+                  <a href={localizedHref(topic.primaryPath, { locale, market: telegramContext.market, product: telegramContext.product })} data-cta-kind="internal" data-cta-placement="telegram-wave7-onsite" data-growth-decision={topic.id} data-growth-placement="telegram-search-topic-onsite" {...growthContextAttrs(topic.campaign)}>
+                    {topic.query}
+                  </a>
+                </li>
               ))}
-            </div>
-          </section>
-
-          <section
-            className="tg-manual-review"
-            aria-labelledby="telegram-manual-review-title"
-            data-telegram-review-cadence="24h-7d"
-            data-telegram-anonymous-metrics={[...TELEGRAM_MANUAL_REVIEW_POLICY.anonymousMetrics24h, ...TELEGRAM_MANUAL_REVIEW_POLICY.anonymousMetrics7d].join(",")}
-          >
-            <div className="tg-manual-review__header">
-              <span className="tg-manual-review__badge font-mono">{t.reviewBadge || copy.en.reviewBadge}</span>
-              <SectionHeading id="telegram-manual-review-title">{t.reviewTitle || copy.en.reviewTitle}</SectionHeading>
-              <p>{t.reviewSubtitle || copy.en.reviewSubtitle}</p>
-            </div>
-            <div className="tg-manual-review__grid">
-              {TELEGRAM_MANUAL_REVIEW_POLICY.reviewWindows.map((window) => (
-                <article key={window.id} className="tg-manual-review__card">
-                  <strong>{window.label}</strong>
-                  <span>{TELEGRAM_MANUAL_REVIEW_POLICY[window.metricKey].join(", ")}</span>
-                </article>
-              ))}
-              <article className="tg-manual-review__card">
-                <strong>{t.reviewParamLabel || copy.en.reviewParamLabel}</strong>
-                <span>{reviewParams.join(", ")}</span>
-              </article>
-              <article className="tg-manual-review__card">
-                <strong>{t.reviewForbiddenLabel || copy.en.reviewForbiddenLabel}</strong>
-                <span>{TELEGRAM_MANUAL_REVIEW_POLICY.forbiddenClaims.join(", ")}</span>
-              </article>
-            </div>
-          </section>
-          </>}
-        </details>
+            </ul>
+          </nav>
+        </details>}
 
       </div>
     </section>

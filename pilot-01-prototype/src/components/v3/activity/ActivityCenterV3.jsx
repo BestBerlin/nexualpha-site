@@ -314,7 +314,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
       </article>;
       })}
     </div> : <div className="activity-center-v3__empty" role="status">
-      <p>{text.emptyTitle} {text.emptyBody}</p>
+      <p><strong>{text.emptyTitle}</strong> <span>{text.emptyBody}</span></p>
       <div className="activity-center-v3__empty-actions">
         <a href={contextualHref("/exchanges")} data-cta-kind="research" data-cta-placement="activity-footer-directory" data-growth-decision="directory" data-growth-placement="activity-footer-directory" data-growth-market={market} data-growth-product={product}>{text.browsePlatforms}</a>
         <a href={contextualHref("/compare/binance-vs-okx")} data-cta-kind="research" data-cta-placement="activity-footer-comparison" data-growth-decision="comparison" data-growth-placement="activity-footer-comparison" data-growth-market={market} data-growth-product={product}>{text.comparePlatforms}</a>
