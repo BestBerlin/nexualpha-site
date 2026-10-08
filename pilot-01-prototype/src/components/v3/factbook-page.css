@@ -1515,3 +1515,20 @@
 .factbook-fee-records[open] > summary span { transform: rotate(45deg); }
 .factbook-fee-records__note { color: #94a3b8; line-height: 1.5; max-width: 68ch; margin: .5rem 0 1rem; }
 .factbook-fee-records .factbook-fee-tabs { width: fit-content; max-width: 100%; flex-wrap: wrap; margin-bottom: 1rem; }
+
+/* Base fees from exchange-facts.js (single fee source), compact inside the factbook fee section. */
+.factbook-base-fees { margin-block: var(--s-4, 16px) var(--s-5, 24px); }
+.v5-detail.factbook-base-fees .d5-strip { display: grid; min-inline-size: 0; }
+.v5-detail.factbook-base-fees .d5-figure--hero,
+.v5-detail.factbook-base-fees .d5-strip .d5-dash { font-size: var(--t-2xl, 1.75rem); letter-spacing: -0.02em; }
+.v5-detail.factbook-base-fees .d5-strip__head,
+.v5-detail.factbook-base-fees .d5-strip__row { gap: 16px; }
+.v5-detail.factbook-base-fees .d5-strip__head { padding-block-end: 8px; }
+.v5-detail.factbook-base-fees .d5-strip__row { padding-block: 16px; border-block-start: 1px solid var(--n6, rgba(255,255,255,.12)); }
+.v5-detail.factbook-base-fees .d5-strip__row:last-of-type { border-block-end: 1px solid var(--n6, rgba(255,255,255,.12)); }
+.v5-detail.factbook-base-fees .d5-strip__cell, .v5-detail.factbook-base-fees .d5-rate { gap: 4px; }
+.v5-detail.factbook-base-fees .d5-strip__discount { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin: 0; padding-block: 16px 0; }
+.v5-detail.factbook-base-fees .d5-discount__item { display: inline-flex; align-items: baseline; gap: 6px; }
+@media (max-width: 40rem) {
+  .v5-detail.factbook-base-fees .d5-strip__row { gap: 8px 16px; padding-block: 14px; }
+}

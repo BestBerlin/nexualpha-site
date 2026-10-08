@@ -1,4 +1,4 @@
-import facts from "../../data/exchange-facts-20261008.json";
+import { factsForVenue, feeFact, venueCheckedOn } from "../../data/exchange-facts.js";
 import { useEffect, useRef } from "react";
 import { Reveal, CountUp, prefersReducedMotion } from "../../lib/v5/index.js";
 
@@ -24,7 +24,7 @@ const L = {
 const labels = (locale) => L[locale] || L[String(locale || "en").split("-")[0]] || L.en;
 const decimalsOf = (n) => (n >= 0.1 || Number.isInteger(n * 100) ? 2 : 3);
 
-function Rate({ value, l, verified, locale }) {
+function Rate({ value, l, checkedOn, locale }) {
   if (value == null) {
     return (
       <span className="d5-rate d5-rate--null">
@@ -37,17 +37,17 @@ function Rate({ value, l, verified, locale }) {
   return (
     <span className="d5-rate">
       <CountUp value={value} decimals={decimalsOf(value)} suffix="%" locale={locale} className="num d5-figure" />
-      {verified && <span className="d5-checked">{l.checked} {facts.as_of}</span>}
+      {checkedOn && <span className="d5-checked">{l.checked} {checkedOn}</span>}
     </span>
   );
 }
 
-function FeeRow({ title, sub, row, l, verified, index, locale }) {
+function FeeRow({ title, sub, row, l, index, locale }) {
   return (
     <Reveal as="div" index={index} className="d5-row" role="row">
       <div className="d5-row__name" role="rowheader"><b>{title}</b><small>{sub}</small></div>
-      <div className="d5-row__cell" role="cell"><span className="d5-cell-label">{l.maker}</span><Rate value={row?.maker ?? null} l={l} verified={verified} locale={locale} /></div>
-      <div className="d5-row__cell" role="cell"><span className="d5-cell-label">{l.taker}</span><Rate value={row?.taker ?? null} l={l} verified={verified} locale={locale} /></div>
+      <div className="d5-row__cell" role="cell"><span className="d5-cell-label">{l.maker}</span><Rate value={row?.maker ?? null} l={l} checkedOn={row?.checkedOn} locale={locale} /></div>
+      <div className="d5-row__cell" role="cell"><span className="d5-cell-label">{l.taker}</span><Rate value={row?.taker ?? null} l={l} checkedOn={row?.checkedOn} locale={locale} /></div>
     </Reveal>
   );
 }
@@ -67,14 +67,15 @@ function HeroCount({ value, decimals, suffix, locale, className }) {
 }
 
 export function factsFor(slug) {
-  return facts.exchanges.find((e) => e.slug === slug) || null;
+  return factsForVenue(slug);
 }
+// Header badge: only when at least one fee figure of this venue is published as checked.
 export function feesCheckedLabel(slug, locale) {
-  const e = factsFor(slug);
-  return e && e.status === "verified" ? `${labels(locale).feesChecked} ${facts.as_of}` : null;
+  const on = venueCheckedOn(slug);
+  return on ? `${labels(locale).feesChecked} ${on}` : null;
 }
 
-function StripCell({ value, l, verified, locale }) {
+function StripCell({ value, l, checkedOn, locale }) {
   if (value == null) {
     return (
       <span className="d5-rate d5-rate--null">
@@ -86,31 +87,31 @@ function StripCell({ value, l, verified, locale }) {
   return (
     <span className="d5-rate">
       <HeroCount value={value} decimals={decimalsOf(value)} suffix="%" locale={locale} className="num d5-figure d5-figure--hero" />
-      {verified && <span className="d5-checked">{l.checked} {facts.as_of}</span>}
+      {checkedOn && <span className="d5-checked">{l.checked} {checkedOn}</span>}
     </span>
   );
 }
 
 export function FactsStrip({ slug, locale }) {
-  const entry = factsFor(slug);
+  const entry = factsForVenue(slug);
   if (!entry || entry.type === "dex") return null;
   const l = labels(locale);
-  const verified = entry.status === "verified";
-  const sv = verified && !/re-check/i.test(entry.fees?.spot?.note || "");
-  const pv = verified && !/re-check/i.test(entry.fees?.perp?.note || "");
-  const d = entry.discount || {};
+  const spot = feeFact(slug, "spot");
+  const perp = feeFact(slug, "perp");
+  // A discount is shown only for a product whose base fee is checked (exchange-facts.js enforces it).
   const parts = [];
-  if (d.token && d.spot_pct) parts.push([l.spot, d.spot_pct]);
-  if (d.token && d.perp_pct) parts.push([l.perp, d.perp_pct]);
-  const rows = [[l.spot, l.spotSub, entry.fees?.spot, sv], [l.perp, l.perpSub, entry.fees?.perp, pv]];
+  if (entry.discount.token && entry.discount.spot) parts.push([l.spot, entry.discount.spot]);
+  if (entry.discount.token && entry.discount.perp) parts.push([l.perp, entry.discount.perp]);
+  const d = { token: entry.discount.token };
+  const rows = [[l.spot, l.spotSub, spot], [l.perp, l.perpSub, perp]];
   return (
     <section className={`d5-strip enter${rows.every(([, , r]) => r?.maker == null && r?.taker == null) ? " d5-strip--empty" : ""}`} style={{ "--i": 1 }} aria-label={l.fees}>
       <div className="d5-strip__head" aria-hidden="true"><span /><span>{l.maker}</span><span>{l.taker}</span></div>
-      {rows.map(([title, sub, row, ok]) => (
+      {rows.map(([title, sub, row]) => (
         <div className="d5-strip__row" key={title}>
           <div className="d5-strip__name"><b>{title}</b><small>{sub}</small></div>
-          <div className="d5-strip__cell"><span className="d5-cell-label">{l.maker}</span><StripCell value={row?.maker ?? null} l={l} verified={ok} locale={locale} /></div>
-          <div className="d5-strip__cell"><span className="d5-cell-label">{l.taker}</span><StripCell value={row?.taker ?? null} l={l} verified={ok} locale={locale} /></div>
+          <div className="d5-strip__cell"><span className="d5-cell-label">{l.maker}</span><StripCell value={row?.maker ?? null} l={l} checkedOn={row?.checkedOn} locale={locale} /></div>
+          <div className="d5-strip__cell"><span className="d5-cell-label">{l.taker}</span><StripCell value={row?.taker ?? null} l={l} checkedOn={row?.checkedOn} locale={locale} /></div>
         </div>
       ))}
       {parts.length > 0 && (
@@ -125,20 +126,11 @@ export function FactsStrip({ slug, locale }) {
 }
 
 export function ExchangeFactsV5({ slug, locale, profile }) {
-  const entry = facts.exchanges.find((e) => e.slug === slug);
   const l = labels(locale);
   const hasList = (a) => Array.isArray(a) && a.length > 0;
   const strengths = (hasList(profile?.strengths) ? profile.strengths : profile?.useCases) || [];
   const eligibility = [...(profile?.checks || []), ...(profile?.limitations || [])].slice(0, 6);
   if (!strengths.length && !eligibility.length) return null;
-  const verified = entry?.status === "verified";
-  const spotVerified = verified && !/re-check/i.test(entry?.fees?.spot?.note || "");
-  const perpVerified = verified && !/re-check/i.test(entry?.fees?.perp?.note || "");
-  const disc = entry?.discount;
-  const token = disc?.token;
-  const discParts = [];
-  if (token && disc.spot_pct) discParts.push({ k: l.spot, v: disc.spot_pct });
-  if (token && disc.perp_pct) discParts.push({ k: l.perp, v: disc.perp_pct });
 
   return (
     <div className="d5-facts">

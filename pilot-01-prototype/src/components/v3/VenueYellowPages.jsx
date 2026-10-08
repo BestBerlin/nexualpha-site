@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { BrandMark } from "../brand/BrandMark";
 import { partnerRegistry } from "../../data/partner-registry";
 import { venueDatabase } from "../../data/venue-database.js";
+import { feeDisplay, feeFact } from "../../data/exchange-facts.js";
 import { resolveCommercialClaim } from "../../data/commercial-claims.js";
 import { venueDecisionContent } from "../../data/venue-decision-content";
 import { compareSlug, v3Copy } from "../../data/v3-product";
@@ -843,10 +844,10 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
       list = [...list].sort((a, b) => (a.slug === decisions.primary.venue.slug ? -1 : 0) - (b.slug === decisions.primary.venue.slug ? -1 : 0));
     } else if (effectiveAccountStage === "new_account") {
       list = [...list].sort((a, b) => (a.category === "CEX" ? 0 : 1) - (b.category === "CEX" ? 0 : 1));
-    } else if (sortBy === "fee" && list.every((v) => venueDatabase[v.slug]?.feeCheckedAt)) {
+    } else if (sortBy === "fee" && list.every((v) => feeFact(v.slug, "spot").state === "checked")) {
       list = [...list].sort((a, b) => {
-        const fa = venueDatabase[a.slug]?.spotFee?.takerRate ?? 9999;
-        const fb = venueDatabase[b.slug]?.spotFee?.takerRate ?? 9999;
+        const fa = feeFact(a.slug, "spot").taker ?? 9999;
+        const fb = feeFact(b.slug, "spot").taker ?? 9999;
         return fa - fb;
       });
     } else if (sortBy === "rebate" && list.every((v) => resolveCommercialClaim({ partner: partnerRegistry[v.slug] || {}, venue: venueDatabase[v.slug] || {} }).status === "verified")) {
@@ -1043,8 +1044,8 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
           const perkText = isZhLocale
             ? (db.benefit?.[locale] || db.benefit?.["zh-Hans"] || partner.benefit?.[locale] || partner.benefit?.["zh-Hans"] || "")
             : (db.benefit?.en || db.benefit?.[locale] || partner.benefit?.en || partner.benefit?.[locale] || "");
-          const spotFee = db.spotFee?.display && db.feeCheckedAt ? db.spotFee.display : null;
-          const futuresFee = db.futuresFee?.display && db.feeCheckedAt ? db.futuresFee.display : null;
+          const spotFee = feeDisplay(venue.slug, "spot");
+          const futuresFee = feeDisplay(venue.slug, "perp");
           const porCoverage = db.porCoverageRatio && db.porAuditCheckedAt ? db.porCoverageRatio : null;
           const welcomeBadge = commercialVerified && isZhLocale
             ? (db.welcomeRewardBadge?.[locale] || db.welcomeRewardBadge?.["zh-Hans"] || "")

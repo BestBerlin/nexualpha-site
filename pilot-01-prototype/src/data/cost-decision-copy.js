@@ -22,3 +22,29 @@ export function costDecisionCopy(locale='en') {
   const values=rows[normalized] || rows[String(normalized).split('-')[0]] || rows.en;
   return Object.fromEntries(keys.map((key,index)=>[key,values[index]]));
 }
+
+// Calculator state notices. {max} = the volume cap, {n} = number of checked platforms, {x} = cost difference.
+const stateKeys = ['empty','capped','same','delta'];
+const stateRows = {
+  en: ['Enter a monthly volume above 0 to see the cost.','Volume capped at {max} USDT, the calculator maximum.','All {n} checked platforms charge the same base rate for this market and order type.','+{x} USDT vs lowest'],
+  'zh-Hans': ['请输入大于 0 的月成交额以查看费用。','成交额已按计算器上限 {max} USDT 计算。','在此市场和成交方式下，{n} 家已核对平台的基础费率相同。','比最低高 {x} USDT'],
+  'zh-Hant': ['請輸入大於 0 的月成交額以查看費用。','成交額已按計算器上限 {max} USDT 計算。','在此市場和成交方式下，{n} 家已核對平台的基礎費率相同。','比最低高 {x} USDT'],
+  ja: ['費用を表示するには 0 より大きい月間取引量を入力してください。','取引量は計算上限の {max} USDT で計算しています。','この市場と注文タイプでは、確認済みの {n} サービスの基本料率は同じです。','最安より +{x} USDT'],
+  ko: ['비용을 보려면 0보다 큰 월 거래량을 입력하세요.','거래량은 계산기 최대치인 {max} USDT로 계산됩니다.','이 시장과 주문 유형에서 확인된 {n}개 플랫폼의 기본 수수료가 같습니다.','최저 대비 +{x} USDT'],
+  tr: ['Maliyeti görmek için 0’dan büyük bir aylık hacim girin.','Hacim, hesaplayıcı üst sınırı olan {max} USDT ile sınırlandı.','Bu piyasa ve emir türünde kontrol edilen {n} platformun temel oranı aynıdır.','En düşüğe göre +{x} USDT'],
+  'pt-BR': ['Informe um volume mensal acima de 0 para ver o custo.','Volume limitado a {max} USDT, o máximo da calculadora.','As {n} plataformas verificadas cobram a mesma taxa base neste mercado e tipo de ordem.','+{x} USDT vs. a menor'],
+  es: ['Introduce un volumen mensual mayor que 0 para ver el coste.','Volumen limitado a {max} USDT, el máximo de la calculadora.','Las {n} plataformas verificadas cobran la misma tarifa base en este mercado y tipo de orden.','+{x} USDT frente a la más baja'],
+  fr: ['Saisissez un volume mensuel supérieur à 0 pour voir le coût.','Volume plafonné à {max} USDT, le maximum du calculateur.','Les {n} plateformes vérifiées appliquent le même tarif de base pour ce marché et ce type d’ordre.','+{x} USDT par rapport au plus bas'],
+  de: ['Geben Sie ein Monatsvolumen über 0 ein, um die Kosten zu sehen.','Volumen auf {max} USDT begrenzt, das Maximum des Rechners.','Alle {n} geprüften Plattformen haben für diesen Markt und Ordertyp denselben Basissatz.','+{x} USDT gegenüber dem niedrigsten'],
+  ar: ['أدخل حجم تداول شهريًا أكبر من 0 لعرض التكلفة.','تم تحديد الحجم عند {max} USDT، وهو الحد الأقصى للحاسبة.','جميع المنصات الـ {n} التي تم التحقق منها تفرض الرسوم الأساسية نفسها لهذا السوق ونوع الأمر.','+{x} USDT مقارنة بالأقل'],
+  ru: ['Введите месячный объём больше 0, чтобы увидеть стоимость.','Объём ограничен {max} USDT — максимумом калькулятора.','Все {n} проверенные платформы берут одинаковую базовую комиссию для этого рынка и типа ордера.','+{x} USDT к минимальной'],
+  id: ['Masukkan volume bulanan di atas 0 untuk melihat biaya.','Volume dibatasi {max} USDT, batas maksimum kalkulator.','Semua {n} platform yang diperiksa mengenakan tarif dasar yang sama untuk pasar dan jenis order ini.','+{x} USDT dibanding terendah'],
+  vi: ['Nhập khối lượng hằng tháng lớn hơn 0 để xem chi phí.','Khối lượng được giới hạn ở {max} USDT, mức tối đa của công cụ.','Cả {n} nền tảng đã kiểm tra có cùng mức phí cơ bản cho thị trường và loại lệnh này.','+{x} USDT so với thấp nhất'],
+  it: ['Inserisci un volume mensile superiore a 0 per vedere il costo.','Volume limitato a {max} USDT, il massimo del calcolatore.','Tutte le {n} piattaforme verificate applicano la stessa tariffa base per questo mercato e tipo di ordine.','+{x} USDT rispetto alla più bassa'],
+};
+
+export function costDecisionStateCopy(locale='en') {
+  const normalized=locale==='zh-CN'?'zh-Hans':locale==='zh-TW'?'zh-Hant':locale;
+  const values=stateRows[normalized] || stateRows[String(normalized).split('-')[0]] || stateRows.en;
+  return Object.fromEntries(stateKeys.map((key,index)=>[key,values[index]]));
+}
