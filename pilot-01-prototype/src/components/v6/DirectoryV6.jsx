@@ -41,6 +41,7 @@ function Icon({ name }) {
     plus: <path d="M8 3.5v9M3.5 8h9" />,
     arrow: <path d="M4.5 11.5 11.5 4.5M5.5 4.5h6v6" />,
     close: <path d="m4.5 4.5 7 7M11.5 4.5l-7 7" />,
+    stamp: <><circle className="dir6-stamp__perf" cx="8" cy="8" r="7.2" /><path className="dir6-draw" d="m5 8.2 2.1 2.1 3.9-4.4" pathLength="1" /></>,
   }[name];
   return <svg className={`dir6-ico dir6-ico--${name}`} viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{p}</svg>;
 }
@@ -235,6 +236,9 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
     return () => { clearTimeout(timer); io.disconnect(); };
   }, [rowsKey, expanded]);
 
+  const selAt = visible.map((r, i) => (compareSelection.includes(r.slug) ? i : -1)).filter((i) => i >= 0);
+  const routeLo = selAt.length > 1 ? Math.min(...selAt) : -1;
+  const routeHi = selAt.length > 1 ? Math.max(...selAt) : -1;
   const segIndex = Math.max(0, SEGMENTS.findIndex((s) => s.id === category));
   const compareHref = compareSelection.length === 2 ? localizedHref(`/compare/${compareSlug(compareSelection)}?${contextSearch}`, { locale }) : null;
   const dockOpen = touched && inView && compareSelection.length > 0;
@@ -243,15 +247,15 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
   const dockSlot = (slug, key) => slug ? (
     <button type="button" key={`${key}-${slug}`} className="dir6-dock__slot" onClick={() => toggleCompare(slug)} aria-label={`${mc.remove}: ${nameOf(slug)}`}>
       <BrandMark slug={slug} compact />
-      <span translate="no">{nameOf(slug)}</span>
+      <span className="dir6-dock__nm" translate="no">{nameOf(slug)}</span>
       <Icon name="close" />
     </button>
   ) : (
-    <span key={`${key}-empty`} className="dir6-dock__slot dir6-dock__slot--empty"><span className="dir6-dock__ghost" aria-hidden="true" />{mc.pickMore}</span>
+    <span key={`${key}-empty`} className="dir6-dock__slot dir6-dock__slot--empty"><span className="dir6-dock__ghost" aria-hidden="true" /><span className="dir6-dock__nm">{mc.pickMore}</span></span>
   );
 
   return (
-    <section className="dir6 v6-section" id="exchanges" ref={secRef} aria-labelledby="dir6-title">
+    <section className="dir6 v6-section" id="exchanges" data-dock={dockOpen || undefined} ref={secRef} aria-labelledby="dir6-title">
       <div className="v6-wrap">
         <header className="dir6-head">
           <h2 className="v6-h1" id="dir6-title">{ui.sectionTitle}</h2>
@@ -317,7 +321,6 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
               <span>{mc.type}</span>
               <span>{mc.spot} <em>{mc.maker}</em></span>
               <span>{mc.code}</span>
-              <span />
             </div>
             <ul className="dir6-list" ref={listRef} data-collapsed={mounted && !expanded ? "true" : undefined} data-filtering={filtering ? filtering % 2 : undefined} aria-label={mc.table}>
               {visible.map((r, index) => {
@@ -325,7 +328,8 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                 const failed = copyFail.slug === r.slug;
                 const done = copied.slug === r.slug;
                 return (
-                  <li key={r.slug} className="dir6-row" data-slug={r.slug} data-selected={isSel || undefined} data-extra={index >= MOBILE_LIMIT || undefined} style={{ "--i": Math.min(index, 12) }}>
+                  <li key={r.slug} className="dir6-row" data-slug={r.slug} data-selected={isSel || undefined} data-route={routeLo < 0 ? undefined : index === routeLo ? "start" : index === routeHi ? "end" : index > routeLo && index < routeHi ? "mid" : undefined} data-extra={index >= MOBILE_LIMIT || undefined} style={{ "--i": Math.min(index, 12) }}>
+                    <i className="dir6-rail" aria-hidden="true" />
                     <button
                       type="button"
                       className="dir6-pick"
@@ -347,6 +351,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                     <div className="dir6-id">
                       <BrandMark slug={r.slug} compact />
                       <div className="dir6-id__text">
+                        <span className="dir6-namerow">
                         {r.hasDetailPage ? (
                           <a
                             className="dir6-name"
@@ -363,6 +368,8 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                         ) : (
                           <span className="dir6-name" translate="no">{r.name}</span>
                         )}
+                        {r.verified ? <span className="dir6-stamp" role="img" aria-label={`${mc.checked} ${r.verifiedOn}`} title={`${mc.checked} ${r.verifiedOn}`}><Icon name="stamp" /></span> : null}
+                        </span>
                         <span className="dir6-domain" dir="ltr" lang="en" translate="no">{r.domain}</span>
                       </div>
                     </div>
@@ -385,6 +392,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                       )}
                     </div>
 
+                    <div className="dir6-act">
                     <div className="dir6-code">
                       {r.hasReferral && r.inviteCode ? (
                         <>
@@ -436,6 +444,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                         <span>{mc.eligibility}</span><span className="dir6-sr"> {r.name}</span>
                       </a>
                     )}
+                    </div>
 
                     </div>
 
@@ -472,7 +481,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                   data-growth-product={context.product}
                 >{ui.compareOpen}<Icon name="arrow" /></a>
               ) : null}
-              <button type="button" className="dir6-btn dir6-btn--ghost" onClick={clearCompare}>{ui.compareClear}</button>
+              <button type="button" className="dir6-dock__clear" aria-label={ui.compareClear} title={ui.compareClear} onClick={clearCompare}><Icon name="close" /></button>
             </div>
           </div>
         ) : null}

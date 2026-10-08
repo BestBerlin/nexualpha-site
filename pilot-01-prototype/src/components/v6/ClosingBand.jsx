@@ -53,8 +53,9 @@ export function ClosingBand({ legacy, locale = "en" }) {
   const lines = t.title.split(/(?<=[.。])\s*/).filter(Boolean);
   let n = 0;
   return <section className="v6-close" data-phase={phase} aria-labelledby="v6-close-title">
-    <div className="v6-close__stage v6-wrap" ref={ref}>
-      <h2 id="v6-close-title" className="v6-h-display v6-close__title" aria-label={t.title}>
+    <div className="v6-close__band">
+    <div className="v6-close__stage" ref={ref}>
+      <h2 id="v6-close-title" className="v6-close__title" data-len={t.title.length > 34 ? "long" : "short"} aria-label={t.title}>
         {lines.map((line, li) => <span className="v6-close__line" aria-hidden="true" key={li}>{(cjk ? line.split(/(?<=[、，])/) : line.split(" ")).map((w, i, arr) => <Fragment key={i}><span className="v6-close__w"><span style={{ "--i": n++ }}>{w}</span></span>{cjk || i === arr.length - 1 ? "" : " "}</Fragment>)}</span>)}
       </h2>
       <p className="v6-lead v6-close__lead">{t.lead}</p>
@@ -67,6 +68,7 @@ export function ClosingBand({ legacy, locale = "en" }) {
         <GoForm href={localizedHref("/compare/binance-vs-okx", { locale })} className="v6-close__alt"><span>{t.cmp}</span><i className="v6-arrow" aria-hidden="true" /></GoForm>
       </div>
       <p className="v6-small v6-close__note">{t.note}</p>
+    </div>
     </div>
     <div className="v6-close__index v6-wrap">{legacy}</div>
   </section>;
