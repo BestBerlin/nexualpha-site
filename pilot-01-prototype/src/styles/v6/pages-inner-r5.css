@@ -56,7 +56,7 @@ main.v6:not(.home-refinement).methodology-page .methodology-page__wall-icon:not(
 main.v6:not(.home-refinement).methodology-page :is(.methodology-page__sec-title, .methodology-page__wall-content h2, .methodology-page__funding-copy h2, .methodology-page__feedback-left h2):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0 0 var(--s-3, 12px); font-size: var(--t-28); line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; color: #edeef0; max-inline-size: 30ch; }
 main.v6:not(.home-refinement).methodology-page :is(.methodology-page__wall-content p, .methodology-page__funding-copy p, .methodology-page__feedback-left p):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; max-inline-size: 62ch; font-size: var(--t-16); line-height: 1.55; color: #b0b4ba; }
 /* pillars: open inline as a 2x2 ledger */
-main.v6:not(.home-refinement).methodology-page :is(.methodology-pillars-grid, .methodology-pillars-list):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--s-12, 48px); inline-size: auto; max-inline-size: none; min-block-size: 0; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; font: inherit; }
+main.v6:not(.home-refinement).methodology-page :is(.methodology-pillars-grid, .methodology-pillars-list):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--s-12, 48px); align-items: stretch; inline-size: auto; max-inline-size: none; min-block-size: 0; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; font: inherit; }
 main.v6:not(.home-refinement).methodology-page .methodology-pillars-list:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: block; margin-block-start: var(--s-6, 24px); }
 main.v6:not(.home-refinement).methodology-page .methodology-pillar-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; align-content: start; gap: var(--s-2, 8px); margin: 0 calc(-1 * var(--s-4, 16px)); padding: var(--s-6, 24px) var(--s-4, 16px); border: 0; border-block-start: 1px solid rgb(255 255 255 / 0.12); border-radius: 0; background: none; box-shadow: none; transform: none; }
 main.v6:not(.home-refinement).methodology-page .methodology-pillar-card h3:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; font-size: var(--t-16); line-height: 1.3; font-weight: 600; color: #edeef0; }
@@ -77,6 +77,7 @@ main.v6:not(.home-refinement).methodology-page .methodology-page__feedback-card:
 main.v6:not(.home-refinement).methodology-page .methodology-page__feedback-actions:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; gap: var(--s-3, 12px); margin: 0; }
 main.v6:not(.home-refinement).methodology-page .methodology-page__research-trust:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: var(--s-6, 24px) 0 0; padding: var(--s-4, 16px) 0 0; border: 0; border-block-start: 1px solid rgb(255 255 255 / 0.12); border-radius: 0; background: none; }
 main.v6:not(.home-refinement).methodology-page .methodology-page__pills:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+main.v6:not(.home-refinement).methodology-page .methodology-page__header:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-block-end: 0; padding-block-end: 0; margin-block-end: 0; }
 @media (max-width: 760px) {
   main.v6:not(.home-refinement).methodology-page :is(.methodology-pillars-grid, .methodology-page__funding-links ul):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); }
   main.v6:not(.home-refinement).methodology-page .methodology-page__feedback-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); align-items: start; }
@@ -89,7 +90,7 @@ main.v6:not(.home-refinement).r1-telegram-page .tg-topic-card > p:not(#_):not(#_
 main.v6:not(.home-refinement).r1-telegram-page .tg-topic-card__links:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-6, 24px); }
 main.v6:not(.home-refinement).r1-telegram-page :is(.tg-topic-card__links a, .tg-topic-card__bot):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { min-block-size: 44px; font-size: var(--t-14); }
 main.v6:not(.home-refinement).r1-telegram-page .tg-topic-card__bot:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { justify-self: start; align-self: center; display: inline-flex; align-items: center; color: #8b8f98; }
-main.v6:not(.home-refinement).r1-telegram-page .tg-return-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline: 0; }
+main.v6:not(.home-refinement).r1-telegram-page .tg-return-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline: 0; justify-content: start; justify-items: start; text-align: start; }
 /* community + channel: text links, no second filled/outlined button stack */
 main.v6:not(.home-refinement).r1-telegram-page .tg-cta-buttons:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-6, 24px); align-self: end; }
 main.v6:not(.home-refinement).r1-telegram-page :is(.tg-cta-buttons, .tg-broadcast-actions) .tg-btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
@@ -105,6 +106,9 @@ main.v6:not(.home-refinement).r1-telegram-page .tg-cmd-btn:not(#_):not(#_):not(#
 @media (max-width: 760px) {
   main.v6:not(.home-refinement).r1-telegram-page .tg-topic-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); grid-template-areas: "q" "a" "links" "bot"; padding-inline: 0; margin-inline: 0; }
   main.v6:not(.home-refinement).r1-telegram-page .tg-topic-card__links:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { gap: 0 var(--s-4, 16px); }
+  main.v6:not(.home-refinement).r1-telegram-page .tg-cta-buttons:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { align-items: flex-start; justify-content: flex-start; }
+  main.v6:not(.home-refinement).r1-telegram-page .tg-cta-buttons .tg-btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { justify-content: flex-start; text-align: start; }
+  main.v6:not(.home-refinement).r1-telegram-page .tg-command-disclosure > summary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { align-items: flex-start; text-align: start; }
 }
 
 /* ============ #11 /br: one primary, labelled cost basis ============ */
@@ -144,6 +148,7 @@ main.v6:not(.home-refinement) .mx-toggle:not(#_):not(#_):not(#_):not(#_):not(#_)
   main.v6:not(.home-refinement) .mx-sort__text:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; }
   main.v6:not(.home-refinement) .mx-td--cta .mx-cta:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: auto; min-inline-size: 8rem; }
   main.v6:not(.home-refinement) .mx-id__meta:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex-wrap: wrap; white-space: normal; }
+  main.v6:not(.home-refinement) .mx-unch:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; }
 }
 
 /* ============ #13 /news, /activities ============ */
