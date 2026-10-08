@@ -7,7 +7,8 @@ import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
 import { compareSlug, v3Copy, venueProfile } from "../../data/v3-product";
 import { OutboundHandoff } from "./OutboundHandoff";
-import { ExchangeFactsV5, FactsStrip, feesCheckedLabel, feesStatusLabel } from "./ExchangeFactsV5.jsx";
+import { ExchangeFactsV5, feesCheckedLabel, feesStatusLabel } from "./ExchangeFactsV5.jsx";
+import { VenueFeeLedger, VenueRoute, CompareFeeLedger } from "../v6/InnerLedger.jsx";
 import { feePctOfRate, isoDay } from "../../data/exchange-facts.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
 import { ResearchPanel, ResearchComparison } from "./ResearchPanels";
@@ -2265,7 +2266,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
 
 
-        <FactsStrip slug={profile.slug} locale={locale} />
+        <VenueFeeLedger slug={profile.slug} locale={locale} />
+        <VenueRoute domain={officialDomain} code={hasReferral ? inviteCode : null} locale={locale} />
 
         {venueDirectAnswer && (
           <div className="v3-venue-direct-answer" role="region" aria-label={priorityAnswer?.title || `${profile.name} direct answer`} data-priority-answer={priorityAnswer ? venue.slug : undefined} lang={priorityAnswer?.locale || locale}>
@@ -3903,6 +3905,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
           </span>)}
         </h1>
         <DecisionReturnLink locale={locale} href={buildDecisionReturnHref({kind:"compare",slugs:selected,locale,market,product})} />
+        {profiles.length === 2 && <CompareFeeLedger a={profiles[0].slug} b={profiles[1].slug} nameA={getLocalizedVenueName(profiles[0], locale)} nameB={getLocalizedVenueName(profiles[1], locale)} locale={locale} />}
         {!isPriorityTwoVenueDirectAnswer && comparisonBanner}
         {!isPriorityTwoVenueDirectAnswer && comparisonIntro}
         {isPriorityTwoVenueDirectAnswer && <CompareDecisionNav locale={locale} text={text} hasFinalChoice={Boolean(directAnswer)} />}

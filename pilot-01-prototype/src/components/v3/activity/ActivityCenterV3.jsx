@@ -14,6 +14,8 @@ import { contextualHref as addContext } from "../../../data/contextual-href.js";
 import { normalizeActivityEligibility } from "./activity-eligibility.js";
 import "./ActivityCenterV3.css";
 import { OfficialResearchIndex } from "./OfficialResearch";
+import { isoDay } from "../../../data/exchange-facts.js";
+import { r9Text } from "../../v6/inner-r9-copy.js";
 
 const categoryDefinitions = (text) => [
   { key: "all", label: text.all },
@@ -314,14 +316,15 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
       <OfficialResearchIndex locale={locale} market={market} product={product} venues={venues} embedded />
     </details>
       <div className={`activity-center-v3__reward-grid${showAllResearch ? "" : " activity-center-v3__reward-grid--collapsed"}`}>
-        {visibleResearchCards.map((record) => <article key={record.platform.slug}>
+        {visibleResearchCards.map((record, index) => <article key={record.platform.slug} data-lead={index === 0 ? "" : undefined}>
           <div className="activity-center-v3__research-identity" translate="no" lang="en" dir="ltr">
             <BrandMark slug={record.platform.slug} compact />
             <b>{record.platform.name}</b>
             <small>{venueBySlug.get(record.platform.slug)?.category}</small>
           </div>
           <div className="activity-center-v3__research-body">
-          <p className="activity-center-v3__research-status"><span data-state={record.state}>{cardStateLabel(text, rewardsText, record.state)}</span></p>
+          {/* the status is said once per run of identical states (the next row with the same state stays quiet); the check date is per row */}
+          <p className="activity-center-v3__research-status">{(index === 0 || visibleResearchCards[index - 1].state !== record.state) && <span data-state={record.state}>{cardStateLabel(text, rewardsText, record.state)}</span>}{isoDay(record.checkedAt) && <time className="activity-center-v3__research-checked" dateTime={isoDay(record.checkedAt)}>{rewardsText.checked} {isoDay(record.checkedAt)}</time>}</p>
           <p className="activity-center-v3__research-summary">{record.reward.summary || record.summary}</p>
           {(record.reward.conditions?.length ?? 0) > 0 && <details className="activity-center-v3__conditions-disclosure">
             <summary>{rewardsText.conditions}</summary>
@@ -332,7 +335,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
           <div className="activity-center-v3__source-actions">
             <a href={contextualHref(`/exchanges/${encodeURIComponent(record.platform.slug)}`)} data-cta-kind="research" data-cta-platform={record.platform.slug} data-cta-placement="activity-reward-venue-profile" data-growth-decision={record.platform.slug} data-growth-placement="activity-reward-venue-profile">{detailCopy.openDetail}</a>
             <a href={contextualHref(record.detailHref)} data-cta-kind="research" data-cta-platform={record.platform.slug} data-cta-placement="activity-reward-research" data-growth-decision={record.platform.slug} data-growth-placement="activity-reward-research">{rewardsText.openResearch}</a>
-            {firstReadableSource(record) && <a href={firstReadableSource(record).url} target="_blank" rel="noopener noreferrer">{rewardsText.readSource}</a>}
+            {firstReadableSource(record) && <a href={firstReadableSource(record).url} target="_blank" rel="noopener noreferrer">{r9Text(locale).page} ↗</a>}
           </div>
           </div>
         </article>)}
