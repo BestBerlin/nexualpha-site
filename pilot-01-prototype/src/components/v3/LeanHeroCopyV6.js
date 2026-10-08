@@ -41,20 +41,20 @@ export const CLOSE_COPY = {
 };
 // Route-rail dock labels (act names) and the closing index's extra group labels: [compare, verify, directory, account, more]
 export const RAIL = {
-  en: ["Compare", "Verify", "Directory", "Open account", "More routes"],
+  en: ["Compare", "Verify", "Directory", "Sign up", "More routes"],
   "zh-Hans": ["对比", "核验", "目录", "开户", "更多入口"],
   "zh-Hant": ["比較", "核驗", "目錄", "開戶", "更多入口"],
   ja: ["比較", "確認", "一覧", "口座開設", "その他"],
-  ko: ["비교", "확인", "목록", "계정 개설", "더 보기"],
-  tr: ["Karşılaştır", "Doğrula", "Dizin", "Hesap aç", "Diğer rotalar"],
-  es: ["Comparar", "Verificar", "Directorio", "Abrir cuenta", "Más rutas"],
-  "pt-BR": ["Comparar", "Verificar", "Diretório", "Abrir conta", "Mais rotas"],
-  fr: ["Comparer", "Vérifier", "Annuaire", "Ouvrir un compte", "Autres routes"],
-  de: ["Vergleich", "Prüfen", "Verzeichnis", "Konto eröffnen", "Weitere Routen"],
-  ru: ["Сравнить", "Проверить", "Каталог", "Открыть счёт", "Другие маршруты"],
-  ar: ["قارن", "تحقق", "الدليل", "افتح حسابًا", "مسارات أخرى"],
-  id: ["Bandingkan", "Verifikasi", "Direktori", "Buka akun", "Rute lain"],
-  vi: ["So sánh", "Xác minh", "Danh bạ", "Mở tài khoản", "Lộ trình khác"],
-  it: ["Confronta", "Verifica", "Directory", "Apri il conto", "Altre rotte"],
+  ko: ["비교", "확인", "목록", "가입", "더 보기"],
+  tr: ["Karşılaştır", "Doğrula", "Dizin", "Kayıt", "Diğer rotalar"],
+  es: ["Comparar", "Verificar", "Directorio", "Registro", "Más rutas"],
+  "pt-BR": ["Comparar", "Verificar", "Diretório", "Cadastro", "Mais rotas"],
+  fr: ["Comparer", "Vérifier", "Annuaire", "Inscription", "Autres routes"],
+  de: ["Vergleich", "Prüfen", "Verzeichnis", "Konto", "Weitere Routen"],
+  ru: ["Сравнить", "Проверить", "Каталог", "Счёт", "Другие маршруты"],
+  ar: ["قارن", "تحقق", "الدليل", "التسجيل", "مسارات أخرى"],
+  id: ["Bandingkan", "Verifikasi", "Direktori", "Daftar", "Rute lain"],
+  vi: ["So sánh", "Xác minh", "Danh bạ", "Đăng ký", "Lộ trình khác"],
+  it: ["Confronta", "Verifica", "Directory", "Iscriviti", "Altre rotte"],
 };
 export const pickLocale = (m, locale) => m[locale] || m[String(locale || "en").split("-")[0]] || m.en;

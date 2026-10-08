@@ -41,6 +41,12 @@ export function ClosingBand({ legacy, locale = "en" }) {
     const t = window.setTimeout(check, 400);
     return () => { window.clearTimeout(t); io.disconnect(); window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
   }, []);
+  // Phones: the related-research index starts folded (one tappable row; every link stays in the DOM for crawlers and keyboards).
+  const idx = useRef(null);
+  useEffect(() => {
+    const d = idx.current?.querySelector(".crawl-priority-links__details");
+    if (d && window.matchMedia("(max-width: 37.5rem)").matches) d.open = false;
+  }, []);
   // CJK has no spaces: rise per clause (never per glyph, so kinsoku line breaking stays intact).
   const cjk = /^(zh|ja)/.test(locale);
   // Two display lines: the first sentence, then the follow-up. Words (or CJK clauses) rise one by one.
@@ -64,7 +70,7 @@ export function ClosingBand({ legacy, locale = "en" }) {
       <p className="v6-small v6-close__note">{t.note}</p>
     </div>
     </div>
-    <div className="v6-close__index v6-wrap">{legacy}
+    <div className="v6-close__index v6-wrap" ref={idx}>{legacy}
       {/* Moved here from the hero foot: the directory facets (same hrefs and labels the hero produced) and the Telegram / Brazil routes. */}
       <LeanHero locale={locale} render={(k) => <>
         <div className="crawl-priority-links__group v6-close__more"><span>{r[2]}</span>{k.pills.map((p) => <a key={p.text} href={p.href}>{p.text}</a>)}</div>

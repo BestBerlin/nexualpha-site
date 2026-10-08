@@ -79,11 +79,15 @@ export function RouteRail() {
       const atEnd = window.innerHeight - mr.bottom >= -4; // page bottom reached: the destination is always docked
       const f = atEnd ? total : Math.max(0, Math.min(total, window.innerHeight * 0.62 - mr.top - startY));
       el.style.setProperty("--rr-s", total ? (f / total).toFixed(4) : "0");
+      // every reached dock keeps its accent node; only the current (last reached) dock's label is lit
+      let last = null;
       el.querySelectorAll("[data-y]").forEach((n) => {
         const on = Number(n.dataset.y) - startY <= f + 0.5 && f > 0;
         const cur = n.dataset.on === "1";
         if (on !== cur) n.dataset.on = on ? "1" : "0";
+        if (on) last = n;
       });
+      el.querySelectorAll("[data-y]").forEach((n) => { if ((n === last) !== n.hasAttribute("data-cur")) n.toggleAttribute("data-cur", n === last); });
     };
     const queue = () => { if (!fillRaf) fillRaf = requestAnimationFrame(fill); };
     const remeasure = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { measure(); queue(); }); };

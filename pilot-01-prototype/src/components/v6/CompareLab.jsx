@@ -69,9 +69,9 @@ function Chips({ slot, cur, chips, label, nameOf, onPick, onDown, onKey, hintId,
       <span className="cl-pick__label v6-meta" aria-hidden="true">{label}</span>
       <div className="cl-chips" ref={ref}>
         {chips.map((s) => (
-          <label key={s} className="cl-chip" data-venue={s} data-grabbed={grabbed === s || undefined} onPointerDown={(e) => onDown(e, s)} onDragStart={(e) => e.preventDefault()}>
+          <label key={s} className="cl-chip" data-venue={s} data-name={nameOf(s)} data-grabbed={grabbed === s || undefined} onPointerDown={(e) => onDown(e, s)} onDragStart={(e) => e.preventDefault()}>
             <input type="radio" name={`cl-slot-${slot}`} value={s} checked={cur === s} onChange={() => onPick(slot, s)} onKeyDown={(e) => onKey(e, s, slot)} aria-describedby={hintId} />
-            <span translate="no"><i className="cl-grip" aria-hidden="true" />{nameOf(s)}</span>
+            <span translate="no"><BrandMark slug={s} compact /><em className="cl-chip__name">{nameOf(s)}</em></span>
           </label>
         ))}
       </div>
@@ -290,10 +290,16 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   };
   const val = (f, g, i) => (f?.status === "verified" ? f[g]?.[i] ?? null : null);
   // Rows with no figure on either side disappear; whatever is missing is named once, in one quiet line.
-  const rows = ROWS.map(([g, i], n) => ({ g, i, n, va: val(fa, g, i), vb: val(fb, g, i) })).filter((r) => r.va != null || r.vb != null);
+  // Bar rows only where both venues carry the checked figure; a product checked on one side only collapses into one text row
+  // (the other side reads "Not yet checked"); a product checked on neither side is named once in the pending line.
+  const full = (g) => [0, 1].every((i) => val(fa, g, i) != null && val(fb, g, i) != null);
+  const rows = ROWS.map(([g, i], n) => ({ g, i, n, va: val(fa, g, i), vb: val(fb, g, i) })).filter((r) => full(r.g));
+  const half = PRODUCTS.map((g, gi) => ({ g, gi, pa: [val(fa, g, 0), val(fa, g, 1)], pb: [val(fb, g, 0), val(fb, g, 1)] }))
+    .filter((p) => !full(p.g) && [...p.pa, ...p.pb].some((x) => x != null));
   const scaleOf = (g) => Math.max(0, ...rows.filter((r) => r.g === g).flatMap((r) => [r.va, r.vb]).filter((x) => x != null)) || null;
+  const pairText = (p) => (p.every((x) => x != null) ? `${fmt(p[0], locale, "")} / ${fmt(p[1], locale)}` : p.some((x) => x != null) ? p.map((x) => (x == null ? "\u2013" : fmt(x, locale, ""))).join(" / ") + "%" : null);
   const pendingBits = [];
-  for (const [slug, f] of [[a, fa], [b, fb]]) PRODUCTS.forEach((g, gi) => { if (val(f, g, 0) == null && val(f, g, 1) == null) pendingBits.push(`${nameOf(slug)} \u00b7 ${t.prod[gi]}`); });
+  PRODUCTS.forEach((g, gi) => { if ([val(fa, g, 0), val(fa, g, 1), val(fb, g, 0), val(fb, g, 1)].every((x) => x == null)) pendingBits.push(t.prod[gi]); });
   // The one bold type moment: the largest spot base-fee gap between the two venues, in percentage points.
   const spot = [0, 1].map((i) => [val(fa, "spot", i), val(fb, "spot", i)]);
   const haveGap = spot.every(([x, y]) => x != null && y != null);
@@ -339,34 +345,36 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
         </header>
 
         <div className="cl__plate" ref={plate}>
+          <div className="cl-grid cl-grid--ids">
+            {Identity({ slug: a, side: "a" })}
+            <div className="cl-mid">
+              <button type="button" className="cl-swap" onClick={() => commit(b, a)} aria-label={t.swap} title={t.swap}>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 7h13M12 3l4 4-4 4M17 13H4M8 9l-4 4 4 4" /></svg>
+              </button>
+            {/* Always mounted (no 80px jump): a venue without a checked spot fee shows a dash and "Not yet checked". */}
+            <div className="cl-gap" role="group" aria-label={t.gap} data-none={gap ? undefined : ""}>
+              <p className="cl-gap__fig" aria-hidden="true">
+                {gap ? <Fig v={gap.v} locale={locale} suffix="" className="cl-gap__num v6-num" /> : <span className="cl-gap__num v6-num">{"\u2013"}</span>}
+                <span className="cl-gap__unit v6-num">pp</span>
+              </p>
+              <p className="cl-gap__cap">
+                <span className="cl-gap__label v6-small">{t.gap}</span>
+                <span className="cl-gap__low v6-meta">{gap ? (gap.low ? t.lower.replace("{n}", gap.low).replace("{row}", gap.row) : t.same) : t.nc}</span>
+              </p>
+              <span className="cl-sr">{gap ? `${t.gap}: ${fmt(gap.v, locale, " pp")}. ${gap.low ? t.lower.replace("{n}", gap.low).replace("{row}", gap.row) : t.same}` : `${t.gap}: ${t.nc}`}</span>
+            </div>
+            </div>
+            {Identity({ slug: b, side: "b" })}
+          </div>
+
           <div className="cl-grid cl-grid--pick">
             <Chips slot={0} cur={a} chips={chips} label={t.first} nameOf={nameOf} onPick={pick} onDown={onDown} onKey={onKey} hintId="cl-kbd-hint" grabbed={held?.slug} />
             <Chips slot={1} cur={b} chips={chips} label={t.second} nameOf={nameOf} onPick={pick} onDown={onDown} onKey={onKey} hintId="cl-kbd-hint" grabbed={held?.slug} />
             <p className="cl-sr" id="cl-kbd-hint">{kbd.hint}</p>
           </div>
 
-          <div className="cl-grid cl-grid--ids">
-            {Identity({ slug: a, side: "a" })}
-            <button type="button" className="cl-swap" onClick={() => commit(b, a)} aria-label={t.swap} title={t.swap}>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 7h13M12 3l4 4-4 4M17 13H4M8 9l-4 4 4 4" /></svg>
-            </button>
-            {Identity({ slug: b, side: "b" })}
-          </div>
 
           <p className="cl-sr" role="status" aria-live="polite">{say || status}</p>
-
-          {/* Always mounted (no 80px jump): a venue without a checked spot fee shows a dash and "Not yet checked". */}
-          <div className="cl-gap" role="group" aria-label={t.gap} data-none={gap ? undefined : ""}>
-            <p className="cl-gap__fig" aria-hidden="true">
-              {gap ? <Fig v={gap.v} locale={locale} suffix="" className="cl-gap__num v6-num" /> : <span className="cl-gap__num v6-num">{"\u2013"}</span>}
-              <span className="cl-gap__unit v6-num">pp</span>
-            </p>
-            <p className="cl-gap__cap">
-              <span className="cl-gap__label v6-small">{t.gap}</span>
-              <span className="cl-gap__low v6-meta">{gap ? (gap.low ? t.lower.replace("{n}", gap.low).replace("{row}", gap.row) : t.same) : t.nc}</span>
-            </p>
-            <span className="cl-sr">{gap ? `${t.gap}: ${fmt(gap.v, locale, " pp")}. ${gap.low ? t.lower.replace("{n}", gap.low).replace("{row}", gap.row) : t.same}` : `${t.gap}: ${t.nc}`}</span>
-          </div>
 
           <div className="cl-ledger" id="bleed-analyzer">
             {rows.map((r) => (
@@ -374,6 +382,13 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
                 <Cell side="a" name={nameOf(a)} value={r.va} other={r.vb} scale={scaleOf(r.g)} locale={locale} pending={t.pending} />
                 <span className="cl-label v6-small">{t.rows[r.n]}</span>
                 <Cell side="b" name={nameOf(b)} value={r.vb} other={r.va} scale={scaleOf(r.g)} locale={locale} pending={t.pending} />
+              </div>
+            ))}
+            {half.map((p) => (
+              <div className="cl-row cl-row--half" key={p.g} role="group" aria-label={`${t.rows[p.gi * 2]} / ${t.rows[p.gi * 2 + 1]}`}>
+                <Cell side="a" name={nameOf(a)} locale={locale} pending={t.pending} text={pairText(p.pa) ?? t.nc} />
+                <span className="cl-label v6-small">{t.prod[p.gi]}</span>
+                <Cell side="b" name={nameOf(b)} locale={locale} pending={t.pending} text={pairText(p.pb) ?? t.nc} />
               </div>
             ))}
             {metaHas && (
@@ -386,7 +401,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
             {pendingBits.length > 0 && (
               <p className="cl-pending v6-small">
                 <span className="cl-pending__dot" aria-hidden="true" />
-                <span>{`${pendingBits.join("; ")} \u2014 ${t.pending}`}</span>
+                <span>{`${t.nc}: ${pendingBits.join(", ")}`}</span>
               </p>
             )}
           </div>

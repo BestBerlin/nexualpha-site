@@ -134,7 +134,7 @@ function drawRoutes(B, lit, active, noCard) {
 
 // Nominal wide layout (container px at 1440: 12 x 78 cols, 24 gutters). Mirrors the CSS below; the client replaces it once measured.
 const ARC = [0, 2, 6, 13, 23, 36, 51, 68]; // node inset from the map column's end edge, top to bottom (px)
-const NOM = { W: 1200, H: 823, top: 63, pitch: 80, nodeH: 72, nodeW: 170, colEnd: 894, tileW: 93, tileGap: 4, tileT: 623, tileB: 695 };
+const NOM = { W: 1200, H: 823, top: 63, pitch: 80, nodeH: 72, nodeW: 184, colEnd: 894, tileW: 93, tileGap: 4, tileT: 623, tileB: 695 };
 function nominalBoxes(nodes, intentIndex) {
   const box = { mode: "wide", nodes: {} };
   box.port = { x: intentIndex * (NOM.tileW + NOM.tileGap) + NOM.tileW / 2, y: NOM.tileB };
@@ -152,7 +152,7 @@ function nominalBoxes(nodes, intentIndex) {
 }
 
 // Client: measure the real boxes relative to the SVG (which spans the container box of the hero), mirrored for RTL.
-function useRoutes(svgRef, refs, intent, litKey, slug, noCard, initial) {
+function useRoutes(svgRef, stageRef, refs, intent, litKey, slug, noCard, initial) {
   const [geo, setGeo] = useState(initial);
   const raf = useRef(0);
   const { intentRefs, nodeRefs, youRef, gateRef, cardRef, listRef } = refs;
@@ -176,10 +176,14 @@ function useRoutes(svgRef, refs, intent, litKey, slug, noCard, initial) {
     if (gateRef.current?.offsetParent) B.gate = bx(gateRef.current);
     Object.entries(nodeRefs.current).forEach(([s, el]) => { if (el?.offsetParent) B.nodes[s] = bx(el); });
     const card = cardRef.current;
+    const stage = stageRef.current;
     if (card) {
-      // the card's untranslated box: its dock offset is a translate, so it never moves layout
-      const dock = parseFloat(card.style.getPropertyValue("--dock")) || 0;
-      B.card = bx(card, mode === "wide" ? dock : 0);
+      B.card = bx(card);
+      if (mode === "wide" && stage && card.offsetParent === stage) {
+        // the card's untranslated box (layout offsets ignore its dock translate, also mid-transition)
+        const t = stage.getBoundingClientRect().top + stage.clientTop + card.offsetTop - sr.top;
+        B.card = { ...B.card, t, b: t + card.offsetHeight };
+      }
     }
     if (listRef.current) {
       const lr = bx(listRef.current);
@@ -190,7 +194,7 @@ function useRoutes(svgRef, refs, intent, litKey, slug, noCard, initial) {
     const d = drawRoutes(B, slugs, slug, noCard);
     const next = { w: Math.round(sr.width), h: Math.round(sr.height), rtl, live: true, ...d };
     setGeo((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
-  }, [svgRef, intentRefs, nodeRefs, youRef, gateRef, cardRef, listRef, intent, litKey, slug, noCard]);
+  }, [svgRef, stageRef, intentRefs, nodeRefs, youRef, gateRef, cardRef, listRef, intent, litKey, slug, noCard]);
   useEffect(() => {
     const schedule = () => { cancelAnimationFrame(raf.current); raf.current = requestAnimationFrame(measure); };
     schedule();
@@ -276,7 +280,7 @@ function Finder({ kit, tail, venues }) {
     const d = drawRoutes(nominalBoxes(nodes, INTENTS.indexOf(intent)), lit, activeSlug, false);
     return { w: NOM.W, h: NOM.H, rtl: RTL.has(String(locale).split("-")[0]), live: false, ...d };
   });
-  const geo = useRoutes(svgRef, { intentRefs, nodeRefs, youRef, gateRef, cardRef, listRef }, intent, litKey, activeSlug, Boolean(pin), initial);
+  const geo = useRoutes(svgRef, stageRef, { intentRefs, nodeRefs, youRef, gateRef, cardRef, listRef }, intent, litKey, activeSlug, Boolean(pin), initial);
 
   // Pointer light on the map grid + magnetic primary CTAs (progressive: static without JS or with reduced motion).
   useEffect(() => {
