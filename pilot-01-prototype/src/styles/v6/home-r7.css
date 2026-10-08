@@ -195,9 +195,9 @@ body:has(> * main#top.v6.home-refinement), body:has(main#top.v6.home-refinement)
 /* ---------- 5. one section rhythm: every act ends on one --section-pad (128 / 72), the directory included ---------- */
 #top.v6.home-refinement :is(.cl, .vb, .dir6).v6-section,
 #top.v6.home-refinement .dir6.v6-section:has(+ .v6-close) { padding-block: 0 var(--section-pad); }
-/* the closing band is its own surface: its edge sits one full pad below the directory, and its content starts one 32 step
+/* the closing band is its own surface: its edge sits one full pad below the directory, and its content starts one 24 step
    inside it, so content-to-content stays within the 160 limit (no stacked 128 + 64 band) */
-#top.v6.home-refinement .v6-close__band { padding-block-start: var(--s-8); }
+#top.v6.home-refinement .v6-close__band { padding-block-start: var(--s-6); }
 
 /* ---------- 11 + 12. Compare Lab: one shared logo rail for the active slot; picks react in the click frame ---------- */
 #top.v6 .cl-grid--pick { display: flex; flex-direction: column; align-items: center; gap: var(--s-2); }
@@ -240,7 +240,8 @@ body:has(> * main#top.v6.home-refinement), body:has(main#top.v6.home-refinement)
 }
 #top.v6:is(:lang(ja), :lang(ar)) { font-family: var(--font-sans); }
 #top.v6:is(:lang(ja), :lang(ar)) :is(.nx-hdr, .nx-ftr, .mobile-bottom-nav) { --nx-font: var(--font-sans); }
-#top.v6:is(:lang(ja), :lang(ar)) .v6-close__index .crawl-priority-links__group > span:not(#_):not(#_) { font-family: var(--font-sans); }
+/* the legacy index and matcher force Geist with !important (components.css); ar / ja get their pairing the same way */
+#top.v6:is(:lang(ja), :lang(ar)) :is(.crawl-priority-links, .crawl-priority-links *, .platform-matcher, .platform-matcher *):not(svg, svg *) { font-family: var(--font-sans) !important; }
 #top.v6:lang(ar) :is(h1, h2, .rf-title, .v6-h1, .v6-h2, .v6-close__title):not(#_) { line-height: 1.25; }
 
 /* ---------- tap targets: the focus-revealed section nav and the footer links reach 44 x 44 ---------- */
