@@ -202,3 +202,17 @@
 .v6 .vb__note { display: flex; flex-wrap: wrap; align-items: center; row-gap: var(--s-1); }
 @media (max-width: 899px) { .v6 .vb__bar--fake { font-size: var(--t-14); } .v6 .vb__stamp { inset-inline-end: var(--s-3); } }
 @media (max-width: 899px) { .v6 .vb__bar--fake .vb__lock--open { display: none; } }
+
+/* ======================= R5 ======================= */
+/* station 1 carries the address-bar proof, so it gets half the grid (6 / 3 / 3): its copy runs in one line each and the
+   three stations end within one text line of each other (no dead block under 2 and 3) */
+@media (min-width: 1200px) {
+  .v6 .vb__route { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .v6 .vb__st--1 { grid-column: 1 / span 6; }
+  .v6 .vb__st--2 { grid-column: 7 / span 3; }
+  .v6 .vb__st--3 { grid-column: 10 / span 3; }
+}
+/* mobile venue chips: a 24px inline gutter; the active chip is kept in view (VerifyBand) */
+@media (max-width: 899px) {
+  .v6 .vb__venues { padding-inline: var(--s-6); scroll-padding-inline: var(--s-6); margin-inline: calc(var(--gutter) * -1); }
+}
