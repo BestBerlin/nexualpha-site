@@ -66,11 +66,10 @@
 }
 #top.v6 .vb__main .vb__bars, #top.v6 .vb__main .vb__code, #top.v6 .vb__main .vb__disc { margin-block-start: var(--s-1); }
 
-/* ---------- 7. ar / ja: the shipped face right after Geist (Latin + figures), then system faces; real weights only ---------- */
-#top.v6:lang(ja) {
-  --font-sans: "Geist V5", "Pilot Noto JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", sans-serif;
-  --v6-sans: var(--font-sans);
-}
+/* ---------- 7. ar / ja: real weights only (one variable face, wght 100-900, no synthetic bold) ---------- */
+/* Arabic: the shipped face right after Geist (Latin + figures). Its subset covers the whole Arabic alphabet, so every OS
+   renders the same face. Japanese keeps the system faces first: the shipped JP subset holds only the catalog glyphs, and
+   putting it first mixes two faces inside one word (measured on the H1); it stays the last-resort face. */
 #top.v6:lang(ar) {
   --font-sans: "Geist V5", "Pilot Noto Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif;
   --v6-sans: var(--font-sans);
