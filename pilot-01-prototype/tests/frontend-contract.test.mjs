@@ -918,7 +918,7 @@ test("rate benchmark and calculator paths preserve context with distinct researc
   assert.match(costDecision, /data-cta-placement="cost-calculator-next-platform"/);
   assert.match(costDecision, /data-cta-placement="cost-calculator-next-registration"/);
   assert.ok(costDecision.indexOf('cost-decision__next-actions') < costDecision.indexOf('cost-decision__results'), "calculator next actions should appear before the results grid");
-  assert.ok(costDecision.indexOf('cost-decision__telegram') > costDecision.indexOf('cost-decision__results'), "Telegram support should not be the primary first action in the calculator");
+  assert.ok(!costDecision.includes('cost-decision__telegram'), "The calculator carries no second Telegram link (the page has one Telegram route)");
   assert.match(costDecision, /data-growth-decision="compare_binance_okx"/);
   assert.match(feeBenchmarkTerminal, /data-cta-kind=\{row\.ctaDirect \? "registration" : "research"\}/);
   assert.match(costDecision, /data-cta-kind=\{cta\.direct \? 'registration' : 'research'\}/);

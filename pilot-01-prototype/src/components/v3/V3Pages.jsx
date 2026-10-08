@@ -61,6 +61,12 @@ const textLocaleKey = (locale) => {
 const isTraditionalChinese = (locale) => String(locale || "") === "zh-Hant" || String(locale || "") === "zh-TW";
 const zhText = (locale, hans, hant) => (isTraditionalChinese(locale) ? hant : hans);
 
+// An official evidence page is linked but its figures are not reviewed yet: say exactly that instead of "Pending" beside a link.
+const linkedNotReviewed = (locale) => {
+  const k = String(locale || "en");
+  if (k.startsWith("zh")) return k === "zh-Hant" || k === "zh-TW" || k === "zh-HK" ? "已連結官方頁面，數字尚未複核" : "已链接官方页面，数字尚未复核";
+  return ({ ja: "公式ページあり・数値は未確認", ko: "공식 페이지 연결됨, 수치 미검토", es: "Página oficial enlazada, cifras sin revisar", "pt-BR": "Página oficial vinculada, números ainda não revisados", pt: "Página oficial vinculada, números ainda não revisados", fr: "Page officielle liée, chiffres non encore vérifiés", de: "Offizielle Seite verlinkt, Zahlen noch nicht geprüft", it: "Pagina ufficiale collegata, cifre non ancora verificate", ru: "Официальная страница указана, цифры ещё не проверены", tr: "Resmî sayfa bağlantılı, rakamlar henüz incelenmedi", id: "Halaman resmi ditautkan, angka belum ditinjau", vi: "Đã liên kết trang chính thức, số liệu chưa được rà soát", ar: "الصفحة الرسمية مرتبطة، والأرقام لم تُراجع بعد" })[k] || "Official page linked, figures not yet reviewed";
+};
 const localePending = (locale, zh = "待官方来源核验") => String(locale || "").startsWith("zh") ? zhText(locale, zh, "待官方來源核驗") : ({ ja: "公式ソース確認待ち", ko: "공식 출처 확인 대기", tr: "Resmi kaynak doğrulaması bekleniyor", fr: "Vérification de la source en attente", de: "Quellenprüfung ausstehend", ru: "Ожидается проверка источника", ar: "بانتظار التحقق من المصدر", id: "Menunggu verifikasi sumber", vi: "Đang chờ xác minh nguồn", it: "Verifica della fonte in sospeso", es: "Pendiente de verificación de la fuente", "pt-BR": "Aguardando verificação da fonte" }[localeKey(locale)] || "Pending official-source verification");
 
 
@@ -423,7 +429,7 @@ const detailRuntimeUi = (locale, text, venueName) => ({
   preRegisterHint: text.detailPreKycFunding,
   similarOpen: text.detailCompare,
   showFewer: text.cardsView,
-  showMore: (count) => text.resultVenues(count),
+  showMore: (count) => (String(locale || "en").startsWith("en") ? `Show ${count} more ${count === 1 ? "platform" : "platforms"}` : text.resultVenues(count)),
   stickyQuickAction: text.registrationPrepCta,
   stickyOfficial: text.officialDomain,
   stickyFeeBenefit: text.partnerState,
@@ -662,7 +668,7 @@ const compareMatrixAuxCopy = (locale) => ({
   en: {
     scrollHint: "Swipe the matrix sideways to compare all columns.",
     pendingTitle: "Fields kept pending",
-    pendingSummary: "Show pending fields",
+    pendingSummary: "Pending fields",
     pendingLead: "These rows are grouped because every selected platform still needs official-source verification. Open them to keep the original field names and limits visible.",
     pendingSuffix: "Not shown as a scored difference until at least one selected platform has a source-linked value.",
   },
@@ -2549,8 +2555,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     <section className={`v2-section v3-activity-panel${related.length ? "" : " v3-activity-panel--empty"}`}>
       <div className="section-lead"><h2>{text.reviewedActivity}</h2>{related.length > 0 && <span>{text.verifiedOnly}</span>}</div>
-      {related.length ? <ActivityCards copy={copy} text={text} locale={locale} updates={related} /> : <p className="v3-activity-empty" role="status">{text.activityEmpty}</p>}
-      <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{text.openActivities}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} /></details></div>
+      {/* empty state: one line and one link (no disclosure dressed as a button) */}
+      {related.length ? <ActivityCards copy={copy} text={text} locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status">{String(text.activityEmpty || "").split(/(?<=[.。])\s*/)[0]} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></p>}
+      {related.length > 0 && <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{text.openActivities}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} /></details></div>}
     </section>
 
     <section className="v2-section v3-similar v3-similar-section" aria-labelledby={`similar-${profile.slug}`}>
@@ -3091,15 +3098,6 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
       : (labels.matrix || "Fees, Rebates, Reserves & Limits Comparison");
   const shortLabels = compareShortUi(locale);
   const columnCount = profiles.length;
-  const [showAllMetrics, setShowAllMetrics] = useState(false);
-  const metricDisclosureChosenRef = useRef(false);
-
-  useEffect(() => {
-    const syncMetricDisclosure = () => { if (!metricDisclosureChosenRef.current) setShowAllMetrics(window.innerWidth > 768); };
-    syncMetricDisclosure();
-    window.addEventListener("resize", syncMetricDisclosure);
-    return () => window.removeEventListener("resize", syncMetricDisclosure);
-  }, []);
 
   // 3 平台时各占 28%，首列指标名占 16%；2 平台时各占 40%，首列占 20%
   const colWidths = columnCount >= 3
@@ -3224,24 +3222,6 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
   const shouldRenderMetricRow = (key) => !compactPendingKeys.has(key);
   const rowMeta = (key) => metricRows.find((row) => row.key === key) || { label: key, hint: "" };
 
-  const jumpToMetric = (key) => {
-    const row = metricRows.find((item) => item.key === key);
-    if (!row) return;
-    const target = document.getElementById(`matrix-metric-${key}`);
-    if (!target) return;
-    if (row.hasKnown && target.dataset.secondaryMetric === "true") {
-      metricDisclosureChosenRef.current = true;
-      setShowAllMetrics(true);
-    }
-    if (!row.hasKnown) {
-      const disclosure = target.closest("details");
-      if (disclosure) disclosure.open = true;
-    }
-    window.requestAnimationFrame(() => {
-      target.scrollIntoView({ block: "start", behavior: "instant" });
-      target.focus({ preventScroll: true });
-    });
-  };
 
   const hasNoKyc = venueData.some((d) => d.kycCategory === "none");
   const hasStrictKyc = venueData.some((d) => d.kycCategory === "strict");
@@ -3265,15 +3245,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
       </div>
 
       <p className="v3-matrix-scroll-hint">{matrixAux.scrollHint}</p>
-      {/* the jump list offers only metrics with a checked value; pending rows stay in the matrix itself */}
-      {metricRows.filter((row) => row.hasKnown).length > 2 && <div className="v3-matrix-jump">
-        <label className="v3-matrix-jump__label" htmlFor="matrix-metric-select">{matrix.metrics}</label>
-        <select className="v3-matrix-jump__select" id="matrix-metric-select" defaultValue="" onChange={(event) => { jumpToMetric(event.currentTarget.value); event.currentTarget.value = ""; }}>
-          <option value="" disabled aria-label={matrix.metrics}>{matrix.jump || matrix.metrics}</option>
-          {metricRows.filter((row) => row.hasKnown).map((row) => <option key={row.key} value={row.key}>{row.label}</option>)}
-        </select>
-      </div>}
-      <div className={`v3-matrix-table-wrap${showAllMetrics ? " is-expanded" : ""}`} role="region" tabIndex={0} aria-label={matrixTitleCopy || matrix.matrix || "Platform quantitative comparison matrix"}>
+      <div className="v3-matrix-table-wrap is-expanded" role="region" tabIndex={0} aria-label={matrixTitleCopy || matrix.matrix || "Platform quantitative comparison matrix"}>
         <table role="table" className="v3-matrix-table" aria-label={matrixTitleCopy || matrix.matrix || "Platform quantitative comparison matrix"}>
           <colgroup>
             <col style={{ width: colWidths.dim }} />
@@ -3443,7 +3415,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-por-pill${d.porCoverageRatio || d.proofOfReserves ? "" : " is-pending"}`}>
                         {(d.porCoverageRatio || d.proofOfReserves) && <span className="v3-shield-icon" aria-hidden="true"></span>}
-                        <span>{d.porCoverageRatio || (d.proofOfReserves ? (isZh ? "100%+ 充足" : "100%+ PoR") : localePending(locale))}</span>
+                        <span>{d.porCoverageRatio || (d.proofOfReserves ? (isZh ? "100%+ 充足" : "100%+ PoR") : (d.porAuditUrl ? linkedNotReviewed(locale) : localePending(locale)))}</span>
                         {isWinner && <span className="v3-winner-badge v3-winner-badge--green">{isZh ? "★ 储备最高" : "★ Top Reserves"}</span>}
                       </span>
                       {d.porAuditUrl ? (
@@ -3585,8 +3557,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
       {compactPendingRows.length > 0 && (
         <details className="v3-matrix-pending-disclosure">
           <summary>
-            <span>{matrixAux.pendingSummary}</span>
-            <small>{compactPendingRows.length}</small>
+            <span>{matrixAux.pendingSummary} <small>({compactPendingRows.length})</small></span>
             <b aria-hidden="true">＋</b>
           </summary>
           <div className="v3-matrix-pending-disclosure__body">
@@ -3603,15 +3574,6 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
           </div>
         </details>
       )}
-      <button
-        type="button"
-        className="v3-matrix-expand"
-        aria-expanded={showAllMetrics}
-        onClick={() => { metricDisclosureChosenRef.current = true; setShowAllMetrics((current) => !current); }}
-      >
-        {showAllMetrics ? (isZh ? "收起次要指标" : compareDetailPhrase(locale, "fewerMetrics", "Show fewer metrics")) : (isZh ? "查看完整量化指标矩阵" : compareDetailPhrase(locale, "fullMetrics", "View full quantitative matrix"))}
-        <span aria-hidden="true">{showAllMetrics ? "−" : "+"}</span>
-      </button>
     </section>
   );
 }

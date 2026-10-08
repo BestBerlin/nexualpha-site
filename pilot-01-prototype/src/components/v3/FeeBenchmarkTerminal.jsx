@@ -275,6 +275,25 @@ const nextStepCopy = Object.freeze({
   it: ["Serve la directory completa?", "Mantieni lo stesso mercato e prodotto mentre rivedi tutte le piattaforme. Telegram resta supporto dopo i controlli sul sito.", "Apri directory piattaforme →", "Supporto Telegram ↗"],
 });
 
+// The two explainer rows answer "can / cannot", so their labels say exactly that.
+const answerLabelCopy = Object.freeze({
+  en: ["Can answer", "Cannot answer"],
+  "zh-Hans": ["能回答", "不能回答"],
+  "zh-Hant": ["能回答", "不能回答"],
+  es: ["Puede responder", "No puede responder"],
+  "pt-BR": ["Pode responder", "Não pode responder"],
+  fr: ["Peut répondre", "Ne peut pas répondre"],
+  de: ["Kann beantworten", "Kann nicht beantworten"],
+  ja: ["答えられること", "答えられないこと"],
+  ko: ["답할 수 있는 것", "답할 수 없는 것"],
+  ar: ["يمكنه الإجابة", "لا يمكنه الإجابة"],
+  tr: ["Yanıtlayabilir", "Yanıtlayamaz"],
+  ru: ["Может ответить", "Не может ответить"],
+  id: ["Bisa menjawab", "Tidak bisa menjawab"],
+  vi: ["Trả lời được", "Không trả lời được"],
+  it: ["Può rispondere", "Non può rispondere"],
+});
+
 const answerBlockCopy = Object.freeze({
   en: {
     label: "Answer first",
@@ -460,7 +479,7 @@ function renderAuxChip(value, pendingLabel) {
 const copy = {
   "zh-Hans": {
     eyebrow: "TERMINAL / RATE BENCHMARK",
-    title: "CEX vs DEX 公开费率与滑点基准台",
+    title: "CEX vs DEX 公开费率基准台",
     subtitle: "对比各平台公开的现货与永续合约基础费率；用户权益和净费率仅在官方来源核验后展示。",
     filterAll: `全部 ${MONITOR_VENUE_COUNT} 家`,
     filterCex: "中心化 (CEX)",
@@ -477,7 +496,7 @@ const copy = {
   },
   "zh-Hant": {
     eyebrow: "TERMINAL / RATE BENCHMARK",
-    title: "CEX vs DEX 公開費率與滑點基準台",
+    title: "CEX vs DEX 公開費率基準台",
     subtitle: "對比各平台公開的現貨與永續合約基礎費率；用戶權益與淨費率僅在官方來源核驗後展示。",
     filterAll: `全部 ${MONITOR_VENUE_COUNT} 家`,
     filterCex: "中心化 (CEX)",
@@ -494,7 +513,7 @@ const copy = {
   },
   en: {
     eyebrow: "TERMINAL / RATE BENCHMARK",
-    title: "Published Exchange Fee & Slippage Benchmark",
+    title: "Published exchange fee benchmark",
     subtitle: "Compare published spot and futures base rates. User benefits and net rates appear only after official-source verification.",
     filterAll: `All ${MONITOR_VENUE_COUNT} Venues`,
     filterCex: "CEX",
@@ -511,19 +530,19 @@ const copy = {
   },
 };
 
-copy.ja = { ...copy.en, title: "取引プラットフォーム手数料・スリッページ比較", subtitle: "各サービスが公開する現物・先物の基準手数料を比較します。ユーザー向け条件と実質手数料は公式情報の確認後に表示します。", filterAll: `全${MONITOR_VENUE_COUNT}サービス`, filterCex: "CEX", filterDex: "Perp DEX", colVenue: "サービス", colCategory: "種類", colSpotTaker: "現物Taker", colFuturesTaker: "先物Taker", colRebate: "還元", colNetTaker: "実質手数料", colTrend: "7日推移", colAction: "登録", cta: "公式条件を確認 ↗" };
-copy.ko = { ...copy.en, title: "거래 플랫폼 수수료 및 슬리피지 비교", subtitle: "각 플랫폼이 공개한 현물·선물 기본 수수료를 비교합니다. 사용자 혜택과 순수수료는 공식 출처 확인 후에만 표시됩니다.", filterAll: `전체 ${MONITOR_VENUE_COUNT}개`, filterCex: "CEX", filterDex: "Perp DEX", colVenue: "플랫폼", colCategory: "유형", colSpotTaker: "현물 Taker", colFuturesTaker: "선물 Taker", colRebate: "리베이트", colNetTaker: "순수수료", colTrend: "7일 추이", colAction: "가입", cta: "공식 조건 확인 ↗" };
-copy.tr = { ...copy.en, title: "Borsa platformu ücret ve kayma karşılaştırması", subtitle: "Platformların yayınladığı spot ve vadeli işlem temel ücretlerini karşılaştırın. Kullanıcı avantajları ve net oranlar yalnızca resmi kaynak doğrulamasından sonra gösterilir.", filterAll: `${MONITOR_VENUE_COUNT} platformun tümü`, filterCex: "CEX", filterDex: "Perp DEX", colVenue: "Platform", colCategory: "Kategori", colSpotTaker: "Spot Taker", colFuturesTaker: "Vadeli Taker", colRebate: "İade", colNetTaker: "Net oran", colTrend: "7 günlük trend", colAction: "Kayıt", cta: "Resmi koşulları gör ↗" };
-copy.es = { ...copy.en, eyebrow: "TERMINAL / REFERENCIA DE COMISIONES", title: "Comparador de comisiones publicadas y slippage", subtitle: "Compara las comisiones base publicadas de spot y futuros. Los beneficios de usuario y la tasa neta solo aparecen tras verificación con fuente oficial.", filterAll: `${MONITOR_VENUE_COUNT} plataformas`, filterCex: "CEX", filterDex: "Perp DEX", colVenue: "Plataforma", colCategory: "Categoría", colSpotTaker: "Taker spot", colFuturesTaker: "Taker futuros", colRebate: "Beneficio", colNetTaker: "Tasa neta", colTrend: "Tendencia 7 días", colAction: "Ruta oficial", cta: "Ver condiciones oficiales ↗" };
-copy["pt-BR"] = { ...copy.en, eyebrow: "TERMINAL / REFERÊNCIA DE TAXAS", title: "Comparador de taxas publicadas e slippage", subtitle: "Compare taxas base publicadas de spot e futuros. Benefícios de usuário e taxa líquida aparecem somente após verificação em fonte oficial.", filterAll: `${MONITOR_VENUE_COUNT} plataformas`, filterCex: "CEX", filterDex: "Perp DEX", colVenue: "Plataforma", colCategory: "Categoria", colSpotTaker: "Taker spot", colFuturesTaker: "Taker futuros", colRebate: "Benefício", colNetTaker: "Taxa líquida", colTrend: "Tendência 7 dias", colAction: "Rota oficial", cta: "Ver condições oficiais ↗" };
+copy.ja = { ...copy.en, title: "取引プラットフォームの公開手数料比較", subtitle: "各サービスが公開する現物・先物の基準手数料を比較します。ユーザー向け条件と実質手数料は公式情報の確認後に表示します。", filterAll: `全${MONITOR_VENUE_COUNT}サービス`, filterCex: "CEX", filterDex: "Perp DEX", colVenue: "サービス", colCategory: "種類", colSpotTaker: "現物Taker", colFuturesTaker: "先物Taker", colRebate: "還元", colNetTaker: "実質手数料", colTrend: "7日推移", colAction: "登録", cta: "公式条件を確認 ↗" };
+copy.ko = { ...copy.en, title: "거래 플랫폼 공개 수수료 비교", subtitle: "각 플랫폼이 공개한 현물·선물 기본 수수료를 비교합니다. 사용자 혜택과 순수수료는 공식 출처 확인 후에만 표시됩니다.", filterAll: `전체 ${MONITOR_VENUE_COUNT}개`, filterCex: "CEX", filterDex: "Perp DEX", colVenue: "플랫폼", colCategory: "유형", colSpotTaker: "현물 Taker", colFuturesTaker: "선물 Taker", colRebate: "리베이트", colNetTaker: "순수수료", colTrend: "7일 추이", colAction: "가입", cta: "공식 조건 확인 ↗" };
+copy.tr = { ...copy.en, title: "Borsa platformu yayınlanmış ücret karşılaştırması", subtitle: "Platformların yayınladığı spot ve vadeli işlem temel ücretlerini karşılaştırın. Kullanıcı avantajları ve net oranlar yalnızca resmi kaynak doğrulamasından sonra gösterilir.", filterAll: `${MONITOR_VENUE_COUNT} platformun tümü`, filterCex: "CEX", filterDex: "Perp DEX", colVenue: "Platform", colCategory: "Kategori", colSpotTaker: "Spot Taker", colFuturesTaker: "Vadeli Taker", colRebate: "İade", colNetTaker: "Net oran", colTrend: "7 günlük trend", colAction: "Kayıt", cta: "Resmi koşulları gör ↗" };
+copy.es = { ...copy.en, eyebrow: "TERMINAL / REFERENCIA DE COMISIONES", title: "Comparador de comisiones publicadas", subtitle: "Compara las comisiones base publicadas de spot y futuros. Los beneficios de usuario y la tasa neta solo aparecen tras verificación con fuente oficial.", filterAll: `${MONITOR_VENUE_COUNT} plataformas`, filterCex: "CEX", filterDex: "Perp DEX", colVenue: "Plataforma", colCategory: "Categoría", colSpotTaker: "Taker spot", colFuturesTaker: "Taker futuros", colRebate: "Beneficio", colNetTaker: "Tasa neta", colTrend: "Tendencia 7 días", colAction: "Ruta oficial", cta: "Ver condiciones oficiales ↗" };
+copy["pt-BR"] = { ...copy.en, eyebrow: "TERMINAL / REFERÊNCIA DE TAXAS", title: "Comparador de taxas publicadas", subtitle: "Compare taxas base publicadas de spot e futuros. Benefícios de usuário e taxa líquida aparecem somente após verificação em fonte oficial.", filterAll: `${MONITOR_VENUE_COUNT} plataformas`, filterCex: "CEX", filterDex: "Perp DEX", colVenue: "Plataforma", colCategory: "Categoria", colSpotTaker: "Taker spot", colFuturesTaker: "Taker futuros", colRebate: "Benefício", colNetTaker: "Taxa líquida", colTrend: "Tendência 7 dias", colAction: "Rota oficial", cta: "Ver condições oficiais ↗" };
 
-copy.fr = { ...copy.en, eyebrow:"TERMINAL / INDICE DES FRAIS", title:"Comparatif des frais et du slippage publiés", subtitle:"Comparez les taux de base spot et futures publiés. Les avantages apparaissent après vérification officielle.", filterAll:`${MONITOR_VENUE_COUNT} plateformes`, colVenue:"Plateforme", colCategory:"Catégorie", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Avantage", colNetTaker:"Taux net", colTrend:"Tendance 7 j", colAction:"S’inscrire", cta:"Voir les conditions officielles ↗" };
-copy.de = { ...copy.en, eyebrow:"TERMINAL / GEBÜHRENVERGLEICH", title:"Vergleich veröffentlichter Gebühren und Slippage", subtitle:"Vergleichen Sie veröffentlichte Spot- und Futures-Basissätze. Vorteile erscheinen erst nach offizieller Prüfung.", filterAll:`${MONITOR_VENUE_COUNT} Plattformen`, colVenue:"Plattform", colCategory:"Kategorie", colSpotTaker:"Spot-Taker", colFuturesTaker:"Futures-Taker", colRebate:"Vorteil", colNetTaker:"Nettosatz", colTrend:"7-Tage-Trend", colAction:"Registrieren", cta:"Offizielle Bedingungen prüfen ↗" };
-copy.ru = { ...copy.en, eyebrow:"ТЕРМИНАЛ / СРАВНЕНИЕ КОМИССИЙ", title:"Сравнение опубликованных комиссий и проскальзывания", subtitle:"Сравните базовые ставки spot и futures. Преимущества показываются только после проверки источников.", filterAll:`${MONITOR_VENUE_COUNT} площадки`, colVenue:"Платформа", colCategory:"Категория", colSpotTaker:"Spot taker", colFuturesTaker:"Futures taker", colRebate:"Преимущество", colNetTaker:"Чистая ставка", colTrend:"Тренд за 7 дней", colAction:"Регистрация", cta:"Проверить официальные условия ↗" };
-copy.ar = { ...copy.en, eyebrow:"محطة / مقارنة الرسوم", title:"مقارنة الرسوم والانزلاق المنشور", subtitle:"قارن المعدلات الأساسية المنشورة. لا تظهر المزايا إلا بعد التحقق من المصدر الرسمي.", filterAll:`${MONITOR_VENUE_COUNT} منصة`, colVenue:"المنصة", colCategory:"الفئة", colSpotTaker:"رسوم Spot", colFuturesTaker:"رسوم Futures", colRebate:"ميزة", colNetTaker:"المعدل الصافي", colTrend:"اتجاه 7 أيام", colAction:"تسجيل", cta:"تحقق من الشروط الرسمية ↗" };
-copy.id = { ...copy.en, eyebrow:"TERMINAL / BENCHMARK BIAYA", title:"Perbandingan biaya dan slippage yang dipublikasikan", subtitle:"Bandingkan tarif dasar spot dan futures. Manfaat hanya tampil setelah verifikasi sumber resmi.", filterAll:`${MONITOR_VENUE_COUNT} platform`, colVenue:"Platform", colCategory:"Kategori", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Manfaat", colNetTaker:"Tarif bersih", colTrend:"Tren 7 hari", colAction:"Daftar", cta:"Lihat ketentuan resmi ↗" };
-copy.vi = { ...copy.en, eyebrow:"BẢNG / SO SÁNH PHÍ", title:"So sánh phí và trượt giá được công bố", subtitle:"So sánh mức phí cơ bản spot và futures. Ưu đãi chỉ hiển thị sau khi xác minh nguồn chính thức.", filterAll:`${MONITOR_VENUE_COUNT} nền tảng`, colVenue:"Nền tảng", colCategory:"Loại", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Ưu đãi", colNetTaker:"Mức ròng", colTrend:"Xu hướng 7 ngày", colAction:"Đăng ký", cta:"Xem điều kiện chính thức ↗" };
-copy.it = { ...copy.en, eyebrow:"TERMINALE / BENCHMARK COMMISSIONI", title:"Confronto di commissioni e slippage pubblicati", subtitle:"Confronta i tassi base spot e futures. I vantaggi compaiono solo dopo la verifica ufficiale.", filterAll:`${MONITOR_VENUE_COUNT} piattaforme`, colVenue:"Piattaforma", colCategory:"Categoria", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Vantaggio", colNetTaker:"Tasso netto", colTrend:"Trend 7 giorni", colAction:"Registrati", cta:"Verifica condizioni ufficiali ↗" };
+copy.fr = { ...copy.en, eyebrow:"TERMINAL / INDICE DES FRAIS", title:"Comparatif des frais publiés", subtitle:"Comparez les taux de base spot et futures publiés. Les avantages apparaissent après vérification officielle.", filterAll:`${MONITOR_VENUE_COUNT} plateformes`, colVenue:"Plateforme", colCategory:"Catégorie", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Avantage", colNetTaker:"Taux net", colTrend:"Tendance 7 j", colAction:"S’inscrire", cta:"Voir les conditions officielles ↗" };
+copy.de = { ...copy.en, eyebrow:"TERMINAL / GEBÜHRENVERGLEICH", title:"Vergleich veröffentlichter Gebühren", subtitle:"Vergleichen Sie veröffentlichte Spot- und Futures-Basissätze. Vorteile erscheinen erst nach offizieller Prüfung.", filterAll:`${MONITOR_VENUE_COUNT} Plattformen`, colVenue:"Plattform", colCategory:"Kategorie", colSpotTaker:"Spot-Taker", colFuturesTaker:"Futures-Taker", colRebate:"Vorteil", colNetTaker:"Nettosatz", colTrend:"7-Tage-Trend", colAction:"Registrieren", cta:"Offizielle Bedingungen prüfen ↗" };
+copy.ru = { ...copy.en, eyebrow:"ТЕРМИНАЛ / СРАВНЕНИЕ КОМИССИЙ", title:"Сравнение опубликованных комиссий", subtitle:"Сравните базовые ставки spot и futures. Преимущества показываются только после проверки источников.", filterAll:`${MONITOR_VENUE_COUNT} площадки`, colVenue:"Платформа", colCategory:"Категория", colSpotTaker:"Spot taker", colFuturesTaker:"Futures taker", colRebate:"Преимущество", colNetTaker:"Чистая ставка", colTrend:"Тренд за 7 дней", colAction:"Регистрация", cta:"Проверить официальные условия ↗" };
+copy.ar = { ...copy.en, eyebrow:"محطة / مقارنة الرسوم", title:"مقارنة الرسوم المنشورة", subtitle:"قارن المعدلات الأساسية المنشورة. لا تظهر المزايا إلا بعد التحقق من المصدر الرسمي.", filterAll:`${MONITOR_VENUE_COUNT} منصة`, colVenue:"المنصة", colCategory:"الفئة", colSpotTaker:"رسوم Spot", colFuturesTaker:"رسوم Futures", colRebate:"ميزة", colNetTaker:"المعدل الصافي", colTrend:"اتجاه 7 أيام", colAction:"تسجيل", cta:"تحقق من الشروط الرسمية ↗" };
+copy.id = { ...copy.en, eyebrow:"TERMINAL / BENCHMARK BIAYA", title:"Perbandingan biaya yang dipublikasikan", subtitle:"Bandingkan tarif dasar spot dan futures. Manfaat hanya tampil setelah verifikasi sumber resmi.", filterAll:`${MONITOR_VENUE_COUNT} platform`, colVenue:"Platform", colCategory:"Kategori", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Manfaat", colNetTaker:"Tarif bersih", colTrend:"Tren 7 hari", colAction:"Daftar", cta:"Lihat ketentuan resmi ↗" };
+copy.vi = { ...copy.en, eyebrow:"BẢNG / SO SÁNH PHÍ", title:"So sánh phí được công bố", subtitle:"So sánh mức phí cơ bản spot và futures. Ưu đãi chỉ hiển thị sau khi xác minh nguồn chính thức.", filterAll:`${MONITOR_VENUE_COUNT} nền tảng`, colVenue:"Nền tảng", colCategory:"Loại", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Ưu đãi", colNetTaker:"Mức ròng", colTrend:"Xu hướng 7 ngày", colAction:"Đăng ký", cta:"Xem điều kiện chính thức ↗" };
+copy.it = { ...copy.en, eyebrow:"TERMINALE / BENCHMARK COMMISSIONI", title:"Confronto delle commissioni pubblicate", subtitle:"Confronta i tassi base spot e futures. I vantaggi compaiono solo dopo la verifica ufficiale.", filterAll:`${MONITOR_VENUE_COUNT} piattaforme`, colVenue:"Piattaforma", colCategory:"Categoria", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Vantaggio", colNetTaker:"Tasso netto", colTrend:"Trend 7 giorni", colAction:"Registrati", cta:"Verifica condizioni ufficiali ↗" };
 
 export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", accountStage, funding }) {
   const [filter, setFilter] = useState("all");
@@ -575,6 +594,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
   const mx = matrixCopy(locale);
   const checkedLabel = feeSummaryCopy(locale).checked;
   const nextStep = nextStepCopy[locale] || nextStepCopy[localeKey] || nextStepCopy[normalizedLocale] || nextStepCopy.en;
+  const answerLabels = answerLabelCopy[locale] || answerLabelCopy[localeKey] || answerLabelCopy[normalizedLocale] || answerLabelCopy.en;
   const answerBlock = answerBlockCopy[locale] || answerBlockCopy[localeKey] || answerBlockCopy[normalizedLocale] || answerBlockCopy.en;
   const telegramNextStep = buildTelegramWebsiteFunnelContext({ intent: "fees", venue: "all", market: market || "GLOBAL", locale, product, campaign: "rates_next_step" });
   const contextSearch = directoryContextSearch({ market, product, locale, accountStage, funding });
@@ -609,8 +629,8 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
         <div className="fee-terminal__answer-block rt-context" role="group" aria-label={answerBlock.label}>
           <h3>{answerBlock.title}</h3>
           <dl className="fee-terminal__answer-grid">
-            <div><dt>{labels.checked}</dt><dd>{answerBlock.can}</dd></div>
-            <div><dt>{labels.conditions}</dt><dd>{answerBlock.cannot}</dd></div>
+            <div><dt>{answerLabels[0]}</dt><dd>{answerBlock.can}</dd></div>
+            <div><dt>{answerLabels[1]}</dt><dd>{answerBlock.cannot}</dd></div>
           </dl>
           <nav className="fee-terminal__answer-links" aria-label={answerBlock.title}>
             <a href={answerHref("/compare/binance-vs-okx", "spot")}>{answerBlock.compareA}</a>

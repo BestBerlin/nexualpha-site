@@ -81,8 +81,8 @@ const methodologyCopy = {
     pill3: "链上储备核验",
     pillarsTitle: "四项评审支柱",
     pillarsSummary: "查看四项评审标准与数据边界",
-    pillar1Title: "1. 阶梯费率与净有效交易成本 (Net Effective Rate)",
-    pillar1Desc: "我们拒绝静态罗列宣传费率。NexuAlpha 建立统一的模型测算 VIP0~VIP9 在 30 天滚动交易量下的真实净费率：Net Rate = Base Rate × (1 - Rebate Ratio)。每一档返佣比例均需具备官方推荐协议（Direct Broker/Affiliate Agreement）背书，严防虚标返佣比例无法结算的欺诈行为。",
+    pillar1Title: "1. 基础费率、来源页面与核验日期",
+    pillar1Desc: "我们只发布已经核验的内容：每家平台普通用户档的 maker/taker 基础费率、对应的官方费率页面以及核验日期。VIP 档位、平台币折扣和用户权益在有官方来源支持之前，一律标注为尚未复核。",
     pillar2Title: "2. 储备金证明 (Proof of Reserves) 与清偿能力透视",
     pillar2Desc: "当平台公开 Merkle Tree 资产快照或第三方审计报告时，我们记录其覆盖范围、日期、审计主体与限制。未能找到可复核来源的准备金、保险或偿付能力说法会保持待核验。",
     pillar3Title: "3. 域名防钓鱼来源记录与官方通道核对",
@@ -106,17 +106,17 @@ const methodologyCopy = {
     pill3: "On-Chain Solvency Audit",
     pillarsTitle: "Four evaluation pillars",
     pillarsSummary: "View the four evaluation standards and data boundaries",
-    pillar1Title: "1. Tiered Fee Schedules & Net Effective Cost",
-    pillar1Desc: "We reject promotional baseline fee claims. NexuAlpha models VIP0 to VIP9 trading tiers under rolling 30-day volume metrics using our formula: Net Rate = Base Rate × (1 - Rebate Ratio). Rebate tiers require verified broker agreements, preventing phantom commission promises that fail at payout.",
-    pillar2Title: "2. Proof of Reserves (PoR) & Solvency Transparency",
+    pillar1Title: "1. Base fees, source page and check date",
+    pillar1Desc: "We publish only what we have checked: each venue's base (regular user) maker and taker fee, the official fee page it comes from, and the date we checked it. VIP tiers, token discounts and user benefits stay marked as not yet reviewed until an official source supports them.",
+    pillar2Title: "2. Proof of reserves (PoR) and solvency transparency",
     pillar2Desc: "When a venue publishes a Merkle Tree snapshot or third-party audit, we record its scope, date, auditor and limitations. Reserve, insurance and solvency statements remain pending when no reproducible source is available.",
-    pillar3Title: "3. Anti-Phishing Domain Source Records & Official Route Checks",
+    pillar3Title: "3. Anti-phishing domain records and official route checks",
     pillar3Desc: "To reduce search-ad phishing and clone-community risk, NexuAlpha records source clues for primary domains, alternate login domains, and official validation pages. Unknown domains trigger risk warnings; recorded matches are not live authorization or safety guarantees.",
-    pillar4Title: "4. Operational Resilience & Custody Accessibility",
+    pillar4Title: "4. Operational resilience and custody access",
     pillar4Desc: "We record KYC requirements by jurisdiction, withdrawal limits and API rate limits only where an official page states them, with the date checked. We do not track or score matching-engine uptime.",
-    wallTitle: "Editorial Independence & Commercial Wall of Separation",
+    wallTitle: "Editorial independence and commercial separation",
     wallDesc: "NexuAlpha strictly separates commercial monetization from research output. We receive standard affiliate commissions paid from exchange marketing budgets at no cost to users. No exchange can pay to change fee records, verification status or the order of comparisons.",
-    feedbackTitle: "Data Correction & Community Governance",
+    feedbackTitle: "Data correction and community governance",
     feedbackDesc: "If you detect an outdated fee schedule, changed domain or reserve source, send the supporting source to our Research Desk. We update the record after official or on-chain review and retain the review date and limitations.",
     btnBack: "← Back to Terminal",
     btnTg: "Contact Research Desk on Telegram",
@@ -145,7 +145,7 @@ methodologyCopy.ru = { ...methodologyCopy.en, badge: "Институционал
 // research sections.
 const methodologyDetails = {
   ja: {
-    pillar1Title: "1. 段階別手数料と実効取引コスト", pillar1Desc: "広告上の基準手数料をそのまま並べません。VIP0〜VIP9の30日取引量を同じモデルで比較し、手数料と確認済みの条件を分けて表示します。公式の根拠がない還元率は掲載しません。",
+    pillar1Title: "1. 基本手数料・出典ページ・確認日", pillar1Desc: "確認済みの内容だけを掲載します：各サービスの一般ユーザー向けメイカー／テイカー基本手数料、その公式手数料ページ、確認日です。VIP段階・トークン割引・ユーザー特典は、公式情報で裏付けられるまで未確認と表示します。",
     pillar2Title: "2. 準備金証明 (PoR) と支払能力", pillar2Desc: "Merkle Treeのスナップショットや第三者監査が公開されている場合は、範囲、日付、監査主体、制限を記録します。再現できる出典がない準備金や保険の主張は確認待ちのままです。",
     pillar3Title: "3. フィッシング対策ドメインと公式経路", pillar3Desc: "検索広告や偽のコミュニティによるなりすましを避けるため、主要ドメイン、ログインミラー、公式確認ページを出典とともに整理します。確認できないミラーには警告を表示します。",
     pillar4Title: "4. 運用の耐性と地域別アクセス条件", pillar4Desc: "地域ごとのKYC水準、出金上限、API制限、流動性ストレス時の稼働実績を確認します。利用可否はブランド名から推測せず、公式条件を参照します。",
@@ -153,7 +153,7 @@ const methodologyDetails = {
     feedbackDesc: "手数料、ドメイン、準備金の出典が変わった場合は、根拠をResearch Deskへ送ってください。公式またはオンチェーンの確認後に更新し、確認日と制限を残します。"
   },
   ko: {
-    pillar1Title: "1. 등급별 수수료와 실효 거래 비용", pillar1Desc: "홍보용 기본 수수료를 그대로 나열하지 않습니다. VIP0~VIP9의 30일 거래량을 같은 모델로 비교하고, 수수료와 확인된 조건을 분리해 표시합니다. 공식 근거가 없는 혜택률은 게시하지 않습니다.",
+    pillar1Title: "1. 기본 수수료, 출처 페이지, 확인일", pillar1Desc: "확인한 내용만 게시합니다: 각 플랫폼의 일반 사용자 메이커·테이커 기본 수수료, 해당 공식 수수료 페이지, 확인 날짜입니다. VIP 등급, 토큰 할인, 사용자 혜택은 공식 출처가 확인될 때까지 미검토로 표시합니다.",
     pillar2Title: "2. 준비금 증명(PoR)과 지급 능력", pillar2Desc: "Merkle Tree 스냅샷이나 제3자 감사가 공개되면 범위, 날짜, 감사 주체와 한계를 기록합니다. 재현 가능한 출처가 없는 준비금·보험 주장은 확인 대기 상태로 둡니다.",
     pillar3Title: "3. 피싱 방지 도메인과 공식 경로", pillar3Desc: "검색 광고와 가짜 커뮤니티의 사칭을 막기 위해 기본 도메인, 안전한 로그인 미러, 공식 확인 페이지를 출처와 함께 정리합니다. 확인되지 않은 미러에는 경고를 표시합니다.",
     pillar4Title: "4. 운영 복원력과 지역별 이용 조건", pillar4Desc: "지역별 KYC 수준, 출금 한도, API 제한, 유동성 스트레스 상황의 운영 기록을 확인합니다. 이용 가능 여부는 브랜드로 추정하지 않고 공식 조건을 기준으로 합니다.",
@@ -161,7 +161,7 @@ const methodologyDetails = {
     feedbackDesc: "수수료, 도메인 또는 준비금 출처가 바뀌었다면 근거를 Research Desk로 보내 주세요. 공식 또는 온체인 확인 후 업데이트하고 확인 날짜와 한계를 남깁니다."
   },
   tr: {
-    pillar1Title: "1. Kademeli ücretler ve net işlem maliyeti", pillar1Desc: "Promosyonel temel ücretleri olduğu gibi sıralamayız. VIP0-VIP9 için 30 günlük hacmi aynı modelle karşılaştırır, ücretleri doğrulanmış koşullardan ayırırız. Resmî dayanağı olmayan avantaj oranları yayımlanmaz.",
+    pillar1Title: "1. Temel ücretler, kaynak sayfa ve kontrol tarihi", pillar1Desc: "Yalnızca kontrol ettiğimizi yayınlarız: her platformun normal kullanıcı maker/taker temel ücreti, alındığı resmî ücret sayfası ve kontrol tarihi. VIP kademeleri, token indirimleri ve kullanıcı avantajları resmî bir kaynak desteklenene kadar incelenmedi olarak kalır.",
     pillar2Title: "2. Rezerv kanıtı (PoR) ve ödeme gücü", pillar2Desc: "Merkle Tree görüntüsü veya üçüncü taraf denetimi yayımlanmışsa kapsamı, tarihi, denetçiyi ve sınırlamaları kaydederiz. Tekrar üretilebilir kaynak yoksa rezerv ve sigorta iddiaları beklemede kalır.",
     pillar3Title: "3. Kimlik avına karşı alan adları ve resmî yollar", pillar3Desc: "Arama reklamları ve sahte topluluklardaki taklitleri azaltmak için ana alan adlarını, güvenli giriş aynalarını ve resmî doğrulama sayfalarını kaynaklarıyla listeleriz. Doğrulanmamış aynalar uyarı alır.",
     pillar4Title: "4. Operasyonel dayanıklılık ve bölgesel erişim", pillar4Desc: "Bölgesel KYC seviyelerini, çekim limitlerini, API sınırlarını ve yoğun piyasa koşullarındaki çalışma geçmişini inceleriz. Erişilebilirlik marka adına göre değil, resmî koşullara göre doğrulanır.",
@@ -169,7 +169,7 @@ const methodologyDetails = {
     feedbackDesc: "Ücret, alan adı veya rezerv kaynağı değiştiyse kanıtı Research Desk'e gönderin. Resmî ya da zincir üstü inceleme sonrası günceller, inceleme tarihini ve sınırlamaları koruruz."
   },
   fr: {
-    pillar1Title: "1. Barèmes par niveau et coût effectif", pillar1Desc: "Nous ne recopions pas les tarifs promotionnels. Les niveaux VIP0 à VIP9 sont comparés sur 30 jours avec le même modèle, en séparant frais publiés et conditions vérifiées. Aucun avantage sans source officielle n’est affiché.",
+    pillar1Title: "1. Frais de base, page source et date de vérification", pillar1Desc: "Nous publions seulement ce que nous avons vérifié : les frais maker/taker de base (utilisateur standard) de chaque plateforme, la page officielle d’où ils viennent et la date de vérification. Niveaux VIP, remises en jeton et avantages restent marqués non vérifiés tant qu’aucune source officielle ne les appuie.",
     pillar2Title: "2. Preuve de réserves (PoR) et solvabilité", pillar2Desc: "Lorsqu’un instantané Merkle Tree ou un audit tiers est publié, nous enregistrons sa portée, sa date, son auditeur et ses limites. Sans source reproductible, les affirmations restent en attente.",
     pillar3Title: "3. Domaines anti-hameçonnage et voies officielles", pillar3Desc: "Nous répertorions les domaines principaux, miroirs de connexion et pages de vérification officielles avec leurs sources. Les miroirs non vérifiés déclenchent un avertissement.",
     pillar4Title: "4. Résilience opérationnelle et accès régional", pillar4Desc: "Nous vérifions le niveau de KYC, les limites de retrait, les limites API et l’historique de fonctionnement sous forte liquidité. L’accès régional se vérifie auprès de la source officielle.",
@@ -177,7 +177,7 @@ const methodologyDetails = {
     feedbackDesc: "Si un tarif, domaine ou document de réserves change, envoyez la source à notre équipe de recherche. Nous mettons à jour après vérification officielle ou on-chain et conservons la date et les limites."
   },
   de: {
-    pillar1Title: "1. Gebührenstufen und effektive Handelskosten", pillar1Desc: "Wir übernehmen keine Werbegebühren ungeprüft. VIP0 bis VIP9 werden anhand des 30-Tage-Volumens einheitlich verglichen; veröffentlichte Gebühren und bestätigte Bedingungen bleiben getrennt.",
+    pillar1Title: "1. Basisgebühren, Quellseite und Prüfdatum", pillar1Desc: "Wir veröffentlichen nur Geprüftes: die Maker- und Taker-Basisgebühr (normaler Nutzer) jeder Plattform, die offizielle Gebührenseite und das Prüfdatum. VIP-Stufen, Token-Rabatte und Nutzervorteile bleiben als nicht geprüft markiert, bis eine offizielle Quelle sie belegt.",
     pillar2Title: "2. Reservenachweis (PoR) und Solvenz", pillar2Desc: "Bei einem veröffentlichten Merkle-Tree-Snapshot oder Drittgutachten erfassen wir Umfang, Datum, Prüfer und Einschränkungen. Ohne reproduzierbare Quelle bleiben Reserve- und Versicherungsangaben offen.",
     pillar3Title: "3. Phishing-Schutz und offizielle Wege", pillar3Desc: "Wir sammeln Hauptdomains, sichere Login-Mirrors und offizielle Prüfseiten mit ihren Quellen. Nicht bestätigte Mirrors erhalten einen Sicherheitshinweis.",
     pillar4Title: "4. Betriebsstabilität und regionaler Zugang", pillar4Desc: "Wir prüfen KYC-Stufe, Auszahlungslimits, API-Grenzen und die Betriebsbilanz bei hoher Marktbelastung. Regionale Verfügbarkeit wird anhand offizieller Bedingungen geprüft.",
@@ -185,7 +185,7 @@ const methodologyDetails = {
     feedbackDesc: "Wenn sich Gebühren, Domains oder Reservenachweise ändern, senden Sie die Quelle an unser Research Desk. Nach offizieller oder On-Chain-Prüfung aktualisieren wir den Eintrag und speichern Datum und Grenzen."
   },
   es: {
-    pillar1Title: "1. Tarifas por nivel y coste efectivo", pillar1Desc: "No copiamos tarifas promocionales sin revisión. Comparamos VIP0 a VIP9 con el volumen de 30 días y separamos las tarifas publicadas de las condiciones verificadas. No mostramos beneficios sin fuente oficial.",
+    pillar1Title: "1. Comisiones base, página de origen y fecha de revisión", pillar1Desc: "Solo publicamos lo que hemos revisado: la comisión maker y taker base (usuario regular) de cada plataforma, la página oficial de la que procede y la fecha de revisión. Los niveles VIP, descuentos con token y beneficios siguen marcados como no revisados hasta que una fuente oficial los respalde.",
     pillar2Title: "2. Prueba de reservas (PoR) y solvencia", pillar2Desc: "Cuando existe un snapshot de Merkle Tree o una auditoría externa, registramos alcance, fecha, auditor y limitaciones. Sin una fuente reproducible, las afirmaciones quedan pendientes.",
     pillar3Title: "3. Dominios contra el phishing y rutas oficiales", pillar3Desc: "Reunimos dominios principales, espejos de acceso y páginas oficiales de verificación con sus fuentes. Los espejos no verificados reciben una advertencia.",
     pillar4Title: "4. Resiliencia operativa y acceso regional", pillar4Desc: "Revisamos el nivel de KYC, límites de retiro, límites de API y el historial operativo bajo alta liquidez. La disponibilidad regional se confirma en la fuente oficial.",
@@ -193,7 +193,7 @@ const methodologyDetails = {
     feedbackDesc: "Si cambia una tarifa, un dominio o una fuente de reservas, envía la evidencia a nuestro Research Desk. Actualizamos tras la revisión oficial o on-chain y conservamos fecha y limitaciones."
   },
   "pt-BR": {
-    pillar1Title: "1. Faixas de taxas e custo efetivo", pillar1Desc: "Não copiamos taxas promocionais sem revisão. Comparamos VIP0 a VIP9 pelo volume de 30 dias e separamos taxas publicadas de condições verificadas. Benefícios sem fonte oficial não são exibidos.",
+    pillar1Title: "1. Taxas base, página de origem e data da checagem", pillar1Desc: "Publicamos apenas o que checamos: a taxa maker e taker base (usuário regular) de cada plataforma, a página oficial de onde ela vem e a data da checagem. Níveis VIP, descontos com token e benefícios ficam marcados como não revisados até que uma fonte oficial os sustente.",
     pillar2Title: "2. Prova de reservas (PoR) e solvência", pillar2Desc: "Quando há um snapshot de Merkle Tree ou auditoria independente, registramos escopo, data, auditor e limitações. Sem fonte reproduzível, as alegações ficam pendentes.",
     pillar3Title: "3. Domínios contra phishing e rotas oficiais", pillar3Desc: "Reunimos domínios principais, espelhos seguros de login e páginas oficiais de verificação com suas fontes. Espelhos não verificados recebem um alerta.",
     pillar4Title: "4. Resiliência operacional e acesso regional", pillar4Desc: "Verificamos nível de KYC, limites de saque, limites de API e histórico operacional sob estresse de liquidez. A disponibilidade regional deve ser confirmada na fonte oficial.",
@@ -201,7 +201,7 @@ const methodologyDetails = {
     feedbackDesc: "Se uma taxa, domínio ou fonte de reservas mudar, envie a evidência ao Research Desk. Atualizamos após revisão oficial ou on-chain e mantemos a data e as limitações."
   },
   ru: {
-    pillar1Title: "1. Уровни комиссий и эффективная стоимость", pillar1Desc: "Мы не переносим рекламные тарифы без проверки. Уровни VIP0–VIP9 сравниваются по объёму за 30 дней, а опубликованные комиссии отделяются от подтверждённых условий.",
+    pillar1Title: "1. Базовые комиссии, страница источника и дата проверки", pillar1Desc: "Мы публикуем только проверенное: базовую комиссию мейкера и тейкера (обычный пользователь) каждой площадки, официальную страницу комиссий и дату проверки. VIP-уровни, скидки за токен и бонусы остаются непроверенными, пока их не подтвердит официальный источник.",
     pillar2Title: "2. Подтверждение резервов (PoR) и платёжеспособность", pillar2Desc: "Для снимка Merkle Tree или аудита третьей стороны мы фиксируем охват, дату, аудитора и ограничения. Без воспроизводимого источника заявления остаются на проверке.",
     pillar3Title: "3. Домены против фишинга и официальные пути", pillar3Desc: "Мы собираем основные домены, безопасные зеркала входа и официальные страницы проверки с источниками. Неподтверждённые зеркала получают предупреждение.",
     pillar4Title: "4. Операционная устойчивость и доступ по регионам", pillar4Desc: "Мы проверяем уровень KYC, лимиты вывода, ограничения API и работу в периоды высокой нагрузки. Региональный доступ подтверждается официальными условиями.",
@@ -209,7 +209,7 @@ const methodologyDetails = {
     feedbackDesc: "Если изменились комиссия, домен или источник резервов, отправьте подтверждение в Research Desk. После официальной или ончейн-проверки мы обновим запись и сохраним дату и ограничения."
   },
   ar: {
-    pillar1Title: "1. شرائح الرسوم والتكلفة الفعلية", pillar1Desc: "لا ننسخ الرسوم الترويجية دون مراجعة. نقارن مستويات VIP0 إلى VIP9 وفق حجم تداول 30 يوماً ونفصل بين الرسوم المنشورة والشروط الموثقة.",
+    pillar1Title: "1. الرسوم الأساسية وصفحة المصدر وتاريخ التحقق", pillar1Desc: "ننشر فقط ما تحققنا منه: رسوم صانع وآخذ الأساسية (المستخدم العادي) لكل منصة، وصفحة الرسوم الرسمية التي جاءت منها، وتاريخ التحقق. تبقى مستويات VIP وخصومات الرمز ومزايا المستخدم غير مراجعة حتى يدعمها مصدر رسمي.",
     pillar2Title: "2. إثبات الاحتياطيات (PoR) والملاءة", pillar2Desc: "عند توفر لقطة Merkle Tree أو تدقيق مستقل نسجل النطاق والتاريخ والمدقق والقيود. تبقى ادعاءات الاحتياطيات قيد التحقق عند غياب مصدر قابل لإعادة الإنتاج.",
     pillar3Title: "3. نطاقات مكافحة التصيد والطرق الرسمية", pillar3Desc: "نجمع النطاقات الأساسية ومرايا الدخول وصفحات التحقق الرسمية مع مصادرها. تحصل المرايا غير الموثقة على تحذير أمني.",
     pillar4Title: "4. المرونة التشغيلية والوصول الإقليمي", pillar4Desc: "نراجع مستوى KYC وحدود السحب وحدود API وسجل التشغيل أثناء ضغط السيولة. يجب تأكيد الإتاحة الإقليمية من المصدر الرسمي.",
@@ -217,7 +217,7 @@ const methodologyDetails = {
     feedbackDesc: "إذا تغيرت الرسوم أو النطاق أو مصدر الاحتياطيات، أرسل الدليل إلى فريق البحث. نحدّث السجل بعد المراجعة الرسمية أو على السلسلة ونحتفظ بتاريخها وقيودها."
   },
   id: {
-    pillar1Title: "1. Tingkat biaya dan biaya perdagangan efektif", pillar1Desc: "Kami tidak menyalin biaya promosi tanpa pemeriksaan. VIP0 hingga VIP9 dibandingkan berdasarkan volume 30 hari, dengan biaya terbitan dipisahkan dari kondisi yang terverifikasi.",
+    pillar1Title: "1. Biaya dasar, halaman sumber, dan tanggal cek", pillar1Desc: "Kami hanya menerbitkan yang sudah dicek: biaya maker dan taker dasar (pengguna reguler) setiap platform, halaman biaya resmi sumbernya, dan tanggal pengecekan. Tingkat VIP, diskon token, dan manfaat pengguna tetap ditandai belum ditinjau sampai ada sumber resmi.",
     pillar2Title: "2. Bukti cadangan (PoR) dan solvabilitas", pillar2Desc: "Jika snapshot Merkle Tree atau audit pihak ketiga tersedia, kami mencatat cakupan, tanggal, auditor, dan batasannya. Tanpa sumber yang dapat direproduksi, klaim tetap menunggu verifikasi.",
     pillar3Title: "3. Domain anti-phishing dan jalur resmi", pillar3Desc: "Kami mengumpulkan domain utama, cermin login aman, dan halaman verifikasi resmi beserta sumbernya. Cermin yang belum terverifikasi diberi peringatan.",
     pillar4Title: "4. Ketahanan operasional dan akses wilayah", pillar4Desc: "Kami memeriksa tingkat KYC, batas penarikan, batas API, dan riwayat operasi saat likuiditas tertekan. Ketersediaan wilayah harus dikonfirmasi melalui sumber resmi.",
@@ -225,7 +225,7 @@ const methodologyDetails = {
     feedbackDesc: "Jika biaya, domain, atau sumber cadangan berubah, kirim buktinya ke Research Desk. Kami memperbarui setelah pemeriksaan resmi atau on-chain dan menyimpan tanggal serta batasannya."
   },
   vi: {
-    pillar1Title: "1. Bậc phí và chi phí giao dịch thực", pillar1Desc: "Chúng tôi không sao chép mức phí quảng bá khi chưa kiểm tra. VIP0 đến VIP9 được so sánh theo khối lượng 30 ngày, tách phí công bố khỏi điều kiện đã xác minh.",
+    pillar1Title: "1. Phí cơ bản, trang nguồn và ngày kiểm tra", pillar1Desc: "Chúng tôi chỉ công bố những gì đã kiểm tra: phí maker và taker cơ bản (người dùng thường) của mỗi nền tảng, trang phí chính thức và ngày kiểm tra. Bậc VIP, giảm giá token và ưu đãi người dùng vẫn được ghi là chưa rà soát cho đến khi có nguồn chính thức.",
     pillar2Title: "2. Bằng chứng dự trữ (PoR) và khả năng thanh toán", pillar2Desc: "Khi có ảnh chụp Merkle Tree hoặc kiểm toán bên thứ ba, chúng tôi ghi lại phạm vi, ngày, đơn vị kiểm toán và giới hạn. Không có nguồn tái lập thì tuyên bố vẫn chờ xác minh.",
     pillar3Title: "3. Tên miền chống lừa đảo và đường dẫn chính thức", pillar3Desc: "Chúng tôi lập danh mục tên miền chính, mirror đăng nhập an toàn và trang xác minh chính thức kèm nguồn. Mirror chưa xác minh sẽ có cảnh báo.",
     pillar4Title: "4. Khả năng vận hành và quyền truy cập theo khu vực", pillar4Desc: "Chúng tôi kiểm tra cấp độ KYC, hạn mức rút, giới hạn API và lịch sử hoạt động khi thanh khoản chịu áp lực. Khả năng dùng theo khu vực phải được xác nhận từ nguồn chính thức.",
@@ -233,7 +233,7 @@ const methodologyDetails = {
     feedbackDesc: "Nếu phí, tên miền hoặc nguồn dự trữ thay đổi, hãy gửi bằng chứng cho Research Desk. Chúng tôi cập nhật sau khi kiểm tra chính thức hoặc on-chain và lưu ngày kiểm tra cùng giới hạn."
   },
   it: {
-    pillar1Title: "1. Fasce di commissione e costo effettivo", pillar1Desc: "Non copiamo tariffe promozionali senza verifica. Confrontiamo VIP0-VIP9 sul volume di 30 giorni separando le commissioni pubblicate dalle condizioni confermate.",
+    pillar1Title: "1. Commissioni base, pagina fonte e data di verifica", pillar1Desc: "Pubblichiamo solo ciò che abbiamo verificato: la commissione maker e taker base (utente regolare) di ogni piattaforma, la pagina ufficiale da cui proviene e la data di verifica. Livelli VIP, sconti in token e vantaggi restano segnati come non verificati finché una fonte ufficiale non li conferma.",
     pillar2Title: "2. Prova delle riserve (PoR) e solvibilità", pillar2Desc: "Quando è disponibile uno snapshot Merkle Tree o un audit terzo, registriamo ambito, data, revisore e limiti. Senza una fonte riproducibile, le dichiarazioni restano in verifica.",
     pillar3Title: "3. Domini anti-phishing e percorsi ufficiali", pillar3Desc: "Raccogliamo domini principali, mirror di accesso sicuri e pagine ufficiali di verifica con le relative fonti. I mirror non verificati ricevono un avviso.",
     pillar4Title: "4. Resilienza operativa e accesso regionale", pillar4Desc: "Verifichiamo livello KYC, limiti di prelievo, limiti API e operatività durante i picchi di liquidità. La disponibilità regionale va confermata nella fonte ufficiale.",

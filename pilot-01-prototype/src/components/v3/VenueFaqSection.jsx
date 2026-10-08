@@ -135,21 +135,23 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
       const official = localized.openOfficialSource || localized.sourceIntake || review;
       const compare = localized.compareIntro || localized.compareTitle || verify;
       const source = localized.researchScope || localized.sourceIntake || review;
+      // FAQ titles read as questions (English); other locales keep their reviewed labels.
+      const enQ = (question) => (String(locale || "").startsWith("en") ? question : "");
       return [
       {
-        q: `${name}: ${localized.compareTitle || compare}`,
+        q: enQ(`How does ${name} compare with similar platforms?`) || `${name}: ${localized.compareTitle || compare}`,
         a: <p><strong>{compare}</strong>。{source}。{verify}。</p>,
       },
       {
-        q: `${name}: ${localized.sourceIntake || review}`,
+        q: enQ(`Which official ${name} sources has NexuAlpha marked?`) || `${name}: ${localized.sourceIntake || review}`,
         a: <p><strong>{review}</strong>。{source}。{localized.relationship || verify}。</p>,
       },
       {
-        q: `${name}: ${localized.accessModel || verify}`,
+        q: enQ(`How is a ${name} account accessed?`) || `${name}: ${localized.accessModel || verify}`,
         a: <p><strong>{localized.accessModel || verify}</strong>。{localized.checksByCategory?.CEX?.join(" · ") || verify}。</p>,
       },
       {
-        q: `${name}: ${localized.officialDomain || official}`,
+        q: enQ(`What is the official ${name} domain?`) || `${name}: ${localized.officialDomain || official}`,
         a: <p><strong>{official}：<code>{officialDomain}</code></strong>。{localized.relationship || verify}。</p>,
       },
       ];

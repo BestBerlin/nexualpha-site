@@ -2,7 +2,7 @@ const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "k
 
 const TIER_COPY = Object.freeze({
   en: {
-    "regular-user": "Regular User",
+    "regular-user": "Regular user",
     "standard-non-vip": "Standard non-VIP",
     "vip-0": "VIP 0",
     unknown: "Public source tier",
@@ -235,7 +235,9 @@ export function reviewedFeeCopy(rate = {}, locale = "en") {
   const scopeKey = SCOPE_ALIAS[rate?.scopeKey] || "unknown";
   const scopeCopy = scopeSet[scopeKey] || scopeSet.unknown;
   return {
-    tier: tierSet[rate?.tierKey] || tierSet.unknown,
+    // Every checked row is the venue's public base (non-VIP) tier, so all venues show the same "Regular user" label;
+    // the venue's own row name (VIP 0, Standard non-VIP, ...) stays in the conditions text.
+    tier: tierSet["regular-user"],
     scope: scopeCopy.scope,
     conditions: scopeCopy.conditions,
   };

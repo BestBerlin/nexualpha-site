@@ -214,13 +214,12 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
         })}
       </div>
 
-      <div className="v3-compare-final-choice-card__actions">
-        <a href="#hardcore-matrix" data-cta-kind="research" data-cta-placement="compare-final-choice-matrix">{card.matrixLabel || fallback.matrixLabel}</a>
-        {evidence === "inline" && <details className="v3-compare-final-choice-card__evidence" data-mobile-evidence-default="collapsed" aria-label={directAnswer.seoQuestion || directAnswer.title || "Direct comparison answer"}>
+      {evidence === "inline" && <div className="v3-compare-final-choice-card__actions">
+        <details className="v3-compare-final-choice-card__evidence" data-mobile-evidence-default="collapsed" aria-label={directAnswer.seoQuestion || directAnswer.title || "Direct comparison answer"}>
           <summary>{card.evidenceLabel || fallback.evidenceLabel}<span aria-hidden="true">＋</span></summary>
           <FinalChoiceEvidenceBody directAnswer={directAnswer} locale={locale} pageContext={pageContext} ctas={ctas} detailHref={detailHref} market={market} product={product} />
-        </details>}
-      </div>
+        </details>
+      </div>}
     </article>
   );
 }

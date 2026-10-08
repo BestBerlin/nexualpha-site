@@ -3,8 +3,7 @@ import { venueDatabase } from '../../data/venue-database.js';
 import { regionalVenueCta } from '../../data/source-bound-cta.js';
 import { localizedHref } from '../../data/locale-routing.js';
 import { appendDecisionPassportQuery } from '../../data/decision-passport.js';
-import { buildDecisionReturnHref, decisionReturnCopy, readDecisionReturnState } from '../../data/decision-return.js';
-import { buildTelegramWebsiteFunnelContext } from '../../data/telegram-config.js';
+import { buildDecisionReturnHref, readDecisionReturnState } from '../../data/decision-return.js';
 import { buildVenueFeeSummary, feeSummaryCopy } from '../../data/venue-fee-summary.js';
 import { reviewedFeeCopy } from '../../data/reviewed-fee-copy.js';
 import { DecisionReturnLink } from './DecisionReturnLink.jsx';
@@ -66,7 +65,6 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
   const selectedProduct=market==='futuresFee'?'perpetuals':'spot';
   const decisionReturnBaseHref=buildDecisionReturnHref({kind:'cost',locale,market:regionMarket,instrument:market==='futuresFee'?'futures':'spot',order:order==='makerRate'?'maker':'taker',volume:amount});
   const decisionReturnHref=decisionReturnBaseHref ? appendDecisionPassportQuery(decisionReturnBaseHref, { market:regionMarket, product:selectedProduct, accountStage, funding }) : decisionReturnBaseHref;
-  const telegramFunnel=buildTelegramWebsiteFunnelContext({intent:'fees',locale,market:regionMarket,product:market==='futuresFee'?'perpetuals':'spot',venue:'all',instrument:market==='futuresFee'?'futures':'spot',amount,campaign:'cost_decision_fee'});
   const comparePath=market==='futuresFee'?'/compare/bybit-vs-bitget':'/compare/binance-vs-okx';
   const resultRows=['binance','okx','bybit','bitget'].map(slug=>{
     const venue=venueDatabase[slug];
@@ -104,15 +102,6 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
       <h2 id={`${id}-title`}>{ui.title}</h2>
       <p>{ui.intro}</p>
     </div>
-    <div className="cost-decision__next-actions rt-strip" role="group" aria-label={ui.offer}>
-      <div className="cost-decision__next-copy">
-        <strong>{ui.offer}</strong>
-        <span>{ui.note}</span>
-      </div>
-      <a href={researchHref(comparePath,selectedProduct)} data-cta-kind="research" data-cta-placement="cost-calculator-next-compare" data-growth-decision={market==='futuresFee'?'compare_bybit_bitget':'compare_binance_okx'} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{ui.nextCompare}</a>
-      <a href={researchHref(primarySlug?`/exchanges/${primarySlug}#registration-path`:'/exchanges',selectedProduct)} data-cta-kind="research" data-cta-platform={primarySlug||undefined} data-cta-placement="cost-calculator-next-platform" data-growth-decision={primarySlug||'platform_directory'} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{ui.nextPlatform}</a>
-      {primaryCta && <a className="rt-strip__primary" href={primaryCta.ctaHref} target={primaryCta.direct ? '_blank' : undefined} rel={primaryCta.direct ? 'sponsored noopener noreferrer' : undefined} data-cta-kind={primaryCta.direct ? 'registration' : 'research'} data-cta-platform={primarySlug} data-cta-placement="cost-calculator-next-registration" data-growth-decision={primarySlug} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{primaryCta.direct ? ui.nextRegister : ui.verify} · {primaryVenue.name} ↗</a>}
-    </div>
     <div className="rt-controls">
       <div className="cost-decision__inputs" role="group" aria-label={ui.eyebrow}>
         <label className="rt-field" htmlFor={`${id}-volume`}><span>{ui.volume}</span><span className="rt-field__box"><input id={`${id}-volume`} name="volume" aria-label={ui.volume} type="number" min="0" max="10000000000" step="0.01" inputMode="decimal" value={volume} onChange={e=>setVolume(e.target.value)}/><span className="rt-field__unit" aria-hidden="true">USDT</span></span></label>
@@ -145,10 +134,16 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
         })}
       </div>
     </div>
+    {/* Method + next step sit after the results in reading/tab order. The tie verdict already carries
+        "Continue comparison", so the strip offers the other route (never the same link twice). */}
+    <div className="cost-decision__next-actions rt-strip" role="group" aria-label={ui.note.split(':')[0]}>
+      <p className="cost-decision__next-copy"><span>{ui.note}</span></p>
+      {!tie && <a href={researchHref(comparePath,selectedProduct)} data-cta-kind="research" data-cta-placement="cost-calculator-next-compare" data-growth-decision={market==='futuresFee'?'compare_bybit_bitget':'compare_binance_okx'} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{ui.nextCompare}</a>}
+      {(tie || !lowestReviewed || noVolume) && <a href={researchHref('/exchanges',selectedProduct)} data-cta-kind="research" data-cta-placement="cost-calculator-next-platform" data-growth-decision="platform_directory" data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{ui.nextPlatform}</a>}
+      {primaryCta && <a className="rt-strip__primary" href={primaryCta.ctaHref} target={primaryCta.direct ? '_blank' : undefined} rel={primaryCta.direct ? 'sponsored noopener noreferrer' : undefined} data-cta-kind={primaryCta.direct ? 'registration' : 'research'} data-cta-platform={primarySlug} data-cta-placement="cost-calculator-next-registration" data-growth-decision={primarySlug} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{primaryCta.direct ? ui.nextRegister : ui.verify} · {primaryVenue.name} ↗</a>}
+    </div>
     <div className="rt-foot">
-      <p className="cost-decision__note">{ui.note}</p>
       <div className="rt-foot__links">
-      <a href={telegramFunnel.deepLink} target="_blank" rel="noopener noreferrer" className="cost-decision__telegram" data-cta-kind="telegram" data-cta-placement="cost-decision-telegram" data-growth-decision="telegram_fee_calc" data-growth-placement="cost-decision-support" data-growth-market={regionMarket} data-growth-product={selectedProduct} data-telegram-start={telegramFunnel.startPayload} data-telegram-return-href={telegramFunnel.returnHref}>{ui.telegramSupport || decisionReturnCopy(locale).botFeeOpen}</a>
       <a href={researchHref('/compare/binance-vs-okx',market === 'futuresFee' ? 'perpetuals' : 'spot')} data-cta-kind="research" data-cta-placement="cost-calculator-compare" data-growth-decision="compare_binance_okx" data-growth-placement="cost-calculator-compare" data-growth-market={regionMarket} data-growth-product={market === 'futuresFee' ? 'perpetuals' : 'spot'}>{ui.compare}</a>
       </div>
     </div>

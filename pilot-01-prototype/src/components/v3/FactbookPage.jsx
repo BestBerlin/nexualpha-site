@@ -197,40 +197,40 @@ const i18n = {
     navDex: "DEX",
     secVipTitle: "VIP0 - VIP9 Tiered Fee Schedule & Net Rates",
     secVipSub: "Official base maker/taker fee tiers and native-token rules; user benefits must be source-verified before a net rate is calculated.",
-    tabSpot: "Spot Market",
-    tabFutures: "Futures / Derivatives",
-    thTier: "Tier / 30D Volume",
-    thMakerBase: "Official Maker",
-    thMakerNet: "Net Maker Rate",
-    thTakerBase: "Official Taker",
-    thTakerNet: "Net Taker Rate",
+    tabSpot: "Spot market",
+    tabFutures: "Futures / derivatives",
+    thTier: "Tier / 30D volume",
+    thMakerBase: "Official maker",
+    thMakerNet: "Net maker rate",
+    thTakerBase: "Official taker",
+    thTakerNet: "Net taker rate",
     thFormula: "Formula: Net Fee = Base Rate × (1 - Token Discount) × (1 - Rebate Ratio)",
     tagDiscount: "Token Discount",
     secPorTitle: "Proof of reserves",
     secPorSub: "Reserve figures appear here only with a dated official source; until then each field stays pending.",
-    cardTotalPor: "Declared Total Reserve Ratio",
-    cardCleanPor: "Clean Reserve Ratio (Non-Native)",
-    cardCleanBadge: "Critical Solvency Metric",
-    cardNativeToken: "Native Token Reserve Share",
-    cardSecurityFund: "User Protection Fund",
-    assetCoverageTitle: "Major Asset Reserve Coverage",
-    auditorLabel: "Auditor & Verification Methodology",
+    cardTotalPor: "Declared total reserve ratio",
+    cardCleanPor: "Clean reserve ratio (non-native)",
+    cardCleanBadge: "Critical solvency metric",
+    cardNativeToken: "Native token reserve share",
+    cardSecurityFund: "User protection fund",
+    assetCoverageTitle: "Major asset reserve coverage",
+    auditorLabel: "Auditor and verification methodology",
     merkleLink: "Verify Official Merkle Tree Proof ↗",
-    secKycTitle: "Regulatory Compliance, KYC & Account Security",
+    secKycTitle: "Regulatory compliance, KYC and account security",
     secKycSub: "Access policies, licensing registrations, and anti-freezing risk coefficient assessment.",
-    kycLevelLabel: "KYC Requirement Level",
+    kycLevelLabel: "KYC requirement level",
     antiFreezeLabel: "Anti-Freeze Security Score",
     antiFreezeDesc: "Anti-Freeze Risk Model",
-    kycStagesLabel: "KYC Tier Breakdown",
-    supportedLabel: "Supported Jurisdictions",
-    restrictedLabel: "Restricted Jurisdictions",
-    licensesLabel: "Regulatory Licenses & Registrations",
-    secSecurityTitle: "Official Domains & Anti-Phishing Source Records",
+    kycStagesLabel: "KYC tier breakdown",
+    supportedLabel: "Supported jurisdictions",
+    restrictedLabel: "Restricted jurisdictions",
+    licensesLabel: "Regulatory licenses and registrations",
+    secSecurityTitle: "Official domains and anti-phishing source records",
     secSecuritySub: "Recorded REST/WebSocket API endpoints, alternate domains, and official route clues; not live authorization or a safety guarantee.",
-    primaryDomain: "Primary Official Domain",
-    alternateDomainsLabel: "Recorded Alternate Domains & Subdomains",
-    apiEndpoints: "Public API Endpoints",
-    docLink: "View Official API Documentation ↗",
+    primaryDomain: "Primary official domain",
+    alternateDomainsLabel: "Recorded alternate domains and subdomains",
+    apiEndpoints: "Public API endpoints",
+    docLink: "View official API documentation ↗",
     tgVerifyTip: "Tip: If you use Telegram or another checker, still confirm the final login domain on the platform's own page.",
     secActivationTitle: "NexuAlpha Partner Route & User Conditions",
     inviteCodeLabel: "Referral Code",
@@ -1079,6 +1079,67 @@ function factbookValueClass(value) {
   return /^[\s\d.,%$≈~<>+\-–/A-Za-z]{1,14}$/.test(text) && /\d/.test(text) ? "factbook-value factbook-value--figure" : "factbook-value";
 }
 
+// Unreviewed fields collapse into one sentence ("5 fields not yet reviewed: a, b, c.") instead of an empty label/value grid.
+const PENDING_LINE = {
+  en: (n, l) => `${n} fields not yet reviewed: ${l}.`,
+  "zh-Hans": (n, l) => `${n} 项尚未复核：${l}。`,
+  "zh-Hant": (n, l) => `${n} 項尚未複核：${l}。`,
+  ja: (n, l) => `未確認の項目 ${n} 件：${l}。`,
+  ko: (n, l) => `아직 검토하지 않은 항목 ${n}개: ${l}.`,
+  es: (n, l) => `${n} campos aún sin revisar: ${l}.`,
+  "pt-BR": (n, l) => `${n} campos ainda não revisados: ${l}.`,
+  fr: (n, l) => `${n} champs pas encore vérifiés : ${l}.`,
+  de: (n, l) => `${n} Felder noch nicht geprüft: ${l}.`,
+  it: (n, l) => `${n} campi non ancora verificati: ${l}.`,
+  ru: (n, l) => `Ещё не проверено полей: ${n} — ${l}.`,
+  tr: (n, l) => `Henüz incelenmeyen ${n} alan: ${l}.`,
+  id: (n, l) => `${n} kolom belum ditinjau: ${l}.`,
+  vi: (n, l) => `${n} mục chưa được rà soát: ${l}.`,
+  ar: (n, l) => `${n} حقول لم تُراجع بعد: ${l}.`,
+};
+const LINKED_NOT_REVIEWED = {
+  en: "Official page linked, figures not yet reviewed.",
+  "zh-Hans": "已链接官方页面，数字尚未复核。",
+  "zh-Hant": "已連結官方頁面，數字尚未複核。",
+  ja: "公式ページあり・数値は未確認です。",
+  ko: "공식 페이지가 연결되어 있으며 수치는 아직 검토하지 않았습니다.",
+  es: "Página oficial enlazada; cifras aún sin revisar.",
+  "pt-BR": "Página oficial vinculada; números ainda não revisados.",
+  fr: "Page officielle liée ; chiffres pas encore vérifiés.",
+  de: "Offizielle Seite verlinkt; Zahlen noch nicht geprüft.",
+  it: "Pagina ufficiale collegata; cifre non ancora verificate.",
+  ru: "Официальная страница указана; цифры ещё не проверены.",
+  tr: "Resmî sayfa bağlantılı; rakamlar henüz incelenmedi.",
+  id: "Halaman resmi ditautkan; angka belum ditinjau.",
+  vi: "Đã liên kết trang chính thức; số liệu chưa được rà soát.",
+  ar: "الصفحة الرسمية مرتبطة؛ لم تُراجع الأرقام بعد.",
+};
+const pickLocale = (map, locale) => map[locale] || map[String(locale || "").split("-")[0]] || map.en;
+const pendingFieldsLine = (locale, labels) => {
+  const list = labels.filter(Boolean);
+  const zh = String(locale || "").startsWith("zh") || locale === "ja";
+  return pickLocale(PENDING_LINE, locale)(list.length, list.join(zh ? "、" : ", "));
+};
+const linkedNotReviewedCopy = (locale) => pickLocale(LINKED_NOT_REVIEWED, locale);
+const VENUE_CAP = 8;
+const VENUE_MORE = {
+  en: { all: (n) => `Show all ${n}`, fewer: "Show fewer" },
+  "zh-Hans": { all: (n) => `显示全部 ${n} 个`, fewer: "收起" },
+  "zh-Hant": { all: (n) => `顯示全部 ${n} 個`, fewer: "收起" },
+  ja: { all: (n) => `すべて表示（${n}）`, fewer: "閉じる" },
+  ko: { all: (n) => `전체 ${n}개 보기`, fewer: "접기" },
+  es: { all: (n) => `Ver las ${n}`, fewer: "Ver menos" },
+  "pt-BR": { all: (n) => `Ver todas as ${n}`, fewer: "Ver menos" },
+  fr: { all: (n) => `Tout afficher (${n})`, fewer: "Afficher moins" },
+  de: { all: (n) => `Alle ${n} anzeigen`, fewer: "Weniger anzeigen" },
+  it: { all: (n) => `Mostra tutte (${n})`, fewer: "Mostra meno" },
+  ru: { all: (n) => `Показать все (${n})`, fewer: "Свернуть" },
+  tr: { all: (n) => `Tümünü göster (${n})`, fewer: "Daha az göster" },
+  id: { all: (n) => `Tampilkan semua ${n}`, fewer: "Tampilkan lebih sedikit" },
+  vi: { all: (n) => `Hiện tất cả ${n}`, fewer: "Thu gọn" },
+  ar: { all: (n) => `عرض الكل (${n})`, fewer: "عرض أقل" },
+};
+const venueMoreCopy = (locale) => VENUE_MORE[locale] || VENUE_MORE[String(locale || "").split("-")[0]] || VENUE_MORE.en;
 const sentenceCase = (v) => { const t = String(v || ""); return t ? t.charAt(0).toUpperCase() + t.slice(1).toLowerCase() : t; };
 
 export function FactbookPage({ slug = "binance", locale = "en", market, product }) {
@@ -1114,6 +1175,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
   const mdCopyTimerRef = useRef(null);
   const hashCopyTimerRef = useRef(null);
   const [filterCategory, setFilterCategory] = useState("ALL");
+  const [showAllVenues, setShowAllVenues] = useState(false);
   const [expandedFactbookSections, setExpandedFactbookSections] = useState({});
   const [showAllFeeTiers, setShowAllFeeTiers] = useState(false);
 
@@ -1395,13 +1457,16 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             </small>
           </div>
 
-          <div className="factbook-nav__venue-list">
-            {filteredSlugs.map((s) => {
+          <div className="factbook-nav__venue-list" data-collapsed={!showAllVenues && filteredSlugs.length > VENUE_CAP ? "true" : undefined}>
+            {filteredSlugs.map((s, index) => {
                   const v = publicFactbookVenue(FACTBOOK_REGISTRY[s], locale);
               const isActive = s === venue.slug;
+              /* the switcher shows the first eight venues (plus the current one); every link stays in the markup */
+              const capped = !showAllVenues && index >= VENUE_CAP && !isActive;
               return (
                 <a
                   key={s}
+                  hidden={capped || undefined}
                   href={localizedHref(`/factbook/${encodeURIComponent(s)}`, { locale, market, product })}
                   aria-current={isActive ? "page" : undefined}
                   className={`factbook-venue-pill ${isActive ? "factbook-venue-pill--active" : ""}`}
@@ -1419,6 +1484,11 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 </a>
               );
             })}
+            {filteredSlugs.length > VENUE_CAP && (
+              <button type="button" className="factbook-venue-more" aria-expanded={showAllVenues} onClick={() => setShowAllVenues((open) => !open)}>
+                {showAllVenues ? venueMoreCopy(currentLocale).fewer : venueMoreCopy(currentLocale).all(filteredSlugs.length)}
+              </button>
+            )}
           </div>
         </div>
       </nav>
@@ -1546,12 +1616,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
               </div>
             </dl>
             ) : (
-            <dl className="factbook-evidence factbook-evidence--pending">
-              <div className="factbook-evidence__row">
-                <dt>{venue.por?.totalRatio}</dt>
-                <dd><ul className="factbook-pending-fields">{[t.cardTotalPor, t.cardNativeToken, t.cardSecurityFund].map((label) => <li key={label}>{label}</li>)}</ul><small>{venue.por?.securityFund} · {venue.por?.fundAmount}</small></dd>
-              </div>
-            </dl>
+            <p className="factbook-pending-line">{pendingFieldsLine(currentLocale, [t.cardTotalPor, t.cardNativeToken, t.cardSecurityFund])}</p>
             )}
 
             <div className="factbook-por-details">
@@ -1571,7 +1636,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
 
               <section className="factbook-evidence-group" aria-labelledby="factbook-auditor-title">
                 <h3 className="factbook-subheading" id="factbook-auditor-title">{t.auditorLabel}</h3>
-                <p className="factbook-auditor-text">{venue.por?.auditor}</p>
+                <p className="factbook-auditor-text">{!venue.porVerified && venue.por?.merkleUrl ? linkedNotReviewedCopy(currentLocale) : venue.por?.auditor}</p>
                 {venue.por?.merkleUrl && (
                   <a
                     href={venue.por.merkleUrl}
@@ -1636,19 +1701,8 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
               </div>
             </dl>
             ) : (
-            <dl className="factbook-evidence factbook-evidence--wide factbook-evidence--pending">
-              <div className="factbook-evidence__row">
-                <dt>{t.kycLevelLabel}</dt>
-                <dd>
-                  {/* no KYC level badge until the compliance record has a source */}
-                  <small>{isZh ? venue.compliance?.kycSummaryZh : venue.compliance?.kycSummaryEn}</small>
-                </dd>
-              </div>
-              <div className="factbook-evidence__row">
-                <dt>{venue.compliance?.licensesEn?.[0]}</dt>
-                <dd><ul className="factbook-pending-fields">{[t.kycStagesLabel, t.licensesLabel, t.supportedLabel, t.restrictedLabel].map((label) => <li key={label}>{label}</li>)}</ul></dd>
-              </div>
-            </dl>
+            /* no KYC level badge and no label/value grid until the compliance record has a source: one line */
+            <p className="factbook-pending-line">{pendingFieldsLine(currentLocale, [t.kycLevelLabel, t.kycStagesLabel, t.licensesLabel, t.supportedLabel, t.restrictedLabel])}</p>
             )}
             </div>
           </section>
