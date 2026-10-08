@@ -2,6 +2,7 @@
 // The legacy hero (ticker, LeanHero, Brazil entry, section nav) is re-hosted: LeanHero renders through its `render`
 // prop so copy, data, hrefs, codes and rel attributes stay exactly the ones the old hero produced.
 import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
 
 const NODE_SLUGS = ["binance", "okx", "bybit", "bitget", "kraken", "gate-io", "hyperliquid", "gmx"];
@@ -208,6 +209,9 @@ function Finder({ kit }) {
   const kbd = useRef(false);
   const lit = offered(intent);
   const litKey = lit.join(",");
+  const [reserve, setReserve] = useState(0);
+  const slugRef = useRef(slug);
+  slugRef.current = slug;
   const geo = useRoutes(stageRef, { intentRefs, nodeRefs, youRef, gateRef, cardRef }, intent, litKey, slug);
 
   // Pointer light on the map grid + magnetic primary CTAs (progressive: static without JS or with reduced motion).
@@ -239,6 +243,32 @@ function Finder({ kit }) {
     el.addEventListener("pointerleave", leave);
     return () => { cancelAnimationFrame(raf); el.removeEventListener("pointermove", move); el.removeEventListener("pointerleave", leave); };
   }, []);
+
+  // Reserve the registration card's height: briefly render every venue's card (synchronously, before paint), keep the tallest as the
+  // card's min-height. Switching intent or venue then never changes the hero's height.
+  useEffect(() => {
+    let timer = 0;
+    const prime = () => {
+      const keep = slugRef.current;
+      if (!isWide()) { setReserve(0); return; }
+      let max = 0;
+      try {
+        flushSync(() => setReserve(0));
+        for (const v of nodes) {
+          flushSync(() => setSlug(v.slug));
+          const h = cardRef.current?.getBoundingClientRect().height || 0;
+          if (h > max) max = h;
+        }
+      } finally { flushSync(() => setSlug(keep)); }
+      setReserve(Math.ceil(max));
+    };
+    const later = () => { clearTimeout(timer); timer = setTimeout(prime, 220); };
+    const first = setTimeout(prime, 60);
+    document.fonts?.ready?.then(later);
+    window.addEventListener("resize", later);
+    return () => { clearTimeout(timer); clearTimeout(first); window.removeEventListener("resize", later); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locale]);
 
   const pickIntent = (next) => {
     setIntent(next);
@@ -379,7 +409,7 @@ function Finder({ kit }) {
         </ul>
       </div>
 
-      <div className="rf-card" id={panelId} ref={cardRef} role="region" aria-label={sel.name} style={{ "--ord": 11 + selIdx * 2 }} key={sel.slug}>
+      <div className="rf-card" id={panelId} ref={cardRef} role="region" aria-label={sel.name} style={{ "--ord": 11 + selIdx * 2, ...(reserve ? { minBlockSize: `${reserve}px` } : null) }} key={sel.slug}>
         <div className="rf-card__head">
           <span className="rf-card__who"><BrandMark slug={sel.slug} priority /><b translate="no" lang="en">{sel.name}</b><small translate="no" lang="en">{sel.category}</small></span>
           <BigFee className="rf-big rf-big--card" pair={bigPair} locale={locale} tick={tick} none={t.none} />
