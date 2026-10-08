@@ -68,8 +68,28 @@ export const verifyCopy = {
 // The stamp that lands on the address bar once the domain matches our record.
 const official = { en: "Official", "zh-Hans": "官方", "zh-Hant": "官方", ja: "公式", ko: "공식", tr: "Resmi", fr: "Officiel", de: "Offiziell", es: "Oficial", "pt-BR": "Oficial", ru: "Официальный", ar: "رسمي", id: "Resmi", vi: "Chính thức", it: "Ufficiale" };
 
+// Lookalike demo on the address bar: the tag, and the one-line lesson. Every locale.
+const fake = { en: "Not official", "zh-Hans": "非官方", "zh-Hant": "非官方", ja: "非公式", ko: "비공식", tr: "Resmi değil", fr: "Non officiel", de: "Nicht offiziell", es: "No oficial", "pt-BR": "Não oficial", ru: "Не официальный", ar: "غير رسمي", id: "Tidak resmi", vi: "Không chính thức", it: "Non ufficiale" };
+const fakeNote = {
+  en: "One changed character is enough. Lookalike domains copy the real page.",
+  "zh-Hans": "只改一个字符就够了。仿冒域名会照搬真实页面。",
+  "zh-Hant": "只改一個字元就夠了。仿冒網域會照搬真實頁面。",
+  ja: "1文字違うだけで十分です。偽ドメインは本物のページを複製します。",
+  ko: "글자 하나만 바꿔도 충분합니다. 유사 도메인은 진짜 페이지를 그대로 복제합니다.",
+  tr: "Tek bir karakter yeter. Taklit alan adları gerçek sayfayı kopyalar.",
+  fr: "Un seul caractère modifié suffit. Les domaines imités copient la vraie page.",
+  de: "Ein verändertes Zeichen genügt. Ähnliche Domains kopieren die echte Seite.",
+  es: "Basta con un carácter cambiado. Los dominios parecidos copian la página real.",
+  "pt-BR": "Basta um caractere trocado. Domínios parecidos copiam a página real.",
+  ru: "Достаточно одного изменённого символа. Похожие домены копируют настоящую страницу.",
+  ar: "يكفي تغيير حرف واحد. النطاقات المقلّدة تنسخ الصفحة الحقيقية.",
+  id: "Satu karakter yang diubah sudah cukup. Domain tiruan menyalin halaman asli.",
+  vi: "Chỉ cần đổi một ký tự. Tên miền giả mạo sao chép trang thật.",
+  it: "Basta un carattere cambiato. I domini simili copiano la pagina vera.",
+};
+
 export function getVerifyCopy(locale) {
   const l = locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale;
   const key = verifyCopy[l] ? l : verifyCopy[String(l || "").split("-")[0]] ? String(l).split("-")[0] : "en";
-  return { ...verifyCopy[key], official: official[key] || official.en };
+  return { ...verifyCopy[key], official: official[key] || official.en, fake: fake[key] || fake.en, fakeNote: fakeNote[key] || fakeNote.en };
 }

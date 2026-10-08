@@ -17,6 +17,7 @@ import { CompareLab } from "./components/v6/CompareLab";
 import { VerifyBand } from "./components/v6/VerifyBand";
 import { DirectoryV6 } from "./components/v6/DirectoryV6";
 import { ClosingBand } from "./components/v6/ClosingBand";
+import { RouteRail } from "./components/v6/RouteRail";
 import { PlatformMatcher } from "./components/v3/PlatformMatcher";
 import { CleanFooter } from "./components/v3/CleanFooter";
 import { headerNavigationState } from "./data/header-navigation-state.js";
@@ -793,6 +794,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const homeCtx = { locale, venues: command.venueCatalog, selected: compareSelection, onSelectionChange: setCompareSelection, decisionPassport };
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
     <Header copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
+    <RouteRail />
     <RouteFinder {...homeCtx} legacy={homeSlots.hero} />
     <CompareLab {...homeCtx} legacy={homeSlots.compare} feeCheck={homeSlots.feeCheck} />
     <VerifyBand {...homeCtx} />

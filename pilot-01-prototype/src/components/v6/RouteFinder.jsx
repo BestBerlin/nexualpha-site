@@ -56,26 +56,11 @@ const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefe
 const isWide = () => typeof window !== "undefined" && window.matchMedia("(min-width: 74rem)").matches;
 const bareDomain = (d) => String(d || "").replace(/^(www|app)\./, "");
 
-// Fee figure: final value on the server and under reduced motion; counts up when `tick` changes (hover, focus, selection).
-function Fee({ value, locale, tick, min = 2, max = 3, ms = 400 }) {
-  const ref = useRef(null);
-  const first = useRef(true);
-  const fmt = useCallback((n) => `${new Intl.NumberFormat(locale, { minimumFractionDigits: min, maximumFractionDigits: max }).format(n)}`, [locale, min, max]);
-  useEffect(() => {
-    const el = ref.current;
-    if (first.current) { first.current = false; return undefined; }
-    if (!el || reduced()) return undefined;
-    let raf = 0;
-    const t0 = performance.now();
-    const step = (now) => {
-      const p = Math.min((now - t0) / ms, 1);
-      el.textContent = fmt(value * (p >= 1 ? 1 : 1 - 2 ** (-10 * p)));
-      if (p < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => { cancelAnimationFrame(raf); el.textContent = fmt(value); };
-  }, [tick, value, fmt, ms]);
-  return <span ref={ref}>{fmt(value)}</span>;
+// Fee figure: ALWAYS the final verified value, in the first frame and on the server. Change is signalled by opacity/translate only
+// (a keyed remount replays the CSS entrance); no intermediate number is ever rendered.
+function Fee({ value, locale, tick, min = 2, max = 3 }) {
+  const text = new Intl.NumberFormat(locale, { minimumFractionDigits: min, maximumFractionDigits: max }).format(value);
+  return <span key={tick} className="rf-fee">{text}</span>;
 }
 
 function FeePair({ pair, locale, tick, none }) {
@@ -194,7 +179,7 @@ function BigFee({ className, pair, locale, tick }) {
   return (
     <p className={className} aria-hidden="true" dir="ltr">
       {pair && Number.isFinite(pair[0])
-        ? <><span className="rf-big__n"><Fee value={pair[0]} locale={locale} tick={tick} ms={620} /></span><span className="rf-big__u">%</span></>
+        ? <><span className="rf-big__n"><Fee value={pair[0]} locale={locale} tick={tick} /></span><span className="rf-big__u">%</span></>
         : <span className="rf-big__n rf-big__n--na">{"\u2014"}</span>}
     </p>
   );
@@ -219,6 +204,8 @@ function Finder({ kit }) {
   const youRef = useRef(null);
   const gateRef = useRef(null);
   const cardRef = useRef(null);
+  const listRef = useRef(null);
+  const kbd = useRef(false);
   const lit = offered(intent);
   const litKey = lit.join(",");
   const geo = useRoutes(stageRef, { intentRefs, nodeRefs, youRef, gateRef, cardRef }, intent, litKey, slug);
@@ -258,6 +245,13 @@ function Finder({ kit }) {
     setSlug(pickDefault(next));
     setHot(null);
     setTick((n) => n + 1);
+    // Stacked layout: the venues sit below the intents. Bring them into view on a deliberate tap (not keyboard arrow roving).
+    if (!isWide() && !kbd.current) requestAnimationFrame(() => requestAnimationFrame(() => {
+      const el = listRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (r.top > window.innerHeight * 0.62) el.scrollIntoView({ block: "start", behavior: reduced() ? "auto" : "smooth" });
+    }));
   };
   const onRadioKey = (e) => {
     const i = INTENTS.indexOf(intent);
@@ -269,7 +263,9 @@ function Finder({ kit }) {
     if (e.key === "End") n = INTENTS[3];
     if (!n) return;
     e.preventDefault();
+    kbd.current = true;
     pickIntent(n);
+    kbd.current = false;
     intentRefs.current[n]?.focus();
   };
   const pickNode = (s) => {
@@ -283,8 +279,10 @@ function Finder({ kit }) {
   const peek = nodes.find((v) => v.slug === hot) || sel;
   const facts = EXCHANGE_FACTS[sel.slug];
   const BrandMark = kit.BrandMark;
+  // Fee rows only exist for spot / perps. Fiat on-ramp and on-chain have no checked fee data in the catalog: say so, never show spot fees there.
+  const feeIntent = intent === "spot" || intent === "perps";
   const feeKey = intent === "perps" ? "perp" : "spot";
-  const bigPair = facts?.status === "verified" ? facts[feeKey] : null;
+  const bigPair = feeIntent && facts?.status === "verified" ? facts[feeKey] : null;
   const panelId = `${uid}-panel`;
   const selIdx = Math.max(0, nodes.findIndex((v) => v.slug === sel.slug));
 
@@ -321,7 +319,7 @@ function Finder({ kit }) {
 
       <div className="rf-readout" aria-hidden="true">
         <BigFee className="rf-big" pair={bigPair} locale={locale} tick={tick} />
-        <p className="rf-readout__cap"><b translate="no" lang="en">{sel.name}</b> {feeKey === "perp" ? t.perp : t.spot} {t.mt} {facts?.status === "verified" && facts[feeKey] ? <FeePair pair={facts[feeKey]} locale={locale} tick={0} none={t.none} /> : t.none}</p>
+        <p className="rf-readout__cap"><b translate="no" lang="en">{sel.name}</b> {feeIntent ? <>{feeKey === "perp" ? t.perp : t.spot} {t.mt} {bigPair ? <FeePair pair={bigPair} locale={locale} tick={tick} none={t.none} /> : t.none}</> : <>{t.i[intent][0]}: {t.none}</>}</p>
       </div>
 
       <div className="rf-hub" aria-hidden="true">
@@ -337,7 +335,7 @@ function Finder({ kit }) {
       </div>
 
       <div className="rf-nodes">
-        <p className="rf-label" id={`${uid}-n`}>
+        <p className="rf-label" id={`${uid}-n`} ref={listRef}>
           {t.venues} <span className="rf-count" dir="ltr">{lit.length}/{nodes.length}</span>
         </p>
         <ul className="rf-list" aria-labelledby={`${uid}-n`}>
@@ -345,7 +343,7 @@ function Finder({ kit }) {
             const on = lit.includes(v.slug);
             const active = v.slug === sel.slug;
             const f = EXCHANGE_FACTS[v.slug];
-            const pair = f?.status === "verified" ? f[feeKey] : null;
+            const pair = feeIntent && f?.status === "verified" ? f[feeKey] : null;
             return (
               <li key={v.slug}>
                 <button
@@ -370,9 +368,9 @@ function Finder({ kit }) {
                   <BrandMark slug={v.slug} compact priority />
                   <b className="rf-node__name" translate="no" lang="en">{v.name}</b>
                   <span className="rf-node__fee">
-                    {on && pair && Number.isFinite(pair[0])
+                    {on && feeIntent && pair && Number.isFinite(pair[0])
                       ? <span dir="ltr"><Fee value={pair[0]} locale={locale} tick={hot === v.slug || active ? tick : 0} />%</span>
-                      : <><span className="rf-na" aria-hidden="true">{on ? "—" : ""}</span><span className="rf-sr">{on ? t.none : t.off}</span></>}
+                      : <><span className="rf-na" aria-hidden={!(on && !feeIntent)}>{on ? (feeIntent ? "—" : t.none) : ""}</span>{(feeIntent || !on) && <span className="rf-sr">{on ? t.none : t.off}</span>}</>}
                   </span>
                 </button>
               </li>
@@ -386,8 +384,8 @@ function Finder({ kit }) {
           <span className="rf-card__who"><BrandMark slug={sel.slug} priority /><b translate="no" lang="en">{sel.name}</b><small translate="no" lang="en">{sel.category}</small></span>
           <BigFee className="rf-big rf-big--card" pair={bigPair} locale={locale} tick={tick} />
           <dl className="rf-facts">
-            <div data-on={feeKey === "spot"}><dt>{t.spot} {t.mt}</dt><dd><FeePair pair={facts?.status === "verified" ? facts.spot : null} locale={locale} tick={tick} none={t.none} /></dd></div>
-            <div data-on={feeKey === "perp"}><dt>{t.perp} {t.mt}</dt><dd><FeePair pair={facts?.status === "verified" ? facts.perp : null} locale={locale} tick={tick} none={t.none} /></dd></div>
+            <div data-on={feeIntent && feeKey === "spot"}><dt>{t.spot} {t.mt}</dt><dd><FeePair pair={feeIntent && facts?.status === "verified" ? facts.spot : null} locale={locale} tick={tick} none={t.none} /></dd></div>
+            <div data-on={feeIntent && feeKey === "perp"}><dt>{t.perp} {t.mt}</dt><dd><FeePair pair={feeIntent && facts?.status === "verified" ? facts.perp : null} locale={locale} tick={tick} none={t.none} /></dd></div>
           </dl>
         </div>
         {kit.card(sel.slug)}

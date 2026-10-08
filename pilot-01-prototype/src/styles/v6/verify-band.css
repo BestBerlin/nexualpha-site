@@ -44,6 +44,8 @@
   box-shadow: var(--inset-top);
   font-size: var(--t-20); letter-spacing: 0;
 }
+.v6 .vb__bars { display: grid; gap: var(--s-2); margin-block-start: var(--s-4); min-inline-size: 0; }
+.v6 .vb__bars .vb__bar { margin-block-start: 0; }
 .v6 .vb__lock { flex: none; color: var(--accent); }
 .v6 .vb__lock * { stroke-dasharray: 1; stroke-dashoffset: 0; }
 .v6 .vb__typed {
@@ -105,29 +107,60 @@
   .v6 .vb__route { margin-block-start: var(--s-12); }
 }
 
-/* motion: only when the user allows it. Reduced motion (and no-JS / no-IO) shows the finished state. */
+
+/* the lookalike bar: the same address bar, but the domain is a copy. Differing characters are struck through and muted (no second accent). */
+.v6 .vb__bar--fake { min-block-size: 48px; padding-block: var(--s-2); border-style: dashed; border-color: var(--line); background: transparent; box-shadow: none; font-family: var(--font-mono); font-weight: 500; font-size: var(--t-16); color: var(--text); }
+.v6 .vb__lock--open { color: var(--text-muted); }
+.v6 .vb__typed--fake { color: var(--text); }
+.v6 .vb__x {
+  color: var(--text-muted); background: linear-gradient(var(--text-strong), var(--text-strong)) no-repeat 0 54% / 100% 2px, rgb(255 255 255 / 0.1);
+  border-radius: 2px; padding-inline: 1px; margin-inline: -1px;
+}
+.v6 .vb__tag {
+  margin-inline-start: auto; flex: none; display: inline-flex; align-items: center; padding: var(--s-1) var(--s-2);
+  border: 1px solid var(--n8); border-radius: var(--s-1); color: var(--text-muted);
+  font-family: var(--font-sans); font-size: var(--t-12); line-height: 1.2; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+}
+.v6 .vb__note { margin: 0; color: var(--text-muted); max-inline-size: var(--measure); }
+@media (min-width: 900px) { .v6 .vb__bar--fake { font-size: var(--t-20); } }
+@media (max-width: 899px) { .v6 .vb__bar { padding-inline: var(--s-3); gap: var(--s-2); } .v6 .vb__bar--fake .vb__tag { letter-spacing: 0.04em; } }
+
+/* motion: only when the user allows it. Reduced motion (and no-JS / no-IO) shows the finished state.
+   Sequence (n = official chars, m = lookalike chars, 55ms per char):
+   official bar types at once (never empty: it starts at 3ch) -> lookalike bar types -> the changed characters are struck through -> official bar locks and is stamped. */
 @media (prefers-reduced-motion: no-preference) {
-  /* armed, not yet in view: everything waits at its starting pose */
-  .v6 .vb__route[data-armed]:not([data-live]) .vb__typed { inline-size: 0; }
+  .v6 .vb__bars { --t1: calc(var(--n, 12) * 55ms + 260ms); --t2: calc(var(--t1) + var(--m, 12) * 55ms + 120ms); --t3: calc(var(--t2) + 700ms); }
+  /* armed, not yet in view */
+  .v6 .vb__route[data-armed]:not([data-live]) .vb__typed { inline-size: 3ch; }
+  .v6 .vb__route[data-armed]:not([data-live]) .vb__bar--fake { opacity: 0; translate: 0 8px; }
+  .v6 .vb__route[data-armed]:not([data-live]) .vb__x { background-size: 0% 2px, 100% 100%; color: var(--text); }
   .v6 .vb__route[data-armed]:not([data-live]) .vb__lock * { stroke-dashoffset: 1; }
   .v6 .vb__route[data-armed]:not([data-live]) .vb__stamp { opacity: 0; }
-  .v6 .vb__route[data-armed]:not([data-live]) .vb__ok { opacity: 0; }
+  .v6 .vb__route[data-armed]:not([data-live]) .vb__ok, .v6 .vb__route[data-armed]:not([data-live]) .vb__note { opacity: 0; }
   .v6 .vb__route[data-armed]:not([data-live]) .vb__line i { transform: scaleY(0); }
   .v6 .vb__route[data-armed]:not([data-live]) .vb__node { border-color: var(--line-strong); color: var(--text-muted); }
 
-  /* 1. the domain types out, one whole glyph per step, no blur */
-  .v6 .vb__route[data-live] .vb__typed {
-    animation: vb-type calc(var(--n, 12) * 55ms) steps(var(--n, 12), end) 240ms both, vb-caret calc(var(--n, 12) * 55ms + 240ms) steps(1, end) both;
+  /* 1. the official domain types out from the first frame, one whole glyph per step, no blur */
+  .v6 .vb__route[data-live] .vb__bar--official .vb__typed {
+    animation: vb-type calc(var(--n, 12) * 55ms) steps(var(--n, 12), end) 0ms both, vb-caret calc(var(--n, 12) * 55ms) steps(1, end) both;
   }
-  /* 2. the lock draws */
+  /* 2. a lookalike types below it */
+  .v6 .vb__route[data-live] .vb__bar--fake { animation: vb-rise 360ms var(--ease-out) var(--t1) both; }
+  .v6 .vb__route[data-live] .vb__bar--fake .vb__typed {
+    animation: vb-type-fake calc(var(--m, 12) * 55ms) steps(var(--m, 12), end) var(--t1) both;
+  }
+  /* 3. the differing characters are struck through */
+  .v6 .vb__route[data-live] .vb__x { animation: vb-strike 420ms var(--ease-out) var(--t2) both; }
+  .v6 .vb__route[data-live] .vb__note { animation: vb-rise 400ms var(--ease-out) var(--t2) both; }
+  /* 4. the official bar gets its lock, border and stamp */
   .v6 .vb__route[data-live] .vb__lock * { animation: vb-draw 420ms var(--ease-out) both; }
-  .v6 .vb__route[data-live] .vb__lock rect { animation-delay: calc(var(--n, 12) * 55ms + 300ms); }
-  .v6 .vb__route[data-live] .vb__lock path:first-child { animation-delay: calc(var(--n, 12) * 55ms + 520ms); }
-  .v6 .vb__route[data-live] .vb__lock path:last-child { animation-delay: calc(var(--n, 12) * 55ms + 640ms); }
-  .v6 .vb__route[data-live] .vb__bar { animation: vb-bar 700ms var(--ease-out) calc(var(--n, 12) * 55ms + 760ms) both; }
-  /* 3. the stamp lands */
-  .v6 .vb__route[data-live] .vb__stamp { animation: vb-stamp 380ms var(--ease-out) calc(var(--n, 12) * 55ms + 760ms) both; }
-  .v6 .vb__route[data-live] .vb__ok { animation: vb-rise 400ms var(--ease-out) calc(var(--n, 12) * 55ms + 1000ms) both; }
+  .v6 .vb__route[data-live] .vb__lock rect { animation-delay: var(--t3); }
+  .v6 .vb__route[data-live] .vb__lock path:first-child { animation-delay: calc(var(--t3) + 220ms); }
+  .v6 .vb__route[data-live] .vb__lock path:last-child { animation-delay: calc(var(--t3) + 340ms); }
+  .v6 .vb__route[data-live] .vb__lock--open * { animation: none; }
+  .v6 .vb__route[data-live] .vb__bar--official { animation: vb-bar 700ms var(--ease-out) calc(var(--t3) + 460ms) both; }
+  .v6 .vb__route[data-live] .vb__stamp { animation: vb-stamp 380ms var(--ease-out) calc(var(--t3) + 460ms) both; }
+  .v6 .vb__route[data-live] .vb__ok { animation: vb-rise 400ms var(--ease-out) calc(var(--t3) + 700ms) both; }
   /* the route completes: line to 100%, stations light in order */
   .v6 .vb__route[data-live] .vb__line i { animation: vb-fill 1700ms var(--ease-out) 200ms both; }
   .v6 .vb__route[data-live] .vb__node { animation: vb-node 360ms var(--ease-out) both; }
@@ -136,8 +169,10 @@
   .v6 .vb__route[data-live] .vb__st--3 .vb__node { animation-delay: 1700ms; }
   .v6 .vb__code[data-copied] .vb__codeval { animation: vb-pop 400ms var(--ease-out); }
   @media (min-width: 900px) { .v6 .vb__route[data-armed]:not([data-live]) .vb__line i { transform: scaleX(0); } .v6 .vb__route[data-live] .vb__line i { animation-name: vb-fill-x; } }
-  @keyframes vb-type { from { inline-size: 0; } to { inline-size: calc(var(--n, 12) * 1ch); } }
+  @keyframes vb-type { from { inline-size: 3ch; } to { inline-size: calc(var(--n, 12) * 1ch); } }
+  @keyframes vb-type-fake { from { inline-size: 3ch; } to { inline-size: calc(var(--m, 12) * 1ch); } }
   @keyframes vb-caret { from, 99.9% { border-inline-end-color: var(--accent); } to { border-inline-end-color: transparent; } }
+  @keyframes vb-strike { from { background-size: 0% 2px, 100% 100%; color: var(--text); } to { background-size: 100% 2px, 100% 100%; color: var(--text-muted); } }
   @keyframes vb-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
   @keyframes vb-bar { 0% { border-color: var(--line-strong); } 35% { border-color: var(--accent); } 100% { border-color: var(--accent); } }
   @keyframes vb-stamp { 0% { opacity: 0; transform: scale(1.7); } 60% { opacity: 1; transform: scale(0.94); } 100% { opacity: 1; transform: none; } }

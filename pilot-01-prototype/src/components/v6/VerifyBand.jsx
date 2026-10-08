@@ -11,11 +11,44 @@ function useInViewOnce(ref) {
     const el = ref.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
     setArmed(true);
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold: 0.2 });
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold: 0.05, rootMargin: "0px 0px -8% 0px" });
     io.observe(el);
     return () => io.disconnect();
   }, [ref]);
   return [armed, on];
+}
+
+// A lookalike of the venue's OWN official domain, built from the catalog value (never hardcoded): the classic single-character tricks.
+// Returns [{ c, bad }] segments so the differing characters can be struck through. Deterministic per slug (SSR-safe).
+const ACCENT = { a: "\u00e1", e: "\u00e9", i: "\u00ed", o: "\u00f3", u: "\u00fa" };
+const hashOf = (str) => Array.from(String(str)).reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);
+export function lookalikeOf(domain, seed) {
+  const labels = String(domain).split(".");
+  let li = labels.findIndex((l, i) => i < labels.length - 1 && !/^(www|app|pro|m)$/i.test(l));
+  if (li < 0) li = 0;
+  const label = labels[li];
+  const make = (chars) => {
+    const out = [];
+    labels.forEach((l, i) => {
+      if (i) out.push({ c: ".", bad: false });
+      if (i === li) out.push(...chars); else Array.from(l).forEach((c) => out.push({ c, bad: false }));
+    });
+    return out;
+  };
+  const cs = Array.from(label);
+  const tries = [
+    () => { const k = cs.findIndex((c, i) => i > 0 && ACCENT[c.toLowerCase()]); return k < 0 ? null : cs.map((c, i) => (i === k ? { c: ACCENT[c.toLowerCase()], bad: true } : { c, bad: false })); },
+    () => { const k = cs.findIndex((c) => c === "m"); return k < 0 ? null : cs.flatMap((c, i) => (i === k ? [{ c: "r", bad: true }, { c: "n", bad: true }] : [{ c, bad: false }])); },
+    () => { const k = cs.findIndex((c, i) => i > 0 && i < cs.length - 1 && /[a-z]/i.test(c) && cs[i + 1] !== c && cs[i - 1] !== c); return k < 0 ? null : cs.flatMap((c, i) => (i === k ? [{ c, bad: false }, { c, bad: true }] : [{ c, bad: false }])); },
+    () => { const k = Math.max(1, Math.floor(cs.length / 2)); return cs.length < 4 ? null : cs.flatMap((c, i) => (i === k ? [{ c: "-", bad: true }, { c, bad: false }] : [{ c, bad: false }])); },
+    () => { const k = cs.findIndex((c, i) => i > 0 && i < cs.length - 1 && c !== cs[i + 1] && /[a-z]/i.test(c + cs[i + 1])); return k < 0 ? null : cs.map((c, i) => (i === k ? { c: cs[k + 1], bad: true } : i === k + 1 ? { c: cs[k], bad: true } : { c, bad: false })); },
+  ];
+  const start = hashOf(seed || domain) % tries.length;
+  for (let j = 0; j < tries.length; j += 1) {
+    const r = tries[(start + j) % tries.length]();
+    if (r) return make(r);
+  }
+  return make([...cs.slice(0, -1).map((c) => ({ c, bad: false })), { c: cs[cs.length - 1] === "x" ? "z" : "x", bad: true }]);
 }
 
 const Glyph = ({ kind }) => (
@@ -64,6 +97,8 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
     if (a) a.click(); else window.location.assign(localizedHref("/methodology#disclosure", { locale }));
   };
   const chars = Array.from(row.domain);
+  const fake = lookalikeOf(row.domain, row.slug);
+  const fakeText = fake.map((x) => x.c).join("");
 
   return (
     <section className="v6-section vb" id="verify" aria-labelledby="vb-title">
@@ -87,16 +122,27 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
             <span className="vb__node" aria-hidden="true"><Glyph kind="domain" /></span>
             <div className="vb__body">
               <h3 className="v6-h3">{t.s1t}</h3>
-              <div className="vb__proof vb__bar" key={row.slug} lang="en" translate="no" dir="ltr" style={{ "--n": chars.length }}>
-                <span className="vb__sr">{row.domain}</span>
-                <svg className="vb__lock" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path pathLength="1" d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
-                  <rect pathLength="1" x="5.5" y="10.5" width="13" height="9.5" rx="2.5" />
-                  <path pathLength="1" d="M12 14.5v2" />
-                </svg>
-                <span className="vb__typed" aria-hidden="true">{row.domain}</span>
-                <span className="vb__stamp" aria-hidden="true" lang={locale} translate="yes" dir="auto">{t.official}</span>
+              <div className="vb__bars" key={row.slug} style={{ "--n": chars.length, "--m": fake.length }}>
+                <div className="vb__proof vb__bar vb__bar--official" lang="en" translate="no" dir="ltr">
+                  <span className="vb__sr">{row.domain}</span>
+                  <svg className="vb__lock" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path pathLength="1" d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
+                    <rect pathLength="1" x="5.5" y="10.5" width="13" height="9.5" rx="2.5" />
+                    <path pathLength="1" d="M12 14.5v2" />
+                  </svg>
+                  <span className="vb__typed" aria-hidden="true">{row.domain}</span>
+                  <span className="vb__stamp" aria-hidden="true" lang={locale} translate="yes" dir="auto">{t.official}</span>
+                </div>
+                <div className="vb__bar vb__bar--fake" aria-hidden="true" lang="en" translate="no" dir="ltr">
+                  <svg className="vb__lock vb__lock--open" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8 10.5V8a4 4 0 0 1 7.6-1.7" /><rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5" />
+                  </svg>
+                  <span className="vb__typed vb__typed--fake">{fake.map((x, i) => <span key={i} className={x.bad ? "vb__x" : undefined}>{x.c}</span>)}</span>
+                  <span className="vb__tag" lang={locale} translate="yes" dir="auto">{t.fake}</span>
+                </div>
+                <span className="vb__sr">{`${t.fake}: ${fakeText}`}</span>
               </div>
+              <p className="v6-small vb__note">{t.fakeNote}</p>
               <p className="v6-small vb__ok"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.8" /></svg>{t.s1ok}</p>
               <p className="v6-body vb__desc">{t.s1d}</p>
             </div>
