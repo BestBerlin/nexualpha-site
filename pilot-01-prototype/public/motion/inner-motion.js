@@ -88,44 +88,63 @@
       var docks = [];
       for (var i = 0; i < heads.length && docks.length < 9; i++) {
         var h = heads[i];
-        if (!visible(h) || h.closest(".v6r, [role='dialog'], nav")) continue;
+        if (!visible(h) || h.getBoundingClientRect().width < 40 || h.closest(".v6r, [role='dialog'], nav")) continue;
         var r = h.getBoundingClientRect();
         var y = r.top - mr.top + Math.min(r.height / 2, 14);
         if (y > start + 48 && (!docks.length || y - docks[docks.length - 1].y > 64)) docks.push({ y: Math.round(y), t: label(h) });
       }
-      var dest = null, destEl = null;
+      var dest = null;
       var primaries = main.querySelectorAll("a[rel~='sponsored'][class*='cta'], a[rel~='sponsored'][class*='btn'], a[rel~='sponsored'][class*='primary'], .button-primary, [class*='--primary'], [class*='__primary']");
       for (var j = primaries.length - 1; j >= 0; j--) {
-        if (visible(primaries[j])) { var pr = primaries[j].getBoundingClientRect(); var py = pr.top - mr.top + pr.height / 2; if (py > start + 48) { dest = py; destEl = primaries[j]; break; } }
+        if (visible(primaries[j])) { var pr = primaries[j].getBoundingClientRect(); var py = pr.top - mr.top + pr.height / 2; if (py > start + 48) { dest = py; break; } }
       }
       var end = Math.max(dest || 0, docks.length ? docks[docks.length - 1].y + 1 : 0, mr.height - 96);
       if (dest && dest >= end - 1) end = dest;
-      else { dest = null; destEl = null; }
       docks = docks.filter(function (d) { return d.y < end - 32; });
-      /* destination stub: into the primary action when the horizontal path is clear of text, else to the content edge */
-      var stub = Math.max(0, 25 - 8);
-      if (destEl && !bar) {
-        var dr = destEl.getBoundingClientRect();
-        var target = edgeOf(dr) - x - 6;
-        var lineY = dr.top + dr.height / 2;
-        var lo = x, clear = target > 0;
-        if (clear) {
-          var rects = textRects(main);
-          for (var q = 0; q < rects.length && clear; q++) {
-            var tr = rects[q];
-            var tx0 = rtl ? vw - tr.right : tr.left, tx1 = rtl ? vw - tr.left : tr.right;
-            if (tr.top - 2 < lineY && tr.bottom + 2 > lineY && tx1 > lo && tx0 < x + target) clear = false;
+      /* branch: the route turns into the page's real destination (registration card, compare decision card, /rates result,
+       * the compare dock) along the first horizontal line, nearest the box's middle, that crosses no text. */
+      var branch = null;
+      if (!bar) {
+        var BR = [".registration-card", ".v3-compare-final-choice-card", "#cost-scenario .rt-result", ".mx-dock", "a[rel~='sponsored'][class*='primary']"];
+        var box = null;
+        for (var bi = 0; bi < BR.length && !box; bi++) {
+          var cands = main.querySelectorAll(BR[bi]);
+          for (var bj = 0; bj < cands.length; bj++) {
+            var cs = cands[bj];
+            if (visible(cs) && !/fixed|sticky/.test(getComputedStyle(cs).position)) { box = cs; break; }
           }
         }
-        if (clear) stub = Math.round(target);
+        if (box) {
+          var br = box.getBoundingClientRect();
+          var len = edgeOf(br) - x - 6;
+          if (len > 12) {
+            var rects = textRects(main);
+            var mid = br.top + Math.min(br.height / 2, 120);
+            var ys = [];
+            for (var off = 0; off <= br.height / 2; off += 6) { ys.push(mid + off); if (off) ys.push(mid - off); }
+            for (var yi = 0; yi < ys.length && !branch; yi++) {
+              var ly = ys[yi];
+              if (ly < br.top + 16 || ly > br.bottom - 16) continue;
+              var ok = true;
+              for (var q = 0; q < rects.length && ok; q++) {
+                var tr = rects[q];
+                var tx0 = rtl ? vw - tr.right : tr.left, tx1 = rtl ? vw - tr.left : tr.right;
+                if (tr.top - 4 < ly && tr.bottom + 4 > ly && tx1 > x - 2 && tx0 < x + len + 2) ok = false;
+              }
+              if (ok) branch = { y: Math.round(ly - mr.top), len: Math.round(len) };
+            }
+          }
+        }
       }
-      var sig = [px, Math.round(top0), Math.round(start), Math.round(end), rtl, bar, stub].concat(docks.map(function (d) { return d.y; })).join(",");
+      if (branch && (branch.y <= start + 24 || branch.y >= end)) branch = null;
+      var sig = [px, Math.round(top0), Math.round(start), Math.round(end), rtl, bar, branch ? branch.y + ":" + branch.len : ""].concat(docks.map(function (d) { return d.y; })).join(",");
       if (sig === s.sig) return;
       s.sig = sig;
       s.start = start; s.total = end - start; s.docks = docks;
       var html = '<i class="v6r__track"></i><i class="v6r__fill"></i><b class="v6r__node v6r__node--start"></b>';
       for (var k = 0; k < docks.length; k++) html += '<b class="v6r__node" data-y="' + docks[k].y + '" style="--v6r-ny:' + docks[k].y + 'px"><em class="v6r__lab">' + esc(docks[k].t) + "</em></b>";
-      html += '<b class="v6r__node v6r__node--dest" data-y="' + Math.round(end) + '" style="--v6r-ny:' + Math.round(end) + 'px"><i class="v6r__stub" style="--v6r-stub:' + stub + 'px"></i></b>';
+      if (branch) html += '<b class="v6r__node v6r__node--branch" data-y="' + branch.y + '" style="--v6r-ny:' + branch.y + 'px"><i class="v6r__stub" style="--v6r-stub:' + branch.len + 'px"></i></b>';
+      html += '<b class="v6r__node v6r__node--dest" data-y="' + Math.round(end) + '" style="--v6r-ny:' + Math.round(end) + 'px"></b>';
       rail.innerHTML = html;
       rail.style.top = Math.round(top0) + "px";
       rail.style.left = Math.round(px) + "px";
@@ -148,7 +167,7 @@
       var cur = -1;
       for (var i = 0; i < nodes.length; i++) {
         var on = Number(nodes[i].getAttribute("data-y")) - s.start <= f + 0.5 && f > 0 ? "1" : "0";
-        if (on === "1") cur = i;
+        if (on === "1" && nodes[i].firstChild && nodes[i].firstChild.className === "v6r__lab") cur = i;
         if (nodes[i].getAttribute("data-on") !== on) nodes[i].setAttribute("data-on", on);
       }
       for (var c = 0; c < nodes.length; c++) {

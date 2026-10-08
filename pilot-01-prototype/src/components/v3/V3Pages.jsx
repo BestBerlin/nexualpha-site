@@ -3281,7 +3281,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
           <thead role="rowgroup">
             <tr role="row">
               <th role="columnheader" scope="col" className="v3-matrix-th--dim">
-                <div className="v3-matrix-dim-heading">{isZh ? zhText(locale, "量化对比维度", "量化對比維度") : (labels.metrics || "METRICS")}</div>
+                <div className="v3-matrix-dim-heading">{isZh ? zhText(locale, "量化对比维度", "量化對比維度") : (labels.metrics || "Metrics")}</div>
               </th>
               {venueData.map((d) => (
                 <th role="columnheader" id={`matrix-column-${d.slug}`} scope="col" key={d.slug} className="v3-matrix-th--venue">
@@ -3944,8 +3944,11 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
     {!isPriorityTwoVenueDirectAnswer && <CompareDecisionNav locale={locale} text={text} hasFinalChoice={Boolean(directAnswer)} />}
 
     {isPriorityTwoVenueDirectAnswer && <HardcoreMetricMatrix profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />}
-    {isPriorityTwoVenueDirectAnswer && <>{finalChoiceCard}{supportingCard}</>}
+    {isPriorityTwoVenueDirectAnswer && finalChoiceCard}
 
+    {/* One "Sources and decision notes" group instead of three stacked disclosures (DOM order unchanged). */}
+    <CompareNotesGroup kind="notes" locale={locale} enabled={isPriorityTwoVenueDirectAnswer}>
+    {isPriorityTwoVenueDirectAnswer && supportingCard}
     <details id="compare-snapshot" className="v2-section v3-page-snapshot v3-compare-snapshot v3-compare-snapshot-disclosure">
       <summary>
         <strong>{compareLabels.metrics || text.compareVerdictEyebrow}</strong>
@@ -3969,6 +3972,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
         {supportingCard}
       </>
     )}
+    </CompareNotesGroup>
 
     {/* 终极决策指南：哪类交易者该选 A，哪类该选 B */}
     {!isPriorityTwoVenueDirectAnswer && <details className="v3-compare-section-disclosure" data-compare-task="scenario">
@@ -3979,6 +3983,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
     {/* 高频对决 SEO 关键词 FAQ 问答 */}
     <CompareFaqSection profiles={profiles} locale={locale} />
 
+    <CompareNotesGroup kind="before" locale={locale} enabled={isPriorityTwoVenueDirectAnswer}>
     <section className="v2-section v3-compare-disclosure-section">
       <details className="research-references">
         <summary id="compare-sources">{text.verifyBefore}</summary>
@@ -4023,7 +4028,37 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
             />
       <p>{text.ctaLocked}</p>
     </details>
+    </CompareNotesGroup>
   </main>;
+}
+
+const compareNotesGroupCopy = {
+  en: ["Sources and decision notes", "Before you register"],
+  "zh-Hans": ["来源与判断依据", "注册前核对"],
+  "zh-Hant": ["來源與判斷依據", "註冊前核對"],
+  es: ["Fuentes y notas de decisión", "Antes de registrarte"],
+  "pt-BR": ["Fontes e notas de decisão", "Antes de se cadastrar"],
+  fr: ["Sources et notes de décision", "Avant de vous inscrire"],
+  de: ["Quellen und Entscheidungsnotizen", "Vor der Registrierung"],
+  ja: ["出典と判断メモ", "登録前の確認"],
+  ko: ["출처와 판단 메모", "가입 전 확인"],
+  tr: ["Kaynaklar ve karar notları", "Kayıt olmadan önce"],
+  ru: ["Источники и заметки к решению", "Перед регистрацией"],
+  ar: ["المصادر وملاحظات القرار", "قبل التسجيل"],
+  id: ["Sumber dan catatan keputusan", "Sebelum mendaftar"],
+  vi: ["Nguồn và ghi chú quyết định", "Trước khi đăng ký"],
+  it: ["Fonti e note decisionali", "Prima di registrarti"],
+};
+// Groups consecutive compare disclosures under one row. Off (children rendered as-is) outside the two-venue answer layout.
+function CompareNotesGroup({ kind, locale, enabled, children }) {
+  if (!enabled) return <>{children}</>;
+  const copy = compareNotesGroupCopy[locale] || compareNotesGroupCopy[textLocaleKey(locale)] || compareNotesGroupCopy.en;
+  return (
+    <details className={`v2-section v3-compare-group v3-compare-group--${kind}`}>
+      <summary className="v3-compare-group__summary"><span>{copy[kind === "notes" ? 0 : 1]}</span><b aria-hidden="true">＋</b></summary>
+      <div className="v3-compare-group__body">{children}</div>
+    </details>
+  );
 }
 
 const compareContinueResearchCopy = {

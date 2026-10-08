@@ -1,0 +1,115 @@
+/* V6 round 6: inner pages. Same template as r5 with seven :not(#_) so it outranks pages-inner-r5.css.
+ * Scale: type 12/14/16/20/28/44, spacing 4px base; turquoise only on the one signup per view, positive data, the active route. */
+
+/* ---- defect 5: non-signup actions are outline secondaries ---- */
+main.v6:not(.home-refinement) :is(.decision-path-rail__link.is-primary, .activity-center-v3__tg-btn, .br-decision-primary > a, .br-chain__primary, .v3-versus-btn):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: inline-flex; align-items: center; justify-content: center; min-block-size: 44px; padding: 8px 16px; border: 1px solid var(--n7, #3a3f45); border-radius: 8px; background: transparent; box-shadow: none; color: var(--n12, #edeef0); font-size: 14px; font-weight: 500; line-height: 1.3; text-decoration: none; transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1), border-color 160ms cubic-bezier(0.16, 1, 0.3, 1), transform 120ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+main.v6:not(.home-refinement) :is(.decision-path-rail__link.is-primary, .activity-center-v3__tg-btn, .br-decision-primary > a, .br-chain__primary, .v3-versus-btn):hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--n10, #9ba1a6); background: var(--n3, #18191b); }
+main.v6:not(.home-refinement) :is(.decision-path-rail__link.is-primary, .activity-center-v3__tg-btn, .br-decision-primary > a, .br-chain__primary, .v3-versus-btn):active:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transform: scale(0.97); }
+main.v6:not(.home-refinement) .decision-path-rail__link.is-primary :is(b, span):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: inherit; }
+/* /br: the two long "Confira domínio…" profile links read as one quiet text link, not a 52px two-line primary */
+main.v6:not(.home-refinement) .br-early-next-step__primary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: inline-flex; align-items: center; min-block-size: 44px; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; color: var(--n12, #edeef0); font-size: 14px; font-weight: 500; line-height: 1.4; text-align: start; text-decoration: underline; text-decoration-color: var(--n8, #50565c); text-underline-offset: 4px; transition: text-decoration-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+main.v6:not(.home-refinement) .br-early-next-step__primary:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { text-decoration-color: var(--accent, #1fe0c0); }
+/* signup primary: dark ink on turquoise (white failed AA) */
+main.v6:not(.home-refinement) .registration-card__primary-btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: #04130f; }
+
+/* ---- defect 2: /rates venues with no checked fee sit last, muted ---- */
+main.v6:not(.home-refinement) .cost-decision__results > article.rt-row--pending:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { opacity: 0.62; }
+
+/* ---- defect 3: /activities chip count is a separate 12px mono figure ---- */
+main.v6:not(.home-refinement) .activity-center-v3__filters button:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { gap: 8px; }
+main.v6:not(.home-refinement) .activity-center-v3__chip-count:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline-start: 8px; font-family: var(--font-mono); font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--n10, #9ba1a6); }
+
+/* ---- defect 4: /compare fee check date beside the matrix title ---- */
+main.v6:not(.home-refinement) .v3-matrix-checked:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 8px 0 0; font-family: var(--font-mono); font-size: 12px; line-height: 1.4; color: var(--n10, #9ba1a6); font-variant-numeric: tabular-nums; }
+
+/* ---- defect 10: /rates calculator card ends at the result list and Offer row; the directory, Bot and route rows move below the benchmark table ---- */
+main.v6:not(.home-refinement) #rate-terminal:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 48px; row-gap: 32px; align-items: start; }
+main.v6:not(.home-refinement) #rate-terminal > .rt-panel:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: contents; }
+main.v6:not(.home-refinement) #rate-terminal:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_)::before { content: ""; grid-column: 1 / -1; grid-row: 1 / 5; align-self: stretch; border: 1px solid var(--n6, #2e3135); border-radius: 16px; background: var(--n2, #111113); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 18px 40px -28px rgb(0 0 0 / 0.7); }
+main.v6:not(.home-refinement) #rate-terminal .rt-panel__intro:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 1; margin: 32px 32px 0; }
+main.v6:not(.home-refinement) #rate-terminal .rt-controls:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 2; margin-inline-start: 32px; }
+main.v6:not(.home-refinement) #rate-terminal .rt-result:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 2 / span 2; margin-inline-end: 32px; }
+main.v6:not(.home-refinement) #rate-terminal .rt-context:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 3; margin-inline-start: 32px; }
+main.v6:not(.home-refinement) #rate-terminal .rt-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 4; margin: 0 32px 32px; }
+main.v6:not(.home-refinement) #rate-terminal > .fee-terminal__header:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / -1; grid-row: 5; margin: 96px 0 0; }
+main.v6:not(.home-refinement) #rate-terminal > .fee-terminal__table-wrapper:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / -1; grid-row: 6; margin-top: -8px; }
+main.v6:not(.home-refinement) #rate-terminal :is(.rt-next, .rt-handoff, .rt-foot__links):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 7; margin-top: 32px; padding: 24px 0 0; border-block-start: 1px solid var(--n6, #2e3135); }
+main.v6:not(.home-refinement) #rate-terminal .rt-panel > .decision-path-rail:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 8; }
+@media (max-width: 1023px) {
+  main.v6:not(.home-refinement) #rate-terminal:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); column-gap: 0; row-gap: 24px; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-panel__intro:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 1; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-controls:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 2; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-result:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 3; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 4; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-context:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 5; }
+  main.v6:not(.home-refinement) #rate-terminal > .fee-terminal__header:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 6; }
+  main.v6:not(.home-refinement) #rate-terminal > .fee-terminal__table-wrapper:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 7; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-next:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 8; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-handoff:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 9; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-foot__links:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 10; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-panel > .decision-path-rail:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 11; }
+  main.v6:not(.home-refinement) #rate-terminal:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_)::before { grid-column: 1; grid-row: 1 / 6; }
+  main.v6:not(.home-refinement) #rate-terminal :is(.rt-controls, .rt-result, .rt-context):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 24px; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-panel__intro:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 24px 24px 0; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0 24px 24px; }
+  main.v6:not(.home-refinement) #rate-terminal > .fee-terminal__header:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-top: 48px; }
+  main.v6:not(.home-refinement) #rate-terminal :is(.rt-next, .rt-handoff, .rt-foot__links):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-top: 0; }
+}
+@media (max-width: 640px) {
+  main.v6:not(.home-refinement) #rate-terminal :is(.rt-controls, .rt-result, .rt-context):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 16px; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-panel__intro:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 16px 16px 0; }
+  main.v6:not(.home-refinement) #rate-terminal .rt-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0 16px 16px; }
+  main.v6:not(.home-refinement) #rate-terminal:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_)::before { border-radius: 12px; }
+}
+
+/* ---- defect 9 / 12: directory cells never break mid-word; one fee format; identity meta wraps ---- */
+main.v6:not(.home-refinement) .mx-fee u:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: inherit; color: inherit; margin: 0; }
+main.v6:not(.home-refinement) .mx-fee i:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 4px; font-style: normal; color: var(--n9, #6c7278); }
+main.v6:not(.home-refinement) :is(.mx-td, .ft-cell) :is(.mx-unch, .mx-fee, .ft-none):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; overflow-wrap: normal; word-break: normal; hyphens: none; }
+main.v6:not(.home-refinement) .mx-id__meta:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; column-gap: 8px; row-gap: 2px; min-inline-size: 0; }
+main.v6:not(.home-refinement) .mx-nocompare:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex-basis: 100%; white-space: nowrap; font-size: 12px; line-height: 1.4; }
+@media (max-width: 47.99rem) {
+  main.v6:not(.home-refinement) .mx-row:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 2.25rem minmax(0, 1fr) auto; grid-template-areas: "pick name cta" "pick name code" "pick spot spot" "pick perp perp"; row-gap: 8px; }
+  main.v6:not(.home-refinement) .mx-row > .mx-td--nofee:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2 / -1; grid-row: 3; }
+  main.v6:not(.home-refinement) .mx-row > .mx-td--region.mx-td--has:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2 / -1; grid-row: 5; }
+  main.v6:not(.home-refinement) .mx-unch:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; }
+  main.v6:not(.home-refinement) .mx-td--code:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { justify-self: end; }
+}
+
+/* ---- defect 7: venue profile — one primary (registration card), one quiet sources row, one secondary (compare) ---- */
+/* the direct-answer row keeps only the official source links; its compare / fee-tool / register links repeat the compare
+ * secondary below, the header Fee calculator and the registration card (they stay in the DOM for crawl paths) */
+main.v6:not(.home-refinement) .v3-venue-direct-answer__links > :not([data-cta-kind="source"]):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+main.v6:not(.home-refinement) .v3-venue-direct-answer__links:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; align-items: center; gap: 0 24px; margin: 0; padding: 12px 0 0; border: 0; }
+main.v6:not(.home-refinement) .v3-venue-direct-answer__links > a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; min-block-size: 44px; padding: 0; border: 0; background: none; font-size: 14px; font-weight: 400; line-height: 1.4; color: var(--n11, #b5bac0); text-decoration: underline; text-decoration-color: var(--n7, #43484e); text-underline-offset: 4px; transition: color 160ms cubic-bezier(0.16, 1, 0.3, 1), text-decoration-color 160ms cubic-bezier(0.16, 1, 0.3, 1); }
+main.v6:not(.home-refinement) .v3-venue-direct-answer__links > a:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n12, #edeef0); text-decoration-color: var(--accent, #1fe0c0); }
+main.v6:not(.home-refinement) .v3-profile-registration-review-link:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+main.v6:not(.home-refinement) .v3-profile-primary-actions:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; gap: 12px; margin: 0; }
+main.v6:not(.home-refinement) .venue-readiness__summary > strong:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-family: var(--font-mono); font-size: 14px; font-weight: 400; line-height: 1.4; color: var(--n10, #9ba1a6); letter-spacing: 0; }
+main.v6:not(.home-refinement) .venue-readiness__head > span:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+main.v6:not(.home-refinement) .venue-readiness__foot button:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; justify-content: center; min-block-size: 44px; padding: 8px 16px; border: 1px solid var(--n7, #43484e); border-radius: 8px; background: transparent; box-shadow: none; color: var(--n12, #edeef0); font-size: 14px; font-weight: 500; line-height: 1.3; transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1), border-color 160ms cubic-bezier(0.16, 1, 0.3, 1), transform 120ms cubic-bezier(0.16, 1, 0.3, 1); }
+main.v6:not(.home-refinement) .venue-readiness__foot button:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--n10, #9ba1a6); background: var(--n3, #18191b); }
+main.v6:not(.home-refinement) .venue-readiness__foot button:active:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transform: scale(0.97); }
+/* label-over-row eyebrows (Account and costs / Sources and security / Continue following) stay as headings for assistive tech only */
+main.v6:not(.home-refinement) .v3-profile-research-chapter__heading:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { position: absolute; inline-size: 1px; block-size: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+/* ---- defect 8: /compare — three groups below the matrix, codes once (decision card), sentence case, spaced tier, neutral '+' ---- */
+main.v6:not(.home-refinement) .v3-compare-group:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; padding: 0; border: 0; border-block-start: 1px solid rgb(255 255 255 / 0.12); border-radius: 0; background: none; }
+main.v6:not(.home-refinement) .v3-compare-group + .v3-compare-group, .v3-faq-section + .v3-compare-group:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 0; }
+main.v6:not(.home-refinement) .v3-compare-group:last-of-type:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-block-end: 1px solid rgb(255 255 255 / 0.12); }
+main.v6:not(.home-refinement) .v3-compare-group__summary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-block-size: 64px; padding: 8px 0; list-style: none; cursor: pointer; font-size: 20px; line-height: 1.2; font-weight: 500; color: var(--n12, #edeef0); transition: color 160ms cubic-bezier(0.16, 1, 0.3, 1); }
+main.v6:not(.home-refinement) .v3-compare-group__summary::-webkit-details-marker:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+main.v6:not(.home-refinement) .v3-compare-group__summary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 16px; font-weight: 400; color: var(--n10, #9ba1a6); transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1); }
+main.v6:not(.home-refinement) .v3-compare-group[open] > .v3-compare-group__summary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transform: rotate(45deg); }
+main.v6:not(.home-refinement) .v3-compare-group__summary:hover > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n12, #edeef0); }
+main.v6:not(.home-refinement) .v3-compare-group__body:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; gap: 0; padding: 0 0 24px; }
+main.v6:not(.home-refinement) .v3-compare-group__body > :is(details, section):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; padding-inline: 0; border-radius: 0; background: none; box-shadow: none; }
+main.v6:not(.home-refinement) .v3-compare-final-choice-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding: 32px 0; border: 0; border-block-start: 1px solid rgb(255 255 255 / 0.12); border-radius: 0; background: none; box-shadow: none; }
+main.v6:not(.home-refinement) .v3-matrix-action-cell .v3-matrix-code-chip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+main.v6:not(.home-refinement) .v3-matrix-dim-heading:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { text-transform: none; letter-spacing: 0; }
+main.v6:not(.home-refinement) .v3-fee-pair__tier:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: block; margin-block-start: 2px; font-size: 12px; font-weight: 400; color: var(--n10, #9ba1a6); }
+main.v6:not(.home-refinement) .v3-matrix-expand, .v3-matrix-expand > span:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n12, #edeef0); }
