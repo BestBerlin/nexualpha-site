@@ -37,11 +37,18 @@
   }
 
   /* ---------- 1. route rail ---------- */
-  /* Geometry is anchored to the content column, not to <main>: the rail sits 25px before the h1's inline-start edge
-   * (x = 95 when content starts at 120), the same on every template. If that gutter is narrower than 48px the rail
-   * would touch content, so it becomes a 2px top progress bar instead. Docks sit only on h2s and carry the heading as a
-   * 12px label (shown for the section being read); the destination stub draws horizontally into the page's primary
-   * action when the path to it is clear of text, otherwise it stops 8px short of the content edge. */
+  /* Two placements, one route:
+   * - column: a page with a docked destination column (venue profile) runs the rail down the gap between the reading
+   *   column and the registration card. The route turns into the card through a curved elbow aimed at the card's
+   *   signup button; the elbow lives in the card's coordinate space (it follows the sticky card), so it never crosses
+   *   text, and the traversed route always ends exactly at the signup.
+   * - gutter: every other page runs the rail in the inline-start gutter (25px before the content edge, 16px when the
+   *   gutter is narrower than 64px, so 1280px laptops keep it). Below a 32px gutter it becomes a 2px top progress bar.
+   *   The branch into the page's destination (compare decision card, /rates result) is the same curved elbow, on the
+   *   first horizontal line, nearest the destination's primary action, that crosses no text, control or border.
+   * Docks sit on h2s (and [data-route-label] marks) and carry the full heading as a 12px vertical label beside the rail,
+   * shown for the section being read and kept below the 56px header while that section is current. */
+  var HEADER = 64;
   function textRects(main) {
     var out = [];
     var w = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
@@ -73,11 +80,17 @@
     }
     return out;
   }
-  function label(h) {
-    var t = (h.textContent || "").replace(/\s+/g, " ").trim();
-    return t.length > 34 ? t.slice(0, 32).replace(/[\s,.:;·-]+$/, "") + "…" : t;
-  }
+  function label(h) { return (h.getAttribute("data-route-label") || h.textContent || "").replace(/\s+/g, " ").trim(); }
   function esc(t) { return t.replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  /* quarter-radius elbow: down the rail, then a curve into the horizontal run toward the destination (homepage route curve) */
+  function elbow(len, rtl) {
+    var r = Math.max(6, Math.min(16, Math.round(len / 3)));
+    var w = Math.max(len, r + 2);
+    var d = rtl
+      ? "M" + w + " 0 C" + w + " " + (r * 0.55) + " " + (w - r * 0.45) + " " + r + " " + (w - r) + " " + r + " L0 " + r
+      : "M0 0 C0 " + (r * 0.55) + " " + (r * 0.45) + " " + r + " " + r + " " + r + " L" + w + " " + r;
+    return '<svg class="v6r__branch" width="' + w + '" height="' + (r + 2) + '" viewBox="0 -1 ' + w + " " + (r + 2) + '" style="--v6r-r:' + r + 'px" aria-hidden="true" focusable="false"><path d="' + d + '" pathLength="1"/></svg>';
+  }
   function buildRail(main, s) {
     var rail = document.createElement("div");
     rail.className = "v6r";
@@ -92,37 +105,55 @@
       var rtl = getComputedStyle(main).direction === "rtl";
       var vw = document.documentElement.clientWidth;
       var hr = h1.getBoundingClientRect();
-      /* the content column's inline-start edge: the h1, or a visible h2 that starts further out */
       var edgeOf = function (r) { return rtl ? vw - r.right : r.left; };
+      var farOf = function (r) { return rtl ? vw - r.left : r.right; };
+      /* placement */
+      var col = main.querySelector(".v3-profile-action-column"), colMode = false, x, cr = null;
+      if (col && visible(col)) {
+        cr = col.getBoundingClientRect();
+        var ro = main.querySelector(".v3-profile-reading-overview") || h1;
+        var gap = edgeOf(cr) - farOf(ro.getBoundingClientRect());
+        if (gap >= 40 && cr.top - mr.top < hr.bottom - mr.top + 200) { colMode = true; x = farOf(ro.getBoundingClientRect()) + gap / 2; }
+      }
       var cEdge = edgeOf(hr);
-      var heads = main.querySelectorAll("h2");
-      for (var e = 0; e < heads.length; e++) { if (visible(heads[e]) && !heads[e].closest("nav, [role='dialog']")) { var er = heads[e].getBoundingClientRect(); if (er.width > 40) cEdge = Math.min(cEdge, edgeOf(er)); } }
-      var bar = cEdge < 48;
+      var heads = main.querySelectorAll("h2, [data-route-label]");
+      if (!colMode) {
+        for (var e = 0; e < heads.length; e++) { if (visible(heads[e]) && !heads[e].closest("nav, [role='dialog']")) { var er = heads[e].getBoundingClientRect(); if (er.width > 40) cEdge = Math.min(cEdge, edgeOf(er)); } }
+        x = cEdge - (cEdge >= 64 ? 25 : 16);
+      }
+      var bar = !colMode && cEdge < 32;
       rail.toggleAttribute("data-bar", bar);
-      var x = cEdge - 25; /* distance from the viewport's inline-start edge */
+      rail.toggleAttribute("data-col", colMode);
       var px = rtl ? vw - x : x;
       var start = hr.top - mr.top + Math.min(hr.height / 2, 26);
       var docks = [];
-      for (var i = 0; i < heads.length && docks.length < 9; i++) {
+      for (var i = 0; i < heads.length && docks.length < 10; i++) {
         var h = heads[i];
-        if (!visible(h) || h.getBoundingClientRect().width < 40 || h.closest(".v6r, [role='dialog'], nav")) continue;
+        if (!visible(h) || h.getBoundingClientRect().width < 40 || h.closest(".v6r, [role='dialog'], nav, .v3-profile-action-column, .mx-dock")) continue;
         var r = h.getBoundingClientRect();
         var y = r.top - mr.top + Math.min(r.height / 2, 14);
         if (y > start + 48 && (!docks.length || y - docks[docks.length - 1].y > 64)) docks.push({ y: Math.round(y), t: label(h) });
       }
-      var dest = null;
-      var primaries = main.querySelectorAll("a[rel~='sponsored'][class*='cta'], a[rel~='sponsored'][class*='btn'], a[rel~='sponsored'][class*='primary'], .button-primary, [class*='--primary'], [class*='__primary']");
-      for (var j = primaries.length - 1; j >= 0; j--) {
-        if (visible(primaries[j])) { var pr = primaries[j].getBoundingClientRect(); var py = pr.top - mr.top + pr.height / 2; if (py > start + 48) { dest = py; break; } }
+      var dest = null, end;
+      if (colMode) {
+        end = cr.bottom - mr.top - 24;
+      } else {
+        var primaries = main.querySelectorAll("a[rel~='sponsored'][class*='cta'], a[rel~='sponsored'][class*='btn'], a[rel~='sponsored'][class*='primary'], .button-primary, [class*='--primary'], [class*='__primary']");
+        for (var j = primaries.length - 1; j >= 0; j--) {
+          if (visible(primaries[j]) && !primaries[j].closest(".mx-dock")) { var pr = primaries[j].getBoundingClientRect(); var py = pr.top - mr.top + pr.height / 2; if (py > start + 48) { dest = py; break; } }
+        }
+        end = Math.max(dest || 0, docks.length ? docks[docks.length - 1].y + 1 : 0, mr.height - 96);
+        if (dest && dest >= end - 1) end = dest;
       }
-      var end = Math.max(dest || 0, docks.length ? docks[docks.length - 1].y + 1 : 0, mr.height - 96);
-      if (dest && dest >= end - 1) end = dest;
       docks = docks.filter(function (d) { return d.y < end - 32; });
-      /* branch: the route turns into the page's real destination (registration card, compare decision card, /rates result,
-       * the compare dock) along the first horizontal line, nearest the box's middle, that crosses no text. */
+      /* branch */
       var branch = null;
-      if (!bar) {
-        var BR = [".registration-card", ".v3-compare-final-choice-card", "#cost-scenario .rt-result", ".mx-dock", "a[rel~='sponsored'][class*='primary']"];
+      if (colMode) {
+        var btn = col.querySelector(".registration-card__primary-btn, a[rel~='sponsored'][class*='primary'], a[rel~='sponsored']");
+        s.branchEl = btn && visible(btn) ? btn : col.querySelector(".registration-card") || col;
+        branch = { len: Math.round(edgeOf(cr) - x - 2), live: true };
+      } else if (!bar) {
+        var BR = [".v3-compare-final-choice-card", "#cost-scenario .rt-result", "a[rel~='sponsored'][class*='primary']"];
         var box = null;
         for (var bi = 0; bi < BR.length && !box; bi++) {
           var cands = main.querySelectorAll(BR[bi]);
@@ -136,57 +167,72 @@
           var len = edgeOf(br) - x - 6;
           var bkey = [Math.round(mr.height), Math.round(br.top - mr.top), Math.round(br.height), vw, Math.round(x)].join(":");
           if (bkey === s.bkey) branch = s.branch;
-          else if (len > 12) {
-            var rects = obstacles(main);
-            var cta = box.querySelector("a[rel~='sponsored'], [class*='primary'], [class*='cta']");
-            var crr = cta ? cta.getBoundingClientRect() : null;
-            var mid = crr && crr.height ? crr.top + crr.height / 2 : br.top + Math.min(br.height / 2, 120);
-            var ys = [];
-            for (var off = 0; off <= br.height / 2; off += 6) { ys.push(mid + off); if (off) ys.push(mid - off); }
-            for (var yi = 0; yi < ys.length && !branch; yi++) {
-              var ly = ys[yi];
-              if (ly < br.top + 16 || ly > br.bottom - 16) continue;
-              var ok = true;
-              for (var q = 0; q < rects.length && ok; q++) {
-                var tr = rects[q];
-                var tx0 = rtl ? vw - tr.right : tr.left, tx1 = rtl ? vw - tr.left : tr.right;
-                if (tx0 >= edgeOf(br) - 1 && tx1 <= edgeOf(br) + br.width + 1) continue; /* inside the destination itself */
-                if (tr.top - 10 < ly && tr.bottom + 10 > ly && tx1 > x - 2 && tx0 < x + len + 2) ok = false;
+          else {
+            if (len > 12) {
+              var rects = obstacles(main);
+              var cta = box.querySelector("a[rel~='sponsored'], [class*='primary'], [class*='cta']");
+              var crr = cta ? cta.getBoundingClientRect() : null;
+              var mid = crr && crr.height ? crr.top + crr.height / 2 : br.top + Math.min(br.height / 2, 120);
+              var ys = [];
+              for (var off = 0; off <= br.height / 2; off += 6) { ys.push(mid + off); if (off) ys.push(mid - off); }
+              for (var yi = 0; yi < ys.length && !branch; yi++) {
+                var ly = ys[yi];
+                if (ly < br.top + 16 || ly > br.bottom - 16) continue;
+                var ok = true;
+                for (var q = 0; q < rects.length && ok; q++) {
+                  var tr = rects[q];
+                  var tx0 = rtl ? vw - tr.right : tr.left, tx1 = rtl ? vw - tr.left : tr.right;
+                  if (tx0 >= edgeOf(br) - 1 && tx1 <= edgeOf(br) + br.width + 1) continue; /* inside the destination itself */
+                  if (tr.top - 24 < ly && tr.bottom + 10 > ly && tx1 > x - 2 && tx0 < x + len + 2) ok = false; /* the elbow rises 16px */
+                }
+                if (ok) branch = { y: Math.round(ly - mr.top), len: Math.round(len) };
               }
-              if (ok) branch = { y: Math.round(ly - mr.top), len: Math.round(len) };
             }
+            s.bkey = bkey; s.branch = branch;
           }
         }
+        if (branch && (branch.y <= start + 40 || branch.y >= end)) branch = null;
       }
-      if (box && !bar) { s.bkey = [Math.round(mr.height), Math.round(box.getBoundingClientRect().top - mr.top), Math.round(box.getBoundingClientRect().height), vw, Math.round(x)].join(":"); s.branch = branch; }
-      if (branch && (branch.y <= start + 24 || branch.y >= end)) branch = null;
-      var sig = [px, Math.round(top0), Math.round(start), Math.round(end), rtl, bar, branch ? branch.y + ":" + branch.len : ""].concat(docks.map(function (d) { return d.y; })).join(",");
-      if (sig === s.sig) return;
+      var labs = !bar && x - 6 >= 17;
+      var sig = [px, Math.round(top0), Math.round(start), Math.round(end), rtl, bar, colMode, labs, branch ? (branch.y || "live") + ":" + branch.len : ""].concat(docks.map(function (d) { return d.y + d.t; })).join(",");
+      if (sig === s.sig) { s.fill(); return; }
       s.sig = sig;
-      s.start = start; s.total = end - start; s.docks = docks;
+      s.start = start; s.end = end; s.total = end - start; s.docks = docks; s.col = colMode; s.rtl = rtl;
       var html = '<i class="v6r__track"></i><i class="v6r__fill"></i><b class="v6r__node v6r__node--start"></b>';
-      for (var k = 0; k < docks.length; k++) html += '<b class="v6r__node" data-y="' + docks[k].y + '" style="--v6r-ny:' + docks[k].y + 'px"><em class="v6r__lab">' + esc(docks[k].t) + "</em></b>";
-      if (branch) html += '<b class="v6r__node v6r__node--branch" data-y="' + branch.y + '" style="--v6r-ny:' + branch.y + 'px"><i class="v6r__stub" style="--v6r-stub:' + branch.len + 'px"></i></b>';
+      for (var k = 0; k < docks.length; k++) html += '<b class="v6r__node" data-y="' + docks[k].y + '" style="--v6r-ny:' + docks[k].y + 'px">' + (labs ? '<em class="v6r__lab">' + esc(docks[k].t) + "</em>" : "") + "</b>";
+      if (branch) {
+        var by = branch.live ? Math.round(start) : branch.y;
+        html += '<b class="v6r__node v6r__node--branch' + (branch.live ? " v6r__node--live" : "") + '" data-y="' + by + '" style="--v6r-ny:' + by + 'px"' + (branch.live ? ' data-on="1"' : "") + ">" + elbow(branch.len, rtl) + "</b>";
+      }
       html += '<b class="v6r__node v6r__node--dest" data-y="' + Math.round(end) + '" style="--v6r-ny:' + Math.round(end) + 'px"></b>';
       rail.innerHTML = html;
+      s.live = branch && branch.live ? rail.querySelector(".v6r__node--live") : null;
       rail.style.top = Math.round(top0) + "px";
       rail.style.left = Math.round(px) + "px";
       rail.toggleAttribute("data-rtl", rtl);
       rail.style.setProperty("--v6r-y", Math.round(start) + "px");
       rail.style.setProperty("--v6r-h", Math.max(0, Math.round(end - start)) + "px");
-      rail.style.setProperty("--v6r-x", Math.round(x) + "px");
-      rail.style.setProperty("--v6r-lab", Math.max(0, Math.round(x - 16)) + "px");
       rail.setAttribute("data-ready", "");
+      s.labs = rail.querySelectorAll(".v6r__lab");
       s.fill();
     };
     s.fill = function () {
       s.raf = 0;
       if (!s.total) return;
       var mr = main.getBoundingClientRect();
-      var atEnd = window.innerHeight - mr.bottom >= -4 || (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 4;
-      var f = reduce || atEnd ? s.total : Math.max(0, Math.min(s.total, window.innerHeight * 0.62 - mr.top - s.start));
+      var f;
+      if (s.live && s.branchEl) {
+        /* column: the traversed route ends at the signup button's centre (the elbow follows the sticky card) */
+        var b = s.branchEl.getBoundingClientRect();
+        var by = Math.max(s.start, Math.min(s.end, b.top + Math.min(b.height / 2, 120) - mr.top));
+        s.live.style.setProperty("--v6r-ny", Math.round(by) + "px");
+        f = by - s.start;
+      } else {
+        var atEnd = window.innerHeight - mr.bottom >= -4 || (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 4;
+        f = reduce || atEnd ? s.total : Math.max(0, Math.min(s.total, window.innerHeight * 0.62 - mr.top - s.start));
+      }
       rail.style.setProperty("--v6r-s", (f / s.total).toFixed(4));
-      var nodes = rail.querySelectorAll("[data-y]");
+      var nodes = rail.querySelectorAll("[data-y]:not(.v6r__node--live)");
       var cur = -1;
       for (var i = 0; i < nodes.length; i++) {
         var on = Number(nodes[i].getAttribute("data-y")) - s.start <= f + 0.5 && f > 0 ? "1" : "0";
@@ -196,6 +242,15 @@
       for (var c = 0; c < nodes.length; c++) {
         var isCur = c === cur ? "1" : "0";
         if (nodes[c].getAttribute("data-cur") !== isCur) nodes[c].setAttribute("data-cur", isCur);
+      }
+      /* the current label stays readable below the fixed header, and never runs past the end of the route */
+      if (cur >= 0) {
+        var node = nodes[cur], lab = node.firstChild;
+        var ny = Number(node.getAttribute("data-y"));
+        var vy = mr.top + ny + 14;
+        var room = s.end - ny - 14 - lab.offsetHeight;
+        var dy = Math.max(0, Math.min(HEADER - vy, room));
+        lab.style.setProperty("--v6r-dy", Math.round(dy) + "px");
       }
     };
   }

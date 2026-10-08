@@ -5,7 +5,7 @@ import { BrandMark } from "../brand/BrandMark";
 
 export function CollectionHubPage({ kind, locale = "en" }) {
   const copy = collectionHubCopy(kind, locale);
-  const items = kind === "factbook" ? factbookHubItems() : topicHubItems(locale);
+  const items = kind === "factbook" ? factbookHubItems(locale) : topicHubItems(locale);
   const hubDecision = kind === "factbook" ? "factbook_source_record" : "topic_research_path";
   const hubProduct = kind === "factbook" ? "source-review" : "research";
 
@@ -15,9 +15,10 @@ export function CollectionHubPage({ kind, locale = "en" }) {
       <p className="v3-section__sub">{copy.description}</p>
       <p className="v3-section__meta">{copy.itemLabel}: {items.length}</p>
       <div className="v3-hero-actions" aria-label={copy.itemLabel}>
-        <a
+        {/* the factbook hero names no venue first (the rows below are the entry points); other hubs keep an outline primary */}
+        {kind !== "factbook" && <a
           href={localizedHref(copy.primaryHref, { locale })}
-          className="button-primary"
+          className="button-quiet"
           data-cta-kind="research"
           data-cta-placement={`${kind}-collection-hero-primary`}
           data-growth-decision={hubDecision}
@@ -25,7 +26,7 @@ export function CollectionHubPage({ kind, locale = "en" }) {
           data-growth-product={hubProduct}
         >
           {copy.primaryCta}
-        </a>
+        </a>}
         <a
           href={localizedHref(copy.secondaryHref, { locale })}
           className="button-quiet"
@@ -46,6 +47,7 @@ export function CollectionHubPage({ kind, locale = "en" }) {
             {kind === "factbook" ? <span className="topic-card__logo" aria-hidden="true"><BrandMark slug={item.slug} compact /></span> : null}
             <h2><a href={localizedHref(item.href, { locale })}>{item.title}</a></h2>
             <p>{item.description}</p>
+            {item.meta ? <p className="v3-section__meta topic-card__facts">{item.meta}</p> : null}
             {item.officialDomain ? <p className="v3-section__meta">{item.officialDomain}</p> : null}
             <a
               href={localizedHref(item.href, { locale })}

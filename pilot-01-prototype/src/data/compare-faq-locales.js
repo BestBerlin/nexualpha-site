@@ -17,7 +17,7 @@ export const COMPARE_FAQ_LOCALES = {
     eyebrow: "FAQ & decision checks",
     title: "{nameA} vs {nameB}: fees, product access and account checks",
     lead: "Use these questions before opening either official registration route.",
-    more: (count) => `Show ${count} more questions`,
+    more: (count) => (count === 1 ? "Show 1 more question" : `Show ${count} more questions`),
     fewer: "Show fewer questions",
     rows: entries([
       ["Which fees should I compare first?", "Check the published spot and futures fee rows, account tier and source date. Final fees can still vary by product, region, account level and the official account screen."],
@@ -62,7 +62,7 @@ export const COMPARE_FAQ_LOCALES = {
     eyebrow: "FAQ y comprobaciones de decisión",
     title: "{nameA} vs {nameB}: comisiones, productos y cuenta",
     lead: "Revisa estas preguntas antes de abrir cualquier ruta oficial de registro.",
-    more: (count) => `Ver ${count} preguntas más`,
+    more: (count) => (count === 1 ? "Ver 1 pregunta más" : `Ver ${count} preguntas más`),
     fewer: "Mostrar menos preguntas",
     rows: entries([
       ["¿Qué comisiones conviene comparar primero?", "Revisa las filas de comisiones spot y futures con fuente, el nivel de cuenta y la fecha de revisión. La comisión final puede variar por producto, región, nivel de cuenta y pantalla oficial."],
@@ -77,7 +77,7 @@ export const COMPARE_FAQ_LOCALES = {
     eyebrow: "FAQ e verificações de decisão",
     title: "{nameA} vs {nameB}: taxas, produtos e conta",
     lead: "Revise estas perguntas antes de abrir qualquer rota oficial de cadastro.",
-    more: (count) => `Ver mais ${count} perguntas`,
+    more: (count) => (count === 1 ? "Ver mais 1 pergunta" : `Ver mais ${count} perguntas`),
     fewer: "Mostrar menos perguntas",
     rows: entries([
       ["Quais taxas devo comparar primeiro?", "Confira as linhas de taxa spot e futures com fonte, o nível da conta e a data de revisão. A taxa final pode variar por produto, região, nível da conta e tela oficial."],
@@ -92,7 +92,7 @@ export const COMPARE_FAQ_LOCALES = {
     eyebrow: "FAQ et contrôles de décision",
     title: "{nameA} vs {nameB} : frais, produits et compte",
     lead: "Vérifiez ces points avant d’ouvrir une route officielle d’inscription.",
-    more: (count) => `Afficher ${count} questions de plus`,
+    more: (count) => (count === 1 ? "Afficher 1 question de plus" : `Afficher ${count} questions de plus`),
     fewer: "Afficher moins de questions",
     rows: entries([
       ["Quels frais comparer en premier ?", "Vérifiez les lignes de frais spot et futures sourcées, le niveau de compte et la date de revue. Le coût final peut varier selon produit, région, compte et écran officiel."],
@@ -107,7 +107,7 @@ export const COMPARE_FAQ_LOCALES = {
     eyebrow: "FAQ und Entscheidungsprüfung",
     title: "{nameA} vs {nameB}: Gebühren, Produkte und Konto",
     lead: "Prüfen Sie diese Punkte, bevor Sie eine offizielle Registrierung öffnen.",
-    more: (count) => `${count} weitere Fragen anzeigen`,
+    more: (count) => (count === 1 ? "1 weitere Frage anzeigen" : `${count} weitere Fragen anzeigen`),
     fewer: "Weniger Fragen anzeigen",
     rows: entries([
       ["Welche Gebühren sollte ich zuerst vergleichen?", "Prüfen Sie belegte Spot- und Futures-Gebühren, Kontostufe und Prüftermin. Endgültige Gebühren können nach Produkt, Region, Konto und offizieller Ansicht abweichen."],
@@ -152,7 +152,7 @@ export const COMPARE_FAQ_LOCALES = {
     eyebrow: "أسئلة وفحوص قرار",
     title: "{nameA} مقابل {nameB}: الرسوم والمنتجات والحساب",
     lead: "راجع هذه النقاط قبل فتح أي مسار تسجيل رسمي.",
-    more: (count) => `عرض ${count} أسئلة إضافية`,
+    more: (count) => (count === 1 ? "عرض سؤال إضافي واحد" : `عرض ${count} أسئلة إضافية`),
     fewer: "عرض أسئلة أقل",
     rows: entries([
       ["أي رسوم يجب مقارنتها أولاً؟", "راجع رسوم السبوت والعقود الآجلة ذات المصدر، مستوى الحساب وتاريخ المراجعة. قد تختلف الرسوم النهائية حسب المنتج والمنطقة والحساب والشاشة الرسمية."],
@@ -182,7 +182,7 @@ export const COMPARE_FAQ_LOCALES = {
     eyebrow: "FAQ и проверки перед выбором",
     title: "{nameA} vs {nameB}: комиссии, продукты и аккаунт",
     lead: "Проверьте эти пункты перед открытием официального пути регистрации.",
-    more: (count) => `Показать ещё ${count} вопроса`,
+    more: (count) => (count === 1 ? "Показать ещё 1 вопрос" : `Показать ещё ${count} вопроса`),
     fewer: "Показать меньше вопросов",
     rows: entries([
       ["Какие комиссии сравнить сначала?", "Проверьте строки спота и фьючерсов с источником, уровень аккаунта и дату проверки. Итоговая комиссия зависит от продукта, региона, аккаунта и официального экрана."],
@@ -227,7 +227,7 @@ export const COMPARE_FAQ_LOCALES = {
     eyebrow: "FAQ e controlli decisionali",
     title: "{nameA} vs {nameB}: commissioni, prodotti e account",
     lead: "Verifica questi punti prima di aprire un percorso ufficiale di registrazione.",
-    more: (count) => `Mostra altre ${count} domande`,
+    more: (count) => (count === 1 ? "Mostra un'altra domanda" : `Mostra altre ${count} domande`),
     fewer: "Mostra meno domande",
     rows: entries([
       ["Quali commissioni confronto per prime?", "Controlla righe spot e futures con fonte, livello account e data di revisione. Il costo finale può variare per prodotto, regione, livello account e schermata ufficiale."],

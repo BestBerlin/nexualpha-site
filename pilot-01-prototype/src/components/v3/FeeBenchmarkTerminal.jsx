@@ -22,6 +22,9 @@ import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
 import { feePctOfRate, isoDay } from "../../data/exchange-facts.js";
 
+// Scope and conditions are two sentences: the scope gets its own full stop ("…USDC columns. Uses…").
+const sentence = (t) => { const v = String(t || "").trim(); return !v || /[.!?。！？:：]$/.test(v) ? v : `${v}.`; };
+
 const MONITOR_SLUGS = Object.keys(venueDatabase);
 const MONITOR_VENUE_COUNT = MONITOR_SLUGS.length;
 
@@ -725,7 +728,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
                   <span className="ft-src">{sources.map((href, i) => <a key={href} href={href} target="_blank" rel="noopener noreferrer">{labels.source}{sources.length > 1 ? ` ${i + 1}` : ""} ↗</a>)}</span>
                   {rates.length > 0 && <details className="ft-cond">
                     <summary>{labels.conditions}</summary>
-                    {rates.map((r) => <p key={r.product}><b>{r.productLabel}</b> {r.scope} {r.conditions}</p>)}
+                    {rates.map((r) => <p key={r.product}><b>{r.productLabel}</b> {sentence(r.scope)} {r.conditions}</p>)}
                   </details>}
                 </div></td>
                 {hasBenefit && <td className="ft-cell ft-aux">{renderAuxChip(row.rebateDisplay, labels.commercialPending)}</td>}

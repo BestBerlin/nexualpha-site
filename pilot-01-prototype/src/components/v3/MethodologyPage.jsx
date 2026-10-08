@@ -4,21 +4,21 @@ import { getTextDirection } from "../../paraglide/runtime.js";
 import "./methodology-page.css";
 
 const researchTrustCopy = {
-  en: { label: "Research identity", byline: "Published by NexuAlpha Research Desk", reviewed: "Page reviewed 15 September 2026", assets: "Downloadable research data", perp: "Perp cost-field dictionary", funding: "Regional funding verification matrix", json: "JSON", csv: "CSV" },
-  "zh-Hans": { label: "研究身份", byline: "由 NexuAlpha 研究团队发布", reviewed: "页面复核：2026 年 9 月 15 日", assets: "可下载研究数据", perp: "永续合约成本字段字典", funding: "区域入金核验矩阵", json: "JSON", csv: "CSV" },
-  "zh-Hant": { label: "研究身分", byline: "由 NexuAlpha 研究團隊發布", reviewed: "頁面複核：2026 年 9 月 15 日", assets: "可下載研究資料", perp: "永續合約成本欄位字典", funding: "區域入金核驗矩陣", json: "JSON", csv: "CSV" },
-  es: { label: "Identidad de investigación", byline: "Publicado por NexuAlpha Research Desk", reviewed: "Página revisada el 15 de septiembre de 2026", assets: "Datos de investigación descargables", perp: "Diccionario de costes de perpetuos", funding: "Matriz regional de verificación de fondos", json: "JSON", csv: "CSV" },
-  "pt-BR": { label: "Identidade da pesquisa", byline: "Publicado pela equipe de pesquisa NexuAlpha", reviewed: "Página revisada em 15 de setembro de 2026", assets: "Dados de pesquisa para download", perp: "Dicionário de custos de perpétuos", funding: "Matriz regional de verificação de depósitos", json: "JSON", csv: "CSV" },
-  fr: { label: "Identité de la recherche", byline: "Publié par le NexuAlpha Research Desk", reviewed: "Page révisée le 15 septembre 2026", assets: "Données de recherche téléchargeables", perp: "Dictionnaire des coûts des perpétuels", funding: "Matrice régionale de vérification des dépôts", json: "JSON", csv: "CSV" },
-  de: { label: "Forschungsidentität", byline: "Veröffentlicht vom NexuAlpha Research Desk", reviewed: "Seite geprüft am 15. September 2026", assets: "Herunterladbare Forschungsdaten", perp: "Kostenfeld-Lexikon für Perpetuals", funding: "Regionale Einzahlungs-Prüfmatrix", json: "JSON", csv: "CSV" },
-  ja: { label: "調査主体", byline: "NexuAlpha Research Desk が公開", reviewed: "ページ確認日：2026年9月15日", assets: "ダウンロード可能な調査データ", perp: "無期限契約のコスト項目辞書", funding: "地域別入金確認マトリクス", json: "JSON", csv: "CSV" },
-  ko: { label: "연구 주체", byline: "NexuAlpha Research Desk 게시", reviewed: "페이지 검토일: 2026년 9월 15일", assets: "다운로드 가능한 연구 데이터", perp: "무기한 계약 비용 필드 사전", funding: "지역별 입금 검증 매트릭스", json: "JSON", csv: "CSV" },
-  ar: { label: "هوية البحث", byline: "منشور بواسطة فريق أبحاث NexuAlpha", reviewed: "تمت مراجعة الصفحة في 15 سبتمبر 2026", assets: "بيانات بحث قابلة للتنزيل", perp: "قاموس حقول تكلفة العقود الدائمة", funding: "مصفوفة التحقق من التمويل الإقليمي", json: "JSON", csv: "CSV" },
-  tr: { label: "Araştırma kimliği", byline: "NexuAlpha Research Desk tarafından yayımlandı", reviewed: "Sayfa 15 Eylül 2026 tarihinde incelendi", assets: "İndirilebilir araştırma verileri", perp: "Sürekli vadeli maliyet alanları sözlüğü", funding: "Bölgesel fonlama doğrulama matrisi", json: "JSON", csv: "CSV" },
-  ru: { label: "Авторство исследования", byline: "Опубликовано NexuAlpha Research Desk", reviewed: "Страница проверена 15 сентября 2026 года", assets: "Данные для скачивания", perp: "Словарь полей стоимости бессрочных контрактов", funding: "Матрица проверки регионального пополнения", json: "JSON", csv: "CSV" },
-  id: { label: "Identitas riset", byline: "Diterbitkan oleh NexuAlpha Research Desk", reviewed: "Halaman ditinjau 15 September 2026", assets: "Data riset yang dapat diunduh", perp: "Kamus bidang biaya perpetual", funding: "Matriks verifikasi pendanaan regional", json: "JSON", csv: "CSV" },
-  vi: { label: "Danh tính nghiên cứu", byline: "Được xuất bản bởi NexuAlpha Research Desk", reviewed: "Trang được rà soát ngày 15 tháng 9 năm 2026", assets: "Dữ liệu nghiên cứu có thể tải xuống", perp: "Từ điển trường chi phí hợp đồng vĩnh cửu", funding: "Ma trận xác minh nạp tiền theo khu vực", json: "JSON", csv: "CSV" },
-  it: { label: "Identità della ricerca", byline: "Pubblicato dal NexuAlpha Research Desk", reviewed: "Pagina verificata il 15 settembre 2026", assets: "Dati di ricerca scaricabili", perp: "Dizionario dei costi dei perpetual", funding: "Matrice regionale di verifica dei depositi", json: "JSON", csv: "CSV" },
+  en: { label: "Research identity", byline: "Published by NexuAlpha Research Desk", reviewed: "Page reviewed 2026-09-15", assets: "Downloadable research data", perp: "Perp cost-field dictionary", funding: "Regional funding verification matrix", json: "JSON", csv: "CSV" },
+  "zh-Hans": { label: "研究身份", byline: "由 NexuAlpha 研究团队发布", reviewed: "页面复核：2026-09-15", assets: "可下载研究数据", perp: "永续合约成本字段字典", funding: "区域入金核验矩阵", json: "JSON", csv: "CSV" },
+  "zh-Hant": { label: "研究身分", byline: "由 NexuAlpha 研究團隊發布", reviewed: "頁面複核：2026-09-15", assets: "可下載研究資料", perp: "永續合約成本欄位字典", funding: "區域入金核驗矩陣", json: "JSON", csv: "CSV" },
+  es: { label: "Identidad de investigación", byline: "Publicado por NexuAlpha Research Desk", reviewed: "Página revisada: 2026-09-15", assets: "Datos de investigación descargables", perp: "Diccionario de costes de perpetuos", funding: "Matriz regional de verificación de fondos", json: "JSON", csv: "CSV" },
+  "pt-BR": { label: "Identidade da pesquisa", byline: "Publicado pela equipe de pesquisa NexuAlpha", reviewed: "Página revisada: 2026-09-15", assets: "Dados de pesquisa para download", perp: "Dicionário de custos de perpétuos", funding: "Matriz regional de verificação de depósitos", json: "JSON", csv: "CSV" },
+  fr: { label: "Identité de la recherche", byline: "Publié par le NexuAlpha Research Desk", reviewed: "Page révisée : 2026-09-15", assets: "Données de recherche téléchargeables", perp: "Dictionnaire des coûts des perpétuels", funding: "Matrice régionale de vérification des dépôts", json: "JSON", csv: "CSV" },
+  de: { label: "Forschungsidentität", byline: "Veröffentlicht vom NexuAlpha Research Desk", reviewed: "Seite geprüft: 2026-09-15", assets: "Herunterladbare Forschungsdaten", perp: "Kostenfeld-Lexikon für Perpetuals", funding: "Regionale Einzahlungs-Prüfmatrix", json: "JSON", csv: "CSV" },
+  ja: { label: "調査主体", byline: "NexuAlpha Research Desk が公開", reviewed: "ページ確認日：2026-09-15", assets: "ダウンロード可能な調査データ", perp: "無期限契約のコスト項目辞書", funding: "地域別入金確認マトリクス", json: "JSON", csv: "CSV" },
+  ko: { label: "연구 주체", byline: "NexuAlpha Research Desk 게시", reviewed: "페이지 검토일: 2026-09-15", assets: "다운로드 가능한 연구 데이터", perp: "무기한 계약 비용 필드 사전", funding: "지역별 입금 검증 매트릭스", json: "JSON", csv: "CSV" },
+  ar: { label: "هوية البحث", byline: "منشور بواسطة فريق أبحاث NexuAlpha", reviewed: "تمت مراجعة الصفحة: 2026-09-15", assets: "بيانات بحث قابلة للتنزيل", perp: "قاموس حقول تكلفة العقود الدائمة", funding: "مصفوفة التحقق من التمويل الإقليمي", json: "JSON", csv: "CSV" },
+  tr: { label: "Araştırma kimliği", byline: "NexuAlpha Research Desk tarafından yayımlandı", reviewed: "Sayfa inceleme tarihi: 2026-09-15", assets: "İndirilebilir araştırma verileri", perp: "Sürekli vadeli maliyet alanları sözlüğü", funding: "Bölgesel fonlama doğrulama matrisi", json: "JSON", csv: "CSV" },
+  ru: { label: "Авторство исследования", byline: "Опубликовано NexuAlpha Research Desk", reviewed: "Страница проверена: 2026-09-15", assets: "Данные для скачивания", perp: "Словарь полей стоимости бессрочных контрактов", funding: "Матрица проверки регионального пополнения", json: "JSON", csv: "CSV" },
+  id: { label: "Identitas riset", byline: "Diterbitkan oleh NexuAlpha Research Desk", reviewed: "Halaman ditinjau: 2026-09-15", assets: "Data riset yang dapat diunduh", perp: "Kamus bidang biaya perpetual", funding: "Matriks verifikasi pendanaan regional", json: "JSON", csv: "CSV" },
+  vi: { label: "Danh tính nghiên cứu", byline: "Được xuất bản bởi NexuAlpha Research Desk", reviewed: "Trang được rà soát: 2026-09-15", assets: "Dữ liệu nghiên cứu có thể tải xuống", perp: "Từ điển trường chi phí hợp đồng vĩnh cửu", funding: "Ma trận xác minh nạp tiền theo khu vực", json: "JSON", csv: "CSV" },
+  it: { label: "Identità della ricerca", byline: "Pubblicato dal NexuAlpha Research Desk", reviewed: "Pagina verificata: 2026-09-15", assets: "Dati di ricerca scaricabili", perp: "Dizionario dei costi dei perpetual", funding: "Matrice regionale di verifica dei depositi", json: "JSON", csv: "CSV" },
 };
 
 const DATA_LICENSE_COPY = {
@@ -67,12 +67,15 @@ const REGIONAL_FUNDING_ROUTE_COPY = {
   },
 };
 
+// Pillars are a set, not a sequence: the "1." … "4." prefixes in the copy are not shown.
+const unnumbered = (t) => String(t || "").replace(/^\s*\d+\.\s*/, "");
+
 const methodologyCopy = {
   "zh-Hans": {
     badge: "E-E-A-T 机构级评审准则",
     title: "NexuAlpha 评测方法论与数据审计标准",
     subtitle: "我们如何核对交易所费率、储备金披露与官方域名，以及每条记录背后的来源、日期与限制。",
-    lastUpdated: "最后修订：2026 年 9 月 (v3.8 规范)",
+    lastUpdated: "最后修订：2026-09（v3.8 规范）",
     pill1: "来源可追溯",
     pill2: "零付费改榜",
     pill3: "链上储备核验",
@@ -95,9 +98,9 @@ const methodologyCopy = {
   },
   en: {
     badge: "E-E-A-T Institutional Research Standards",
-    title: "NexuAlpha Rating Methodology & Data Audit Framework",
+    title: "NexuAlpha data and review methodology",
     subtitle: "How we check exchange fee schedules, reserve disclosures and official domains, and the sources, dates and limits behind every record.",
-    lastUpdated: "Last Revised: September 2026 (v3.8 Specification)",
+    lastUpdated: "Last revised 2026-09 · specification v3.8",
     pill1: "Traceable Sources",
     pill2: "Zero Pay-for-Rank",
     pill3: "On-Chain Solvency Audit",
@@ -110,7 +113,7 @@ const methodologyCopy = {
     pillar3Title: "3. Anti-Phishing Domain Source Records & Official Route Checks",
     pillar3Desc: "To reduce search-ad phishing and clone-community risk, NexuAlpha records source clues for primary domains, alternate login domains, and official validation pages. Unknown domains trigger risk warnings; recorded matches are not live authorization or safety guarantees.",
     pillar4Title: "4. Operational Resilience & Custody Accessibility",
-    pillar4Desc: "We audit mandatory KYC requirements by jurisdiction, daily withdrawal thresholds, API rate limits, and historical order-matching uptime during peak liquidity stress events.",
+    pillar4Desc: "We record KYC requirements by jurisdiction, withdrawal limits and API rate limits only where an official page states them, with the date checked. We do not track or score matching-engine uptime.",
     wallTitle: "Editorial Independence & Commercial Wall of Separation",
     wallDesc: "NexuAlpha strictly separates commercial monetization from research output. We receive standard affiliate commissions paid from exchange marketing budgets at no cost to users. No exchange can pay to change fee records, verification status or the order of comparisons.",
     feedbackTitle: "Data Correction & Community Governance",
@@ -120,21 +123,21 @@ const methodologyCopy = {
   }
 };
 
-methodologyCopy.ja = { ...methodologyCopy.en, badge: "E-E-A-T 機関レベルの調査基準", title: "NexuAlpha 評価方法論とデータ監査フレームワーク", subtitle: "取引所の手数料、Proof of Reserves、運用上の安全性をどのように検証するかを公開します。", lastUpdated: "最終更新：2026年9月（v3.8）", pill1: "追跡可能な出典", pill2: "有料順位なし", pill3: "オンチェーン監査", pillarsTitle: "4つの評価基準", pillarsSummary: "評価基準とデータ範囲を見る", wallTitle: "編集独立性と商業分離", feedbackTitle: "データ訂正とコミュニティ監督", btnBack: "← 端末に戻る", btnTg: "Telegramで調査チームに連絡" };
-methodologyCopy.ko = { ...methodologyCopy.en, badge: "E-E-A-T 기관급 연구 기준", title: "NexuAlpha 평가 방법론 및 데이터 감사 프레임워크", subtitle: "거래소 수수료, Proof of Reserves와 운영 보안을 검증하는 방식을 공개합니다.", lastUpdated: "최종 수정: 2026년 9월 (v3.8)", pill1: "추적 가능한 출처", pill2: "유료 순위 없음", pill3: "온체인 감사", pillarsTitle: "4가지 평가 기준", pillarsSummary: "평가 기준과 데이터 범위 보기", wallTitle: "편집 독립성과 상업적 분리", feedbackTitle: "데이터 정정 및 커뮤니티 감독", btnBack: "← 터미널로 돌아가기", btnTg: "Telegram에서 리서치 팀에 문의" };
-methodologyCopy.tr = { ...methodologyCopy.en, badge: "E-E-A-T kurumsal araştırma standartları", title: "NexuAlpha değerlendirme yöntemi ve veri denetimi", subtitle: "Platform ücretlerini, Proof of Reserves verilerini ve operasyonel güvenliği nasıl doğruladığımızı açıklıyoruz.", lastUpdated: "Son güncelleme: Eylül 2026 (v3.8)", pill1: "İzlenebilir kaynaklar", pill2: "Ücretli sıralama yok", pill3: "On-chain denetim", pillarsTitle: "Dört değerlendirme standardı", pillarsSummary: "Standartları ve veri sınırlarını gör", wallTitle: "Editoryal bağımsızlık ve ticari ayrım", feedbackTitle: "Veri düzeltme ve topluluk denetimi", btnBack: "← Terminale dön", btnTg: "Telegram'da araştırma ekibine ulaş" };
-methodologyCopy.es = { ...methodologyCopy.en, badge: "Estándares de investigación institucional E-E-A-T", title: "Metodología de evaluación y marco de auditoría de datos de NexuAlpha", subtitle: "Cómo verificamos de forma transparente las comisiones de plataformas, Proof of Reserves y seguridad operativa.", lastUpdated: "Última revisión: septiembre de 2026 (v3.8)", pill1: "Fuentes rastreables", pill2: "Sin ranking pagado", pill3: "Auditoría on-chain", pillarsTitle: "Cuatro pilares de evaluación", pillarsSummary: "Ver estándares y límites de datos", wallTitle: "Independencia editorial y separación comercial", feedbackTitle: "Corrección de datos y supervisión comunitaria", btnBack: "← Volver al terminal", btnTg: "Contactar al equipo de investigación en Telegram" };
-methodologyCopy["pt-BR"] = { ...methodologyCopy.en, badge: "Padrões institucionais de pesquisa E-E-A-T", title: "Metodologia de avaliação e estrutura de auditoria de dados da NexuAlpha", subtitle: "Como verificamos taxas de plataformas, Proof of Reserves e segurança operacional de forma transparente.", lastUpdated: "Última revisão: setembro de 2026 (v3.8)", pill1: "Fontes rastreáveis", pill2: "Sem ranking pago", pill3: "Auditoria on-chain", pillarsTitle: "Quatro pilares de avaliação", pillarsSummary: "Ver padrões e limites dos dados", wallTitle: "Independência editorial e separação comercial", feedbackTitle: "Correção de dados e supervisão da comunidade", btnBack: "← Voltar ao terminal", btnTg: "Contatar a equipe de pesquisa no Telegram" };
+methodologyCopy.ja = { ...methodologyCopy.en, badge: "E-E-A-T 機関レベルの調査基準", title: "NexuAlpha 評価方法論とデータ監査フレームワーク", subtitle: "取引所の手数料、Proof of Reserves、運用上の安全性をどのように検証するかを公開します。", lastUpdated: "最終更新：2026-09（v3.8）", pill1: "追跡可能な出典", pill2: "有料順位なし", pill3: "オンチェーン監査", pillarsTitle: "4つの評価基準", pillarsSummary: "評価基準とデータ範囲を見る", wallTitle: "編集独立性と商業分離", feedbackTitle: "データ訂正とコミュニティ監督", btnBack: "← 端末に戻る", btnTg: "Telegramで調査チームに連絡" };
+methodologyCopy.ko = { ...methodologyCopy.en, badge: "E-E-A-T 기관급 연구 기준", title: "NexuAlpha 평가 방법론 및 데이터 감사 프레임워크", subtitle: "거래소 수수료, Proof of Reserves와 운영 보안을 검증하는 방식을 공개합니다.", lastUpdated: "최종 수정: 2026-09 (v3.8)", pill1: "추적 가능한 출처", pill2: "유료 순위 없음", pill3: "온체인 감사", pillarsTitle: "4가지 평가 기준", pillarsSummary: "평가 기준과 데이터 범위 보기", wallTitle: "편집 독립성과 상업적 분리", feedbackTitle: "데이터 정정 및 커뮤니티 감독", btnBack: "← 터미널로 돌아가기", btnTg: "Telegram에서 리서치 팀에 문의" };
+methodologyCopy.tr = { ...methodologyCopy.en, badge: "E-E-A-T kurumsal araştırma standartları", title: "NexuAlpha değerlendirme yöntemi ve veri denetimi", subtitle: "Platform ücretlerini, Proof of Reserves verilerini ve operasyonel güvenliği nasıl doğruladığımızı açıklıyoruz.", lastUpdated: "Son güncelleme: 2026-09 (v3.8)", pill1: "İzlenebilir kaynaklar", pill2: "Ücretli sıralama yok", pill3: "On-chain denetim", pillarsTitle: "Dört değerlendirme standardı", pillarsSummary: "Standartları ve veri sınırlarını gör", wallTitle: "Editoryal bağımsızlık ve ticari ayrım", feedbackTitle: "Veri düzeltme ve topluluk denetimi", btnBack: "← Terminale dön", btnTg: "Telegram'da araştırma ekibine ulaş" };
+methodologyCopy.es = { ...methodologyCopy.en, badge: "Estándares de investigación institucional E-E-A-T", title: "Metodología de evaluación y marco de auditoría de datos de NexuAlpha", subtitle: "Cómo verificamos de forma transparente las comisiones de plataformas, Proof of Reserves y seguridad operativa.", lastUpdated: "Última revisión: 2026-09 (v3.8)", pill1: "Fuentes rastreables", pill2: "Sin ranking pagado", pill3: "Auditoría on-chain", pillarsTitle: "Cuatro pilares de evaluación", pillarsSummary: "Ver estándares y límites de datos", wallTitle: "Independencia editorial y separación comercial", feedbackTitle: "Corrección de datos y supervisión comunitaria", btnBack: "← Volver al terminal", btnTg: "Contactar al equipo de investigación en Telegram" };
+methodologyCopy["pt-BR"] = { ...methodologyCopy.en, badge: "Padrões institucionais de pesquisa E-E-A-T", title: "Metodologia de avaliação e estrutura de auditoria de dados da NexuAlpha", subtitle: "Como verificamos taxas de plataformas, Proof of Reserves e segurança operacional de forma transparente.", lastUpdated: "Última revisão: 2026-09 (v3.8)", pill1: "Fontes rastreáveis", pill2: "Sem ranking pago", pill3: "Auditoria on-chain", pillarsTitle: "Quatro pilares de avaliação", pillarsSummary: "Ver padrões e limites dos dados", wallTitle: "Independência editorial e separação comercial", feedbackTitle: "Correção de dados e supervisão da comunidade", btnBack: "← Voltar ao terminal", btnTg: "Contatar a equipe de pesquisa no Telegram" };
 
 
-methodologyCopy.ar = { ...methodologyCopy.en, badge: "معايير بحث مؤسسية وفق E-E-A-T", title: "منهجية تقييم NexuAlpha وإطار تدقيق البيانات", subtitle: "نوضح كيف نتحقق من رسوم المنصات وإثبات الاحتياطيات والأمان التشغيلي بطريقة شفافة وقابلة للمراجعة.", lastUpdated: "آخر تحديث: سبتمبر 2026 (الإصدار 3.8)", pill1: "مصادر قابلة للتتبع", pill2: "لا ترتيب مدفوع", pill3: "تدقيق للاحتياطيات على السلسلة", pillarsTitle: "أربع ركائز للتقييم", pillarsSummary: "عرض معايير التقييم وحدود البيانات", wallTitle: "الاستقلال التحريري والفصل التجاري", feedbackTitle: "تصحيح البيانات والرقابة المجتمعية", btnBack: "← العودة إلى محطة التداول", btnTg: "التواصل مع فريق البحث عبر Telegram" };
+methodologyCopy.ar = { ...methodologyCopy.en, badge: "معايير بحث مؤسسية وفق E-E-A-T", title: "منهجية تقييم NexuAlpha وإطار تدقيق البيانات", subtitle: "نوضح كيف نتحقق من رسوم المنصات وإثبات الاحتياطيات والأمان التشغيلي بطريقة شفافة وقابلة للمراجعة.", lastUpdated: "آخر تحديث: 2026-09 (الإصدار 3.8)", pill1: "مصادر قابلة للتتبع", pill2: "لا ترتيب مدفوع", pill3: "تدقيق للاحتياطيات على السلسلة", pillarsTitle: "أربع ركائز للتقييم", pillarsSummary: "عرض معايير التقييم وحدود البيانات", wallTitle: "الاستقلال التحريري والفصل التجاري", feedbackTitle: "تصحيح البيانات والرقابة المجتمعية", btnBack: "← العودة إلى محطة التداول", btnTg: "التواصل مع فريق البحث عبر Telegram" };
 
 
-methodologyCopy.id = { ...methodologyCopy.en, badge: "Standar riset institusional E-E-A-T", title: "Metodologi riset dan kerangka audit data NexuAlpha", subtitle: "Cara kami memverifikasi biaya platform, Proof of Reserves, dan keamanan operasional secara transparan.", lastUpdated: "Pembaruan terakhir: September 2026 (v3.8)", pill1: "Sumber terlacak", pill2: "Tanpa peringkat berbayar", pill3: "Audit solvabilitas on-chain", pillarsTitle: "Empat pilar evaluasi", pillarsSummary: "Lihat standar evaluasi dan batas data", wallTitle: "Independensi editorial dan pemisahan komersial", feedbackTitle: "Koreksi data dan pengawasan komunitas", btnBack: "← Kembali ke terminal", btnTg: "Hubungi tim riset di Telegram" };
-methodologyCopy.vi = { ...methodologyCopy.en, badge: "Tiêu chuẩn nghiên cứu tổ chức E-E-A-T", title: "Phương pháp đánh giá và khung kiểm toán dữ liệu NexuAlpha", subtitle: "Cách chúng tôi xác minh phí nền tảng, Proof of Reserves và an toàn vận hành một cách minh bạch.", lastUpdated: "Cập nhật lần cuối: tháng 9 năm 2026 (v3.8)", pill1: "Nguồn có thể truy xuất", pill2: "Không xếp hạng trả phí", pill3: "Kiểm toán khả năng thanh toán on-chain", pillarsTitle: "Bốn trụ cột đánh giá", pillarsSummary: "Xem tiêu chuẩn và giới hạn dữ liệu", wallTitle: "Độc lập biên tập và tách biệt thương mại", feedbackTitle: "Sửa dữ liệu và giám sát cộng đồng", btnBack: "← Quay lại terminal", btnTg: "Liên hệ nhóm nghiên cứu trên Telegram" };
-methodologyCopy.it = { ...methodologyCopy.en, badge: "Standard di ricerca istituzionale E-E-A-T", title: "Metodologia di valutazione e framework di audit dei dati NexuAlpha", subtitle: "Come verifichiamo in modo trasparente commissioni, Proof of Reserves e sicurezza operativa.", lastUpdated: "Ultimo aggiornamento: settembre 2026 (v3.8)", pill1: "Fonti tracciabili", pill2: "Nessuna classifica a pagamento", pill3: "Audit di solvibilità on-chain", pillarsTitle: "Quattro pilastri di valutazione", pillarsSummary: "Visualizza standard e limiti dei dati", wallTitle: "Indipendenza editoriale e separazione commerciale", feedbackTitle: "Correzione dei dati e controllo della comunità", btnBack: "← Torna al terminale", btnTg: "Contatta il team di ricerca su Telegram" };
+methodologyCopy.id = { ...methodologyCopy.en, badge: "Standar riset institusional E-E-A-T", title: "Metodologi riset dan kerangka audit data NexuAlpha", subtitle: "Cara kami memverifikasi biaya platform, Proof of Reserves, dan keamanan operasional secara transparan.", lastUpdated: "Pembaruan terakhir: 2026-09 (v3.8)", pill1: "Sumber terlacak", pill2: "Tanpa peringkat berbayar", pill3: "Audit solvabilitas on-chain", pillarsTitle: "Empat pilar evaluasi", pillarsSummary: "Lihat standar evaluasi dan batas data", wallTitle: "Independensi editorial dan pemisahan komersial", feedbackTitle: "Koreksi data dan pengawasan komunitas", btnBack: "← Kembali ke terminal", btnTg: "Hubungi tim riset di Telegram" };
+methodologyCopy.vi = { ...methodologyCopy.en, badge: "Tiêu chuẩn nghiên cứu tổ chức E-E-A-T", title: "Phương pháp đánh giá và khung kiểm toán dữ liệu NexuAlpha", subtitle: "Cách chúng tôi xác minh phí nền tảng, Proof of Reserves và an toàn vận hành một cách minh bạch.", lastUpdated: "Cập nhật lần cuối: 2026-09 (v3.8)", pill1: "Nguồn có thể truy xuất", pill2: "Không xếp hạng trả phí", pill3: "Kiểm toán khả năng thanh toán on-chain", pillarsTitle: "Bốn trụ cột đánh giá", pillarsSummary: "Xem tiêu chuẩn và giới hạn dữ liệu", wallTitle: "Độc lập biên tập và tách biệt thương mại", feedbackTitle: "Sửa dữ liệu và giám sát cộng đồng", btnBack: "← Quay lại terminal", btnTg: "Liên hệ nhóm nghiên cứu trên Telegram" };
+methodologyCopy.it = { ...methodologyCopy.en, badge: "Standard di ricerca istituzionale E-E-A-T", title: "Metodologia di valutazione e framework di audit dei dati NexuAlpha", subtitle: "Come verifichiamo in modo trasparente commissioni, Proof of Reserves e sicurezza operativa.", lastUpdated: "Ultimo aggiornamento: 2026-09 (v3.8)", pill1: "Fonti tracciabili", pill2: "Nessuna classifica a pagamento", pill3: "Audit di solvibilità on-chain", pillarsTitle: "Quattro pilastri di valutazione", pillarsSummary: "Visualizza standard e limiti dei dati", wallTitle: "Indipendenza editoriale e separazione commerciale", feedbackTitle: "Correzione dei dati e controllo della comunità", btnBack: "← Torna al terminale", btnTg: "Contatta il team di ricerca su Telegram" };
 
-methodologyCopy.ru = { ...methodologyCopy.en, badge: "Институциональные стандарты исследований E-E-A-T", title: "Методология оценки и аудит данных NexuAlpha", subtitle: "Как мы прозрачно проверяем комиссии платформ, Proof of Reserves и операционную безопасность.", lastUpdated: "Последнее обновление: сентябрь 2026 (v3.8)", pill1: "Отслеживаемые источники", pill2: "Без платного ранжирования", pill3: "Ончейн-аудит платёжеспособности", pillarsTitle: "Четыре опоры оценки", pillarsSummary: "Стандарты оценки и границы данных", wallTitle: "Редакционная независимость и коммерческое разделение", feedbackTitle: "Исправление данных и контроль сообщества", btnBack: "← Вернуться к терминалу", btnTg: "Связаться с исследовательской командой в Telegram" };
+methodologyCopy.ru = { ...methodologyCopy.en, badge: "Институциональные стандарты исследований E-E-A-T", title: "Методология оценки и аудит данных NexuAlpha", subtitle: "Как мы прозрачно проверяем комиссии платформ, Proof of Reserves и операционную безопасность.", lastUpdated: "Последнее обновление: 2026-09 (v3.8)", pill1: "Отслеживаемые источники", pill2: "Без платного ранжирования", pill3: "Ончейн-аудит платёжеспособности", pillarsTitle: "Четыре опоры оценки", pillarsSummary: "Стандарты оценки и границы данных", wallTitle: "Редакционная независимость и коммерческое разделение", feedbackTitle: "Исправление данных и контроль сообщества", btnBack: "← Вернуться к терминалу", btnTg: "Связаться с исследовательской командой в Telegram" };
 
 // The first version localized only the shell of this page and inherited the
 // English pillar copy when a disclosure was opened. Keep the shared template,
@@ -283,19 +286,19 @@ export function MethodologyPage({ locale = "en" }) {
           <div className="methodology-pillars-list">
             <div className="methodology-pillars-grid">
               <article className="methodology-pillar-card">
-                <h3>{t.pillar1Title}</h3>
+                <h3>{unnumbered(t.pillar1Title)}</h3>
                 <p>{t.pillar1Desc}</p>
               </article>
               <article className="methodology-pillar-card">
-                <h3>{t.pillar2Title}</h3>
+                <h3>{unnumbered(t.pillar2Title)}</h3>
                 <p>{t.pillar2Desc}</p>
               </article>
               <article className="methodology-pillar-card">
-                <h3>{t.pillar3Title}</h3>
+                <h3>{unnumbered(t.pillar3Title)}</h3>
                 <p>{t.pillar3Desc}</p>
               </article>
               <article className="methodology-pillar-card">
-                <h3>{t.pillar4Title}</h3>
+                <h3>{unnumbered(t.pillar4Title)}</h3>
                 <p>{t.pillar4Desc}</p>
               </article>
             </div>

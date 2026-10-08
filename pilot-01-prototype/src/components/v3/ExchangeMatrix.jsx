@@ -236,7 +236,7 @@ export function ExchangeMatrix({
 
   return (
     <div className="mx" data-tray={compareSelection.length > 0 ? "open" : undefined}>
-      <div className="mx-toolbar">
+      <div className="mx-toolbar" data-route-label={mc.type}>
         <div className="mx-seg" role="radiogroup" aria-label={mc.type}>
           {SEGMENTS.map((seg, index) => {
             const active = selectedCategory === seg.id;
@@ -290,7 +290,7 @@ export function ExchangeMatrix({
           {regionalReturnHref ? <a className="mx-btn mx-btn--ghost" href={regionalReturnHref} data-cta-placement="directory-empty-region-return">{ui.returnToRegion}</a> : null}
         </div>
       ) : (
-        <div className="mx-scroll">
+        <div className="mx-scroll" data-route-label={mc.table}>
           <table className="mx-table" role="table" aria-label={mc.table} aria-rowcount={sorted.length + 1}>
             <colgroup>
               <col className="mx-col mx-col--pick" />
@@ -460,7 +460,15 @@ export function ExchangeMatrix({
         <div className="mx-dock" role="region" aria-label={mc.tray} aria-live="polite">
           <div className="mx-dock__pair">
             <DockSlot key={`a-${compareSelection[0]}`} row={{ slug: compareSelection[0], name: nameOf(compareSelection[0]) }} onRemove={() => onToggleCompare(compareSelection[0])} mc={mc} />
-            <span className="mx-dock__vs" aria-hidden="true">{mc.vs}</span>
+            {/* the route between the two picks: dashed while the second slot is empty, drawn into the second logo when it fills */}
+            <span key={`route-${compareSelection[0]}-${compareSelection[1] || ""}`} className={`mx-dock__route${compareSelection[1] ? " is-linked" : ""}`} aria-hidden="true">
+              <svg viewBox="0 0 40 24" width="40" height="24" focusable="false">
+                <path className="mx-dock__route-ghost" d="M3 19 C15 19 25 5 37 5" />
+                <path className="mx-dock__route-line" d="M3 19 C15 19 25 5 37 5" pathLength="1" />
+                <circle className="mx-dock__route-a" cx="3" cy="19" r="2.5" />
+                <circle className="mx-dock__route-b" cx="37" cy="5" r="2.5" />
+              </svg>
+            </span>
             <DockSlot key={`b-${compareSelection[1] || "empty"}`} row={compareSelection[1] ? { slug: compareSelection[1], name: nameOf(compareSelection[1]) } : null} onRemove={() => onToggleCompare(compareSelection[1])} mc={mc} />
           </div>
           <div className="mx-dock__actions">

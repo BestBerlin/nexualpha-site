@@ -190,11 +190,11 @@ const i18n = {
     openDecisionPath: "Open venue decision page →",
     previewMarkdown: "View Raw LLM Markdown Data",
     hidePreview: "Hide Raw Markdown Preview",
-    navAll: "All Factbook research records",
+    navAll: "All",
     researchScopeNote: `Factbook: ${factbookRecordCount} research records · Directory: ${comparisonDirectoryCount} comparison profiles.`,
-    navCex: "CEXs",
-    navPerp: "Perp DEXs",
-    navDex: "Spot DEXs",
+    navCex: "CEX",
+    navPerp: "Perp DEX",
+    navDex: "DEX",
     secVipTitle: "VIP0 - VIP9 Tiered Fee Schedule & Net Rates",
     secVipSub: "Official base maker/taker fee tiers and native-token rules; user benefits must be source-verified before a net rate is calculated.",
     tabSpot: "Spot Market",
@@ -206,8 +206,8 @@ const i18n = {
     thTakerNet: "Net Taker Rate",
     thFormula: "Formula: Net Fee = Base Rate × (1 - Token Discount) × (1 - Rebate Ratio)",
     tagDiscount: "Token Discount",
-    secPorTitle: "Proof of Reserves (PoR) & Solvency Telemetry",
-    secPorSub: "Look beyond headline figures to the Clean Reserve Ratio (excluding internal platform tokens) to prevent artificial collateral inflation.",
+    secPorTitle: "Proof of reserves",
+    secPorSub: "Reserve figures appear here only with a dated official source; until then each field stays pending.",
     cardTotalPor: "Declared Total Reserve Ratio",
     cardCleanPor: "Clean Reserve Ratio (Non-Native)",
     cardCleanBadge: "Critical Solvency Metric",
@@ -1079,6 +1079,8 @@ function factbookValueClass(value) {
   return /^[\s\d.,%$≈~<>+\-–/A-Za-z]{1,14}$/.test(text) && /\d/.test(text) ? "factbook-value factbook-value--figure" : "factbook-value";
 }
 
+const sentenceCase = (v) => { const t = String(v || ""); return t ? t.charAt(0).toUpperCase() + t.slice(1).toLowerCase() : t; };
+
 export function FactbookPage({ slug = "binance", locale = "en", market, product }) {
   const currentLocale = locale.startsWith("zh-Hant") ? "zh-Hant" : locale.startsWith("zh") ? "zh-Hans" : "en";
   const localeBase = String(locale || "").split("-")[0];
@@ -1309,6 +1311,15 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 <span>{copiedMd === "success" ? t.copiedMarkdown : t.copyMarkdownBtn}</span>
               </button>
               <FactbookCopyStatus state={copiedMd} locale={locale} />
+              {/* the Markdown preview toggle sits in the same row as Copy Markdown */}
+            <button
+              type="button"
+              className="factbook-preview-toggle-btn"
+              aria-expanded={showRawMd}
+              onClick={() => setShowRawMd(!showRawMd)}
+            >
+              {showRawMd ? t.hidePreview : t.previewMarkdown}<span aria-hidden="true" className="factbook-preview-toggle-btn__glyph">{showRawMd ? "−" : "＋"}</span>
+            </button>
               {copiedMd === "error" && (
                 <textarea
                   className="factbook-copy-manual-input factbook-copy-manual-input--markdown"
@@ -1321,16 +1332,6 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 />
               )}
             </div>
-          {/* Raw Markdown 预览折叠开关 */}
-          <div className="factbook-preview-toggle-bar">
-            <button
-              type="button"
-              className="factbook-preview-toggle-btn"
-              onClick={() => setShowRawMd(!showRawMd)}
-            >
-              {showRawMd ? `▲ ${t.hidePreview}` : `▼ ${t.previewMarkdown}`}
-            </button>
-          </div>
 
           {showRawMd && (
             <div className="factbook-raw-markdown-preview">
@@ -1376,17 +1377,17 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
               </button>
               <button
                 type="button"
-                className={`factbook-filter-pill ${filterCategory === "PERP" ? "active" : ""}`}
-                onClick={() => setFilterCategory("PERP")}
-              >
-                {t.navPerp} (5)
-              </button>
-              <button
-                type="button"
                 className={`factbook-filter-pill ${filterCategory === "DEX" ? "active" : ""}`}
                 onClick={() => setFilterCategory("DEX")}
               >
                 {t.navDex} (6)
+              </button>
+              <button
+                type="button"
+                className={`factbook-filter-pill ${filterCategory === "PERP" ? "active" : ""}`}
+                onClick={() => setFilterCategory("PERP")}
+              >
+                {t.navPerp} (5)
               </button>
             </div>
             <small className="factbook-nav__scope-note">
@@ -1535,10 +1536,6 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 <dt>{t.cardTotalPor}</dt>
                 <dd><strong className={factbookValueClass(venue.por?.totalRatio || "100%")}>{venue.por?.totalRatio || "100%"}</strong><small>{factbookUi.totalNote || (isHant ? "官方公開資料總值" : isZh ? "官方公开数据总值" : "Declared total from public data")}</small></dd>
               </div>
-              <div className="factbook-evidence__row factbook-evidence__row--focus">
-                <dt>{t.cardCleanPor}<span className="factbook-evidence__flag">{t.cardCleanBadge}</span></dt>
-                <dd><strong className={factbookValueClass(venue.por?.cleanRatio || "100%")}>{venue.por?.cleanRatio || "100%"}</strong><small>{isZh ? venue.por?.cleanRatioNoteZh : venue.por?.cleanRatioNoteEn}</small></dd>
-              </div>
               <div className="factbook-evidence__row">
                 <dt>{t.cardNativeToken}</dt>
                 <dd><strong className={factbookValueClass(venue.por?.nativeTokenShare || "0.0%")}>{venue.por?.nativeTokenShare || "0.0%"}</strong><small>{factbookUi.nativeNote || (isHant ? "自身代幣敞口風險" : isZh ? "自身代币敞口风险" : "Native-token exposure risk")}</small></dd>
@@ -1552,7 +1549,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             <dl className="factbook-evidence factbook-evidence--pending">
               <div className="factbook-evidence__row">
                 <dt>{venue.por?.totalRatio}</dt>
-                <dd><ul className="factbook-pending-fields">{[t.cardTotalPor, t.cardCleanPor, t.cardNativeToken, t.cardSecurityFund].map((label) => <li key={label}>{label}</li>)}</ul><small>{venue.por?.securityFund} · {venue.por?.fundAmount}</small></dd>
+                <dd><ul className="factbook-pending-fields">{[t.cardTotalPor, t.cardNativeToken, t.cardSecurityFund].map((label) => <li key={label}>{label}</li>)}</ul><small>{venue.por?.securityFund} · {venue.por?.fundAmount}</small></dd>
               </div>
             </dl>
             )}
@@ -1605,7 +1602,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
               <div className="factbook-evidence__row">
                 <dt>{t.kycLevelLabel}</dt>
                 <dd>
-                  <span className={`factbook-tag-kyc factbook-tag-kyc--${venue.compliance?.kycLevel}`}>{venue.compliance?.kycLevel?.toUpperCase()}</span>
+                  <span className={`factbook-tag-kyc factbook-tag-kyc--${venue.compliance?.kycLevel}`}>{sentenceCase(venue.compliance?.kycLevel)}</span>
                   <small>{isZh ? venue.compliance?.kycSummaryZh : venue.compliance?.kycSummaryEn}</small>
                 </dd>
               </div>
@@ -1643,7 +1640,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
               <div className="factbook-evidence__row">
                 <dt>{t.kycLevelLabel}</dt>
                 <dd>
-                  <span className={`factbook-tag-kyc factbook-tag-kyc--${venue.compliance?.kycLevel}`}>{venue.compliance?.kycLevel?.toUpperCase()}</span>
+                  {/* no KYC level badge until the compliance record has a source */}
                   <small>{isZh ? venue.compliance?.kycSummaryZh : venue.compliance?.kycSummaryEn}</small>
                 </dd>
               </div>

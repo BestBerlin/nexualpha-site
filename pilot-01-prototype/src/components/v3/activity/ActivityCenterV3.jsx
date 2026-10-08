@@ -208,16 +208,6 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
     () => (filter === "all" ? feedItemList : feedItemList.filter((update) => update.category === filter)),
     [feedItemList, filter],
   );
-  const sourceEntryCount = useMemo(
-    () => venues.reduce((count, venue) => count + (venue.sourceHubs?.length ?? 0), 0),
-    [venues],
-  );
-
-  const snapshotItems = [
-    { label: text.sourceEntries, value: String(sourceEntryCount), hint: text.sourcePanelBody },
-    { label: text.current, value: String(publishableUpdates.length), hint: text.reviewedFeed },
-    { label: rewardsText.reward, value: String(researchItemList.length), hint: rewardsText.intro },
-  ];
   const visibleResearchCards = showAllResearch ? researchItemList : researchItemList.slice(0, 6);
 
   const filterControls = (
@@ -297,8 +287,9 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
         </div>
       </article>;
       })}
-    </div> : <div className="activity-center-v3__empty" role="status">
-      <p><strong>{text.emptyTitle}</strong> <span>{text.emptyBody}</span></p>
+    </div> : <div className={`activity-center-v3__empty${researchItemList.length ? " activity-center-v3__empty--actions" : ""}`} role={researchItemList.length ? undefined : "status"}>
+      {/* "No verified recent activity" only when nothing below is populated; with research rows the two routes stay as plain actions */}
+      {!researchItemList.length && <p><strong>{text.emptyTitle}</strong> <span>{text.emptyBody}</span></p>}
       <div className="activity-center-v3__empty-actions">
         <a href={contextualHref("/exchanges")} data-cta-kind="research" data-cta-placement="activity-footer-directory" data-growth-decision="directory" data-growth-placement="activity-footer-directory" data-growth-market={market} data-growth-product={product}>{text.browsePlatforms}</a>
         <a href={contextualHref("/compare/binance-vs-okx")} data-cta-kind="research" data-cta-placement="activity-footer-comparison" data-growth-decision="comparison" data-growth-placement="activity-footer-comparison" data-growth-market={market} data-growth-product={product}>{text.comparePlatforms}</a>
@@ -320,7 +311,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
         <span>{activityLocaleUi?.indexHint || (locale.startsWith("zh") ? "按平台查看来源、状态和复核日期" : "Browse source, status and review date by venue")}</span>
         <b aria-hidden="true">＋</b>
       </summary>
-      <OfficialResearchIndex locale={locale} market={market} product={product} venues={venues} />
+      <OfficialResearchIndex locale={locale} market={market} product={product} venues={venues} embedded />
     </details>
       <div className={`activity-center-v3__reward-grid${showAllResearch ? "" : " activity-center-v3__reward-grid--collapsed"}`}>
         {visibleResearchCards.map((record) => <article key={record.platform.slug}>
@@ -358,13 +349,6 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
       </aside>
     <DecisionPathRail locale={locale} market={market} product={product} current="activities" />
 
-    <div className="activity-center-v3__snapshot" aria-label={text.sourcePanel}>
-      {snapshotItems.map((item) => <article key={item.label}>
-        <span>{item.label}</span>
-        <b>{item.value}</b>
-        <p>{item.hint}</p>
-      </article>)}
-    </div>
 
     {/* Telegram 官方快讯订阅直达条 */}
     <aside className="activity-center-v3__tg-banner">
