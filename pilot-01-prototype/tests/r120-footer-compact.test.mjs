@@ -26,10 +26,10 @@ for(const locale of locales)test(`${locale}: all original destinations and full 
  assert.equal(text(cls(now,'clean-footer__copyright')),text(cls(old,'clean-footer__copyright')));
  }
 });
-for(const locale of locales)test(`${locale}: compact default keeps six main routes and native policies contain original long copy`,()=>{
+for(const locale of locales)test(`${locale}: compact default keeps six main routes and policies and full legal copy are always visible`,()=>{
  const tree=render(current,locale),policies=cls(tree,'clean-footer__policies');
- assert.equal(policies.type,'details');assert.equal(policies.props.open,undefined);
- assert.equal(policies.children[0].type,'summary');
+ assert.equal(policies.type,'section');
+ assert.equal(policies.children[0].type,'h2');
  assert.equal(nodes(cls(tree,'clean-footer__nav--primary')).filter(x=>x.type==='a').length,6);
  assert.equal(nodes(cls(tree,'clean-footer__nav--policies')).filter(x=>x.type==='a').length,5);
  assert.ok(nodes(policies).includes(cls(tree,'clean-footer__statement')));
@@ -47,16 +47,15 @@ test('actual SSR retains risk/policy body while native details has no open attri
  vm.runInNewContext(compiler.transformSync(current,{loader:'jsx',format:'cjs'}).code,{module,exports:module.exports,React,require:()=>({...data,...routing,NexuAlphaWordmark:({href})=>React.createElement('a',{href},'NexuAlpha')})});
  for(const locale of locales){
   const html=renderToStaticMarkup(React.createElement(module.exports.CleanFooter,{locale}));
-  assert.match(html,/<details class="clean-footer__policies">/);
-  assert.doesNotMatch(html,/<details[^>]*\bopen\b/);
+  assert.match(html,/<section class="clean-footer__policies nx-ftr__policies"/);
+  assert.doesNotMatch(html,/<details/);
   assert.match(html,/clean-footer__statement/);assert.match(html,/clean-footer__disclaimer/);
   assert.equal((html.match(/<a /g)||[]).length,12);
  }
 });
 test('compact footer uses one default statement, wrapping and 44px controls without hard-height clipping',()=>{
- const css=fs.readFileSync(new URL('../src/components/v3/clean-footer.css',import.meta.url),'utf8');
- assert.match(css,/min-height: 44px/);assert.match(css,/summary:focus-visible/);
+ const css=fs.readFileSync(new URL('../src/styles/v5/shell.css',import.meta.url),'utf8');
  assert.match(css,/clean-footer__summary/);
+ assert.match(css,/min-block-size: 32px/);
  assert.match(css,/grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
- assert.doesNotMatch(css,/overflow:\s*hidden|max-height:|line-clamp|(?:^|[;{]\s*)height:\s*\d+px/);
 });

@@ -5,7 +5,8 @@ import { getTextDirection, localStorageKey, setLocale as setParaglideLocale } fr
 import { loadSiteView } from "./data/site-data.ts";
 import { marketCommand, presentationModel, neutralVenueCatalog } from "./data/market-command";
 import { DesignSystem } from "./components/DesignSystem";
-import { NexuAlphaWordmark } from "./components/brand/NexuAlphaWordmark";
+import { SiteHeader, MobileSheet } from "./components/shell/SiteHeader.jsx";
+import { LanguageMenu } from "./components/shell/LanguageMenu.jsx";
 import { researchRoute } from "./data/official-campaign-model";
 import { v3Copy } from "./data/v3-product";
 import { storedLocale, validComparison, cleanSelection, installHashNavigation } from "./data/browser-state";
@@ -485,7 +486,7 @@ function activateMobileMenu(dialog, trigger, header, onClose) {
   const desktop = window.matchMedia("(min-width: 781px)");
   const restoreFocus = () => {
     const target = desktop.matches
-      ? header?.querySelector(".v2-nav a[href], .nexualpha-wordmark[href]")
+      ? header?.querySelector(".nx-nav a[href], .nexualpha-wordmark[href]")
       : trigger;
     if (target?.isConnected) target.focus({ preventScroll: true });
   };
@@ -547,25 +548,16 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
     if (!mobileOpen) return;
     return activateMobileMenu(mobileMenuRef.current, mobileTriggerRef.current, headerRef.current, () => setMobileOpen(false));
   }, [mobileOpen]);
-  const handleLocaleInput = (event) => onLocaleChange(event.target.value);
-  const languagePicker = <select value={locale} aria-label={copy.ui.language} disabled={brazil} onChange={handleLocaleInput}>
-    {supportedLocales.map((code) => brazil && code !== "pt-BR" ? null : <option value={code} key={code}>{localeManifest[code].language}</option>)}
-  </select>;
+  const localeOptions = useMemo(() => supportedLocales.filter((code) => !brazil || code === "pt-BR").map((code) => ({ code, label: localeManifest[code].language })), [brazil]);
+  const navState = (href) => headerNavigationState(href, navigationUrl);
+  const closeMobile = () => setMobileOpen(false);
+  const languageMenu = <LanguageMenu locale={locale} options={localeOptions} label={copy.ui.language} disabled={brazil} onSelect={onLocaleChange} inline />;
   return <>
-    <header ref={headerRef} className="v2-header v2-shell">
-      <NexuAlphaWordmark href={withLocale(locale, "/")} />
-      <nav className="v2-nav" aria-label={copy.ui.menu}>{nav.map(([label, href]) => <a key={href} href={href} aria-current={headerNavigationState(href, navigationUrl).current} data-active={headerNavigationState(href, navigationUrl).active ? "true" : undefined} data-cta-kind={href.includes("/telegram") ? "telegram" : undefined} data-cta-placement={href.includes("/telegram") ? "header-telegram" : undefined} data-growth-decision={href.includes("/telegram") ? "telegram_hub" : undefined} data-growth-placement={href.includes("/telegram") ? "header" : undefined}>{label}</a>)}</nav>
-      <div className="v2-header__tools"><button type="button" onClick={onSearch}>{copy.hero.search} ⌘K</button>{languagePicker}</div>
-      <button ref={mobileTriggerRef} className="mobile-menu-trigger" type="button" aria-expanded={mobileOpen} aria-controls={mobileOpen ? "v2-mobile-menu" : undefined} onClick={() => setMobileOpen((value) => !value)}>{copy.ui.menu}</button>
-    </header>
-    {mobileOpen && <dialog ref={mobileMenuRef} id="v2-mobile-menu" className="mobile-search-overlay" aria-label={copy.ui.menu} onKeyDown={(event) => event.stopPropagation()}>
-      <nav aria-label={copy.ui.menu}>
-      <button type="button" onClick={() => setMobileOpen(false)}>{copy.actions.close}</button>
-      {nav.map(([label, href]) => <a key={href} href={href} aria-current={headerNavigationState(href, navigationUrl).current} data-active={headerNavigationState(href, navigationUrl).active ? "true" : undefined} onClick={() => setMobileOpen(false)} data-cta-kind={href.includes("/telegram") ? "telegram" : undefined} data-cta-placement={href.includes("/telegram") ? "mobile-menu-telegram" : undefined} data-growth-decision={href.includes("/telegram") ? "telegram_hub" : undefined} data-growth-placement={href.includes("/telegram") ? "mobile-menu" : undefined}>{label}</a>)}
-      <label>{copy.ui.language}{languagePicker}</label>
-      <button type="button" onClick={() => { setMobileOpen(false); onSearch({ currentTarget: mobileTriggerRef.current }); }}>{copy.hero.search}</button>
-      </nav>
-    </dialog>}
+    <SiteHeader copy={copy} locale={locale} brazil={brazil} nav={nav} homeHref={withLocale(locale, "/")} navState={navState} localeOptions={localeOptions}
+      onLocaleChange={onLocaleChange} onSearch={onSearch} mobileOpen={mobileOpen} onMobileToggle={() => setMobileOpen((value) => !value)}
+      mobileTriggerRef={mobileTriggerRef} headerRef={headerRef} />
+    {mobileOpen && <MobileSheet copy={copy} nav={nav} homeHref={withLocale(locale, "/")} navState={navState} dialogRef={mobileMenuRef} languageMenu={languageMenu}
+      onClose={closeMobile} onSearch={() => { closeMobile(); onSearch({ currentTarget: mobileTriggerRef.current }); }} />}
   </>;
 }
 

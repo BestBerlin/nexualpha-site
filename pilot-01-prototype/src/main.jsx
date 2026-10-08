@@ -111,3 +111,4 @@ if (bootstrap.hydrate) {
 } else {
   createRoot(root).render(app);
 }
+import "./styles/v5/shell.css";

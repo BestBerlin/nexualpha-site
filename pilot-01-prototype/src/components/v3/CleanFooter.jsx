@@ -1,7 +1,6 @@
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { v3Copy } from "../../data/v3-product.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import "./clean-footer.css";
 
 const copyDict = {
   "zh-Hans": {
@@ -370,37 +369,40 @@ export function CleanFooter({ locale = "en", brazil = false }) {
   const href = (target) => localizedHref(target, { locale });
 
   return (
-    <footer className="clean-footer" id="policy">
-      <div className="clean-footer__inner v2-shell">
-        <div className="clean-footer__logo-wrap">
+    <footer className="nx-ftr" id="policy">
+      <div className="nx-ftr__inner">
+        <div className="nx-ftr__brand">
           <NexuAlphaWordmark variant="footer" href={href("/#top")} />
+          <p className="clean-footer__summary">{compact.summary || `${compact.brand} ${compact.affiliate}`}</p>
         </div>
 
-        <p className="clean-footer__summary">{compact.summary || `${compact.brand} ${compact.affiliate}`}</p>
-
-        <nav className="clean-footer__nav clean-footer__nav--primary" aria-label={labels.navAria}>
-          <a href={href("/exchanges")}>{labels.directory}</a>
-          <a href={href("/topics")}>{labels.topics}</a>
-          <a href={href("/factbook")}>{labels.factbook}</a>
-          <a href={brazil ? "/br/custos" : href("/embed/calculator")}>{labels.calculator}</a>
-          <a href={href("/methodology#disclosure")}>{labels.disclosure}</a>
-          <a href="mailto:contact@nexualpha.com">{labels.contact}</a>
+        <nav className="clean-footer__nav clean-footer__nav--primary nx-ftr__list" aria-label={labels.navAria}>
+          <ul>
+            <li><a href={href("/exchanges")}>{labels.directory}</a></li>
+            <li><a href={href("/topics")}>{labels.topics}</a></li>
+            <li><a href={href("/factbook")}>{labels.factbook}</a></li>
+            <li><a href={brazil ? "/br/custos" : href("/embed/calculator")}>{labels.calculator}</a></li>
+            <li><a href={href("/methodology#disclosure")}>{labels.disclosure}</a></li>
+            <li><a href="mailto:contact@nexualpha.com">{labels.contact}</a></li>
+          </ul>
         </nav>
 
-        <details className="clean-footer__policies">
-          <summary>{compact.policies}<span className="clean-footer__policy-symbol" aria-hidden="true">+</span></summary>
-          <div className="clean-footer__policy-body">
+        <section className="clean-footer__policies nx-ftr__policies" aria-labelledby="nx-ftr-policies">
+          <h2 id="nx-ftr-policies" className="nx-ftr__title">{compact.policies}</h2>
+          <div className="nx-ftr__legal clean-footer__policy-body">
             <p className="clean-footer__statement">{copy.statement}</p>
-            <nav className="clean-footer__nav clean-footer__nav--policies" aria-label={compact.policies}>
-              <a href={href("/onchain")}>{labels.onchain}</a>
-              <a href={href("/methodology")}>{labels.editorial}</a>
-              <a href={href("/partners")}>{labels.embedGuide}</a>
-              <a href={href("/exchanges#policy")}>{labels.privacy}</a>
-              <a href={href("/exchanges#policy")}>{labels.terms}</a>
-            </nav>
             <div className="clean-footer__disclaimer"><p>{copy.disclaimer}</p></div>
           </div>
-        </details>
+          <nav className="clean-footer__nav clean-footer__nav--policies nx-ftr__list" aria-label={compact.policies}>
+            <ul>
+              <li><a href={href("/onchain")}>{labels.onchain}</a></li>
+              <li><a href={href("/methodology")}>{labels.editorial}</a></li>
+              <li><a href={href("/partners")}>{labels.embedGuide}</a></li>
+              <li><a href={href("/exchanges#policy")}>{labels.privacy}</a></li>
+              <li><a href={href("/exchanges#policy")}>{labels.terms}</a></li>
+            </ul>
+          </nav>
+        </section>
 
         <p className="clean-footer__copyright">
           © 2026 NexuAlpha. {labels.rights}
