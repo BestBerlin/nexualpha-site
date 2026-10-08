@@ -203,3 +203,4 @@ main.v3-profile-page.v6 .v3-profile-sources-group__body .v2-section:not(#_):not(
 main.v6:not(.home-refinement) .mx-fee i:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 0; white-space: pre; }
 /* compare groups use the shared drawn plus/minus; the r6 45° turn made the minus a diagonal stroke */
 main.v6:not(.home-refinement) .v3-compare-group > .v3-compare-group__summary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transform: none; rotate: none; }
+main.v3-profile-page.v6 .v3-profile-sources-group__body .v3-profile-decision:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block: 0; padding-block-start: 0; }
