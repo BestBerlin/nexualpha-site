@@ -1,0 +1,239 @@
+/* V6 components: ONE button, ONE chip, ONE link, ONE surface for every non-home page, plus the global scale sweep.
+ * Generated from a template: @S = main.v6:not(.home-refinement), @X = :not(#_):not(#_):not(#_) (specificity above every legacy rule).
+ * Rules: accent turquoise only on primary CTA / positive data / active state; neutrals everywhere else; heights 36 / 44; radius 8.
+ */
+
+
+
+:root {
+  --accent: #1fe0c0;
+  --accent-ink: #04130f;
+  --ink: #edeef0;
+  --ink-2: #b0b4ba;
+  --ink-3: #9097a0;
+  --surface: rgb(255 255 255 / 0.035);
+  --surface-2: rgb(255 255 255 / 0.06);
+  --line: rgb(255 255 255 / 0.12);
+  --line-2: rgb(255 255 255 / 0.22);
+  --r-ctl: 8px;
+  --r-surf: 12px;
+  --h-ctl: 44px;
+  --h-ctl-sm: 36px;
+}
+
+
+main.v6:not(.home-refinement) :is(a, button):is(
+  [class*="btn"], [class*="button"], [class*="__cta"], [class*="-cta"], [class*="__primary"], [class*="--primary"], [class*="__secondary"], [class*="--secondary"], [class*="--ghost"],
+  [class*="__expand"], [class*="-expand"], [class*="toggle"], [class*="__bot"], [class*="decision-path-rail__link"], [class*="return-card"], [class*="__link"][class*="review"]
+):not([class*="faq-item"], [class*="nx-"], [class*="summary"], [class*="mx-seg"], [class*="mx-sort"], [class*="mx-toggle"], [class*="filter"], [class*="tab-btn"]):not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) :is(.br-hero__actions, .br-decision-primary, .br-venue-card__actions, .br-chain__actions, .br-next-steps, .br-section-head, .br-early-next-step__items, .br-decision-panel__head, .br-chain__evidence, .activity-center-v3__empty-actions, .tg-hub__quick-cta, .tg-cta-buttons, .cost-decision__next-actions, .fee-terminal__next-step-actions, .v3-alternative__actions, .methodology-page__feedback-actions) > :is(a, button):not(#_):not(#_):not(#_) {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  box-sizing: border-box;
+  min-block-size: var(--h-ctl); block-size: auto; padding: 10px 16px;
+  border: 1px solid var(--line-2); border-radius: var(--r-ctl);
+  background: transparent; background-image: none; box-shadow: none;
+  color: var(--ink); font: 500 var(--t-14, 0.875rem)/1.25 var(--v6-sans, "Geist V5", sans-serif); letter-spacing: 0; text-decoration: none; text-align: center;
+  cursor: pointer; transition: background-color 140ms var(--ease-out, ease), border-color 140ms, color 140ms, transform 120ms;
+}
+main.v6:not(.home-refinement) :is(a, button):is([class*="btn"], [class*="button"], [class*="__cta"], [class*="-cta"], [class*="__primary"], [class*="--primary"], [class*="__secondary"], [class*="--secondary"], [class*="--ghost"], [class*="__expand"], [class*="toggle"], [class*="__bot"], [class*="decision-path-rail__link"]):not([class*="nx-"], [class*="faq-item"], [class*="summary"], [class*="mx-seg"], [class*="mx-sort"], [class*="mx-toggle"], [class*="filter"], [class*="tab-btn"]):hover:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) :is(.br-hero__actions, .br-decision-primary, .br-venue-card__actions, .br-chain__actions, .br-next-steps, .br-section-head, .br-early-next-step__items, .br-decision-panel__head, .br-chain__evidence, .activity-center-v3__empty-actions, .tg-hub__quick-cta, .tg-cta-buttons, .cost-decision__next-actions, .fee-terminal__next-step-actions, .v3-alternative__actions, .methodology-page__feedback-actions) > :is(a, button):hover:not(#_):not(#_):not(#_) {
+  background: var(--surface-2); border-color: rgb(255 255 255 / 0.4); color: #fff;
+}
+
+main.v6:not(.home-refinement) :is(a, button):is([class*="__primary"], [class*="--primary"], [class*="primary-btn"], [class*="button-primary"], [class*="cta-primary"], [class*="final-choice-card__primary"], [class*="versus-btn"], [class*="tg-btn--primary"], [class*="tg-btn"][class*="primary"], [class*="factbook-act-button"], [class*="tg-btn-launch"], [class*="tg-cmd-btn--launch"], [class*="hero-tg-btn"], [class*="cost-decision__cta"], [class*="chain__primary"], [class*="activity-center-v3__tg-btn"], [class*="decision-path-rail__link"].is-primary, [class*="matrix-cta-btn"]):not([class*="secondary"], [class*="nx-"]):not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) a[rel~="sponsored"]:is([class*="cta"], [class*="btn"], [class*="button"]):not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) :is(.br-hero__actions > a:first-child, .br-decision-primary > a, .br-venue-card__actions > a, .cost-decision__next-actions > a:last-child, .activity-center-v3__empty-actions > a:first-child):not(#_):not(#_):not(#_) {
+  background: var(--accent); background-image: none; border-color: var(--accent); color: var(--accent-ink); font-weight: 600;
+}
+main.v6:not(.home-refinement) :is(a, button):is([class*="__primary"], [class*="--primary"], [class*="primary-btn"], [class*="button-primary"], [class*="final-choice-card__primary"], [class*="versus-btn"], [class*="factbook-act-button"], [class*="cost-decision__cta"], [class*="chain__primary"], [class*="activity-center-v3__tg-btn"], [class*="tg-btn--primary"]):not([class*="secondary"], [class*="nx-"]):hover:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) a[rel~="sponsored"]:is([class*="cta"], [class*="btn"], [class*="button"]):hover:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) :is(.br-hero__actions > a:first-child, .br-decision-primary > a, .br-venue-card__actions > a, .cost-decision__next-actions > a:last-child, .activity-center-v3__empty-actions > a:first-child):hover:not(#_):not(#_):not(#_) {
+  background: #5df0d8; border-color: #5df0d8; color: var(--accent-ink);
+}
+main.v6:not(.home-refinement) :is(a, button):is([class*="btn"], [class*="button"], [class*="__cta"], [class*="-cta"], [class*="__primary"], [class*="decision-path-rail__link"]):not([class*="nx-"], [class*="summary"]):active:not(#_):not(#_):not(#_) { transform: translateY(1px); }
+
+main.v6:not(.home-refinement) :is(.mx-cta, .mx-code, .fee-terminal__cta-btn, .tg-cmd-btn, .fee-terminal__filter-btn, .v3-matrix-cta-btn, .tg-topic-card__bot, .factbook-copy-btn, .factbook-hash-copy-btn, .factbook-preview-toggle-btn, .official-research__expand):not(#_):not(#_):not(#_) {
+  min-block-size: var(--h-ctl-sm); padding: 6px 12px; border-radius: var(--r-ctl);
+}
+main.v6:not(.home-refinement) :is(.mx-cta, .fee-terminal__cta-btn, .tg-cmd-btn, .v3-matrix-cta-btn, .tg-topic-card__bot, .factbook-copy-btn, .factbook-hash-copy-btn, .factbook-preview-toggle-btn):not([class*="primary"], [class*="launch"]):not(#_):not(#_):not(#_) {
+  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; border: 1px solid var(--line-2); background: transparent; color: var(--ink); font: 500 var(--t-14, 0.875rem)/1.25 var(--v6-sans, "Geist V5", sans-serif); text-decoration: none;
+}
+main.v6:not(.home-refinement) :is(.mx-code, .registration-card__copy-btn, [class*="copy-code"]):not(#_):not(#_):not(#_) {
+  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; min-block-size: var(--h-ctl-sm); padding: 6px 12px; border: 1px solid var(--line-2); border-radius: var(--r-ctl); background: var(--surface); color: var(--ink);
+  font: 500 var(--t-14, 0.875rem)/1.25 var(--v6-mono, "Geist Mono V5", monospace);
+}
+
+main.v6:not(.home-refinement) a.fee-terminal__cta-btn[rel~="sponsored"]:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) a.mx-cta[rel~="sponsored"]:not(#_):not(#_):not(#_) { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+main.v6:not(.home-refinement) .fee-terminal__cta-btn:not([rel~="sponsored"]):not(.fee-terminal__cta-btn--primary):not(#_):not(#_):not(#_) { background: transparent; color: var(--ink); border-color: var(--line-2); }
+
+
+main.v6:not(.home-refinement) :is(.mx-seg__btn, .mx-sort, .mx-toggle, .news-tab, .fee-terminal__filter-btn, .factbook-tab-btn, .factbook-filter-pill, .factbook-venue-pill, .activity-center-v3__filters button, [class*="seg__btn"], [class*="tab-btn"], [class*="filter-btn"], [class*="filter-pill"]):not(#_):not(#_):not(#_) {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box;
+  min-block-size: var(--h-ctl-sm); padding: 6px 12px; border: 1px solid var(--line); border-radius: var(--r-ctl);
+  background: transparent; color: var(--ink-2); font: 500 var(--t-14, 0.875rem)/1.25 var(--v6-sans, "Geist V5", sans-serif); letter-spacing: 0; text-transform: none; text-decoration: none; box-shadow: none; cursor: pointer;
+  transition: background-color 140ms, border-color 140ms, color 140ms;
+}
+main.v6:not(.home-refinement) :is(.mx-seg__btn, .mx-sort, .mx-toggle, .news-tab, .fee-terminal__filter-btn, .factbook-tab-btn, .factbook-filter-pill, .factbook-venue-pill, .activity-center-v3__filters button, [class*="seg__btn"], [class*="tab-btn"], [class*="filter-btn"], [class*="filter-pill"]):hover:not(#_):not(#_):not(#_) { background: var(--surface-2); color: var(--ink); border-color: var(--line-2); }
+main.v6:not(.home-refinement) :is(.mx-seg__btn, .mx-sort, .news-tab, .fee-terminal__filter-btn, .factbook-tab-btn, .factbook-filter-pill, .factbook-venue-pill, .activity-center-v3__filters button, [class*="seg__btn"], [class*="tab-btn"], [class*="filter-btn"], [class*="filter-pill"]):is(.is-active, .active, [class*="--active"], [aria-pressed="true"], [aria-selected="true"], [aria-current="true"], [aria-current="page"]):not(#_):not(#_):not(#_) {
+  background: var(--ink); border-color: var(--ink); color: #0a0b0e; font-weight: 600;
+}
+@media (pointer: coarse), (max-width: 760px) {
+  main.v6:not(.home-refinement) :is(.mx-seg__btn, .mx-sort, .mx-toggle, .mx-cta, .mx-code, .news-tab, .fee-terminal__filter-btn, .fee-terminal__cta-btn, .factbook-tab-btn, .factbook-filter-pill, .factbook-venue-pill, .tg-cmd-btn, .tg-topic-card__bot, .activity-center-v3__filters button):not(#_):not(#_):not(#_) { min-block-size: var(--h-ctl); }
+}
+
+
+main.v6:not(.home-refinement) :is(span, div, small, b, strong, em, li):is([class*="badge"], [class*="pill"], [class*="-chip"], [class*="__chip"], [class*="__tag"], [class*="-tag"], [class*="tagline"], [class*="__status"], [class*="-status"]):not([class*="badges"], [class*="pills"], [class*="badge-row"], [class*="badge-group"], [class*="__pills"], [class*="-row"], [class*="group"], [class*="timeline"], [class*="stage"], [class*="mirror-pill"], [class*="license-pills"], [class*="activation-badges"], [class*="pulse"], [class*="unknown"], [class*="faq"], [class*="activity-center"]):not(#_):not(#_):not(#_) {
+  display: inline-flex; align-items: center; gap: 4px; box-sizing: border-box; inline-size: fit-content; max-inline-size: 100%;
+  min-block-size: 24px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--surface); background-image: none; color: var(--ink-2);
+  font: 500 var(--t-12, 0.75rem)/1.3 var(--v6-sans, "Geist V5", sans-serif); letter-spacing: 0.01em; text-transform: none; white-space: normal; box-shadow: none;
+}
+main.v6:not(.home-refinement) :is([class*="badge"], [class*="pill"], [class*="-chip"], [class*="__tag"]):is(.is-active, .active, [class*="--active"]):not(#_):not(#_):not(#_) { color: var(--ink); border-color: var(--line-2); background: var(--surface-2); }
+main.v6:not(.home-refinement) :is(.v3-matrix-category-chip, .v3-category-chip, .fee-terminal__cat-badge, .v3-faq-q-badge):not(#_):not(#_):not(#_) { background: var(--surface); color: var(--ink-2); border-color: var(--line); border-radius: 6px; }
+main.v6:not(.home-refinement) :is(.v3-gold-matrix-card__badge, .v3-gold-matrix-card__tagline):not(#_):not(#_):not(#_) { color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+
+main.v6:not(.home-refinement) :is([class*="__pulse"], [class*="-pulse"], .signal-dot, [class*="stage-dot"]):not(#_):not(#_):not(#_) { display: none; }
+
+
+main.v6:not(.home-refinement) a:not(:is([class*="btn"], [class*="button"], [class*="__cta"], [class*="-cta"], [class*="primary"], [class*="secondary"], [class*="nx-"])):not(#_):not(#_):not(#_) {
+  color: var(--ink);
+}
+main.v6:not(.home-refinement) :is(p, li, dd, td, summary, figcaption, .section-lead, [class*="__lead"], [class*="source-list"], [class*="__links"], [class*="source-actions"], [class*="__source"]) a:not(:is([class*="btn"], [class*="button"], [class*="cta"], [class*="card"], [class*="pill"], [class*="tab"], [class*="logo"], [class*="mx-id"], [class*="primary"], [class*="secondary"])):not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) a:is([class*="read-link"], [class*="-link"], [class*="__link"], [class*="rate-source"], [class*="audit-link"], [class*="tg-sublink"], [class*="back-link"], [class*="doc-btn"], [class*="merkle-link"], [class*="domain-link"], [class*="telegram"]):not([class*="btn"], [class*="button"], [class*="cta"], [class*="primary"], [class*="decision-path-rail__link"], [class*="return-card"]):not(#_):not(#_):not(#_) {
+  color: var(--ink); text-decoration-line: underline; text-decoration-color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 0.24em;
+  transition: text-decoration-thickness 120ms, color 120ms;
+}
+main.v6:not(.home-refinement) :is(p, li, dd, td, summary, figcaption, [class*="source-list"], [class*="__links"], [class*="source-actions"]) a:not(:is([class*="btn"], [class*="button"], [class*="cta"], [class*="card"], [class*="pill"], [class*="tab"], [class*="primary"], [class*="secondary"])):hover:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) a:is([class*="read-link"], [class*="-link"], [class*="__link"], [class*="rate-source"]):not([class*="btn"], [class*="button"], [class*="cta"], [class*="primary"], [class*="decision-path-rail__link"]):hover:not(#_):not(#_):not(#_) {
+  text-decoration-thickness: 2px; color: #fff;
+}
+
+main.v6:not(.home-refinement) a[style*="#53b1fd"]:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) a[style*="rgb(83, 177, 253)"]:not(#_):not(#_):not(#_) { color: var(--ink) !important; text-decoration-color: var(--accent) !important; }
+main.v6:not(.home-refinement) :focus-visible:not(#_):not(#_):not(#_) { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+
+main.v6:not(.home-refinement) :is([class*="recheck"], [class*="icon"], [class*="__eyebrow"], [class*="tg-bot-handle"], [class*="query"], [class*="tg-icon"], [class*="__label"][class*="decision-path"], [class*="token-discount"], [class*="topic-badge"], .v3-warning-icon, .v3-tool-icon, [class*="wall-icon"]):not(#_):not(#_):not(#_) { color: var(--ink-2); }
+main.v6:not(.home-refinement) :is(.methodology-page h2, .methodology-page__funding-callout h2, [class*="funding-route"] h2, [class*="callout"] h2, [class*="callout"] strong):not(#_):not(#_):not(#_) { color: var(--ink); }
+main.v6:not(.home-refinement) :is([class*="callout"], [class*="funding-route"], [class*="wall"], [class*="alert"]):not(button, a, [class*="geo"], [class*="danger"]):not(#_):not(#_):not(#_) {
+  background: var(--surface); background-image: none; border: 1px solid var(--line); border-radius: var(--r-surf); box-shadow: none;
+}
+main.v6:not(.home-refinement) :is(.activity-center-v3 b, .v3-activity-center b, [class*="official-research"] b, .br-decision dt, .br-decision summary, .br-decision dl dt, .br-chain dt):not(#_):not(#_):not(#_) { color: var(--ink-2); font-weight: 600; }
+main.v6:not(.home-refinement) :is(.d5-up, .num.d5-up, td.factbook-cell-net.highlight-col, .highlight-green, [class*="score-badge"].highlight-green):not(#_):not(#_):not(#_) { color: var(--accent); }
+main.v6:not(.home-refinement) :is(.news-article-card__tag, .news-detail__tag, .news-hero__badge):not(#_):not(#_):not(#_) { color: var(--ink-2); }
+main.v6:not(.home-refinement) :is(.news-article-card__read-link, .news-article-card__author):not(#_):not(#_):not(#_) { color: var(--ink); }
+
+
+main.v6:not(.home-refinement) :is([class*="-card"], [class*="__card"], [class*="panel"], [class*="__box"], [class*="-box"], [class*="banner"], [class*="drawer"], [class*="__block"], [class*="callout"]):not(a, button, summary, details, tr, td, th, [class*="icon"], [class*="__head"], [class*="__header"], [class*="__title"], [class*="__body"], [class*="__text"], [class*="__lead"], [class*="__actions"], [class*="__grid"], [class*="__item"], [class*="__list"], [class*="faq-card"], [class*="-wrap"], [class*="__meta"], [class*="__left"], [class*="__right"], [class*="__cell"], [class*="__main"], [class*="-badge"], [class*="__summary"], [class*="__row"]):not(#_):not(#_):not(#_) {
+  background-color: var(--surface); background-image: none; border-color: var(--line); box-shadow: none;
+}
+main.v6:not(.home-refinement) :is(.v3-compare-final-choice-card, .tg-hub__cta-box, .tg-hub__broadcast-banner, .activity-center-v3__empty, .methodology-page__feedback-card, .br-decision-panel, .registration-card, .v3-onsite-telegram-handoff):not(#_):not(#_):not(#_) {
+  background-color: var(--surface); background-image: none; border: 1px solid var(--line); border-radius: var(--r-surf); box-shadow: none; color: var(--ink);
+}
+main.v6:not(.home-refinement) .v3-compare-final-choice-card:not(#_):not(#_):not(#_) { padding: 24px; }
+main.v6:not(.home-refinement) :is(.v3-compare-final-choice-card, .tg-hub__cta-box, .v3-onsite-telegram-handoff) :is(.v3-compare-final-choice-card__head, [class*="__head"]):not(#_):not(#_):not(#_) { background: none; }
+main.v6:not(.home-refinement) .v3-compare-final-choice-card__head > span:not(#_):not(#_):not(#_) { display: none; }
+
+main.v6:not(.home-refinement) .v3-compare-final-choice-card__grid > *:not(#_):not(#_):not(#_) { background: none; border-radius: 0; box-shadow: none; }
+
+
+main.v6:not(.home-refinement) :is([class*="eyebrow"], [class*="kicker"], .decision-path-rail__label, .decision-path-rail__link > span[aria-hidden], .br-chain__crumbs a > span, .eyebrow, .ticket-kicker, .v3-matrix-eyebrow, .v3-decision-brief > span:first-child, .section-lead > p:first-child, [class*="hero__badge"], [class*="hub__badge"], [class*="deck__badge"], [class*="independent-badge"], [class*="gateway__badge"], [class*="search-topics__badge"], [class*="manual-review__badge"], [class*="inbound-summary__badge"], [class*="broadcast-badge"], [class*="activity-center-v3__tg-badge"], [class*="tg-badge"], [class*="__tg-icon"], .tg-feature-card__icon, .tg-cmd-card__icon, .topic-pain-card__icon, .guide-value-card__icon, [class*="top-hub__icon"], [class*="bullet-icon"], [class*="shield-icon"], [class*="mirror-lock"], [class*="source-bullet"], [class*="code-icon"]):not(#_):not(#_):not(#_) { display: none; }
+main.v6:not(.home-refinement) :is(span, div, i):is([class*="icon"]):empty:not(#_):not(#_):not(#_) { display: none; }
+
+
+
+@media (min-width: 1025px) {
+  main.v3-profile-page.v6:not(#_):not(#_):not(#_) { display: grid; grid-template-columns: minmax(0, 1fr) 360px; column-gap: 64px; row-gap: 0; align-items: start; inline-size: min(100% - 48px, 1200px); margin-inline: auto; }
+  main.v3-profile-page.v6 > :is(.v3-page-hero, .v3-venue-hero, .v3-profile-reading-layout):not(#_):not(#_):not(#_) { display: contents; }
+  main.v3-profile-page.v6 > .v3-page-hero > *:not(#_):not(#_):not(#_) { display: contents; }
+  main.v3-profile-page.v6 .v3-profile-action-column:not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 1 / span 40; position: sticky; inset-block-start: 80px; align-self: start; margin: 0; max-block-size: calc(100dvh - 96px); overflow: auto; }
+  main.v3-profile-page.v6 > :not(.v3-page-hero, .v3-mobile-sticky-bar, script, style):not(#_):not(#_):not(#_),
+main.v3-profile-page.v6 .v3-venue-identity:not(#_):not(#_):not(#_),
+main.v3-profile-page.v6 .v3-profile-reading-overview:not(#_):not(#_):not(#_) { grid-column: 1; inline-size: auto; max-inline-size: none; margin-inline: 0; min-inline-size: 0; }
+  main.v3-profile-page.v6 > * + :not(.v3-mobile-sticky-bar):not(#_):not(#_):not(#_),
+main.v3-profile-page.v6 .v3-profile-reading-overview:not(#_):not(#_):not(#_) { margin-block-start: 64px; }
+  main.v3-profile-page.v6 .v3-venue-identity:not(#_):not(#_):not(#_) { margin-block-start: 0; }
+}
+main.v6:not(.home-refinement) .v3-profile-page :is(h2, h3):not(#_):not(#_):not(#_) { color: var(--ink); opacity: 1; }
+main.v6:not(.home-refinement) .v3-profile-page :is([class*="section-lead"], [class*="__lead"]) p:not(#_):not(#_):not(#_) { color: var(--ink-2); }
+
+
+main.v6:not(.home-refinement) .v3-matrix-jump:not(#_):not(#_):not(#_) { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-block: 0 24px; }
+main.v6:not(.home-refinement) .v3-matrix-jump__label:not(#_):not(#_):not(#_) { color: var(--ink); font: 600 var(--t-14, 0.875rem)/1.3 var(--v6-sans, "Geist V5", sans-serif); }
+main.v6:not(.home-refinement) .v3-matrix-jump__select:not(#_):not(#_):not(#_) {
+  box-sizing: border-box; min-block-size: var(--h-ctl); inline-size: min(100%, 360px); padding: 8px 40px 8px 12px; border: 1px solid var(--line-2); border-radius: var(--r-ctl);
+  background-color: var(--surface); color: var(--ink); font: 500 var(--t-14, 0.875rem)/1.3 var(--v6-sans, "Geist V5", sans-serif); appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-2) 50%), linear-gradient(135deg, var(--ink-2) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%; background-size: 5px 5px; background-repeat: no-repeat;
+}
+main.v6:not(.home-refinement) :is(.v3-matrix-table-wrap, .v3-metric-matrix-section table):not(#_):not(#_):not(#_) { background-color: var(--surface); background-image: none; border: 1px solid var(--line); border-radius: var(--r-surf); }
+main.v6:not(.home-refinement) .v3-compare-page :is(h2, h3):not(#_):not(#_):not(#_) { color: var(--ink); }
+
+
+main.v6:not(.home-refinement) .activity-center-v3 :is(p, li, span, small, summary, a, dd, dt):not(#_):not(#_):not(#_) { color: inherit; }
+main.v6:not(.home-refinement) .activity-center-v3:not(#_):not(#_):not(#_) { --act-muted: #b0b4ba; }
+main.v6:not(.home-refinement) :is(.activity-center-v3__research-status, .activity-center-v3__research-summary, [class*="official-research"] [class*="status"]):not(#_):not(#_):not(#_) { color: var(--ink); border-color: var(--line-2); }
+main.v6:not(.home-refinement) .activity-center-v3__research-body:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) .official-research [class*="__body"]:not(#_):not(#_):not(#_) { color: var(--ink-2); }
+main.v6:not(.home-refinement) :is([class*="official-research__row"], [class*="activity-center-v3__reward-grid"] > *, .official-research li, .activity-center-v3__research-row):not(#_):not(#_):not(#_) { padding-block: 16px; }
+main.v6:not(.home-refinement) .activity-center-v3__source-actions:not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-block-start: 8px; }
+main.v6:not(.home-refinement) .activity-center-v3__source-actions a:not(#_):not(#_):not(#_) { min-block-size: 36px; display: inline-flex; align-items: center; font-size: var(--t-14, 0.875rem); }
+main.v6:not(.home-refinement) .activity-center-v3__research-identity:not(#_):not(#_):not(#_) { align-self: start; }
+
+
+main.v6:not(.home-refinement) .news-grid-section:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) .news-grid:not(#_):not(#_):not(#_) { margin-block-start: 0; padding-block-start: 0; min-block-size: 0; }
+main.v6:not(.home-refinement) .news-index-status:not(#_):not(#_):not(#_) { margin-block: 12px; min-block-size: 0; }
+main.v6:not(.home-refinement) .news-article-card:not(#_):not(#_):not(#_) { padding-block: 24px; border-block-end: 1px solid var(--line); min-block-size: 0; }
+main.v6:not(.home-refinement) .news-article-card__time:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) .news-article-card__author:not(#_):not(#_):not(#_) { font-size: var(--t-12, 0.75rem); color: var(--ink-3); text-transform: none; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
+main.v6:not(.home-refinement) .news-research-index:not(#_):not(#_):not(#_) { margin-block: 0; }
+main.v6:not(.home-refinement) :is(.news-hero, .news-grid-section) + :is(.news-grid-section, .news-research-index):not(#_):not(#_):not(#_) { margin-block-start: 48px; }
+
+
+main.v6:not(.home-refinement) .tg-search-topic-card__meta:not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px 16px; }
+main.v6:not(.home-refinement) .tg-search-topic-card__meta a:not(#_):not(#_):not(#_) { background: none; border: 0; padding: 0; min-block-size: 36px; display: inline-flex; align-items: center; border-radius: 0; color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.24em; }
+main.v6:not(.home-refinement) .tg-search-topic-card__query:not(#_):not(#_):not(#_) { color: var(--ink); font-family: var(--v6-sans, "Geist V5", sans-serif); }
+
+
+main.v6:not(.home-refinement) .br-hero :is(.br-hero__copy, .br-decision-panel):not(#_):not(#_):not(#_) { align-self: start; min-block-size: 0; }
+main.v6:not(.home-refinement) .br-hero:not(#_):not(#_):not(#_) { gap: 48px; min-block-size: 0; }
+main.v6:not(.home-refinement) .br-decision-path ol > li > a:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) .br-chain__crumbs a:not(#_):not(#_):not(#_) { min-block-size: 44px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-ctl); color: var(--ink); }
+main.v6:not(.home-refinement) .br-chain__crumbs li:first-child a:not(#_):not(#_):not(#_) { background: var(--surface-2); border-color: var(--line-2); }
+main.v6:not(.home-refinement) .br-decision :is(p, li):not(#_):not(#_):not(#_) { font-size: var(--t-16, 1rem); }
+
+
+main.v6:not(.home-refinement).factbook-body > *:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement).factbook-body .factbook-hero:not(#_):not(#_):not(#_) { max-inline-size: none; }
+main.v6:not(.home-refinement) .factbook-venue-pill:not(#_):not(#_):not(#_) { min-block-size: var(--h-ctl-sm); }
+
+
+.bleed-analyzer-section :is(*:not(svg, svg *)) { font-family: var(--v6-sans, "Geist V5", ui-sans-serif, system-ui, sans-serif); }
+.bleed-analyzer-section :is(.bleed-vol-value, .bleed-slider-ticks span, .bleed-verdict__tag, .bleed-copy-code-btn, code) { font-family: var(--v6-mono, "Geist Mono V5", ui-monospace, monospace); }
+.bleed-analyzer-section :is(.bleed-venue-btn span, .bleed-label, .bleed-verdict__alert, .bleed-solution-title, .bleed-cta-btn, .bleed-tg-sync-btn, .bleed-tg-sync-btn span, .bleed-track-title) { font-size: var(--t-14, 0.875rem); line-height: 1.4; }
+.bleed-analyzer-section :is(.bleed-slider-ticks, .bleed-slider-ticks span, .bleed-verdict__tag, .bleed-copy-code-btn) { font-size: var(--t-12, 0.75rem); }
+.bleed-analyzer-section :is(.bleed-vol-value) { font-size: var(--t-20, 1.25rem); }
+.bleed-analyzer-section :is(.bleed-verdict__heading) { font-size: var(--t-28, 1.75rem); line-height: 1.15; }
+.bleed-analyzer-section .bleed-analyzer__title { font-size: var(--t-28, 1.75rem); }
+.crawl-priority-links,
+.crawl-priority-links *,
+.platform-matcher,
+.platform-matcher * { font-family: var(--v6-sans, "Geist V5", ui-sans-serif, system-ui, sans-serif); }
+.platform-matcher__summary-context { font-size: var(--t-12, 0.75rem); }
+.platform-matcher__body .section-lead p { font-size: var(--t-16, 1rem); }
+.crawl-priority-links :is(a, span, p, li, strong) { font-size: var(--t-14, 0.875rem); }
+.rebate-ticker__summary,
+.rebate-ticker__item,
+.rebate-ticker__text,
+.rebate-ticker-bar :is(span, strong, a, p) { font-size: var(--t-14, 0.875rem); line-height: 1.5; }
+.rebate-ticker__badge { font-size: var(--t-12, 0.75rem); }
+.rebate-ticker__item { color: var(--ink); text-decoration-color: var(--accent); min-block-size: 44px; display: inline-flex; align-items: center; }
+.rebate-ticker__summary:focus-visible,
+.rebate-ticker__item:focus-visible { outline-color: var(--accent); }
+.mobile-bottom-nav__label { font-size: var(--t-12, 0.75rem); line-height: 1.2; }
+:is(.registration-card, .v3-profile-action-column) :is(summary, a):is([class*="disclosure"], [class*="summary"]) { min-block-size: 44px; display: flex; align-items: center; }
+.registration-card a[href*="disclosure"],
+.v3-affiliate-disclosure a,
+[class*="affiliate"] a[href*="disclosure"] { display: inline-flex; align-items: center; min-block-size: 44px; }

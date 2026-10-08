@@ -178,7 +178,7 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
               <strong>{locName} 的儲備金與償付能力應以目前官方披露為準；本頁記錄狀態為 <span style={{ color: "#32d583" }}>{porRatio}</span>。</strong>{db.porVerifiedAt && db.porAuditUrl ? `可透過官方報告和可複核快照檢查 ${securityFund} 等信息。` : "目前沒有記錄可複核的官方來源，不把儲備比例、保險或兌付能力寫成保證。"}
             </p>
             <div className="v3-faq-highlight-box">
-              <strong>🛡️ 3 步自主驗資流程：</strong>
+              <strong>3 步自主驗資流程：</strong>
               <br />
               1. 登入 {locName} 官網進入「資產儲備證明 (PoR)」專區；
               <br />
@@ -188,7 +188,7 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
             </div>
             {db.porAuditUrl && (
               <p>
-                👉 <a href={porUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#53b1fd", textDecoration: "underline" }}>查看 {locName} 官方最新驗資報告與公開稽核公示 ↗</a>
+                 <a href={porUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#53b1fd", textDecoration: "underline" }}>查看 {locName} 官方最新驗資報告與公開稽核公示 ↗</a>
               </p>
             )}
           </>
@@ -202,7 +202,7 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
               <strong>{locName} 准入认证级别为：{kycSummary}</strong>。用户使用本人有效居民身份证、护照即可在 3~5 分钟内完成标准认证，开通全部现货、合约及法币出入金权限；C2C 防冻卡核心为“选 2000+ 成单/99.5% 好评神盾商户 + 专卡专用 + 严禁敏感转账备注”。
             </p>
             <div className="v3-faq-highlight-box">
-              <strong>⚠️ P2P 出入金防冻卡实战法则：</strong>
+              <strong>P2P 出入金防冻卡实战法则：</strong>
               <br />
               • <strong>商户筛选：</strong>C2C 买卖币时，只选择注册超 1 年、成单量超 2000 笔、好评率 99.5% 以上的“神盾/蓝盾”认证做市商；
               <br />
@@ -223,7 +223,7 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
               <strong>{locName} 当前来源记录中的主域名为 <code>{officialDomain}</code>，官方客服绝不主动私信索要私钥或 2FA 验证码。</strong>快速验真核心步骤：认准官方主域名、开启邮箱专属防钓鱼码、通过 NexuAlpha 记录入口进行核对，坚决不点击搜索引擎置顶赞助广告与 TG 私聊假客服。
             </p>
             <div className="v3-faq-highlight-box">
-              <strong>🔒 反钓鱼四大安全防线：</strong>
+              <strong>反钓鱼四大安全防线：</strong>
               <br />
               1. <strong>认准主域名：</strong>{locName} 官方正规主网址为 <code style={{ color: "#53b1fd" }}>{officialDomain}</code>，首次访问务必收藏书签；
               <br />
@@ -274,7 +274,7 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
             <strong>{name}'s reserve and solvency information requires verification against the latest official disclosure and a reproducible source</strong>; this page does not guarantee 1:1 backing or redemption during extreme markets.
           </p>
           <div className="v3-faq-highlight-box">
-            <strong>🛡️ 3-Step Self-Verification:</strong>
+            <strong>3-Step Self-Verification:</strong>
             <br />
             1. Access the official "Proof of Reserves (PoR)" portal on {name}'s verified domain;
             <br />
@@ -284,7 +284,7 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
           </div>
           {db.porAuditUrl && (
             <p>
-              👉 <a href={porUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#53b1fd", textDecoration: "underline" }}>View {name}'s Official Audited Reserves Report ↗</a>
+               <a href={porUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#53b1fd", textDecoration: "underline" }}>View {name}'s Official Audited Reserves Report ↗</a>
             </p>
           )}
         </>
@@ -298,7 +298,7 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
             <strong>{name}'s verification requirement: {kycSummary}</strong>. Identity verification takes 3–5 minutes with a government-issued passport or national ID to unlock full trading limits and fiat gateways; prevent bank flags by using strict legal name matching and zero crypto memo notes.
           </p>
           <div className="v3-faq-highlight-box">
-            <strong>⚠️ Fiat Security & Anti-Fraud Rules:</strong>
+            <strong>Fiat Security & Anti-Fraud Rules:</strong>
             <br />
             • <strong>Merchant Vetting:</strong> Use reviewed P2P merchants with clear tenure, completed-order history, and completion-rate records;
             <br />
@@ -317,7 +317,7 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
             <strong>The authentic verified domain for {name} is <code>{officialDomain}</code>; official support never DMs users or asks for seed phrases/2FA.</strong> Protect yourself by bookmarking the official domain, configuring an Anti-Phishing email code, and routing through NexuAlpha verified links.
           </p>
           <div className="v3-faq-highlight-box">
-            <strong>🔒 Anti-Phishing Protections:</strong>
+            <strong>Anti-Phishing Protections:</strong>
             <br />
             1. <strong>Primary Domain:</strong> Verify you are on the authentic URL: <code style={{ color: "#53b1fd" }}>{officialDomain}</code>;
             <br />
@@ -381,9 +381,6 @@ export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} 
     <section className="v2-section v3-faq-section" id="faq">
       <div className="v3-faq-card">
         <div className="v3-faq-card__header">
-          <span className="v3-faq-card__eyebrow">
-            ❓ {priorityAnswer ? priorityUi.eyebrow : (nonPriorityUi.eyebrow || "HIGH-INTENT FAQ & SECURITY GUIDE")}
-          </span>
           <h2 className="v3-faq-card__title">
             {priorityAnswer ? priorityUi.title : (nonPriorityUi.title || `${profile.name} Fees, Reserves Verification & FAQ`)}
           </h2>

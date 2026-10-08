@@ -261,7 +261,6 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
   return <section className="activity-center-v3" aria-labelledby="activity-center-v3-title">
     <div className="activity-center-v3__head">
       <div>
-        <p>{text.eyebrow}</p>
         <h1 id="activity-center-v3-title">{text.title}</h1>
         <span>{text.intro}</span>
       </div>
@@ -390,7 +389,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
     {/* Telegram 官方快讯订阅直达条 */}
     <aside className="activity-center-v3__tg-banner">
       <div className="activity-center-v3__tg-banner-left">
-        <span className="activity-center-v3__tg-badge">⚡ {activityLocaleUi?.badge || (locale.startsWith("zh") ? "官方来源研究广播" : "SOURCE-REVIEWED BROADCAST")}</span>
+        <span className="activity-center-v3__tg-badge"> {activityLocaleUi?.badge || (locale.startsWith("zh") ? "官方来源研究广播" : "SOURCE-REVIEWED BROADCAST")}</span>
         <p>{activityLocaleUi?.body || (locale.startsWith("zh") ? "频道发布带来源的活动、上币与条件研究；资格、时效和具体权益需在官方账户逐项核对。" : "The channel publishes sourced campaign and listing research; verify eligibility, timing, and benefits in the official account.")}</p>
       </div>
       <a href={TELEGRAM_CONFIG.channelUrl} target="_blank" rel="noopener noreferrer" className="activity-center-v3__tg-btn" data-cta-kind="telegram" data-cta-placement="activity-channel-banner" data-growth-decision="telegram_channel" data-growth-placement="activity-channel-banner">

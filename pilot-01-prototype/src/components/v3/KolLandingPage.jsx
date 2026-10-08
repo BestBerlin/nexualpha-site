@@ -14,7 +14,7 @@ const kolRegistry = {
     name: "老张 Crypto 频道",
     handle: "@zhang_crypto",
     badge: "NexuAlpha 首席战略合作伙伴",
-    avatar: "👤",
+    avatar: "",
     bio: {
       "zh-Hans": "欢迎来到老张的交易平台研究入口。开户前请核对地区资格、费率和官方账户条件。",
       "zh-Hant": "歡迎來到老張的交易平台研究入口。開戶前請核對地區資格、費率和官方帳戶條件。",
@@ -26,7 +26,7 @@ const kolRegistry = {
     name: "Alpha King 链上研报",
     handle: "@alpha_king_hub",
     badge: "独立 DeFi & Perp DEX 推荐官",
-    avatar: "👑",
+    avatar: "",
     bio: {
       "zh-Hans": "专注链上衍生品与研究。使用入口前请核对协议、风险和地区可用性。",
       "zh-Hant": "專注鏈上衍生品與研究。使用入口前請核對協議、風險和地區可用性。",
@@ -40,7 +40,7 @@ const defaultKol = {
   name: "NexuAlpha VIP 合作者通道",
   handle: "@nexualpha_official",
   badge: "官方 VIP 专享通道",
-  avatar: "⚡",
+  avatar: "",
   bio: {
     "zh-Hans": "您正在访问 NexuAlpha 平台研究入口。用户权益和地区资格需在官方账户页面核验。",
     "zh-Hant": "您正在訪問 NexuAlpha 平台研究入口。用戶權益和地區資格需在官方帳戶頁面核驗。",

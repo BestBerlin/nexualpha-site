@@ -308,7 +308,7 @@ export function OnChainLiquidityBoard({ locale = "en", headingLevel = 2 }) {
                   <td className="font-mono">{item.por}</td>
                   <td>
                     <span className="onchain-board__signal-tag">
-                      🟢 {item.status}
+                       {item.status}
                     </span>
                   </td>
                   <td className="text-right">

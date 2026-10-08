@@ -14,7 +14,7 @@ const copy = {
     btnVerify: "立即核验",
     statusChecking: "正在核验…",
     resultSafe: "匹配已记录来源线索",
-    resultDanger: "🚨 未知域名 — 请勿输入资产！",
+    resultDanger: " 未知域名 — 请勿输入资产！",
     officialDomain: "官方主域名",
     mirrorDomain: "已记录备用来源线索",
     hint: "提示：只核验域名部分，例如 www.binance.com → 输入 binance.com",
@@ -34,7 +34,7 @@ const copy = {
     btnVerify: "立即核驗",
     statusChecking: "正在核驗…",
     resultSafe: "匹配已記錄來源線索",
-    resultDanger: "🚨 未知網域 — 請勿輸入資產！",
+    resultDanger: " 未知網域 — 請勿輸入資產！",
     officialDomain: "官方主網域",
     mirrorDomain: "已記錄備用來源線索",
     hint: "提示：僅核驗網域部分，例如 www.binance.com → 輸入 binance.com",
@@ -54,7 +54,7 @@ const copy = {
     btnVerify: "Verify Now",
     statusChecking: "Checking…",
     resultSafe: "Matches Recorded Source Clue",
-    resultDanger: "🚨 Unknown Domain — Do NOT enter assets!",
+    resultDanger: " Unknown Domain — Do NOT enter assets!",
     officialDomain: "Official Domain",
     mirrorDomain: "Recorded Alternate Source Clue",
     hint: "Tip: enter just the domain, e.g. www.binance.com → type binance.com",
@@ -143,7 +143,7 @@ export function AntiPhishingVerifier({ locale = "en" }) {
   return (
     <section className="apv v2-shell" id="verify-domain" aria-labelledby="apv-title">
       <div className="apv__header">
-        <div className="apv__shield-icon" aria-hidden="true">🛡️</div>
+        <div className="apv__shield-icon" aria-hidden="true"></div>
         <h2 className="apv__title" id="apv-title">{t.title}</h2>
         <p className="apv__subtitle">{t.subtitle}</p>
       </div>

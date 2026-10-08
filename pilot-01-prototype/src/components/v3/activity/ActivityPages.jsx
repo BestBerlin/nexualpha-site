@@ -9,7 +9,6 @@ import { normalizeActivityEligibility } from "./activity-eligibility.js";
 
 function DecisionBrief({ text, eyebrow, title, body, facts = [] }) {
   return <aside className="v3-decision-brief" aria-label={eyebrow}>
-    <span>{eyebrow}</span>
     <h2>{title}</h2>
     <p>{body}</p>
     {facts.length > 0 && <dl>{facts.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd translate={fact.translate ?? undefined} lang={fact.lang ?? undefined} dir={fact.lang === "en" ? "ltr" : undefined}>{fact.value}</dd></div>)}</dl>}

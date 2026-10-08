@@ -258,7 +258,7 @@ export function TopIntelligenceHub({ locale = "en" }) {
         <div className="top-hub__column top-hub__column--campaigns">
           <div className="top-hub__col-header">
             <div className="top-hub__col-title">
-              <span className="top-hub__icon">🔥</span>
+              <span className="top-hub__icon"></span>
               <h3>{t.campaignsTab}</h3>
             </div>
             <span className="top-hub__col-tag">LIVE PERKS</span>
@@ -299,7 +299,7 @@ export function TopIntelligenceHub({ locale = "en" }) {
         <div className="top-hub__column top-hub__column--news">
           <div className="top-hub__col-header">
             <div className="top-hub__col-title">
-              <span className="top-hub__icon">⚡</span>
+              <span className="top-hub__icon"></span>
               <h3>{t.newsTab}</h3>
             </div>
             <div className="top-hub__news-filters">
@@ -332,8 +332,8 @@ export function TopIntelligenceHub({ locale = "en" }) {
                 </h4>
                 <p className="hub-news-card__summary">{news.summary}</p>
                 <div className="hub-news-card__footer">
-                  <span className="hub-news-card__source">🌐 {news.source}</span>
-                  <span className="hub-news-card__read">⏱ {news.readTime}</span>
+                  <span className="hub-news-card__source"> {news.source}</span>
+                  <span className="hub-news-card__read"> {news.readTime}</span>
                 </div>
               </article>
             ))}

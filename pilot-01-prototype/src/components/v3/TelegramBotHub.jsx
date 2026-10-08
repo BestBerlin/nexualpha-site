@@ -28,17 +28,17 @@ const copy = {
     samplePrefix: "示例：",
     features: [
       {
-        icon: "⚡",
+        icon: "",
         title: "来源标注的费率研究",
         desc: "从公开比较路径回到页面，查看费率、更新时间和官方条件；没有来源的数据保持待核验。",
       },
       {
-        icon: "🛡️",
+        icon: "",
         title: "官方域名核验入口",
         desc: "把交易所域名送入核验路径，结果只依据已配置的官方来源，不把入口链接当作安全保证。",
       },
       {
-        icon: "📈",
+        icon: "",
         title: "主动订阅的研究提醒",
         desc: "未来接入并通过检查的活动或费率更新后，才进入提醒；当前未连接的数据源会明确标注。",
       },
@@ -98,17 +98,17 @@ const copy = {
     samplePrefix: "示例：",
     features: [
       {
-        icon: "⚡",
+        icon: "",
         title: "來源標注的費率研究",
         desc: "從公開比較路徑回到頁面，查看費率、更新時間和官方條件；沒有來源的資料保持待核驗。",
       },
       {
-        icon: "🛡️",
+        icon: "",
         title: "官方網域核驗入口",
         desc: "把交易所網域送入核驗路徑，結果只依據已配置的官方來源，不把入口連結當作安全保證。",
       },
       {
-        icon: "📈",
+        icon: "",
         title: "主動訂閱的研究提醒",
         desc: "未來接入並通過檢查的活動或費率更新後，才進入提醒；目前未連接的資料源會明確標注。",
       },
@@ -167,17 +167,17 @@ const copy = {
     samplePrefix: "Sample: ",
     features: [
       {
-        icon: "⚡",
+        icon: "",
         title: "Source-labelled fee research",
         desc: "Return to a comparison path with source, date, and official conditions; unverified values stay pending.",
       },
       {
-        icon: "🛡️",
+        icon: "",
         title: "Official-domain review path",
         desc: "Send a domain into the configured source-review path; an outbound link is never a security guarantee.",
       },
       {
-        icon: "📈",
+        icon: "",
         title: "Opt-in research reminders",
         desc: "Only connected, source-checked updates can become reminders; unavailable feeds remain explicitly labelled.",
       },
@@ -238,17 +238,17 @@ const copy = {
     samplePrefix: "Exemplo: ",
     features: [
       {
-        icon: "⚡",
+        icon: "",
         title: "Pesquisa de taxas com fonte",
         desc: "Volte ao caminho de comparação com fonte, data e condições oficiais; valores não verificados ficam pendentes.",
       },
       {
-        icon: "🛡️",
+        icon: "",
         title: "Caminho de revisão de domínio",
         desc: "Envie um domínio para a revisão configurada; um link externo nunca é uma garantia de segurança.",
       },
       {
-        icon: "📈",
+        icon: "",
         title: "Lembretes de pesquisa opt-in",
         desc: "Somente atualizações conectadas e verificadas podem gerar lembretes; feeds indisponíveis ficam identificados.",
       },
@@ -292,7 +292,7 @@ const copy = {
   },
 };
 
-copy.ja = { ...copy.en, badge: "TELEGRAM BOT ECOSYSTEM / 調査ツール", title: "比較・確認・再訪を Telegram で続ける", subtitle: "Telegram から同じ比較、出典確認、公式リンクの導線を開けます。データとユーザー向け条件はページと公式アカウントをご確認ください。", commandsBadge: "調査コマンド", commandsTitle: "Telegramで調査を続ける", commandsSubtitle: "比較、手数料シナリオ、活動調査、ドメイン確認を開きます。リアルタイム結果は接続済みの確認済みデータに依存します。", btnCopyCmd: "コマンドをコピー", btnCopiedCmd: "コピーしました", btnCopyFailed: "コピーに失敗しました", btnLaunchDeepLink: "Botを開く", samplePrefix: "例：", features: [{ icon: "⚡", title: "出典付き手数料調査", desc: "出典、日付、公式条件を確認できる比較ページへ戻ります。未確認の値は確認待ちとして表示します。" }, { icon: "🛡️", title: "公式ドメイン確認ルート", desc: "ドメインを設定済みの公式ソース確認ルートへ送ります。外部リンクは安全を保証しません。" }, { icon: "📈", title: "研究更新の通知登録", desc: "確認済みの更新だけを通知対象にします。未接続のデータソースは明示します。" }], channelFeedBadge: "公式配信", channelFeedTitle: "公式 Telegram 調査チャンネルを購読", channelFeedDesc: "出典付きの調査、比較、安全情報を掲載します。頻度と範囲は確認済みデータに依存します。", tgGroupTitle: "NexuAlpha トレーダーコミュニティ", tgGroupDesc: "プラットフォーム条件、手数料の定義、公式リンクを確認できます。コミュニティ投稿は登録や利益を保証しません。", btnJoinBot: "TelegramでBotを起動 ↗", btnJoinGroup: "Telegramコミュニティに参加 ↗", btnJoinChannel: "公式チャンネルを購読 ↗", btnWebPreview: "Webプレビュー ↗", returnTitle: "次回戻る理由を保存", returnSubtitle: "比較、手数料計算、プラットフォーム監視を続きから再開できます。", returnItems: [["比較を保存", "Binance と OKX の公開条件比較に戻る", { action: "compare", pair: "binance-vs-okx" }], ["計算を続ける", "公開手数料シナリオを再び開く", { action: "fee_calc", venue: "binance" }], ["変化を追う", "確認済みの条件更新を購読する", { action: "rates", venue: "binance" }]] };
+copy.ja = { ...copy.en, badge: "TELEGRAM BOT ECOSYSTEM / 調査ツール", title: "比較・確認・再訪を Telegram で続ける", subtitle: "Telegram から同じ比較、出典確認、公式リンクの導線を開けます。データとユーザー向け条件はページと公式アカウントをご確認ください。", commandsBadge: "調査コマンド", commandsTitle: "Telegramで調査を続ける", commandsSubtitle: "比較、手数料シナリオ、活動調査、ドメイン確認を開きます。リアルタイム結果は接続済みの確認済みデータに依存します。", btnCopyCmd: "コマンドをコピー", btnCopiedCmd: "コピーしました", btnCopyFailed: "コピーに失敗しました", btnLaunchDeepLink: "Botを開く", samplePrefix: "例：", features: [{ icon: "", title: "出典付き手数料調査", desc: "出典、日付、公式条件を確認できる比較ページへ戻ります。未確認の値は確認待ちとして表示します。" }, { icon: "", title: "公式ドメイン確認ルート", desc: "ドメインを設定済みの公式ソース確認ルートへ送ります。外部リンクは安全を保証しません。" }, { icon: "", title: "研究更新の通知登録", desc: "確認済みの更新だけを通知対象にします。未接続のデータソースは明示します。" }], channelFeedBadge: "公式配信", channelFeedTitle: "公式 Telegram 調査チャンネルを購読", channelFeedDesc: "出典付きの調査、比較、安全情報を掲載します。頻度と範囲は確認済みデータに依存します。", tgGroupTitle: "NexuAlpha トレーダーコミュニティ", tgGroupDesc: "プラットフォーム条件、手数料の定義、公式リンクを確認できます。コミュニティ投稿は登録や利益を保証しません。", btnJoinBot: "TelegramでBotを起動 ↗", btnJoinGroup: "Telegramコミュニティに参加 ↗", btnJoinChannel: "公式チャンネルを購読 ↗", btnWebPreview: "Webプレビュー ↗", returnTitle: "次回戻る理由を保存", returnSubtitle: "比較、手数料計算、プラットフォーム監視を続きから再開できます。", returnItems: [["比較を保存", "Binance と OKX の公開条件比較に戻る", { action: "compare", pair: "binance-vs-okx" }], ["計算を続ける", "公開手数料シナリオを再び開く", { action: "fee_calc", venue: "binance" }], ["変化を追う", "確認済みの条件更新を購読する", { action: "rates", venue: "binance" }]] };
 copy.ko = { ...copy.en, badge: "TELEGRAM BOT ECOSYSTEM / 리서치 도구", title: "Telegram에서 비교·검증·재방문을 계속하세요", subtitle: "Telegram에서 동일한 비교, 출처 검토, 공식 링크 경로를 엽니다. 데이터와 사용자 혜택은 페이지와 공식 계정 기준입니다.", commandsBadge: "리서치 명령", commandsTitle: "Telegram 리서치 명령 센터", commandsSubtitle: "비교, 수수료 시나리오, 활동 조사, 도메인 검증을 엽니다. 실시간 결과는 연결된 검증 데이터에 따라 달라집니다.", btnCopyCmd: "명령 복사", btnCopiedCmd: "복사됨", btnCopyFailed: "복사 실패", btnLaunchDeepLink: "Bot 열기", samplePrefix: "예시: ", channelFeedTitle: "공식 Telegram 리서치 채널 구독", btnJoinBot: "Telegram에서 Bot 시작 ↗", btnJoinGroup: "Telegram 커뮤니티 참여 ↗", btnJoinChannel: "공식 채널 구독 ↗", btnWebPreview: "웹 미리보기 ↗", returnTitle: "다시 방문할 이유를 저장하세요", returnSubtitle: "비교, 수수료 계산 또는 플랫폼 모니터링을 이어서 진행합니다." };
 copy.tr = { ...copy.en, badge: "TELEGRAM BOT EKOSİSTEMİ / ARAŞTIRMA ARAÇLARI", title: "Karşılaştırma ve doğrulamaya Telegram'da devam edin", subtitle: "Aynı karşılaştırma, kaynak inceleme ve resmi bağlantı yollarını Telegram'dan açın. Veriler ve kullanıcı koşulları sayfaya ve resmi hesaba bağlıdır.", commandsBadge: "ARAŞTIRMA KOMUTLARI", commandsTitle: "Telegram araştırma komut merkezi", commandsSubtitle: "Karşılaştırma, ücret senaryosu, kampanya araştırması veya alan adı doğrulamasını açın. Canlı sonuçlar doğrulanmış veri kaynağı gerektirir.", btnCopyCmd: "Komutu kopyala", btnCopiedCmd: "Kopyalandı", btnCopyFailed: "Kopyalama başarısız", btnLaunchDeepLink: "Botu aç", samplePrefix: "Örnek: ", channelFeedTitle: "Resmi Telegram araştırma kanalına abone olun", btnJoinBot: "Telegram'da Botu başlat ↗", btnJoinGroup: "Telegram topluluğuna katıl ↗", btnJoinChannel: "Resmi kanala abone ol ↗", btnWebPreview: "Web önizlemesi ↗", returnTitle: "Geri dönmek için net bir neden", returnSubtitle: "Karşılaştırma, ücret hesabı veya platform takibine kaldığınız yerden devam edin." };
 copy.es = { ...copy.en, badge: "ECOSISTEMA DEL BOT DE TELEGRAM / HERRAMIENTAS", title: "Continúa la comparación y verificación en Telegram", subtitle: "Abre desde Telegram las mismas rutas de comparación, fuentes y enlaces oficiales. Los datos y beneficios dependen de la página y la cuenta oficial.", commandsBadge: "COMANDOS DE INVESTIGACIÓN", commandsTitle: "Centro de comandos de Telegram", btnCopyCmd: "Copiar comando", btnCopiedCmd: "Copiado", btnCopyFailed: "No se pudo copiar", btnLaunchDeepLink: "Abrir bot", samplePrefix: "Ejemplo: ", channelFeedTitle: "Suscríbete al canal oficial de investigación", btnJoinBot: "Iniciar bot en Telegram ↗", btnJoinGroup: "Unirse a la comunidad de Telegram ↗", btnJoinChannel: "Suscribirse al canal oficial ↗", btnWebPreview: "Vista previa web ↗", returnTitle: "Deja un motivo claro para volver", returnSubtitle: "Continúa desde tu última comparación, cálculo o monitorización." };
@@ -304,8 +304,8 @@ copy.id = { ...copy.en, badge: "EKOSISTEM BOT TELEGRAM / ALAT RISET", title: "La
 copy.vi = { ...copy.en, badge: "HỆ SINH THÁI BOT TELEGRAM / CÔNG CỤ NGHIÊN CỨU", title: "Tiếp tục so sánh và xác minh trên Telegram", subtitle: "Mở cùng các đường dẫn so sánh, nguồn và liên kết chính thức từ Telegram. Dữ liệu và lợi ích phụ thuộc vào trang và tài khoản chính thức.", commandsBadge: "LỆNH NGHIÊN CỨU", commandsTitle: "Trung tâm lệnh Telegram", btnCopyCmd: "Sao chép lệnh", btnCopiedCmd: "Đã sao chép", btnCopyFailed: "Sao chép thất bại", btnLaunchDeepLink: "Mở bot", samplePrefix: "Ví dụ: ", channelFeedTitle: "Theo dõi kênh nghiên cứu chính thức", btnJoinBot: "Khởi động bot trên Telegram ↗", btnJoinGroup: "Tham gia cộng đồng Telegram ↗", btnJoinChannel: "Theo dõi kênh chính thức ↗", btnWebPreview: "Xem trước web ↗", returnTitle: "Lưu lý do rõ ràng để quay lại", returnSubtitle: "Tiếp tục so sánh, tính phí hoặc theo dõi từ lần trước." };
 copy.it = { ...copy.en, badge: "ECOSISTEMA BOT TELEGRAM / STRUMENTI", title: "Continua confronto e verifica su Telegram", subtitle: "Apri da Telegram gli stessi percorsi di confronto, fonti e link ufficiali. Dati e vantaggi dipendono dalla pagina e dall’account ufficiale.", commandsBadge: "COMANDI DI RICERCA", commandsTitle: "Centro comandi Telegram", btnCopyCmd: "Copia comando", btnCopiedCmd: "Copiato", btnCopyFailed: "Copia non riuscita", btnLaunchDeepLink: "Apri bot", samplePrefix: "Esempio: ", channelFeedTitle: "Segui il canale ufficiale di ricerca", btnJoinBot: "Avvia bot su Telegram ↗", btnJoinGroup: "Unisciti alla community Telegram ↗", btnJoinChannel: "Segui il canale ufficiale ↗", btnWebPreview: "Anteprima web ↗", returnTitle: "Salva un motivo chiaro per tornare", returnSubtitle: "Riprendi confronto, calcolo o monitoraggio da dove eri rimasto." };
 for (const [locale, labels] of Object.entries({
-  ko: { channelFeedBadge: "공식 방송", channelFeedDesc: "출처가 확인된 조사, 비교 및 보안 정보를 게시합니다. 빈도와 범위는 검증된 데이터에 따라 달라집니다.", tgGroupTitle: "NexuAlpha 트레이더 커뮤니티", tgGroupDesc: "플랫폼 조건, 수수료 정의와 공식 링크를 확인하세요. 커뮤니티 글은 가입이나 수익을 보장하지 않습니다.", features: [{ icon: "⚡", title: "출처 기반 수수료 조사", desc: "출처, 날짜, 공식 조건을 확인할 수 있는 비교 경로로 돌아갑니다. 미확인 값은 대기로 표시합니다." }, { icon: "🛡️", title: "공식 도메인 검토 경로", desc: "도메인을 설정된 공식 출처 검토 경로로 보냅니다. 외부 링크는 보안을 보장하지 않습니다." }, { icon: "📈", title: "연구 업데이트 알림", desc: "확인된 업데이트만 알림 대상이 되며 연결되지 않은 데이터는 명시합니다." }] },
-  tr: { channelFeedBadge: "RESMÎ YAYIN", channelFeedDesc: "Kaynaklı araştırma, karşılaştırma ve güvenlik notları yayımlarız. Sıklık ve kapsam doğrulanmış verilere bağlıdır.", tgGroupTitle: "NexuAlpha Trader Topluluğu", tgGroupDesc: "Platform koşullarını, ücret tanımlarını ve resmî bağlantıları inceleyin. Topluluk paylaşımları kayıt veya kazanç garantisi değildir.", features: [{ icon: "⚡", title: "Kaynaklı ücret araştırması", desc: "Kaynak, tarih ve resmî koşulları gösteren karşılaştırma yoluna dönün. Doğrulanmamış değerler beklemede kalır." }, { icon: "🛡️", title: "Resmî alan adı inceleme yolu", desc: "Alan adını yapılandırılmış resmî kaynak incelemesine gönderin. Dış bağlantı güvenlik garantisi değildir." }, { icon: "📈", title: "Araştırma güncellemeleri", desc: "Yalnızca kontrol edilmiş güncellemeler bildirim olabilir; bağlı olmayan veriler açıkça işaretlenir." }] },
+  ko: { channelFeedBadge: "공식 방송", channelFeedDesc: "출처가 확인된 조사, 비교 및 보안 정보를 게시합니다. 빈도와 범위는 검증된 데이터에 따라 달라집니다.", tgGroupTitle: "NexuAlpha 트레이더 커뮤니티", tgGroupDesc: "플랫폼 조건, 수수료 정의와 공식 링크를 확인하세요. 커뮤니티 글은 가입이나 수익을 보장하지 않습니다.", features: [{ icon: "", title: "출처 기반 수수료 조사", desc: "출처, 날짜, 공식 조건을 확인할 수 있는 비교 경로로 돌아갑니다. 미확인 값은 대기로 표시합니다." }, { icon: "", title: "공식 도메인 검토 경로", desc: "도메인을 설정된 공식 출처 검토 경로로 보냅니다. 외부 링크는 보안을 보장하지 않습니다." }, { icon: "", title: "연구 업데이트 알림", desc: "확인된 업데이트만 알림 대상이 되며 연결되지 않은 데이터는 명시합니다." }] },
+  tr: { channelFeedBadge: "RESMÎ YAYIN", channelFeedDesc: "Kaynaklı araştırma, karşılaştırma ve güvenlik notları yayımlarız. Sıklık ve kapsam doğrulanmış verilere bağlıdır.", tgGroupTitle: "NexuAlpha Trader Topluluğu", tgGroupDesc: "Platform koşullarını, ücret tanımlarını ve resmî bağlantıları inceleyin. Topluluk paylaşımları kayıt veya kazanç garantisi değildir.", features: [{ icon: "", title: "Kaynaklı ücret araştırması", desc: "Kaynak, tarih ve resmî koşulları gösteren karşılaştırma yoluna dönün. Doğrulanmamış değerler beklemede kalır." }, { icon: "", title: "Resmî alan adı inceleme yolu", desc: "Alan adını yapılandırılmış resmî kaynak incelemesine gönderin. Dış bağlantı güvenlik garantisi değildir." }, { icon: "", title: "Araştırma güncellemeleri", desc: "Yalnızca kontrol edilmiş güncellemeler bildirim olabilir; bağlı olmayan veriler açıkça işaretlenir." }] },
 })) copy[locale] = { ...copy[locale], ...labels };
 
 for (const [locale, labels] of Object.entries({
@@ -644,11 +644,7 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
       <div className="tg-hub__container">
         {/* 顶部标题区 */}
         <header className="tg-hub__header">
-          <div className="tg-hub__badge">
-            <span className="tg-hub__pulse"></span>
-            {t.badge}
-          </div>
-          {headingLevel === 1 ? <h1 className="tg-hub__title">{t.title}</h1> : <h2 className="tg-hub__title">{t.title}</h2>}
+                    {headingLevel === 1 ? <h1 className="tg-hub__title">{t.title}</h1> : <h2 className="tg-hub__title">{t.title}</h2>}
           <p className="tg-hub__subtitle">{t.subtitle}</p>
         </header>
 

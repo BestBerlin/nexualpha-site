@@ -10,7 +10,6 @@ export function CollectionHubPage({ kind, locale = "en" }) {
 
   return <main className="v6 v2-page v3-page collection-hub-page" data-collection-hub={kind}>
     <section className="v2-shell v3-section">
-      <p className="eyebrow">{copy.eyebrow}</p>
       <h1>{copy.title}</h1>
       <p className="v3-section__sub">{copy.description}</p>
       <p className="v3-section__meta">{copy.itemLabel}: {items.length}</p>
@@ -43,7 +42,6 @@ export function CollectionHubPage({ kind, locale = "en" }) {
       <div className="topic-grid">
         {items.map((item) => (
           <article className="topic-card" key={item.slug}>
-            <p className="eyebrow">{item.category || `${item.count} reviewed paths`}</p>
             <h2><a href={localizedHref(item.href, { locale })}>{item.title}</a></h2>
             <p>{item.description}</p>
             {item.officialDomain ? <p className="v3-section__meta">{item.officialDomain}</p> : null}

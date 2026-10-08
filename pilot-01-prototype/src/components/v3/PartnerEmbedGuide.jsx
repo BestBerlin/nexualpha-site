@@ -95,17 +95,17 @@ export function PartnerEmbedGuide({ locale = "en" }) {
           </summary>
           <div className="guide-values-grid">
           <div className="guide-value-card nxa-beam-card">
-            <div className="guide-value-card__icon">⚡</div>
+            <div className="guide-value-card__icon"></div>
             <h2>{copy.cards[0][0]}</h2>
             <p>{copy.cards[0][1]}</p>
           </div>
           <div className="guide-value-card nxa-beam-card">
-            <div className="guide-value-card__icon">🛡️</div>
+            <div className="guide-value-card__icon"></div>
             <h2>{copy.cards[1][0]}</h2>
             <p>{copy.cards[1][1]}</p>
           </div>
           <div className="guide-value-card nxa-beam-card">
-            <div className="guide-value-card__icon">💎</div>
+            <div className="guide-value-card__icon"></div>
             <h2>{copy.cards[2][0]}</h2>
             <p>{copy.cards[2][1]}</p>
           </div>
@@ -126,14 +126,14 @@ export function PartnerEmbedGuide({ locale = "en" }) {
                 className={`guide-type-btn ${selectedType === "calculator" ? "is-active" : ""}`}
                 onClick={() => setSelectedType("calculator")}
               >
-                🧮 {copy.narrow}
+                 {copy.narrow}
               </button>
               <button
                 type="button"
                 className={`guide-type-btn ${selectedType === "analyzer" ? "is-active" : ""}`}
                 onClick={() => setSelectedType("analyzer")}
               >
-                📊 {copy.wide}
+                 {copy.wide}
               </button>
             </div>
           </div>
@@ -190,7 +190,7 @@ export function PartnerEmbedGuide({ locale = "en" }) {
                 className="guide-copy-btn"
                 onClick={handleCopy}
               >
-                {copiedCode ? `✓ ${copy.copied}` : `📋 ${copy.copy}`}
+                {copiedCode ? `✓ ${copy.copied}` : ` ${copy.copy}`}
               </button>
             </div>
             <pre className="guide-code-pre" tabIndex={0}>

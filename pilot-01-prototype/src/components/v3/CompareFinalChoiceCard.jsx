@@ -148,7 +148,6 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
   return (
     <article className="v3-compare-final-choice-card" aria-label={title}>
       <div className="v3-compare-final-choice-card__head">
-        <span>{card.eyebrow || fallback.eyebrow}</span>
         <h2>{title}</h2>
         <p>{directAnswer.body}</p>
       </div>

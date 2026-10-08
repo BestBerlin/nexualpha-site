@@ -1386,7 +1386,6 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
           <section className="factbook-section" id="rates">
             <div className="factbook-section__header">
               <div className="factbook-section__title-group">
-                <span className="factbook-section__num">01 / MATRIX</span>
                 <h2 className="factbook-section__title">{venue.feeVerified ? t.secVipTitle : (factbookFeeStatusTitles[locale] || factbookFeeStatusTitles[localeBase] || factbookFeeStatusTitles.en)}</h2>
                 {venue.feeVerified && <p className="factbook-section__sub">{t.secVipSub}</p>}
               </div>
@@ -1477,7 +1476,6 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
           <section className={`factbook-section factbook-section-disclosure${expandedFactbookSections.por ? " is-open" : ""}`} id="por">
             <button type="button" className="factbook-section__header factbook-section-disclosure__summary" aria-expanded={Boolean(expandedFactbookSections.por)} aria-controls="factbook-por-body" onClick={() => toggleFactbookSection("por")}>
               <div className="factbook-section__title-group">
-              <span className="factbook-section__num">02 / {factbookUi.solvency || "SOLVENCY"}</span>
                 <h2 className="factbook-section__title">{t.secPorTitle}</h2>
                 <p className="factbook-section__sub">{t.secPorSub}</p>
               </div>
@@ -1549,7 +1547,6 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
           <section className={`factbook-section factbook-section-disclosure${expandedFactbookSections.compliance ? " is-open" : ""}`} id="compliance">
             <button type="button" className="factbook-section__header factbook-section-disclosure__summary" aria-expanded={Boolean(expandedFactbookSections.compliance)} aria-controls="factbook-compliance-body" onClick={() => toggleFactbookSection("compliance")}>
               <div className="factbook-section__title-group">
-              <span className="factbook-section__num">03 / {factbookUi.regulation || "REGULATION & KYC"}</span>
                 <h2 className="factbook-section__title">{t.secKycTitle}</h2>
                 <p className="factbook-section__sub">{t.secKycSub}</p>
               </div>
@@ -1600,7 +1597,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                   <div className="factbook-license-pills">
                     {((isZh ? venue.compliance?.licensesZh : venue.compliance?.licensesEn) || []).map((lic, i) => (
                       <span key={i} className="factbook-license-pill">
-                        🛡️ {lic}
+                         {lic}
                       </span>
                     ))}
                   </div>
@@ -1625,7 +1622,6 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
           <section className={`factbook-section factbook-section-disclosure${expandedFactbookSections.security ? " is-open" : ""}`} id="security">
             <button type="button" className="factbook-section__header factbook-section-disclosure__summary" aria-expanded={Boolean(expandedFactbookSections.security)} aria-controls="factbook-security-body" onClick={() => toggleFactbookSection("security")}>
               <div className="factbook-section__title-group">
-              <span className="factbook-section__num">04 / {factbookUi.endpoints || "RECORDED ROUTES"}</span>
                 <h2 className="factbook-section__title">{t.secSecurityTitle}</h2>
                 <p className="factbook-section__sub">{t.secSecuritySub}</p>
               </div>

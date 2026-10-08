@@ -241,14 +241,14 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
                   className={`bleed-type-btn ${type === "futures" ? "bleed-type-btn--active" : ""}`}
                   onClick={() => setType("futures")}
                 >
-                  ⚡ {ui.futures}
+                   {ui.futures}
                 </button>
                 <button
                   type="button"
                   className={`bleed-type-btn ${type === "spot" ? "bleed-type-btn--active" : ""}`}
                   onClick={() => setType("spot")}
                 >
-                  🪙 {ui.spot}
+                   {ui.spot}
                 </button>
               </div>
             </div>
@@ -353,14 +353,14 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
             <div className="bleed-solution-box">
               <div className="bleed-solution-header">
                 <span className="bleed-solution-title">{ui.solutionTitle}</span>
-                {benefitVerified && <span className="bleed-seats-counter">⚡ {ui.verified}: {commercialClaim.rebatePercent}%</span>}
+                {benefitVerified && <span className="bleed-seats-counter"> {ui.verified}: {commercialClaim.rebatePercent}%</span>}
               </div>
 
               {inviteCode && (
                 <div className="bleed-code-row">
                   <span>{ui.codeLabel}</span>
                   <button type="button" onClick={handleCopy} className="bleed-copy-code-btn font-mono">
-                    {inviteCode} {visibleCopyResult?.status === "copied" ? `✓ ${copyFeedback.copied}` : `📋 ${ui.copyBtn}`}
+                    {inviteCode} {visibleCopyResult?.status === "copied" ? `✓ ${copyFeedback.copied}` : ` ${ui.copyBtn}`}
                   </button>
                   {visibleCopyResult?.status === "failed" && <span className="bleed-copy-status" role="status" aria-live="polite">{copyFeedback.failed}</span>}
                   {visibleCopyResult?.status === "failed" && <input className="bleed-manual-copy" aria-label={copyFeedback.codeLabel} readOnly value={visibleCopyResult.value} onFocus={(event) => event.currentTarget.select()} dir="ltr" />}

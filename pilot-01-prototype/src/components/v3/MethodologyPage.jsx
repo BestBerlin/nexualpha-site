@@ -255,7 +255,6 @@ export function MethodologyPage({ locale = "en" }) {
       <div className="methodology-page__inner v2-shell">
         <header className="methodology-page__header">
           <div className="methodology-page__badge-row">
-            <span className="methodology-page__badge">{t.badge}</span>
             <span className="methodology-page__date">{t.lastUpdated}</span>
           </div>
           <h1 className="methodology-page__title">{t.title}</h1>
@@ -278,9 +277,9 @@ export function MethodologyPage({ locale = "en" }) {
           </aside>
 
           <div className="methodology-page__pills">
-            <span className="methodology-page__pill">🛡️ {t.pill1}</span>
-            <span className="methodology-page__pill">⚖️ {t.pill2}</span>
-            <span className="methodology-page__pill">🔗 {t.pill3}</span>
+            <span className="methodology-page__pill"> {t.pill1}</span>
+            <span className="methodology-page__pill"> {t.pill2}</span>
+            <span className="methodology-page__pill"> {t.pill3}</span>
           </div>
         </header>
 
@@ -310,7 +309,7 @@ export function MethodologyPage({ locale = "en" }) {
         </section>
 
         <section className="methodology-page__wall-card" id="disclosure" aria-labelledby="methodology-disclosure-title">
-          <div className="methodology-page__wall-icon" aria-hidden="true">🏛️</div>
+          <div className="methodology-page__wall-icon" aria-hidden="true"></div>
           <div className="methodology-page__wall-content">
             <h2 id="methodology-disclosure-title">{t.wallTitle}</h2>
             <p>{t.wallDesc}</p>

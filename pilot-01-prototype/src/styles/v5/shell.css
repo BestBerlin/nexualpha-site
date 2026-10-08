@@ -52,8 +52,8 @@ html { scroll-padding-block-start: 76px; }
   display: inline-flex;
   align-items: baseline;
   font-family: var(--nx-font);
-  font-size: 19px;
-  font-weight: 650;
+  font-size: 1.25rem;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: -0.035em;
   color: var(--nx-n12);
@@ -61,7 +61,8 @@ html { scroll-padding-block-start: 76px; }
 }
 .nx-brand__label span { font-weight: 400; color: var(--nx-n11); letter-spacing: -0.03em; }
 .nx-brand--footer .nx-brand__mark { inline-size: 32px; block-size: 32px; }
-.nx-brand--footer .nx-brand__label { font-size: 21px; }
+.nx-brand--footer .nx-brand__label { font-size: 1.25rem; }
+.nx-brand, .nx-brand:hover, .nx-brand * { text-decoration: none !important; }
 .nx-brand:focus-visible,
 .nx-hdr a:focus-visible,
 .nx-hdr button:focus-visible,
@@ -90,14 +91,16 @@ html { scroll-padding-block-start: 76px; }
   inset-inline: 0;
   z-index: 40;
   block-size: var(--nx-h);
-  background: transparent;
-  border-block-end: 1px solid transparent;
+  background: rgb(10 11 14 / 0.88);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
+  border-block-end: 1px solid var(--nx-hair);
   transition: background-color 0.28s var(--nx-ease), border-color 0.28s var(--nx-ease), block-size 0.28s var(--nx-ease);
 }
 /* Opaque once the page has scrolled, so content never reads through the nav. */
 .nx-hdr[data-scrolled] .nx-hdr__bar {
   block-size: 56px;
-  background: rgb(10 11 14 / 0.97);
+  background: rgb(10 11 14 / 0.94);
   box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.7);
   border-block-end-color: var(--nx-hair);
 }
@@ -232,7 +235,7 @@ body:has(.v5 .container) .nx-ftr__inner {
   padding: 3px 6px;
   border: 1px solid var(--nx-n6);
   border-radius: 4px;
-  font: 500 11px/1 var(--nx-mono);
+  font: 500 12px/1 var(--nx-mono);
   color: var(--nx-n10);
 }
 .nx-lang { position: relative; }
@@ -246,7 +249,7 @@ body:has(.v5 .container) .nx-ftr__inner {
   inset-inline-end: 0;
   z-index: 5;
   inline-size: 232px;
-  max-block-size: min(70dvh, 26rem);
+  max-block-size: min(70dvh, 30rem);
   overflow-y: auto;
   margin: 0;
   padding: 6px;
@@ -264,11 +267,11 @@ body:has(.v5 .container) .nx-ftr__inner {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-block-size: 38px;
+  min-block-size: 44px;
   padding-inline: 10px 12px;
   border-radius: 8px;
   color: var(--nx-n11);
-  font: 450 14px/1.2 var(--nx-font);
+  font: 500 14px/1.2 var(--nx-font);
   cursor: pointer;
 }
 .nx-lang__list li::before { content: ""; flex: none; inline-size: 14px; block-size: 14px; }
@@ -280,7 +283,7 @@ body:has(.v5 .container) .nx-ftr__inner {
 .nx-lang__list li[data-active="true"] { background: rgb(255 255 255 / 0.07); color: var(--nx-n12); }
 .nx-lang__list:focus-visible li[data-active="true"] { outline: 2px solid var(--nx-accent); outline-offset: -2px; }
 .nx-lang__opt-name { flex: 1; min-inline-size: 0; }
-.nx-lang__opt-code { font: 500 11px/1 var(--nx-mono); color: var(--nx-n10); }
+.nx-lang__opt-code { font: 500 12px/1 var(--nx-mono); color: var(--nx-n10); }
 
 /* burger (mobile / tablet) */
 .nx-burger {
@@ -351,18 +354,19 @@ body:has(.v5 .container) .nx-ftr__inner {
 .nx-sheet__nav li { border-block-end: 1px solid var(--nx-hair); }
 .nx-sheet__nav a {
   display: flex; align-items: center; min-block-size: 60px; padding-block: 12px;
-  color: var(--nx-n12); font: 600 clamp(1.375rem, 1.1rem + 1.2vw, 1.75rem)/1.2 var(--nx-font); letter-spacing: -0.02em; text-decoration: none;
+  color: var(--nx-n12); font: 600 var(--t-28, clamp(1.5rem, 1.25rem + 1vw, 1.75rem))/1.2 var(--nx-font); letter-spacing: -0.02em; text-decoration: none;
   text-wrap: balance;
 }
 .nx-sheet__nav a[data-active="true"], .nx-sheet__nav a[aria-current] { color: var(--nx-n12); }
 .nx-sheet__nav a[data-active="true"] { text-decoration: underline; text-decoration-color: var(--nx-accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
 .nx-sheet__nav a:active { color: var(--nx-n11); }
 .nx-sheet__tools { flex: none; display: grid; gap: 10px; padding: 16px clamp(16px, 5vw, 32px) calc(16px + env(safe-area-inset-bottom, 0px)); max-inline-size: calc(36rem + 2 * clamp(16px, 5vw, 32px)); border-block-start: 1px solid var(--nx-hair); }
-.nx-search--block, .nx-sheet .nx-lang__btn { inline-size: 100%; block-size: 48px; padding-inline: 14px; justify-content: flex-start; font-size: 15px; }
-.nx-search--block .nx-search__label { position: static; inline-size: auto; block-size: auto; clip-path: none; overflow: visible; min-inline-size: 0; flex: 1; font-size: 15px; }
+.nx-search--block, .nx-sheet .nx-lang__btn { inline-size: 100%; block-size: 48px; padding-inline: 14px; justify-content: flex-start; font-size: 14px; }
+.nx-search--block .nx-search__label { position: static; inline-size: auto; block-size: auto; clip-path: none; overflow: visible; min-inline-size: 0; flex: 1; font-size: 14px; }
 .nx-sheet .nx-lang__name { display: inline; max-inline-size: none; flex: 1; text-align: start; }
 .nx-sheet .nx-lang__code { display: none; }
-.nx-lang--inline .nx-lang__list { position: static; inline-size: 100%; max-block-size: 34dvh; margin-block-start: 8px; box-shadow: none; }
+.nx-lang--inline { position: relative; }
+.nx-lang--inline .nx-lang__list { position: absolute; inset-block: auto calc(100% + 8px); inset-inline: 0; z-index: 6; inline-size: 100%; max-block-size: min(52dvh, 28rem); margin: 0; }
 
 @media (prefers-reduced-motion: no-preference) {
   .nx-sheet[open] { animation: nx-sheet-in 0.2s var(--nx-ease) both; }
@@ -406,14 +410,14 @@ body:has(.v5 .container) .nx-ftr__inner {
 .nx-ftr__brand .clean-footer__summary { max-inline-size: 34ch; color: var(--nx-n10); font-size: 14px; text-wrap: pretty; }
 .nx-ftr__list ul { margin: 0; padding: 0; list-style: none; }
 .nx-ftr__list a {
-  display: inline-flex; align-items: center; min-block-size: 32px;
+  display: inline-flex; align-items: center; min-block-size: 36px;
   color: var(--nx-n11); text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: 0.25em;
   transition: color 0.18s var(--nx-ease), text-decoration-color 0.18s var(--nx-ease);
 }
 .nx-ftr__list a:hover { color: var(--nx-n12); text-decoration-color: var(--nx-accent); }
 .nx-ftr__list--primary ul,
 .nx-ftr .clean-footer__nav--primary ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr)); column-gap: 24px; row-gap: 2px; align-content: start; }
-.nx-ftr .clean-footer__nav--primary a { font-size: 15px; color: var(--nx-n12); }
+.nx-ftr .clean-footer__nav--primary a { font-size: 16px; color: var(--nx-n12); }
 .nx-ftr__policies {
   grid-column: 1 / -1;
   display: grid;
@@ -423,12 +427,12 @@ body:has(.v5 .container) .nx-ftr__inner {
   padding-block-start: clamp(28px, 3vw, 40px);
   border-block-start: 1px solid var(--nx-hair);
 }
-.nx-ftr__title { grid-column: 1; grid-row: 1; margin: 0; color: var(--nx-n12); font: 600 15px/1.4 var(--nx-font); letter-spacing: -0.005em; }
+.nx-ftr__title { grid-column: 1; grid-row: 1; margin: 0; color: var(--nx-n12); font: 600 16px/1.4 var(--nx-font); letter-spacing: -0.005em; }
 .nx-ftr__policies .nx-ftr__list { grid-column: 1; grid-row: 2; align-self: start; }
 .nx-ftr__legal { grid-column: 2; grid-row: 1 / span 2; display: grid; gap: 14px; align-content: start; }
 .nx-ftr__legal p { max-inline-size: 66ch; color: var(--nx-n11); text-wrap: pretty; }
 .nx-ftr .clean-footer__disclaimer { color: var(--nx-n11); }
-.nx-ftr .clean-footer__copyright { grid-column: 1 / -1; color: var(--nx-n10); font-size: 13px; }
+.nx-ftr .clean-footer__copyright { grid-column: 1 / -1; color: var(--nx-n10); font-size: 12px; }
 
 @media (max-width: 859px) {
   .nx-ftr__inner { grid-template-columns: minmax(0, 1fr); }
@@ -438,4 +442,10 @@ body:has(.v5 .container) .nx-ftr__inner {
 }
 @media (max-width: 859px) and (min-width: 480px) {
   .nx-ftr .clean-footer__nav--primary ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* tap targets on touch: every shell control >= 44px */
+@media (max-width: 859px), (pointer: coarse) {
+  .nx-ftr__list a, .nx-ftr .clean-footer__nav a { min-block-size: 44px; }
+  .nx-more__panel a { min-block-size: 44px; }
 }

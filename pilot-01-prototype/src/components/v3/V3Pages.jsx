@@ -853,21 +853,21 @@ const compareShortUi = (locale) => {
 const compareDetailPhrase = (locale, key, fallback) => {
   const k = textLocaleKey(locale);
   const t = {
-    en: { review: "Review verification details and limits", spotNet: "Spot net:", futuresNet: "Futures net:", strictKyc: "Strict KYC (Face + ID)", margin: "Cross and isolated margin", rewards: "🎁 User rewards pending verification", claim: "Check the rewards hub after signup", signup: "Sign up on the official site", region: "Region · product · account tier", eligibility: "Verify eligibility before the official flow", accountTerms: "Check official account terms and sources", netHint: "Real cost after user-benefit deduction", reserveHint: "Merkle-tree reserve verification", kycHint: "Verification tier and process friction", rewardHint: "New-user vouchers and reward pack", fewerMetrics: "Show fewer metrics", fullMetrics: "View full quantitative matrix", officialAction: "Official action", antiPhishingPortal: "Anti-phishing official portal" },
-    "zh-Hans": { review: "展开核验依据与限制", spotNet: "现货净:", futuresNet: "合约净:", strictKyc: "严格实名（证件 + 人脸）", margin: "全仓与逐仓保证金", rewards: "🎁 用户奖励待官方核验", claim: "专属开户后进入福利中心确认", signup: "在官网注册", region: "地区 · 产品 · 账户等级", eligibility: "先核对地区资格", accountTerms: "以官方账户条件和来源核验为准", netHint: "返佣扣减后的实付到手成本", reserveHint: "默克尔树链上资金透明证明", kycHint: "合规开户认证与出入金门槛", rewardHint: "新手充值与交易任务礼包", fewerMetrics: "收起次要指标", fullMetrics: "查看完整量化指标矩阵", officialAction: "官方直达开户通道", antiPhishingPortal: "带专属防伪邀请码直达开户" },
-    "zh-Hant": { review: "展開核驗依據與限制", spotNet: "現貨淨:", futuresNet: "合約淨:", strictKyc: "嚴格實名（證件 + 人臉）", margin: "全倉與逐倉保證金", rewards: "🎁 用戶獎勵待官方核驗", claim: "完成專屬開戶後前往福利中心確認", signup: "在官網註冊", region: "地區 · 產品 · 帳戶等級", eligibility: "先核對地區資格", accountTerms: "以官方帳戶條件和來源核驗為準", netHint: "返傭扣減後的實付到手成本", reserveHint: "默克爾樹鏈上資金透明證明", kycHint: "合規開戶認證與出入金門檻", rewardHint: "新手充值與交易任務禮包", fewerMetrics: "收起次要指標", fullMetrics: "查看完整量化指標矩陣", officialAction: "官方直達開戶通道", antiPhishingPortal: "使用專屬防偽邀請碼直達開戶" },
-    es: { review: "Revisar verificaciones y límites", spotNet: "Coste neto spot:", futuresNet: "Coste neto de futuros:", strictKyc: "KYC estricto (rostro + documento)", margin: "Margen cruzado y aislado", rewards: "🎁 Beneficios del usuario pendientes de verificación", claim: "Comprueba el centro de beneficios después del registro", signup: "Registrarse en el sitio oficial", region: "Región · producto · nivel de cuenta", eligibility: "Verifica la elegibilidad antes del flujo oficial", accountTerms: "Comprobar condiciones de cuenta y fuentes oficiales", netHint: "Coste real después de descontar beneficios", reserveHint: "Verificación de reservas mediante árbol de Merkle", kycHint: "Nivel de verificación y fricción del proceso", rewardHint: "Cupones y paquete para nuevos usuarios", fewerMetrics: "Mostrar menos métricas", fullMetrics: "Mostrar toda la matriz cuantitativa", officialAction: "Acción oficial", antiPhishingPortal: "Portal oficial contra el phishing" },
-    "pt-BR": { review: "Revisar verificações e limites", spotNet: "Spot líquido:", futuresNet: "Futuros líquido:", strictKyc: "KYC rígido (rosto + documento)", margin: "Margem cruzada e isolada", rewards: "🎁 Benefícios do usuário aguardam verificação", claim: "Confira a central de benefícios após o cadastro", signup: "Cadastrar no site oficial", region: "Região · produto · nível da conta", eligibility: "Verifique a elegibilidade antes do fluxo oficial", accountTerms: "Confira termos oficiais da conta e fontes", netHint: "Custo real após deduzir benefícios", reserveHint: "Verificação de reservas por árvore Merkle", kycHint: "Nível de verificação e fricção do processo", rewardHint: "Cupons e pacote para novos usuários", fewerMetrics: "Mostrar menos métricas", fullMetrics: "Ver matriz quantitativa completa", officialAction: "Ação oficial", antiPhishingPortal: "Portal oficial anti-phishing" },
-    fr: { review: "Vérifier détails et limites", spotNet: "Net spot :", futuresNet: "Net futures :", strictKyc: "KYC strict (visage + document)", margin: "Marge croisée et isolée", rewards: "🎁 Avantages utilisateur en attente de vérification", claim: "Vérifiez le centre d’avantages après inscription", signup: "S’inscrire sur le site officiel", region: "Région · produit · niveau de compte", eligibility: "Vérifiez l’éligibilité avant le parcours officiel", accountTerms: "Vérifier conditions de compte et sources officielles", netHint: "Coût réel après déduction de l’avantage", reserveHint: "Vérification des réserves par arbre de Merkle", kycHint: "Niveau de vérification et friction", rewardHint: "Coupons et pack nouveaux utilisateurs", fewerMetrics: "Afficher moins d’indicateurs", fullMetrics: "Voir toute la matrice quantitative", officialAction: "Action officielle", antiPhishingPortal: "Portail officiel anti-hameçonnage" },
-    de: { review: "Prüfdetails und Limits ansehen", spotNet: "Spot netto:", futuresNet: "Futures netto:", strictKyc: "Strenges KYC (Gesicht + Ausweis)", margin: "Cross- und Isolated-Margin", rewards: "🎁 Nutzervorteile warten auf Prüfung", claim: "Nach Anmeldung im Vorteilsbereich prüfen", signup: "Auf offizieller Website registrieren", region: "Region · Produkt · Kontostufe", eligibility: "Eignung vor dem offiziellen Ablauf prüfen", accountTerms: "Offizielle Kontobedingungen und Quellen prüfen", netHint: "Reale Kosten nach Abzug des Vorteils", reserveHint: "Reserveprüfung per Merkle-Baum", kycHint: "Verifizierungsstufe und Prozessaufwand", rewardHint: "Gutscheine und Paket für neue Nutzer", fewerMetrics: "Weniger Kennzahlen anzeigen", fullMetrics: "Gesamte quantitative Matrix anzeigen", officialAction: "Offizielle Aktion", antiPhishingPortal: "Offizielles Anti-Phishing-Portal" },
-    ja: { review: "確認内容と制限を見る", spotNet: "現物純額:", futuresNet: "先物純額:", strictKyc: "厳格なKYC（顔認証・本人確認）", margin: "クロス・分離マージン", rewards: "🎁 ユーザー特典は確認待ち", claim: "登録後に特典センターで確認", signup: "公式サイトで登録", region: "地域・商品・アカウント階層", eligibility: "公式手続き前に資格を確認", accountTerms: "公式アカウント条件と出典で確認", netHint: "特典差し引き後の実質コスト", reserveHint: "Merkleツリーによる準備金検証", kycHint: "本人確認レベルと手続き負担", rewardHint: "新規ユーザー向けバウチャーとボックス", fewerMetrics: "指標を折りたたむ", fullMetrics: "量的指標をすべて表示", officialAction: "公式アクション", antiPhishingPortal: "フィッシング対策済み公式入口" },
-    ko: { review: "검증 내용과 제한 보기", spotNet: "현물 순비용:", futuresNet: "선물 순비용:", strictKyc: "엄격한 KYC (얼굴·신분증)", margin: "교차·격리 마진", rewards: "🎁 사용자 혜택 확인 대기", claim: "가입 후 보상 센터에서 확인", signup: "공식 사이트에서 가입", region: "지역·상품·계정 등급", eligibility: "공식 절차 전에 자격 확인", accountTerms: "공식 계정 조건과 출처로 확인", netHint: "혜택 차감 후 실제 비용", reserveHint: "Merkle 트리 준비금 검증", kycHint: "인증 단계와 절차 부담", rewardHint: "신규 사용자 바우처 및 보상 상자", fewerMetrics: "지표 접기", fullMetrics: "전체 정량 지표 보기", officialAction: "공식 작업", antiPhishingPortal: "피싱 방지 공식 포털" },
-    ar: { review: "مراجعة تفاصيل التحقق والحدود", spotNet: "صافي الفوري:", futuresNet: "صافي العقود:", strictKyc: "KYC صارم (وجه + هوية)", margin: "هامش متقاطع ومعزول", rewards: "🎁 مزايا المستخدم بانتظار التحقق", claim: "تحقق من مركز المزايا بعد التسجيل", signup: "التسجيل في الموقع الرسمي", region: "المنطقة · المنتج · مستوى الحساب", eligibility: "تحقق من الأهلية قبل المسار الرسمي", accountTerms: "تحقق من شروط الحساب والمصادر الرسمية", netHint: "التكلفة الفعلية بعد خصم الميزة", reserveHint: "تحقق الاحتياطيات عبر شجرة Merkle", kycHint: "مستوى التحقق وسهولة الإجراء", rewardHint: "قسائم وحزمة للمستخدمين الجدد", fewerMetrics: "عرض مؤشرات أقل", fullMetrics: "عرض المصفوفة الكمية كاملة", officialAction: "إجراء رسمي", antiPhishingPortal: "بوابة رسمية لمكافحة التصيد" },
-    tr: { review: "Doğrulama ayrıntılarını ve sınırları incele", spotNet: "Spot net:", futuresNet: "Vadeli net:", strictKyc: "Sıkı KYC (Yüz + Kimlik)", margin: "Çapraz ve izole marjin", rewards: "🎁 Kullanıcı avantajı doğrulama bekliyor", claim: "Kayıttan sonra ödül merkezinden kontrol edin", signup: "Resmî sitede kayıt ol", region: "Bölge · ürün · hesap seviyesi", eligibility: "Resmî akıştan önce uygunluğu doğrulayın", accountTerms: "Resmî hesap koşulları ve kaynaklarla doğrulayın", netHint: "Avantaj düşüldükten sonra gerçek maliyet", reserveHint: "Merkle ağacı rezerv doğrulaması", kycHint: "Doğrulama seviyesi ve işlem yükü", rewardHint: "Yeni kullanıcı kuponları ve ödül paketi", fewerMetrics: "Daha az metrik göster", fullMetrics: "Tam nicel matrisi göster", officialAction: "Resmî işlem", antiPhishingPortal: "Kimlik avına karşı resmî portal" },
-    ru: { review: "Проверить детали и ограничения", spotNet: "Спот нетто:", futuresNet: "Фьючерсы нетто:", strictKyc: "Строгий KYC (лицо + документ)", margin: "Кросс- и изолированная маржа", rewards: "🎁 Преимущества пользователя ожидают проверки", claim: "Проверьте центр преимуществ после регистрации", signup: "Зарегистрироваться на официальном сайте", region: "Регион · продукт · уровень аккаунта", eligibility: "Проверьте доступность до официального процесса", accountTerms: "Проверьте условия аккаунта и официальные источники", netHint: "Реальная стоимость после вычета преимущества", reserveHint: "Проверка резервов через дерево Merkle", kycHint: "Уровень проверки и сложность процесса", rewardHint: "Купоны и пакет для новых пользователей", fewerMetrics: "Показать меньше метрик", fullMetrics: "Показать всю количественную матрицу", officialAction: "Официальное действие", antiPhishingPortal: "Официальный антифишинговый портал" },
-    id: { review: "Tinjau detail verifikasi dan batas", spotNet: "Spot net:", futuresNet: "Futures net:", strictKyc: "KYC ketat (wajah + ID)", margin: "Margin cross dan isolated", rewards: "🎁 Manfaat pengguna menunggu verifikasi", claim: "Periksa pusat manfaat setelah daftar", signup: "Daftar di situs resmi", region: "Wilayah · produk · level akun", eligibility: "Periksa kelayakan sebelum alur resmi", accountTerms: "Periksa ketentuan akun resmi dan sumber", netHint: "Biaya riil setelah manfaat dikurangi", reserveHint: "Verifikasi cadangan pohon Merkle", kycHint: "Level verifikasi dan friksi proses", rewardHint: "Voucher dan paket pengguna baru", fewerMetrics: "Tampilkan lebih sedikit metrik", fullMetrics: "Lihat matriks kuantitatif lengkap", officialAction: "Aksi resmi", antiPhishingPortal: "Portal resmi anti-phishing" },
-    vi: { review: "Xem chi tiết xác minh và giới hạn", spotNet: "Spot ròng:", futuresNet: "Futures ròng:", strictKyc: "KYC nghiêm ngặt (khuôn mặt + ID)", margin: "Ký quỹ chéo và cô lập", rewards: "🎁 Ưu đãi người dùng chờ xác minh", claim: "Kiểm tra trung tâm ưu đãi sau khi đăng ký", signup: "Đăng ký trên trang chính thức", region: "Khu vực · sản phẩm · cấp tài khoản", eligibility: "Kiểm tra điều kiện trước luồng chính thức", accountTerms: "Kiểm tra điều kiện tài khoản và nguồn chính thức", netHint: "Chi phí thực sau khi trừ ưu đãi", reserveHint: "Xác minh dự trữ bằng cây Merkle", kycHint: "Cấp xác minh và độ phức tạp", rewardHint: "Phiếu thưởng và gói cho người dùng mới", fewerMetrics: "Hiển thị ít chỉ số hơn", fullMetrics: "Xem toàn bộ ma trận định lượng", officialAction: "Hành động chính thức", antiPhishingPortal: "Cổng chính thức chống lừa đảo" },
-    it: { review: "Rivedi dettagli e limiti", spotNet: "Spot netto:", futuresNet: "Futures netto:", strictKyc: "KYC rigoroso (volto + documento)", margin: "Margine cross e isolato", rewards: "🎁 Vantaggi utente in attesa di verifica", claim: "Controlla il centro vantaggi dopo l’iscrizione", signup: "Registrati sul sito ufficiale", region: "Regione · prodotto · livello account", eligibility: "Verifica l’idoneità prima del flusso ufficiale", accountTerms: "Controlla termini account e fonti ufficiali", netHint: "Costo reale dopo la deduzione del vantaggio", reserveHint: "Verifica riserve con albero Merkle", kycHint: "Livello di verifica e attrito", rewardHint: "Coupon e pacchetto nuovi utenti", fewerMetrics: "Mostra meno metriche", fullMetrics: "Vedi matrice quantitativa completa", officialAction: "Azione ufficiale", antiPhishingPortal: "Portale ufficiale anti-phishing" },
+    en: { review: "Review verification details and limits", spotNet: "Spot net:", futuresNet: "Futures net:", strictKyc: "Strict KYC (Face + ID)", margin: "Cross and isolated margin", rewards: " User rewards pending verification", claim: "Check the rewards hub after signup", signup: "Sign up on the official site", region: "Region · product · account tier", eligibility: "Verify eligibility before the official flow", accountTerms: "Check official account terms and sources", netHint: "Real cost after user-benefit deduction", reserveHint: "Merkle-tree reserve verification", kycHint: "Verification tier and process friction", rewardHint: "New-user vouchers and reward pack", fewerMetrics: "Show fewer metrics", fullMetrics: "View full quantitative matrix", officialAction: "Official action", antiPhishingPortal: "Anti-phishing official portal" },
+    "zh-Hans": { review: "展开核验依据与限制", spotNet: "现货净:", futuresNet: "合约净:", strictKyc: "严格实名（证件 + 人脸）", margin: "全仓与逐仓保证金", rewards: " 用户奖励待官方核验", claim: "专属开户后进入福利中心确认", signup: "在官网注册", region: "地区 · 产品 · 账户等级", eligibility: "先核对地区资格", accountTerms: "以官方账户条件和来源核验为准", netHint: "返佣扣减后的实付到手成本", reserveHint: "默克尔树链上资金透明证明", kycHint: "合规开户认证与出入金门槛", rewardHint: "新手充值与交易任务礼包", fewerMetrics: "收起次要指标", fullMetrics: "查看完整量化指标矩阵", officialAction: "官方直达开户通道", antiPhishingPortal: "带专属防伪邀请码直达开户" },
+    "zh-Hant": { review: "展開核驗依據與限制", spotNet: "現貨淨:", futuresNet: "合約淨:", strictKyc: "嚴格實名（證件 + 人臉）", margin: "全倉與逐倉保證金", rewards: " 用戶獎勵待官方核驗", claim: "完成專屬開戶後前往福利中心確認", signup: "在官網註冊", region: "地區 · 產品 · 帳戶等級", eligibility: "先核對地區資格", accountTerms: "以官方帳戶條件和來源核驗為準", netHint: "返傭扣減後的實付到手成本", reserveHint: "默克爾樹鏈上資金透明證明", kycHint: "合規開戶認證與出入金門檻", rewardHint: "新手充值與交易任務禮包", fewerMetrics: "收起次要指標", fullMetrics: "查看完整量化指標矩陣", officialAction: "官方直達開戶通道", antiPhishingPortal: "使用專屬防偽邀請碼直達開戶" },
+    es: { review: "Revisar verificaciones y límites", spotNet: "Coste neto spot:", futuresNet: "Coste neto de futuros:", strictKyc: "KYC estricto (rostro + documento)", margin: "Margen cruzado y aislado", rewards: " Beneficios del usuario pendientes de verificación", claim: "Comprueba el centro de beneficios después del registro", signup: "Registrarse en el sitio oficial", region: "Región · producto · nivel de cuenta", eligibility: "Verifica la elegibilidad antes del flujo oficial", accountTerms: "Comprobar condiciones de cuenta y fuentes oficiales", netHint: "Coste real después de descontar beneficios", reserveHint: "Verificación de reservas mediante árbol de Merkle", kycHint: "Nivel de verificación y fricción del proceso", rewardHint: "Cupones y paquete para nuevos usuarios", fewerMetrics: "Mostrar menos métricas", fullMetrics: "Mostrar toda la matriz cuantitativa", officialAction: "Acción oficial", antiPhishingPortal: "Portal oficial contra el phishing" },
+    "pt-BR": { review: "Revisar verificações e limites", spotNet: "Spot líquido:", futuresNet: "Futuros líquido:", strictKyc: "KYC rígido (rosto + documento)", margin: "Margem cruzada e isolada", rewards: " Benefícios do usuário aguardam verificação", claim: "Confira a central de benefícios após o cadastro", signup: "Cadastrar no site oficial", region: "Região · produto · nível da conta", eligibility: "Verifique a elegibilidade antes do fluxo oficial", accountTerms: "Confira termos oficiais da conta e fontes", netHint: "Custo real após deduzir benefícios", reserveHint: "Verificação de reservas por árvore Merkle", kycHint: "Nível de verificação e fricção do processo", rewardHint: "Cupons e pacote para novos usuários", fewerMetrics: "Mostrar menos métricas", fullMetrics: "Ver matriz quantitativa completa", officialAction: "Ação oficial", antiPhishingPortal: "Portal oficial anti-phishing" },
+    fr: { review: "Vérifier détails et limites", spotNet: "Net spot :", futuresNet: "Net futures :", strictKyc: "KYC strict (visage + document)", margin: "Marge croisée et isolée", rewards: " Avantages utilisateur en attente de vérification", claim: "Vérifiez le centre d’avantages après inscription", signup: "S’inscrire sur le site officiel", region: "Région · produit · niveau de compte", eligibility: "Vérifiez l’éligibilité avant le parcours officiel", accountTerms: "Vérifier conditions de compte et sources officielles", netHint: "Coût réel après déduction de l’avantage", reserveHint: "Vérification des réserves par arbre de Merkle", kycHint: "Niveau de vérification et friction", rewardHint: "Coupons et pack nouveaux utilisateurs", fewerMetrics: "Afficher moins d’indicateurs", fullMetrics: "Voir toute la matrice quantitative", officialAction: "Action officielle", antiPhishingPortal: "Portail officiel anti-hameçonnage" },
+    de: { review: "Prüfdetails und Limits ansehen", spotNet: "Spot netto:", futuresNet: "Futures netto:", strictKyc: "Strenges KYC (Gesicht + Ausweis)", margin: "Cross- und Isolated-Margin", rewards: " Nutzervorteile warten auf Prüfung", claim: "Nach Anmeldung im Vorteilsbereich prüfen", signup: "Auf offizieller Website registrieren", region: "Region · Produkt · Kontostufe", eligibility: "Eignung vor dem offiziellen Ablauf prüfen", accountTerms: "Offizielle Kontobedingungen und Quellen prüfen", netHint: "Reale Kosten nach Abzug des Vorteils", reserveHint: "Reserveprüfung per Merkle-Baum", kycHint: "Verifizierungsstufe und Prozessaufwand", rewardHint: "Gutscheine und Paket für neue Nutzer", fewerMetrics: "Weniger Kennzahlen anzeigen", fullMetrics: "Gesamte quantitative Matrix anzeigen", officialAction: "Offizielle Aktion", antiPhishingPortal: "Offizielles Anti-Phishing-Portal" },
+    ja: { review: "確認内容と制限を見る", spotNet: "現物純額:", futuresNet: "先物純額:", strictKyc: "厳格なKYC（顔認証・本人確認）", margin: "クロス・分離マージン", rewards: " ユーザー特典は確認待ち", claim: "登録後に特典センターで確認", signup: "公式サイトで登録", region: "地域・商品・アカウント階層", eligibility: "公式手続き前に資格を確認", accountTerms: "公式アカウント条件と出典で確認", netHint: "特典差し引き後の実質コスト", reserveHint: "Merkleツリーによる準備金検証", kycHint: "本人確認レベルと手続き負担", rewardHint: "新規ユーザー向けバウチャーとボックス", fewerMetrics: "指標を折りたたむ", fullMetrics: "量的指標をすべて表示", officialAction: "公式アクション", antiPhishingPortal: "フィッシング対策済み公式入口" },
+    ko: { review: "검증 내용과 제한 보기", spotNet: "현물 순비용:", futuresNet: "선물 순비용:", strictKyc: "엄격한 KYC (얼굴·신분증)", margin: "교차·격리 마진", rewards: " 사용자 혜택 확인 대기", claim: "가입 후 보상 센터에서 확인", signup: "공식 사이트에서 가입", region: "지역·상품·계정 등급", eligibility: "공식 절차 전에 자격 확인", accountTerms: "공식 계정 조건과 출처로 확인", netHint: "혜택 차감 후 실제 비용", reserveHint: "Merkle 트리 준비금 검증", kycHint: "인증 단계와 절차 부담", rewardHint: "신규 사용자 바우처 및 보상 상자", fewerMetrics: "지표 접기", fullMetrics: "전체 정량 지표 보기", officialAction: "공식 작업", antiPhishingPortal: "피싱 방지 공식 포털" },
+    ar: { review: "مراجعة تفاصيل التحقق والحدود", spotNet: "صافي الفوري:", futuresNet: "صافي العقود:", strictKyc: "KYC صارم (وجه + هوية)", margin: "هامش متقاطع ومعزول", rewards: " مزايا المستخدم بانتظار التحقق", claim: "تحقق من مركز المزايا بعد التسجيل", signup: "التسجيل في الموقع الرسمي", region: "المنطقة · المنتج · مستوى الحساب", eligibility: "تحقق من الأهلية قبل المسار الرسمي", accountTerms: "تحقق من شروط الحساب والمصادر الرسمية", netHint: "التكلفة الفعلية بعد خصم الميزة", reserveHint: "تحقق الاحتياطيات عبر شجرة Merkle", kycHint: "مستوى التحقق وسهولة الإجراء", rewardHint: "قسائم وحزمة للمستخدمين الجدد", fewerMetrics: "عرض مؤشرات أقل", fullMetrics: "عرض المصفوفة الكمية كاملة", officialAction: "إجراء رسمي", antiPhishingPortal: "بوابة رسمية لمكافحة التصيد" },
+    tr: { review: "Doğrulama ayrıntılarını ve sınırları incele", spotNet: "Spot net:", futuresNet: "Vadeli net:", strictKyc: "Sıkı KYC (Yüz + Kimlik)", margin: "Çapraz ve izole marjin", rewards: " Kullanıcı avantajı doğrulama bekliyor", claim: "Kayıttan sonra ödül merkezinden kontrol edin", signup: "Resmî sitede kayıt ol", region: "Bölge · ürün · hesap seviyesi", eligibility: "Resmî akıştan önce uygunluğu doğrulayın", accountTerms: "Resmî hesap koşulları ve kaynaklarla doğrulayın", netHint: "Avantaj düşüldükten sonra gerçek maliyet", reserveHint: "Merkle ağacı rezerv doğrulaması", kycHint: "Doğrulama seviyesi ve işlem yükü", rewardHint: "Yeni kullanıcı kuponları ve ödül paketi", fewerMetrics: "Daha az metrik göster", fullMetrics: "Tam nicel matrisi göster", officialAction: "Resmî işlem", antiPhishingPortal: "Kimlik avına karşı resmî portal" },
+    ru: { review: "Проверить детали и ограничения", spotNet: "Спот нетто:", futuresNet: "Фьючерсы нетто:", strictKyc: "Строгий KYC (лицо + документ)", margin: "Кросс- и изолированная маржа", rewards: " Преимущества пользователя ожидают проверки", claim: "Проверьте центр преимуществ после регистрации", signup: "Зарегистрироваться на официальном сайте", region: "Регион · продукт · уровень аккаунта", eligibility: "Проверьте доступность до официального процесса", accountTerms: "Проверьте условия аккаунта и официальные источники", netHint: "Реальная стоимость после вычета преимущества", reserveHint: "Проверка резервов через дерево Merkle", kycHint: "Уровень проверки и сложность процесса", rewardHint: "Купоны и пакет для новых пользователей", fewerMetrics: "Показать меньше метрик", fullMetrics: "Показать всю количественную матрицу", officialAction: "Официальное действие", antiPhishingPortal: "Официальный антифишинговый портал" },
+    id: { review: "Tinjau detail verifikasi dan batas", spotNet: "Spot net:", futuresNet: "Futures net:", strictKyc: "KYC ketat (wajah + ID)", margin: "Margin cross dan isolated", rewards: " Manfaat pengguna menunggu verifikasi", claim: "Periksa pusat manfaat setelah daftar", signup: "Daftar di situs resmi", region: "Wilayah · produk · level akun", eligibility: "Periksa kelayakan sebelum alur resmi", accountTerms: "Periksa ketentuan akun resmi dan sumber", netHint: "Biaya riil setelah manfaat dikurangi", reserveHint: "Verifikasi cadangan pohon Merkle", kycHint: "Level verifikasi dan friksi proses", rewardHint: "Voucher dan paket pengguna baru", fewerMetrics: "Tampilkan lebih sedikit metrik", fullMetrics: "Lihat matriks kuantitatif lengkap", officialAction: "Aksi resmi", antiPhishingPortal: "Portal resmi anti-phishing" },
+    vi: { review: "Xem chi tiết xác minh và giới hạn", spotNet: "Spot ròng:", futuresNet: "Futures ròng:", strictKyc: "KYC nghiêm ngặt (khuôn mặt + ID)", margin: "Ký quỹ chéo và cô lập", rewards: " Ưu đãi người dùng chờ xác minh", claim: "Kiểm tra trung tâm ưu đãi sau khi đăng ký", signup: "Đăng ký trên trang chính thức", region: "Khu vực · sản phẩm · cấp tài khoản", eligibility: "Kiểm tra điều kiện trước luồng chính thức", accountTerms: "Kiểm tra điều kiện tài khoản và nguồn chính thức", netHint: "Chi phí thực sau khi trừ ưu đãi", reserveHint: "Xác minh dự trữ bằng cây Merkle", kycHint: "Cấp xác minh và độ phức tạp", rewardHint: "Phiếu thưởng và gói cho người dùng mới", fewerMetrics: "Hiển thị ít chỉ số hơn", fullMetrics: "Xem toàn bộ ma trận định lượng", officialAction: "Hành động chính thức", antiPhishingPortal: "Cổng chính thức chống lừa đảo" },
+    it: { review: "Rivedi dettagli e limiti", spotNet: "Spot netto:", futuresNet: "Futures netto:", strictKyc: "KYC rigoroso (volto + documento)", margin: "Margine cross e isolato", rewards: " Vantaggi utente in attesa di verifica", claim: "Controlla il centro vantaggi dopo l’iscrizione", signup: "Registrati sul sito ufficiale", region: "Regione · prodotto · livello account", eligibility: "Verifica l’idoneità prima del flusso ufficiale", accountTerms: "Controlla termini account e fonti ufficiali", netHint: "Costo reale dopo la deduzione del vantaggio", reserveHint: "Verifica riserve con albero Merkle", kycHint: "Livello di verifica e attrito", rewardHint: "Coupon e pacchetto nuovi utenti", fewerMetrics: "Mostra meno metriche", fullMetrics: "Vedi matrice quantitativa completa", officialAction: "Azione ufficiale", antiPhishingPortal: "Portale ufficiale anti-phishing" },
   }[k] || {};
   return t[key] || fallback;
 };
@@ -1590,7 +1590,7 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
       <div className="v3-por-card">
         <div className="v3-por-header">
           <div className="v3-por-badge-row">
-            <span className="v3-por-shield-badge">🛡️ {isZh ? zhText(locale, "资产偿付能力审计", "資產償付能力稽核") : (ui.badge || "Solvency & PoR")}</span>
+            <span className="v3-por-shield-badge"> {isZh ? zhText(locale, "资产偿付能力审计", "資產償付能力稽核") : (ui.badge || "Solvency & PoR")}</span>
             <span className="v3-por-status-pill">{porVerified ? (isZh ? zhText(locale, "官方来源待复核", "官方來源待複核") : (ui.sourcePending || "Official source pending review")) : localePending(locale)}</span>
           </div>
           <h2 className="v3-por-title">
@@ -1683,7 +1683,7 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
 
         <div className="v3-por-footer">
           <div className="v3-por-cold-warning">
-            <span className="v3-warning-icon">⚠️</span>
+            <span className="v3-warning-icon"></span>
             <div>
               <strong>{isZh ? zhText(locale, "自存私钥安全准则 (Not Your Keys, Not Your Coins)", "自存私鑰安全準則 (Not Your Keys, Not Your Coins)") : (ui.principle || "Non-Custodial Security Principle")}</strong>
               <p>
@@ -1768,7 +1768,7 @@ function VenueAntiPhishingSecurity({ venue, locale, db, partner, officialDomain,
       <div className="v3-security-card">
         <div className="v3-security-header">
           <div className="v3-security-badge-row">
-            <span className="v3-security-tag">🔒 {isZh ? zhText(locale, "官方域名来源记录与反钓鱼核对", "官方網域來源記錄與反釣魚核對") : (securityUi.tag || "Anti-Phishing & Recorded Domains")}</span>
+            <span className="v3-security-tag"> {isZh ? zhText(locale, "官方域名来源记录与反钓鱼核对", "官方網域來源記錄與反釣魚核對") : (securityUi.tag || "Anti-Phishing & Recorded Domains")}</span>
             <span className="v3-verified-badge">{isZh ? zhText(locale, "NexuAlpha 来源记录已核对", "NexuAlpha 來源記錄已核對") : (securityUi.verified || "NexuAlpha source record checked")}</span>
           </div>
           <h2 className="v3-security-title">
@@ -1809,7 +1809,7 @@ function VenueAntiPhishingSecurity({ venue, locale, db, partner, officialDomain,
             <div className="v3-mirrors-list">
               {recordedAlternateDomains.length ? recordedAlternateDomains.map((m) => (
                 <div key={m} className="v3-mirror-item">
-                  <span className="v3-mirror-lock">🔒</span>
+                  <span className="v3-mirror-lock"></span>
                   <code translate="no">{m}</code>
                   <span className="v3-mirror-badge">{isZh ? "来源记录" : (securityUi.verifiedMirror || "Recorded")}</span>
                 </div>
@@ -1825,7 +1825,7 @@ function VenueAntiPhishingSecurity({ venue, locale, db, partner, officialDomain,
 
         <div className="v3-security-tools-bar">
           <div className="v3-tool-left">
-            <span className="v3-tool-icon">🔍</span>
+            <span className="v3-tool-icon"></span>
             <div>
               <strong>{isZh ? "官方渠道真伪验证器 (Official Verification Channel)" : (securityUi.tool || "Official Channel Verification Tool")}</strong>
               <p>{isZh ? "收到自称官方客服的 Telegram 私聊、邮件或网址？请使用官方验证工具一键核验对方身份真伪。" : (securityUi.toolBody || "Verify Telegram IDs, emails, domain names or phone numbers directly through official verifier.")}</p>
@@ -1957,11 +1957,11 @@ function VenueTelegramMonitorSection({ venue, locale, market, product, rebatePer
           </a>
           <div className="v3-tg-links-sub">
             <a href={TELEGRAM_CONFIG.channelUrl} target="_blank" rel="noopener noreferrer" className="v3-tg-sublink" data-cta-kind="telegram" data-cta-placement="venue-telegram-channel" data-growth-decision="telegram_channel" data-growth-placement="venue-telegram">
-              📢 {isZh ? zhText(locale, "官方情报频道", "官方情報頻道") : (telegramUi.channel || "Official Channel")}
+               {isZh ? zhText(locale, "官方情报频道", "官方情報頻道") : (telegramUi.channel || "Official Channel")}
             </a>
             <span className="v3-tg-dot">·</span>
             <a href={TELEGRAM_CONFIG.groupUrl} target="_blank" rel="noopener noreferrer" className="v3-tg-sublink" data-cta-kind="telegram" data-cta-placement="venue-telegram-group" data-growth-decision="telegram_group" data-growth-placement="venue-telegram">
-              💬 {isZh ? zhText(locale, "VIP 交易员交流群", "VIP 交易員交流群") : (telegramUi.community || "VIP Community")}
+               {isZh ? zhText(locale, "VIP 交易员交流群", "VIP 交易員交流群") : (telegramUi.community || "VIP Community")}
             </a>
           </div>
         </div>
@@ -2698,7 +2698,7 @@ export function CompareGoldMatrixNav({ currentSlugs = [], locale = "en", market,
       </summary>
       <div className="v3-gold-matrix-header">
         <span className="v3-gold-matrix-eyebrow">
-          ⚡ {isZh ? "精选平台对比路径" : (matrixText.curatedTitle || "CURATED PLATFORM COMPARISONS")}
+           {isZh ? "精选平台对比路径" : (matrixText.curatedTitle || "CURATED PLATFORM COMPARISONS")}
         </span>
         <span className="v3-gold-matrix-hint">
           {isZh ? "按来源日期核对费率、产品与地区条件" : (matrixText.curatedHint || "Review fees, products and regional conditions by source date")}
@@ -2818,7 +2818,7 @@ export function CompareDecisionGuide({ profiles, locale = "en", market, product,
     <section className="v2-section v3-compare-decision-section" id="decision-guide">
       <div className="v3-decision-lead">
         <span className="v3-decision-eyebrow">
-          🎯 {isZh ? "开户前选型清单" : "PRE-SIGNUP DECISION CHECKLIST"}
+           {isZh ? "开户前选型清单" : "PRE-SIGNUP DECISION CHECKLIST"}
         </span>
         <h2 className="v3-decision-title">
           {isZh ? `${nameA} 与 ${nameB}：哪些条件需要逐项比较？` : `${pA.name} vs ${pB.name}: which conditions should you compare?`}
@@ -2853,7 +2853,7 @@ export function CompareDecisionGuide({ profiles, locale = "en", market, product,
           <ul className="v3-decision-bullets">
             {leftData.map((item, idx) => (
               <li key={idx} className="v3-decision-bullet">
-                <span className="v3-decision-bullet-icon">✔</span>
+                <span className="v3-decision-bullet-icon"></span>
                 <span>{sanitizePublicText(item)}</span>
               </li>
             ))}
@@ -2904,7 +2904,7 @@ export function CompareDecisionGuide({ profiles, locale = "en", market, product,
           <ul className="v3-decision-bullets">
             {rightData.map((item, idx) => (
               <li key={idx} className="v3-decision-bullet">
-                <span className="v3-decision-bullet-icon">✔</span>
+                <span className="v3-decision-bullet-icon"></span>
                 <span>{sanitizePublicText(item)}</span>
               </li>
             ))}
@@ -2998,7 +2998,7 @@ export function CompareFaqSection({ profiles, locale = "en" }) {
       <div className="v3-faq-card">
         <div className="v3-faq-card__header">
           <span className="v3-faq-card__eyebrow">
-            ❓ {compareFaqText(locale, "eyebrow")}
+             {compareFaqText(locale, "eyebrow")}
           </span>
           <h2 className="v3-faq-card__title">
             {compareFaqText(locale, "title", { nameA, nameB })}
@@ -3146,7 +3146,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
     const kycSummary = pDb.kycSummary?.[locale] || localePending(locale);
 
     // 迎新礼包
-    const welcomeReward = pDb.welcomeRewardBadge?.[locale] || pDb.welcomeRewardBadge?.["zh-Hans"] || (pDb.welcomeBonusUsdt ? `🎁 $${pDb.welcomeBonusUsdt} USDT` : null);
+    const welcomeReward = pDb.welcomeRewardBadge?.[locale] || pDb.welcomeRewardBadge?.["zh-Hans"] || (pDb.welcomeBonusUsdt ? ` $${pDb.welcomeBonusUsdt} USDT` : null);
     const welcomeBonusUsdt = null;
 
     // 注册直达与专属码
@@ -3205,7 +3205,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
   const maxLev = Math.max(...venueData.map((d) => d.leverageNumeric));
   const hasLevDiff = venueData.some((d) => d.leverageNumeric !== maxLev);
 
-  const hasKnownWelcomeRewardForVenue = (d) => Boolean(d.welcomeBonusUsdt || (d.welcomeReward && d.welcomeReward !== compareDetailPhrase(locale, "rewards", "🎁 User rewards pending verification")));
+  const hasKnownWelcomeRewardForVenue = (d) => Boolean(d.welcomeBonusUsdt || (d.welcomeReward && d.welcomeReward !== compareDetailPhrase(locale, "rewards", " User rewards pending verification")));
   const matrixAux = compareMatrixAuxCopy(locale);
   const metricRows = [
     { key: "spot", label: isZh ? zhText(locale, "现货 Taker / Maker 费率", "現貨 Taker / Maker 費率") : (matrix.spot || "Spot Taker / Maker Fee"), hint: isZh ? zhText(locale, "现货基础吃单与挂单费率", "現貨基礎吃單與掛單費率") : (matrix.hintSpot || "Standard spot transaction schedule"), hasKnown: spotCandidates.length > 0 },
@@ -3248,9 +3248,6 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
   return (
     <section className="v2-section v3-metric-matrix-section" id="hardcore-matrix">
       <div className="v3-matrix-header">
-        <span className="v3-matrix-eyebrow">
-          ⚡ {isZh ? zhText(locale, "硬核量化对决矩阵 · HARDCORE METRIC MATRIX", "硬核量化對決矩陣 · HARDCORE METRIC MATRIX") : (shortLabels.matrix || "HARDCORE METRIC MATRIX · QUANTITATIVE PK")}
-        </span>
         <h2 className="v3-matrix-title">
           {matrixTitleCopy}
         </h2>
@@ -3263,7 +3260,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
       <div className="v3-matrix-jump">
         <label className="v3-matrix-jump__label" htmlFor="matrix-metric-select">{matrix.metrics}</label>
         <select className="v3-matrix-jump__select" id="matrix-metric-select" defaultValue="" onChange={(event) => { jumpToMetric(event.currentTarget.value); event.currentTarget.value = ""; }}>
-          <option value="" disabled aria-label={matrix.metrics}>—</option>
+          <option value="" disabled aria-label={matrix.metrics}>{matrix.jump || matrix.metrics}</option>
           {metricRows.map((row) => <option key={row.key} value={row.key}>{row.hasKnown ? row.label : `${row.label} · ${localePending(locale)}`}</option>)}
         </select>
       </div>
@@ -3436,7 +3433,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-por-pill${d.porCoverageRatio || d.proofOfReserves ? "" : " is-pending"}`}>
-                        {(d.porCoverageRatio || d.proofOfReserves) && <span className="v3-shield-icon" aria-hidden="true">🛡️</span>}
+                        {(d.porCoverageRatio || d.proofOfReserves) && <span className="v3-shield-icon" aria-hidden="true"></span>}
                         <span>{d.porCoverageRatio || (d.proofOfReserves ? (isZh ? "100%+ 充足" : "100%+ PoR") : localePending(locale))}</span>
                         {isWinner && <span className="v3-winner-badge v3-winner-badge--green">{isZh ? "★ 储备最高" : "★ Top Reserves"}</span>}
                       </span>
@@ -3525,13 +3522,13 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                 <span className="v3-matrix-dim-hint">{rowMeta("bonus").hint}</span>
               </th>
               {venueData.map((d) => {
-                const hasKnownWelcomeReward = Boolean(d.welcomeBonusUsdt || (d.welcomeReward && d.welcomeReward !== compareDetailPhrase(locale, "rewards", "🎁 User rewards pending verification")));
+                const hasKnownWelcomeReward = Boolean(d.welcomeBonusUsdt || (d.welcomeReward && d.welcomeReward !== compareDetailPhrase(locale, "rewards", " User rewards pending verification")));
                 return (
                 <td role="cell" headers={`matrix-row-bonus matrix-column-${d.slug}`} key={d.slug} className="v3-matrix-td--data">
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
                   <div className="v3-matrix-cell-stack">
                     <span className={`v3-bonus-badge${hasKnownWelcomeReward ? "" : " is-pending"}`}>
-                      {d.welcomeReward || (isZh ? "🎁 用户奖励待官方核验" : compareDetailPhrase(locale, "rewards", "🎁 User rewards pending verification"))}
+                      {d.welcomeReward || (isZh ? " 用户奖励待官方核验" : compareDetailPhrase(locale, "rewards", " User rewards pending verification"))}
                     </span>
                     <span className="v3-matrix-sub-val">
                       {hasKnownWelcomeReward
@@ -3689,7 +3686,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
             className={isPriorityTwoVenueDirectAnswer ? "v3-compare-reading-metadata" : "v3-gold-pair-banner"}
           >
             <span style={{ color: "#fdb022", fontWeight: 800, fontSize: "0.875rem", letterSpacing: "0.02em" }}>
-              🏆 {[activeGoldPair.left, activeGoldPair.right].every((slug) => publicVenueAccess(slug, locale).commercialClaim.status === "verified" && hasReviewedDecisionSource(slug))
+               {[activeGoldPair.left, activeGoldPair.right].every((slug) => publicVenueAccess(slug, locale).commercialClaim.status === "verified" && hasReviewedDecisionSource(slug))
                 ? (activeGoldPair.title[locKey] || activeGoldPair.title.en)
                 : (isZhLoc ? zhText(locale, "官方资料对比", "官方資料對比") : (compareLabels.official || ({ de: "Vergleich mit offiziellen Quellen", ja: "公式ソース比較", ko: "공식 출처 비교", tr: "Resmî kaynak karşılaştırması", ar: "مقارنة المصادر الرسمية", "pt-BR": "Comparação de fontes oficiais" }[locale] || "Official-source comparison")))}
             </span>
@@ -3808,7 +3805,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
                     <div className="v3-versus-sources__links">
                       {pSources.slice(0, 2).map((src) => (
                         <a key={src.id || src.url} href={src.url} target="_blank" rel="noopener noreferrer" className="v3-versus-source-link">
-                          <span className="v3-versus-source-bullet">🔗</span>
+                          <span className="v3-versus-source-bullet"></span>
                           <span className="v3-versus-source-name">{src.title}</span>
                           <span aria-hidden="true">↗</span>
                         </a>

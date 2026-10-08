@@ -183,7 +183,7 @@ export function CampaignRadar({ locale = "en" }) {
             </div>
 
             <div className="campaign-card__urgency-bar">
-              <span className="campaign-card__timer">⏱ {item.checkedAt ? `${localized ? (locale === "ja" ? "情報確認：" : locale === "ko" ? "출처 검토: " : locale === "tr" ? "Kaynak inceleme: " : isZh ? "来源审阅：" : "Source reviewed: ") : "Source reviewed: "}${item.checkedAt}` : (localized ? (locale === "ja" ? "確認日未設定" : locale === "ko" ? "검토 날짜 없음" : locale === "tr" ? "İnceleme tarihi yok" : isZh ? "来源日期待补充" : "Review date unavailable") : "Review date unavailable")}</span>
+              <span className="campaign-card__timer"> {item.checkedAt ? `${localized ? (locale === "ja" ? "情報確認：" : locale === "ko" ? "출처 검토: " : locale === "tr" ? "Kaynak inceleme: " : isZh ? "来源审阅：" : "Source reviewed: ") : "Source reviewed: "}${item.checkedAt}` : (localized ? (locale === "ja" ? "確認日未設定" : locale === "ko" ? "검토 날짜 없음" : locale === "tr" ? "İnceleme tarihi yok" : isZh ? "来源日期待补充" : "Review date unavailable") : "Review date unavailable")}</span>
               <span className="campaign-card__quota">{localized ? (locale === "ja" ? "資格と期間は公式アカウントを確認" : locale === "ko" ? "자격과 기간은 공식 계정 기준" : locale === "tr" ? "Uygunluk ve süre resmî hesaba bağlıdır" : isZh ? "资格与期限需以官方账户为准" : "Eligibility and timing depend on the official account") : "Eligibility and timing depend on the official account"}</span>
             </div>
 

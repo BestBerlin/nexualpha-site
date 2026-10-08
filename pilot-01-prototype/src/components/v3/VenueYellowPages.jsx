@@ -1096,12 +1096,12 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
 
                 <div className="yellow-card__domain-row">
                   <div className="yellow-card__domain">
-                    <span aria-hidden="true">🔒</span>
+                    <span aria-hidden="true"></span>
                     <span translate="no" lang="en">{officialDomain}</span>
                   </div>
                   {porCoverage && (
                     <span className="yellow-card__por-pill" title={`Proof of Reserves: ${porCoverage}`}>
-                    🛡️ {porCoverage.split(" ")[0]}
+                     {porCoverage.split(" ")[0]}
                     </span>
                   )}
                 </div>
@@ -1150,7 +1150,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
                           onClick={(e) => handleCopyCode(inviteCode, `${venue.slug}-compact`, e)}
                         >
                           <strong translate="no" lang="en">{inviteCode}</strong>
-                          <span className="yellow-card__code-icon" aria-hidden="true">📋</span>
+                          <span className="yellow-card__code-icon" aria-hidden="true"></span>
                         </button>
                       </div>
                       {renderCopyFeedback(`${venue.slug}-compact`)}
@@ -1252,7 +1252,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
                             onClick={(e) => handleCopyCode(inviteCode, `${venue.slug}-directory`, e)}
                           >
                             <strong translate="no" lang="en">{inviteCode}</strong>
-                            <span className="yellow-card__code-icon" aria-hidden="true">📋</span>
+                            <span className="yellow-card__code-icon" aria-hidden="true"></span>
                           </button>
                         </div>
                         {renderCopyFeedback(`${venue.slug}-directory`)}

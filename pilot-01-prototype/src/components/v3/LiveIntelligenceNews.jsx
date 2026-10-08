@@ -273,7 +273,7 @@ export function LiveIntelligenceNews({ locale = "en" }) {
                 </svg>
                 {item.source}
               </span>
-              <span className="news-card__readtime">⏱ {item.readTime}</span>
+              <span className="news-card__readtime"> {item.readTime}</span>
             </footer>
           </article>
         ))}

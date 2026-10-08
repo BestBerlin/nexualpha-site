@@ -92,9 +92,9 @@ const TOPIC_LOCALE_COPY = {
       description: "قارن MEXC وGate.io وRaydium من خلال الوصول إلى المنتج، عقد الرمز، مسار السيولة، التكاليف المنشورة، مخاطر التفويض وشروط الخروج. يجب التحقق من الحملات والرسوم وأهلية الحساب في الصفحات الرسمية الحالية.",
       pills: ["فحص عقد الرمز والمجمع", "الرسوم المنشورة والفارق", "تفويض المحفظة وحدود MEV", "مسار الخروج والشروط الإقليمية"],
       painPoints: [
-        ["⚡", "1. قد تختلف حالة الإعلان والزوج وشروط الحساب", "قد يختلف الرمز بين الإعلان والإيداع وزوج التداول والسحب وحالة الحساب حسب المنطقة. تحقق من الإعلان الرسمي، الزوج، الشبكات، أهلية الحساب والقيود الإقليمية قبل استخدام دفتر أوامر أو مجمع."],
-        ["🥪", "2. MEV والانزلاق يحتاجان إلى فحص مسار الصفقة", "ابدأ بعنوان الرمز، عنوان المجمع، نتيجة التسعير، تأثير السعر، إعدادات الانزلاق وحالة الشبكة الحالية. المسارات الخاصة أو أدوات MEV إجراءات إضافية وليست ضمان تنفيذ."],
-        ["🕳️", "3. أذونات العقد والتفويض ومسار الخروج قد تكون غير واضحة", "يجب أن يغطي فحص عملة الميم صلاحيات mint أو owner، قيود النقل، حالة السيولة، تفويض المحفظة، الخروج إلى stablecoin ومسار الجسر. إذا تعذر التحقق فلا تحوله إلى وعد أمان أو عائد."],
+        ["", "1. قد تختلف حالة الإعلان والزوج وشروط الحساب", "قد يختلف الرمز بين الإعلان والإيداع وزوج التداول والسحب وحالة الحساب حسب المنطقة. تحقق من الإعلان الرسمي، الزوج، الشبكات، أهلية الحساب والقيود الإقليمية قبل استخدام دفتر أوامر أو مجمع."],
+        ["", "2. MEV والانزلاق يحتاجان إلى فحص مسار الصفقة", "ابدأ بعنوان الرمز، عنوان المجمع، نتيجة التسعير، تأثير السعر، إعدادات الانزلاق وحالة الشبكة الحالية. المسارات الخاصة أو أدوات MEV إجراءات إضافية وليست ضمان تنفيذ."],
+        ["", "3. أذونات العقد والتفويض ومسار الخروج قد تكون غير واضحة", "يجب أن يغطي فحص عملة الميم صلاحيات mint أو owner، قيود النقل، حالة السيولة، تفويض المحفظة، الخروج إلى stablecoin ومسار الجسر. إذا تعذر التحقق فلا تحوله إلى وعد أمان أو عائد."],
       ],
       evaluationPillars: [
         ["الإعلان والزوج وحالة التمويل", "راجع الإعلان الرسمي، زوج التداول، شبكة الإيداع، شبكة السحب وشروط الحساب الإقليمية كل على حدة."],
@@ -137,9 +137,9 @@ const TOPIC_LOCALE_COPY = {
         sourceNote: "このページを基準チェックリストとして使い、登録またはウォレット接続の前に関連する比較ページやプラットフォームプロフィールを開いてください。",
       },
       painPoints: [
-        ["📉", "1. レバレッジ倍率だけを見て実際のコストを見落とす", "無期限契約のコストは maker/taker 手数料だけではありません。資金調達率、スプレッド、スリッページ、清算価格、出金経路、口座階層を分けて確認します。"],
-        ["🔌", "2. ウォレット型 perps と取引所先物口座を混同する", "CEX 先物は本人確認、地域、口座階層、内部リスク管理に依存します。Perp DEX はネットワーク、担保、オラクル、ブリッジ、フロントエンド可用性を確認します。"],
-        ["🔄", "3. 資金調達率のキャリーを安全収益として扱う", "資金調達率は反転します。両建て手数料、送金、証拠金拘束、清算、プラットフォーム制限を悪い条件で試算してから建てます。"],
+        ["", "1. レバレッジ倍率だけを見て実際のコストを見落とす", "無期限契約のコストは maker/taker 手数料だけではありません。資金調達率、スプレッド、スリッページ、清算価格、出金経路、口座階層を分けて確認します。"],
+        ["", "2. ウォレット型 perps と取引所先物口座を混同する", "CEX 先物は本人確認、地域、口座階層、内部リスク管理に依存します。Perp DEX はネットワーク、担保、オラクル、ブリッジ、フロントエンド可用性を確認します。"],
+        ["", "3. 資金調達率のキャリーを安全収益として扱う", "資金調達率は反転します。両建て手数料、送金、証拠金拘束、清算、プラットフォーム制限を悪い条件で試算してから建てます。"],
       ],
       evaluationPillars: [
         ["公開手数料と資金調達率の出典", "公式手数料表、資金調達率の説明、決済周期、口座階層を確認し、単一の宣伝料率を最終コストとして扱いません。"],
@@ -180,9 +180,9 @@ const TOPIC_LOCALE_COPY = {
         sourceNote: "이 페이지를 기준 체크리스트로 사용한 뒤 가입 또는 지갑 연결 전에 관련 비교 페이지나 플랫폼 프로필을 여세요.",
       },
       painPoints: [
-        ["📉", "1. 레버리지 배율만 보고 실제 체결 비용을 놓침", "무기한 계약 비용은 maker/taker 수수료만이 아닙니다. 펀딩, 스프레드, 슬리피지, 청산가, 출금 경로, 계정 등급을 분리해 확인해야 합니다."],
-        ["🔌", "2. 지갑형 perp와 거래소 선물 계정을 혼동", "CEX 선물은 KYC, 지역, 계정 등급, 내부 리스크 통제에 의존합니다. Perp DEX는 네트워크, 담보, 오라클, 브리지, 프런트엔드 가용성을 확인합니다."],
-        ["🔄", "3. 펀딩 수익을 안전 수익으로 취급", "펀딩 방향은 바뀔 수 있습니다. 양쪽 수수료, 송금, 마진 점유, 청산, 플랫폼 제한을 나쁜 조건으로 계산해야 합니다."],
+        ["", "1. 레버리지 배율만 보고 실제 체결 비용을 놓침", "무기한 계약 비용은 maker/taker 수수료만이 아닙니다. 펀딩, 스프레드, 슬리피지, 청산가, 출금 경로, 계정 등급을 분리해 확인해야 합니다."],
+        ["", "2. 지갑형 perp와 거래소 선물 계정을 혼동", "CEX 선물은 KYC, 지역, 계정 등급, 내부 리스크 통제에 의존합니다. Perp DEX는 네트워크, 담보, 오라클, 브리지, 프런트엔드 가용성을 확인합니다."],
+        ["", "3. 펀딩 수익을 안전 수익으로 취급", "펀딩 방향은 바뀔 수 있습니다. 양쪽 수수료, 송금, 마진 점유, 청산, 플랫폼 제한을 나쁜 조건으로 계산해야 합니다."],
       ],
       evaluationPillars: [
         ["공개 수수료와 펀딩 출처", "공식 수수료표, 펀딩 문서, 정산 주기, 계정 등급 조건을 확인하고 하나의 광고 수수료를 최종 비용으로 보지 않습니다."],
@@ -223,9 +223,9 @@ const TOPIC_LOCALE_COPY = {
         sourceNote: "Bu sayfayı ana kontrol listesi olarak kullanın; kayıt veya cüzdan bağlantısından önce ilgili karşılaştırmayı ya da platform profilini açın.",
       },
       painPoints: [
-        ["📉", "1. Kaldıraca bakıp gerçek işlem maliyetini kaçırmak", "Perpetual maliyet maker/taker ücretinden ibaret değildir. Funding, spread, kayma, likidasyon fiyatı, çekim yolu ve hesap seviyesi sonucu değiştirir."],
-        ["🔌", "2. Cüzdan perps ile borsa vadeli hesaplarını karıştırmak", "CEX vadeli hesapları KYC, bölge, hesap seviyesi ve iç risk kurallarına bağlıdır. Perp DEX tarafında ağ, teminat, oracle, köprü ve arayüz uygunluğu kontrol edilir."],
-        ["🔄", "3. Funding carry işlemini güvenli gelir sanmak", "Funding yönü dönebilir. Çift taraflı ücret, transfer, marjin kullanımı, likidasyon ve platform kısıtları en kötü senaryoyla hesaplanmalıdır."],
+        ["", "1. Kaldıraca bakıp gerçek işlem maliyetini kaçırmak", "Perpetual maliyet maker/taker ücretinden ibaret değildir. Funding, spread, kayma, likidasyon fiyatı, çekim yolu ve hesap seviyesi sonucu değiştirir."],
+        ["", "2. Cüzdan perps ile borsa vadeli hesaplarını karıştırmak", "CEX vadeli hesapları KYC, bölge, hesap seviyesi ve iç risk kurallarına bağlıdır. Perp DEX tarafında ağ, teminat, oracle, köprü ve arayüz uygunluğu kontrol edilir."],
+        ["", "3. Funding carry işlemini güvenli gelir sanmak", "Funding yönü dönebilir. Çift taraflı ücret, transfer, marjin kullanımı, likidasyon ve platform kısıtları en kötü senaryoyla hesaplanmalıdır."],
       ],
       evaluationPillars: [
         ["Yayımlanmış ücret ve funding kaynakları", "Resmi ücret tablosunu, funding belgelerini, uzlaşma zamanını ve hesap seviyesi koşullarını kontrol edin; tek bir reklam oranını nihai maliyet saymayın."],
@@ -254,9 +254,9 @@ const TOPIC_LOCALE_COPY = {
       description: "Compara cuentas de futuros en exchanges y protocolos de perpetuos conectados por wallet por comisiones publicadas, funding, margen, liquidación, oráculo, acceso regional e identidad.",
       pills: ["Tabla de comisiones publicada", "Mecanismo de funding", "Reglas de margen y liquidación", "Condiciones de región e identidad"],
       painPoints: [
-        ["📉", "1. Mirar solo el apalancamiento y perder el coste real", "El coste de un perpetuo no se limita a maker/taker. Funding, spread, deslizamiento, precio de liquidación, retiros y nivel de cuenta cambian el resultado."],
-        ["🔌", "2. Mezclar perps con wallet y futuros de exchange", "Las cuentas CEX dependen de KYC, región, nivel y controles internos. Los Perp DEX requieren revisar red, colateral, oráculo, puente y disponibilidad del frontend."],
-        ["🔄", "3. Tratar el funding carry como ingreso seguro", "El funding puede invertirse. Las comisiones de ambos lados, transferencias, margen, liquidación y límites de plataforma deben modelarse en escenarios adversos."],
+        ["", "1. Mirar solo el apalancamiento y perder el coste real", "El coste de un perpetuo no se limita a maker/taker. Funding, spread, deslizamiento, precio de liquidación, retiros y nivel de cuenta cambian el resultado."],
+        ["", "2. Mezclar perps con wallet y futuros de exchange", "Las cuentas CEX dependen de KYC, región, nivel y controles internos. Los Perp DEX requieren revisar red, colateral, oráculo, puente y disponibilidad del frontend."],
+        ["", "3. Tratar el funding carry como ingreso seguro", "El funding puede invertirse. Las comisiones de ambos lados, transferencias, margen, liquidación y límites de plataforma deben modelarse en escenarios adversos."],
       ],
       evaluationPillars: [
         ["Fuentes de comisiones y funding", "Revisa tabla oficial, documentación de funding, cadencia de liquidación y nivel de cuenta; no conviertas una tarifa promocional en coste final."],
@@ -285,9 +285,9 @@ const TOPIC_LOCALE_COPY = {
       description: "Compare contas de futuros em corretoras e protocolos de perpétuos conectados por carteira por taxas publicadas, funding, margem, liquidação, oráculo, região e identidade.",
       pills: ["Tabela de taxas publicada", "Mecanismo de funding", "Regras de margem e liquidação", "Condições de região e identidade"],
       painPoints: [
-        ["📉", "1. Olhar só a alavancagem e perder o custo real", "O custo de perpétuos não é apenas maker/taker. Funding, spread, slippage, preço de liquidação, saques e nível de conta mudam o resultado."],
-        ["🔌", "2. Misturar perps com carteira e futuros de corretora", "Contas CEX dependem de KYC, região, nível e controles internos. Perp DEX exige revisar rede, colateral, oráculo, ponte e disponibilidade do frontend."],
-        ["🔄", "3. Tratar funding carry como renda segura", "O funding pode virar. Taxas dos dois lados, transferências, margem, liquidação e limites da plataforma precisam ser simulados em cenário adverso."],
+        ["", "1. Olhar só a alavancagem e perder o custo real", "O custo de perpétuos não é apenas maker/taker. Funding, spread, slippage, preço de liquidação, saques e nível de conta mudam o resultado."],
+        ["", "2. Misturar perps com carteira e futuros de corretora", "Contas CEX dependem de KYC, região, nível e controles internos. Perp DEX exige revisar rede, colateral, oráculo, ponte e disponibilidade do frontend."],
+        ["", "3. Tratar funding carry como renda segura", "O funding pode virar. Taxas dos dois lados, transferências, margem, liquidação e limites da plataforma precisam ser simulados em cenário adverso."],
       ],
       evaluationPillars: [
         ["Fontes de taxas e funding", "Verifique tabela oficial, documentação de funding, cadência de liquidação e nível da conta; não trate uma taxa promocional como custo final."],
@@ -327,9 +327,9 @@ const TOPIC_LOCALE_COPY = {
         sourceNote: "استخدم هذه الصفحة كقائمة تحقق، ثم افتح المقارنة أو ملف المنصة قبل التسجيل أو ربط المحفظة.",
       },
       painPoints: [
-        ["📉", "1. النظر إلى الرافعة فقط وإهمال تكلفة التنفيذ", "تكلفة العقود الدائمة ليست رسوم maker/taker فقط. التمويل والفارق والانزلاق وسعر التصفية ومسار السحب ومستوى الحساب كلها تغير النتيجة."],
-        ["🔌", "2. خلط عقود المحفظة مع حساب futures في CEX", "حسابات CEX تعتمد على KYC والمنطقة ومستوى الحساب وضوابط المخاطر الداخلية. مسارات Perp DEX تحتاج مراجعة الشبكة والضمان وoracle والجسر وتوفر الواجهة."],
-        ["🔄", "3. اعتبار التمويل دخلاً آمناً", "اتجاه التمويل قد ينعكس. يجب نمذجة رسوم الطرفين والتحويل واستخدام الهامش والتصفية وحدود المنصة في سيناريو سلبي."],
+        ["", "1. النظر إلى الرافعة فقط وإهمال تكلفة التنفيذ", "تكلفة العقود الدائمة ليست رسوم maker/taker فقط. التمويل والفارق والانزلاق وسعر التصفية ومسار السحب ومستوى الحساب كلها تغير النتيجة."],
+        ["", "2. خلط عقود المحفظة مع حساب futures في CEX", "حسابات CEX تعتمد على KYC والمنطقة ومستوى الحساب وضوابط المخاطر الداخلية. مسارات Perp DEX تحتاج مراجعة الشبكة والضمان وoracle والجسر وتوفر الواجهة."],
+        ["", "3. اعتبار التمويل دخلاً آمناً", "اتجاه التمويل قد ينعكس. يجب نمذجة رسوم الطرفين والتحويل واستخدام الهامش والتصفية وحدود المنصة في سيناريو سلبي."],
       ],
       evaluationPillars: [
         ["مصادر الرسوم والتمويل", "راجع جدول الرسوم الرسمي ووثائق التمويل ودورة التسوية وشروط مستوى الحساب؛ لا تجعل رقماً ترويجياً واحداً تكلفة نهائية."],
@@ -360,9 +360,9 @@ const TOPIC_LOCALE_COPY = {
       description: "地域資格、本人確認、同名銀行、法定通貨入出金経路、公式ルールの出典を確認してから、取引所口座を比較します。",
       pills: ["地域資格を確認", "本人確認条件を確認", "同名銀行ルートを確認", "公式ルール出典を確認"],
       painPoints: [
-        ["🏛️", "1. ブランド名だけで規制対象サービスと判断する", "同じブランドでも地域、法人、商品で条件が分かれます。登録前に契約主体、居住地、商品範囲を確認します。"],
-        ["🏦", "2. 法定通貨入出金を同じ条件と見なす", "銀行名義、カード、送金、ステーブルコイン経路は地域と口座状態で変わります。手数料と着金時間も別に確認します。"],
-        ["🔎", "3. 公開比較を公式資格確認の代わりにする", "NexuAlpha はチェックリストを示しますが、最終的な利用資格は公式口座画面と最新規約で確認します。"],
+        ["", "1. ブランド名だけで規制対象サービスと判断する", "同じブランドでも地域、法人、商品で条件が分かれます。登録前に契約主体、居住地、商品範囲を確認します。"],
+        ["", "2. 法定通貨入出金を同じ条件と見なす", "銀行名義、カード、送金、ステーブルコイン経路は地域と口座状態で変わります。手数料と着金時間も別に確認します。"],
+        ["", "3. 公開比較を公式資格確認の代わりにする", "NexuAlpha はチェックリストを示しますが、最終的な利用資格は公式口座画面と最新規約で確認します。"],
       ],
       evaluationPillars: [
         ["規制登録と法人", "監督機関登録、提供法人、商品範囲を地域別に確認します。"],
@@ -380,7 +380,7 @@ const TOPIC_LOCALE_COPY = {
       title: "법정화폐 접근성과 계정 자격: HashKey, Kraken, OKX",
       description: "지역 자격, 본인확인, 동일 명의 은행, 법정화폐 입출금 경로와 공식 규칙 출처를 확인한 뒤 거래소 계정을 비교합니다.",
       pills: ["지역 자격 확인", "본인확인 조건 확인", "동일 명의 은행 확인", "공식 규칙 출처 확인"],
-      painPoints: [["🏛️", "1. 브랜드명만 보고 규제 서비스를 판단", "같은 브랜드도 지역, 법인, 상품에 따라 조건이 다릅니다. 가입 전 계약 법인, 거주지, 상품 범위를 확인해야 합니다."], ["🏦", "2. 모든 법정화폐 입출금이 같은 조건이라고 가정", "은행 명의, 카드, 송금, 스테이블코인 경로는 지역과 계정 상태에 따라 달라집니다."], ["🔎", "3. 공개 비교를 공식 자격 확인으로 대체", "NexuAlpha는 체크리스트를 제공하지만 최종 자격은 공식 계정 화면과 최신 약관에서 확인해야 합니다."]],
+      painPoints: [["", "1. 브랜드명만 보고 규제 서비스를 판단", "같은 브랜드도 지역, 법인, 상품에 따라 조건이 다릅니다. 가입 전 계약 법인, 거주지, 상품 범위를 확인해야 합니다."], ["", "2. 모든 법정화폐 입출금이 같은 조건이라고 가정", "은행 명의, 카드, 송금, 스테이블코인 경로는 지역과 계정 상태에 따라 달라집니다."], ["", "3. 공개 비교를 공식 자격 확인으로 대체", "NexuAlpha는 체크리스트를 제공하지만 최종 자격은 공식 계정 화면과 최신 약관에서 확인해야 합니다."]],
       evaluationPillars: [["규제 등록과 법인", "감독기관 등록, 제공 법인, 상품 범위를 지역별로 확인합니다."], ["본인확인과 거주지", "KYC, 주소 증명, 계정 명의, 이용 국가를 분리해 확인합니다."], ["법정화폐 경로", "동일 명의 은행, 카드, 송금, 통화, 입출금 제한을 공식 조건으로 확인합니다."], ["비교 후 확인", "비교는 후보 정리용이며 계정 개설이나 입금 가능성을 보장하지 않습니다."]],
       pitfalls: [["라이선스가 모든 상품을 뜻하지는 않습니다", "현물, 파생상품, 법정화폐, 수탁 서비스는 같은 자격으로 제공되지 않을 수 있습니다."], ["은행 경로는 계정마다 달라질 수 있습니다", "동일 명의 은행, 통화, 한도, 처리 시간은 공식 화면에서 확인하세요."], ["지역 조건은 업데이트됩니다", "가입 전뿐 아니라 입금, 거래, 출금 전에도 조건을 다시 확인하세요."]],
       faqs: [["이 페이지는 무엇을 확인하나요?", "규제 등록, 법인, 본인확인, 법정화폐 경로, 지역 조건을 분리해 확인합니다."], ["HashKey, Kraken, OKX 조건이 같나요?", "아니요. 지역, 상품, 계정 상태, 은행 경로가 다르므로 공식 조건으로 개별 확인해야 합니다."], ["이 비교가 계정 개설 가능성을 보장하나요?", "아니요. 최종 판단은 공식 가입 흐름과 현재 지역 조건에서 확인해야 합니다."]],
@@ -392,7 +392,7 @@ const TOPIC_LOCALE_COPY = {
       title: "Fiat erişimi ve hesap uygunluğu: HashKey, Kraken ve OKX",
       description: "Borsa hesabını karşılaştırmadan önce bölgesel uygunluk, kimlik, aynı isimli banka, fiat yatırma-çekme yolu ve resmi kural kaynaklarını kontrol edin.",
       pills: ["Bölgesel uygunluk", "Kimlik koşulları", "Aynı isimli banka", "Resmi kural kaynakları"],
-      painPoints: [["🏛️", "1. Sadece marka adına bakarak düzenlenmiş hizmet varsaymak", "Aynı marka farklı bölgede farklı tüzel kişi ve ürün kapsamıyla çalışabilir. Kayıttan önce tarafı, ikameti ve ürünleri kontrol edin."], ["🏦", "2. Tüm fiat yollarını aynı koşul sanmak", "Banka adı, kart, havale ve stablecoin rotası bölgeye ve hesap durumuna göre değişir."], ["🔎", "3. Kamuya açık karşılaştırmayı resmi uygunluk kontrolü yerine koymak", "NexuAlpha kontrol listesi sunar; son uygunluk resmi hesap ekranı ve güncel şartlarda doğrulanır."]],
+      painPoints: [["", "1. Sadece marka adına bakarak düzenlenmiş hizmet varsaymak", "Aynı marka farklı bölgede farklı tüzel kişi ve ürün kapsamıyla çalışabilir. Kayıttan önce tarafı, ikameti ve ürünleri kontrol edin."], ["", "2. Tüm fiat yollarını aynı koşul sanmak", "Banka adı, kart, havale ve stablecoin rotası bölgeye ve hesap durumuna göre değişir."], ["", "3. Kamuya açık karşılaştırmayı resmi uygunluk kontrolü yerine koymak", "NexuAlpha kontrol listesi sunar; son uygunluk resmi hesap ekranı ve güncel şartlarda doğrulanır."]],
       evaluationPillars: [["Düzenleme kaydı ve tüzel kişi", "Denetleyici kayıt, hizmet veren tüzel kişi ve ürün kapsamını bölge bazında kontrol edin."], ["Kimlik ve ikamet", "KYC, adres kanıtı, hesap adı ve ülke koşullarını ayrı okuyun."], ["Fiat rotası", "Aynı isimli banka, kart, havale, para birimi ve limitleri resmi koşullardan doğrulayın."], ["Karşılaştırma sonrası", "Karşılaştırma seçenekleri daraltır; hesap açma veya yatırma garantisi değildir."]],
       pitfalls: [["Lisans tüm ürünleri kapsamaz", "Spot, türev, fiat ve saklama hizmetleri aynı izinle sunulmayabilir."], ["Banka yolu hesaba göre değişir", "Aynı isimli banka, para birimi, limit ve süre resmi ekranda kontrol edilir."], ["Bölgesel koşullar güncellenir", "Kayıt, yatırma, işlem ve çekim öncesi koşulları tekrar doğrulayın."]],
       faqs: [["Bu sayfa neyi kontrol eder?", "Düzenleme kaydı, tüzel kişi, kimlik, fiat rotası ve bölgesel koşulları ayırır."], ["HashKey, Kraken ve OKX aynı koşullara mı sahip?", "Hayır. Bölge, ürün, hesap durumu ve banka rotaları farklı olabilir."], ["Bu karşılaştırma hesap açabileceğimi garanti eder mi?", "Hayır. Son karar resmi hesap akışı ve güncel bölge koşullarında doğrulanır."]],
@@ -404,7 +404,7 @@ const TOPIC_LOCALE_COPY = {
       title: "Acceso fiat y elegibilidad de cuenta: HashKey, Kraken y OKX",
       description: "Compara cuentas de exchange tras revisar elegibilidad regional, identidad, banco a tu nombre, rutas fiat y fuentes oficiales de reglas.",
       pills: ["Elegibilidad regional", "Identidad y KYC", "Banco a tu nombre", "Fuentes oficiales"],
-      painPoints: [["🏛️", "1. Suponer regulación solo por la marca", "Una misma marca puede operar con otra entidad, región y producto. Antes de registrarte revisa entidad, residencia y alcance de producto."], ["🏦", "2. Tratar todas las rutas fiat igual", "Banco, tarjeta, transferencia y stablecoins cambian según región y estado de cuenta."], ["🔎", "3. Usar una comparación pública como verificación oficial", "NexuAlpha ofrece el checklist; la elegibilidad final se confirma en la cuenta oficial y términos actuales."]],
+      painPoints: [["", "1. Suponer regulación solo por la marca", "Una misma marca puede operar con otra entidad, región y producto. Antes de registrarte revisa entidad, residencia y alcance de producto."], ["", "2. Tratar todas las rutas fiat igual", "Banco, tarjeta, transferencia y stablecoins cambian según región y estado de cuenta."], ["", "3. Usar una comparación pública como verificación oficial", "NexuAlpha ofrece el checklist; la elegibilidad final se confirma en la cuenta oficial y términos actuales."]],
       evaluationPillars: [["Registro y entidad", "Revisa registro del regulador, entidad proveedora y alcance de producto por región."], ["Identidad y residencia", "Separa KYC, prueba de domicilio, nombre de cuenta y país de uso."], ["Ruta fiat", "Confirma banco a tu nombre, tarjeta, transferencia, divisa y límites en las condiciones oficiales."], ["Después de comparar", "La comparación ordena opciones; no garantiza apertura de cuenta ni depósitos."]],
       pitfalls: [["Una licencia no cubre todos los productos", "Spot, derivados, fiat y custodia pueden tener permisos distintos."], ["La ruta bancaria cambia por cuenta", "Nombre bancario, moneda, límites y tiempos se verifican en la pantalla oficial."], ["Las condiciones regionales cambian", "Revisa antes de registro, depósito, operación y retiro."]],
       faqs: [["¿Qué revisa esta página?", "Registro, entidad, identidad, rutas fiat y condiciones regionales por separado."], ["¿HashKey, Kraken y OKX tienen las mismas condiciones?", "No. Región, producto, estado de cuenta y ruta bancaria pueden diferir."], ["¿La comparación garantiza que puedo abrir cuenta?", "No. La decisión final se confirma en el flujo oficial y las condiciones vigentes."]],
@@ -416,7 +416,7 @@ const TOPIC_LOCALE_COPY = {
       title: "Acesso fiat e elegibilidade de conta: HashKey, Kraken e OKX",
       description: "Compare contas de corretora depois de revisar elegibilidade regional, identidade, banco em seu nome, rotas fiat e fontes oficiais de regras.",
       pills: ["Elegibilidade regional", "Identidade e KYC", "Banco em seu nome", "Fontes oficiais"],
-      painPoints: [["🏛️", "1. Presumir regulação apenas pela marca", "A mesma marca pode operar por outra entidade, região e produto. Antes de se cadastrar, revise entidade, residência e escopo do produto."], ["🏦", "2. Tratar todas as rotas fiat como iguais", "Banco, cartão, transferência e stablecoins mudam conforme região e status da conta."], ["🔎", "3. Usar comparação pública como verificação oficial", "A NexuAlpha oferece o checklist; a elegibilidade final é confirmada na conta oficial e nos termos atuais."]],
+      painPoints: [["", "1. Presumir regulação apenas pela marca", "A mesma marca pode operar por outra entidade, região e produto. Antes de se cadastrar, revise entidade, residência e escopo do produto."], ["", "2. Tratar todas as rotas fiat como iguais", "Banco, cartão, transferência e stablecoins mudam conforme região e status da conta."], ["", "3. Usar comparação pública como verificação oficial", "A NexuAlpha oferece o checklist; a elegibilidade final é confirmada na conta oficial e nos termos atuais."]],
       evaluationPillars: [["Registro e entidade", "Verifique registro do regulador, entidade prestadora e escopo de produto por região."], ["Identidade e residência", "Separe KYC, comprovante de endereço, titularidade da conta e país de uso."], ["Rota fiat", "Confirme banco em seu nome, cartão, transferência, moeda e limites nas condições oficiais."], ["Depois de comparar", "A comparação organiza opções; não garante abertura de conta nem depósitos."]],
       pitfalls: [["Uma licença não cobre todos os produtos", "Spot, derivativos, fiat e custódia podem ter permissões diferentes."], ["A rota bancária muda por conta", "Titularidade, moeda, limites e prazos são verificados na tela oficial."], ["Condições regionais mudam", "Revise antes de cadastro, depósito, operação e saque."]],
       faqs: [["O que esta página revisa?", "Registro, entidade, identidade, rotas fiat e condições regionais separadamente."], ["HashKey, Kraken e OKX têm as mesmas condições?", "Não. Região, produto, status da conta e rota bancária podem diferir."], ["A comparação garante que posso abrir conta?", "Não. A decisão final é confirmada no fluxo oficial e nas condições vigentes."]],
@@ -430,7 +430,7 @@ const TOPIC_LOCALE_COPY = {
       title: "No-KYC 暗号資産アクセス比較：Hyperliquid、dYdX、MEXC",
       description: "ウォレット接続、CEX 口座、出金、地域制限、制裁チェック、フロントエンド、清算リスクを分けて確認します。",
       pills: ["ウォレット接続を確認", "後日の本人確認リスクを確認", "出金制限を確認", "地域制限を確認"],
-      painPoints: [["🧩", "1. No-KYC を永久保証として読む", "No-KYC は現在のアクセス条件です。地域、出金、商品、リスク管理により後から本人確認が求められることがあります。"], ["🌐", "2. フロントエンド、コントラクト、ブリッジを混同", "ウォレット接続できても、フロントエンド、制裁リスト、ブリッジ、流動性が利用を制限する場合があります。"], ["🏦", "3. 出金と清算を確認しない", "CEX 口座と perp プロトコルでは、出金制限、担保、清算、地域ルールを別々に確認します。"]],
+      painPoints: [["", "1. No-KYC を永久保証として読む", "No-KYC は現在のアクセス条件です。地域、出金、商品、リスク管理により後から本人確認が求められることがあります。"], ["", "2. フロントエンド、コントラクト、ブリッジを混同", "ウォレット接続できても、フロントエンド、制裁リスト、ブリッジ、流動性が利用を制限する場合があります。"], ["", "3. 出金と清算を確認しない", "CEX 口座と perp プロトコルでは、出金制限、担保、清算、地域ルールを別々に確認します。"]],
       evaluationPillars: [["アクセス方式", "ウォレット接続、メール登録、CEX 口座、perp 口座を分けて整理します。"], ["地域と制裁チェック", "国、IP、居住地、制裁スクリーニング、フロントエンド制限を確認します。"], ["資産保管と出金", "自己保管、CEX 残高、担保、ブリッジ、出金上限を確認します。"], ["後日の本人確認", "No-KYC 表示でも、リスク管理や出金時に本人確認が必要になる場合があります。"]],
       noKycTitle: "自己保管プロトコル、CEX アクセス、perp リスクを分ける",
       noKycBody: "No-KYC 条件は地域、商品、出金、口座段階で変わります。まず Hyperliquid と dYdX を比較し、各サービスのプロフィールと MEXC の口座条件を確認してください。",
@@ -445,7 +445,7 @@ const TOPIC_LOCALE_COPY = {
       title: "No-KYC 암호화폐 접근 비교: Hyperliquid, dYdX, MEXC",
       description: "지갑 연결, 계정 가입, 본인확인 가능성, 출금, 지역 제한과 리스크 경계를 Hyperliquid, dYdX, MEXC 기준으로 비교합니다.",
       pills: ["지갑 연결 확인", "추후 본인확인 위험 확인", "출금 제한 확인", "지역 제한 확인"],
-      painPoints: [["🧩", "1. No-KYC를 영구 보장으로 해석", "No-KYC는 현재 접근 조건입니다. 지역, 출금, 상품, 리스크 통제에 따라 나중에 본인확인이 요구될 수 있습니다."], ["🌐", "2. 프런트엔드, 컨트랙트, 브리지를 혼동", "지갑 연결이 가능해도 프런트엔드, 제재 목록, 브리지, 유동성이 이용을 제한할 수 있습니다."], ["🏦", "3. 출금과 청산을 확인하지 않음", "CEX 계정과 perp 프로토콜은 출금 제한, 담보, 청산, 지역 규칙을 별도로 확인해야 합니다."]],
+      painPoints: [["", "1. No-KYC를 영구 보장으로 해석", "No-KYC는 현재 접근 조건입니다. 지역, 출금, 상품, 리스크 통제에 따라 나중에 본인확인이 요구될 수 있습니다."], ["", "2. 프런트엔드, 컨트랙트, 브리지를 혼동", "지갑 연결이 가능해도 프런트엔드, 제재 목록, 브리지, 유동성이 이용을 제한할 수 있습니다."], ["", "3. 출금과 청산을 확인하지 않음", "CEX 계정과 perp 프로토콜은 출금 제한, 담보, 청산, 지역 규칙을 별도로 확인해야 합니다."]],
       evaluationPillars: [["접근 방식", "지갑 연결, 이메일 가입, CEX 계정, perp 계정을 분리합니다."], ["지역과 제재 확인", "국가, IP, 거주지, 제재 스크리닝, 프런트엔드 제한을 확인합니다."], ["보관과 출금", "자기수탁, CEX 잔액, 담보, 브리지, 출금 한도를 확인합니다."], ["추후 본인확인", "No-KYC 표시가 있어도 리스크 관리나 출금 시 본인확인이 필요할 수 있습니다."]],
       noKycTitle: "자기수탁 프로토콜, CEX 접근, perp 위험을 먼저 나누세요",
       noKycBody: "No-KYC 조건은 지역, 상품, 출금, 계정 단계에 따라 달라집니다. 먼저 Hyperliquid와 dYdX를 비교하고 각 플랫폼 프로필과 MEXC 계정 조건을 확인하세요.",
@@ -460,7 +460,7 @@ const TOPIC_LOCALE_COPY = {
       title: "No-KYC kripto erişim karşılaştırması: Hyperliquid, dYdX, MEXC",
       description: "Cüzdan bağlantısı, hesap kaydı, kimlik kontrolü olasılığı, çekim, bölgesel sınırlamalar ve risk sınırlarını Hyperliquid, dYdX ve MEXC üzerinden karşılaştırın.",
       pills: ["Cüzdan bağlantısı", "Sonradan kimlik riski", "Çekim sınırları", "Bölgesel sınırlar"],
-      painPoints: [["🧩", "1. No-KYC ifadesini kalıcı garanti sanmak", "No-KYC mevcut erişim koşuludur. Bölge, çekim, ürün ve risk kontrolleri daha sonra kimlik isteyebilir."], ["🌐", "2. Arayüz, kontrat ve köprüyü karıştırmak", "Cüzdan bağlanabilse bile arayüz, yaptırım listesi, köprü veya likidite erişimi sınırlayabilir."], ["🏦", "3. Çekim ve likidasyonu kontrol etmemek", "CEX hesabı ve perp protokolünde çekim sınırı, teminat, likidasyon ve bölge kuralları ayrı okunur."]],
+      painPoints: [["", "1. No-KYC ifadesini kalıcı garanti sanmak", "No-KYC mevcut erişim koşuludur. Bölge, çekim, ürün ve risk kontrolleri daha sonra kimlik isteyebilir."], ["", "2. Arayüz, kontrat ve köprüyü karıştırmak", "Cüzdan bağlanabilse bile arayüz, yaptırım listesi, köprü veya likidite erişimi sınırlayabilir."], ["", "3. Çekim ve likidasyonu kontrol etmemek", "CEX hesabı ve perp protokolünde çekim sınırı, teminat, likidasyon ve bölge kuralları ayrı okunur."]],
       evaluationPillars: [["Erişim yöntemi", "Cüzdan bağlantısı, e-posta kaydı, CEX hesabı ve perp hesabını ayırın."], ["Bölge ve yaptırım kontrolü", "Ülke, IP, ikamet, yaptırım taraması ve arayüz sınırlarını kontrol edin."], ["Saklama ve çekim", "Self-custody, CEX bakiyesi, teminat, köprü ve çekim limitlerini kontrol edin."], ["Sonradan kimlik", "No-KYC görünse bile risk kontrolü veya çekim sırasında kimlik gerekebilir."]],
       noKycTitle: "Önce self-custody protokolünü, CEX erişimini ve perp riskini ayırın",
       noKycBody: "No-KYC koşulları bölge, ürün, çekim ve hesap aşamasına göre değişebilir. Önce Hyperliquid ile dYdX'i karşılaştırın, sonra her platform profilini ve MEXC hesap koşullarını kontrol edin.",
@@ -475,7 +475,7 @@ const TOPIC_LOCALE_COPY = {
       title: "Acceso cripto no-KYC: Hyperliquid, dYdX y MEXC",
       description: "Separa conexión por wallet, cuentas CEX, retiros, límites regionales, controles de sanciones, frontend y riesgo de liquidación.",
       pills: ["Conexión por wallet", "Riesgo de KYC posterior", "Límites de retiro", "Límites regionales"],
-      painPoints: [["🧩", "1. Leer no-KYC como promesa permanente", "No-KYC describe una condición actual de acceso. Región, retiros, producto y controles de riesgo pueden exigir identidad más adelante."], ["🌐", "2. Mezclar frontend, contrato y puente", "Aunque conectes wallet, el frontend, listas de sanciones, puente o liquidez pueden limitar el uso."], ["🏦", "3. Ignorar retiros y liquidación", "En CEX y protocolos perp hay que revisar retiros, colateral, liquidación y reglas regionales por separado."]],
+      painPoints: [["", "1. Leer no-KYC como promesa permanente", "No-KYC describe una condición actual de acceso. Región, retiros, producto y controles de riesgo pueden exigir identidad más adelante."], ["", "2. Mezclar frontend, contrato y puente", "Aunque conectes wallet, el frontend, listas de sanciones, puente o liquidez pueden limitar el uso."], ["", "3. Ignorar retiros y liquidación", "En CEX y protocolos perp hay que revisar retiros, colateral, liquidación y reglas regionales por separado."]],
       evaluationPillars: [["Método de acceso", "Separa wallet, registro por email, cuenta CEX y cuenta perp."], ["Región y sanciones", "Revisa país, IP, residencia, screening de sanciones y límites del frontend."], ["Custodia y retiros", "Comprueba autocustodia, saldo CEX, colateral, puente y límites de retiro."], ["KYC posterior", "Incluso con no-KYC visible, el control de riesgo o el retiro pueden pedir identidad."]],
       noKycTitle: "Separa protocolos autocustodiados, acceso CEX y riesgo perp",
       noKycBody: "Las condiciones no-KYC cambian por región, producto, retiro y etapa de cuenta. Empieza con Hyperliquid vs dYdX y luego revisa cada perfil y las condiciones de MEXC.",
@@ -490,7 +490,7 @@ const TOPIC_LOCALE_COPY = {
       title: "Acesso cripto no-KYC: Hyperliquid, dYdX e MEXC",
       description: "Separe conexão por carteira, contas CEX, saques, limites regionais, controles de sanções, frontend e risco de liquidação.",
       pills: ["Conexão por carteira", "Risco de KYC posterior", "Limites de saque", "Limites regionais"],
-      painPoints: [["🧩", "1. Ler no-KYC como promessa permanente", "No-KYC descreve uma condição atual de acesso. Região, saques, produto e controles de risco podem exigir identidade depois."], ["🌐", "2. Misturar frontend, contrato e ponte", "Mesmo conectando carteira, frontend, listas de sanções, ponte ou liquidez podem limitar o uso."], ["🏦", "3. Ignorar saques e liquidação", "Em CEX e protocolos perp, saques, colateral, liquidação e regras regionais devem ser revisados separadamente."]],
+      painPoints: [["", "1. Ler no-KYC como promessa permanente", "No-KYC descreve uma condição atual de acesso. Região, saques, produto e controles de risco podem exigir identidade depois."], ["", "2. Misturar frontend, contrato e ponte", "Mesmo conectando carteira, frontend, listas de sanções, ponte ou liquidez podem limitar o uso."], ["", "3. Ignorar saques e liquidação", "Em CEX e protocolos perp, saques, colateral, liquidação e regras regionais devem ser revisados separadamente."]],
       evaluationPillars: [["Método de acesso", "Separe carteira, cadastro por e-mail, conta CEX e conta perp."], ["Região e sanções", "Revise país, IP, residência, triagem de sanções e limites do frontend."], ["Custódia e saques", "Confira autocustódia, saldo CEX, colateral, ponte e limites de saque."], ["KYC posterior", "Mesmo com no-KYC visível, controle de risco ou saque podem pedir identidade."]],
       noKycTitle: "Separe protocolos autocustodiados, acesso CEX e risco perp",
       noKycBody: "Condições no-KYC mudam por região, produto, saque e etapa da conta. Comece por Hyperliquid vs dYdX e depois revise cada perfil e as condições da MEXC.",
@@ -611,21 +611,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. Listing notice, pair availability and account terms can diverge",
         "descEn": "Check official notices, trading pairs, funding networks, account eligibility and regional limits before using an order book or pool.",
         "titleZh": "1. Listing notice, pair availability and account terms can diverge",
         "descZh": "Check official notices, trading pairs, funding networks, account eligibility and regional limits before using an order book or pool."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "2. MEV Sandwich Attacks & Slippage Bleed",
         "descEn": "On-chain trading starts with token address, pool address, quote route, price impact, slippage settings and current network state.",
         "titleZh": "2. MEV Sandwich Attacks & Slippage Bleed",
         "descZh": "On-chain trading starts with token address, pool address, quote route, price impact, slippage settings and current network state."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. Contract permissions, approvals and exit paths can be opaque",
         "descEn": "Review mint or owner permissions, transfer limits, liquidity state, wallet approvals, stablecoin exits and bridge routes before treating a token as usable.",
         "titleZh": "3. Contract permissions, approvals and exit paths can be opaque",
@@ -702,21 +702,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. 上线公告、交易对与账户条件不一致",
         "descEn": "同一代币在公告、充值、交易对、提现和地区账户中的状态可能不同，进入订单簿或资金池前先逐项核对。",
         "titleZh": "1. 上线公告、交易对与账户条件不一致",
         "descZh": "同一代币在公告、充值、交易对、提现和地区账户中的状态可能不同，进入订单簿或资金池前先逐项核对。"
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "2. 链上抢跑 MEV 夹子与极端滑点磨损",
         "descEn": "链上交易要先检查代币地址、池子地址、报价路由、价格影响、滑点设置和当前网络状态。",
         "titleZh": "2. 链上抢跑 MEV 夹子与极端滑点磨损",
         "descZh": "链上交易要先检查代币地址、池子地址、报价路由、价格影响、滑点设置和当前网络状态。"
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. 合约权限、授权和退出路径不透明",
         "descEn": "检查 mint 或 owner 权限、转账限制、流动性状态、钱包授权、稳定币退出和跨链桥路径。",
         "titleZh": "3. 合约权限、授权和退出路径不透明",
@@ -793,21 +793,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. 上線公告、交易對與帳戶條件不一致",
         "descEn": "同一代幣在公告、充值、交易對、提領和地區帳戶中的狀態可能不同，進入盤口或資金池前先逐項核對。",
         "titleZh": "1. 上線公告、交易對與帳戶條件不一致",
         "descZh": "同一代幣在公告、充值、交易對、提領和地區帳戶中的狀態可能不同，進入盤口或資金池前先逐項核對。"
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "2. 鏈上 MEV 夾子與極端滑點磨損",
         "descEn": "鏈上交易要先檢查代幣地址、池子地址、報價路由、價格影響、滑點設定和目前網路狀態。",
         "titleZh": "2. 鏈上 MEV 夾子與極端滑點磨損",
         "descZh": "鏈上交易要先檢查代幣地址、池子地址、報價路由、價格影響、滑點設定和目前網路狀態。"
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. 合約權限、授權和退出路徑不透明",
         "descEn": "檢查 mint 或 owner 權限、轉帳限制、流動性狀態、錢包授權、穩定幣退出和跨鏈橋路徑。",
         "titleZh": "3. 合約權限、授權和退出路徑不透明",
@@ -884,21 +884,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. 上場告知、取引ペア、アカウント条件は一致しない場合があります",
         "descEn": "告知、入金、取引ペア、出金、地域アカウント条件を分けて確認してから板やプールを使います。",
         "titleZh": "1. 上場告知、取引ペア、アカウント条件は一致しない場合があります",
         "descZh": "告知、入金、取引ペア、出金、地域アカウント条件を分けて確認してから板やプールを使います。"
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "2. MEVサンドイッチと極端なスリッページ損耗",
         "descEn": "オンチェーン取引では、トークンアドレス、プール、見積もり経路、価格影響、スリッページ、ネットワーク状態を確認します。",
         "titleZh": "2. MEVサンドイッチと極端なスリッページ損耗",
         "descZh": "オンチェーン取引では、トークンアドレス、プール、見積もり経路、価格影響、スリッページ、ネットワーク状態を確認します。"
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. コントラクト権限、承認、退出経路が不透明な場合があります",
         "descEn": "mint/owner 権限、転送制限、流動性状態、ウォレット承認、ステーブルコイン退出、ブリッジ経路を確認します。",
         "titleZh": "3. コントラクト権限、承認、退出経路が不透明な場合があります",
@@ -975,21 +975,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. 상장 공지, 거래쌍, 계정 조건은 달라질 수 있음",
         "descEn": "공지, 입금, 거래쌍, 출금, 지역 계정 상태를 분리해 확인한 뒤 오더북이나 풀을 사용합니다.",
         "titleZh": "1. 상장 공지, 거래쌍, 계정 조건은 달라질 수 있음",
         "descZh": "공지, 입금, 거래쌍, 출금, 지역 계정 상태를 분리해 확인한 뒤 오더북이나 풀을 사용합니다."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "2. MEV 샌드위치와 극단적 슬리피지 손실",
         "descEn": "온체인 거래는 토큰 주소, 풀 주소, 견적 경로, 가격 영향, 슬리피지 설정, 네트워크 상태 확인에서 시작합니다.",
         "titleZh": "2. MEV 샌드위치와 극단적 슬리피지 손실",
         "descZh": "온체인 거래는 토큰 주소, 풀 주소, 견적 경로, 가격 영향, 슬리피지 설정, 네트워크 상태 확인에서 시작합니다."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. 컨트랙트 권한, 승인, 출구 경로가 불투명할 수 있음",
         "descEn": "mint/owner 권한, 전송 제한, 유동성 상태, 지갑 승인, 스테이블코인 출구와 브리지 경로를 확인합니다.",
         "titleZh": "3. 컨트랙트 권한, 승인, 출구 경로가 불투명할 수 있음",
@@ -1066,21 +1066,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. Listeleme duyurusu, çift erişimi ve hesap koşulları ayrışabilir",
         "descEn": "Resmî duyuru, çift, ağ, hesap ve bölge koşullarını ayrı kontrol edin.",
         "titleZh": "1. Listeleme duyurusu, çift erişimi ve hesap koşulları ayrışabilir",
         "descZh": "Resmî duyuru, çift, ağ, hesap ve bölge koşullarını ayrı kontrol edin."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "MEV sandwich ve aşırı slippage aşınması",
         "descEn": "Token, havuz, fiyat rotası, fiyat etkisi, kayma ayarı ve ağ durumundan başlayın.",
         "titleZh": "MEV sandwich ve aşırı slippage aşınması",
         "descZh": "Token, havuz, fiyat rotası, fiyat etkisi, kayma ayarı ve ağ durumundan başlayın."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. Kontrat izinleri, onaylar ve çıkış yolları opak olabilir",
         "descEn": "Kontrat izinleri, cüzdan onayları, likidite durumu, stablecoin çıkışı ve köprü rotalarını kontrol edin.",
         "titleZh": "3. Kontrat izinleri, onaylar ve çıkış yolları opak olabilir",
@@ -1157,21 +1157,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. Aviso de listado, par y condiciones de cuenta pueden divergir",
         "descEn": "Revisa avisos, pares, redes, condiciones de cuenta y límites regionales antes de usar la ruta.",
         "titleZh": "1. Aviso de listado, par y condiciones de cuenta pueden divergir",
         "descZh": "Revisa avisos, pares, redes, condiciones de cuenta y límites regionales antes de usar la ruta."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "MEV sandwich y desgaste por slippage extremo",
         "descEn": "Empieza por token, pool, ruta de cotización, impacto de precio, slippage y estado de red.",
         "titleZh": "MEV sandwich y desgaste por slippage extremo",
         "descZh": "Empieza por token, pool, ruta de cotización, impacto de precio, slippage y estado de red."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. Permisos del contrato, aprobaciones y rutas de salida pueden ser opacos",
         "descEn": "Comprueba permisos del contrato, aprobaciones de wallet, liquidez, salida a stablecoin y puentes.",
         "titleZh": "3. Permisos del contrato, aprobaciones y rutas de salida pueden ser opacos",
@@ -1248,21 +1248,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. Aviso de listagem, par e condições da conta podem divergir",
         "descEn": "Verifique anúncios, pares, redes, condições da conta e limites regionais antes de usar a rota.",
         "titleZh": "1. Aviso de listagem, par e condições da conta podem divergir",
         "descZh": "Verifique anúncios, pares, redes, condições da conta e limites regionais antes de usar a rota."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "MEV sandwich e desgaste por slippage extremo",
         "descEn": "Comece por token, pool, rota de cotação, impacto de preço, slippage e estado da rede.",
         "titleZh": "MEV sandwich e desgaste por slippage extremo",
         "descZh": "Comece por token, pool, rota de cotação, impacto de preço, slippage e estado da rede."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. Permissões do contrato, aprovações e rotas de saída podem ser opacas",
         "descEn": "Confira permissões do contrato, aprovações da carteira, liquidez, saída para stablecoin e pontes.",
         "titleZh": "3. Permissões do contrato, aprovações e rotas de saída podem ser opacas",
@@ -1339,21 +1339,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. Annonce de listing, paire et conditions de compte peuvent diverger",
         "descEn": "Vérifiez annonces, paires, réseaux, conditions de compte et limites régionales avant d’utiliser la route.",
         "titleZh": "1. Annonce de listing, paire et conditions de compte peuvent diverger",
         "descZh": "Vérifiez annonces, paires, réseaux, conditions de compte et limites régionales avant d’utiliser la route."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "MEV sandwich et usure par slippage extrême",
         "descEn": "Commencez par token, pool, route de cotation, impact de prix, slippage et état du réseau.",
         "titleZh": "MEV sandwich et usure par slippage extrême",
         "descZh": "Commencez par token, pool, route de cotation, impact de prix, slippage et état du réseau."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. Autorisations du contrat, approbations et chemins de sortie peuvent être opaques",
         "descEn": "Vérifiez autorisations du contrat, approbations wallet, liquidité, sortie stablecoin et bridges.",
         "titleZh": "3. Autorisations du contrat, approbations et chemins de sortie peuvent être opaques",
@@ -1430,21 +1430,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. Listing-Mitteilung, Handelspaar und Kontobedingungen können abweichen",
         "descEn": "Prüfen Sie Mitteilungen, Paare, Netzwerke, Kontobedingungen und regionale Grenzen vor Nutzung der Route.",
         "titleZh": "1. Listing-Mitteilung, Handelspaar und Kontobedingungen können abweichen",
         "descZh": "Prüfen Sie Mitteilungen, Paare, Netzwerke, Kontobedingungen und regionale Grenzen vor Nutzung der Route."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "MEV-Sandwich und extreme Slippage-Verluste",
         "descEn": "Beginnen Sie mit Token, Pool, Quote-Route, Preiseffekt, Slippage und Netzwerkstatus.",
         "titleZh": "MEV-Sandwich und extreme Slippage-Verluste",
         "descZh": "Beginnen Sie mit Token, Pool, Quote-Route, Preiseffekt, Slippage und Netzwerkstatus."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. Contract-Berechtigungen, Freigaben und Ausstiegspfade können undurchsichtig sein",
         "descEn": "Prüfen Sie Contract-Rechte, Wallet-Freigaben, Liquidität, Stablecoin-Ausstieg und Bridges.",
         "titleZh": "3. Contract-Berechtigungen, Freigaben und Ausstiegspfade können undurchsichtig sein",
@@ -1521,21 +1521,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. Объявление листинга, пара и условия аккаунта могут расходиться",
         "descEn": "Проверьте объявления, пары, сети, условия аккаунта и региональные ограничения до использования маршрута.",
         "titleZh": "1. Объявление листинга, пара и условия аккаунта могут расходиться",
         "descZh": "Проверьте объявления, пары, сети, условия аккаунта и региональные ограничения до использования маршрута."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "MEV-сэндвич и потери от экстремального проскальзывания",
         "descEn": "Начните с токена, пула, маршрута котировки, влияния на цену, проскальзывания и состояния сети.",
         "titleZh": "MEV-сэндвич и потери от экстремального проскальзывания",
         "descZh": "Начните с токена, пула, маршрута котировки, влияния на цену, проскальзывания и состояния сети."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. Права контракта, разрешения и маршруты выхода могут быть непрозрачными",
         "descEn": "Проверьте права контракта, разрешения кошелька, ликвидность, выход в стейблкоин и мосты.",
         "titleZh": "3. Права контракта, разрешения и маршруты выхода могут быть непрозрачными",
@@ -1612,21 +1612,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "قد تختلف حالة الإعلان والزوج وشروط الحساب",
         "descEn": "تحقق من الإعلانات والأزواج والشبكات وشروط الحساب قبل استخدام المسار.",
         "titleZh": "قد تختلف حالة الإعلان والزوج وشروط الحساب",
         "descZh": "تحقق من الإعلانات والأزواج والشبكات وشروط الحساب قبل استخدام المسار."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "MEV والانزلاق يحتاجان إلى فحص مسار الصفقة",
         "descEn": "ابدأ بعنوان الرمز والمجمع ومسار التسعير وتأثير السعر وإعدادات الانزلاق وحالة الشبكة الحالية.",
         "titleZh": "MEV والانزلاق يحتاجان إلى فحص مسار الصفقة",
         "descZh": "ابدأ بعنوان الرمز والمجمع ومسار التسعير وتأثير السعر وإعدادات الانزلاق وحالة الشبكة الحالية."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "أذونات العقد والتفويض ومسار الخروج قد تكون غير واضحة",
         "descEn": "افحص أذونات العقد وتفويضات المحفظة وحالة السيولة ومسار الخروج إلى العملات المستقرة والجسور.",
         "titleZh": "أذونات العقد والتفويض ومسار الخروج قد تكون غير واضحة",
@@ -1703,21 +1703,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. Pengumuman listing, pasangan, dan ketentuan akun dapat berbeda",
         "descEn": "Periksa pengumuman, pasangan, jaringan, ketentuan akun, dan batas wilayah sebelum memakai rute.",
         "titleZh": "1. Pengumuman listing, pasangan, dan ketentuan akun dapat berbeda",
         "descZh": "Periksa pengumuman, pasangan, jaringan, ketentuan akun, dan batas wilayah sebelum memakai rute."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "MEV sandwich dan kerugian slippage ekstrem",
         "descEn": "Mulai dari token, pool, rute kuotasi, dampak harga, slippage, dan status jaringan.",
         "titleZh": "MEV sandwich dan kerugian slippage ekstrem",
         "descZh": "Mulai dari token, pool, rute kuotasi, dampak harga, slippage, dan status jaringan."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. Izin kontrak, persetujuan, dan jalur keluar dapat tidak transparan",
         "descEn": "Periksa izin kontrak, persetujuan wallet, likuiditas, jalur stablecoin, dan bridge.",
         "titleZh": "3. Izin kontrak, persetujuan, dan jalur keluar dapat tidak transparan",
@@ -1794,21 +1794,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. Thông báo niêm yết, cặp giao dịch và điều kiện tài khoản có thể khác nhau",
         "descEn": "Kiểm tra thông báo, cặp, mạng, điều kiện tài khoản và giới hạn khu vực trước khi dùng tuyến.",
         "titleZh": "1. Thông báo niêm yết, cặp giao dịch và điều kiện tài khoản có thể khác nhau",
         "descZh": "Kiểm tra thông báo, cặp, mạng, điều kiện tài khoản và giới hạn khu vực trước khi dùng tuyến."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "MEV sandwich và hao mòn do slippage cực đoan",
         "descEn": "Bắt đầu từ token, pool, tuyến báo giá, tác động giá, slippage và trạng thái mạng.",
         "titleZh": "MEV sandwich và hao mòn do slippage cực đoan",
         "descZh": "Bắt đầu từ token, pool, tuyến báo giá, tác động giá, slippage và trạng thái mạng."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. Quyền hợp đồng, phê duyệt và đường thoát có thể thiếu minh bạch",
         "descEn": "Kiểm tra quyền hợp đồng, phê duyệt ví, thanh khoản, lối ra stablecoin và bridge.",
         "titleZh": "3. Quyền hợp đồng, phê duyệt và đường thoát có thể thiếu minh bạch",
@@ -1885,21 +1885,21 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
     ],
     "painPoints": [
       {
-        "icon": "⚡",
+        "icon": "",
         "titleEn": "1. Avviso di listing, coppia e condizioni account possono divergere",
         "descEn": "Controlla annunci, coppie, reti, condizioni account e limiti regionali prima di usare il percorso.",
         "titleZh": "1. Avviso di listing, coppia e condizioni account possono divergere",
         "descZh": "Controlla annunci, coppie, reti, condizioni account e limiti regionali prima di usare il percorso."
       },
       {
-        "icon": "🥪",
+        "icon": "",
         "titleEn": "MEV sandwich e usura da slippage estremo",
         "descEn": "Parti da token, pool, route di quotazione, impatto prezzo, slippage e stato della rete.",
         "titleZh": "MEV sandwich e usura da slippage estremo",
         "descZh": "Parti da token, pool, route di quotazione, impatto prezzo, slippage e stato della rete."
       },
       {
-        "icon": "🕳️",
+        "icon": "",
         "titleEn": "3. Permessi del contratto, approvazioni e percorsi di uscita possono essere opachi",
         "descEn": "Controlla permessi del contratto, approvazioni wallet, liquidità, uscita stablecoin e bridge.",
         "titleZh": "3. Permessi del contratto, approvazioni e percorsi di uscita possono essere opachi",
@@ -3051,7 +3051,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
                 className={`topic-nav-btn ${isActive ? "active" : ""}`}
                 aria-label={`${trackShortLabel}: ${trackFullLabel}`}
               >
-                <span aria-hidden="true">{trackSlug === "meme-coins" ? "🔥" : trackSlug === "derivatives" ? "⚡" : trackSlug === "compliant-exchanges" ? "🏛️" : "🕵️"}</span>
+                <span aria-hidden="true">{trackSlug === "meme-coins" ? "" : trackSlug === "derivatives" ? "" : trackSlug === "compliant-exchanges" ? "" : ""}</span>
                 <span className="topic-nav-label topic-nav-label--full">{trackFullLabel}</span>
                 <span className="topic-nav-label topic-nav-label--short">{trackShortLabel}</span>
               </a>
@@ -3260,7 +3260,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
         <section className="topic-section">
           <div className="topic-section__header">
           <h2 className="topic-section__title">
-              <span>⚠️</span>
+              <span></span>
               <span>{sourceBoundUi?.painTitle || (isZh ? zhCopy(isHant, "交易者高频痛点剖析与资金暗亏漏洞") : (staticUi.painTitle || "Trader Pain Points & Capital Bleed Vulnerabilities"))}</span>
             </h2>
             <p className="topic-section__subtitle">
@@ -3297,7 +3297,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
         <section className="topic-section">
           <div className="topic-section__header">
             <h2 className="topic-section__title">
-              <span>⚖️</span>
+              <span></span>
               <span>{sourceBoundUi?.securityTitle || (isZh ? zhCopy(isHant, "精选平台核心量化横向对决表") : (staticUi.securityTitle || "Benchmarked Venues Head-to-Head Showdown"))}</span>
             </h2>
             <p className="topic-section__subtitle">
@@ -3389,7 +3389,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
         <section className="topic-section">
           <div className="topic-section__header">
             <h2 className="topic-section__title">
-              <span>🛡️</span>
+              <span></span>
               <span>{isZh ? zhCopy(isHant, "实战避坑与资金安全防范指南") : (staticUi.pitfallTitle || "Real-World Pitfalls & Security Playbook")}</span>
             </h2>
             <p className="topic-section__subtitle">
@@ -3415,7 +3415,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
         <section className="topic-section">
           <div className="topic-section__header">
             <h2 className="topic-section__title">
-              <span>❓</span>
+              <span></span>
               <span>{isZh ? zhCopy(isHant, "细分赛道核心问答 (Zero-Click FAQ)") : (staticUi.faqTitle || "Niche Track Direct FAQ")}</span>
             </h2>
             <p className="topic-section__subtitle">
@@ -3472,7 +3472,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
         {/* Telegram 来源核验终端 */}
         <div className="topic-tg-box">
           <div className="topic-tg-content">
-            <h3>{isZh ? `🤖 ${zhCopy(isHant, "Telegram 来源核验指令")}` : (staticUi.telegramTitle || "🤖 Telegram Source Commands")}</h3>
+            <h3>{isZh ? ` ${zhCopy(isHant, "Telegram 来源核验指令")}` : (staticUi.telegramTitle || " Telegram Source Commands")}</h3>
             <p>
               {isZh
                 ? zhCopy(isHant, "在移动端向 NexuAlpha 机器人发送指令，打开费率、活动和官方来源核对入口。")
@@ -3513,7 +3513,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
         <section className="topic-section">
           <div className="topic-section__header">
             <h2 className="topic-section__title">
-              <span>🧭</span>
+              <span></span>
               <span>{sharedTruthTopicUi?.matrixTitle || (isZh ? zhCopy(isHant, "探索更多高频交易细分赛道专题") : (staticUi.matrixTitle || "Explore More Quantitative Topic Tracks"))}</span>
             </h2>
             <p className="topic-section__subtitle">

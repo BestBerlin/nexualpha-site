@@ -101,10 +101,10 @@ export function DesignSystem() {
                   </div>
                   <div className="yellow-card__domain-row">
                     <div className="yellow-card__domain">
-                      <span>🔒</span>
+                      <span></span>
                       <span>binance.com</span>
                     </div>
-                    <span className="yellow-card__por-pill">🛡️ 103.4% Merkle</span>
+                    <span className="yellow-card__por-pill"> 103.4% Merkle</span>
                   </div>
                   <p className="yellow-card__fit">全球流动性基准，适合主流现货与深盘口合约交易。</p>
                 </div>
@@ -118,7 +118,7 @@ export function DesignSystem() {
                         onClick={() => { setCopied(true); setTimeout(() => setCopied(false), 1500); }}
                       >
                         <strong>NEXUALPHA</strong>
-                        <span>{copied ? "✓" : "📋"}</span>
+                        <span>{copied ? "✓" : "Copy"}</span>
                       </button>
                     </div>
                     <span className="yellow-card__perk-text">专享 20% 终身手续费自动回血返还</span>
