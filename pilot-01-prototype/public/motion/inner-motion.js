@@ -152,9 +152,9 @@
           if (visible(primaries[j]) && !primaries[j].closest(".mx-dock")) { var pr = primaries[j].getBoundingClientRect(); var py = pr.top - mr.top + pr.height / 2; if (py > start + 48) { dest = py; break; } }
         }
         var endEl = main.querySelector("[data-rail-end]");
-        if (!dest && endEl && visible(endEl)) {
+        if (endEl && visible(endEl)) {
           /* the route ends where the page's content ends (e.g. the directory table), not in the empty tail below it */
-          end = Math.max(docks.length ? docks[docks.length - 1].y + 48 : start + 48, endEl.getBoundingClientRect().bottom - mr.top - 8);
+          end = Math.max(dest || 0, docks.length ? docks[docks.length - 1].y + 48 : start + 48, endEl.getBoundingClientRect().bottom - mr.top - 8);
         } else {
           end = Math.max(dest || 0, docks.length ? docks[docks.length - 1].y + 1 : 0, mr.height - 96);
           if (dest && dest >= end - 1) end = dest;

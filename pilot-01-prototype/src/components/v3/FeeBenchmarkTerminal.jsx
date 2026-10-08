@@ -13,7 +13,6 @@ import { CostDecision } from "./CostDecision.jsx";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { DecisionPathRail } from "./DecisionPathRail.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
-import { buildTelegramWebsiteFunnelContext } from "../../data/telegram-config.js";
 import { buildVenueFeeSummary, feeSummaryCopy } from "../../data/venue-fee-summary.js";
 import { reviewedFeeCopy } from "../../data/reviewed-fee-copy.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
@@ -596,7 +595,6 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
   const nextStep = nextStepCopy[locale] || nextStepCopy[localeKey] || nextStepCopy[normalizedLocale] || nextStepCopy.en;
   const answerLabels = answerLabelCopy[locale] || answerLabelCopy[localeKey] || answerLabelCopy[normalizedLocale] || answerLabelCopy.en;
   const answerBlock = answerBlockCopy[locale] || answerBlockCopy[localeKey] || answerBlockCopy[normalizedLocale] || answerBlockCopy.en;
-  const telegramNextStep = buildTelegramWebsiteFunnelContext({ intent: "fees", venue: "all", market: market || "GLOBAL", locale, product, campaign: "rates_next_step" });
   const contextSearch = directoryContextSearch({ market, product, locale, accountStage, funding });
   const answerHref = (href, answerProduct) => appendDecisionPassportQuery(
     localizedHref(href, { locale, market, product: answerProduct }),
@@ -670,25 +668,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
                 >
                   {nextStep[2]}
                 </a>
-                <a
-                  href={telegramNextStep.deepLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="fee-terminal__next-step-secondary"
-                  data-cta-kind="telegram"
-                  data-cta-placement="rates-next-step-telegram"
-                  data-growth-decision="telegram_fee_calc"
-                  data-growth-placement="rates-next-step"
-                  data-growth-market={market}
-                  data-growth-product={product}
-                  data-growth-account-stage={accountStage}
-                  data-growth-funding={funding}
-                  data-growth-campaign="rates_next_step"
-                  data-telegram-start={telegramNextStep.startPayload}
-                  data-telegram-return-href={telegramNextStep.returnHref}
-                >
-                  {nextStep[3]}
-                </a>
+                {/* Telegram appears once on /rates: the Bot handoff block beside this card */}
               </div>
             </div>
         <CostDecision locale={locale} regionMarket={market} product={product} accountStage={accountStage} funding={funding} />

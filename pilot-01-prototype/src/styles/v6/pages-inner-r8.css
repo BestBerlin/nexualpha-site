@@ -25,7 +25,7 @@ img.v2-brand--bybit:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(
 
 /* ============ #5 compare + /br: one standard hairline disclosure (no open half-box) ============ */
 .v6 :is(.v3-matrix-pending-disclosure, .br-continuation-disclosure):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
-  border: 0; border-block: 1px solid var(--n6, rgb(255 255 255 / 0.12)); border-radius: 0; background: none; box-shadow: none;
+  border: 0; border-block-start: 1px solid var(--n6, rgb(255 255 255 / 0.12)); border-radius: 0; background: none; box-shadow: none;
 }
 .v6 :is(.v3-matrix-pending-disclosure, .br-continuation-disclosure) > summary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
   border: 0; border-radius: 0; background: none; padding: 8px 0; min-block-size: 48px; color: var(--n12); font-size: 16px; font-weight: 500;
@@ -48,7 +48,8 @@ img.v2-brand--bybit:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(
 .v6 .tg-hub__quick-cta .tg-btn--primary:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--n10); background: var(--n4); transform: none; }
 /* arrows on secondary next-step links are neutral */
 .v6 .decision-path-rail__link > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
-.v6 .decision-path-rail__link.is-primary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n10); }
+.v6 .decision-path-rail__link.is-primary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n10) !important; }
+.v6 .decision-path-rail__link:hover > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n12) !important; }
 
 /* ============ #8 hairlines span their container ============ */
 /* profile "Similar platforms": every row rule spans the list; name and summary share a top line; plain row links */
@@ -100,3 +101,5 @@ main.v3-profile-page.v6 .v3-alternative__actions:not(#_):not(#_):not(#_):not(#_)
 /* ============ /br hero figure: demoted to 28px and always shown with its basis ============ */
 .v6 .br-cost-strip .br-cost-figure:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 28px; line-height: 1.15; }
 .v6 .br-cost-strip .br-cost-bps:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 12px; line-height: 1.4; color: var(--n10); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.v6 .br-cost-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-areas: "title fig" "basis bps" "note note"; }
+.v6 .br-cost-strip > .br-cost-bps:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: bps; justify-self: end; align-self: start; }

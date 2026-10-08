@@ -908,7 +908,7 @@ test("rate benchmark and calculator paths preserve context with distinct researc
   assert.match(feeBenchmarkTerminal, /answerHref\("\/topics\/derivatives", "perpetuals"\)/);
   assert.ok(feeBenchmarkTerminal.indexOf('fee-terminal__next-step') < feeBenchmarkTerminal.indexOf('<CostDecision'), "rates next-step CTA should appear before the calculator on mobile");
   assert.match(feeBenchmarkTerminal, /data-cta-placement="rates-next-step-directory"[\s\S]*data-growth-market=\{market\}[\s\S]*data-growth-product=\{product\}/);
-  assert.match(feeBenchmarkTerminal, /data-cta-placement="rates-next-step-telegram"[\s\S]*data-growth-market=\{market\}[\s\S]*data-growth-product=\{product\}/);
+  assert.doesNotMatch(feeBenchmarkTerminal, /data-cta-placement="rates-next-step-telegram"/, "Telegram appears once on /rates (the Bot handoff block)");
   assert.match(feeBenchmarkTerminal, /data-cta-placement="rate-benchmark-row"/);
   assert.match(feeBenchmarkTerminal, /data-growth-market=\{market\}/);
   assert.match(costDecision, /cost-calculator-eligibility/);
