@@ -51,7 +51,9 @@ main.v3-profile-page.v6 .v3-profile-sources-group__body > .v3-profile-research-c
 main.v3-profile-page.v6 .v3-profile-sources-group__heading:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0 0 16px; font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; color: var(--n12, #edeef0); }
 main.v3-profile-page.v6 .v3-profile-answer-conditions :is(ul, ol):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; padding-inline-start: 20px; display: grid; gap: 8px; font-size: 14px; line-height: 1.55; color: var(--n11, #b5bac0); max-inline-size: 62ch; }
 main.v3-profile-page.v6 .v3-profile-answer-conditions :is(p, small):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 12px 0 0; font-size: 14px; line-height: 1.55; color: var(--n11, #b5bac0); max-inline-size: 62ch; }
-main.v3-profile-page.v6 .v3-profile-sources-group__body :is(.v3-registration-notes, .v3-profile-evidence-drawer, .v3-profile-secondary-research):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+main.v3-profile-page.v6 .v3-profile-sources-group__body :is(.v3-profile-account-block, .v3-profile-evidence-block, .v3-profile-secondary-research):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+
+main.v3-profile-page.v6 .v3-profile-sources-group__body :is(.v3-profile-account-block > .v3-registration-notes__body, .v3-profile-evidence-block__body, .v3-profile-secondary-research__body):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; gap: 24px; margin: 0; padding: 0; }
 
 /* readiness checklist: four toggle rows on graphite (no navy card grid) */
 main.v6:not(.home-refinement) .venue-readiness__grid:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); gap: 0; margin-block-end: 16px; }
@@ -135,7 +137,7 @@ main.v6:not(.home-refinement) .topic-card__facts:not(#_):not(#_):not(#_):not(#_)
 /* ============ compare dock (/exchanges): fixed 32px logos, a route instead of the VS badge, neutral action ============ */
 .mx-dock .mx-dock__slot :is(img.v2-brand, .v2-brand, .v2-brand-fallback):not(#_):not(#_) {
   flex: none; inline-size: 32px !important; block-size: 32px !important; width: 32px !important; height: 32px !important; min-inline-size: 32px; max-inline-size: 32px;
-  object-fit: contain; border-radius: 4px; transform: none;
+  object-fit: contain; border-radius: 4px; transform: none !important; scale: none;
 }
 .mx-dock .mx-dock__route:not(#_):not(#_) { flex: none; display: grid; place-items: center; inline-size: 40px; block-size: 24px; margin-inline: 4px; }
 .mx-dock .mx-dock__route svg:not(#_):not(#_) { display: block; overflow: visible; }
@@ -153,12 +155,12 @@ main.v6:not(.home-refinement) .topic-card__facts:not(#_):not(#_):not(#_):not(#_)
   @keyframes mx-route-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
   @keyframes mx-route-arrive { from { transform: scale(0); } 60% { transform: scale(1.6); } to { transform: scale(1); } }
 }
-.mx-dock a.mx-btn--primary:not(#_):not(#_):not(#_) {
+main.v6:not(.home-refinement) .mx-dock a.mx-btn--primary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
   border: 1px solid rgb(255 255 255 / 0.5); background: transparent; box-shadow: none; color: var(--n12, #edeef0);
   transition: border-color 160ms cubic-bezier(0.16, 1, 0.3, 1), background-color 160ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.mx-dock a.mx-btn--primary:hover:not(#_):not(#_):not(#_) { border-color: var(--n12, #edeef0); background: var(--n4, #1f2023); color: var(--n12, #edeef0); }
-.mx-dock a.mx-btn--primary:active:not(#_):not(#_):not(#_) { transform: scale(0.97); }
+main.v6:not(.home-refinement) .mx-dock a.mx-btn--primary:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--n12, #edeef0); background: var(--n4, #1f2023); color: var(--n12, #edeef0); }
+main.v6:not(.home-refinement) .mx-dock a.mx-btn--primary:active:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transform: scale(0.97); }
 
 /* ============ /rates: the final cost reveals once per change (mask wipe + route underline), never counts through numbers ============ */
 #top#top#top#top#top#top#top.v6.r1-rates-page .rt-verdict__figure { position: relative; }

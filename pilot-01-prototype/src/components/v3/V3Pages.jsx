@@ -2356,7 +2356,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
       <section className="v3-profile-research-chapter" data-research-task="account">
         <h3 className="v3-profile-sources-group__heading">{profileChapters[0]}</h3>
         <div className="v3-profile-research-chapter__body">
-        <div className="v3-registration-notes v3-venue-invitation-disclosure v3-profile-account-disclosure">
+        <div className="v3-profile-account-block v3-venue-invitation-disclosure">
           <div className="v3-registration-notes__body">
             <h3 className="v3-profile-account-section__heading">{invitationSummary.label}</h3>
             <p className="v3-profile-account-section__hint">{invitationSummary.note}</p>
@@ -2473,8 +2473,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
       <section className="v3-profile-research-chapter" data-research-task="sources">
         <h3 className="v3-profile-sources-group__heading">{profileChapters[1]}</h3>
         <div className="v3-profile-research-chapter__body">
-    <div className="v3-profile-evidence-drawer">
-      <div className="v3-profile-evidence-drawer__body">
+    <div className="v3-profile-evidence-block">
+      <div className="v3-profile-evidence-block__body">
         <VenueProofOfReserves
           venue={venue}
           locale={locale}
