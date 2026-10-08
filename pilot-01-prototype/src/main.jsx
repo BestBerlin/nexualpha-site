@@ -2,6 +2,7 @@ import React from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { App, preloadCurrentRouteModulesForUrl } from "./App.jsx";
 import { installCtaAnalytics } from "./data/cta-analytics.js";
+import { installOutboundFeedback } from "./data/outbound-feedback.js";
 import { signalRootHydrated } from "./data/hydration-readiness.js";
 import { buildHydrationBootstrap } from "./data/hydration-bootstrap.js";
 import { createHydrationOnceController, createHydrationRoutePreparer } from "./data/route-module-cache.js";
@@ -37,6 +38,7 @@ import "./styles/v5/index.css";
 const capturedBrowserUrl = typeof window !== "undefined" ? window.location.href : undefined;
 
 installCtaAnalytics();
+installOutboundFeedback();
 
 function ClientHydrationSignal() {
   React.useEffect(() => {

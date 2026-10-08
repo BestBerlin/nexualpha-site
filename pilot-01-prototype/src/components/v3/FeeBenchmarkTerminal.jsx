@@ -3,6 +3,7 @@
  * 展示带来源状态的基础费率；没有字段级核验时保持待核验。
  */
 import React, { useState } from "react";
+import { ctaUiCopy } from "../../data/cta-ui-copy.js";
 import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
 import { resolveCommercialClaim } from "../../data/commercial-claims.js";
@@ -577,6 +578,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
       netDisplay,
       ctaHref: cta.ctaHref,
       ctaDirect: cta.direct,
+      inviteCode: cta.hasReferral ? cta.inviteCode : null,
       trend: rebatePercent > 0 ? `↓ -${rebatePercent}%` : null,
     };
   }).filter((r) => {
@@ -620,7 +622,8 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
     data-growth-account-stage={accountStage}
     data-growth-funding={funding}
     data-growth-campaign={market ? `${String(market).toLowerCase()}-research-preview` : undefined}
-  >{row.ctaDirect ? t.cta : ({ ja: "地域条件を確認", ko: "지역 조건 확인", tr: "Bölgesel uygunluğu doğrula", es: "Verificar elegibilidad", "pt-BR": "Verificar elegibilidade", fr: "Vérifier l’éligibilité régionale", de: "Regionale Eignung prüfen", ru: "Проверить региональную доступность", ar: "تحقق من الأهلية الإقليمية", id: "Verifikasi kelayakan wilayah", vi: "Kiểm tra điều kiện khu vực", it: "Verifica idoneità regionale" }[locale] || (isZh ? "先核对地区资格" : "Verify eligibility"))}</a>;
+    data-cta-code={row.ctaDirect && row.inviteCode ? row.inviteCode : undefined}
+  >{row.ctaDirect ? `${ctaUiCopy(locale).caption} ↗` : ({ ja: "地域条件を確認", ko: "지역 조건 확인", tr: "Bölgesel uygunluğu doğrula", es: "Verificar elegibilidad", "pt-BR": "Verificar elegibilidade", fr: "Vérifier l’éligibilité régionale", de: "Regionale Eignung prüfen", ru: "Проверить региональную доступность", ar: "تحقق من الأهلية الإقليمية", id: "Verifikasi kelayakan wilayah", vi: "Kiểm tra điều kiện khu vực", it: "Verifica idoneità regionale" }[locale] || (isZh ? "先核对地区资格" : "Verify eligibility"))}</a>;
   return (
     <section className="fee-terminal-section v2-shell" id="rate-terminal" dir={normalizedLocale === "ar" ? "rtl" : undefined}>
       <div className="rt-tool rt-panel">

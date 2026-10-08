@@ -1,0 +1,54 @@
+// Shared copy for the single official-signup pattern (CRO v1): one primary "Open official signup" action,
+// a copyable code chip, a copy confirmation and an outbound-click confirmation. Kept tiny: it ships in the app shell.
+// {n} = venue name, {c} = referral code.
+const T = {
+  en: { open: "Open official signup", openN: "Open {n} official signup", signupN: "{n} signup", code: "Code", copy: "Copy code", copied: "Copied", copiedHint: "Code copied. Paste it if the signup form field is empty.", copyFail: "Copy blocked. Select the code and copy it manually.", opening: "{n} official signup opened in a new tab.", check: "Check the code {c} is filled in before you submit.", close: "Close", caption: "Official signup", next: "Next step", lower: "Lower checked spot fee: {n}", neutral: "No checked fee gap decides this pair. Pick by product and account fit.", directory: "Choose in the directory" },
+  "zh-Hans": { open: "打开官方注册", openN: "打开 {n} 官方注册", signupN: "{n} 注册", code: "邀请码", copy: "复制邀请码", copied: "已复制", copiedHint: "邀请码已复制。如注册表单未自动填写，请粘贴。", copyFail: "无法自动复制，请手动选择邀请码复制。", opening: "已在新标签页打开 {n} 官方注册。", check: "提交前请确认邀请码 {c} 已填写。", close: "关闭", caption: "官方注册", next: "下一步", lower: "已核验现货费率更低：{n}", neutral: "已核验费率不足以区分这两家，请按产品与账户需求选择。", directory: "在目录中选择" },
+  "zh-Hant": { open: "開啟官方註冊", openN: "開啟 {n} 官方註冊", signupN: "{n} 註冊", code: "邀請碼", copy: "複製邀請碼", copied: "已複製", copiedHint: "邀請碼已複製。如註冊表單未自動填寫，請貼上。", copyFail: "無法自動複製，請手動選取邀請碼複製。", opening: "已在新分頁開啟 {n} 官方註冊。", check: "送出前請確認邀請碼 {c} 已填寫。", close: "關閉", caption: "官方註冊", next: "下一步", lower: "已核驗現貨費率較低：{n}", neutral: "已核驗費率不足以區分這兩家，請依產品與帳戶需求選擇。", directory: "在目錄中選擇" },
+  ja: { open: "公式登録を開く", openN: "{n} の公式登録を開く", signupN: "{n} に登録", code: "コード", copy: "コードをコピー", copied: "コピー済み", copiedHint: "コードをコピーしました。登録フォームが空欄なら貼り付けてください。", copyFail: "コピーできませんでした。コードを選択して手動でコピーしてください。", opening: "{n} の公式登録を新しいタブで開きました。", check: "送信前にコード {c} が入力されているか確認してください。", close: "閉じる", caption: "公式登録", next: "次のステップ", lower: "確認済み現物手数料が低い：{n}", neutral: "確認済みの手数料差では決まりません。商品と口座条件で選んでください。", directory: "ディレクトリで選ぶ" },
+  ko: { open: "공식 가입 열기", openN: "{n} 공식 가입 열기", signupN: "{n} 가입", code: "코드", copy: "코드 복사", copied: "복사됨", copiedHint: "코드를 복사했습니다. 가입 양식이 비어 있으면 붙여 넣으세요.", copyFail: "복사할 수 없습니다. 코드를 선택해 직접 복사하세요.", opening: "{n} 공식 가입을 새 탭에서 열었습니다.", check: "제출 전에 코드 {c}가 입력되었는지 확인하세요.", close: "닫기", caption: "공식 가입", next: "다음 단계", lower: "확인된 현물 수수료가 더 낮음: {n}", neutral: "확인된 수수료 차이로는 정할 수 없습니다. 상품과 계정 조건으로 고르세요.", directory: "디렉터리에서 선택" },
+  tr: { open: "Resmî kaydı aç", openN: "{n} resmî kaydını aç", signupN: "{n} kaydı", code: "Kod", copy: "Kodu kopyala", copied: "Kopyalandı", copiedHint: "Kod kopyalandı. Kayıt formundaki alan boşsa yapıştırın.", copyFail: "Kopyalanamadı. Kodu seçip elle kopyalayın.", opening: "{n} resmî kaydı yeni sekmede açıldı.", check: "Göndermeden önce {c} kodunun girildiğini kontrol edin.", close: "Kapat", caption: "Resmî kayıt", next: "Sonraki adım", lower: "Kontrol edilen spot ücreti daha düşük: {n}", neutral: "Kontrol edilen ücretler bu ikiliyi ayırmıyor. Ürün ve hesap uyumuna göre seçin.", directory: "Dizinde seçin" },
+  es: { open: "Abrir registro oficial", openN: "Abrir registro oficial de {n}", signupN: "Registro en {n}", code: "Código", copy: "Copiar código", copied: "Copiado", copiedHint: "Código copiado. Pégalo si el campo del formulario está vacío.", copyFail: "No se pudo copiar. Selecciona el código y cópialo a mano.", opening: "Registro oficial de {n} abierto en una pestaña nueva.", check: "Comprueba que el código {c} esté rellenado antes de enviar.", close: "Cerrar", caption: "Registro oficial", next: "Siguiente paso", lower: "Comisión spot verificada más baja: {n}", neutral: "Ninguna diferencia de comisión verificada decide este par. Elige por producto y cuenta.", directory: "Elegir en el directorio" },
+  "pt-BR": { open: "Abrir cadastro oficial", openN: "Abrir cadastro oficial da {n}", signupN: "Cadastro na {n}", code: "Código", copy: "Copiar código", copied: "Copiado", copiedHint: "Código copiado. Cole se o campo do formulário estiver vazio.", copyFail: "Não foi possível copiar. Selecione o código e copie manualmente.", opening: "Cadastro oficial da {n} aberto em uma nova aba.", check: "Confira se o código {c} está preenchido antes de enviar.", close: "Fechar", caption: "Cadastro oficial", next: "Próximo passo", lower: "Taxa spot verificada mais baixa: {n}", neutral: "Nenhuma diferença de taxa verificada decide este par. Escolha por produto e conta.", directory: "Escolher no diretório" },
+  fr: { open: "Ouvrir l’inscription officielle", openN: "Ouvrir l’inscription officielle {n}", signupN: "Inscription {n}", code: "Code", copy: "Copier le code", copied: "Copié", copiedHint: "Code copié. Collez-le si le champ du formulaire est vide.", copyFail: "Copie impossible. Sélectionnez le code et copiez-le manuellement.", opening: "Inscription officielle {n} ouverte dans un nouvel onglet.", check: "Vérifiez que le code {c} est renseigné avant d’envoyer.", close: "Fermer", caption: "Inscription officielle", next: "Étape suivante", lower: "Frais spot vérifiés plus bas : {n}", neutral: "Aucun écart de frais vérifié ne tranche ici. Choisissez selon le produit et le compte.", directory: "Choisir dans l’annuaire" },
+  de: { open: "Offizielle Registrierung öffnen", openN: "Offizielle {n}-Registrierung öffnen", signupN: "{n}-Registrierung", code: "Code", copy: "Code kopieren", copied: "Kopiert", copiedHint: "Code kopiert. Fügen Sie ihn ein, falls das Formularfeld leer ist.", copyFail: "Kopieren blockiert. Markieren Sie den Code und kopieren Sie ihn manuell.", opening: "Offizielle {n}-Registrierung in neuem Tab geöffnet.", check: "Prüfen Sie vor dem Absenden, ob der Code {c} eingetragen ist.", close: "Schließen", caption: "Offizielle Registrierung", next: "Nächster Schritt", lower: "Niedrigere geprüfte Spot-Gebühr: {n}", neutral: "Keine geprüfte Gebührendifferenz entscheidet dieses Paar. Wählen Sie nach Produkt und Konto.", directory: "Im Verzeichnis wählen" },
+  ru: { open: "Открыть официальную регистрацию", openN: "Открыть официальную регистрацию {n}", signupN: "Регистрация {n}", code: "Код", copy: "Копировать код", copied: "Скопировано", copiedHint: "Код скопирован. Вставьте его, если поле формы пустое.", copyFail: "Не удалось скопировать. Выделите код и скопируйте вручную.", opening: "Официальная регистрация {n} открыта в новой вкладке.", check: "Перед отправкой проверьте, что код {c} указан.", close: "Закрыть", caption: "Официальная регистрация", next: "Следующий шаг", lower: "Проверенная спот-комиссия ниже: {n}", neutral: "Проверенные комиссии не решают выбор в этой паре. Выбирайте по продукту и аккаунту.", directory: "Выбрать в каталоге" },
+  ar: { open: "افتح التسجيل الرسمي", openN: "افتح التسجيل الرسمي في {n}", signupN: "التسجيل في {n}", code: "الرمز", copy: "انسخ الرمز", copied: "تم النسخ", copiedHint: "تم نسخ الرمز. الصقه إذا كان حقل النموذج فارغاً.", copyFail: "تعذّر النسخ. حدّد الرمز وانسخه يدوياً.", opening: "فُتح التسجيل الرسمي في {n} في علامة تبويب جديدة.", check: "تأكد من إدخال الرمز {c} قبل الإرسال.", close: "إغلاق", caption: "التسجيل الرسمي", next: "الخطوة التالية", lower: "رسوم سبوت موثّقة أقل: {n}", neutral: "لا يحسم فرق رسوم موثّق هذا الزوج. اختر حسب المنتج والحساب.", directory: "اختر من الدليل" },
+  id: { open: "Buka pendaftaran resmi", openN: "Buka pendaftaran resmi {n}", signupN: "Daftar {n}", code: "Kode", copy: "Salin kode", copied: "Tersalin", copiedHint: "Kode tersalin. Tempel jika kolom formulir kosong.", copyFail: "Gagal menyalin. Pilih kode lalu salin manual.", opening: "Pendaftaran resmi {n} dibuka di tab baru.", check: "Pastikan kode {c} terisi sebelum mengirim.", close: "Tutup", caption: "Pendaftaran resmi", next: "Langkah berikutnya", lower: "Biaya spot terverifikasi lebih rendah: {n}", neutral: "Tidak ada selisih biaya terverifikasi yang menentukan pasangan ini. Pilih berdasarkan produk dan akun.", directory: "Pilih di direktori" },
+  vi: { open: "Mở đăng ký chính thức", openN: "Mở đăng ký chính thức {n}", signupN: "Đăng ký {n}", code: "Mã", copy: "Sao chép mã", copied: "Đã sao chép", copiedHint: "Đã sao chép mã. Dán vào nếu ô trong biểu mẫu còn trống.", copyFail: "Không sao chép được. Hãy chọn mã và sao chép thủ công.", opening: "Đã mở đăng ký chính thức {n} trong thẻ mới.", check: "Kiểm tra mã {c} đã được điền trước khi gửi.", close: "Đóng", caption: "Đăng ký chính thức", next: "Bước tiếp theo", lower: "Phí spot đã kiểm tra thấp hơn: {n}", neutral: "Chênh lệch phí đã kiểm tra không quyết định cặp này. Hãy chọn theo sản phẩm và tài khoản.", directory: "Chọn trong danh mục" },
+  it: { open: "Apri la registrazione ufficiale", openN: "Apri la registrazione ufficiale {n}", signupN: "Registrazione {n}", code: "Codice", copy: "Copia codice", copied: "Copiato", copiedHint: "Codice copiato. Incollalo se il campo del modulo è vuoto.", copyFail: "Copia bloccata. Seleziona il codice e copialo manualmente.", opening: "Registrazione ufficiale {n} aperta in una nuova scheda.", check: "Controlla che il codice {c} sia inserito prima di inviare.", close: "Chiudi", caption: "Registrazione ufficiale", next: "Passo successivo", lower: "Commissione spot verificata più bassa: {n}", neutral: "Nessuna differenza di commissione verificata decide questa coppia. Scegli per prodotto e account.", directory: "Scegli nella directory" },
+};
+
+export function ctaUiCopy(locale = "en") {
+  const l = String(locale || "en");
+  if (l === "zh-TW" || l === "zh-HK") return T["zh-Hant"];
+  if (l === "zh" || l === "zh-CN") return T["zh-Hans"];
+  return T[l] || T[l.split("-")[0]] || T.en;
+}
+
+export const fillCta = (s, { n = "", c = "" } = {}) => String(s).replace("{n}", n).replace("{c}", c);
+
+// Code copies are recorded as a decision_select (the collector accepts it without a schema change):
+// decision "copy_code_<slug>", placement = where the chip sits. No code value is ever sent.
+export function trackCodeCopy(slug, placement) {
+  try {
+    if (typeof window !== "undefined" && typeof window.nexuTrackGrowthDecision === "function" && slug) {
+      window.nexuTrackGrowthDecision({ decision: `copy_code_${slug}`.slice(0, 60), placement: placement || "code-chip" });
+    }
+  } catch { /* analytics must never break the copy */ }
+}
+
+export async function copyText(text) {
+  if (!text) return false;
+  try {
+    if (navigator.clipboard?.writeText) { await navigator.clipboard.writeText(text); return true; }
+  } catch { /* fall through to the legacy path */ }
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    const ok = document.execCommand("copy") === true;
+    ta.remove();
+    return ok;
+  } catch { return false; }
+}
