@@ -24,13 +24,21 @@ def mounts(name):
     info = json.loads(out('docker', 'inspect', name))[0]
     return [m['Source'] for m in info.get('Mounts', [])]
 
-if ACTION == 'remove-old-web':
+if ACTION in ('remove-old-web', 'plan-remove'):
     targets = [n for n, _ in rows if n.startswith('nexualpha-web-') and n not in keep]
     roots = set()
     for n in targets:
         for src in mounts(n):
             if src.startswith('/data/wwwroot/nexualpha-') and '/content' not in src:
                 roots.add(src)
+    if ACTION == 'plan-remove':
+        print('\nWOULD REMOVE %d containers:' % len(targets))
+        for n in targets: print('  ' + n)
+        print('\nWOULD DELETE these release dirs (if no kept container mounts them):')
+        for r in sorted(roots): print('  ' + r)
+        sh('du -xsc ' + ' '.join(sorted(roots)) + ' 2>/dev/null | tail -1')
+        raise SystemExit(0)
+    for n in targets:
         r = subprocess.run(['docker', 'rm', '-f', n], stdout=subprocess.DEVNULL)
         print('removed container %s%s' % (n, '' if r.returncode == 0 else ' FAILED'))
     still = set()

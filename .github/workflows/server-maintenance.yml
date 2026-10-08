@@ -1,6 +1,7 @@
 name: Server maintenance
 
 # Manual only.
+# plan-remove    read-only: list exactly what remove-old-web would remove
 # disk-report    read-only inventory of /data
 # remove-old-web remove every nexualpha-web-* container except the live one and the rollback
 #                target, and delete their release directories (owner approved 2026-10-08)
@@ -10,8 +11,8 @@ on:
     inputs:
       action:
         type: choice
-        options: [disk-report, remove-old-web]
-        default: disk-report
+        options: [plan-remove, disk-report, remove-old-web]
+        default: plan-remove
 
 permissions:
   contents: read
