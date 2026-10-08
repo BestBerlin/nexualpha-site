@@ -67,7 +67,7 @@ main.v3-profile-page.v6 .v3-alternative__actions:not(#_):not(#_):not(#_):not(#_)
 .v6 .tg-deck:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline: 0; }
 .v6 .tg-feature-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 0; }
 /* /methodology: hero meta rule and pillar/list rows span 120–1320 */
-.v6 .methodology-page__research-trust:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { max-inline-size: none; inline-size: auto; }
+.v6 .methodology-page__research-trust:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { max-inline-size: none; inline-size: 100%; align-self: stretch; box-sizing: border-box; }
 .v6 .methodology-pillar-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 0; }
 .v6 :is(.methodology-page__funding-answer, .methodology-page__section) li:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 0; }
 /* /factbook detail: the fee notes' rules span the section */
@@ -86,7 +86,7 @@ main.v3-profile-page.v6 .v3-alternative__actions:not(#_):not(#_):not(#_):not(#_)
 /* ============ /methodology data links: 44px rows ============ */
 .v6 :is(.methodology-page, main) a[href^="/research/"][href$=".json"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
 .v6 :is(.methodology-page, main) a[href^="/research/"][href$=".csv"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
-  display: inline-flex; align-items: center; min-block-size: 44px; min-inline-size: 44px; justify-content: center;
+  display: inline-flex !important; align-items: center; min-block-size: 44px !important; min-inline-size: 44px !important; justify-content: center;
 }
 
 /* ============ /factbook detail venue switcher: eight venues + "Show all", no chip inside a chip ============ */
