@@ -1,0 +1,105 @@
+/* ======================= R6 (home) =======================
+ * Hero: a radial route map (venues on an arc around the verify gate, routes travel 160-240px), the card docks beside the chosen
+ * venue, a compact phone first screen. Acts: one section rhythm (--section-pad), slimmer Compare Lab, Verify steps on one line.
+ * Loaded last; logical properties only; scale steps only (12/14/16/20/28/44/72), weights 400/500/600 only. */
+
+/* ---------- weights: 400 / 500 / 600 only ---------- */
+#top.v6.home-refinement :is(b, strong) { font-weight: 600; }
+#top.v6.home-refinement .registration-card__next-step span, #top.v6.home-refinement .registration-card__next-step b { font-weight: 600; }
+#top.v6 .registration-card__mobile-route-body b, #top.v6 .registration-card__state-list b { font-weight: 600; }
+#top.v6 .cl-pop__names b, #top.v6 .v2-brand-fallback, #top.v6 .rf-node .v2-brand-fallback { font-weight: 600; }
+#top.v6.home-refinement .nx-search__label { font-weight: 400; }
+
+/* ---------- route lines: no glow; a 2px stroke and the travelling pulse carry the active route ---------- */
+#top.v6 .rf-route__line--on { filter: none; }
+#top.v6 .rr__fill { box-shadow: none; }
+#top.v6 .rf-svg { inset-block: 0; inset-inline: max(var(--gutter), calc((100% - var(--container)) / 2)); inline-size: auto; block-size: 100%; }
+/* the server draws the default routes on the nominal wide layout; narrower layouts wait for the measured geometry */
+@media (max-width: 73.99rem) { #top.v6 .rf-svg:not([data-live]) > g { display: none; } }
+
+/* ---------- card: never blinks. Only the venue identity and the code re-enter; frame and CTA stay at full opacity ---------- */
+#top.v6 .rf-card[data-swap] { animation: none; }
+@media (prefers-reduced-motion: no-preference) {
+  #top.v6 .rf-card[data-swap] :is(.rf-card__who, .registration-card__code-value, .registration-card__domain-badge) { animation: rf-head-in 200ms var(--ease-out) both; }
+}
+@keyframes rf-head-in { from { opacity: 0.4; translate: 0 var(--s-2); } to { opacity: 1; translate: 0 0; } }
+#top.v6 .rf-card { min-block-size: 0 !important; }
+
+/* ---------- venue nodes: 12px tabular figures that always fit; a venue without checked fees shows its official domain ---------- */
+#top.v6 .rf-node__fee { font-family: var(--font-mono); font-size: var(--t-12); line-height: 1.55; font-weight: 400; font-variant-numeric: tabular-nums; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; }
+#top.v6 .rf-node__fee bdi { font-family: var(--font-mono); letter-spacing: 0; }
+#top.v6 .rf-node__dom { color: var(--text-muted); letter-spacing: 0; }
+#top.v6 .rf-node[data-active="true"] .rf-node__dom { color: var(--text); }
+#top.v6 .rf-node[data-hot] { background: var(--n2); border-color: color-mix(in srgb, var(--accent) 45%, var(--n8)); }
+#top.v6 .rf-node[data-hot] .rf-port { border-color: var(--accent); }
+
+/* ---------- wide: the radial map ---------- */
+@media (min-width: 74rem) {
+  #top.v6 .rf-grid { grid-template-rows: auto auto 1fr; padding-block-start: var(--s-8); }
+  #top.v6 .rf-copy { grid-column: 1 / 8; grid-row: 1; }
+  #top.v6 .rf-actions { grid-column: 1 / 7; grid-row: 2; }
+  /* left foot: readout + intents (cols 1-4), You -> gate (col 5); both end level with the last venue */
+  #top.v6 .rf-pick { grid-column: 1 / 5; grid-row: 3; align-self: end; row-gap: var(--s-6); margin-block-start: var(--s-6); }
+  #top.v6 .rf-intent { min-block-size: 72px; }
+  #top.v6 .rf-hub {
+    grid-column: 5 / 6; grid-row: 3; align-self: end; position: relative;
+    display: flex; align-items: center; gap: var(--s-2); margin: 0 0 18px; inline-size: max-content;
+  }
+  #top.v6 .rf-you { inline-size: auto; min-inline-size: 36px; block-size: 36px; padding-inline: var(--s-2); border-radius: 18px; font-size: var(--t-12); }
+  #top.v6 .rf-gate { inline-size: 36px; block-size: 36px; max-inline-size: none; padding: 0; gap: 0; justify-content: center; border-radius: 50%; }
+  #top.v6 .rf-gate > .rf-gate__dom { position: absolute; inset-block-start: calc(100% + var(--s-3)); inset-inline-start: 0; overflow: visible; color: var(--text); white-space: nowrap; }
+  #top.v6 .rf-gate__cap { position: absolute; inset-block-start: calc(100% + var(--s-3) + 1.55em); inset-inline-start: 0; margin: 0; max-inline-size: 13rem; inline-size: max-content; font-size: var(--t-12); line-height: 1.55; color: var(--text-muted); }
+  /* venues: an arc around the gate, nearest at the foot, furthest at the top; fixed 80px pitch (the server map uses it) */
+  #top.v6 .rf-nodes { grid-column: 6 / 10; grid-row: 1 / 4; display: flex; flex-direction: column; align-self: start; }
+  #top.v6 .rf-nodes > .rf-label { align-self: flex-end; inline-size: 170px; margin: 0 0 var(--s-3); }
+  #top.v6 .rf-list { display: grid; flex: none; grid-auto-rows: 72px; gap: var(--s-2); }
+  #top.v6 .rf-list > li { display: block; }
+  #top.v6 .rf-node { inline-size: 170px; block-size: 72px; margin: 0; margin-inline-start: calc(100% - 170px - var(--arc, 0px)); padding: var(--s-2) var(--s-3); }
+  /* the card docks beside the chosen venue (a translate: it never moves layout) */
+  #top.v6 .rf-card { grid-column: 10 / 13; grid-row: 1 / 4; align-self: start; margin: 0; translate: 0 var(--dock, 0px); transition: translate 420ms var(--ease-out); }
+  #top.v6 .rf-card::before { content: none; }
+}
+@media (min-width: 74rem) and (prefers-reduced-motion: reduce) { #top.v6 .rf-card { transition: none; } }
+@media (min-width: 74rem) and (max-height: 820px) {
+  #top.v6 .rf-grid { padding-block-start: var(--s-8); }
+  #top.v6 .rf-pick { row-gap: var(--s-6); margin-block-start: var(--s-6); }
+  #top.v6 .rf-intent { min-block-size: 72px; flex-direction: column; gap: var(--s-2); }
+  #top.v6 .rf-list { gap: var(--s-2); }
+  #top.v6 .rf-nodes > .rf-label { margin-block-end: var(--s-3); }
+}
+
+/* ---------- phone: the first screen carries the whole decision (intents, venue strip, compact card, Official signup) ---------- */
+@media (max-width: 37.5rem) {
+  #top.v6 .rf-grid { padding-block-start: var(--s-4); }
+  #top.v6 .rf-lede { margin-block-start: var(--s-3); }
+  #top.v6 .rf-intents { order: 1; margin-block-start: var(--s-4); }
+  #top.v6 .rf-intents > .rf-label, #top.v6 .rf-nodes > .rf-label { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+  #top.v6 .rf-intent { min-block-size: 56px; padding: var(--s-2) var(--s-1); gap: var(--s-1); }
+  #top.v6 .rf-hub { display: none; }
+  #top.v6 .rf-nodes { order: 2; margin-block-start: var(--s-3); }
+  #top.v6 .rf-node { min-block-size: 52px; padding: var(--s-2) var(--s-3); min-inline-size: 8.5rem; }
+  #top.v6 .rf-card { order: 3; margin-block: var(--s-3) 0; padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-3); }
+  #top.v6 .rf-actions { order: 4; margin-block-start: var(--s-6); display: flex; flex-wrap: nowrap; align-items: center; gap: var(--s-4); }
+  #top.v6 .rf-actions .rf-btn--primary { flex: 1 1 auto; min-inline-size: 0; }
+  #top.v6 .rf-actions .rf-link { flex: 0 1 auto; order: 2; white-space: normal; }
+  #top.v6 .rf-actions .rf-btn--ghost { display: none; }
+  /* compact card: venue, code, Official signup first; fees, checked date, domain, route details and disclosure follow */
+  #top.v6 .rf-card__head, #top.v6 .rf-card .hx-route__registration, #top.v6 .rf-card .registration-card, #top.v6 .rf-card .registration-card__body { display: contents; }
+  #top.v6 .rf-card__who { order: 0; }
+  #top.v6 .rf-card .registration-card__code-section { order: 1; padding: var(--s-2) var(--s-2) var(--s-2) var(--s-3); row-gap: 0; }
+  #top.v6 .rf-card .registration-card__code-section .registration-card__benefit { display: none; }
+  #top.v6 .rf-card .registration-card__code-value { font-size: var(--t-20); }
+  #top.v6 .rf-card .registration-card__action-group { order: 2; gap: var(--s-2); }
+  #top.v6 .rf-card .rf-facts { order: 3; margin: 0; }
+  #top.v6 .rf-card .rf-card__chk { order: 4; }
+  #top.v6 .rf-card .registration-card__head { order: 5; }
+  #top.v6 .rf-card .registration-card__mobile-route-details { order: 6; }
+  #top.v6 .rf-card .registration-card__disclosure { order: 7; }
+  #top.v6 .rf-card .registration-card__head, #top.v6 .rf-card .rf-facts { padding-block-start: var(--s-3); border-block-start: 1px solid var(--line); }
+  /* no-JS / first paint: the active intent already points down into the venue strip */
+  #top.v6 .rf-grid:not(:has(.rf-svg[data-live])) .rf-intent[aria-checked="true"] .rf-port::after { content: ""; position: absolute; inset-block-start: 100%; inset-inline-start: 50%; inline-size: 2px; block-size: var(--s-3); margin-inline-start: -1px; background: var(--accent); }
+}
+
+/* ---------- Japanese display title: phrase breaks only (the <wbr> come from the component) ---------- */
+/* keep-all: the only break opportunities are the phrase <wbr>; "anywhere" applies only to a single phrase wider than the line */
+#top.v6 .rf-grid:lang(ja) .rf-title.rf-title { word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
