@@ -212,6 +212,9 @@ function Finder({ kit }) {
   const [reserve, setReserve] = useState(0);
   const slugRef = useRef(slug);
   slugRef.current = slug;
+  const primeRef = useRef(null);
+  const reserveRef = useRef(0);
+  reserveRef.current = reserve;
   const geo = useRoutes(stageRef, { intentRefs, nodeRefs, youRef, gateRef, cardRef }, intent, litKey, slug);
 
   // Pointer light on the map grid + magnetic primary CTAs (progressive: static without JS or with reduced motion).
@@ -262,6 +265,7 @@ function Finder({ kit }) {
       } finally { flushSync(() => setSlug(keep)); }
       if (max > 0) setReserve(Math.ceil(max));
     };
+    primeRef.current = prime;
     const later = () => { clearTimeout(timer); timer = setTimeout(prime, 220); };
     const firsts = [80, 600, 1600].map((ms) => setTimeout(prime, ms)); // settle after hydration, fonts and images
     document.fonts?.ready?.then(later);
@@ -271,6 +275,7 @@ function Finder({ kit }) {
   }, [locale]);
 
   const pickIntent = (next) => {
+    if (!reserveRef.current) primeRef.current?.(); // measure every venue's card before anything changes
     setIntent(next);
     setSlug(pickDefault(next));
     setHot(null);
@@ -300,6 +305,7 @@ function Finder({ kit }) {
   };
   const pickNode = (s) => {
     if (!lit.includes(s)) return;
+    if (!reserveRef.current) primeRef.current?.();
     setSlug(s);
     setTick((n) => n + 1);
     // Narrow layout: the card opens inline under the node; keep the tapped node in view as the old card collapses.
@@ -318,7 +324,7 @@ function Finder({ kit }) {
 
   return (
     <>
-    <div className="rf-grid" ref={stageRef}>
+    <div className="rf-grid" ref={stageRef} onPointerEnter={() => { if (!reserveRef.current) primeRef.current?.(); }}>
       <div className="rf-copy">
         <h1 className={`rf-title${/\s/.test(String(kit.title).trim()) && Math.max(...String(kit.title).split(/\s+/).map((w) => w.length)) > 11 ? " rf-title--long" : ""}`}>{kit.title}</h1>
         <p className="rf-lede">{kit.lede}</p>
