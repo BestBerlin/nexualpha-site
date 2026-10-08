@@ -7,7 +7,8 @@ import { bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { DecisionPathRail } from "./DecisionPathRail.jsx";
 import "./factbook-page.css";
-import { FactsStrip, feesCheckedLabel, feesStatusLabel } from "./ExchangeFactsV5.jsx";
+import { feesCheckedLabel, feesStatusLabel } from "./ExchangeFactsV5.jsx";
+import { VenueFeeLedger } from "../v6/InnerLedger.jsx";
 import { discountFact, venueCheckedOn } from "../../data/exchange-facts.js";
 
 const factbookRecordCount = FACTBOOK_SLUGS.length;
@@ -1505,7 +1506,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 {venue.feeVerified && <p className="factbook-section__sub">{t.secVipSub}</p>}
               </div>
             </div>
-            <div className="v5-detail factbook-base-fees"><FactsStrip slug={venue.slug} locale={locale} /></div>
+            <div className="v5-detail factbook-base-fees"><VenueFeeLedger slug={venue.slug} locale={locale} /></div>
             {!venue.feeVerified && <p className="factbook-fee-status">{baseFeesCheckedOn ? (factbookBaseFeeCheckedCopy[locale] || factbookBaseFeeCheckedCopy[localeBase] || factbookBaseFeeCheckedCopy.en).replace("{date}", baseFeesCheckedOn) : feeRecordCopy[0]}</p>}
             {!venue.feeVerified && (venue.vipTiers || []).length > 0 && <p className="factbook-vip-pending">{(factbookVipPendingCopy[locale] || factbookVipPendingCopy[localeBase] || factbookVipPendingCopy.en).replace("{n}", String(venue.vipTiers.length))}</p>}
             {venue.feeVerified && <FeeRecords className={venue.feeVerified ? "factbook-fee-reviewed" : "factbook-fee-records"}>
