@@ -14,6 +14,8 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { accountStageCopy, decisionCopy, directoryCopy, productPathLabel } from "./venue-yellow-pages-copy.js";
 import { appendAccountStageToSearch, emptyYellowPagesFilters, restoreYellowPagesStateFromUrl, writeYellowPagesStateToUrl } from "./venue-yellow-pages-state.js";
+import { ExchangeMatrix } from "./ExchangeMatrix.jsx";
+import { matrixCopy } from "./exchange-matrix-copy.js";
 import "./venue-yellow-pages.css";
 
 // Scoped regional UI: research status does not establish account eligibility.
@@ -858,10 +860,12 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
   }, [contextualVenues, selectedCategory, filters, sortBy, searchQuery, locale, effectiveAccountStage, decisions.primary]);
 
   return (
-    <section className={`yellow-pages v2-shell${compact ? "" : " yellow-pages--directory"}`} id="exchanges">
-      <div className="yellow-pages__header">
-        <HeadingTag className="yellow-pages__title">{ui.sectionTitle}</HeadingTag>
-        <p className="yellow-pages__lead">{ui.sectionLead}</p>
+    <section className={compact ? "yellow-pages v2-shell" : "mx-page v5"} id="exchanges">
+      <div className={compact ? "yellow-pages__header" : "mx-page__inner"}>
+        <div className={compact ? undefined : "mx-head"}>
+        <HeadingTag className={compact ? "yellow-pages__title" : "mx-title"}>{ui.sectionTitle}</HeadingTag>
+        <p className={compact ? "yellow-pages__lead" : "mx-lead"}>{ui.sectionLead}</p>
+        </div>
         {context.scoped && (
           <p className="yellow-pages__context" data-directory-context={`${context.market}:${context.product}`}>
             {locale.startsWith("zh") ? `当前研究地区：${context.label} · 产品路径：${context.product === "spot" ? "现货" : "待选择"} · 资格仍需在平台官方流程确认。` : (dc.context?.(context.label, context.product) || `Research context: ${context.label} · Product path: ${context.product === "spot" ? "Spot" : "Choose in platform"}. Verify eligibility in the official flow.`)}
@@ -908,6 +912,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
           </div>
         )}
 
+        {compact && (<>
         <div className="yellow-pages__tabs" role="group" aria-label={ui.sectionTitle}>
           {categories.map((cat) => (
             <button key={cat.id} type="button"
@@ -969,9 +974,41 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
             </select>
           </div>
         </div>
+        </>)}
       </div>
 
-      {filteredVenues.length === 0 ? (
+      {!compact ? (
+        <div className="mx-page__inner">
+          <ExchangeMatrix
+            venues={filteredVenues}
+            totalCount={contextualVenues.length}
+            locale={locale}
+            ui={ui}
+            mc={matrixCopy(locale)}
+            context={context}
+            market={market}
+            product={product}
+            contextSearch={contextSearch}
+            accountStage={effectiveAccountStage}
+            funding={effectiveFunding}
+            selectedCategory={selectedCategory}
+            onCategory={setSelectedCategory}
+            searchQuery={searchQuery}
+            onSearch={setSearchQuery}
+            onClearSearch={clearDirectorySearch}
+            searchInputRef={searchInputRef}
+            compareSelection={compareSelection}
+            onToggleCompare={toggleCompareSelection}
+            onClearCompare={() => setCompareSelection([])}
+            compareHref={compareHref}
+            onCopyCode={handleCopyCode}
+            renderCopyFeedback={renderCopyFeedback}
+            copiedToast={copiedToast}
+            onReset={() => { setFilters({ noKyc: false, por: false, fiat: false, highLev: false }); setSearchQuery(""); setSelectedCategory("all"); }}
+            regionalReturnHref={regionalReturnHref}
+          />
+        </div>
+      ) : filteredVenues.length === 0 ? (
         <div className="yellow-pages__empty" role="status">
           <h2>{ui.emptyTitle}</h2>
           <p>{ui.emptyBody}</p>
@@ -1234,7 +1271,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
           })}
         </div>
       )}
-      {!compact && compareSelection.length > 0 && (
+      {false && !compact && compareSelection.length > 0 && (
         <div className="yellow-pages__compare-tray" role="status" aria-live="polite">
           <span>{compareSelection.length === 2 ? ui.compareOpen : ui.compareNeed} · {compareSelection.join(" + ")}</span>
           <div>
@@ -1243,7 +1280,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
           </div>
         </div>
       )}
-      {!compact && filteredVenues.length > 6 && (
+      {false && !compact && filteredVenues.length > 6 && (
         <button
           type="button"
           className="yellow-pages__expand"
