@@ -967,7 +967,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
       <div className="registration-card__head">
         <div className="registration-card__domain-box">
           <span className="registration-card__domain-badge">
-            <span aria-hidden="true">🔒</span>
+            <span aria-hidden="true" className="registration-card__lock"><svg focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg></span>
             <b translate="no" lang="en">{visiblePartner.officialDomain || venueSlug}</b>
           </span>
           <span className="registration-card__domain-hint">
