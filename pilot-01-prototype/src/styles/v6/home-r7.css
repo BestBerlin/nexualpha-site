@@ -88,7 +88,7 @@ body:has(> * main#top.v6.home-refinement), body:has(main#top.v6.home-refinement)
 @media (min-width: 74rem) and (max-height: 820px) {
   #top.v6 .rf-pick { margin-block-start: var(--s-4); row-gap: 0; }
   #top.v6 .rf-hub { margin: calc(var(--s-4) + var(--t-12) * 1.55 + var(--s-3) + 6px) 0 0; }
-  #top.v6 .rf-actions { margin-block-start: var(--s-4); }
+  #top.v6 .rf-actions { margin-block-start: var(--s-8); } /* clears the intent -> You line that runs under the tiles */
 }
 #top.v6 .rf-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-6); }
 #top.v6 .rf-actions .rf-btn--wizard { order: 0; display: inline-flex; flex: 0 1 auto; white-space: normal; text-align: center; background: transparent; color: var(--text-strong); border-color: var(--n7); }
