@@ -6,6 +6,8 @@ import { BRAZIL_DECISION_CHAIN, BRAZIL_EVIDENCE_CHAIN, BRAZIL_SOURCES, BRAZIL_VE
 import { trackGrowthDecision as trackGrowthDecisionEvent } from "../../../data/cta-analytics.js";
 import { buildTelegramWebsiteFunnelContext } from "../../../data/telegram-config.js";
 import { OnsiteTelegramBotHandoff } from "../OnsiteTelegramBotHandoff.jsx";
+import { BrandMark } from "../../brand/BrandMark.jsx";
+import { useTween } from "../../../lib/v6/useTween.js";
 import {
   costEstimate,
   browserSessionStorage,
@@ -541,12 +543,14 @@ function BrazilDecisionPath({ state, selectedVenues, mainRegistrationUrl, mainRe
       <ol>
         <li>
           <a href={pixHref} rel="nofollow" data-growth-decision="br_verify_pix" data-growth-placement="brazil-first-viewport-path" onClick={() => onDecision?.("br_verify_pix", { placement: "brazil-first-viewport-path" })}>
+            <i className="br-node" aria-hidden="true" />
             <b>1. Verificar Pix/BRL</b>
             <span>Depósito, saque, CPF, titularidade, limite e taxa.</span>
           </a>
         </li>
         <li>
           <a href={eligibilityHref} rel="nofollow" data-growth-decision="br_verify_eligibility" data-growth-placement="brazil-first-viewport-path" onClick={() => onDecision?.("br_verify_eligibility", { placement: "brazil-first-viewport-path" })}>
+            <i className="br-node" aria-hidden="true" />
             <b>2. Verificar CPF e elegibilidade</b>
             <span>KYC, produto spot, residência e benefício exibido na conta.</span>
           </a>
@@ -563,6 +567,7 @@ function BrazilDecisionPath({ state, selectedVenues, mainRegistrationUrl, mainRe
             data-growth-placement="brazil-first-viewport-path"
             onClick={() => onDecision?.(finalKind === "registration" ? "br_register_after_checks" : "br_shortlist_after_checks", { placement: "brazil-first-viewport-path" })}
           >
+            <i className="br-node" aria-hidden="true" />
             <b>3. {finalLabel}</b>
             <span>{finalText}</span>
           </a>
@@ -580,7 +585,7 @@ function BrazilDecisionPath({ state, selectedVenues, mainRegistrationUrl, mainRe
   }
 
   return (
-    <div className="br-decision-path" aria-label="Caminho rápido antes do cadastro">
+    <div className="br-decision-path" aria-label="Caminho rápido antes do cadastro" data-chosen={state.platform ? "true" : undefined}>
       <p>{status}</p>
       {pathSteps}
     </div>
@@ -713,6 +718,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
 
   const selectedVenues = useMemo(() => selectVenues(venues, state.platform), [state.platform, venues]);
   const estimate = useMemo(() => costEstimate(state), [state]);
+  const shownTotal = useTween(Number(estimate.total) || 0);
   const isBrazil = state.region === "BR";
   const isSpot = state.product === "spot";
   const selectedIsBrazilShortlist = isBrazilShortlistPlatform(venues, state.platform);
@@ -852,10 +858,13 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
           const researchUrl = withBrazilPassport(`/exchanges/${venue.slug}#registration-path`, state, pageLocale);
           const isSelected = state.platform === venue.slug;
           return (
-            <article className="br-venue-card" key={venue.slug} data-testid={`brazil-venue-${venue.slug}`}>
+            <article className="br-venue-card" key={venue.slug} data-testid={`brazil-venue-${venue.slug}`} data-selected={isSelected ? "true" : undefined}>
               <div className="br-venue-card__top">
-                <b translate="no" lang="en">{venue.name}</b>
-                <span>{venue.paymentSummary}</span>
+                <span className="br-venue-card__logo"><BrandMark slug={venue.slug} compact /></span>
+                <div className="br-venue-card__id">
+                  <b translate="no" lang="en">{venue.name}</b>
+                  <span>{venue.paymentSummary}</span>
+                </div>
               </div>
               <details className="br-venue-card__details">
                 <summary>{copy.readCriteria}</summary>
@@ -887,12 +896,17 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
     </section>
   );
 
+  const answerSection = (
+    <section className="br-answer v2-shell" id="br-market-content">
+        <p>{page.answer}</p>
+      </section>
+  );
   const heroSection = (
     <section className={`br-hero v2-shell${isComparisonPage ? " br-hero--comparison" : ""}`}>
         <div className="br-hero__copy">
-          <span className="v3-independent-badge">Brasil · Decisão local</span>
           <h1>{page.title}</h1>
           <p>{page.description}</p>
+          {isEntryPage ? answerSection : null}
           <nav className="br-hero__actions" aria-label="Ações de decisão do Brasil">
             <a href="#br-decision-controls">{copy.label}</a>
             <a href="#br-market-content">{copy.readPath}</a>
@@ -900,7 +914,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
         </div>
         <form className="br-decision-panel" id="br-decision-controls" data-testid="brazil-decision-controls" onSubmit={(event) => event.preventDefault()}>
           <div className="br-decision-panel__head">
-            <b>{copy.label}</b>
+            <div className="br-decision-panel__title"><b>{copy.label}</b><span className="br-panel-tag">Brasil · Decisão local</span></div>
             <button type="button" onClick={shareDecision} data-testid="brazil-share-link">{copy.share}</button>
           </div>
           <div className="br-control-grid">
@@ -1002,20 +1016,15 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
               <input name="deposit_fixed_brl" type="number" inputMode="decimal" min="0" max="10000" step="1" value={state.depositFixedBrl} onChange={(event) => updateState({ depositFixedBrl: event.target.value })} data-testid="brazil-deposit-fixed" />
             </label>
           </div>
+          </details>
           <div className="br-cost-strip" aria-live="polite" data-testid="brazil-cost-estimate">
             <span>{copy.costTitle}</span>
-            <b>{formatCurrency(pageLocale, estimate.total)}</b>
+            <b aria-hidden="true" className="br-cost-figure">{formatCurrency(pageLocale, shownTotal)}</b><b className="br-sr">{formatCurrency(pageLocale, estimate.total)}</b>
             <small>{copy.costNote}</small>
           </div>
-          </details>
           <p className="br-decision-panel__status" aria-live="polite">{shareStatus || (!isBrazil ? copy.nonBr : isSpot ? copy.brOnly : copy.spotOnly)}</p>
         </form>
         {!isComparisonPage && !isEntryPage ? earlyNextStepSection : null}
-      </section>
-  );
-  const answerSection = (
-    <section className="br-answer v2-shell" id="br-market-content">
-        <p>{page.answer}</p>
       </section>
   );
   const continuationSection = (
@@ -1043,7 +1052,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
 
   return (
     <main
-      className={`v6 v2-page v3-page br-decision${isComparisonPage ? " br-decision--comparison" : ""}`}
+      className={`v6 v2-page v3-page br-decision${isComparisonPage ? " br-decision--comparison" : ""}${isEntryPage ? " br-decision--entry" : ""}`}
       id="top"
       lang={pageLocale}
       dir="ltr"
@@ -1054,7 +1063,6 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
       {isEntryPage ? (
         <section className="br-primary-workbench" aria-label={copy.label}>
           {heroSection}
-          {answerSection}
           {shortlistSection}
         </section>
       ) : heroSection}

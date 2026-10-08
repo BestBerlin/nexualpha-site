@@ -1033,6 +1033,11 @@ const factbookFeeRecordCopy = {
   it: ["La verifica delle fonti delle commissioni attuali non è completa. Questi dati non permettono di calcolare il costo di negoziazione.", "Vedi i campi delle commissioni registrati", "Livelli e volumi sono dati di ricerca non verificati; conferma le condizioni attuali sulla piattaforma."]
 };
 
+function factbookValueClass(value) {
+  const text = String(value ?? "");
+  return /^[\s\d.,%$≈~<>+\-–/A-Za-z]{1,14}$/.test(text) && /\d/.test(text) ? "factbook-value factbook-value--figure" : "factbook-value";
+}
+
 export function FactbookPage({ slug = "binance", locale = "en", market, product }) {
   const currentLocale = locale.startsWith("zh-Hant") ? "zh-Hant" : locale.startsWith("zh") ? "zh-Hans" : "en";
   const localeBase = String(locale || "").split("-")[0];
@@ -1162,7 +1167,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
   }, [filterCategory, locale]);
 
   return (
-    <div className="v6 factbook-page" dir="ltr">
+    <div className="v6 factbook-page" id="factbook-root" dir="ltr">
       {/* 极客终端审计头部 */}
       <div className="factbook-hero" role="region" aria-label={isHant ? "事實庫概覽" : isZh ? "事实库概览" : "Factbook overview"}>
         <div className="factbook-hero__container">
@@ -1174,15 +1179,13 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 <BrandMark slug={venue.slug} />
               </div>
               <div className="factbook-venue-title-wrap">
-                <div className="factbook-category-tag">{venue.category} · {venue.trustScore ? `Trust Score ${venue.trustScore}/10` : (isHant ? "信任評分待核驗" : isZh ? "信任评分待核验" : (t.trustPending || "Trust score pending source review"))}</div>
                 <h1 className="factbook-venue-title">{venue.name} {titleSuffix}</h1>
-                <p className="factbook-venue-meta">
-                  <span>{t.foundedLabel}: {venue.foundedYear}</span>
-                  <span className="factbook-dot">·</span>
-                  <span>{t.hqLabel}: {venue.headquarters}</span>
-                  <span className="factbook-dot">·</span>
-                  <span>{t.primaryLabel}: <a href={`https://${venue.officialDomain}`} target="_blank" rel="noopener noreferrer" className="factbook-domain-link" data-cta-kind="research" data-cta-platform={venue.slug} data-cta-placement="factbook-official-domain" data-growth-decision={venue.slug} data-growth-placement="factbook-official-domain">{venue.officialDomain}</a></span>
-                </p>
+                <p className="factbook-category-tag">{venue.category} · {venue.trustScore ? `Trust Score ${venue.trustScore}/10` : (isHant ? "信任評分待核驗" : isZh ? "信任评分待核验" : (t.trustPending || "Trust score pending source review"))}</p>
+                <dl className="factbook-venue-meta">
+                  <div><dt>{t.foundedLabel}</dt><dd>{venue.foundedYear}</dd></div>
+                  <div><dt>{t.hqLabel}</dt><dd>{venue.headquarters}</dd></div>
+                  <div><dt>{t.primaryLabel}</dt><dd><a href={`https://${venue.officialDomain}`} target="_blank" rel="noopener noreferrer" className="factbook-domain-link" data-cta-kind="research" data-cta-platform={venue.slug} data-cta-placement="factbook-official-domain" data-growth-decision={venue.slug} data-growth-placement="factbook-official-domain">{venue.officialDomain}</a></dd></div>
+                </dl>
               </div>
             </div>
 
@@ -1207,12 +1210,11 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
 
           <section className="factbook-answer-card" aria-labelledby="factbook-direct-answer-title">
             <div className="factbook-answer-card__copy">
-              <span className="factbook-answer-card__eyebrow">{t.answerEyebrow}</span>
               <h2 id="factbook-direct-answer-title">{venueAnswer?.title || t.answerTitle}</h2>
               <p>{venueAnswer?.body || t.answerBody}</p>
             </div>
-            <ol className="factbook-answer-card__steps">
-              {(venueAnswer?.steps || t.answerSteps).map((step, index) => <li key={step}><b>{String(index + 1).padStart(2, "0")}</b><span>{step}</span></li>)}
+            <ol className="factbook-answer-card__steps" aria-label={t.answerEyebrow}>
+              {(venueAnswer?.steps || t.answerSteps).map((step, index) => <li key={step}><i className="factbook-step-node" aria-hidden="true" /><span>{step}</span></li>)}
             </ol>
             <a className="factbook-answer-card__link" href={decisionHref} data-cta-kind="research" data-cta-platform={venue.slug} data-cta-placement="factbook-direct-answer" data-growth-decision={venue.slug} data-growth-placement="factbook-direct-answer" data-growth-market={market} data-growth-product={product}>
               {t.openDecisionPath}
@@ -1386,7 +1388,6 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
           <section className="factbook-section" id="rates">
             <div className="factbook-section__header">
               <div className="factbook-section__title-group">
-                <span className="factbook-section__num">01 / MATRIX</span>
                 <h2 className="factbook-section__title">{venue.feeVerified ? t.secVipTitle : (factbookFeeStatusTitles[locale] || factbookFeeStatusTitles[localeBase] || factbookFeeStatusTitles.en)}</h2>
                 {venue.feeVerified && <p className="factbook-section__sub">{t.secVipSub}</p>}
               </div>
@@ -1477,7 +1478,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
           <section className={`factbook-section factbook-section-disclosure${expandedFactbookSections.por ? " is-open" : ""}`} id="por">
             <button type="button" className="factbook-section__header factbook-section-disclosure__summary" aria-expanded={Boolean(expandedFactbookSections.por)} aria-controls="factbook-por-body" onClick={() => toggleFactbookSection("por")}>
               <div className="factbook-section__title-group">
-              <span className="factbook-section__num">02 / {factbookUi.solvency || "SOLVENCY"}</span>
+              <span className="factbook-section__tag">{factbookUi.solvency || "Solvency"}</span>
                 <h2 className="factbook-section__title">{t.secPorTitle}</h2>
                 <p className="factbook-section__sub">{t.secPorSub}</p>
               </div>
@@ -1485,50 +1486,42 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             </button>
             <div className="factbook-section-disclosure__body" id="factbook-por-body">
 
-            <div className="factbook-por-grid">
-              <div className="factbook-metric-card">
-                <span className="factbook-metric-label">{t.cardTotalPor}</span>
-                <div className="factbook-metric-value">{venue.por?.totalRatio || "100%"}</div>
-                    <span className="factbook-metric-note">{factbookUi.totalNote || (isHant ? "官方公開資料總值" : isZh ? "官方公开数据总值" : "Declared total from public data")}</span>
+            <dl className="factbook-evidence factbook-evidence--por">
+              <div className="factbook-evidence__row">
+                <dt>{t.cardTotalPor}</dt>
+                <dd><strong className={factbookValueClass(venue.por?.totalRatio || "100%")}>{venue.por?.totalRatio || "100%"}</strong><small>{factbookUi.totalNote || (isHant ? "官方公開資料總值" : isZh ? "官方公开数据总值" : "Declared total from public data")}</small></dd>
               </div>
-
-              <div className="factbook-metric-card factbook-metric-card--focus">
-                <div className="factbook-metric-badge">{t.cardCleanBadge}</div>
-                <span className="factbook-metric-label">{t.cardCleanPor}</span>
-                <div className="factbook-metric-value highlight-cyan">{venue.por?.cleanRatio || "100%"}</div>
-                <span className="factbook-metric-note">
-                  {isZh ? venue.por?.cleanRatioNoteZh : venue.por?.cleanRatioNoteEn}
-                </span>
+              <div className="factbook-evidence__row factbook-evidence__row--focus">
+                <dt>{t.cardCleanPor}<span className="factbook-evidence__flag">{t.cardCleanBadge}</span></dt>
+                <dd><strong className={factbookValueClass(venue.por?.cleanRatio || "100%")}>{venue.por?.cleanRatio || "100%"}</strong><small>{isZh ? venue.por?.cleanRatioNoteZh : venue.por?.cleanRatioNoteEn}</small></dd>
               </div>
-
-              <div className="factbook-metric-card">
-                <span className="factbook-metric-label">{t.cardNativeToken}</span>
-                <div className="factbook-metric-value">{venue.por?.nativeTokenShare || "0.0%"}</div>
-                    <span className="factbook-metric-note">{factbookUi.nativeNote || (isHant ? "自身代幣敞口風險" : isZh ? "自身代币敞口风险" : "Native-token exposure risk")}</span>
+              <div className="factbook-evidence__row">
+                <dt>{t.cardNativeToken}</dt>
+                <dd><strong className={factbookValueClass(venue.por?.nativeTokenShare || "0.0%")}>{venue.por?.nativeTokenShare || "0.0%"}</strong><small>{factbookUi.nativeNote || (isHant ? "自身代幣敞口風險" : isZh ? "自身代币敞口风险" : "Native-token exposure risk")}</small></dd>
               </div>
-
-              <div className="factbook-metric-card">
-                <span className="factbook-metric-label">{t.cardSecurityFund}</span>
-                <div className="factbook-metric-value-sm">{venue.por?.securityFund || "N/A"}</div>
-                <span className="factbook-metric-note">{venue.por?.fundAmount || "N/A"}</span>
+              <div className="factbook-evidence__row">
+                <dt>{t.cardSecurityFund}</dt>
+                <dd><strong className={factbookValueClass(venue.por?.securityFund || "N/A")}>{venue.por?.securityFund || "N/A"}</strong><small>{venue.por?.fundAmount || "N/A"}</small></dd>
               </div>
-            </div>
+            </dl>
 
             <div className="factbook-por-details">
-              <div className="factbook-asset-coverage-box">
-                <h3 className="factbook-subheading">{t.assetCoverageTitle}</h3>
-                <div className="factbook-asset-pills">
-                  {venue.por?.assetCoverage && Object.entries(venue.por.assetCoverage).map(([coin, ratio]) => (
-                    <div key={coin} className="factbook-asset-pill">
-                      <span className="factbook-asset-coin">{coin.toUpperCase()}</span>
-                      <span className="factbook-asset-ratio">{ratio}</span>
+              <section className="factbook-evidence-group" aria-labelledby="factbook-coverage-title">
+                <h3 className="factbook-subheading" id="factbook-coverage-title">{t.assetCoverageTitle}</h3>
+                <dl className="factbook-evidence factbook-evidence--compact">
+                  {venue.por?.assetCoverage && Object.keys(venue.por.assetCoverage).length ? Object.entries(venue.por.assetCoverage).map(([coin, ratio]) => (
+                    <div key={coin} className="factbook-evidence__row">
+                      <dt>{coin.toUpperCase()}</dt>
+                      <dd><strong className="factbook-value">{ratio}</strong></dd>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  )) : (
+                    <div className="factbook-evidence__row"><dt>{t.pendingLabel || "Pending"}</dt><dd><small>{t.assetCoverageTitle}</small></dd></div>
+                  )}
+                </dl>
+              </section>
 
-              <div className="factbook-auditor-box">
-                <h3 className="factbook-subheading">{t.auditorLabel}</h3>
+              <section className="factbook-evidence-group" aria-labelledby="factbook-auditor-title">
+                <h3 className="factbook-subheading" id="factbook-auditor-title">{t.auditorLabel}</h3>
                 <p className="factbook-auditor-text">{venue.por?.auditor}</p>
                 {venue.por?.merkleUrl && (
                   <a
@@ -1540,7 +1533,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                     {t.merkleLink}
                   </a>
                 )}
-              </div>
+              </section>
             </div>
             </div>
           </section>
@@ -1549,7 +1542,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
           <section className={`factbook-section factbook-section-disclosure${expandedFactbookSections.compliance ? " is-open" : ""}`} id="compliance">
             <button type="button" className="factbook-section__header factbook-section-disclosure__summary" aria-expanded={Boolean(expandedFactbookSections.compliance)} aria-controls="factbook-compliance-body" onClick={() => toggleFactbookSection("compliance")}>
               <div className="factbook-section__title-group">
-              <span className="factbook-section__num">03 / {factbookUi.regulation || "REGULATION & KYC"}</span>
+              <span className="factbook-section__tag">{factbookUi.regulation || "Regulation & KYC"}</span>
                 <h2 className="factbook-section__title">{t.secKycTitle}</h2>
                 <p className="factbook-section__sub">{t.secKycSub}</p>
               </div>
@@ -1557,67 +1550,50 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             </button>
             <div className="factbook-section-disclosure__body" id="factbook-compliance-body">
 
-            <div className="factbook-compliance-grid">
-              <div className="factbook-compliance-col">
-                <div className="factbook-status-card">
-                  <div className="factbook-status-row">
-                    <span className="factbook-field-label">{t.kycLevelLabel}</span>
-                    <span className={`factbook-tag-kyc factbook-tag-kyc--${venue.compliance?.kycLevel}`}>
-                      {venue.compliance?.kycLevel?.toUpperCase()}
-                    </span>
-                  </div>
-                  <p className="factbook-field-desc">
-                    {isZh ? venue.compliance?.kycSummaryZh : venue.compliance?.kycSummaryEn}
-                  </p>
-                </div>
-
-                <div className="factbook-stages-card">
-                  <h3 className="factbook-subheading">{t.kycStagesLabel}</h3>
+            <dl className="factbook-evidence factbook-evidence--wide">
+              <div className="factbook-evidence__row">
+                <dt>{t.kycLevelLabel}</dt>
+                <dd>
+                  <span className={`factbook-tag-kyc factbook-tag-kyc--${venue.compliance?.kycLevel}`}>{venue.compliance?.kycLevel?.toUpperCase()}</span>
+                  <small>{isZh ? venue.compliance?.kycSummaryZh : venue.compliance?.kycSummaryEn}</small>
+                </dd>
+              </div>
+              <div className="factbook-evidence__row">
+                <dt>{t.kycStagesLabel}</dt>
+                <dd>
                   <ul className="factbook-stage-list">
                     {((isZh ? venue.compliance?.kycTiersZh : venue.compliance?.kycTiersEn) || []).map((stage, i) => (
-                      <li key={i} className="factbook-stage-item">
-                        <span className="factbook-stage-dot" />
-                        <span>{stage}</span>
-                      </li>
+                      <li key={i} className="factbook-stage-item"><span>{stage}</span></li>
                     ))}
                   </ul>
-                </div>
+                </dd>
               </div>
-
-              <div className="factbook-compliance-col">
-                <div className="factbook-freeze-card">
-                  <div className="factbook-freeze-header">
-                    <span className="factbook-field-label">{t.antiFreezeLabel}</span>
-                    <span className="factbook-score-badge highlight-green">{venue.compliance?.antiFreezeRating}</span>
-                  </div>
-                  <p className="factbook-freeze-desc">
-                    {isZh ? venue.compliance?.antiFreezeDescZh : venue.compliance?.antiFreezeDescEn}
-                  </p>
-                </div>
-
-                <div className="factbook-geo-card">
-                  <h3 className="factbook-subheading">{t.licensesLabel}</h3>
-                  <div className="factbook-license-pills">
+              <div className="factbook-evidence__row">
+                <dt>{t.antiFreezeLabel}</dt>
+                <dd>
+                  <strong className={`factbook-score-badge ${factbookValueClass(venue.compliance?.antiFreezeRating)}`}>{venue.compliance?.antiFreezeRating}</strong>
+                  <small>{isZh ? venue.compliance?.antiFreezeDescZh : venue.compliance?.antiFreezeDescEn}</small>
+                </dd>
+              </div>
+              <div className="factbook-evidence__row">
+                <dt>{t.licensesLabel}</dt>
+                <dd>
+                  <ul className="factbook-license-pills">
                     {((isZh ? venue.compliance?.licensesZh : venue.compliance?.licensesEn) || []).map((lic, i) => (
-                      <span key={i} className="factbook-license-pill">
-                        🛡️ {lic}
-                      </span>
+                      <li key={i} className="factbook-license-pill">{lic}</li>
                     ))}
-                  </div>
-
-                  <div className="factbook-geo-split">
-                    <div>
-                      <span className="factbook-geo-sub-label">{t.supportedLabel}</span>
-                      <p className="factbook-geo-text">{(venue.compliance?.supportedRegions || []).join("、")}</p>
-                    </div>
-                    <div>
-                      <span className="factbook-geo-sub-label factbook-geo-sub-label--danger">{t.restrictedLabel}</span>
-                      <p className="factbook-geo-text factbook-geo-text--danger">{(venue.compliance?.restrictedRegions || []).join("、")}</p>
-                    </div>
-                  </div>
-                </div>
+                  </ul>
+                </dd>
               </div>
-            </div>
+              <div className="factbook-evidence__row">
+                <dt>{t.supportedLabel}</dt>
+                <dd><span className="factbook-geo-text">{(venue.compliance?.supportedRegions || []).join("、")}</span></dd>
+              </div>
+              <div className="factbook-evidence__row factbook-evidence__row--risk">
+                <dt>{t.restrictedLabel}</dt>
+                <dd><span className="factbook-geo-text factbook-geo-text--danger">{(venue.compliance?.restrictedRegions || []).join("、")}</span></dd>
+              </div>
+            </dl>
             </div>
           </section>
 
@@ -1625,7 +1601,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
           <section className={`factbook-section factbook-section-disclosure${expandedFactbookSections.security ? " is-open" : ""}`} id="security">
             <button type="button" className="factbook-section__header factbook-section-disclosure__summary" aria-expanded={Boolean(expandedFactbookSections.security)} aria-controls="factbook-security-body" onClick={() => toggleFactbookSection("security")}>
               <div className="factbook-section__title-group">
-              <span className="factbook-section__num">04 / {factbookUi.endpoints || "RECORDED ROUTES"}</span>
+              <span className="factbook-section__tag">{factbookUi.endpoints || "Recorded routes"}</span>
                 <h2 className="factbook-section__title">{t.secSecurityTitle}</h2>
                 <p className="factbook-section__sub">{t.secSecuritySub}</p>
               </div>
@@ -1633,53 +1609,52 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             </button>
             <div className="factbook-section-disclosure__body" id="factbook-security-body">
 
-            <div className="factbook-recorded-domain-card">
-              <div className="factbook-recorded-domain-row">
-                <span className="factbook-recorded-label">{t.primaryDomain}</span>
-                <div className="factbook-domain-badge">
+            <dl className="factbook-evidence factbook-evidence--wide factbook-recorded-domain-card">
+              <div className="factbook-evidence__row">
+                <dt>{t.primaryDomain}</dt>
+                <dd>
                   <code>https://{venue.officialDomain}</code>
-                  <span className="factbook-verified-tick">✓ {t.verifiedTls || "TLS/SSL status to confirm"}</span>
-                </div>
+                  <small className="factbook-verified-tick">{t.verifiedTls || "TLS/SSL status to confirm"}</small>
+                </dd>
               </div>
-
-              <div className="factbook-recorded-domain-row">
-                <span className="factbook-recorded-label">{t.alternateDomainsLabel}</span>
-                <div className="factbook-mirror-list">
-                  {(venue.mirrors || []).map((m) => (
-                    <span key={m} className="factbook-mirror-pill">
-                      <code>{m}</code>
-                    </span>
-                  ))}
-                </div>
+              <div className="factbook-evidence__row">
+                <dt>{t.alternateDomainsLabel}</dt>
+                <dd>
+                  <ul className="factbook-mirror-list">
+                    {(venue.mirrors || []).map((m) => (
+                      <li key={m} className="factbook-mirror-pill"><code>{m}</code></li>
+                    ))}
+                  </ul>
+                </dd>
               </div>
-
-              <div className="factbook-recorded-domain-row">
-                <span className="factbook-recorded-label">{t.apiEndpoints}</span>
-                <div className="factbook-api-box">
-                  <div className="factbook-api-entry">
-                    <span className="factbook-api-type">{t.restApiLabel || "REST API:"}</span>
-                    <code>{venue.apiEndpoints?.rest || "N/A"}</code>
+              <div className="factbook-evidence__row">
+                <dt>{t.apiEndpoints}</dt>
+                <dd>
+                  <div className="factbook-api-box">
+                    <div className="factbook-api-entry">
+                      <span className="factbook-api-type">{t.restApiLabel || "REST API:"}</span>
+                      <code>{venue.apiEndpoints?.rest || "N/A"}</code>
+                    </div>
+                    <div className="factbook-api-entry">
+                      <span className="factbook-api-type">{t.webSocketLabel || "WebSocket:"}</span>
+                      <code>{venue.apiEndpoints?.ws || "N/A"}</code>
+                    </div>
                   </div>
-                  <div className="factbook-api-entry">
-                    <span className="factbook-api-type">{t.webSocketLabel || "WebSocket:"}</span>
-                    <code>{venue.apiEndpoints?.ws || "N/A"}</code>
-                  </div>
-                </div>
+                </dd>
               </div>
-
-              <div className="factbook-recorded-domain-footer">
-                <a
-                  href={venue.apiEndpoints?.docUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="factbook-doc-btn"
-                >
-                  {t.docLink}
-                </a>
-                <span className="factbook-tg-notice">
-                  {t.tgVerifyTip}
-                </span>
-              </div>
+            </dl>
+            <div className="factbook-recorded-domain-footer">
+              <a
+                href={venue.apiEndpoints?.docUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="factbook-doc-btn"
+              >
+                {t.docLink}
+              </a>
+              <span className="factbook-tg-notice">
+                {t.tgVerifyTip}
+              </span>
             </div>
             </div>
           </section>
@@ -1687,37 +1662,36 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
           {/* 模块 5：NexuAlpha 合作入口。入口和邀请码可展示；用户优惠需来源核验后再声明。 */}
           {(activationCta.hasPartnerRoute || activationCta.inviteCode) && (
             <section className="factbook-section factbook-activation-section" id="activation">
-              <div className="factbook-activation-card">
+              <div className="factbook-activation-card" role="group" aria-label={t.activationEyebrow}>
                 <div className="factbook-activation-info">
-                  <span className="factbook-activation-eyebrow">{t.activationEyebrow}</span>
                   <h3 className="factbook-activation-title">
                     {`${venue.name} × NexuAlpha ${t.signupTitle}`}
                   </h3>
-                  <div className="factbook-activation-badges">
+                  <dl className="factbook-activation-badges">
                     {activationCta.inviteCode && (
                       <div className="factbook-act-badge">
-                        <span className="act-lbl">{t.inviteCodeLabel}</span>
-                        <strong className="act-val highlight-cyan">{activationCta.inviteCode}</strong>
+                        <dt className="act-lbl">{t.inviteCodeLabel}</dt>
+                        <dd><strong className="act-val">{activationCta.inviteCode}</strong></dd>
                       </div>
                     )}
                     {activationCta.benefitVerified && activationCta.rebatePercent > 0 ? (
                       <div className="factbook-act-badge">
-                        <span className="act-lbl">{t.rebatePercentLabel}</span>
-                        <strong className="act-val highlight-green">{activationCta.rebatePercent}%</strong>
+                        <dt className="act-lbl">{t.rebatePercentLabel}</dt>
+                        <dd><strong className="act-val highlight-green">{activationCta.rebatePercent}%</strong></dd>
                       </div>
                     ) : (
                       <div className="factbook-act-badge">
-                        <span className="act-lbl">{t.rebatePercentLabel}</span>
-                        <strong className="act-val">{t.pendingLabel || "pending"}</strong>
+                        <dt className="act-lbl">{t.rebatePercentLabel}</dt>
+                        <dd><strong className="act-val">{t.pendingLabel || "pending"}</strong></dd>
                       </div>
                     )}
                     {activationCta.benefitVerified && activationCta.benefit && (
                       <div className="factbook-act-badge">
-                        <span className="act-lbl">{t.welcomePackage}</span>
-                        <strong className="act-val">{activationCta.benefit}</strong>
+                        <dt className="act-lbl">{t.welcomePackage}</dt>
+                        <dd><strong className="act-val">{activationCta.benefit}</strong></dd>
                       </div>
                     )}
-                  </div>
+                  </dl>
                 </div>
                 <div className="factbook-activation-cta">
                   <a

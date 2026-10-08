@@ -9,6 +9,8 @@ import { buildVenueFeeSummary, feeSummaryCopy } from '../../data/venue-fee-summa
 import { reviewedFeeCopy } from '../../data/reviewed-fee-copy.js';
 import { DecisionReturnLink } from './DecisionReturnLink.jsx';
 import { costDecisionCopy } from '../../data/cost-decision-copy.js';
+import { BrandMark } from '../brand/BrandMark.jsx';
+import { useTween } from '../../lib/v6/useTween.js';
 import './cost-decision.css';
 
 
@@ -32,7 +34,7 @@ export function restoreCostDecisionState(search = '') {
   };
 }
 
-export function CostDecision({locale='en', regionMarket, product='perpetuals', accountStage, funding}) {
+export function CostDecision({locale='en', regionMarket, product='perpetuals', accountStage, funding, context=null, footer=null}) {
   const ui=costDecisionCopy(locale);
   const id=useId();
   const [volume,setVolume]=useState('100000');
@@ -75,39 +77,58 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
   const lowestReviewed = resultRows
     .filter(row=>Number.isFinite(row.quote?.rate))
     .sort((a,b)=>a.quote.rate-b.quote.rate)[0] || null;
-  return <section id="cost-scenario" className="cost-decision" aria-labelledby={`${id}-title`}>
-    <div className="cost-decision__intro">
-      <p className="cost-decision__eyebrow">{ui.eyebrow}</p>
+  const maxCost=Math.max(0,...resultRows.map(row=>Number.isFinite(row.quote?.rate)?amount*row.quote.rate:0));
+  const shownCost=useTween(lowestReviewed ? amount*lowestReviewed.quote.rate : 0);
+  const figureFormat=new Intl.NumberFormat(locale,{maximumFractionDigits:2});
+  return <section id="cost-scenario" className="cost-decision rt-panel" aria-labelledby={`${id}-title`}>
+    <div className="cost-decision__intro rt-panel__intro">
       <h2 id={`${id}-title`}>{ui.title}</h2>
       <p>{ui.intro}</p>
     </div>
-    <div className="cost-decision__next-actions" aria-label={ui.offer}>
+    <div className="cost-decision__next-actions rt-strip" role="group" aria-label={ui.offer}>
       <div className="cost-decision__next-copy">
         <strong>{ui.offer}</strong>
         <span>{ui.note}</span>
       </div>
       <a href={researchHref(comparePath,selectedProduct)} data-cta-kind="research" data-cta-placement="cost-calculator-next-compare" data-growth-decision={market==='futuresFee'?'compare_bybit_bitget':'compare_binance_okx'} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{ui.nextCompare}</a>
       <a href={researchHref(`/exchanges/${primarySlug}#registration-path`,selectedProduct)} data-cta-kind="research" data-cta-platform={primarySlug} data-cta-placement="cost-calculator-next-platform" data-growth-decision={primarySlug} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{ui.nextPlatform}</a>
-      <a href={primaryCta.ctaHref} target={primaryCta.direct ? '_blank' : undefined} rel={primaryCta.direct ? 'sponsored noopener noreferrer' : undefined} data-cta-kind={primaryCta.direct ? 'registration' : 'research'} data-cta-platform={primarySlug} data-cta-placement="cost-calculator-next-registration" data-growth-decision={primarySlug} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{primaryCta.direct ? ui.nextRegister : ui.verify} · {primaryVenue.name} ↗</a>
+      <a className="rt-strip__primary" href={primaryCta.ctaHref} target={primaryCta.direct ? '_blank' : undefined} rel={primaryCta.direct ? 'sponsored noopener noreferrer' : undefined} data-cta-kind={primaryCta.direct ? 'registration' : 'research'} data-cta-platform={primarySlug} data-cta-placement="cost-calculator-next-registration" data-growth-decision={primarySlug} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{primaryCta.direct ? ui.nextRegister : ui.verify} · {primaryVenue.name} ↗</a>
     </div>
-    <div className="cost-decision__inputs">
-      <label htmlFor={`${id}-volume`}>{ui.volume}<input id={`${id}-volume`} name="volume" aria-label={ui.volume} type="number" min="0" max="10000000000" step="0.01" inputMode="decimal" value={volume} onChange={e=>setVolume(e.target.value)}/></label>
-      <label htmlFor={`${id}-market`}>{ui.market}<select id={`${id}-market`} name="market" aria-label={ui.market} value={market} onChange={e=>setMarket(e.target.value)}><option value="spotFee">{ui.spot}</option><option value="futuresFee">{ui.futures}</option></select></label>
-      <label htmlFor={`${id}-order`}>{ui.order}<select id={`${id}-order`} name="order" aria-label={ui.order} value={order} onChange={e=>setOrder(e.target.value)}><option value="takerRate">{ui.taker}</option><option value="makerRate">{ui.maker}</option></select></label>
+    <div className="rt-controls">
+      <div className="cost-decision__inputs" role="group" aria-label={ui.eyebrow}>
+        <label className="rt-field" htmlFor={`${id}-volume`}><span>{ui.volume}</span><span className="rt-field__box"><input id={`${id}-volume`} name="volume" aria-label={ui.volume} type="number" min="0" max="10000000000" step="0.01" inputMode="decimal" value={volume} onChange={e=>setVolume(e.target.value)}/><span className="rt-field__unit" aria-hidden="true">USDT</span></span></label>
+        <div className="rt-field" role="radiogroup" aria-label={ui.market}><span aria-hidden="true">{ui.market}</span><div className="rt-seg" style={{'--idx':market==='futuresFee'?1:0}}>
+          <label><input type="radio" name={`${id}-market`} value="spotFee" checked={market==='spotFee'} onChange={()=>setMarket('spotFee')}/><span>{ui.spot}</span></label>
+          <label><input type="radio" name={`${id}-market`} value="futuresFee" checked={market==='futuresFee'} onChange={()=>setMarket('futuresFee')}/><span>{ui.futures}</span></label>
+        </div></div>
+        <div className="rt-field" role="radiogroup" aria-label={ui.order}><span aria-hidden="true">{ui.order}</span><div className="rt-seg" style={{'--idx':order==='makerRate'?1:0}}>
+          <label><input type="radio" name={`${id}-order`} value="takerRate" checked={order==='takerRate'} onChange={()=>setOrder('takerRate')}/><span>{ui.taker}</span></label>
+          <label><input type="radio" name={`${id}-order`} value="makerRate" checked={order==='makerRate'} onChange={()=>setOrder('makerRate')}/><span>{ui.maker}</span></label>
+        </div></div>
+      </div>
+      <DecisionReturnLink href={decisionReturnHref} locale={locale} />
+      {context}
     </div>
-    <DecisionReturnLink href={decisionReturnHref} locale={locale} />
-    {lowestReviewed && <div className="cost-decision__verdict">
-      <span>{ui.base} {lowestReviewed.displayRate}%</span>
-      <strong>{lowestReviewed.venue.name} · {lowestReviewed.displayCost} USDT{ui.perMonth}</strong>
-      <a href={researchHref(`/exchanges/${lowestReviewed.slug}#registration-path`,lowestReviewed.product)} data-cta-kind="research" data-cta-platform={lowestReviewed.slug} data-cta-placement="cost-calculator-lowest-reviewed" data-growth-decision={lowestReviewed.slug} data-growth-placement="cost-calculator-lowest-reviewed" data-growth-market={regionMarket} data-growth-product={lowestReviewed.product}>{ui.nextPlatform}</a>
-    </div>}
-    <div className="cost-decision__results" aria-live="polite">
-      {resultRows.map(({slug,venue,quote,product,cta,displayRate,displayCost,reviewedRate,sourceCopy})=>{
-        return <article key={slug}><h3>{venue.name}</h3><p className="cost-decision__amount">{displayCost}{quote && <small> USDT{ui.perMonth}</small>}</p><p>{ui.base} {displayRate ? `${displayRate}%` : (ui.pending)}</p>{reviewedRate && <details className="cost-decision__source"><summary>{feeText.checked}: {reviewedRate.checkedAt}</summary><p>{sourceCopy.tier} · {sourceCopy.scope}</p><p>{sourceCopy.conditions}</p><a href={reviewedRate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a></details>}<a href={researchHref(`/exchanges/${slug}#registration-path`,product)} data-cta-kind="research" data-cta-platform={slug} data-cta-placement="cost-calculator-eligibility" data-growth-decision={slug} data-growth-placement="cost-calculator-eligibility" data-growth-market={regionMarket} data-growth-product={product}>{ui.offer}</a><a className="cost-decision__cta" data-cta-kind={cta.direct ? 'registration' : 'research'} data-cta-platform={slug} data-cta-placement="cost-calculator" data-growth-decision={slug} data-growth-placement="cost-calculator" data-growth-market={regionMarket} data-growth-product={product} href={cta.ctaHref} target={cta.direct ? '_blank' : undefined} rel={cta.direct ? 'sponsored noopener noreferrer' : undefined}>{cta.direct ? (ui.register.replace('{venue}', venue.name)) : (ui.verify)} ↗</a></article>;
-      })}
+    <div className="rt-result">
+      {lowestReviewed && <div className="cost-decision__verdict rt-verdict">
+        <span className="rt-verdict__base">{ui.base} {lowestReviewed.displayRate}%</span>
+        <strong><span className="rt-verdict__venue">{lowestReviewed.venue.name}</span> <span className="rt-verdict__figure" aria-hidden="true">{figureFormat.format(shownCost)}</span><span className="rt-sr">{lowestReviewed.venue.name} · {lowestReviewed.displayCost}</span> <span className="rt-verdict__unit">USDT{ui.perMonth}</span></strong>
+        <a href={researchHref(`/exchanges/${lowestReviewed.slug}#registration-path`,lowestReviewed.product)} data-cta-kind="research" data-cta-platform={lowestReviewed.slug} data-cta-placement="cost-calculator-lowest-reviewed" data-growth-decision={lowestReviewed.slug} data-growth-placement="cost-calculator-lowest-reviewed" data-growth-market={regionMarket} data-growth-product={lowestReviewed.product}>{ui.nextPlatform}</a>
+      </div>}
+      <div className="cost-decision__results" aria-live="polite">
+        {resultRows.map(({slug,venue,quote,product,cta,displayRate,displayCost,reviewedRate,sourceCopy})=>{
+          const share=quote&&maxCost>0?Math.max(4,Math.round(amount*quote.rate/maxCost*100)):0;
+          return <article key={slug}><h3>{venue.name}</h3><span className="rt-logo"><BrandMark slug={slug} compact /></span><p className="cost-decision__amount">{displayCost}{quote && <small> USDT{ui.perMonth}</small>}</p><p>{ui.base} {displayRate ? `${displayRate}%` : (ui.pending)}</p><i className="rt-bar" aria-hidden="true" style={{'--w':`${share}%`}} />{reviewedRate && <details className="cost-decision__source"><summary>{feeText.checked}: {reviewedRate.checkedAt}</summary><p>{sourceCopy.tier} · {sourceCopy.scope}</p><p>{sourceCopy.conditions}</p><a href={reviewedRate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a></details>}<a className="rt-offer" href={researchHref(`/exchanges/${slug}#registration-path`,product)} data-cta-kind="research" data-cta-platform={slug} data-cta-placement="cost-calculator-eligibility" data-growth-decision={slug} data-growth-placement="cost-calculator-eligibility" data-growth-market={regionMarket} data-growth-product={product}>{ui.offer}</a><a className="cost-decision__cta" data-cta-kind={cta.direct ? 'registration' : 'research'} data-cta-platform={slug} data-cta-placement="cost-calculator" data-growth-decision={slug} data-growth-placement="cost-calculator" data-growth-market={regionMarket} data-growth-product={product} href={cta.ctaHref} target={cta.direct ? '_blank' : undefined} rel={cta.direct ? 'sponsored noopener noreferrer' : undefined}>{cta.direct ? (ui.register.replace('{venue}', venue.name)) : (ui.verify)} ↗</a></article>;
+        })}
+      </div>
     </div>
-    <p className="cost-decision__note">{ui.note}</p>
-    <a href={telegramFunnel.deepLink} target="_blank" rel="noopener noreferrer" className="cost-decision__telegram" data-cta-kind="telegram" data-cta-placement="cost-decision-telegram" data-growth-decision="telegram_fee_calc" data-growth-placement="cost-decision-support" data-growth-market={regionMarket} data-growth-product={selectedProduct} data-telegram-start={telegramFunnel.startPayload} data-telegram-return-href={telegramFunnel.returnHref}>{ui.telegramSupport || decisionReturnCopy(locale).botFeeOpen}</a>
-    <a href={researchHref('/compare/binance-vs-okx',market === 'futuresFee' ? 'perpetuals' : 'spot')} data-cta-kind="research" data-cta-placement="cost-calculator-compare" data-growth-decision="compare_binance_okx" data-growth-placement="cost-calculator-compare" data-growth-market={regionMarket} data-growth-product={market === 'futuresFee' ? 'perpetuals' : 'spot'}>{ui.compare}</a>
+    <div className="rt-foot">
+      <p className="cost-decision__note">{ui.note}</p>
+      <div className="rt-foot__links">
+      <a href={telegramFunnel.deepLink} target="_blank" rel="noopener noreferrer" className="cost-decision__telegram" data-cta-kind="telegram" data-cta-placement="cost-decision-telegram" data-growth-decision="telegram_fee_calc" data-growth-placement="cost-decision-support" data-growth-market={regionMarket} data-growth-product={selectedProduct} data-telegram-start={telegramFunnel.startPayload} data-telegram-return-href={telegramFunnel.returnHref}>{ui.telegramSupport || decisionReturnCopy(locale).botFeeOpen}</a>
+      <a href={researchHref('/compare/binance-vs-okx',market === 'futuresFee' ? 'perpetuals' : 'spot')} data-cta-kind="research" data-cta-placement="cost-calculator-compare" data-growth-decision="compare_binance_okx" data-growth-placement="cost-calculator-compare" data-growth-market={regionMarket} data-growth-product={market === 'futuresFee' ? 'perpetuals' : 'spot'}>{ui.compare}</a>
+      </div>
+      {footer}
+    </div>
   </section>;
 }

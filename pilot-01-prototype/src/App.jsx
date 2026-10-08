@@ -723,8 +723,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "factbook") return pageShell(<FactbookPage slug={route.slug} locale={locale} market={route.market} product={route.product} />);
   if (route.name === "kolLanding") return pageShell(<KolLandingPage kolHandle={route.kol} locale={locale} market={route.market} product={route.product} />);
   if (route.name === "rateTerminal") return pageShell(<main className="v6 v2-page v3-page r1-rates-page" id="top">
-    <section className="v2-section v2-shell">
-      <span className="v3-independent-badge">{({ "zh-Hant": "手續費計算", ja: "手数料比較", ko: "수수료 비교", tr: "Ücret karşılaştırması", ar: "مقارنة الرسوم", "pt-BR": "Comparação de taxas", es: "Comparación de comisiones", fr: "Comparaison des frais", de: "Gebührenvergleich", ru: "Сравнение комиссий", id: "Perbandingan biaya", vi: "Đối chiếu phí", it: "Confronto delle commissioni" }[locale] || (locale.startsWith("zh") ? "手续费计算" : "Fee benchmark"))}</span>
+    <section className="v2-section v2-shell rt-hero" aria-label={({ "zh-Hant": "手續費計算", ja: "手数料比較", ko: "수수료 비교", tr: "Ücret karşılaştırması", ar: "مقارنة الرسوم", "pt-BR": "Comparação de taxas", es: "Comparación de comisiones", fr: "Comparaison des frais", de: "Gebührenvergleich", ru: "Сравнение комиссий", id: "Perbandingan biaya", vi: "Đối chiếu phí", it: "Confronto delle commissioni" }[locale] || (locale.startsWith("zh") ? "手续费计算" : "Fee benchmark"))}>
       <h1>{({
         "zh-Hant": "交易所手續費基準終端",
         ja: "取引所手数料ベンチマーク", ko: "거래소 수수료 벤치마크", tr: "Borsa ücret karşılaştırma terminali",
