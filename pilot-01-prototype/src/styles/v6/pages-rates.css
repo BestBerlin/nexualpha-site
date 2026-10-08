@@ -227,3 +227,72 @@
 #top#top#top.v6.r1-rates-page .rt-panel .decision-path-rail__link { border: 0 !important; box-shadow: none !important; background: none !important; padding: 0 !important; color: var(--n12) !important; }
 #top#top#top.v6.r1-rates-page .rt-panel .decision-path-rail__link b { color: var(--accent) !important; }
 #top#top#top.v6.r1-rates-page .rt-panel .decision-path-rail__link::before, #top#top#top.v6.r1-rates-page .rt-panel .decision-path-rail__link::after { display: none; }
+
+/* ================= R3 (inner-b): one text system 12/14/16/20/28/44, honest result, uniform rows, one action row ================= */
+/* result figure: the computed estimate, shown final at once (no intermediate figures); 44 not 72; base-rate caption beneath */
+#top#top#top.v6.r1-rates-page .rt-verdict { grid-template-columns: minmax(0, 1fr); grid-template-areas: "main" "base" "link"; gap: var(--s-1, 4px); padding-block-end: var(--s-4, 16px); }
+#top#top#top.v6.r1-rates-page .rt-verdict strong { grid-area: main; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-1, 4px) var(--s-3, 12px); }
+#top#top#top.v6.r1-rates-page .rt-verdict__venue { flex: 1 0 100%; font-size: var(--t-14); font-weight: 500; color: var(--n11); }
+#top#top#top.v6.r1-rates-page .rt-verdict__figure { display: inline-block; font-size: var(--t-44); line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; animation: rt-figure-in 360ms var(--ease-out) both; }
+#top#top#top.v6.r1-rates-page .rt-verdict__base { grid-area: base; font-size: var(--t-12); color: var(--n10); }
+#top#top#top.v6.r1-rates-page .rt-verdict > a { grid-area: link; min-block-size: 44px; }
+@keyframes rt-figure-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* result rows: one grid, uniform min height, pending rows identical */
+#top#top#top.v6.r1-rates-page .cost-decision__results > article { grid-template-columns: 40px minmax(0, 1fr) minmax(0, auto) 168px; grid-template-areas: "logo name amount cta" "logo offer base cta" ". bar bar cta" ". src src cta"; align-content: center; min-block-size: 96px; padding-block: var(--s-4, 16px); row-gap: var(--s-1, 4px); }
+#top#top#top.v6.r1-rates-page .cost-decision__results > article > .rt-logo { align-self: center; grid-row: 1 / span 2; }
+#top#top#top.v6.r1-rates-page .cost-decision__results .cost-decision__cta { min-inline-size: 168px; inline-size: 168px; white-space: nowrap; }
+#top#top#top.v6.r1-rates-page .cost-decision__results .cost-decision__amount { font-size: var(--t-20); font-weight: 600; white-space: nowrap; }
+#top#top#top.v6.r1-rates-page .cost-decision__results .cost-decision__amount--pending { font-size: var(--t-14); font-weight: 400; }
+
+/* strip: ONE action row, flat */
+#top#top#top.v6.r1-rates-page .rt-strip { padding: var(--s-4, 16px) 0 0; border: 0; border-block-start: 1px solid var(--n6); border-radius: 0; background: none; box-shadow: none; }
+
+/* footer: three aligned columns; headings share a 44px line so links and headings align */
+#top#top#top.v6.r1-rates-page :is(.rt-next, .rt-handoff, .rt-foot__links) { padding-block-start: var(--s-2, 8px); border-block-start: 0; align-content: start; }
+#top#top#top.v6.r1-rates-page .rt-next strong, #top#top#top.v6.r1-rates-page .rt-handoff .v3-onsite-telegram-handoff h2 { display: flex; align-items: center; min-block-size: 44px; }
+#top#top#top.v6.r1-rates-page .rt-handoff .v3-onsite-telegram-handoff__button { padding: 0; border: 0; border-radius: 0; background: none; color: var(--n12); font-size: var(--t-14); font-weight: 500; text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 3px; }
+#top#top#top.v6.r1-rates-page .rt-handoff .v3-onsite-telegram-handoff__button:hover { background: none; text-decoration-color: var(--accent); }
+#top#top#top.v6.r1-rates-page .rt-handoff .v3-onsite-telegram-handoff li { white-space: nowrap; }
+#top#top#top.v6.r1-rates-page .rt-foot__links { padding-block-start: calc(var(--s-2, 8px) + 44px); }
+#top#top#top.v6.r1-rates-page .rt-next .fee-terminal__next-step-actions { display: grid; gap: 0; }
+
+/* chips never wrap */
+#top#top#top.v6.r1-rates-page :is(.fee-terminal__filter-btn, .fee-terminal__cat-badge, .fee-terminal__cta-btn, .cost-decision__cta, .rt-seg label > span) { white-space: nowrap; }
+
+/* ledger: one row height for every venue */
+#top#top#top.v6.r1-rates-page .fee-terminal__table { table-layout: fixed; min-inline-size: 960px; }
+#top#top#top.v6.r1-rates-page .fee-terminal__table tbody tr { block-size: 88px; }
+#top#top#top.v6.r1-rates-page .fee-terminal__table tbody td { padding-block: var(--s-2, 8px); }
+#top#top#top.v6.r1-rates-page .fee-terminal__table th:nth-child(1) { inline-size: 18%; }
+#top#top#top.v6.r1-rates-page .fee-terminal__table th:nth-child(2) { inline-size: 9%; }
+#top#top#top.v6.r1-rates-page .fee-terminal__table th:last-child { inline-size: 176px; }
+#top#top#top.v6.r1-rates-page .fee-terminal__rate-cell-inner { display: grid; grid-template-columns: auto auto 1fr; grid-template-areas: "main main main" "meta meta meta" "time src det"; gap: 2px var(--s-3, 12px); align-items: center; min-inline-size: 0; }
+#top#top#top.v6.r1-rates-page .fee-terminal__rate-main, #top#top#top.v6.r1-rates-page .fee-terminal__rate-meta { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-inline-size: 100%; }
+#top#top#top.v6.r1-rates-page .fee-terminal__rate-main { grid-area: main; }
+#top#top#top.v6.r1-rates-page .fee-terminal__rate-meta:nth-of-type(1) { grid-area: meta; }
+#top#top#top.v6.r1-rates-page .fee-terminal__rate-meta:nth-of-type(2) { grid-area: time; }
+#top#top#top.v6.r1-rates-page .fee-terminal__rate-source { grid-area: src; min-block-size: 24px; display: inline-flex; align-items: center; }
+#top#top#top.v6.r1-rates-page .fee-terminal__rate-details { grid-area: det; position: relative; }
+#top#top#top.v6.r1-rates-page .fee-terminal__rate-details > summary { min-block-size: 24px; display: inline-flex; align-items: center; gap: var(--s-1, 4px); }
+#top#top#top.v6.r1-rates-page .fee-terminal__rate-details[open] > :not(summary) { position: absolute; z-index: 5; inset-inline-start: 0; inline-size: 320px; max-inline-size: 320px; margin: 0; padding: var(--s-3, 12px) var(--s-4, 16px); background: var(--n3); border: 1px solid var(--n7); border-radius: 8px; }
+#top#top#top.v6.r1-rates-page .fee-terminal__rate-details[open] > summary + p { inset-block-start: 28px; }
+#top#top#top.v6.r1-rates-page .fee-terminal__rate-details[open] > summary + p + p { inset-block-start: calc(28px + 7em); }
+@media (pointer: coarse) {
+  #top#top#top.v6.r1-rates-page :is(.fee-terminal__rate-source, .fee-terminal__rate-details > summary) { min-block-size: 44px; }
+  #top#top#top.v6.r1-rates-page .fee-terminal__table tbody tr { block-size: auto; }
+}
+#top#top#top.v6.r1-rates-page .fee-terminal__aux-cell { font-size: var(--t-12); color: var(--n10); }
+#top#top#top.v6.r1-rates-page .fee-terminal__cta-btn { min-inline-size: 148px; }
+#top#top#top.v6.r1-rates-page .fee-terminal__header { margin-block-start: var(--v6-gap, 96px); }
+@media (max-width: 640px) {
+  #top#top#top.v6.r1-rates-page .cost-decision__results > article { grid-template-columns: 40px minmax(0, 1fr) auto; grid-template-areas: "logo name amount" "logo offer base" ". bar bar" ". src src" "cta cta cta"; }
+  #top#top#top.v6.r1-rates-page .cost-decision__results .cost-decision__cta { inline-size: 100%; }
+  #top#top#top.v6.r1-rates-page .fee-terminal__table { min-inline-size: 0; table-layout: auto; }
+  #top#top#top.v6.r1-rates-page .fee-terminal__table tbody tr { block-size: auto; }
+  #top#top#top.v6.r1-rates-page .fee-terminal__cta-btn { min-inline-size: 0; }
+  #top#top#top.v6.r1-rates-page .fee-terminal__filters { grid-template-columns: repeat(3, auto); inline-size: max-content; max-inline-size: 100%; }
+  #top#top#top.v6.r1-rates-page .fee-terminal__filter-btn { padding-inline: var(--s-3, 12px); }
+  #top#top#top.v6.r1-rates-page .fee-terminal__rate-details[open] > :not(summary) { inline-size: 100%; max-inline-size: 100%; position: static; }
+}
+@media (prefers-reduced-motion: reduce) { #top#top#top.v6.r1-rates-page .rt-verdict__figure { animation: none; } }

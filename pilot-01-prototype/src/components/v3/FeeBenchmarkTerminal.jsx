@@ -509,7 +509,7 @@ function renderRateCell(rate, labels) {
   return (
     <div className="fee-terminal__rate-cell-inner" data-fee-product={rate.product}>
       <strong className="fee-terminal__rate-main">{rate.productLabel} {labels.taker} {rate.takerDisplay}</strong>
-      <span className="fee-terminal__rate-meta">{labels.maker} {rate.makerDisplay} · {rate.tier}</span>
+      <span className="fee-terminal__rate-meta" title={`${labels.maker} ${rate.makerDisplay} · ${rate.tier}`}>{labels.maker} {rate.makerDisplay} · {rate.tier}</span>
       <span className="fee-terminal__rate-meta"><time dateTime={rate.checkedAt}>{labels.checked} {rate.checkedAt}</time></span>
       <a className="fee-terminal__rate-source" href={rate.sourceUrl} target="_blank" rel="noopener noreferrer">{labels.source}</a>
       <details className="fee-terminal__rate-details">
@@ -648,6 +648,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
     { market, product: answerProduct, accountStage, funding },
   );
 
+  const hasTrend = rows.some((r) => r.trend);
   return (
     <section className={`fee-terminal-section v2-shell ${showAllRows ? "fee-terminal-section--expanded" : ""}`} id="rate-terminal" dir={normalizedLocale === "ar" ? "rtl" : undefined}>
       <div className="rt-tool rt-panel">
@@ -758,7 +759,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
               <th>{t.colFuturesTaker}</th>
               <th>{t.colRebate}</th>
               <th>{t.colNetTaker}</th>
-              <th>{t.colTrend}</th>
+              {hasTrend && <th>{t.colTrend}</th>}
               <th className="text-right">{t.colAction}</th>
             </tr>
           </thead>
@@ -775,7 +776,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
                 </td>
                 <td><span className="fee-terminal__cat-badge">{row.category}</span></td>
                 {!row.spotRate && !row.futuresRate && !row.rebateDisplay && !row.netDisplay && !row.trend ? (
-                  <td colSpan={5} className="fee-terminal__pending-span">
+                  <td colSpan={hasTrend ? 5 : 4} className="fee-terminal__pending-span">
                     <span className="fee-terminal__unknown-chip fee-terminal__unknown-chip--plain">{labels.sourcePending}</span>
                     <span className="rt-sr"> · {labels.commercialPending} · {labels.netPending} · {labels.trendPending}</span>
                   </td>
@@ -784,7 +785,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
                 <td className="font-mono fee-terminal__rate-cell">{renderRateCell(row.futuresRate, labels)}</td>
                 <td className="fee-terminal__aux-cell">{renderAuxChip(row.rebateDisplay, labels.commercialPending)}</td>
                 <td className="font-mono fee-terminal__aux-cell">{row.netDisplay ? <span className="fee-terminal__net-rate">{row.netDisplay}</span> : <span className="fee-terminal__unknown-chip">{labels.netPending}</span>}</td>
-                <td className="fee-terminal__aux-cell"><span className={`fee-terminal__trend-tag ${row.trend ? "" : "fee-terminal__trend-tag--pending"}`}>{row.trend || labels.trendPending}</span></td>
+                {hasTrend && <td className="fee-terminal__aux-cell"><span className={`fee-terminal__trend-tag ${row.trend ? "" : "fee-terminal__trend-tag--pending"}`}>{row.trend || labels.trendPending}</span></td>}
                 </>)}
                 <td className="text-right">
                   <a
