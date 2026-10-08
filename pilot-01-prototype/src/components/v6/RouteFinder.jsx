@@ -187,7 +187,7 @@ function Finder({ kit }) {
     <>
     <div className="rf-grid" ref={stageRef}>
       <div className="rf-copy">
-        <h1 className="rf-title">{kit.title}</h1>
+        <h1 className={`rf-title${Math.max(...String(kit.title).split(/\s+/).map((w) => w.length)) > 11 ? " rf-title--long" : ""}`}>{kit.title}</h1>
         <p className="rf-lede">{kit.lede}</p>
       </div>
 
