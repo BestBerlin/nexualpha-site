@@ -1,14 +1,14 @@
 import { localizedValue } from './news-feed-client.js';
 const normalize = value => String(value || '').normalize('NFKD').replace(/\p{M}/gu, '').toLocaleLowerCase().replace(/ı/g, 'i').trim();
 // The feed tags almost every article as "research", so the Fee Rates / Compliance tabs
-// derive a single primary topic from the English title and slug. An explicit non-research
+// derive a single primary topic from the English title. An explicit non-research
 // category in the data always wins. Order matters: fee topics first, then regulation.
 const FEE_TOPIC = /\bfees?\b|funding[- ]rates?|rebates?|commissions?|\bmaker\b|\btaker\b|trading[- ]costs?|\bcosts?\b|\bspreads?\b|vip[- ]tiers?/i;
 const COMPLIANCE_TOPIC = /\b(sec|cftc|fatf|fsb|bis|esma|fca|iosco|occ|finra|fincen|ofac)\b|mica|regulat|complian|\bkyc\b|\baml\b|travel[- ]rule|licen[cs]|\btax|sanction|polic(?:y|ies)|jurisdiction|regional[- ]availability|\blegal|\blaws?\b|supervis/i;
 const englishTitle = title => typeof title === 'string' ? title : (title && (title.en || Object.values(title)[0])) || '';
 export function newsTopicOf(article = {}) {
   if (article.category && article.category !== 'research') return article.category;
-  const text = `${String(article.slug || '').replace(/-/g, ' ')} ${englishTitle(article.title)}`;
+  const text = englishTitle(article.title) || String(article.slug || '').replace(/-/g, ' ');
   if (FEE_TOPIC.test(text)) return 'rates';
   if (COMPLIANCE_TOPIC.test(text)) return 'compliance';
   return 'research';

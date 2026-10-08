@@ -372,3 +372,8 @@
 .mobile-bottom-nav__item, .mobile-bottom-nav__item:hover, .mobile-bottom-nav__item *, .mobile-bottom-nav__label { text-decoration: none; }
 @media (hover: none), (pointer: coarse) { .mobile-bottom-nav kbd, .mobile-bottom-nav [class*="kbd"], .nx-search__kbd { display: none; } }
 #top.v6 .dir6 .dir6-row .dir6-id img.v2-brand[data-brand-slug] { inline-size: 36px !important; block-size: 36px !important; min-inline-size: 36px !important; max-inline-size: 36px !important; max-block-size: 36px !important; width: 36px !important; height: 36px !important; object-fit: contain; }
+
+/* ---------- rhythm (R3 home #9): the closing index already pads 96 (72 on phones) above its first line, so the directory
+   adds only 32 below "View all" (0 on phones): 128 / 72 between the last link and the next content, not 224 / 144 ---------- */
+.v6 .dir6.v6-section { padding-block-end: var(--s-8); }
+@media (max-width: 900px) { .v6 .dir6.v6-section { padding-block-end: 0; } }
