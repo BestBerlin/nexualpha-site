@@ -141,3 +141,8 @@ body:has(main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label, .clean-fo
 @media (prefers-reduced-motion: reduce) {
   :is(main, .factbook-page).v6:not(.home-refinement) details > summary > b:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) details > summary::after { transition: none; }
 }
+
+/* ---------- 6. tables and summary headings ---------- */
+:is(main, .factbook-page).v6:not(.home-refinement) table :is(th, td):not(#_):not(#_) { padding-inline: var(--s-3, 12px); }
+:is(main, .factbook-page).v6:not(.home-refinement) table :is(th, td):first-child:not(#_):not(#_) { padding-inline-start: var(--s-4, 16px); }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(h2, h3):not(#_):not(#_) { font-size: var(--t-20); line-height: 1.25; margin: 0; }
