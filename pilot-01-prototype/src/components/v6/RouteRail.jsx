@@ -47,7 +47,7 @@ export function RouteRail() {
           const ir = intent.getBoundingClientRect();
           const first = main.querySelector(".rf-intent")?.getBoundingClientRect() || ir;
           // never cross the intent buttons: when the You line sits level with them, stop at the row's start edge
-          sx = sy + mr.top > first.top - 6 && sy + mr.top < first.bottom + 6 ? edge(first) - 2 : edge(ir) + ir.width / 2 - 4;
+          sx = sy + mr.top > first.top - 6 && sy + mr.top < first.bottom + 6 ? edge(first) - 2 : edge(ir) + ir.width / 2 - 1;
         }
         else sx = edge(yr) - 2; // stacked hero: stop at the pill
       } else { const rf = main.querySelector(".rf"); sy = rf ? rf.getBoundingClientRect().top - mr.top + 120 : 120; }

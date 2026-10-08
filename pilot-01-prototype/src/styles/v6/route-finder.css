@@ -543,3 +543,5 @@
   #top.v6 .rf-pick { row-gap: var(--s-6); margin-block-start: var(--s-4); }
   #top.v6 .rf-pick .rf-readout { min-block-size: 0; }
 }
+
+#top.v6 .rf-grid:is(:lang(ja), :lang(zh-Hans), :lang(zh-Hant), :lang(ko)) .rf-title { line-height: 1.25; }
