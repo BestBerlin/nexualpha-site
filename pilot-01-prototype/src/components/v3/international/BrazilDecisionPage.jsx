@@ -7,7 +7,7 @@ import { trackGrowthDecision as trackGrowthDecisionEvent } from "../../../data/c
 import { buildTelegramWebsiteFunnelContext } from "../../../data/telegram-config.js";
 import { OnsiteTelegramBotHandoff } from "../OnsiteTelegramBotHandoff.jsx";
 import { BrandMark } from "../../brand/BrandMark.jsx";
-import { useTween } from "../../../lib/v6/useTween.js";
+import { brazilControlsCopyExtra } from "../../../data/brazil-controls-copy.js";
 import {
   costEstimate,
   browserSessionStorage,
@@ -178,7 +178,9 @@ export function copyFor(locale) {
     ko: { label: "빠른 결정", region: "거주지", product: "사용 목적", platform: "플랫폼", platformEmpty: "아직 선택하지 않음", amount: "참고 금액", spotFee: "가정 현물 수수료(bps)", depositPercent: "가정 입금 비용(%)", depositFixed: "가정 고정 비용(BRL)", costTitle: "입력 조건으로 계산한 예상 비용", openGlobal: "글로벌 목록 열기", compare: "옵션 비교", register: "공식 가입 열기", source: "이 페이지에서 확인한 공식 출처", share: "결정 링크 복사", officialCheck: "입력 전에 도메인, KYC, 입금 통화와 자격을 확인하세요", newAccount: "계정 및 혜택", facts: "결정을 바꾸는 조건", readPath: "지역 경로 읽기", readEvidence: "전체 결정 기준 보기", readCriteria: "KYC·계정·비용 확인" },
     tr: { label: "Hızlı karar", region: "İkamet", product: "Kullanım amacı", platform: "Platform", platformEmpty: "Henüz seçilmedi", amount: "Referans tutar", spotFee: "Varsayılan spot ücret (bps)", depositPercent: "Varsayılan yatırma maliyeti (%)", depositFixed: "Varsayılan sabit maliyet (BRL)", costTitle: "Girdi varsayımınıza göre tahmini maliyet", openGlobal: "Global dizini aç", compare: "Seçenekleri karşılaştır", register: "Resmî kaydı aç", source: "Bu sayfada kontrol edilen resmî kaynaklar", share: "Karar bağlantısını kopyala", officialCheck: "Bilgi girmeden önce alan adını, KYC'yi, yatırma para birimini ve uygunluğu doğrulayın", newAccount: "Hesap ve avantaj", facts: "Kararı değiştiren koşullar", readPath: "Yerel yolu oku", readEvidence: "Tüm karar ölçütlerini oku", readCriteria: "KYC, hesap ve maliyet ayrıntıları" },
   }[String(locale || "").split("-")[0]];
-  if (localized) return { ...controlsCopy.en, ...localized };
+  const lang = String(locale || "").split("-")[0];
+  const extra = brazilControlsCopyExtra[lang];
+  if (localized || extra) return { ...controlsCopy.en, ...(localized || {}), ...(extra || {}) };
   return controlsCopy.en;
 }
 
@@ -718,7 +720,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
 
   const selectedVenues = useMemo(() => selectVenues(venues, state.platform), [state.platform, venues]);
   const estimate = useMemo(() => costEstimate(state), [state]);
-  const shownTotal = useTween(Number(estimate.total) || 0);
+  const shownTotal = Number(estimate.total) || 0; // the computed estimate, shown final (never an intermediate figure)
   const isBrazil = state.region === "BR";
   const isSpot = state.product === "spot";
   const selectedIsBrazilShortlist = isBrazilShortlistPlatform(venues, state.platform);
