@@ -199,7 +199,7 @@
 /* ---- Fee cost check (legacy analyzer, restyled): one accent, scale-only type, 44px targets, drawn icons, no repeated heading ---- */
 .v6 .cl-fees__body .bleed-analyzer__header { display: none; }
 .v6 .cl-fees__body, .v6 .cl-fees__body :where(button, a, label, input, textarea, summary, p, span, strong, h3) { font-family: var(--font-sans, "Geist V5", system-ui, sans-serif); }
-.v6 .cl-fees__body :where(.font-mono, .bleed-vol-value, .bleed-track-val, .bleed-stat-val, .bleed-copy-code-btn, .bleed-slider-ticks, .bleed-manual-copy) { font-family: var(--font-mono, "Geist Mono V5", ui-monospace, monospace); }
+.v6 .cl-fees__body :where(.font-mono, .bleed-vol-value, .bleed-track-val, .bleed-stat-val, .bleed-copy-code-btn, .bleed-slider-ticks, .bleed-manual-copy) { font-family: "Geist Mono V5", ui-monospace, monospace; }
 .v6 .cl-fees__body .bleed-analyzer__container { padding: var(--s-8); }
 .v6 .cl-fees__body .bleed-label { font-size: var(--t-12); line-height: 1.4; letter-spacing: 0.01em; color: var(--text-muted); text-transform: none; }
 .v6 .cl-fees__body .bleed-venue-selector, .v6 .cl-fees__body .bleed-type-pills { gap: var(--s-2); }
@@ -239,7 +239,7 @@
 @media (max-width: 47.99rem) { .v6 .cl-fees__body .bleed-analyzer__container { padding: var(--s-4); } }
 
 .v6 .cl [data-brand-slug] { transform: none !important; }
-.v6 .cl-fees__body .bleed-verdict__venue, .v6 .cl-fees__body .bleed-manual-copy { font-family: var(--font-mono, "Geist Mono V5", ui-monospace, monospace); }
+.v6 .cl-fees__body .bleed-verdict__venue, .v6 .cl-fees__body .bleed-manual-copy { font-family: "Geist Mono V5", ui-monospace, monospace; }
 .v6 .cl-fees__body .bleed-analyzer__verdict-card { background: var(--n3); border: var(--hairline); box-shadow: none; }
 .v6 .cl-fees__body .bleed-verdict__alert { background: transparent; border: 0; border-inline-start: 2px solid var(--n9); border-radius: 0; padding: var(--s-1) var(--s-3); }
 .v6 .cl-fees__body .bleed-vol-value, .v6 .cl-fees__body .bleed-copy-code-btn { color: var(--text-strong); }
