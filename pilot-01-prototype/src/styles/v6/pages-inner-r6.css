@@ -113,3 +113,24 @@ main.v6:not(.home-refinement) .v3-matrix-action-cell .v3-matrix-code-chip:not(#_
 main.v6:not(.home-refinement) .v3-matrix-dim-heading:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { text-transform: none; letter-spacing: 0; }
 main.v6:not(.home-refinement) .v3-fee-pair__tier:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: block; margin-block-start: 2px; font-size: 12px; font-weight: 400; color: var(--n10, #9ba1a6); }
 main.v6:not(.home-refinement) .v3-matrix-expand, .v3-matrix-expand > span:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n12, #edeef0); }
+
+/* ---- defect 11: /methodology and /telegram sections on a 4/8 split (heading left, text and its action right) ---- */
+@media (min-width: 64rem) {
+  main.v6:not(.home-refinement) .methodology-page__wall-content:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 48px; row-gap: 12px; align-items: start; grid-template-areas: none; inline-size: 100%; max-inline-size: none; }
+  main.v6:not(.home-refinement) .methodology-page__funding-copy:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 48px; row-gap: 12px; align-items: start; grid-template-areas: none; inline-size: 100%; max-inline-size: none; }
+  main.v6:not(.home-refinement) .methodology-page__feedback-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 48px; row-gap: 12px; align-items: start; grid-template-areas: none; inline-size: 100%; max-inline-size: none; }
+  main.v6:not(.home-refinement) .tg-topic-gateway__header:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 48px; row-gap: 12px; align-items: start; grid-template-areas: none; inline-size: 100%; max-inline-size: none; }
+  main.v6:not(.home-refinement) .tg-topic-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 48px; row-gap: 12px; align-items: start; grid-template-areas: none; inline-size: 100%; max-inline-size: none; }
+  main.v6:not(.home-refinement) .tg-return-rail__header:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 48px; row-gap: 12px; align-items: start; grid-template-areas: none; inline-size: 100%; max-inline-size: none; }
+  main.v6:not(.home-refinement) .methodology-page__feedback-left:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: contents; }
+  main.v6:not(.home-refinement) :is(.methodology-page__wall-content, .methodology-page__funding-copy, .methodology-page__feedback-left, .tg-topic-gateway__header, .tg-return-rail__header) > h2:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / 5; grid-row: 1 / span 3; margin: 0; max-inline-size: none; }
+  main.v6:not(.home-refinement) :is(.methodology-page__wall-content, .methodology-page__funding-copy, .methodology-page__feedback-left, .tg-topic-gateway__header, .tg-return-rail__header) > :not(h2):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 5 / -1; margin: 0; max-inline-size: 62ch; }
+  main.v6:not(.home-refinement) .methodology-page__funding-copy > .methodology-page__funding-assets:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { max-inline-size: none; }
+  main.v6:not(.home-refinement) .methodology-page__feedback-actions:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 5 / -1; grid-row: 2; justify-self: start; justify-content: flex-start; margin: 12px 0 0; }
+  main.v6:not(.home-refinement) .tg-topic-card > h3:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / 5; grid-row: 1 / span 3; margin: 0; }
+  main.v6:not(.home-refinement) .tg-topic-card > :not(h3):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 5 / -1; grid-row: auto; max-inline-size: 62ch; margin: 0; }
+  main.v6:not(.home-refinement) .tg-topic-card > .tg-topic-card__bot:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { justify-self: start; }
+  main.v6:not(.home-refinement) .tg-topic-gateway__header > .tg-topic-gateway__badge:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+}
+/* the gap from the last content block to the footer is section padding (128), never more */
+main.v6:not(.home-refinement) :is(.methodology-page__inner, .tg-hub-section, .factbook-page, .mx):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-end: 0; }
