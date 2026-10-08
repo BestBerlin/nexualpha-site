@@ -1,0 +1,120 @@
+/* V6 act 3 — Verify before you leave. One route line, three stations. Scale/spacing from base.css only. */
+.v6 .vb { background: var(--bg); color: var(--text); }
+.v6 .vb__head { display: grid; gap: var(--s-6); grid-template-columns: minmax(0, 1fr); align-items: start; }
+.v6 .vb__title { color: var(--text-strong); margin: 0; max-width: 14ch; }
+.v6 .vb__lead { margin: 0; color: var(--text); }
+.v6 .vb__aside { display: grid; gap: var(--s-6); align-content: start; }
+.v6 .vb__venues { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.v6 .vb__venue {
+  min-height: 44px; padding-inline: var(--s-4); border-radius: var(--r-md);
+  border: 1px solid var(--line); background: transparent; color: var(--text);
+  font: 500 var(--t-14)/1 var(--font-sans); cursor: pointer;
+  transition: background var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
+}
+.v6 .vb__venue:hover { border-color: var(--line-strong); color: var(--text-strong); background: var(--surface); }
+.v6 .vb__venue:active { transform: scale(0.97); }
+.v6 .vb__venue[aria-pressed="true"] { background: var(--surface-raised); border-color: var(--n9); color: var(--text-strong); }
+
+/* route */
+.v6 .vb__route { list-style: none; margin: var(--s-16) 0 0; padding: 0; position: relative; display: grid; gap: var(--s-12); grid-template-columns: minmax(0, 1fr); view-timeline: --vb block; }
+.v6 .vb__line { position: absolute; inset-inline-start: 19px; inset-block: 20px 0; inline-size: 2px; background: var(--line); border-radius: 2px; overflow: hidden; pointer-events: none; }
+.v6 .vb__line i { display: block; inline-size: 100%; block-size: 100%; background: var(--accent); transform-origin: top; }
+.v6 .vb__st { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: var(--s-6); align-items: start; }
+.v6 .vb__node {
+  inline-size: 40px; block-size: 40px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--bg); border: 2px solid var(--accent); color: var(--accent); position: relative; z-index: 1;
+}
+.v6 .vb__body { display: grid; gap: var(--s-3); min-inline-size: 0; padding-block-start: var(--s-2); }
+.v6 .vb__body h3 { margin: 0; color: var(--text-strong); }
+.v6 .vb__desc { margin: 0; color: var(--text); }
+.v6 .vb__sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* proofs */
+.v6 .vb__proof { font-family: var(--font-mono); font-size: var(--t-28); line-height: 1.15; letter-spacing: -0.02em; font-weight: 500; color: var(--text-strong); margin: 0; }
+.v6 .vb__domain { position: relative; display: block; padding-block-end: var(--s-3); overflow-wrap: anywhere; }
+.v6 .vb__domain::after { content: ""; position: absolute; inset-inline: 0; inset-block-end: 0; block-size: 1px; background: var(--line-strong); }
+.v6 .vb__chars span { display: inline-block; white-space: pre; }
+.v6 .vb__lock { display: inline-block; vertical-align: -3px; margin-inline-start: var(--s-2); color: var(--accent); }
+.v6 .vb__lock * { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.v6 .vb__ok { margin: 0; display: inline-flex; align-items: center; gap: var(--s-2); color: var(--accent); font-weight: 500; }
+
+.v6 .vb__code {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); inline-size: 100%; text-align: start;
+  min-height: 56px; padding: var(--s-3) var(--s-4); border-radius: var(--r-md); border: 1px dashed var(--line-strong); background: transparent;
+  cursor: pointer; transition: border-color var(--dur-2) var(--ease-out), background var(--dur-2) var(--ease-out), transform var(--dur-1) var(--ease-out);
+}
+.v6 .vb__code:hover { background: var(--surface); border-color: var(--n9); }
+.v6 .vb__code:active { transform: scale(0.985); }
+.v6 .vb__code--none { cursor: default; border-style: solid; border-color: var(--line); }
+.v6 .vb__code--none:hover { background: transparent; border-color: var(--line); }
+.v6 .vb__none { font: 500 var(--t-16)/1.4 var(--font-sans); letter-spacing: 0; color: var(--text); }
+.v6 .vb__codeval { overflow-wrap: anywhere; min-inline-size: 0; transition: color var(--dur-2) var(--ease-out); }
+.v6 .vb__copy { display: inline-flex; align-items: center; gap: var(--s-2); color: var(--text); font-family: var(--font-sans); letter-spacing: 0; font-weight: 500; white-space: nowrap; flex: none; }
+.v6 .vb__copy svg { overflow: visible; }
+.v6 .vb__ic-copy { transition: opacity var(--dur-1) var(--ease-out); }
+.v6 .vb__ic-ok { stroke-dasharray: 1; stroke-dashoffset: 1; stroke: var(--accent); }
+.v6 .vb__code[data-copied] { border-style: solid; border-color: var(--accent); }
+.v6 .vb__code[data-copied] .vb__codeval, .v6 .vb__code[data-copied] .vb__copy { color: var(--accent); }
+.v6 .vb__code[data-copied] .vb__ic-copy { opacity: 0; }
+.v6 .vb__code[data-copied] .vb__ic-ok { stroke-dashoffset: 0; transition: stroke-dashoffset var(--dur-3) var(--ease-out); }
+
+.v6 .vb__disc { font-family: var(--font-sans); font-size: var(--t-20); line-height: 1.4; letter-spacing: -0.01em; font-weight: 500; text-wrap: pretty; }
+.v6 .vb__link { display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px; inline-size: fit-content; color: var(--text-strong); font-weight: 500; text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 4px; transition: text-decoration-color var(--dur-1) var(--ease-out), gap var(--dur-2) var(--ease-out); }
+.v6 .vb__link:hover { text-decoration-color: var(--accent); gap: var(--s-3); }
+.v6 .vb__link svg { flex: none; }
+[dir="rtl"] .v6 .vb__link svg, .v6[dir="rtl"] .vb__link svg { transform: scaleX(-1); }
+
+@media (min-width: 900px) {
+  .v6 .vb__head { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+  .v6 .vb__title { grid-column: 1 / 7; }
+  .v6 .vb__aside { grid-column: 8 / 13; }
+  .v6 .vb__route { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--s-12); row-gap: 0; }
+  .v6 .vb__line { inset-inline: 0; inset-block: 19px auto; inline-size: auto; block-size: 2px; }
+  .v6 .vb__line i { transform-origin: left; }
+  [dir="rtl"] .v6 .vb__line i, .v6[dir="rtl"] .vb__line i { transform-origin: right; }
+  .v6 .vb__st { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-6); }
+  .v6 .vb__body { padding-block-start: 0; }
+  .v6 .vb__node { margin-block-end: 0; }
+}
+
+/* motion: only when the user allows it */
+@media (prefers-reduced-motion: no-preference) {
+  .v6 .vb__route[data-armed]:not([data-live]) .vb__chars span { opacity: 0; }
+  .v6 .vb__route[data-armed]:not([data-live]) .vb__lock * { stroke-dashoffset: 1; }
+  .v6 .vb__route[data-armed]:not([data-live]) .vb__ok { opacity: 0; }
+  .v6 .vb__route[data-armed]:not([data-live]) .vb__domain::after { transform: scaleX(0); }
+  .v6 .vb__route[data-live] .vb__chars span { animation: vb-char 480ms var(--ease-out) both; animation-delay: calc(var(--i) * 36ms + 160ms); }
+  .v6 .vb__route[data-live] .vb__lock * { animation: vb-draw 520ms var(--ease-out) both; animation-delay: 1000ms; }
+  .v6 .vb__route[data-live] .vb__lock rect { animation-delay: 1000ms; }
+  .v6 .vb__route[data-live] .vb__lock path:first-child { animation-delay: 1250ms; }
+  .v6 .vb__route[data-live] .vb__lock path:last-child { animation-delay: 1400ms; }
+  .v6 .vb__route[data-live] .vb__domain::after { transform-origin: left; animation: vb-rule 900ms var(--ease-out) 160ms both; }
+  .v6 .vb__route[data-live] .vb__ok { animation: vb-rise 400ms var(--ease-out) 1500ms both; }
+  .v6 .vb__code[data-copied] .vb__codeval { animation: vb-pop 400ms var(--ease-out); }
+  @keyframes vb-char { from { opacity: 0; filter: blur(6px); transform: translateY(0.35em); } to { opacity: 1; filter: blur(0); transform: none; } }
+  @keyframes vb-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes vb-rule { from { transform: scaleX(0); background: var(--accent); } to { transform: scaleX(1); background: var(--line-strong); } }
+  @keyframes vb-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes vb-pop { 0% { transform: scale(0.96); } 100% { transform: none; } }
+
+  /* scroll-driven route: static (fully lit) where unsupported */
+  @supports (animation-timeline: view()) {
+    .v6 .vb__line i { animation: vb-fill linear both; animation-timeline: --vb; animation-range: cover 6% cover 52%; transform-origin: top; }
+    .v6 .vb__node { animation: vb-node linear both; animation-timeline: --vb; }
+    .v6 .vb__st--1 .vb__node { animation-range: cover 4% cover 10%; }
+    .v6 .vb__st--2 .vb__node { animation-range: cover 26% cover 32%; }
+    .v6 .vb__st--3 .vb__node { animation-range: cover 46% cover 52%; }
+    @keyframes vb-fill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+    @keyframes vb-node { from { border-color: var(--line-strong); color: var(--text-muted); } to { border-color: var(--accent); color: var(--accent); } }
+    @media (min-width: 900px) {
+      .v6 .vb__line i { animation-name: vb-fill-x; transform-origin: left; }
+      [dir="rtl"] .v6 .vb__line i, .v6[dir="rtl"] .vb__line i { transform-origin: right; }
+      @keyframes vb-fill-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    }
+    @media (max-width: 899px) {
+      .v6 .vb__line i { animation-range: cover 6% cover 62%; }
+      .v6 .vb__st--2 .vb__node { animation-range: cover 28% cover 36%; }
+      .v6 .vb__st--3 .vb__node { animation-range: cover 54% cover 62%; }
+    }
+  }
+}
