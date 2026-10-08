@@ -146,3 +146,13 @@ body:has(main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label, .clean-fo
 :is(main, .factbook-page).v6:not(.home-refinement) table :is(th, td):not(#_):not(#_) { padding-inline: var(--s-3, 12px); }
 :is(main, .factbook-page).v6:not(.home-refinement) table :is(th, td):first-child:not(#_):not(#_) { padding-inline-start: var(--s-4, 16px); }
 :is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(h2, h3):not(#_):not(#_) { font-size: var(--t-20); line-height: 1.25; margin: 0; }
+
+/* ---------- 7. flex-basis voids and wrapping ---------- */
+/* a "flex: 1 1 320px" child inside a column-direction card turns the basis into HEIGHT; reset on narrow screens */
+@media (max-width: 760px) {
+  :is(main, .factbook-page).v6:not(.home-refinement) :is(section, div, article)[class*="-card"]:not(#_):not(#_) > :not(#_):not(#_) { flex-basis: auto; min-block-size: 0; }
+}
+:is(main, .factbook-page).v6:not(.home-refinement) table :is(th, td):not(#_):not(#_) { white-space: normal; }
+:is(main, .factbook-page).v6:not(.home-refinement) table td :where(span, a, button):not(#_):not(#_) { white-space: normal; }
+:is(main, .factbook-page).v6:not(.home-refinement) table:not(#_):not(#_) { inline-size: 100%; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_)::before { content: none; }
