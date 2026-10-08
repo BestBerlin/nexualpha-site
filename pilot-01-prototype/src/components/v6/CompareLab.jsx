@@ -17,17 +17,17 @@ const NAMES = { binance: "Binance", okx: "OKX", bybit: "Bybit", bitget: "Bitget"
 const TYPES = { cex: "CEX", dex: "DEX", "perp-dex": "Perp DEX" };
 // Rows: [fact key, index]. Bars share one scale per product, taken from the whole fact set (never invented).
 const ROWS = [["spot", 0], ["spot", 1], ["perp", 0], ["perp", 1]];
-const MAX = Object.fromEntries(["spot", "perp"].map((k) => [k, Math.max(...Object.values(EXCHANGE_FACTS).flatMap((f) => f[k]).filter((n) => n != null))]));
+const PRODUCTS = ["spot", "perp"];
 
 const fmtCache = new Map();
-function fmt(n, locale) {
+function fmt(n, locale, suffix = "%") {
   let f = fmtCache.get(locale);
   if (!f) { try { f = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 3 }); } catch { f = new Intl.NumberFormat("en", { minimumFractionDigits: 2, maximumFractionDigits: 3 }); } fmtCache.set(locale, f); }
-  return f.format(n) + "%";
+  return f.format(n) + suffix;
 }
 
 // Figure that counts from its previous value to the new one. Server and first paint carry the final value.
-function Fig({ v, locale }) {
+function Fig({ v, locale, suffix = "%", className = "cl-fig v6-num" }) {
   const ref = useRef(null);
   const prev = useRef(v);
   useIso(() => {
@@ -37,26 +37,28 @@ function Fig({ v, locale }) {
     let raf = 0; const t0 = performance.now();
     const tick = (now) => {
       const p = Math.min((now - t0) / 520, 1);
-      el.textContent = fmt(from + (v - from) * (p >= 1 ? 1 : 1 - 2 ** (-10 * p)), locale);
+      el.textContent = fmt(from + (v - from) * (p >= 1 ? 1 : 1 - 2 ** (-10 * p)), locale, suffix);
       if (p < 1) raf = requestAnimationFrame(tick);
     };
-    el.textContent = fmt(from, locale);
+    el.textContent = fmt(from, locale, suffix);
     raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(raf); el.textContent = fmt(v, locale); };
-  }, [v, locale]);
-  return <span ref={ref} className="cl-fig v6-num">{fmt(v, locale)}</span>;
+    return () => { cancelAnimationFrame(raf); el.textContent = fmt(v, locale, suffix); };
+  }, [v, locale, suffix]);
+  return <span ref={ref} className={className}>{fmt(v, locale, suffix)}</span>;
 }
 
-function Cell({ side, name, value, group, locale, nc, text }) {
+// One side of a ledger row. Bars share one scale per product (the larger of the two venues), the lower figure carries the accent.
+function Cell({ side, name, value, scale, other, locale, pending, text }) {
   const has = value != null;
+  const low = has && (other == null || value <= other);
   return (
     <div className={`cl-cell cl-cell--${side}`}>
       <span className="cl-sr">{name}: </span>
       {text != null
         ? <span className="cl-text">{text}</span>
-        : has ? <Fig v={value} locale={locale} /> : <span className="cl-nc">{nc}</span>}
-      {group && (has
-        ? <span className="cl-bar" aria-hidden="true"><i style={{ "--w": Math.min(value / MAX[group], 1) }} /></span>
+        : has ? <Fig v={value} locale={locale} /> : <><span className="cl-dash" aria-hidden="true">{"\u2013"}</span><span className="cl-sr">{pending}</span></>}
+      {scale != null && (has
+        ? <span className="cl-bar" aria-hidden="true" data-low={low ? "" : undefined}><i style={{ "--w": Math.min(value / scale, 1) }} /></span>
         : <span className="cl-bar cl-bar--nc" aria-hidden="true" />)}
     </div>
   );
@@ -119,6 +121,23 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
     if (f?.status !== "verified" || !f.verifiedOn) return null;
     try { return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(f.verifiedOn)); } catch { return f.verifiedOn; }
   };
+  const val = (f, g, i) => (f?.status === "verified" ? f[g]?.[i] ?? null : null);
+  // Rows with no figure on either side disappear; whatever is missing is named once, in one quiet line.
+  const rows = ROWS.map(([g, i], n) => ({ g, i, n, va: val(fa, g, i), vb: val(fb, g, i) })).filter((r) => r.va != null || r.vb != null);
+  const scaleOf = (g) => Math.max(0, ...rows.filter((r) => r.g === g).flatMap((r) => [r.va, r.vb]).filter((x) => x != null)) || null;
+  const pendingBits = [];
+  for (const [slug, f] of [[a, fa], [b, fb]]) PRODUCTS.forEach((g, gi) => { if (val(f, g, 0) == null && val(f, g, 1) == null) pendingBits.push(`${nameOf(slug)} \u00b7 ${t.prod[gi]}`); });
+  // The one bold type moment: the largest spot base-fee gap between the two venues, in percentage points.
+  const spot = [0, 1].map((i) => [val(fa, "spot", i), val(fb, "spot", i)]);
+  const haveGap = spot.every(([x, y]) => x != null && y != null);
+  let gap = null;
+  if (haveGap) {
+    const d = spot.map(([x, y]) => Math.abs(x - y));
+    const k = d[0] >= d[1] ? 0 : 1;
+    const [x, y] = spot[k];
+    gap = { v: Math.round(d[k] * 1e4) / 1e4, row: t.rows[k], low: x === y ? null : nameOf(x < y ? a : b) };
+  }
+  const metaHas = date(fa) || date(fb);
   const status = t.status.replace("{a}", nameOf(a)).replace("{b}", nameOf(b));
   const isCurrent = (pair) => (pair.left === a && pair.right === b) || (pair.left === b && pair.right === a);
 
@@ -181,19 +200,41 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
 
           <p className="cl-sr" role="status" aria-live="polite">{status}</p>
 
+          {gap && (
+            <div className="cl-gap" role="group" aria-label={t.gap}>
+              <p className="cl-gap__fig" aria-hidden="true">
+                <Fig v={gap.v} locale={locale} suffix="" className="cl-gap__num v6-num" />
+                <span className="cl-gap__unit v6-num">pp</span>
+              </p>
+              <p className="cl-gap__cap">
+                <span className="cl-gap__label v6-small">{t.gap}</span>
+                <span className="cl-gap__low v6-meta">{gap.low ? t.lower.replace("{n}", gap.low).replace("{row}", gap.row) : t.same}</span>
+              </p>
+              <span className="cl-sr">{`${t.gap}: ${fmt(gap.v, locale, " pp")}. ${gap.low ? t.lower.replace("{n}", gap.low).replace("{row}", gap.row) : t.same}`}</span>
+            </div>
+          )}
+
           <div className="cl-ledger">
-            {ROWS.map(([g, i], n) => (
-              <div className="cl-row" key={g + i} role="group" aria-label={t.rows[n]}>
-                <Cell side="a" name={nameOf(a)} value={fa?.[g]?.[i]} group={g} locale={locale} nc={t.nc} />
-                <span className="cl-label v6-small">{t.rows[n]}</span>
-                <Cell side="b" name={nameOf(b)} value={fb?.[g]?.[i]} group={g} locale={locale} nc={t.nc} />
+            {rows.map((r) => (
+              <div className="cl-row" key={r.g + r.i} role="group" aria-label={t.rows[r.n]}>
+                <Cell side="a" name={nameOf(a)} value={r.va} other={r.vb} scale={scaleOf(r.g)} locale={locale} pending={t.pending} />
+                <span className="cl-label v6-small">{t.rows[r.n]}</span>
+                <Cell side="b" name={nameOf(b)} value={r.vb} other={r.va} scale={scaleOf(r.g)} locale={locale} pending={t.pending} />
               </div>
             ))}
-            <div className="cl-row cl-row--meta" role="group" aria-label={t.checked}>
-              <Cell side="a" name={nameOf(a)} locale={locale} nc={t.nc} text={date(fa) ?? <span className="cl-nc">{t.nc}</span>} />
-              <span className="cl-label v6-small">{t.checked}</span>
-              <Cell side="b" name={nameOf(b)} locale={locale} nc={t.nc} text={date(fb) ?? <span className="cl-nc">{t.nc}</span>} />
-            </div>
+            {metaHas && (
+              <div className="cl-row cl-row--meta" role="group" aria-label={t.checked}>
+                <Cell side="a" name={nameOf(a)} locale={locale} pending={t.pending} text={date(fa) ?? "\u2013"} />
+                <span className="cl-label v6-small">{t.checked}</span>
+                <Cell side="b" name={nameOf(b)} locale={locale} pending={t.pending} text={date(fb) ?? "\u2013"} />
+              </div>
+            )}
+            {pendingBits.length > 0 && (
+              <p className="cl-pending v6-small">
+                <span className="cl-pending__dot" aria-hidden="true" />
+                <span>{`${pendingBits.join("; ")} \u2014 ${t.pending}`}</span>
+              </p>
+            )}
           </div>
 
           <div className="cl-foot">

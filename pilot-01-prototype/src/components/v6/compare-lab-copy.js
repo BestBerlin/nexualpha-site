@@ -64,4 +64,26 @@ export const labCopy = {
     "Commissioni base pubblicate nelle pagine ufficiali. Livelli e sconti possono cambiare quanto paghi. Le barre condividono una scala per prodotto. Affiancato, non una classifica.",
     "Confronto tra {a} e {b}", "Controlla i costi di trading", "Stima con le tariffe base pubblicate prima di approfondire"),
 };
-export const labText = (locale) => labCopy[locale] || labCopy[String(locale || "").split("-")[0]] || labCopy.en;
+// R2 additions: [pending line, spot/perp words, gap caption, identical, "{n} is lower on {row}"]
+const X = (pending, prod, gap, same, lower) => ({ pending, prod, gap, same, lower });
+const labExtra = {
+  en: X("Fee data pending", ["Spot", "Perp"], "Spot fee gap, percentage points", "Identical base spot rates", "{n} is lower on {row}"),
+  "zh-Hans": X("费率数据待核实", ["现货", "永续"], "现货费率差(百分点)", "现货基础费率相同", "{row}:{n} 更低"),
+  "zh-Hant": X("費率資料待核實", ["現貨", "永續"], "現貨費率差(百分點)", "現貨基礎費率相同", "{row}:{n} 較低"),
+  ja: X("手数料データ確認待ち", ["現物", "無期限"], "現物手数料の差(ポイント)", "現物の基本手数料は同じ", "{row}は{n}が低い"),
+  ko: X("수수료 데이터 확인 중", ["현물", "무기한"], "현물 수수료 차이(%p)", "현물 기본 수수료 동일", "{row}: {n}이(가) 더 낮음"),
+  tr: X("Ücret verisi bekleniyor", ["Spot", "Vadesiz"], "Spot ücret farkı, puan", "Spot temel oranlar aynı", "{row}: {n} daha düşük"),
+  es: X("Datos de comisiones pendientes", ["Spot", "Perp"], "Diferencia de comisión spot, puntos", "Comisiones base spot idénticas", "{n} es menor en {row}"),
+  "pt-BR": X("Dados de taxas pendentes", ["Spot", "Perp"], "Diferença de taxa spot, pontos", "Taxas base spot idênticas", "{n} é menor em {row}"),
+  fr: X("Données de frais en attente", ["Spot", "Perp"], "Écart de frais spot, points", "Frais de base spot identiques", "{n} est plus bas sur {row}"),
+  de: X("Gebührendaten ausstehend", ["Spot", "Perp"], "Spot-Gebührendifferenz, Prozentpunkte", "Identische Spot-Basisgebühren", "{n} ist niedriger bei {row}"),
+  ru: X("Данные о комиссиях уточняются", ["Спот", "Перп"], "Разница спот-комиссий, п. п.", "Базовые спот-ставки одинаковы", "{n} ниже: {row}"),
+  ar: X("بيانات الرسوم قيد التحقق", ["فوري", "دائم"], "فرق الرسوم الفورية بالنقاط المئوية", "الرسوم الفورية الأساسية متطابقة", "{n} أقل في {row}"),
+  id: X("Data biaya menunggu", ["Spot", "Perp"], "Selisih biaya spot, poin persentase", "Biaya dasar spot identik", "{n} lebih rendah di {row}"),
+  vi: X("Dữ liệu phí đang chờ", ["Spot", "Perp"], "Chênh lệch phí spot, điểm %", "Phí cơ bản spot giống nhau", "{n} thấp hơn ở {row}"),
+  it: X("Dati sulle commissioni in attesa", ["Spot", "Perp"], "Differenza commissioni spot, punti", "Commissioni base spot identiche", "{n} è più basso su {row}"),
+};
+export const labText = (locale) => {
+  const k = labCopy[locale] ? locale : labCopy[String(locale || "").split("-")[0]] ? String(locale).split("-")[0] : "en";
+  return { ...labCopy[k], ...(labExtra[k] || labExtra.en) };
+};

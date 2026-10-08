@@ -65,7 +65,11 @@ export const verifyCopy = {
     "Informativa", "Potremmo ricevere una commissione se ti registri tramite i nostri link, senza costi aggiuntivi per te. Ogni vantaggio segue i termini della piattaforma.", "Leggi l'informativa affiliati"),
 };
 
+// The stamp that lands on the address bar once the domain matches our record.
+const official = { en: "Official", "zh-Hans": "官方", "zh-Hant": "官方", ja: "公式", ko: "공식", tr: "Resmi", fr: "Officiel", de: "Offiziell", es: "Oficial", "pt-BR": "Oficial", ru: "Официальный", ar: "رسمي", id: "Resmi", vi: "Chính thức", it: "Ufficiale" };
+
 export function getVerifyCopy(locale) {
   const l = locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale;
-  return verifyCopy[l] || verifyCopy[String(l || "").split("-")[0]] || verifyCopy.en;
+  const key = verifyCopy[l] ? l : verifyCopy[String(l || "").split("-")[0]] ? String(l).split("-")[0] : "en";
+  return { ...verifyCopy[key], official: official[key] || official.en };
 }

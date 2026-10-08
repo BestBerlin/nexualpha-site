@@ -114,6 +114,15 @@ function AnimatedNumber({ value, prefix = "", suffix = "" }) {
   );
 }
 
+// Drawn 16px icons (no emoji): bolt = futures, coin = spot, check, copy.
+const ICO = {
+  bolt: <path d="M9 1.5 3.5 9H8l-1 5.5L12.5 7H8z" />,
+  coin: <><circle cx="8" cy="8" r="6" /><path d="M8 5v6M6 6.6c.3-.6 1-1 2-1s1.8.4 1.8 1.1-.8 1-1.8 1.2-1.8.5-1.8 1.2.8 1.1 1.8 1.1 1.7-.4 2-1" /></>,
+  check: <path d="M3 8.5l3.2 3L13 4.8" />,
+  copy: <><rect x="5.5" y="5.5" width="8" height="8" rx="1.8" /><path d="M10.5 3.5h-6A1.5 1.5 0 0 0 3 5v6" /></>,
+};
+const Ico = ({ k }) => <svg className="bleed-ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{ICO[k]}</svg>;
+
 export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, product }) {
   const [selectedSlug, setSelectedSlug] = useState("okx");
   const [type, setType] = useState("futures");
@@ -241,14 +250,14 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
                   className={`bleed-type-btn ${type === "futures" ? "bleed-type-btn--active" : ""}`}
                   onClick={() => setType("futures")}
                 >
-                  ⚡ {ui.futures}
+                  <Ico k="bolt" />{ui.futures}
                 </button>
                 <button
                   type="button"
                   className={`bleed-type-btn ${type === "spot" ? "bleed-type-btn--active" : ""}`}
                   onClick={() => setType("spot")}
                 >
-                  🪙 {ui.spot}
+                  <Ico k="coin" />{ui.spot}
                 </button>
               </div>
             </div>
@@ -353,14 +362,14 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
             <div className="bleed-solution-box">
               <div className="bleed-solution-header">
                 <span className="bleed-solution-title">{ui.solutionTitle}</span>
-                {benefitVerified && <span className="bleed-seats-counter">⚡ {ui.verified}: {commercialClaim.rebatePercent}%</span>}
+                {benefitVerified && <span className="bleed-seats-counter"><Ico k="check" />{ui.verified}: {commercialClaim.rebatePercent}%</span>}
               </div>
 
               {inviteCode && (
                 <div className="bleed-code-row">
                   <span>{ui.codeLabel}</span>
                   <button type="button" onClick={handleCopy} className="bleed-copy-code-btn font-mono">
-                    {inviteCode} {visibleCopyResult?.status === "copied" ? `✓ ${copyFeedback.copied}` : `📋 ${ui.copyBtn}`}
+                    {inviteCode} <Ico k={visibleCopyResult?.status === "copied" ? "check" : "copy"} />{visibleCopyResult?.status === "copied" ? copyFeedback.copied : ui.copyBtn}
                   </button>
                   {visibleCopyResult?.status === "failed" && <span className="bleed-copy-status" role="status" aria-live="polite">{copyFeedback.failed}</span>}
                   {visibleCopyResult?.status === "failed" && <input className="bleed-manual-copy" aria-label={copyFeedback.codeLabel} readOnly value={visibleCopyResult.value} onFocus={(event) => event.currentTarget.select()} dir="ltr" />}
@@ -418,7 +427,7 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
                   title={ui.embedTitle}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-                  <span>{visibleEmbedCopy?.status === "copied" ? `✓ ${ui.embedSuccess}` : `</> ${ui.embed}`}</span>
+                  <span>{visibleEmbedCopy?.status === "copied" ? ui.embedSuccess : ui.embed}</span>
                 </button>
                 {visibleEmbedCopy?.status === "failed" && <span className="bleed-copy-status" role="status" aria-live="polite">{copyFeedback.failed}</span>}
                 {visibleEmbedCopy?.status === "failed" && <textarea className="bleed-manual-copy bleed-manual-copy--embed" aria-label={copyFeedback.embedLabel} readOnly value={visibleEmbedCopy.value} onFocus={(event) => event.currentTarget.select()} dir="ltr" />}
