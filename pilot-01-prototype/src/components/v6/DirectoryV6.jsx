@@ -51,10 +51,14 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
   const [verifiedFirst, setVerifiedFirst] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [touched, setTouched] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
   const [filtering, setFiltering] = useState(0);
   const [copied, setCopied] = useState({ slug: "", code: "" });
   const [copyFail, setCopyFail] = useState({ slug: "", code: "" });
   const listRef = useRef(null);
+  const secRef = useRef(null);
+  const [inView, setInView] = useState(false);
   const segRefs = useRef([]);
   const copyTimer = useRef(null);
   const seenRef = useRef(new Set());
@@ -173,6 +177,13 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
 
   // Progressive, decorative reveal. Rows are visible by default; rows below the fold get a one-shot hairline sweep and
   // their fee numerals count up when they arrive. A timeout disarms everything if IO never fires.
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return undefined;
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const rowsKey = visible.map((r) => r.slug).join(",");
   useEffect(() => {
     const root = listRef.current;
@@ -226,7 +237,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
 
   const segIndex = Math.max(0, SEGMENTS.findIndex((s) => s.id === category));
   const compareHref = compareSelection.length === 2 ? localizedHref(`/compare/${compareSlug(compareSelection)}?${contextSearch}`, { locale }) : null;
-  const dockOpen = touched && compareSelection.length > 0;
+  const dockOpen = touched && inView && compareSelection.length > 0;
   const extraCount = Math.max(visible.length - MOBILE_LIMIT, 0);
   const activeFilterCount = FILTER_KEYS.filter((k) => filters[k]).length;
   const dockSlot = (slug, key) => slug ? (
@@ -240,7 +251,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
   );
 
   return (
-    <section className="dir6 v6-section" id="exchanges" aria-labelledby="dir6-title">
+    <section className="dir6 v6-section" id="exchanges" ref={secRef} aria-labelledby="dir6-title">
       <div className="v6-wrap">
         <header className="dir6-head">
           <h2 className="v6-h1" id="dir6-title">{ui.sectionTitle}</h2>
@@ -308,7 +319,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
               <span>{mc.code}</span>
               <span />
             </div>
-            <ul className="dir6-list" ref={listRef} data-collapsed={expanded ? undefined : "true"} data-filtering={filtering ? filtering % 2 : undefined} aria-label={mc.table}>
+            <ul className="dir6-list" ref={listRef} data-collapsed={mounted && !expanded ? "true" : undefined} data-filtering={filtering ? filtering % 2 : undefined} aria-label={mc.table}>
               {visible.map((r, index) => {
                 const isSel = compareSelection.includes(r.slug);
                 const failed = copyFail.slug === r.slug;
@@ -358,6 +369,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
 
                     <span className="dir6-type" data-cat={r.category} translate="no" lang="en">{r.category}</span>
 
+                    <div className="dir6-data">
                     <div className="dir6-fee">
                       <span className="dir6-fee__lab" aria-hidden="true">{mc.spot}</span>
                       {r.spot ? (
@@ -424,6 +436,8 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                         <span>{mc.eligibility}</span><span className="dir6-sr"> {r.name}</span>
                       </a>
                     )}
+
+                    </div>
 
                     {failed ? (
                       <div className="dir6-manual" role="status" aria-live="polite">
