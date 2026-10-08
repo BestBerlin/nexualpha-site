@@ -175,12 +175,12 @@ const withData = (intent, f) => ((intent === "spot" || intent === "perps")
   : true);
 
 // The one bold type moment: the selected venue's fee at display size, counting up on every route change.
-function BigFee({ className, pair, locale, tick }) {
+function BigFee({ className, pair, locale, tick, none }) {
   return (
     <p className={className} aria-hidden="true" dir="ltr">
       {pair && Number.isFinite(pair[0])
         ? <><span className="rf-big__n"><Fee value={pair[0]} locale={locale} tick={tick} /></span><span className="rf-big__u">%</span></>
-        : <span className="rf-big__n rf-big__n--na">{"\u2014"}</span>}
+        : <span className="rf-big__n rf-big__n--na rf-big__n--text">{none}</span>}
     </p>
   );
 }
@@ -318,7 +318,7 @@ function Finder({ kit }) {
       </div>
 
       <div className="rf-readout" aria-hidden="true">
-        <BigFee className="rf-big" pair={bigPair} locale={locale} tick={tick} />
+        <BigFee className="rf-big" pair={bigPair} locale={locale} tick={tick} none={t.none} />
         <p className="rf-readout__cap"><b translate="no" lang="en">{sel.name}</b> {feeIntent ? <>{feeKey === "perp" ? t.perp : t.spot} {t.mt} {bigPair ? <FeePair pair={bigPair} locale={locale} tick={tick} none={t.none} /> : t.none}</> : <>{t.i[intent][0]}: {t.none}</>}</p>
       </div>
 
@@ -382,7 +382,7 @@ function Finder({ kit }) {
       <div className="rf-card" id={panelId} ref={cardRef} role="region" aria-label={sel.name} style={{ "--ord": 11 + selIdx * 2 }} key={sel.slug}>
         <div className="rf-card__head">
           <span className="rf-card__who"><BrandMark slug={sel.slug} priority /><b translate="no" lang="en">{sel.name}</b><small translate="no" lang="en">{sel.category}</small></span>
-          <BigFee className="rf-big rf-big--card" pair={bigPair} locale={locale} tick={tick} />
+          <BigFee className="rf-big rf-big--card" pair={bigPair} locale={locale} tick={tick} none={t.none} />
           <dl className="rf-facts">
             <div data-on={feeIntent && feeKey === "spot"}><dt>{t.spot} {t.mt}</dt><dd><FeePair pair={feeIntent && facts?.status === "verified" ? facts.spot : null} locale={locale} tick={tick} none={t.none} /></dd></div>
             <div data-on={feeIntent && feeKey === "perp"}><dt>{t.perp} {t.mt}</dt><dd><FeePair pair={feeIntent && facts?.status === "verified" ? facts.perp : null} locale={locale} tick={tick} none={t.none} /></dd></div>

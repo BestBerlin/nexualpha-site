@@ -113,7 +113,7 @@
 .v6 .vb__lock--open { color: var(--text-muted); }
 .v6 .vb__typed--fake { color: var(--text); }
 .v6 .vb__x {
-  color: var(--text-muted); background: linear-gradient(var(--text-strong), var(--text-strong)) no-repeat 0 54% / 100% 2px, rgb(255 255 255 / 0.1);
+  color: var(--text-muted); background: linear-gradient(var(--text-strong), var(--text-strong)) no-repeat 0 54% / 100% 2px, rgb(255 255 255 / 0.18);
   border-radius: 2px; padding-inline: 1px; margin-inline: -1px;
 }
 .v6 .vb__tag {
@@ -181,4 +181,11 @@
   @keyframes vb-fill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
   @keyframes vb-fill-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   @keyframes vb-node { from { border-color: var(--line-strong); color: var(--text-muted); transform: scale(0.88); } to { border-color: var(--accent); color: var(--accent); transform: none; } }
+}
+
+/* venue chips: one scrollable row on narrow screens, with a fade + snap so the cut-off reads as "more" */
+@media (max-width: 899px) {
+  .v6 .vb__venues { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--gutter), #000 calc(100% - 48px), transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 var(--gutter), #000 calc(100% - 48px), transparent 100%); }
+  .v6 .vb__venues::-webkit-scrollbar { display: none; }
+  .v6 .vb__venue { flex: none; scroll-snap-align: start; white-space: nowrap; }
 }

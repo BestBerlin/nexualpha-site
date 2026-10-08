@@ -519,3 +519,15 @@
   #top.v6 .rf-nodes > .rf-label { margin-block-end: var(--s-2); }
   #top.v6 .rf-list { gap: var(--s-1); }
 }
+
+#top.v6 .rf-big__n--text { font-size: var(--t-28); line-height: 1.15; letter-spacing: -0.02em; font-weight: 500; color: var(--text-muted); align-self: center; }
+#top.v6 .rf-big--card .rf-big__n--text { font-size: var(--t-20); }
+#top.v6 .rf-big { align-items: center; }
+#top.v6 .rf-big:has(.rf-big__n:not(.rf-big__n--text)) { align-items: baseline; }
+/* The card keeps one height for every venue (no layout jump when the intent changes the active venue); disclosure sits at its foot. */
+@media (min-width: 74rem) and (min-height: 821px) {
+  #top.v6 .rf-card { min-block-size: calc(var(--s-16) * 10 + var(--s-3)); display: flex; flex-direction: column; }
+  #top.v6 .rf-card .hx-route__registration { flex: 1; display: flex; flex-direction: column; }
+  #top.v6 .rf-card .registration-card { flex: 1; display: flex; flex-direction: column; }
+  #top.v6 .rf-card .registration-card__disclosure { margin-block-start: auto; }
+}

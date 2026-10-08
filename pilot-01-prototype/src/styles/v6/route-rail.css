@@ -42,5 +42,5 @@
   [dir="rtl"] #top.v6 .rr__node { margin: -4px -4px 0 0; }
   #top.v6 .rr__dock--dest .rr__node { inline-size: 12px; block-size: 12px; margin: -6px 0 0 -6px; }
   [dir="rtl"] #top.v6 .rr__dock--dest .rr__node { margin: -6px -6px 0 0; }
-  #top.v6 .rr__tick, #top.v6 .rr__stub { display: none; }
+  #top.v6 .rr__tick { display: none; }
 }

@@ -32,14 +32,19 @@ export function RouteRail() {
       const x = wide ? (room ? inset - 56 : 10) : 3;
       const yOf = (node, mid = true) => { const r = node.getBoundingClientRect(); return r.top - mr.top + (mid ? Math.min(r.height / 2, 28) : 0); };
       const list = [];
-      // start: the active intent of the hero finder (the route the visitor chose)
+      // start: the hero finder's active route. The route runs from the active intent down to "You" and the verify gate; the rail
+      // is that same line carried out to the page gutter, so it begins at the You pill's centre line.
+      const you = main.querySelector(".rf-you");
       const intent = main.querySelector('.rf-intent[aria-checked="true"]') || main.querySelector(".rf-intent");
+      const heroWide = window.matchMedia("(min-width: 74rem)").matches;
+      const edge = (r) => (rtl ? mr.right - r.right : r.left - mr.left); // inline-start distance of a rect
       let sy;
       let sx = inset;
-      if (intent) {
-        const r = intent.getBoundingClientRect();
-        sy = r.top - mr.top + r.height / 2;
-        sx = rtl ? mr.right - r.right : r.left - mr.left;
+      if (you) {
+        const yr = you.getBoundingClientRect();
+        sy = yr.top - mr.top + yr.height / 2;
+        if (heroWide && intent) { const ir = intent.getBoundingClientRect(); sx = edge(ir) + ir.width / 2 - 4; } // along the route's own line to the active port
+        else sx = edge(yr) - 2; // stacked hero: stop at the pill
       } else { const rf = main.querySelector(".rf"); sy = rf ? rf.getBoundingClientRect().top - mr.top + 120 : 120; }
       startY = sy;
       ACTS.forEach((sel) => {
@@ -61,7 +66,8 @@ export function RouteRail() {
     const fill = () => {
       fillRaf = 0;
       const mr = main.getBoundingClientRect();
-      const f = Math.max(0, Math.min(total, window.innerHeight * 0.58 - mr.top - startY));
+      const atEnd = window.innerHeight - mr.bottom >= -4; // page bottom reached: the destination is always docked
+      const f = atEnd ? total : Math.max(0, Math.min(total, window.innerHeight * 0.62 - mr.top - startY));
       el.style.setProperty("--rr-s", total ? (f / total).toFixed(4) : "0");
       el.querySelectorAll("[data-y]").forEach((n) => {
         const on = Number(n.dataset.y) - startY <= f + 0.5 && f > 0;

@@ -40,7 +40,6 @@ export function lookalikeOf(domain, seed) {
     () => { const k = cs.findIndex((c, i) => i > 0 && ACCENT[c.toLowerCase()]); return k < 0 ? null : cs.map((c, i) => (i === k ? { c: ACCENT[c.toLowerCase()], bad: true } : { c, bad: false })); },
     () => { const k = cs.findIndex((c) => c === "m"); return k < 0 ? null : cs.flatMap((c, i) => (i === k ? [{ c: "r", bad: true }, { c: "n", bad: true }] : [{ c, bad: false }])); },
     () => { const k = cs.findIndex((c, i) => i > 0 && i < cs.length - 1 && /[a-z]/i.test(c) && cs[i + 1] !== c && cs[i - 1] !== c); return k < 0 ? null : cs.flatMap((c, i) => (i === k ? [{ c, bad: false }, { c, bad: true }] : [{ c, bad: false }])); },
-    () => { const k = Math.max(1, Math.floor(cs.length / 2)); return cs.length < 4 ? null : cs.flatMap((c, i) => (i === k ? [{ c: "-", bad: true }, { c, bad: false }] : [{ c, bad: false }])); },
     () => { const k = cs.findIndex((c, i) => i > 0 && i < cs.length - 1 && c !== cs[i + 1] && /[a-z]/i.test(c + cs[i + 1])); return k < 0 ? null : cs.map((c, i) => (i === k ? { c: cs[k + 1], bad: true } : i === k + 1 ? { c: cs[k], bad: true } : { c, bad: false })); },
   ];
   const start = hashOf(seed || domain) % tries.length;
