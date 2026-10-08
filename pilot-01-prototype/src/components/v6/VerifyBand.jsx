@@ -49,6 +49,40 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
   const route = useRef(null);
   const [armed, live] = useInViewOnce(route);
   useEffect(() => () => clearTimeout(timer.current), []);
+  // Scroll-linked route. Pure CSS (animation-timeline: view()) where the document scrolls natively;
+  // on this page <body> is a non-scrolling overflow container, which breaks view(), so we drive --p ourselves.
+  useEffect(() => {
+    const el = route.current;
+    if (!el || typeof window === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const cssOk = typeof CSS !== "undefined" && CSS.supports("animation-timeline: view()");
+    if (cssOk && getComputedStyle(document.body).overflowY === "visible") return;
+    const nodes = [...el.querySelectorAll(".vb__node")];
+    const wide = window.matchMedia("(min-width: 900px)");
+    el.dataset.drive = "js";
+    let raf = 0;
+    const tick = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const cover = (vh - r.top) / (vh + r.height);
+      const end = wide.matches ? 0.52 : 0.62;
+      const p = Math.min(1, Math.max(0, (cover - 0.06) / (end - 0.06)));
+      el.style.setProperty("--p", p.toFixed(4));
+      const rtl = getComputedStyle(el).direction === "rtl";
+      nodes.forEach((n) => {
+        const b = n.getBoundingClientRect();
+        const f = wide.matches
+          ? (rtl ? r.right - (b.left + b.width / 2) : b.left + b.width / 2 - r.left) / r.width
+          : (b.top + b.height / 2 - r.top) / r.height;
+        n.toggleAttribute("data-lit", p >= f - 0.001 && cover > 0.02);
+      });
+    };
+    const on = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    window.addEventListener("scroll", on, { passive: true });
+    window.addEventListener("resize", on);
+    tick();
+    return () => { window.removeEventListener("scroll", on); window.removeEventListener("resize", on); cancelAnimationFrame(raf); delete el.dataset.drive; };
+  }, [row?.slug]);
   if (!row) return null;
 
   const copy = async () => {

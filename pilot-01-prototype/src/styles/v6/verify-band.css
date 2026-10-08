@@ -97,6 +97,12 @@
   @keyframes vb-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
   @keyframes vb-pop { 0% { transform: scale(0.96); } 100% { transform: none; } }
 
+  /* JS-driven variant (see VerifyBand.jsx) */
+  .v6 .vb__route[data-drive] .vb__line i { animation: none; transform: scaleY(var(--p, 0)); }
+  .v6 .vb__route[data-drive] .vb__node { animation: none; border-color: var(--line-strong); color: var(--text-muted); transition: border-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out), transform var(--dur-3) var(--ease-out); }
+  .v6 .vb__route[data-drive] .vb__node[data-lit] { border-color: var(--accent); color: var(--accent); }
+  @media (min-width: 900px) { .v6 .vb__route[data-drive] .vb__line i { transform: scaleX(var(--p, 0)); } }
+
   /* scroll-driven route: static (fully lit) where unsupported */
   @supports (animation-timeline: view()) {
     .v6 .vb__line i { animation: vb-fill linear both; animation-timeline: --vb; animation-range: cover 6% cover 52%; transform-origin: top; }
