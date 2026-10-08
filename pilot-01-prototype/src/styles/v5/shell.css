@@ -38,6 +38,7 @@ html { scroll-padding-block-start: 76px; }
   unicode-bidi: isolate;
   flex: none;
   border-radius: 8px;
+  margin-inline-start: -4px;
 }
 .nx-brand__mark {
   display: block;
@@ -96,7 +97,8 @@ html { scroll-padding-block-start: 76px; }
 /* Opaque once the page has scrolled, so content never reads through the nav. */
 .nx-hdr[data-scrolled] .nx-hdr__bar {
   block-size: 56px;
-  background: rgb(10 11 14 / 0.94);
+  background: rgb(10 11 14 / 0.97);
+  box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.7);
   border-block-end-color: var(--nx-hair);
 }
 .nx-hdr[data-scrolled] .nx-brand__mark { inline-size: 26px; block-size: 26px; }
@@ -131,6 +133,7 @@ body:has(.v5 .container) .nx-ftr__inner {
   font: 600 14px/1 var(--nx-font);
   cursor: pointer;
 }
+.nx-skip:not(:focus) { inline-size: 1px; block-size: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); }
 .nx-skip:focus { transform: none; }
 
 /* primary nav */
@@ -224,6 +227,8 @@ body:has(.v5 .container) .nx-ftr__inner {
 .nx-search__label { color: var(--nx-n10); font-weight: 450; min-inline-size: 5.5rem; text-align: start; }
 .nx-search:hover .nx-search__label { color: var(--nx-n11); }
 .nx-search__kbd {
+  direction: ltr;
+  unicode-bidi: isolate;
   padding: 3px 6px;
   border: 1px solid var(--nx-n6);
   border-radius: 4px;
@@ -308,7 +313,9 @@ body:has(.v5 .container) .nx-ftr__inner {
 /* ---------- breakpoints ---------- */
 @media (max-width: 1179px) {
   .nx-search { inline-size: 36px; padding: 0; justify-content: center; }
-  .nx-search__label, .nx-search__kbd { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); padding: 0; border: 0; min-inline-size: 0; white-space: nowrap; }
+  .nx-search__label, .nx-search__kbd {
+  direction: ltr;
+  unicode-bidi: isolate; position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); padding: 0; border: 0; min-inline-size: 0; white-space: nowrap; }
   .nx-lang__name { display: none; }
   .nx-lang__code { display: inline; }
 }
@@ -347,6 +354,7 @@ body:has(.v5 .container) .nx-ftr__inner {
   color: var(--nx-n12); font: 600 clamp(1.375rem, 1.1rem + 1.2vw, 1.75rem)/1.2 var(--nx-font); letter-spacing: -0.02em; text-decoration: none;
   text-wrap: balance;
 }
+.nx-sheet__nav a[data-active="true"], .nx-sheet__nav a[aria-current] { color: var(--nx-n12); }
 .nx-sheet__nav a[data-active="true"] { text-decoration: underline; text-decoration-color: var(--nx-accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
 .nx-sheet__nav a:active { color: var(--nx-n11); }
 .nx-sheet__tools { flex: none; display: grid; gap: 10px; padding: 16px clamp(16px, 5vw, 32px) calc(16px + env(safe-area-inset-bottom, 0px)); max-inline-size: calc(36rem + 2 * clamp(16px, 5vw, 32px)); border-block-start: 1px solid var(--nx-hair); }
