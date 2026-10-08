@@ -1,0 +1,289 @@
+/* =====================================================================================================
+ * R4 inner pages (owner: inner-page layout/style). Loaded last in v6/index.css.
+ * Fixes review-round-3 inner defects: referral code layout (#2), collection hub rows (#3), sticky
+ * action column (#4/#5), legacy disclosure bodies + accent leaks (#6), page-end rhythm (#7), page head (#8),
+ * one disclosure icon (#10), news / activities rows (#11), font hygiene (#17).
+ * Scope S = :is(main, .factbook-page).v6:not(.home-refinement); the five ":not(#_)" lift above legacy rules.
+ * Logical properties only (RTL safe). Type scale 12 / 14 / 16 / 20 / 28 / 44 (mobile: 12 / 14 / 16 / 18 / 24 / 32).
+ * ===================================================================================================== */
+
+/* ---------- #17 hygiene: Geist body stack, and a scroll container that lets position:sticky work ---------- */
+body:has(main.v6:not(.home-refinement)) {
+  font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", "Pilot Noto Arabic", sans-serif;
+  /* body{overflow-x:hidden} made <body> a scroll container that never scrolls, so every sticky element froze. clip does not. */
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+:is(main, .factbook-page).v6:not(.home-refinement) {
+  --r4-head-gap: 40px;
+  --ink: #edeef0; --ink-2: #b0b4ba; --ink-3: #9097a0;
+}
+@media (max-width: 640px) {
+  :is(main, .factbook-page).v6:not(.home-refinement) {
+    /* discrete mobile steps (no fractional clamps): 12 / 14 / 16 / 18 / 24 / 32 */
+    --t-20: 1.125rem; --t-28: 1.5rem; --t-44: 2rem;
+  }
+  :is(main, .factbook-page).v6:not(.home-refinement) h1:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 2rem !important; line-height: 1.12 !important; }
+  :is(main, .factbook-page).v6:not(.home-refinement) h2:not(summary > h2, summary h2, .v3-profile-research-chapter__heading, .topic-card > h2, .news-article-card__title):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 1.5rem; }
+  :is(main, .factbook-page).v6:not(.home-refinement) h3:not(summary h3, .v3-profile-account-section__heading):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 1.125rem; }
+}
+
+/* ---------- #6 one voice: no uppercase labels, no letter-spaced kickers anywhere in inner pages ---------- */
+:is(main, .factbook-page).v6:not(.home-refinement) :where(*):not(svg, svg *):not(#_):not(#_):not(#_):not(#_):not(#_) { text-transform: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(dt, thead th, [class*="__label"], [class*="-label"], [class*="persona-lead"], [class*="dim-heading"], [class*="__reviewed"], [class*="kicker"]):not(#_):not(#_):not(#_):not(#_):not(#_) { letter-spacing: 0.01em; }
+
+/* ---------- #6 single accent: legacy blue / sky / gold / purple / green utility colours collapse to neutral ---------- */
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.text-blue, .text-gold, .text-purple, .text-yellow, .text-sky, [class*="code-val"], .v3-decision-code-val, .v3-copy-tip, .v3-detail-calc__current-vol strong, .v3-rebate-route-summary strong, .venue-readiness__item em, .v3-domain-box__content code, .v3-versus-sources__item > span):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink); }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(dt, [class*="persona-lead"], .v3-venue-quick-registration__label, .v3-metric-tile__label, .v3-por-metric-label):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink-2); }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-por-step-num, .v3-tg-feat-item):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink-2); background: none; border-color: var(--line); }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-decision-persona-text):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-inline-start: 2px solid var(--line-2); background: none; padding-block: 4px; padding-inline: 12px 0; color: var(--ink); font-weight: 500; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-decision-side-badge, .v3-decision-bullet-icon):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-decision-code-tag:not(#_):not(#_):not(#_):not(#_):not(#_) { background: none; border: 1px solid var(--line); color: var(--ink-2); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-decision-code-val:not(#_):not(#_):not(#_):not(#_):not(#_) { font-family: var(--v6-mono); font-size: var(--t-14); font-weight: 600; }
+/* the amber "gold matrix" summary row becomes the ordinary hairline row */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-gold-matrix-summary:not(#_):not(#_):not(#_):not(#_):not(#_) { background: none; border: 0; border-radius: 0; box-shadow: none; color: var(--ink); padding-inline: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-gold-matrix-nav:not(#_):not(#_):not(#_):not(#_):not(#_) { background: none; border: 0; border-block: 1px solid var(--line); border-radius: 0; box-shadow: none; padding-inline: 0; }
+/* sky / blue borders on decks, rails and the /br disclosures */
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.tg-deck, .tg-search-topics, nav.decision-path-rail, .br-content-disclosure, .br-content-disclosure > summary):not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--line); background-image: none; box-shadow: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .br-content-disclosure > summary:not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; padding-inline: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .br-content-disclosure:not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-block: 1px solid var(--line); border-radius: 0; background: none; padding-inline: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .br-content-disclosure + .br-content-disclosure:not(#_):not(#_):not(#_):not(#_):not(#_) { border-block-start: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) nav.decision-path-rail:not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-block: 1px solid var(--line); border-radius: 0; background: none; padding-inline: 0; }
+/* "Must verify" pills on venue pages: plain list, sentence case */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-answer-conditions li:not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-radius: 0; background: none; padding: 0; font-weight: 400; font-size: var(--t-14); color: var(--ink); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-answer-conditions ul:not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; gap: 8px; padding-inline-start: 20px; list-style: disc; }
+
+/* ---------- #10 ONE disclosure indicator: drawn plus that becomes a minus. Never rotated, never a glyph. ---------- */
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(b, span)[aria-hidden]:last-child:not(#_):not(#_):not(#_):not(#_):not(#_),
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > b:last-child:not(#_):not(#_):not(#_):not(#_):not(#_),
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary .v3-faq-arrow:not(#_):not(#_):not(#_):not(#_):not(#_) {
+  content: ""; flex: none; display: block; inline-size: 20px; block-size: 20px; min-inline-size: 20px; margin-inline-start: auto; padding: 0;
+  /* the glyph stays in the DOM at an on-scale 16px but is painted transparent; the drawn bars carry the meaning */
+  font-size: var(--t-16); line-height: 20px; color: transparent; overflow: hidden; white-space: nowrap; text-indent: 100%;
+  border: 0; border-radius: 0; box-shadow: none; position: static;
+  transform: none; rotate: none;
+  background: linear-gradient(var(--ink), var(--ink)) center / 12px 1.5px no-repeat, linear-gradient(var(--ink), var(--ink)) center / 1.5px 12px no-repeat;
+  opacity: 0.72; transition: background-size 160ms cubic-bezier(0.16, 1, 0.3, 1), opacity 160ms;
+}
+:is(main, .factbook-page).v6:not(.home-refinement) details[open] > summary > :is(b, span)[aria-hidden]:last-child:not(#_):not(#_):not(#_):not(#_):not(#_),
+:is(main, .factbook-page).v6:not(.home-refinement) details[open] > summary > b:last-child:not(#_):not(#_):not(#_):not(#_):not(#_),
+:is(main, .factbook-page).v6:not(.home-refinement) details[open] > summary .v3-faq-arrow:not(#_):not(#_):not(#_):not(#_):not(#_) { background-size: 12px 1.5px, 0 0; transform: none; rotate: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:hover :is(b:last-child, [aria-hidden]:last-child, .v3-faq-arrow):not(#_):not(#_):not(#_):not(#_):not(#_) { opacity: 1; }
+/* summaries without an icon child draw the same indicator in ::after; legacy rules rotated it into a "\" */
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(:has(> :is(b, span)[aria-hidden]:last-child, > b:last-child, .v3-faq-arrow)):not([class*="disclosure-details"]):not(#_):not(#_):not(#_):not(#_):not(#_)::after {
+  content: ""; flex: none; display: block; inline-size: 20px; block-size: 20px; margin-inline-start: auto; position: static; inset: auto;
+  border: 0; border-radius: 0; box-shadow: none; transform: none; rotate: none; color: var(--ink); opacity: 0.72;
+  background: linear-gradient(currentColor, currentColor) center / 12px 1.5px no-repeat, linear-gradient(currentColor, currentColor) center / 1.5px 12px no-repeat;
+  transition: background-size 160ms cubic-bezier(0.16, 1, 0.3, 1), opacity 160ms;
+}
+:is(main, .factbook-page).v6:not(.home-refinement) details[open] > summary:not(:has(> :is(b, span)[aria-hidden]:last-child, > b:last-child, .v3-faq-arrow)):not([class*="disclosure-details"]):not(#_):not(#_):not(#_):not(#_):not(#_)::after { background-size: 12px 1.5px, 0 0; transform: none; rotate: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:has(> :is(b, span)[aria-hidden]:last-child, > b:last-child, .v3-faq-arrow):not(#_):not(#_):not(#_):not(#_):not(#_)::after { content: none; }
+/* a summary whose last child is a count ("0/4", "3") still gets the drawn indicator via ::after (system.css); keep the count beside the label */
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(strong, span):last-child:not(:first-child):not([aria-hidden]):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline-start: 8px; font-weight: 400; color: var(--ink-2); }
+/* nested disclosures inside an opened one: quiet rows, no second frame */
+:is(main, .factbook-page).v6:not(.home-refinement) details[open] details:not(#_):not(#_):not(#_):not(#_):not(#_) { background: none; box-shadow: none; border-radius: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) details[open] > :not(summary):first-of-type:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 8px; }
+:is(main, .factbook-page).v6:not(.home-refinement) details[open]:not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: 24px; }
+:is(main, .factbook-page).v6:not(.home-refinement) details[open]:has(> summary:only-child):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: 0; }
+@media (prefers-reduced-motion: reduce) {
+  :is(main, .factbook-page).v6:not(.home-refinement) details > summary :is(b, [aria-hidden], .v3-faq-arrow):not(#_):not(#_):not(#_):not(#_):not(#_) { transition: none; }
+}
+
+/* ---------- #7 page end: 128 desktop / 72 mobile before Related research + footer, every page ---------- */
+main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: var(--section-pad, clamp(72px, 9vw, 128px)); }
+main.v6:not(.home-refinement) > :last-child:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-end: 0; }
+main.v6:not(.home-refinement) > :last-child > :last-child:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-end: 0; padding-block-end: 0; }
+body:has(main.v6:not(.home-refinement)) .crawl-priority-links:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 0; padding-block: 48px; border-block-start: 1px solid var(--line, rgb(255 255 255 / 0.12)); }
+/* the venue grid is the page on /exchanges/{slug}: its last row needs the same end padding */
+@media (min-width: 1025px) {
+  main.v3-profile-page.v6:not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: 128px; }
+}
+
+/* ---------- #8 ONE page head: h1 top at the same y on every page (header + 24 + slot 24 + 16 = 128 at 1440) ---------- */
+/* pages without a back-link / logo slot reserve the slot as space */
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.mx-page, .br-primary-workbench):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-start: var(--r4-head-gap); }
+main.v6:not(.home-refinement) > :is(.collection-hub-head, section.tg-hub-section, section.news-hero, section.activity-center-v3):first-of-type:not(#_):not(#_):not(#_):not(#_):not(#_),
+main.v6.collection-hub-page > section:first-of-type:not(#_):not(#_):not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) > section.v2-section.v2-shell:first-child:not(#_):not(#_):not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) .methodology-page__inner > header:first-child:not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-start: var(--r4-head-gap); }
+main.v6:not(.home-refinement) .news-hero__badge:not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+main.v6:not(.home-refinement) :is(.tg-hub__header, .tg-hub__container, .activity-center-v3__head, .activity-center-v3__head > div):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-start: 0; margin-block-start: 0; }
+/* methodology: "Last Revised" moves from above the h1 into the meta line under the lede */
+main.v6:not(.home-refinement) .methodology-page__header:not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-direction: column; align-items: flex-start; }
+main.v6:not(.home-refinement) .methodology-page__header > .methodology-page__badge-row:not(#_):not(#_):not(#_):not(#_):not(#_) { order: 3; margin-block: 0 16px; color: var(--ink-3); }
+main.v6:not(.home-refinement) .methodology-page__header > :is(h1, .methodology-page__title):not(#_):not(#_):not(#_):not(#_):not(#_) { order: 1; }
+main.v6:not(.home-refinement) .methodology-page__header > .methodology-page__subtitle:not(#_):not(#_):not(#_):not(#_):not(#_) { order: 2; }
+main.v6:not(.home-refinement) .methodology-page__header > :not(.methodology-page__badge-row, h1, .methodology-page__title, .methodology-page__subtitle):not(#_):not(#_):not(#_):not(#_):not(#_) { order: 4; }
+/* pages WITH a slot: the back-link / logo sits in a 24px row, 16px above the h1 */
+main.v3-compare-page.v6 > .v3-page-hero:not(#_):not(#_):not(#_):not(#_):not(#_),
+main.v3-profile-page.v6 > .v3-page-hero:not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-start: 0 !important; padding-top: 0 !important; margin-block-start: 0; }
+main.v3-compare-page.v6 .v3-page-hero > .v3-back-link:not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; block-size: 24px; min-block-size: 24px; margin-block: 0 8px; padding: 0; } /* + the hero's 8px row-gap = 16 */
+main.v3-profile-page.v6 .v3-page-hero > .v3-back-link:not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+main.v3-profile-page.v6 .v3-venue-identity:not(#_):not(#_):not(#_):not(#_):not(#_) { gap: 16px; margin-block-start: 0; padding-block-start: 0; }
+main.v3-profile-page.v6 .v3-venue-identity > :is(img, .v2-brand, .brand-mark, [class*="brand"]):first-child:not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: 24px !important; block-size: 24px !important; width: 24px !important; height: 24px !important; min-inline-size: 24px; border-radius: 6px; padding: 0 !important; margin: 0 !important; border: 0 !important; box-sizing: border-box; flex: 0 0 24px !important; }
+main.v3-profile-page.v6 .v3-venue-identity__info:not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-direction: column; gap: 16px; }
+main.v3-profile-page.v6 .v3-venue-identity__info > h1:not(#_):not(#_):not(#_):not(#_):not(#_) { order: 1; margin: 0; }
+main.v3-profile-page.v6 .v3-venue-identity__info > .v3-venue-identity__badges:not(#_):not(#_):not(#_):not(#_):not(#_) { order: 2; margin: 0; }
+/* ONE lede: 20 / --ink-2 / 62ch, 24px under the h1, then a 12px meta line */
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.mx-lead, .collection-hub-page .v3-section__sub, .tg-hub__subtitle, .br-hero__copy > p:first-of-type, .news-hero__subtitle, .methodology-page__subtitle, .activity-center-v3__head h1 + *, .v3-compare-page .v3-page-hero h1 + p):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  font-size: var(--t-20); line-height: 1.5; color: var(--ink-2); font-weight: 400; max-inline-size: 62ch; margin-block: 0 24px; letter-spacing: 0; opacity: 1;
+}
+:is(main, .factbook-page).v6:not(.home-refinement) :is(h1):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-end: 24px; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-venue-identity__info > h1, .mx-head h1):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-end: 0; }
+
+/* ---------- #4/#5 venue page: the action card stays docked for the whole page; no dead column ---------- */
+@media (min-width: 1025px) {
+  main.v3-profile-page.v6 .v3-profile-action-column:not(#_):not(#_):not(#_):not(#_):not(#_) {
+    grid-row: 1 / span 40; align-self: stretch; position: relative; inset: auto; max-block-size: none; overflow: visible;
+    display: block;
+  }
+  main.v3-profile-page.v6 .v3-profile-action-column > .v3-profile-main-registration:not(#_):not(#_):not(#_):not(#_):not(#_) {
+    position: sticky; inset-block-start: 88px; max-block-size: calc(100dvh - 104px); overflow: auto; overscroll-behavior: contain;
+  }
+  /* chapters in the 776px reading column: title row above its disclosure, body uses the full column */
+  main.v3-profile-page.v6 .v3-profile-research-chapter:not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); row-gap: 0; padding-block-start: 24px; }
+  main.v3-profile-page.v6 .v3-profile-research-chapter__heading:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); font-weight: 500; color: var(--ink-3); }
+}
+
+/* ---------- #2 referral code panel on /exchanges/{slug}: one row, code shown once, never broken ---------- */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-quick-registration:not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px;
+  padding: 16px 0; margin-block: 16px 0; border: 0; border-block: 1px solid var(--line); border-radius: 0; background: none; box-shadow: none; min-block-size: 0;
+}
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-quick-registration__body:not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; flex: 1 1 auto; min-inline-size: 0; inline-size: auto; max-inline-size: none;
+}
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-quick-registration__label:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); font-weight: 500; flex: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-quick-registration__code:not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: inline-flex; flex-direction: row; align-items: center; gap: 12px; flex: none;
+  inline-size: auto; min-inline-size: max-content; max-inline-size: none; block-size: 44px; min-block-size: 44px; padding: 0 12px;
+  white-space: nowrap; writing-mode: horizontal-tb; word-break: keep-all; overflow-wrap: normal;
+  border: 1px solid var(--line-2); border-radius: 8px; background: var(--surface); color: var(--ink); cursor: pointer;
+  transition: border-color 140ms cubic-bezier(0.16, 1, 0.3, 1), background-color 140ms;
+}
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-quick-registration__code:hover:not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--ink-3); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-quick-registration__code[data-copied="true"]:not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--accent); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-quick-registration__code > strong:not(#_):not(#_):not(#_):not(#_):not(#_) { font-family: var(--v6-mono); font-size: var(--t-16); font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; color: var(--ink); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-quick-registration__code > span:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); font-weight: 500; color: var(--ink-2); white-space: nowrap; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-quick-registration__domain:not(#_):not(#_):not(#_):not(#_):not(#_) { font-family: var(--v6-mono); font-size: var(--t-14); white-space: nowrap; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-quick-registration__body > small:not(#_):not(#_):not(#_):not(#_):not(#_) { flex: 1 0 100%; font-size: var(--t-12); color: var(--ink-3); max-inline-size: 62ch; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-quick-registration__cta:not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: inline-flex; align-items: center; min-block-size: 44px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 8px; font-size: var(--t-14); font-weight: 500; white-space: nowrap; text-decoration: none; color: var(--ink); flex: none;
+}
+/* the second and third copies of the code in the same disclosure are hidden (the copy button above is the one) */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-account-disclosure :is(.v3-rebate-code-row, .v3-rebate-tag, .v3-fee-tip):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+/* the 28px "User fee benefit" slide-card becomes one plain row */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-rebate-card:not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; padding: 16px 0; margin: 0; border: 0; border-block-end: 1px solid var(--line); border-radius: 0; background: none; box-shadow: none; min-block-size: 0;
+}
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-rebate-card > *:not(#_):not(#_):not(#_):not(#_):not(#_) { padding: 0; margin: 0; border: 0; background: none; min-block-size: 0; flex: 0 1 auto; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-rebate-card .v3-rebate-title:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); font-weight: 400; line-height: 1.5; color: var(--ink-2); margin: 0; letter-spacing: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-rebate-route-summary:not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; gap: 8px; align-items: baseline; padding: 0; border: 0; background: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-rebate-route-summary > span:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); color: var(--ink-3); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-rebate-route-summary > strong:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); font-weight: 500; }
+/* four metric tiles: a 2x2 ledger that never wraps one word per line */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-metrics-grid:not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 0 24px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-metric-tile:not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; gap: 4px; padding: 16px 0; border: 0; border-block-end: 1px solid var(--line); border-radius: 0; background: none; min-block-size: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-metric-tile__val:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); font-weight: 600; line-height: 1.4; color: var(--ink); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-metric-tile__sub:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); color: var(--ink-3); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-account-section__heading:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); margin-block: 24px 4px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-account-section__hint:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); color: var(--ink-2); margin-block: 0 8px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-detail-calculator:not(#_):not(#_):not(#_):not(#_):not(#_) { background: none; border: 0; border-block-end: 1px solid var(--line); border-radius: 0; padding: 24px 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-detail-calc__slider:not(#_):not(#_):not(#_):not(#_):not(#_) { accent-color: var(--accent); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-detail-calc__result strong.text-green:not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink); }
+
+/* ---------- #3 collection hubs (/factbook, /topics): dense uniform rows, v6 directory rhythm ---------- */
+main.v6.collection-hub-page > section:not(#_):not(#_):not(#_):not(#_):not(#_) { background: none; box-shadow: none; border: 0; }
+main.v6.collection-hub-page .v3-section__meta:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); color: var(--ink-3); margin-block: 0 24px; }
+main.v6.collection-hub-page .topic-grid:not(#_):not(#_):not(#_):not(#_):not(#_) { display: block; background: none; border: 0; border-block-start: 1px solid var(--line); padding: 0; margin: 0; }
+main.v6.collection-hub-page .topic-card:not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: grid; grid-template-columns: 32px minmax(0, 1fr) minmax(0, 200px) 160px; grid-template-areas: "logo title domain cta" "logo desc domain cta";
+  align-items: center; column-gap: 24px; row-gap: 2px; min-block-size: 72px; padding: 12px 0; margin: 0;
+  border: 0; border-block-end: 1px solid var(--line); border-radius: 0; background: none; box-shadow: none;
+  transition: background-color 140ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+main.v6.collection-hub-page .topic-card:not(:has(.topic-card__logo)):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 0 minmax(0, 1fr) minmax(0, 200px) 160px; column-gap: 0 24px; }
+main.v6.collection-hub-page .topic-card:hover:not(#_):not(#_):not(#_):not(#_):not(#_) { background-color: var(--surface); }
+main.v6.collection-hub-page .topic-card__logo:not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: logo; inline-size: 32px; block-size: 32px; display: grid; place-items: center; }
+main.v6.collection-hub-page .topic-card__logo :is(img, svg, span, div):not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: 32px; block-size: 32px; max-inline-size: 32px; border-radius: 8px; }
+main.v6.collection-hub-page .topic-card > h2:not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: title; font-size: var(--t-16); font-weight: 600; line-height: 1.35; letter-spacing: 0; margin: 0; }
+main.v6.collection-hub-page .topic-card > h2 a:not(#_):not(#_):not(#_):not(#_):not(#_) { text-decoration: none; color: var(--ink); }
+main.v6.collection-hub-page .topic-card > h2 a:hover:not(#_):not(#_):not(#_):not(#_):not(#_) { text-decoration: underline; text-underline-offset: 3px; }
+main.v6.collection-hub-page .topic-card > p:not(.v3-section__meta):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: desc; font-size: var(--t-14); line-height: 1.5; color: var(--ink-2); margin: 0; max-inline-size: 62ch; }
+main.v6.collection-hub-page .topic-card > p.v3-section__meta:not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: domain; font-family: var(--v6-mono); font-size: var(--t-12); color: var(--ink-3); margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+main.v6.collection-hub-page .topic-card > .button-quiet:not(#_):not(#_):not(#_):not(#_):not(#_) {
+  grid-area: cta; justify-self: end; display: inline-flex; align-items: center; min-block-size: 44px; padding: 0 16px; margin: 0;
+  border: 1px solid var(--line-2); border-radius: 8px; background: none; font-size: var(--t-14); font-weight: 500; white-space: nowrap; text-decoration: none; color: var(--ink);
+}
+main.v6.collection-hub-page .v3-hero-actions .button-primary:not(#_):not(#_):not(#_):not(#_):not(#_) { background: var(--accent) !important; color: #06110f !important; border-color: transparent !important; }
+@media (max-width: 760px) {
+  main.v6.collection-hub-page .topic-card:not(#_):not(#_):not(#_):not(#_):not(#_) {
+    grid-template-columns: 32px minmax(0, 1fr); grid-template-areas: "logo title" "logo domain" "logo desc" "logo cta"; column-gap: 16px; row-gap: 4px; padding: 16px 0;
+  }
+  main.v6.collection-hub-page .topic-card:not(:has(.topic-card__logo)):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 0 minmax(0, 1fr); column-gap: 0; }
+  main.v6.collection-hub-page .topic-card > .button-quiet:not(#_):not(#_):not(#_):not(#_):not(#_) { justify-self: start; margin-block-start: 8px; }
+  main.v6.collection-hub-page .topic-card__logo:not(#_):not(#_):not(#_):not(#_):not(#_) { align-self: start; }
+}
+
+/* ---------- #6 /telegram: the public topic index (ops board removed in JSX) ---------- */
+:is(main, .factbook-page).v6:not(.home-refinement) .tg-public-topics:not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; padding: 0; border: 0; background: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .tg-public-topics > p:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); color: var(--ink-2); margin-block: 0 16px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .tg-public-topics__list:not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 0 24px; margin: 0; padding: 0; list-style: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .tg-public-topics__list > li:not(#_):not(#_):not(#_):not(#_):not(#_) { border-block-end: 1px solid var(--line); max-inline-size: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .tg-public-topics__list a:not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; align-items: center; min-block-size: 44px; font-size: var(--t-14); color: var(--ink); text-decoration: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .tg-public-topics__list a:hover:not(#_):not(#_):not(#_):not(#_):not(#_) { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- #11 /news: a 3-zone row (meta 2 / title + dek 7 / action 3) ---------- */
+@media (min-width: 861px) {
+  :is(main, .factbook-page).v6:not(.home-refinement) .news-grid > .news-article-card:not(.news-article-card--skeleton):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 7fr) minmax(0, 3fr); column-gap: 24px; row-gap: 4px; align-items: start;
+  }
+  :is(main, .factbook-page).v6:not(.home-refinement) .news-article-card > .news-article-card__header:not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 1 / span 6; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin: 0; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .news-article-card > :not(.news-article-card__header, .news-article-card__footer):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .news-article-card > .news-article-card__footer:not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 3; grid-row: 1 / span 6; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin: 0; padding: 0; border: 0; text-align: end; }
+}
+:is(main, .factbook-page).v6:not(.home-refinement) .news-article-card:not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block: 24px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .news-article-card__title:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-20); line-height: 1.3; margin: 0 0 4px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .news-article-card__summary:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); color: var(--ink-2); margin: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .news-article-card__tag:not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; background: none; padding: 0; font-size: var(--t-12); font-weight: 500; color: var(--ink-2); border-radius: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .news-article-card__time:not(#_):not(#_):not(#_):not(#_):not(#_) { font-family: var(--v6-mono); font-size: var(--t-12); color: var(--ink-3); }
+:is(main, .factbook-page).v6:not(.home-refinement) .news-article-card__author:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); color: var(--ink-3); }
+:is(main, .factbook-page).v6:not(.home-refinement) .news-article-card__read-link:not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; min-block-size: 44px; font-size: var(--t-14); font-weight: 500; }
+:is(main, .factbook-page).v6:not(.home-refinement) .news-page__decision-rail:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 48px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .news-articles-toggle:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 24px; }
+
+/* ---------- #11 /activities: empty state on two lines, quiet status text, icons on one edge ---------- */
+:is(main, .factbook-page).v6:not(.home-refinement) .activity-center-v3__empty p > strong:not(#_):not(#_):not(#_):not(#_):not(#_) { display: block; font-size: var(--t-16); font-weight: 600; color: var(--ink); margin-block-end: 4px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .activity-center-v3__empty p > span:not(#_):not(#_):not(#_):not(#_):not(#_) { display: block; font-size: var(--t-14); color: var(--ink-2); }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.activity-center-v3__research-status, [class*="official-research"] [class*="status"]):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline; border: 0; background: none; padding: 0; font-size: var(--t-12); font-weight: 500; color: var(--ink-2); border-radius: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .activity-center-v3 details > summary:not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline-end: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .activity-center-v3 :is(.activity-center-v3__research-row, [class*="official-research__row"]):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline-end: 0; }
+
+/* ---------- R4 follow-ups ---------- */
+/* venue page: pre-registration checklist boxes become hairline rows inside the opened disclosure */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-registration-notes__body > .v3-profile-decision:not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; padding: 0; margin: 0; background: none; box-shadow: none; inline-size: auto; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-registration-notes__body :is(article.venue-decision, .v3-profile-account-decision article):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-block-end: 1px solid var(--line); border-radius: 0; background: none; box-shadow: none; padding: 16px 0; margin: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-registration-notes__body article.venue-decision h3:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); margin: 0 0 4px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-registration-notes__body article > span:not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink-2); font-size: var(--t-12); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-registration-notes__body article li::before { background: var(--ink-3) !important; border-color: var(--ink-3) !important; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-por-cold-warning strong:not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-ssl-indicator:not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--accent); }
+/* compare: persona lead is a 12px label, not a 20px grey heading */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-decision-persona-lead:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); font-weight: 500; line-height: 1.4; letter-spacing: 0.01em; margin-block: 16px 8px; }
+/* news footer column: starts on the title line */
+@media (min-width: 861px) {
+  :is(main, .factbook-page).v6:not(.home-refinement) .news-article-card > .news-article-card__footer:not(#_):not(#_):not(#_):not(#_):not(#_) { align-self: start; justify-content: flex-start; margin-block-start: 0; }
+}
+:is(main, .factbook-page).v6:not(.home-refinement) .news-page__decision-rail > :first-child:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-end: 24px; }
+/* venue account disclosure: one copy of the benefit line, no inset tiles, fee matrix as a plain table section */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-account-disclosure .v3-venue-rebate-card .v3-rebate-title:not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-account-disclosure :is(.v3-metric-tile, .v3-venue-rebate-card, .v3-detail-calculator, .v3-fee-matrix-section, .v3-profile-cost-conditions__body, .v3-profile-account-section):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-inline: 0 !important; margin-inline: 0 !important; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-fee-matrix-card:not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-radius: 0; background: none; box-shadow: none; padding: 24px 0 0; margin: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-fee-matrix-card .v3-fee-matrix-title:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); margin: 0 0 4px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-fee-matrix-card .v3-fee-matrix-sub:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-fee-matrix-section:not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; background: none; }
+/* activities: status chips become one quiet 12px meta line */
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.official-research__state, .official-research__recheck, .activity-center-v3 [class*="__state"]):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 0; border-radius: 0; background: none; padding: 0; min-block-size: 0; font-size: var(--t-12); font-weight: 500; color: var(--ink-2); }
+:is(main, .factbook-page).v6:not(.home-refinement) .official-research__states:not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > span:last-child:not([aria-hidden]):not([class]):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink-2); }

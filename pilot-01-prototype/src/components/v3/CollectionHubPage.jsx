@@ -1,6 +1,7 @@
 import React from "react";
 import { collectionHubCopy, factbookHubItems, topicHubItems } from "../../data/collection-hubs.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { BrandMark } from "../brand/BrandMark";
 
 export function CollectionHubPage({ kind, locale = "en" }) {
   const copy = collectionHubCopy(kind, locale);
@@ -42,6 +43,7 @@ export function CollectionHubPage({ kind, locale = "en" }) {
       <div className="topic-grid">
         {items.map((item) => (
           <article className="topic-card" key={item.slug}>
+            {kind === "factbook" ? <span className="topic-card__logo" aria-hidden="true"><BrandMark slug={item.slug} compact /></span> : null}
             <h2><a href={localizedHref(item.href, { locale })}>{item.title}</a></h2>
             <p>{item.description}</p>
             {item.officialDomain ? <p className="v3-section__meta">{item.officialDomain}</p> : null}
