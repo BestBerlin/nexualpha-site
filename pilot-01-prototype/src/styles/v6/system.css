@@ -3,11 +3,11 @@
  *   type 12 / 14 / 16 / 20 / 28 / 44, spacing on the 4px grid, section rhythm var(--section-pad), 1200px container,
  *   Geist + Geist Mono only, weights 400/500/600, one disclosure ("+") pattern.
  * Strategy: flatten legacy per-component sizes to inherit, then assign sizes by ROLE (heading level, label, lead, value, code).
- * Scope token main.v6:not(.home-refinement) is expanded at build time; the ":not(#_):not(#_)" tail lifts specificity above legacy ":not(#_):not(#_)" rules.
+ * Scope token :is(main, .factbook-page).v6:not(.home-refinement) is expanded at build time; the ":not(#_):not(#_)" tail lifts specificity above legacy ":not(#_):not(#_)" rules.
  * Do not add homepage selectors here. Logical properties only (RTL safe).
  */
 
-main.v6:not(.home-refinement) {
+:is(main, .factbook-page).v6:not(.home-refinement) {
   /* tokens (base.css defines them on .v6 as well; repeated so the file is self-contained) */
   --t-12: 0.75rem; --t-14: 0.875rem; --t-16: 1rem;
   --t-20: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
@@ -23,57 +23,57 @@ main.v6:not(.home-refinement) {
   font-size: var(--t-14);
   line-height: 1.55;
   font-weight: 400;
-  padding-block: var(--s-6, 24px) var(--v6-gap);
 }
+main.v6:not(.home-refinement) { padding-block: var(--s-6, 24px) var(--v6-gap); }
 
 /* ---------- 1. flatten: legacy sizes/families/line-heights collapse to the page default ---------- */
-main.v6:not(.home-refinement) :where(*:not(svg, svg *, .sr-only)):not(#_):not(#_) {
+:is(main, .factbook-page).v6:not(.home-refinement) :where(*:not(svg, svg *, .sr-only)):not(#_):not(#_) {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
 }
-main.v6:not(.home-refinement) :where(strong, b, th) { font-weight: 600; }
-main.v6:not(.home-refinement) :where(h1, h2, h3, h4, h5, h6, summary, button, [class*="__title"], [class*="__name"], [class*="venue-name"]) { font-weight: 600; }
+:is(main, .factbook-page).v6:not(.home-refinement) :where(strong, b, th) { font-weight: 600; }
+:is(main, .factbook-page).v6:not(.home-refinement) :where(h1, h2, h3, h4, h5, h6, summary, button, [class*="__title"], [class*="__name"], [class*="venue-name"]) { font-weight: 600; }
 
 /* ---------- 2. headings ---------- */
-main.v6:not(.home-refinement) h1:not(#_):not(#_) { font-size: var(--t-44); line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; text-wrap: balance; margin-block: 0 var(--s-6, 24px); max-inline-size: 20em; }
-main.v6:not(.home-refinement) h2:not(#_):not(#_) { font-size: var(--t-28); line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; text-wrap: balance; margin-block: 0 var(--s-4, 16px); }
-main.v6:not(.home-refinement) h3:not(#_):not(#_) { font-size: var(--t-20); line-height: 1.25; letter-spacing: -0.01em; font-weight: 600; margin-block: 0 var(--s-3, 12px); }
-main.v6:not(.home-refinement) :is(h4, h5, h6):not(#_):not(#_) { font-size: var(--t-16); line-height: 1.3; letter-spacing: 0; font-weight: 600; margin-block: 0 var(--s-2, 8px); }
-main.v6:not(.home-refinement) :is(h1, h2, h3, h4, h5, h6):not(#_):not(#_) :where(span, b, strong, bdi, a, em) { font-size: inherit; font-weight: inherit; letter-spacing: inherit; }
+:is(main, .factbook-page).v6:not(.home-refinement) h1:not(#_):not(#_) { font-size: var(--t-44); line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; text-wrap: balance; margin-block: 0 var(--s-6, 24px); max-inline-size: 20em; }
+:is(main, .factbook-page).v6:not(.home-refinement) h2:not(#_):not(#_) { font-size: var(--t-28); line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; text-wrap: balance; margin-block: 0 var(--s-4, 16px); }
+:is(main, .factbook-page).v6:not(.home-refinement) h3:not(#_):not(#_) { font-size: var(--t-20); line-height: 1.25; letter-spacing: -0.01em; font-weight: 600; margin-block: 0 var(--s-3, 12px); }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(h4, h5, h6):not(#_):not(#_) { font-size: var(--t-16); line-height: 1.3; letter-spacing: 0; font-weight: 600; margin-block: 0 var(--s-2, 8px); }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(h1, h2, h3, h4, h5, h6):not(#_):not(#_) :where(span, b, strong, bdi, a, em) { font-size: inherit; font-weight: inherit; letter-spacing: inherit; }
 
 /* ---------- 3. roles ---------- */
 /* lead copy directly under a heading */
-main.v6:not(.home-refinement) h1 + p:not(#_):not(#_), main.v6:not(.home-refinement) :where([class*="__lead"], [class*="subtitle"], [class*="-lead"]):not(#_):not(#_) { font-size: var(--t-20); line-height: 1.5; max-inline-size: 62ch; }
-main.v6:not(.home-refinement) h2 + p:not(#_):not(#_) { font-size: var(--t-16); line-height: 1.55; max-inline-size: 62ch; }
-main.v6:not(.home-refinement) :is(article, .news-detail__body, .factbook-section, .methodology-page__inner) p:not(#_):not(#_) { font-size: var(--t-16); line-height: 1.55; max-inline-size: 62ch; }
-main.v6:not(.home-refinement) :is(p, li, dd):not(#_):not(#_) { max-inline-size: 62ch; }
-main.v6:not(.home-refinement) :is(td, th, summary, button, a, label, input, select, textarea, [class*="__cell"], [class*="-cell"]):not(#_):not(#_) { max-inline-size: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) h1 + p:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) :where([class*="__lead"], [class*="subtitle"], [class*="-lead"]):not(#_):not(#_) { font-size: var(--t-20); line-height: 1.5; max-inline-size: 62ch; }
+:is(main, .factbook-page).v6:not(.home-refinement) h2 + p:not(#_):not(#_) { font-size: var(--t-16); line-height: 1.55; max-inline-size: 62ch; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(article, .news-detail__body, .factbook-section, .methodology-page__inner) p:not(#_):not(#_) { font-size: var(--t-16); line-height: 1.55; max-inline-size: 62ch; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(p, li, dd):not(#_):not(#_) { max-inline-size: 62ch; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(td, th, summary, button, a, label, input, select, textarea, [class*="__cell"], [class*="-cell"]):not(#_):not(#_) { max-inline-size: none; }
 
 /* labels, badges, meta, captions: 12 */
-main.v6:not(.home-refinement) :is(small, time, figcaption, kbd, dt, thead th,
+:is(main, .factbook-page).v6:not(.home-refinement) :is(small, time, figcaption, kbd, dt, thead th,
   [class*="badge"], [class*="eyebrow"], [class*="kicker"], [class*="__label"], [class*="-label"], [class*="__tag"], [class*="-tag"],
   [class*="pill"], [class*="chip"], [class*="__meta"], [class*="-meta"], [class*="__note"], [class*="-note"], [class*="caption"],
   [class*="__date"], [class*="__source"], [class*="__kbd"], [class*="hint"]):not(#_):not(#_) {
   font-size: var(--t-12); line-height: 1.4; letter-spacing: 0.01em;
 }
 /* headline numbers and money */
-main.v6:not(.home-refinement) :is([class*="figure"], [class*="__amount"], [class*="metric-value"], [class*="stat-val"], [class*="big-num"]):not(#_):not(#_) {
+:is(main, .factbook-page).v6:not(.home-refinement) :is([class*="figure"], [class*="__amount"], [class*="metric-value"], [class*="stat-val"], [class*="big-num"]):not(#_):not(#_) {
   font-size: var(--t-28); line-height: 1.1; font-weight: 600; font-family: var(--v6-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
 }
 /* inline values in tables and cards: 16 mono, never display size */
-main.v6:not(.home-refinement) :is([class*="main-val"], [class*="rate-main"], [class*="matrix-main"]):not(#_):not(#_) {
+:is(main, .factbook-page).v6:not(.home-refinement) :is([class*="main-val"], [class*="rate-main"], [class*="matrix-main"]):not(#_):not(#_) {
   font-size: var(--t-16); line-height: 1.3; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: 0;
 }
 /* copyable codes and commands */
-main.v6:not(.home-refinement) :is(code, pre, samp, kbd, [class*="code-val"], [class*="__code"] strong, [class*="__command"], [class*="__prompt"], [class*="sample-code"], .font-mono):not(#_):not(#_) {
+:is(main, .factbook-page).v6:not(.home-refinement) :is(code, pre, samp, kbd, [class*="code-val"], [class*="__code"] strong, [class*="__command"], [class*="__prompt"], [class*="sample-code"], .font-mono):not(#_):not(#_) {
   font-family: var(--v6-mono); font-variant-numeric: tabular-nums slashed-zero;
 }
-main.v6:not(.home-refinement) :is(.font-mono):where([class*="badge"], [class*="topic"], [class*="query"]):not(#_):not(#_) { font-family: var(--v6-sans); }
-main.v6:not(.home-refinement) :is([class*="code-value"], [class*="code-val"]):not(#_):not(#_) { font-size: var(--t-20); font-weight: 600; letter-spacing: 0; }
-main.v6:not(.home-refinement) :is(.num, [class*="__num"], td.num):not(#_):not(#_) { font-variant-numeric: tabular-nums; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.font-mono):where([class*="badge"], [class*="topic"], [class*="query"]):not(#_):not(#_) { font-family: var(--v6-sans); }
+:is(main, .factbook-page).v6:not(.home-refinement) :is([class*="code-value"], [class*="code-val"]):not(#_):not(#_) { font-size: var(--t-20); font-weight: 600; letter-spacing: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.num, [class*="__num"], td.num):not(#_):not(#_) { font-variant-numeric: tabular-nums; }
 /* non-heading titles inside cards */
-main.v6:not(.home-refinement) :is(strong, p, span, div, a):where([class*="__title"], [class*="__name"], [class*="venue-name"]):not(#_):not(#_) { font-size: var(--t-16); line-height: 1.3; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(strong, p, span, div, a):where([class*="__title"], [class*="__name"], [class*="venue-name"]):not(#_):not(#_) { font-size: var(--t-16); line-height: 1.3; }
 
 /* ---------- 4. container: one width, one left edge; one gap between top-level blocks ---------- */
 main.v6:not(.home-refinement) > :not(script, style, [class*="sticky"], [class*="mobile-"], [class*="embed"], .mx-page, .br-primary-workbench):not(#_):not(#_) {
@@ -98,45 +98,46 @@ body:has(main.v6:not(.home-refinement)) {
 }
 body:has(main.v6:not(.home-refinement)) .nx-ftr { margin-block-start: var(--v6-gap); }
 body:has(main.v6:not(.home-refinement)) .crawl-priority-links { margin-block: var(--v6-gap) 0; padding-block: 0; border-block-start: 0; }
-body:has(main.v6:not(.home-refinement)) :is(.nx-hdr, .nx-ftr, .crawl-priority-links) :where(*:not(svg, svg *, .nx-brand__label, .nx-brand__label *)):not(#_):not(#_) { font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif; }
+body:has(main.v6:not(.home-refinement)) :is(.nx-hdr, .nx-ftr, .crawl-priority-links, .mobile-bottom-nav) :where(*:not(svg, svg *, .nx-brand__label, .nx-brand__label *)):not(#_):not(#_) { font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif; }
 body:has(main.v6:not(.home-refinement)) :is(.nx-ftr, .crawl-priority-links) :where(a, p, li, span, strong, b, summary, div, h2, h3, h4):not(#_):not(#_) { font-size: 0.875rem; line-height: 1.55; }
 body:has(main.v6:not(.home-refinement)) :is(.nx-ftr__title, .crawl-priority-links strong, .crawl-priority-links__intro strong):not(#_):not(#_) { font-weight: 600; }
-body:has(main.v6:not(.home-refinement)) :is(.clean-footer__copyright, .nx-search__kbd, .nx-lang__opt-code, .nx-lang__code, [class*="__eyebrow"], [class*="__group-title"], .crawl-priority-links__group > :first-child):not(#_):not(#_) { font-size: 0.75rem; line-height: 1.4; }
+body:has(main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label, .clean-footer__copyright, .nx-search__kbd, .nx-lang__opt-code, .nx-lang__code, [class*="__eyebrow"], [class*="__group-title"], .crawl-priority-links__group > :first-child):not(#_):not(#_) { font-size: 0.75rem; line-height: 1.4; }
 
 /* ---------- 5. disclosure rows: one pattern ---------- */
-main.v6:not(.home-refinement) details > summary:not(#_):not(#_) {
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_) {
   display: flex; align-items: center; justify-content: space-between; gap: var(--s-4, 16px);
   min-block-size: 56px; padding-block: var(--s-3, 12px); padding-inline: 0;
   list-style: none; cursor: pointer; font-size: var(--t-16); line-height: 1.35; font-weight: 600;
   text-align: start;
 }
-main.v6:not(.home-refinement) details > summary:not(#_):not(#_)::-webkit-details-marker { display: none; }
-main.v6:not(.home-refinement) details > summary:not(#_):not(#_)::marker { content: ""; }
-main.v6:not(.home-refinement) details > summary > :is(span, small, strong, h2, h3):not(#_):not(#_) { font-size: inherit; }
-main.v6:not(.home-refinement) details > summary > :is(small, span + span):not(#_):not(#_) { font-size: var(--t-14); font-weight: 400; opacity: 0.72; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_)::-webkit-details-marker { display: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_)::marker { content: ""; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(span, small, strong, h2, h3):not(#_):not(#_) { font-size: inherit; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(small, span + span):not(#_):not(#_) { font-size: var(--t-14); font-weight: 400; opacity: 0.72; }
 /* top-level rows get hairlines; nested ones stay quiet */
-main.v6:not(.home-refinement) > details:not(#_):not(#_), main.v6:not(.home-refinement) > section > details:not(#_):not(#_) { border-block-end: 1px solid var(--v6-hair); border-radius: 0; background: none; box-shadow: none; }
-main.v6:not(.home-refinement) > details:not(:has(+ details)):not(#_):not(#_) { border-block-end: 1px solid var(--v6-hair); }
-main.v6:not(.home-refinement) > details:not(#_):not(#_) { border-block-start: 1px solid var(--v6-hair); }
-main.v6:not(.home-refinement) > details + details:not(#_):not(#_) { border-block-start: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) > details:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) > section > details:not(#_):not(#_) { border-block-end: 1px solid var(--v6-hair); border-radius: 0; background: none; box-shadow: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) > details:not(:has(+ details)):not(#_):not(#_) { border-block-end: 1px solid var(--v6-hair); }
+:is(main, .factbook-page).v6:not(.home-refinement) > details:not(#_):not(#_) { border-block-start: 1px solid var(--v6-hair); }
+:is(main, .factbook-page).v6:not(.home-refinement) > details + details:not(#_):not(#_) { border-block-start: 0; }
 /* the indicator: a drawn plus, always at inline-end, 20px box */
-main.v6:not(.home-refinement) details > summary b[aria-hidden]:not(#_):not(#_), main.v6:not(.home-refinement) details > summary > b:not(#_):not(#_), main.v6:not(.home-refinement) details > summary:not(:has(b[aria-hidden], > b, .v3-faq-arrow)):not([class*="disclosure-details"]):not(#_):not(#_)::after {
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(b, span)[aria-hidden]:last-child:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) details > summary > b:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(:has(> :is(b, span)[aria-hidden]:last-child, > b, .v3-faq-arrow)):not([class*="disclosure-details"]):not(#_):not(#_)::after {
   content: ""; flex: none; inline-size: 20px; block-size: 20px; margin-inline-start: auto; font-size: 0; line-height: 0; color: inherit;
   background:
     linear-gradient(currentColor, currentColor) center / 12px 1.5px no-repeat,
     linear-gradient(currentColor, currentColor) center / 1.5px 12px no-repeat;
+  border: 0; border-radius: 0; padding: 0; box-shadow: none; display: block; position: static; inset: auto;
   opacity: 0.72; transition: background-size 160ms cubic-bezier(0.16, 1, 0.3, 1), opacity 160ms;
 }
-main.v6:not(.home-refinement) details[open] > summary b[aria-hidden]:not(#_):not(#_), main.v6:not(.home-refinement) details[open] > summary > b:not(#_):not(#_), main.v6:not(.home-refinement) details[open] > summary:not(:has(b[aria-hidden], > b, .v3-faq-arrow)):not([class*="disclosure-details"]):not(#_):not(#_)::after {
+:is(main, .factbook-page).v6:not(.home-refinement) details[open] > summary > :is(b, span)[aria-hidden]:last-child:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) details[open] > summary > b:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) details[open] > summary:not(:has(> :is(b, span)[aria-hidden]:last-child, > b, .v3-faq-arrow)):not([class*="disclosure-details"]):not(#_):not(#_)::after {
   background-size: 12px 1.5px, 0 0;
 }
-main.v6:not(.home-refinement) details > summary:hover b[aria-hidden]:not(#_):not(#_), main.v6:not(.home-refinement) details > summary:hover:not(:has(b[aria-hidden], > b)):not(#_):not(#_)::after { opacity: 1; }
-main.v6:not(.home-refinement) details > summary:focus-visible:not(#_):not(#_) { outline: 2px solid var(--accent, #2fe0c4); outline-offset: 2px; border-radius: 4px; }
-main.v6:not(.home-refinement) details > summary > .v3-faq-summary-left:not(#_):not(#_) { flex: 1; min-inline-size: 0; }
-main.v6:not(.home-refinement) details > summary > .v3-faq-arrow:not(#_):not(#_) { margin-inline-start: auto; flex: none; }
-main.v6:not(.home-refinement) details > summary.v3-faq-summary:not(#_):not(#_) { padding-inline: 0; }
-main.v6:not(.home-refinement) details > summary.v3-faq-summary .v3-faq-arrow:not(#_):not(#_) { font-size: var(--t-12); }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:hover > :is(b, span)[aria-hidden]:last-child:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) details > summary:hover:not(:has(> :is(b, span)[aria-hidden]:last-child, > b)):not(#_):not(#_)::after { opacity: 1; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:focus-visible:not(#_):not(#_) { outline: 2px solid var(--accent, #2fe0c4); outline-offset: 2px; border-radius: 4px; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > .v3-faq-summary-left:not(#_):not(#_) { flex: 1; min-inline-size: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > .v3-faq-arrow:not(#_):not(#_) { margin-inline-start: auto; flex: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary.v3-faq-summary:not(#_):not(#_) { padding-inline: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary.v3-faq-summary .v3-faq-arrow:not(#_):not(#_) { font-size: var(--t-12); }
 
 @media (prefers-reduced-motion: reduce) {
-  main.v6:not(.home-refinement) details > summary > b:not(#_):not(#_), main.v6:not(.home-refinement) details > summary::after { transition: none; }
+  :is(main, .factbook-page).v6:not(.home-refinement) details > summary > b:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) details > summary::after { transition: none; }
 }

@@ -1162,7 +1162,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
   }, [filterCategory, locale]);
 
   return (
-    <div className="factbook-page" dir="ltr">
+    <div className="v6 factbook-page" dir="ltr">
       {/* 极客终端审计头部 */}
       <div className="factbook-hero" role="region" aria-label={isHant ? "事實庫概覽" : isZh ? "事实库概览" : "Factbook overview"}>
         <div className="factbook-hero__container">
