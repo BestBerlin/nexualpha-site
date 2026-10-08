@@ -1024,21 +1024,22 @@ export function LeanHero({ locale = "en" }) {
             {ui.title}
           </h1>
           <p className="hx__lede enter" style={{ "--i": 1 }}>{ui.badge}</p>
-          <div className="hx__actions enter" style={{ "--i": 2 }}>
-            <button
-              type="button"
-              className="hx__link hx__link--wizard"
-              onClick={() => setWizardOpen(true)}
-            >
-              {ui.wizardBtn}
-            </button>
-            <a href={localeHref(locale, "#exchanges")} className="hx__link">
-              {ui.explore}
-            </a>
-            <a href={localeHref(locale, "#compare")} className="hx__link">
-              {ui.compare}
-            </a>
-          </div>
+        </div>
+
+        <div className="hx__actions enter" style={{ "--i": 2 }}>
+          <button
+            type="button"
+            className="hx__link hx__link--wizard"
+            onClick={() => setWizardOpen(true)}
+          >
+            {ui.wizardBtn}
+          </button>
+          <a href={localeHref(locale, "#exchanges")} className="hx__link">
+            {ui.explore}
+          </a>
+          <a href={localeHref(locale, "#compare")} className="hx__link">
+            {ui.compare}
+          </a>
         </div>
 
         <div className="hx__stage beam enter" style={{ "--i": 2 }}>
