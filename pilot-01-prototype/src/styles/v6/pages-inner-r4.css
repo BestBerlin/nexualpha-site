@@ -25,6 +25,9 @@ body:has(main.v6:not(.home-refinement)) {
     --t-20: 1.125rem; --t-28: 1.5rem; --t-44: 2rem;
     --r4-head-gap: 24px;
   }
+  :is(main, .factbook-page).v6:not(.home-refinement) h1:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 2rem; line-height: 1.12; }
+  :is(main, .factbook-page).v6:not(.home-refinement) h2:not(summary > h2, summary h2, .v3-profile-research-chapter__heading, .topic-card > h2, .news-article-card__title):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 1.5rem; }
+  :is(main, .factbook-page).v6:not(.home-refinement) h3:not(summary h3, .v3-profile-account-section__heading):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 1.125rem; }
 }
 
 /* ---------- #6 one voice: no uppercase labels, no letter-spaced kickers anywhere in inner pages ---------- */
@@ -104,11 +107,11 @@ main.v6:not(.home-refinement) .methodology-page__header > .methodology-page__sub
 main.v6:not(.home-refinement) .methodology-page__header > :not(.methodology-page__badge-row, h1, .methodology-page__title, .methodology-page__subtitle):not(#_):not(#_):not(#_):not(#_):not(#_) { order: 4; }
 /* pages WITH a slot: the back-link / logo sits in a 24px row, 16px above the h1 */
 main.v3-compare-page.v6 > .v3-page-hero:not(#_):not(#_):not(#_):not(#_):not(#_),
-main.v3-profile-page.v6 > .v3-page-hero:not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-start: 0; margin-block-start: 0; }
-main.v3-compare-page.v6 .v3-page-hero > .v3-back-link:not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; block-size: 24px; min-block-size: 24px; margin-block: 0 16px; padding: 0; }
+main.v3-profile-page.v6 > .v3-page-hero:not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-start: 0 !important; padding-top: 0 !important; margin-block-start: 0; }
+main.v3-compare-page.v6 .v3-page-hero > .v3-back-link:not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; block-size: 24px; min-block-size: 24px; margin-block: 0 8px; padding: 0; } /* + the hero's 8px row-gap = 16 */
 main.v3-profile-page.v6 .v3-page-hero > .v3-back-link:not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; }
 main.v3-profile-page.v6 .v3-venue-identity:not(#_):not(#_):not(#_):not(#_):not(#_) { gap: 16px; margin-block-start: 0; padding-block-start: 0; }
-main.v3-profile-page.v6 .v3-venue-identity > :is(img, .v2-brand, .brand-mark, [class*="brand"]):first-child:not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: 24px !important; block-size: 24px !important; width: 24px !important; height: 24px !important; min-inline-size: 24px; border-radius: 6px; padding: 0; }
+main.v3-profile-page.v6 .v3-venue-identity > :is(img, .v2-brand, .brand-mark, [class*="brand"]):first-child:not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: 24px !important; block-size: 24px !important; width: 24px !important; height: 24px !important; min-inline-size: 24px; border-radius: 6px; padding: 0 !important; margin: 0 !important; border: 0 !important; box-sizing: border-box; }
 main.v3-profile-page.v6 .v3-venue-identity__info:not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-direction: column; gap: 16px; }
 main.v3-profile-page.v6 .v3-venue-identity__info > h1:not(#_):not(#_):not(#_):not(#_):not(#_) { order: 1; margin: 0; }
 main.v3-profile-page.v6 .v3-venue-identity__info > .v3-venue-identity__badges:not(#_):not(#_):not(#_):not(#_):not(#_) { order: 2; margin: 0; }
