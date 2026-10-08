@@ -1477,3 +1477,10 @@ html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__w
     animation-direction: reverse;
   }
 }
+
+#top.v5 .hx-row__who img.v2-brand,
+#top.v5 .hx-route__who img.v2-brand,
+#top.v5 .hx__trust-logos img.v2-brand {
+  transform: none !important;
+  scale: none !important;
+}
