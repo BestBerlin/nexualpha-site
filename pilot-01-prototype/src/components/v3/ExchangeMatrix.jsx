@@ -1,0 +1,433 @@
+import { useMemo, useRef, useState } from "react";
+import { BrandMark } from "../brand/BrandMark";
+import { partnerRegistry } from "../../data/partner-registry";
+import { venueDatabase } from "../../data/venue-database.js";
+import { venueDecisionContent } from "../../data/venue-decision-content";
+import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
+import { regionalCtaState, regionalDirectoryCandidateState, venueMarketStatus } from "../../data/directory-context.js";
+import { localizedHref } from "../../data/locale-routing.js";
+import { publicCtaForVenue } from "../../data/source-bound-cta.js";
+import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
+
+const SEGMENTS = [
+  { id: "all", key: "all" },
+  { id: "CEX", key: "cex" },
+  { id: "DEX", key: "dex" },
+  { id: "Perp DEX", key: "perpdex" },
+];
+
+const fmtRate = (value) => {
+  const s = Number(value).toFixed(3);
+  return s.endsWith("0") ? s.slice(0, -1) : s;
+};
+const hasPair = (pair) => Array.isArray(pair) && pair[0] != null && pair[1] != null;
+
+function SortIcon() {
+  return (
+    <svg className="mx-sort__icon" viewBox="0 0 10 14" width="8" height="12" aria-hidden="true" focusable="false">
+      <path className="mx-sort__up" d="M5 1 1.5 5.2h7z" />
+      <path className="mx-sort__down" d="M5 13 1.5 8.8h7z" />
+    </svg>
+  );
+}
+
+function CopyIcon({ done }) {
+  return done ? (
+    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  ) : (
+    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8" fill="none" stroke="currentColor" strokeWidth="1.4" /><path d="M10.5 3.2v-.4a1.3 1.3 0 0 0-1.3-1.3H3.8A1.3 1.3 0 0 0 2.5 2.8v5.4a1.3 1.3 0 0 0 1.3 1.3h.4" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" /></svg>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg className="mx-arrow" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path d="M4.5 11.5 11.5 4.5M5.5 4.5h6v6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  );
+}
+
+export function ExchangeMatrix({
+  venues,
+  totalCount,
+  locale,
+  ui,
+  mc,
+  context,
+  market,
+  product,
+  contextSearch,
+  accountStage,
+  funding,
+  selectedCategory,
+  onCategory,
+  searchQuery,
+  onSearch,
+  onClearSearch,
+  searchInputRef,
+  compareSelection,
+  onToggleCompare,
+  onClearCompare,
+  compareHref,
+  onCopyCode,
+  renderCopyFeedback,
+  copiedToast,
+  onReset,
+  regionalReturnHref,
+}) {
+  const [sort, setSort] = useState({ key: null, dir: "asc" });
+  const [tick, setTick] = useState(0);
+  const segRefs = useRef([]);
+
+  const rows = useMemo(() => venues.map((venue) => {
+    const db = venueDatabase[venue.slug] || {};
+    const facts = EXCHANGE_FACTS[venue.slug] || null;
+    const verified = facts?.status === "verified";
+    const partner = partnerRegistry[venue.slug] || {
+      slug: venue.slug,
+      officialDomain: db.officialDomain || venue.officialDomain || `${venue.slug}.com`,
+      hasReferral: db.hasReferral || false,
+      inviteCode: db.inviteCode || null,
+      registrationUrl: db.registrationUrl || `https://${db.officialDomain || venue.officialDomain || `${venue.slug}.com`}`,
+    };
+    const publicCta = publicCtaForVenue(venue.slug, locale);
+    const marketStatus = venueMarketStatus(venue, market);
+    const regionalCandidate = regionalDirectoryCandidateState(venue, { market, product, locale, accountStage, funding });
+    const displayMarketStatus = regionalCandidate.status !== "unscoped" ? regionalCandidate.status : marketStatus;
+    const ctaState = regionalCtaState({ market, status: displayMarketStatus });
+    const registrationUrl = publicCta.registrationUrl;
+    const canOpenRegistration = ctaState !== "blocked" && publicCta.hasReferral && /^https:\/\//i.test(registrationUrl);
+    const spot = verified && hasPair(facts.spot) ? facts.spot : null;
+    const perp = verified && hasPair(facts.perp) ? facts.perp : null;
+    const productList = [];
+    if (venue.category !== "Perp DEX") productList.push(mc.pSpot);
+    if (venue.category === "Perp DEX" || db.futuresFee || db.maxLeverage) productList.push(mc.pPerp);
+    if (Array.isArray(db.fiatChannels) && db.fiatChannels.length) productList.push(mc.pFiat);
+    if (venue.category !== "CEX") productList.push(mc.pChain);
+    return {
+      venue,
+      slug: venue.slug,
+      name: getLocalizedVenueName(venue, locale),
+      category: venue.category,
+      spot,
+      perp,
+      verified,
+      verifiedOn: verified ? facts.verifiedOn : null,
+      region: facts?.regions?.[0] || null,
+      products: productList,
+      hasDetailPage: Boolean(venueDecisionContent[venue.slug]),
+      hasReferral: publicCta.hasReferral,
+      inviteCode: publicCta.inviteCode,
+      registrationUrl,
+      canOpenRegistration,
+    };
+  }), [venues, locale, market, product, accountStage, funding, mc]);
+
+  const sorted = useMemo(() => {
+    if (!sort.key) return rows;
+    const val = (r) => {
+      if (sort.key === "spot") return r.spot ? r.spot[1] : null;
+      if (sort.key === "perp") return r.perp ? r.perp[1] : null;
+      return r.name;
+    };
+    const dir = sort.dir === "asc" ? 1 : -1;
+    return [...rows].sort((a, b) => {
+      const va = val(a);
+      const vb = val(b);
+      if (va == null && vb == null) return 0;
+      if (va == null) return 1;
+      if (vb == null) return -1;
+      if (typeof va === "string") return va.localeCompare(vb, locale) * dir;
+      return (va - vb) * dir;
+    });
+  }, [rows, sort, locale]);
+
+  const cycleSort = (key) => {
+    setTick((n) => n + 1);
+    setSort((cur) => {
+      if (cur.key !== key) return { key, dir: "asc" };
+      if (cur.dir === "asc") return { key, dir: "desc" };
+      return { key: null, dir: "asc" };
+    });
+  };
+  const ariaSort = (key) => (sort.key === key ? (sort.dir === "asc" ? "ascending" : "descending") : "none");
+  const nameOf = (slug) => rows.find((r) => r.slug === slug)?.name || venueDatabase[slug]?.name || slug;
+  const compareFull = compareSelection.length >= 2;
+
+  const onSegKey = (event, index) => {
+    const dirKey = document?.dir === "rtl" || event.currentTarget.closest("[dir='rtl']") ? -1 : 1;
+    let next = null;
+    if (event.key === "ArrowRight") next = index + dirKey;
+    else if (event.key === "ArrowLeft") next = index - dirKey;
+    else if (event.key === "ArrowDown") next = index + 1;
+    else if (event.key === "ArrowUp") next = index - 1;
+    else if (event.key === "Home") next = 0;
+    else if (event.key === "End") next = SEGMENTS.length - 1;
+    if (next == null) return;
+    event.preventDefault();
+    const target = (next + SEGMENTS.length) % SEGMENTS.length;
+    onCategory(SEGMENTS[target].id);
+    segRefs.current[target]?.focus();
+  };
+
+  const sortHead = (key, label, sub, className = "") => (
+    <th scope="col" role="columnheader" aria-sort={ariaSort(key)} className={`mx-th mx-th--sortable ${className}`.trim()} data-sorted={sort.key === key ? sort.dir : undefined}>
+      <button type="button" className="mx-sort" onClick={() => cycleSort(key)} aria-label={`${mc.sortBy}: ${label}${sort.key === key ? `, ${sort.dir === "asc" ? mc.sortAsc : mc.sortDesc}` : ""}`}>
+        <span className="mx-sort__text">
+          <span>{label}</span>
+          {sub ? <small>{sub}</small> : null}
+        </span>
+        <SortIcon />
+      </button>
+    </th>
+  );
+
+  const emph = (key, node) => (sort.key === key && tick > 0 ? <span key={`${key}-${tick}`} className="mx-emph">{node}</span> : node);
+
+  const renderFee = (pair) => (
+    <span className="mx-fee num" dir="ltr" translate="no">
+      <b>{fmtRate(pair[0])}</b><i aria-hidden="true">/</i><b>{fmtRate(pair[1])}</b><u>%</u>
+    </span>
+  );
+
+  return (
+    <div className="mx" data-tray={compareSelection.length > 0 ? "open" : undefined}>
+      <div className="mx-toolbar">
+        <div className="mx-seg" role="radiogroup" aria-label={mc.type}>
+          {SEGMENTS.map((seg, index) => {
+            const active = selectedCategory === seg.id;
+            return (
+              <button
+                key={seg.id}
+                ref={(el) => { segRefs.current[index] = el; }}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                tabIndex={active ? 0 : -1}
+                className="mx-seg__btn"
+                data-active={active}
+                onClick={() => onCategory(seg.id)}
+                onKeyDown={(event) => onSegKey(event, index)}
+              >
+                <span translate={seg.id === "all" ? undefined : "no"}>{mc[seg.key]}</span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="mx-search" role="search">
+          <label htmlFor="mx-search" className="mx-sr">{ui.searchLabel}</label>
+          <input
+            id="mx-search"
+            ref={searchInputRef}
+            className="mx-search__input"
+            type="search"
+            value={searchQuery}
+            onChange={(event) => onSearch(event.target.value)}
+            placeholder={ui.searchPlaceholder}
+            autoComplete="off"
+            spellCheck="false"
+          />
+          {searchQuery ? <button type="button" className="mx-search__clear" onClick={onClearSearch} aria-label={ui.clearSearch}>×</button> : null}
+        </div>
+        <p className="mx-count num" role="status" aria-live="polite">
+          <span>{mc.show}</span> <b>{venues.length}</b> <span>{mc.of}</span> <b>{totalCount}</b>
+        </p>
+      </div>
+
+      {sorted.length === 0 ? (
+        <div className="mx-empty" role="status">
+          <h2>{ui.emptyTitle}</h2>
+          <p>{ui.emptyBody}</p>
+          <button type="button" className="mx-btn" onClick={onReset}>{ui.resetFilters}</button>
+          {regionalReturnHref ? <a className="mx-btn mx-btn--ghost" href={regionalReturnHref} data-cta-placement="directory-empty-region-return">{ui.returnToRegion}</a> : null}
+        </div>
+      ) : (
+        <div className="mx-scroll">
+          <table className="mx-table" role="table" aria-label={mc.table} aria-rowcount={sorted.length + 1}>
+            <colgroup>
+              <col className="mx-col mx-col--pick" />
+              <col className="mx-col mx-col--name" />
+              <col className="mx-col mx-col--fee" />
+              <col className="mx-col mx-col--fee" />
+              <col className="mx-col mx-col--prod" />
+              <col className="mx-col mx-col--region" />
+              <col className="mx-col mx-col--code" />
+              <col className="mx-col mx-col--cta" />
+            </colgroup>
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader" className="mx-th mx-th--pick"><span className="mx-sr">{mc.compare}</span><span className="mx-th__sortlabel" aria-hidden="true">{mc.sortBy}</span></th>
+                {sortHead("name", mc.platform)}
+                {sortHead("spot", mc.spot, mc.maker, "mx-th--fee")}
+                {sortHead("perp", mc.perp, mc.maker, "mx-th--fee")}
+                <th scope="col" role="columnheader" className="mx-th mx-th--prod"><span className="mx-th__label">{mc.products}</span></th>
+                <th scope="col" role="columnheader" className="mx-th mx-th--region"><span className="mx-th__label">{mc.region}</span></th>
+                <th scope="col" role="columnheader" className="mx-th mx-th--code"><span className="mx-th__label">{mc.code}</span></th>
+                <th scope="col" role="columnheader" className="mx-th mx-th--cta"><span className="mx-sr">{mc.signup}</span></th>
+              </tr>
+            </thead>
+            <tbody role="rowgroup">
+              {sorted.map((r, index) => {
+                const selected = compareSelection.includes(r.slug);
+                const pickDisabled = !selected && compareFull;
+                const noFees = !r.spot && !r.perp;
+                return (
+                  <tr
+                    key={r.slug}
+                    role="row"
+                    className="mx-row"
+                    data-slug={r.slug}
+                    data-selected={selected || undefined}
+                    style={{ "--i": Math.min(index, 14) }}
+                  >
+                    <td role="cell" className="mx-td mx-td--pick">
+                      <label className="mx-pick" title={selected ? ui.compareRemove : ui.compareSelect}>
+                        <input
+                          type="checkbox"
+                          checked={selected}
+                          disabled={pickDisabled}
+                          onChange={() => onToggleCompare(r.slug)}
+                          aria-label={`${selected ? ui.compareRemove : ui.compareSelect}: ${r.name}`}
+                          data-cta-kind="research"
+                          data-cta-platform={r.slug}
+                          data-cta-placement="directory-compare-select"
+                          data-growth-decision={r.slug}
+                          data-growth-placement="directory-compare-select"
+                          data-growth-market={context.market}
+                          data-growth-product={context.product}
+                        />
+                        <span className="mx-pick__box" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12" focusable="false"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+                      </label>
+                    </td>
+                    <th scope="row" role="rowheader" className="mx-td mx-td--name">
+                      <div className="mx-id">
+                        <BrandMark slug={r.slug} compact />
+                        <div className="mx-id__text">
+                          {r.hasDetailPage ? (
+                            <a
+                              className="mx-id__name"
+                              translate="no"
+                              href={localizedHref(`/exchanges/${r.slug}?${contextSearch}`, { locale })}
+                              data-cta-kind="research"
+                              data-cta-platform={r.slug}
+                              data-cta-placement="directory-card-detail"
+                              data-growth-decision={r.slug}
+                              data-growth-placement="directory-card-detail"
+                              data-growth-market={context.market}
+                              data-growth-product={context.product}
+                            >{r.name}</a>
+                          ) : (
+                            <span className="mx-id__name" translate="no">{r.name}</span>
+                          )}
+                          <span className="mx-id__meta">
+                            <span className="mx-type" translate="no" lang="en">{r.category}</span>
+                            {r.verified ? <span className="mx-checked num">{mc.checked} <time dateTime={r.verifiedOn}>{r.verifiedOn}</time></span> : null}
+                          </span>
+                        </div>
+                      </div>
+                    </th>
+                    {noFees ? (
+                      <td role="cell" className="mx-td mx-td--fee mx-td--nofee" colSpan={2} data-label={`${mc.spot} / ${mc.perp}`}>
+                        <span className="mx-dash" aria-hidden="true">&ndash;</span>
+                        <span className="mx-sr">{mc.spot}, {mc.perp}: </span>
+                        <span className="mx-check">{mc.check}</span>
+                      </td>
+                    ) : (
+                      <>
+                        <td role="cell" className="mx-td mx-td--fee mx-td--spot" data-label={mc.spot}>
+                          {r.spot ? emph("spot", renderFee(r.spot)) : (<><span className="mx-dash" aria-hidden="true">&ndash;</span><span className="mx-sr">{mc.spot}: </span><span className="mx-check">{mc.check}</span></>)}
+                        </td>
+                        <td role="cell" className="mx-td mx-td--fee mx-td--perp" data-label={mc.perp}>
+                          {r.perp ? emph("perp", renderFee(r.perp)) : (<><span className="mx-dash" aria-hidden="true">&ndash;</span><span className="mx-sr">{mc.perp}: </span><span className="mx-check">{mc.check}</span></>)}
+                        </td>
+                      </>
+                    )}
+                    <td role="cell" className="mx-td mx-td--prod" data-label={mc.products}>
+                      <span translate="no">{r.products.join(mc.sep)}</span>
+                    </td>
+                    <td role="cell" className="mx-td mx-td--region" data-label={mc.region}>
+                      {r.region ? <span lang="en">{r.region}</span> : (<><span className="mx-dash" aria-hidden="true">&ndash;</span><span className="mx-sr">{mc.region}: </span><span className="mx-check">{mc.check}</span></>)}
+                    </td>
+                    <td role="cell" className="mx-td mx-td--code" data-label={mc.code}>
+                      {r.hasReferral && r.inviteCode ? (
+                        <>
+                          <button
+                            type="button"
+                            className="mx-code"
+                            data-done={copiedToast === r.inviteCode || undefined}
+                            title={mc.copy}
+                            aria-label={`${mc.copy}: ${r.inviteCode}`}
+                            onClick={(e) => onCopyCode(r.inviteCode, `${r.slug}-compact`, e)}
+                          >
+                            <strong translate="no" lang="en">{r.inviteCode}</strong>
+                            <span className="mx-code__icon"><CopyIcon done={copiedToast === r.inviteCode} /></span>
+                            <span className="mx-code__state mx-sr" role="status">{copiedToast === r.inviteCode ? mc.copied : ""}</span>
+                          </button>
+                          {renderCopyFeedback(`${r.slug}-compact`)}
+                        </>
+                      ) : (
+                        <span className="mx-dash" title={mc.noCode}>&ndash;<span className="mx-sr">{mc.noCode}</span></span>
+                      )}
+                    </td>
+                    <td role="cell" className="mx-td mx-td--cta">
+                      {r.canOpenRegistration ? (
+                        <a
+                          href={r.registrationUrl}
+                          target="_blank"
+                          rel="sponsored noopener noreferrer"
+                          className="mx-cta"
+                          data-cta-kind="registration"
+                          data-cta-platform={r.slug}
+                          data-cta-placement="directory-card"
+                          data-growth-decision={r.slug}
+                          data-growth-placement="directory-card"
+                          data-growth-market={context.market}
+                          data-growth-product={context.product}
+                        >
+                          <span>{mc.signup}</span><span className="mx-sr"> {r.name}</span><ArrowIcon />
+                        </a>
+                      ) : (
+                        <a
+                          href={localizedHref(`/exchanges/${r.slug}?${contextSearch}#registration-path`, { locale })}
+                          className="mx-cta mx-cta--verify"
+                          data-cta-placement="directory-card-eligibility"
+                          data-growth-decision="regional_eligibility"
+                          data-growth-placement="directory-card-eligibility"
+                          data-growth-market={context.market}
+                          data-growth-product={context.product}
+                        >
+                          <span>{mc.eligibility}</span><span className="mx-sr"> {r.name}</span>
+                        </a>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {compareSelection.length > 0 ? (
+        <div className="mx-tray" role="status" aria-live="polite">
+          <p className="mx-tray__names"><span>{mc.tray}</span> <b translate="no">{compareSelection.map(nameOf).join(" + ")}</b></p>
+          <div className="mx-tray__actions">
+            {compareHref ? (
+              <a
+                href={compareHref}
+                className="mx-btn mx-btn--primary"
+                data-cta-kind="research"
+                data-cta-placement="directory-compare-open"
+                data-growth-decision="directory_compare_open"
+                data-growth-placement="directory-compare-open"
+                data-growth-market={context.market}
+                data-growth-product={context.product}
+              >{ui.compareOpen}<ArrowIcon /></a>
+            ) : <span className="mx-tray__hint">{ui.compareNeed}</span>}
+            <button type="button" className="mx-btn mx-btn--ghost" onClick={onClearCompare}>{ui.compareClear}</button>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+export default ExchangeMatrix;
