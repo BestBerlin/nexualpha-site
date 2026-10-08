@@ -56,6 +56,23 @@
     }
     return out;
   }
+  /* things a horizontal route may not touch: text, replaced elements and controls, and visible horizontal borders */
+  function obstacles(main) {
+    var out = textRects(main).slice();
+    var els = main.querySelectorAll("img, svg, input, button, select, textarea, video, canvas, hr, *");
+    for (var i = 0; i < els.length; i++) {
+      var e = els[i];
+      if (e.closest(".v6r")) continue;
+      var r = e.getBoundingClientRect();
+      if (!r.width || !r.height) continue;
+      if (/^(IMG|SVG|INPUT|BUTTON|SELECT|TEXTAREA|VIDEO|CANVAS|HR)$/i.test(e.tagName)) { out.push(r); continue; }
+      var cs = getComputedStyle(e);
+      if (cs.visibility === "hidden") continue;
+      if (parseFloat(cs.borderTopWidth) > 0 && cs.borderTopStyle !== "none") out.push({ left: r.left, right: r.right, top: r.top, bottom: r.top + 1 });
+      if (parseFloat(cs.borderBottomWidth) > 0 && cs.borderBottomStyle !== "none") out.push({ left: r.left, right: r.right, top: r.bottom - 1, bottom: r.bottom });
+    }
+    return out;
+  }
   function label(h) {
     var t = (h.textContent || "").replace(/\s+/g, " ").trim();
     return t.length > 34 ? t.slice(0, 32).replace(/[\s,.:;·-]+$/, "") + "…" : t;
@@ -117,9 +134,13 @@
         if (box) {
           var br = box.getBoundingClientRect();
           var len = edgeOf(br) - x - 6;
-          if (len > 12) {
-            var rects = textRects(main);
-            var mid = br.top + Math.min(br.height / 2, 120);
+          var bkey = [Math.round(mr.height), Math.round(br.top - mr.top), Math.round(br.height), vw, Math.round(x)].join(":");
+          if (bkey === s.bkey) branch = s.branch;
+          else if (len > 12) {
+            var rects = obstacles(main);
+            var cta = box.querySelector("a[rel~='sponsored'], [class*='primary'], [class*='cta']");
+            var crr = cta ? cta.getBoundingClientRect() : null;
+            var mid = crr && crr.height ? crr.top + crr.height / 2 : br.top + Math.min(br.height / 2, 120);
             var ys = [];
             for (var off = 0; off <= br.height / 2; off += 6) { ys.push(mid + off); if (off) ys.push(mid - off); }
             for (var yi = 0; yi < ys.length && !branch; yi++) {
@@ -129,13 +150,15 @@
               for (var q = 0; q < rects.length && ok; q++) {
                 var tr = rects[q];
                 var tx0 = rtl ? vw - tr.right : tr.left, tx1 = rtl ? vw - tr.left : tr.right;
-                if (tr.top - 4 < ly && tr.bottom + 4 > ly && tx1 > x - 2 && tx0 < x + len + 2) ok = false;
+                if (tx0 >= edgeOf(br) - 1 && tx1 <= edgeOf(br) + br.width + 1) continue; /* inside the destination itself */
+                if (tr.top - 10 < ly && tr.bottom + 10 > ly && tx1 > x - 2 && tx0 < x + len + 2) ok = false;
               }
               if (ok) branch = { y: Math.round(ly - mr.top), len: Math.round(len) };
             }
           }
         }
       }
+      if (box && !bar) { s.bkey = [Math.round(mr.height), Math.round(box.getBoundingClientRect().top - mr.top), Math.round(box.getBoundingClientRect().height), vw, Math.round(x)].join(":"); s.branch = branch; }
       if (branch && (branch.y <= start + 24 || branch.y >= end)) branch = null;
       var sig = [px, Math.round(top0), Math.round(start), Math.round(end), rtl, bar, branch ? branch.y + ":" + branch.len : ""].concat(docks.map(function (d) { return d.y; })).join(",");
       if (sig === s.sig) return;
