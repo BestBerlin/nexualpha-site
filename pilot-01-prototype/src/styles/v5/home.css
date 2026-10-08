@@ -152,8 +152,8 @@
   column-gap: clamp(2rem, 1rem + 3.5vw, 4.5rem);
   row-gap: var(--s-6);
   align-items: stretch;
-  grid-template-areas: "copy stage" "actions stage";
-  grid-template-rows: auto 1fr;
+  grid-template-areas: "copy stage" "actions stage" "more stage";
+  grid-template-rows: auto auto 1fr;
 }
 #top.v5 .hx__stage {
   grid-area: stage;
@@ -717,7 +717,9 @@
 
 /* secondary help, collapsed */
 #top.v5 .hx__more {
-  grid-column: 1 / -1;
+  grid-area: more;
+  align-self: end;
+  min-inline-size: 0;
 }
 #top.v5 .hx__more-toggle {
   appearance: none;
@@ -1060,7 +1062,7 @@
 @media (max-width: 62rem) {
   #top.v5 .hx__wrap {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "copy" "stage" "actions";
+    grid-template-areas: "copy" "stage" "actions" "more";
     grid-template-rows: auto;
   }
   #top.v5 .hx__copy {
@@ -1081,12 +1083,24 @@
   #top.v5 .hx {
     padding-block-start: 2.75rem;
   }
+  #top.v5 .hx__title {
+    font-size: 2.1rem;
+  }
   #top.v5 .hx__lede {
-    margin-block-start: var(--s-3);
+    margin-block-start: var(--s-2);
     font-size: var(--t-base);
   }
+  #top.v5 .hx-route .registration-card__disclosure > span {
+    display: none;
+  }
+  #top.v5 .hx-route .registration-card__disclosure-details {
+    display: inline;
+  }
+  #top.v5 .hx-intent button {
+    min-block-size: 2.5rem;
+  }
   #top.v5 .hx-panel {
-    padding: var(--s-3) var(--s-4) var(--s-3);
+    padding: var(--s-2) var(--s-4) var(--s-3);
   }
   #top.v5 .hx-route {
     grid-template-columns: minmax(0, 1fr) auto;
