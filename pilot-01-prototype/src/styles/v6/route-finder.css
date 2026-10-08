@@ -35,7 +35,7 @@
   mask-image: radial-gradient(circle at var(--mx, 76%) var(--my, 32%), #000 0, transparent 46%);
 }
 #top.v6 .rf-copy { grid-column: 1 / 7; grid-row: 1; }
-#top.v6 .rf-actions { grid-column: 1 / 7; grid-row: 2; padding-block: var(--s-8) var(--s-12); }
+#top.v6 .rf-actions { grid-column: 1 / 7; grid-row: 2; align-self: start; padding-block: var(--s-8) var(--s-12); }
 #top.v6 .rf-intents { grid-column: 1 / 7; grid-row: 3; }
 #top.v6 .rf-nodes { grid-column: 8 / 13; grid-row: 1 / 3; }
 #top.v6 .rf-card { grid-column: 8 / 13; grid-row: 3; margin-block-start: var(--s-6); }
@@ -99,7 +99,7 @@
   align-items: center;
   gap: var(--s-4);
   inline-size: 100%;
-  min-block-size: calc(var(--s-16) + var(--s-8) / 2);
+  min-block-size: var(--s-24);
   padding: var(--s-3) var(--s-4);
   background: transparent;
   border: 1px solid var(--line);
@@ -136,7 +136,7 @@
   align-items: center;
   column-gap: var(--s-3);
   inline-size: 100%;
-  min-block-size: calc(var(--s-12) + var(--s-8));
+  min-block-size: calc(var(--s-12) + var(--s-2));
   padding: var(--s-2) var(--s-4);
   background: transparent;
   border: 1px solid var(--line);
@@ -220,6 +220,8 @@
 #top.v6 .rf-card .registration-card__preflight strong { color: var(--text); font-weight: 600; }
 #top.v6 .rf-card .registration-card__preflight strong::after { content: "\00b7"; margin-inline: 0.4em; }
 #top.v6 .rf-card .registration-card__preflight span { display: inline; }
+#top.v6 .rf-card .registration-card__preflight strong,
+#top.v6 .rf-card .registration-card__preflight span { font-size: var(--t-12); }
 #top.v6 .rf-card .registration-card__primary-btn {
   order: 1; display: flex; align-items: center; justify-content: center; gap: var(--s-2);
   min-block-size: var(--s-12); min-inline-size: 0; padding: 0 var(--s-6);
@@ -237,7 +239,7 @@
 #top.v6 .rf-card .registration-card__mobile-route-details { margin: 0; padding: 0; background: none; border: 0; border-block-start: 1px solid var(--line); border-radius: 0; }
 #top.v6 .rf-card .registration-card__mobile-route-summary { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); min-block-size: var(--s-12); padding: 0; cursor: pointer; list-style: none; color: var(--text); font-size: var(--t-14); }
 #top.v6 .rf-card .registration-card__mobile-route-summary::-webkit-details-marker { display: none; }
-#top.v6 .rf-card .registration-card__mobile-route-summary strong { font-weight: 500; }
+#top.v6 .rf-card .registration-card__mobile-route-summary strong { font-size: var(--t-14); font-weight: 500; }
 #top.v6 .rf-card .registration-card__mobile-route-summary small { display: none; }
 #top.v6 .rf-card .registration-card__mobile-route-summary b { font-weight: 400; color: var(--text-muted); }
 #top.v6 .rf-card .registration-card__mobile-route-summary:hover { color: var(--text-strong); }
@@ -247,7 +249,7 @@
 #top.v6 .rf-card .registration-card__state-list p { display: flex; justify-content: space-between; gap: var(--s-3); margin: 0; }
 #top.v6 .rf-card .registration-card__disclosure { margin: 0; padding: var(--s-4) 0 0; background: none; border: 0; border-block-start: 1px solid var(--line); font-size: var(--t-12); line-height: 1.45; color: var(--text-muted); }
 #top.v6 .rf-card .registration-card__disclosure b { color: var(--text); font-weight: 600; }
-#top.v6 .rf-card .registration-card__disclosure summary { display: inline; margin-inline-start: 0.35em; cursor: pointer; color: var(--text); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 0.2em; }
+#top.v6 .rf-card .registration-card__disclosure summary { display: inline; margin-inline-start: 0.35em; cursor: pointer; font-size: var(--t-12); color: var(--text); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 0.2em; }
 #top.v6 .rf-card .registration-card__disclosure-details { display: inline; }
 #top.v6 .rf-card .registration-card__disclosure-details p { font-size: var(--t-12); }
 
