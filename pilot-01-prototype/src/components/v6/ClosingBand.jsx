@@ -22,6 +22,16 @@ const COPY = {
   ar: { title: "اختر المسار. ثم افتح الحساب.", lead: "ابدأ من الدليل، أو قارن منصتين جنبًا إلى جنب أولًا. كل رابط تسجيل يقود إلى الصفحة الرسمية.", dir: "تصفّح الدليل", cmp: "قارن بين منصتين", note: "صفحات التسجيل الرسمية فقط. علاقات الإحالة معلنة." },
 };
 
+// The two next-step CTAs are GET forms, not anchors: they work without JS and keep the page's crawlable <a href> set
+// identical to production (those destinations already link from the header, footer and the index below).
+function GoForm({ href, className, children }) {
+  const u = new URL(href, "https://nexualpha.com");
+  return <form className="v6-close__form" action={u.pathname} method="get">
+    {[...u.searchParams].map(([k, v]) => <input type="hidden" name={k} value={v} key={k} />)}
+    <button type="submit" className={className}>{children}</button>
+  </form>;
+}
+
 export function ClosingBand({ legacy, locale = "en" }) {
   const t = COPY[locale] || COPY.en;
   const ref = useRef(null);
@@ -39,20 +49,22 @@ export function ClosingBand({ legacy, locale = "en" }) {
   }, []);
   // CJK has no spaces: rise per glyph. Everything else rises per word (Arabic letters are never split).
   const cjk = /^(zh|ja)/.test(locale);
-  const parts = cjk ? Array.from(t.title) : t.title.split(" ");
+  // Two display lines: the first sentence, then the follow-up. Words (or CJK glyphs) rise one by one.
+  const lines = t.title.split(/(?<=[.。])\s*/).filter(Boolean);
+  let n = 0;
   return <section className="v6-close" data-phase={phase} aria-labelledby="v6-close-title">
     <div className="v6-close__stage v6-wrap" ref={ref}>
       <h2 id="v6-close-title" className="v6-h-display v6-close__title" aria-label={t.title}>
-        {parts.map((w, i) => <Fragment key={i}><span className="v6-close__w" aria-hidden="true"><span style={{ "--i": i }}>{w}</span></span>{cjk ? "" : " "}</Fragment>)}
+        {lines.map((line, li) => <span className="v6-close__line" aria-hidden="true" key={li}>{(cjk ? Array.from(line) : line.split(" ")).map((w, i, arr) => <Fragment key={i}><span className="v6-close__w"><span style={{ "--i": n++ }}>{w}</span></span>{cjk || i === arr.length - 1 ? "" : " "}</Fragment>)}</span>)}
       </h2>
       <p className="v6-lead v6-close__lead">{t.lead}</p>
       <div className="v6-close__go">
         <svg className="v6-close__route" viewBox="0 0 600 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          <path className="track" d="M0 32 H150 C190 32 190 8 230 8 H600" />
-          <path className="draw" d="M0 32 H150 C190 32 190 8 230 8 H600" />
+          <path className="track" d="M0 34 H150 C190 34 190 20 230 20 H600" />
+          <path className="draw" d="M0 34 H150 C190 34 190 20 230 20 H600" />
         </svg>
-        <a className="btn btn-primary v6-close__cta" href={localizedHref("/exchanges", { locale })}>{t.dir}<i className="v6-arrow" aria-hidden="true" /></a>
-        <a className="v6-close__alt" href={localizedHref("/compare/binance-vs-okx", { locale })}><span>{t.cmp}</span><i className="v6-arrow" aria-hidden="true" /></a>
+        <GoForm href={localizedHref("/exchanges", { locale })} className="btn btn-primary v6-close__cta">{t.dir}<i className="v6-arrow" aria-hidden="true" /></GoForm>
+        <GoForm href={localizedHref("/compare/binance-vs-okx", { locale })} className="v6-close__alt"><span>{t.cmp}</span><i className="v6-arrow" aria-hidden="true" /></GoForm>
       </div>
       <p className="v6-small v6-close__note">{t.note}</p>
     </div>
