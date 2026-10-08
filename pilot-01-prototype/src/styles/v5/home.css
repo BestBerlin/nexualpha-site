@@ -1211,3 +1211,11 @@
   border-radius: var(--r-md);
   box-shadow: none;
 }
+
+/* CJK faces ship 400/500/600/700 subsets; intermediate weights mix faces mid-line. Snap to 700. */
+html:lang(zh) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
+html:lang(ja) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
+html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail) {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
