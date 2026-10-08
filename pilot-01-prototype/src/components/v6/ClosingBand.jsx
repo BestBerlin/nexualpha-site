@@ -47,15 +47,15 @@ export function ClosingBand({ legacy, locale = "en" }) {
     io.observe(el);
     return () => { window.clearTimeout(timer); io.disconnect(); };
   }, []);
-  // CJK has no spaces: rise per glyph. Everything else rises per word (Arabic letters are never split).
+  // CJK has no spaces: rise per clause (never per glyph, so kinsoku line breaking stays intact).
   const cjk = /^(zh|ja)/.test(locale);
-  // Two display lines: the first sentence, then the follow-up. Words (or CJK glyphs) rise one by one.
+  // Two display lines: the first sentence, then the follow-up. Words (or CJK clauses) rise one by one.
   const lines = t.title.split(/(?<=[.。])\s*/).filter(Boolean);
   let n = 0;
   return <section className="v6-close" data-phase={phase} aria-labelledby="v6-close-title">
     <div className="v6-close__stage v6-wrap" ref={ref}>
       <h2 id="v6-close-title" className="v6-h-display v6-close__title" aria-label={t.title}>
-        {lines.map((line, li) => <span className="v6-close__line" aria-hidden="true" key={li}>{(cjk ? Array.from(line) : line.split(" ")).map((w, i, arr) => <Fragment key={i}><span className="v6-close__w"><span style={{ "--i": n++ }}>{w}</span></span>{cjk || i === arr.length - 1 ? "" : " "}</Fragment>)}</span>)}
+        {lines.map((line, li) => <span className="v6-close__line" aria-hidden="true" key={li}>{(cjk ? line.split(/(?<=[、，])/) : line.split(" ")).map((w, i, arr) => <Fragment key={i}><span className="v6-close__w"><span style={{ "--i": n++ }}>{w}</span></span>{cjk || i === arr.length - 1 ? "" : " "}</Fragment>)}</span>)}
       </h2>
       <p className="v6-lead v6-close__lead">{t.lead}</p>
       <div className="v6-close__go">
