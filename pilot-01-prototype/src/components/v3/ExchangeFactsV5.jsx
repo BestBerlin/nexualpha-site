@@ -58,18 +58,10 @@ function HeroCount({ value, decimals, suffix, locale, className }) {
   const fmt = (n) => new Intl.NumberFormat(locale, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(n) + suffix;
   useEffect(() => {
     const el = ref.current;
-    if (!el || prefersReducedMotion()) return undefined;
-    let raf = 0;
-    const t0 = performance.now() + 250;
-    el.textContent = fmt(0);
-    const tick = (now) => {
-      const p = Math.min(Math.max((now - t0) / 1000, 0), 1);
-      el.textContent = fmt(value * (p >= 1 ? 1 : 1 - 2 ** (-10 * p)));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(raf); el.textContent = fmt(value); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!el || prefersReducedMotion() || !el.animate) return undefined;
+    // Final value is always rendered; only opacity/translate animate (no intermediate figures).
+    const anim = el.animate([{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" }], { duration: 480, delay: 200, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "backwards" });
+    return () => anim.cancel();
   }, [value, decimals, suffix, locale]);
   return <span ref={ref} className={className} data-value={value}>{fmt(value)}</span>;
 }
