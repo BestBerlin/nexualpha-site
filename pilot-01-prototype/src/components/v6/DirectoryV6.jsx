@@ -11,7 +11,7 @@ import { appendAccountStageToSearch } from "../v3/venue-yellow-pages-state.js";
 import { partnerRegistry } from "../../data/partner-registry";
 import { venueDatabase } from "../../data/venue-database.js";
 import { venueDecisionContent } from "../../data/venue-decision-content";
-import { compareSlug } from "../../data/v3-product";
+import { comparePathFor, hasCompareRoute, noCompareLabel } from "./compare-routes.js";
 import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { directoryContext, directoryContextSearch, filterDirectoryVenues, regionalCtaState, regionalDirectoryCandidateState, venueMarketStatus } from "../../data/directory-context.js";
@@ -73,7 +73,15 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
   const copyUi = getCopyFeedbackCopy(locale);
   const context = directoryContext({ locale });
   const contextSearch = appendAccountStageToSearch(directoryContextSearch({ locale }), undefined);
-  const compareSelection = Array.isArray(selected) ? selected : [];
+  const sharedSelection = Array.isArray(selected) ? selected : [];
+  // The shared compare picks start from a default pair (Binance vs OKX). Ticking those rows on load reads as a
+  // recommendation, so a row shows as picked only after the visitor has picked something (here or in the compare lab).
+  const selectionKey = sharedSelection.join(",");
+  const [initialSelectionKey] = useState(selectionKey);
+  const [synced, setSynced] = useState(false);
+  useEffect(() => { if (selectionKey !== initialSelectionKey) setSynced(true); }, [selectionKey, initialSelectionKey]);
+  const userPicked = touched || synced;
+  const compareSelection = userPicked ? sharedSelection : [];
 
   const contextual = useMemo(() => filterDirectoryVenues(venues, undefined, { locale }), [venues, locale]);
 
@@ -138,6 +146,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
     setTouched(true);
     const cur = compareSelection;
     let next;
+    if (!hasCompareRoute(slug) && !cur.includes(slug)) return;
     if (cur.includes(slug)) next = cur.filter((s) => s !== slug);
     else next = cur.length >= 2 ? [cur[cur.length - 1], slug] : [...cur, slug];
     onSelectionChange?.(next);
@@ -220,13 +229,24 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
     return () => { clearTimeout(timer); io.disconnect(); };
   }, [rowsKey, expanded]);
 
-  const selAt = visible.map((r, i) => (compareSelection.includes(r.slug) ? i : -1)).filter((i) => i >= 0);
+  // Runs of 3+ consecutive unchecked venues with no code and no sign-up route collapse into one grouped line.
+  // Each venue keeps its detail link (visible) and its eligibility link (hidden carrier) in the original DOM order.
+  const groupable = (r) => r.category !== "CEX" && !r.verified && !r.spot && !(r.hasReferral && r.inviteCode) && !r.canOpenRegistration && !compareSelection.includes(r.slug);
+  const items = [];
+  for (let i = 0; i < visible.length;) {
+    let j = i;
+    while (j < visible.length && groupable(visible[j])) j += 1;
+    if (j - i >= 3) { items.push({ group: visible.slice(i, j), key: `g-${visible[i].slug}` }); i = j; }
+    else { const end = Math.max(j, i + 1); for (let k = i; k < end; k += 1) items.push({ row: visible[k], key: visible[k].slug }); i = end; }
+  }
+  const selAt = items.map((it, i) => (it.row && compareSelection.includes(it.row.slug) ? i : -1)).filter((i) => i >= 0);
+  const firstSignup = visible.find((r) => r.canOpenRegistration)?.slug;
   const routeLo = selAt.length > 1 ? Math.min(...selAt) : -1;
   const routeHi = selAt.length > 1 ? Math.max(...selAt) : -1;
   const segIndex = Math.max(0, SEGMENTS.findIndex((s) => s.id === category));
-  const compareHref = compareSelection.length === 2 ? localizedHref(`/compare/${compareSlug(compareSelection)}?${contextSearch}`, { locale }) : null;
+  const compareHref = compareSelection.length === 2 ? localizedHref(`${comparePathFor(compareSelection).path}?${contextSearch}`, { locale }) : null;
   const dockOpen = touched && inView && compareSelection.length > 0;
-  const extraCount = Math.max(visible.length - MOBILE_LIMIT, 0);
+  const extraCount = Math.max(items.length - MOBILE_LIMIT, 0);
   const activeFilterCount = FILTER_KEYS.filter((k) => filters[k]).length;
   const dockSlot = (slug, key) => slug ? (
     <button type="button" key={`${key}-${slug}`} className="dir6-dock__slot" onClick={() => toggleCompare(slug)} aria-label={`${mc.remove}: ${nameOf(slug)}`}>
@@ -302,13 +322,60 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
             <div className="dir6-cols" aria-hidden="true">
               <span />
               <span>{mc.platform}</span>
-              <span>{mc.type}</span>
               <span>{mc.spot} <em>{mc.maker}</em></span>
               <span>{mc.code}</span>
             </div>
             <ul className="dir6-list" ref={listRef} data-collapsed={mounted && !expanded ? "true" : undefined} data-filtering={filtering ? filtering % 2 : undefined} aria-label={mc.table}>
-              {visible.map((r, index) => {
+              {items.map((item, index) => {
+                if (item.group) {
+                  const run = item.group;
+                  return (
+                    <li key={item.key} className="dir6-row dir6-group" data-extra={index >= MOBILE_LIMIT || undefined} style={{ "--i": Math.min(index, 12) }}>
+                      <i className="dir6-rail" aria-hidden="true" />
+                      <span className="dir6-group__n v6-num" aria-hidden="true">{run.length}</span>
+                      <div className="dir6-group__body">
+                        <span className="dir6-group__lab">{mc.unchecked}<span className="dir6-sr">: {run.length}</span></span>
+                        <ul className="dir6-group__list">
+                          {run.map((r) => (
+                            <li key={r.slug} className="dir6-group__item" data-slug={r.slug}>
+                              <BrandMark slug={r.slug} compact />
+                              {r.hasDetailPage ? (
+                                <a
+                                  className="dir6-group__name"
+                                  translate="no"
+                                  href={localizedHref(`/exchanges/${r.slug}?${contextSearch}`, { locale })}
+                                  data-cta-kind="research"
+                                  data-cta-platform={r.slug}
+                                  data-cta-placement="directory-card-detail"
+                                  data-growth-decision={r.slug}
+                                  data-growth-placement="directory-card-detail"
+                                  data-growth-market={context.market}
+                                  data-growth-product={context.product}
+                                >{r.name}</a>
+                              ) : (
+                                <span className="dir6-group__name" translate="no">{r.name}</span>
+                              )}
+                              <span hidden>
+                                <a
+                                  href={localizedHref(`/exchanges/${r.slug}?${contextSearch}#registration-path`, { locale })}
+                                  tabIndex={-1}
+                                  data-cta-placement="directory-card-eligibility"
+                                  data-growth-decision="regional_eligibility"
+                                  data-growth-placement="directory-card-eligibility"
+                                  data-growth-market={context.market}
+                                  data-growth-product={context.product}
+                                >{mc.eligibility} {r.name}</a>
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </li>
+                  );
+                }
+                const r = item.row;
                 const isSel = compareSelection.includes(r.slug);
+                const noRoute = !isSel && !hasCompareRoute(r.slug);
                 const failed = copyFail.slug === r.slug;
                 const done = copied.slug === r.slug;
                 return (
@@ -318,8 +385,9 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                       type="button"
                       className="dir6-pick"
                       aria-pressed={isSel}
-                      aria-label={`${isSel ? ui.compareRemove : ui.compareSelect}: ${r.name}`}
-                      data-tip={isSel ? ui.compareRemove : ui.compareSelect}
+                      disabled={noRoute || undefined}
+                      aria-label={noRoute ? `${r.name}: ${noCompareLabel(locale)}` : `${isSel ? ui.compareRemove : ui.compareSelect}: ${r.name}`}
+                      data-tip={noRoute ? noCompareLabel(locale) : isSel ? ui.compareRemove : ui.compareSelect}
                       onClick={() => toggleCompare(r.slug)}
                       data-cta-kind="research"
                       data-cta-platform={r.slug}
@@ -354,11 +422,9 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                         )}
                         {r.verified ? <span className="dir6-stamp" role="img" aria-label={`${mc.checked} ${r.verifiedOn}`} title={`${mc.checked} ${r.verifiedOn}`}><Icon name="stamp" /></span> : null}
                         </span>
-                        <span className="dir6-domain" dir="ltr" lang="en" translate="no">{r.domain}</span>
+                        <span className="dir6-meta"><span className="dir6-meta__type" data-cat={r.category} lang="en" translate="no">{r.category}</span><span className="dir6-domain" dir="ltr" lang="en" translate="no">{r.domain}</span></span>
                       </div>
                     </div>
-
-                    <span className="dir6-type" data-cat={r.category} translate="no" lang="en">{r.category}</span>
 
                     <div className="dir6-data">
                     <div className="dir6-fee">
@@ -405,6 +471,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
                         target="_blank"
                         rel="sponsored noopener noreferrer"
                         className="dir6-cta"
+                        data-primary={r.slug === firstSignup || undefined}
                         data-cta-kind="registration"
                         data-cta-platform={r.slug}
                         data-cta-placement="directory-card"

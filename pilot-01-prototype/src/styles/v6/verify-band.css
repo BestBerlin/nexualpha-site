@@ -101,6 +101,9 @@
   .v6 .vb__node { margin-block-end: 0; }
   .v6 .vb__bar { font-size: var(--t-20); }
 }
+@media (min-width: 1200px) {
+  .v6 .vb__route { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1fr); }
+}
 @media (max-width: 899px) {
   .v6 .vb__code { font-size: var(--t-20); }
   .v6 .vb__bar { font-size: var(--t-16); }

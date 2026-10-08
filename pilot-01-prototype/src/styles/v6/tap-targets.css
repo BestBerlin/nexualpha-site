@@ -1,0 +1,33 @@
+/* Touch targets: every inline action in main reaches 44px on touch screens (R3 inner #12).
+   Text links grow their hit box with padding and an equal negative margin: (46px - one line) / 2 on each side (2px of rounding headroom), so a
+   one-line link measures 44px while nothing around it moves and nothing visible changes. Bordered pills keep their
+   drawn size and get a transparent hit extender instead. The :not(#_) chain outranks the page sheets (some use 4 ids). */
+@media (pointer: coarse), (max-width: 900px) {
+  :is(
+    .crawl-priority-links__group a,
+    .fee-terminal__cell-brand a,
+    .cost-decision__results a.rt-offer,
+    .tg-topic-card__links a,
+    a.tg-topic-card__bot
+  ):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    --hit: max(0px, calc((46px - 1lh) / 2));
+    padding-block: var(--hit); margin-block: calc(-1 * var(--hit));
+  }
+  .fee-terminal__cell-brand a:not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; }
+  /* "Continue in Bot" keeps its 6px gap above */
+  a.tg-topic-card__bot:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: calc(6px - var(--hit)); }
+
+  /* /factbook titles and the recorded domain are inline: padding grows the hit box without touching the line box */
+  :is(.topic-card h2 a, .topic-card h3 a, a.factbook-domain-link):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block: max(0px, calc((46px - 1lh) / 2)); }
+
+  /* bordered buttons: these are buttons, so they take the md button height (44) */
+  :is(.topic-card a.button-quiet, a.factbook-answer-card__link):not(#_):not(#_):not(#_):not(#_):not(#_) { min-block-size: 44px; box-sizing: border-box; }
+
+  /* 24px command pills and the outlined quick CTA keep their drawing; the hit area extends above and below */
+  :is(.tg-cmd-btn, .tg-btn--secondary):not(#_):not(#_):not(#_):not(#_):not(#_) { position: relative; }
+  :is(.tg-cmd-btn, .tg-btn--secondary):not(#_):not(#_):not(#_):not(#_):not(#_)::after { content: ""; position: absolute; inset: -10px 0; }
+  .tg-btn--secondary:not(#_):not(#_):not(#_):not(#_):not(#_)::after { inset: -14px 0; }
+
+  /* checkbox rows: the whole label is the 44px target; the box itself keeps its drawn size */
+  label.research-differences:not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; gap: 8px; min-block-size: 44px; cursor: pointer; }
+}

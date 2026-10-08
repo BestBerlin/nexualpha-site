@@ -1,6 +1,6 @@
 // V6 Act 2: Compare Lab. Paired ledger of verified fee figures that morphs between two chosen venues.
 // Only values present in EXCHANGE_FACTS are shown; anything else reads "Not yet checked". No ranking, no verdicts.
-import { useLayoutEffect, useEffect, useRef } from "react";
+import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import { useScrollEdges } from "./useScrollEdges.js";
 import { BrandMark } from "../brand/BrandMark";
 import { getUi } from "../v3/CrossroadsCompare";
@@ -9,6 +9,7 @@ import { directoryContext } from "../../data/directory-context.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { prefersReducedMotion } from "../../lib/v5/useInView.js";
 import { labText } from "./compare-lab-copy.js";
+import { comparePathFor } from "./compare-routes.js";
 import "../../styles/v6/compare-lab.css";
 
 const useIso = typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -52,7 +53,7 @@ function Cell({ side, name, value, scale, other, locale, pending, text }) {
 
 const Arrow = () => <svg className="cl-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>;
 
-function Chips({ slot, cur, chips, label, nameOf, onPick, onDown }) {
+function Chips({ slot, cur, chips, label, nameOf, onPick, onDown, onKey, hintId, grabbed }) {
   const ref = useRef(null);
   useScrollEdges(ref);
   return (
@@ -60,8 +61,8 @@ function Chips({ slot, cur, chips, label, nameOf, onPick, onDown }) {
       <span className="cl-pick__label v6-meta" aria-hidden="true">{label}</span>
       <div className="cl-chips" ref={ref}>
         {chips.map((s) => (
-          <label key={s} className="cl-chip" data-venue={s} onPointerDown={(e) => onDown(e, s)} onDragStart={(e) => e.preventDefault()}>
-            <input type="radio" name={`cl-slot-${slot}`} value={s} checked={cur === s} onChange={() => onPick(slot, s)} />
+          <label key={s} className="cl-chip" data-venue={s} data-grabbed={grabbed === s || undefined} onPointerDown={(e) => onDown(e, s)} onDragStart={(e) => e.preventDefault()}>
+            <input type="radio" name={`cl-slot-${slot}`} value={s} checked={cur === s} onChange={() => onPick(slot, s)} onKeyDown={(e) => onKey(e, s, slot)} aria-describedby={hintId} />
             <span translate="no"><i className="cl-grip" aria-hidden="true" />{nameOf(s)}</span>
           </label>
         ))}
@@ -133,6 +134,52 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   // drop lands with a small thud (plus a haptic tick where the device has one).
   const live = useRef({});
   live.current = { a, b, pick, nameOf };
+
+  // Keyboard path for the same gesture: Enter picks a venue up (from a chip or a slot), the arrow keys choose the
+  // target slot (it lights exactly like a pointer drag), Enter/Space drops it, Escape cancels.
+  // Announcements are built from strings the lab already localizes (slot labels, venue names) plus key names.
+  const kbd = { hint: `${t.first} / ${t.second}: Enter, \u2190 \u2192, Enter, Esc`, grabbed: "{n} \u2192 {s}", cancelled: "" };
+  const [held, setHeld] = useState(null); // { slug, target }
+  const [say, setSay] = useState("");
+  const slotName = (n) => (n === 0 ? t.first : t.second);
+  useEffect(() => {
+    const plateEl = plate.current;
+    if (!plateEl) return;
+    plateEl.querySelectorAll(".cl-id[data-slot]").forEach((el) => {
+      if (held && Number(el.dataset.slot) === held.target) el.setAttribute("data-hot", ""); else el.removeAttribute("data-hot");
+    });
+    if (held) plateEl.setAttribute("data-dragging", ""); else if (!drag.current) plateEl.removeAttribute("data-dragging");
+  }, [held]);
+  const onKey = (e, slug, fromSlot) => {
+    const rtl = e.currentTarget.closest("[dir='rtl']") ? -1 : 1;
+    if (!held) {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      const target = fromSlot === "id-a" ? 1 : fromSlot === "id-b" ? 0 : fromSlot;
+      setHeld({ slug, target });
+      setSay(kbd.grabbed.replace("{n}", nameOf(slug)).replace("{s}", slotName(target)));
+      return;
+    }
+    if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) {
+      e.preventDefault();
+      const dir = e.key === "ArrowUp" ? -1 : e.key === "ArrowDown" ? 1 : (e.key === "ArrowRight" ? 1 : -1) * rtl;
+      const target = dir < 0 ? 0 : 1;
+      setHeld({ ...held, target });
+      setSay(kbd.grabbed.replace("{n}", nameOf(held.slug)).replace("{s}", slotName(target)));
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      const { slug: s, target } = held;
+      setHeld(null);
+      setSay("");
+      thud.current = target;
+      if ((target === 0 ? a : b) !== s) pick(target, s);
+      else plate.current?.querySelector(`.cl-id[data-slot="${target}"]`)?.animate([{ scale: 1 }, { scale: 0.96 }, { scale: 1.03 }, { scale: 1 }], { duration: 320, easing: EASE });
+    } else if (e.key === "Escape" || e.key === "Tab") {
+      if (e.key === "Escape") e.preventDefault();
+      setHeld(null);
+      setSay(status);
+    }
+  };
   const onDown = (e, slug) => {
     const plateEl = plate.current;
     if (!plateEl || (e.button != null && e.button > 0) || drag.current) return;
@@ -260,12 +307,13 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
         <span className="cl-pop__names" translate="no" lang="en">{pair.leftName} <small>vs</small> {pair.rightName}</span>
         <span className="cl-pop__desc v6-small">{pair.desc}</span>
       </span>
-      {isCurrent(pair) ? <span className="cl-pop__on" aria-hidden="true" /> : <Arrow />}
+      <Arrow />
     </>
   );
 
   const Identity = ({ slug, side }) => (
-    <div className={`cl-id cl-id--${side}`} data-flip={slug} data-slot={side === "a" ? 0 : 1} onPointerDown={(e) => onDown(e, slug)}>
+    <div className={`cl-id cl-id--${side}`} data-flip={slug} data-slot={side === "a" ? 0 : 1} data-grabbed={held?.slug === slug || undefined} onPointerDown={(e) => onDown(e, slug)}
+      tabIndex={0} role="button" aria-label={`${side === "a" ? t.first : t.second}: ${nameOf(slug)}`} aria-describedby="cl-kbd-hint" onKeyDown={(e) => onKey(e, slug, `id-${side}`)} onBlur={() => { if (held?.slug === slug) setHeld(null); }}>
       <BrandMark slug={slug} />
       <div className="cl-id__text">
         <span className="cl-id__name" translate="no">{nameOf(slug)}</span>
@@ -284,8 +332,9 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
 
         <div className="cl__plate" ref={plate}>
           <div className="cl-grid cl-grid--pick">
-            <Chips slot={0} cur={a} chips={chips} label={t.first} nameOf={nameOf} onPick={pick} onDown={onDown} />
-            <Chips slot={1} cur={b} chips={chips} label={t.second} nameOf={nameOf} onPick={pick} onDown={onDown} />
+            <Chips slot={0} cur={a} chips={chips} label={t.first} nameOf={nameOf} onPick={pick} onDown={onDown} onKey={onKey} hintId="cl-kbd-hint" grabbed={held?.slug} />
+            <Chips slot={1} cur={b} chips={chips} label={t.second} nameOf={nameOf} onPick={pick} onDown={onDown} onKey={onKey} hintId="cl-kbd-hint" grabbed={held?.slug} />
+            <p className="cl-sr" id="cl-kbd-hint">{kbd.hint}</p>
           </div>
 
           <div className="cl-grid cl-grid--ids">
@@ -296,7 +345,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
             {Identity({ slug: b, side: "b" })}
           </div>
 
-          <p className="cl-sr" role="status" aria-live="polite">{status}</p>
+          <p className="cl-sr" role="status" aria-live="polite">{say || status}</p>
 
           {gap && (
             <div className="cl-gap" role="group" aria-label={t.gap}>
@@ -312,7 +361,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
             </div>
           )}
 
-          <div className="cl-ledger">
+          <div className="cl-ledger" id="bleed-analyzer">
             {rows.map((r) => (
               <div className="cl-row" key={r.g + r.i} role="group" aria-label={t.rows[r.n]}>
                 <Cell side="a" name={nameOf(a)} value={r.va} other={r.vb} scale={scaleOf(r.g)} locale={locale} pending={t.pending} />
@@ -339,7 +388,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
             <p className="cl-note v6-meta">{t.note}</p>
             <a
               className="btn btn-primary cl-cta"
-              href={href(`${a}-vs-${b}`)}
+              href={comparePathFor([a, b]).fallback ? localizedHref(comparePathFor([a, b]).path, { locale }) : href(`${a}-vs-${b}`)}
               data-growth-decision={`${a}-vs-${b}`}
               data-growth-placement="compare-lab-cta"
               data-growth-product="spot"
@@ -372,19 +421,9 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
             </ul>
           </div>
 
-          {feeCheck && (
-            <details className="cl-fees" id="bleed-analyzer">
-              <summary className="cl-fees__sum">
-                <svg className="cl-fees__glyph" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="9" y="6" width="22" height="28" rx="3" /><path d="M14 13h12M14 20h2M19 20h2M24 20h2M14 26h2M19 26h2M24 26h2" /></svg>
-                <span className="cl-fees__text">
-                  <strong className="v6-h3">{t.feeTitle}</strong>
-                  <span className="v6-small">{t.feeSub}</span>
-                </span>
-                <span className="cl-fees__icon" aria-hidden="true" />
-              </summary>
-              <div className="cl-fees__body">{feeCheck}</div>
-            </details>
-          )}
+          {/* The legacy fee calculator no longer renders in the plate (full tool: /rates). Its links stay in the DOM,
+              hidden, so the page's link graph is unchanged. */}
+          {feeCheck ? <div className="cl-fees-carrier" hidden>{feeCheck}</div> : null}
         </div>
       </div>
     </section>
