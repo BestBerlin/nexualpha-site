@@ -148,7 +148,6 @@ main.v6:not(.home-refinement) .mx-toggle:not(#_):not(#_):not(#_):not(#_):not(#_)
   main.v6:not(.home-refinement) .mx-sort__text:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; }
   main.v6:not(.home-refinement) .mx-td--cta .mx-cta:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: auto; min-inline-size: 8rem; }
   main.v6:not(.home-refinement) .mx-id__meta:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex-wrap: wrap; white-space: normal; }
-  main.v6:not(.home-refinement) .mx-unch:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; }
 }
 
 /* ============ #13 /news, /activities ============ */
