@@ -1243,3 +1243,191 @@ html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__w
 #top.v5 .hx-route .registration-card__disclosure {
   max-inline-size: none;
 }
+
+/* ============================================================ round 2: left column story, grid field, trust line */
+
+/* hero moment: the measurement grid lights up around the pointer; idle, a soft band drifts across it */
+@property --hx-x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 18%;
+}
+#top.v5 .hx::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.16) 1px, transparent 1px);
+  background-size: 4.5rem 4.5rem;
+  -webkit-mask-image: radial-gradient(17rem circle at var(--px, var(--hx-x)) var(--py, 38%), #000, transparent 72%);
+  mask-image: radial-gradient(17rem circle at var(--px, var(--hx-x)) var(--py, 38%), #000, transparent 72%);
+}
+@keyframes hx-drift {
+  from {
+    --hx-x: 8%;
+  }
+  to {
+    --hx-x: 92%;
+  }
+}
+@keyframes hx-swap {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  #top.v5 .hx::after {
+    animation: hx-drift 22s ease-in-out infinite alternate;
+  }
+  #top.v5 .hx-route {
+    animation: hx-swap var(--dur-3) var(--ease-out);
+  }
+}
+
+/* left column */
+#top.v5 .hx__lede {
+  max-inline-size: 27rem;
+  font-size: var(--t-lg);
+  line-height: 1.4;
+  color: var(--text);
+}
+#top.v5 .hx__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-4);
+  margin-block-start: var(--s-8);
+}
+#top.v5 .hx__btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 3rem;
+  padding: 0 var(--s-5);
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out), translate var(--dur-2) var(--ease-out);
+}
+#top.v5 .hx__btn--primary {
+  background: var(--n12);
+  color: var(--n1);
+  box-shadow: var(--inset-top), 0 1px 2px rgb(0 0 0 / 0.4);
+}
+#top.v5 .hx__btn--primary:hover {
+  background: #fff;
+  translate: 0 -1px;
+}
+#top.v5 a.hx__btn--secondary {
+  background: transparent;
+  border-color: var(--n8);
+  color: var(--text-strong);
+}
+#top.v5 a.hx__btn--secondary:hover {
+  background: var(--n3);
+  border-color: var(--n9);
+}
+#top.v5 .hx__btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+#top.v5 .hx__link--text {
+  order: 3;
+  border-block-end: 0;
+  min-block-size: 3rem;
+  color: var(--text);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--n8);
+  text-underline-offset: 0.3em;
+}
+#top.v5 .hx__link--text:hover {
+  color: var(--text-strong);
+  text-decoration-color: var(--text-strong);
+}
+#top.v5 .hx__btn--secondary {
+  order: 2;
+}
+#top.v5 .hx__btn--primary {
+  order: 1;
+}
+
+/* trust line: quiet, anchored to the bottom of the column, level with the end of the matrix */
+#top.v5 .hx__more {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-3);
+}
+#top.v5 .hx__trust {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding-block-start: var(--s-5);
+  border-block-start: var(--hairline);
+  inline-size: 100%;
+}
+#top.v5 .hx__trust-logos {
+  display: flex;
+  gap: var(--s-2);
+}
+#top.v5 .hx__trust-logos .v2-brand,
+#top.v5 .hx__trust-logos .v2-brand-fallback {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  border-radius: 6px;
+}
+#top.v5 .hx__trust-line {
+  margin: 0;
+  font-size: var(--t-sm);
+  line-height: 1.4;
+  color: var(--text-muted);
+  max-inline-size: 34rem;
+}
+#top.v5 .hx-row__who .v2-brand,
+#top.v5 .hx-row__who .v2-brand-fallback,
+#top.v5 .hx-route__who .v2-brand,
+#top.v5 .hx-route__who .v2-brand-fallback,
+#top.v5 .hx__trust-logos .v2-brand,
+#top.v5 .hx__trust-logos .v2-brand-fallback {
+  box-shadow: 0 0 0 1px var(--n7);
+  background-color: var(--n3);
+}
+
+/* Source notes sits on the same left edge as the H1, as the hero's meta row */
+#top.v5.home-refinement .rebate-ticker__details {
+  inset-inline-start: calc(max(0px, (100% - var(--page-max)) / 2) + var(--gutter));
+  inset-inline-end: auto;
+}
+#top.v5.home-refinement .rebate-ticker__details[open] > .rebate-ticker__notes {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+
+@media (max-width: 62rem) {
+  #top.v5 .hx__more {
+    margin-block-start: var(--s-4);
+  }
+}
+@media (max-width: 40rem) {
+  #top.v5 .hx__actions {
+    margin-block-start: var(--s-5);
+  }
+  #top.v5 .hx__btn {
+    flex: 1 1 8rem;
+  }
+  #top.v5 .hx__link--text {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+    min-block-size: 2.75rem;
+  }
+}

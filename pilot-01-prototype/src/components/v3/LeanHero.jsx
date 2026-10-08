@@ -814,7 +814,7 @@ function HomeDecisionPanel({ locale, ui, selectedSlug, onSelectSlug }) {
           </ul>
         </section>
       ) : (
-        <div className="hx-route">
+        <div className="hx-route" key={selected.slug}>
           <div className="hx-route__who">
             <BrandMark slug={selected.slug} priority />
             <strong translate="no" lang="en" dir="ltr">{selected.name}</strong>
@@ -949,6 +949,29 @@ function HeroMatrix({ locale, selectedSlug, onSelectSlug }) {
   );
 }
 
+const VALUE_LINE = {
+  en: "Check fees, proof of reserves and the official signup route before you open an account.",
+  "zh-Hans": "开户前，先核对费率、储备证明和官方开户入口。",
+  "zh-Hant": "開戶前，先核對費率、儲備證明和官方開戶入口。",
+  ja: "口座を開く前に、手数料・準備金証明・公式の登録ルートを確認。",
+  ko: "계좌를 열기 전에 수수료, 준비금 증명, 공식 가입 경로를 확인하세요.",
+  tr: "Hesap açmadan önce ücretleri, rezerv kanıtını ve resmî kayıt yolunu kontrol edin.",
+  es: "Revisa comisiones, prueba de reservas y la ruta oficial de registro antes de abrir una cuenta.",
+  "pt-BR": "Confira taxas, prova de reservas e a rota oficial de cadastro antes de abrir uma conta.",
+  fr: "Vérifiez les frais, la preuve de réserves et la route d'inscription officielle avant d'ouvrir un compte.",
+  de: "Prüfen Sie Gebühren, Reservenachweis und den offiziellen Anmeldeweg, bevor Sie ein Konto eröffnen.",
+  ru: "Проверьте комиссии, подтверждение резервов и официальный путь регистрации до открытия счёта.",
+  ar: "تحقق من الرسوم وإثبات الاحتياطيات ومسار التسجيل الرسمي قبل فتح الحساب.",
+  id: "Periksa biaya, bukti cadangan, dan rute pendaftaran resmi sebelum membuka akun.",
+  vi: "Kiểm tra phí, bằng chứng dự trữ và lộ trình đăng ký chính thức trước khi mở tài khoản.",
+  it: "Verifica commissioni, prova di riserve e percorso ufficiale di registrazione prima di aprire un conto.",
+};
+
+function valueLine(locale) {
+  const key = locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale;
+  return VALUE_LINE[key] || VALUE_LINE[String(key || "en").split("-")[0]] || VALUE_LINE.en;
+}
+
 export function LeanHero({ locale = "en" }) {
   const ui = getUi(locale);
   const heroPills = heroPillsForLocale(ui, locale);
@@ -958,6 +981,34 @@ export function LeanHero({ locale = "en" }) {
   const [secondaryOpen, setSecondaryOpen] = useState(false);
   const [selectedSlug, setSelectedSlug] = useState(priorityVenueSlugs[0]);
   const secondaryToggleRef = useRef(null);
+  const heroRef = useRef(null);
+
+  // Pointer-reactive grid: brightens hairlines around the cursor. Idle: CSS drifts the light slowly.
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    let raf = 0;
+    const move = (event) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        el.style.setProperty("--px", `${event.clientX - rect.left}px`);
+        el.style.setProperty("--py", `${event.clientY - rect.top}px`);
+      });
+    };
+    const leave = () => {
+      cancelAnimationFrame(raf);
+      el.style.removeProperty("--px");
+      el.style.removeProperty("--py");
+    };
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerleave", leave);
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerleave", leave);
+    };
+  }, []);
 
   const [proofIdx, setProofIdx] = useState(0);
   const [proofVisible, setProofVisible] = useState(true);
@@ -1017,13 +1068,13 @@ export function LeanHero({ locale = "en" }) {
   });
 
   return (
-    <section className="hx" aria-label="NexuAlpha">
+    <section className="hx" aria-label="NexuAlpha" ref={heroRef}>
       <div className="hx__wrap">
         <div className="hx__copy">
           <h1 className="hx__title enter" style={{ "--i": 0 }}>
             {ui.title}
           </h1>
-          <p className="hx__lede enter" style={{ "--i": 1 }}>{ui.badge}</p>
+          <p className="hx__lede enter" style={{ "--i": 1 }}>{valueLine(locale)}</p>
         </div>
 
         <div className="hx__stage beam enter" style={{ "--i": 2 }}>
@@ -1034,20 +1085,26 @@ export function LeanHero({ locale = "en" }) {
         <div className="hx__actions enter" style={{ "--i": 2 }}>
           <button
             type="button"
-            className="hx__link hx__link--wizard"
+            className="hx__btn hx__btn--primary"
             onClick={() => setWizardOpen(true)}
           >
             {ui.wizardBtn}
           </button>
-          <a href={localeHref(locale, "#exchanges")} className="hx__link">
+          <a href={localeHref(locale, "#exchanges")} className="hx__link hx__link--text">
             {ui.explore}
           </a>
-          <a href={localeHref(locale, "#compare")} className="hx__link">
+          <a href={localeHref(locale, "#compare")} className="hx__btn hx__btn--secondary">
             {ui.compare}
           </a>
         </div>
 
         <div className="hx__more" data-open={secondaryOpen}>
+          <div className="hx__trust">
+            <span className="hx__trust-logos" aria-hidden="true">
+              {priorityVenueSlugs.map((slug) => <BrandMark key={slug} slug={slug} compact priority />)}
+            </span>
+            <p className="hx__trust-line">{ui.badge}</p>
+          </div>
           <button type="button" className="hx__more-toggle" ref={secondaryToggleRef} aria-expanded={secondaryOpen} aria-controls="lean-hero-support" onClick={() => setSecondaryOpen(open => !open)}>{({"en": "Platform selection help", "zh-Hans": "选所辅助", "zh-Hant": "選所輔助", "ja": "取引所選びのサポート", "ko": "거래소 선택 도움", "tr": "Platform seçimi desteği", "ar": "مساعدة في اختيار المنصة", "es": "Ayuda para elegir plataforma", "pt-BR": "Ajuda para escolher a plataforma", "fr": "Aide au choix de plateforme", "de": "Hilfe bei der Plattformwahl", "ru": "Помощь в выборе платформы", "id": "Bantuan memilih platform", "vi": "Hỗ trợ chọn nền tảng", "it": "Aiuto nella scelta della piattaforma"})[locale] || "Platform selection help"}</button>
           <div className="hx__more-body" id="lean-hero-research" onBlurCapture={(event) => {
             const toggle = secondaryToggleRef.current;
