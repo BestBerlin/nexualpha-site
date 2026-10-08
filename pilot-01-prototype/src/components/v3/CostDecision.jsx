@@ -34,7 +34,7 @@ export function restoreCostDecisionState(search = '') {
   };
 }
 
-export function CostDecision({locale='en', regionMarket, product='perpetuals', accountStage, funding, context=null, footer=null}) {
+export function CostDecision({locale='en', regionMarket, product='perpetuals', accountStage, funding}) {
   const ui=costDecisionCopy(locale);
   const id=useId();
   const [volume,setVolume]=useState('100000');
@@ -80,7 +80,7 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
   const maxCost=Math.max(0,...resultRows.map(row=>Number.isFinite(row.quote?.rate)?amount*row.quote.rate:0));
   const shownCost=useTween(lowestReviewed ? amount*lowestReviewed.quote.rate : 0);
   const figureFormat=new Intl.NumberFormat(locale,{maximumFractionDigits:2});
-  return <section id="cost-scenario" className="cost-decision rt-panel" aria-labelledby={`${id}-title`}>
+  return <section id="cost-scenario" className="cost-decision rt-cd" aria-labelledby={`${id}-title`}>
     <div className="cost-decision__intro rt-panel__intro">
       <h2 id={`${id}-title`}>{ui.title}</h2>
       <p>{ui.intro}</p>
@@ -107,7 +107,6 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
         </div></div>
       </div>
       <DecisionReturnLink href={decisionReturnHref} locale={locale} />
-      {context}
     </div>
     <div className="rt-result">
       {lowestReviewed && <div className="cost-decision__verdict rt-verdict">
@@ -128,7 +127,6 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
       <a href={telegramFunnel.deepLink} target="_blank" rel="noopener noreferrer" className="cost-decision__telegram" data-cta-kind="telegram" data-cta-placement="cost-decision-telegram" data-growth-decision="telegram_fee_calc" data-growth-placement="cost-decision-support" data-growth-market={regionMarket} data-growth-product={selectedProduct} data-telegram-start={telegramFunnel.startPayload} data-telegram-return-href={telegramFunnel.returnHref}>{ui.telegramSupport || decisionReturnCopy(locale).botFeeOpen}</a>
       <a href={researchHref('/compare/binance-vs-okx',market === 'futuresFee' ? 'perpetuals' : 'spot')} data-cta-kind="research" data-cta-placement="cost-calculator-compare" data-growth-decision="compare_binance_okx" data-growth-placement="cost-calculator-compare" data-growth-market={regionMarket} data-growth-product={market === 'futuresFee' ? 'perpetuals' : 'spot'}>{ui.compare}</a>
       </div>
-      {footer}
     </div>
   </section>;
 }

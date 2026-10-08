@@ -918,11 +918,11 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
         <div className="br-hero__copy">
           <h1>{page.title}</h1>
           <p>{page.description}</p>
-          {isEntryPage ? pathBlock : null}
           <nav className="br-hero__actions" aria-label="Ações de decisão do Brasil">
             <a href="#br-decision-controls">{copy.label}</a>
             <a href="#br-market-content">{copy.readPath}</a>
           </nav>
+          {isEntryPage ? pathBlock : null}
         </div>
         <form className="br-decision-panel" id="br-decision-controls" data-testid="brazil-decision-controls" onSubmit={(event) => event.preventDefault()}>
           <div className="br-decision-panel__head">

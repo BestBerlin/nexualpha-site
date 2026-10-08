@@ -650,26 +650,33 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
 
   return (
     <section className={`fee-terminal-section v2-shell ${showAllRows ? "fee-terminal-section--expanded" : ""}`} id="rate-terminal" dir={normalizedLocale === "ar" ? "rtl" : undefined}>
-      <div className="rt-tool">
-        <CostDecision
-          locale={locale}
-          regionMarket={market}
-          product={product}
-          accountStage={accountStage}
-          funding={funding}
-          context={<div className="fee-terminal__answer-block rt-context" role="group" aria-label={answerBlock.label}>
-            <h3>{answerBlock.title}</h3>
-            <dl className="fee-terminal__answer-grid">
-              <div><dt>{labels.checked}</dt><dd>{answerBlock.can}</dd></div>
-              <div><dt>{labels.conditions}</dt><dd>{answerBlock.cannot}</dd></div>
-            </dl>
-            <nav className="fee-terminal__answer-links" aria-label={answerBlock.title}>
-              <a href={answerHref("/compare/binance-vs-okx", "spot")}>{answerBlock.compareA}</a>
-              <a href={answerHref("/compare/bybit-vs-bitget", "perpetuals")}>{answerBlock.compareB}</a>
-              <a href={answerHref("/topics/derivatives", "perpetuals")}>{answerBlock.derivatives}</a>
-            </nav>
-          </div>}
-          footer={<>
+      <div className="rt-tool rt-panel">
+        <div className="fee-terminal__answer-block rt-context" role="group" aria-label={answerBlock.label}>
+          <h3>{answerBlock.title}</h3>
+          <dl className="fee-terminal__answer-grid">
+            <div><dt>{labels.checked}</dt><dd>{answerBlock.can}</dd></div>
+            <div><dt>{labels.conditions}</dt><dd>{answerBlock.cannot}</dd></div>
+          </dl>
+          <nav className="fee-terminal__answer-links" aria-label={answerBlock.title}>
+            <a href={answerHref("/compare/binance-vs-okx", "spot")}>{answerBlock.compareA}</a>
+            <a href={answerHref("/compare/bybit-vs-bitget", "perpetuals")}>{answerBlock.compareB}</a>
+            <a href={answerHref("/topics/derivatives", "perpetuals")}>{answerBlock.derivatives}</a>
+          </nav>
+        </div>
+        <div className="rt-handoff">
+      <OnsiteTelegramBotHandoff
+              canonicalPath="/rates"
+              intent="fees"
+              venue="all"
+              returnRoute="/rates"
+              locale={locale}
+              market={market || "GLOBAL"}
+              product={product || "spot"}
+              campaign="r40-rates-owner-telegram-return"
+              placement="rates-owner-telegram-handoff"
+              queries={["Published fee source check", "Return to this fee benchmark"]}
+            />
+        </div>
       <div className="fee-terminal__next-step rt-next" aria-label={nextStep[0]}>
               <div><strong>{nextStep[0]}</strong><span>{nextStep[1]}</span></div>
               <div className="fee-terminal__next-step-actions">
@@ -709,21 +716,8 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
                 </a>
               </div>
             </div>
-      <OnsiteTelegramBotHandoff
-              canonicalPath="/rates"
-              intent="fees"
-              venue="all"
-              returnRoute="/rates"
-              locale={locale}
-              market={market || "GLOBAL"}
-              product={product || "spot"}
-              campaign="r40-rates-owner-telegram-return"
-              placement="rates-owner-telegram-handoff"
-              queries={["Published fee source check", "Return to this fee benchmark"]}
-            />
-            <DecisionPathRail locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} current="rates" />
-          </>}
-        />
+        <CostDecision locale={locale} regionMarket={market} product={product} accountStage={accountStage} funding={funding} />
+        <DecisionPathRail locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} current="rates" />
       </div>
       <header className="fee-terminal__header">
         <h2 className="fee-terminal__title">{t.title}</h2>
