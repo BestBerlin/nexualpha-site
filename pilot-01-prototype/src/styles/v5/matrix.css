@@ -217,7 +217,7 @@ a.mx-id__name:hover { text-decoration-color: var(--accent); }
 .mx-id__meta { display: flex; flex-wrap: wrap; gap: 0 var(--s-2); font-size: var(--t-xs); color: var(--text-muted); }
 .mx-type { color: var(--text); }
 .mx-checked { white-space: nowrap; }
-.mx-checked time { font-variant-numeric: tabular-nums; }
+.mx-checked time { font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; display: inline-block; }
 
 /* fees */
 .mx-fee {
