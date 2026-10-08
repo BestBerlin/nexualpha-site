@@ -76,3 +76,5 @@
   --v6-sans: var(--font-sans);
 }
 #top.v6:is(:lang(ja), :lang(ar)) { font-synthesis-weight: none; }
+/* the closing index's own group labels (Directory / Telegram) also take the locale stack (they sit outside .crawl-priority-links) */
+#top.v6:is(:lang(ja), :lang(ar)) .v6-close__index .crawl-priority-links__group > span:not(#_):not(#_) { font-family: var(--font-sans); }
