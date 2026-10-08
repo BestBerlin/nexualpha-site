@@ -567,3 +567,16 @@
   #top.v6 .rf-card { order: 5; margin-inline-start: 0; margin-block-start: var(--s-4); }
   #top.v6 .rf-foot { margin-block-start: var(--s-8); }
 }
+/* phone: the quiet index is ONE row that scrolls sideways (44px tall), not a 300px list */
+@media (max-width: 37.5rem) {
+  #top.v6 .rf-foot {
+    flex-wrap: nowrap; gap: var(--s-6); overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain;
+    margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--gutter), #000 calc(100% - var(--s-12)), transparent);
+    mask-image: linear-gradient(to right, transparent 0, #000 var(--gutter), #000 calc(100% - var(--s-12)), transparent);
+  }
+  #top.v6 .rf-foot::-webkit-scrollbar { display: none; }
+  #top.v6 .rf-foot > *, #top.v6 .rf .rf-foot .home-section-nav, #top.v6 .rf-pills { flex: none; flex-wrap: nowrap; white-space: nowrap; }
+  #top.v6 .rf-foot a, #top.v6 .rf-foot span { white-space: nowrap; }
+  #top.v6 .rf .rf-foot .home-section-nav__label { display: none; }
+}

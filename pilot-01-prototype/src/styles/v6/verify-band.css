@@ -198,3 +198,4 @@
 .v6 .vb__bar--official .vb__typed { flex: 0 0 auto; }
 .v6 .vb__note { display: flex; flex-wrap: wrap; align-items: center; row-gap: var(--s-1); }
 @media (max-width: 899px) { .v6 .vb__bar--fake { font-size: var(--t-14); } .v6 .vb__stamp { inset-inline-end: var(--s-3); } }
+@media (max-width: 899px) { .v6 .vb__bar--fake .vb__lock--open { display: none; } }
