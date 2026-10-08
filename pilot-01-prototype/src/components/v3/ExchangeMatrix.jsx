@@ -98,10 +98,11 @@ export function ExchangeMatrix({
     const spot = verified && hasPair(facts.spot) ? facts.spot : null;
     const perp = verified && hasPair(facts.perp) ? facts.perp : null;
     const productList = [];
+    const isCex = venue.category === "CEX";
     if (venue.category !== "Perp DEX") productList.push(mc.pSpot);
-    if (venue.category === "Perp DEX" || db.futuresFee || db.maxLeverage) productList.push(mc.pPerp);
-    if (Array.isArray(db.fiatChannels) && db.fiatChannels.length) productList.push(mc.pFiat);
-    if (venue.category !== "CEX") productList.push(mc.pChain);
+    if (venue.category === "Perp DEX" || (isCex && (db.futuresFee || perp))) productList.push(mc.pPerp);
+    if (isCex && Array.isArray(db.fiatChannels) && db.fiatChannels.length) productList.push(mc.pFiat);
+    if (!isCex) productList.push(mc.pChain);
     return {
       venue,
       slug: venue.slug,
