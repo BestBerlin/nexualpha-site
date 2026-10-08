@@ -92,8 +92,8 @@
   .v6 .vb__head { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
   .v6 .vb__title { grid-column: 1 / 7; }
   .v6 .vb__aside { grid-column: 8 / 13; }
-  /* three equal stations; the address bar fits a third of the container at 28px mono */
-  .v6 .vb__route { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--s-12); row-gap: 0; align-items: start; }
+  /* three equal stations; station 1 only grows past a third when a long domain needs it (28px mono never clips) */
+  .v6 .vb__route { grid-template-columns: minmax(min-content, 1fr) minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--s-12); row-gap: 0; align-items: start; }
   .v6 .vb__line { inset-inline: 0; inset-block: 19px auto; inline-size: auto; block-size: 2px; }
   .v6 .vb__line i { transform-origin: left; }
   [dir="rtl"] .v6 .vb__line i, .v6[dir="rtl"] .vb__line i { transform-origin: right; }
