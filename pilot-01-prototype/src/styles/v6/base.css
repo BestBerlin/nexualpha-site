@@ -1,0 +1,28 @@
+/* V6 shared system. Every act uses ONLY these steps. Scoped to .v6. */
+.v6 {
+  /* type scale (desktop); mobile steps below via clamp */
+  --t-12: 0.75rem;  --t-14: 0.875rem; --t-16: 1rem;
+  --t-20: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
+  --t-28: clamp(1.5rem, 1.25rem + 1vw, 1.75rem);
+  --t-44: clamp(2rem, 1.5rem + 2.2vw, 2.75rem);
+  --t-72: clamp(2.75rem, 1.6rem + 5vw, 4.5rem);
+  --lh-body: 1.55; --lh-head: 1.1;
+  /* spacing (4px base) */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-6: 24px; --s-8: 32px; --s-12: 48px; --s-16: 64px; --s-24: 96px; --s-32: 128px;
+  --section-pad: clamp(72px, 9vw, 128px);
+  --container: 1200px; --gutter: 24px;
+  --measure: 62ch;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-1: 140ms; --dur-2: 240ms; --dur-3: 400ms;
+}
+.v6 .v6-section { padding-block: var(--section-pad); }
+.v6 .v6-wrap { width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; }
+.v6 .v6-h-display { font-size: var(--t-72); line-height: 1.02; letter-spacing: -0.035em; font-weight: 600; text-wrap: balance; }
+.v6 .v6-h1 { font-size: var(--t-44); line-height: var(--lh-head); letter-spacing: -0.03em; font-weight: 600; text-wrap: balance; }
+.v6 .v6-h2 { font-size: var(--t-28); line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; text-wrap: balance; }
+.v6 .v6-h3 { font-size: var(--t-20); line-height: 1.25; letter-spacing: -0.01em; font-weight: 600; }
+.v6 .v6-lead { font-size: var(--t-20); line-height: 1.5; max-width: var(--measure); color: var(--c-text-2, #a1a8b3); }
+.v6 .v6-body { font-size: var(--t-16); line-height: var(--lh-body); max-width: var(--measure); }
+.v6 .v6-small { font-size: var(--t-14); line-height: 1.5; }
+.v6 .v6-meta { font-size: var(--t-12); line-height: 1.4; letter-spacing: 0.01em; }
+.v6 .v6-num { font-family: var(--font-mono, "Geist Mono", ui-monospace, monospace); font-variant-numeric: tabular-nums; }
