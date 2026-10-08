@@ -1126,7 +1126,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
         <ul>
           {contentSources.length ? contentSources.map((source) => (
             <li key={source.id}>
-              <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>
+              <a href={source.url} target="_blank" rel="noopener noreferrer" {...(source.titleLang ? { lang: source.titleLang, translate: "no" } : {})}>{source.title}</a>
               <time dateTime={source.checkedAt}>{new Intl.DateTimeFormat("pt-BR", { dateStyle: "medium" }).format(new Date(source.checkedAt))}</time>
             </li>
           )) : <li><span>{copy.officialCheck}</span></li>}
