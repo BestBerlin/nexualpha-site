@@ -760,7 +760,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     </>,
     compare: <>
       <CrossroadsCompare locale={locale} selected={compareSelection} onSelectionChange={setCompareSelection} />
-    <details className="home-analyzer-drawer" id="bleed-analyzer">
+    <details className="home-analyzer-drawer" id="bleed-analyzer-legacy">
       <summary>
         <strong>{({
           "zh-Hans": "展开交易成本体检", "zh-Hant": "展開交易成本檢查", en: "Open the fee cost check",
@@ -781,6 +781,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
       <div className="home-analyzer-drawer__body"><DeferredBoundary scope="home-fees"><TradingBleedAnalyzer locale={locale} market={decisionPassport.market} product={decisionPassport.product} /></DeferredBoundary></div>
     </details>
     </>,
+    feeCheck: <DeferredBoundary scope="home-fees"><TradingBleedAnalyzer locale={locale} market={decisionPassport.market} product={decisionPassport.product} /></DeferredBoundary>,
     directory: <>
       <PlatformMatcher locale={locale} venues={command.venueCatalog} selected={compareSelection} decisionPassport={decisionPassport} defaultOpen={false} onSelectionChange={setCompareSelection} />
       <VenueYellowPages venues={command.venueCatalog} locale={locale} selected={compareSelection} onSelectionChange={setCompareSelection} compact />
@@ -794,7 +795,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
     <Header copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <RouteFinder {...homeCtx} legacy={homeSlots.hero} />
-    <CompareLab {...homeCtx} legacy={homeSlots.compare} />
+    <CompareLab {...homeCtx} legacy={homeSlots.compare} feeCheck={homeSlots.feeCheck} />
     <VerifyBand {...homeCtx} />
     <DirectoryV6 {...homeCtx} legacy={homeSlots.directory} />
     <ClosingBand {...homeCtx} legacy={homeSlots.closing} />
