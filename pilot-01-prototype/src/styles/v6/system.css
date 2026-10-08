@@ -175,7 +175,7 @@ body:has(main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label, .clean-fo
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-identity:not(#_):not(#_):not(#_):not(#_) { flex-direction: column !important; align-items: flex-start; gap: 16px; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-identity__info:not(#_):not(#_):not(#_):not(#_) { inline-size: 100%; min-inline-size: 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-identity > :is(img, .v2-brand):not(#_):not(#_):not(#_):not(#_) { inline-size: 48px !important; block-size: 48px !important; width: 48px !important; height: 48px !important; flex: none; }
-:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-identity__badges > .v3-trust-metal-badge::before:not(#_):not(#_) { background: var(--accent, #1fe0c0); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-identity__badges > .v3-trust-metal-badge:not(#_):not(#_):not(#_):not(#_)::before { background: var(--accent, #1fe0c0); }
 
 /* ONE disclosure row: min-height 56, 16px / 500, trailing plus, hairline rows */
 :is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_):not(#_):not(#_) { font-weight: 500; font-size: var(--t-16); line-height: 1.35; min-block-size: 56px; }
@@ -244,7 +244,7 @@ body:has(main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label, .clean-fo
   :is(main, .factbook-page).v6:not(.home-refinement) .mx-row > .mx-td--fee:not(#_):not(#_):not(#_):not(#_) { display: flex; align-items: baseline; gap: 6px; flex-wrap: nowrap; white-space: nowrap; }
   :is(main, .factbook-page).v6:not(.home-refinement) .mx-row > .mx-td--fee[data-label]:not(#_):not(#_):not(#_):not(#_)::before { display: inline-block; min-inline-size: 3.5rem; margin: 0; font-size: var(--t-12); }
   :is(main, .factbook-page).v6:not(.home-refinement) .mx-row > .mx-td--nofee:not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 2 / span 2; }
-  :is(main, .factbook-page).v6:not(.home-refinement) .mx-row > .mx-td--nofee::before:not(#_):not(#_) { display: none; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .mx-row > .mx-td--nofee:not(#_):not(#_):not(#_):not(#_)::before { display: none; }
   :is(main, .factbook-page).v6:not(.home-refinement) .mx-row > .mx-td--region.mx-td--has:not(#_):not(#_):not(#_):not(#_) { grid-column: 2 / -1; grid-row: 4; }
   :is(main, .factbook-page).v6:not(.home-refinement) .mx-td--code:not(#_):not(#_):not(#_):not(#_) { align-self: center; }
   :is(main, .factbook-page).v6:not(.home-refinement) .mx-fee:not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); letter-spacing: 0; gap: 2px; }

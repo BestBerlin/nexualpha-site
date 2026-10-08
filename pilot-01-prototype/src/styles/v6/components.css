@@ -403,3 +403,9 @@ main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_) { padding-block-en
 :is(main, .factbook-page).v6:not(.home-refinement) .button-primary:not(#_):not(#_):not(#_):not(#_) { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 :is(main, .factbook-page).v6:not(.home-refinement) .button-primary:hover:not(#_):not(#_):not(#_):not(#_) { background: color-mix(in srgb, var(--accent) 88%, #fff); }
 :is(main, .factbook-page).v6:not(.home-refinement) .official-research__state:not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; padding: 4px 10px; border: 1px solid var(--line-2); border-radius: 6px; color: var(--ink); background: none; outline: 0; font-size: var(--t-12); }
+
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-matrix-sub-val a, .venue-readiness button):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; min-block-size: 36px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .research-differences:not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; gap: 8px; min-block-size: 44px; }
+@media (max-width: 860px) {
+  :is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-matrix-sub-val a, .venue-readiness button, .v3-matrix-expand, .v3-matrix-cta-btn):not(#_):not(#_):not(#_):not(#_) { min-block-size: 44px; }
+}
