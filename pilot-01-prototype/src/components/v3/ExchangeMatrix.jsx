@@ -7,7 +7,7 @@ import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { regionalCtaState, regionalDirectoryCandidateState, venueMarketStatus } from "../../data/directory-context.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
-import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
+import { EXCHANGE_FACTS, venueCheckedOn } from "../../data/exchange-facts.js";
 import { localizeRegionNote } from "./exchange-matrix-copy.js";
 import { hasCompareRoute, noCompareLabel } from "../v6/compare-routes.js";
 
@@ -141,7 +141,8 @@ export function ExchangeMatrix({
       spot,
       perp,
       verified,
-      verifiedOn: verified ? facts.verifiedOn : null,
+      // "Checked" only when at least one fee field is published as checked (Uniswap: none -> no stamp).
+      verifiedOn: venueCheckedOn(venue.slug),
       region: verified && facts.regions?.length ? facts.regions.map((note) => localizeRegionNote(note, locale)).join(" · ") : null,
       products: productList,
       hasDetailPage: Boolean(venueDecisionContent[venue.slug]),
@@ -367,7 +368,7 @@ export function ExchangeMatrix({
                           )}
                           <span className="mx-id__meta">
                             <span className="mx-type" translate="no" lang="en">{r.category}</span>
-                            {r.verified ? <span className="mx-checked num">{mc.checked} <time dateTime={r.verifiedOn}>{r.verifiedOn}</time></span> : null}
+                            {r.verifiedOn ? <span className="mx-checked num">{mc.checked} <time dateTime={r.verifiedOn}>{r.verifiedOn}</time></span> : null}
                           </span>
                         </div>
                       </div>

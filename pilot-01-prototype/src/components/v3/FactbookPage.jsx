@@ -7,7 +7,7 @@ import { bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { DecisionPathRail } from "./DecisionPathRail.jsx";
 import "./factbook-page.css";
-import { FactsStrip, feesCheckedLabel } from "./ExchangeFactsV5.jsx";
+import { FactsStrip, feesCheckedLabel, feesStatusLabel } from "./ExchangeFactsV5.jsx";
 import { discountFact, venueCheckedOn } from "../../data/exchange-facts.js";
 
 const factbookRecordCount = FACTBOOK_SLUGS.length;
@@ -1037,6 +1037,24 @@ const factbookFeeRecordCopy = {
   it: ["La verifica delle fonti delle commissioni attuali non è completa. Questi dati non permettono di calcolare il costo di negoziazione.", "Vedi i campi delle commissioni registrati", "Livelli e volumi sono dati di ricerca non verificati; conferma le condizioni attuali sulla piattaforma."]
 };
 
+// One line in place of a tier table whose every cell is pending. {n} = number of recorded tiers.
+const factbookVipPendingCopy = {
+  en: "{n} recorded fee tiers: not yet source-reviewed.",
+  "zh-Hans": "已记录 {n} 个费率档位：尚未完成来源核验。",
+  "zh-Hant": "已記錄 {n} 個費率等級：尚未完成來源核驗。",
+  ja: "記録済みの手数料ランク {n} 件：出典確認はまだです。",
+  ko: "기록된 수수료 등급 {n}개: 아직 출처 검토 전입니다.",
+  tr: "Kayıtlı {n} ücret kademesi: henüz kaynakla incelenmedi.",
+  ar: "{n} مستويات رسوم مسجلة: لم تُراجع مصادرها بعد.",
+  es: "{n} niveles de comisión registrados: aún sin revisión de fuente.",
+  "pt-BR": "{n} níveis de taxa registrados: fonte ainda não revisada.",
+  fr: "{n} niveaux de frais enregistrés : pas encore vérifiés à la source.",
+  de: "{n} erfasste Gebührenstufen: noch nicht quellengeprüft.",
+  ru: "Записано уровней комиссии: {n}. Источник ещё не проверен.",
+  id: "{n} tingkat biaya tercatat: sumber belum ditinjau.",
+  vi: "{n} bậc phí đã ghi nhận: chưa rà soát nguồn.",
+  it: "{n} livelli di commissione registrati: fonte non ancora verificata.",
+};
 // Shown when exchange-facts.js has checked base (non-VIP) fees for the venue. {date} = that check date.
 const factbookBaseFeeCheckedCopy = {
   en: "Base (non-VIP) fees above were checked on the official fee page on {date}. VIP tiers, net rates and discounts below are unverified research records.",
@@ -1222,10 +1240,8 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 <span className="factbook-pulse" aria-hidden="true" />
                 {t.eyebrow}
               </span>
-              <span className="factbook-audit-stamp">
-                {t.auditLabel}: {AUDIT_DATE}
-              </span>
-              {feesCheckedLabel(venue.slug, locale) && <span className="factbook-audit-stamp factbook-audit-stamp--fees">{feesCheckedLabel(venue.slug, locale)}</span>}
+              {/* The record's primary date is the fee check; the source-notes review date is labelled in "Source notes". */}
+              <span className={`factbook-audit-stamp factbook-audit-stamp--fees${feesCheckedLabel(venue.slug, locale) ? "" : " factbook-audit-stamp--unchecked"}`}>{feesStatusLabel(venue.slug, locale)}</span>
               <span className="factbook-status-pill">
                 ● {t.verifiedBadge}
               </span>
@@ -1253,6 +1269,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             <div className="factbook-audit-box">
               <div className="factbook-audit-box__header">
                 <span className="factbook-audit-tag">{t.auditIsolation}</span>
+                <time className="factbook-audit-date" dateTime={AUDIT_DATE}>{t.auditLabel}: {AUDIT_DATE}</time>
                 <button type="button" onClick={handleCopyHash} className="factbook-hash-copy-btn">
                   {copiedHash === "success" ? t.copiedHash : t.copyHash}
                 </button>
@@ -1419,7 +1436,8 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             </div>
             <div className="v5-detail factbook-base-fees"><FactsStrip slug={venue.slug} locale={locale} /></div>
             {!venue.feeVerified && <p className="factbook-fee-status">{baseFeesCheckedOn ? (factbookBaseFeeCheckedCopy[locale] || factbookBaseFeeCheckedCopy[localeBase] || factbookBaseFeeCheckedCopy.en).replace("{date}", baseFeesCheckedOn) : feeRecordCopy[0]}</p>}
-            <FeeRecords className={venue.feeVerified ? "factbook-fee-reviewed" : "factbook-fee-records"}>
+            {!venue.feeVerified && (venue.vipTiers || []).length > 0 && <p className="factbook-vip-pending">{(factbookVipPendingCopy[locale] || factbookVipPendingCopy[localeBase] || factbookVipPendingCopy.en).replace("{n}", String(venue.vipTiers.length))}</p>}
+            {venue.feeVerified && <FeeRecords className={venue.feeVerified ? "factbook-fee-reviewed" : "factbook-fee-records"}>
               {!venue.feeVerified && <><summary>{feeRecordCopy[1]}<span aria-hidden="true">＋</span></summary><p className="factbook-fee-records__note">{feeRecordCopy[2]}</p><p className="factbook-section__sub">{t.secVipSub}</p></>}
               <div className="factbook-fee-tabs">
                 <button
@@ -1497,7 +1515,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             {showAllFeeTiers ? (isHant ? "收起進階費率" : isZh ? "收起高级费率" : (t.showFewerTiers || "Show fewer fee tiers")) : (isHant ? "查看完整 VIP0–VIP9 矩陣" : isZh ? "查看完整 VIP0–VIP9 矩阵" : (t.viewFullTiers || "View full VIP0–VIP9 matrix"))}
               <span aria-hidden="true">{showAllFeeTiers ? "−" : "+"}</span>
             </button>}
-            </FeeRecords>
+            </FeeRecords>}
           </section>
 
           {/* 模块 2：储备证明 (PoR) 穿透数据 */}
@@ -1577,7 +1595,6 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             <button type="button" className="factbook-section__header factbook-section-disclosure__summary" aria-expanded={Boolean(expandedFactbookSections.compliance)} aria-controls="factbook-compliance-body" onClick={() => toggleFactbookSection("compliance")}>
               <div className="factbook-section__title-group">
                 <h2 className="factbook-section__title">{t.secKycTitle}</h2>
-                <p className="factbook-section__sub">{t.secKycSub}</p>
               </div>
               <span className="factbook-section-disclosure__hint">{isHant ? "展開完整合規資料" : isZh ? "展开完整合规数据" : (factbookUi.expandCompliance || t.openComplianceData || "Open full compliance data")}</span>
             </button>
@@ -1600,13 +1617,6 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                       <li key={i} className="factbook-stage-item"><span>{stage}</span></li>
                     ))}
                   </ul>
-                </dd>
-              </div>
-              <div className="factbook-evidence__row">
-                <dt>{t.antiFreezeLabel}</dt>
-                <dd>
-                  <strong className={`factbook-score-badge ${factbookValueClass(venue.compliance?.antiFreezeRating)}`}>{venue.compliance?.antiFreezeRating}</strong>
-                  <small>{isZh ? venue.compliance?.antiFreezeDescZh : venue.compliance?.antiFreezeDescEn}</small>
                 </dd>
               </div>
               <div className="factbook-evidence__row">
@@ -1638,8 +1648,8 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 </dd>
               </div>
               <div className="factbook-evidence__row">
-                <dt>{venue.compliance?.antiFreezeRating}</dt>
-                <dd><ul className="factbook-pending-fields">{[t.kycStagesLabel, t.antiFreezeLabel, t.licensesLabel, t.supportedLabel, t.restrictedLabel].map((label) => <li key={label}>{label}</li>)}</ul></dd>
+                <dt>{venue.compliance?.licensesEn?.[0]}</dt>
+                <dd><ul className="factbook-pending-fields">{[t.kycStagesLabel, t.licensesLabel, t.supportedLabel, t.restrictedLabel].map((label) => <li key={label}>{label}</li>)}</ul></dd>
               </div>
             </dl>
             )}
@@ -1730,13 +1740,13 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                     ) : (
                       <div className="factbook-act-badge">
                         <dt className="act-lbl">{t.rebatePercentLabel}</dt>
-                        <dd><strong className="act-val">{t.pendingLabel || "pending"}</strong></dd>
+                        <dd><strong className="act-val act-val--text">{t.pendingLabel || "pending"}</strong></dd>
                       </div>
                     )}
                     {activationCta.benefitVerified && activationCta.benefit && (
                       <div className="factbook-act-badge">
                         <dt className="act-lbl">{t.welcomePackage}</dt>
-                        <dd><strong className="act-val">{activationCta.benefit}</strong></dd>
+                        <dd><strong className="act-val act-val--text">{activationCta.benefit}</strong></dd>
                       </div>
                     )}
                   </dl>

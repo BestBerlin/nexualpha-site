@@ -4,6 +4,8 @@ import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { researchForVenue } from "../../data/exchange-research";
 import { buildVenueFeeSummary } from "../../data/venue-fee-summary.js";
 import { reviewedFeeCopy } from "../../data/reviewed-fee-copy.js";
+import { feePctOfRate } from "../../data/exchange-facts.js";
+import { matrixCopy } from "./exchange-matrix-copy.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { priorityVenueAnswerFor } from "../../data/priority-venue-answers.js";
 
@@ -54,9 +56,8 @@ const publishableFeeRate = (summary, product, locale = "en") => {
   const rate = summary.rates.find((item) => item.product === product);
   if (!rate) return null;
   const scope = reviewedFeeCopy(rate, locale);
-  const numberLocale = locale === "zh-Hans" ? "zh-CN" : locale === "zh-Hant" ? "zh-TW" : locale;
-  const formatter = new Intl.NumberFormat(numberLocale, { style: "percent", minimumFractionDigits: product === "futures" ? 3 : 2, maximumFractionDigits: 4 });
-  const pair = `${formatter.format(rate.takerRate)} / ${formatter.format(rate.makerRate)}`;
+  // One formatter (exchange-facts.js), maker first and labelled.
+  const pair = `${feePctOfRate(rate.makerRate)} / ${feePctOfRate(rate.takerRate)} (${matrixCopy(locale).maker})`;
   return { ...rate, publishable: true, display: `${pair} · ${scope.tier} · ${scope.scope}`, conditions: scope.conditions };
 };
 

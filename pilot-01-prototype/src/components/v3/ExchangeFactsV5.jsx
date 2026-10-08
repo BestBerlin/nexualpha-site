@@ -1,6 +1,7 @@
-import { factsForVenue, feeFact, venueCheckedOn } from "../../data/exchange-facts.js";
+import { factsForVenue, feeFact, venueCheckedOn, feePct } from "../../data/exchange-facts.js";
+import { matrixCopy } from "./exchange-matrix-copy.js";
 import { useEffect, useRef } from "react";
-import { Reveal, CountUp, prefersReducedMotion } from "../../lib/v5/index.js";
+import { Reveal, prefersReducedMotion } from "../../lib/v5/index.js";
 
 // Short labels only. Everything else on the page comes from existing localized content.
 const L = {
@@ -22,40 +23,10 @@ const L = {
 };
 
 const labels = (locale) => L[locale] || L[String(locale || "en").split("-")[0]] || L.en;
-const decimalsOf = (n) => (n >= 0.1 || Number.isInteger(n * 100) ? 2 : 3);
 
-function Rate({ value, l, checkedOn, locale }) {
-  if (value == null) {
-    return (
-      <span className="d5-rate d5-rate--null">
-        <span className="d5-dash" aria-hidden="true">–</span>
-        <span className="d5-null-note">{l.check}</span>
-        <span className="d5-sr">{l.check}</span>
-      </span>
-    );
-  }
-  return (
-    <span className="d5-rate">
-      <CountUp value={value} decimals={decimalsOf(value)} suffix="%" locale={locale} className="num d5-figure" />
-      {checkedOn && <span className="d5-checked">{l.checked} {checkedOn}</span>}
-    </span>
-  );
-}
-
-function FeeRow({ title, sub, row, l, index, locale }) {
-  return (
-    <Reveal as="div" index={index} className="d5-row" role="row">
-      <div className="d5-row__name" role="rowheader"><b>{title}</b><small>{sub}</small></div>
-      <div className="d5-row__cell" role="cell"><span className="d5-cell-label">{l.maker}</span><Rate value={row?.maker ?? null} l={l} checkedOn={row?.checkedOn} locale={locale} /></div>
-      <div className="d5-row__cell" role="cell"><span className="d5-cell-label">{l.taker}</span><Rate value={row?.taker ?? null} l={l} checkedOn={row?.checkedOn} locale={locale} /></div>
-    </Reveal>
-  );
-}
-
-
-function HeroCount({ value, decimals, suffix, locale, className }) {
+function HeroCount({ value, decimals, suffix, locale, className, text }) {
   const ref = useRef(null);
-  const fmt = (n) => new Intl.NumberFormat(locale, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(n) + suffix;
+  const fmt = (n) => text || new Intl.NumberFormat(locale, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(n) + suffix;
   useEffect(() => {
     const el = ref.current;
     if (!el || prefersReducedMotion() || !el.animate) return undefined;
@@ -74,20 +45,17 @@ export function feesCheckedLabel(slug, locale) {
   const on = venueCheckedOn(slug);
   return on ? `${labels(locale).feesChecked} ${on}` : null;
 }
+// The one primary date on a venue record: "Fees checked 2026-10-08", or "Fees: Not yet checked" with no stamp.
+export function feesStatusLabel(slug, locale) {
+  return feesCheckedLabel(slug, locale) || `${labels(locale).fees}: ${matrixCopy(locale).unchecked}`;
+}
 
-function StripCell({ value, l, checkedOn, locale }) {
-  if (value == null) {
-    return (
-      <span className="d5-rate d5-rate--null">
-        <span className="d5-dash" aria-hidden="true">–</span>
-        <span className="d5-null-note">{l.check}</span>
-      </span>
-    );
-  }
+// The record's check date is shown once, as the page's primary date; cells carry only the figure.
+function StripCell({ value, locale }) {
+  if (value == null) return <span className="d5-rate d5-rate--null"><span className="d5-null-note">{matrixCopy(locale).unchecked}</span></span>;
   return (
     <span className="d5-rate">
-      <HeroCount value={value} decimals={decimalsOf(value)} suffix="%" locale={locale} className="num d5-figure d5-figure--hero" />
-      {checkedOn && <span className="d5-checked">{l.checked} {checkedOn}</span>}
+      <HeroCount value={value} text={feePct(value)} locale={locale} className="num d5-figure d5-figure--hero" />
     </span>
   );
 }
@@ -110,8 +78,8 @@ export function FactsStrip({ slug, locale }) {
       {rows.map(([title, sub, row]) => (
         <div className="d5-strip__row" key={title}>
           <div className="d5-strip__name"><b>{title}</b><small>{sub}</small></div>
-          <div className="d5-strip__cell"><span className="d5-cell-label">{l.maker}</span><StripCell value={row?.maker ?? null} l={l} checkedOn={row?.checkedOn} locale={locale} /></div>
-          <div className="d5-strip__cell"><span className="d5-cell-label">{l.taker}</span><StripCell value={row?.taker ?? null} l={l} checkedOn={row?.checkedOn} locale={locale} /></div>
+          <div className="d5-strip__cell"><span className="d5-cell-label">{l.maker}</span><StripCell value={row?.maker ?? null} locale={locale} /></div>
+          <div className="d5-strip__cell"><span className="d5-cell-label">{l.taker}</span><StripCell value={row?.taker ?? null} locale={locale} /></div>
         </div>
       ))}
       {parts.length > 0 && (

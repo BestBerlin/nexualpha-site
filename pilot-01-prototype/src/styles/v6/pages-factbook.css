@@ -310,3 +310,26 @@
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-evidence:not(.factbook-evidence--compact) > .factbook-evidence__row:last-child { border-block-end: 0; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-evidence.factbook-recorded-domain-card { border: 0; border-block-start: 1px solid var(--n6); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-auditor-text { max-inline-size: none; }
+
+/* R5 data: identity like /exchanges/{slug} — 48px logo above a 44px H1 on the page edge (x = container start) */
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-venue-identity { display: flex; flex-direction: column; align-items: flex-start; flex-wrap: nowrap; gap: var(--s-4, 16px); }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-venue-logo-wrap, #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-venue-logo-wrap [data-brand-slug] { inline-size: 48px !important; block-size: 48px !important; min-inline-size: 48px !important; max-inline-size: 48px !important; width: 48px !important; height: 48px !important; border-radius: 12px; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-venue-title { flex: none; inline-size: 100%; max-inline-size: 24ch; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page :is(.factbook-category-tag, .factbook-venue-meta) { flex: none; inline-size: 100%; }
+/* venue switcher: every pill visible — wraps on desktop; on phones one scrolling row with an edge fade as the cue */
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-nav__venue-list { flex-wrap: wrap; overflow: visible; scroll-snap-type: none; padding-block-end: 0; }
+@media (max-width: 768px) {
+  #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-venue-identity { flex-direction: column; }
+  #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-venue-title { flex-basis: auto; font-size: var(--t-28); }
+  #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-nav__venue-list { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x proximity; padding-block-end: var(--s-2, 8px); padding-inline-end: var(--s-12, 48px); -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); }
+  [dir="rtl"] #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-nav__venue-list { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent); }
+}
+/* fee status: one stamp (checked date, or "Fees: Not yet checked" without a checked dot); tiers as one pending line */
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-audit-stamp--unchecked { color: var(--n11); }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-audit-stamp--unchecked::before { display: none; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-vip-pending { margin: var(--s-4, 16px) 0 0; padding: var(--s-4, 16px) 0 0; border-block-start: 1px solid var(--n6); max-inline-size: 62ch; font-size: var(--t-14); line-height: 1.55; color: var(--n11); }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-audit-date { font-size: var(--t-12); font-variant-numeric: tabular-nums; color: var(--n10); }
+/* activation values: mono for the code only, prose in Geist; one 16px step at phone width (no 18.165px) */
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-act-badge .act-val--text { font-family: inherit; font-size: var(--t-16); }
+@media (max-width: 768px) { #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-act-badge .act-val { font-size: 16px; } }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .d5-rate--null .d5-null-note { font-size: var(--t-14); color: var(--n10); }

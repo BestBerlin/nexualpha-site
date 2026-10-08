@@ -1,0 +1,60 @@
+/* V6 round 5 (data): /exchanges/{slug} hierarchy.
+ * One identity block (48px logo above the H1), the decision check as a real heading, sources as one tidy row,
+ * secondary actions side by side, and no dead band before the footer.
+ * Selector weight: six :not(#_) outranks the round-4 five-:not(#_) layer regardless of import order.
+ */
+main.v3-profile-page.v6 .v3-venue-identity > img:first-child:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
+main.v3-profile-page.v6 .v3-venue-identity > [data-brand-slug]:first-child:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  inline-size: 48px !important; block-size: 48px !important; width: 48px !important; height: 48px !important;
+  min-inline-size: 48px !important; max-inline-size: 48px !important; flex: none; border-radius: 12px; object-fit: contain;
+}
+
+/* fee status badge: the checked dot only when a fee is checked */
+main.v3-profile-page.v6 .v3-venue-identity__badges > .v3-trust-metal-badge--unchecked:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink-2, #b0b4ba); }
+main.v3-profile-page.v6 .v3-venue-identity__badges > .v3-trust-metal-badge--unchecked:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_)::before { display: none; }
+
+/* decision check: a heading, then its review date as 12px meta, then the body */
+main.v3-profile-page.v6 .v3-venue-direct-answer:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; gap: 8px; }
+main.v3-profile-page.v6 .v3-venue-direct-answer__title:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  margin: 0; max-inline-size: 40ch; font-size: var(--t-20, 1.25rem); line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; color: var(--ink-1, #edeef0); text-wrap: balance;
+}
+main.v3-profile-page.v6 .v3-venue-direct-answer__reviewed:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { order: 0; margin: 0; font-size: var(--t-12); line-height: 1.4; font-variant-numeric: tabular-nums; color: var(--ink-3, #8b8f98); }
+main.v3-profile-page.v6 .v3-venue-direct-answer > p:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 8px 0 0; max-inline-size: 62ch; }
+
+/* sources: one row of quiet links on a hairline, never an underline soup */
+main.v3-profile-page.v6 .v3-venue-direct-answer__links:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0 24px; margin: 16px 0 0; padding: 8px 0 0; border-block-start: 1px solid var(--v6-hair, #272a2d);
+}
+main.v3-profile-page.v6 .v3-venue-direct-answer__links > a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: inline-flex; align-items: center; min-block-size: 44px; padding: 0; border: 0; background: none;
+  font-size: var(--t-14); font-weight: 500; line-height: 1.3; color: var(--ink-2, #b0b4ba); text-decoration: none; transition: color 140ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+main.v3-profile-page.v6 .v3-venue-direct-answer__links > a:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--ink-1, #edeef0); text-decoration: underline; text-decoration-color: var(--accent, #1fe0c0); text-underline-offset: 4px; }
+
+/* secondary actions: one horizontal row, the relationship note below it */
+main.v3-profile-page.v6 .v3-profile-actions-row:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 24px 0 0; }
+main.v3-profile-page.v6 .v3-profile-actions-row > a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex: none; inline-size: auto; margin: 0; }
+main.v3-profile-page.v6 .v3-profile-actions-row + .v3-relationship-note:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 12px 0 0; max-inline-size: 62ch; font-size: var(--t-12); line-height: 1.5; }
+
+/* similar platforms: a closed disclosure is one 64px row (no reserved band before the footer) */
+main.v3-profile-page.v6 details.v3-similar:not([open]):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { block-size: auto; min-block-size: 0; }
+main.v3-profile-page.v6 details.v3-similar:not([open]):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) > :not(summary) { display: none; }
+main.v3-profile-page.v6 .v3-similar-disclosure__summary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) 20px; grid-template-areas: none; align-items: center; column-gap: 24px; min-block-size: 64px; padding-block: 8px; cursor: pointer;
+}
+main.v3-profile-page.v6 .v3-similar-disclosure__summary > :is(h2, span, b):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 1; grid-area: auto; margin: 0; }
+main.v3-profile-page.v6 .v3-similar-disclosure__summary > h2:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; font-size: var(--t-20, 1.25rem); }
+main.v3-profile-page.v6 .v3-similar-disclosure__summary > span:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; }
+main.v3-profile-page.v6 .v3-similar-disclosure__summary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 3; justify-self: end; transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1); }
+main.v3-profile-page.v6 details.v3-similar[open] .v3-similar-disclosure__summary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { transform: rotate(45deg); }
+
+@media (max-width: 768px) {
+  main.v3-profile-page.v6 :is(.v3-venue-direct-answer__title, .v3-similar-disclosure__summary > h2):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 18px; }
+  main.v3-profile-page.v6 .v3-similar-disclosure__summary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr) 20px; row-gap: 4px; }
+  main.v3-profile-page.v6 .v3-similar-disclosure__summary > span:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 2; }
+  main.v3-profile-page.v6 .v3-similar-disclosure__summary > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 1 / span 2; }
+  main.v3-profile-page.v6 .v3-venue-direct-answer__links:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { gap: 0 16px; }
+}
+
+/* fee strip: an unchecked cell reads "Not yet checked" at body size, no dash */
+main.v3-profile-page.v6 .d5-rate--null .d5-null-note:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); color: var(--ink-3, #8b8f98); }
