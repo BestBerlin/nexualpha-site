@@ -377,6 +377,11 @@ body:has(.v5 .container) .nx-ftr__inner {
   .nx-hdr__bar, .nx-brand__mark, .nx-nav a::after, .nx-more__btn::after, .nx-chev, .nx-burger__bars i, .nx-search, .nx-lang__btn { transition: none; }
 }
 
+/* Legacy #v2-mobile-menu rules (v2-refinement.css) colour the active link blue; the shell owns that state now. */
+#v2-mobile-menu.nx-sheet .nx-sheet__nav a[data-active="true"] { color: var(--nx-n12); text-decoration-color: var(--nx-accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+#v2-mobile-menu.nx-sheet .nx-sheet__nav a:focus-visible,
+#v2-mobile-menu.nx-sheet button:focus-visible { outline: 2px solid var(--nx-accent); outline-offset: 3px; }
+
 /* ---------- footer ---------- */
 .nx-ftr {
   margin-block-start: clamp(48px, 7vw, 96px);
