@@ -687,7 +687,7 @@ const homeModeTaskCopy = Object.freeze({
   }
 });
 
-function HomeDecisionPanel({ locale, ui, selectedSlug, onSelectSlug }) {
+function HomeDecisionPanel({ locale, ui, selectedSlug, onSelectSlug, cardOnly = false }) {
   const platformChooserTaskCopy = {
     "en": "Change platform",
     "zh-Hans": "更换平台",
@@ -774,6 +774,36 @@ function HomeDecisionPanel({ locale, ui, selectedSlug, onSelectSlug }) {
     setQuery("");
     chooserSearchRef.current?.focus?.();
   };
+
+  if (cardOnly) {
+    // V6 route finder re-hosts the same registration card (same props, hrefs, codes, rel) in its own layout.
+    return (
+      <div
+        className="hx-route__registration"
+        key={selected.slug}
+        data-r37-cro="home-partner-route-nudge"
+        data-r37-platform={selected.slug}
+        data-r37-has-code={selected.inviteCode ? "true" : "false"}
+        data-r37-primary-label="Open route and confirm code"
+        data-cta-placement="home-decision-panel"
+      >
+        <RegistrationCard
+          venueSlug={selected.slug}
+          fallbackDomain={selected.officialDomain}
+          locale={locale}
+          market={contextMarket}
+          product={contextProduct}
+          accountStage={contextAccountStage}
+          funding={contextFunding}
+          compact
+          compactCopyLabel={compactCopyLabel}
+          compactCopyAriaLabel={compactCopyAriaLabel}
+          compactSignupLabel={compactHomeTask?.signup}
+          homeCodeIdentity
+        />
+      </div>
+    );
+  }
 
   return (
     <aside className="hx-panel" aria-label={ui.decisionTitle}>
@@ -972,7 +1002,7 @@ function valueLine(locale) {
   return VALUE_LINE[key] || VALUE_LINE[String(key || "en").split("-")[0]] || VALUE_LINE.en;
 }
 
-export function LeanHero({ locale = "en" }) {
+export function LeanHero({ locale = "en", render }) {
   const ui = getUi(locale);
   const heroPills = heroPillsForLocale(ui, locale);
   const proofs = getProofs(locale);
@@ -1066,6 +1096,44 @@ export function LeanHero({ locale = "en" }) {
     locale,
     product: telegramParams?.get("product") || "spot",
   });
+
+  if (typeof render === "function") {
+    // V6: hand the same copy, data and registration card to the route-finder layout.
+    const noop = () => {};
+    return render({
+      locale,
+      title: ui.title,
+      lede: valueLine(locale),
+      subtitle: ui.subtitle,
+      badge: ui.badge,
+      helpTitle: ui.decisionTitle,
+      helpLead: ui.decisionLead,
+      wizardLabel: ui.wizardBtn,
+      exploreLabel: ui.explore,
+      compareLabel: ui.compare,
+      exploreHref: localeHref(locale, "#exchanges"),
+      compareHref: localeHref(locale, "#compare"),
+      openWizard: () => setWizardOpen(true),
+      wizardModal: <TraderWizardModal isOpen={wizardOpen} onClose={closeWizard} locale={locale} />,
+      pills: heroPills.map((pill) => ({ text: pill.text, href: localeHref(locale, pill.href) })),
+      telegram: { href: telegramHref, label: telegramCtaLabel(locale) },
+      venue: (slug) => {
+        const card = partnerCard(slug, locale);
+        if (!card) return null;
+        const db = venueDatabase[slug] || {};
+        return {
+          slug,
+          name: card.name,
+          category: card.category,
+          officialDomain: card.officialDomain,
+          hasPerp: Number.isFinite(db.futuresFee?.makerRate),
+          fiat: (db.fiatChannels || []).length,
+        };
+      },
+      BrandMark,
+      card: (slug) => <HomeDecisionPanel locale={locale} ui={ui} selectedSlug={slug} onSelectSlug={noop} cardOnly />,
+    });
+  }
 
   return (
     <section className="hx" aria-label="NexuAlpha" ref={heroRef}>
