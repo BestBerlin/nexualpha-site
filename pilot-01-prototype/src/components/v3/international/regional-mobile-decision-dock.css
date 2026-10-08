@@ -51,7 +51,7 @@
     outline-offset: 2px;
   }
 
-  body:has(.regional-mobile-decision-dock) {
+  body:has(> #root > main > section > .regional-mobile-decision-dock) {
     padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px));
   }
 }

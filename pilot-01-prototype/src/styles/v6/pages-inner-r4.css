@@ -8,7 +8,7 @@
  * ===================================================================================================== */
 
 /* ---------- #17 hygiene: Geist body stack, and a scroll container that lets position:sticky work ---------- */
-body:has(main.v6:not(.home-refinement)) {
+body:has(> #root > main.v6:not(.home-refinement)) {
   font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", "Pilot Noto Arabic", sans-serif;
   /* body{overflow-x:hidden} made <body> a scroll container that never scrolls, so every sticky element froze. clip does not. */
   overflow-x: clip;
@@ -94,7 +94,7 @@ body:has(main.v6:not(.home-refinement)) {
 main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: var(--section-pad, clamp(72px, 9vw, 128px)); }
 main.v6:not(.home-refinement) > :last-child:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-end: 0; }
 main.v6:not(.home-refinement) > :last-child > :last-child:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-end: 0; padding-block-end: 0; }
-body:has(main.v6:not(.home-refinement)) .crawl-priority-links:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 0; padding-block: 48px; border-block-start: 1px solid var(--line, rgb(255 255 255 / 0.12)); }
+body:has(> #root > main.v6:not(.home-refinement)) .crawl-priority-links:not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 0; padding-block: 48px; border-block-start: 1px solid var(--line, rgb(255 255 255 / 0.12)); }
 /* the venue grid is the page on /exchanges/{slug}: its last row needs the same end padding */
 @media (min-width: 1025px) {
   main.v3-profile-page.v6:not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: 128px; }

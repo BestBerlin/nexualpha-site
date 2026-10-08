@@ -114,8 +114,8 @@ html { scroll-padding-block-start: 76px; }
   margin-inline: auto;
   block-size: 100%;
 }
-body:has(.v5 .container) .nx-hdr__inner,
-body:has(.v5 .container) .nx-ftr__inner {
+body:has(> #root > main.v5 > .container) .nx-hdr__inner,
+body:has(> #root > main.v5 > .container) .nx-ftr__inner {
   inline-size: 100%;
   max-inline-size: 76rem;
   padding-inline: clamp(1rem, 0.5rem + 2.5vw, 2rem);

@@ -5,7 +5,7 @@ const k = (title, lead, venue, s1t, s1d, s1ok, s2t, s2d, none, copy, copied, s3t
 export const verifyCopy = {
   en: k("Verify before you leave", "Three checks that stop lookalike sites and surprise terms. Each uses the record we keep for this venue.", "Venue to verify",
     "Official domain", "Your address bar must show exactly this domain before you enter anything.", "In our reviewed record",
-    "Referral code", "If the signup page does not prefill it, enter it before you submit.", "No code needed for this venue", "Copy code", "Copied",
+    "Referral code", "If the sign-up page does not prefill it, enter it before you submit.", "No code needed for this venue", "Copy code", "Copied",
     "Disclosure", "We may earn a commission when you sign up through our links, at no extra cost to you. Any benefit follows the platform's own terms.", "Read the affiliate disclosure"),
   "zh-Hans": k("离开前先核验", "三步核对，避开仿冒网站与意外条款。每一步都对应我们为该平台留存的记录。", "选择要核验的平台",
     "官方域名", "输入任何信息之前，请确认地址栏显示的域名与此完全一致。", "与我们已审核的记录一致",

@@ -1,25 +1,12 @@
 /* Generated files live in public/fonts. Do not add a remote font CDN fallback. */
 @font-face{font-family:"Pilot Inter";font-style:normal;font-weight:400 700;font-display:optional;src:url("/fonts/latin-400-700.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto SC";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/zh-Hans-400.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto SC";font-style:normal;font-weight:500;font-display:swap;src:url("/fonts/zh-Hans-500.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto SC";font-style:normal;font-weight:600;font-display:swap;src:url("/fonts/zh-Hans-600.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto SC";font-style:normal;font-weight:700;font-display:swap;src:url("/fonts/zh-Hans-700.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto TC";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/zh-Hant-400.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto TC";font-style:normal;font-weight:500;font-display:swap;src:url("/fonts/zh-Hant-500.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto TC";font-style:normal;font-weight:600;font-display:swap;src:url("/fonts/zh-Hant-600.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto TC";font-style:normal;font-weight:700;font-display:swap;src:url("/fonts/zh-Hant-700.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto JP";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/ja-400.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto JP";font-style:normal;font-weight:500;font-display:swap;src:url("/fonts/ja-500.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto JP";font-style:normal;font-weight:600;font-display:swap;src:url("/fonts/ja-600.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto JP";font-style:normal;font-weight:700;font-display:swap;src:url("/fonts/ja-700.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto KR";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/ko-400.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto KR";font-style:normal;font-weight:500;font-display:swap;src:url("/fonts/ko-500.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto KR";font-style:normal;font-weight:600;font-display:swap;src:url("/fonts/ko-600.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto KR";font-style:normal;font-weight:700;font-display:swap;src:url("/fonts/ko-700.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto Arabic";font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/ar-400.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto Arabic";font-style:normal;font-weight:500;font-display:swap;src:url("/fonts/ar-500.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto Arabic";font-style:normal;font-weight:600;font-display:swap;src:url("/fonts/ar-600.woff2") format("woff2");unicode-range:U+0-10FFFF}
-@font-face{font-family:"Pilot Noto Arabic";font-style:normal;font-weight:700;font-display:swap;src:url("/fonts/ar-700.woff2") format("woff2");unicode-range:U+0-10FFFF}
+/* One variable file per script (wght 100-900): real 400/500/600 from one download. unicode-range is the script itself, so a
+   Latin page never downloads a CJK or Arabic file for a stray symbol (arrows, "≠", "⌘" and U+FF0B fall through to system faces). */
+@font-face{font-family:"Pilot Noto SC";font-style:normal;font-weight:100 900;font-display:swap;src:url("/fonts/zh-Hans-400.woff2") format("woff2");unicode-range:U+2E80-2FDF, U+3000-303F, U+3040-30FF, U+3100-312F, U+3190-31FF, U+3200-33FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FF0A, U+FF0C-FFEF, U+20000-2FA1F}
+@font-face{font-family:"Pilot Noto TC";font-style:normal;font-weight:100 900;font-display:swap;src:url("/fonts/zh-Hant-400.woff2") format("woff2");unicode-range:U+2E80-2FDF, U+3000-303F, U+3040-30FF, U+3100-312F, U+3190-31FF, U+3200-33FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FF0A, U+FF0C-FFEF, U+20000-2FA1F}
+@font-face{font-family:"Pilot Noto JP";font-style:normal;font-weight:100 900;font-display:swap;src:url("/fonts/ja-400.woff2") format("woff2");unicode-range:U+2E80-2FDF, U+3000-303F, U+3040-30FF, U+3100-312F, U+3190-31FF, U+3200-33FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FF0A, U+FF0C-FFEF, U+20000-2FA1F}
+@font-face{font-family:"Pilot Noto KR";font-style:normal;font-weight:100 900;font-display:swap;src:url("/fonts/ko-400.woff2") format("woff2");unicode-range:U+1100-11FF, U+3000-303F, U+3130-318F, U+3200-32FF, U+A960-A97F, U+AC00-D7FF, U+FF00-FF0A, U+FF0C-FFEF}
+@font-face{font-family:"Pilot Noto Arabic";font-style:normal;font-weight:100 900;font-display:swap;src:url("/fonts/ar-400.woff2") format("woff2");unicode-range:U+0600-06FF, U+0750-077F, U+0870-08FF, U+FB50-FDFF, U+FE70-FEFF}
 
 :root{
   --font-display:"Pilot Inter","Noto Sans SC","PingFang SC",system-ui,sans-serif;

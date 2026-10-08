@@ -2,7 +2,8 @@
 // Registration / detail / verify hrefs, rel, data-* and referral codes are produced by the same helpers the legacy
 // compact rows used (publicCtaForVenue, regionalCtaState, localizedHref), in the same DOM order, so the link graph is unchanged.
 // Reveal is decoration only: every row, fee and code is visible in the server HTML and stays visible if JS or IO never runs.
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { useSharedSelection } from "./home-selection.js";
 import { RailDock, RailSeg } from "./RouteRail.jsx";
 import { BrandMark } from "../brand/BrandMark";
 import { PlatformMatcher } from "../v3/PlatformMatcher";
@@ -48,7 +49,9 @@ function Icon({ name }) {
   return <svg className={`dir6-ico dir6-ico--${name}`} viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{p}</svg>;
 }
 
-export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelectionChange, decisionPassport = {} }) {
+function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectionChange, decisionPassport = {}, store }) {
+  const shared = useSharedSelection(store, selected);
+  const pickPair = (next) => { if (store) store.set(next); else onSelectionChange?.(next); };
   const [category, setCategory] = useState("all");
   const [filters, setFilters] = useState(EMPTY_FILTERS);
   const [verifiedFirst, setVerifiedFirst] = useState(false);
@@ -74,7 +77,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
   const copyUi = getCopyFeedbackCopy(locale);
   const context = directoryContext({ locale });
   const contextSearch = appendAccountStageToSearch(directoryContextSearch({ locale }), undefined);
-  const sharedSelection = Array.isArray(selected) ? selected : [];
+  const sharedSelection = Array.isArray(shared) ? shared : [];
   // The shared compare picks start from a default pair (Binance vs OKX). Ticking those rows on load reads as a
   // recommendation, so a row shows as picked only after the visitor has picked something (here or in the compare lab).
   const selectionKey = sharedSelection.join(",");
@@ -150,9 +153,9 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
     if (!hasCompareRoute(slug) && !cur.includes(slug)) return;
     if (cur.includes(slug)) next = cur.filter((s) => s !== slug);
     else next = cur.length >= 2 ? [cur[cur.length - 1], slug] : [...cur, slug];
-    onSelectionChange?.(next);
+    pickPair(next);
   };
-  const clearCompare = () => { setTouched(true); onSelectionChange?.([]); };
+  const clearCompare = () => { setTouched(true); pickPair([]); };
   const nameOf = (slug) => rows.find((r) => r.slug === slug)?.name || venueDatabase[slug]?.name || slug;
 
   const onSegKey = (event, index) => {
@@ -263,12 +266,12 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
       <RailSeg /><RailDock i={2} locale={locale} />
       <div className="v6-wrap">
         <header className="dir6-head">
-          <h2 className="v6-h1" id="dir6-title">{ui.sectionTitle}</h2>
+          <h2 className="v6-h1" id="dir6-title">{locale === "en" ? "Crypto platform directory" : ui.sectionTitle}</h2>
           <p className="v6-lead dir6-lead">{ui.sectionLead}</p>
         </header>
 
         <div className="dir6-match">
-          <PlatformMatcher locale={locale} venues={venues} selected={compareSelection} decisionPassport={decisionPassport} defaultOpen={false} onSelectionChange={onSelectionChange} />
+          <PlatformMatcher locale={locale} venues={venues} selected={compareSelection} decisionPassport={decisionPassport} defaultOpen={false} onSelectionChange={pickPair} />
         </div>
 
         <div className="dir6-bar">
@@ -555,5 +558,11 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
     </section>
   );
 }
+
+// The directory never re-renders for state it does not read: the page shell's legacy slot is ignored, and the
+// decision passport is compared by value (the shell rebuilds it on every render).
+const same = (a, b) => a === b || JSON.stringify(a) === JSON.stringify(b);
+export const DirectoryV6 = memo(DirectoryV6Impl, (p, n) => p.locale === n.locale && p.venues === n.venues && p.store === n.store
+  && p.onSelectionChange === n.onSelectionChange && same(p.selected, n.selected) && same(p.decisionPassport, n.decisionPassport));
 
 export default DirectoryV6;

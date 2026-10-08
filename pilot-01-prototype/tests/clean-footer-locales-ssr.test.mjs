@@ -12,7 +12,7 @@ const localizedRights = {
   id: 'Hak cipta dilindungi.', vi: 'Bảo lưu mọi quyền.',
 };
 const expected = {
-  en: ['Topic Guides', 'Factbook'],
+  en: ['Topic guides', 'Factbook'],
   'zh-Hans': ['主题指南', '事实库'], 'zh-Hant': ['主題指南', '事實庫'],
   'zh-CN': ['主题指南', '事实库'], 'zh-TW': ['主題指南', '事實庫'],
   es: ['Guías temáticas', 'Ficha de fuentes'], 'pt-BR': ['Guias temáticos', 'Ficha de fontes'],

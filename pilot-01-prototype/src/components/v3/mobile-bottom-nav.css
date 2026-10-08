@@ -74,20 +74,20 @@
   }
 
   /* 避免底部内容被 Dock 遮挡 */
-  body:has(.mobile-bottom-nav) {
+  body:has(> #root > .mobile-bottom-nav, > #root > main > .mobile-bottom-nav) {
     --mobile-bottom-nav-reserve: calc(var(--mobile-bottom-nav-height, 80px) + 8px);
     padding-bottom: var(--mobile-bottom-nav-reserve);
   }
 
   /* Detail and deep-compare routes own their decision controls. Keep the
      shared dock out of the rendered action hierarchy even during hydration. */
-  body:has(.v3-profile-page) .mobile-bottom-nav,
-  body:has(.v3-compare-page) .mobile-bottom-nav {
+  body:has(> #root > main.v3-profile-page) .mobile-bottom-nav,
+  body:has(> #root > main.v3-compare-page) .mobile-bottom-nav {
     display: none;
   }
 
-  body:has(.v3-profile-page),
-  body:has(.v3-compare-page) {
+  body:has(> #root > main.v3-profile-page),
+  body:has(> #root > main.v3-compare-page) {
     --mobile-bottom-nav-reserve: 0px;
     padding-bottom: 0;
   }
@@ -119,7 +119,7 @@
     color: #ffffff;
     background: rgba(255, 255, 255, 0.08);
   }
-  html:has(.mobile-bottom-nav):not(:has(.v3-profile-page, .v3-compare-page)) {
+  html:has(> body > #root > .mobile-bottom-nav, > body > #root > main > .mobile-bottom-nav):not(:has(> body > #root > main:is(.v3-profile-page, .v3-compare-page))) {
     scroll-padding-bottom: calc(var(--mobile-bottom-nav-height, 80px) + 8px);
   }
 }

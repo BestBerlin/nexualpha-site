@@ -15,7 +15,7 @@
 #top.v6 :is(.rr-seg, .rr-stub, .rr-start, .rr-dock) { display: none; }
 /* body{overflow-x:hidden} made <body> a scroll container that never scrolls: view() timelines would track it instead of the
    viewport. clip keeps the no-horizontal-scroll guarantee without creating a scroll container (as on the inner pages). */
-body:has(> * main#top.v6.home-refinement), body:has(main#top.v6.home-refinement) { overflow-x: clip; overflow-y: visible; }
+body:has(> #root > main#top.v6.home-refinement) { overflow-x: clip; overflow-y: visible; }
 .v6-close__route { anchor-name: --rr-dest; }
 #top.v6 .rf-you { anchor-name: --rr-you; }
 @media (min-width: 48rem) {

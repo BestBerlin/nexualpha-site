@@ -1896,7 +1896,7 @@ test("CleanFooter navigation labels match their destinations in every supported 
     const key = /^[a-z]+$/.test(locale) ? locale : `"${locale}"`;
     assert.match(cleanFooter, new RegExp(`${key}: \\{[\\s\\S]*?directory:`), `${locale} footer labels`);
   }
-  assert.match(cleanFooter, /directory: "Platform Directory"/);
+  assert.match(cleanFooter, /directory: "Platform directory"/);
   assert.match(cleanFooter, /contact: "お問い合わせ"/);
   assert.match(cleanFooter, /contact: "문의"/);
   assert.match(cleanFooter, /contact: "İletişim"/);

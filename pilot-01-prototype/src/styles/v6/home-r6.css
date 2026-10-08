@@ -104,7 +104,7 @@
   #top.v6 .rf-card .registration-card__disclosure { order: 7; }
   #top.v6 .rf-card .registration-card__head, #top.v6 .rf-card .rf-facts { padding-block-start: var(--s-3); border-block-start: 1px solid var(--line); }
   /* no-JS / first paint: the active intent already points down into the venue strip */
-  #top.v6 .rf-grid:not(:has(.rf-svg[data-live])) .rf-intent[aria-checked="true"] .rf-port::after { content: ""; position: absolute; inset-block-start: 100%; inset-inline-start: 50%; inline-size: 2px; block-size: var(--s-3); margin-inline-start: -1px; background: var(--accent); }
+  #top.v6 .rf-grid:not(:has(> .rf-svg[data-live])) .rf-intent[aria-checked="true"] .rf-port::after { content: ""; position: absolute; inset-block-start: 100%; inset-inline-start: 50%; inline-size: 2px; block-size: var(--s-3); margin-inline-start: -1px; background: var(--accent); }
 }
 
 /* ---------- Japanese display title: phrase breaks only (the <wbr> come from the component) ---------- */

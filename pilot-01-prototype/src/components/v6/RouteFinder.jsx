@@ -1,7 +1,7 @@
 // V6 Act 1: the route finder. Intent -> animated routes -> venue node -> the same registration card as before.
 // The legacy hero (ticker, LeanHero, Brazil entry, section nav) is re-hosted: LeanHero renders through its `render`
 // prop so copy, data, hrefs, codes and rel attributes stay exactly the ones the old hero produced.
-import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, useRef, useState } from "react";
+import { Children, cloneElement, isValidElement, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { EXCHANGE_FACTS } from "../../data/exchange-facts.js";
 import { directoryLabel } from "./ClosingBand.jsx";
 import { RailSeg } from "./RouteRail.jsx";
@@ -50,6 +50,9 @@ const NET = { en: "Network", "zh-Hans": "网络", "zh-Hant": "網路", ja: "ネ�
 const pairText = (locale, p) => `${fmt(locale, p[0])}/${fmt(locale, p[1])}%`;
 const verifiedPair = (f, key) => (f?.status === "verified" && Number.isFinite(f?.[key]?.[0]) && Number.isFinite(f?.[key]?.[1]) ? f[key] : null);
 const RTL = new Set(["ar", "he", "fa", "ur"]);
+// Funding methods as recorded for the venue (record values, shown as recorded, in English like chain names). They are not
+// fee-page checks, so the readout labels them "not yet checked" in the same row; nothing is derived or ranked from them.
+const methodsOf = (slug) => (Array.isArray(venueDatabase[slug]?.fiatChannels) ? venueDatabase[slug].fiatChannels.filter((m) => typeof m === "string" && m) : []);
 
 // Fee figure: ALWAYS the final verified value, in the first frame and on the server. Change is signalled by opacity/translate only
 // (a keyed remount replays the CSS entrance); no intermediate number is ever rendered.
@@ -231,16 +234,20 @@ const withData = (intent, f) => ((intent === "spot" || intent === "perps")
 
 // Verified facts for one venue. Spot and perp show the checked figures; when neither is checked the readout says so once.
 // Only the on-ramp line may add its own "Not yet checked", because nothing for it has been checked.
-function Facts({ className, facts, intent, t, tick, locale, chain }) {
+function Facts({ className, facts, intent, t, tick, locale, chain, methods = [] }) {
   const sp = verifiedPair(facts, "spot");
   const pp = verifiedPair(facts, "perp");
   // On-chain: the venue's network is a recorded fact, shown first (the node above it shows the same value)
+  const fiat = intent === "fiat" && methods.length > 0
+    ? <div data-on="true" className="rf-facts__intent rf-facts__fiat"><dt>{t.i.fiat[0]}</dt><dd><span className="rf-methods" lang="en" translate="no">{methods.slice(0, 3).map((m) => <span key={m} className="rf-method">{m}</span>)}</span><small className="rf-na rf-methods__state">{t.none}</small></dd></div>
+    : null;
   const net = intent === "chain" && chain ? <div data-on="true" className="rf-facts__net"><dt>{pickLocale(NET, locale)}</dt><dd><span lang="en" translate="no">{chain}</span></dd></div> : null;
   if (!sp && !pp) {
     return (
       <dl className={className}>
         {net}
-        <div data-on={!net} className="rf-facts__intent"><dt>{t.spot} · {t.perp} {t.mt}</dt><dd><span className="rf-na">{t.none}</span></dd></div>
+        <div data-on={!net && !fiat} className="rf-facts__intent"><dt>{t.spot} · {t.perp} {t.mt}</dt><dd><span className="rf-na">{t.none}</span></dd></div>
+        {fiat}
       </dl>
     );
   }
@@ -249,7 +256,7 @@ function Facts({ className, facts, intent, t, tick, locale, chain }) {
       {net}
       <div data-on={intent === "spot"}><dt>{t.spot} {t.mt}</dt><dd><FeePair pair={sp} tick={tick} none={t.none} locale={locale} /></dd></div>
       <div data-on={intent === "perps" || intent === "chain"}><dt>{t.perp} {t.mt}</dt><dd><FeePair pair={pp} tick={tick} none={t.none} locale={locale} /></dd></div>
-      {intent === "fiat" && <div data-on="true" className="rf-facts__intent"><dt>{t.i[intent][0]}</dt><dd><span className="rf-na">{t.none}</span></dd></div>}
+      {fiat}
     </dl>
   );
 }
@@ -385,6 +392,8 @@ function Finder({ kit, tail, venues }) {
   const panelId = `${uid}-panel`;
   const selIdx = Math.max(0, nodes.findIndex((v) => v.slug === sel.slug));
   const title = String(kit.title);
+  // The registration card only changes with the chosen venue: hover, intent and route redraws never re-render it.
+  const card = useMemo(() => kit.card(sel.slug), [kit, sel.slug]);
   const g = geo;
 
   return (
@@ -423,7 +432,7 @@ function Finder({ kit, tail, venues }) {
           <b key={peek.slug} translate="no" lang="en">{peek.name}</b>
           {peekFacts?.verifiedOn && <small>{t.chk} <bdi dir="ltr">{peekFacts.verifiedOn}</bdi></small>}
         </p>
-        <Facts className="rf-readout__facts" facts={peekFacts} intent={intent} t={t} locale={locale} tick={`${peek.slug}-${intent}`} chain={chainOf(peek.slug)} />
+        <Facts className="rf-readout__facts" facts={peekFacts} intent={intent} t={t} locale={locale} tick={`${peek.slug}-${intent}`} chain={chainOf(peek.slug)} methods={methodsOf(peek.slug)} />
       </div>
       </div>
 
@@ -449,6 +458,7 @@ function Finder({ kit, tail, venues }) {
             const active = v.slug === activeSlug;
             const pair = intent === "chain" ? null : verifiedPair(EXCHANGE_FACTS[v.slug], nodeKey);
             const chain = intent === "chain" ? chainOf(v.slug) : null;
+            const recorded = intent === "fiat" ? methodsOf(v.slug).slice(0, 2).join(" · ") : "";
             // hover / focus chip: the recorded domain plus the checked fee for this intent (final values only)
             const tip = verifiedPair(EXCHANGE_FACTS[v.slug], intent === "chain" || intent === "perps" ? "perp" : "spot");
             return (
@@ -479,6 +489,8 @@ function Finder({ kit, tail, venues }) {
                     {on
                       ? (chain
                         ? <span className="rf-node__net" lang="en" translate="no">{chain}</span>
+                        : recorded
+                        ? <span className="rf-node__net" lang="en" translate="no">{recorded}</span>
                         : pair
                         ? <><span className="rf-sr">{nodeKey === "perp" ? t.perp : t.spot} </span><bdi dir="ltr">{fmt(locale, pair[0])}/{fmt(locale, pair[1])}%</bdi></>
                         : <><span className="rf-node__dom" dir="ltr" translate="no">{bareDomain(v.officialDomain)}</span><span className="rf-sr"> {t.none}</span></>)
@@ -500,10 +512,10 @@ function Finder({ kit, tail, venues }) {
       <div className="rf-card" id={panelId} ref={cardRef} role="region" aria-label={sel.name} style={{ "--ord": 11 + selIdx * 2, "--dock": `${g.dock || 0}px` }} data-swap={swap || undefined}>
         <div className="rf-card__head">
           <span className="rf-card__who" key={sel.slug}><BrandMark slug={sel.slug} priority /><b translate="no" lang="en">{sel.name}</b><small translate="no" lang="en">{sel.category}</small></span>
-          <Facts className="rf-facts" facts={facts} intent={intent} t={t} locale={locale} tick={tick} chain={chainOf(sel.slug)} />
+          <Facts className="rf-facts" facts={facts} intent={intent} t={t} locale={locale} tick={tick} chain={chainOf(sel.slug)} methods={methodsOf(sel.slug)} />
           {facts?.verifiedOn && <p className="rf-card__chk">{t.chk} <bdi dir="ltr">{facts.verifiedOn}</bdi></p>}
         </div>
-        {kit.card(sel.slug)}
+        {card}
       </div>
 
       {/* one ghost button + one text link (the card holds the one filled CTA). The directory jump stays in the DOM in its

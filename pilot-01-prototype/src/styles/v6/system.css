@@ -93,15 +93,15 @@ main.v6:not(.home-refinement) > [class*="sticky"] + *:not(#_):not(#_) { margin-b
 main.v6:not(.home-refinement) > .mx-page:not(#_):not(#_), main.v6:not(.home-refinement) > .br-primary-workbench:not(#_):not(#_) { padding-block: var(--s-6, 24px) var(--v6-gap); min-block-size: 0; }
 main.v6:not(.home-refinement) :where(section, div, article, aside):not(#_):not(#_) { min-block-size: 0; }
 
-body:has(main.v6:not(.home-refinement)) {
+body:has(> #root > main.v6:not(.home-refinement)) {
   --content: 1200px; --page-pad: 24px; --v6-gap: clamp(48px, 4.5vw, 64px);
 }
-body:has(main.v6:not(.home-refinement)) .nx-ftr { margin-block-start: 0; }
-body:has(main.v6:not(.home-refinement)) .crawl-priority-links { margin-block: var(--v6-gap) 0; padding-block: 0 48px; border-block-start: 0; }
-body:has(main.v6:not(.home-refinement)) :is(.nx-hdr, .nx-ftr, .crawl-priority-links, .mobile-bottom-nav) :where(*:not(svg, svg *, .nx-brand__label, .nx-brand__label *)):not(#_):not(#_) { font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif; }
-body:has(main.v6:not(.home-refinement)) :is(.nx-ftr, .crawl-priority-links) :where(a, p, li, span, strong, b, summary, div, h2, h3, h4):not(#_):not(#_) { font-size: 0.875rem; line-height: 1.55; }
-body:has(main.v6:not(.home-refinement)) :is(.nx-ftr__title, .crawl-priority-links strong, .crawl-priority-links__intro strong):not(#_):not(#_) { font-weight: 600; }
-body:has(main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label, .clean-footer__copyright, .nx-search__kbd, .nx-lang__opt-code, .nx-lang__code, [class*="__eyebrow"], [class*="__group-title"], .crawl-priority-links__group > :first-child):not(#_):not(#_) { font-size: 0.75rem; line-height: 1.4; }
+body:has(> #root > main.v6:not(.home-refinement)) .nx-ftr { margin-block-start: 0; }
+body:has(> #root > main.v6:not(.home-refinement)) .crawl-priority-links { margin-block: var(--v6-gap) 0; padding-block: 0 48px; border-block-start: 0; }
+body:has(> #root > main.v6:not(.home-refinement)) :is(.nx-hdr, .nx-ftr, .crawl-priority-links, .mobile-bottom-nav) :where(*:not(svg, svg *, .nx-brand__label, .nx-brand__label *)):not(#_):not(#_) { font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif; }
+body:has(> #root > main.v6:not(.home-refinement)) :is(.nx-ftr, .crawl-priority-links) :where(a, p, li, span, strong, b, summary, div, h2, h3, h4):not(#_):not(#_) { font-size: 0.875rem; line-height: 1.55; }
+body:has(> #root > main.v6:not(.home-refinement)) :is(.nx-ftr__title, .crawl-priority-links strong, .crawl-priority-links__intro strong):not(#_):not(#_) { font-weight: 600; }
+body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label, .clean-footer__copyright, .nx-search__kbd, .nx-lang__opt-code, .nx-lang__code, [class*="__eyebrow"], [class*="__group-title"], .crawl-priority-links__group > :first-child):not(#_):not(#_) { font-size: 0.75rem; line-height: 1.4; }
 
 /* ---------- 5. disclosure rows: one pattern ---------- */
 :is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_) {

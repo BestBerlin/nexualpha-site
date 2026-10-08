@@ -997,7 +997,7 @@ function HeroMatrix({ locale, selectedSlug, onSelectSlug }) {
 }
 
 const VALUE_LINE = {
-  en: "Check fees, proof of reserves and the official signup route before you open an account.",
+  en: "Check fees, proof of reserves and the official sign-up route before you open an account.",
   "zh-Hans": "开户前，先核对费率、储备证明和官方开户入口。",
   "zh-Hant": "開戶前，先核對費率、儲備證明和官方開戶入口。",
   ja: "口座を開く前に、手数料・準備金証明・公式の登録ルートを確認。",

@@ -89,7 +89,7 @@
   margin-block: var(--s-8);
 }
 /* page-level scrollbar when a V5 page is mounted */
-html:has(.v5) {
+html:has(> body > #root > main.v5) {
   scrollbar-color: var(--n7) var(--n1);
   background: var(--n1);
 }

@@ -1,7 +1,7 @@
 // V6 act 5: closing band. A large-type statement + next-action CTAs (one line-draw route + a
 // word-rise), then the legacy research drawer and CrawlPriorityLinks re-hosted unchanged as a typographic index
 // (restyled in src/styles/v6/closing.css). The legacy slot keeps every link in the DOM in its original order.
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, memo, useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
 import { CLOSE_COPY, RAIL, pickLocale } from "../v3/LeanHeroCopyV6.js";
 import { LeanHero } from "../v3/LeanHero";
@@ -22,7 +22,7 @@ function GoForm({ href, className, children }) {
 // Shared noun for the directory CTA (the hero's tertiary link uses the same label).
 export const directoryLabel = (locale) => (CLOSE_COPY[locale] || CLOSE_COPY.en).dir;
 
-export function ClosingBand({ legacy, locale = "en" }) {
+function ClosingBandImpl({ legacy, locale = "en" }) {
   const t = CLOSE_COPY[locale] || CLOSE_COPY.en;
   const r = pickLocale(RAIL, locale);
   const ref = useRef(null);
@@ -81,3 +81,6 @@ export function ClosingBand({ legacy, locale = "en" }) {
     </div>
   </section>;
 }
+
+// The closing index is a large static link set; its slot depends on the locale only, so nothing else re-renders it.
+export const ClosingBand = memo(ClosingBandImpl, (p, n) => p.locale === n.locale);

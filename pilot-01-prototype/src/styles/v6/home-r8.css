@@ -1,0 +1,78 @@
+/* V6 round 8, home. Loaded after home-r7.css. Every rule here is scoped to the home main (#top.v6.home-refinement or
+ * #top.v6 + a home-only act class); no :has() is anchored on html/body (those turned every click into a full-page style
+ * recalc, see system.css / mobile-bottom-nav.css for the child-combinator forms). */
+
+/* ---------- 1. one seam between the directory and the closing band: section-pad in total (128 / 72) ---------- */
+/* The band keeps its 24px inset (its lighter fill marks the edge); the directory gives up the same 24px. */
+#top.v6.home-refinement .dir6.v6-section:has(+ .v6-close) { padding-block-end: calc(var(--section-pad) - var(--s-6)); }
+
+/* ---------- 2. source notes: a 12px meta line under the hero decision, never a kicker above the H1 ---------- */
+/* DOM order (and every href in it) is unchanged; only the visual order moves. */
+#top.v6.home-refinement section.rf { display: flex; flex-direction: column; }
+#top.v6.home-refinement section.rf > .rebate-ticker-bar { order: 2; margin-block: calc(var(--section-pad) * -1 + var(--s-6)) var(--section-pad); }
+#top.v6.home-refinement section.rf > .rebate-ticker-bar .rebate-ticker__summary { color: var(--text-muted); }
+#top.v6.home-refinement section.rf > .rebate-ticker-bar .rebate-ticker__tag { letter-spacing: 0; text-transform: none; font-weight: 400; }
+
+/* ---------- 3. compare lab: both venues get the same frame; the active slot is a 2px accent underline only ---------- */
+#top.v6 .cl-id, #top.v6 .cl-id[data-active] { border: 1px solid var(--line); border-radius: var(--r-md); background: var(--n2); box-shadow: none; }
+#top.v6 .cl-id[data-active] { box-shadow: inset 0 -2px 0 0 var(--accent); }
+#top.v6 .cl-id:hover, #top.v6 .cl-id:not([data-active]):hover { border-color: var(--n8); }
+#top.v6 .cl__plate[data-dragging] .cl-id[data-hot] { border-color: var(--accent); background: var(--accent-wash); }
+/* the pair sits on columns 2-6 / 7-11: no dead strip beside the first venue */
+@media (min-width: 64rem) {
+  #top.v6 .cl-grid--ids { padding-inline: calc((100% + var(--gutter)) / 12); }
+}
+/* the chip name tip opens below the chip, so it never covers the "First / Second venue" label above the row */
+#top.v6 .cl-chip::after { inset-block-end: auto; inset-block-start: calc(100% + var(--s-1)); translate: -50% calc(var(--s-1) * -1); }
+#top.v6[dir="rtl"] .cl-chip::after { translate: 50% calc(var(--s-1) * -1); }
+#top.v6 .cl-chip:hover::after, #top.v6 .cl-chip:has(input:focus-visible)::after { translate: -50% 0; }
+#top.v6[dir="rtl"] .cl-chip:hover::after, #top.v6[dir="rtl"] .cl-chip:has(input:focus-visible)::after { translate: 50% 0; }
+
+/* ---------- 4. hero: a hovered route previews in neutral ink, dashed; the accent stays on the selected route ---------- */
+#top.v6 .rf-route.is-hot .rf-route__line { stroke: var(--n10); stroke-width: 1; stroke-dasharray: 0.012 0.008; stroke-dashoffset: 0; opacity: 0.7; animation: none; }
+/* fiat on-ramp: the recorded funding methods, read as data (mono), with their check state on the same line */
+#top.v6 .rf-facts__fiat { grid-column: 1 / -1; }
+#top.v6 .rf-facts__fiat dd { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-1) var(--s-2); }
+#top.v6 .rf-methods { display: inline-flex; flex-wrap: wrap; gap: var(--s-1) var(--s-2); font-family: var(--font-mono); font-size: var(--t-14); line-height: 1.55; color: var(--text-strong); }
+#top.v6 .rf-method:not(:last-child)::after { content: "\00b7"; margin-inline-start: var(--s-2); color: var(--text-muted); }
+#top.v6 .rf-methods__state { font-size: var(--t-12); line-height: 1.55; color: var(--text-muted); }
+
+/* ---------- 5. directory: the regional matcher becomes one quiet line after the list; the count row is reserved ---------- */
+#top.v6 .dir6 > .v6-wrap { display: flex; flex-direction: column; }
+#top.v6 .dir6 > .v6-wrap > .dir6-foot { order: 1; }
+#top.v6 .dir6 > .v6-wrap > .dir6-match { order: 2; margin-block: var(--s-4) 0; }
+#top.v6 .dir6 .dir6-match .platform-matcher__details:not(#_) { border: 0; border-radius: 0; background: none; }
+#top.v6 .dir6 .dir6-match .platform-matcher__details[open]:not(#_) { border: 1px solid var(--n6); border-radius: var(--s-4); background: var(--n2); }
+#top.v6 .dir6 .dir6-match .platform-matcher__summary:not(#_) { display: inline-flex; align-items: center; gap: var(--s-2); inline-size: fit-content; min-block-size: 44px; padding: 0; background: none; border: 0; }
+#top.v6 .dir6 .dir6-match .platform-matcher__details[open] > .platform-matcher__summary:not(#_) { padding-inline: var(--s-4); }
+#top.v6 .dir6 .dir6-match .platform-matcher__summary:hover:not(#_) { background: none; }
+#top.v6 .dir6 .dir6-match :is(.platform-matcher__summary-kicker, .platform-matcher__summary-context):not(#_) { display: none; }
+#top.v6 .dir6 .dir6-match .platform-matcher__summary-copy:not(#_) { display: block; }
+#top.v6 .dir6 .dir6-match .platform-matcher__summary-copy > strong:not(#_) { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+#top.v6 .dir6 .dir6-match .platform-matcher__summary-copy > small:not(#_) { font-size: var(--t-14); line-height: 1.55; color: var(--text-strong); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 0.25em; }
+#top.v6 .dir6 .dir6-match .platform-matcher__summary:hover > .platform-matcher__summary-copy > small:not(#_) { text-decoration-color: var(--accent); }
+#top.v6 .dir6 .dir6-match .platform-matcher__summary > i:not(#_) { inline-size: 24px; block-size: 24px; border-radius: var(--s-1); }
+/* "Showing n of m" + Reset own a full row, so toggling a filter never moves the list */
+#top.v6 .dir6 .dir6-count:not(#_) { flex: 1 0 100%; justify-content: flex-end; min-block-size: 44px; margin: 0; }
+@media (max-width: 47.99rem) { #top.v6 .dir6 .dir6-count:not(#_) { justify-content: flex-start; } }
+
+/* ---------- 6. verify: every station reads heading -> instruction -> proof; no shared foot row, so no holes ---------- */
+#top.v6 .vb__desc--lead { margin: 0; color: var(--text); max-inline-size: var(--measure); }
+@media (min-width: 900px) {
+  #top.v6 .vb__route { grid-template-rows: auto; align-items: start; }
+  #top.v6 .vb__st { grid-row: 1; grid-template-rows: none; display: grid; align-content: start; row-gap: var(--s-6); }
+  #top.v6 .vb__body { grid-row: auto; grid-template-rows: none; display: grid; align-content: start; gap: var(--s-3); }
+  #top.v6 .vb__main, #top.v6 .vb__foot { grid-row: auto; }
+}
+#top.v6 .vb__main .vb__bars, #top.v6 .vb__main .vb__code, #top.v6 .vb__main .vb__disc { margin-block-start: var(--s-1); }
+
+/* ---------- 7. ar / ja: the shipped face right after Geist (Latin + figures), then system faces; real weights only ---------- */
+#top.v6:lang(ja) {
+  --font-sans: "Geist V5", "Pilot Noto JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", sans-serif;
+  --v6-sans: var(--font-sans);
+}
+#top.v6:lang(ar) {
+  --font-sans: "Geist V5", "Pilot Noto Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif;
+  --v6-sans: var(--font-sans);
+}
+#top.v6:is(:lang(ja), :lang(ar)) { font-synthesis-weight: none; }

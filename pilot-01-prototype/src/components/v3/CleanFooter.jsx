@@ -24,12 +24,12 @@ const copyDict = {
 const footerLabelByLocale = {
   en: {
     navAria: "NexuAlpha footer navigation",
-    directory: "Platform Directory",
-    topics: "Topic Guides",
+    directory: "Platform directory",
+    topics: "Topic guides",
     factbook: "Factbook",
     onchain: "On-chain Data",
     editorial: "Editorial Policy",
-    calculator: "Fee Calculator",
+    calculator: "Fee calculator",
     embedGuide: "Embed Widgets",
     disclosure: "Affiliate Disclosure",
     privacy: "Privacy Notice",

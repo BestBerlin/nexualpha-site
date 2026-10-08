@@ -17,6 +17,7 @@ import { CompareLab } from "./components/v6/CompareLab";
 import { VerifyBand } from "./components/v6/VerifyBand";
 import { DirectoryV6 } from "./components/v6/DirectoryV6";
 import { ClosingBand } from "./components/v6/ClosingBand";
+import { createSelectionStore } from "./components/v6/home-selection.js";
 import { PlatformMatcher } from "./components/v3/PlatformMatcher";
 import { CleanFooter } from "./components/v3/CleanFooter";
 import { headerNavigationState } from "./data/header-navigation-state.js";
@@ -553,7 +554,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
     [copy.nav.exchanges, withLocale(locale, "/#exchanges")],
     [copy.nav.compare, withLocale(locale, "/#compare")],
     [text.activities, withLocale(locale, "/activities")],
-    [locale === "zh-Hant" || locale === "zh-TW" ? "新聞與研究" : locale.startsWith("zh") ? "新闻与研究" : ({ ja: "マーケットニュース", ko: "시장 뉴스", tr: "Piyasa Haberleri", ru: "Новости рынка", de: "Marktnachrichten", fr: "Actualités du marché", es: "Noticias del mercado", "pt-BR": "Notícias do mercado", it: "Notizie di mercato", id: "Berita pasar", vi: "Tin thị trường", ar: "أخبار السوق" }[locale] || "Market News"), withLocale(locale, "/news")],
+    [locale === "zh-Hant" || locale === "zh-TW" ? "新聞與研究" : locale.startsWith("zh") ? "新闻与研究" : ({ ja: "マーケットニュース", ko: "시장 뉴스", tr: "Piyasa Haberleri", ru: "Новости рынка", de: "Marktnachrichten", fr: "Actualités du marché", es: "Noticias del mercado", "pt-BR": "Notícias do mercado", it: "Notizie di mercato", id: "Berita pasar", vi: "Tin thị trường", ar: "أخبار السوق" }[locale] || "Market news"), withLocale(locale, "/news")],
     [locale === "zh-Hant" || locale === "zh-TW" ? "賽道選型" : locale.startsWith("zh") ? "赛道选型" : ({ ja: "トピックガイド", ko: "주제 가이드", tr: "Konu Rehberleri", ru: "Тематические гиды", de: "Themen-Guides", fr: "Guides thématiques", es: "Guías temáticas", "pt-BR": "Guias temáticos", it: "Guide tematiche", id: "Panduan topik", vi: "Hướng dẫn chủ đề", ar: "أدلة المواضيع" }[locale] || "Topic Guides"), withLocale(locale, "/topics/meme-coins")],
     [locale.startsWith("zh") ? "Telegram" : ({ ja: "Telegram調査", ko: "Telegram 리서치", tr: "Telegram araştırma", ru: "Исследование в Telegram", de: "Telegram-Recherche", fr: "Recherche Telegram", es: "Investigación en Telegram", "pt-BR": "Pesquisa no Telegram", it: "Ricerca Telegram", id: "Riset Telegram", vi: "Nghiên cứu Telegram", ar: "بحث Telegram" }[locale] || "Telegram Research"), withLocale(locale, "/telegram")],
   ];
@@ -603,6 +604,8 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     setSearchOpen(true);
   }, []);
   const [compareSelection, setCompareSelection] = useState(() => initialCompareSelection || readComparison());
+  // Home acts (lab + directory) share their pair through this store instead of App state, so a pick never re-renders the page.
+  const [homeSelection] = useState(() => createSelectionStore(compareSelection));
   const copy = useMemo(() => v2Copy(locale), [locale]);
   const changeLocale = useCallback((nextLocale) => {
     if (!supportedLocales.includes(nextLocale)) return;
@@ -798,14 +801,15 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
       <CrawlPriorityLinks locale={locale} scope="home" />
     </>,
   };
-  const homeCtx = { locale, venues: command.venueCatalog, selected: compareSelection, onSelectionChange: setCompareSelection, decisionPassport };
+  const homeCtx = { locale, venues: command.venueCatalog, decisionPassport };
+  const initialPair = homeSelection.get();
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
     <Header copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
     <RouteFinder {...homeCtx} legacy={homeSlots.hero} />
-    <CompareLab {...homeCtx} legacy={homeSlots.compare} feeCheck={homeSlots.feeCheck} />
-    <VerifyBand {...homeCtx} />
-    <DirectoryV6 {...homeCtx} legacy={homeSlots.directory} />
-    <ClosingBand {...homeCtx} legacy={homeSlots.closing} />
+    <CompareLab {...homeCtx} selected={initialPair} store={homeSelection} feeCheck={homeSlots.feeCheck} />
+    <VerifyBand locale={locale} venues={command.venueCatalog} selected={initialPair} />
+    <DirectoryV6 {...homeCtx} selected={initialPair} store={homeSelection} />
+    <ClosingBand locale={locale} legacy={homeSlots.closing} />
     {footer}
     {searchDialog}
     <MobileBottomNav locale={locale} onSearch={openSearchDialog} />

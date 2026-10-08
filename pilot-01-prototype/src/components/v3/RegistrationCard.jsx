@@ -107,9 +107,9 @@ const copyDict = {
     preflightBlocked: "目前不建議直達註冊，請先完成地區資格和官方條款核對。",
   },
   en: {
-    officialDomain: "Official Domain",
+    officialDomain: "Official domain",
     antiPhishingTip: "Verify that your browser address bar exactly matches the official domain above before entering any credentials.",
-    referralCode: "Referral Code",
+    referralCode: "Referral code",
     copyCode: "Copy Code",
     copied: "Copied ✓",
     openSignup: "Go to Official Registration ↗",
@@ -121,12 +121,12 @@ const copyDict = {
     routePending: "Pending",
     benefitState: "User Benefit",
     benefitVerified: "Source recorded",
-    benefitPending: "Confirm on the official signup page",
+    benefitPending: "Confirm on the official sign-up page",
     regionState: "Regional Eligibility",
     regionReady: "Available to confirm in official flow",
     regionVerify: "Confirm in official flow",
     regionBlocked: "Direct signup is not recommended for this region",
-    disclosureTitle: "Transparent Affiliate Disclosure: ",
+    disclosureTitle: "Transparent affiliate disclosure: ",
     disclosureShort: "Partner links may earn NexuAlpha a platform-paid commission at no extra cost to you.",
     disclosureBody: "NexuAlpha is an independent directory and platform comparison hub. Registering via recorded partner links or referral codes may earn us a platform-paid commission at no extra cost to you. NexuAlpha is not an exchange, never solicits private keys, and does not custody funds. All registration and trades occur strictly on the third-party platform.",
     unavailable: "No recorded partner route is configured for this venue yet. Check the official domain above first.",
@@ -136,8 +136,8 @@ const copyDict = {
     telegramResearch: "Ask Telegram research bot ↗",
     preflightTitle: "Before you continue",
     routeDetailsTitle: "Route, code and eligibility details",
-    preflightWithCode: "This opens a third-party signup page. Confirm the referral code is {code}; if it is not prefilled, enter it before submitting.",
-    preflightNoCode: "This opens a third-party signup page. Confirm region, KYC and product terms on the official page before submitting.",
+    preflightWithCode: "This opens a third-party sign-up page. Confirm the referral code is {code}; if it is not prefilled, enter it before submitting.",
+    preflightNoCode: "This opens a third-party sign-up page. Confirm region, KYC and product terms on the official page before submitting.",
     preflightOfficial: "This opens the third-party official route. No referral-code path is configured for this venue.",
     preflightBlocked: "Direct signup is not recommended yet. Check regional eligibility and official terms first.",
   },
@@ -694,9 +694,9 @@ function getRegistrationNextStep(locale, { inviteCode, primaryRegistrationHref, 
 
 const compactInviteTaskCopy = Object.freeze({
   "en": {
-    "title": "Check before signup",
+    "title": "Check before sign-up",
     "body": "Third-party signup: check the code above before submitting; enter it manually if missing.",
-    "action": "Official signup ↗"
+    "action": "Official sign-up ↗"
   },
   "zh-Hans": {
     "title": "注册前核对",

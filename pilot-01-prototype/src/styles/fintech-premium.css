@@ -754,7 +754,7 @@ body {
   .v3-mobile-sticky-bar {
     display: block;
   }
-  html:has(.v3-mobile-sticky-bar) {
+  html:has(> body > #root > main > .v3-mobile-sticky-bar) {
     scroll-padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 12px));
   }
   .v3-profile-page {

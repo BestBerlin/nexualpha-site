@@ -11,6 +11,7 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { prefersReducedMotion } from "../../lib/v5/useInView.js";
 import { labText } from "../v3/LeanHeroCopyLab.js";
 import { comparePathFor } from "./compare-routes.js";
+import { useSharedSelection } from "./home-selection.js";
 import "../../styles/v6/compare-lab.css";
 
 const useIso = typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -38,7 +39,7 @@ function Fig({ v, locale, suffix = "%", className = "cl-fig v6-num" }) {
 // One side of a ledger row. Bars share one scale per product (the larger of the two venues), the lower figure carries the accent.
 function Cell({ side, name, value, scale, other, locale, pending, text }) {
   const has = value != null;
-  const low = has && (other == null || value <= other);
+  const low = has && other != null && value < other;
   return (
     <div className={`cl-cell cl-cell--${side}`}>
       <span className="cl-sr">{name}: </span>
@@ -65,12 +66,20 @@ function Chips({ slot, cur, other, chips, label, nameOf, onPick, onDown, onKey, 
   const ref = useRef(null);
   useScrollEdges(ref);
   useEffect(() => { keepInStrip(ref.current, ref.current?.querySelector(`[data-venue="${cur}"]`)); }, [cur]);
+  // One click, one handler: a pointer click on the label is handled here and the browser's synthetic click on the radio is
+  // cancelled (it used to run the whole pick a second time). Keyboard (Space / arrows) still goes through the radio's onChange.
+  const labelClick = (e, s) => {
+    if (e.target instanceof HTMLInputElement) return;
+    e.preventDefault();
+    e.currentTarget.querySelector("input")?.focus({ preventScroll: true });
+    onPick(slot, s);
+  };
   return (
     <div className={`cl-pick cl-pick--${slot ? "b" : "a"}`} role="radiogroup" aria-label={label}>
       <span className="cl-pick__label v6-meta" aria-hidden="true">{label}</span>
       <div className="cl-chips" ref={ref}>
         {chips.map((s) => (
-          <label key={s} className="cl-chip" data-venue={s} data-name={nameOf(s)} data-other={other === s || undefined} data-grabbed={grabbed === s || undefined} onPointerDown={(e) => onDown(e, s)} onDragStart={(e) => e.preventDefault()}>
+          <label key={s} className="cl-chip" data-venue={s} data-name={nameOf(s)} data-other={other === s || undefined} data-grabbed={grabbed === s || undefined} onPointerDown={(e) => onDown(e, s)} onDragStart={(e) => e.preventDefault()} onClick={(e) => labelClick(e, s)}>
             <input type="radio" name={`cl-slot-${slot}`} value={s} checked={cur === s} onChange={() => onPick(slot, s)} onKeyDown={(e) => onKey(e, s, slot)} aria-describedby={hintId} />
             <span translate="no"><BrandMark slug={s} compact /><em className="cl-chip__name">{nameOf(s)}</em></span>
           </label>
@@ -87,13 +96,14 @@ function normalize(selected) {
   return out.slice(0, 2);
 }
 
-export function CompareLab({ locale = "en", venues = [], selected, onSelectionChange, feeCheck }) {
+export function CompareLab({ locale = "en", venues = [], selected, onSelectionChange, feeCheck, store }) {
   const t = labText(locale);
   const ui = getUi(locale);
   const ctx = directoryContext({ locale });
   // The lab owns its pair: a pick re-renders the lab in the click frame (FLIP starts at once); the rest of the page
   // (verify, directory) follows in a transition.
-  const selKey = normalize(selected).join(",");
+  const shared = useSharedSelection(store, selected);
+  const selKey = normalize(shared).join(",");
   const [pair, setPair] = useState(() => selKey.split(","));
   useEffect(() => { setPair((p) => (p.join(",") === selKey ? p : selKey.split(","))); }, [selKey]);
   const [a, b] = pair;
@@ -145,7 +155,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
     if (na === a && nb === b) return;
     snap();
     const el = plate.current;
-    const go = () => { setPair([na, nb]); startTransition(() => { onSelectionChange?.([na, nb]); }); };
+    const go = () => { setPair([na, nb]); startTransition(() => { if (store) store.set([na, nb]); else onSelectionChange?.([na, nb]); }); };
     if (!el || prefersReducedMotion() || typeof requestAnimationFrame !== "function") { go(); return; }
     el.setAttribute("data-moving", "");
     requestAnimationFrame(() => setTimeout(go, 0));

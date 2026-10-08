@@ -1,5 +1,5 @@
 // V6 act 3: "Verify before you leave" — a route of three stations (domain, code, disclosure).
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { RailDock, RailSeg } from "./RouteRail.jsx";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
@@ -64,11 +64,14 @@ const Glyph = ({ kind }) => (
   </svg>
 );
 
-export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
+// Verify owns its venue: it takes the page's first pick once (on mount) and never follows the lab afterwards, so the
+// chip order is fixed for the life of the page and a lab change never re-renders this act.
+function VerifyBandImpl({ locale = "en", venues = [], selected = [] }) {
   const t = getVerifyCopy(locale);
+  const [first] = useState(() => (Array.isArray(selected) ? selected[0] : null));
   const rows = useMemo(() => {
     const seen = new Set();
-    const slugs = [...selected, ...venues.map((v) => v?.slug)].filter((s) => s && !seen.has(s) && seen.add(s));
+    const slugs = [first, ...venues.map((v) => v?.slug)].filter((s) => s && !seen.has(s) && seen.add(s));
     const out = [];
     for (const slug of slugs) {
       let cta; try { cta = publicCtaForVenue(slug, locale); } catch { continue; }
@@ -78,7 +81,7 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
       if (out.length >= 5) break;
     }
     return out;
-  }, [venues, selected, locale]);
+  }, [venues, first, locale]);
 
   const [pick, setPick] = useState(null);
   const row = rows.find((r) => r.slug === pick) || rows[0];
@@ -91,7 +94,7 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
   useEffect(() => { if (!live) return undefined; const id = setTimeout(() => setDone(true), 950); return () => clearTimeout(id); }, [live]);
   const strip = useRef(null);
   useEffect(() => () => clearTimeout(timer.current), []);
-  // a lab swap can change the active venue: keep its chip inside the scrolling row (horizontal only)
+  // a venue pick keeps its chip inside the scrolling row (horizontal only)
   useEffect(() => { keepInStrip(strip.current, strip.current?.querySelector('[aria-pressed="true"]')); }, [row?.slug]);
   if (!row) return null;
 
@@ -135,6 +138,7 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
             <div className="vb__body">
               <div className="vb__main">
               <h3 className="v6-h3">{t.s1t}</h3>
+              <p className="v6-body vb__desc vb__desc--lead">{t.s1d}</p>
               <div className="vb__bars" style={{ "--n": chars.length, "--m": fake.length }}>
                 <div className="vb__proof vb__bar vb__bar--official" key={row.slug} lang="en" translate="no" dir="ltr">
                   <span className="vb__sr">{row.domain}</span>
@@ -144,7 +148,8 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
                     <path pathLength="1" d="M12 14.5v2" />
                   </svg>
                   <span className="vb__typed" aria-hidden="true">{row.domain}</span>
-                  <span className="vb__stamp" aria-hidden="true" lang={locale} translate="yes" dir="auto">{t.official}</span>
+                  <span className="vb__stamp" aria-hidden="true" lang={locale} translate="yes" dir="auto" title={t.s1ok}>{t.official}</span>
+                  <span className="vb__sr">{t.s1ok}</span>
                 </div>
               </div>
               </div>
@@ -158,8 +163,6 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
                 </div>
                 <span className="vb__sr">{`${t.fake}: ${fakeText}`}</span>
               <p className="v6-small vb__note">{fake.note && <span className="vb__diff" dir="ltr" lang="en" translate="no">{fake.note}</span>}{t.fakeNote}</p>
-              <p className="v6-small vb__ok"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.8" /></svg>{t.s1ok}</p>
-              <p className="v6-body vb__desc">{t.s1d}</p>
               </div>
             </div>
           </li>
@@ -169,6 +172,8 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
             <div className="vb__body">
               <div className="vb__main">
               <h3 className="v6-h3">{t.s2t}</h3>
+              {/* the prefill helper exists only when there is a code to enter */}
+              {row.code ? <p className="v6-body vb__desc vb__desc--lead">{t.s2d}</p> : null}
               {row.code ? (
                 <button type="button" className="vb__proof vb__code" data-copied={copied ? "" : undefined} onClick={copy} aria-label={`${t.copy}: ${row.code}`}>
                   <span className="vb__codeval" lang="en" translate="no">{row.code}</span>
@@ -185,7 +190,6 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
               )}
               <span className="vb__sr" role="status" aria-live="polite">{copied ? t.copied : ""}</span>
               </div>
-              <div className="vb__foot"><p className="v6-body vb__desc">{t.s2d}</p></div>
             </div>
           </li>
 
@@ -206,3 +210,5 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
     </section>
   );
 }
+
+export const VerifyBand = memo(VerifyBandImpl, (p, n) => p.locale === n.locale && p.venues === n.venues);
