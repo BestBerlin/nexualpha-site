@@ -539,7 +539,7 @@ const directoryActionCopy = {
   }
 };
 
-function getUi(locale) {
+export function getUi(locale) {
   const normalizedLocale = locale === "zh-CN" ? "zh-Hans"
     : locale === "zh-TW" ? "zh-Hant"
       : String(locale || "en").toLowerCase().startsWith("pt") ? "pt-BR"
@@ -593,11 +593,11 @@ const copyFeedbackLocales = {
   it: { copying: "Copia del codice invito…", failed: "Copia non riuscita. Seleziona il codice qui sotto e copialo manualmente.", manualLabel: "Codice invito da copiare manualmente" },
 };
 
-function getCopyFeedbackCopy(locale) {
+export function getCopyFeedbackCopy(locale) {
   return copyFeedbackLocales[locale] || copyFeedbackLocales[String(locale || "").split("-")[0]] || copyFeedbackLocales.en;
 }
 
-function getFilters(locale) {
+export function getFilters(locale) {
   if (locale === "zh-Hans" || locale === "zh-CN") return filterLabels["zh-Hans"];
   if (locale === "zh-Hant" || locale === "zh-TW") return filterLabels["zh-Hant"];
   if (locale && locale !== "en") return filterLabels[locale] || filterLabels[String(locale || "").split("-")[0]] || filterLabels.en;
