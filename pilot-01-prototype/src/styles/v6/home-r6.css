@@ -62,11 +62,16 @@
   #top.v6 .rf-card::before { content: none; }
 }
 @media (min-width: 74rem) and (prefers-reduced-motion: reduce) { #top.v6 .rf-card { transition: none; } }
+/* short laptop viewports (1280x720): the whole map, the intents and the card's signup stay above the fold (64px pitch,
+   one-row intents; the venue tiles carry the fees, so the readout steps aside) */
 @media (min-width: 74rem) and (max-height: 820px) {
-  #top.v6 .rf-grid { padding-block-start: var(--s-8); }
-  #top.v6 .rf-pick { row-gap: var(--s-6); margin-block-start: var(--s-6); }
-  #top.v6 .rf-intent { min-block-size: 72px; flex-direction: column; gap: var(--s-2); }
-  #top.v6 .rf-list { gap: var(--s-2); }
+  #top.v6 .rf-grid { padding-block-start: var(--s-6); }
+  #top.v6 .rf-pick { row-gap: 0; margin-block-start: var(--s-4); }
+  #top.v6 .rf-readout { display: none; }
+  #top.v6 .rf-intent { min-block-size: 48px; flex-direction: row; gap: var(--s-2); padding-block: var(--s-2); }
+  #top.v6 .rf-hub { margin-block-end: 6px; }
+  #top.v6 .rf-list { grid-auto-rows: 56px; gap: var(--s-2); }
+  #top.v6 .rf-node { block-size: 56px; padding-block: var(--s-1); }
   #top.v6 .rf-nodes > .rf-label { margin-block-end: var(--s-3); }
 }
 
