@@ -172,7 +172,7 @@ main.v6:not(.home-refinement) .mx-dock a.mx-btn--primary:active:not(#_):not(#_):
 
 /* ============ /rates: the final cost reveals once per change (mask wipe + route underline), never counts through numbers ============ */
 #top#top#top#top#top#top#top.v6.r1-rates-page .rt-verdict__figure { position: relative; }
-#top#top#top#top#top#top#top.v6.r1-rates-page .rt-verdict__figure::after { content: ""; position: absolute; inset-inline: 0; inset-block-end: -6px; block-size: 2px; border-radius: 1px; background: var(--accent, #1fe0c0); transform-origin: 0 50%; }
+#top#top#top#top#top#top#top.v6.r1-rates-page .rt-verdict__figure::after { content: ""; position: absolute; inset-inline: 0; inset-block-end: -1px; block-size: 2px; border-radius: 1px; background: var(--accent, #1fe0c0); transform-origin: 0 50%; }
 #top#top#top#top#top#top#top.v6.r1-rates-page .rt-verdict--tie .rt-verdict__figure::after { background: var(--n8, #50565c); }
 [dir="rtl"] #top#top#top#top#top#top#top.v6.r1-rates-page .rt-verdict__figure::after { transform-origin: 100% 50%; }
 @media (prefers-reduced-motion: no-preference) {

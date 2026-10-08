@@ -44,7 +44,7 @@
    *   text, and the traversed route always ends exactly at the signup.
    * - gutter: every other page runs the rail in the inline-start gutter (25px before the content edge, 16px when the
    *   gutter is narrower than 64px, so 1280px laptops keep it). Below a 32px gutter it becomes a 2px top progress bar.
-   *   The branch into the page's destination (compare decision card, /rates result) is the same curved elbow, on the
+   *   The branch into the page's destination (compare decision card) is the same curved elbow, at most 160px long, on the
    *   first horizontal line, nearest the destination's primary action, that crosses no text, control or border.
    * Docks sit on h2s (and [data-route-label] marks) and carry the full heading as a 12px vertical label beside the rail,
    * shown for the section being read and kept below the 56px header while that section is current. */
@@ -153,7 +153,7 @@
         s.branchEl = btn && visible(btn) ? btn : col.querySelector(".registration-card") || col;
         branch = { len: Math.round(edgeOf(cr) - x - 2), live: true };
       } else if (!bar) {
-        var BR = [".v3-compare-final-choice-card", "#cost-scenario .rt-result", "a[rel~='sponsored'][class*='primary']"];
+        var BR = [".v3-compare-final-choice-card", "a[rel~='sponsored'][class*='primary']"];
         var box = null;
         for (var bi = 0; bi < BR.length && !box; bi++) {
           var cands = main.querySelectorAll(BR[bi]);
@@ -168,7 +168,7 @@
           var bkey = [Math.round(mr.height), Math.round(br.top - mr.top), Math.round(br.height), vw, Math.round(x)].join(":");
           if (bkey === s.bkey) branch = s.branch;
           else {
-            if (len >= 8) {
+            if (len >= 8 && len <= 160) { /* a longer run would read as a stray horizontal rule, not a turn into the destination */
               var rects = obstacles(main);
               var cta = box.querySelector("a[rel~='sponsored'], [class*='primary'], [class*='cta']");
               var crr = cta ? cta.getBoundingClientRect() : null;

@@ -2349,7 +2349,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         <div className="v3-profile-sources-group__body">
       {!priorityAnswer && venueDirectAnswer && (
         <section className="v3-profile-research-chapter v3-profile-answer-conditions" data-profile-task="conditions">
-          <h3 className="v3-profile-sources-group__heading">{text.verifyBefore}</h3>
+          <h3 className="v3-profile-sources-group__heading">{campaignCopy(locale).conditions || text.verifyBefore}</h3>
           {venueDirectAnswerDetails}
         </section>
       )}
