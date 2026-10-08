@@ -3254,6 +3254,12 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
         <p className="v3-matrix-subtitle">
           {matrixLeadCopy}
         </p>
+        {(() => {
+          // The fee figures below are dated by the fee check (exchange-facts.js), not by the editorial review.
+          const stamps = venueData.map((d) => [d.localizedName, feesStatusLabel(d.slug, locale)]);
+          const one = stamps.every(([, v]) => v === stamps[0][1]);
+          return <p className="v3-matrix-checked">{one ? stamps[0][1] : stamps.map(([n, v]) => `${n}: ${v}`).join(" · ")}</p>;
+        })()}
       </div>
 
       <p className="v3-matrix-scroll-hint">{matrixAux.scrollHint}</p>

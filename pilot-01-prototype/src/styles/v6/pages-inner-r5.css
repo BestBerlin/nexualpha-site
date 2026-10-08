@@ -6,26 +6,34 @@
 .v6r { position: absolute; inline-size: 0; block-size: 0; z-index: 3; pointer-events: none; }
 .v6r > * { position: absolute; pointer-events: none; }
 .v6r:not([data-ready]) { display: none; }
-.v6r__track, .v6r__fill { inset-block-start: var(--v6r-y); inset-inline-start: -1px; inline-size: 2px; block-size: var(--v6r-h); border-radius: 1px; }
+.v6r__track, .v6r__fill { inset-block-start: var(--v6r-y); left: -1px; inline-size: 2px; block-size: var(--v6r-h); border-radius: 1px; }
 .v6r__track { background: rgb(255 255 255 / 0.1); }
 .v6r__fill { background: var(--accent, #1fe0c0); transform-origin: 50% 0; transform: scaleY(var(--v6r-s, 0)); }
-.v6r__stub { inset-block-start: calc(var(--v6r-y) - 1px); inset-inline-start: 0; inline-size: var(--v6r-stub, 0); block-size: 2px; background: var(--accent, #1fe0c0); border-radius: 1px; transform-origin: 0 50%; }
-.v6r[data-rtl] .v6r__stub { inset-inline-start: auto; right: 0; transform-origin: 100% 50%; }
-.v6r__node { inset-inline-start: 0; inset-block-start: var(--v6r-ny); inline-size: 10px; block-size: 10px; margin: -5px 0 0 -5px; box-sizing: border-box; border-radius: 50%; border: 2px solid #43484e; background: #0e0e10; transition: border-color 240ms cubic-bezier(0.16, 1, 0.3, 1), background-color 240ms cubic-bezier(0.16, 1, 0.3, 1); }
+.v6r__node { left: 0; inset-block-start: var(--v6r-ny); inline-size: 10px; block-size: 10px; margin: -5px 0 0 -5px; box-sizing: border-box; border-radius: 50%; border: 2px solid #43484e; background: #0e0e10; transition: border-color 240ms cubic-bezier(0.16, 1, 0.3, 1), background-color 240ms cubic-bezier(0.16, 1, 0.3, 1); }
 .v6r__node--start { inset-block-start: var(--v6r-y); border-color: var(--accent, #1fe0c0); background: var(--accent, #1fe0c0); }
 .v6r__node[data-on="1"] { border-color: var(--accent, #1fe0c0); background: var(--accent, #1fe0c0); }
 .v6r__node--dest { inline-size: 14px; block-size: 14px; margin: -7px 0 0 -7px; }
 .v6r__node--dest[data-on="1"] { background: #0e0e10; box-shadow: inset 0 0 0 3px var(--accent, #1fe0c0); }
+/* dock label: the section heading, set vertically in the gutter beside the rail, only for the section being read */
+.v6r__lab { position: absolute; top: 14px; right: 12px; max-block-size: 260px; overflow: hidden; writing-mode: vertical-rl; transform: rotate(180deg); transform-origin: 50% 50%; white-space: nowrap; text-overflow: ellipsis; font-family: inherit; font-size: 12px; line-height: 1.2; font-weight: 500; font-style: normal; letter-spacing: 0.01em; color: var(--n10, #9ba1a6); opacity: 0; translate: 0 -6px; transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1), translate 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+.v6r__node[data-cur="1"] .v6r__lab { opacity: 1; translate: 0 0; }
+.v6r[data-rtl] .v6r__lab { right: auto; left: 12px; transform: none; }
+/* destination stub: drawn from the dest node into the page's primary action */
+.v6r__stub { position: absolute; top: 50%; left: 50%; inline-size: var(--v6r-stub, 0); block-size: 2px; margin-top: -1px; background: var(--accent, #1fe0c0); border-radius: 1px; transform-origin: 0 50%; transform: scaleX(0); transition: transform 560ms cubic-bezier(0.16, 1, 0.3, 1); }
+.v6r[data-rtl] .v6r__stub { left: auto; right: 50%; transform-origin: 100% 50%; }
+.v6r__node--dest[data-on="1"] .v6r__stub { transform: none; }
 @media (prefers-reduced-motion: no-preference) {
-  .v6r[data-ready] .v6r__stub { animation: v6r-draw 560ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both; }
   .v6r[data-ready] .v6r__node--start { animation: v6r-pop 400ms cubic-bezier(0.16, 1, 0.3, 1) both; }
   .v6r__node[data-on="1"]:not(.v6r__node--start) { animation: v6r-dock 640ms cubic-bezier(0.16, 1, 0.3, 1) both; }
-  @keyframes v6r-draw { from { transform: scaleX(0); } to { transform: none; } }
   @keyframes v6r-pop { from { transform: scale(0.2); opacity: 0; } to { transform: none; opacity: 1; } }
   @keyframes v6r-dock { 0% { box-shadow: 0 0 0 0 rgb(31 224 192 / 0.6); } 100% { box-shadow: 0 0 0 12px rgb(31 224 192 / 0); } }
 }
-@media (prefers-reduced-motion: reduce) { .v6r__fill { transform: none; opacity: 0.35; } }
-@media (max-width: 47.99rem) { .v6r__stub { display: none; } .v6r__node { inline-size: 8px; block-size: 8px; margin: -4px 0 0 -4px; } .v6r__node--dest { inline-size: 10px; block-size: 10px; margin: -5px 0 0 -5px; } }
+@media (prefers-reduced-motion: reduce) { .v6r__fill { transform: none; opacity: 0.35; } .v6r__stub { transform: none; transition: none; } .v6r__lab { transition: none; } }
+/* narrow gutter (< 48px before the content edge): no side rail, a 2px reading-route bar under the top edge instead */
+.v6r[data-bar] { position: fixed; top: 0 !important; left: 0 !important; right: 0; inline-size: 100%; block-size: 2px; z-index: 60; }
+.v6r[data-bar] > :not(.v6r__fill) { display: none; }
+.v6r[data-bar] .v6r__fill { inset: 0; inline-size: 100%; block-size: 2px; border-radius: 0; transform-origin: 0 50%; transform: scaleX(var(--v6r-s, 0)); }
+.v6r[data-bar][data-rtl] .v6r__fill { transform-origin: 100% 50%; }
 @media print { .v6r { display: none; } }
 
 /* ============ scroll reveal (attribute only ever set by the script, after hydration, below the fold) ============ */

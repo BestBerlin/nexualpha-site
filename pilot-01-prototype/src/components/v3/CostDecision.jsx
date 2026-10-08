@@ -67,9 +67,6 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
   const decisionReturnBaseHref=buildDecisionReturnHref({kind:'cost',locale,market:regionMarket,instrument:market==='futuresFee'?'futures':'spot',order:order==='makerRate'?'maker':'taker',volume:amount});
   const decisionReturnHref=decisionReturnBaseHref ? appendDecisionPassportQuery(decisionReturnBaseHref, { market:regionMarket, product:selectedProduct, accountStage, funding }) : decisionReturnBaseHref;
   const telegramFunnel=buildTelegramWebsiteFunnelContext({intent:'fees',locale,market:regionMarket,product:market==='futuresFee'?'perpetuals':'spot',venue:'all',instrument:market==='futuresFee'?'futures':'spot',amount,campaign:'cost_decision_fee'});
-  const primarySlug=market==='futuresFee'?'bybit':'binance';
-  const primaryVenue=venueDatabase[primarySlug];
-  const primaryCta=regionalVenueCta(primarySlug, locale, regionMarket, selectedProduct, { accountStage, funding });
   const comparePath=market==='futuresFee'?'/compare/bybit-vs-bitget':'/compare/binance-vs-okx';
   const resultRows=['binance','okx','bybit','bitget'].map(slug=>{
     const venue=venueDatabase[slug];
@@ -82,9 +79,13 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
     const sourceCopy = reviewedRate ? reviewedFeeCopy(reviewedRate, locale) : null;
     return { slug, venue, quote, product, cta, displayRate, displayCost, reviewedRate, sourceCopy };
   });
-  const lowestReviewed = resultRows
-    .filter(row=>Number.isFinite(row.quote?.rate))
-    .sort((a,b)=>a.quote.rate-b.quote.rate)[0] || null;
+  // Checked venues first (cheapest first; a tie keeps the fixed neutral order), venues with no checked fee last and muted.
+  resultRows.sort((a,b)=>{
+    const ar=Number.isFinite(a.quote?.rate), br=Number.isFinite(b.quote?.rate);
+    if (ar!==br) return ar?-1:1;
+    return ar ? a.quote.rate-b.quote.rate : 0;
+  });
+  const lowestReviewed = resultRows.find(row=>Number.isFinite(row.quote?.rate)) || null;
   const checkedRows=resultRows.filter(row=>Number.isFinite(row.quote?.rate));
   const maxCost=Math.max(0,...checkedRows.map(row=>amount*row.quote.rate));
   // Bars are proportional to the highest checked cost (0 → max). On a tie they are not drawn: the notice and the
@@ -94,6 +95,10 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
   const lowestCost=lowestReviewed?amount*lowestReviewed.quote.rate:0;
   const notice=noVolume?stateUi.empty:capped?stateUi.capped.replace('{max}',number.format(MAX_VOLUME)):sameRate?stateUi.same.replace('{n}',String(checkedRows.length)):null;
   const tie=sameRate&&!noVolume;
+  // The strip names one venue only when the checked fees single one out (never on a tie, never a fixed favourite).
+  const primarySlug=!sameRate&&lowestReviewed?lowestReviewed.slug:null;
+  const primaryVenue=primarySlug?venueDatabase[primarySlug]:null;
+  const primaryCta=primarySlug?regionalVenueCta(primarySlug, locale, regionMarket, selectedProduct, { accountStage, funding }):null;
   return <section id="cost-scenario" className="cost-decision rt-cd" aria-labelledby={`${id}-title`}>
     <div className="cost-decision__intro rt-panel__intro">
       <h2 id={`${id}-title`}>{ui.title}</h2>
@@ -105,8 +110,8 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
         <span>{ui.note}</span>
       </div>
       <a href={researchHref(comparePath,selectedProduct)} data-cta-kind="research" data-cta-placement="cost-calculator-next-compare" data-growth-decision={market==='futuresFee'?'compare_bybit_bitget':'compare_binance_okx'} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{ui.nextCompare}</a>
-      <a href={researchHref(`/exchanges/${primarySlug}#registration-path`,selectedProduct)} data-cta-kind="research" data-cta-platform={primarySlug} data-cta-placement="cost-calculator-next-platform" data-growth-decision={primarySlug} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{ui.nextPlatform}</a>
-      <a className={tie ? undefined : "rt-strip__primary"} href={primaryCta.ctaHref} target={primaryCta.direct ? '_blank' : undefined} rel={primaryCta.direct ? 'sponsored noopener noreferrer' : undefined} data-cta-kind={primaryCta.direct ? 'registration' : 'research'} data-cta-platform={primarySlug} data-cta-placement="cost-calculator-next-registration" data-growth-decision={primarySlug} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{primaryCta.direct ? ui.nextRegister : ui.verify} · {primaryVenue.name} ↗</a>
+      <a href={researchHref(primarySlug?`/exchanges/${primarySlug}#registration-path`:'/exchanges',selectedProduct)} data-cta-kind="research" data-cta-platform={primarySlug||undefined} data-cta-placement="cost-calculator-next-platform" data-growth-decision={primarySlug||'platform_directory'} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{ui.nextPlatform}</a>
+      {primaryCta && <a className="rt-strip__primary" href={primaryCta.ctaHref} target={primaryCta.direct ? '_blank' : undefined} rel={primaryCta.direct ? 'sponsored noopener noreferrer' : undefined} data-cta-kind={primaryCta.direct ? 'registration' : 'research'} data-cta-platform={primarySlug} data-cta-placement="cost-calculator-next-registration" data-growth-decision={primarySlug} data-growth-placement="cost-calculator-next" data-growth-market={regionMarket} data-growth-product={selectedProduct}>{primaryCta.direct ? ui.nextRegister : ui.verify} · {primaryVenue.name} ↗</a>}
     </div>
     <div className="rt-controls">
       <div className="cost-decision__inputs" role="group" aria-label={ui.eyebrow}>
@@ -136,7 +141,7 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
           const cost=quote?amount*quote.rate:0;
           const share=quote&&axisMax>0?Math.max(2,Math.round(cost/axisMax*100)):0;
           const delta=quote&&!noVolume&&!sameRate&&lowestReviewed?cost-lowestCost:0;
-          return <article key={slug}><h3>{venue.name}</h3><span className="rt-logo"><BrandMark slug={slug} compact /></span><p className={quote ? "cost-decision__amount" : "cost-decision__amount cost-decision__amount--pending"}>{displayCost}{quote && <small> USDT{ui.perMonth}</small>}</p><p className={displayRate ? undefined : "cost-decision__base--pending"}>{ui.base} {displayRate || unchecked}{delta>0 && <span className="rt-delta"> · {stateUi.delta.replace('{x}', number.format(delta))}</span>}</p>{quote && !tie && <i className="rt-bar" aria-hidden="true" style={{'--w':`${share}%`}} />}{reviewedRate && <p className="cost-decision__source rt-checked" title={`${sourceCopy.tier} · ${sourceCopy.scope}`}>{feeText.checked} <time dateTime={isoDay(reviewedRate.checkedAt)}>{isoDay(reviewedRate.checkedAt)}</time> · <a href={reviewedRate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a></p>}<a className="rt-offer" href={researchHref(`/exchanges/${slug}#registration-path`,product)} data-cta-kind="research" data-cta-platform={slug} data-cta-placement="cost-calculator-eligibility" data-growth-decision={slug} data-growth-placement="cost-calculator-eligibility" data-growth-market={regionMarket} data-growth-product={product}>{ui.offer}</a><a className="cost-decision__cta" data-cta-kind={cta.direct ? 'registration' : 'research'} data-cta-platform={slug} data-cta-placement="cost-calculator" data-growth-decision={slug} data-growth-placement="cost-calculator" data-growth-market={regionMarket} data-growth-product={product} href={cta.ctaHref} target={cta.direct ? '_blank' : undefined} rel={cta.direct ? 'sponsored noopener noreferrer' : undefined}>{cta.direct ? (ui.register.replace('{venue}', venue.name)) : (ui.verify)} ↗</a></article>;
+          return <article key={slug} className={quote ? undefined : "rt-row--pending"}><h3>{venue.name}</h3><span className="rt-logo"><BrandMark slug={slug} compact /></span><p className={quote ? "cost-decision__amount" : "cost-decision__amount cost-decision__amount--pending"}>{displayCost}{quote && <small> USDT{ui.perMonth}</small>}</p><p className={displayRate ? undefined : "cost-decision__base--pending"}>{ui.base} {displayRate || unchecked}{delta>0 && <span className="rt-delta"> · {stateUi.delta.replace('{x}', number.format(delta))}</span>}</p>{quote && !tie && <i className="rt-bar" aria-hidden="true" style={{'--w':`${share}%`}} />}{reviewedRate && <p className="cost-decision__source rt-checked" title={`${sourceCopy.tier} · ${sourceCopy.scope}`}>{feeText.checked} <time dateTime={isoDay(reviewedRate.checkedAt)}>{isoDay(reviewedRate.checkedAt)}</time> · <a href={reviewedRate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a></p>}<a className="rt-offer" href={researchHref(`/exchanges/${slug}#registration-path`,product)} data-cta-kind="research" data-cta-platform={slug} data-cta-placement="cost-calculator-eligibility" data-growth-decision={slug} data-growth-placement="cost-calculator-eligibility" data-growth-market={regionMarket} data-growth-product={product}>{ui.offer}</a><a className="cost-decision__cta" data-cta-kind={cta.direct ? 'registration' : 'research'} data-cta-platform={slug} data-cta-placement="cost-calculator" data-growth-decision={slug} data-growth-placement="cost-calculator" data-growth-market={regionMarket} data-growth-product={product} href={cta.ctaHref} target={cta.direct ? '_blank' : undefined} rel={cta.direct ? 'sponsored noopener noreferrer' : undefined}>{cta.direct ? (ui.register.replace('{venue}', venue.name)) : (ui.verify)} ↗</a></article>;
         })}
       </div>
     </div>

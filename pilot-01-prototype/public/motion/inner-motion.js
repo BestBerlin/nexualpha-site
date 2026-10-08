@@ -37,6 +37,30 @@
   }
 
   /* ---------- 1. route rail ---------- */
+  /* Geometry is anchored to the content column, not to <main>: the rail sits 25px before the h1's inline-start edge
+   * (x = 95 when content starts at 120), the same on every template. If that gutter is narrower than 48px the rail
+   * would touch content, so it becomes a 2px top progress bar instead. Docks sit only on h2s and carry the heading as a
+   * 12px label (shown for the section being read); the destination stub draws horizontally into the page's primary
+   * action when the path to it is clear of text, otherwise it stops 8px short of the content edge. */
+  function textRects(main) {
+    var out = [];
+    var w = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
+    var n, rg = document.createRange();
+    while ((n = w.nextNode())) {
+      if (!n.textContent.trim()) continue;
+      var p = n.parentElement;
+      if (!p || p.closest(".v6r, script, style, [aria-hidden='true'] svg")) continue;
+      rg.selectNodeContents(n);
+      var rs = rg.getClientRects();
+      for (var i = 0; i < rs.length; i++) if (rs[i].width > 0 && rs[i].height > 0) out.push(rs[i]);
+    }
+    return out;
+  }
+  function label(h) {
+    var t = (h.textContent || "").replace(/\s+/g, " ").trim();
+    return t.length > 34 ? t.slice(0, 32).replace(/[\s,.:;·-]+$/, "") + "…" : t;
+  }
+  function esc(t) { return t.replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function buildRail(main, s) {
     var rail = document.createElement("div");
     rail.className = "v6r";
@@ -49,44 +73,67 @@
       var h1 = main.querySelector("h1");
       if (!h1 || !visible(h1)) { rail.removeAttribute("data-ready"); return; }
       var rtl = getComputedStyle(main).direction === "rtl";
-      var w = main.clientWidth;
-      var inset = Math.max(16, (w - 1200) / 2);
-      var x = inset >= 76 ? inset - 24 : Math.max(6, Math.round(inset / 2) - 2);
-      var px = rtl ? mr.left + w - x : mr.left + x; /* physical page x of the rail */
+      var vw = document.documentElement.clientWidth;
       var hr = h1.getBoundingClientRect();
-      var start = hr.top - mr.top + Math.min(hr.height / 2, 26);
-      var headEdge = rtl ? mr.right - hr.right : hr.left - mr.left;
+      /* the content column's inline-start edge: the h1, or a visible h2 that starts further out */
+      var edgeOf = function (r) { return rtl ? vw - r.right : r.left; };
+      var cEdge = edgeOf(hr);
       var heads = main.querySelectorAll("h2");
+      for (var e = 0; e < heads.length; e++) { if (visible(heads[e]) && !heads[e].closest("nav, [role='dialog']")) { var er = heads[e].getBoundingClientRect(); if (er.width > 40) cEdge = Math.min(cEdge, edgeOf(er)); } }
+      var bar = cEdge < 48;
+      rail.toggleAttribute("data-bar", bar);
+      var x = cEdge - 25; /* distance from the viewport's inline-start edge */
+      var px = rtl ? vw - x : x;
+      var start = hr.top - mr.top + Math.min(hr.height / 2, 26);
       var docks = [];
       for (var i = 0; i < heads.length && docks.length < 9; i++) {
         var h = heads[i];
         if (!visible(h) || h.closest(".v6r, [role='dialog'], nav")) continue;
         var r = h.getBoundingClientRect();
-        var y = r.top - mr.top + Math.min(r.height / 2, 18);
-        if (y > start + 48 && (!docks.length || y - docks[docks.length - 1] > 64)) docks.push(Math.round(y));
+        var y = r.top - mr.top + Math.min(r.height / 2, 14);
+        if (y > start + 48 && (!docks.length || y - docks[docks.length - 1].y > 64)) docks.push({ y: Math.round(y), t: label(h) });
       }
-      var dest = null;
-      var primaries = main.querySelectorAll("a[rel~='sponsored'][class*='cta'], a[rel~='sponsored'][class*='btn'], .button-primary, [class*='--primary'], [class*='__primary']");
+      var dest = null, destEl = null;
+      var primaries = main.querySelectorAll("a[rel~='sponsored'][class*='cta'], a[rel~='sponsored'][class*='btn'], a[rel~='sponsored'][class*='primary'], .button-primary, [class*='--primary'], [class*='__primary']");
       for (var j = primaries.length - 1; j >= 0; j--) {
-        if (visible(primaries[j])) { var pr = primaries[j].getBoundingClientRect(); var py = pr.top - mr.top + pr.height / 2; if (py > start + 48) { dest = py; break; } }
+        if (visible(primaries[j])) { var pr = primaries[j].getBoundingClientRect(); var py = pr.top - mr.top + pr.height / 2; if (py > start + 48) { dest = py; destEl = primaries[j]; break; } }
       }
-      var end = Math.max(dest || 0, docks.length ? docks[docks.length - 1] + 1 : 0, mr.height - 96);
+      var end = Math.max(dest || 0, docks.length ? docks[docks.length - 1].y + 1 : 0, mr.height - 96);
       if (dest && dest >= end - 1) end = dest;
-      docks = docks.filter(function (d) { return d < end - 32; });
-      var sig = [px, Math.round(top0), Math.round(start), Math.round(end), rtl].concat(docks).join(",");
+      else { dest = null; destEl = null; }
+      docks = docks.filter(function (d) { return d.y < end - 32; });
+      /* destination stub: into the primary action when the horizontal path is clear of text, else to the content edge */
+      var stub = Math.max(0, 25 - 8);
+      if (destEl && !bar) {
+        var dr = destEl.getBoundingClientRect();
+        var target = edgeOf(dr) - x - 6;
+        var lineY = dr.top + dr.height / 2;
+        var lo = x, clear = target > 0;
+        if (clear) {
+          var rects = textRects(main);
+          for (var q = 0; q < rects.length && clear; q++) {
+            var tr = rects[q];
+            var tx0 = rtl ? vw - tr.right : tr.left, tx1 = rtl ? vw - tr.left : tr.right;
+            if (tr.top - 2 < lineY && tr.bottom + 2 > lineY && tx1 > lo && tx0 < x + target) clear = false;
+          }
+        }
+        if (clear) stub = Math.round(target);
+      }
+      var sig = [px, Math.round(top0), Math.round(start), Math.round(end), rtl, bar, stub].concat(docks.map(function (d) { return d.y; })).join(",");
       if (sig === s.sig) return;
       s.sig = sig;
       s.start = start; s.total = end - start; s.docks = docks;
-      var html = '<i class="v6r__track"></i><i class="v6r__fill"></i><i class="v6r__stub"></i><b class="v6r__node v6r__node--start"></b>';
-      for (var k = 0; k < docks.length; k++) html += '<b class="v6r__node" data-y="' + docks[k] + '" style="--v6r-ny:' + docks[k] + 'px"></b>';
-      html += '<b class="v6r__node v6r__node--dest" data-y="' + Math.round(end) + '" style="--v6r-ny:' + Math.round(end) + 'px"></b>';
+      var html = '<i class="v6r__track"></i><i class="v6r__fill"></i><b class="v6r__node v6r__node--start"></b>';
+      for (var k = 0; k < docks.length; k++) html += '<b class="v6r__node" data-y="' + docks[k].y + '" style="--v6r-ny:' + docks[k].y + 'px"><em class="v6r__lab">' + esc(docks[k].t) + "</em></b>";
+      html += '<b class="v6r__node v6r__node--dest" data-y="' + Math.round(end) + '" style="--v6r-ny:' + Math.round(end) + 'px"><i class="v6r__stub" style="--v6r-stub:' + stub + 'px"></i></b>';
       rail.innerHTML = html;
       rail.style.top = Math.round(top0) + "px";
       rail.style.left = Math.round(px) + "px";
       rail.toggleAttribute("data-rtl", rtl);
       rail.style.setProperty("--v6r-y", Math.round(start) + "px");
       rail.style.setProperty("--v6r-h", Math.max(0, Math.round(end - start)) + "px");
-      rail.style.setProperty("--v6r-stub", Math.max(0, Math.round(headEdge - x - 12)) + "px");
+      rail.style.setProperty("--v6r-x", Math.round(x) + "px");
+      rail.style.setProperty("--v6r-lab", Math.max(0, Math.round(x - 16)) + "px");
       rail.setAttribute("data-ready", "");
       s.fill();
     };
@@ -98,9 +145,15 @@
       var f = reduce || atEnd ? s.total : Math.max(0, Math.min(s.total, window.innerHeight * 0.62 - mr.top - s.start));
       rail.style.setProperty("--v6r-s", (f / s.total).toFixed(4));
       var nodes = rail.querySelectorAll("[data-y]");
+      var cur = -1;
       for (var i = 0; i < nodes.length; i++) {
         var on = Number(nodes[i].getAttribute("data-y")) - s.start <= f + 0.5 && f > 0 ? "1" : "0";
+        if (on === "1") cur = i;
         if (nodes[i].getAttribute("data-on") !== on) nodes[i].setAttribute("data-on", on);
+      }
+      for (var c = 0; c < nodes.length; c++) {
+        var isCur = c === cur ? "1" : "0";
+        if (nodes[c].getAttribute("data-cur") !== isCur) nodes[c].setAttribute("data-cur", isCur);
       }
     };
   }
