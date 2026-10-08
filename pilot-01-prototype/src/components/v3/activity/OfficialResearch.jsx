@@ -21,9 +21,9 @@ function SourceDate({ value, locale, unknown, displayedDate }) {
   return <time dateTime={value}>{new Date(value).toISOString().slice(0, 10)}</time>;
 }
 
-function RewardState({ view, text }) {
+function RewardState({ view, text, recheck = true }) {
   const period = view.signupReward.period;
-  return <div className="official-research__states"><span className="official-research__state" data-period={period}>{text[statusKey[view.signupReward.status]]}</span>{view.signupReward.status !== 'NOT_APPLICABLE' && <span className="official-research__state" data-period={period}>{text[periodKey[period]]}</span>}{view.freshness === 'NEEDS_RECHECK' && <strong className="official-research__recheck">{text.recheck}</strong>}</div>;
+  return <div className="official-research__states"><span className="official-research__state" data-period={period}>{text[statusKey[view.signupReward.status]]}</span>{view.signupReward.status !== 'NOT_APPLICABLE' && <span className="official-research__state" data-period={period}>{text[periodKey[period]]}</span>}{recheck && view.freshness === 'NEEDS_RECHECK' && <strong className="official-research__recheck">{text.recheck}</strong>}</div>;
 }
 
 function isRtlLocale(locale) {
@@ -34,7 +34,7 @@ function ResearchBody({ view, children }) {
   return <div className="official-research__body" lang={view.contentLocale} dir={isRtlLocale(view.contentLocale) ? 'rtl' : 'ltr'}>{children}</div>;
 }
 
-export function OfficialResearchIndex({ locale = 'en', market, product, venues = [], currentDate }) {
+export function OfficialResearchIndex({ locale = 'en', market, product, venues = [], currentDate, embedded = false }) {
   const text = campaignCopy(locale);
   const nav = v3Copy(locale);
   const [selected, setSelected] = useState(() => {
@@ -55,15 +55,16 @@ export function OfficialResearchIndex({ locale = 'en', market, product, venues =
     if (value) url.searchParams.set('researchVenue', value); else url.searchParams.delete('researchVenue');
     window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
   }
-  return <section className="official-research activity-center-v3__sources" aria-labelledby="official-research-title">
-    <div className="official-research__heading"><div><h2 id="official-research-title">{text.title}</h2><p>{text.intro}</p></div>
+  return <section className="official-research activity-center-v3__sources" aria-labelledby={embedded ? undefined : "official-research-title"} aria-label={embedded ? text.title : undefined}>
+    {/* embedded in the /activities drawer: the section's own h2 and intro already sit above it, so only the filter shows */}
+    <div className="official-research__heading">{!embedded && <div><h2 id="official-research-title">{text.title}</h2><p>{text.intro}</p></div>}
       <label className="official-research__filter">{text.filterVenue}<select name="researchVenue" value={selected} onChange={(event) => selectVenue(event.target.value)}><option value="">{text.allVenues}</option>{venues.filter((venue) => officialCampaignResearchByVenue[venue.slug]).map((venue) => <option key={venue.slug} value={venue.slug}>{venue.name}</option>)}</select></label>
     </div>
     <p className="official-research__provenance">{text.provenance}</p>
     {!["en", "zh-Hans", "zh-Hant"].includes(locale) && <p className="official-research__fallback">{text.fallback}</p>}
     <div className="official-research__list">{visibleEntries.map(({ venue, view }) => <article key={venue.slug} className="official-research__row">
       <div className="official-research__identity"><BrandMark slug={venue.slug} compact /><h3 translate="no" lang="en" dir="ltr">{venue.name}</h3></div>
-      <div className="official-research__summary"><RewardState view={view} text={text} /><ResearchBody view={view}><p>{view.summary}</p></ResearchBody><small>{text.checked}: <SourceDate value={view.checkedAt} locale={locale} unknown={text.recheck} /></small></div>
+      <div className="official-research__summary"><RewardState view={view} text={text} recheck={false} /><ResearchBody view={view}><p>{view.summary}</p></ResearchBody><small className="official-research__checked">{text.checked}: <SourceDate value={view.checkedAt} locale={locale} unknown={text.recheck} />{view.freshness === 'NEEDS_RECHECK' && view.checkedAt && <> · <strong className="official-research__recheck">{text.recheck}</strong></>}</small></div>
       <div className="official-research__actions"><a href={contextualHref(`/activities/research/${venue.slug}`, { locale, market, product })}>{text.openResearch}</a><a href={contextualHref(`/exchanges/${venue.slug}`, { locale, market, product })}>{nav.openDetail}</a></div>
     </article>)}</div>
     {!selected && entries.length > 6 && <button className="official-research__expand" type="button" aria-expanded={expanded} onClick={() => setExpanded((value) => !value)}>{expanded ? text.showFewer : text.showAll}</button>}

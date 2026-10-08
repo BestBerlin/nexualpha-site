@@ -397,7 +397,7 @@ export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} 
                 <div className="v3-faq-summary-left">
                   <span className="v3-faq-q-text">{faq.q}</span>
                 </div>
-                <span className="v3-faq-arrow" aria-hidden="true">▼</span>
+                <span className="v3-faq-arrow" aria-hidden="true">＋</span>
               </summary>
               <div className="v3-faq-content">{faq.a}</div>
             </details>

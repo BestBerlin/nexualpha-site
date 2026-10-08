@@ -455,10 +455,7 @@ function BrazilDecisionChain({ page, state, pageLocale, onDecision }) {
 
   return (
     <nav className="br-chain v2-shell" aria-label="Trilha de decisão Brasil">
-      <div className="br-chain__head">
-        <span>Rota principal · passo {currentIndex + 1} de {items.length}</span>
-        <b>{page.title}</b>
-      </div>
+      {/* no eyebrow and no restated page title: the stepper's current step (aria-current) says where the reader is */}
       <ol className="br-chain__crumbs">
         {items.map((item, index) => (
           <li key={item.path} aria-current={index === currentIndex ? "step" : undefined}>

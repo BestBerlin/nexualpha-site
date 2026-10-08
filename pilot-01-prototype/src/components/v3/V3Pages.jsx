@@ -33,7 +33,7 @@ import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { contextualHref } from "../../data/contextual-href.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { compareDirectAnswerFor } from "../../data/compare-direct-answers.js";
-import { CompareFinalChoiceCard } from "./CompareFinalChoiceCard.jsx";
+import { CompareFinalChoiceCard, CompareFinalChoiceEvidence } from "./CompareFinalChoiceCard.jsx";
 import { compareFaqBadge, compareFaqEntries, compareFaqText, compareStickyAria } from "../../data/compare-faq-locales.js";
 import { interfaceCopyByLocale } from "../../content/v3-interface-copy.js";
 import { VenueReadinessChecklist } from "./VenueReadinessChecklist.jsx";
@@ -2112,6 +2112,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   ].filter(Boolean);
 
   const handleCopyCode = () => codeFeedback.copy(inviteCode || officialDomain);
+  const profileChapters = profileResearchChapterCopy[textLocaleKey(locale)] || profileResearchChapterCopy.en;
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
@@ -2256,12 +2257,6 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
               <time className="v3-venue-direct-answer__reviewed" dateTime={isoDay(venueDirectAnswer.reviewedAt)}>{isoDates(venueDirectAnswer.reviewedLabel)}</time>
             )}
             <p>{venueDirectAnswer.body}</p>
-            {!priorityAnswer && (
-              <details className="v3-profile-answer-conditions" data-profile-task="conditions">
-                <summary>{text.verifyBefore}<span aria-hidden="true">＋</span></summary>
-                {venueDirectAnswerDetails}
-              </details>
-            )}
             {priorityAnswer && <details className="v3-venue-direct-answer__sources">
               <summary>{locale === "zh-Hant" ? "費用、使用條件與官方資料" : isZhLocale ? "费用、使用条件与官方资料" : ({"es": "Costes, condiciones y fuentes oficiales", "pt-BR": "Custos, condições e fontes oficiais", "fr": "Frais, conditions et sources officielles", "de": "Kosten, Bedingungen und offizielle Quellen", "ja": "費用・条件・公式ソース", "ko": "비용, 조건, 공식 출처", "tr": "Maliyetler, koşullar ve resmî kaynaklar", "ru": "Расходы, условия и официальные источники", "ar": "التكاليف والشروط والمصادر الرسمية", "id": "Biaya, ketentuan, dan sumber resmi", "vi": "Chi phí, điều kiện và nguồn chính thức", "it": "Costi, condizioni e fonti ufficiali"}[locale] || "Costs, conditions and official sources")}</summary>
               <div className="v3-venue-direct-answer__expanded">
@@ -2343,15 +2338,25 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} />
 
+    {/* One "Sources" disclosure: account and costs, sources and security, and follow-up were three stacked disclosures. */}
     <section className="v2-section v3-profile-research-hub">
+      <details className="v3-profile-sources-group">
+        <summary className="v3-profile-sources-group__summary">
+          <strong>{profileChapters[1]}</strong>
+          <span>{profileChapters[0]} · {profileChapters[2]}</span>
+          <b aria-hidden="true">＋</b>
+        </summary>
+        <div className="v3-profile-sources-group__body">
+      {!priorityAnswer && venueDirectAnswer && (
+        <section className="v3-profile-research-chapter v3-profile-answer-conditions" data-profile-task="conditions">
+          <h3 className="v3-profile-sources-group__heading">{campaignCopy(locale).conditions || text.verifyBefore}</h3>
+          {venueDirectAnswerDetails}
+        </section>
+      )}
       <section className="v3-profile-research-chapter" data-research-task="account">
-        <h2 className="v3-profile-research-chapter__heading">{profileResearchChapterCopy[textLocaleKey(locale)]?.[0] || profileResearchChapterCopy.en[0]}</h2>
+        <h3 className="v3-profile-sources-group__heading">{profileChapters[0]}</h3>
         <div className="v3-profile-research-chapter__body">
-        <details className="v3-registration-notes v3-venue-invitation-disclosure v3-profile-account-disclosure">
-          <summary>
-            <strong>{profileAccountDisclosureCopy[textLocaleKey(locale)] || profileAccountDisclosureCopy.en}</strong>
-            <b aria-hidden="true">＋</b>
-          </summary>
+        <div className="v3-profile-account-block v3-venue-invitation-disclosure">
           <div className="v3-registration-notes__body">
             <h3 className="v3-profile-account-section__heading">{invitationSummary.label}</h3>
             <p className="v3-profile-account-section__hint">{invitationSummary.note}</p>
@@ -2461,19 +2466,15 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     </section>
 
           </div>
-        </details>
+        </div>
 
         </div>
       </section>
       <section className="v3-profile-research-chapter" data-research-task="sources">
-        <h2 className="v3-profile-research-chapter__heading">{profileResearchChapterCopy[textLocaleKey(locale)]?.[1] || profileResearchChapterCopy.en[1]}</h2>
+        <h3 className="v3-profile-sources-group__heading">{profileChapters[1]}</h3>
         <div className="v3-profile-research-chapter__body">
-    <details className="v3-profile-evidence-drawer">
-      <summary>
-        <strong>{isZhLocale ? zhText(locale, "展开深度核验资料", "展開深度核驗資料") : (detailLabels.deeper || "Open deeper verification material")}</strong>
-        <b aria-hidden="true">＋</b>
-      </summary>
-      <div className="v3-profile-evidence-drawer__body">
+    <div className="v3-profile-evidence-block">
+      <div className="v3-profile-evidence-block__body">
         <VenueProofOfReserves
           venue={venue}
           locale={locale}
@@ -2492,15 +2493,14 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         <ResearchPanel slug={profile.slug} locale={locale} />
         <OfficialResearchTeaser locale={locale} venue={venue} market={market} product={product} />
       </div>
-    </details>
+    </div>
 
         </div>
       </section>
       <section className="v3-profile-research-chapter" data-research-task="follow-up">
-        <h2 className="v3-profile-research-chapter__heading">{profileResearchChapterCopy[textLocaleKey(locale)]?.[2] || profileResearchChapterCopy.en[2]}</h2>
+        <h3 className="v3-profile-sources-group__heading">{profileChapters[2]}</h3>
         <div className="v3-profile-research-chapter__body">
-        <details className="v3-profile-secondary-research" data-profile-task="telegram">
-          <summary><strong>{isZhLocale ? zhText(locale, "在 Telegram 监控此交易所 ↗", "在 Telegram 監控此交易所 ↗") : (telegramDetailUi.monitor || "Monitor on Telegram ↗")}</strong><span aria-hidden="true">＋</span></summary>
+        <div className="v3-profile-secondary-research" data-profile-task="telegram">
           <div className="v3-profile-secondary-research__body">
         <OnsiteTelegramBotHandoff
           canonicalPath={`/exchanges/${profile.slug}`}
@@ -2537,9 +2537,11 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
           claimsVerified={commercialClaim.status === "verified"}
         />
           </div>
-        </details>
+        </div>
         </div>
       </section>
+        </div>
+      </details>
     </section>
 
     {/* 针对 SEO 关键词的 FAQ 折叠/展开模块 */}
@@ -2551,8 +2553,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
       <div className="v3-activity-panel__actions"><LocalLink locale={locale} href="/activities">{text.openActivities}</LocalLink><LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink><details className="research-references"><summary>{text.openOfficialSource}</summary><SourceList text={text} profile={profile} /></details></div>
     </section>
 
-    <details className="v2-section v3-similar v3-similar-disclosure">
-      <summary className="section-lead v3-similar-disclosure__summary"><h2>{text.similar}</h2><span>{isZhLocale ? "展开同类平台与比较入口" : runtimeUi.similarOpen}</span><b aria-hidden="true">＋</b></summary>
+    <section className="v2-section v3-similar v3-similar-section" aria-labelledby={`similar-${profile.slug}`}>
+      <div className="section-lead v3-similar-section__lead"><h2 id={`similar-${profile.slug}`}>{text.similar}</h2></div>
       <ul className="v3-alternative-list" data-collapsed={!showAllSimilar && similar.length > 2 ? "true" : undefined}>{similar.map((candidate) => {
         const alternative = venueProfile(candidate, locale);
         const candidateResearch = researchForVenue(candidate.slug, locale);
@@ -2575,7 +2577,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
           <span aria-hidden="true">{showAllSimilar ? " ↑" : " ↓"}</span>
         </button>
       )}
-    </details>
+    </section>
 
     {/* 移动端专属吸底快捷操作条 */}
     <aside className={`v3-mobile-sticky-bar${mobileStickyActive ? " is-active" : ""}`} aria-label={isZhLocale ? "快捷操作" : runtimeUi.stickyQuickAction} aria-hidden={!mobileStickyActive} inert={!mobileStickyActive}>
@@ -3020,7 +3022,7 @@ export function CompareFaqSection({ profiles, locale = "en" }) {
                   <div className="v3-faq-summary-left">
                     <span className="v3-faq-q-text">{question}</span>
                   </div>
-                  <span className="v3-faq-arrow" aria-hidden="true">▼</span>
+                  <span className="v3-faq-arrow" aria-hidden="true">＋</span>
                 </summary>
                 <div className="v3-faq-content">{faq.a}</div>
               </details>
@@ -3263,13 +3265,14 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
       </div>
 
       <p className="v3-matrix-scroll-hint">{matrixAux.scrollHint}</p>
-      <div className="v3-matrix-jump">
+      {/* the jump list offers only metrics with a checked value; pending rows stay in the matrix itself */}
+      {metricRows.filter((row) => row.hasKnown).length > 2 && <div className="v3-matrix-jump">
         <label className="v3-matrix-jump__label" htmlFor="matrix-metric-select">{matrix.metrics}</label>
         <select className="v3-matrix-jump__select" id="matrix-metric-select" defaultValue="" onChange={(event) => { jumpToMetric(event.currentTarget.value); event.currentTarget.value = ""; }}>
           <option value="" disabled aria-label={matrix.metrics}>{matrix.jump || matrix.metrics}</option>
-          {metricRows.map((row) => <option key={row.key} value={row.key}>{row.hasKnown ? row.label : `${row.label} · ${localePending(locale)}`}</option>)}
+          {metricRows.filter((row) => row.hasKnown).map((row) => <option key={row.key} value={row.key}>{row.label}</option>)}
         </select>
-      </div>
+      </div>}
       <div className={`v3-matrix-table-wrap${showAllMetrics ? " is-expanded" : ""}`} role="region" tabIndex={0} aria-label={matrixTitleCopy || matrix.matrix || "Platform quantitative comparison matrix"}>
         <table role="table" className="v3-matrix-table" aria-label={matrixTitleCopy || matrix.matrix || "Platform quantitative comparison matrix"}>
           <colgroup>
@@ -3832,7 +3835,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
 
   const finalChoiceCard = (
         <div id="compare-final-choice">
-          <CompareFinalChoiceCard directAnswer={directAnswer} profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />
+          <CompareFinalChoiceCard directAnswer={directAnswer} profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} evidence={isPriorityTwoVenueDirectAnswer ? "none" : "inline"} />
         </div>
   );
 
@@ -3948,6 +3951,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
 
     {/* One "Sources and decision notes" group instead of three stacked disclosures (DOM order unchanged). */}
     <CompareNotesGroup kind="notes" locale={locale} enabled={isPriorityTwoVenueDirectAnswer}>
+    {isPriorityTwoVenueDirectAnswer && <CompareFinalChoiceEvidence directAnswer={directAnswer} profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />}
     {isPriorityTwoVenueDirectAnswer && supportingCard}
     <details id="compare-snapshot" className="v2-section v3-page-snapshot v3-compare-snapshot v3-compare-snapshot-disclosure">
       <summary>

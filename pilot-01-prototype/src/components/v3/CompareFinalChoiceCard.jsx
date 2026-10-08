@@ -131,11 +131,17 @@ function contextualInternalHref(href, context = {}) {
   return appendDecisionPassportQuery(href, hrefContext(href, context));
 }
 
-export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market, product, accountStage, funding }) {
+// The sources and decision notes behind the choice. On the two-venue answer layout they open inside the page's
+// "Sources and decision notes" group instead of a second, near-identically named disclosure in the card.
+export function CompareFinalChoiceEvidence({ directAnswer, profiles, locale, market, product, accountStage, funding }) {
   if (!directAnswer || !profiles?.length) return null;
-  const fallback = finalChoiceFallbackCopy(locale);
-  const card = directAnswer.decisionCard || {};
-  const title = card.title || directAnswer.title;
+  const { pageContext, detailHref, ctas } = choiceContext({ profiles, locale, market, product, accountStage, funding });
+  return <div className="v3-compare-final-choice-evidence" aria-label={directAnswer.seoQuestion || directAnswer.title || "Direct comparison answer"}>
+    <FinalChoiceEvidenceBody directAnswer={directAnswer} locale={locale} pageContext={pageContext} ctas={ctas} detailHref={detailHref} market={market} product={product} />
+  </div>;
+}
+
+function choiceContext({ profiles, locale, market, product, accountStage, funding }) {
   const contextParams = new URLSearchParams();
   if (market) contextParams.set("market", market);
   if (product) contextParams.set("product", product);
@@ -148,6 +154,15 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
     cta: regionalVenueCta(profile.slug, locale, market, product, { accountStage, funding }),
     decision: decisionForVenue(profile.slug, locale),
   }));
+  return { pageContext, detailHref, ctas };
+}
+
+export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market, product, accountStage, funding, evidence = "inline" }) {
+  if (!directAnswer || !profiles?.length) return null;
+  const fallback = finalChoiceFallbackCopy(locale);
+  const card = directAnswer.decisionCard || {};
+  const title = card.title || directAnswer.title;
+  const { pageContext, detailHref, ctas } = choiceContext({ profiles, locale, market, product, accountStage, funding });
 
   return (
     <article className="v3-compare-final-choice-card" aria-label={title}>
@@ -201,8 +216,17 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
 
       <div className="v3-compare-final-choice-card__actions">
         <a href="#hardcore-matrix" data-cta-kind="research" data-cta-placement="compare-final-choice-matrix">{card.matrixLabel || fallback.matrixLabel}</a>
-        <details className="v3-compare-final-choice-card__evidence" data-mobile-evidence-default="collapsed" aria-label={directAnswer.seoQuestion || directAnswer.title || "Direct comparison answer"}>
+        {evidence === "inline" && <details className="v3-compare-final-choice-card__evidence" data-mobile-evidence-default="collapsed" aria-label={directAnswer.seoQuestion || directAnswer.title || "Direct comparison answer"}>
           <summary>{card.evidenceLabel || fallback.evidenceLabel}<span aria-hidden="true">＋</span></summary>
+          <FinalChoiceEvidenceBody directAnswer={directAnswer} locale={locale} pageContext={pageContext} ctas={ctas} detailHref={detailHref} market={market} product={product} />
+        </details>}
+      </div>
+    </article>
+  );
+}
+
+function FinalChoiceEvidenceBody({ directAnswer, locale, pageContext, ctas, detailHref, market, product }) {
+  return <>
           <h3>{directAnswer.title}</h3>
           {directAnswer.reviewedAt && <time className="v3-compare-direct-answer__reviewed" dateTime={directAnswer.reviewedAt}>{isoReviewDates(directAnswer.reviewedLabel)}</time>}
           {directAnswer.searchIntent && (
@@ -253,8 +277,5 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
               ))}
             </div>
           )}
-        </details>
-      </div>
-    </article>
-  );
+  </>;
 }

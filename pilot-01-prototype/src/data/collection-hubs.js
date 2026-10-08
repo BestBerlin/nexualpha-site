@@ -1,4 +1,5 @@
 import { FACTBOOK_REGISTRY, FACTBOOK_SLUGS } from "./factbook-registry.js";
+import { feeFact, discountFact, factsForVenue, feePair } from "./exchange-facts.js";
 import { TOPIC_GUIDES, TOPIC_SLUGS } from "./topic-guides-data.js";
 
 export const TOPIC_HUB_PATH = "/topics";
@@ -18,14 +19,49 @@ export function topicHubItems(locale = "en") {
   });
 }
 
-export function factbookHubItems() {
+// Each row says what its record actually holds, from exchange-facts.js (the one fee source): the checked
+// spot / perpetual base fees, the token discount, and how many of the two fee fields are checked, with the date.
+function factbookRowFacts(slug, name, isZh) {
+  const spot = feeFact(slug, "spot");
+  const perp = feeFact(slug, "perp");
+  const checked = [spot, perp].filter((f) => f.state === "checked");
+  const date = checked.map((f) => f.checkedOn).filter(Boolean).sort().at(-1) || null;
+  const token = factsForVenue(slug)?.discount?.token || null;
+  const spotOff = discountFact(slug, "spot");
+  const fee = (f) => (f.state === "checked" ? feePair(f.maker, f.taker) : null);
+  if (isZh) {
+    const parts = [
+      fee(spot) ? `现货 ${fee(spot)}（挂单 / 吃单）` : "现货费率尚未核对",
+      fee(perp) ? `永续 ${fee(perp)}` : "永续费率尚未核对",
+    ];
+    if (token && spotOff != null) parts.push(`用 ${token} 支付现货手续费可减 ${spotOff}%`);
+    return {
+      description: `${parts.join("；")}。`,
+      meta: date ? `费率核对 ${date} · ${checked.length}/2 个费率字段` : "费率尚未核对 · 0/2 个费率字段",
+    };
+  }
+  const parts = [
+    fee(spot) ? `spot ${fee(spot)} (maker / taker)` : "spot fees not yet checked",
+    fee(perp) ? `perpetual ${fee(perp)}` : "perpetual fees not yet checked",
+  ];
+  if (token && spotOff != null) parts.push(`${spotOff}% off spot fees paid in ${token}`);
+  return {
+    description: `${name}: ${parts.join("; ")}.`,
+    meta: date ? `Fees checked ${date} · ${checked.length}/2 fee fields` : "Fees not yet checked · 0/2 fee fields",
+  };
+}
+
+export function factbookHubItems(locale = "en") {
+  const isZh = String(locale).startsWith("zh");
   return FACTBOOK_SLUGS.map((slug) => {
     const venue = FACTBOOK_REGISTRY[slug];
+    const facts = factbookRowFacts(slug, venue.name, isZh);
     return {
       slug,
       href: `/factbook/${slug}`,
       title: `${venue.name} Factbook`,
-      description: `${venue.name} source review for published fees, account conditions, official domains and verification limits.`,
+      description: facts.description,
+      meta: facts.meta,
       category: venue.category,
       officialDomain: venue.officialDomain,
     };
