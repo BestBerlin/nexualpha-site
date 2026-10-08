@@ -471,7 +471,7 @@ export function DirectoryV6({ locale = "en", venues = [], selected = [], onSelec
           ) : null}
           {visible.length > 6 ? (
             <div className="dir6-foot__row">
-              <span className="v6-small dir6-foot__sum">{ui.resultSummary(visible.length)}</span>
+              <span className="v6-small dir6-foot__sum">{typeof ui.resultSummary === "function" ? ui.resultSummary(visible.length) : `${mc.show} ${visible.length} ${mc.of} ${counts.all}`}</span>
               <a className="dir6-all" href={localizedHref(`/exchanges?${contextSearch}`, { locale })}>{ui.viewAll} <Icon name="arrow" /></a>
             </div>
           ) : null}
