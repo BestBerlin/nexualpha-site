@@ -26,7 +26,7 @@ main.v6:not(.home-refinement) :is(a, button):is(
   [class*="btn"], [class*="button"], [class*="__cta"], [class*="-cta"], [class*="__primary"], [class*="--primary"], [class*="__secondary"], [class*="--secondary"], [class*="--ghost"],
   [class*="__expand"], [class*="-expand"], [class*="toggle"], [class*="__bot"], [class*="decision-path-rail__link"], [class*="return-card"], [class*="__link"][class*="review"]
 ):not([class*="faq-item"], [class*="nx-"], [class*="summary"], [class*="mx-seg"], [class*="mx-sort"], [class*="mx-toggle"], [class*="filter"], [class*="tab-btn"]):not(#_):not(#_):not(#_),
-main.v6:not(.home-refinement) :is(.br-hero__actions, .br-decision-primary, .br-venue-card__actions, .br-chain__actions, .br-next-steps, .br-section-head, .br-early-next-step__items, .br-decision-panel__head, .br-chain__evidence, .activity-center-v3__empty-actions, .tg-hub__quick-cta, .tg-cta-buttons, .cost-decision__next-actions, .fee-terminal__next-step-actions, .v3-alternative__actions, .methodology-page__feedback-actions) > :is(a, button):not(#_):not(#_):not(#_) {
+main.v6:not(.home-refinement) :is(.br-hero__actions, .br-decision-primary, .br-venue-card__actions, .br-chain__actions, .br-next-steps, .br-section-head, .br-early-next-step__items, .br-decision-panel__head, .br-chain__evidence, .activity-center-v3__empty-actions, .tg-hub__quick-cta, .tg-cta-buttons, .cost-decision__next-actions, .fee-terminal__next-step-actions, .v3-alternative__actions, .methodology-page__feedback-actions, .v3-activity-panel__actions, .v3-compare-direct-answer__links, .v3-profile-primary-actions, .v3-hero-actions, .decision-return-link, .venue-readiness__foot) > :is(a, button):not(#_):not(#_):not(#_) {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   box-sizing: border-box;
   min-block-size: var(--h-ctl); block-size: auto; padding: 10px 16px;
@@ -36,11 +36,11 @@ main.v6:not(.home-refinement) :is(.br-hero__actions, .br-decision-primary, .br-v
   cursor: pointer; transition: background-color 140ms var(--ease-out, ease), border-color 140ms, color 140ms, transform 120ms;
 }
 main.v6:not(.home-refinement) :is(a, button):is([class*="btn"], [class*="button"], [class*="__cta"], [class*="-cta"], [class*="__primary"], [class*="--primary"], [class*="__secondary"], [class*="--secondary"], [class*="--ghost"], [class*="__expand"], [class*="toggle"], [class*="__bot"], [class*="decision-path-rail__link"]):not([class*="nx-"], [class*="faq-item"], [class*="summary"], [class*="mx-seg"], [class*="mx-sort"], [class*="mx-toggle"], [class*="filter"], [class*="tab-btn"]):hover:not(#_):not(#_):not(#_),
-main.v6:not(.home-refinement) :is(.br-hero__actions, .br-decision-primary, .br-venue-card__actions, .br-chain__actions, .br-next-steps, .br-section-head, .br-early-next-step__items, .br-decision-panel__head, .br-chain__evidence, .activity-center-v3__empty-actions, .tg-hub__quick-cta, .tg-cta-buttons, .cost-decision__next-actions, .fee-terminal__next-step-actions, .v3-alternative__actions, .methodology-page__feedback-actions) > :is(a, button):hover:not(#_):not(#_):not(#_) {
+main.v6:not(.home-refinement) :is(.br-hero__actions, .br-decision-primary, .br-venue-card__actions, .br-chain__actions, .br-next-steps, .br-section-head, .br-early-next-step__items, .br-decision-panel__head, .br-chain__evidence, .activity-center-v3__empty-actions, .tg-hub__quick-cta, .tg-cta-buttons, .cost-decision__next-actions, .fee-terminal__next-step-actions, .v3-alternative__actions, .methodology-page__feedback-actions, .v3-activity-panel__actions, .v3-compare-direct-answer__links, .v3-profile-primary-actions, .v3-hero-actions, .decision-return-link, .venue-readiness__foot) > :is(a, button):hover:not(#_):not(#_):not(#_) {
   background: var(--surface-2); border-color: rgb(255 255 255 / 0.4); color: #fff;
 }
 
-main.v6:not(.home-refinement) :is(a, button):is([class*="__primary"], [class*="--primary"], [class*="primary-btn"], [class*="button-primary"], [class*="cta-primary"], [class*="final-choice-card__primary"], [class*="versus-btn"], [class*="tg-btn--primary"], [class*="tg-btn"][class*="primary"], [class*="factbook-act-button"], [class*="tg-btn-launch"], [class*="tg-cmd-btn--launch"], [class*="hero-tg-btn"], [class*="cost-decision__cta"], [class*="chain__primary"], [class*="activity-center-v3__tg-btn"], [class*="decision-path-rail__link"].is-primary, [class*="matrix-cta-btn"]):not([class*="secondary"], [class*="nx-"]):not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) :is(a, button):is([class*="__primary"], [class*="--primary"], [class*="primary-btn"], [class*="button-primary"], [class*="cta-primary"], [class*="final-choice-card__primary"], [class*="versus-btn"], [class*="tg-btn--primary"], [class*="tg-btn"][class*="primary"], [class*="factbook-act-button"], [class*="tg-cmd-btn--launch"], [class*="cost-decision__cta"], [class*="chain__primary"], [class*="activity-center-v3__tg-btn"], [class*="decision-path-rail__link"].is-primary ):not([class*="secondary"], [class*="nx-"]):not(#_):not(#_):not(#_),
 main.v6:not(.home-refinement) a[rel~="sponsored"]:is([class*="cta"], [class*="btn"], [class*="button"]):not(#_):not(#_):not(#_),
 main.v6:not(.home-refinement) :is(.br-hero__actions > a:first-child, .br-decision-primary > a, .br-venue-card__actions > a, .cost-decision__next-actions > a:last-child, .activity-center-v3__empty-actions > a:first-child):not(#_):not(#_):not(#_) {
   background: var(--accent); background-image: none; border-color: var(--accent); color: var(--accent-ink); font-weight: 600;
@@ -99,12 +99,12 @@ main.v6:not(.home-refinement) :is([class*="__pulse"], [class*="-pulse"], .signal
 main.v6:not(.home-refinement) a:not(:is([class*="btn"], [class*="button"], [class*="__cta"], [class*="-cta"], [class*="primary"], [class*="secondary"], [class*="nx-"])):not(#_):not(#_):not(#_) {
   color: var(--ink);
 }
-main.v6:not(.home-refinement) :is(p, li, dd, td, summary, figcaption, .section-lead, [class*="__lead"], [class*="source-list"], [class*="__links"], [class*="source-actions"], [class*="__source"]) a:not(:is([class*="btn"], [class*="button"], [class*="cta"], [class*="card"], [class*="pill"], [class*="tab"], [class*="logo"], [class*="mx-id"], [class*="primary"], [class*="secondary"])):not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) :is(p, li, dd, td, summary, figcaption, .section-lead, [class*="__lead"], [class*="source-list"], [class*="source-actions"], [class*="__source"]) a:not(:is([class*="btn"], [class*="button"], [class*="cta"], [class*="card"], [class*="pill"], [class*="tab"], [class*="logo"], [class*="mx-id"], [class*="primary"], [class*="secondary"])):not(#_):not(#_):not(#_),
 main.v6:not(.home-refinement) a:is([class*="read-link"], [class*="-link"], [class*="__link"], [class*="rate-source"], [class*="audit-link"], [class*="tg-sublink"], [class*="back-link"], [class*="doc-btn"], [class*="merkle-link"], [class*="domain-link"], [class*="telegram"]):not([class*="btn"], [class*="button"], [class*="cta"], [class*="primary"], [class*="decision-path-rail__link"], [class*="return-card"]):not(#_):not(#_):not(#_) {
   color: var(--ink); text-decoration-line: underline; text-decoration-color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 0.24em;
   transition: text-decoration-thickness 120ms, color 120ms;
 }
-main.v6:not(.home-refinement) :is(p, li, dd, td, summary, figcaption, [class*="source-list"], [class*="__links"], [class*="source-actions"]) a:not(:is([class*="btn"], [class*="button"], [class*="cta"], [class*="card"], [class*="pill"], [class*="tab"], [class*="primary"], [class*="secondary"])):hover:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) :is(p, li, dd, td, summary, figcaption, [class*="source-list"], [class*="source-actions"]) a:not(:is([class*="btn"], [class*="button"], [class*="cta"], [class*="card"], [class*="pill"], [class*="tab"], [class*="primary"], [class*="secondary"])):hover:not(#_):not(#_):not(#_),
 main.v6:not(.home-refinement) a:is([class*="read-link"], [class*="-link"], [class*="__link"], [class*="rate-source"]):not([class*="btn"], [class*="button"], [class*="cta"], [class*="primary"], [class*="decision-path-rail__link"]):hover:not(#_):not(#_):not(#_) {
   text-decoration-thickness: 2px; color: #fff;
 }
@@ -115,7 +115,8 @@ main.v6:not(.home-refinement) :focus-visible:not(#_):not(#_):not(#_) { outline: 
 
 
 main.v6:not(.home-refinement) :is([class*="recheck"], [class*="icon"], [class*="__eyebrow"], [class*="tg-bot-handle"], [class*="query"], [class*="tg-icon"], [class*="__label"][class*="decision-path"], [class*="token-discount"], [class*="topic-badge"], .v3-warning-icon, .v3-tool-icon, [class*="wall-icon"]):not(#_):not(#_):not(#_) { color: var(--ink-2); }
-main.v6:not(.home-refinement) :is(.methodology-page h2, .methodology-page__funding-callout h2, [class*="funding-route"] h2, [class*="callout"] h2, [class*="callout"] strong):not(#_):not(#_):not(#_) { color: var(--ink); }
+main.v6:not(.home-refinement).methodology-page h2:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) :is(.methodology-page__funding-callout h2, [class*="funding-route"] h2, [class*="callout"] h2, [class*="callout"] strong):not(#_):not(#_):not(#_) { color: var(--ink); }
 main.v6:not(.home-refinement) :is([class*="callout"], [class*="funding-route"], [class*="wall"], [class*="alert"]):not(button, a, [class*="geo"], [class*="danger"]):not(#_):not(#_):not(#_) {
   background: var(--surface); background-image: none; border: 1px solid var(--line); border-radius: var(--r-surf); box-shadow: none;
 }
@@ -124,8 +125,13 @@ main.v6:not(.home-refinement) :is(.d5-up, .num.d5-up, td.factbook-cell-net.highl
 main.v6:not(.home-refinement) :is(.news-article-card__tag, .news-detail__tag, .news-hero__badge):not(#_):not(#_):not(#_) { color: var(--ink-2); }
 main.v6:not(.home-refinement) :is(.news-article-card__read-link, .news-article-card__author):not(#_):not(#_):not(#_) { color: var(--ink); }
 
+main.v6:not(.home-refinement) :is(.v3-profile-answer-conditions li, .venue-readiness__summary, .venue-readiness__item span, .v3-tg-feat-item, .v3-snapshot-strip span, .v3-versus-code strong, .v3-compare-reading-metadata span, .fee-terminal__rate-meta, .cost-decision__telegram, .decision-path-rail__link b, .methodology-pillar-card h3, .news-article-card__read-link, .tg-cmd-card__command, .tg-cmd-btn svg, .tg-manual-review__card strong, .br-cost-strip b, .br-chain__head span, .factbook-metric-value.highlight-cyan, .v3-tg-features span):not(#_):not(#_):not(#_) { color: var(--ink-2); border-color: var(--line); }
+main.v6:not(.home-refinement) .v3-gold-matrix-card:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) .v3-gold-matrix-card.is-active:not(#_):not(#_):not(#_) { background-color: var(--surface); background-image: none; border-color: var(--line); box-shadow: none; }
+main.v6:not(.home-refinement) .v3-gold-matrix-card.is-active:not(#_):not(#_):not(#_) { border-color: var(--line-2); }
 
-main.v6:not(.home-refinement) :is([class*="-card"], [class*="__card"], [class*="panel"], [class*="__box"], [class*="-box"], [class*="banner"], [class*="drawer"], [class*="__block"], [class*="callout"]):not(a, button, summary, details, tr, td, th, [class*="icon"], [class*="__head"], [class*="__header"], [class*="__title"], [class*="__body"], [class*="__text"], [class*="__lead"], [class*="__actions"], [class*="__grid"], [class*="__item"], [class*="__list"], [class*="faq-card"], [class*="-wrap"], [class*="__meta"], [class*="__left"], [class*="__right"], [class*="__cell"], [class*="__main"], [class*="-badge"], [class*="__summary"], [class*="__row"]):not(#_):not(#_):not(#_) {
+
+main.v6:not(.home-refinement) :is([class$="card"], [class*="card "], [class$="__box"], [class*="__box "], [class$="-box"], [class$="banner"], [class*="banner "], [class$="drawer"], [class$="callout"], [class$="__panel"], [class$="-panel"]):not(a, button, summary, details, tr, td, th, li, [class*="faq-card"], [class*="gold-matrix-card"], [class*="article-card"], [class*="activity-card"]):not(#_):not(#_):not(#_) {
   background-color: var(--surface); background-image: none; border-color: var(--line); box-shadow: none;
 }
 main.v6:not(.home-refinement) :is(.v3-compare-final-choice-card, .tg-hub__cta-box, .tg-hub__broadcast-banner, .activity-center-v3__empty, .methodology-page__feedback-card, .br-decision-panel, .registration-card, .v3-onsite-telegram-handoff):not(#_):not(#_):not(#_) {
@@ -145,8 +151,7 @@ main.v6:not(.home-refinement) :is(span, div, i):is([class*="icon"]):empty:not(#_
 
 @media (min-width: 1025px) {
   main.v3-profile-page.v6:not(#_):not(#_):not(#_) { display: grid; grid-template-columns: minmax(0, 1fr) 360px; column-gap: 64px; row-gap: 0; align-items: start; inline-size: min(100% - 48px, 1200px); margin-inline: auto; }
-  main.v3-profile-page.v6 > :is(.v3-page-hero, .v3-venue-hero, .v3-profile-reading-layout):not(#_):not(#_):not(#_) { display: contents; }
-  main.v3-profile-page.v6 > .v3-page-hero > *:not(#_):not(#_):not(#_) { display: contents; }
+  main.v3-profile-page.v6 :is(.v3-page-hero, .v3-venue-hero, .v3-profile-reading-layout):not(#_):not(#_):not(#_) { display: contents; }
   main.v3-profile-page.v6 .v3-profile-action-column:not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 1 / span 40; position: sticky; inset-block-start: 80px; align-self: start; margin: 0; max-block-size: calc(100dvh - 96px); overflow: auto; }
   main.v3-profile-page.v6 > :not(.v3-page-hero, .v3-mobile-sticky-bar, script, style):not(#_):not(#_):not(#_),
 main.v3-profile-page.v6 .v3-venue-identity:not(#_):not(#_):not(#_),
@@ -155,20 +160,21 @@ main.v3-profile-page.v6 .v3-profile-reading-overview:not(#_):not(#_):not(#_) { g
 main.v3-profile-page.v6 .v3-profile-reading-overview:not(#_):not(#_):not(#_) { margin-block-start: 64px; }
   main.v3-profile-page.v6 .v3-venue-identity:not(#_):not(#_):not(#_) { margin-block-start: 0; }
 }
-main.v6:not(.home-refinement) .v3-profile-page :is(h2, h3):not(#_):not(#_):not(#_) { color: var(--ink); opacity: 1; }
-main.v6:not(.home-refinement) .v3-profile-page :is([class*="section-lead"], [class*="__lead"]) p:not(#_):not(#_):not(#_) { color: var(--ink-2); }
+main.v6:not(.home-refinement).v3-profile-page :is(h2, h3):not(#_):not(#_):not(#_) { color: var(--ink); opacity: 1; }
+main.v6:not(.home-refinement).v3-profile-page :is([class*="section-lead"], [class*="__lead"]) p:not(#_):not(#_):not(#_) { color: var(--ink-2); }
 
 
 main.v6:not(.home-refinement) .v3-matrix-jump:not(#_):not(#_):not(#_) { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-block: 0 24px; }
 main.v6:not(.home-refinement) .v3-matrix-jump__label:not(#_):not(#_):not(#_) { color: var(--ink); font: 600 var(--t-14, 0.875rem)/1.3 var(--v6-sans, "Geist V5", sans-serif); }
 main.v6:not(.home-refinement) .v3-matrix-jump__select:not(#_):not(#_):not(#_) {
+  flex: none; block-size: auto; max-block-size: var(--h-ctl);
   box-sizing: border-box; min-block-size: var(--h-ctl); inline-size: min(100%, 360px); padding: 8px 40px 8px 12px; border: 1px solid var(--line-2); border-radius: var(--r-ctl);
   background-color: var(--surface); color: var(--ink); font: 500 var(--t-14, 0.875rem)/1.3 var(--v6-sans, "Geist V5", sans-serif); appearance: none;
   background-image: linear-gradient(45deg, transparent 50%, var(--ink-2) 50%), linear-gradient(135deg, var(--ink-2) 50%, transparent 50%);
   background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%; background-size: 5px 5px; background-repeat: no-repeat;
 }
 main.v6:not(.home-refinement) :is(.v3-matrix-table-wrap, .v3-metric-matrix-section table):not(#_):not(#_):not(#_) { background-color: var(--surface); background-image: none; border: 1px solid var(--line); border-radius: var(--r-surf); }
-main.v6:not(.home-refinement) .v3-compare-page :is(h2, h3):not(#_):not(#_):not(#_) { color: var(--ink); }
+main.v6:not(.home-refinement).v3-compare-page :is(h2, h3):not(#_):not(#_):not(#_) { color: var(--ink); }
 
 
 main.v6:not(.home-refinement) .activity-center-v3 :is(p, li, span, small, summary, a, dd, dt):not(#_):not(#_):not(#_) { color: inherit; }
@@ -202,13 +208,20 @@ main.v6:not(.home-refinement) .br-hero:not(#_):not(#_):not(#_) { gap: 48px; min-
 main.v6:not(.home-refinement) .br-decision-path ol > li > a:not(#_):not(#_):not(#_),
 main.v6:not(.home-refinement) .br-chain__crumbs a:not(#_):not(#_):not(#_) { min-block-size: 44px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-ctl); color: var(--ink); }
 main.v6:not(.home-refinement) .br-chain__crumbs li:first-child a:not(#_):not(#_):not(#_) { background: var(--surface-2); border-color: var(--line-2); }
-main.v6:not(.home-refinement) .br-decision :is(p, li):not(#_):not(#_):not(#_) { font-size: var(--t-16, 1rem); }
+main.v6:not(.home-refinement).br-decision :is(p, li):not(#_):not(#_):not(#_) { font-size: var(--t-16, 1rem); }
 
 
 main.v6:not(.home-refinement).factbook-body > *:not(#_):not(#_):not(#_),
 main.v6:not(.home-refinement).factbook-body .factbook-hero:not(#_):not(#_):not(#_) { max-inline-size: none; }
 main.v6:not(.home-refinement) .factbook-venue-pill:not(#_):not(#_):not(#_) { min-block-size: var(--h-ctl-sm); }
 
+main.v6:not(.home-refinement) .activity-card-v3__conditions:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) .activity-center-v3__conditions-disclosure:not(#_):not(#_):not(#_) { margin-block: 0; }
+main.v6:not(.home-refinement) .activity-card-v3__conditions summary:not(#_):not(#_):not(#_),
+main.v6:not(.home-refinement) .activity-center-v3__conditions-disclosure > summary:not(#_):not(#_):not(#_) { min-block-size: 44px; }
+main.v6:not(.home-refinement) .activity-center-v3__source-actions:not(#_):not(#_):not(#_) { margin-block-start: 0; }
+main.v6:not(.home-refinement) .decision-path-rail__links:not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; gap: 8px; }
+main.v6:not(.home-refinement) main > .v3-compare-decision-nav a:not(#_):not(#_):not(#_) { text-decoration: none; }
 
 .bleed-analyzer-section :is(*:not(svg, svg *)) { font-family: var(--v6-sans, "Geist V5", ui-sans-serif, system-ui, sans-serif); }
 .bleed-analyzer-section :is(.bleed-vol-value, .bleed-slider-ticks span, .bleed-verdict__tag, .bleed-copy-code-btn, code) { font-family: var(--v6-mono, "Geist Mono V5", ui-monospace, monospace); }

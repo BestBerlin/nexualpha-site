@@ -24,7 +24,7 @@
   line-height: 1.55;
   font-weight: 400;
 }
-main.v6:not(.home-refinement) { padding-block: var(--s-6, 24px) var(--v6-gap); }
+main.v6:not(.home-refinement) { padding-block: var(--s-6, 24px) 0; }
 
 /* ---------- 1. flatten: legacy sizes/families/line-heights collapse to the page default ---------- */
 :is(main, .factbook-page).v6:not(.home-refinement) :where(*:not(svg, svg *, .sr-only)):not(#_):not(#_) {
