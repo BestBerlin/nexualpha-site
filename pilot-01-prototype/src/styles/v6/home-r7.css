@@ -239,6 +239,7 @@ body:has(> * main#top.v6.home-refinement), body:has(main#top.v6.home-refinement)
   --v6-sans: var(--font-sans);
 }
 #top.v6:is(:lang(ja), :lang(ar)) { font-family: var(--font-sans); }
+#top.v6:is(:lang(ja), :lang(ar)) :is(.nx-hdr, .nx-ftr, .mobile-bottom-nav) { --nx-font: var(--font-sans); }
 #top.v6:is(:lang(ja), :lang(ar)) .v6-close__index .crawl-priority-links__group > span:not(#_):not(#_) { font-family: var(--font-sans); }
 #top.v6:lang(ar) :is(h1, h2, .rf-title, .v6-h1, .v6-h2, .v6-close__title):not(#_) { line-height: 1.25; }
 
