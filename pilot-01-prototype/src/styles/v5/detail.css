@@ -552,3 +552,103 @@
 .v5-detail.v3-profile-page .v3-faq-card { border: 0; background: none; box-shadow: none; padding: 0; }
 .v5-detail.v3-profile-page .v3-faq-card__title { font-size: var(--t-2xl); line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; color: var(--text-strong); text-wrap: balance; }
 .v5-detail.v3-profile-page .v3-faq-item { border: 0; border-block-start: var(--hairline); border-radius: 0; background: none; }
+
+/* ================= round 2 ================= */
+
+/* checked chip replaces the pending-verification chip */
+.v5-detail.v3-profile-page .v3-trust-metal-badge--checked { color: var(--text); }
+.v5-detail.v3-profile-page .v3-domain-pill .d5-lock { display: inline-flex; align-items: center; color: var(--text-muted); }
+.registration-card__lock { display: inline-flex; vertical-align: -2px; margin-inline-end: 0.3em; color: var(--text-muted); }
+.registration-card__lock svg { display: block; }
+
+/* facts strip: cost answer beside the signup card, ruled rows, no boxes */
+.v5-detail.v3-profile-page .d5-strip { order: -1; display: grid; min-inline-size: 0; }
+.v5-detail .d5-strip__head,
+.v5-detail .d5-strip__row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-4);
+  align-items: baseline;
+}
+.v5-detail .d5-strip__head { padding-block-end: var(--s-2); color: var(--text-muted); font-size: var(--t-xs); font-weight: 500; }
+.v5-detail .d5-strip__row { padding-block: var(--s-5); border-block-start: var(--hairline); }
+.v5-detail .d5-strip__row:last-of-type { border-block-end: var(--hairline); }
+.v5-detail .d5-strip__name { display: grid; gap: 2px; }
+.v5-detail .d5-strip__name b { color: var(--text-strong); font-size: var(--t-base); font-weight: 580; }
+.v5-detail .d5-strip__name small { color: var(--text-muted); font-size: var(--t-xs); }
+.v5-detail .d5-strip__cell { display: grid; gap: var(--s-1); min-inline-size: 0; }
+.v5-detail .d5-figure--hero { font-size: clamp(2rem, 1.3rem + 2.4vw, 3.25rem); line-height: 1; letter-spacing: -0.04em; font-weight: 560; color: var(--text-strong); }
+.v5-detail .d5-strip .d5-dash { font-size: clamp(2rem, 1.3rem + 2.4vw, 3.25rem); }
+.v5-detail .d5-strip__discount { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-1) var(--s-5); margin: 0; padding-block: var(--s-4) 0; color: var(--text-muted); font-size: var(--t-sm); }
+.v5-detail .d5-strip__discount .d5-discount__token { flex-basis: auto; }
+@media (max-width: 40rem) {
+  .v5-detail .d5-strip__head { display: none; }
+  .v5-detail .d5-strip__row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-2) var(--s-4); padding-block: var(--s-4); }
+  .v5-detail .d5-strip__name { grid-column: 1 / -1; }
+  .v5-detail .d5-strip .d5-cell-label { display: block; }
+  .v5-detail .d5-figure--hero, .v5-detail .d5-strip .d5-dash { font-size: 2rem; }
+}
+
+/* lower sections: definition-list reading layout */
+.v5-detail.v3-profile-page .v3-profile-research-hub { display: block; padding-block: 0; }
+.v5-detail.v3-profile-page .v3-profile-research-chapter {
+  display: grid;
+  grid-template-columns: minmax(10rem, 1fr) minmax(0, 3fr);
+  column-gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+  padding: var(--s-6) 0;
+  margin: 0;
+  border: 0;
+  border-block-start: var(--hairline);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.v5-detail.v3-profile-page .v3-profile-research-chapter:last-child { border-block-end: var(--hairline); }
+.v5-detail.v3-profile-page .v3-profile-research-chapter__heading { margin: 0; padding-block-start: 10px; font-size: var(--t-xl); font-weight: 580; letter-spacing: -0.02em; line-height: 1.15; color: var(--text-strong); text-wrap: balance; }
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body { min-inline-size: 0; margin: 0; padding: 0; }
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body > details { border: 0; background: none; box-shadow: none; border-radius: 0; padding: 0; margin: 0; }
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body > details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  min-block-size: 48px;
+  padding: 0;
+  color: var(--text);
+  font-size: var(--t-base);
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+}
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body > details > summary strong { font-weight: inherit; font-size: inherit; }
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body > details > summary > b,
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body > details > summary > span[aria-hidden] { color: var(--text-muted); font-weight: 400; transition: rotate var(--dur-2) var(--ease-out); }
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body > details[open] > summary > b,
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body > details[open] > summary > span[aria-hidden] { rotate: 45deg; }
+/* opened material: flatten boxes into ruled content */
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body details[open] :is(article, section, div, aside, ul, li) {
+  border-color: var(--line);
+  border-radius: 0;
+  box-shadow: none;
+  background-color: transparent;
+  background-image: none;
+}
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body details[open] :is(h2, h3, h4) { color: var(--text-strong); letter-spacing: -0.01em; text-transform: none; }
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body details[open] :is(p, li, small) { color: var(--text); }
+.v5-detail.v3-profile-page .v3-profile-research-chapter__body .v3-metric-tile__val { color: var(--text-strong); }
+@media (max-width: 52rem) {
+  .v5-detail.v3-profile-page .v3-profile-research-chapter { grid-template-columns: minmax(0, 1fr); row-gap: 0; padding: var(--s-5) 0; }
+  .v5-detail.v3-profile-page .v3-profile-research-chapter__heading { padding-block-start: 0; }
+}
+
+/* FAQ, activity, similar: same calm ruled language */
+.v5-detail.v3-profile-page .v3-faq-section,
+.v5-detail.v3-profile-page .v3-activity-panel,
+.v5-detail.v3-profile-page .v3-similar { padding-block: var(--s-16) 0; border: 0; background: none; }
+.v5-detail.v3-profile-page .v3-faq-summary { min-block-size: 56px; }
+.v5-detail.v3-profile-page .v3-alternative-list > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--s-3) var(--s-8); align-items: baseline; }
+@media (max-width: 52rem) { .v5-detail.v3-profile-page .v3-alternative-list > li { grid-template-columns: minmax(0, 1fr); } }
+
+.v5-detail .d5-strip--empty .d5-dash { font-size: var(--t-xl); }
+.v5-detail .d5-strip--empty .d5-strip__row { padding-block: var(--s-4); }

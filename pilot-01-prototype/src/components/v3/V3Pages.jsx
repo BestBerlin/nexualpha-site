@@ -7,7 +7,7 @@ import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
 import { compareSlug, v3Copy, venueProfile } from "../../data/v3-product";
 import { OutboundHandoff } from "./OutboundHandoff";
-import { ExchangeFactsV5 } from "./ExchangeFactsV5.jsx";
+import { ExchangeFactsV5, FactsStrip, feesCheckedLabel } from "./ExchangeFactsV5.jsx";
 import { ResearchPanel, ResearchComparison } from "./ResearchPanels";
 import { VenueDecisionArticles } from "./VenueDecisionArticles";
 import { VenueFaqSection } from "./VenueFaqSection.jsx";
@@ -1170,6 +1170,7 @@ function reviewedDecisionHeroSummary(name, locale, decision) {
 
 function VenueDecisionStrip({ text, profile, decision, locale }) {
   const reviewed = Boolean(decision?.editorialReviewed);
+  const skipFit = true;
   const decisionLocale = decision?.contentLocale ?? locale;
   const items = reviewed ? [
     { label: text.verdictBestFor, value: decision.fit, locale: decisionLocale },
@@ -1181,7 +1182,7 @@ function VenueDecisionStrip({ text, profile, decision, locale }) {
     { label: text.detailNotFor, value: profile.limitations?.[0] },
   ];
   return <div className="v3-venue-decision-strip" role="group" aria-label={text.profileSignal}>
-    {items.filter((item) => item.value).map((item, index) => (
+    {items.slice(skipFit ? 1 : 0).filter((item) => item.value).map((item, index) => (
       <article key={item.label}>
         <span>{item.label}</span>
         <strong lang={item.locale ?? undefined} dir={item.locale ? textDirectionForLocale(item.locale) : undefined}>{sanitizePublicText(item.value)}</strong>
@@ -2207,16 +2208,16 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
                 {profile.category}
               </span>
               {trustScore == null ? (
-                <span className="v3-trust-metal-badge v3-trust-metal-badge--pending">
-                  {trustLabel}
-                </span>
+                feesCheckedLabel(venue.slug, locale) ? <span className="v3-trust-metal-badge v3-trust-metal-badge--checked">
+                  {feesCheckedLabel(venue.slug, locale)}
+                </span> : null
               ) : (
                 <span className="v3-trust-metal-badge" style={{ borderColor: trustColor }}>
                   ★ {trustLabel}
                 </span>
               )}
               <span className="v3-domain-pill" translate="no">
-                <svg className="d5-lock" aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg> {officialDomain}
+                <svg className="d5-lock" aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg> {officialDomain}
               </span>
             </div>
             <h1 lang={priorityAnswer?.locale || undefined}>
@@ -2244,6 +2245,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         </div>}
 
 
+
+        <FactsStrip slug={profile.slug} locale={locale} />
 
         {venueDirectAnswer && (
           <div className="v3-venue-direct-answer" role="region" aria-label={priorityAnswer?.title || `${profile.name} direct answer`} data-priority-answer={priorityAnswer ? venue.slug : undefined} lang={priorityAnswer?.locale || locale}>
