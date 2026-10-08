@@ -189,6 +189,17 @@ const withData = (intent, f) => ((intent === "spot" || intent === "perps")
   ? f?.status === "verified" && Number.isFinite((intent === "perps" ? f.perp : f.spot)?.[0])
   : true);
 
+// The one bold type moment: the selected venue's fee at display size, counting up on every route change.
+function BigFee({ className, pair, locale, tick }) {
+  return (
+    <p className={className} aria-hidden="true" dir="ltr">
+      {pair && Number.isFinite(pair[0])
+        ? <><span className="rf-big__n"><Fee value={pair[0]} locale={locale} tick={tick} ms={620} /></span><span className="rf-big__u">%</span></>
+        : <span className="rf-big__n rf-big__n--na">{"\u2014"}</span>}
+    </p>
+  );
+}
+
 function Finder({ kit }) {
   const { locale } = kit;
   const t = copyFor(locale);
@@ -313,6 +324,11 @@ function Finder({ kit }) {
         </div>
       </div>
 
+      <div className="rf-readout" aria-hidden="true">
+        <BigFee className="rf-big" pair={bigPair} locale={locale} tick={tick} />
+        <p className="rf-readout__cap"><b translate="no" lang="en">{sel.name}</b> {feeKey === "perp" ? t.perp : t.spot} {t.mt} <span dir="ltr">{facts?.status === "verified" && facts[feeKey] ? `${facts[feeKey][0]} / ${facts[feeKey][1]}%` : t.none}</span></p>
+      </div>
+
       <div className="rf-hub" aria-hidden="true">
         <span className="rf-you" ref={youRef}>{youLabel}</span>
         <span className="rf-gate" ref={gateRef}>
@@ -373,11 +389,7 @@ function Finder({ kit }) {
       <div className="rf-card" id={panelId} ref={cardRef} role="region" aria-label={sel.name} style={{ "--ord": 11 + selIdx * 2 }} key={sel.slug}>
         <div className="rf-card__head">
           <span className="rf-card__who"><BrandMark slug={sel.slug} priority /><b translate="no" lang="en">{sel.name}</b><small translate="no" lang="en">{sel.category}</small></span>
-          <p className="rf-big" aria-hidden="true" dir="ltr">
-            {bigPair && Number.isFinite(bigPair[0])
-              ? <><span className="rf-big__n"><Fee value={bigPair[0]} locale={locale} tick={tick} ms={620} /></span><span className="rf-big__u">%</span></>
-              : <span className="rf-big__n rf-big__n--na">{"—"}</span>}
-          </p>
+          <BigFee className="rf-big rf-big--card" pair={bigPair} locale={locale} tick={tick} />
           <dl className="rf-facts">
             <div data-on={feeKey === "spot"}><dt>{t.spot} {t.mt}</dt><dd><FeePair pair={facts?.status === "verified" ? facts.spot : null} locale={locale} tick={tick} none={t.none} /></dd></div>
             <div data-on={feeKey === "perp"}><dt>{t.perp} {t.mt}</dt><dd><FeePair pair={facts?.status === "verified" ? facts.perp : null} locale={locale} tick={tick} none={t.none} /></dd></div>
