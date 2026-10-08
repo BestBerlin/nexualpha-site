@@ -363,6 +363,14 @@ function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
     ["/topics/tokenized-assets", localizedLabels[1]],
     ["/topics/tokenized-stocks-vs-perpetuals", localizedLabels[2]],
     ["/topics/tokenized-treasuries", localizedLabels[3]],
+    ...(locale === "pt-BR" ? [
+      ["/br/comparar", "Comparação de plataformas no Brasil"],
+      ["/br/conta", "Rota de abertura de conta no Brasil"],
+      ["/br/custos", "Verificação de custos no Brasil"],
+      ["/br/kyc-cpf", "KYC e CPF no Brasil"],
+      ["/br/pix", "Rota de depósito via Pix"],
+      ["/br/saque-pix", "Rota de saque via Pix"],
+    ] : []),
   ]);
   const groupsByScope = {
     home: ["brazil", "compare", "tools", "tokenized"],

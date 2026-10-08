@@ -107,7 +107,7 @@ export function MobileBottomNav({ locale, onSearch, brazil = false }) {
   const mobileNavCompactLabels = {
     de: { directory: "Börsen", campaigns: "Events", compare: "Vergl." },
     fr: { campaigns: "Évén.", search: "Chercher", compare: "Compar." },
-    ru: { calculator: "Сборы", campaigns: "События", compare: "Сравн." },
+    ru: { calculator: "Комиссии", campaigns: "События", compare: "Сравн." },
     tr: { calculator: "Ücret", campaigns: "Etkinlik", compare: "Kıyas" },
   };
   const compactLabels = mobileNavCompactLabels[locale] || mobileNavCompactLabels[String(locale || "").split("-")[0]] || {};
