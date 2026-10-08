@@ -6,7 +6,7 @@
 .dir6 { --row-px: var(--s-4); --pick: 44px; }
 .dir6 :where(a, button, summary, select):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .dir6 :where(a, button, select, summary) { -webkit-tap-highlight-color: transparent; }
-.dir6 :lang(ja), .dir6 :lang(zh), .dir6 :lang(ko) { word-break: keep-all; line-break: strict; }
+.dir6 :lang(ja), .dir6 :lang(zh), .dir6 :lang(ko) { line-break: strict; overflow-wrap: anywhere; word-break: auto-phrase; }
 .dir6 :where(a, button, input) { font-family: inherit; }
 .dir6 :where(button) { appearance: none; margin: 0; cursor: pointer; }
 .dir6 .dir6-sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

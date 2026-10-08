@@ -24,7 +24,8 @@
   margin: 0; color: var(--ink); font-size: var(--t-moment); line-height: 0.92; letter-spacing: -0.05em; font-weight: 600; text-wrap: balance; max-inline-size: 100%;
 }
 .v6 .v6-close .v6-close__title[data-len="long"]:not(#_):not(#_) { letter-spacing: -0.045em; }
-.v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-moment: clamp(2.75rem, 8.6cqi, 8.5rem); line-height: 1.12; letter-spacing: -0.02em; word-break: keep-all; line-break: strict; }
+.v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-moment: clamp(2.75rem, 8.6cqi, 8.5rem); line-height: 1.12; letter-spacing: -0.02em; word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
+.v6 .v6-close .v6-close__title:lang(ru):not(#_):not(#_) { --t-moment: clamp(3.5rem, 8.8cqi, 8.5rem); letter-spacing: -0.04em; }
 .v6 .v6-close .v6-close__title:lang(ar):not(#_):not(#_) { letter-spacing: 0; line-height: 1.15; }
 .v6 .v6-close__line { display: block; }
 .v6 .v6-close__w { display: inline-block; overflow: hidden; vertical-align: top; padding-block: 0.1em; margin-block: -0.1em; padding-inline: 0.02em; margin-inline: -0.02em; }
