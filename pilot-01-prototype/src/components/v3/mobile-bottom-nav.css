@@ -92,6 +92,12 @@
     padding-bottom: 0;
   }
 
+  /* Profile routes swap the dock for the fixed venue bar (fintech-premium.css).
+     Reserve its height below the footer so the copyright clears it at max scroll. */
+  body:has(> #root > main.v3-profile-page > .v3-mobile-sticky-bar) {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
 }
 
 /* iOS 安全区适配（刘海屏 / Dynamic Island）*/
@@ -121,6 +127,14 @@
   }
   html:has(> body > #root > .mobile-bottom-nav, > body > #root > main > .mobile-bottom-nav):not(:has(> body > #root > main:is(.v3-profile-page, .v3-compare-page))) {
     scroll-padding-bottom: calc(var(--mobile-bottom-nav-height, 80px) + 8px);
+    /* First-paint value of the JS-measured dock height (syncMobileBottomNavReserve writes the
+       same number inline on <html> after hydration), so the body / footer reserve does not jump.
+       Dock = 1px border + 6px + item (6 + 20 icon + 3 gap + label line + 6) + 6px + safe area. */
+    --mobile-bottom-nav-height: calc(65px + env(safe-area-inset-bottom, 0px));
+  }
+  /* The home dock label is set at line-height 1.15 (v6/closing.css), 3px shorter than inner pages. */
+  html:has(> body > #root > main#top.v6.home-refinement > .mobile-bottom-nav) {
+    --mobile-bottom-nav-height: calc(62px + env(safe-area-inset-bottom, 0px));
   }
 }
 

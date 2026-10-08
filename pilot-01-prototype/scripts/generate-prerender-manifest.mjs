@@ -134,6 +134,9 @@ export function routeInventory(newsArticles = []) {
     ...(COUNTRY_OWNER_LOCALES[pathname] ? { locales: COUNTRY_OWNER_LOCALES[pathname] } : {}),
     // Native English display documents are not additional search owners.
     ...(["/mx", "/mx/comparar", "/mx/costos", "/mx/conta"].includes(pathname) ? { prerenderLocales: ["es", "en"] } : {}),
+    // /markets/turkiye without a locale prefix is the noindex English display of the Turkish owner
+    // (/tr/markets/turkiye). Prerender it too so crawlers and no-JS readers do not get an empty #root.
+    ...(pathname === "/markets/turkiye" ? { prerenderLocales: ["tr", "en"] } : {}),
     ...(Object.values(TOKENIZED_ASSET_PAGES).some((page) => page.path === pathname) ? { locales: TOKENIZED_ASSET_LOCALES } : {}),
   })).concat(BRAZIL_PAGES.map(({ path: pathname }) => ({ pathname, level: pathname === '/br' ? 2 : 3,
     template: 'brazilDecision', index: true, locales: ['pt-BR'] })));

@@ -76,6 +76,10 @@ jobs:
           node scripts/prepare-sites-build.mjs
           node scripts/verify-build-budget.mjs --strict
 
+      - name: Dist shell contract
+        # #root > main structure and the shell / key component selectors in the built CSS (node built-ins only)
+        run: node --test tests/dist-shell-contract.test.mjs
+
       - name: Check build output
         run: |
           got=$(node -e 'console.log(require("./dist/client/version.json").buildId)')

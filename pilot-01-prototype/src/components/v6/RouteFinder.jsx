@@ -174,6 +174,8 @@ function nominalBoxes(nodes, intentIndex) {
   return box;
 }
 
+let fontsSettled = false;
+
 // Client: measure the real boxes relative to the SVG (which spans the container box of the hero), mirrored for RTL.
 function useRoutes(svgRef, stageRef, refs, intent, litKey, slug, noCard, initial) {
   const [geo, setGeo] = useState(initial);
@@ -227,7 +229,9 @@ function useRoutes(svgRef, stageRef, refs, intent, litKey, slug, noCard, initial
       if (cardRef.current) ro.observe(cardRef.current);
     }
     window.addEventListener("resize", schedule);
-    document.fonts?.ready?.then(schedule);
+    // Reading document.fonts.ready flushes style synchronously; this effect re-runs on every venue / intent change,
+    // so only subscribe until the fonts have settled once.
+    if (!fontsSettled) document.fonts?.ready?.then(() => { fontsSettled = true; schedule(); });
     const strip = listRef.current;
     strip?.addEventListener("scroll", schedule, { passive: true });
     return () => { cancelAnimationFrame(raf.current); ro?.disconnect(); window.removeEventListener("resize", schedule); strip?.removeEventListener("scroll", schedule); };
@@ -405,7 +409,7 @@ function Finder({ kit, tail, venues }) {
 
   return (
     <>
-    <div className="rf-grid" ref={stageRef} data-intent={intent}>
+    <div className="rf-grid" ref={stageRef} data-intent={intent} data-live={g.live ? "" : undefined}>
       <div className="rf-copy">
         <h1 className={`rf-title${/\s/.test(title.trim()) && Math.max(...title.split(/\s+/).map((w) => w.length)) > 11 ? " rf-title--long" : ""}`}>{phrased(title, locale)}</h1>
         <p className="rf-lede">{kit.lede}</p>
