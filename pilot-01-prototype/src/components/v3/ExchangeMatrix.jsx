@@ -343,8 +343,8 @@ export function ExchangeMatrix({
                     <td role="cell" className="mx-td mx-td--prod" data-label={mc.products}>
                       <span translate="no">{r.products.join(mc.sep)}</span>
                     </td>
-                    <td role="cell" className="mx-td mx-td--region" data-label={mc.region}>
-                      {r.region ? <span lang="en">{r.region}</span> : (<><span className="mx-dash" aria-hidden="true">&ndash;</span><span className="mx-sr">{mc.region}: </span><span className="mx-check">{mc.check}</span></>)}
+                    <td role="cell" className={`mx-td mx-td--region${r.region ? " mx-td--has" : ""}`} data-label={mc.region}>
+                      {r.region ? <span lang="en">{r.region}</span> : (<><span className="mx-dash" aria-hidden="true">&ndash;</span><span className="mx-sr">{mc.region}: {mc.check}</span></>)}
                     </td>
                     <td role="cell" className="mx-td mx-td--code" data-label={mc.code}>
                       {r.hasReferral && r.inviteCode ? (
