@@ -100,7 +100,8 @@
 .v6 .cl-pop__load { min-block-size: 44px; padding-inline: var(--s-3); background: transparent; border: 0; color: var(--text-muted); cursor: pointer; border-radius: var(--r-sm); font-weight: 500; transition: color var(--dur-1) var(--ease-out), background-color var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out); }
 .v6 .cl-pop__load:hover { color: var(--text-strong); background: var(--surface-hover); }
 .v6 .cl-pop__load:active { transform: scale(0.95); }
-.v6 .cl-pop__load[aria-pressed="true"] { color: var(--accent); }
+.v6 .cl-pop__load[aria-pressed="true"] { color: var(--accent); pointer-events: none; }
+.v6 .cl-pop__on { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--accent); margin-inline: 4px; }
 
 /* Fee cost check: secondary panel */
 .v6 .cl-fees { margin-block-start: var(--s-16); border-block: var(--hairline); }

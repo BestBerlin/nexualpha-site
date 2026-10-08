@@ -122,6 +122,17 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   const status = t.status.replace("{a}", nameOf(a)).replace("{b}", nameOf(b));
   const isCurrent = (pair) => (pair.left === a && pair.right === b) || (pair.left === b && pair.right === a);
 
+  const popInner = (pair) => (
+    <>
+      <span className="cl-pop__marks"><BrandMark slug={pair.left} compact /><BrandMark slug={pair.right} compact /></span>
+      <span className="cl-pop__text">
+        <span className="cl-pop__names" translate="no" lang="en">{pair.leftName} <small>vs</small> {pair.rightName}</span>
+        <span className="cl-pop__desc v6-small">{pair.desc}</span>
+      </span>
+      {isCurrent(pair) ? <span className="cl-pop__on" aria-hidden="true" /> : <Arrow />}
+    </>
+  );
+
   const Picker = ({ slot, cur, label }) => (
     <div className={`cl-pick cl-pick--${slot ? "b" : "a"}`} role="radiogroup" aria-label={label}>
       <span className="cl-pick__label v6-meta" aria-hidden="true">{label}</span>
@@ -205,21 +216,18 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
           <ul className="cl-pop__list">
             {ui.pairs.map((pair) => (
               <li key={pair.slug} className="cl-pop__item" data-active={isCurrent(pair) ? "1" : undefined}>
-                <a
-                  className="cl-pop__link"
-                  href={href(pair.slug)}
-                  data-decision-path={({ "binance-vs-okx": "cex", "bybit-vs-bitget": "derivatives", "uniswap-vs-jupiter": "onchain", "hyperliquid-vs-dydx": "perp" })[pair.slug]}
-                  data-growth-decision={pair.slug}
-                  data-growth-placement="crossroads-compare-card"
-                  data-growth-product={pair.slug.includes("dydx") ? "perpetuals" : "spot"}
-                >
-                  <span className="cl-pop__marks"><BrandMark slug={pair.left} compact /><BrandMark slug={pair.right} compact /></span>
-                  <span className="cl-pop__text">
-                    <span className="cl-pop__names" translate="no" lang="en">{pair.leftName} <small>vs</small> {pair.rightName}</span>
-                    <span className="cl-pop__desc v6-small">{pair.desc}</span>
-                  </span>
-                  <Arrow />
-                </a>
+                {isCurrent(pair) ? (
+                  <div className="cl-pop__link" aria-current="true">{popInner(pair)}</div>
+                ) : (
+                  <a
+                    className="cl-pop__link"
+                    href={href(pair.slug)}
+                    data-decision-path={({ "binance-vs-okx": "cex", "bybit-vs-bitget": "derivatives", "uniswap-vs-jupiter": "onchain", "hyperliquid-vs-dydx": "perp" })[pair.slug]}
+                    data-growth-decision={pair.slug}
+                    data-growth-placement="crossroads-compare-card"
+                    data-growth-product={pair.slug.includes("dydx") ? "perpetuals" : "spot"}
+                  >{popInner(pair)}</a>
+                )}
                 <button type="button" className="cl-pop__load v6-small" aria-pressed={isCurrent(pair)} onClick={() => commit(pair.left, pair.right)}>{t.preview}</button>
               </li>
             ))}
