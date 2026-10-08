@@ -386,3 +386,4 @@
 @media (max-width: 47.99rem) {
   .dir6 .dir6-chips { inline-size: calc(100% + 2 * var(--gutter)); padding-inline: var(--s-6); scroll-padding-inline: var(--s-6); }
 }
+.dir6 .dir6-name { padding-block: 13px; margin-block: -13px; } /* 44px target with the 1.15 line-height */
