@@ -14,7 +14,7 @@ main.v6:not(.home-refinement) .br-early-next-step__primary:not(#_):not(#_):not(#
 }
 main.v6:not(.home-refinement) .br-early-next-step__primary:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { text-decoration-color: var(--accent, #1fe0c0); }
 /* signup primary: dark ink on turquoise (white failed AA) */
-main.v6:not(.home-refinement) .registration-card__primary-btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: #04130f; }
+main.v6:not(.home-refinement) .registration-card__primary-btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: #04130f !important; }
 
 /* ---- defect 2: /rates venues with no checked fee sit last, muted ---- */
 main.v6:not(.home-refinement) .cost-decision__results > article.rt-row--pending:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { opacity: 0.62; }
