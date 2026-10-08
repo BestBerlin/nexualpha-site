@@ -901,12 +901,24 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
         <p>{page.answer}</p>
       </section>
   );
+  const pathBlock = (
+    <BrazilDecisionPath
+      state={state}
+      selectedVenues={selectedVenues}
+      mainRegistrationUrl={mainRegistrationUrl}
+      mainResearchUrl={mainResearchUrl}
+      globalDirectoryUrl={globalDirectoryUrl}
+      canRegister={directRegistration}
+      onDecision={emitDecision}
+      asDisclosure={isComparisonPage}
+    />
+  );
   const heroSection = (
     <section className={`br-hero v2-shell${isComparisonPage ? " br-hero--comparison" : ""}`}>
         <div className="br-hero__copy">
           <h1>{page.title}</h1>
           <p>{page.description}</p>
-          {isEntryPage ? answerSection : null}
+          {isEntryPage ? pathBlock : null}
           <nav className="br-hero__actions" aria-label="Ações de decisão do Brasil">
             <a href="#br-decision-controls">{copy.label}</a>
             <a href="#br-market-content">{copy.readPath}</a>
@@ -979,16 +991,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
               )}
             </div>
           ) : null}
-          <BrazilDecisionPath
-            state={state}
-            selectedVenues={selectedVenues}
-            mainRegistrationUrl={mainRegistrationUrl}
-            mainResearchUrl={mainResearchUrl}
-            globalDirectoryUrl={globalDirectoryUrl}
-            canRegister={directRegistration}
-            onDecision={emitDecision}
-            asDisclosure={isComparisonPage}
-          />
+          {!isEntryPage ? pathBlock : null}
           <div className="br-decision-primary">
             {mainRegistrationUrl ? <a href={mainRegistrationUrl} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-status={activeCta.claim.status} data-cta-platform={state.platform} data-cta-placement={`brazil-${page.slug}-primary`} data-growth-decision={state.platform} data-growth-placement={`brazil-${page.slug}-primary`} data-growth-market={state.region} data-growth-product={state.product}>
               {copy.register} · {activePartner.name || state.platform.toUpperCase()}
@@ -1063,6 +1066,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
       {isEntryPage ? (
         <section className="br-primary-workbench" aria-label={copy.label}>
           {heroSection}
+          {answerSection}
           {shortlistSection}
         </section>
       ) : heroSection}
