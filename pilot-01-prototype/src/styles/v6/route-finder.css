@@ -4,6 +4,7 @@
 #top.v6 .rf {
   /* The H1 is the hero display step: 72 on desktop, 44 on phones. Section H2s use --t-h2 (44 / 28), so the H1 is always a step above. */
   --t-h1: 2.75rem;
+  --t-20: 1.25rem; --t-28: 1.75rem; --t-44: 2.75rem; /* exact scale steps at every width (as in the other acts) */
   position: relative;
   overflow-x: clip;
   background: var(--n1);
@@ -556,10 +557,10 @@
   #top.v6 .rf-list {
     display: flex; gap: var(--s-2); margin: 0; margin-inline: calc(var(--gutter) * -1); padding: 0 var(--gutter) var(--s-1);
     overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none;
-    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - var(--s-12)), transparent);
-    mask-image: linear-gradient(to right, #000 calc(100% - var(--s-12)), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--gutter), #000 calc(100% - var(--s-12)), transparent);
+    mask-image: linear-gradient(to right, transparent 0, #000 var(--gutter), #000 calc(100% - var(--s-12)), transparent);
   }
-  [dir="rtl"] #top.v6 .rf-list, #top.v6[dir="rtl"] .rf-list { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - var(--s-12)), transparent); mask-image: linear-gradient(to left, #000 calc(100% - var(--s-12)), transparent); }
+  [dir="rtl"] #top.v6 .rf-list, #top.v6[dir="rtl"] .rf-list { -webkit-mask-image: linear-gradient(to left, transparent 0, #000 var(--gutter), #000 calc(100% - var(--s-12)), transparent); mask-image: linear-gradient(to left, transparent 0, #000 var(--gutter), #000 calc(100% - var(--s-12)), transparent); }
   #top.v6 .rf-list::-webkit-scrollbar { display: none; }
   #top.v6 .rf-list > li { display: block; flex: none; scroll-snap-align: start; }
   #top.v6 .rf-node { order: 0; margin: 0; inline-size: auto; min-inline-size: 9.5rem; }
