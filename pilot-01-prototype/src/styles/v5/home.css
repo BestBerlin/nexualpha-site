@@ -1431,3 +1431,49 @@ html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__w
     min-block-size: 2.75rem;
   }
 }
+
+/* logo tiles: every brand mark is a fixed square, whatever the source aspect ratio */
+#top.v5 .hx-row__who img.v2-brand,
+#top.v5 .hx__trust-logos img.v2-brand {
+  inline-size: 1.75rem !important;
+  block-size: 1.75rem !important;
+  min-inline-size: 1.75rem;
+  flex: none;
+  object-fit: contain;
+}
+@media (max-width: 40rem) {
+  #top.v5 .hx__lede {
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+}
+
+/* selecting a row sends one hairline of light across it, then the route card swaps in */
+#top.v5 .hx-row {
+  position: relative;
+  overflow: hidden;
+}
+@keyframes hx-sweep {
+  from {
+    translate: -100% 0;
+    opacity: 1;
+  }
+  to {
+    translate: 100% 0;
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  #top.v5 .hx-row.is-selected::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline: 0;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.1) 50%, transparent);
+    pointer-events: none;
+    animation: hx-sweep 700ms var(--ease-out) both;
+  }
+  [dir="rtl"] #top.v5 .hx-row.is-selected::before {
+    animation-direction: reverse;
+  }
+}
