@@ -742,7 +742,7 @@ function HomeDecisionPanel({ locale, ui, selectedSlug, onSelectSlug, cardOnly = 
   const chooserSummaryRef = useRef(null);
   const chooserSearchRef = useRef(null);
   const venues = priorityVenueSlugs.map((slug) => partnerCard(slug, locale)).filter(Boolean);
-  const selected = venues.find((venue) => venue.slug === selectedSlug) || venues[0];
+  const selected = venues.find((venue) => venue.slug === selectedSlug) || (cardOnly ? partnerCard(selectedSlug, locale) : null) || venues[0];
   const chooserSummaryAriaLabel = locale === "ja" ? `${selected.name}、プラットフォームを変更` : compactHomeTask ? `${selected.name}: ${fullChooserTaskLabel}` : undefined;
   const compactCopyLabel = locale === "ja" ? "コピー" : compactHomeTask?.copy;
   const compactCopyAriaLabel = locale === "ja" ? "コードをコピー" : compactHomeTask?.copyFull;
