@@ -58,11 +58,11 @@ main.v6:not(.home-refinement) { padding-block: var(--s-6, 24px) var(--v6-gap); }
   font-size: var(--t-12); line-height: 1.4; letter-spacing: 0.01em;
 }
 /* headline numbers and money */
-:is(main, .factbook-page).v6:not(.home-refinement) :is([class*="figure"], [class*="__amount"], [class*="metric-value"], [class*="stat-val"], [class*="big-num"]):not(#_):not(#_) {
+:is(main, .factbook-page).v6:not(.home-refinement) :is([class*="figure"], [class*="__amount"], [class*="stat-val"], [class*="big-num"]):not(#_):not(#_) {
   font-size: var(--t-28); line-height: 1.1; font-weight: 600; font-family: var(--v6-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
 }
 /* inline values in tables and cards: 16 mono, never display size */
-:is(main, .factbook-page).v6:not(.home-refinement) :is([class*="main-val"], [class*="rate-main"], [class*="matrix-main"]):not(#_):not(#_) {
+:is(main, .factbook-page).v6:not(.home-refinement) :is([class*="metric-value"], [class*="main-val"], [class*="rate-main"], [class*="matrix-main"]):not(#_):not(#_) {
   font-size: var(--t-16); line-height: 1.3; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: 0;
 }
 /* copyable codes and commands */
