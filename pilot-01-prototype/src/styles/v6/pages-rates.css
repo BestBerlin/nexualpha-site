@@ -220,3 +220,7 @@
   #top#top#top.v6.r1-rates-page * { transition-duration: 0.01ms; animation-duration: 0.01ms; }
 }
 @media (min-width: 769px) { #top#top#top.v6.r1-rates-page .fee-terminal__expand-row { display: none; } }
+#top#top#top.v6.r1-rates-page .cost-decision__base--pending { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+#top#top#top.v6.r1-rates-page .rt-panel > .decision-path-rail__links, #top#top#top.v6.r1-rates-page .rt-panel > .decision-path-rail__link { border: 0 !important; box-shadow: none !important; }
+#top#top#top.v6.r1-rates-page .rt-next .fee-terminal__next-step-actions { padding: 0; margin: 0; }
+#top#top#top.v6.r1-rates-page .rt-next .fee-terminal__next-step-actions a, #top#top#top.v6.r1-rates-page .rt-context nav a { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
