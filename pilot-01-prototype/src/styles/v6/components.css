@@ -200,7 +200,7 @@ main.v3-profile-page.v6 .v3-profile-reading-overview:not(#_):not(#_):not(#_) { m
 
 
 :is(main, .factbook-page).v6:not(.home-refinement) .tg-search-topic-card__meta:not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px 16px; }
-:is(main, .factbook-page).v6:not(.home-refinement) .tg-search-topic-card__meta a:not(#_):not(#_):not(#_) { background: none; border: 0; padding: 0; min-block-size: 36px; display: inline-flex; align-items: center; border-radius: 0; color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.24em; }
+:is(main, .factbook-page).v6:not(.home-refinement) .tg-search-topic-card__meta a:not(#_):not(#_):not(#_) { background: none; border: 0; padding: 0; min-block-size: 44px !important; min-height: 44px !important; display: inline-flex !important; align-items: center; border-radius: 0; color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.24em; }
 :is(main, .factbook-page).v6:not(.home-refinement) .tg-search-topic-card__query:not(#_):not(#_):not(#_) { color: var(--ink); font-family: var(--v6-sans, "Geist V5", sans-serif); }
 
 
@@ -276,7 +276,7 @@ main.v3-profile-page.v6:not(#_):not(#_):not(#_) { background: transparent; }
 .rebate-ticker__text,
 .rebate-ticker-bar :is(span, strong, a, p) { font-size: var(--t-14, 0.875rem); line-height: 1.5; }
 .rebate-ticker__badge { font-size: var(--t-12, 0.75rem); }
-.rebate-ticker__item { color: var(--ink); text-decoration-color: var(--accent); min-block-size: 44px; display: inline-flex; align-items: center; }
+.rebate-ticker__item { color: var(--ink); text-decoration-color: var(--accent); min-block-size: 44px !important; display: inline-flex !important; align-items: center; }
 .rebate-ticker__summary:focus-visible,
 .rebate-ticker__item:focus-visible { outline-color: var(--accent); }
 .mobile-bottom-nav__label { font-size: var(--t-12, 0.75rem); line-height: 1.2; }
@@ -284,3 +284,11 @@ main.v3-profile-page.v6:not(#_):not(#_):not(#_) { background: transparent; }
 .registration-card a[href*="disclosure"],
 .v3-affiliate-disclosure a,
 [class*="affiliate"] a[href*="disclosure"] { display: inline-flex; align-items: center; min-block-size: 44px; }
+
+
+@media (max-width: 860px), (pointer: coarse) {
+  :is(main, .factbook-page).v6:not(.home-refinement) :is(.registration-card__primary-btn, .registration-card__copy-btn, .registration-card button, .v3-tg-sublink, .fee-terminal__rate-source, .cost-decision__source a, .crawl-priority-links a):not(#_):not(#_):not(#_) { min-block-size: 44px !important; display: inline-flex !important; align-items: center; }
+  .rebate-ticker-bar a,
+.rebate-ticker__item { min-block-size: 44px !important; }
+}
+.br-decision-path a { text-decoration: none !important; }
