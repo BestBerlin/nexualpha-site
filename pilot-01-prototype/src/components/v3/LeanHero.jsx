@@ -301,7 +301,7 @@ const uiText = {
       { text: `${directoryStats.cex} Flagship CEXs`, href: "#exchanges" },
       { text: `${directoryStats.dex} On-chain DEXs`, href: "#exchanges" },
       { text: `${directoryStats.perpDex} High-speed Perp DEXs`, href: "#exchanges" },
-      { text: "Official Domain Directory", href: "/exchanges" },
+      { text: "Official domain directory", href: "/exchanges" },
       { text: "Affiliate disclosure", href: "/methodology#disclosure" }
     ],
     telemetry: {
@@ -310,7 +310,7 @@ const uiText = {
       metrics: [
         { label: "Indexed & Verified Venues", val: `${directoryStats.total} Venues`, sub: `${directoryStats.cex} CEX · ${directoryStats.dex} DEX · ${directoryStats.perpDex} Perp DEX`, highlight: "blue", href: "#exchanges" },
         { label: "Custody Asset Risk", val: "$0 Zero-Custody", sub: "Pure yellow pages routing, no private keys", highlight: "green", href: "#policy" },
-        { label: "Official Domain Directory", val: "Source-reviewed routes", sub: "Review the official domain and anti-phishing path", highlight: "purple", href: "/exchanges" },
+        { label: "Official domain directory", val: "Source-reviewed routes", sub: "Review the official domain and anti-phishing path", highlight: "purple", href: "/exchanges" },
         { label: "User Fee Benefits", val: "Per-platform terms", sub: "Each exchange keeps its own code and route", highlight: "gold", href: "#bleed-analyzer" },
       ],
       copiedCode: "Copied Referral Code!",

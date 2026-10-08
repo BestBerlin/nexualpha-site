@@ -102,7 +102,7 @@ const controlsCopy = {
     nextTitle: "Recommended Next",
     nextCheck: "Pix/BRL: check CPF, ownership, limit, and fee",
     nextCompare: "Compare On Site",
-    entry: "Brazil: Decide Before Signup",
+    entry: "Brazil: decide before sign-up",
   },
   "zh-Hans": {
     label: "快速决策",
