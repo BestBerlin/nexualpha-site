@@ -13,6 +13,9 @@
   --rr-line: var(--n6, rgb(255 255 255 / 0.14));
 }
 #top.v6 :is(.rr-seg, .rr-stub, .rr-start, .rr-dock) { display: none; }
+/* body{overflow-x:hidden} made <body> a scroll container that never scrolls: view() timelines would track it instead of the
+   viewport. clip keeps the no-horizontal-scroll guarantee without creating a scroll container (as on the inner pages). */
+body:has(> * main#top.v6.home-refinement), body:has(main#top.v6.home-refinement) { overflow-x: clip; overflow-y: visible; }
 .v6-close__route { anchor-name: --rr-dest; }
 #top.v6 .rf-you { anchor-name: --rr-you; }
 @media (min-width: 48rem) {
@@ -31,6 +34,8 @@
     #top.v6 .rr-seg--start { inset-block-start: anchor(--rr-you center); block-size: auto; }
     #top.v6 :is(.rr-stub, .rr-start) { inset-block-start: anchor(--rr-you center); }
   }
+  /* docks: level with the act's H2 (sections start on their heading; half of its 44 x 1.15 line) */
+  #top.v6 .rr-dock { inset-inline-start: var(--rr-x); inset-block-start: 25px; inline-size: 0; block-size: 0; }
   /* closing: from the band's top edge to the CTA route's start (its viewBox y = 34 of 40), where the rail becomes the CTA line */
   #top.v6 .rr-seg--dest { inset-block: 0 auto; block-size: 0; }
   #top.v6 .rr-dock--dest { inset-block-start: 0; }
@@ -38,8 +43,6 @@
     #top.v6 .rr-seg--dest { block-size: auto; inset-block-end: anchor(--rr-dest 85%); }
     #top.v6 .rr-dock--dest { inset-block-start: anchor(--rr-dest 85%); }
   }
-  /* docks: level with the act's H2 (sections start on their heading; half of its 44 x 1.15 line) */
-  #top.v6 .rr-dock { inset-inline-start: var(--rr-x); inset-block-start: 25px; inline-size: 0; block-size: 0; }
   #top.v6 .rr-dock__node { position: absolute; inset-block-start: -5px; inset-inline-start: -5px; inline-size: 10px; block-size: 10px; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--n7, #3a3f47); background: var(--bg, #0e0e10); }
   #top.v6 .rr-dock__tick { position: absolute; inset-block-start: -1px; inset-inline-start: 0; inline-size: var(--rr-tick); block-size: 2px; border-radius: 1px; background: var(--rr-line); }
   #top.v6 .rr-dock--dest .rr-dock__tick { inline-size: calc(var(--rr-tick) + 8px); }
@@ -108,6 +111,9 @@
   #top.v6 .rf-actions .rf-btn--wizard { display: inline-flex; flex: 1 1 auto; min-inline-size: 0; }
   #top.v6 .rf-actions .rf-link--compare { flex: 0 1 auto; font-size: var(--t-14); }
 }
+
+/* the routes pass behind the display title: a map-label halo in the ground colour keeps every glyph clean */
+@media (min-width: 74rem) { #top.v6 .rf-title { paint-order: stroke fill; -webkit-text-stroke: 0.16em var(--n1); } }
 
 /* ---------- 3. on-chain nodes carry their network (the readout's first row shows the same value) ---------- */
 #top.v6 .rf-node__net { color: var(--text); font-family: var(--font-sans); letter-spacing: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -199,6 +205,9 @@
 #top.v6 .cl-chip[data-other] span { border-color: var(--n8); border-style: dashed; }
 #top.v6 .cl-chip[data-other] span :is(img, .v2-brand-fallback) { filter: none; opacity: 1; }
 #top.v6 .cl-id { transition: border-color 140ms var(--ease-out), background-color 140ms var(--ease-out), scale var(--dur-2) var(--ease-out); cursor: pointer; }
+#top.v6 .cl__plate[data-moving] :is(.cl-id, .cl-ledger, .cl-mid .cl-gap) { opacity: 0.55; transition: opacity 120ms var(--ease-out); }
+#top.v6 .cl__plate[data-moving] .cl-swap svg { rotate: 180deg; }
+#top.v6 .cl-swap svg { transition: rotate 240ms var(--ease-out); }
 #top.v6 .cl-id[data-active] { border-style: solid; border-color: var(--n8); background: var(--n2); }
 #top.v6 .cl-id:not([data-active]):hover { border-color: var(--n7); }
 @media (max-width: 47.99rem) { #top.v6 .cl-pick { justify-items: stretch; } #top.v6 .cl-pick .cl-pick__label { justify-self: start; } #top.v6 .cl-pick .cl-chips { justify-content: flex-start; } }

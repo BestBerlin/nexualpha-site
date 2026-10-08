@@ -147,11 +147,11 @@ function drawRoutes(B, lit, active, noCard) {
 
 // Nominal wide layout (container px at 1440: 12 x 78 cols, 24 gutters). Mirrors the CSS below; the client replaces it once measured.
 const ARC = [0, 2, 6, 13, 23, 36, 51, 68]; // node inset from the map column's end edge, top to bottom (px)
-const NOM = { W: 1200, H: 823, top: 63, pitch: 80, nodeH: 72, nodeW: 184, colEnd: 894, tileW: 93, tileGap: 4, tileT: 623, tileB: 695 };
+const NOM = { W: 1200, H: 823, top: 63, pitch: 80, nodeH: 72, nodeW: 184, colEnd: 894, tileW: 93, tileGap: 4, tileT: 399, tileB: 485, hubC: 435 };
 function nominalBoxes(nodes, intentIndex) {
   const box = { mode: "wide", nodes: {} };
   box.port = { x: intentIndex * (NOM.tileW + NOM.tileGap) + NOM.tileW / 2, y: NOM.tileB };
-  const c = (NOM.tileT + NOM.tileB) / 2;
+  const c = NOM.hubC;
   box.you = { l: 408, r: 444, t: c - 18, b: c + 18 };
   box.gate = { l: 452, r: 488, t: c - 18, b: c + 18 };
   nodes.forEach((v, k) => {

@@ -121,6 +121,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
   };
   useIso(() => {
     const m = snapshot.current;
+    plate.current?.removeAttribute("data-moving");
     if (!m || !plate.current) return;
     snapshot.current = null;
     if (prefersReducedMotion()) return;
@@ -138,7 +139,17 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
     });
   }, [a, b]);
 
-  const commit = (na, nb) => { snap(); setPair([na, nb]); startTransition(() => { onSelectionChange?.([na, nb]); }); };
+  // The click frame answers at once (the slots give way: an attribute change, no re-render); the new pair commits one frame
+  // later, so that first frame is painted before the page re-styles. The FLIP then glides the venues into their slots.
+  const commit = (na, nb) => {
+    if (na === a && nb === b) return;
+    snap();
+    const el = plate.current;
+    const go = () => { setPair([na, nb]); startTransition(() => { onSelectionChange?.([na, nb]); }); };
+    if (!el || prefersReducedMotion() || typeof requestAnimationFrame !== "function") { go(); return; }
+    el.setAttribute("data-moving", "");
+    requestAnimationFrame(() => setTimeout(go, 0));
+  };
   const pick = (slot, slug) => {
     if (slot === 0) commit(slug, slug === b ? a : b);
     else commit(slug === a ? b : a, slug);
