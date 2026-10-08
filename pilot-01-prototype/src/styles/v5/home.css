@@ -707,6 +707,7 @@
   white-space: nowrap;
 }
 #top.v5 .hx-matrix__note {
+  max-inline-size: none;
   margin: 0;
   padding: var(--s-3) var(--s-6) var(--s-4);
   font-size: var(--t-xs);
@@ -1232,4 +1233,13 @@ html:lang(ja) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__w
 html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail) {
   font-weight: 700;
   letter-spacing: -0.01em;
+}
+
+#top.v5 .hx-route .registration-card__mobile-route-details,
+#top.v5 .hx-route .registration-card__mobile-route-summary {
+  min-block-size: 0;
+  block-size: auto;
+}
+#top.v5 .hx-route .registration-card__disclosure {
+  max-inline-size: none;
 }
