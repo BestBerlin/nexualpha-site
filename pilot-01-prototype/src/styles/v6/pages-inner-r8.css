@@ -84,8 +84,8 @@ main.v3-profile-page.v6 .v3-alternative__actions:not(#_):not(#_):not(#_):not(#_)
 .v6 section.mx-page.v5:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: transparent; }
 
 /* ============ /methodology data links: 44px rows ============ */
-.v6 :is(.methodology-page, main) a[href^="/research/"][href$=".json"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
-.v6 :is(.methodology-page, main) a[href^="/research/"][href$=".csv"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+.v6 a[href^="/research/"][href$=".json"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
+.v6 a[href^="/research/"][href$=".csv"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
   display: inline-flex !important; align-items: center; min-block-size: 44px !important; min-inline-size: 44px !important; justify-content: center;
 }
 
@@ -103,3 +103,5 @@ main.v3-profile-page.v6 .v3-alternative__actions:not(#_):not(#_):not(#_):not(#_)
 .v6 .br-cost-strip .br-cost-bps:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 12px; line-height: 1.4; color: var(--n10); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 .v6 .br-cost-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-areas: "title fig" "basis bps" "note note"; }
 .v6 .br-cost-strip > .br-cost-bps:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-area: bps; justify-self: end; align-self: start; }
+/* the results' last row rule already separates the method strip: no second rule 32px below it */
+.v6 #rate-terminal .rt-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-block-start: 0; }
