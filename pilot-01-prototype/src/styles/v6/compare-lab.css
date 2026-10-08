@@ -281,3 +281,14 @@
 .v6 .cl-fees__body .bleed-solution-box { background: transparent; border: 1px solid var(--n6); box-shadow: none; }
 .v6 .cl-fees__body .bleed-dual-track { background: transparent; border-color: var(--n6); }
 .v6 .cl-fees__body .bleed-label { display: flex; align-items: center; min-block-size: 44px; }
+
+/* Fee check inside the plate: no second card layer, no second accent. Two columns on one surface split by a hairline;
+   links and the Telegram action are neutral (text + underline); only the primary register action carries the accent. */
+.v6 .cl-fees__body .bleed-analyzer__grid { gap: var(--s-12); align-items: start; }
+.v6 .cl-fees__body :is(.bleed-analyzer__controls, .bleed-analyzer__verdict-card) { background: none !important; border: 0 !important; box-shadow: none !important; padding: 0 !important; border-radius: 0 !important; }
+.v6 .cl-fees__body .bleed-analyzer__verdict-card { border-inline-start: 1px solid var(--n6) !important; padding-inline-start: var(--s-12) !important; }
+.v6 .cl-fees__body :is(.bleed-dual-track, .bleed-solution-box) { border: 0 !important; border-block-start: 1px solid var(--n6) !important; border-radius: 0 !important; background: none !important; padding-inline: 0 !important; }
+.v6 .cl-fees__body :is(.bleed-tg-sync-btn, .bleed-tg-sync-btn *, .bleed-tg-icon, .bleed-embed-btn, .bleed-copy-code-btn, a:not(.bleed-cta-btn)):not(#_):not(#_) { color: var(--text-strong) !important; }
+.v6 .cl-fees__body .bleed-tg-sync-btn { border: 1px solid var(--n7) !important; background: transparent !important; text-decoration: none; }
+.v6 .cl-fees__body .bleed-cta-btn { color: var(--on-accent) !important; text-decoration: none; }
+@media (max-width: 47.99rem) { .v6 .cl-fees__body .bleed-analyzer__verdict-card { border-inline-start: 0 !important; padding-inline-start: 0 !important; border-block-start: 1px solid var(--n6) !important; padding-block-start: var(--s-6) !important; } .v6 .cl-fees__body .bleed-analyzer__grid { gap: var(--s-6); } }
