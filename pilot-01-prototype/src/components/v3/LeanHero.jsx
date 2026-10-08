@@ -9,6 +9,7 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { v3Copy } from "../../data/v3-product.js";
 import { homeHeroH1 } from "../../content/home-copy.js";
 import { RegistrationCard } from "./RegistrationCard.jsx";
+import { reviewedBaseFeesForVenue } from "../../data/reviewed-base-fees.js";
 import "./lean-hero.css";
 import "./growth-conversion.css";
 
@@ -686,7 +687,7 @@ const homeModeTaskCopy = Object.freeze({
   }
 });
 
-function HomeDecisionPanel({ locale, ui }) {
+function HomeDecisionPanel({ locale, ui, selectedSlug, onSelectSlug }) {
   const platformChooserTaskCopy = {
     "en": "Change platform",
     "zh-Hans": "更换平台",
@@ -735,7 +736,7 @@ function HomeDecisionPanel({ locale, ui }) {
   const fullChooserTaskLabel = platformChooserTaskCopy[locale] || platformChooserTaskCopy[localeBase] || platformChooserTaskCopy.en;
   const chooserTaskLabel = compactHomeTask?.change || fullChooserTaskLabel;
   const [query, setQuery] = useState("");
-  const [selectedSlug, setSelectedSlug] = useState(priorityVenueSlugs[0]);
+  const setSelectedSlug = onSelectSlug;
   const [activeIntent, setActiveIntent] = useState("direct");
   const [chooserOpen, setChooserOpen] = useState(false);
   const chooserSummaryRef = useRef(null);
@@ -775,9 +776,8 @@ function HomeDecisionPanel({ locale, ui }) {
   };
 
   return (
-    <aside className="growth-decision-panel" aria-label={ui.decisionTitle}>
-
-      <div className="growth-intent-switch" role="group" aria-label={ui.decisionTitle}>
+    <aside className="hx-panel" aria-label={ui.decisionTitle}>
+      <div className="hx-intent" role="group" aria-label={ui.decisionTitle}>
         <button
           type="button"
           className={activeIntent === "direct" ? "is-active" : ""}
@@ -787,7 +787,6 @@ function HomeDecisionPanel({ locale, ui }) {
           data-growth-placement="home-intent-switch"
           data-growth-product={contextProduct}
         >
-          <span aria-hidden="true">1</span>
           {modeTaskCopy.direct}
         </button>
         <button
@@ -799,110 +798,154 @@ function HomeDecisionPanel({ locale, ui }) {
           data-growth-placement="home-intent-switch"
           data-growth-product={contextProduct}
         >
-          <span aria-hidden="true">2</span>
           {modeTaskCopy.compare}
         </button>
       </div>
 
       {activeIntent === "compare" ? (
-        <section className="growth-compare-shortcuts" aria-label={ui.intentCompare}>
-          <div className="growth-compare-shortcuts__links">
-            <a href={contextualHref("/compare/binance-vs-okx", { locale, market: contextMarket, product: contextProduct })} data-growth-decision="comparison" data-growth-placement="home-compare-shortcut" data-growth-product="spot">{ui.comparePair}: Binance vs OKX</a>
-            <a href={contextualHref("/compare/bybit-vs-bitget", { locale, market: contextMarket, product: contextProduct })} data-growth-decision="comparison" data-growth-placement="home-compare-shortcut" data-growth-product="spot">{ui.comparePair}: Bybit vs Bitget</a>
+        <section className="hx-compare" aria-label={ui.intentCompare}>
+          <ul className="hx-compare__list">
+            <li><a href={contextualHref("/compare/binance-vs-okx", { locale, market: contextMarket, product: contextProduct })} data-growth-decision="comparison" data-growth-placement="home-compare-shortcut" data-growth-product="spot"><span>{ui.comparePair}: Binance vs OKX</span><i aria-hidden="true">&rarr;</i></a></li>
+            <li><a href={contextualHref("/compare/bybit-vs-bitget", { locale, market: contextMarket, product: contextProduct })} data-growth-decision="comparison" data-growth-placement="home-compare-shortcut" data-growth-product="spot"><span>{ui.comparePair}: Bybit vs Bitget</span><i aria-hidden="true">&rarr;</i></a></li>
             {!staticComparePaths.includes(dynamicComparePath) && (
-              <a href={compareHref} data-growth-decision="dynamic_comparison" data-growth-placement="home-compare-shortcut" data-growth-product={contextProduct}>{ui.comparePair}: {compareLabel}</a>
+              <li><a href={compareHref} data-growth-decision="dynamic_comparison" data-growth-placement="home-compare-shortcut" data-growth-product={contextProduct}><span>{ui.comparePair}: {compareLabel}</span><i aria-hidden="true">&rarr;</i></a></li>
             )}
-            <a href={contextualHref("/exchanges", { locale, market: contextMarket, product: contextProduct })} data-growth-decision="venue_directory" data-growth-placement="home-compare-shortcut" data-growth-product={contextProduct}>{ui.allVenues}</a>
-          </div>
+            <li><a href={contextualHref("/exchanges", { locale, market: contextMarket, product: contextProduct })} data-growth-decision="venue_directory" data-growth-placement="home-compare-shortcut" data-growth-product={contextProduct}><span>{ui.allVenues}</span><i aria-hidden="true">&rarr;</i></a></li>
+          </ul>
         </section>
       ) : (
-        <>
-          <div className="growth-direct-workbench">
-            <details
-              className="growth-platform-chooser"
-              open={chooserOpen}
-              onToggle={(event) => setChooserOpen(event.currentTarget.open)}
-            >
-              <summary className="growth-platform-chooser__summary" aria-label={chooserSummaryAriaLabel} ref={chooserSummaryRef}>
-                <span className="growth-platform-chooser__identity">
-                  <BrandMark slug={selected.slug} priority />
-                  <strong translate="no" lang="en" dir="ltr">{selected.name}</strong>
-                </span>
-                <span className="growth-platform-chooser__change">{chooserTaskLabel}</span>
-              </summary>
-              <div className="growth-platform-chooser__body">
-                <label className="growth-platform-search">
-                  <span>{ui.searchLabel}</span>
-                  <input
-                    type="search"
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
-                    ref={chooserSearchRef}
-                    placeholder={ui.searchPlaceholder}
-                    autoComplete="off"
-                  />
-                </label>
-                {visibleVenueOptions.length > 0 ? (
-                  <ul className="growth-platform-list" aria-label={ui.searchLabel}>
-                    {visibleVenueOptions.map((venue) => (
-                      <li key={venue.slug}>
-                        <button
-                          type="button"
-                          className={`growth-platform-option${venue.slug === selected.slug ? " is-selected" : ""}`}
-                          onClick={() => selectVenue(venue.slug)}
-                          aria-pressed={venue.slug === selected.slug}
-                          data-growth-decision={venue.slug}
-                          data-growth-placement="home-platform-selector"
-                          data-growth-product={venue.category === "Perp DEX" ? "perpetuals" : "spot"}
-                        >
-                          <BrandMark slug={venue.slug} compact priority />
-                          <span>
-                            <b translate="no" lang="en" dir="ltr">{venue.name}</b>
-                            <small>{venue.category}{venue.officialDomain ? ` · ${venue.officialDomain}` : ""}</small>
-                          </span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="growth-platform-empty" role="status">
-                    <p>{chooserEmpty.noResults}</p>
-                    <button type="button" className="growth-platform-empty__clear" onClick={clearChooserSearch}>{chooserEmpty.clear}</button>
-                  </div>
-                )}
-              </div>
-            </details>
-
-            <div className="growth-selected-route">
-              <div
-                className="growth-selected-route__registration"
-                data-r37-cro="home-partner-route-nudge"
-                data-r37-platform={selected.slug}
-                data-r37-has-code={selected.inviteCode ? "true" : "false"}
-                data-r37-primary-label="Open route and confirm code"
-                data-cta-placement="home-decision-panel"
-              >
-                <RegistrationCard
-                  venueSlug={selected.slug}
-                  fallbackDomain={selected.officialDomain}
-                  locale={locale}
-                  market={contextMarket}
-                  product={contextProduct}
-                  accountStage={contextAccountStage}
-                  funding={contextFunding}
-                  compact
-                  compactCopyLabel={compactCopyLabel}
-                  compactCopyAriaLabel={compactCopyAriaLabel}
-                  compactSignupLabel={compactHomeTask?.signup}
-                  homeCodeIdentity
-                />
-              </div>
-            </div>
-
+        <div className="hx-route">
+          <div className="hx-route__who">
+            <BrandMark slug={selected.slug} priority />
+            <strong translate="no" lang="en" dir="ltr">{selected.name}</strong>
+            <span className="hx-route__type" translate="no" lang="en">{selected.category}</span>
           </div>
-        </>
+          <div
+            className="hx-route__registration"
+            data-r37-cro="home-partner-route-nudge"
+            data-r37-platform={selected.slug}
+            data-r37-has-code={selected.inviteCode ? "true" : "false"}
+            data-r37-primary-label="Open route and confirm code"
+            data-cta-placement="home-decision-panel"
+          >
+            <RegistrationCard
+              venueSlug={selected.slug}
+              fallbackDomain={selected.officialDomain}
+              locale={locale}
+              market={contextMarket}
+              product={contextProduct}
+              accountStage={contextAccountStage}
+              funding={contextFunding}
+              compact
+              compactCopyLabel={compactCopyLabel}
+              compactCopyAriaLabel={compactCopyAriaLabel}
+              compactSignupLabel={compactHomeTask?.signup}
+              homeCodeIdentity
+            />
+          </div>
+        </div>
       )}
     </aside>
+  );
+}
+
+const MATRIX_COPY = {
+  en: { label: "Platform matrix", platform: "Platform", spot: "Spot maker / taker", code: "Code", note: (d) => `Spot base fees from official pages, checked ${d}. A dash means not yet reviewed.`, pick: "Show signup route for", pending: "Not yet reviewed" },
+  "zh-Hans": { label: "平台矩阵", platform: "平台", spot: "现货 挂单 / 吃单", code: "邀请码", note: (d) => `现货基础费率取自官方页面，核验于 ${d}。破折号表示尚未核验。`, pick: "查看开户入口：", pending: "尚未核验" },
+  "zh-Hant": { label: "平台矩陣", platform: "平台", spot: "現貨 掛單 / 吃單", code: "邀請碼", note: (d) => `現貨基礎費率取自官方頁面，核驗於 ${d}。破折號表示尚未核驗。`, pick: "查看開戶入口：", pending: "尚未核驗" },
+  ja: { label: "プラットフォーム比較表", platform: "プラットフォーム", spot: "現物 メイカー / テイカー", code: "コード", note: (d) => `現物の基本手数料は公式ページより、確認日 ${d}。ダッシュは未確認です。`, pick: "登録ルートを表示：", pending: "未確認" },
+  ko: { label: "플랫폼 매트릭스", platform: "플랫폼", spot: "현물 메이커 / 테이커", code: "코드", note: (d) => `현물 기본 수수료는 공식 페이지 기준, 확인일 ${d}. 대시는 아직 검토 전입니다.`, pick: "가입 경로 보기:", pending: "검토 전" },
+  tr: { label: "Platform matrisi", platform: "Platform", spot: "Spot maker / taker", code: "Kod", note: (d) => `Spot temel ücretler resmî sayfalardan, kontrol tarihi ${d}. Tire, henüz incelenmedi demektir.`, pick: "Kayıt yolunu göster:", pending: "Henüz incelenmedi" },
+  es: { label: "Matriz de plataformas", platform: "Plataforma", spot: "Spot maker / taker", code: "Código", note: (d) => `Comisiones spot base de páginas oficiales, revisadas el ${d}. Un guion indica que aún no se revisó.`, pick: "Ver ruta de registro de", pending: "Aún sin revisar" },
+  "pt-BR": { label: "Matriz de plataformas", platform: "Plataforma", spot: "Spot maker / taker", code: "Código", note: (d) => `Taxas spot base das páginas oficiais, verificadas em ${d}. Traço indica que ainda não foi revisado.`, pick: "Ver rota de cadastro de", pending: "Ainda não revisado" },
+  fr: { label: "Matrice des plateformes", platform: "Plateforme", spot: "Spot maker / taker", code: "Code", note: (d) => `Frais spot de base issus des pages officielles, vérifiés le ${d}. Un tiret signifie non encore vérifié.`, pick: "Voir la route d'inscription de", pending: "Pas encore vérifié" },
+  de: { label: "Plattformmatrix", platform: "Plattform", spot: "Spot Maker / Taker", code: "Code", note: (d) => `Spot-Basisgebühren von offiziellen Seiten, geprüft am ${d}. Ein Strich bedeutet noch nicht geprüft.`, pick: "Anmeldeweg anzeigen für", pending: "Noch nicht geprüft" },
+  ru: { label: "Матрица платформ", platform: "Платформа", spot: "Спот мейкер / тейкер", code: "Код", note: (d) => `Базовые спотовые комиссии с официальных страниц, проверено ${d}. Прочерк означает, что проверки ещё не было.`, pick: "Показать путь регистрации:", pending: "Ещё не проверено" },
+  ar: { label: "مصفوفة المنصات", platform: "المنصة", spot: "فوري صانع / آخذ", code: "الرمز", note: (d) => `الرسوم الفورية الأساسية من الصفحات الرسمية، تم التحقق في ${d}. الشرطة تعني أنها لم تُراجع بعد.`, pick: "عرض مسار التسجيل لـ", pending: "لم تُراجع بعد" },
+  id: { label: "Matriks platform", platform: "Platform", spot: "Spot maker / taker", code: "Kode", note: (d) => `Biaya spot dasar dari halaman resmi, dicek ${d}. Tanda strip berarti belum ditinjau.`, pick: "Tampilkan rute daftar untuk", pending: "Belum ditinjau" },
+  vi: { label: "Ma trận nền tảng", platform: "Nền tảng", spot: "Giao ngay maker / taker", code: "Mã", note: (d) => `Phí giao ngay cơ bản lấy từ trang chính thức, kiểm tra ngày ${d}. Dấu gạch nghĩa là chưa được xem xét.`, pick: "Xem lộ trình đăng ký của", pending: "Chưa xem xét" },
+  it: { label: "Matrice delle piattaforme", platform: "Piattaforma", spot: "Spot maker / taker", code: "Codice", note: (d) => `Commissioni spot base dalle pagine ufficiali, verificate il ${d}. Il trattino indica che non è ancora stato verificato.`, pick: "Mostra il percorso di registrazione di", pending: "Non ancora verificato" },
+};
+
+function matrixCopy(locale) {
+  const key = locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale;
+  return MATRIX_COPY[key] || MATRIX_COPY[String(key || "en").split("-")[0]] || MATRIX_COPY.en;
+}
+
+function spotRates(slug) {
+  const rate = reviewedBaseFeesForVenue(slug)?.rates?.find((item) => item.product === "spot");
+  if (!rate || !Number.isFinite(rate.makerRate) || !Number.isFinite(rate.takerRate)) return null;
+  return { maker: rate.makerRate * 100, taker: rate.takerRate * 100, checkedAt: rate.checkedAt };
+}
+
+// Counts the figure up once after hydration. Server HTML and reduced motion keep the final value.
+function MatrixFigure({ value, locale, delay = 0 }) {
+  const ref = useRef(null);
+  const fmt = (n) => new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n) + "%";
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    let raf = 0;
+    el.textContent = fmt(0);
+    const timer = window.setTimeout(() => {
+      const t0 = performance.now();
+      const tick = (now) => {
+        const p = Math.min((now - t0) / 900, 1);
+        el.textContent = fmt(value * (p >= 1 ? 1 : 1 - 2 ** (-10 * p)));
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    }, delay);
+    return () => { window.clearTimeout(timer); cancelAnimationFrame(raf); el.textContent = fmt(value); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, locale, delay]);
+  return <span ref={ref}>{fmt(value)}</span>;
+}
+
+function HeroMatrix({ locale, selectedSlug, onSelectSlug }) {
+  const mc = matrixCopy(locale);
+  const rows = priorityVenueSlugs
+    .map((slug, order) => ({ venue: partnerCard(slug, locale), rates: spotRates(slug), order }))
+    .filter((row) => row.venue)
+    .sort((a, b) => (b.rates ? 1 : 0) - (a.rates ? 1 : 0) || a.order - b.order);
+  const checkedAt = rows.map((row) => row.rates?.checkedAt).filter(Boolean).sort().pop();
+  return (
+    <section className="hx-matrix" aria-label={mc.label}>
+      <div className="hx-matrix__head" aria-hidden="true">
+        <span>{mc.platform}</span>
+        <span className="hx-matrix__num">{mc.spot}</span>
+        <span className="hx-matrix__code">{mc.code}</span>
+      </div>
+      <ul className="hx-matrix__rows">
+        {rows.map(({ venue, rates }, index) => {
+          const active = venue.slug === selectedSlug;
+          return (
+            <li key={venue.slug} className="enter" style={{ "--i": 4 + index }}>
+              <button
+                type="button"
+                className={`hx-row${active ? " is-selected" : ""}`}
+                aria-pressed={active}
+                aria-label={`${mc.pick} ${venue.name}`}
+                onClick={() => onSelectSlug(venue.slug)}
+                data-growth-decision={venue.slug}
+                data-growth-placement="home-platform-selector"
+                data-growth-product={venue.category === "Perp DEX" ? "perpetuals" : "spot"}
+              >
+                <span className="hx-row__who">
+                  <BrandMark slug={venue.slug} compact priority />
+                  <b translate="no" lang="en" dir="ltr">{venue.name}</b>
+                </span>
+                <span className="hx-row__fee num" dir="ltr">
+                  {rates ? <><MatrixFigure value={rates.maker} locale={locale} delay={650 + index * 90} /><i aria-hidden="true"> / </i><MatrixFigure value={rates.taker} locale={locale} delay={650 + index * 90} /></> : <><span aria-hidden="true" className="hx-row__dash">&mdash;</span><span className="hx-sr">{mc.pending}</span></>}
+                </span>
+                <span className="hx-row__code mono" translate="no" lang="en" dir="ltr">{venue.inviteCode || ""}</span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+      {checkedAt && <p className="hx-matrix__note">{mc.note(checkedAt)}</p>}
+    </section>
   );
 }
 
@@ -913,6 +956,7 @@ export function LeanHero({ locale = "en" }) {
   const [wizardOpen, setWizardOpen] = useState(false);
   const closeWizard = useCallback(() => setWizardOpen(false), []);
   const [secondaryOpen, setSecondaryOpen] = useState(false);
+  const [selectedSlug, setSelectedSlug] = useState(priorityVenueSlugs[0]);
   const secondaryToggleRef = useRef(null);
 
   const [proofIdx, setProofIdx] = useState(0);
@@ -973,87 +1017,76 @@ export function LeanHero({ locale = "en" }) {
   });
 
   return (
-    <section className="lean-hero">
-      <div className="lean-hero__container v2-shell">
-        <div className="lean-hero__content">
-          <div className="lean-hero__badge">
-            <span className="lean-hero__badge-dot" aria-hidden="true"></span>
-            <span>{ui.badge}</span>
-          </div>
-
-          <h1 className="lean-hero__title">
+    <section className="hx" aria-label="NexuAlpha">
+      <div className="hx__wrap">
+        <div className="hx__copy">
+          <h1 className="hx__title enter" style={{ "--i": 0 }}>
             {ui.title}
           </h1>
-
-
+          <p className="hx__lede enter" style={{ "--i": 1 }}>{ui.badge}</p>
+          <div className="hx__actions enter" style={{ "--i": 2 }}>
+            <button
+              type="button"
+              className="hx__link hx__link--wizard"
+              onClick={() => setWizardOpen(true)}
+            >
+              {ui.wizardBtn}
+            </button>
+            <a href={localeHref(locale, "#exchanges")} className="hx__link">
+              {ui.explore}
+            </a>
+            <a href={localeHref(locale, "#compare")} className="hx__link">
+              {ui.compare}
+            </a>
+          </div>
         </div>
 
-        <div className="lean-hero__telemetry">
-          <HomeDecisionPanel locale={locale} ui={ui} />
+        <div className="hx__stage beam enter" style={{ "--i": 2 }}>
+          <HomeDecisionPanel locale={locale} ui={ui} selectedSlug={selectedSlug} onSelectSlug={setSelectedSlug} />
+          <HeroMatrix locale={locale} selectedSlug={selectedSlug} onSelectSlug={setSelectedSlug} />
         </div>
-        <div className="lean-hero__secondary" data-open={secondaryOpen}>
-          <button type="button" className="lean-hero__secondary-toggle" ref={secondaryToggleRef} aria-expanded={secondaryOpen} aria-controls="lean-hero-support" onClick={() => setSecondaryOpen(open => !open)}>{({"en": "Platform selection help", "zh-Hans": "选所辅助", "zh-Hant": "選所輔助", "ja": "取引所選びのサポート", "ko": "거래소 선택 도움", "tr": "Platform seçimi desteği", "ar": "مساعدة في اختيار المنصة", "es": "Ayuda para elegir plataforma", "pt-BR": "Ajuda para escolher a plataforma", "fr": "Aide au choix de plateforme", "de": "Hilfe bei der Plattformwahl", "ru": "Помощь в выборе платформы", "id": "Bantuan memilih platform", "vi": "Hỗ trợ chọn nền tảng", "it": "Aiuto nella scelta della piattaforma"})[locale] || "Platform selection help"}</button>
-          <div className="lean-hero__secondary-body lean-hero__research" id="lean-hero-research" onBlurCapture={(event) => {
+
+        <div className="hx__more" data-open={secondaryOpen}>
+          <button type="button" className="hx__more-toggle" ref={secondaryToggleRef} aria-expanded={secondaryOpen} aria-controls="lean-hero-support" onClick={() => setSecondaryOpen(open => !open)}>{({"en": "Platform selection help", "zh-Hans": "选所辅助", "zh-Hant": "選所輔助", "ja": "取引所選びのサポート", "ko": "거래소 선택 도움", "tr": "Platform seçimi desteği", "ar": "مساعدة في اختيار المنصة", "es": "Ayuda para elegir plataforma", "pt-BR": "Ajuda para escolher a plataforma", "fr": "Aide au choix de plateforme", "de": "Hilfe bei der Plattformwahl", "ru": "Помощь в выборе платформы", "id": "Bantuan memilih platform", "vi": "Hỗ trợ chọn nền tảng", "it": "Aiuto nella scelta della piattaforma"})[locale] || "Platform selection help"}</button>
+          <div className="hx__more-body" id="lean-hero-research" onBlurCapture={(event) => {
             const toggle = secondaryToggleRef.current;
             if (event.relatedTarget === null && event.currentTarget.getClientRects().length === 0 && toggle?.getClientRects().length > 0) {
               toggle.focus({ preventScroll: true });
             }
           }}>
-            <p className="lean-hero__subtitle">
+            <p className="hx__subtitle">
               {ui.subtitle}
             </p>
-
-            <div className="lean-hero__actions">
-              <button
-                type="button"
-                className="lean-hero__btn-wizard"
-                onClick={() => setWizardOpen(true)}
-              >
-                {ui.wizardBtn}
-              </button>
-              <a href={localeHref(locale, "#exchanges")} className="lean-hero__btn-primary">
-                {ui.explore}
-              </a>
-              <a href={localeHref(locale, "#compare")} className="lean-hero__btn-secondary">
-                {ui.compare}
-              </a>
-            </div>
-
           </div>
-          <div className="lean-hero__secondary-body lean-hero__support" id="lean-hero-support">
-            <section className="lean-hero__decision-help" aria-label={ui.decisionTitle}>
+          <div className="hx__more-body hx__support" id="lean-hero-support">
+            <section className="hx__help" aria-label={ui.decisionTitle}>
               <h2>{ui.decisionTitle}</h2>
               <p>{ui.decisionLead}</p>
             </section>
-            {/* Telegram 生态入口 CTA */}
             <a
-              className="lean-hero__tg-cta"
+              className="hx__tg"
               href={telegramHref}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <svg className="lean-hero__tg-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
-                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.504-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-              </svg>
-              <span className="lean-hero__tg-label">
+              <span className="hx__tg-label">
                 {telegramCtaLabel(locale)}
               </span>
-              <span className="lean-hero__tg-arrow" aria-hidden="true">↗</span>
+              <span aria-hidden="true">&nearr;</span>
             </a>
 
-            {/* 示例决策路径提示 */}
-            <div className="lean-hero__social-proof" aria-live="polite" aria-atomic="true">
+            <div className="hx__proof" aria-live="polite" aria-atomic="true">
               <span
-                className={`lean-hero__social-proof-inner ${proofVisible ? "is-visible" : "is-hidden"}`}
+                className={`hx__proof-inner ${proofVisible ? "is-visible" : "is-hidden"}`}
               >
-                <span className="lean-hero__proof-flag" aria-hidden="true">{proof.flag}</span>
-                <span className="lean-hero__proof-action">{proof.action}</span>
+                <span className="hx__proof-flag" aria-hidden="true">{proof.flag}</span>
+                <span className="hx__proof-action">{proof.action}</span>
               </span>
             </div>
 
-            <div className="lean-hero__pill-row">
+            <div className="hx__pills">
               {heroPills.map((pill) => (
-                <a key={pill.text} href={localeHref(locale, pill.href)} className="lean-hero__pill">
+                <a key={pill.text} href={localeHref(locale, pill.href)} className="hx__pill">
                   {pill.text}
                 </a>
               ))}
