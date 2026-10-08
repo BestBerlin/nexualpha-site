@@ -695,77 +695,77 @@ function getRegistrationNextStep(locale, { inviteCode, primaryRegistrationHref, 
 const compactInviteTaskCopy = Object.freeze({
   "en": {
     "title": "Check before signup",
-    "body": "Third-party signup: check code {code} before submitting; enter it manually if missing.",
+    "body": "Third-party signup: check the code above before submitting; enter it manually if missing.",
     "action": "Official signup ↗"
   },
   "zh-Hans": {
     "title": "注册前核对",
-    "body": "第三方注册：提交前核对邀请码 {code}，未预填请手动填写。",
+    "body": "第三方注册：提交前核对上方邀请码，未预填请手动填写。",
     "action": "前往官方注册 ↗"
   },
   "zh-Hant": {
     "title": "註冊前核對",
-    "body": "第三方註冊：提交前核對邀請碼 {code}，未預填請手動填寫。",
+    "body": "第三方註冊：提交前核對上方邀請碼，未預填請手動填寫。",
     "action": "前往官方註冊 ↗"
   },
   "ja": {
     "title": "登録前に確認",
-    "body": "第三者の登録ページで、送信前に紹介コード {code} を確認。未入力なら手入力してください。",
+    "body": "第三者の登録ページで、送信前に上記の紹介コードを確認。未入力なら手入力してください。",
     "action": "公式登録へ ↗"
   },
   "ko": {
     "title": "가입 전 확인",
-    "body": "제3자 가입 페이지에서 제출 전 추천 코드 {code}를 확인하세요. 미리 입력되지 않았다면 직접 입력하세요.",
+    "body": "제3자 가입 페이지에서 제출 전 위의 추천 코드를 확인하세요. 미리 입력되지 않았다면 직접 입력하세요.",
     "action": "공식 가입으로 ↗"
   },
   "tr": {
     "title": "Kayıt öncesi kontrol",
-    "body": "Üçüncü taraf kayıt sayfasında, göndermeden önce {code} referans kodunu kontrol edin; dolu değilse elle girin.",
+    "body": "Üçüncü taraf kayıt sayfasında, göndermeden önce yukarıdaki referans kodunu kontrol edin; dolu değilse elle girin.",
     "action": "Resmi kayıt ↗"
   },
   "es": {
     "title": "Antes del registro",
-    "body": "En el registro de terceros, verifica el código {code} antes de enviar; si falta, introdúcelo manualmente.",
+    "body": "En el registro de terceros, verifica el código de arriba antes de enviar; si falta, introdúcelo manualmente.",
     "action": "Registro oficial ↗"
   },
   "pt-BR": {
     "title": "Antes do cadastro",
-    "body": "No cadastro de terceiros, confira o código {code} antes de enviar; se não vier preenchido, digite manualmente.",
+    "body": "No cadastro de terceiros, confira o código acima antes de enviar; se não vier preenchido, digite manualmente.",
     "action": "Cadastro oficial ↗"
   },
   "fr": {
     "title": "Avant l’inscription",
-    "body": "Sur le site tiers, vérifiez le code {code} avant de valider l’inscription ; s’il manque, saisissez-le manuellement.",
+    "body": "Sur le site tiers, vérifiez le code ci-dessus avant de valider l’inscription ; s’il manque, saisissez-le manuellement.",
     "action": "Inscription officielle ↗"
   },
   "de": {
     "title": "Vor der Registrierung",
-    "body": "Bei der Registrierung auf der Drittseite Code {code} vor dem Absenden prüfen; fehlt er, manuell eingeben.",
+    "body": "Bei der Registrierung auf der Drittseite den Code oben vor dem Absenden prüfen; fehlt er, manuell eingeben.",
     "action": "Offizielle Registrierung ↗"
   },
   "ru": {
     "title": "Перед регистрацией",
-    "body": "На сторонней странице регистрации проверьте код {code} перед отправкой; если он не заполнен, введите вручную.",
+    "body": "На сторонней странице регистрации проверьте код выше перед отправкой; если он не заполнен, введите вручную.",
     "action": "Официальная регистрация ↗"
   },
   "ar": {
     "title": "قبل التسجيل",
-    "body": "في صفحة تسجيل الطرف الثالث، تحقق من رمز الدعوة {code} قبل الإرسال؛ إن لم يُملأ، أدخله يدويًا.",
+    "body": "في صفحة تسجيل الطرف الثالث، تحقق من رمز الدعوة أعلاه قبل الإرسال؛ إن لم يُملأ، أدخله يدويًا.",
     "action": "التسجيل الرسمي ↗"
   },
   "id": {
     "title": "Sebelum mendaftar",
-    "body": "Di halaman pendaftaran pihak ketiga, periksa kode {code} sebelum mengirim; jika belum terisi, masukkan manual.",
+    "body": "Di halaman pendaftaran pihak ketiga, periksa kode di atas sebelum mengirim; jika belum terisi, masukkan manual.",
     "action": "Pendaftaran resmi ↗"
   },
   "vi": {
     "title": "Trước khi đăng ký",
-    "body": "Trên trang đăng ký bên thứ ba, kiểm tra mã {code} trước khi gửi; nếu chưa điền sẵn, hãy nhập thủ công.",
+    "body": "Trên trang đăng ký bên thứ ba, kiểm tra mã ở trên trước khi gửi; nếu chưa điền sẵn, hãy nhập thủ công.",
     "action": "Đăng ký chính thức ↗"
   },
   "it": {
     "title": "Prima di registrarti",
-    "body": "Nella registrazione sul sito terzo, verifica il codice {code} prima di inviare; se manca, inseriscilo manualmente.",
+    "body": "Nella registrazione sul sito terzo, verifica il codice qui sopra prima di inviare; se manca, inseriscilo manualmente.",
     "action": "Registrazione ufficiale ↗"
   }
 });
@@ -1053,7 +1053,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
           <summary className="registration-card__mobile-route-summary">
             <span>
               <strong>{copy.routeDetailsTitle}</strong>
-              <small>{publicCta.hasPartnerRoute ? (visiblePartner.inviteCode ? `${copy.routeReady} · ${visiblePartner.inviteCode}` : copy.routeReady) : (officialRouteUrl ? copy.openOfficial : copy.routePending)}</small>
+              <small>{publicCta.hasPartnerRoute ? (visiblePartner.inviteCode && !compact ? `${copy.routeReady} · ${visiblePartner.inviteCode}` : copy.routeReady) : (officialRouteUrl ? copy.openOfficial : copy.routePending)}</small>
             </span>
             <b aria-hidden="true">＋</b>
           </summary>

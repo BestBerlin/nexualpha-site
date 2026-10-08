@@ -17,7 +17,8 @@ const periodKey = { ENDED: 'ended', UPCOMING: 'upcoming', WITHIN_DATES: 'withinD
 function SourceDate({ value, locale, unknown, displayedDate }) {
   if (!value && displayedDate) return <><span dir="ltr">{displayedDate}</span><small className="official-research__date-note">{researchDateNote(locale)}</small></>;
   if (!value || !Number.isFinite(Date.parse(value))) return <span>{unknown}</span>;
-  return <time dateTime={value}>{new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC' }).format(new Date(value))} UTC</time>;
+  // One date format site-wide: ISO day.
+  return <time dateTime={value}>{new Date(value).toISOString().slice(0, 10)}</time>;
 }
 
 function RewardState({ view, text }) {

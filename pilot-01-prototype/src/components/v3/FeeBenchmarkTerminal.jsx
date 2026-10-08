@@ -14,12 +14,13 @@ import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { DecisionPathRail } from "./DecisionPathRail.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
 import { buildTelegramWebsiteFunnelContext } from "../../data/telegram-config.js";
-import { buildVenueFeeSummary } from "../../data/venue-fee-summary.js";
+import { buildVenueFeeSummary, feeSummaryCopy } from "../../data/venue-fee-summary.js";
 import { reviewedFeeCopy } from "../../data/reviewed-fee-copy.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
 import { directoryContextSearch } from "../../data/directory-context.js";
 import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
+import { feePctOfRate, isoDay } from "../../data/exchange-facts.js";
 
 const MONITOR_SLUGS = Object.keys(venueDatabase);
 const MONITOR_VENUE_COUNT = MONITOR_SLUGS.length;
@@ -234,82 +235,23 @@ const stateCopy = Object.freeze({
 });
 
 
-const expandCopy = Object.freeze({
-  en: {
-    note: (visible, total) => `Mobile shows ${visible} of ${total} venues first. Expand for the full list.`,
-    expand: (total) => `View all ${total} venues`,
-    collapse: "Show fewer venues",
-  },
-  "zh-Hans": {
-    note: (visible, total) => `手机先显示 ${visible} 家，共 ${total} 家，可展开查看全部。`,
-    expand: (total) => `查看全部 ${total} 家平台`,
-    collapse: "收起平台列表",
-  },
-  "zh-Hant": {
-    note: (visible, total) => `手機先顯示 ${visible} 家，共 ${total} 家，可展開查看全部。`,
-    expand: (total) => `查看全部 ${total} 家平台`,
-    collapse: "收起平台列表",
-  },
-  es: {
-    note: (visible, total) => `En móvil se muestran primero ${visible} de ${total} plataformas. Puedes desplegar la lista completa.`,
-    expand: (total) => `Ver las ${total} plataformas`,
-    collapse: "Mostrar menos plataformas",
-  },
-  "pt-BR": {
-    note: (visible, total) => `No celular, aparecem primeiro ${visible} de ${total} plataformas. Você pode abrir a lista completa.`,
-    expand: (total) => `Ver todas as ${total} plataformas`,
-    collapse: "Mostrar menos plataformas",
-  },
-  fr: {
-    note: (visible, total) => `Sur mobile, ${visible} plateformes sur ${total} s'affichent d'abord. Ouvrez la liste complète si besoin.`,
-    expand: (total) => `Voir les ${total} plateformes`,
-    collapse: "Afficher moins de plateformes",
-  },
-  de: {
-    note: (visible, total) => `Auf Mobilgeräten werden zuerst ${visible} von ${total} Plattformen angezeigt. Die vollständige Liste lässt sich öffnen.`,
-    expand: (total) => `Alle ${total} Plattformen anzeigen`,
-    collapse: "Weniger Plattformen anzeigen",
-  },
-  ja: {
-    note: (visible, total) => `モバイルではまず${visible}件／全${total}件を表示します。全件を展開できます。`,
-    expand: (total) => `全${total}件を表示`,
-    collapse: "表示件数を減らす",
-  },
-  ko: {
-    note: (visible, total) => `모바일에서는 먼저 ${visible}개 / 전체 ${total}개 플랫폼을 표시합니다. 전체 목록을 펼칠 수 있습니다.`,
-    expand: (total) => `전체 ${total}개 플랫폼 보기`,
-    collapse: "플랫폼 목록 줄이기",
-  },
-  ar: {
-    note: (visible, total) => `على الهاتف نعرض أولاً ${visible} من أصل ${total} منصة. يمكن فتح القائمة الكاملة.`,
-    expand: (total) => `عرض كل المنصات (${total})`,
-    collapse: "عرض منصات أقل",
-  },
-  tr: {
-    note: (visible, total) => `Mobilde önce ${total} platformdan ${visible} tanesi gösterilir. Tüm liste açılabilir.`,
-    expand: (total) => `${total} platformun tümünü gör`,
-    collapse: "Daha az platform göster",
-  },
-  ru: {
-    note: (visible, total) => `На телефоне сначала показано ${visible} из ${total} платформ. Полный список можно раскрыть.`,
-    expand: (total) => `Показать все ${total} платформ`,
-    collapse: "Показать меньше платформ",
-  },
-  id: {
-    note: (visible, total) => `Di ponsel, ${visible} dari ${total} platform ditampilkan lebih dulu. Daftar lengkap bisa dibuka.`,
-    expand: (total) => `Lihat semua ${total} platform`,
-    collapse: "Tampilkan lebih sedikit platform",
-  },
-  vi: {
-    note: (visible, total) => `Trên điện thoại, hiển thị trước ${visible} trong tổng số ${total} nền tảng. Bạn có thể mở toàn bộ danh sách.`,
-    expand: (total) => `Xem tất cả ${total} nền tảng`,
-    collapse: "Hiển thị ít nền tảng hơn",
-  },
-  it: {
-    note: (visible, total) => `Su mobile vengono mostrate prima ${visible} piattaforme su ${total}. Puoi aprire l'elenco completo.`,
-    expand: (total) => `Vedi tutte le ${total} piattaforme`,
-    collapse: "Mostra meno piattaforme",
-  },
+// One row replaces the venues with no checked fee, no checked benefit and no reviewed trend.
+const pendingGroupCopy = Object.freeze({
+  en: (n) => `${n} venues pending source review`,
+  "zh-Hans": (n) => `${n} 家平台待来源核验`,
+  "zh-Hant": (n) => `${n} 家平台待來源核驗`,
+  es: (n) => `${n} plataformas pendientes de revisión de fuente`,
+  "pt-BR": (n) => `${n} plataformas com fonte pendente de revisão`,
+  fr: (n) => `${n} plateformes en attente de vérification de source`,
+  de: (n) => `${n} Plattformen mit ausstehender Quellenprüfung`,
+  ja: (n) => `${n}件のサービスが出典確認待ち`,
+  ko: (n) => `${n}개 플랫폼 출처 확인 대기`,
+  ar: (n) => `${n} منصة بانتظار مراجعة المصدر`,
+  tr: (n) => `${n} platform kaynak incelemesi bekliyor`,
+  ru: (n) => `${n} платформ ожидают проверки источника`,
+  id: (n) => `${n} platform menunggu tinjauan sumber`,
+  vi: (n) => `${n} nền tảng đang chờ rà soát nguồn`,
+  it: (n) => `${n} piattaforme con fonte in attesa di revisione`,
 });
 
 const nextStepCopy = Object.freeze({
@@ -475,13 +417,6 @@ function normalizeLocale(locale) {
   return LOCALE_ALIASES[base] || (stateCopy[value] ? value : stateCopy[base] ? base : "en");
 }
 
-function formatRatePercent(value) {
-  if (!Number.isFinite(value)) return null;
-  // Three decimals when the third is significant (0.055%, 0.015%), never rounded into a different published figure.
-  const pct = Math.round(value * 1e7) / 1e5;
-  return `${pct.toFixed(Math.round(pct * 1000) % 10 ? 3 : 2)}%`;
-}
-
 function rateForProduct(summary, product) {
   return summary.rates.find((rate) => rate.product === product) || null;
 }
@@ -494,9 +429,9 @@ function buildRateView(rate, locale, labels) {
     productLabel: labels[rate.product] || rate.product,
     makerRate: rate.makerRate,
     takerRate: rate.takerRate,
-    makerDisplay: formatRatePercent(rate.makerRate),
-    takerDisplay: formatRatePercent(rate.takerRate),
-    checkedAt: rate.checkedAt,
+    makerDisplay: feePctOfRate(rate.makerRate),
+    takerDisplay: feePctOfRate(rate.takerRate),
+    checkedAt: isoDay(rate.checkedAt),
     sourceUrl: rate.sourceUrl,
     tier: copyForRate.tier,
     scope: copyForRate.scope,
@@ -505,21 +440,11 @@ function buildRateView(rate, locale, labels) {
 }
 
 function renderRateCell(rate, labels) {
-  if (!rate) {
-    return <span className="fee-terminal__unknown-chip fee-terminal__unknown-chip--plain">{labels.unchecked || labels.sourcePending}</span>;
-  }
-
+  if (!rate) return <span className="ft-none">{labels.unchecked || labels.sourcePending}</span>;
   return (
-    <div className="fee-terminal__rate-cell-inner" data-fee-product={rate.product}>
-      <strong className="fee-terminal__rate-main">{rate.productLabel} {labels.taker} {rate.takerDisplay}</strong>
-      <span className="fee-terminal__rate-meta" title={`${labels.maker} ${rate.makerDisplay} · ${rate.tier}`}>{labels.maker} {rate.makerDisplay} · {rate.tier}</span>
-      <span className="fee-terminal__rate-meta"><time dateTime={rate.checkedAt}>{labels.checked} {rate.checkedAt}</time></span>
-      <a className="fee-terminal__rate-source" href={rate.sourceUrl} target="_blank" rel="noopener noreferrer">{labels.source}</a>
-      <details className="fee-terminal__rate-details">
-        <summary>{labels.conditions}</summary>
-        <p>{rate.scope}</p>
-        <p>{rate.conditions}</p>
-      </details>
+    <div className="ft-fee" data-fee-product={rate.product}>
+      <span className="ft-pair" aria-label={`${labels.maker} ${rate.makerDisplay}, ${labels.taker} ${rate.takerDisplay}`}><b>{rate.makerDisplay}</b><i aria-hidden="true">/</i><b>{rate.takerDisplay}</b></span>
+      <span className="ft-tier">{rate.tier}</span>
     </div>
   );
 }
@@ -599,7 +524,6 @@ copy.it = { ...copy.en, eyebrow:"TERMINALE / BENCHMARK COMMISSIONI", title:"Conf
 
 export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", accountStage, funding }) {
   const [filter, setFilter] = useState("all");
-  const [showAllRows, setShowAllRows] = useState(false);
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
   const localeKey = String(locale || "").split("-")[0];
@@ -619,7 +543,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
     const rebateDisplay = rebatePercent > 0 ? `${rebatePercent}%` : null;
     const productRate = product === "futures" || product === "perp" ? futuresRate : spotRate;
     const netDisplay = rebatePercent > 0 && Number.isFinite(productRate?.takerRate)
-      ? formatRatePercent(productRate.takerRate * (1 - rebatePercent / 100))
+      ? feePctOfRate(productRate.takerRate * (1 - rebatePercent / 100))
       : null;
 
     return {
@@ -639,9 +563,13 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
     if (filter === "dex") return r.category === "Perp DEX";
     return true;
   });
-  const hasHiddenRows = rows.length > 6;
-  const mobileVisibleRows = Math.min(6, rows.length);
-  const expandLabels = expandCopy[locale] || expandCopy[localeKey] || expandCopy[normalizedLocale] || expandCopy.en;
+  // Venues with nothing checked collapse into one row; their links and actions stay in it.
+  const isPending = (r) => !r.spotRate && !r.futuresRate && !r.rebateDisplay && !r.netDisplay && !r.trend;
+  const checkedRows = rows.filter((r) => !isPending(r));
+  const pendingRows = rows.filter(isPending);
+  const pendingGroup = pendingGroupCopy[locale] || pendingGroupCopy[localeKey] || pendingGroupCopy[normalizedLocale] || pendingGroupCopy.en;
+  const mx = matrixCopy(locale);
+  const checkedLabel = feeSummaryCopy(locale).checked;
   const nextStep = nextStepCopy[locale] || nextStepCopy[localeKey] || nextStepCopy[normalizedLocale] || nextStepCopy.en;
   const answerBlock = answerBlockCopy[locale] || answerBlockCopy[localeKey] || answerBlockCopy[normalizedLocale] || answerBlockCopy.en;
   const telegramNextStep = buildTelegramWebsiteFunnelContext({ intent: "fees", venue: "all", market: market || "GLOBAL", locale, product, campaign: "rates_next_step" });
@@ -652,8 +580,27 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
   );
 
   const hasTrend = rows.some((r) => r.trend);
+  const hasBenefit = rows.some((r) => r.rebateDisplay || r.netDisplay);
+  const colCount = 5 + (hasBenefit ? 2 : 0) + (hasTrend ? 1 : 0);
+  const venueLink = (row) => <a href={`/exchanges/${row.slug}?${contextSearch}#registration-path`} data-cta-kind="research" data-cta-placement="rate-benchmark-detail" data-growth-decision={row.slug} data-growth-placement="rate-benchmark-detail" data-growth-market={market} data-growth-product={product} data-growth-account-stage={accountStage} data-growth-funding={funding} translate="no">{getLocalizedVenueName(row, locale)}</a>;
+  const ctaLink = (row) => <a
+    href={row.ctaHref}
+    target={row.ctaDirect ? "_blank" : undefined}
+    rel={row.ctaDirect ? "sponsored noopener noreferrer" : undefined}
+    className="fee-terminal__cta-btn"
+    data-cta-kind={row.ctaDirect ? "registration" : "research"}
+    data-cta-platform={row.slug}
+    data-cta-placement="rate-benchmark-row"
+    data-growth-decision={row.slug}
+    data-growth-placement="rate-benchmark-row"
+    data-growth-market={market}
+    data-growth-product={product}
+    data-growth-account-stage={accountStage}
+    data-growth-funding={funding}
+    data-growth-campaign={market ? `${String(market).toLowerCase()}-research-preview` : undefined}
+  >{row.ctaDirect ? t.cta : ({ ja: "地域条件を確認", ko: "지역 조건 확인", tr: "Bölgesel uygunluğu doğrula", es: "Verificar elegibilidad", "pt-BR": "Verificar elegibilidade", fr: "Vérifier l’éligibilité régionale", de: "Regionale Eignung prüfen", ru: "Проверить региональную доступность", ar: "تحقق من الأهلية الإقليمية", id: "Verifikasi kelayakan wilayah", vi: "Kiểm tra điều kiện khu vực", it: "Verifica idoneità regionale" }[locale] || (isZh ? "先核对地区资格" : "Verify eligibility"))}</a>;
   return (
-    <section className={`fee-terminal-section v2-shell ${showAllRows ? "fee-terminal-section--expanded" : ""}`} id="rate-terminal" dir={normalizedLocale === "ar" ? "rtl" : undefined}>
+    <section className="fee-terminal-section v2-shell" id="rate-terminal" dir={normalizedLocale === "ar" ? "rtl" : undefined}>
       <div className="rt-tool rt-panel">
         <div className="fee-terminal__answer-block rt-context" role="group" aria-label={answerBlock.label}>
           <h3>{answerBlock.title}</h3>
@@ -731,106 +678,91 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
           <button
             type="button"
             className={`fee-terminal__filter-btn ${filter === "all" ? "fee-terminal__filter-btn--active" : ""}`}
-            onClick={() => { setFilter("all"); setShowAllRows(false); }}
+            onClick={() => setFilter("all")}
           >
             {t.filterAll}
           </button>
           <button
             type="button"
             className={`fee-terminal__filter-btn ${filter === "cex" ? "fee-terminal__filter-btn--active" : ""}`}
-            onClick={() => { setFilter("cex"); setShowAllRows(false); }}
+            onClick={() => setFilter("cex")}
           >
             {t.filterCex}
           </button>
           <button
             type="button"
             className={`fee-terminal__filter-btn ${filter === "dex" ? "fee-terminal__filter-btn--active" : ""}`}
-            onClick={() => { setFilter("dex"); setShowAllRows(false); }}
+            onClick={() => setFilter("dex")}
           >
             {t.filterDex}
           </button>
         </nav>
       </header>
 
-      <div className="fee-terminal__table-wrapper" tabIndex={0}>
-        <table className="fee-terminal__table" id="rate-terminal-table">
+      <div className="fee-terminal__table-wrapper ft" tabIndex={0}>
+        <table className="fee-terminal__table ft-table" id="rate-terminal-table" data-cols={colCount}>
           <thead>
             <tr>
-              <th>{t.colVenue}</th>
-              <th>{t.colCategory}</th>
-              <th>{t.colSpotTaker}</th>
-              <th>{t.colFuturesTaker}</th>
-              <th>{t.colRebate}</th>
-              <th>{t.colNetTaker}</th>
-              {hasTrend && <th>{t.colTrend}</th>}
-              <th className="text-right">{t.colAction}</th>
+              <th scope="col">{t.colVenue}</th>
+              <th scope="col">{mx.spot}<span className="ft-th-sub">{mx.maker}</span></th>
+              <th scope="col">{mx.perp}<span className="ft-th-sub">{mx.maker}</span></th>
+              <th scope="col">{checkedLabel}</th>
+              {hasBenefit && <th scope="col">{t.colRebate}</th>}
+              {hasBenefit && <th scope="col">{t.colNetTaker}</th>}
+              {hasTrend && <th scope="col">{t.colTrend}</th>}
+              <th scope="col" className="ft-th-action"><span className="rt-sr">{t.colAction}</span></th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, index) => (
-              <tr key={row.slug} className={index >= 6 ? "fee-terminal__mobile-extra" : undefined}>
-                <td className="font-semibold text-white">
+            {checkedRows.map((row) => {
+              const rates = [row.spotRate, row.futuresRate].filter(Boolean);
+              const checkedOn = rates.map((r) => r.checkedAt).filter(Boolean).sort().at(-1);
+              const sources = [...new Set(rates.map((r) => r.sourceUrl))];
+              return (
+              <tr key={row.slug}>
+                <td className="ft-venue">
                   <div className="fee-terminal__cell-brand">
                     <BrandMark slug={row.slug} compact />
-                    <a href={`/exchanges/${row.slug}?${contextSearch}#registration-path`} data-cta-kind="research" data-cta-placement="rate-benchmark-detail" data-growth-decision={row.slug} data-growth-placement="rate-benchmark-detail" data-growth-market={market} data-growth-product={product} data-growth-account-stage={accountStage} data-growth-funding={funding} translate="no">
-                      {getLocalizedVenueName(row, locale)}
-                    </a>
+                    <span className="ft-venue__name">{venueLink(row)}<small>{row.category}</small></span>
                   </div>
                 </td>
-                <td><span className="fee-terminal__cat-badge">{row.category}</span></td>
-                {!row.spotRate && !row.futuresRate && !row.rebateDisplay && !row.netDisplay && !row.trend ? (
-                  <td colSpan={hasTrend ? 5 : 4} className="fee-terminal__pending-span">
-                    <span className="fee-terminal__unknown-chip fee-terminal__unknown-chip--plain">{labels.sourcePending}</span>
-                    <span className="rt-sr"> · {labels.commercialPending} · {labels.netPending} · {labels.trendPending}</span>
-                  </td>
-                ) : (<>
-                <td className="font-mono fee-terminal__rate-cell">{renderRateCell(row.spotRate, labels)}</td>
-                <td className="font-mono fee-terminal__rate-cell">{renderRateCell(row.futuresRate, labels)}</td>
-                <td className="fee-terminal__aux-cell">{renderAuxChip(row.rebateDisplay, labels.commercialPending)}</td>
-                <td className="font-mono fee-terminal__aux-cell">{row.netDisplay ? <span className="fee-terminal__net-rate">{row.netDisplay}</span> : <span className="fee-terminal__unknown-chip">{labels.netPending}</span>}</td>
-                {hasTrend && <td className="fee-terminal__aux-cell"><span className={`fee-terminal__trend-tag ${row.trend ? "" : "fee-terminal__trend-tag--pending"}`}>{row.trend || labels.trendPending}</span></td>}
-                </>)}
-                <td className="text-right">
-                  <a
-                    href={row.ctaHref}
-                    target={row.ctaDirect ? "_blank" : undefined}
-                    rel={row.ctaDirect ? "sponsored noopener noreferrer" : undefined}
-                    className="fee-terminal__cta-btn"
-                    data-cta-kind={row.ctaDirect ? "registration" : "research"}
-                    data-cta-platform={row.slug}
-                    data-cta-placement="rate-benchmark-row"
-                    data-growth-decision={row.slug}
-                    data-growth-placement="rate-benchmark-row"
-                    data-growth-market={market}
-                    data-growth-product={product}
-                    data-growth-account-stage={accountStage}
-                    data-growth-funding={funding}
-                    data-growth-campaign={market ? `${String(market).toLowerCase()}-research-preview` : undefined}
-                  >
-                    {row.ctaDirect ? t.cta : ({ ja: "地域条件を確認", ko: "지역 조건 확인", tr: "Bölgesel uygunluğu doğrula", es: "Verificar elegibilidad", "pt-BR": "Verificar elegibilidade", fr: "Vérifier l’éligibilité régionale", de: "Regionale Eignung prüfen", ru: "Проверить региональную доступность", ar: "تحقق من الأهلية الإقليمية", id: "Verifikasi kelayakan wilayah", vi: "Kiểm tra điều kiện khu vực", it: "Verifica idoneità regionale" }[locale] || (isZh ? "先核对地区资格" : "Verify eligibility"))}
-                  </a>
+                <td className="ft-cell" data-label={`${mx.spot} · ${mx.maker}`}>{renderRateCell(row.spotRate, labels)}</td>
+                <td className="ft-cell" data-label={`${mx.perp} · ${mx.maker}`}>{renderRateCell(row.futuresRate, labels)}</td>
+                <td className="ft-cell ft-checked-td" data-label={checkedLabel}><div className="ft-checked">
+                  {checkedOn ? <time dateTime={checkedOn}>{checkedOn}</time> : <span className="ft-none">{labels.unchecked}</span>}
+                  <span className="ft-src">{sources.map((href, i) => <a key={href} href={href} target="_blank" rel="noopener noreferrer">{labels.source}{sources.length > 1 ? ` ${i + 1}` : ""} ↗</a>)}</span>
+                  {rates.length > 0 && <details className="ft-cond">
+                    <summary>{labels.conditions}</summary>
+                    {rates.map((r) => <p key={r.product}><b>{r.productLabel}</b> {r.scope} {r.conditions}</p>)}
+                  </details>}
+                </div></td>
+                {hasBenefit && <td className="ft-cell ft-aux">{renderAuxChip(row.rebateDisplay, labels.commercialPending)}</td>}
+                {hasBenefit && <td className="ft-cell ft-aux">{row.netDisplay ? <span className="fee-terminal__net-rate">{row.netDisplay}</span> : <span className="ft-none">{labels.netPending}</span>}</td>}
+                {hasTrend && <td className="ft-cell ft-aux"><span className={`fee-terminal__trend-tag ${row.trend ? "" : "fee-terminal__trend-tag--pending"}`}>{row.trend || labels.trendPending}</span></td>}
+                <td className="ft-action">{ctaLink(row)}</td>
+              </tr>
+              );
+            })}
+            {pendingRows.length > 0 && (
+              <tr className="ft-pending">
+                <td colSpan={colCount}>
+                  <details>
+                    <summary><strong className="ft-pending__count">{pendingGroup(pendingRows.length)}</strong><small className="ft-pending__names" aria-hidden="true">{pendingRows.map((r) => r.name).join(" · ")}</small></summary>
+                    <ul className="ft-pending__list">
+                      {pendingRows.map((row) => (
+                        <li key={row.slug}>
+                          <span className="fee-terminal__cell-brand"><BrandMark slug={row.slug} compact /><span className="ft-venue__name">{venueLink(row)}<small>{row.category}</small></span></span>
+                          {ctaLink(row)}
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
-      {hasHiddenRows && (
-        <div className="fee-terminal__expand-row">
-          <p className="fee-terminal__expand-note">
-            {expandLabels.note(mobileVisibleRows, rows.length)}
-          </p>
-          <button
-            type="button"
-            className="fee-terminal__expand-btn"
-            aria-expanded={showAllRows}
-            aria-controls="rate-terminal-table"
-            onClick={() => setShowAllRows((current) => !current)}
-          >
-            {showAllRows ? expandLabels.collapse : expandLabels.expand(rows.length)}
-          </button>
-        </div>
-      )}
     </section>
   );
 }

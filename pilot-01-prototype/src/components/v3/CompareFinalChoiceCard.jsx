@@ -7,6 +7,10 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 
+// One date format site-wide: "September 22, 2026" in a review label reads "2026-09-22".
+const REVIEW_MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+const isoReviewDates = (text) => String(text || "").replace(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? (\d{1,2}), (\d{4})\b/g, (m, mon, d, y) => `${y}-${String(REVIEW_MONTHS.indexOf(mon.toLowerCase()) + 1).padStart(2, "0")}-${d.padStart(2, "0")}`);
+
 const localeKey = (locale) => {
   const value = String(locale || "");
   if (value.toLowerCase() === "pt-br") return "pt-BR";
@@ -200,7 +204,7 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
         <details className="v3-compare-final-choice-card__evidence" data-mobile-evidence-default="collapsed" aria-label={directAnswer.seoQuestion || directAnswer.title || "Direct comparison answer"}>
           <summary>{card.evidenceLabel || fallback.evidenceLabel}<span aria-hidden="true">＋</span></summary>
           <h3>{directAnswer.title}</h3>
-          {directAnswer.reviewedAt && <time className="v3-compare-direct-answer__reviewed" dateTime={directAnswer.reviewedAt}>{directAnswer.reviewedLabel}</time>}
+          {directAnswer.reviewedAt && <time className="v3-compare-direct-answer__reviewed" dateTime={directAnswer.reviewedAt}>{isoReviewDates(directAnswer.reviewedLabel)}</time>}
           {directAnswer.searchIntent && (
             <p className="v3-compare-direct-answer__search-intent">
               <strong>{directAnswer.searchIntent.label}</strong>: {directAnswer.searchIntent.detail}

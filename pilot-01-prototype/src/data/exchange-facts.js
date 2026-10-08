@@ -430,13 +430,18 @@ export function primarySourceUrl(slug) {
   return typeof u === "string" && u.startsWith("https://") ? u : null;
 }
 
-const pctText = (v) => `${v.toFixed(v >= 0.1 || Number.isInteger(Math.round(v * 1e6) / 1e4) ? 2 : 3)}%`;
+// THE fee formatter. Percent in, "0.10%" out: two decimals, three only when the third is
+// significant (0.055%, 0.015%), never rounded into a different published figure. Null stays null.
+export const feePct = (v) => (Number.isFinite(v) ? `${v.toFixed(v >= 0.1 || Number.isInteger(Math.round(v * 1e6) / 1e4) ? 2 : 3)}%` : null);
+// Fraction in (0.001 = 0.10%), same output. reviewed-base-fees.js and venue-fee-summary.js hold fractions.
+export const feePctOfRate = (r) => (Number.isFinite(r) ? feePct(Math.round(r * 1e8) / 1e6) : null);
+// Always maker first: "0.08% / 0.10%". A missing side reads "–".
+export const feePair = (maker, taker) => `${feePct(maker) || "–"} / ${feePct(taker) || "–"}`;
+// ISO day (YYYY-MM-DD) for every check/review date shown on the site.
+export const isoDay = (v) => (typeof v === "string" && /^\d{4}-\d\d-\d\d/.test(v) ? v.slice(0, 10) : (v && Number.isFinite(Date.parse(v)) ? new Date(v).toISOString().slice(0, 10) : null));
 
 // "0.10% / 0.10%" (maker / taker) when the field is checked, otherwise null ("Not yet checked").
 export function feeDisplay(slug, product = "spot") {
   const f = feeFact(slug, product);
-  if (f.state !== "checked") return null;
-  const m = f.maker == null ? "–" : pctText(f.maker);
-  const t = f.taker == null ? "–" : pctText(f.taker);
-  return `${m} / ${t}`;
+  return f.state === "checked" ? feePair(f.maker, f.taker) : null;
 }

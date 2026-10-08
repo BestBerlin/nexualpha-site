@@ -7,7 +7,9 @@ import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
 import { compareSlug, v3Copy, venueProfile } from "../../data/v3-product";
 import { OutboundHandoff } from "./OutboundHandoff";
-import { ExchangeFactsV5, FactsStrip, feesCheckedLabel } from "./ExchangeFactsV5.jsx";
+import { ExchangeFactsV5, FactsStrip, feesCheckedLabel, feesStatusLabel } from "./ExchangeFactsV5.jsx";
+import { feePctOfRate, isoDay } from "../../data/exchange-facts.js";
+import { matrixCopy } from "./exchange-matrix-copy.js";
 import { ResearchPanel, ResearchComparison } from "./ResearchPanels";
 import { VenueDecisionArticles } from "./VenueDecisionArticles";
 import { VenueFaqSection } from "./VenueFaqSection.jsx";
@@ -564,21 +566,21 @@ const porUi = (locale, venueName) => ({
 
 const compareUi = (locale) => {
   const labels = ({
-  "pt-BR": { curatedOpen:"Abrir rotas de comparação selecionadas", curatedTitle:"Comparações selecionadas de plataformas", curatedHint:"Compare taxas, produtos e condições regionais pela data da fonte", compareBadge:"COMPARAR", jump:"Ir na página", official:"Comparação com fontes oficiais", matrix:"Comparação de taxas, benefícios, reservas e limites", matrixLead:"Comparamos tabelas oficiais de taxas, auditorias de reservas e condições verificadas.", review:"Revisar verificações e limites", sources:"Referências e fontes oficiais", visit:"Visitar site oficial", faq:"FAQ e decisão da comparação", faqLead:"Respostas baseadas em fontes para dúvidas sobre as duas plataformas.", metrics:"Métricas", trust:"Pontuação de confiança", spotFee:"Taxa spot taker / maker", futuresFee:"Taxa de futuros taker / maker", benefitStatus:"Status dos benefícios do usuário", netCost:"Custo líquido efetivo", por:"Prova de reservas (PoR)", kyc:"Requisitos de KYC", leverage:"Alavancagem máxima de futuros", bonus:"Benefícios para novos usuários" },
-  es: { curatedOpen:"Abrir rutas de comparación seleccionadas", curatedTitle:"Comparaciones de plataformas seleccionadas", curatedHint:"Compara comisiones, productos y condiciones regionales según la fecha de la fuente", compareBadge:"COMPARAR", jump:"Ir en la página", official:"Comparación con fuentes oficiales", matrix:"Comparación de comisiones, beneficios, reservas y límites", matrixLead:"Comparamos con tablas oficiales de comisiones, auditorías de reservas y condiciones verificadas.", review:"Revisar verificaciones y límites", sources:"Referencias y fuentes oficiales", visit:"Visitar sitio oficial", faq:"Preguntas y decisión de la comparación", faqLead:"Respuestas basadas en fuentes a las preguntas frecuentes sobre ambas plataformas.", metrics:"Métricas", trust:"Puntuación de confianza", spotFee:"Comisión spot taker / maker", futuresFee:"Comisión de futuros taker / maker", benefitStatus:"Estado de beneficios del usuario", netCost:"Coste neto efectivo", por:"Prueba de reservas (PoR)", kyc:"Requisitos de KYC", leverage:"Apalancamiento máximo de futuros", bonus:"Beneficios para nuevos usuarios" },
-  ja: { curatedOpen:"厳選比較パスを開く", curatedTitle:"厳選プラットフォーム比較", curatedHint:"出典日を基準に手数料、商品、地域条件を確認", compareBadge:"比較", jump: "ページ内移動", official: "公式ソース比較", matrix: "手数料・特典・準備金・上限の比較", matrixLead: "公式の手数料表、準備金監査、確認済みの条件を基に比較します。", review: "確認内容と制限を見る", sources: "公式参考資料とソース", visit: "公式サイトへ", faq: "比較FAQと判断", faqLead: "両プラットフォームの比較でよくある質問に、出典付きで回答します。", metrics: "指標", trust: "信頼スコア", spotFee: "現物テイカー / メイカー手数料", futuresFee: "先物テイカー / メイカー手数料", benefitStatus: "ユーザー特典の状態", netCost: "実効純コスト", por: "準備金証明 (PoR)", kyc: "KYC要件", leverage: "最大先物レバレッジ", bonus: "新規ユーザー特典" },
-  ko: { curatedOpen:"추천 비교 경로 열기", curatedTitle:"추천 플랫폼 비교", curatedHint:"출처 날짜 기준으로 수수료, 상품과 지역 조건을 확인하세요", compareBadge:"비교", jump: "페이지 이동", official: "공식 출처 비교", matrix: "수수료·혜택·준비금·한도 비교", matrixLead: "공식 수수료표, 준비금 감사 및 확인된 조건을 기준으로 비교합니다.", review: "검증 내용과 제한 보기", sources: "공식 참고자료와 출처", visit: "공식 사이트 방문", faq: "비교 FAQ와 판단", faqLead: "두 플랫폼을 비교할 때 자주 묻는 질문에 출처를 바탕으로 답합니다.", metrics: "지표", trust: "신뢰 점수", spotFee: "현물 테이커 / 메이커 수수료", futuresFee: "선물 테이커 / 메이커 수수료", benefitStatus: "사용자 혜택 상태", netCost: "실효 순비용", por: "준비금 증명 (PoR)", kyc: "KYC 요건", leverage: "최대 선물 레버리지", bonus: "신규 사용자 보상" },
-  tr: { curatedOpen:"Seçili karşılaştırma yollarını aç", curatedTitle:"Seçili platform karşılaştırmaları", curatedHint:"Ücretleri, ürünleri ve bölgesel koşulları kaynak tarihine göre inceleyin", compareBadge:"KARŞILAŞTIR", jump: "Sayfada geçiş", official: "Resmî kaynak karşılaştırması", matrix: "Ücret, avantaj, rezerv ve limit karşılaştırması", matrixLead: "Resmî ücret tabloları, rezerv denetimleri ve doğrulanmış koşullara göre karşılaştırırız.", review: "Doğrulama ayrıntılarını ve sınırları incele", sources: "Resmî referanslar ve kaynaklar", visit: "Resmî siteyi ziyaret et", faq: "Karşılaştırma SSS ve karar", faqLead: "İki platform arasındaki karşılaştırma sorularını kaynaklara dayanarak yanıtlar.", metrics: "Metrikler", trust: "Güven puanı", spotFee: "Spot Taker / Maker ücreti", futuresFee: "Vadeli Taker / Maker ücreti", benefitStatus: "Kullanıcı avantajı durumu", netCost: "Net etkin maliyet", por: "Rezerv kanıtı (PoR)", kyc: "KYC gereksinimleri", leverage: "Maksimum vadeli kaldıraç", bonus: "Yeni kullanıcı ödülü" },
+  "pt-BR": { curatedOpen:"Abrir rotas de comparação selecionadas", curatedTitle:"Comparações selecionadas de plataformas", curatedHint:"Compare taxas, produtos e condições regionais pela data da fonte", compareBadge:"COMPARAR", jump:"Ir na página", official:"Comparação com fontes oficiais", matrix:"Comparação de taxas, benefícios, reservas e limites", matrixLead:"Comparamos tabelas oficiais de taxas, auditorias de reservas e condições verificadas.", review:"Revisar verificações e limites", sources:"Referências e fontes oficiais", visit:"Visitar site oficial", faq:"FAQ e decisão da comparação", faqLead:"Respostas baseadas em fontes para dúvidas sobre as duas plataformas.", metrics:"Métricas", trust:"Pontuação de confiança", spotFee:"Taxa spot maker / taker", futuresFee:"Taxa de futuros maker / taker", benefitStatus:"Status dos benefícios do usuário", netCost:"Custo líquido efetivo", por:"Prova de reservas (PoR)", kyc:"Requisitos de KYC", leverage:"Alavancagem máxima de futuros", bonus:"Benefícios para novos usuários" },
+  es: { curatedOpen:"Abrir rutas de comparación seleccionadas", curatedTitle:"Comparaciones de plataformas seleccionadas", curatedHint:"Compara comisiones, productos y condiciones regionales según la fecha de la fuente", compareBadge:"COMPARAR", jump:"Ir en la página", official:"Comparación con fuentes oficiales", matrix:"Comparación de comisiones, beneficios, reservas y límites", matrixLead:"Comparamos con tablas oficiales de comisiones, auditorías de reservas y condiciones verificadas.", review:"Revisar verificaciones y límites", sources:"Referencias y fuentes oficiales", visit:"Visitar sitio oficial", faq:"Preguntas y decisión de la comparación", faqLead:"Respuestas basadas en fuentes a las preguntas frecuentes sobre ambas plataformas.", metrics:"Métricas", trust:"Puntuación de confianza", spotFee:"Comisión spot maker / taker", futuresFee:"Comisión de futuros maker / taker", benefitStatus:"Estado de beneficios del usuario", netCost:"Coste neto efectivo", por:"Prueba de reservas (PoR)", kyc:"Requisitos de KYC", leverage:"Apalancamiento máximo de futuros", bonus:"Beneficios para nuevos usuarios" },
+  ja: { curatedOpen:"厳選比較パスを開く", curatedTitle:"厳選プラットフォーム比較", curatedHint:"出典日を基準に手数料、商品、地域条件を確認", compareBadge:"比較", jump: "ページ内移動", official: "公式ソース比較", matrix: "手数料・特典・準備金・上限の比較", matrixLead: "公式の手数料表、準備金監査、確認済みの条件を基に比較します。", review: "確認内容と制限を見る", sources: "公式参考資料とソース", visit: "公式サイトへ", faq: "比較FAQと判断", faqLead: "両プラットフォームの比較でよくある質問に、出典付きで回答します。", metrics: "指標", trust: "信頼スコア", spotFee: "現物メイカー / テイカー手数料", futuresFee: "先物メイカー / テイカー手数料", benefitStatus: "ユーザー特典の状態", netCost: "実効純コスト", por: "準備金証明 (PoR)", kyc: "KYC要件", leverage: "最大先物レバレッジ", bonus: "新規ユーザー特典" },
+  ko: { curatedOpen:"추천 비교 경로 열기", curatedTitle:"추천 플랫폼 비교", curatedHint:"출처 날짜 기준으로 수수료, 상품과 지역 조건을 확인하세요", compareBadge:"비교", jump: "페이지 이동", official: "공식 출처 비교", matrix: "수수료·혜택·준비금·한도 비교", matrixLead: "공식 수수료표, 준비금 감사 및 확인된 조건을 기준으로 비교합니다.", review: "검증 내용과 제한 보기", sources: "공식 참고자료와 출처", visit: "공식 사이트 방문", faq: "비교 FAQ와 판단", faqLead: "두 플랫폼을 비교할 때 자주 묻는 질문에 출처를 바탕으로 답합니다.", metrics: "지표", trust: "신뢰 점수", spotFee: "현물 메이커 / 테이커 수수료", futuresFee: "선물 메이커 / 테이커 수수료", benefitStatus: "사용자 혜택 상태", netCost: "실효 순비용", por: "준비금 증명 (PoR)", kyc: "KYC 요건", leverage: "최대 선물 레버리지", bonus: "신규 사용자 보상" },
+  tr: { curatedOpen:"Seçili karşılaştırma yollarını aç", curatedTitle:"Seçili platform karşılaştırmaları", curatedHint:"Ücretleri, ürünleri ve bölgesel koşulları kaynak tarihine göre inceleyin", compareBadge:"KARŞILAŞTIR", jump: "Sayfada geçiş", official: "Resmî kaynak karşılaştırması", matrix: "Ücret, avantaj, rezerv ve limit karşılaştırması", matrixLead: "Resmî ücret tabloları, rezerv denetimleri ve doğrulanmış koşullara göre karşılaştırırız.", review: "Doğrulama ayrıntılarını ve sınırları incele", sources: "Resmî referanslar ve kaynaklar", visit: "Resmî siteyi ziyaret et", faq: "Karşılaştırma SSS ve karar", faqLead: "İki platform arasındaki karşılaştırma sorularını kaynaklara dayanarak yanıtlar.", metrics: "Metrikler", trust: "Güven puanı", spotFee: "Spot Maker / Taker ücreti", futuresFee: "Vadeli Maker / Taker ücreti", benefitStatus: "Kullanıcı avantajı durumu", netCost: "Net etkin maliyet", por: "Rezerv kanıtı (PoR)", kyc: "KYC gereksinimleri", leverage: "Maksimum vadeli kaldıraç", bonus: "Yeni kullanıcı ödülü" },
   }[localeKey(locale)] || {});
   if (Object.keys(labels).length) return labels;
   const fallback = {
-    fr: { curatedOpen: "Ouvrir les comparaisons sélectionnées", curatedTitle: "Comparaisons sélectionnées", curatedHint: "Comparez frais, produits et conditions régionales", compareBadge: "COMPARER", jump: "Accéder à la section", official: "Comparaison avec sources officielles", matrix: "Matrice des frais, réserves et limites", matrixLead: "Comparaison fondée sur les sources officielles et les conditions vérifiées.", review: "Vérifier les détails et limites", sources: "Références officielles", visit: "Visiter le site officiel", faq: "FAQ de comparaison", faqLead: "Réponses sourcées pour choisir entre les deux plateformes.", metrics: "Indicateurs", trust: "Score de confiance", spotFee: "Frais spot taker / maker", futuresFee: "Frais futures taker / maker", benefitStatus: "Statut des avantages", netCost: "Coût net effectif", por: "Preuve de réserves (PoR)", kyc: "Exigences KYC", leverage: "Levier futures maximal", bonus: "Avantages nouveaux utilisateurs" },
-    de: { curatedOpen: "Ausgewählte Vergleiche öffnen", curatedTitle: "Ausgewählte Plattformvergleiche", curatedHint: "Gebühren, Produkte und regionale Bedingungen vergleichen", compareBadge: "VERGLEICH", jump: "Zum Abschnitt", official: "Vergleich mit offiziellen Quellen", matrix: "Vergleich von Gebühren, Reserven und Limits", matrixLead: "Vergleich anhand offizieller Quellen und geprüfter Bedingungen.", review: "Prüfdetails und Limits ansehen", sources: "Offizielle Quellen", visit: "Offizielle Website besuchen", faq: "Vergleichs-FAQ", faqLead: "Quellenbasierte Antworten für die Wahl zwischen beiden Plattformen.", metrics: "Kennzahlen", trust: "Vertrauensscore", spotFee: "Spot Taker-/Maker-Gebühr", futuresFee: "Futures Taker-/Maker-Gebühr", benefitStatus: "Vorteilsstatus", netCost: "Effektive Nettokosten", por: "Reservenachweis (PoR)", kyc: "KYC-Anforderungen", leverage: "Maximales Futures-Leverage", bonus: "Vorteile für neue Nutzer" },
-    ru: { curatedOpen: "Открыть подборку сравнений", curatedTitle: "Подборка сравнений платформ", curatedHint: "Сравните комиссии, продукты и региональные условия", compareBadge: "СРАВНИТЬ", jump: "Перейти к разделу", official: "Сравнение по официальным источникам", matrix: "Сравнение комиссий, резервов и лимитов", matrixLead: "Сравнение по официальным источникам и подтверждённым условиям.", review: "Проверить детали и ограничения", sources: "Официальные источники", visit: "Открыть официальный сайт", faq: "FAQ сравнения", faqLead: "Ответы с источниками для выбора между двумя платформами.", metrics: "Показатели", trust: "Оценка доверия", spotFee: "Комиссия за спот: тейкер / мейкер", futuresFee: "Комиссия за фьючерсы: тейкер / мейкер", benefitStatus: "Статус преимуществ", netCost: "Эффективная чистая стоимость", por: "Подтверждение резервов (PoR)", kyc: "Требования KYC", leverage: "Максимальное плечо по фьючерсам", bonus: "Преимущества новых пользователей" },
-    ar: { curatedOpen: "فتح المقارنات المختارة", curatedTitle: "مقارنات المنصات المختارة", curatedHint: "قارن الرسوم والمنتجات والشروط الإقليمية", compareBadge: "مقارنة", jump: "الانتقال إلى القسم", official: "مقارنة بمصادر رسمية", matrix: "مقارنة الرسوم والاحتياطيات والحدود", matrixLead: "مقارنة مبنية على المصادر الرسمية والشروط المسجلة.", review: "مراجعة التفاصيل والحدود", sources: "المصادر الرسمية", visit: "زيارة الموقع الرسمي", faq: "الأسئلة الشائعة للمقارنة", faqLead: "إجابات مسجلة للمفاضلة بين المنصتين.", metrics: "المؤشرات", trust: "درجة الثقة", spotFee: "رسوم السبوت: آخذ / صانع", futuresFee: "رسوم العقود الآجلة: آخذ / صانع", benefitStatus: "حالة مزايا المستخدم", netCost: "التكلفة الصافية الفعلية", por: "إثبات الاحتياطيات (PoR)", kyc: "متطلبات KYC", leverage: "الرافعة القصوى للعقود", bonus: "مزايا المستخدم الجديد" },
-    id: { curatedOpen: "Buka perbandingan pilihan", curatedTitle: "Perbandingan platform pilihan", curatedHint: "Bandingkan biaya, produk, dan ketentuan wilayah", compareBadge: "BANDINGKAN", jump: "Ke bagian", official: "Perbandingan dari sumber resmi", matrix: "Perbandingan biaya, cadangan, dan batas", matrixLead: "Perbandingan berdasarkan sumber resmi dan kondisi terverifikasi.", review: "Tinjau detail dan batas", sources: "Sumber resmi", visit: "Kunjungi situs resmi", faq: "FAQ perbandingan", faqLead: "Jawaban berbasis sumber untuk memilih antara dua platform.", metrics: "Metrik", trust: "Skor kepercayaan", spotFee: "Biaya spot taker / maker", futuresFee: "Biaya futures taker / maker", benefitStatus: "Status manfaat pengguna", netCost: "Biaya bersih efektif", por: "Bukti cadangan (PoR)", kyc: "Persyaratan KYC", leverage: "Leverage futures maksimum", bonus: "Manfaat pengguna baru" },
-    vi: { curatedOpen: "Mở các so sánh chọn lọc", curatedTitle: "So sánh nền tảng chọn lọc", curatedHint: "So sánh phí, sản phẩm và điều kiện khu vực", compareBadge: "SO SÁNH", jump: "Đến phần", official: "So sánh theo nguồn chính thức", matrix: "So sánh phí, dự trữ và hạn mức", matrixLead: "So sánh dựa trên nguồn chính thức và điều kiện đã xác minh.", review: "Xem chi tiết và giới hạn", sources: "Nguồn chính thức", visit: "Mở trang chính thức", faq: "FAQ so sánh", faqLead: "Câu trả lời có nguồn để chọn giữa hai nền tảng.", metrics: "Chỉ số", trust: "Điểm tin cậy", spotFee: "Phí spot taker / maker", futuresFee: "Phí futures taker / maker", benefitStatus: "Trạng thái ưu đãi", netCost: "Chi phí ròng thực", por: "Bằng chứng dự trữ (PoR)", kyc: "Yêu cầu KYC", leverage: "Đòn bẩy futures tối đa", bonus: "Ưu đãi người dùng mới" },
-    it: { curatedOpen: "Apri i confronti selezionati", curatedTitle: "Confronti selezionati", curatedHint: "Confronta commissioni, prodotti e condizioni regionali", compareBadge: "CONFRONTA", jump: "Vai alla sezione", official: "Confronto con fonti ufficiali", matrix: "Confronto di commissioni, riserve e limiti", matrixLead: "Confronto basato su fonti ufficiali e condizioni verificate.", review: "Rivedi dettagli e limiti", sources: "Fonti ufficiali", visit: "Visita il sito ufficiale", faq: "FAQ del confronto", faqLead: "Risposte con fonti per scegliere tra le due piattaforme.", metrics: "Metriche", trust: "Punteggio di fiducia", spotFee: "Commissione spot taker / maker", futuresFee: "Commissione futures taker / maker", benefitStatus: "Stato dei vantaggi", netCost: "Costo netto effettivo", por: "Prova delle riserve (PoR)", kyc: "Requisiti KYC", leverage: "Leva futures massima", bonus: "Vantaggi per nuovi utenti" },
+    fr: { curatedOpen: "Ouvrir les comparaisons sélectionnées", curatedTitle: "Comparaisons sélectionnées", curatedHint: "Comparez frais, produits et conditions régionales", compareBadge: "COMPARER", jump: "Accéder à la section", official: "Comparaison avec sources officielles", matrix: "Matrice des frais, réserves et limites", matrixLead: "Comparaison fondée sur les sources officielles et les conditions vérifiées.", review: "Vérifier les détails et limites", sources: "Références officielles", visit: "Visiter le site officiel", faq: "FAQ de comparaison", faqLead: "Réponses sourcées pour choisir entre les deux plateformes.", metrics: "Indicateurs", trust: "Score de confiance", spotFee: "Frais spot maker / taker", futuresFee: "Frais futures maker / taker", benefitStatus: "Statut des avantages", netCost: "Coût net effectif", por: "Preuve de réserves (PoR)", kyc: "Exigences KYC", leverage: "Levier futures maximal", bonus: "Avantages nouveaux utilisateurs" },
+    de: { curatedOpen: "Ausgewählte Vergleiche öffnen", curatedTitle: "Ausgewählte Plattformvergleiche", curatedHint: "Gebühren, Produkte und regionale Bedingungen vergleichen", compareBadge: "VERGLEICH", jump: "Zum Abschnitt", official: "Vergleich mit offiziellen Quellen", matrix: "Vergleich von Gebühren, Reserven und Limits", matrixLead: "Vergleich anhand offizieller Quellen und geprüfter Bedingungen.", review: "Prüfdetails und Limits ansehen", sources: "Offizielle Quellen", visit: "Offizielle Website besuchen", faq: "Vergleichs-FAQ", faqLead: "Quellenbasierte Antworten für die Wahl zwischen beiden Plattformen.", metrics: "Kennzahlen", trust: "Vertrauensscore", spotFee: "Spot Maker-/Taker-Gebühr", futuresFee: "Futures Maker-/Taker-Gebühr", benefitStatus: "Vorteilsstatus", netCost: "Effektive Nettokosten", por: "Reservenachweis (PoR)", kyc: "KYC-Anforderungen", leverage: "Maximales Futures-Leverage", bonus: "Vorteile für neue Nutzer" },
+    ru: { curatedOpen: "Открыть подборку сравнений", curatedTitle: "Подборка сравнений платформ", curatedHint: "Сравните комиссии, продукты и региональные условия", compareBadge: "СРАВНИТЬ", jump: "Перейти к разделу", official: "Сравнение по официальным источникам", matrix: "Сравнение комиссий, резервов и лимитов", matrixLead: "Сравнение по официальным источникам и подтверждённым условиям.", review: "Проверить детали и ограничения", sources: "Официальные источники", visit: "Открыть официальный сайт", faq: "FAQ сравнения", faqLead: "Ответы с источниками для выбора между двумя платформами.", metrics: "Показатели", trust: "Оценка доверия", spotFee: "Комиссия за спот: мейкер / тейкер", futuresFee: "Комиссия за фьючерсы: мейкер / тейкер", benefitStatus: "Статус преимуществ", netCost: "Эффективная чистая стоимость", por: "Подтверждение резервов (PoR)", kyc: "Требования KYC", leverage: "Максимальное плечо по фьючерсам", bonus: "Преимущества новых пользователей" },
+    ar: { curatedOpen: "فتح المقارنات المختارة", curatedTitle: "مقارنات المنصات المختارة", curatedHint: "قارن الرسوم والمنتجات والشروط الإقليمية", compareBadge: "مقارنة", jump: "الانتقال إلى القسم", official: "مقارنة بمصادر رسمية", matrix: "مقارنة الرسوم والاحتياطيات والحدود", matrixLead: "مقارنة مبنية على المصادر الرسمية والشروط المسجلة.", review: "مراجعة التفاصيل والحدود", sources: "المصادر الرسمية", visit: "زيارة الموقع الرسمي", faq: "الأسئلة الشائعة للمقارنة", faqLead: "إجابات مسجلة للمفاضلة بين المنصتين.", metrics: "المؤشرات", trust: "درجة الثقة", spotFee: "رسوم السبوت: صانع / آخذ", futuresFee: "رسوم العقود الآجلة: صانع / آخذ", benefitStatus: "حالة مزايا المستخدم", netCost: "التكلفة الصافية الفعلية", por: "إثبات الاحتياطيات (PoR)", kyc: "متطلبات KYC", leverage: "الرافعة القصوى للعقود", bonus: "مزايا المستخدم الجديد" },
+    id: { curatedOpen: "Buka perbandingan pilihan", curatedTitle: "Perbandingan platform pilihan", curatedHint: "Bandingkan biaya, produk, dan ketentuan wilayah", compareBadge: "BANDINGKAN", jump: "Ke bagian", official: "Perbandingan dari sumber resmi", matrix: "Perbandingan biaya, cadangan, dan batas", matrixLead: "Perbandingan berdasarkan sumber resmi dan kondisi terverifikasi.", review: "Tinjau detail dan batas", sources: "Sumber resmi", visit: "Kunjungi situs resmi", faq: "FAQ perbandingan", faqLead: "Jawaban berbasis sumber untuk memilih antara dua platform.", metrics: "Metrik", trust: "Skor kepercayaan", spotFee: "Biaya spot maker / taker", futuresFee: "Biaya futures maker / taker", benefitStatus: "Status manfaat pengguna", netCost: "Biaya bersih efektif", por: "Bukti cadangan (PoR)", kyc: "Persyaratan KYC", leverage: "Leverage futures maksimum", bonus: "Manfaat pengguna baru" },
+    vi: { curatedOpen: "Mở các so sánh chọn lọc", curatedTitle: "So sánh nền tảng chọn lọc", curatedHint: "So sánh phí, sản phẩm và điều kiện khu vực", compareBadge: "SO SÁNH", jump: "Đến phần", official: "So sánh theo nguồn chính thức", matrix: "So sánh phí, dự trữ và hạn mức", matrixLead: "So sánh dựa trên nguồn chính thức và điều kiện đã xác minh.", review: "Xem chi tiết và giới hạn", sources: "Nguồn chính thức", visit: "Mở trang chính thức", faq: "FAQ so sánh", faqLead: "Câu trả lời có nguồn để chọn giữa hai nền tảng.", metrics: "Chỉ số", trust: "Điểm tin cậy", spotFee: "Phí spot maker / taker", futuresFee: "Phí futures maker / taker", benefitStatus: "Trạng thái ưu đãi", netCost: "Chi phí ròng thực", por: "Bằng chứng dự trữ (PoR)", kyc: "Yêu cầu KYC", leverage: "Đòn bẩy futures tối đa", bonus: "Ưu đãi người dùng mới" },
+    it: { curatedOpen: "Apri i confronti selezionati", curatedTitle: "Confronti selezionati", curatedHint: "Confronta commissioni, prodotti e condizioni regionali", compareBadge: "CONFRONTA", jump: "Vai alla sezione", official: "Confronto con fonti ufficiali", matrix: "Confronto di commissioni, riserve e limiti", matrixLead: "Confronto basato su fonti ufficiali e condizioni verificate.", review: "Rivedi dettagli e limiti", sources: "Fonti ufficiali", visit: "Visita il sito ufficiale", faq: "FAQ del confronto", faqLead: "Risposte con fonti per scegliere tra le due piattaforme.", metrics: "Metriche", trust: "Punteggio di fiducia", spotFee: "Commissione spot maker / taker", futuresFee: "Commissione futures maker / taker", benefitStatus: "Stato dei vantaggi", netCost: "Costo netto effettivo", por: "Prova delle riserve (PoR)", kyc: "Requisiti KYC", leverage: "Leva futures massima", bonus: "Vantaggi per nuovi utenti" },
   }[textLocaleKey(locale)] || {};
   return { ...labels, ...fallback };
 };
@@ -603,8 +605,8 @@ const matrixUi = (locale) => {
     it: { hintSpot: "Commissioni spot standard", hintFutures: "Commissioni futures perpetui standard" },
   }[textLocaleKey(locale)] || {};
   return {
-    spot: labels.spotFee || "Spot taker / maker fee",
-    futures: labels.futuresFee || "Futures taker / maker fee",
+    spot: labels.spotFee || "Spot maker / taker fee",
+    futures: labels.futuresFee || "Futures maker / taker fee",
     benefit: labels.benefitStatus || "User benefit status",
     net: labels.netCost || "Effective net cost",
     por: labels.por || "Proof of Reserves (PoR)",
@@ -1516,8 +1518,7 @@ function VenueTieredFeeMatrix({ venue, locale, db, rebatePercent, inviteCode, re
 
   const feeText = feeSummaryCopy(locale);
   const summary = buildVenueFeeSummary(db, researchForVenue(venue.slug, locale) || {});
-  const numberLocale = locale === "zh-Hans" ? "zh-CN" : locale === "zh-Hant" ? "zh-TW" : locale;
-  const formatRate = (rate) => new Intl.NumberFormat(numberLocale || "en", { style: "percent", maximumFractionDigits: 4 }).format(rate);
+  const formatRate = feePctOfRate;
 
   return (
     <section className="v2-section v3-fee-matrix-section" id="fee-schedule">
@@ -1546,7 +1547,7 @@ function VenueTieredFeeMatrix({ venue, locale, db, rebatePercent, inviteCode, re
             </table>
             {summary.rates.map(rate => <div key={rate.product} className="v3-fee-scope-note" data-fee-scope={rate.scopeKey}>
               <p>{reviewedFeeCopy(rate, locale).conditions}</p>
-              <p><a href={rate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a> · {feeText.checked}: <time dateTime={rate.checkedAt}>{new Intl.DateTimeFormat(numberLocale || "en", { dateStyle: "medium", timeZone: "UTC" }).format(new Date(rate.checkedAt))}</time></p>
+              <p><a href={rate.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a> · {feeText.checked}: <time dateTime={isoDay(rate.checkedAt)}>{isoDay(rate.checkedAt)}</time></p>
             </div>)}
           </div>
         )}
@@ -2208,9 +2209,9 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
                 {profile.category}
               </span>
               {trustScore == null ? (
-                feesCheckedLabel(venue.slug, locale) ? <span className="v3-trust-metal-badge v3-trust-metal-badge--checked">
-                  {feesCheckedLabel(venue.slug, locale)}
-                </span> : null
+                <span className={`v3-trust-metal-badge${feesCheckedLabel(venue.slug, locale) ? " v3-trust-metal-badge--checked" : " v3-trust-metal-badge--unchecked"}`}>
+                  {feesStatusLabel(venue.slug, locale)}
+                </span>
               ) : (
                 <span className="v3-trust-metal-badge" style={{ borderColor: trustColor }}>
                   ★ {trustLabel}
@@ -2250,10 +2251,10 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
         {venueDirectAnswer && (
           <div className="v3-venue-direct-answer" role="region" aria-label={priorityAnswer?.title || `${profile.name} direct answer`} data-priority-answer={priorityAnswer ? venue.slug : undefined} lang={priorityAnswer?.locale || locale}>
+            {!(priorityAnswer && ownerQuestionTitle === venueDirectAnswer.title) && <h2 className="v3-venue-direct-answer__title">{venueDirectAnswer.title}</h2>}
             {venueDirectAnswer.reviewedAt && (
-              <time className="v3-venue-direct-answer__reviewed" dateTime={venueDirectAnswer.reviewedAt}>{venueDirectAnswer.reviewedLabel}</time>
+              <time className="v3-venue-direct-answer__reviewed" dateTime={isoDay(venueDirectAnswer.reviewedAt)}>{isoDates(venueDirectAnswer.reviewedLabel)}</time>
             )}
-            {!(priorityAnswer && ownerQuestionTitle === venueDirectAnswer.title) && <strong>{venueDirectAnswer.title}</strong>}
             <p>{venueDirectAnswer.body}</p>
             {!priorityAnswer && (
               <details className="v3-profile-answer-conditions" data-profile-task="conditions">
@@ -2327,13 +2328,11 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
           product={product}
         />
 
-        <div className="v3-profile-primary-actions" data-profile-task="primary">
+        <div className="v3-profile-primary-actions v3-profile-actions-row" data-profile-task="primary">
           {similar[0] && <LocalLink locale={locale} href={`/compare/${compareSlug([profile.slug, similar[0].slug])}?${contextSearch}`} className="button-quiet">{text.viewCompare}</LocalLink>}
-        </div>
-        <p className="v3-relationship-note">{text.relationship}</p>
-        <div className="v3-hero-actions">
           <LocalLink locale={locale} href={`/exchanges/${profile.slug}?${contextSearch}#registration-checklist`} className="button-quiet v3-profile-registration-review-link">{text.registrationPrepCta}</LocalLink>
         </div>
+        <p className="v3-relationship-note">{text.relationship}</p>
 
         </div>
 
@@ -2390,7 +2389,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
               <div className="v3-metric-tile">
                 <span className="v3-metric-tile__label">{isZhLocale ? zhText(locale, "现货基准费率", "現貨基準費率") : (metricText?.[0] || "Spot Base Fee")}</span>
                 <strong className="v3-metric-tile__val text-blue" translate="no">{spotFeeDisplay}</strong>
-                <span className="v3-metric-tile__sub">{reviewedSpotRate ? reviewedSpotRate.conditions : "Taker / Maker"}</span>
+                <span className="v3-metric-tile__sub">{reviewedSpotRate ? reviewedSpotRate.conditions : matrixCopy(locale).maker}</span>
               </div>
               <div className="v3-metric-tile">
                 <span className="v3-metric-tile__label">{isZhLocale ? zhText(locale, "资产储备证明 (PoR)", "資產儲備證明 (PoR)") : (metricText?.[1] || "Proof of Reserves")}</span>
@@ -2956,18 +2955,20 @@ const compareFeeSurfaceCopyTable = {
 };
 const compareFeeSurfaceCopy = (locale) => compareFeeSurfaceCopyTable[locale] || compareFeeSurfaceCopyTable[localeKey(locale)] || (String(locale || "").startsWith("zh") ? compareFeeSurfaceCopyTable["zh-Hans"] : compareFeeSurfaceCopyTable.en);
 
-const formatCompareRate = (rate, digits = 3) => Number.isFinite(rate) ? `${(rate * 100).toFixed(digits)}%` : null;
+// "September 22, 2026" / "Sep 4, 2026" inside a review label -> "2026-09-22" (one date format site-wide).
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+const isoDates = (text) => String(text || "").replace(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? (\d{1,2}), (\d{4})\b/g, (m, mon, d, y) => `${y}-${String(MONTHS.indexOf(mon.toLowerCase()) + 1).padStart(2, "0")}-${d.padStart(2, "0")}`);
+// One formatter (exchange-facts.js): maker first, same decimals as the facts file.
+const formatCompareRate = (rate) => feePctOfRate(rate);
 const publishableFeeRate = (summary, product, locale = "en") => {
   const rate = summary.rates.find((item) => item.product === product);
   if (!rate) return null;
   const scope = reviewedFeeCopy(rate, locale);
-  const numberLocale = locale === "zh-Hans" ? "zh-CN" : locale === "zh-Hant" ? "zh-TW" : locale;
-  const formatter = new Intl.NumberFormat(numberLocale, { style: "percent", minimumFractionDigits: product === "futures" ? 3 : 2, maximumFractionDigits: 4 });
-  const pair = `${formatter.format(rate.takerRate)} / ${formatter.format(rate.makerRate)}`;
-  return { ...rate, publishable: true, display: `${pair} · ${scope.tier} · ${scope.scope}`, conditions: scope.conditions };
+  const pair = `${feePctOfRate(rate.makerRate)} / ${feePctOfRate(rate.takerRate)}`;
+  return { ...rate, publishable: true, pair, tier: scope.tier, display: `${pair} (${matrixCopy(locale).maker}) · ${scope.tier} · ${scope.scope}`, conditions: scope.conditions };
 };
 const formatVerifiedNet = (rate, rebate, product = "spot") => rate?.publishable && Number.isFinite(rebate)
-  ? formatCompareRate(rate.takerRate * (1 - rebate / 100), product === "futures" ? 3 : 3)
+  ? formatCompareRate(rate.takerRate * (1 - rebate / 100))
   : null;
 
 export function CompareFaqSection({ profiles, locale = "en" }) {
@@ -3207,8 +3208,8 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
   const hasKnownWelcomeRewardForVenue = (d) => Boolean(d.welcomeBonusUsdt || (d.welcomeReward && d.welcomeReward !== compareDetailPhrase(locale, "rewards", " User rewards pending verification")));
   const matrixAux = compareMatrixAuxCopy(locale);
   const metricRows = [
-    { key: "spot", label: isZh ? zhText(locale, "现货 Taker / Maker 费率", "現貨 Taker / Maker 費率") : (matrix.spot || "Spot Taker / Maker Fee"), hint: isZh ? zhText(locale, "现货基础吃单与挂单费率", "現貨基礎吃單與掛單費率") : (matrix.hintSpot || "Standard spot transaction schedule"), hasKnown: spotCandidates.length > 0 },
-    { key: "futures", label: isZh ? zhText(locale, "合约 Taker / Maker 费率", "合約 Taker / Maker 費率") : (matrix.futures || "Futures Taker / Maker Fee"), hint: isZh ? zhText(locale, "U本位永续合约吃单与挂单", "U 本位永續合約吃單與掛單") : (matrix.hintFutures || "Perpetual futures standard schedule"), hasKnown: futuresCandidates.length > 0 },
+    { key: "spot", label: isZh ? zhText(locale, "现货 Maker / Taker 费率", "現貨 Maker / Taker 費率") : (matrix.spot || "Spot Maker / Taker Fee"), hint: isZh ? zhText(locale, "现货基础挂单与吃单费率", "現貨基礎掛單與吃單費率") : (matrix.hintSpot || "Standard spot transaction schedule"), hasKnown: spotCandidates.length > 0 },
+    { key: "futures", label: isZh ? zhText(locale, "合约 Maker / Taker 费率", "合約 Maker / Taker 費率") : (matrix.futures || "Futures Maker / Taker Fee"), hint: isZh ? zhText(locale, "U本位永续合约挂单与吃单", "U 本位永續合約掛單與吃單") : (matrix.hintFutures || "Perpetual futures standard schedule"), hasKnown: futuresCandidates.length > 0 },
     { key: "benefit", label: isZh ? zhText(locale, "用户权益状态", "用戶權益狀態") : (matrix.benefit || "User Benefit Status"), hint: isZh ? zhText(locale, "以官方账户条件和来源核验为准", "以官方帳戶條件和來源核驗為準") : compareDetailPhrase(locale, "accountTerms", "Verify against official account terms and sources"), hasKnown: rebateCandidates.length > 0 },
     { key: "net", label: isZh ? zhText(locale, "折后净交易成本", "折後淨交易成本") : (matrix.net || "Net Effective Cost"), hint: isZh ? zhText(locale, "返佣扣减后的实付到手成本", "返傭扣減後的實付到手成本") : compareDetailPhrase(locale, "netHint", "Real cost after rebate deduction"), hasKnown: venueData.some((d) => d.netCostPublishable) },
     { key: "por", label: isZh ? zhText(locale, "Proof of Reserves 储备率", "Proof of Reserves 儲備率") : (matrix.por || "Proof of Reserves (PoR)"), hint: isZh ? zhText(locale, "默克尔树链上资金透明证明", "默克爾樹鏈上資金透明證明") : compareDetailPhrase(locale, "reserveHint", "Merkle-tree solvency verification"), hasKnown: venueData.some((d) => d.proofOfReserves || d.porCoverageRatio || d.porAuditUrl) },
@@ -3299,7 +3300,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
             </tr>
           </thead>
           <tbody role="rowgroup">
-            {/* 1. 现货 Taker / Maker 费率 */}
+            {/* 1. 现货 Maker / Taker 费率 */}
             {shouldRenderMetricRow("spot") && <tr role="row" id="matrix-metric-spot" data-metric-key="spot" tabIndex={-1}>
               <th role="rowheader" id="matrix-row-spot" scope="row" className="v3-matrix-td--dim">
                 <span className="v3-matrix-dim-title">{rowMeta("spot").label}</span>
@@ -3312,7 +3313,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-matrix-main-val${d.spot?.publishable ? "" : " is-pending"}`}>
-                        {d.spot?.publishable ? d.spot.display : localePending(locale)}
+                        {d.spot?.publishable ? <><span className="v3-fee-pair" translate="no">{d.spot.pair}</span><small className="v3-fee-pair__tier">{d.spot.tier}</small></> : matrixCopy(locale).unchecked}
                         {isWinner && <span className="v3-winner-badge v3-winner-badge--gold">{isZh ? "★ 费率最优" : "★ Best Spot"}</span>}
                       </span>
                       <span className="v3-matrix-sub-val">
@@ -3324,7 +3325,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
               })}
             </tr>}
 
-            {/* 2. 合约 Taker / Maker 费率 */}
+            {/* 2. 合约 Maker / Taker 费率 */}
             {shouldRenderMetricRow("futures") && <tr role="row" id="matrix-metric-futures" data-metric-key="futures" tabIndex={-1}>
               <th role="rowheader" id="matrix-row-futures" scope="row" className="v3-matrix-td--dim">
                 <span className="v3-matrix-dim-title">{rowMeta("futures").label}</span>
@@ -3337,7 +3338,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                     <span className="v3-matrix-mobile-venue" aria-hidden="true">{d.localizedName}</span>
                     <div className="v3-matrix-cell-stack">
                       <span className={`v3-matrix-main-val${d.futures?.publishable ? "" : " is-pending"}`}>
-                        {d.futures?.publishable ? d.futures.display : localePending(locale)}
+                        {d.futures?.publishable ? <><span className="v3-fee-pair" translate="no">{d.futures.pair}</span><small className="v3-fee-pair__tier">{d.futures.tier}</small></> : matrixCopy(locale).unchecked}
                         {isWinner && <span className="v3-winner-badge v3-winner-badge--gold">{isZh ? "★ 费率最优" : "★ Best Futures"}</span>}
                       </span>
                       <span className="v3-matrix-sub-val">
@@ -3395,10 +3396,10 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                       <div className="v3-matrix-net-box">
                         <div className="v3-matrix-net-row">
                           <span className="v3-matrix-net-label">{isZh ? "现货净:" : compareDetailPhrase(locale, "spotNet", "Spot Net:")}</span>
-                          <strong className={Number.isFinite(d.effectiveSpotTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveSpotTaker) ? formatCompareRate(d.effectiveSpotTaker, 3) : localePending(locale)}</strong>
+                          <strong className={Number.isFinite(d.effectiveSpotTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveSpotTaker) ? formatCompareRate(d.effectiveSpotTaker) : localePending(locale)}</strong>
                           <span className="v3-matrix-net-label">|</span>
                           <span className="v3-matrix-net-label">{isZh ? "合约净:" : compareDetailPhrase(locale, "futuresNet", "Futures Net:")}</span>
-                          <strong className={Number.isFinite(d.effectiveFuturesTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveFuturesTaker) ? formatCompareRate(d.effectiveFuturesTaker, 3) : localePending(locale)}</strong>
+                          <strong className={Number.isFinite(d.effectiveFuturesTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveFuturesTaker) ? formatCompareRate(d.effectiveFuturesTaker) : localePending(locale)}</strong>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
                           {Number.isFinite(d.rebate) && d.rebate > 0 && d.netCostPublishable && (

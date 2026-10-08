@@ -28,7 +28,7 @@ export function ResearchPanel({ slug, locale }) {
   const text = textFor(locale);
   if (!research) return null;
   return <section className="v2-section research-panel" id="platform-facts">
-    <div className="research-heading"><div><p>{text[1]}</p><h2>{text[0]}</h2></div><small>{text[3]} <time dateTime={research.checkedAt}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(research.checkedAt))}</time></small></div>
+    <div className="research-heading"><div><p>{text[1]}</p><h2>{text[0]}</h2></div><small>{text[3]} <time dateTime={research.checkedAt}>{new Date(research.checkedAt).toISOString().slice(0, 10)}</time></small></div>
     {research.contentLocale !== locale && <p className="research-language-note">{text[4]}</p>}
     <dl className="research-facts" lang={research.contentLocale} dir={research.contentLocale === "ar" ? "rtl" : "ltr"}>
       {research.facts.map((fact) => <div key={fact.id ?? fact.label}><dt>{fact.label}</dt><dd>{fact.value}<a href={fact.sourceUrl} target="_blank" rel="noopener noreferrer" lang={locale} aria-label={`${text[2]}: ${fact.label}`}>{text[2]} <span aria-hidden="true">↗</span></a></dd></div>)}
