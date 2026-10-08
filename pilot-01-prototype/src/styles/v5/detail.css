@@ -605,7 +605,7 @@
   box-shadow: none;
 }
 .v5-detail.v3-profile-page .v3-profile-research-chapter:last-child { border-block-end: var(--hairline); }
-.v5-detail.v3-profile-page .v3-profile-research-chapter__heading { margin: 0; padding-block-start: 14px; font-size: var(--t-sm); font-weight: 560; letter-spacing: 0; color: var(--text-muted); text-wrap: balance; }
+.v5-detail.v3-profile-page .v3-profile-research-chapter__heading { margin: 0; padding-block-start: 10px; font-size: var(--t-xl); font-weight: 580; letter-spacing: -0.02em; line-height: 1.15; color: var(--text-strong); text-wrap: balance; }
 .v5-detail.v3-profile-page .v3-profile-research-chapter__body { min-inline-size: 0; margin: 0; padding: 0; }
 .v5-detail.v3-profile-page .v3-profile-research-chapter__body > details { border: 0; background: none; box-shadow: none; border-radius: 0; padding: 0; margin: 0; }
 .v5-detail.v3-profile-page .v3-profile-research-chapter__body > details > summary {
@@ -615,10 +615,9 @@
   gap: var(--s-4);
   min-block-size: 48px;
   padding: 0;
-  color: var(--text-strong);
-  font-size: var(--t-lg);
-  font-weight: 560;
-  letter-spacing: -0.01em;
+  color: var(--text);
+  font-size: var(--t-base);
+  font-weight: 500;
   cursor: pointer;
   list-style: none;
 }
@@ -650,3 +649,6 @@
 .v5-detail.v3-profile-page .v3-faq-summary { min-block-size: 56px; }
 .v5-detail.v3-profile-page .v3-alternative-list > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--s-3) var(--s-8); align-items: baseline; }
 @media (max-width: 52rem) { .v5-detail.v3-profile-page .v3-alternative-list > li { grid-template-columns: minmax(0, 1fr); } }
+
+.v5-detail .d5-strip--empty .d5-dash { font-size: var(--t-xl); }
+.v5-detail .d5-strip--empty .d5-strip__row { padding-block: var(--s-4); }

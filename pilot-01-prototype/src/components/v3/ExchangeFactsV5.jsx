@@ -112,7 +112,7 @@ export function FactsStrip({ slug, locale }) {
   if (d.token && d.perp_pct) parts.push([l.perp, d.perp_pct]);
   const rows = [[l.spot, l.spotSub, entry.fees?.spot, sv], [l.perp, l.perpSub, entry.fees?.perp, pv]];
   return (
-    <section className="d5-strip enter" style={{ "--i": 1 }} aria-label={l.fees}>
+    <section className={`d5-strip enter${rows.every(([, , r]) => r?.maker == null && r?.taker == null) ? " d5-strip--empty" : ""}`} style={{ "--i": 1 }} aria-label={l.fees}>
       <div className="d5-strip__head" aria-hidden="true"><span /><span>{l.maker}</span><span>{l.taker}</span></div>
       {rows.map(([title, sub, row, ok]) => (
         <div className="d5-strip__row" key={title}>
