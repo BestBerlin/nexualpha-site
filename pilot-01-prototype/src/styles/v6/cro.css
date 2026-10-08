@@ -1,6 +1,6 @@
 /* CRO v1 (r9): one official-signup pattern. Code chip + copy confirmation, outbound toast, Compare Lab next step,
    compare sticky as a neutral bottom bar on phones. Tokens only; every value has a fallback for body-level nodes. */
-.cro-sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.cro-sr, .cl-sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* ---------- code chip ---------- */
 .cro-code { position: relative; display: inline-flex; vertical-align: middle; }
