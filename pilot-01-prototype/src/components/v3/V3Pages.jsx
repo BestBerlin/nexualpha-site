@@ -7,6 +7,7 @@ import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
 import { compareSlug, v3Copy, venueProfile } from "../../data/v3-product";
 import { OutboundHandoff } from "./OutboundHandoff";
+import { ExchangeFactsV5 } from "./ExchangeFactsV5.jsx";
 import { ResearchPanel, ResearchComparison } from "./ResearchPanels";
 import { VenueDecisionArticles } from "./VenueDecisionArticles";
 import { VenueFaqSection } from "./VenueFaqSection.jsx";
@@ -1182,7 +1183,7 @@ function VenueDecisionStrip({ text, profile, decision, locale }) {
   return <div className="v3-venue-decision-strip" role="group" aria-label={text.profileSignal}>
     {items.filter((item) => item.value).map((item, index) => (
       <article key={item.label}>
-        <span>{String(index + 1).padStart(2, "0")} · {item.label}</span>
+        <span>{item.label}</span>
         <strong lang={item.locale ?? undefined} dir={item.locale ? textDirectionForLocale(item.locale) : undefined}>{sanitizePublicText(item.value)}</strong>
       </article>
     ))}
@@ -2180,7 +2181,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     </div>
   );
 
-  return <main className="v2-page v3-page v3-profile-page" id="top">
+  return <main className="v2-page v3-page v3-profile-page v5 v5-detail" id="top">
     <section className="v3-page-hero v2-shell">
       <TelegramReturnBanner
         expectedKind="venue"
@@ -2198,7 +2199,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
       </LocalLink>
 
       <div className="v3-venue-hero">
-        <div className="v3-venue-identity">
+        <div className="v3-venue-identity enter" style={{ "--i": 0 }}>
           <BrandMark slug={profile.slug} />
           <div className="v3-venue-identity__info">
             <div className="v3-venue-identity__badges">
@@ -2215,7 +2216,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
                 </span>
               )}
               <span className="v3-domain-pill" translate="no">
-                🔒 {officialDomain}
+                <svg className="d5-lock" aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg> {officialDomain}
               </span>
             </div>
             <h1 lang={priorityAnswer?.locale || undefined}>
@@ -2230,7 +2231,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
         <div className="v3-profile-reading-layout">
         <div className="v3-profile-action-column">
-        <div className="v3-profile-main-registration" data-cta-surface="venue-profile-main-registration">
+        <div className="v3-profile-main-registration enter" style={{ "--i": 2 }} data-cta-surface="venue-profile-main-registration">
         <article className="v3-detail-grid__handoff">
           <OutboundHandoff compact locale={locale} venueSlug={profile.slug} fallbackDomain={profile.officialDomain} market={market} product={product} accountStage={accountStage} funding={funding} />
         </article>
@@ -2238,7 +2239,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
         </div>
         <div className="v3-profile-reading-overview">
-        {!priorityAnswer && !(reviewedDecision?.editorialReviewed && reviewedDecisionConciseFit(reviewedDecision).trim().length > 0) && <div className="v3-venue-context">
+        {!priorityAnswer && !venueDirectAnswer && <div className="v3-venue-context">
           <p className="v3-venue-summary" lang={reviewedDecision?.contentLocale ?? locale} dir={reviewedDecision ? textDirectionForLocale(reviewedDecision.contentLocale) : undefined}>{venueHeroSummary}</p>
         </div>}
 
@@ -2337,6 +2338,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
       </div>
 
     </section>
+
+    <ExchangeFactsV5 slug={profile.slug} locale={locale} profile={profile} />
 
     <section className="v2-section v3-profile-research-hub">
       <section className="v3-profile-research-chapter" data-research-task="account">

@@ -114,3 +114,4 @@ if (bootstrap.hydrate) {
 import "./styles/v5/shell.css";
 import "./styles/v5/home.css";
 import "./styles/v5/matrix.css";
+import "./styles/v5/detail.css";
