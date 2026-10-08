@@ -132,7 +132,7 @@
         if (!visible(h) || h.getBoundingClientRect().width < 40 || h.closest(".v6r, [role='dialog'], nav, .v3-profile-action-column, .mx-dock")) continue;
         var r = h.getBoundingClientRect();
         var y = r.top - mr.top + Math.min(r.height / 2, 14);
-        if (y > start + 48 && (!docks.length || y - docks[docks.length - 1].y > 64)) docks.push({ y: Math.round(y), t: label(h) });
+        if (y > start + 48 && (!docks.length || y - docks[docks.length - 1].y > 48)) docks.push({ y: Math.round(y), t: label(h) });
       }
       var dest = null, end;
       if (colMode) {

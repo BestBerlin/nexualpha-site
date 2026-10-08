@@ -194,3 +194,10 @@ main.v6:not(.home-refinement).methodology-page a:is([href$=".json"], [href$=".cs
  * spills into the rail gap beside the reading column */
 :is(main, .factbook-page).v6:not(.home-refinement) :is(details > summary > :is(b, span)[aria-hidden]:last-child, details > summary > b:last-child, details > summary .v3-faq-arrow):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { text-indent: 0; text-align: center; }
 .v6r .v6r__node[data-cur="1"] .v6r__lab[data-gone]:not(#_) { opacity: 0; }
+/* a label leaving the current section (or running out of route) disappears at once; only the arriving label fades in */
+.v6r .v6r__lab:not(#_):not(#_) { transition: opacity 0ms, translate 0ms; }
+.v6r .v6r__node[data-cur="1"] .v6r__lab:not([data-gone]):not(#_):not(#_) { transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1), translate 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+/* sections nested in the Sources group keep the group's 24/48 rhythm, not the 128px page-section padding */
+main.v3-profile-page.v6 .v3-profile-sources-group__body .v2-section:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block: 0; padding-block: 24px 0; }
+/* the directory fee pair reads "0.08% / 0.10%" as text (real spaces), not "0.08%/0.10%" with CSS gaps */
+main.v6:not(.home-refinement) .mx-fee i:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-inline: 0; white-space: pre; }

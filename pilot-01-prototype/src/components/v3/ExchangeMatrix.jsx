@@ -223,7 +223,7 @@ export function ExchangeMatrix({
     const delay = Math.min(index, 10) * 28;
     return (
       <span className="mx-fee num" dir="ltr" translate="no">
-        <CountNum value={pair[0]} run={run} delay={delay} /><u>%</u><i aria-hidden="true">/</i><CountNum value={pair[1]} run={run} delay={delay} /><u>%</u>
+        <CountNum value={pair[0]} run={run} delay={delay} /><u>%</u><i aria-hidden="true">{" / "}</i><CountNum value={pair[1]} run={run} delay={delay} /><u>%</u>
       </span>
     );
   };
