@@ -239,7 +239,7 @@ body:has(.v5 .container) .nx-ftr__inner {
   color: var(--nx-n10);
 }
 .nx-lang { position: relative; }
-.nx-lang__name { max-inline-size: 10ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nx-lang__name { max-inline-size: 20ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nx-lang__code { display: none; font: 500 12px/1 var(--nx-mono); letter-spacing: 0.02em; }
 
 /* language listbox */

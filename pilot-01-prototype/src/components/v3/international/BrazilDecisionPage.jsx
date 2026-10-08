@@ -1017,7 +1017,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
             </a>}
           </div>
           <details className="br-cost-options" open={pathname === "/br/custos" ? true : undefined}>
-            <summary>Simular custo em BRL · {formatCurrency(pageLocale, estimate.total)}</summary>
+            <summary>Simular custo em BRL · {formatCurrency(pageLocale, Number(state.amount) || 0)}</summary>
             <div className="br-control-grid">
             <label>
               <span>{copy.amount}</span>
@@ -1039,7 +1039,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
           </details>
           <div className="br-cost-strip" aria-live="polite" data-testid="brazil-cost-estimate">
             <span>{copy.costTitle}</span>
-            <b aria-hidden="true" className="br-cost-figure">{formatCurrency(pageLocale, shownTotal)}</b><b className="br-sr">{formatCurrency(pageLocale, estimate.total)}</b>
+            <span className="br-cost-basis">{copy.amount} <b>{formatCurrency(pageLocale, Number(state.amount) || 0)}</b></span><b aria-hidden="true" className="br-cost-figure">{formatCurrency(pageLocale, shownTotal)}</b><b className="br-sr">{formatCurrency(pageLocale, estimate.total)}</b>
             <small>{copy.costNote}</small>
           </div>
           <p className="br-decision-panel__status" aria-live="polite">{shareStatus || (!isBrazil ? copy.nonBr : isSpot ? copy.brOnly : copy.spotOnly)}</p>

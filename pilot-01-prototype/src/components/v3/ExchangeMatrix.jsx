@@ -369,6 +369,7 @@ export function ExchangeMatrix({
                           <span className="mx-id__meta">
                             <span className="mx-type" translate="no" lang="en">{r.category}</span>
                             {r.verifiedOn ? <span className="mx-checked num">{mc.checked} <time dateTime={r.verifiedOn}>{r.verifiedOn}</time></span> : null}
+                            {noRoute ? <span className="mx-nocompare" aria-hidden="true">{noCompareLabel(locale)}</span> : null}
                           </span>
                         </div>
                       </div>
