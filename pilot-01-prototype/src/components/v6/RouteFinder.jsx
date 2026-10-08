@@ -251,6 +251,7 @@ function Finder({ kit }) {
   // card's min-height. Switching intent or venue then never changes the hero's height.
   useEffect(() => {
     let timer = 0;
+    let self = false;
     const prime = () => {
       const keep = slugRef.current;
       if (!isWide()) { setReserve(0); return; }
@@ -263,10 +264,14 @@ function Finder({ kit }) {
           if (h > max) max = h;
         }
       } finally { flushSync(() => setSlug(keep)); }
-      if (max > 0) setReserve(Math.ceil(max));
+      if (max > 0) {
+        setReserve(Math.ceil(max));
+        // the reserved height moves the You / gate hub: tell the route geometry (and the page rail) to re-measure once it has painted
+        requestAnimationFrame(() => requestAnimationFrame(() => { self = true; window.dispatchEvent(new Event("resize")); }));
+      }
     };
     primeRef.current = prime;
-    const later = () => { clearTimeout(timer); timer = setTimeout(prime, 220); };
+    const later = () => { if (self) { self = false; return; } clearTimeout(timer); timer = setTimeout(prime, 220); };
     const firsts = [80, 600, 1600].map((ms) => setTimeout(prime, ms)); // settle after hydration, fonts and images
     document.fonts?.ready?.then(later);
     window.addEventListener("resize", later);
