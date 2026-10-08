@@ -15,7 +15,7 @@
         "perp": {
           "maker": null,
           "taker": null,
-          "note": "USDS-M base rates not shown on fetched page (FAQ gives only example 0.02/0.05); left null"
+          "note": "unverifiable: Binance fee pages are bot-blocked (HTTP 202/blank); support FAQ states no base rate; left null"
         }
       },
       "discount": {
@@ -39,25 +39,24 @@
       "type": "cex",
       "fees": {
         "spot": {
-          "maker": null,
-          "taker": null,
-          "note": "unverifiable: not retrievable from official page on verified_on date"
+          "maker": 0.08,
+          "taker": 0.1,
+          "note": "Regular user (below VIP 1), standard pairs, percent. Official fee page, Spot tab."
         },
         "perp": {
-          "maker": null,
-          "taker": null,
-          "note": "unverifiable: not retrievable from official page on verified_on date"
+          "maker": 0.02,
+          "taker": 0.05,
+          "note": "Regular user, Futures tab (USDT-margined and other contracts share this table), percent."
         }
       },
       "discount": {},
       "kyc": null,
       "restricted_regions": [],
       "source_urls": [
-        "https://www.okx.com/fees",
-        "https://www.okx.com/en-us/fees"
+        "https://www.okx.com/fees"
       ],
       "verified_on": "2026-10-08",
-      "status": "unverifiable"
+      "status": "verified"
     },
     {
       "slug": "bybit",
@@ -93,24 +92,28 @@
       "type": "cex",
       "fees": {
         "spot": {
-          "maker": null,
-          "taker": null,
-          "note": "unverifiable: not retrievable from official page on verified_on date"
+          "maker": 0.1,
+          "taker": 0.1,
+          "note": "Standard tier, percent. Official Bitget Support Center FAQ; live fee page tables are not rendered without login."
         },
         "perp": {
-          "maker": null,
-          "taker": null,
-          "note": "unverifiable: not retrievable from official page on verified_on date"
+          "maker": 0.02,
+          "taker": 0.06,
+          "note": "Standard tier USDT-M futures, percent. Same source."
         }
       },
-      "discount": {},
+      "discount": {
+        "token": "BGB",
+        "note": "Spot fee discount when BGB offset enabled; percentage not retrieved"
+      },
       "kyc": null,
       "restricted_regions": [],
       "source_urls": [
+        "https://www.bitget.com/support/articles/12560603892734",
         "https://www.bitget.com/fee"
       ],
       "verified_on": "2026-10-08",
-      "status": "unverifiable"
+      "status": "verified"
     },
     {
       "slug": "coinbase",
@@ -120,20 +123,19 @@
         "spot": {
           "maker": null,
           "taker": null,
-          "note": "unverifiable: not retrievable from official page on verified_on date"
+          "note": "unverifiable: rates are shown only after sign-in (coinbase.com/advanced-fees redirects to login); help article lists no rates"
         },
         "perp": {
           "maker": null,
           "taker": null,
-          "note": "unverifiable: not retrievable from official page on verified_on date"
+          "note": "unverifiable: same"
         }
       },
       "discount": {},
       "kyc": null,
       "restricted_regions": [],
       "source_urls": [
-        "https://www.coinbase.com/advanced-fees",
-        "https://help.coinbase.com/en/coinbase/trading-and-funding/pricing-and-fees/fees"
+        "https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees"
       ],
       "verified_on": "2026-10-08",
       "status": "unverifiable"
@@ -226,6 +228,115 @@
       ],
       "verified_on": "2026-10-08",
       "status": "verified"
+    },
+    {
+      "slug": "gate",
+      "name": "Gate",
+      "type": "cex",
+      "fees": {
+        "spot": {
+          "maker": 0.1,
+          "taker": 0.1,
+          "note": "VIP0, percent. Official fee page (zh locale), Spot tab."
+        },
+        "perp": {
+          "maker": 0.02,
+          "taker": 0.05,
+          "note": "VIP0, USDT perpetual, Groups A/B/C all identical at VIP0."
+        }
+      },
+      "discount": {
+        "token": "GT",
+        "note": "GT deduction: VIP0 spot 0.09%/0.09% per fee page"
+      },
+      "kyc": null,
+      "restricted_regions": [],
+      "source_urls": [
+        "https://www.gate.com/fee"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "verified"
+    },
+    {
+      "slug": "mexc",
+      "name": "MEXC",
+      "type": "cex",
+      "fees": {
+        "spot": {
+          "maker": 0.0,
+          "taker": null,
+          "note": "Official fee page shows spot Maker 0.0000% and Taker range 0.0000%-0.0500% across pairs; no single base-tier taker, so taker null."
+        },
+        "perp": {
+          "maker": null,
+          "taker": null,
+          "note": "Official fee page shows perp Maker 0.000%-0.040% and Taker 0.000%-0.100% by contract (per-pair rates); no single base rate, so null."
+        }
+      },
+      "discount": {
+        "token": "MX",
+        "spot_pct": 20,
+        "perp_pct": 20,
+        "note": "MX deduction 20% per fee page note"
+      },
+      "kyc": null,
+      "restricted_regions": [],
+      "source_urls": [
+        "https://www.mexc.com/fee"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "unverifiable"
+    },
+    {
+      "slug": "kucoin",
+      "name": "KuCoin",
+      "type": "cex",
+      "fees": {
+        "spot": {
+          "maker": null,
+          "taker": null,
+          "note": "unverifiable: live fee table hides VIP0-4 rows for logged-out viewers; only a 2024-11-06 official announcement states VIP0 Class A 0.1/0.1 (B 0.2, C 0.3), too old to treat as current"
+        },
+        "perp": {
+          "maker": null,
+          "taker": null,
+          "note": "unverifiable: no VIP0 futures rate on any fetched official page"
+        }
+      },
+      "discount": {},
+      "kyc": null,
+      "restricted_regions": [],
+      "source_urls": [
+        "https://www.kucoin.com/vip/level",
+        "https://www.kucoin.com/announcement/it-vip-program-update-spot-trading-fees-volume-requirements-will-be-updated"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "unverifiable"
+    },
+    {
+      "slug": "htx",
+      "name": "HTX",
+      "type": "cex",
+      "fees": {
+        "spot": {
+          "maker": null,
+          "taker": null,
+          "note": "unverifiable: fee page and support articles did not load (timeout/empty)"
+        },
+        "perp": {
+          "maker": null,
+          "taker": null,
+          "note": "unverifiable: same"
+        }
+      },
+      "discount": {},
+      "kyc": null,
+      "restricted_regions": [],
+      "source_urls": [
+        "https://www.htx.com/fee/"
+      ],
+      "verified_on": "2026-10-08",
+      "status": "unverifiable"
     }
   ]
 }

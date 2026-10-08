@@ -10,3 +10,6 @@ Caveats:
 - KYC and restricted regions were not stated on fetched pages: null/empty, not "none".
 - Page text was summarized by a fetch model; spot-check before publishing.
 - Gate, MEXC, KuCoin not covered. No referral codes/links included.
+
+CHANGELOG
+- 2026-10-08 (2): Browser-pane + official support articles. Now verified: OKX (spot 0.08/0.10, perp 0.02/0.05), Bitget (0.1/0.1, 0.02/0.06; support FAQ), Gate (0.1/0.1, 0.02/0.05). Added gate, mexc, kucoin, htx rows. Still unverifiable: Coinbase (login-gated), MEXC (per-pair ranges only; spot maker 0), KuCoin (VIP0 rows hidden), HTX (pages did not load), Binance perp (bot-blocked).
