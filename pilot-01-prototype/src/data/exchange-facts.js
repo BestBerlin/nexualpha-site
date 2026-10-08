@@ -1,4 +1,5 @@
 // Generated from docs/data/exchange-facts-20261008.json (official fee pages, fetched 2026-10-08). Percent. null = not verifiable: never estimate.
+// Keys are catalog slugs (the JSON's "gate" is "gate-io" here). mexc publishes ranges only, so spot stays null.
 export const EXCHANGE_FACTS = {
  "binance": {
   "type": "cex",
@@ -16,15 +17,15 @@ export const EXCHANGE_FACTS = {
  },
  "okx": {
   "type": "cex",
-  "status": "unverifiable",
+  "status": "verified",
   "verifiedOn": "2026-10-08",
   "spot": [
-   null,
-   null
+   0.08,
+   0.1
   ],
   "perp": [
-   null,
-   null
+   0.02,
+   0.05
   ],
   "regions": []
  },
@@ -44,15 +45,15 @@ export const EXCHANGE_FACTS = {
  },
  "bitget": {
   "type": "cex",
-  "status": "unverifiable",
+  "status": "verified",
   "verifiedOn": "2026-10-08",
   "spot": [
-   null,
-   null
+   0.1,
+   0.1
   ],
   "perp": [
-   null,
-   null
+   0.02,
+   0.06
   ],
   "regions": []
  },
@@ -103,6 +104,62 @@ export const EXCHANGE_FACTS = {
  "uniswap": {
   "type": "dex",
   "status": "verified",
+  "verifiedOn": "2026-10-08",
+  "spot": [
+   null,
+   null
+  ],
+  "perp": [
+   null,
+   null
+  ],
+  "regions": []
+ },
+ "gate-io": {
+  "type": "cex",
+  "status": "verified",
+  "verifiedOn": "2026-10-08",
+  "spot": [
+   0.1,
+   0.1
+  ],
+  "perp": [
+   0.02,
+   0.05
+  ],
+  "regions": []
+ },
+ "mexc": {
+  "type": "cex",
+  "status": "unverifiable",
+  "verifiedOn": "2026-10-08",
+  "spot": [
+   null,
+   null
+  ],
+  "perp": [
+   null,
+   null
+  ],
+  "regions": []
+ },
+ "kucoin": {
+  "type": "cex",
+  "status": "unverifiable",
+  "verifiedOn": "2026-10-08",
+  "spot": [
+   null,
+   null
+  ],
+  "perp": [
+   null,
+   null
+  ],
+  "regions": []
+ },
+ "htx": {
+  "type": "cex",
+  "status": "unverifiable",
   "verifiedOn": "2026-10-08",
   "spot": [
    null,
