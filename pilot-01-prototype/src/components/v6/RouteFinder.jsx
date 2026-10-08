@@ -370,7 +370,7 @@ function Finder({ kit }) {
                   <span className="rf-node__fee">
                     {on && feeIntent && pair && Number.isFinite(pair[0])
                       ? <span dir="ltr"><Fee value={pair[0]} locale={locale} tick={hot === v.slug || active ? tick : 0} />%</span>
-                      : <><span className="rf-na" aria-hidden={!(on && !feeIntent)}>{on ? (feeIntent ? "—" : t.none) : ""}</span>{(feeIntent || !on) && <span className="rf-sr">{on ? t.none : t.off}</span>}</>}
+                      : <><span className="rf-na" aria-hidden={false}>{on ? t.none : ""}</span>{!on && <span className="rf-sr">{t.off}</span>}</>}
                   </span>
                 </button>
               </li>
