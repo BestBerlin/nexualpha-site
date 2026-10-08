@@ -76,7 +76,7 @@
 }
 :is(main, .factbook-page).v6:not(.home-refinement) :is(.mx-seg__btn, .mx-sort, .mx-toggle, .news-tab, .fee-terminal__filter-btn, .factbook-tab-btn, .factbook-filter-pill, .factbook-venue-pill, .activity-center-v3__filters button, [class*="seg__btn"], [class*="tab-btn"], [class*="filter-btn"], [class*="filter-pill"]):hover:not(#_):not(#_):not(#_) { background: var(--surface-2); color: var(--ink); border-color: var(--line-2); }
 :is(main, .factbook-page).v6:not(.home-refinement) :is(.mx-seg__btn, .mx-sort, .news-tab, .fee-terminal__filter-btn, .factbook-tab-btn, .factbook-filter-pill, .factbook-venue-pill, .activity-center-v3__filters button, [class*="seg__btn"], [class*="tab-btn"], [class*="filter-btn"], [class*="filter-pill"]):is(.is-active, .active, [class*="--active"], [aria-pressed="true"], [aria-selected="true"], [aria-current="true"], [aria-current="page"]):not(#_):not(#_):not(#_) {
-  background: var(--ink); border-color: var(--ink); color: #0a0b0e; font-weight: 600;
+  background: #272a2d; border-color: var(--line-2); color: var(--ink); font-weight: 600; box-shadow: none;
 }
 @media (pointer: coarse), (max-width: 760px) {
   :is(main, .factbook-page).v6:not(.home-refinement) :is(.mx-seg__btn, .mx-sort, .mx-toggle, .mx-cta, .mx-code, .news-tab, .fee-terminal__filter-btn, .fee-terminal__cta-btn, .factbook-tab-btn, .factbook-filter-pill, .factbook-venue-pill, .tg-cmd-btn, .tg-topic-card__bot, .activity-center-v3__filters button):not(#_):not(#_):not(#_) { min-block-size: var(--h-ctl); }
@@ -408,4 +408,15 @@ main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_) { padding-block-en
 :is(main, .factbook-page).v6:not(.home-refinement) .research-differences:not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; gap: 8px; min-block-size: 44px; }
 @media (max-width: 860px) {
   :is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-matrix-sub-val a, .venue-readiness button, .v3-matrix-expand, .v3-matrix-cta-btn):not(#_):not(#_):not(#_):not(#_) { min-block-size: 44px; }
+}
+
+/* R5 #13: legacy fintech-premium.css paints every .button-primary near-white with !important.
+ * Inner V6 pages get exactly one primary style: turquoise. */
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.button-primary, .registration-card__primary-btn--official, .yellow-card__btn-register, .apv__btn-verify, .frc__cta-btn):not(#_):not(#_):not(#_):not(#_) {
+  background: var(--accent) !important; border: 1px solid var(--accent) !important; color: var(--accent-ink) !important;
+  box-shadow: none !important; font-weight: 600 !important; letter-spacing: 0 !important; border-radius: var(--r-ctl) !important;
+  transition: background-color 140ms var(--ease-out, ease), transform 120ms var(--ease-out, ease) !important;
+}
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.button-primary, .registration-card__primary-btn--official, .yellow-card__btn-register, .apv__btn-verify, .frc__cta-btn):hover:not(#_):not(#_):not(#_):not(#_) {
+  background: #5df0d8 !important; border-color: #5df0d8 !important; color: var(--accent-ink) !important; box-shadow: none !important;
 }
