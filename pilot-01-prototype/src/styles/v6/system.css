@@ -14,7 +14,7 @@
   --t-28: clamp(1.5rem, 1.25rem + 1vw, 1.75rem);
   --t-44: clamp(2rem, 1.5rem + 2.2vw, 2.75rem);
   --section-pad: clamp(72px, 9vw, 128px);
-  --v6-gap: clamp(72px, 6.7vw, 96px);
+  --v6-gap: clamp(48px, 4.5vw, 64px);
   --v6-container: 1200px; --v6-gutter: 24px;
   --v6-sans: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", "Pilot Noto Arabic", sans-serif;
   --v6-mono: "Geist Mono V5", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -94,7 +94,7 @@ main.v6:not(.home-refinement) > .mx-page:not(#_):not(#_), main.v6:not(.home-refi
 main.v6:not(.home-refinement) :where(section, div, article, aside):not(#_):not(#_) { min-block-size: 0; }
 
 body:has(main.v6:not(.home-refinement)) {
-  --content: 1200px; --page-pad: 24px; --v6-gap: clamp(72px, 6.7vw, 96px);
+  --content: 1200px; --page-pad: 24px; --v6-gap: clamp(48px, 4.5vw, 64px);
 }
 body:has(main.v6:not(.home-refinement)) .nx-ftr { margin-block-start: var(--v6-gap); }
 body:has(main.v6:not(.home-refinement)) .crawl-priority-links { margin-block: var(--v6-gap) 0; padding-block: 0; border-block-start: 0; }
@@ -156,3 +156,98 @@ body:has(main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label, .clean-fo
 :is(main, .factbook-page).v6:not(.home-refinement) table td :where(span, a, button):not(#_):not(#_) { white-space: normal; }
 :is(main, .factbook-page).v6:not(.home-refinement) table:not(#_):not(#_) { inline-size: 100%; }
 :is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_)::before { content: none; }
+
+/* =====================================================================================================
+ * R3 (inner pages): one container, one disclosure row, honest tap targets, no second accent.
+ * S = inner-page scope, X = specificity lift above legacy rules.
+ * ===================================================================================================== */
+.v6-container { inline-size: min(100% - 48px, 1200px); margin-inline: auto; box-sizing: border-box; }
+
+/* container: matrix + methodology inners join the same 1200 / 24 edge (h1 at x=120, never 112) */
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.mx-page__inner, .methodology-page__inner):not(#_):not(#_):not(#_):not(#_) {
+  inline-size: min(100% - 48px, 1200px); max-inline-size: none; margin-inline: auto; padding-inline: 0; box-sizing: border-box;
+}
+:is(main, .factbook-page).v6:not(.home-refinement) .mx-page:not(#_):not(#_):not(#_):not(#_) { padding-block: 24px var(--v6-gap); min-block-size: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .mx-head:not(#_):not(#_):not(#_):not(#_) { margin-block-end: 32px; gap: 16px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .mx-head h1:not(#_):not(#_):not(#_):not(#_) { margin: 0; }
+
+/* detail hero: logo ABOVE the h1, so the h1 shares the 120px left edge with everything below */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-identity:not(#_):not(#_):not(#_):not(#_) { flex-direction: column !important; align-items: flex-start; gap: 16px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-identity__info:not(#_):not(#_):not(#_):not(#_) { inline-size: 100%; min-inline-size: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-identity > :is(img, .v2-brand):not(#_):not(#_):not(#_):not(#_) { inline-size: 48px !important; block-size: 48px !important; width: 48px !important; height: 48px !important; flex: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-identity__badges > .v3-trust-metal-badge::before:not(#_):not(#_) { background: var(--accent, #1fe0c0); }
+
+/* ONE disclosure row: min-height 56, 16px / 500, trailing plus, hairline rows */
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_):not(#_):not(#_) { font-weight: 500; font-size: var(--t-16); line-height: 1.35; min-block-size: 56px; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(h2, h3):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); font-weight: 500; line-height: 1.35; letter-spacing: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(small, span + span):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); font-weight: 400; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-summary-left:not(#_):not(#_):not(#_):not(#_) { gap: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-q-text:not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); font-weight: 500; line-height: 1.35; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-faq-list, .v3-faq-card) > details:not(#_):not(#_):not(#_):not(#_),
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-list > details.v3-faq-item:not(#_):not(#_):not(#_):not(#_) { border: 0; border-block-end: 1px solid var(--v6-hair); border-radius: 0; background: none; padding-inline: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-list > details.v3-faq-item:first-of-type:not(#_):not(#_):not(#_):not(#_) { border-block-start: 1px solid var(--v6-hair); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-card:not(#_):not(#_):not(#_):not(#_) { background: none; border: 0; padding: 0; box-shadow: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-card__header:not(#_):not(#_):not(#_):not(#_) { margin-block-end: 24px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-list__expand:not(#_):not(#_):not(#_):not(#_) { margin-block-start: 24px; }
+/* profile chapters (Account and costs / Sources / Continue): one single-line row, not a 28px stacked title */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-research-hub:not(#_):not(#_):not(#_):not(#_) { border-block-start: 1px solid var(--v6-hair); }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-research-chapter:not(#_):not(#_):not(#_):not(#_) {
+  display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); align-items: center; column-gap: 24px; row-gap: 0;
+  min-block-size: 56px; padding: 0; margin: 0; border: 0; border-block-end: 1px solid var(--v6-hair);
+}
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-research-chapter__heading:not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); font-weight: 500; line-height: 1.35; letter-spacing: 0; margin: 0; max-inline-size: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-research-chapter__body:not(#_):not(#_):not(#_):not(#_) { min-inline-size: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-research-chapter details:not(#_):not(#_):not(#_):not(#_) { border: 0; }
+@media (max-width: 640px) {
+  :is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-research-chapter:not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); padding-block-start: 12px; }
+}
+/* "Open official source" was a bare summary: make it the one secondary button */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-activity-panel__actions:not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-activity-panel__actions > details.research-references:not(#_):not(#_):not(#_):not(#_) { border: 0; flex: 0 1 auto; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-activity-panel__actions > details.research-references > summary:not(#_):not(#_):not(#_):not(#_) {
+  display: inline-flex; min-block-size: 44px; padding: 10px 16px; border: 1px solid var(--line-2, rgba(255,255,255,.22)); border-radius: 8px; font-size: var(--t-14); font-weight: 500; gap: 8px;
+}
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-activity-panel__actions > details.research-references > summary > :is(b, span)[aria-hidden]:last-child:not(#_):not(#_):not(#_):not(#_) { margin-inline-start: 0; }
+
+@media (min-width: 861px) {
+/* tables: every body row is 56 high, content centred (Kraken region note fits in two 12px lines) */
+:is(main, .factbook-page).v6:not(.home-refinement) .mx-table tbody td:not(#_):not(#_):not(#_):not(#_) { vertical-align: middle; padding-block: 8px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .mx-table tbody tr:not(#_):not(#_):not(#_):not(#_) { block-size: 56px; }
+:is(main, .factbook-page).v6:not(.home-refinement) .mx-td--region:not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); line-height: 1.35; }
+}
+
+:is(main, .factbook-page).v6:not(.home-refinement) .mx-fee:not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; font-variant-numeric: tabular-nums; flex-wrap: nowrap; }
+:is(main, .factbook-page).v6:not(.home-refinement) .mx-fee > *:not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; }
+:is(main, .factbook-page).v6:not(.home-refinement) .mx-col--region:not(#_):not(#_):not(#_):not(#_) { inline-size: 16%; }
+:is(main, .factbook-page).v6:not(.home-refinement) .mx-col--prod:not(#_):not(#_):not(#_):not(#_) { inline-size: 9%; }
+/* similar platforms / readiness rows: same single-line disclosure, no phantom height */
+:is(main, .factbook-page).v6:not(.home-refinement) details.v3-similar:not(#_):not(#_):not(#_):not(#_) { padding: 0; min-block-size: 0; block-size: auto; margin-block-end: 0; border-block: 1px solid var(--v6-hair); background: none; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-similar-disclosure__summary:not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr) 20px; align-items: center; column-gap: 24px; padding-block: 0; margin: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-similar-disclosure__summary > h2:not(#_):not(#_):not(#_):not(#_) { margin: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-similar-disclosure__summary > span:not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); font-weight: 400; color: var(--ink-2, #b0b4ba); opacity: 1; }
+@media (max-width: 640px) {
+  :is(main, .factbook-page).v6:not(.home-refinement) .v3-similar-disclosure__summary:not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr) 20px; padding-block: 8px; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .v3-similar-disclosure__summary > span:not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 2; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .v3-similar-disclosure__summary > b:not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 1 / span 2; }
+}
+/* profile reading column: one 32px stack instead of 48-64px leaps between button, note and link */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-reading-overview:not(#_):not(#_):not(#_):not(#_) { row-gap: 32px; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-relationship-note, .v3-profile-primary-actions, .v3-hero-actions):not(#_):not(#_):not(#_):not(#_) { margin-block: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-decision-context:not(#_):not(#_):not(#_):not(#_) { margin-block: 0; }
+
+/* /exchanges mobile rows: name + CTA, then spot and perp as labelled one-liners (digits never break), code chip on the right */
+@media (max-width: 47.99rem) {
+  :is(main, .factbook-page).v6:not(.home-refinement) .mx-row:not(#_):not(#_):not(#_):not(#_) {
+    grid-template-columns: 2.25rem minmax(0, 1fr) auto; grid-template-areas: "pick name cta" "pick spot code" "pick perp code";
+    row-gap: 8px; align-items: center;
+  }
+  :is(main, .factbook-page).v6:not(.home-refinement) .mx-row > .mx-td--fee:not(#_):not(#_):not(#_):not(#_) { display: flex; align-items: baseline; gap: 6px; flex-wrap: nowrap; white-space: nowrap; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .mx-row > .mx-td--fee[data-label]:not(#_):not(#_):not(#_):not(#_)::before { display: inline-block; min-inline-size: 3.5rem; margin: 0; font-size: var(--t-12); }
+  :is(main, .factbook-page).v6:not(.home-refinement) .mx-row > .mx-td--nofee:not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 2 / span 2; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .mx-row > .mx-td--nofee::before:not(#_):not(#_) { display: none; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .mx-row > .mx-td--region.mx-td--has:not(#_):not(#_):not(#_):not(#_) { grid-column: 2 / -1; grid-row: 4; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .mx-td--code:not(#_):not(#_):not(#_):not(#_) { align-self: center; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .mx-fee:not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); letter-spacing: 0; gap: 2px; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .mx-id__name:not(#_):not(#_):not(#_):not(#_) { overflow-wrap: break-word; }
+  :is(main, .factbook-page).v6:not(.home-refinement) .mx-unch:not(#_):not(#_):not(#_):not(#_) { white-space: normal; min-inline-size: 0; }
+}

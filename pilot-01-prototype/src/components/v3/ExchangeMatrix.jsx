@@ -45,30 +45,16 @@ function ArrowIcon() {
   );
 }
 
-// Fee figure that counts up from zero when its column becomes the sort key (tick changes). Server and
-// reduced-motion render the final value, so the number is never wrong, only animated.
+// Fee figure that fades/translates in when its column becomes the sort key. The digits are never tweened.
 function CountNum({ value, run, delay = 0 }) {
   const ref = useRef(null);
   useEffect(() => {
-    const node = ref.current?.firstChild;
-    if (!run || !node || typeof window === "undefined") return undefined;
+    const el = ref.current;
+    if (!run || !el || !el.animate || typeof window === "undefined") return undefined;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return undefined;
-    const final = fmtRate(value);
-    const decimals = final.split(".")[1]?.length || 0;
-    const dur = 650;
-    let raf = 0;
-    let start = 0;
-    const step = (now) => {
-      if (!start) start = now + delay;
-      const t = Math.min(Math.max((now - start) / dur, 0), 1);
-      const eased = 1 - Math.pow(1 - t, 4);
-      node.nodeValue = t >= 1 ? final : (value * eased).toFixed(decimals);
-      ref.current?.setAttribute("data-counting", t >= 1 ? "false" : "true");
-      if (t < 1) raf = requestAnimationFrame(step);
-    };
-    node.nodeValue = (0).toFixed(decimals);
-    raf = requestAnimationFrame(step);
-    return () => { cancelAnimationFrame(raf); node.nodeValue = final; };
+    // The figure is always final; only opacity/translate animate.
+    const anim = el.animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 420, delay, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "backwards" });
+    return () => anim.cancel();
   }, [run, value, delay]);
   return <b ref={ref}>{fmtRate(value)}</b>;
 }

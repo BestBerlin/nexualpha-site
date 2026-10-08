@@ -369,7 +369,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles }
                     {catName}
                   </span>
                   <time className="news-article-card__time" dateTime={article.publishedAt}>
-                    {new Date(article.publishedAt).toLocaleDateString(locale, { timeZone: "UTC" })}
+                    {String(article.publishedAt).slice(0, 10)}
                   </time>
                 </div>
 

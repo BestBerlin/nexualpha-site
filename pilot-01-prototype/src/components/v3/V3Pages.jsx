@@ -3017,7 +3017,6 @@ export function CompareFaqSection({ profiles, locale = "en" }) {
               <details key={idx} className="v3-faq-item" hidden={hiddenByDefault}>
                 <summary className="v3-faq-summary">
                   <div className="v3-faq-summary-left">
-                    <span className="v3-faq-q-badge">Q{idx + 1}</span>
                     <span className="v3-faq-q-text">{question}</span>
                   </div>
                   <span className="v3-faq-arrow" aria-hidden="true">▼</span>
