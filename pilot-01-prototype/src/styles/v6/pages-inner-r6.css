@@ -144,3 +144,7 @@ main.v6:not(.home-refinement) .activity-center-v3__empty p strong:not(#_):not(#_
 /* fee pair reads "0.08% / 0.10%" as one string: inline figures, no flex gap between number and % */
 main.v6:not(.home-refinement) .mx-fee:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-block; gap: 0; white-space: nowrap; }
 main.v6:not(.home-refinement) .mx-fee > *:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline; }
+
+/* r6 hotfixes: outline secondary text stays legible; compare sticky bar docks under the 56px header, opaque */
+:is(main, .factbook-page).v6:not(.home-refinement) .activity-center-v3__tg-btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: var(--n12, #edeef0) !important; background: transparent; }
+.v6 .v3-compare-sticky-bar.is-active, .v3-compare-sticky-bar.is-active { top: 56px; z-index: 30; background: var(--n2, #111113); backdrop-filter: none; -webkit-backdrop-filter: none; }
