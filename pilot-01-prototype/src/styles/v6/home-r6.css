@@ -236,3 +236,5 @@ html #top.v6.home-refinement .rf-card :is(.registration-card__preflight strong, 
   #top.v6.home-refinement section.rf > .rebate-ticker-bar { order: 2; margin-block: calc(var(--section-pad) * -1 + var(--s-6)) var(--section-pad); }
 }
 @media (max-width: 47.99rem) { #top.v6 .cl-pick__label { position: static; inline-size: auto; block-size: auto; overflow: visible; clip-path: none; } }
+/* phones: the 8-kana word fits one 342px line at the 44 step with slightly tighter display tracking */
+@media (max-width: 37.5rem) { #top.v6 .rf-grid:lang(ja) .rf-title.rf-title { letter-spacing: -0.06em; } }
