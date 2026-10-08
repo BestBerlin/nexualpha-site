@@ -2239,7 +2239,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
         </div>
         <div className="v3-profile-reading-overview">
-        {!priorityAnswer && !(reviewedDecision?.editorialReviewed && reviewedDecisionConciseFit(reviewedDecision).trim().length > 0) && <div className="v3-venue-context">
+        {!priorityAnswer && !venueDirectAnswer && <div className="v3-venue-context">
           <p className="v3-venue-summary" lang={reviewedDecision?.contentLocale ?? locale} dir={reviewedDecision ? textDirectionForLocale(reviewedDecision.contentLocale) : undefined}>{venueHeroSummary}</p>
         </div>}
 

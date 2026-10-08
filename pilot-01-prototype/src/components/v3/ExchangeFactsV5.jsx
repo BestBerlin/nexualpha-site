@@ -88,7 +88,7 @@ export function ExchangeFactsV5({ slug, locale, profile }) {
           </Reveal>
           <div className="d5-table" role="table" aria-label={l.fees}>
             <div className="d5-row d5-row--head" role="row">
-              <span role="columnheader" className="d5-sr">{l.fees}</span>
+              <span role="columnheader">{l.fees}</span>
               <span role="columnheader">{l.maker}</span>
               <span role="columnheader">{l.taker}</span>
             </div>

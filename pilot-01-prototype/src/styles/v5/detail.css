@@ -36,6 +36,7 @@
 /* ---------- identity ---------- */
 .v5-detail.v3-profile-page .v3-venue-hero {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-8);
   padding: 0;
   background: none;
@@ -116,10 +117,14 @@
   align-items: start;
 }
 @media (min-width: 1100px) {
-  .v5-detail.v3-profile-page .v3-profile-reading-layout {
+  .v5-detail.v3-profile-page .v3-venue-hero {
     grid-template-columns: minmax(0, 7fr) minmax(24rem, 5fr);
+    grid-template-rows: auto 1fr;
     column-gap: clamp(3rem, 6vw, 6rem);
+    row-gap: var(--s-10);
+    align-items: start;
   }
+  .v5-detail.v3-profile-page .v3-venue-hero > .v3-profile-reading-layout { display: contents; }
   .v5-detail.v3-profile-page .v3-profile-action-column {
     position: sticky;
     inset-block-start: var(--s-6);
@@ -461,6 +466,7 @@
   border-block-start: var(--hairline);
 }
 .v5-detail .d5-row:last-child { border-block-end: var(--hairline); }
+.v5-detail .d5-row--head > :first-child { visibility: hidden; }
 .v5-detail .d5-row--head { padding-block: var(--s-2); color: var(--text-muted); font-size: var(--t-xs); font-weight: 500; border-block-start: 0; }
 .v5-detail .d5-row__name { display: grid; gap: 2px; }
 .v5-detail .d5-row__name b { color: var(--text-strong); font-size: var(--t-lg); font-weight: 580; }
@@ -536,3 +542,13 @@
 @media (prefers-reduced-motion: reduce) {
   .v5-detail * { transition-duration: 0.01ms; }
 }
+
+/* legacy eyebrow labels are retired in V5 (kept in DOM, not shown) */
+.v5-detail .v3-faq-card__eyebrow,
+.v5-detail .venue-readiness__head > span { display: none; }
+.v5-detail.v3-profile-page .venue-readiness__summary { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); min-block-size: 52px; padding: 0; cursor: pointer; list-style: none; }
+.v5-detail.v3-profile-page .venue-readiness__summary h2 { margin: 0; font-size: var(--t-base); line-height: 1.3; letter-spacing: 0; font-weight: 560; color: var(--text-strong); }
+.v5-detail.v3-profile-page .venue-readiness__summary strong { font-size: var(--t-xs); font-weight: 500; color: var(--text-muted); }
+.v5-detail.v3-profile-page .v3-faq-card { border: 0; background: none; box-shadow: none; padding: 0; }
+.v5-detail.v3-profile-page .v3-faq-card__title { font-size: var(--t-2xl); line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; color: var(--text-strong); text-wrap: balance; }
+.v5-detail.v3-profile-page .v3-faq-item { border: 0; border-block-start: var(--hairline); border-radius: 0; background: none; }
