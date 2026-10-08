@@ -32,6 +32,9 @@ function GoForm({ href, className, children }) {
   </form>;
 }
 
+// Shared noun for the directory CTA (the hero's tertiary link uses the same label).
+export const directoryLabel = (locale) => (COPY[locale] || COPY.en).dir;
+
 export function ClosingBand({ legacy, locale = "en" }) {
   const t = COPY[locale] || COPY.en;
   const ref = useRef(null);

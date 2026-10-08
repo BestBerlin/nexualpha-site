@@ -5,9 +5,9 @@
 import { useEffect, useRef, useState } from "react";
 
 const ACTS = [".cl", ".vb", ".dir6"]; // compare lab, verify, directory; the destination is the closing CTA
-const DEST = ".v6-close__form button, .v6-close a, .v6-close button";
+const DEST = ".v6-close__route"; // the closing CTA's route stroke: the rail's destination dock joins its start
 const HEAD = "h2, h1";
-const MIN_ROOM = 76; // content inset (px) needed before the docking ticks can live in the gutter
+const MIN_ROOM = 76; // content inset (px) needed before the rail sits one gutter (24px) outside the container edge
 
 export function RouteRail() {
   const host = useRef(null);
@@ -29,7 +29,8 @@ export function RouteRail() {
       const wide = mq.matches;
       const inset = Math.max(24, (main.clientWidth - 1200) / 2); // content edge, from the inline-start page edge
       const room = wide && inset >= MIN_ROOM;
-      const x = wide ? (room ? inset - 56 : 10) : 3;
+      // on the grid: one 24px gutter outside the container edge (x = 96 at 1440); narrower viewports split the margin
+      const x = room ? inset - 24 : Math.max(8, Math.round(inset / 2));
       const yOf = (node, mid = true) => { const r = node.getBoundingClientRect(); return r.top - mr.top + (mid ? Math.min(r.height / 2, 28) : 0); };
       const list = [];
       // start: the hero finder's active route. The route runs from the active intent down to "You" and the verify gate; the rail
@@ -60,12 +61,14 @@ export function RouteRail() {
       });
       const dest = main.querySelector(DEST);
       const close = main.querySelector(".v6-close");
-      if (dest) list.push({ y: yOf(dest), kind: "dest" });
+      // the route stroke starts at its viewBox y=34 of 40, at the container edge: dock exactly there so the rail and the CTA route are one line
+      if (dest) { const r = dest.getBoundingClientRect(); list.push({ y: r.top - mr.top + r.height * (34 / 40), kind: "dest" }); }
       else if (close) list.push({ y: yOf(close, false) + 64, kind: "dest" });
       const docks = list.filter((p) => Number.isFinite(p.y) && p.y > sy).sort((a, b) => a.y - b.y);
       total = docks.length ? docks[docks.length - 1].y - startY : 0;
-      const len = room ? Math.max(0, inset - 16 - x) : 0;
-      const next = { x: Math.round(x), start: Math.round(sy), total: Math.round(total), stub: Math.round(Math.max(0, sx - x - 4)), docks: docks.map((d) => ({ kind: d.kind, y: Math.round(d.y), len })) };
+      // act docks: a tick toward the act's heading (stops 8px short of the container edge); the destination tick reaches the edge
+      const len = Math.max(0, inset - x - 8);
+      const next = { x: Math.round(x), start: Math.round(sy), total: Math.round(total), stub: Math.round(Math.max(0, sx - x - 4)), docks: docks.map((d) => ({ kind: d.kind, y: Math.round(d.y), len: d.kind === "dest" ? Math.max(0, inset - x) : len })) };
       setGeo((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
     };
     const fill = () => {
@@ -115,7 +118,7 @@ export function RouteRail() {
           <b className="rr__node rr__node--start" style={{ "--rr-ny": `${g.start}px` }} />
           {g.docks.map((d, i) => (
             <span key={i} className={`rr__dock rr__dock--${d.kind}`} data-y={d.y} data-on="0" style={{ "--rr-ny": `${d.y}px`, "--rr-len": `${d.len}px` }}>
-              {d.len > 24 && <i className="rr__tick" />}
+              {d.len > 4 && <i className="rr__tick" />}
               <b className="rr__node" />
             </span>
           ))}

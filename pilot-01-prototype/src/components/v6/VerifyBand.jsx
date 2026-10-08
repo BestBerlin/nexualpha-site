@@ -19,7 +19,8 @@ function useInViewOnce(ref) {
 }
 
 // A lookalike of the venue's OWN official domain, built from the catalog value (never hardcoded): the classic single-character tricks.
-// Returns [{ c, bad }] segments so the differing characters can be struck through. Deterministic per slug (SSR-safe).
+// Returns [{ c, bad }] segments so the differing characters can be marked, plus `.note`: a language-neutral caption of the
+// change ("+k", "ó ≠ o", "rn ≠ m"). Deterministic per slug (SSR-safe).
 const ACCENT = { a: "\u00e1", e: "\u00e9", i: "\u00ed", o: "\u00f3", u: "\u00fa" };
 const hashOf = (str) => Array.from(String(str)).reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);
 export function lookalikeOf(domain, seed) {
@@ -27,8 +28,9 @@ export function lookalikeOf(domain, seed) {
   let li = labels.findIndex((l, i) => i < labels.length - 1 && !/^(www|app|pro|m)$/i.test(l));
   if (li < 0) li = 0;
   const label = labels[li];
-  const make = (chars) => {
+  const make = ([chars, note]) => {
     const out = [];
+    out.note = note;
     labels.forEach((l, i) => {
       if (i) out.push({ c: ".", bad: false });
       if (i === li) out.push(...chars); else Array.from(l).forEach((c) => out.push({ c, bad: false }));
@@ -37,17 +39,19 @@ export function lookalikeOf(domain, seed) {
   };
   const cs = Array.from(label);
   const tries = [
-    () => { const k = cs.findIndex((c, i) => i > 0 && ACCENT[c.toLowerCase()]); return k < 0 ? null : cs.map((c, i) => (i === k ? { c: ACCENT[c.toLowerCase()], bad: true } : { c, bad: false })); },
-    () => { const k = cs.findIndex((c) => c === "m"); return k < 0 ? null : cs.flatMap((c, i) => (i === k ? [{ c: "r", bad: true }, { c: "n", bad: true }] : [{ c, bad: false }])); },
-    () => { const k = cs.findIndex((c, i) => i > 0 && i < cs.length - 1 && /[a-z]/i.test(c) && cs[i + 1] !== c && cs[i - 1] !== c); return k < 0 ? null : cs.flatMap((c, i) => (i === k ? [{ c, bad: false }, { c, bad: true }] : [{ c, bad: false }])); },
-    () => { const k = cs.findIndex((c, i) => i > 0 && i < cs.length - 1 && c !== cs[i + 1] && /[a-z]/i.test(c + cs[i + 1])); return k < 0 ? null : cs.map((c, i) => (i === k ? { c: cs[k + 1], bad: true } : i === k + 1 ? { c: cs[k], bad: true } : { c, bad: false })); },
+    () => { const k = cs.findIndex((c, i) => i > 0 && ACCENT[c.toLowerCase()]); return k < 0 ? null : [cs.map((c, i) => (i === k ? { c: ACCENT[c.toLowerCase()], bad: true } : { c, bad: false })), `${ACCENT[cs[k].toLowerCase()]} ≠ ${cs[k]}`]; },
+    () => { const k = cs.findIndex((c) => c === "m"); return k < 0 ? null : [cs.flatMap((c, i) => (i === k ? [{ c: "r", bad: true }, { c: "n", bad: true }] : [{ c, bad: false }])), "rn ≠ m"]; },
+    () => { const k = cs.findIndex((c, i) => i > 0 && i < cs.length - 1 && /[a-z]/i.test(c) && cs[i + 1] !== c && cs[i - 1] !== c); return k < 0 ? null : [cs.flatMap((c, i) => (i === k ? [{ c, bad: false }, { c, bad: true }] : [{ c, bad: false }])), `+${cs[k]}`]; },
+    () => { const k = cs.findIndex((c, i) => i > 0 && i < cs.length - 1 && c !== cs[i + 1] && /[a-z]/i.test(c + cs[i + 1])); return k < 0 ? null : [cs.map((c, i) => (i === k ? { c: cs[k + 1], bad: true } : i === k + 1 ? { c: cs[k], bad: true } : { c, bad: false })), `${cs[k + 1]}${cs[k]} ≠ ${cs[k]}${cs[k + 1]}`]; },
   ];
   const start = hashOf(seed || domain) % tries.length;
   for (let j = 0; j < tries.length; j += 1) {
     const r = tries[(start + j) % tries.length]();
     if (r) return make(r);
   }
-  return make([...cs.slice(0, -1).map((c) => ({ c, bad: false })), { c: cs[cs.length - 1] === "x" ? "z" : "x", bad: true }]);
+  const last = cs[cs.length - 1];
+  const swap = last === "x" ? "z" : "x";
+  return make([[...cs.slice(0, -1).map((c) => ({ c, bad: false })), { c: swap, bad: true }], `${swap} ≠ ${last}`]);
 }
 
 const Glyph = ({ kind }) => (
@@ -141,7 +145,7 @@ export function VerifyBand({ locale = "en", venues = [], selected = [] }) {
                 </div>
                 <span className="vb__sr">{`${t.fake}: ${fakeText}`}</span>
               </div>
-              <p className="v6-small vb__note">{t.fakeNote}</p>
+              <p className="v6-small vb__note">{fake.note && <span className="vb__diff" dir="ltr" lang="en" translate="no">{fake.note}</span>}{t.fakeNote}</p>
               <p className="v6-small vb__ok"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.8" /></svg>{t.s1ok}</p>
               <p className="v6-body vb__desc">{t.s1d}</p>
             </div>

@@ -3,12 +3,12 @@
 
 .v6 .v6-close {
   --idx-gap: var(--s-6);
-  /* the one colour band on the page: bone paper against the graphite, ink type, turquoise only on the CTA and the live route */
-  --paper: #ecebe5; --ink: #101113; --ink-2: #3b3e43; --ink-3: #5a5d62;
-  /* DISPLAY STEP (documented, the only one): 138px at the 1200 container, scales with the stage down to the 44 step on a phone.
-     Everything else in this band sits on the 12/14/16/20/28/44/72 scale. */
-  --t-display: clamp(2.75rem, 11.5cqi, 8.625rem);
-  --close-pad: clamp(72px, 7vw, 96px);
+  /* one graphite site: the band is a single step lighter (--n2), never a second (cream) theme. Turquoise only on the CTA and the live route. */
+  --paper: var(--n2); --ink: var(--text-strong); --ink-2: var(--text); --ink-3: var(--text-muted);
+  /* The closing statement uses the hero display step: 72 desktop / 44 phone (never above the H1, never 138). */
+  --t-display: 2.75rem;
+  /* the directory above ends with half a section pad; the band opens with the other half: one 128 / 72 rhythm, no stacked void */
+  --close-pad: calc(var(--section-pad) / 2);
   padding-block: 0;
   border-block-start: 0;
   overflow-x: clip;
@@ -23,16 +23,15 @@
   display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start;
 }
 .v6 .v6-close .v6-close__title:not(#_):not(#_) {
-  margin: 0; color: var(--ink); font-size: var(--t-display); line-height: 0.92; letter-spacing: -0.05em; font-weight: 600; text-wrap: balance; max-inline-size: 100%;
+  margin: 0; color: var(--ink); font-size: var(--t-display); line-height: 1.05; letter-spacing: -0.035em; font-weight: 600; text-wrap: balance; max-inline-size: 100%;
 }
-.v6 .v6-close .v6-close__title[data-len="long"]:not(#_):not(#_) { letter-spacing: -0.045em; }
-.v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-display: clamp(2.75rem, 8.6cqi, 8.5rem); line-height: 1.12; letter-spacing: -0.02em; word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
-.v6 .v6-close .v6-close__title:lang(ru):not(#_):not(#_) { --t-display: clamp(2.75rem, 8.8cqi, 8.5rem); letter-spacing: -0.04em; }
+.v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { line-height: 1.15; letter-spacing: -0.02em; word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
+@media (min-width: 48rem) { .v6 .v6-close { --t-display: 4.5rem; } }
 .v6 .v6-close .v6-close__title:lang(ar):not(#_):not(#_) { letter-spacing: 0; line-height: 1.15; }
 .v6 .v6-close__line { display: block; }
 .v6 .v6-close__w { display: inline-block; overflow: hidden; vertical-align: top; padding-block: 0.1em; margin-block: -0.1em; padding-inline: 0.02em; margin-inline: -0.02em; }
 .v6 .v6-close__w > span { display: inline-block; }
-.v6 .v6-close__lead { margin: var(--s-12) 0 0; max-inline-size: 52ch; color: var(--ink-2); }
+.v6 .v6-close__lead { margin: var(--s-6) 0 0; max-inline-size: 52ch; color: var(--ink-2); }
 .v6 .v6-close__form { display: contents; }
 .v6 .v6-close__go {
   display: flex; align-items: center; gap: var(--s-6);
@@ -43,24 +42,25 @@
   flex: 1 1 0; min-inline-size: 0; block-size: 40px; overflow: visible; margin-inline-end: 0;
 }
 .v6 .v6-close__route path { fill: none; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.v6 .v6-close__route .track { stroke: var(--ink); stroke-width: 12; }
-.v6 .v6-close__route .draw { stroke: var(--accent); stroke-width: 8; clip-path: inset(-8px 0 -8px 0); }
+/* the page rail arrives here: same 2px hairline, turquoise once drawn. It starts at the container edge where the rail's destination dock ends. */
+.v6 .v6-close__route .track { stroke: var(--n6, rgb(255 255 255 / 0.14)); stroke-width: 2; }
+.v6 .v6-close__route .draw { stroke: var(--accent); stroke-width: 2; clip-path: inset(-8px 0 -8px 0); }
 .v6 [dir="rtl"] .v6-close__route { transform: scaleX(-1); }
 .v6 .v6-close .v6-close__cta:not(#_):not(#_) {
-  flex: none; min-block-size: 56px; padding-inline: var(--s-8); border: 2px solid var(--ink); border-radius: var(--s-2);
+  flex: none; min-block-size: 56px; padding-inline: var(--s-8); border: 1px solid transparent; border-radius: var(--r-md);
   background: var(--accent); color: var(--on-accent); font-size: var(--t-16); font-weight: 600; line-height: 1.2; white-space: nowrap; box-shadow: none;
   display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2); cursor: pointer; font-family: inherit;
   transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out), transform var(--dur-1) var(--ease-out);
 }
-.v6 .v6-close .v6-close__cta:hover:not(#_):not(#_), .v6 .v6-close .v6-close__cta:focus-visible:not(#_):not(#_) { background: var(--ink); color: var(--accent); }
+.v6 .v6-close .v6-close__cta:hover:not(#_):not(#_), .v6 .v6-close .v6-close__cta:focus-visible:not(#_):not(#_) { background: var(--accent-hi); color: var(--on-accent); }
 .v6 .v6-close .v6-close__cta:active:not(#_):not(#_) { transform: scale(0.97); }
-.v6 .v6-close .v6-close__cta:focus-visible:not(#_):not(#_) { outline: 2px solid var(--ink); outline-offset: 4px; }
+.v6 .v6-close .v6-close__cta:focus-visible:not(#_):not(#_) { outline: 2px solid var(--text-strong); outline-offset: 4px; }
 .v6 .v6-close__alt {
   position: relative; flex: none; display: inline-flex; align-items: center; gap: var(--s-2);
   min-block-size: 56px; font-size: var(--t-16); font-weight: 500; color: var(--ink);
   text-decoration: none; border-radius: var(--s-1); border: 0; background: none; padding: 0; font-family: inherit; cursor: pointer;
 }
-.v6 .v6-close__alt:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+.v6 .v6-close__alt:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
 .v6 .v6-close__alt::after {
   content: ""; position: absolute; inset-inline: 0; inset-block-end: 12px; block-size: 2px;
   background: currentColor; transform-origin: 0 50%; transform: scaleX(0.0001);
@@ -223,3 +223,6 @@
 #top.v6 .nx-ftr { overflow-x: clip; }
 /* CJK clauses are unbreakable units: on a phone the display step drops to the 28 step so a clause never wraps (no stranded punctuation) */
 @media (max-width: 30rem) { .v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-display: 1.75rem; line-height: 1.25; } }
+/* the act above closes with half a section pad (the band supplies the other half) */
+#top.v6 .dir6.v6-section:has(+ .v6-close) { padding-block-end: calc(var(--section-pad) / 2); }
+.v6 .v6-close__band { border-block-start: 1px solid var(--line); }

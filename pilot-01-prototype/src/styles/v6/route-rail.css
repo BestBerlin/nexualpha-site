@@ -4,7 +4,7 @@
 #top.v6 .rr { position: absolute; inset-block: 0; inset-inline-start: 0; inline-size: 0; z-index: 3; pointer-events: none; }
 #top.v6 .rr > * { position: absolute; pointer-events: none; }
 #top.v6 .rr__track, #top.v6 .rr__fill { inset-block-start: var(--rr-y); inset-inline-start: var(--rr-x); inline-size: 2px; margin-inline-start: -1px; block-size: var(--rr-h); border-radius: 1px; }
-#top.v6 .rr__track { background: var(--n6, rgb(255 255 255 / 0.14)); opacity: 0.7; }
+#top.v6 .rr__track { background: var(--n6, rgb(255 255 255 / 0.14)); }
 #top.v6 .rr__fill { background: var(--accent); transform-origin: 50% 0; transform: scaleY(var(--rr-s, 0)); box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 55%, transparent); }
 #top.v6 .rr__stub { inset-block-start: var(--rr-y); inset-inline-start: var(--rr-x); inline-size: var(--rr-len, 0); block-size: 2px; margin-block-start: -1px; background: var(--accent); border-radius: 1px; transform-origin: 0 50%; }
 [dir="rtl"] #top.v6 .rr__stub, #top.v6[dir="rtl"] .rr__stub { transform-origin: 100% 50%; }
@@ -14,7 +14,7 @@
 #top.v6 .rr__node--start { border-color: var(--accent); background: var(--accent); }
 #top.v6 .rr__dock { inset-block-start: var(--rr-ny); inset-inline-start: var(--rr-x); inline-size: 0; block-size: 0; }
 #top.v6 .rr__dock .rr__node { inset-block-start: 0; inset-inline-start: 0; }
-#top.v6 .rr__tick { position: absolute; inset-inline-start: 5px; inset-block-start: -1px; inline-size: var(--rr-len, 0); block-size: 2px; background: var(--n6, rgb(255 255 255 / 0.14)); border-radius: 1px; transform-origin: 0 50%; transition: background var(--dur-3) var(--ease-out), transform 520ms var(--ease-out); }
+#top.v6 .rr__tick { position: absolute; inset-inline-start: 0; inset-block-start: -1px; inline-size: var(--rr-len, 0); block-size: 2px; background: var(--n6, rgb(255 255 255 / 0.14)); border-radius: 1px; transform-origin: 0 50%; transition: background var(--dur-3) var(--ease-out), transform 520ms var(--ease-out); }
 [dir="rtl"] #top.v6 .rr__tick, #top.v6[dir="rtl"] .rr__tick { transform-origin: 100% 50%; }
 #top.v6 .rr__dock[data-on="1"] .rr__node { border-color: var(--accent); background: var(--accent); scale: 1.2; }
 #top.v6 .rr__dock[data-on="1"] .rr__tick { background: var(--accent); }
@@ -36,6 +36,8 @@
   #top.v6 .rr__fill { transform: scaleY(1) !important; opacity: 0.3; box-shadow: none; }
   #top.v6 .rr__dock .rr__node { border-color: var(--accent); }
 }
+/* phones / small tablets: no gutter to live in, so no rail (nothing half off-screen) */
+@media (max-width: 47.99rem) { #top.v6 .rr { display: none; } }
 /* stacked widths: a thin edge rail only (no ticks, no stub), kept out of the content gutter */
 @media (max-width: 63.99rem) {
   #top.v6 .rr__node { inline-size: 8px; block-size: 8px; margin: -4px 0 0 -4px; }
