@@ -86,16 +86,24 @@ function useRoutes(stageRef, intentRefs, nodeRefs, intent, litKey) {
     const firstNode = nodeRefs.current[slugs[0]];
     if (!firstNode) return;
     const stacked = firstNode.getBoundingClientRect().top >= fr.bottom - 4;
+    const f1 = (n) => n.toFixed(1);
     const a = stacked ? [fr.left + fr.width / 2 - sr.left, fr.bottom - sr.top] : [(rtl ? fr.left : fr.right) - sr.left, fr.top + fr.height / 2 - sr.top];
+    const dir = rtl ? -1 : 1;
     const routes = slugs.map((slug) => {
       const el = nodeRefs.current[slug];
       if (!el) return null;
       const r = el.getBoundingClientRect();
-      const b = stacked ? [r.left + r.width / 2 - sr.left, r.top - sr.top] : [(rtl ? r.right : r.left) - sr.left, r.top + r.height / 2 - sr.top];
-      const d = stacked
-        ? `M${a[0].toFixed(1)} ${a[1].toFixed(1)}C${a[0].toFixed(1)} ${((a[1] + b[1]) / 2).toFixed(1)} ${b[0].toFixed(1)} ${((a[1] + b[1]) / 2).toFixed(1)} ${b[0].toFixed(1)} ${b[1].toFixed(1)}`
-        : `M${a[0].toFixed(1)} ${a[1].toFixed(1)}C${(a[0] + (b[0] - a[0]) * 0.55).toFixed(1)} ${a[1].toFixed(1)} ${(b[0] - (b[0] - a[0]) * 0.55).toFixed(1)} ${b[1].toFixed(1)} ${b[0].toFixed(1)} ${b[1].toFixed(1)}`;
-      return { slug, d, end: b };
+      const b = [(rtl ? r.right : r.left) - sr.left, r.top + r.height / 2 - sr.top];
+      let d;
+      if (stacked) {
+        // metro line: down from the chosen intent to a rail beside the list, then a branch into each node port
+        const rail = b[0] - dir * 16;
+        d = `M${f1(a[0])} ${f1(a[1])}C${f1(a[0])} ${f1(a[1] + 32)} ${f1(rail)} ${f1(a[1] + 16)} ${f1(rail)} ${f1(a[1] + 48)}L${f1(rail)} ${f1(b[1] - 8)}Q${f1(rail)} ${f1(b[1])} ${f1(rail + dir * 8)} ${f1(b[1])}L${f1(b[0])} ${f1(b[1])}`;
+      } else {
+        const k = (b[0] - a[0]) * 0.55;
+        d = `M${f1(a[0])} ${f1(a[1])}C${f1(a[0] + k)} ${f1(a[1])} ${f1(b[0] - k)} ${f1(b[1])} ${f1(b[0])} ${f1(b[1])}`;
+      }
+      return { slug, d };
     }).filter(Boolean);
     const next = { w: Math.round(sr.width), h: Math.round(sr.height), routes, from: a };
     setGeo((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
@@ -274,14 +282,14 @@ function Finder({ kit }) {
           <h2>{kit.helpTitle}</h2>
           <p>{kit.helpLead}</p>
         </div>
-        <a className="rf-tg" href={kit.telegram.href} target="_blank" rel="noopener noreferrer"><span>{kit.telegram.label}</span><span aria-hidden="true">&nearr;</span></a>
+        <a className="rf-tg" href={kit.telegram.href} target="_blank" rel="noopener noreferrer"><span>{kit.telegram.label}</span><span aria-hidden="true">{"\u2197"}</span></a>
         <div className="rf-pills">
           {kit.pills.map((p) => <a key={p.text} href={p.href} className="rf-pill">{p.text}</a>)}
         </div>
       </div>
 
       <svg className="rf-svg" width={geo.w} height={geo.h} viewBox={`0 0 ${geo.w || 1} ${geo.h || 1}`} aria-hidden="true" focusable="false">
-        {geo.routes.map((r, i) => {
+        {[...geo.routes].sort((x, y) => (x.slug === sel.slug) - (y.slug === sel.slug)).map((r, i) => {
           const isSel = r.slug === sel.slug;
           return (
             <g key={`${intent}-${r.slug}`} className={`rf-route${isSel ? " is-on" : ""}${hot === r.slug ? " is-hot" : ""}`} style={{ "--i": i }}>
