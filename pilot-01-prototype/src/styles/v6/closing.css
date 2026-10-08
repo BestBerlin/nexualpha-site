@@ -131,7 +131,7 @@
   opacity: 0; transform: translateX(-6px); transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
 }
 .v6 [dir="rtl"] .v6-close__index .crawl-priority-links__group a::after { transform: scaleX(-1) translateX(-6px); }
-.v6 .v6-close__index .crawl-priority-links__group a:hover,
+.v6 .v6-close__index .crawl-priority-links__group a:hover:not(#_):not(#_),
 .v6 .v6-close__index .crawl-priority-links__group a:focus-visible:not(#_):not(#_) { color: var(--text-strong); background-size: 100% 1px; }
 .v6 .v6-close__index .crawl-priority-links__group a:hover::after,
 .v6 .v6-close__index .crawl-priority-links__group a:focus-visible::after { opacity: 1; transform: none; }
@@ -174,3 +174,6 @@
 @media (min-width: 860px) and (max-width: 1099px) {
   .v6 .v6-close__index .crawl-priority-links__group a:not(#_):not(#_) { grid-column: span 8; }
 }
+
+/* The footer h2 loses to `.v5 h2` on the home (footer sits inside the v5 main); restore its intended small title. */
+.v6 .nx-ftr .nx-ftr__title { font-size: var(--t-16); line-height: 1.4; font-weight: 600; letter-spacing: -0.005em; }

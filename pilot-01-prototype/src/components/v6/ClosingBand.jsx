@@ -1,7 +1,7 @@
 // V6 act 5: closing band. A large-type statement + next-action CTAs (one line-draw route + a
 // word-rise), then the legacy research drawer and CrawlPriorityLinks re-hosted unchanged as a typographic index
 // (restyled in src/styles/v6/closing.css). The legacy slot keeps every link in the DOM in its original order.
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
 
 const COPY = {
@@ -43,7 +43,7 @@ export function ClosingBand({ legacy, locale = "en" }) {
   return <section className="v6-close" data-phase={phase} aria-labelledby="v6-close-title">
     <div className="v6-close__stage v6-wrap" ref={ref}>
       <h2 id="v6-close-title" className="v6-h-display v6-close__title" aria-label={t.title}>
-        {parts.map((w, i) => <span className="v6-close__w" aria-hidden="true" key={i}><span style={{ "--i": i }}>{w}</span>{cjk ? "" : " "}</span>)}
+        {parts.map((w, i) => <Fragment key={i}><span className="v6-close__w" aria-hidden="true"><span style={{ "--i": i }}>{w}</span></span>{cjk ? "" : " "}</Fragment>)}
       </h2>
       <p className="v6-lead v6-close__lead">{t.lead}</p>
       <div className="v6-close__go">
