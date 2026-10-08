@@ -12,6 +12,11 @@ import { v3Copy } from "./data/v3-product";
 import { storedLocale, validComparison, cleanSelection, installHashNavigation } from "./data/browser-state";
 import { VenueYellowPages } from "./components/v3/VenueYellowPages";
 import { CrossroadsCompare } from "./components/v3/CrossroadsCompare";
+import { RouteFinder } from "./components/v6/RouteFinder";
+import { CompareLab } from "./components/v6/CompareLab";
+import { VerifyBand } from "./components/v6/VerifyBand";
+import { DirectoryV6 } from "./components/v6/DirectoryV6";
+import { ClosingBand } from "./components/v6/ClosingBand";
 import { PlatformMatcher } from "./components/v3/PlatformMatcher";
 import { CleanFooter } from "./components/v3/CleanFooter";
 import { headerNavigationState } from "./data/header-navigation-state.js";
@@ -744,15 +749,17 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "notFound") return pageShell(<NotFoundPage locale={locale} />);
 
   // 顶级转化漏斗首页：跑马灯 -> LeanHero首屏 -> 横向对比决策 -> 交易暗亏体检仪 -> 核心黄页开户 -> 辅助情报模块 -> 实时社交证明浮窗
-  return <main key={`locale-${locale}`} className="v2-page home-refinement v5" id="top" dir={getTextDirection(locale)}>
-    <Header copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
-    <DeferredBoundary scope="home-hero">
-      <RebateTickerBar locale={locale} />
-      <LeanHero locale={locale} />
-      <BrazilEntryLink locale={locale} />
-    </DeferredBoundary>
-    <HomeSectionNav locale={locale} />
-    <CrossroadsCompare locale={locale} selected={compareSelection} onSelectionChange={setCompareSelection} />
+  const homeSlots = {
+    hero: <>
+      <DeferredBoundary scope="home-hero">
+        <RebateTickerBar locale={locale} />
+        <LeanHero locale={locale} />
+        <BrazilEntryLink locale={locale} />
+      </DeferredBoundary>
+      <HomeSectionNav locale={locale} />
+    </>,
+    compare: <>
+      <CrossroadsCompare locale={locale} selected={compareSelection} onSelectionChange={setCompareSelection} />
     <details className="home-analyzer-drawer" id="bleed-analyzer">
       <summary>
         <strong>{({
@@ -773,10 +780,24 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
       </summary>
       <div className="home-analyzer-drawer__body"><DeferredBoundary scope="home-fees"><TradingBleedAnalyzer locale={locale} market={decisionPassport.market} product={decisionPassport.product} /></DeferredBoundary></div>
     </details>
-    <PlatformMatcher locale={locale} venues={command.venueCatalog} selected={compareSelection} decisionPassport={decisionPassport} defaultOpen={false} onSelectionChange={setCompareSelection} />
-    <VenueYellowPages venues={command.venueCatalog} locale={locale} selected={compareSelection} onSelectionChange={setCompareSelection} compact />
-    <DeferredBoundary scope="home-research"><HomeResearchDrawer locale={locale} /></DeferredBoundary>
-    <CrawlPriorityLinks locale={locale} scope="home" />
+    </>,
+    directory: <>
+      <PlatformMatcher locale={locale} venues={command.venueCatalog} selected={compareSelection} decisionPassport={decisionPassport} defaultOpen={false} onSelectionChange={setCompareSelection} />
+      <VenueYellowPages venues={command.venueCatalog} locale={locale} selected={compareSelection} onSelectionChange={setCompareSelection} compact />
+    </>,
+    closing: <>
+      <DeferredBoundary scope="home-research"><HomeResearchDrawer locale={locale} /></DeferredBoundary>
+      <CrawlPriorityLinks locale={locale} scope="home" />
+    </>,
+  };
+  const homeCtx = { locale, venues: command.venueCatalog, selected: compareSelection, onSelectionChange: setCompareSelection, decisionPassport };
+  return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
+    <Header copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
+    <RouteFinder {...homeCtx} legacy={homeSlots.hero} />
+    <CompareLab {...homeCtx} legacy={homeSlots.compare} />
+    <VerifyBand {...homeCtx} />
+    <DirectoryV6 {...homeCtx} legacy={homeSlots.directory} />
+    <ClosingBand {...homeCtx} legacy={homeSlots.closing} />
     {footer}
     {searchDialog}
     <MobileBottomNav locale={locale} onSearch={openSearchDialog} />
