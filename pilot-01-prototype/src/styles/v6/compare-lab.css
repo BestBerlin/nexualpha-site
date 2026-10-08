@@ -280,3 +280,4 @@
 .v6 .cl-fees__body a:not(.bleed-cta-btn) { color: var(--text-strong); text-decoration-color: var(--accent); }
 .v6 .cl-fees__body .bleed-solution-box { background: transparent; border: 1px solid var(--n6); box-shadow: none; }
 .v6 .cl-fees__body .bleed-dual-track { background: transparent; border-color: var(--n6); }
+.v6 .cl-fees__body .bleed-label { display: flex; align-items: center; min-block-size: 44px; }

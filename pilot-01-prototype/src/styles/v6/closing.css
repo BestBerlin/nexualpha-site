@@ -221,3 +221,5 @@
 /* ---------- footer on the page container (shared with every act: 1200 wide, 24px gutters), without touching shell.css ---------- */
 #top.v6 .nx-ftr__inner { inline-size: min(100% - 2 * var(--gutter), var(--container)); max-inline-size: none; padding-inline: 0; box-sizing: border-box; margin-inline: auto; }
 #top.v6 .nx-ftr { overflow-x: clip; }
+/* CJK clauses are unbreakable units: on a phone the display step drops to the 28 step so a clause never wraps (no stranded punctuation) */
+@media (max-width: 30rem) { .v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { --t-display: 1.75rem; line-height: 1.25; } }

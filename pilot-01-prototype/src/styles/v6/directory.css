@@ -352,3 +352,4 @@
 .v6 .mobile-bottom-nav a, .v6 .mobile-bottom-nav a:hover, .v6 .mobile-bottom-nav a:focus-visible, .v6 .mobile-bottom-nav button,
 .mobile-bottom-nav__item, .mobile-bottom-nav__item:hover, .mobile-bottom-nav__item *, .mobile-bottom-nav__label { text-decoration: none; }
 @media (hover: none), (pointer: coarse) { .mobile-bottom-nav kbd, .mobile-bottom-nav [class*="kbd"], .nx-search__kbd { display: none; } }
+#top.v6 .dir6 .dir6-row .dir6-id img.v2-brand[data-brand-slug] { inline-size: 36px !important; block-size: 36px !important; min-inline-size: 36px !important; max-inline-size: 36px !important; max-block-size: 36px !important; width: 36px !important; height: 36px !important; object-fit: contain; }
