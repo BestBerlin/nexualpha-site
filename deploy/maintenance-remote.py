@@ -25,7 +25,19 @@ def mounts(name):
     return [m['Source'] for m in info.get('Mounts', [])]
 
 if ACTION in ('remove-old-web', 'plan-remove'):
-    targets = [n for n, _ in rows if n.startswith('nexualpha-web-') and n not in keep]
+    # never remove a container whose port any nginx vhost still proxies to
+    vhost_text = ''
+    for f in pathlib.Path('/www/server/panel/vhost/nginx').glob('*.conf'):
+        vhost_text += f.read_text(errors='ignore')
+    referenced = set(re.findall(r'127\.0\.0\.1:(\d+)', vhost_text))
+    targets, skipped = [], []
+    for n, p in rows:
+        if not n.startswith('nexualpha-web-') or n in keep:
+            continue
+        ports = set(re.findall(r'127\.0\.0\.1:(\d+)->', p))
+        (skipped if ports & referenced else targets).append(n)
+    for n in skipped:
+        print('kept (an nginx vhost proxies to it): %s' % n)
     roots = set()
     for n in targets:
         for src in mounts(n):
