@@ -98,7 +98,7 @@ export function DecisionPathRail({ locale = "en", market, product = "spot", acco
             data-growth-funding={funding}
             data-growth-decision={selectedVenue}
           >
-            <span aria-hidden="true">0{index + 1}</span>{link.label} <b aria-hidden="true">→</b>
+            {link.label} <b aria-hidden="true">→</b>
           </a>
         ))}
       </div>

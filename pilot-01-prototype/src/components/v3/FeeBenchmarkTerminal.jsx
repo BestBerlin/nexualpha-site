@@ -650,81 +650,80 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
 
   return (
     <section className={`fee-terminal-section v2-shell ${showAllRows ? "fee-terminal-section--expanded" : ""}`} id="rate-terminal" dir={normalizedLocale === "ar" ? "rtl" : undefined}>
-      <div className="fee-terminal__answer-block">
-        <p className="fee-terminal__answer-label">{answerBlock.label}</p>
-        <h2>{answerBlock.title}</h2>
-        <div className="fee-terminal__answer-grid">
-          <p><strong>{labels.checked}:</strong> {answerBlock.can}</p>
-          <p><strong>{labels.conditions}:</strong> {answerBlock.cannot}</p>
+      <div className="rt-tool rt-panel">
+        <div className="fee-terminal__answer-block rt-context" role="group" aria-label={answerBlock.label}>
+          <h3>{answerBlock.title}</h3>
+          <dl className="fee-terminal__answer-grid">
+            <div><dt>{labels.checked}</dt><dd>{answerBlock.can}</dd></div>
+            <div><dt>{labels.conditions}</dt><dd>{answerBlock.cannot}</dd></div>
+          </dl>
+          <nav className="fee-terminal__answer-links" aria-label={answerBlock.title}>
+            <a href={answerHref("/compare/binance-vs-okx", "spot")}>{answerBlock.compareA}</a>
+            <a href={answerHref("/compare/bybit-vs-bitget", "perpetuals")}>{answerBlock.compareB}</a>
+            <a href={answerHref("/topics/derivatives", "perpetuals")}>{answerBlock.derivatives}</a>
+          </nav>
         </div>
-        <nav className="fee-terminal__answer-links" aria-label={answerBlock.title}>
-          <a href={answerHref("/compare/binance-vs-okx", "spot")}>{answerBlock.compareA}</a>
-          <a href={answerHref("/compare/bybit-vs-bitget", "perpetuals")}>{answerBlock.compareB}</a>
-          <a href={answerHref("/topics/derivatives", "perpetuals")}>{answerBlock.derivatives}</a>
-        </nav>
-      </div>
+        <div className="rt-handoff">
       <OnsiteTelegramBotHandoff
-        canonicalPath="/rates"
-        intent="fees"
-        venue="all"
-        returnRoute="/rates"
-        locale={locale}
-        market={market || "GLOBAL"}
-        product={product || "spot"}
-        campaign="r40-rates-owner-telegram-return"
-        placement="rates-owner-telegram-handoff"
-        queries={["Published fee source check", "Return to this fee benchmark"]}
-      />
-      <div className="fee-terminal__next-step" aria-label={nextStep[0]}>
-        <div><strong>{nextStep[0]}</strong><span>{nextStep[1]}</span></div>
-        <div className="fee-terminal__next-step-actions">
-          <a
-            href={`/exchanges?${contextSearch}`}
-            className="fee-terminal__next-step-primary"
-            data-cta-kind="internal"
-            data-cta-placement="rates-next-step-directory"
-            data-growth-decision="platform_directory"
-            data-growth-placement="rates-next-step"
-            data-growth-market={market}
-            data-growth-product={product}
-            data-growth-account-stage={accountStage}
-            data-growth-funding={funding}
-            data-growth-campaign="rates_next_step"
-          >
-            {nextStep[2]}
-          </a>
-          <a
-            href={telegramNextStep.deepLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="fee-terminal__next-step-secondary"
-            data-cta-kind="telegram"
-            data-cta-placement="rates-next-step-telegram"
-            data-growth-decision="telegram_fee_calc"
-            data-growth-placement="rates-next-step"
-            data-growth-market={market}
-            data-growth-product={product}
-            data-growth-account-stage={accountStage}
-            data-growth-funding={funding}
-            data-growth-campaign="rates_next_step"
-            data-telegram-start={telegramNextStep.startPayload}
-            data-telegram-return-href={telegramNextStep.returnHref}
-          >
-            {nextStep[3]}
-          </a>
+              canonicalPath="/rates"
+              intent="fees"
+              venue="all"
+              returnRoute="/rates"
+              locale={locale}
+              market={market || "GLOBAL"}
+              product={product || "spot"}
+              campaign="r40-rates-owner-telegram-return"
+              placement="rates-owner-telegram-handoff"
+              queries={["Published fee source check", "Return to this fee benchmark"]}
+            />
         </div>
+      <div className="fee-terminal__next-step rt-next" aria-label={nextStep[0]}>
+              <div><strong>{nextStep[0]}</strong><span>{nextStep[1]}</span></div>
+              <div className="fee-terminal__next-step-actions">
+                <a
+                  href={`/exchanges?${contextSearch}`}
+                  className="fee-terminal__next-step-primary"
+                  data-cta-kind="internal"
+                  data-cta-placement="rates-next-step-directory"
+                  data-growth-decision="platform_directory"
+                  data-growth-placement="rates-next-step"
+                  data-growth-market={market}
+                  data-growth-product={product}
+                  data-growth-account-stage={accountStage}
+                  data-growth-funding={funding}
+                  data-growth-campaign="rates_next_step"
+                >
+                  {nextStep[2]}
+                </a>
+                <a
+                  href={telegramNextStep.deepLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="fee-terminal__next-step-secondary"
+                  data-cta-kind="telegram"
+                  data-cta-placement="rates-next-step-telegram"
+                  data-growth-decision="telegram_fee_calc"
+                  data-growth-placement="rates-next-step"
+                  data-growth-market={market}
+                  data-growth-product={product}
+                  data-growth-account-stage={accountStage}
+                  data-growth-funding={funding}
+                  data-growth-campaign="rates_next_step"
+                  data-telegram-start={telegramNextStep.startPayload}
+                  data-telegram-return-href={telegramNextStep.returnHref}
+                >
+                  {nextStep[3]}
+                </a>
+              </div>
+            </div>
+        <CostDecision locale={locale} regionMarket={market} product={product} accountStage={accountStage} funding={funding} />
+        <DecisionPathRail locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} current="rates" />
       </div>
-      <CostDecision locale={locale} regionMarket={market} product={product} accountStage={accountStage} funding={funding} />
-      <DecisionPathRail locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} current="rates" />
       <header className="fee-terminal__header">
-        <div className="fee-terminal__eyebrow">
-          <span className="fee-terminal__pulse"></span>
-          {t.eyebrow}
-        </div>
         <h2 className="fee-terminal__title">{t.title}</h2>
         <p className="fee-terminal__subtitle">{t.subtitle}</p>
 
-        <nav className="fee-terminal__filters">
+        <nav className="fee-terminal__filters" aria-label={t.eyebrow}>
           <button
             type="button"
             className={`fee-terminal__filter-btn ${filter === "all" ? "fee-terminal__filter-btn--active" : ""}`}
@@ -775,11 +774,18 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
                   </div>
                 </td>
                 <td><span className="fee-terminal__cat-badge">{row.category}</span></td>
+                {!row.spotRate && !row.futuresRate && !row.rebateDisplay && !row.netDisplay && !row.trend ? (
+                  <td colSpan={5} className="fee-terminal__pending-span">
+                    <span className="fee-terminal__unknown-chip fee-terminal__unknown-chip--plain">{labels.sourcePending}</span>
+                    <span className="rt-sr"> · {labels.commercialPending} · {labels.netPending} · {labels.trendPending}</span>
+                  </td>
+                ) : (<>
                 <td className="font-mono fee-terminal__rate-cell">{renderRateCell(row.spotRate, labels)}</td>
                 <td className="font-mono fee-terminal__rate-cell">{renderRateCell(row.futuresRate, labels)}</td>
                 <td className="fee-terminal__aux-cell">{renderAuxChip(row.rebateDisplay, labels.commercialPending)}</td>
                 <td className="font-mono fee-terminal__aux-cell">{row.netDisplay ? <span className="fee-terminal__net-rate">{row.netDisplay}</span> : <span className="fee-terminal__unknown-chip">{labels.netPending}</span>}</td>
                 <td className="fee-terminal__aux-cell"><span className={`fee-terminal__trend-tag ${row.trend ? "" : "fee-terminal__trend-tag--pending"}`}>{row.trend || labels.trendPending}</span></td>
+                </>)}
                 <td className="text-right">
                   <a
                     href={row.ctaHref}
