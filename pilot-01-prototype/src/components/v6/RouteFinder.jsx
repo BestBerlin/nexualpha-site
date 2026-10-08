@@ -180,7 +180,7 @@ function Finder({ kit, tail, venues }) {
   // in catalog order. Wallet venues have no account route: picking one previews it, the card stays on a venue with a route.
   const cat = (Array.isArray(venues) ? venues : []).filter((v) => v?.slug && v.category !== "CEX");
   const ix = (v) => { const i = cat.findIndex((c) => c.slug === v.slug); return i < 0 ? 99 : i; };
-  const chainNodes = [...new Set([...partners.filter((v) => v.category !== "CEX").map((v) => v.slug), ...cat.filter((v) => v.category === "DEX").slice(0, 4).map((v) => v.slug), ...cat.map((v) => v.slug)])]
+  const chainNodes = [...new Set([...partners.filter((v) => v.category !== "CEX").map((v) => v.slug), ...cat.filter((v) => v.category === "DEX").slice(0, 4).map((v) => v.slug), ...cat.filter((v) => v.category !== "DEX").map((v) => v.slug)])]
     .slice(0, 8).map((s) => partners.find((v) => v.slug === s) || { ...cat.find((v) => v.slug === s), wallet: true }).sort((a, b) => ix(a) - ix(b));
   const setFor = (k) => (k === "chain" && cat.length ? chainNodes : partners);
   const offered = (intent) => setFor(intent).filter((v) => OFFERS[intent](v, EXCHANGE_FACTS[v.slug])).map((v) => v.slug);

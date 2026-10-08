@@ -230,8 +230,8 @@
 /* ======================= R5 ======================= */
 /* the hero foot's links, re-homed as two more index rows (same anatomy as Related research) */
 .v6 .v6-close__index .v6-close__more:not(#_):not(#_) a.br-entry-link { display: inline-flex; align-items: center; inline-size: auto; margin: 0; padding-block: var(--s-2); padding-inline: 0; border: 0; border-radius: 0; background-color: transparent; }
-.v6 .v6-close__index .v6-close__more .br-entry-link span { font-size: var(--t-16); line-height: 1.15; font-weight: 400; color: inherit; }
-.v6 .v6-close__index .v6-close__more .br-entry-link small { display: none; }
+.v6 .v6-close__index .v6-close__more .br-entry-link span:not(#_):not(#_) { font-size: var(--t-16); line-height: 1.15; font-weight: 400; color: inherit; letter-spacing: 0; }
+.v6 .v6-close__index .v6-close__more .br-entry-link small:not(#_):not(#_) { display: none; }
 .v6 .v6-close__index .v6-close__more:last-child { border-block-end: 1px solid var(--line); }
 /* bottom nav: narrow labels (ja / ar) still get a 44px wide target */
 #top.v6 .mobile-bottom-nav :is(a, button).mobile-bottom-nav__item { min-inline-size: 48px; min-block-size: 44px; flex: 1 1 0; }

@@ -597,6 +597,8 @@
 #top.v6 .rf-pair, #top.v6 .rf-node__fee bdi { white-space: nowrap; }
 #top.v6 :is(.rf-facts, .rf-readout__facts) { grid-template-columns: repeat(2, minmax(0, max-content)); column-gap: var(--s-8); }
 #top.v6 :is(.rf-facts, .rf-readout__facts) .rf-facts__intent { grid-column: 1 / -1; }
+/* the readout always reserves its two rows, so choosing an intent never moves the intents below it */
+@media (min-width: 74rem) { #top.v6 .rf-readout__facts { grid-template-rows: auto auto; align-content: start; min-block-size: calc(2 * (var(--t-12) * 1.55 + var(--t-20) * 1.15) + var(--s-3)); } }
 
 /* one filled turquoise CTA per viewport: the card's Official signup. The hero's wizard button is a ghost with an accent arrow. */
 #top.v6 .rf-btn--primary { background: transparent; color: var(--text-strong); border-color: var(--n8); box-shadow: none; gap: var(--s-2); }
@@ -613,6 +615,8 @@
 #top.v6 .rf .rf-skip .home-section-nav__label { font-size: var(--t-12); line-height: 1.55; color: var(--text-muted); text-transform: none; letter-spacing: 0; }
 #top.v6 .rf .rf-skip .home-section-nav a { display: inline-flex; align-items: center; min-block-size: var(--s-12); font-size: var(--t-14); line-height: 1.15; color: var(--text); }
 @media (min-width: 74rem) { #top.v6 .rf-grid { grid-template-rows: auto auto 1fr; } }
+/* the hero ends one full section pad above the Compare act (128 / 72): the foot row that used to sit here moved to the closing index */
+#top.v6 .rf-grid, #top.v6 .rf-grid:not(#_) { padding-block-end: var(--section-pad); }
 
 /* disclosure toggle: a full 44px target */
 #top.v6 .rf-card .registration-card__disclosure summary { display: inline-flex; align-items: center; min-block-size: 44px; padding-block: 0; margin-block: -12px; vertical-align: middle; }

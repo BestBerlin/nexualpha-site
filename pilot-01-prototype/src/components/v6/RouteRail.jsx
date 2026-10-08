@@ -70,7 +70,7 @@ export function RouteRail() {
       total = docks.length ? docks[docks.length - 1].y - startY : 0;
       // act docks: a tick toward the act's heading (stops 8px short of the container edge); the destination tick reaches the edge
       const len = Math.max(0, inset - x - 8);
-      const next = { x: Math.round(x), start: Math.round(sy), total: Math.round(total), stub: Math.round(Math.max(0, sx - x - 4)), lab: x >= 72 ? Math.round(x - 16) : 0, docks: docks.map((d) => ({ kind: d.kind, lab: d.lab, y: Math.round(d.y), len: d.kind === "dest" ? Math.max(0, inset - x) : len })) };
+      const next = { x: Math.round(x), start: Math.round(sy), total: Math.round(total), stub: Math.round(Math.max(0, sx - x - 4)), lab: x >= 72 ? Math.round(x - 24) : 0, docks: docks.map((d) => ({ kind: d.kind, lab: d.lab, y: Math.round(d.y), len: d.kind === "dest" ? Math.max(0, inset - x) : len })) };
       setGeo((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
     };
     const fill = () => {
