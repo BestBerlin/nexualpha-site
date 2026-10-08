@@ -13,6 +13,9 @@ import { labText } from "../v3/LeanHeroCopyLab.js";
 import { comparePathFor } from "./compare-routes.js";
 import { useSharedSelection } from "./home-selection.js";
 // Styles: styles/v6/compare-lab.css via styles/v6/home.css (home-only stylesheet).
+import { publicCtaForVenue } from "../../data/source-bound-cta.js";
+import { ctaUiCopy, fillCta } from "../../data/cta-ui-copy.js";
+import { CodeChip } from "./CodeChip.jsx";
 
 const useIso = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
@@ -340,6 +343,18 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
     const [x, y] = spot[k];
     gap = { v: Math.round(d[k] * 1e4) / 1e4, row: t.rows[k], low: x === y ? null : nameOf(x < y ? a : b) };
   }
+  // Post-comparison next step. A venue is named only when the checked figures support it: both venues carry verified
+  // spot maker AND taker rates, one is lower-or-equal on both and strictly lower on at least one. Otherwise the step
+  // stays neutral (no venue named, no partner link). The signup href is the venue's public partner route, the same one
+  // the directory row opens.
+  const tc = ctaUiCopy(locale);
+  let leader = null;
+  if (haveGap) {
+    const aLe = spot.every(([x, y]) => x <= y), bLe = spot.every(([x, y]) => y <= x);
+    if (aLe && !bLe) leader = a; else if (bLe && !aLe) leader = b;
+  }
+  const leaderCta = leader ? publicCtaForVenue(leader, locale) : null;
+  const leaderHref = leaderCta?.hasReferral && /^https:\/\//i.test(leaderCta.registrationUrl || "") ? leaderCta.registrationUrl : null;
   const metaHas = date(fa) || date(fb);
   const status = t.status.replace("{a}", nameOf(a)).replace("{b}", nameOf(b));
   const isCurrent = (pair) => (pair.left === a && pair.right === b) || (pair.left === b && pair.right === a);
@@ -436,7 +451,7 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
             )}
           </div>
 
-          <div className="cl-foot">
+          <div className="cl-foot" data-next={leaderHref ? "signup" : undefined}>
             <p className="cl-note v6-meta">{t.note}</p>
             <a
               className="btn btn-primary cl-cta"
@@ -450,6 +465,34 @@ export function CompareLab({ locale = "en", venues = [], selected, onSelectionCh
             </a>
           </div>
 
+          <div className="cl-next" data-kind={leaderHref ? "lead" : "neutral"}>
+            <p className="cl-next__why">
+              <span className="cl-next__k v6-meta">{tc.next}</span>
+              <span className="v6-small">{leader ? fillCta(tc.lower, { n: nameOf(leader) }) : tc.neutral}</span>
+            </p>
+            {leaderHref ? (
+              <div className="cl-next__act">
+                <a
+                  className="cl-next__cta"
+                  href={leaderCta.registrationUrl}
+                  target="_blank"
+                  rel="sponsored noopener noreferrer"
+                  data-cta-kind="registration"
+                  data-cta-platform={leader}
+                  data-cta-placement="compare-lab-next-signup"
+                  data-cta-code={leaderCta.inviteCode || undefined}
+                  data-growth-decision={leader}
+                  data-growth-placement="compare-lab-next-signup"
+                  data-growth-product="spot"
+                >
+                  <span>{fillCta(tc.openN, { n: nameOf(leader) })}</span><span aria-hidden="true">{"\u2197"}</span>
+                </a>
+                <CodeChip code={leaderCta.inviteCode} slug={leader} placement="compare-lab-next-code" locale={locale} />
+              </div>
+            ) : (
+              <a className="cl-next__dir" href="#exchanges" data-cta-kind="research" data-cta-placement="compare-lab-next-directory" data-growth-decision="compare_lab_next_directory" data-growth-placement="compare-lab-next-directory">{tc.directory} <span aria-hidden="true">{"\u2193"}</span></a>
+            )}
+          </div>
           <div className="cl-pop">
             <h3 className="v6-h3">{t.popular}</h3>
             <ul className="cl-pop__list">

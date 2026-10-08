@@ -1,3 +1,4 @@
+import { CodeChip } from "../v6/CodeChip.jsx";
 import { BrandMark } from "../brand/BrandMark";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
@@ -40,24 +41,6 @@ const localePending = (locale, zh = "待官方来源核验") => String(locale ||
   es: "Pendiente de verificación de la fuente",
   "pt-BR": "Aguardando verificação da fonte",
 }[localeKey(locale)] || "Pending official-source verification");
-
-const codeLabelByLocale = {
-  en: "Code",
-  "zh-Hans": "专属码",
-  "zh-Hant": "專屬碼",
-  es: "Código",
-  "pt-BR": "Código",
-  fr: "Code",
-  de: "Code",
-  ja: "コード",
-  ko: "코드",
-  ar: "رمز",
-  tr: "Kod",
-  ru: "Код",
-  id: "Kode",
-  vi: "Mã",
-  it: "Codice",
-};
 
 const detailCtaLabel = (locale, { direct, hasReferral }) => {
   const labels = {
@@ -192,7 +175,7 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
                 </div>
               </dl>
               <div className="v3-compare-final-choice-card__action-row" role="group" aria-label={compareDetailPhrase(locale, "accountTerms", "Check official account terms and sources")}>
-                {access.inviteCode && <span className="v3-compare-final-choice-card__code">{codeLabelByLocale[textLocaleKey(locale)] || codeLabelByLocale.en}: <strong translate="no">{access.inviteCode}</strong></span>}
+                {access.inviteCode && <CodeChip code={access.inviteCode} slug={profile.slug} placement="compare-final-choice-code" locale={locale} />}
                 <a
                   href={cta.ctaHref}
                   target={cta.direct ? "_blank" : undefined}
@@ -201,6 +184,7 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
                   data-cta-kind={cta.direct ? "registration" : "research"}
                   data-cta-platform={profile.slug}
                   data-cta-placement="compare-final-choice-registration"
+                  data-cta-code={cta.direct && access.hasReferral && access.inviteCode ? access.inviteCode : undefined}
                   data-growth-decision={profile.slug}
                   data-growth-placement="compare-final-choice-registration"
                   data-growth-market={market}

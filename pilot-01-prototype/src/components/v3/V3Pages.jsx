@@ -30,6 +30,8 @@ import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
+import { buildRegistrationDecisionState } from "./registration-decision-state.js";
+import { ctaUiCopy, fillCta, trackCodeCopy } from "../../data/cta-ui-copy.js";
 import { contextualHref } from "../../data/contextual-href.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { compareDirectAnswerFor } from "../../data/compare-direct-answers.js";
@@ -2118,14 +2120,23 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   ].filter(Boolean);
 
   const handleCopyCode = () => codeFeedback.copy(inviteCode || officialDomain);
+  const handleStickyCopy = () => { handleCopyCode(); if (inviteCode) trackCodeCopy(venue.slug, "venue-mobile-sticky-code"); };
+  // The sticky bar opens the same protected partner route as the registration card's primary button (same decision
+  // state, same href). Where the card itself would not open a third-party route, the bar keeps the review link.
+  const stickyDecision = buildRegistrationDecisionState({ publicCta: publicCtaForVenue(venue.slug, locale), regionalCta: venueCta });
+  const stickyOpensSignup = stickyDecision.canOpenThirdParty && stickyDecision.protectedHref === venueCta.ctaHref;
+  const ctaText = ctaUiCopy(locale);
   const profileChapters = profileResearchChapterCopy[textLocaleKey(locale)] || profileResearchChapterCopy.en;
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
     const anchor = document.querySelector('[data-cta-surface="venue-profile-main-registration"]');
     const mediaQuery = typeof window.matchMedia === "function" ? window.matchMedia("(max-width: 780px)") : null;
+    const footer = document.querySelector("footer.nx-ftr, footer");
     const updateMobileSticky = () => {
-      const isMobileViewport = mediaQuery ? mediaQuery.matches : window.innerWidth <= 780;
+      // Never sit on top of the footer (disclosure, copyright): the bar steps away once the footer enters the viewport.
+      const footerVisible = Boolean(footer) && footer.getBoundingClientRect().top < window.innerHeight;
+      const isMobileViewport = (mediaQuery ? mediaQuery.matches : window.innerWidth <= 780) && !footerVisible;
       setMobileStickyActive(shouldShowMobileSticky(anchor?.getBoundingClientRect(), isMobileViewport));
     };
     updateMobileSticky();
@@ -2589,7 +2600,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     {/* 移动端专属吸底快捷操作条 */}
     <aside className={`v3-mobile-sticky-bar${mobileStickyActive ? " is-active" : ""}`} aria-label={isZhLocale ? "快捷操作" : runtimeUi.stickyQuickAction} aria-hidden={!mobileStickyActive} inert={!mobileStickyActive}>
       <div className="v3-mobile-sticky-bar__inner">
-        <button type="button" onClick={handleCopyCode} className="v3-mobile-sticky-bar__code">
+        <button type="button" onClick={handleStickyCopy} className="v3-mobile-sticky-bar__code" data-copied={codeFeedback.state === "success" || undefined}>
           <span className="v3-mobile-sticky-bar__label">{mobileStickyIdentityLabel}</span>
           <strong translate="no">{inviteCode || officialDomain}</strong>
           <small>{mobileStickyIdentityAction}</small>
@@ -2599,17 +2610,37 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
           <span className="v3-mobile-sticky-bar__discount">{commercialClaim.status === "verified" ? `-${rebatePercent}%` : runtimeUi.stickyOfficial}</span>
           <span>{hasReferral ? (isZhLocale ? zhText(locale, "手续费权益", "手續費權益") : runtimeUi.stickyFeeBenefit) : (isZhLocale ? zhText(locale, "官方入口", "官方入口") : runtimeUi.stickyDirectRoute)}</span>
         </div>
-        <LocalLink
-          locale={locale}
-          href={`/exchanges/${profile.slug}?${contextSearch}#registration-path`}
-          className="v3-mobile-sticky-bar__btn"
-          data-cta-kind="research"
-          data-cta-platform={profile.slug}
-          data-cta-placement="venue-mobile-sticky"
-          data-registration-confirmation-entry="registration-card"
-        >
-          {registrationReviewLabel}
-        </LocalLink>
+        {stickyOpensSignup ? (
+          <a
+            href={venueCta.ctaHref}
+            target="_blank"
+            rel="sponsored noopener noreferrer"
+            className="v3-mobile-sticky-bar__btn v3-mobile-sticky-bar__btn--signup"
+            tabIndex={mobileStickyActive ? undefined : -1}
+            data-cta-kind="registration"
+            data-cta-platform={profile.slug}
+            data-cta-placement="venue-mobile-sticky"
+            data-cta-code={hasReferral && inviteCode ? inviteCode : undefined}
+            data-growth-decision={profile.slug}
+            data-growth-placement="venue-mobile-sticky"
+            data-growth-market={market}
+            data-growth-product={product}
+          >
+            {ctaText.open} <span aria-hidden="true">↗</span>
+          </a>
+        ) : (
+          <LocalLink
+            locale={locale}
+            href={`/exchanges/${profile.slug}?${contextSearch}#registration-path`}
+            className="v3-mobile-sticky-bar__btn"
+            data-cta-kind="research"
+            data-cta-platform={profile.slug}
+            data-cta-placement="venue-mobile-sticky"
+            data-registration-confirmation-entry="registration-card"
+          >
+            {registrationReviewLabel}
+          </LocalLink>
+        )}
       </div>
     </aside>
   </main>;
@@ -3631,12 +3662,19 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
     const updateStickyState = () => {
-      const anchor = document.getElementById("compare-versus-card") || document.getElementById("compare-hero");
+      // Shown once the hero has scrolled away; it steps aside while the decision card (which carries the same two
+      // signup routes) or the footer (disclosure, copyright) is on screen, so it never doubles or covers them.
+      const anchor = document.getElementById("compare-hero") || document.getElementById("compare-versus-card");
       if (!anchor) {
         setStickyCtaActive(false);
         return;
       }
-      setStickyCtaActive(anchor.getBoundingClientRect().bottom <= 80);
+      const vh = window.innerHeight || 0;
+      const inView = (el) => { if (!el) return false; const r = el.getBoundingClientRect(); return r.top < vh && r.bottom > 0; };
+      const choice = document.getElementById("compare-final-choice");
+      const footer = document.querySelector("footer.nx-ftr, footer");
+      const footerVisible = Boolean(footer) && footer.getBoundingClientRect().top < vh;
+      setStickyCtaActive(anchor.getBoundingClientRect().bottom <= 80 && !inView(choice?.firstElementChild ? choice : null) && !footerVisible);
     };
     updateStickyState();
     const supportDisclosure = document.getElementById("compare-versus-card");
@@ -3803,7 +3841,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
 
   return <main className="v6 v2-page v3-page v3-compare-page" id="top">
     {/* 移动端/桌面端吸顶 PK 表头 */}
-    <div className={`v3-compare-sticky-bar${stickyCtaActive ? " is-active" : ""}`} aria-label={compareStickyAria(locale)} aria-hidden={!stickyCtaActive}>
+    <div className={`v3-compare-sticky-bar${stickyCtaActive ? " is-active" : ""}`} aria-label={compareStickyAria(locale)} aria-hidden={!stickyCtaActive} inert={!stickyCtaActive}>
       <div className="v3-compare-sticky-bar__inner">
         {profiles.slice(0, 3).map((p) => {
           const locName = getLocalizedVenueName(p, locale);
@@ -3820,6 +3858,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
                 data-cta-kind={pCta.direct ? "registration" : "research"}
                 data-cta-platform={p.slug}
                 data-cta-placement="compare-sticky-registration"
+                data-cta-code={pCta.direct && pCta.hasReferral && pCta.inviteCode ? pCta.inviteCode : undefined}
                 data-growth-decision={p.slug}
                 data-growth-placement="compare-sticky-registration"
                 data-growth-market={market}
@@ -3827,7 +3866,9 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
                 data-growth-campaign={growthCampaign}
                 tabIndex={stickyCtaActive ? undefined : -1}
               >
-                {detailCtaLabel(locale, { direct: pCta.direct, hasReferral: pCta.hasReferral })} {pCta.direct ? "↗" : "→"}
+                {pCta.direct
+                  ? <>{fillCta(ctaUiCopy(locale).signupN, { n: locName })} <span aria-hidden="true">↗</span></>
+                  : <>{detailCtaLabel(locale, { direct: pCta.direct, hasReferral: pCta.hasReferral })} →</>}
               </a>
             </div>
           );

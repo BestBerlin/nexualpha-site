@@ -1,0 +1,81 @@
+/* CRO v1 (r9): one official-signup pattern. Code chip + copy confirmation, outbound toast, Compare Lab next step,
+   compare sticky as a neutral bottom bar on phones. Tokens only; every value has a fallback for body-level nodes. */
+.cro-sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---------- code chip ---------- */
+.cro-code { position: relative; display: inline-flex; vertical-align: middle; }
+.cro-code__btn { display: inline-flex; align-items: center; gap: 8px; min-block-size: 44px; padding: 0 12px; border: 1px solid var(--line-2, rgb(255 255 255 / .22)); border-radius: 8px; background: var(--n2, #18191b); color: var(--ink, #edeef0); font: inherit; font-size: 0.875rem; line-height: 1.2; cursor: pointer; transition: border-color 140ms, background-color 140ms, transform 120ms; }
+.cro-code__btn:hover { border-color: var(--n9, #696e77); }
+.cro-code__btn:active { transform: scale(0.98); }
+.cro-code__btn:focus-visible { outline: 2px solid var(--accent, #1fe0c0); outline-offset: 2px; }
+.cro-code__lab { color: var(--n10, #8b8f98); font-size: 0.75rem; }
+.cro-code__code { font-family: var(--font-mono, ui-monospace, monospace); font-weight: 600; letter-spacing: 0.01em; }
+.cro-code__ico { flex: none; color: var(--n10, #8b8f98); }
+.cro-code[data-state="done"] .cro-code__btn { border-color: var(--accent, #1fe0c0); }
+.cro-code[data-state="done"] .cro-code__ico { color: var(--accent, #1fe0c0); }
+.cro-code__pop { position: absolute; inset-block-end: calc(100% + 6px); inset-inline-start: 0; z-index: 5; padding: 2px 8px; border-radius: 4px; background: var(--accent, #1fe0c0); color: var(--on-accent, #04130f); font-size: 0.75rem; font-weight: 600; line-height: 1.55; white-space: nowrap; opacity: 0; transform: translateY(4px); pointer-events: none; transition: opacity 140ms, transform 240ms cubic-bezier(0.16, 1, 0.3, 1); }
+.cro-code[data-state] .cro-code__pop { opacity: 1; transform: none; }
+.cro-code[data-state="fail"] .cro-code__pop { background: var(--n4, #272a2d); color: var(--ink, #edeef0); white-space: normal; inline-size: max-content; max-inline-size: 260px; }
+
+/* ---------- outbound toast ---------- */
+.cro-toast { position: fixed; inset-inline: 16px; inset-block-end: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 140; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px 12px; max-inline-size: 440px; margin-inline: auto; padding: 12px 8px 12px 16px; border: 1px solid var(--n7, #43484e); border-radius: 12px; background: var(--n2, #18191b); color: var(--ink, #edeef0); box-shadow: 0 12px 32px rgb(0 0 0 / .45); font: 400 0.875rem/1.45 var(--v6-sans, "Geist V5", system-ui, sans-serif); opacity: 0; visibility: hidden; transform: translateY(12px); transition: opacity 180ms, transform 240ms cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 240ms; }
+.cro-toast[data-open] { opacity: 1; visibility: visible; transform: none; transition: opacity 180ms, transform 240ms cubic-bezier(0.16, 1, 0.3, 1), visibility 0s; }
+.cro-toast__msg { margin: 0; display: grid; gap: 2px; min-inline-size: 0; }
+.cro-toast__msg strong { font-weight: 600; }
+.cro-toast__msg span { color: var(--n11, #b0b4ba); font-size: 0.8125rem; }
+.cro-toast__copy { min-block-size: 40px; padding: 0 12px; border: 1px solid var(--line-2, rgb(255 255 255 / .22)); border-radius: 8px; background: transparent; color: var(--ink, #edeef0); font: inherit; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.cro-toast__x { inline-size: 40px; block-size: 40px; border: 0; border-radius: 8px; background: transparent; color: var(--n10, #8b8f98); font-size: 1.25rem; line-height: 1; cursor: pointer; }
+.cro-toast :is(button):focus-visible { outline: 2px solid var(--accent, #1fe0c0); outline-offset: 2px; }
+@media (max-width: 780px) {
+  /* clear the shared bottom nav / sticky signup bar */
+  .cro-toast { inset-block-end: calc(92px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (prefers-reduced-motion: reduce) { .cro-toast, .cro-toast[data-open] { transition: none; transform: none; } }
+
+/* ---------- Compare Lab: post-comparison next step ---------- */
+.v6 .cl-next { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4, 16px) var(--s-8, 32px); flex-wrap: wrap; margin-block-start: var(--s-4, 16px); padding-block: var(--s-4, 16px); border-block-start: var(--hairline, 1px solid rgb(255 255 255 / .08)); }
+.v6 .cl-next__why { display: grid; gap: 2px; margin: 0; max-inline-size: 62ch; color: var(--text-strong, #edeef0); }
+.v6 .cl-next__k { color: var(--n10, #8b8f98); text-transform: none; }
+.v6 .cl-next[data-kind="neutral"] .cl-next__why .v6-small { color: var(--text-muted, #b0b4ba); }
+.v6 .cl-next__act { display: flex; align-items: center; gap: var(--s-3, 12px); flex-wrap: wrap; }
+.v6 .cl-next__cta { display: inline-flex; align-items: center; gap: 8px; min-block-size: 44px; padding: 10px 18px; border: 1px solid var(--accent, #1fe0c0); border-radius: 8px; background: var(--accent, #1fe0c0); color: var(--on-accent, #04130f); font-size: 0.875rem; font-weight: 600; text-decoration: none; white-space: nowrap; transition: background-color 140ms, transform 120ms; }
+.v6 .cl-next__cta:hover { background: var(--accent-hi, #4aebd0); }
+.v6 .cl-next__cta:active { transform: scale(0.98); }
+.v6 .cl-next__cta:focus-visible, .v6 .cl-next__dir:focus-visible { outline: 2px solid var(--accent, #1fe0c0); outline-offset: 3px; }
+.v6 .cl-next__dir { display: inline-flex; align-items: center; gap: 6px; min-block-size: 44px; color: var(--text-strong, #edeef0); font-size: 0.875rem; font-weight: 500; text-decoration: underline; text-decoration-color: var(--n8, #5a6169); text-underline-offset: 4px; }
+.v6 .cl-next__dir:hover { text-decoration-color: var(--accent, #1fe0c0); }
+/* one primary per view: when a signup step is shown, "Open full comparison" steps down to an outline */
+#top.v6 .cl .cl-foot[data-next] .cl-cta { background: transparent; border: 1px solid var(--line-2, rgb(255 255 255 / .22)); color: var(--ink, #edeef0); box-shadow: none; }
+#top.v6 .cl .cl-foot[data-next] .cl-cta:hover { border-color: var(--n9, #696e77); background: var(--n3, #212225); }
+@media (max-width: 640px) {
+  .v6 .cl-next { align-items: stretch; flex-direction: column; }
+  .v6 .cl-next__act { display: flex; flex-direction: column; align-items: stretch; }
+  .v6 .cl-next__act .cro-code { align-self: flex-start; }
+  .v6 .cl-next__cta { justify-content: center; white-space: normal; text-align: center; }
+}
+
+/* ---------- compare final choice: code chip sits beside the signup button ---------- */
+.v3-compare-final-choice-card__action-row .cro-code { order: 2; }
+
+/* ---------- compare sticky: neutral (two equal outlined signups), bottom bar on phones ---------- */
+#top.v3-compare-page .v3-compare-sticky-bar .v3-compare-sticky-bar__btn[data-cta-kind="registration"] { background: transparent; color: var(--ink, #edeef0); border: 1px solid color-mix(in oklab, var(--accent, #1fe0c0) 70%, transparent); }
+#top.v3-compare-page .v3-compare-sticky-bar .v3-compare-sticky-bar__btn[data-cta-kind="registration"]:hover { background: var(--accent-wash, rgb(31 224 192 / .1)); border-color: var(--accent, #1fe0c0); }
+@media (max-width: 780px) {
+  #top.v3-compare-page.v6 .v3-compare-sticky-bar,
+  #top.v3-compare-page.v6 .v3-compare-sticky-bar.is-active { inset-block-start: auto; top: auto; inset-block-end: 0; border-block-end: 0; border-block-start: 1px solid var(--n6, #363a3f); padding-block-end: env(safe-area-inset-bottom, 0px); }
+  #top.v3-compare-page.v6 .v3-compare-sticky-bar { transform: translateY(100%); }
+  #top.v3-compare-page.v6 .v3-compare-sticky-bar.is-active { transform: none; }
+  #top.v3-compare-page .v3-compare-sticky-bar__inner { inline-size: calc(100% - 32px); }
+}
+#top.v3-compare-page .v3-compare-final-choice-card__action-row .cro-code__btn { min-block-size: 48px; border-radius: 10px; padding-inline: 14px; }
+
+/* ---------- venue sticky: the signup is the one filled action in the bar ---------- */
+main.v3-profile-page.v6 .v3-mobile-sticky-bar a.v3-mobile-sticky-bar__btn--signup:not(#_):not(#_):not(#_):not(#_):not(#_) { background: var(--accent, #1fe0c0); border-color: var(--accent, #1fe0c0); color: var(--on-accent, #04130f); font-weight: 650; text-decoration: none; }
+main.v3-profile-page.v6 .v3-mobile-sticky-bar a.v3-mobile-sticky-bar__btn--signup:active:not(#_):not(#_):not(#_):not(#_):not(#_) { background: var(--accent-hi, #4aebd0); }
+main.v3-profile-page.v6 .v3-mobile-sticky-bar .v3-mobile-sticky-bar__code[data-copied]:not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--accent, #1fe0c0); }
+
+/* ---------- compare sticky on phones: the venue name lives in the button, marks step out ---------- */
+@media (max-width: 780px) {
+  #top.v3-compare-page .v3-compare-sticky-bar__col > :is(svg, span, img):not(.v3-compare-sticky-bar__btn) { display: none; }
+  #top.v3-compare-page .v3-compare-sticky-bar__col > [class*="brand"] { display: none; }
+}

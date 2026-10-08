@@ -20,6 +20,7 @@ import { directoryContext, directoryContextSearch, filterDirectoryVenues, region
 import { localizedHref } from "../../data/locale-routing.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { useScrollEdges } from "./useScrollEdges.js";
+import { trackCodeCopy } from "../../data/cta-ui-copy.js";
 
 const SEGMENTS = [
   { id: "all", key: "all" },
@@ -29,7 +30,6 @@ const SEGMENTS = [
 ];
 const FILTER_KEYS = ["noKyc", "por", "fiat", "highLev"];
 const EMPTY_FILTERS = { noKyc: false, por: false, fiat: false, highLev: false };
-const MOBILE_LIMIT = 8;
 
 const fmtRate = (value) => {
   const s = Number(value).toFixed(3);
@@ -55,10 +55,7 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
   const [category, setCategory] = useState("all");
   const [filters, setFilters] = useState(EMPTY_FILTERS);
   const [verifiedFirst, setVerifiedFirst] = useState(false);
-  const [expanded, setExpanded] = useState(false);
   const [touched, setTouched] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
   const [filtering, setFiltering] = useState(0);
   const [copied, setCopied] = useState({ slug: "", code: "" });
   const [copyFail, setCopyFail] = useState({ slug: "", code: "" });
@@ -186,6 +183,7 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
       if (typeof navigator === "undefined" || typeof navigator.clipboard?.writeText !== "function") throw new Error("no clipboard");
       await navigator.clipboard.writeText(code);
       setCopied({ slug: row.slug, code });
+      trackCodeCopy(row.slug, "directory-card-code");
     } catch {
       setCopyFail({ slug: row.slug, code });
     }
@@ -231,7 +229,7 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
       io.disconnect();
     }, 7000);
     return () => { clearTimeout(timer); io.disconnect(); };
-  }, [rowsKey, expanded]);
+  }, [rowsKey]);
 
   // Runs of 3+ consecutive unchecked venues with no code and no sign-up route collapse into one grouped line.
   // Each venue keeps its detail link (visible) and its eligibility link (hidden carrier) in the original DOM order.
@@ -249,7 +247,6 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
   const segIndex = Math.max(0, SEGMENTS.findIndex((s) => s.id === category));
   const compareHref = compareSelection.length === 2 ? localizedHref(`${comparePathFor(compareSelection).path}?${contextSearch}`, { locale }) : null;
   const dockOpen = touched && inView && compareSelection.length > 0;
-  const extraCount = Math.max(items.length - MOBILE_LIMIT, 0);
   const activeFilterCount = FILTER_KEYS.filter((k) => filters[k]).length;
   const dockSlot = (slug, key) => slug ? (
     <button type="button" key={`${key}-${slug}`} className="dir6-dock__slot" onClick={() => toggleCompare(slug)} aria-label={`${mc.remove}: ${nameOf(slug)}`}>
@@ -329,12 +326,12 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
               <span>{mc.spot} <em>{mc.maker}</em></span>
               <span>{mc.code}</span>
             </div>
-            <ul className="dir6-list" ref={listRef} data-collapsed={mounted && !expanded ? "true" : undefined} data-filtering={filtering ? filtering % 2 : undefined} aria-label={mc.table}>
+            <ul className="dir6-list" ref={listRef} data-filtering={filtering ? filtering % 2 : undefined} aria-label={mc.table}>
               {items.map((item, index) => {
                 if (item.group) {
                   const run = item.group;
                   return (
-                    <li key={item.key} className="dir6-row dir6-group" data-extra={index >= MOBILE_LIMIT || undefined} style={{ "--i": Math.min(index, 12) }}>
+                    <li key={item.key} className="dir6-row dir6-group" style={{ "--i": Math.min(index, 12) }}>
                       <i className="dir6-rail" aria-hidden="true" />
                       <span className="dir6-group__n v6-num" aria-hidden="true">{run.length}</span>
                       <div className="dir6-group__body">
@@ -383,7 +380,7 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
                 const failed = copyFail.slug === r.slug;
                 const done = copied.slug === r.slug;
                 return (
-                  <li key={r.slug} className="dir6-row" data-slug={r.slug} data-selected={isSel || undefined} data-route={routeLo < 0 ? undefined : index === routeLo ? "start" : index === routeHi ? "end" : index > routeLo && index < routeHi ? "mid" : undefined} data-extra={index >= MOBILE_LIMIT || undefined} style={{ "--i": Math.min(index, 12) }}>
+                  <li key={r.slug} className="dir6-row" data-slug={r.slug} data-selected={isSel || undefined} data-route={routeLo < 0 ? undefined : index === routeLo ? "start" : index === routeHi ? "end" : index > routeLo && index < routeHi ? "mid" : undefined} style={{ "--i": Math.min(index, 12) }}>
                     <i className="dir6-rail" aria-hidden="true" />
                     <button
                       type="button"
@@ -478,6 +475,7 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
                         data-cta-kind="registration"
                         data-cta-platform={r.slug}
                         data-cta-placement="directory-card"
+                        data-cta-code={r.hasReferral && r.inviteCode ? r.inviteCode : undefined}
                         data-growth-decision={r.slug}
                         data-growth-placement="directory-card"
                         data-growth-market={context.market}
@@ -541,11 +539,6 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
         ) : null}
 
         <div className="dir6-foot">
-          {extraCount > 0 ? (
-            <button type="button" className="dir6-more" aria-expanded={expanded} onClick={() => setExpanded((v) => !v)}>
-              {expanded ? ui.viewLess : `${ui.viewMore} (${extraCount})`}
-            </button>
-          ) : null}
           {visible.length > 6 ? (
             <div className="dir6-foot__row">
               <span className="v6-small dir6-foot__sum">{typeof ui.resultSummary === "function" ? ui.resultSummary(visible.length) : `${mc.show} ${visible.length} ${mc.of} ${counts.all}`}</span>

@@ -11,6 +11,7 @@ import { appendDecisionPassportQuery, readDecisionPassport } from "../../data/de
 import { regionalShortlistAccountStageOptions, regionalShortlistCopy } from "../../data/regional-shortlist.js";
 import { bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
 import { buildRegistrationDecisionState } from "./registration-decision-state.js";
+import { trackCodeCopy } from "../../data/cta-ui-copy.js";
 import "./registration-card.css";
 
 const passportLabels = Object.freeze({
@@ -847,6 +848,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
       }
       if (!copyMountedRef.current || request !== copyRequestRef.current) return;
       setCopyState("success");
+      trackCodeCopy(venueSlug, compact ? "registration-card-compact-code" : "registration-card-code");
       copyFeedbackTimerRef.current = setTimeout(() => {
         if (copyMountedRef.current && request === copyRequestRef.current) {
           setCopyState("idle");
@@ -931,6 +933,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
         data-cta-kind="registration"
         data-cta-platform={venueSlug}
         data-cta-placement="registration-card-primary"
+        data-cta-code={visiblePartner.hasReferral && visiblePartner.inviteCode ? visiblePartner.inviteCode : undefined}
         data-growth-decision={venueSlug}
         data-growth-placement="registration-card-primary"
         data-growth-market={context.market}
