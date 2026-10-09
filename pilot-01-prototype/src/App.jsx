@@ -12,6 +12,7 @@ import { v3Copy } from "./data/v3-product";
 import { storedLocale, validComparison, cleanSelection, installHashNavigation } from "./data/browser-state";
 import { VenueYellowPages } from "./components/v3/VenueYellowPages";
 import { CrossroadsCompare } from "./components/v3/CrossroadsCompare";
+import { HomeV7 } from "./components/v7/HomeV7.jsx";
 import { RouteFinder } from "./components/v6/RouteFinder";
 import { CompareLab } from "./components/v6/CompareLab";
 import { VerifyBand } from "./components/v6/VerifyBand";
@@ -806,10 +807,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const initialPair = homeSelection.get();
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
     <Header copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
-    <RouteFinder {...homeCtx} legacy={homeSlots.hero} />
-    <CompareLab {...homeCtx} selected={initialPair} store={homeSelection} feeCheck={homeSlots.feeCheck} />
-    <VerifyBand locale={locale} venues={command.venueCatalog} selected={initialPair} />
-    <DirectoryV6 {...homeCtx} selected={initialPair} store={homeSelection} />
+    <HomeV7 locale={locale} />
     <ClosingBand locale={locale} legacy={homeSlots.closing} />
     {footer}
     {searchDialog}
