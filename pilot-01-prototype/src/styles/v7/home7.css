@@ -2,6 +2,7 @@
 .h7:not(#_){--bg:#F3F5F4;--ink:#0B0D0C;--tx:#4C524F;--mute:#6C726F;--line:#DADFDC;--g:#00B76A;--gd:#0A8A52;--dk:#0B0D0C;background:var(--bg);color:var(--tx);overflow-x:clip;font-size:16px;line-height:1.6;font-family:"Geist V5",ui-sans-serif,system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC","Noto Sans CJK SC",sans-serif}
 .h7:not(#_):not(#_) :lang(ja),.h7:not(#_):lang(ja){font-family:"Geist V5",ui-sans-serif,system-ui,"Hiragino Sans","Yu Gothic UI",Meiryo,"Noto Sans JP",sans-serif}
 .h7:not(#_):not(#_) *{box-sizing:border-box}
+.h7:not(#_):not(#_) :is(h1,h2,h3,p,a,b,span,small,div,label,button,input,s,i){font-family:inherit}
 .h7:not(#_):not(#_) a{color:inherit;text-decoration:none}
 .h7:not(#_):not(#_) :focus-visible{outline:3px solid #2F6BFF;outline-offset:3px}
 .h7:not(#_):not(#_) .h7-in{padding-inline:clamp(18px,5vw,72px);max-width:1360px;margin-inline:auto}
