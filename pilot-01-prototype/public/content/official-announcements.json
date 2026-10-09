@@ -1,0 +1,261 @@
+{
+  "generatedAt": "2026-10-09T07:59:10.852Z",
+  "status": "OK",
+  "sources": {
+    "bitget": {
+      "ok": true,
+      "fetched": 27,
+      "at": "2026-10-09T07:59:10.852Z"
+    },
+    "bybit": {
+      "ok": false,
+      "error": "HTTP 403",
+      "lastGoodAt": null
+    }
+  },
+  "items": [
+    {
+      "id": "bitget:12560603896801",
+      "venue": "bitget",
+      "category": "delisting",
+      "title": "[Important] Bitget to delist WBDUSDT futures and related services",
+      "url": "https://www.bitget.com/en/support/articles/12560603896801",
+      "publishedAt": "2026-10-07T11:54:30.462Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896776",
+      "venue": "bitget",
+      "category": "listing",
+      "title": "Bitget listed USDESTOCKUSDT, VKTXUSDT, PCVXUSDT and XPUSDT hot stock perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603896776",
+      "publishedAt": "2026-10-06T15:00:28.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896694",
+      "venue": "bitget",
+      "category": "news",
+      "title": "[Important] Bitget Announcement on Cash Dividend Settlement for MRVLUSDT、ORCLUSDT、NTAPUSDT Stock Perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603896694",
+      "publishedAt": "2026-10-06T00:00:05.065Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896619",
+      "venue": "bitget",
+      "category": "news",
+      "title": "[Important] Bitget Announcement on Cash Dividend Settlement for CMCSAUSDT Stock Perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603896619",
+      "publishedAt": "2026-10-04T00:00:05.098Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896603",
+      "venue": "bitget",
+      "category": "news",
+      "title": "[Important] Bitget Announcement on Cash Dividend Settlement for JPMUSDT Stock Perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603896603",
+      "publishedAt": "2026-10-03T00:00:05.054Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896419",
+      "venue": "bitget",
+      "category": "listing",
+      "title": "CTUSDT now launched for futures trading and trading bots",
+      "url": "https://www.bitget.com/en/support/articles/12560603896419",
+      "publishedAt": "2026-10-01T06:52:32.028Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896414",
+      "venue": "bitget",
+      "category": "listing",
+      "title": "Bitget listed TWSTUSDT, CVNAUSDT, RUMUSDT, CRMLUSDT, BWETUSDT, ACNSTOCKUSDT, KODUSDT and AKAMUSDT hot stock perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603896414",
+      "publishedAt": "2026-09-30T11:21:33.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896390",
+      "venue": "bitget",
+      "category": "news",
+      "title": "Bitget Protection Fund Replenished to $300M+",
+      "url": "https://www.bitget.com/en/support/articles/12560603896390",
+      "publishedAt": "2026-09-30T09:00:36.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896301",
+      "venue": "bitget",
+      "category": "listing",
+      "title": "[Initial listing] Bitget to list Concrete (CT)",
+      "url": "https://www.bitget.com/en/support/articles/12560603896301",
+      "publishedAt": "2026-09-30T06:00:08.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896305",
+      "venue": "bitget",
+      "category": "news",
+      "title": "Update On Slowmist and Mandiant Report",
+      "url": "https://www.bitget.com/en/support/articles/12560603896305",
+      "publishedAt": "2026-09-30T05:20:23.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896261",
+      "venue": "bitget",
+      "category": "news",
+      "title": "[Important] Bitget Announcement on Cash Dividend Settlement for GEUSDT Stock Perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603896261",
+      "publishedAt": "2026-09-30T00:00:05.281Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896256",
+      "venue": "bitget",
+      "category": "news",
+      "title": "Bitget Updates Proof of Reserves: Latest Total Reserve Ratio: 131% (Issue No.47)",
+      "url": "https://www.bitget.com/en/support/articles/12560603896256",
+      "publishedAt": "2026-09-29T15:59:06.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896255",
+      "venue": "bitget",
+      "category": "news",
+      "title": "Bitget Stock+ upgrade: Multi-leg options strategies now fully available",
+      "url": "https://www.bitget.com/en/support/articles/12560603896255",
+      "publishedAt": "2026-09-29T13:57:41.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896195",
+      "venue": "bitget",
+      "category": "news",
+      "title": "[Important] Bitget Announcement on Cash Dividend Settlement for CSCOUSDT Stock Perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603896195",
+      "publishedAt": "2026-09-29T00:00:05.145Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896193",
+      "venue": "bitget",
+      "category": "news",
+      "title": "Bitget Streamer Incentive Program: Incentive Program Streamer Ranking Announcement",
+      "url": "https://www.bitget.com/en/support/articles/12560603896193",
+      "publishedAt": "2026-09-28T02:00:37.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603896112",
+      "venue": "bitget",
+      "category": "delisting",
+      "title": "Bitget to delay the delisting of FHE, DRIFT, RVV，DOG from spot trading",
+      "url": "https://www.bitget.com/en/support/articles/12560603896112",
+      "publishedAt": "2026-09-27T03:44:55.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603895972",
+      "venue": "bitget",
+      "category": "delisting",
+      "title": "Notice of Delisting 4 Spot Trading Pairs on September 30, 2026",
+      "url": "https://www.bitget.com/en/support/articles/12560603895972",
+      "publishedAt": "2026-09-25T10:00:29.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603895947",
+      "venue": "bitget",
+      "category": "listing",
+      "title": "Bitget listed URNMUSDT and WBDUSDT hot stock perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603895947",
+      "publishedAt": "2026-09-23T14:05:58.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603895946",
+      "venue": "bitget",
+      "category": "listing",
+      "title": "Bitget Has Listed POLYMARKET Pre-IPO Perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603895946",
+      "publishedAt": "2026-09-23T13:39:45.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603895945",
+      "venue": "bitget",
+      "category": "listing",
+      "title": "Bitget lists 462 spot stock assets, including rGPRO, rHSAI, rBRZE, rALRM, and rLCLN",
+      "url": "https://www.bitget.com/en/support/articles/12560603895945",
+      "publishedAt": "2026-09-23T12:22:22.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603895865",
+      "venue": "bitget",
+      "category": "listing",
+      "title": "Bitget Has Listed OURA (Oura Ring) Pre-IPO Perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603895865",
+      "publishedAt": "2026-09-22T12:49:00.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603895782",
+      "venue": "bitget",
+      "category": "listing",
+      "title": "Bitget Announcement on the Launch of USDBRLUSDT FX Perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603895782",
+      "publishedAt": "2026-09-21T14:30:27.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603895779",
+      "venue": "bitget",
+      "category": "listing",
+      "title": "Bitget Announcement on the Listing of TLTUSDT, JEPQUSDT, CORZUSDT, BLSHUSDT, and SECZUSDT Stock Perps",
+      "url": "https://www.bitget.com/en/support/articles/12560603895779",
+      "publishedAt": "2026-09-21T13:31:42.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603895618",
+      "venue": "bitget",
+      "category": "delisting",
+      "title": "Notice of Delisting 3 Spot Trading Pairs on September 24, 2026",
+      "url": "https://www.bitget.com/en/support/articles/12560603895618",
+      "publishedAt": "2026-09-18T10:00:00.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603895538",
+      "venue": "bitget",
+      "category": "delisting",
+      "title": "[Important] Bitget to disable margin and loan functions for SAGA in unified trading account",
+      "url": "https://www.bitget.com/en/support/articles/12560603895538",
+      "publishedAt": "2026-09-18T02:50:19.000Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603895497",
+      "venue": "bitget",
+      "category": "delisting",
+      "title": "[Important] Bitget to delist AINUSDT,RCATUSDT futures and related services",
+      "url": "https://www.bitget.com/en/support/articles/12560603895497",
+      "publishedAt": "2026-09-17T07:46:03.489Z",
+      "sourceType": "official_api"
+    },
+    {
+      "id": "bitget:12560603895301",
+      "venue": "bitget",
+      "category": "delisting",
+      "title": "Announcement on the Delisting of BGUSD via Crypto Loan",
+      "url": "https://www.bitget.com/en/support/articles/12560603895301",
+      "publishedAt": "2026-09-16T06:35:35.000Z",
+      "sourceType": "official_api"
+    }
+  ]
+}

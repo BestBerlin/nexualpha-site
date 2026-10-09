@@ -79,3 +79,22 @@
 @media(max-width:600px){.h7:not(#_):not(#_) .h7-xr{grid-template-columns:minmax(0,1fr) auto}.h7:not(#_):not(#_) .h7-xr .h7-btn{grid-column:1/-1}}
 .h7:not(#_):not(#_) .h7-foot{font-size:12.5px;line-height:1.6;color:var(--mute);margin:0 auto;padding-block:0 48px;border-top:0}
 @media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-num{animation:none}.h7:not(#_):not(#_) .h7-bar{transition:none}}
+
+/* ---- official announcements ---- */
+.h7:not(#_):not(#_) .h7-intel{padding-block:clamp(56px,8vw,110px) 0}
+.h7:not(#_):not(#_) .h7-ih{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(16px,4vw,64px);align-items:end;margin-bottom:28px}
+@media(max-width:900px){.h7:not(#_):not(#_) .h7-ih{grid-template-columns:minmax(0,1fr)}}
+.h7:not(#_):not(#_) .h7-ih h2{font-weight:700;font-size:clamp(1.7rem,3vw,2.6rem);line-height:1.12;letter-spacing:-.03em;color:var(--ink);margin:0;text-wrap:balance}
+.h7:not(#_):not(#_) .h7-ih p{margin:0;color:var(--mute);font-size:15px;line-height:1.65;max-width:56ch}
+.h7:not(#_):not(#_) .h7-il{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.h7:not(#_):not(#_) .h7-il li{display:grid;grid-template-columns:64px 76px minmax(0,1fr) 72px auto;gap:14px;align-items:baseline;padding:15px 0;border-bottom:1px solid var(--line)}
+.h7:not(#_):not(#_) .h7-ic{font-size:12px;font-weight:700;color:var(--ink)}
+.h7:not(#_):not(#_) .h7-ic-listing{color:var(--g)}
+.h7:not(#_):not(#_) .h7-ic-delisting{color:#b4382f}
+.h7:not(#_):not(#_) .h7-iv{font-size:13px;color:var(--mute)}
+.h7:not(#_):not(#_) .h7-it{color:var(--ink);font-size:15.5px;line-height:1.45;text-decoration:none;overflow-wrap:anywhere}
+.h7:not(#_):not(#_) .h7-it:hover{text-decoration:underline;text-underline-offset:3px}
+.h7:not(#_):not(#_) .h7-il time{font-size:13px;color:var(--mute);font-variant-numeric:tabular-nums;text-align:right}
+.h7:not(#_):not(#_) .h7-iw{font-size:13px;color:var(--ink);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.h7:not(#_):not(#_) .h7-ia{margin:14px 0 0;font-size:12.5px;color:var(--mute)}
+@media(max-width:700px){.h7:not(#_):not(#_) .h7-il li{grid-template-columns:auto auto minmax(0,1fr);row-gap:6px}.h7:not(#_):not(#_) .h7-it{grid-column:1/-1;grid-row:2}.h7:not(#_):not(#_) .h7-il time{grid-column:3;grid-row:1;text-align:right}.h7:not(#_):not(#_) .h7-iw{grid-column:1/-1;grid-row:3}}

@@ -6,6 +6,7 @@ import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_VENUES } from "../../data/home-rebate-tiers.js";
+import { readIntelFeed } from "../../data/announcement-intel.js";
 import { h7Copy } from "./home7-copy.js";
 import "../../styles/v7/home7.css";
 
@@ -35,11 +36,57 @@ function Cta({ v, locale, children, className, placement }) {
   return <a className={className} href={localizedHref(`/exchanges/${v.slug}#registration-path`, { locale })} data-cta-placement={`${placement}-eligibility`}>{children}</a>;
 }
 
+
+const INTEL_URL = "/content/official-announcements.json";
+const INTEL_SHOW = ["listing", "event", "delisting", "news", "product", "security"];
+function useIntel(venues) {
+  const [feed, setFeed] = useState(null);
+  const slugs = venues.map((v) => v.slug).join(",");
+  useEffect(() => {
+    let alive = true;
+    fetch(INTEL_URL, { headers: { accept: "application/json" } })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (!alive || !j) return;
+        const items = readIntelFeed(j, { venues: slugs.split(",") }).filter((i) => INTEL_SHOW.includes(i.category));
+        if (items.length) setFeed({ items: items.slice(0, 8), generatedAt: j.generatedAt });
+      })
+      .catch(() => {});
+    return () => { alive = false; };
+  }, [slugs]);
+  return feed;
+}
+
+function IntelBlock({ intel, t, locale }) {
+  if (!intel) return null;
+  const now = Date.now();
+  const names = NAMES;
+  const asOf = new Date(intel.generatedAt).toLocaleString(locale === "zh-Hans" ? "zh-CN" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
+  return (
+    <section className="h7-in h7-intel" aria-label={t.inH}>
+      <div className="h7-ih"><h2>{t.inH}</h2><p>{t.inSub}</p></div>
+      <ul className="h7-il">
+        {intel.items.map((i) => (
+          <li key={i.id}>
+            <span className={`h7-ic h7-ic-${i.category}`}>{t.inCat[i.category]}</span>
+            <span className="h7-iv">{names[i.venue]}</span>
+            <a className="h7-it" href={i.url} target="_blank" rel="noopener noreferrer nofollow">{i.title}<span className="h7-sr"> ({t.inOpen})</span></a>
+            <time dateTime={i.publishedAt}>{t.inAgo(now - Date.parse(i.publishedAt))}</time>
+            <a className="h7-iw" href={localizedHref(`/exchanges/${i.venue}`, { locale })}>{t.inVenue(names[i.venue])}</a>
+          </li>
+        ))}
+      </ul>
+      <p className="h7-ia">{t.inAsOf(asOf)}</p>
+    </section>
+  );
+}
+
 export function HomeV7({ locale, venues: _catalog }) {
   const t = h7Copy(locale);
   const venues = useVenues(locale);
   const [vol, setVol] = useState(100000);
   const [mode, setMode] = useState("maker");
+  const intel = useIntel(venues);
 
   const calc = useMemo(() => {
     const rows = venues.map((v) => {
@@ -146,6 +193,8 @@ export function HomeV7({ locale, venues: _catalog }) {
       </section>
 
       <div className="h7-trust"><div>{t.t1}<span>{t.t1b}</span></div><div>{t.t2}<span>{t.t2b}</span></div><div>{t.t3}<span>{t.t3b}</span></div></div>
+
+      <IntelBlock intel={intel} t={t} locale={locale} />
 
       <section className="h7-dk h7-story" ref={storyRef} aria-label={t.storyH}>
         <div className="h7-in h7-pin">
