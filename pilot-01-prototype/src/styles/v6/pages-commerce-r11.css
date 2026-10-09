@@ -1,0 +1,105 @@
+/* r11 layout (commerce: /exchanges/{slug}, /compare/{pair}, /rates). Restructures existing blocks; adds no content.
+   :not(#_) x9 chains = specificity bump, same as r10 (inner layers stack :not(#_) chains up to 8 deep).
+
+/* ---------- 1. profile hero, >=960px: logo and badges share the first row; the title runs the full column ----------
+   Badges sat under a 400-640px title in a 776px column, leaving a 220-260px empty strip beside it down to the ledger. */
+@media (min-width: 960px) {
+  main.v3-profile-page.v6 .v3-venue-identity:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 24px; row-gap: 16px; align-items: center; }
+  main.v3-profile-page.v6 .v3-venue-identity > :is(img, svg, .v2-brand):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 1; }
+  main.v3-profile-page.v6 .v3-venue-identity > .v3-venue-identity__info:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: contents; }
+  main.v3-profile-page.v6 .v3-venue-identity__info > h1:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / -1; grid-row: 2; margin: 0; max-inline-size: none; text-wrap: pretty; }
+  main.v3-profile-page.v6 .v3-venue-identity__info > .v3-venue-identity__badges:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 1; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
+  main.v3-profile-page.v6 :is(.v3-venue-context, .v3-venue-context > *):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { max-inline-size: none; }
+  main.v3-profile-page.v6 .v3-profile-reading-overview:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 48px; }
+}
+
+/* ---------- 2. profile, >=1025px: back link sits above the identity (as on compare and at 960-1024px) ----------
+   It sat alone after the overview with ~110px of nothing before Products. */
+@media (min-width: 1025px) {
+  main.v3-profile-page.v6 .v3-back-link:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { order: -1; grid-column: 1 !important; grid-row: 1; justify-self: start; align-self: start; margin-block: 0; }
+  main.v3-profile-page.v6 .v3-venue-identity:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 60px; }
+}
+
+/* ---------- 3. profile, >=1200px: direct answer = title (+ review date) left, answer text right ---------- */
+@media (min-width: 1200px) {
+  main.v3-profile-page.v6 .v3-venue-direct-answer:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: 40px; row-gap: 8px; align-items: start; }
+  main.v3-profile-page.v6 .v3-venue-direct-answer > *:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / -1; }
+  main.v3-profile-page.v6 .v3-venue-direct-answer > .v3-venue-direct-answer__title:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 1; max-inline-size: none; }
+  main.v3-profile-page.v6 .v3-venue-direct-answer > .v3-venue-direct-answer__reviewed:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 2; }
+  main.v3-profile-page.v6 .v3-venue-direct-answer > p:first-of-type:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 1 / span 3; margin: 0; max-inline-size: none; }
+}
+
+/* ---------- 4. profile FAQ, >=960px: heading + lead in a sticky left column, questions on the right ----------
+   Questions are 360-520px long in a 776px row with the toggle at the far end: a 320-430px empty column.
+   "Show more questions" spans the question column so it closes the list instead of leaving a ragged end. */
+@media (min-width: 960px) {
+  main.v3-profile-page.v6 .v3-faq-section .v3-faq-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: 40px; align-items: start; }
+  main.v3-profile-page.v6 .v3-faq-section .v3-faq-card > *:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; min-inline-size: 0; }
+  main.v3-profile-page.v6 .v3-faq-section .v3-faq-card > .v3-faq-card__header:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 1 / span 6; position: sticky; inset-block-start: 96px; margin: 0; }
+  main.v3-profile-page.v6 .v3-faq-section .v3-faq-card .v3-faq-list__expand:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: 100%; justify-content: center; }
+}
+
+/* ---------- 4b. profile, 960-1199px (single reading column ~630px beside the docked card) ----------
+   The disclosure note stopped at ~460px under the action links, and Products / Regions lists ran one short item per row. */
+@media (min-width: 960px) and (max-width: 1199px) {
+  main.v3-profile-page.v6 .v3-profile-reading-overview > .v3-relationship-note:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { max-inline-size: none; }
+  main.v3-profile-page.v6 .d5-scope__col > .d5-list:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+}
+
+/* ---------- 5. compare hero, >=1024px: title runs the full left track; copy-link and the note share one row ---------- */
+@media (min-width: 1024px) {
+  main.v3-compare-page.v6 .v3-page-hero > .v3-venue-hero:has(> .v3-compare-decision-nav):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: max-content minmax(0, 1fr) minmax(264px, 26%); column-gap: 32px; }
+  main.v3-compare-page.v6 .v3-venue-hero:has(> .v3-compare-decision-nav) > h1:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / span 2; max-inline-size: none; text-wrap: pretty; }
+  main.v3-compare-page.v6 .v3-venue-hero:has(> .v3-compare-decision-nav) > .decision-return-link:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 2; align-self: start; }
+  main.v3-compare-page.v6 .v3-venue-hero:has(> .v3-compare-decision-nav) > .v3-relationship-note:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 2; align-self: start; padding-block: 0; max-inline-size: 60ch; }
+  main.v3-compare-page.v6 .v3-venue-hero > .v3-compare-decision-nav:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 3; grid-row: 1 / span 2; }
+}
+
+/* ---------- 6. compare CRO: one filled primary per viewport — the venue pair is two equal neutral outlines ---------- */
+@media (min-width: 600px) {
+  #top.v3-compare-page.v6 .v3-compare-final-choice-card__action-row .v3-compare-final-choice-card__primary[data-cta-kind="registration"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: transparent; color: var(--ink, #edeef0); border: 1px solid color-mix(in oklab, var(--accent, #1fe0c0) 70%, transparent); box-shadow: none; }
+  #top.v3-compare-page.v6 .v3-compare-final-choice-card__action-row .v3-compare-final-choice-card__primary[data-cta-kind="registration"]:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: var(--accent-wash, rgb(31 224 192 / .1)); border-color: var(--accent, #1fe0c0); }
+}
+#top.v3-compare-page.v6 .v3-compare-sticky-bar .v3-compare-sticky-bar__btn[data-cta-kind="registration"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: transparent; color: var(--ink, #edeef0); border: 1px solid color-mix(in oklab, var(--accent, #1fe0c0) 70%, transparent); box-shadow: none; }
+#top.v3-compare-page.v6 .v3-compare-sticky-bar .v3-compare-sticky-bar__btn[data-cta-kind="registration"]:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: var(--accent-wash, rgb(31 224 192 / .1)); border-color: var(--accent, #1fe0c0); }
+
+/* ---------- 7. profile mobile bar, 600-959px: spans the content width (was a 480px island in a 768px bar) ---------- */
+@media (min-width: 600px) and (max-width: 959px) {
+  main.v3-profile-page.v6 .v3-mobile-sticky-bar .v3-mobile-sticky-bar__inner:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { inline-size: calc(100% - 64px); max-inline-size: none; margin-inline: auto; justify-content: space-between; }
+  main.v3-profile-page.v6 .v3-mobile-sticky-bar .v3-mobile-sticky-bar__btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex: 0 1 320px; }
+}
+
+/* ---------- 8. /rates, >=1200px ---------- */
+@media (min-width: 1200px) {
+  /* method note + conditions link join the left column under the answer block (was a full-width strip below a ragged pair) */
+  #rate-terminal:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-rows: auto auto auto minmax(0, 1fr); }
+  #rate-terminal .rt-result:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 2 / span 3; }
+  #rate-terminal .cost-decision__next-actions.rt-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / 6; grid-row: 4; flex-direction: column; align-items: flex-start; gap: 12px; margin-block: 0; padding-block: 24px 0; }
+  #rate-terminal .cost-decision__next-actions.rt-strip > p:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex: none; max-inline-size: none; }
+  /* register buttons align with the venue name row (they sat low, under an empty button column beside the axis) */
+  #rate-terminal .cost-decision__results > article > .cost-decision__cta:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { align-self: start; }
+  /* directory | compare links | bot: three equal columns (the first two were stacked in one cell and overlapped) */
+  #rate-terminal .fee-terminal__next-step.rt-next:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / span 4; grid-row: 7; }
+  #rate-terminal .rt-foot__links:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 5 / span 4; grid-row: 7; }
+  #rate-terminal .rt-handoff:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 9 / -1; grid-row: 7; }
+}
+
+/* ---------- 9. profile, opened "Sources and security": tighter rhythm, paired blocks ----------
+   Opened, the group ran 6-8 loose regions (160-250px) of one short block beside nothing. */
+main.v3-profile-page.v6 .v3-profile-sources-group__body:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { row-gap: 32px; padding-block-end: 32px; }
+main.v3-profile-page.v6 .v3-registration-notes__body > .v3-profile-account-section__heading:first-child:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 0; }
+main.v3-profile-page.v6 .v3-venue-metrics-grid > .v3-metric-tile:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { align-content: start; }
+@media (min-width: 768px) {
+  /* four metric tiles: the long fee tile on the left, the three short ones stacked beside it (was 3 + an orphan row) */
+  main.v3-profile-page.v6 .v3-venue-metrics-grid:has(> .v3-metric-tile:nth-child(4):last-child):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-auto-flow: row dense; column-gap: 32px; }
+  main.v3-profile-page.v6 .v3-venue-metrics-grid:has(> .v3-metric-tile:nth-child(4):last-child) > .v3-metric-tile:first-child:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: span 3; }
+}
+@media (min-width: 1200px) {
+  /* invitation: code block | rebate card side by side under the heading */
+  main.v3-profile-page.v6 .v3-venue-invitation-disclosure > .v3-registration-notes__body:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 32px; }
+  main.v3-profile-page.v6 .v3-venue-invitation-disclosure > .v3-registration-notes__body > *:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / -1; }
+  main.v3-profile-page.v6 .v3-venue-invitation-disclosure > .v3-registration-notes__body > .v3-profile-account-section__heading:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 1; }
+  main.v3-profile-page.v6 .v3-venue-invitation-disclosure > .v3-registration-notes__body > .v3-profile-account-section__hint:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 1; align-self: center; margin: 0; }
+  main.v3-profile-page.v6 .v3-venue-invitation-disclosure > .v3-registration-notes__body > .v3-venue-quick-registration:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 2; flex-direction: column; align-items: flex-start; margin: 0; }
+  main.v3-profile-page.v6 .v3-venue-invitation-disclosure > .v3-registration-notes__body > .v3-venue-rebate-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 2; flex-direction: column; align-items: flex-start; margin: 0; }
+}
