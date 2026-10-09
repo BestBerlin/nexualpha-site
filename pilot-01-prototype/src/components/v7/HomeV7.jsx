@@ -117,7 +117,7 @@ function IntelBlock({ intel, t, locale, venues }) {
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
       <div className="h7-ih"><h2>{t.inH}</h2><p>{t.inSub}</p></div>
       <ul className="h7-il">
-        {intel.items.slice(0, 8).map((i) => (
+        {intel.items.slice(0, 6).map((i) => (
           <li key={i.id}>
             <span className={`h7-ic h7-ic-${i.category}`}>{t.inCat[i.category]}</span>
             <span className="h7-iv"><BrandMark slug={i.venue} compact />{nameOf(i.venue)}</span>
@@ -194,35 +194,6 @@ export function HomeV7({ locale, venues: _catalog }) {
     return () => { stopped = true; cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); io?.disconnect(); };
   }, [venues]);
 
-  /* ---------- dark story: drawn by scroll position (the venue that returns the most) ---------- */
-  const storyRef = useRef(null), loRef = useRef(null), lbRef = useRef(null), dotRef = useRef(null), tagRef = useRef(null), gapRef = useRef(null), progRef = useRef(null), chartRef = useRef(null), svgRef = useRef(null);
-  const pRef = useRef(1);
-  const W = 1000, HH = 380, L = 46, R = 18, T = 14, B = 34;
-  const maxY = Math.max(1, calc.maxGross);
-  const X = (m) => L + (W - L - R) * m / 12, Y = (v) => HH - B - (HH - B - T) * v / maxY;
-  const setStory = useCallback((p) => {
-    pRef.current = p; const b = calc.most; if (!b || !loRef.current) return;
-    loRef.current.style.strokeDashoffset = String(1 - p); lbRef.current.style.strokeDashoffset = String(1 - p);
-    const x = X(12 * p), y = Y(b.net * p); dotRef.current?.setAttribute("cx", x); dotRef.current?.setAttribute("cy", y);
-    if (progRef.current) progRef.current.style.width = `${p * 100}%`;
-    const k = (svgRef.current?.getBoundingClientRect().width || W) / W, tg = tagRef.current;
-    if (tg) { tg.style.opacity = p > 0.02 && p < 0.97 ? "1" : "0"; const cw = svgRef.current?.getBoundingClientRect().width || W * k, half = (tg.offsetWidth || 0) / 2; tg.style.left = `${Math.min(Math.max(x * k, half), cw - half)}px`; tg.style.top = `${y * k}px`; tg.textContent = `${Math.round(p * 12) || 1} ${t.mo} · ${b.name} ${t.tagPaid} ${usd(b.net * p)}`; }
-    gapRef.current?.classList.toggle("on", p > 0.96);
-  }, [calc.most, maxY, t]);
-  useEffect(() => {
-    const el = storyRef.current; if (!el) return undefined;
-    if (reduced()) { setStory(1); return undefined; }
-    let tick = false, scrolled = false, timed = false;
-    // Pinned (desktop): progress through the tall section. Unpinned (mobile, section shorter than the viewport): progress as it travels up the screen.
-    const calcP = () => { const r = el.getBoundingClientRect(), vh = window.innerHeight, tot = r.height - vh; return tot > 0 ? Math.min(1, Math.max(0, -r.top / tot)) : Math.min(1, Math.max(0, (vh * 0.9 - r.top) / (r.height * 0.9))); };
-    const on = () => { scrolled = true; if (tick) return; tick = true; requestAnimationFrame(() => { tick = false; if (!timed) setStory(calcP()); }); };
-    setStory(calcP());
-    window.addEventListener("scroll", on, { passive: true }); window.addEventListener("resize", on);
-    const io = new IntersectionObserver((es) => { if (es[0].isIntersecting) setTimeout(() => { if (!scrolled && !timed) { timed = true; const t0 = performance.now(); const f = (n) => { const k = Math.min(1, (n - t0) / 4200); setStory(ease(k)); if (k < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); } }, 2500); }, { threshold: 0.5 });
-    if (chartRef.current) io.observe(chartRef.current);
-    return () => { window.removeEventListener("scroll", on); window.removeEventListener("resize", on); io.disconnect(); };
-  }, [setStory]);
-
   /* ---------- rows: a year runs through them when they scroll in ---------- */
   const rowsRef = useRef(null), rowEls = useRef([]);
   const paintRows = useCallback((p) => {
@@ -266,26 +237,11 @@ export function HomeV7({ locale, venues: _catalog }) {
 
       <div className="h7-trust"><div>{t.t1}<span>{t.t1b}</span></div><div>{t.t2}<span>{t.t2b}</span></div><div>{t.t3}<span>{t.t3b}</span></div></div>
 
-      <section className="h7-dk h7-story" ref={storyRef} aria-label={t.storyH}>
-        <div className="h7-in h7-pin">
-          <h2>{t.storyH}</h2>
-          <div className="h7-chart" ref={chartRef}>
-            <svg ref={svgRef} viewBox={`0 0 ${W} ${HH}`} role="img" aria-label={t.storyH}>
-              {[0, 1, 2, 3, 4].map((g) => <g key={g}><line x1={L} x2={W - R} y1={Y(maxY * g / 4)} y2={Y(maxY * g / 4)} className="h7-gl" /><text x={L - 8} y={Y(maxY * g / 4) + 4} textAnchor="end" className={`h7-ax h7-ax-y${g ? "" : " h7-ax-0"}`}>{usd(maxY * g / 4)}</text></g>)}
-              {[0, 3, 6, 9, 12].map((m) => <text key={m} x={X(m)} y={HH - 10} textAnchor="middle" className="h7-ax">{m ? `${m} ${t.mo}` : t.y0}</text>)}
-              {calc.most && <>
-                <path d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.most.gross)}`} className="h7-lnp h7-ghost" stroke="#6B717B" aria-hidden="true" />
-                <path d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.most.net)}`} className="h7-lnp h7-ghost" stroke="#1FE0C0" aria-hidden="true" />
-                <path ref={loRef} d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.most.gross)}`} className="h7-lnp" stroke="#6B717B" pathLength="1" strokeDasharray="1" />
-                <path ref={lbRef} d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.most.net)}`} className="h7-lnp" stroke="#1FE0C0" pathLength="1" strokeDasharray="1" />
-                <circle ref={dotRef} r="7" cx={X(12)} cy={Y(calc.most.net)} fill="#1FE0C0" stroke="#0C0D10" strokeWidth="4" />
-              </>}
-            </svg>
-            <div className="h7-tag" ref={tagRef} style={{ opacity: 0 }} />
-            {calc.most && <div className="h7-gap on" ref={gapRef}><span>{usd(calc.most.save)}</span><small>{t.gapNote(calc.most.name)}</small></div>}
-          </div>
-          <div className="h7-prog"><i ref={progRef} /></div>
-        </div>
+      <section className="h7-in h7-how" aria-labelledby="h7-how-h">
+        <h2 id="h7-how-h">{t.howH}</h2>
+        <ol className="h7-steps">
+          {t.how.map(([h, b], i) => <li key={h}><span className="h7-sn" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span><h3>{h}</h3><p>{b}</p></li>)}
+        </ol>
       </section>
 
       <section className="h7-in h7-calc" id="h7-calc">
@@ -303,20 +259,16 @@ export function HomeV7({ locale, venues: _catalog }) {
           <p className="h7-disc">{t.t2b}</p>
           {calc.rows.map((r, i) => (
             <div key={r.slug} ref={(e) => { rowEls.current[i] = e; }} className={`h7-xr${calc.best?.slug === r.slug ? " best" : ""}${r.share ? "" : " nr"}`}>
-              <div>
-                <b><BrandMark slug={r.slug} compact />{r.name}<span className="h7-bd">{r.share ? `${t.rebate} ${Math.round(r.share * 100)}%` : t.pending}</span></b>
-                <div className="h7-meta"><span>{t.rate} {r.maker != null ? `${r.maker.toFixed(2)}% / ${r.taker.toFixed(2)}%` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}</div>
-                <a className="h7-dt" href={localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}</a>
-                <div className="h7-bar" data-bar style={{ width: r.net != null ? `${(r.net / calc.maxGross) * 100}%` : 0 }} />
-              </div>
+              <p className="h7-xn"><BrandMark slug={r.slug} compact /><b>{r.name}</b><span className="h7-bd">{r.share ? `${t.rebate} ${Math.round(r.share * 100)}%` : t.pending}</span></p>
               <div className="h7-am" data-am dangerouslySetInnerHTML={{ __html: r.net == null ? "–" : `${r.share ? `<s>${usd(r.gross)}</s>` : ""}${usd(r.net)}` }} />
+              <p className="h7-meta"><span>{t.rate} {r.maker != null ? `${r.maker.toFixed(2)}% / ${r.taker.toFixed(2)}%` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}<a className="h7-dt" href={localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}</a></p>
               <Cta v={r} locale={locale} className="h7-btn h7-sm" placement="home-v7-row"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
             </div>
           ))}
         </div>
       </section>
       <IntelBlock intel={intel} t={t} locale={locale} venues={priced} />
-      <p className="h7-in h7-foot">{t.foot(FACTS_AS_OF).replace("{max}", String(HOME_REBATE_MAX_PCT))}</p>
+      <div className="h7-in h7-foot">{t.foot(FACTS_AS_OF).replace("{max}", String(HOME_REBATE_MAX_PCT)).split(/(?<=[。．.])\s*(?=\S)/u).map((x) => <p key={x}>{x}</p>)}</div>
     </div>
   );
 }
