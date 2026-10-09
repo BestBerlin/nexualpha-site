@@ -135,8 +135,8 @@ function IntelDesk({ intel, t, locale, venues, onOpen }) {
   const now = Date.now();
   return (
     <div className="h7-desk">
-      <div className="h7-dh"><span>{intel ? t.deskAsOf(fmtAsOf(intel.generatedAt, locale)) : t.deskLoading}</span><span>{[...new Set(items.map((i) => NAMES[i.venue]))].join(" · ")}</span></div>
-      <ul className="h7-dl" aria-busy={!intel || undefined}>
+      <div className="h7-dh"><span>{intel ? t.deskAsOf(fmtAsOf(intel.generatedAt, locale)) : intel === false ? t.deskTitle : t.deskLoading}</span><span>{[...new Set(items.map((i) => NAMES[i.venue]))].join(" · ")}</span></div>
+      <ul className="h7-dl" aria-busy={intel === null || undefined}>
         {intel ? items.map((i) => (
           <li key={i.id}>
             <button type="button" className="h7-dr" aria-pressed={sel?.id === i.id} onClick={() => setSelId(i.id)}>
@@ -146,7 +146,7 @@ function IntelDesk({ intel, t, locale, venues, onOpen }) {
               <time dateTime={i.publishedAt}>{t.inAgo(now - Date.parse(i.publishedAt))}</time>
             </button>
           </li>
-        )) : [0, 1, 2].map((k) => <li key={k} className="h7-dsk" aria-hidden="true"><i /><i /><i /></li>)}
+        )) : intel === null ? [0, 1, 2].map((k) => <li key={k} className="h7-dsk" aria-hidden="true"><i /><i /><i /></li>) : null}
       </ul>
       {intel === false && <p className="h7-dempty">{t.deskEmpty}</p>}
       <div className="h7-dh h7-dh2"><span>{perp ? t.shPerp : t.shSpot}</span><span>{t.shAfter}</span></div>
@@ -205,7 +205,7 @@ export function HomeV7({ locale, venues: _catalog }) {
   const calc = useMemo(() => {
     const rows = venues.map((v) => {
       const rate = mode === "maker" ? v.maker : v.taker;
-      if (rate == null) return { ...v, gross: null, net: null, save: null };
+      if (rate == null || !vol) return { ...v, gross: null, net: null, save: null };
       const gross = (vol * 12 * rate) / 100;
       const net = gross * (1 - (v.share || 0));
       return { ...v, gross, net, save: gross - net };
@@ -319,7 +319,7 @@ export function HomeV7({ locale, venues: _catalog }) {
             {CHIPS.map((c) => <button key={c} type="button" aria-pressed={vol === c} onClick={() => setVol(c)}>${c / 1000}K</button>)}
             <div className="h7-seg" role="group" aria-label="maker / taker"><button type="button" aria-pressed={mode === "maker"} onClick={() => setMode("maker")}>{t.maker}</button><button type="button" aria-pressed={mode === "taker"} onClick={() => setMode("taker")}>{t.taker}</button></div>
           </div>
-          <p className="h7-vd">{calc.best && <>{t.lowest(calc.best.name, usd(calc.best.net))}<br /></>}{calc.most && calc.most.save > 0 && t.most(calc.most.name, usd(calc.most.save))}</p>
+          <p className="h7-vd" aria-live="polite">{!vol ? t.calcEmpty : <>{calc.best && <>{t.lowest(calc.best.name, usd(calc.best.net))}<br /></>}{calc.most && calc.most.save > 0 && t.most(calc.most.name, usd(calc.most.save))}</>}</p>
           <a className="h7-ln h7-all" href={localizedHref("/exchanges", { locale })}>{t.all}</a>
         </div>
         <div className="h7-rows" ref={rowsRef}>
