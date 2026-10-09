@@ -22,3 +22,13 @@ main.v6:not(.home-refinement):is(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK)) h1:
 
 /* CJK running text: avoid a lone final character ("…可发布活 / 动。"). */
 main.v6 :is(p, li, dd):lang(zh) { text-wrap: pretty; }
+
+/* CJK display text (owner, 2026-10-09: "一句话放在两行、三行，标点落单"): headings, leads, captions, buttons and summaries break
+   only after punctuation or at spaces; a single clause wider than the line may still break (overflow-wrap:anywhere), so
+   nothing overflows. Long body paragraphs keep normal breaking. Copy for these slots keeps clauses short. */
+:is(:lang(zh), :lang(ja)) :is(h1, h2, h3, h4, summary, button, .btn, .h7-sub, .h7-cap, .h7-ih p, .h7-steps p, .h7-vd, .h7-kick,
+  .v6-lead, .v6-close__lead, .v6-small, .crawl-priority-links__intro span, .clean-footer__summary, .nx-ftr__list a, [class*="lead"], [class*="subtitle"],
+  [class*="kicker"], [class*="eyebrow"]):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  word-break: keep-all; overflow-wrap: anywhere; line-break: strict;
+}
+:is(:lang(zh), :lang(ja)) :is(h1, h2, h3):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { text-wrap: balance; }

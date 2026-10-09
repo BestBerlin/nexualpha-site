@@ -11,7 +11,6 @@ const samples = [
   ["cta", ["OKX"]],
   ["pw", [10]],
   ["cap", [10]],
-  ["gapNote", ["OKX"]],
   ["inAsOf", ["x"]],
   ["inAgo", [0]],
   ["inAgo", [5 * 36e5]],
@@ -32,9 +31,21 @@ test("every locale has exactly the en key set and inCat key set", () => {
     assert.deepEqual(Object.keys(copy.inCat).sort(), enCatKeys, `${locale} inCat keys`);
     for (const key of enCatKeys) assert.ok(typeof copy.inCat[key] === "string" && copy.inCat[key].trim(), `${locale}.inCat.${key} non-empty`);
     for (const key of enKeys) {
-      if (key === "inCat" || fnKeys.includes(key)) continue;
+      if (key === "inCat" || key === "how" || fnKeys.includes(key)) continue;
       assert.ok(typeof copy[key] === "string" && copy[key].trim(), `${locale}.${key} non-empty string`);
     }
+  }
+});
+
+test("every locale has howH and three [title, body] how steps", () => {
+  for (const locale of locales) {
+    const copy = H7_COPY[locale];
+    assert.ok(typeof copy.howH === "string" && copy.howH.trim(), `${locale}.howH non-empty`);
+    assert.ok(Array.isArray(copy.how) && copy.how.length === 3, `${locale}.how has 3 steps`);
+    copy.how.forEach((step, i) => {
+      assert.ok(Array.isArray(step) && step.length === 2, `${locale}.how[${i}] is a pair`);
+      for (const part of step) assert.ok(typeof part === "string" && part.trim(), `${locale}.how[${i}] non-empty strings`);
+    });
   }
 });
 
