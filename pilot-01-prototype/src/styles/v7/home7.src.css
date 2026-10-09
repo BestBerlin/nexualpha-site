@@ -168,12 +168,22 @@
 @media(min-width:1100px){@ h1{font-size:4.5rem}@ h1:lang(en){font-size:2.75rem}}
 @media(max-width:1000px){@ .h7-ax{font-size:18px}}
 @media(max-width:900px){
-@ .h7-hero{grid-template-columns:minmax(0,1fr);min-height:0;padding-block:32px 96px;gap:0}
-@ .h7-hero::before{inset:auto -30% 0 -10%;height:60%}
-@ .h7-big{align-items:flex-start;margin-top:40px}
-@ .h7-cap{text-align:start}
-@ .h7-src{bottom:24px;top:auto;right:auto;padding:6px 8px}
-@ .h7-s0{left:var(--pad)}@ .h7-s1{left:calc(var(--pad) + 25%)}@ .h7-s2{left:calc(var(--pad) + 50%)}@ .h7-s3{left:calc(var(--pad) + 75%)}
+/* phone hero: one flow — headline, 50% with its four sources directly under it, then copy and CTA.
+   .h7-hc/.h7-big dissolve so their children join a 4-column grid; the chips fill one row. */
+@ .h7-hero{grid-template-columns:repeat(4,minmax(0,132px)) minmax(0,1fr);min-height:0;padding-block:28px 40px;gap:0 6px;align-items:start}
+@ .h7-hero::before{inset:20% -40% auto -20%;height:50%}
+@ .h7-hc,@ .h7-big{display:contents}
+@ .h7-hero>*,@ .h7-hc>*,@ .h7-big>*{grid-column:1/-1}
+@ .h7-kick{order:1;margin-bottom:16px}
+@ .h7-hc h1{order:2}
+@ .h7-num{order:3;font-size:clamp(6.5rem,30vw,9rem);margin-top:20px;position:relative;z-index:1}
+@ .h7-src{order:4;grid-column:auto;position:static;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;min-height:48px;margin-top:20px;padding:8px 2px;text-align:center;white-space:nowrap}
+@ .h7-cap{order:5;text-align:start;margin:12px 0 0;max-width:none;position:relative;z-index:1}
+@ .h7-sub{order:6;margin-top:24px;position:relative;z-index:1}
+@ .h7-cta{order:7;margin-top:24px;position:relative;z-index:1}
+@ .h7-cta-disc{order:8;position:relative;z-index:1}
+/* the trust strip's rule already divides hero from story; no second rule and empty band */
+@ .h7-story{margin-top:0;border-top:0}
 @ .h7-ih{grid-template-columns:minmax(0,1fr)}
 @ .h7-calc{grid-template-columns:minmax(0,1fr)}
 }
