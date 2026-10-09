@@ -141,7 +141,9 @@
 @ .h7-ghost{opacity:.18}
 
 /* ---------- calculator ---------- */
-@ .h7-calc{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(32px,6vw,96px);padding-block:var(--sec)}
+@ .h7-calc{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(32px,6vw,96px);padding-block:var(--sec);align-items:start}
+/* the controls stay in view while the exchange rows scroll past (no empty column under them) */
+@ .h7-calc>div:first-child{position:sticky;top:88px}
 @ .h7-vin{display:flex;align-items:baseline;gap:12px;margin:32px 0 16px;font:500 2.75rem/1 var(--mono);color:var(--ink);border-bottom:1px solid var(--line2);padding-bottom:12px;font-variant-numeric:tabular-nums;transition:border-color 140ms}
 @ .h7-vin:focus-within{border-color:var(--ac)}
 @ .h7-vin span{color:var(--ink3)}@ .h7-vin input{border:0;background:transparent;font:inherit;color:inherit;outline:none;min-width:0;width:100%;padding:0;box-shadow:none;caret-color:var(--ac)}
@@ -236,6 +238,7 @@
 /* the trust strip's rule already divides hero from story; no second rule and empty band */
 @ .h7-ih{grid-template-columns:minmax(0,1fr)}
 @ .h7-calc{grid-template-columns:minmax(0,1fr)}
+@ .h7-calc>div:first-child{position:static}
 }
 @media(max-width:700px){
 @ .h7-cta .h7-btn{flex:1 1 100%}
