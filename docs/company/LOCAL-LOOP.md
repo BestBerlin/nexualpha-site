@@ -19,3 +19,15 @@ Why: cloud builds took ~4 min + download; the user's Mac mini (linked via the de
 - Small tasks: one agent = one defect class, target ≤ 60 min. Max 4 agents in parallel.
 - Never `pkill -f`; free ports with `fuser -k PORT/tcp`; delete scratch when done.
 - Deletion in the Mac folder was approved for this session only inside `Crypto聚合/`; only delete your own worktree/scratch.
+
+## Division of labour (decided 2026-10-09)
+
+**Mac mini, local Claude Code (user's installed skills: frontend-design, impeccable, taste/redesign, design:*, modern-web-guidance):**
+edit CSS/JSX in a worktree → `npm run i18n:compile` → `npx vite build` (~8s) → look at it → commit → `git bundle`.
+Only touch layout, type, motion. Never touch `partner-registry.js`, invite codes, registration hrefs, `rel=sponsored`, or SEO fields (title, description, canonical, h1 text, JSON-LD).
+
+**Cloud (CEO session):** merge branches (check `v6/index.css` imports resolve), GitHub build, e2e (`tests/e2e/run.py`, incl. JS-off/CSS/CTA gates), independent review, deploy from `main` via `deploy.yml`, verify live.
+
+**Cloud skills now visible in the session:** design:design-critique, design:accessibility-review, impeccable, modern-web-guidance, searchfit-seo (report-only until SEO fields are approved).
+
+Cloud disk: run e2e with `TMPDIR=/dev/shm`; delete preview dirs after each run; do not delete `/home/claude/nexu` (local-only repo, no remote).
