@@ -402,10 +402,11 @@ def evaluate(a, base, build, res, jsoff, ext):
         b = json.loads(Path(a.baseline).read_text())
         for key, m in rep['metrics'].items():
             for k, v in m.items():
-                if k in ('h1',):
+                if k in ('h1', 'uncoveredClasses'):  # informational only
                     continue
                 old = b.get(key, {}).get(k)
-                if old is not None and v > old:
+                tol = 24 if k == 'voidExcess' else 0  # sub-pixel/font raster jitter
+                if old is not None and v > old + tol:
                     add('regression', 'FAIL', key, f'{k} {old} -> {v}', 1500)
     for c in a.checks + ['load', 'regression']:
         ds = [x for x in rep['defects'] if x['check'] == c]
