@@ -1,0 +1,103 @@
+name: QA e2e
+
+# Runs the e2e layout/invariant suite (pilot-01-prototype/tests/e2e) against the release package
+# that the Build workflow just produced, served locally on the runner. Never deploys.
+#  - "CTA invariants" step is BLOCKING: sponsored hrefs / invite codes must match golden/cta-invariants.json.
+#  - "Layout scan" step is NON-BLOCKING for now (voids, type scale, tap targets, collisions, CSS sanity,
+#    overflow, JS-off, console). Its report is in the job summary and the qa-e2e-report artifact.
+# workflow_run / workflow_dispatch only fire for this file once it is on the default branch.
+
+on:
+  workflow_run:
+    workflows: [Build]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Build run id whose release-package to test (empty = newest successful Build on main)
+        required: false
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: qa-e2e-${{ github.event.workflow_run.head_branch || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PORT: 5091
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Playwright (python) + chromium
+        run: |
+          pip install --quiet playwright==1.56.0 numpy pillow
+          python -m playwright install --with-deps chromium
+
+      - name: Resolve build run
+        id: run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          id="${{ github.event.workflow_run.id || inputs.run_id }}"
+          if [ -z "$id" ]; then
+            id=$(gh run list -R "$GITHUB_REPOSITORY" --workflow build.yml --branch main --status success --limit 1 --json databaseId --jq '.[0].databaseId')
+          fi
+          echo "id=$id" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-package
+          run-id: ${{ steps.run.outputs.id }}
+          github-token: ${{ github.token }}
+          path: pkgdl
+
+      - name: Unpack
+        run: |
+          mkdir -p pkg && tar -xzf pkgdl/nexualpha-ui-*.tgz -C pkg
+          node -e "console.log('buildId', require('./pkg/dist/client/version.json').buildId)"
+
+      - name: CTA invariants (blocking)
+        working-directory: pilot-01-prototype
+        run: python tests/e2e/run.py --serve ../pkg --port 5091 --set cta --checks cta --jobs 3 --md ../qa-cta.md
+
+      - name: Layout scan (non-blocking)
+        id: scan
+        continue-on-error: true
+        working-directory: pilot-01-prototype
+        run: |
+          python tests/e2e/run.py --serve ../pkg --port 5092 --set ci --widths 1440,390 --jobs 3 \
+            --checks void,type,overflow,tap,collision,css,jsoff,console \
+            --baseline tests/e2e/golden/metrics-baseline.json --md ../qa-scan.md --json ../qa-scan.json
+
+      - name: Summary
+        if: always()
+        run: |
+          for f in qa-cta.md qa-scan.md; do [ -f "$f" ] && head -c 60000 "$f" >> "$GITHUB_STEP_SUMMARY"; done
+          if [ "${{ steps.scan.outcome }}" = failure ]; then echo "::warning::Layout scan found regressions/defects (non-blocking). See summary."; fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-e2e-report
+          path: |
+            qa-cta.md
+            qa-scan.md
+            qa-scan.json
+          retention-days: 14

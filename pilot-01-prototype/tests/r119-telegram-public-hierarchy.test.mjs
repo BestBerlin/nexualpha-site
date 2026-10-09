@@ -6,7 +6,7 @@ import {createRequire} from 'node:module';
 import * as config from '../src/data/telegram-config.js';
 import * as returns from '../src/data/telegram-decision-return.js';
 import * as routing from '../src/data/locale-routing.js';
-const compiler=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url))('esbuild');
+const compiler=createRequire(new URL('../package.json',import.meta.url))('esbuild');
 const current=fs.readFileSync(new URL('../src/components/v3/TelegramBotHub.jsx',import.meta.url),'utf8');
 const baseline=fs.readFileSync(new URL('../../../r118-r110-visual/promotion-runtime-r118-20261005/src/components/v3/TelegramBotHub.jsx',import.meta.url),'utf8');
 const css=fs.readFileSync(new URL('../src/components/v3/telegram-bot-hub.css',import.meta.url),'utf8');

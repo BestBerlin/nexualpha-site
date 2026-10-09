@@ -1,0 +1,276 @@
+{
+ "_doc": "Sponsored hrefs | data-cta-code per route@width, collected after a full scroll. Change only with user approval (ALLOW_CTA_CHANGE=1).",
+ "build": "3.0-20261009T0749-GH-398a043",
+ "codes": [
+  "11350287",
+  "48553",
+  "4BRhe",
+  "7f97gkqw",
+  "NEXU888",
+  "NEXUALPHA",
+  "NEXU_DERIBIT",
+  "NEXU_GMX",
+  "NEXU_KUCOIN",
+  "luckybitcoin",
+  "nexu888",
+  "nexubest"
+ ],
+ "routes": {
+  "/@1440": [
+   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | ",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | NEXU_GMX",
+   "https://app.hyperliquid.xyz/join/NEXU888 | ",
+   "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
+   "https://backpack.exchange/join/luckybitcoin | ",
+   "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
+   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | ",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | 11350287",
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | ",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | NEXU_DERIBIT",
+   "https://www.gate.com/signup/nexubest | ",
+   "https://www.gate.com/signup/nexubest | nexubest",
+   "https://www.htx.com/invite/en-us/1h?invite_code=nexu888 | nexu888",
+   "https://www.kraken.com/sign-up?ref=7f97gkqw | 7f97gkqw",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | ",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | NEXU_KUCOIN",
+   "https://www.mexc.com/register?inviteCode=4BRhe | ",
+   "https://www.mexc.com/register?inviteCode=4BRhe | 4BRhe",
+   "https://www.okx.com/join/nexu888 | ",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/@390": [
+   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | ",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | NEXU_GMX",
+   "https://app.hyperliquid.xyz/join/NEXU888 | ",
+   "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
+   "https://backpack.exchange/join/luckybitcoin | ",
+   "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
+   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | ",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | 11350287",
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | ",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | NEXU_DERIBIT",
+   "https://www.gate.com/signup/nexubest | ",
+   "https://www.gate.com/signup/nexubest | nexubest",
+   "https://www.htx.com/invite/en-us/1h?invite_code=nexu888 | nexu888",
+   "https://www.kraken.com/sign-up?ref=7f97gkqw | 7f97gkqw",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | ",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | NEXU_KUCOIN",
+   "https://www.mexc.com/register?inviteCode=4BRhe | ",
+   "https://www.mexc.com/register?inviteCode=4BRhe | 4BRhe",
+   "https://www.okx.com/join/nexu888 | ",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/compare/binance-vs-okx@1440": [
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | ",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | 11350287",
+   "https://www.okx.com/join/nexu888 | ",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/compare/binance-vs-okx@390": [
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | ",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | 11350287",
+   "https://www.okx.com/join/nexu888 | ",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/compare/bybit-vs-bitget@1440": [
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553"
+  ],
+  "/compare/bybit-vs-bitget@390": [
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553"
+  ],
+  "/compare/okx-vs-bybit@1440": [
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553",
+   "https://www.okx.com/join/nexu888 | ",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/compare/okx-vs-bybit@390": [
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553",
+   "https://www.okx.com/join/nexu888 | ",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/de@1440": [
+   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | ",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | NEXU_GMX",
+   "https://app.hyperliquid.xyz/join/NEXU888 | ",
+   "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
+   "https://backpack.exchange/join/luckybitcoin | ",
+   "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
+   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | ",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | 11350287",
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | ",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | NEXU_DERIBIT",
+   "https://www.gate.com/signup/nexubest | ",
+   "https://www.gate.com/signup/nexubest | nexubest",
+   "https://www.htx.com/invite/en-us/1h?invite_code=nexu888 | nexu888",
+   "https://www.kraken.com/sign-up?ref=7f97gkqw | 7f97gkqw",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | ",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | NEXU_KUCOIN",
+   "https://www.mexc.com/register?inviteCode=4BRhe | ",
+   "https://www.mexc.com/register?inviteCode=4BRhe | 4BRhe",
+   "https://www.okx.com/join/nexu888 | ",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/de@390": [
+   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | ",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | NEXU_GMX",
+   "https://app.hyperliquid.xyz/join/NEXU888 | ",
+   "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
+   "https://backpack.exchange/join/luckybitcoin | ",
+   "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
+   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | ",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | 11350287",
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | ",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | NEXU_DERIBIT",
+   "https://www.gate.com/signup/nexubest | ",
+   "https://www.gate.com/signup/nexubest | nexubest",
+   "https://www.htx.com/invite/en-us/1h?invite_code=nexu888 | nexu888",
+   "https://www.kraken.com/sign-up?ref=7f97gkqw | 7f97gkqw",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | ",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | NEXU_KUCOIN",
+   "https://www.mexc.com/register?inviteCode=4BRhe | ",
+   "https://www.mexc.com/register?inviteCode=4BRhe | 4BRhe",
+   "https://www.okx.com/join/nexu888 | ",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/exchanges/binance@1440": [
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | ",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | 11350287"
+  ],
+  "/exchanges/binance@390": [
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | ",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | 11350287"
+  ],
+  "/exchanges/bitget@1440": [
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888"
+  ],
+  "/exchanges/bitget@390": [
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888"
+  ],
+  "/exchanges/bybit@1440": [
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553"
+  ],
+  "/exchanges/bybit@390": [
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553"
+  ],
+  "/exchanges/okx@1440": [
+   "https://www.okx.com/join/nexu888 | ",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/exchanges/okx@390": [
+   "https://www.okx.com/join/nexu888 | ",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/exchanges@1440": [
+   "https://app.aevo.xyz/r/NEXUALPHA | ",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | ",
+   "https://app.hyperliquid.xyz/join/NEXU888 | ",
+   "https://backpack.exchange/join/luckybitcoin | ",
+   "https://global.hashkey.com/register?invite_code=NEXUALPHA | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | ",
+   "https://www.gate.com/signup/nexubest | ",
+   "https://www.htx.com/invite/en-us/1h?invite_code=nexu888 | ",
+   "https://www.kraken.com/sign-up?ref=7f97gkqw | ",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | ",
+   "https://www.mexc.com/register?inviteCode=4BRhe | ",
+   "https://www.okx.com/join/nexu888 | "
+  ],
+  "/exchanges@390": [
+   "https://app.aevo.xyz/r/NEXUALPHA | ",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | ",
+   "https://app.hyperliquid.xyz/join/NEXU888 | ",
+   "https://backpack.exchange/join/luckybitcoin | ",
+   "https://global.hashkey.com/register?invite_code=NEXUALPHA | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | ",
+   "https://www.bybit.com/register?affiliate_id=48553 | ",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | ",
+   "https://www.gate.com/signup/nexubest | ",
+   "https://www.htx.com/invite/en-us/1h?invite_code=nexu888 | ",
+   "https://www.kraken.com/sign-up?ref=7f97gkqw | ",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | ",
+   "https://www.mexc.com/register?inviteCode=4BRhe | ",
+   "https://www.okx.com/join/nexu888 | "
+  ],
+  "/rates@1440": [
+   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | NEXU_GMX",
+   "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
+   "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
+   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | 11350287",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | NEXU_DERIBIT",
+   "https://www.gate.com/signup/nexubest | nexubest",
+   "https://www.htx.com/invite/en-us/1h?invite_code=nexu888 | nexu888",
+   "https://www.kraken.com/sign-up?ref=7f97gkqw | 7f97gkqw",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | NEXU_KUCOIN",
+   "https://www.mexc.com/register?inviteCode=4BRhe | 4BRhe",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/rates@390": [
+   "https://app.aevo.xyz/r/NEXUALPHA | NEXUALPHA",
+   "https://app.gmx.io/#/trade/?ref=NEXU_GMX | NEXU_GMX",
+   "https://app.hyperliquid.xyz/join/NEXU888 | NEXU888",
+   "https://backpack.exchange/join/luckybitcoin | luckybitcoin",
+   "https://global.hashkey.com/register?invite_code=NEXUALPHA | NEXUALPHA",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888",
+   "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy | 11350287",
+   "https://www.bybit.com/register?affiliate_id=48553 | 48553",
+   "https://www.deribit.com/?reg=NEXU_DERIBIT | NEXU_DERIBIT",
+   "https://www.gate.com/signup/nexubest | nexubest",
+   "https://www.htx.com/invite/en-us/1h?invite_code=nexu888 | nexu888",
+   "https://www.kraken.com/sign-up?ref=7f97gkqw | 7f97gkqw",
+   "https://www.kucoin.com/ucenter/signup?rcode=NEXU_KUCOIN | NEXU_KUCOIN",
+   "https://www.mexc.com/register?inviteCode=4BRhe | 4BRhe",
+   "https://www.okx.com/join/nexu888 | nexu888"
+  ],
+  "/zh-hans/exchanges/bitget@1440": [
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888"
+  ],
+  "/zh-hans/exchanges/bitget@390": [
+   "https://partner.bitget.cafe/bg/C6PRAF | ",
+   "https://partner.bitget.cafe/bg/C6PRAF | nexu888"
+  ]
+ }
+}

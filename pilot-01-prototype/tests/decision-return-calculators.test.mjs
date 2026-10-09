@@ -67,7 +67,8 @@ test('calculator restore helpers accept only their own scenario kind', async () 
   assert.deepEqual(result.costZero, { volume: '0', market: 'spotFee', order: 'takerRate' });
   assert.equal(result.costRejectFees, null);
   assert.deepEqual(result.reviewedSpotMaker, { binance: 100, bybit: 100, bitget: 100 });
-  assert.equal(result.okxPending, null);
+  // OKX spot became an official reviewed record on 2026-10-08 (docs/data/exchange-facts-20261008.json).
+  assert.equal(result.okxPending?.rate * 100000, 80);
   assert.equal(result.bitgetFuturesPending, null);
   assert.deepEqual(result.bleedSpotCost, { rate: 0.001, annualTotalFee: 1200, annualBleed: 0 });
   assert.deepEqual(result.bleedFuturesPending, { rate: null, annualTotalFee: null, annualBleed: null });

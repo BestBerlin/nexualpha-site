@@ -5,7 +5,7 @@ import { createRequire } from 'node:module';
 import vm from 'node:vm';
 import { contextualHref } from '../src/data/contextual-href.js';
 
-const requireWorkspace = createRequire(new URL('../../../../pilot-01-prototype/package.json', import.meta.url));
+const requireWorkspace = createRequire(new URL('../package.json', import.meta.url));
 const React = requireWorkspace('react');
 const { renderToStaticMarkup } = requireWorkspace('react-dom/server');
 const { transformSync } = requireWorkspace('esbuild');

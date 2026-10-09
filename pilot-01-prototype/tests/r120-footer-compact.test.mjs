@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import vm from 'node:vm';
 import {createRequire} from 'node:module';
 import * as routing from '../src/data/locale-routing.js';
-const compiler=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url))('esbuild');
+const compiler=createRequire(new URL('../package.json',import.meta.url))('esbuild');
 const dataModule={exports:{}};
 vm.runInNewContext(compiler.buildSync({entryPoints:[fileURLToPath(new URL('../src/data/v3-product.js',import.meta.url))],bundle:true,platform:'node',format:'cjs',write:false}).outputFiles[0].text,{module:dataModule,exports:dataModule.exports});
 const data=dataModule.exports;
@@ -41,7 +41,7 @@ for(const locale of locales)test(`${locale}: compact default keeps six main rout
  if(locale!=='en')assert.notEqual(text(policies.children[0]),text(cls(render(current,'en'),'clean-footer__policies').children[0]));
 });
 test('actual SSR retains risk/policy body while native details has no open attribute or JS dependency',()=>{
- const req=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url));
+ const req=createRequire(new URL('../package.json',import.meta.url));
  const React=req('react'),{renderToStaticMarkup}=req('react-dom/server');
  const module={exports:{}};
  vm.runInNewContext(compiler.transformSync(current,{loader:'jsx',format:'cjs'}).code,{module,exports:module.exports,React,require:()=>({...data,...routing,NexuAlphaWordmark:({href})=>React.createElement('a',{href},'NexuAlpha')})});

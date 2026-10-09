@@ -19,6 +19,9 @@ WHAT IT DOES
           an empty card, a sidebar running out. Symmetric side gutters of a centred
           narrow column (article measure) are not reported (use --gutters to keep them).
 
+  Tracks of position:sticky elements (e.g. the venue registration card column) count as content,
+  because the card is visible at every scroll position although a full-page screenshot draws it once.
+
   Each finding gets the nearest section selector (innermost section/article/aside/
   header/footer/[id] block containing it) so you can jump to the CSS.
   Findings are ranked by void area (excess x width for bands, w x h for columns).
@@ -37,7 +40,7 @@ OPTIONS
   --container 1200                  max content container width in px
   --min 160                         min column-void width AND height
   --pad-desktop 128 --pad-mobile 72 deliberate-padding allowance for bands
-  --edge 18                         channel delta that counts as a pixel edge
+  --edge 18                         luma delta (0-255) between neighbouring pixels that counts as an edge
   --jobs 2                          parallel browsers (each loads one page)
   --retries 2                       retries per page on navigation/screenshot error
   --max-height 40000                crop analysis below this y (very long pages)
@@ -60,6 +63,10 @@ import argparse, asyncio, io, json, os, sys, time
 import numpy as np
 from PIL import Image, ImageDraw
 from playwright.async_api import async_playwright
+
+STICKY_JS = r'''()=>{const o=[];for(const e of document.querySelectorAll('body *')){const s=getComputedStyle(e);
+ if(s.position!=='sticky'||s.display==='none')continue;const r=e.getBoundingClientRect();if(r.height<40||r.width<80)continue;
+ const p=e.parentElement.getBoundingClientRect();o.push([r.left,p.top+scrollY,r.right,p.bottom+scrollY])}return o}'''
 
 SECTIONS_JS = r'''()=>{
 const sel=e=>{let s=e.tagName.toLowerCase();if(e.id)return s+'#'+e.id;
@@ -118,12 +125,13 @@ def container_x(W, cmax):
 
 
 def edges(img, t):
-    """bool maps: horizontal-diff edges (H,W) and vertical-diff edges (H,W)."""
-    a = img.astype(np.int16)
-    h = np.zeros(a.shape[:2], bool)
-    v = np.zeros(a.shape[:2], bool)
-    h[:, 1:] = (np.abs(a[:, 1:] - a[:, :-1]).max(axis=2) > t)
-    v[1:, :] = (np.abs(a[1:] - a[:-1]).max(axis=2) > t)
+    """bool maps of luma edges: horizontal-diff (H,W) and vertical-diff (H,W). Luma keeps it ~10x faster
+    than per-channel diffs; text/UI contrast is luminance contrast anyway."""
+    g = ((img[:, :, 0] >> 2) + (img[:, :, 1] >> 1) + (img[:, :, 2] >> 2)).astype(np.int16)
+    h = np.zeros(g.shape, bool)
+    v = np.zeros(g.shape, bool)
+    h[:, 1:] = np.abs(g[:, 1:] - g[:, :-1]) > t
+    v[1:, :] = np.abs(g[1:] - g[:-1]) > t
     return h, v
 
 
@@ -164,11 +172,18 @@ def largest_rects(empty, mincells, maxn=12):
     return found
 
 
-def analyse(img, W, a):
+def analyse(img, W, a, covered=()):
+    """covered: [(l, t, r, b)] page rects that count as content although the screenshot shows them empty,
+    e.g. the track of a position:sticky card (drawn once at its top, visible at every scroll position)."""
     H = img.shape[0]
     x0, x1 = container_x(W, a.container)
     pad = a.pad_desktop if W >= 1024 else a.pad_mobile
     he, ve = edges(img[:, x0:x1], a.edge)
+    for l, t, r, b in covered:
+        l, r = max(0, int(l) - x0), min(x1 - x0, int(r) - x0)
+        t, b = max(0, int(t)), min(H, int(b))
+        if r - l > 2 and b > t:
+            he[t:b, l:r] = True
     rowc = he.sum(axis=1) >= 2           # row has content
     found = []
     for s, e in runs(~rowc):
@@ -188,14 +203,24 @@ def analyse(img, W, a):
         rowcells_content = ~empty.all(axis=1)
         empty[~rowcells_content] = False  # pure empty rows are bands, handled above
         if not a.gutters:
+            # content extent per cell row, widened over a 320px window so a left-aligned text column centred in
+            # the container (ragged right edge) still reads as symmetric; symmetric side margins are gutters
+            has = ~empty
+            idx = np.arange(cw)
+            first = np.where(has.any(axis=1), np.where(has, idx, cw).min(axis=1), cw)
+            last = np.where(has.any(axis=1), np.where(has, idx, -1).max(axis=1), -1)
+            win = 40
+            pf = np.concatenate([np.full(win, cw), first, np.full(win, cw)])
+            pl = np.concatenate([np.full(win, -1), last, np.full(win, -1)])
+            from numpy.lib.stride_tricks import sliding_window_view as swv
+            F = swv(pf, 2 * win + 1).min(axis=1)
+            L = swv(pl, 2 * win + 1).max(axis=1)
             for r in range(R):
-                nz = np.where(~empty[r])[0]
-                if not len(nz):
+                if last[r] < 0:
                     continue
-                l, rr = nz[0], cw - 1 - nz[-1]
-                if abs(l - rr) <= 6:  # symmetric side margins of a centred column = gutters
-                    empty[r, :nz[0]] = False
-                    empty[r, nz[-1] + 1:] = False
+                if abs(F[r] - (cw - 1 - L[r])) <= 6:
+                    empty[r, :F[r]] = False
+                    empty[r, L[r] + 1:] = False
         for r0, c0, r1, c1 in largest_rects(empty, a.min // cs):
             y, h = r0 * cs, (r1 - r0) * cs
             x, w = x0 + c0 * cs, (c1 - c0) * cs
@@ -223,7 +248,7 @@ async def prepare_page(pg, Hv):
     """Wait for hydration, scroll top->bottom in small steps so lazy/reveal content mounts, return to top.
     Shared with pilot-01-prototype/tests/e2e/run.py."""
     try:
-        await pg.wait_for_function('document.documentElement.dataset.nexualphaHydrated==="true"', timeout=10000)
+        await pg.wait_for_function('document.documentElement.dataset.nexualphaHydrated==="true"', timeout=3000)
     except Exception:
         pass
     await pg.wait_for_timeout(600)
@@ -267,6 +292,7 @@ async def scan_one(pw, url, W, a):
             await prepare_page(pg, Hv)
             await pg.wait_for_timeout(700)
             sections = await pg.evaluate(SECTIONS_JS)
+            sticky = await pg.evaluate(STICKY_JS)
             sw = await pg.evaluate('document.documentElement.scrollWidth')
             png = await pg.screenshot(full_page=True, type='png', animations='disabled')
             await b.close()
@@ -277,7 +303,7 @@ async def scan_one(pw, url, W, a):
             arr = np.asarray(im)
             if arr.shape[1] != W:  # horizontal overflow widened the shot; analyse viewport width only
                 arr = arr[:, :W]
-            found = analyse(arr, W, a)
+            found = analyse(arr, W, a, sticky)
             for f in found:
                 f['near'] = nearest(sections, f)
             return {'url': url, 'w': W, 'H': int(arr.shape[0]), 'scrollWidth': sw, 'voids': found,

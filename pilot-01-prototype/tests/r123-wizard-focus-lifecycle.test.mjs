@@ -3,7 +3,7 @@ import test from 'node:test';
 import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import vm from 'node:vm';
-const req=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url));
+const req=createRequire(new URL('../package.json',import.meta.url));
 const {transformSync}=req('esbuild');
 function mount(){
  let cursor=0,id=0;const slots=[],effects=[],frames=new Map(),listeners=new Set();

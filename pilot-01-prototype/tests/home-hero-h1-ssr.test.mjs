@@ -45,7 +45,7 @@ test("SSR homepage renders one visible localized H1 per supported locale", async
 
     assert.equal(h1Matches.length, 1, `${locale}: one SSR h1`);
     const [fullMatch, attributes, body] = h1Matches[0];
-    assert.match(attributes, /class="lean-hero__title"/, `${locale}: homepage h1 keeps visible hero class`);
+    assert.match(attributes, /class="(?:rf-title(?: rf-title--\w+)?|lean-hero__title)"/, `${locale}: homepage h1 keeps visible hero class`); // v6 hero: .rf-title
     assert.doesNotMatch(fullMatch, /\b(?:hidden|aria-hidden="true"|display:\s*none|visibility:\s*hidden)\b/i, `${locale}: homepage h1 is visible markup`);
 
     const heading = textFromHtml(body);

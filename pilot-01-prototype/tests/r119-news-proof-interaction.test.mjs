@@ -5,7 +5,7 @@ import { createRequire } from 'node:module';
 import vm from 'node:vm';
 
 // Reuse the workspace's existing compiler; no candidate dependency is added.
-const requireCompiler = createRequire(new URL('../../../../pilot-01-prototype/package.json', import.meta.url));
+const requireCompiler = createRequire(new URL('../package.json', import.meta.url));
 const { transformSync } = requireCompiler('esbuild');
 const locales = ['en', 'zh-Hans', 'zh-Hant', 'ja', 'ko', 'es', 'pt-BR', 'fr', 'de', 'tr', 'ru', 'ar', 'id', 'vi', 'it'];
 const tableBody = '| A | B | C | D |\n| --- | --- | --- | --- |\n| first | second | third | last |';

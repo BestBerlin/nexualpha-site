@@ -5,7 +5,7 @@ import {createRequire} from 'node:module';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import vm from 'node:vm';
-const req=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url));
+const req=createRequire(new URL('../package.json',import.meta.url));
 const React=req('react'),{renderToStaticMarkup}=req('react-dom/server'),{buildSync}=req('esbuild');
 const currentFile=new URL('../src/components/v3/LeanHero.jsx',import.meta.url);
 function load(text){const output=buildSync({stdin:{contents:text,resolveDir:path.dirname(fileURLToPath(currentFile)),sourcefile:'LeanHero.jsx',loader:'jsx'},bundle:true,write:false,format:'cjs',platform:'node',external:['react','react-dom','react/jsx-runtime'],loader:{'.css':'empty'}}).outputFiles[0].text;const module={exports:{}};vm.runInNewContext(output,{module,exports:module.exports,require:req,URL,URLSearchParams,Intl,Date,console,setTimeout,clearTimeout});return module.exports.LeanHero;}

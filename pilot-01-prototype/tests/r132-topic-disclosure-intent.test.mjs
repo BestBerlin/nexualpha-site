@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {createHash} from 'node:crypto';
 import vm from 'node:vm';
-const req=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url));
+const req=createRequire(new URL('../package.json',import.meta.url));
 const {transformSync}=req('esbuild');
 const source=readFileSync(new URL('../src/components/v3/TopicGuidePage.jsx',import.meta.url),'utf8');
 const begin=source.indexOf('function TopicDisclosure('),end=source.indexOf('\nexport function TopicGuidePage',begin);

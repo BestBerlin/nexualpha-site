@@ -1,0 +1,18 @@
+{
+  "_doc": "Route sets for tests/e2e/run.py. 'ci' = fast set used by the GitHub job; 'full' = ci + extended. 'cta' = routes whose sponsored hrefs/codes are snapshotted in golden/cta-invariants.json. 'expected404' = same-origin URLs allowed to return 404.",
+  "ci": [
+    "/", "/exchanges", "/exchanges/binance", "/exchanges/bitget", "/compare/binance-vs-okx", "/compare/bybit-vs-bitget",
+    "/rates", "/factbook", "/news", "/topics/no-kyc", "/br", "/zh-hans/", "/de", "/ar", "/ja/exchanges/bitget", "/methodology", "/activities"
+  ],
+  "extended": [
+    "/exchanges/okx", "/exchanges/bybit", "/exchanges/uniswap", "/compare/okx-vs-bybit", "/compare/hyperliquid-vs-dydx",
+    "/zh-hans/compare/binance-vs-okx", "/factbook/binance", "/telegram", "/onchain", "/partners", "/mx", "/mx/comparar",
+    "/eu", "/tw", "/markets/turkiye", "/embed/calculator", "/topics", "/topics/derivatives", "/br/pix"
+  ],
+  "cta": [
+    "/", "/exchanges", "/exchanges/binance", "/exchanges/okx", "/exchanges/bitget", "/exchanges/bybit",
+    "/compare/binance-vs-okx", "/compare/bybit-vs-bitget", "/compare/okx-vs-bybit", "/rates", "/de", "/zh-hans/exchanges/bitget"
+  ],
+  "i18n": { "locales": ["zh-Hans", "ja", "de", "ar"], "paths": ["/", "/exchanges/binance", "/compare/binance-vs-okx"] },
+  "expected404": ["/compare"]
+}

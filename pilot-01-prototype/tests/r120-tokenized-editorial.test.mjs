@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import {createRequire} from 'node:module';
 import * as data from '../src/data/tokenized-assets-cluster.js';
 import * as routing from '../src/data/locale-routing.js';
-const compiler=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url))('esbuild');
+const compiler=createRequire(new URL('../package.json',import.meta.url))('esbuild');
 const current=fs.readFileSync(new URL('../src/components/v3/TokenizedAssetsPage.jsx',import.meta.url),'utf8');
 const before=fs.readFileSync(new URL('../../tokenized-before/TokenizedAssetsPage.jsx',import.meta.url),'utf8');
 function render(source,slug,locale){

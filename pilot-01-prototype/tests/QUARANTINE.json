@@ -1,0 +1,1237 @@
+{
+ "_doc": "Quarantined contract tests (2026-10-09, QA Lead). Every failing file was run on HEAD and on the production baseline a4dee31. A file leaves this list only with the change that makes it pass. Categories: real-bug (product defect; see docs/qa/baseline-2026-10-09.md), stale-v6 (passed at baseline, broken by intended v6 redesign/data updates; rewrite against v6), historical-snapshot (one-off round tests bound to external evidence), pre-existing (failing since the baseline import), env-dependency, needs-build.",
+ "files": {
+  "activity-research-desk.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "activity-research-desk-style.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "backup-retention-policy.test.mjs": {
+   "category": "pre-existing",
+   "reason": "reads a file that is not in git: config/backup-retention-policy.json"
+  },
+  "brand-editorial.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; v6 hero replaced LeanHero (.lean-hero__badge gone); rewrite against the .rf hero"
+  },
+  "brazil-decision.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; BR CTA chain JSX regex (\"Rota principal · passo\", \"Shortlist sugerido\") changed by v6 CRO/copy work"
+  },
+  "brazil-seo.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "browser-regression.test.mjs": {
+   "category": "env-dependency",
+   "reason": "needs puppeteer-core (not in package.json); browser coverage now lives in tests/e2e (Playwright)"
+  },
+  "compare-compact-pending.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "compare-decision-ssr.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; compare SSR copy changed in v6 (final-choice eyebrow and legacy bullets removed)"
+  },
+  "compare-direct-answers.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; v6 strip-kickers removed final-choice eyebrows (e.g. ja \"登録前の最終判断\"); FAQ disclosure markup changed"
+  },
+  "compare-disclosure-layout.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "compare-reading-structure.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "compare-reading-style.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "core-recovery-browser.test.mjs": {
+   "category": "env-dependency",
+   "reason": "needs puppeteer-core (not in package.json); browser coverage now lives in tests/e2e (Playwright)"
+  },
+  "cost-decision-locales.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; v6 /rates ledger reorders next actions vs inputs"
+  },
+  "decision-return-calculators.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; reviewed fee data update 2026-10-08 (OKX spot + futures now reviewed); SSR still expects \"Pending\""
+  },
+  "detail-composition.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "directory-action-structure.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "directory-action-style.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "fee-benchmark-reviewed.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; v6r5 /rates ledger redesign + futures fees now reviewed; all 5 cases assert the old table"
+  },
+  "frontend-contract.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "full-spectrum-audit.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "home-layout.test.mjs": {
+   "category": "env-dependency",
+   "reason": "needs puppeteer-core (not in package.json); browser coverage now lives in tests/e2e (Playwright)"
+  },
+  "i18n-tooling.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "mobile-height-baseline-script.test.mjs": {
+   "category": "env-dependency",
+   "reason": "needs puppeteer-core (not in package.json); browser coverage now lives in tests/e2e (Playwright)"
+  },
+  "navigation-directory-copy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "navigation-system-state.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "news-index-search.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "owner-compare-support-gap.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; v6r5 ISO dates: \"reviewed September 22, 2026\" is now an ISO date"
+  },
+  "platform-matcher-upgrade.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; German matcher copy is now localized; test expects the English fallback object"
+  },
+  "postrelease-cta-observation.test.mjs": {
+   "category": "pre-existing",
+   "reason": "reads a file that is not in git: /home/claude/wt-qa/scripts/postrelease-cta-observation.mjs"
+  },
+  "prerender-contract.test.mjs": {
+   "category": "needs-build",
+   "reason": "reads dist/; included automatically when dist/client/version.json exists"
+  },
+  "priority-venue-seo.test.mjs": {
+   "category": "real-bug",
+   "reason": "REAL BUG: worker/index.js generated priority/compare SEO projection is stale vs src (ar/ru compare FAQ were localized in src; the Worker JSON-LD still serves the old loanword copy). Fix: node scripts/sync-priority-venue-seo.mjs (SEO owner approval). build.yml does not run this step although npm run build does."
+  },
+  "profile-reading-structure.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "profile-reading-style.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r102-treasury-seo-preserve.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r103-operating-event-contract.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r106-context-preservation.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; cost-calculator-next-compare renders only when there is no tie; with reviewed data Binance vs OKX spot ties (tie-compare placement shown instead)"
+  },
+  "r106-mx-native-copy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r108-treasury-news-handoff.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r118-compare-content-preservation.test.mjs": {
+   "category": "pre-existing",
+   "reason": "reads a file that is not in git: dist/ssr/entry-server.js"
+  },
+  "r118-compare-first-paint-css.test.mjs": {
+   "category": "needs-build",
+   "reason": "reads dist/; included automatically when dist/client/version.json exists"
+  },
+  "r118-local-preparation.test.mjs": {
+   "category": "needs-build",
+   "reason": "reads dist/; included automatically when dist/client/version.json exists"
+  },
+  "r118-news-cache-coherence.test.mjs": {
+   "category": "needs-build",
+   "reason": "reads dist/; included automatically when dist/client/version.json exists"
+  },
+  "r118-news-hydration-parity.test.mjs": {
+   "category": "needs-build",
+   "reason": "reads dist/; included automatically when dist/client/version.json exists"
+  },
+  "r119-lean-hero-intent-switch.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r119-lean-hero-motion.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r119-mobile-menu.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r119-news-fallback-table.test.mjs": {
+   "category": "pre-existing",
+   "reason": "reads a file that is not in git: /home/claude/r118-r110-visual/promotion-runtime-r118-20261005/worker/index.js"
+  },
+  "r119-news-hierarchy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r119-news-proof-interaction.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r119-telegram-public-hierarchy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r120-compare-hierarchy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r120-factbook-hierarchy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r120-footer-compact.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r120-tokenized-editorial.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r121-factbook-density.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r122-factbook-locale.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r122-registration-hierarchy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r124-activities-hierarchy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r124-decision-rail-layout.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; JSX regex on decision rail markup changed by the v6r2 numbered-label strip"
+  },
+  "r124-onchain-checklist.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r125-mx-disclosure.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r125-news-source-jump.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r126-proof-visibility.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r127-home-directory-containment.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r128-home-benefit-dedup.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r129-compare-task-grouping.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r129-meme-href-multiset.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r129-news-source-reading.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r129-reader-foundation.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r130-reader-material.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r131-topic-nav-mobile.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r132-topic-disclosure-intent.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r133-profile-density.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r135-topic-native-decision.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r137-profile-sticky.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r138-motion-visibility.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r140-copy-feedback-ssr.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r141-range-focus.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r142-compare-quick-actions.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r144-news-mobile.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r145-directory-native.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r146-activity-empty.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r148-directory-language.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r149-activity-touch.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r150-resume-compact.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r151-directory-copy-relocation.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r152-compare-semantics.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r153-motion-accessibility.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r156-home-workbench.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r158-home-hierarchy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r161-landscape-route.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r162-home-native-marker.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r163-home-task-copy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r165-profile-main-card.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r169-home-platform-chooser.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r170-mobile-navigation.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r171-profile-code-layout.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r172-nextstep-locales.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r174-profile-narrow-padding.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r175-ja-home-compact-labels.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r178-static-source-notes.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r179-mobile-nav-reserve.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r180-copy-confirmation.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r181-home-locale-density.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r183-derivatives-route-task.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r184-home-code-identity.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r185-news-natural-height.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r186-source-summary-density.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r189-contract-safety.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r191-activity-reward-touch.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r193-desktop-hero-composition.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r194-news-reader-priority.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r195-home-chooser-empty-search.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r196-derivatives-picker-mobile.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r197-directory-interaction.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r198-integration-contract.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r203-topic-continuation-density.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r204-compare-mobile-navigation.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r208-compare-related-rhythm.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r212-activity-research-localization.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r212-v4-official-campaign-terminology.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r213-compare-tablet-navigation.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r217-first-decision-hierarchy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r223-profile-reading-priority.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r226-news-runtime-package.test.mjs": {
+   "category": "needs-build",
+   "reason": "reads dist/; included automatically when dist/client/version.json exists"
+  },
+  "r226-news-ssr-parity.test.mjs": {
+   "category": "pre-existing",
+   "reason": "reads a file that is not in git: dist/ssr/entry-server.js"
+  },
+  "r231-coherent-reader-polish.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r232-profile-summary-completeness.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r234-news-reading-column.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r235-compare-condition-completeness.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r235-frozen-authority.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r236-news-build-entry.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r236-news-original-direction.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r237-budget-main-chunk.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r237-coherent-experience.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r238-news-prose-direction-scope.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r239-compare-source-touch-targets.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r239-news-language-direction.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r240-mobile-bottom-nav-typography.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r244-brazil-decision-journey.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r246-french-nav-label.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r247-home-compare-composition.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r248-brazil-nextstep-touch.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r250-targeted-motion-gates.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r252-compare-fit-readable.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r253-directory-search-locale.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r255-compare-mobile-layout.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r256-directory-search-spacing.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r258-article-specific-answers.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r259-directory-native-clear.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r261-directory-clear-focus.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r262-br-shortlist-action-copy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r264-activity-source-touch.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r265-article-condensed-answers.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r267-telegram-locale-layout.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r268-calculator-route-display-touch.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r270-news-list-native.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r271-short-viewport-toast.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r272-telegram-quick-cta-aria.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r273-final-integration-authority.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r275-news-first-decision-density.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r276-integration-authority.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r277-article-firstfold.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r277-copy-failure-recovery.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; harness extracts handler source from RegistrationCard by regex; component refactored"
+  },
+  "r277-wizard-selection-state.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r278-leading-research-action.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r279-reader-controlled-example.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r279-trading-bleed-raf-lifecycle.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r279-wizard-color.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r280-inline-research-example.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r281-por-status.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r281-regional-native-status.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r281-telegram-return-banner-compact.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r282-directory-chunk.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r283-mobile-resume-row.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r284-mobile-resume-type.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-activity-reward-research.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-compare-open-snapshot-text.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-compare-snapshot-summary.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-copy-visibility-selector.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-directory-empty-reset-focus.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-four-editorial-summary-feed.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-four-summary-placement.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-hero-action-material.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-home-desktop-spacing.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-home-research-hidden-focus.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-home-section-nav-touch.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; source hash lock on home section nav, changed by v6"
+  },
+  "r286-home-single-dom-research.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-incremental-card-wrap.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-invitation-note.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-news-list-eyebrow-ui.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-news-mobile-rail.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-news-nav-consistency.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-news-reading-copy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-news-summary-claims.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-profile-cost-summary-position.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-profile-cta-hierarchy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-profile-evidence-summary-dedup.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-profile-faq-mobile-spacing.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-profile-registration-summary.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-venue-faq-zh-nonpriority.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-yellow-pages-copy-feedback.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r286-zh-content-field-patch.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r287-hero-selection-help-copy.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r287-home-comparison-index.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r287-home-scope.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r288-comparison-behavior-lock.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r288-comparison-visual-scope.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r288-triple-mobile-reading.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r289-content-independent.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r289-research-flow.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r290-profile-behavior-lock.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r290-profile-visual-scope.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r291-priority-faq-ui.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r292-profile-expression.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r292-profile-layout.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r293-home-platform-index.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r294-profile-research-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r294-research-dom.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r295-decision-paths-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r295-decision-paths-dom.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r296-hero-desk-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r296-hero-preservation.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r297-article-reading-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r297-article-sections.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r298-news-index-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r298-news-list-contract.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r299-news-rail-order.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r299-reading-priority-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r30-mx-visible-decision-body.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r300-article-navigation.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r300-section-nav-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r301-comparison-order.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r301-evidence-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r302-matrix-navigation-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r302-metric-navigation.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r303-mobile-matrix.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r303-mobile-matrix-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r304-activity-editorial.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r304-reduced-motion.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r305-profile-route-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r305-profile-route-order.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r306-entry-context.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r306-entry-context-css.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r307-readiness-css-delivery.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r307-worker-readiness-styles.test.mjs": {
+   "category": "needs-build",
+   "reason": "reads dist/; included automatically when dist/client/version.json exists"
+  },
+  "r33-owner-pages-contract.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r37-serp-owner-ctr.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r42-home-short-path.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r46-collection-hub-cta.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; v6 factbook hub hierarchy: hero keeps only the secondary research CTA (no factbook-collection-hero-primary)"
+  },
+  "r47-seo-ctr-batch.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r48-mobile-compression.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r95-compliant-funding-boundary.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; sha256 lock on TopicGuidePage overrides; v6r2 stripped emoji/numbered kickers"
+  },
+  "r95-standalone-worker-package.test.mjs": {
+   "category": "needs-build",
+   "reason": "reads dist/; included automatically when dist/client/version.json exists"
+  },
+  "r95-telegram-review-index.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r97-hant-render-parity.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "r98-topic-truth-boundary.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "route-css-browser.test.mjs": {
+   "category": "env-dependency",
+   "reason": "needs puppeteer-core (not in package.json); browser coverage now lives in tests/e2e (Playwright)"
+  },
+  "route-deferred-hydration-browser.test.mjs": {
+   "category": "env-dependency",
+   "reason": "needs puppeteer-core (not in package.json); browser coverage now lives in tests/e2e (Playwright)"
+  },
+  "seo-dataset-license-contract.test.mjs": {
+   "category": "pre-existing",
+   "reason": "hangs (>180s with no CPU) at baseline a4dee31 and now"
+  },
+  "seo-gsc-ctr-overrides.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "seo-wave18-serp-cro.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "seo-wave19-serp-cro.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "seo-wave24-derivatives-aeo.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "seo-wave26-search-opportunities.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "seo-wave29-description-dedup.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "seo-wave30-title-h1-dispositions.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "seo-wave36-regional-hubs.test.mjs": {
+   "category": "needs-build",
+   "reason": "reads dist/; included automatically when dist/client/version.json exists"
+  },
+  "seo-wave44-internal-graph.test.mjs": {
+   "category": "pre-existing",
+   "reason": "reads a file that is not in git: dist/client/route-inventory.json"
+  },
+  "seo-wave46-gsc-opportunity.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "seo-wave60-technical-discoverability.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "seo-wave61-serp-priority.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "seo-whole-site.test.mjs": {
+   "category": "needs-build",
+   "reason": "reads dist/; included automatically when dist/client/version.json exists"
+  },
+  "sitemap-publication-gate.test.mjs": {
+   "category": "pre-existing",
+   "reason": "hangs (>180s with no CPU) at baseline a4dee31 and now"
+  },
+  "sites-worker.test.mjs": {
+   "category": "needs-build",
+   "reason": "reads dist/; included automatically when dist/client/version.json exists"
+  },
+  "telegram-manual-pack-audit.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "telegram-task-desk-contract.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "telegram-task-desk-style.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "telegram-wave51-priority-order.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "telegram-wave53-next5-review-pack.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "telegram-wave55-source-boundary-review-pack.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "telegram-wave56-14-day-cadence.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "telegram-wave57-latest-news-review-pack.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "telegram-wave58-priority-ecosystem-review-pack.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "telegram-wave59-international-canonical-review-pack.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "telegram-wave60-14day-canonical-cluster-review-pack.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "telegram-week4-context-return-pack.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "topic-localized-hydration.test.mjs": {
+   "category": "env-dependency",
+   "reason": "needs puppeteer-core (not in package.json); browser coverage now lives in tests/e2e (Playwright)"
+  },
+  "ui-first-paint-hero-dom.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "ui-first-paint-motion.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "venue-decision-content.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "venue-detail-decision-ssr.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "venue-fee-summary.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; reviewed fee data update 2026-10-08 (records and source URLs changed)"
+  },
+  "venue-readiness-checklist-ssr.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "wave16-international-aeo.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "wave48-perp-dex-cost-citations.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "wave49-asset-integration.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "wave50-perp-dex-cost-citations-source-review.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "wave52-growth-control-plane.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "wave56-tokenized-treasury-authority-review-pack.test.mjs": {
+   "category": "historical-snapshot",
+   "reason": "one-off round test bound to external evidence/candidate dirs, gitignored fixtures or byte/sha locks of old source; fails at baseline a4dee31 too"
+  },
+  "wave7-priority-i18n.test.mjs": {
+   "category": "stale-v6",
+   "reason": "passed at production baseline a4dee31; rates copy module refactored in v6r5 (regex on the copy.es literal)"
+  },
+  "week2-mobile-shortpath-contract.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "week3-unobserved-remediation.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "week4-locale-depth-graduation.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  },
+  "worker-compare-faq-schema.test.mjs": {
+   "category": "real-bug",
+   "reason": "REAL BUG: same root cause as priority-venue-seo; Worker compare FAQ JSON-LD (ar, ru) differs from the visible FAQ."
+  },
+  "zh-hant-ui-copy.test.mjs": {
+   "category": "pre-existing",
+   "reason": "fails at production baseline a4dee31 too: expectations never matched the imported source"
+  }
+ }
+}

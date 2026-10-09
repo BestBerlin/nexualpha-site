@@ -42,7 +42,7 @@ test('narrow foundation never overrides browser preferences, surfaces, CTA fill 
 
 test('actual SourceList SSR preserves complete source URLs/titles/language attributes and unknown gate',async()=>{
  const {createRequire}=await import('node:module'),{default:vm}=await import('node:vm');
- const req=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url));
+ const req=createRequire(new URL('../package.json',import.meta.url));
  const React=req('react'),{renderToStaticMarkup}=req('react-dom/server'),{transformSync}=req('esbuild');
  const extract=t=>t.slice(t.indexOf('function SourceList('),t.indexOf('\nfunction ActivityCards(',t.indexOf('function SourceList(')));
  const current=extract(read('src/components/v3/V3Pages.jsx')),before=extract(prior('src/components/v3/V3Pages.jsx'));assert.equal(current,before);

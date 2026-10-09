@@ -3,7 +3,7 @@ import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import vm from 'node:vm';
-const req=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url));
+const req=createRequire(new URL('../package.json',import.meta.url));
 const React=req('react'),{renderToStaticMarkup}=req('react-dom/server'),{transformSync}=req('esbuild');
 const locales=['en','zh-Hans','zh-Hant','ja','ko','tr','ar','es','pt-BR','fr','de','ru','id','vi','it'];
 const sources=[{id:'one',url:'https://official.example/a?x=1&y=2',publisher:'Official Agency',title:'Primary evidence'},{url:'https://research.example/report#data',publisher:'Research Office',title:'Source & methodology'},{id:'three',url:'https://official.example/rules',publisher:'Official Rules',title:'Full conditions'}];

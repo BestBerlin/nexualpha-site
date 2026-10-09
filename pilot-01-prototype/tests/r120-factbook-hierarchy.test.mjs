@@ -8,7 +8,7 @@ import * as registry from '../src/data/factbook-registry.js';
 import { neutralVenueCatalog } from '../src/data/market-command.js';
 import { localizedHref } from '../src/data/locale-routing.js';
 import { publicCtaForVenue } from '../src/data/source-bound-cta.js';
-const requireWorkspace = createRequire(new URL('../../../../pilot-01-prototype/package.json', import.meta.url));
+const requireWorkspace = createRequire(new URL('../package.json', import.meta.url));
 const React = requireWorkspace('react');
 const { renderToStaticMarkup } = requireWorkspace('react-dom/server');
 const { transformSync } = requireWorkspace('esbuild');

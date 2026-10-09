@@ -5,7 +5,7 @@ import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 import vm from 'node:vm';
 import {createHash} from 'node:crypto';
-const req=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url)), compiler=req('esbuild');
+const req=createRequire(new URL('../package.json',import.meta.url)), compiler=req('esbuild');
 const source=readFileSync(new URL('../src/components/v3/activity/ActivityCenterV3.jsx',import.meta.url),'utf8');
 const baseline=readFileSync(new URL('../../../r123-interaction-repair/candidate/src/components/v3/activity/ActivityCenterV3.jsx',import.meta.url),'utf8');
 const locales=['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','id','vi','it'];

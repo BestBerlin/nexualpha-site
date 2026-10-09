@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import {createRequire} from 'node:module';
 import {nextDecisionBridgeCopy} from '../src/data/next-decision-bridge.js';
 import {validComparison} from '../src/data/browser-state.js';
-const req=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url));
+const req=createRequire(new URL('../package.json',import.meta.url));
 const React=req('react'),{renderToStaticMarkup}=req('react-dom/server'),{transformSync}=req('esbuild');
 const current=fs.readFileSync('src/components/v3/news/NewsDetailPage.jsx','utf8'),baseline=fs.readFileSync(new URL('../../news-before.jsx',import.meta.url),'utf8');
 const css=fs.readFileSync('src/components/v3/news/news-detail-page.css','utf8'),oldcss=fs.readFileSync(new URL('../../news-before.css',import.meta.url),'utf8');

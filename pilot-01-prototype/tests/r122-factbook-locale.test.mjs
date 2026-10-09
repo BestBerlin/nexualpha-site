@@ -8,7 +8,7 @@ import * as registry from '../src/data/factbook-registry.js';
 import { neutralVenueCatalog } from '../src/data/market-command.js';
 import { localizedHref } from '../src/data/locale-routing.js';
 import { publicCtaForVenue } from '../src/data/source-bound-cta.js';
-const req=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url));
+const req=createRequire(new URL('../package.json',import.meta.url));
 const React=req('react'),{renderToStaticMarkup}=req('react-dom/server'),{transformSync}=req('esbuild');
 const locales=['en','zh-Hans','zh-Hant','ja','ko','tr','es','pt-BR','fr','de','ru','ar','id','vi','it'];
 const source=readFileSync(new URL('../src/components/v3/FactbookPage.jsx',import.meta.url),'utf8');

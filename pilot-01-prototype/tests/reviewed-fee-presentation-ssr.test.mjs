@@ -58,7 +58,9 @@ test('all core locale profiles show reviewed fee scope and preserve invitations;
       assert.ok(feeHtml.includes(`href="${rate.sourceUrl}"`), `${slug}/${locale}: exact reviewed source`);
       assert.ok(feeHtml.includes(`dateTime="${rate.checkedAt}"`), `${slug}/${locale}: review date`);
       assert.ok(feeHtml.includes('data-fee-product="spot"'));
-      assert.ok(!feeHtml.includes('data-fee-product="futures"'), 'No invented futures schedule');
+      // Futures rows are allowed only when the venue carries a reviewed futures record (data update 2026-10-08).
+      const hasFutures = buildVenueFeeSummary({ slug }).rates.some((r) => r.product === 'futures');
+      if (!hasFutures) assert.ok(!feeHtml.includes('data-fee-product="futures"'), 'No invented futures schedule');
       assert.ok(!feeHtml.includes('VIP 9'), 'No invented VIP tiers');
     }
   } finally {

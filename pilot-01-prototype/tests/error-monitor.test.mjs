@@ -139,7 +139,7 @@ test('continues writing to a new active file after rename-based rotation', async
   } finally { await f.close(); }
 });
 
-test('degrades readiness when the monitor cannot create the event file', async () => {
+test('degrades readiness when the monitor cannot create the event file', { skip: process.getuid?.() === 0 && 'root ignores directory permissions' }, async () => {
   const f = await fixture();
   const locked = path.join(f.dir, 'locked');
   await mkdir(locked, { mode: 0o700 });

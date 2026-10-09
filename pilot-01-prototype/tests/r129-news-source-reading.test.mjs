@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import vm from 'node:vm';
 import {validComparison} from '../src/data/browser-state.js';
-const req=createRequire(new URL('../../../../pilot-01-prototype/package.json',import.meta.url));
+const req=createRequire(new URL('../package.json',import.meta.url));
 const React=req('react'),{renderToStaticMarkup}=req('react-dom/server'),{transformSync}=req('esbuild');
 const locales=['en','zh-Hans','zh-Hant','ja','ko','tr','ar','es','pt-BR','fr','de','ru','id','vi','it'];
 const sources=[{id:'one',url:'https://agency.example/a?x=1&y=2',publisher:'Institutional Research Agency',title:'A long complete source title without shortening',publishedAt:null},{id:'two',url:'https://research.example/report#claim',publisher:'Research Office',title:'Source & methodology / 完整原文',publishedAt:'2026-10-01'}];

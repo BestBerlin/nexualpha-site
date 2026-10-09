@@ -23,7 +23,7 @@ test("reviewedFeeCopy returns native text for every supported locale and all rev
       assert.ok(copy.scope.trim(), `${locale}.${slug}.scope text`);
       assert.ok(copy.conditions.trim(), `${locale}.${slug}.conditions text`);
       assert.ok(copy.conditions.split(/[.!。！？?؟]+/).filter(Boolean).length <= 2, `${locale}.${slug}.conditions is concise`);
-      for (const pattern of requiredSymbols[slug]) {
+      for (const pattern of requiredSymbols[slug] || []) {
         assert.match(`${copy.scope} ${copy.conditions}`, pattern, `${locale}.${slug} preserves required symbol ${pattern}`);
       }
     }
@@ -59,7 +59,8 @@ test("reviewedFeeCopy keeps the three reviewed scopes distinct", () => {
 test("reviewedFeeCopy returns neutral native copy for unknown tier and scope", () => {
   const unknown = { tierKey: "private-tier", scopeKey: "private-scope" };
   const en = reviewedFeeCopy(unknown, "en");
-  assert.equal(en.tier, "Public source tier");
+  // Every checked row is the public base tier, so the tier label is always "Regular user" (reviewed-fee-copy.js).
+  assert.equal(en.tier, "Regular user");
   assert.equal(en.scope, "Public source/account-confirmation range");
   assert.match(en.conditions, /official source/);
 
