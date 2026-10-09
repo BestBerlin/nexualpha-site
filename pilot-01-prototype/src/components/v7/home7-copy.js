@@ -5,8 +5,10 @@ import { H7_I18N } from "./home7-copy-i18n.js";
 export const H7_COPY = {
   "zh-Hans": {
     kick: "NEXUALPHA · 交易所比价与返佣",
-    h1a: "通过我们开户，", h1b: "手续费最高返还",
-    sub: "在交易所官方页面注册时填上我们的邀请码，\n你付的手续费会按比例返还给你。",
+    h1a: "每一笔交易，", h1b: "把手续费夺回来。",
+    sub: "通过我们在交易所官方页面开户，手续费最高返还 {max}%。\n各家比例不同，逐家公开。",
+    lgTitle: "返佣账本", lgEst: "按公开费率估算", lgVol: (v, m) => `每月成交 ${v} · 现货${m}`, lgMax: "合作交易所\n最高返佣", lgPick: "选择交易所",
+    lgWithout: "不用邀请码 · 一年手续费", lgBack: "通过 NexuAlpha · 一年返还", lgNet: "一年实付", copy: "复制", copied: "已复制 ✓",
     cta: (n) => `领取返佣，去 ${n} 开户`, calcLink: "算算我能省多少",
     pw: (n) => `${n} 家合作交易所`,
     cap: (n) => `${n} 家合作交易所，返佣比例各不相同，最高 {max}%。\n点开任意一家，看比例和邀请码。`,
@@ -25,8 +27,10 @@ export const H7_COPY = {
   },
   en: {
     kick: "NEXUALPHA · EXCHANGE FEES & REBATES",
-    h1a: "Open through us.", h1b: "Get back up to",
-    sub: "Enter our invite code when you register on the exchange's official page, and part of every fee you pay comes back to you.",
+    h1a: "Stop overpaying", h1b: "trading fees.",
+    sub: "Open your account on the exchange's official page through us and get up to {max}% of your fees back.\nShares differ and are disclosed per exchange.",
+    lgTitle: "Rebate ledger", lgEst: "Estimate from published fees", lgVol: (v, m) => `${v} / month · spot ${m.toLowerCase()}`, lgMax: "Top partner\nrebate", lgPick: "Choose exchange",
+    lgWithout: "Without invite code · fees a year", lgBack: "Through NexuAlpha · back a year", lgNet: "Paid a year", copy: "Copy", copied: "Copied ✓",
     cta: (n) => `Claim rebate, open on ${n}`, calcLink: "See what I could save",
     pw: (n) => `${n} partner exchanges`,
     cap: (n) => `${n} partner exchanges, each with its own rebate share, up to {max}%.\nOpen any of them to see its share and invite code.`,
@@ -45,6 +49,7 @@ export const H7_COPY = {
   },
   ...H7_I18N,
 };
-export const h7Copy = (locale) => H7_COPY[locale] || (String(locale || "").startsWith("zh") ? H7_COPY["zh-Hans"] : H7_COPY.en);
+// Missing keys fall back to English so a new key never breaks a locale before its translation lands.
+export const h7Copy = (locale) => ({ ...H7_COPY.en, ...(H7_COPY[locale] || (String(locale || "").startsWith("zh") ? H7_COPY["zh-Hans"] : {})) });
 // True when this locale renders the English fallback; the home block then declares lang="en" dir="ltr" so RTL shells do not mirror English prose.
 export const h7IsFallback = (locale) => !H7_COPY[locale] && !String(locale || "").startsWith("zh");

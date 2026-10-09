@@ -18,6 +18,7 @@ const samples = [
   ["lowest", ["OKX", "$1"]],
   ["most", ["OKX", "$1"]],
   ["foot", ["2026-10-01"]],
+  ["lgVol", ["$100,000", "Maker"]],
 ];
 
 test("home v7 copy exposes all 15 locales", () => {
@@ -61,11 +62,13 @@ test("function-valued keys are functions returning non-empty strings", () => {
   }
 });
 
-test("cap and foot keep the {max} placeholder", () => {
+test("cap, foot and sub keep the {max} placeholder; lgMax has a line break", () => {
   for (const locale of locales) {
     const copy = H7_COPY[locale];
     assert.ok(copy.cap(10).includes("{max}"), `${locale}.cap {max}`);
     assert.ok(copy.foot("2026-10-01").includes("{max}"), `${locale}.foot {max}`);
+    assert.ok(copy.sub.includes("{max}"), `${locale}.sub {max}`);
+    assert.ok(copy.lgMax.includes("\n"), `${locale}.lgMax line break`);
   }
 });
 
