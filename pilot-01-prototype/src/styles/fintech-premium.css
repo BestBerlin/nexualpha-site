@@ -1370,3 +1370,6 @@ body {
     block-size: 44px; min-block-size: 44px;
   }
 }
+
+/* Rule 8: one-line commission sentence directly under the registration action. */
+.registration-card .registration-card__inline-disclosure:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: var(--ink-3, #9097A0); max-inline-size: none; }

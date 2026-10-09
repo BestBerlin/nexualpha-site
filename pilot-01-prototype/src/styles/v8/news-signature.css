@@ -215,3 +215,10 @@ main.v6.news-detail-page .news-detail__back:is(:hover, :focus-visible):not(#_):n
 @media (prefers-reduced-motion: reduce) {
   main.v6:is(.news-page, .news-detail-page) * { transition-duration: 0ms !important; }
 }
+
+/* Tablet/mobile: the category tabs were squeezed into a 121px column beside the search field (3 of 4 tabs hidden).
+   Stack them under the search and let them wrap so every category is visible. */
+@media (max-width: 1023px) {
+  main.v6.news-page .news-index-controls:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
+  main.v6.news-page .news-tabs:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; gap: 8px; overflow: visible; inline-size: 100%; }
+}

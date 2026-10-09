@@ -67,11 +67,12 @@ function DockSlot({ row, onRemove, mc }) {
     return <span className="mx-dock__slot mx-dock__slot--empty"><span className="mx-dock__ghost" aria-hidden="true" /><span className="mx-dock__slotname">{mc.pickMore}</span></span>;
   }
   return (
-    <button type="button" className="mx-dock__slot mx-dock__slot--full" onClick={onRemove} aria-label={`${mc.remove}: ${row.name}`} title={`${mc.remove}: ${row.name}`}>
+    // Only the × removes (a whole-slot button sat over the next row's checkbox on mobile and cleared picks by accident).
+    <span className="mx-dock__slot mx-dock__slot--full">
       <BrandMark slug={row.slug} compact />
       <span className="mx-dock__slotname" translate="no">{row.name}</span>
-      <span className="mx-dock__x" aria-hidden="true">×</span>
-    </button>
+      <button type="button" className="mx-dock__x" onClick={onRemove} aria-label={`${mc.remove}: ${row.name}`} title={`${mc.remove}: ${row.name}`}>×</button>
+    </span>
   );
 }
 

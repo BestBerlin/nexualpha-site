@@ -162,7 +162,7 @@ function IntelDesk({ intel, t, locale, venues, onOpen }) {
           <div key={r.slug} className={best?.slug === r.slug ? "best" : undefined}>
             <b><BrandMark slug={r.slug} compact priority />{r.name}</b>
             <span className="h7-dfig">{r.mk != null ? pct(r.mk) : "—"}</span>
-            <small>{r.maker != null ? `${pct(r.maker)} / ${pct(r.taker)}` : t.unchecked}{r.maker != null ? ` · ${r.share ? `${t.rebate} ${Math.round(r.share * 100)}%` : t.pending}` : ""}</small>
+            <small>{r.maker != null ? `${pct(r.maker)} / ${pct(r.taker)}` : t.unchecked}{r.maker != null && <> · <span className="h7-nw">{r.share ? `${t.rebate} ${Math.round(r.share * 100)}%` : t.pending}</span></>}</small>
           </div>
         ))}
       </div>
@@ -260,7 +260,7 @@ export function HomeV7({ locale, venues: _catalog }) {
   /* ---------- rows: a year runs through them when they scroll in ---------- */
   const rowsRef = useRef(null), rowEls = useRef([]);
   const paintRows = useCallback((p) => {
-    calc.rows.forEach((r, i) => { const el = rowEls.current[i]; if (!el || r.net == null) return; const bar = el.querySelector("[data-bar]"), am = el.querySelector("[data-am]"); if (bar) bar.style.width = `${(r.net / calc.maxGross) * 100 * p}%`; if (am) am.innerHTML = `${r.share ? `<s>${usd(r.gross)}</s>` : ""}${usd(r.net * p)}`; });
+    calc.rows.forEach((r, i) => { const el = rowEls.current[i]; if (!el || r.net == null) return; const bar = el.querySelector("[data-bar]"), am = el.querySelector("[data-am]"); if (bar) bar.style.width = `${(r.net / calc.maxGross) * 100 * p}%`; if (am) am.innerHTML = `${r.share ? `<s>${usd(r.gross)}</s>` : ""}${usd(r.gross - (r.gross - r.net) * p)}`; });
   }, [calc]);
   const ran = useRef(false);
   useEffect(() => {

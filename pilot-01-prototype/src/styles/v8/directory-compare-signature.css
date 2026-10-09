@@ -258,3 +258,7 @@ main.v6.v3-compare-page .v3-compare-sticky-bar:not(#_):not(#_):not(#_):not(#_):n
 @media (min-width: 781px) {
   main.v6 .mx-scroll:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 1px solid rgb(255 255 255 / .22); border-radius: 12px; background: #0B0C0F; box-shadow: 0 40px 80px -40px rgb(0 0 0 / .9); }
 }
+
+/* Checked compare picks were dark-on-dark (a v6 surface rule won); the checked box is now unmistakable. */
+main.v6 .mx-pick input:checked + .mx-pick__box:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: #1FE0C0; border-color: #1FE0C0; color: #04130F; }
+main.v6 .mx-table tr:has(.mx-pick input:checked):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { box-shadow: inset 2px 0 0 #1FE0C0; }

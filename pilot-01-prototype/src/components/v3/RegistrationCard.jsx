@@ -1052,6 +1052,8 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
         {compact && <div className="registration-card__action-group">
           {preflight}
           {primaryAction}
+          {/* Rule 8: the commission sentence sits directly under the sponsored action, so both share every viewport. */}
+          {publicCta.hasPartnerRoute && <p className="registration-card__inline-disclosure" data-disclosure-placement="registration-card-cta">{copy.disclosureShort}</p>}
         </div>}
 
         {/* 可展开的条件说明；紧凑卡片的主操作始终可见 */}
@@ -1083,7 +1085,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
                 <p><span>{showProtocolContext && !publicCta.benefitVerified ? entryContext.title : copy.benefitState}</span><b>{publicCta.benefitVerified ? copy.benefitVerified : showProtocolContext ? entryContext.body : copy.benefitPending}</b></p>
                 <p><span>{copy.regionState}</span><b>{regionStateText}</b></p>
               </div>
-              {!compact && <>{preflight}{primaryAction}</>}
+              {!compact && <>{preflight}{primaryAction}{publicCta.hasPartnerRoute && <p className="registration-card__inline-disclosure" data-disclosure-placement="registration-card-cta">{copy.disclosureShort}</p>}</>}
 
               {(visiblePartner.registrationUrl || officialRouteUrl) && (
                 <div className="registration-card__url-row">

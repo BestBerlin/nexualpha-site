@@ -80,6 +80,8 @@
 .h7:not(#_):not(#_) .h7-dfig{font:500 20px/1 var(--mono);letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
 .h7:not(#_):not(#_) .h7-dc .best .h7-dfig{color:var(--ac)}
 .h7:not(#_):not(#_) .h7-dc small{font-size:12px;line-height:1.4;color:var(--ink3)}
+.h7:not(#_):not(#_) .h7-nw{white-space:nowrap}
+.h7:not(#_):not(#_) :is(p,li,small,dd):lang(zh){text-wrap:pretty}
 .h7:not(#_):not(#_) .h7-dfoot{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:16px 20px;border-top:1px solid var(--line)}
 .h7:not(#_):not(#_) .h7-ddisc{flex-basis:100%;margin:0;font-size:12px;line-height:1.5;color:var(--ink3)}
 .h7:not(#_):not(#_) .h7-hc{position:relative;z-index:2}

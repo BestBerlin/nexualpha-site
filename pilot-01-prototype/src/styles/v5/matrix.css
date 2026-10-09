@@ -375,11 +375,12 @@ a.mx-id__name:hover { text-decoration-color: var(--accent); }
   background: var(--n2); border: 1px solid var(--n6); border-radius: var(--r-md);
   text-align: start;
 }
-.mx-dock__slot--full { cursor: pointer; transition: border-color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out); }
+.mx-dock__slot--full { cursor: default; transition: border-color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out); }
 .mx-dock__slot--full:hover { border-color: var(--accent); background: var(--n4); }
 .mx-dock__slot .v2-brand, .mx-dock__slot .v2-brand-fallback { flex: none; inline-size: 34px; block-size: 34px; border-radius: var(--r-sm); }
 .mx-dock__slotname { min-inline-size: 0; font-weight: 600; font-size: var(--t-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.mx-dock__x { margin-inline-start: auto; color: var(--n10); font-size: 1.1rem; line-height: var(--lh-tight, 1.05); }
+.mx-dock__x { display: inline-grid; place-items: center; flex: none; inline-size: 44px; block-size: 44px; margin-block: -8px; margin-inline: auto -8px; padding: 0; border: 0; border-radius: var(--r-sm); background: none; color: var(--n10); font-size: 1.1rem; line-height: var(--lh-tight, 1.05); cursor: pointer; }
+.mx-dock__x:hover, .mx-dock__x:focus-visible { color: var(--text-strong); background: var(--n4); }
 .mx-dock__slot:hover .mx-dock__x { color: var(--text-strong); }
 .mx-dock__slot--empty { border-style: dashed; border-color: var(--n8); color: var(--text-muted); }
 .mx-dock__slot--empty .mx-dock__slotname { font-weight: 500; font-size: var(--t-xs); white-space: normal; }
@@ -399,8 +400,9 @@ a.mx-id__name:hover { text-decoration-color: var(--accent); }
   .mx-col--cta { inline-size: 10.5rem; }
 }
 
-/* ---------- mobile: rows become two-line list items ---------- */
-@media (max-width: 47.99rem) {
+/* ---------- mobile + tablet: rows become two-line list items (at 768px the 4-column table collided: fees ran together,
+   code chips covered the sign-up buttons; v8 review) ---------- */
+@media (max-width: 60rem) {
   .mx-toolbar { gap: var(--s-3); }
   .mx-seg { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); inline-size: 100%; }
   .mx-seg__btn { min-block-size: 44px; min-inline-size: 0; padding-inline: var(--s-2); }
@@ -469,9 +471,15 @@ a.mx-id__name:hover { text-decoration-color: var(--accent); }
   .mx-id { gap: var(--s-2); }
   .mx-code { min-block-size: 44px; }
   .mx-td--code .yellow-card__copy-feedback { text-align: end; }
-  .mx-dock { inset-block-end: calc(var(--mobile-bottom-nav-height, 80px) + var(--s-3)); }
+  /* v8: the mobile bottom nav is gone, so the dock sits on the safe area instead of floating 92px up over the rows. */
+  .mx-dock { inset-block-end: max(var(--s-3), env(safe-area-inset-bottom, 0px)); }
+  /* While the dock is open, reserve its height so the last rows (and their checkboxes) can scroll clear of it. */
+  body:has(.mx-dock) main.v6:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: 9rem; }
   .mx-dock__actions { inline-size: 100%; }
   .mx-dock__actions .mx-btn--primary { flex: 1 1 auto; }
+  /* Keep the destructive "clear" away from the checkbox column (start side): primary first, clear at the end. */
+  .mx-dock__actions .mx-btn--primary { order: -1; }
+  .mx-dock__actions { justify-content: flex-end; }
 }
 
 /* ---------- motion ---------- */
