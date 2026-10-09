@@ -23,3 +23,9 @@ main.v6.collection-hub-page .topic-card:not(:has(.topic-card__logo)):not(:has(> 
   /* methodology: 48px margin + 48px padding between sections is the desktop rhythm; tablet/phone get the 72 pad */
   main.v6 .methodology-page__inner > section:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 24px; padding-block-start: 40px; }
 }
+
+/* 4. /onchain: the source-boundary card holds three short bullets; at an equal-ish split it kept a
+   ~210x180 empty corner. 2:1 gives the checklist the width and the boundary card its natural measure. */
+@media (min-width: 1024px) {
+  main.v6 .onchain-board__answer:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+}
