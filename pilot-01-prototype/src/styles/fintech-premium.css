@@ -1358,3 +1358,15 @@ body {
   text-underline-offset: 2px;
 }
 .v3-compare-page .v3-compare-disclosure { margin-block: 0 16px; }
+
+/* Acceptance item 4: sticky-bar disclosure links reach a 44px target; code chip and button step down 48 -> 44 to offset. */
+@media (max-width: 780px) {
+  .v3-mobile-sticky-bar .v3-mobile-sticky-bar__disclosure:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
+  .v3-compare-sticky-bar .v3-compare-sticky-bar__disclosure:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    display: flex; align-items: center; min-block-size: 44px; padding-block: 0; line-height: 16px;
+  }
+  .v3-mobile-sticky-bar .v3-mobile-sticky-bar__code:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
+  .v3-mobile-sticky-bar .v3-mobile-sticky-bar__btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    block-size: 44px; min-block-size: 44px;
+  }
+}

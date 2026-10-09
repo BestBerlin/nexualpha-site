@@ -157,3 +157,6 @@
     transition-duration: 0.01ms;
   }
 }
+
+/* Acceptance item 4: short venue names in the rates table still get a 44px-wide target. */
+main.r1-rates-page .ft-venue__name a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; min-inline-size: 44px; min-block-size: 44px; }
