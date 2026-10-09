@@ -160,3 +160,8 @@
 
 /* Acceptance item 4: short venue names in the rates table still get a 44px-wide target. */
 main.r1-rates-page .ft-venue__name a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; min-inline-size: 44px; min-block-size: 44px; }
+
+/* Direction A: the rates benchmark table sits in the home notice-desk terminal frame. */
+@media (min-width: 781px) {
+  #top#top#top#top#top#top#top#top#top#top#top#top#top.r1-rates-page .fee-terminal__table-wrapper { border: 1px solid rgb(255 255 255 / .22); border-radius: 12px; background: #0B0C0F; box-shadow: 0 40px 80px -40px rgb(0 0 0 / .9); }
+}

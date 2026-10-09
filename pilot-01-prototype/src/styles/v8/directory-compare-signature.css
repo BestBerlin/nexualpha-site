@@ -253,3 +253,8 @@ main.v6.v3-compare-page .v3-compare-sticky-bar:not(#_):not(#_):not(#_):not(#_):n
     transition: none;
   }
 }
+
+/* Direction A: the directory matrix sits in the same terminal frame as the home notice desk. */
+@media (min-width: 781px) {
+  main.v6 .mx-scroll:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 1px solid rgb(255 255 255 / .22); border-radius: 12px; background: #0B0C0F; box-shadow: 0 40px 80px -40px rgb(0 0 0 / .9); }
+}

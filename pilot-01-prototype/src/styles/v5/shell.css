@@ -484,3 +484,9 @@ body:has(> #root > main.v5 > .container) .nx-ftr__inner {
 .search-dialog .command-results small:not(#_):not(#_):not(#_) { color: #9097A0; font-family: "Geist Mono V5", ui-monospace, monospace; font-size: 12px; }
 .search-dialog > button:not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; min-block-size: 44px; padding: 0 16px; border: 1px solid rgb(255 255 255 / .22); border-radius: 8px; background: transparent; color: #EDEEF0; font-size: 14px; cursor: pointer; }
 .search-dialog > button:hover:not(#_):not(#_):not(#_) { background: rgb(255 255 255 / .06); border-color: #EDEEF0; }
+
+/* Reduced-motion safety net for every surface (some older components had no rule, e.g. campaign/sentiment pulses):
+   animations and transitions resolve instantly to their end state and never loop. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
