@@ -58,11 +58,3 @@ body :not(code, kbd, samp, abbr) { text-transform: none !important; }
   -webkit-text-fill-color: currentColor !important;
 }
 
-/* r11 rhythm guards for the line-height normalisation (voidscan regression found in this pass):
- * /topics/* FAQ: answers keep their measure; source lines move into the free right track instead of leaving it empty. */
-@media (min-width: 64rem) {
-  .topic-faq-item { display: grid; grid-template-columns: minmax(0, 36rem) minmax(0, 1fr); column-gap: 48px; align-items: start; }
-  .topic-faq-item > .topic-faq-q { grid-column: 1 / -1; }
-  .topic-faq-item > .topic-faq-q + .topic-faq-a { grid-column: 1; grid-row: 2 / span 8; }
-  .topic-faq-item > .topic-faq-a:not(.topic-faq-q + .topic-faq-a) { grid-column: 2; margin-block: 0 8px; }
-}
