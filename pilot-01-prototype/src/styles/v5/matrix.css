@@ -474,7 +474,8 @@ a.mx-id__name:hover { text-decoration-color: var(--accent); }
   /* v8: the mobile bottom nav is gone, so the dock sits on the safe area instead of floating 92px up over the rows. */
   .mx-dock { inset-block-end: max(var(--s-3), env(safe-area-inset-bottom, 0px)); }
   /* While the dock is open, reserve its height so the last rows (and their checkboxes) can scroll clear of it. */
-  body:has(.mx-dock) main.v6:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: 9rem; }
+  /* Reserve on <body> (the footer sits outside <main>), so the policy fold and © line also clear the open dock. */
+  body:has(.mx-dock):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: 9rem; }
   .mx-dock__actions { inline-size: 100%; }
   .mx-dock__actions .mx-btn--primary { flex: 1 1 auto; }
   /* Keep the destructive "clear" away from the checkbox column (start side): primary first, clear at the end. */

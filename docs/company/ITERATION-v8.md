@@ -28,7 +28,7 @@ desk → fee comparison → sheet; profile copy code + official link; home calcu
 | # | Item | Evidence required | Status |
 |---|---|---|---|
 | 1 | No horizontal overflow, 11 routes × 390/768/1440 | JS scrollWidth sweep | ✅ 13 routes × 390/768/1440: 0 overflow |
-| 2 | No truncated/overlapping h1, CTA, invite code at 3 widths | screenshots reviewed | ⏳ |
+| 2 | No truncated/overlapping h1, CTA, invite code at 3 widths | screenshots reviewed | ✅ independent re-review: 9 routes × 390/768/1440, no clipped h1/CTA/code, no overflow; dock-over-footer fixed (body reserve) |
 | 3 | Fonts only on the sanctioned scale (12/14/16/18/20/24/28/32/44/72) | JS sweep | ✅ 0 off-scale sizes, 3 widths |
 | 4 | Touch targets ≥44px at 390 (documented exceptions only) | JS sweep | ✅ 0 targets <44px at 390 (fixed ticker, sticky disclosures, rates venue link) |
 | 5 | No light surfaces; accent only on primary CTA / positive / active | JS sweep + screenshots | ✅ 0 light surfaces; hero keeps one filled CTA |
@@ -47,9 +47,9 @@ desk → fee comparison → sheet; profile copy code + official link; home calcu
 | 18 | Keyboard: visible focus on desk rows, sheet closes with Esc and returns focus | browser run | ✅ Tab reaches desk rows (2px accent ring), Enter selects, sheet focus trap/return |
 | 19 | `npm test`: no new failures vs the 57 baseline | test log diff | ✅ 56 failing, all pre-existing (the 'regional JP/KR/TR stylesheet budget' one also fails on live: /jp ships 6 stylesheets there too) |
 | 20 | CI-equivalent build passes locally (typecheck, build, budget, dist-shell-contract) | command output | ✅ typecheck, client+SSR+news build, prerender 2271 routes, strict budget, dist-shell-contract 3/3 |
-| 21 | Independent review (separate agent) reports no high-severity issue | review report | ⏳ |
-| 22 | Pushed to `v7-home`; merged to `main` | git refs | ⏳ |
-| 23 | Deployed via workflow; live buildId + CTA links + key routes verified; rollback name recorded | live checks | ⏳ |
+| 21 | Independent review (separate agent) reports no high-severity issue | review report | ✅ re-review (separate agent): H1/H2/H3 fixed, no HIGH issues; mediums logged below |
+| 22 | Pushed to `v7-home`; merged to `main` | git refs | ⏳ PR #1 ready, CI green, mergeable — merge blocked by local permission policy (needs owner click or permission) |
+| 23 | Deployed via workflow; live buildId + CTA links + key routes verified; rollback name recorded | live checks | ⏳ waits on 22 |
 
 ## Log
 - R1 (2026-10-09): versions verified; v8 work committed as `57baf4c` on `v7-home`; checklist frozen.
@@ -57,6 +57,7 @@ desk → fee comparison → sheet; profile copy code + official link; home calcu
 - R3: CI-equivalent build passes; CTA gate identical to live; core paths 9-18 verified in browser.
 - R4: notices refreshed locally (Bybit works from this machine: 55 items); desk mixes exchanges; single filled CTA; focus return; tag clamp; reduced-motion safety net; rail labels removed (truncated); inner-page kicker + terminal frames.
 - R5 (independent 3-perspective review, separate agent): found 3 HIGH — (1) profile CTA + code above the fold without disclosure at 390 (my rule-8 check only centred each link; replaced by an every-scroll-position check), (2) directory 4-column table colliding at 768, (3) mobile compare dock clearing picks (dock floated 92px up for the removed bottom nav; whole slot was a remove button). Fixed: disclosure line directly under every registration CTA; directory card layout up to 960px; dock on the safe area, only × removes, reserve space; plus RTL ticker, zh kicker, checked picks, rates glyph, news tabs, CJK wrapping, calculator countdown, search focus ring. Rule-8 transient: while a sticky bar slides in (<0.5s) its link can appear before its disclosure; settled states all pass.
+- R6: re-review passed (no HIGH). Open mediums/lows: sticky-bar disclosure is a link label (owner sign-off), dock chip truncates long names, /ar ticker label English, zh search shows an English result title, search title wording, news summaries repeat boilerplate, folded rates links still in tab order (to check).
 - Known trade-offs: rates calculator default stays spot/taker (locked by restore logic and tests; ties are the true result). Compare/profile sticky bars keep the "合作披露" link label (full sentence is sticky above the cards).
 
 ## Next
