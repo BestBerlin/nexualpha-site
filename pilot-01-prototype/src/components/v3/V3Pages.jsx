@@ -1,4 +1,5 @@
 import "./profile-density.css";
+import { enIfLatin } from "../../utils/fallback-lang.js";
 import { useEffect, useRef, useState } from "react";
 import { buildDecisionReturnHref } from "../../data/decision-return.js";
 import { DecisionReturnLink } from "./DecisionReturnLink.jsx";
@@ -1597,11 +1598,12 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
 
   return (
     <section className="v2-section v3-por-section" id="proof-of-reserves">
-      <div className="v3-por-card">
+      {/* a locale without PoR copy renders this card in English: mark it (the few localized values inside set dir="auto") */}
+      <div className="v3-por-card" {...(!isZh && !ui.badge && !ui.title ? enIfLatin("PoR", locale) : undefined)}>
         <div className="v3-por-header">
           <div className="v3-por-badge-row">
-            <span className="v3-por-shield-badge"> {isZh ? zhText(locale, "资产偿付能力审计", "資產償付能力稽核") : (ui.badge || "Solvency & PoR")}</span>
-            <span className="v3-por-status-pill">{porVerified ? (isZh ? zhText(locale, "官方来源待复核", "官方來源待複核") : (ui.sourcePending || "Official source pending review")) : localePending(locale)}</span>
+            <span className="v3-por-shield-badge" {...enIfLatin(isZh ? zhText(locale, "资产偿付能力审计", "資產償付能力稽核") : (ui.badge || "Solvency & PoR"), locale)}> {isZh ? zhText(locale, "资产偿付能力审计", "資產償付能力稽核") : (ui.badge || "Solvency & PoR")}</span>
+            <span className="v3-por-status-pill" dir="auto">{porVerified ? (isZh ? zhText(locale, "官方来源待复核", "官方來源待複核") : (ui.sourcePending || "Official source pending review")) : localePending(locale)}</span>
           </div>
           <h2 className="v3-por-title">
             {isZh ? zhText(locale, `${localizedVenueName} 资产储备证明 (PoR) 深度透视与链上核验`, `${localizedVenueName} 資產儲備證明 (PoR) 深度透視與鏈上核驗`) : (ui.title || `${venue.name} Proof of Reserves (PoR) & On-Chain Solvency`)}
@@ -1615,19 +1617,19 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
 
         <div className="v3-por-metrics">
           <div className="v3-por-metric-item">
-            <span className="v3-por-metric-label">{isZh ? zhText(locale, "综合储备总充足率", "綜合儲備總充足率") : (ui.total || "Total Reserve Ratio")}</span>
+            <span className="v3-por-metric-label" {...enIfLatin(isZh ? zhText(locale, "综合储备总充足率", "綜合儲備總充足率") : (ui.total || "Total Reserve Ratio"), locale)}>{isZh ? zhText(locale, "综合储备总充足率", "綜合儲備總充足率") : (ui.total || "Total Reserve Ratio")}</span>
             <strong className={`v3-por-metric-value${porVerified ? " text-green" : ""}`} translate="no">{porVerified ? porRatio : (isZh ? zhText(locale, "待核验", "待核驗") : (ui.pending || "Pending"))}</strong>
             <span className="v3-por-metric-sub">{porVerified ? (isZh ? zhText(locale, "以官方报告和快照为准", "以官方報告和快照為準") : (ui.snapshot || "Based on official report and snapshot")) : (isZh ? zhText(locale, "未记录可复核来源", "未記錄可複核來源") : (ui.noSource || "No reproducible source recorded"))}</span>
           </div>
           <div className="v3-por-metric-item">
-            <span className="v3-por-metric-label">{isZh ? zhText(locale, "审计机制与独立机构", "稽核機制與獨立機構") : (ui.audit || "Audit Mechanism")}</span>
-            <strong className="v3-por-metric-value text-blue">{porVerified ? auditFirm : localePending(locale)}</strong>
-            <span className="v3-por-metric-sub">{isZh ? zhText(locale, "支持用户导出叶子节点验算", "支援用戶匯出葉子節點驗算") : (ui.merkle || "Cryptographic Merkle Root Verification")}</span>
+            <span className="v3-por-metric-label" {...enIfLatin(isZh ? zhText(locale, "审计机制与独立机构", "稽核機制與獨立機構") : (ui.audit || "Audit Mechanism"), locale)}>{isZh ? zhText(locale, "审计机制与独立机构", "稽核機制與獨立機構") : (ui.audit || "Audit Mechanism")}</span>
+            <strong className="v3-por-metric-value text-blue" dir="auto">{porVerified ? auditFirm : localePending(locale)}</strong>
+            <span className="v3-por-metric-sub" {...enIfLatin(isZh ? zhText(locale, "支持用户导出叶子节点验算", "支援用戶匯出葉子節點驗算") : (ui.merkle || "Cryptographic Merkle Root Verification"), locale)}>{isZh ? zhText(locale, "支持用户导出叶子节点验算", "支援用戶匯出葉子節點驗算") : (ui.merkle || "Cryptographic Merkle Root Verification")}</span>
           </div>
           <div className="v3-por-metric-item">
-            <span className="v3-por-metric-label">{isZh ? zhText(locale, "投资者保障专项基金", "投資者保障專項基金") : (ui.protection || "Investor Protection Fund")}</span>
-            <strong className="v3-por-metric-value text-gold">{porVerified ? securityFund : (isZh ? zhText(locale, "以官方披露为准", "以官方披露為準") : (ui.disclosure || "Refer to official disclosure"))}</strong>
-            <span className="v3-por-metric-sub">{isZh ? zhText(locale, "极端黑天鹅与穿仓赔付保障", "極端黑天鵝與穿倉賠付保障") : (ui.protectionSub || "Extreme Event Protection")}</span>
+            <span className="v3-por-metric-label" {...enIfLatin(isZh ? zhText(locale, "投资者保障专项基金", "投資者保障專項基金") : (ui.protection || "Investor Protection Fund"), locale)}>{isZh ? zhText(locale, "投资者保障专项基金", "投資者保障專項基金") : (ui.protection || "Investor Protection Fund")}</span>
+            <strong className="v3-por-metric-value text-gold" dir="auto">{porVerified ? securityFund : (isZh ? zhText(locale, "以官方披露为准", "以官方披露為準") : (ui.disclosure || "Refer to official disclosure"))}</strong>
+            <span className="v3-por-metric-sub" {...enIfLatin(isZh ? zhText(locale, "极端黑天鹅与穿仓赔付保障", "極端黑天鵝與穿倉賠付保障") : (ui.protectionSub || "Extreme Event Protection"), locale)}>{isZh ? zhText(locale, "极端黑天鹅与穿仓赔付保障", "極端黑天鵝與穿倉賠付保障") : (ui.protectionSub || "Extreme Event Protection")}</span>
           </div>
         </div>
 
@@ -1665,7 +1667,7 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
         </div>
 
         <div className="v3-por-verify-guide">
-          <h4 className="v3-por-guide-title">{isZh ? zhText(locale, "交易者三步链上自查指南 (How to Verify On-Chain)", "交易者三步鏈上自查指南 (How to Verify On-Chain)") : (ui.guide || "3-Step Verification Guide")}</h4>
+          <h4 className="v3-por-guide-title" {...enIfLatin(isZh ? zhText(locale, "交易者三步链上自查指南 (How to Verify On-Chain)", "交易者三步鏈上自查指南 (How to Verify On-Chain)") : (ui.guide || "3-Step Verification Guide"), locale)}>{isZh ? zhText(locale, "交易者三步链上自查指南 (How to Verify On-Chain)", "交易者三步鏈上自查指南 (How to Verify On-Chain)") : (ui.guide || "3-Step Verification Guide")}</h4>
           <div className="v3-por-steps">
             <div className="v3-por-step">
               <span className="v3-por-step-num">01</span>

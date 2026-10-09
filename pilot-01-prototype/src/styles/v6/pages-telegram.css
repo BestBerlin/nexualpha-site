@@ -151,3 +151,9 @@
 @media (min-width: 1024px) {
   #top#top#top#top.v6.r1-telegram-page .tg-topic-card:not(:first-child):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-topic-card__links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-6, 24px); }
 }
+
+/* R11: tablet rhythm. Between blocks the 48px grid gap stacked on each block's 32px top pad + hairline (~98px of
+   empty rows, three times down the page); below 1024 the gap is 24px so each seam reads as one 72px pad. */
+@media (min-width: 761px) and (max-width: 1023px) {
+  #top#top#top#top#top.v6.r1-telegram-page .tg-hub__container { gap: var(--s-6, 24px); }
+}

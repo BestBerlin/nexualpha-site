@@ -309,3 +309,20 @@
    the venue note into a one-word-per-line strip beside a 450px hole. It no longer contributes width. */
 #top#top#top#top.v6.br-decision .br-venue-card__check-note { contain: inline-size; inline-size: 100%; white-space: normal; }
 #top#top#top#top.v6.br-decision .br-hero__copy h1, #top#top#top#top.v6.br-decision.br-decision--entry .br-hero__copy h1 { max-inline-size: none; text-wrap: pretty; }
+
+/* ======================= R11 layout ======================= */
+/* hero actions (>=64rem): two buttons at their content width left a 392x160 (1440) / 208x160 (1024) empty block
+   beside them, between the lede and the answer paragraph. They now split the copy column into two equal halves. */
+@media (min-width: 64rem) {
+  #top#top#top#top#top.v6.br-decision .br-hero__actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3, 12px); }
+  #top#top#top#top#top.v6.br-decision .br-hero__actions > a { justify-content: center; inline-size: auto; min-inline-size: 0; }
+}
+/* "Ler critérios completos" belongs to the comparison above it: one 32px step, not a 96px section gap */
+#top#top#top#top#top.v6.br-decision .br-content-disclosure { margin-block-start: var(--s-8, 32px); }
+/* phone stepper: the four steps were a 176px-tall vertical list in a 112px column (232px empty beside it);
+   they are now one row of four (number above label) with the connector running between the numbers. */
+@media (max-width: 37.5rem) {
+  #top#top#top#top#top.v6.br-decision .br-chain__crumbs { grid-auto-flow: column; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s-2, 8px); }
+  #top#top#top#top#top.v6.br-decision .br-chain__crumbs li:not(:last-child)::before { inset-inline: calc(50% + 20px) calc(12px - 50%); inset-block: 15px auto; inline-size: auto; block-size: 2px; }
+  #top#top#top#top#top.v6.br-decision .br-chain__crumbs a { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: var(--s-2, 8px); min-block-size: 64px; text-align: center; }
+}

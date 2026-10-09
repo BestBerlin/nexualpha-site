@@ -8,6 +8,7 @@ import { topicReviewedFaqRecords } from "../../data/topic-reviewed-faqs.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { getTelegramDeepLink } from "../../data/telegram-config.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { enIfLatin } from "../../utils/fallback-lang.js";
 import { NextDecisionBridge } from "./NextDecisionBridge.jsx";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
 import { PERP_COST_FIELD_DICTIONARY, PERP_COST_FIELD_DICTIONARY_VERSION, PERP_COST_FIELD_SOURCES } from "../../data/perp-cost-field-dictionary.js";
@@ -3062,11 +3063,11 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
         {/* 头部 Hero 区域 */}
         <div className="topic-header">
           <div className="topic-header__badge-row">
-            <span className="topic-header__badge">{topicBadge}</span>
+            <span className="topic-header__badge" {...enIfLatin(topicBadge, locale)}>{topicBadge}</span>
             <span className="topic-header__date">{sourceBoundUi ? `${sourceBoundUi.updated}: ${topic.lastUpdated}` : topicUi ? `${topicUi.updated}: ${topic.lastUpdated}` : staticUi.updated ? `${staticUi.updated}: ${topic.lastUpdated}` : isZh ? `${zhCopy(isHant, "最后量化更新")}：${topic.lastUpdated}` : `Last Updated: ${topic.lastUpdated}`}</span>
           </div>
           <h1 className="topic-header__title">{topicTitle}</h1>
-          <p className="topic-header__subtitle">{topicDescription}</p>
+          <p className="topic-header__subtitle" {...enIfLatin(topicDescription, locale)}>{topicDescription}</p>
 
           <details className="topic-header__context">
             <summary>{topicAuxCopy?.summary || topicUiResolved?.sourceOpen || (isZh ? zhCopy(isHant, "展开来源登记与审阅状态") : "Open source register and review status")}<span aria-hidden="true">+</span></summary>
@@ -3074,7 +3075,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
               <span className="topic-header__category">{topicCategory}</span>
               <div className="topic-header__pills">
                 {topicPills.map((pill, index) => (
-                  <span key={index} className="topic-header__pill">
+                  <span key={index} className="topic-header__pill" {...enIfLatin(pill, locale)}>
                     ✓ {pill}
                   </span>
                 ))}
@@ -3114,7 +3115,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
                 <strong translate="no" lang={isHant && record.slug === "okx" ? "zh-Hant" : "en"}>{topicPlatformDisplayName(record, isHant, isZh)}</strong>
                 <span>{record.status === "source-backed-research" ? (isZh ? zhCopy(isHant, "基础研究有来源") : (staticUi.sourceBacked || "Source-backed context")) : (isZh ? zhCopy(isHant, "待来源核验") : (staticUi.pending || "Pending source review"))}</span>
                 <small>{record.checkedAt || (isZh ? zhCopy(isHant, "未记录审阅时间") : "No review timestamp")}</small>
-                <div>
+                <div {...enIfLatin(record.sources.map((source) => source.title).join(" "), locale)}>
                   {record.sources.slice(0, 3).map((source) => (
                     <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.title} ↗</a>
                   ))}
@@ -3216,7 +3217,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
           </details>
         </section>}
 
-        {topic.slug === "no-kyc" && <section className="topic-section" role="region" aria-label={isZh ? zhCopy(isHant, "免实名相关研究入口") : (routeCopy.noKyc?.label || "No-KYC related research")}>
+        {topic.slug === "no-kyc" && <section className="topic-section" role="region" aria-label={isZh ? zhCopy(isHant, "免实名相关研究入口") : (routeCopy.noKyc?.label || "No-KYC related research")} {...enIfLatin(isZh ? "" : (topicCopy?.noKycTitle || routeCopy.noKyc?.title || "English"), locale)}>
           <h2 className="topic-section__title">{isZh ? zhCopy(isHant, "先区分自托管协议、中心化平台和永续对比") : (topicCopy?.noKycTitle || routeCopy.noKyc?.title || "Separate self-custody protocols, CEX access and perp comparisons")}</h2>
           <p className="topic-section__subtitle">{isZh ? zhCopy(isHant, "免实名条件会随地区、产品和账户阶段变化。先看 Hyperliquid 与 dYdX 的对比，再分别核对平台档案和 MEXC 的账户条件。") : (topicCopy?.noKycBody || routeCopy.noKyc?.body || "No-KYC conditions can change by region, product and account stage. Start with the Hyperliquid vs dYdX comparison, then verify each venue profile and MEXC account requirements.")}</p>
           <div className="topic-intent-redirect" data-gsc-query-intent="hyperliquid-latest-news">
@@ -3247,7 +3248,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
         {/* 4 核心量化指标卡片 */}
         <div className="topic-quick-stats">
           {topicQuickStats.map((stat, index) => (
-            <div key={index} className="topic-stat-card">
+            <div key={index} className="topic-stat-card" {...enIfLatin(isZh ? "" : stat.labelEn, locale)}>
               <div className="topic-stat-card__label">{isZh ? zhCopy(isHant, stat.labelZh, stat.labelZhHant) : stat.labelEn}</div>
               <div className="topic-stat-card__value">{stat.value}</div>
               <div className="topic-stat-card__desc">{isZh ? zhCopy(isHant, stat.descZh, stat.descZhHant) : stat.descEn}</div>
@@ -3261,7 +3262,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
           <div className="topic-section__header">
           <h2 className="topic-section__title">
               <span></span>
-              <span>{sourceBoundUi?.painTitle || (isZh ? zhCopy(isHant, "交易者高频痛点剖析与资金暗亏漏洞") : (staticUi.painTitle || "Trader Pain Points & Capital Bleed Vulnerabilities"))}</span>
+              <span {...enIfLatin(sourceBoundUi?.painTitle || (isZh ? zhCopy(isHant, "交易者高频痛点剖析与资金暗亏漏洞") : (staticUi.painTitle || "Trader Pain Points & Capital Bleed Vulnerabilities")), locale)}>{sourceBoundUi?.painTitle || (isZh ? zhCopy(isHant, "交易者高频痛点剖析与资金暗亏漏洞") : (staticUi.painTitle || "Trader Pain Points & Capital Bleed Vulnerabilities"))}</span>
             </h2>
             <p className="topic-section__subtitle">
               {sourceBoundUi?.painLead || (isZh
@@ -3272,7 +3273,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
 
           <div className="topic-pain-points">
             {localizedPainPoints.map((item, index) => (
-              <article key={index} className="topic-pain-card">
+              <article key={index} className="topic-pain-card" {...enIfLatin(isZh ? "" : item.titleEn, locale)}>
                 <div className="topic-pain-card__icon">{item.icon}</div>
                 <h3 className="topic-pain-card__title">{isZh ? zhCopy(isHant, item.titleZh, item.titleZhHant) : item.titleEn}</h3>
                 <p className="topic-pain-card__desc">{isZh ? zhCopy(isHant, item.descZh, item.descZhHant) : item.descEn}</p>
@@ -3283,7 +3284,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
           {/* 评测维度 4 柱 */}
           <div className="topic-eval-grid">
             {localizedEvaluationPillars.map((pillar, index) => (
-              <div key={index} className="topic-eval-card">
+              <div key={index} className="topic-eval-card" {...enIfLatin(isZh ? "" : pillar.titleEn, locale)}>
                 <h4>{isZh ? zhCopy(isHant, pillar.titleZh, pillar.titleZhHant) : pillar.titleEn}</h4>
                 <p>{isZh ? zhCopy(isHant, pillar.descZh, pillar.descZhHant) : pillar.descEn}</p>
               </div>
@@ -3298,7 +3299,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
           <div className="topic-section__header">
             <h2 className="topic-section__title">
               <span></span>
-              <span>{sourceBoundUi?.securityTitle || (isZh ? zhCopy(isHant, "精选平台核心量化横向对决表") : (staticUi.securityTitle || "Benchmarked Venues Head-to-Head Showdown"))}</span>
+              <span {...enIfLatin(sourceBoundUi?.securityTitle || (isZh ? zhCopy(isHant, "精选平台核心量化横向对决表") : (staticUi.securityTitle || "Benchmarked Venues Head-to-Head Showdown")), locale)}>{sourceBoundUi?.securityTitle || (isZh ? zhCopy(isHant, "精选平台核心量化横向对决表") : (staticUi.securityTitle || "Benchmarked Venues Head-to-Head Showdown"))}</span>
             </h2>
             <p className="topic-section__subtitle">
               {sourceBoundUi?.securityLead || (isZh
@@ -3311,13 +3312,13 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
             <table className="topic-showdown-table">
               <thead>
                 <tr>
-                  <th>{sourceBoundUi?.platformType || (isZh ? zhCopy(isHant, "交易平台 / 定位") : (topicUiResolved.platformType || "Platform / Type"))}</th>
-                  <th>{sourceBoundUi?.scoreLabel || (isZh ? zhCopy(isHant, "量化综合分") : (topicUiResolved.scoreLabel || "Score"))}</th>
-                  <th>{sourceBoundUi?.speedDepth || (isZh ? zhCopy(isHant, "时效 / 撮合深度") : (topicUiResolved.speedDepth || "Speed / Depth"))}</th>
-                  <th>{sourceBoundUi?.baseRates || (isZh ? zhCopy(isHant, "官方基准费率") : (topicUiResolved.baseRates || "Base Rates"))}</th>
-                  <th>{sourceBoundUi?.netFee || (isZh ? zhCopy(isHant, "NexuAlpha 净费率") : (topicUiResolved.netFee || "Net Effective Fee"))}</th>
-                  <th>{sourceBoundUi?.slippageKyc || (isZh ? zhCopy(isHant, "滑点与入金门槛") : (topicUiResolved.slippageKyc || "Slippage & KYC"))}</th>
-                  <th style={{ textAlign: "center" }}>{sourceBoundUi?.action || (isZh ? zhCopy(isHant, "专属特权与开户") : (topicUiResolved.researchAction || staticUi.action || "Action & Rebate"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.platformType || (isZh ? zhCopy(isHant, "交易平台 / 定位") : (topicUiResolved.platformType || "Platform / Type")), locale)}>{sourceBoundUi?.platformType || (isZh ? zhCopy(isHant, "交易平台 / 定位") : (topicUiResolved.platformType || "Platform / Type"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.scoreLabel || (isZh ? zhCopy(isHant, "量化综合分") : (topicUiResolved.scoreLabel || "Score")), locale)}>{sourceBoundUi?.scoreLabel || (isZh ? zhCopy(isHant, "量化综合分") : (topicUiResolved.scoreLabel || "Score"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.speedDepth || (isZh ? zhCopy(isHant, "时效 / 撮合深度") : (topicUiResolved.speedDepth || "Speed / Depth")), locale)}>{sourceBoundUi?.speedDepth || (isZh ? zhCopy(isHant, "时效 / 撮合深度") : (topicUiResolved.speedDepth || "Speed / Depth"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.baseRates || (isZh ? zhCopy(isHant, "官方基准费率") : (topicUiResolved.baseRates || "Base Rates")), locale)}>{sourceBoundUi?.baseRates || (isZh ? zhCopy(isHant, "官方基准费率") : (topicUiResolved.baseRates || "Base Rates"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.netFee || (isZh ? zhCopy(isHant, "NexuAlpha 净费率") : (topicUiResolved.netFee || "Net Effective Fee")), locale)}>{sourceBoundUi?.netFee || (isZh ? zhCopy(isHant, "NexuAlpha 净费率") : (topicUiResolved.netFee || "Net Effective Fee"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.slippageKyc || (isZh ? zhCopy(isHant, "滑点与入金门槛") : (topicUiResolved.slippageKyc || "Slippage & KYC")), locale)}>{sourceBoundUi?.slippageKyc || (isZh ? zhCopy(isHant, "滑点与入金门槛") : (topicUiResolved.slippageKyc || "Slippage & KYC"))}</th>
+                  <th style={{ textAlign: "center" }} {...enIfLatin(sourceBoundUi?.action || (isZh ? zhCopy(isHant, "专属特权与开户") : (topicUiResolved.researchAction || staticUi.action || "Action & Rebate")), locale)}>{sourceBoundUi?.action || (isZh ? zhCopy(isHant, "专属特权与开户") : (topicUiResolved.researchAction || staticUi.action || "Action & Rebate"))}</th>
                 </tr>
               </thead>
               <tbody>
@@ -3390,7 +3391,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
           <div className="topic-section__header">
             <h2 className="topic-section__title">
               <span></span>
-              <span>{isZh ? zhCopy(isHant, "实战避坑与资金安全防范指南") : (staticUi.pitfallTitle || "Real-World Pitfalls & Security Playbook")}</span>
+              <span {...enIfLatin(isZh ? zhCopy(isHant, "实战避坑与资金安全防范指南") : (staticUi.pitfallTitle || "Real-World Pitfalls & Security Playbook"), locale)}>{isZh ? zhCopy(isHant, "实战避坑与资金安全防范指南") : (staticUi.pitfallTitle || "Real-World Pitfalls & Security Playbook")}</span>
             </h2>
             <p className="topic-section__subtitle">
               {sourceBoundUi?.pitfallLead || (isZh
@@ -3401,7 +3402,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
 
           <div className="topic-pitfalls-grid">
             {localizedPitfalls.map((pitfall, index) => (
-              <article key={index} className="topic-pitfall-card">
+              <article key={index} className="topic-pitfall-card" {...enIfLatin(isZh ? "" : pitfall.titleEn, locale)}>
                 <h3>{isZh ? zhCopy(isHant, pitfall.titleZh, pitfall.titleZhHant) : pitfall.titleEn}</h3>
                 <p>{isZh ? zhCopy(isHant, pitfall.descZh, pitfall.descZhHant) : pitfall.descEn}</p>
               </article>
@@ -3416,7 +3417,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
           <div className="topic-section__header">
             <h2 className="topic-section__title">
               <span></span>
-              <span>{isZh ? zhCopy(isHant, "细分赛道核心问答 (Zero-Click FAQ)") : (staticUi.faqTitle || "Niche Track Direct FAQ")}</span>
+              <span {...enIfLatin(isZh ? zhCopy(isHant, "细分赛道核心问答 (Zero-Click FAQ)") : (staticUi.faqTitle || "Niche Track Direct FAQ"), locale)}>{isZh ? zhCopy(isHant, "细分赛道核心问答 (Zero-Click FAQ)") : (staticUi.faqTitle || "Niche Track Direct FAQ")}</span>
             </h2>
             <p className="topic-section__subtitle">
               {isZh
@@ -3427,7 +3428,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
 
           <div className="topic-faq-list">
             {localizedFaqs.map((faq, index) => (
-              <div key={faq.id || index} className="topic-faq-item">
+              <div key={faq.id || index} className="topic-faq-item" {...enIfLatin(faq.question ?? (isZh ? "" : faq.qEn), locale)}>
                 <h3 className="topic-faq-q">
                   <span>Q{index + 1}:</span>
                   <span>{faq.question ?? (isZh ? zhCopy(isHant, faq.qZh, faq.qHant) : faq.qEn)}</span>
@@ -3480,7 +3481,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
             </p>
             <div className="topic-tg-commands">
               {localizedTelegramCommands.map((tg, index) => (
-                <div key={index} className="topic-tg-cmd-row">
+                <div key={index} className="topic-tg-cmd-row" {...enIfLatin(isZh ? "" : tg.descEn, locale)}>
                   <span className="topic-tg-code">{tg.cmd}</span>
                   <span className="topic-tg-cmd-desc">{!topicOffersVerified && /返佣|rebate/i.test(`${tg.descZh} ${tg.descEn}`)
                     ? (isZh ? zhCopy(isHant, "查看官方费率与用户条件") : "Check official fees and user terms")
@@ -3514,7 +3515,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
           <div className="topic-section__header">
             <h2 className="topic-section__title">
               <span></span>
-              <span>{sharedTruthTopicUi?.matrixTitle || (isZh ? zhCopy(isHant, "探索更多高频交易细分赛道专题") : (staticUi.matrixTitle || "Explore More Quantitative Topic Tracks"))}</span>
+              <span {...enIfLatin(sharedTruthTopicUi?.matrixTitle || (isZh ? zhCopy(isHant, "探索更多高频交易细分赛道专题") : (staticUi.matrixTitle || "Explore More Quantitative Topic Tracks")), locale)}>{sharedTruthTopicUi?.matrixTitle || (isZh ? zhCopy(isHant, "探索更多高频交易细分赛道专题") : (staticUi.matrixTitle || "Explore More Quantitative Topic Tracks"))}</span>
             </h2>
             <p className="topic-section__subtitle">
               {sourceBoundUi?.matrixLead || (isZh
@@ -3528,7 +3529,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
               const other = sanitizeTopicValue(TOPIC_GUIDES[otherSlug]);
               const otherSummary = topicSummaryFor(otherSlug, locale, other);
               return (
-                <a key={otherSlug} href={formatHref(otherSlug)} className="topic-matrix-card">
+                <a key={otherSlug} href={formatHref(otherSlug)} className="topic-matrix-card" {...enIfLatin(isZh ? "" : otherSummary.title, locale)}>
                   <div className="topic-matrix-card__tag">{isZh ? topicZhField(other, "category", isHant) : otherSummary.category}</div>
                   <h3 className="topic-matrix-card__title">{isZh ? topicZhField(other, "title", isHant) : otherSummary.title}</h3>
                   <p className="topic-matrix-card__desc">{isZh ? topicZhField(other, "desc", isHant) : otherSummary.description}</p>

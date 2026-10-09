@@ -405,7 +405,7 @@ export function CleanFooter({ locale = "en", brazil = false }) {
         </section>
 
         <p className="clean-footer__copyright">
-          © 2026 NexuAlpha. {labels.rights}
+          <bdi dir="ltr">© 2026 NexuAlpha.</bdi> {labels.rights}
         </p>
       </div>
     </footer>

@@ -1,3 +1,4 @@
+import { enIfLatin } from "../../utils/fallback-lang.js";
 import { decisionCopy, decisionForVenue } from "../../data/venue-decision-content.js";
 import { venueDatabase } from "../../data/venue-database.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
@@ -26,8 +27,8 @@ export function VenueDecisionArticles({ slug, locale, text }) {
   ];
   return items.map(([title, body], index) => <article className="venue-decision" key={title}>
     <h3>{title}</h3>
-    {index === 0 && <small className="venue-decision__context">{reviewed ? ui[0] : (locale.startsWith("zh") ? "来源复核状态" : "Source review status")}{reviewed && decision.contentLocale !== locale && <> {ui[1]}.</>}</small>}
-    <p lang={reviewed ? decision.contentLocale : locale} dir={reviewed ? "ltr" : undefined}>{reviewed ? sanitizePublicText(body) : body}</p>
+    {index === 0 && <small className="venue-decision__context" {...(reviewed ? undefined : enIfLatin(locale.startsWith("zh") ? "" : "Source review status", locale))}>{reviewed ? ui[0] : (locale.startsWith("zh") ? "来源复核状态" : "Source review status")}{reviewed && decision.contentLocale !== locale && <> {ui[1]}.</>}</small>}
+    <p lang={reviewed ? decision.contentLocale : enIfLatin(body, locale) ? "en" : locale} dir={reviewed || enIfLatin(body, locale) ? "ltr" : undefined}>{reviewed ? sanitizePublicText(body) : body}</p>
     {index === 1 && reviewed && <a href="#platform-facts">{ui[2]}</a>}
     {index === 2 && reviewed && decision.supplementalSources.map((basis) => <a key={basis.id} href={basis.sourceUrl} target="_blank" rel="noopener noreferrer">{text.openOfficialSource} <time dateTime={basis.checkedAt}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(basis.checkedAt))}</time></a>)}
   </article>);

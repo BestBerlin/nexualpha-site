@@ -849,3 +849,22 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
 @media (min-width: 1200px) {
   #top.news-detail-page .news-detail-container:not(#_) { grid-template-columns: minmax(0, 720px) 288px; column-gap: 96px; }
 }
+
+/* R11 reading layout (>=1200). The 720 column + 96 gap + 288 rail was centred in the 1200 container, so the
+   ~656px prose measure left a 160px empty strip before the rail along the whole article and the rail stopped
+   48px short of the container edge. The reading column is now the measure itself (664px) and the rail runs to
+   the container's end (440px) after a 48px gutter; 1024-1199 uses a fluid column + 280px rail. */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  #top.news-detail-page .news-detail-container:not(#_):not(#_) { grid-template-columns: minmax(0, 1fr) minmax(0, 280px); column-gap: 40px; justify-content: stretch; }
+}
+@media (min-width: 1200px) {
+  #top.news-detail-page .news-detail-container:not(#_):not(#_) { grid-template-columns: minmax(0, 664px) minmax(0, 440px); column-gap: 48px; justify-content: end; }
+}
+/* short-term lists (e.g. "Known unknowns") flow into columns instead of a narrow 280px-tall strip */
+#top.news-detail-page .news-detail__prose ul.news-detail__terms:not(#_) { columns: 3 11rem; column-gap: 32px; }
+#top.news-detail-page .news-detail__prose ul.news-detail__terms > li:not(#_) { break-inside: avoid; }
+/* sources: two columns of source rows on desktop (a single column of short titles left the right half empty) */
+@media (min-width: 1024px) {
+  #top.news-detail-page .news-detail__sources ul:not(#_):not(#_) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+  #top.news-detail-page .news-detail__sources li:last-child:not(#_):not(#_) { border-block-end: 1px solid var(--r1-rule, rgba(255, 255, 255, .1)); }
+}

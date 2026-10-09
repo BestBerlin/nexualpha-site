@@ -520,7 +520,8 @@ function renderMarkdownBlock(block, index, t) {
     return (
       <React.Fragment key={index}>
         {leadLines.length > 0 && <p>{leadLines.join(" ")}</p>}
-        <ul>
+        {/* a list of short terms flows into columns (a 7-item glossary was a 280px-tall strip beside empty space) */}
+        <ul className={items.length >= 4 && items.every((item) => item.trim().length <= 40) ? "news-detail__terms" : undefined}>
           {items.map((item, itemIndex) => <li key={itemIndex}>{item.trim()}</li>)}
         </ul>
       </React.Fragment>
