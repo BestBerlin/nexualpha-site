@@ -4,3 +4,6 @@
 export const HOME_REBATE_MAX_PCT = 50; // owner: some partner programs allow up to 50%; per-venue shares differ and are disclosed per row
 export const HOME_REBATE_SHARE = Object.freeze({ okx: 0.2, binance: 0.2, bitget: 0.3, bybit: null });
 export const HOME_VENUES = Object.freeze(["okx", "binance", "bitget", "bybit"]);
+// Every partner with a real invite code in partner-registry.js, in home display order. kucoin/deribit/gmx are left out
+// while their codes are placeholders (NEXU_KUCOIN, NEXU_DERIBIT, NEXU_GMX). Codes and links still come only from publicCtaForVenue.
+export const HOME_PARTNERS = Object.freeze(["okx", "binance", "bitget", "bybit", "gate-io", "mexc", "htx", "kraken", "backpack", "hyperliquid"]);
