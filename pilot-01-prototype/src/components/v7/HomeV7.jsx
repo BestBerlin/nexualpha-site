@@ -39,7 +39,7 @@ function Cta({ v, locale, children, className, placement }) {
 }
 
 
-const INTEL_URL = "/content/official-announcements.json";
+const INTEL_URL = "/intel/official-announcements.json";
 const INTEL_SHOW = ["listing", "event", "delisting", "news", "product", "security"];
 function useIntel(venues) {
   const [feed, setFeed] = useState(null);

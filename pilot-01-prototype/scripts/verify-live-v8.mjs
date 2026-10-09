@@ -6,7 +6,7 @@ const expected = process.argv[3] || "";
 const UA = { "user-agent": "Mozilla/5.0 nexualpha-v8-live-check" };
 
 const routes = ["/", "/zh-hans", "/exchanges", "/zh-hans/exchanges", "/exchanges/okx", "/exchanges/binance", "/exchanges/bitget",
-  "/compare/binance-vs-okx", "/rates", "/news", "/activities", "/telegram", "/content/official-announcements.json"];
+  "/compare/binance-vs-okx", "/rates", "/news", "/activities", "/telegram", "/intel/official-announcements.json"];
 const codes = ["ref=11350287", "C6PRAF", "nexu888"];
 
 let failed = 0;
@@ -38,7 +38,7 @@ if (!home.includes("h7-desk")) fail("home notice desk (.h7-desk) missing from SS
 if (home.includes("mobile-bottom-nav")) fail("mobile bottom dock still rendered on home");
 if (!/data-disclosure-placement="directory-matrix"/.test(pages["/zh-hans/exchanges"])) fail("directory commission disclosure missing");
 
-const feed = JSON.parse(pages["/content/official-announcements.json"]);
+const feed = JSON.parse(pages["/intel/official-announcements.json"]);
 console.log(`notices ${feed.items?.length ?? 0} generatedAt ${feed.generatedAt}`);
 if (!feed.items?.length) fail("official notice feed is empty");
 
