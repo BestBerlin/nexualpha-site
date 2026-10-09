@@ -109,3 +109,10 @@ main.v3-profile-page.v6 .v3-activity-panel--empty > .v3-activity-empty:not(#_):n
   main.v3-profile-page.v6 .r9-route__stop:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, auto) minmax(0, 1fr); column-gap: 16px; align-items: baseline; }
   main.v3-profile-page.v6 .r9-route__stop > .r9-route__v:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 1; justify-self: end; text-align: end; }
 }
+
+/* ---------- 10. venue profile, opened "Route, code and eligibility details" in the docked card: a compact ledger
+   (rows were 66px apart with 16px labels wrapping, so the open card ran past the viewport) ---------- */
+main.v3-profile-page.v6 .v3-profile-action-column .registration-card__mobile-route-body .registration-card__state-list:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { gap: 0; }
+main.v3-profile-page.v6 .v3-profile-action-column .registration-card__mobile-route-body .registration-card__state-list > p:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: baseline; column-gap: 12px; margin: 0; padding: 8px 0; border-block-start: 1px solid var(--line, rgb(255 255 255 / 0.12)); font-size: 14px; line-height: 1.4; }
+main.v3-profile-page.v6 .v3-profile-action-column .registration-card__mobile-route-body .registration-card__state-list > p > *:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: 14px; line-height: 1.4; }
+main.v3-profile-page.v6 .v3-profile-action-column .registration-card__mobile-route-body .registration-card__state-list > p > :last-child:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { text-align: end; justify-self: end; }
