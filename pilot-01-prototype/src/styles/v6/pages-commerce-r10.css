@@ -56,7 +56,7 @@ main.v3-profile-page.v6 .v3-activity-panel--empty > .v3-activity-empty:not(#_):n
 
 /* ---------- 5b. venue profile, wide: the overview ends with actions | disclosure note on one row ---------- */
 @media (min-width: 1200px) {
-  main.v3-profile-page.v6 .v3-profile-reading-overview:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 32px; }
+  main.v3-profile-page.v6 .v3-profile-reading-overview:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 32px; }
   main.v3-profile-page.v6 .v3-profile-reading-overview > *:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / -1; }
   main.v3-profile-page.v6 .v3-profile-reading-overview > .v3-profile-actions-row:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; align-self: start; }
   main.v3-profile-page.v6 .v3-profile-reading-overview > .v3-profile-actions-row + .v3-relationship-note:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; align-self: start; margin: 0; }
