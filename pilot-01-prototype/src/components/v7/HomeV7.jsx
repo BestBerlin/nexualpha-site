@@ -52,7 +52,7 @@ function useIntel(venues) {
         if (!alive) return;
         const items = j ? readIntelFeed(j, { venues: slugs.split(",") }).filter((i) => INTEL_SHOW.includes(i.category)) : [];
         // null = still loading, false = unavailable (fail closed: no invented notices).
-        setFeed(items.length ? { items: items.slice(0, 8), generatedAt: j.generatedAt } : false);
+        setFeed(items.length ? { items: items.slice(0, 40), generatedAt: j.generatedAt } : false);
       })
       .catch(() => { if (alive) setFeed(false); });
     return () => { alive = false; };
@@ -77,9 +77,10 @@ function IntelSheet({ item, venues, t, locale, onClose }) {
   const perp = PERP_RE.test(item.title);
   useEffect(() => {
     const d = ref.current;
+    const opener = document.activeElement;
     if (d && !d.open) d.showModal();
     const root = document.documentElement; const prev = root.style.overflow; root.style.overflow = "hidden";
-    return () => { root.style.overflow = prev; };
+    return () => { root.style.overflow = prev; if (opener && opener.isConnected && typeof opener.focus === "function") opener.focus(); };
   }, []);
   const rows = compareRows(venues, perp);
   return (
@@ -125,7 +126,13 @@ function NoticeTicker({ intel, t }) {
 
 // Hero terminal: newest notices; the selected one drives a four-exchange fee comparison for its market.
 function IntelDesk({ intel, t, locale, venues, onOpen }) {
-  const items = intel ? intel.items.slice(0, 3) : [];
+  // Newest notice per exchange first (so selecting a row really changes the comparison), then fill by recency.
+  const items = useMemo(() => {
+    if (!intel) return [];
+    const seen = new Set(); const first = []; const rest = [];
+    for (const i of intel.items) (seen.has(i.venue) ? rest : (seen.add(i.venue), first)).push(i);
+    return [...first, ...rest].slice(0, 3);
+  }, [intel]);
   const [selId, setSelId] = useState(null);
   const sel = items.find((i) => i.id === selId) || items[0] || null;
   const perp = sel ? PERP_RE.test(sel.title) : false;
@@ -179,7 +186,7 @@ function IntelBlock({ intel, t, locale, venues }) {
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
       <div className="h7-ih"><h2>{t.inH}</h2><p>{t.inSub}</p></div>
       <ul className="h7-il">
-        {intel.items.map((i) => (
+        {intel.items.slice(0, 8).map((i) => (
           <li key={i.id}>
             <span className={`h7-ic h7-ic-${i.category}`}>{t.inCat[i.category]}</span>
             <span className="h7-iv"><BrandMark slug={i.venue} compact />{names[i.venue]}</span>
@@ -233,7 +240,7 @@ export function HomeV7({ locale, venues: _catalog }) {
     const x = X(12 * p), y = Y(b.net * p); dotRef.current?.setAttribute("cx", x); dotRef.current?.setAttribute("cy", y);
     if (progRef.current) progRef.current.style.width = `${p * 100}%`;
     const k = (svgRef.current?.getBoundingClientRect().width || W) / W, tg = tagRef.current;
-    if (tg) { tg.style.opacity = p > 0.02 && p < 0.97 ? "1" : "0"; tg.style.left = `${x * k}px`; tg.style.top = `${y * k}px`; tg.textContent = `${Math.round(p * 12) || 1} ${t.mo} · ${b.name} ${t.tagPaid} ${usd(b.net * p)}`; }
+    if (tg) { tg.style.opacity = p > 0.02 && p < 0.97 ? "1" : "0"; const cw = svgRef.current?.getBoundingClientRect().width || W * k, half = (tg.offsetWidth || 0) / 2; tg.style.left = `${Math.min(Math.max(x * k, half), cw - half)}px`; tg.style.top = `${y * k}px`; tg.textContent = `${Math.round(p * 12) || 1} ${t.mo} · ${b.name} ${t.tagPaid} ${usd(b.net * p)}`; }
     gapRef.current?.classList.toggle("on", p > 0.96);
   }, [calc.best, maxY, t]);
   useEffect(() => {
@@ -273,7 +280,7 @@ export function HomeV7({ locale, venues: _catalog }) {
           <p className="h7-kick">{t.kick}</p>
           <h1>{t.h1[0]}<br />{t.h1[1][0]}<em>{t.h1[1][1]}</em>{t.h1[1][2]}<br />{t.h1[2]}</h1>
           <p className="h7-sub">{t.lead}</p>
-          <div className="h7-cta"><a className="h7-btn" href="#h7-intel">{t.ctaAll} ↓</a><a className="h7-btn h7-ol" href="#h7-calc">{t.ctaCmp}</a></div>
+          <div className="h7-cta"><a className="h7-btn h7-ol" href="#h7-intel">{t.ctaAll} ↓</a><a className="h7-ln" href="#h7-calc">{t.ctaCmp}</a></div>
           <p className="h7-cta-disc">{t.t2b}</p>
           <dl className="h7-stats">
             <div><dd>{verified}</dd><dt>{t.statVenues}</dt></div>
