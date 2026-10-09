@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_PARTNERS } from "../../data/home-rebate-tiers.js";
+import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_PARTNERS, HOME_PUSH, HOME_AUTO_SETTLE } from "../../data/home-rebate-tiers.js";
 import { brandsBySlug } from "../../content/brand-manifest";
 import { readIntelFeed } from "../../data/announcement-intel.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
@@ -32,7 +32,7 @@ function useVenues(locale) {
 }
 
 // Ledger figures roll to their new value (eased); reduced motion and SSR render the final value.
-function Roll({ value, prefix = "" }) {
+function Roll({ value, prefix = "", fmt = usd }) {
   const [shown, setShown] = useState(value);
   const from = useRef(value);
   useEffect(() => {
@@ -42,7 +42,7 @@ function Roll({ value, prefix = "" }) {
     raf = requestAnimationFrame(f);
     return () => { cancelAnimationFrame(raf); from.current = b; };
   }, [value]);
-  return <>{shown == null ? "–" : `${prefix}${usd(shown)}`}</>;
+  return <>{shown == null ? "–" : `${prefix}${fmt(shown)}`}</>;
 }
 
 function CopyCode({ code, t }) {
@@ -186,9 +186,10 @@ export function HomeV7({ locale, venues: _catalog }) {
   }, [calc]);
 
   // Ledger: venues with a disclosed rebate share; the pick drives the ledger and the hero CTA.
-  const rebated = useMemo(() => calc.rows.filter((r) => r.share), [calc]);
+  const rebated = useMemo(() => HOME_PUSH.map((slug) => calc.rows.find((r) => r.slug === slug && r.share)).filter(Boolean), [calc]);
   const [pickSlug, setPick] = useState(null);
-  const sel = rebated.find((r) => r.slug === pickSlug) || top;
+  const sel = rebated.find((r) => r.slug === pickSlug) || rebated[0] || top;
+  const auto = HOME_AUTO_SETTLE.includes(sel.slug);
   const spot = (e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`); };
 
   /* ---------- hero: rebate flow into the number ---------- */
@@ -205,9 +206,9 @@ export function HomeV7({ locale, venues: _catalog }) {
       // Phones: the stream starts at the exchange pills right under the figure (inside the ledger, no text in between).
       phone = window.matchMedia("(max-width: 900px)").matches;
       src = (phone ? pillRefs : srcRefs).current.filter(Boolean).map((e) => {
-        const b = e.getBoundingClientRect(); const x = b.left - r.left + b.width / 2, y = b.top - r.top + 2; // leave from the tile's top edge, never across its text
+        const b = e.getBoundingClientRect(); const x = b.left - r.left + b.width / 2, y = phone ? b.bottom - r.top - 2 : b.top - r.top + 2; // tiles: top edge; phone tabs sit above the figure: bottom edge
         // Run along the strip first, then rise into the ledger figure: never across the headline column.
-        return { x, y, tx, ty, cx: tx, cy: y - 8 };
+        return { x, y, tx, ty, cx: tx, cy: phone ? y + 8 : y - 8 };
       });
     };
     const bez = (s, k) => { const u = 1 - k; return [u * u * s.x + 2 * u * k * s.cx + k * k * s.tx, u * u * s.y + 2 * u * k * s.cy + k * k * s.ty]; };
@@ -247,27 +248,28 @@ export function HomeV7({ locale, venues: _catalog }) {
         <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
         <div className="h7-hc">
           <p className="h7-kick">{t.kick}</p>
-          <h1>{t.h1a}<br />{t.h1b}</h1>
-          <p className="h7-sub">{t.sub.replace("{max}", String(HOME_REBATE_MAX_PCT))}</p>
-          <div className="h7-cta"><Cta v={sel} locale={locale} className="h7-btn" placement="home-v7-hero">{t.cta(sel.name)}</Cta><a className="h7-ln" href="#h7-calc">{t.calcLink}</a></div>
+          <h1>{t.h1a}<br />{t.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{HOME_REBATE_MAX_PCT}%</em>{part}</span> : <span key={i}>{part}</span>)}</h1>
+          <p className="h7-sub">{t.sub}</p>
+          <div className="h7-cta"><a className="h7-ln" href="#h7-calc">{t.calcLink}</a><a className="h7-ln" href={localizedHref("/exchanges", { locale })}>{t.all}</a></div>
         </div>
 
         <aside className="h7-lg" aria-label={t.lgTitle} onPointerMove={spot}>
-          <p className="h7-lg-top"><span className="h7-dot" aria-hidden="true" />{t.lgEst}<span className="h7-lg-vol">{t.lgVol(usd(vol), mode === "maker" ? t.maker : t.taker)}</span></p>
-          <div className="h7-lg-max">
-            <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgMax} </span>{HOME_REBATE_MAX_PCT}<span>%</span></p>
-            <p className="h7-lg-cap">{t.lgMax}</p>
-          </div>
-          <div className="h7-lg-pills" role="group" aria-label={t.lgPick}>
+          <div className="h7-lg-tabs" role="group" aria-label={t.lgPick}>
             {rebated.map((r, i) => <button key={r.slug} ref={(e) => { pillRefs.current[i] = e; }} type="button" aria-pressed={r.slug === sel.slug} onClick={() => setPick(r.slug)}><BrandMark slug={r.slug} compact /><span>{r.name}</span><b>{Math.round(r.share * 100)}%</b></button>)}
           </div>
+          <div className="h7-lg-max">
+            <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgShare(sel.name)} </span><Roll value={Math.round(sel.share * 100)} fmt={(n) => String(Math.round(n))} /><span>%</span></p>
+            <div className="h7-lg-who"><b>{t.lgShare(sel.name)}</b>{auto && <span className="h7-auto">{t.lgAuto}</span>}</div>
+          </div>
+          <p className="h7-lg-top"><span className="h7-dot" aria-hidden="true" />{t.lgEst}<span className="h7-lg-vol">{t.lgVol(usd(vol), mode === "maker" ? t.maker : t.taker)}</span></p>
           <dl className="h7-lg-rows">
             <div><dt>{t.lgWithout}</dt><dd><Roll value={sel.gross} /></dd></div>
             <div className="up"><dt>{t.lgBack}</dt><dd><Roll value={sel.save} prefix="+" /></dd></div>
             <div><dt>{t.lgNet}</dt><dd><Roll value={sel.net} /></dd></div>
           </dl>
-          {sel.code && <p className="h7-lg-code"><span>{sel.name} · {t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
-          <p className="h7-lg-disclosure">{t.t2b}</p>
+          {sel.code && <p className="h7-lg-code"><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
+          <p className="h7-lg-disclosure">{sel.open ? `${t.lgLink} ` : ""}{t.t2b}</p>
+          <Cta v={sel} locale={locale} className="h7-btn h7-lg-go" placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span><small className="h7-go-disclosure">{t.lgAd}</small></Cta>
         </aside>
 
         <div className="h7-strip">

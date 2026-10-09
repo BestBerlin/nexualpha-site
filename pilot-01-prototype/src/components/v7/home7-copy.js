@@ -5,8 +5,9 @@ import { H7_I18N } from "./home7-copy-i18n.js";
 export const H7_COPY = {
   "zh-Hans": {
     kick: "NEXUALPHA · 交易所比价与返佣",
-    h1a: "每一笔交易，", h1b: "把手续费夺回来。",
-    sub: "通过我们在交易所官方页面开户，手续费最高返还 {max}%。\n各家比例不同，逐家公开。",
+    h1a: "别再白送手续费，", h1b: "最高拿回 {max}%。",
+    sub: "通过我们的合作节点在官方页面开户，\n手续费按比例返还，主流交易所逐家比价。",
+    lgShare: (n) => `${n} 返佣比例`, lgAuto: "官方自动结算", lgGo: (n) => `去 ${n} 官方注册`, lgLink: "链接已自带邀请码，无需手动填写。", lgAd: "合作推广链接 · 佣金已披露",
     lgTitle: "返佣账本", lgEst: "按公开费率估算", lgVol: (v, m) => `每月成交 ${v} · 现货${m}`, lgMax: "合作交易所\n最高返佣", lgPick: "选择交易所",
     lgWithout: "不用邀请码 · 一年手续费", lgBack: "通过 NexuAlpha · 一年返还", lgNet: "一年实付", copy: "复制", copied: "已复制 ✓",
     cta: (n) => `领取返佣，去 ${n} 开户`, calcLink: "算算我能省多少",
@@ -27,8 +28,9 @@ export const H7_COPY = {
   },
   en: {
     kick: "NEXUALPHA · EXCHANGE FEES & REBATES",
-    h1a: "Stop overpaying", h1b: "trading fees.",
-    sub: "Open your account on the exchange's official page through us and get up to {max}% of your fees back.\nShares differ and are disclosed per exchange.",
+    h1a: "Stop gifting fees.", h1b: "Get up to {max}% back.",
+    sub: "Open on the exchange's official page through the NexuAlpha partner node.\nPart of every fee comes back, compared exchange by exchange.",
+    lgShare: (n) => `${n} rebate share`, lgAuto: "Settled by the exchange", lgGo: (n) => `Sign up on ${n}`, lgLink: "The link carries our invite code; nothing to type.", lgAd: "Partner link · commission disclosed",
     lgTitle: "Rebate ledger", lgEst: "Estimate from published fees", lgVol: (v, m) => `${v} / month · spot ${m.toLowerCase()}`, lgMax: "Top partner\nrebate", lgPick: "Choose exchange",
     lgWithout: "Without invite code · fees a year", lgBack: "Through NexuAlpha · back a year", lgNet: "Paid a year", copy: "Copy", copied: "Copied ✓",
     cta: (n) => `Claim rebate, open on ${n}`, calcLink: "See what I could save",

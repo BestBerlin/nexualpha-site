@@ -46,9 +46,11 @@
       const f = await load(p); const d = f.contentDocument, w = f.contentWindow;
       const H = d.documentElement.scrollHeight, bad = []; let stops = 0;
       const inView = (e) => { const r = e.getBoundingClientRect(); return r.bottom > 0 && r.top < w.innerHeight && visible(w, e); };
+      // a link counts once at least half of it is on screen (a sliver at the edge is neither readable nor tappable)
+      const linkInView = (e) => { const r = e.getBoundingClientRect(); const shown = Math.min(r.bottom, w.innerHeight) - Math.max(r.top, 0); return shown >= r.height / 2 && visible(w, e); };
       for (let y = 0; y < H; y += 150) {
         w.scrollTo(0, y); await new Promise((r) => setTimeout(r, 450)); stops += 1;
-        const links = [...d.querySelectorAll('a[rel~="sponsored"]')].filter(inView);
+        const links = [...d.querySelectorAll('a[rel~="sponsored"]')].filter(linkInView);
         if (links.length && ![...d.querySelectorAll(DISC)].some(inView)) bad.push(`y${y}: ${links.map((a) => a.textContent.trim().slice(0, 20)).join(', ')}`);
       }
       out[p] = bad.length ? { stops, bad: bad.slice(0, 6) } : `ok ${stops} viewports`;
