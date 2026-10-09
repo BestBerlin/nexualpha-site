@@ -13,8 +13,8 @@ trustworthy, useful, real conversion. Budget for this milestone: 20 execution ro
 
 ## Design decisions
 - One dark system: `pilot-01-prototype/docs/design-unified-v8.md` (tokens, rules, direction A).
-- Direction A "intel desk" (owner choice): announcement-led home, notice ticker site-wide, terminal panels, hairline ruling.
-- Home headline no longer shows the unconfirmed "up to 50%"; rebate shares stay per-exchange in the calculator.
+- ~~Direction A "intel desk"~~ superseded 2026-10-09 by owner: the site is a fee-compare + rebate product; notices are secondary; the animated 50% hero is the signature.
+- Home headline shows "up to 50%" (owner-confirmed marketing) with the per-venue footnote.
 - Mobile bottom dock removed (owner request); footer policy text folded, not deleted (no standalone policy page yet).
 
 ## Frozen scope
@@ -64,9 +64,11 @@ desk → fee comparison → sheet; profile copy code + official link; home calcu
 | Release | buildId | Notes |
 |---|---|---|
 | gh-20261009t2026-ba66747 | 3.0-20261009T2026-GH-ba66747 | v8. First run blocked by the CTA gate only because the old home's registration card (code 11350287) is gone; link sets identical and the code is still shown in the calculator row, so re-run with `allow_cta_change`. Live notice feed 404: production mounts managed content over `/content`. |
-| gh-20261009t2034-3738f5c | 3.0-20261009T2034-GH-3738f5c | Feed moved to `/intel/official-announcements.json`; CTA gate passed without override. **Current live.** |
+| gh-20261009t2034-3738f5c | 3.0-20261009T2034-GH-3738f5c | Feed moved to `/intel/official-announcements.json`; CTA gate passed without override. |
+| 3.0-20261009T2048-GH-b644e1e | 3.0-20261009T2048-GH-b644e1e | Rebate headline (owner-confirmed 50% marketing) + notice desk. |
+| (run 37932992588) | 3.0-20261009T2053-GH-1f2a95a | Owner correction: product, not exchange PR. Animated 50% rebate hero restored (also on phones), notice desk + site ticker removed, notices moved below the calculator. verify-live-v8 passed; browser-checked 390/1440. **Current live.** |
 
-Rollback: Actions → "Rollback production" with release `gh-20261009t2034-3738f5c` (returns to ba66747), or `gh-20261009t2026-ba66747` (returns to pre-v8 `gh-20261009t1328-63a82a1`).
+Rollback: Actions → "Rollback production" with the newest release name (returns to the previous one), e.g. `gh-20261009t2034-3738f5c` (returns to ba66747), or `gh-20261009t2026-ba66747` (returns to pre-v8 `gh-20261009t1328-63a82a1`).
 
 **Milestone status: 23/23 accepted (2026-10-09).** Acceptance means this stage met its checklist, not that the site cannot improve.
 
