@@ -493,3 +493,18 @@ body:has(> #root > main.v5 > .container) .nx-ftr__inner {
 
 /* The dialog input showed the browser focus ring (off-palette) under the accent focus line. */
 .search-dialog .command-input input:focus-visible:not(#_):not(#_):not(#_) { outline: none; box-shadow: none; }
+
+/* Footer v9 (owner, 2026-10-09): one centred column — mark, one-line summary, links, folded policies, copyright.
+   The folded legal text stays start-aligned when opened (long centred text is hard to read). */
+.nx-ftr .nx-ftr__inner:not(#_):not(#_):not(#_) { display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center;
+  inline-size: min(1160px, calc(100% - 2 * var(--page-pad, 24px))); padding-block: clamp(48px, 6vw, 72px) 40px; }
+.nx-ftr .nx-ftr__brand:not(#_):not(#_):not(#_) { justify-items: center; gap: 12px; }
+.nx-ftr .nx-ftr__brand .clean-footer__summary:not(#_):not(#_):not(#_) { max-inline-size: 30em; margin-inline: auto; text-align: center; }
+.nx-ftr .nx-ftr__list--inline ul:not(#_):not(#_):not(#_) { justify-content: center; gap: 0 24px; }
+.nx-ftr .nx-ftr__fold:not(#_):not(#_):not(#_) { inline-size: 100%; max-inline-size: 640px; }
+.nx-ftr .nx-ftr__fold > summary:not(#_):not(#_):not(#_) { justify-content: center; gap: 8px; }
+.nx-ftr .nx-ftr__fold .nx-ftr__legal:not(#_):not(#_):not(#_) { text-align: start; }
+.nx-ftr .clean-footer__copyright:not(#_):not(#_):not(#_) { text-align: center; }
+@media (max-width: 859px) {
+  .nx-ftr .nx-ftr__list--inline ul:not(#_):not(#_):not(#_) { gap: 0 20px; }
+}
