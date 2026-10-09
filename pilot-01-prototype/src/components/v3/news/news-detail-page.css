@@ -790,13 +790,13 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
 
 /* R10 reading layout. Desktop: one 720px reading column plus a sticky 288px rail that carries the
    first decision and the section index, so the right side of a long article is never an empty column.
-   Below 1200 the rail collapses back into the flow and the section select stays the jump control. */
+   Below 1024 the rail collapses back into the flow and the section select stays the jump control. */
 .news-detail-page .news-detail__toc { display: none; }
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
   #top.news-detail-page .news-detail-container:not(#_) {
     display: grid;
-    grid-template-columns: minmax(0, 720px) 288px;
-    column-gap: 96px;
+    grid-template-columns: minmax(0, 720px) 256px;
+    column-gap: 48px;
     justify-content: center;
     align-items: start;
   }
@@ -845,4 +845,7 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
   }
   #top.news-detail-page .news-detail__toc button:hover { color: var(--ink); border-inline-start-color: var(--ink-2, #9aa4b2); }
   #top.news-detail-page .news-detail__toc button:focus-visible { outline: 2px solid var(--blue-text, #8fb0ff); outline-offset: 2px; color: var(--ink); }
+}
+@media (min-width: 1200px) {
+  #top.news-detail-page .news-detail-container:not(#_) { grid-template-columns: minmax(0, 720px) 288px; column-gap: 96px; }
 }

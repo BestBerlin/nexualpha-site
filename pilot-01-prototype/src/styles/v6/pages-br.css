@@ -302,3 +302,6 @@
 @media (max-width: 1023px) {
   #top#top#top#top.v6.br-decision > .br-hero > .br-answer { grid-column: 1; }
 }
+#top#top#top#top.v6.br-decision > .br-hero { padding-block-start: var(--s-10, 40px); }
+#top#top#top#top.v6.br-decision > .br-hero > .br-hero__copy h1 { max-inline-size: none; }
+#top#top#top#top.v6.br-decision > .br-hero > .br-hero__copy > p { max-inline-size: 62ch; }

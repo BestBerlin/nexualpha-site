@@ -147,3 +147,7 @@
   #top#top#top#top.v6.r1-telegram-page .tg-topic-gateway__header:not(#_):not(#_):not(#_):not(#_) > :is(h2, h3, p) { grid-column: 1; grid-row: auto; max-inline-size: 48ch; }
   #top#top#top#top.v6.r1-telegram-page .tg-topic-gateway__toggle:not(#_):not(#_):not(#_):not(#_) { margin-block-start: calc(var(--s-6, 24px) - var(--s-12, 48px)); }
 }
+/* topic cards: the entry links run inline (wrapping) instead of a short stacked list beside empty space */
+@media (min-width: 1024px) {
+  #top#top#top#top.v6.r1-telegram-page .tg-topic-card:not(:first-child):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-topic-card__links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--s-6, 24px); }
+}
