@@ -26,9 +26,12 @@ v6 tokens below. Inner pages are not redesigned; they are polished against the s
 - NexuAlpha is a product for users: compare exchanges, see what fees cost, sign up through us and get part of the fees back.
   Revenue comes from those referrals. It is not a channel for exchanges' news: their announcements are secondary
   reference only (one list near the bottom of the home), never the hero and never a site-wide ticker.
-- The home hero is the animated rebate figure: exchange chips (OKX 20%, Binance 20%, Bitget 30%, Bybit) stream particles
-  into a large shimmering "50%" (owner-confirmed "up to" marketing, footnote explains per-exchange shares). The motion is
-  the signature; do not replace it with static type. On phones the chips sit under the figure and stream upward.
+- The home hero is the animated rebate figure: a large shimmering "50%" (owner-confirmed "up to" marketing, footnote
+  explains per-exchange shares) with the partner wall right under it — every partner with a real invite code
+  (`HOME_PARTNERS`), official logo, name and disclosed share; each tile links to that exchange's detail page (code +
+  disclosure). Particles stream from the tiles' top edges into the figure, never across text. The motion is the
+  signature; do not replace it with static type. Never show only a hand-picked few partners.
+- Home copy exists in all 15 locales (`home7-copy.js` + `home7-copy-i18n.js`); a new key must be added to every locale.
 - Order: rebate hero → trust strip → yearly-gap story chart → calculator with per-exchange sign-up → notices → footnote.
 - Kicker voice: "交易所比价与返佣" / "fees & rebates". Terminal frames, hairline ruling and mono figures stay as craft details.
 

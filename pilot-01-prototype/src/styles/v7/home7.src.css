@@ -42,10 +42,16 @@
   color:var(--ink);background:linear-gradient(100deg,#EDEEF0 38%,#FFFFFF 50%,#EDEEF0 62%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:h7sh 8s ease-in-out infinite}
 @ .h7-num span{color:var(--ac);-webkit-text-fill-color:var(--ac)}
 @keyframes h7sh{0%,100%{background-position:100% 0}50%{background-position:0 0}}
-@ .h7-cap{font-size:14px;line-height:1.5;color:var(--ink3);margin:20px 0 0;max-width:22em;text-align:end}
-@ .h7-src{position:absolute;z-index:2;display:inline-flex;align-items:baseline;gap:6px;font:500 12px/1 var(--mono);color:var(--ink);background:rgb(12 13 16/.85);backdrop-filter:blur(6px);padding:7px 10px;border:1px solid var(--line);border-radius:8px}
-@ .h7-src small{color:var(--ac);font-size:12px}
-@ .h7-s0{top:8%;right:54%}@ .h7-s1{top:6%;right:4%}@ .h7-s2{bottom:10%;right:58%}@ .h7-s3{bottom:12%;right:2%}
+@ .h7-cap{font-size:14px;line-height:1.6;color:var(--ink3);margin:16px 0 0;max-width:560px;text-align:end;text-wrap:pretty;white-space:pre-line}
+/* partner wall: every partner with a real invite code, logo first; particles leave each tile's top edge for the 50% */
+@ .h7-pw{list-style:none;margin:32px 0 0;padding:0;width:100%;max-width:560px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;position:relative;z-index:2}
+@ .h7-pw a{display:grid;justify-items:center;align-content:center;gap:6px;min-height:84px;padding:12px 4px 10px;border:1px solid var(--line);border-radius:12px;background:rgb(12 13 16/.78);backdrop-filter:blur(6px);color:var(--ink2);text-decoration:none;font-size:12px;line-height:1.2;transition:border-color .2s,color .2s,transform .2s}
+@ .h7-pw a:hover{border-color:var(--ac);color:var(--ink);transform:translateY(-2px)}
+@ .h7-pw a:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+@ .h7-pw img,@ .h7-pw [data-brand-fallback]{width:28px;height:28px;border-radius:8px}
+@ .h7-pn{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@ .h7-pw small{font:500 12px/1 var(--mono);color:var(--ac)}
+@ .h7-kick:lang(ar){font-family:inherit;letter-spacing:0}
 /* ---------- hero copy ---------- */
 @ .h7-kick{margin:0 0 20px;font:500 12px/1.4 var(--mono);letter-spacing:.08em;color:var(--ink3)}
 @ h1 em{font-style:normal;color:var(--ac)}
@@ -53,7 +59,7 @@
 @ .h7-hc{position:relative;z-index:2}
 @ h1{font-weight:600;font-size:2rem;line-height:1.05;letter-spacing:-.04em;color:var(--ink);margin:0;text-wrap:balance}
 @ h1:lang(zh),@ h2:lang(zh){letter-spacing:-.01em}
-@ .h7-sub{margin:24px 0 0;max-width:26em;font-size:1rem;line-height:1.6;color:var(--ink2)}
+@ .h7-sub{margin:24px 0 0;max-width:26em;text-wrap:pretty;white-space:pre-line;font-size:1rem;line-height:1.6;color:var(--ink2)}
 @ .h7-cta-disc{margin:16px 0 0;max-width:30em;font-size:12px;line-height:1.5;color:var(--ink3)}
 @ .h7-cta{display:flex;gap:16px 24px;margin-top:32px;flex-wrap:wrap;align-items:center}
 
@@ -168,20 +174,19 @@
 @media(min-width:1100px){@ h1{font-size:4.5rem}@ h1:lang(en){font-size:2.75rem}}
 @media(max-width:1000px){@ .h7-ax{font-size:18px}}
 @media(max-width:900px){
-/* phone hero: one flow — headline, 50% with its four sources directly under it, then copy and CTA.
-   .h7-hc/.h7-big dissolve so their children join a 4-column grid; the chips fill one row. */
-@ .h7-hero{grid-template-columns:repeat(4,minmax(0,132px)) minmax(0,1fr);min-height:0;padding-block:28px 40px;gap:0 6px;align-items:start}
+/* phone hero: one flow — headline, 50%, the partner wall right under it, then copy and CTA. */
+@ .h7-hero{grid-template-columns:minmax(0,1fr);min-height:0;padding-block:28px 40px;gap:0}
 @ .h7-hero::before{inset:20% -40% auto -20%;height:50%}
-@ .h7-hc,@ .h7-big{display:contents}
-@ .h7-hero>*,@ .h7-hc>*,@ .h7-big>*{grid-column:1/-1}
+@ .h7-hc{display:contents}
 @ .h7-kick{order:1;margin-bottom:16px}
 @ .h7-hc h1{order:2}
-@ .h7-num{order:3;font-size:clamp(6.5rem,30vw,9rem);margin-top:20px;position:relative;z-index:1}
-@ .h7-src{order:4;grid-column:auto;position:static;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;min-height:48px;margin-top:20px;padding:8px 2px;text-align:center;white-space:nowrap}
-@ .h7-cap{order:5;text-align:start;margin:12px 0 0;max-width:none;position:relative;z-index:1}
-@ .h7-sub{order:6;margin-top:24px;position:relative;z-index:1}
-@ .h7-cta{order:7;margin-top:24px;position:relative;z-index:1}
-@ .h7-cta-disc{order:8;position:relative;z-index:1}
+@ .h7-big{order:3;align-items:stretch;margin-top:20px}
+@ .h7-num{font-size:clamp(6.5rem,30vw,9rem)}
+@ .h7-pw{max-width:none;margin-top:20px;gap:4px}
+@ .h7-cap{text-align:start;max-width:none;margin-top:12px}
+@ .h7-sub{order:4;margin-top:24px;position:relative;z-index:1}
+@ .h7-cta{order:5;margin-top:24px;position:relative;z-index:1}
+@ .h7-cta-disc{order:6;position:relative;z-index:1}
 /* the trust strip's rule already divides hero from story; no second rule and empty band */
 @ .h7-story{margin-top:0;border-top:0}
 @ .h7-ih{grid-template-columns:minmax(0,1fr)}
@@ -209,3 +214,7 @@
 @ .h7-sh-in{width:100%;border-radius:16px 16px 0 0;max-height:88dvh;border-bottom:0}
 }
 @media(prefers-reduced-motion:reduce){@ .h7-num{animation:none}@ .h7-bar,@ .h7-gap,@ .h7-btn{transition:none}@ .h7-sheet[open],@ .h7-sh-in{animation:none}}
+@media(max-width:640px){
+@ .h7-pw a{min-height:72px;padding:10px 1px 8px;gap:4px;border-radius:10px;letter-spacing:-.01em}
+@ .h7-pw img,@ .h7-pw [data-brand-fallback]{width:24px;height:24px;border-radius:6px}
+}

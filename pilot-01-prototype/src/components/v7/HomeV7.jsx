@@ -5,25 +5,26 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_VENUES } from "../../data/home-rebate-tiers.js";
+import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_PARTNERS } from "../../data/home-rebate-tiers.js";
+import { brandsBySlug } from "../../content/brand-manifest";
 import { readIntelFeed } from "../../data/announcement-intel.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import "../../styles/v7/home7.css";
 
-const NAMES = { okx: "OKX", binance: "Binance", bitget: "Bitget", bybit: "Bybit" };
+const nameOf = (slug) => brandsBySlug[slug]?.name || slug;
 const CHIPS = [10000, 50000, 100000, 500000];
 const usd = (n) => `$${Math.round(n).toLocaleString("en-US")}`;
 const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function useVenues(locale) {
-  return useMemo(() => HOME_VENUES.map((slug) => {
+  return useMemo(() => HOME_PARTNERS.map((slug) => {
     const f = feeFact(slug, "spot");
     const cta = publicCtaForVenue(slug, locale);
     const checked = f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker);
     return {
-      slug, name: NAMES[slug], maker: checked ? f.maker : null, taker: checked ? f.taker : null,
+      slug, name: nameOf(slug), maker: checked ? f.maker : null, taker: checked ? f.taker : null,
       share: HOME_REBATE_SHARE[slug], code: cta.hasReferral ? cta.inviteCode : null,
       url: cta.registrationUrl, open: Boolean(cta.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "")),
     };
@@ -111,7 +112,6 @@ function IntelBlock({ intel, t, locale, venues }) {
   const [open, setOpen] = useState(null);
   if (!intel) return null;
   const now = Date.now();
-  const names = NAMES;
   const asOf = fmtAsOf(intel.generatedAt, locale);
   return (
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
@@ -120,7 +120,7 @@ function IntelBlock({ intel, t, locale, venues }) {
         {intel.items.slice(0, 8).map((i) => (
           <li key={i.id}>
             <span className={`h7-ic h7-ic-${i.category}`}>{t.inCat[i.category]}</span>
-            <span className="h7-iv"><BrandMark slug={i.venue} compact />{names[i.venue]}</span>
+            <span className="h7-iv"><BrandMark slug={i.venue} compact />{nameOf(i.venue)}</span>
             <a className="h7-it" href={i.url} target="_blank" rel="noopener noreferrer nofollow">{i.title}<span className="h7-sr"> ({t.inOpen})</span></a>
             <time dateTime={i.publishedAt}>{t.inAgo(now - Date.parse(i.publishedAt))}</time>
             <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => setOpen(i)}>{t.inBtn}</button>
@@ -140,8 +140,9 @@ export function HomeV7({ locale, venues: _catalog }) {
   const [mode, setMode] = useState("maker");
   const intel = useIntel(venues);
 
+  const priced = useMemo(() => venues.filter((v) => v.maker != null), [venues]);
   const calc = useMemo(() => {
-    const rows = venues.map((v) => {
+    const rows = priced.map((v) => {
       const rate = mode === "maker" ? v.maker : v.taker;
       if (rate == null || !vol) return { ...v, gross: null, net: null, save: null };
       const gross = (vol * 12 * rate) / 100;
@@ -153,9 +154,13 @@ export function HomeV7({ locale, venues: _catalog }) {
     const most = ok.length ? ok.reduce((a, b) => (b.save > a.save ? b : a)) : null;
     const maxGross = Math.max(1, ...ok.map((r) => r.gross));
     return { rows, best, most, maxGross };
-  }, [venues, vol, mode]);
+  }, [priced, vol, mode]);
 
-  const top = calc.best || calc.rows[0];
+  // Hero CTA: the cheapest venue among those with a disclosed rebate (the hero promises a rebate).
+  const top = useMemo(() => {
+    const r = calc.rows.filter((x) => x.share && x.net != null);
+    return r.length ? r.reduce((a, b) => (b.net < a.net ? b : a)) : calc.best || calc.rows[0];
+  }, [calc]);
 
   /* ---------- hero: rebate flow into the number ---------- */
   const heroRef = useRef(null), cvRef = useRef(null), numRef = useRef(null), srcRefs = useRef([]);
@@ -169,7 +174,7 @@ export function HomeV7({ locale, venues: _catalog }) {
       const dpr = Math.min(window.devicePixelRatio || 1, 2); cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const n = num.getBoundingClientRect(); const tx = n.left - r.left + n.width * 0.46, ty = n.top - r.top + n.height * 0.5;
       src = srcRefs.current.filter(Boolean).map((e) => {
-        const b = e.getBoundingClientRect(); const x = b.left - r.left + b.width / 2, y = b.top - r.top + b.height / 2;
+        const b = e.getBoundingClientRect(); const x = b.left - r.left + b.width / 2, y = b.top - r.top + 2; // leave from the tile's top edge, never across its text
         const mx = (x + tx) / 2, my = (y + ty) / 2, dx = tx - x, dy = ty - y, L = Math.hypot(dx, dy) || 1, off = L * 0.22 * (y < ty ? -1 : 1);
         return { x, y, tx, ty, cx: mx + (dy / L) * off, cy: my - (dx / L) * off };
       });
@@ -181,7 +186,7 @@ export function HomeV7({ locale, venues: _catalog }) {
       P.forEach((p) => { const s = src[p.i]; if (!s) return; const b = bez(s, p.t), a = Math.sin(Math.PI * p.t); cx.fillStyle = venues[p.i]?.share ? `rgba(31,224,192,${a * 0.9})` : `rgba(237,238,240,${a * 0.25})`; cx.beginPath(); cx.arc(b[0], b[1], p.r, 0, 6.283); cx.fill(); });
     };
     const frame = () => { if (stopped) return; P.forEach((p) => { p.t += p.v; if (p.t >= 1) { p.t = 0; p.v = 0.003 + Math.random() * 0.004; } }); draw(); raf = requestAnimationFrame(frame); };
-    const init = () => { geo(); P = []; for (let i = 0; i < venues.length; i++) { const k = venues[i].share ? 9 : 3; for (let j = 0; j < k; j++) P.push({ i, t: Math.random(), v: 0.003 + Math.random() * 0.004, r: 1.6 + Math.random() * 1.8 }); } draw(); };
+    const init = () => { geo(); P = []; for (let i = 0; i < venues.length; i++) { const k = venues[i].share ? 7 : 3; for (let j = 0; j < k; j++) P.push({ i, t: Math.random(), v: 0.003 + Math.random() * 0.004, r: 1.6 + Math.random() * 1.8 }); } draw(); };
     const onResize = () => { geo(); draw(); };
     init(); window.addEventListener("resize", onResize);
     document.fonts?.ready?.then(() => { if (!stopped) { geo(); draw(); } });
@@ -189,21 +194,21 @@ export function HomeV7({ locale, venues: _catalog }) {
     return () => { stopped = true; cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); io?.disconnect(); };
   }, [venues]);
 
-  /* ---------- dark story: drawn by scroll position ---------- */
+  /* ---------- dark story: drawn by scroll position (the venue that returns the most) ---------- */
   const storyRef = useRef(null), loRef = useRef(null), lbRef = useRef(null), dotRef = useRef(null), tagRef = useRef(null), gapRef = useRef(null), progRef = useRef(null), chartRef = useRef(null), svgRef = useRef(null);
   const pRef = useRef(1);
   const W = 1000, HH = 380, L = 46, R = 18, T = 14, B = 34;
   const maxY = Math.max(1, calc.maxGross);
   const X = (m) => L + (W - L - R) * m / 12, Y = (v) => HH - B - (HH - B - T) * v / maxY;
   const setStory = useCallback((p) => {
-    pRef.current = p; const b = calc.best; if (!b || !loRef.current) return;
+    pRef.current = p; const b = calc.most; if (!b || !loRef.current) return;
     loRef.current.style.strokeDashoffset = String(1 - p); lbRef.current.style.strokeDashoffset = String(1 - p);
     const x = X(12 * p), y = Y(b.net * p); dotRef.current?.setAttribute("cx", x); dotRef.current?.setAttribute("cy", y);
     if (progRef.current) progRef.current.style.width = `${p * 100}%`;
     const k = (svgRef.current?.getBoundingClientRect().width || W) / W, tg = tagRef.current;
     if (tg) { tg.style.opacity = p > 0.02 && p < 0.97 ? "1" : "0"; const cw = svgRef.current?.getBoundingClientRect().width || W * k, half = (tg.offsetWidth || 0) / 2; tg.style.left = `${Math.min(Math.max(x * k, half), cw - half)}px`; tg.style.top = `${y * k}px`; tg.textContent = `${Math.round(p * 12) || 1} ${t.mo} · ${b.name} ${t.tagPaid} ${usd(b.net * p)}`; }
     gapRef.current?.classList.toggle("on", p > 0.96);
-  }, [calc.best, maxY, t]);
+  }, [calc.most, maxY, t]);
   useEffect(() => {
     const el = storyRef.current; if (!el) return undefined;
     if (reduced()) { setStory(1); return undefined; }
@@ -237,7 +242,6 @@ export function HomeV7({ locale, venues: _catalog }) {
     <div className="h7" {...(h7IsFallback(locale) ? { lang: "en", dir: "ltr" } : {})}>
       <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha">
         <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
-        {venues.map((v, i) => <span key={v.slug} ref={(e) => { srcRefs.current[i] = e; }} className={`h7-src h7-s${i}`} aria-hidden="true">{v.name}<small>{v.share ? `${Math.round(v.share * 100)}%` : "–"}</small></span>)}
         <div className="h7-hc">
           <p className="h7-kick">{t.kick}</p>
           <h1>{t.h1a}<br />{t.h1b}<span className="h7-sr"> {HOME_REBATE_MAX_PCT}%</span></h1>
@@ -245,7 +249,19 @@ export function HomeV7({ locale, venues: _catalog }) {
           <div className="h7-cta"><Cta v={top} locale={locale} className="h7-btn" placement="home-v7-hero">{t.cta(top.name)}</Cta><a className="h7-ln" href="#h7-calc">{t.calcLink}</a></div>
           <p className="h7-cta-disc">{t.t2b}</p>
         </div>
-        <div className="h7-big" aria-hidden="true"><p className="h7-num" ref={numRef}>{HOME_REBATE_MAX_PCT}<span>%</span></p><p className="h7-cap">{t.cap}</p></div>
+        <div className="h7-big">
+          <p className="h7-num" ref={numRef} aria-hidden="true">{HOME_REBATE_MAX_PCT}<span>%</span></p>
+          <ul className="h7-pw" aria-label={t.pw(venues.length)}>
+            {venues.map((v, i) => (
+              <li key={v.slug}>
+                <a href={localizedHref(`/exchanges/${v.slug}#registration-path`, { locale })} ref={(e) => { srcRefs.current[i] = e; }} className={v.share ? "on" : undefined}>
+                  <BrandMark slug={v.slug} compact priority={i < 4} /><span className="h7-pn">{v.name}</span>{v.share ? <small><span className="h7-sr">{t.rebate} </span>{Math.round(v.share * 100)}%</small> : null}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="h7-cap">{t.cap(venues.length).replace("{max}", String(HOME_REBATE_MAX_PCT))}</p>
+        </div>
       </section>
 
       <div className="h7-trust"><div>{t.t1}<span>{t.t1b}</span></div><div>{t.t2}<span>{t.t2b}</span></div><div>{t.t3}<span>{t.t3b}</span></div></div>
@@ -257,16 +273,16 @@ export function HomeV7({ locale, venues: _catalog }) {
             <svg ref={svgRef} viewBox={`0 0 ${W} ${HH}`} role="img" aria-label={t.storyH}>
               {[0, 1, 2, 3, 4].map((g) => <g key={g}><line x1={L} x2={W - R} y1={Y(maxY * g / 4)} y2={Y(maxY * g / 4)} className="h7-gl" /><text x={L - 8} y={Y(maxY * g / 4) + 4} textAnchor="end" className={`h7-ax h7-ax-y${g ? "" : " h7-ax-0"}`}>{usd(maxY * g / 4)}</text></g>)}
               {[0, 3, 6, 9, 12].map((m) => <text key={m} x={X(m)} y={HH - 10} textAnchor="middle" className="h7-ax">{m ? `${m} ${t.mo}` : t.y0}</text>)}
-              {calc.best && <>
-                <path d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.best.gross)}`} className="h7-lnp h7-ghost" stroke="#6B717B" aria-hidden="true" />
-                <path d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.best.net)}`} className="h7-lnp h7-ghost" stroke="#1FE0C0" aria-hidden="true" />
-                <path ref={loRef} d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.best.gross)}`} className="h7-lnp" stroke="#6B717B" pathLength="1" strokeDasharray="1" />
-                <path ref={lbRef} d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.best.net)}`} className="h7-lnp" stroke="#1FE0C0" pathLength="1" strokeDasharray="1" />
-                <circle ref={dotRef} r="7" cx={X(12)} cy={Y(calc.best.net)} fill="#1FE0C0" stroke="#0C0D10" strokeWidth="4" />
+              {calc.most && <>
+                <path d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.most.gross)}`} className="h7-lnp h7-ghost" stroke="#6B717B" aria-hidden="true" />
+                <path d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.most.net)}`} className="h7-lnp h7-ghost" stroke="#1FE0C0" aria-hidden="true" />
+                <path ref={loRef} d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.most.gross)}`} className="h7-lnp" stroke="#6B717B" pathLength="1" strokeDasharray="1" />
+                <path ref={lbRef} d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.most.net)}`} className="h7-lnp" stroke="#1FE0C0" pathLength="1" strokeDasharray="1" />
+                <circle ref={dotRef} r="7" cx={X(12)} cy={Y(calc.most.net)} fill="#1FE0C0" stroke="#0C0D10" strokeWidth="4" />
               </>}
             </svg>
             <div className="h7-tag" ref={tagRef} style={{ opacity: 0 }} />
-            {calc.best && <div className="h7-gap on" ref={gapRef}><span>{usd(calc.best.save)}</span><small>{t.gapNote(calc.best.name)}</small></div>}
+            {calc.most && <div className="h7-gap on" ref={gapRef}><span>{usd(calc.most.save)}</span><small>{t.gapNote(calc.most.name)}</small></div>}
           </div>
           <div className="h7-prog"><i ref={progRef} /></div>
         </div>
@@ -299,7 +315,7 @@ export function HomeV7({ locale, venues: _catalog }) {
           ))}
         </div>
       </section>
-      <IntelBlock intel={intel} t={t} locale={locale} venues={venues} />
+      <IntelBlock intel={intel} t={t} locale={locale} venues={priced} />
       <p className="h7-in h7-foot">{t.foot(FACTS_AS_OF).replace("{max}", String(HOME_REBATE_MAX_PCT))}</p>
     </div>
   );
