@@ -724,7 +724,7 @@
     border-radius: 7px;
     background: rgba(8, 47, 73, 0.3);
     color: #bae6fd;
-    font: 700 0.78rem/var(--lh-head, 1.15) inherit;
+    font: 600 0.78rem/var(--lh-head, 1.15) inherit;
     cursor: pointer;
   }
 

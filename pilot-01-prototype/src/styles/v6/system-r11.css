@@ -28,3 +28,7 @@
 main.v3-profile-page.v6 .v3-activity-panel--empty > .section-lead > h2:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-20); line-height: var(--lh-head); }
 main.v3-profile-page.v6 .v3-profile-action-column .registration-card__mobile-route-body .registration-card__state-list > p:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
 main.v3-profile-page.v6 .v3-profile-action-column .registration-card__mobile-route-body .registration-card__state-list > p > *:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { line-height: var(--lh-body); }
+
+/* embeddable calculator (/embed/calculator) renders outside main.v6: its controls inherited line-height "normal" */
+.bleed-analyzer-section { line-height: var(--lh-body); }
+.bleed-analyzer-section :is(button, input, select) { line-height: var(--lh-head); }

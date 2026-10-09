@@ -97,7 +97,7 @@
   display: block;
   margin-bottom: 0.35rem;
   color: #7dd3fc;
-  font: 700 0.68rem/var(--lh-head, 1.15) var(--font-mono, ui-monospace, monospace);
+  font: 600 0.68rem/var(--lh-head, 1.15) var(--font-mono, ui-monospace, monospace);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -152,7 +152,7 @@
 
 .news-detail__owner-checklist-eyebrow {
   color: #6ee7b7;
-  font: 700 0.68rem/var(--lh-head, 1.15) var(--font-mono, ui-monospace, monospace);
+  font: 600 0.68rem/var(--lh-head, 1.15) var(--font-mono, ui-monospace, monospace);
   letter-spacing: 0.12em;
 }
 
@@ -484,7 +484,7 @@
 
 .news-detail__decision-eyebrow {
   color: #7dd3fc;
-  font: 700 0.68rem/var(--lh-head, 1.15) var(--font-mono, monospace);
+  font: 600 0.68rem/var(--lh-head, 1.15) var(--font-mono, monospace);
   letter-spacing: 0.12em;
 }
 

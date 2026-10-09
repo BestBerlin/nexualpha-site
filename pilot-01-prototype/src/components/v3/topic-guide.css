@@ -177,7 +177,7 @@
 
 .topic-decision-rail__eyebrow {
   color: #7dd3fc;
-  font: 700 0.7rem/var(--lh-head, 1.15) var(--font-mono, monospace);
+  font: 600 0.7rem/var(--lh-head, 1.15) var(--font-mono, monospace);
   letter-spacing: 0.12em;
 }
 
@@ -988,7 +988,7 @@
   display: inline-flex;
   margin-bottom: 0.35rem;
   color: #7dd3fc;
-  font: 700 0.68rem/var(--lh-head, 1.15) var(--font-mono, monospace);
+  font: 600 0.68rem/var(--lh-head, 1.15) var(--font-mono, monospace);
   letter-spacing: 0.11em;
   text-transform: uppercase;
 }

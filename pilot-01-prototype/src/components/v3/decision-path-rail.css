@@ -12,7 +12,7 @@
 
 .decision-path-rail__label {
   color: #7dd3fc;
-  font: 700 .65rem/var(--lh-head, 1.15) var(--font-ui);
+  font: 600 .65rem/var(--lh-head, 1.15) var(--font-ui);
   letter-spacing: .08em;
   white-space: nowrap;
 }
@@ -42,7 +42,7 @@
 
 .decision-path-rail__link span {
   color: #94a3b8;
-  font: 700 .65rem/var(--lh-tight, 1.05) var(--font-ui);
+  font: 600 .65rem/var(--lh-tight, 1.05) var(--font-ui);
 }
 
 .decision-path-rail__link b { color: #94a3b8; }

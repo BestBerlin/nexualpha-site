@@ -268,7 +268,7 @@
 .factbook-answer-card__copy { min-width: 0; }
 .factbook-answer-card__eyebrow {
   color: #67e8f9;
-  font: 700 0.6875rem/var(--lh-head, 1.15) ui-monospace, SFMono-Regular, Menlo, monospace;
+  font: 600 0.6875rem/var(--lh-head, 1.15) ui-monospace, SFMono-Regular, Menlo, monospace;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
@@ -292,7 +292,7 @@
   list-style: none;
 }
 .factbook-answer-card__steps li { display: flex; align-items: baseline; gap: .55rem; color: #e2e8f0; font-size: .8125rem; }
-.factbook-answer-card__steps b { color: #38bdf8; font: 700 .7rem ui-monospace, monospace; }
+.factbook-answer-card__steps b { color: #38bdf8; font: 600 .7rem ui-monospace, monospace; }
 .factbook-answer-card__link {
   display: inline-flex;
   align-items: center;
@@ -824,7 +824,7 @@
     border-radius: 7px;
     background: rgba(8, 47, 73, 0.3);
     color: #bae6fd;
-    font: 700 0.78rem/var(--lh-head, 1.15) inherit;
+    font: 600 0.78rem/var(--lh-head, 1.15) inherit;
     cursor: pointer;
   }
 

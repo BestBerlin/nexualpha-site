@@ -1075,7 +1075,7 @@
 }
 .regional-market-preview__source-status div { display: grid; gap: .2rem; min-width: 0; }
 .regional-market-preview__source-status strong { color: #bfdbfe; font-size: .78rem; }
-.regional-market-preview__source-status span { color: #f8fafc; font: 700 .82rem/var(--lh-body, 1.55) ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+.regional-market-preview__source-status span { color: #f8fafc; font: 600 .82rem/var(--lh-body, 1.55) ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
 .regional-market-preview__source-status p { margin: 0; color: #94a3b8; font-size: .78rem; line-height: var(--lh-body, 1.55); }
 
 .regional-market-preview__source-meta {

@@ -17,7 +17,7 @@
 
 .next-decision-bridge__copy span {
   color: #7dd3fc;
-  font: 700 0.66rem/var(--lh-head, 1.15) var(--font-mono, ui-monospace, monospace);
+  font: 600 0.66rem/var(--lh-head, 1.15) var(--font-mono, ui-monospace, monospace);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }

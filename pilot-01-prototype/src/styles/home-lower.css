@@ -106,7 +106,7 @@
 .home-refinement:not(#_) .yellow-card--compact .v2-brand-fallback {
   display: grid;
   place-items: center;
-  font: 700 11px/var(--lh-tight, 1.05) var(--font-ui);
+  font: 600 11px/var(--lh-tight, 1.05) var(--font-ui);
   color: var(--ink);
 }
 

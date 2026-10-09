@@ -13,7 +13,7 @@
 
 .top-decision-box__eyebrow {
   color: #67e8f9;
-  font: 700 0.66rem/var(--lh-head, 1.15) var(--font-mono, monospace);
+  font: 600 0.66rem/var(--lh-head, 1.15) var(--font-mono, monospace);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }

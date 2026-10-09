@@ -438,7 +438,7 @@ body {
 
 .v3-rebate-route-summary span {
   color: #94a3b8;
-  font: 700 0.72rem/var(--lh-head, 1.15) var(--font-data);
+  font: 600 0.72rem/var(--lh-head, 1.15) var(--font-data);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }

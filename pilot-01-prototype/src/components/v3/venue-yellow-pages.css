@@ -1785,7 +1785,7 @@
   border-radius: 0.55rem;
   background: rgba(15, 23, 42, 0.75);
   color: #f8fafc;
-  font: 700 0.78rem var(--font-mono, ui-monospace, monospace);
+  font: 600 0.78rem var(--font-mono, ui-monospace, monospace);
   padding: 0.45rem 0.55rem;
 }
 
