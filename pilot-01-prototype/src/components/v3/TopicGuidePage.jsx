@@ -3115,7 +3115,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
                 <strong translate="no" lang={isHant && record.slug === "okx" ? "zh-Hant" : "en"}>{topicPlatformDisplayName(record, isHant, isZh)}</strong>
                 <span>{record.status === "source-backed-research" ? (isZh ? zhCopy(isHant, "基础研究有来源") : (staticUi.sourceBacked || "Source-backed context")) : (isZh ? zhCopy(isHant, "待来源核验") : (staticUi.pending || "Pending source review"))}</span>
                 <small>{record.checkedAt || (isZh ? zhCopy(isHant, "未记录审阅时间") : "No review timestamp")}</small>
-                <div>
+                <div {...enIfLatin(record.sources.map((source) => source.title).join(" "), locale)}>
                   {record.sources.slice(0, 3).map((source) => (
                     <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.title} ↗</a>
                   ))}
@@ -3217,7 +3217,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
           </details>
         </section>}
 
-        {topic.slug === "no-kyc" && <section className="topic-section" role="region" aria-label={isZh ? zhCopy(isHant, "免实名相关研究入口") : (routeCopy.noKyc?.label || "No-KYC related research")}>
+        {topic.slug === "no-kyc" && <section className="topic-section" role="region" aria-label={isZh ? zhCopy(isHant, "免实名相关研究入口") : (routeCopy.noKyc?.label || "No-KYC related research")} {...enIfLatin(isZh ? "" : (topicCopy?.noKycTitle || routeCopy.noKyc?.title || "English"), locale)}>
           <h2 className="topic-section__title">{isZh ? zhCopy(isHant, "先区分自托管协议、中心化平台和永续对比") : (topicCopy?.noKycTitle || routeCopy.noKyc?.title || "Separate self-custody protocols, CEX access and perp comparisons")}</h2>
           <p className="topic-section__subtitle">{isZh ? zhCopy(isHant, "免实名条件会随地区、产品和账户阶段变化。先看 Hyperliquid 与 dYdX 的对比，再分别核对平台档案和 MEXC 的账户条件。") : (topicCopy?.noKycBody || routeCopy.noKyc?.body || "No-KYC conditions can change by region, product and account stage. Start with the Hyperliquid vs dYdX comparison, then verify each venue profile and MEXC account requirements.")}</p>
           <div className="topic-intent-redirect" data-gsc-query-intent="hyperliquid-latest-news">
@@ -3312,13 +3312,13 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
             <table className="topic-showdown-table">
               <thead>
                 <tr>
-                  <th>{sourceBoundUi?.platformType || (isZh ? zhCopy(isHant, "交易平台 / 定位") : (topicUiResolved.platformType || "Platform / Type"))}</th>
-                  <th>{sourceBoundUi?.scoreLabel || (isZh ? zhCopy(isHant, "量化综合分") : (topicUiResolved.scoreLabel || "Score"))}</th>
-                  <th>{sourceBoundUi?.speedDepth || (isZh ? zhCopy(isHant, "时效 / 撮合深度") : (topicUiResolved.speedDepth || "Speed / Depth"))}</th>
-                  <th>{sourceBoundUi?.baseRates || (isZh ? zhCopy(isHant, "官方基准费率") : (topicUiResolved.baseRates || "Base Rates"))}</th>
-                  <th>{sourceBoundUi?.netFee || (isZh ? zhCopy(isHant, "NexuAlpha 净费率") : (topicUiResolved.netFee || "Net Effective Fee"))}</th>
-                  <th>{sourceBoundUi?.slippageKyc || (isZh ? zhCopy(isHant, "滑点与入金门槛") : (topicUiResolved.slippageKyc || "Slippage & KYC"))}</th>
-                  <th style={{ textAlign: "center" }}>{sourceBoundUi?.action || (isZh ? zhCopy(isHant, "专属特权与开户") : (topicUiResolved.researchAction || staticUi.action || "Action & Rebate"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.platformType || (isZh ? zhCopy(isHant, "交易平台 / 定位") : (topicUiResolved.platformType || "Platform / Type")), locale)}>{sourceBoundUi?.platformType || (isZh ? zhCopy(isHant, "交易平台 / 定位") : (topicUiResolved.platformType || "Platform / Type"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.scoreLabel || (isZh ? zhCopy(isHant, "量化综合分") : (topicUiResolved.scoreLabel || "Score")), locale)}>{sourceBoundUi?.scoreLabel || (isZh ? zhCopy(isHant, "量化综合分") : (topicUiResolved.scoreLabel || "Score"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.speedDepth || (isZh ? zhCopy(isHant, "时效 / 撮合深度") : (topicUiResolved.speedDepth || "Speed / Depth")), locale)}>{sourceBoundUi?.speedDepth || (isZh ? zhCopy(isHant, "时效 / 撮合深度") : (topicUiResolved.speedDepth || "Speed / Depth"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.baseRates || (isZh ? zhCopy(isHant, "官方基准费率") : (topicUiResolved.baseRates || "Base Rates")), locale)}>{sourceBoundUi?.baseRates || (isZh ? zhCopy(isHant, "官方基准费率") : (topicUiResolved.baseRates || "Base Rates"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.netFee || (isZh ? zhCopy(isHant, "NexuAlpha 净费率") : (topicUiResolved.netFee || "Net Effective Fee")), locale)}>{sourceBoundUi?.netFee || (isZh ? zhCopy(isHant, "NexuAlpha 净费率") : (topicUiResolved.netFee || "Net Effective Fee"))}</th>
+                  <th {...enIfLatin(sourceBoundUi?.slippageKyc || (isZh ? zhCopy(isHant, "滑点与入金门槛") : (topicUiResolved.slippageKyc || "Slippage & KYC")), locale)}>{sourceBoundUi?.slippageKyc || (isZh ? zhCopy(isHant, "滑点与入金门槛") : (topicUiResolved.slippageKyc || "Slippage & KYC"))}</th>
+                  <th style={{ textAlign: "center" }} {...enIfLatin(sourceBoundUi?.action || (isZh ? zhCopy(isHant, "专属特权与开户") : (topicUiResolved.researchAction || staticUi.action || "Action & Rebate")), locale)}>{sourceBoundUi?.action || (isZh ? zhCopy(isHant, "专属特权与开户") : (topicUiResolved.researchAction || staticUi.action || "Action & Rebate"))}</th>
                 </tr>
               </thead>
               <tbody>
