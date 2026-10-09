@@ -66,7 +66,8 @@ desk → fee comparison → sheet; profile copy code + official link; home calcu
 | gh-20261009t2026-ba66747 | 3.0-20261009T2026-GH-ba66747 | v8. First run blocked by the CTA gate only because the old home's registration card (code 11350287) is gone; link sets identical and the code is still shown in the calculator row, so re-run with `allow_cta_change`. Live notice feed 404: production mounts managed content over `/content`. |
 | gh-20261009t2034-3738f5c | 3.0-20261009T2034-GH-3738f5c | Feed moved to `/intel/official-announcements.json`; CTA gate passed without override. |
 | 3.0-20261009T2048-GH-b644e1e | 3.0-20261009T2048-GH-b644e1e | Rebate headline (owner-confirmed 50% marketing) + notice desk. |
-| (run 37932992588) | 3.0-20261009T2053-GH-1f2a95a | Owner correction: product, not exchange PR. Animated 50% rebate hero restored (also on phones), notice desk + site ticker removed, notices moved below the calculator. verify-live-v8 passed; browser-checked 390/1440. **Current live.** |
+| (run 37932992588) | 3.0-20261009T2053-GH-1f2a95a | Owner correction: product, not exchange PR. Animated 50% rebate hero restored (also on phones), notice desk + site ticker removed, notices moved below the calculator. verify-live-v8 passed; browser-checked 390/1440. |
+| (run 37938510630) | 3.0-20261009T2140-GH-6f24037 | Phone hero fixed after owner screenshot: chips had collided and run off the edge, particles crossed text. Now headline → 50% → four chips in one row → caption → copy/CTA/disclosure. **Current live.** |
 
 Rollback: Actions → "Rollback production" with the newest release name (returns to the previous one), e.g. `gh-20261009t2034-3738f5c` (returns to ba66747), or `gh-20261009t2026-ba66747` (returns to pre-v8 `gh-20261009t1328-63a82a1`).
 
