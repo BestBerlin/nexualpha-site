@@ -544,7 +544,8 @@
   #top.v6 .rf-node { animation: rf-node-in 160ms var(--ease-out) both; }
   #top.v6 .rf-node[data-on="true"] .rf-node__fee bdi { animation: rf-fee-in 240ms var(--ease-out) calc(320ms + var(--k, 0) * 40ms) both; }
 }
-@keyframes rf-node-in { from { opacity: 0; } }
+/* R11: never starts from 0, so a frame captured mid-animation (JS-off QA on /ar) or a stalled animation is never blank */
+@keyframes rf-node-in { from { opacity: 0.4; } }
 
 /* readout: numerals never break; the intent's own cell sits on its own row under spot / perp */
 #top.v6 .rf-pair, #top.v6 .rf-node__fee bdi { white-space: nowrap; }

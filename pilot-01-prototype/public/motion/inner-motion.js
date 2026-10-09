@@ -1,8 +1,12 @@
 /* NexuAlpha V6 inner-page motion (R5). Loaded with `defer` outside the app-shell bundle; never on the homepage.
  * 1. Route rail: the homepage's Crossroads rail carried onto inner pages. A start node at the h1, docks at each
  *    section heading, the destination at the page's primary action; the traversed part fills turquoise on scroll.
- * 2. Scroll reveal: blocks below the fold fade/rise in once (IntersectionObserver). Progressive: nothing is hidden
- *    until the observer is live, a scroll check reveals anything the observer missed, print reveals all.
+ * 2. Scroll reveal: blocks below the fold fade/rise in once (IntersectionObserver). Fail-safe (R11): the CSS hides
+ *    [data-rv="0"] only under html.js-reveal, which is set after the observer has delivered its first callback (proof it
+ *    is live) and removed again if it never does. A sweep reveals anything at or above the viewport bottom on scroll,
+ *    hashchange, focus, tab return, pageshow and resize (fast flicks / anchor jumps / End key never leave blanks);
+ *    focus inside a hidden block reveals it; print reveals all. No CSS scroll-timeline opacity: a view() timeline
+ *    leaves blocks parked at partial opacity while they sit at the viewport edge (R10 QA).
  * 3. Copy feedback: a short confirmation pulse on copy/share controls (the components keep their own text state).
  * prefers-reduced-motion: rail drawn statically, no reveal, no pulse. Decorative nodes are aria-hidden. */
 (function () {
@@ -12,7 +16,7 @@
   var BLOCKS = [
     "main.v6 > section", "main.v6 > details", "main.v6 > article", "main.v6 > .v2-shell > section",
     ".methodology-page__inner > section", ".methodology-pillar-card", ".tg-hub__container > *", ".tg-topic-card", ".tg-return-card",
-    ".mx-row", ".news-card", ".news-list-item", "[class*='news-index'] article", ".activity-center-v3 > *", ".activity-center-v3__reward-grid > article",
+    ".mx-row", ".topic-card", ".news-card", ".news-list-item", "[class*='news-index'] article", ".activity-center-v3 > *", ".activity-center-v3__reward-grid > article",
     ".br-section", ".br-venue-card", ".br-source-list li", ".v3-compare-support-disclosure", ".v3-metric-matrix-section", ".v3-compare-final-choice-card"
   ].join(",");
   var state = null;
@@ -32,6 +36,12 @@
     if (state.ro) state.ro.disconnect();
     window.removeEventListener("scroll", state.onScroll, true);
     window.removeEventListener("resize", state.onResize);
+    if (state.onSweep) {
+      window.removeEventListener("hashchange", state.onSweep);
+      window.removeEventListener("pageshow", state.onSweep);
+      document.removeEventListener("visibilitychange", state.onSweep);
+    }
+    if (state.armTimer) clearTimeout(state.armTimer);
     if (state.rail && state.rail.parentNode) state.rail.parentNode.removeChild(state.rail);
     state = null;
   }
@@ -286,29 +296,34 @@
       if (!r.height || r.top < fold - 8) continue; /* above the fold: never touched */
       n = el.parentNode === lastParent ? n + 1 : 0; lastParent = el.parentNode;
       if (n) el.style.setProperty("--rv-d", Math.min(n, 5) * 40 + "ms");
+      el.setAttribute("data-rv", "0"); /* marked in the loop so nested blocks are skipped (no double fade); not hidden yet */
       pending.push(el);
     }
     if (!pending.length) return;
-    /* R9: where CSS scroll timelines exist the reveal is scroll-driven (pages-inner-r9.css animates [data-rv="v"] on its
-       view() timeline, forwards-only fill): no observer, nothing hidden before a block reaches the viewport. */
-    if (window.CSS && CSS.supports && CSS.supports("animation-timeline: view()")) {
-      for (var v = 0; v < pending.length; v++) pending[v].setAttribute("data-rv", "v");
-      return;
-    }
+    var root = document.documentElement;
     s.io = new IntersectionObserver(function (entries) {
+      /* the first callback (IO always reports every target once) proves the observer is live: only now may CSS hide */
+      if (!s.live) { s.live = true; if (s.armTimer) { clearTimeout(s.armTimer); s.armTimer = 0; } root.classList.add("js-reveal"); }
       for (var j = 0; j < entries.length; j++) {
         if (entries[j].isIntersecting) { entries[j].target.setAttribute("data-rv", "1"); s.io.unobserve(entries[j].target); }
       }
+      sweep(s);
     }, { rootMargin: "0px 0px -6% 0px", threshold: 0.01 });
-    for (var k = 0; k < pending.length; k++) { pending[k].setAttribute("data-rv", "0"); s.io.observe(pending[k]); }
+    for (var k = 0; k < pending.length; k++) s.io.observe(pending[k]);
     s.pending = pending;
+    /* observer never reported (throttled tab, broken IO polyfill): stay fully visible */
+    s.armTimer = setTimeout(function () { if (!s.live) revealAll(); }, 3000);
+  }
+  function revealAll() {
+    var els = document.querySelectorAll("[data-rv='0']");
+    for (var i = 0; i < els.length; i++) els[i].setAttribute("data-rv", "1");
   }
   function sweep(s) { /* anything the observer missed that is already on screen (or above it) is shown */
     if (!s.pending) return;
     var h = window.innerHeight;
     for (var i = 0; i < s.pending.length; i++) {
       var el = s.pending[i];
-      if (el.getAttribute("data-rv") === "0" && el.getBoundingClientRect().top < h) el.setAttribute("data-rv", "1");
+      if (el.getAttribute("data-rv") === "0" && el.getBoundingClientRect().top < h - 1) el.setAttribute("data-rv", "1");
     }
   }
 
@@ -326,6 +341,11 @@
     s.onResize = function () { cancelAnimationFrame(mq); mq = requestAnimationFrame(s.measure); };
     window.addEventListener("scroll", s.onScroll, { passive: true, capture: true });
     window.addEventListener("resize", s.onResize);
+    /* anchor jumps, back/forward cache restores and tab returns re-check what is now on (or above) the screen */
+    s.onSweep = function () { requestAnimationFrame(function () { sweep(s); }); };
+    window.addEventListener("hashchange", s.onSweep);
+    window.addEventListener("pageshow", s.onSweep);
+    document.addEventListener("visibilitychange", s.onSweep);
     if (typeof ResizeObserver === "function") { s.ro = new ResizeObserver(s.onResize); s.ro.observe(main); }
     s.measure();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(s.onResize);
@@ -345,10 +365,12 @@
     setTimeout(function () { t.removeAttribute("data-v6-copied"); }, 900);
   }, true);
 
-  window.addEventListener("beforeprint", function () {
-    var els = document.querySelectorAll("[data-rv='0']");
-    for (var i = 0; i < els.length; i++) els[i].setAttribute("data-rv", "1");
-  });
+  window.addEventListener("beforeprint", revealAll);
+  /* keyboard focus (or find-in-page selection focus) landing inside a block that is still hidden reveals it at once */
+  document.addEventListener("focusin", function (e) {
+    var b = e.target && e.target.closest && e.target.closest("[data-rv='0']");
+    if (b) b.setAttribute("data-rv", "1");
+  }, true);
 
   /* client-side route/locale changes replace <main>: re-run on a new main element */
   var current = null, pend = 0;

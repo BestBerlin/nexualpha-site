@@ -357,7 +357,9 @@
   .dir6 *, .dir6 *::before, .dir6 *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; transition-delay: 0ms !important; }
   .dir6 .dir6-row::after { display: none; }
   .dir6 .dir6-stamp { animation: none !important; }
+  .dir6 .dir6-row[data-armed] .dir6-fee__v b { opacity: 1; translate: none; }
 }
+@media print { .dir6 .dir6-row[data-armed] .dir6-fee__v b { opacity: 1 !important; translate: none !important; } .dir6 .dir6-row::after { display: none; } }
 #top.v6 .dir6 .platform-matcher__next-steps a, #top.v6 .dir6 .platform-matcher__regional-list a { text-decoration: none; }
 
 #top.v6 .dir6 .platform-matcher__details[open] .platform-matcher__summary-context > b, #top.v6 .dir6 .platform-matcher__summary-context > b { color: var(--n12); background: none; text-decoration: none; padding: 0; }

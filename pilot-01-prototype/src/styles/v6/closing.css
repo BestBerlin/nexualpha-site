@@ -189,6 +189,11 @@
   .v6 [dir="rtl"] .v6-close[data-phase="armed"] .v6-close__route .draw { clip-path: inset(-8px 100% -8px 0); }
   .v6 .v6-close[data-phase="armed"] :is(.v6-close__lead, .v6-close__alt, .v6-close__note) { opacity: 0; translate: 0 12px; }
 }
+@media print {
+  .v6 .v6-close__band::before { content: none !important; }
+  .v6 .v6-close[data-phase] :is(.v6-close__w > span, .v6-close__lead, .v6-close__alt, .v6-close__note) { opacity: 1 !important; transform: none !important; translate: none !important; }
+  .v6 .v6-close[data-phase] .v6-close__route .draw { clip-path: none !important; }
+}
 
 /* ---------- responsive ---------- */
 @media (max-width: 859px) {

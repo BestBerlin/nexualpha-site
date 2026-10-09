@@ -35,7 +35,7 @@
 
 /* ============ scroll reveal (attribute only ever set by the script, after hydration, below the fold) ============ */
 @media (prefers-reduced-motion: no-preference) {
-  main.v6:not(.home-refinement) [data-rv="0"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { opacity: 0; transform: translateY(16px); }
+  html.js-reveal main.v6:not(.home-refinement) [data-rv="0"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { opacity: 0; transform: translateY(16px); }
   main.v6:not(.home-refinement) [data-rv="1"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { opacity: 1; transform: none; transition: opacity 400ms cubic-bezier(0.16, 1, 0.3, 1) var(--rv-d, 0ms), transform 400ms cubic-bezier(0.16, 1, 0.3, 1) var(--rv-d, 0ms); }
 }
 

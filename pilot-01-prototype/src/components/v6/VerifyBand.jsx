@@ -5,6 +5,7 @@ import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { getVerifyCopy } from "../v3/LeanHeroCopyVerify.js";
 import { keepInStrip } from "./CompareLab.jsx";
+import { prefersReducedMotionNow, whenReached } from "../../lib/revealGuard.js";
 
 function useInViewOnce(ref) {
   const [on, setOn] = useState(false);
@@ -12,10 +13,15 @@ function useInViewOnce(ref) {
   useEffect(() => {
     const el = ref.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
+    // Arm (dim the demo) only when it starts below the fold and motion is allowed; otherwise show the finished state at once.
+    if (prefersReducedMotionNow() || el.getBoundingClientRect().top < window.innerHeight * 0.92) { setOn(true); return; }
     setArmed(true);
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold: 0.05, rootMargin: "0px 0px -8% 0px" });
+    let stop = () => {};
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); stop(); } }, { threshold: 0.05, rootMargin: "0px 0px -8% 0px" });
     io.observe(el);
-    return () => io.disconnect();
+    // fail-safe: jumped past (anchor / End / fast flick / focus / print) still lands in the finished state
+    stop = whenReached(el, () => { setOn(true); io.disconnect(); }, { ratio: 0.92 });
+    return () => { io.disconnect(); stop(); };
   }, [ref]);
   return [armed, on];
 }
