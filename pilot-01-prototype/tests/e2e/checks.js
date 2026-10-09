@@ -2,7 +2,9 @@
 // Returns one object with type / overflow / tap / collisions / css / cta / sections.
 (opts) => {
   const W = innerWidth;
-  const SIZES = new Set(opts.sizes);
+  // type scale: desktop steps; at <= mobileMax px the clamp tokens step down (20>18, 28>24, 44>32, 72>44), see docs/design/v6-brief.md
+  const SIZES = new Set(W <= (opts.mobileMax || 0) && opts.mobileSizes ? opts.mobileSizes : opts.sizes);
+  const LHS = opts.lineHeights || [];
   const WEIGHTS = new Set(opts.weights.map(String));
   const famOk = new RegExp(opts.family, 'i');
   const sel = (e) => {
@@ -67,7 +69,7 @@
   }
 
   // ---------- type scale ----------
-  const type = { sizes: {}, weights: {}, families: {}, bad: { size: {}, weight: {}, family: {} }, nodes: texts.length };
+  const type = { sizes: {}, weights: {}, families: {}, bad: { size: {}, weight: {}, family: {}, lh: {} }, nodes: texts.length };
   const bump = (m, k, e) => { (m[k] = m[k] || { c: 0, ex: sel(e) }).c++; };
   for (const [, e] of texts) {
     const s = cs(e);
@@ -78,6 +80,10 @@
     if (!SIZES.has(fs)) bump(type.bad.size, fs + 'px', e);
     if (!WEIGHTS.has(fw)) bump(type.bad.weight, fw, e);
     if (!famOk.test(ff)) bump(type.bad.family, ff, e);
+    if (LHS.length) {
+      const lh = s.lineHeight === 'normal' ? NaN : parseFloat(s.lineHeight) / parseFloat(s.fontSize);
+      if (!LHS.some((x) => Math.abs(x - lh) < 0.011)) bump(type.bad.lh, Number.isNaN(lh) ? 'normal' : lh.toFixed(2), e);
+    }
   }
 
   // ---------- horizontal overflow ----------

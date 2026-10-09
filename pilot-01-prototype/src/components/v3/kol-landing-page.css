@@ -34,7 +34,7 @@
 .kol-hero__badge {
   display: inline-block;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #38bdf8;
   background: rgba(56, 189, 248, 0.1);
   border: 1px solid rgba(56, 189, 248, 0.25);
@@ -45,7 +45,7 @@
 
 .kol-hero__title {
   font-size: clamp(1.5rem, 3vw, 2.25rem);
-  font-weight: 750;
+  font-weight: 600;
   color: #ffffff;
   margin: 0;
   letter-spacing: -0.02em;
@@ -66,7 +66,7 @@
   padding: 1.25rem 1.5rem;
   color: #cbd5e1;
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: var(--lh-body, 1.55);
 }
 
 .kol-hero__bio-box p {
@@ -76,7 +76,7 @@
 /* 推荐卡片网格 */
 .kol-venues__title {
   font-size: 1.35rem;
-  font-weight: 750;
+  font-weight: 600;
   color: #ffffff;
   margin: 0 0 1rem;
   letter-spacing: -0.02em;
@@ -125,14 +125,14 @@
 
 .kol-venue-card__name {
   font-size: 1.125rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
   margin: 0;
 }
 
 .kol-venue-card__tag {
   font-size: 0.6875rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #34d399;
   background: rgba(52, 211, 153, 0.1);
   border: 1px solid rgba(52, 211, 153, 0.25);
@@ -161,7 +161,7 @@
 .kol-venue-card__benefit {
   font-size: 0.8125rem;
   color: #cbd5e1;
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
   margin: 0;
 }
 

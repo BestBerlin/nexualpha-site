@@ -12,7 +12,8 @@ or serves a built package locally (--serve DIR, where DIR holds server.mjs + dis
 
 Checks (--checks, comma list; default all):
   void      pixel void scan (tools/voidscan.py analyser): bands > section padding, column voids >=160x160
-  type      text sizes in {12,14,16,20,28,44,72}, weights 400/500/600, first family Geist*
+  type      text sizes in {12,14,16,20,28,44,72} (<=640px: {12,14,16,18,24,32,44}), weights 400/500/600,
+            line-height/font-size in {1.05,1.15,1.55}, first family Geist*
   overflow  document wider than viewport (+ offending elements)               [blocking]
   tap       interactive targets < 44x44 at widths < 600 (inline text links exempt)
   collision overlapping text boxes, rail (.rr-dock / *rail*) vs text flagged separately
@@ -45,7 +46,8 @@ CHECKS_JS = (HERE / 'checks.js').read_text()
 ROUTES = json.loads((HERE / 'routes.json').read_text())
 GOLDEN = HERE / 'golden' / 'cta-invariants.json'
 ALL = ['void', 'type', 'overflow', 'tap', 'collision', 'css', 'cta', 'jsoff', 'console', 'i18n', 'clicklat']
-T = dict(sizes=[12, 14, 16, 20, 28, 44, 72], weights=[400, 500, 600], family='^Geist', tapMin=44,
+T = dict(sizes=[12, 14, 16, 20, 28, 44, 72], mobileSizes=[12, 14, 16, 18, 24, 32, 44], mobileMax=640,
+         lineHeights=[1.05, 1.15, 1.55], weights=[400, 500, 600], family='^Geist', tapMin=44,
          railSel='[class*="rr-dock"],[class*="rail"]', clickMs=200, mainText=200)
 NO_H1_OK = {'/compare', '/embed/calculator'}
 
@@ -272,7 +274,7 @@ def evaluate(a, base, build, res, jsoff, ext):
         if 'type' in a.checks:
             bad = d['type']['bad']
             m['typeBad'] = sum(x['c'] for k in bad for x in bad[k].values())
-            for kind in ('size', 'weight', 'family'):
+            for kind in ('size', 'weight', 'family', 'lh'):
                 for val, x in sorted(bad[kind].items(), key=lambda kv: -kv[1]['c']):
                     add('type', 'WARN', key, f"{kind} {val} x{x['c']} e.g. {x['ex']}", x['c'])
         if 'overflow' in a.checks:

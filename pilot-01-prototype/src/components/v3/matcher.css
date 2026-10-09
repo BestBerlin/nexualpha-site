@@ -61,7 +61,7 @@
   color: var(--ink);
   font-size: clamp(18px, 2vw, 26px);
   letter-spacing: 0;
-  line-height: 1.15;
+  line-height: var(--lh-head, 1.15);
 }
 
 .platform-matcher__summary-copy small,
@@ -69,7 +69,7 @@
   color: var(--muted);
   font-size: 13px;
   font-weight: 500;
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
 }
 
 .platform-matcher__summary-context {
@@ -142,7 +142,7 @@
   border-radius: 8px;
   background: rgba(8, 13, 20, .92);
   color: var(--ink);
-  font: 13px/1.2 var(--font-body);
+  font: 13px/var(--lh-head, 1.15) var(--font-body);
 }
 
 .platform-matcher__intents {
@@ -196,13 +196,13 @@
 .platform-matcher__intents strong {
   font-size: 17px;
   letter-spacing: 0;
-  line-height: 1.2;
+  line-height: var(--lh-head, 1.15);
 }
 
 .platform-matcher__intents small {
   color: var(--muted);
   font-size: 13px;
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
 }
 
 .platform-matcher__panel {
@@ -229,7 +229,7 @@
   color: var(--ink);
   font-size: 22px;
   letter-spacing: 0;
-  line-height: 1.18;
+  line-height: var(--lh-head, 1.15);
   text-align: end;
 }
 
@@ -252,7 +252,7 @@
   margin: 7px 0 0;
   color: var(--ink);
   font-size: 13px;
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
 }
 
 .platform-matcher__venues {
@@ -340,7 +340,7 @@
 .platform-matcher__regional-list small {
   color: var(--muted);
   font-size: 12px;
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
 }
 
 .platform-matcher__regional p {
@@ -403,7 +403,7 @@
   padding-inline-start: 1rem;
   color: var(--muted);
   font-size: 12px;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
 }
 
 .platform-matcher__next-steps {
@@ -422,7 +422,7 @@
   border-radius: 8px;
   color: var(--blue-text);
   font-size: 12px;
-  line-height: 1.2;
+  line-height: var(--lh-head, 1.15);
   overflow-wrap: anywhere;
   text-decoration: none;
 }

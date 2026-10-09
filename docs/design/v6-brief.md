@@ -15,7 +15,11 @@ NexuAlpha is the last stop before you open an exchange account. The site is a **
 Keep in the DOM on `/`: all existing sponsored/registration hrefs and codes, `CrawlPriorityLinks`, Related research/Brazil entry/home research links (deploy gate + SEO). Reuse the legacy components' data/logic where they carry links, restyled or re-hosted inside the new acts; never edit partner-registry.js, hrefs or codes.
 
 ## System (non-negotiable; this is the "字大字小" fix)
-- ONE type scale (px at 1440): 12 / 14 / 16 / 20 / 28 / 44 / 72(hero display only). Mobile steps down proportionally via clamp(). Every text node must land on a scale step. Two families only: Geist (UI/display) and Geist Mono (numerals/codes). Line-heights: body 1.55, headings 1.05–1.15. Weights: 400/500/600 only.
+- ONE type scale (px at 1440): 12 / 14 / 16 / 20 / 28 / 44 / 72(hero display only). Every text node must land on a scale step. Two families only: Geist (UI/display) and Geist Mono (numerals/codes). Weights: 400/500/600 only.
+  - Tokens are discrete (r11; the old fluid clamps produced off-scale 19.5 / 27.5 / 41 px at tablet widths): `--t-12 --t-14 --t-16 --t-20 --t-28 --t-44 --t-72`.
+  - Mobile set (viewport <= 640px), exact: **12 / 14 / 16 / 18 / 24 / 32 / 44**. The four upper tokens step down one notch: 20 -> 18, 28 -> 24, 44 -> 32, 72 -> 44; 12/14/16 never change. Above 640px only the desktop set is allowed. Never write a px/rem size; use the token.
+  - Line-height (ratio to font-size), exactly three: `--lh-tight` 1.05 (display, hero numerals), `--lh-head` 1.15 (headings, card titles, buttons, labels, table heads), `--lh-body` 1.55 (running text, lists, notes, captions).
+  - Enforced by `tests/e2e/run.py --checks type` (size per width, weight, line-height, family).
 - ONE spacing scale, 4px base: 4 8 12 16 24 32 48 64 96 128. Section vertical padding = 128 desktop / 72 mobile, always, no exceptions. Container 1200 + 24 gutters (full-bleed allowed for the hero map and closing band).
 - Colour: dark graphite neutrals, single signal accent (brand turquoise) ONLY on primary CTA, positive data, and the active route. Never a second accent.
 - Alignment: every column starts on the 12-col grid; no orphan floating elements; text blocks have a max measure (≤ 62ch).

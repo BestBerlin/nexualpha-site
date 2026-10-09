@@ -299,7 +299,6 @@ function EuDecisionDepth() {
   return (
     <section className="regional-decision-depth v3-card" data-regional-decision-depth="EU" lang="en" aria-labelledby="regional-decision-depth-title-EU">
       <div className="regional-decision-depth__header">
-        <span>EU MEMBER-STATE CHECK</span>
         <h2 id="regional-decision-depth-title-EU">France and Germany are evidence signals, not eligibility shortcuts</h2>
         <p>{decision.boundary}</p>
         <small>Reviewed {decision.reviewedAt}</small>
@@ -325,7 +324,6 @@ function UkDecisionDepth() {
   return (
     <section className="regional-decision-depth v3-card" data-regional-decision-depth="UK" lang="en-GB" aria-labelledby="regional-decision-depth-title-UK">
       <div className="regional-decision-depth__header">
-        <span>UK ACCOUNT CHECK</span>
         <h2 id="regional-decision-depth-title-UK">Four checks before treating a UK account route as ready</h2>
         <p>{UK_MARKET_DECISION.boundary}</p>
         <small>Reviewed {UK_MARKET_DECISION.reviewedAt}</small>
@@ -353,7 +351,6 @@ function FundingDecisionDepth({ market }) {
   return (
     <section className="regional-decision-depth v3-card" data-regional-decision-depth={market} lang={copy.lang} aria-labelledby={titleId}>
       <div className="regional-decision-depth__header">
-        <span>{copy.eyebrow}</span>
         <h2 id={titleId}>{copy.title}</h2>
         <p>{copy.directAnswer}</p>
         <small>{copy.authority || registry.authority} · Reviewed {funding.reviewedAt || INTERNATIONAL_SOURCE_REVIEWED_AT}</small>

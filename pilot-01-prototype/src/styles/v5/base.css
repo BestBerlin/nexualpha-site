@@ -211,7 +211,7 @@ html:has(> body > #root > main.v5, > body > #root > main > .v5) {
   font-size: var(--t-sm);
   font-weight: 600;
   letter-spacing: 0;
-  line-height: 1.2;
+  line-height: var(--lh-head, 1.15);
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
@@ -297,7 +297,7 @@ html:has(> body > #root > main.v5, > body > #root > main > .v5) {
   color: var(--text);
   font-size: var(--t-xs);
   font-weight: 500;
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
 }
 
 /* ---------- table primitive ---------- */

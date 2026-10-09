@@ -15,7 +15,7 @@
 }
 
 .br-entry-link span {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .br-entry-link small {
@@ -53,7 +53,7 @@
   margin: 14px 0 16px;
   color: #f8fbff;
   font-size: clamp(1.9rem, 3.6vw, 3.15rem);
-  line-height: 1.08;
+  line-height: var(--lh-tight, 1.05);
   letter-spacing: -0.035em;
   text-wrap: balance;
 }
@@ -64,7 +64,7 @@
   max-width: 68ch;
   color: #bac5d5;
   font-size: 1rem;
-  line-height: 1.68;
+  line-height: var(--lh-body, 1.55);
   text-wrap: pretty;
 }
 
@@ -89,7 +89,7 @@
   border-radius: 8px;
   background: rgba(49, 92, 207, 0.16);
   color: #f8fbff;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
   transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
   touch-action: manipulation;
@@ -119,12 +119,12 @@
   background: rgba(34, 200, 138, 0.08);
   color: #dfe7f2;
   font-size: 0.92rem;
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
 }
 
 .br-locale-fallback a {
   color: #7de6ba;
-  font-weight: 800;
+  font-weight: 600;
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.18em;
 }
@@ -168,8 +168,8 @@
 .br-early-next-step__head a {
   color: #a6f4c5;
   font-size: 0.82rem;
-  font-weight: 800;
-  line-height: 1.3;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
   text-align: right;
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.18em;
@@ -196,8 +196,8 @@
 .br-early-next-step__item span {
   color: #ffffff;
   font-size: 0.9rem;
-  font-weight: 850;
-  line-height: 1.15;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
 }
 
 .br-early-next-step__item div {
@@ -217,8 +217,8 @@
   border-radius: 8px;
   color: #dfe7f2;
   font-size: 0.8rem;
-  font-weight: 800;
-  line-height: 1.2;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
   text-align: center;
   text-decoration: none;
   touch-action: manipulation;
@@ -253,7 +253,7 @@
   margin: 0;
   color: #f8fbff;
   font-size: 1.28rem;
-  line-height: 1.24;
+  line-height: var(--lh-head, 1.15);
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
@@ -274,7 +274,7 @@
   min-width: 0;
   color: #dfe7f2;
   font-size: 0.86rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .br-control-grid select,
@@ -325,7 +325,7 @@
 .br-sources time {
   color: #aab5c5;
   font-size: 0.88rem;
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
 }
 
 .br-cost-strip b {
@@ -367,7 +367,7 @@
 .br-selected-registration-confirm span {
   color: #a6f4c5;
   font-size: 0.78rem;
-  font-weight: 850;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -375,13 +375,13 @@
 .br-selected-registration-confirm b {
   color: #ffffff;
   font-size: 1rem;
-  line-height: 1.2;
+  line-height: var(--lh-head, 1.15);
 }
 
 .br-selected-registration-confirm small {
   color: #c7d2df;
   font-size: 0.84rem;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
   overflow-wrap: anywhere;
 }
 
@@ -402,8 +402,8 @@
   background: #22c88a;
   color: #06110c;
   font-size: 0.9rem;
-  font-weight: 850;
-  line-height: 1.2;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
   text-align: center;
   text-decoration: none;
   touch-action: manipulation;
@@ -425,8 +425,8 @@
   margin: 0;
   color: #dfe7f2;
   font-size: 0.88rem;
-  font-weight: 800;
-  line-height: 1.4;
+  font-weight: 600;
+  line-height: var(--lh-body, 1.55);
 }
 
 .br-decision-path--disclosure > summary {
@@ -438,8 +438,8 @@
   color: #dfe7f2;
   cursor: pointer;
   font-size: 0.88rem;
-  font-weight: 800;
-  line-height: 1.4;
+  font-weight: 600;
+  line-height: var(--lh-body, 1.55);
   list-style: none;
 }
 
@@ -452,7 +452,7 @@
   flex: 0 0 auto;
   color: #8fb0ff;
   font-size: 1.1rem;
-  line-height: 1;
+  line-height: var(--lh-tight, 1.05);
 }
 
 .br-decision-path--disclosure[open] > summary::after {
@@ -504,13 +504,13 @@
 
 .br-decision-path b {
   font-size: 0.86rem;
-  line-height: 1.24;
+  line-height: var(--lh-head, 1.15);
 }
 
 .br-decision-path span {
   color: #aab5c5;
   font-size: 0.78rem;
-  line-height: 1.38;
+  line-height: var(--lh-body, 1.55);
 }
 
 .br-decision-panel__status {
@@ -543,7 +543,7 @@
 .br-chain__crumbs a span {
   color: #a6f4c5;
   font-size: 0.78rem;
-  font-weight: 850;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -552,7 +552,7 @@
   max-width: 72ch;
   color: #f8fbff;
   font-size: 1rem;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
   text-wrap: balance;
 }
 
@@ -575,8 +575,8 @@
   background: rgba(12, 18, 25, 0.72);
   color: #dfe7f2;
   font-size: 0.78rem;
-  font-weight: 800;
-  line-height: 1.15;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
   text-decoration: none;
   touch-action: manipulation;
 }
@@ -609,7 +609,7 @@
 .br-chain__evidence span {
   color: #aab5c5;
   font-size: 0.78rem;
-  font-weight: 850;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -640,8 +640,8 @@
   background: rgba(12, 18, 25, 0.74);
   color: #dfe7f2;
   font-size: 0.88rem;
-  font-weight: 700;
-  line-height: 1.25;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
   text-decoration: none;
   text-align: center;
   touch-action: manipulation;
@@ -691,7 +691,7 @@
 .br-decision-rail .br-section-head a {
   color: #b9cfff;
   font-size: 0.86rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .br-decision-rail__grid {
@@ -719,7 +719,7 @@
   margin: 0;
   color: #c7d2df;
   font-size: 0.86rem;
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
 }
 
 .br-content-disclosure {
@@ -738,7 +738,7 @@
   background: rgba(49, 92, 207, 0.12);
   color: #f8fbff;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 600;
   list-style: none;
 }
 
@@ -750,7 +750,7 @@
   content: "+";
   color: #aab5c5;
   font-size: 1.25rem;
-  line-height: 1;
+  line-height: var(--lh-tight, 1.05);
 }
 
 .br-content-disclosure[open] > summary::after {
@@ -811,7 +811,7 @@
   color: #b9cfff;
   cursor: pointer;
   font-size: 0.86rem;
-  font-weight: 800;
+  font-weight: 600;
   list-style: none;
 }
 
@@ -823,7 +823,7 @@
   content: "+";
   color: #8fb0ff;
   font-size: 1.15rem;
-  line-height: 1;
+  line-height: var(--lh-tight, 1.05);
 }
 
 .br-venue-card__details[open] > summary::after {
@@ -852,14 +852,14 @@
 .br-venue-card dt {
   color: #8fb0ff;
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .br-venue-card dd {
   margin: 0;
   color: #d9e2ee;
   font-size: 0.9rem;
-  line-height: 1.48;
+  line-height: var(--lh-body, 1.55);
   overflow-wrap: anywhere;
 }
 
@@ -884,7 +884,7 @@
   grid-column: 1 / -1;
   color: #aab5c5;
   font-size: 0.78rem;
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
 }
 
 @media (min-width: 1040px) {
@@ -899,7 +899,7 @@
   margin: 0;
   padding-left: 18px;
   color: #d9e2ee;
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
 }
 
 .br-aeo-answers {
@@ -924,8 +924,8 @@
   color: #f8fbff;
   cursor: pointer;
   font-size: 0.96rem;
-  font-weight: 800;
-  line-height: 1.35;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
   list-style: none;
 }
 
@@ -938,7 +938,7 @@
   flex: 0 0 auto;
   color: #8fb0ff;
   font-size: 1.16rem;
-  line-height: 1;
+  line-height: var(--lh-tight, 1.05);
 }
 
 .br-aeo-answer[open] > summary::after {
@@ -956,7 +956,7 @@
 .br-aeo-table td {
   color: #c7d2df;
   font-size: 0.9rem;
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
 }
 
 .br-aeo-answer__body p {
@@ -988,7 +988,7 @@
 .br-aeo-table th {
   color: #8fb0ff;
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
@@ -1050,7 +1050,7 @@
   margin: 0;
   padding: 0 14px 14px;
   color: #bac5d5;
-  line-height: 1.6;
+  line-height: var(--lh-body, 1.55);
 }
 
 @media (max-width: 860px) {
@@ -1064,13 +1064,13 @@
     max-width: 22ch;
     margin-block: 10px 10px;
     font-size: clamp(1.8rem, 9vw, 2.35rem);
-    line-height: 1.06;
+    line-height: var(--lh-tight, 1.05);
   }
 
   .br-hero__copy p {
     margin-block: 0;
     font-size: 0.94rem;
-    line-height: 1.5;
+    line-height: var(--lh-body, 1.55);
   }
 
   .br-hero__actions {
@@ -1220,8 +1220,8 @@
     content: attr(data-label);
     color: #8fb0ff;
     font-size: 0.76rem;
-    font-weight: 900;
-    line-height: 1.35;
+    font-weight: 600;
+    line-height: var(--lh-head, 1.15);
   }
 }
 
@@ -1263,14 +1263,14 @@
 .br-cost-embed__head span {
   color: #8fb0ff;
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .br-cost-embed__head h1 {
   margin: 0;
   color: #ffffff;
   font-size: 1.38rem;
-  line-height: 1.18;
+  line-height: var(--lh-head, 1.15);
   letter-spacing: -0.02em;
 }
 
@@ -1278,7 +1278,7 @@
   margin: 0;
   color: #aab5c5;
   font-size: 0.9rem;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 .br-cost-embed__results {
@@ -1306,7 +1306,7 @@
   margin: 0;
   color: #22c88a;
   font-size: 1rem;
-  font-weight: 800;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
@@ -1319,7 +1319,7 @@
   border-radius: 8px;
   color: #07100d;
   background: #22c88a;
-  font-weight: 800;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -1338,7 +1338,7 @@
 .br-content-block { display: block; align-self: start; }
 .br-content-block h2 { margin-bottom: 16px; }
 .br-content-block p + p { margin-top: 12px; }
-.br-decision-primary a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 14px; color: #fff; background: #315ccf; border: 1px solid #6f90ff; border-radius: 8px; text-decoration: none; font-weight: 700; text-align: center; }
+.br-decision-primary a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 14px; color: #fff; background: #315ccf; border: 1px solid #6f90ff; border-radius: 8px; text-decoration: none; font-weight: 600; text-align: center; }
 .br-decision-primary a:focus-visible, .br-cost-options summary:focus-visible { outline: 2px solid #8fb0ff; outline-offset: 3px; }
 .br-cost-options summary { min-height: 44px; padding-block: 12px; cursor: pointer; color: #dfe7f2; font-weight: 600; }
 .br-cost-options .br-cost-strip { margin-top: 12px; }
@@ -1346,7 +1346,7 @@
 .br-sources li { align-items: start; }
 .br-sources li a { overflow-wrap: anywhere; }
 @media (max-width: 600px) {
- .br-hero__copy h1 { max-width: none; font-size: 1.9rem; line-height: 1.1; }
+ .br-hero__copy h1 { max-width: none; font-size: 1.9rem; line-height: var(--lh-head, 1.15); }
  .br-hero { gap: 20px; }
  .br-hero__actions { margin-top: 14px; }
  .br-hero__actions a { flex: 1; font-size: .84rem; padding: 8px; }

@@ -11,7 +11,7 @@
   max-width: 980px;
   margin: 18px 0 18px;
   font-size: clamp(2.2rem, 5vw, 5rem);
-  line-height: 1.08;
+  line-height: var(--lh-tight, 1.05);
   text-wrap: balance;
 }
 
@@ -42,7 +42,7 @@
   margin-top: 12px;
   color: var(--v3-accent, #50ddb5);
   font-size: 0.84rem;
-  font-weight: 800;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -57,7 +57,7 @@
   background: rgba(80, 221, 181, 0.12);
   color: var(--v3-accent, #50ddb5);
   font-size: 0.9rem;
-  font-weight: 800;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -73,7 +73,7 @@
   display: block;
   color: var(--v3-accent, #50ddb5);
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -123,7 +123,7 @@
   background: rgba(148, 163, 184, 0.09);
   color: var(--v3-muted, #a5b4c7);
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -190,7 +190,7 @@
 .tokenized-assets-faq summary {
   display: block;
   color: var(--v3-text, #e6edf6);
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .tokenized-assets-link-list span,
@@ -214,7 +214,7 @@
   border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 8px;
   background: rgba(148, 163, 184, 0.08);
-  font-weight: 750;
+  font-weight: 600;
 }
 
 .tokenized-assets-faq summary {
@@ -284,8 +284,8 @@
 .tokenized-assets-cell-label { display: none; }
 @media (max-width: 820px) {
   .tokenized-assets-hero { padding-top: 28px; padding-bottom: 24px; }
-  .tokenized-assets-hero h1 { font-size: clamp(28px, 7.5vw, 32px); line-height: 1.12; margin-block: 14px; }
-  .tokenized-assets-hero__lead { line-height: 1.5; }
+  .tokenized-assets-hero h1 { font-size: clamp(28px, 7.5vw, 32px); line-height: var(--lh-head, 1.15); margin-block: 14px; }
+  .tokenized-assets-hero__lead { line-height: var(--lh-body, 1.55); }
   .tokenized-assets-route-nav { margin-top: 16px; }
   .tokenized-assets-answer { margin-top: 20px; padding: 16px; }
   .tokenized-assets-table__row .tokenized-assets-cell-label {

@@ -13,7 +13,7 @@
 
 .top-decision-box__eyebrow {
   color: #67e8f9;
-  font: 700 0.66rem/1.2 var(--font-mono, monospace);
+  font: 600 0.66rem/var(--lh-head, 1.15) var(--font-mono, monospace);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -29,7 +29,7 @@
   margin: 0;
   color: #b6c4d5;
   font-size: 0.88rem;
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
 }
 
 .top-decision-box__actions {
@@ -49,7 +49,7 @@
   background: rgba(2, 6, 23, 0.42);
   color: #e0f2fe;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
 }
 

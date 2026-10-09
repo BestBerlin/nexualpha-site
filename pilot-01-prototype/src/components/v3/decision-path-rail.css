@@ -12,7 +12,7 @@
 
 .decision-path-rail__label {
   color: #7dd3fc;
-  font: 700 .65rem/1.2 var(--font-ui);
+  font: 600 .65rem/var(--lh-head, 1.15) var(--font-ui);
   letter-spacing: .08em;
   white-space: nowrap;
 }
@@ -36,13 +36,13 @@
   border-radius: .55rem;
   color: #cbd5e1;
   font-size: .78rem;
-  line-height: 1.25;
+  line-height: var(--lh-head, 1.15);
   text-decoration: none;
 }
 
 .decision-path-rail__link span {
   color: #94a3b8;
-  font: 700 .65rem/1 var(--font-ui);
+  font: 600 .65rem/var(--lh-tight, 1.05) var(--font-ui);
 }
 
 .decision-path-rail__link b { color: #94a3b8; }
@@ -78,7 +78,7 @@
     min-height: 44px;
     padding: .5rem .55rem;
     font-size: .78rem;
-    line-height: 1.25;
+    line-height: var(--lh-head, 1.15);
   }
 
   .decision-path-rail__link span {

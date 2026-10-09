@@ -17,7 +17,7 @@
 
 .next-decision-bridge__copy span {
   color: #7dd3fc;
-  font: 700 0.66rem/1.2 var(--font-mono, ui-monospace, monospace);
+  font: 600 0.66rem/var(--lh-head, 1.15) var(--font-mono, ui-monospace, monospace);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -26,7 +26,7 @@
   margin: 0.24rem 0 0.28rem;
   color: #f8fafc;
   font-size: 0.98rem;
-  line-height: 1.3;
+  line-height: var(--lh-head, 1.15);
 }
 
 .next-decision-bridge__copy p {
@@ -34,7 +34,7 @@
   max-width: 64ch;
   color: #aebfd2;
   font-size: 0.8rem;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 .next-decision-bridge__actions {
@@ -56,8 +56,8 @@
   color: #dff7ff;
   background: rgba(2, 6, 23, 0.34);
   font-size: 0.76rem;
-  font-weight: 750;
-  line-height: 1.2;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
   text-decoration: none;
   white-space: nowrap;
 }

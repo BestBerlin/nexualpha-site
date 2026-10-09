@@ -3,7 +3,7 @@
   font-family: var(--font-body);
   font-size: 1rem;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
   text-wrap: balance;
 }
 .venue-decision p {
@@ -15,7 +15,7 @@
 .venue-decision__context {
   color: var(--muted);
   font-size: .8125rem;
-  line-height: 1.6;
+  line-height: var(--lh-body, 1.55);
 }
 .venue-decision > a {
   display: flex;

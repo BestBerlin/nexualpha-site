@@ -13,7 +13,7 @@
 .outbound-handoff h3 {
   color: var(--ink);
   font-size: .9375rem;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
 }
 
 .outbound-handoff dl {
@@ -34,7 +34,7 @@
 .outbound-handoff small {
   margin: 0;
   font-size: .8125rem;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 .outbound-handoff dt,
@@ -51,12 +51,12 @@
 .outbound-handoff p {
   color: var(--muted);
   font-size: .875rem;
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
 }
 
 .outbound-handoff p span {
   color: var(--ink);
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .outbound-handoff__consent {
@@ -68,7 +68,7 @@
   padding-block: .25rem;
   color: var(--ink);
   font-size: .875rem;
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
 }
 
 .outbound-handoff__consent input {
@@ -84,7 +84,7 @@
   min-height: 2.75rem;
   color: var(--muted);
   font-size: .8125rem;
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
 }
 
 .outbound-handoff__country select {
@@ -107,7 +107,7 @@
   color: var(--blue-text);
   font: inherit;
   font-size: .875rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .outbound-handoff button:disabled {

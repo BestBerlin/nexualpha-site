@@ -84,7 +84,7 @@
   align-items: baseline;
   gap: 8px 12px;
   min-width: 0;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
   overflow-wrap: anywhere;
 }
 .v3-compare-page .v3-compare-decision-nav {
@@ -226,11 +226,11 @@
     margin-block-end: 6px;
     font-size: 14px;
     font-weight: 600;
-    line-height: 1.5;
+    line-height: var(--lh-body, 1.55);
     color: var(--ink);
   }
-  .v3-compare-page .v3-matrix-dim-title { font-size: 16px; line-height: 1.45; }
-  .v3-compare-page :is(.v3-matrix-dim-hint,.v3-matrix-sub-val) { font-size: 14px; line-height: 1.5; }
+  .v3-compare-page .v3-matrix-dim-title { font-size: 16px; line-height: var(--lh-body, 1.55); }
+  .v3-compare-page :is(.v3-matrix-dim-hint,.v3-matrix-sub-val) { font-size: 14px; line-height: var(--lh-body, 1.55); }
   .v3-compare-page .v3-matrix-cell-stack { gap: 6px; min-width: 0; }
   .v3-compare-page .v3-matrix-table td a { overflow-wrap: anywhere; }
 }

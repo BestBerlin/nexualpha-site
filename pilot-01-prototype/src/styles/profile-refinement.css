@@ -29,7 +29,7 @@
 .v3-profile-page .v3-profile-decision-context > h2 {
   margin: 0 0 12px;
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
   font-weight: 600;
   color: var(--ink);
   overflow-wrap: anywhere;
@@ -53,14 +53,14 @@
 .v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip span {
   font-family: var(--font-body);
   font-size: 14px;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
   letter-spacing: normal;
   text-transform: none;
   color: var(--muted);
 }
-.v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip strong { font-size: 16px; line-height: 1.6; font-weight: 500; }
+.v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip strong { font-size: 16px; line-height: var(--lh-body, 1.55); font-weight: 500; }
 .v3-profile-page .v3-profile-reading-overview > .v3-profile-primary-actions { padding-block-start: 8px; }
-.v3-profile-page .v3-profile-reading-overview > .v3-relationship-note { margin: 0; line-height: 1.6; }
+.v3-profile-page .v3-profile-reading-overview > .v3-relationship-note { margin: 0; line-height: var(--lh-body, 1.55); }
 @media (max-width: 640px) {
   .v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip article { grid-template-columns: minmax(0, 1fr); gap: 6px; }
 }
@@ -146,7 +146,7 @@
 }
 .v3-profile-page .v3-profile-reading-overview > .v3-venue-direct-answer > strong {
   font-weight: 600;
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
 }
 .v3-profile-page .v3-profile-action-column .v3-profile-main-registration {
   align-content: start;
@@ -268,12 +268,12 @@
   color: inherit;
   font: inherit;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
   text-align: start;
 }
 .v3-profile-page .v3-profile-research-hub .v3-profile-account-section__hint {
   margin-block: 6px 0;
-  line-height: 1.6;
+  line-height: var(--lh-body, 1.55);
   text-align: start;
 }
 .v3-profile-page .v3-profile-research-hub .v3-profile-account-section > :is(.v3-profile-cost-conditions__body,.v3-registration-notes__body) {

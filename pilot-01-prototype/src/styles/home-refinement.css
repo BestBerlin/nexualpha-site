@@ -180,7 +180,7 @@
 }
 .home-refinement .crossroads .crossroads__decision-label {
   color: var(--blue-text);
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
   margin: 0;
 }
 .home-refinement .crossroads .crossroads__decision-body {

@@ -3368,12 +3368,12 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
                         <span>→</span>
                       </a>
                       {usePartnerRoute && p.inviteCode && p.inviteCode !== "N/A" && (
-                        <div style={{ fontSize: "0.6875rem", color: "#94a3b8", marginTop: "4px" }}>
+                        <div style={{ fontSize: "0.75rem", color: "#94a3b8", marginTop: "4px" }}>
                           {isZh ? `${zhCopy(isHant, "邀请码")}: ${p.inviteCode}` : `Code: ${p.inviteCode}`}
                         </div>
                       )}
                       {p.bonus && (
-                        <div style={{ fontSize: "0.6875rem", color: "#f59e0b", marginTop: "2px" }}>
+                        <div style={{ fontSize: "0.75rem", color: "#f59e0b", marginTop: "2px" }}>
                           {isZh ? zhCopy(isHant, p.bonus, p.bonusZhHant) : p.bonus}
                         </div>
                       )}

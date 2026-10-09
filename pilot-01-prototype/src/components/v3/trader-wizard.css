@@ -89,7 +89,7 @@
 
 .wizard-modal__title {
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
   margin: 0 0 0.35rem;
   letter-spacing: -0.02em;
@@ -98,7 +98,7 @@
 .wizard-modal__subtitle {
   font-size: 0.8125rem;
   color: #94a3b8;
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
   margin: 0;
 }
 
@@ -193,7 +193,7 @@
 .wizard-opt__desc {
   font-size: 0.75rem;
   color: #94a3b8;
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
 }
 
 /* 结果卡片 */
@@ -232,7 +232,7 @@
 
 .wizard-result__name {
   font-size: 1.125rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
   margin: 0;
 }
@@ -255,7 +255,7 @@
 
 .wizard-result__score-badge strong {
   font-size: 0.9375rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .wizard-result__perk-box {
@@ -269,7 +269,7 @@
   font-size: 0.6875rem;
   text-transform: uppercase;
   color: #10b981;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 4px;
 }
 
@@ -295,7 +295,7 @@
   border-radius: 4px;
   color: #38bdf8;
   font-family: var(--font-mono, ui-monospace, monospace);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .wizard-result__reasons {
@@ -317,7 +317,7 @@
   padding-left: 1.1rem;
   font-size: 0.75rem;
   color: #94a3b8;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 .wizard-result__actions {

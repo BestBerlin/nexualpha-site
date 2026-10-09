@@ -34,7 +34,7 @@
   min-block-size: 2.75rem;
   gap: var(--s-2);
   font-size: var(--t-xs);
-  line-height: 1;
+  line-height: var(--lh-tight, 1.05);
   color: var(--text-muted);
 }
 #top.v5.home-refinement .rebate-ticker__tag {
@@ -170,9 +170,9 @@
 }
 #top.v5 .hx__title {
   font-size: clamp(2.3rem, 1rem + 3.2vw, 3.9rem);
-  line-height: 1.02;
+  line-height: var(--lh-tight, 1.05);
   letter-spacing: -0.04em;
-  font-weight: 620;
+  font-weight: 600;
   color: var(--text-strong);
   text-wrap: pretty;
   overflow-wrap: break-word;
@@ -183,7 +183,7 @@
   margin: var(--s-6) 0 0;
   max-inline-size: 30rem;
   font-size: var(--t-lg);
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
   color: var(--text);
   text-wrap: pretty;
 }
@@ -206,7 +206,7 @@
   align-items: center;
   font: inherit;
   font-size: var(--t-sm);
-  font-weight: 550;
+  font-weight: 500;
   color: var(--text-strong);
   text-decoration: none;
   cursor: pointer;
@@ -250,7 +250,7 @@
   min-block-size: 2.75rem;
   font: inherit;
   font-size: var(--t-sm);
-  font-weight: 550;
+  font-weight: 500;
   color: var(--text-muted);
   cursor: pointer;
   transition: color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
@@ -313,7 +313,7 @@
   min-block-size: 3.25rem;
   color: var(--text-strong);
   text-decoration: none;
-  font-weight: 550;
+  font-weight: 500;
 }
 #top.v5 .hx-compare__list a:hover span {
   text-decoration: underline;
@@ -403,7 +403,7 @@
 #top.v5 .hx-route .registration-card__code-value {
   font-family: var(--font-mono);
   font-size: var(--t-2xl);
-  line-height: 1.05;
+  line-height: var(--lh-tight, 1.05);
   letter-spacing: -0.02em;
   font-weight: 500;
   color: var(--text-strong);
@@ -456,7 +456,7 @@
   background: none;
   border: 0;
   font-size: var(--t-xs);
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
   color: var(--text-muted);
 }
 #top.v5 .hx-route .registration-card__action-group {
@@ -478,7 +478,7 @@
   background: var(--accent);
   color: var(--on-accent);
   font-size: var(--t-base);
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: -0.005em;
   text-decoration: none;
   box-shadow: var(--inset-top), 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 18px -8px rgb(0 0 0 / 0.6);
@@ -508,7 +508,7 @@
   background: none;
   border: 0;
   font-size: var(--t-xs);
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
   color: var(--text);
 }
 #top.v5 .hx-route .registration-card__preflight strong {
@@ -574,7 +574,7 @@
   background: none;
   border: 0;
   font-size: var(--t-xs);
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
   color: var(--text-muted);
 }
 #top.v5 .hx-route .registration-card__disclosure b {
@@ -662,7 +662,7 @@
 }
 #top.v5 .hx-row__who b {
   font-size: var(--t-base);
-  font-weight: 550;
+  font-weight: 500;
   color: var(--text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -711,7 +711,7 @@
   margin: 0;
   padding: var(--s-3) var(--s-6) var(--s-4);
   font-size: var(--t-xs);
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
   color: var(--text-muted);
   border-block-start: var(--hairline);
 }
@@ -819,7 +819,7 @@
 }
 #top.v5.home-refinement .crossroads__title {
   font-size: var(--t-2xl);
-  line-height: 1.08;
+  line-height: var(--lh-tight, 1.05);
   letter-spacing: -0.03em;
   font-weight: 600;
   color: var(--text-strong);
@@ -931,7 +931,7 @@
 }
 #top.v5.home-refinement .yellow-pages__title {
   font-size: var(--t-2xl);
-  line-height: 1.08;
+  line-height: var(--lh-tight, 1.05);
   letter-spacing: -0.03em;
   font-weight: 600;
   color: var(--text-strong);
@@ -966,7 +966,7 @@
   border: 0;
   padding-inline: 0;
   color: var(--text-muted);
-  font-weight: 450;
+  font-weight: 500;
 }
 #top.v5.home-refinement .yellow-card--compact .yellow-card__domain {
   font-family: var(--font-mono);
@@ -1018,7 +1018,7 @@
   background: var(--accent);
   border: 1px solid transparent;
   color: var(--on-accent);
-  font-weight: 650;
+  font-weight: 600;
   text-decoration: none;
   border-radius: var(--r-md);
   box-shadow: var(--inset-top), 0 1px 2px rgb(0 0 0 / 0.4);
@@ -1182,7 +1182,7 @@
   border-block-end: 2px solid transparent;
   border-radius: 0;
   color: var(--text-muted);
-  font-weight: 550;
+  font-weight: 500;
   box-shadow: none;
 }
 #top.v5.home-refinement .yellow-pages__tab:hover {
@@ -1231,7 +1231,7 @@
 html:lang(zh) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
 html:lang(ja) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
 html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail) {
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 
@@ -1292,7 +1292,7 @@ html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__w
 #top.v5 .hx__lede {
   max-inline-size: 27rem;
   font-size: var(--t-lg);
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
   color: var(--text);
 }
 #top.v5 .hx__actions {
@@ -1389,7 +1389,7 @@ html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__w
 #top.v5 .hx__trust-line {
   margin: 0;
   font-size: var(--t-sm);
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
   color: var(--text-muted);
   max-inline-size: 34rem;
 }
@@ -1444,7 +1444,7 @@ html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__w
 @media (max-width: 40rem) {
   #top.v5 .hx__lede {
     font-size: 0.9375rem;
-    line-height: 1.4;
+    line-height: var(--lh-body, 1.55);
   }
 }
 
