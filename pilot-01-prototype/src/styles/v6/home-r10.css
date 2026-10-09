@@ -13,6 +13,17 @@
   #top.v6.home-refinement :is(.cl__head > .v6-lead, .dir6-head > .v6-lead, .vb__head > .vb__aside):not(#_) { grid-column: 8 / 13; margin: 0; }
   /* the lede's first line sits on the h2's first line, not on the top of its box */
   #top.v6.home-refinement :is(.cl__head > .v6-lead, .dir6-head > .v6-lead, .vb__head .vb__lead):not(#_) { padding-block-start: var(--s-2); }
+  /* verify: the venue picker sits under the one-line h2 (left), the lede alone on the right; the picker no longer
+     wraps a lone "OKX" onto a second row in the narrow right column, and the h2 column is not a 100px hole */
+  #top.v6.home-refinement .vb__head > .vb__aside:not(#_) { display: contents; }
+  #top.v6.home-refinement .vb__head .vb__lead:not(#_) { grid-column: 8 / 13; grid-row: 1 / span 2; margin: 0; }
+  #top.v6.home-refinement .vb__head .vb__venues:not(#_) { grid-column: 1 / 8; grid-row: 2; }
+  /* the research index ends on a half step before the footer's own top pad (was 64 + footer pad: a 166px band) */
+  #top.v6 .v6-close__index:not(#_) { padding-block-end: var(--s-8); }
+}
+@media (min-width: 64rem) and (max-width: 73.99rem) {
+  /* station 1 carries two address bars: give it the wider track so the lookalike domain is not truncated */
+  #top.v6.home-refinement .vb__route:not(#_) { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr); }
 }
 @media (max-width: 63.99rem) {
   #top.v6.home-refinement :is(.cl__head, .dir6-head, .vb__head):not(#_) { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); align-items: start; }
