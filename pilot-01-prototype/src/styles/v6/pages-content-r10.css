@@ -18,8 +18,8 @@ main.v6.collection-hub-page .topic-card:not(:has(.topic-card__logo)):not(:has(> 
   main.v6.collection-hub-page .topic-card:not(:has(.topic-card__logo)):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 0 minmax(0, 1fr); }
 }
 
-/* 3. factbook detail: 48px between sections + 32px section top padding + the closed disclosure's
-   trailing space = ~126px seams at tablet/phone, where the section pad is 72. */
+/* 3. (factbook seams live in pages-factbook.css, which loads after this layer) */
 @media (max-width: 1023px) {
-  main.v6.factbook-page .factbook-body__container:not(#_):not(#_):not(#_) { row-gap: 24px; }
+  /* methodology: 48px margin + 48px padding between sections is the desktop rhythm; tablet/phone get the 72 pad */
+  main.v6 .methodology-page__inner > section:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 24px; padding-block-start: 40px; }
 }

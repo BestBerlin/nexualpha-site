@@ -320,3 +320,11 @@
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-act-badge .act-val--text { font-family: inherit; font-size: var(--t-16); }
 @media (max-width: 768px) { #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-act-badge .act-val { font-size: 16px; } }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .d5-rate--null .d5-null-note { font-size: var(--t-14); color: var(--n10); }
+
+/* R10 (layout-b): a closed disclosure kept its header's 24px bottom margin, so each collapsed section
+   ended in dead space; with 48px gap + 32px top padding the seams were ~126px at tablet (pad there is 72). */
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-section-disclosure > .factbook-section__header:not(#_) { margin-block-end: 0; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-section-disclosure > .factbook-section-disclosure__body:not(#_) { margin-block-start: 24px; }
+@media (max-width: 1023px) {
+  #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-body__container:not(#_) { gap: 24px; }
+}
