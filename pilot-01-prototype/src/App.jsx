@@ -798,8 +798,11 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
       <PlatformMatcher locale={locale} venues={command.venueCatalog} selected={compareSelection} decisionPassport={decisionPassport} defaultOpen={false} onSelectionChange={setCompareSelection} />
       <VenueYellowPages venues={command.venueCatalog} locale={locale} selected={compareSelection} onSelectionChange={setCompareSelection} compact />
     </>,
-    // Owner (2026-10-09): the home stays on the product; the research-tools drawer is not shown here (each tool keeps its own page).
-    closing: <CrawlPriorityLinks locale={locale} scope="home" />,
+    // Kept (folded): the drawer holds the only sign-up links for some partners (e.g. Aevo, HashKey, HTX); removing it needs owner sign-off.
+    closing: <>
+      <DeferredBoundary scope="home-research"><HomeResearchDrawer locale={locale} /></DeferredBoundary>
+      <CrawlPriorityLinks locale={locale} scope="home" />
+    </>,
   };
   const homeCtx = { locale, venues: command.venueCatalog, decisionPassport };
   const initialPair = homeSelection.get();
