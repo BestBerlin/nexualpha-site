@@ -1085,7 +1085,8 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
                 <p><span>{showProtocolContext && !publicCta.benefitVerified ? entryContext.title : copy.benefitState}</span><b>{publicCta.benefitVerified ? copy.benefitVerified : showProtocolContext ? entryContext.body : copy.benefitPending}</b></p>
                 <p><span>{copy.regionState}</span><b>{regionStateText}</b></p>
               </div>
-              {!compact && <>{preflight}{primaryAction}{publicCta.hasPartnerRoute && <p className="registration-card__inline-disclosure" data-disclosure-placement="registration-card-cta">{copy.disclosureShort}</p>}</>}
+              {!compact && <>{preflight}{primaryAction}</>}
+              {!compact && publicCta.hasPartnerRoute && <p className="registration-card__inline-disclosure" data-disclosure-placement="registration-card-cta">{copy.disclosureShort}</p>}
 
               {(visiblePartner.registrationUrl || officialRouteUrl) && (
                 <div className="registration-card__url-row">
