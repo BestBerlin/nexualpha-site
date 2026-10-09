@@ -27,7 +27,7 @@ v6 tokens below. Inner pages are not redesigned; they are polished against the s
 - Signature elements: the notice ticker under the header on every page (`SiteTicker`, home `.h7-tick`), a 32px hairline
   ruling behind page heroes fading out by 560px, mono kicker labels, terminal panels (hairline frame, mono meta rows,
   selected row = 2px accent start edge), tabular mono figures.
-- The home hero is announcement-led ("公告一出，先比费率，再开户。"); the unconfirmed 50% figure is no longer shown.
+- The home hero is rebate-led with the owner-confirmed marketing headline "通过我们开户，手续费最高返还 50%" (owner, 2026-10-09: shares range 15/20/30%, some up to 50%); the notice desk sits beside it as the second layer, and the footnote explains that 50% is the highest partner tier with per-exchange disclosure.
 - No bottom dock on mobile; navigation lives in the header menu. Footer: inline links + folded policy panel.
 
 ## Rules
@@ -39,7 +39,7 @@ v6 tokens below. Inner pages are not redesigned; they are polished against the s
 6. Light surfaces are not used. The only full-bleed contrast change is a slightly lifted band (`#0C0D10`) for the scroll story.
 7. Disclosures, referral codes and URLs are never edited by design work (`publicCtaForVenue`, `partner-registry` untouched).
 8. Every block that shows a referral code or a sponsored link also shows a one-line commission disclosure within the same viewport (reuse existing localized wording).
-9. Claims: the home "up to 50%" headline stays as-is until the owner confirms it in writing; design work must not enlarge it further.
+9. Claims: the "up to 50%" headline is owner-confirmed marketing (chat, 2026-10-09); it must always be paired with the per-exchange disclosure footnote.
 
 ## Review dimensions (each 1-10, screenshot evidence at 390 / 768 / 1280 / 1440, zh-hans + en + ar)
 typography, whitespace, hierarchy, colour, motion, microinteraction, responsive, originality.

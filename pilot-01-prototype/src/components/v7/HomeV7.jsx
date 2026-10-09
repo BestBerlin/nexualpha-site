@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { HOME_REBATE_SHARE, HOME_VENUES } from "../../data/home-rebate-tiers.js";
+import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_VENUES } from "../../data/home-rebate-tiers.js";
 import { supportedLocales } from "../../content/locale-manifest";
 import { readIntelFeed } from "../../data/announcement-intel.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
@@ -279,7 +279,7 @@ export function HomeV7({ locale, venues: _catalog }) {
       <section className="h7-hero" aria-label="NexuAlpha">
         <div className="h7-hc">
           <p className="h7-kick">{t.kick}</p>
-          <h1>{t.h1[0]}<br />{t.h1[1][0]}<em>{t.h1[1][1]}</em>{t.h1[1][2]}<br />{t.h1[2]}</h1>
+          <h1>{t.h1[0]}<br />{t.h1[1][0]}<em>{t.h1[1][1].replace("{max}", String(HOME_REBATE_MAX_PCT))}</em>{t.h1[1][2]}{t.h1[2] ? <><br />{t.h1[2]}</> : null}</h1>
           <p className="h7-sub">{t.lead}</p>
           <div className="h7-cta"><a className="h7-btn h7-ol" href="#h7-intel">{t.ctaAll} ↓</a><a className="h7-ln" href="#h7-calc">{t.ctaCmp}</a></div>
           <p className="h7-cta-disc">{t.t2b}</p>
@@ -346,7 +346,7 @@ export function HomeV7({ locale, venues: _catalog }) {
           ))}
         </div>
       </section>
-      <p className="h7-in h7-foot">{t.foot(FACTS_AS_OF)}</p>
+      <p className="h7-in h7-foot">{t.foot(FACTS_AS_OF).replace("{max}", String(HOME_REBATE_MAX_PCT))}</p>
     </div>
   );
 }
