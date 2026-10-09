@@ -84,7 +84,7 @@ main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):no
 main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .r9-cmp__txt { font-size: var(--t-14); line-height: 1.4; color: var(--r9-ink-2); }
 main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .r9-cmp__pending, main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .r9-cmp__foot { margin: var(--s-3, 12px) 0 0; font-size: var(--t-12); line-height: 1.5; color: var(--r9-mute); max-inline-size: none; }
 main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .r9-cmp__pending { padding-block-start: var(--s-3, 12px); border-block-start: 1px solid var(--r9-line); text-align: center; }
-@keyframes r9-roll { from { opacity: 0; transform: translateY(8px); } }
+@keyframes r9-roll { from { opacity: 0.35; transform: translateY(8px); } } /* R11: a key figure never starts fully transparent */
 
 /* ---------- (c) /rates: the cost axis over the result rows ---------- */
 main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .rt-axis { display: grid; gap: 4px; margin-inline: 64px 192px; margin-block-end: calc(-1 * var(--s-2, 8px)); }
