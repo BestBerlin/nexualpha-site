@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Fetch official exchange announcements into public/content/official-announcements.json.
+ * Fetch official exchange announcements into public/intel/official-announcements.json (not /content: production mounts managed content over that directory).
  *
  * Sources are the exchanges' own public announcement endpoints (documented):
  *   Bitget  GET https://api.bitget.com/api/v2/public/annoucements   (20 req/s/IP, last month)
@@ -18,7 +18,7 @@ import {
 } from "../src/data/announcement-intel.js";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const outputPath = path.join(rootDir, "public/content/official-announcements.json");
+const outputPath = path.join(rootDir, "public/intel/official-announcements.json");
 const UA = "NexuAlphaAnnouncementReader/1.0 (+https://nexualpha.com)";
 
 async function getJson(url) {

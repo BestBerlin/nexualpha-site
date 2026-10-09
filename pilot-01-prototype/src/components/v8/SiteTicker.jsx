@@ -6,7 +6,7 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { h7Copy } from "../v7/home7-copy.js";
 import "../../styles/v8/site-ticker.css";
 
-const FEED_URL = "/content/official-announcements.json";
+const FEED_URL = "/intel/official-announcements.json";
 const VENUES = ["okx", "binance", "bitget", "bybit"];
 const NAMES = { okx: "OKX", binance: "Binance", bitget: "Bitget", bybit: "Bybit" };
 const SHOW = ["listing", "event", "delisting", "news", "product", "security"];
