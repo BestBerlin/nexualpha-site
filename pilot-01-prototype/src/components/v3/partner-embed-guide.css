@@ -439,3 +439,36 @@
 .guide-publisher-field input:focus-visible { outline: 2px solid #6F90FF; outline-offset: 3px; }
 .guide-publisher-field small { color: #b3bdcc; font-size: .9rem; line-height: 1.6; }
 .preview-iframe--brazil { display: block; width: min(100%, 560px); height: 680px; border: 0; }
+
+/* R10 workbench layout: the live preview and the install column sit side by side, so the narrow
+   (420px) calculator no longer floats in an empty 1100px frame. Install column = code, what the
+   embed includes, help. The wide calculator keeps a full-width preview with the install column below. */
+.guide-builder__body { display: grid; gap: 24px; }
+.guide-builder__side { display: grid; gap: 24px; align-content: start; min-inline-size: 0; }
+#top.partner-guide-page .guide-builder__side :is(.guide-values-disclosure, .guide-telegram-cta, .guide-preview-wrapper):not(#_) { margin: 0; }
+#top.partner-guide-page .guide-builder__side .guide-values-grid:not(#_) { margin: 0; }
+@media (min-width: 1024px) {
+  #top.partner-guide-page .guide-builder__body:not(#_) { grid-template-columns: minmax(0, 480px) minmax(0, 1fr); gap: 32px; align-items: start; }
+  #top.partner-guide-page .guide-builder-section--brazil .guide-builder__body:not(#_) { grid-template-columns: minmax(0, 600px) minmax(0, 1fr); }
+  #top.partner-guide-page .guide-builder__body:not(#_) { align-items: stretch; }
+  #top.partner-guide-page .guide-builder__side:not(#_) { align-self: start; }
+  /* the preview takes the install column's height, so the calculator shows its result instead of an empty strip */
+  #top.partner-guide-page .guide-builder__body .guide-preview-wrapper:not(#_) { margin: 0; display: flex; flex-direction: column; }
+  #top.partner-guide-page .guide-builder__body .guide-preview-canvas:not(#_) { flex: 1 1 auto; }
+  #top.partner-guide-page .guide-builder-section:not(.guide-builder-section--analyzer) .guide-builder__body .preview-iframe:not(#_):not(#_) { block-size: 100%; min-block-size: 640px; }
+  #top.partner-guide-page .guide-builder__body .guide-preview-canvas:not(#_) { padding: 16px; }
+  #top.partner-guide-page .guide-builder__body .preview-iframe--calculator:not(#_) { max-inline-size: none; }
+  #top.partner-guide-page .guide-builder__side .guide-values-grid:not(#_) { grid-template-columns: minmax(0, 1fr); gap: 0; border-block: 1px solid var(--nxa-border-subtle, rgba(255, 255, 255, .08)); }
+  #top.partner-guide-page .guide-builder__side .guide-value-card:not(#_) { padding: 16px 0; border: 0; border-radius: 0; background: none; box-shadow: none; transform: none; }
+  #top.partner-guide-page .guide-builder__side .guide-value-card + .guide-value-card:not(#_) { border-block-start: 1px solid var(--nxa-border-subtle, rgba(255, 255, 255, .08)); }
+  #top.partner-guide-page .guide-builder__side .guide-value-card__icon:not(#_) { display: none; }
+  #top.partner-guide-page .guide-builder__side .guide-value-card h2:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0 0 4px; font-size: 16px; line-height: 1.3; }
+  #top.partner-guide-page .guide-builder__side .guide-value-card p:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 0; font-size: 14px; line-height: 1.55; }
+  #top.partner-guide-page .guide-builder__side .guide-tg-card:not(#_) { flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px; }
+  /* wide calculator: preview full width, install column becomes a 3-up row under it */
+  #top.partner-guide-page .guide-builder-section--analyzer .guide-builder__body:not(#_) { grid-template-columns: minmax(0, 1fr); }
+  #top.partner-guide-page .guide-builder-section--analyzer .guide-builder__side:not(#_) { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
+}
+@media (min-width: 641px) and (max-width: 1023px) {
+  #top.partner-guide-page .guide-builder__side .guide-values-grid:not(#_):not(#_) { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+}

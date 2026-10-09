@@ -670,7 +670,15 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
           )}
         </header>
 
-        <ArticleDecisionSummary article={article} withContext={withContext} locale={locale} t={t} />
+        <div className="news-detail__rail">
+          <ArticleDecisionSummary article={article} withContext={withContext} locale={locale} t={t} />
+          {sectionTargets.length >= 2 && <nav className="news-detail__toc" aria-label={sectionLabel} lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+            <p className="news-detail__toc-label">{sectionLabel}</p>
+            <ol>
+              {sectionTargets.map((target) => <li key={target.id}><button type="button" lang={target.id === "article-sources" ? locale : contentLocale} onClick={() => jumpToSection(target.id)}>{target.label}</button></li>)}
+            </ol>
+          </nav>}
+        </div>
 
         {/* 文章正文 */}
         <section className="news-detail__content" lang={contentLocale} dir={contentLocale === "ar" ? "rtl" : "ltr"} data-news-content-locale={contentLocale}>
