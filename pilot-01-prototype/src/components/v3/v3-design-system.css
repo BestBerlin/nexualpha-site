@@ -200,10 +200,12 @@
    NexuAlpha v4.0 Motion & Stagger System
    ================================================================ */
 
-/* Stagger 入场（配合 IntersectionObserver / .is-revealed 类） */
+/* Stagger 入场（配合 IntersectionObserver / .is-revealed 类）. R11: hidden only once a live observer is confirmed (html.js-reveal-ready)
+   and motion is allowed, so no-JS / reduced motion / a dead observer leave the children visible. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js-reveal-ready .nxa-stagger:not(.is-revealed):not(.crossroads__grid) > * { opacity: 0; transform: translateY(10px) scale(0.99); }
+}
 .nxa-stagger > * {
-  opacity: 0;
-  transform: translateY(10px) scale(0.99);
   transition:
     opacity var(--nxa-duration-slow) var(--nxa-ease-spring),
     transform var(--nxa-duration-slow) var(--nxa-ease-spring);

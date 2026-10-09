@@ -1,0 +1,34 @@
+/* R11 reliability: hidden-until-revealed content must never stay hidden.
+ * 1. Print: every reveal state prints finished (IO reveal, v5 <Reveal>/<CountUp>, closing band, verify band, directory digits).
+ * 2. Body font on the homepage: the visible text already runs on Geist (main, header, footer); <body> itself still resolved to
+ *    the legacy "Pilot Inter" token. Same Geist-first stack as inner pages, keeping the ja / ar / zh / ko fallbacks. */
+@media print {
+  :is([data-rv], .reveal[data-state], .nxa-stagger > *, .v2-reveal, span.num[data-value]),
+  .v6-close[data-phase="armed"] :is(.v6-close__lead, .v6-close__alt, .v6-close__note, .v6-close__w > span),
+  .vb__route[data-armed] :is(.vb__typed, .vb__bar--fake, .vb__stamp, .vb__note),
+  .dir6-row[data-armed] .dir6-fee__v b {
+    opacity: 1 !important; transform: none !important; translate: none !important; filter: none !important;
+    animation: none !important; transition: none !important;
+  }
+  .v6-close[data-phase="armed"] .v6-close__band::before { content: none !important; }
+  .v6-close[data-phase="armed"] .v6-close__route .draw { clip-path: none !important; }
+}
+
+body:has(> #root > main.v6.home-refinement) {
+  font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", "Pilot Noto Arabic", sans-serif;
+}
+:lang(ja) > body:has(> #root > main.v6.home-refinement) {
+  font-family: "Geist V5", "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Pilot Noto JP", sans-serif;
+}
+:lang(ar) > body:has(> #root > main.v6.home-refinement) {
+  font-family: "Geist V5", "Pilot Noto Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif;
+}
+:lang(zh-Hans) > body:has(> #root > main.v6.home-refinement) {
+  font-family: "Geist V5", "Pilot Noto SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+:lang(zh-Hant) > body:has(> #root > main.v6.home-refinement) {
+  font-family: "Geist V5", "Pilot Noto TC", "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", sans-serif;
+}
+:lang(ko) > body:has(> #root > main.v6.home-refinement) {
+  font-family: "Geist V5", "Pilot Noto KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+}

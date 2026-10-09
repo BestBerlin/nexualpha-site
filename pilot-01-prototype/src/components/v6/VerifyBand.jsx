@@ -11,11 +11,29 @@ function useInViewOnce(ref) {
   const [armed, setArmed] = useState(false);
   useEffect(() => {
     const el = ref.current;
-    if (!el || typeof IntersectionObserver === "undefined") return;
-    setArmed(true);
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); io.disconnect(); } }, { threshold: 0.05, rootMargin: "0px 0px -8% 0px" });
+    if (!el || typeof IntersectionObserver === "undefined") return undefined;
+    // Fail-safe (R11): armed only while still below the fold at mount; it goes live when seen, when a scroll finds it on
+    // screen or already passed (fast scroll, anchor jump), on focus inside it, before print, and if the observer never reports.
+    if (el.getBoundingClientRect().top < window.innerHeight) { setOn(true); return undefined; } /* plays in place, never hidden */
+    let alive = false;
+    const off = () => {
+      io.disconnect(); window.clearTimeout(t);
+      window.removeEventListener("scroll", check); window.removeEventListener("resize", check);
+      window.removeEventListener("hashchange", check); window.removeEventListener("beforeprint", go);
+      el.removeEventListener("focusin", go);
+    };
+    const go = () => { setOn(true); off(); };
+    const check = () => { if (el.getBoundingClientRect().top < window.innerHeight * 0.92) go(); };
+    const io = new IntersectionObserver(([e]) => { alive = true; if (e.isIntersecting) go(); }, { threshold: 0.05, rootMargin: "0px 0px -8% 0px" });
     io.observe(el);
-    return () => io.disconnect();
+    setArmed(true);
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    window.addEventListener("hashchange", check);
+    window.addEventListener("beforeprint", go);
+    el.addEventListener("focusin", go);
+    const t = window.setTimeout(() => { if (!alive) go(); else check(); }, 1500);
+    return off;
   }, [ref]);
   return [armed, on];
 }

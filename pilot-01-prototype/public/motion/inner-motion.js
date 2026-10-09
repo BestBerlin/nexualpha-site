@@ -1,8 +1,9 @@
 /* NexuAlpha V6 inner-page motion (R5). Loaded with `defer` outside the app-shell bundle; never on the homepage.
  * 1. Route rail: the homepage's Crossroads rail carried onto inner pages. A start node at the h1, docks at each
  *    section heading, the destination at the page's primary action; the traversed part fills turquoise on scroll.
- * 2. Scroll reveal: blocks below the fold fade/rise in once (IntersectionObserver). Progressive: nothing is hidden
- *    until the observer is live, a scroll check reveals anything the observer missed, print reveals all.
+ * 2. Scroll reveal: blocks below the fold fade/rise in once (IntersectionObserver). Fail-safe (R11): nothing is hidden
+ *    until the observer is live (html.js-reveal-ready), sweeps reveal anything on screen or passed, focus, print, end of
+ *    page and a health timeout reveal the rest. The same path on every engine (no scroll-timeline-only reveal).
  * 3. Copy feedback: a short confirmation pulse on copy/share controls (the components keep their own text state).
  * prefers-reduced-motion: rail drawn statically, no reveal, no pulse. Decorative nodes are aria-hidden. */
 (function () {
@@ -12,7 +13,7 @@
   var BLOCKS = [
     "main.v6 > section", "main.v6 > details", "main.v6 > article", "main.v6 > .v2-shell > section",
     ".methodology-page__inner > section", ".methodology-pillar-card", ".tg-hub__container > *", ".tg-topic-card", ".tg-return-card",
-    ".mx-row", ".news-card", ".news-list-item", "[class*='news-index'] article", ".activity-center-v3 > *", ".activity-center-v3__reward-grid > article",
+    ".mx-row", "[data-collection-hub='factbook'] .topic-card", ".news-card", ".news-list-item", "[class*='news-index'] article", ".activity-center-v3 > *", ".activity-center-v3__reward-grid > article",
     ".br-section", ".br-venue-card", ".br-source-list li", ".v3-compare-support-disclosure", ".v3-metric-matrix-section", ".v3-compare-final-choice-card"
   ].join(",");
   var state = null;
@@ -29,6 +30,7 @@
   function teardown() {
     if (!state) return;
     if (state.io) state.io.disconnect();
+    clearTimeout(state.health);
     if (state.ro) state.ro.disconnect();
     window.removeEventListener("scroll", state.onScroll, true);
     window.removeEventListener("resize", state.onResize);
@@ -273,6 +275,19 @@
   }
 
   /* ---------- 2. scroll reveal ---------- */
+  /* R11 fail-safe contract. Content is visible by default: the CSS only hides [data-rv="0"] while <html> carries
+   * .js-reveal-ready, which is set here only after the observer is attached and has reported once. Only blocks that are
+   * below the fold at setup are armed. A block is shown when the observer sees it, when a scroll/resize/hash sweep finds it
+   * on screen or already passed (fast scroll, anchor jump, End key), when focus moves into it (keyboard), when the page
+   * reaches its end, before print, and on a health timeout if the observer never reports. One path for every engine:
+   * no CSS scroll timeline is ever the only thing standing between a block and opacity 1. */
+  var ROOT = document.documentElement;
+  function showAll(s) {
+    if (!s.pending) return;
+    for (var i = 0; i < s.pending.length; i++) if (s.pending[i].getAttribute("data-rv") === "0") s.pending[i].setAttribute("data-rv", "1");
+    s.pending = null;
+    if (s.io) { s.io.disconnect(); s.io = null; }
+  }
   function buildReveal(main, s) {
     if (reduce || typeof IntersectionObserver !== "function") return;
     var list = main.querySelectorAll(BLOCKS);
@@ -283,33 +298,33 @@
       var el = list[i];
       if (el.hasAttribute("data-rv") || el.querySelector("h1") || el.closest("[data-rv]") || el.closest(".v6r")) continue;
       var r = el.getBoundingClientRect();
-      if (!r.height || r.top < fold - 8) continue; /* above the fold: never touched */
+      if (!r.height || r.top < fold - 8) continue; /* above the fold (or already passed): never touched */
       n = el.parentNode === lastParent ? n + 1 : 0; lastParent = el.parentNode;
       if (n) el.style.setProperty("--rv-d", Math.min(n, 5) * 40 + "ms");
       pending.push(el);
     }
     if (!pending.length) return;
-    /* R9: where CSS scroll timelines exist the reveal is scroll-driven (pages-inner-r9.css animates [data-rv="v"] on its
-       view() timeline, forwards-only fill): no observer, nothing hidden before a block reaches the viewport. */
-    if (window.CSS && CSS.supports && CSS.supports("animation-timeline: view()")) {
-      for (var v = 0; v < pending.length; v++) pending[v].setAttribute("data-rv", "v");
-      return;
-    }
+    s.pending = pending;
     s.io = new IntersectionObserver(function (entries) {
+      if (!s.alive) { s.alive = true; ROOT.classList.add("js-reveal-ready"); }
       for (var j = 0; j < entries.length; j++) {
-        if (entries[j].isIntersecting) { entries[j].target.setAttribute("data-rv", "1"); s.io.unobserve(entries[j].target); }
+        if (entries[j].isIntersecting) { entries[j].target.setAttribute("data-rv", "1"); if (s.io) s.io.unobserve(entries[j].target); }
       }
     }, { rootMargin: "0px 0px -6% 0px", threshold: 0.01 });
     for (var k = 0; k < pending.length; k++) { pending[k].setAttribute("data-rv", "0"); s.io.observe(pending[k]); }
-    s.pending = pending;
+    /* health check: an observer always reports each target once; if it has not within 1.5s, give up on the reveal */
+    s.health = setTimeout(function () { if (!s.alive) showAll(s); }, 1500);
   }
-  function sweep(s) { /* anything the observer missed that is already on screen (or above it) is shown */
+  function sweep(s) { /* anything on screen, or scrolled past, is shown; at the end of the page everything is */
     if (!s.pending) return;
-    var h = window.innerHeight;
+    var h = window.innerHeight, rest = 0;
+    var atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
     for (var i = 0; i < s.pending.length; i++) {
       var el = s.pending[i];
-      if (el.getAttribute("data-rv") === "0" && el.getBoundingClientRect().top < h) el.setAttribute("data-rv", "1");
+      if (el.getAttribute("data-rv") !== "0") continue;
+      if (atEnd || el.getBoundingClientRect().top < h) el.setAttribute("data-rv", "1"); else rest++;
     }
+    if (!rest) showAll(s);
   }
 
   function setup() {
@@ -323,7 +338,7 @@
     s.onScroll = function () {
       if (!s.raf) s.raf = requestAnimationFrame(function () { s.fill(); sweep(s); });
     };
-    s.onResize = function () { cancelAnimationFrame(mq); mq = requestAnimationFrame(s.measure); };
+    s.onResize = function () { cancelAnimationFrame(mq); mq = requestAnimationFrame(function () { s.measure(); sweep(s); }); };
     window.addEventListener("scroll", s.onScroll, { passive: true, capture: true });
     window.addEventListener("resize", s.onResize);
     if (typeof ResizeObserver === "function") { s.ro = new ResizeObserver(s.onResize); s.ro.observe(main); }
@@ -349,6 +364,13 @@
     var els = document.querySelectorAll("[data-rv='0']");
     for (var i = 0; i < els.length; i++) els[i].setAttribute("data-rv", "1");
   });
+  /* keyboard: focus landing inside a block that is still hidden shows it at once (no fade to wait for) */
+  document.addEventListener("focusin", function (e) {
+    var b = e.target && e.target.closest && e.target.closest("[data-rv='0']");
+    if (b) { b.style.transition = "none"; b.setAttribute("data-rv", "1"); }
+  }, true);
+  /* anchor jumps land after the browser scrolls: sweep on the next frames */
+  window.addEventListener("hashchange", function () { if (state) requestAnimationFrame(function () { if (state) sweep(state); }); });
 
   /* client-side route/locale changes replace <main>: re-run on a new main element */
   var current = null, pend = 0;

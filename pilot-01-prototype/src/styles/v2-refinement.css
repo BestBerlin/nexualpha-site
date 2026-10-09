@@ -25,7 +25,8 @@
 .section-lead > span { max-inline-size: 34ch; }
 .compare-matrix__head { position: sticky; top: 0; z-index: 3; background: var(--market); }
 .venue-list__head { position: sticky; top: 0; z-index: 2; background: var(--market); }
-.v2-reveal { opacity: 0; transform: translateY(16px); transition: opacity var(--motion-standard) ease, transform var(--motion-standard) ease; }
+@media (prefers-reduced-motion: no-preference) { html.js-reveal-ready .v2-reveal:not(.is-visible) { opacity: 0; transform: translateY(16px); } }
+.v2-reveal { transition: opacity var(--motion-standard) ease, transform var(--motion-standard) ease; }
 .button-primary:focus-visible, .button-quiet:focus-visible, .filter-bar button:focus-visible, .compare-matrix button:focus-visible, .venue-list button:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 3px; }
 .button-primary:active { transform: translateY(1px); }
 @media(max-width:780px){.compare-matrix__head,.venue-list__head{position:static}.section-lead h2,.section-lead>span{max-inline-size:none}}

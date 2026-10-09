@@ -30,17 +30,35 @@ function ClosingBandImpl({ legacy, locale = "en" }) {
   useEffect(() => {
     const el = ref.current;
     if (!el || typeof IntersectionObserver === "undefined") return undefined;
-    // Server HTML and no-JS stay fully visible. After mount the band is armed (paper sheet covered) and the reveal plays when
-    // the band is actually scrolled to: a visible wipe plus the headline rise. If IO somehow never reports, a scroll check does.
-    const open = () => { setPhase("in"); io.disconnect(); window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
-    const check = () => { const r = el.getBoundingClientRect(); if (r.top < window.innerHeight * 0.85 && r.bottom > 0) open(); };
-    const io = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) open(); }, { threshold: 0.2 });
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    // Server HTML and no-JS stay fully visible. After mount the band is armed (paper sheet covered) only if it is still below
+    // the fold, and the reveal plays when it is scrolled to: a visible wipe plus the headline rise. Fail-safe (R11): it also
+    // opens once it is on screen or already passed (fast scroll, anchor jump, End key), on focus inside it, before print, at
+    // the end of the page, and if the observer never reports.
+    if (el.getBoundingClientRect().top < window.innerHeight) return undefined;
+    let alive = false;
+    const off = () => {
+      io.disconnect(); window.clearTimeout(t);
+      window.removeEventListener("scroll", check); window.removeEventListener("resize", check);
+      window.removeEventListener("hashchange", check); window.removeEventListener("beforeprint", open);
+      el.removeEventListener("focusin", open);
+    };
+    const open = () => { setPhase("in"); off(); };
+    const check = () => {
+      const r = el.getBoundingClientRect();
+      const atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      if (r.top < window.innerHeight * 0.85 || atEnd) open();
+    };
+    const io = new IntersectionObserver((entries) => { alive = true; if (entries.some((e) => e.isIntersecting)) open(); }, { threshold: 0.2 });
     io.observe(el);
     setPhase("armed");
     window.addEventListener("scroll", check, { passive: true });
     window.addEventListener("resize", check);
-    const t = window.setTimeout(check, 400);
-    return () => { window.clearTimeout(t); io.disconnect(); window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
+    window.addEventListener("hashchange", check);
+    window.addEventListener("beforeprint", open);
+    el.addEventListener("focusin", open);
+    const t = window.setTimeout(() => { if (!alive) open(); else check(); }, 1500);
+    return off;
   }, []);
   // Phones: the related-research index starts folded (one tappable row; every link stays in the DOM for crawlers and keyboards).
   const idx = useRef(null);
