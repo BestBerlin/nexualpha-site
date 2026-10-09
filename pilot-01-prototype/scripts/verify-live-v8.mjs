@@ -34,7 +34,9 @@ for (const code of codes) if (!all.includes(code)) fail(`invite code ${code} not
 
 const home = pages["/zh-hans"];
 if (!home.includes('class="h7"')) fail("home v7/v8 block (.h7) missing from SSR");
-if (!home.includes("h7-num") || !home.includes("h7-src")) fail("animated rebate hero (.h7-num/.h7-src) missing from SSR");
+if (!home.includes("h7-num") || !home.includes("h7-pw")) fail("animated rebate hero (.h7-num + partner wall .h7-pw) missing from SSR");
+const tiles = (home.match(/data-brand-slug=/g) || []).length;
+if (tiles < 10) fail(`partner wall shows ${tiles} logos, expected at least 10`);
 if (home.includes("h7-desk") || home.includes("site-ticker")) fail("notice desk/ticker should no longer be on home");
 if (home.includes("mobile-bottom-nav")) fail("mobile bottom dock still rendered on home");
 if (!/data-disclosure-placement="directory-matrix"/.test(pages["/zh-hans/exchanges"])) fail("directory commission disclosure missing");
