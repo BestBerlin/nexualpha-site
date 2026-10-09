@@ -1220,3 +1220,27 @@
     margin-block: 1.7rem;
   }
 }
+
+/* R10 layout: the shortlist shows one primary candidate. In a 3-up grid that left two empty thirds
+   (and an empty half beside the heading). Desktop: heading | primary candidate on one row, the filter
+   and "more candidates" rows full width below. */
+#top .regional-market-preview__shortlist-grid:not(#_) { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1024px) {
+  #top .regional-market-preview__shortlist:not(#_) { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: 32px; align-items: start; }
+  #top .regional-market-preview__shortlist:not(#_) > * { grid-column: 1 / -1; }
+  #top .regional-market-preview__shortlist:not(#_) > .regional-market-preview__questions-heading { grid-column: 1; grid-row: 1; }
+  #top .regional-market-preview__shortlist:not(#_) > .regional-market-preview__shortlist-grid { grid-column: 2; grid-row: 1; }
+  #top .regional-market-preview__shortlist-grid:not(#_) > .v3-card:only-child { grid-template-columns: minmax(0, 1fr) auto; column-gap: 24px; }
+  #top .regional-market-preview__shortlist-grid:not(#_) > .v3-card:only-child > :not(a, em) { grid-column: 1; }
+  #top .regional-market-preview__shortlist-grid:not(#_) > .v3-card:only-child > :is(a, em) { grid-column: 2; grid-row: 1 / span 4; align-self: center; }
+}
+/* The first quick action is a research link, not a signup: the shared "--primary" button rule painted it
+   turquoise and laid its three lines out as a squeezed row of low-contrast text. Same card as its siblings,
+   marked only by a stronger border. */
+#top a.regional-market-preview__quick-action--primary:not(#_):not(#_):not(#_) {
+  display: grid; align-content: start; justify-content: stretch; justify-items: start; gap: 4px; text-align: start;
+  min-block-size: 0; padding: 16px; border: 1px solid var(--line-2, rgba(255, 255, 255, .24)); border-radius: 8px;
+  background: var(--surface, rgba(15, 23, 42, .5)); background-image: none; color: var(--ink, #f8fafc); font-weight: 400;
+}
+#top a.regional-market-preview__quick-action--primary:hover:not(#_):not(#_):not(#_) { border-color: var(--ink-3, #94a3b8); background: var(--surface-2, rgba(15, 23, 42, .68)); }
+#top a.regional-market-preview__quick-action--primary:not(#_):not(#_):not(#_) small { color: var(--ink-2, #cbd5e1); }

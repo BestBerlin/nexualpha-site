@@ -1,0 +1,25 @@
+/* R10 layout-b (content pages). Loaded with the shared v6 layer; every rule is scoped to a content-page
+   class or to the main→footer seam. */
+
+/* 1. main→footer seam. The last section's 128/72 padding stacked on the footer's own top padding
+   (71px desktop, 47–58px below) produced a ~220px (desktop) / ~120px (phone) empty band above every
+   footer. Main keeps only what the footer does not already give, so the seam reads as ONE section pad. */
+main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: 32px; }
+@media (max-width: 1023px) {
+  main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: 16px; }
+}
+
+/* 2. /topics, /factbook collection rows: a row with no domain meta kept an empty 200px column between
+   the text and the button (visible at tablet widths as a 200x190 hole in every row). */
+main.v6.collection-hub-page .topic-card:not(:has(> .v3-section__meta)):not(:has(.topic-card__facts)):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 32px minmax(0, 1fr) 0 auto; }
+main.v6.collection-hub-page .topic-card:not(:has(.topic-card__logo)):not(:has(> .v3-section__meta)):not(:has(.topic-card__facts)):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 0 minmax(0, 1fr) 0 auto; }
+@media (max-width: 760px) {
+  main.v6.collection-hub-page .topic-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 32px minmax(0, 1fr); }
+  main.v6.collection-hub-page .topic-card:not(:has(.topic-card__logo)):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 0 minmax(0, 1fr); }
+}
+
+/* 3. factbook detail: 48px between sections + 32px section top padding + the closed disclosure's
+   trailing space = ~126px seams at tablet/phone, where the section pad is 72. */
+@media (max-width: 1023px) {
+  main.v6.factbook-page .factbook-body__container:not(#_):not(#_):not(#_) { row-gap: 24px; }
+}

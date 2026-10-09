@@ -128,3 +128,22 @@
 #top#top#top#top.v6.r1-telegram-page .tg-cta-buttons .tg-btn--primary, #top#top#top#top.v6.r1-telegram-page .tg-cta-buttons .tg-btn--primary:hover { color: var(--n12) !important; background: transparent; }
 #top#top#top#top.v6.r1-telegram-page .tg-cmd-btn--copy.is-copied { color: var(--accent) !important; border-color: var(--accent) !important; background: transparent !important; }
 @media (prefers-reduced-motion: reduce) { #top#top#top#top.v6.r1-telegram-page * { transition-duration: 0.01ms; animation-duration: 0.01ms; } }
+
+/* ================= R10 (layout-b) ================= */
+/* The hero's bot button had its fill removed by a later layer but kept the on-accent (near-black) text:
+   an empty-looking outlined box. It is a secondary (non-signup) action: ink text on the outline. */
+#top#top#top#top.v6.r1-telegram-page .tg-hub__quick-cta .tg-btn--primary:not(#_) { color: var(--n12) !important; }
+/* Hero: the copy used 470px of a 1200px row and left a ~620x390 empty block on the right. The
+   "answer before the handoff" statement that opens the topic list now sits in that column, so the
+   first screen is copy | answer and the topic rows follow full width. */
+@media (min-width: 1024px) {
+  #top#top#top#top.v6.r1-telegram-page .tg-hub__container:not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); column-gap: var(--s-16, 64px); }
+  #top#top#top#top.v6.r1-telegram-page .tg-hub__container:not(#_):not(#_):not(#_):not(#_) > * { grid-column: 1 / -1; }
+  #top#top#top#top.v6.r1-telegram-page .tg-hub__container:not(#_):not(#_):not(#_):not(#_) > .tg-hub__header { grid-column: 1; grid-row: 1; }
+  #top#top#top#top.v6.r1-telegram-page .tg-hub__container:not(#_):not(#_):not(#_):not(#_) > .tg-hub__quick-cta { grid-column: 1; grid-row: 2; }
+  #top#top#top#top.v6.r1-telegram-page .tg-hub__container:not(#_):not(#_):not(#_):not(#_) > .tg-topic-gateway { display: contents; }
+  #top#top#top#top.v6.r1-telegram-page .tg-topic-gateway:not(#_):not(#_):not(#_):not(#_) > * { grid-column: 1 / -1; }
+  #top#top#top#top.v6.r1-telegram-page .tg-topic-gateway:not(#_):not(#_):not(#_):not(#_) > .tg-topic-gateway__header { grid-column: 2; grid-row: 1 / span 2; align-self: end; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-3, 12px); padding-inline-start: var(--s-8, 32px); border-inline-start: 1px solid var(--n6); }
+  #top#top#top#top.v6.r1-telegram-page .tg-topic-gateway__header:not(#_):not(#_):not(#_):not(#_) > :is(h2, h3, p) { grid-column: 1; grid-row: auto; max-inline-size: 48ch; }
+  #top#top#top#top.v6.r1-telegram-page .tg-topic-gateway__toggle:not(#_):not(#_):not(#_):not(#_) { margin-block-start: calc(var(--s-6, 24px) - var(--s-12, 48px)); }
+}

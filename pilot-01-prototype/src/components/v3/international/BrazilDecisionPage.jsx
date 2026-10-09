@@ -1046,6 +1046,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
           <p className="br-decision-panel__status" aria-live="polite">{shareStatus || (!isBrazil ? copy.nonBr : isSpot ? copy.brOnly : copy.spotOnly)}</p>
         </form>
         {!isComparisonPage && !isEntryPage ? earlyNextStepSection : null}
+        {!isComparisonPage && !isEntryPage ? answerSection : null}
       </section>
   );
   const continuationSection = (
@@ -1091,7 +1092,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
 
       {isComparisonPage ? shortlistSection : null}
 
-      {!isEntryPage ? answerSection : null}
+      {isComparisonPage ? answerSection : null}
 
       {isComparisonPage ? earlyNextStepSection : null}
 

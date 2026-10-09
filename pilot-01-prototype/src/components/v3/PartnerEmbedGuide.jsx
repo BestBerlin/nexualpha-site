@@ -83,37 +83,8 @@ export function PartnerEmbedGuide({ locale = "en" }) {
           </p>
         </section>
 
-        {/* Value Proposition Grid */}
-        <details
-          className="guide-values-disclosure"
-          open={showValueDetails}
-          onToggle={(event) => setShowValueDetails(event.currentTarget.open)}
-        >
-          <summary>
-            <span>{copy.why}</span>
-            <span aria-hidden="true">{showValueDetails ? "−" : "+"}</span>
-          </summary>
-          <div className="guide-values-grid">
-          <div className="guide-value-card nxa-beam-card">
-            <div className="guide-value-card__icon"></div>
-            <h2>{copy.cards[0][0]}</h2>
-            <p>{copy.cards[0][1]}</p>
-          </div>
-          <div className="guide-value-card nxa-beam-card">
-            <div className="guide-value-card__icon"></div>
-            <h2>{copy.cards[1][0]}</h2>
-            <p>{copy.cards[1][1]}</p>
-          </div>
-          <div className="guide-value-card nxa-beam-card">
-            <div className="guide-value-card__icon"></div>
-            <h2>{copy.cards[2][0]}</h2>
-            <p>{copy.cards[2][1]}</p>
-          </div>
-          </div>
-        </details>
-
         {/* Interactive Embed Builder */}
-        <section className="guide-builder-section">
+        <section className={`guide-builder-section guide-builder-section--${selectedType}`}>
           <div className="guide-builder__header">
             <h2>{copy.select}</h2>
             <div className="guide-type-toggle">
@@ -147,6 +118,7 @@ export function PartnerEmbedGuide({ locale = "en" }) {
             {!brazilUrl && <span role="status">{copy.publisherError}</span>}
           </label>}
 
+          <div className="guide-builder__body">
           {/* Live Preview Frame */}
           <div className="guide-preview-wrapper">
             <div className="guide-preview-bar">
@@ -181,6 +153,7 @@ export function PartnerEmbedGuide({ locale = "en" }) {
             </div>
           </div>
 
+          <div className="guide-builder__side">
           {/* Code Snippet Box */}
           <div className="guide-code-box">
             <div className="guide-code-box__header">
@@ -198,26 +171,57 @@ export function PartnerEmbedGuide({ locale = "en" }) {
             </pre>
             {copyError && <p role="status">{copy.copyError}</p>}
           </div>
-        </section>
-
-        {/* Telegram Fast Partnership CTA */}
-        <section className="guide-telegram-cta">
-          <div className="guide-tg-card nxa-beam-card">
-            <div className="guide-tg-card__content">
-              <h3>{copy.telegramTitle}</h3>
-              <p>{copy.telegramBody}</p>
-            </div>
-            <a
-              href={partnerDeepLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="guide-tg-btn"
+            {/* Value Proposition Grid */}
+            <details
+              className="guide-values-disclosure"
+              open={showValueDetails}
+              onToggle={(event) => setShowValueDetails(event.currentTarget.open)}
             >
-              <span>{copy.telegramButton}</span>
-              <span className="guide-tg-arrow">→</span>
-            </a>
+              <summary>
+                <span>{copy.why}</span>
+                <span aria-hidden="true">{showValueDetails ? "−" : "+"}</span>
+              </summary>
+              <div className="guide-values-grid">
+              <div className="guide-value-card nxa-beam-card">
+                <div className="guide-value-card__icon"></div>
+                <h2>{copy.cards[0][0]}</h2>
+                <p>{copy.cards[0][1]}</p>
+              </div>
+              <div className="guide-value-card nxa-beam-card">
+                <div className="guide-value-card__icon"></div>
+                <h2>{copy.cards[1][0]}</h2>
+                <p>{copy.cards[1][1]}</p>
+              </div>
+              <div className="guide-value-card nxa-beam-card">
+                <div className="guide-value-card__icon"></div>
+                <h2>{copy.cards[2][0]}</h2>
+                <p>{copy.cards[2][1]}</p>
+              </div>
+              </div>
+            </details>
+
+            {/* Telegram Fast Partnership CTA */}
+            <section className="guide-telegram-cta">
+              <div className="guide-tg-card nxa-beam-card">
+                <div className="guide-tg-card__content">
+                  <h3>{copy.telegramTitle}</h3>
+                  <p>{copy.telegramBody}</p>
+                </div>
+                <a
+                  href={partnerDeepLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="guide-tg-btn"
+                >
+                  <span>{copy.telegramButton}</span>
+                  <span className="guide-tg-arrow">→</span>
+                </a>
+              </div>
+            </section>
+          </div>
           </div>
         </section>
+
       </div>
     </main>
   );
