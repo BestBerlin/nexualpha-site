@@ -1,0 +1,30 @@
+/* r11 type-system closure (late shared layer, core-c chunk: links on every route, after index/core-b/mid2).
+ * One scale everywhere, including the shell (header, footer, bottom nav) and legacy route chunks outside main.v6:
+ *   sizes   12 / 14 / 16 / 20 / 28 / 44 / 72; at <= 640px the upper steps step down 20>18, 28>24, 44>32, 72>44
+ *   weights 400 / 500 / 600
+ *   line-height (ratio to font-size) 1.05 display / 1.15 headings + UI labels / 1.55 running text
+ * Tokens are defined on :root here so rules outside .v6 resolve them; .v6 (base.css) carries the same values.
+ * Keep this file last in index.css. Do not add layout here. */
+
+:root {
+  --t-12: 0.75rem; --t-14: 0.875rem; --t-16: 1rem;
+  --t-20: 1.25rem; --t-28: 1.75rem; --t-44: 2.75rem; --t-72: 4.5rem;
+  --lh-tight: 1.05; --lh-head: 1.15; --lh-snug: 1.15; --lh-body: 1.55;
+  /* legacy v3 family tokens still point at Inter on :root; Geist is the only UI family */
+  --font-body: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", "Pilot Noto Arabic", sans-serif;
+  --font-display: var(--font-body);
+}
+@media (max-width: 40rem) {
+  :root { --t-20: 1.125rem; --t-28: 1.5rem; --t-44: 2rem; --t-72: 2.75rem; }
+}
+
+/* /partners hero: the accent half of the H1 is plain text (no gradient text) */
+.guide-hero__title .guide-hero__accent {
+  background: none; -webkit-background-clip: border-box; background-clip: border-box;
+  -webkit-text-fill-color: currentColor; color: inherit;
+}
+
+/* r10 commerce rules (file owned by the commerce lead): same selectors, one step more specific, on-scale values */
+main.v3-profile-page.v6 .v3-activity-panel--empty > .section-lead > h2:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-20); line-height: var(--lh-head); }
+main.v3-profile-page.v6 .v3-profile-action-column .registration-card__mobile-route-body .registration-card__state-list > p:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
+main.v3-profile-page.v6 .v3-profile-action-column .registration-card__mobile-route-body .registration-card__state-list > p > *:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { line-height: var(--lh-body); }

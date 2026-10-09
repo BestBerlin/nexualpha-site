@@ -100,7 +100,7 @@
 .home-refinement .rebate-ticker__note { padding-block: 14px; border-block-start: 1px solid var(--hfs-line); }
 .home-refinement .rebate-ticker__note:first-child { border-block-start: 0; }
 .home-refinement .rebate-ticker__badge { color: var(--hfs-quiet); font-size: 12px; font-weight: 600; letter-spacing: 0.02em; }
-.home-refinement .rebate-ticker__text { color: #cdd5e0; font-size: 14px; line-height: 1.5; }
+.home-refinement .rebate-ticker__text { color: #cdd5e0; font-size: 14px; line-height: var(--lh-body, 1.55); }
 .home-refinement .rebate-ticker__item { min-block-size: 32px; color: var(--hfs-accent); font-size: 13px; text-decoration-color: rgba(134, 162, 255, 0.4); }
 .home-refinement .rebate-ticker__item:hover { color: var(--hfs-ink); text-decoration-color: currentColor; }
 @keyframes hfs-pop { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
@@ -140,7 +140,7 @@
 }
 .home-refinement .lean-hero .registration-card__code-section--home-identity .registration-card__code-value {
   font-size: 28px;
-  line-height: 1.1;
+  line-height: var(--lh-head, 1.15);
   letter-spacing: 0.06em;
   font-variant-numeric: tabular-nums;
 }
@@ -152,7 +152,7 @@
   transition: background-color var(--hfs-fast) ease, border-color var(--hfs-fast) ease, transform 120ms ease;
 }
 .home-refinement .lean-hero .registration-card__code-section--home-identity .registration-card__copy-btn:active { transform: scale(0.94); }
-.home-refinement .lean-hero .registration-card__code-section--home-identity .registration-card__code-benefit { font-size: 14px; line-height: 1.45; color: #4fd394; }
+.home-refinement .lean-hero .registration-card__code-section--home-identity .registration-card__code-benefit { font-size: 14px; line-height: var(--lh-body, 1.55); color: #4fd394; }
 
 /* preflight + CTA */
 .home-refinement .lean-hero .registration-card--compact .registration-card__action-group { gap: 16px; padding-block: 16px 18px; }
@@ -161,8 +161,8 @@
   padding: 0;
   border: 0;
 }
-.home-refinement .lean-hero .registration-card--compact .registration-card__preflight strong { color: #8fe3b7; font-size: 13px; font-weight: 650; }
-.home-refinement .lean-hero .registration-card--compact .registration-card__preflight span { color: #b7c1ce; font-size: 14px; line-height: 1.5; }
+.home-refinement .lean-hero .registration-card--compact .registration-card__preflight strong { color: #8fe3b7; font-size: 13px; font-weight: 600; }
+.home-refinement .lean-hero .registration-card--compact .registration-card__preflight span { color: #b7c1ce; font-size: 14px; line-height: var(--lh-body, 1.55); }
 .home-refinement .lean-hero .registration-card--compact .registration-card__primary-btn {
   position: relative;
   min-block-size: 54px;
@@ -172,7 +172,7 @@
   background: var(--hfs-cta);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 10px 28px -12px rgba(31, 111, 239, 0.75);
   font-size: 16px;
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: -0.005em;
   transition: background-color var(--hfs-fast) ease, box-shadow 200ms ease, transform 120ms ease;
 }
@@ -223,8 +223,8 @@
   background: rgba(49, 92, 207, 0.08);
   transition: border-color var(--hfs-fast) ease, background-color var(--hfs-fast) ease;
 }
-.home-refinement .br-entry-link span { grid-column: 1; color: var(--hfs-ink); font-size: 15px; font-weight: 650; line-height: 1.35; }
-.home-refinement .br-entry-link small { grid-column: 1; color: var(--hfs-muted); font-size: 13px; line-height: 1.4; }
+.home-refinement .br-entry-link span { grid-column: 1; color: var(--hfs-ink); font-size: 15px; font-weight: 600; line-height: var(--lh-head, 1.15); }
+.home-refinement .br-entry-link small { grid-column: 1; color: var(--hfs-muted); font-size: 13px; line-height: var(--lh-body, 1.55); }
 .home-refinement .br-entry-link::after {
   content: "";
   grid-column: 2;
@@ -260,7 +260,7 @@
   font-family: inherit;
   font-size: 13px;
   font-weight: 500;
-  line-height: 1;
+  line-height: var(--lh-tight, 1.05);
   letter-spacing: 0;
   text-transform: none;
 }

@@ -3696,13 +3696,13 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
           <div
             className={isPriorityTwoVenueDirectAnswer ? "v3-compare-reading-metadata" : "v3-gold-pair-banner"}
           >
-            <span style={{ color: "#fdb022", fontWeight: 800, fontSize: "0.875rem", letterSpacing: "0.02em" }}>
+            <span style={{ color: "#fdb022", fontWeight: 600, fontSize: "0.875rem", letterSpacing: "0.02em" }}>
                {[activeGoldPair.left, activeGoldPair.right].every((slug) => publicVenueAccess(slug, locale).commercialClaim.status === "verified" && hasReviewedDecisionSource(slug))
                 ? (activeGoldPair.title[locKey] || activeGoldPair.title.en)
                 : (isZhLoc ? zhText(locale, "官方资料对比", "官方資料對比") : (compareLabels.official || ({ de: "Vergleich mit offiziellen Quellen", ja: "公式ソース比較", ko: "공식 출처 비교", tr: "Resmî kaynak karşılaştırması", ar: "مقارنة المصادر الرسمية", "pt-BR": "Comparação de fontes oficiais", fr: "Comparaison des sources officielles", ru: "Сравнение по официальным источникам", id: "Perbandingan sumber resmi", vi: "So sánh theo nguồn chính thức", it: "Confronto delle fonti ufficiali" }[locale] || "Official-source comparison")))}
             </span>
             <span style={{ color: "rgba(255, 255, 255, 0.3)" }}>|</span>
-            <span style={{ color: "#e2e8f0", fontSize: "0.8125rem", fontWeight: 500 }}>
+            <span style={{ color: "#e2e8f0", fontSize: "0.875rem", fontWeight: 500 }}>
               {[activeGoldPair.left, activeGoldPair.right].every((slug) => publicVenueAccess(slug, locale).commercialClaim.status === "verified" && hasReviewedDecisionSource(slug))
                 ? (activeGoldPair.tagline[locKey] || activeGoldPair.tagline.en)
                 : (isZhLoc ? zhText(locale, "核对费率、产品、地区资格与来源日期", "核對費率、產品、地區資格與來源日期") : ({ es: "Compara comisiones, productos, elegibilidad regional y fecha de la fuente", de: "Gebühren, Produkte, regionale Eignung und Quelldatum prüfen", ja: "手数料、商品、地域資格、出典日を確認", ko: "수수료, 상품, 지역 자격과 출처 날짜를 확인하세요", tr: "Ücretleri, ürünleri, bölgesel uygunluğu ve kaynak tarihini kontrol edin", ar: "تحقق من الرسوم والمنتج والأهلية الإقليمية وتاريخ المصدر", "pt-BR": "Confira taxas, produtos, elegibilidade regional e data da fonte", fr: "Comparez frais, produits, éligibilité régionale et dates des sources", ru: "Сравните комиссии, продукты, региональную доступность и даты источников", id: "Bandingkan biaya, produk, kelayakan wilayah, dan tanggal sumber", vi: "So sánh phí, sản phẩm, điều kiện theo khu vực và ngày nguồn", it: "Confronta commissioni, prodotti, idoneità regionale e date delle fonti" }[locale] || "Compare fees, products, regional eligibility and source dates"))}

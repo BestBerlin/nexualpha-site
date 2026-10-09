@@ -81,8 +81,9 @@
   --t-display: clamp(2.75rem, 1.7rem + 4.4vw, 6rem);
 
   --lh-tight: 1.05;
-  --lh-snug: 1.2;
-  --lh-body: 1.6;
+  --lh-snug: 1.15;
+  --lh-head: 1.15;
+  --lh-body: 1.55;
   --track-display: -0.035em;
   --track-heading: -0.02em;
   --track-label: 0.01em;

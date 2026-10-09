@@ -19,7 +19,7 @@
   color: #7dd3fc;
   font-family: var(--font-mono, ui-monospace, monospace);
   font-size: .72rem;
-  font-weight: 750;
+  font-weight: 600;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
@@ -28,7 +28,7 @@
   margin: 0;
   color: #f4f7fb;
   font-size: clamp(1.2rem, 2.5vw, 1.7rem);
-  line-height: 1.25;
+  line-height: var(--lh-head, 1.15);
 }
 
 .fee-terminal__answer-grid {
@@ -41,7 +41,7 @@
   margin: 0;
   color: #aebdce;
   font-size: .86rem;
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
 }
 
 .fee-terminal__answer-grid strong {
@@ -64,7 +64,7 @@
   color: #bae6fd;
   background: rgba(125, 211, 252, .08);
   font-size: .78rem;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -83,7 +83,7 @@
 .fee-terminal__next-step strong { color: #f4f7fb; font-size: .9rem; }
 .fee-terminal__next-step span { color: #9eafc3; font-size: .78rem; margin-top: .2rem; }
 .fee-terminal__next-step-actions { display: flex; gap: .55rem; flex-wrap: wrap; justify-content: flex-end; }
-.fee-terminal__next-step-actions a { display: inline-flex; align-items: center; min-height: 38px; padding: .55rem .8rem; border-radius: 8px; font-size: .78rem; font-weight: 700; text-decoration: none; }
+.fee-terminal__next-step-actions a { display: inline-flex; align-items: center; min-height: 38px; padding: .55rem .8rem; border-radius: 8px; font-size: .78rem; font-weight: 600; text-decoration: none; }
 .fee-terminal__next-step-primary { color: #08131b; background: #36d399; }
 .fee-terminal__next-step-secondary { color: #d8f7eb; border: 1px solid rgba(54, 211, 153, .45); background: rgba(54, 211, 153, .08); }
 @media (max-width: 640px) {
@@ -103,7 +103,7 @@
   align-items: center;
   gap: 6px;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #38bdf8;
   font-family: var(--font-mono, ui-monospace, monospace);
   letter-spacing: 0.06em;
@@ -127,7 +127,7 @@
 
 .fee-terminal__title {
   font-size: clamp(1.5rem, 3.2vw, 2.25rem);
-  font-weight: 750;
+  font-weight: 600;
   color: #ffffff;
   letter-spacing: -0.03em;
   margin: 0 0 0.5rem;
@@ -372,7 +372,7 @@
     margin: 0;
     color: #94a3b8;
     font-size: 0.75rem;
-    line-height: 1.45;
+    line-height: var(--lh-body, 1.55);
   }
 
   .fee-terminal__expand-btn {
@@ -384,7 +384,7 @@
     color: #bae6fd;
     font: inherit;
     font-size: 0.8125rem;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
   }
 
@@ -408,14 +408,14 @@
 .fee-terminal__rate-main {
   color: #e6f6ff;
   font-size: 0.82rem;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
   white-space: normal;
 }
 
 .fee-terminal__rate-meta {
   color: #8da2b8;
   font-size: 0.68rem;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
   white-space: normal;
 }
 
@@ -425,7 +425,7 @@
   min-height: 24px;
   color: #7dd3fc;
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
   width: fit-content;
 }
@@ -438,7 +438,7 @@
 .fee-terminal__rate-details {
   color: #9fb0c4;
   font-size: 0.68rem;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
 }
 
 .fee-terminal__rate-details summary {
@@ -448,7 +448,7 @@
   width: fit-content;
   cursor: pointer;
   color: #b7c5d6;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .fee-terminal__rate-details p {
@@ -473,8 +473,8 @@
   background: rgba(148, 163, 184, 0.08);
   color: #93a4b8;
   font-size: 0.68rem;
-  font-weight: 650;
-  line-height: 1.25;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
   white-space: normal;
 }
 
@@ -485,7 +485,7 @@
 .fee-terminal__rebate-chip--verified,
 .fee-terminal__net-rate {
   color: #34d399;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .fee-terminal__trend-tag--pending {

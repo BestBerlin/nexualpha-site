@@ -89,7 +89,7 @@
   display: inline-flex;
   align-items: center;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   font-family: var(--font-mono, monospace);
   padding: 4px 10px;
   border-radius: 6px;
@@ -101,7 +101,7 @@
 .topic-header__category {
   display: inline-block;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: 4px 10px;
   border-radius: 6px;
   color: #34d399;
@@ -116,11 +116,11 @@
 
 .topic-header__title {
   font-size: clamp(1.85rem, 3.6vw, 2.75rem);
-  font-weight: 850;
+  font-weight: 600;
   color: #ffffff;
   letter-spacing: -0.03em;
   margin: 0 0 16px;
-  line-height: 1.2;
+  line-height: var(--lh-head, 1.15);
 }
 
 .topic-header__subtitle {
@@ -128,7 +128,7 @@
   color: #94a3b8;
   max-width: 900px;
   margin: 0 0 24px;
-  line-height: 1.6;
+  line-height: var(--lh-body, 1.55);
 }
 
 .topic-header__pills {
@@ -154,7 +154,7 @@
   color: #cbd5e1;
   cursor: pointer;
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 600;
   list-style: none;
 }
 
@@ -177,7 +177,7 @@
 
 .topic-decision-rail__eyebrow {
   color: #7dd3fc;
-  font: 700 0.7rem/1.2 var(--font-mono, monospace);
+  font: 700 0.7rem/var(--lh-head, 1.15) var(--font-mono, monospace);
   letter-spacing: 0.12em;
 }
 
@@ -191,7 +191,7 @@
   margin: 0;
   color: #a7b6c8;
   font-size: 0.86rem;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 .topic-source-detail {
@@ -212,7 +212,7 @@
   color: #dbeafe;
   cursor: pointer;
   font-size: 0.875rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .topic-source-detail > summary:focus-visible {
@@ -239,7 +239,7 @@
   display: block;
   margin-top: 8px;
   color: #bae6fd;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 .topic-section-disclosure {
@@ -264,7 +264,7 @@
   background: rgba(15, 23, 42, 0.55);
   cursor: pointer;
   font-size: 0.86rem;
-  font-weight: 700;
+  font-weight: 600;
   list-style: none;
 }
 
@@ -296,7 +296,7 @@
     white-space: nowrap;
     overflow-wrap: normal;
     word-break: normal;
-    line-height: 1.05;
+    line-height: var(--lh-tight, 1.05);
     padding: 0.3rem 0.2rem;
     font-size: 0.875rem;
   }
@@ -304,7 +304,7 @@
   .topic-nav-strip--tracks > .topic-nav-btn > span:first-child {
     flex: 0 0 auto;
     font-size: 0.82rem;
-    line-height: 1;
+    line-height: var(--lh-tight, 1.05);
   }
 
   .topic-nav-strip--tracks > .topic-nav-btn > .topic-nav-label {
@@ -339,13 +339,13 @@
 
   .topic-header__title {
     font-size: clamp(1.45rem, 8vw, 2.05rem);
-    line-height: 1.16;
+    line-height: var(--lh-head, 1.15);
     letter-spacing: -0.025em;
     margin-bottom: 0.65rem;
   }
 
   .topic-header__subtitle {
-    line-height: 1.5;
+    line-height: var(--lh-body, 1.55);
     margin-bottom: 0.7rem;
   }
 
@@ -460,10 +460,10 @@
 
 .topic-stat-card__value {
   font-size: 1.75rem;
-  font-weight: 800;
+  font-weight: 600;
   color: #38bdf8;
   font-family: var(--font-mono, monospace);
-  line-height: 1.1;
+  line-height: var(--lh-head, 1.15);
   margin-bottom: 4px;
 }
 
@@ -495,7 +495,7 @@
 
 .topic-section__title {
   font-size: 1.6rem;
-  font-weight: 800;
+  font-weight: 600;
   color: #ffffff;
   letter-spacing: -0.02em;
   margin: 0 0 8px;
@@ -508,7 +508,7 @@
   font-size: 0.9375rem;
   color: #94a3b8;
   margin: 0;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 /* 痛点卡片网格 */
@@ -545,7 +545,7 @@
 
 .topic-pain-card__title {
   font-size: 1.0625rem;
-  font-weight: 750;
+  font-weight: 600;
   color: #fca5a5;
   margin: 0 0 10px;
 }
@@ -553,7 +553,7 @@
 .topic-pain-card__desc {
   font-size: 0.875rem;
   color: #cbd5e1;
-  line-height: 1.6;
+  line-height: var(--lh-body, 1.55);
   margin: 0;
 }
 
@@ -580,7 +580,7 @@
 
 .topic-eval-card h4 {
   font-size: 0.9375rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #38bdf8;
   margin: 0 0 6px;
 }
@@ -588,7 +588,7 @@
 .topic-eval-card p {
   font-size: 0.875rem;
   color: #94a3b8;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
   margin: 0;
 }
 
@@ -613,7 +613,7 @@
   background: rgba(30, 41, 59, 0.7);
   padding: 14px 16px;
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #94a3b8;
@@ -643,7 +643,7 @@
 
 .topic-platform-name {
   font-size: 1.05rem;
-  font-weight: 800;
+  font-weight: 600;
   color: #ffffff;
 }
 
@@ -655,7 +655,7 @@
 .topic-badge-pill {
   display: inline-block;
   font-size: 0.6875rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: 2px 8px;
   border-radius: 4px;
   color: #f59e0b;
@@ -668,13 +668,13 @@
 .topic-score-cell {
   font-family: var(--font-mono, monospace);
   font-size: 1.25rem;
-  font-weight: 850;
+  font-weight: 600;
   color: #10b981;
 }
 
 .topic-net-fee {
   color: #38bdf8;
-  font-weight: 700;
+  font-weight: 600;
   font-family: var(--font-mono, monospace);
 }
 
@@ -686,7 +686,7 @@
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 0.8125rem;
-  font-weight: 750;
+  font-weight: 600;
   text-decoration: none;
   background: linear-gradient(135deg, #0369a1 0%, #0369a1 100%);
   color: #ffffff;
@@ -733,16 +733,16 @@
 
 .topic-pitfall-card h3 {
   font-size: 0.9375rem;
-  font-weight: 750;
+  font-weight: 600;
   color: #fde68a;
   margin: 0 0 10px;
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
 }
 
 .topic-pitfall-card p {
   font-size: 0.875rem;
   color: #cbd5e1;
-  line-height: 1.6;
+  line-height: var(--lh-body, 1.55);
   margin: 0;
 }
 
@@ -767,7 +767,7 @@
 
 .topic-faq-q {
   font-size: 1.05rem;
-  font-weight: 750;
+  font-weight: 600;
   color: #ffffff;
   margin: 0 0 10px;
   display: flex;
@@ -783,7 +783,7 @@
 .topic-faq-a {
   font-size: 0.9375rem;
   color: #94a3b8;
-  line-height: 1.65;
+  line-height: var(--lh-body, 1.55);
   margin: 0;
   padding-left: 26px;
 }
@@ -810,7 +810,7 @@
 
 .topic-tg-content h3 {
   font-size: 1.25rem;
-  font-weight: 800;
+  font-weight: 600;
   color: #ffffff;
   margin: 0 0 6px;
 }
@@ -841,7 +841,7 @@
   padding: 3px 8px;
   border-radius: 4px;
   border: 1px solid rgba(56, 189, 248, 0.3);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .topic-tg-cmd-desc {
@@ -856,7 +856,7 @@
   padding: 12px 24px;
   border-radius: 10px;
   font-size: 0.9375rem;
-  font-weight: 750;
+  font-weight: 600;
   color: #ffffff;
   background: #0369a1;
   text-decoration: none;
@@ -902,30 +902,30 @@
 
 .topic-matrix-card__tag {
   font-size: 0.6875rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #38bdf8;
   margin-bottom: 8px;
 }
 
 .topic-matrix-card__title {
   font-size: 0.9375rem;
-  font-weight: 750;
+  font-weight: 600;
   color: #ffffff;
   margin: 0 0 8px;
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
 }
 
 .topic-matrix-card__desc {
   font-size: 0.8125rem;
   color: #94a3b8;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
   margin: 0 0 14px;
   flex-grow: 1;
 }
 
 .topic-matrix-card__arrow {
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #38bdf8;
 }
 
@@ -988,7 +988,7 @@
   display: inline-flex;
   margin-bottom: 0.35rem;
   color: #7dd3fc;
-  font: 700 0.68rem/1.2 var(--font-mono, monospace);
+  font: 700 0.68rem/var(--lh-head, 1.15) var(--font-mono, monospace);
   letter-spacing: 0.11em;
   text-transform: uppercase;
 }
@@ -997,7 +997,7 @@
   margin: 0 0 0.75rem;
   color: #b6c4d5;
   font-size: 0.88rem;
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
 }
 
 .topic-nav-strip--intent {
@@ -1022,8 +1022,8 @@
   cursor: pointer;
   font: inherit;
   font-size: 0.82rem;
-  font-weight: 800;
-  line-height: 1.2;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
   overflow-wrap: anywhere;
   text-align: center;
 }
@@ -1071,8 +1071,8 @@
   color: #e0f2fe;
   cursor: pointer;
   font-size: 0.94rem;
-  font-weight: 800;
-  line-height: 1.25;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
   overflow-wrap: anywhere;
 }
 
@@ -1084,7 +1084,7 @@
   color: #031827;
   background: #7dd3fc;
   font-size: 0.7rem;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .topic-derivatives-route-detail > summary:focus-visible {
@@ -1096,7 +1096,7 @@
 .topic-derivatives-route-detail li {
   color: #94a3b8;
   font-size: 0.84rem;
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
   overflow-wrap: anywhere;
 }
 
@@ -1122,7 +1122,7 @@
   color: #cbd5e1;
   background: rgba(2, 6, 23, 0.28);
   font-size: 0.78rem;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
 }
 
 .topic-derivatives-evidence-next a {
@@ -1130,7 +1130,7 @@
   display: inline-flex;
   align-items: center;
   color: #7dd3fc;
-  font-weight: 800;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -1185,7 +1185,7 @@
   min-height: 44px;
   box-sizing: border-box;
   padding-block: 10px;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
   overflow-wrap: anywhere;
 }
 .topic-telegram-disclosure > summary:focus-visible {

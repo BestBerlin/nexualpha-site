@@ -59,9 +59,9 @@
 
 .lean-hero__title {
   font-size: clamp(2.2rem, 3.8vw, 3.25rem);
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
-  line-height: 1.18;
+  line-height: var(--lh-head, 1.15);
   letter-spacing: -0.04em;
   margin: 0;
   text-wrap: balance;
@@ -73,7 +73,7 @@
 .lean-hero__subtitle {
   font-size: clamp(1rem, 1.5vw, 1.0625rem);
   color: #8b99ab;
-  line-height: 1.65;
+  line-height: var(--lh-body, 1.55);
   margin: 0;
   max-width: 38rem;
   text-wrap: pretty;
@@ -97,7 +97,7 @@
   background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(99, 102, 241, 0.2) 100%) !important;
   color: #38bdf8 !important;
   font-size: 0.9375rem;
-  font-weight: 650;
+  font-weight: 600;
   min-height: 44px;
   padding: 0.8rem 1.4rem;
   border-radius: 10px !important;
@@ -147,7 +147,7 @@
   color: #d4d4d8 !important;
   text-decoration: none;
   font-size: 0.9375rem;
-  font-weight: 550;
+  font-weight: 500;
   min-height: 44px;
   padding: 0.8rem 1.25rem;
   border-radius: 10px;
@@ -193,7 +193,7 @@
   content: "·";
   margin-left: 0.75rem;
   color: rgba(255, 255, 255, 0.2);
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .lean-hero__pill:last-child::after {
@@ -375,10 +375,10 @@
 
 .telemetry-panel__cell-val {
   font-size: 28px;
-  font-weight: 750;
+  font-weight: 600;
   color: #38bdf8;
   letter-spacing: -0.03em;
-  line-height: 1.15;
+  line-height: var(--lh-head, 1.15);
   margin: 2px 0 4px;
   font-variant-numeric: tabular-nums;
   font-family: var(--font-ui);
@@ -394,7 +394,7 @@
 .telemetry-panel__cell-sub {
   font-size: 0.75rem;
   color: #a1a1aa;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
 }
 
 .telemetry-panel__footer {
@@ -498,7 +498,7 @@
   }
   .lean-hero__subtitle {
     font-size: 0.94rem;
-    line-height: 1.52;
+    line-height: var(--lh-body, 1.55);
     margin-bottom: 0.55rem;
   }
   .lean-hero__actions {
@@ -563,7 +563,7 @@
   }
   .telemetry-panel__cell-sub {
     font-size: 0.6875rem;
-    line-height: 1.25;
+    line-height: var(--lh-head, 1.15);
   }
   .telemetry-panel__footer {
     padding: 10px 0 0;
@@ -597,7 +597,7 @@
   border: 1px solid rgba(38, 152, 219, 0.3);
   color: #60c8f5;
   font-size: 0.8125rem;
-  font-weight: 550;
+  font-weight: 500;
   text-decoration: none;
   transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
@@ -727,7 +727,7 @@
 
 :lang(ar) .lean-hero__title,
 :lang(he) .lean-hero__title {
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
   direction: rtl;
 }
 

@@ -211,10 +211,6 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
     <section className="bleed-analyzer-section v2-shell">
       <div className="bleed-analyzer__container">
         <header className="bleed-analyzer__header">
-          <div className="bleed-analyzer__badge">
-            <span className="bleed-analyzer__pulse"></span>
-            {ui.badge}
-          </div>
           <HeadingTag className="bleed-analyzer__title">{ui.title}</HeadingTag>
           <p className="bleed-analyzer__subtitle">{ui.subtitle}</p>
         </header>
@@ -291,7 +287,6 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
           {/* 右侧：双轨流光对决与动态诊断卡片 */}
           <div className="bleed-analyzer__verdict-card">
             <div className="bleed-verdict__top">
-              <span className="bleed-verdict__tag">{ui.diagnosis}</span>
               <span className="bleed-verdict__venue" translate="no" lang="en">{db.name}</span>
             </div>
 

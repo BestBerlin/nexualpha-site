@@ -15,7 +15,7 @@
   padding: 14px 0;
   color: var(--v3-accent, #50ddb5);
   cursor: pointer;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .treasury-evidence-checklist__body {
@@ -27,7 +27,7 @@
   max-width: 780px;
   margin: 0;
   font-size: clamp(1.15rem, 2.4vw, 1.55rem);
-  line-height: 1.25;
+  line-height: var(--lh-head, 1.15);
 }
 
 .treasury-evidence-checklist__intro p {
@@ -47,7 +47,7 @@
 .treasury-evidence-checklist__controls label {
   color: var(--v3-muted, #a5b4c7);
   font-size: 0.86rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .treasury-evidence-checklist__controls select {
@@ -87,7 +87,7 @@
   min-height: 44px;
   align-items: center;
   color: var(--v3-accent, #50ddb5);
-  font-weight: 800;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -98,7 +98,7 @@
 
 .treasury-evidence-checklist__status strong {
   color: var(--v3-text, #e6edf6);
-  font-weight: 750;
+  font-weight: 600;
 }
 
 .treasury-evidence-checklist__status--uncertain {
@@ -129,7 +129,7 @@
 }
 
 .treasury-evidence-checklist__step > summary span {
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .treasury-evidence-checklist__step > summary strong {
@@ -170,7 +170,7 @@
   background: rgba(148, 163, 184, 0.08);
   color: var(--v3-text, #e6edf6);
   font: inherit;
-  font-weight: 800;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -189,14 +189,14 @@
 .treasury-evidence-checklist dt {
   color: var(--v3-accent, #50ddb5);
   font-size: 0.8rem;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .treasury-evidence-checklist dd {
   margin: 0 0 8px;
   color: var(--v3-muted, #a5b4c7);
   overflow-wrap: anywhere;
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
 }
 
 .treasury-evidence-checklist :is(summary, a, button, select):focus-visible {

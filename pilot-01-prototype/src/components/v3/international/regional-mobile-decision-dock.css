@@ -42,8 +42,8 @@
     max-width: 100%;
     overflow-wrap: anywhere;
     font-size: 12px;
-    font-weight: 800;
-    line-height: 1.15;
+    font-weight: 600;
+    line-height: var(--lh-head, 1.15);
   }
 
   .regional-mobile-decision-dock a:focus-visible {

@@ -3062,7 +3062,6 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
         {/* 头部 Hero 区域 */}
         <div className="topic-header">
           <div className="topic-header__badge-row">
-            <span className="topic-header__badge">{topicBadge}</span>
             <span className="topic-header__date">{sourceBoundUi ? `${sourceBoundUi.updated}: ${topic.lastUpdated}` : topicUi ? `${topicUi.updated}: ${topic.lastUpdated}` : staticUi.updated ? `${staticUi.updated}: ${topic.lastUpdated}` : isZh ? `${zhCopy(isHant, "最后量化更新")}：${topic.lastUpdated}` : `Last Updated: ${topic.lastUpdated}`}</span>
           </div>
           <h1 className="topic-header__title">{topicTitle}</h1>
@@ -3367,12 +3366,12 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
                         <span>→</span>
                       </a>
                       {usePartnerRoute && p.inviteCode && p.inviteCode !== "N/A" && (
-                        <div style={{ fontSize: "0.6875rem", color: "#94a3b8", marginTop: "4px" }}>
+                        <div style={{ fontSize: "0.75rem", color: "#94a3b8", marginTop: "4px" }}>
                           {isZh ? `${zhCopy(isHant, "邀请码")}: ${p.inviteCode}` : `Code: ${p.inviteCode}`}
                         </div>
                       )}
                       {p.bonus && (
-                        <div style={{ fontSize: "0.6875rem", color: "#f59e0b", marginTop: "2px" }}>
+                        <div style={{ fontSize: "0.75rem", color: "#f59e0b", marginTop: "2px" }}>
                           {isZh ? zhCopy(isHant, p.bonus, p.bonusZhHant) : p.bonus}
                         </div>
                       )}

@@ -69,7 +69,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-weight: 650;
+  font-weight: 600;
 }
 #top.v3-compare-page .v3-compare-sticky-bar__btn {
   flex: 0 0 auto;
@@ -82,7 +82,7 @@
   background: transparent;
   color: var(--ink);
   font-size: 13.5px;
-  font-weight: 650;
+  font-weight: 600;
   white-space: nowrap;
   box-shadow: none;
 }
@@ -91,7 +91,7 @@
   #top.v3-compare-page .v3-compare-sticky-bar__col { gap: 8px; }
   #top.v3-compare-page .v3-compare-sticky-bar__col + .v3-compare-sticky-bar__col { padding-inline-start: 12px; }
   #top.v3-compare-page .v3-compare-sticky-bar__col > strong { display: none; }
-  #top.v3-compare-page .v3-compare-sticky-bar__btn { flex: 1 1 auto; justify-content: center; padding-inline: 10px; font-size: 13px; white-space: normal; text-align: center; line-height: 1.25; }
+  #top.v3-compare-page .v3-compare-sticky-bar__btn { flex: 1 1 auto; justify-content: center; padding-inline: 10px; font-size: 13px; white-space: normal; text-align: center; line-height: var(--lh-head, 1.15); }
 }
 
 /* ---------- One registration action, everywhere on the page ----------
@@ -140,7 +140,7 @@
   margin: 0;
   max-inline-size: 19em;
   font-size: clamp(2rem, 1.25rem + 2.4vw, 3rem);
-  line-height: 1.08;
+  line-height: var(--lh-tight, 1.05);
   letter-spacing: -.022em;
   text-wrap: balance;
 }
@@ -202,7 +202,7 @@
   border: 0;
   color: var(--muted);
   font-size: 13px;
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
   max-inline-size: 60rem;
 }
 /* Some locales render the index as a direct child of main, outside the hero shell. */
@@ -263,10 +263,10 @@
 #top.v3-compare-page .v3-matrix-title {
   margin: 0;
   font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
-  line-height: 1.15;
+  line-height: var(--lh-head, 1.15);
   letter-spacing: -.015em;
 }
-#top.v3-compare-page .v3-matrix-subtitle { margin: 0; max-inline-size: 76ch; color: var(--muted); font-size: 15px; line-height: 1.6; }
+#top.v3-compare-page .v3-matrix-subtitle { margin: 0; max-inline-size: 76ch; color: var(--muted); font-size: 15px; line-height: var(--lh-body, 1.55); }
 
 #top.v3-compare-page .v3-matrix-table-wrap {
   margin: 0;
@@ -301,11 +301,11 @@
   text-align: start;
 }
 #top.v3-compare-page .v3-matrix-venue-brand { margin: 0; inline-size: 36px; block-size: 36px; }
-#top.v3-compare-page .v3-matrix-venue-name { font-size: 18px; font-weight: 700; letter-spacing: -.01em; margin: 0; }
+#top.v3-compare-page .v3-matrix-venue-name { font-size: 18px; font-weight: 600; letter-spacing: -.01em; margin: 0; }
 #top.v3-compare-page .v3-matrix-venue-badges { margin: 0; justify-self: end; }
 #top.v3-compare-page .v3-matrix-td--dim { background: transparent; }
-#top.v3-compare-page .v3-matrix-dim-title { display: block; font-size: 15px; font-weight: 650; line-height: 1.35; color: var(--ink); }
-#top.v3-compare-page .v3-matrix-dim-hint { display: block; margin-block-start: 4px; font-size: 13px; font-weight: 400; line-height: 1.5; color: var(--muted); }
+#top.v3-compare-page .v3-matrix-dim-title { display: block; font-size: 15px; font-weight: 600; line-height: var(--lh-head, 1.15); color: var(--ink); }
+#top.v3-compare-page .v3-matrix-dim-hint { display: block; margin-block-start: 4px; font-size: 13px; font-weight: 400; line-height: var(--lh-body, 1.55); color: var(--muted); }
 #top.v3-compare-page .v3-matrix-cell-stack { display: grid; justify-items: start; align-items: start; justify-content: stretch; gap: 8px; text-align: start; }
 #top.v3-compare-page .v3-matrix-cell-stack > * { justify-self: start; margin-inline: 0; }
 #top.v3-compare-page .v3-matrix-main-val {
@@ -313,12 +313,12 @@
   justify-content: flex-start;
   text-align: start;
   font-size: 15px;
-  font-weight: 650;
-  line-height: 1.45;
+  font-weight: 600;
+  line-height: var(--lh-body, 1.55);
   color: var(--ink);
 }
 #top.v3-compare-page .v3-matrix-main-val.is-pending { color: var(--muted); font-weight: 500; }
-#top.v3-compare-page .v3-matrix-sub-val { max-inline-size: 60ch; font-size: 13.5px; line-height: 1.6; color: var(--muted); text-align: start; }
+#top.v3-compare-page .v3-matrix-sub-val { max-inline-size: 60ch; font-size: 13.5px; line-height: var(--lh-body, 1.55); color: var(--muted); text-align: start; }
 #top.v3-compare-page .v3-matrix-sub-val a,
 #top.v3-compare-page .v3-por-audit-link { color: var(--blue-text); text-underline-offset: .2em; font-size: 13.5px; }
 #top.v3-compare-page .v3-por-pill.is-pending {
@@ -355,7 +355,7 @@
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
 }
 #top.v3-compare-page :is(.v3-matrix-code-chip, .v3-compare-final-choice-card__code) {
   display: inline-flex;
@@ -369,7 +369,7 @@
   color: var(--muted);
   font-size: 13px;
 }
-#top.v3-compare-page :is(.v3-matrix-code-chip, .v3-compare-final-choice-card__code) strong { color: var(--ink); font-weight: 650; letter-spacing: .02em; }
+#top.v3-compare-page :is(.v3-matrix-code-chip, .v3-compare-final-choice-card__code) strong { color: var(--ink); font-weight: 600; letter-spacing: .02em; }
 
 /* The pending drawer is the matrix footer, not another floating card. */
 #top.v3-compare-page .v3-matrix-pending-disclosure {
@@ -398,11 +398,11 @@
   margin: 0;
   max-inline-size: 26em;
   font-size: clamp(1.375rem, 1rem + 1.1vw, 1.875rem);
-  line-height: 1.2;
+  line-height: var(--lh-head, 1.15);
   letter-spacing: -.015em;
   text-wrap: balance;
 }
-#top.v3-compare-page .v3-compare-final-choice-card__head > p { margin: 0; max-inline-size: 46rem; font-size: 15px; line-height: 1.65; color: var(--muted); }
+#top.v3-compare-page .v3-compare-final-choice-card__head > p { margin: 0; max-inline-size: 46rem; font-size: 15px; line-height: var(--lh-body, 1.55); color: var(--muted); }
 #top.v3-compare-page .v3-compare-final-choice-card__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
@@ -423,10 +423,10 @@
 #top.v3-compare-page #compare-final-choice .v3-compare-final-choice-card__venue:first-child { padding-inline-end: clamp(24px, 3vw, 40px); }
 #top.v3-compare-page .v3-compare-final-choice-card__venue-head { gap: 12px; padding: 0; }
 #top.v3-compare-page .v3-compare-final-choice-card__venue-head img { inline-size: 32px; block-size: 32px; }
-#top.v3-compare-page .v3-compare-final-choice-card__venue-head strong { font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
+#top.v3-compare-page .v3-compare-final-choice-card__venue-head strong { font-size: 20px; font-weight: 600; letter-spacing: -.01em; }
 #top.v3-compare-page #compare-final-choice .v3-compare-final-choice-card__venue dl { display: grid; gap: 16px; margin: 0; padding: 0; }
 #top.v3-compare-page #compare-final-choice .v3-compare-final-choice-card__venue dt { margin: 0 0 4px; color: var(--muted); font-size: 12.5px; font-weight: 600; letter-spacing: .03em; text-transform: none; }
-#top.v3-compare-page #compare-final-choice .v3-compare-final-choice-card__venue dd { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink); max-inline-size: 56ch; }
+#top.v3-compare-page #compare-final-choice .v3-compare-final-choice-card__venue dd { margin: 0; font-size: 15px; line-height: var(--lh-body, 1.55); color: var(--ink); max-inline-size: 56ch; }
 #top.v3-compare-page .v3-compare-final-choice-card__action-row {
   margin-block-start: auto;
   padding: 4px 0 0;
@@ -444,7 +444,7 @@
   justify-content: center;
   border-radius: 10px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
 }
 #top.v3-compare-page .v3-compare-final-choice-card__action-row .v3-compare-final-choice-card__code { min-block-size: 48px; padding-inline: 14px; border-radius: 10px; }
@@ -522,7 +522,7 @@
   background: none;
   font-size: 16px;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
   color: var(--ink);
   transition: color .18s ease;
 }
@@ -530,7 +530,7 @@
 #top.v3-compare-page summary::marker { content: ""; }
 #top.v3-compare-page #compare-snapshot > summary > strong { font-size: 16px; font-weight: 600; }
 #top.v3-compare-page .v3-similar-disclosure > .v3-similar-disclosure__summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; padding-block: 14px; row-gap: 2px; }
-#top.v3-compare-page .v3-similar-disclosure__summary > h2 { grid-column: 1; margin: 0; font-size: 16px; font-weight: 600; line-height: 1.35; }
+#top.v3-compare-page .v3-similar-disclosure__summary > h2 { grid-column: 1; margin: 0; font-size: 16px; font-weight: 600; line-height: var(--lh-head, 1.15); }
 #top.v3-compare-page .v3-similar-disclosure__summary > span { grid-column: 1; font-size: 13.5px; color: var(--muted); }
 #top.v3-compare-page .v3-similar-disclosure__summary > b { grid-column: 2; grid-row: 1 / 3; align-self: center; }
 /* Drawers with no indicator of their own get the same plus. */
@@ -548,7 +548,7 @@
   color: var(--muted);
   font-size: 15px;
   font-weight: 400;
-  line-height: 1;
+  line-height: var(--lh-tight, 1.05);
   transition: transform .28s var(--r1-ease), border-color .18s ease, color .18s ease;
 }
 #top.v3-compare-page #compare-snapshot > summary > b { display: inline-grid !important; }
@@ -574,14 +574,14 @@
 #top.v3-compare-page .v3-faq-card { margin: 0; padding: 0; border: 0; }
 #top.v3-compare-page .v3-faq-card__header { margin: 0 0 20px; padding: 0; }
 #top.v3-compare-page .v3-faq-card__eyebrow { color: var(--muted); font-size: 13px; letter-spacing: .02em; text-transform: none; }
-#top.v3-compare-page .v3-faq-card__title { margin: 8px 0 6px; font-size: clamp(1.375rem, 1rem + 1vw, 1.75rem); line-height: 1.2; letter-spacing: -.012em; }
+#top.v3-compare-page .v3-faq-card__title { margin: 8px 0 6px; font-size: clamp(1.375rem, 1rem + 1vw, 1.75rem); line-height: var(--lh-head, 1.15); letter-spacing: -.012em; }
 #top.v3-compare-page .v3-faq-card__lead { margin: 0; color: var(--muted); font-size: 15px; }
 #top.v3-compare-page .v3-faq-list { gap: 0; border-block-start: 1px solid var(--r1-rule); }
 #top.v3-compare-page .v3-faq-item { margin: 0; border: 0; border-block-end: 1px solid var(--r1-rule); border-radius: 0; background: none; }
 #top.v3-compare-page .v3-faq-summary { min-block-size: 64px; padding: 16px 0; gap: 16px; }
 #top.v3-compare-page .v3-faq-summary-left { gap: 14px; align-items: baseline; }
-#top.v3-compare-page .v3-faq-q-text { font-size: 16px; font-weight: 600; line-height: 1.4; }
-#top.v3-compare-page .v3-faq-content { padding: 0 0 20px; padding-inline-start: 42px; max-inline-size: calc(68ch + 42px); color: var(--muted); font-size: 15px; line-height: 1.65; }
+#top.v3-compare-page .v3-faq-q-text { font-size: 16px; font-weight: 600; line-height: var(--lh-body, 1.55); }
+#top.v3-compare-page .v3-faq-content { padding: 0 0 20px; padding-inline-start: 42px; max-inline-size: calc(68ch + 42px); color: var(--muted); font-size: 15px; line-height: var(--lh-body, 1.55); }
 #top.v3-compare-page .v3-faq-arrow { color: var(--muted); font-size: 11px; transition: transform .28s var(--r1-ease); }
 #top.v3-compare-page .v3-faq-item[open] .v3-faq-arrow { transform: rotate(180deg); }
 
@@ -598,7 +598,7 @@
 #top.v3-compare-page .v3-versus-card--supporting > .v3-versus-side { padding: 24px; border: 1px solid var(--r1-rule); background: var(--surface-1); }
 #top.v3-compare-page .v3-versus-card--supporting > .v3-versus-side--left { border-start-start-radius: 12px; border-end-start-radius: 12px; }
 #top.v3-compare-page .v3-versus-card--supporting > .v3-versus-side--right { border-inline-start: 0; border-start-end-radius: 12px; border-end-end-radius: 12px; }
-#top.v3-compare-page .v3-versus-btn { min-block-size: 44px; padding: 0 18px; border-radius: 8px; font-weight: 700; }
+#top.v3-compare-page .v3-versus-btn { min-block-size: 44px; padding: 0 18px; border-radius: 8px; font-weight: 600; }
 
 /* ---------- Mobile matrix: every metric reads as a labelled pair ---------- */
 @media (max-width: 768px) {

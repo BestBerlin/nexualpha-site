@@ -26,7 +26,7 @@
 
 .apv__title {
   font-size: clamp(22px, 2.6vw, 32px);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink, #f5f7fa);
   margin: 0 0 10px;
   letter-spacing: -0.02em;
@@ -37,7 +37,7 @@
   color: var(--muted, #9aa5b5);
   max-inline-size: 60ch;
   margin: 0 auto;
-  line-height: 1.65;
+  line-height: var(--lh-body, 1.55);
 }
 
 /* Search block */
@@ -144,7 +144,7 @@
 
 .apv__result-headline {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
   margin-block-end: 14px;
   padding: 14px 18px;
   border-radius: 8px;
@@ -219,7 +219,7 @@
   font-size: 13px;
   color: var(--muted, #9aa5b5);
   margin: 4px 0 0;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 .apv__result-tip--danger {

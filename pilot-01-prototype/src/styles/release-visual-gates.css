@@ -45,9 +45,9 @@ img {
   color: var(--muted);
   font-family: var(--font-data);
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: .02em;
-  line-height: 1;
+  line-height: var(--lh-tight, 1.05);
 }
 
 .v2-brand-fallback--compact { width: 23px; height: 23px; font-size: 8px; }

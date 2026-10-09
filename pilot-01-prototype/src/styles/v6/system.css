@@ -10,9 +10,7 @@
 :is(main, .factbook-page).v6:not(.home-refinement) {
   /* tokens (base.css defines them on .v6 as well; repeated so the file is self-contained) */
   --t-12: 0.75rem; --t-14: 0.875rem; --t-16: 1rem;
-  --t-20: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
-  --t-28: clamp(1.5rem, 1.25rem + 1vw, 1.75rem);
-  --t-44: clamp(2rem, 1.5rem + 2.2vw, 2.75rem);
+  --t-20: 1.25rem; --t-28: 1.75rem; --t-44: 2.75rem; /* discrete; <= 640px steps in pages-inner-r4.css */
   --section-pad: clamp(72px, 9vw, 128px);
   --v6-gap: clamp(48px, 4.5vw, 64px);
   --v6-container: 1200px; --v6-gutter: 24px;
@@ -21,7 +19,7 @@
   --v6-hair: var(--hairline, rgba(180, 196, 211, 0.16));
   font-family: var(--v6-sans);
   font-size: var(--t-14);
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
   font-weight: 400;
 }
 main.v6:not(.home-refinement) { padding-block: var(--s-6, 24px) 0; }
@@ -36,17 +34,17 @@ main.v6:not(.home-refinement) { padding-block: var(--s-6, 24px) 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) :where(h1, h2, h3, h4, h5, h6, summary, button, [class*="__title"], [class*="__name"], [class*="venue-name"]) { font-weight: 600; }
 
 /* ---------- 2. headings ---------- */
-:is(main, .factbook-page).v6:not(.home-refinement) h1:not(#_):not(#_) { font-size: var(--t-44); line-height: 1.1; letter-spacing: -0.03em; font-weight: 600; text-wrap: balance; margin-block: 0 var(--s-6, 24px); max-inline-size: 20em; }
-:is(main, .factbook-page).v6:not(.home-refinement) h2:not(#_):not(#_) { font-size: var(--t-28); line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; text-wrap: balance; margin-block: 0 var(--s-4, 16px); }
-:is(main, .factbook-page).v6:not(.home-refinement) h3:not(#_):not(#_) { font-size: var(--t-20); line-height: 1.25; letter-spacing: -0.01em; font-weight: 600; margin-block: 0 var(--s-3, 12px); }
-:is(main, .factbook-page).v6:not(.home-refinement) :is(h4, h5, h6):not(#_):not(#_) { font-size: var(--t-16); line-height: 1.3; letter-spacing: 0; font-weight: 600; margin-block: 0 var(--s-2, 8px); }
+:is(main, .factbook-page).v6:not(.home-refinement) h1:not(#_):not(#_) { font-size: var(--t-44); line-height: var(--lh-head, 1.15); letter-spacing: -0.03em; font-weight: 600; text-wrap: balance; margin-block: 0 var(--s-6, 24px); max-inline-size: 20em; }
+:is(main, .factbook-page).v6:not(.home-refinement) h2:not(#_):not(#_) { font-size: var(--t-28); line-height: var(--lh-head, 1.15); letter-spacing: -0.02em; font-weight: 600; text-wrap: balance; margin-block: 0 var(--s-4, 16px); }
+:is(main, .factbook-page).v6:not(.home-refinement) h3:not(#_):not(#_) { font-size: var(--t-20); line-height: var(--lh-head, 1.15); letter-spacing: -0.01em; font-weight: 600; margin-block: 0 var(--s-3, 12px); }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(h4, h5, h6):not(#_):not(#_) { font-size: var(--t-16); line-height: var(--lh-head, 1.15); letter-spacing: 0; font-weight: 600; margin-block: 0 var(--s-2, 8px); }
 :is(main, .factbook-page).v6:not(.home-refinement) :is(h1, h2, h3, h4, h5, h6):not(#_):not(#_) :where(span, b, strong, bdi, a, em) { font-size: inherit; font-weight: inherit; letter-spacing: inherit; }
 
 /* ---------- 3. roles ---------- */
 /* lead copy directly under a heading */
-:is(main, .factbook-page).v6:not(.home-refinement) h1 + p:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) :where([class*="__lead"], [class*="subtitle"], [class*="-lead"]):not(#_):not(#_) { font-size: var(--t-20); line-height: 1.5; max-inline-size: 62ch; }
-:is(main, .factbook-page).v6:not(.home-refinement) h2 + p:not(#_):not(#_) { font-size: var(--t-16); line-height: 1.55; max-inline-size: 62ch; }
-:is(main, .factbook-page).v6:not(.home-refinement) :is(article, .news-detail__body, .factbook-section, .methodology-page__inner) p:not(#_):not(#_) { font-size: var(--t-16); line-height: 1.55; max-inline-size: 62ch; }
+:is(main, .factbook-page).v6:not(.home-refinement) h1 + p:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) :where([class*="__lead"], [class*="subtitle"], [class*="-lead"]):not(#_):not(#_) { font-size: var(--t-20); line-height: var(--lh-body, 1.55); max-inline-size: 62ch; }
+:is(main, .factbook-page).v6:not(.home-refinement) h2 + p:not(#_):not(#_) { font-size: var(--t-16); line-height: var(--lh-body, 1.55); max-inline-size: 62ch; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(article, .news-detail__body, .factbook-section, .methodology-page__inner) p:not(#_):not(#_) { font-size: var(--t-16); line-height: var(--lh-body, 1.55); max-inline-size: 62ch; }
 :is(main, .factbook-page).v6:not(.home-refinement) :is(p, li, dd):not(#_):not(#_) { max-inline-size: 62ch; }
 :is(main, .factbook-page).v6:not(.home-refinement) :is(td, th, summary, button, a, label, input, select, textarea, [class*="__cell"], [class*="-cell"]):not(#_):not(#_) { max-inline-size: none; }
 
@@ -55,15 +53,15 @@ main.v6:not(.home-refinement) { padding-block: var(--s-6, 24px) 0; }
   [class*="badge"], [class*="eyebrow"], [class*="kicker"], [class*="__label"], [class*="-label"], [class*="__tag"], [class*="-tag"],
   [class*="pill"], [class*="chip"], [class*="__meta"], [class*="-meta"], [class*="__note"], [class*="-note"], [class*="caption"],
   [class*="__date"], [class*="__source"], [class*="__kbd"], [class*="hint"]):not(#_):not(#_) {
-  font-size: var(--t-12); line-height: 1.4; letter-spacing: 0.01em;
+  font-size: var(--t-12); line-height: var(--lh-body, 1.55); letter-spacing: 0.01em;
 }
 /* headline numbers and money */
 :is(main, .factbook-page).v6:not(.home-refinement) :is([class*="figure"], [class*="__amount"], [class*="stat-val"], [class*="big-num"]):not(#_):not(#_) {
-  font-size: var(--t-28); line-height: 1.1; font-weight: 600; font-family: var(--v6-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+  font-size: var(--t-28); line-height: var(--lh-head, 1.15); font-weight: 600; font-family: var(--v6-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
 }
 /* inline values in tables and cards: 16 mono, never display size */
 :is(main, .factbook-page).v6:not(.home-refinement) :is([class*="metric-value"], [class*="main-val"], [class*="rate-main"], [class*="matrix-main"]):not(#_):not(#_) {
-  font-size: var(--t-16); line-height: 1.3; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: 0;
+  font-size: var(--t-16); line-height: var(--lh-head, 1.15); font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: 0;
 }
 /* copyable codes and commands */
 :is(main, .factbook-page).v6:not(.home-refinement) :is(code, pre, samp, kbd, [class*="code-val"], [class*="__code"] strong, [class*="__command"], [class*="__prompt"], [class*="sample-code"], .font-mono):not(#_):not(#_) {
@@ -73,7 +71,7 @@ main.v6:not(.home-refinement) { padding-block: var(--s-6, 24px) 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) :is([class*="code-value"], [class*="code-val"]):not(#_):not(#_) { font-size: var(--t-20); font-weight: 600; letter-spacing: 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) :is(.num, [class*="__num"], td.num):not(#_):not(#_) { font-variant-numeric: tabular-nums; }
 /* non-heading titles inside cards */
-:is(main, .factbook-page).v6:not(.home-refinement) :is(strong, p, span, div, a):where([class*="__title"], [class*="__name"], [class*="venue-name"]):not(#_):not(#_) { font-size: var(--t-16); line-height: 1.3; }
+:is(main, .factbook-page).v6:not(.home-refinement) :is(strong, p, span, div, a):where([class*="__title"], [class*="__name"], [class*="venue-name"]):not(#_):not(#_) { font-size: var(--t-16); line-height: var(--lh-head, 1.15); }
 
 /* ---------- 4. container: one width, one left edge; one gap between top-level blocks ---------- */
 main.v6:not(.home-refinement) > :not(script, style, [class*="sticky"], [class*="mobile-"], [class*="embed"], .mx-page, .br-primary-workbench):not(#_):not(#_) {
@@ -99,15 +97,15 @@ body:has(> #root > main.v6:not(.home-refinement)) {
 body:has(> #root > main.v6:not(.home-refinement)) .nx-ftr { margin-block-start: 0; }
 body:has(> #root > main.v6:not(.home-refinement)) .crawl-priority-links { margin-block: var(--v6-gap) 0; padding-block: 0 48px; border-block-start: 0; }
 body:has(> #root > main.v6:not(.home-refinement)) :is(.nx-hdr, .nx-ftr, .crawl-priority-links, .mobile-bottom-nav) :where(*:not(svg, svg *, .nx-brand__label, .nx-brand__label *)):not(#_):not(#_) { font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif; }
-body:has(> #root > main.v6:not(.home-refinement)) :is(.nx-ftr, .crawl-priority-links) :where(a, p, li, span, strong, b, summary, div, h2, h3, h4):not(#_):not(#_) { font-size: 0.875rem; line-height: 1.55; }
+body:has(> #root > main.v6:not(.home-refinement)) :is(.nx-ftr, .crawl-priority-links) :where(a, p, li, span, strong, b, summary, div, h2, h3, h4):not(#_):not(#_) { font-size: 0.875rem; line-height: var(--lh-body, 1.55); }
 body:has(> #root > main.v6:not(.home-refinement)) :is(.nx-ftr__title, .crawl-priority-links strong, .crawl-priority-links__intro strong):not(#_):not(#_) { font-weight: 600; }
-body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label, .clean-footer__copyright, .nx-search__kbd, .nx-lang__opt-code, .nx-lang__code, [class*="__eyebrow"], [class*="__group-title"], .crawl-priority-links__group > :first-child):not(#_):not(#_) { font-size: 0.75rem; line-height: 1.4; }
+body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label, .clean-footer__copyright, .nx-search__kbd, .nx-lang__opt-code, .nx-lang__code, [class*="__eyebrow"], [class*="__group-title"], .crawl-priority-links__group > :first-child):not(#_):not(#_) { font-size: 0.75rem; line-height: var(--lh-body, 1.55); }
 
 /* ---------- 5. disclosure rows: one pattern ---------- */
 :is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_) {
   display: flex; align-items: center; justify-content: space-between; gap: var(--s-4, 16px);
   min-block-size: 56px; padding-block: var(--s-3, 12px); padding-inline: 0;
-  list-style: none; cursor: pointer; font-size: var(--t-16); line-height: 1.35; font-weight: 600;
+  list-style: none; cursor: pointer; font-size: var(--t-16); line-height: var(--lh-head, 1.15); font-weight: 600;
   text-align: start;
 }
 :is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_)::-webkit-details-marker { display: none; }
@@ -145,7 +143,7 @@ body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label,
 /* ---------- 6. tables and summary headings ---------- */
 :is(main, .factbook-page).v6:not(.home-refinement) table :is(th, td):not(#_):not(#_) { padding-inline: var(--s-3, 12px); }
 :is(main, .factbook-page).v6:not(.home-refinement) table :is(th, td):first-child:not(#_):not(#_) { padding-inline-start: var(--s-4, 16px); }
-:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(h2, h3):not(#_):not(#_) { font-size: var(--t-20); line-height: 1.25; margin: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(h2, h3):not(#_):not(#_) { font-size: var(--t-20); line-height: var(--lh-head, 1.15); margin: 0; }
 
 /* ---------- 7. flex-basis voids and wrapping ---------- */
 /* a "flex: 1 1 320px" child inside a column-direction card turns the basis into HEIGHT; reset on narrow screens */
@@ -177,11 +175,11 @@ body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label,
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-venue-identity__badges > .v3-trust-metal-badge:not(#_):not(#_):not(#_):not(#_)::before { background: var(--accent, #1fe0c0); }
 
 /* ONE disclosure row: min-height 56, 16px / 500, trailing plus, hairline rows */
-:is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_):not(#_):not(#_) { font-weight: 500; font-size: var(--t-16); line-height: 1.35; min-block-size: 56px; }
-:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(h2, h3):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); font-weight: 500; line-height: 1.35; letter-spacing: 0; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_):not(#_):not(#_) { font-weight: 500; font-size: var(--t-16); line-height: var(--lh-head, 1.15); min-block-size: 56px; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(h2, h3):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); font-weight: 500; line-height: var(--lh-head, 1.15); letter-spacing: 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(small, span + span):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); font-weight: 400; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-summary-left:not(#_):not(#_):not(#_):not(#_) { gap: 0; }
-:is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-q-text:not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); font-weight: 500; line-height: 1.35; }
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-q-text:not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); font-weight: 500; line-height: var(--lh-head, 1.15); }
 :is(main, .factbook-page).v6:not(.home-refinement) :is(.v3-faq-list, .v3-faq-card) > details:not(#_):not(#_):not(#_):not(#_),
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-list > details.v3-faq-item:not(#_):not(#_):not(#_):not(#_) { border: 0; border-block-end: 1px solid var(--v6-hair); border-radius: 0; background: none; padding-inline: 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-faq-list > details.v3-faq-item:first-of-type:not(#_):not(#_):not(#_):not(#_) { border-block-start: 1px solid var(--v6-hair); }
@@ -211,7 +209,7 @@ body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label,
 /* tables: every body row is 56 high, content centred (Kraken region note fits in two 12px lines) */
 :is(main, .factbook-page).v6:not(.home-refinement) .mx-table tbody td:not(#_):not(#_):not(#_):not(#_) { vertical-align: middle; padding-block: 8px; }
 :is(main, .factbook-page).v6:not(.home-refinement) .mx-table tbody tr:not(#_):not(#_):not(#_):not(#_) { block-size: 56px; }
-:is(main, .factbook-page).v6:not(.home-refinement) .mx-td--region:not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); line-height: 1.35; }
+:is(main, .factbook-page).v6:not(.home-refinement) .mx-td--region:not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); line-height: var(--lh-head, 1.15); }
 }
 
 :is(main, .factbook-page).v6:not(.home-refinement) .mx-fee:not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; font-variant-numeric: tabular-nums; flex-wrap: nowrap; }

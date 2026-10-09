@@ -41,7 +41,6 @@ export function NextDecisionBridge({
   return (
     <aside className={`next-decision-bridge ${className}`.trim()} data-next-decision-bridge aria-label={bridge.title}>
       <div className="next-decision-bridge__copy">
-        <span>{bridge.eyebrow}</span>
         <h2>{bridge.title}</h2>
         <p>{bridge.body}</p>
       </div>

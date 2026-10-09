@@ -16,7 +16,7 @@
   color: var(--blue-text, #8eb6ff);
   font: inherit;
   font-size: .875rem;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
   text-align: start;
   overflow-wrap: anywhere;
   cursor: pointer;
@@ -29,7 +29,7 @@
 .decision-return-link [role="status"] {
   color: var(--muted, #a8b5c9);
   font-size: .875rem;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 .decision-return-link [role="status"]:empty { display: none; }
 .decision-return-link input {

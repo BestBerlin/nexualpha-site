@@ -19,7 +19,7 @@
 .venue-readiness__head > span {
   color: #38bdf8;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -28,13 +28,13 @@
   margin: 0;
   color: #f8fafc;
   font-size: 18px;
-  line-height: 1.25;
+  line-height: var(--lh-head, 1.15);
 }
 
 .venue-readiness p {
   margin: 4px 0 0;
   color: #94a3b8;
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
 }
 
 .venue-readiness__summary {
@@ -106,14 +106,14 @@
   min-width: 0;
   color: #f8fafc;
   font-size: 14px;
-  line-height: 1.2;
+  line-height: var(--lh-head, 1.15);
 }
 
 .venue-readiness__item small {
   min-width: 0;
   color: #94a3b8;
   font-size: 12px;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
 }
 
 .venue-readiness__item em {
@@ -121,7 +121,7 @@
   color: #bae6fd;
   font-size: 11px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .venue-readiness__foot {

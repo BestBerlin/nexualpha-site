@@ -33,9 +33,9 @@
 /* fiat on-ramp: the recorded funding methods, read as data (mono), with their check state on the same line */
 #top.v6 .rf-facts__fiat { grid-column: 1 / -1; }
 #top.v6 .rf-facts__fiat dd { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-1) var(--s-2); }
-#top.v6 .rf-methods { display: inline-flex; flex-wrap: wrap; gap: var(--s-1) var(--s-2); font-family: var(--font-mono); font-size: var(--t-14); line-height: 1.55; color: var(--text-strong); }
+#top.v6 .rf-methods { display: inline-flex; flex-wrap: wrap; gap: var(--s-1) var(--s-2); font-family: var(--font-mono); font-size: var(--t-14); line-height: var(--lh-body, 1.55); color: var(--text-strong); }
 #top.v6 .rf-method:not(:last-child)::after { content: "\00b7"; margin-inline-start: var(--s-2); color: var(--text-muted); }
-#top.v6 .rf-methods__state { font-size: var(--t-12); line-height: 1.55; color: var(--text-muted); }
+#top.v6 .rf-methods__state { font-size: var(--t-12); line-height: var(--lh-body, 1.55); color: var(--text-muted); }
 
 /* ---------- 5. directory: the regional matcher becomes one quiet line after the list; the count row is reserved ---------- */
 #top.v6 .dir6 > .v6-wrap { display: flex; flex-direction: column; }
@@ -49,7 +49,7 @@
 #top.v6 .dir6 .dir6-match :is(.platform-matcher__summary-kicker, .platform-matcher__summary-context):not(#_) { display: none; }
 #top.v6 .dir6 .dir6-match .platform-matcher__summary-copy:not(#_) { display: block; }
 #top.v6 .dir6 .dir6-match .platform-matcher__summary-copy > strong:not(#_) { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-#top.v6 .dir6 .dir6-match .platform-matcher__summary-copy > small:not(#_) { font-size: var(--t-14); line-height: 1.55; color: var(--text-strong); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 0.25em; }
+#top.v6 .dir6 .dir6-match .platform-matcher__summary-copy > small:not(#_) { font-size: var(--t-14); line-height: var(--lh-body, 1.55); color: var(--text-strong); text-decoration: underline; text-decoration-color: var(--n8); text-underline-offset: 0.25em; }
 #top.v6 .dir6 .dir6-match .platform-matcher__summary:hover > .platform-matcher__summary-copy > small:not(#_) { text-decoration-color: var(--accent); }
 #top.v6 .dir6 .dir6-match .platform-matcher__summary > i:not(#_) { inline-size: 24px; block-size: 24px; border-radius: var(--s-1); }
 /* "Showing n of m" + Reset own a full row, so toggling a filter never moves the list */

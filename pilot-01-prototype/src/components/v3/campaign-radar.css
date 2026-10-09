@@ -44,7 +44,7 @@
 
 .campaign-radar__title {
   font-size: clamp(1.5rem, 3.2vw, 2.25rem);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.03em;
   color: #ffffff;
   margin: 0 0 0.75rem;
@@ -53,7 +53,7 @@
 .campaign-radar__subtitle {
   font-size: clamp(0.875rem, 1.6vw, 1.05rem);
   color: #94a3b8;
-  line-height: 1.6;
+  line-height: var(--lh-body, 1.55);
   margin: 0 0 1.5rem;
 }
 
@@ -75,7 +75,7 @@
   border: none;
   color: #94a3b8;
   font-size: 0.8125rem;
-  font-weight: 550;
+  font-weight: 500;
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
@@ -159,7 +159,7 @@
 
 .campaign-card__name {
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
   margin: 0;
   letter-spacing: -0.01em;
@@ -221,7 +221,7 @@
   box-sizing: border-box;
   overflow: hidden;
   font-size: 0.75rem;
-  font-weight: 650;
+  font-weight: 600;
   color: #fbbf24;
 }
 
@@ -238,7 +238,7 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: #10b981;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 2px;
 }
 
@@ -247,7 +247,7 @@
   font-weight: 600;
   color: #f1f5f9;
   margin: 0;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -257,7 +257,7 @@
 .campaign-card__summary {
   font-size: 0.75rem;
   color: #94a3b8;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -287,7 +287,7 @@
   margin: 0;
   padding-left: 1rem;
   color: #94a3b8;
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
 }
 
 .campaign-card__terms-list li {

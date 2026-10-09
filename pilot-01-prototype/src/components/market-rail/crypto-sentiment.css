@@ -20,8 +20,8 @@
   grid-row: 1;
   gap: 6px;
 }
-.crypto-sentiment__eyebrow { color: var(--blue-text); font-size: .875rem; line-height: 1.6; }
-.crypto-sentiment strong { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; color: var(--ink); font-size: 28px; font-variant-numeric: tabular-nums; line-height: 1.15; }
+.crypto-sentiment__eyebrow { color: var(--blue-text); font-size: .875rem; line-height: var(--lh-body, 1.55); }
+.crypto-sentiment strong { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; color: var(--ink); font-size: 28px; font-variant-numeric: tabular-nums; line-height: var(--lh-head, 1.15); }
 .crypto-sentiment strong small { color: var(--muted); font-size: .875rem; font-weight: 500; }
 .crypto-sentiment__meta {
   display: grid;
@@ -33,7 +33,7 @@
 }
 .crypto-sentiment__meta a,
 .crypto-sentiment time,
-.crypto-sentiment p { margin: 0; font-size: var(--v3-cjk-aux-size, .875rem); line-height: 1.6; overflow-wrap: anywhere; }
+.crypto-sentiment p { margin: 0; font-size: var(--v3-cjk-aux-size, .875rem); line-height: var(--lh-body, 1.55); overflow-wrap: anywhere; }
 .crypto-sentiment p {
   grid-column: 1 / -1;
   grid-row: 2;

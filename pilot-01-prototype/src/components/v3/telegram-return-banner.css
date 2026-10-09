@@ -18,7 +18,7 @@
   margin-bottom: 0.28rem;
   color: #86efac;
   font-size: 0.72rem;
-  font-weight: 850;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -27,7 +27,7 @@
   margin: 0;
   color: #f8fafc;
   font-size: clamp(1rem, 2vw, 1.22rem);
-  line-height: 1.2;
+  line-height: var(--lh-head, 1.15);
 }
 
 .v3-telegram-return-banner p {
@@ -35,7 +35,7 @@
   margin: 0.4rem 0 0;
   color: rgba(226, 232, 240, 0.78);
   font-size: 0.9rem;
-  line-height: 1.55;
+  line-height: var(--lh-body, 1.55);
 }
 
 .v3-telegram-return-banner dl {
@@ -58,14 +58,14 @@
 .v3-telegram-return-banner dt {
   color: rgba(148, 163, 184, 0.88);
   font-size: 0.72rem;
-  font-weight: 760;
+  font-weight: 600;
 }
 
 .v3-telegram-return-banner dd {
   margin: 0;
   color: #e2e8f0;
   font-size: 0.76rem;
-  font-weight: 820;
+  font-weight: 600;
 }
 
 .v3-telegram-return-banner__actions {
@@ -84,7 +84,7 @@
   padding: 0.66rem 0.9rem;
   border-radius: 10px;
   font-size: 0.84rem;
-  font-weight: 850;
+  font-weight: 600;
   text-align: center;
 }
 
@@ -150,7 +150,7 @@
   align-content: center;
   color: #cbd5e1;
   font-size: 0.84rem;
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
   cursor: pointer;
 }
 
@@ -195,7 +195,7 @@
   .v3-telegram-return-banner--anonymous .v3-telegram-return-banner__continue,
   .v3-telegram-return-banner--anonymous .v3-telegram-return-banner__clear {
     font-size: 0.75rem;
-    line-height: 1.4;
+    line-height: var(--lh-body, 1.55);
     padding: 0.4rem 0.45rem;
   }
 }

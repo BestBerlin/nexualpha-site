@@ -6,7 +6,7 @@
 
 .regional-decision-depth__header > span {
   color: #7dd3fc;
-  font: 700 0.68rem/1.2 var(--font-mono, ui-monospace, monospace);
+  font: 700 0.68rem/var(--lh-head, 1.15) var(--font-mono, ui-monospace, monospace);
   letter-spacing: 0.1em;
 }
 
@@ -19,7 +19,7 @@
 .regional-decision-depth__header p,
 .regional-decision-depth__header small {
   color: #aebfd2;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 .regional-decision-depth__table-wrap {
@@ -89,7 +89,7 @@
 .regional-decision-depth__steps summary > span {
   grid-row: 1 / span 2;
   color: #38bdf8;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .regional-decision-depth__steps summary small {
@@ -101,7 +101,7 @@
   padding-left: 1.1rem;
   color: #cbd5e1;
   font-size: 0.8rem;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 .regional-decision-depth__grid {
@@ -149,13 +149,13 @@
 .regional-decision-depth__evidence > summary strong {
   color: #dbeafe;
   font-size: 0.84rem;
-  line-height: 1.35;
+  line-height: var(--lh-head, 1.15);
 }
 
 .regional-decision-depth__evidence > summary small {
   color: #94a3b8;
   font-size: 0.74rem;
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
   overflow-wrap: anywhere;
 }
 
@@ -193,7 +193,7 @@
   padding-left: 1.1rem;
   color: #cbd5e1;
   font-size: 0.8rem;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 .regional-decision-depth__grid li + li {
@@ -211,7 +211,7 @@
   margin: 0 0 0.5rem;
   color: #cbd5e1;
   font-size: 0.82rem;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 
 .regional-decision-depth__handoff {
@@ -232,8 +232,8 @@
   color: #dbeafe;
   background: rgba(14, 165, 233, 0.1);
   font-size: 0.78rem;
-  font-weight: 750;
-  line-height: 1.25;
+  font-weight: 600;
+  line-height: var(--lh-head, 1.15);
   text-align: center;
   text-decoration: none;
 }

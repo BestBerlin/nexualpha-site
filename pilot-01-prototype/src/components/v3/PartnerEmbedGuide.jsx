@@ -70,13 +70,9 @@ export function PartnerEmbedGuide({ locale = "en" }) {
 
         {/* Hero Header */}
         <section className="guide-hero">
-          <div className="guide-hero__badge">
-            <span className="nxa-pulse-ring nxa-pulse-ring--blue"></span>
-            <span>{copy.badge}</span>
-          </div>
           <h1 className="guide-hero__title">
             {localizedH1 ? heroH1 : copy.heroTitle}
-            {!localizedH1 && <span className="nxa-text-gradient-blue">{copy.heroAccent}</span>}
+            {!localizedH1 && <span className="guide-hero__accent">{copy.heroAccent}</span>}
           </h1>
           <p className="guide-hero__desc">
             {copy.heroDesc}
@@ -157,7 +153,7 @@ export function PartnerEmbedGuide({ locale = "en" }) {
           {/* Code Snippet Box */}
           <div className="guide-code-box">
             <div className="guide-code-box__header">
-              <span className="code-lang">HTML IFRAME EMBED CODE</span>
+              <span className="code-lang">HTML iframe embed code</span>
               <button
                 type="button"
                 className="guide-copy-btn"

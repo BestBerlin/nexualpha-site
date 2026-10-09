@@ -43,8 +43,8 @@
 
 .yellow-pages--directory .yellow-pages__title {
   font-size: clamp(2rem, 1.2rem + 2.2vw, 2.75rem);
-  line-height: 1.08;
-  font-weight: 700;
+  line-height: var(--lh-tight, 1.05);
+  font-weight: 600;
   letter-spacing: -0.03em;
   color: var(--ink);
   text-wrap: balance;
@@ -53,7 +53,7 @@
   margin: 12px 0 0;
   max-width: 40rem;
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: var(--lh-body, 1.55);
   color: var(--muted);
   text-wrap: pretty;
 }
@@ -77,7 +77,7 @@
   padding: 0 14px;
   border-radius: 9px;
   font-size: 0.875rem;
-  font-weight: 550;
+  font-weight: 500;
   color: var(--r1-quiet);
   white-space: nowrap;
   overflow-wrap: normal;
@@ -178,7 +178,7 @@
   border-color: rgba(111, 144, 255, 0.6);
   background: rgba(49, 92, 207, 0.16);
   color: #dbe4ff;
-  font-weight: 550;
+  font-weight: 500;
 }
 .yellow-pages--directory .yellow-pages__chip[aria-pressed="true"]::before,
 .yellow-pages--directory .yellow-pages__chip--active::before { inline-size: 12px; margin-inline-start: 0; }
@@ -292,7 +292,7 @@
 }
 .yellow-pages--directory .yellow-card--directory .yellow-card__name {
   font-size: 1.0625rem;
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--ink);
 }
@@ -308,9 +308,9 @@
   box-shadow: none !important;
   color: var(--r1-quiet) !important;
   font-size: 0.6875rem !important;
-  font-weight: 550 !important;
+  font-weight: 500 !important;
   letter-spacing: 0.02em !important;
-  line-height: 1;
+  line-height: var(--lh-tight, 1.05);
   white-space: nowrap;
 }
 
@@ -418,8 +418,8 @@
   border-radius: var(--r1-radius);
   box-shadow: none;
   font-size: 0.875rem;
-  font-weight: 550;
-  line-height: 1.2;
+  font-weight: 500;
+  line-height: var(--lh-head, 1.15);
   text-align: center;
   white-space: nowrap;
   overflow-wrap: normal;
@@ -618,7 +618,7 @@
   -webkit-line-clamp: unset;
   overflow: visible;
   font-size: 0.9375rem;
-  line-height: 1.6;
+  line-height: var(--lh-body, 1.55);
   color: #d5dbe4;
 }
 .yellow-pages--directory .yellow-card__facts-section.yellow-card__facts-section--directory {
@@ -630,7 +630,7 @@
   margin: 0 0 10px;
   font-size: 0.8125rem;
   font-weight: 600;
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
   color: var(--muted);
 }
 .yellow-pages--directory .yellow-card__facts-section--directory .yellow-card__meta-grid {
@@ -664,7 +664,7 @@
   overflow: visible !important;
   text-overflow: clip !important;
   overflow-wrap: anywhere;
-  line-height: 1.4;
+  line-height: var(--lh-body, 1.55);
 }
 .yellow-pages--directory .yellow-card__perk-row.yellow-card__perk-row--directory {
   grid-area: perk;
@@ -685,7 +685,7 @@
   white-space: normal;
   overflow: visible;
   font-size: 0.8125rem;
-  line-height: 1.5;
+  line-height: var(--lh-body, 1.55);
 }
 .yellow-pages--directory .yellow-card__perk-row--directory > .yellow-card__perk-text::before {
   content: "";
@@ -706,7 +706,7 @@
   background: rgba(255, 255, 255, 0.03);
   color: var(--ink);
   font-size: 0.875rem;
-  font-weight: 550;
+  font-weight: 500;
   transition: background-color 160ms ease, border-color 160ms ease;
 }
 .yellow-pages--directory .yellow-pages__expand:hover,
@@ -803,8 +803,8 @@
   padding: 0 10px;
   border-radius: 7px;
   font-size: 0.75rem;
-  font-weight: 550;
-  line-height: 1;
+  font-weight: 500;
+  line-height: var(--lh-tight, 1.05);
   letter-spacing: 0.01em;
   box-shadow: none;
   white-space: nowrap;
@@ -830,9 +830,9 @@
   margin: 0;
   max-width: 22ch;
   font-size: clamp(2.125rem, 1.3rem + 2vw, 3rem);
-  line-height: 1.04;
+  line-height: var(--lh-tight, 1.05);
   letter-spacing: -0.035em;
-  font-weight: 700;
+  font-weight: 600;
   text-wrap: balance;
 }
 .v3-profile-page .v3-venue-identity h1 > bdi { font-size: inherit; line-height: inherit; }
@@ -877,7 +877,7 @@
 }
 .v3-profile-page .v3-profile-reading-overview > .v3-venue-direct-answer > strong {
   font-size: clamp(1.125rem, 1rem + 0.4vw, 1.3125rem);
-  line-height: 1.45;
+  line-height: var(--lh-body, 1.55);
   letter-spacing: -0.01em;
   max-width: 52ch;
 }
@@ -885,7 +885,7 @@
   margin: 0;
   max-width: 68ch;
   font-size: 1.0625rem;
-  line-height: 1.7;
+  line-height: var(--lh-body, 1.55);
   color: #aab4c3;
 }
 .v3-profile-page .v3-venue-direct-answer__links { gap: 8px; margin: 4px 0 0; }
@@ -898,7 +898,7 @@
   border: 1px solid var(--r1-rule-strong);
   background: rgba(255, 255, 255, 0.02);
   font-size: 0.8125rem;
-  font-weight: 550;
+  font-weight: 500;
   text-decoration: none;
   transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
 }
@@ -922,7 +922,7 @@
   gap: 6px 24px;
 }
 .v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip article:last-child { border-block-end: 1px solid var(--r1-rule); }
-.v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip strong { line-height: 1.6; color: #e6eaf0; }
+.v3-profile-page .v3-profile-decision-context .v3-venue-decision-strip strong { line-height: var(--lh-body, 1.55); color: #e6eaf0; }
 
 .v3-profile-page .venue-readiness { border-radius: 12px; }
 .v3-profile-page .venue-readiness__disclosure { border-radius: 12px; }
@@ -938,7 +938,7 @@
   background: rgba(255, 255, 255, 0.02);
   color: var(--ink);
   font-size: 0.875rem;
-  font-weight: 550;
+  font-weight: 500;
   text-decoration: none;
   transition: border-color 160ms ease, background-color 160ms ease;
 }
@@ -974,7 +974,7 @@
   border-radius: 12px;
   background: var(--r1-signup);
   font-size: 1.0625rem;
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: -0.005em;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 10px 28px -12px rgba(21, 112, 239, 0.85);
 }
@@ -1005,9 +1005,9 @@
 .v3-profile-page .v3-profile-research-hub .v3-profile-research-chapter { align-items: baseline; }
 .v3-profile-page :is(.v3-faq-card__title, .v3-activity-panel .section-lead h2, .v3-similar-disclosure__summary h2) {
   font-size: clamp(1.5rem, 1.15rem + 1.1vw, 2rem);
-  line-height: 1.15;
+  line-height: var(--lh-head, 1.15);
   letter-spacing: -0.025em;
-  font-weight: 680;
+  font-weight: 600;
 }
 .v3-profile-page .v3-activity-panel .section-lead { display: block; margin-block-end: 12px; }
 .v3-profile-page .v3-activity-panel__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
@@ -1021,7 +1021,7 @@
   background: rgba(255, 255, 255, 0.02);
   color: var(--ink);
   font-size: 0.875rem;
-  font-weight: 550;
+  font-weight: 500;
   text-decoration: none;
   transition: border-color 160ms ease, background-color 160ms ease;
 }
@@ -1066,7 +1066,7 @@
   .v3-profile-page .v3-venue-identity .v2-brand,
   .v3-profile-page .v3-venue-identity .v2-brand-fallback { width: 52px !important; height: 52px !important; flex-basis: 52px; padding: 6px; border-radius: 14px; }
   .v3-profile-page .v3-venue-identity__badges { gap: 6px; }
-  .v3-profile-page .v3-venue-identity h1 { font-size: clamp(1.875rem, 8.4vw, 2.25rem) !important; line-height: 1.08 !important; }
+  .v3-profile-page .v3-venue-identity h1 { font-size: clamp(1.875rem, 8.4vw, 2.25rem) !important; line-height: var(--lh-tight, 1.05) !important; }
   .v3-profile-page .v3-venue-identity__badges { gap: 6px !important; }
   .v3-profile-page .v3-venue-identity__badges > .v3-domain-pill { font-size: 0.75rem !important; }
   .v3-profile-page .v3-profile-main-registration .registration-card { padding: 16px; border-radius: 14px; }
@@ -1108,7 +1108,7 @@
 [dir="rtl"] .v3-profile-page .v3-uniswap-short-checklist > summary::before { transform: rotate(90deg); }
 .v3-profile-page .v3-uniswap-short-checklist[open] > summary::before { transform: none; }
 .v3-profile-page .v3-uniswap-short-checklist > summary > span { grid-column: 2; grid-row: 1; font-size: 1rem; font-weight: 600; color: var(--ink); }
-.v3-profile-page .v3-uniswap-short-checklist > summary > small { grid-column: 2; display: block; font-size: 0.8125rem; line-height: 1.5; color: var(--muted); }
+.v3-profile-page .v3-uniswap-short-checklist > summary > small { grid-column: 2; display: block; font-size: 0.8125rem; line-height: var(--lh-body, 1.55); color: var(--muted); }
 .v3-profile-page .v3-uniswap-short-checklist > summary:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 2px; }
 .v3-profile-page .v3-uniswap-short-checklist[open] > :not(summary) { margin-inline: 18px; margin-block-end: 16px; }
 
