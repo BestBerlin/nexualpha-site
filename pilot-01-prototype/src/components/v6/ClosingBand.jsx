@@ -75,10 +75,16 @@ function ClosingBandImpl({ legacy, locale = "en" }) {
     </div>
     <div className="v6-close__index v6-wrap" ref={idx}>{legacy}
       {/* Moved here from the hero foot: the directory facets (same hrefs and labels the hero produced) and the Telegram / Brazil routes. */}
-      <LeanHero locale={locale} render={(k) => <>
-        <div className="crawl-priority-links__group v6-close__more"><span>{r[2]}</span>{k.pills.map((p) => <a key={p.text} href={p.href}>{p.text}</a>)}</div>
-        <div className="crawl-priority-links__group v6-close__more"><span>{r[4]}</span><a href={k.telegram.href} target="_blank" rel="noopener noreferrer">{k.telegram.label}</a><BrazilEntryLink locale={locale} /></div>
-      </>} />
+      {/* v8: the directory facets and more-entry links fold into one drawer (same links, still in the DOM for crawlers). */}
+      <details className="crawl-priority-links__details v6-close__fold">
+        <summary className="crawl-priority-links__intro"><strong>{r[4]}</strong><span>{r[2]}</span><b aria-hidden="true">＋</b></summary>
+        <div className="crawl-priority-links__groups">
+          <LeanHero locale={locale} render={(k) => <>
+            <div className="crawl-priority-links__group v6-close__more"><span>{r[2]}</span>{k.pills.map((p) => <a key={p.text} href={p.href}>{p.text}</a>)}</div>
+            <div className="crawl-priority-links__group v6-close__more"><span>{r[4]}</span><a href={k.telegram.href} target="_blank" rel="noopener noreferrer">{k.telegram.label}</a><BrazilEntryLink locale={locale} /></div>
+          </>} />
+        </div>
+      </details>
     </div>
   </section>;
 }

@@ -42,12 +42,15 @@ html { scroll-padding-block-start: 76px; }
 }
 .nx-brand__mark {
   display: block;
-  inline-size: 30px;
-  block-size: 30px;
+  inline-size: 34px;
+  block-size: 34px;
   flex: none;
   border-radius: 50%;
-  transition: transform 0.4s var(--nx-ease);
+  /* The mark's own circle (#070A0E) matches the canvas; a 1px ring keeps the badge shape legible. */
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.14);
+  transition: transform 0.4s var(--nx-ease), inline-size 0.24s var(--nx-ease), block-size 0.24s var(--nx-ease);
 }
+@media (max-width: 640px) { .nx-brand__mark { inline-size: 32px; block-size: 32px; } }
 .nx-brand__label {
   display: inline-flex;
   align-items: baseline;
@@ -104,7 +107,7 @@ html { scroll-padding-block-start: 76px; }
   box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.7);
   border-block-end-color: var(--nx-hair);
 }
-.nx-hdr[data-scrolled] .nx-brand__mark { inline-size: 26px; block-size: 26px; }
+.nx-hdr[data-scrolled] .nx-brand__mark { inline-size: 28px; block-size: 28px; }
 .nx-hdr__inner {
   position: relative;
   display: flex;
@@ -113,6 +116,11 @@ html { scroll-padding-block-start: 76px; }
   inline-size: min(var(--content, 1320px), calc(100% - 2 * var(--page-pad, 24px)));
   margin-inline: auto;
   block-size: 100%;
+}
+/* Home (v7 .h7) shares the inner-page container so the brand and h1 do not jump between routes. */
+body:has(> #root > main.home-refinement .h7) .nx-hdr__inner,
+body:has(> #root > main.home-refinement .h7) .nx-ftr__inner {
+  inline-size: min(1200px, calc(100% - 48px));
 }
 body:has(> #root > main.v5 > .container) .nx-hdr__inner,
 body:has(> #root > main.v5 > .container) .nx-ftr__inner {
@@ -446,6 +454,19 @@ body:has(> #root > main.v5 > .container) .nx-ftr__inner {
 
 /* tap targets on touch: every shell control >= 44px */
 @media (max-width: 859px), (pointer: coarse) {
-  .nx-ftr__list a, .nx-ftr .clean-footer__nav a { min-block-size: 44px; }
+  .nx-ftr__list a, .nx-ftr .clean-footer__nav a { min-block-size: 44px; min-inline-size: 44px; }
   .nx-more__panel a { min-block-size: 44px; }
 }
+
+/* Footer v8: links flow inline; the statement + risk disclaimer fold into one summary row (still in the DOM). */
+.nx-ftr .nx-ftr__list--inline ul { display: flex; flex-wrap: wrap; gap: 0 20px; }
+.nx-ftr .nx-ftr__list--inline a { display: inline-flex; align-items: center; min-block-size: 44px; min-inline-size: 44px; font-size: 14px; }
+.nx-ftr .nx-ftr__fold { display: block; border-block: 1px solid var(--nx-hair); padding-block: 0; }
+.nx-ftr .nx-ftr__fold > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-block-size: 48px; cursor: pointer; list-style: none; font-size: 14px; font-weight: 500; color: var(--nx-n11); }
+.nx-ftr .nx-ftr__fold > summary::-webkit-details-marker { display: none; }
+.nx-ftr .nx-ftr__fold > summary::after { content: "+"; font: 400 18px/1 var(--nx-font); color: var(--nx-n10); transition: transform 240ms var(--nx-ease); }
+.nx-ftr .nx-ftr__fold[open] > summary::after { transform: rotate(45deg); }
+.nx-ftr .nx-ftr__fold > summary:hover { color: var(--nx-n12); }
+.nx-ftr .nx-ftr__fold .nx-ftr__legal { display: grid; gap: 12px; padding-block: 4px 20px; font-size: 13px; }
+.nx-ftr .nx-ftr__fold .nx-ftr__legal p { font-size: 12px; line-height: 1.7; color: var(--nx-n10); }
+@media (prefers-reduced-motion: reduce) { .nx-ftr .nx-ftr__fold > summary::after { transition: none; } }

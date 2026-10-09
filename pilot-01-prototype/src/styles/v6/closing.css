@@ -107,6 +107,9 @@
 .v6 .v6-close__index .home-research-drawer > summary > b:not(#_):not(#_) {
   grid-column: 12; grid-row: 1; justify-self: end; align-self: center; position: relative; inline-size: 20px; block-size: 20px; font-size: var(--t-12); line-height: var(--lh-head, 1.15); text-indent: 200%; white-space: nowrap; overflow: hidden;
   color: var(--text-strong); transition: transform var(--dur-2) var(--ease-out); transform: none;
+  /* v8: plain thin plus like the sibling drawers (no circled badge). */
+  border: 0; border-radius: 0; background: none; box-shadow: none;
+  inline-size: 13px; block-size: 13px; color: var(--text-muted);
 }
 .v6 .v6-close__index .home-research-drawer > summary > b::before,
 .v6 .v6-close__index .home-research-drawer > summary > b::after {

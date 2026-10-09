@@ -247,3 +247,6 @@ body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label,
   :is(main, .factbook-page).v6:not(.home-refinement) .mx-id__name:not(#_):not(#_):not(#_):not(#_) { overflow-wrap: break-word; }
   :is(main, .factbook-page).v6:not(.home-refinement) .mx-unch:not(#_):not(#_):not(#_):not(#_) { white-space: normal; min-inline-size: 0; }
 }
+
+/* CJK inner headings: break at punctuation, not inside words; overflow-wrap rescues long unpunctuated runs. */
+:is(main, .factbook-page).v6:not(.home-refinement) :is(h1, h2, h3):lang(zh):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { word-break: normal; line-break: strict; text-wrap: pretty; }

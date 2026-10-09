@@ -10,6 +10,7 @@ import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { EXCHANGE_FACTS, venueCheckedOn } from "../../data/exchange-facts.js";
 import { localizeRegionNote } from "./exchange-matrix-copy.js";
 import { hasCompareRoute, noCompareLabel } from "../v6/compare-routes.js";
+import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 
 const SEGMENTS = [
   { id: "all", key: "all" },
@@ -288,6 +289,8 @@ export function ExchangeMatrix({
           {regionalReturnHref ? <a className="mx-btn mx-btn--ghost" href={regionalReturnHref} data-cta-placement="directory-empty-region-return">{ui.returnToRegion}</a> : null}
         </div>
       ) : (
+        <>
+        <CommissionDisclosureLine locale={locale} className="mx-disclosure" placement="directory-matrix" />
         <div className="mx-scroll" data-route-label={mc.table} data-rail-end="">
           <table className="mx-table" role="table" aria-label={mc.table} aria-rowcount={sorted.length + 1}>
             <colgroup>
@@ -452,6 +455,7 @@ export function ExchangeMatrix({
             </tbody>
           </table>
         </div>
+        </>
       )}
 
       {compareSelection.length > 0 ? (

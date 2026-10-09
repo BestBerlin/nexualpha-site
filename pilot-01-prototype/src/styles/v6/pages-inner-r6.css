@@ -36,7 +36,7 @@ main.v6:not(.home-refinement) #rate-terminal .rt-result:not(#_):not(#_):not(#_):
 main.v6:not(.home-refinement) #rate-terminal .rt-context:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 3; margin-inline-start: 32px; }
 main.v6:not(.home-refinement) #rate-terminal .rt-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 4; margin: 0 32px 32px; }
 main.v6:not(.home-refinement) #rate-terminal > .fee-terminal__header:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / -1; grid-row: 5; margin: 96px 0 0; }
-main.v6:not(.home-refinement) #rate-terminal > .fee-terminal__table-wrapper:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / -1; grid-row: 6; margin-top: -8px; }
+main.v6:not(.home-refinement) #rate-terminal > :is(.fee-terminal__table-wrapper, .fee-terminal__table-block):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1 / -1; grid-row: 6; margin-top: -8px; }
 main.v6:not(.home-refinement) #rate-terminal :is(.rt-next, .rt-handoff, .rt-foot__links):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 7; margin-top: 32px; padding: 24px 0 0; border-block-start: 1px solid var(--n6, #2e3135); }
 main.v6:not(.home-refinement) #rate-terminal .rt-panel > .decision-path-rail:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-row: 8; }
 @media (max-width: 1023px) {
@@ -47,7 +47,7 @@ main.v6:not(.home-refinement) #rate-terminal .rt-panel > .decision-path-rail:not
   main.v6:not(.home-refinement) #rate-terminal .rt-strip:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 4; }
   main.v6:not(.home-refinement) #rate-terminal .rt-context:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 5; }
   main.v6:not(.home-refinement) #rate-terminal > .fee-terminal__header:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 6; }
-  main.v6:not(.home-refinement) #rate-terminal > .fee-terminal__table-wrapper:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 7; }
+  main.v6:not(.home-refinement) #rate-terminal > :is(.fee-terminal__table-wrapper, .fee-terminal__table-block):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 7; }
   main.v6:not(.home-refinement) #rate-terminal .rt-next:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 8; }
   main.v6:not(.home-refinement) #rate-terminal .rt-handoff:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 9; }
   main.v6:not(.home-refinement) #rate-terminal .rt-foot__links:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 1; grid-row: 10; }

@@ -7,6 +7,7 @@ import { decisionForVenue } from "../../data/venue-decision-content.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
+import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 
 // One date format site-wide: "September 22, 2026" in a review label reads "2026-09-22".
 const REVIEW_MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
@@ -154,6 +155,7 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
         <p>{directAnswer.body}</p>
       </div>
 
+      <CommissionDisclosureLine locale={locale} className="v3-compare-final-choice-card__disclosure" placement="compare-final-choice" />
       <div className="v3-compare-final-choice-card__grid">
         {ctas.map(({ profile, access, cta, decision }) => {
           const pick = card.picks?.[profile.slug] || {};

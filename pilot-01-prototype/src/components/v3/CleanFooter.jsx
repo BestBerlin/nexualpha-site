@@ -362,6 +362,18 @@ function getCopy(locale) {
   return copyDict.en;
 }
 
+// Short localized "Affiliate Disclosure" label used by the footer link (/methodology#disclosure).
+export function footerDisclosureLabel(locale) {
+  return getFooterLabels(locale).disclosure;
+}
+
+const POLICY_ANCHOR = "#nx-ftr-policy-details";
+// Privacy / terms links open the folded policy panel in place instead of jumping to another route.
+function openPolicy() {
+  const panel = typeof document !== "undefined" ? document.getElementById("nx-ftr-policy-details") : null;
+  if (panel) panel.open = true;
+}
+
 export function CleanFooter({ locale = "en", brazil = false }) {
   const copy = getCopy(locale);
   const labels = getFooterLabels(locale);
@@ -376,33 +388,30 @@ export function CleanFooter({ locale = "en", brazil = false }) {
           <p className="clean-footer__summary">{compact.summary || `${compact.brand} ${compact.affiliate}`}</p>
         </div>
 
-        <nav className="clean-footer__nav clean-footer__nav--primary nx-ftr__list" aria-label={labels.navAria}>
+        <nav className="clean-footer__nav clean-footer__nav--primary nx-ftr__list nx-ftr__list--inline" aria-label={labels.navAria}>
           <ul>
             <li><a href={href("/exchanges")}>{labels.directory}</a></li>
             <li><a href={href("/topics")}>{labels.topics}</a></li>
             <li><a href={href("/factbook")}>{labels.factbook}</a></li>
             <li><a href={brazil ? "/br/custos" : href("/embed/calculator")}>{labels.calculator}</a></li>
+            <li><a href={href("/onchain")}>{labels.onchain}</a></li>
+            <li><a href={href("/methodology")}>{labels.editorial}</a></li>
+            <li><a href={href("/partners")}>{labels.embedGuide}</a></li>
             <li><a href={href("/methodology#disclosure")}>{labels.disclosure}</a></li>
+            <li><a href={POLICY_ANCHOR} onClick={openPolicy}>{labels.privacy}</a></li>
+            <li><a href={POLICY_ANCHOR} onClick={openPolicy}>{labels.terms}</a></li>
             <li><a href="mailto:contact@nexualpha.com">{labels.contact}</a></li>
           </ul>
         </nav>
 
-        <section className="clean-footer__policies nx-ftr__policies" aria-labelledby="nx-ftr-policies">
-          <h2 id="nx-ftr-policies" className="nx-ftr__title">{compact.policies}</h2>
+        {/* Statement and risk disclaimer stay in the page (SSR, find-in-page, #policy links) but fold to one line. */}
+        <details className="clean-footer__policies nx-ftr__policies nx-ftr__fold" id="nx-ftr-policy-details">
+          <summary id="nx-ftr-policies" className="nx-ftr__title">{compact.policies}</summary>
           <div className="nx-ftr__legal clean-footer__policy-body">
             <p className="clean-footer__statement">{copy.statement}</p>
             <div className="clean-footer__disclaimer"><p>{copy.disclaimer}</p></div>
           </div>
-          <nav className="clean-footer__nav clean-footer__nav--policies nx-ftr__list" aria-label={compact.policies}>
-            <ul>
-              <li><a href={href("/onchain")}>{labels.onchain}</a></li>
-              <li><a href={href("/methodology")}>{labels.editorial}</a></li>
-              <li><a href={href("/partners")}>{labels.embedGuide}</a></li>
-              <li><a href={href("/exchanges#policy")}>{labels.privacy}</a></li>
-              <li><a href={href("/exchanges#policy")}>{labels.terms}</a></li>
-            </ul>
-          </nav>
-        </section>
+        </details>
 
         <p className="clean-footer__copyright">
           <bdi dir="ltr">© 2026 NexuAlpha.</bdi> {labels.rights}

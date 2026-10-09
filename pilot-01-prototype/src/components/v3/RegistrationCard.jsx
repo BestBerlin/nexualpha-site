@@ -586,6 +586,13 @@ function registrationRuntimeCopy(locale, baseCopy) {
   };
 }
 
+// Shared, already-localized short disclosure (same strings as .registration-card__disclosure),
+// exported so list views with sponsored CTAs can show it next to their first CTA.
+export function registrationDisclosureCopy(locale) {
+  const resolved = registrationRuntimeCopy(locale, getCopy(locale));
+  return { title: resolved.disclosureTitle, short: resolved.disclosureShort };
+}
+
 const registrationNextStepCopy = Object.freeze({
   en: {
     label: "Next step",

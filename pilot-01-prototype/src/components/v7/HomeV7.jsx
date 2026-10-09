@@ -5,9 +5,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_VENUES } from "../../data/home-rebate-tiers.js";
+import { HOME_REBATE_SHARE, HOME_VENUES } from "../../data/home-rebate-tiers.js";
+import { supportedLocales } from "../../content/locale-manifest";
 import { readIntelFeed } from "../../data/announcement-intel.js";
-import { h7Copy } from "./home7-copy.js";
+import { h7Copy, h7IsFallback } from "./home7-copy.js";
+import { BrandMark } from "../brand/BrandMark.jsx";
 import "../../styles/v7/home7.css";
 
 const NAMES = { okx: "OKX", binance: "Binance", bitget: "Bitget", bybit: "Bybit" };
@@ -47,17 +49,29 @@ function useIntel(venues) {
     fetch(INTEL_URL, { headers: { accept: "application/json" } })
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
-        if (!alive || !j) return;
-        const items = readIntelFeed(j, { venues: slugs.split(",") }).filter((i) => INTEL_SHOW.includes(i.category));
-        if (items.length) setFeed({ items: items.slice(0, 8), generatedAt: j.generatedAt });
+        if (!alive) return;
+        const items = j ? readIntelFeed(j, { venues: slugs.split(",") }).filter((i) => INTEL_SHOW.includes(i.category)) : [];
+        // null = still loading, false = unavailable (fail closed: no invented notices).
+        setFeed(items.length ? { items: items.slice(0, 8), generatedAt: j.generatedAt } : false);
       })
-      .catch(() => {});
+      .catch(() => { if (alive) setFeed(false); });
     return () => { alive = false; };
   }, [slugs]);
   return feed;
 }
 
 const PERP_RE = /(futures|perp|contract|永续|合约)/i;
+const pct = (n) => `${n.toFixed(n < 0.1 ? 3 : 2).replace(/0+$/, "").replace(/\.$/, "")}%`;
+// Base fees for the market an announcement concerns, with the disclosed rebate applied. Unchecked fees stay null.
+function compareRows(venues, perp) {
+  return venues.map((v) => {
+    const f = feeFact(v.slug, perp ? "perp" : "spot");
+    const ok = f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker);
+    const k = 1 - (v.share || 0);
+    return { ...v, maker: ok ? f.maker : null, taker: ok ? f.taker : null, mk: ok ? f.maker * k : null, tk: ok ? f.taker * k : null };
+  });
+}
+
 function IntelSheet({ item, venues, t, locale, onClose }) {
   const ref = useRef(null);
   const perp = PERP_RE.test(item.title);
@@ -67,13 +81,7 @@ function IntelSheet({ item, venues, t, locale, onClose }) {
     const root = document.documentElement; const prev = root.style.overflow; root.style.overflow = "hidden";
     return () => { root.style.overflow = prev; };
   }, []);
-  const rows = venues.map((v) => {
-    const f = feeFact(v.slug, perp ? "perp" : "spot");
-    const ok = f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker);
-    const k = 1 - (v.share || 0);
-    return { ...v, maker: ok ? f.maker : null, taker: ok ? f.taker : null, mk: ok ? f.maker * k : null, tk: ok ? f.taker * k : null };
-  });
-  const pct = (n) => `${n.toFixed(n < 0.1 ? 3 : 2).replace(/0+$/, "").replace(/\.$/, "")}%`;
+  const rows = compareRows(venues, perp);
   return (
     <dialog ref={ref} className="h7-sheet" aria-labelledby="h7-sh-t" onClose={onClose} onClick={(e) => { if (e.target === ref.current) ref.current.close(); }}>
       <div className="h7-sh-in">
@@ -84,16 +92,80 @@ function IntelSheet({ item, venues, t, locale, onClose }) {
         <ul className="h7-sh-l">
           {rows.map((r) => (
             <li key={r.slug}>
-              <div className="h7-sh-n"><b>{r.name}</b>{r.share ? <span className="h7-bd">{t.rebate} {Math.round(r.share * 100)}%</span> : <span className="h7-bd" data-nr>{t.pending}</span>}</div>
+              <div className="h7-sh-n"><BrandMark slug={r.slug} compact /><b>{r.name}</b>{r.share ? <span className="h7-bd">{t.rebate} {Math.round(r.share * 100)}%</span> : <span className="h7-bd" data-nr>{t.pending}</span>}</div>
               <div className="h7-sh-f">{r.maker != null ? <>{t.maker} {pct(r.maker)} / {t.taker} {pct(r.taker)}{r.share ? <small>{t.shAfter} {pct(r.mk)} / {pct(r.tk)}</small> : null}</> : t.unchecked}</div>
               <Cta v={r} locale={locale} className="h7-btn h7-sm h7-sh-b" placement="home-v7-intel"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
             </li>
           ))}
         </ul>
         <a className="h7-ln" href={item.url} target="_blank" rel="noopener noreferrer nofollow">{t.shSrc}</a>
-        <p className="h7-sh-note">{t.shNote}</p>
+        <p className="h7-sh-note">{t.t2b} {t.shNote}</p>
       </div>
     </dialog>
+  );
+}
+
+const fmtAsOf = (iso, locale) => new Date(iso).toLocaleString(locale === "zh-Hans" ? "zh-CN" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
+
+// Live strip of the newest official notices. Duplicated once for a seamless loop; the copy is aria-hidden.
+function NoticeTicker({ intel, t }) {
+  if (!intel) return null;
+  const now = Date.now();
+  const items = intel.items.slice(0, 6);
+  const row = (hidden) => items.map((i) => (
+    <span key={`${hidden ? "d" : "o"}-${i.id}`} className="h7-tk-i" aria-hidden={hidden || undefined}><b>{NAMES[i.venue]}</b> {t.inCat[i.category]} · {i.title} · {t.inAgo(now - Date.parse(i.publishedAt))}</span>
+  ));
+  return (
+    <div className="h7-tick" role="region" aria-label={t.tick}>
+      <span className="h7-tk-live">{t.tick}</span>
+      <div className="h7-tk-vp"><div className="h7-tk-run">{row(false)}{row(true)}</div></div>
+    </div>
+  );
+}
+
+// Hero terminal: newest notices; the selected one drives a four-exchange fee comparison for its market.
+function IntelDesk({ intel, t, locale, venues, onOpen }) {
+  const items = intel ? intel.items.slice(0, 3) : [];
+  const [selId, setSelId] = useState(null);
+  const sel = items.find((i) => i.id === selId) || items[0] || null;
+  const perp = sel ? PERP_RE.test(sel.title) : false;
+  const rows = compareRows(venues, perp);
+  const checked = rows.filter((r) => r.mk != null);
+  const best = checked.length ? checked.reduce((a, b) => (b.mk < a.mk ? b : a)) : null;
+  const now = Date.now();
+  return (
+    <div className="h7-desk">
+      <div className="h7-dh"><span>{intel ? t.deskAsOf(fmtAsOf(intel.generatedAt, locale)) : t.deskLoading}</span><span>{[...new Set(items.map((i) => NAMES[i.venue]))].join(" · ")}</span></div>
+      <ul className="h7-dl" aria-busy={!intel || undefined}>
+        {intel ? items.map((i) => (
+          <li key={i.id}>
+            <button type="button" className="h7-dr" aria-pressed={sel?.id === i.id} onClick={() => setSelId(i.id)}>
+              <span className={`h7-ic h7-ic-${i.category}`}>{t.inCat[i.category]}</span>
+              <span className="h7-dv">{NAMES[i.venue]}</span>
+              <span className="h7-dt2">{i.title}</span>
+              <time dateTime={i.publishedAt}>{t.inAgo(now - Date.parse(i.publishedAt))}</time>
+            </button>
+          </li>
+        )) : [0, 1, 2].map((k) => <li key={k} className="h7-dsk" aria-hidden="true"><i /><i /><i /></li>)}
+      </ul>
+      {intel === false && <p className="h7-dempty">{t.deskEmpty}</p>}
+      <div className="h7-dh h7-dh2"><span>{perp ? t.shPerp : t.shSpot}</span><span>{t.shAfter}</span></div>
+      <div className="h7-dc">
+        {rows.map((r) => (
+          <div key={r.slug} className={best?.slug === r.slug ? "best" : undefined}>
+            <b><BrandMark slug={r.slug} compact priority />{r.name}</b>
+            <span className="h7-dfig">{r.mk != null ? pct(r.mk) : "—"}</span>
+            <small>{r.maker != null ? `${pct(r.maker)} / ${pct(r.taker)}` : t.unchecked}{r.maker != null ? ` · ${r.share ? `${t.rebate} ${Math.round(r.share * 100)}%` : t.pending}` : ""}</small>
+          </div>
+        ))}
+      </div>
+      <div className="h7-dfoot">
+        {best && <Cta v={best} locale={locale} className="h7-btn h7-sm" placement="home-v7-desk">{t.deskOpen(best.name)} ↗</Cta>}
+        {sel && <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => onOpen(sel)}>{t.inBtn}</button>}
+        {sel && <a className="h7-ln" href={sel.url} target="_blank" rel="noopener noreferrer nofollow">{t.shSrc}</a>}
+        <p className="h7-ddisc" data-disclosure-placement="home-desk">{t.t2b}</p>
+      </div>
+    </div>
   );
 }
 
@@ -102,15 +174,15 @@ function IntelBlock({ intel, t, locale, venues }) {
   if (!intel) return null;
   const now = Date.now();
   const names = NAMES;
-  const asOf = new Date(intel.generatedAt).toLocaleString(locale === "zh-Hans" ? "zh-CN" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
+  const asOf = fmtAsOf(intel.generatedAt, locale);
   return (
-    <section className="h7-in h7-intel" aria-label={t.inH}>
+    <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
       <div className="h7-ih"><h2>{t.inH}</h2><p>{t.inSub}</p></div>
       <ul className="h7-il">
         {intel.items.map((i) => (
           <li key={i.id}>
             <span className={`h7-ic h7-ic-${i.category}`}>{t.inCat[i.category]}</span>
-            <span className="h7-iv">{names[i.venue]}</span>
+            <span className="h7-iv"><BrandMark slug={i.venue} compact />{names[i.venue]}</span>
             <a className="h7-it" href={i.url} target="_blank" rel="noopener noreferrer nofollow">{i.title}<span className="h7-sr"> ({t.inOpen})</span></a>
             <time dateTime={i.publishedAt}>{t.inAgo(now - Date.parse(i.publishedAt))}</time>
             <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => setOpen(i)}>{t.inBtn}</button>
@@ -144,39 +216,10 @@ export function HomeV7({ locale, venues: _catalog }) {
     const maxGross = Math.max(1, ...ok.map((r) => r.gross));
     return { rows, best, most, maxGross };
   }, [venues, vol, mode]);
-  const top = calc.best || calc.rows[0];
 
-  /* ---------- hero: rebate flow into the number ---------- */
-  const heroRef = useRef(null), cvRef = useRef(null), numRef = useRef(null), srcRefs = useRef([]);
-  useEffect(() => {
-    const hero = heroRef.current, cv = cvRef.current, num = numRef.current;
-    if (!hero || !cv || !num) return undefined;
-    const cx = cv.getContext("2d"); if (!cx) return undefined;
-    let W = 0, H = 0, src = [], P = [], raf = 0, stopped = false;
-    const geo = () => {
-      const r = hero.getBoundingClientRect(); W = r.width; H = r.height;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2); cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = num.getBoundingClientRect(); const tx = n.left - r.left + n.width * 0.46, ty = n.top - r.top + n.height * 0.5;
-      src = srcRefs.current.filter(Boolean).map((e) => {
-        const b = e.getBoundingClientRect(); const x = b.left - r.left + b.width / 2, y = b.top - r.top + b.height / 2;
-        const mx = (x + tx) / 2, my = (y + ty) / 2, dx = tx - x, dy = ty - y, L = Math.hypot(dx, dy) || 1, off = L * 0.22 * (y < ty ? -1 : 1);
-        return { x, y, tx, ty, cx: mx + (dy / L) * off, cy: my - (dx / L) * off };
-      });
-    };
-    const bez = (s, k) => { const u = 1 - k; return [u * u * s.x + 2 * u * k * s.cx + k * k * s.tx, u * u * s.y + 2 * u * k * s.cy + k * k * s.ty]; };
-    const draw = () => {
-      cx.clearRect(0, 0, W, H); if (window.innerWidth <= 900) return;
-      src.forEach((s, i) => { cx.strokeStyle = venues[i]?.share ? "rgba(0,183,106,.28)" : "rgba(11,13,12,.10)"; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(s.x, s.y); cx.quadraticCurveTo(s.cx, s.cy, s.tx, s.ty); cx.stroke(); });
-      P.forEach((p) => { const s = src[p.i]; if (!s) return; const b = bez(s, p.t), a = Math.sin(Math.PI * p.t); cx.fillStyle = venues[p.i]?.share ? `rgba(0,183,106,${a * 0.95})` : `rgba(11,13,12,${a * 0.35})`; cx.beginPath(); cx.arc(b[0], b[1], p.r, 0, 6.283); cx.fill(); });
-    };
-    const frame = () => { if (stopped) return; P.forEach((p) => { p.t += p.v; if (p.t >= 1) { p.t = 0; p.v = 0.003 + Math.random() * 0.004; } }); draw(); raf = requestAnimationFrame(frame); };
-    const init = () => { geo(); P = []; for (let i = 0; i < venues.length; i++) { const k = venues[i].share ? 9 : 3; for (let j = 0; j < k; j++) P.push({ i, t: Math.random(), v: 0.003 + Math.random() * 0.004, r: 1.6 + Math.random() * 1.8 }); } draw(); };
-    const onResize = () => { geo(); draw(); };
-    init(); window.addEventListener("resize", onResize);
-    document.fonts?.ready?.then(() => { if (!stopped) { geo(); draw(); } });
-    let io; if (!reduced()) { io = new IntersectionObserver((es) => { cancelAnimationFrame(raf); if (es[0].isIntersecting) raf = requestAnimationFrame(frame); }, { threshold: 0.05 }); io.observe(hero); }
-    return () => { stopped = true; cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); io?.disconnect(); };
-  }, [venues]);
+  const [sheet, setSheet] = useState(null);
+  const lowSpot = Math.min(...venues.filter((v) => v.maker != null).map((v) => v.maker));
+  const verified = venues.filter((v) => v.maker != null).length;
 
   /* ---------- dark story: drawn by scroll position ---------- */
   const storyRef = useRef(null), loRef = useRef(null), lbRef = useRef(null), dotRef = useRef(null), tagRef = useRef(null), gapRef = useRef(null), progRef = useRef(null), chartRef = useRef(null), svgRef = useRef(null);
@@ -197,7 +240,8 @@ export function HomeV7({ locale, venues: _catalog }) {
     const el = storyRef.current; if (!el) return undefined;
     if (reduced()) { setStory(1); return undefined; }
     let tick = false, scrolled = false, timed = false;
-    const calcP = () => { const r = el.getBoundingClientRect(), tot = r.height - window.innerHeight; return tot > 0 ? Math.min(1, Math.max(0, -r.top / tot)) : 0; };
+    // Pinned (desktop): progress through the tall section. Unpinned (mobile, section shorter than the viewport): progress as it travels up the screen.
+    const calcP = () => { const r = el.getBoundingClientRect(), vh = window.innerHeight, tot = r.height - vh; return tot > 0 ? Math.min(1, Math.max(0, -r.top / tot)) : Math.min(1, Math.max(0, (vh * 0.9 - r.top) / (r.height * 0.9))); };
     const on = () => { scrolled = true; if (tick) return; tick = true; requestAnimationFrame(() => { tick = false; if (!timed) setStory(calcP()); }); };
     setStory(calcP());
     window.addEventListener("scroll", on, { passive: true }); window.addEventListener("resize", on);
@@ -209,7 +253,7 @@ export function HomeV7({ locale, venues: _catalog }) {
   /* ---------- rows: a year runs through them when they scroll in ---------- */
   const rowsRef = useRef(null), rowEls = useRef([]);
   const paintRows = useCallback((p) => {
-    calc.rows.forEach((r, i) => { const el = rowEls.current[i]; if (!el || r.net == null) return; const bar = el.querySelector("[data-bar]"), am = el.querySelector("[data-am]"); if (bar) bar.style.width = `${(r.net / calc.maxGross) * 100 * p}%`; if (am) am.innerHTML = `${r.share ? `<s>${usd(r.gross * p)}</s>` : ""}${usd(r.net * p)}`; });
+    calc.rows.forEach((r, i) => { const el = rowEls.current[i]; if (!el || r.net == null) return; const bar = el.querySelector("[data-bar]"), am = el.querySelector("[data-am]"); if (bar) bar.style.width = `${(r.net / calc.maxGross) * 100 * p}%`; if (am) am.innerHTML = `${r.share ? `<s>${usd(r.gross)}</s>` : ""}${usd(r.net * p)}`; });
   }, [calc]);
   const ran = useRef(false);
   useEffect(() => {
@@ -222,16 +266,23 @@ export function HomeV7({ locale, venues: _catalog }) {
   const onVol = (e) => { const d = e.target.value.replace(/[^0-9]/g, ""); setVol(Math.min(Number(d) || 0, 1e8)); };
 
   return (
-    <div className="h7">
-      <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha">
-        <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
-        {venues.map((v, i) => <span key={v.slug} ref={(e) => { srcRefs.current[i] = e; }} className={`h7-src h7-s${i}`} aria-hidden="true">{v.name}<small>{v.share ? `${Math.round(v.share * 100)}%` : "–"}</small></span>)}
+    <div className="h7" {...(h7IsFallback(locale) ? { lang: "en", dir: "ltr" } : {})}>
+      <NoticeTicker intel={intel} t={t} />
+      <section className="h7-hero" aria-label="NexuAlpha">
         <div className="h7-hc">
-          <h1>{t.h1a}<br />{t.h1b}</h1>
-          <p className="h7-sub">{t.sub}</p>
-          <div className="h7-cta"><Cta v={top} locale={locale} className="h7-btn" placement="home-v7-hero">{t.cta(top.name)}</Cta><a className="h7-ln" href="#h7-calc">{t.calcLink}</a></div>
+          <p className="h7-kick">{t.kick}</p>
+          <h1>{t.h1[0]}<br />{t.h1[1][0]}<em>{t.h1[1][1]}</em>{t.h1[1][2]}<br />{t.h1[2]}</h1>
+          <p className="h7-sub">{t.lead}</p>
+          <div className="h7-cta"><a className="h7-btn" href="#h7-intel">{t.ctaAll} ↓</a><a className="h7-btn h7-ol" href="#h7-calc">{t.ctaCmp}</a></div>
+          <p className="h7-cta-disc">{t.t2b}</p>
+          <dl className="h7-stats">
+            <div><dd>{verified}</dd><dt>{t.statVenues}</dt></div>
+            {Number.isFinite(lowSpot) && <div><dd>{pct(lowSpot)}</dd><dt>{t.statLow}</dt></div>}
+            <div><dd>{supportedLocales.length}</dd><dt>{t.statLangs}</dt></div>
+          </dl>
         </div>
-        <div className="h7-big"><p className="h7-num" ref={numRef} aria-label={`${HOME_REBATE_MAX_PCT}%`}>{HOME_REBATE_MAX_PCT}<span>%</span></p><p className="h7-cap">{t.cap}</p></div>
+        <IntelDesk intel={intel} t={t} locale={locale} venues={venues} onOpen={setSheet} />
+        {sheet && <IntelSheet item={sheet} venues={venues} t={t} locale={locale} onClose={() => setSheet(null)} />}
       </section>
 
       <div className="h7-trust"><div>{t.t1}<span>{t.t1b}</span></div><div>{t.t2}<span>{t.t2b}</span></div><div>{t.t3}<span>{t.t3b}</span></div></div>
@@ -243,12 +294,14 @@ export function HomeV7({ locale, venues: _catalog }) {
           <h2>{t.storyH}</h2>
           <div className="h7-chart" ref={chartRef}>
             <svg ref={svgRef} viewBox={`0 0 ${W} ${HH}`} role="img" aria-label={t.storyH}>
-              {[0, 1, 2, 3, 4].map((g) => <g key={g}><line x1={L} x2={W - R} y1={Y(maxY * g / 4)} y2={Y(maxY * g / 4)} className="h7-gl" /><text x={L - 8} y={Y(maxY * g / 4) + 4} textAnchor="end" className="h7-ax">{usd(maxY * g / 4)}</text></g>)}
+              {[0, 1, 2, 3, 4].map((g) => <g key={g}><line x1={L} x2={W - R} y1={Y(maxY * g / 4)} y2={Y(maxY * g / 4)} className="h7-gl" /><text x={L - 8} y={Y(maxY * g / 4) + 4} textAnchor="end" className={`h7-ax h7-ax-y${g ? "" : " h7-ax-0"}`}>{usd(maxY * g / 4)}</text></g>)}
               {[0, 3, 6, 9, 12].map((m) => <text key={m} x={X(m)} y={HH - 10} textAnchor="middle" className="h7-ax">{m ? `${m} ${t.mo}` : t.y0}</text>)}
               {calc.best && <>
-                <path ref={loRef} d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.best.gross)}`} className="h7-lnp" stroke="#59605C" pathLength="1" strokeDasharray="1" />
-                <path ref={lbRef} d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.best.net)}`} className="h7-lnp" stroke="#19D27F" pathLength="1" strokeDasharray="1" />
-                <circle ref={dotRef} r="7" cx={X(12)} cy={Y(calc.best.net)} fill="#19D27F" stroke="#0B0D0C" strokeWidth="3" />
+                <path d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.best.gross)}`} className="h7-lnp h7-ghost" stroke="#6B717B" aria-hidden="true" />
+                <path d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.best.net)}`} className="h7-lnp h7-ghost" stroke="#1FE0C0" aria-hidden="true" />
+                <path ref={loRef} d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.best.gross)}`} className="h7-lnp" stroke="#6B717B" pathLength="1" strokeDasharray="1" />
+                <path ref={lbRef} d={`M${X(0)} ${Y(0)} L${X(12)} ${Y(calc.best.net)}`} className="h7-lnp" stroke="#1FE0C0" pathLength="1" strokeDasharray="1" />
+                <circle ref={dotRef} r="7" cx={X(12)} cy={Y(calc.best.net)} fill="#1FE0C0" stroke="#0C0D10" strokeWidth="4" />
               </>}
             </svg>
             <div className="h7-tag" ref={tagRef} style={{ opacity: 0 }} />
@@ -270,11 +323,13 @@ export function HomeV7({ locale, venues: _catalog }) {
           <a className="h7-ln h7-all" href={localizedHref("/exchanges", { locale })}>{t.all}</a>
         </div>
         <div className="h7-rows" ref={rowsRef}>
+          <p className="h7-disc">{t.t2b}</p>
           {calc.rows.map((r, i) => (
             <div key={r.slug} ref={(e) => { rowEls.current[i] = e; }} className={`h7-xr${calc.best?.slug === r.slug ? " best" : ""}${r.share ? "" : " nr"}`}>
               <div>
-                <b>{r.name}<span className="h7-bd">{r.share ? `${t.rebate} ${Math.round(r.share * 100)}%` : t.pending}</span></b>
-                <div className="h7-meta"><span>{t.rate} {r.maker != null ? `${r.maker.toFixed(2)}% / ${r.taker.toFixed(2)}%` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}<a href={localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}</a></div>
+                <b><BrandMark slug={r.slug} compact />{r.name}<span className="h7-bd">{r.share ? `${t.rebate} ${Math.round(r.share * 100)}%` : t.pending}</span></b>
+                <div className="h7-meta"><span>{t.rate} {r.maker != null ? `${r.maker.toFixed(2)}% / ${r.taker.toFixed(2)}%` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}</div>
+                <a className="h7-dt" href={localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}</a>
                 <div className="h7-bar" data-bar style={{ width: r.net != null ? `${(r.net / calc.maxGross) * 100}%` : 0 }} />
               </div>
               <div className="h7-am" data-am dangerouslySetInnerHTML={{ __html: r.net == null ? "–" : `${r.share ? `<s>${usd(r.gross)}</s>` : ""}${usd(r.net)}` }} />
@@ -283,7 +338,7 @@ export function HomeV7({ locale, venues: _catalog }) {
           ))}
         </div>
       </section>
-      <p className="h7-in h7-foot">{t.foot(FACTS_AS_OF).replace("{max}", String(HOME_REBATE_MAX_PCT))}</p>
+      <p className="h7-in h7-foot">{t.foot(FACTS_AS_OF)}</p>
     </div>
   );
 }

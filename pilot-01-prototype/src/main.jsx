@@ -117,3 +117,8 @@ import "./styles/v6/pages-br.css";
 import "./styles/v6/pages-rates.css";
 import "./styles/v6/pages-factbook.css";
 import "./styles/v6/pages-telegram.css";
+// v8 signature layers (route-scoped selectors; last in the cascade).
+import "./styles/v8/news-signature.css";
+import "./styles/v8/activities-telegram-signature.css";
+import "./styles/v8/directory-compare-signature.css";
+import "./styles/v8/rates-profile-signature.css";

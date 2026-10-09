@@ -1,0 +1,205 @@
+/* v8 signature layer: activities + telegram. Scoped to those routes only. See docs/design-unified-v8.md.
+ * Selectors carry 11 ID-weights (main#top + 10x :not(#_)) so they win over the v6 r5/r8/r9 layers (9 max) without !important.
+ * Rules: no new colours, accent untouched (Telegram launch button stays outline per pages-inner-r8), motion 140/240/400ms
+ * ease-out, every animation removed under prefers-reduced-motion, logical properties only (RTL /ar). */
+
+:root {
+  --v8s-ease: cubic-bezier(.16, 1, .3, 1);
+  --v8s-ink: #edeef0;
+  --v8s-ink-2: #b0b4ba;
+  --v8s-ink-3: #9097a0;
+  --v8s-line: rgb(255 255 255 / .12);
+  --v8s-line-2: rgb(255 255 255 / .22);
+  --v8s-surface: rgb(255 255 255 / .035);
+  --v8s-raised: rgb(255 255 255 / .06);
+}
+
+/* =====================================================================================================================
+ * ACTIVITIES  (main#top.v3-activity-center: /activities, /zh-hans/activities, /ar/activities)
+ * ===================================================================================================================== */
+
+/* 1. Hero: one clear next step. First action = primary (ink border, 600, 48px), second = quiet text link (44px target). */
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__empty-actions {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2, 8px) var(--s-6, 24px);
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__empty-actions > a {
+  transition: background-color 140ms var(--v8s-ease), border-color 140ms var(--v8s-ease), color 140ms var(--v8s-ease), text-decoration-color 140ms var(--v8s-ease);
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__empty-actions > a:first-child {
+  min-block-size: 48px; padding-block: 0; padding-inline: var(--s-6, 24px);
+  border: 1px solid var(--v8s-ink); border-radius: 8px; background: transparent;
+  color: var(--v8s-ink); font-size: var(--t-16, 16px); font-weight: 600;
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__empty-actions > a:first-child:hover {
+  background: var(--v8s-raised); border-color: var(--v8s-ink);
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__empty-actions > a:not(:first-child) {
+  min-block-size: 44px; padding: 0; border: 0; border-radius: 0; background: none;
+  color: var(--v8s-ink-2); font-size: var(--t-14, 14px); font-weight: 500;
+  text-decoration: underline; text-decoration-color: var(--v8s-line-2); text-underline-offset: 4px;
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__empty-actions > a:not(:first-child):hover {
+  background: none; color: var(--v8s-ink); text-decoration-color: var(--v8s-ink-2);
+}
+@media (max-width: 640px) {
+  main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__empty-actions { flex-direction: column; align-items: stretch; }
+  main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__empty-actions > a:first-child { flex: 0 0 auto; justify-content: center; inline-size: 100%; }
+  main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__empty-actions > a:not(:first-child) { flex: 0 0 auto; align-self: center; inline-size: auto; justify-content: center; }
+}
+
+/* 2. Section head vs cards: head copy steps down to ink-2 so the h2 leads; the drawer summary gets a title / caption pair;
+ *    the head toggle joins the 8px control radius and 14px scale. */
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__sources-head p {
+  color: var(--v8s-ink-2); max-inline-size: 60ch;
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__sources-head > button {
+  border-radius: 8px; border-color: var(--v8s-line-2); font-size: var(--t-14, 14px); font-weight: 500; padding-inline: var(--s-4, 16px);
+  transition: background-color 140ms var(--v8s-ease), border-color 140ms var(--v8s-ease);
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__sources-head > button:hover {
+  background: var(--v8s-raised); border-color: var(--v8s-ink-3);
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__index-drawer > summary > span {
+  font-size: var(--t-14, 14px); font-weight: 400; color: var(--v8s-ink-3);
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__index-drawer > summary > b {
+  display: inline-block; transition: transform 240ms var(--v8s-ease);
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__index-drawer[open] > summary > b { transform: rotate(45deg); }
+
+/* 3. Status language. Reviewed = filled ink dot; pending / account check = ring; unknown / unavailable = dash on a dashed
+ *    frame; ended / expired = dimmed ink-3. Shape carries the meaning, colour stays ink-only. */
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__research-status, .activity-card-v3__top) > span[data-state] {
+  display: inline-flex; align-items: center; gap: var(--s-2, 8px);
+  min-block-size: 24px; padding-block: 0; padding-inline: 8px 12px;
+  border: 1px solid var(--v8s-line); border-radius: 999px; background: var(--v8s-surface);
+  color: var(--v8s-ink-2); font-size: var(--t-12, 12px); font-weight: 500; line-height: 1.2;
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__research-status, .activity-card-v3__top) > span[data-state]::before {
+  content: ""; flex: none; inline-size: 6px; block-size: 6px; border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px currentColor; /* default = ring (pending) */
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__research-status, .activity-card-v3__top) > span:is([data-state="publishable"], [data-state="current"], [data-state="reviewed"], [data-state="verified"]) {
+  color: var(--v8s-ink); border-color: var(--v8s-line-2);
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__research-status, .activity-card-v3__top) > span:is([data-state="publishable"], [data-state="current"], [data-state="reviewed"], [data-state="verified"])::before {
+  background: currentColor; box-shadow: none;
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__research-status, .activity-card-v3__top) > span:is([data-state="region-unknown"], [data-state="no-public-offer"], [data-state="unknown"], [data-state="unavailable"], [data-state="blocked"]) {
+  border-style: dashed; background: transparent;
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__research-status, .activity-card-v3__top) > span:is([data-state="region-unknown"], [data-state="no-public-offer"], [data-state="unknown"], [data-state="unavailable"], [data-state="blocked"])::before {
+  block-size: 1.5px; border-radius: 1px; background: currentColor; box-shadow: none;
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__research-status, .activity-card-v3__top) > span:is([data-state="ended"], [data-state="expired"]) {
+  color: var(--v8s-ink-3); background: transparent; opacity: .72;
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__research-status, .activity-card-v3__top) > span:is([data-state="ended"], [data-state="expired"])::before {
+  background: currentColor; box-shadow: none;
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__reward-grid > article:has(.activity-center-v3__research-status > span:is([data-state="ended"], [data-state="expired"])) .activity-center-v3__research-summary {
+  color: var(--v8s-ink-3);
+}
+/* the "checked" date reads as metadata next to the chip, not as a second chip */
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__research-status {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2, 8px) var(--s-3, 12px);
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__research-checked {
+  color: var(--v8s-ink-3); font-size: var(--t-12, 12px); font-variant-numeric: tabular-nums;
+}
+
+/* 4. Card response: hover / keyboard focus lift (surface + stronger top rule + 2px ink edge), 140ms. */
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__reward-grid > article {
+  transition: background-color 140ms var(--v8s-ease), border-color 140ms var(--v8s-ease), box-shadow 140ms var(--v8s-ease);
+}
+main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__reward-grid > article:is(:hover, :focus-within) {
+  background-color: var(--v8s-surface); border-block-start-color: var(--v8s-line-2);
+  box-shadow: inset 2px 0 0 var(--v8s-ink-3);
+}
+[dir="rtl"] main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__reward-grid > article:is(:hover, :focus-within) {
+  box-shadow: inset -2px 0 0 var(--v8s-ink-3);
+}
+
+/* =====================================================================================================================
+ * TELEGRAM  (main#top.r1-telegram-page: /telegram, /zh-hans/telegram)
+ * ===================================================================================================================== */
+
+/* 5. Command token: a hairline-framed Geist Mono "key" so the command reads as something you type, not a heading. */
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-cmd-card__command {
+  display: inline-flex; align-items: center; gap: 6px; justify-self: start; inline-size: fit-content;
+  padding-block: 4px; padding-inline: 10px; border: 1px solid var(--v8s-line); border-radius: 8px;
+  background: var(--v8s-surface); color: var(--v8s-ink); font-family: var(--font-mono, "Geist Mono V5", ui-monospace, monospace);
+  font-size: var(--t-14, 14px); font-weight: 500; direction: ltr; unicode-bidi: isolate;
+  transition: background-color 140ms var(--v8s-ease), border-color 140ms var(--v8s-ease);
+}
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-cmd-card__prompt { color: var(--v8s-ink-3); }
+/* sample = a terminal line: hairline rail on the inline-start edge, label as quiet metadata */
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-cmd-card__sample {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px;
+  padding-block: 4px; padding-inline: 12px 0; border: 0; border-inline-start: 1px solid var(--v8s-line-2); border-radius: 0; background: none;
+  font-family: var(--font-mono, "Geist Mono V5", ui-monospace, monospace); font-size: var(--t-14, 14px); overflow-wrap: anywhere;
+}
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-cmd-card__sample-label { color: var(--v8s-ink-3); font-size: var(--t-12, 12px); }
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-cmd-card__sample-code { color: var(--v8s-ink); direction: ltr; unicode-bidi: isolate; }
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-cmd-card {
+  transition: border-color 140ms var(--v8s-ease);
+}
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-cmd-card:is(:hover, :focus-within) { border-block-start-color: var(--v8s-line-2); }
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-cmd-card:is(:hover, :focus-within) .tg-cmd-card__command { background: var(--v8s-raised); border-color: var(--v8s-line-2); }
+
+/* 6. Bot handle as the same mono token family (it is literally what you search for in Telegram). */
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-bot-handle {
+  display: inline-flex; align-items: center; justify-self: start; inline-size: fit-content;
+  padding-block: 2px; padding-inline: 8px; border: 1px solid var(--v8s-line); border-radius: 8px;
+  color: var(--v8s-ink-2); font-size: var(--t-12, 12px); font-weight: 500; direction: ltr; unicode-bidi: isolate;
+}
+
+/* 7. Topic / return cards: hover + focus lift (top rule line -> line-2, 140ms) so rows answer the pointer. */
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.tg-topic-card, .tg-return-card) {
+  transition: background-color 140ms var(--v8s-ease), border-color 140ms var(--v8s-ease), box-shadow 140ms var(--v8s-ease);
+}
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.tg-topic-card, .tg-return-card):is(:hover, :focus-within, :focus-visible) {
+  background-color: var(--v8s-surface); border-block-start-color: var(--v8s-line-2); box-shadow: inset 2px 0 0 var(--v8s-ink-3);
+}
+[dir="rtl"] main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.tg-topic-card, .tg-return-card):is(:hover, :focus-within, :focus-visible) {
+  box-shadow: inset -2px 0 0 var(--v8s-ink-3);
+}
+main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-return-card > span { color: var(--v8s-ink-3); }
+
+/* =====================================================================================================================
+ * MOTION (both routes): hero arrives once (8px + fade, 400ms, 60ms stagger) via @starting-style; disclosures unfold their
+ * content when opened. No scroll-linked opacity (R11 fail-safe in pages-inner-r9). Unsupported browsers just show content.
+ * ===================================================================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  :is(main#top.v3-activity-center, main#top.r1-telegram-page):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__head h1, .activity-center-v3__head span, .activity-center-v3__empty-actions, .tg-hub__title, .tg-hub__subtitle, .tg-hub__quick-cta) {
+    transition: opacity 400ms var(--v8s-ease), translate 400ms var(--v8s-ease);
+  }
+  :is(main#top.v3-activity-center, main#top.r1-telegram-page):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__head span, .tg-hub__subtitle) { transition-delay: 60ms; }
+  :is(main#top.v3-activity-center, main#top.r1-telegram-page):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__empty-actions, .tg-hub__quick-cta) { transition-delay: 120ms; }
+  @starting-style {
+    :is(main#top.v3-activity-center, main#top.r1-telegram-page):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__head h1, .activity-center-v3__head span, .activity-center-v3__empty-actions, .tg-hub__title, .tg-hub__subtitle, .tg-hub__quick-cta) {
+      opacity: 0; translate: 0 8px;
+    }
+  }
+
+  main#top.v3-activity-center:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__index-drawer[open] > .official-research,
+  main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-command-disclosure[open] > .tg-deck {
+    animation: v8s-unfold 400ms var(--v8s-ease) both;
+  }
+  main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-command-disclosure[open] .tg-cmd-card {
+    animation: v8s-unfold 400ms var(--v8s-ease) both;
+  }
+  main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-command-disclosure[open] .tg-cmd-card:nth-child(2) { animation-delay: 60ms; }
+  main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-command-disclosure[open] .tg-cmd-card:nth-child(3) { animation-delay: 120ms; }
+  main#top.r1-telegram-page:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-command-disclosure[open] .tg-cmd-card:nth-child(n+4) { animation-delay: 180ms; }
+}
+@keyframes v8s-unfold { from { opacity: 0; translate: 0 8px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  :is(main#top.v3-activity-center, main#top.r1-telegram-page):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.activity-center-v3__reward-grid > article, .activity-center-v3__empty-actions > a, .activity-center-v3__index-drawer > summary > b, .tg-cmd-card, .tg-cmd-card__command, .tg-topic-card, .tg-return-card) {
+    transition: none; animation: none;
+  }
+}
+@media print {
+  :is(main#top.v3-activity-center, main#top.r1-telegram-page):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.official-research, .tg-deck, .tg-cmd-card) { animation: none; }
+}
