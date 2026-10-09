@@ -1,0 +1,42 @@
+/* R11 layout (shared footer + content pages). Loaded last in the shared v6 layer. */
+
+/* ---------- 1. shared footer ----------
+   Desktop: the brand line was capped at 34ch (424px of a 470px column), leaving a strip before the link grid,
+   and the five policy links ran as one 240px column past the end of the disclaimer. The brand line now fills its
+   column and the policy links sit in two columns, so the policies row ends with the disclaimer. */
+@media (min-width: 860px) {
+  .nx-ftr .nx-ftr__brand .clean-footer__summary:not(#_):not(#_) { max-inline-size: none; }
+  .nx-ftr .nx-ftr__policies .clean-footer__nav--policies ul:not(#_):not(#_) { display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); column-gap: var(--s-8, 32px); align-content: start; }
+}
+/* Phone / tablet with the bottom nav: the body already reserves the nav (+8px) and the footer added the nav height
+   again (+28px), a ~160px empty strip under the copyright. The page now ends exactly one nav height below the
+   copyright: the body reserve is the nav height and the footer adds nothing on top. */
+@media (max-width: 780px) {
+  body:has(> #root > .mobile-bottom-nav, > #root > main > .mobile-bottom-nav):not(:has(> #root > main:is(.v3-profile-page, .v3-compare-page))) { --mobile-bottom-nav-reserve: var(--mobile-bottom-nav-height, 80px); }
+  body:has(> #root > .mobile-bottom-nav, > #root > main > .mobile-bottom-nav):not(:has(> #root > main:is(.v3-profile-page, .v3-compare-page))) .nx-ftr__inner:not(#_):not(#_) { padding-block-end: 0; }
+}
+
+/* ---------- 2. /onchain: the two answer cards become one full-width list (heading | items per row) ----------
+   Side by side, the 3-item source boundary card left a 208x176 empty corner beside a taller checklist. */
+@media (min-width: 641px) {
+  .onchain-board-section .onchain-board__answer:not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); gap: 0; border: 1px solid rgba(148, 163, 184, 0.16); border-radius: 12px; background: rgba(13, 17, 23, 0.62); }
+  .onchain-board-section .onchain-board__answer > .onchain-board__card:not(#_):not(#_) { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--s-6, 24px); align-items: start; padding: var(--s-6, 24px); border: 0; border-radius: 0; background: none; }
+  .onchain-board-section .onchain-board__answer > .onchain-board__card + .onchain-board__card:not(#_):not(#_) { border-block-start: 1px solid rgba(148, 163, 184, 0.16); }
+  .onchain-board-section .onchain-board__answer > .onchain-board__card > :is(ul, p):not(#_):not(#_) { grid-column: 2; grid-row: 1; margin: 0; }
+  .onchain-board-section .onchain-board__answer > .onchain-board__card > h2:not(#_):not(#_) { grid-column: 1; grid-row: 1; }
+  .onchain-board-section .onchain-board__answer > .onchain-board__card:not(.onchain-board__checklist) > ul:not(#_):not(#_) { padding-block: var(--s-2, 8px); }
+}
+
+/* ---------- 3. topic guides ----------
+   Source register: three cards of unequal link counts left a 208x240 hole in the shorter cards; it is now one
+   full-width row per venue (name, status, review date | its source links). */
+@media (min-width: 768px) {
+  .topic-guide-page .topic-source-register__grid:not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); gap: 0; border-block-start: 1px solid rgba(148, 163, 184, 0.18); }
+  .topic-guide-page .topic-source-register__item:not(#_):not(#_) { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); grid-auto-rows: min-content; column-gap: var(--s-6, 24px); padding: var(--s-4, 16px) 0; border: 0; border-block-end: 1px solid rgba(148, 163, 184, 0.18); background: none; }
+  .topic-guide-page .topic-source-register__item > :is(strong, span, small):not(#_):not(#_) { grid-column: 1; }
+  .topic-guide-page .topic-source-register__item > div:not(#_):not(#_) { grid-column: 2; grid-row: 1 / span 3; display: flex; flex-wrap: wrap; align-content: start; gap: 0 var(--s-6, 24px); }
+}
+/* FAQ: answers kept a ~560px measure inside 1200px cards (a 616px empty column beside every answer); two columns on desktop. */
+@media (min-width: 1024px) {
+  .topic-guide-page .topic-faq-list:not(#_):not(#_) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; }
+}

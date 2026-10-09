@@ -1,5 +1,6 @@
 import React from "react";
 import { collectionHubCopy, factbookHubItems, topicHubItems } from "../../data/collection-hubs.js";
+import { enAttrs } from "../../utils/fallback-lang.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark";
 import { feeFact } from "../../data/exchange-facts.js";
@@ -21,11 +22,13 @@ function groupsOf(kind, items) {
 export function CollectionHubPage({ kind, locale = "en" }) {
   const copy = collectionHubCopy(kind, locale);
   const items = kind === "factbook" ? factbookHubItems(locale) : topicHubItems(locale);
+  // the hubs carry English and Chinese copy only: on any other locale both sections are English blocks
+  const en = String(locale).startsWith("zh") ? undefined : enAttrs(locale);
   const hubDecision = kind === "factbook" ? "factbook_source_record" : "topic_research_path";
   const hubProduct = kind === "factbook" ? "source-review" : "research";
 
   return <main className="v6 v2-page v3-page collection-hub-page" data-collection-hub={kind}>
-    <section className="v2-shell v3-section">
+    <section className="v2-shell v3-section" {...en}>
       <h1>{copy.title}</h1>
       <p className="v3-section__sub">{copy.description}</p>
       <p className="v3-section__meta">{copy.itemLabel}: {items.length}</p>
@@ -55,7 +58,7 @@ export function CollectionHubPage({ kind, locale = "en" }) {
         </a>
       </div>
     </section>
-    <section className="v2-shell v3-section" aria-label={copy.itemLabel} data-route-label={copy.itemLabel}>
+    <section className="v2-shell v3-section" aria-label={copy.itemLabel} data-route-label={copy.itemLabel} {...en}>
       {groupsOf(kind, items).map((group) => <div className="r9-hub-group" key={group.key} data-hub-group={group.key}>
       {group.caption && <p className="r9-hub-group__cap">{group.caption} <span className="v6-num">· {group.items.length}</span></p>}
       <div className="topic-grid">

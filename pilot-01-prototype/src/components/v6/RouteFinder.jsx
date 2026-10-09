@@ -116,7 +116,12 @@ function drawRoutes(B, lit, active, noCard) {
     // intent port -> under the intent row -> up into "You" -> the verify gate; the gate is the one origin of every venue route
     const yb = port.y + 14;
     const yx = (you.l + you.r) / 2;
-    out.chain.push(`M${f1(port.x)} ${f1(port.y)}V${f1(yb - 8)}Q${f1(port.x)} ${f1(yb)} ${f1(port.x + 8)} ${f1(yb)}H${f1(yx - 8)}Q${f1(yx)} ${f1(yb)} ${f1(yx)} ${f1(yb - 8)}V${f1(you.b)}`);
+    // the hub sits level with the readout (below the intent row): the route drops into "You" from above; a hub level with
+    // the tiles is entered from below as before
+    const down = you.t > yb + 8;
+    const yEnd = down ? you.t : you.b;
+    const turn = down ? yb + 8 : yb - 8;
+    out.chain.push(`M${f1(port.x)} ${f1(port.y)}V${f1(yb - 8)}Q${f1(port.x)} ${f1(yb)} ${f1(port.x + 8)} ${f1(yb)}H${f1(yx - 8)}Q${f1(yx)} ${f1(yb)} ${f1(yx)} ${f1(turn)}V${f1(yEnd)}`);
     out.chain.push(`M${f1(you.r)} ${f1(mid(you))}H${f1(gate.l)}`);
     origin = [gate.r, mid(gate)];
   } else {

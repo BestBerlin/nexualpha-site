@@ -1,4 +1,5 @@
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
+import { enFallback } from "../../utils/fallback-lang.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { getTextDirection } from "../../paraglide/runtime.js";
 import "./methodology-page.css";
@@ -313,7 +314,7 @@ export function MethodologyPage({ locale = "en" }) {
           </div>
         </section>
 
-        <section className="methodology-page__funding-answer" id="regional-funding-routes" aria-labelledby="methodology-regional-funding-title">
+        <section className="methodology-page__funding-answer" id="regional-funding-routes" aria-labelledby="methodology-regional-funding-title" {...enFallback(fundingRoute, REGIONAL_FUNDING_ROUTE_COPY.en, locale)}>
           <div className="methodology-page__funding-copy">
             <span className="methodology-page__funding-eyebrow">{fundingRoute.eyebrow}</span>
             <h2 id="methodology-regional-funding-title">{fundingRoute.title}</h2>
@@ -349,7 +350,7 @@ export function MethodologyPage({ locale = "en" }) {
           </div>
         </section>
 
-        <section className="methodology-page__feedback-card" id="data-license" aria-labelledby="methodology-data-license-title">
+        <section className="methodology-page__feedback-card" id="data-license" aria-labelledby="methodology-data-license-title" {...enFallback(dataLicense, DATA_LICENSE_COPY.en, locale)}>
           <div className="methodology-page__feedback-left">
             <h2 id="methodology-data-license-title">{dataLicense.title}</h2>
             <p>{dataLicense.body}</p>
