@@ -3062,6 +3062,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
         {/* 头部 Hero 区域 */}
         <div className="topic-header">
           <div className="topic-header__badge-row">
+            <span className="topic-header__badge">{topicBadge}</span>
             <span className="topic-header__date">{sourceBoundUi ? `${sourceBoundUi.updated}: ${topic.lastUpdated}` : topicUi ? `${topicUi.updated}: ${topic.lastUpdated}` : staticUi.updated ? `${staticUi.updated}: ${topic.lastUpdated}` : isZh ? `${zhCopy(isHant, "最后量化更新")}：${topic.lastUpdated}` : `Last Updated: ${topic.lastUpdated}`}</span>
           </div>
           <h1 className="topic-header__title">{topicTitle}</h1>

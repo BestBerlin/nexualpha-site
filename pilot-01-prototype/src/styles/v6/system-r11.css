@@ -32,3 +32,37 @@ main.v3-profile-page.v6 .v3-profile-action-column .registration-card__mobile-rou
 /* embeddable calculator (/embed/calculator) renders outside main.v6: its controls inherited line-height "normal" */
 .bleed-analyzer-section { line-height: var(--lh-body); }
 .bleed-analyzer-section :is(button, input, select) { line-height: var(--lh-head); }
+
+/* r11 refuse-list: kickers / eyebrows / pulse badges above headings (docs/design/v6-brief.md "Banned").
+ * Hidden here instead of deleted in JSX so parallel page leads do not conflict; the DOM text (and any aria-label
+ * that reuses it) is unchanged. Never matches a container holding a heading, link or control. */
+:is(
+  [class*="eyebrow"], [class*="kicker"],
+  .topic-header__badge, .top-hub__badge, .news-hero__badge, .bleed-analyzer__badge, .guide-hero__badge,
+  .registration-card__next-step > span:first-child,
+  .venue-readiness__head > span:first-child,
+  .v3-decision-brief > span:first-child,
+  .regional-decision-depth__header > span:first-child,
+  .next-decision-bridge__copy > span:first-child,
+  .section-lead > p:first-child:has(+ :is(h1, h2, h3))
+):not(:has(h1, h2, h3, h4, a, button, input, select, textarea)) {
+  display: none !important;
+}
+
+/* r11: no uppercase micro-labels. Text renders in the case it is written; codes and keys are written upper already. */
+body :not(code, kbd, samp, abbr) { text-transform: none !important; }
+
+/* r11 refuse-list: no gradient text anywhere (legacy utilities) */
+:is(.nxa-text-gradient-blue, [class*="text-gradient"], [class*="gradient-text"]) {
+  background: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+/* r11 rhythm guards for the line-height normalisation (voidscan regression found in this pass):
+ * /topics/* FAQ: answers keep their measure; source lines move into the free right track instead of leaving it empty. */
+@media (min-width: 64rem) {
+  .topic-faq-item { display: grid; grid-template-columns: minmax(0, 36rem) minmax(0, 1fr); column-gap: 48px; align-items: start; }
+  .topic-faq-item > .topic-faq-q { grid-column: 1 / -1; }
+  .topic-faq-item > .topic-faq-q + .topic-faq-a { grid-column: 1; grid-row: 2 / span 8; }
+  .topic-faq-item > .topic-faq-a:not(.topic-faq-q + .topic-faq-a) { grid-column: 2; margin-block: 0 8px; }
+}
