@@ -78,7 +78,7 @@ function IntelSheet({ item, venues, t, locale, onClose }) {
     <dialog ref={ref} className="h7-sheet" aria-labelledby="h7-sh-t" onClose={onClose} onClick={(e) => { if (e.target === ref.current) ref.current.close(); }}>
       <div className="h7-sh-in">
         <button type="button" className="h7-sh-x" onClick={() => ref.current.close()} aria-label={t.shClose}>×</button>
-        <h3 id="h7-sh-t">{t.shH}</h3>
+        <h3 id="h7-sh-t" className="h7-sh-h">{t.shH}</h3>
         <p className="h7-sh-ev"><span className={`h7-ic h7-ic-${item.category}`}>{t.inCat[item.category]}</span> {item.title}</p>
         <p className="h7-sh-sub">{perp ? t.shPerp : t.shSpot}</p>
         <ul className="h7-sh-l">

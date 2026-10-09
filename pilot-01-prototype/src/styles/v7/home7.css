@@ -121,3 +121,4 @@
 .h7:not(#_):not(#_) .h7-sheet .h7-ln{display:inline-block;font-size:14px;color:#0B0D0C;padding:10px 2px;border-bottom:1px solid #0B0D0C;text-decoration:none}
 .h7:not(#_):not(#_) .h7-sheet .h7-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media(max-width:700px){.h7:not(#_):not(#_) .h7-sheet[open]{align-items:flex-end}.h7:not(#_):not(#_) .h7-sh-in{width:100%;border-radius:20px 20px 0 0;max-height:86dvh}}
+.h7:not(#_):not(#_) .h7-sh-in h3.h7-sh-h{color:#0B0D0C;font-weight:700;opacity:1;-webkit-text-fill-color:#0B0D0C}
