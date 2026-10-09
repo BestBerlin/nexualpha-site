@@ -48,8 +48,8 @@ desk → fee comparison → sheet; profile copy code + official link; home calcu
 | 19 | `npm test`: no new failures vs the 57 baseline | test log diff | ✅ 56 failing, all pre-existing (the 'regional JP/KR/TR stylesheet budget' one also fails on live: /jp ships 6 stylesheets there too) |
 | 20 | CI-equivalent build passes locally (typecheck, build, budget, dist-shell-contract) | command output | ✅ typecheck, client+SSR+news build, prerender 2271 routes, strict budget, dist-shell-contract 3/3 |
 | 21 | Independent review (separate agent) reports no high-severity issue | review report | ✅ re-review (separate agent): H1/H2/H3 fixed, no HIGH issues; mediums logged below |
-| 22 | Pushed to `v7-home`; merged to `main` | git refs | ⏳ PR #1 ready, CI green, mergeable — merge blocked by local permission policy (needs owner click or permission) |
-| 23 | Deployed via workflow; live buildId + CTA links + key routes verified; rollback name recorded | live checks | ⏳ waits on 22 |
+| 22 | Pushed to `v7-home`; merged to `main` | git refs | ✅ PR #1 merged (main ba66747), PR #2 merged (main 3738f5c) |
+| 23 | Deployed via workflow; live buildId + CTA links + key routes verified; rollback name recorded | live checks | ✅ live 3.0-20261009T2034-GH-3738f5c: verify-live-v8 all passed (13 routes 200, 3 invite codes, desk, disclosure, 55 notices); browser-checked /zh-hans 390 and /zh-hans/exchanges 1440 |
 
 ## Log
 - R1 (2026-10-09): versions verified; v8 work committed as `57baf4c` on `v7-home`; checklist frozen.
@@ -60,5 +60,15 @@ desk → fee comparison → sheet; profile copy code + official link; home calcu
 - R6: re-review passed (no HIGH). Open mediums/lows: sticky-bar disclosure is a link label (owner sign-off), dock chip truncates long names, /ar ticker label English, zh search shows an English result title, search title wording, news summaries repeat boilerplate, folded rates links still in tab order (to check).
 - Known trade-offs: rates calculator default stays spot/taker (locked by restore logic and tests; ties are the true result). Compare/profile sticky bars keep the "合作披露" link label (full sentence is sticky above the cards).
 
+## Releases
+| Release | buildId | Notes |
+|---|---|---|
+| gh-20261009t2026-ba66747 | 3.0-20261009T2026-GH-ba66747 | v8. First run blocked by the CTA gate only because the old home's registration card (code 11350287) is gone; link sets identical and the code is still shown in the calculator row, so re-run with `allow_cta_change`. Live notice feed 404: production mounts managed content over `/content`. |
+| gh-20261009t2034-3738f5c | 3.0-20261009T2034-GH-3738f5c | Feed moved to `/intel/official-announcements.json`; CTA gate passed without override. **Current live.** |
+
+Rollback: Actions → "Rollback production" with release `gh-20261009t2034-3738f5c` (returns to ba66747), or `gh-20261009t2026-ba66747` (returns to pre-v8 `gh-20261009t1328-63a82a1`).
+
+**Milestone status: 23/23 accepted (2026-10-09).** Acceptance means this stage met its checklist, not that the site cannot improve.
+
 ## Next
-Run the verification sweeps (items 1-6, 9-18), fix what fails, then build gate (20), review (21), release (22-23).
+Next milestone backlog (ranked): (1) schedule the notice fetch (Bybit works from this machine, not from CI cloud IPs — needs a runner/server cron that writes `public/intel/` or a server-side path; no scheduler is configured yet); (2) owner decisions: sticky-bar disclosure as a full sentence, 50% tier, H1 sign-off for other locales, translations of the home copy (13 locales); (3) news list boilerplate summaries, dock chip name truncation, /ar ticker label, zh search result titles; (4) triage the 56 pre-existing failing tests (release-blockers-v8.md).
