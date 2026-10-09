@@ -1,5 +1,6 @@
 import { createElement, useEffect, useRef } from "react";
 import { prefersReducedMotion } from "./useInView.js";
+import { whenReached } from "../revealGuard.js";
 
 /**
  * Blur/translate/opacity reveal on scroll. Server HTML has NO hidden state: the element is fully visible
@@ -15,17 +16,20 @@ export function Reveal({ as = "div", index = 0, className = "", style, children,
     const top = el.getBoundingClientRect().top;
     if (top < window.innerHeight * 0.92) return undefined;
     el.dataset.state = "hidden";
+    let stop = () => {};
+    const show = () => { el.dataset.state = "shown"; io.disconnect(); stop(); };
     const io = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
-        el.dataset.state = "shown";
-        io.disconnect();
+        show();
       },
       { rootMargin: "0px 0px -8% 0px" },
     );
     io.observe(el);
+    stop = whenReached(el, show); // fail-safe for blocks jumped past (anchor / End / fast flick / focus / print)
     return () => {
       io.disconnect();
+      stop();
       delete el.dataset.state;
     };
   }, []);

@@ -7,6 +7,7 @@ import { CLOSE_COPY, RAIL, pickLocale } from "../v3/LeanHeroCopyV6.js";
 import { LeanHero } from "../v3/LeanHero";
 import { RailDock, RailSeg } from "./RouteRail.jsx";
 import { BrazilEntryLink } from "../v3/international/BrazilDecisionPage.jsx";
+import { prefersReducedMotionNow, whenReached } from "../../lib/revealGuard.js";
 
 
 // The two next-step CTAs are GET forms, not anchors: they work without JS and keep the page's crawlable <a href> set
@@ -29,18 +30,18 @@ function ClosingBandImpl({ legacy, locale = "en" }) {
   const [phase, setPhase] = useState("idle"); // idle (SSR: all visible) -> armed (hidden) -> in (revealed)
   useEffect(() => {
     const el = ref.current;
-    if (!el || typeof IntersectionObserver === "undefined") return undefined;
-    // Server HTML and no-JS stay fully visible. After mount the band is armed (paper sheet covered) and the reveal plays when
-    // the band is actually scrolled to: a visible wipe plus the headline rise. If IO somehow never reports, a scroll check does.
-    const open = () => { setPhase("in"); io.disconnect(); window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
-    const check = () => { const r = el.getBoundingClientRect(); if (r.top < window.innerHeight * 0.85 && r.bottom > 0) open(); };
+    if (!el || typeof IntersectionObserver === "undefined" || prefersReducedMotionNow()) return undefined;
+    // Server HTML and no-JS stay fully visible. The band is armed (paper sheet covered) only when it is below the fold at
+    // mount; the reveal plays when it is scrolled to. Fail-safe: whenReached() also opens it once it has been reached OR
+    // jumped past (anchor link, End key, fast flick, focus, print), so it can never stay covered.
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.85) return undefined;
+    let stop = () => {};
     const io = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) open(); }, { threshold: 0.2 });
+    function open() { setPhase("in"); io.disconnect(); stop(); }
     io.observe(el);
     setPhase("armed");
-    window.addEventListener("scroll", check, { passive: true });
-    window.addEventListener("resize", check);
-    const t = window.setTimeout(check, 400);
-    return () => { window.clearTimeout(t); io.disconnect(); window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
+    stop = whenReached(el, open, { ratio: 0.85 });
+    return () => { io.disconnect(); stop(); };
   }, []);
   // Phones: the related-research index starts folded (one tappable row; every link stays in the DOM for crawlers and keyboards).
   const idx = useRef(null);

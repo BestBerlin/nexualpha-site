@@ -161,14 +161,10 @@ main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):no
 main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is([class*="chip"], .v3-domain-pill, .cl-chip, .rt-seg label, .mx-seg button, [role="tab"]):active { transform: scale(0.97); }
 main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is([class*="chip"], .v3-domain-pill, .rt-seg label, .mx-seg button, [role="tab"]) { transition: transform 120ms var(--r9-ease), border-color 160ms var(--r9-ease), background-color 160ms var(--r9-ease); }
 
-/* ---------- (e) scroll-driven reveal: CSS view() timeline where supported (inner-motion.js marks blocks data-rv="v"),
- * the IntersectionObserver reveal elsewhere. Fill is forwards only: before a block reaches the viewport it is untouched (visible to
- * full-page captures and print), it rises while entering, and stays shown after. Rows rise on their own, sections via data-rv="v". ---------- */
-@supports (animation-timeline: view()) {
-  main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) [data-rv="v"] { animation: r9-rise linear forwards; animation-timeline: view(); animation-range: entry 0% entry 240px; }
-  main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_)[data-collection-hub="factbook"] .topic-card, main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .activity-center-v3__reward-grid > article, main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .tg-topic-card, main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .methodology-pillar-card { animation: r9-rise linear forwards; animation-timeline: view(); animation-range: entry 0% entry 160px; }
-}
-@keyframes r9-rise { from { opacity: 0; transform: translateY(16px); } }
+/* ---------- (e) scroll reveal (R11 fail-safe): no CSS view()-timeline opacity any more. A scroll-linked fade parks blocks at
+ * partial opacity while they sit at the viewport edge, and in Chromium a not-yet-entered block resolved to the 0% keyframe
+ * even with JS off (R10 QA: /factbook topic cards, /activities reward cards, /methodology pillars, /exchanges rows). Cards and
+ * sections now reveal only through public/motion/inner-motion.js (IntersectionObserver + sweep, html.js-reveal gate). ---------- */
 @media print { main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is([data-rv], .topic-card, .activity-center-v3__reward-grid > article, .tg-topic-card, .methodology-pillar-card) { animation: none !important; opacity: 1 !important; transform: none !important; } }
 
 /* ---------- phone ---------- */

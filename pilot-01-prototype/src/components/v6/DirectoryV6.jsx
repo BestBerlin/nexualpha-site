@@ -4,6 +4,7 @@
 // Reveal is decoration only: every row, fee and code is visible in the server HTML and stays visible if JS or IO never runs.
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useSharedSelection } from "./home-selection.js";
+import { prefersReducedMotionNow, whenReached } from "../../lib/revealGuard.js";
 import { RailDock, RailSeg } from "./RouteRail.jsx";
 import { BrandMark } from "../brand/BrandMark";
 import { PlatformMatcher } from "../v3/PlatformMatcher";
@@ -202,7 +203,7 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
   const rowsKey = visible.map((r) => r.slug).join(",");
   useEffect(() => {
     const root = listRef.current;
-    if (!root || typeof window === "undefined" || typeof IntersectionObserver === "undefined") return undefined;
+    if (!root || typeof window === "undefined" || typeof IntersectionObserver === "undefined" || prefersReducedMotionNow()) return undefined;
     const nodes = [...root.querySelectorAll(".dir6-row")];
     const reveal = (row) => {
       seenRef.current.add(row.getAttribute("data-slug"));
@@ -217,18 +218,21 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
       });
     }, { rootMargin: "0px 0px -6% 0px", threshold: 0.01 });
     const vh = window.innerHeight || 800;
+    const stops = [];
     nodes.forEach((row) => {
       const slug = row.getAttribute("data-slug");
       const top = row.getBoundingClientRect().top;
       if (seenRef.current.has(slug) || top < vh * 0.94) { row.setAttribute("data-seen", "1"); seenRef.current.add(slug); return; }
       row.setAttribute("data-armed", "1");
       io.observe(row);
+      // fail-safe: a row jumped past (anchor / End / fast flick / focus / print) is shown at once, not after the timeout
+      stops.push(whenReached(row, () => { io.unobserve(row); reveal(row); }));
     });
     const timer = setTimeout(() => {
       nodes.forEach((row) => { if (row.hasAttribute("data-armed")) { row.removeAttribute("data-armed"); row.setAttribute("data-seen", "1"); } });
       io.disconnect();
     }, 7000);
-    return () => { clearTimeout(timer); io.disconnect(); };
+    return () => { clearTimeout(timer); io.disconnect(); stops.forEach((stop) => stop()); };
   }, [rowsKey]);
 
   // Runs of 3+ consecutive unchecked venues with no code and no sign-up route collapse into one grouped line.

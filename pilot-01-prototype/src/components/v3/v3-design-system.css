@@ -201,9 +201,13 @@
    ================================================================ */
 
 /* Stagger 入场（配合 IntersectionObserver / .is-revealed 类） */
-.nxa-stagger > * {
+/* Hidden only while the hook has armed the container (JS live, below the fold); SSR / no-JS / print always show the children. */
+.nxa-stagger.is-armed:not(.is-revealed) > * {
   opacity: 0;
   transform: translateY(10px) scale(0.99);
+}
+@media print { .nxa-stagger > * { opacity: 1 !important; transform: none !important; } }
+.nxa-stagger > * {
   transition:
     opacity var(--nxa-duration-slow) var(--nxa-ease-spring),
     transform var(--nxa-duration-slow) var(--nxa-ease-spring);

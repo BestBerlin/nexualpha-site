@@ -10,6 +10,7 @@
  * @param {string} options.className — 注入的类名，默认 "is-revealed"
  */
 import { useEffect } from "react";
+import { prefersReducedMotionNow, whenReached } from "../lib/revealGuard.js";
 
 export function useStaggerReveal(ref, options = {}) {
   const {
@@ -20,11 +21,14 @@ export function useStaggerReveal(ref, options = {}) {
 
   useEffect(() => {
     const el = ref?.current;
-    if (!el || typeof IntersectionObserver === "undefined") {
-      // SSR / 不支持 IO 的环境直接显示
+    if (!el || typeof IntersectionObserver === "undefined" || prefersReducedMotionNow() || (once && el.getBoundingClientRect().top < window.innerHeight * 0.92)) {
+      // SSR / 不支持 IO / 减少动态 / 已在首屏：直接显示（children are only hidden while the container carries .is-armed）
       if (el) el.classList.add(className);
       return;
     }
+    el.classList.add("is-armed");
+    let stop = () => {};
+    if (once) stop = whenReached(el, () => { el.classList.add(className); observer.disconnect(); });
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -41,6 +45,6 @@ export function useStaggerReveal(ref, options = {}) {
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => { observer.disconnect(); stop(); };
   }, [ref, threshold, once, className]);
 }
