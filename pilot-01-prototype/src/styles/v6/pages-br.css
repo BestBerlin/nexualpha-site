@@ -308,4 +308,4 @@
 /* venue rows: the one-line check note under the buttons sized the actions column (782px at 1024), crushing
    the venue note into a one-word-per-line strip beside a 450px hole. It no longer contributes width. */
 #top#top#top#top.v6.br-decision .br-venue-card__check-note { contain: inline-size; inline-size: 100%; white-space: normal; }
-#top#top#top#top.v6.br-decision .br-hero__copy h1 { max-inline-size: none; text-wrap: pretty; }
+#top#top#top#top.v6.br-decision .br-hero__copy h1, #top#top#top#top.v6.br-decision.br-decision--entry .br-hero__copy h1 { max-inline-size: none; text-wrap: pretty; }
