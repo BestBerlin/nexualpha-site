@@ -31,6 +31,29 @@ function useVenues(locale) {
   }), [locale]);
 }
 
+// Ledger figures roll to their new value (eased); reduced motion and SSR render the final value.
+function Roll({ value, prefix = "" }) {
+  const [shown, setShown] = useState(value);
+  const from = useRef(value);
+  useEffect(() => {
+    if (value == null || from.current == null || reduced()) { from.current = value; setShown(value); return undefined; }
+    const a = from.current, b = value, t0 = performance.now(); let raf = 0;
+    const f = (n) => { const k = Math.min(1, (n - t0) / 700); const v = a + (b - a) * (1 - Math.pow(1 - k, 4)); setShown(v); if (k < 1) raf = requestAnimationFrame(f); else from.current = b; };
+    raf = requestAnimationFrame(f);
+    return () => { cancelAnimationFrame(raf); from.current = b; };
+  }, [value]);
+  return <>{shown == null ? "–" : `${prefix}${usd(shown)}`}</>;
+}
+
+function CopyCode({ code, t }) {
+  const [done, setDone] = useState(false);
+  const copy = () => {
+    const ok = () => { setDone(true); setTimeout(() => setDone(false), 1800); };
+    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(code).then(ok, () => {}); else ok();
+  };
+  return <button type="button" className={`h7-cc${done ? " done" : ""}`} onClick={copy} aria-live="polite">{done ? t.copied : t.copy}</button>;
+}
+
 function Cta({ v, locale, children, className, placement }) {
   if (v.open) {
     return <a className={className} href={v.url} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-platform={v.slug} data-cta-placement={placement} data-cta-code={v.code || undefined}>{children}</a>;
@@ -162,32 +185,41 @@ export function HomeV7({ locale, venues: _catalog }) {
     return r.length ? r.reduce((a, b) => (b.net < a.net ? b : a)) : calc.best || calc.rows[0];
   }, [calc]);
 
+  // Ledger: venues with a disclosed rebate share; the pick drives the ledger and the hero CTA.
+  const rebated = useMemo(() => calc.rows.filter((r) => r.share), [calc]);
+  const [pickSlug, setPick] = useState(null);
+  const sel = rebated.find((r) => r.slug === pickSlug) || top;
+  const spot = (e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`); };
+
   /* ---------- hero: rebate flow into the number ---------- */
-  const heroRef = useRef(null), cvRef = useRef(null), numRef = useRef(null), srcRefs = useRef([]);
+  const heroRef = useRef(null), cvRef = useRef(null), numRef = useRef(null), srcRefs = useRef([]), pillRefs = useRef([]);
   useEffect(() => {
     const hero = heroRef.current, cv = cvRef.current, num = numRef.current;
     if (!hero || !cv || !num) return undefined;
     const cx = cv.getContext("2d"); if (!cx) return undefined;
-    let W = 0, H = 0, src = [], P = [], raf = 0, stopped = false;
+    let W = 0, H = 0, src = [], P = [], raf = 0, stopped = false, phone = false;
     const geo = () => {
       const r = hero.getBoundingClientRect(); W = r.width; H = r.height;
       const dpr = Math.min(window.devicePixelRatio || 1, 2); cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const n = num.getBoundingClientRect(); const tx = n.left - r.left + n.width * 0.46, ty = n.top - r.top + n.height * 0.5;
-      src = srcRefs.current.filter(Boolean).map((e) => {
+      // Phones: the stream starts at the exchange pills right under the figure (inside the ledger, no text in between).
+      phone = window.matchMedia("(max-width: 900px)").matches;
+      src = (phone ? pillRefs : srcRefs).current.filter(Boolean).map((e) => {
         const b = e.getBoundingClientRect(); const x = b.left - r.left + b.width / 2, y = b.top - r.top + 2; // leave from the tile's top edge, never across its text
-        const mx = (x + tx) / 2, my = (y + ty) / 2, dx = tx - x, dy = ty - y, L = Math.hypot(dx, dy) || 1, off = L * 0.22 * (y < ty ? -1 : 1);
-        return { x, y, tx, ty, cx: mx + (dy / L) * off, cy: my - (dx / L) * off };
+        // Run along the strip first, then rise into the ledger figure: never across the headline column.
+        return { x, y, tx, ty, cx: tx, cy: y - 8 };
       });
     };
     const bez = (s, k) => { const u = 1 - k; return [u * u * s.x + 2 * u * k * s.cx + k * k * s.tx, u * u * s.y + 2 * u * k * s.cy + k * k * s.ty]; };
     const draw = () => {
       cx.clearRect(0, 0, W, H);
-      src.forEach((s, i) => { cx.strokeStyle = venues[i]?.share ? "rgba(31,224,192,.22)" : "rgba(237,238,240,.08)"; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(s.x, s.y); cx.quadraticCurveTo(s.cx, s.cy, s.tx, s.ty); cx.stroke(); });
-      P.forEach((p) => { const s = src[p.i]; if (!s) return; const b = bez(s, p.t), a = Math.sin(Math.PI * p.t); cx.fillStyle = venues[p.i]?.share ? `rgba(31,224,192,${a * 0.9})` : `rgba(237,238,240,${a * 0.25})`; cx.beginPath(); cx.arc(b[0], b[1], p.r, 0, 6.283); cx.fill(); });
+      const lit = (i) => phone || venues[i]?.share;
+      src.forEach((s, i) => { cx.strokeStyle = lit(i) ? "rgba(31,224,192,.22)" : "rgba(237,238,240,.08)"; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(s.x, s.y); cx.quadraticCurveTo(s.cx, s.cy, s.tx, s.ty); cx.stroke(); });
+      P.forEach((p) => { const s = src[p.i]; if (!s) return; const b = bez(s, p.t), a = Math.sin(Math.PI * p.t); cx.fillStyle = lit(p.i) ? `rgba(31,224,192,${a * 0.9})` : `rgba(237,238,240,${a * 0.25})`; cx.beginPath(); cx.arc(b[0], b[1], p.r, 0, 6.283); cx.fill(); });
     };
     const frame = () => { if (stopped) return; P.forEach((p) => { p.t += p.v; if (p.t >= 1) { p.t = 0; p.v = 0.003 + Math.random() * 0.004; } }); draw(); raf = requestAnimationFrame(frame); };
-    const init = () => { geo(); P = []; for (let i = 0; i < venues.length; i++) { const k = venues[i].share ? 7 : 3; for (let j = 0; j < k; j++) P.push({ i, t: Math.random(), v: 0.003 + Math.random() * 0.004, r: 1.6 + Math.random() * 1.8 }); } draw(); };
-    const onResize = () => { geo(); draw(); };
+    const init = () => { geo(); P = []; for (let i = 0; i < src.length; i++) { const k = phone || venues[i]?.share ? 7 : 3; for (let j = 0; j < k; j++) P.push({ i, t: Math.random(), v: 0.003 + Math.random() * 0.004, r: 1.6 + Math.random() * 1.8 }); } draw(); };
+    const onResize = () => { const was = phone; geo(); if (was !== phone) init(); else draw(); };
     init(); window.addEventListener("resize", onResize);
     document.fonts?.ready?.then(() => { if (!stopped) { geo(); draw(); } });
     let io; if (!reduced()) { io = new IntersectionObserver((es) => { cancelAnimationFrame(raf); if (es[0].isIntersecting) raf = requestAnimationFrame(frame); }, { threshold: 0.05 }); io.observe(hero); }
@@ -215,13 +247,31 @@ export function HomeV7({ locale, venues: _catalog }) {
         <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
         <div className="h7-hc">
           <p className="h7-kick">{t.kick}</p>
-          <h1>{t.h1a}<br />{t.h1b}<span className="h7-sr"> {HOME_REBATE_MAX_PCT}%</span></h1>
-          <p className="h7-sub">{t.sub}</p>
-          <div className="h7-cta"><Cta v={top} locale={locale} className="h7-btn" placement="home-v7-hero">{t.cta(top.name)}</Cta><a className="h7-ln" href="#h7-calc">{t.calcLink}</a></div>
-          <p className="h7-cta-disc">{t.t2b}</p>
+          <h1>{t.h1a}<br />{t.h1b}</h1>
+          <p className="h7-sub">{t.sub.replace("{max}", String(HOME_REBATE_MAX_PCT))}</p>
+          <div className="h7-cta"><Cta v={sel} locale={locale} className="h7-btn" placement="home-v7-hero">{t.cta(sel.name)}</Cta><a className="h7-ln" href="#h7-calc">{t.calcLink}</a></div>
         </div>
-        <div className="h7-big">
-          <p className="h7-num" ref={numRef} aria-hidden="true">{HOME_REBATE_MAX_PCT}<span>%</span></p>
+
+        <aside className="h7-lg" aria-label={t.lgTitle} onPointerMove={spot}>
+          <p className="h7-lg-top"><span className="h7-dot" aria-hidden="true" />{t.lgEst}<span className="h7-lg-vol">{t.lgVol(usd(vol), mode === "maker" ? t.maker : t.taker)}</span></p>
+          <div className="h7-lg-max">
+            <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgMax} </span>{HOME_REBATE_MAX_PCT}<span>%</span></p>
+            <p className="h7-lg-cap">{t.lgMax}</p>
+          </div>
+          <div className="h7-lg-pills" role="group" aria-label={t.lgPick}>
+            {rebated.map((r, i) => <button key={r.slug} ref={(e) => { pillRefs.current[i] = e; }} type="button" aria-pressed={r.slug === sel.slug} onClick={() => setPick(r.slug)}><BrandMark slug={r.slug} compact /><span>{r.name}</span><b>{Math.round(r.share * 100)}%</b></button>)}
+          </div>
+          <dl className="h7-lg-rows">
+            <div><dt>{t.lgWithout}</dt><dd><Roll value={sel.gross} /></dd></div>
+            <div className="up"><dt>{t.lgBack}</dt><dd><Roll value={sel.save} prefix="+" /></dd></div>
+            <div><dt>{t.lgNet}</dt><dd><Roll value={sel.net} /></dd></div>
+          </dl>
+          {sel.code && <p className="h7-lg-code"><span>{sel.name} · {t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
+          <p className="h7-lg-disclosure">{t.t2b}</p>
+        </aside>
+
+        <div className="h7-strip">
+          <p className="h7-strip-h">{t.cap(venues.length).replace("{max}", String(HOME_REBATE_MAX_PCT))}</p>
           <ul className="h7-pw" aria-label={t.pw(venues.length)}>
             {venues.map((v, i) => (
               <li key={v.slug}>
@@ -231,7 +281,6 @@ export function HomeV7({ locale, venues: _catalog }) {
               </li>
             ))}
           </ul>
-          <p className="h7-cap">{t.cap(venues.length).replace("{max}", String(HOME_REBATE_MAX_PCT))}</p>
         </div>
       </section>
 

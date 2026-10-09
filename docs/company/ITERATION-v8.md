@@ -67,7 +67,9 @@ desk → fee comparison → sheet; profile copy code + official link; home calcu
 | gh-20261009t2034-3738f5c | 3.0-20261009T2034-GH-3738f5c | Feed moved to `/intel/official-announcements.json`; CTA gate passed without override. |
 | 3.0-20261009T2048-GH-b644e1e | 3.0-20261009T2048-GH-b644e1e | Rebate headline (owner-confirmed 50% marketing) + notice desk. |
 | (run 37932992588) | 3.0-20261009T2053-GH-1f2a95a | Owner correction: product, not exchange PR. Animated 50% rebate hero restored (also on phones), notice desk + site ticker removed, notices moved below the calculator. verify-live-v8 passed; browser-checked 390/1440. |
-| (run 37938510630) | 3.0-20261009T2140-GH-6f24037 | Phone hero fixed after owner screenshot: chips had collided and run off the edge, particles crossed text. Now headline → 50% → four chips in one row → caption → copy/CTA/disclosure. **Current live.** |
+| (run 37938510630) | 3.0-20261009T2140-GH-6f24037 | Phone hero fixed after owner screenshot: chips had collided and run off the edge, particles crossed text. Now headline → 50% → four chips in one row → caption → copy/CTA/disclosure. |
+| (run 37943963293) | 3.0-20261009T2224-GH-4b8b96d | Partner wall: all 10 partners with real codes (logos, disclosed shares) under the animated 50%; home copy in all 15 locales (zh-Hant had shown Simplified, 13 locales English). |
+| (run 37947377440) | 3.0-20261009T2252-GH-5837ced | Three-step rebate guide replaces the chart; calc rows regridded; CJK display text breaks only after punctuation; footer centred; notices refreshed by the server every 30 min (server/intel-feed.mjs; live feed confirmed). First run 37946604272 stopped by the CTA gate: removing the home research drawer dropped 13 sign-up links (Aevo, HashKey, HTX have no other one) — drawer restored pending owner decision. **Current live.** |
 
 Rollback: Actions → "Rollback production" with the newest release name (returns to the previous one), e.g. `gh-20261009t2034-3738f5c` (returns to ba66747), or `gh-20261009t2026-ba66747` (returns to pre-v8 `gh-20261009t1328-63a82a1`).
 
