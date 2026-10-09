@@ -6,7 +6,6 @@ import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_VENUES } from "../../data/home-rebate-tiers.js";
-import { supportedLocales } from "../../content/locale-manifest";
 import { readIntelFeed } from "../../data/announcement-intel.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
@@ -108,75 +107,6 @@ function IntelSheet({ item, venues, t, locale, onClose }) {
 
 const fmtAsOf = (iso, locale) => new Date(iso).toLocaleString(locale === "zh-Hans" ? "zh-CN" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
 
-// Live strip of the newest official notices. Duplicated once for a seamless loop; the copy is aria-hidden.
-function NoticeTicker({ intel, t }) {
-  if (!intel) return null;
-  const now = Date.now();
-  const items = intel.items.slice(0, 6);
-  const row = (hidden) => items.map((i) => (
-    <span key={`${hidden ? "d" : "o"}-${i.id}`} className="h7-tk-i" aria-hidden={hidden || undefined}><b>{NAMES[i.venue]}</b> {t.inCat[i.category]} · {i.title} · {t.inAgo(now - Date.parse(i.publishedAt))}</span>
-  ));
-  return (
-    <div className="h7-tick" role="region" aria-label={t.tick}>
-      <span className="h7-tk-live">{t.tick}</span>
-      <div className="h7-tk-vp"><div className="h7-tk-run">{row(false)}{row(true)}</div></div>
-    </div>
-  );
-}
-
-// Hero terminal: newest notices; the selected one drives a four-exchange fee comparison for its market.
-function IntelDesk({ intel, t, locale, venues, onOpen }) {
-  // Newest notice per exchange first (so selecting a row really changes the comparison), then fill by recency.
-  const items = useMemo(() => {
-    if (!intel) return [];
-    const seen = new Set(); const first = []; const rest = [];
-    for (const i of intel.items) (seen.has(i.venue) ? rest : (seen.add(i.venue), first)).push(i);
-    return [...first, ...rest].slice(0, 3);
-  }, [intel]);
-  const [selId, setSelId] = useState(null);
-  const sel = items.find((i) => i.id === selId) || items[0] || null;
-  const perp = sel ? PERP_RE.test(sel.title) : false;
-  const rows = compareRows(venues, perp);
-  const checked = rows.filter((r) => r.mk != null);
-  const best = checked.length ? checked.reduce((a, b) => (b.mk < a.mk ? b : a)) : null;
-  const now = Date.now();
-  return (
-    <div className="h7-desk">
-      <div className="h7-dh"><span>{intel ? t.deskAsOf(fmtAsOf(intel.generatedAt, locale)) : intel === false ? t.deskTitle : t.deskLoading}</span><span>{[...new Set(items.map((i) => NAMES[i.venue]))].join(" · ")}</span></div>
-      <ul className="h7-dl" aria-busy={intel === null || undefined}>
-        {intel ? items.map((i) => (
-          <li key={i.id}>
-            <button type="button" className="h7-dr" aria-pressed={sel?.id === i.id} onClick={() => setSelId(i.id)}>
-              <span className={`h7-ic h7-ic-${i.category}`}>{t.inCat[i.category]}</span>
-              <span className="h7-dv">{NAMES[i.venue]}</span>
-              <span className="h7-dt2">{i.title}</span>
-              <time dateTime={i.publishedAt}>{t.inAgo(now - Date.parse(i.publishedAt))}</time>
-            </button>
-          </li>
-        )) : intel === null ? [0, 1, 2].map((k) => <li key={k} className="h7-dsk" aria-hidden="true"><i /><i /><i /></li>) : null}
-      </ul>
-      {intel === false && <p className="h7-dempty">{t.deskEmpty}</p>}
-      <div className="h7-dh h7-dh2"><span>{perp ? t.shPerp : t.shSpot}</span><span>{t.shAfter}</span></div>
-      <div className="h7-dc">
-        {rows.map((r) => (
-          <div key={r.slug} className={best?.slug === r.slug ? "best" : undefined}>
-            <b><BrandMark slug={r.slug} compact priority />{r.name}</b>
-            <span className="h7-dfig">{r.mk != null ? pct(r.mk) : "—"}</span>
-            <small>{r.maker != null ? `${pct(r.maker)} / ${pct(r.taker)}` : t.unchecked}{r.maker != null && <> · <span className="h7-nw">{r.share ? `${t.rebate} ${Math.round(r.share * 100)}%` : t.pending}</span></>}</small>
-          </div>
-        ))}
-      </div>
-      <div className="h7-dfoot">
-        {best && <Cta v={best} locale={locale} className="h7-btn h7-sm" placement="home-v7-desk">{t.deskOpen(best.name)} ↗</Cta>}
-        {/* Rule 8: the commission line follows the sponsored action directly, before the secondary actions. */}
-        <p className="h7-ddisc" data-disclosure-placement="home-desk">{t.t2b}</p>
-        {sel && <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => onOpen(sel)}>{t.inBtn}</button>}
-        {sel && <a className="h7-ln" href={sel.url} target="_blank" rel="noopener noreferrer nofollow">{t.shSrc}</a>}
-      </div>
-    </div>
-  );
-}
-
 function IntelBlock({ intel, t, locale, venues }) {
   const [open, setOpen] = useState(null);
   if (!intel) return null;
@@ -225,9 +155,39 @@ export function HomeV7({ locale, venues: _catalog }) {
     return { rows, best, most, maxGross };
   }, [venues, vol, mode]);
 
-  const [sheet, setSheet] = useState(null);
-  const lowSpot = Math.min(...venues.filter((v) => v.maker != null).map((v) => v.maker));
-  const verified = venues.filter((v) => v.maker != null).length;
+  const top = calc.best || calc.rows[0];
+
+  /* ---------- hero: rebate flow into the number ---------- */
+  const heroRef = useRef(null), cvRef = useRef(null), numRef = useRef(null), srcRefs = useRef([]);
+  useEffect(() => {
+    const hero = heroRef.current, cv = cvRef.current, num = numRef.current;
+    if (!hero || !cv || !num) return undefined;
+    const cx = cv.getContext("2d"); if (!cx) return undefined;
+    let W = 0, H = 0, src = [], P = [], raf = 0, stopped = false;
+    const geo = () => {
+      const r = hero.getBoundingClientRect(); W = r.width; H = r.height;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2); cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = num.getBoundingClientRect(); const tx = n.left - r.left + n.width * 0.46, ty = n.top - r.top + n.height * 0.5;
+      src = srcRefs.current.filter(Boolean).map((e) => {
+        const b = e.getBoundingClientRect(); const x = b.left - r.left + b.width / 2, y = b.top - r.top + b.height / 2;
+        const mx = (x + tx) / 2, my = (y + ty) / 2, dx = tx - x, dy = ty - y, L = Math.hypot(dx, dy) || 1, off = L * 0.22 * (y < ty ? -1 : 1);
+        return { x, y, tx, ty, cx: mx + (dy / L) * off, cy: my - (dx / L) * off };
+      });
+    };
+    const bez = (s, k) => { const u = 1 - k; return [u * u * s.x + 2 * u * k * s.cx + k * k * s.tx, u * u * s.y + 2 * u * k * s.cy + k * k * s.ty]; };
+    const draw = () => {
+      cx.clearRect(0, 0, W, H);
+      src.forEach((s, i) => { cx.strokeStyle = venues[i]?.share ? "rgba(31,224,192,.22)" : "rgba(237,238,240,.08)"; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(s.x, s.y); cx.quadraticCurveTo(s.cx, s.cy, s.tx, s.ty); cx.stroke(); });
+      P.forEach((p) => { const s = src[p.i]; if (!s) return; const b = bez(s, p.t), a = Math.sin(Math.PI * p.t); cx.fillStyle = venues[p.i]?.share ? `rgba(31,224,192,${a * 0.9})` : `rgba(237,238,240,${a * 0.25})`; cx.beginPath(); cx.arc(b[0], b[1], p.r, 0, 6.283); cx.fill(); });
+    };
+    const frame = () => { if (stopped) return; P.forEach((p) => { p.t += p.v; if (p.t >= 1) { p.t = 0; p.v = 0.003 + Math.random() * 0.004; } }); draw(); raf = requestAnimationFrame(frame); };
+    const init = () => { geo(); P = []; for (let i = 0; i < venues.length; i++) { const k = venues[i].share ? 9 : 3; for (let j = 0; j < k; j++) P.push({ i, t: Math.random(), v: 0.003 + Math.random() * 0.004, r: 1.6 + Math.random() * 1.8 }); } draw(); };
+    const onResize = () => { geo(); draw(); };
+    init(); window.addEventListener("resize", onResize);
+    document.fonts?.ready?.then(() => { if (!stopped) { geo(); draw(); } });
+    let io; if (!reduced()) { io = new IntersectionObserver((es) => { cancelAnimationFrame(raf); if (es[0].isIntersecting) raf = requestAnimationFrame(frame); }, { threshold: 0.05 }); io.observe(hero); }
+    return () => { stopped = true; cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); io?.disconnect(); };
+  }, [venues]);
 
   /* ---------- dark story: drawn by scroll position ---------- */
   const storyRef = useRef(null), loRef = useRef(null), lbRef = useRef(null), dotRef = useRef(null), tagRef = useRef(null), gapRef = useRef(null), progRef = useRef(null), chartRef = useRef(null), svgRef = useRef(null);
@@ -275,27 +235,20 @@ export function HomeV7({ locale, venues: _catalog }) {
 
   return (
     <div className="h7" {...(h7IsFallback(locale) ? { lang: "en", dir: "ltr" } : {})}>
-      <NoticeTicker intel={intel} t={t} />
-      <section className="h7-hero" aria-label="NexuAlpha">
+      <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha">
+        <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
+        {venues.map((v, i) => <span key={v.slug} ref={(e) => { srcRefs.current[i] = e; }} className={`h7-src h7-s${i}`} aria-hidden="true">{v.name}<small>{v.share ? `${Math.round(v.share * 100)}%` : "–"}</small></span>)}
         <div className="h7-hc">
           <p className="h7-kick">{t.kick}</p>
-          <h1>{t.h1[0]}<br />{t.h1[1][0]}<em>{t.h1[1][1].replace("{max}", String(HOME_REBATE_MAX_PCT))}</em>{t.h1[1][2]}{t.h1[2] ? <><br />{t.h1[2]}</> : null}</h1>
-          <p className="h7-sub">{t.lead}</p>
-          <div className="h7-cta"><a className="h7-btn h7-ol" href="#h7-intel">{t.ctaAll} ↓</a><a className="h7-ln" href="#h7-calc">{t.ctaCmp}</a></div>
+          <h1>{t.h1a}<br />{t.h1b}<span className="h7-sr"> {HOME_REBATE_MAX_PCT}%</span></h1>
+          <p className="h7-sub">{t.sub}</p>
+          <div className="h7-cta"><Cta v={top} locale={locale} className="h7-btn" placement="home-v7-hero">{t.cta(top.name)}</Cta><a className="h7-ln" href="#h7-calc">{t.calcLink}</a></div>
           <p className="h7-cta-disc">{t.t2b}</p>
-          <dl className="h7-stats">
-            <div><dd>{verified}</dd><dt>{t.statVenues}</dt></div>
-            {Number.isFinite(lowSpot) && <div><dd>{pct(lowSpot)}</dd><dt>{t.statLow}</dt></div>}
-            <div><dd>{supportedLocales.length}</dd><dt>{t.statLangs}</dt></div>
-          </dl>
         </div>
-        <IntelDesk intel={intel} t={t} locale={locale} venues={venues} onOpen={setSheet} />
-        {sheet && <IntelSheet item={sheet} venues={venues} t={t} locale={locale} onClose={() => setSheet(null)} />}
+        <div className="h7-big" aria-hidden="true"><p className="h7-num" ref={numRef}>{HOME_REBATE_MAX_PCT}<span>%</span></p><p className="h7-cap">{t.cap}</p></div>
       </section>
 
       <div className="h7-trust"><div>{t.t1}<span>{t.t1b}</span></div><div>{t.t2}<span>{t.t2b}</span></div><div>{t.t3}<span>{t.t3b}</span></div></div>
-
-      <IntelBlock intel={intel} t={t} locale={locale} venues={venues} />
 
       <section className="h7-dk h7-story" ref={storyRef} aria-label={t.storyH}>
         <div className="h7-in h7-pin">
@@ -346,6 +299,7 @@ export function HomeV7({ locale, venues: _catalog }) {
           ))}
         </div>
       </section>
+      <IntelBlock intel={intel} t={t} locale={locale} venues={venues} />
       <p className="h7-in h7-foot">{t.foot(FACTS_AS_OF).replace("{max}", String(HOME_REBATE_MAX_PCT))}</p>
     </div>
   );

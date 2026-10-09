@@ -1,0 +1,24 @@
+/* v8 site-wide signature rules for inner pages (hero ruling, kicker, rail labels, CJK wrapping). See docs/design-unified-v8.md. */
+/* Inner-page hero ruling: the same 32px hairline grid as the home desk, fading out by 560px. Two background layers
+   (fade on top, rules below) so no pseudo-element is taken (news detail uses main::before for reading progress). */
+main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, rgb(7 8 10 / 0) 0, #07080A 560px), linear-gradient(rgb(255 255 255 / .03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 32px;
+  background-repeat: no-repeat, repeat;
+}
+
+/* Rail labels repeated the visible section heading as rotated 12px text and were ellipsis-truncated (e.g. telegram).
+   The rail keeps its nodes as a reading-progress cue; the heading itself carries the label. */
+.v6r .v6r__lab:not(#_):not(#_):not(#_) { display: none; }
+
+/* Direction A on inner pages: the mono desk kicker above each page title (decorative, brand-only text so no locale
+   copy is invented) — same voice as the home ".h7-kick". */
+main.v6:not(.home-refinement) h1:first-of-type::before { content: "NEXUALPHA · FEES & REBATES"; display: block; margin-block-end: 16px; font: 500 12px/1.4 "Geist Mono V5", ui-monospace, monospace; letter-spacing: .08em; color: #9097A0; }
+
+/* Kicker in the page language for Chinese (matches the home kicker); other locales keep the brand-only label. */
+main.v6:not(.home-refinement):lang(zh) h1:first-of-type::before { content: "NEXUALPHA · 交易所比价与返佣"; }
+main.v6:not(.home-refinement):is(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK)) h1:first-of-type::before { content: "NEXUALPHA · 交易所比價與返傭"; }
+
+/* CJK running text: avoid a lone final character ("…可发布活 / 动。"). */
+main.v6 :is(p, li, dd):lang(zh) { text-wrap: pretty; }

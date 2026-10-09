@@ -22,7 +22,6 @@ import { createSelectionStore } from "./components/v6/home-selection.js";
 import { PlatformMatcher } from "./components/v3/PlatformMatcher";
 import { CleanFooter } from "./components/v3/CleanFooter";
 import { headerNavigationState } from "./data/header-navigation-state.js";
-import { SiteTicker } from "./components/v8/SiteTicker.jsx";
 // Mobile bottom dock removed in v8 (owner request 2026-10-09); navigation lives in the header menu.
 import { venueDatabase } from "./data/venue-database.js";
 import { TOPIC_SLUGS } from "./data/topic-guides-data.js";
@@ -714,7 +713,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   // Locale changes must remount the complete route subtree. Several legacy
   // sections keep derived copy in child state; reusing those nodes can leave
   // an English body below a translated header after a client-side switch.
-  const pageShell = (content, { deferContent = true, crawlScope = null } = {}) => <React.Fragment key={`locale-${locale}`}><Header copy={copy} locale={locale} brazil={route.name === "brazil"} onLocaleChange={changeLocale} onSearch={openSearchDialog} /><SiteTicker locale={locale} />{deferContent ? <DeferredBoundary scope="page-content">{content}</DeferredBoundary> : <ScopedContent scope="page-content" defer={false}>{content}</ScopedContent>}{crawlScope ? <CrawlPriorityLinks locale={locale} scope={crawlScope} /> : null}{footer}{searchDialog}</React.Fragment>;
+  const pageShell = (content, { deferContent = true, crawlScope = null } = {}) => <React.Fragment key={`locale-${locale}`}><Header copy={copy} locale={locale} brazil={route.name === "brazil"} onLocaleChange={changeLocale} onSearch={openSearchDialog} />{deferContent ? <DeferredBoundary scope="page-content">{content}</DeferredBoundary> : <ScopedContent scope="page-content" defer={false}>{content}</ScopedContent>}{crawlScope ? <CrawlPriorityLinks locale={locale} scope={crawlScope} /> : null}{footer}{searchDialog}</React.Fragment>;
 
   const adjustSelection = () => document.querySelector("#exchanges")?.scrollIntoView({ behavior: typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   if (route.name === "embedCalculator") {

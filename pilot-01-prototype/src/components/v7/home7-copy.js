@@ -1,7 +1,7 @@
 // Home v7 copy. zh-Hans and en are written; every other locale falls back to English until translated.
 export const H7_COPY = {
   "zh-Hans": {
-    kick: "NEXUALPHA · 交易所情报台", h1: ["通过我们开户，", ["手续费最高返还 ", "{max}%", ""], null],
+    kick: "NEXUALPHA · 交易所比价与返佣", h1: ["通过我们开户，", ["手续费最高返还 ", "{max}%", ""], null],
     lead: "在交易所官方页面注册，带上我们的邀请码，返还的是你已付的手续费。交易所一发公告，旁边就是四家费率和官方入口。",
     ctaAll: "查看最新公告", ctaCmp: "算算我能省多少", tick: "官方公告流",
     deskAsOf: (d) => `官方公告 · 已读取 ${d}`, deskTitle: "官方公告", deskLoading: "正在读取官方公告…", deskEmpty: "暂时读不到公告，费率对比不受影响。",
@@ -21,7 +21,7 @@ export const H7_COPY = {
     all: "查看全部交易所", foot: (d) => `费率为各平台公开的基础现货费率，数据日期 ${d}，不含 VIP 等级、平台币抵扣和地区差异。我们通过邀请链接从交易所获得佣金，并将其中一部分作为返佣返还给你。首页“最高 {max}%”为合作交易所中的最高档位，各家实际比例不同（如 15%、20%、30%），以逐家披露为准。返佣比例以交易所当期规则和你的账户为准，你的手续费不会因此增加。`,
   },
   en: {
-    kick: "NEXUALPHA · EXCHANGE INTEL DESK", h1: ["Open through us.", ["Get up to ", "{max}%", " of your fees back"], null],
+    kick: "NEXUALPHA · EXCHANGE FEES & REBATES", h1: ["Open through us.", ["Get up to ", "{max}%", " of your fees back"], null],
     lead: "Register on the exchange's official page with our invite code; what comes back is part of the fees you already paid. Every exchange notice comes with four exchanges' fees and official sign-up links.",
     ctaAll: "See the latest notices", ctaCmp: "See what I could save", tick: "Official notice feed",
     deskAsOf: (d) => `Official notices · fetched ${d}`, deskTitle: "Official notices", deskLoading: "Reading official notices…", deskEmpty: "Notices are unavailable right now; the fee comparison is unaffected.",

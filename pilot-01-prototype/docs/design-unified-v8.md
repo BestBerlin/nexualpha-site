@@ -22,13 +22,15 @@ v6 tokens below. Inner pages are not redesigned; they are polished against the s
 | Control height | 44 (default, also min touch target), 36 (dense desktop only) |
 | Motion | ease-out `cubic-bezier(.16,1,.3,1)`; 140 / 240 / 400 ms; respect `prefers-reduced-motion` |
 
-## Direction A: intel desk (owner choice, 2026-10-09)
-- The site reads as an exchange intel desk: official notices first, fees and sign-up second.
-- Signature elements: the notice ticker under the header on every page (`SiteTicker`, home `.h7-tick`), a 32px hairline
-  ruling behind page heroes fading out by 560px, mono kicker labels, terminal panels (hairline frame, mono meta rows,
-  selected row = 2px accent start edge), tabular mono figures.
-- The home hero is rebate-led with the owner-confirmed marketing headline "通过我们开户，手续费最高返还 50%" (owner, 2026-10-09: shares range 15/20/30%, some up to 50%); the notice desk sits beside it as the second layer, and the footnote explains that 50% is the highest partner tier with per-exchange disclosure.
-- No bottom dock on mobile; navigation lives in the header menu. Footer: inline links + folded policy panel.
+## Product focus (owner correction, 2026-10-09)
+- NexuAlpha is a product for users: compare exchanges, see what fees cost, sign up through us and get part of the fees back.
+  Revenue comes from those referrals. It is not a channel for exchanges' news: their announcements are secondary
+  reference only (one list near the bottom of the home), never the hero and never a site-wide ticker.
+- The home hero is the animated rebate figure: exchange chips (OKX 20%, Binance 20%, Bitget 30%, Bybit) stream particles
+  into a large shimmering "50%" (owner-confirmed "up to" marketing, footnote explains per-exchange shares). The motion is
+  the signature; do not replace it with static type. On phones the chips sit under the figure and stream upward.
+- Order: rebate hero → trust strip → yearly-gap story chart → calculator with per-exchange sign-up → notices → footnote.
+- Kicker voice: "交易所比价与返佣" / "fees & rebates". Terminal frames, hairline ruling and mono figures stay as craft details.
 
 ## Rules
 1. Accent is scarce: one primary CTA per viewport-sized block. Secondary actions are outline (`--line-2`) or text links.
