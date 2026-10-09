@@ -57,7 +57,48 @@ function useIntel(venues) {
   return feed;
 }
 
-function IntelBlock({ intel, t, locale }) {
+const PERP_RE = /(futures|perp|contract|永续|合约)/i;
+function IntelSheet({ item, venues, t, locale, onClose }) {
+  const ref = useRef(null);
+  const perp = PERP_RE.test(item.title);
+  useEffect(() => {
+    const d = ref.current;
+    if (d && !d.open) d.showModal();
+    const root = document.documentElement; const prev = root.style.overflow; root.style.overflow = "hidden";
+    return () => { root.style.overflow = prev; };
+  }, []);
+  const rows = venues.map((v) => {
+    const f = feeFact(v.slug, perp ? "perp" : "spot");
+    const ok = f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker);
+    const k = 1 - (v.share || 0);
+    return { ...v, maker: ok ? f.maker : null, taker: ok ? f.taker : null, mk: ok ? f.maker * k : null, tk: ok ? f.taker * k : null };
+  });
+  const pct = (n) => `${n.toFixed(n < 0.1 ? 3 : 2).replace(/0+$/, "").replace(/\.$/, "")}%`;
+  return (
+    <dialog ref={ref} className="h7-sheet" aria-labelledby="h7-sh-t" onClose={onClose} onClick={(e) => { if (e.target === ref.current) ref.current.close(); }}>
+      <div className="h7-sh-in">
+        <button type="button" className="h7-sh-x" onClick={() => ref.current.close()} aria-label={t.shClose}>×</button>
+        <h3 id="h7-sh-t">{t.shH}</h3>
+        <p className="h7-sh-ev"><span className={`h7-ic h7-ic-${item.category}`}>{t.inCat[item.category]}</span> {item.title}</p>
+        <p className="h7-sh-sub">{perp ? t.shPerp : t.shSpot}</p>
+        <ul className="h7-sh-l">
+          {rows.map((r) => (
+            <li key={r.slug}>
+              <div className="h7-sh-n"><b>{r.name}</b>{r.share ? <span className="h7-bd">{t.rebate} {Math.round(r.share * 100)}%</span> : <span className="h7-bd" data-nr>{t.pending}</span>}</div>
+              <div className="h7-sh-f">{r.maker != null ? <>{t.maker} {pct(r.maker)} / {t.taker} {pct(r.taker)}{r.share ? <small>{t.shAfter} {pct(r.mk)} / {pct(r.tk)}</small> : null}</> : t.unchecked}</div>
+              <Cta v={r} locale={locale} className="h7-btn h7-sm h7-sh-b" placement="home-v7-intel"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
+            </li>
+          ))}
+        </ul>
+        <a className="h7-ln" href={item.url} target="_blank" rel="noopener noreferrer nofollow">{t.shSrc}</a>
+        <p className="h7-sh-note">{t.shNote}</p>
+      </div>
+    </dialog>
+  );
+}
+
+function IntelBlock({ intel, t, locale, venues }) {
+  const [open, setOpen] = useState(null);
   if (!intel) return null;
   const now = Date.now();
   const names = NAMES;
@@ -72,11 +113,12 @@ function IntelBlock({ intel, t, locale }) {
             <span className="h7-iv">{names[i.venue]}</span>
             <a className="h7-it" href={i.url} target="_blank" rel="noopener noreferrer nofollow">{i.title}<span className="h7-sr"> ({t.inOpen})</span></a>
             <time dateTime={i.publishedAt}>{t.inAgo(now - Date.parse(i.publishedAt))}</time>
-            <a className="h7-iw" href={localizedHref(`/exchanges/${i.venue}`, { locale })}>{t.inVenue(names[i.venue])}</a>
+            <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => setOpen(i)}>{t.inBtn}</button>
           </li>
         ))}
       </ul>
       <p className="h7-ia">{t.inAsOf(asOf)}</p>
+      {open && <IntelSheet item={open} venues={venues} t={t} locale={locale} onClose={() => setOpen(null)} />}
     </section>
   );
 }
@@ -194,7 +236,7 @@ export function HomeV7({ locale, venues: _catalog }) {
 
       <div className="h7-trust"><div>{t.t1}<span>{t.t1b}</span></div><div>{t.t2}<span>{t.t2b}</span></div><div>{t.t3}<span>{t.t3b}</span></div></div>
 
-      <IntelBlock intel={intel} t={t} locale={locale} />
+      <IntelBlock intel={intel} t={t} locale={locale} venues={venues} />
 
       <section className="h7-dk h7-story" ref={storyRef} aria-label={t.storyH}>
         <div className="h7-in h7-pin">
