@@ -116,7 +116,15 @@ function drawRoutes(B, lit, active, noCard) {
     // intent port -> under the intent row -> up into "You" -> the verify gate; the gate is the one origin of every venue route
     const yb = port.y + 14;
     const yx = (you.l + you.r) / 2;
-    out.chain.push(`M${f1(port.x)} ${f1(port.y)}V${f1(yb - 8)}Q${f1(port.x)} ${f1(yb)} ${f1(port.x + 8)} ${f1(yb)}H${f1(yx - 8)}Q${f1(yx)} ${f1(yb)} ${f1(yx)} ${f1(yb - 8)}V${f1(you.b)}`);
+    // You sits level with the readout, beside it (below the tile row): the line runs under the tiles, drops down the
+    // gutter between readout and hub and enters You from the start side. A hub above that row is entered from below.
+    if (you.t > yb) {
+      const xl = you.l - 12;
+      const my = mid(you);
+      out.chain.push(`M${f1(port.x)} ${f1(port.y)}V${f1(yb - 8)}Q${f1(port.x)} ${f1(yb)} ${f1(port.x + 8)} ${f1(yb)}H${f1(xl - 8)}Q${f1(xl)} ${f1(yb)} ${f1(xl)} ${f1(yb + 8)}V${f1(my - 8)}Q${f1(xl)} ${f1(my)} ${f1(xl + 8)} ${f1(my)}H${f1(you.l)}`);
+    } else {
+      out.chain.push(`M${f1(port.x)} ${f1(port.y)}V${f1(yb - 8)}Q${f1(port.x)} ${f1(yb)} ${f1(port.x + 8)} ${f1(yb)}H${f1(yx - 8)}Q${f1(yx)} ${f1(yb)} ${f1(yx)} ${f1(yb - 8)}V${f1(you.b)}`);
+    }
     out.chain.push(`M${f1(you.r)} ${f1(mid(you))}H${f1(gate.l)}`);
     origin = [gate.r, mid(gate)];
   } else {
@@ -156,8 +164,8 @@ function drawRoutes(B, lit, active, noCard) {
 }
 
 // Nominal wide layout (container px at 1440: 12 x 78 cols, 24 gutters). Mirrors the CSS below; the client replaces it once measured.
-const ARC = [0, 2, 6, 13, 23, 36, 51, 68]; // node inset from the map column's end edge, top to bottom (px)
-const NOM = { W: 1200, H: 823, top: 63, pitch: 80, nodeH: 72, nodeW: 184, colEnd: 894, tileW: 93, tileGap: 4, tileT: 399, tileB: 485, hubC: 435 };
+const ARC = [0, 3, 11, 24, 42, 65, 93, 126]; // node inset from the map column's end edge, top to bottom (px)
+const NOM = { W: 1200, H: 823, top: 63, pitch: 80, nodeH: 72, nodeW: 184, colEnd: 894, tileW: 93, tileGap: 4, tileT: 399, tileB: 485, hubC: 577 }; // hubC: You -> gate sits level with the readout (home-r10 r11-b)
 function nominalBoxes(nodes, intentIndex) {
   const box = { mode: "wide", nodes: {} };
   box.port = { x: intentIndex * (NOM.tileW + NOM.tileGap) + NOM.tileW / 2, y: NOM.tileB };

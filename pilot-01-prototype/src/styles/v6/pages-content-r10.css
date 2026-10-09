@@ -24,3 +24,48 @@ main.v6.collection-hub-page .topic-card:not(:has(.topic-card__logo)):not(:has(> 
   main.v6 .methodology-page__inner > section:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 24px; padding-block-start: 40px; }
 }
 
+
+/* ---------- r11-b. shared footer: balanced columns, no trailing strip ----------
+   Before (1440): brand 5fr | links 7fr left a ~230px gap between the brand line and the links, and the five policy
+   links stacked 220px tall beside a 180px disclaimer. Now brand 4fr | links 8fr on a 48px gap and the policy links run
+   in two columns, so the left column ends with the disclaimer. Phones / tablets with the bottom dock: the footer
+   reserved the dock height on top of the body's own reserve (~160px empty); now the only space after the copyright
+   line is the dock itself. */
+@media (min-width: 860px) {
+  .nx-ftr .nx-ftr__inner:not(#_) { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: var(--s-12, 48px); }
+}
+@media (min-width: 480px) {
+  .nx-ftr .nx-ftr__policies .nx-ftr__list ul:not(#_) { display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); column-gap: var(--s-8, 32px); align-content: start; }
+}
+@media (max-width: 780px) {
+  body:has(> #root > .mobile-bottom-nav, > #root > main > .mobile-bottom-nav) .nx-ftr .nx-ftr__inner:not(#_) { padding-block-end: 0; }
+  body:has(> #root > .mobile-bottom-nav, > #root > main > .mobile-bottom-nav):not(:has(> #root > main:is(.v3-profile-page, .v3-compare-page))):not(#_) { padding-bottom: var(--mobile-bottom-nav-height, 80px); }
+}
+
+/* ---------- r11-b. content-page voids ---------- */
+/* /br, /br/pix (and siblings): the two hero buttons left a ~336x160 hole beside them inside the copy column;
+   they now split the column (same buttons, same order, same hrefs). */
+@media (min-width: 64rem) {
+  main.v6 .br-hero .br-hero__actions > a:not(#_):not(#_):not(#_):not(#_) { flex: 1 1 0; justify-content: center; inline-size: auto; }
+}
+/* /onchain: the source-boundary card was a half-empty column (208x176 empty corner). Both cards run full width as
+   heading | content; the boundary list is one three-item row. */
+main.v6 .onchain-board__answer:not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 48rem) {
+  main.v6 .onchain-board__answer > .onchain-board__card:not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: var(--s-6, 24px); align-items: start; }
+  main.v6 .onchain-board__answer > .onchain-board__card:not(.onchain-board__checklist) > ul:not(#_):not(#_):not(#_) { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--s-6, 24px); padding-inline-start: 0; list-style: none; margin: 0; }
+  main.v6 .onchain-board__answer > .onchain-board__checklist > ul:not(#_):not(#_):not(#_) { max-inline-size: none; inline-size: 100%; }
+  main.v6 .onchain-board__answer > .onchain-board__checklist > ul > li:not(#_):not(#_):not(#_) { max-inline-size: none; }
+  main.v6 .onchain-board__answer > .onchain-board__card:not(.onchain-board__checklist) > ul > li:not(#_):not(#_):not(#_) { padding-inline-start: var(--s-3, 12px); border-inline-start: 1px solid var(--line, #272a2d); }
+}
+
+/* RTL: English-only copy (untranslated fallback strings, venue names in prose) inside /ar pages resolved as RTL
+   paragraphs, so trailing punctuation jumped to the front ("?funding routes"). Each block now takes its direction
+   from its own first strong character: Arabic stays RTL, an English fallback paragraph reads LTR. */
+[dir="rtl"] :is(main, footer) :is(h1, h2, h3, h4, p, li, summary, dt, dd, figcaption, label, th, td, blockquote):not(#_) { unicode-bidi: plaintext; }
+/* /topics/*: FAQ cards spanned 1200px while every answer is capped at a 62ch measure, leaving a 616px empty right
+   half in each card. Two cards per row: each answer fills its card. */
+@media (min-width: 64rem) {
+  main.v6 .topic-faq-list:not(#_):not(#_):not(#_) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4, 16px); align-items: start; }
+  main.v6 .topic-faq-list > .topic-faq-item:not(#_):not(#_):not(#_) { margin: 0; min-inline-size: 0; }
+}

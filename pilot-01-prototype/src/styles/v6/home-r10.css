@@ -136,3 +136,15 @@
   #top.v6 .dir6 .dir6-row .dir6-act:not(#_) { display: flex; grid-column: 4 / 6; justify-content: flex-end; align-items: center; gap: var(--s-2); }
   #top.v6 .dir6 .dir6-row .dir6-cta:not(#_) { inline-size: auto; flex: none; white-space: nowrap; }
 }
+
+/* ---------- r11-b. hero map: You -> gate sits beside the readout, not above it ----------
+   Before: the hub floated level with the intent tiles and the venue arc ran ~180px lower than anything in cols 5-6,
+   leaving an empty ~168x184 (232x232 in /de) block between the readout and the lower nodes. Now the hub ends level
+   with the readout (the intent line drops down the gutter into You, see drawRoutes) and the arc bends further in at the
+   foot (ARC in RouteFinder.jsx), so the lower routes and nodes fill that corner. Short viewports keep their own rule. */
+@media (min-width: 74rem) and (min-height: 821px) {
+  #top.v6 .rf-hub:not(#_) { grid-row: 2; align-self: end; margin: 0 0 6px; }
+  /* the lower routes now leave the gate beside its caption: long captions (de, fr) sit on a page-colour plate so a
+     route passes behind the words, never through them */
+  #top.v6 .rf-hub :is(.rf-gate > .rf-gate__dom, .rf-gate__cap):not(#_) { background: var(--n1); padding-inline-end: var(--s-1); }
+}
