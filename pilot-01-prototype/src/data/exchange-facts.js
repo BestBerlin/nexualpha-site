@@ -1,7 +1,7 @@
 // The ONE source for public fee facts: every surface (directory, /rates, /compare/*, /factbook/*,
 // /exchanges/{slug}, home hero, compare lab) reads fees, status and check dates from here.
-// Raw data: RAW below is docs/data/exchange-facts-20261008.json verbatim (official fee pages fetched
-// 2026-10-08); update both together. Percent units. A null stays null and renders as "Not yet checked":
+// Raw data: RAW below is docs/data/exchange-facts-20261010.json verbatim (official fee pages fetched
+// 2026-10-08, re-verified and extended 2026-10-10); update both together. Percent units. A null stays null and renders as "Not yet checked":
 // never estimate, never fall back to another file.
 //
 // Publishing rules (keyed by venue + field + date):
@@ -10,7 +10,7 @@
 // - a figure flagged "re-check" in the JSON is held back (state "recheck") and published as null;
 // - a token discount is published for a product only when that product's base fee is checked.
 const raw = {
- "as_of": "2026-10-08",
+ "as_of": "2026-10-10",
  "units": "percent",
  "exchanges": [
   {
@@ -21,27 +21,29 @@ const raw = {
     "spot": {
      "maker": 0.1,
      "taker": 0.1,
-     "note": "Regular User tier, percent. Official fee schedule."
+     "note": "Regular User, Maker/Taker 0.100%/0.100%. Official fee page (binance.com/en/fee/trading), read 2026-10-10."
     },
     "perp": {
-     "maker": null,
-     "taker": null,
-     "note": "unverifiable: Binance fee pages are bot-blocked (HTTP 202/blank); support FAQ states no base rate; left null"
+     "maker": 0.02,
+     "taker": 0.05,
+     "note": "Regular User, USDⓈ-M USDT perpetuals Maker/Taker 0.0200%/0.0500%. Official futures fee page (binance.com/en/fee/futureFee), read 2026-10-10."
     }
    },
    "discount": {
     "token": "BNB",
     "spot_pct": 25,
     "perp_pct": 10,
-    "note": "Spot 25% per fee schedule columns; futures 10% per FAQ, requires BNB in futures account"
+    "note": "Official fee pages: BNB 25% off spot, 10% off USDⓈ-M futures."
    },
    "kyc": null,
    "restricted_regions": [],
    "source_urls": [
     "https://www.binance.com/en/fee/schedule",
-    "https://www.binance.com/en/support/faq/detail/360033544231"
+    "https://www.binance.com/en/support/faq/detail/360033544231",
+    "https://www.binance.com/en/fee/trading",
+    "https://www.binance.com/en/fee/futureFee"
    ],
-   "verified_on": "2026-10-08",
+   "verified_on": "2026-10-10",
    "status": "verified"
   },
   {
@@ -52,12 +54,12 @@ const raw = {
     "spot": {
      "maker": 0.08,
      "taker": 0.1,
-     "note": "Regular user (below VIP 1), standard pairs, percent. Official fee page, Spot tab."
+     "note": "Regular user, Spot standard pairs. Official fee page okx.com/fees, re-read 2026-10-10."
     },
     "perp": {
      "maker": 0.02,
      "taker": 0.05,
-     "note": "Regular user, Futures tab (USDT-margined and other contracts share this table), percent."
+     "note": "Regular user, Futures tab (USDT-margined). Public endpoint used by okx.com/fees, re-read 2026-10-10."
     }
    },
    "discount": {},
@@ -66,7 +68,7 @@ const raw = {
    "source_urls": [
     "https://www.okx.com/fees"
    ],
-   "verified_on": "2026-10-08",
+   "verified_on": "2026-10-10",
    "status": "verified"
   },
   {
@@ -77,12 +79,12 @@ const raw = {
     "spot": {
      "maker": 0.1,
      "taker": 0.1,
-     "note": "Non-VIP, percent"
+     "note": "VIP 0, Spot crypto-crypto. Official Trading Fee Structure article (updated 2026-09-02), re-read 2026-10-10."
     },
     "perp": {
      "maker": 0.02,
      "taker": 0.055,
-     "note": "Row labeled 'Perpetual & Futures' (not explicitly USDT); rates may vary by region"
+     "note": "VIP 0, Perpetual & Futures. Same official article, re-read 2026-10-10."
     }
    },
    "discount": {
@@ -94,7 +96,7 @@ const raw = {
    "source_urls": [
     "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure"
    ],
-   "verified_on": "2026-10-08",
+   "verified_on": "2026-10-10",
    "status": "verified"
   },
   {
@@ -105,12 +107,12 @@ const raw = {
     "spot": {
      "maker": 0.1,
      "taker": 0.1,
-     "note": "Standard tier, percent. Official Bitget Support Center FAQ; live fee page tables are not rendered without login."
+     "note": "VIP 0 spot. Data source of bitget.com/fee (VIP rules config), re-read 2026-10-10."
     },
     "perp": {
      "maker": 0.02,
      "taker": 0.06,
-     "note": "Standard tier USDT-M futures, percent. Same source."
+     "note": "VIP 0 USDT-M futures; also BTCUSDT contract API makerFeeRate/takerFeeRate. Re-read 2026-10-10."
     }
    },
    "discount": {
@@ -123,7 +125,7 @@ const raw = {
     "https://www.bitget.com/support/articles/12560603892734",
     "https://www.bitget.com/fee"
    ],
-   "verified_on": "2026-10-08",
+   "verified_on": "2026-10-10",
    "status": "verified"
   },
   {
@@ -187,12 +189,12 @@ const raw = {
     "spot": {
      "maker": 0.04,
      "taker": 0.07,
-     "note": "Tier 0, percent"
+     "note": "Tier 0 base rate (14-day volume ≤ $5M), before staking/referral discounts. Official docs, re-read 2026-10-10."
     },
     "perp": {
      "maker": 0.015,
      "taker": 0.045,
-     "note": "Tier 0, percent"
+     "note": "Tier 0 perps base rate. Official docs, re-read 2026-10-10."
     }
    },
    "discount": {
@@ -212,7 +214,7 @@ const raw = {
    "source_urls": [
     "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees"
    ],
-   "verified_on": "2026-10-08",
+   "verified_on": "2026-10-10",
    "status": "verified"
   },
   {
@@ -248,12 +250,12 @@ const raw = {
     "spot": {
      "maker": 0.1,
      "taker": 0.1,
-     "note": "VIP0, percent. Official fee page (zh locale), Spot tab."
+     "note": "VIP0 spot 0.1%/0.1% (GT deduction 0.09%). Official fee page gate.com/fee, read 2026-10-10."
     },
     "perp": {
      "maker": 0.02,
      "taker": 0.05,
-     "note": "VIP0, USDT perpetual, Groups A/B/C all identical at VIP0."
+     "note": "VIP0 USDT perpetuals 0.02%/0.05%. Official fee page gate.com/fee, read 2026-10-10."
     }
    },
    "discount": {
@@ -265,7 +267,7 @@ const raw = {
    "source_urls": [
     "https://www.gate.com/fee"
    ],
-   "verified_on": "2026-10-08",
+   "verified_on": "2026-10-10",
    "status": "verified"
   },
   {
@@ -348,6 +350,31 @@ const raw = {
    ],
    "verified_on": "2026-10-08",
    "status": "unverifiable"
+  },
+  {
+   "slug": "dydx",
+   "name": "dYdX",
+   "type": "perp-dex",
+   "fees": {
+    "spot": {
+     "maker": null,
+     "taker": null,
+     "note": "No spot market on dYdX v4."
+    },
+    "perp": {
+     "maker": 0.01,
+     "taker": 0.05,
+     "note": "Tier 1 (< $1M 30-day volume): taker 5.0 bps, maker 1.0 bps. Official docs; schedule set by governance. Read 2026-10-10."
+    }
+   },
+   "discount": {},
+   "kyc": null,
+   "restricted_regions": [],
+   "source_urls": [
+    "https://docs.dydx.xyz/concepts/trading/rewards"
+   ],
+   "verified_on": "2026-10-10",
+   "status": "verified"
   }
  ]
 };

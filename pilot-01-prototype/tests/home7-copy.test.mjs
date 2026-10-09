@@ -35,6 +35,10 @@ test("every locale has exactly the en key set and inCat key set", () => {
     for (const key of enCatKeys) assert.ok(typeof copy.inCat[key] === "string" && copy.inCat[key].trim(), `${locale}.inCat.${key} non-empty`);
     for (const key of enKeys) {
       if (key === "inCat" || key === "how" || fnKeys.includes(key)) continue;
+      if (key === "sep") {
+        assert.equal(typeof copy.sep, "string", `${locale}.sep is a string (may be empty)`);
+        continue;
+      }
       assert.ok(typeof copy[key] === "string" && copy[key].trim(), `${locale}.${key} non-empty string`);
     }
   }

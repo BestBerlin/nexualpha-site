@@ -18,9 +18,10 @@ const usd = (n) => `$${Math.round(n).toLocaleString("en-US")}`;
 const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function useVenues(locale) {
+// Owner (2026-10-10): show perpetual-contract fees by default; spot stays one tap away.
+function useVenues(locale, product) {
   return useMemo(() => HOME_PARTNERS.map((slug) => {
-    const f = feeFact(slug, "spot");
+    const f = feeFact(slug, product);
     const cta = publicCtaForVenue(slug, locale);
     const checked = f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker);
     return {
@@ -28,7 +29,7 @@ function useVenues(locale) {
       share: HOME_REBATE_SHARE[slug], code: cta.hasReferral ? cta.inviteCode : null,
       url: cta.registrationUrl, open: Boolean(cta.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "")),
     };
-  }), [locale]);
+  }), [locale, product]);
 }
 
 // Ledger figures roll to their new value (eased); reduced motion and SSR render the final value.
@@ -158,9 +159,10 @@ function IntelBlock({ intel, t, locale, venues }) {
 
 export function HomeV7({ locale, venues: _catalog }) {
   const t = h7Copy(locale);
-  const venues = useVenues(locale);
+  const [product, setProduct] = useState("perp");
+  const venues = useVenues(locale, product);
   const [vol, setVol] = useState(100000);
-  const [mode, setMode] = useState("maker");
+  const [mode, setMode] = useState("taker");
   const intel = useIntel(venues);
 
   const priced = useMemo(() => venues.filter((v) => v.maker != null), [venues]);
@@ -254,14 +256,14 @@ export function HomeV7({ locale, venues: _catalog }) {
         </div>
 
         <aside className="h7-lg" aria-label={t.lgTitle} onPointerMove={spot}>
-          <div className="h7-lg-tabs" role="group" aria-label={t.lgPick}>
+          <div className="h7-lg-tabs" role="group" aria-label={t.lgPick} style={{ "--n": rebated.length }}>
             {rebated.map((r, i) => <button key={r.slug} ref={(e) => { pillRefs.current[i] = e; }} type="button" aria-pressed={r.slug === sel.slug} onClick={() => setPick(r.slug)}><BrandMark slug={r.slug} compact /><span>{r.name}</span><b>{Math.round(r.share * 100)}%</b></button>)}
           </div>
           <div className="h7-lg-max">
             <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgShare(sel.name)} </span><Roll value={Math.round(sel.share * 100)} fmt={(n) => String(Math.round(n))} /><span>%</span></p>
             <div className="h7-lg-who"><b>{t.lgShare(sel.name)}</b>{auto && <span className="h7-auto">{t.lgAuto}</span>}</div>
           </div>
-          <p className="h7-lg-top"><span className="h7-dot" aria-hidden="true" />{t.lgEst}<span className="h7-lg-vol">{t.lgVol(usd(vol), mode === "maker" ? t.maker : t.taker)}</span></p>
+          <p className="h7-lg-top"><span className="h7-dot" aria-hidden="true" />{t.lgEst}<span className="h7-lg-vol">{t.lgVol(usd(vol), `${product === "perp" ? t.perpL : t.spotL}${t.sep}${mode === "maker" ? t.maker : t.taker}`)}</span></p>
           <dl className="h7-lg-rows">
             <div><dt>{t.lgWithout}</dt><dd><Roll value={sel.gross} /></dd></div>
             <div className="up"><dt>{t.lgBack}</dt><dd><Roll value={sel.save} prefix="+" /></dd></div>
@@ -301,6 +303,7 @@ export function HomeV7({ locale, venues: _catalog }) {
           <label className="h7-vin"><span>$</span><input value={vol ? vol.toLocaleString("en-US") : ""} onChange={onVol} inputMode="numeric" aria-label={t.volLabel} /><small>{t.perMonth}</small></label>
           <div className="h7-ctl">
             {CHIPS.map((c) => <button key={c} type="button" aria-pressed={vol === c} onClick={() => setVol(c)}>${c / 1000}K</button>)}
+            <div className="h7-seg" role="group" aria-label={`${t.perpL} / ${t.spotL}`}><button type="button" aria-pressed={product === "perp"} onClick={() => setProduct("perp")}>{t.perpL}</button><button type="button" aria-pressed={product === "spot"} onClick={() => setProduct("spot")}>{t.spotL}</button></div>
             <div className="h7-seg" role="group" aria-label="maker / taker"><button type="button" aria-pressed={mode === "maker"} onClick={() => setMode("maker")}>{t.maker}</button><button type="button" aria-pressed={mode === "taker"} onClick={() => setMode("taker")}>{t.taker}</button></div>
           </div>
           <p className="h7-vd" aria-live="polite">{!vol ? t.calcEmpty : <>{calc.best && <>{t.lowest(calc.best.name, usd(calc.best.net))}<br /></>}{calc.most && calc.most.save > 0 && t.most(calc.most.name, usd(calc.most.save))}</>}</p>
