@@ -168,9 +168,10 @@ function IntelDesk({ intel, t, locale, venues, onOpen }) {
       </div>
       <div className="h7-dfoot">
         {best && <Cta v={best} locale={locale} className="h7-btn h7-sm" placement="home-v7-desk">{t.deskOpen(best.name)} ↗</Cta>}
+        {/* Rule 8: the commission line follows the sponsored action directly, before the secondary actions. */}
+        <p className="h7-ddisc" data-disclosure-placement="home-desk">{t.t2b}</p>
         {sel && <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => onOpen(sel)}>{t.inBtn}</button>}
         {sel && <a className="h7-ln" href={sel.url} target="_blank" rel="noopener noreferrer nofollow">{t.shSrc}</a>}
-        <p className="h7-ddisc" data-disclosure-placement="home-desk">{t.t2b}</p>
       </div>
     </div>
   );
