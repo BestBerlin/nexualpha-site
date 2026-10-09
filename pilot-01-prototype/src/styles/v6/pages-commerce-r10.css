@@ -103,3 +103,9 @@ main.v3-profile-page.v6 .v3-activity-panel--empty > .v3-activity-empty:not(#_):n
 @media (max-width: 760px) {
   .crawl-priority-links:is([data-crawl-priority-links="directory"], [data-crawl-priority-links="rates"], [data-crawl-priority-links="compare"]) .crawl-priority-links__groups:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { columns: 2; column-gap: 16px; }
 }
+
+/* ---------- 9. venue profile, phones: route stops as label | value rows (the stacked list used half the width) ---------- */
+@media (max-width: 640px) {
+  main.v3-profile-page.v6 .r9-route__stop:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, auto) minmax(0, 1fr); column-gap: 16px; align-items: baseline; }
+  main.v3-profile-page.v6 .r9-route__stop > .r9-route__v:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-column: 2; grid-row: 1; justify-self: end; text-align: end; }
+}
