@@ -2,20 +2,20 @@
 
 /* ---------- 1. hero map (>=74rem, regular-height viewports): the You -> gate hub moves down beside the readout ----------
    The hub sat level with the intent tiles, so under it (right of the readout and the actions, left of the lower
-   venue arc) a 168x184 (en) / 232x232 (de) block stayed empty. It is now centred on the readout + actions rows and its
+   venue arc) a 168x184 (en) / 232x232 (de) block stayed empty. It now sits at the foot of the pick column, level with the readout figures, and its
    two captions (checked domain, what the gate does) hang below it instead of above, so the intents row keeps the
    chain line running under the tiles and the column beside the readout carries the gate. The route (RouteFinder.jsx
    drawRoutes) drops into "You" from above; the server's nominal map uses the same centre (NOM.hubC). */
 @media (min-width: 74rem) and (min-height: 821px) {
-  #top.v6 .rf-hub:not(#_) { grid-row: 2 / 4; align-self: center; margin: 0; }
+  #top.v6 .rf-hub:not(#_) { grid-row: 2; align-self: end; margin: 0 0 var(--s-6); }
   #top.v6 .rf-gate > .rf-gate__dom:not(#_) { inset-block: calc(100% + var(--s-3)) auto; }
   #top.v6 .rf-gate__cap:not(#_) { inset-block: calc(100% + var(--s-3) + 1.55em) auto; }
 }
 
-/* ---------- 2. verify on tablets (48-74rem): each station's proof follows its own copy ----------
+/* ---------- 2. verify, three columns below the wide layout (900px-74rem): each station's proof follows its own copy ----------
    Bottom-aligning the proofs left a 160x224 hole inside station 2 when its copy is short (/ar at 1024): the code
    box hung at the foot of a column sized by station 1's two address bars. At these widths the proof follows the copy. */
-@media (min-width: 48rem) and (max-width: 73.99rem) {
+@media (min-width: 900px) and (max-width: 73.99rem) {
   #top.v6.home-refinement .vb__st--2 .vb__main > .vb__code:not(#_):not(#_) { margin-block-start: var(--s-3); }
   #top.v6.home-refinement .vb__st > .vb__body > .vb__main:not(#_):not(#_) { flex: 0 0 auto; }
   #top.v6.home-refinement .vb__st > .vb__body > .vb__foot:not(#_):not(#_) { margin-block-start: var(--s-6); }
