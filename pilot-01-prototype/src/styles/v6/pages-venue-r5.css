@@ -58,3 +58,18 @@ main.v3-profile-page.v6 details.v3-similar[open] .v3-similar-disclosure__summary
 
 /* fee strip: an unchecked cell reads "Not yet checked" at body size, no dash */
 main.v3-profile-page.v6 .d5-rate--null .d5-null-note:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); color: var(--ink-3, #8b8f98); }
+
+/* R-inner polish: stacked source links (fee scope note, research references) reach a 44px touch target. */
+main.v3-profile-page.v6 :is(.v3-fee-scope-note, details.research-references li) a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; min-block-size: 44px; }
+
+/* RTL: separate arrow glyphs mirror so they point along the reading direction. */
+[dir="rtl"] main.v6 .research-facts a > span[aria-hidden]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-block; transform: scaleX(-1); }
+[dir="rtl"] main.v6 a.button-quiet:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_)::after { display: inline-block; transform: scaleX(-1); }
+
+/* Mobile rhythm: no dead 60px bands between the decision strip, readiness check, actions and editorial note. */
+@media (max-width: 900px) {
+  main.v3-profile-page.v6 .v3-profile-reading-overview > .venue-readiness:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 0; }
+  main.v3-profile-page.v6 .v3-profile-reading-overview > .v3-relationship-note:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: -8px; }
+  main.v3-profile-page.v6 > .v3-page-hero:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { padding-block-end: 0 !important; }
+  main.v3-profile-page.v6 > .v3-page-hero + .d5-facts:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin-block-start: 32px; }
+}

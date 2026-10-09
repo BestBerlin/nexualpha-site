@@ -389,3 +389,8 @@
   #top#top#top#top#top#top.v6.r1-rates-page .ft-table tbody tr:not(.ft-pending) > td.ft-action { grid-column: 4; grid-row: 1; justify-self: end; }
   #top#top#top#top#top#top.v6.r1-rates-page .ft-table .fee-terminal__cta-btn { inline-size: auto; }
 }
+
+/* R-inner polish: per-row "source" links reach 44x44 at every width; padding keeps the underline where it was visually. */
+#top#top#top#top#top#top.v6.r1-rates-page .ft-src a { min-inline-size: 44px; min-block-size: 44px; padding-inline: 8px; }
+/* CJK headings: strict line breaking + pretty wrapping (no orphan glyphs, no balance-induced mid-word split). keep-all is avoided: CJK has no spaces, so it turns a whole sentence into one unbreakable word. */
+#top#top#top#top#top#top.v6.r1-rates-page :is(h1, h2, h3):lang(zh) { word-break: normal; line-break: strict; text-wrap: pretty; }

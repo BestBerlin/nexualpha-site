@@ -1,0 +1,40 @@
+/* v8 site-wide notice strip (direction A). Mirrors the home .h7-tick look; tokens from docs/design-unified-v8.md. */
+.nx-tick { display: flex; align-items: center; gap: 24px; block-size: 44px; padding-inline: max(24px, calc((100% - 1200px) / 2)); border-block-end: 1px solid rgb(255 255 255 / .12); background: #0A0B0E; font: 400 12px/1 "Geist Mono V5", ui-monospace, monospace; color: #9097A0; overflow: hidden; }
+.nx-tick__live { flex: none; display: inline-flex; align-items: center; gap: 8px; min-block-size: 44px; color: #1FE0C0; letter-spacing: .04em; text-decoration: none; }
+.nx-tick__live::before { content: ""; inline-size: 6px; block-size: 6px; border-radius: 50%; background: #1FE0C0; box-shadow: 0 0 0 4px rgb(31 224 192 / .15); animation: nx-tick-pulse 2.4s ease-in-out infinite; }
+@keyframes nx-tick-pulse { 50% { box-shadow: 0 0 0 7px rgb(31 224 192 / 0); } }
+.nx-tick__vp { flex: 1; min-inline-size: 0; overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+.nx-tick__run { display: flex; gap: 40px; inline-size: max-content; animation: nx-tick-run 70s linear infinite; }
+.nx-tick:hover .nx-tick__run, .nx-tick:focus-within .nx-tick__run { animation-play-state: paused; }
+.nx-tick__i { display: inline-flex; align-items: center; min-block-size: 44px; white-space: nowrap; color: inherit; text-decoration: none; transition: color 140ms; }
+.nx-tick__i:hover, .nx-tick__i:focus-visible { color: #EDEEF0; }
+.nx-tick__i b { color: #EDEEF0; font-weight: 500; }
+@keyframes nx-tick-run { to { transform: translateX(-50%); } }
+/* Notice titles are Latin; in RTL pages the reversed run started ~13,000px off-screen (blank strip). Run it LTR everywhere. */
+.nx-tick__vp { direction: ltr; }
+@media (max-width: 640px) { .nx-tick { gap: 16px; padding-inline: 20px; } }
+@media (prefers-reduced-motion: reduce) { .nx-tick__run, .nx-tick__live::before { animation: none; } }
+
+/* Inner-page hero ruling: the same 32px hairline grid as the home desk, fading out by 560px. Two background layers
+   (fade on top, rules below) so no pseudo-element is taken (news detail uses main::before for reading progress). */
+main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, rgb(7 8 10 / 0) 0, #07080A 560px), linear-gradient(rgb(255 255 255 / .03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 32px;
+  background-repeat: no-repeat, repeat;
+}
+
+/* Rail labels repeated the visible section heading as rotated 12px text and were ellipsis-truncated (e.g. telegram).
+   The rail keeps its nodes as a reading-progress cue; the heading itself carries the label. */
+.v6r .v6r__lab:not(#_):not(#_):not(#_) { display: none; }
+
+/* Direction A on inner pages: the mono desk kicker above each page title (decorative, brand-only text so no locale
+   copy is invented) — same voice as the home ".h7-kick". */
+main.v6:not(.home-refinement) h1:first-of-type::before { content: "NEXUALPHA · INTEL DESK"; display: block; margin-block-end: 16px; font: 500 12px/1.4 "Geist Mono V5", ui-monospace, monospace; letter-spacing: .08em; color: #9097A0; }
+
+/* Kicker in the page language for Chinese (matches the home "交易所情报台"); other locales keep the brand-only label. */
+main.v6:not(.home-refinement):lang(zh) h1:first-of-type::before { content: "NEXUALPHA · 交易所情报台"; }
+main.v6:not(.home-refinement):is(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK)) h1:first-of-type::before { content: "NEXUALPHA · 交易所情報台"; }
+
+/* CJK running text: avoid a lone final character ("…可发布活 / 动。"). */
+main.v6 :is(p, li, dd):lang(zh) { text-wrap: pretty; }

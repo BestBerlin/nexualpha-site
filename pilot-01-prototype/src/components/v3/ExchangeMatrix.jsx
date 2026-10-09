@@ -10,6 +10,7 @@ import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { EXCHANGE_FACTS, venueCheckedOn } from "../../data/exchange-facts.js";
 import { localizeRegionNote } from "./exchange-matrix-copy.js";
 import { hasCompareRoute, noCompareLabel } from "../v6/compare-routes.js";
+import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 
 const SEGMENTS = [
   { id: "all", key: "all" },
@@ -66,11 +67,12 @@ function DockSlot({ row, onRemove, mc }) {
     return <span className="mx-dock__slot mx-dock__slot--empty"><span className="mx-dock__ghost" aria-hidden="true" /><span className="mx-dock__slotname">{mc.pickMore}</span></span>;
   }
   return (
-    <button type="button" className="mx-dock__slot mx-dock__slot--full" onClick={onRemove} aria-label={`${mc.remove}: ${row.name}`} title={`${mc.remove}: ${row.name}`}>
+    // Only the × removes (a whole-slot button sat over the next row's checkbox on mobile and cleared picks by accident).
+    <span className="mx-dock__slot mx-dock__slot--full">
       <BrandMark slug={row.slug} compact />
       <span className="mx-dock__slotname" translate="no">{row.name}</span>
-      <span className="mx-dock__x" aria-hidden="true">×</span>
-    </button>
+      <button type="button" className="mx-dock__x" onClick={onRemove} aria-label={`${mc.remove}: ${row.name}`} title={`${mc.remove}: ${row.name}`}>×</button>
+    </span>
   );
 }
 
@@ -288,6 +290,8 @@ export function ExchangeMatrix({
           {regionalReturnHref ? <a className="mx-btn mx-btn--ghost" href={regionalReturnHref} data-cta-placement="directory-empty-region-return">{ui.returnToRegion}</a> : null}
         </div>
       ) : (
+        <>
+        <CommissionDisclosureLine locale={locale} className="mx-disclosure" placement="directory-matrix" />
         <div className="mx-scroll" data-route-label={mc.table} data-rail-end="">
           <table className="mx-table" role="table" aria-label={mc.table} aria-rowcount={sorted.length + 1}>
             <colgroup>
@@ -452,6 +456,7 @@ export function ExchangeMatrix({
             </tbody>
           </table>
         </div>
+        </>
       )}
 
       {compareSelection.length > 0 ? (

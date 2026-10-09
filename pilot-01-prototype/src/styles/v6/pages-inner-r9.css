@@ -203,3 +203,8 @@ main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):no
   main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) :is(.r9-track > i, .r9-route__stop > i, .r9-cmp__num, [data-rv="v"], .topic-card, .activity-center-v3__reward-grid > article, .tg-topic-card, .methodology-pillar-card) { animation: none !important; }
   main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .r9-route__stop:not(:last-child)::after { animation: none !important; }
 }
+
+/* Accent scarcity (design-unified-v8.md rule 1): the route reads in neutral ink; only the signup destination keeps the accent. */
+main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .r9-route__stop > i { border-color: rgb(255 255 255 / 0.32); }
+main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .r9-route__stop:not(:last-child)::after { background: rgb(255 255 255 / 0.18); }
+main.v6:not(.home-refinement):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) .r9-route__stop[data-stop="signup"] > i { border-color: var(--r9-acc); }

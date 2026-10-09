@@ -1,0 +1,264 @@
+/* v8 signature layer: directory + compare. Route-scoped. See docs/design-unified-v8.md. */
+/* Specificity: 11 x :not(#_) to win over v6 chains (max 10). Disclosures, codes, sponsored links,
+   source links, dates and pending states are never hidden, moved or dimmed here. */
+
+/* ───────────────────────── DIRECTORY (/exchanges) ───────────────────────── */
+
+/* Segment control: the active option was indistinguishable from the rest (v6 reset its fill).
+   Active = ink-1 on raised surface + 2px accent bar at the block-end edge. */
+main.v6 .mx .mx-seg__btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  position: relative;
+  transition: background-color 140ms cubic-bezier(.16, 1, .3, 1), color 140ms cubic-bezier(.16, 1, .3, 1);
+}
+main.v6 .mx .mx-seg__btn[data-active="true"]:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  background-color: rgb(255 255 255 / .06);
+  color: #EDEEF0;
+  font-weight: 600;
+  box-shadow: inset 0 -2px 0 #1FE0C0;
+}
+
+/* Fees as a precise data column: Geist Mono tabular figures, values ink-1, units ink-2, separator ink-3. */
+main.v6 .mx .mx-fee:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  font-family: "Geist Mono V5", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+main.v6 .mx .mx-fee b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  color: #EDEEF0;
+  font-weight: 500;
+}
+main.v6 .mx .mx-fee u:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: #B0B4BA; }
+main.v6 .mx .mx-fee i:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: #9097A0; font-family: "Geist V5", ui-sans-serif, system-ui, sans-serif; }
+
+/* Pending ("not yet checked"): ink-3 (slightly higher contrast than before), upright, dashed underline,
+   so it never reads as a checked number. */
+main.v6 .mx .mx-unch:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  color: #9097A0;
+  font-style: normal;
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: rgb(255 255 255 / .22);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+/* Header: one quiet label system. Sort buttons lose their pill outline so all column labels share
+   a baseline; the 44px hit area is kept. Sorted column = ink-1 with accent arrow (active state). */
+main.v6 .mx .mx-table thead th:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  border-block-end-color: rgb(255 255 255 / .22);
+}
+@media (min-width: 900px) {
+  main.v6 .mx .mx-sort:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    min-block-size: 44px;
+    border-color: transparent;
+    padding-inline: 8px;
+    margin-inline-start: -8px;
+    color: #B0B4BA;
+    font-size: 12px;
+    transition: background-color 140ms cubic-bezier(.16, 1, .3, 1), color 140ms cubic-bezier(.16, 1, .3, 1), border-color 140ms cubic-bezier(.16, 1, .3, 1);
+  }
+  main.v6 .mx .mx-sort:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    background-color: rgb(255 255 255 / .06);
+    color: #EDEEF0;
+  }
+  main.v6 .mx .mx-sort:focus-visible:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    border-color: rgb(255 255 255 / .22);
+  }
+  main.v6 .mx .mx-th[aria-sort="ascending"] .mx-sort:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
+  main.v6 .mx .mx-th[aria-sort="descending"] .mx-sort:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    color: #EDEEF0;
+  }
+  main.v6 .mx .mx-th[aria-sort="ascending"] .mx-sort__up:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
+  main.v6 .mx .mx-th[aria-sort="descending"] .mx-sort__down:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    fill: #1FE0C0;
+  }
+  main.v6 .mx .mx-th:not(.mx-th--sortable):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    color: #B0B4BA;
+    font-weight: 500;
+  }
+
+  /* Row lift: surface .035 -> .06 in 140ms, with a 2px line-2 edge on the inline-start side. */
+  main.v6 .mx .mx-row > :is(td, th):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    border-block-end-color: rgb(255 255 255 / .12);
+    transition: background-color 140ms cubic-bezier(.16, 1, .3, 1), box-shadow 140ms cubic-bezier(.16, 1, .3, 1);
+  }
+  main.v6 .mx .mx-row:is(:hover, :focus-within) > :is(td, th):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    background-color: rgb(255 255 255 / .06);
+  }
+  main.v6 .mx .mx-row:is(:hover, :focus-within) > .mx-td--pick:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    box-shadow: inset 2px 0 0 rgb(255 255 255 / .22);
+  }
+  main.v6 .mx .mx-row:is(:hover, :focus-within) > .mx-td--pick:dir(rtl):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    box-shadow: inset -2px 0 0 rgb(255 255 255 / .22);
+  }
+  main.v6 .mx .mx-id__name:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    font-weight: 600;
+  }
+}
+
+/* Sticky column header on wide screens, parked under the sticky disclosure line (which keeps its
+   own position:sticky). The scroller switches to overflow:clip only where the table fits. */
+@media (min-width: 1280px) {
+  main.v6 .mx .mx-scroll:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    overflow: clip;
+  }
+  main.v6 .mx .mx-table thead th:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    position: sticky;
+    inset-block-start: 95px;
+    z-index: 2;
+    background-color: #07080A;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main.v6 .mx :is(.mx-seg__btn, .mx-sort, .mx-row > td, .mx-row > th):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    transition: none;
+  }
+}
+
+/* ───────────────────────── COMPARE (/compare/a-vs-b) ───────────────────────── */
+
+/* Fee figures inside the versus matrix: mono tabular, so 0.02% / 0.055% align across both columns. */
+main.v6.v3-compare-page .v3-fee-pair:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: block;
+  font-family: "Geist Mono V5", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 20px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #EDEEF0;
+}
+main.v6.v3-compare-page .v3-fee-pair__tier:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  display: block;
+  margin-block-start: 4px;
+  font-size: 12px;
+  color: #9097A0;
+}
+/* Pending main value: same ink as before (no contrast loss), sans + dashed underline so it is never
+   mistaken for a checked figure. */
+main.v6.v3-compare-page .v3-matrix-main-val.is-pending:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: rgb(255 255 255 / .22);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+}
+
+/* Versus axis: the seam between the two venue columns is the one strong (line-2) vertical rule;
+   the metric column keeps the quiet hairline. Rows lift on hover/focus. */
+main.v6.v3-compare-page .v3-matrix-table :is(th, td):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  border-block-end-color: rgb(255 255 255 / .12);
+  transition: background-color 140ms cubic-bezier(.16, 1, .3, 1);
+}
+main.v6.v3-compare-page .v3-matrix-table thead th:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  border-block-end-color: rgb(255 255 255 / .22);
+}
+main.v6.v3-compare-page .v3-matrix-table tbody tr:is(:hover, :focus-within) > :is(th, td):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  background-color: rgb(255 255 255 / .025);
+}
+main.v6.v3-compare-page .v3-matrix-venue-name:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  font-size: 16px;
+  font-weight: 600;
+}
+main.v6.v3-compare-page .v3-matrix-dim-title:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  color: #EDEEF0;
+}
+main.v6.v3-compare-page .v3-matrix-dim-hint:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  color: #9097A0;
+}
+
+@media (min-width: 900px) {
+  /* Mirrored rhythm: metric, A and B cells share one 24px inline inset. */
+  main.v6.v3-compare-page .v3-matrix-table :is(.v3-matrix-td--dim, .v3-matrix-td--data, .v3-matrix-th--dim):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    padding-inline: 24px;
+    padding-block: 24px;
+  }
+  main.v6.v3-compare-page .v3-matrix-table .v3-matrix-th--venue:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    padding-inline: 12px;
+  }
+  main.v6.v3-compare-page .v3-matrix-table :is(.v3-matrix-th--venue, .v3-matrix-td--data) + :is(.v3-matrix-th--venue, .v3-matrix-td--data):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    border-inline-start: 1px solid rgb(255 255 255 / .22);
+  }
+  main.v6.v3-compare-page .v3-matrix-venue-card:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    background-color: transparent;
+    padding-inline: 12px 0;
+  }
+}
+
+/* Mobile: dimension title and venue content start on the same inline edge
+   (was 42px vs 38px at 390). */
+@media (max-width: 899px) {
+  main.v6.v3-compare-page .v3-matrix-table :is(.v3-matrix-td--dim, .v3-matrix-td--data):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    padding-inline: 16px;
+  }
+}
+@media (max-width: 640px) {
+  main.v6.v3-compare-page .v3-fee-pair:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    font-size: 18px;
+  }
+}
+
+/* Hero versus bars: a hairline axis per row and a hover lift so the eye tracks A against B. */
+main.v6.v3-compare-page .r9-cmp__row:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  transition: background-color 140ms cubic-bezier(.16, 1, .3, 1);
+}
+main.v6.v3-compare-page .r9-cmp__row:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  background-color: rgb(255 255 255 / .035);
+}
+main.v6.v3-compare-page .r9-cmp__fig:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Final choice: venue names carry the hierarchy (16/600), labels quiet (12, ink-3). */
+main.v6.v3-compare-page .v3-compare-final-choice-card__venue-head strong:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  font-size: 16px;
+  font-weight: 600;
+  color: #EDEEF0;
+}
+main.v6.v3-compare-page .v3-compare-final-choice-card__venue dt:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  color: #9097A0;
+  font-size: 12px;
+  font-weight: 500;
+}
+main.v6.v3-compare-page .v3-compare-final-choice-card__venue dd:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  color: #B0B4BA;
+}
+
+/* Sticky compare bar: token hairline, blur, and the same central seam as the matrix. */
+main.v6.v3-compare-page .v3-compare-sticky-bar:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  background-color: rgb(7 8 10 / .9);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
+  border-color: rgb(255 255 255 / .12);
+}
+main.v6.v3-compare-page .v3-compare-sticky-bar__col + .v3-compare-sticky-bar__col:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  border-inline-start-color: rgb(255 255 255 / .22);
+}
+
+/* The bar's inner row sat flush against the viewport edge (y=0); give it an 8px inset on the
+   leading side and respect the iOS home indicator when it docks at the bottom. */
+main.v6.v3-compare-page .v3-compare-sticky-bar:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  padding-block: 8px 4px;
+}
+@media (max-width: 899px) {
+  main.v6.v3-compare-page .v3-compare-sticky-bar:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    padding-block-end: max(4px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main.v6.v3-compare-page :is(.r9-cmp__row, .v3-matrix-table th, .v3-matrix-table td):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+    transition: none;
+  }
+}
+
+/* Direction A: the directory matrix sits in the same terminal frame as the home notice desk. */
+@media (min-width: 781px) {
+  main.v6 .mx-scroll:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border: 1px solid rgb(255 255 255 / .22); border-radius: 12px; background: #0B0C0F; box-shadow: 0 40px 80px -40px rgb(0 0 0 / .9); }
+}
+
+/* Checked compare picks were dark-on-dark (a v6 surface rule won); the checked box is now unmistakable. */
+main.v6 .mx-pick input:checked + .mx-pick__box:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { background: #1FE0C0; border-color: #1FE0C0; color: #04130F; }
+main.v6 .mx-table tr:has(.mx-pick input:checked):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { box-shadow: inset 2px 0 0 #1FE0C0; }

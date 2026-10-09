@@ -21,6 +21,7 @@ import { directoryContextSearch } from "../../data/directory-context.js";
 import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
 import { feePctOfRate, isoDay } from "../../data/exchange-facts.js";
+import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 
 // Scope and conditions are two sentences: the scope gets its own full stop ("…USDC columns. Uses…").
 const sentence = (t) => { const v = String(t || "").trim(); return !v || /[.!?。！？:：]$/.test(v) ? v : `${v}.`; };
@@ -650,7 +651,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
               product={product || "spot"}
               campaign="r40-rates-owner-telegram-return"
               placement="rates-owner-telegram-handoff"
-              queries={["Published fee source check", "Return to this fee benchmark"]}
+              queries={locale === "en" ? ["Published fee source check", "Return to this fee benchmark"] : undefined}
             />
         </div>
       <div className="fee-terminal__next-step rt-next" aria-label={nextStep[0]}>
@@ -697,6 +698,8 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
         </nav>
       </header>
 
+      <div className="fee-terminal__table-block">
+      <CommissionDisclosureLine locale={locale} className="fee-terminal__disclosure" placement="rates-benchmark" />
       <div className="fee-terminal__table-wrapper ft" tabIndex={0}>
         <table className="fee-terminal__table ft-table" id="rate-terminal-table" data-cols={colCount}>
           <thead>
@@ -760,6 +763,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
             )}
           </tbody>
         </table>
+      </div>
       </div>
     </section>
   );

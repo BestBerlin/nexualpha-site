@@ -586,6 +586,13 @@ function registrationRuntimeCopy(locale, baseCopy) {
   };
 }
 
+// Shared, already-localized short disclosure (same strings as .registration-card__disclosure),
+// exported so list views with sponsored CTAs can show it next to their first CTA.
+export function registrationDisclosureCopy(locale) {
+  const resolved = registrationRuntimeCopy(locale, getCopy(locale));
+  return { title: resolved.disclosureTitle, short: resolved.disclosureShort };
+}
+
 const registrationNextStepCopy = Object.freeze({
   en: {
     label: "Next step",
@@ -1045,6 +1052,8 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
         {compact && <div className="registration-card__action-group">
           {preflight}
           {primaryAction}
+          {/* Rule 8: the commission sentence sits directly under the sponsored action, so both share every viewport. */}
+          {publicCta.hasPartnerRoute && <p className="registration-card__inline-disclosure" data-disclosure-placement="registration-card-cta">{copy.disclosureShort}</p>}
         </div>}
 
         {/* 可展开的条件说明；紧凑卡片的主操作始终可见 */}
@@ -1077,6 +1086,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
                 <p><span>{copy.regionState}</span><b>{regionStateText}</b></p>
               </div>
               {!compact && <>{preflight}{primaryAction}</>}
+              {!compact && publicCta.hasPartnerRoute && <p className="registration-card__inline-disclosure" data-disclosure-placement="registration-card-cta">{copy.disclosureShort}</p>}
 
               {(visiblePartner.registrationUrl || officialRouteUrl) && (
                 <div className="registration-card__url-row">

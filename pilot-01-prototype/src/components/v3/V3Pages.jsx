@@ -42,6 +42,8 @@ import { compareFaqBadge, compareFaqEntries, compareFaqText, compareStickyAria }
 import { interfaceCopyByLocale } from "../../content/v3-interface-copy.js";
 import { VenueReadinessChecklist } from "./VenueReadinessChecklist.jsx";
 import { TelegramReturnBanner } from "./TelegramReturnBanner.jsx";
+import { footerDisclosureLabel } from "./CleanFooter.jsx";
+import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 import "./crossroads-compare.css";
 import "./growth-conversion.css";
 
@@ -2223,7 +2225,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
       <div className="v3-venue-hero">
         <div className="v3-venue-identity enter" style={{ "--i": 0 }}>
-          <BrandMark slug={profile.slug} />
+          <BrandMark slug={profile.slug} priority />
           <div className="v3-venue-identity__info">
             <div className="v3-venue-identity__badges">
               <span className={`v3-category-chip v3-category-chip--${String(profile.category || "").toLowerCase().replace(/\s+/g, "-")}`}>
@@ -2645,6 +2647,15 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
             {registrationReviewLabel}
           </LocalLink>
         )}
+        <LocalLink
+          locale={locale}
+          href="/methodology#disclosure"
+          className="v3-mobile-sticky-bar__disclosure"
+          tabIndex={mobileStickyActive ? undefined : -1}
+          data-disclosure-placement="venue-mobile-sticky"
+        >
+          {footerDisclosureLabel(locale)}
+        </LocalLink>
       </div>
     </aside>
   </main>;
@@ -3698,7 +3709,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
           <div
             className={isPriorityTwoVenueDirectAnswer ? "v3-compare-reading-metadata" : "v3-gold-pair-banner"}
           >
-            <span style={{ color: "#fdb022", fontWeight: 600, fontSize: "0.875rem", letterSpacing: "0.02em" }}>
+            <span style={{ color: "var(--ink-2, #B0B4BA)", fontWeight: 600, fontSize: "0.875rem", letterSpacing: "0.02em" }}>
                {[activeGoldPair.left, activeGoldPair.right].every((slug) => publicVenueAccess(slug, locale).commercialClaim.status === "verified" && hasReviewedDecisionSource(slug))
                 ? (activeGoldPair.title[locKey] || activeGoldPair.title.en)
                 : (isZhLoc ? zhText(locale, "官方资料对比", "官方資料對比") : (compareLabels.official || ({ de: "Vergleich mit offiziellen Quellen", ja: "公式ソース比較", ko: "공식 출처 비교", tr: "Resmî kaynak karşılaştırması", ar: "مقارنة المصادر الرسمية", "pt-BR": "Comparação de fontes oficiais", fr: "Comparaison des sources officielles", ru: "Сравнение по официальным источникам", id: "Perbandingan sumber resmi", vi: "So sánh theo nguồn chính thức", it: "Confronto delle fonti ufficiali" }[locale] || "Official-source comparison")))}
@@ -3721,6 +3732,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
         <details id="compare-versus-card" className="v3-compare-support-disclosure" open={!directAnswer || profiles.length > 2}>
           <summary>{compareStatDisclosureByLocale[textLocaleKey(locale)] || compareStatDisclosureByLocale.en}<span aria-hidden="true">＋</span></summary>
           {isPriorityTwoVenueDirectAnswer && comparisonContext}
+        <CommissionDisclosureLine locale={locale} className="v3-compare-disclosure" placement="compare-versus" />
         <div className="v3-versus-card v3-versus-card--supporting" style={profiles.length >= 3 ? { gridTemplateColumns: `repeat(${profiles.length}, 1fr)` } : undefined}>
           {profiles.slice(0, 3).map((p, idx) => {
             const pDb = publicCompareDb(venueDatabase[p.slug] || {});
@@ -3871,13 +3883,22 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
                 tabIndex={stickyCtaActive ? undefined : -1}
               >
                 {pCta.direct
-                  ? <>{fillCta(ctaUiCopy(locale).signupN, { n: locName })} <span aria-hidden="true">↗</span></>
+                  ? <>{fillCta(ctaUiCopy(locale).signupN, { n: p.name })} <span aria-hidden="true">↗</span></>
                   : <>{detailCtaLabel(locale, { direct: pCta.direct, hasReferral: pCta.hasReferral })} →</>}
               </a>
             </div>
           );
         })}
       </div>
+      <LocalLink
+        locale={locale}
+        href="/methodology#disclosure"
+        className="v3-compare-sticky-bar__disclosure"
+        tabIndex={stickyCtaActive ? undefined : -1}
+        data-disclosure-placement="compare-sticky"
+      >
+        {footerDisclosureLabel(locale)}
+      </LocalLink>
     </div>
 
     <section className="v3-page-hero v2-shell" id="compare-hero">

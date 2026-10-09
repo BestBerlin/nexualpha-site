@@ -91,7 +91,7 @@
   #top.v3-compare-page .v3-compare-sticky-bar__col { gap: 8px; }
   #top.v3-compare-page .v3-compare-sticky-bar__col + .v3-compare-sticky-bar__col { padding-inline-start: 12px; }
   #top.v3-compare-page .v3-compare-sticky-bar__col > strong { display: none; }
-  #top.v3-compare-page .v3-compare-sticky-bar__btn { flex: 1 1 auto; justify-content: center; padding-inline: 10px; font-size: 13px; white-space: normal; text-align: center; line-height: var(--lh-head, 1.15); }
+  #top.v3-compare-page .v3-compare-sticky-bar__btn { flex: 1 1 auto; justify-content: center; padding-inline: 10px; font-size: 12px; white-space: nowrap; text-align: center; line-height: var(--lh-head, 1.15); }
 }
 
 /* ---------- One registration action, everywhere on the page ----------

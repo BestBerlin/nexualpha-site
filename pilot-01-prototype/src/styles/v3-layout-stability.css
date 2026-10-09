@@ -1504,3 +1504,6 @@ img {
     grid-row: 1;
   }
 }
+
+/* R-inner polish: compare verdict "view platform" links reach a 44px touch target. */
+main.v6.v3-compare-page .v3-compare-verdict__card a:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: inline-flex; align-items: center; min-block-size: 44px; }

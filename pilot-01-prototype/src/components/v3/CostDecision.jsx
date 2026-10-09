@@ -7,6 +7,7 @@ import { buildDecisionReturnHref, readDecisionReturnState } from '../../data/dec
 import { buildVenueFeeSummary, feeSummaryCopy } from '../../data/venue-fee-summary.js';
 import { reviewedFeeCopy } from '../../data/reviewed-fee-copy.js';
 import { DecisionReturnLink } from './DecisionReturnLink.jsx';
+import { CommissionDisclosureLine } from './CommissionDisclosureLine.jsx';
 import { costDecisionCopy, costDecisionStateCopy } from '../../data/cost-decision-copy.js';
 import { BrandMark } from '../brand/BrandMark.jsx';
 import { matrixCopy } from './exchange-matrix-copy.js';
@@ -118,6 +119,7 @@ export function CostDecision({locale='en', regionMarket, product='perpetuals', a
       <DecisionReturnLink href={decisionReturnHref} locale={locale} />
     </div>
     <div className="rt-result">
+      <CommissionDisclosureLine locale={locale} className="cost-decision__disclosure" placement="cost-calculator" />
       {notice && <p className="cost-decision__notice rt-notice" role="status">{notice}</p>}
       {lowestReviewed && !noVolume && <div className={`cost-decision__verdict rt-verdict${tie ? " rt-verdict--tie" : ""}`}>
         <span className="rt-verdict__base">{ui.base} {lowestReviewed.displayRate}</span>

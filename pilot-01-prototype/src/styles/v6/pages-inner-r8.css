@@ -43,8 +43,10 @@ img.v2-brand--bybit:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(
 /* ============ #7 accent only on signup ============ */
 /* "Launch Assistant Bot" is a Telegram route, not a signup: outline secondary */
 .v6 .tg-hub__quick-cta .tg-btn--primary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
-  border: 1px solid var(--n7); background: transparent; color: var(--n12); box-shadow: none;
+  border: 1px solid var(--n12); background: transparent; color: var(--n12); box-shadow: none; font-weight: 600;
 }
+/* Primary outline must out-rank secondary: secondary steps down to the neutral line. */
+.v6 .tg-hub__quick-cta .tg-btn--secondary:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--n7); }
 .v6 .tg-hub__quick-cta .tg-btn--primary:hover:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--n10); background: var(--n4); transform: none; }
 /* arrows on secondary next-step links are neutral */
 .v6 .decision-path-rail__link > b:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),

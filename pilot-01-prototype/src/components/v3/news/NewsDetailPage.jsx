@@ -487,6 +487,25 @@ function OwnerChecklist({ article }) {
 
 const sectionNavigationLabels = {"en": "Jump to section", "zh-Hans": "跳转到章节", "zh-Hant": "跳轉至章節", "ja": "セクションへ移動", "ko": "섹션으로 이동", "tr": "Bölüme git", "ar": "الانتقال إلى القسم", "es": "Ir a la sección", "pt-BR": "Ir para a seção", "fr": "Aller à la section", "de": "Zum Abschnitt springen", "ru": "Перейти к разделу", "id": "Ke bagian", "vi": "Chuyển đến mục", "it": "Vai alla sezione"};
 
+// Inline markdown in article prose: [label](https://...) links, **strong** and `code`. Only http(s) targets are
+// linked; anything else stays plain text.
+const INLINE_TOKEN = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*|`([^`]+)`/g;
+function renderInline(text) {
+  const value = String(text);
+  if (!/\]\(http|\*\*|`/.test(value)) return value;
+  const parts = [];
+  let last = 0;
+  for (const match of value.matchAll(INLINE_TOKEN)) {
+    if (match.index > last) parts.push(value.slice(last, match.index));
+    if (match[2]) parts.push(<a key={match.index} href={match[2]} target="_blank" rel="noopener noreferrer">{match[1]}</a>);
+    else if (match[3]) parts.push(<strong key={match.index}>{match[3]}</strong>);
+    else parts.push(<code key={match.index}>{match[4]}</code>);
+    last = match.index + match[0].length;
+  }
+  if (last < value.length) parts.push(value.slice(last));
+  return parts;
+}
+
 function renderMarkdownBlock(block, index, t) {
   if (block.startsWith("### ")) return <h3 key={index}>{block.replace(/^### /, "")}</h3>;
   if (block.startsWith("## ")) return <h2 key={index} id={`article-section-${index}`} tabIndex={-1}>{block.replace(/^## /, "")}</h2>;
@@ -506,7 +525,7 @@ function renderMarkdownBlock(block, index, t) {
             </thead>
             <tbody>
               {body.map((row, rowIndex) => (
-                <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={`${rowIndex}-${cellIndex}`}>{cell}</td>)}</tr>
+                <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={`${rowIndex}-${cellIndex}`}>{renderInline(cell)}</td>)}</tr>
               ))}
             </tbody>
           </table>
@@ -519,15 +538,15 @@ function renderMarkdownBlock(block, index, t) {
     const items = lines.filter((line) => line.startsWith("- ")).map((line) => line.replace(/^- /, ""));
     return (
       <React.Fragment key={index}>
-        {leadLines.length > 0 && <p>{leadLines.join(" ")}</p>}
+        {leadLines.length > 0 && <p>{renderInline(leadLines.join(" "))}</p>}
         {/* a list of short terms flows into columns (a 7-item glossary was a 280px-tall strip beside empty space) */}
         <ul className={items.length >= 4 && items.every((item) => item.trim().length <= 40) ? "news-detail__terms" : undefined}>
-          {items.map((item, itemIndex) => <li key={itemIndex}>{item.trim()}</li>)}
+          {items.map((item, itemIndex) => <li key={itemIndex}>{renderInline(item.trim())}</li>)}
         </ul>
       </React.Fragment>
     );
   }
-  return <p key={index}>{block}</p>;
+  return <p key={index}>{renderInline(block)}</p>;
 }
 
 export function NewsDetailPage({ slug, locale = "en", market, product, initialArticles }) {
