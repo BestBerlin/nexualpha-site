@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_PARTNERS, HOME_PUSH, HOME_AUTO_SETTLE } from "../../data/home-rebate-tiers.js";
+import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_PARTNERS, HOME_PUSH, HOME_AUTO_SETTLE, HOME_SETTLE } from "../../data/home-rebate-tiers.js";
 import { brandsBySlug } from "../../content/brand-manifest";
 import { readIntelFeed } from "../../data/announcement-intel.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
@@ -71,7 +71,7 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
   return (
     <div className={`h7-dock${on ? " on" : ""}`} {...(on ? {} : { inert: "", "aria-hidden": "true" })}>
       <label className="h7-dock-pick"><span className="h7-sr">{t.lgPick}</span>
-        <select value={sel.slug} onChange={(e) => setPick(e.target.value)}>{rebated.map((r) => <option key={r.slug} value={r.slug}>{r.name} · {Math.round(r.share * 100)}%</option>)}</select>
+        <select value={sel.slug} onChange={(e) => setPick(e.target.value)}>{rebated.map((r) => <option key={r.slug} value={r.slug}>{r.name} · {t.upTo} {Math.round(r.share * 100)}%</option>)}</select>
       </label>
       <Cta v={sel} locale={locale} className={`h7-btn h7-dock-go h7-go--${sel.slug}`} placement="home-v7-dock"><span>{t.dockGo}</span><small className="h7-go-disclosure">{t.lgAd}</small></Cta>
     </div>
@@ -140,7 +140,7 @@ function IntelSheet({ item, venues, t, locale, onClose }) {
         <ul className="h7-sh-l">
           {rows.map((r) => (
             <li key={r.slug}>
-              <div className="h7-sh-n"><BrandMark slug={r.slug} compact /><b>{r.name}</b>{r.share ? <span className="h7-bd">{t.rebate} {Math.round(r.share * 100)}%</span> : <span className="h7-bd" data-nr>{t.pending}</span>}</div>
+              <div className="h7-sh-n"><BrandMark slug={r.slug} compact /><b>{r.name}</b>{r.share ? <span className="h7-bd">{t.upTo} {Math.round(r.share * 100)}%</span> : <span className="h7-bd" data-nr>{t.pending}</span>}</div>
               <div className="h7-sh-f">{r.maker != null ? <>{t.maker} {pct(r.maker)} / {t.taker} {pct(r.taker)}{r.share ? <small>{t.shAfter} {pct(r.mk)} / {pct(r.tk)}</small> : null}</> : t.unchecked}</div>
               <Cta v={r} locale={locale} className="h7-btn h7-sm h7-sh-b" placement="home-v7-intel"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
             </li>
@@ -273,11 +273,11 @@ export function HomeV7({ locale, venues: _catalog }) {
 
         <aside className="h7-lg" id="h7-desk" aria-label={t.lgTitle} onPointerMove={spot} data-pick={sel.slug}>
           <div className="h7-lg-tabs" role="group" aria-label={t.lgPick} style={{ "--n": rebated.length }}>
-            {rebated.map((r, i) => <button key={r.slug} ref={(e) => { pillRefs.current[i] = e; }} type="button" data-brand={r.slug} aria-pressed={r.slug === sel.slug} onClick={() => setPick(r.slug)}><BrandMark slug={r.slug} compact /><span>{r.name}</span><b><span className="h7-sr">{t.rebate} </span>{Math.round(r.share * 100)}%</b>{r.share === topShare && rebated.length > 1 ? <i>{t.lgTop}</i> : null}</button>)}
+            {rebated.map((r, i) => <button key={r.slug} ref={(e) => { pillRefs.current[i] = e; }} type="button" data-brand={r.slug} aria-pressed={r.slug === sel.slug} onClick={() => setPick(r.slug)}><BrandMark slug={r.slug} compact /><span>{r.name}</span><b>{t.upTo} {Math.round(r.share * 100)}%</b>{r.share === topShare && rebated.length > 1 ? <i>{t.lgTop}</i> : null}</button>)}
           </div>
           <div className="h7-lg-max">
             <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgShare(sel.name)} </span><Roll value={Math.round(sel.share * 100)} fmt={(n) => String(Math.round(n))} nudge={sel.slug} /><span>%</span></p>
-            <div className="h7-lg-who"><b>{t.lgShare(sel.name)}</b>{auto && <span className="h7-auto">{t.lgAuto}</span>}</div>
+            <div className="h7-lg-who"><b>{t.lgShare(sel.name)}</b>{auto && <span className="h7-auto">{t.lgAuto}{HOME_SETTLE[sel.slug] ? ` · ${HOME_SETTLE[sel.slug] === "hourly" ? t.settleH : t.settleD}` : ""}</span>}</div>
           </div>
           <p className="h7-lg-top"><span className="h7-dot" aria-hidden="true" />{t.lgEst}<span className="h7-lg-vol">{t.lgVol(usd(vol), `${product === "perp" ? t.perpL : t.spotL}${t.sep}${mode === "maker" ? t.maker : t.taker}`)}</span></p>
           <dl className="h7-lg-rows">
@@ -296,7 +296,7 @@ export function HomeV7({ locale, venues: _catalog }) {
             {venues.map((v, i) => (
               <li key={v.slug}>
                 <a href={localizedHref(`/exchanges/${v.slug}#registration-path`, { locale })} ref={(e) => { srcRefs.current[i] = e; }} className={v.share ? "on" : undefined}>
-                  <BrandMark slug={v.slug} compact priority={i < 4} /><span className="h7-pn">{v.name}</span>{v.share ? <small><span className="h7-sr">{t.rebate} </span>{Math.round(v.share * 100)}%</small> : null}
+                  <BrandMark slug={v.slug} compact priority={i < 4} /><span className="h7-pn">{v.name}</span>{v.share ? <small>{t.upTo} {Math.round(v.share * 100)}%</small> : null}
                 </a>
               </li>
             ))}
@@ -331,7 +331,7 @@ export function HomeV7({ locale, venues: _catalog }) {
           <p className="h7-disc">{t.t2b}</p>
           {calc.rows.map((r, i) => (
             <div key={r.slug} ref={(e) => { rowEls.current[i] = e; }} className={`h7-xr${calc.best?.slug === r.slug ? " best" : ""}${r.share ? "" : " nr"}`}>
-              <p className="h7-xn"><BrandMark slug={r.slug} compact /><b>{r.name}</b><span className="h7-bd">{r.share ? `${t.rebate} ${Math.round(r.share * 100)}%` : t.pending}</span></p>
+              <p className="h7-xn"><BrandMark slug={r.slug} compact /><b>{r.name}</b><span className="h7-bd">{r.share ? `${t.upTo} ${Math.round(r.share * 100)}%` : t.pending}</span></p>
               <div className="h7-am">{r.net == null ? "–" : <>{r.share ? <s>{usd(r.gross)}</s> : null}<Roll value={r.net} /></>}</div>
               <p className="h7-meta"><span>{t.rate} {r.maker != null ? `${r.maker.toFixed(2)}% / ${r.taker.toFixed(2)}%` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}<a className="h7-dt" href={localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}</a></p>
               <Cta v={r} locale={locale} className="h7-btn h7-sm" placement="home-v7-row"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
