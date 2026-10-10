@@ -14,6 +14,7 @@ import { createNewsSsrRenderer } from './server/news-ssr.mjs';
 import { createIntelFeed, INTEL_PATH } from './server/intel-feed.mjs';
 import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
+import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
@@ -29,6 +30,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
   const renderNews = createNewsSsrRenderer(distRoot);
   const intel = createIntelFeed(clientRoot, { enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const funding = createFundingFeed({ enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  // /liquidations and /funding-rates SSR: the collector feed, read at most once per 60 s (MARKET_EVENTS_FILE or MARKET_EVENTS_URL).
+  const marketEvents = marketEventsReaderFromEnv(env, { log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const version = suppliedWorker && !existsSync(path.join(clientRoot, 'version.json'))
     ? { buildId: env.BUILD_ID || '3.0-test-build' }
     : JSON.parse(await readFile(path.join(clientRoot, 'version.json'), 'utf8'));
@@ -147,7 +150,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else if (mode || testQuery) result = smokeCollector ? await smokeCollector(request) : unavailable('CTA_SMOKE_NOT_CONFIGURED');
         else result = await collector(request);
       } else result = await worker.fetch(request, {
-        ASSETS: assets, NEWS_SSR_RENDER: renderNews, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+        ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
         CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
       });
       if (result.status >= 500 && !isHealthCheckPath(requestPath)) await errorMonitor?.record({ requestId, route: requestPath,

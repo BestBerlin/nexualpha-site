@@ -69,6 +69,7 @@ function HydrationBootstrap() {
       initialCompareSelection={prerenderState ? ["binance", "okx"] : undefined}
       initialNewsArticles={prerenderState?.newsArticles}
       initialNewsListing={prerenderState?.newsListing}
+      initialMarketEvents={prerenderState?.marketEvents}
     />
     {initialUrl === bootstrap.browserUrl && <ClientHydrationSignal />}
   </>;
