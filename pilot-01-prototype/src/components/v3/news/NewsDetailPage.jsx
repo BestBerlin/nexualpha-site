@@ -16,6 +16,7 @@ import { nextDecisionBridgeCopy } from "../../../data/next-decision-bridge.js";
 import { NextDecisionBridge } from "../NextDecisionBridge.jsx";
 import { OnsiteTelegramBotHandoff } from "../OnsiteTelegramBotHandoff.jsx";
 import { TopDecisionBox } from "../TopDecisionBox.jsx";
+import { NewsVenueOffer } from "./NewsVenueOffer.jsx";
 import "./news-detail-page.css";
 
 const copy = {
@@ -808,6 +809,8 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
         )}
 
         <RelatedResearch links={relatedLinks} t={t} withContext={withContext} article={article} />
+
+        <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} />
 
         {article.relatedVenues && article.relatedVenues.length > 0 && (
           <NextDecisionBridge

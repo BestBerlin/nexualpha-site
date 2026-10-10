@@ -1,515 +1,1124 @@
 {
-  "generatedAt": "2026-10-09T14:37:44.784Z",
-  "status": "OK",
-  "sources": {
-    "bitget": {
-      "ok": true,
-      "fetched": 26,
-      "at": "2026-10-09T14:37:44.784Z",
-      "lastGoodAt": "2026-10-09T14:37:44.784Z"
-    },
-    "bybit": {
-      "ok": true,
-      "fetched": 30,
-      "at": "2026-10-09T14:37:44.784Z",
-      "lastGoodAt": "2026-10-09T14:37:44.784Z"
-    }
+ "generatedAt": "2026-10-10T06:43:35.779Z",
+ "status": "OK",
+ "sources": {
+  "okx": {
+   "ok": true,
+   "fetched": 75,
+   "at": "2026-10-10T06:43:35.779Z",
+   "lastGoodAt": "2026-10-10T06:43:35.779Z"
   },
-  "items": [
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/bypick-season-1-free-picks-to-earn-points-towards-sharing-a-100-000-usdt-prize-pool--art8fd5d30ccc24/",
-      "venue": "bybit",
-      "category": "event",
-      "title": "ByPick Season 1: Free picks to earn points towards sharing a 100,000 USDT prize pool!",
-      "url": "https://announcements.bybit.com/en-US/article/bypick-season-1-free-picks-to-earn-points-towards-sharing-a-100-000-usdt-prize-pool--art8fd5d30ccc24/",
-      "publishedAt": "2026-10-09T09:46:52.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-vktxusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art861b8a38e781/",
-      "venue": "bybit",
-      "category": "listing",
-      "title": "New listing: Listing of VKTXUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:05AM UTC",
-      "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-vktxusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art861b8a38e781/",
-      "publishedAt": "2026-10-09T09:40:54.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-bmnuusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art029dc1cdafad/",
-      "venue": "bybit",
-      "category": "listing",
-      "title": "New listing: Listing of BMNUUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:05AM UTC",
-      "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-bmnuusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art029dc1cdafad/",
-      "publishedAt": "2026-10-09T09:40:49.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-mpusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--art10d776f20222/",
-      "venue": "bybit",
-      "category": "listing",
-      "title": "New listing: Listing of MPUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:00AM UTC",
-      "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-mpusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--art10d776f20222/",
-      "publishedAt": "2026-10-09T09:40:45.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-umcusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art5d7a9064afd9/",
-      "venue": "bybit",
-      "category": "listing",
-      "title": "New listing: Listing of UMCUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:05AM UTC",
-      "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-umcusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art5d7a9064afd9/",
-      "publishedAt": "2026-10-09T09:40:39.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-bwetusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--artdd164c1efba4/",
-      "venue": "bybit",
-      "category": "listing",
-      "title": "New listing: Listing of BWETUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:00AM UTC",
-      "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-bwetusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--artdd164c1efba4/",
-      "publishedAt": "2026-10-09T09:36:53.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-usdexusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--arte8b81c9e20e4/",
-      "venue": "bybit",
-      "category": "listing",
-      "title": "New listing: Listing of USDEXUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:00AM UTC",
-      "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-usdexusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--arte8b81c9e20e4/",
-      "publishedAt": "2026-10-09T09:36:43.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/mena-convert-go-swap-and-earn-up-to-150-usdt--artdf826eabfd5f/",
-      "venue": "bybit",
-      "category": "event",
-      "title": "MENA Convert Go: Swap and Earn Up to 150 USDT",
-      "url": "https://announcements.bybit.com/en-US/article/mena-convert-go-swap-and-earn-up-to-150-usdt--artdf826eabfd5f/",
-      "publishedAt": "2026-10-09T08:10:41.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-nkeusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--art68dd3f74cc31/",
-      "venue": "bybit",
-      "category": "listing",
-      "title": "New listing: Listing of NKEUSDT on Bybit TradFi Perpetual on Oct 8, 2026, 12:00PM UTC",
-      "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-nkeusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--art68dd3f74cc31/",
-      "publishedAt": "2026-10-08T11:04:13.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-acnusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--art6c956057ef10/",
-      "venue": "bybit",
-      "category": "listing",
-      "title": "New listing: Listing of ACNUSDT on Bybit TradFi Perpetual on Oct 8, 2026, 12:00PM UTC",
-      "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-acnusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--art6c956057ef10/",
-      "publishedAt": "2026-10-08T11:04:09.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-luluusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--artc14006e88b00/",
-      "venue": "bybit",
-      "category": "listing",
-      "title": "New listing: Listing of LULUUSDT on Bybit TradFi Perpetual on Oct 8, 2026, 12:00PM UTC",
-      "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-luluusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--artc14006e88b00/",
-      "publishedAt": "2026-10-08T11:02:29.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/kii-token-splash-grab-a-share-of-the-2-000-000-kii-prize-pool--art7e7ad2c47e8d/",
-      "venue": "bybit",
-      "category": "listing",
-      "title": "KII Alpha Token Splash— Grab a share of the 2,000,000 KII prize pool .",
-      "url": "https://announcements.bybit.com/en-US/article/kii-token-splash-grab-a-share-of-the-2-000-000-kii-prize-pool--art7e7ad2c47e8d/",
-      "publishedAt": "2026-10-08T10:00:09.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/delisting-of-stgusdt-perpetual-contract--art6e25f158796b/",
-      "venue": "bybit",
-      "category": "delisting",
-      "title": "Delisting of STGUSDT Perpetual Contract",
-      "url": "https://announcements.bybit.com/en-US/article/delisting-of-stgusdt-perpetual-contract--art6e25f158796b/",
-      "publishedAt": "2026-10-08T09:31:02.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896801",
-      "venue": "bitget",
-      "category": "delisting",
-      "title": "[Important] Bitget to delist WBDUSDT futures and related services",
-      "url": "https://www.bitget.com/en/support/articles/12560603896801",
-      "publishedAt": "2026-10-07T11:54:30.462Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/wall-street-blue-chip-options-challenge-share-70-000-usdt-in-rewards--art5e3a247ac5d5/",
-      "venue": "bybit",
-      "category": "event",
-      "title": "Wall Street Blue-Chip Options Challenge: Share 70,000 USDT in rewards!",
-      "url": "https://announcements.bybit.com/en-US/article/wall-street-blue-chip-options-challenge-share-70-000-usdt-in-rewards--art5e3a247ac5d5/",
-      "publishedAt": "2026-10-07T10:28:44.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-city-edition-11-transform-your-community-activity-into-bigger-better-rewards--art17c1d51eba7c/",
-      "venue": "bybit",
-      "category": "event",
-      "title": "Bybit City Edition 11: Transform your community activity into bigger, better rewards!",
-      "url": "https://announcements.bybit.com/en-US/article/bybit-city-edition-11-transform-your-community-activity-into-bigger-better-rewards--art17c1d51eba7c/",
-      "publishedAt": "2026-10-07T10:28:12.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896916",
-      "venue": "bitget",
-      "category": "listing",
-      "title": "Bitget listed CEGUSDT, SBUXUSDT, LENUSDT and HDUSDT hot stock perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603896916",
-      "publishedAt": "2026-10-06T15:00:28.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896776",
-      "venue": "bitget",
-      "category": "listing",
-      "title": "Bitget listed USDESTOCKUSDT, VKTXUSDT, PCVXUSDT and XPUSDT hot stock perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603896776",
-      "publishedAt": "2026-10-06T15:00:28.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-to-delist-1-token-s-on-oct-13-2026--art47d51eee7847/",
-      "venue": "bybit",
-      "category": "delisting",
-      "title": "Bybit to Delist 1 Token(s) on Oct 13, 2026",
-      "url": "https://announcements.bybit.com/en-US/article/bybit-to-delist-1-token-s-on-oct-13-2026--art47d51eee7847/",
-      "publishedAt": "2026-10-06T08:00:08.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896694",
-      "venue": "bitget",
-      "category": "news",
-      "title": "[Important] Bitget Announcement on Cash Dividend Settlement for MRVLUSDT、ORCLUSDT、NTAPUSDT Stock Perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603896694",
-      "publishedAt": "2026-10-06T00:00:05.065Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/spend-10-win-100-turn-everyday-spending-into-bigger-rewards--art9229090ec4b4/",
-      "venue": "bybit",
-      "category": "event",
-      "title": "Spend $10, Win $100: Turn everyday spending into bigger rewards!",
-      "url": "https://announcements.bybit.com/en-US/article/spend-10-win-100-turn-everyday-spending-into-bigger-rewards--art9229090ec4b4/",
-      "publishedAt": "2026-10-05T11:28:46.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896619",
-      "venue": "bitget",
-      "category": "news",
-      "title": "[Important] Bitget Announcement on Cash Dividend Settlement for CMCSAUSDT Stock Perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603896619",
-      "publishedAt": "2026-10-04T00:00:05.098Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/delisting-of-blastusdt-perpetual-contract--art350bd98f53c2/",
-      "venue": "bybit",
-      "category": "delisting",
-      "title": "Delisting of BLASTUSDT Perpetual Contract",
-      "url": "https://announcements.bybit.com/en-US/article/delisting-of-blastusdt-perpetual-contract--art350bd98f53c2/",
-      "publishedAt": "2026-10-03T07:38:44.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896603",
-      "venue": "bitget",
-      "category": "news",
-      "title": "[Important] Bitget Announcement on Cash Dividend Settlement for JPMUSDT Stock Perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603896603",
-      "publishedAt": "2026-10-03T00:00:05.054Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/join-mantle-mnt-puzzle-hunt-and-win-a-share-of-200-000-usdt--arte4b94eaed15b/",
-      "venue": "bybit",
-      "category": "event",
-      "title": "Join Mantle (MNT) Puzzle Hunt and win a share of 200,000 USDT",
-      "url": "https://announcements.bybit.com/en-US/article/join-mantle-mnt-puzzle-hunt-and-win-a-share-of-200-000-usdt--arte4b94eaed15b/",
-      "publishedAt": "2026-10-01T10:00:09.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-to-delist-2-token-s-on-oct-8-2026--art1b7b7449b6c5/",
-      "venue": "bybit",
-      "category": "delisting",
-      "title": "Bybit to Delist 2 Token(s) on Oct 8, 2026",
-      "url": "https://announcements.bybit.com/en-US/article/bybit-to-delist-2-token-s-on-oct-8-2026--art1b7b7449b6c5/",
-      "publishedAt": "2026-10-01T08:30:08.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896419",
-      "venue": "bitget",
-      "category": "listing",
-      "title": "CTUSDT now launched for futures trading and trading bots",
-      "url": "https://www.bitget.com/en/support/articles/12560603896419",
-      "publishedAt": "2026-10-01T06:52:32.028Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/stock-buzz-trade-micron-compete-for-a-share-of-100-000-usdt--art12b57db35368/",
-      "venue": "bybit",
-      "category": "event",
-      "title": "Stock Buzz: Trade Micron. Compete For a Share of 100,000 USDT.",
-      "url": "https://announcements.bybit.com/en-US/article/stock-buzz-trade-micron-compete-for-a-share-of-100-000-usdt--art12b57db35368/",
-      "publishedAt": "2026-09-30T15:35:20.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896414",
-      "venue": "bitget",
-      "category": "listing",
-      "title": "Bitget listed TWSTUSDT, CVNAUSDT, RUMUSDT, CRMLUSDT, BWETUSDT, ACNSTOCKUSDT, KODUSDT and AKAMUSDT hot stock perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603896414",
-      "publishedAt": "2026-09-30T11:21:33.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896390",
-      "venue": "bitget",
-      "category": "news",
-      "title": "Bitget Protection Fund Replenished to $300M+",
-      "url": "https://www.bitget.com/en/support/articles/12560603896390",
-      "publishedAt": "2026-09-30T09:00:36.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896301",
-      "venue": "bitget",
-      "category": "listing",
-      "title": "[Initial listing] Bitget to list Concrete (CT)",
-      "url": "https://www.bitget.com/en/support/articles/12560603896301",
-      "publishedAt": "2026-09-30T06:00:08.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896305",
-      "venue": "bitget",
-      "category": "news",
-      "title": "Update On Slowmist and Mandiant Report",
-      "url": "https://www.bitget.com/en/support/articles/12560603896305",
-      "publishedAt": "2026-09-30T05:20:23.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896261",
-      "venue": "bitget",
-      "category": "news",
-      "title": "[Important] Bitget Announcement on Cash Dividend Settlement for GEUSDT Stock Perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603896261",
-      "publishedAt": "2026-09-30T00:00:05.281Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896256",
-      "venue": "bitget",
-      "category": "news",
-      "title": "Bitget Updates Proof of Reserves: Latest Total Reserve Ratio: 131% (Issue No.47)",
-      "url": "https://www.bitget.com/en/support/articles/12560603896256",
-      "publishedAt": "2026-09-29T15:59:06.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896255",
-      "venue": "bitget",
-      "category": "news",
-      "title": "Bitget Stock+ upgrade: Multi-leg options strategies now fully available",
-      "url": "https://www.bitget.com/en/support/articles/12560603896255",
-      "publishedAt": "2026-09-29T13:57:41.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-odds-view-to-victory-official-product-launch-with-a-17-000-usdt-total-prize-pool--art2b5b075abe36/",
-      "venue": "bybit",
-      "category": "event",
-      "title": "Bybit Odds: View to Victory official product launch with a 17,000 USDT total prize pool!",
-      "url": "https://announcements.bybit.com/en-US/article/bybit-odds-view-to-victory-official-product-launch-with-a-17-000-usdt-total-prize-pool--art2b5b075abe36/",
-      "publishedAt": "2026-09-29T09:59:40.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896195",
-      "venue": "bitget",
-      "category": "news",
-      "title": "[Important] Bitget Announcement on Cash Dividend Settlement for CSCOUSDT Stock Perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603896195",
-      "publishedAt": "2026-09-29T00:00:05.145Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896193",
-      "venue": "bitget",
-      "category": "news",
-      "title": "Bitget Streamer Incentive Program: Incentive Program Streamer Ranking Announcement",
-      "url": "https://www.bitget.com/en/support/articles/12560603896193",
-      "publishedAt": "2026-09-28T02:00:37.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603896112",
-      "venue": "bitget",
-      "category": "delisting",
-      "title": "Bitget to delay the delisting of FHE, DRIFT, RVV，DOG from spot trading",
-      "url": "https://www.bitget.com/en/support/articles/12560603896112",
-      "publishedAt": "2026-09-27T03:44:55.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/african-merchants-traders-sell-ngn-on-p2p-and-earn-up-to-3-000-usdt--art54928263960a/",
-      "venue": "bybit",
-      "category": "event",
-      "title": "[New Rewards Series] — African Merchants & Traders: Sell NGN on P2P and Earn Up to 3,000 USDT",
-      "url": "https://announcements.bybit.com/en-US/article/african-merchants-traders-sell-ngn-on-p2p-and-earn-up-to-3-000-usdt--art54928263960a/",
-      "publishedAt": "2026-09-25T13:17:40.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603895972",
-      "venue": "bitget",
-      "category": "delisting",
-      "title": "Notice of Delisting 4 Spot Trading Pairs on September 30, 2026",
-      "url": "https://www.bitget.com/en/support/articles/12560603895972",
-      "publishedAt": "2026-09-25T10:00:29.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603895947",
-      "venue": "bitget",
-      "category": "listing",
-      "title": "Bitget listed URNMUSDT and WBDUSDT hot stock perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603895947",
-      "publishedAt": "2026-09-23T14:05:58.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603895946",
-      "venue": "bitget",
-      "category": "listing",
-      "title": "Bitget Has Listed POLYMARKET Pre-IPO Perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603895946",
-      "publishedAt": "2026-09-23T13:39:45.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603895945",
-      "venue": "bitget",
-      "category": "listing",
-      "title": "Bitget lists 462 spot stock assets, including rGPRO, rHSAI, rBRZE, rALRM, and rLCLN",
-      "url": "https://www.bitget.com/en/support/articles/12560603895945",
-      "publishedAt": "2026-09-23T12:22:22.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603895865",
-      "venue": "bitget",
-      "category": "listing",
-      "title": "Bitget Has Listed OURA (Oura Ring) Pre-IPO Perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603895865",
-      "publishedAt": "2026-09-22T12:49:00.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603895782",
-      "venue": "bitget",
-      "category": "listing",
-      "title": "Bitget Announcement on the Launch of USDBRLUSDT FX Perps",
-      "url": "https://www.bitget.com/en/support/articles/12560603895782",
-      "publishedAt": "2026-09-21T14:30:27.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/latam-exclusive-fiat-pay-fiesta-earn-up-to-45-usdt-in-p2p-coupons--arteb26b8654e8e/",
-      "venue": "bybit",
-      "category": "event",
-      "title": "[LATAM Exclusive] Fiat & Pay Fiesta: Earn up to 45 USDT in P2P Coupons!",
-      "url": "https://announcements.bybit.com/en-US/article/latam-exclusive-fiat-pay-fiesta-earn-up-to-45-usdt-in-p2p-coupons--arteb26b8654e8e/",
-      "publishedAt": "2026-09-21T07:41:24.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-alpha-to-delist-10-token-s-on-sep-19-2026--art1de974152a46/",
-      "venue": "bybit",
-      "category": "delisting",
-      "title": "Bybit Alpha to Delist 10 Token(s) on Sep 19, 2026",
-      "url": "https://announcements.bybit.com/en-US/article/bybit-alpha-to-delist-10-token-s-on-sep-19-2026--art1de974152a46/",
-      "publishedAt": "2026-09-19T19:50:08.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603895618",
-      "venue": "bitget",
-      "category": "delisting",
-      "title": "Notice of Delisting 3 Spot Trading Pairs on September 24, 2026",
-      "url": "https://www.bitget.com/en/support/articles/12560603895618",
-      "publishedAt": "2026-09-18T10:00:00.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603895538",
-      "venue": "bitget",
-      "category": "delisting",
-      "title": "[Important] Bitget to disable margin and loan functions for SAGA in unified trading account",
-      "url": "https://www.bitget.com/en/support/articles/12560603895538",
-      "publishedAt": "2026-09-18T02:50:19.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-to-delist-3-trading-pair-s-on-sep-24-2026--art93c64e0a0297/",
-      "venue": "bybit",
-      "category": "delisting",
-      "title": "Bybit to Delist 3 Trading Pair(s) on Sep 24, 2026",
-      "url": "https://announcements.bybit.com/en-US/article/bybit-to-delist-3-trading-pair-s-on-sep-24-2026--art93c64e0a0297/",
-      "publishedAt": "2026-09-17T10:00:08.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-to-delist-4-token-s-on-sep-24-2026--art1a1071a0dd4e/",
-      "venue": "bybit",
-      "category": "delisting",
-      "title": "Bybit to Delist 4 Token(s) on Sep 24, 2026",
-      "url": "https://announcements.bybit.com/en-US/article/bybit-to-delist-4-token-s-on-sep-24-2026--art1a1071a0dd4e/",
-      "publishedAt": "2026-09-17T09:30:09.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bitget:12560603895497",
-      "venue": "bitget",
-      "category": "delisting",
-      "title": "[Important] Bitget to delist AINUSDT,RCATUSDT futures and related services",
-      "url": "https://www.bitget.com/en/support/articles/12560603895497",
-      "publishedAt": "2026-09-17T07:46:03.489Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/delisting-of-icxusdt-perpetual-contract--art699d241c959d/",
-      "venue": "bybit",
-      "category": "delisting",
-      "title": "Delisting of ICXUSDT Perpetual Contract",
-      "url": "https://announcements.bybit.com/en-US/article/delisting-of-icxusdt-perpetual-contract--art699d241c959d/",
-      "publishedAt": "2026-09-16T09:01:49.000Z",
-      "sourceType": "official_api"
-    },
-    {
-      "id": "bybit:https://announcements.bybit.com/en-US/article/delisting-of-l3-vic--art6d24cb99655a/",
-      "venue": "bybit",
-      "category": "delisting",
-      "title": "Delisting of L3,VIC",
-      "url": "https://announcements.bybit.com/en-US/article/delisting-of-l3-vic--art6d24cb99655a/",
-      "publishedAt": "2026-09-10T08:10:08.000Z",
-      "sourceType": "official_api"
-    }
-  ]
+  "binance": {
+   "ok": true,
+   "fetched": 40,
+   "at": "2026-10-10T06:43:35.779Z",
+   "lastGoodAt": "2026-10-10T06:43:35.779Z"
+  },
+  "kucoin": {
+   "ok": true,
+   "fetched": 37,
+   "at": "2026-10-10T06:43:35.779Z",
+   "lastGoodAt": "2026-10-10T06:43:35.779Z"
+  },
+  "kraken": {
+   "ok": true,
+   "fetched": 10,
+   "at": "2026-10-10T06:43:35.779Z",
+   "lastGoodAt": "2026-10-10T06:43:35.779Z"
+  },
+  "bitget": {
+   "ok": true,
+   "fetched": 26,
+   "at": "2026-10-10T06:43:35.779Z",
+   "lastGoodAt": "2026-10-10T06:43:35.779Z"
+  },
+  "bybit": {
+   "ok": true,
+   "fetched": 30,
+   "at": "2026-10-10T06:43:35.779Z",
+   "lastGoodAt": "2026-10-10T06:43:35.779Z"
+  }
+ },
+ "items": [
+  {
+   "id": "bitget:12560603896927",
+   "venue": "bitget",
+   "category": "news",
+   "title": "[Important] Bitget Announcement on Cash Dividend Settlement for ACNSTOCKUSDT Stock Perps",
+   "url": "https://www.bitget.com/en/support/articles/12560603896927",
+   "publishedAt": "2026-10-10T00:00:05.057Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:008b71e5fc82428a9b5947fbc3757791",
+   "venue": "binance",
+   "category": "event",
+   "title": "Binance Alpha Trading Competition: Trade Stable (STABLE) and Share $200K Worth of Rewards (2026-10-09)",
+   "url": "https://www.binance.com/en/support/announcement/detail/008b71e5fc82428a9b5947fbc3757791",
+   "publishedAt": "2026-10-09T11:00:05.873Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:341117",
+   "venue": "kucoin",
+   "category": "news",
+   "title": "KuCoin Will Support the Stargate Finance (STG) Token Merge to LayerZero (ZRO)",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-will-support-the-stargate-finance-stg-token-merge-to-layerzero-zro?lang=en_US",
+   "publishedAt": "2026-10-09T10:48:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:341919",
+   "venue": "kucoin",
+   "category": "news",
+   "title": "KuCoin Web3 Wallet Swap Supports PancakeSwap X for Eligible Tokenized Asset Swaps",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-web3-wallet-swap-supports-pancakeswap-x-for-eligible-tokenized-asset-swaps?lang=en_US",
+   "publishedAt": "2026-10-09T10:24:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/bypick-season-1-free-picks-to-earn-points-towards-sharing-a-100-000-usdt-prize-pool--art8fd5d30ccc24/",
+   "venue": "bybit",
+   "category": "event",
+   "title": "ByPick Season 1: Free picks to earn points towards sharing a 100,000 USDT prize pool!",
+   "url": "https://announcements.bybit.com/en-US/article/bypick-season-1-free-picks-to-earn-points-towards-sharing-a-100-000-usdt-prize-pool--art8fd5d30ccc24/",
+   "publishedAt": "2026-10-09T09:46:52.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-vktxusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art861b8a38e781/",
+   "venue": "bybit",
+   "category": "listing",
+   "title": "New listing: Listing of VKTXUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:05AM UTC",
+   "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-vktxusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art861b8a38e781/",
+   "publishedAt": "2026-10-09T09:40:54.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-bmnuusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art029dc1cdafad/",
+   "venue": "bybit",
+   "category": "listing",
+   "title": "New listing: Listing of BMNUUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:05AM UTC",
+   "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-bmnuusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art029dc1cdafad/",
+   "publishedAt": "2026-10-09T09:40:49.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-mpusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--art10d776f20222/",
+   "venue": "bybit",
+   "category": "listing",
+   "title": "New listing: Listing of MPUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:00AM UTC",
+   "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-mpusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--art10d776f20222/",
+   "publishedAt": "2026-10-09T09:40:45.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-umcusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art5d7a9064afd9/",
+   "venue": "bybit",
+   "category": "listing",
+   "title": "New listing: Listing of UMCUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:05AM UTC",
+   "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-umcusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-05am-utc--art5d7a9064afd9/",
+   "publishedAt": "2026-10-09T09:40:39.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-bwetusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--artdd164c1efba4/",
+   "venue": "bybit",
+   "category": "listing",
+   "title": "New listing: Listing of BWETUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:00AM UTC",
+   "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-bwetusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--artdd164c1efba4/",
+   "publishedAt": "2026-10-09T09:36:53.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-usdexusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--arte8b81c9e20e4/",
+   "venue": "bybit",
+   "category": "listing",
+   "title": "New listing: Listing of USDEXUSDT on Bybit TradFi Perpetual on Oct 9, 2026, 11:00AM UTC",
+   "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-usdexusdt-on-bybit-tradfi-perpetual-on-oct-9-2026-11-00am-utc--arte8b81c9e20e4/",
+   "publishedAt": "2026-10-09T09:36:43.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:f99ead6436ba4fb8ad92abc9d2fdce5c",
+   "venue": "binance",
+   "category": "event",
+   "title": "Spot Trading Tournament Season 4: Trade to Share Up to 400 BNB Token Vouchers",
+   "url": "https://www.binance.com/en/support/announcement/detail/f99ead6436ba4fb8ad92abc9d2fdce5c",
+   "publishedAt": "2026-10-09T09:00:06.814Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/mena-convert-go-swap-and-earn-up-to-150-usdt--artdf826eabfd5f/",
+   "venue": "bybit",
+   "category": "event",
+   "title": "MENA Convert Go: Swap and Earn Up to 150 USDT",
+   "url": "https://announcements.bybit.com/en-US/article/mena-convert-go-swap-and-earn-up-to-150-usdt--artdf826eabfd5f/",
+   "publishedAt": "2026-10-09T08:10:41.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:56476c15963b4c0cb113ab0e22613c5c",
+   "venue": "binance",
+   "category": "delisting",
+   "title": "Binance Alpha Will Remove SUP, CUDIS, PYTHIA, BLUM, KIN, DN, GAIA, STRIKE, CDL, KO, VRA, EPT, SLX (SLIMEX), CAI (2026-10-09)",
+   "url": "https://www.binance.com/en/support/announcement/detail/56476c15963b4c0cb113ab0e22613c5c",
+   "publishedAt": "2026-10-09T08:00:05.136Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:0dfee98051814fccb9f18ce49b8425bb",
+   "venue": "binance",
+   "category": "news",
+   "title": "Binance Will Extend the Monitoring Tag to Include BICO & CVC on 2026-10-09",
+   "url": "https://www.binance.com/en/support/announcement/detail/0dfee98051814fccb9f18ce49b8425bb",
+   "publishedAt": "2026-10-09T07:00:14.078Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:341181",
+   "venue": "kucoin",
+   "category": "news",
+   "title": "KuCoin Has Completed the Token Migration of Zilliqa (ZIL)",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-has-completed-the-token-migration-of-zilliqa-zil?lang=en_US",
+   "publishedAt": "2026-10-09T06:16:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:341528",
+   "venue": "kucoin",
+   "category": "news",
+   "title": "KuCoin Will Adjust the Tick Size for Certain Spot Trading Pairs",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-will-adjust-the-tick-size-for-certain-spot-trading-pairs-20261009?lang=en_US",
+   "publishedAt": "2026-10-09T05:00:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:aa50d46ffef448f98c42f9272fcee663",
+   "venue": "binance",
+   "category": "event",
+   "title": "Binance Earn: Enjoy Up to 5% APR on USDC Flexible Products — Exclusive 5.5% APR for VIP Users with 200,000 USDC Tier (2026-10-09)",
+   "url": "https://www.binance.com/en/support/announcement/detail/aa50d46ffef448f98c42f9272fcee663",
+   "publishedAt": "2026-10-09T03:00:12.223Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-unified-tokenized-stocks-xbrkb-xwen-and-more-for-spot-trading",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list Unified Tokenized Stocks XBRKB, XWEN and more for spot trading",
+   "url": "https://www.okx.com/help/okx-to-list-unified-tokenized-stocks-xbrkb-xwen-and-more-for-spot-trading",
+   "publishedAt": "2026-10-09T02:45:07.822Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kraken:https://blog.kraken.com/product/asset-listings/zchf-is-available-for-trading",
+   "venue": "kraken",
+   "category": "listing",
+   "title": "ZCHF is available for trading!",
+   "url": "https://blog.kraken.com/product/asset-listings/zchf-is-available-for-trading",
+   "publishedAt": "2026-10-08T15:53:48.000Z",
+   "sourceType": "official_rss"
+  },
+  {
+   "id": "kraken:https://blog.kraken.com/product/asset-listings/usdsui-is-available-for-trading",
+   "venue": "kraken",
+   "category": "listing",
+   "title": "USDsui is available for trading!",
+   "url": "https://blog.kraken.com/product/asset-listings/usdsui-is-available-for-trading",
+   "publishedAt": "2026-10-08T15:53:24.000Z",
+   "sourceType": "official_rss"
+  },
+  {
+   "id": "kraken:https://blog.kraken.com/product/asset-listings/pnt-is-available-for-trading",
+   "venue": "kraken",
+   "category": "listing",
+   "title": "PNT is available for trading!",
+   "url": "https://blog.kraken.com/product/asset-listings/pnt-is-available-for-trading",
+   "publishedAt": "2026-10-08T15:43:45.000Z",
+   "sourceType": "official_rss"
+  },
+  {
+   "id": "binance:1bc71223e32b478b8c0995dab47ea57d",
+   "venue": "binance",
+   "category": "event",
+   "title": "New Users Exclusive: Subscribe to USDT Simple Earn Flexible Products to Enjoy 30% Bonus APR!",
+   "url": "https://www.binance.com/en/support/announcement/detail/1bc71223e32b478b8c0995dab47ea57d",
+   "publishedAt": "2026-10-08T12:00:07.621Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-nkeusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--art68dd3f74cc31/",
+   "venue": "bybit",
+   "category": "listing",
+   "title": "New listing: Listing of NKEUSDT on Bybit TradFi Perpetual on Oct 8, 2026, 12:00PM UTC",
+   "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-nkeusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--art68dd3f74cc31/",
+   "publishedAt": "2026-10-08T11:04:13.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-acnusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--art6c956057ef10/",
+   "venue": "bybit",
+   "category": "listing",
+   "title": "New listing: Listing of ACNUSDT on Bybit TradFi Perpetual on Oct 8, 2026, 12:00PM UTC",
+   "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-acnusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--art6c956057ef10/",
+   "publishedAt": "2026-10-08T11:04:09.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/new-listing-listing-of-luluusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--artc14006e88b00/",
+   "venue": "bybit",
+   "category": "listing",
+   "title": "New listing: Listing of LULUUSDT on Bybit TradFi Perpetual on Oct 8, 2026, 12:00PM UTC",
+   "url": "https://announcements.bybit.com/en-US/article/new-listing-listing-of-luluusdt-on-bybit-tradfi-perpetual-on-oct-8-2026-12-00pm-utc--artc14006e88b00/",
+   "publishedAt": "2026-10-08T11:02:29.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:c0d20c76f1464506b607c66ae56dd726",
+   "venue": "binance",
+   "category": "event",
+   "title": "Binance Alpha Trading Competition: Trade Zest Protocol (ZEST) and Share $200K Worth of Rewards (2026-10-08)",
+   "url": "https://www.binance.com/en/support/announcement/detail/c0d20c76f1464506b607c66ae56dd726",
+   "publishedAt": "2026-10-08T11:00:05.541Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:340766",
+   "venue": "kucoin",
+   "category": "news",
+   "title": "Copy Trade for Chances to Win iPhone and BTC",
+   "url": "https://www.kucoin.com/announcement/en-copy-trade-for-chances-to-win-iphone-and-btc?lang=en_US",
+   "publishedAt": "2026-10-08T10:43:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/kii-token-splash-grab-a-share-of-the-2-000-000-kii-prize-pool--art7e7ad2c47e8d/",
+   "venue": "bybit",
+   "category": "listing",
+   "title": "KII Alpha Token Splash— Grab a share of the 2,000,000 KII prize pool .",
+   "url": "https://announcements.bybit.com/en-US/article/kii-token-splash-grab-a-share-of-the-2-000-000-kii-prize-pool--art7e7ad2c47e8d/",
+   "publishedAt": "2026-10-08T10:00:09.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:341044",
+   "venue": "kucoin",
+   "category": "news",
+   "title": "KuCoin Has Temporarily Closed the Deposit Service of NodeOps (NODE)",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-has-temporarily-closed-the-deposit-service-of-nodeops-node0810?lang=en_US",
+   "publishedAt": "2026-10-08T09:34:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:341094",
+   "venue": "kucoin",
+   "category": "news",
+   "title": "KuCoin Has Temporarily Closed the Deposit Service of Stargate Finance (STG)",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-has-temporarily-closed-the-deposit-service-of-stargate-finance-stg0810?lang=en_US",
+   "publishedAt": "2026-10-08T09:34:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/delisting-of-stgusdt-perpetual-contract--art6e25f158796b/",
+   "venue": "bybit",
+   "category": "delisting",
+   "title": "Delisting of STGUSDT Perpetual Contract",
+   "url": "https://announcements.bybit.com/en-US/article/delisting-of-stgusdt-perpetual-contract--art6e25f158796b/",
+   "publishedAt": "2026-10-08T09:31:02.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:340142",
+   "venue": "kucoin",
+   "category": "news",
+   "title": "KuCoin Has Temporarily Closed the Deposit Service of Blast (BLAST)",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-has-temporarily-closed-the-deposit-service-of-blast-blast-20261008?lang=en_US",
+   "publishedAt": "2026-10-08T09:30:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:473fb8d21dfe480a93eefc0cf7a8839f",
+   "venue": "binance",
+   "category": "event",
+   "title": "MET Trading Tournament: Trade to Share Up to 400 BNB Token Vouchers",
+   "url": "https://www.binance.com/en/support/announcement/detail/473fb8d21dfe480a93eefc0cf7a8839f",
+   "publishedAt": "2026-10-08T09:00:19.724Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:d51ff145a65e49babb4478052cf495d0",
+   "venue": "binance",
+   "category": "event",
+   "title": "Next Stop - BBW: Bring Qualified Referrals to Earn Your Spot at Binance Blockchain Week 2026!",
+   "url": "https://www.binance.com/en/support/announcement/detail/d51ff145a65e49babb4478052cf495d0",
+   "publishedAt": "2026-10-08T08:30:03.795Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-flash-earn-lite-xdp-is-now-live-subscribe-btc-xrp-okb-or-xdp-to-share-15000000-xdp",
+   "venue": "okx",
+   "category": "event",
+   "title": "OKX Flash Earn Lite (XDP) is Now Live! Subscribe BTC, XRP, OKB or XDP to share 15,000,000 XDP",
+   "url": "https://www.okx.com/help/okx-flash-earn-lite-xdp-is-now-live-subscribe-btc-xrp-okb-or-xdp-to-share-15000000-xdp",
+   "publishedAt": "2026-10-08T08:00:26.880Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:1fb55a34145a4f4b8f82407a766a5a2b",
+   "venue": "binance",
+   "category": "event",
+   "title": "Africa Exclusive: Merchant Referral Campaign - Earn 50 USDT Each on Binance P2P",
+   "url": "https://www.binance.com/en/support/announcement/detail/1fb55a34145a4f4b8f82407a766a5a2b",
+   "publishedAt": "2026-10-08T08:00:03.094Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-flash-earn-lite-usdt-is-now-live-subscribe-eth-to-share-280000-usdt",
+   "venue": "okx",
+   "category": "event",
+   "title": "OKX Flash Earn Lite (USDT) is Now Live! Subscribe ETH to share 280,000 USDT",
+   "url": "https://www.okx.com/help/okx-flash-earn-lite-usdt-is-now-live-subscribe-eth-to-share-280000-usdt",
+   "publishedAt": "2026-10-08T07:00:17.107Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:341140",
+   "venue": "kucoin",
+   "category": "news",
+   "title": "Notice on Temporary Suspension of Pix Services",
+   "url": "https://www.kucoin.com/announcement/temporary-scheduled-maintenance-of-BrazilPixPayments1008?lang=en_US",
+   "publishedAt": "2026-10-08T06:00:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-axsusd-x-perp",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list AXSUSD X-Perp",
+   "url": "https://www.okx.com/help/okx-to-list-axsusd-x-perp",
+   "publishedAt": "2026-10-08T05:00:15.791Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:339678",
+   "venue": "kucoin",
+   "category": "news",
+   "title": "KuCoin PROOF Futures Showdown: Win Your Share of 560,000 USDT!",
+   "url": "https://www.kucoin.com/announcement/PROOFFuturesContest?lang=en_US",
+   "publishedAt": "2026-10-08T04:00:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:340837",
+   "venue": "kucoin",
+   "category": "delisting",
+   "title": "KuCoin Futures Will Delist the STGUSDT Perpetual Contract and Related Services (2026-10-10)",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-futures-will-delist-the-stgusdt-perpetual-contract-and-related-services-2026-10-10?lang=en_US",
+   "publishedAt": "2026-10-08T02:51:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-pengusd-us100usd-and-nflxusd-equity-x-perps",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list PENGUSD, US100USD and NFLXUSD Equity X-Perps",
+   "url": "https://www.okx.com/help/okx-to-list-pengusd-us100usd-and-nflxusd-equity-x-perps",
+   "publishedAt": "2026-10-08T02:50:14.892Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kraken:https://blog.kraken.com/product/margin/new-pair-available-for-margin-trading-akt-usd",
+   "venue": "kraken",
+   "category": "news",
+   "title": "New pair available for margin trading: AKT/USD!",
+   "url": "https://blog.kraken.com/product/margin/new-pair-available-for-margin-trading-akt-usd",
+   "publishedAt": "2026-10-07T13:43:17.000Z",
+   "sourceType": "official_rss"
+  },
+  {
+   "id": "bitget:12560603896801",
+   "venue": "bitget",
+   "category": "delisting",
+   "title": "[Important] Bitget to delist WBDUSDT futures and related services",
+   "url": "https://www.bitget.com/en/support/articles/12560603896801",
+   "publishedAt": "2026-10-07T11:54:30.462Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/wall-street-blue-chip-options-challenge-share-70-000-usdt-in-rewards--art5e3a247ac5d5/",
+   "venue": "bybit",
+   "category": "event",
+   "title": "Wall Street Blue-Chip Options Challenge: Share 70,000 USDT in rewards!",
+   "url": "https://announcements.bybit.com/en-US/article/wall-street-blue-chip-options-challenge-share-70-000-usdt-in-rewards--art5e3a247ac5d5/",
+   "publishedAt": "2026-10-07T10:28:44.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-city-edition-11-transform-your-community-activity-into-bigger-better-rewards--art17c1d51eba7c/",
+   "venue": "bybit",
+   "category": "event",
+   "title": "Bybit City Edition 11: Transform your community activity into bigger, better rewards!",
+   "url": "https://announcements.bybit.com/en-US/article/bybit-city-edition-11-transform-your-community-activity-into-bigger-better-rewards--art17c1d51eba7c/",
+   "publishedAt": "2026-10-07T10:28:12.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:c6f5ccd7407f40ac98ff0d38ea9dfa3e",
+   "venue": "binance",
+   "category": "event",
+   "title": "Trade Futures & Win: Complete Tasks to Share 200 BNB in Rewards!",
+   "url": "https://www.binance.com/en/support/announcement/detail/c6f5ccd7407f40ac98ff0d38ea9dfa3e",
+   "publishedAt": "2026-10-07T09:00:08.296Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-pre-ipo-ourausd-x-perps",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list Pre-IPO OURAUSD X-Perps",
+   "url": "https://www.okx.com/help/okx-to-list-pre-ipo-ourausd-x-perps",
+   "publishedAt": "2026-10-07T07:00:26.009Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-sandusd-and-partiusd-x-perp",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list SANDUSD and PARTIUSD X-Perp",
+   "url": "https://www.okx.com/help/okx-to-list-sandusd-and-partiusd-x-perp",
+   "publishedAt": "2026-10-07T06:00:19.062Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-ewzusd-equity-x-perps",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list EWZUSD Equity X-Perps",
+   "url": "https://www.okx.com/help/okx-to-list-ewzusd-equity-x-perps",
+   "publishedAt": "2026-10-07T04:00:14.327Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:a1a7996170f246da90ea49f199a61bcd",
+   "venue": "binance",
+   "category": "listing",
+   "title": "Binance Will Add 4 bStocks Tokenized Securities as Collateral Asset - 2026-10-07",
+   "url": "https://www.binance.com/en/support/announcement/detail/a1a7996170f246da90ea49f199a61bcd",
+   "publishedAt": "2026-10-07T04:00:08.051Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:9c34999b27234dfe9c43d2ac33cebde4",
+   "venue": "binance",
+   "category": "listing",
+   "title": "Binance Exchange Adds JPMorgan Chase (JPMB), Eli Lilly (LLYB), Securitize Corp (SECZB) and StablecoinX Inc (USDEB) bStocks Trading Pairs on Binance Spot/Convert - 2026-10-07",
+   "url": "https://www.binance.com/en/support/announcement/detail/9c34999b27234dfe9c43d2ac33cebde4",
+   "publishedAt": "2026-10-07T03:00:06.945Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kraken:https://blog.kraken.com/product/promotions/the-pre-ipo-challenge-ourax-and-moonshotx",
+   "venue": "kraken",
+   "category": "news",
+   "title": "The Pre-IPO Challenge: Trade OURAx and MOONSHOTx Perps for a share of $10,000 USDG",
+   "url": "https://blog.kraken.com/product/promotions/the-pre-ipo-challenge-ourax-and-moonshotx",
+   "publishedAt": "2026-10-06T15:31:26.000Z",
+   "sourceType": "official_rss"
+  },
+  {
+   "id": "bitget:12560603896916",
+   "venue": "bitget",
+   "category": "listing",
+   "title": "Bitget listed CEGUSDT, SBUXUSDT, LENUSDT and HDUSDT hot stock perps",
+   "url": "https://www.bitget.com/en/support/articles/12560603896916",
+   "publishedAt": "2026-10-06T15:00:28.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896776",
+   "venue": "bitget",
+   "category": "listing",
+   "title": "Bitget listed USDESTOCKUSDT, VKTXUSDT, PCVXUSDT and XPUSDT hot stock perps",
+   "url": "https://www.bitget.com/en/support/articles/12560603896776",
+   "publishedAt": "2026-10-06T15:00:28.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:74c7657a53f141e8b2d584bf44e6dd87",
+   "venue": "binance",
+   "category": "news",
+   "title": "Update on the Collateral Ratio Under Cross Margin and Portfolio Margin (2026-10-09)",
+   "url": "https://www.binance.com/en/support/announcement/detail/74c7657a53f141e8b2d584bf44e6dd87",
+   "publishedAt": "2026-10-06T09:30:01.366Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:2e9c4a3d133947f1b6a24daa43952256",
+   "venue": "binance",
+   "category": "event",
+   "title": "APAC Exclusive: Win a Fully Hosted Trip to Binance Blockchain Week 2026",
+   "url": "https://www.binance.com/en/support/announcement/detail/2e9c4a3d133947f1b6a24daa43952256",
+   "publishedAt": "2026-10-06T09:00:02.305Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-to-delist-1-token-s-on-oct-13-2026--art47d51eee7847/",
+   "venue": "bybit",
+   "category": "delisting",
+   "title": "Bybit to Delist 1 Token(s) on Oct 13, 2026",
+   "url": "https://announcements.bybit.com/en-US/article/bybit-to-delist-1-token-s-on-oct-13-2026--art47d51eee7847/",
+   "publishedAt": "2026-10-06T08:00:08.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:ea19450f515843098a5d5e55fc6e3589",
+   "venue": "binance",
+   "category": "listing",
+   "title": "Binance Futures Will Launch Multiple TradFi USDⓈ-Margined Perpetual Contracts (2026-10-06)",
+   "url": "https://www.binance.com/en/support/announcement/detail/ea19450f515843098a5d5e55fc6e3589",
+   "publishedAt": "2026-10-06T06:15:28.410Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-cease-deposits-and-withdrawals-on-the-gravity-alpha-mainnet-network",
+   "venue": "okx",
+   "category": "product",
+   "title": "OKX to cease deposits and withdrawals on the Gravity Alpha Mainnet network",
+   "url": "https://www.okx.com/help/okx-to-cease-deposits-and-withdrawals-on-the-gravity-alpha-mainnet-network",
+   "publishedAt": "2026-10-06T06:00:11.031Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:857a0d3d304045c4bf633885d4ec4707",
+   "venue": "binance",
+   "category": "news",
+   "title": "Binance Will Support Marvell Technology (MRVL) and Oracle Corporation (ORCL) Cash Dividend Distribution via bStocks",
+   "url": "https://www.binance.com/en/support/announcement/detail/857a0d3d304045c4bf633885d4ec4707",
+   "publishedAt": "2026-10-06T05:00:01.912Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896694",
+   "venue": "bitget",
+   "category": "news",
+   "title": "[Important] Bitget Announcement on Cash Dividend Settlement for MRVLUSDT、ORCLUSDT、NTAPUSDT Stock Perps",
+   "url": "https://www.bitget.com/en/support/articles/12560603896694",
+   "publishedAt": "2026-10-06T00:00:05.065Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:340282",
+   "venue": "kucoin",
+   "category": "listing",
+   "title": "KuCoin Futures Will List Multiple Stock Index Perpetual Contracts (2026-10-05)",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-futures-will-list-multiple-stock-index-perpetual-contracts-2026-10-05?lang=en_US",
+   "publishedAt": "2026-10-05T13:36:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kraken:https://blog.kraken.com/product/promotions/meet-an-atlassian-williams-f1-team-driver-at-the-united-states-gp",
+   "venue": "kraken",
+   "category": "news",
+   "title": "Meet an Atlassian Williams F1 Team driver at the United States GP",
+   "url": "https://blog.kraken.com/product/promotions/meet-an-atlassian-williams-f1-team-driver-at-the-united-states-gp",
+   "publishedAt": "2026-10-05T12:02:01.000Z",
+   "sourceType": "official_rss"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/spend-10-win-100-turn-everyday-spending-into-bigger-rewards--art9229090ec4b4/",
+   "venue": "bybit",
+   "category": "event",
+   "title": "Spend $10, Win $100: Turn everyday spending into bigger rewards!",
+   "url": "https://announcements.bybit.com/en-US/article/spend-10-win-100-turn-everyday-spending-into-bigger-rewards--art9229090ec4b4/",
+   "publishedAt": "2026-10-05T11:28:46.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:340443",
+   "venue": "kucoin",
+   "category": "delisting",
+   "title": "KuCoin Will Delist Multiple Tokens on 2026-10-08",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-will-delist-multiple-tokens-on-20261008?lang=en_US",
+   "publishedAt": "2026-10-05T09:09:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:340397",
+   "venue": "kucoin",
+   "category": "event",
+   "title": "Pheasant Network (PNT) Listing Campaign — 734,000 PNT Giveaway",
+   "url": "https://www.kucoin.com/announcement/en-pheasant-network-pnt-listing-campaign-734000-pnt-giveaway?lang=en_US",
+   "publishedAt": "2026-10-05T09:08:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:340073",
+   "venue": "kucoin",
+   "category": "listing",
+   "title": "EVAA Protocol (EVAA) Listed on KuCoin",
+   "url": "https://www.kucoin.com/announcement/en-evaa-protocol-evaa-listed-on-kucoin?lang=en_US",
+   "publishedAt": "2026-10-05T03:01:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896619",
+   "venue": "bitget",
+   "category": "news",
+   "title": "[Important] Bitget Announcement on Cash Dividend Settlement for CMCSAUSDT Stock Perps",
+   "url": "https://www.bitget.com/en/support/articles/12560603896619",
+   "publishedAt": "2026-10-04T00:00:05.098Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:340165",
+   "venue": "kucoin",
+   "category": "delisting",
+   "title": "KuCoin Futures Will Delist the BLASTUSDT Perpetual Contract and Related Services (2026-10-04)",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-futures-will-delist-the-blastusdt-perpetual-contract-and-related-services-2026-10-04?lang=en_US",
+   "publishedAt": "2026-10-03T09:51:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/delisting-of-blastusdt-perpetual-contract--art350bd98f53c2/",
+   "venue": "bybit",
+   "category": "delisting",
+   "title": "Delisting of BLASTUSDT Perpetual Contract",
+   "url": "https://announcements.bybit.com/en-US/article/delisting-of-blastusdt-perpetual-contract--art350bd98f53c2/",
+   "publishedAt": "2026-10-03T07:38:44.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896603",
+   "venue": "bitget",
+   "category": "news",
+   "title": "[Important] Bitget Announcement on Cash Dividend Settlement for JPMUSDT Stock Perps",
+   "url": "https://www.bitget.com/en/support/articles/12560603896603",
+   "publishedAt": "2026-10-03T00:00:05.054Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kraken:https://blog.kraken.com/product/asset-listings/debit-is-available-for-trading",
+   "venue": "kraken",
+   "category": "listing",
+   "title": "DEBIT is available for trading!",
+   "url": "https://blog.kraken.com/product/asset-listings/debit-is-available-for-trading",
+   "publishedAt": "2026-10-02T15:42:33.000Z",
+   "sourceType": "official_rss"
+  },
+  {
+   "id": "kraken:https://blog.kraken.com/product/asset-listings/ousd-is-available-for-trading",
+   "venue": "kraken",
+   "category": "listing",
+   "title": "OUSD is available for trading!",
+   "url": "https://blog.kraken.com/product/asset-listings/ousd-is-available-for-trading",
+   "publishedAt": "2026-10-02T15:37:04.000Z",
+   "sourceType": "official_rss"
+  },
+  {
+   "id": "kraken:https://blog.kraken.com/product/asset-listings/ct-is-available-for-trading",
+   "venue": "kraken",
+   "category": "listing",
+   "title": "CT is available for trading!",
+   "url": "https://blog.kraken.com/product/asset-listings/ct-is-available-for-trading",
+   "publishedAt": "2026-10-02T15:31:12.000Z",
+   "sourceType": "official_rss"
+  },
+  {
+   "id": "kraken:https://blog.kraken.com/product/asset-listings/wojak-is-available-for-trading",
+   "venue": "kraken",
+   "category": "listing",
+   "title": "WOJAK is available for trading!",
+   "url": "https://blog.kraken.com/product/asset-listings/wojak-is-available-for-trading",
+   "publishedAt": "2026-10-02T15:21:18.000Z",
+   "sourceType": "official_rss"
+  },
+  {
+   "id": "binance:21b54c9e5d1d44268cd2607aba8cd3a6",
+   "venue": "binance",
+   "category": "news",
+   "title": "Updates on International Virtual Asset Transfer Procedures in Brazil",
+   "url": "https://www.binance.com/en/support/announcement/detail/21b54c9e5d1d44268cd2607aba8cd3a6",
+   "publishedAt": "2026-10-02T13:00:20.325Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:340050",
+   "venue": "kucoin",
+   "category": "listing",
+   "title": "World Premiere: Pheasant Network (PNT) Listed on KuCoin",
+   "url": "https://www.kucoin.com/announcement/en-world-premiere-pheasant-network-pnt-listed-on-kucoin?lang=en_US",
+   "publishedAt": "2026-10-02T10:01:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-perpetual-futures-for-h100-acn-nke-bwet-and-secz",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list perpetual futures for H100, ACN, NKE, BWET and SECZ",
+   "url": "https://www.okx.com/help/okx-to-list-perpetual-futures-for-h100-acn-nke-bwet-and-secz",
+   "publishedAt": "2026-10-02T04:30:09.959Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-adbeusd-and-appusd-equity-x-perps",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list ADBEUSD and APPUSD Equity X-Perps",
+   "url": "https://www.okx.com/help/okx-to-list-adbeusd-and-appusd-equity-x-perps",
+   "publishedAt": "2026-10-02T03:15:10.527Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:334636",
+   "venue": "kucoin",
+   "category": "event",
+   "title": "KuMining October Trading Challenge: Compete for 9,000+ USDT in Rewards!",
+   "url": "https://www.kucoin.com/announcement/en-kumining-october-trading-challenge-compete-for-9000-usdt-in-rewards?lang=en_US",
+   "publishedAt": "2026-10-01T11:00:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/join-mantle-mnt-puzzle-hunt-and-win-a-share-of-200-000-usdt--arte4b94eaed15b/",
+   "venue": "bybit",
+   "category": "event",
+   "title": "Join Mantle (MNT) Puzzle Hunt and win a share of 200,000 USDT",
+   "url": "https://announcements.bybit.com/en-US/article/join-mantle-mnt-puzzle-hunt-and-win-a-share-of-200-000-usdt--arte4b94eaed15b/",
+   "publishedAt": "2026-10-01T10:00:09.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:339841",
+   "venue": "kucoin",
+   "category": "delisting",
+   "title": "KuCoin Futures Will Delist the PROMPTUSDT Perpetual Contract and Related Services (2026-10-05)",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-futures-will-delist-the-promptusdt-perpetual-contract-and-related-services-2026-10-05?lang=en_US",
+   "publishedAt": "2026-10-01T08:54:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-to-delist-2-token-s-on-oct-8-2026--art1b7b7449b6c5/",
+   "venue": "bybit",
+   "category": "delisting",
+   "title": "Bybit to Delist 2 Token(s) on Oct 8, 2026",
+   "url": "https://announcements.bybit.com/en-US/article/bybit-to-delist-2-token-s-on-oct-8-2026--art1b7b7449b6c5/",
+   "publishedAt": "2026-10-01T08:30:08.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-quantusd-x-perp",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list QUANTUSD X-Perp",
+   "url": "https://www.okx.com/help/okx-to-list-quantusd-x-perp",
+   "publishedAt": "2026-10-01T08:00:21.649Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-perpetual-futures-for-qnt-crypto",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list perpetual futures for QNT crypto",
+   "url": "https://www.okx.com/help/okx-to-list-perpetual-futures-for-qnt-crypto",
+   "publishedAt": "2026-10-01T07:00:22.444Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896419",
+   "venue": "bitget",
+   "category": "listing",
+   "title": "CTUSDT now launched for futures trading and trading bots",
+   "url": "https://www.bitget.com/en/support/articles/12560603896419",
+   "publishedAt": "2026-10-01T06:52:32.028Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:6bd26adeb6f742fe88eb72faca183566",
+   "venue": "binance",
+   "category": "listing",
+   "title": "Binance Futures Will Launch USDⓈ-Margined CTUSDT Perpetual Contract (2026-10-01)",
+   "url": "https://www.binance.com/en/support/announcement/detail/6bd26adeb6f742fe88eb72faca183566",
+   "publishedAt": "2026-10-01T06:30:01.040Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:2f1a743334f044abbd82e34093c7b771",
+   "venue": "binance",
+   "category": "delisting",
+   "title": "Binance Futures Will Delist Multiple USDⓈ-M Perpetual Contracts (2026-10-05)",
+   "url": "https://www.binance.com/en/support/announcement/detail/2f1a743334f044abbd82e34093c7b771",
+   "publishedAt": "2026-10-01T02:45:13.435Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/stock-buzz-trade-micron-compete-for-a-share-of-100-000-usdt--art12b57db35368/",
+   "venue": "bybit",
+   "category": "event",
+   "title": "Stock Buzz: Trade Micron. Compete For a Share of 100,000 USDT.",
+   "url": "https://announcements.bybit.com/en-US/article/stock-buzz-trade-micron-compete-for-a-share-of-100-000-usdt--art12b57db35368/",
+   "publishedAt": "2026-09-30T15:35:20.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:339295",
+   "venue": "kucoin",
+   "category": "listing",
+   "title": "KuCoin Futures New Listing: CTUSDT Perpetual Contract with Up to 20x Leverage",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-futures-new-listing-ctusdt-perpetual-contract-with-up-to-20x-leverage?lang=en_US",
+   "publishedAt": "2026-09-30T13:26:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896414",
+   "venue": "bitget",
+   "category": "listing",
+   "title": "Bitget listed TWSTUSDT, CVNAUSDT, RUMUSDT, CRMLUSDT, BWETUSDT, ACNSTOCKUSDT, KODUSDT and AKAMUSDT hot stock perps",
+   "url": "https://www.bitget.com/en/support/articles/12560603896414",
+   "publishedAt": "2026-09-30T11:21:33.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-ctusd-x-perp",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list CTUSD X-Perp",
+   "url": "https://www.okx.com/help/okx-to-list-ctusd-x-perp",
+   "publishedAt": "2026-09-30T11:00:13.532Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-perpetual-futures-for-ct-crypto",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list perpetual futures for CT crypto",
+   "url": "https://www.okx.com/help/okx-to-list-perpetual-futures-for-ct-crypto",
+   "publishedAt": "2026-09-30T10:00:11.188Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:339249",
+   "venue": "kucoin",
+   "category": "event",
+   "title": "Concrete (CT) Listing Campaign — 220,000 CT Giveaway",
+   "url": "https://www.kucoin.com/announcement/en-concrete-ct-listing-campaign-220000-ct-giveaway?lang=en_US",
+   "publishedAt": "2026-09-30T09:27:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896390",
+   "venue": "bitget",
+   "category": "news",
+   "title": "Bitget Protection Fund Replenished to $300M+",
+   "url": "https://www.bitget.com/en/support/articles/12560603896390",
+   "publishedAt": "2026-09-30T09:00:36.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-ct-trade-to-earn-trade-to-share-1-000-000-ct",
+   "venue": "okx",
+   "category": "event",
+   "title": "OKX × CT Trade-to-Earn: Trade to Share 1,000,000 CT",
+   "url": "https://www.okx.com/help/okx-ct-trade-to-earn-trade-to-share-1-000-000-ct",
+   "publishedAt": "2026-09-30T08:31:57.955Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:00c1d7068e6a473684e5ea9596fafc8e",
+   "venue": "binance",
+   "category": "news",
+   "title": "Binance Earn Yield Arena: Earn Up to 5,888 USDC With This Week's New Limited-Time Offers! (2026-09-30)",
+   "url": "https://www.binance.com/en/support/announcement/detail/00c1d7068e6a473684e5ea9596fafc8e",
+   "publishedAt": "2026-09-30T07:00:01.479Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:339226",
+   "venue": "kucoin",
+   "category": "listing",
+   "title": "World Premiere: Concrete (CT) Listed on KuCoin",
+   "url": "https://www.kucoin.com/announcement/en-world-premiere-concrete-ct-listed-on-kucoin?lang=en_US",
+   "publishedAt": "2026-09-30T06:03:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896301",
+   "venue": "bitget",
+   "category": "listing",
+   "title": "[Initial listing] Bitget to list Concrete (CT)",
+   "url": "https://www.bitget.com/en/support/articles/12560603896301",
+   "publishedAt": "2026-09-30T06:00:08.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896305",
+   "venue": "bitget",
+   "category": "news",
+   "title": "Update On Slowmist and Mandiant Report",
+   "url": "https://www.bitget.com/en/support/articles/12560603896305",
+   "publishedAt": "2026-09-30T05:20:23.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-ct-usdt-concrete-for-spot-trading",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list CT/USDT (Concrete) for spot trading",
+   "url": "https://www.okx.com/help/okx-to-list-ct-usdt-concrete-for-spot-trading",
+   "publishedAt": "2026-09-30T04:00:12.658Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-purrusd-equity-x-perps",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list PURRUSD Equity X-Perps",
+   "url": "https://www.okx.com/help/okx-to-list-purrusd-equity-x-perps",
+   "publishedAt": "2026-09-30T04:00:12.490Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-oneusd-x-perp",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list ONEUSD X-Perp",
+   "url": "https://www.okx.com/help/okx-to-list-oneusd-x-perp",
+   "publishedAt": "2026-09-30T03:30:12.058Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "okx:https://www.okx.com/help/okx-to-list-peopleusd-x-perp",
+   "venue": "okx",
+   "category": "listing",
+   "title": "OKX to list PEOPLEUSD X-Perp",
+   "url": "https://www.okx.com/help/okx-to-list-peopleusd-x-perp",
+   "publishedAt": "2026-09-30T03:30:09.687Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:1a94597986cf476f939609c02b87ee79",
+   "venue": "binance",
+   "category": "listing",
+   "title": "Binance Will Add 7 bStocks Tokenized Securities as Collateral Asset - 2026-09-30",
+   "url": "https://www.binance.com/en/support/announcement/detail/1a94597986cf476f939609c02b87ee79",
+   "publishedAt": "2026-09-30T03:30:01.555Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:172e44302d6143578e40acc48570a2e5",
+   "venue": "binance",
+   "category": "listing",
+   "title": "Binance Exchange Adds Adobe (ADBEB), Forward Industries (FWDIB), Hewlett Packard (HPEB), PDD Holdings (PDDB), SharonAI (SHAZB), Wendy's (WENB) and Zoom (ZMB) bStocks Trading Pairs on Binance Spot/Convert - 2026-09-30",
+   "url": "https://www.binance.com/en/support/announcement/detail/172e44302d6143578e40acc48570a2e5",
+   "publishedAt": "2026-09-30T03:00:04.692Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:339203",
+   "venue": "kucoin",
+   "category": "listing",
+   "title": "KuCoin Futures New Listing: XDPUSDT Perpetual Contract with Up to 20x Leverage",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-futures-new-listing-xdpusdt-perpetual-contract-with-up-to-20x-leverage?lang=en_US",
+   "publishedAt": "2026-09-30T02:36:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:a06effca2686446a9d81ff112d5ba371",
+   "venue": "binance",
+   "category": "news",
+   "title": "Binance Pay Brings PayPay QR Payments to Tourists in Japan with Limited-Time 10% Discount!",
+   "url": "https://www.binance.com/en/support/announcement/detail/a06effca2686446a9d81ff112d5ba371",
+   "publishedAt": "2026-09-30T02:30:09.202Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896261",
+   "venue": "bitget",
+   "category": "news",
+   "title": "[Important] Bitget Announcement on Cash Dividend Settlement for GEUSDT Stock Perps",
+   "url": "https://www.bitget.com/en/support/articles/12560603896261",
+   "publishedAt": "2026-09-30T00:00:05.281Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896256",
+   "venue": "bitget",
+   "category": "news",
+   "title": "Bitget Updates Proof of Reserves: Latest Total Reserve Ratio: 131% (Issue No.47)",
+   "url": "https://www.bitget.com/en/support/articles/12560603896256",
+   "publishedAt": "2026-09-29T15:59:06.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bitget:12560603896255",
+   "venue": "bitget",
+   "category": "news",
+   "title": "Bitget Stock+ upgrade: Multi-leg options strategies now fully available",
+   "url": "https://www.bitget.com/en/support/articles/12560603896255",
+   "publishedAt": "2026-09-29T13:57:41.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "bybit:https://announcements.bybit.com/en-US/article/bybit-odds-view-to-victory-official-product-launch-with-a-17-000-usdt-total-prize-pool--art2b5b075abe36/",
+   "venue": "bybit",
+   "category": "event",
+   "title": "Bybit Odds: View to Victory official product launch with a 17,000 USDT total prize pool!",
+   "url": "https://announcements.bybit.com/en-US/article/bybit-odds-view-to-victory-official-product-launch-with-a-17-000-usdt-total-prize-pool--art2b5b075abe36/",
+   "publishedAt": "2026-09-29T09:59:40.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:338928",
+   "venue": "kucoin",
+   "category": "event",
+   "title": "Spin to Win from a $100,000 Prize Pool on 161 TradFi Perpetual Pairs!",
+   "url": "https://www.kucoin.com/announcement/TradFiFuturesSpin?lang=en_US",
+   "publishedAt": "2026-09-29T09:58:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:63415de54a164619aaaf245850349654",
+   "venue": "binance",
+   "category": "delisting",
+   "title": "Notice of Removal of Spot Trading Pairs - 2026-10-02",
+   "url": "https://www.binance.com/en/support/announcement/detail/63415de54a164619aaaf245850349654",
+   "publishedAt": "2026-09-29T09:15:00.000Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:2200ab5284594d8a8b8239326e3d1fff",
+   "venue": "binance",
+   "category": "news",
+   "title": "Update on the Collateral Ratio & Leverage Under Cross Margin and Portfolio Margin (2026-10-02)",
+   "url": "https://www.binance.com/en/support/announcement/detail/2200ab5284594d8a8b8239326e3d1fff",
+   "publishedAt": "2026-09-29T09:00:15.285Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:55310e70fc4b4d7c9fc4aa133700a958",
+   "venue": "binance",
+   "category": "delisting",
+   "title": "Binance Margin And Loans Token Delist on 2026-10-02",
+   "url": "https://www.binance.com/en/support/announcement/detail/55310e70fc4b4d7c9fc4aa133700a958",
+   "publishedAt": "2026-09-29T08:00:01.341Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "binance:d37b03802940482caef784f3fb5e4f80",
+   "venue": "binance",
+   "category": "news",
+   "title": "Update on the Margin Tiers of USDⓈ-M Perpetual Contracts (2026-10-02)",
+   "url": "https://www.binance.com/en/support/announcement/detail/d37b03802940482caef784f3fb5e4f80",
+   "publishedAt": "2026-09-29T07:00:02.508Z",
+   "sourceType": "official_api"
+  },
+  {
+   "id": "kucoin:338836",
+   "venue": "kucoin",
+   "category": "listing",
+   "title": "KuCoin Futures Will Relist KIOXIAUSDT Stock Index Perpetual Contract (2026-09-29)",
+   "url": "https://www.kucoin.com/announcement/en-kucoin-futures-will-relist-kioxiausdt-stock-index-perpetual-contract-2026-09-29?lang=en_US",
+   "publishedAt": "2026-09-29T05:26:00.000Z",
+   "sourceType": "official_api"
+  }
+ ]
 }

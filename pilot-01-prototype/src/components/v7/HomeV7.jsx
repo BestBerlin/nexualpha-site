@@ -80,6 +80,13 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
   );
 }
 
+// The sign-up route for any announcement venue (home partners or not): invite link when a real code exists,
+// otherwise the on-site profile. Same source as every other CTA (publicCtaForVenue).
+function venueRoute(slug) {
+  const cta = publicCtaForVenue(slug);
+  return { slug, name: nameOf(slug), code: cta.hasReferral ? cta.inviteCode : null, url: cta.registrationUrl, open: Boolean(cta.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "")) };
+}
+
 function Cta({ v, locale, children, className, placement }) {
   if (v.open) {
     return <a className={className} href={v.url} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-platform={v.slug} data-cta-placement={placement} data-cta-code={v.code || undefined}>{children}</a>;
@@ -99,7 +106,7 @@ function useIntel(venues) {
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
         if (!alive) return;
-        const items = j ? readIntelFeed(j, { venues: slugs.split(",") }).filter((i) => INTEL_SHOW.includes(i.category)) : [];
+        const items = j ? readIntelFeed(j).filter((i) => INTEL_SHOW.includes(i.category)) : [];
         // null = still loading, false = unavailable (fail closed: no invented notices). A failed refresh keeps what is shown.
         if (items.length) setFeed({ items: items.slice(0, 40), generatedAt: j.generatedAt });
         else if (first) setFeed(false);
@@ -176,6 +183,16 @@ function timeAgo(ms, locale) {
 }
 const LIVE = { "zh-Hans": "实时", "zh-Hant": "即時", ja: "ライブ", ko: "실시간", ar: "مباشر", ru: "Онлайн", tr: "Canlı", es: "En vivo", "pt-BR": "Ao vivo", fr: "En direct", de: "Live", it: "Live", id: "Langsung", vi: "Trực tiếp" };
 
+// Newest first, but at most `perVenue` rows per exchange until the list is full (one venue's batch of listings
+// should not hide every other exchange).
+function spread(items, limit, perVenue) {
+  const count = {}, picked = [], rest = [];
+  for (const i of items) {
+    if ((count[i.venue] || 0) < perVenue && picked.length < limit) { picked.push(i); count[i.venue] = (count[i.venue] || 0) + 1; } else rest.push(i);
+  }
+  return [...picked, ...rest].slice(0, limit).sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
+}
+
 function IntelBlock({ intel, t, locale, venues }) {
   const [open, setOpen] = useState(null);
   const now = useNow();
@@ -185,17 +202,18 @@ function IntelBlock({ intel, t, locale, venues }) {
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
       <div className="h7-ih"><h2>{t.inH} <span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span></h2><p>{t.inSub}</p></div>
       <ul className="h7-il">
-        {intel.items.slice(0, 6).map((i) => (
+        {spread(intel.items, 10, 2).map((i) => (
           <li key={i.id}>
             <span className={`h7-ic h7-ic-${i.category}`}>{t.inCat[i.category]}</span>
             <span className="h7-iv"><BrandMark slug={i.venue} compact />{nameOf(i.venue)}</span>
             <a className="h7-it" href={i.url} target="_blank" rel="noopener noreferrer nofollow">{i.title}<span className="h7-sr"> ({t.inOpen})</span></a>
             <time dateTime={i.publishedAt}>{timeAgo(now - Date.parse(i.publishedAt), locale)}</time>
             <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => setOpen(i)}>{t.inBtn}</button>
+            <Cta v={venueRoute(i.venue)} locale={locale} className="h7-btn h7-sm h7-ig" placement="home-v7-intel-row"><span>{t.open}</span><span className="h7-sr"> {nameOf(i.venue)}</span></Cta>
           </li>
         ))}
       </ul>
-      <p className="h7-ia">{t.inAsOf(asOf)}</p>
+      <p className="h7-ia"><span className="h7-ig-ad">{t.lgAd}</span> · {t.inAsOf(asOf)}</p>
       {open && <IntelSheet item={open} venues={venues} t={t} locale={locale} onClose={() => setOpen(null)} />}
     </section>
   );

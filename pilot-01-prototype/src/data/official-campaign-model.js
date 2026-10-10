@@ -7,7 +7,7 @@ export const OFFICIAL_RESEARCH_DOMAINS = {
   binance: ["binance.com"], coinbase: ["coinbase.com"], bybit: ["bybit.com"], bitget: ["bitget.com"], okx: ["okx.com"], kraken: ["kraken.com"],
   "gate-io": ["gate.com"], kucoin: ["kucoin.com"], mexc: ["mexc.com"], backpack: ["backpack.exchange"], deribit: ["deribit.com"],
   uniswap: ["uniswap.org"], pancakeswap: ["pancakeswap.finance"], jupiter: ["jup.ag"], raydium: ["raydium.io"], aerodrome: ["aerodrome.finance"],
-  curve: ["curve.finance"], hyperliquid: ["hyperliquid.gitbook.io", "hyperliquid.xyz"], dydx: ["dydx.xyz"], gmx: ["gmx.io"], drift: ["drift.trade"],
+  curve: ["curve.finance"], hyperliquid: ["hyperliquid.gitbook.io", "hyperliquid.xyz", "hyperliquid.medium.com"], dydx: ["dydx.xyz"], gmx: ["gmx.io"], drift: ["drift.trade"],
 };
 const rewardStatuses = new Set(["PUBLIC_TERMS", "ACCOUNT_CONFIRMATION", "UNCONFIRMED", "NOT_APPLICABLE", "ENDED"]);
 
