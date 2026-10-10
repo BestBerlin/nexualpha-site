@@ -8,7 +8,7 @@ import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-a
 import { socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
-import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath } from "../src/data/market-data-pages.js";
+import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
@@ -6496,10 +6496,13 @@ async function routeMetadataBase(url, env, newsFeed) {
   // shared copy table; every UI locale is indexable and self-canonical.
   if (isDataPagePath(canonicalPath)) {
     const meta = dataPageMeta(canonicalPath, locale);
+    // Dataset temporalCoverage starts at the liquidation history's first snapshot when the feed carries one (2026-10-11).
+    let history = null;
+    try { history = typeof env?.MARKET_EVENTS_READ === "function" ? readHistory(await env.MARKET_EVENTS_READ()) : null; } catch { history = null; }
     return {
       status: 200, title: meta.title, description: meta.description,
       canonical: localizedCanonical(canonicalPath, locale), locale, robots: "index,follow", marker: STATIC_ROUTE_MARKER,
-      alternates: routeAlternates(canonicalPath), schema: dataPageSchemas(canonicalPath, locale, { origin: PUBLIC_ORIGIN }),
+      alternates: routeAlternates(canonicalPath), schema: dataPageSchemas(canonicalPath, locale, { origin: PUBLIC_ORIGIN, history }),
     };
   }
   // Brand pages (/about, /editorial-policy): titles, descriptions and AboutPage/WebPage JSON-LD come from

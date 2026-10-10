@@ -73,14 +73,67 @@ export function readFunding(feed) {
   return { generatedAt, source: typeof f.source === "string" ? f.source : "", rows };
 }
 
-// What the server embeds for hydration: the two data blocks plus majors, never the 80 headlines.
+// Liquidation history written by the collector (ops/market-collector/market-history.mjs) under `history`: hourly
+// points, daily totals (UTC days; the current day is partial) and records. null when the collector has not written
+// it yet (older collector). `collecting` is true while fewer than two days exist — the page then says so instead of
+// drawing a chart from one bar.
+export const HISTORY_MIN_DAYS = 2;
+export function readHistory(feed) {
+  const h = feed?.history;
+  if (!h || typeof h !== "object") return null;
+  const since = isoOrNull(h.since);
+  if (!since) return null;
+  const daily = (Array.isArray(h.daily) ? h.daily : [])
+    .filter((d) => d && /^\d{4}-\d{2}-\d{2}$/.test(String(d.day)))
+    .map((d) => {
+      const longUsd = num(d.longUsd) ?? 0, shortUsd = num(d.shortUsd) ?? 0;
+      return { day: String(d.day), longUsd, shortUsd, totalUsd: num(d.totalUsd) ?? longUsd + shortUsd, hours: num(d.hours) ?? 0, partial: d.partial === true };
+    })
+    .sort((a, b) => a.day.localeCompare(b.day));
+  const hourly = (Array.isArray(h.hourly) ? h.hourly : [])
+    .map((p) => ({ t: isoOrNull(p?.t), totalUsd: num(p?.totalUsd) ?? 0, longUsd: num(p?.longUsd) ?? 0, shortUsd: num(p?.shortUsd) ?? 0, h24Usd: num(p?.h24Usd) ?? null }))
+    .filter((p) => p.t);
+  const largest = h.records?.largestDay && num(h.records.largestDay.totalUsd) != null
+    ? { day: String(h.records.largestDay.day), totalUsd: num(h.records.largestDay.totalUsd), partial: h.records.largestDay.partial === true }
+    : null;
+  const days = num(h.days) ?? daily.length;
+  return {
+    since, updatedAt: isoOrNull(h.updatedAt), days, daily, hourly,
+    avgDailyUsd: num(h.avgDailyUsd),
+    records: { largestDay: largest, todayRankInMonth: num(h.records?.todayRankInMonth), daysInMonth: num(h.records?.daysInMonth) ?? 0 },
+    collecting: daily.length < HISTORY_MIN_DAYS,
+  };
+}
+
+// What the server embeds for hydration: the data blocks, the history summary and majors, never the 80 headlines.
 export function compactMarketEvents(feed) {
   if (!feed || typeof feed !== "object") return null;
   const out = { generatedAt: feed.generatedAt ?? null };
   if (feed.liquidations) out.liquidations = feed.liquidations;
   if (feed.funding) out.funding = feed.funding;
+  if (feed.history) out.history = feed.history;
   if (Array.isArray(feed.market?.majors)) out.market = { majors: feed.market.majors };
   return out;
+}
+
+// Embeddable widgets (2026-10-11): GET /embed/<kind> is a self-contained HTML page served by server/embed-widgets.mjs,
+// /embed/<kind>.js injects it as a responsive iframe. These snippets are what the "Embed this" block shows.
+export const EMBED_PATH_PREFIX = "/embed/";
+export const EMBED_KINDS = Object.freeze({ liquidations: { path: LIQUIDATIONS_PATH, height: 360 }, "funding-rates": { path: FUNDING_RATES_PATH, height: 400 } });
+export const EMBED_MAX_HEIGHT = 400;
+export const embedKindForPath = (pathname) => Object.keys(EMBED_KINDS).find((kind) => EMBED_KINDS[kind].path === pathname) || null;
+export const embedSource = (kind) => `embed-${kind}`;
+export function embedSnippets(kind, locale = "en", { origin = PUBLIC_ORIGIN, theme = "dark" } = {}) {
+  const spec = EMBED_KINDS[kind];
+  if (!spec) return null;
+  const title = dataPageCopy(locale)[kind === "liquidations" ? "liquidations" : "funding"].h1;
+  const query = `?locale=${encodeURIComponent(locale)}&theme=${theme}`;
+  const src = `${origin}${EMBED_PATH_PREFIX}${kind}${query}`;
+  return {
+    src,
+    iframe: `<iframe src="${src}" title="${title.replace(/"/g, "&quot;")} — NexuAlpha" width="100%" height="${spec.height}" loading="lazy" style="border:0;max-width:100%;border-radius:12px"></iframe>`,
+    script: `<script src="${origin}${EMBED_PATH_PREFIX}${kind}.js" data-locale="${locale}" data-theme="${theme}" async></script>`,
+  };
 }
 
 // Deterministic formatting (same string on the server and in every browser, so hydration never mismatches).
@@ -128,6 +181,9 @@ const COPY = {
       home: "Home", updated: "Updated", source: "Source", refresh: "Re-reads the feed every 60 seconds while this page is open. Times are UTC.",
       unavailableTitle: "Live data is temporarily unavailable", unavailable: "The feed refreshes every few minutes. Nothing is estimated while it is missing — try again shortly.",
       explainer: "What this page shows", faq: "Frequently asked questions", relatedData: "More live data", json: "Raw JSON feed",
+      embedTitle: "Embed this on your site", embedIntro: "Paste one of these snippets. The widget shows the same live numbers as this page, fits any column width and links back here.",
+      embedIframe: "iframe", embedScript: "Script tag", copy: "Copy", copied: "Copied", embedTerms: "Free to embed. Keep the attribution link; the figures are a lower bound from Binance and OKX, refreshed every five minutes.",
+      poweredBy: "Powered by NexuAlpha", embedUpdated: "updated",
     },
     liquidations: {
       title: "Crypto Liquidations Today — Live 1h / 4h / 24h Totals | NexuAlpha",
@@ -140,6 +196,12 @@ const COPY = {
       largestTitle: "Largest single liquidation (24h)", sideLong: "long", sideShort: "short", largestLine: (s) => `${s.base} ${s.side} on ${s.venue}`,
       sourceLine: "Binance USDT-M force-order stream + OKX liquidation orders · lower bound, not the whole market",
       coverage: "Counting since",
+      historyTitle: "Last 30 days", historyLead: "Daily liquidation totals on Binance and OKX futures, summed from hourly snapshots over each UTC day, longs and shorts stacked.",
+      historyCollecting: (date) => `History is being collected since ${date}. The 30-day chart appears once two full days exist.`,
+      historyChartLabel: "Daily liquidation totals, last 30 days", historyAvg: "30-day average", historyToday: "Today so far", historyLargest: "Largest day in the window",
+      historyPartial: "Today's bar covers only the hours collected so far (UTC).", historyAxis: "Day of month (UTC)", historyDays: (n) => `${n} days of history`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `The last 24 hours (${now}) are in line with the 30-day daily average (${avg}).` : `The last 24 hours (${now}) are ${pct}% ${direction === "above" ? "above" : "below"} the 30-day daily average (${avg}).`,
+      historyRank: (rank, days) => `Today ranks ${rank} of ${days} days this month by liquidation volume (1 = largest).`,
       explainer: [
         "A liquidation happens when a leveraged futures position loses so much margin that the exchange force-closes it. The position is sold (long) or bought back (short) at market, which often pushes the price further in the same direction.",
         "A long squeeze is a wave of long liquidations during a fall; a short squeeze is the mirror image during a rally. When both columns are large in the same window, longs and shorts were both wiped out — traders call this a double kill (多空双杀): a sharp move in one direction followed by a sharp reversal.",
@@ -184,6 +246,9 @@ const COPY = {
       home: "首页", updated: "更新于", source: "来源", refresh: "页面打开期间每 60 秒重新读取数据，时间均为 UTC。",
       unavailableTitle: "实时数据暂时不可用", unavailable: "数据源每几分钟刷新一次。数据缺失时不做任何估算，请稍后再试。",
       explainer: "本页说明", faq: "常见问题", relatedData: "更多实时数据", json: "原始 JSON 数据",
+      embedTitle: "嵌入到你的网站", embedIntro: "复制下面任一代码。小组件显示与本页相同的实时数字，自动适配栏宽，并链接回本页。",
+      embedIframe: "iframe", embedScript: "Script 标签", copy: "复制", copied: "已复制", embedTerms: "免费嵌入。请保留署名链接；数字是 Binance 与 OKX 的下限值，每五分钟刷新。",
+      poweredBy: "由 NexuAlpha 提供", embedUpdated: "更新于",
     },
     liquidations: {
       title: "今日加密货币爆仓数据 — 1 小时 / 4 小时 / 24 小时实时统计 | NexuAlpha",
@@ -196,6 +261,12 @@ const COPY = {
       largestTitle: "最大单笔爆仓（24 小时）", sideLong: "多单", sideShort: "空单", largestLine: (s) => `${s.venue} ${s.base} ${s.side}`,
       sourceLine: "Binance USDT 合约强平推送 + OKX 爆仓订单 · 仅为下限，不代表全市场",
       coverage: "统计起点",
+      historyTitle: "最近 30 天", historyLead: "Binance 与 OKX 合约的每日爆仓总额，按 UTC 日由每小时快照累加，多单与空单叠加显示。",
+      historyCollecting: (date) => `历史数据自 ${date} 开始采集，累计满两天后显示 30 天图表。`,
+      historyChartLabel: "每日爆仓总额（最近 30 天）", historyAvg: "30 天平均", historyToday: "今日至今", historyLargest: "区间内最大单日",
+      historyPartial: "今日柱只包含已采集的小时（UTC）。", historyAxis: "日期（UTC）", historyDays: (n) => `已累计 ${n} 天`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `过去 24 小时（${now}）与 30 天日均（${avg}）基本持平。` : `过去 24 小时（${now}）比 30 天日均（${avg}）${direction === "above" ? "高" : "低"} ${pct}%。`,
+      historyRank: (rank, days) => `按爆仓金额，今日在本月 ${days} 天中排第 ${rank}（1 为最大）。`,
       explainer: [
         "爆仓（强制平仓）指杠杆合约仓位亏损到保证金不足时，交易所强制以市价平掉该仓位：多单被卖出、空单被买回，往往会把价格继续推向同一方向。",
         "下跌中大量多单被平叫“多头挤压”，上涨中大量空单被平叫“空头挤压”。当同一时间窗内多空两栏都很大，就是多空双杀：先朝一个方向急拉，再迅速反转。",
@@ -240,6 +311,9 @@ const COPY = {
       home: "首頁", updated: "更新於", source: "來源", refresh: "頁面開啟期間每 60 秒重新讀取資料，時間均為 UTC。",
       unavailableTitle: "即時資料暫時無法取得", unavailable: "資料來源每幾分鐘更新一次。資料缺失時不做任何估算，請稍後再試。",
       explainer: "本頁說明", faq: "常見問題", relatedData: "更多即時資料", json: "原始 JSON 資料",
+      embedTitle: "嵌入到你的網站", embedIntro: "複製下面任一程式碼。小工具顯示與本頁相同的即時數字，自動適配欄寬，並連結回本頁。",
+      embedIframe: "iframe", embedScript: "Script 標籤", copy: "複製", copied: "已複製", embedTerms: "免費嵌入。請保留署名連結；數字是 Binance 與 OKX 的下限值，每五分鐘更新。",
+      poweredBy: "由 NexuAlpha 提供", embedUpdated: "更新於",
     },
     liquidations: {
       title: "今日加密貨幣爆倉數據 — 1 小時 / 4 小時 / 24 小時即時統計 | NexuAlpha",
@@ -252,6 +326,12 @@ const COPY = {
       largestTitle: "最大單筆爆倉（24 小時）", sideLong: "多單", sideShort: "空單", largestLine: (s) => `${s.venue} ${s.base} ${s.side}`,
       sourceLine: "Binance USDT 合約強平推送 + OKX 爆倉訂單 · 僅為下限，不代表全市場",
       coverage: "統計起點",
+      historyTitle: "最近 30 天", historyLead: "Binance 與 OKX 合約的每日爆倉總額，按 UTC 日由每小時快照累加，多單與空單疊加顯示。",
+      historyCollecting: (date) => `歷史資料自 ${date} 開始採集，累計滿兩天後顯示 30 天圖表。`,
+      historyChartLabel: "每日爆倉總額（最近 30 天）", historyAvg: "30 天平均", historyToday: "今日至今", historyLargest: "區間內最大單日",
+      historyPartial: "今日柱只包含已採集的小時（UTC）。", historyAxis: "日期（UTC）", historyDays: (n) => `已累計 ${n} 天`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `過去 24 小時（${now}）與 30 天日均（${avg}）基本持平。` : `過去 24 小時（${now}）比 30 天日均（${avg}）${direction === "above" ? "高" : "低"} ${pct}%。`,
+      historyRank: (rank, days) => `按爆倉金額，今日在本月 ${days} 天中排第 ${rank}（1 為最大）。`,
       explainer: [
         "爆倉（強制平倉）指槓桿合約倉位虧損到保證金不足時，交易所強制以市價平掉該倉位：多單被賣出、空單被買回，往往會把價格繼續推向同一方向。",
         "下跌中大量多單被平叫「多頭擠壓」，上漲中大量空單被平叫「空頭擠壓」。當同一時間窗內多空兩欄都很大，就是多空雙殺：先朝一個方向急拉，再迅速反轉。",
@@ -296,6 +376,9 @@ const COPY = {
       home: "Inicio", updated: "Actualizado", source: "Fuente", refresh: "Relee el feed cada 60 segundos mientras la página está abierta. Horas en UTC.",
       unavailableTitle: "Los datos en vivo no están disponibles temporalmente", unavailable: "El feed se actualiza cada pocos minutos. Nada se estima mientras falta; vuelve a intentarlo en breve.",
       explainer: "Qué muestra esta página", faq: "Preguntas frecuentes", relatedData: "Más datos en vivo", json: "Feed JSON en bruto",
+      embedTitle: "Inserta esto en tu sitio", embedIntro: "Pega uno de estos fragmentos. El widget muestra las mismas cifras en vivo que esta página, se adapta a cualquier ancho y enlaza de vuelta aquí.",
+      embedIframe: "iframe", embedScript: "Etiqueta script", copy: "Copiar", copied: "Copiado", embedTerms: "Gratis. Conserva el enlace de atribución; las cifras son un límite inferior de Binance y OKX, actualizadas cada cinco minutos.",
+      poweredBy: "Con tecnología de NexuAlpha", embedUpdated: "actualizado",
     },
     liquidations: {
       title: "Liquidaciones cripto hoy — Totales en vivo 1h / 4h / 24h | NexuAlpha",
@@ -308,6 +391,12 @@ const COPY = {
       largestTitle: "Mayor liquidación individual (24h)", sideLong: "largo", sideShort: "corto", largestLine: (s) => `${s.base} ${s.side} en ${s.venue}`,
       sourceLine: "Stream de órdenes forzadas USDT-M de Binance + órdenes de liquidación de OKX · límite inferior, no todo el mercado",
       coverage: "Contando desde",
+      historyTitle: "Últimos 30 días", historyLead: "Totales diarios de liquidaciones en los futuros de Binance y OKX, sumados a partir de instantáneas horarias por día UTC, con largos y cortos apilados.",
+      historyCollecting: (date) => `El historial se recopila desde el ${date}. El gráfico de 30 días aparece cuando existen dos días completos.`,
+      historyChartLabel: "Totales diarios de liquidaciones, últimos 30 días", historyAvg: "Media de 30 días", historyToday: "Hoy hasta ahora", historyLargest: "Mayor día del periodo",
+      historyPartial: "La barra de hoy solo cubre las horas recopiladas hasta ahora (UTC).", historyAxis: "Día del mes (UTC)", historyDays: (n) => `${n} días de historial`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `Las últimas 24 horas (${now}) están en línea con la media diaria de 30 días (${avg}).` : `Las últimas 24 horas (${now}) están un ${pct}% ${direction === "above" ? "por encima" : "por debajo"} de la media diaria de 30 días (${avg}).`,
+      historyRank: (rank, days) => `Hoy ocupa el puesto ${rank} de ${days} días de este mes por volumen liquidado (1 = mayor).`,
       explainer: [
         "Una liquidación ocurre cuando una posición de futuros apalancada pierde tanto margen que el exchange la cierra a la fuerza. La posición se vende (largo) o se recompra (corto) a mercado, lo que suele empujar el precio aún más en la misma dirección.",
         "Un long squeeze es una ola de liquidaciones de largos durante una caída; un short squeeze es su imagen espejo durante una subida. Cuando ambas columnas son grandes en la misma ventana, largos y cortos fueron barridos a la vez: un movimiento brusco en una dirección seguido de una reversión brusca (多空双杀).",
@@ -352,6 +441,9 @@ const COPY = {
       home: "Início", updated: "Atualizado", source: "Fonte", refresh: "Relê o feed a cada 60 segundos enquanto a página está aberta. Horários em UTC.",
       unavailableTitle: "Os dados ao vivo estão temporariamente indisponíveis", unavailable: "O feed é atualizado a cada poucos minutos. Nada é estimado enquanto ele falta; tente novamente em instantes.",
       explainer: "O que esta página mostra", faq: "Perguntas frequentes", relatedData: "Mais dados ao vivo", json: "Feed JSON bruto",
+      embedTitle: "Incorpore isto no seu site", embedIntro: "Cole um destes trechos. O widget mostra os mesmos números ao vivo desta página, adapta-se a qualquer largura e aponta de volta para aqui.",
+      embedIframe: "iframe", embedScript: "Tag script", copy: "Copiar", copied: "Copiado", embedTerms: "Gratuito. Mantenha o link de atribuição; os números são um limite inferior da Binance e da OKX, atualizados a cada cinco minutos.",
+      poweredBy: "Fornecido por NexuAlpha", embedUpdated: "atualizado",
     },
     liquidations: {
       title: "Liquidações cripto de hoje — Totais ao vivo 1h / 4h / 24h | NexuAlpha",
@@ -364,6 +456,12 @@ const COPY = {
       largestTitle: "Maior liquidação individual (24h)", sideLong: "long", sideShort: "short", largestLine: (s) => `${s.base} ${s.side} na ${s.venue}`,
       sourceLine: "Stream de ordens forçadas USDT-M da Binance + ordens de liquidação da OKX · limite inferior, não o mercado inteiro",
       coverage: "Contando desde",
+      historyTitle: "Últimos 30 dias", historyLead: "Totais diários de liquidações nos futuros da Binance e da OKX, somados a partir de snapshots horários por dia UTC, com longs e shorts empilhados.",
+      historyCollecting: (date) => `O histórico é coletado desde ${date}. O gráfico de 30 dias aparece quando houver dois dias completos.`,
+      historyChartLabel: "Totais diários de liquidações, últimos 30 dias", historyAvg: "Média de 30 dias", historyToday: "Hoje até agora", historyLargest: "Maior dia do período",
+      historyPartial: "A barra de hoje cobre apenas as horas coletadas até agora (UTC).", historyAxis: "Dia do mês (UTC)", historyDays: (n) => `${n} dias de histórico`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `As últimas 24 horas (${now}) estão em linha com a média diária de 30 dias (${avg}).` : `As últimas 24 horas (${now}) estão ${pct}% ${direction === "above" ? "acima" : "abaixo"} da média diária de 30 dias (${avg}).`,
+      historyRank: (rank, days) => `Hoje ocupa a posição ${rank} de ${days} dias deste mês em volume liquidado (1 = maior).`,
       explainer: [
         "Uma liquidação acontece quando uma posição alavancada em futuros perde tanta margem que a exchange a fecha à força. A posição é vendida (long) ou recomprada (short) a mercado, o que costuma empurrar o preço ainda mais na mesma direção.",
         "Um long squeeze é uma onda de liquidações de longs durante uma queda; um short squeeze é o espelho disso durante uma alta. Quando as duas colunas são grandes na mesma janela, longs e shorts foram varridos juntos: um movimento forte em uma direção seguido de uma reversão forte (多空双杀).",
@@ -408,6 +506,9 @@ const COPY = {
       home: "Accueil", updated: "Mis à jour", source: "Source", refresh: "Relit le flux toutes les 60 secondes tant que la page est ouverte. Heures en UTC.",
       unavailableTitle: "Les données en direct sont temporairement indisponibles", unavailable: "Le flux se rafraîchit toutes les quelques minutes. Rien n'est estimé en son absence ; réessayez dans un instant.",
       explainer: "Ce que montre cette page", faq: "Questions fréquentes", relatedData: "Plus de données en direct", json: "Flux JSON brut",
+      embedTitle: "Intégrer sur votre site", embedIntro: "Collez l'un de ces extraits. Le widget affiche les mêmes chiffres en direct que cette page, s'adapte à toute largeur et renvoie ici.",
+      embedIframe: "iframe", embedScript: "Balise script", copy: "Copier", copied: "Copié", embedTerms: "Gratuit. Conservez le lien d'attribution ; les chiffres sont une borne basse Binance + OKX, actualisés toutes les cinq minutes.",
+      poweredBy: "Propulsé par NexuAlpha", embedUpdated: "mis à jour",
     },
     liquidations: {
       title: "Liquidations crypto du jour — Totaux 1h / 4h / 24h en direct | NexuAlpha",
@@ -420,6 +521,12 @@ const COPY = {
       largestTitle: "Plus grosse liquidation unique (24h)", sideLong: "long", sideShort: "short", largestLine: (s) => `${s.base} ${s.side} sur ${s.venue}`,
       sourceLine: "Flux d'ordres forcés USDT-M Binance + ordres de liquidation OKX · borne inférieure, pas l'ensemble du marché",
       coverage: "Comptage depuis",
+      historyTitle: "30 derniers jours", historyLead: "Totaux quotidiens des liquidations sur les futures Binance et OKX, cumulés à partir d'instantanés horaires par jour UTC, longs et shorts empilés.",
+      historyCollecting: (date) => `L'historique est collecté depuis le ${date}. Le graphique sur 30 jours apparaît dès que deux jours complets existent.`,
+      historyChartLabel: "Totaux quotidiens des liquidations, 30 derniers jours", historyAvg: "Moyenne sur 30 jours", historyToday: "Aujourd'hui jusqu'ici", historyLargest: "Plus grosse journée de la période",
+      historyPartial: "La barre du jour ne couvre que les heures déjà collectées (UTC).", historyAxis: "Jour du mois (UTC)", historyDays: (n) => `${n} jours d'historique`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `Les 24 dernières heures (${now}) sont dans la moyenne quotidienne sur 30 jours (${avg}).` : `Les 24 dernières heures (${now}) sont ${pct}% ${direction === "above" ? "au-dessus" : "en dessous"} de la moyenne quotidienne sur 30 jours (${avg}).`,
+      historyRank: (rank, days) => `Aujourd'hui se classe ${rank}e sur ${days} jours ce mois-ci en volume liquidé (1 = le plus élevé).`,
       explainer: [
         "Une liquidation survient quand une position de futures à levier perd tant de marge que la plateforme la ferme de force. La position est vendue (long) ou rachetée (short) au marché, ce qui pousse souvent le prix encore plus loin dans la même direction.",
         "Un long squeeze est une vague de liquidations de longs pendant une baisse ; un short squeeze en est le miroir pendant une hausse. Quand les deux colonnes sont élevées sur la même fenêtre, longs et shorts ont été balayés ensemble : un mouvement brusque dans un sens suivi d'un retournement brusque (多空双杀).",
@@ -464,6 +571,9 @@ const COPY = {
       home: "Start", updated: "Aktualisiert", source: "Quelle", refresh: "Liest den Feed alle 60 Sekunden neu, solange die Seite offen ist. Zeiten in UTC.",
       unavailableTitle: "Live-Daten sind vorübergehend nicht verfügbar", unavailable: "Der Feed wird alle paar Minuten erneuert. Solange er fehlt, wird nichts geschätzt – bitte gleich noch einmal versuchen.",
       explainer: "Was diese Seite zeigt", faq: "Häufige Fragen", relatedData: "Mehr Live-Daten", json: "Roh-JSON-Feed",
+      embedTitle: "Auf der eigenen Seite einbetten", embedIntro: "Einen dieser Schnipsel einfügen. Das Widget zeigt dieselben Live-Zahlen wie diese Seite, passt sich jeder Spaltenbreite an und verlinkt hierher.",
+      embedIframe: "iframe", embedScript: "Script-Tag", copy: "Kopieren", copied: "Kopiert", embedTerms: "Kostenlos. Der Quellenlink bleibt erhalten; die Zahlen sind eine Untergrenze von Binance und OKX, alle fünf Minuten aktualisiert.",
+      poweredBy: "Bereitgestellt von NexuAlpha", embedUpdated: "aktualisiert",
     },
     liquidations: {
       title: "Krypto-Liquidationen heute — Live-Summen 1h / 4h / 24h | NexuAlpha",
@@ -476,6 +586,12 @@ const COPY = {
       largestTitle: "Größte Einzelliquidation (24h)", sideLong: "Long", sideShort: "Short", largestLine: (s) => `${s.base} ${s.side} auf ${s.venue}`,
       sourceLine: "Binance USDT-M Force-Order-Stream + OKX-Liquidationsorders · Untergrenze, nicht der gesamte Markt",
       coverage: "Gezählt seit",
+      historyTitle: "Letzte 30 Tage", historyLead: "Tägliche Liquidationssummen auf Binance- und OKX-Futures, je UTC-Tag aus stündlichen Momentaufnahmen addiert, Longs und Shorts gestapelt.",
+      historyCollecting: (date) => `Die Historie wird seit dem ${date} gesammelt. Das 30-Tage-Diagramm erscheint, sobald zwei volle Tage vorliegen.`,
+      historyChartLabel: "Tägliche Liquidationssummen, letzte 30 Tage", historyAvg: "30-Tage-Durchschnitt", historyToday: "Heute bisher", historyLargest: "Größter Tag im Zeitraum",
+      historyPartial: "Der heutige Balken umfasst nur die bisher erfassten Stunden (UTC).", historyAxis: "Tag des Monats (UTC)", historyDays: (n) => `${n} Tage Historie`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `Die letzten 24 Stunden (${now}) liegen im 30-Tage-Tagesdurchschnitt (${avg}).` : `Die letzten 24 Stunden (${now}) liegen ${pct}% ${direction === "above" ? "über" : "unter"} dem 30-Tage-Tagesdurchschnitt (${avg}).`,
+      historyRank: (rank, days) => `Heute liegt nach Liquidationsvolumen auf Platz ${rank} von ${days} Tagen in diesem Monat (1 = größter).`,
       explainer: [
         "Eine Liquidation tritt ein, wenn eine gehebelte Futures-Position so viel Margin verliert, dass die Börse sie zwangsweise schließt. Die Position wird zum Marktpreis verkauft (Long) oder zurückgekauft (Short), was den Kurs oft weiter in dieselbe Richtung drückt.",
         "Ein Long Squeeze ist eine Welle von Long-Liquidationen im Kursrückgang; ein Short Squeeze ist das Spiegelbild in einer Rally. Sind beide Spalten im selben Zeitfenster groß, wurden Longs und Shorts gemeinsam ausgelöscht: eine scharfe Bewegung in eine Richtung mit anschließender scharfer Umkehr (多空双杀).",
@@ -520,6 +636,9 @@ const COPY = {
       home: "Home", updated: "Aggiornato", source: "Fonte", refresh: "Rilegge il feed ogni 60 secondi mentre la pagina è aperta. Orari in UTC.",
       unavailableTitle: "I dati in tempo reale non sono temporaneamente disponibili", unavailable: "Il feed si aggiorna ogni pochi minuti. Nulla viene stimato quando manca; riprova tra poco.",
       explainer: "Cosa mostra questa pagina", faq: "Domande frequenti", relatedData: "Altri dati in tempo reale", json: "Feed JSON grezzo",
+      embedTitle: "Incorpora nel tuo sito", embedIntro: "Incolla uno di questi snippet. Il widget mostra gli stessi numeri in tempo reale di questa pagina, si adatta a qualsiasi larghezza e rimanda qui.",
+      embedIframe: "iframe", embedScript: "Tag script", copy: "Copia", copied: "Copiato", embedTerms: "Gratuito. Mantieni il link di attribuzione; le cifre sono un limite inferiore di Binance e OKX, aggiornate ogni cinque minuti.",
+      poweredBy: "Powered by NexuAlpha", embedUpdated: "aggiornato",
     },
     liquidations: {
       title: "Liquidazioni crypto di oggi — Totali live 1h / 4h / 24h | NexuAlpha",
@@ -532,6 +651,12 @@ const COPY = {
       largestTitle: "Liquidazione singola più grande (24h)", sideLong: "long", sideShort: "short", largestLine: (s) => `${s.base} ${s.side} su ${s.venue}`,
       sourceLine: "Stream ordini forzati USDT-M Binance + ordini di liquidazione OKX · limite inferiore, non l'intero mercato",
       coverage: "Conteggio dal",
+      historyTitle: "Ultimi 30 giorni", historyLead: "Totali giornalieri delle liquidazioni sui futures Binance e OKX, sommati da istantanee orarie per giorno UTC, long e short impilati.",
+      historyCollecting: (date) => `La cronologia viene raccolta dal ${date}. Il grafico a 30 giorni compare quando esistono due giorni completi.`,
+      historyChartLabel: "Totali giornalieri delle liquidazioni, ultimi 30 giorni", historyAvg: "Media a 30 giorni", historyToday: "Oggi finora", historyLargest: "Giorno più grande del periodo",
+      historyPartial: "La barra di oggi copre solo le ore raccolte finora (UTC).", historyAxis: "Giorno del mese (UTC)", historyDays: (n) => `${n} giorni di cronologia`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `Le ultime 24 ore (${now}) sono in linea con la media giornaliera a 30 giorni (${avg}).` : `Le ultime 24 ore (${now}) sono del ${pct}% ${direction === "above" ? "sopra" : "sotto"} la media giornaliera a 30 giorni (${avg}).`,
+      historyRank: (rank, days) => `Oggi è al posto ${rank} su ${days} giorni di questo mese per volume liquidato (1 = maggiore).`,
       explainer: [
         "Una liquidazione avviene quando una posizione in futures a leva perde così tanto margine che l'exchange la chiude forzatamente. La posizione viene venduta (long) o ricomprata (short) a mercato, spingendo spesso il prezzo ancora più nella stessa direzione.",
         "Un long squeeze è un'ondata di liquidazioni di long durante un calo; uno short squeeze è l'immagine specchio durante un rialzo. Quando entrambe le colonne sono grandi nella stessa finestra, long e short sono stati spazzati via insieme: un movimento brusco in una direzione seguito da un'inversione brusca (多空双杀).",
@@ -576,6 +701,9 @@ const COPY = {
       home: "ホーム", updated: "更新", source: "出典", refresh: "ページを開いている間、60秒ごとにフィードを再読み込みします。時刻はUTCです。",
       unavailableTitle: "ライブデータは一時的に利用できません", unavailable: "フィードは数分ごとに更新されます。欠損中は一切推定しません。しばらくしてからお試しください。",
       explainer: "このページの見方", faq: "よくある質問", relatedData: "その他のライブデータ", json: "生のJSONフィード",
+      embedTitle: "自分のサイトに埋め込む", embedIntro: "いずれかのコードを貼り付けてください。ウィジェットはこのページと同じライブ数値を表示し、幅に合わせて伸縮し、ここへリンクします。",
+      embedIframe: "iframe", embedScript: "scriptタグ", copy: "コピー", copied: "コピーしました", embedTerms: "無料で埋め込めます。出典リンクは残してください。数値はBinanceとOKXの下限値で、5分ごとに更新されます。",
+      poweredBy: "Powered by NexuAlpha", embedUpdated: "更新",
     },
     liquidations: {
       title: "本日の暗号資産清算額 — 1時間・4時間・24時間のライブ集計 | NexuAlpha",
@@ -588,6 +716,12 @@ const COPY = {
       largestTitle: "最大の単一清算（24時間）", sideLong: "ロング", sideShort: "ショート", largestLine: (s) => `${s.venue} の ${s.base} ${s.side}`,
       sourceLine: "Binance USDT-M 強制決済ストリーム + OKX 清算注文 · 下限値であり市場全体ではありません",
       coverage: "集計開始",
+      historyTitle: "過去30日", historyLead: "BinanceとOKX先物の日次ロスカット総額。UTC日ごとに毎時スナップショットを合算し、ロングとショートを積み上げて表示します。",
+      historyCollecting: (date) => `履歴は ${date} から収集中です。2日分がそろうと30日チャートが表示されます。`,
+      historyChartLabel: "日次ロスカット総額（過去30日）", historyAvg: "30日平均", historyToday: "本日（現時点）", historyLargest: "期間中の最大日",
+      historyPartial: "本日のバーは収集済みの時間帯のみを含みます（UTC）。", historyAxis: "日（UTC）", historyDays: (n) => `履歴 ${n} 日分`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `過去24時間（${now}）は30日の日平均（${avg}）とほぼ同水準です。` : `過去24時間（${now}）は30日の日平均（${avg}）を ${pct}% ${direction === "above" ? "上回って" : "下回って"}います。`,
+      historyRank: (rank, days) => `ロスカット金額では、本日は今月 ${days} 日のうち ${rank} 位です（1 が最大）。`,
       explainer: [
         "清算（強制決済）は、レバレッジをかけた先物ポジションの証拠金が不足し、取引所が強制的にポジションを閉じることです。ロングは成行で売られ、ショートは買い戻されるため、価格が同じ方向へさらに動くことが多くなります。",
         "下落局面でロングが連鎖的に清算されるのがロングスクイーズ、上昇局面でショートが清算されるのがショートスクイーズです。同じ時間枠で両方の数値が大きい場合、ロングとショートの両方が一掃された「多空双殺」で、一方向への急変動の後に急反転が起きたことを示します。",
@@ -632,6 +766,9 @@ const COPY = {
       home: "홈", updated: "업데이트", source: "출처", refresh: "페이지가 열려 있는 동안 60초마다 피드를 다시 읽습니다. 시간은 UTC입니다.",
       unavailableTitle: "실시간 데이터를 일시적으로 사용할 수 없습니다", unavailable: "피드는 몇 분마다 갱신됩니다. 데이터가 없는 동안에는 어떤 값도 추정하지 않습니다. 잠시 후 다시 시도하세요.",
       explainer: "이 페이지가 보여주는 것", faq: "자주 묻는 질문", relatedData: "더 많은 실시간 데이터", json: "원본 JSON 피드",
+      embedTitle: "내 사이트에 삽입", embedIntro: "아래 코드 중 하나를 붙여 넣으세요. 위젯은 이 페이지와 같은 실시간 숫자를 보여주고, 어떤 너비에도 맞으며, 이 페이지로 링크합니다.",
+      embedIframe: "iframe", embedScript: "script 태그", copy: "복사", copied: "복사됨", embedTerms: "무료로 삽입할 수 있습니다. 출처 링크는 유지해 주세요. 숫자는 Binance와 OKX의 하한값이며 5분마다 갱신됩니다.",
+      poweredBy: "Powered by NexuAlpha", embedUpdated: "업데이트",
     },
     liquidations: {
       title: "오늘의 암호화폐 청산 — 1시간·4시간·24시간 실시간 집계 | NexuAlpha",
@@ -644,6 +781,12 @@ const COPY = {
       largestTitle: "최대 단일 청산 (24시간)", sideLong: "롱", sideShort: "숏", largestLine: (s) => `${s.venue} ${s.base} ${s.side}`,
       sourceLine: "바이낸스 USDT-M 강제청산 스트림 + OKX 청산 주문 · 하한값이며 전체 시장이 아님",
       coverage: "집계 시작",
+      historyTitle: "최근 30일", historyLead: "Binance와 OKX 선물의 일별 청산 총액. UTC 일 단위로 매시간 스냅샷을 합산하고 롱과 숏을 쌓아 표시합니다.",
+      historyCollecting: (date) => `기록은 ${date}부터 수집 중입니다. 이틀분이 쌓이면 30일 차트가 표시됩니다.`,
+      historyChartLabel: "일별 청산 총액, 최근 30일", historyAvg: "30일 평균", historyToday: "오늘(현재까지)", historyLargest: "기간 중 최대 일",
+      historyPartial: "오늘 막대는 지금까지 수집된 시간만 포함합니다(UTC).", historyAxis: "일(UTC)", historyDays: (n) => `기록 ${n}일`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `최근 24시간(${now})은 30일 일평균(${avg})과 비슷한 수준입니다.` : `최근 24시간(${now})은 30일 일평균(${avg})보다 ${pct}% ${direction === "above" ? "높습니다" : "낮습니다"}.`,
+      historyRank: (rank, days) => `청산 금액 기준으로 오늘은 이번 달 ${days}일 중 ${rank}위입니다(1 = 최대).`,
       explainer: [
         "청산은 레버리지 선물 포지션의 증거금이 부족해져 거래소가 포지션을 강제로 닫는 것입니다. 롱은 시장가로 매도되고 숏은 되매수되며, 이 과정이 가격을 같은 방향으로 더 밀어내는 경우가 많습니다.",
         "하락 중 롱이 연쇄 청산되는 것이 롱 스퀴즈, 상승 중 숏이 청산되는 것이 숏 스퀴즈입니다. 같은 시간대에 두 열이 모두 크면 롱과 숏이 함께 쓸려 나간 양방향 청산(多空双杀)으로, 한 방향 급등락 뒤에 급반전이 있었다는 뜻입니다.",
@@ -688,6 +831,9 @@ const COPY = {
       home: "Главная", updated: "Обновлено", source: "Источник", refresh: "Перечитывает фид каждые 60 секунд, пока страница открыта. Время в UTC.",
       unavailableTitle: "Данные в реальном времени временно недоступны", unavailable: "Фид обновляется каждые несколько минут. Пока его нет, ничего не оценивается — попробуйте чуть позже.",
       explainer: "Что показывает эта страница", faq: "Частые вопросы", relatedData: "Больше данных в реальном времени", json: "Сырой JSON-фид",
+      embedTitle: "Встроить на свой сайт", embedIntro: "Вставьте один из фрагментов. Виджет показывает те же живые цифры, что и эта страница, подстраивается под любую ширину и ссылается сюда.",
+      embedIframe: "iframe", embedScript: "Тег script", copy: "Копировать", copied: "Скопировано", embedTerms: "Бесплатно. Сохраняйте ссылку на источник; цифры — нижняя граница по Binance и OKX, обновление каждые пять минут.",
+      poweredBy: "При поддержке NexuAlpha", embedUpdated: "обновлено",
     },
     liquidations: {
       title: "Ликвидации крипты сегодня — 1ч / 4ч / 24ч онлайн | NexuAlpha",
@@ -700,6 +846,12 @@ const COPY = {
       largestTitle: "Крупнейшая единичная ликвидация (24ч)", sideLong: "лонг", sideShort: "шорт", largestLine: (s) => `${s.base} ${s.side} на ${s.venue}`,
       sourceLine: "Поток принудительных ордеров Binance USDT-M + ордера ликвидации OKX · нижняя граница, не весь рынок",
       coverage: "Подсчёт с",
+      historyTitle: "Последние 30 дней", historyLead: "Дневные суммы ликвидаций на фьючерсах Binance и OKX: почасовые снимки, сложенные за каждый день UTC, лонги и шорты друг над другом.",
+      historyCollecting: (date) => `История собирается с ${date}. График за 30 дней появится, когда накопятся два полных дня.`,
+      historyChartLabel: "Дневные суммы ликвидаций, последние 30 дней", historyAvg: "Среднее за 30 дней", historyToday: "Сегодня на данный момент", historyLargest: "Крупнейший день периода",
+      historyPartial: "Столбик за сегодня включает только уже собранные часы (UTC).", historyAxis: "День месяца (UTC)", historyDays: (n) => `${n} дней истории`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `Последние 24 часа (${now}) на уровне среднего дневного значения за 30 дней (${avg}).` : `Последние 24 часа (${now}) на ${pct}% ${direction === "above" ? "выше" : "ниже"} среднего дневного значения за 30 дней (${avg}).`,
+      historyRank: (rank, days) => `По объёму ликвидаций сегодня занимает ${rank}-е место из ${days} дней этого месяца (1 = крупнейший).`,
       explainer: [
         "Ликвидация происходит, когда фьючерсная позиция с плечом теряет столько маржи, что биржа принудительно её закрывает. Позиция продаётся (лонг) или выкупается (шорт) по рынку, что часто толкает цену дальше в том же направлении.",
         "Лонг-сквиз — волна ликвидаций лонгов на падении; шорт-сквиз — её зеркальное отражение на росте. Когда обе колонки велики в одном окне, лонги и шорты вынесло одновременно: резкое движение в одну сторону, затем резкий разворот (多空双杀).",
@@ -744,6 +896,9 @@ const COPY = {
       home: "Ana sayfa", updated: "Güncellendi", source: "Kaynak", refresh: "Sayfa açıkken akışı her 60 saniyede yeniden okur. Saatler UTC.",
       unavailableTitle: "Canlı veri geçici olarak kullanılamıyor", unavailable: "Akış birkaç dakikada bir yenilenir. Veri yokken hiçbir şey tahmin edilmez; kısa süre sonra yeniden deneyin.",
       explainer: "Bu sayfa ne gösterir", faq: "Sık sorulan sorular", relatedData: "Daha fazla canlı veri", json: "Ham JSON akışı",
+      embedTitle: "Sitenize gömün", embedIntro: "Bu parçalardan birini yapıştırın. Bileşen bu sayfadaki canlı sayıların aynısını gösterir, her sütun genişliğine uyar ve buraya bağlanır.",
+      embedIframe: "iframe", embedScript: "Script etiketi", copy: "Kopyala", copied: "Kopyalandı", embedTerms: "Ücretsiz. Kaynak bağlantısını koruyun; rakamlar Binance ve OKX alt sınırıdır, beş dakikada bir yenilenir.",
+      poweredBy: "NexuAlpha tarafından sağlanır", embedUpdated: "güncellendi",
     },
     liquidations: {
       title: "Bugünkü Kripto Tasfiyeleri — Canlı 1s / 4s / 24s | NexuAlpha",
@@ -756,6 +911,12 @@ const COPY = {
       largestTitle: "En büyük tek tasfiye (24s)", sideLong: "long", sideShort: "short", largestLine: (s) => `${s.venue} üzerinde ${s.base} ${s.side}`,
       sourceLine: "Binance USDT-M zorunlu emir akışı + OKX tasfiye emirleri · alt sınır, tüm piyasa değil",
       coverage: "Sayım başlangıcı",
+      historyTitle: "Son 30 gün", historyLead: "Binance ve OKX vadeli işlemlerinde günlük tasfiye toplamları; her UTC günü için saatlik anlık görüntülerden toplanır, long ve short üst üste gösterilir.",
+      historyCollecting: (date) => `Geçmiş ${date} tarihinden beri toplanıyor. İki tam gün oluştuğunda 30 günlük grafik görünür.`,
+      historyChartLabel: "Günlük tasfiye toplamları, son 30 gün", historyAvg: "30 günlük ortalama", historyToday: "Bugün şimdiye kadar", historyLargest: "Dönemin en büyük günü",
+      historyPartial: "Bugünün çubuğu yalnızca şimdiye kadar toplanan saatleri kapsar (UTC).", historyAxis: "Ayın günü (UTC)", historyDays: (n) => `${n} günlük geçmiş`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `Son 24 saat (${now}) 30 günlük günlük ortalamayla (${avg}) aynı seviyede.` : `Son 24 saat (${now}) 30 günlük günlük ortalamanın (${avg}) %${pct} ${direction === "above" ? "üzerinde" : "altında"}.`,
+      historyRank: (rank, days) => `Tasfiye hacmine göre bugün bu ayın ${days} günü içinde ${rank}. sırada (1 = en büyük).`,
       explainer: [
         "Tasfiye, kaldıraçlı bir vadeli pozisyonun teminatı o kadar erir ki borsanın pozisyonu zorla kapatmasıdır. Pozisyon piyasa fiyatından satılır (long) veya geri alınır (short); bu da fiyatı çoğu zaman aynı yönde daha da iter.",
         "Long squeeze, düşüşte art arda long tasfiyeleri; short squeeze ise yükselişte bunun aynadaki görüntüsüdür. Aynı zaman penceresinde iki sütun da büyükse longlar ve shortlar birlikte silinmiştir: bir yöne sert hareket, ardından sert dönüş (多空双杀).",
@@ -800,6 +961,9 @@ const COPY = {
       home: "Beranda", updated: "Diperbarui", source: "Sumber", refresh: "Membaca ulang feed setiap 60 detik selama halaman terbuka. Waktu dalam UTC.",
       unavailableTitle: "Data langsung sementara tidak tersedia", unavailable: "Feed diperbarui setiap beberapa menit. Tidak ada yang diperkirakan saat data hilang; coba lagi sebentar.",
       explainer: "Apa yang ditampilkan halaman ini", faq: "Pertanyaan umum", relatedData: "Data langsung lainnya", json: "Feed JSON mentah",
+      embedTitle: "Sematkan di situs Anda", embedIntro: "Tempel salah satu cuplikan ini. Widget menampilkan angka langsung yang sama dengan halaman ini, menyesuaikan lebar kolom, dan menautkan kembali ke sini.",
+      embedIframe: "iframe", embedScript: "Tag script", copy: "Salin", copied: "Tersalin", embedTerms: "Gratis. Pertahankan tautan atribusi; angkanya adalah batas bawah dari Binance dan OKX, diperbarui setiap lima menit.",
+      poweredBy: "Didukung oleh NexuAlpha", embedUpdated: "diperbarui",
     },
     liquidations: {
       title: "Likuidasi Kripto Hari Ini — Total Langsung 1j / 4j / 24j | NexuAlpha",
@@ -812,6 +976,12 @@ const COPY = {
       largestTitle: "Likuidasi tunggal terbesar (24j)", sideLong: "long", sideShort: "short", largestLine: (s) => `${s.base} ${s.side} di ${s.venue}`,
       sourceLine: "Stream force-order USDT-M Binance + order likuidasi OKX · batas bawah, bukan seluruh pasar",
       coverage: "Dihitung sejak",
+      historyTitle: "30 hari terakhir", historyLead: "Total likuidasi harian di futures Binance dan OKX, dijumlahkan dari snapshot per jam untuk setiap hari UTC, long dan short ditumpuk.",
+      historyCollecting: (date) => `Riwayat dikumpulkan sejak ${date}. Grafik 30 hari muncul setelah ada dua hari penuh.`,
+      historyChartLabel: "Total likuidasi harian, 30 hari terakhir", historyAvg: "Rata-rata 30 hari", historyToday: "Hari ini sejauh ini", historyLargest: "Hari terbesar dalam periode",
+      historyPartial: "Batang hari ini hanya mencakup jam yang sudah terkumpul (UTC).", historyAxis: "Tanggal (UTC)", historyDays: (n) => `${n} hari riwayat`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `24 jam terakhir (${now}) sejalan dengan rata-rata harian 30 hari (${avg}).` : `24 jam terakhir (${now}) ${pct}% ${direction === "above" ? "di atas" : "di bawah"} rata-rata harian 30 hari (${avg}).`,
+      historyRank: (rank, days) => `Hari ini menempati peringkat ${rank} dari ${days} hari bulan ini berdasarkan volume likuidasi (1 = terbesar).`,
       explainer: [
         "Likuidasi terjadi ketika posisi futures berleverage kehilangan margin begitu besar sehingga bursa menutupnya secara paksa. Posisi dijual (long) atau dibeli kembali (short) di harga pasar, yang sering mendorong harga lebih jauh ke arah yang sama.",
         "Long squeeze adalah gelombang likuidasi long saat harga turun; short squeeze adalah kebalikannya saat harga naik. Ketika kedua kolom besar dalam jendela yang sama, long dan short tersapu bersamaan: pergerakan tajam ke satu arah diikuti pembalikan tajam (多空双杀).",
@@ -856,6 +1026,9 @@ const COPY = {
       home: "Trang chủ", updated: "Cập nhật", source: "Nguồn", refresh: "Đọc lại nguồn dữ liệu mỗi 60 giây khi trang đang mở. Giờ theo UTC.",
       unavailableTitle: "Dữ liệu trực tiếp tạm thời không khả dụng", unavailable: "Nguồn dữ liệu làm mới vài phút một lần. Không có gì được ước tính khi dữ liệu thiếu; hãy thử lại sau ít phút.",
       explainer: "Trang này cho biết điều gì", faq: "Câu hỏi thường gặp", relatedData: "Thêm dữ liệu trực tiếp", json: "Nguồn JSON thô",
+      embedTitle: "Nhúng vào trang của bạn", embedIntro: "Dán một trong các đoạn mã này. Widget hiển thị cùng số liệu trực tiếp như trang này, co giãn theo mọi độ rộng và liên kết về đây.",
+      embedIframe: "iframe", embedScript: "Thẻ script", copy: "Sao chép", copied: "Đã sao chép", embedTerms: "Miễn phí. Giữ liên kết ghi nguồn; số liệu là giới hạn dưới từ Binance và OKX, cập nhật mỗi năm phút.",
+      poweredBy: "Cung cấp bởi NexuAlpha", embedUpdated: "cập nhật",
     },
     liquidations: {
       title: "Thanh lý crypto hôm nay — Tổng trực tiếp 1h / 4h / 24h | NexuAlpha",
@@ -868,6 +1041,12 @@ const COPY = {
       largestTitle: "Lệnh thanh lý đơn lớn nhất (24h)", sideLong: "long", sideShort: "short", largestLine: (s) => `${s.base} ${s.side} trên ${s.venue}`,
       sourceLine: "Luồng lệnh cưỡng chế USDT-M của Binance + lệnh thanh lý OKX · giới hạn dưới, không phải toàn thị trường",
       coverage: "Tính từ",
+      historyTitle: "30 ngày gần nhất", historyLead: "Tổng thanh lý theo ngày trên hợp đồng tương lai Binance và OKX, cộng từ các ảnh chụp hàng giờ cho mỗi ngày UTC, long và short xếp chồng.",
+      historyCollecting: (date) => `Lịch sử được thu thập từ ${date}. Biểu đồ 30 ngày sẽ hiện khi có đủ hai ngày trọn vẹn.`,
+      historyChartLabel: "Tổng thanh lý theo ngày, 30 ngày gần nhất", historyAvg: "Trung bình 30 ngày", historyToday: "Hôm nay đến hiện tại", historyLargest: "Ngày lớn nhất trong kỳ",
+      historyPartial: "Cột hôm nay chỉ gồm các giờ đã thu thập (UTC).", historyAxis: "Ngày trong tháng (UTC)", historyDays: (n) => `${n} ngày lịch sử`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `24 giờ qua (${now}) ngang mức trung bình ngày của 30 ngày (${avg}).` : `24 giờ qua (${now}) ${direction === "above" ? "cao hơn" : "thấp hơn"} ${pct}% so với trung bình ngày của 30 ngày (${avg}).`,
+      historyRank: (rank, days) => `Theo khối lượng thanh lý, hôm nay xếp thứ ${rank} trong ${days} ngày của tháng này (1 = lớn nhất).`,
       explainer: [
         "Thanh lý xảy ra khi vị thế hợp đồng tương lai có đòn bẩy mất quá nhiều ký quỹ khiến sàn buộc phải đóng vị thế. Vị thế bị bán (long) hoặc mua lại (short) theo giá thị trường, thường đẩy giá đi xa hơn theo cùng hướng.",
         "Long squeeze là làn sóng thanh lý long khi giá giảm; short squeeze là hình ảnh phản chiếu khi giá tăng. Khi cả hai cột đều lớn trong cùng khung thời gian, long và short cùng bị quét sạch: một cú biến động mạnh theo một hướng rồi đảo chiều mạnh (多空双杀).",
@@ -912,6 +1091,9 @@ const COPY = {
       home: "الرئيسية", updated: "آخر تحديث", source: "المصدر", refresh: "تُعاد قراءة البيانات كل 60 ثانية ما دامت الصفحة مفتوحة. الأوقات بتوقيت UTC.",
       unavailableTitle: "البيانات المباشرة غير متاحة مؤقتًا", unavailable: "يتجدد المصدر كل بضع دقائق. لا يُقدَّر أي رقم أثناء غيابه؛ حاول مرة أخرى بعد قليل.",
       explainer: "ماذا تعرض هذه الصفحة", faq: "الأسئلة الشائعة", relatedData: "مزيد من البيانات المباشرة", json: "بيانات JSON الخام",
+      embedTitle: "ضمّن هذا في موقعك", embedIntro: "الصق أحد هذين المقطعين. تعرض الأداة الأرقام المباشرة نفسها الموجودة في هذه الصفحة، وتتكيف مع أي عرض، وتربط إلى هنا.",
+      embedIframe: "iframe", embedScript: "وسم script", copy: "نسخ", copied: "تم النسخ", embedTerms: "مجاني. احتفظ برابط الإسناد؛ الأرقام حد أدنى من Binance وOKX وتُحدَّث كل خمس دقائق.",
+      poweredBy: "مقدَّم من NexuAlpha", embedUpdated: "تحديث",
     },
     liquidations: {
       title: "تصفيات العملات الرقمية اليوم — مجاميع مباشرة 1س / 4س / 24س | NexuAlpha",
@@ -924,6 +1106,12 @@ const COPY = {
       largestTitle: "أكبر تصفية منفردة (24س)", sideLong: "شراء", sideShort: "بيع", largestLine: (s) => `${s.base} ${s.side} على ${s.venue}`,
       sourceLine: "تدفق الأوامر القسرية USDT-M من Binance + أوامر التصفية من OKX · حد أدنى وليس السوق بالكامل",
       coverage: "العدّ منذ",
+      historyTitle: "آخر 30 يومًا", historyLead: "إجمالي التصفيات اليومي على عقود Binance وOKX الآجلة، مجموعًا من لقطات كل ساعة لكل يوم UTC، مع تراكب مراكز الشراء والبيع.",
+      historyCollecting: (date) => `يُجمع السجل منذ ${date}. يظهر مخطط 30 يومًا بعد توافر يومين كاملين.`,
+      historyChartLabel: "إجمالي التصفيات اليومي، آخر 30 يومًا", historyAvg: "متوسط 30 يومًا", historyToday: "اليوم حتى الآن", historyLargest: "أكبر يوم في الفترة",
+      historyPartial: "يغطي عمود اليوم الساعات المجموعة حتى الآن فقط (UTC).", historyAxis: "يوم الشهر (UTC)", historyDays: (n) => `${n} يومًا من السجل`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `آخر 24 ساعة (${now}) مطابقة تقريبًا للمتوسط اليومي لـ30 يومًا (${avg}).` : `آخر 24 ساعة (${now}) ${direction === "above" ? "أعلى" : "أدنى"} من المتوسط اليومي لـ30 يومًا (${avg}) بنسبة ${pct}%.`,
+      historyRank: (rank, days) => `بحجم التصفيات، يحتل اليوم المرتبة ${rank} من ${days} يومًا هذا الشهر (1 = الأكبر).`,
       explainer: [
         "تحدث التصفية عندما يخسر مركز عقود آجلة برافعة مالية قدرًا كبيرًا من الهامش فتُغلقه المنصة قسرًا. يُباع المركز (شراء) أو يُعاد شراؤه (بيع) بسعر السوق، وهو ما يدفع السعر غالبًا أبعد في الاتجاه نفسه.",
         "ضغط الشراء هو موجة تصفيات لمراكز الشراء أثناء الهبوط؛ وضغط البيع هو صورته المعكوسة أثناء الصعود. عندما يكون العمودان كبيرين في النافذة الزمنية نفسها، فقد جُرف الطرفان معًا: حركة حادة في اتجاه ثم انعكاس حاد (多空双杀).",
@@ -988,9 +1176,16 @@ export function dataPageMeta(pathname, locale) {
 
 const localizedUrl = (pathname, locale, origin) => `${origin}${localizedPath(pathname, locale)}`.replace(/\/$/, "") || origin;
 
-// FAQPage + Dataset + BreadcrumbList for the route metadata (worker) and the client head. Deterministic: no feed values,
-// so the schema never goes stale between collector cycles. temporalCoverage is open-ended from the launch date.
-export function dataPageSchemas(pathname, locale, { origin = PUBLIC_ORIGIN } = {}) {
+// FAQPage + Dataset + BreadcrumbList for the route metadata (worker) and the client head. Deterministic: no live
+// numbers, so the schema never goes stale between collector cycles. temporalCoverage is open-ended from the launch
+// date (the pages have shown live figures since then); for /liquidations it moves earlier when the worker passes a
+// `history` (readHistory) whose first hourly snapshot predates the launch — never later, the live window counts too.
+const DATA_LAUNCH_DAY = "2026-10-10";
+export function dataPageTemporalCoverage(key, history) {
+  const since = key === "liquidations" && history?.since ? history.since.slice(0, 10) : null;
+  return `${since && since < DATA_LAUNCH_DAY ? since : DATA_LAUNCH_DAY}/..`;
+}
+export function dataPageSchemas(pathname, locale, { origin = PUBLIC_ORIGIN, history = null } = {}) {
   const key = pageKey(pathname);
   if (!key) return [];
   const copy = dataPageCopy(locale);
@@ -1004,7 +1199,7 @@ export function dataPageSchemas(pathname, locale, { origin = PUBLIC_ORIGIN } = {
       isAccessibleForFree: true, license: `${origin}/methodology#data-license`,
       creator: RESEARCH_DESK,
       publisher: NEXUALPHA_PUBLISHER,
-      temporalCoverage: "2026-10-10/..",
+      temporalCoverage: dataPageTemporalCoverage(key, history),
       keywords: key === "liquidations" ? ["crypto liquidations", "long squeeze", "short squeeze", "Binance", "OKX", "futures"] : ["funding rate", "perpetual futures", "Binance", "OKX", "annualized funding"],
       variableMeasured: key === "liquidations"
         ? ["longUsd", "shortUsd", "totalUsd", "orders", "topSymbols", "largest"]
