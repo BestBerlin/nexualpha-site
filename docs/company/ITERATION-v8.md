@@ -115,3 +115,13 @@ Accepted 7/7 + 4/4:
 Next (owner-approved order): news pipeline (also fills the empty news-sitemap), Brazil/global pages, AEO answers,
 backlinks. Open owner decisions: the Mini App's old demo prediction game; KuCoin / Deribit / GMX invite codes;
 bot menu button still reads back `commands`.
+
+## 2026-10-10 late: locale sitemap, partner FAQ, full-site diagnosis
+- Live 3.0-20261010T2241-GH-df9a0b7 (PR #46 partner venue FAQ in 15 locales, PR #47 /locale-sitemap.xml).
+- /locale-sitemap.xml: 418 indexable self-canonical URLs across 15 locales with xhtml alternates; submitted to Google (pending), Bing (418 read), Yandex.
+- Deploy CTA guard flagged one added link on /exchanges/okx (OKX official referral-program help page, not a registration link); allowed with ALLOW_CTA_CHANGE=1.
+- Tests: 774 run, 56 fail, all on the baseline list.
+- Diagnosis published (claude.ai artifact 8NRd7qhzDkfiVzYFUbSkHS). Main findings: GSC 28d 1,770 impr / 4 clicks / pos 20.4;
+  commercial pages 0 clicks; exchange H1s miss search terms; long meta descriptions (ru 293 chars); /br and /sg duplicate /pt-br and /en;
+  llms.txt 620 KB; Telegram page doesn't describe alerts; no unified /go attribution; bot only zh/en; no news imagery;
+  14 locales have shell pages only. Proposed: /liquidations and /funding-rates data pages, localized news lane (4/day), bot locales.
