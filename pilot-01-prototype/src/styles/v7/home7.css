@@ -460,3 +460,8 @@
 .h7:not(#_):not(#_) .h7-tg-txt small{overflow-wrap:break-word}
 /* Funding board header labels never spill out of their column on phones. */
 @media(max-width:640px){.h7:not(#_):not(#_) .h7-fr-head span{overflow-wrap:anywhere;font-size:11px;letter-spacing:0}}
+
+/* "Live" marker sits above the announcements heading (it fell onto its own line inside the heading). */
+.h7:not(#_):not(#_) .h7-intel .h7-live{margin:0 0 12px;margin-inline-start:0}
+/* A little more air between the big share figure and its label. */
+.h7:not(#_):not(#_) .h7-lg-max{gap:16px}
