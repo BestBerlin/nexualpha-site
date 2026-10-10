@@ -8,6 +8,8 @@ import { feePctOfRate } from "../../data/exchange-facts.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { priorityVenueAnswerFor } from "../../data/priority-venue-answers.js";
+import { partnerVenueFaqFor } from "../../data/partner-venue-faq.js";
+import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 
 const localeKey = (locale) => {
   const value = String(locale || "");
@@ -344,6 +346,14 @@ export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} 
     q,
     a: <><p>{answer}</p><p className="v3-venue-direct-answer__links">{citations.map((href) => <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-faq-source">{(() => { const label = priorityAnswer.sources.find(([, url]) => url === href)?.[0]; return label ? <span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> : (isZh ? "官方来源" : (locale === "es" ? "Fuente oficial" : "Official source")); })()} ↗</a>)}</p></>,
   })) : getVenueFaqs(venue, profile, locale, db, partner);
+  // Localized partner FAQ (src/data/partner-venue-faq.js): the same entries feed the FAQPage schema.
+  const partnerFaq = partnerVenueFaqFor(venue.slug, locale);
+  const partnerFaqItems = (partnerFaq?.entries || []).map((entry) => ({
+    q: entry.question,
+    a: <><p>{entry.answer}</p><p className="v3-venue-direct-answer__links">{entry.sources.map(([label, href]) => <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-faq-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</a>)}</p></>,
+  }));
+  const shownFaqs = !partnerFaq ? faqs : partnerFaq.mode === "replace" ? partnerFaqItems : [...faqs, ...partnerFaqItems.filter((item) => !faqs.some((existing) => existing.q === item.q))];
+  const usePriorityUi = Boolean(priorityAnswer || partnerFaq?.mode === "replace");
   const locName = getLocalizedVenueName(venue, locale) || profile.name;
   const priorityUiByLocale = {
     "en": { eyebrow: "Before you trade", title: `${locName} cost and access questions`, lead: "Read each answer with its supporting official sources.", more: "Show remaining questions", less: "Show fewer questions" },
@@ -385,15 +395,15 @@ export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} 
       <div className="v3-faq-card">
         <div className="v3-faq-card__header">
           <h2 className="v3-faq-card__title">
-            {priorityAnswer ? priorityUi.title : (nonPriorityUi.title || `${profile.name} Fees, Reserves Verification & FAQ`)}
+            {usePriorityUi ? priorityUi.title : (nonPriorityUi.title || `${profile.name} Fees, Reserves Verification & FAQ`)}
           </h2>
           <p className="v3-faq-card__lead">
-            {priorityAnswer ? priorityUi.lead : (nonPriorityUi.lead || "Direct, source-backed answers to critical questions regarding trading fees, Proof of Reserves, KYC, and security.")}
+            {usePriorityUi ? priorityUi.lead : (nonPriorityUi.lead || "Direct, source-backed answers to critical questions regarding trading fees, Proof of Reserves, KYC, and security.")}
           </p>
         </div>
 
         <div className="v3-faq-list">
-          {faqs.map((faq, idx) => (
+          {shownFaqs.map((faq, idx) => (
             <details key={faq.q} className="v3-faq-item" hidden={idx >= 2 && !showAllFaqs}>
               <summary className="v3-faq-summary">
                 <div className="v3-faq-summary-left">
@@ -404,7 +414,7 @@ export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} 
               <div className="v3-faq-content">{faq.a}</div>
             </details>
           ))}
-          {faqs.length > 2 && (
+          {shownFaqs.length > 2 && (
             <button
               type="button"
               className="v3-faq-list__expand"
@@ -412,12 +422,13 @@ export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} 
               onClick={() => setShowAllFaqs((value) => !value)}
             >
               {showAllFaqs
-                ? (priorityAnswer ? priorityUi.less : isHant ? "收起其餘問題" : isZh ? "收起其余问题" : (faqUi.less || "Show fewer questions"))
-                : (priorityAnswer ? `${priorityUi.more} (${faqs.length - 2})` : isHant ? `查看其餘 ${faqs.length - 2} 個問題` : isZh ? `查看其余 ${faqs.length - 2} 个问题` : `${faqUi.more || "Show more questions"} (${faqs.length - 2})`)}
+                ? (usePriorityUi ? priorityUi.less : isHant ? "收起其餘問題" : isZh ? "收起其余问题" : (faqUi.less || "Show fewer questions"))
+                : (usePriorityUi ? `${priorityUi.more} (${shownFaqs.length - 2})` : isHant ? `查看其餘 ${shownFaqs.length - 2} 個問題` : isZh ? `查看其余 ${shownFaqs.length - 2} 个问题` : `${faqUi.more || "Show more questions"} (${shownFaqs.length - 2})`)}
               <span aria-hidden="true">{showAllFaqs ? " ↑" : " ↓"}</span>
             </button>
           )}
         </div>
+        {partnerFaq?.showsInviteCode ? <CommissionDisclosureLine locale={locale} placement="venue-faq" /> : null}
       </div>
     </section>
   );

@@ -3,6 +3,7 @@ import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "./re
 import { venueDatabase } from "./venue-database.js";
 import { mergePriorityVenueSeo } from "./priority-venue-seo.js";
 import { referralSeoFor } from "./referral-seo.js";
+import { applyPartnerVenueFaqSchema } from "./partner-venue-faq.js";
 import { neutralVenueCatalog } from "./market-command.js";
 import { TOPIC_GUIDES } from "./topic-guides-data.js";
 import { TOPIC_SOURCE_REVIEW_DATE, topicSourcesFor, topicFaqSchemaEntries } from "./topic-source-registry.js";
@@ -2187,7 +2188,7 @@ export function computeRouteSeo(options = {}) {
       schemas = type === "factbook" ? buildFactbookSchemas(venue, locale, canonical(pathname, locale)) : [
         breadcrumbs(venue.name, canonical(pathname, locale), locale),
         { ...pageSchema(title, canonical(pathname, locale), locale), dateModified: venueSeoOverride?.reviewedAt || "2026-09-15", ...researchAttribution([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])]), about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` }, isBasedOn: [...new Set([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])])], ...(venueSeoOverride?.relatedLinks ? { relatedLink: venueSeoOverride.relatedLinks.map((link) => `${PUBLIC_ORIGIN}${link}`) } : {}) },
-      ].concat(directAnswerSchema ? [directAnswerSchema] : [venueProfileFaq(venue, locale)]);
+      ].concat([applyPartnerVenueFaqSchema(directAnswerSchema || venueProfileFaq(venue, locale), slug, locale)]);
     }
   } else if (compareMatch) {
     const slugs = compareMatch[1].split("-vs-");
