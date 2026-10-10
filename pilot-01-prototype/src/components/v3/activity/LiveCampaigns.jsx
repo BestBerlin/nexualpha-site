@@ -8,6 +8,7 @@ import { publicCtaForVenue } from "../../../data/source-bound-cta.js";
 import { ownerRebateLine } from "../../../data/owner-rebate-line.js";
 import { activeOwnerCampaigns } from "../../../data/owner-campaigns.js";
 import { CommissionDisclosureLine } from "../CommissionDisclosureLine.jsx";
+import { GROUP_PREVIEW_COUNT, showAllCopy } from "./show-all-copy.js";
 import "./live-campaigns.css";
 
 const FEED = "/intel/official-announcements.json";
@@ -55,6 +56,8 @@ export function LiveCampaigns({ locale = "en" }) {
   const t = copyFor(locale);
   const { items, failed } = useCampaignFeed();
   const [venue, setVenue] = useState("all");
+  const [openGroups, setOpenGroups] = useState(() => new Set());
+  const toggleGroup = (slug) => setOpenGroups((current) => { const next = new Set(current); if (next.has(slug)) next.delete(slug); else next.add(slug); return next; });
   const rtf = useMemo(() => new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "short" }), [locale]);
   const ago = (iso) => { const m = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000)); return m < 60 ? rtf.format(-m, "minute") : m < 1440 ? rtf.format(-Math.round(m / 60), "hour") : rtf.format(-Math.round(m / 1440), "day"); };
 
@@ -62,9 +65,10 @@ export function LiveCampaigns({ locale = "en" }) {
   const events = (items || []).filter((i) => i.category === "event" && Date.now() - Date.parse(i.publishedAt) < 30 * 864e5);
   const all = [...featured, ...events];
   const venues = [...new Set(all.map((c) => c.venue))];
-  // "All" keeps at most 6 per exchange so one exchange's batch does not hide the others.
-  const perVenue = {};
-  const shown = (venue === "all" ? all.filter((c) => c.featured || (perVenue[c.venue] = (perVenue[c.venue] || 0) + 1) <= 6) : all.filter((c) => c.venue === venue)).slice(0, 24);
+  // Grouped by exchange (owner 2026-10-10): every card is rendered; a group shows three and folds the rest behind
+  // "Show all (n)", so one exchange's batch never hides the others. The chips narrow the list to one exchange.
+  const shown = venue === "all" ? all : all.filter((c) => c.venue === venue);
+  const groups = venues.filter((v) => venue === "all" || v === venue).map((v) => ({ venue: v, items: shown.filter((c) => c.venue === v) })).filter((g) => g.items.length);
 
   return (
     <section className="live-campaigns" aria-labelledby="live-campaigns-h">
@@ -79,21 +83,26 @@ export function LiveCampaigns({ locale = "en" }) {
       )}
       {!items && !featured.length && <p className="live-campaigns__state">{failed ? t.failed : t.loading}</p>}
       {items && !shown.length && <p className="live-campaigns__state">{t.empty}</p>}
-      {shown.length > 0 && (
+      {groups.map((group) => {
+        const expanded = openGroups.has(group.venue) || group.items.length <= GROUP_PREVIEW_COUNT;
+        const labels = showAllCopy(locale, group.items.length);
+        return (
+        <section key={group.venue} className="live-campaigns__group" data-campaign-group={group.venue} data-expanded={expanded ? "true" : "false"}>
+          <h3 className="live-campaigns__group-head"><BrandMark slug={group.venue} compact /><b>{NAMES[group.venue] || group.venue}</b><span>{group.items.length}</span></h3>
         <ul className="live-campaigns__list">
-          {shown.map((c) => {
+          {group.items.map((c, itemIndex) => {
             const cta = route(c.venue, locale);
             const name = NAMES[c.venue] || c.venue;
             const terms = cta ? ownerRebateLine(c.venue, locale, name) : null;
             return (
-              <li key={c.id} className={`live-campaigns__card${c.featured ? " is-featured" : ""}`}>
+              <li key={c.id} className={`live-campaigns__card${c.featured ? " is-featured" : ""}`} data-group-overflow={itemIndex >= GROUP_PREVIEW_COUNT ? "true" : undefined}>
                 <div className="live-campaigns__meta">
                   <BrandMark slug={c.venue} compact />
                   <b>{name}</b>
                   {c.featured && <span className="live-campaigns__tag">{t.featured}</span>}
                   {c.publishedAt && <time dateTime={c.publishedAt}>{ago(c.publishedAt)}</time>}
                 </div>
-                <h3 dir="auto">{c.title}</h3>
+                <h4 dir="auto">{c.title}</h4>
                 {c.summary && <p className="live-campaigns__sum">{c.summary}</p>}
                 <div className="live-campaigns__acts">
                   <a className="live-campaigns__details" href={c.url} target="_blank" rel="noopener noreferrer nofollow">{t.details} ↗</a>
@@ -108,7 +117,10 @@ export function LiveCampaigns({ locale = "en" }) {
             );
           })}
         </ul>
-      )}
+          {group.items.length > GROUP_PREVIEW_COUNT && <button type="button" className="live-campaigns__group-toggle" aria-expanded={expanded} onClick={() => toggleGroup(group.venue)}>{expanded ? labels.fewer : labels.all}</button>}
+        </section>
+        );
+      })}
       <p className="live-campaigns__note">{t.note}</p>
       <CommissionDisclosureLine locale={locale} className="live-campaigns__ad" placement="activities-live-campaigns" />
     </section>

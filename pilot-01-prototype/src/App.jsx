@@ -33,6 +33,7 @@ import { readDecisionPassport } from "./data/decision-passport.js";
 import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, parsePublicRoute } from "./data/locale-routing.js";
 import { parseNewsListingPath } from "./data/news-library.js";
+import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { NewsListPage as EagerNewsListPage } from "./components/v3/news/NewsListPage.jsx";
 // Public data pages (owner 2026-10-10): statically imported like the news list so SSR and hydration share one tree.
 import { LiquidationsPage } from "./components/data/LiquidationsPage.jsx";
@@ -748,7 +749,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "regionalDecision") return pageShell(<RegionalMarketPreview market={route.market} locale={route.locale || locale} decisionPath={route.decisionPath} decisionPassport={decisionPassport} />);
   if (route.name === "methodology") return pageShell(<AuditMethodologyPage locale={locale} />);
   if (route.name === "partners") return pageShell(<PartnerEmbedGuide locale={locale} />);
-  if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
+  if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);
@@ -779,7 +780,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "research") return pageShell(<OfficialResearchPage locale={locale} market={route.market} product={route.product} venue={command.venueCatalog.find((venue) => venue.slug === route.slug)} venues={command.venueCatalog} />);
   if (route.name === "activity") return pageShell(<ActivityDetailPage copy={copy} locale={locale} market={route.market} product={route.product} update={(model.officialUpdates ?? []).find((update) => update.id === route.id)} venues={command.venueCatalog} />);
   if (route.name === "activities") return pageShell(<ActivityCenterPage copy={copy} locale={locale} market={route.market} product={route.product} venues={command.venueCatalog} updates={model.officialUpdates ?? []} />);
-  if (route.name === "directory") return pageShell(<main className="v6 v2-page v3-page" id="top" dir={getTextDirection(locale)}><VenueYellowPages venues={command.venueCatalog} locale={locale} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} headingLevel={1} /></main>, { deferContent: false, crawlScope: "directory" });
+  if (route.name === "directory") return pageShell(<main className="v6 v2-page v3-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "exchanges")}><VenueYellowPages venues={command.venueCatalog} locale={locale} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} headingLevel={1} /></main>, { deferContent: false, crawlScope: "directory" });
   if (route.name === "notFound") return pageShell(<NotFoundPage locale={locale} />);
 
   // 顶级转化漏斗首页：跑马灯 -> LeanHero首屏 -> 横向对比决策 -> 交易暗亏体检仪 -> 核心黄页开户 -> 辅助情报模块 -> 实时社交证明浮窗

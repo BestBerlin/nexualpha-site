@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { NEWS_INDEXABLE_LOCALES } from "../src/data/news-feed-client.js";
+import { NEWS_CORE_LOCALES, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { PRERENDER_LOCALES, routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 
 test("hyperliquid-dydx comparison adds one prerendered route per supported locale", () => {
@@ -20,14 +20,21 @@ test("hyperliquid-dydx comparison adds one prerendered route per supported local
   assert.equal(PRERENDER_LOCALES.length, 15);
 });
 
-test("news list route prerenders the reviewed content locales", () => {
+test("news list route prerenders the core editions and every locale with a native article", () => {
   const route = routeInventory().find((item) => item.pathname === "/news");
 
   assert.ok(route);
   assert.equal(route.template, "newsList");
   assert.equal(route.index, true);
-  assert.deepEqual(route.locales, NEWS_INDEXABLE_LOCALES);
+  // No articles in the inventory: only the core editions are published.
+  assert.deepEqual(route.locales, NEWS_CORE_LOCALES);
   assert.deepEqual(route.locales, ["en", "zh-Hans"]);
+
+  const trArticle = { slug: "tr-native", status: "PUBLISHED", publishedAt: "2026-10-10T00:00:00Z", seo: { noindex: false }, sources: [{ url: "https://example.com" }],
+    title: { en: "t", "zh-Hans": "t", tr: "t" }, summary: { en: "s", "zh-Hans": "s", tr: "s" }, content: { en: "b", "zh-Hans": "b", tr: "b" }, availableLocales: ["en", "zh-Hans", "tr"] };
+  const localized = routeInventory([trArticle]).find((item) => item.pathname === "/news");
+  assert.deepEqual(localized.locales, ["en", "zh-Hans", "tr"]);
+  assert.deepEqual(newsListingPublishedLocales([trArticle]), ["en", "zh-Hans", "tr"]);
 });
 
 test("Japan regional AEO page is indexed only in Japanese", () => {

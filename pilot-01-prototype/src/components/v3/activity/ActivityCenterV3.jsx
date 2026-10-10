@@ -17,6 +17,7 @@ import { LiveCampaigns } from "./LiveCampaigns.jsx";
 import { OfficialResearchIndex } from "./OfficialResearch";
 import { isoDay } from "../../../data/exchange-facts.js";
 import { r9Text } from "../../v6/inner-r9-copy.js";
+import { GROUP_PREVIEW_COUNT, showAllCopy } from "./show-all-copy.js";
 
 const categoryDefinitions = (text) => [
   { key: "all", label: text.all },
@@ -149,6 +150,8 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
   }[locale] || null;
   const [filter, setFilter] = useState("all");
   const [showAllResearch, setShowAllResearch] = useState(false);
+  const [openGroups, setOpenGroups] = useState(() => new Set());
+  const toggleGroup = (slug) => setOpenGroups((current) => { const next = new Set(current); if (next.has(slug)) next.delete(slug); else next.add(slug); return next; });
 
   const contextualHref = (path) => addContext(path, { locale, market, product });
 
@@ -212,6 +215,17 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
     [feedItemList, filter],
   );
   const visibleResearchCards = showAllResearch ? researchItemList : researchItemList.slice(0, 6);
+  // Reviewed feed grouped by exchange (owner 2026-10-10): every item stays in the HTML; items after the third in a
+  // group are collapsed with CSS until "Show all (n)".
+  const updateGroups = useMemo(() => {
+    const groups = new Map();
+    for (const update of filteredUpdates) {
+      const slug = update.platform?.slug || "other";
+      if (!groups.has(slug)) groups.set(slug, { slug, platform: update.platform, items: [] });
+      groups.get(slug).items.push(update);
+    }
+    return [...groups.values()];
+  }, [filteredUpdates]);
 
   const filterControls = (
     <div className="activity-center-v3__filters" role="group" aria-label={text.title}>
@@ -248,8 +262,15 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
 
     {feedItemList.length > 0 && filterControls}
 
-    {filteredUpdates.length ? <div className="activity-center-v3__grid" aria-labelledby="activity-reviewed-title">
-      {filteredUpdates.map((update) => {
+    {filteredUpdates.length ? <div className="activity-center-v3__groups" aria-labelledby="activity-reviewed-title">
+      {updateGroups.map((group) => {
+        const expanded = openGroups.has(group.slug) || group.items.length <= GROUP_PREVIEW_COUNT;
+        const groupName = group.platform?.cnName && locale.startsWith("zh") ? `${group.platform.name} (${group.platform.cnName})` : (group.platform?.name ?? group.slug);
+        const labels = showAllCopy(locale, group.items.length);
+        return <section key={group.slug} className="activity-center-v3__group" data-activity-group={group.slug} data-expanded={expanded ? "true" : "false"}>
+          <h2 className="activity-center-v3__group-head"><span className="activity-center-v3__research-identity" translate="no" lang="en" dir="ltr"><BrandMark slug={group.slug} compact /><b>{groupName}</b></span><b className="activity-center-v3__chip-count" translate="no" lang="en">{group.items.length}</b></h2>
+          <div className="activity-center-v3__grid">
+      {group.items.map((update, itemIndex) => {
         const titleStr = typeof update.title === "object" ? (update.title[locale] || update.title["zh-Hans"] || update.title.en) : update.title;
         const summaryStr = typeof update.summary === "object" ? (update.summary[locale] || update.summary["zh-Hans"] || update.summary.en) : update.summary;
         const pName = update.platform?.cnName && locale.startsWith("zh")
@@ -260,7 +281,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
           : contextualHref("/activities");
         const eligibility = normalizeActivityEligibility(update, { locale, now, researchHref });
 
-        return <article key={update.id ?? update.slug ?? `${update.platform?.slug}-${titleStr}`} className="activity-card-v3">
+        return <article key={update.id ?? update.slug ?? `${update.platform?.slug}-${titleStr}`} className="activity-card-v3" data-group-overflow={itemIndex >= GROUP_PREVIEW_COUNT ? "true" : undefined}>
         <div className="activity-card-v3__top">
           <div className="activity-center-v3__research-identity" translate="no" lang="en" dir="ltr">
             <BrandMark slug={update.platform?.slug} compact />
@@ -291,6 +312,10 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
           {eligibility.source?.url && <a href={eligibility.source.url} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="activity-card-source" data-growth-decision={update.platform?.slug || update.id} data-growth-placement="activity-card-source">{text.openSource}</a>}
         </div>
       </article>;
+      })}
+          </div>
+          {group.items.length > GROUP_PREVIEW_COUNT && <button type="button" className="activity-center-v3__group-toggle" aria-expanded={expanded} onClick={() => toggleGroup(group.slug)}>{expanded ? labels.fewer : labels.all}</button>}
+        </section>;
       })}
     </div> : <div className={`activity-center-v3__empty${researchItemList.length ? " activity-center-v3__empty--actions" : ""}`} role={researchItemList.length ? undefined : "status"}>
       {/* "No verified recent activity" only when nothing below is populated; with research rows the two routes stay as plain actions */}

@@ -8,6 +8,7 @@ import { localizedHref } from "../../data/locale-routing.js";
 import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
+import { ctaUiCopy, fillCta } from "../../data/cta-ui-copy.js";
 
 // One date format site-wide: "September 22, 2026" in a review label reads "2026-09-22".
 const REVIEW_MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
@@ -139,6 +140,48 @@ function choiceContext({ profiles, locale, market, product, accountStage, fundin
     decision: decisionForVenue(profile.slug, locale),
   }));
   return { pageContext, detailHref, ctas };
+}
+
+// Mobile-first screen of /compare/{a}-vs-{b} (owner 2026-10-10): the H1, the one-line verdict already used by the
+// final-choice card, and the two official sign-up routes. Same choiceContext as the card below, so the CTA guard sees
+// identical hrefs and codes; the commission disclosure sits in the same viewport.
+export function CompareHeroActions({ directAnswer, profiles, locale, market, product, accountStage, funding }) {
+  if (!profiles || profiles.length !== 2) return null;
+  const verdict = sanitizePublicText(directAnswer?.decisionCard?.title) || sanitizePublicText(directAnswer?.title) || null;
+  const { ctas } = choiceContext({ profiles, locale, market, product, accountStage, funding });
+  const ui = ctaUiCopy(locale);
+  return (
+    <div className="v3-compare-hero-actions" data-compare-hero-actions="">
+      {verdict && <p className="v3-compare-hero-actions__verdict">{verdict}</p>}
+      <div className="v3-compare-hero-actions__row" role="group" aria-label={compareDetailPhrase(locale, "accountTerms", "Check official account terms and sources")}>
+        {ctas.map(({ profile, access, cta }) => (
+          <a
+            key={profile.slug}
+            href={cta.ctaHref}
+            target={cta.direct ? "_blank" : undefined}
+            rel={cta.direct ? "sponsored noopener noreferrer" : undefined}
+            className="v3-compare-hero-actions__btn"
+            data-cta-kind={cta.direct ? "registration" : "research"}
+            data-cta-platform={profile.slug}
+            data-cta-placement="compare-hero-signup"
+            data-cta-code={cta.direct && access.hasReferral && access.inviteCode ? access.inviteCode : undefined}
+            data-growth-decision={profile.slug}
+            data-growth-placement="compare-hero-signup"
+            data-growth-market={market}
+            data-growth-product={product}
+          >
+            <BrandMark slug={profile.slug} compact />
+            <span className="v3-compare-hero-actions__label">
+              <strong translate="no" lang="en">{cta.direct ? fillCta(ui.openN, { n: profile.name }) : `${getLocalizedVenueName(profile, locale)}: ${detailCtaLabel(locale, { direct: false, hasReferral: access.hasReferral })}`}</strong>
+              {cta.direct && access.hasReferral && access.inviteCode && <small translate="no" lang="en" dir="ltr">{ui.code}: {access.inviteCode}</small>}
+            </span>
+            <span aria-hidden="true">{cta.direct ? "↗" : "→"}</span>
+          </a>
+        ))}
+      </div>
+      <CommissionDisclosureLine locale={locale} className="v3-compare-hero-actions__disclosure" placement="compare-hero-signup" />
+    </div>
+  );
 }
 
 export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market, product, accountStage, funding, evidence = "inline" }) {

@@ -20,6 +20,10 @@ main.v6:not(.home-refinement) h1:first-of-type::before { content: "NEXUALPHA · 
 main.v6:not(.home-refinement):lang(zh) h1:first-of-type::before { content: "NEXUALPHA · 交易所比价与返佣"; }
 main.v6:not(.home-refinement):is(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK)) h1:first-of-type::before { content: "NEXUALPHA · 交易所比價與返傭"; }
 
+/* Section kicker (2026-10-10): news, campaigns, Telegram, compare and exchange pages name their own section through
+   data-eyebrow on <main> (src/data/section-eyebrow.js, 15 locales). The home keeps its own kicker; other pages keep the default. */
+main.v6:not(.home-refinement)[data-eyebrow] h1:first-of-type::before { content: var(--section-eyebrow); }
+
 /* CJK running text: avoid a lone final character ("…可发布活 / 动。"). */
 main.v6 :is(p, li, dd):lang(zh) { text-wrap-style: pretty; } /* longhand: the shorthand resets white-space: nowrap */
 

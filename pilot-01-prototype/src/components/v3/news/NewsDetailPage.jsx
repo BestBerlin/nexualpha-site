@@ -1,4 +1,5 @@
 import { articleSectionTargets, activateArticleSection } from "./article-section-navigation.js";
+import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
 import { splitArticleReadingSections } from "./article-reading-sections.js";
 /**
  * NewsDetailPage — 实时新闻与 SEO 文章二级详情页
@@ -458,7 +459,7 @@ function RelatedResearch({ links, relatedArticles = [], locale, t, withContext, 
             <li key={item.slug}>
               <a
                 className="news-detail__related-card"
-                href={withContext(newsArticleUrl(item.slug, locale))}
+                href={withContext(newsArticleUrl(item.slug, locale, item))}
                 data-cta-kind="research"
                 data-cta-placement="news-detail-related-article"
                 data-growth-decision={item.slug}
@@ -610,14 +611,15 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
     // letting a transient client feed failure rewrite a valid article as 404.
     if (initialArticles) return undefined;
     let alive = true;
-    loadNewsArticleBySlug(slug).then((rows) => {
+    // Localized news lane: ask the Worker for the edition this page displays (plus English) instead of every body.
+    loadNewsArticleBySlug(slug, globalThis.fetch, { locale }).then((rows) => {
       if (alive) {
         setArticles(rows);
         setFeedState("ready");
       }
     });
     return () => { alive = false; };
-  }, [initialArticles, slug]);
+  }, [initialArticles, slug, locale]);
 
   useEffect(() => {
     if (feedState !== "ready") return;
@@ -646,7 +648,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
   if (feedState === "loading") {
     return (
-      <main className="v6 v2-page v3-page news-detail-page v3-page--empty" id="top" aria-live="polite" aria-busy="true">
+      <main className="v6 v2-page v3-page news-detail-page v3-page--empty" id="top" {...sectionEyebrowAttrs(locale, "news")} aria-live="polite" aria-busy="true">
         <section className="v3-page-hero v2-shell" role="status">
           <div className="v3-venue-hero">
             <h1>{t.loadingTitle}</h1>
@@ -659,7 +661,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
   if (!article) {
     return (
-      <main className="v6 v2-page v3-page news-detail-page v3-page--empty" id="top">
+      <main className="v6 v2-page v3-page news-detail-page v3-page--empty" id="top" {...sectionEyebrowAttrs(locale, "news")}>
         <section className="v3-page-hero v2-shell">
           <a href={withContext("/news")} className="v3-back-link">
             {t.back}
@@ -694,7 +696,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   );
 
   return (
-    <main className="v6 v2-page v3-page news-detail-page" id="top">
+    <main className="v6 v2-page v3-page news-detail-page" id="top" {...sectionEyebrowAttrs(locale, "news")}>
       <article className="news-detail-container v2-shell">
         <nav className="news-detail__nav">
           <a href={withContext("/news")} className="news-detail__back">

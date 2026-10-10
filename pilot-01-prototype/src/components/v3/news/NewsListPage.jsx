@@ -3,6 +3,8 @@
  * 路由：/news, /news/page/N, /news/category/<key>[/page/N]
  */
 import React, { useEffect, useRef, useState } from "react";
+import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
+import { TelegramAlertsStrip } from "../TelegramAlertsStrip.jsx";
 import { newsIndexSearchCopy } from "../../../data/news-index-search.js";
 import { NEWS_CATEGORY_KEYS, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, searchNewsArticles } from "../../../data/news-library.js";
 import { venueDatabase } from "../../../data/venue-database.js";
@@ -306,7 +308,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
     return () => { alive = false; clearTimeout(timer); };
   }, [trimmedQuery, locale]);
 
-  const localPage = serverListing ? null : paginateNews(feedArticles, { category: activeCategory, page: requestedPage });
+  const localPage = serverListing ? null : paginateNews(feedArticles, { category: activeCategory, page: requestedPage, locale });
   const pageRows = serverListing ? feedArticles : localPage.rows;
   const currentPage = serverListing ? serverListing.page : localPage.page;
   const totalPages = serverListing ? serverListing.totalPages : localPage.totalPages;
@@ -343,7 +345,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
   const tabs = [{ key: null, label: libraryCopy.all }, ...NEWS_CATEGORY_KEYS.map((key) => ({ key, label: newsCategoryCopy(key, locale).label }))];
 
   return (
-    <main className="v6 v2-page v3-page news-page" id="top" data-news-category={activeCategory || "all"} data-news-page={currentPage}>
+    <main className="v6 v2-page v3-page news-page" id="top" {...sectionEyebrowAttrs(locale, "news")} data-news-category={activeCategory || "all"} data-news-page={currentPage}>
       <section className="news-hero v2-shell">
         <div className="news-hero__badge">
           <span className="news-hero__pulse"></span>
@@ -351,6 +353,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
         </div>
         <h1 className="news-hero__title">{categoryCopy ? categoryCopy.label : t.title}</h1>
         <p className="news-hero__subtitle">{categoryCopy ? categoryCopy.intro : t.subtitle}</p>
+        <TelegramAlertsStrip locale={locale} placement="news-list-telegram-alerts" className="tg-signal-strip--news" />
 
         <div className="news-index-controls">
         <div className="news-index-search">
@@ -409,7 +412,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
             const summary = localizedNewsSummary(article, locale);
             const hasLocalizedContent = hasLocalizedNewsText(article, "title", locale) && hasLocalizedNewsText(article, "summary", locale);
             const catName = localizeCategory(article);
-            const articleUrl = withContext(newsArticleUrl(article.slug, locale));
+            const articleUrl = withContext(newsArticleUrl(article.slug, locale, article));
             const compareSlugs = (article.relatedVenues || []).slice(0, 2);
             const compareUrl = compareSlugs.length === 2
               ? withContext(`/compare/${compareSlugs.join("-vs-")}`)
@@ -504,7 +507,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
             <p className="news-research-index__body">{t.researchIndexBody || copy.en.researchIndexBody}</p>
             <nav aria-label={t.researchIndex || copy.en.researchIndex} className="news-research-index__links">
               {pageRows.map((article) => (
-                <a key={`index-${article.slug}`} href={withContext(newsArticleUrl(article.slug, locale))}>
+                <a key={`index-${article.slug}`} href={withContext(newsArticleUrl(article.slug, locale, article))}>
                   {localizedNewsTitle(article, locale)}
                 </a>
               ))}

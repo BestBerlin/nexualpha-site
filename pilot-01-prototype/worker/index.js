@@ -1,16 +1,24 @@
-import { localizedNewsTitle, localizedNewsSummary } from "../src/data/news-feed-client.js";
+import { localizedNewsTitle, localizedNewsSummary, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
+import { socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath } from "../src/data/market-data-pages.js";
-import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles } from "../src/data/news-library.js";
+import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/api/analytics/cta") return handleAnalyticsCollector(request, env, url);
+    // Social cards are rendered by server.mjs (server/og-image.mjs) before the worker sees the request; a worker
+    // without that renderer answers 404 instead of an HTML page, so link previews never cache a page as an image.
+    if (url.pathname.startsWith("/og/")) {
+      return new Response("Not Found", { status: 404, headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "public, max-age=300", "x-content-type-options": "nosniff" } });
+    }
+    // Site click beacon is served by server.mjs (needs the private CLICK_EVENT_FILE); the worker alone has nowhere to write it.
+    if (url.pathname === "/api/cta-click") return new Response(null, { status: 404, headers: { "cache-control": "no-store" } });
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
@@ -2432,7 +2440,16 @@ const PRERENDER_MANIFEST_PATH = "/prerender-manifest.json";
 const PRERENDERABLE_LOCALES = new Set(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"]);
 const UI_LOCALES = new Set(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"]);
 const INDEXABLE_LOCALES = [...UI_LOCALES];
-const NEWS_INDEXABLE_LOCALES = ["en", "zh-Hans"];
+// Localized news lane (2026-10-10): an article edition exists in every UI locale whose title, summary and body the feed
+// carries (English is always required and is the canonical edition). en and zh-Hans are the core editions the content
+// lane always writes; a listing page in another locale is published once one search-published article has that edition.
+const NEWS_CORE_LOCALES = ["en", "zh-Hans"];
+const NEWS_INDEXABLE_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
+// Google News sitemap <news:language> values (ISO 639-1; zh-cn / zh-tw are the documented exceptions).
+const NEWS_SITEMAP_LANGUAGE = Object.freeze({ "zh-Hans": "zh-cn", "zh-Hant": "zh-tw", "pt-BR": "pt" });
+function newsSitemapLanguage(locale) {
+  return NEWS_SITEMAP_LANGUAGE[locale] || String(locale || "en").split("-")[0].toLowerCase();
+}
 const LOCALE_PREFIX_BY_CODE = Object.freeze({ en: "", "zh-Hans": "zh-hans", "zh-Hant": "zh-hant", es: "es", "pt-BR": "pt-br", fr: "fr", de: "de", ja: "ja", ko: "ko", ar: "ar", tr: "tr", ru: "ru", id: "id-id", vi: "vi", it: "it" });
 const LOCALE_CODE_BY_PREFIX = Object.freeze(Object.fromEntries(Object.entries(LOCALE_PREFIX_BY_CODE).filter(([, prefix]) => prefix).map(([locale, prefix]) => [prefix, locale])));
 const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"));
@@ -3198,6 +3215,9 @@ function injectRouteMetadata(html, metadata) {
     ["og:description", metadata.description],
     ["og:url", metadata.canonical],
     ["og:image", metadata.image || DEFAULT_SOCIAL_IMAGE],
+    ["og:image:width", String(SOCIAL_IMAGE_WIDTH)],
+    ["og:image:height", String(SOCIAL_IMAGE_HEIGHT)],
+    ["og:image:alt", metadata.title],
   ]) {
     const expression = new RegExp(`<meta\\b[^>]*property=["']${property.replace(":", "\\:")}["'][^>]*>`, "i");
     output = replaceOrInsert(output, expression, `<meta property="${property}" content="${escapeHtml(content)}" data-nexualpha-route-seo="social" />`);
@@ -3667,7 +3687,7 @@ function renderNewsPaginationHtml(locale, { category = null, page = 1, totalPage
 function renderNewsListingFallback(metadata, locale, listing) {
   const t = newsFallbackCopy(locale);
   const { category = null, page = 1 } = listing;
-  const pagination = paginateNews(metadata.newsArticles, { category, page });
+  const pagination = paginateNews(metadata.newsArticles, { category, page, locale });
   const libraryCopy = newsLibraryCopy(locale);
   const categoryCopy = category ? newsCategoryCopy(category, locale) : null;
   const heading = categoryCopy ? categoryCopy.label : metadata.newsListing?.heading || metadata.title.replace(/\s+—\s+NexuAlpha$/, "");
@@ -3757,7 +3777,7 @@ function injectFallbackBody(html, metadata, url) {
   let newsListing = null;
   const listing = parseNewsListingPath(contentUrl.pathname);
   if (listing && !listing.invalid) {
-    const pagination = paginateNews(sourceArticles, listing);
+    const pagination = paginateNews(sourceArticles, { ...listing, locale });
     hydrationArticles = initialNewsArticlesForRoute("/news", pagination.rows, locale);
     newsListing = { category: listing.category, page: pagination.page, total: pagination.total, totalPages: pagination.totalPages, libraryTotal: sourceArticles.length, counts: newsCategoryCounts(sourceArticles) };
   } else if (slug) {
@@ -3859,13 +3879,14 @@ let newsFeedCache = null;
 const LIVE_NEWS_SITEMAP_WINDOW_MS = 2 * 24 * 60 * 60 * 1000;
 const xmlText = (value) => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 export function renderLiveNewsSitemap(articles, now = Date.now()) {
-  const href = (slug, locale) => `${PUBLIC_ORIGIN}${locale === "zh-Hans" ? "/zh-hans" : ""}/news/${slug}`;
+  const href = (slug, locale) => localizedCanonical(`/news/${slug}`, locale);
   const rows = [];
   for (const article of (Array.isArray(articles) ? articles : [])) {
     if (!isReviewedNewsSearchArticle(article)) continue;
     const published = Date.parse(article.publishedAt);
     if (!Number.isFinite(published) || published > now || now - published > LIVE_NEWS_SITEMAP_WINDOW_MS) continue;
-    const locales = articleSeoLocales(article).filter((locale) => locale === "en" || locale === "zh-Hans");
+    // One entry per published edition (any UI locale with a native body), each listing every edition as an alternate.
+    const locales = articleSeoLocales(article);
     for (const locale of locales) {
       const title = (typeof article.title === "object" ? article.title?.[locale] || article.title?.en : article.title) || article.slug;
       rows.push([
@@ -3875,7 +3896,7 @@ export function renderLiveNewsSitemap(articles, now = Date.now()) {
         "    <news:news>",
         "      <news:publication>",
         "        <news:name>NexuAlpha</news:name>",
-        `        <news:language>${locale === "zh-Hans" ? "zh-cn" : "en"}</news:language>`,
+        `        <news:language>${newsSitemapLanguage(locale)}</news:language>`,
         "      </news:publication>",
         `      <news:publication_date>${new Date(published).toISOString()}</news:publication_date>`,
         `      <news:title>${xmlText(title)}</news:title>`,
@@ -3901,6 +3922,23 @@ async function handleNewsArticleJson(env, url) {
   const related = newsRelatedSummaries(article, feed.articles);
   const relatedSlugs = new Set(related.map((item) => item.slug));
   const linkedSummaries = feed.articles.filter((item) => linked.has(item?.slug) && !relatedSlugs.has(item.slug)).map(summarizeNewsArticle).filter(Boolean);
+  // ?locale=<ui locale> (localized news lane): ship only the English edition plus the requested one (and zh-Hans for
+  // Chinese readers) instead of every native body, and tell the client which edition it will read. The full set of
+  // editions is carried in routeProjection.availableLocales so hreflang stays complete client-side.
+  const requestedLocale = url.searchParams.get("locale");
+  if (requestedLocale && UI_LOCALES.has(requestedLocale)) {
+    const contentLocale = newsContentLocale(requestedLocale, article);
+    const projected = {
+      ...article,
+      title: compactLocalizedObject(article.title, requestedLocale),
+      summary: compactLocalizedObject(article.summary, requestedLocale),
+      categoryName: compactLocalizedObject(article.categoryName, requestedLocale),
+      content: compactLocalizedObject(article.content, contentLocale),
+      availableLocales: articlePublishedLocales(article),
+      routeProjection: { source: NEWS_ARTICLE_ROUTE_PROJECTION_SOURCE, locale: requestedLocale, availableLocales: articleSeoLocales(article) },
+    };
+    return new Response(JSON.stringify({ version: 1, locale: requestedLocale, contentLocale, articles: [projected, ...related, ...linkedSummaries], relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300", vary: "Accept-Encoding" } });
+  }
   return new Response(JSON.stringify({ version: 1, articles: [article, ...related, ...linkedSummaries], relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300" } });
 }
 
@@ -3924,7 +3962,8 @@ async function handleNewsSearchJson(env, url) {
   if (!feed.fingerprint) {
     return new Response(JSON.stringify({ version: 1, status: "unavailable", reasonCode: "NEWS_FEED_UNAVAILABLE", articles: [] }), { status: 503, headers: { ...headers, "cache-control": "no-store" } });
   }
-  const matches = searchNewsArticles(feed.articles, { query, category });
+  // Archive pages (no query) on a localized listing put the articles written natively in that locale first.
+  const matches = query ? searchNewsArticles(feed.articles, { query, category }) : sortNewsForLocale(searchNewsArticles(feed.articles, { query, category }), locale);
   const totalPages = Math.max(1, Math.ceil(matches.length / limit));
   const rows = matches.slice((page - 1) * limit, page * limit).map((article) => {
     const summary = summarizeNewsArticle(article);
@@ -3988,24 +4027,24 @@ export function renderNewsLibrarySitemap(articles) {
     const newest = items.reduce((max, item) => Math.max(max, Date.parse(item?.updatedAt || item?.publishedAt) || 0), 0);
     return newest ? new Date(newest).toISOString() : null;
   };
+  // Listing pages exist in the core editions plus every locale with at least one search-published native article.
+  const listingLocales = newsListingPublishedLocales(articles);
+  const alternates = (path) => [...listingLocales, "x-default"].map((alt) => `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlText(localizedCanonical(path, alt === "x-default" ? "en" : alt))}" />`);
   for (const category of [null, ...NEWS_CATEGORY_KEYS]) {
     const { totalPages, total } = paginateNews(articles, { category });
     if (!total) continue;
     for (let page = 1; page <= totalPages; page += 1) {
       const path = newsListingPath({ category, page });
       const lastmod = lastmodFor(paginateNews(articles, { category, page }).rows);
-      rows.push([
-        "  <url>",
-        `    <loc>${xmlText(localizedCanonical(path, "en"))}</loc>`,
-        ...[...NEWS_INDEXABLE_LOCALES, "x-default"].map((alt) => `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlText(localizedCanonical(path, alt === "x-default" ? "en" : alt))}" />`),
-        ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
-        "  </url>",
-        "  <url>",
-        `    <loc>${xmlText(localizedCanonical(path, "zh-Hans"))}</loc>`,
-        ...[...NEWS_INDEXABLE_LOCALES, "x-default"].map((alt) => `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlText(localizedCanonical(path, alt === "x-default" ? "en" : alt))}" />`),
-        ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
-        "  </url>",
-      ].join("\n"));
+      for (const locale of listingLocales) {
+        rows.push([
+          "  <url>",
+          `    <loc>${xmlText(localizedCanonical(path, locale))}</loc>`,
+          ...alternates(path),
+          ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
+          "  </url>",
+        ].join("\n"));
+      }
     }
   }
   return ['<?xml version="1.0" encoding="UTF-8"?>',
@@ -5290,9 +5329,9 @@ function searchPublicationLocales(pathname, options = {}) {
   if (regionalLocales) return regionalLocales;
   if (pathname === "/topics" || pathname === "/factbook") return ["en"];
   if (pathname === "/embed/calculator") return ["en"];
-  if (pathname === "/news") return NEWS_INDEXABLE_LOCALES;
+  if (pathname === "/news") return newsListingPublishedLocales(options.newsArticles);
   const newsListing = parseNewsListingPath(pathname);
-  if (newsListing && !newsListing.invalid && !newsListing.redirect) return NEWS_INDEXABLE_LOCALES;
+  if (newsListing && !newsListing.invalid && !newsListing.redirect) return newsListingPublishedLocales(options.newsArticles);
   if (options.article) {
     if (typeof options.searchPublished === "boolean") {
       return options.searchPublished && isReviewedNewsSearchArticle(options.article) ? articleSeoLocales(options.article) : [];
@@ -5318,6 +5357,15 @@ function searchPublicationLocales(pathname, options = {}) {
   const topicSlug = pathname.match(/^\/topics\/([a-z0-9-]+)$/)?.[1];
   if (topicSlug && TOPIC_REGISTRY[topicSlug]) return SEARCH_PRIORITY_TOPICS.has(topicSlug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"];
   return [];
+}
+
+// Page-specific social card (2026-10-10): news, venue, compare, /liquidations and /funding-rates get a rendered
+// 1200x630 PNG by route kind; everything else keeps the brand image. A route that already set its image wins.
+export function applySocialImage(metadata, pathname, locale = "en") {
+  if (!metadata || metadata.status !== 200 || metadata.image) return metadata;
+  const imagePath = socialImagePathForRoute(pathname, locale);
+  if (imagePath) metadata.image = `${PUBLIC_ORIGIN}${imagePath}`;
+  return metadata;
 }
 
 function applySearchPublicationEligibility(metadata, pathname, locale, options = {}) {
@@ -5431,6 +5479,7 @@ export async function routeMetadata(url, env) {
   const article = articleSlug ? newsFeed?.articles?.find((item) => item.slug === articleSlug) : null;
   const searchEligibilityArticle = articleSlug ? searchEligibilityNewsFeed?.articles?.find((item) => item.slug === articleSlug) || article : article;
   const eligibilityPathname = contentUrl.pathname === "/partners/embed-guide" ? "/partners" : contentUrl.pathname;
+  applySocialImage(metadata, contentUrl.pathname, requestedLocale);
   return applySearchPublicationEligibility(metadata, eligibilityPathname, locale, {
     article: searchEligibilityArticle,
     searchPublished: articleSlug ? newsFeed?.searchPublished : undefined,
@@ -6272,7 +6321,9 @@ async function routeMetadataBase(url, env, newsFeed) {
     // The prerendered collection intentionally carries summary-only article
     // objects, so deriving publication languages from their missing `content`
     // field would incorrectly noindex the reviewed zh-Hans collection page.
-    const publishedLocales = NEWS_INDEXABLE_LOCALES;
+    // Summary rows still declare their editions in `availableLocales`, so a locale listing is published once one
+    // search-published article carries that edition; the core editions stay published.
+    const publishedLocales = newsListingPublishedLocales(newsFeed?.articles || []);
     const contentLocale = newsContentLocale(locale, publishedLocales);
     const displayLocale = UI_LOCALES.has(locale) ? locale : contentLocale;
     const isPublishedLocale = publishedLocales.includes(locale) && contentLocale === locale;
@@ -6294,7 +6345,7 @@ async function routeMetadataBase(url, env, newsFeed) {
     }[displayLocale] || ["Market News & Source-Backed Research — NexuAlpha", "Source-backed crypto market structure, exchange, risk and tokenized-asset research from NexuAlpha."];
     // Library pages (2026-10-10): /news/page/N and /news/category/<key>[/page/N] are self-canonical collections.
     const { category, page } = newsListing;
-    const pagination = paginateNews(newsFeed?.articles || [], { category, page });
+    const pagination = paginateNews(newsFeed?.articles || [], { category, page, locale: displayLocale });
     if (page > pagination.totalPages) return notFoundMetadata(canonicalPath, locale);
     const listingPath = newsListingPath({ category, page });
     const libraryCopy = newsLibraryCopy(displayLocale);
