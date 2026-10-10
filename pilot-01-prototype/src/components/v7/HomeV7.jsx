@@ -80,13 +80,6 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
   );
 }
 
-// The sign-up route for any announcement venue (home partners or not): invite link when a real code exists,
-// otherwise the on-site profile. Same source as every other CTA (publicCtaForVenue).
-function venueRoute(slug) {
-  const cta = publicCtaForVenue(slug);
-  return { slug, name: nameOf(slug), code: cta.hasReferral ? cta.inviteCode : null, url: cta.registrationUrl, open: Boolean(cta.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "")) };
-}
-
 function Cta({ v, locale, children, className, placement }) {
   if (v.open) {
     return <a className={className} href={v.url} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-platform={v.slug} data-cta-placement={placement} data-cta-code={v.code || undefined}>{children}</a>;
@@ -209,11 +202,10 @@ function IntelBlock({ intel, t, locale, venues }) {
             <a className="h7-it" href={i.url} target="_blank" rel="noopener noreferrer nofollow">{i.title}<span className="h7-sr"> ({t.inOpen})</span></a>
             <time dateTime={i.publishedAt}>{timeAgo(now - Date.parse(i.publishedAt), locale)}</time>
             <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => setOpen(i)}>{t.inBtn}</button>
-            <Cta v={venueRoute(i.venue)} locale={locale} className="h7-btn h7-sm h7-ig" placement="home-v7-intel-row"><span>{t.open}</span><span className="h7-sr"> {nameOf(i.venue)}</span></Cta>
           </li>
         ))}
       </ul>
-      <p className="h7-ia"><span className="h7-ig-ad">{t.lgAd}</span> · {t.inAsOf(asOf)}</p>
+      <p className="h7-ia">{t.inAsOf(asOf)}</p>
       {open && <IntelSheet item={open} venues={venues} t={t} locale={locale} onClose={() => setOpen(null)} />}
     </section>
   );

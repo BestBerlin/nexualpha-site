@@ -693,6 +693,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
         <div className="news-detail__rail">
           <ArticleDecisionSummary article={article} withContext={withContext} locale={locale} t={t} />
+          <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="rail" />
           {sectionTargets.length >= 2 && <nav className="news-detail__toc" aria-label={sectionLabel} lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
             <p className="news-detail__toc-label">{sectionLabel}</p>
             <ol>
@@ -734,6 +735,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
               {deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t))}
             </div>
           </details>}
+          <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="inline" />
           {article.sources.length > 0 && (
             <section className="news-detail__prose news-detail__sources" aria-labelledby="article-sources">
               <h2 id="article-sources" tabIndex={-1} lang={t.sourcesTitle === copy.en.sourcesTitle ? "en" : locale} dir={locale === "ar" ? "rtl" : "ltr"}>{t.sourcesTitle}</h2>
@@ -810,7 +812,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
         <RelatedResearch links={relatedLinks} t={t} withContext={withContext} article={article} />
 
-        <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} />
+        <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="timed" />
 
         {article.relatedVenues && article.relatedVenues.length > 0 && (
           <NextDecisionBridge
