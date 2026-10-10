@@ -166,12 +166,49 @@ function serializeMergedBlocks(blocks) {
   ].join("\n");
 }
 
+// llms.txt is an index for answer engines, not the archive: keep the newest articles with short summaries and
+// point to llms-full.txt / the news library sitemap for the rest. (2026-10-10: the file had grown to 620 KB.)
+const LLMS_RESEARCH_LIMIT = 80;
+const LLMS_SUMMARY_CHARS = 140;
+// Bulk sections that belong in llms-full.txt, dropped from llms.txt when carried over from an existing file.
+const LLMS_FULL_ONLY_HEADINGS = new Set([
+  "## Reviewed news article answers",
+  "## Retrieval question inventory",
+  "## Source-bound topic decision answers",
+  "## Fiat funding and account-condition checklist",
+]);
+
+function shortSummary(text) {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= LLMS_SUMMARY_CHARS) return clean;
+  const cut = clean.slice(0, LLMS_SUMMARY_CHARS);
+  return `${cut.slice(0, Math.max(cut.lastIndexOf(" "), 80)).replace(/[,;:\s]+$/, "")}…`;
+}
+
 function publishedResearchLines(articles, origin) {
-  return articles.map((article) => {
+  const newest = [...articles]
+    .sort((a, b) => String(b.publishedAt || b.updatedAt || "").localeCompare(String(a.publishedAt || a.updatedAt || "")))
+    .slice(0, LLMS_RESEARCH_LIMIT);
+  const lines = newest.map((article) => {
     const title = cleanString(article.title?.en) || article.slug;
     const summary = cleanString(article.summary?.en) || "Source-backed NexuAlpha research.";
-    return `- [${title}](${origin}/news/${article.slug}): ${summary.replace(/\s+/g, " ")}`;
+    return `- [${title}](${origin}/news/${article.slug}): ${shortSummary(summary)}`;
   });
+  if (articles.length > newest.length) {
+    lines.push(`- Older articles (${articles.length - newest.length} more): ${origin}/llms-full.txt and ${origin}/news-library-sitemap.xml.`);
+  }
+  return lines;
+}
+
+function dropFullOnlySections(lines) {
+  const out = [];
+  let skipping = false;
+  for (const line of lines) {
+    const t = line.trim();
+    if (/^##\s/.test(t) || t === "---") skipping = LLMS_FULL_ONLY_HEADINGS.has(t);
+    if (!skipping) out.push(line);
+  }
+  return out;
 }
 
 function mergeLlms(existingLlms, articles, origin, publicationReport) {
@@ -204,7 +241,7 @@ function mergeLlms(existingLlms, articles, origin, publicationReport) {
     ].join("\n");
   }
 
-  const lines = existing.split(/\r?\n/);
+  const lines = dropFullOnlySections(existing.split(/\r?\n/));
   const start = lines.findIndex((line) => PUBLISHED_RESEARCH_HEADINGS.has(line.trim()));
   const heading = start >= 0 ? lines[start].trim() : "## Published Source-Backed Research";
   const replacement = [heading, "", publicationLine, "", ...research, ""];

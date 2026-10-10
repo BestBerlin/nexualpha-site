@@ -15,6 +15,7 @@ import { createIntelFeed, INTEL_PATH } from './server/intel-feed.mjs';
 import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
 import { createOgImageRoute, OG_PATH_PREFIX } from './server/og-image.mjs';
+import { CTA_CLICK_PATH, clientKey, createCtaClickBeacon } from './server/cta-click.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
@@ -35,7 +36,10 @@ export async function createProductionServer({ env = process.env, appRoot = root
     : JSON.parse(await readFile(path.join(clientRoot, 'version.json'), 'utf8'));
   if (env.BUILD_ID && env.BUILD_ID !== version.buildId) throw new Error('BUILD_ID_RUNTIME_MISMATCH');
   // tracked partner redirect /go/<partner>?src= (owner 2026-10-10); clicks are appended to CLICK_EVENT_FILE when set
-  const goRedirect = createGoRedirect({ clientRoot, eventFile: env.CLICK_EVENT_FILE ? await privateDataFile(env.CLICK_EVENT_FILE, appRoot, clientRoot) : null });
+  const clickEventFile = env.CLICK_EVENT_FILE ? await privateDataFile(env.CLICK_EVENT_FILE, appRoot, clientRoot) : null;
+  const goRedirect = createGoRedirect({ clientRoot, eventFile: clickEventFile });
+  // site sign-up buttons keep their partner hrefs; the browser reports the click to POST /api/cta-click (same file, kind "site")
+  const ctaClick = createCtaClickBeacon({ clientRoot, eventFile: clickEventFile });
   // Social data cards /og/<kind>/<id>.png (2026-10-10): rendered from the page's own data, cached per build id.
   const ogImages = createOgImageRoute({
     clientRoot, buildId: version.buildId, cacheDir: env.OG_CACHE_DIR || null, fontDir: env.OG_FONT_DIR || null,
@@ -102,7 +106,9 @@ export async function createProductionServer({ env = process.env, appRoot = root
         res.end();
         return;
       }
-      if (requestPath.startsWith('/go/') && (req.method === 'GET' || req.method === 'HEAD')) {
+      if (requestPath === CTA_CLICK_PATH) {
+        result = await ctaClick(request, clientKey(req));
+      } else if (requestPath.startsWith('/go/') && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await goRedirect(request);
       } else if (requestPath.startsWith(OG_PATH_PREFIX) && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await ogImages(request);

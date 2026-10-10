@@ -37,7 +37,7 @@ const UNAVAILABLE_CACHE_CONTROL = "public, max-age=300";
 const COLOR = Object.freeze({ bg: "#070a0e", surface: "#121a24", ink: "#f5f7fa", muted: "#9aa5b5", blue: "#315ccf", blueText: "#6f90ff", positive: "#22c88a", danger: "#e65b5b", line: "rgba(180,196,211,0.16)" });
 // Family names in preference order. Inter/Noto are what the site declares; PingFang/Hiragino/Geeza/Arial Unicode
 // cover CJK + Arabic on macOS, Noto CJK/Arabic and DejaVu on Linux hosts that have fonts-noto installed.
-const FONT_FAMILY = "Inter, 'Noto Sans', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans CJK SC', 'Noto Sans Arabic', 'PingFang SC', 'Hiragino Sans GB', 'Geeza Pro', 'Arial Unicode MS', 'DejaVu Sans', Arial, sans-serif";
+const FONT_FAMILY = "Inter, 'Noto Sans', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans CJK SC', 'Noto Sans Arabic', 'WenQuanYi Micro Hei', 'WenQuanYi Zen Hei', 'PingFang SC', 'Hiragino Sans GB', 'Geeza Pro', 'Arial Unicode MS', 'DejaVu Sans', Arial, sans-serif";
 
 // Labels printed on cards. All 15 UI locales (brief: every user-visible string ships in every locale).
 const LABELS = {
