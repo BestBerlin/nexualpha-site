@@ -110,6 +110,7 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
       category: venue.category,
       domain: partner.officialDomain ?? db.officialDomain,
       spot: verified && hasPair(facts.spot) ? facts.spot : null,
+      spotNone: facts?.fields?.spot?.state === "none",
       verified,
       verifiedOn: verified ? facts.verifiedOn : null,
       hasDetailPage: Boolean(venueDecisionContent[venue.slug]),
@@ -441,8 +442,8 @@ function DirectoryV6Impl({ locale = "en", venues = [], selected = [], onSelectio
                         </>
                       ) : (
                         <>
-                          <span className="dir6-fee__none" aria-hidden="true">{mc.unchecked}</span>
-                          <span className="dir6-sr">{mc.spot}: {mc.unchecked}. {mc.check}</span>
+                          <span className="dir6-fee__none" aria-hidden="true">{r.spotNone ? mc.notOffered : mc.unchecked}</span>
+                          <span className="dir6-sr">{mc.spot}: {r.spotNone ? mc.notOffered : `${mc.unchecked}. ${mc.check}`}</span>
                         </>
                       )}
                     </div>

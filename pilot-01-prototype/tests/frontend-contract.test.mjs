@@ -5,6 +5,7 @@ import test from "node:test";
 const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 const nexuAlphaWordmark = await readFile(new URL("../src/components/brand/NexuAlphaWordmark.jsx", import.meta.url), "utf8");
 const main = await readFile(new URL("../src/main.jsx", import.meta.url), "utf8");
+const pendingDecisionCopySource = await readFile(new URL("../src/data/pending-decision-copy.js", import.meta.url), "utf8");
 const index = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const designSystem = await readFile(new URL("../src/components/DesignSystem.jsx", import.meta.url), "utf8");
 const finder = await readFile(new URL("../src/components/finder/CommandFinder.jsx", import.meta.url), "utf8");
@@ -1196,7 +1197,9 @@ test("rates route preserves regional CTA context into the benchmark and calculat
   assert.match(app, /<FeeBenchmarkTerminal locale=\{locale\} market=\{route\.market\} product=\{route\.product\} accountStage=\{route\.accountStage\} funding=\{route\.funding\} \/>/);
   assert.match(feeBenchmarkTerminal, /regionalVenueCta\(slug, locale, market, product, \{ accountStage, funding \}\)/);
   assert.match(costDecision, /regionalVenueCta\(slug, locale, regionMarket, product, \{ accountStage, funding \}\)/);
-  assert.match(feeBenchmarkTerminal, /<CostDecision locale=\{locale\} regionMarket=\{market\} product=\{product\} accountStage=\{accountStage\} funding=\{funding\} \/>/);
+  // Owner 2026-10-10: the URL product still passes through; without one the calculator defaults to perpetuals.
+  assert.match(feeBenchmarkTerminal, /<CostDecision locale=\{locale\} regionMarket=\{market\} product=\{productParam \|\| "perpetuals"\} accountStage=\{accountStage\} funding=\{funding\} \/>/);
+  assert.match(feeBenchmarkTerminal, /product: productParam, accountStage, funding \}\) \{\n  const product = productParam \|\| "spot";/);
   assert.match(costDecision, /export function CostDecision\(\{locale='en', regionMarket, product='perpetuals', accountStage, funding\}\)/);
   assert.match(costDecision, /useState\(product === 'spot' \? 'spotFee' : 'futuresFee'\)/);
 });
@@ -1794,7 +1797,9 @@ test("public venue decision copy has an editorial gate separate from commercial 
   assert.doesNotMatch(v3Pages, /claimState === "verified" && hasReviewedDecisionSource\(profile\.slug\)/);
   assert.match(v3Pages, /comparisonSourceReviewed = venueData\.every\(\(d\) => hasReviewedDecisionSource\(d\.slug\)\)/);
   assert.match(venueDecisionArticles, /decisionSourceReviewedAt/);
-  assert.match(venueDecisionArticles, /Only source-linked facts with a review date are publishable/);
+  // QA 2026-10-10: the pending copy moved to one shared module covering all 15 locales.
+  assert.match(venueDecisionArticles, /const pending = pendingDecisionCopy\(locale\)/);
+  assert.match(pendingDecisionCopySource, /Only source-linked facts with a review date are publishable/);
   assert.match(venueYellowPages, /const sourceReviewed = Boolean\(db\.decisionSourceReviewedAt\)/);
   assert.match(topicGuidePage, /全球流动性断层第一/);
   assert.match(topicGuidePage, /注册条件待核验/);

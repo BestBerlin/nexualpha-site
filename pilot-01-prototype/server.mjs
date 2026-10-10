@@ -82,6 +82,14 @@ export async function createProductionServer({ env = process.env, appRoot = root
       const request = new Request(new URL(req.url || '/', origin), { method: req.method, headers: req.headers, body, duplex: body ? 'half' : undefined });
       let result;
       requestPath = new URL(request.url).pathname;
+      // QA 2026-10-10: '/exchanges/okx/' was a 404. Page URLs have no trailing slash: redirect permanently, keep the query.
+      if ((req.method === 'GET' || req.method === 'HEAD') && requestPath.length > 1 && requestPath.endsWith('/') && !requestPath.startsWith('/api/')) {
+        const u = new URL(request.url);
+        const target = u.pathname.replace(/\/+$/, '') + u.search;
+        res.writeHead(301, { location: target, 'cache-control': 'public, max-age=3600', 'x-request-id': requestId });
+        res.end();
+        return;
+      }
       if (requestPath === '/healthz' || requestPath === '/api/health') {
         result = new Response(JSON.stringify({ status: 'ok', service: 'nexualpha-web' }), { status: 200,
           headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });

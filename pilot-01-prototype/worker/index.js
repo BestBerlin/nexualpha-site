@@ -3740,15 +3740,34 @@ function sanitizeRawNewsFeedArticle(article) {
   return rest;
 }
 
+// The production feed is a mounted, auto-updated file (~23 MB). Parsing, sanitizing and hashing it on every news request
+// cost 1-5 s of TTFB. The parsed feed is reused while the published news-feed.sha256.txt still names it (a 65-byte read);
+// without a sha file it is reused only while the feed text is byte-identical. A changed feed is served on the next request.
+let newsFeedCache = null;
+
+async function readNewsFeedSha(env, requestUrl) {
+  try {
+    const response = await env.ASSETS.fetch(new Request(new URL("/content/news-feed.sha256.txt", requestUrl), { headers: { accept: "text/plain" } }));
+    const sha = response.ok ? (await response.text()).trim() : "";
+    return /^[a-f0-9]{64}$/i.test(sha) ? sha.toLowerCase() : null;
+  } catch { return null; }
+}
+
 async function loadNewsFeed(env, requestUrl) {
   try {
+    const sha = await readNewsFeedSha(env, requestUrl);
+    if (sha && newsFeedCache?.sha === sha) return newsFeedCache.value;
     const response = await env.ASSETS.fetch(new Request(new URL("/content/news-feed.json", requestUrl), { headers: { accept: "application/json" } }));
     if (!response.ok) return { articles: [], fingerprint: null };
     const text = await response.text();
+    if (!sha && newsFeedCache?.text === text) return newsFeedCache.value;
     const parsed = JSON.parse(text);
     const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
     const fingerprint = [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
-    return { articles: Array.isArray(parsed?.articles) ? parsed.articles.map(sanitizeRawNewsFeedArticle).filter((article) => article?.status === "PUBLISHED") : [], fingerprint };
+    const value = { articles: Array.isArray(parsed?.articles) ? parsed.articles.map(sanitizeRawNewsFeedArticle).filter((article) => article?.status === "PUBLISHED") : [], fingerprint };
+    // Key by sha only when it names exactly this text (the feed and its sha are written separately).
+    newsFeedCache = sha === fingerprint ? { sha, value } : sha ? null : { text, value };
+    return value;
   } catch { return { articles: [], fingerprint: null }; }
 }
 

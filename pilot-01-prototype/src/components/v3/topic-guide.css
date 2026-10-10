@@ -56,6 +56,11 @@
   border: 1px solid transparent;
 }
 
+/* QA 2026-10-10: in the scrolling strip a button keeps its text width; shrinking let labels overlap the next button. */
+.topic-nav-strip:not(.topic-nav-strip--tracks) > .topic-nav-btn {
+  flex: 0 0 auto;
+}
+
 .topic-nav-label--short {
   display: none;
 }

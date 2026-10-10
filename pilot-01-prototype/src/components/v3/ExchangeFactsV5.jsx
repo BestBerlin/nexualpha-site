@@ -52,8 +52,8 @@ export function feesStatusLabel(slug, locale) {
 }
 
 // The record's check date is shown once, as the page's primary date; cells carry only the figure.
-function StripCell({ value, locale }) {
-  if (value == null) return <span className="d5-rate d5-rate--null"><span className="d5-null-note">{matrixCopy(locale).unchecked}</span></span>;
+function StripCell({ value, locale, none = false }) {
+  if (value == null) return <span className="d5-rate d5-rate--null"><span className="d5-null-note">{none ? matrixCopy(locale).notOffered : matrixCopy(locale).unchecked}</span></span>;
   return (
     <span className="d5-rate">
       <HeroCount value={value} text={feePct(value)} locale={locale} className="num d5-figure d5-figure--hero" />
@@ -79,8 +79,8 @@ export function FactsStrip({ slug, locale }) {
       {rows.map(([title, sub, row]) => (
         <div className="d5-strip__row" key={title}>
           <div className="d5-strip__name"><b>{title}</b><small>{sub}</small></div>
-          <div className="d5-strip__cell"><span className="d5-cell-label">{l.maker}</span><StripCell value={row?.maker ?? null} locale={locale} /></div>
-          <div className="d5-strip__cell"><span className="d5-cell-label">{l.taker}</span><StripCell value={row?.taker ?? null} locale={locale} /></div>
+          <div className="d5-strip__cell"><span className="d5-cell-label">{l.maker}</span><StripCell value={row?.maker ?? null} locale={locale} none={row?.state === "none"} /></div>
+          <div className="d5-strip__cell"><span className="d5-cell-label">{l.taker}</span><StripCell value={row?.taker ?? null} locale={locale} none={row?.state === "none"} /></div>
         </div>
       ))}
       {parts.length > 0 && (

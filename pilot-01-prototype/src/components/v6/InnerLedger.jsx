@@ -43,7 +43,7 @@ export function VenueFeeLedger({ slug, locale }) {
           <div className={`r9-led__group${none ? " r9-led__group--nc" : ""}`} key={key} role="group" aria-label={name}>
             <p className="r9-led__prod"><b>{name}</b><small>{sub}</small></p>
             {none ? (
-              <p className="r9-led__nc"><span>{nc}</span><span className="r9-track" aria-hidden="true" /></p>
+              <p className="r9-led__nc"><span>{f.state === "none" ? matrixCopy(locale).notOffered : nc}</span><span className="r9-track" aria-hidden="true" /></p>
             ) : (
               [[l.maker, f.maker], [l.taker, f.taker]].map(([side, v]) => (
                 <p className="r9-led__row" key={side} style={{ "--n": n++ }}>

@@ -12,6 +12,7 @@ import { regionalShortlistAccountStageOptions, regionalShortlistCopy } from "../
 import { bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
 import { buildRegistrationDecisionState } from "./registration-decision-state.js";
 import { trackCodeCopy } from "../../data/cta-ui-copy.js";
+import { ownerRebateLine } from "../../data/owner-rebate-line.js";
 import "./registration-card.css";
 
 const passportLabels = Object.freeze({
@@ -867,7 +868,8 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
     }
   };
 
-  const benefitText = publicCta.benefit;
+  // QA 2026-10-10: the home desk promises these terms; the profile must say the same (one shared source).
+  const benefitText = ownerRebateLine(publicCta.slug, locale, publicCta.name) || publicCta.benefit;
   const context = directoryContext({ market, product, locale });
   const decisionPassport = readDecisionPassport("", { market, product, accountStage, funding });
   const decisionCopy = passportCopy(locale);

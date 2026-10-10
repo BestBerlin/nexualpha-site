@@ -352,6 +352,7 @@
     "spot": {
      "maker": null,
      "taker": null,
+     "offered": false,
      "note": "No spot market on dYdX v4."
     },
     "perp": {
