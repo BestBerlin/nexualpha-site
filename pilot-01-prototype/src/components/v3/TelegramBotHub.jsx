@@ -7,6 +7,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
 import { TELEGRAM_CONFIG, TELEGRAM_COMMANDS, TELEGRAM_RESEARCH_PATHS, TELEGRAM_SEARCH_TOPIC_QUEUE, getTelegramDeepLink } from "../../data/telegram-config.js";
 import { buildTelegramReturnContext, readTelegramReturnContext, telegramReturnDataAttrs } from "../../data/telegram-decision-return.js";
+import { TelegramAlertsHero, telegramAlertsHeroCopy } from "./TelegramAlertsHero.jsx";
 import "./telegram-bot-hub.css";
 
 const copy = {
@@ -538,13 +539,15 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
   const isPt = locale === "pt" || locale.startsWith("pt");
-  const t = copy[locale] || copy[String(locale || "").split("-")[0]] || (isHant ? copy["zh-Hant"] : isZh ? copy["zh-Hans"] : isPt ? copy["pt-BR"] : copy.en);
+  const hubCopy = copy[locale] || copy[String(locale || "").split("-")[0]] || (isHant ? copy["zh-Hant"] : isZh ? copy["zh-Hans"] : isPt ? copy["pt-BR"] : copy.en);
+  // The page title is the alerts product (owner 2026-10-10); the research-hub copy below keeps its own labels.
+  const alertsCopy = telegramAlertsHeroCopy(locale);
+  const t = { ...hubCopy, title: alertsCopy.h1, subtitle: alertsCopy.sub };
   const [topicMore, topicLess] = topicDisclosureLabels[localeBase] || [t.topicMore, t.topicLess];
   const supportsTopicGateway = localeBase === "en" || isZh || isPt || ["ko", "tr"].includes(localeBase);
   const supportsReturnRail = true;
   const returnRail = returnRailCopyFor(locale);
   const supportsCommandDeck = localeBase === "en" || isZh || ["ja", "ko", "tr"].includes(localeBase);
-  const supportsFeatureGrid = supportsCommandDeck || isPt;
   const expandableLabels = expandableControlLabels[localeBase];
   const SectionHeading = headingLevel === 1 ? "h2" : "h3";
   const CardHeading = headingLevel === 1 ? "h3" : "h4";
@@ -586,23 +589,14 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
     href: localizedHref("/exchanges", { locale, market: telegramContext.market, product: telegramContext.product }),
     boundary: "Web-only fallback: no verified Telegram return context is present. This is not registration, KYC, group-join or commission evidence.",
   };
-  const hubBotHref = getTelegramDeepLink(withTelegramContext({ action: "partner_desk" }, "telegram_hub_bot"));
-  const hubReturnContext = returnContextFor({}, "telegram_hub_bot");
+  const hubReturnContext = returnContextFor({}, "telegram_alerts");
   const platformPathLabel = ({ ja: "取引所を比較", ko: "플랫폼 비교", tr: "Platformları karşılaştır", ar: "قارن المنصات", "pt-BR": "Comparar plataformas", es: "Comparar plataformas", fr: "Comparer les plateformes", de: "Plattformen vergleichen", ru: "Сравнить платформы", id: "Bandingkan platform", vi: "So sánh nền tảng", it: "Confronta le piattaforme" }[locale] || (isHant ? "比較平台" : locale.startsWith("zh") ? "比较平台" : "Compare platforms"));
 
   const [copiedCmdId, setCopiedCmdId] = useState(null);
   const [copyFailedCmdId, setCopyFailedCmdId] = useState(null);
   const [showAllCommands, setShowAllCommands] = useState(false);
-  const [showFeatures, setShowFeatures] = useState(true);
   const [showAllTopics, setShowAllTopics] = useState(false);
   const [inboundReturn, setInboundReturn] = useState(null);
-
-  useEffect(() => {
-    const syncFeatureDisclosure = () => setShowFeatures(window.innerWidth > 600);
-    syncFeatureDisclosure();
-    window.addEventListener("resize", syncFeatureDisclosure);
-    return () => window.removeEventListener("resize", syncFeatureDisclosure);
-  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -641,16 +635,13 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
   return (
     <section className={`tg-hub-section v2-shell${headingLevel === 1 ? " tg-task-desk" : ""}`} id="telegram-hub">
       <div className="tg-hub__container">
-        {/* 顶部标题区 */}
-        <header className="tg-hub__header">
-                    {headingLevel === 1 ? <h1 className="tg-hub__title">{t.title}</h1> : <h2 className="tg-hub__title">{t.title}</h2>}
-          <p className="tg-hub__subtitle">{t.subtitle}</p>
-        </header>
-
-        <div className="tg-hub__quick-cta" role="group" aria-label={t.primaryActionsLabel || "Primary Telegram actions"}>
-          <a href={hubBotHref} target="_blank" rel="noopener noreferrer" className="tg-btn tg-btn--primary" data-cta-kind="telegram" data-cta-placement="telegram-hub-quick-bot" data-growth-decision="telegram_bot" data-growth-placement="telegram-hub-quick" {...growthContextAttrs("telegram_hub_bot")} {...telegramReturnDataAttrs(hubReturnContext)}>{t.btnJoinBot}</a>
-          <a href={localizedHref("/exchanges", { locale, market: telegramContext.market, product: telegramContext.product })} className="tg-btn tg-btn--secondary" data-cta-kind="internal" data-cta-placement="telegram-hub-quick-directory" data-growth-decision="platform_directory" data-growth-placement="telegram-hub-quick" {...growthContextAttrs("telegram_hub_directory")}>{platformPathLabel} →</a>
-        </div>
+        {/* First screen: the alerts product — sample message, four topics, "Open the bot" (?start=alerts), channels + Mini App. */}
+        <TelegramAlertsHero
+          locale={locale}
+          headingLevel={headingLevel}
+          heading={headingLevel === 1 ? <h1 className="tg-hub__title">{t.title}</h1> : <h2 className="tg-hub__title">{t.title}</h2>}
+          primaryAttrs={{ ...growthContextAttrs("telegram_alerts"), ...telegramReturnDataAttrs(hubReturnContext) }}
+        />
 
 
         {inboundReturn && inboundReturn.reason !== "missing" && <section className="tg-return-context" data-telegram-context-status={activeReturnContext.status} {...telegramReturnDataAttrs(activeReturnContext)}>
@@ -714,28 +705,8 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
             <p className="tg-group-desc">{t.tgGroupDesc}</p>
           </div>
           <div className="tg-cta-buttons">
-            <a
-              href={hubBotHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="tg-btn tg-btn--primary"
-              data-cta-kind="telegram"
-              data-cta-placement="telegram-hub-bot"
-              data-growth-decision="telegram_bot"
-              data-growth-placement="telegram-hub"
-              {...growthContextAttrs("telegram_hub_bot")}
-              {...telegramReturnDataAttrs(hubReturnContext)}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-              </svg>
-              {t.btnJoinBot}
-            </a>
             <a href={TELEGRAM_CONFIG.groupUrl} target="_blank" rel="noopener noreferrer" className="tg-btn tg-btn--secondary" data-cta-kind="telegram" data-cta-placement="telegram-hub-group" data-growth-decision="telegram_group" data-growth-placement="telegram-hub" {...growthContextAttrs("telegram_hub_group")}>
               {t.btnJoinGroup}
-            </a>
-            <a href={TELEGRAM_CONFIG.channelUrl} target="_blank" rel="noopener noreferrer" className="tg-btn tg-btn--secondary" data-cta-kind="telegram" data-cta-placement="telegram-hub-channel" data-growth-decision="telegram_channel" data-growth-placement="telegram-hub" {...growthContextAttrs("telegram_hub_channel")}>
-              {t.btnJoinChannel}
             </a>
             <a href={localizedHref("/exchanges", { locale, market: telegramContext.market, product: telegramContext.product })} className="tg-btn tg-btn--secondary" data-cta-kind="internal" data-cta-placement="telegram-hub-platform-directory" data-growth-decision="platform_directory" data-growth-placement="telegram-hub" {...growthContextAttrs("telegram_hub_directory")}>
               {platformPathLabel} →
@@ -858,52 +829,6 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
           </button>
           </div>
         </details> : null}
-
-        {/* 核心特性 3 列卡片 */}
-        {supportsFeatureGrid ? <><div className={`tg-hub__features-grid${showFeatures ? "" : " tg-hub__features-grid--collapsed"}`}>
-          {t.features.map((f, i) => (
-            <div key={i} className="tg-feature-card">
-              <span className="tg-feature-card__icon">{f.icon}</span>
-              <CardHeading className="tg-feature-card__title">{f.title}</CardHeading>
-              <p className="tg-feature-card__desc">{f.desc}</p>
-            </div>
-          ))}
-        </div>
-        <button type="button" className="tg-hub__features-toggle" aria-expanded={showFeatures} onClick={() => setShowFeatures((open) => !open)}>
-          {showFeatures
-            ? (expandableLabels?.lessFeatures || (isHant ? "收起 Telegram 功能" : isZh ? "收起 Telegram 功能" : isPt ? "Ocultar recursos do Telegram" : "Hide Telegram features"))
-            : (expandableLabels?.moreFeatures || (isHant ? "查看 Telegram 功能" : isZh ? "查看 Telegram 功能" : isPt ? "Ver recursos do Telegram" : "View Telegram features"))}
-          <span aria-hidden="true">{showFeatures ? " ↑" : " ↓"}</span>
-        </button></> : null}
-
-        {/* 官方频道广播与长尾反链指引 */}
-        <div className="tg-hub__broadcast-banner">
-          <div className="tg-broadcast-content">
-            <span className="tg-broadcast-badge font-mono">{t.channelFeedBadge}</span>
-            <SectionHeading className="tg-broadcast-title">{t.channelFeedTitle}</SectionHeading>
-            <p className="tg-broadcast-desc">{t.channelFeedDesc}</p>
-          </div>
-          <div className="tg-broadcast-actions">
-            <a
-              href={TELEGRAM_CONFIG.webPreviewUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="tg-btn tg-btn--ghost"
-              data-cta-kind="telegram"
-              data-cta-placement="telegram-hub-web-preview"
-              data-growth-decision="telegram_web_preview"
-              data-growth-placement="telegram-hub"
-              {...growthContextAttrs("telegram_hub_web_preview")}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="2" y1="12" x2="22" y2="12" />
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-              </svg>
-              {t.btnWebPreview}
-            </a>
-          </div>
-        </div>
 
         {supportsTopicGateway && <details className="tg-ops-pack tg-public-topics-disclosure">
           <summary>{editorialDisclosureLabels[locale] || editorialDisclosureLabels[localeBase] || editorialDisclosureLabels.en}</summary>

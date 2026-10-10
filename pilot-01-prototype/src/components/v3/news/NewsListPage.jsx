@@ -3,6 +3,8 @@
  * 路由：/news, /news/page/N, /news/category/<key>[/page/N]
  */
 import React, { useEffect, useRef, useState } from "react";
+import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
+import { TelegramAlertsStrip } from "../TelegramAlertsStrip.jsx";
 import { newsIndexSearchCopy } from "../../../data/news-index-search.js";
 import { NEWS_CATEGORY_KEYS, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, searchNewsArticles } from "../../../data/news-library.js";
 import { venueDatabase } from "../../../data/venue-database.js";
@@ -343,7 +345,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
   const tabs = [{ key: null, label: libraryCopy.all }, ...NEWS_CATEGORY_KEYS.map((key) => ({ key, label: newsCategoryCopy(key, locale).label }))];
 
   return (
-    <main className="v6 v2-page v3-page news-page" id="top" data-news-category={activeCategory || "all"} data-news-page={currentPage}>
+    <main className="v6 v2-page v3-page news-page" id="top" {...sectionEyebrowAttrs(locale, "news")} data-news-category={activeCategory || "all"} data-news-page={currentPage}>
       <section className="news-hero v2-shell">
         <div className="news-hero__badge">
           <span className="news-hero__pulse"></span>
@@ -351,6 +353,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
         </div>
         <h1 className="news-hero__title">{categoryCopy ? categoryCopy.label : t.title}</h1>
         <p className="news-hero__subtitle">{categoryCopy ? categoryCopy.intro : t.subtitle}</p>
+        <TelegramAlertsStrip locale={locale} placement="news-list-telegram-alerts" className="tg-signal-strip--news" />
 
         <div className="news-index-controls">
         <div className="news-index-search">

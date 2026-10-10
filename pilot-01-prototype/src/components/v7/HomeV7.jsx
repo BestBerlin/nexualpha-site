@@ -8,6 +8,7 @@ import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_PARTNERS, HOME_PUSH, HOME_AUTO_SETTLE, HOME_SETTLE } from "../../data/home-rebate-tiers.js";
+import { TelegramAlertsStrip } from "../v3/TelegramAlertsStrip.jsx";
 import { brandsBySlug } from "../../content/brand-manifest";
 import { readIntelFeed } from "../../data/announcement-intel.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
@@ -335,6 +336,8 @@ export function HomeV7({ locale, venues: _catalog }) {
           </ul>
         </div>
       </section>
+
+      <TelegramAlertsStrip locale={locale} placement="home-telegram-alerts" className="tg-signal-strip--home" />
 
       <div className="h7-trust"><div>{t.t1}<span>{t.t1b}</span></div><div>{t.t2}<span>{t.t2b}</span></div><div>{t.t3}<span>{t.t3b}</span></div></div>
 
