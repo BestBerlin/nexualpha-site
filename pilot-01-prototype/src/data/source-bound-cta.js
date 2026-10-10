@@ -20,6 +20,15 @@ export function sourceBoundActionGate(slug) {
   return SOURCE_REVIEW_GATES[String(slug || "").toLowerCase()] || null;
 }
 
+// QA 2026-10-10: "NEXU_KUCOIN" / "NEXU_DERIBIT" / "NEXU_GMX" are registry placeholders (待补充), not codes the
+// exchange issued. Showing them sends readers to a sign-up with an invalid code; route them to the official site
+// instead until the owner supplies the real code.
+export const PLACEHOLDER_INVITE_CODE = /^NEXU_[A-Z0-9]+$/;
+const PLACEHOLDER_GATE = Object.freeze({ reason: "placeholder-invite-code" });
+function placeholderGate(cta) {
+  return [cta?.inviteCode, cta?.configuredInviteCode].some((code) => typeof code === "string" && PLACEHOLDER_INVITE_CODE.test(code)) ? PLACEHOLDER_GATE : null;
+}
+
 function failClosedPublicCta(cta, gate) {
   if (!gate) return cta;
   return {
@@ -37,12 +46,13 @@ function failClosedPublicCta(cta, gate) {
 }
 
 export function publicCtaForVenue(slug, locale = "en") {
-  return failClosedPublicCta(basePublicCtaForVenue(slug, locale), sourceBoundActionGate(slug));
+  const cta = basePublicCtaForVenue(slug, locale);
+  return failClosedPublicCta(cta, sourceBoundActionGate(slug) || placeholderGate(cta));
 }
 
 export function regionalVenueCta(slug, locale = "en", market, product, context = {}) {
   const cta = baseRegionalVenueCta(slug, locale, market, product);
-  const gate = sourceBoundActionGate(slug);
+  const gate = sourceBoundActionGate(slug) || placeholderGate(cta);
   const contextSearch = directoryContextSearch({
     market,
     product,

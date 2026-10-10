@@ -6,11 +6,18 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import {
   mergeIntel, normalizeBitgetAnnouncements, normalizeBybitAnnouncements, readIntelFeed,
+  normalizeOkxAnnouncements, normalizeBinanceAnnouncements, normalizeKucoinAnnouncements, normalizeRssAnnouncements,
 } from '../src/data/announcement-intel.js';
 
 export const INTEL_PATH = '/intel/official-announcements.json';
 const UA = 'NexuAlphaAnnouncementReader/1.0 (+https://nexualpha.com)';
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function getText(url, fetchImpl) {
+  const res = await fetchImpl(url, { headers: { accept: 'application/rss+xml, application/xml, text/xml', 'user-agent': UA }, signal: AbortSignal.timeout(15000) });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.text();
+}
 
 async function getJson(url, fetchImpl) {
   const res = await fetchImpl(url, { headers: { accept: 'application/json', 'user-agent': UA }, signal: AbortSignal.timeout(15000) });
@@ -18,7 +25,34 @@ async function getJson(url, fetchImpl) {
   return res.json();
 }
 
+// Gate, MEXC and Coinbase answer automated requests with an access-denied or challenge page; they are not
+// fetched (no bot-detection workarounds). Hyperliquid's announcement blog has not been updated since 2024.
 export const SOURCES = {
+  okx: async (now, fetchImpl) => {
+    const out = [];
+    for (const q of ['', '&annType=announcements-new-listings', '&annType=latest-events', '&annType=announcements-delistings']) {
+      out.push(...normalizeOkxAnnouncements(await getJson(`https://www.okx.com/api/v5/support/announcements?page=1${q}`, fetchImpl), { now }));
+      await wait(300);
+    }
+    return out;
+  },
+  binance: async (now, fetchImpl) => {
+    const out = [];
+    for (const catalogId of [48, 49, 93, 161]) {
+      out.push(...normalizeBinanceAnnouncements(await getJson(`https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&pageNo=1&pageSize=10&catalogId=${catalogId}`, fetchImpl), catalogId, { now }));
+      await wait(300);
+    }
+    return out;
+  },
+  kucoin: async (now, fetchImpl) => {
+    const out = [];
+    for (const annType of ['new-listings', 'activities', 'delistings', 'latest-announcements']) {
+      out.push(...normalizeKucoinAnnouncements(await getJson(`https://api.kucoin.com/api/v3/announcements?pageSize=10&annType=${annType}&lang=en_US`, fetchImpl), annType, { now }));
+      await wait(300);
+    }
+    return out;
+  },
+  kraken: async (now, fetchImpl) => normalizeRssAnnouncements(await getText('https://blog.kraken.com/feed', fetchImpl), 'kraken', { now }),
   bitget: async (now, fetchImpl) => {
     const out = [];
     for (const annType of ['coin_listings', 'latest_news', 'symbol_delisting']) {
@@ -53,7 +87,7 @@ export async function buildFeed(previous, { now = Date.now(), fetchImpl = fetch,
     }
   }
   if (!Object.values(status).some((s) => s.ok)) return null;
-  return { generatedAt: new Date(now).toISOString(), status: 'OK', sources: status, items: mergeIntel(lists, { now }) };
+  return { generatedAt: new Date(now).toISOString(), status: 'OK', sources: status, items: mergeIntel(lists, { now, limit: 120 }) };
 }
 
 // Serves the feed and refreshes it in the background every `everyMs` (never blocks a request on the exchanges).
