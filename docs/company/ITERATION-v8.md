@@ -79,3 +79,22 @@ Rollback: Actions → "Rollback production" with the newest release name (return
 
 ## Next
 Next milestone backlog (ranked): (1) schedule the notice fetch (Bybit works from this machine, not from CI cloud IPs — needs a runner/server cron that writes `public/intel/` or a server-side path; no scheduler is configured yet); (2) owner decisions: sticky-bar disclosure as a full sentence, 50% tier, H1 sign-off for other locales, translations of the home copy (13 locales); (3) news list boilerplate summaries, dock chip name truncation, /ar ticker label, zh search result titles; (4) triage the 56 pre-existing failing tests (release-blockers-v8.md).
+
+## 2026-10-10 — conversion + craft round (owner briefs) — status for the next session
+Main (`11d1eb3`) is ahead of live (`3.0-20261010T0106-GH-070b520`) and NOT deployed yet.
+- **Blocker:** GitHub Actions artifact storage quota was full (386 release packages, ~13.5 GB). 380 old artifacts deleted
+  with owner approval; retention now 3 days (PR #12). GitHub recalculates usage every 6–12 h, so uploads still failed at
+  ~10:15 CST. **Resume:** `gh run rerun <latest build run> --failed`; when the upload passes, run "Deploy to production"
+  from main, then `node scripts/verify-live-v8.mjs https://nexualpha.com` and a 390/1440 browser check.
+- Waiting to ship (PR #11, #13): left hero CTA pair; brand-tinted OKX/Bitget/Binance desk + brand-coloured sign-up button
+  with in-button disclosure; phone bottom dock (owner asked 2026-10-10); logo tinted titanium/teal; obsidian-glass desk,
+  ambient light; three steps as a flow; log-scale volume slider with rolling amounts; Kraken/KuCoin perp/Deribit fees.
+- Verified locally: 15 locales at 390x844 show the sign-up button on the first screen; rule 8 ok (zh/en/es); sweeps clean
+  (zh/en/ja/ar/de); npm test 56 failures = baseline; tsc clean.
+- Fee facts: docs/data/exchange-facts-20261010.json (embedded in src/data/exchange-facts.js; apply script kept in session
+  scratchpad — re-create from the JSON shape if needed). Not verifiable from official sources yet: HTX, Coinbase, Backpack,
+  KuCoin spot; MEXC unpublished (official sources disagree, varies by pair); Drift unpublished (docs redirect to "Velocity");
+  GMX and AMMs need a range display (no maker/taker).
+- Copy rules kept: no "locked"/"exclusive"/"automatic for all"; auto-settle badge only for HOME_AUTO_SETTLE (okx, bitget, binance).
+- Next: deploy when quota clears; fee-range display for GMX/AMMs; inner pages (exchange detail first) in the new visual
+  language; CTA click events for copy/tab/dock; SERP titles/descriptions for the low CTR.

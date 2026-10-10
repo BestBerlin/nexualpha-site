@@ -14,4 +14,8 @@ On every new session, first read `docs/company/ITERATION-v8.md` (current milesto
 - Announcement items carry only title, time, official URL; feeds fail closed (no invented notices, fees or rewards).
 - No scroll-driven `view()` entrance animations (content got stuck half-faded); respect `prefers-reduced-motion`.
 - Verify visually in a real browser at 390 / 768 / 1440 before calling a UI change done; tests alone are not evidence.
-- `npm test` has 57 pre-existing failures (see `pilot-01-prototype/docs/release-blockers-v8.md`); a change must not add new ones.
+- Fee facts: `docs/data/exchange-facts-YYYYMMDD.json` is embedded verbatim in `src/data/exchange-facts.js`; only official
+  fee pages/APIs count as sources, each figure keeps its URL and a note; unverifiable stays null.
+- Browser checks: `scripts/browser-sweep.js` (load in the dev page; `__sweep(routes)` layout, `__rule8(routes)` disclosures).
+- Owner decisions on positioning/claims live in `docs/company/ITERATION-v8.md` (partner node, OKX/Bitget push, auto-settle list).
+- `npm test` has 56 pre-existing failures (see `pilot-01-prototype/docs/release-blockers-v8.md`); a change must not add new ones.
