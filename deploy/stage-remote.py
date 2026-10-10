@@ -158,6 +158,8 @@ args += ['-v', '/data/private/nexualpha/clicks:/clicks', '-e', 'CLICK_EVENT_FILE
 args += ['-v', '/data/private/nexualpha/og-cache:/og-cache', '-e', 'OG_CACHE_DIR=/og-cache']
 # Host fonts for the cards (node:20-bookworm-slim has none): DejaVu covers Latin/Cyrillic/Arabic, WenQuanYi covers CJK.
 args += ['-v', '/data/private/nexualpha/og-fonts:/og-fonts:ro', '-e', 'OG_FONT_DIR=/og-fonts']
+# Live market feed (written by the market-collector; nginx serves it as /intel/market-events.json) for the liquidation card and data pages
+args += ['-v', '/data/agent/state/market:/market:ro', '-e', 'MARKET_EVENTS_FILE=/market/market-events.json']
 args += [info['Config']['Image'], 'node', 'server.mjs']
 sh(*args, stdout=subprocess.DEVNULL)
 nets = {n for n in (info.get('NetworkSettings', {}).get('Networks') or {}) if n not in ('bridge', 'host', 'none')}
