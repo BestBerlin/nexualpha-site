@@ -162,3 +162,11 @@ conversion, #51 news locales, #52 data pages, #53 compare pairs. Each merged wit
   `nexualpha-aeo-weekly` (Mon 09:00 Asia/Shanghai) created from TASK-PROMPT.md.
 - In flight: perf (home lazy-load, directory SSR cache), brand-entity (/about, /editorial-policy, Organization @id).
 - Owner 2026-10-11: blanket authorization to add site-beneficial features; account creation stays with the owner.
+- Batch 2 closed 2026-10-11, live 3.0-20261011T0729-GH-a3795ed: PR #58 brand entity (/about, /editorial-policy ×15,
+  one Organization @id, Research Desk author/publisher on articles and datasets), PR #59 perf. Perf root cause: an
+  SSR-only eager `import.meta.glob` made every route chunk a static dependency, so every page pulled ~1.7 MB JS after
+  idle. Live before/after (settled JS, Playwright): home 1802 → 1028 KB; article/data pages stay at 8 KB; /exchanges
+  now hydrates its own module on load (8 → 456 KB) in exchange for working filters without a click; directory SSR
+  cache hit confirmed. Incidental fix: the /exchanges disclosure line and /news alerts strip now receive their CSS.
+  Open from perf: SEO-injector data still ~600 KB after idle; home7.css not split.
+- Owner to supply: sameAs profiles in src/data/brand-entity.js; OWNER_CHAT_ID; Naver / Cốc Cốc accounts; channels.

@@ -35,3 +35,7 @@ On every new session, first read `docs/company/ITERATION-v8.md` (current milesto
   `MARKET_EVENTS_FILE` (host `/data/agent/state/market/market-events.json`, written by `ops/market-collector`).
   Sign-up click attribution: Telegram traffic via `/go/<partner>?src=`, site buttons via the `/api/cta-click` beacon
   (hrefs never change — the deploy CTA guard compares them); both append to `CLICK_EVENT_FILE`.
+- Client bundle rule (PR #59): `App.jsx`'s SSR-only `import.meta.glob` is stripped from client builds by a vite
+  transform; never add eager globs reachable from the browser entry. `scripts/verify-build-budget.mjs --strict`
+  fails the build if the entry's static closure exceeds 350 KB gzip. Below-the-fold home modules hydrate through
+  `DeferUntilVisible` (SSR HTML stays complete). `/exchanges` HTML is cached 60 s server-side (`x-nexualpha-ssr-cache`).
