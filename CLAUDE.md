@@ -23,3 +23,15 @@ On every new session, first read `docs/company/ITERATION-v8.md` (current milesto
   its quality gate. Never reintroduce a frozen roster or a locale whitelist that hides translated pages.
 - Deploy health is more than HTTP 200: the standby must reach the running CTA collector and report the error monitor
   ready (deploy/stage-remote.py checks both). Public checks must not use `curl | grep -q` under pipefail.
+- Production runs `node:20-bookworm-slim` with no npm install on the server: anything `server/*.mjs` imports at runtime
+  must be inside the release tarball. Social cards (`/og/*.png`, `server/og-image.mjs`) need `node_modules/@resvg` with
+  the Linux gnu+musl binaries — on a Mac build use `npm pack` + extract (npm refuses cross-platform installs); fonts
+  come from the host mount `/data/private/nexualpha/og-fonts` (DejaVu = Latin/Cyrillic/Arabic, WenQuanYi = CJK).
+- The article publisher (`AEO Crypto Factory/scripts/nexualpha-content-publish.mjs`) imports site scripts from the old
+  checkout `/Users/bestberlin/Documents/ChatGPT/Crypto聚合/pilot-01-prototype`, not this repo: after changing
+  `scripts/update-news-seo.mjs`, `import-nexualpha-content.mjs`, `sitemap-publication-policy.mjs`,
+  `generate-prerender-manifest.mjs`, `src/data/news-feed-client.js` or `news-library.js`, copy them there.
+- Data pages `/liquidations` and `/funding-rates` (15 locales) render from the market feed mounted at
+  `MARKET_EVENTS_FILE` (host `/data/agent/state/market/market-events.json`, written by `ops/market-collector`).
+  Sign-up click attribution: Telegram traffic via `/go/<partner>?src=`, site buttons via the `/api/cta-click` beacon
+  (hrefs never change — the deploy CTA guard compares them); both append to `CLICK_EVENT_FILE`.
