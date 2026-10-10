@@ -1908,7 +1908,10 @@ test("CleanFooter navigation labels match their destinations in every supported 
   assert.match(cleanFooter, /href=\{href\("\/exchanges"\)\}>\{labels\.directory\}/);
   assert.match(cleanFooter, /href=\{href\("\/topics"\)\}>\{labels\.topics\}/);
   assert.match(cleanFooter, /href=\{href\("\/factbook"\)\}>\{labels\.factbook\}/);
-  assert.match(cleanFooter, /href=\{href\("\/methodology"\)\}>\{labels\.editorial\}/);
+  // 2026-10-11 brand entity: the footer group gains About and Editorial policy; the methodology link keeps its own label.
+  assert.match(cleanFooter, /href=\{href\("\/about"\)\}>\{labels\.about\}/);
+  assert.match(cleanFooter, /href=\{href\("\/editorial-policy"\)\}>\{labels\.editorial\}/);
+  assert.match(cleanFooter, /href=\{href\("\/methodology"\)\}>\{labels\.methodology\}/);
   assert.match(cleanFooter, /href=\{brazil \? "\/br\/custos" : href\("\/embed\/calculator"\)\}>\{labels\.calculator\}/);
   assert.match(cleanFooter, /href=\{href\("\/partners"\)\}>\{labels\.embedGuide\}/);
   assert.match(cleanFooter, /href=\{href\("\/methodology#disclosure"\)\}>\{labels\.disclosure\}/);
