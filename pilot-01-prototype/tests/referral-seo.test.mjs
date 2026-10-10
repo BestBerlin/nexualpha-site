@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { renderReferralPartners } from "../scripts/generate-referral-partners.mjs";
-import { referralSeoFor } from "../src/data/referral-seo.js";
+import { referralSeoFor, referralTitleAllowed } from "../src/data/referral-seo.js";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
 
 test("generated referral partners match the partner feed", () => {
@@ -15,6 +15,7 @@ test("referral titles carry the real invite code and owner share in every locale
   for (const p of partners.filter((x) => x.inviteCode)) {
     for (const locale of ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"]) {
       const seo = referralSeoFor(p.slug, locale);
+      if (!referralTitleAllowed(p.slug, locale)) { assert.equal(seo, null, `${p.slug}/${locale} must stay neutral`); continue; }
       assert.ok(seo.title.includes(p.inviteCode), `${p.slug}/${locale}`);
       assert.ok(seo.description.includes(p.inviteCode), `${p.slug}/${locale}`);
       if (p.share != null) assert.ok(seo.title.includes(String(Math.round(p.share * 100))), `${p.slug}/${locale} share`);
@@ -22,4 +23,11 @@ test("referral titles carry the real invite code and owner share in every locale
     }
   }
   assert.equal(referralSeoFor("no-such-venue", "en"), null);
+});
+
+test("regulated locales keep neutral titles; Turkish referral titles only for SPK-listed exchanges", () => {
+  for (const locale of ["ru", "ar", "zh-Hant"]) assert.equal(referralSeoFor("okx", locale), null, locale);
+  assert.ok(referralSeoFor("okx", "tr")?.title.includes("nexu888"));
+  assert.equal(referralSeoFor("bitget", "tr"), null);
+  assert.ok(referralSeoFor("bitget", "pt-BR")?.title.includes("nexu888"));
 });
