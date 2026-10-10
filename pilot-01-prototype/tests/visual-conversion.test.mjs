@@ -9,6 +9,10 @@ import { fileURLToPath } from "node:url";
 import { sectionEyebrow, SECTION_EYEBROW_KEYS } from "../src/data/section-eyebrow.js";
 import { showAllCopy, GROUP_PREVIEW_COUNT } from "../src/components/v3/activity/show-all-copy.js";
 
+// Mirrors telegramAlertsUrl() in NewsTelegramAlerts.jsx (bot card languages, 2026-10-11).
+const ALERT_CARD_LANG = { en: "en", "zh-Hans": "zh", "zh-Hant": "zh", ru: "ru", tr: "tr", vi: "vi", id: "id", es: "es", "pt-BR": "pt" };
+const telegramAlertsUrl = (locale) => (ALERT_CARD_LANG[locale] ? `https://t.me/NexuAlphaAssistantBot?start=alerts-${ALERT_CARD_LANG[locale]}` : "https://t.me/NexuAlphaAssistantBot?start=alerts");
+
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const read = (p) => readFile(new URL(`../${p}`, import.meta.url), "utf8");
 const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
@@ -55,7 +59,7 @@ test("section eyebrow names the section in all 15 locales and the CSS reads it f
 
 test("alerts strip reuses the article alerts copy and sits under the home hero, below the venue registration card and at the top of the news list", async () => {
   const strip = await read("src/components/v3/TelegramAlertsStrip.jsx");
-  assert.match(strip, /import \{ TELEGRAM_ALERTS_URL, telegramAlertsCopy \} from "\.\/news\/NewsTelegramAlerts\.jsx"/);
+  assert.match(strip, /import \{ TELEGRAM_ALERTS_URL, telegramAlertsUrl, telegramAlertsCopy \} from "\.\/news\/NewsTelegramAlerts\.jsx"/);
   assert.match(strip, /data-cta-placement=\{placement\}/);
   const source = await read("src/components/v3/news/NewsTelegramAlerts.jsx");
   assert.match(source, /export const TELEGRAM_ALERTS_URL = "https:\/\/t\.me\/NexuAlphaAssistantBot\?start=alerts"/);
@@ -78,7 +82,8 @@ test("alerts strip reuses the article alerts copy and sits under the home hero, 
     console.log(JSON.stringify(${JSON.stringify(LOCALES)}.map((locale) => renderToStaticMarkup(React.createElement(TelegramAlertsStrip, { locale, placement: "home-telegram-alerts" })))));
   `);
   assert.match(en, /data-cta-placement="home-telegram-alerts"/);
-  assert.match(en, /href="https:\/\/t\.me\/NexuAlphaAssistantBot\?start=alerts"/);
+  // 2026-10-11: the deep link carries the bot card language (en -> alerts-en)
+  assert.match(en, /href="https:\/\/t\.me\/NexuAlphaAssistantBot\?start=alerts-en"/);
 });
 
 test("Telegram page leads with the alerts product: sample message, four topics, Open the bot, channels and Mini App, in 15 locales", async () => {
@@ -97,7 +102,8 @@ test("Telegram page leads with the alerts product: sample message, four topics, 
     assert.ok(html.indexOf("tg-signal-hero") < html.indexOf("tg-return-rail"), `${locale}: alerts hero before the return rail`);
     assert.match(html, /data-cta-placement="telegram-alerts-open-bot"[^>]*/, locale);
     const primary = html.match(/<a href="([^"]+)"[^>]*data-cta-placement="telegram-alerts-open-bot"/);
-    assert.equal(primary[1], "https://t.me/NexuAlphaAssistantBot?start=alerts", locale);
+    assert.equal(primary[1], telegramAlertsUrl(locale), locale);
+    assert.match(primary[1], /^https:\/\/t\.me\/NexuAlphaAssistantBot\?start=alerts(-[a-z]{2})?$/, locale);
     assert.equal((html.match(/<li>/g) || []).length >= 4, true, locale);
     assert.equal((html.match(/class="tg-signal-hero__topics"/g) || []).length, 1, locale);
     assert.equal((html.match(/<ol class="tg-signal-hero__topics">(?:<li>.*?<\/li>){4}<\/ol>/s) || []).length, 1, `${locale}: four topics`);

@@ -1,7 +1,14 @@
 // Quiet "get alerts in Telegram" line under each article (owner 2026-10-10: close the loop site -> Telegram).
 // The deep link opens the bot's /alerts card directly; subscribing there is the reader's explicit opt-in.
 export const TELEGRAM_ALERTS_URL = "https://t.me/NexuAlphaAssistantBot?start=alerts";
-const ALERTS_URL = TELEGRAM_ALERTS_URL;
+// The bot's /alerts card speaks zh, en, ru, tr, vi, id, es, pt (release 2026-10-11-alerts-i18n-01); ?start=alerts-<lang>
+// opens it in that language. Locales the bot does not have fall back to the plain link (the card defaults to Chinese,
+// with a language row).
+const ALERT_CARD_LANG = { en: "en", "zh-Hans": "zh", "zh-Hant": "zh", ru: "ru", tr: "tr", vi: "vi", id: "id", es: "es", "pt-BR": "pt" };
+export function telegramAlertsUrl(locale = "en") {
+  const lang = ALERT_CARD_LANG[locale];
+  return lang ? `${TELEGRAM_ALERTS_URL}-${lang}` : TELEGRAM_ALERTS_URL;
+}
 
 // One copy source for every "get alerts" line on the site (article footer, home / venue / news-list strips).
 export const TELEGRAM_ALERTS_COPY = {
@@ -31,7 +38,7 @@ export function NewsTelegramAlerts({ locale = "en" }) {
     <aside className="news-tg-alerts" dir={locale === "ar" ? "rtl" : "ltr"}>
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 4 3 11l6 2m12-9-4 16-8-7m12-9L9 13" /></svg>
       <span>{text}</span>
-      <a href={ALERTS_URL} target="_blank" rel="noopener" data-cta-placement="news-telegram-alerts">{action} →</a>
+      <a href={telegramAlertsUrl(locale)} target="_blank" rel="noopener" data-cta-placement="news-telegram-alerts">{action} →</a>
     </aside>
   );
 }

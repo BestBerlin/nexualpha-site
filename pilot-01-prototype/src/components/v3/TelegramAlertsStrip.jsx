@@ -2,7 +2,7 @@
 // article-footer copy source so every placement says the same thing. The deep link opens the bot's /alerts card;
 // subscribing there is the reader's explicit opt-in. Placements: home-telegram-alerts (under the home hero),
 // venue-telegram-alerts (below the registration card), news-list-telegram-alerts (top of the news list).
-import { TELEGRAM_ALERTS_URL, telegramAlertsCopy } from "./news/NewsTelegramAlerts.jsx";
+import { TELEGRAM_ALERTS_URL, telegramAlertsUrl, telegramAlertsCopy } from "./news/NewsTelegramAlerts.jsx";
 import "./telegram-signal-strip.css";
 
 export const TELEGRAM_ALERTS_STRIP_PLACEMENTS = Object.freeze(["home-telegram-alerts", "venue-telegram-alerts", "news-list-telegram-alerts"]);
@@ -21,7 +21,7 @@ export function TelegramAlertsStrip({ locale = "en", placement, className = "" }
     <aside className={`tg-signal-strip${className ? ` ${className}` : ""}`} dir={locale === "ar" ? "rtl" : "ltr"} data-telegram-alerts-strip={placement}>
       <span className="tg-signal-strip__icon"><PlaneIcon /></span>
       <span className="tg-signal-strip__text">{text}</span>
-      <a className="tg-signal-strip__btn" href={TELEGRAM_ALERTS_URL} target="_blank" rel="noopener" data-cta-kind="telegram" data-cta-placement={placement}>{action} →</a>
+      <a className="tg-signal-strip__btn" href={telegramAlertsUrl(locale)} target="_blank" rel="noopener" data-cta-kind="telegram" data-cta-placement={placement}>{action} →</a>
     </aside>
   );
 }

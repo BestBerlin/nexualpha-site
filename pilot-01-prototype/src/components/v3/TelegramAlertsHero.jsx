@@ -3,7 +3,7 @@
 // primary "Open the bot" deep link (?start=alerts) and the channels / Mini App as secondary routes.
 // Honest by construction: no subscriber counts, no invented metrics; liquidation data is Binance + OKX public data
 // and a lower bound, and the sample says so.
-import { TELEGRAM_ALERTS_URL } from "./news/NewsTelegramAlerts.jsx";
+import { TELEGRAM_ALERTS_URL, telegramAlertsUrl } from "./news/NewsTelegramAlerts.jsx";
 import { TELEGRAM_ENTRIES, telegramCopy } from "../v7/home7-telegram.jsx";
 
 export const MINI_APP_URL = "https://app.nexualpha.com/";
@@ -343,7 +343,7 @@ export function TelegramAlertsHero({ locale = "en", headingLevel = 1, heading = 
         {heading || <Heading className="tg-hub__title" id="telegram-alerts-title">{t.h1}</Heading>}
         <p className="tg-hub__subtitle">{t.sub}</p>
         <div className="tg-signal-hero__cta" role="group" aria-label={t.primary}>
-          <a href={TELEGRAM_ALERTS_URL} target="_blank" rel="noopener noreferrer" className="tg-btn tg-btn--primary tg-signal-hero__primary" data-cta-kind="telegram" data-cta-placement="telegram-alerts-open-bot" data-growth-decision="telegram_alerts" data-growth-placement="telegram-alerts-hero" {...primaryAttrs}><PlaneIcon />{t.primary}</a>
+          <a href={telegramAlertsUrl(locale)} target="_blank" rel="noopener noreferrer" className="tg-btn tg-btn--primary tg-signal-hero__primary" data-cta-kind="telegram" data-cta-placement="telegram-alerts-open-bot" data-growth-decision="telegram_alerts" data-growth-placement="telegram-alerts-hero" {...primaryAttrs}><PlaneIcon />{t.primary}</a>
           <p className="tg-signal-hero__hint">{t.primaryHint}</p>
         </div>
         <Sub className="tg-signal-hero__topics-title">{t.topicsTitle}</Sub>
