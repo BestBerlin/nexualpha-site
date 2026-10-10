@@ -12,6 +12,7 @@ import { createErrorMonitor, safeRequestId } from './server/error-monitor.mjs';
 import { resolveAssetPath } from './server/asset-path.mjs';
 import { createNewsSsrRenderer } from './server/news-ssr.mjs';
 import { createIntelFeed, INTEL_PATH } from './server/intel-feed.mjs';
+import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
@@ -26,6 +27,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
   const clientRoot = path.join(distRoot, 'client');
   const renderNews = createNewsSsrRenderer(distRoot);
   const intel = createIntelFeed(clientRoot, { enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  const funding = createFundingFeed({ enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const version = suppliedWorker && !existsSync(path.join(clientRoot, 'version.json'))
     ? { buildId: env.BUILD_ID || '3.0-test-build' }
     : JSON.parse(await readFile(path.join(clientRoot, 'version.json'), 'utf8'));
@@ -131,6 +133,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
           headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
       } else if (requestPath === INTEL_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await intel.respond();
+      } else if (requestPath === FUNDING_PATH && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await funding.respond();
       } else if (requestPath === '/api/analytics/cta' && collector) {
         const mode = request.headers.get('x-nexualpha-analytics-mode');
         const testQuery = new URL(request.url).searchParams.has('analytics_test');
