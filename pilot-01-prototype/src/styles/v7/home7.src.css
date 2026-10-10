@@ -418,8 +418,3 @@
 @media(max-width:640px){@ .h7-fr-row{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.8fr);padding:10px 14px}@ .h7-fr-row>:nth-child(4){display:none}@ .h7-fr-n{font-size:14px}}
 @media(prefers-reduced-motion:reduce){@ .h7-fr-tabs button{transition:none}}
 @media(max-width:640px){@ .h7-fr-tabs{flex-wrap:nowrap;gap:6px}@ .h7-fr-tabs button{flex:1 1 0;min-width:0;padding:0 6px}}
-/* Announcement rows carry the venue's sign-up route (owner 2026-10-10: no free promotion for exchanges). */
-@ .h7-il li{grid-template-columns:72px 128px minmax(0,1fr) 88px auto auto;grid-template-areas:"c v x t b g"}
-@ .h7-ig{grid-area:g;min-height:40px;padding:0 14px;font-size:13px;white-space:nowrap}
-@ .h7-ig-ad{color:var(--ink2)}
-@media(max-width:700px){@ .h7-il li{grid-template-columns:auto auto minmax(0,1fr) auto;grid-template-areas:"c v t t" "x x x x" "b b g g";gap:6px 10px;padding:14px 0 12px}@ .h7-iw{justify-content:flex-start}@ .h7-ig{justify-self:end;min-height:44px}}

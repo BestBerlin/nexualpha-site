@@ -1,8 +1,8 @@
-// News → sign-up (owner 2026-10-10: a reader of an exchange's news sees that exchange's sign-up with our invite code).
-// A small slide-in card, not an interstitial: it appears after the reader is a third into the article, never covers
-// the text on phones (bottom bar), closes with one tap and stays closed for the session. Only venues with a real
-// invite route are offered; the commission disclosure sits inside the card.
-import React, { useEffect, useState } from "react";
+// News → sign-up (owner 2026-10-10): a reader of an exchange's news sees that exchange's sign-up with our invite code.
+// Owner placement: under the article, in the side rail on desktop, and (where there is no rail, i.e. phones and
+// tablets) a light card that slides in after 15 seconds of reading (never an interstitial; one tap closes it for the session; skipped while the inline card is on screen).
+// Only venues with a real invite route are offered; the commission disclosure is inside every card.
+import React, { useEffect, useRef, useState } from "react";
 import { pickNewsOfferVenue } from "../../../data/news-offer.js";
 import { ownerRebateLine } from "../../../data/owner-rebate-line.js";
 import { BrandMark } from "../../brand/BrandMark.jsx";
@@ -28,49 +28,80 @@ const COPY = {
 };
 const copyFor = (locale) => COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
 const DISMISS_KEY = "nexu.newsOffer.closed";
+const READ_DELAY_MS = 15000;
 
-export function NewsVenueOffer({ venues, locale = "en", articleSlug }) {
+function OfferBody({ slug, cta, locale, t, placement }) {
+  const [copied, setCopied] = useState(false);
+  const name = cta.name || slug;
+  const terms = ownerRebateLine(slug, locale, name) || t.fallback;
+  const doCopy = async () => { try { await navigator.clipboard.writeText(cta.inviteCode); setCopied(true); setTimeout(() => setCopied(false), 1800); } catch { /* clipboard blocked: the code stays visible */ } };
+  return (
+    <>
+      <div className="news-offer__head">
+        <span className="news-offer__logo"><BrandMark slug={slug} compact /></span>
+        <div><b>{t.lead(name)}</b><small>{terms}</small></div>
+      </div>
+      <div className="news-offer__act">
+        {cta.inviteCode && (
+          <div className="news-offer__code"><span>{t.code}</span><code translate="no">{cta.inviteCode}</code><button type="button" onClick={doCopy} aria-live="polite">{copied ? t.copied : t.copy}</button></div>
+        )}
+        <a className="news-offer__go" href={cta.registrationUrl} target="_blank" rel="sponsored noopener noreferrer"
+          data-cta-kind="registration" data-cta-platform={slug} data-cta-placement={placement} data-cta-code={cta.inviteCode || undefined}>
+          {t.go(name)} <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <CommissionDisclosureLine locale={locale} className="news-offer__ad" placement={placement} />
+    </>
+  );
+}
+
+/** variant: "inline" (under the article), "rail" (desktop side rail), "timed" (slides in after 15 s of reading). */
+export function NewsVenueOffer({ venues, locale = "en", articleSlug, variant = "inline" }) {
   const t = copyFor(locale);
   const pick = pickNewsOfferVenue(venues, locale);
   const [shown, setShown] = useState(false);
   const [closed, setClosed] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const timer = useRef(null);
 
   useEffect(() => {
-    if (!pick) return undefined;
-    try { if (sessionStorage.getItem(DISMISS_KEY)) { setClosed(true); return undefined; } } catch { /* storage blocked: still show */ }
-    const onScroll = () => {
-      const doc = document.documentElement;
-      const progress = (window.scrollY + window.innerHeight) / Math.max(doc.scrollHeight, 1);
-      // the reader must actually have scrolled (a short, still-loading page is not "a third read")
-      if (window.scrollY > 600 && progress > 0.33) { setShown(true); window.removeEventListener("scroll", onScroll); }
+    if (variant !== "timed" || !pick) return undefined;
+    try { if (sessionStorage.getItem(DISMISS_KEY)) return undefined; } catch { /* storage blocked: still offer */ }
+    // Count only time the page is visible; wait while the inline card is already on screen.
+    let left = READ_DELAY_MS, started = Date.now();
+    const fire = () => {
+      // Desktop already shows the side-rail card: no second, floating one.
+      const rail = document.querySelector(".news-offer--rail");
+      if (rail && getComputedStyle(rail).display !== "none") return;
+      const r = document.querySelector(".news-offer--inline")?.getBoundingClientRect();
+      if (r && r.top < window.innerHeight && r.bottom > 0) { timer.current = setTimeout(fire, 4000); return; }
+      setShown(true);
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [pick?.slug]);
+    const arm = () => { started = Date.now(); timer.current = setTimeout(fire, left); };
+    const onVis = () => {
+      if (document.visibilityState === "hidden") { clearTimeout(timer.current); left = Math.max(0, left - (Date.now() - started)); }
+      else arm();
+    };
+    arm();
+    document.addEventListener("visibilitychange", onVis);
+    return () => { clearTimeout(timer.current); document.removeEventListener("visibilitychange", onVis); };
+  }, [variant, pick?.slug]);
 
-  if (!pick || closed) return null;
-  const { slug, cta } = pick;
-  const name = cta.name || slug;
-  const terms = ownerRebateLine(slug, locale, name) || t.fallback;
+  if (!pick) return null;
+  const label = t.lead(pick.cta.name || pick.slug);
+  const placement = `news-offer-${variant}-${articleSlug || "article"}`;
+  if (variant !== "timed") {
+    return (
+      <aside className={`news-offer news-offer--${variant}`} aria-label={label} data-offer-venue={pick.slug}>
+        <OfferBody slug={pick.slug} cta={pick.cta} locale={locale} t={t} placement={placement} />
+      </aside>
+    );
+  }
+  if (closed) return null;
   const close = () => { setClosed(true); try { sessionStorage.setItem(DISMISS_KEY, "1"); } catch { /* ignore */ } };
-  const doCopy = async () => { try { await navigator.clipboard.writeText(cta.inviteCode); setCopied(true); setTimeout(() => setCopied(false), 1800); } catch { /* clipboard blocked: code stays visible */ } };
-
   return (
-    <aside className={`news-offer${shown ? " is-shown" : ""}`} aria-label={t.lead(name)} {...(shown ? {} : { inert: "", "aria-hidden": "true" })} data-offer-venue={slug}>
+    <aside className={`news-offer news-offer--timed${shown ? " is-shown" : ""}`} aria-label={label} {...(shown ? {} : { inert: true, "aria-hidden": "true" })} data-offer-venue={pick.slug}>
       <button type="button" className="news-offer__close" onClick={close} aria-label={t.close}>×</button>
-      <div className="news-offer__head">
-        <BrandMark slug={slug} compact />
-        <div><b>{t.lead(name)}</b><small>{terms}</small></div>
-      </div>
-      {cta.inviteCode && (
-        <div className="news-offer__code"><span>{t.code}</span><code translate="no">{cta.inviteCode}</code><button type="button" onClick={doCopy} aria-live="polite">{copied ? t.copied : t.copy}</button></div>
-      )}
-      <a className="news-offer__go" href={cta.registrationUrl} target="_blank" rel="sponsored noopener noreferrer"
-        data-cta-kind="registration" data-cta-platform={slug} data-cta-placement={`news-offer-${articleSlug || "article"}`} data-cta-code={cta.inviteCode || undefined}>
-        {t.go(name)} →
-      </a>
-      <CommissionDisclosureLine locale={locale} className="news-offer__ad" placement="news-offer" />
+      <OfferBody slug={pick.slug} cta={pick.cta} locale={locale} t={t} placement={placement} />
     </aside>
   );
 }
