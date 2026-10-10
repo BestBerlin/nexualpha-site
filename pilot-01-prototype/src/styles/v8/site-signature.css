@@ -47,7 +47,3 @@ main.v6 :is(p, li, dd):lang(zh) { text-wrap: pretty; }
 @media (min-width: 761px) and (max-width: 1099px) {
   #top.v6 .v6-close__index .crawl-priority-links__group:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: 140px repeat(2, minmax(0, 1fr)); }
 }
-
-/* Brand mark tuned to the site palette (owner, 2026-10-10): same geometry, titanium-silver with a teal glow, so the
-   header mark, the headline highlight and the primary actions share one colour family. */
-.nx-brand__mark:not(#_):not(#_):not(#_) { filter: grayscale(1) brightness(1.55) contrast(1.05) drop-shadow(0 0 10px rgb(31 224 192 / .35)); }
