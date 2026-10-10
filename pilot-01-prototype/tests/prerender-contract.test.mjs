@@ -123,7 +123,8 @@ test("worker injects readable comparison body with both independent partner CTAs
 
   assert.equal(response.status, 200);
   assert.match(html, /<div id="root">[\s\S]*<main[\s\S]*<h1[^>]*>[\s\S]*Binance[\s\S]*OKX[\s\S]*<\/h1>/);
-  assert.match(html, /https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287/);
+  // owner 2026-10-10: binance.com is the primary Binance route (bsmkweb.cc is an alternate)
+  assert.match(html, /https:\/\/www\.binance\.com\?ref=11350287/);
   assert.match(html, /https:\/\/www\.okx\.com\/join\/nexu888/);
   assert.match(html, /<section class="v3-page-hero[\s\S]*<div[^>]*class="v3-versus-card(?:\s[^"]*)?"/);
   assert.match(html, /<details class="v3-versus-stats-disclosure"[^>]*data-testid="compare-versus-stats-binance"[^>]*>[\s\S]*现货费率[\s\S]*0\.10% \/ 0\.10%[\s\S]*查看费率来源/);
