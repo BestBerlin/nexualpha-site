@@ -3,6 +3,7 @@ import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
+import { socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles } from "../src/data/news-library.js";
@@ -10,6 +11,11 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/api/analytics/cta") return handleAnalyticsCollector(request, env, url);
+    // Social cards are rendered by server.mjs (server/og-image.mjs) before the worker sees the request; a worker
+    // without that renderer answers 404 instead of an HTML page, so link previews never cache a page as an image.
+    if (url.pathname.startsWith("/og/")) {
+      return new Response("Not Found", { status: 404, headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "public, max-age=300", "x-content-type-options": "nosniff" } });
+    }
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
@@ -3194,6 +3200,9 @@ function injectRouteMetadata(html, metadata) {
     ["og:description", metadata.description],
     ["og:url", metadata.canonical],
     ["og:image", metadata.image || DEFAULT_SOCIAL_IMAGE],
+    ["og:image:width", String(SOCIAL_IMAGE_WIDTH)],
+    ["og:image:height", String(SOCIAL_IMAGE_HEIGHT)],
+    ["og:image:alt", metadata.title],
   ]) {
     const expression = new RegExp(`<meta\\b[^>]*property=["']${property.replace(":", "\\:")}["'][^>]*>`, "i");
     output = replaceOrInsert(output, expression, `<meta property="${property}" content="${escapeHtml(content)}" data-nexualpha-route-seo="social" />`);
@@ -5302,6 +5311,15 @@ function searchPublicationLocales(pathname, options = {}) {
   return [];
 }
 
+// Page-specific social card (2026-10-10): news, venue, compare, /liquidations and /funding-rates get a rendered
+// 1200x630 PNG by route kind; everything else keeps the brand image. A route that already set its image wins.
+export function applySocialImage(metadata, pathname, locale = "en") {
+  if (!metadata || metadata.status !== 200 || metadata.image) return metadata;
+  const imagePath = socialImagePathForRoute(pathname, locale);
+  if (imagePath) metadata.image = `${PUBLIC_ORIGIN}${imagePath}`;
+  return metadata;
+}
+
 function applySearchPublicationEligibility(metadata, pathname, locale, options = {}) {
   if (!metadata || metadata.status !== 200) return metadata;
   const publishedLocales = searchPublicationLocales(pathname, options);
@@ -5413,6 +5431,7 @@ export async function routeMetadata(url, env) {
   const article = articleSlug ? newsFeed?.articles?.find((item) => item.slug === articleSlug) : null;
   const searchEligibilityArticle = articleSlug ? searchEligibilityNewsFeed?.articles?.find((item) => item.slug === articleSlug) || article : article;
   const eligibilityPathname = contentUrl.pathname === "/partners/embed-guide" ? "/partners" : contentUrl.pathname;
+  applySocialImage(metadata, contentUrl.pathname, requestedLocale);
   return applySearchPublicationEligibility(metadata, eligibilityPathname, locale, {
     article: searchEligibilityArticle,
     searchPublished: articleSlug ? newsFeed?.searchPublished : undefined,

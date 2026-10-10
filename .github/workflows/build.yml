@@ -88,7 +88,11 @@ jobs:
 
       - name: Package
         run: |
-          tar -czf "../nexualpha-ui-${{ steps.id.outputs.release }}.tgz" dist server server.mjs package.json src
+          # Social cards (/og/*.png) need @resvg/resvg-js at runtime; the package has no other npm dependency.
+          # The musl binary is added so the renderer loads on glibc and Alpine node images alike.
+          npm install --no-save --no-audit --no-fund @resvg/resvg-js-linux-x64-musl@2.6.2
+          test -d node_modules/@resvg/resvg-js-linux-x64-gnu && test -d node_modules/@resvg/resvg-js-linux-x64-musl
+          tar -czf "../nexualpha-ui-${{ steps.id.outputs.release }}.tgz" dist server server.mjs package.json src node_modules/@resvg
           cd .. && sha256sum "nexualpha-ui-${{ steps.id.outputs.release }}.tgz" | tee "nexualpha-ui-${{ steps.id.outputs.release }}.tgz.sha256"
           ls -la nexualpha-ui-*
 

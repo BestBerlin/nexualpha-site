@@ -14,6 +14,7 @@ import { createNewsSsrRenderer } from './server/news-ssr.mjs';
 import { createIntelFeed, INTEL_PATH } from './server/intel-feed.mjs';
 import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
+import { createOgImageRoute, OG_PATH_PREFIX } from './server/og-image.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
@@ -35,6 +36,12 @@ export async function createProductionServer({ env = process.env, appRoot = root
   if (env.BUILD_ID && env.BUILD_ID !== version.buildId) throw new Error('BUILD_ID_RUNTIME_MISMATCH');
   // tracked partner redirect /go/<partner>?src= (owner 2026-10-10); clicks are appended to CLICK_EVENT_FILE when set
   const goRedirect = createGoRedirect({ clientRoot, eventFile: env.CLICK_EVENT_FILE ? await privateDataFile(env.CLICK_EVENT_FILE, appRoot, clientRoot) : null });
+  // Social data cards /og/<kind>/<id>.png (2026-10-10): rendered from the page's own data, cached per build id.
+  const ogImages = createOgImageRoute({
+    clientRoot, buildId: version.buildId, cacheDir: env.OG_CACHE_DIR || null, fontDir: env.OG_FONT_DIR || null,
+    marketEventsFile: env.MARKET_EVENTS_FILE || null, fallbackImage: path.join(clientRoot, 'brand', 'nexualpha', 'nexualpha-social-v1.jpg'),
+    log: (m) => console.log(`[NexuAlpha] ${m}`),
+  });
   const errorRequired = env.ERROR_MONITOR_REQUIRED === '1';
   if (errorRequired && !env.ERROR_EVENT_FILE) throw new Error('ERROR_MONITOR_REQUIRED');
   let errorMonitor = null;
@@ -97,6 +104,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
       }
       if (requestPath.startsWith('/go/') && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await goRedirect(request);
+      } else if (requestPath.startsWith(OG_PATH_PREFIX) && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await ogImages(request);
       } else if (requestPath === '/healthz' || requestPath === '/api/health') {
         result = new Response(JSON.stringify({ status: 'ok', service: 'nexualpha-web' }), { status: 200,
           headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
