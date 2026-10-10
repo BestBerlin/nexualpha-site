@@ -7,6 +7,7 @@ import worker from "../worker/index.js";
 import { routeInventory, PRERENDER_LOCALES } from "../scripts/generate-prerender-manifest.mjs";
 import { normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
+import { referralSeoFor } from "../src/data/referral-seo.js";
 import { parsePublicRoute } from "../src/data/locale-routing.js";
 
 const root = path.resolve(import.meta.dirname, "..");
@@ -132,7 +133,8 @@ test("worker injects readable comparison body with both independent partner CTAs
 
 test("worker SSR metadata mirrors the English GSC query-target overrides", async () => {
   const cases = [
-    ["/exchanges/hyperliquid", "Hyperliquid Fees, Referral Discount and Funded Account Checks — NexuAlpha"],
+    // Owner 2026-10-10: partner profiles lead with the real invite code (src/data/referral-seo.js).
+    ["/exchanges/hyperliquid", referralSeoFor("hyperliquid", "en").title],
     ["/exchanges/uniswap", "Uniswap Testnet, Mainnet, Permit2 and Swap Preview Checklist — NexuAlpha"],
     ["/compare/bybit-vs-bitget", compareDirectAnswerFor("bybit-vs-bitget", "en").seoTitle],
   ];
@@ -144,7 +146,7 @@ test("worker SSR metadata mirrors the English GSC query-target overrides", async
     const html = await response.text();
 
     assert.equal(response.status, 200, pathname);
-    assert.ok(html.includes(`<title translate="no" lang="en">${title}</title>`), pathname);
+    assert.ok(html.includes(`<title translate="no" lang="en">${title.replaceAll("&", "&amp;")}</title>`), pathname);
   }
 });
 
