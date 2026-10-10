@@ -43,16 +43,36 @@ function Roll({ value, prefix = "", fmt = usd }) {
     raf = requestAnimationFrame(f);
     return () => { cancelAnimationFrame(raf); from.current = b; };
   }, [value]);
-  return <>{shown == null ? "–" : `${prefix}${fmt(shown)}`}</>;
+  // the figure nudges up with a spring when its target changes (CSS .h7-roll, off under reduced motion)
+  return <span className="h7-roll" key={String(value)}>{shown == null ? "–" : `${prefix}${fmt(shown)}`}</span>;
 }
 
 function CopyCode({ code, t }) {
   const [done, setDone] = useState(false);
   const copy = () => {
-    const ok = () => { setDone(true); setTimeout(() => setDone(false), 1800); };
+    const ok = () => { setDone(true); setTimeout(() => setDone(false), 2000); };
     if (navigator.clipboard?.writeText) navigator.clipboard.writeText(code).then(ok, () => {}); else ok();
   };
   return <button type="button" className={`h7-cc${done ? " done" : ""}`} onClick={copy} aria-live="polite">{done ? t.copied : t.copy}</button>;
+}
+
+// Phones: once the hero has scrolled away, a dock keeps the exchange pick and its sign-up link one tap away.
+function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const h = heroRef.current; if (!h || typeof IntersectionObserver === "undefined") return undefined;
+    const io = new IntersectionObserver(([e]) => setOn(!e.isIntersecting && e.boundingClientRect.top < 0), { threshold: 0 });
+    io.observe(h); return () => io.disconnect();
+  }, [heroRef]);
+  if (!sel?.open) return null;
+  return (
+    <div className={`h7-dock${on ? " on" : ""}`} {...(on ? {} : { inert: "", "aria-hidden": "true" })}>
+      <label className="h7-dock-pick"><span className="h7-sr">{t.lgPick}</span>
+        <select value={sel.slug} onChange={(e) => setPick(e.target.value)}>{rebated.map((r) => <option key={r.slug} value={r.slug}>{r.name} · {Math.round(r.share * 100)}%</option>)}</select>
+      </label>
+      <Cta v={sel} locale={locale} className={`h7-btn h7-dock-go h7-go--${sel.slug}`} placement="home-v7-dock"><span>{t.dockGo}</span><small className="h7-go-disclosure">{t.lgAd}</small></Cta>
+    </div>
+  );
 }
 
 function Cta({ v, locale, children, className, placement }) {
@@ -192,6 +212,7 @@ export function HomeV7({ locale, venues: _catalog }) {
   const [pickSlug, setPick] = useState(null);
   const sel = rebated.find((r) => r.slug === pickSlug) || rebated[0] || top;
   const auto = HOME_AUTO_SETTLE.includes(sel.slug);
+  const topShare = Math.max(0, ...rebated.map((r) => r.share || 0));
   const spot = (e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`); };
 
   /* ---------- hero: rebate flow into the number ---------- */
@@ -252,12 +273,15 @@ export function HomeV7({ locale, venues: _catalog }) {
           <p className="h7-kick">{t.kick}</p>
           <h1>{t.h1a}<br />{t.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{HOME_REBATE_MAX_PCT}%</em>{part}</span> : <span key={i}>{part}</span>)}</h1>
           <p className="h7-sub">{t.sub}</p>
-          <div className="h7-cta"><a className="h7-ln" href="#h7-calc">{t.calcLink}</a><a className="h7-ln" href={localizedHref("/exchanges", { locale })}>{t.all}</a></div>
+          <div className="h7-cta">
+            <a className="h7-btn h7-hero-go" href="#h7-desk" onClick={(e) => { const go = document.querySelector(".h7-lg-go"); if (go) { e.preventDefault(); document.getElementById("h7-desk")?.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); go.focus({ preventScroll: true }); } }}>{t.heroGo}</a>
+            <a className="h7-ln h7-ln-down" href="#h7-calc">{t.calcLink}</a>
+          </div>
         </div>
 
-        <aside className="h7-lg" aria-label={t.lgTitle} onPointerMove={spot}>
+        <aside className="h7-lg" id="h7-desk" aria-label={t.lgTitle} onPointerMove={spot} data-pick={sel.slug}>
           <div className="h7-lg-tabs" role="group" aria-label={t.lgPick} style={{ "--n": rebated.length }}>
-            {rebated.map((r, i) => <button key={r.slug} ref={(e) => { pillRefs.current[i] = e; }} type="button" aria-pressed={r.slug === sel.slug} onClick={() => setPick(r.slug)}><BrandMark slug={r.slug} compact /><span>{r.name}</span><b>{Math.round(r.share * 100)}%</b></button>)}
+            {rebated.map((r, i) => <button key={r.slug} ref={(e) => { pillRefs.current[i] = e; }} type="button" data-brand={r.slug} aria-pressed={r.slug === sel.slug} onClick={() => setPick(r.slug)}><BrandMark slug={r.slug} compact /><span>{r.name}</span><b><span className="h7-sr">{t.rebate} </span>{Math.round(r.share * 100)}%</b>{r.share === topShare && rebated.length > 1 ? <i>{t.lgTop}</i> : null}</button>)}
           </div>
           <div className="h7-lg-max">
             <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgShare(sel.name)} </span><Roll value={Math.round(sel.share * 100)} fmt={(n) => String(Math.round(n))} /><span>%</span></p>
@@ -267,11 +291,11 @@ export function HomeV7({ locale, venues: _catalog }) {
           <dl className="h7-lg-rows">
             <div><dt>{t.lgWithout}</dt><dd><Roll value={sel.gross} /></dd></div>
             <div className="up"><dt>{t.lgBack}</dt><dd><Roll value={sel.save} prefix="+" /></dd></div>
-            <div><dt>{t.lgNet}</dt><dd><Roll value={sel.net} /></dd></div>
+            <div className="h7-lg-net"><dt>{t.lgNet}</dt><dd><Roll value={sel.net} /></dd></div>
           </dl>
           {sel.code && <p className="h7-lg-code"><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
-          <p className="h7-lg-disclosure">{sel.open ? `${t.lgLink} ` : ""}{t.t2b}</p>
-          <Cta v={sel} locale={locale} className="h7-btn h7-lg-go" placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span><small className="h7-go-disclosure">{t.lgAd}</small></Cta>
+          <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span><small className="h7-go-disclosure">{sel.open ? `${t.lgBuilt} · ` : ""}{t.lgAd}</small></Cta>
+          <p className="h7-lg-disclosure">{t.t2b}</p>
         </aside>
 
         <div className="h7-strip">
@@ -323,6 +347,7 @@ export function HomeV7({ locale, venues: _catalog }) {
       </section>
       <IntelBlock intel={intel} t={t} locale={locale} venues={priced} />
       <div className="h7-in h7-foot">{t.foot(FACTS_AS_OF).replace("{max}", String(HOME_REBATE_MAX_PCT)).split(/(?<=[。．.])\s*(?=\S)/u).map((x) => <p key={x}>{x}</p>)}</div>
+      <MobileDock heroRef={heroRef} sel={sel} rebated={rebated} setPick={setPick} t={t} locale={locale} />
     </div>
   );
 }
