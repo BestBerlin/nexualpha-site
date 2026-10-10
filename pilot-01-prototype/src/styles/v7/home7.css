@@ -324,6 +324,7 @@
 .h7:not(#_):not(#_) .h7-lg-max{align-items:center;margin-bottom:8px}
 .h7:not(#_):not(#_) .h7-num{font-size:44px;line-height:1}
 .h7:not(#_):not(#_) .h7-lg-who{gap:4px;margin:0}
+.h7:not(#_):not(#_) .h7-lg-who b{display:none}
 .h7:not(#_):not(#_) .h7-lg-top{padding-top:8px}
 .h7:not(#_):not(#_) .h7-lg-rows{margin-top:4px}
 .h7:not(#_):not(#_) .h7-lg-rows>div{padding:7px 0}
