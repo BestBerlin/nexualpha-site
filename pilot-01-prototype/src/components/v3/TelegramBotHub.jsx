@@ -169,7 +169,7 @@ const copy = {
       {
         icon: "",
         title: "Source-labelled fee research",
-        desc: "Return to a comparison path with source, date, and official conditions; unverified values stay pending.",
+        desc: "Return to a comparison path with source, date, and official conditions; values we have not verified are marked “not yet checked”.",
       },
       {
         icon: "",

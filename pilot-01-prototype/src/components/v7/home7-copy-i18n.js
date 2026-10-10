@@ -5,7 +5,7 @@ export const H7_I18N = {
   "zh-Hant": {
     kick: "NEXUALPHA · 交易所比價與返傭",
     h1a: "別再白送手續費，", h1b: "最高拿回 {max}%。",
-    sub: "透過我們的合作節點在官方頁面開戶，\n手續費按比例返還，主流交易所逐家比價。",
+    sub: "用我們的合作邀請連結在交易所官網開戶，\n手續費按比例返還，主流交易所逐家比價。",
     lgShare: (n) => `${n} 最高返傭比例`, upTo: "最高", settleH: "每小時返傭", settleD: "每天返傭", lgAuto: "官方自動結算", lgGo: (n) => `前往 ${n} 官方開戶`, lgTop: "三家最高", lgBuilt: "已內含邀請碼", lgLink: "連結已內含邀請碼，無需手動填寫。", lgAd: "合作推廣連結 · 佣金已揭露",
     lgTitle: "返傭帳本", lgEst: "依公開費率估算", lgVol: (v, m) => `每月成交 ${v} · ${m}`, perpL: "合約", spotL: "現貨", sep: "", lgMax: "合作交易所\n最高返傭", lgPick: "選擇交易所",
     lgWithout: "不用邀請碼 · 一年手續費", lgBack: "透過 NexuAlpha · 一年最高返還", lgNet: "一年實付", copy: "複製", copied: "已複製邀請碼 ✓",
@@ -28,7 +28,7 @@ export const H7_I18N = {
   es: {
     kick: "NEXUALPHA · COMISIONES Y REEMBOLSOS",
     h1a: "No regales comisiones.", h1b: "Recupera hasta {max}%.",
-    sub: "Abre tu cuenta en la página oficial de la plataforma a través del nodo asociado de NexuAlpha.\nParte de cada comisión vuelve a ti, comparado plataforma por plataforma.",
+    sub: "Abre tu cuenta en la página oficial de la plataforma con el enlace de invitación de socio de NexuAlpha.\nParte de cada comisión vuelve a ti, comparado plataforma por plataforma.",
     lgShare: (n) => `Reembolso máximo en ${n}`, upTo: "Hasta", settleH: "pago cada hora", settleD: "pago diario", lgAuto: "Lo liquida la plataforma", lgGo: (n) => `Regístrate en ${n}`, lgTop: "La más alta de 3", lgBuilt: "Código de invitación incluido", lgLink: "El enlace ya incluye nuestro código de invitación; no tienes que escribir nada.", lgAd: "Enlace de socio · comisión declarada",
     lgTitle: "Registro de reembolsos", lgEst: "Estimación según comisiones publicadas", lgVol: (v, m) => `${v} / mes · ${m.toLowerCase()}`, perpL: "Perpetuos", spotL: "Spot", sep: " ", lgMax: "Reembolso máx.\nentre socios", lgPick: "Elige plataforma",
     lgWithout: "Sin código · comisiones al año", lgBack: "Con NexuAlpha · máximo al año", lgNet: "Pagado al año", copy: "Copiar", copied: "Código de invitación copiado ✓",
@@ -51,7 +51,7 @@ export const H7_I18N = {
   "pt-BR": {
     kick: "NEXUALPHA · TAXAS E CASHBACK DE CORRETORAS",
     h1a: "Pare de doar taxas.", h1b: "Recupere até {max}%.",
-    sub: "Abra sua conta na página oficial da corretora pelo nó parceiro da NexuAlpha.\nParte de cada taxa volta para você, comparado corretora por corretora.",
+    sub: "Abra sua conta na página oficial da corretora com o link de convite parceiro da NexuAlpha.\nParte de cada taxa volta para você, comparado corretora por corretora.",
     lgShare: (n) => `Cashback máximo da ${n}`, upTo: "Até", settleH: "pago por hora", settleD: "pago diário", lgAuto: "Pago pela própria corretora", lgGo: (n) => `Cadastre-se na ${n}`, lgTop: "A maior das três", lgBuilt: "Código de convite incluso", lgLink: "O link já leva nosso código de convite; não precisa digitar nada.", lgAd: "Link de parceiro · comissão declarada",
     lgTitle: "Extrato de cashback", lgEst: "Estimativa pelas taxas publicadas", lgVol: (v, m) => `${v} / mês · ${m.toLowerCase()}`, perpL: "Perpétuos", spotL: "Spot", sep: " ", lgMax: "Cashback máx.\ndas parceiras", lgPick: "Escolha a corretora",
     lgWithout: "Sem código · taxas por ano", lgBack: "Via NexuAlpha · máximo por ano", lgNet: "Pago por ano", copy: "Copiar", copied: "Código de convite copiado ✓",
@@ -74,7 +74,7 @@ export const H7_I18N = {
   fr: {
     kick: "NEXUALPHA · FRAIS ET REMBOURSEMENTS",
     h1a: "Fini les frais perdus.", h1b: "Récupérez jusqu’à {max}%.",
-    sub: "Ouvrez votre compte sur la page officielle de la plateforme via le nœud partenaire NexuAlpha.\nUne part de vos frais vous est reversée, plateforme par plateforme comparée.",
+    sub: "Ouvrez votre compte sur la page officielle de la plateforme avec le lien d’invitation partenaire de NexuAlpha.\nUne part de vos frais vous est reversée, plateforme par plateforme comparée.",
     lgShare: (n) => `Taux max. de remboursement ${n}`, upTo: "Jusqu’à", settleH: "versé à l’heure", settleD: "versé par jour", lgAuto: "Versé par la plateforme", lgGo: (n) => `S’inscrire sur ${n}`, lgTop: "Top des trois", lgBuilt: "Code d’invitation intégré", lgLink: "Le lien contient notre code d’invitation : rien à saisir.", lgAd: "Lien partenaire · commission déclarée",
     lgTitle: "Relevé de remboursements", lgEst: "Estimation d’après les frais publiés", lgVol: (v, m) => `${v} / mois · ${m.toLowerCase()}`, perpL: "Perpétuels", spotL: "Spot", sep: " ", lgMax: "Meilleur taux\npartenaire", lgPick: "Choisir une plateforme",
     lgWithout: "Sans code · frais par an", lgBack: "Via NexuAlpha · jusqu’à, par an", lgNet: "Payé par an", copy: "Copier", copied: "Code d’invitation copié ✓",
@@ -97,7 +97,7 @@ export const H7_I18N = {
   de: {
     kick: "NEXUALPHA · BÖRSENGEBÜHREN & RÜCKVERGÜTUNG",
     h1a: "Gebühren sparen?", h1b: "Bis zu {max}% zurück.",
-    sub: "Eröffnen Sie Ihr Konto über den NexuAlpha-Partnerknoten auf der offiziellen Seite der Börse.\nEin Teil jeder Gebühr fließt zurück – Börse für Börse verglichen.",
+    sub: "Eröffnen Sie Ihr Konto auf der offiziellen Seite der Börse – mit dem Partner-Einladungslink von NexuAlpha.\nEin Teil jeder Gebühr fließt zurück – Börse für Börse verglichen.",
     lgShare: (n) => `Max. Rückvergütung ${n}`, upTo: "Bis zu", settleH: "stündlich", settleD: "täglich", lgAuto: "Abrechnung durch die Börse", lgGo: (n) => `Bei ${n} registrieren`, lgTop: "Höchster von 3", lgBuilt: "Einladungscode integriert", lgLink: "Der Link enthält unseren Einladungscode – nichts einzugeben.", lgAd: "Partnerlink · Provision offengelegt",
     lgTitle: "Rückvergütungs-Übersicht", lgEst: "Schätzung nach veröffentlichten Gebühren", lgVol: (v, m) => `${v} / Monat · ${m}`, perpL: "Perpetuals", spotL: "Spot", sep: " ", lgMax: "Höchster\nPartnersatz", lgPick: "Börse wählen",
     lgWithout: "Ohne Code · Gebühren pro Jahr", lgBack: "Über NexuAlpha · bis zu, pro Jahr", lgNet: "Bezahlt pro Jahr", copy: "Kopieren", copied: "Einladungscode kopiert ✓",
@@ -120,7 +120,7 @@ export const H7_I18N = {
   ja: {
     kick: "NEXUALPHA · 取引所の手数料比較と還元",
     h1a: "手数料のムダ払い、", h1b: "最大 {max}% 還元。",
-    sub: "NexuAlpha の提携ノード経由で、取引所の公式ページから口座開設。\n手数料の一部が還元され、主要取引所を一社ずつ比較できます。",
+    sub: "NexuAlpha の提携招待リンクで、取引所の公式ページから口座開設。\n手数料の一部が還元され、主要取引所を一社ずつ比較できます。",
     lgShare: (n) => `${n} の最大還元率`, upTo: "最大", settleH: "1時間ごとに還元", settleD: "毎日還元", lgAuto: "取引所が自動で精算", lgGo: (n) => `${n} 公式で登録`, lgTop: "3社で最高", lgBuilt: "紹介コード設定済み", lgLink: "リンクに紹介コードが含まれているので、入力は不要です。", lgAd: "提携リンク・報酬を開示",
     lgTitle: "還元台帳", lgEst: "公開手数料に基づく試算", lgVol: (v, m) => `月間 ${v} · ${m}`, perpL: "先物", spotL: "現物", sep: "", lgMax: "提携取引所の\n最高還元率", lgPick: "取引所を選択",
     lgWithout: "紹介コードなし · 年間手数料", lgBack: "NexuAlpha 経由 · 年間最大還元", lgNet: "年間支払額", copy: "コピー", copied: "紹介コードをコピーしました ✓",
@@ -143,7 +143,7 @@ export const H7_I18N = {
   ko: {
     kick: "NEXUALPHA · 거래소 수수료 비교와 리베이트",
     h1a: "수수료 낭비 그만,", h1b: "최대 {max}% 환급.",
-    sub: "NexuAlpha 제휴 노드를 통해 거래소 공식 페이지에서 가입하세요.\n수수료 일부를 돌려받고, 주요 거래소를 하나씩 비교합니다.",
+    sub: "NexuAlpha 제휴 초대 링크로 거래소 공식 페이지에서 가입하세요.\n수수료 일부를 돌려받고, 주요 거래소를 하나씩 비교합니다.",
     lgShare: (n) => `${n} 최대 리베이트 비율`, upTo: "최대", settleH: "매시간 리베이트", settleD: "매일 리베이트", lgAuto: "거래소 자동 정산", lgGo: (n) => `${n} 공식 가입하기`, lgTop: "세 곳 중 최고", lgBuilt: "추천 코드 적용됨", lgLink: "링크에 추천 코드가 포함되어 있어 따로 입력할 필요가 없습니다.", lgAd: "제휴 링크 · 커미션 공개",
     lgTitle: "리베이트 장부", lgEst: "공개 수수료 기준 추정", lgVol: (v, m) => `월 ${v} · ${m}`, perpL: "선물", spotL: "현물", sep: " ", lgMax: "제휴 거래소\n최대 리베이트", lgPick: "거래소 선택",
     lgWithout: "추천 코드 없이 · 연간 수수료", lgBack: "NexuAlpha 경유 · 연간 최대 리베이트", lgNet: "연간 실지불액", copy: "복사", copied: "추천 코드 복사됨 ✓",
@@ -166,7 +166,7 @@ export const H7_I18N = {
   ar: {
     kick: "NEXUALPHA · رسوم المنصات والاسترداد",
     h1a: "كفى إهدارًا للرسوم.", h1b: "استرد حتى {max}%.",
-    sub: "افتح حسابك من الصفحة الرسمية للمنصة عبر عقدة شركاء NexuAlpha.\nيعود إليك جزء من كل رسوم تدفعها، مع مقارنة كل منصة على حدة.",
+    sub: "افتح حسابك من الصفحة الرسمية للمنصة عبر رابط دعوة الشريك من NexuAlpha.\nيعود إليك جزء من كل رسوم تدفعها، مع مقارنة كل منصة على حدة.",
     lgShare: (n) => `أقصى نسبة استرداد في ${n}`, upTo: "حتى", settleH: "يُدفع كل ساعة", settleD: "يُدفع يوميًا", lgAuto: "تسوّيه المنصة تلقائيًا", lgGo: (n) => `سجّل في ${n}`, lgTop: "الأعلى بين 3", lgBuilt: "رمز الدعوة مُضمَّن", lgLink: "الرابط يتضمن رمز الدعوة الخاص بنا؛ لا حاجة لكتابة أي شيء.", lgAd: "رابط شريك · العمولة مُفصح عنها",
     lgTitle: "سجل الاسترداد", lgEst: "تقدير وفق الرسوم المعلنة", lgVol: (v, m) => `${v} شهريًا · ${m}`, perpL: "عقود دائمة", spotL: "فوري", sep: " ", lgMax: "أعلى استرداد\nلدى الشركاء", lgPick: "اختر المنصة",
     lgWithout: "بدون رمز دعوة · الرسوم سنويًا", lgBack: "عبر NexuAlpha · الحد الأقصى سنويًا", lgNet: "المدفوع سنويًا", copy: "نسخ", copied: "تم نسخ رمز الدعوة ✓",
@@ -189,7 +189,7 @@ export const H7_I18N = {
   tr: {
     kick: "NEXUALPHA · BORSA ÜCRETLERİ VE İADELER",
     h1a: "Ücret bağışına son.", h1b: "En fazla {max}% iade.",
-    sub: "Hesabınızı NexuAlpha partner düğümü üzerinden borsanın resmî sayfasında açın.\nHer ücretin bir kısmı geri döner; borsalar tek tek karşılaştırılır.",
+    sub: "Hesabınızı NexuAlpha partner davet bağlantısıyla borsanın resmî sayfasında açın.\nHer ücretin bir kısmı geri döner; borsalar tek tek karşılaştırılır.",
     lgShare: (n) => `${n} en yüksek iade oranı`, upTo: "En fazla", settleH: "saatlik ödenir", settleD: "günlük ödenir", lgAuto: "Borsa otomatik öder", lgGo: (n) => `${n} sitesinde kaydol`, lgTop: "En yüksek oran", lgBuilt: "Referans kodu ekli", lgLink: "Bağlantı referans kodumuzu içerir; bir şey yazmanıza gerek yok.", lgAd: "Ortak bağlantısı · komisyon açıklanmıştır",
     lgTitle: "İade defteri", lgEst: "Yayımlanan ücretlere göre tahmin", lgVol: (v, m) => `Aylık ${v} · ${m.toLowerCase()}`, perpL: "Perpetual", spotL: "Spot", sep: " ", lgMax: "Partner borsa\nen yüksek iade", lgPick: "Borsa seçin",
     lgWithout: "Referans kodsuz · yıllık ücret", lgBack: "NexuAlpha ile · yıllık en fazla", lgNet: "Yıllık ödenen", copy: "Kopyala", copied: "Referans kodu kopyalandı ✓",
@@ -212,7 +212,7 @@ export const H7_I18N = {
   ru: {
     kick: "NEXUALPHA · КОМИССИИ БИРЖ И ВОЗВРАТ",
     h1a: "Не дарите комиссии.", h1b: "Верните до {max}%.",
-    sub: "Откройте счёт на официальной странице биржи через партнёрский узел NexuAlpha.\nЧасть каждой комиссии возвращается — сравнение по каждой бирже.",
+    sub: "Откройте счёт на официальной странице биржи по партнёрской ссылке-приглашению NexuAlpha.\nЧасть каждой комиссии возвращается — сравнение по каждой бирже.",
     lgShare: (n) => `Макс. доля возврата ${n}`, upTo: "До", settleH: "каждый час", settleD: "ежедневно", lgAuto: "Начисляет сама биржа", lgGo: (n) => `Регистрация на ${n}`, lgTop: "Выше всех из 3", lgBuilt: "Код приглашения встроен", lgLink: "Ссылка уже содержит наш код приглашения — ничего вводить не нужно.", lgAd: "Партнёрская ссылка · вознаграждение раскрыто",
     lgTitle: "Журнал возвратов", lgEst: "Оценка по опубликованным комиссиям", lgVol: (v, m) => `${v} / мес. · ${m.toLowerCase()}`, perpL: "Бессрочные", spotL: "Спот", sep: " ", lgMax: "Макс. возврат\nу партнёров", lgPick: "Выберите биржу",
     lgWithout: "Без кода · комиссии за год", lgBack: "Через NexuAlpha · максимум за год", lgNet: "Оплачено за год", copy: "Копировать", copied: "Код приглашения скопирован ✓",
@@ -235,7 +235,7 @@ export const H7_I18N = {
   id: {
     kick: "NEXUALPHA · BIAYA BURSA & RABAT",
     h1a: "Jangan buang biaya.", h1b: "Kembali hingga {max}%.",
-    sub: "Buka akun di halaman resmi bursa melalui node mitra NexuAlpha.\nSebagian dari setiap biaya kembali ke Anda, dibandingkan per bursa.",
+    sub: "Buka akun di halaman resmi bursa lewat tautan undangan mitra NexuAlpha.\nSebagian dari setiap biaya kembali ke Anda, dibandingkan per bursa.",
     lgShare: (n) => `Porsi rabat maks. ${n}`, upTo: "Hingga", settleH: "dibayar per jam", settleD: "dibayar harian", lgAuto: "Diselesaikan oleh bursa", lgGo: (n) => `Daftar di ${n}`, lgTop: "Tertinggi dari 3", lgBuilt: "Kode undangan sudah terpasang", lgLink: "Tautan sudah memuat kode undangan kami; tidak perlu mengetik apa pun.", lgAd: "Tautan mitra · komisi diungkapkan",
     lgTitle: "Catatan rabat", lgEst: "Estimasi dari biaya yang dipublikasikan", lgVol: (v, m) => `${v} / bulan · ${m.toLowerCase()}`, perpL: "Perpetual", spotL: "Spot", sep: " ", lgMax: "Rabat maks.\nbursa mitra", lgPick: "Pilih bursa",
     lgWithout: "Tanpa kode undangan · biaya/tahun", lgBack: "Lewat NexuAlpha · maks. per tahun", lgNet: "Dibayar per tahun", copy: "Salin", copied: "Kode undangan tersalin ✓",
@@ -258,7 +258,7 @@ export const H7_I18N = {
   vi: {
     kick: "NEXUALPHA · PHÍ SÀN & HOÀN PHÍ",
     h1a: "Đừng biếu phí sàn.", h1b: "Nhận lại đến {max}%.",
-    sub: "Mở tài khoản trên trang chính thức của sàn qua nút đối tác NexuAlpha.\nMột phần mỗi khoản phí được hoàn lại, so sánh từng sàn một.",
+    sub: "Mở tài khoản trên trang chính thức của sàn qua liên kết mời đối tác của NexuAlpha.\nMột phần mỗi khoản phí được hoàn lại, so sánh từng sàn một.",
     lgShare: (n) => `Tỷ lệ hoàn phí tối đa ${n}`, upTo: "Lên đến", settleH: "trả mỗi giờ", settleD: "trả mỗi ngày", lgAuto: "Sàn tự động chi trả", lgGo: (n) => `Đăng ký trên ${n}`, lgTop: "Cao nhất trong 3", lgBuilt: "Đã kèm mã giới thiệu", lgLink: "Liên kết đã kèm mã giới thiệu của chúng tôi, không cần nhập.", lgAd: "Liên kết đối tác · đã công khai hoa hồng",
     lgTitle: "Sổ hoàn phí", lgEst: "Ước tính theo phí công bố", lgVol: (v, m) => `${v} / tháng · ${m.toLowerCase()}`, perpL: "Hợp đồng", spotL: "Giao ngay", sep: " ", lgMax: "Hoàn phí cao\nnhất ở đối tác", lgPick: "Chọn sàn",
     lgWithout: "Không mã giới thiệu · phí mỗi năm", lgBack: "Qua NexuAlpha · tối đa mỗi năm", lgNet: "Thực trả mỗi năm", copy: "Sao chép", copied: "Đã sao chép mã giới thiệu ✓",
@@ -281,7 +281,7 @@ export const H7_I18N = {
   it: {
     kick: "NEXUALPHA · COMMISSIONI E RIMBORSI",
     h1a: "Commissioni regalate?", h1b: "Recupera fino al {max}%.",
-    sub: "Apri il conto sulla pagina ufficiale della piattaforma tramite il nodo partner NexuAlpha.\nParte di ogni commissione ti torna indietro, confrontata piattaforma per piattaforma.",
+    sub: "Apri il conto sulla pagina ufficiale della piattaforma con il link di invito partner di NexuAlpha.\nParte di ogni commissione ti torna indietro, confrontata piattaforma per piattaforma.",
     lgShare: (n) => `Quota max. di rimborso ${n}`, upTo: "Fino al", settleH: "pagato ogni ora", settleD: "pagato al giorno", lgAuto: "Liquidato dalla piattaforma", lgGo: (n) => `Registrati su ${n}`, lgTop: "Massimo dei tre", lgBuilt: "Codice di invito incluso", lgLink: "Il link include già il nostro codice di invito: niente da digitare.", lgAd: "Link partner · commissione dichiarata",
     lgTitle: "Registro rimborsi", lgEst: "Stima dalle commissioni pubblicate", lgVol: (v, m) => `${v} / mese · ${m.toLowerCase()}`, perpL: "Perpetui", spotL: "Spot", sep: " ", lgMax: "Rimborso max\ntra i partner", lgPick: "Scegli piattaforma",
     lgWithout: "Senza codice · commissioni/anno", lgBack: "Con NexuAlpha · fino a, all’anno", lgNet: "Pagato in un anno", copy: "Copia", copied: "Codice di invito copiato ✓",

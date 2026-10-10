@@ -510,12 +510,17 @@ body:has(> #root > main.v5 > .container) .nx-ftr__inner {
 }
 
 /* Telegram entry (owner 2026-10-10): a visible pill beside search; an icon button next to the menu below 1100px. */
-.nx-tg { display: inline-flex; align-items: center; gap: 6px; block-size: 36px; padding-inline: 12px; border-radius: 999px; font: 600 13px/1 var(--nx-font, inherit); color: #fff; text-decoration: none; background: #229ED9; border: 1px solid rgb(255 255 255 / 0.14); box-shadow: 0 0 0 0 rgb(34 158 217 / 0.4); transition: background-color .2s, box-shadow .2s, transform .2s; white-space: nowrap; }
-.nx-tg:hover { background: #1c8cc2; box-shadow: 0 0 18px rgb(34 158 217 / 0.45); }
+/* Telegram entry: quiet outline control in the same family as search / language (owner 2026-10-10:
+   a filled bright-blue pill was jarring on the dark header). Accent appears only on hover / focus. */
+.nx-tg { display: inline-flex; align-items: center; gap: 6px; block-size: 36px; padding-inline: 12px; border-radius: 8px; font: 500 14px/var(--lh-tight, 1.05) var(--nx-font); color: var(--nx-n11); text-decoration: none; background: transparent; border: 1px solid var(--nx-n6); transition: border-color .18s var(--nx-ease), color .18s var(--nx-ease), background-color .18s var(--nx-ease), transform .12s var(--nx-ease); white-space: nowrap; }
+.nx-tg .nx-ico { color: var(--nx-n10); transition: color .18s var(--nx-ease); }
+.nx-tg:hover, .nx-tg:focus-visible, .nx-tg[aria-current] { border-color: var(--nx-n8); color: var(--nx-n12); background: rgb(255 255 255 / 0.04); }
+.nx-tg:hover .nx-ico, .nx-tg:focus-visible .nx-ico, .nx-tg[aria-current] .nx-ico { color: var(--nx-accent); }
 .nx-tg:active { transform: translateY(1px); }
-.nx-tg:focus-visible { outline: 2px solid var(--nx-accent, #1FE0C0); outline-offset: 2px; }
-.nx-tg--compact { display: none; inline-size: 44px; block-size: 44px; padding: 0; justify-content: center; margin-inline-start: auto; }
-.nx-tg--compact .nx-ico { inline-size: 20px; block-size: 20px; }
+.nx-tg:focus-visible { outline: 2px solid var(--nx-accent); outline-offset: 2px; }
+.nx-tg--compact { display: none; inline-size: 44px; block-size: 44px; padding: 0; justify-content: center; margin-inline-start: auto; border-color: transparent; color: var(--nx-n12); }
+.nx-tg--compact .nx-ico { inline-size: 20px; block-size: 20px; color: var(--nx-n11); }
+.nx-tg--compact:hover, .nx-tg--compact[aria-current] { border-color: transparent; }
 @media (max-width: 1099px) { .nx-tg--compact { display: inline-flex; } }
-@media (prefers-reduced-motion: reduce) { .nx-tg { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .nx-tg, .nx-tg .nx-ico { transition: none; } }
 @media (max-width: 1099px) { .nx-tg--compact ~ .nx-burger { margin-inline-start: 6px; } }

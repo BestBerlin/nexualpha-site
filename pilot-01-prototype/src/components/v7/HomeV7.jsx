@@ -70,8 +70,9 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
     io.observe(h); return () => io.disconnect();
   }, [heroRef]);
   if (!sel?.open) return null;
+  // React 19 treats `inert` as a boolean prop: an empty-string value renders nothing and left the hidden dock in the Tab order.
   return (
-    <div className={`h7-dock${on ? " on" : ""}`} {...(on ? {} : { inert: "", "aria-hidden": "true" })}>
+    <div className={`h7-dock${on ? " on" : ""}`} {...(on ? {} : { inert: true, "aria-hidden": "true" })}>
       <label className="h7-dock-pick"><span className="h7-sr">{t.lgPick}</span>
         <select value={sel.slug} onChange={(e) => setPick(e.target.value)}>{rebated.map((r) => <option key={r.slug} value={r.slug}>{r.name} · {t.upTo} {Math.round(r.share * 100)}%</option>)}</select>
       </label>
