@@ -868,3 +868,18 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
   #top.news-detail-page .news-detail__sources ul:not(#_):not(#_) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
   #top.news-detail-page .news-detail__sources li:last-child:not(#_):not(#_) { border-block-end: 1px solid var(--r1-rule, rgba(255, 255, 255, .1)); }
 }
+
+/* Mobile first screen (2026-10-10 review): below 1024 the rail used to sit between the author line and the
+   article, so the generic "Before you act on this market update" guidance pushed the first section below the
+   fold on a 390px phone. The content section is flattened into the column and the rail (guidance plus any
+   venue offer with its commission disclosure, kept intact) now follows the first lead section. DOM order is
+   unchanged, so desktop's sticky rail and screen-reader order are as before. */
+@media (max-width: 1023px) {
+  #top.news-detail-page .news-detail-container:not(#_) { display: flex; flex-direction: column; align-items: stretch; }
+  #top.news-detail-page .news-detail-container:not(#_) > * { order: 4; min-inline-size: 0; inline-size: 100%; box-sizing: border-box; }
+  #top.news-detail-page .news-detail-container:not(#_) > :is(.news-detail__nav, .news-detail__header) { order: 0; }
+  #top.news-detail-page .news-detail-container:not(#_) > .news-detail__content { display: contents; }
+  #top.news-detail-page .news-detail-container:not(#_) > .news-detail__content > * { order: 3; min-inline-size: 0; inline-size: 100%; box-sizing: border-box; }
+  #top.news-detail-page .news-detail-container:not(#_) > .news-detail__content > :is(.news-detail__local-brief, .news-detail__section-nav, .news-detail__prose--lead) { order: 1; }
+  #top.news-detail-page .news-detail-container:not(#_) > .news-detail__rail { order: 2; margin-block-start: 32px; }
+}

@@ -208,7 +208,7 @@ const i18n = {
     thFormula: "Formula: Net Fee = Base Rate × (1 - Token Discount) × (1 - Rebate Ratio)",
     tagDiscount: "Token Discount",
     secPorTitle: "Proof of reserves",
-    secPorSub: "Reserve figures appear here only with a dated official source; until then each field stays pending.",
+    secPorSub: "Reserve figures appear here only with a dated official source; until then each item is marked “not yet checked”.",
     cardTotalPor: "Declared total reserve ratio",
     cardCleanPor: "Clean reserve ratio (non-native)",
     cardCleanBadge: "Critical solvency metric",
@@ -239,7 +239,7 @@ const i18n = {
     welcomePackage: "Welcome Package",
     activateBtn: "Confirm Conditions in Official Flow ↗",
     switchVenuePrompt: "Switch to another Factbook benchmark:",
-    auditDeclaration: "This page separates public research from marketing. Rewards, net rates, reserve ratios and compliance judgments remain pending until their source and timestamp are verified.",
+    auditDeclaration: "This page separates public research from marketing. Rewards, net rates, reserve ratios and compliance judgments are marked “not yet checked” until their source and timestamp are verified.",
     foundedLabel: "Founded", hqLabel: "HQ", primaryLabel: "Primary", rawMarkdownTitle: "LLM source-aware Markdown block (review before production use)", copyLabel: "Copy", platformSwitcher: "Platform Switcher", formulaLabel:"FORMULA", pendingLabel:"pending", showFewerTiers:"Show fewer fee tiers", viewFullTiers:"View full VIP0-VIP9 matrix", openReserveData:"Open full reserve data", openComplianceData:"Open full compliance data", openSecurityData:"Open recorded endpoints", verifiedTls:"TLS/SSL status to confirm", restApiLabel:"REST API:", webSocketLabel:"WebSocket:",
   },
 };
@@ -1164,7 +1164,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
   }[locale] || (isHant ? "來源審閱事實庫" : isZh ? "来源审阅事实库" : "Source Review Factbook");
   const publicAuditDeclaration = isZh
     ? (isHant ? "本頁面只展示可追溯的公開資料；未完成來源與時間核驗的獎勵、淨費率、儲備率和合規判斷均保持待核驗。" : "本页面只展示可追溯的公开资料；未完成来源与时间核验的奖励、净费率、储备率和合规判断均保持待核验。")
-    : (factbookLocaleOverrides[locale]?.auditDeclaration || factbookLocaleOverrides[localeBase]?.auditDeclaration || "This page separates public research from marketing. Rewards, net rates, reserve ratios and compliance judgments remain pending until their source and timestamp are verified.");
+    : (factbookLocaleOverrides[locale]?.auditDeclaration || factbookLocaleOverrides[localeBase]?.auditDeclaration || "This page separates public research from marketing. Rewards, net rates, reserve ratios and compliance judgments are marked “not yet checked” until their source and timestamp are verified.");
 
   const [feeTab, setFeeTab] = useState("spot");
   const [copiedMd, setCopiedMd] = useState("idle");

@@ -350,7 +350,7 @@ export function FeeRebateCalculator({ locale = "en" }) {
               <p className="frc-receipt-card__desc">
                 {benefitVerified
                   ? (locale.startsWith("zh") ? "基于已记录的 Taker 基础费率与已核验用户权益测算" : "Based on recorded Taker base rates and a source-reviewed user benefit")
-                  : (locale.startsWith("zh") ? t.receiptPending : "Base-fee estimate only; user benefits remain pending source review")}
+                  : (locale.startsWith("zh") ? t.receiptPending : "Base-fee estimate only; user benefits are not yet checked against sources")}
               </p>
 
               <div className="frc-receipt-card__data">

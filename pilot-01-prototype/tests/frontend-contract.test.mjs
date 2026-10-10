@@ -2240,7 +2240,8 @@ test("comparison fee surfaces never publish unverified default rates or net-cost
   assert.match(matrix, /d\.netCostPublishable/);
   assert.match(matrix, /const matrixLeadByLocale = \{/);
   assert.match(matrix, /const matrixLeadCopy = matrixLeadByLocale\[locale\] \|\| matrixLeadByLocale\[localeKey\(locale\)\] \|\| matrixLeadByLocale\.en/);
-  assert.match(matrix, /Compare source-linked fee schedules, reserve disclosures, KYC, product limits and user-benefit status; unverified items remain pending\./);
+  // Owner 2026-10-10: plain words instead of the internal term "pending".
+  assert.match(matrix, /Compare source-linked fee schedules, reserve disclosures, KYC, product limits and user-benefit status; anything we have not verified is marked “not yet checked”\./);
   assert.match(matrix, /"zh-Hans": "按官方来源逐项核对费率、储备金、KYC、产品限制与用户权益；未完成核验的项目保持待确认。"/);
   assert.match(matrix, /"zh-Hant": "按官方來源逐項核對費率、儲備金、KYC、產品限制與用戶權益；未完成核驗的項目保持待確認。"/);
   assert.doesNotMatch(matrix, /Direct quantitative comparison based on official fee schedules, Merkle-tree reserve audits, and verified channel rebate rates/);
