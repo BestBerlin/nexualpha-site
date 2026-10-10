@@ -1,11 +1,13 @@
 // Shared chrome of the public data pages (/liquidations, /funding-rates): breadcrumb, H1, "updated · source" line,
 // unavailable state, explainer, Telegram alerts line, one partner sign-up block (same component and data as the news
-// pages, so invite codes and links are identical and the commission disclosure sits inside the card) and the FAQ.
+// pages, so invite codes and links are identical and the commission disclosure sits inside the card), the FAQ and the
+// collapsed "Embed this" block (src/components/data/EmbedThisBlock.jsx).
 import React from "react";
 import { localizedHref } from "../../data/locale-routing.js";
 import { DATA_PAGE_SIGNUP_VENUES, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH, dataPageCopy, formatUtc } from "../../data/market-data-pages.js";
 import { NewsTelegramAlerts } from "../v3/news/NewsTelegramAlerts.jsx";
 import { NewsVenueOffer } from "../v3/news/NewsVenueOffer.jsx";
+import { EmbedThisBlock } from "./EmbedThisBlock.jsx";
 import "./data-pages.css";
 
 export const textDirection = (locale) => (locale === "ar" ? "rtl" : "ltr");
@@ -60,6 +62,7 @@ export function DataPageTail({ locale, page, pathname }) {
           </article>
         ))}
       </section>
+      <EmbedThisBlock locale={locale} pathname={pathname} />
       <footer className="nxd-foot v2-shell" data-rv="1">
         <p>{copy.common.refresh}</p>
         <p className="nxd-foot__links">

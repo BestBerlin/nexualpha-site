@@ -8,13 +8,17 @@
 //     top ~20 perpetuals by Binance volume, written under `funding`. Public endpoints only, no key.
 // Headlines are for topic discovery only; articles must go back to primary sources.
 // Binance's liquidation stream sends at most the latest order per symbol per second, so totals are a lower bound and
-// are labelled as such. Output: one JSON file (OUT_FILE), rewritten atomically every 5 minutes.
+// are labelled as such. Output: one JSON file (OUT_FILE), rewritten atomically every 5 minutes, plus an hourly
+// history (MARKET_HISTORY_FILE, JSON lines, 90 days) summarised under `history` for the /liquidations 30-day chart.
 import { readFileSync, writeFileSync, renameSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { appendHourlySnapshot, defaultHistoryFile, historySnapshot, summarizeHistory } from "./market-history.mjs";
 
 const OUT_FILE = process.env.OUT_FILE || "/var/lib/nexualpha-market/market-events.json";
 const STATE_FILE = process.env.STATE_FILE || path.join(path.dirname(OUT_FILE), "liquidations-24h.json");
+// Hourly liquidation history (2026-10-11): JSON lines, 90 days, one row per UTC hour; see market-history.mjs.
+const HISTORY_FILE = process.env.MARKET_HISTORY_FILE || defaultHistoryFile(OUT_FILE);
 const UA = "NexuAlphaMarketCollector/1.0 (+https://nexualpha.com)";
 const H24 = 24 * 3600e3;
 const log = (m) => console.log(`[market] ${new Date().toISOString()} ${m}`);
@@ -239,6 +243,16 @@ async function cycle() {
     events: detectEvents(l1, l24, m),
     headlines: news.slice(0, 80),
   };
+  // History: one snapshot per UTC hour (the first cycle of the hour); the summary is recomputed every cycle so the
+  // feed always carries it. A history failure never blocks the live feed.
+  try {
+    const snapshot = historySnapshot(doc);
+    if (snapshot) {
+      const { rows } = appendHourlySnapshot(HISTORY_FILE, snapshot);
+      const history = summarizeHistory(rows);
+      if (history) doc.history = history;
+    }
+  } catch (error) { log(`history failed: ${error.message}`); }
   mkdirSync(path.dirname(OUT_FILE), { recursive: true });
   writeFileSync(`${OUT_FILE}.tmp`, JSON.stringify(doc)); renameSync(`${OUT_FILE}.tmp`, OUT_FILE);
   writeFileSync(`${STATE_FILE}.tmp`, JSON.stringify(liq)); renameSync(`${STATE_FILE}.tmp`, STATE_FILE);
