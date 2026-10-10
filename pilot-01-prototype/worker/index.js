@@ -4,6 +4,7 @@ import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokeniz
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
+import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles } from "../src/data/news-library.js";
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -12,6 +13,8 @@ export default {
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
+    if (url.pathname === "/api/news/search" && request.method === "GET" && env?.ASSETS) return handleNewsSearchJson(env, url);
+    if (url.pathname === "/news-library-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleNewsLibrarySitemap(env, url);
     if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
       const response = await env.ASSETS.fetch(request);
       if (!response.ok) return response;
@@ -45,6 +48,13 @@ export default {
     const localeRedirect = legacyLocaleRedirect(url);
     if (localeRedirect && ["GET", "HEAD"].includes(request.method)) {
       return Response.redirect(new URL(localeRedirect, PUBLIC_ORIGIN).href, 308);
+    }
+    // /news/page/1 and /news/category/<key>/page/1 are the same documents as their first page.
+    const newsListingRedirect = parseNewsListingPath(parsedRoute.contentPathname)?.redirect;
+    if (newsListingRedirect && ["GET", "HEAD"].includes(request.method)) {
+      const destination = new URL(localizedPath(newsListingRedirect, parsedRoute.locale), PUBLIC_ORIGIN);
+      for (const [key, value] of url.searchParams) if (key !== "locale" || !destination.searchParams.has("locale")) destination.searchParams.append(key, value);
+      return Response.redirect(destination.href, 301);
     }
     const legacyNewsSlug = !url.searchParams.get("ref") && url.searchParams.get("page") === "newsDetail"
       ? cleanSlug(url.searchParams.get("slug"))
@@ -3050,7 +3060,7 @@ function newsContentLocale(requestedLocale, articleOrLocales) {
   return locales.includes("en") ? "en" : locales[0] || "en";
 }
 
-function newsCollectionSchema({ title, contentLocale, displayLocale, articles = [] }) {
+function newsCollectionSchema({ title, contentLocale, displayLocale, articles = [], url: collectionUrl }) {
   const itemListElement = articles.slice(0, 12).flatMap((article, index) => {
     const articleLocale = newsContentLocale(contentLocale, article);
     const headline = localizedArticleText(article.title, displayLocale) || localizedArticleText(article.title, articleLocale);
@@ -3079,7 +3089,7 @@ function newsCollectionSchema({ title, contentLocale, displayLocale, articles = 
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: title.replace(" — NexuAlpha", ""),
-    url: localizedCanonical("/news", contentLocale),
+    url: collectionUrl || localizedCanonical("/news", contentLocale),
     inLanguage: contentLocale,
     dateModified: itemListElement[0]?.item?.dateModified,
     publisher: NEXUALPHA_PUBLISHER,
@@ -3582,29 +3592,8 @@ function renderNewsFallbackBody(metadata, url) {
   const locale = UI_LOCALES.has(requestedLocale) ? requestedLocale : (metadata.locale || requestedLocale);
   const t = newsFallbackCopy(locale);
   const newsHref = localizedCanonical("/news", locale);
-  if (url.pathname === "/news") {
-    const articles = metadata.newsArticles.slice(0, NEWS_INDEXABLE_LOCALES.includes(locale) ? 24 : 12);
-    return `<main class="v2-page v3-page news-page" id="top" data-nexualpha-ssr-fallback="news-list">
-      <section class="news-hero v2-shell">
-        <div class="news-hero__badge">${escapeHtml(t.badge)}</div>
-        <h1 class="news-hero__title">${escapeHtml(metadata.title.replace(/\s+—\s+NexuAlpha$/, ""))}</h1>
-        <p class="news-hero__subtitle">${escapeHtml(metadata.description)}</p>
-      </section>
-      ${renderDecisionPathRailFallback(locale, "news")}
-      <section class="news-grid-section v2-shell">
-        <div class="news-grid">${articles.map((article) => {
-          const title = localizedArticleText(article.title, locale) || article.slug;
-          const summary = localizedArticleText(article.summary, locale) || article.seo?.description || "";
-          const href = localizedCanonical(`/news/${article.slug}`, locale);
-          return `<article class="news-article-card">
-            <div class="news-article-card__header"><span class="news-article-card__tag">${escapeHtml(localizedArticleText(article.categoryName, locale) || article.category || "research")}</span><time class="news-article-card__time" datetime="${escapeHtml(article.publishedAt || "")}">${escapeHtml(String(article.publishedAt || "").slice(0, 10))}</time></div>
-            <h2 class="news-article-card__title"><a href="${escapeHtml(href)}">${escapeHtml(title)}</a></h2>
-            <p class="news-article-card__summary">${escapeHtml(summary)}</p>
-          </article>`;
-        }).join("")}</div>
-      </section>
-    </main>`;
-  }
+  const listing = parseNewsListingPath(url.pathname);
+  if (listing && !listing.invalid) return renderNewsListingFallback(metadata, locale, listing);
   const slug = cleanSlug(url.pathname.replace(/^\/news\//, ""));
   const article = slug ? metadata.newsArticles.find((item) => item?.slug === slug) : null;
   if (!article) return null;
@@ -3614,7 +3603,7 @@ function renderNewsFallbackBody(metadata, url) {
   const showsOriginalLanguage = contentLocale !== locale;
   const content = dedupeLongSentences(showsOriginalLanguage ? summary : (localizedArticleText(article.content, contentLocale) || summary));
   const contentHtml = content.split("\n\n").map((block, index) => markdownBlockHtml(block, index, locale)).join("");
-  const relatedLinksHtml = renderArticleRelatedLinks(article, locale);
+  const relatedLinksHtml = renderNewsRelatedArticlesHtml(article, metadata.newsArticles, locale) + renderArticleRelatedLinks(article, locale);
   const sourcesHtml = Array.isArray(article.sources) && article.sources.length
     ? `<h2>${escapeHtml(t.sources)}</h2><ul>${article.sources.map((source) => `<li><a href="${escapeHtml(source?.url || "#")}" rel="noopener noreferrer">${escapeHtml(source?.publisher || source?.title || source?.url || "Source")}${source?.title ? `: ${escapeHtml(source.title)}` : ""}</a></li>`).join("")}</ul>`
     : "";
@@ -3631,6 +3620,90 @@ function renderNewsFallbackBody(metadata, url) {
       <section class="news-detail__content"><div class="news-detail__prose">${contentHtml}${relatedLinksHtml}${sourcesHtml}</div></section>
     </article>
   </main>`;
+}
+
+// Server-rendered news library page (2026-10-10): category links, 24 newest-first cards and real <a href> pagination.
+// The client NewsListPage re-renders the same structure from the hydration state (newsArticles + newsListing).
+function newsCardCategoryLabel(article, locale) {
+  const own = article?.categoryName && typeof article.categoryName === "object" ? article.categoryName[locale] : null;
+  if (typeof own === "string" && own.trim()) return own.trim();
+  return newsCategoryCopy(article?.category, locale)?.label || localizedArticleText(article?.categoryName, locale) || article?.category || "research";
+}
+
+function renderNewsCategoryNavHtml(locale, active, counts = null) {
+  const libraryCopy = newsLibraryCopy(locale);
+  const items = [{ key: null, label: libraryCopy.all }, ...NEWS_CATEGORY_KEYS.map((key) => ({ key, label: newsCategoryCopy(key, locale).label }))];
+  return `<nav class="news-tabs news-category-nav" aria-label="${escapeHtml(libraryCopy.browse)}">${items.map(({ key, label }) => {
+    const current = (key || null) === (active || null);
+    const count = key && counts && Number.isFinite(counts[key]) ? `<span class="news-tab__count">${counts[key]}</span>` : "";
+    return `<a class="news-tab${current ? " news-tab--active" : ""}" href="${escapeHtml(localizedPath(newsListingPath({ category: key }), locale))}"${current ? ' aria-current="page"' : ""} data-cta-kind="research" data-cta-placement="news-category-nav">${escapeHtml(label)}${count}</a>`;
+  }).join("")}</nav>`;
+}
+
+function renderNewsPaginationHtml(locale, { category = null, page = 1, totalPages = 1 } = {}) {
+  if (totalPages <= 1) return "";
+  const libraryCopy = newsLibraryCopy(locale);
+  const href = (n) => escapeHtml(localizedPath(newsListingPath({ category, page: n }), locale));
+  const items = newsPaginationItems(page, totalPages).map((n) => n === null
+    ? '<li class="news-pagination__gap" aria-hidden="true">…</li>'
+    : n === page
+      ? `<li><a class="news-pagination__pill" href="${href(n)}" aria-current="page">${n}</a></li>`
+      : `<li><a class="news-pagination__pill" href="${href(n)}">${n}</a></li>`).join("");
+  return `<nav class="news-pagination" aria-label="${escapeHtml(libraryCopy.pagination)}" data-page="${page}" data-total-pages="${totalPages}">
+    ${page > 1 ? `<a class="news-pagination__step news-pagination__step--prev" href="${href(page - 1)}" rel="prev" data-cta-placement="news-pagination-prev"><span aria-hidden="true">←</span> ${escapeHtml(libraryCopy.previous)}</a>` : ""}
+    <ol class="news-pagination__pills">${items}</ol>
+    <p class="news-pagination__status">${escapeHtml(libraryCopy.pageOf(page, totalPages))}</p>
+    ${page < totalPages ? `<a class="news-pagination__step news-pagination__step--next" href="${href(page + 1)}" rel="next" data-cta-placement="news-pagination-next">${escapeHtml(libraryCopy.next)} <span aria-hidden="true">→</span></a>` : ""}
+  </nav>`;
+}
+
+function renderNewsListingFallback(metadata, locale, listing) {
+  const t = newsFallbackCopy(locale);
+  const { category = null, page = 1 } = listing;
+  const pagination = paginateNews(metadata.newsArticles, { category, page });
+  const libraryCopy = newsLibraryCopy(locale);
+  const categoryCopy = category ? newsCategoryCopy(category, locale) : null;
+  const heading = categoryCopy ? categoryCopy.label : metadata.newsListing?.heading || metadata.title.replace(/\s+—\s+NexuAlpha$/, "");
+  const subtitle = categoryCopy ? categoryCopy.intro : metadata.newsListing?.intro || metadata.description;
+  return `<main class="v6 v2-page v3-page news-page" id="top" data-nexualpha-ssr-fallback="news-list" data-news-category="${escapeHtml(category || "all")}" data-news-page="${pagination.page}">
+      <section class="news-hero v2-shell">
+        <div class="news-hero__badge">${escapeHtml(t.badge)}</div>
+        <h1 class="news-hero__title">${escapeHtml(heading)}</h1>
+        <p class="news-hero__subtitle">${escapeHtml(subtitle)}</p>
+        <div class="news-index-controls">${renderNewsCategoryNavHtml(locale, category, newsCategoryCounts(metadata.newsArticles))}</div>
+        <p class="news-index-status">${escapeHtml(libraryCopy.pageOf(pagination.page, pagination.totalPages))}</p>
+      </section>
+      ${renderDecisionPathRailFallback(locale, "news")}
+      <section class="news-grid-section v2-shell">
+        <div class="news-grid">${pagination.rows.map((article) => {
+          const title = localizedArticleText(article.title, locale) || article.slug;
+          const summary = localizedArticleText(article.summary, locale) || article.seo?.description || "";
+          const href = localizedCanonical(`/news/${article.slug}`, locale);
+          return `<article class="news-article-card">
+            <div class="news-article-card__header"><span class="news-article-card__tag news-article-card__tag--${escapeHtml(article.category || "research")}">${escapeHtml(newsCardCategoryLabel(article, locale))}</span><time class="news-article-card__time" datetime="${escapeHtml(article.publishedAt || "")}">${escapeHtml(String(article.publishedAt || "").slice(0, 10))}</time></div>
+            <h2 class="news-article-card__title"><a href="${escapeHtml(href)}">${escapeHtml(title)}</a></h2>
+            <p class="news-article-card__summary">${escapeHtml(summary)}</p>
+          </article>`;
+        }).join("")}</div>
+        ${renderNewsPaginationHtml(locale, { category, page: pagination.page, totalPages: pagination.totalPages })}
+      </section>
+    </main>`;
+}
+
+// Related articles for an article page: same category plus shared relatedVenues, summary-only.
+function newsRelatedSummaries(article, articles) {
+  return relatedNewsArticles(article, articles).map(summarizeNewsArticle).filter(Boolean);
+}
+
+function renderNewsRelatedArticlesHtml(article, articles, locale) {
+  const related = relatedNewsArticles(article, articles);
+  if (!related.length) return "";
+  const title = newsLibraryCopy(locale).related;
+  return `<section class="news-detail__related-research" aria-label="${escapeHtml(title)}"><h2>${escapeHtml(title)}</h2><ul class="news-detail__related-articles">${related.map((item) => {
+    const href = localizedCanonical(`/news/${item.slug}`, locale);
+    const label = localizedNewsTitle(item, locale) || item.slug;
+    return `<li><a class="news-detail__related-card" href="${escapeHtml(href)}" data-cta-kind="research" data-cta-placement="news-detail-related-article"><span class="news-detail__related-meta">${escapeHtml(newsCardCategoryLabel(item, locale))} · <time datetime="${escapeHtml(item.publishedAt || "")}">${escapeHtml(String(item.publishedAt || "").slice(0, 10))}</time></span><span class="news-detail__related-title">${escapeHtml(label)}</span></a></li>`;
+  }).join("")}</ul></section>`;
 }
 
 function renderArticleRelatedLinks(article, locale) {
@@ -3674,12 +3747,15 @@ function injectFallbackBody(html, metadata, url) {
   const locale = routeLocale(contentUrl);
   const sourceArticles = Array.isArray(metadata.newsArticles) ? metadata.newsArticles : [];
   let hydrationArticles = [];
-  if (contentUrl.pathname === "/news") {
-    const limit = NEWS_INDEXABLE_LOCALES.includes(locale) ? 24 : 12;
-    hydrationArticles = initialNewsArticlesForRoute(contentUrl.pathname, sourceArticles.slice(0, limit), locale);
+  let newsListing = null;
+  const listing = parseNewsListingPath(contentUrl.pathname);
+  if (listing && !listing.invalid) {
+    const pagination = paginateNews(sourceArticles, listing);
+    hydrationArticles = initialNewsArticlesForRoute("/news", pagination.rows, locale);
+    newsListing = { category: listing.category, page: pagination.page, total: pagination.total, totalPages: pagination.totalPages, libraryTotal: sourceArticles.length, counts: newsCategoryCounts(sourceArticles) };
   } else if (slug) {
     const article = sourceArticles.find((item) => item?.slug === slug);
-    hydrationArticles = article ? initialNewsArticlesForRoute(contentUrl.pathname, [article], locale) : [];
+    hydrationArticles = article ? initialNewsArticlesForRoute(contentUrl.pathname, [article, ...newsRelatedSummaries(article, sourceArticles)], locale) : [];
   }
   if (!hydrationArticles.length) {
     return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, `<div id="root" data-nexualpha-client-render="true">${appHtml}</div>`);
@@ -3689,6 +3765,7 @@ function injectFallbackBody(html, metadata, url) {
     locale,
     version: "nexualpha-prerender-v1",
     newsArticles: hydrationArticles,
+    ...(newsListing ? { newsListing } : {}),
     ...(metadata.newsFeedFingerprint ? { newsFeedFingerprint: metadata.newsFeedFingerprint } : {}),
   });
   return html.replace(
@@ -3709,10 +3786,11 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       if (article) {
         try {
           const locale = publicRoute.locale;
-          const appHtml = await env.NEWS_SSR_RENDER(url.href, { newsArticles: [article] });
+          const newsArticles = [article, ...newsRelatedSummaries(article, metadata.newsArticles)];
+          const appHtml = await env.NEWS_SSR_RENDER(url.href, { newsArticles });
           if (typeof appHtml === "string" && appHtml.includes('class="news-detail__title"')) {
             metadata.newsSsrMode = "runtime";
-            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, { newsArticles: [article] }, url);
+            return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, { newsArticles }, url);
           }
         } catch { /* Portable assets-only hosts retain their safe fallback. */ }
       }
@@ -3800,8 +3878,94 @@ async function handleNewsArticleJson(env, url) {
   const article = feed.articles.find((item) => item?.slug === slug);
   if (!article) return new Response(JSON.stringify({ articles: [] }), { status: 404, headers: { ...headers, "cache-control": "public, max-age=60" } });
   const linked = new Set([...JSON.stringify(article).matchAll(/\/news\/([a-z0-9][a-z0-9-]{0,159})/g)].map((m) => m[1]).filter((s) => s !== slug));
-  const related = feed.articles.filter((item) => linked.has(item?.slug)).map(summarizeNewsArticle).filter(Boolean);
-  return new Response(JSON.stringify({ version: 1, articles: [article, ...related] }), { headers: { ...headers, "cache-control": "public, max-age=300" } });
+  const related = newsRelatedSummaries(article, feed.articles);
+  const relatedSlugs = new Set(related.map((item) => item.slug));
+  const linkedSummaries = feed.articles.filter((item) => linked.has(item?.slug) && !relatedSlugs.has(item.slug)).map(summarizeNewsArticle).filter(Boolean);
+  return new Response(JSON.stringify({ version: 1, articles: [article, ...related, ...linkedSummaries], relatedSlugs: [...relatedSlugs] }), { headers: { ...headers, "cache-control": "public, max-age=300" } });
+}
+
+// Full-library search and listing (2026-10-10). Searches titles and summaries of every published article in the
+// cached feed and returns compact rows only; without q it returns one newest-first page of the (category) archive.
+//   GET /api/news/search?q=&locale=&category=&page=&limit=
+async function handleNewsSearchJson(env, url) {
+  const headers = { "content-type": "application/json; charset=utf-8", "x-content-type-options": "nosniff" };
+  const params = url.searchParams;
+  const query = String(params.get("q") || "").slice(0, 120).trim();
+  const rawCategory = params.get("category") || "";
+  const category = rawCategory && rawCategory !== "all" ? rawCategory : null;
+  if (category && !isNewsCategory(category)) {
+    return new Response(JSON.stringify({ version: 1, status: "invalid", reasonCode: "NEWS_CATEGORY_UNKNOWN", articles: [] }), { status: 400, headers: { ...headers, "cache-control": "no-store" } });
+  }
+  const requestedLocale = params.get("locale") || "en";
+  const locale = UI_LOCALES.has(requestedLocale) ? requestedLocale : "en";
+  const limit = Math.min(NEWS_SEARCH_MAX_LIMIT, Math.max(1, Number.parseInt(params.get("limit") || "", 10) || NEWS_PAGE_SIZE));
+  const page = Math.min(1000, Math.max(1, Number.parseInt(params.get("page") || "", 10) || 1));
+  const feed = await loadNewsFeed(env, url);
+  if (!feed.fingerprint) {
+    return new Response(JSON.stringify({ version: 1, status: "unavailable", reasonCode: "NEWS_FEED_UNAVAILABLE", articles: [] }), { status: 503, headers: { ...headers, "cache-control": "no-store" } });
+  }
+  const matches = searchNewsArticles(feed.articles, { query, category });
+  const totalPages = Math.max(1, Math.ceil(matches.length / limit));
+  const rows = matches.slice((page - 1) * limit, page * limit).map((article) => {
+    const summary = summarizeNewsArticle(article);
+    return summary && {
+      ...summary,
+      title: compactLocalizedObject(article.title, locale),
+      summary: compactLocalizedObject(article.summary, locale),
+      categoryName: compactLocalizedObject(article.categoryName, locale),
+    };
+  }).filter(Boolean);
+  return new Response(JSON.stringify({
+    version: 1,
+    query,
+    category: category || "all",
+    locale,
+    page,
+    pageSize: limit,
+    total: matches.length,
+    totalPages,
+    libraryTotal: feed.articles.length,
+    counts: newsCategoryCounts(feed.articles),
+    articles: rows,
+  }), { headers: { ...headers, "cache-control": "public, max-age=120", vary: "Accept-Encoding" } });
+}
+
+// Sitemap for the news library collections (/news pages and category archives) in the two indexable news locales.
+// Article URLs stay in the publisher-written /sitemap.xml and the live /news-sitemap.xml.
+export function renderNewsLibrarySitemap(articles) {
+  const rows = [];
+  const lastmodFor = (items) => {
+    const newest = items.reduce((max, item) => Math.max(max, Date.parse(item?.updatedAt || item?.publishedAt) || 0), 0);
+    return newest ? new Date(newest).toISOString() : null;
+  };
+  for (const category of [null, ...NEWS_CATEGORY_KEYS]) {
+    const { totalPages, total } = paginateNews(articles, { category });
+    if (!total) continue;
+    for (let page = 1; page <= totalPages; page += 1) {
+      const path = newsListingPath({ category, page });
+      const lastmod = lastmodFor(paginateNews(articles, { category, page }).rows);
+      rows.push([
+        "  <url>",
+        `    <loc>${xmlText(localizedCanonical(path, "en"))}</loc>`,
+        ...[...NEWS_INDEXABLE_LOCALES, "x-default"].map((alt) => `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlText(localizedCanonical(path, alt === "x-default" ? "en" : alt))}" />`),
+        ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
+        "  </url>",
+        "  <url>",
+        `    <loc>${xmlText(localizedCanonical(path, "zh-Hans"))}</loc>`,
+        ...[...NEWS_INDEXABLE_LOCALES, "x-default"].map((alt) => `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlText(localizedCanonical(path, alt === "x-default" ? "en" : alt))}" />`),
+        ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
+        "  </url>",
+      ].join("\n"));
+    }
+  }
+  return ['<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    ...rows, "</urlset>", ""].join("\n");
+}
+
+async function handleNewsLibrarySitemap(env, url) {
+  const feed = await loadNewsFeed(env, url);
+  return new Response(renderNewsLibrarySitemap(feed.articles), { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=600" } });
 }
 
 async function handleLiveNewsSitemap(env, url) {
@@ -5075,6 +5239,8 @@ function searchPublicationLocales(pathname, options = {}) {
   if (pathname === "/topics" || pathname === "/factbook") return ["en"];
   if (pathname === "/embed/calculator") return ["en"];
   if (pathname === "/news") return NEWS_INDEXABLE_LOCALES;
+  const newsListing = parseNewsListingPath(pathname);
+  if (newsListing && !newsListing.invalid && !newsListing.redirect) return NEWS_INDEXABLE_LOCALES;
   if (options.article) {
     if (typeof options.searchPublished === "boolean") {
       return options.searchPublished && isReviewedNewsSearchArticle(options.article) ? articleSeoLocales(options.article) : [];
@@ -6048,7 +6214,9 @@ async function routeMetadataBase(url, env, newsFeed) {
     };
   }
 
-  if (canonicalPath === "/news") {
+  const newsListing = parseNewsListingPath(canonicalPath);
+  if (newsListing?.invalid) return notFoundMetadata(canonicalPath, locale);
+  if (newsListing) {
     // The prerendered collection intentionally carries summary-only article
     // objects, so deriving publication languages from their missing `content`
     // field would incorrectly noindex the reviewed zh-Hans collection page.
@@ -6072,21 +6240,36 @@ async function routeMetadataBase(url, env, newsFeed) {
       vi: ["Tin thị trường và nghiên cứu có nguồn — NexuAlpha", "NexuAlpha nghiên cứu thị trường tiền mã hóa, nền tảng, rủi ro và tài sản token hóa kèm liên kết nguồn."],
       it: ["Notizie di mercato e ricerca con fonti — NexuAlpha", "NexuAlpha analizza mercati crypto, piattaforme, rischi e asset tokenizzati con link alle fonti."],
     }[displayLocale] || ["Market News & Source-Backed Research — NexuAlpha", "Source-backed crypto market structure, exchange, risk and tokenized-asset research from NexuAlpha."];
-    const localizedCopy = { title: newsCopy[0], description: newsCopy[1] };
+    // Library pages (2026-10-10): /news/page/N and /news/category/<key>[/page/N] are self-canonical collections.
+    const { category, page } = newsListing;
+    const pagination = paginateNews(newsFeed?.articles || [], { category, page });
+    if (page > pagination.totalPages) return notFoundMetadata(canonicalPath, locale);
+    const listingPath = newsListingPath({ category, page });
+    const libraryCopy = newsLibraryCopy(displayLocale);
+    const categoryCopy = category ? newsCategoryCopy(category, displayLocale) : null;
+    const sectionName = newsCopy[0].replace(/\s+—\s+NexuAlpha$/, "");
+    const pageSuffix = page > 1 ? ` — ${libraryCopy.pageOf(page, pagination.totalPages)}` : "";
+    const localizedCopy = {
+      title: `${categoryCopy ? `${categoryCopy.label} — ${sectionName}` : sectionName}${pageSuffix} — NexuAlpha`,
+      description: `${categoryCopy ? categoryCopy.intro : newsCopy[1]}${page > 1 ? ` ${libraryCopy.pageOf(page, pagination.totalPages)}.` : ""}`,
+    };
+    const hasArticles = pagination.rows.length > 0;
     return {
       status: 200,
       ...localizedCopy,
-      canonical: localizedCanonical("/news", contentLocale),
+      canonical: localizedCanonical(listingPath, contentLocale),
       locale: displayLocale,
-      robots: isPublishedLocale ? "index,follow" : "noindex,follow",
+      robots: isPublishedLocale && hasArticles ? "index,follow" : "noindex,follow",
       marker: NEWS_ROUTE_MARKER,
-      alternates: isPublishedLocale ? routeAlternates("/news", publishedLocales) : [],
+      alternates: isPublishedLocale && hasArticles ? routeAlternates(listingPath, publishedLocales) : [],
+      newsListing: { category, page, total: pagination.total, totalPages: pagination.totalPages, path: listingPath, heading: sectionName, intro: newsCopy[1] },
       schema: {
         ...newsCollectionSchema({
           title: localizedCopy.title,
           contentLocale,
           displayLocale,
-          articles: newsFeed?.articles || [],
+          articles: pagination.rows,
+          url: localizedCanonical(listingPath, contentLocale),
         }),
       },
     };

@@ -32,6 +32,7 @@ import { trackGrowthDecision } from "./data/cta-analytics.js";
 import { readDecisionPassport } from "./data/decision-passport.js";
 import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, parsePublicRoute } from "./data/locale-routing.js";
+import { parseNewsListingPath } from "./data/news-library.js";
 import { NewsListPage as EagerNewsListPage } from "./components/v3/news/NewsListPage.jsx";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
 import {
@@ -453,7 +454,9 @@ function routeState(venues, initialUrl) {
   if (searchParams.get("page") === "newsDetail" && searchParams.get("slug")) {
     return { name: "newsDetail", slug: searchParams.get("slug"), ...contextParams() };
   }
-  if (pathname === "/news") return { name: "newsList", ...contextParams() };
+  if (pathname === "/news") return { name: "newsList", category: null, page: 1, ...contextParams() };
+  const newsListing = parseNewsListingPath(pathname);
+  if (newsListing) return newsListing.invalid ? { name: "notFound" } : { name: "newsList", category: newsListing.category, page: newsListing.page, ...contextParams() };
   if (pathname === "/onchain") return { name: "onchainBoard" };
   if (pathname === "/methodology") return { name: "methodology" };
   if (pathname === "/embed/calculator") return { name: "embedCalculator" };
@@ -577,7 +580,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -681,6 +684,10 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
       // locale switches and missing articles. Preserve the server head meanwhile.
       return;
     }
+    if (route.name === "newsList" && (route.category || route.page > 1)) {
+      // News library pages (/news/page/N, /news/category/<key>) are titled and canonicalized by the Worker.
+      return;
+    }
     if (route.name === "tokenizedAssets") {
       // Tokenized asset cluster metadata is owned by Worker/prerender until the
       // shared SEO injector is coordinated for this new route family.
@@ -748,7 +755,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     <FeeBenchmarkTerminal locale={locale} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />
   </main>, { crawlScope: "rates" });
   if (route.name === "onchainBoard") return pageShell(<main className="v6 v2-page v3-page" id="top"><OnChainLiquidityBoard locale={locale} headingLevel={1} /></main>);
-  if (route.name === "newsList") return pageShell(<NewsListPage locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} />);
+  if (route.name === "newsList") return pageShell(<NewsListPage locale={locale} market={route.market} product={route.product} category={route.category} page={route.page} initialArticles={initialNewsArticles} listing={initialNewsListing} />);
   if (route.name === "newsDetail") return pageShell(<NewsDetailPage slug={route.slug} locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} />);
   if (route.name === "venue" && !routedVenue) return pageShell(<NotFoundPage locale={locale} />);
   if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />);

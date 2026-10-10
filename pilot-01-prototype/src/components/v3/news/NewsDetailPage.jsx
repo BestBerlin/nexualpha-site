@@ -7,7 +7,8 @@ import { splitArticleReadingSections } from "./article-reading-sections.js";
 import React, { useEffect, useRef, useState } from "react";
 import { getNewsArticleBySlug } from "../../../data/news-articles-data.js";
 import { venueDatabase } from "../../../data/venue-database.js";
-import { OKX_USD_USDC_OWNER_CHECKLIST, loadNewsArticleBySlug, localizedNewsSummary, localizedNewsTitle, localizedValue, resolveNewsContentLocale } from "../../../data/news-feed-client.js";
+import { OKX_USD_USDC_OWNER_CHECKLIST, loadNewsArticleBySlug, localizedNewsSummary, localizedNewsTitle, localizedValue, newsArticleUrl, resolveNewsContentLocale } from "../../../data/news-feed-client.js";
+import { newsCategoryCopy, newsLibraryCopy, relatedNewsArticles } from "../../../data/news-library.js";
 import { contextualHref } from "../../../data/contextual-href.js";
 import { validComparison } from "../../../data/browser-state.js";
 import { injectSeoMetadata } from "../../../data/seo-injection.js";
@@ -433,16 +434,43 @@ function ArticleDecisionSummary({ article, withContext, locale, t }) {
   return <TopDecisionBox className="news-detail__first-decision" eyebrow={decision.eyebrow} title={decision.title} answer={decision.body} actions={internalActions} sourceAction={sourceAction} leadingResearchHref={leadingResearchHref || undefined} ctaPlacement="news-detail-first-decision" growthDecision={article.slug} withContext={withContext} />;
 }
 
-function RelatedResearch({ links, t, withContext, article }) {
-  if (!links.length) return null;
+// Related research (2026-10-10): up to six articles from the same category and shared platforms (server-rendered from
+// the article's related summaries), followed by the article's own internal research links.
+function relatedArticleCategory(item, locale) {
+  const own = item.categoryName && typeof item.categoryName === "object" ? item.categoryName[locale] : null;
+  return own || newsCategoryCopy(item.category, locale)?.label || localizedValue(item.categoryName, locale) || item.category;
+}
+
+function RelatedResearch({ links, relatedArticles = [], locale, t, withContext, article }) {
+  if (!links.length && !relatedArticles.length) return null;
+  const title = newsLibraryCopy(locale).related;
   return (
-    <aside className="news-detail__decision-box" aria-label={t.relatedTitle}>
+    <aside className="news-detail__decision-box" aria-label={title}>
       <div className="news-detail__decision-copy">
         <span className="news-detail__decision-eyebrow">{t.nextDecisionEyebrow}</span>
-        <h2>{t.relatedTitle}</h2>
+        <h2>{title}</h2>
         <p>{t.relatedBody}</p>
       </div>
-      <div className="news-detail__decision-links">
+      {relatedArticles.length > 0 && (
+        <ul className="news-detail__related-articles">
+          {relatedArticles.map((item) => (
+            <li key={item.slug}>
+              <a
+                className="news-detail__related-card"
+                href={withContext(newsArticleUrl(item.slug, locale))}
+                data-cta-kind="research"
+                data-cta-placement="news-detail-related-article"
+                data-growth-decision={item.slug}
+                data-growth-placement="news-detail-related-article"
+              >
+                <span className="news-detail__related-meta">{relatedArticleCategory(item, locale)} · <time dateTime={item.publishedAt}>{String(item.publishedAt || "").slice(0, 10)}</time></span>
+                <span className="news-detail__related-title">{localizedNewsTitle(item, locale)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+      {links.length > 0 && <div className="news-detail__decision-links">
         {links.map((link) => (
           <a
             key={link.href}
@@ -455,7 +483,7 @@ function RelatedResearch({ links, t, withContext, article }) {
             <span>{link.label}</span><span aria-hidden="true">→</span>
           </a>
         ))}
-      </div>
+      </div>}
     </aside>
   );
 }
@@ -811,7 +839,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
           />
         )}
 
-        <RelatedResearch links={relatedLinks} t={t} withContext={withContext} article={article} />
+        <RelatedResearch links={relatedLinks} relatedArticles={relatedNewsArticles(article, articles)} locale={locale} t={t} withContext={withContext} article={article} />
 
         <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="timed" />
 

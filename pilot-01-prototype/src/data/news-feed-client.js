@@ -553,6 +553,14 @@ export function normalizeNewsFeedSummaries(feed) {
     .sort((left, right) => Date.parse(right.publishedAt) - Date.parse(left.publishedAt));
 }
 
+// Full articles plus summary rows (related / linked articles) in one newest-first pool for article pages.
+export function normalizeNewsArticlePool(feed) {
+  const full = normalizeNewsFeed(feed);
+  const seen = new Set(full.map((article) => article.slug));
+  const summaries = normalizeNewsFeedSummaries(feed).filter((article) => !seen.has(article.slug));
+  return [...full, ...summaries].sort((left, right) => Date.parse(right.publishedAt) - Date.parse(left.publishedAt));
+}
+
 function compactLocalizedRecord(value, locale = "en") {
   if (!isRecord(value)) return value;
   const requested = NEWS_DISPLAY_LOCALES.includes(locale) ? locale : "en";
@@ -624,7 +632,7 @@ export async function loadNewsArticleBySlug(slug, fetchImpl = globalThis.fetch) 
   try {
     const response = await fetchImpl(`/api/news/article/${encodeURIComponent(slug)}`, { cache: "no-store" });
     if (response?.status === 404) return [];
-    if (response?.ok) return normalizeNewsFeed(await response.json());
+    if (response?.ok) return normalizeNewsArticlePool(await response.json());
   } catch {
     // fall through to the full feed
   }
@@ -642,5 +650,33 @@ export async function loadNewsArticleSummaries(fetchImpl = globalThis.fetch) {
     return normalizeNewsFeedSummaries(await response.json());
   } catch {
     return [];
+  }
+}
+
+/**
+ * One page of the news library from the Worker (/api/news/search): a newest-first archive page without a query, or
+ * ranked full-library search results with one. Returns null when the endpoint is unavailable (e.g. a static host),
+ * so callers can fall back to the compact summary feed.
+ */
+export async function loadNewsLibraryPage({ query = "", category = null, page = 1, locale = "en", limit } = {}, fetchImpl = globalThis.fetch) {
+  if (typeof fetchImpl !== "function") return null;
+  const params = new URLSearchParams();
+  if (query) params.set("q", query);
+  if (category) params.set("category", category);
+  if (page > 1) params.set("page", String(page));
+  if (limit) params.set("limit", String(limit));
+  params.set("locale", locale);
+  try {
+    const response = await fetchImpl(`/api/news/search?${params}`, { headers: { accept: "application/json" } });
+    if (!response?.ok) return null;
+    const payload = await response.json();
+    if (!payload || payload.version !== 1 || !Array.isArray(payload.articles)) return null;
+    return {
+      ...payload,
+      // Keep the server ranking: summary normalization without the date sort.
+      articles: payload.articles.map(normalizeNewsArticleSummary).filter(Boolean),
+    };
+  } catch {
+    return null;
   }
 }

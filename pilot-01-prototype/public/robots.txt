@@ -36,3 +36,4 @@ Allow: /
 
 Sitemap: https://nexualpha.com/sitemap.xml
 Sitemap: https://nexualpha.com/news-sitemap.xml
+Sitemap: https://nexualpha.com/news-library-sitemap.xml
