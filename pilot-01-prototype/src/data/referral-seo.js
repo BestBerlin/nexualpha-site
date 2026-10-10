@@ -95,10 +95,23 @@ const TITLE_OVERRIDES = {
 };
 const partnersBySlug = () => BY_SLUG;
 
+// Owner decision 2026-10-10 (keyword/market research): where local law restricts promoting crypto platforms to
+// residents, the localized title stays neutral (the page keeps its regular localized fee/profile title):
+// ru (Russia advertising rules), ar (Egypt CBE law 194/2020), zh-Hant (Hong Kong SFC Part 5B). In Turkish, Law 7518
+// treats promotion of platforms without SPK authorization as unauthorized service, so only exchanges whose Turkish
+// entity is on the SPK list keep a referral title.
+const NEUTRAL_TITLE_LOCALES = new Set(["ru", "ar", "zh-Hant"]);
+const TR_SPK_LISTED = new Set(["okx", "binance", "bybit", "gate-io", "mexc"]);
+export function referralTitleAllowed(slug, locale) {
+  if (NEUTRAL_TITLE_LOCALES.has(locale)) return false;
+  if (locale === "tr") return TR_SPK_LISTED.has(slug);
+  return true;
+}
+
 /** { title, description } for a partner exchange profile in `locale`, or null when there is no real invite code. */
 export function referralSeoFor(slug, locale = "en") {
   const p = partnersBySlug()[slug];
-  if (!p?.inviteCode) return null;
+  if (!p?.inviteCode || !referralTitleAllowed(slug, locale)) return null;
   const [withShare, withoutShare, describe] = COPY[locale] || COPY.en;
   const pct = p.share != null ? Math.round(p.share * 100) : null;
   const override = TITLE_OVERRIDES[slug]?.[locale];
