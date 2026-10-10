@@ -2,6 +2,7 @@ import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "./re
 /** Route metadata mirrors the standalone Worker; UI-only locale fallbacks share their content canonical. */
 import { venueDatabase } from "./venue-database.js";
 import { mergePriorityVenueSeo } from "./priority-venue-seo.js";
+import { referralSeoFor } from "./referral-seo.js";
 import { neutralVenueCatalog } from "./market-command.js";
 import { TOPIC_GUIDES } from "./topic-guides-data.js";
 import { TOPIC_SOURCE_REVIEW_DATE, topicSourcesFor, topicFaqSchemaEntries } from "./topic-source-registry.js";
@@ -260,6 +261,12 @@ const CURATED_COMPARISONS = new Set([
   "okx-vs-mexc", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "binance-vs-kraken", "gate-io-vs-mexc",
 ]);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
+// Owner 2026-10-10 (search growth): these pages are fully translated in all 15 locales (measured English share of the
+// visible text under 20% per locale), so every locale edition is published to search, not only en/zh/ja/ko/tr.
+// /methodology and /telegram stay on the short list (still partly English), as do the venue profiles below whose
+// localized editions are still 25%+ English.
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain"]);
+const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
 const SEARCH_REVIEWED_TRILINGUAL_VENUES = new Set(["drift", "deribit"]);
@@ -311,17 +318,19 @@ function searchPublicationLocales(pathname, options = {}) {
     return selectReviewedNewsSearchSlugs(options.newsArticles).has(options.article.slug) ? newsArticleSeoLocales(options.article) : [];
   }
   if (tokenizedAssetPage(pathname.replace(/^\/topics\//, ""))) return TOKENIZED_ASSET_LOCALES;
+  if (SEARCH_ALL_LOCALE_STATIC_PATHS.has(pathname)) return INDEXABLE_LOCALES;
   if (SEARCH_CORE_STATIC_PATHS.has(pathname)) return ["en", "zh-Hans", "ja", "ko", "tr"];
   if (SEARCH_SECONDARY_STATIC_PATHS.has(pathname)) return ["en", "zh-Hans"];
   const venueSlug = pathname.match(/^\/exchanges\/([a-z0-9-]+)$/)?.[1];
   if (venueSlug && ACTIVE_VENUES.has(venueSlug)) {
     if (SEARCH_REVIEWED_TRILINGUAL_VENUES.has(venueSlug)) return ["en", "zh-Hans", "zh-Hant"];
+    if (!SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS.has(venueSlug)) return INDEXABLE_LOCALES;
     return SEARCH_PRIORITY_VENUES.has(venueSlug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"];
   }
   const factbookSlug = pathname.match(/^\/factbook\/([a-z0-9-]+)$/)?.[1];
   if (factbookSlug && venueDatabase[factbookSlug]) return SEARCH_PRIORITY_FACTBOOK.has(factbookSlug) ? ["en", "zh-Hans"] : ["en"];
   const comparisonSlug = pathname.match(/^\/compare\/([a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2})$/)?.[1];
-  if (comparisonSlug && CURATED_COMPARISONS.has(comparisonSlug)) return SEARCH_PRIORITY_COMPARISONS.has(comparisonSlug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"];
+  if (comparisonSlug && CURATED_COMPARISONS.has(comparisonSlug)) return SEARCH_PRIORITY_COMPARISONS.has(comparisonSlug) && !comparisonSlug.split("-vs-").some((v) => SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS.has(v)) ? INDEXABLE_LOCALES : ["en", "zh-Hans"];
   const topicSlug = pathname.match(/^\/topics\/([a-z0-9-]+)$/)?.[1];
   if (topicSlug && TOPIC_GUIDES[topicSlug]) return SEARCH_PRIORITY_TOPICS.has(topicSlug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"];
   return [];
@@ -1201,7 +1210,10 @@ function mergeLocalizedOverride(base, localizedOverride) {
 export function venueSeoOverrideFor(slug, locale) {
   const base = VENUE_SEO_OVERRIDES[slug];
   const existing = locale === "en" ? base || null : mergeLocalizedOverride(base, LOCALIZED_VENUE_SEO_OVERRIDES[locale]?.[slug]);
-  return mergePriorityVenueSeo(slug, locale, existing);
+  const merged = mergePriorityVenueSeo(slug, locale, existing);
+  // Owner 2026-10-10: partner profiles lead with the real invite code ("<exchange> referral code" searches).
+  const referral = referralSeoFor(slug, locale);
+  return referral ? { ...(merged || {}), title: referral.title, description: referral.description } : merged;
 }
 function compareSeoOverrideFor(pair, locale) {
   const directAnswerOverride = compareSeoOverrideFromDirectAnswer(pair, locale);

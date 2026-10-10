@@ -1,8 +1,11 @@
-/** Frozen R56 search publication roster. Feed updates do not authorize search publication.
- * Source: the 312 reviewed article canonicals in the accepted R56 release sitemap.
- * Updating this roster requires a reviewed publication decision within the existing budget.
+/** Search publication policy for /news articles.
+ * Owner decision 2026-10-10 (search growth): the frozen R56 roster below no longer caps search publication. An
+ * article is published to search when the feed marks it indexable (`seo.noindex === false`) — the content publisher
+ * sets that flag only after its quality gate (validated package, four review passes, at least two sources, full-length
+ * English body, not a near-duplicate title). The 312 R56 slugs stay listed as the protected legacy set: they are
+ * listed first and keep their place in sitemap ordering.
  */
-export const REVIEWED_NEWS_SEARCH_BUDGET = 312;
+export const REVIEWED_NEWS_SEARCH_BUDGET = 5000;
 export const REVIEWED_NEWS_SEARCH_SLUGS = Object.freeze([
   "address-poisoning-transfer-history-wallet-warning-radar",
   "api-failover-cancel-control-disclosure-radar",
@@ -320,11 +323,20 @@ export const REVIEWED_NEWS_SEARCH_SLUGS = Object.freeze([
 const reviewedSlugs = new Set(REVIEWED_NEWS_SEARCH_SLUGS);
 
 export function isReviewedNewsSearchArticle(article) {
-  return !!article && reviewedSlugs.has(article.slug) && article.status === 'PUBLISHED'
+  return !!article && typeof article.slug === 'string' && article.status === 'PUBLISHED'
     && article.seo?.noindex === false && Array.isArray(article.sources) && article.sources.length > 0;
 }
 
+export function isLegacyReviewedNewsSlug(slug) {
+  return reviewedSlugs.has(slug);
+}
+
 export function selectReviewedNewsSearchSlugs(articles = [], limit = REVIEWED_NEWS_SEARCH_BUDGET) {
-  const eligible = new Set((Array.isArray(articles) ? articles : []).filter(isReviewedNewsSearchArticle).map((article) => article.slug));
-  return new Set(REVIEWED_NEWS_SEARCH_SLUGS.filter((slug) => eligible.has(slug)).slice(0, Math.max(0, limit)));
+  const eligible = (Array.isArray(articles) ? articles : []).filter(isReviewedNewsSearchArticle);
+  const eligibleSlugs = new Set(eligible.map((article) => article.slug));
+  const legacy = REVIEWED_NEWS_SEARCH_SLUGS.filter((slug) => eligibleSlugs.has(slug));
+  const newer = eligible.filter((article) => !reviewedSlugs.has(article.slug))
+    .sort((a, b) => String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')))
+    .map((article) => article.slug);
+  return new Set([...legacy, ...newer].slice(0, Math.max(0, limit)));
 }

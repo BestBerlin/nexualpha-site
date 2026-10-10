@@ -5,6 +5,7 @@
 //   node scripts/search-engines.mjs submit   # after every deploy: submit both sitemaps to all three
 //   node scripts/search-engines.mjs status   # sitemap state, errors and indexing summary (--full for whole responses)
 //   node scripts/search-engines.mjs inspect <url>...   # Google URL inspection: index state, crawl time, canonical
+//   node scripts/search-engines.mjs perf [days]   # Google clicks / impressions: totals, top queries, top pages, by section
 import { readFileSync, existsSync } from "node:fs";
 import { createSign } from "node:crypto";
 import { homedir } from "node:os";
@@ -101,7 +102,26 @@ if (cmd === "verify") {
       return { status: r.status, text: x.verdict ? `${url} ${x.verdict} | ${x.coverageState} | fetch ${x.pageFetchState} | robots ${x.robotsTxtState} | crawled ${x.lastCrawlTime || "-"} | google canonical ${x.googleCanonical || "-"}` : r.text };
     });
   }
+} else if (cmd === "perf") {
+  const days = Number(process.argv[3]) || 28;
+  const end = new Date(Date.now() - 2 * 864e5).toISOString().slice(0, 10);
+  const start = new Date(Date.now() - (days + 2) * 864e5).toISOString().slice(0, 10);
+  const q = async (dimensions, rowLimit = 25) => {
+    const r = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${gscSite}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions, rowLimit });
+    if (r.status !== 200) throw new Error(`searchAnalytics ${r.status} ${short(r.text)}`);
+    return JSON.parse(r.text).rows || [];
+  };
+  const fmt = (x) => `${String(x.clicks).padStart(5)} clicks ${String(x.impressions).padStart(7)} impr  pos ${x.position.toFixed(1).padStart(5)}`;
+  const [total] = await q([], 1);
+  console.log(`Google ${start}..${end}: ${total ? fmt(total) : "no data"}`);
+  console.log("\nTop queries"); for (const x of await q(["query"])) console.log(`${fmt(x)}  ${x.keys[0]}`);
+  const pages = await q(["page"], 5000);
+  console.log("\nTop pages"); for (const x of pages.slice(0, 20)) console.log(`${fmt(x)}  ${x.keys[0].replace(SITE, "/")}`);
+  const sec = {};
+  for (const x of pages) { const k = x.keys[0].replace(SITE, "/").split("/").filter(Boolean).filter((p) => !/^(zh-hans|zh-hant|ja|ko|ru|es|pt-br|tr|vi|id|de|fr|it|ar)$/.test(p))[0] || "(home)"; const a = (sec[k] ||= { pages: 0, clicks: 0, impressions: 0 }); a.pages++; a.clicks += x.clicks; a.impressions += x.impressions; }
+  console.log("\nBy section (pages with impressions)"); for (const [k, a] of Object.entries(sec).sort((a, b) => b[1].impressions - a[1].impressions)) console.log(`${String(a.pages).padStart(5)} pages ${String(a.clicks).padStart(5)} clicks ${String(a.impressions).padStart(7)} impr  /${k}`);
+  console.log("\nBy country"); for (const x of await q(["country"], 10)) console.log(`${fmt(x)}  ${x.keys[0]}`);
 } else {
-  console.log("usage: node scripts/search-engines.mjs verify|submit|status|inspect <url>... [--full]");
+  console.log("usage: node scripts/search-engines.mjs verify|submit|status|inspect <url>...|perf [days] [--full]");
   process.exitCode = 1;
 }
