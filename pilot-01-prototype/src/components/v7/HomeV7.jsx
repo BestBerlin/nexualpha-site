@@ -277,7 +277,7 @@ export function HomeV7({ locale, venues: _catalog }) {
           </div>
           <div className="h7-lg-max">
             <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgShare(sel.name)} </span><Roll value={Math.round(sel.share * 100)} fmt={(n) => String(Math.round(n))} nudge={sel.slug} /><span>%</span></p>
-            <div className="h7-lg-who"><b>{t.lgShare(sel.name)}</b>{auto && <span className="h7-auto">{t.lgAuto}{HOME_SETTLE[sel.slug] ? ` · ${HOME_SETTLE[sel.slug] === "hourly" ? t.settleH : t.settleD}` : ""}</span>}</div>
+            <div className="h7-lg-who"><b>{t.lgShare(sel.name)}</b>{auto && <span className="h7-auto">{t.lgAuto}</span>}{auto && HOME_SETTLE[sel.slug] && <span className="h7-auto h7-auto--cad">{HOME_SETTLE[sel.slug] === "hourly" ? t.settleH : t.settleD}</span>}</div>
           </div>
           <p className="h7-lg-top"><span className="h7-dot" aria-hidden="true" />{t.lgEst}<span className="h7-lg-vol">{t.lgVol(usd(vol), `${product === "perp" ? t.perpL : t.spotL}${t.sep}${mode === "maker" ? t.maker : t.taker}`)}</span></p>
           <dl className="h7-lg-rows">
