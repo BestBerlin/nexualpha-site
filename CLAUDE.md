@@ -19,3 +19,7 @@ On every new session, first read `docs/company/ITERATION-v8.md` (current milesto
   CT121 copies are disabled rollback only. Bot sign-up cards and the Mini App read `/intel/partners.json`, so partner
   codes change in one place (the site data). Never run a second poller for the same bot token.
 - After every site deploy: `node scripts/search-engines.mjs submit`.
+- Search publication: an article is indexable when the feed says `seo.noindex === false`; the Codex publisher sets it via
+  its quality gate. Never reintroduce a frozen roster or a locale whitelist that hides translated pages.
+- Deploy health is more than HTTP 200: the standby must reach the running CTA collector and report the error monitor
+  ready (deploy/stage-remote.py checks both). Public checks must not use `curl | grep -q` under pipefail.
