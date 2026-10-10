@@ -13,6 +13,15 @@ import path from "node:path";
 
 const SITE = "https://nexualpha.com/";
 const SITEMAPS = ["https://nexualpha.com/sitemap.xml", "https://nexualpha.com/news-sitemap.xml"];
+// An empty news sitemap is reported by Google as an error ("missing <url>"); submit only sitemaps that list URLs.
+async function nonEmptySitemaps() {
+  const keep = [];
+  for (const url of SITEMAPS) {
+    try { const text = await (await fetch(url, { headers: { "cache-control": "no-cache" } })).text(); if (/<url>/.test(text)) keep.push(url); else console.log(`skip    ${url} (no <url> entries)`); }
+    catch { keep.push(url); }
+  }
+  return keep;
+}
 const PRIVATE = process.env.NEXU_KEYS_DIR || path.join(homedir(), ".codex", "private");
 
 function readEnv(file) {
@@ -80,7 +89,7 @@ if (cmd === "verify") {
   await run("bing", "verify", () => bing("POST", "VerifySite", { siteUrl: SITE }));
   await run("yandex", "verify file", () => yandex("POST", `/hosts/${YHOST}/verification?verification_type=HTML_FILE`));
 } else if (cmd === "submit") {
-  for (const sm of SITEMAPS) {
+  for (const sm of await nonEmptySitemaps()) {
     await run("google", "sitemap", () => google("PUT", `https://www.googleapis.com/webmasters/v3/sites/${gscSite}/sitemaps/${encodeURIComponent(sm)}`));
     await run("bing", "sitemap", () => bing("POST", "SubmitFeed", { siteUrl: SITE, feedUrl: sm }));
     await run("yandex", "sitemap", async () => {

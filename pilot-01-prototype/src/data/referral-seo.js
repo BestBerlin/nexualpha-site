@@ -88,6 +88,11 @@ const COPY = {
 };
 
 const BY_SLUG = Object.fromEntries(REFERRAL_PARTNERS.map((p) => [p.slug, p]));
+// Pages that already earn impressions keep the words people search with (GSC 2026-09-09..10-06: "hyperliquid fees"
+// 68 impressions, "hyperliquid funded account" 16), with the invite code added.
+const TITLE_OVERRIDES = {
+  hyperliquid: { en: (n, c, y) => `${n} Fees & Referral Code ${c}: Funded Account Checks (${y})` },
+};
 const partnersBySlug = () => BY_SLUG;
 
 /** { title, description } for a partner exchange profile in `locale`, or null when there is no real invite code. */
@@ -96,8 +101,9 @@ export function referralSeoFor(slug, locale = "en") {
   if (!p?.inviteCode) return null;
   const [withShare, withoutShare, describe] = COPY[locale] || COPY.en;
   const pct = p.share != null ? Math.round(p.share * 100) : null;
+  const override = TITLE_OVERRIDES[slug]?.[locale];
   return {
-    title: pct ? withShare(p.name, p.inviteCode, pct, YEAR()) : withoutShare(p.name, p.inviteCode, YEAR()),
+    title: override ? override(p.name, p.inviteCode, YEAR()) : pct ? withShare(p.name, p.inviteCode, pct, YEAR()) : withoutShare(p.name, p.inviteCode, YEAR()),
     description: describe(p.name, p.inviteCode, pct, p.settle),
   };
 }

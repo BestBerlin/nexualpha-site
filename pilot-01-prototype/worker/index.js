@@ -11,6 +11,7 @@ export default {
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
+    if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
     if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
       const response = await env.ASSETS.fetch(request);
       if (!response.ok) return response;
@@ -3789,6 +3790,20 @@ export function renderLiveNewsSitemap(articles, now = Date.now()) {
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
     ...rows.slice(0, 1000), "</urlset>", ""].join("\n");
 }
+// One article (plus compact summaries of the articles it links to) for client-side article pages (2026-10-10, audit
+// finding 8): the detail page used to download the whole ~23 MB feed (4.4 MB gzipped) for every non-prerendered visit.
+async function handleNewsArticleJson(env, url) {
+  const slug = url.pathname.slice("/api/news/article/".length);
+  const headers = { "content-type": "application/json; charset=utf-8", "x-content-type-options": "nosniff" };
+  if (!/^[a-z0-9][a-z0-9-]{0,159}$/.test(slug)) return new Response(JSON.stringify({ articles: [] }), { status: 404, headers: { ...headers, "cache-control": "no-store" } });
+  const feed = await loadNewsFeed(env, url);
+  const article = feed.articles.find((item) => item?.slug === slug);
+  if (!article) return new Response(JSON.stringify({ articles: [] }), { status: 404, headers: { ...headers, "cache-control": "public, max-age=60" } });
+  const linked = new Set([...JSON.stringify(article).matchAll(/\/news\/([a-z0-9][a-z0-9-]{0,159})/g)].map((m) => m[1]).filter((s) => s !== slug));
+  const related = feed.articles.filter((item) => linked.has(item?.slug)).map(summarizeNewsArticle).filter(Boolean);
+  return new Response(JSON.stringify({ version: 1, articles: [article, ...related] }), { headers: { ...headers, "cache-control": "public, max-age=300" } });
+}
+
 async function handleLiveNewsSitemap(env, url) {
   const feed = await loadNewsFeed(env, url);
   return new Response(renderLiveNewsSitemap(feed.articles), { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=600" } });
