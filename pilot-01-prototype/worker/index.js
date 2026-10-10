@@ -10,6 +10,7 @@ export default {
     if (url.pathname === "/api/analytics/cta") return handleAnalyticsCollector(request, env, url);
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
+    if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
       const response = await env.ASSETS.fetch(request);
       if (!response.ok) return response;
@@ -3752,6 +3753,46 @@ function sanitizeRawNewsFeedArticle(article) {
 // cost 1-5 s of TTFB. The parsed feed is reused while the published news-feed.sha256.txt still names it (a 65-byte read);
 // without a sha file it is reused only while the feed text is byte-identical. A changed feed is served on the next request.
 let newsFeedCache = null;
+
+// Google News sitemap built from the mounted live feed on request (2026-10-10). The build-time file was always empty:
+// the content publisher writes the feed after the site build, so only the server sees the current articles. Lists
+// search-published articles (feed seo.noindex === false) from the last two days, one entry per published locale.
+const LIVE_NEWS_SITEMAP_WINDOW_MS = 2 * 24 * 60 * 60 * 1000;
+const xmlText = (value) => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+export function renderLiveNewsSitemap(articles, now = Date.now()) {
+  const href = (slug, locale) => `${PUBLIC_ORIGIN}${locale === "zh-Hans" ? "/zh-hans" : ""}/news/${slug}`;
+  const rows = [];
+  for (const article of (Array.isArray(articles) ? articles : [])) {
+    if (!isReviewedNewsSearchArticle(article)) continue;
+    const published = Date.parse(article.publishedAt);
+    if (!Number.isFinite(published) || published > now || now - published > LIVE_NEWS_SITEMAP_WINDOW_MS) continue;
+    const locales = articleSeoLocales(article).filter((locale) => locale === "en" || locale === "zh-Hans");
+    for (const locale of locales) {
+      const title = (typeof article.title === "object" ? article.title?.[locale] || article.title?.en : article.title) || article.slug;
+      rows.push([
+        "  <url>",
+        `    <loc>${xmlText(href(article.slug, locale))}</loc>`,
+        ...[...locales, "x-default"].map((alt) => `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlText(href(article.slug, alt === "x-default" ? "en" : alt))}" />`),
+        "    <news:news>",
+        "      <news:publication>",
+        "        <news:name>NexuAlpha</news:name>",
+        `        <news:language>${locale === "zh-Hans" ? "zh-cn" : "en"}</news:language>`,
+        "      </news:publication>",
+        `      <news:publication_date>${new Date(published).toISOString()}</news:publication_date>`,
+        `      <news:title>${xmlText(title)}</news:title>`,
+        "    </news:news>",
+        "  </url>",
+      ].join("\n"));
+    }
+  }
+  return ['<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    ...rows.slice(0, 1000), "</urlset>", ""].join("\n");
+}
+async function handleLiveNewsSitemap(env, url) {
+  const feed = await loadNewsFeed(env, url);
+  return new Response(renderLiveNewsSitemap(feed.articles), { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=600" } });
+}
 
 async function readNewsFeedSha(env, requestUrl) {
   try {
