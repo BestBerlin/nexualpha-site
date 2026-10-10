@@ -25,11 +25,14 @@ export const CUSTOM_INVITE_CODES = {
 // 甲方提供的完整合作链接簇。registrationUrl 使用首选链接，
 // alternateRegistrationUrls 保留同一平台的备用/地区渠道，避免只保留单一入口。
 export const PARTNER_REGISTRATION_URLS = {
+  // Owner instruction 2026-10-10: the official binance.com link is the primary route; bsmkweb.cc stays as an
+  // alternate for regions where binance.com is blocked (same referral 11350287).
   binance: [
-    "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy",
-    "https://www.bsmkweb.cc/join?ref=11350287",
+    "https://www.binance.com?ref=11350287",
     "https://www.binance.com/join?ref=11350287",
     "https://accounts.binance.com/register?ref=11350287",
+    "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy",
+    "https://www.bsmkweb.cc/join?ref=11350287",
   ],
   bitget: [
     "https://partner.bitget.cafe/bg/C6PRAF",
