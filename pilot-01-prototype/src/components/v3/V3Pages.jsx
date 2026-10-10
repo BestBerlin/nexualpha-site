@@ -3015,6 +3015,39 @@ export const GOLDEN_COMPARE_PAIRS = [
     title: { "zh-Hans": "全币种交易所双雄", "zh-Hant": "全幣種交易所雙雄", en: "Altcoin Kings Showdown" },
     tagline: { "zh-Hans": "1800+币种Startup打新 vs 极速上币与0挂单费", "zh-Hant": "1800+幣種Startup打新 vs 極速上幣與0掛單費", en: "1800+ Listed Pairs vs Zero Maker Altcoin Haven" },
   },
+  // 2026-10-10 market plan: the most-searched pairs that had no indexable page.
+  {
+    slug: "binance-vs-bitget",
+    left: "binance",
+    right: "bitget",
+    badge: "DEPTH",
+    title: { "zh-Hans": "全球深度 vs 一键跟单", "zh-Hant": "全球深度 vs 一鍵跟單", en: "Global Depth vs One-Click Copy" },
+    tagline: { "zh-Hans": "最深盘口与法币通道 vs 跟单交易与保护基金", "zh-Hant": "最深盤口與法幣通道 vs 跟單交易與保護基金", en: "Deepest Books & Fiat Rails vs Copy Trading & Protection Fund" },
+  },
+  {
+    slug: "bitget-vs-okx",
+    left: "bitget",
+    right: "okx",
+    badge: "ROUTE",
+    title: { "zh-Hans": "跟单为先 vs 交易所加 Web3 钱包", "zh-Hant": "跟單為先 vs 交易所加 Web3 錢包", en: "Copy-First vs Exchange + Web3 Wallet" },
+    tagline: { "zh-Hans": "跟单与合约 vs 衍生品、期权与链上入口", "zh-Hant": "跟單與合約 vs 衍生品、選擇權與鏈上入口", en: "Copy & Futures vs Derivatives, Options & On-chain Access" },
+  },
+  {
+    slug: "bybit-vs-mexc",
+    left: "bybit",
+    right: "mexc",
+    badge: "LISTINGS",
+    title: { "zh-Hans": "合约深度 vs 新币首发", "zh-Hant": "合約深度 vs 新幣首發", en: "Perp Depth vs First Listings" },
+    tagline: { "zh-Hans": "永续流动性与实名账户 vs 上新速度与轻量注册", "zh-Hant": "永續流動性與實名帳戶 vs 上幣速度與輕量註冊", en: "Perpetual Liquidity & Verified Accounts vs Listing Speed & Light Onboarding" },
+  },
+  {
+    slug: "bitget-vs-mexc",
+    left: "bitget",
+    right: "mexc",
+    badge: "EARLY",
+    title: { "zh-Hans": "跟单交易 vs 追新币", "zh-Hant": "跟單交易 vs 追新幣", en: "Copy Trading vs Early Listings" },
+    tagline: { "zh-Hans": "保护基金下的跟单 vs 最先上线的山寨币目录", "zh-Hant": "保護基金下的跟單 vs 最先上線的山寨幣目錄", en: "Copy Trading Behind a Protection Fund vs First-to-List Altcoin Catalogue" },
+  },
 ];
 
 export function CompareGoldMatrixNav({ currentSlugs = [], locale = "en", market, product, accountStage, funding }) {

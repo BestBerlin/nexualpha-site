@@ -3,6 +3,7 @@ import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
+import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles } from "../src/data/news-library.js";
@@ -2099,6 +2100,10 @@ const LEGACY_COMPARE_REDIRECTS = Object.freeze({
   "/compare/hashkey-vs-binance": "/exchanges",
   "/compare/htx-vs-binance": "/exchanges",
   "/compare/kraken-vs-binance": "/compare/binance-vs-kraken",
+  "/compare/bitget-vs-binance": "/compare/binance-vs-bitget",
+  "/compare/okx-vs-bitget": "/compare/bitget-vs-okx",
+  "/compare/mexc-vs-bybit": "/compare/bybit-vs-mexc",
+  "/compare/mexc-vs-bitget": "/compare/bitget-vs-mexc",
 });
 const TEXT_ASSET_CONTENT_TYPE = "text/plain; charset=utf-8";
 const IMMUTABLE_STATIC_CACHE = "public, max-age=31536000, immutable";
@@ -2441,6 +2446,8 @@ const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage",
 const CURATED_COMPARISONS = new Set([
   "binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "binance-vs-mexc",
   "okx-vs-mexc", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "binance-vs-kraken", "gate-io-vs-mexc",
+  // 2026-10-10 market plan: most-wanted pairs that had no indexable page.
+  "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc",
 ]);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 // Owner 2026-10-10 (search growth): mirror of src/data/seo-injection.js — fully translated pages publish all 15 locales.
@@ -2449,7 +2456,7 @@ const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashk
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
 const SEARCH_PRIORITY_FACTBOOK = new Set(["binance", "okx", "bybit", "bitget", "coinbase", "kraken", "hyperliquid", "uniswap"]);
-const SEARCH_PRIORITY_COMPARISONS = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "coinbase-vs-kraken"]);
+const SEARCH_PRIORITY_COMPARISONS = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "coinbase-vs-kraken", "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc"]);
 const SEARCH_PRIORITY_TOPICS = new Set(["meme-coins", "derivatives", "compliant-exchanges", "no-kyc", "tokenized-assets"]);
 
 const SERP_CTR_NEWS_OVERRIDES = {
@@ -6023,9 +6030,12 @@ async function routeMetadataBase(url, env, newsFeed) {
     };
     const baseCompareSeoOverride = requestedLocale === "en" ? compareSeoOverrides[pair] : null;
     const localFirstComparePairs = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "binance-vs-mexc", "okx-vs-mexc"]);
-    const compareSeoOverride = localFirstComparePairs.has(pair)
+    // Pairs outside the generated projection (the 2026-10-10 market-plan pairs) read the shared direct-answer data
+    // for every locale, the same source the SSR page and seo-injection use.
+    const sharedDirectAnswerOverride = PRIORITY_COMPARE_SEO[pair] ? null : compareSeoOverrideFromDirectAnswer(pair, requestedLocale);
+    const compareSeoOverride = sharedDirectAnswerOverride || (localFirstComparePairs.has(pair)
       ? baseCompareSeoOverride || PRIORITY_COMPARE_SEO[pair]?.[requestedLocale] || localizedCompareSeoOverride(pair, requestedLocale, compareSeoOverrides[pair])
-      : PRIORITY_COMPARE_SEO[pair]?.[requestedLocale] || localizedCompareSeoOverride(pair, requestedLocale, compareSeoOverrides[pair]) || baseCompareSeoOverride;
+      : PRIORITY_COMPARE_SEO[pair]?.[requestedLocale] || localizedCompareSeoOverride(pair, requestedLocale, compareSeoOverrides[pair]) || baseCompareSeoOverride);
     return {
       status: 200,
       title: compareSeoOverride?.title || `${name}: ${({ "zh-Hant": "手續費與平台選擇", ja: "取引手数料とプラットフォーム比較", ko: "거래 수수료 및 플랫폼 비교", tr: "İşlem ücretleri ve platform karşılaştırması", es: "Comisiones y comparación de plataformas", "pt-BR": "Taxas e comparação de plataformas", fr: "Frais et comparaison des plateformes", de: "Gebühren und Plattformvergleich", ar: "مقارنة الرسوم والمنصات", ru: "Сравнение комиссий и платформ", id: "Perbandingan biaya dan platform", vi: "So sánh phí và nền tảng", it: "Confronto di commissioni e piattaforme" }[requestedLocale] || (isZh ? "手续费与平台选择" : "Trading Fees & Platform Comparison"))} — NexuAlpha`,

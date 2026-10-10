@@ -28,6 +28,7 @@ export const PRERENDER_LOCALES = INDEXABLE_LOCALES;
 export const CURATED_COMPARISONS = [
   "binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "binance-vs-mexc",
   "okx-vs-mexc", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "binance-vs-kraken", "gate-io-vs-mexc",
+  "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc",
 ];
 const SITE_CONTENT_REVIEW_DATE = "2026-09-17";
 const FACTBOOK_ONLY_LEGACY_SLUGS = new Set(["htx", "hashkey", "aevo"]);
