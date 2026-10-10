@@ -17,6 +17,10 @@ export default {
       headers.set("content-type", "application/json; charset=utf-8");
       return new Response(response.body, { status: response.status, headers });
     }
+    // Search-engine ownership files (Google / Yandex) are static .html in public/; page routing would 404 them.
+    if (/^\/(?:google[0-9a-f]{16}|yandex_[0-9a-f]{16})\.html$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) {
+      return env.ASSETS.fetch(request);
+    }
     if (["/sitemap_index.xml", "/sitemap-index.xml"].includes(url.pathname) && ["GET", "HEAD"].includes(request.method)) {
       return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
     }
