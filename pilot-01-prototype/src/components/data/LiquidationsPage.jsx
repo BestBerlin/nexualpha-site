@@ -1,7 +1,8 @@
 // /liquidations — today's crypto liquidations from the market collector feed (see src/data/market-data-pages.js).
 import React from "react";
-import { LIQUIDATIONS_PATH, dataPageCopy, formatUsdCompact, formatUsdFull, formatUtc, formatUtcTime, readLiquidations } from "../../data/market-data-pages.js";
+import { LIQUIDATIONS_PATH, dataPageCopy, formatUsdCompact, formatUsdFull, formatUtc, formatUtcTime, readHistory, readLiquidations } from "../../data/market-data-pages.js";
 import { DataPageHero, DataPageTail, DataUnavailable, textDirection } from "./DataPageFrame.jsx";
+import { LiquidationHistory } from "./LiquidationHistory.jsx";
 import { useMarketEvents } from "./useMarketEvents.js";
 
 const pct = (share) => `${Math.round(share * 100)}%`;
@@ -26,6 +27,7 @@ export function LiquidationsPage({ locale = "en", initialFeed }) {
   const page = copy.liquidations;
   const feed = useMarketEvents(initialFeed);
   const data = readLiquidations(feed);
+  const history = readHistory(feed);
   const day = data?.windows.h24 || data?.windows.h4 || data?.windows.h1;
   return (
     <main className="v6 v2-page v3-page nxd nxd--liquidations" id="top" dir={textDirection(locale)} data-testid="liquidations-page">
@@ -87,6 +89,8 @@ export function LiquidationsPage({ locale = "en", initialFeed }) {
               </div>
             </section>
           ) : null}
+
+          <LiquidationHistory history={history} now24hUsd={data.windows.h24?.totalUsd} page={page} locale={locale} />
         </>
       )}
 

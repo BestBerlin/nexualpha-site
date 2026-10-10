@@ -105,3 +105,53 @@
 .nxd[dir="rtl"] .nxd-dot { margin-inline-end: 0.45rem; }
 
 @media (prefers-reduced-motion: no-preference) { .nxd-bar__long { transition: width var(--motion-standard) ease; } }
+
+/* last 30 days (LiquidationHistory.jsx): inline SVG, longs from the baseline, shorts stacked */
+.nxd-history { margin-top: 2rem; }
+.nxd-history__lead { color: var(--muted); max-width: 70ch; }
+.nxd-history__collecting { padding: 1rem 1.1rem; border: 1px dashed var(--line); border-radius: 14px; background: var(--bg-surface); color: var(--muted); }
+.nxd-history__facts { margin: 0.9rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.45rem; font-size: 1.02rem; font-variant-numeric: tabular-nums; }
+.nxd-history__facts li { padding: 0.7rem 0.95rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-1); }
+.nxd-history__chart { margin-top: 1rem; padding: 0.75rem 0.5rem 0.35rem; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-1); }
+.nxd-chart { display: block; width: 100%; height: auto; font-family: var(--font-display); font-variant-numeric: tabular-nums; }
+.nxd-chart text { fill: var(--muted); font-size: 11px; }
+.nxd-chart--compact text { font-size: 12px; }
+.nxd-chart--wide { display: none; }
+@media (min-width: 640px) { .nxd-chart--wide { display: block; } .nxd-chart--compact { display: none; } }
+@media (min-width: 1200px) { .nxd-chart--wide { max-height: 340px; } }
+.nxd-chart__tick line { stroke: var(--border-subtle); stroke-width: 1; }
+.nxd-chart__base { stroke: var(--line); stroke-width: 1; }
+.nxd-chart__long { fill: var(--positive); }
+.nxd-chart__short { fill: var(--danger); }
+.nxd-chart__partial { fill: none; stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 2; opacity: 0.7; }
+.nxd-chart__bar--partial rect.nxd-chart__long, .nxd-chart__bar--partial rect.nxd-chart__short { opacity: 0.55; }
+.nxd-chart__bar:hover rect, .nxd-chart__bar:focus-within rect { opacity: 0.85; }
+.nxd-history__legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-top: 0.6rem; font-size: 0.86rem; }
+.nxd-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-inline-end: 0.3rem; }
+.nxd-swatch--long { background: var(--positive); }
+.nxd-swatch--short { background: var(--danger); }
+.nxd-history__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; margin: 1rem 0 0; font-variant-numeric: tabular-nums; }
+.nxd-history__stats div { min-width: 0; }
+.nxd-history__stats dt { font-size: 0.78rem; color: var(--muted); }
+.nxd-history__stats dd { margin: 0.15rem 0 0; font: 650 1.15rem/1.2 var(--font-display); letter-spacing: -0.01em; }
+.nxd-history__stats small { font: 500 0.78rem/1.2 var(--font-body); color: var(--muted); }
+.nxd-history__note { margin-top: 0.6rem; font-size: 0.82rem; }
+@media (min-width: 768px) { .nxd-history__stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } .nxd-history__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.nxd[dir="rtl"] .nxd-history__stats { direction: rtl; }
+@media (prefers-reduced-motion: no-preference) { .nxd-chart__bar rect { transition: opacity var(--motion-fast) ease; } }
+
+/* embed this (EmbedThisBlock.jsx): collapsed by default */
+.nxd-embed { margin-top: 2rem; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-1); }
+.nxd-embed summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.6rem; padding: 0.9rem 1.1rem; }
+.nxd-embed summary::-webkit-details-marker { display: none; }
+.nxd-embed summary::before { content: ""; width: 0.5rem; height: 0.5rem; border-inline-end: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); flex: 0 0 auto; }
+.nxd-embed[open] summary::before { transform: rotate(45deg); }
+.nxd-embed summary h2 { margin: 0; font-size: 1.05rem; }
+.nxd-embed__body { padding: 0 1.1rem 1.1rem; }
+.nxd-embed__intro { color: var(--muted); max-width: 70ch; }
+.nxd-embed__snippet { margin-top: 0.85rem; }
+.nxd-embed__head { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.nxd-embed__copy { font: 600 0.8rem/1 var(--font-ui); padding: 0.4rem 0.7rem; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); color: var(--ink); }
+.nxd-embed__copy:hover { border-color: var(--blue-text); }
+.nxd-embed pre { margin: 0.4rem 0 0; padding: 0.75rem 0.85rem; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--market); font: 0.8rem/1.5 var(--font-code); white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); text-align: left; }
+.nxd-embed__terms { margin-top: 0.85rem; font-size: 0.82rem; color: var(--muted); }
