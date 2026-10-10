@@ -13,6 +13,7 @@ import { DecisionPathRail } from "../DecisionPathRail.jsx";
 import { contextualHref as addContext } from "../../../data/contextual-href.js";
 import { normalizeActivityEligibility } from "./activity-eligibility.js";
 import "./ActivityCenterV3.css";
+import { LiveCampaigns } from "./LiveCampaigns.jsx";
 import { OfficialResearchIndex } from "./OfficialResearch";
 import { isoDay } from "../../../data/exchange-facts.js";
 import { r9Text } from "../../v6/inner-r9-copy.js";
@@ -242,6 +243,8 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
       </div>
 
     </div>
+
+    <LiveCampaigns locale={locale} />
 
     {feedItemList.length > 0 && filterControls}
 
