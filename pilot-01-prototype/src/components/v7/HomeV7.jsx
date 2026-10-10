@@ -193,7 +193,7 @@ function IntelBlock({ intel, t, locale, venues }) {
   const asOf = fmtAsOf(intel.generatedAt, locale);
   return (
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
-      <div className="h7-ih"><h2>{t.inH} <span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span></h2><p>{t.inSub}</p></div>
+      <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span><h2>{t.inH}</h2></div><p>{t.inSub}</p></div>
       <ul className="h7-il">
         {spread(intel.items, 10, 2).map((i) => (
           <li key={i.id}>
