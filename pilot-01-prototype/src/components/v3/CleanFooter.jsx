@@ -1,6 +1,7 @@
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { v3Copy } from "../../data/v3-product.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { dataPageCopy } from "../../data/market-data-pages.js";
 
 const copyDict = {
   "zh-Hans": {
@@ -377,6 +378,7 @@ function openPolicy() {
 export function CleanFooter({ locale = "en", brazil = false }) {
   const copy = getCopy(locale);
   const labels = getFooterLabels(locale);
+  const dataNav = dataPageCopy(locale).nav;
   const compact = compactFooterCopy[locale === "zh-CN" ? "zh-Hans" : locale === "zh-TW" ? "zh-Hant" : locale] || compactFooterCopy.en;
   const href = (target) => localizedHref(target, { locale });
 
@@ -395,6 +397,8 @@ export function CleanFooter({ locale = "en", brazil = false }) {
             <li><a href={href("/factbook")}>{labels.factbook}</a></li>
             <li><a href={brazil ? "/br/custos" : href("/embed/calculator")}>{labels.calculator}</a></li>
             <li><a href={href("/onchain")}>{labels.onchain}</a></li>
+            <li><a href={href("/liquidations")}>{dataNav.liquidations}</a></li>
+            <li><a href={href("/funding-rates")}>{dataNav.funding}</a></li>
             <li><a href={href("/methodology")}>{labels.editorial}</a></li>
             <li><a href={href("/partners")}>{labels.embedGuide}</a></li>
             <li><a href={href("/methodology#disclosure")}>{labels.disclosure}</a></li>

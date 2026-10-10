@@ -7,12 +7,14 @@ import { fileURLToPath } from "node:url";
 import { pathToFileURL } from "node:url";
 import { contentTypeForAssetPath, resolveAssetPath, rewriteLocalRedirectLocation } from "./asset-path.mjs";
 import { createNewsSsrRenderer } from "./news-ssr.mjs";
+import { marketEventsReaderFromEnv } from "./market-events-feed.mjs";
 import { createCtaCollector } from "./cta-collector.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distRoot = path.resolve(process.env.DIST_ROOT || path.join(root, "dist"));
 const clientRoot = path.join(distRoot, "client");
 const renderNews = createNewsSsrRenderer(distRoot);
+const marketEvents = marketEventsReaderFromEnv(process.env);
 const { default: worker } = await import(pathToFileURL(path.join(distRoot, "server/index.js")));
 const collectCta = createCtaCollector(process.env.CTA_DATA_FILE || path.join(root, ".private", "analytics", "local-cta.jsonl"));
 const port = Number.parseInt(process.env.PORT ?? "4173", 10);
@@ -56,6 +58,7 @@ createServer(async (request, response) => {
       : await worker.fetch(workerRequest, {
       ASSETS: assets,
       NEWS_SSR_RENDER: renderNews,
+      MARKET_EVENTS_READ: marketEvents.read,
       CORE_API_ORIGIN: process.env.CORE_API_ORIGIN,
       CORE_API_BASE_URL: process.env.CORE_API_BASE_URL,
     });

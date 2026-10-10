@@ -4,9 +4,11 @@ import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokeniz
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
 import { clampMetaDescription, metaDescriptionLimit } from "../src/data/meta-description.js";
+import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
 import { socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
+import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath } from "../src/data/market-data-pages.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
   async fetch(request, env) {
@@ -2108,6 +2110,10 @@ const LEGACY_COMPARE_REDIRECTS = Object.freeze({
   "/compare/hashkey-vs-binance": "/exchanges",
   "/compare/htx-vs-binance": "/exchanges",
   "/compare/kraken-vs-binance": "/compare/binance-vs-kraken",
+  "/compare/bitget-vs-binance": "/compare/binance-vs-bitget",
+  "/compare/okx-vs-bitget": "/compare/bitget-vs-okx",
+  "/compare/mexc-vs-bybit": "/compare/bybit-vs-mexc",
+  "/compare/mexc-vs-bitget": "/compare/bitget-vs-mexc",
 });
 const TEXT_ASSET_CONTENT_TYPE = "text/plain; charset=utf-8";
 const IMMUTABLE_STATIC_CACHE = "public, max-age=31536000, immutable";
@@ -2429,6 +2435,9 @@ const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
   "/onchain": ["route-onchain-"],
   "/telegram": ["page-telegram-", "route-telegram-"],
   "/embed/calculator": ["route-embed-", "route-international-"],
+  // Data pages: own chunk plus the shared news chrome they reuse (Telegram alerts line, sign-up card).
+  "/liquidations": ["route-data-", "route-news-"],
+  "/funding-rates": ["route-data-", "route-news-"],
 });
 const REGIONAL_ROUTE_PATHS = new Set(["/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int", "/markets/turkiye"]);
 const TOKENIZED_ASSET_TOPIC_PATHS = new Set(["/topics/tokenized-assets", "/topics/tokenized-treasuries", "/topics/tokenized-stocks-vs-perpetuals"]);
@@ -2453,21 +2462,23 @@ const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter(
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
 const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets"]);
-const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram"]);
+const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
 const CURATED_COMPARISONS = new Set([
   "binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "binance-vs-mexc",
   "okx-vs-mexc", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "binance-vs-kraken", "gate-io-vs-mexc",
+  // 2026-10-10 market plan: most-wanted pairs that had no indexable page.
+  "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc",
 ]);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 // Owner 2026-10-10 (search growth): mirror of src/data/seo-injection.js — fully translated pages publish all 15 locales.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain"]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
 const SEARCH_PRIORITY_FACTBOOK = new Set(["binance", "okx", "bybit", "bitget", "coinbase", "kraken", "hyperliquid", "uniswap"]);
-const SEARCH_PRIORITY_COMPARISONS = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "coinbase-vs-kraken"]);
+const SEARCH_PRIORITY_COMPARISONS = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "coinbase-vs-kraken", "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc"]);
 const SEARCH_PRIORITY_TOPICS = new Set(["meme-coins", "derivatives", "compliant-exchanges", "no-kyc", "tokenized-assets"]);
 
 const SERP_CTR_NEWS_OVERRIDES = {
@@ -3302,6 +3313,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
   const payload = safeJson({ pathname, locale, version: "nexualpha-prerender-v1",
     ...(brProjection.attribution ? { brAttribution: brProjection.attribution } : {}),
     ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(pathname, route.newsArticles, locale, { preserveSsrContent: true }) } : {}),
+    ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
   return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, body);
@@ -3818,6 +3830,19 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         } catch { /* Portable assets-only hosts retain their safe fallback. */ }
       }
     }
+    // Data pages are rendered at request time from the collector feed (60 s server cache in server/market-events-feed.mjs).
+    // Without a renderer (assets-only hosts) the client renders them; without a feed the page shows its unavailable state.
+    if (isDataPagePath(pathname) && typeof env?.NEWS_SSR_RENDER === "function") {
+      let marketEvents = null;
+      try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ()) : null; } catch { marketEvents = null; }
+      try {
+        const appHtml = await env.NEWS_SSR_RENDER(url.href, { marketEvents });
+        if (typeof appHtml === "string" && appHtml.includes("class=\"nxd-hero")) {
+          metadata.dataSsrMode = marketEvents ? "runtime" : "runtime-no-feed";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { marketEvents }, url);
+        }
+      } catch { /* fall through to the client-rendered shell */ }
+    }
     metadata.newsSsrMode = "fallback";
     return injectFallbackBody(html, metadata, url);
   };
@@ -3978,7 +4003,7 @@ async function handleNewsSearchJson(env, url) {
 // publisher and only carried en, zh-Hans and a few ja/ko/tr pages, so the translated exchange, rates, compare and
 // activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
 // non-canonical URL; cached for an hour.
-const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook"];
+const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS];
 let localeSitemapCache = null;
 export async function renderLocaleSitemap(env = {}) {
   const paths = [...LOCALE_SITEMAP_STATIC, ...[...ACTIVE_VENUE_SLUGS].map((slug) => `/exchanges/${slug}`), ...[...CURATED_COMPARISONS].map((pair) => `/compare/${pair}`)];
@@ -6100,9 +6125,12 @@ async function routeMetadataBase(url, env, newsFeed) {
     };
     const baseCompareSeoOverride = requestedLocale === "en" ? compareSeoOverrides[pair] : null;
     const localFirstComparePairs = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "binance-vs-mexc", "okx-vs-mexc"]);
-    const compareSeoOverride = localFirstComparePairs.has(pair)
+    // Pairs outside the generated projection (the 2026-10-10 market-plan pairs) read the shared direct-answer data
+    // for every locale, the same source the SSR page and seo-injection use.
+    const sharedDirectAnswerOverride = PRIORITY_COMPARE_SEO[pair] ? null : compareSeoOverrideFromDirectAnswer(pair, requestedLocale);
+    const compareSeoOverride = sharedDirectAnswerOverride || (localFirstComparePairs.has(pair)
       ? baseCompareSeoOverride || PRIORITY_COMPARE_SEO[pair]?.[requestedLocale] || localizedCompareSeoOverride(pair, requestedLocale, compareSeoOverrides[pair])
-      : PRIORITY_COMPARE_SEO[pair]?.[requestedLocale] || localizedCompareSeoOverride(pair, requestedLocale, compareSeoOverrides[pair]) || baseCompareSeoOverride;
+      : PRIORITY_COMPARE_SEO[pair]?.[requestedLocale] || localizedCompareSeoOverride(pair, requestedLocale, compareSeoOverrides[pair]) || baseCompareSeoOverride);
     return {
       status: 200,
       title: compareSeoOverride?.title || `${name}: ${({ "zh-Hant": "手續費與平台選擇", ja: "取引手数料とプラットフォーム比較", ko: "거래 수수료 및 플랫폼 비교", tr: "İşlem ücretleri ve platform karşılaştırması", es: "Comisiones y comparación de plataformas", "pt-BR": "Taxas e comparação de plataformas", fr: "Frais et comparaison des plateformes", de: "Gebühren und Plattformvergleich", ar: "مقارنة الرسوم والمنصات", ru: "Сравнение комиссий и платформ", id: "Perbandingan biaya dan platform", vi: "So sánh phí và nền tảng", it: "Confronto di commissioni e piattaforme" }[requestedLocale] || (isZh ? "手续费与平台选择" : "Trading Fees & Platform Comparison"))} — NexuAlpha`,
@@ -6476,6 +6504,16 @@ async function routeMetadataBase(url, env, newsFeed) {
     };
   }
 
+  // Public data pages (owner 2026-10-10): titles, descriptions and Dataset/FAQ/Breadcrumb JSON-LD come from one
+  // shared copy table; every UI locale is indexable and self-canonical.
+  if (isDataPagePath(canonicalPath)) {
+    const meta = dataPageMeta(canonicalPath, locale);
+    return {
+      status: 200, title: meta.title, description: meta.description,
+      canonical: localizedCanonical(canonicalPath, locale), locale, robots: "index,follow", marker: STATIC_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath), schema: dataPageSchemas(canonicalPath, locale, { origin: PUBLIC_ORIGIN }),
+    };
+  }
   const staticPageCopy = {
     "/rates": {
 	      en: {

@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
@@ -63,6 +64,7 @@ export default defineConfig({
           // Keep infrequently visited editorial and regional surfaces out of
           // the first route payload. They remain statically imported for SSR,
           // but can be cached and fetched as separate browser chunks.
+          if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
           if (id.includes("/src/components/v3/TokenizedAssetsPage")) return "route-tokenized-assets";
           if (id.includes("/src/components/v3/TopicGuidePage")) return "route-topic-guide";
@@ -163,6 +165,27 @@ export default defineConfig({
           const [early, ...after] = slots;
           return html.replace(entry, (tag) => [...early, tag, ...after.flat()].join("\n    "));
         },
+      },
+    },
+    {
+      // Dev only: /liquidations and /funding-rates read /intel/market-events.json, which nginx serves in production
+      // from the market collector. Serve a local copy (MARKET_EVENTS_FILE) or proxy the public feed.
+      name: "nexualpha-dev-market-events",
+      apply: "serve",
+      configureServer(server) {
+        server.middlewares.use("/intel/market-events.json", async (req, res) => {
+          try {
+            const body = process.env.MARKET_EVENTS_FILE
+              ? await readFile(process.env.MARKET_EVENTS_FILE, "utf8")
+              : await (await fetch("https://nexualpha.com/intel/market-events.json", { signal: AbortSignal.timeout(8000) })).text();
+            res.setHeader("content-type", "application/json; charset=utf-8");
+            res.setHeader("cache-control", "no-store");
+            res.end(body);
+          } catch {
+            res.statusCode = 503;
+            res.end("{}");
+          }
+        });
       },
     },
     react(),

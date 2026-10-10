@@ -125,3 +125,25 @@ bot menu button still reads back `commands`.
   commercial pages 0 clicks; exchange H1s miss search terms; long meta descriptions (ru 293 chars); /br and /sg duplicate /pt-br and /en;
   llms.txt 620 KB; Telegram page doesn't describe alerts; no unified /go attribution; bot only zh/en; no news imagery;
   14 locales have shell pages only. Proposed: /liquidations and /funding-rates data pages, localized news lane (4/day), bot locales.
+
+## 2026-10-11: roadmap batch 1 (seven parallel agents, lead-merged)
+Live 3.0-20261010T2337-GH-464ed9e (+ main 9a760a4 pending deploy). Merged PRs #48 attribution, #49 OG cards, #50 visual
+conversion, #51 news locales, #52 data pages, #53 compare pairs. Each merged with package.json test-list union; full
+`npm test` after #52: 820 tests / 56 fail, all baseline; after #53: 57 fail where the one extra name
+(`prerender manifest covers each route's original content languages`) passes on a fresh dist (stale local dist).
+- Site: `/liquidations`, `/funding-rates` ×15 locales (Dataset/FAQ/Breadcrumb JSON-LD, hreflang, in locale sitemap: 448
+  URLs); 4 new comparison pairs ×15; `/telegram` rewritten as alerts product page; alerts strip on home / venue / news
+  list; compare mobile first screen = verdict + two official sign-up buttons; section eyebrows; activities grouped
+  (390 height 9323 → 7368); `/og/<kind>/<id>.png` cards (news / venue / compare / liquidations) wired into og:image;
+  `/api/cta-click` beacon; news feed schema accepts all 15 locales, `/<locale>/news/<slug>` indexable when a native
+  body exists; alerts deep links `?start=alerts-<lang>`.
+- Ops: market-collector writes `funding` (20 symbols); alert-sender adds backlinks (`?src=tg-alert` etc.), 13:05 UTC
+  owner funnel DM (needs `OWNER_CHAT_ID`), non-zh subscribers get English; bot release `2026-10-11-alerts-i18n-01`
+  (alerts card in 8 languages); BotFather: Mini App enabled on @NexuAlphaAssistantBot (https://app.nexualpha.com/).
+- Content: llms.txt 620 KB → ~82 KB (newest 80 articles; bulk sections stay in llms-full.txt); scheduled task now
+  writes 1 localized edition per run (tr→vi→ru→es→pt-BR→id); publisher copies synced into the Crypto聚合 checkout.
+- Deploy script: ships `node_modules/@resvg` (gnu+musl via npm pack); mounts og-fonts, og-cache, market feed.
+- Owner decision: no posting in stranger Telegram groups (spam farms / captcha gates) — channel cross-promo, Main Mini
+  App, per-language channels instead.
+- Open: OWNER_CHAT_ID for the funnel DM; HTX localized profiles need the venue reactivated; Naver / Cốc Cốc webmaster
+  accounts; per-language channels; seo-onpage PR (titles, H1, description clamp, /br /sg 301, tr percent, news→venue links).

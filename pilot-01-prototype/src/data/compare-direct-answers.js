@@ -1,4 +1,7 @@
-const supportedLocales = new Set(["en", "zh-Hans", "zh-Hant", "ja", "ko", "ar", "tr", "de", "pt-BR"]);
+import { comparePairAnswers, comparePairAnswerSlugs } from "./compare-pair-answers.js";
+
+// 2026-10-10: the four market-plan pairs carry all 15 UI locales; the older pairs keep their reviewed subset.
+const supportedLocales = new Set(["en", "zh-Hans", "zh-Hant", "ja", "ko", "ar", "tr", "de", "pt-BR", "es", "fr", "it", "ru", "id", "vi"]);
 
 const normalizeCompareAnswerLocale = (locale = "en") => {
   const raw = String(locale || "en");
@@ -12,6 +15,7 @@ const normalizeCompareAnswerLocale = (locale = "en") => {
   if (lower === "tr" || lower.startsWith("tr-")) return "tr";
   if (lower === "de" || lower.startsWith("de-")) return "de";
   if (lower === "pt" || lower.startsWith("pt-")) return "pt-BR";
+  for (const code of ["es", "fr", "it", "ru", "id", "vi"]) if (lower === code || lower.startsWith(`${code}-`)) return code;
   return null;
 };
 
@@ -696,6 +700,9 @@ export const compareDirectAnswers = {
     },
   },
 };
+// Market-plan pairs (2026-10-10) share the same shape and resolve through the same helpers below.
+Object.assign(compareDirectAnswers, comparePairAnswers);
+export { comparePairAnswerSlugs };
 
 const sharedBinanceOkxLinks = {
   ja: [
