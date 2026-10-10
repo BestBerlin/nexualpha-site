@@ -3,6 +3,7 @@ import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
+import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles } from "../src/data/news-library.js";
 export default {
@@ -4593,10 +4594,12 @@ function buildWorkerVenueSchema(venue, locale, canonicalUrl, seoOverride = null)
     });
   } else {
     const official = `https://${venue.officialDomain}`;
+    // Same localized fallback as venueProfileFaq() in src/data/seo-injection.js (client/Worker parity).
+    const zhFallback = locale === "zh-Hans" ? [[`${venue.name} 的最终手续费和账户条件在哪里确认？`, `应在 ${venue.name} 官方账户流程中确认最终手续费、身份验证、地区可用性、产品和账户条件。NexuAlpha 页面只整理公开资料。`], [`NexuAlpha 是否保证 ${venue.name} 的优惠或邀请权益？`, "不保证。优惠、邀请权益和账户条件会随地区、账户、产品和官方当前条款变化，必须以官方页面为准。"]] : null;
     schemas.push({
       "@type": "FAQPage",
       inLanguage: locale,
-      mainEntity: [
+      mainEntity: zhFallback ? zhFallback.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text, citation: [official] } })) : [
         {
           "@type": "Question",
           name: `Where should ${venue.name} fees and account terms be confirmed?`,
@@ -5819,7 +5822,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       robots: "index,follow",
       marker: VENUE_ROUTE_MARKER,
       alternates: routeAlternates(canonicalPath),
-      schema: buildWorkerVenueSchema(venue, schemaLocale, canonical, effectiveVenueSeoOverride),
+      schema: buildWorkerVenueSchema(venue, schemaLocale, canonical, effectiveVenueSeoOverride).map((entry) => applyPartnerVenueFaqSchema(entry, slug, requestedLocale)),
     };
   }
 
