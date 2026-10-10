@@ -77,13 +77,26 @@ desk → fee comparison → sheet; profile copy code + official link; home calcu
 | (local) | 3.0-20261010T1455-GH-2e45bc2 | Owner: no floating offer / no home row buttons. News sign-up card under the article, in the side rail, and timed at 15 s (phones only). |
 | (local) | 3.0-20261010T1527-GH-1d9a928 / T1536-GH-3664fce | Layout pass across all 15 locales at 966-1440 / 768 / 390 (600-page sweep 317 -> 148, rest intentional scroll rows / button wraps). |
 | (local) | 3.0-20261010T1552-GH-b7a27a8 | `/intel/partners.json` for the Telegram Mini App and channel feed. |
-| (local) | 3.0-20261010T1651-GH-f65d304 / T1653-GH-254a2c3 | Activities: live exchange campaigns (event notices, 30 days) with invite routes; English channel @NexuAlphaGlobal on the home page. Sitemaps submitted (Yandex fetch failed once, retried). **Current live.** |
+| (local) | 3.0-20261010T1651-GH-f65d304 / T1653-GH-254a2c3 | Activities: live exchange campaigns (event notices, 30 days) with invite routes; English channel @NexuAlphaGlobal on the home page. Sitemaps submitted (Yandex fetch failed once, retried). |
 Rollback: Actions → "Rollback production" with the newest release name (returns to the previous one), e.g. `gh-20261009t2034-3738f5c` (returns to ba66747), or `gh-20261009t2026-ba66747` (returns to pre-v8 `gh-20261009t1328-63a82a1`).
 
 **Milestone status: 23/23 accepted (2026-10-09).** Acceptance means this stage met its checklist, not that the site cannot improve.
 
 ## Next
 Next milestone backlog (ranked): (1) schedule the notice fetch (Bybit works from this machine, not from CI cloud IPs — needs a runner/server cron that writes `public/intel/` or a server-side path; no scheduler is configured yet); (2) owner decisions: sticky-bar disclosure as a full sentence, 50% tier, H1 sign-off for other locales, translations of the home copy (13 locales); (3) news list boilerplate summaries, dock chip name truncation, /ar ticker label, zh search result titles; (4) triage the 56 pre-existing failing tests (release-blockers-v8.md).
+
+| (local) | 3.0-20261010T1832-GH-4a8fc4b | Search: 13 more locales indexable for translated pages, referral-code titles (15 locales), frozen news roster lifted. First try 1822 aborted (standby could not load the CTA module graph -> standalone generated partner data); 1829 rolled back by a false public check (grep -q + pipefail). |
+| (local) | 3.0-20261010T1840-GH-476175e | Live /news-sitemap.xml from the mounted feed. |
+| (local) | 3.0-20261010T1849-GH-3ca22e9 | Audit fixes: CTA proxy -> running R58 collector on nexualpha-internal (clicks failed since 2026-10-06), error monitor ready, 21-day hashed asset retention, /api/news/article/<slug> (8 KB instead of a 4.4 MB feed), full analysis open, Hyperliquid title keeps "fees/funded account", empty sitemap not submitted. **Current live.** |
+
+## 2026-10-10 search incident (audit: AEO Crypto Factory/reports/nexualpha-incident-audit-20261010)
+Root causes: frozen 312-slug roster made 297/609 articles noindex; 13 of 15 locales noindex on translated pages;
+news sitemap built before the feed existed (always empty); CTA proxy pointed at an exited collector; no error monitor;
+template filler (569 articles repeat a sentence 3+ times, 210 identical zh summaries); all categories "research".
+Fixed: site (PR #31-#34), deploy/stage-remote.py, Codex publisher (`AEO Crypto Factory/scripts/nexualpha-content-publish.mjs`:
+legacy roster + quality gate, feed normalization; backups `*.bak-20261010*`), `Crypto聚合` checkout roster/caps (backup
+`.backup-20261010-search-gate`). New Codex prompt: `Crypto聚合/CODEX-NEXUALPHA-CONTENT-PROMPT-20261010.md` (12/day, demand-led).
+Rehearsal on live data: indexable articles 312 -> 583, sitemap 861 -> 1403 URLs, news sitemap 122 URLs.
 
 ## 2026-10-10 Telegram stack (not part of the site deploy)
 Accepted 7/7 + 4/4:
