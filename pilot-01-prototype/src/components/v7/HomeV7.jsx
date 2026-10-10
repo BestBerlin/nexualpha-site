@@ -2,6 +2,7 @@
 // official sign-up. Reads fees from exchange-facts.js and the registration link/code from publicCtaForVenue (same source as
 // the directory), so invite codes, hrefs and rel attributes are never typed here.
 import { TelegramBlock } from "./home7-telegram.jsx";
+import { FundingBoard } from "./home7-funding.jsx";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
@@ -359,6 +360,7 @@ export function HomeV7({ locale, venues: _catalog }) {
           ))}
         </div>
       </section>
+      <FundingBoard locale={locale} />
       <IntelBlock intel={intel} t={t} locale={locale} venues={priced} />
       <TelegramBlock locale={locale} />
       <div className="h7-in h7-foot">{t.foot(FACTS_AS_OF).replace("{max}", String(HOME_REBATE_MAX_PCT)).split(/(?<=[。．.])\s*(?=\S)/u).map((x) => <p key={x}>{x}</p>)}</div>
