@@ -18,6 +18,7 @@ import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
 import { createOgImageRoute, OG_PATH_PREFIX } from './server/og-image.mjs';
 import { CTA_CLICK_PATH, clientKey, createCtaClickBeacon } from './server/cta-click.mjs';
 import { createSsrPageCache } from './server/ssr-page-cache.mjs';
+import { createEmbedRoute } from './server/embed-widgets.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
@@ -50,6 +51,9 @@ export async function createProductionServer({ env = process.env, appRoot = root
     marketEventsFile: env.MARKET_EVENTS_FILE || null, fallbackImage: path.join(clientRoot, 'brand', 'nexualpha', 'nexualpha-social-v1.jpg'),
     log: (m) => console.log(`[NexuAlpha] ${m}`),
   });
+  // Embeddable widgets /embed/liquidations, /embed/funding-rates (+ .js injectors), 2026-10-11: same feed reader as the
+  // data pages, iframe-friendly headers, noindex. Other /embed/* paths (the calculator) stay with the worker.
+  const embeds = createEmbedRoute({ readFeed: marketEvents.read, origin: env.PUBLIC_ORIGIN || 'https://nexualpha.com', log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const errorRequired = env.ERROR_MONITOR_REQUIRED === '1';
   if (errorRequired && !env.ERROR_EVENT_FILE) throw new Error('ERROR_MONITOR_REQUIRED');
   let errorMonitor = null;
@@ -123,6 +127,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
         result = await goRedirect(request);
       } else if (requestPath.startsWith(OG_PATH_PREFIX) && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await ogImages(request);
+      } else if (requestPath.startsWith('/embed/') && (result = await embeds(request))) {
+        // handled: embed widget or injector script
       } else if (requestPath === '/healthz' || requestPath === '/api/health') {
         result = new Response(JSON.stringify({ status: 'ok', service: 'nexualpha-web' }), { status: 200,
           headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });

@@ -1,0 +1,681 @@
+{
+ "generatedAt": "2026-10-10T14:58:12.739Z",
+ "liquidations": {
+  "source": "Binance USDT-M force-order stream (at most one order per symbol per second) plus OKX liquidation orders for BTC/ETH/SOL/XRP/DOGE; a lower bound, not the whole market",
+  "coverageSince": "2026-10-10T09:11:50.250Z",
+  "h1": {
+   "longUsd": 14691,
+   "shortUsd": 3329977,
+   "totalUsd": 3344668,
+   "orders": 250,
+   "topSymbols": [
+    {
+     "symbol": "OKX:SOLUSDT",
+     "usd": 2017955
+    },
+    {
+     "symbol": "OKX:ETHUSDT",
+     "usd": 1102157
+    },
+    {
+     "symbol": "OKX:BTCUSDT",
+     "usd": 215811
+    },
+    {
+     "symbol": "OKX:DOGEUSDT",
+     "usd": 7236
+    },
+    {
+     "symbol": "OKX:XRPUSDT",
+     "usd": 1509
+    }
+   ],
+   "largest": {
+    "symbol": "OKX:SOLUSDT",
+    "side": "short",
+    "usd": 1452978,
+    "at": "2026-10-10T14:29:53.025Z"
+   }
+  },
+  "h4": {
+   "longUsd": 14691,
+   "shortUsd": 3339862,
+   "totalUsd": 3354553,
+   "orders": 254,
+   "topSymbols": [
+    {
+     "symbol": "OKX:SOLUSDT",
+     "usd": 2017955
+    },
+    {
+     "symbol": "OKX:ETHUSDT",
+     "usd": 1105126
+    },
+    {
+     "symbol": "OKX:BTCUSDT",
+     "usd": 222727
+    },
+    {
+     "symbol": "OKX:DOGEUSDT",
+     "usd": 7236
+    },
+    {
+     "symbol": "OKX:XRPUSDT",
+     "usd": 1509
+    }
+   ],
+   "largest": {
+    "symbol": "OKX:SOLUSDT",
+    "side": "short",
+    "usd": 1452978,
+    "at": "2026-10-10T14:29:53.025Z"
+   }
+  },
+  "h24": {
+   "longUsd": 1233574,
+   "shortUsd": 4880561,
+   "totalUsd": 6114135,
+   "orders": 683,
+   "topSymbols": [
+    {
+     "symbol": "OKX:SOLUSDT",
+     "usd": 2680936
+    },
+    {
+     "symbol": "OKX:ETHUSDT",
+     "usd": 1659099
+    },
+    {
+     "symbol": "OKX:BTCUSDT",
+     "usd": 940729
+    },
+    {
+     "symbol": "OKX:DOGEUSDT",
+     "usd": 640324
+    },
+    {
+     "symbol": "OKX:XRPUSDT",
+     "usd": 193047
+    }
+   ],
+   "largest": {
+    "symbol": "OKX:SOLUSDT",
+    "side": "short",
+    "usd": 1452978,
+    "at": "2026-10-10T14:29:53.025Z"
+   }
+  }
+ },
+ "market": {
+  "majors": [
+   {
+    "symbol": "BTCUSDT",
+    "price": 82952.8,
+    "change1hPct": 0.2,
+    "change24hPct": -0.16,
+    "quoteVolume24h": 4143038905
+   },
+   {
+    "symbol": "ETHUSDT",
+    "price": 2508.2,
+    "change1hPct": 0.41,
+    "change24hPct": 0.59,
+    "quoteVolume24h": 2560928223
+   },
+   {
+    "symbol": "SOLUSDT",
+    "price": 110.52,
+    "change1hPct": 0.59,
+    "change24hPct": 0.3,
+    "quoteVolume24h": 863494819
+   },
+   {
+    "symbol": "XRPUSDT",
+    "price": 1.4071,
+    "change1hPct": 0.19,
+    "change24hPct": 1.54,
+    "quoteVolume24h": 388032273
+   },
+   {
+    "symbol": "DOGEUSDT",
+    "price": 0.0863,
+    "change1hPct": 0.59,
+    "change24hPct": 1.84,
+    "quoteVolume24h": 205159486
+   },
+   {
+    "symbol": "BNBUSDT",
+    "price": 753.32,
+    "change1hPct": 0.37,
+    "change24hPct": 1.59,
+    "quoteVolume24h": 175458964
+   }
+  ]
+ },
+ "funding": {
+  "generatedAt": "2026-10-10T14:58:12.739Z",
+  "source": "Binance USDT-M premiumIndex (lastFundingRate, nextFundingTime) + OKX public funding-rate per instrument; top symbols by Binance 24h quote volume",
+  "rows": [
+   {
+    "symbol": "BTC",
+    "binanceRate": 0.0000326,
+    "binanceNextAt": "2026-10-10T16:00:00.000Z",
+    "okxRate": 0.0000183440742622,
+    "okxNextAt": "2026-10-10T16:00:00.000Z"
+   },
+   {
+    "symbol": "ETH",
+    "binanceRate": 0.00003167,
+    "binanceNextAt": "2026-10-10T16:00:00.000Z",
+    "okxRate": -0.0000421,
+    "okxNextAt": "2026-10-10T16:00:00.000Z"
+   },
+   {
+    "symbol": "SOL",
+    "binanceRate": -0.00012,
+    "binanceNextAt": "2026-10-10T16:00:00.000Z",
+    "okxRate": null,
+    "okxNextAt": null
+   },
+   {
+    "symbol": "1000PEPE",
+    "binanceRate": 0.0001,
+    "binanceNextAt": "2026-10-10T16:00:00.000Z",
+    "okxRate": 0.0000349843876729,
+    "okxNextAt": "2026-10-10T16:00:00.000Z"
+   }
+  ]
+ },
+ "events": [
+  {
+   "type": "top-mover",
+   "severity": "medium",
+   "text": "LUMIAUSDT 38.25% in 24h on 158M USD volume"
+  },
+  {
+   "type": "top-mover",
+   "severity": "medium",
+   "text": "USUSDT -34.09% in 24h on 524M USD volume"
+  },
+  {
+   "type": "top-mover",
+   "severity": "medium",
+   "text": "ERAUSDT 27.93% in 24h on 144M USD volume"
+  }
+ ],
+ "headlines": [
+  {
+   "source": "Decrypt",
+   "title": "French Committee Backs Stablecoin Swap Tax and Crypto Exit Tax, Then Rejects the Budget",
+   "url": "https://decrypt.co/380630/france-stablecoin-swap-crypto-exit-tax",
+   "publishedAt": "2026-10-10T13:01:03.000Z",
+   "tags": [
+    "stablecoin"
+   ]
+  },
+  {
+   "source": "Cointelegraph",
+   "title": "Here’s what happened in crypto today",
+   "url": "https://cointelegraph.com/news/what-happened-in-crypto-today?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+   "publishedAt": "2026-10-10T12:30:00.000Z",
+   "tags": []
+  }
+ ],
+ "history": {
+  "since": "2026-09-11T00:05:00.000Z",
+  "updatedAt": "2026-10-10T14:05:00.000Z",
+  "days": 30,
+  "hourly": [
+   {
+    "t": "2026-10-09T15:05:00.000Z",
+    "totalUsd": 443612,
+    "longUsd": 167131,
+    "shortUsd": 276481,
+    "h24Usd": 9759464
+   },
+   {
+    "t": "2026-10-09T16:05:00.000Z",
+    "totalUsd": 526325,
+    "longUsd": 295984,
+    "shortUsd": 230341,
+    "h24Usd": 11579150
+   },
+   {
+    "t": "2026-10-09T17:05:00.000Z",
+    "totalUsd": 591586,
+    "longUsd": 370847,
+    "shortUsd": 220739,
+    "h24Usd": 13014892
+   },
+   {
+    "t": "2026-10-09T18:05:00.000Z",
+    "totalUsd": 676169,
+    "longUsd": 392109,
+    "shortUsd": 284060,
+    "h24Usd": 14875718
+   },
+   {
+    "t": "2026-10-09T19:05:00.000Z",
+    "totalUsd": 576333,
+    "longUsd": 389949,
+    "shortUsd": 186384,
+    "h24Usd": 12679326
+   },
+   {
+    "t": "2026-10-09T20:05:00.000Z",
+    "totalUsd": 602398,
+    "longUsd": 280542,
+    "shortUsd": 321856,
+    "h24Usd": 13252756
+   },
+   {
+    "t": "2026-10-09T21:05:00.000Z",
+    "totalUsd": 459727,
+    "longUsd": 252067,
+    "shortUsd": 207660,
+    "h24Usd": 10113994
+   },
+   {
+    "t": "2026-10-09T22:05:00.000Z",
+    "totalUsd": 557281,
+    "longUsd": 246837,
+    "shortUsd": 310444,
+    "h24Usd": 12260182
+   },
+   {
+    "t": "2026-10-09T23:05:00.000Z",
+    "totalUsd": 391995,
+    "longUsd": 228372,
+    "shortUsd": 163623,
+    "h24Usd": 8623890
+   },
+   {
+    "t": "2026-10-10T00:05:00.000Z",
+    "totalUsd": 383694,
+    "longUsd": 280908,
+    "shortUsd": 102786,
+    "h24Usd": 8441268
+   },
+   {
+    "t": "2026-10-10T01:05:00.000Z",
+    "totalUsd": 553945,
+    "longUsd": 202318,
+    "shortUsd": 351627,
+    "h24Usd": 12186790
+   },
+   {
+    "t": "2026-10-10T02:05:00.000Z",
+    "totalUsd": 583479,
+    "longUsd": 275165,
+    "shortUsd": 308314,
+    "h24Usd": 12836538
+   },
+   {
+    "t": "2026-10-10T03:05:00.000Z",
+    "totalUsd": 190142,
+    "longUsd": 124043,
+    "shortUsd": 66099,
+    "h24Usd": 4183124
+   },
+   {
+    "t": "2026-10-10T04:05:00.000Z",
+    "totalUsd": 685793,
+    "longUsd": 510141,
+    "shortUsd": 175652,
+    "h24Usd": 15087446
+   },
+   {
+    "t": "2026-10-10T05:05:00.000Z",
+    "totalUsd": 270660,
+    "longUsd": 113433,
+    "shortUsd": 157227,
+    "h24Usd": 5954520
+   },
+   {
+    "t": "2026-10-10T06:05:00.000Z",
+    "totalUsd": 352766,
+    "longUsd": 209026,
+    "shortUsd": 143740,
+    "h24Usd": 7760852
+   },
+   {
+    "t": "2026-10-10T07:05:00.000Z",
+    "totalUsd": 302704,
+    "longUsd": 188295,
+    "shortUsd": 114409,
+    "h24Usd": 6659488
+   },
+   {
+    "t": "2026-10-10T08:05:00.000Z",
+    "totalUsd": 620839,
+    "longUsd": 442862,
+    "shortUsd": 177977,
+    "h24Usd": 13658458
+   },
+   {
+    "t": "2026-10-10T09:05:00.000Z",
+    "totalUsd": 404542,
+    "longUsd": 246158,
+    "shortUsd": 158384,
+    "h24Usd": 8899924
+   },
+   {
+    "t": "2026-10-10T10:05:00.000Z",
+    "totalUsd": 184954,
+    "longUsd": 136923,
+    "shortUsd": 48031,
+    "h24Usd": 4068988
+   },
+   {
+    "t": "2026-10-10T11:05:00.000Z",
+    "totalUsd": 513715,
+    "longUsd": 213664,
+    "shortUsd": 300051,
+    "h24Usd": 11301730
+   },
+   {
+    "t": "2026-10-10T12:05:00.000Z",
+    "totalUsd": 231238,
+    "longUsd": 153551,
+    "shortUsd": 77687,
+    "h24Usd": 5087236
+   },
+   {
+    "t": "2026-10-10T13:05:00.000Z",
+    "totalUsd": 343702,
+    "longUsd": 207001,
+    "shortUsd": 136701,
+    "h24Usd": 7561444
+   },
+   {
+    "t": "2026-10-10T14:05:00.000Z",
+    "totalUsd": 184727,
+    "longUsd": 72502,
+    "shortUsd": 112225,
+    "h24Usd": 4063994
+   }
+  ],
+  "daily": [
+   {
+    "day": "2026-09-11",
+    "totalUsd": 10443299,
+    "longUsd": 5202875,
+    "shortUsd": 5240424,
+    "orders": 1284,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-12",
+    "totalUsd": 10425855,
+    "longUsd": 5615914,
+    "shortUsd": 4809941,
+    "orders": 1332,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-13",
+    "totalUsd": 9918794,
+    "longUsd": 4926767,
+    "shortUsd": 4992027,
+    "orders": 1087,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-14",
+    "totalUsd": 10216841,
+    "longUsd": 5744985,
+    "shortUsd": 4471856,
+    "orders": 1200,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-15",
+    "totalUsd": 11553712,
+    "longUsd": 5359440,
+    "shortUsd": 6194272,
+    "orders": 1257,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-16",
+    "totalUsd": 10173323,
+    "longUsd": 5806636,
+    "shortUsd": 4366687,
+    "orders": 1176,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-17",
+    "totalUsd": 9622517,
+    "longUsd": 5294831,
+    "shortUsd": 4327686,
+    "orders": 1220,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-18",
+    "totalUsd": 10919346,
+    "longUsd": 6003356,
+    "shortUsd": 4915990,
+    "orders": 1293,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-19",
+    "totalUsd": 9091199,
+    "longUsd": 4533942,
+    "shortUsd": 4557257,
+    "orders": 1171,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-20",
+    "totalUsd": 10635185,
+    "longUsd": 6046628,
+    "shortUsd": 4588557,
+    "orders": 1281,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-21",
+    "totalUsd": 11687145,
+    "longUsd": 5570831,
+    "shortUsd": 6116314,
+    "orders": 1325,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-22",
+    "totalUsd": 11645441,
+    "longUsd": 6032838,
+    "shortUsd": 5612603,
+    "orders": 1220,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-23",
+    "totalUsd": 41608673,
+    "longUsd": 19580002,
+    "shortUsd": 22028671,
+    "orders": 1050,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-24",
+    "totalUsd": 10917306,
+    "longUsd": 5697747,
+    "shortUsd": 5219559,
+    "orders": 1254,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-25",
+    "totalUsd": 9717164,
+    "longUsd": 4864766,
+    "shortUsd": 4852398,
+    "orders": 1144,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-26",
+    "totalUsd": 9938833,
+    "longUsd": 5297676,
+    "shortUsd": 4641157,
+    "orders": 1218,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-27",
+    "totalUsd": 9957786,
+    "longUsd": 5280235,
+    "shortUsd": 4677551,
+    "orders": 1265,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-28",
+    "totalUsd": 10515150,
+    "longUsd": 5487422,
+    "shortUsd": 5027728,
+    "orders": 1091,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-29",
+    "totalUsd": 11349700,
+    "longUsd": 6068532,
+    "shortUsd": 5281168,
+    "orders": 1223,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-09-30",
+    "totalUsd": 9906754,
+    "longUsd": 5163540,
+    "shortUsd": 4743214,
+    "orders": 1190,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-10-01",
+    "totalUsd": 10645315,
+    "longUsd": 5632213,
+    "shortUsd": 5013102,
+    "orders": 1180,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-10-02",
+    "totalUsd": 26257466,
+    "longUsd": 14380666,
+    "shortUsd": 11876800,
+    "orders": 1236,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-10-03",
+    "totalUsd": 10555695,
+    "longUsd": 5470861,
+    "shortUsd": 5084834,
+    "orders": 1221,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-10-04",
+    "totalUsd": 10675712,
+    "longUsd": 5617424,
+    "shortUsd": 5058288,
+    "orders": 1099,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-10-05",
+    "totalUsd": 10379284,
+    "longUsd": 5228987,
+    "shortUsd": 5150297,
+    "orders": 1201,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-10-06",
+    "totalUsd": 10249476,
+    "longUsd": 5575752,
+    "shortUsd": 4673724,
+    "orders": 1285,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-10-07",
+    "totalUsd": 11112058,
+    "longUsd": 5789586,
+    "shortUsd": 5322472,
+    "orders": 1203,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-10-08",
+    "totalUsd": 11001496,
+    "longUsd": 5032973,
+    "shortUsd": 5968523,
+    "orders": 1134,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-10-09",
+    "totalUsd": 11283399,
+    "longUsd": 5789431,
+    "shortUsd": 5493968,
+    "orders": 1166,
+    "hours": 24,
+    "partial": false
+   },
+   {
+    "day": "2026-10-10",
+    "totalUsd": 5806900,
+    "longUsd": 3375990,
+    "shortUsd": 2430910,
+    "orders": 729,
+    "hours": 15,
+    "partial": true
+   }
+  ],
+  "avgDailyUsd": 12151859,
+  "records": {
+   "largestDay": {
+    "day": "2026-09-23",
+    "totalUsd": 41608673,
+    "partial": false
+   },
+   "todayRankInMonth": 10,
+   "daysInMonth": 10
+  }
+ }
+}

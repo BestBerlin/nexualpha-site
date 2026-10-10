@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // NexuAlpha Telegram alert sender (owner 2026-10-10). Reads public NexuAlpha data and sends:
 //   - market alerts (liquidation spikes, longs-and-shorts liquidated, BTC/ETH sharp moves) to members who turned the
-//     topic on in the bot (/alerts), and the high-severity ones to the zh/en channels;
+//     topic on in the bot (/alerts), in the member's language (zh, en, ru, tr, vi, id, es, pt; see LANGS), and the
+//     high-severity ones to the zh/en channels;
 //   - partner-venue listings and campaigns to members subscribed to "listings";
 //   - a daily brief at 13:00 UTC (21:00 Beijing) to the channels and "digest" subscribers;
 //   - a private funnel report for the owner at 13:05 UTC (OWNER_CHAT_ID; skipped when unset) built from the site's
@@ -21,17 +22,31 @@ const ENV_FILE = process.env.BOT_ENV_FILE || "/srv/agent/stacks/crypto-telegram-
 const CHANNELS = { zh: "@NexuAlphaClub", en: "@NexuAlphaGlobal" };
 const OWNER_CHAT_ID = (process.env.OWNER_CHAT_ID || "").trim();
 const CLICKS = process.env.CLICK_EVENT_FILE || "";
-// the /alerts card speaks 8 languages (2026-10-11) but alert texts exist in zh and en only: non-Chinese readers get English
-const msgLang = (u) => (u?.lang === "zh" ? "zh" : "en");
+// Message languages = the /alerts card languages (2026-10-11): zh, en, ru, tr, vi, id, es, pt. Anyone else gets English.
+// Channels stay zh/en (CHANNELS); DMs follow state.lang from alert-subscriptions.json.
+export const LANGS = ["zh", "en", "ru", "tr", "vi", "id", "es", "pt"];
+export const msgLang = (u) => (LANGS.includes(u?.lang) ? u.lang : "en");
+// Site locale path per message language (en is the unprefixed root) and the news-feed locale key for article editions.
+export const LOCALE_PATH = { zh: "/zh-hans", en: "", ru: "/ru", tr: "/tr", vi: "/vi", id: "/id-id", es: "/es", pt: "/pt-br" };
+export const ARTICLE_LOCALE = { zh: "zh-Hans", en: "en", ru: "ru", tr: "tr", vi: "vi", id: "id", es: "es", pt: "pt-BR" };
+const INTL = { ru: "ru-RU", tr: "tr-TR", vi: "vi-VN", id: "id-ID", es: "es-ES", pt: "pt-BR" };
 const DRY = process.argv.includes("--dry-run");
 const ONCE = process.argv.includes("--once");
 const log = (m) => console.log(`[alerts] ${new Date().toISOString()} ${m}`);
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+// zh/en keep their original formatting (120.0M, 100,000, -2.1%); the other languages format through Intl
+// (ru "120 млн $", tr "$120 Mn" and "%60", pt-BR "US$ 120 mi"), so a Turkish reader sees -%2,1 rather than -2.1%.
 const usd = (n) => (n >= 1e9 ? `${(n / 1e9).toFixed(2)}B` : n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : `${Math.round(n / 1e3)}K`);
+export const fmt = {
+  usd: (lang, n) => (INTL[lang] ? new Intl.NumberFormat(INTL[lang], { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 }).format(n) : usd(n)),
+  num: (lang, n) => (INTL[lang] ? new Intl.NumberFormat(INTL[lang], { maximumFractionDigits: 2 }).format(n) : n.toLocaleString("en-US")),
+  // signed: the digest prefixes "+" on gains (zh/en legacy); event lines print the raw number. Intl always signs non-zero values.
+  pct: (lang, p, signed = false) => (INTL[lang] ? new Intl.NumberFormat(INTL[lang], { style: "percent", signDisplay: "exceptZero", maximumFractionDigits: 2 }).format(p / 100) : `${signed && p > 0 ? "+" : ""}${p}%`),
+};
 const go = (slug, src) => `${SITE}/go/${slug}?src=${src}`;
 // Backlink to the site, locale-prefixed like the digest article links, with a src tag so the visit is attributable.
-export const sitePath = (lang, p, src) => `${SITE}${lang === "zh" ? "/zh-hans" : ""}${p}?src=${src}`;
-export const readMore = (lang, p, src) => `<a href="${sitePath(lang, p, src)}">${lang === "zh" ? "查看详情 →" : "Read more →"}</a>`;
+export const sitePath = (lang, p, src) => `${SITE}${LOCALE_PATH[lang] ?? ""}${p}?src=${src}`;
+export const readMore = (lang, p, src) => `<a href="${sitePath(lang, p, src)}">${T(lang).readMore}</a>`;
 export const BACKLINK_PATH = { "liquidation-spike": "/liquidations", "both-sides-liquidated": "/liquidations", "sharp-move": "/liquidations", listing: "/activities", digest: "/news" };
 
 function readJson(file, fallback) { try { return JSON.parse(readFileSync(file, "utf8")); } catch { return fallback; } }
@@ -54,65 +69,177 @@ async function send(tok, chat, text, buttons) {
   return res.json().catch(() => ({ ok: false }));
 }
 
+// ---------- texts ----------
+// One table per language. zh and en reproduce the original wording byte for byte (fixtures/zh-en-baseline.json pins
+// them); ru/tr/vi/id/es/pt were written as natural copy, informational tone, no referral solicitation (ru especially).
+// `head` and the digest/listing labels are plain text; `disclosure` is the full line (with the Binance+OKX lower-bound
+// clause) and `listingDisclosure` the one without the data clause, because listing DMs carry no market numbers.
+const TEXTS = {
+  zh: {
+    head: { "liquidation-spike": "💥 爆仓激增", "both-sides-liquidated": "⚔️ 多空双杀", "sharp-move": "⚡ 急涨急跌" },
+    liq1h: (l, s) => `1 小时爆仓：多 ${l} / 空 ${s} 美元`, liq24h: (l, s) => `24 小时爆仓：多 ${l} / 空 ${s} 美元`,
+    major: (sym, price, p1, p24) => `${sym} ${price}（1h ${p1}，24h ${p24}）`,
+    largest: (sym, side, usd) => `最大单笔：${sym} ${side === "long" ? "多单" : "空单"} ${usd} 美元`,
+    advice: "降低杠杆、确认强平价，行情剧烈时资金费率也会跳变。",
+    digestTitle: "<b>🗞 NexuAlpha 每日市场简报</b>", digestLiq: (l, s) => `24h 爆仓（下限）：多 ${l} / 空 ${s} 美元`, movers: "异动：",
+    todayOn: "<b>今日文章</b>", campaigns: "<b>交易所活动</b>", cat: { listing: "上币", event: "活动" },
+    listingHead: (cat, name) => `【${cat}｜${name}】`, officialNotice: "官方公告",
+    signUp: (name) => `注册 ${name}（返佣）`, signUpListing: (name) => `注册 ${name}`, getAlerts: "🔔 订阅告警", fundingRates: "📊 资金费率", readMore: "查看详情 →",
+    disclosure: "<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>",
+    // unchanged from the original sender, whose strip pattern never matched the zh text: zh listing DMs keep the data clause
+    listingDisclosure: "<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>",
+  },
+  en: {
+    head: { "liquidation-spike": "💥 Liquidation spike", "both-sides-liquidated": "⚔️ Longs and shorts both liquidated", "sharp-move": "⚡ Sharp move" },
+    liq1h: (l, s) => `1h liquidations: long ${l} / short ${s} USD`, liq24h: (l, s) => `24h liquidations: long ${l} / short ${s} USD`,
+    major: (sym, price, p1, p24) => `${sym} ${price} (1h ${p1}, 24h ${p24})`,
+    largest: (sym, side, usd) => `Largest: ${sym} ${side} ${usd} USD`,
+    advice: "Lower leverage, check your liquidation price; funding rates jump in moves like this.",
+    digestTitle: "<b>🗞 NexuAlpha daily brief</b>", digestLiq: (l, s) => `24h liquidations (lower bound): long ${l} / short ${s} USD`, movers: "Movers: ",
+    todayOn: "<b>Today on NexuAlpha</b>", campaigns: "<b>Exchange campaigns</b>", cat: { listing: "Listing", event: "Campaign" },
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Official notice",
+    signUp: (name) => `Sign up on ${name}`, signUpListing: (name) => `Sign up on ${name}`, getAlerts: "🔔 Get alerts", fundingRates: "📊 Funding rates", readMore: "Read more →",
+    disclosure: "<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Binance + OKX public data, a lower bound. Not investment advice.</i>",
+    listingDisclosure: "<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Not investment advice.</i>",
+  },
+  ru: {
+    head: { "liquidation-spike": "💥 Всплеск ликвидаций", "both-sides-liquidated": "⚔️ Ликвидированы и лонги, и шорты", "sharp-move": "⚡ Резкое движение" },
+    liq1h: (l, s) => `Ликвидации за 1 ч: лонги ${l} / шорты ${s}`, liq24h: (l, s) => `Ликвидации за 24 ч: лонги ${l} / шорты ${s}`,
+    major: (sym, price, p1, p24) => `${sym} ${price} (1 ч ${p1}, 24 ч ${p24})`,
+    largest: (sym, side, usd) => `Крупнейшая: ${sym} ${side === "long" ? "лонг" : "шорт"} ${usd}`,
+    advice: "Снизьте плечо и проверьте цену ликвидации: при таких движениях ставки финансирования тоже меняются скачками.",
+    digestTitle: "<b>🗞 Ежедневная сводка NexuAlpha</b>", digestLiq: (l, s) => `Ликвидации за 24 ч (нижняя оценка): лонги ${l} / шорты ${s}`, movers: "Лидеры движения: ",
+    todayOn: "<b>Сегодня на NexuAlpha</b>", campaigns: "<b>Акции бирж</b>", cat: { listing: "Листинг", event: "Акция" },
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Официальное объявление",
+    signUp: (name) => `Регистрация на ${name}`, signUpListing: (name) => `Регистрация на ${name}`, getAlerts: "🔔 Получать оповещения", fundingRates: "📊 Ставки финансирования", readMore: "Подробнее →",
+    disclosure: "<i>Партнёрские ссылки могут приносить NexuAlpha комиссию, которую выплачивает биржа; для вас это ничего не стоит. Открытые данные Binance и OKX, нижняя оценка. Не является инвестиционной рекомендацией.</i>",
+    listingDisclosure: "<i>Партнёрские ссылки могут приносить NexuAlpha комиссию, которую выплачивает биржа; для вас это ничего не стоит. Не является инвестиционной рекомендацией.</i>",
+  },
+  tr: {
+    head: { "liquidation-spike": "💥 Likidasyon patlaması", "both-sides-liquidated": "⚔️ Long ve short pozisyonlar birlikte likide edildi", "sharp-move": "⚡ Sert hareket" },
+    liq1h: (l, s) => `1 saatlik likidasyon: long ${l} / short ${s}`, liq24h: (l, s) => `24 saatlik likidasyon: long ${l} / short ${s}`,
+    major: (sym, price, p1, p24) => `${sym} ${price} (1 sa ${p1}, 24 sa ${p24})`,
+    largest: (sym, side, usd) => `En büyük: ${sym} ${side} ${usd}`,
+    advice: "Kaldıracı düşürün ve likidasyon fiyatınızı kontrol edin; böyle hareketlerde fonlama oranları da sıçrar.",
+    digestTitle: "<b>🗞 NexuAlpha günlük özet</b>", digestLiq: (l, s) => `24 saatlik likidasyon (alt sınır): long ${l} / short ${s}`, movers: "Hareketliler: ",
+    todayOn: "<b>Bugün NexuAlpha'da</b>", campaigns: "<b>Borsa kampanyaları</b>", cat: { listing: "Listeleme", event: "Kampanya" },
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Resmi duyuru",
+    signUp: (name) => `${name} hesabı aç`, signUpListing: (name) => `${name} hesabı aç`, getAlerts: "🔔 Uyarı al", fundingRates: "📊 Fonlama oranları", readMore: "Devamını oku →",
+    disclosure: "<i>Partner bağlantıları NexuAlpha'ya borsa tarafından ödenen bir komisyon kazandırabilir; size ek maliyeti yoktur. Binance + OKX açık verileri, alt sınırdır. Yatırım tavsiyesi değildir.</i>",
+    listingDisclosure: "<i>Partner bağlantıları NexuAlpha'ya borsa tarafından ödenen bir komisyon kazandırabilir; size ek maliyeti yoktur. Yatırım tavsiyesi değildir.</i>",
+  },
+  vi: {
+    head: { "liquidation-spike": "💥 Thanh lý tăng vọt", "both-sides-liquidated": "⚔️ Cả long và short đều bị thanh lý", "sharp-move": "⚡ Biến động mạnh" },
+    liq1h: (l, s) => `Thanh lý 1 giờ: long ${l} / short ${s}`, liq24h: (l, s) => `Thanh lý 24 giờ: long ${l} / short ${s}`,
+    major: (sym, price, p1, p24) => `${sym} ${price} (1h ${p1}, 24h ${p24})`,
+    largest: (sym, side, usd) => `Lệnh lớn nhất: ${sym} ${side} ${usd}`,
+    advice: "Hạ đòn bẩy và kiểm tra giá thanh lý; phí funding cũng nhảy mạnh trong những đợt biến động như thế này.",
+    digestTitle: "<b>🗞 Bản tin hằng ngày NexuAlpha</b>", digestLiq: (l, s) => `Thanh lý 24 giờ (mức tối thiểu): long ${l} / short ${s}`, movers: "Biến động: ",
+    todayOn: "<b>Hôm nay trên NexuAlpha</b>", campaigns: "<b>Sự kiện sàn giao dịch</b>", cat: { listing: "Niêm yết", event: "Sự kiện" },
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Thông báo chính thức",
+    signUp: (name) => `Đăng ký ${name}`, signUpListing: (name) => `Đăng ký ${name}`, getAlerts: "🔔 Nhận cảnh báo", fundingRates: "📊 Phí funding", readMore: "Xem chi tiết →",
+    disclosure: "<i>Liên kết đối tác có thể mang lại cho NexuAlpha hoa hồng do sàn giao dịch chi trả, bạn không mất thêm chi phí. Dữ liệu công khai của Binance + OKX, là mức tối thiểu. Không phải lời khuyên đầu tư.</i>",
+    listingDisclosure: "<i>Liên kết đối tác có thể mang lại cho NexuAlpha hoa hồng do sàn giao dịch chi trả, bạn không mất thêm chi phí. Không phải lời khuyên đầu tư.</i>",
+  },
+  id: {
+    head: { "liquidation-spike": "💥 Lonjakan likuidasi", "both-sides-liquidated": "⚔️ Long dan short sama-sama terlikuidasi", "sharp-move": "⚡ Pergerakan tajam" },
+    liq1h: (l, s) => `Likuidasi 1 jam: long ${l} / short ${s}`, liq24h: (l, s) => `Likuidasi 24 jam: long ${l} / short ${s}`,
+    major: (sym, price, p1, p24) => `${sym} ${price} (1 jam ${p1}, 24 jam ${p24})`,
+    largest: (sym, side, usd) => `Terbesar: ${sym} ${side} ${usd}`,
+    advice: "Turunkan leverage dan cek harga likuidasi Anda; funding rate juga melonjak pada pergerakan seperti ini.",
+    digestTitle: "<b>🗞 Ringkasan harian NexuAlpha</b>", digestLiq: (l, s) => `Likuidasi 24 jam (batas bawah): long ${l} / short ${s}`, movers: "Pergerakan: ",
+    todayOn: "<b>Hari ini di NexuAlpha</b>", campaigns: "<b>Kampanye bursa</b>", cat: { listing: "Listing", event: "Kampanye" },
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Pengumuman resmi",
+    signUp: (name) => `Daftar di ${name}`, signUpListing: (name) => `Daftar di ${name}`, getAlerts: "🔔 Dapatkan notifikasi", fundingRates: "📊 Funding rate", readMore: "Baca selengkapnya →",
+    disclosure: "<i>Tautan partner dapat memberi NexuAlpha komisi yang dibayar oleh bursa, tanpa biaya tambahan bagi Anda. Data publik Binance + OKX, batas bawah. Bukan saran investasi.</i>",
+    listingDisclosure: "<i>Tautan partner dapat memberi NexuAlpha komisi yang dibayar oleh bursa, tanpa biaya tambahan bagi Anda. Bukan saran investasi.</i>",
+  },
+  es: {
+    head: { "liquidation-spike": "💥 Pico de liquidaciones", "both-sides-liquidated": "⚔️ Largos y cortos liquidados a la vez", "sharp-move": "⚡ Movimiento brusco" },
+    liq1h: (l, s) => `Liquidaciones 1 h: largos ${l} / cortos ${s}`, liq24h: (l, s) => `Liquidaciones 24 h: largos ${l} / cortos ${s}`,
+    major: (sym, price, p1, p24) => `${sym} ${price} (1 h ${p1}, 24 h ${p24})`,
+    largest: (sym, side, usd) => `Mayor liquidación: ${sym} ${side === "long" ? "largo" : "corto"} ${usd}`,
+    advice: "Baja el apalancamiento y revisa tu precio de liquidación; en movimientos así las tasas de financiación también saltan.",
+    digestTitle: "<b>🗞 Resumen diario de NexuAlpha</b>", digestLiq: (l, s) => `Liquidaciones 24 h (mínimo estimado): largos ${l} / cortos ${s}`, movers: "Movimientos: ",
+    todayOn: "<b>Hoy en NexuAlpha</b>", campaigns: "<b>Campañas de exchanges</b>", cat: { listing: "Listado", event: "Campaña" },
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Aviso oficial",
+    signUp: (name) => `Regístrate en ${name}`, signUpListing: (name) => `Regístrate en ${name}`, getAlerts: "🔔 Recibir alertas", fundingRates: "📊 Tasas de financiación", readMore: "Leer más →",
+    disclosure: "<i>Los enlaces de partners pueden generar a NexuAlpha una comisión pagada por el exchange, sin coste adicional para ti. Datos públicos de Binance + OKX, un mínimo estimado. No es asesoramiento de inversión.</i>",
+    listingDisclosure: "<i>Los enlaces de partners pueden generar a NexuAlpha una comisión pagada por el exchange, sin coste adicional para ti. No es asesoramiento de inversión.</i>",
+  },
+  pt: {
+    head: { "liquidation-spike": "💥 Pico de liquidações", "both-sides-liquidated": "⚔️ Longs e shorts liquidados ao mesmo tempo", "sharp-move": "⚡ Movimento brusco" },
+    liq1h: (l, s) => `Liquidações 1 h: long ${l} / short ${s}`, liq24h: (l, s) => `Liquidações 24 h: long ${l} / short ${s}`,
+    major: (sym, price, p1, p24) => `${sym} ${price} (1 h ${p1}, 24 h ${p24})`,
+    largest: (sym, side, usd) => `Maior liquidação: ${sym} ${side} ${usd}`,
+    advice: "Reduza a alavancagem e confira seu preço de liquidação; em movimentos assim as taxas de funding também disparam.",
+    digestTitle: "<b>🗞 Resumo diário NexuAlpha</b>", digestLiq: (l, s) => `Liquidações 24 h (estimativa mínima): long ${l} / short ${s}`, movers: "Destaques: ",
+    todayOn: "<b>Hoje na NexuAlpha</b>", campaigns: "<b>Campanhas das corretoras</b>", cat: { listing: "Listagem", event: "Campanha" },
+    listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Aviso oficial",
+    signUp: (name) => `Cadastre-se na ${name}`, signUpListing: (name) => `Cadastre-se na ${name}`, getAlerts: "🔔 Receber alertas", fundingRates: "📊 Taxas de funding", readMore: "Saiba mais →",
+    disclosure: "<i>Links de parceiros podem render à NexuAlpha uma comissão paga pela corretora, sem custo extra para você. Dados públicos da Binance + OKX, uma estimativa mínima. Não é recomendação de investimento.</i>",
+    listingDisclosure: "<i>Links de parceiros podem render à NexuAlpha uma comissão paga pela corretora, sem custo extra para você. Não é recomendação de investimento.</i>",
+  },
+};
+export const T = (lang) => TEXTS[lang] || TEXTS.en;
+
 // ---------- message builders ----------
-function partnerButtons(partners, lang, src) {
+export function partnerButtons(partners, lang, src) {
+  const t = T(lang);
   const featured = partners.filter((p) => p.featured).slice(0, 3);
   return [
-    featured.map((p) => ({ text: lang === "zh" ? `注册 ${p.name}（返佣）` : `Sign up on ${p.name}`, url: go(p.slug, src) })),
-    [{ text: lang === "zh" ? "🔔 订阅告警" : "🔔 Get alerts", url: "https://t.me/NexuAlphaAssistantBot?start=alerts" },
-     { text: lang === "zh" ? "📊 资金费率" : "📊 Funding rates", url: `${SITE}/${lang === "zh" ? "zh-hans/" : ""}rates` }],
+    featured.map((p) => ({ text: t.signUp(p.name), url: go(p.slug, src) })),
+    [{ text: t.getAlerts, url: "https://t.me/NexuAlphaAssistantBot?start=alerts" },
+     { text: t.fundingRates, url: `${SITE}${LOCALE_PATH[lang] ?? ""}/rates` }],
   ];
 }
-const DISCLOSURE = { zh: "<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>", en: "<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Binance + OKX public data, a lower bound. Not investment advice.</i>" };
 
 export function eventMessage(ev, mk, lang) {
+  const t = T(lang);
   const L = mk.liquidations;
   const btc = mk.market.majors.find((m) => m.symbol === "BTCUSDT"), eth = mk.market.majors.find((m) => m.symbol === "ETHUSDT");
-  const head = {
-    "liquidation-spike": { zh: "💥 爆仓激增", en: "💥 Liquidation spike" },
-    "both-sides-liquidated": { zh: "⚔️ 多空双杀", en: "⚔️ Longs and shorts both liquidated" },
-    "sharp-move": { zh: "⚡ 急涨急跌", en: "⚡ Sharp move" },
-  }[ev.type][lang];
-  const lines = [`<b>${head}</b>`];
-  if (lang === "zh") {
-    lines.push(`1 小时爆仓：多 ${usd(L.h1.longUsd)} / 空 ${usd(L.h1.shortUsd)} 美元`, `24 小时爆仓：多 ${usd(L.h24.longUsd)} / 空 ${usd(L.h24.shortUsd)} 美元`);
-    if (btc) lines.push(`BTC ${btc.price.toLocaleString("en-US")}（1h ${btc.change1hPct}%，24h ${btc.change24hPct}%）`);
-    if (eth) lines.push(`ETH ${eth.price.toLocaleString("en-US")}（1h ${eth.change1hPct}%，24h ${eth.change24hPct}%）`);
-    if (L.h1.largest) lines.push(`最大单笔：${esc(L.h1.largest.symbol)} ${L.h1.largest.side === "long" ? "多单" : "空单"} ${usd(L.h1.largest.usd)} 美元`);
-    lines.push("", "降低杠杆、确认强平价，行情剧烈时资金费率也会跳变。");
-  } else {
-    lines.push(`1h liquidations: long ${usd(L.h1.longUsd)} / short ${usd(L.h1.shortUsd)} USD`, `24h liquidations: long ${usd(L.h24.longUsd)} / short ${usd(L.h24.shortUsd)} USD`);
-    if (btc) lines.push(`BTC ${btc.price.toLocaleString("en-US")} (1h ${btc.change1hPct}%, 24h ${btc.change24hPct}%)`);
-    if (eth) lines.push(`ETH ${eth.price.toLocaleString("en-US")} (1h ${eth.change1hPct}%, 24h ${eth.change24hPct}%)`);
-    if (L.h1.largest) lines.push(`Largest: ${esc(L.h1.largest.symbol)} ${L.h1.largest.side} ${usd(L.h1.largest.usd)} USD`);
-    lines.push("", "Lower leverage, check your liquidation price; funding rates jump in moves like this.");
-  }
-  lines.push("", readMore(lang, BACKLINK_PATH[ev.type] || "/liquidations", "tg-alert"), "", DISCLOSURE[lang]);
+  const lines = [`<b>${t.head[ev.type]}</b>`, t.liq1h(fmt.usd(lang, L.h1.longUsd), fmt.usd(lang, L.h1.shortUsd)), t.liq24h(fmt.usd(lang, L.h24.longUsd), fmt.usd(lang, L.h24.shortUsd))];
+  if (btc) lines.push(t.major("BTC", fmt.num(lang, btc.price), fmt.pct(lang, btc.change1hPct), fmt.pct(lang, btc.change24hPct)));
+  if (eth) lines.push(t.major("ETH", fmt.num(lang, eth.price), fmt.pct(lang, eth.change1hPct), fmt.pct(lang, eth.change24hPct)));
+  if (L.h1.largest) lines.push(t.largest(esc(L.h1.largest.symbol), L.h1.largest.side, fmt.usd(lang, L.h1.largest.usd)));
+  lines.push("", t.advice, "", readMore(lang, BACKLINK_PATH[ev.type] || "/liquidations", "tg-alert"), "", t.disclosure);
   return lines.join("\n");
 }
 
+// Article link for the digest: the reader's locale edition when the feed lists it in availableLocales (feeds without
+// that field fall back to "a title in that locale exists"), otherwise the English URL and title.
+export function articleLink(a, lang) {
+  const loc = ARTICLE_LOCALE[lang] || "en";
+  const hasEdition = Array.isArray(a.availableLocales) ? a.availableLocales.includes(loc) : Boolean(a.title?.[loc]);
+  const localized = loc !== "en" && hasEdition;
+  const title = (localized ? a.title?.[loc] : null) || a.title?.en || a.slug;
+  return `• <a href="${SITE}${localized ? LOCALE_PATH[lang] : ""}/news/${a.slug}">${esc(title)}</a>`;
+}
+
 export function digestMessage(mk, partners, articles, campaigns, lang) {
+  const t = T(lang);
   const L = mk.liquidations.h24;
-  const lines = [lang === "zh" ? "<b>🗞 NexuAlpha 每日市场简报</b>" : "<b>🗞 NexuAlpha daily brief</b>", ""];
-  for (const m of mk.market.majors.slice(0, 4)) lines.push(`${m.symbol.replace("USDT", "")} ${m.price.toLocaleString("en-US")}  ${m.change24hPct > 0 ? "+" : ""}${m.change24hPct}%`);
-  lines.push("", lang === "zh" ? `24h 爆仓（下限）：多 ${usd(L.longUsd)} / 空 ${usd(L.shortUsd)} 美元` : `24h liquidations (lower bound): long ${usd(L.longUsd)} / short ${usd(L.shortUsd)} USD`);
-  if (mk.market.movers.length) lines.push((lang === "zh" ? "异动：" : "Movers: ") + mk.market.movers.slice(0, 3).map((m) => `${m.symbol.replace("USDT", "")} ${m.change24hPct > 0 ? "+" : ""}${m.change24hPct}%`).join(" · "));
+  const lines = [t.digestTitle, ""];
+  for (const m of mk.market.majors.slice(0, 4)) lines.push(`${m.symbol.replace("USDT", "")} ${fmt.num(lang, m.price)}  ${fmt.pct(lang, m.change24hPct, true)}`);
+  lines.push("", t.digestLiq(fmt.usd(lang, L.longUsd), fmt.usd(lang, L.shortUsd)));
+  if (mk.market.movers.length) lines.push(t.movers + mk.market.movers.slice(0, 3).map((m) => `${m.symbol.replace("USDT", "")} ${fmt.pct(lang, m.change24hPct, true)}`).join(" · "));
   if (articles.length) {
-    lines.push("", lang === "zh" ? "<b>今日文章</b>" : "<b>Today on NexuAlpha</b>");
-    for (const a of articles.slice(0, 4)) lines.push(`• <a href="${SITE}${lang === "zh" ? "/zh-hans" : ""}/news/${a.slug}">${esc((lang === "zh" ? a.title?.["zh-Hans"] : a.title?.en) || a.title?.en || a.slug)}</a>`);
+    lines.push("", t.todayOn);
+    for (const a of articles.slice(0, 4)) lines.push(articleLink(a, lang));
   }
   if (campaigns.length) {
-    lines.push("", lang === "zh" ? "<b>交易所活动</b>" : "<b>Exchange campaigns</b>");
+    lines.push("", t.campaigns);
     for (const c of campaigns.slice(0, 3)) lines.push(`• ${esc(c.venue.toUpperCase())}: <a href="${c.url}">${esc(c.title.slice(0, 90))}</a>`);
   }
-  lines.push("", readMore(lang, BACKLINK_PATH.digest, "tg-digest"), "", DISCLOSURE[lang]);
+  lines.push("", readMore(lang, BACKLINK_PATH.digest, "tg-digest"), "", t.disclosure);
   return { text: lines.join("\n"), buttons: partnerButtons(partners, lang, `tg-digest-${lang}`) };
 }
 
 export function listingMessage(item, partner, lang) {
-  const cat = { listing: { zh: "上币", en: "Listing" }, event: { zh: "活动", en: "Campaign" } }[item.category]?.[lang] || item.category;
-  const text = [`<b>${lang === "zh" ? `【${cat}｜${esc(partner.name)}】` : `[${cat} · ${esc(partner.name)}] `}</b>${esc(item.title)}`, "", readMore(lang, BACKLINK_PATH.listing, "tg-listing"), "", DISCLOSURE[lang].replace(/ 数据为.*?。|Binance \+ OKX public data, a lower bound\. /, "")].join("\n");
-  return { text, buttons: [[{ text: lang === "zh" ? "官方公告" : "Official notice", url: item.url }, { text: lang === "zh" ? `注册 ${partner.name}` : `Sign up on ${partner.name}`, url: go(partner.slug, `tg-dm-listing-${lang}`) }]] };
+  const t = T(lang);
+  const cat = t.cat[item.category] || item.category;
+  const text = [`<b>${t.listingHead(cat, esc(partner.name))}</b>${esc(item.title)}`, "", readMore(lang, BACKLINK_PATH.listing, "tg-listing"), "", t.listingDisclosure].join("\n");
+  return { text, buttons: [[{ text: t.officialNotice, url: item.url }, { text: t.signUpListing(partner.name), url: go(partner.slug, `tg-dm-listing-${lang}`) }]] };
 }
 
 // Owner funnel DM: last 24 h / 7 d from the click log, subscriber count only (no user data leaves the box).

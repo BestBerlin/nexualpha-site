@@ -13,6 +13,7 @@ import { getBrazilSeo } from "./brazil-seo.js";
 import { sanitizePublicText } from "./public-copy-sanitizer.js";
 import { newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "./locale-routing.js";
+import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
 import { compareFaqSchemaEntries } from "./compare-faq-locales.js";
@@ -30,8 +31,7 @@ import { PRIORITY_QUERY_OWNER_REGISTRY, priorityOwnerForPath } from "./priority-
 
 const PUBLIC_ORIGIN = "https://nexualpha.com";
 const NEXUALPHA_DATA_LICENSE_URL = `${PUBLIC_ORIGIN}/methodology#data-license`;
-const RESEARCH_DESK = Object.freeze({ "@type": "Organization", name: "NexuAlpha Research Desk", url: `${PUBLIC_ORIGIN}/methodology` });
-const NEXUALPHA_PUBLISHER = Object.freeze({ "@type": "Organization", name: "NexuAlpha", url: `${PUBLIC_ORIGIN}/`, logo: `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-round.svg` });
+// Publisher and editorial-team references come from brand-entity.js so every page shares one Organization @id.
 const DEFAULT_SOCIAL_IMAGE = `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-social-v1.jpg`;
 const REGIONAL_FUNDING_MATRIX_REVIEWED_AT = "2026-09-15";
 const REGIONAL_FUNDING_MATRIX_URLS = Object.freeze({
@@ -268,7 +268,7 @@ const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/ra
 // visible text under 20% per locale), so every locale edition is published to search, not only en/zh/ja/ko/tr.
 // /methodology and /telegram stay on the short list (still partly English), as do the venue profiles below whose
 // localized editions are still 25%+ English.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates"]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates", ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -367,6 +367,8 @@ const STATIC_COPY = {
   "/rates": ["Crypto Exchange Fee Benchmark Terminal — NexuAlpha", "交易所手续费基准终端 — NexuAlpha"],
   "/onchain": ["On-Chain Liquidity Board — NexuAlpha", "链上资金流看板 — NexuAlpha"],
   "/methodology": ["Research Methodology & Editorial Policy — NexuAlpha", "研究方法与编辑政策 — NexuAlpha"],
+  [ABOUT_PATH]: [BRAND_PAGE_SEO[ABOUT_PATH].en[0], BRAND_PAGE_SEO[ABOUT_PATH]["zh-Hans"][0]],
+  [EDITORIAL_POLICY_PATH]: [BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH].en[0], BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH]["zh-Hans"][0]],
   "/embed/calculator": ["Embeddable Trading Fee Calculator — NexuAlpha", "可嵌入交易手续费计算器 — NexuAlpha"],
   "/partners": ["Partner Embeds & Distribution — NexuAlpha", "合作嵌入与内容分发 — NexuAlpha"],
 };
@@ -393,6 +395,8 @@ for (const [locale, title] of Object.entries({
 
 const STATIC_PAGE_COPY_LOCALIZED = {
   "/": { ...HOME_SEARCH_COPY },
+  [ABOUT_PATH]: { ...BRAND_PAGE_SEO[ABOUT_PATH] },
+  [EDITORIAL_POLICY_PATH]: { ...BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH] },
   "/rates": {
     en: ["Crypto Exchange Fee Benchmark Terminal — NexuAlpha", "Compare published maker and taker fee references across CEX, DEX and perpetual platforms. Use the page as a scenario checklist, then verify VIP tier, funding, withdrawal and account terms on the official platform."],
     "zh-Hans": ["交易所手续费基准终端 — NexuAlpha", "对比中心化交易所、DEX 与永续合约平台公开的 Maker、Taker 手续费基准。"],
@@ -2167,6 +2171,8 @@ export function computeRouteSeo(options = {}) {
       }
       schemas = pathname === "/methodology"
         ? [staticSchema, ...regionalFundingRouteSchemas(locale)]
+        : isBrandPagePath(pathname)
+        ? brandPageSchemas(pathname, locale, { canonical: canonical(pathname, locale) })
         : pathname === "/rates"
         ? ratesRouteSchemas(title, description, canonical(pathname, locale), locale)
         : [staticSchema];
@@ -2179,8 +2185,8 @@ export function computeRouteSeo(options = {}) {
         url: `${PUBLIC_ORIGIN}${localizedPath(`/exchanges/${venue.slug}`, locale)}`,
       }));
       schemas = [
-        { ...pageSchema("NexuAlpha", canonical("/", locale), locale, "WebSite"), "@id": `${PUBLIC_ORIGIN}/#website`, dateModified: "2026-09-21" },
-        { "@context": "https://schema.org", "@type": "Organization", "@id": `${PUBLIC_ORIGIN}/#organization`, name: "NexuAlpha", url: `${PUBLIC_ORIGIN}/`, logo: `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-round.svg` },
+        { "@context": "https://schema.org", ...websiteSchema(locale, { url: canonical("/", locale) }) },
+        { "@context": "https://schema.org", ...organizationSchema(locale) },
         { "@context": "https://schema.org", "@type": "ItemList", "@id": `${PUBLIC_ORIGIN}${localizedPath("/", locale)}#featured-platforms`, name: "Featured crypto platforms", itemListElement: featuredVenues },
       ];
     }

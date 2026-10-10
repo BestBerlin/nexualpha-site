@@ -1,0 +1,1093 @@
+{
+  "schema": "nexualpha.aeo-gsc.v1",
+  "questionSetVersion": "2026-10-11.v1",
+  "week": "2026-W41",
+  "generatedAt": "2026-10-10T22:04:10.833Z",
+  "window": {
+    "start": "2026-09-10",
+    "end": "2026-10-08",
+    "days": 28
+  },
+  "google": {
+    "status": "ok",
+    "property": "sc-domain:nexualpha.com",
+    "siteTotals": {
+      "clicks": 4,
+      "impressions": 1770,
+      "position": 20.4
+    },
+    "distinctQueries": 193,
+    "rows": [
+      {
+        "questionId": "okx-referral-code",
+        "lang": "en",
+        "market": "global",
+        "query": "best OKX referral code",
+        "targetPath": "/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "okx-vs-binance-fees",
+        "lang": "en",
+        "market": "global",
+        "query": "OKX vs Binance fees",
+        "targetPath": "/compare/binance-vs-okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "bitget-referral-rebate",
+        "lang": "en",
+        "market": "global",
+        "query": "Bitget referral code rebate",
+        "targetPath": "/exchanges/bitget",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "binance-vs-bybit-cheaper",
+        "lang": "en",
+        "market": "global",
+        "query": "Binance vs Bybit which is cheaper",
+        "targetPath": "/compare/binance-vs-bybit",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "crypto-liquidations-today",
+        "lang": "en",
+        "market": "global",
+        "query": "crypto liquidations today",
+        "targetPath": "/liquidations",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "btc-funding-rate-binance-okx",
+        "lang": "en",
+        "market": "global",
+        "query": "BTC funding rate now Binance vs OKX",
+        "targetPath": "/funding-rates",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "bitget-signup-referral",
+        "lang": "en",
+        "market": "global",
+        "query": "how to sign up on Bitget with a referral code",
+        "targetPath": "/exchanges/bitget",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "mexc-vs-bybit-kyc",
+        "lang": "en",
+        "market": "global",
+        "query": "MEXC vs Bybit KYC",
+        "targetPath": "/compare/bybit-vs-mexc",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "lowest-perp-fees",
+        "lang": "en",
+        "market": "global",
+        "query": "which exchange has the lowest perp fees",
+        "targetPath": "/derivatives",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "bitget-cafe-official",
+        "lang": "en",
+        "market": "global",
+        "query": "is bitget.cafe an official Bitget domain",
+        "targetPath": "/exchanges/bitget",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "tr-okx-referans-nerede",
+        "lang": "en",
+        "market": "tr",
+        "query": "where to enter the OKX referral code",
+        "targetPath": "/tr/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "tr-okx-referans-nerede",
+        "lang": "tr",
+        "market": "tr",
+        "query": "okx referans kodu nerede yazar",
+        "targetPath": "/tr/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "tr-okx-kayit",
+        "lang": "en",
+        "market": "tr",
+        "query": "how to register on OKX TR",
+        "targetPath": "/tr/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [
+          {
+            "query": "okx register",
+            "impressions": 1,
+            "clicks": 0,
+            "position": 16
+          }
+        ],
+        "variantsTotal": {
+          "impressions": 1,
+          "clicks": 0,
+          "position": 16
+        },
+        "topPage": "https://nexualpha.com/news/how-to-register-okx-account-verify-identity-safely"
+      },
+      {
+        "questionId": "tr-okx-kayit",
+        "lang": "tr",
+        "market": "tr",
+        "query": "okx tr nasıl kayıt olunur",
+        "targetPath": "/tr/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "vi-okx-ma-gioi-thieu",
+        "lang": "en",
+        "market": "vi",
+        "query": "where to get an OKX referral code",
+        "targetPath": "/vi/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "vi-okx-ma-gioi-thieu",
+        "lang": "vi",
+        "market": "vi",
+        "query": "mã giới thiệu okx lấy ở đâu",
+        "targetPath": "/vi/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "vi-okx-dang-ky",
+        "lang": "en",
+        "market": "vi",
+        "query": "how to register on OKX",
+        "targetPath": "/vi/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [
+          {
+            "query": "okx register",
+            "impressions": 1,
+            "clicks": 0,
+            "position": 16
+          }
+        ],
+        "variantsTotal": {
+          "impressions": 1,
+          "clicks": 0,
+          "position": 16
+        },
+        "topPage": "https://nexualpha.com/news/how-to-register-okx-account-verify-identity-safely"
+      },
+      {
+        "questionId": "vi-okx-dang-ky",
+        "lang": "vi",
+        "market": "vi",
+        "query": "cách đăng ký okx",
+        "targetPath": "/vi/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "vi-okx-hoan-phi",
+        "lang": "en",
+        "market": "vi",
+        "query": "does OKX refund trading fees",
+        "targetPath": "/vi/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "vi-okx-hoan-phi",
+        "lang": "vi",
+        "market": "vi",
+        "query": "okx có hoàn phí giao dịch không",
+        "targetPath": "/vi/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "es-okx-codigo-referido",
+        "lang": "en",
+        "market": "es",
+        "query": "OKX referral code Mexico",
+        "targetPath": "/es/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "es-okx-codigo-referido",
+        "lang": "es",
+        "market": "es",
+        "query": "okx codigo de referido",
+        "targetPath": "/es/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "es-okx-registrarse",
+        "lang": "en",
+        "market": "es",
+        "query": "how to register on OKX in Mexico",
+        "targetPath": "/es/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "es-okx-registrarse",
+        "lang": "es",
+        "market": "es",
+        "query": "como registrarse en okx",
+        "targetPath": "/es/exchanges/okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "es-okx-confiable-mexico",
+        "lang": "en",
+        "market": "es",
+        "query": "is OKX reliable in Mexico",
+        "targetPath": "/mx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "es-okx-confiable-mexico",
+        "lang": "es",
+        "market": "es",
+        "query": "okx es confiable en mexico",
+        "targetPath": "/mx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "ru-bybit-komissii",
+        "lang": "en",
+        "market": "ru",
+        "query": "Bybit trading fees",
+        "targetPath": "/ru/exchanges/bybit",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "ru-bybit-komissii",
+        "lang": "ru",
+        "market": "ru",
+        "query": "bybit комиссии за торговлю",
+        "targetPath": "/ru/exchanges/bybit",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "id-bitget-ojk",
+        "lang": "en",
+        "market": "id",
+        "query": "is Bitget registered with OJK",
+        "targetPath": "/id-id/exchanges/bitget",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      },
+      {
+        "questionId": "id-bitget-ojk",
+        "lang": "id",
+        "market": "id",
+        "query": "bitget terdaftar di ojk",
+        "targetPath": "/id-id/exchanges/bitget",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": [],
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "topPage": null
+      }
+    ]
+  },
+  "bing": {
+    "status": "ok",
+    "distinctQueries": 4,
+    "rows": [
+      {
+        "questionId": "okx-referral-code",
+        "lang": "en",
+        "query": "best OKX referral code",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "okx-vs-binance-fees",
+        "lang": "en",
+        "query": "OKX vs Binance fees",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "bitget-referral-rebate",
+        "lang": "en",
+        "query": "Bitget referral code rebate",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "binance-vs-bybit-cheaper",
+        "lang": "en",
+        "query": "Binance vs Bybit which is cheaper",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "crypto-liquidations-today",
+        "lang": "en",
+        "query": "crypto liquidations today",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "btc-funding-rate-binance-okx",
+        "lang": "en",
+        "query": "BTC funding rate now Binance vs OKX",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "bitget-signup-referral",
+        "lang": "en",
+        "query": "how to sign up on Bitget with a referral code",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "mexc-vs-bybit-kyc",
+        "lang": "en",
+        "query": "MEXC vs Bybit KYC",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "lowest-perp-fees",
+        "lang": "en",
+        "query": "which exchange has the lowest perp fees",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "bitget-cafe-official",
+        "lang": "en",
+        "query": "is bitget.cafe an official Bitget domain",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "tr-okx-referans-nerede",
+        "lang": "en",
+        "query": "where to enter the OKX referral code",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "tr-okx-referans-nerede",
+        "lang": "tr",
+        "query": "okx referans kodu nerede yazar",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "tr-okx-kayit",
+        "lang": "en",
+        "query": "how to register on OKX TR",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "tr-okx-kayit",
+        "lang": "tr",
+        "query": "okx tr nasıl kayıt olunur",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "vi-okx-ma-gioi-thieu",
+        "lang": "en",
+        "query": "where to get an OKX referral code",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "vi-okx-ma-gioi-thieu",
+        "lang": "vi",
+        "query": "mã giới thiệu okx lấy ở đâu",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "vi-okx-dang-ky",
+        "lang": "en",
+        "query": "how to register on OKX",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "vi-okx-dang-ky",
+        "lang": "vi",
+        "query": "cách đăng ký okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "vi-okx-hoan-phi",
+        "lang": "en",
+        "query": "does OKX refund trading fees",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "vi-okx-hoan-phi",
+        "lang": "vi",
+        "query": "okx có hoàn phí giao dịch không",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "es-okx-codigo-referido",
+        "lang": "en",
+        "query": "OKX referral code Mexico",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "es-okx-codigo-referido",
+        "lang": "es",
+        "query": "okx codigo de referido",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "es-okx-registrarse",
+        "lang": "en",
+        "query": "how to register on OKX in Mexico",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "es-okx-registrarse",
+        "lang": "es",
+        "query": "como registrarse en okx",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "es-okx-confiable-mexico",
+        "lang": "en",
+        "query": "is OKX reliable in Mexico",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "es-okx-confiable-mexico",
+        "lang": "es",
+        "query": "okx es confiable en mexico",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "ru-bybit-komissii",
+        "lang": "en",
+        "query": "Bybit trading fees",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "ru-bybit-komissii",
+        "lang": "ru",
+        "query": "bybit комиссии за торговлю",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "id-bitget-ojk",
+        "lang": "en",
+        "query": "is Bitget registered with OJK",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      },
+      {
+        "questionId": "id-bitget-ojk",
+        "lang": "id",
+        "query": "bitget terdaftar di ojk",
+        "exact": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variantsTotal": {
+          "impressions": 0,
+          "clicks": 0,
+          "position": null
+        },
+        "variants": []
+      }
+    ]
+  }
+}

@@ -53,6 +53,8 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/v3/TelegramBotHub.jsx",
   "./components/v3/LiveConversionProof.jsx",
   "./components/v3/MethodologyPage.jsx",
+  "./components/v3/brand-pages/AboutPage.jsx",
+  "./components/v3/brand-pages/EditorialPolicyPage.jsx",
   "./components/v3/EmbedCalculator.jsx",
   "./components/v3/PartnerEmbedGuide.jsx",
   "./components/v3/TopicGuidePage.jsx",
@@ -89,6 +91,8 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/v3/TelegramBotHub.jsx",
   "./components/v3/LiveConversionProof.jsx",
   "./components/v3/MethodologyPage.jsx",
+  "./components/v3/brand-pages/AboutPage.jsx",
+  "./components/v3/brand-pages/EditorialPolicyPage.jsx",
   "./components/v3/EmbedCalculator.jsx",
   "./components/v3/PartnerEmbedGuide.jsx",
   "./components/v3/TopicGuidePage.jsx",
@@ -148,6 +152,8 @@ const TradingBleedAnalyzer = deferredComponent("./components/v3/TradingBleedAnal
 const TelegramBotHub = deferredComponent("./components/v3/TelegramBotHub.jsx", "TelegramBotHub");
 const LiveConversionProof = deferredComponent("./components/v3/LiveConversionProof.jsx", "LiveConversionProof");
 const AuditMethodologyPage = deferredComponent("./components/v3/MethodologyPage.jsx", "MethodologyPage");
+const AboutPage = deferredComponent("./components/v3/brand-pages/AboutPage.jsx", "AboutPage");
+const EditorialPolicyPage = deferredComponent("./components/v3/brand-pages/EditorialPolicyPage.jsx", "EditorialPolicyPage");
 const EmbedCalculator = deferredComponent("./components/v3/EmbedCalculator.jsx", "EmbedCalculator");
 const PartnerEmbedGuide = deferredComponent("./components/v3/PartnerEmbedGuide.jsx", "PartnerEmbedGuide");
 const TopicGuidePage = deferredComponent("./components/v3/TopicGuidePage.jsx", "TopicGuidePage");
@@ -219,7 +225,7 @@ const readComparison = () => {
 
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
-const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
+const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
 const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
@@ -472,6 +478,8 @@ function routeState(venues, initialUrl) {
   if (newsListing) return newsListing.invalid ? { name: "notFound" } : { name: "newsList", category: newsListing.category, page: newsListing.page, ...contextParams() };
   if (pathname === "/onchain") return { name: "onchainBoard" };
   if (pathname === "/methodology") return { name: "methodology" };
+  if (pathname === "/about") return { name: "about" };
+  if (pathname === "/editorial-policy") return { name: "editorialPolicy" };
   if (pathname === "/embed/calculator") return { name: "embedCalculator" };
   if (pathname === "/partners" || pathname === "/partners/embed-guide") return { name: "partners" };
   if (pathname === "/telegram") return { name: "telegram" };
@@ -763,6 +771,8 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "regionalPreview") return pageShell(<RegionalMarketPreview market={route.market} locale={locale} decisionPassport={decisionPassport} />);
   if (route.name === "regionalDecision") return pageShell(<RegionalMarketPreview market={route.market} locale={route.locale || locale} decisionPath={route.decisionPath} decisionPassport={decisionPassport} />);
   if (route.name === "methodology") return pageShell(<AuditMethodologyPage locale={locale} />);
+  if (route.name === "about") return pageShell(<AboutPage locale={locale} />);
+  if (route.name === "editorialPolicy") return pageShell(<EditorialPolicyPage locale={locale} />);
   if (route.name === "partners") return pageShell(<PartnerEmbedGuide locale={locale} />);
   if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });

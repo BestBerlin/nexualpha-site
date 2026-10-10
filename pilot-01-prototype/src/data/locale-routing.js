@@ -75,6 +75,8 @@ const GLOBAL_EXACT_ROUTES = new Set([
   "/rates",
   "/onchain",
   "/methodology",
+  "/about",
+  "/editorial-policy",
   "/partners",
   "/telegram",
   "/liquidations",

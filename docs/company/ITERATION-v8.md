@@ -152,3 +152,13 @@ conversion, #51 news locales, #52 data pages, #53 compare pairs. Each merged wit
   descriptions by hand and moved the prerender contract to the official binance.com route. `/br` and `/sg` were NOT
   redirected: `/br` is a 7-page Portuguese hub with its own tests and `/sg` a unique checklist — consolidation with
   `/pt-br` needs an owner decision (GSC: /br pos 71, duplicates /pt-br intent).
+
+## 2026-10-11: roadmap batch 2 (in progress)
+- Merged + live: PR #55 alert-sender in 8 languages (server updated), PR #56 embeddable widgets `/embed/liquidations`,
+  `/embed/funding-rates` (+ `.js` injector) and hourly liquidation history (collector `market-history.mjs`, feed key
+  `history`, 30-day chart on /liquidations once 2 UTC days exist) — live 3.0-20261011T0623-GH-ba951bd.
+- Merged: PR #57 AEO monitor (`scripts/aeo-monitor.mjs`, docs/company/aeo-monitor/). Baseline 2026-W41: DuckDuckGo
+  0/30 queries in top 10; Brave mostly 429-blocked; GSC 2/30 tracked queries with impressions. Weekly scheduled task
+  `nexualpha-aeo-weekly` (Mon 09:00 Asia/Shanghai) created from TASK-PROMPT.md.
+- In flight: perf (home lazy-load, directory SSR cache), brand-entity (/about, /editorial-policy, Organization @id).
+- Owner 2026-10-11: blanket authorization to add site-beneficial features; account creation stays with the owner.

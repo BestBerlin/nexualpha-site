@@ -1,8 +1,8 @@
 import { getBrazilPage, getBrazilSource } from './brazil-market.js';
+import { NEXUALPHA_PUBLISHER, RESEARCH_DESK } from './brand-entity.js';
 
 const ORIGIN = 'https://nexualpha.com';
-const NEXUALPHA_PUBLISHER = { '@type': 'Organization', name: 'NexuAlpha', url: ORIGIN };
-const RESEARCH_DESK = { '@type': 'Organization', name: 'NexuAlpha Research Desk', url: `${ORIGIN}/methodology` };
+// Shared publisher / editorial-team references (same Organization @id as the rest of the site).
 
 function faqEntities(page) {
   const seen = new Set();

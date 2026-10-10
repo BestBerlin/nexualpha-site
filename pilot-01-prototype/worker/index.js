@@ -8,7 +8,8 @@ import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-a
 import { socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
-import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath } from "../src/data/market-data-pages.js";
+import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
+import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
   async fetch(request, env) {
@@ -2181,8 +2182,7 @@ function staticAssetResponse(response, url) {
 }
 
 const NEXUALPHA_DATA_LICENSE_URL = `${PUBLIC_ORIGIN}/methodology#data-license`;
-const RESEARCH_DESK = Object.freeze({ "@type": "Organization", name: "NexuAlpha Research Desk", url: `${PUBLIC_ORIGIN}/methodology` });
-const NEXUALPHA_PUBLISHER = Object.freeze({ "@type": "Organization", name: "NexuAlpha", url: `${PUBLIC_ORIGIN}/`, logo: `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-round.svg` });
+// RESEARCH_DESK and NEXUALPHA_PUBLISHER come from src/data/brand-entity.js (one Organization @id for every page).
 const DEFAULT_SOCIAL_IMAGE = `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-social-v1.jpg`;
 const REGIONAL_FUNDING_MATRIX_REVIEWED_AT = "2026-09-15";
 const REGIONAL_FUNDING_MATRIX_URLS = Object.freeze({
@@ -2438,6 +2438,9 @@ const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
   // Data pages: own chunk plus the shared news chrome they reuse (Telegram alerts line, sign-up card).
   "/liquidations": ["route-data-", "route-news-"],
   "/funding-rates": ["route-data-", "route-news-"],
+  // Brand pages (/about, /editorial-policy): own chunk; the commission disclosure line styles ship with the shared layers.
+  "/about": ["route-brand-pages-"],
+  "/editorial-policy": ["route-brand-pages-"],
 });
 const REGIONAL_ROUTE_PATHS = new Set(["/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int", "/markets/turkiye"]);
 const TOKENIZED_ASSET_TOPIC_PATHS = new Set(["/topics/tokenized-assets", "/topics/tokenized-treasuries", "/topics/tokenized-stocks-vs-perpetuals"]);
@@ -2462,7 +2465,7 @@ const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter(
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
 const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets"]);
-const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS]);
+const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
 const CURATED_COMPARISONS = new Set([
@@ -2473,7 +2476,7 @@ const CURATED_COMPARISONS = new Set([
 ]);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 // Owner 2026-10-10 (search growth): mirror of src/data/seo-injection.js — fully translated pages publish all 15 locales.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -3843,6 +3846,17 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
+    // Brand pages (/about, /editorial-policy) are static copy: render them at request time with the same renderer so
+    // crawlers and no-JS readers get the full entity page instead of an empty #root.
+    if (isBrandPagePath(pathname) && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const appHtml = await env.NEWS_SSR_RENDER(url.href, {});
+        if (typeof appHtml === "string" && appHtml.includes("class=\"nxb-hero")) {
+          metadata.brandSsrMode = "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+        }
+      } catch { /* fall through to the client-rendered shell */ }
+    }
     metadata.newsSsrMode = "fallback";
     return injectFallbackBody(html, metadata, url);
   };
@@ -4003,7 +4017,7 @@ async function handleNewsSearchJson(env, url) {
 // publisher and only carried en, zh-Hans and a few ja/ko/tr pages, so the translated exchange, rates, compare and
 // activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
 // non-canonical URL; cached for an hour.
-const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS];
+const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS];
 let localeSitemapCache = null;
 export async function renderLocaleSitemap(env = {}) {
   const paths = [...LOCALE_SITEMAP_STATIC, ...[...ACTIVE_VENUE_SLUGS].map((slug) => `/exchanges/${slug}`), ...[...CURATED_COMPARISONS].map((pair) => `/compare/${pair}`)];
@@ -4597,13 +4611,6 @@ const VENUE_REGISTRY = {
   },
 };
 
-const SOCIAL_LINKS = [
-  "https://t.me/NexuAlphaClub",
-  "https://t.me/NexuAlphaAssistantBot",
-  "https://t.me/NexuAlphaWorld",
-  "https://twitter.com/NexuAlpha",
-];
-
 function buildWorkerHomeSchema(locale) {
   const isZh = locale === "zh-Hans";
   const featuredVenues = [...ACTIVE_VENUE_SLUGS].slice(0, 6).map((slug, index) => ({
@@ -4612,35 +4619,16 @@ function buildWorkerHomeSchema(locale) {
     name: VENUE_REGISTRY[slug]?.name || slug,
     url: `${PUBLIC_ORIGIN}/exchanges/${slug}`,
   }));
+  // WebSite + Organization come from src/data/brand-entity.js: same @id, logo, sameAs and Research Desk department on
+  // the home page, the article pages, the data pages and /about.
   return [
-    {
-      "@type": "WebSite",
-      "@id": `${PUBLIC_ORIGIN}/#website`,
-      name: "NexuAlpha",
-      url: `${PUBLIC_ORIGIN}/`,
-      inLanguage: locale,
+    websiteSchema(locale, {
       dateModified: "2026-09-21",
       description: isZh
         ? "基于源头核验的独立加密交易平台数据库，整理公开费率、地区条件与 PoR 来源；用户权益需逐项核对官方条款。"
         : "Independent, source-backed crypto platform research covering published fees, regional conditions and reserve disclosures; user benefits require official-term verification.",
-
-    },
-    {
-      "@type": "Organization",
-      "@id": `${PUBLIC_ORIGIN}/#organization`,
-      name: "NexuAlpha",
-      url: `${PUBLIC_ORIGIN}/`,
-      logo: {
-        "@type": "ImageObject",
-        url: `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-round.svg`,
-        width: "512",
-        height: "512",
-      },
-      sameAs: SOCIAL_LINKS,
-      description: isZh
-        ? "独立、公正、以源头证据为中心的加密货币交易平台评测、费率对比与地区条件研究。"
-        : "Independent, source-backed crypto platform research, fee benchmarks, regional conditions and exchange comparison intelligence.",
-    },
+    }),
+    organizationSchema(locale),
     {
       "@context": "https://schema.org",
       "@type": "ItemList",
@@ -6508,10 +6496,24 @@ async function routeMetadataBase(url, env, newsFeed) {
   // shared copy table; every UI locale is indexable and self-canonical.
   if (isDataPagePath(canonicalPath)) {
     const meta = dataPageMeta(canonicalPath, locale);
+    // Dataset temporalCoverage starts at the liquidation history's first snapshot when the feed carries one (2026-10-11).
+    let history = null;
+    try { history = typeof env?.MARKET_EVENTS_READ === "function" ? readHistory(await env.MARKET_EVENTS_READ()) : null; } catch { history = null; }
     return {
       status: 200, title: meta.title, description: meta.description,
       canonical: localizedCanonical(canonicalPath, locale), locale, robots: "index,follow", marker: STATIC_ROUTE_MARKER,
-      alternates: routeAlternates(canonicalPath), schema: dataPageSchemas(canonicalPath, locale, { origin: PUBLIC_ORIGIN }),
+      alternates: routeAlternates(canonicalPath), schema: dataPageSchemas(canonicalPath, locale, { origin: PUBLIC_ORIGIN, history }),
+    };
+  }
+  // Brand pages (/about, /editorial-policy): titles, descriptions and AboutPage/WebPage JSON-LD come from
+  // src/data/brand-entity.js; every UI locale is indexable and self-canonical.
+  if (isBrandPagePath(canonicalPath)) {
+    const meta = brandPageMeta(canonicalPath, requestedLocale);
+    const canonical = localizedCanonical(canonicalPath, locale);
+    return {
+      status: 200, title: meta.title, description: meta.description,
+      canonical, locale, robots: "index,follow", marker: STATIC_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath), schema: brandPageSchemas(canonicalPath, schemaLocale, { canonical }),
     };
   }
   const staticPageCopy = {

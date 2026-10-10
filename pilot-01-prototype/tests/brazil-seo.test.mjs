@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { NEXUALPHA_PUBLISHER, RESEARCH_DESK } from '../src/data/brand-entity.js';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -66,8 +67,12 @@ test('Brazil /br WebPage schema uses the newest official source review date', ()
 test('Brazil /br WebPage schema carries research owner attribution and bounded main sources', () => {
   const metadata = getBrazilSeo('/br');
   const webPage = metadata.schemas.find((row) => row['@type'] === 'WebPage');
-  assert.deepEqual(webPage.author, { '@type': 'Organization', name: 'NexuAlpha Research Desk', url: 'https://nexualpha.com/methodology' });
-  assert.deepEqual(webPage.publisher, { '@type': 'Organization', name: 'NexuAlpha', url: 'https://nexualpha.com' });
+  // 2026-10-11 brand entity: author/publisher are the shared references from src/data/brand-entity.js (one @id site-wide).
+  assert.deepEqual(webPage.author, RESEARCH_DESK);
+  assert.equal(webPage.author.name, 'NexuAlpha Research Desk');
+  assert.equal(webPage.author.url, 'https://nexualpha.com/about#research-desk');
+  assert.deepEqual(webPage.publisher, NEXUALPHA_PUBLISHER);
+  assert.equal(webPage.publisher['@id'], 'https://nexualpha.com/#organization');
   assert.deepEqual(webPage.isBasedOn, [
     'https://www.binance.com/pt-BR/support/faq/detail/53636607eebc42dbb513863b49bba98f',
     'https://www.binance.com/pt-BR/support/faq/detail/2604a5d35bd947d485dc30d865539e3e',

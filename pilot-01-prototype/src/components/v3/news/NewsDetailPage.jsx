@@ -1,5 +1,7 @@
 import { articleSectionTargets, activateArticleSection } from "./article-section-navigation.js";
 import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
+import { EDITORIAL_POLICY_PATH, RESEARCH_DESK_ANCHOR, RESEARCH_DESK_NAME, brandLocale } from "../../../data/brand-entity.js";
+import { localizedHref } from "../../../data/locale-routing.js";
 import { splitArticleReadingSections } from "./article-reading-sections.js";
 /**
  * NewsDetailPage — 实时新闻与 SEO 文章二级详情页
@@ -583,6 +585,50 @@ function renderMarkdownBlock(block, index, t, linker = null) {
   return <p key={index}>{renderInline(block, linker)}</p>;
 }
 
+// Article byline (E-E-A-T): "By NexuAlpha Research Desk · Reviewed <date> · Editorial policy". The author links to the
+// Research Desk section on /about and the policy link to /editorial-policy; a non-desk author is shown without a link.
+const BYLINE_COPY = {
+  en: { by: "By", reviewed: "Reviewed", policy: "Editorial policy" },
+  "zh-Hans": { by: "作者", reviewed: "复核于", policy: "编辑政策" },
+  "zh-Hant": { by: "作者", reviewed: "複核於", policy: "編輯政策" },
+  es: { by: "Por", reviewed: "Revisado", policy: "Política editorial" },
+  "pt-BR": { by: "Por", reviewed: "Revisado em", policy: "Política editorial" },
+  fr: { by: "Par", reviewed: "Relu le", policy: "Politique éditoriale" },
+  de: { by: "Von", reviewed: "Geprüft am", policy: "Redaktionelle Richtlinie" },
+  it: { by: "Di", reviewed: "Verificato il", policy: "Politica editoriale" },
+  ja: { by: "著者", reviewed: "確認日", policy: "編集ポリシー" },
+  ko: { by: "작성", reviewed: "검토일", policy: "편집 정책" },
+  ru: { by: "Автор", reviewed: "Проверено", policy: "Редакционная политика" },
+  tr: { by: "Yazar", reviewed: "İncelendi", policy: "Editoryal politika" },
+  id: { by: "Oleh", reviewed: "Ditinjau", policy: "Kebijakan editorial" },
+  vi: { by: "Bởi", reviewed: "Rà soát", policy: "Chính sách biên tập" },
+  ar: { by: "بقلم", reviewed: "تمت المراجعة", policy: "السياسة التحريرية" },
+};
+
+export function ArticleByline({ article, locale = "en" }) {
+  const code = brandLocale(locale);
+  const copy = BYLINE_COPY[code] || BYLINE_COPY.en;
+  const author = String(article?.author || "").trim() || RESEARCH_DESK_NAME;
+  const isDesk = author === RESEARCH_DESK_NAME;
+  const reviewedAt = article?.updatedAt || article?.publishedAt;
+  const reviewedDate = reviewedAt && Number.isFinite(Date.parse(reviewedAt)) ? new Date(reviewedAt) : null;
+  return (
+    <div className="news-detail__author-bar news-detail__byline" data-testid="article-byline">
+      <span className="news-detail__byline-author">
+        {copy.by} {isDesk
+          ? <a href={localizedHref(RESEARCH_DESK_ANCHOR, { locale: code })} rel="author"><strong>{author}</strong></a>
+          : <strong>{author}</strong>}
+      </span>
+      {reviewedDate ? <>
+        <span aria-hidden="true"> · </span>
+        <span className="news-detail__byline-reviewed">{copy.reviewed} <time dateTime={reviewedDate.toISOString().slice(0, 10)}>{reviewedDate.toLocaleDateString(code, { timeZone: "UTC" })}</time></span>
+      </> : null}
+      <span aria-hidden="true"> · </span>
+      <a className="news-detail__byline-policy" href={localizedHref(EDITORIAL_POLICY_PATH, { locale: code })}>{copy.policy}</a>
+    </div>
+  );
+}
+
 export function NewsDetailPage({ slug, locale = "en", market, product, initialArticles }) {
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
@@ -727,9 +773,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
           <h1 className="news-detail__title">{title}</h1>
 
-          <div className="news-detail__author-bar">
-            <span>{t.author}: <strong>{article.author}</strong></span>
-          </div>
+          <ArticleByline article={article} locale={locale} />
           {showsOriginalLanguage && (
             <p className="news-detail__translation-note" role="note">
               {t.originalLanguageNotice}

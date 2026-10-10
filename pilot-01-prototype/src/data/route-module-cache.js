@@ -17,6 +17,8 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   telegram: "./components/v3/TelegramBotHub.jsx",
   liveProof: "./components/v3/LiveConversionProof.jsx",
   methodology: "./components/v3/MethodologyPage.jsx",
+  about: "./components/v3/brand-pages/AboutPage.jsx",
+  editorialPolicy: "./components/v3/brand-pages/EditorialPolicyPage.jsx",
   embedCalculator: "./components/v3/EmbedCalculator.jsx",
   partnerEmbedGuide: "./components/v3/PartnerEmbedGuide.jsx",
   topicGuide: "./components/v3/TopicGuidePage.jsx",
@@ -114,6 +116,8 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "kolLanding") return [ROUTE_MODULE_PATHS.kolLanding];
   if (name === "telegram") return [ROUTE_MODULE_PATHS.telegram];
   if (name === "methodology") return [ROUTE_MODULE_PATHS.methodology];
+  if (name === "about") return [ROUTE_MODULE_PATHS.about];
+  if (name === "editorialPolicy") return [ROUTE_MODULE_PATHS.editorialPolicy];
   if (name === "partners") return [ROUTE_MODULE_PATHS.partnerEmbedGuide];
   if (name === "topic") return [ROUTE_MODULE_PATHS.topicGuide];
   if (["topicCollection", "factbookCollection"].includes(name)) return [ROUTE_MODULE_PATHS.collectionHub];
