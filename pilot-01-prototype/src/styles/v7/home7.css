@@ -3,11 +3,11 @@
  * "@ " at the start of a selector expands to ".h7:not(#_):not(#_) " (specificity above the v6 stack).
  * Tokens follow docs/design-unified-v8.md: the home uses the same dark system as every inner page. */
 .h7:not(#_){
-  --bg:#07080B;--band:#0C0D10;--sf:rgb(255 255 255/.035);--sf2:rgb(255 255 255/.06);--line:rgb(255 255 255/.12);--line2:rgb(255 255 255/.22);
-  --ink:#EDEEF0;--ink2:#B0B4BA;--ink3:#9097A0;--ac:#1FE0C0;--brand:#315CFF;--glow:linear-gradient(110deg,#1FE0C0 0%,#3FA9FF 55%,#315CFF 100%);--ac-hi:#4AEBD0;--on-ac:#04130F;--warn:#E9A93B;--danger:#F87171;
+  --bg:#08090C;--band:#0C0D10;--sf:rgb(255 255 255/.035);--sf2:rgb(255 255 255/.06);--line:rgb(255 255 255/.12);--line2:rgb(255 255 255/.22);
+  --ink:#EDEEF0;--ink2:#B0B4BA;--ink3:#8A909E;--ac:#1FE0C0;--brand:#315CFF;--glow:linear-gradient(110deg,#1FE0C0 0%,#3FA9FF 55%,#315CFF 100%);--ac-hi:#4AEBD0;--on-ac:#04130F;--warn:#E9A93B;--danger:#F87171;
   --ease:cubic-bezier(.16,1,.3,1);--mono:"Geist Mono V5",ui-monospace,"SF Mono",Menlo,monospace;
   --pad:24px;--sec:clamp(48px,5vw,80px);
-  background:var(--bg) radial-gradient(rgb(255 255 255/.035) 1px,transparent 1.2px) 0 0/24px 24px;color:var(--ink2);overflow-x:clip;font-size:16px;line-height:1.55;
+  background:var(--bg);color:var(--ink2);overflow-x:clip;font-size:16px;line-height:1.55;
   font-family:"Geist V5",ui-sans-serif,system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC","Noto Sans CJK SC",sans-serif;
   -webkit-font-smoothing:antialiased}
 .h7:not(#_):not(#_) :lang(ja),.h7:not(#_):lang(ja){font-family:"Geist V5",ui-sans-serif,system-ui,"Hiragino Sans","Yu Gothic UI",Meiryo,"Noto Sans JP",sans-serif}
@@ -49,7 +49,7 @@
 .h7:not(#_):not(#_) .h7-lg-max{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:0 0 16px}
 .h7:not(#_):not(#_) .h7-num{font-weight:600;font-size:clamp(5.5rem,9vw,8.5rem);line-height:.8;letter-spacing:-.07em;margin:0;white-space:nowrap;padding-inline-end:.04em;font-variant-numeric:tabular-nums;
   color:var(--ink);background:linear-gradient(100deg,#EDEEF0 38%,#FFFFFF 50%,#EDEEF0 62%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:h7sh 8s ease-in-out infinite}
-.h7:not(#_):not(#_) .h7-num>span:not(.h7-sr){background:var(--glow);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.h7:not(#_):not(#_) .h7-num>span:not(.h7-sr):not(.h7-roll){background:var(--glow);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 @keyframes h7sh{0%,100%{background-position:100% 0}50%{background-position:0 0}}
 .h7:not(#_):not(#_) .h7-lg-rows{margin:12px 0 0}
 .h7:not(#_):not(#_) .h7-lg-rows>div{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px dashed rgb(255 255 255/.1)}
@@ -211,7 +211,7 @@
 
 /* ---------- responsive ---------- */
 @media(max-width:1100px){}
-@media(min-width:641px){.h7:not(#_):not(#_) h1{font-size:2.75rem}.h7:not(#_):not(#_) .h7-sub{font-size:1.25rem}.h7:not(#_):not(#_) .h7-ih h2,.h7:not(#_):not(#_) .h7-calc h2,.h7:not(#_):not(#_) .h7-how h2{font-size:2.75rem}.h7:not(#_):not(#_) .h7-vin{font-size:4.5rem}.h7:not(#_):not(#_) .h7-am{font-size:2.75rem}.h7:not(#_):not(#_) .h7-xn b{font-size:1.75rem}}
+@media(min-width:641px){.h7:not(#_):not(#_) h1{font-size:2.75rem}.h7:not(#_):not(#_) .h7-sub{font-size:1.25rem}.h7:not(#_):not(#_) .h7-ih h2,.h7:not(#_):not(#_) .h7-calc h2,.h7:not(#_):not(#_) .h7-how h2{font-size:2.75rem}.h7:not(#_):not(#_) .h7-vin{font-size:clamp(2.5rem,3.4vw,3.5rem)}.h7:not(#_):not(#_) .h7-am{font-size:2.75rem}.h7:not(#_):not(#_) .h7-xn b{font-size:1.75rem}}
 @media(min-width:1100px){.h7:not(#_):not(#_) h1{font-size:4.5rem}.h7:not(#_):not(#_) h1:lang(en){font-size:2.75rem}}
 @media(max-width:900px){
 /* phone hero: headline, ledger, CTA, then the partner strip as a swipeable row */
@@ -244,8 +244,8 @@
 @media(max-width:700px){
 .h7:not(#_):not(#_) .h7-cta .h7-btn{flex:1 1 100%}
 .h7:not(#_):not(#_) .h7-steps{grid-template-columns:minmax(0,1fr);gap:12px;margin-top:28px}
-.h7:not(#_):not(#_) .h7-steps li{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:16px;padding:20px}
-.h7:not(#_):not(#_) .h7-sn{grid-row:1/3;margin:4px 0 0}
+.h7:not(#_):not(#_) .h7-steps li{display:block;padding:20px}
+
 .h7:not(#_):not(#_) .h7-steps p{margin-top:6px}
 .h7:not(#_):not(#_) .h7-xr{grid-template-areas:"n am" "m m" "go go";grid-template-columns:minmax(0,1fr) auto;padding:20px 0;margin-inline:0;border-radius:0}
 .h7:not(#_):not(#_) .h7-xr .h7-btn{min-height:48px}
@@ -263,3 +263,90 @@
 }
 @media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-num,.h7:not(#_):not(#_) .h7-dot,.h7:not(#_):not(#_) .h7-cc.done{animation:none}.h7:not(#_):not(#_) .h7-bar,.h7:not(#_):not(#_) .h7-gap,.h7:not(#_):not(#_) .h7-btn{transition:none}.h7:not(#_):not(#_) .h7-sheet[open],.h7:not(#_):not(#_) .h7-sh-in{animation:none}}
 
+
+/* ================= craft pass (owner brief 2026-10-10): light, material, micro-interaction ================= */
+/* ambient light: a soft teal/blue field behind the desk instead of a flat dot grid */
+.h7:not(#_):not(#_) .h7-hero::before{inset:-20% -20% auto 20%;height:130%;background:radial-gradient(ellipse 55% 45% at 72% 32%,rgb(31 224 192/.12),transparent 70%),radial-gradient(ellipse 40% 35% at 88% 60%,rgb(49 92 255/.12),transparent 70%)}
+/* desk: obsidian glass — vertical tint, top specular edge, deep drop shadow */
+.h7:not(#_):not(#_) .h7-lg{background:linear-gradient(180deg,rgb(22 26 35/.78) 0%,rgb(12 14 18/.92) 100%);border:1px solid rgb(255 255 255/.06);box-shadow:inset 0 1px 0 0 rgb(255 255 255/.14),0 32px 80px -16px rgb(0 0 0/.9);-webkit-backdrop-filter:blur(24px) saturate(1.4);backdrop-filter:blur(24px) saturate(1.4)}
+/* big share figure: metal gradient + soft tube glow */
+.h7:not(#_):not(#_) .h7-num{background:linear-gradient(180deg,#FFFFFF 30%,rgb(255 255 255/.68) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:none;filter:drop-shadow(0 0 28px rgb(31 224 192/.28))}
+/* figures nudge up on change */
+.h7:not(#_):not(#_) .h7-roll{display:inline-block;animation:h7up .55s cubic-bezier(.34,1.56,.64,1)}
+@keyframes h7up{from{transform:translateY(.32em);opacity:.4}to{transform:none;opacity:1}}
+/* exchange tabs: brand-tinted when picked, clearer as tappable choices */
+.h7:not(#_):not(#_) .h7-lg-tabs button{flex-direction:column;gap:2px;min-height:64px;border:1px solid transparent}
+.h7:not(#_):not(#_) .h7-lg-tabs button{display:grid;grid-template-columns:auto auto;grid-template-areas:"i n" "p p" "t t";justify-content:center;align-content:center;column-gap:8px}
+.h7:not(#_):not(#_) .h7-lg-tabs button img{grid-area:i}.h7:not(#_):not(#_) .h7-lg-tabs button>span{grid-area:n}.h7:not(#_):not(#_) .h7-lg-tabs button b{grid-area:p;text-align:center}
+.h7:not(#_):not(#_) .h7-lg-tabs button i{grid-area:t;font-style:normal;font-size:12px;line-height:1.2;color:var(--ink3);text-align:center}
+.h7:not(#_):not(#_) .h7-lg-tabs button:not([aria-pressed=true]){border-color:rgb(255 255 255/.06)}
+.h7:not(#_):not(#_) .h7-lg-tabs button:not([aria-pressed=true]):hover{border-color:rgb(255 255 255/.18);background:rgb(255 255 255/.04)}
+.h7:not(#_):not(#_) .h7-lg-tabs button[data-brand=binance][aria-pressed=true]{box-shadow:inset 0 0 0 1px rgb(240 185 11/.55),0 0 24px -6px rgb(240 185 11/.45)}
+.h7:not(#_):not(#_) .h7-lg-tabs button[data-brand=bitget][aria-pressed=true]{box-shadow:inset 0 0 0 1px rgb(0 240 255/.5),0 0 24px -6px rgb(0 240 255/.4)}
+.h7:not(#_):not(#_) .h7-lg-tabs button[data-brand=okx][aria-pressed=true]{box-shadow:inset 0 0 0 1px rgb(255 255 255/.45),0 0 24px -6px rgb(255 255 255/.3)}
+/* sign-up button takes the picked exchange's brand colour */
+.h7:not(#_):not(#_) .h7-lg-go.h7-go--binance,.h7:not(#_):not(#_) .h7-dock-go.h7-go--binance{background:linear-gradient(100deg,#F0B90B,#F8D12F);color:#1A1400;box-shadow:0 12px 32px -12px rgb(240 185 11/.6)}
+.h7:not(#_):not(#_) .h7-lg-go.h7-go--bitget,.h7:not(#_):not(#_) .h7-dock-go.h7-go--bitget{background:linear-gradient(100deg,#00E5FF,#1FE0C0);color:#001A1D;box-shadow:0 12px 32px -12px rgb(0 229 255/.55)}
+.h7:not(#_):not(#_) .h7-lg-go.h7-go--okx,.h7:not(#_):not(#_) .h7-dock-go.h7-go--okx{background:linear-gradient(100deg,#FFFFFF,#D9DEE5);color:#0A0B0D;box-shadow:0 12px 32px -12px rgb(255 255 255/.35)}
+.h7:not(#_):not(#_) .h7-lg-go:hover{filter:brightness(1.06)}
+/* left hero CTA group */
+.h7:not(#_):not(#_) .h7-hero-go{min-height:56px;padding:0 28px;font-size:18px;box-shadow:0 0 0 0 rgb(31 224 192/.35),0 0 24px rgb(31 224 192/.3);animation:h7breathe 3.2s ease-in-out infinite}
+@keyframes h7breathe{50%{box-shadow:0 0 0 6px rgb(31 224 192/0),0 0 36px rgb(31 224 192/.45)}}
+.h7:not(#_):not(#_) .h7-ln-down::after{content:"↓"}
+/* copy capsule: press feedback and a short pulse */
+.h7:not(#_):not(#_) .h7-cc:active{transform:scale(.96)}
+.h7:not(#_):not(#_) .h7-cc{transition:transform .15s var(--ease),background-color .2s,box-shadow .4s var(--ease)}
+.h7:not(#_):not(#_) .h7-cc.done{background:rgb(31 224 192/.22)}
+/* three steps as one connected flow */
+.h7:not(#_):not(#_) .h7-steps{position:relative}
+.h7:not(#_):not(#_) .h7-steps li{background:linear-gradient(180deg,rgb(22 26 35/.6),rgb(12 14 18/.4));box-shadow:inset 0 1px 0 rgb(255 255 255/.08)}
+.h7:not(#_):not(#_) .h7-sn{position:absolute;top:20px;inset-inline-end:20px;margin:0;padding:4px 8px;border-radius:999px;border:1px solid rgb(31 224 192/.35);background:rgb(31 224 192/.08);box-shadow:0 0 16px -4px rgb(31 224 192/.5)}
+.h7:not(#_):not(#_) .h7-steps h3{margin-top:4px;padding-inline-end:56px}
+@media(min-width:701px){.h7:not(#_):not(#_) .h7-steps li:not(:last-child)::after{content:"";position:absolute;top:44px;inset-inline-end:-17px;width:18px;height:1px;background:linear-gradient(90deg,rgb(31 224 192/.6),rgb(31 224 192/0))}}
+/* mobile dock */
+.h7:not(#_):not(#_) .h7-dock{display:none}
+@media(max-width:767px){
+.h7:not(#_):not(#_) .h7-dock{display:flex;align-items:center;gap:8px;position:fixed;z-index:60;inset-inline:8px;bottom:calc(env(safe-area-inset-bottom) + 8px);padding:6px;border-radius:16px;background:rgb(14 16 20/.78);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgb(255 255 255/.1);box-shadow:inset 0 1px 0 rgb(255 255 255/.1),0 16px 40px -12px rgb(0 0 0/.9);transform:translateY(140%);opacity:0;transition:transform .45s var(--ease),opacity .3s}
+.h7:not(#_):not(#_) .h7-dock.on{transform:none;opacity:1}
+.h7:not(#_):not(#_) .h7-dock-pick{flex:0 0 auto}
+.h7:not(#_):not(#_) .h7-dock-pick select{min-height:48px;max-width:150px;padding:0 28px 0 12px;border-radius:12px;border:1px solid var(--line);background:rgb(255 255 255/.05) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23B0B4BA' fill='none' stroke-width='1.5'/%3E%3C/svg%3E") right 10px center no-repeat;color:var(--ink);font:500 14px/1 inherit;-webkit-appearance:none;appearance:none}
+.h7:not(#_):not(#_) .h7-dock-go{flex:1;flex-direction:column;gap:2px;min-height:48px;padding:4px 12px;font-size:16px}
+.h7:not(#_):not(#_) .h7-dock .h7-go-disclosure{font-size:12px}
+.h7:not(#_):not(#_) .h7{padding-bottom:76px}
+/* phone desk: a compact figure so the sign-up button stays on the first screen */
+.h7:not(#_):not(#_) .h7-hero{padding-top:20px}
+.h7:not(#_):not(#_) .h7-kick{margin-bottom:12px}
+.h7:not(#_):not(#_) .h7-sub{margin-top:12px}
+/* the desk follows right below on phones: its sign-up button is the first-screen action, so the scroll-to-desk pair is dropped */
+.h7:not(#_):not(#_) .h7-cta{display:none}
+.h7:not(#_):not(#_) .h7-lg-net{display:none}
+.h7:not(#_):not(#_) .h7-lg{order:4;margin-top:16px;padding:14px}
+.h7:not(#_):not(#_) .h7-lg-max{align-items:center;margin-bottom:8px}
+.h7:not(#_):not(#_) .h7-num{font-size:44px;line-height:1}
+.h7:not(#_):not(#_) .h7-lg-who{gap:4px;margin:0}
+.h7:not(#_):not(#_) .h7-lg-top{padding-top:8px}
+.h7:not(#_):not(#_) .h7-lg-rows{margin-top:4px}
+.h7:not(#_):not(#_) .h7-lg-rows>div{padding:7px 0}
+.h7:not(#_):not(#_) .h7-lg-rows dt{font-size:12px}
+.h7:not(#_):not(#_) .h7-lg-rows dd{font-size:16px}.h7:not(#_):not(#_) .h7-lg-rows .up dd{font-size:20px}
+.h7:not(#_):not(#_) .h7-lg-code{margin-top:10px}
+.h7:not(#_):not(#_) .h7-lg-go{margin-top:10px;min-height:58px}
+.h7:not(#_):not(#_) .h7-lg-tabs{margin-bottom:10px}
+.h7:not(#_):not(#_) .h7-lg-tabs button{min-height:56px;padding:4px 2px;font-size:14px}
+.h7:not(#_):not(#_) .h7-lg-tabs button i{display:none}
+}
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-roll,.h7:not(#_):not(#_) .h7-hero-go{animation:none}.h7:not(#_):not(#_) .h7-dock{transition:none}}
+
+/* volume slider (log scale): a filled teal track and a glowing thumb; big enough for thumbs on phones */
+.h7:not(#_):not(#_) .h7-range{-webkit-appearance:none;appearance:none;display:block;width:100%;height:44px;margin:4px 0 0;background:transparent;cursor:pointer}
+.h7:not(#_):not(#_) .h7-range::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:linear-gradient(90deg,var(--ac) 0 var(--p,50%),rgb(255 255 255/.12) var(--p,50%) 100%)}
+.h7:not(#_):not(#_) .h7-range::-moz-range-track{height:6px;border-radius:999px;background:rgb(255 255 255/.12)}
+.h7:not(#_):not(#_) .h7-range::-moz-range-progress{height:6px;border-radius:999px;background:var(--ac)}
+.h7:not(#_):not(#_) .h7-range::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-9px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 6px rgb(31 224 192/.25),0 0 20px rgb(31 224 192/.6);transition:box-shadow .2s}
+.h7:not(#_):not(#_) .h7-range::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 6px rgb(31 224 192/.25),0 0 20px rgb(31 224 192/.6)}
+.h7:not(#_):not(#_) .h7-range:active::-webkit-slider-thumb{box-shadow:0 0 0 10px rgb(31 224 192/.3),0 0 28px rgb(31 224 192/.8)}
+.h7:not(#_):not(#_) .h7-range:focus-visible{outline:2px solid var(--ac);outline-offset:4px;border-radius:8px}
+.h7:not(#_):not(#_) .h7-range-scale{position:relative;height:14px;margin:0 12px 18px;font:500 12px/1 var(--mono);color:var(--ink3)}
+.h7:not(#_):not(#_) .h7-range-scale span{position:absolute;inset-inline-start:var(--x);transform:translateX(-50%);white-space:nowrap}
+.h7:not(#_):not(#_) .h7-range-scale span:first-child{transform:none;margin-inline-start:-12px}.h7:not(#_):not(#_) .h7-range-scale span:last-child{transform:translateX(-100%);margin-inline-start:12px}
+.h7:not(#_):not(#_) .h7-am .h7-roll{display:inline-block}
