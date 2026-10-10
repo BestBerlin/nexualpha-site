@@ -363,6 +363,7 @@ const raw = {
     "spot": {
      "maker": null,
      "taker": null,
+     "offered": false,
      "note": "No spot market on dYdX v4."
     },
     "perp": {
@@ -422,7 +423,8 @@ function fieldOf(entry, product) {
   const verified = entry.status === "verified";
   const recheck = needsRecheck(row.note);
   const publish = verified && !recheck;
-  const state = !verified || (maker == null && taker == null) ? "unchecked" : recheck ? "recheck" : "checked";
+  // "none": the official source says the venue has no such market (e.g. dYdX v4 spot) — not the same as unknown.
+  const state = verified && row.offered === false ? "none" : !verified || (maker == null && taker == null) ? "unchecked" : recheck ? "recheck" : "checked";
   return {
     maker: publish ? maker : null,
     taker: publish ? taker : null,
@@ -462,7 +464,7 @@ export function factsForVenue(slug) {
   return EXCHANGE_FACTS[keyOf(slug)] || null;
 }
 
-// { maker, taker, state: "checked"|"recheck"|"unchecked", checkedOn, note } — never undefined.
+// { maker, taker, state: "checked"|"recheck"|"unchecked"|"none", checkedOn, note } — never undefined.
 export function feeFact(slug, product = "spot") {
   const f = factsForVenue(slug);
   return f ? f.fields[productKey(product)] : { maker: null, taker: null, state: "unchecked", checkedOn: null, note: "" };

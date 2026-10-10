@@ -1,3 +1,4 @@
+import { pendingDecisionCopy } from "../../data/pending-decision-copy.js";
 import "./profile-density.css";
 import { enIfLatin } from "../../utils/fallback-lang.js";
 import { useEffect, useRef, useState } from "react";
@@ -573,6 +574,285 @@ const porUi = (locale, venueName) => ({
     principle: "Kendi saklama güvenlik ilkesi",
     principleBody: "PoR belirli bir anlık ödeme gücünü gösterir. Uzun vadeli büyük varlıkları donanım cüzdanında kendiniz saklayın.",
     auditBtn: "Resmî PoR denetim raporunu görüntüle ↗",
+  },
+  es: {
+    badge: "Solvencia y PoR",
+    sourcePending: "Fuente oficial pendiente de revisión",
+    title: `${venueName}: prueba de reservas (PoR) y solvencia on-chain`,
+    desc: `Las reservas, auditorías y solvencia de ${venueName} deben comprobarse con la divulgación oficial más reciente y una fuente reproducible; esta página no convierte cifras no verificadas en garantías.`,
+    total: "Ratio total de reservas",
+    pending: "Pendiente",
+    snapshot: "Según el informe oficial y la instantánea",
+    noSource: "Sin fuente reproducible registrada",
+    audit: "Mecanismo de auditoría",
+    merkle: "Verificación criptográfica con Merkle Root",
+    protection: "Fondo de protección al inversor",
+    disclosure: "Consulta la divulgación oficial",
+    protectionSub: "Protección ante eventos extremos de mercado",
+    btc: "Ratio de reservas BTC",
+    eth: "Ratio de reservas ETH",
+    stable: "Ratio de reservas USDT/USDC",
+    btcSub: "La cobertura de reservas frente a pasivos requiere verificación con fuente oficial",
+    ethSub: "Las direcciones y el alcance de la auditoría requieren verificación con fuente oficial",
+    stableSub: "La base de cobertura de stablecoins requiere verificación con fuente oficial",
+    guide: "Guía de verificación en 3 pasos",
+    leaf: "Obtén el hash de tu hoja Merkle",
+    leafBody: "Exporta el hash de tu nodo hoja desde tu cuenta oficial.",
+    verifier: "Ejecuta el verificador de código abierto",
+    verifierBody: "Recorre el árbol Merkle y comprueba que tu saldo está en la raíz publicada.",
+    wallets: "Contrasta las billeteras on-chain",
+    walletsBody: "Comprueba que los saldos publicados de las billeteras frías superan los pasivos.",
+    principle: "Principio de autocustodia",
+    principleBody: "El PoR muestra la solvencia en un momento dado. Guarda los fondos a largo plazo en una billetera de hardware propia.",
+    auditBtn: "Ver informe oficial de auditoría PoR ↗",
+  },
+  "pt-BR": {
+    badge: "Solvência e PoR",
+    sourcePending: "Fonte oficial aguardando revisão",
+    title: `${venueName}: prova de reservas (PoR) e solvência on-chain`,
+    desc: `As reservas, auditorias e a solvência da ${venueName} devem ser conferidas na divulgação oficial mais recente e em uma fonte reproduzível; esta página não transforma números não verificados em garantia.`,
+    total: "Índice total de reservas",
+    pending: "Pendente",
+    snapshot: "Com base no relatório oficial e no snapshot",
+    noSource: "Nenhuma fonte reproduzível registrada",
+    audit: "Mecanismo de auditoria",
+    merkle: "Verificação criptográfica por Merkle Root",
+    protection: "Fundo de proteção ao investidor",
+    disclosure: "Consulte a divulgação oficial",
+    protectionSub: "Proteção contra eventos extremos de mercado",
+    btc: "Índice de reservas BTC",
+    eth: "Índice de reservas ETH",
+    stable: "Índice de reservas USDT/USDC",
+    btcSub: "A cobertura das reservas frente aos passivos precisa de verificação na fonte oficial",
+    ethSub: "Endereços e escopo da auditoria precisam de verificação na fonte oficial",
+    stableSub: "A base de cobertura das stablecoins precisa de verificação na fonte oficial",
+    guide: "Guia de verificação em 3 passos",
+    leaf: "Obtenha o hash da sua folha Merkle",
+    leafBody: "Exporte o hash do seu nó folha na conta oficial.",
+    verifier: "Rode o verificador de código aberto",
+    verifierBody: "Percorra a árvore Merkle e confirme que seu saldo está na raiz publicada.",
+    wallets: "Confira as carteiras on-chain",
+    walletsBody: "Verifique se os saldos publicados das carteiras frias superam os passivos.",
+    principle: "Princípio da autocustódia",
+    principleBody: "O PoR mostra a solvência em um momento específico. Guarde fundos de longo prazo em uma carteira de hardware própria.",
+    auditBtn: "Ver relatório oficial de auditoria PoR ↗",
+  },
+  fr: {
+    badge: "Solvabilité et PoR",
+    sourcePending: "Source officielle en attente de revue",
+    title: `${venueName} : preuve de réserves (PoR) et solvabilité on-chain`,
+    desc: `Les réserves, audits et la solvabilité de ${venueName} doivent être vérifiés auprès de la dernière publication officielle et d’une source reproductible ; cette page ne présente pas de chiffres non vérifiés comme une garantie.`,
+    total: "Ratio total de réserves",
+    pending: "En attente",
+    snapshot: "Selon le rapport officiel et l’instantané",
+    noSource: "Aucune source reproductible enregistrée",
+    audit: "Mécanisme d’audit",
+    merkle: "Vérification cryptographique par Merkle Root",
+    protection: "Fonds de protection des investisseurs",
+    disclosure: "Voir la publication officielle",
+    protectionSub: "Protection lors d’événements de marché extrêmes",
+    btc: "Ratio de réserves BTC",
+    eth: "Ratio de réserves ETH",
+    stable: "Ratio de réserves USDT/USDC",
+    btcSub: "La couverture des passifs par les réserves doit être vérifiée auprès d’une source officielle",
+    ethSub: "Les adresses et le périmètre d’audit doivent être vérifiés auprès d’une source officielle",
+    stableSub: "La couverture des stablecoins doit être vérifiée auprès d’une source officielle",
+    guide: "Guide de vérification en 3 étapes",
+    leaf: "Récupérez le hash de votre feuille Merkle",
+    leafBody: "Exportez le hash de votre nœud feuille depuis votre compte officiel.",
+    verifier: "Lancez le vérificateur open source",
+    verifierBody: "Parcourez l’arbre de Merkle et vérifiez que votre solde figure sous la racine publiée.",
+    wallets: "Comparez les portefeuilles on-chain",
+    walletsBody: "Vérifiez que les soldes publiés des portefeuilles froids dépassent les passifs.",
+    principle: "Principe d’auto-conservation",
+    principleBody: "La PoR montre la solvabilité à un instant donné. Conservez vos avoirs de long terme dans votre propre portefeuille matériel.",
+    auditBtn: "Voir le rapport d’audit PoR officiel ↗",
+  },
+  de: {
+    badge: "Solvenz und PoR",
+    sourcePending: "Offizielle Quelle in Prüfung",
+    title: `${venueName}: Proof of Reserves (PoR) und On-Chain-Solvenz`,
+    desc: `Reserven, Audits und Solvenz von ${venueName} sind anhand der jüngsten offiziellen Veröffentlichung und einer reproduzierbaren Quelle zu prüfen; diese Seite stellt ungeprüfte Zahlen nicht als Garantie dar.`,
+    total: "Gesamte Reservequote",
+    pending: "Ausstehend",
+    snapshot: "Laut offiziellem Bericht und Snapshot",
+    noSource: "Keine reproduzierbare Quelle erfasst",
+    audit: "Prüfmechanismus",
+    merkle: "Kryptografische Prüfung per Merkle Root",
+    protection: "Anlegerschutzfonds",
+    disclosure: "Siehe offizielle Veröffentlichung",
+    protectionSub: "Schutz bei extremen Marktereignissen",
+    btc: "BTC-Reservequote",
+    eth: "ETH-Reservequote",
+    stable: "USDT/USDC-Reservequote",
+    btcSub: "Die Deckung der Verbindlichkeiten durch Reserven muss anhand offizieller Quellen geprüft werden",
+    ethSub: "Adressen und Prüfumfang müssen anhand offizieller Quellen geprüft werden",
+    stableSub: "Die Stablecoin-Deckung muss anhand offizieller Quellen geprüft werden",
+    guide: "Prüfung in 3 Schritten",
+    leaf: "Merkle-Leaf-Hash abrufen",
+    leafBody: "Exportieren Sie den Hash Ihres Blattknotens im offiziellen Konto.",
+    verifier: "Open-Source-Prüfer ausführen",
+    verifierBody: "Gehen Sie den Merkle-Baum durch und prüfen Sie, ob Ihr Guthaben in der veröffentlichten Wurzel enthalten ist.",
+    wallets: "On-Chain-Wallets abgleichen",
+    walletsBody: "Prüfen Sie, ob die veröffentlichten Cold-Wallet-Bestände die Verbindlichkeiten übersteigen.",
+    principle: "Prinzip der Selbstverwahrung",
+    principleBody: "PoR zeigt die Solvenz zu einem Zeitpunkt. Bewahren Sie langfristige Bestände in einer eigenen Hardware-Wallet auf.",
+    auditBtn: "Offiziellen PoR-Prüfbericht ansehen ↗",
+  },
+  ar: {
+    badge: "الملاءة وإثبات الاحتياطيات",
+    sourcePending: "المصدر الرسمي قيد المراجعة",
+    title: `${venueName}: إثبات الاحتياطيات (PoR) والملاءة على السلسلة`,
+    desc: `يجب التحقق من احتياطيات ${venueName} وتدقيقها وملاءتها من أحدث إفصاح رسمي ومصدر قابل لإعادة التحقق؛ لا تعرض هذه الصفحة أرقاماً غير متحقق منها كضمان.`,
+    total: "نسبة الاحتياطي الإجمالية",
+    pending: "قيد الانتظار",
+    snapshot: "وفق التقرير الرسمي واللقطة",
+    noSource: "لا يوجد مصدر قابل لإعادة التحقق",
+    audit: "آلية التدقيق",
+    merkle: "تحقق تشفيري عبر Merkle Root",
+    protection: "صندوق حماية المستثمرين",
+    disclosure: "راجع الإفصاح الرسمي",
+    protectionSub: "حماية عند أحداث السوق القصوى",
+    btc: "نسبة احتياطي BTC",
+    eth: "نسبة احتياطي ETH",
+    stable: "نسبة احتياطي USDT/USDC",
+    btcSub: "تغطية الاحتياطيات للالتزامات تحتاج إلى تحقق من مصدر رسمي",
+    ethSub: "العناوين ونطاق التدقيق تحتاج إلى تحقق من مصدر رسمي",
+    stableSub: "أساس تغطية العملات المستقرة يحتاج إلى تحقق من مصدر رسمي",
+    guide: "دليل التحقق في 3 خطوات",
+    leaf: "احصل على تجزئة ورقة Merkle",
+    leafBody: "صدّر تجزئة العقدة الورقية الخاصة بك من حسابك الرسمي.",
+    verifier: "شغّل أداة التحقق مفتوحة المصدر",
+    verifierBody: "تتبّع شجرة Merkle وتأكد من أن رصيدك ضمن الجذر المنشور.",
+    wallets: "طابق المحافظ على السلسلة",
+    walletsBody: "تحقق من أن أرصدة المحافظ الباردة المنشورة تتجاوز الالتزامات.",
+    principle: "مبدأ الحفظ الذاتي",
+    principleBody: "يُظهر PoR الملاءة في لحظة محددة. احتفظ بأموالك طويلة الأجل في محفظة أجهزة خاصة بك.",
+    auditBtn: "عرض تقرير تدقيق PoR الرسمي ↗",
+  },
+  ru: {
+    badge: "Платёжеспособность и PoR",
+    sourcePending: "Официальный источник на проверке",
+    title: `${venueName}: подтверждение резервов (PoR) и платёжеспособность в сети`,
+    desc: `Резервы, аудит и платёжеспособность ${venueName} нужно сверять с последним официальным раскрытием и воспроизводимым источником; страница не выдаёт непроверенные цифры за гарантию.`,
+    total: "Общий коэффициент резервов",
+    pending: "Ожидает проверки",
+    snapshot: "По официальному отчёту и снимку",
+    noSource: "Воспроизводимый источник не записан",
+    audit: "Механизм аудита",
+    merkle: "Криптографическая проверка через Merkle Root",
+    protection: "Фонд защиты инвесторов",
+    disclosure: "См. официальное раскрытие",
+    protectionSub: "Защита при экстремальных событиях рынка",
+    btc: "Коэффициент резервов BTC",
+    eth: "Коэффициент резервов ETH",
+    stable: "Коэффициент резервов USDT/USDC",
+    btcSub: "Покрытие обязательств резервами требует проверки по официальному источнику",
+    ethSub: "Адреса и объём аудита требуют проверки по официальному источнику",
+    stableSub: "Основание покрытия стейблкоинов требует проверки по официальному источнику",
+    guide: "Проверка в 3 шага",
+    leaf: "Получите хеш листа Merkle",
+    leafBody: "Экспортируйте хеш своего листового узла в официальном аккаунте.",
+    verifier: "Запустите открытый верификатор",
+    verifierBody: "Пройдите по дереву Merkle и убедитесь, что ваш баланс входит в опубликованный корень.",
+    wallets: "Сверьте кошельки в сети",
+    walletsBody: "Проверьте, что опубликованные балансы холодных кошельков превышают обязательства.",
+    principle: "Принцип самостоятельного хранения",
+    principleBody: "PoR показывает платёжеспособность на определённый момент. Долгосрочные средства храните в собственном аппаратном кошельке.",
+    auditBtn: "Открыть официальный отчёт об аудите PoR ↗",
+  },
+  id: {
+    badge: "Solvabilitas & PoR",
+    sourcePending: "Sumber resmi menunggu peninjauan",
+    title: `${venueName}: bukti cadangan (PoR) dan solvabilitas on-chain`,
+    desc: `Cadangan, audit, dan solvabilitas ${venueName} perlu dicek dengan pengungkapan resmi terbaru dan sumber yang dapat direproduksi; halaman ini tidak menjadikan angka yang belum diverifikasi sebagai jaminan.`,
+    total: "Rasio cadangan total",
+    pending: "Menunggu",
+    snapshot: "Berdasarkan laporan resmi dan snapshot",
+    noSource: "Belum ada sumber yang dapat direproduksi",
+    audit: "Mekanisme audit",
+    merkle: "Verifikasi kriptografis Merkle Root",
+    protection: "Dana perlindungan investor",
+    disclosure: "Lihat pengungkapan resmi",
+    protectionSub: "Perlindungan saat kejadian pasar ekstrem",
+    btc: "Rasio cadangan BTC",
+    eth: "Rasio cadangan ETH",
+    stable: "Rasio cadangan USDT/USDC",
+    btcSub: "Cakupan cadangan terhadap kewajiban perlu diverifikasi dengan sumber resmi",
+    ethSub: "Alamat dan cakupan audit perlu diverifikasi dengan sumber resmi",
+    stableSub: "Dasar cakupan stablecoin perlu diverifikasi dengan sumber resmi",
+    guide: "Panduan verifikasi 3 langkah",
+    leaf: "Ambil hash daun Merkle Anda",
+    leafBody: "Ekspor hash node daun Anda dari akun resmi.",
+    verifier: "Jalankan verifikator open source",
+    verifierBody: "Telusuri pohon Merkle dan pastikan saldo Anda ada di root yang dipublikasikan.",
+    wallets: "Cocokkan dompet on-chain",
+    walletsBody: "Pastikan saldo dompet dingin yang dipublikasikan melebihi kewajiban.",
+    principle: "Prinsip kustodi mandiri",
+    principleBody: "PoR menunjukkan solvabilitas pada satu waktu. Simpan dana jangka panjang di dompet hardware milik sendiri.",
+    auditBtn: "Lihat laporan audit PoR resmi ↗",
+  },
+  vi: {
+    badge: "Khả năng thanh toán & PoR",
+    sourcePending: "Nguồn chính thức đang chờ xem xét",
+    title: `${venueName}: bằng chứng dự trữ (PoR) và khả năng thanh toán on-chain`,
+    desc: `Dự trữ, kiểm toán và khả năng thanh toán của ${venueName} cần được đối chiếu với công bố chính thức mới nhất và nguồn có thể tái kiểm; trang này không biến số liệu chưa xác minh thành cam kết.`,
+    total: "Tỷ lệ dự trữ tổng",
+    pending: "Đang chờ",
+    snapshot: "Theo báo cáo chính thức và ảnh chụp số dư",
+    noSource: "Chưa ghi nhận nguồn có thể tái kiểm",
+    audit: "Cơ chế kiểm toán",
+    merkle: "Xác minh mật mã bằng Merkle Root",
+    protection: "Quỹ bảo vệ nhà đầu tư",
+    disclosure: "Xem công bố chính thức",
+    protectionSub: "Bảo vệ khi thị trường biến động cực đoan",
+    btc: "Tỷ lệ dự trữ BTC",
+    eth: "Tỷ lệ dự trữ ETH",
+    stable: "Tỷ lệ dự trữ USDT/USDC",
+    btcSub: "Mức dự trữ so với nợ phải trả cần xác minh từ nguồn chính thức",
+    ethSub: "Địa chỉ và phạm vi kiểm toán cần xác minh từ nguồn chính thức",
+    stableSub: "Cơ sở bảo chứng stablecoin cần xác minh từ nguồn chính thức",
+    guide: "Hướng dẫn xác minh 3 bước",
+    leaf: "Lấy hash lá Merkle",
+    leafBody: "Xuất hash nút lá của bạn từ tài khoản chính thức.",
+    verifier: "Chạy công cụ xác minh mã nguồn mở",
+    verifierBody: "Duyệt cây Merkle và kiểm tra số dư của bạn nằm trong gốc đã công bố.",
+    wallets: "Đối chiếu ví on-chain",
+    walletsBody: "Kiểm tra số dư ví lạnh đã công bố lớn hơn nợ phải trả.",
+    principle: "Nguyên tắc tự lưu ký",
+    principleBody: "PoR cho thấy khả năng thanh toán tại một thời điểm. Hãy giữ tài sản dài hạn trong ví cứng của riêng bạn.",
+    auditBtn: "Xem báo cáo kiểm toán PoR chính thức ↗",
+  },
+  it: {
+    badge: "Solvibilità e PoR",
+    sourcePending: "Fonte ufficiale in revisione",
+    title: `${venueName}: prova delle riserve (PoR) e solvibilità on-chain`,
+    desc: `Riserve, audit e solvibilità di ${venueName} vanno verificati con l’ultima comunicazione ufficiale e una fonte riproducibile; questa pagina non presenta cifre non verificate come garanzia.`,
+    total: "Rapporto totale delle riserve",
+    pending: "In attesa",
+    snapshot: "In base al report ufficiale e allo snapshot",
+    noSource: "Nessuna fonte riproducibile registrata",
+    audit: "Meccanismo di audit",
+    merkle: "Verifica crittografica tramite Merkle Root",
+    protection: "Fondo di protezione degli investitori",
+    disclosure: "Vedi la comunicazione ufficiale",
+    protectionSub: "Protezione in caso di eventi di mercato estremi",
+    btc: "Rapporto riserve BTC",
+    eth: "Rapporto riserve ETH",
+    stable: "Rapporto riserve USDT/USDC",
+    btcSub: "La copertura delle passività con le riserve va verificata con una fonte ufficiale",
+    ethSub: "Indirizzi e perimetro dell’audit vanno verificati con una fonte ufficiale",
+    stableSub: "La copertura delle stablecoin va verificata con una fonte ufficiale",
+    guide: "Guida alla verifica in 3 passi",
+    leaf: "Ottieni l’hash della tua foglia Merkle",
+    leafBody: "Esporta l’hash del tuo nodo foglia dall’account ufficiale.",
+    verifier: "Esegui il verificatore open source",
+    verifierBody: "Percorri l’albero Merkle e verifica che il tuo saldo sia nella radice pubblicata.",
+    wallets: "Confronta i wallet on-chain",
+    walletsBody: "Verifica che i saldi pubblicati dei cold wallet superino le passività.",
+    principle: "Principio di autocustodia",
+    principleBody: "La PoR mostra la solvibilità in un dato momento. Conserva i fondi di lungo periodo in un tuo hardware wallet.",
+    auditBtn: "Vedi il report ufficiale di audit PoR ↗",
   },
 }[localeKey(locale)] || {});
 
@@ -1296,9 +1576,9 @@ function CompareVerdictPanel({ text, ui, locale, profiles, market, product, acco
         const safeDecision = hasReviewedEditorialDecision(profile.slug) ? decision : null;
         const alternative = profiles.find((candidate) => candidate.slug !== profile.slug) ?? primaryProfiles.find((candidate) => candidate.slug !== profile.slug);
         const verdictDetails = <dl lang={safeDecision?.contentLocale ?? locale}>
-          <div><dt>{text.verdictBestFor}</dt><dd>{sanitizePublicText(safeDecision?.fit) ?? (locale.startsWith("zh") ? zhText(locale, "先核对地区资格、产品范围与官方费率", "先核對地區資格、產品範圍與官方費率") : "Verify regional eligibility, product scope and official fees first")}</dd></div>
-          <div><dt>{text.verdictRegistrationFit}</dt><dd>{sanitizePublicText(safeDecision?.why) ?? (locale.startsWith("zh") ? zhText(locale, "仅使用带来源和更新时间的公开事实进行比较", "僅使用帶來源和更新時間的公開事實進行比較") : "Compare only public facts with a source and review date")}</dd></div>
-          <div><dt>{safeDecision?.suitabilityUnresolved ? decisionUi[3] : text.detailNotFor}</dt><dd>{sanitizePublicText(safeDecision?.avoid) ?? (locale.startsWith("zh") ? zhText(locale, "地区限制、账户资格与活动条件仍需官方核验", "地區限制、帳戶資格與活動條件仍需官方核驗") : "Regional restrictions, account eligibility and campaign terms still need official verification")}</dd></div>
+          <div><dt>{text.verdictBestFor}</dt><dd>{sanitizePublicText(safeDecision?.fit) ?? pendingDecisionCopy(locale).fit}</dd></div>
+          <div><dt>{text.verdictRegistrationFit}</dt><dd>{sanitizePublicText(safeDecision?.why) ?? pendingDecisionCopy(locale).why}</dd></div>
+          <div><dt>{safeDecision?.suitabilityUnresolved ? decisionUi[3] : text.detailNotFor}</dt><dd>{sanitizePublicText(safeDecision?.avoid) ?? pendingDecisionCopy(locale).avoid}</dd></div>
           <div><dt>{text.verdictAlternative}</dt><dd translate="no" lang="en">{alternative?.name ?? text.pendingReview}</dd></div>
         </dl>;
         return <article className={`v3-compare-verdict__card${safeDecision ? "" : " v3-compare-verdict__card--pending"}`} key={profile.slug}>
@@ -1669,7 +1949,7 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
         </div>
 
         <div className="v3-por-verify-guide">
-          <h4 className="v3-por-guide-title" {...enIfLatin(isZh ? zhText(locale, "交易者三步链上自查指南 (How to Verify On-Chain)", "交易者三步鏈上自查指南 (How to Verify On-Chain)") : (ui.guide || "3-Step Verification Guide"), locale)}>{isZh ? zhText(locale, "交易者三步链上自查指南 (How to Verify On-Chain)", "交易者三步鏈上自查指南 (How to Verify On-Chain)") : (ui.guide || "3-Step Verification Guide")}</h4>
+          <h4 className="v3-por-guide-title" {...enIfLatin(isZh ? zhText(locale, "交易者三步链上自查指南", "交易者三步鏈上自查指南") : (ui.guide || "3-Step Verification Guide"), locale)}>{isZh ? zhText(locale, "交易者三步链上自查指南", "交易者三步鏈上自查指南") : (ui.guide || "3-Step Verification Guide")}</h4>
           <div className="v3-por-steps">
             <div className="v3-por-step">
               <span className="v3-por-step-num">01</span>
@@ -1699,7 +1979,7 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
           <div className="v3-por-cold-warning">
             <span className="v3-warning-icon"></span>
             <div>
-              <strong>{isZh ? zhText(locale, "自存私钥安全准则 (Not Your Keys, Not Your Coins)", "自存私鑰安全準則 (Not Your Keys, Not Your Coins)") : (ui.principle || "Non-Custodial Security Principle")}</strong>
+              <strong>{isZh ? zhText(locale, "自存私钥安全准则", "自存私鑰安全準則") : (ui.principle || "Non-Custodial Security Principle")}</strong>
               <p>
                 {isZh
                   ? zhText(locale, "交易所储备金证明仅反映历史审计截面的偿付能力。大额闲置数字资产请务必转移至 Ledger、Trezor 等硬件冷钱包自持私钥，彻底规避平台黑天鹅风险。", "交易所儲備金證明僅反映歷史稽核截面的償付能力。大額閒置數位資產請務必轉移至 Ledger、Trezor 等硬體冷錢包自持私鑰，徹底規避平台黑天鵝風險。")
@@ -1799,7 +2079,7 @@ function VenueAntiPhishingSecurity({ venue, locale, db, partner, officialDomain,
           <div className="v3-domain-box primary">
             <div className="v3-domain-box__header">
               <span className="v3-domain-type">{isZh ? zhText(locale, "已记录主域名", "已記錄主網域") : (securityUi.primary || "Primary Official Domain")}</span>
-              <span className="v3-ssl-indicator">● Source record match</span>
+              <span className="v3-ssl-indicator">● {isZh ? zhText(locale, "来源记录一致", "來源記錄一致") : (securityUi.verifiedMirror || "Source record match")}</span>
             </div>
             <div className="v3-domain-box__content">
               <code translate="no">{officialDomain}</code>
@@ -1841,7 +2121,7 @@ function VenueAntiPhishingSecurity({ venue, locale, db, partner, officialDomain,
           <div className="v3-tool-left">
             <span className="v3-tool-icon"></span>
             <div>
-              <strong>{isZh ? "官方渠道真伪验证器 (Official Verification Channel)" : (securityUi.tool || "Official Channel Verification Tool")}</strong>
+              <strong>{isZh ? zhText(locale, "官方渠道真伪验证器", "官方渠道真偽驗證器") : (securityUi.tool || "Official Channel Verification Tool")}</strong>
               <p>{isZh ? "收到自称官方客服的 Telegram 私聊、邮件或网址？请使用官方验证工具一键核验对方身份真伪。" : (securityUi.toolBody || "Verify Telegram IDs, emails, domain names or phone numbers directly through official verifier.")}</p>
             </div>
           </div>
@@ -3104,11 +3384,8 @@ function DecisionComparisonValue({ slug, locale, field, fallback }) {
   const decision = decisionForVenue(slug, locale);
   const ui = decisionCopy[locale] ?? decisionCopy.en;
   const reviewed = hasReviewedEditorialDecision(slug);
-  const pending = {
-    fit: locale.startsWith("zh") ? zhText(locale, "公开产品、地区资格与官方费率待逐项核对", "公開產品、地區資格與官方費率待逐項核對") : "Verify public products, regional eligibility and official fees first",
-    why: locale.startsWith("zh") ? zhText(locale, "仅展示有来源和复核日期的事实", "僅展示有來源和複核日期的事實") : "Only source-linked facts with a review date are publishable",
-    avoid: locale.startsWith("zh") ? zhText(locale, "地区限制、账户资格与活动条件待官方核验", "地區限制、帳戶資格與活動條件待官方核驗") : "Regional restrictions, account eligibility and campaign terms need official verification",
-  };
+  const pending = pendingDecisionCopy(locale);
+
   const value = reviewed ? sanitizePublicText(decision?.[field]) : pending[field];
   const reviewedLocale = decision?.contentLocale ?? locale;
   const reviewedDir = reviewedLocale === "ar" ? "rtl" : "ltr";

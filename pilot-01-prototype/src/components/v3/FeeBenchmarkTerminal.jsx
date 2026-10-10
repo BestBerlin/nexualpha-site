@@ -545,7 +545,8 @@ copy.id = { ...copy.en, eyebrow:"TERMINAL / BENCHMARK BIAYA", title:"Perbandinga
 copy.vi = { ...copy.en, eyebrow:"BẢNG / SO SÁNH PHÍ", title:"So sánh phí được công bố", subtitle:"So sánh mức phí cơ bản spot và futures. Ưu đãi chỉ hiển thị sau khi xác minh nguồn chính thức.", filterAll:`${MONITOR_VENUE_COUNT} nền tảng`, colVenue:"Nền tảng", colCategory:"Loại", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Ưu đãi", colNetTaker:"Mức ròng", colTrend:"Xu hướng 7 ngày", colAction:"Đăng ký", cta:"Xem điều kiện chính thức ↗" };
 copy.it = { ...copy.en, eyebrow:"TERMINALE / BENCHMARK COMMISSIONI", title:"Confronto delle commissioni pubblicate", subtitle:"Confronta i tassi base spot e futures. I vantaggi compaiono solo dopo la verifica ufficiale.", filterAll:`${MONITOR_VENUE_COUNT} piattaforme`, colVenue:"Piattaforma", colCategory:"Categoria", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Vantaggio", colNetTaker:"Tasso netto", colTrend:"Trend 7 giorni", colAction:"Registrati", cta:"Verifica condizioni ufficiali ↗" };
 
-export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", accountStage, funding }) {
+export function FeeBenchmarkTerminal({ locale = "en", market, product: productParam, accountStage, funding }) {
+  const product = productParam || "spot";
   const [filter, setFilter] = useState("all");
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
@@ -675,7 +676,8 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product = "spot", 
                 {/* Telegram appears once on /rates: the Bot handoff block beside this card */}
               </div>
             </div>
-        <CostDecision locale={locale} regionMarket={market} product={product} accountStage={accountStage} funding={funding} />
+        {/* Owner 2026-10-10: show perpetual fees by default (same as the home calculator); an explicit ?product=spot still wins. */}
+        <CostDecision locale={locale} regionMarket={market} product={productParam || "perpetuals"} accountStage={accountStage} funding={funding} />
         <DecisionPathRail locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} current="rates" />
       </div>
       <header className="fee-terminal__header">

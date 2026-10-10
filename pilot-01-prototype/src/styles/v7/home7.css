@@ -96,7 +96,7 @@
 /* ---------- hero copy ---------- */
 .h7:not(#_):not(#_) .h7-kick{margin:0 0 20px;font:500 12px/1.4 var(--mono);letter-spacing:.08em;color:var(--ink3)}
 .h7:not(#_):not(#_) h1 em{font-style:normal;color:var(--ac)}
-.h7:not(#_):not(#_) :is(p,li,small,dd):lang(zh){text-wrap:pretty}
+.h7:not(#_):not(#_) :is(p,li,small,dd):lang(zh){text-wrap-style:pretty}
 .h7:not(#_):not(#_) .h7-hc{position:relative;z-index:2}
 .h7:not(#_):not(#_) h1{font-weight:600;font-size:2rem;line-height:1.05;letter-spacing:-.04em;color:var(--ink);margin:0;text-wrap:balance}
 .h7:not(#_):not(#_) h1:lang(zh),.h7:not(#_):not(#_) h2:lang(zh){letter-spacing:-.01em}
@@ -351,3 +351,17 @@
 .h7:not(#_):not(#_) .h7-range-scale span{position:absolute;inset-inline-start:var(--x);transform:translateX(-50%);white-space:nowrap}
 .h7:not(#_):not(#_) .h7-range-scale span:first-child{transform:none;margin-inline-start:-12px}.h7:not(#_):not(#_) .h7-range-scale span:last-child{transform:translateX(-100%);margin-inline-start:12px}
 .h7:not(#_):not(#_) .h7-am .h7-roll{display:inline-block}
+
+/* QA 2026-10-10 (owner screenshot): CJK headlines broke mid-phrase ("手续/费，", "多/少。") and "40%" split onto two lines.
+   Each CJK headline line is one unbreakable phrase, sized to its column so it always fits; text-wrap-style (not the
+   text-wrap shorthand) so nowrap is never reset. */
+.h7:not(#_):not(#_) .h7-hc,.h7:not(#_):not(#_) .h7-calc>div:first-child{container-type:inline-size}
+.h7:not(#_):not(#_) h1:is(:lang(zh),:lang(ja)) .h7-h1l{white-space:nowrap}
+.h7:not(#_):not(#_) .h7-calc h2:is(:lang(zh),:lang(ja)){white-space:nowrap}
+@media(min-width:641px){
+.h7:not(#_):not(#_) h1:lang(zh){font-size:min(4.5rem,calc(100cqi / 8.4))}
+.h7:not(#_):not(#_) h1:lang(ja){font-size:min(4.5rem,calc(100cqi / 10.4))}
+.h7:not(#_):not(#_) .h7-calc h2:lang(zh){font-size:min(2.75rem,calc(100cqi / 10.4))}
+.h7:not(#_):not(#_) .h7-calc h2:lang(ja){font-size:min(2.75rem,calc(100cqi / 12.6))}
+}
+@media(max-width:640px){.h7:not(#_):not(#_) h1:lang(zh){font-size:min(2rem,calc((100vw - 40px) / 8.4))}.h7:not(#_):not(#_) .h7-calc h2:lang(zh){font-size:min(1.75rem,calc(100cqi / 10.4))}.h7:not(#_):not(#_) h1:lang(ja){font-size:min(2rem,calc((100vw - 40px) / 10.4))}.h7:not(#_):not(#_) .h7-calc h2:lang(ja){font-size:min(1.75rem,calc(100cqi / 12.6))}}

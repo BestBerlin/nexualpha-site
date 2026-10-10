@@ -3190,8 +3190,8 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
           <nav className="topic-nav-strip" aria-label={dictionaryCopy.downloads}>
             <a className="topic-nav-btn" href="/research/perp-dex-cost-field-dictionary.csv">CSV ↓</a>
             <a className="topic-nav-btn" href="/research/perp-dex-cost-field-dictionary.json">JSON ↓</a>
-            <a className="topic-nav-btn" href="/research/wave48-perp-dex-cost-citations.csv">Wave48 CSV ↓</a>
-            <a className="topic-nav-btn" href="/research/wave48-perp-dex-cost-citations.json">Wave48 JSON ↓</a>
+            <a className="topic-nav-btn" href="/research/wave48-perp-dex-cost-citations.csv">Citations CSV ↓</a>
+            <a className="topic-nav-btn" href="/research/wave48-perp-dex-cost-citations.json">Citations JSON ↓</a>
             {PERP_COST_FIELD_SOURCES.slice(0, 4).map((source) => <a key={source.url} className="topic-nav-btn" href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a>)}
           </nav>
           <details className="topic-source-detail">
