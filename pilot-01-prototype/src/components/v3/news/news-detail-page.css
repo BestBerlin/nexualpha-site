@@ -75,6 +75,12 @@
   color: #94a3b8;
 }
 
+.news-detail__byline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.15rem 0.35rem; line-height: 1.5; }
+.news-detail__byline a { color: #7dd3fc; text-decoration: none; text-underline-offset: 0.15em; }
+.news-detail__byline a:hover, .news-detail__byline a:focus-visible { text-decoration: underline; }
+.news-detail__byline strong { color: #e2e8f0; font-weight: 600; }
+.news-detail__byline time { color: #cbd5e1; }
+
 .news-detail__translation-note {
   margin: 1rem 0 0;
   padding: 0.65rem 0.75rem;

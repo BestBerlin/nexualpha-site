@@ -66,6 +66,7 @@ export default defineConfig({
           // but can be cached and fetched as separate browser chunks.
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
+          if (id.includes("/src/components/v3/brand-pages/")) return "route-brand-pages";
           if (id.includes("/src/components/v3/TokenizedAssetsPage")) return "route-tokenized-assets";
           if (id.includes("/src/components/v3/TopicGuidePage")) return "route-topic-guide";
           if (id.includes("/src/components/v3/FactbookPage")) return "route-factbook";

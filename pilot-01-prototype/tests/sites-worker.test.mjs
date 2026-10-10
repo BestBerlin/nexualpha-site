@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { BRAND_SAME_AS } from "../src/data/brand-entity.js";
 import { access } from "node:fs/promises";
 import test from "node:test";
 import worker from "../worker/index.js";
@@ -236,12 +237,13 @@ test("home route structured data uses NexuAlpha Telegram identities", async () =
   const schema = JSON.parse(html.match(/<script id="nexualpha-route-schema"[^>]*>(.*?)<\/script>/)[1]);
   const organization = schema["@graph"].find((entry) => entry["@type"] === "Organization");
 
-  assert.deepEqual(organization.sameAs, [
-    "https://t.me/NexuAlphaClub",
-    "https://t.me/NexuAlphaAssistantBot",
-    "https://t.me/NexuAlphaWorld",
-    "https://twitter.com/NexuAlpha",
-  ]);
+  // 2026-10-11 brand entity: sameAs comes from src/data/brand-entity.js (adds the English channel and the Mini App;
+  // the owner edits BRAND.profiles there to add or remove X / GitHub / Medium / LinkedIn).
+  assert.deepEqual(organization.sameAs, [...BRAND_SAME_AS]);
+  for (const url of ["https://t.me/NexuAlphaClub", "https://t.me/NexuAlphaGlobal", "https://t.me/NexuAlphaAssistantBot", "https://app.nexualpha.com/", "https://t.me/NexuAlphaWorld"]) {
+    assert.ok(organization.sameAs.includes(url), url);
+  }
+  assert.equal(organization["@id"], "https://nexualpha.com/#organization");
 });
 
 test("Singapore regional worker metadata keeps answer-first checks and onsite CTA order", async () => {

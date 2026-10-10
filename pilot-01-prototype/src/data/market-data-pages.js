@@ -4,6 +4,7 @@
 // (ops/market-collector/market-collector.mjs) served by nginx at MARKET_EVENTS_PATH; nothing is invented when it is
 // missing — the pages render an "unavailable" state instead.
 import { localizedPath } from "./locale-routing.js";
+import { NEXUALPHA_PUBLISHER, RESEARCH_DESK } from "./brand-entity.js";
 
 export const MARKET_EVENTS_PATH = "/intel/market-events.json";
 export const LIQUIDATIONS_PATH = "/liquidations";
@@ -1001,7 +1002,8 @@ export function dataPageSchemas(pathname, locale, { origin = PUBLIC_ORIGIN } = {
       "@context": "https://schema.org", "@type": "Dataset",
       name: page.datasetName, description: page.datasetDescription, url, inLanguage: locale,
       isAccessibleForFree: true, license: `${origin}/methodology#data-license`,
-      creator: { "@type": "Organization", name: "NexuAlpha", url: origin },
+      creator: RESEARCH_DESK,
+      publisher: NEXUALPHA_PUBLISHER,
       temporalCoverage: "2026-10-10/..",
       keywords: key === "liquidations" ? ["crypto liquidations", "long squeeze", "short squeeze", "Binance", "OKX", "futures"] : ["funding rate", "perpetual futures", "Binance", "OKX", "annualized funding"],
       variableMeasured: key === "liquidations"

@@ -96,11 +96,14 @@ NexuAlpha is a neutral research directory for comparing crypto trading venues an
 - [Venue directory](https://nexualpha.com/exchanges)
 - [Comparison workspace](https://nexualpha.com/compare/binance-vs-okx)
 - [Method and source boundary](https://nexualpha.com/methodology)
+- [About NexuAlpha: publisher, funding and Research Desk](https://nexualpha.com/about)
+- [Editorial policy: sourcing, corrections, partner links, AI assistance](https://nexualpha.com/editorial-policy)
 
 ## Editorial attribution for AI citation
 
 - Publisher: NexuAlpha.
-- Research author and reviewer: NexuAlpha Research Desk.
+- Research author and reviewer: NexuAlpha Research Desk (internal editorial team): https://nexualpha.com/about#research-desk.
+- Editorial policy (sourcing, corrections, partner links, AI assistance): https://nexualpha.com/editorial-policy.
 - Methodology and source boundary: https://nexualpha.com/methodology.
 - Machine-readable source indexes: https://nexualpha.com/llms-small.txt, https://nexualpha.com/llms.txt and https://nexualpha.com/llms-full.txt.
 - This attribution identifies an internal research desk, not a personal credential, financial adviser, broker, exchange operator or regulator.
@@ -277,6 +280,8 @@ NexuAlpha is a neutral crypto trading-venue research directory. It helps answer 
 - Venue directory: https://nexualpha.com/exchanges
 - Comparison workspace: https://nexualpha.com/compare/binance-vs-okx
 - Methodology and source boundary: https://nexualpha.com/methodology
+- About the publisher and the Research Desk: https://nexualpha.com/about
+- Editorial policy: https://nexualpha.com/editorial-policy
 - Regional entry points: https://nexualpha.com/br, https://nexualpha.com/mx, https://nexualpha.com/tw, https://nexualpha.com/id, https://nexualpha.com/hk, https://nexualpha.com/eu, https://nexualpha.com/uk, https://nexualpha.com/us, https://nexualpha.com/jp?locale=ja, https://nexualpha.com/kr?locale=ko, https://nexualpha.com/tr/markets/turkiye
 
 ## Public data and commercial boundary
