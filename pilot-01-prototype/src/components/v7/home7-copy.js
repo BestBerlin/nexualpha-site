@@ -6,7 +6,7 @@ export const H7_COPY = {
   "zh-Hans": {
     kick: "NEXUALPHA · 交易所比价与返佣",
     h1a: "别再白送手续费，", h1b: "最高拿回 {max}%。",
-    sub: "通过我们的合作节点在官方页面开户，\n手续费按比例返还，主流交易所逐家比价。",
+    sub: "用我们的合作邀请链接在交易所官网开户，\n手续费按比例返还，主流交易所逐家比价。",
     lgShare: (n) => `${n} 最高返佣比例`, upTo: "最高", settleH: "每小时返佣", settleD: "每天返佣", lgAuto: "官方自动结算", lgGo: (n) => `前往 ${n} 官方开户`, lgLink: "链接已自带邀请码，无需手动填写。", heroGo: "立即开户，拿返佣", lgTop: "三家最高", lgBuilt: "已内置邀请码", dockGo: "立即开户", lgAd: "合作推广链接 · 佣金已披露",
     lgTitle: "返佣账本", lgEst: "按公开费率估算", lgVol: (v, m) => `每月成交 ${v} · ${m}`, perpL: "合约", spotL: "现货", sep: "", lgMax: "合作交易所\n最高返佣", lgPick: "选择交易所",
     lgWithout: "不用邀请码 · 一年手续费", lgBack: "通过 NexuAlpha · 一年最高返还", lgNet: "一年实付", copy: "复制", copied: "已复制邀请码 ✓",
@@ -29,7 +29,7 @@ export const H7_COPY = {
   en: {
     kick: "NEXUALPHA · EXCHANGE FEES & REBATES",
     h1a: "Stop gifting fees.", h1b: "Get up to {max}% back.",
-    sub: "Open on the exchange's official page through the NexuAlpha partner node.\nPart of every fee comes back, compared exchange by exchange.",
+    sub: "Open on the exchange's official page using NexuAlpha's partner invite link.\nPart of every fee comes back, compared exchange by exchange.",
     lgShare: (n) => `${n} top rebate share`, upTo: "Up to", settleH: "paid hourly", settleD: "paid daily", lgAuto: "Settled by the exchange", lgGo: (n) => `Sign up on ${n}`, lgLink: "The link carries our invite code; nothing to type.", heroGo: "Open an account, get the rebate", lgTop: "Highest of three", lgBuilt: "Invite code built in", dockGo: "Sign up", lgAd: "Partner link · commission disclosed",
     lgTitle: "Rebate ledger", lgEst: "Estimate from published fees", lgVol: (v, m) => `${v} / month · ${m.toLowerCase()}`, perpL: "Perps", spotL: "Spot", sep: " ", lgMax: "Top partner\nrebate", lgPick: "Choose exchange",
     lgWithout: "Without invite code · fees a year", lgBack: "Through NexuAlpha · up to, a year", lgNet: "Paid a year", copy: "Copy", copied: "Invite code copied ✓",

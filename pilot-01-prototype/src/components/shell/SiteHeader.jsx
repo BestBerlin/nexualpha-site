@@ -8,8 +8,9 @@ const PRIMARY_COUNT = 4;
 function Chevron() {
   return <svg className="nx-ico nx-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" /></svg>;
 }
+// Outline glyph drawn with the same stroke weight as the search icon so it reads as a header control, not a badge.
 function TelegramIcon() {
-  return <svg className="nx-ico" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21.6 3.2 2.9 10.4c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.8c.3-1.3-.5-1.9-1.4-1.5ZM8.3 13.2l10.4-6.6c.5-.3.9-.1.6.2l-8.9 8-.3 3.7-1.8-5.3Z" /></svg>;
+  return <svg className="nx-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M21.2 3.6 2.9 10.7c-.8.3-.8 1 0 1.3l4.6 1.5 1.8 5.6c.2.7.9.8 1.4.4l2.6-2.3 4.7 3.5c.6.4 1.3.1 1.5-.6L22.3 4.6c.2-.8-.4-1.3-1.1-1Z" /><path d="m7.5 13.5 9.8-6.3-7 6.6-.2 3.4" /></svg>;
 }
 function SearchIcon() {
   return <svg className="nx-ico" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="4.75" /><path d="m10.5 10.5 3.25 3.25" /></svg>;

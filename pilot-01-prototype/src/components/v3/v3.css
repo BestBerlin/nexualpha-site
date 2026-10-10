@@ -2528,7 +2528,7 @@
 }
 .v3-por-coin-card small {
   font-size: 11px;
-  color: #64748b;
+  color: #94a3b8; /* was #64748b: 3.7:1 on the card, below AA for small text */
 }
 
 /* PoR 3 Steps */
@@ -2761,7 +2761,7 @@
 }
 .v3-domain-box small {
   font-size: 11px;
-  color: #64748b;
+  color: #94a3b8; /* was #64748b: 3.7:1, below AA */
 }
 
 /* Mirrors List */

@@ -70,7 +70,7 @@
 #top.v3-compare-page .v3-compare-final-choice-card__action-row .cro-code__btn { min-block-size: 48px; border-radius: 10px; padding-inline: 14px; }
 
 /* ---------- venue sticky: the signup is the one filled action in the bar ---------- */
-main.v3-profile-page.v6 .v3-mobile-sticky-bar a.v3-mobile-sticky-bar__btn--signup:not(#_):not(#_):not(#_):not(#_):not(#_) { background: var(--accent, #1fe0c0); border-color: var(--accent, #1fe0c0); color: var(--on-accent, #04130f); font-weight: 600; text-decoration: none; }
+main.v3-profile-page.v6 .v3-mobile-sticky-bar a.v3-mobile-sticky-bar__btn--signup:not(#_):not(#_):not(#_):not(#_):not(#_) { background: var(--accent, #1fe0c0); border-color: var(--accent, #1fe0c0); /* beats fintech-premium.css `color: #fff !important` (1.68:1 on cyan) */ color: var(--on-accent, #04130f) !important; font-weight: 600; text-decoration: none; }
 main.v3-profile-page.v6 .v3-mobile-sticky-bar a.v3-mobile-sticky-bar__btn--signup:active:not(#_):not(#_):not(#_):not(#_):not(#_) { background: var(--accent-hi, #4aebd0); }
 main.v3-profile-page.v6 .v3-mobile-sticky-bar .v3-mobile-sticky-bar__code[data-copied]:not(#_):not(#_):not(#_):not(#_):not(#_) { border-color: var(--accent, #1fe0c0); }
 
