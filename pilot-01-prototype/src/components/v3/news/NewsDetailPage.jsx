@@ -459,7 +459,7 @@ function RelatedResearch({ links, relatedArticles = [], locale, t, withContext, 
             <li key={item.slug}>
               <a
                 className="news-detail__related-card"
-                href={withContext(newsArticleUrl(item.slug, locale))}
+                href={withContext(newsArticleUrl(item.slug, locale, item))}
                 data-cta-kind="research"
                 data-cta-placement="news-detail-related-article"
                 data-growth-decision={item.slug}
@@ -611,14 +611,15 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
     // letting a transient client feed failure rewrite a valid article as 404.
     if (initialArticles) return undefined;
     let alive = true;
-    loadNewsArticleBySlug(slug).then((rows) => {
+    // Localized news lane: ask the Worker for the edition this page displays (plus English) instead of every body.
+    loadNewsArticleBySlug(slug, globalThis.fetch, { locale }).then((rows) => {
       if (alive) {
         setArticles(rows);
         setFeedState("ready");
       }
     });
     return () => { alive = false; };
-  }, [initialArticles, slug]);
+  }, [initialArticles, slug, locale]);
 
   useEffect(() => {
     if (feedState !== "ready") return;

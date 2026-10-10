@@ -3,7 +3,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { newsArticleAvailableLocales, normalizeNewsFeed } from "../src/data/news-feed-client.js";
+import { newsArticleAvailableLocales, newsSitemapLanguage, normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
 import { INDEXABLE_LOCALES, routeInventory } from "./generate-prerender-manifest.mjs";
 import {
@@ -288,7 +288,7 @@ function newsSitemapEntries(articles, generatedAt, origin) {
       const title = cleanString(article.title?.[locale]) || cleanString(article.title?.en) || article.slug;
       return {
         loc: href(`/news/${article.slug}`, locale),
-        language: locale,
+        language: newsSitemapLanguage(locale),
         publicationDate: new Date(Date.parse(article.publishedAt)).toISOString(),
         lastmod: newsSitemapLastmod(article, Date.parse(generatedAt)),
         alternates: [...newsArticleAvailableLocales(article), "x-default"].map((hreflang) => ({

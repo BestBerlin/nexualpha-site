@@ -308,7 +308,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
     return () => { alive = false; clearTimeout(timer); };
   }, [trimmedQuery, locale]);
 
-  const localPage = serverListing ? null : paginateNews(feedArticles, { category: activeCategory, page: requestedPage });
+  const localPage = serverListing ? null : paginateNews(feedArticles, { category: activeCategory, page: requestedPage, locale });
   const pageRows = serverListing ? feedArticles : localPage.rows;
   const currentPage = serverListing ? serverListing.page : localPage.page;
   const totalPages = serverListing ? serverListing.totalPages : localPage.totalPages;
@@ -412,7 +412,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
             const summary = localizedNewsSummary(article, locale);
             const hasLocalizedContent = hasLocalizedNewsText(article, "title", locale) && hasLocalizedNewsText(article, "summary", locale);
             const catName = localizeCategory(article);
-            const articleUrl = withContext(newsArticleUrl(article.slug, locale));
+            const articleUrl = withContext(newsArticleUrl(article.slug, locale, article));
             const compareSlugs = (article.relatedVenues || []).slice(0, 2);
             const compareUrl = compareSlugs.length === 2
               ? withContext(`/compare/${compareSlugs.join("-vs-")}`)
@@ -507,7 +507,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
             <p className="news-research-index__body">{t.researchIndexBody || copy.en.researchIndexBody}</p>
             <nav aria-label={t.researchIndex || copy.en.researchIndex} className="news-research-index__links">
               {pageRows.map((article) => (
-                <a key={`index-${article.slug}`} href={withContext(newsArticleUrl(article.slug, locale))}>
+                <a key={`index-${article.slug}`} href={withContext(newsArticleUrl(article.slug, locale, article))}>
                   {localizedNewsTitle(article, locale)}
                 </a>
               ))}
