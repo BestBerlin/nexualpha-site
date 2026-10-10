@@ -13,6 +13,7 @@ import { resolveAssetPath } from './server/asset-path.mjs';
 import { createNewsSsrRenderer } from './server/news-ssr.mjs';
 import { createIntelFeed, INTEL_PATH } from './server/intel-feed.mjs';
 import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
+import { createGoRedirect } from './server/go-redirect.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
@@ -32,6 +33,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
     ? { buildId: env.BUILD_ID || '3.0-test-build' }
     : JSON.parse(await readFile(path.join(clientRoot, 'version.json'), 'utf8'));
   if (env.BUILD_ID && env.BUILD_ID !== version.buildId) throw new Error('BUILD_ID_RUNTIME_MISMATCH');
+  // tracked partner redirect /go/<partner>?src= (owner 2026-10-10); clicks are appended to CLICK_EVENT_FILE when set
+  const goRedirect = createGoRedirect({ clientRoot, eventFile: env.CLICK_EVENT_FILE ? await privateDataFile(env.CLICK_EVENT_FILE, appRoot, clientRoot) : null });
   const errorRequired = env.ERROR_MONITOR_REQUIRED === '1';
   if (errorRequired && !env.ERROR_EVENT_FILE) throw new Error('ERROR_MONITOR_REQUIRED');
   let errorMonitor = null;
@@ -92,7 +95,9 @@ export async function createProductionServer({ env = process.env, appRoot = root
         res.end();
         return;
       }
-      if (requestPath === '/healthz' || requestPath === '/api/health') {
+      if (requestPath.startsWith('/go/') && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await goRedirect(request);
+      } else if (requestPath === '/healthz' || requestPath === '/api/health') {
         result = new Response(JSON.stringify({ status: 'ok', service: 'nexualpha-web' }), { status: 200,
           headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
       } else if (requestPath === '/health/live' || requestPath === '/api/v1/health/live') {
