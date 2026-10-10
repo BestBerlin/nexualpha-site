@@ -115,8 +115,13 @@ if (cmd === "verify") {
   const days = Number(process.argv[3]) || 28;
   const end = new Date(Date.now() - 2 * 864e5).toISOString().slice(0, 10);
   const start = new Date(Date.now() - (days + 2) * 864e5).toISOString().slice(0, 10);
+  // Search data lives in the domain property (sc-domain:nexualpha.com); the URL-prefix property has none. Use the
+  // domain property when the service account has been added to it, else fall back.
+  const domainProbe = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent("sc-domain:nexualpha.com")}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions: [], rowLimit: 1 });
+  const perfSite = domainProbe.status === 200 ? encodeURIComponent("sc-domain:nexualpha.com") : gscSite;
+  if (domainProbe.status !== 200) console.log("note: no access to sc-domain:nexualpha.com (add the service account as a user there); using the URL-prefix property");
   const q = async (dimensions, rowLimit = 25) => {
-    const r = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${gscSite}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions, rowLimit });
+    const r = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${perfSite}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions, rowLimit });
     if (r.status !== 200) throw new Error(`searchAnalytics ${r.status} ${short(r.text)}`);
     return JSON.parse(r.text).rows || [];
   };
