@@ -14,6 +14,7 @@ import { CostDecision } from "./CostDecision.jsx";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { DecisionPathRail } from "./DecisionPathRail.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
+import { formatPercent } from "../../data/format-percent.js";
 import { buildVenueFeeSummary, feeSummaryCopy } from "../../data/venue-fee-summary.js";
 import { reviewedFeeCopy } from "../../data/reviewed-fee-copy.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
@@ -564,7 +565,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
     const commercialClaim = resolveCommercialClaim({ partner, venue: db });
     const cta = regionalVenueCta(slug, locale, market, product, { accountStage, funding });
     const rebatePercent = commercialClaim.status === "verified" ? commercialClaim.rebatePercent : 0;
-    const rebateDisplay = rebatePercent > 0 ? `${rebatePercent}%` : null;
+    const rebateDisplay = rebatePercent > 0 ? formatPercent(locale, rebatePercent) : null;
     const productRate = product === "futures" || product === "perp" ? futuresRate : spotRate;
     const netDisplay = rebatePercent > 0 && Number.isFinite(productRate?.takerRate)
       ? feePctOfRate(productRate.takerRate * (1 - rebatePercent / 100))
@@ -581,7 +582,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
       ctaHref: cta.ctaHref,
       ctaDirect: cta.direct,
       inviteCode: cta.hasReferral ? cta.inviteCode : null,
-      trend: rebatePercent > 0 ? `↓ -${rebatePercent}%` : null,
+      trend: rebatePercent > 0 ? `↓ -${formatPercent(locale, rebatePercent)}` : null,
     };
   }).filter((r) => {
     if (filter === "cex") return r.category === "CEX";

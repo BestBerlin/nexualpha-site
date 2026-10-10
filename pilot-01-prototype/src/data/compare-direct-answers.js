@@ -242,7 +242,7 @@ export const compareDirectAnswers = {
         faq("Can this page decide whether my account can trade a product?", "No. It can narrow what to verify. Final access depends on the current official account flow, user region, verification status, product rules and platform terms."),
       ],
       seoTitle: "Binance vs OKX: Fees, Products, KYC and Web3 Access Checks — NexuAlpha",
-      seoDescription: "Compare Binance and OKX by published fee tables, spot and derivatives product scope, identity requirements, Web3 or DEX-style access, announcement paths and account eligibility boundaries.",
+      seoDescription: "Compare Binance and OKX by published fee tables, spot and derivatives product scope, identity requirements, Web3 or DEX-style access and account eligibility.",
       seoQuestion: "How should I compare Binance and OKX before choosing an exchange?",
     },
     de: {
@@ -365,7 +365,7 @@ export const compareDirectAnswers = {
         faq("What should I verify before leaving NexuAlpha?", "Confirm the product label, source date, fee tier, KYC requirement and account route on the official platform. A public comparison is a checklist, not approval or a benefit promise."),
       ],
       seoTitle: "Bybit vs Bitget Stocks, Copy Trading, Fees and Account Checks — NexuAlpha",
-      seoDescription: "Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup-route limits.",
+      seoDescription: "Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup limits.",
       seoQuestion: "How should I compare Bybit and Bitget before choosing a platform?",
     },
     "zh-Hans": {

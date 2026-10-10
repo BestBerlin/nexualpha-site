@@ -19,7 +19,7 @@ const copy = {
       faq("Which is safer for a first account?", "Bybit publishes proof-of-reserves and operates under a Dubai licence; MEXC also publishes reserves but lists many micro-cap tokens where liquidity can disappear. Safety here depends on what you trade as much as where."),
     ],
     seoTitle: "Bybit vs MEXC: Perps, New Listings, KYC and Fee Checks — NexuAlpha",
-    seoDescription: "Compare Bybit and MEXC by derivatives depth, new-listing speed, optional versus mandatory KYC, published fee rows, proof-of-reserves, fiat routes and regional limits before choosing an account.",
+    seoDescription: "Bybit vs MEXC: copy trading, listing speed, optional vs mandatory KYC, published fees, proof of reserves and fiat routes, compared before you sign up.",
     seoQuestion: "How should I compare Bybit and MEXC before choosing an exchange?",
   },
   "zh-Hans": {
@@ -73,7 +73,7 @@ const copy = {
       faq("¿Cuál es más seguro para una primera cuenta?", "Bybit publica prueba de reservas y opera con licencia en Dubái; MEXC también publica reservas, pero lista muchos tokens de microcapitalización donde la liquidez puede desaparecer. Aquí la seguridad depende tanto de qué operas como de dónde."),
     ],
     seoTitle: "Bybit vs MEXC: perpetuos, nuevos listados, KYC y comisiones — NexuAlpha",
-    seoDescription: "Compara Bybit y MEXC por profundidad en derivados, velocidad de listado, KYC opcional u obligatorio, comisiones publicadas, prueba de reservas, vías fiat y límites regionales antes de elegir cuenta.",
+    seoDescription: "Bybit vs MEXC: copy trading, velocidad de listado, KYC opcional u obligatorio, comisiones publicadas, prueba de reservas y vías fiat, antes de registrarte.",
     seoQuestion: "¿Cómo comparar Bybit y MEXC antes de elegir un exchange?",
   },
   "pt-BR": {
@@ -91,7 +91,7 @@ const copy = {
       faq("Qual é mais segura para uma primeira conta?", "A Bybit publica prova de reservas e opera com licença em Dubai; a MEXC também publica reservas, mas lista muitos tokens de micro cap em que a liquidez pode sumir. Aqui a segurança depende tanto do que você opera quanto de onde."),
     ],
     seoTitle: "Bybit vs MEXC: perpétuos, novas listagens, KYC e taxas — NexuAlpha",
-    seoDescription: "Compare Bybit e MEXC por profundidade em derivativos, velocidade de listagem, KYC opcional ou obrigatório, taxas publicadas, prova de reservas, canais fiat e limites regionais antes de escolher a conta.",
+    seoDescription: "Bybit vs MEXC: copy trading, velocidade de listagem, KYC opcional ou obrigatório, taxas publicadas, prova de reservas e canais fiat, antes de se cadastrar.",
     seoQuestion: "Como comparar Bybit e MEXC antes de escolher uma corretora?",
   },
   fr: {
@@ -109,7 +109,7 @@ const copy = {
       faq("Lequel est le plus sûr pour un premier compte ?", "Bybit publie une preuve de réserves et opère sous licence à Dubaï ; MEXC publie aussi ses réserves mais cote de nombreux tokens à micro-capitalisation où la liquidité peut disparaître. La sécurité dépend ici autant de ce que vous tradez que de l’endroit."),
     ],
     seoTitle: "Bybit vs MEXC : perpétuels, nouvelles cotations, KYC et frais — NexuAlpha",
-    seoDescription: "Comparez Bybit et MEXC : profondeur sur les dérivés, vitesse de cotation, KYC facultatif ou obligatoire, frais publiés, preuve de réserves, passerelles fiat et limites régionales avant de choisir un compte.",
+    seoDescription: "Bybit vs MEXC : copy trading, vitesse de cotation, KYC facultatif ou obligatoire, frais publiés, preuve de réserves et passerelles fiat, avant l’inscription.",
     seoQuestion: "Comment comparer Bybit et MEXC avant de choisir un exchange ?",
   },
   de: {
@@ -127,7 +127,7 @@ const copy = {
       faq("Welche Börse ist für ein erstes Konto sicherer?", "Bybit veröffentlicht einen Reservenachweis und arbeitet unter Dubai-Lizenz; MEXC veröffentlicht ebenfalls Reserven, listet aber viele Micro-Cap-Token, deren Liquidität verschwinden kann. Sicherheit hängt hier ebenso davon ab, was Sie handeln, wie davon, wo."),
     ],
     seoTitle: "Bybit vs MEXC: Perpetuals, neue Listings, KYC und Gebühren — NexuAlpha",
-    seoDescription: "Vergleichen Sie Bybit und MEXC nach Derivate-Tiefe, Listing-Tempo, optionalem oder verpflichtendem KYC, veröffentlichten Gebühren, Reservenachweis, Fiat-Wegen und regionalen Grenzen vor der Kontowahl.",
+    seoDescription: "Bybit vs. MEXC: Copy Trading, Listing-Tempo, optionales oder verpflichtendes KYC, veröffentlichte Gebühren, Reservenachweis und Fiat-Wege im Vergleich.",
     seoQuestion: "Wie vergleiche ich Bybit und MEXC vor der Wahl einer Börse?",
   },
   ja: {
@@ -145,7 +145,7 @@ const copy = {
       faq("最初の口座としてはどちらが安全ですか？", "Bybit は準備金証明を公開し、ドバイのライセンスで運営しています。MEXC も準備金を公開していますが、流動性が消えることのある小型トークンを多数上場しています。ここでの安全性は、どこで取引するかと同じくらい、何を取引するかに左右されます。"),
     ],
     seoTitle: "Bybit vs MEXC：無期限先物、新規上場、KYC、手数料の確認 — NexuAlpha",
-    seoDescription: "Bybit と MEXC をデリバティブの深さ、上場の速さ、任意か必須かの KYC、公開手数料行、準備金証明、法定通貨ルート、地域制限で比較し、口座選びの前に確認すべき点を整理します。",
+    seoDescription: "Bybit と MEXC をコピー取引、上場の速さ、KYC の要否、公開手数料、準備金証明、法定通貨ルートで比較する資料。",
     seoQuestion: "取引所を選ぶ前に Bybit と MEXC をどう比較すべきですか？",
   },
   ko: {
@@ -163,7 +163,7 @@ const copy = {
       faq("첫 계정으로는 어느 쪽이 더 안전한가요?", "Bybit은 준비금 증명을 공개하고 두바이 라이선스로 운영합니다. MEXC도 준비금을 공개하지만 유동성이 사라질 수 있는 초소형 토큰을 많이 상장합니다. 여기서 안전은 어디서 거래하는지만큼 무엇을 거래하는지에 달려 있습니다."),
     ],
     seoTitle: "Bybit vs MEXC: 무기한 선물, 신규 상장, KYC, 수수료 확인 — NexuAlpha",
-    seoDescription: "Bybit과 MEXC를 파생상품 깊이, 상장 속도, 선택적 또는 필수 KYC, 공개 수수료 행, 준비금 증명, 법정화폐 경로, 지역 제한으로 비교하고 계정 선택 전 확인할 항목을 정리합니다.",
+    seoDescription: "Bybit과 MEXC를 카피 트레이딩, 상장 속도, KYC 선택·필수 여부, 공개 수수료, 준비금 증명, 법정화폐 경로로 비교한 자료.",
     seoQuestion: "거래소를 고르기 전에 Bybit과 MEXC를 어떻게 비교해야 하나요?",
   },
   ar: {
@@ -181,7 +181,7 @@ const copy = {
       faq("أيهما أكثر أماناً لحساب أول؟", "تنشر Bybit إثبات احتياطي وتعمل بترخيص من دبي؛ وتنشر MEXC احتياطياتها أيضاً لكنها تدرج كثيراً من العملات الصغيرة جداً التي قد تختفي سيولتها. الأمان هنا يعتمد على ما تتداوله بقدر ما يعتمد على المكان."),
     ],
     seoTitle: "Bybit مقابل MEXC: العقود الدائمة والإدراجات الجديدة وKYC والرسوم — NexuAlpha",
-    seoDescription: "قارن Bybit وMEXC حسب عمق المشتقات وسرعة الإدراج وKYC الاختياري أو الإلزامي وصفوف الرسوم المنشورة وإثبات الاحتياطي ومسارات العملات الورقية والقيود الإقليمية قبل اختيار الحساب.",
+    seoDescription: "مقارنة Bybit وMEXC من حيث نسخ التداول وسرعة الإدراج والتحقق من الهوية والرسوم المنشورة وإثبات الاحتياطي ومسارات العملات الورقية.",
     seoQuestion: "كيف أقارن Bybit وMEXC قبل اختيار منصة؟",
   },
   tr: {
@@ -199,7 +199,7 @@ const copy = {
       faq("İlk hesap için hangisi daha güvenli?", "Bybit rezerv kanıtı yayımlar ve Dubai lisansıyla çalışır; MEXC de rezervlerini yayımlar ancak likiditesi kaybolabilen çok sayıda mikro ölçekli token listeler. Buradaki güvenlik, nerede işlem yaptığınız kadar ne işlem yaptığınıza da bağlıdır."),
     ],
     seoTitle: "Bybit vs MEXC: perpetual, yeni listelemeler, KYC ve ücretler — NexuAlpha",
-    seoDescription: "Hesap seçmeden önce Bybit ve MEXC'yi türev derinliği, listeleme hızı, isteğe bağlı veya zorunlu KYC, yayımlanan ücret satırları, rezerv kanıtı, fiat yolları ve bölgesel sınırlar açısından karşılaştırın.",
+    seoDescription: "Bybit ve MEXC karşılaştırması: kopya işlem, listeleme hızı, isteğe bağlı veya zorunlu KYC, yayımlanan ücretler, rezerv kanıtı ve fiat yolları.",
     seoQuestion: "Borsa seçmeden önce Bybit ve MEXC nasıl karşılaştırılmalı?",
   },
   ru: {
@@ -217,7 +217,7 @@ const copy = {
       faq("Какая биржа безопаснее для первого аккаунта?", "Bybit публикует подтверждение резервов и работает по лицензии Дубая; MEXC тоже публикует резервы, но листит много токенов микрокапитализации, ликвидность которых может исчезнуть. Безопасность здесь зависит от того, чем вы торгуете, не меньше, чем от того, где."),
     ],
     seoTitle: "Bybit и MEXC: бессрочные контракты, новые листинги, KYC и комиссии — NexuAlpha",
-    seoDescription: "Сравнение Bybit и MEXC по глубине деривативов, скорости листингов, необязательному и обязательному KYC, опубликованным комиссиям, подтверждению резервов, фиатным каналам и региональным ограничениям.",
+    seoDescription: "Сравнение Bybit и MEXC: копитрейдинг, скорость листинга, обязательность KYC, опубликованные комиссии, подтверждение резервов и фиатные каналы.",
     seoQuestion: "Как сравнить Bybit и MEXC перед выбором биржи?",
   },
   id: {
@@ -235,7 +235,7 @@ const copy = {
       faq("Mana yang lebih aman untuk akun pertama?", "Bybit mempublikasikan bukti cadangan dan beroperasi dengan lisensi Dubai; MEXC juga mempublikasikan cadangan tetapi melisting banyak token micro cap yang likuiditasnya bisa hilang. Keamanan di sini bergantung pada apa yang Anda tradingkan sama besarnya dengan di mana."),
     ],
     seoTitle: "Bybit vs MEXC: perpetual, listing baru, KYC, dan biaya — NexuAlpha",
-    seoDescription: "Bandingkan Bybit dan MEXC berdasarkan kedalaman derivatif, kecepatan listing, KYC opsional atau wajib, baris biaya yang dipublikasikan, bukti cadangan, jalur fiat, dan batasan wilayah sebelum memilih akun.",
+    seoDescription: "Bybit vs MEXC: copy trading, kecepatan listing, KYC opsional atau wajib, biaya yang dipublikasikan, bukti cadangan, dan jalur fiat sebelum mendaftar.",
     seoQuestion: "Bagaimana membandingkan Bybit dan MEXC sebelum memilih bursa?",
   },
   vi: {
@@ -253,7 +253,7 @@ const copy = {
       faq("Sàn nào an toàn hơn cho tài khoản đầu tiên?", "Bybit công bố bằng chứng dự trữ và hoạt động theo giấy phép Dubai; MEXC cũng công bố dự trữ nhưng niêm yết nhiều token vốn hóa siêu nhỏ mà thanh khoản có thể biến mất. An toàn ở đây phụ thuộc vào thứ bạn giao dịch không kém gì nơi giao dịch."),
     ],
     seoTitle: "Bybit vs MEXC: hợp đồng vĩnh cửu, niêm yết mới, KYC và phí — NexuAlpha",
-    seoDescription: "So sánh Bybit và MEXC theo độ sâu phái sinh, tốc độ niêm yết, KYC tùy chọn hay bắt buộc, hàng phí công bố, bằng chứng dự trữ, kênh fiat và giới hạn khu vực trước khi chọn tài khoản.",
+    seoDescription: "Bybit và MEXC: copy trading, tốc độ niêm yết, KYC tùy chọn hay bắt buộc, phí công bố, bằng chứng dự trữ và kênh fiat, so sánh trước khi đăng ký.",
     seoQuestion: "Nên so sánh Bybit và MEXC thế nào trước khi chọn sàn?",
   },
   it: {
@@ -271,7 +271,7 @@ const copy = {
       faq("Quale è più sicuro per un primo account?", "Bybit pubblica la proof-of-reserves e opera con licenza a Dubai; anche MEXC pubblica le riserve, ma quota molti token a micro-capitalizzazione la cui liquidità può sparire. La sicurezza qui dipende da cosa tratti quanto da dove."),
     ],
     seoTitle: "Bybit vs MEXC: perpetual, nuovi listing, KYC e commissioni — NexuAlpha",
-    seoDescription: "Confronta Bybit e MEXC per profondità sui derivati, velocità di listing, KYC facoltativo o obbligatorio, commissioni pubblicate, proof-of-reserves, canali fiat e limiti regionali prima di scegliere un account.",
+    seoDescription: "Bybit vs MEXC: copy trading, velocità di listing, KYC facoltativo o obbligatorio, commissioni pubblicate, proof-of-reserves e canali fiat, prima di iscriverti.",
     seoQuestion: "Come confrontare Bybit e MEXC prima di scegliere un exchange?",
   },
 };

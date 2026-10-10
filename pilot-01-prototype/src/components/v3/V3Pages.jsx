@@ -47,6 +47,8 @@ import { VenueReadinessChecklist } from "./VenueReadinessChecklist.jsx";
 import { TelegramReturnBanner } from "./TelegramReturnBanner.jsx";
 import { footerDisclosureLabel } from "./CleanFooter.jsx";
 import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
+import { formatPercent } from "../../data/format-percent.js";
+import { referralSeoFor } from "../../data/referral-seo.js";
 import "./crossroads-compare.css";
 import "./growth-conversion.css";
 
@@ -2235,7 +2237,7 @@ function VenueTelegramMonitorSection({ venue, locale, market, product, rebatePer
           </p>
           <div className="v3-tg-features">
             <span className="v3-tg-feat-item">✓ {isZh ? zhText(locale, "带来源的费率与产品条款研究", "帶來源的費率與產品條款研究") : (telegramUi.research || "Source-labelled fee and product research")}</span>
-            <span className="v3-tg-feat-item">✓ {claimsVerified ? (isZh ? zhText(locale, `按官方规则核对 -${rebatePercent}% 用户权益`, `按官方規則核對 -${rebatePercent}% 用戶權益`) : `${telegramUi.benefit || "Verify the user benefit under official rules"}`) : (isZh ? zhText(locale, "官方账户内核验用户权益", "官方帳戶內核驗用戶權益") : (telegramUi.benefit || "Verify user benefits in the official account"))}</span>
+            <span className="v3-tg-feat-item">✓ {claimsVerified ? (isZh ? zhText(locale, `按官方规则核对 -${formatPercent(locale, rebatePercent)} 用户权益`, `按官方規則核對 -${formatPercent(locale, rebatePercent)} 用戶權益`) : `${telegramUi.benefit || "Verify the user benefit under official rules"}`) : (isZh ? zhText(locale, "官方账户内核验用户权益", "官方帳戶內核驗用戶權益") : (telegramUi.benefit || "Verify user benefits in the official account"))}</span>
             <span className="v3-tg-feat-item">✓ {isZh ? zhText(locale, "官方储备与风险来源链接", "官方儲備與風險來源連結") : (telegramUi.sources || "Official reserve and risk source links")}</span>
           </div>
         </div>
@@ -2318,13 +2320,19 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const venueHeroSummary = reviewedDecision
     ? reviewedDecisionHeroSummary(localizedVenueName, locale, reviewedDecision)
     : (research?.contentLocale === locale ? research.summary : profile.positioning);
-  const detailTitleStr = text.detailTitle(localizedVenueName);
-  const [titleBefore, titleAfter] = detailTitleStr.includes(localizedVenueName)
-    ? detailTitleStr.split(localizedVenueName)
-    : ["", ""];
-
   const venueCta = regionalVenueCta(venue.slug, locale, market, product, { accountStage, funding });
   const { db, partner, officialDomain, inviteCode, hasReferral, rebatePercent, benefitText, commercialClaim } = venueCta;
+  // Owner 2026-10-10 (GSC: exchange pages earn impressions, no clicks): the H1 carries the search intent, under the same
+  // referral-title policy as the <title> (referral-seo.js: ru, ar and zh-Hant stay neutral; tr only for SPK-listed
+  // venues). The invite code is the data-bound one from the CTA, never typed here.
+  const referralHeadlineCode = hasReferral && inviteCode && referralSeoFor(venue.slug, locale) ? inviteCode : null;
+  const detailTitleStr = referralHeadlineCode
+    ? text.detailReferralTitle(localizedVenueName, referralHeadlineCode, new Date().getUTCFullYear())
+    : text.detailFeesTitle(localizedVenueName);
+  const [titleBefore, titleAfter] = detailTitleStr.includes(localizedVenueName)
+    ? detailTitleStr.split(localizedVenueName)
+    : [detailTitleStr, ""];
+  const titleSuffixGap = /^\s/.test(titleAfter) ? " " : "";
   const routeUi = dexFeeCompactUi(locale, localizedVenueName, false);
   const trustScore = db.trustScore && db.trustScoreSourceReviewedAt ? Number(db.trustScore) : null;
   const trustLabel = trustScore == null ? localePending(locale) : (trustScore >= 9.0 ? `AA+ ${trustScore}` : `AA ${trustScore}`);
@@ -2536,7 +2544,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
               {ownerQuestionTitle ? (
                 ownerQuestionTitle
               ) : (
-                <>{titleBefore}<bdi translate="no" lang={isZhLocale ? "zh-Hans" : "en"}>{localizedVenueName}</bdi>{titleAfter && <> <span className="v3-venue-title__suffix">{titleAfter.trim()}</span></>}</>
+                <>{titleBefore}{detailTitleStr.includes(localizedVenueName) && <bdi translate="no" lang={isZhLocale ? "zh-Hans" : "en"}>{localizedVenueName}</bdi>}{titleAfter && <>{titleSuffixGap}<span className="v3-venue-title__suffix">{titleAfter.trim()}</span></>}</>
               )}
             </h1>
           </div>
@@ -2902,7 +2910,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
           {codeFeedback.state !== "idle" && <CopyFeedbackStatus state={codeFeedback.state} locale={locale} />}
         </button>
         <div className="v3-mobile-sticky-bar__perk">
-          <span className="v3-mobile-sticky-bar__discount">{commercialClaim.status === "verified" ? `-${rebatePercent}%` : runtimeUi.stickyOfficial}</span>
+          <span className="v3-mobile-sticky-bar__discount">{commercialClaim.status === "verified" ? `-${formatPercent(locale, rebatePercent)}` : runtimeUi.stickyOfficial}</span>
           <span>{hasReferral ? (isZhLocale ? zhText(locale, "手续费权益", "手續費權益") : runtimeUi.stickyFeeBenefit) : (isZhLocale ? zhText(locale, "官方入口", "官方入口") : runtimeUi.stickyDirectRoute)}</span>
         </div>
         {stickyOpensSignup ? (
@@ -3750,7 +3758,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                         <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
                           {Number.isFinite(d.rebate) && d.rebate > 0 && d.netCostPublishable && (
                             <span className="v3-matrix-saving-pill">
-                              {isZh ? `已核验用户权益 ${d.rebate}%` : `${compareFeeSurfaceCopy(locale).benefit} ${d.rebate}%`}
+                              {isZh ? `已核验用户权益 ${formatPercent(locale, d.rebate)}` : `${compareFeeSurfaceCopy(locale).benefit} ${formatPercent(locale, d.rebate)}`}
                             </span>
                           )}
                           {isWinner && (

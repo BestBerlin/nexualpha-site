@@ -63,8 +63,8 @@ test("Wave33 Uniswap testnet query says testnet is not mainnet real-money execut
   assert.equal(server.robots, "index,follow");
   assert.match(client.title, /Uniswap Testnet, Mainnet, Permit2/);
   assert.match(server.title, /Uniswap Testnet, Mainnet, Permit2/);
-  assert.match(client.description, /wallet transaction preview before any swap/);
-  assert.match(server.description, /wallet transaction preview before any swap/);
+  assert.match(client.description, /wallet transaction preview/);
+  assert.match(server.description, /wallet transaction preview/);
   assert.match(joined, /Ethereum Sepolia, Unichain Sepolia and Base Sepolia/);
   assert.match(joined, /only Ethereum Sepolia and Unichain Sepolia as testnet options/);
   assert.match(joined, /not proof of mainnet liquidity or token safety/);

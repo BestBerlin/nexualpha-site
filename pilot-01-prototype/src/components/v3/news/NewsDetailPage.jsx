@@ -20,6 +20,7 @@ import { OnsiteTelegramBotHandoff } from "../OnsiteTelegramBotHandoff.jsx";
 import { TopDecisionBox } from "../TopDecisionBox.jsx";
 import { NewsVenueOffer } from "./NewsVenueOffer.jsx";
 import { NewsTelegramAlerts } from "./NewsTelegramAlerts.jsx";
+import { createPartnerAutolinker, relatedPartnerLinks } from "./partner-autolink.js";
 import "./news-detail-page.css";
 
 const copy = {
@@ -521,9 +522,9 @@ const sectionNavigationLabels = {"en": "Jump to section", "zh-Hans": "跳转到�
 // Inline markdown in article prose: [label](https://...) links, **strong** and `code`. Only http(s) targets are
 // linked; anything else stays plain text.
 const INLINE_TOKEN = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*|`([^`]+)`/g;
-function renderInline(text) {
+function renderInline(text, linker = null) {
   const value = String(text);
-  if (!/\]\(http|\*\*|`/.test(value)) return value;
+  if (!/\]\(http|\*\*|`/.test(value)) return linker ? linker.linkSegments([value]) : value;
   const parts = [];
   let last = 0;
   for (const match of value.matchAll(INLINE_TOKEN)) {
@@ -534,12 +535,14 @@ function renderInline(text) {
     last = match.index + match[0].length;
   }
   if (last < value.length) parts.push(value.slice(last));
-  return parts;
+  // Existing links, bold and code are React elements here and pass through the linker untouched.
+  return linker ? linker.linkSegments(parts) : parts;
 }
 
-function renderMarkdownBlock(block, index, t) {
-  if (block.startsWith("### ")) return <h3 key={index}>{block.replace(/^### /, "")}</h3>;
-  if (block.startsWith("## ")) return <h2 key={index} id={`article-section-${index}`} tabIndex={-1}>{block.replace(/^## /, "")}</h2>;
+function renderMarkdownBlock(block, index, t, linker = null) {
+  // Headings count as mentions for the related line but never carry a partner link.
+  if (block.startsWith("### ")) { linker?.observe(block); return <h3 key={index}>{block.replace(/^### /, "")}</h3>; }
+  if (block.startsWith("## ")) { linker?.observe(block); return <h2 key={index} id={`article-section-${index}`} tabIndex={-1}>{block.replace(/^## /, "")}</h2>; }
   const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
   if (lines.length >= 2 && lines.every((line) => line.startsWith("|"))) {
     const rows = lines
@@ -556,7 +559,7 @@ function renderMarkdownBlock(block, index, t) {
             </thead>
             <tbody>
               {body.map((row, rowIndex) => (
-                <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={`${rowIndex}-${cellIndex}`}>{renderInline(cell)}</td>)}</tr>
+                <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={`${rowIndex}-${cellIndex}`}>{renderInline(cell, linker)}</td>)}</tr>
               ))}
             </tbody>
           </table>
@@ -569,15 +572,15 @@ function renderMarkdownBlock(block, index, t) {
     const items = lines.filter((line) => line.startsWith("- ")).map((line) => line.replace(/^- /, ""));
     return (
       <React.Fragment key={index}>
-        {leadLines.length > 0 && <p>{renderInline(leadLines.join(" "))}</p>}
+        {leadLines.length > 0 && <p>{renderInline(leadLines.join(" "), linker)}</p>}
         {/* a list of short terms flows into columns (a 7-item glossary was a 280px-tall strip beside empty space) */}
         <ul className={items.length >= 4 && items.every((item) => item.trim().length <= 40) ? "news-detail__terms" : undefined}>
-          {items.map((item, itemIndex) => <li key={itemIndex}>{renderInline(item.trim())}</li>)}
+          {items.map((item, itemIndex) => <li key={itemIndex}>{renderInline(item.trim(), linker)}</li>)}
         </ul>
       </React.Fragment>
     );
   }
-  return <p key={index}>{renderInline(block)}</p>;
+  return <p key={index}>{renderInline(block, linker)}</p>;
 }
 
 export function NewsDetailPage({ slug, locale = "en", market, product, initialArticles }) {
@@ -682,6 +685,17 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const showsOriginalLanguage = contentLocale !== locale;
   const { leadBlocks, deepBlocks } = splitArticleReadingSections(content);
   const leadBlockCount = leadBlocks.length;
+  // Owner 2026-10-10: first plain-text mention of each partner exchange links to its profile; the state lives for one
+  // render, so server and client output stay identical.
+  const partnerLinker = createPartnerAutolinker({
+    locale,
+    createLink: ({ slug, href, text }) => (
+      <a key={`partner-${slug}`} href={withContext(href)} className="news-detail__partner-link" data-partner-link={slug} data-cta-kind="research" data-cta-placement="news-detail-partner-mention">{text}</a>
+    ),
+  });
+  const leadNodes = leadBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index, t, partnerLinker));
+  const deepNodes = deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t, partnerLinker));
+  const relatedPartners = relatedPartnerLinks({ locale, slugs: partnerLinker.mentionedSlugs() });
   const sectionLabel = sectionNavigationLabels[locale] || sectionNavigationLabels.en;
   const sectionTargets = articleSectionTargets([...leadBlocks, ...deepBlocks], article.sources.length > 0, leadBlockCount, t.sourcesTitle);
   const jumpToSection = (id) => {
@@ -751,7 +765,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             </select>
           </nav>}
           <div className="news-detail__prose news-detail__prose--lead">
-            {leadBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index, t))}
+            {leadNodes}
           </div>
           {deepBlocks.length > 0 && <details
             ref={articleDisclosureRef}
@@ -764,9 +778,26 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
               <span aria-hidden="true">{showFullArticle ? "−" : "+"}</span>
             </summary>
             <div className="news-detail__prose news-detail__prose--deep">
-              {deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t))}
+              {deepNodes}
             </div>
           </details>}
+          {relatedPartners && (
+            <p className="news-detail__related-partners" lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} data-news-related-partners="">
+              <span className="news-detail__related-partners-label">{relatedPartners.label}:</span>
+              {relatedPartners.profiles.map((profile, index) => (
+                <React.Fragment key={profile.slug}>
+                  {index > 0 && <span aria-hidden="true"> · </span>}
+                  <a href={withContext(profile.href)} data-related-partner={profile.slug} data-cta-kind="research" data-cta-placement="news-detail-related-partners">{profile.label}</a>
+                </React.Fragment>
+              ))}
+              {relatedPartners.compare && (
+                <>
+                  <span aria-hidden="true"> · </span>
+                  <a href={withContext(relatedPartners.compare.href)} data-related-compare={relatedPartners.compare.slug} data-cta-kind="research" data-cta-placement="news-detail-related-partners">{relatedPartners.compare.label}</a>
+                </>
+              )}
+            </p>
+          )}
           <NewsTelegramAlerts locale={locale} />
           <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="inline" />
           {article.sources.length > 0 && (

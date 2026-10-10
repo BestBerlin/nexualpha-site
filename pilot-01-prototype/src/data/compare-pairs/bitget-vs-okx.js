@@ -19,7 +19,7 @@ const copy = {
       faq("Does either page prove I am eligible in my country?", "No. Both restrict several jurisdictions and OKX applies stricter P2P onboarding in some zones. Use this page as a checklist and the official registration screen as the answer."),
     ],
     seoTitle: "Bitget vs OKX: Copy Trading, Web3 Wallet, Fees and KYC Checks — NexuAlpha",
-    seoDescription: "Compare Bitget and OKX by copy trading, derivatives and options scope, Web3 wallet route, published fee rows, proof-of-reserves, identity checks and regional limits before opening an account.",
+    seoDescription: "Bitget vs OKX: product range, Web3 wallet routes, published fees, proof of reserves, identity checks and regional limits, compared before you open an account.",
     seoQuestion: "How should I compare Bitget and OKX before choosing an exchange?",
   },
   "zh-Hans": {
@@ -73,7 +73,7 @@ const copy = {
       faq("¿Alguna de las dos páginas prueba que soy elegible en mi país?", "No. Ambos restringen varias jurisdicciones y OKX aplica un alta en P2P más estricta en algunas zonas. Usa esta página como lista de verificación y la pantalla oficial de registro como respuesta."),
     ],
     seoTitle: "Bitget vs OKX: copy trading, cartera Web3, comisiones y KYC — NexuAlpha",
-    seoDescription: "Compara Bitget y OKX por copy trading, derivados y opciones, cartera Web3, comisiones publicadas, prueba de reservas, verificación de identidad y límites regionales antes de abrir cuenta.",
+    seoDescription: "Bitget vs OKX: gama de productos, rutas Web3, comisiones publicadas, prueba de reservas, verificación de identidad y límites regionales, antes de abrir cuenta.",
     seoQuestion: "¿Cómo comparar Bitget y OKX antes de elegir un exchange?",
   },
   "pt-BR": {
@@ -91,7 +91,7 @@ const copy = {
       faq("Alguma das páginas prova que sou elegível no meu país?", "Não. As duas restringem várias jurisdições e a OKX aplica regras de P2P mais rígidas em algumas regiões. Use esta página como lista de verificação e a tela oficial de cadastro como resposta."),
     ],
     seoTitle: "Bitget vs OKX: copy trading, carteira Web3, taxas e KYC — NexuAlpha",
-    seoDescription: "Compare Bitget e OKX por copy trading, derivativos e opções, carteira Web3, taxas publicadas, prova de reservas, verificação de identidade e limites regionais antes de abrir conta.",
+    seoDescription: "Bitget vs OKX: gama de produtos, rotas Web3, taxas publicadas, prova de reservas, verificação de identidade e limites regionais, antes de abrir conta.",
     seoQuestion: "Como comparar Bitget e OKX antes de escolher uma corretora?",
   },
   fr: {
@@ -109,7 +109,7 @@ const copy = {
       faq("L’une des deux pages prouve-t-elle mon éligibilité dans mon pays ?", "Non. Les deux restreignent plusieurs juridictions et OKX applique un accès P2P plus strict dans certaines zones. Utilisez cette page comme liste de contrôle et l’écran officiel d’inscription comme réponse."),
     ],
     seoTitle: "Bitget vs OKX : copy trading, wallet Web3, frais et KYC — NexuAlpha",
-    seoDescription: "Comparez Bitget et OKX : copy trading, dérivés et options, wallet Web3, frais publiés, preuve de réserves, vérification d’identité et limites régionales avant d’ouvrir un compte.",
+    seoDescription: "Bitget vs OKX : gamme de produits, routes Web3, frais publiés, preuve de réserves, vérification d’identité et limites régionales, avant d’ouvrir un compte.",
     seoQuestion: "Comment comparer Bitget et OKX avant de choisir un exchange ?",
   },
   de: {
@@ -127,7 +127,7 @@ const copy = {
       faq("Beweist eine der Seiten, dass ich in meinem Land berechtigt bin?", "Nein. Beide schränken mehrere Jurisdiktionen ein, und OKX prüft das P2P-Onboarding in manchen Zonen strenger. Nutzen Sie diese Seite als Checkliste und den offiziellen Registrierungsbildschirm als Antwort."),
     ],
     seoTitle: "Bitget vs OKX: Copy Trading, Web3-Wallet, Gebühren und KYC — NexuAlpha",
-    seoDescription: "Vergleichen Sie Bitget und OKX nach Copy Trading, Derivaten und Optionen, Web3-Wallet, veröffentlichten Gebühren, Reservenachweis, Identitätsprüfung und regionalen Grenzen vor der Kontoeröffnung.",
+    seoDescription: "Bitget vs. OKX: Produktpalette, Web3-Wallet-Wege, veröffentlichte Gebühren, Reservenachweis, Identitätsprüfung und regionale Grenzen im Vergleich.",
     seoQuestion: "Wie vergleiche ich Bitget und OKX vor der Wahl einer Börse?",
   },
   ja: {
@@ -145,7 +145,7 @@ const copy = {
       faq("どちらのページも、自分の国で利用できる証明になりますか？", "なりません。両社とも複数の法域を制限しており、OKX は一部地域で P2P 入金の審査が厳しくなります。このページはチェックリストとして使い、答えは公式の登録画面で確認してください。"),
     ],
     seoTitle: "Bitget vs OKX：コピー取引、Web3 ウォレット、手数料、KYC の確認 — NexuAlpha",
-    seoDescription: "Bitget と OKX をコピー取引、デリバティブとオプションの範囲、Web3 ウォレットのルート、公開手数料行、準備金証明、本人確認、地域制限で比較し、口座開設前の確認点を整理します。",
+    seoDescription: "Bitget と OKX を商品範囲、Web3 ウォレット、公開手数料、準備金証明、本人確認、地域制限で比較する資料。",
     seoQuestion: "取引所を選ぶ前に Bitget と OKX をどう比較すべきですか？",
   },
   ko: {
@@ -163,7 +163,7 @@ const copy = {
       faq("두 페이지 중 하나가 제 국가에서의 이용 자격을 증명하나요?", "아닙니다. 두 곳 모두 여러 관할권을 제한하고, OKX는 일부 지역에서 P2P 입금 심사가 더 엄격합니다. 이 페이지는 체크리스트로 쓰고, 답은 공식 가입 화면에서 확인하세요."),
     ],
     seoTitle: "Bitget vs OKX: 카피트레이딩, Web3 지갑, 수수료, KYC 확인 — NexuAlpha",
-    seoDescription: "Bitget과 OKX를 카피트레이딩, 파생상품·옵션 범위, Web3 지갑 경로, 공개 수수료 행, 준비금 증명, 신원 확인, 지역 제한으로 비교하고 계정 개설 전 확인할 항목을 정리합니다.",
+    seoDescription: "Bitget과 OKX를 상품 범위, Web3 지갑 경로, 공개 수수료, 준비금 증명, 신원 확인, 지역 제한으로 비교한 자료.",
     seoQuestion: "거래소를 고르기 전에 Bitget과 OKX를 어떻게 비교해야 하나요?",
   },
   ar: {
@@ -181,7 +181,7 @@ const copy = {
       faq("هل تثبت أي من الصفحتين أهليتي في بلدي؟", "لا. كلتاهما تقيّد عدة ولايات قضائية، وتطبّق OKX تحققاً أشد لإيداع P2P في بعض المناطق. استخدم هذه الصفحة كقائمة فحص، وشاشة التسجيل الرسمية كجواب."),
     ],
     seoTitle: "Bitget مقابل OKX: نسخ التداول ومحفظة Web3 والرسوم وKYC — NexuAlpha",
-    seoDescription: "قارن Bitget وOKX حسب نسخ التداول ونطاق المشتقات والخيارات ومسار محفظة Web3 وصفوف الرسوم المنشورة وإثبات الاحتياطي والتحقق من الهوية والقيود الإقليمية قبل فتح الحساب.",
+    seoDescription: "مقارنة Bitget وOKX من حيث نطاق المنتجات ومسارات محفظة Web3 والرسوم المنشورة وإثبات الاحتياطي والتحقق من الهوية والقيود الإقليمية.",
     seoQuestion: "كيف أقارن Bitget وOKX قبل اختيار منصة؟",
   },
   tr: {
@@ -199,7 +199,7 @@ const copy = {
       faq("Sayfalardan biri ülkemde uygun olduğumu kanıtlar mı?", "Hayır. İkisi de birçok yargı bölgesini kısıtlar ve OKX bazı bölgelerde P2P girişinde daha sıkı davranır. Bu sayfayı kontrol listesi, resmî kayıt ekranını cevap olarak kullanın."),
     ],
     seoTitle: "Bitget vs OKX: copy trading, Web3 cüzdanı, ücretler ve KYC — NexuAlpha",
-    seoDescription: "Hesap açmadan önce Bitget ve OKX'i copy trading, türev ve opsiyon kapsamı, Web3 cüzdan yolu, yayımlanan ücret satırları, rezerv kanıtı, kimlik doğrulama ve bölgesel sınırlar açısından karşılaştırın.",
+    seoDescription: "Bitget ve OKX karşılaştırması: ürün yelpazesi, Web3 cüzdan yolları, yayımlanan ücretler, rezerv kanıtı, kimlik doğrulama ve bölgesel sınırlar.",
     seoQuestion: "Borsa seçmeden önce Bitget ve OKX nasıl karşılaştırılmalı?",
   },
   ru: {
@@ -217,7 +217,7 @@ const copy = {
       faq("Подтверждает ли какая-то из страниц доступность в моей стране?", "Нет. Обе ограничивают ряд юрисдикций, а OKX в некоторых зонах строже проверяет P2P. Используйте эту страницу как чек-лист, а официальный экран регистрации — как ответ."),
     ],
     seoTitle: "Bitget и OKX: копитрейдинг, Web3-кошелёк, комиссии и KYC — NexuAlpha",
-    seoDescription: "Сравнение Bitget и OKX по копитрейдингу, деривативам и опционам, Web3-кошельку, опубликованным комиссиям, подтверждению резервов, проверке личности и региональным ограничениям.",
+    seoDescription: "Сравнение Bitget и OKX: линейка продуктов, Web3-кошелёк, опубликованные комиссии, подтверждение резервов, проверка личности и региональные ограничения.",
     seoQuestion: "Как сравнить Bitget и OKX перед выбором биржи?",
   },
   id: {
@@ -235,7 +235,7 @@ const copy = {
       faq("Apakah salah satu halaman membuktikan saya memenuhi syarat di negara saya?", "Tidak. Keduanya membatasi beberapa yurisdiksi dan OKX menerapkan onboarding P2P lebih ketat di beberapa zona. Gunakan halaman ini sebagai daftar periksa dan layar pendaftaran resmi sebagai jawabannya."),
     ],
     seoTitle: "Bitget vs OKX: copy trading, wallet Web3, biaya, dan KYC — NexuAlpha",
-    seoDescription: "Bandingkan Bitget dan OKX berdasarkan copy trading, cakupan derivatif dan opsi, jalur wallet Web3, baris biaya yang dipublikasikan, bukti cadangan, verifikasi identitas, dan batasan wilayah sebelum membuka akun.",
+    seoDescription: "Bitget vs OKX: cakupan produk, jalur dompet Web3, biaya yang dipublikasikan, bukti cadangan, verifikasi identitas, dan batasan wilayah sebelum membuka akun.",
     seoQuestion: "Bagaimana membandingkan Bitget dan OKX sebelum memilih bursa?",
   },
   vi: {
@@ -253,7 +253,7 @@ const copy = {
       faq("Trang nào chứng minh tôi đủ điều kiện ở quốc gia của mình?", "Không trang nào. Cả hai đều hạn chế nhiều khu vực pháp lý và OKX siết nạp P2P chặt hơn ở một số vùng. Dùng trang này như danh sách kiểm tra, còn màn hình đăng ký chính thức mới là câu trả lời."),
     ],
     seoTitle: "Bitget vs OKX: copy trading, ví Web3, phí và KYC — NexuAlpha",
-    seoDescription: "So sánh Bitget và OKX theo copy trading, phạm vi phái sinh và quyền chọn, đường ví Web3, hàng phí công bố, bằng chứng dự trữ, xác minh danh tính và giới hạn khu vực trước khi mở tài khoản.",
+    seoDescription: "Bitget và OKX: phạm vi sản phẩm, ví Web3, phí công bố, bằng chứng dự trữ, xác minh danh tính và giới hạn khu vực, so sánh trước khi mở tài khoản.",
     seoQuestion: "Nên so sánh Bitget và OKX thế nào trước khi chọn sàn?",
   },
   it: {
@@ -271,7 +271,7 @@ const copy = {
       faq("Una delle due pagine prova che sono idoneo nel mio paese?", "No. Entrambi limitano diverse giurisdizioni e OKX applica controlli P2P più severi in alcune zone. Usa questa pagina come checklist e la schermata ufficiale di registrazione come risposta."),
     ],
     seoTitle: "Bitget vs OKX: copy trading, wallet Web3, commissioni e KYC — NexuAlpha",
-    seoDescription: "Confronta Bitget e OKX per copy trading, derivati e opzioni, wallet Web3, commissioni pubblicate, proof-of-reserves, verifica d’identità e limiti regionali prima di aprire un account.",
+    seoDescription: "Bitget vs OKX: gamma di prodotti, rotte Web3, commissioni pubblicate, proof-of-reserves, verifica d’identità e limiti regionali, prima di aprire un conto.",
     seoQuestion: "Come confrontare Bitget e OKX prima di scegliere un exchange?",
   },
 };

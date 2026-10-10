@@ -8,7 +8,7 @@ import { routeMetadata } from "../worker/index.js";
 
 const EXPECTED_PARTNER_REGISTRY_SHA = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
 const EXPECTED_TITLE = "Hyperliquid Fees, Referral Discount and Funded Account Checks — NexuAlpha";
-const EXPECTED_DESCRIPTION = "Review Hyperliquid rolling 14-day fee tiers, hourly funding, referral discount vs cashback language, USDC collateral, sub-accounts, vault volume and funded-account claim boundaries.";
+const EXPECTED_DESCRIPTION = "Review Hyperliquid 14-day fee tiers, hourly funding, referral discount vs cashback language, USDC collateral, sub-accounts, vaults and funded-account claims.";
 const HYPERLIQUID_DOCS = "https://hyperliquid.gitbook.io/hyperliquid-docs";
 
 function assets() {

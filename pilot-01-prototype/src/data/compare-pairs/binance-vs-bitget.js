@@ -19,7 +19,7 @@ const copy = {
       faq("Can I rely on this page for my country?", "Only as a checklist. Both exchanges restrict several countries and the lists change. The official registration screen for your residence is the final answer."),
     ],
     seoTitle: "Binance vs Bitget: Fees, Copy Trading, KYC and Fiat Checks — NexuAlpha",
-    seoDescription: "Compare Binance and Bitget by published fee rows, liquidity depth, copy trading, proof-of-reserves, fiat routes, identity checks and regional limits before opening either account.",
+    seoDescription: "Compare Binance and Bitget by published fee rows, liquidity depth, copy trading, proof-of-reserves, fiat routes, identity checks and regional limits.",
     seoQuestion: "How should I compare Binance and Bitget before opening an account?",
   },
   "zh-Hans": {
@@ -73,7 +73,7 @@ const copy = {
       faq("¿Puedo fiarme de esta página para mi país?", "Solo como lista de verificación. Ambos exchanges restringen varios países y las listas cambian. La pantalla oficial de registro para tu residencia es la respuesta final."),
     ],
     seoTitle: "Binance vs Bitget: comisiones, copy trading, KYC y vías fiat — NexuAlpha",
-    seoDescription: "Compara Binance y Bitget por comisiones publicadas, profundidad de liquidez, copy trading, prueba de reservas, vías fiat, verificación de identidad y límites regionales antes de abrir cuenta.",
+    seoDescription: "Compara Binance y Bitget por comisiones publicadas, liquidez, copy trading, prueba de reservas, vías fiat, verificación de identidad y límites regionales.",
     seoQuestion: "¿Cómo comparar Binance y Bitget antes de abrir una cuenta?",
   },
   "pt-BR": {
@@ -91,7 +91,7 @@ const copy = {
       faq("Posso confiar nesta página para o meu país?", "Só como lista de verificação. As duas corretoras restringem vários países e as listas mudam. A tela oficial de cadastro para a sua residência é a resposta final."),
     ],
     seoTitle: "Binance vs Bitget: taxas, copy trading, KYC e canais fiat — NexuAlpha",
-    seoDescription: "Compare Binance e Bitget por taxas publicadas, profundidade de liquidez, copy trading, prova de reservas, canais fiat, verificação de identidade e limites regionais antes de abrir conta.",
+    seoDescription: "Compare Binance e Bitget por taxas publicadas, liquidez, copy trading, prova de reservas, canais fiat, verificação de identidade e limites regionais.",
     seoQuestion: "Como comparar Binance e Bitget antes de abrir uma conta?",
   },
   fr: {
@@ -109,7 +109,7 @@ const copy = {
       faq("Puis-je me fier à cette page pour mon pays ?", "Seulement comme liste de contrôle. Les deux exchanges restreignent plusieurs pays et les listes évoluent. L’écran officiel d’inscription pour votre résidence reste la réponse finale."),
     ],
     seoTitle: "Binance vs Bitget : frais, copy trading, KYC et accès fiat — NexuAlpha",
-    seoDescription: "Comparez Binance et Bitget : frais publiés, profondeur de liquidité, copy trading, preuve de réserves, passerelles fiat, vérification d’identité et limites régionales avant d’ouvrir un compte.",
+    seoDescription: "Comparez Binance et Bitget : frais publiés, liquidité, copy trading, preuve de réserves, passerelles fiat, vérification d’identité et limites régionales.",
     seoQuestion: "Comment comparer Binance et Bitget avant d’ouvrir un compte ?",
   },
   de: {
@@ -127,7 +127,7 @@ const copy = {
       faq("Kann ich mich für mein Land auf diese Seite verlassen?", "Nur als Checkliste. Beide Börsen schränken mehrere Länder ein und die Listen ändern sich. Der offizielle Registrierungsbildschirm für Ihren Wohnsitz ist die endgültige Antwort."),
     ],
     seoTitle: "Binance vs Bitget: Gebühren, Copy Trading, KYC und Fiat-Zugang — NexuAlpha",
-    seoDescription: "Vergleichen Sie Binance und Bitget nach veröffentlichten Gebühren, Liquiditätstiefe, Copy Trading, Reservenachweis, Fiat-Wegen, Identitätsprüfung und regionalen Grenzen, bevor Sie ein Konto eröffnen.",
+    seoDescription: "Binance und Bitget im Vergleich: veröffentlichte Gebühren, Liquidität, Copy Trading, Reservenachweis, Fiat-Wege, Identitätsprüfung und regionale Grenzen.",
     seoQuestion: "Wie vergleiche ich Binance und Bitget vor der Kontoeröffnung?",
   },
   ja: {
@@ -145,7 +145,7 @@ const copy = {
       faq("このページで自分の国の利用可否を判断できますか？", "チェックリストとしてのみ利用してください。両社とも複数の国を制限しており、リストは変わります。最終的な回答は、居住地に対応する公式の登録画面です。"),
     ],
     seoTitle: "Binance vs Bitget：手数料、コピー取引、KYC、法定通貨ルートの確認 — NexuAlpha",
-    seoDescription: "Binance と Bitget を公開手数料行、流動性の深さ、コピー取引、準備金証明、法定通貨ルート、本人確認、地域制限で比較し、口座開設前に確認すべき点を整理します。",
+    seoDescription: "Binance と Bitget を公開手数料、流動性、コピー取引、準備金証明、法定通貨ルート、本人確認、地域制限で比較します。",
     seoQuestion: "口座開設前に Binance と Bitget をどう比較すべきですか？",
   },
   ko: {
@@ -163,7 +163,7 @@ const copy = {
       faq("이 페이지로 제 국가의 이용 가능 여부를 판단할 수 있나요?", "체크리스트로만 활용하세요. 두 거래소 모두 여러 국가를 제한하고 목록은 바뀝니다. 거주지에 해당하는 공식 가입 화면이 최종 답입니다."),
     ],
     seoTitle: "Binance vs Bitget: 수수료, 카피트레이딩, KYC, 법정화폐 경로 확인 — NexuAlpha",
-    seoDescription: "Binance와 Bitget을 공개 수수료 행, 유동성 깊이, 카피트레이딩, 준비금 증명, 법정화폐 경로, 신원 확인, 지역 제한으로 비교하고 계정 개설 전 확인할 항목을 정리합니다.",
+    seoDescription: "Binance와 Bitget을 공개 수수료, 유동성, 카피트레이딩, 준비금 증명, 법정화폐 경로, 신원 확인, 지역 제한으로 비교합니다.",
     seoQuestion: "계정 개설 전에 Binance와 Bitget을 어떻게 비교해야 하나요?",
   },
   ar: {
@@ -181,7 +181,7 @@ const copy = {
       faq("هل أعتمد على هذه الصفحة لمعرفة توفر الخدمة في بلدي؟", "كقائمة فحص فقط. كلتا المنصتين تقيّد عدة دول والقوائم تتغير. شاشة التسجيل الرسمية لبلد إقامتك هي الجواب النهائي."),
     ],
     seoTitle: "Binance مقابل Bitget: الرسوم ونسخ التداول وKYC ومسارات الإيداع — NexuAlpha",
-    seoDescription: "قارن Binance وBitget حسب صفوف الرسوم المنشورة وعمق السيولة ونسخ التداول وإثبات الاحتياطي ومسارات العملات الورقية والتحقق من الهوية والقيود الإقليمية قبل فتح أي حساب.",
+    seoDescription: "قارن Binance وBitget حسب صفوف الرسوم المنشورة وعمق السيولة ونسخ التداول وإثبات الاحتياطي ومسارات العملات الورقية والتحقق من الهوية والقيود الإقليمية.",
     seoQuestion: "كيف أقارن Binance وBitget قبل فتح حساب؟",
   },
   tr: {
@@ -199,7 +199,7 @@ const copy = {
       faq("Ülkem için bu sayfaya güvenebilir miyim?", "Yalnızca kontrol listesi olarak. İki borsa da birçok ülkeyi kısıtlar ve listeler değişir. İkamet ettiğiniz ülke için resmî kayıt ekranı nihai cevaptır."),
     ],
     seoTitle: "Binance vs Bitget: ücretler, copy trading, KYC ve fiat yolları — NexuAlpha",
-    seoDescription: "Hesap açmadan önce Binance ve Bitget'i yayımlanan ücret satırları, likidite derinliği, copy trading, rezerv kanıtı, fiat yolları, kimlik doğrulama ve bölgesel sınırlar açısından karşılaştırın.",
+    seoDescription: "Binance ve Bitget'i yayımlanan ücretler, likidite, copy trading, rezerv kanıtı, fiat yolları, kimlik doğrulama ve bölgesel sınırlar açısından karşılaştırın.",
     seoQuestion: "Hesap açmadan önce Binance ve Bitget nasıl karşılaştırılmalı?",
   },
   ru: {
@@ -217,7 +217,7 @@ const copy = {
       faq("Можно ли по этой странице судить о доступности в моей стране?", "Только как по чек-листу. Обе биржи ограничивают ряд стран, и списки меняются. Окончательный ответ даёт официальный экран регистрации для вашей страны проживания."),
     ],
     seoTitle: "Binance и Bitget: комиссии, копитрейдинг, KYC и фиатные каналы — NexuAlpha",
-    seoDescription: "Сравнение Binance и Bitget по опубликованным комиссиям, глубине ликвидности, копитрейдингу, подтверждению резервов, фиатным каналам, проверке личности и региональным ограничениям.",
+    seoDescription: "Сравнение Binance и Bitget по комиссиям, ликвидности, копитрейдингу, подтверждению резервов, фиатным каналам, проверке личности и региональным ограничениям.",
     seoQuestion: "Как сравнить Binance и Bitget перед открытием аккаунта?",
   },
   id: {
@@ -235,7 +235,7 @@ const copy = {
       faq("Bisakah saya mengandalkan halaman ini untuk negara saya?", "Hanya sebagai daftar periksa. Kedua bursa membatasi beberapa negara dan daftarnya berubah. Layar pendaftaran resmi untuk domisili Anda adalah jawaban akhirnya."),
     ],
     seoTitle: "Binance vs Bitget: biaya, copy trading, KYC, dan jalur fiat — NexuAlpha",
-    seoDescription: "Bandingkan Binance dan Bitget berdasarkan baris biaya yang dipublikasikan, kedalaman likuiditas, copy trading, bukti cadangan, jalur fiat, verifikasi identitas, dan batasan wilayah sebelum membuka akun.",
+    seoDescription: "Bandingkan Binance dan Bitget: biaya yang dipublikasikan, likuiditas, copy trading, bukti cadangan, jalur fiat, verifikasi identitas, dan batasan wilayah.",
     seoQuestion: "Bagaimana membandingkan Binance dan Bitget sebelum membuka akun?",
   },
   vi: {
@@ -253,7 +253,7 @@ const copy = {
       faq("Tôi có thể dựa vào trang này cho quốc gia của mình không?", "Chỉ như một danh sách kiểm tra. Cả hai sàn đều hạn chế nhiều quốc gia và danh sách thay đổi. Màn hình đăng ký chính thức cho nơi cư trú của bạn là câu trả lời cuối."),
     ],
     seoTitle: "Binance vs Bitget: phí, copy trading, KYC và kênh fiat — NexuAlpha",
-    seoDescription: "So sánh Binance và Bitget theo hàng phí công bố, độ sâu thanh khoản, copy trading, bằng chứng dự trữ, kênh fiat, xác minh danh tính và giới hạn khu vực trước khi mở tài khoản.",
+    seoDescription: "So sánh Binance và Bitget theo hàng phí công bố, độ sâu thanh khoản, copy trading, bằng chứng dự trữ, kênh fiat, xác minh danh tính và giới hạn khu vực.",
     seoQuestion: "Nên so sánh Binance và Bitget thế nào trước khi mở tài khoản?",
   },
   it: {
@@ -271,7 +271,7 @@ const copy = {
       faq("Posso fidarmi di questa pagina per il mio paese?", "Solo come checklist. Entrambi gli exchange limitano diversi paesi e le liste cambiano. La schermata ufficiale di registrazione per la tua residenza è la risposta definitiva."),
     ],
     seoTitle: "Binance vs Bitget: commissioni, copy trading, KYC e canali fiat — NexuAlpha",
-    seoDescription: "Confronta Binance e Bitget per commissioni pubblicate, profondità di liquidità, copy trading, proof-of-reserves, canali fiat, verifica d’identità e limiti regionali prima di aprire un account.",
+    seoDescription: "Confronta Binance e Bitget per commissioni pubblicate, liquidità, copy trading, proof-of-reserves, canali fiat, verifica d’identità e limiti regionali.",
     seoQuestion: "Come confrontare Binance e Bitget prima di aprire un account?",
   },
 };

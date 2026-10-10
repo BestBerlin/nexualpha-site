@@ -338,8 +338,29 @@ function searchPublicationLocales(pathname, options = {}) {
   if (topicSlug && TOPIC_GUIDES[topicSlug]) return SEARCH_PRIORITY_TOPICS.has(topicSlug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"];
   return [];
 }
+// Owner 2026-10-10 (GSC: 1,770 impressions, 4 clicks, no clicks on commercial pages): the home title and description carry
+// the commercial search intent (referral code / fee rebate, OKX, Bitget, Binance; headline "up to 60%" is owner-confirmed).
+// ja/ko stay informational (no sign-up wording); ru and ar stay neutral, matching the referral-title policy in
+// src/data/referral-seo.js. Titles ≤ 65 characters; descriptions ≤ 160 (80 for zh/ja/ko). Mirrored in the Worker.
+export const HOME_SEARCH_COPY = {
+  en: ["Crypto Exchange Referral Codes & Fee Rebates (2026) — NexuAlpha", "Compare OKX, Bitget and Binance fees, referral codes and rebates of up to 60% of trading fees, paid by the exchange. Partner links disclosed."],
+  "zh-Hans": ["交易所邀请码与手续费返佣：OKX、Bitget、币安对比 — NexuAlpha", "对比 OKX、Bitget、币安手续费与邀请码，返佣最高 60%，由交易所结算。官方注册入口，合作关系已披露。"],
+  "zh-Hant": ["交易所邀請碼與手續費返傭：OKX、Bitget、幣安比較 — NexuAlpha", "比較 OKX、Bitget、幣安手續費與邀請碼，返傭最高 60%，由交易所結算。官方註冊入口，合作關係已揭露。"],
+  es: ["Códigos de referido y reembolso de comisiones cripto — NexuAlpha", "Compara comisiones, códigos de referido y reembolsos de hasta el 60% en OKX, Bitget y Binance, pagados por el exchange. Enlaces de socio declarados."],
+  "pt-BR": ["Códigos de indicação e cashback de taxas cripto — NexuAlpha", "Compare taxas, códigos de indicação e cashback de até 60% das taxas na OKX, Bitget e Binance, pago pela corretora. Links oficiais; parceria informada."],
+  fr: ["Codes de parrainage et remises sur frais crypto — NexuAlpha", "Comparez frais, codes de parrainage et remises jusqu’à 60 % des frais sur OKX, Bitget et Binance, versées par la plateforme. Liens partenaires signalés."],
+  de: ["Krypto-Empfehlungscodes und Gebührenrabatte — NexuAlpha", "Gebühren, Empfehlungscodes und Rabatte von bis zu 60 % der Gebühren bei OKX, Bitget und Binance vergleichen, gezahlt von der Börse. Partnerlinks offengelegt."],
+  it: ["Codici referral e rimborso commissioni crypto — NexuAlpha", "Confronta commissioni, codici referral e rimborsi fino al 60% delle commissioni su OKX, Bitget e Binance, pagati dall’exchange. Link partner dichiarati."],
+  ja: ["暗号資産取引所の手数料と紹介コード比較（OKX・Bitget・Binance）— NexuAlpha", "OKX・Bitget・Binance の手数料と紹介コードを比較。取引手数料の最大60%が取引所から還元されます。提携関係を開示。"],
+  ko: ["암호화폐 거래소 수수료·추천코드 비교 (OKX·Bitget·Binance) — NexuAlpha", "OKX, Bitget, Binance 수수료와 추천코드를 비교합니다. 거래 수수료 최대 60%를 거래소가 돌려줍니다. 제휴 관계 공개."],
+  ru: ["Комиссии криптобирж: сравнение OKX, Bitget и Binance — NexuAlpha", "Сравнение комиссий OKX, Bitget и Binance по официальным тарифам: спот, фьючерсы, условия аккаунта и официальные ссылки. Партнёрские ссылки раскрыты."],
+  tr: ["Kripto borsası komisyon iadesi ve referans kodu — NexuAlpha", "OKX, Binance ve diğer borsaların komisyonlarını, referans kodlarını ve borsanın ödediği komisyon iadesini karşılaştırın. Ortaklık bağlantıları belirtilir."],
+  id: ["Kode referral dan rabat biaya exchange kripto — NexuAlpha", "Bandingkan biaya, kode referral, dan rabat hingga 60% biaya trading di OKX, Bitget, dan Binance, dibayar oleh exchange. Tautan resmi; kemitraan diungkapkan."],
+  vi: ["Mã giới thiệu và hoàn phí sàn giao dịch crypto — NexuAlpha", "So sánh phí, mã giới thiệu và hoàn phí đến 60% phí giao dịch tại OKX, Bitget và Binance, do sàn chi trả. Liên kết chính thức; có công bố quan hệ đối tác."],
+  ar: ["رسوم منصات العملات الرقمية: OKX وBitget وBinance — NexuAlpha", "مقارنة رسوم OKX وBitget وBinance وفق الجداول الرسمية: التداول الفوري والعقود وشروط الحساب وروابط التسجيل الرسمية. روابط الشراكة مُفصح عنها."],
+};
 const STATIC_COPY = {
-  "/": ["NexuAlpha — Independent Crypto Platform Research & Fee Comparison", "NexuAlpha — 独立加密交易平台评测与费率对比"],
+  "/": [HOME_SEARCH_COPY.en[0], HOME_SEARCH_COPY["zh-Hans"][0]],
   "/exchanges": ["Crypto Exchanges Directory & Fee Comparison — NexuAlpha", "交易平台黄页与手续费对比 — NexuAlpha"],
   "/activities": ["Official Crypto Campaigns — NexuAlpha", "官方活动中心 — NexuAlpha"],
   "/news": ["Market News & Research — NexuAlpha", "市场新闻与研究 — NexuAlpha"],
@@ -350,20 +371,20 @@ const STATIC_COPY = {
   "/partners": ["Partner Embeds & Distribution — NexuAlpha", "合作嵌入与内容分发 — NexuAlpha"],
 };
 const STATIC_COPY_LOCALIZED = {
-  "zh-Hans": { "/": "NexuAlpha — 独立加密交易平台评测与费率对比", "/exchanges": "加密交易平台目录与费率对比 — NexuAlpha", "/activities": "官方活动与上新 — NexuAlpha", "/news": "市场新闻与研究 — NexuAlpha", "/rates": "加密交易平台费率基准 — NexuAlpha" },
-  "zh-Hant": { "/": "NexuAlpha — 獨立加密交易平台評測與費率比較", "/exchanges": "加密交易平台目錄與費率比較 — NexuAlpha", "/activities": "官方活動與上新 — NexuAlpha", "/news": "市場新聞與研究 — NexuAlpha", "/rates": "加密交易平台費率基準 — NexuAlpha" },
-  ja: { "/": "NexuAlpha — 独立暗号資産プラットフォーム比較と手数料調査", "/exchanges": "暗号資産取引所一覧と手数料比較 — NexuAlpha", "/activities": "公式キャンペーン・新規特典 — NexuAlpha", "/news": "市場ニュースと調査 — NexuAlpha", "/rates": "暗号資産取引所の手数料ベンチマーク — NexuAlpha" },
-  ko: { "/": "NexuAlpha — 독립 암호화폐 플랫폼 비교 및 수수료 조사", "/exchanges": "암호화폐 거래소 목록 및 수수료 비교 — NexuAlpha", "/activities": "공식 캠페인 및 신규 혜택 — NexuAlpha", "/news": "시장 뉴스 및 리서치 — NexuAlpha", "/rates": "암호화폐 거래소 수수료 벤치마크 — NexuAlpha" },
-  tr: { "/": "NexuAlpha — Bağımsız kripto platformu karşılaştırması ve ücret araştırması", "/exchanges": "Kripto borsaları dizini ve ücret karşılaştırması — NexuAlpha", "/activities": "Resmî kampanyalar ve yeni üye fırsatları — NexuAlpha", "/news": "Piyasa haberleri ve araştırma — NexuAlpha", "/rates": "Kripto borsa ücretleri kıyaslama terminali — NexuAlpha" },
-  es: { "/": "NexuAlpha — Investigación y comparación independiente de plataformas cripto", "/exchanges": "Directorio de exchanges cripto y comparación de comisiones — NexuAlpha", "/activities": "Campañas oficiales y ventajas para nuevos usuarios — NexuAlpha", "/news": "Noticias del mercado e investigación — NexuAlpha", "/rates": "Terminal de comparación de comisiones cripto — NexuAlpha" },
-  "pt-BR": { "/": "NexuAlpha — Pesquisa e comparação independente de plataformas cripto", "/exchanges": "Diretório de exchanges cripto e comparação de taxas — NexuAlpha", "/activities": "Campanhas oficiais e benefícios para novos usuários — NexuAlpha", "/news": "Notícias de mercado e pesquisa — NexuAlpha", "/rates": "Terminal de comparação de taxas cripto — NexuAlpha" },
-  fr: { "/": "NexuAlpha — Recherche et comparaison indépendante des plateformes crypto", "/exchanges": "Annuaire des plateformes crypto et comparaison des frais — NexuAlpha", "/activities": "Campagnes officielles et avantages nouveaux utilisateurs — NexuAlpha", "/news": "Actualités du marché et recherche — NexuAlpha", "/rates": "Terminal de comparaison des frais crypto — NexuAlpha" },
-  de: { "/": "NexuAlpha — Unabhängiger Vergleich von Krypto-Plattformen", "/exchanges": "Krypto-Plattformverzeichnis und Gebührenvergleich — NexuAlpha", "/activities": "Offizielle Kampagnen und Vorteile für neue Nutzer — NexuAlpha", "/news": "Marktnachrichten und Recherche — NexuAlpha", "/rates": "Terminal für Krypto-Gebührenvergleiche — NexuAlpha" },
-  ar: { "/": "NexuAlpha — مقارنة مستقلة لمنصات العملات الرقمية", "/exchanges": "دليل منصات العملات الرقمية ومقارنة الرسوم — NexuAlpha", "/activities": "الحملات الرسمية ومزايا المستخدمين الجدد — NexuAlpha", "/news": "أخبار السوق والأبحاث — NexuAlpha", "/rates": "محطة مقارنة رسوم منصات العملات الرقمية — NexuAlpha" },
-  ru: { "/": "NexuAlpha — Независимое сравнение криптоплатформ", "/exchanges": "Каталог криптоплатформ и сравнение комиссий — NexuAlpha", "/activities": "Официальные кампании и бонусы для новых пользователей — NexuAlpha", "/news": "Новости рынка и исследования — NexuAlpha", "/rates": "Терминал сравнения комиссий криптоплатформ — NexuAlpha" },
-  id: { "/": "NexuAlpha — Riset dan perbandingan platform kripto independen", "/exchanges": "Direktori platform kripto dan perbandingan biaya — NexuAlpha", "/activities": "Kampanye resmi dan manfaat pengguna baru — NexuAlpha", "/news": "Berita pasar dan riset — NexuAlpha", "/rates": "Terminal perbandingan biaya kripto — NexuAlpha" },
-  vi: { "/": "NexuAlpha — Nghiên cứu và so sánh nền tảng tiền mã hóa độc lập", "/exchanges": "Danh mục nền tảng tiền mã hóa và so sánh phí — NexuAlpha", "/activities": "Chiến dịch chính thức và ưu đãi người dùng mới — NexuAlpha", "/news": "Tin tức thị trường và nghiên cứu — NexuAlpha", "/rates": "Thiết bị so sánh phí nền tảng tiền mã hóa — NexuAlpha" },
-  it: { "/": "NexuAlpha — Ricerca e confronto indipendente delle piattaforme crypto", "/exchanges": "Directory delle piattaforme crypto e confronto delle commissioni — NexuAlpha", "/activities": "Campagne ufficiali e vantaggi per nuovi utenti — NexuAlpha", "/news": "Notizie di mercato e ricerca — NexuAlpha", "/rates": "Terminale di confronto delle commissioni crypto — NexuAlpha" },
+  "zh-Hans": { "/": HOME_SEARCH_COPY["zh-Hans"][0], "/exchanges": "加密交易平台目录与费率对比 — NexuAlpha", "/activities": "官方活动与上新 — NexuAlpha", "/news": "市场新闻与研究 — NexuAlpha", "/rates": "加密交易平台费率基准 — NexuAlpha" },
+  "zh-Hant": { "/": HOME_SEARCH_COPY["zh-Hant"][0], "/exchanges": "加密交易平台目錄與費率比較 — NexuAlpha", "/activities": "官方活動與上新 — NexuAlpha", "/news": "市場新聞與研究 — NexuAlpha", "/rates": "加密交易平台費率基準 — NexuAlpha" },
+  ja: { "/": HOME_SEARCH_COPY["ja"][0], "/exchanges": "暗号資産取引所一覧と手数料比較 — NexuAlpha", "/activities": "公式キャンペーン・新規特典 — NexuAlpha", "/news": "市場ニュースと調査 — NexuAlpha", "/rates": "暗号資産取引所の手数料ベンチマーク — NexuAlpha" },
+  ko: { "/": HOME_SEARCH_COPY["ko"][0], "/exchanges": "암호화폐 거래소 목록 및 수수료 비교 — NexuAlpha", "/activities": "공식 캠페인 및 신규 혜택 — NexuAlpha", "/news": "시장 뉴스 및 리서치 — NexuAlpha", "/rates": "암호화폐 거래소 수수료 벤치마크 — NexuAlpha" },
+  tr: { "/": HOME_SEARCH_COPY["tr"][0], "/exchanges": "Kripto borsaları dizini ve ücret karşılaştırması — NexuAlpha", "/activities": "Resmî kampanyalar ve yeni üye fırsatları — NexuAlpha", "/news": "Piyasa haberleri ve araştırma — NexuAlpha", "/rates": "Kripto borsa ücretleri kıyaslama terminali — NexuAlpha" },
+  es: { "/": HOME_SEARCH_COPY["es"][0], "/exchanges": "Directorio de exchanges cripto y comparación de comisiones — NexuAlpha", "/activities": "Campañas oficiales y ventajas para nuevos usuarios — NexuAlpha", "/news": "Noticias del mercado e investigación — NexuAlpha", "/rates": "Terminal de comparación de comisiones cripto — NexuAlpha" },
+  "pt-BR": { "/": HOME_SEARCH_COPY["pt-BR"][0], "/exchanges": "Diretório de exchanges cripto e comparação de taxas — NexuAlpha", "/activities": "Campanhas oficiais e benefícios para novos usuários — NexuAlpha", "/news": "Notícias de mercado e pesquisa — NexuAlpha", "/rates": "Terminal de comparação de taxas cripto — NexuAlpha" },
+  fr: { "/": HOME_SEARCH_COPY["fr"][0], "/exchanges": "Annuaire des plateformes crypto et comparaison des frais — NexuAlpha", "/activities": "Campagnes officielles et avantages nouveaux utilisateurs — NexuAlpha", "/news": "Actualités du marché et recherche — NexuAlpha", "/rates": "Terminal de comparaison des frais crypto — NexuAlpha" },
+  de: { "/": HOME_SEARCH_COPY["de"][0], "/exchanges": "Krypto-Plattformverzeichnis und Gebührenvergleich — NexuAlpha", "/activities": "Offizielle Kampagnen und Vorteile für neue Nutzer — NexuAlpha", "/news": "Marktnachrichten und Recherche — NexuAlpha", "/rates": "Terminal für Krypto-Gebührenvergleiche — NexuAlpha" },
+  ar: { "/": HOME_SEARCH_COPY["ar"][0], "/exchanges": "دليل منصات العملات الرقمية ومقارنة الرسوم — NexuAlpha", "/activities": "الحملات الرسمية ومزايا المستخدمين الجدد — NexuAlpha", "/news": "أخبار السوق والأبحاث — NexuAlpha", "/rates": "محطة مقارنة رسوم منصات العملات الرقمية — NexuAlpha" },
+  ru: { "/": HOME_SEARCH_COPY["ru"][0], "/exchanges": "Каталог криптоплатформ и сравнение комиссий — NexuAlpha", "/activities": "Официальные кампании и бонусы для новых пользователей — NexuAlpha", "/news": "Новости рынка и исследования — NexuAlpha", "/rates": "Терминал сравнения комиссий криптоплатформ — NexuAlpha" },
+  id: { "/": HOME_SEARCH_COPY["id"][0], "/exchanges": "Direktori platform kripto dan perbandingan biaya — NexuAlpha", "/activities": "Kampanye resmi dan manfaat pengguna baru — NexuAlpha", "/news": "Berita pasar dan riset — NexuAlpha", "/rates": "Terminal perbandingan biaya kripto — NexuAlpha" },
+  vi: { "/": HOME_SEARCH_COPY["vi"][0], "/exchanges": "Danh mục nền tảng tiền mã hóa và so sánh phí — NexuAlpha", "/activities": "Chiến dịch chính thức và ưu đãi người dùng mới — NexuAlpha", "/news": "Tin tức thị trường và nghiên cứu — NexuAlpha", "/rates": "Thiết bị so sánh phí nền tảng tiền mã hóa — NexuAlpha" },
+  it: { "/": HOME_SEARCH_COPY["it"][0], "/exchanges": "Directory delle piattaforme crypto e confronto delle commissioni — NexuAlpha", "/activities": "Campagne ufficiali e vantaggi per nuovi utenti — NexuAlpha", "/news": "Notizie di mercato e ricerca — NexuAlpha", "/rates": "Terminale di confronto delle commissioni crypto — NexuAlpha" },
 };
 for (const [locale, title] of Object.entries({
   ar: "منهجية البحث والسياسة التحريرية — NexuAlpha", ru: "Методология исследований и редакционная политика — NexuAlpha", id: "Metodologi riset dan kebijakan editorial — NexuAlpha", vi: "Phương pháp nghiên cứu và chính sách biên tập — NexuAlpha", it: "Metodologia di ricerca e politica editoriale — NexuAlpha",
@@ -371,10 +392,7 @@ for (const [locale, title] of Object.entries({
 })) STATIC_COPY_LOCALIZED[locale]["/methodology"] = title;
 
 const STATIC_PAGE_COPY_LOCALIZED = {
-  "/": {
-    en: ["NexuAlpha — Independent Crypto Platform Research & Fee Comparison", "NexuAlpha is an independent platform research and comparison experience covering published fees, reserve sources, regional conditions and official source context. User benefits require official-term verification."],
-    "zh-Hant": ["NexuAlpha — 獨立加密交易平台評測與費率比較", "NexuAlpha 獨立整理加密平台公開費率、儲備來源、地區條件與官方路徑。帳戶條款與用戶權益需以官方流程核驗。"],
-  },
+  "/": { ...HOME_SEARCH_COPY },
   "/rates": {
     en: ["Crypto Exchange Fee Benchmark Terminal — NexuAlpha", "Compare published maker and taker fee references across CEX, DEX and perpetual platforms. Use the page as a scenario checklist, then verify VIP tier, funding, withdrawal and account terms on the official platform."],
     "zh-Hans": ["交易所手续费基准终端 — NexuAlpha", "对比中心化交易所、DEX 与永续合约平台公开的 Maker、Taker 手续费基准。"],
@@ -432,7 +450,7 @@ const STATIC_DESCRIPTION_LOCALIZED = {
   es: "Base independiente de plataformas cripto con comisiones publicadas, condiciones regionales y rutas oficiales. Verifica siempre los términos de tu cuenta.",
   "pt-BR": "Base independente de plataformas cripto com taxas publicadas, condições regionais e rotas oficiais. Confirme sempre os termos da sua conta.",
   fr: "Base indépendante de plateformes crypto avec frais publiés, conditions régionales et accès officiels. Vérifiez toujours les conditions de votre compte.",
-  de: "Unabhängige Datenbank für Krypto-Plattformen mit veröffentlichten Gebühren, regionalen Bedingungen und offiziellen Wegen. Prüfe immer die Bedingungen deines Kontos.",
+  de: "Unabhängige Datenbank für Krypto-Plattformen mit veröffentlichten Gebühren, regionalen Bedingungen und offiziellen Wegen. Prüfe die Bedingungen deines Kontos.",
   ar: "قاعدة مستقلة لمنصات العملات الرقمية تتضمن الرسوم المنشورة والشروط الإقليمية والروابط الرسمية. تحقق دائماً من شروط حسابك.",
   ru: "Независимая база криптоплатформ с опубликованными комиссиями, региональными условиями и официальными маршрутами. Всегда проверяйте условия своего аккаунта.",
   id: "Basis independen platform kripto dengan biaya yang dipublikasikan, ketentuan regional, dan jalur resmi. Selalu periksa ketentuan akun Anda.",
@@ -586,7 +604,7 @@ const VENUE_SEO_OVERRIDES = {
   },
   hyperliquid: {
     title: "Hyperliquid Fees, Referral Discount and Funded Account Checks — NexuAlpha",
-    description: "Review Hyperliquid rolling 14-day fee tiers, hourly funding, referral discount vs cashback language, USDC collateral, sub-accounts, vault volume and funded-account claim boundaries.",
+    description: "Review Hyperliquid 14-day fee tiers, hourly funding, referral discount vs cashback language, USDC collateral, sub-accounts, vaults and funded-account claims.",
     directAnswer: {
       question: "Is Hyperliquid a funded account or cashback platform, and what fees should I check before trading?",
       answer: "Hyperliquid fees should be read as a stack: rolling 14-day maker/taker fee tier, separate perp and spot schedules, hourly peer-to-peer funding, referral discount eligibility, USDC collateral route, margin mode, liquidation rules, sub-account or API-wallet permissions, and vault context. A Hyperliquid funded account search should separate self-funded wallet collateral, sub-accounts, API-wallet delegation and vault participation from third-party trader-funding offers; a cashback search should be checked against official referral discount and reward terms rather than treated as a guaranteed payout.",
@@ -635,7 +653,7 @@ const VENUE_SEO_OVERRIDES = {
   uniswap: {
     reviewedAt: "2026-09-16",
     title: "Uniswap Testnet, Mainnet, Permit2 and Swap Preview Checklist — NexuAlpha",
-    description: "Check Uniswap official app and docs, API and web testnet scope, mainnet chain, token contract, pool route, Permit2 spender, gas and wallet transaction preview before any swap.",
+    description: "Check Uniswap official app and docs, API and web testnet scope, mainnet chain, token contract, pool route, Permit2 spender, gas and wallet transaction preview.",
     directAnswer: {
       question: "How should I research Uniswap testnet or v4 hook routes before using a live swap?",
       answer: "For a Uniswap testnet query, first decide whether the task is developer testing, v4 hook review or a live-wallet route check, then separate API support from the official web interface. The reviewed source lists Ethereum Sepolia, Unichain Sepolia and Base Sepolia for API access, while the web interface lists only Ethereum Sepolia and Unichain Sepolia. Before a live swap, verify the official app URL, network-specific v4 deployment, token contract, Universal Router, Permit2 contract, spender, amount, expiration, gas asset, wallet simulation and final signed transaction. Testnet support and recognizable contract addresses do not prove mainnet liquidity, execution or signature safety.",
@@ -667,7 +685,7 @@ const VENUE_SEO_OVERRIDES = {
   },
   aerodrome: {
     title: "Aerodrome Review: Base DEX Fees, Pools, Slipstream & veAERO — NexuAlpha",
-    description: "Review Aerodrome search intent as a Base-native DEX path: pool-level fees, Slipstream routing, Base bridge, token contracts, gas, incentives and veAERO reward boundaries.",
+    description: "Aerodrome as a Base-native DEX path: pool-level fees, Slipstream routing, Base bridge, token contracts, gas, incentives and veAERO reward boundaries.",
     directAnswer: {
       question: "How should I check Aerodrome route and pool fee plus veAERO conditions?",
       answer: "Aerodrome is a Base-native DEX. Before swapping or adding liquidity, verify the official domain, Base network and bridge route, gas asset, token and pool contracts, standard or Slipstream pool type, displayed pool fee, liquidity, price impact and whether any incentive requires separate veAERO voting or locking. A pool route does not prove execution safety, regional availability or reward eligibility.",
@@ -689,7 +707,7 @@ const VENUE_SEO_OVERRIDES = {
   },
   jupiter: {
     title: "Jupiter Solana Swap Routes, Ultra Quotes and Fee Checks — NexuAlpha",
-    description: "Review Jupiter search intent across Swap and Ultra, token-list checks, Solana test quotes, no-route or failed-swap causes, platform fee boundaries, slippage, priority fees and route legs.",
+    description: "Jupiter Swap and Ultra: Solana test quotes, no-route or failed-swap causes, platform fee boundaries, slippage, priority fees and route legs.",
     directAnswer: {
       question: "How should I check Jupiter route, test quote and platform fee conditions?",
       answer: "For a Jupiter route query, first decide whether the task is a test quote, live swap, token-list check, Ultra route review, API integration or platform-fee review, plus failed-swap diagnosis. Use Jupiter as a Solana routing and transaction-building path, not a custodial account. Check Swap or Ultra route output, token mint status, liquidity, platform fee configuration, slippage, price impact, network cost and every route leg in the wallet before signing; a quote is not custody, route-safety proof or a final-cost promise.",
@@ -733,7 +751,7 @@ const VENUE_SEO_OVERRIDES = {
 const COMPARE_SEO_OVERRIDES = {
   "binance-vs-okx": {
     title: "Binance vs OKX: Fees, Products, KYC and Web3 Access Checks — NexuAlpha",
-    description: "Compare Binance and OKX by published fee tables, spot and derivatives product scope, identity requirements, Web3 or DEX-style access, announcement paths and account eligibility boundaries.",
+    description: "Compare Binance and OKX by published fee tables, spot and derivatives product scope, identity requirements, Web3 or DEX-style access and account eligibility.",
     completeFaq: true,
     directAnswer: {
       question: "How should I compare Binance and OKX before choosing an exchange?",
@@ -876,7 +894,7 @@ const TOKENIZED_ASSET_SEO_OVERRIDES = {
   "tokenized-assets": {
     en: {
       title: "Tokenized Assets Hub: Treasury, Stock and Perp Exposure Checks — NexuAlpha",
-      description: "Compare tokenized assets by legal claim, issuer or broker model, custody, redemption, eligibility, settlement path and derivative risk before choosing any venue or signup route.",
+      description: "Compare tokenized assets by legal claim, issuer or broker model, custody, redemption, eligibility, settlement path and derivative risk.",
       extraFaq: [
         ["What should a broad tokenized assets search compare first?", "Start by classifying the product as a fund share, security entitlement, note, tokenized claim, stock perpetual or other synthetic exposure. The next checks are issuer, recordkeeper, custodian, redemption, eligibility and venue access."],
         ["Why does NexuAlpha split tokenized Treasuries from tokenized stocks and stock perps?", "The legal claim, custody record, redemption process, shareholder rights, funding and liquidation mechanics differ. A single tokenized-asset label is too broad for registration or trading decisions."],
@@ -887,7 +905,7 @@ const TOKENIZED_ASSET_SEO_OVERRIDES = {
   "tokenized-treasuries": {
     en: {
       title: "Tokenized Treasury Checklist: BUIDL, OUSG, BENJI, Redemption and Custody — NexuAlpha",
-      description: "Answer tokenized treasury and tokenized treasuries searches with issuer, legal wrapper, recordkeeper, custodian, redemption, transfer, permitted-chain, collateral treatment and eligibility checks.",
+      description: "Tokenized treasury searches: issuer, legal wrapper, recordkeeper, custodian, redemption, transfer, permitted-chain, collateral treatment and eligibility checks.",
       extraFaq: [
         ["What should a tokenized treasury searcher check first?", "Start with the legal wrapper and recordkeeper: identify whether the token represents a fund share, note, platform claim or bookkeeping token, then verify issuer, transfer agent, custodian, eligibility and redemption route."],
         ["When should I use the tokenized Treasuries article instead of this checklist?", "Use the article for the dated source trail behind BUIDL, BENJI and OUSG-style exposure; use this checklist when comparing ongoing issuer, custody, redemption, chain and collateral conditions."],
@@ -898,7 +916,7 @@ const TOKENIZED_ASSET_SEO_OVERRIDES = {
   "tokenized-stocks-vs-perpetuals": {
     en: {
       title: "Tokenized Stocks vs Stock Perps: Rights and Liquidation — NexuAlpha",
-      description: "Compare tokenized stock entitlement claims with stock perpetual derivatives by ownership rights, custody, dividends, funding, margin, liquidation, eligibility and venue access.",
+      description: "Compare tokenized stock claims with stock perpetuals by ownership rights, custody, dividends, funding, margin, liquidation, eligibility and venue access.",
       directAnswer: {
         question: "Are tokenized stocks and stock perpetuals the same product?",
         answer: "No. A tokenized stock may represent an issuer or broker entitlement linked to equity; a stock perpetual is a derivative with funding, margin and liquidation risk. Verify the legal claim before comparing price exposure, and treat xStocks, stock futures and copy-trading labels as separate products.",
@@ -946,7 +964,7 @@ const LOCALIZED_VENUE_SEO_OVERRIDES = {
     },
     uniswap: {
       title: "Uniswap 테스트넷, v4 훅과 스왑 경로 확인 — NexuAlpha",
-      description: "Uniswap 테스트넷 또는 로컬 훅, v4 배포, 공식 앱 URL, 토큰 컨트랙트, 풀 수수료, 가스, 지갑 시뮬레이션과 서명 전 검토를 확인하세요.",
+      description: "Uniswap 테스트넷, v4 배포, 공식 앱 URL, 토큰 컨트랙트, 풀 수수료, 가스, 지갑 시뮬레이션과 서명 전 검토를 확인하세요.",
       directAnswer: {
         question: "Uniswap 테스트넷이나 v4 훅 경로를 실거래 전에 어떻게 확인해야 하나요?",
         answer: "Uniswap 테스트넷과 로컬 훅 자료는 개발자 연구용입니다. 실제 지갑으로 스왑하기 전에는 공식 앱 URL, 네트워크, 토큰 컨트랙트, v4 배포 주소, 풀 버전, 수수료 티어 또는 dynamic-fee 훅, 가스 토큰, 지갑 시뮬레이션과 최종 서명 내용을 확인해야 합니다.",
@@ -958,7 +976,7 @@ const LOCALIZED_VENUE_SEO_OVERRIDES = {
     },
     aerodrome: {
       title: "Aerodrome Base DEX 풀 수수료와 veAERO 조건 확인 — NexuAlpha",
-      description: "Aerodrome을 Base 네이티브 DEX로 보고 풀별 수수료, Slipstream 경로, 거래량, 토큰 컨트랙트, Base 가스, 인센티브와 veAERO 보상 경계를 확인하세요.",
+      description: "Aerodrome(Base DEX) 풀별 수수료, Slipstream 경로, 토큰 컨트랙트, 가스, veAERO 보상 경계를 확인하세요.",
       directAnswer: {
         question: "Aerodrome 경로와 풀 수수료 조건은 어떻게 확인해야 하나요?",
         answer: "Aerodrome은 Base 네트워크의 DEX 경로로 확인해야 합니다. Base 브리지, 지갑 네트워크, 토큰 컨트랙트, 풀 주소, 표준 풀 또는 Slipstream 풀 유형, 풀별 거래량과 수수료 표시, veAERO 인센티브나 보상 조건을 자금 이동이나 서명 전에 따로 확인하세요.",
@@ -970,7 +988,7 @@ const LOCALIZED_VENUE_SEO_OVERRIDES = {
     },
     jupiter: {
       title: "Jupiter Solana 스왑 경로, 테스트 견적과 수수료 확인 — NexuAlpha",
-      description: "Jupiter Swap과 Ultra 경로, 토큰 목록, 경로 실패 원인, 플랫폼 수수료 경계, Solana 지갑 서명, 슬리피지와 route leg를 확인하세요.",
+      description: "Jupiter Swap과 Ultra 경로, 토큰 목록, 경로 실패 원인, 플랫폼 수수료 경계, 슬리피지와 route leg를 확인하세요.",
       directAnswer: {
         question: "Jupiter 경로, 테스트 견적과 플랫폼 수수료는 어떻게 확인해야 하나요?",
         answer: "Jupiter는 Solana 라우팅과 트랜잭션 생성 경로로 보아야 합니다. Swap 또는 Ultra 출력, 토큰 mint 상태, 유동성, 플랫폼 수수료 설정, 슬리피지, 가격 영향, 네트워크 비용과 지갑에 표시되는 모든 route leg를 서명 전에 확인하세요.",
@@ -984,7 +1002,7 @@ const LOCALIZED_VENUE_SEO_OVERRIDES = {
   tr: {
     hyperliquid: {
       title: "Hyperliquid ücretleri, funding ve hesap yapısı kontrolü — NexuAlpha",
-      description: "Hyperliquid ücretlerini, saatlik funding'i, likidasyon riskini, USDC teminatını, alt hesapları, API cüzdan yetkisini, vault katılımını ve funded account ifade sınırlarını inceleyin.",
+      description: "Hyperliquid ücretlerini, saatlik funding'i, likidasyon riskini, USDC teminatını, alt hesapları, vault katılımını ve funded account sınırlarını inceleyin.",
       directAnswer: {
         question: "Hyperliquid kullanmadan önce hangi ücret ve hesap koşulları kontrol edilmeli?",
         answer: "Hyperliquid için resmi rolling ücret çizelgesi, saatlik funding kuralları, likidasyon mantığı, USDC teminat yolu, hesap modu, alt hesaplar, API cüzdan yetkisi ve vault dokümantasyonu birlikte okunmalıdır. Funded account araması cüzdan teminatı, hesap izinleri, vault katılımı ve üçüncü taraf tahsis iddialarını ayırmalıdır.",
@@ -996,7 +1014,7 @@ const LOCALIZED_VENUE_SEO_OVERRIDES = {
     },
     uniswap: {
       title: "Uniswap testnet, v4 hook ve swap rota kontrolleri — NexuAlpha",
-      description: "Uniswap testnet veya yerel hook kurulumu, v4 dağıtımları, resmi uygulama URL'si, token kontratları, pool ücretleri, gas, cüzdan simülasyonu ve imza öncesi kontrolleri inceleyin.",
+      description: "Uniswap testnet, v4 dağıtımları, resmi uygulama URL'si, token kontratları, pool ücretleri, gas, cüzdan simülasyonu ve imza öncesi kontrolleri inceleyin.",
       directAnswer: {
         question: "Uniswap testnet veya v4 hook rotası canlı swap öncesi nasıl araştırılmalı?",
         answer: "Uniswap testnet ve yerel hook materyali geliştirici araştırmasıdır; canlı cüzdan rotasının güvenli olduğunu kanıtlamaz. Resmi uygulama URL'si, ağ, token kontratı, v4 dağıtım haritası, pool sürümü, ücret seviyesi veya dynamic-fee hook, gas tokenı, cüzdan simülasyonu ve son imza ekranı ayrı kontrol edilmelidir.",
@@ -1020,7 +1038,7 @@ const LOCALIZED_VENUE_SEO_OVERRIDES = {
     },
     jupiter: {
       title: "Jupiter Solana swap rotaları, test quote ve ücret kontrolleri — NexuAlpha",
-      description: "Jupiter Swap ve Ultra rotalarını, token listesini, rota hata nedenlerini, platform ücreti sınırlarını, Solana cüzdan imzasını, slippage'i ve rota bacaklarını inceleyin.",
+      description: "Jupiter Swap ve Ultra rotalarını, token listesini, rota hata nedenlerini, platform ücreti sınırlarını, slippage'i ve rota bacaklarını inceleyin.",
       directAnswer: {
         question: "Jupiter rota, test quote ve platform ücretleri nasıl kontrol edilmeli?",
         answer: "Jupiter bir Solana rota ve işlem oluşturma yoludur. Swap veya Ultra çıktısı, token mint durumu, likidite, platform ücreti yapılandırması, slippage, fiyat etkisi, ağ maliyeti ve cüzdandaki her rota bacağı imza öncesinde kontrol edilmelidir; quote saklama veya nihai maliyet garantisi değildir.",
@@ -1123,7 +1141,7 @@ const LOCALIZED_TOPIC_SEO_OVERRIDES = {
   en: {
     "derivatives": {
       title: "Crypto Perpetual Platform Comparison: Fees, Funding and Liquidation Checks — NexuAlpha",
-      description: "Compare crypto perpetual platforms by account model, published fees, funding, margin mode, liquidation rules, oracle route, collateral movement, regional access and product permissions before signup or wallet connection.",
+      description: "Perpetual platform checks: published fees, funding, margin mode, liquidation rules, oracle route, collateral movement, regional access and product permissions.",
       directAnswer: {
         question: "What is a crypto perpetual platform, and how should I compare one?",
         answer: "A crypto perpetual platform lets users trade contracts with no fixed expiry. Compare platform type first: account-based CEX futures such as Binance or Bybit require fee, funding, margin mode, KYC, region and product-permission checks, while wallet-connected perpetual protocols such as Hyperliquid require collateral, oracle, bridge, liquidation and front-end checks.",
@@ -1365,11 +1383,11 @@ const REGIONAL_PREVIEW_SEO = {
   MX: ["México: preparación para MXN y SPEI — NexuAlpha", "Ruta de investigación para MXN, SPEI y la preparación de una cuenta de pagos local."],
   TW: ["台灣：新台幣開戶條件研究 — NexuAlpha", "繁體中文研究路徑，整理新台幣、銀行驗證與帳戶條件。"],
   ID: ["Indonesia: IDR deposit path research — NexuAlpha", "Research path for IDR deposits, local payment methods and account conditions."],
-  VN: ["Việt Nam crypto account research checklist — NexuAlpha", "Noindex research path for Vietnam crypto account checks: official domain, identity, VND or USDT funding, fees, limits and product scope must be verified in the official account flow."],
-  HK: ["Hong Kong Crypto Account Eligibility Research — NexuAlpha", "Direct answer hub for Hong Kong crypto account checks: SFC platform status, HKD funding, identity, proof-of-address and product scope must be verified in official sources."],
-  EU: ["European Union Crypto Platform Eligibility Research — NexuAlpha", "Direct answer hub for EU crypto platform checks: ESMA MiCA register context, country scope, EUR or SEPA funding, identity and product permissions must be verified in official sources."],
-  UK: ["United Kingdom Crypto Account Eligibility Research — NexuAlpha", "Direct answer hub for UK crypto account checks: FCA registration context, residence, identity or appropriateness checks, GBP funding and product scope must be verified in official sources."],
-  US: ["United States Crypto Account Verification Research — NexuAlpha", "Direct answer hub for U.S. crypto account checks: FinCEN MSB context, state licenses, USD funding, identity, residence and product scope must be verified in official sources."],
+  VN: ["Việt Nam crypto account research checklist — NexuAlpha", "Noindex research path for Vietnam crypto account checks: official domain, identity, VND or USDT funding, fees, limits and product scope, each verified in official sources."],
+  HK: ["Hong Kong Crypto Account Eligibility Research — NexuAlpha", "Direct answer hub for Hong Kong crypto account checks: SFC platform status, HKD funding, identity, proof-of-address and product scope, verified in official sources."],
+  EU: ["European Union Crypto Platform Eligibility Research — NexuAlpha", "EU crypto platform checks: ESMA MiCA register, country scope, EUR or SEPA funding, identity and product permissions must be verified in official sources."],
+  UK: ["United Kingdom Crypto Account Eligibility Research — NexuAlpha", "Direct answer hub for UK crypto account checks: FCA registration, residence, identity or appropriateness checks, GBP funding and product scope, verified in official sources."],
+  US: ["United States Crypto Account Verification Research — NexuAlpha", "Direct answer hub for U.S. crypto account checks: FinCEN MSB context, state licenses, USD funding, identity, residence and product scope, verified in official sources."],
   JP: ["日本の暗号資産プラットフォーム調査 — NexuAlpha", "金融庁の登録情報、本人確認、日本円入金、本人名義口座、商品範囲を公式情報で確認するための直接回答ハブです。"],
   KR: ["한국 암호화폐 플랫폼 조사 — NexuAlpha", "금융위원회·금융정보분석원 맥락, 본인확인, 실명확인 계좌, 원화 입출금과 상품 범위를 공식 자료로 확인하는 직접 답변 허브입니다."],
   SG: ["Singapore Crypto Account Verification Checklist — NexuAlpha", "Answer-first checklist for Singapore crypto accounts: verify MAS DPT context, SGD funding, PayNow, FAST and product scope only inside the official account flow."],
@@ -1652,7 +1670,7 @@ const REGIONAL_PREVIEW_SEO_LOCALIZED = {
   },
   ID: { id: ["Riset platform kripto Indonesia: OJK, Bappebti, IDR, VA dan QRIS — NexuAlpha", "Panduan Bahasa Indonesia untuk memeriksa konteks OJK/Bappebti, badan usaha, domain resmi, KYC, jalur IDR, VA bank, QRIS, biaya, batas dan cakupan produk sebelum membuka akun."] },
   SG: {
-    en: ["Singapore crypto account checks: MAS DPT, SGD, PayNow and FAST — NexuAlpha", "Answer-first Singapore checklist: MAS DPT, SGD, PayNow and FAST are account-screen checks; keep market, product and locale through directory, rates and compare paths."],
+    en: ["Singapore crypto account checks: MAS DPT, SGD, PayNow and FAST — NexuAlpha", "Answer-first Singapore checklist: MAS DPT, SGD, PayNow and FAST are account-screen checks; market, product and locale carry through the directory, rates and compare pages."],
   },
   KR: {
     ko: ["한국 암호화폐 플랫폼 조사: 본인확인, 원화 입출금과 상품 범위 — NexuAlpha", "금융위원회와 금융정보분석원 공식 맥락, 본인확인, 실명확인 계좌, 원화 입출금과 상품 범위를 따로 확인하세요."],

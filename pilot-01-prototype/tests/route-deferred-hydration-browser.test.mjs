@@ -15,7 +15,7 @@ const noScriptRoutes = [
   {
     name: "exchange detail",
     path: "/exchanges/binance?locale=en",
-    h1: /Binance independent profile/,
+    h1: /Binance fees, referral code 11350287 and rebate/,
     hrefs: [
       "/compare/binance-vs-okx",
       "/rates?product=spot",

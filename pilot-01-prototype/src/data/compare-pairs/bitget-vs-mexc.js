@@ -19,7 +19,7 @@ const copy = {
       faq("Which fee row should I compare first?", "The row for the product you will actually use: Bitget's futures row if you copy futures traders, MEXC's spot row if you buy new listings. Neither headline row includes slippage on thin pairs or withdrawal fees."),
     ],
     seoTitle: "Bitget vs MEXC: Copy Trading, New Listings, KYC and Fee Checks — NexuAlpha",
-    seoDescription: "Compare Bitget and MEXC by copy trading, new-listing speed, optional versus mandatory KYC, published fee rows, proof-of-reserves, fiat routes and regional limits before choosing an account.",
+    seoDescription: "Bitget vs MEXC: copy trading, listing speed, optional vs mandatory KYC, published fees, proof of reserves and fiat routes, compared before you sign up.",
     seoQuestion: "How should I compare Bitget and MEXC before choosing an exchange?",
   },
   "zh-Hans": {
@@ -73,7 +73,7 @@ const copy = {
       faq("¿Qué fila de comisiones comparo primero?", "La del producto que realmente vas a usar: la de futuros de Bitget si copias a traders de futuros, la de spot de MEXC si compras nuevos listados. Ninguna fila de cabecera incluye el deslizamiento en pares poco líquidos ni las comisiones de retiro."),
     ],
     seoTitle: "Bitget vs MEXC: copy trading, nuevos listados, KYC y comisiones — NexuAlpha",
-    seoDescription: "Compara Bitget y MEXC por copy trading, velocidad de listado, KYC opcional u obligatorio, comisiones publicadas, prueba de reservas, vías fiat y límites regionales antes de elegir cuenta.",
+    seoDescription: "Bitget vs MEXC: copy trading, velocidad de listado, KYC opcional u obligatorio, comisiones publicadas, prueba de reservas y vías fiat, antes de registrarte.",
     seoQuestion: "¿Cómo comparar Bitget y MEXC antes de elegir un exchange?",
   },
   "pt-BR": {
@@ -91,7 +91,7 @@ const copy = {
       faq("Qual linha de taxas comparar primeiro?", "A do produto que você realmente vai usar: a de futuros da Bitget se copia traders de futuros, a de spot da MEXC se compra novas listagens. Nenhuma linha de destaque inclui slippage em pares pouco líquidos nem taxas de saque."),
     ],
     seoTitle: "Bitget vs MEXC: copy trading, novas listagens, KYC e taxas — NexuAlpha",
-    seoDescription: "Compare Bitget e MEXC por copy trading, velocidade de listagem, KYC opcional ou obrigatório, taxas publicadas, prova de reservas, canais fiat e limites regionais antes de escolher a conta.",
+    seoDescription: "Bitget vs MEXC: copy trading, velocidade de listagem, KYC opcional ou obrigatório, taxas publicadas, prova de reservas e canais fiat, antes de se cadastrar.",
     seoQuestion: "Como comparar Bitget e MEXC antes de escolher uma corretora?",
   },
   fr: {
@@ -109,7 +109,7 @@ const copy = {
       faq("Quelle ligne de frais comparer en premier ?", "Celle du produit que vous utiliserez vraiment : la ligne futures de Bitget si vous copiez des traders de futures, la ligne spot de MEXC si vous achetez de nouvelles cotations. Aucune ligne d’en-tête n’inclut le slippage sur les paires peu liquides ni les frais de retrait."),
     ],
     seoTitle: "Bitget vs MEXC : copy trading, nouvelles cotations, KYC et frais — NexuAlpha",
-    seoDescription: "Comparez Bitget et MEXC : copy trading, vitesse de cotation, KYC facultatif ou obligatoire, frais publiés, preuve de réserves, passerelles fiat et limites régionales avant de choisir un compte.",
+    seoDescription: "Bitget vs MEXC : copy trading, vitesse de cotation, KYC facultatif ou obligatoire, frais publiés, preuve de réserves et passerelles fiat, avant l’inscription.",
     seoQuestion: "Comment comparer Bitget et MEXC avant de choisir un exchange ?",
   },
   de: {
@@ -127,7 +127,7 @@ const copy = {
       faq("Welche Gebührenzeile vergleiche ich zuerst?", "Die Zeile des Produkts, das Sie wirklich nutzen: Bitgets Futures-Zeile, wenn Sie Futures-Trader kopieren, MEXCs Spot-Zeile, wenn Sie neue Listings kaufen. Keine Kopfzeile enthält Slippage bei dünnen Paaren oder Auszahlungsgebühren."),
     ],
     seoTitle: "Bitget vs MEXC: Copy Trading, neue Listings, KYC und Gebühren — NexuAlpha",
-    seoDescription: "Vergleichen Sie Bitget und MEXC nach Copy Trading, Listing-Tempo, optionalem oder verpflichtendem KYC, veröffentlichten Gebühren, Reservenachweis, Fiat-Wegen und regionalen Grenzen vor der Kontowahl.",
+    seoDescription: "Bitget vs. MEXC: Copy Trading, Listing-Tempo, optionales oder verpflichtendes KYC, veröffentlichte Gebühren, Reservenachweis und Fiat-Wege im Vergleich.",
     seoQuestion: "Wie vergleiche ich Bitget und MEXC vor der Wahl einer Börse?",
   },
   ja: {
@@ -145,7 +145,7 @@ const copy = {
       faq("最初に比較すべき手数料行はどれですか？", "実際に使う商品の行です。先物トレーダーをコピーするなら Bitget の先物行、新規上場を買うなら MEXC の現物行です。どちらの見出し行にも、薄いペアのスリッページや出金手数料は含まれません。"),
     ],
     seoTitle: "Bitget vs MEXC：コピー取引、新規上場、KYC、手数料の確認 — NexuAlpha",
-    seoDescription: "Bitget と MEXC をコピー取引、上場の速さ、任意か必須かの KYC、公開手数料行、準備金証明、法定通貨ルート、地域制限で比較し、口座選びの前に確認すべき点を整理します。",
+    seoDescription: "Bitget と MEXC をコピー取引、上場の速さ、KYC の要否、公開手数料、準備金証明、法定通貨ルートで比較する資料。",
     seoQuestion: "取引所を選ぶ前に Bitget と MEXC をどう比較すべきですか？",
   },
   ko: {
@@ -163,7 +163,7 @@ const copy = {
       faq("어떤 수수료 행을 먼저 비교해야 하나요?", "실제로 사용할 상품의 행입니다. 선물 트레이더를 카피하면 Bitget의 선물 행, 신규 상장을 사면 MEXC의 현물 행입니다. 어느 대표 수수료 행에도 얇은 페어의 슬리피지나 출금 수수료는 포함되지 않습니다."),
     ],
     seoTitle: "Bitget vs MEXC: 카피트레이딩, 신규 상장, KYC, 수수료 확인 — NexuAlpha",
-    seoDescription: "Bitget과 MEXC를 카피트레이딩, 상장 속도, 선택적 또는 필수 KYC, 공개 수수료 행, 준비금 증명, 법정화폐 경로, 지역 제한으로 비교하고 계정 선택 전 확인할 항목을 정리합니다.",
+    seoDescription: "Bitget과 MEXC를 카피 트레이딩, 상장 속도, KYC 선택·필수 여부, 공개 수수료, 준비금 증명, 법정화폐 경로로 비교한 자료.",
     seoQuestion: "거래소를 고르기 전에 Bitget과 MEXC를 어떻게 비교해야 하나요?",
   },
   ar: {
@@ -181,7 +181,7 @@ const copy = {
       faq("أي صف رسوم أقارنه أولاً؟", "صف المنتج الذي ستستخدمه فعلاً: صف العقود في Bitget إذا كنت تنسخ متداولي عقود، وصف السبوت في MEXC إذا كنت تشتري الإدراجات الجديدة. لا يشمل أي صف رئيسي الانزلاق في الأزواج قليلة السيولة أو رسوم السحب."),
     ],
     seoTitle: "Bitget مقابل MEXC: نسخ التداول والإدراجات الجديدة وKYC والرسوم — NexuAlpha",
-    seoDescription: "قارن Bitget وMEXC حسب نسخ التداول وسرعة الإدراج وKYC الاختياري أو الإلزامي وصفوف الرسوم المنشورة وإثبات الاحتياطي ومسارات العملات الورقية والقيود الإقليمية قبل اختيار الحساب.",
+    seoDescription: "مقارنة Bitget وMEXC من حيث نسخ التداول وسرعة الإدراج والتحقق من الهوية والرسوم المنشورة وإثبات الاحتياطي ومسارات العملات الورقية.",
     seoQuestion: "كيف أقارن Bitget وMEXC قبل اختيار منصة؟",
   },
   tr: {
@@ -199,7 +199,7 @@ const copy = {
       faq("Hangi ücret satırını önce karşılaştırmalıyım?", "Gerçekten kullanacağınız ürünün satırını: vadeli trader kopyalıyorsanız Bitget'in vadeli satırı, yeni listelemeler alıyorsanız MEXC'nin spot satırı. Hiçbir başlık satırı ince çiftlerdeki kaymayı veya çekim ücretlerini içermez."),
     ],
     seoTitle: "Bitget vs MEXC: copy trading, yeni listelemeler, KYC ve ücretler — NexuAlpha",
-    seoDescription: "Hesap seçmeden önce Bitget ve MEXC'yi copy trading, listeleme hızı, isteğe bağlı veya zorunlu KYC, yayımlanan ücret satırları, rezerv kanıtı, fiat yolları ve bölgesel sınırlar açısından karşılaştırın.",
+    seoDescription: "Bitget ve MEXC karşılaştırması: kopya işlem, listeleme hızı, isteğe bağlı veya zorunlu KYC, yayımlanan ücretler, rezerv kanıtı ve fiat yolları.",
     seoQuestion: "Borsa seçmeden önce Bitget ve MEXC nasıl karşılaştırılmalı?",
   },
   ru: {
@@ -217,7 +217,7 @@ const copy = {
       faq("Какую строку комиссий сравнивать первой?", "Строку продукта, которым вы действительно будете пользоваться: фьючерсную строку Bitget, если копируете фьючерсных трейдеров, спотовую строку MEXC, если покупаете новые листинги. Ни одна заголовочная строка не включает проскальзывание на тонких парах и комиссии за вывод."),
     ],
     seoTitle: "Bitget и MEXC: копитрейдинг, новые листинги, KYC и комиссии — NexuAlpha",
-    seoDescription: "Сравнение Bitget и MEXC по копитрейдингу, скорости листингов, необязательному и обязательному KYC, опубликованным комиссиям, подтверждению резервов, фиатным каналам и региональным ограничениям.",
+    seoDescription: "Сравнение Bitget и MEXC: копитрейдинг, скорость листинга, обязательность KYC, опубликованные комиссии, подтверждение резервов и фиатные каналы.",
     seoQuestion: "Как сравнить Bitget и MEXC перед выбором биржи?",
   },
   id: {
@@ -235,7 +235,7 @@ const copy = {
       faq("Baris biaya mana yang harus dibandingkan lebih dulu?", "Baris untuk produk yang benar-benar akan Anda pakai: baris futures Bitget jika menyalin trader futures, baris spot MEXC jika membeli listing baru. Tidak ada baris utama yang mencakup slippage pada pasangan tipis atau biaya penarikan."),
     ],
     seoTitle: "Bitget vs MEXC: copy trading, listing baru, KYC, dan biaya — NexuAlpha",
-    seoDescription: "Bandingkan Bitget dan MEXC berdasarkan copy trading, kecepatan listing, KYC opsional atau wajib, baris biaya yang dipublikasikan, bukti cadangan, jalur fiat, dan batasan wilayah sebelum memilih akun.",
+    seoDescription: "Bitget vs MEXC: copy trading, kecepatan listing, KYC opsional atau wajib, biaya yang dipublikasikan, bukti cadangan, dan jalur fiat sebelum mendaftar.",
     seoQuestion: "Bagaimana membandingkan Bitget dan MEXC sebelum memilih bursa?",
   },
   vi: {
@@ -253,7 +253,7 @@ const copy = {
       faq("Nên so sánh hàng phí nào trước?", "Hàng của sản phẩm bạn thực sự dùng: hàng futures của Bitget nếu sao chép trader futures, hàng spot của MEXC nếu mua niêm yết mới. Không hàng phí tiêu đề nào gồm trượt giá trên cặp mỏng hay phí rút."),
     ],
     seoTitle: "Bitget vs MEXC: copy trading, niêm yết mới, KYC và phí — NexuAlpha",
-    seoDescription: "So sánh Bitget và MEXC theo copy trading, tốc độ niêm yết, KYC tùy chọn hay bắt buộc, hàng phí công bố, bằng chứng dự trữ, kênh fiat và giới hạn khu vực trước khi chọn tài khoản.",
+    seoDescription: "Bitget và MEXC: copy trading, tốc độ niêm yết, KYC tùy chọn hay bắt buộc, phí công bố, bằng chứng dự trữ và kênh fiat, so sánh trước khi đăng ký.",
     seoQuestion: "Nên so sánh Bitget và MEXC thế nào trước khi chọn sàn?",
   },
   it: {
@@ -271,7 +271,7 @@ const copy = {
       faq("Quale riga di commissioni confrontare per prima?", "Quella del prodotto che userai davvero: la riga futures di Bitget se copi trader di futures, la riga spot di MEXC se compri nuovi listing. Nessuna riga di testata include lo slippage sulle coppie poco liquide o le commissioni di prelievo."),
     ],
     seoTitle: "Bitget vs MEXC: copy trading, nuovi listing, KYC e commissioni — NexuAlpha",
-    seoDescription: "Confronta Bitget e MEXC per copy trading, velocità di listing, KYC facoltativo o obbligatorio, commissioni pubblicate, proof-of-reserves, canali fiat e limiti regionali prima di scegliere un account.",
+    seoDescription: "Bitget vs MEXC: copy trading, velocità di listing, KYC facoltativo o obbligatorio, commissioni pubblicate, proof-of-reserves e canali fiat, prima di iscriverti.",
     seoQuestion: "Come confrontare Bitget e MEXC prima di scegliere un exchange?",
   },
 };
