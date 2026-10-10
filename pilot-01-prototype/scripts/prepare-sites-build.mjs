@@ -11,9 +11,14 @@ const newsRuntime = path.join(dist, "news-ssr", "entry-server.js");
 const publication = path.join(root, "src", "data", "reviewed-news-publication.js");
 const attribution = path.join(root, "src", "data", "tracking-attribution.js");
 const sharedSchemaData = ["news-library.js", "referral-seo.js", "referral-partners.generated.js", "partner-venue-faq.js", "priority-venue-answers.js", "topic-reviewed-faqs.js", "topic-source-registry.js", "topic-guides-data.js", "exchange-research.js", "tokenized-assets-cluster.js", "news-feed-client.js", "locale-routing.js", "social-image.js", "market-data-pages.js"];
+// Comparison pairs (2026-10-10): worker/index.js imports compare-direct-answers.js, which pulls the per-pair copy from
+// src/data/compare-pairs/. These ship under the same relative paths so the server can resolve them.
+const comparePairData = ["compare-direct-answers.js", "compare-pair-answers.js"];
+const comparePairsDir = "compare-pairs";
+const comparePairFiles = ["shared.js", "binance-vs-bitget.js", "bitget-vs-okx.js", "bybit-vs-mexc.js", "bitget-vs-mexc.js"];
 const hosting = path.join(root, ".openai", "hosting.json");
 
-for (const file of [index, worker, newsRuntime, hosting, publication, attribution, ...sharedSchemaData.map(name => path.join(root, "src", "data", name))]) {
+for (const file of [index, worker, newsRuntime, hosting, publication, attribution, ...sharedSchemaData.map(name => path.join(root, "src", "data", name)), ...comparePairData.map(name => path.join(root, "src", "data", name)), ...comparePairFiles.map(name => path.join(root, "src", "data", comparePairsDir, name))]) {
   if (!existsSync(file)) throw new Error("Missing Sites build input: " + file);
 }
 
@@ -24,6 +29,9 @@ mkdirSync(path.join(dist, "src", "data"), { recursive: true });
 copyFileSync(publication, path.join(dist, "src", "data", "reviewed-news-publication.js"));
 copyFileSync(attribution, path.join(dist, "src", "data", "tracking-attribution.js"));
 for (const name of sharedSchemaData) copyFileSync(path.join(root, "src", "data", name), path.join(dist, "src", "data", name));
+for (const name of comparePairData) copyFileSync(path.join(root, "src", "data", name), path.join(dist, "src", "data", name));
+mkdirSync(path.join(dist, "src", "data", comparePairsDir), { recursive: true });
+for (const name of comparePairFiles) copyFileSync(path.join(root, "src", "data", comparePairsDir, name), path.join(dist, "src", "data", comparePairsDir, name));
 copyFileSync(hosting, path.join(dist, ".openai", "hosting.json"));
 
 console.log("Prepared Sites build: dist/server/index.js and dist/.openai/hosting.json");

@@ -13,7 +13,7 @@ const SITEMAP_SECONDARY_STATIC_PATHS = new Set(["/embed/calculator", "/partners"
 const SITEMAP_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
 const SITEMAP_REVIEWED_TRILINGUAL_VENUES = new Set(["drift", "deribit"]);
 const SITEMAP_PRIORITY_FACTBOOK = new Set(["binance", "okx", "bybit", "bitget", "coinbase", "kraken", "hyperliquid", "uniswap"]);
-const SITEMAP_PRIORITY_COMPARISONS = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "coinbase-vs-kraken"]);
+const SITEMAP_PRIORITY_COMPARISONS = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "coinbase-vs-kraken", "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc"]);
 const SITEMAP_PRIORITY_TOPICS = new Set(["meme-coins", "derivatives", "compliant-exchanges", "no-kyc", "tokenized-assets"]);
 
 const DEFAULT_POLICY = Object.freeze({
