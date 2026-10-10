@@ -1,0 +1,32 @@
+/* Live exchange campaigns (2026-10-10). Two columns from 900px, one on phones; every card has the same structure. */
+.live-campaigns:not(#_):not(#_) { margin: 40px 0 56px; color: var(--n12, #EDEEF0); }
+.live-campaigns__head:not(#_):not(#_) h2 { margin: 0; font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; text-wrap-style: balance; }
+.live-campaigns__head:not(#_):not(#_) p { margin: 8px 0 0; max-width: 62ch; font-size: 15px; line-height: 1.55; color: var(--n10, #B0B4BA); }
+.live-campaigns__chips:not(#_):not(#_) { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 20px 0 16px; padding-bottom: 2px; }
+.live-campaigns__chips:not(#_):not(#_) button { flex: none; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgb(255 255 255 / 0.14); background: transparent; color: var(--n10, #B0B4BA); font: 500 14px/1 inherit; cursor: pointer; transition: border-color .2s, color .2s, background-color .2s; }
+.live-campaigns__chips:not(#_):not(#_) button:hover { color: #EDEEF0; border-color: rgb(255 255 255 / 0.28); }
+.live-campaigns__chips:not(#_):not(#_) button.is-on { background: #1FE0C0; border-color: #1FE0C0; color: #04130F; }
+.live-campaigns__chips:not(#_):not(#_) button:focus-visible { outline: 2px solid #1FE0C0; outline-offset: 2px; }
+.live-campaigns__list:not(#_):not(#_) { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 12px; }
+.live-campaigns__card:not(#_):not(#_) { display: grid; grid-template-rows: auto 1fr auto auto; gap: 10px; padding: 18px 18px 16px; border-radius: 14px; background: rgb(255 255 255 / 0.03); border: 1px solid rgb(255 255 255 / 0.10); min-width: 0; }
+.live-campaigns__card.is-featured:not(#_):not(#_) { border-color: rgb(31 224 192 / 0.45); background: rgb(31 224 192 / 0.05); }
+.live-campaigns__meta:not(#_):not(#_) { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--n10, #B0B4BA); min-width: 0; }
+.live-campaigns__meta:not(#_):not(#_) b { color: #EDEEF0; font-weight: 600; }
+.live-campaigns__meta:not(#_):not(#_) time { margin-inline-start: auto; white-space: nowrap; color: var(--n9, #8A909E); }
+.live-campaigns__tag:not(#_):not(#_) { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; color: #04130F; background: #1FE0C0; }
+.live-campaigns__card:not(#_):not(#_) h3 { margin: 0; font-size: 16px; line-height: 1.45; font-weight: 500; color: #EDEEF0; overflow-wrap: anywhere; text-wrap-style: pretty; }
+.live-campaigns__sum:not(#_):not(#_) { margin: 0; font-size: 14px; line-height: 1.5; color: var(--n10, #B0B4BA); }
+.live-campaigns__acts:not(#_):not(#_) { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.live-campaigns__acts:not(#_):not(#_) a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap; transition: background-color .2s, border-color .2s; }
+.live-campaigns__details:not(#_):not(#_) { color: #EDEEF0; border: 1px solid rgb(255 255 255 / 0.18); }
+.live-campaigns__details:not(#_):not(#_):hover { border-color: rgb(255 255 255 / 0.36); }
+.live-campaigns__join:not(#_):not(#_) { color: #04130F; background: #1FE0C0; }
+.live-campaigns__join:not(#_):not(#_):hover { background: #4AEBD0; }
+.live-campaigns__join:not(#_):not(#_) small { font: 500 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; opacity: 0.8; margin-inline-start: 4px; }
+.live-campaigns__acts:not(#_):not(#_) a:focus-visible { outline: 2px solid #1FE0C0; outline-offset: 2px; }
+.live-campaigns__terms:not(#_):not(#_) { margin: 0; font-size: 12px; color: #1FE0C0; }
+.live-campaigns__state:not(#_):not(#_) { padding: 28px; text-align: center; border-radius: 14px; border: 1px dashed rgb(255 255 255 / 0.14); color: var(--n10, #B0B4BA); }
+.live-campaigns__note:not(#_):not(#_) { margin: 16px 0 4px; font-size: 13px; line-height: 1.5; color: var(--n9, #8A909E); }
+.live-campaigns:not(#_):not(#_) .live-campaigns__ad { margin: 0; font-size: 12px; }
+@media (max-width: 640px) { .live-campaigns__acts:not(#_):not(#_) a { flex: 1 1 auto; white-space: normal; text-align: center; } }
+@media (prefers-reduced-motion: reduce) { .live-campaigns__chips:not(#_):not(#_) button, .live-campaigns__acts:not(#_):not(#_) a { transition: none; } }
