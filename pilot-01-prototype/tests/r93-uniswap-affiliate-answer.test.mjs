@@ -6,7 +6,7 @@ import { AEO_QUESTION_REGISTRY } from '../src/data/aeo-question-registry.js';
 
 const urls = ['https://developers.uniswap.org/docs/trading/swapping-api/faqs', 'https://developers.uniswap.org/docs/trading/custom-interface-links'];
 const baseline = {
-  en: '5045ed96426f8fd0a57320a689463d5c7dec6b9bc96523dd1b8321919cea7ae0',
+  en: '8654b5b01d2924c6c8f8f0d85bf2e770ce2a94ebbc0007ab92ed65bd5da35224',
   'zh-Hans': 'b63b58f07e7643e0368f62920237d79d580c10d1606af1b55035c321eebbf621',
   'zh-Hant': '3fb9ba3a692b6ed28a1d2a6d15aa4b68e5590956142c70a5371174421c6204bc',
 };

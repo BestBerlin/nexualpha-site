@@ -3,6 +3,7 @@ import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
+import { clampMetaDescription, metaDescriptionLimit } from "../src/data/meta-description.js";
 import { socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
@@ -850,7 +851,7 @@ const PRIORITY_VENUE_SEO = {
   "deribit": {
     "en": {
       "title": "Deribit Options Fees, 10% User Discount, Migration and Entity Checks",
-      "description": "Deribit options and futures fees, six-month 10% user fee discount, DRB Panama versus FZE entity limits, spot exclusion, margin modes and liquidation risk.",
+      "description": "Deribit options and futures fees, six-month 10% user fee discount terms, DRB Panama versus FZE entity limits, spot exclusion, margin modes and liquidation risk.",
       "reviewedAt": "2026-09-29",
       "sourceUrls": [
         "https://support.deribit.com/hc/en-us/articles/25944746248989-Fees",
@@ -5001,7 +5002,7 @@ const TOKENIZED_ASSET_REGISTRY = {
 	    slug: "tokenized-assets",
 	    titleEn: "Tokenized Assets Hub: Treasury, Stock and Perp Exposure Checks",
 	    titleZh: "代币化资产研究中心：美债、股票与永续合约敞口",
-	    descEn: "Compare tokenized assets by legal claim, issuer or broker model, custody, redemption, eligibility, settlement path and derivative risk before choosing any venue or signup route.",
+	    descEn: "Compare tokenized assets by legal claim, issuer or broker model, custody, redemption, eligibility, settlement path and derivative risk.",
 	    descZh: "来源绑定的代币化资产地图，覆盖代币化美债、股票代币化访问与股票永续合约。注册前先核对法律形态、托管、赎回、平台准入和产品资格。",
 	    faqEn: [
 	      ["What is the first question before choosing a tokenized asset platform?", "Ask what the token legally represents. A fund share, note, security entitlement, derivative and synthetic perpetual can all look similar in a trading interface, but custody, redemption, investor rights and regional eligibility are different."],
@@ -5021,7 +5022,7 @@ const TOKENIZED_ASSET_REGISTRY = {
     slug: "tokenized-treasuries",
     titleEn: "Tokenized Treasury Checklist: BUIDL, OUSG, BENJI, Redemption and Custody",
     titleZh: "代币化美债核对清单：发行方、托管、赎回与资格",
-    descEn: "Answer tokenized treasury and tokenized treasuries searches with issuer, legal wrapper, recordkeeper, custodian, redemption, transfer, permitted-chain, collateral treatment and eligibility checks.",
+    descEn: "Tokenized treasury searches: issuer, legal wrapper, recordkeeper, custodian, redemption, transfer, permitted-chain, collateral treatment and eligibility checks.",
     descZh: "按发行方、法律载体、官方登记方、托管方、投资者资格、赎回流程、转让限制、许可链和抵押品处理比较代币化美债产品，不把收益型代币简单当作现金等价物。",
     faqEn: [
       ["Are tokenized Treasuries the same as holding Treasury bills directly?", "No. The user usually holds a tokenized claim, fund share, note or recordkeeping token governed by product documents. Direct Treasury ownership, fund shares and tokenized notes have different rights and redemption paths."],
@@ -5043,7 +5044,7 @@ const TOKENIZED_ASSET_REGISTRY = {
 	    slug: "tokenized-stocks-vs-perpetuals",
 	    titleEn: "Tokenized Stocks vs Stock Perps: Rights and Liquidation",
 	    titleZh: "股票代币化 vs 股票永续：所有权、合成敞口与强平风险",
-	    descEn: "Compare tokenized stock entitlement claims with stock perpetual derivatives by ownership rights, custody, dividends, funding, margin, liquidation, eligibility and venue access.",
+	    descEn: "Compare tokenized stock claims with stock perpetuals by ownership rights, custody, dividends, funding, margin, liquidation, eligibility and venue access.",
 	    descZh: "区分股票代币化权益和股票永续合约。选择平台前，先比较股东权利、托管、合资格地区、资金费率、杠杆、强平和指数构成。",
 	    faqEn: [
 	      ["Are tokenized stocks and stock perpetuals the same product?", "No. A tokenized stock may represent an issuer or broker entitlement linked to equity; a stock perpetual is a derivative with funding, margin and liquidation risk. Verify the legal claim before comparing price exposure, and treat xStocks, stock futures and copy-trading labels as separate products."],
@@ -5086,7 +5087,7 @@ const LOCALIZED_COMPARE_SEO_OVERRIDES = {
 };
 const LOCALIZED_TOPIC_SEO_OVERRIDES = {
   en: {
-    "derivatives": ["Crypto Perpetual Platform Comparison: Fees, Funding and Liquidation Checks — NexuAlpha", "Compare crypto perpetual platforms by account model, published fees, funding, margin mode, liquidation rules, oracle route, collateral movement, regional access and product permissions before signup or wallet connection.", "What is a crypto perpetual platform, and how should I compare one?", "A crypto perpetual platform lets users trade contracts with no fixed expiry. Compare platform type first: account-based CEX futures such as Binance or Bybit require fee, funding, margin mode, KYC, region and product-permission checks, while wallet-connected perpetual protocols such as Hyperliquid require collateral, oracle, bridge, liquidation and front-end checks. Use Binance vs OKX or Bybit vs Bitget for account-based decisions, Hyperliquid vs dYdX for wallet-connected mechanics, and the tokenized-stock guide when the search intent mixes stock-like exposure with derivatives.", [["Which page should I use after a broad crypto perpetual platform search?", "Use this derivatives topic as the evergreen checklist, then continue to Binance vs OKX for account-based CEX futures, Bybit vs Bitget for derivatives and copy-trading conditions, or Hyperliquid vs dYdX for wallet-connected perpetual mechanics."], ["Should funding rates decide the perpetual platform choice?", "No. Funding is one input. Compare maker and taker fees, funding cadence, liquidity, collateral movement, margin mode, liquidation rules, oracle route, withdrawal path, region and identity requirements before choosing a route."], ["Which mechanics should every perpetual checklist cover?", "Check funding cadence, isolated or cross margin, accepted collateral, oracle or mark-price route, liquidation rules, insurance or ADL disclosures, deposit and withdrawal path, and product access by region before treating a platform as usable."], ["Does a public comparison prove my account can trade perpetuals?", "No. Public comparison narrows the decision path. Final product access, KYC, country availability, benefits, leverage and fee tier must be verified in the official platform account or wallet flow."]]],
+    "derivatives": ["Crypto Perpetual Platform Comparison: Fees, Funding and Liquidation Checks — NexuAlpha", "Perpetual platform checks: published fees, funding, margin mode, liquidation rules, oracle route, collateral movement, regional access and product permissions.", "What is a crypto perpetual platform, and how should I compare one?", "A crypto perpetual platform lets users trade contracts with no fixed expiry. Compare platform type first: account-based CEX futures such as Binance or Bybit require fee, funding, margin mode, KYC, region and product-permission checks, while wallet-connected perpetual protocols such as Hyperliquid require collateral, oracle, bridge, liquidation and front-end checks. Use Binance vs OKX or Bybit vs Bitget for account-based decisions, Hyperliquid vs dYdX for wallet-connected mechanics, and the tokenized-stock guide when the search intent mixes stock-like exposure with derivatives.", [["Which page should I use after a broad crypto perpetual platform search?", "Use this derivatives topic as the evergreen checklist, then continue to Binance vs OKX for account-based CEX futures, Bybit vs Bitget for derivatives and copy-trading conditions, or Hyperliquid vs dYdX for wallet-connected perpetual mechanics."], ["Should funding rates decide the perpetual platform choice?", "No. Funding is one input. Compare maker and taker fees, funding cadence, liquidity, collateral movement, margin mode, liquidation rules, oracle route, withdrawal path, region and identity requirements before choosing a route."], ["Which mechanics should every perpetual checklist cover?", "Check funding cadence, isolated or cross margin, accepted collateral, oracle or mark-price route, liquidation rules, insurance or ADL disclosures, deposit and withdrawal path, and product access by region before treating a platform as usable."], ["Does a public comparison prove my account can trade perpetuals?", "No. Public comparison narrows the decision path. Final product access, KYC, country availability, benefits, leverage and fee tier must be verified in the official platform account or wallet flow."]]],
     "no-kyc": ["No-KYC Crypto Access: Wallet, CEX, Perp and Withdrawal Checks — NexuAlpha", "Compare wallet access, CEX account flows, withdrawals, regional limits, sanctions controls, front-end availability and liquidation risk before treating any crypto platform as no-KYC.", "What should I check before using a no-KYC crypto platform?", "Start by separating wallet-connected protocols from centralized accounts. Check whether access depends on a front end, smart contract, bridge, liquidity route, withdrawal limit, regional restriction, sanctions control, wallet screening, product type or later identity review. No-KYC is a current access condition, not a permanent account promise.", [["Does wallet connection mean no KYC forever?", "No. Wallet connection describes how a user signs transactions. A protocol, front end, bridge, region rule, sanctions screen or risk control can still limit access, and centralized platforms may request identity checks later."], ["Which page should I use after the no-KYC overview?", "Use the Hyperliquid vs dYdX comparison for perpetual mechanics, then open each venue profile to verify official domains, collateral, liquidation, bridge, withdrawal and regional conditions."], ["Can a centralized exchange be treated as no-KYC?", "Only with caution. Email or low-friction onboarding can change by region, limit, product, withdrawal route, account age and risk review. Verify the current official account flow before depositing or trading."]]]
   },
   ko: { "no-kyc": ["No-KYC 암호화폐 접근 비교: Hyperliquid, dYdX, MEXC — NexuAlpha", "지갑 연결, 계정 가입, 본인확인 가능성, 출금, 지역 제한과 리스크 경계를 Hyperliquid, dYdX, MEXC 기준으로 비교하세요.", "No-KYC 암호화폐 플랫폼을 비교할 때 무엇을 먼저 확인해야 하나요?", "No-KYC 비교는 로그인 방식보다 넓게 봐야 합니다. 지갑 연결, 계정 가입, 추가 본인확인 가능성, 출금 제한, 지역 차단, 프런트엔드 접근, 스마트 컨트랙트, 브리지, 유동성과 복구 경로를 함께 확인하세요.", [["지갑 연결은 KYC와 지역 제한이 없다는 뜻인가요?", "아니요. 지갑 연결은 로그인 경로일 뿐입니다. 프런트엔드, 프로토콜, 제재 규칙, 유동성, 브리지와 계정 상태가 접근과 출금을 제한할 수 있습니다."], ["이메일 가입 CEX는 출금 때 KYC가 없나요?", "항상 그렇지 않습니다. 지역, 한도, 계정 상태와 리스크 관리에 따라 추가 신원 또는 보안 확인이 요구될 수 있습니다."]]] },
@@ -5439,28 +5440,8 @@ const HOME_SEARCH_COPY = {
   ar: ["رسوم منصات العملات الرقمية: OKX وBitget وBinance — NexuAlpha", "مقارنة رسوم OKX وBitget وBinance وفق الجداول الرسمية: التداول الفوري والعقود وشروط الحساب وروابط التسجيل الرسمية. روابط الشراكة مُفصح عنها."],
 };
 
-// Search snippets: Google shows about 160 Latin characters (about 80 for zh/ja/ko) before truncating with an
-// ellipsis. Copy sources stay within budget; this clamp is the server-side guarantee for every route (owner 2026-10-10).
-const CJK_META_LOCALE = /^(zh|ja|ko)(?:[-_]|$)/i;
-export function metaDescriptionLimit(locale) {
-  return CJK_META_LOCALE.test(String(locale || "")) ? 80 : 160;
-}
-const META_SENTENCE_END = "。！？";
-const META_CLAUSE_BREAK = /[\s,;:，、；：]/;
-export function clampMetaDescription(text, locale) {
-  const value = String(text ?? "").replace(/\s+/g, " ").trim();
-  const limit = metaDescriptionLimit(locale);
-  if (value.length <= limit) return value;
-  let cut = -1;
-  for (let i = limit - 1; i > 0; i -= 1) {
-    const ch = value[i];
-    const next = value[i + 1];
-    if (META_SENTENCE_END.includes(ch) || (".!?".includes(ch) && (next === undefined || /\s/.test(next)))) { cut = i + 1; break; }
-    if (META_CLAUSE_BREAK.test(ch)) { cut = i; break; }
-  }
-  if (cut < 0) cut = limit;
-  return value.slice(0, cut).replace(/[\s,;:，、；：\-–—(（「“"'«]+$/u, "");
-}
+// Served meta descriptions share the snippet budget with computeRouteSeo (src/data/meta-description.js).
+export { clampMetaDescription, metaDescriptionLimit };
 
 export async function routeMetadata(url, env) {
   const metadata = await resolveRouteMetadata(url, env);
@@ -5847,7 +5828,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       },
       aerodrome: {
         title: "Aerodrome Review: Base DEX Fees, Pools, Slipstream & veAERO — NexuAlpha",
-        description: "Review Aerodrome search intent as a Base-native DEX path: pool-level fees, Slipstream routing, Base bridge, token contracts, gas, incentives and veAERO reward boundaries.",
+        description: "Aerodrome as a Base-native DEX path: pool-level fees, Slipstream routing, Base bridge, token contracts, gas, incentives and veAERO reward boundaries.",
         directAnswer: {
           question: "How should I check Aerodrome route and pool fee plus veAERO conditions?",
           answer: "Aerodrome is a Base-native DEX. Before swapping or adding liquidity, verify the official domain, Base network and bridge route, gas asset, token and pool contracts, standard or Slipstream pool type, displayed pool fee, liquidity, price impact and whether any incentive requires separate veAERO voting or locking. A pool route does not prove execution safety, regional availability or reward eligibility.",
@@ -5869,7 +5850,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       },
       jupiter: {
         title: "Jupiter Solana Swap Routes, Ultra Quotes and Fee Checks — NexuAlpha",
-        description: "Review Jupiter search intent across Swap and Ultra, token-list checks, Solana test quotes, no-route or failed-swap causes, platform fee boundaries, slippage, priority fees and route legs.",
+        description: "Jupiter Swap and Ultra: Solana test quotes, no-route or failed-swap causes, platform fee boundaries, slippage, priority fees and route legs.",
         directAnswer: {
           question: "How should I check Jupiter route, test quote and platform fee conditions?",
           answer: "For a Jupiter route query, first decide whether the task is a test quote, live swap, token-list check, Ultra route review, API integration or platform-fee review, plus failed-swap diagnosis. Use Jupiter as a Solana routing and transaction-building path, not a custodial account. Check Swap or Ultra route output, token mint status, liquidity, platform fee configuration, slippage, price impact, network cost and every route leg in the wallet before signing; a quote is not custody, route-safety proof or a final-cost promise.",

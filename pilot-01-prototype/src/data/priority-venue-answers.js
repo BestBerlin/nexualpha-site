@@ -694,7 +694,7 @@ export const priorityVenueAnswers = {
         faq("What changes after the Deribit affiliate migration dates?", "Treat 2026-09-09 as the stop date for creating new affiliates and 2027-01-01 as the stop date for onboarding new users through legacy affiliate links, based on the cited notice. Recheck entity, region and attribution before treating an old readable link as current.", ["https://support.deribit.com/hc/en-us/articles/25944777728797-Affiliate-Program"]),
       ],
       seoTitle: "Deribit Options Fees, 10% User Discount, Migration and Entity Checks",
-      seoDescription: "Deribit options and futures fees, six-month 10% user fee discount, DRB Panama versus FZE entity limits, spot exclusion, margin modes and liquidation risk.",
+      seoDescription: "Deribit options and futures fees, six-month 10% user fee discount terms, DRB Panama versus FZE entity limits, spot exclusion, margin modes and liquidation risk.",
     },
     "zh-Hans": {
       title: "Deribit 决策检查：先确认产品、保证金、affiliate 实体和迁移限制，再把它当作专业衍生品平台使用。",

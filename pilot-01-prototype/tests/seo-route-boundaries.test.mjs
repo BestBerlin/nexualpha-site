@@ -119,7 +119,7 @@ test("Arabic path locale entrypoint is indexable, canonical and RTL", async () =
 
   assert.equal(response.status, 200);
   assert.match(html, /<html[^>]+lang="ar"[^>]+dir="rtl"/);
-  assert.match(html, /<title[^>]*>NexuAlpha — مقارنة مستقلة لمنصات العملات الرقمية/);
+  assert.match(html, /<title[^>]*>رسوم منصات العملات الرقمية: OKX وBitget وBinance — NexuAlpha/);
   assert.match(html, /name="robots" content="index,follow"/);
   assert.match(html, /rel="canonical" href="https:\/\/nexualpha\.com\/ar"/);
   assert.match(html, /hreflang="ar"/);

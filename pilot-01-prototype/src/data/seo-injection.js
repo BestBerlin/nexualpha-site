@@ -1,4 +1,5 @@
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "./reviewed-news-publication.js";
+import { clampMetaDescription } from "./meta-description.js";
 /** Route metadata mirrors the standalone Worker; UI-only locale fallbacks share their content canonical. */
 import { venueDatabase } from "./venue-database.js";
 import { mergePriorityVenueSeo } from "./priority-venue-seo.js";
@@ -683,7 +684,7 @@ const VENUE_SEO_OVERRIDES = {
   },
   aerodrome: {
     title: "Aerodrome Review: Base DEX Fees, Pools, Slipstream & veAERO — NexuAlpha",
-    description: "Review Aerodrome search intent as a Base-native DEX path: pool-level fees, Slipstream routing, Base bridge, token contracts, gas, incentives and veAERO reward boundaries.",
+    description: "Aerodrome as a Base-native DEX path: pool-level fees, Slipstream routing, Base bridge, token contracts, gas, incentives and veAERO reward boundaries.",
     directAnswer: {
       question: "How should I check Aerodrome route and pool fee plus veAERO conditions?",
       answer: "Aerodrome is a Base-native DEX. Before swapping or adding liquidity, verify the official domain, Base network and bridge route, gas asset, token and pool contracts, standard or Slipstream pool type, displayed pool fee, liquidity, price impact and whether any incentive requires separate veAERO voting or locking. A pool route does not prove execution safety, regional availability or reward eligibility.",
@@ -705,7 +706,7 @@ const VENUE_SEO_OVERRIDES = {
   },
   jupiter: {
     title: "Jupiter Solana Swap Routes, Ultra Quotes and Fee Checks — NexuAlpha",
-    description: "Review Jupiter search intent across Swap and Ultra, token-list checks, Solana test quotes, no-route or failed-swap causes, platform fee boundaries, slippage, priority fees and route legs.",
+    description: "Jupiter Swap and Ultra: Solana test quotes, no-route or failed-swap causes, platform fee boundaries, slippage, priority fees and route legs.",
     directAnswer: {
       question: "How should I check Jupiter route, test quote and platform fee conditions?",
       answer: "For a Jupiter route query, first decide whether the task is a test quote, live swap, token-list check, Ultra route review, API integration or platform-fee review, plus failed-swap diagnosis. Use Jupiter as a Solana routing and transaction-building path, not a custodial account. Check Swap or Ultra route output, token mint status, liquidity, platform fee configuration, slippage, price impact, network cost and every route leg in the wallet before signing; a quote is not custody, route-safety proof or a final-cost promise.",
@@ -892,7 +893,7 @@ const TOKENIZED_ASSET_SEO_OVERRIDES = {
   "tokenized-assets": {
     en: {
       title: "Tokenized Assets Hub: Treasury, Stock and Perp Exposure Checks — NexuAlpha",
-      description: "Compare tokenized assets by legal claim, issuer or broker model, custody, redemption, eligibility, settlement path and derivative risk before choosing any venue or signup route.",
+      description: "Compare tokenized assets by legal claim, issuer or broker model, custody, redemption, eligibility, settlement path and derivative risk.",
       extraFaq: [
         ["What should a broad tokenized assets search compare first?", "Start by classifying the product as a fund share, security entitlement, note, tokenized claim, stock perpetual or other synthetic exposure. The next checks are issuer, recordkeeper, custodian, redemption, eligibility and venue access."],
         ["Why does NexuAlpha split tokenized Treasuries from tokenized stocks and stock perps?", "The legal claim, custody record, redemption process, shareholder rights, funding and liquidation mechanics differ. A single tokenized-asset label is too broad for registration or trading decisions."],
@@ -903,7 +904,7 @@ const TOKENIZED_ASSET_SEO_OVERRIDES = {
   "tokenized-treasuries": {
     en: {
       title: "Tokenized Treasury Checklist: BUIDL, OUSG, BENJI, Redemption and Custody — NexuAlpha",
-      description: "Answer tokenized treasury and tokenized treasuries searches with issuer, legal wrapper, recordkeeper, custodian, redemption, transfer, permitted-chain, collateral treatment and eligibility checks.",
+      description: "Tokenized treasury searches: issuer, legal wrapper, recordkeeper, custodian, redemption, transfer, permitted-chain, collateral treatment and eligibility checks.",
       extraFaq: [
         ["What should a tokenized treasury searcher check first?", "Start with the legal wrapper and recordkeeper: identify whether the token represents a fund share, note, platform claim or bookkeeping token, then verify issuer, transfer agent, custodian, eligibility and redemption route."],
         ["When should I use the tokenized Treasuries article instead of this checklist?", "Use the article for the dated source trail behind BUIDL, BENJI and OUSG-style exposure; use this checklist when comparing ongoing issuer, custody, redemption, chain and collateral conditions."],
@@ -914,7 +915,7 @@ const TOKENIZED_ASSET_SEO_OVERRIDES = {
   "tokenized-stocks-vs-perpetuals": {
     en: {
       title: "Tokenized Stocks vs Stock Perps: Rights and Liquidation — NexuAlpha",
-      description: "Compare tokenized stock entitlement claims with stock perpetual derivatives by ownership rights, custody, dividends, funding, margin, liquidation, eligibility and venue access.",
+      description: "Compare tokenized stock claims with stock perpetuals by ownership rights, custody, dividends, funding, margin, liquidation, eligibility and venue access.",
       directAnswer: {
         question: "Are tokenized stocks and stock perpetuals the same product?",
         answer: "No. A tokenized stock may represent an issuer or broker entitlement linked to equity; a stock perpetual is a derivative with funding, margin and liquidation risk. Verify the legal claim before comparing price exposure, and treat xStocks, stock futures and copy-trading labels as separate products.",
@@ -1139,7 +1140,7 @@ const LOCALIZED_TOPIC_SEO_OVERRIDES = {
   en: {
     "derivatives": {
       title: "Crypto Perpetual Platform Comparison: Fees, Funding and Liquidation Checks — NexuAlpha",
-      description: "Compare crypto perpetual platforms by account model, published fees, funding, margin mode, liquidation rules, oracle route, collateral movement, regional access and product permissions before signup or wallet connection.",
+      description: "Perpetual platform checks: published fees, funding, margin mode, liquidation rules, oracle route, collateral movement, regional access and product permissions.",
       directAnswer: {
         question: "What is a crypto perpetual platform, and how should I compare one?",
         answer: "A crypto perpetual platform lets users trade contracts with no fixed expiry. Compare platform type first: account-based CEX futures such as Binance or Bybit require fee, funding, margin mode, KYC, region and product-permission checks, while wallet-connected perpetual protocols such as Hyperliquid require collateral, oracle, bridge, liquidation and front-end checks.",
@@ -1991,7 +1992,13 @@ export function buildFactbookSchemas(venue, locale = "en", canonicalUrl = canoni
   }];
 }
 
+// Client and Worker emit the same description: both go through clampMetaDescription (src/data/meta-description.js).
 export function computeRouteSeo(options = {}) {
+  const seo = computeRouteSeoUnclamped(options);
+  return seo && typeof seo.description === "string" ? { ...seo, description: clampMetaDescription(seo.description, seo.locale) } : seo;
+}
+
+function computeRouteSeoUnclamped(options = {}) {
   const url = new URL(options.url || options.pathname || (typeof window !== "undefined" ? window.location.href : "/"), PUBLIC_ORIGIN);
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   const contentPathname = publicRoute.contentPathname;
