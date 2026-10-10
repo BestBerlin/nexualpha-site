@@ -16,6 +16,7 @@ import { reviewedFeeCopy } from "../../data/reviewed-fee-copy.js";
 import { tradingBleedCopy, bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
 import { buildDecisionReturnHref, readDecisionReturnState, decisionReturnCopy } from "../../data/decision-return.js";
 import { DecisionReturnLink } from "./DecisionReturnLink.jsx";
+import { formatPercent } from "../../data/format-percent.js";
 import "./trading-bleed-analyzer.css";
 
 export async function copyTextWithFeedback(clipboard, text) {
@@ -358,7 +359,7 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
             <div className="bleed-solution-box">
               <div className="bleed-solution-header">
                 <span className="bleed-solution-title">{ui.solutionTitle}</span>
-                {benefitVerified && <span className="bleed-seats-counter"><Ico k="check" />{ui.verified}: {commercialClaim.rebatePercent}%</span>}
+                {benefitVerified && <span className="bleed-seats-counter"><Ico k="check" />{ui.verified}: {formatPercent(locale, commercialClaim.rebatePercent)}</span>}
               </div>
 
               {inviteCode && (

@@ -97,8 +97,8 @@ const PUBLIC_ORIGIN = "https://nexualpha.com";
 const PRIORITY_VENUE_SEO = {
   "hyperliquid": {
     "en": {
-      "title": "Hyperliquid Fees, Referral Discount and Funded Account Checks — NexuAlpha",
-      "description": "Review Hyperliquid rolling 14-day fee tiers, hourly funding, referral discount vs cashback language, USDC collateral, sub-accounts, vault volume and funded-account claim boundaries.",
+      "title": "Hyperliquid Fees & Referral Code NEXU888: Funded Account Checks (2026)",
+      "description": "Hyperliquid referral code NEXU888: fees and official sign-up link checked by NexuAlpha. Partner link disclosed.",
       "directAnswer": {
         "question": "Are hyperliquid fees cheaper than a centralized futures exchange?",
         "answer": "You cannot decide from a headline taker fee alone. Hyperliquid fees depend on a maker/taker fee tier based on rolling 14-day volume, separate spot and perp schedules, sub-account volume rules, vault-volume separation, HIP-3 market conditions and referral discount eligibility; hourly peer-to-peer funding is separate from maker/taker trading fees and can change the holding cost.",
@@ -168,8 +168,8 @@ const PRIORITY_VENUE_SEO = {
       "reviewedAt": "2026-09-22"
     },
     "zh-Hans": {
-      "title": "Hyperliquid 费率、邀请折扣、资金费与清算检查清单",
-      "description": "基于官方来源的 Hyperliquid 答案，区分邀请折扣与 cashback 表述，并覆盖滚动费率阶梯、每小时资金费、保证金、清算和 funded-account 边界。",
+      "title": "Hyperliquid 邀请码 NEXU888：注册教程、手续费与官方入口（2026）",
+      "description": "Hyperliquid 邀请码 NEXU888：注册入口与手续费。NexuAlpha 核验官方入口，合作关系已披露。",
       "reviewedAt": "2026-09-22",
       "sourceUrls": [
         "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
@@ -235,7 +235,7 @@ const PRIORITY_VENUE_SEO = {
     },
     "zh-Hant": {
       "title": "Hyperliquid 費率、邀請折扣、資金費與清算檢查清單",
-      "description": "基於官方來源的 Hyperliquid 答案，區分邀請折扣與 cashback 表述，並覆蓋滾動費率階梯、每小時資金費、保證金、清算和 funded-account 邊界。",
+      "description": "Hyperliquid 官方來源答案：區分邀請折扣與 cashback，覆蓋滾動費率階梯、每小時資金費、保證金、清算和 funded-account 邊界。",
       "reviewedAt": "2026-09-22",
       "sourceUrls": [
         "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
@@ -304,7 +304,7 @@ const PRIORITY_VENUE_SEO = {
     "en": {
       "reviewedAt": "2026-09-22",
       "title": "Uniswap Testnet, Mainnet, Permit2 and Swap Preview Checklist — NexuAlpha",
-      "description": "Check Uniswap official app and docs, API and web testnet scope, mainnet chain, token contract, pool route, Permit2 spender, gas and wallet transaction preview before any swap.",
+      "description": "Check Uniswap official app and docs, API and web testnet scope, mainnet chain, token contract, pool route, Permit2 spender, gas and wallet transaction preview.",
       "directAnswer": {
         "question": "What should I check before using Uniswap testnet or mainnet?",
         "answer": "Guidance checked 2026-10-01: open the official Uniswap app and docs first; separate API table coverage from the public web app. Test coins have no real-world value. Wallet/Extension only: open the app or extension, select the gear icon, Advanced, then turn on Testnet mode. These are not instructions for the ordinary web interface. Before mainnet use, verify network, token contract, approval or Permit2 spender, gas asset and final wallet transaction preview (the final mainnet transaction preview for live use). Testnet results do not prove mainnet liquidity, execution quality or token safety; do not connect a wallet or send value from an unverified link or contract.",
@@ -591,7 +591,7 @@ const PRIORITY_VENUE_SEO = {
         "/exchanges/dydx",
         "/news/cex-vs-dex-vs-perp-dex"
       ],
-      "description": "Source-backed GMX answer covering GM/GLV pools, oracle pricing, collateral choice, position and swap fees, price impact, borrow, funding and liquidation boundaries.",
+      "description": "Source-backed GMX answer covering GM/GLV pools, oracle pricing, collateral, position and swap fees, price impact, borrow, funding and liquidation boundaries.",
       "reviewedAt": "2026-09-28"
     },
     "zh-Hans": {
@@ -698,7 +698,7 @@ const PRIORITY_VENUE_SEO = {
   "drift": {
     "en": {
       "title": "Drift source-boundary checklist: official site, updates and docs redirect",
-      "description": "Source-backed Drift answer separating Drift-owned pages, recovery updates, documentation redirect status and stop conditions before deposits, trading, sponsored registration, fees, TVL, ranking or regional claims.",
+      "description": "Source-backed Drift answer: Drift-owned pages, recovery updates, docs redirect status and stop conditions before deposits, trading or sponsored registration.",
       "reviewedAt": "2026-09-29",
       "sourceUrls": [
         "https://www.drift.trade/",
@@ -748,7 +748,7 @@ const PRIORITY_VENUE_SEO = {
     },
     "zh-Hans": {
       "title": "Drift 来源边界检查：官网、更新公告与文档重定向",
-      "description": "基于来源的 Drift 答案，区分 Drift 自有页面、恢复公告、文档重定向状态，以及充值、交易、sponsored registration、费率、TVL、排名或地区声明前的停止条件。",
+      "description": "Drift 来源答案：区分 Drift 自有页面、恢复公告、文档重定向状态，以及充值、交易、sponsored registration 前的停止条件。",
       "reviewedAt": "2026-09-29",
       "sourceUrls": [
         "https://www.drift.trade/",
@@ -798,7 +798,7 @@ const PRIORITY_VENUE_SEO = {
     },
     "zh-Hant": {
       "title": "Drift 來源邊界檢查：官網、更新公告與文件重新導向",
-      "description": "基於來源的 Drift 答案，區分 Drift 自有頁面、恢復公告、文件重新導向狀態，以及儲值、交易、sponsored registration、費率、TVL、排名或地區聲明前的停止條件。",
+      "description": "Drift 來源答案：區分 Drift 自有頁面、恢復公告、文件重新導向狀態，以及儲值、交易、sponsored registration 前的停止條件。",
       "reviewedAt": "2026-09-29",
       "sourceUrls": [
         "https://www.drift.trade/",
@@ -850,7 +850,7 @@ const PRIORITY_VENUE_SEO = {
   "deribit": {
     "en": {
       "title": "Deribit Options Fees, 10% User Discount, Migration and Entity Checks",
-      "description": "Review Deribit options and futures fees, six-month 10% user fee discount terms, DRB Panama versus FZE entity limits, spot exclusion, migration dates, margin modes and liquidation risk.",
+      "description": "Deribit options and futures fees, six-month 10% user fee discount, DRB Panama versus FZE entity limits, spot exclusion, margin modes and liquidation risk.",
       "reviewedAt": "2026-09-29",
       "sourceUrls": [
         "https://support.deribit.com/hc/en-us/articles/25944746248989-Fees",
@@ -1023,7 +1023,7 @@ const PRIORITY_COMPARE_SEO = {
     "en": {
       "title": "Binance vs OKX: Fees, Products, KYC and Web3 Access Checks — NexuAlpha",
       "completeFaq": true,
-      "description": "Compare Binance and OKX by published fee tables, spot and derivatives product scope, identity requirements, Web3 or DEX-style access, announcement paths and account eligibility boundaries.",
+      "description": "Compare Binance and OKX by published fee tables, spot and derivatives product scope, identity requirements, Web3 or DEX-style access and account eligibility.",
       "reviewedAt": "2026-09-22",
       "directAnswer": {
         "question": "How should I compare Binance and OKX before choosing an exchange?",
@@ -1208,7 +1208,7 @@ const PRIORITY_COMPARE_SEO = {
     "en": {
       "title": "Bybit vs Bitget Stocks, Copy Trading, Fees and Account Checks — NexuAlpha",
       "completeFaq": true,
-      "description": "Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup-route limits.",
+      "description": "Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup limits.",
       "reviewedAt": "2026-09-22",
       "directAnswer": {
         "question": "How should I compare Bybit and Bitget before choosing a platform?",
@@ -1990,11 +1990,11 @@ const WORKER_COMPARE_FAQ = {
   "ar": [
     [
       "أي رسوم يجب مقارنتها أولاً؟",
-      "راجع رسوم spot وfutures ذات المصدر، مستوى الحساب وتاريخ المراجعة. قد تختلف الرسوم النهائية حسب المنتج والمنطقة والحساب والشاشة الرسمية."
+      "راجع رسوم السبوت والعقود الآجلة ذات المصدر، مستوى الحساب وتاريخ المراجعة. قد تختلف الرسوم النهائية حسب المنتج والمنطقة والحساب والشاشة الرسمية."
     ],
     [
       "هل نطاق المنتجات متماثل؟",
-      "لا. افصل بين spot والمشتقات وcopy trading والتعرض الشبيه بالأسهم. اسم المنتج لا يثبت توفره في المنصة الأخرى."
+      "لا. افصل بين السبوت والمشتقات ونسخ التداول والتعرض الشبيه بالأسهم. اسم المنتج لا يثبت توفره في المنصة الأخرى."
     ],
     [
       "ما الذي يجب فحصه في KYC والتمويل المحلي؟",
@@ -2026,11 +2026,11 @@ const WORKER_COMPARE_FAQ = {
   "ru": [
     [
       "Какие комиссии сравнить сначала?",
-      "Проверьте строки spot и futures с источником, уровень аккаунта и дату проверки. Итоговая комиссия зависит от продукта, региона, аккаунта и официального экрана."
+      "Проверьте строки спота и фьючерсов с источником, уровень аккаунта и дату проверки. Итоговая комиссия зависит от продукта, региона, аккаунта и официального экрана."
     ],
     [
       "Одинаковый ли набор продуктов?",
-      "Нет. Spot, деривативы, copy trading и экспозиции к акциям нужно разделять. Название продукта не доказывает доступность на другой платформе."
+      "Нет. Спот, деривативы, копитрейдинг и экспозиции к акциям нужно разделять. Название продукта не доказывает доступность на другой платформе."
     ],
     [
       "Что проверить по KYC и местным вводам или выводам?",
@@ -5067,15 +5067,15 @@ const LOCALIZED_VENUE_SEO_OVERRIDES = {
   },
   ko: {
     hyperliquid: ["Hyperliquid 수수료, 펀딩 및 계정 구조 확인 — NexuAlpha", "Hyperliquid의 롤링 수수료, 시간별 펀딩, 청산 위험, USDC 담보, 하위 계정, API 지갑 위임, 볼트 참여와 funded account 표현의 경계를 확인하세요.", "Hyperliquid를 사용하기 전에 어떤 수수료와 계정 조건을 먼저 확인해야 하나요?", "Hyperliquid는 공식 수수료표, 시간별 펀딩, 청산 구조, USDC 담보 경로, 계정 모드, 하위 계정, API 지갑 위임과 볼트 문서를 함께 확인해야 합니다. funded account 검색어는 지갑 담보, 계정 권한, 볼트 참여와 제3자 배정 주장으로 나누어 읽어야 합니다.", [["Hyperliquid 수수료는 어떻게 확인하나요?", "공식 수수료 페이지에서 14일 거래량 기준, UTC 일별 산정, perp와 spot 수수료표를 먼저 확인한 뒤 펀딩, 마진 모드와 청산 조건을 같이 확인하세요."], ["Hyperliquid funded account 검색어는 무엇을 구분해야 하나요?", "지갑 담보, USDC 이동, 계정 모드, 하위 계정, API 지갑 위임과 볼트 참여를 분리해야 합니다. 공식 문서만으로 prop-style 배정이나 가입 혜택을 추정하면 안 됩니다."]]],
-    uniswap: ["Uniswap 테스트넷, v4 훅과 스왑 경로 확인 — NexuAlpha", "Uniswap 테스트넷 또는 로컬 훅, v4 배포, 공식 앱 URL, 토큰 컨트랙트, 풀 수수료, 가스, 지갑 시뮬레이션과 서명 전 검토를 확인하세요.", "Uniswap 테스트넷이나 v4 훅 경로를 실거래 전에 어떻게 확인해야 하나요?", "Uniswap 테스트넷과 로컬 훅 자료는 개발자 연구용입니다. 실제 지갑으로 스왑하기 전에는 공식 앱 URL, 네트워크, 토큰 컨트랙트, v4 배포 주소, 풀 버전, 수수료 티어 또는 dynamic-fee 훅, 가스 토큰, 지갑 시뮬레이션과 최종 서명 내용을 확인해야 합니다.", [["Uniswap 테스트넷 검증이 실거래 안전을 뜻하나요?", "아니요. 테스트넷과 로컬 훅은 개발 환경입니다. 실거래는 공식 앱 URL, 네트워크, 배포 주소, 토큰 컨트랙트, 가스와 최종 지갑 트랜잭션을 다시 확인해야 합니다."], ["Uniswap 수수료는 무엇을 비교해야 하나요?", "v2, v3, v4의 수수료 모델과 풀 동작이 다릅니다. v4 dynamic-fee 또는 훅 동작은 현재 Uniswap 문서와 배포 데이터로 확인해야 합니다."]]],
-    aerodrome: ["Aerodrome Base DEX 풀 수수료와 veAERO 조건 확인 — NexuAlpha", "Aerodrome을 Base 네이티브 DEX로 보고 풀별 수수료, Slipstream 경로, 거래량, 토큰 컨트랙트, Base 가스, 인센티브와 veAERO 보상 경계를 확인하세요.", "Aerodrome 경로와 풀 수수료 조건은 어떻게 확인해야 하나요?", "Aerodrome은 Base 네트워크의 DEX 경로로 확인해야 합니다. Base 브리지, 지갑 네트워크, 토큰 컨트랙트, 풀 주소, 표준 풀 또는 Slipstream 풀 유형, 풀별 거래량과 수수료 표시, veAERO 인센티브나 보상 조건을 자금 이동이나 서명 전에 따로 확인하세요.", [["Aerodrome에는 하나의 고정 DEX 수수료가 있나요?", "아니요. 표준 풀, Slipstream 집중 유동성 풀, 인센티브와 veAERO 투표 조건이 실제 비용이나 보상 맥락을 바꿀 수 있으므로 풀 단위로 확인해야 합니다."], ["Aerodrome 스왑만으로 veAERO 보상이 생기나요?", "아니요. 스왑 경로와 veAERO 투표 또는 보상 청구는 별도 흐름입니다. 풀 거래만으로 보상 자격을 추정하면 안 됩니다."]]],
-    jupiter: ["Jupiter Solana 스왑 경로, 테스트 견적과 수수료 확인 — NexuAlpha", "Jupiter Swap과 Ultra 경로, 토큰 목록, 경로 실패 원인, 플랫폼 수수료 경계, Solana 지갑 서명, 슬리피지와 route leg를 확인하세요.", "Jupiter 경로, 테스트 견적과 플랫폼 수수료는 어떻게 확인해야 하나요?", "Jupiter는 Solana 라우팅과 트랜잭션 생성 경로로 보아야 합니다. Swap 또는 Ultra 출력, 토큰 mint 상태, 유동성, 플랫폼 수수료 설정, 슬리피지, 가격 영향, 네트워크 비용과 지갑에 표시되는 모든 route leg를 서명 전에 확인하세요.", [["Jupiter 견적이 보인 뒤에도 스왑이 실패할 수 있나요?", "네. 가격 변동, 유동성 부족, 거래 크기, 토큰 제한 또는 오래된 경로 가격 때문에 실패할 수 있습니다."], ["Jupiter 견적은 최종 비용 보장인가요?", "아니요. 견적은 보관, 실행 또는 최종 비용 보장이 아닙니다. 지갑에서 네트워크 비용, 슬리피지와 route leg를 다시 확인해야 합니다."]]],
+    uniswap: ["Uniswap 테스트넷, v4 훅과 스왑 경로 확인 — NexuAlpha", "Uniswap 테스트넷, v4 배포, 공식 앱 URL, 토큰 컨트랙트, 풀 수수료, 가스, 지갑 시뮬레이션과 서명 전 검토를 확인하세요.", "Uniswap 테스트넷이나 v4 훅 경로를 실거래 전에 어떻게 확인해야 하나요?", "Uniswap 테스트넷과 로컬 훅 자료는 개발자 연구용입니다. 실제 지갑으로 스왑하기 전에는 공식 앱 URL, 네트워크, 토큰 컨트랙트, v4 배포 주소, 풀 버전, 수수료 티어 또는 dynamic-fee 훅, 가스 토큰, 지갑 시뮬레이션과 최종 서명 내용을 확인해야 합니다.", [["Uniswap 테스트넷 검증이 실거래 안전을 뜻하나요?", "아니요. 테스트넷과 로컬 훅은 개발 환경입니다. 실거래는 공식 앱 URL, 네트워크, 배포 주소, 토큰 컨트랙트, 가스와 최종 지갑 트랜잭션을 다시 확인해야 합니다."], ["Uniswap 수수료는 무엇을 비교해야 하나요?", "v2, v3, v4의 수수료 모델과 풀 동작이 다릅니다. v4 dynamic-fee 또는 훅 동작은 현재 Uniswap 문서와 배포 데이터로 확인해야 합니다."]]],
+    aerodrome: ["Aerodrome Base DEX 풀 수수료와 veAERO 조건 확인 — NexuAlpha", "Aerodrome(Base DEX) 풀별 수수료, Slipstream 경로, 토큰 컨트랙트, 가스, veAERO 보상 경계를 확인하세요.", "Aerodrome 경로와 풀 수수료 조건은 어떻게 확인해야 하나요?", "Aerodrome은 Base 네트워크의 DEX 경로로 확인해야 합니다. Base 브리지, 지갑 네트워크, 토큰 컨트랙트, 풀 주소, 표준 풀 또는 Slipstream 풀 유형, 풀별 거래량과 수수료 표시, veAERO 인센티브나 보상 조건을 자금 이동이나 서명 전에 따로 확인하세요.", [["Aerodrome에는 하나의 고정 DEX 수수료가 있나요?", "아니요. 표준 풀, Slipstream 집중 유동성 풀, 인센티브와 veAERO 투표 조건이 실제 비용이나 보상 맥락을 바꿀 수 있으므로 풀 단위로 확인해야 합니다."], ["Aerodrome 스왑만으로 veAERO 보상이 생기나요?", "아니요. 스왑 경로와 veAERO 투표 또는 보상 청구는 별도 흐름입니다. 풀 거래만으로 보상 자격을 추정하면 안 됩니다."]]],
+    jupiter: ["Jupiter Solana 스왑 경로, 테스트 견적과 수수료 확인 — NexuAlpha", "Jupiter Swap과 Ultra 경로, 토큰 목록, 경로 실패 원인, 플랫폼 수수료 경계, 슬리피지와 route leg를 확인하세요.", "Jupiter 경로, 테스트 견적과 플랫폼 수수료는 어떻게 확인해야 하나요?", "Jupiter는 Solana 라우팅과 트랜잭션 생성 경로로 보아야 합니다. Swap 또는 Ultra 출력, 토큰 mint 상태, 유동성, 플랫폼 수수료 설정, 슬리피지, 가격 영향, 네트워크 비용과 지갑에 표시되는 모든 route leg를 서명 전에 확인하세요.", [["Jupiter 견적이 보인 뒤에도 스왑이 실패할 수 있나요?", "네. 가격 변동, 유동성 부족, 거래 크기, 토큰 제한 또는 오래된 경로 가격 때문에 실패할 수 있습니다."], ["Jupiter 견적은 최종 비용 보장인가요?", "아니요. 견적은 보관, 실행 또는 최종 비용 보장이 아닙니다. 지갑에서 네트워크 비용, 슬리피지와 route leg를 다시 확인해야 합니다."]]],
   },
   tr: {
-    hyperliquid: ["Hyperliquid ücretleri, funding ve hesap yapısı kontrolü — NexuAlpha", "Hyperliquid ücretlerini, saatlik funding'i, likidasyon riskini, USDC teminatını, alt hesapları, API cüzdan yetkisini, vault katılımını ve funded account ifade sınırlarını inceleyin.", "Hyperliquid kullanmadan önce hangi ücret ve hesap koşulları kontrol edilmeli?", "Hyperliquid için resmi rolling ücret çizelgesi, saatlik funding kuralları, likidasyon mantığı, USDC teminat yolu, hesap modu, alt hesaplar, API cüzdan yetkisi ve vault dokümantasyonu birlikte okunmalıdır. Funded account araması cüzdan teminatı, hesap izinleri, vault katılımı ve üçüncü taraf tahsis iddialarını ayırmalıdır.", [["Hyperliquid ücretleri nasıl okunmalı?", "Önce resmi ücret sayfasındaki 14 günlük hacim, UTC gün değerlendirmesi ve perp/spot çizelgelerini kontrol edin; ardından funding, marjin modu ve likidasyon koşullarını birlikte değerlendirin."], ["Hyperliquid funded account ifadesi neyi ayırmalı?", "Cüzdan teminatı, USDC hareketi, hesap modu, alt hesaplar, API cüzdan yetkisi ve vault katılımı ayrılmalıdır. Resmi dokümanlar bu ifadeyi prop-style tahsis veya kayıt hakkına dönüştürmez."]]],
-    uniswap: ["Uniswap testnet, v4 hook ve swap rota kontrolleri — NexuAlpha", "Uniswap testnet veya yerel hook kurulumu, v4 dağıtımları, resmi uygulama URL'si, token kontratları, pool ücretleri, gas, cüzdan simülasyonu ve imza öncesi kontrolleri inceleyin.", "Uniswap testnet veya v4 hook rotası canlı swap öncesi nasıl araştırılmalı?", "Uniswap testnet ve yerel hook materyali geliştirici araştırmasıdır; canlı cüzdan rotasının güvenli olduğunu kanıtlamaz. Resmi uygulama URL'si, ağ, token kontratı, v4 dağıtım haritası, pool sürümü, ücret seviyesi veya dynamic-fee hook, gas tokenı, cüzdan simülasyonu ve son imza ekranı ayrı kontrol edilmelidir.", [["Uniswap testnet araştırması canlı swap güvenliği sağlar mı?", "Hayır. Testnet ve yerel hook rehberleri geliştirici yollarıdır. Canlı rota için resmi app URL'si, ağ, dağıtım adresi, token kontratı, gas ve son cüzdan işlemi yeniden kontrol edilmelidir."], ["Uniswap ücretlerinde hangi sürümler karşılaştırılmalı?", "v2, v3 ve v4 ücret modeli ve pool davranışı ayrıdır. v4 dynamic-fee veya hook davranışı güncel Uniswap dokümantasyonu ve dağıtım verisiyle doğrulanmalıdır."]]],
+    hyperliquid: ["Hyperliquid ücretleri, funding ve hesap yapısı kontrolü — NexuAlpha", "Hyperliquid ücretlerini, saatlik funding'i, likidasyon riskini, USDC teminatını, alt hesapları, vault katılımını ve funded account sınırlarını inceleyin.", "Hyperliquid kullanmadan önce hangi ücret ve hesap koşulları kontrol edilmeli?", "Hyperliquid için resmi rolling ücret çizelgesi, saatlik funding kuralları, likidasyon mantığı, USDC teminat yolu, hesap modu, alt hesaplar, API cüzdan yetkisi ve vault dokümantasyonu birlikte okunmalıdır. Funded account araması cüzdan teminatı, hesap izinleri, vault katılımı ve üçüncü taraf tahsis iddialarını ayırmalıdır.", [["Hyperliquid ücretleri nasıl okunmalı?", "Önce resmi ücret sayfasındaki 14 günlük hacim, UTC gün değerlendirmesi ve perp/spot çizelgelerini kontrol edin; ardından funding, marjin modu ve likidasyon koşullarını birlikte değerlendirin."], ["Hyperliquid funded account ifadesi neyi ayırmalı?", "Cüzdan teminatı, USDC hareketi, hesap modu, alt hesaplar, API cüzdan yetkisi ve vault katılımı ayrılmalıdır. Resmi dokümanlar bu ifadeyi prop-style tahsis veya kayıt hakkına dönüştürmez."]]],
+    uniswap: ["Uniswap testnet, v4 hook ve swap rota kontrolleri — NexuAlpha", "Uniswap testnet, v4 dağıtımları, resmi uygulama URL'si, token kontratları, pool ücretleri, gas, cüzdan simülasyonu ve imza öncesi kontrolleri inceleyin.", "Uniswap testnet veya v4 hook rotası canlı swap öncesi nasıl araştırılmalı?", "Uniswap testnet ve yerel hook materyali geliştirici araştırmasıdır; canlı cüzdan rotasının güvenli olduğunu kanıtlamaz. Resmi uygulama URL'si, ağ, token kontratı, v4 dağıtım haritası, pool sürümü, ücret seviyesi veya dynamic-fee hook, gas tokenı, cüzdan simülasyonu ve son imza ekranı ayrı kontrol edilmelidir.", [["Uniswap testnet araştırması canlı swap güvenliği sağlar mı?", "Hayır. Testnet ve yerel hook rehberleri geliştirici yollarıdır. Canlı rota için resmi app URL'si, ağ, dağıtım adresi, token kontratı, gas ve son cüzdan işlemi yeniden kontrol edilmelidir."], ["Uniswap ücretlerinde hangi sürümler karşılaştırılmalı?", "v2, v3 ve v4 ücret modeli ve pool davranışı ayrıdır. v4 dynamic-fee veya hook davranışı güncel Uniswap dokümantasyonu ve dağıtım verisiyle doğrulanmalıdır."]]],
     aerodrome: ["Aerodrome Base DEX pool ücretleri ve veAERO kontrolleri — NexuAlpha", "Aerodrome'u Base-native DEX olarak inceleyin: pool bazlı ücretler, Slipstream rotası, hacim, token kontratları, Base gas, teşvikler ve veAERO ödül sınırları.", "Aerodrome rota ve pool ücret koşulları nasıl kontrol edilmeli?", "Aerodrome bir Base-native DEX rotası olarak kontrol edilmelidir. Base bridge yolu, cüzdan ağı, token kontratı, pool adresi, standart veya Slipstream pool tipi, pool bazlı hacim ve ücret görünümü ile veAERO teşvik veya ödül koşulları fon taşımadan ya da imza atmadan önce doğrulanmalıdır.", [["Aerodrome'da tek bir DEX ücreti var mı?", "Hayır. Standart pool, Slipstream yoğun likidite pool'u, teşvikler ve veAERO oylaması pratik maliyet veya ödül bağlamını değiştirebilir; kontrol pool düzeyinde yapılmalıdır."], ["Aerodrome swap işlemi veAERO ödülü doğurur mu?", "Hayır. Swap rotası ile veAERO oylama veya ödül hakları ayrı akışlardır. Bir pool işlemi tek başına ödül hakkı sayılmamalıdır."]]],
-    jupiter: ["Jupiter Solana swap rotaları, test quote ve ücret kontrolleri — NexuAlpha", "Jupiter Swap ve Ultra rotalarını, token listesini, rota hata nedenlerini, platform ücreti sınırlarını, Solana cüzdan imzasını, slippage'i ve rota bacaklarını inceleyin.", "Jupiter rota, test quote ve platform ücretleri nasıl kontrol edilmeli?", "Jupiter bir Solana rota ve işlem oluşturma yoludur. Swap veya Ultra çıktısı, token mint durumu, likidite, platform ücreti yapılandırması, slippage, fiyat etkisi, ağ maliyeti ve cüzdandaki her rota bacağı imza öncesinde kontrol edilmelidir; quote saklama veya nihai maliyet garantisi değildir.", [["Jupiter quote göründükten sonra swap neden başarısız olabilir?", "Fiyatın yürütmeden önce değişmesi, likiditenin yetersiz olması, işlem boyutunun uygun olmaması, token kısıtları veya rota fiyatının bayatlaması başarısızlığa yol açabilir."], ["Jupiter quote nihai maliyet garantisi midir?", "Hayır. Quote saklama, yürütme veya nihai maliyet garantisi değildir. Ağ maliyeti, slippage ve rota bacakları cüzdanda yeniden kontrol edilmelidir."]]],
+    jupiter: ["Jupiter Solana swap rotaları, test quote ve ücret kontrolleri — NexuAlpha", "Jupiter Swap ve Ultra rotalarını, token listesini, rota hata nedenlerini, platform ücreti sınırlarını, slippage'i ve rota bacaklarını inceleyin.", "Jupiter rota, test quote ve platform ücretleri nasıl kontrol edilmeli?", "Jupiter bir Solana rota ve işlem oluşturma yoludur. Swap veya Ultra çıktısı, token mint durumu, likidite, platform ücreti yapılandırması, slippage, fiyat etkisi, ağ maliyeti ve cüzdandaki her rota bacağı imza öncesinde kontrol edilmelidir; quote saklama veya nihai maliyet garantisi değildir.", [["Jupiter quote göründükten sonra swap neden başarısız olabilir?", "Fiyatın yürütmeden önce değişmesi, likiditenin yetersiz olması, işlem boyutunun uygun olmaması, token kısıtları veya rota fiyatının bayatlaması başarısızlığa yol açabilir."], ["Jupiter quote nihai maliyet garantisi midir?", "Hayır. Quote saklama, yürütme veya nihai maliyet garantisi değildir. Ağ maliyeti, slippage ve rota bacakları cüzdanda yeniden kontrol edilmelidir."]]],
   },
 };
 const LOCALIZED_COMPARE_SEO_OVERRIDES = {
@@ -5417,7 +5417,60 @@ function notFoundMetadata(pathname, locale) {
   return { status: 404, title: "Page Not Found — NexuAlpha", description: "The requested page does not exist or is not published.", canonical: localizedCanonical(pathname, locale), locale, robots: "noindex,nofollow", marker: NOT_FOUND_ROUTE_MARKER };
 }
 
+// Owner 2026-10-10 (GSC: 1,770 impressions, 4 clicks, no clicks on commercial pages): the home title and description carry
+// the commercial search intent (referral code / fee rebate, OKX, Bitget, Binance; headline "up to 60%" is owner-confirmed).
+// ja/ko stay informational (no sign-up wording); ru and ar stay neutral, matching the referral-title policy in
+// src/data/referral-seo.js. Titles ≤ 65 characters; descriptions ≤ 160 (80 for zh/ja/ko). Mirror of HOME_SEARCH_COPY in src/data/seo-injection.js.
+const HOME_SEARCH_COPY = {
+  en: ["Crypto Exchange Referral Codes & Fee Rebates (2026) — NexuAlpha", "Compare OKX, Bitget and Binance fees, referral codes and rebates of up to 60% of trading fees, paid by the exchange. Partner links disclosed."],
+  "zh-Hans": ["交易所邀请码与手续费返佣：OKX、Bitget、币安对比 — NexuAlpha", "对比 OKX、Bitget、币安手续费与邀请码，返佣最高 60%，由交易所结算。官方注册入口，合作关系已披露。"],
+  "zh-Hant": ["交易所邀請碼與手續費返傭：OKX、Bitget、幣安比較 — NexuAlpha", "比較 OKX、Bitget、幣安手續費與邀請碼，返傭最高 60%，由交易所結算。官方註冊入口，合作關係已揭露。"],
+  es: ["Códigos de referido y reembolso de comisiones cripto — NexuAlpha", "Compara comisiones, códigos de referido y reembolsos de hasta el 60% en OKX, Bitget y Binance, pagados por el exchange. Enlaces de socio declarados."],
+  "pt-BR": ["Códigos de indicação e cashback de taxas cripto — NexuAlpha", "Compare taxas, códigos de indicação e cashback de até 60% das taxas na OKX, Bitget e Binance, pago pela corretora. Links oficiais; parceria informada."],
+  fr: ["Codes de parrainage et remises sur frais crypto — NexuAlpha", "Comparez frais, codes de parrainage et remises jusqu’à 60 % des frais sur OKX, Bitget et Binance, versées par la plateforme. Liens partenaires signalés."],
+  de: ["Krypto-Empfehlungscodes und Gebührenrabatte — NexuAlpha", "Gebühren, Empfehlungscodes und Rabatte von bis zu 60 % der Gebühren bei OKX, Bitget und Binance vergleichen, gezahlt von der Börse. Partnerlinks offengelegt."],
+  it: ["Codici referral e rimborso commissioni crypto — NexuAlpha", "Confronta commissioni, codici referral e rimborsi fino al 60% delle commissioni su OKX, Bitget e Binance, pagati dall’exchange. Link partner dichiarati."],
+  ja: ["暗号資産取引所の手数料と紹介コード比較（OKX・Bitget・Binance）— NexuAlpha", "OKX・Bitget・Binance の手数料と紹介コードを比較。取引手数料の最大60%が取引所から還元されます。提携関係を開示。"],
+  ko: ["암호화폐 거래소 수수료·추천코드 비교 (OKX·Bitget·Binance) — NexuAlpha", "OKX, Bitget, Binance 수수료와 추천코드를 비교합니다. 거래 수수료 최대 60%를 거래소가 돌려줍니다. 제휴 관계 공개."],
+  ru: ["Комиссии криптобирж: сравнение OKX, Bitget и Binance — NexuAlpha", "Сравнение комиссий OKX, Bitget и Binance по официальным тарифам: спот, фьючерсы, условия аккаунта и официальные ссылки. Партнёрские ссылки раскрыты."],
+  tr: ["Kripto borsası komisyon iadesi ve referans kodu — NexuAlpha", "OKX, Binance ve diğer borsaların komisyonlarını, referans kodlarını ve borsanın ödediği komisyon iadesini karşılaştırın. Ortaklık bağlantıları belirtilir."],
+  id: ["Kode referral dan rabat biaya exchange kripto — NexuAlpha", "Bandingkan biaya, kode referral, dan rabat hingga 60% biaya trading di OKX, Bitget, dan Binance, dibayar oleh exchange. Tautan resmi; kemitraan diungkapkan."],
+  vi: ["Mã giới thiệu và hoàn phí sàn giao dịch crypto — NexuAlpha", "So sánh phí, mã giới thiệu và hoàn phí đến 60% phí giao dịch tại OKX, Bitget và Binance, do sàn chi trả. Liên kết chính thức; có công bố quan hệ đối tác."],
+  ar: ["رسوم منصات العملات الرقمية: OKX وBitget وBinance — NexuAlpha", "مقارنة رسوم OKX وBitget وBinance وفق الجداول الرسمية: التداول الفوري والعقود وشروط الحساب وروابط التسجيل الرسمية. روابط الشراكة مُفصح عنها."],
+};
+
+// Search snippets: Google shows about 160 Latin characters (about 80 for zh/ja/ko) before truncating with an
+// ellipsis. Copy sources stay within budget; this clamp is the server-side guarantee for every route (owner 2026-10-10).
+const CJK_META_LOCALE = /^(zh|ja|ko)(?:[-_]|$)/i;
+export function metaDescriptionLimit(locale) {
+  return CJK_META_LOCALE.test(String(locale || "")) ? 80 : 160;
+}
+const META_SENTENCE_END = "。！？";
+const META_CLAUSE_BREAK = /[\s,;:，、；：]/;
+export function clampMetaDescription(text, locale) {
+  const value = String(text ?? "").replace(/\s+/g, " ").trim();
+  const limit = metaDescriptionLimit(locale);
+  if (value.length <= limit) return value;
+  let cut = -1;
+  for (let i = limit - 1; i > 0; i -= 1) {
+    const ch = value[i];
+    const next = value[i + 1];
+    if (META_SENTENCE_END.includes(ch) || (".!?".includes(ch) && (next === undefined || /\s/.test(next)))) { cut = i + 1; break; }
+    if (META_CLAUSE_BREAK.test(ch)) { cut = i; break; }
+  }
+  if (cut < 0) cut = limit;
+  return value.slice(0, cut).replace(/[\s,;:，、；：\-–—(（「“"'«]+$/u, "");
+}
+
 export async function routeMetadata(url, env) {
+  const metadata = await resolveRouteMetadata(url, env);
+  if (metadata && typeof metadata.description === "string") {
+    metadata.description = clampMetaDescription(metadata.description, metadata.locale);
+  }
+  return metadata;
+}
+
+async function resolveRouteMetadata(url, env) {
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   const contentUrl = new URL(url);
   contentUrl.pathname = publicRoute.localeSource === "path" ? publicRoute.contentPathname : url.pathname;
@@ -5477,14 +5530,8 @@ async function routeMetadataBase(url, env, newsFeed) {
   const isZh = locale === "zh-Hans";
 
   if (canonicalPath === "/") {
-    const localizedHomeTitle = { "zh-Hans": "NexuAlpha — 独立加密交易平台评测与费率对比", "zh-Hant": "NexuAlpha — 獨立加密交易平台評測與費率比較", ja: "NexuAlpha — 独立暗号資産プラットフォーム比較と手数料調査", ko: "NexuAlpha — 독립 암호화폐 플랫폼 비교 및 수수료 조사", tr: "NexuAlpha — Bağımsız kripto platformu karşılaştırması ve ücret araştırması", es: "NexuAlpha — Investigación y comparación independiente de plataformas cripto", "pt-BR": "NexuAlpha — Pesquisa e comparação independente de plataformas cripto", fr: "NexuAlpha — Recherche et comparaison indépendante des plateformes crypto", de: "NexuAlpha — Unabhängiger Vergleich von Krypto-Plattformen", ar: "NexuAlpha — مقارنة مستقلة لمنصات العملات الرقمية", ru: "NexuAlpha — Независимое сравнение криптоплатформ", id: "NexuAlpha — Riset dan perbandingan platform kripto independen", vi: "NexuAlpha — Nghiên cứu và so sánh nền tảng tiền mã hóa độc lập", it: "NexuAlpha — Ricerca e confronto indipendente delle piattaforme crypto" }[url.searchParams.get("locale")];
-    const title = isZh
-      ? "NexuAlpha — 独立加密交易平台评测、费率底牌与返佣聚合"
-      : localizedHomeTitle || "NexuAlpha — Independent Crypto Platform Research & Fee Comparison";
-    const localizedHomeDescription = { "zh-Hant": "NexuAlpha 獨立整理加密平台公開費率、儲備來源、地區條件與官方路徑。帳戶條款與用戶權益需以官方流程核驗。", es: "Base independiente de plataformas cripto con comisiones publicadas, condiciones regionales y rutas oficiales. Verifica siempre los términos de tu cuenta.", "pt-BR": "Base independente de plataformas cripto com taxas publicadas, condições regionais e rotas oficiais. Confirme sempre os termos da sua conta.", fr: "Base indépendante de plateformes crypto avec frais publiés, conditions régionales et accès officiels. Vérifiez toujours les conditions de votre compte.", de: "Unabhängige Datenbank für Krypto-Plattformen mit veröffentlichten Gebühren, regionalen Bedingungen und offiziellen Wegen. Prüfe immer die Bedingungen deines Kontos.", ar: "قاعدة مستقلة لمنصات العملات الرقمية تتضمن الرسوم المنشورة والشروط الإقليمية والروابط الرسمية. تحقق دائماً من شروط حسابك.", ru: "Независимая база криптоплатформ с опубликованными комиссиями, региональными условиями и официальными маршрутами. Всегда проверяйте условия своего аккаунта.", id: "Basis independen platform kripto dengan biaya yang dipublikasikan, ketentuan regional, dan jalur resmi. Selalu periksa ketentuan akun Anda.", vi: "Cơ sở dữ liệu độc lập về nền tảng tiền mã hóa với phí công bố, điều kiện khu vực và đường dẫn chính thức. Luôn kiểm tra điều khoản tài khoản của bạn.", it: "Database indipendente delle piattaforme crypto con commissioni pubblicate, condizioni regionali e percorsi ufficiali. Verifica sempre i termini del tuo account.", ja: "公開手数料、地域条件、公式ルートを整理した独立暗号資産プラットフォームデータベース。アカウント条件は必ず確認してください。", ko: "공개 수수료, 지역 조건, 공식 경로를 정리한 독립 암호화폐 플랫폼 데이터베이스입니다. 계정 조건을 반드시 확인하세요.", tr: "Yayınlanmış ücretleri, bölgesel koşulları ve resmî yolları sunan bağımsız kripto platformu veritabanı. Hesap koşullarınızı mutlaka doğrulayın." }[url.searchParams.get("locale")];
-    const description = isZh
-      ? "基于源头核验的独立加密交易平台数据库，整理币安、OKX、Bybit 等平台的公开费率、PoR 来源、地区条件与横向比较。用户权益需逐项核对官方条款。"
-      : localizedHomeDescription || "NexuAlpha is an independent platform research and comparison experience covering published fees, reserve sources, regional conditions and official source context. User benefits require official-term verification.";
+    const homeCopyLocale = HOME_SEARCH_COPY[requestedLocale] ? requestedLocale : locale;
+    const [title, description] = HOME_SEARCH_COPY[homeCopyLocale] || HOME_SEARCH_COPY.en;
 
     return {
       status: 200,
@@ -5768,7 +5815,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       uniswap: {
         reviewedAt: "2026-09-16",
         title: "Uniswap Testnet, Mainnet, Permit2 and Swap Preview Checklist — NexuAlpha",
-        description: "Check Uniswap official app and docs, API and web testnet scope, mainnet chain, token contract, pool route, Permit2 spender, gas and wallet transaction preview before any swap.",
+        description: "Check Uniswap official app and docs, API and web testnet scope, mainnet chain, token contract, pool route, Permit2 spender, gas and wallet transaction preview.",
         directAnswer: {
           question: "How should I research Uniswap testnet or v4 hook routes before using a live swap?",
           answer: "For a Uniswap testnet query, first decide whether the task is developer testing, v4 hook review or a live-wallet route check, then separate API support from the official web interface. The reviewed source lists Ethereum Sepolia, Unichain Sepolia and Base Sepolia for API access, while the web interface lists only Ethereum Sepolia and Unichain Sepolia. Before a live swap, verify the official app URL, network-specific v4 deployment, token contract, Universal Router, Permit2 contract, spender, amount, expiration, gas asset, wallet simulation and final signed transaction. Testnet support and recognizable contract addresses do not prove mainnet liquidity, execution or signature safety.",
@@ -5920,7 +5967,7 @@ async function routeMetadataBase(url, env, newsFeed) {
     const compareSeoOverrides = {
       "binance-vs-okx": {
         title: "Binance vs OKX: Fees, Products, KYC and Web3 Access Checks — NexuAlpha",
-        description: "Compare Binance and OKX by published fee tables, spot and derivatives product scope, identity requirements, Web3 or DEX-style access, announcement paths and account eligibility boundaries.",
+        description: "Compare Binance and OKX by published fee tables, spot and derivatives product scope, identity requirements, Web3 or DEX-style access and account eligibility.",
         directAnswer: {
           question: "How should I compare Binance and OKX before choosing an exchange?",
           answer: "Compare Binance and OKX by their official fee tables, product-specific availability, identity requirements, regional restrictions, Web3 or DEX-style access paths and announcement sources. Do not treat either public comparison as a current account entitlement, fee guarantee or eligibility decision.",

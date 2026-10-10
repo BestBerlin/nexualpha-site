@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { FACTBOOK_REGISTRY, FACTBOOK_SLUGS, AUDIT_DATE, AUDIT_DECLARATION, generateLlmMarkdown } from "../../data/factbook-registry.js";
 import { neutralVenueCatalog } from "../../data/market-command.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { formatPercent } from "../../data/format-percent.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
@@ -1787,7 +1788,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                     {activationCta.benefitVerified && activationCta.rebatePercent > 0 ? (
                       <div className="factbook-act-badge">
                         <dt className="act-lbl">{t.rebatePercentLabel}</dt>
-                        <dd><strong className="act-val highlight-green">{activationCta.rebatePercent}%</strong></dd>
+                        <dd><strong className="act-val highlight-green">{formatPercent(locale, activationCta.rebatePercent)}</strong></dd>
                       </div>
                     ) : (
                       <div className="factbook-act-badge">

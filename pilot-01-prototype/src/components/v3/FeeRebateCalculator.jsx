@@ -3,6 +3,7 @@
  * 用户输入月交易量，对比各平台年度基础手续费支出；已核验的用户权益才进入节省测算。
  */
 import { useState, useMemo } from "react";
+import { formatPercent } from "../../data/format-percent.js";
 import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
@@ -288,7 +289,7 @@ export function FeeRebateCalculator({ locale = "en" }) {
                   {row.yearlySaving > 0 ? `+${formatUsd(Math.round(row.yearlySaving))}` : "—"}
                 </span>
                 {row.rebatePercent > 0 && (
-                  <span className="frc__rebate-tag">{t.savePrefix}{row.rebatePercent}%</span>
+                  <span className="frc__rebate-tag">{t.savePrefix}{formatPercent(locale, row.rebatePercent)}</span>
                 )}
               </div>
 

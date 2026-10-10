@@ -165,7 +165,7 @@ export const priorityVenueAnswers = {
         faq("Does Hyperliquid offer a funded account?", "Treat hyperliquid funded account keywords as a separate research path. Official Hyperliquid docs can support checks around self-funded wallet collateral, vault participation, sub-accounts and API-wallet signing routes, but they do not prove third-party trader-funding offers, a third-party capital allocation offer or a promised trader-funding result.", ["https://hyperliquid.gitbook.io/hyperliquid-docs/trading/account-abstraction-modes", "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/vaults", "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/sub-accounts", "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/nonces-and-api-wallets"]),
       ],
       seoTitle: "Hyperliquid fees, referral discount and funded-account checklist",
-      seoDescription: "Source-backed Hyperliquid answer covering rolling fee tiers, hourly funding, referral discount vs cashback language, collateral movement, margin mode, liquidation checks and funded-account boundaries.",
+      seoDescription: "Source-backed Hyperliquid answer: rolling fee tiers, hourly funding, referral discount vs cashback language, liquidation checks and funded-account boundaries.",
     },
     "zh-Hans": {
       title: "Hyperliquid 决策检查：把费率、资金费、保证金和钱包权限放在一起看。",
@@ -218,7 +218,7 @@ export const priorityVenueAnswers = {
         faq("Hyperliquid 是否提供 funded account？", "把 funded account 关键词当成单独研究路径。官方资料可用于核对抵押模式、vault 参与、子账户和 API 钱包签名路径，但不能证明第三方会给交易员分配资金或承诺结果。", ["https://hyperliquid.gitbook.io/hyperliquid-docs/trading/account-abstraction-modes", "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/vaults", "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/sub-accounts", "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/nonces-and-api-wallets"]),
       ],
       seoTitle: "Hyperliquid 费率、邀请折扣、资金费与清算检查清单",
-      seoDescription: "基于官方来源的 Hyperliquid 答案，区分邀请折扣与 cashback 表述，并覆盖滚动费率阶梯、每小时资金费、保证金、清算和 funded-account 边界。",
+      seoDescription: "Hyperliquid 官方来源答案：区分邀请折扣与 cashback，覆盖滚动费率阶梯、每小时资金费、保证金、清算和 funded-account 边界。",
     },
     "zh-Hant": {
       title: "Hyperliquid 決策檢查：把費率、資金費、保證金和錢包權限放在一起看。",
@@ -271,7 +271,7 @@ export const priorityVenueAnswers = {
         faq("Hyperliquid 是否提供 funded account？", "把 funded account 關鍵詞當成單獨研究路徑。官方資料可用於核對抵押模式、vault 參與、子帳戶和 API 錢包簽名路徑，但不能證明第三方會給交易員分配資金或承諾結果。", ["https://hyperliquid.gitbook.io/hyperliquid-docs/trading/account-abstraction-modes", "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/vaults", "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/sub-accounts", "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/nonces-and-api-wallets"]),
       ],
       seoTitle: "Hyperliquid 費率、邀請折扣、資金費與清算檢查清單",
-      seoDescription: "基於官方來源的 Hyperliquid 答案，區分邀請折扣與 cashback 表述，並覆蓋滾動費率階梯、每小時資金費、保證金、清算和 funded-account 邊界。",
+      seoDescription: "Hyperliquid 官方來源答案：區分邀請折扣與 cashback，覆蓋滾動費率階梯、每小時資金費、保證金、清算和 funded-account 邊界。",
     },
   },
   uniswap: {
@@ -333,7 +333,7 @@ export const priorityVenueAnswers = {
         faq("Does a Uniswap affiliate program search prove consumer referral or cashback eligibility?", "Official documentation checked 2026-10-02: the Swap API FAQ describes an integrator fee, while the Custom Linking page documents prefilled interface links in a v2 documentation context. These are developer integration and interface-linking mechanics, not evidence that a consumer qualifies for a referral reward or cashback. They do not establish whether a consumer affiliate program exists or is available to a particular user. Verify any separate program terms and eligibility through current official sources; no reward or cashback is promised here.", ["https://developers.uniswap.org/docs/trading/swapping-api/faqs", "https://developers.uniswap.org/docs/trading/custom-interface-links"]),
       ],
       seoTitle: "Uniswap testnet, mainnet, Permit2 and swap preview checklist",
-      seoDescription: "Source-backed Uniswap answer separating testnet research from live mainnet swaps, with official app/docs, network, token contract, pool, Permit2, approval, gas and transaction-preview checks.",
+      seoDescription: "Source-backed Uniswap answer: testnet vs live mainnet swaps, app/docs, network, token contract, pool, Permit2, approval, gas and transaction-preview checks.",
     },
     "zh-Hans": {
       title: "Uniswap 决策检查：把测试网研究和真实钱包 swap 分开。",
@@ -487,7 +487,7 @@ export const priorityVenueAnswers = {
         faq("Does a GMX referral discount cover all costs?", "No. GMX referral docs describe trader discounts for eligible opening and closing fees and state that rewards and discounts do not apply to borrow fees or funding fees. They do not remove gas, price impact, slippage, liquidation or market risk.", ["https://docs.gmx.io/docs/referrals/", "https://docs.gmx.io/docs/trading/fees/"]),
       ],
       seoTitle: "GMX v2 Fees: Pools, Price Impact, Funding and Liquidation — NexuAlpha",
-      seoDescription: "Source-backed GMX answer covering GM/GLV pools, oracle pricing, collateral choice, position and swap fees, price impact, borrow, funding and liquidation boundaries.",
+      seoDescription: "Source-backed GMX answer covering GM/GLV pools, oracle pricing, collateral, position and swap fees, price impact, borrow, funding and liquidation boundaries.",
     },
     "zh-Hans": {
       title: "GMX 决策检查：把它当成资金池型永续路径，而不是普通订单簿交易所。",
@@ -590,7 +590,7 @@ export const priorityVenueAnswers = {
         faq("When should NexuAlpha stop the Drift CTA path?", "Stop before sending a user to deposit, trade or a sponsored registration route when the current Drift-owned source does not clearly confirm app state, account terms, product availability, user benefit and risk notices. NexuAlpha can link to source review first, but should not present unverified action claims as a conversion step.", ["https://www.drift.trade/", "https://www.drift.trade/updates"]),
       ],
       seoTitle: "Drift source-boundary checklist: official site, updates and docs redirect",
-      seoDescription: "Source-backed Drift answer separating Drift-owned pages, recovery updates, documentation redirect status and stop conditions before deposits, trading, sponsored registration, fees, TVL, ranking or regional claims.",
+      seoDescription: "Source-backed Drift answer: Drift-owned pages, recovery updates, docs redirect status and stop conditions before deposits, trading or sponsored registration.",
     },
     "zh-Hans": {
       title: "Drift 决策检查：先把官网、更新公告和文档重定向分开看，再考虑任何充值或交易动作。",
@@ -623,7 +623,7 @@ export const priorityVenueAnswers = {
         faq("NexuAlpha 什么时候应该停止 Drift 的 CTA 路径？", "当 Drift 自有当前来源没有明确确认 App 状态、账户条款、产品可用性、用户权益和风险提示时，应停在充值、交易或 sponsored registration 路径之前。NexuAlpha 可以先引导用户做来源核对，但不应把未验证行动声明做成转化步骤。", ["https://www.drift.trade/", "https://www.drift.trade/updates"]),
       ],
       seoTitle: "Drift 来源边界检查：官网、更新公告与文档重定向",
-      seoDescription: "基于来源的 Drift 答案，区分 Drift 自有页面、恢复公告、文档重定向状态，以及充值、交易、sponsored registration、费率、TVL、排名或地区声明前的停止条件。",
+      seoDescription: "Drift 来源答案：区分 Drift 自有页面、恢复公告、文档重定向状态，以及充值、交易、sponsored registration 前的停止条件。",
     },
     "zh-Hant": {
       title: "Drift 決策檢查：先把官網、更新公告和文件重新導向分開看，再考慮任何儲值或交易動作。",
@@ -656,7 +656,7 @@ export const priorityVenueAnswers = {
         faq("NexuAlpha 什麼時候應該停止 Drift 的 CTA 路徑？", "當 Drift 自有當前來源沒有明確確認 App 狀態、帳戶條款、產品可用性、用戶權益和風險提示時，應停在儲值、交易或 sponsored registration 路徑之前。NexuAlpha 可以先引導用戶做來源核對，但不應把未驗證行動聲明做成轉化步驟。", ["https://www.drift.trade/", "https://www.drift.trade/updates"]),
       ],
       seoTitle: "Drift 來源邊界檢查：官網、更新公告與文件重新導向",
-      seoDescription: "基於來源的 Drift 答案，區分 Drift 自有頁面、恢復公告、文件重新導向狀態，以及儲值、交易、sponsored registration、費率、TVL、排名或地區聲明前的停止條件。",
+      seoDescription: "Drift 來源答案：區分 Drift 自有頁面、恢復公告、文件重新導向狀態，以及儲值、交易、sponsored registration 前的停止條件。",
     },
   },
   deribit: {
@@ -694,7 +694,7 @@ export const priorityVenueAnswers = {
         faq("What changes after the Deribit affiliate migration dates?", "Treat 2026-09-09 as the stop date for creating new affiliates and 2027-01-01 as the stop date for onboarding new users through legacy affiliate links, based on the cited notice. Recheck entity, region and attribution before treating an old readable link as current.", ["https://support.deribit.com/hc/en-us/articles/25944777728797-Affiliate-Program"]),
       ],
       seoTitle: "Deribit Options Fees, 10% User Discount, Migration and Entity Checks",
-      seoDescription: "Review Deribit options and futures fees, six-month 10% user fee discount terms, DRB Panama versus FZE entity limits, spot exclusion, migration dates, margin modes and liquidation risk.",
+      seoDescription: "Deribit options and futures fees, six-month 10% user fee discount, DRB Panama versus FZE entity limits, spot exclusion, margin modes and liquidation risk.",
     },
     "zh-Hans": {
       title: "Deribit 决策检查：先确认产品、保证金、affiliate 实体和迁移限制，再把它当作专业衍生品平台使用。",

@@ -5,7 +5,7 @@ import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeMetadata } from "../worker/index.js";
 
 const expectedTitle = "GMX v2 Fees: Pools, Price Impact, Funding and Liquidation — NexuAlpha";
-const expectedDescription = "Source-backed GMX answer covering GM/GLV pools, oracle pricing, collateral choice, position and swap fees, price impact, borrow, funding and liquidation boundaries.";
+const expectedDescription = "Source-backed GMX answer covering GM/GLV pools, oracle pricing, collateral, position and swap fees, price impact, borrow, funding and liquidation boundaries.";
 
 test("Wave42 changes only the English GMX title for the observed exact query", async () => {
   const client = computeRouteSeo({ url: "/exchanges/gmx", locale: "en" });

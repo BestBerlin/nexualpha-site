@@ -971,3 +971,32 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
   .news-detail__related-articles,
   .news-detail__prose .news-detail__related-articles { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Owner 2026-10-10: partner mentions in the body link to the exchange profile; the related line closes the article. */
+.news-detail__partner-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  text-underline-offset: 0.14em;
+}
+.news-detail__partner-link:hover,
+.news-detail__partner-link:focus-visible {
+  text-decoration-color: currentColor;
+}
+.news-detail__related-partners {
+  margin: 1.25rem 0 0;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid var(--border-subtle, rgba(127, 127, 127, 0.25));
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.news-detail__related-partners-label {
+  font-weight: 600;
+  margin-inline-end: 0.35em;
+}
+.news-detail__related-partners a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}

@@ -30,7 +30,7 @@ test("Wave59 Bybit-vs-Bitget owner links both venue profiles without route chang
   assert.equal(worker.canonical, client.canonical);
   assert.equal(client.title, "Bybit vs Bitget Stocks, Copy Trading, Fees and Account Checks — NexuAlpha");
   assert.equal(worker.title, client.title);
-  assert.equal(client.description, "Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup-route limits.");
+  assert.equal(client.description, "Compare Bybit and Bitget by product label first: UTA margin, xStocks fee schedule, stock futures, copy-trading profit sharing, KYC, region and signup limits.");
   assert.equal(worker.description, client.description);
   assert.equal(client.robots, "index,follow");
   assert.equal(worker.robots, "index,follow");

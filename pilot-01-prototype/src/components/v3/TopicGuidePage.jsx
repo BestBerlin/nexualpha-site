@@ -8,6 +8,7 @@ import { topicReviewedFaqRecords } from "../../data/topic-reviewed-faqs.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
 import { getTelegramDeepLink } from "../../data/telegram-config.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { formatPercent } from "../../data/format-percent.js";
 import { enIfLatin } from "../../utils/fallback-lang.js";
 import { NextDecisionBridge } from "./NextDecisionBridge.jsx";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
@@ -3343,7 +3344,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
                       <div className="topic-net-fee">{topicFactsVerified ? zhCopy(isHant, p.netFee, p.netFeeZhHant) : (isZh ? zhCopy(isHant, "官方费率待核验") : (topicUiResolved.officialFeeTerms || "Official fee terms to verify"))}</div>
                       {topicFactsVerified && p.rebate > 0 && (
                         <div className="topic-rebate-tag">
-                          {isZh ? `${zhCopy(isHant, "已核验")} ${p.rebate}% ${zhCopy(isHant, "终身返佣")}` : `Verified ${p.rebate}% Lifetime Rebate`}
+                          {isZh ? `${zhCopy(isHant, "已核验")} ${formatPercent(locale, p.rebate)} ${zhCopy(isHant, "终身返佣")}` : `Verified ${formatPercent(locale, p.rebate)} Lifetime Rebate`}
                         </div>
                       )}
                     </td>
