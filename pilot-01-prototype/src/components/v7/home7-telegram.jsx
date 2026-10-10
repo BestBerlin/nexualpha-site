@@ -4,7 +4,7 @@
 export const TELEGRAM_ENTRIES = Object.freeze({
   channelZh: "https://t.me/NexuAlphaClub",
   group: "https://t.me/NexuAlphaWorld",
-  channelEn: null,
+  channelEn: "https://t.me/NexuAlphaGlobal",
   bot: "https://t.me/NexuAlphaAssistantBot",
 });
 
