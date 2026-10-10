@@ -15,6 +15,7 @@ import { getBrazilSeo } from "../src/data/brazil-seo.js";
 import { AUDIT_DATE as FACTBOOK_SOURCE_REVIEW_DATE } from "../src/data/factbook-registry.js";
 import { COUNTRY_ROUTE_PREFIXES, localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
 import { buildSearchPublicationReport, selectSitemapPublicationEntries, sitemapLocalesForRoute } from "./sitemap-publication-policy.mjs";
+import { buildPartnersFeed } from "../src/data/partners-feed.js";
 export { sitemapLocalesForRoute };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -314,6 +315,9 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   const sitemap = buildSitemap(inventory, newsArticles);
   const newsSitemap = buildNewsSitemap(newsArticles, { generatedAt: rawFeed.generatedAt });
   writeFileSync(path.join(projectRoot, "public", "sitemap.xml"), sitemap);
+  // Partner feed for the Telegram Mini App (one source of truth for shares, codes, links and checked fees).
+  const partnersFeed = `${JSON.stringify(buildPartnersFeed())}\n`;
+  for (const dir of [path.join(projectRoot, "public", "intel"), path.join(clientDir, "intel")]) { mkdirSync(dir, { recursive: true }); writeFileSync(path.join(dir, "partners.json"), partnersFeed); }
   writeFileSync(path.join(projectRoot, "public", "news-sitemap.xml"), newsSitemap);
   writeFileSync(path.join(projectRoot, "public", "content", "search-publication-report.json"), `${publicationReport}\n`);
   const clientContentDir = path.join(clientDir, "content");
