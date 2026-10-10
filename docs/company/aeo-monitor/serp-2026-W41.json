@@ -1,0 +1,2602 @@
+{
+  "schema": "nexualpha.aeo-serp.v1",
+  "questionSetVersion": "2026-10-11.v1",
+  "week": "2026-W41",
+  "generatedAt": "2026-10-10T22:13:44.703Z",
+  "engines": [
+    "ddg",
+    "brave"
+  ],
+  "summary": {
+    "queries": 30,
+    "ddg": {
+      "checked": 30,
+      "ok": 30,
+      "blocked": 0,
+      "top10": 0,
+      "top3": 0
+    },
+    "brave": {
+      "checked": 30,
+      "ok": 3,
+      "blocked": 27,
+      "top10": 0,
+      "top3": 0
+    }
+  },
+  "competitors": [
+    {
+      "domain": "okx.com",
+      "count": 22
+    },
+    {
+      "domain": "datawallet.com",
+      "count": 10
+    },
+    {
+      "domain": "bitdegree.org",
+      "count": 6
+    },
+    {
+      "domain": "tr.okx.com",
+      "count": 5
+    },
+    {
+      "domain": "bitget.com",
+      "count": 4
+    },
+    {
+      "domain": "bybit.com",
+      "count": 4
+    },
+    {
+      "domain": "coinbureau.com",
+      "count": 3
+    },
+    {
+      "domain": "youtube.com",
+      "count": 3
+    },
+    {
+      "domain": "ojk.go.id",
+      "count": 3
+    },
+    {
+      "domain": "nftevening.com",
+      "count": 2
+    },
+    {
+      "domain": "traderssecondbrain.com",
+      "count": 2
+    },
+    {
+      "domain": "coinglass.com",
+      "count": 2
+    }
+  ],
+  "results": [
+    {
+      "questionId": "okx-referral-code",
+      "lang": "en",
+      "market": "global",
+      "query": "best OKX referral code",
+      "targetPath": "/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:03.316Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "bitdegree.org",
+          "url": "https://www.bitdegree.org/crypto/deals/okx-referral-code"
+        },
+        {
+          "rank": 2,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/okx-referral-code"
+        },
+        {
+          "rank": 3,
+          "domain": "nftevening.com",
+          "url": "https://nftevening.com/okx-referral-code/"
+        },
+        {
+          "rank": 4,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/referral"
+        },
+        {
+          "rank": 5,
+          "domain": "investingintheweb.com",
+          "url": "https://investingintheweb.com/bonus/okx-referral-code/"
+        },
+        {
+          "rank": 6,
+          "domain": "rebatly.io",
+          "url": "https://rebatly.io/guides/best-crypto-referral-codes/"
+        },
+        {
+          "rank": 7,
+          "domain": "rewardoc.com",
+          "url": "https://rewardoc.com/exchange/okx/"
+        },
+        {
+          "rank": 8,
+          "domain": "cryptperks.com",
+          "url": "https://cryptperks.com/guides/best-crypto-exchange-bonuses-2026/"
+        },
+        {
+          "rank": 9,
+          "domain": "chainplay.gg",
+          "url": "https://chainplay.gg/blog/okx-referral-code/"
+        },
+        {
+          "rank": 10,
+          "domain": "cryptowinrate.com",
+          "url": "https://cryptowinrate.com/referral-codes/okx/"
+        }
+      ]
+    },
+    {
+      "questionId": "okx-vs-binance-fees",
+      "lang": "en",
+      "market": "global",
+      "query": "OKX vs Binance fees",
+      "targetPath": "/compare/binance-vs-okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:07.819Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "coinmarketfees.com",
+          "url": "https://coinmarketfees.com/compare/binance-vs-okx"
+        },
+        {
+          "rank": 2,
+          "domain": "coinbureau.com",
+          "url": "https://coinbureau.com/review/binance-vs-okx-review"
+        },
+        {
+          "rank": 3,
+          "domain": "traderssecondbrain.com",
+          "url": "https://traderssecondbrain.com/guides/binance-vs-okx"
+        },
+        {
+          "rank": 4,
+          "domain": "bitdegree.org",
+          "url": "https://www.bitdegree.org/crypto-exchange-comparison/binance-vs-okex"
+        },
+        {
+          "rank": 5,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/okx-vs-binance"
+        },
+        {
+          "rank": 6,
+          "domain": "coinbird.com",
+          "url": "https://www.coinbird.com/exchanges/binance-vs-okx"
+        },
+        {
+          "rank": 7,
+          "domain": "exchangereviewlab.com",
+          "url": "https://exchangereviewlab.com/binance-vs-okx/"
+        },
+        {
+          "rank": 8,
+          "domain": "coinvado.com",
+          "url": "https://coinvado.com/en/posts/binance-vs-okx-comparison-2026/"
+        },
+        {
+          "rank": 9,
+          "domain": "coincodecap.com",
+          "url": "https://coincodecap.com/okex-vs-binance"
+        },
+        {
+          "rank": 10,
+          "domain": "thecoinomist.com",
+          "url": "https://thecoinomist.com/spot-trading/binance-vs-okx/"
+        }
+      ]
+    },
+    {
+      "questionId": "bitget-referral-rebate",
+      "lang": "en",
+      "market": "global",
+      "query": "Bitget referral code rebate",
+      "targetPath": "/exchanges/bitget",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:11.037Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "bitdegree.org",
+          "url": "https://www.bitdegree.org/crypto/deals/bitget-referral-code"
+        },
+        {
+          "rank": 2,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/bitget-referral-code"
+        },
+        {
+          "rank": 3,
+          "domain": "bitget.com",
+          "url": "https://www.bitget.com/support/articles/12560603821820"
+        },
+        {
+          "rank": 4,
+          "domain": "intercom.help",
+          "url": "https://intercom.help/cryptoreferralcodes-34f33ca61548/en/articles/17350407-bitget-referral-code-vfae-fee-discount-new-user-bonus-2026"
+        },
+        {
+          "rank": 5,
+          "domain": "rebatly.io",
+          "url": "https://rebatly.io/guides/bitget-referral-code/"
+        },
+        {
+          "rank": 6,
+          "domain": "dealdrop.com",
+          "url": "https://www.dealdrop.com/bitget"
+        },
+        {
+          "rank": 7,
+          "domain": "cryptosmap.com",
+          "url": "https://cryptosmap.com/bitget-referral-code/"
+        },
+        {
+          "rank": 8,
+          "domain": "blog.udn.com",
+          "url": "https://blog.udn.com/G_102211530974235424/191926244"
+        },
+        {
+          "rank": 9,
+          "domain": "coinperps.com",
+          "url": "https://www.coinperps.com/referral-codes/bitget"
+        },
+        {
+          "rank": 10,
+          "domain": "blog.udn.com",
+          "url": "https://blog.udn.com/G_102211530974235424/191664955"
+        }
+      ]
+    },
+    {
+      "questionId": "binance-vs-bybit-cheaper",
+      "lang": "en",
+      "market": "global",
+      "query": "Binance vs Bybit which is cheaper",
+      "targetPath": "/compare/binance-vs-bybit",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:14.893Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "bitdegree.org",
+          "url": "https://www.bitdegree.org/crypto-exchange-comparison/binance-vs-bybit"
+        },
+        {
+          "rank": 2,
+          "domain": "coinbureau.com",
+          "url": "https://coinbureau.com/review/binance-vs-bybit"
+        },
+        {
+          "rank": 3,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/bybit-vs-binance"
+        },
+        {
+          "rank": 4,
+          "domain": "perpfinder.com",
+          "url": "https://perpfinder.com/compare/binance-vs-bybit"
+        },
+        {
+          "rank": 5,
+          "domain": "coinmarketfees.com",
+          "url": "https://coinmarketfees.com/compare/binance-vs-bybit"
+        },
+        {
+          "rank": 6,
+          "domain": "coinsutra.com",
+          "url": "https://coinsutra.com/bybit-vs-binance/"
+        },
+        {
+          "rank": 7,
+          "domain": "themoneymongers.com",
+          "url": "https://themoneymongers.com/exchanges/bybit-vs-binance/"
+        },
+        {
+          "rank": 8,
+          "domain": "rononcrypto.com",
+          "url": "https://rononcrypto.com/en/blog/bybit-vs-binance-2026/"
+        },
+        {
+          "rank": 9,
+          "domain": "traderssecondbrain.com",
+          "url": "https://traderssecondbrain.com/guides/bybit-vs-binance"
+        },
+        {
+          "rank": 10,
+          "domain": "brokerrank.net",
+          "url": "https://brokerrank.net/compare/binance-vs-bybit"
+        }
+      ]
+    },
+    {
+      "questionId": "crypto-liquidations-today",
+      "lang": "en",
+      "market": "global",
+      "query": "crypto liquidations today",
+      "targetPath": "/liquidations",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:18.222Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "marginpad.io",
+          "url": "https://marginpad.io/liquidations/"
+        },
+        {
+          "rank": 2,
+          "domain": "coinglass.com",
+          "url": "https://www.coinglass.com/liquidations"
+        },
+        {
+          "rank": 3,
+          "domain": "coinfuty.com",
+          "url": "https://www.coinfuty.com/liquidations"
+        },
+        {
+          "rank": 4,
+          "domain": "cryptometer.io",
+          "url": "https://www.cryptometer.io/liquidation-data"
+        },
+        {
+          "rank": 5,
+          "domain": "coinstats.app",
+          "url": "https://coinstats.app/derivatives/liquidations/"
+        },
+        {
+          "rank": 6,
+          "domain": "marginpad.io",
+          "url": "https://marginpad.io/crypto-liquidations-today/"
+        },
+        {
+          "rank": 7,
+          "domain": "coinmarketcap.com",
+          "url": "https://coinmarketcap.com/charts/liquidations/"
+        },
+        {
+          "rank": 8,
+          "domain": "loris.tools",
+          "url": "https://loris.tools/liquidations"
+        },
+        {
+          "rank": 9,
+          "domain": "coinperps.com",
+          "url": "https://www.coinperps.com/liquidations"
+        },
+        {
+          "rank": 10,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto-liquidations"
+        }
+      ]
+    },
+    {
+      "questionId": "btc-funding-rate-binance-okx",
+      "lang": "en",
+      "market": "global",
+      "query": "BTC funding rate now Binance vs OKX",
+      "targetPath": "/funding-rates",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:21.780Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "yieldo.me",
+          "url": "https://yieldo.me/blog/funding/btc-funding-rate-binance-bybit-okx"
+        },
+        {
+          "rank": 2,
+          "domain": "coinglass.com",
+          "url": "https://www.coinglass.com/FundingRate/BTC"
+        },
+        {
+          "rank": 3,
+          "domain": "bykaranteli.com",
+          "url": "https://bykaranteli.com/compare/binance-vs-okx-funding"
+        },
+        {
+          "rank": 4,
+          "domain": "github.com",
+          "url": "https://github.com/johnyJustAHelper/Funding-rates"
+        },
+        {
+          "rank": 5,
+          "domain": "traderssecondbrain.com",
+          "url": "https://traderssecondbrain.com/tools/funding-rates"
+        },
+        {
+          "rank": 6,
+          "domain": "buildix.trade",
+          "url": "https://www.buildix.trade/blog/crypto-funding-rate-comparison-binance-bybit-hyperliquid-okx-dydx-2026"
+        },
+        {
+          "rank": 7,
+          "domain": "markettrace.ai",
+          "url": "https://markettrace.ai/perpetuals/funding"
+        },
+        {
+          "rank": 8,
+          "domain": "coinfuty.com",
+          "url": "https://www.coinfuty.com/funding-rate"
+        },
+        {
+          "rank": 9,
+          "domain": "xoomar.com",
+          "url": "https://xoomar.com/markets/funding-rates"
+        },
+        {
+          "rank": 10,
+          "domain": "fundingalertss.com",
+          "url": "https://fundingalertss.com/"
+        }
+      ]
+    },
+    {
+      "questionId": "bitget-signup-referral",
+      "lang": "en",
+      "market": "global",
+      "query": "how to sign up on Bitget with a referral code",
+      "targetPath": "/exchanges/bitget",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:25.450Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "bitget.com",
+          "url": "https://www.bitget.com/support/articles/12560603821820"
+        },
+        {
+          "rank": 2,
+          "domain": "web3.bitget.com",
+          "url": "https://web3.bitget.com/helpCenter/478"
+        },
+        {
+          "rank": 3,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=ArToNHtL94M"
+        },
+        {
+          "rank": 4,
+          "domain": "bitget.com",
+          "url": "https://www.bitget.com/academy/Introduction-to-Bitget-Referral"
+        },
+        {
+          "rank": 5,
+          "domain": "web3.bitget.com",
+          "url": "https://web3.bitget.com/helpCenter/480"
+        },
+        {
+          "rank": 6,
+          "domain": "bitgetapp.com",
+          "url": "https://www.bitgetapp.com/support/articles/12560603808241"
+        },
+        {
+          "rank": 7,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=TneucW-Q7mo"
+        },
+        {
+          "rank": 8,
+          "domain": "ask.zen.com",
+          "url": "https://ask.zen.com/hc/en-us/articles/22163873528092-How-to-register-an-account-in-Bitget"
+        },
+        {
+          "rank": 9,
+          "domain": "researchgate.net",
+          "url": "https://www.researchgate.net/publication/393461188_How_to_Use_Your_Bitget_Referral_Code_Step-by-Step_Tutorial_to_Unlock_Bonuses"
+        },
+        {
+          "rank": 10,
+          "domain": "iheart.com",
+          "url": "https://www.iheart.com/podcast/1310-how-to-use-bitget-referra-335956151/"
+        }
+      ]
+    },
+    {
+      "questionId": "mexc-vs-bybit-kyc",
+      "lang": "en",
+      "market": "global",
+      "query": "MEXC vs Bybit KYC",
+      "targetPath": "/compare/bybit-vs-mexc",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:28.559Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "cryptoninjas.net",
+          "url": "https://www.cryptoninjas.net/exchange/mexc-vs-bybit/"
+        },
+        {
+          "rank": 2,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/bybit-vs-mexc"
+        },
+        {
+          "rank": 3,
+          "domain": "coinlatitude.com",
+          "url": "https://coinlatitude.com/mexc-vs-bybit.html"
+        },
+        {
+          "rank": 4,
+          "domain": "themoneymongers.com",
+          "url": "https://themoneymongers.com/exchanges/bybit-vs-mexc/"
+        },
+        {
+          "rank": 5,
+          "domain": "mexc.com",
+          "url": "https://www.mexc.com/learn/article/mexc-vs-bybit-2026-0-020-or-0-055-on-btc-perpetuals-features-fees-and-security-compared/1"
+        },
+        {
+          "rank": 6,
+          "domain": "copytradeinsider.com",
+          "url": "https://www.copytradeinsider.com/blog/mexc-vs-bybit/"
+        },
+        {
+          "rank": 7,
+          "domain": "nftevening.com",
+          "url": "https://nftevening.com/bybit-vs-mexc/"
+        },
+        {
+          "rank": 8,
+          "domain": "chainplay.gg",
+          "url": "https://chainplay.gg/blog/mexc-vs-bybit/"
+        },
+        {
+          "rank": 9,
+          "domain": "ai-trading-ranked.com",
+          "url": "https://ai-trading-ranked.com/posts/mexc-vs-bybit"
+        },
+        {
+          "rank": 10,
+          "domain": "regulcrypto.com",
+          "url": "https://regulcrypto.com/mexc-vs-bybit-2026/"
+        }
+      ]
+    },
+    {
+      "questionId": "lowest-perp-fees",
+      "lang": "en",
+      "market": "global",
+      "query": "which exchange has the lowest perp fees",
+      "targetPath": "/derivatives",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:32.218Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/best-low-fee-crypto-exchanges"
+        },
+        {
+          "rank": 2,
+          "domain": "feeedge.com",
+          "url": "https://feeedge.com/cheapest-exchange-for-perps"
+        },
+        {
+          "rank": 3,
+          "domain": "signals.coincodecap.com",
+          "url": "https://signals.coincodecap.com/best-dex-perps-fees-compared"
+        },
+        {
+          "rank": 4,
+          "domain": "protocolsignal.com",
+          "url": "https://protocolsignal.com/comparisons/best-perp-dex-lowest-fees/"
+        },
+        {
+          "rank": 5,
+          "domain": "perpfinder.com",
+          "url": "https://perpfinder.com/fees"
+        },
+        {
+          "rank": 6,
+          "domain": "perpfinder.com",
+          "url": "https://perpfinder.com/cheapest-perp-exchange"
+        },
+        {
+          "rank": 7,
+          "domain": "perpdexrank.com",
+          "url": "https://perpdexrank.com/"
+        },
+        {
+          "rank": 8,
+          "domain": "perps.info",
+          "url": "https://perps.info/guides/lowest-fee-dex"
+        },
+        {
+          "rank": 9,
+          "domain": "perps.info",
+          "url": "https://perps.info/"
+        },
+        {
+          "rank": 10,
+          "domain": "perpdexrank.com",
+          "url": "https://perpdexrank.com/tier-list.html"
+        }
+      ]
+    },
+    {
+      "questionId": "bitget-cafe-official",
+      "lang": "en",
+      "market": "global",
+      "query": "is bitget.cafe an official Bitget domain",
+      "targetPath": "/exchanges/bitget",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:35.544Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "bitget.com",
+          "url": "https://www.bitget.com/promotion/official-verification"
+        },
+        {
+          "rank": 2,
+          "domain": "whois.com",
+          "url": "https://www.whois.com/whois/bitget.cafe"
+        },
+        {
+          "rank": 3,
+          "domain": "bitget.com",
+          "url": "https://www.bitget.com/support/articles/12560603826152"
+        },
+        {
+          "rank": 4,
+          "domain": "lookup.icann.org",
+          "url": "https://lookup.icann.org/en/lookup?name=bitget.cafe"
+        },
+        {
+          "rank": 5,
+          "domain": "en.wikipedia.org",
+          "url": "https://en.wikipedia.org/wiki/Bitget"
+        },
+        {
+          "rank": 6,
+          "domain": "phishdestroy.io",
+          "url": "https://phishdestroy.io/id/domain/bitget.cafe/"
+        },
+        {
+          "rank": 7,
+          "domain": "bitgetapp.com",
+          "url": "https://www.bitgetapp.com/support/articles/12560603826152"
+        },
+        {
+          "rank": 8,
+          "domain": "web3.bitget.com",
+          "url": "https://web3.bitget.com/en/academy/phishing-scam"
+        },
+        {
+          "rank": 9,
+          "domain": "web3.bitget.com",
+          "url": "https://web3.bitget.com/en/blog/articles/impersonation-notice"
+        },
+        {
+          "rank": 10,
+          "domain": "tools.malwaretips.com",
+          "url": "https://tools.malwaretips.com/url-scan/bitget.com"
+        }
+      ]
+    },
+    {
+      "questionId": "tr-okx-referans-nerede",
+      "lang": "en",
+      "market": "tr",
+      "query": "where to enter the OKX referral code",
+      "targetPath": "/tr/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:39.002Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/help/okx-referral-program-faq"
+        },
+        {
+          "rank": 2,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/help/what-is-okx-referral-program"
+        },
+        {
+          "rank": 3,
+          "domain": "investingintheweb.com",
+          "url": "https://investingintheweb.com/bonus/okx-referral-code/"
+        },
+        {
+          "rank": 4,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/okx-referral-code"
+        },
+        {
+          "rank": 5,
+          "domain": "beelaa.com",
+          "url": "https://www.beelaa.com/okx/okx-register-referral"
+        },
+        {
+          "rank": 6,
+          "domain": "beelaa.com",
+          "url": "https://www.beelaa.com/okx/okx-referral"
+        },
+        {
+          "rank": 7,
+          "domain": "blog.udn.com",
+          "url": "https://blog.udn.com/G_113305896286280921/191849635"
+        },
+        {
+          "rank": 8,
+          "domain": "blog.udn.com",
+          "url": "https://blog.udn.com/G_113305896286280921/191947457"
+        },
+        {
+          "rank": 9,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=a3yntNg0Bhk"
+        },
+        {
+          "rank": 10,
+          "domain": "classic-blog.udn.com",
+          "url": "https://classic-blog.udn.com/G_102211530974235424/192486432"
+        }
+      ]
+    },
+    {
+      "questionId": "tr-okx-referans-nerede",
+      "lang": "tr",
+      "market": "tr",
+      "query": "okx referans kodu nerede yazar",
+      "targetPath": "/tr/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:42.198Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=H-lhshRIutM"
+        },
+        {
+          "rank": 2,
+          "domain": "tr.okx.com",
+          "url": "https://tr.okx.com/referral"
+        },
+        {
+          "rank": 3,
+          "domain": "cryptonews.com",
+          "url": "https://cryptonews.com/tr/kripto-para/okx-kayit-bonusu-ve-referans-kodu/"
+        },
+        {
+          "rank": 4,
+          "domain": "tr.okx.com",
+          "url": "https://tr.okx.com/help/section/faq-rewards-and-referrals"
+        },
+        {
+          "rank": 5,
+          "domain": "coinpopbit.com",
+          "url": "https://coinpopbit.com/tr/okx-referans-kodu-2026-uygulama-kontrolu-mevcut-hesap/"
+        },
+        {
+          "rank": 6,
+          "domain": "web3.okx.com",
+          "url": "https://web3.okx.com/tr/referral"
+        },
+        {
+          "rank": 7,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/help/what-is-okx-referral-program"
+        },
+        {
+          "rank": 8,
+          "domain": "tr.bitdegree.org",
+          "url": "https://tr.bitdegree.org/crypto/teklifler/okx-referans-kodu"
+        },
+        {
+          "rank": 9,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=UrRh2EE_vXI"
+        },
+        {
+          "rank": 10,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/help/section/faq-referrals"
+        }
+      ]
+    },
+    {
+      "questionId": "tr-okx-kayit",
+      "lang": "en",
+      "market": "tr",
+      "query": "how to register on OKX TR",
+      "targetPath": "/tr/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:45.732Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "tr.okx.com",
+          "url": "https://tr.okx.com/en/account/register"
+        },
+        {
+          "rank": 2,
+          "domain": "tr.okx.com",
+          "url": "https://tr.okx.com/en"
+        },
+        {
+          "rank": 3,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/help/how-do-i-register-an-account-on-okx"
+        },
+        {
+          "rank": 4,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/account/register"
+        },
+        {
+          "rank": 5,
+          "domain": "beelaa.com",
+          "url": "https://www.beelaa.com/okx/okx-register-tr"
+        },
+        {
+          "rank": 6,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=xnAyYS4G-oY"
+        },
+        {
+          "rank": 7,
+          "domain": "app.okx.com",
+          "url": "https://app.okx.com/en-us/join"
+        },
+        {
+          "rank": 8,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=V4iVuz1JvOY"
+        },
+        {
+          "rank": 9,
+          "domain": "beelaa.com",
+          "url": "https://www.beelaa.com/okx/okx-register-overview"
+        },
+        {
+          "rank": 10,
+          "domain": "web3.okx.com",
+          "url": "https://web3.okx.com/help/how-do-i-manage-my-wallet-app-tr"
+        }
+      ]
+    },
+    {
+      "questionId": "tr-okx-kayit",
+      "lang": "tr",
+      "market": "tr",
+      "query": "okx tr nasıl kayıt olunur",
+      "targetPath": "/tr/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:49.643Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "tr.okx.com",
+          "url": "https://tr.okx.com/help/okx-beginners-guide-tr"
+        },
+        {
+          "rank": 2,
+          "domain": "tr.okx.com",
+          "url": "https://tr.okx.com/"
+        },
+        {
+          "rank": 3,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=sv4nW-A_T1o"
+        },
+        {
+          "rank": 4,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=XIWWXhFtF30"
+        },
+        {
+          "rank": 5,
+          "domain": "coinotag.com",
+          "url": "https://coinotag.com/rehber/how-to-sign-up-on-okx"
+        },
+        {
+          "rank": 6,
+          "domain": "akeyx.com",
+          "url": "https://akeyx.com/tr/okx-borsa-rehberi-2026-kayit-ucretler-okdcc/"
+        },
+        {
+          "rank": 7,
+          "domain": "kipincrypto.com",
+          "url": "https://www.kipincrypto.com/rehberler/okx-hesabi-nasil-acilir-guvenli-baslangic-rehberi"
+        },
+        {
+          "rank": 8,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/campaigns/newuserturkiye"
+        },
+        {
+          "rank": 9,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/account/register"
+        },
+        {
+          "rank": 10,
+          "domain": "coinmuhendisi.com",
+          "url": "https://coinmuhendisi.com/blog/okx-tr-nedir-okx-borsasi-kullanim-detaylari/"
+        }
+      ]
+    },
+    {
+      "questionId": "vi-okx-ma-gioi-thieu",
+      "lang": "en",
+      "market": "vi",
+      "query": "where to get an OKX referral code",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:52.701Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/referral"
+        },
+        {
+          "rank": 2,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/help/what-is-okx-referral-program"
+        },
+        {
+          "rank": 3,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/okx-referral-code"
+        },
+        {
+          "rank": 4,
+          "domain": "investingintheweb.com",
+          "url": "https://investingintheweb.com/bonus/okx-referral-code/"
+        },
+        {
+          "rank": 5,
+          "domain": "bitdegree.org",
+          "url": "https://www.bitdegree.org/crypto/deals/okx-referral-code"
+        },
+        {
+          "rank": 6,
+          "domain": "thewaystowealth.com",
+          "url": "https://www.thewaystowealth.com/okx-referral-code/"
+        },
+        {
+          "rank": 7,
+          "domain": "chainplay.gg",
+          "url": "https://chainplay.gg/blog/okx-referral-code/"
+        },
+        {
+          "rank": 8,
+          "domain": "intercom.help",
+          "url": "https://intercom.help/signupbonus/en/articles/15883469-okx-referral-code-69809443-what-it-is-how-it-works-and-how-to-get-up-to-10-000-usdt-bonus-in-2026"
+        },
+        {
+          "rank": 9,
+          "domain": "nftevening.com",
+          "url": "https://nftevening.com/okx-referral-code/"
+        },
+        {
+          "rank": 10,
+          "domain": "finder.com",
+          "url": "https://www.finder.com/cryptocurrency/okx-bonus"
+        }
+      ]
+    },
+    {
+      "questionId": "vi-okx-ma-gioi-thieu",
+      "lang": "vi",
+      "market": "vi",
+      "query": "mã giới thiệu okx lấy ở đâu",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:56.501Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/vi/help/what-is-okx-referral-program"
+        },
+        {
+          "rank": 2,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/vi/referral"
+        },
+        {
+          "rank": 3,
+          "domain": "blog.udn.com",
+          "url": "https://blog.udn.com/G_102211530974235424/192084995"
+        },
+        {
+          "rank": 4,
+          "domain": "backcoms.com",
+          "url": "https://backcoms.com/ma-gioi-thieu-okx-la-gi-cach-nhap-ma-gioi-thieu-va-nhan-thuong/"
+        },
+        {
+          "rank": 5,
+          "domain": "linkedin.com",
+          "url": "https://www.linkedin.com/pulse/h%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-nh%E1%BA%ADp-m%C3%A3-gi%E1%BB%9Bi-thi%E1%BB%87u-okx-%C4%91%E1%BB%83-nh%E1%BA%ADn-%C6%B0u-%C4%91%C3%A3i-h%E1%BA%A5p-tan-nguyen-qouhc"
+        },
+        {
+          "rank": 6,
+          "domain": "blog.udn.com",
+          "url": "https://blog.udn.com/G_113305896286280921/192560684"
+        },
+        {
+          "rank": 7,
+          "domain": "cryptocurrencycodes.com",
+          "url": "https://cryptocurrencycodes.com/vi/okx/"
+        },
+        {
+          "rank": 8,
+          "domain": "vn.bitdegree.org",
+          "url": "https://vn.bitdegree.org/crypto/uu-dai/ma-gioi-thieu-okx"
+        },
+        {
+          "rank": 9,
+          "domain": "sanvietnam.com",
+          "url": "https://sanvietnam.com/vi/bonus/okx"
+        },
+        {
+          "rank": 10,
+          "domain": "tinhte.vn",
+          "url": "https://tinhte.vn/thread/nhap-ma-gioi-thieu-okx-56192349-nhan-dac-quyen-khi-dang-ky-tai-khoan-okx.3958151/"
+        }
+      ]
+    },
+    {
+      "questionId": "vi-okx-dang-ky",
+      "lang": "en",
+      "market": "vi",
+      "query": "how to register on OKX",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:04:59.725Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/help/how-do-i-register-an-account-on-okx"
+        },
+        {
+          "rank": 2,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/help/how-do-i-register-for-an-okx-account"
+        },
+        {
+          "rank": 3,
+          "domain": "app.okx.com",
+          "url": "https://app.okx.com/account/register"
+        },
+        {
+          "rank": 4,
+          "domain": "my.okx.com",
+          "url": "https://my.okx.com/en-eu/join"
+        },
+        {
+          "rank": 5,
+          "domain": "nomadrails.com",
+          "url": "https://nomadrails.com/guides/register-okx-account.html"
+        },
+        {
+          "rank": 6,
+          "domain": "en.coinotag.com",
+          "url": "https://en.coinotag.com/guide/how-to-sign-up-on-okx"
+        },
+        {
+          "rank": 7,
+          "domain": "app.okx.com",
+          "url": "https://app.okx.com/en-us/join"
+        },
+        {
+          "rank": 8,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=V4iVuz1JvOY"
+        },
+        {
+          "rank": 9,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=0dZ67opqKOU"
+        },
+        {
+          "rank": 10,
+          "domain": "beelaa.com",
+          "url": "https://www.beelaa.com/okx/okx-register-overview"
+        }
+      ]
+    },
+    {
+      "questionId": "vi-okx-dang-ky",
+      "lang": "vi",
+      "market": "vi",
+      "query": "cách đăng ký okx",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:03.166Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/vi/help/how-do-i-register-an-account-on-okx"
+        },
+        {
+          "rank": 2,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/vi/help/okx-beginners-guide"
+        },
+        {
+          "rank": 3,
+          "domain": "ucneo.com",
+          "url": "https://ucneo.com/vi/posts/cach-dang-ky-okx-tu-a-den-z/"
+        },
+        {
+          "rank": 4,
+          "domain": "kkinvesting.io",
+          "url": "https://kkinvesting.io/vi/posts/okx-register-deposit-tutorial/"
+        },
+        {
+          "rank": 5,
+          "domain": "voz.vn",
+          "url": "https://voz.vn/t/cach-dang-ky-okx-chi-tiet-a-z-mo-tai-khoan-san-okx-moi.1075571/"
+        },
+        {
+          "rank": 6,
+          "domain": "kakatachungkhoan.vn",
+          "url": "https://kakatachungkhoan.vn/huong-dan-dang-ky-tai-khoan-tren-okx-buoc-dau-de-bat-dau-giao-dich-tien-ma-hoa/"
+        },
+        {
+          "rank": 7,
+          "domain": "coinlize.com",
+          "url": "https://coinlize.com/blog/dang-ky-tai-khoan-okex/"
+        },
+        {
+          "rank": 8,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=62qghzbWdjI"
+        },
+        {
+          "rank": 9,
+          "domain": "github.com",
+          "url": "https://github.com/pct065/okx-account-guide"
+        },
+        {
+          "rank": 10,
+          "domain": "voz.vn",
+          "url": "https://voz.vn/t/cach-%C4%91ang-ky-okx-chi-tiet-a-z-mo-tai-khoan-san-okx-moi.1075571/latest"
+        }
+      ]
+    },
+    {
+      "questionId": "vi-okx-hoan-phi",
+      "lang": "en",
+      "market": "vi",
+      "query": "does OKX refund trading fees",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:06.565Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/fees/trading"
+        },
+        {
+          "rank": 2,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/en-us/fees"
+        },
+        {
+          "rank": 3,
+          "domain": "ucneo.com",
+          "url": "https://ucneo.com/en/posts/okx-fees-explained-2026/"
+        },
+        {
+          "rank": 4,
+          "domain": "okexc.com",
+          "url": "https://www.okexc.com/en/posts/okx-fee-saving-guide/"
+        },
+        {
+          "rank": 5,
+          "domain": "bitdegree.org",
+          "url": "https://www.bitdegree.org/crypto/tutorials/okx-fees"
+        },
+        {
+          "rank": 6,
+          "domain": "beelaa.com",
+          "url": "https://www.beelaa.com/okx/okx-withdrawal-return-time"
+        },
+        {
+          "rank": 7,
+          "domain": "rebatly.io",
+          "url": "https://rebatly.io/tools/okx-fee-calculator/"
+        },
+        {
+          "rank": 8,
+          "domain": "okexc.com",
+          "url": "https://okexc.com/en/links/okx-fee-schedule/"
+        },
+        {
+          "rank": 9,
+          "domain": "refundly.trade",
+          "url": "https://refundly.trade/en/exchanges/okx"
+        },
+        {
+          "rank": 10,
+          "domain": "tradersunion.com",
+          "url": "https://tradersunion.com/brokers/crypto/view/okex/fees/"
+        }
+      ]
+    },
+    {
+      "questionId": "vi-okx-hoan-phi",
+      "lang": "vi",
+      "market": "vi",
+      "query": "okx có hoàn phí giao dịch không",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:09.829Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/vi/help/trading-fee-rules-faq"
+        },
+        {
+          "rank": 2,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/vi/fees"
+        },
+        {
+          "rank": 3,
+          "domain": "backcomhub.com",
+          "url": "https://backcomhub.com/hoan-phi-giao-dich-okx-la-gi-trader-duoc-hoan-bao-nhieu/"
+        },
+        {
+          "rank": 4,
+          "domain": "ucneo.com",
+          "url": "https://ucneo.com/vi/posts/phi-okx-giai-thich-chi-tiet-2026/"
+        },
+        {
+          "rank": 5,
+          "domain": "emacrypto.com",
+          "url": "https://emacrypto.com/hoan-phi-giao-dich-tren-okx/"
+        },
+        {
+          "rank": 6,
+          "domain": "traderviet.blog",
+          "url": "https://traderviet.blog/hoan-phi-okx/"
+        },
+        {
+          "rank": 7,
+          "domain": "finhay.com.vn",
+          "url": "https://www.finhay.com.vn/phi-giao-dich-okx"
+        },
+        {
+          "rank": 8,
+          "domain": "rebatly.io",
+          "url": "https://rebatly.io/vn/tools/okx-fee-calculator/"
+        },
+        {
+          "rank": 9,
+          "domain": "tradersunion.com",
+          "url": "https://tradersunion.com/vi/brokers/crypto/view/okex/fees/"
+        },
+        {
+          "rank": 10,
+          "domain": "contge.com",
+          "url": "https://contge.com/huong-dan-nhan-hoan-phi-okx-tu-a-z-cach-lay-lai-30-phi-giao-dich-moi-ngay/"
+        }
+      ]
+    },
+    {
+      "questionId": "es-okx-codigo-referido",
+      "lang": "en",
+      "market": "es",
+      "query": "OKX referral code Mexico",
+      "targetPath": "/es/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:12.641Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/referral"
+        },
+        {
+          "rank": 2,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/help/what-is-okx-referral-program"
+        },
+        {
+          "rank": 3,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/es/cripto/okx-referral-code"
+        },
+        {
+          "rank": 4,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/okx-referral-code"
+        },
+        {
+          "rank": 5,
+          "domain": "bitdegree.org",
+          "url": "https://www.bitdegree.org/crypto/deals/okx-referral-code"
+        },
+        {
+          "rank": 6,
+          "domain": "investingintheweb.com",
+          "url": "https://investingintheweb.com/bonus/okx-referral-code/"
+        },
+        {
+          "rank": 7,
+          "domain": "referral.is",
+          "url": "https://referral.is/code/okx"
+        },
+        {
+          "rank": 8,
+          "domain": "nftevening.com",
+          "url": "https://nftevening.com/okx-referral-code/"
+        },
+        {
+          "rank": 9,
+          "domain": "cryptowinrate.com",
+          "url": "https://cryptowinrate.com/referral-codes/okx/"
+        },
+        {
+          "rank": 10,
+          "domain": "chainplay.gg",
+          "url": "https://chainplay.gg/blog/okx-referral-code/"
+        }
+      ]
+    },
+    {
+      "questionId": "es-okx-codigo-referido",
+      "lang": "es",
+      "market": "es",
+      "query": "okx codigo de referido",
+      "targetPath": "/es/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:15.807Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/es-la/referral"
+        },
+        {
+          "rank": 2,
+          "domain": "codigosreferidos.com",
+          "url": "https://www.codigosreferidos.com/brand/OKX"
+        },
+        {
+          "rank": 3,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/es/cripto/okx-referral-code"
+        },
+        {
+          "rank": 4,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/es-es/referral"
+        },
+        {
+          "rank": 5,
+          "domain": "cryptowinrate.com",
+          "url": "https://cryptowinrate.com/es/referral-codes/okx/"
+        },
+        {
+          "rank": 6,
+          "domain": "coinpopbit.com",
+          "url": "https://coinpopbit.com/es/codigo-referido-okx-2026-comprobacion-condiciones/"
+        },
+        {
+          "rank": 7,
+          "domain": "coinvado.com",
+          "url": "https://coinvado.com/es/posts/okx-referral-code-rebate-guide-2026/"
+        },
+        {
+          "rank": 8,
+          "domain": "codigodereferido.com",
+          "url": "https://codigodereferido.com/okx-codigo-de-referido/"
+        },
+        {
+          "rank": 9,
+          "domain": "web3.okx.com",
+          "url": "https://web3.okx.com/es-es/referral"
+        },
+        {
+          "rank": 10,
+          "domain": "allreferralcodes.com",
+          "url": "https://allreferralcodes.com/es/okx-referral-code"
+        }
+      ]
+    },
+    {
+      "questionId": "es-okx-registrarse",
+      "lang": "en",
+      "market": "es",
+      "query": "how to register on OKX in Mexico",
+      "targetPath": "/es/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:18.755Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/help/how-do-i-register-an-account-on-okx"
+        },
+        {
+          "rank": 2,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/help/how-do-i-register-for-an-okx-account"
+        },
+        {
+          "rank": 3,
+          "domain": "mexicocryptohub.com",
+          "url": "https://mexicocryptohub.com/create-okx-account-mexico-2026/"
+        },
+        {
+          "rank": 4,
+          "domain": "nomadrails.com",
+          "url": "https://nomadrails.com/guides/register-okx-account.html"
+        },
+        {
+          "rank": 5,
+          "domain": "en.coinotag.com",
+          "url": "https://en.coinotag.com/guide/how-to-sign-up-on-okx"
+        },
+        {
+          "rank": 6,
+          "domain": "coinvado.com",
+          "url": "https://coinvado.com/en/posts/okx-registration-guide-kyc-deposit-2026/"
+        },
+        {
+          "rank": 7,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=V4iVuz1JvOY"
+        },
+        {
+          "rank": 8,
+          "domain": "beelaa.com",
+          "url": "https://www.beelaa.com/okx/okx-register-overview"
+        },
+        {
+          "rank": 9,
+          "domain": "criptoempire.com",
+          "url": "https://criptoempire.com/exchanges/okx/mexico"
+        },
+        {
+          "rank": 10,
+          "domain": "beelaa.com",
+          "url": "https://www.beelaa.com/tutorials/okx-sign-up"
+        }
+      ]
+    },
+    {
+      "questionId": "es-okx-registrarse",
+      "lang": "es",
+      "market": "es",
+      "query": "como registrarse en okx",
+      "targetPath": "/es/exchanges/okx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:22.479Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/es-la/account/register"
+        },
+        {
+          "rank": 2,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/es-la/help/how-do-i-register-an-account-on-okx"
+        },
+        {
+          "rank": 3,
+          "domain": "my.okx.com",
+          "url": "https://my.okx.com/es-es/join"
+        },
+        {
+          "rank": 4,
+          "domain": "lacryptoguia.com",
+          "url": "https://lacryptoguia.com/tutorial-okx-2026/"
+        },
+        {
+          "rank": 5,
+          "domain": "kkinvesting.io",
+          "url": "https://kkinvesting.io/es/posts/okx-register-deposit-tutorial/"
+        },
+        {
+          "rank": 6,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=LnNTEcwIIz4"
+        },
+        {
+          "rank": 7,
+          "domain": "cex101.com",
+          "url": "https://cex101.com/es/articles/okx-register/"
+        },
+        {
+          "rank": 8,
+          "domain": "chaincosts.com",
+          "url": "https://chaincosts.com/es-MX/guia/como-abrir-una-cuenta-en-okx"
+        },
+        {
+          "rank": 9,
+          "domain": "coinvado.com",
+          "url": "https://coinvado.com/es/posts/okx-registration-guide-kyc-deposit-2026/"
+        },
+        {
+          "rank": 10,
+          "domain": "youtube.com",
+          "url": "https://www.youtube.com/playlist?list=PLjhKyoXK2ETugO3iS6a7XJa6BaixTCA87"
+        }
+      ]
+    },
+    {
+      "questionId": "es-okx-confiable-mexico",
+      "lang": "en",
+      "market": "es",
+      "query": "is OKX reliable in Mexico",
+      "targetPath": "/mx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:26.130Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "finantres.mx",
+          "url": "https://finantres.mx/okx-opiniones/"
+        },
+        {
+          "rank": 2,
+          "domain": "brokerrank.net",
+          "url": "https://brokerrank.net/broker/okx/mexico"
+        },
+        {
+          "rank": 3,
+          "domain": "wherelegalcrypto.com",
+          "url": "https://wherelegalcrypto.com/exchanges/okx/mexico/"
+        },
+        {
+          "rank": 4,
+          "domain": "comparalatam.com",
+          "url": "https://comparalatam.com/mx/crypto/okx.html"
+        },
+        {
+          "rank": 5,
+          "domain": "cryptolawmap.com",
+          "url": "https://cryptolawmap.com/exchanges/okx/mexico/"
+        },
+        {
+          "rank": 6,
+          "domain": "okx.com",
+          "url": "https://www.okx.com/en-us/learn/is-okx-safe"
+        },
+        {
+          "rank": 7,
+          "domain": "reddit.com",
+          "url": "https://www.reddit.com/r/BitcoinBeginners/comments/1d5uigf/is_okx_reliable/"
+        },
+        {
+          "rank": 8,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/okx-restricted-countries"
+        },
+        {
+          "rank": 9,
+          "domain": "coinperps.com",
+          "url": "https://www.coinperps.com/learn/okx-restricted-countries"
+        },
+        {
+          "rank": 10,
+          "domain": "reddit.com",
+          "url": "https://www.reddit.com/r/OKX/comments/tzui6k/i_got_scammed_do_not_trust_okx/"
+        }
+      ]
+    },
+    {
+      "questionId": "es-okx-confiable-mexico",
+      "lang": "es",
+      "market": "es",
+      "query": "okx es confiable en mexico",
+      "targetPath": "/mx",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:29.160Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "finantres.mx",
+          "url": "https://finantres.mx/okx-opiniones/"
+        },
+        {
+          "rank": 2,
+          "domain": "comparalatam.com",
+          "url": "https://comparalatam.com/mx/crypto/okx.html"
+        },
+        {
+          "rank": 3,
+          "domain": "99bitcoins.com",
+          "url": "https://99bitcoins.com/es/mejores-exchanges-cripto/okx-opiniones/"
+        },
+        {
+          "rank": 4,
+          "domain": "es.trustpilot.com",
+          "url": "https://es.trustpilot.com/review/okx.com"
+        },
+        {
+          "rank": 5,
+          "domain": "tradersunion.com",
+          "url": "https://tradersunion.com/es/brokers/crypto/view/okex/is-it-safe/"
+        },
+        {
+          "rank": 6,
+          "domain": "tradersunion.com",
+          "url": "https://tradersunion.com/es/brokers/crypto/view/okex/"
+        },
+        {
+          "rank": 7,
+          "domain": "es.beincrypto.com",
+          "url": "https://es.beincrypto.com/aprende/resena-okx/"
+        },
+        {
+          "rank": 8,
+          "domain": "brokerchooser.com",
+          "url": "https://brokerchooser.com/es/safety/okx-pro-broker-safe-or-scam"
+        },
+        {
+          "rank": 9,
+          "domain": "mejorbrokerdebolsa.com",
+          "url": "https://www.mejorbrokerdebolsa.com/okx-opiniones/"
+        },
+        {
+          "rank": 10,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/es/cripto/revisi%C3%B3n-de-okx"
+        }
+      ]
+    },
+    {
+      "questionId": "ru-bybit-komissii",
+      "lang": "en",
+      "market": "ru",
+      "query": "Bybit trading fees",
+      "targetPath": "/ru/exchanges/bybit",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:32.427Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "bybit.com",
+          "url": "https://www.bybit.com/en/help-center/article/Trading-Fee-Structure"
+        },
+        {
+          "rank": 2,
+          "domain": "bybit.com",
+          "url": "https://www.bybit.com/en/learn/bybit-guide/bybit-trading-fees"
+        },
+        {
+          "rank": 3,
+          "domain": "bitdegree.org",
+          "url": "https://www.bitdegree.org/crypto/tutorials/bybit-fees"
+        },
+        {
+          "rank": 4,
+          "domain": "bybit.global",
+          "url": "https://www.bybit.global/en-GB/help-center/article/Trading-Fee-Structure"
+        },
+        {
+          "rank": 5,
+          "domain": "comparedge.com",
+          "url": "https://comparedge.com/tools/bybit/pricing"
+        },
+        {
+          "rank": 6,
+          "domain": "tradersunion.com",
+          "url": "https://tradersunion.com/brokers/forex/view/bybit/fees-and-spread/"
+        },
+        {
+          "rank": 7,
+          "domain": "coinmarketfees.com",
+          "url": "https://coinmarketfees.com/exchange/bybit"
+        },
+        {
+          "rank": 8,
+          "domain": "coinmarketfees.com",
+          "url": "https://coinmarketfees.com/calculator/bybit"
+        },
+        {
+          "rank": 9,
+          "domain": "ai-trading-ranked.com",
+          "url": "https://ai-trading-ranked.com/posts/bybit-trading-fees-explained"
+        },
+        {
+          "rank": 10,
+          "domain": "tradersunion.com",
+          "url": "https://tradersunion.com/brokers/crypto/view/bybit/fees/"
+        }
+      ]
+    },
+    {
+      "questionId": "ru-bybit-komissii",
+      "lang": "ru",
+      "market": "ru",
+      "query": "bybit комиссии за торговлю",
+      "targetPath": "/ru/exchanges/bybit",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:36.249Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "bybit.com",
+          "url": "https://www.bybit.com/ru-RU/help-center/article/Bybit-Fees-You-Need-to-Know"
+        },
+        {
+          "rank": 2,
+          "domain": "bybit.com",
+          "url": "https://www.bybit.com/ru-RU/help-center/article/Trading-Fee-Structure"
+        },
+        {
+          "rank": 3,
+          "domain": "coindaily.ru",
+          "url": "https://coindaily.ru/birzhi/bybit/komissii/"
+        },
+        {
+          "rank": 4,
+          "domain": "quasa.io",
+          "url": "https://quasa.io/ru/media/komissii-bybit-chto-nuzhno-znat-pered-torgovley-kriptovalyutoy"
+        },
+        {
+          "rank": 5,
+          "domain": "rebatly.io",
+          "url": "https://rebatly.io/ru/tools/bybit-fee-calculator/"
+        },
+        {
+          "rank": 6,
+          "domain": "crypto.ru",
+          "url": "https://crypto.ru/komissii-na-bybit/"
+        },
+        {
+          "rank": 7,
+          "domain": "tradersunion.com",
+          "url": "https://tradersunion.com/ru/brokers/crypto/view/bybit/fees/"
+        },
+        {
+          "rank": 8,
+          "domain": "insidepc.tech",
+          "url": "https://insidepc.tech/crypto/practice/exchanges/review-bybit-exchange"
+        },
+        {
+          "rank": 9,
+          "domain": "coinscan.pro",
+          "url": "https://coinscan.pro/fees/bybit"
+        },
+        {
+          "rank": 10,
+          "domain": "coindaily.ru",
+          "url": "https://coindaily.ru/birzhi/bybit/"
+        }
+      ]
+    },
+    {
+      "questionId": "id-bitget-ojk",
+      "lang": "en",
+      "market": "id",
+      "query": "is Bitget registered with OJK",
+      "targetPath": "/id-id/exchanges/bitget",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:39.723Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "wherelegalcrypto.com",
+          "url": "https://wherelegalcrypto.com/exchanges/bitget/indonesia/"
+        },
+        {
+          "rank": 2,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/bitget-restricted-countries"
+        },
+        {
+          "rank": 3,
+          "domain": "ojk.go.id",
+          "url": "https://www.ojk.go.id/en/berita-dan-kegiatan/siaran-pers/Pages/OJK-Licensed-Registered-Digital-Financial-Assets-and-Crypto-Assets-Trading-Operators-Whitelist.aspx"
+        },
+        {
+          "rank": 4,
+          "domain": "ojk.go.id",
+          "url": "https://ojk.go.id/id/regulasi/Pages/POJK-27-2024-AKD-AK.aspx"
+        },
+        {
+          "rank": 5,
+          "domain": "brokerchooser.com",
+          "url": "https://brokerchooser.com/id/safety/bitgetcom-broker-safe-or-scam"
+        },
+        {
+          "rank": 6,
+          "domain": "pluang.com",
+          "url": "https://pluang.com/akademi/berita-analisis/cara-cek-legalitas-aplikasi-trading-ojk"
+        },
+        {
+          "rank": 7,
+          "domain": "en.wikipedia.org",
+          "url": "https://en.wikipedia.org/wiki/Bitget"
+        },
+        {
+          "rank": 8,
+          "domain": "bitget.com",
+          "url": "https://www.bitget.com/promotion/regulatory-license"
+        },
+        {
+          "rank": 9,
+          "domain": "bitget.com",
+          "url": "https://www.bitget.com/en-CA/wiki/pi-network-menurut-ojk"
+        },
+        {
+          "rank": 10,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/bitget-review"
+        }
+      ]
+    },
+    {
+      "questionId": "id-bitget-ojk",
+      "lang": "id",
+      "market": "id",
+      "query": "bitget terdaftar di ojk",
+      "targetPath": "/id-id/exchanges/bitget",
+      "engine": "ddg",
+      "fetchedAt": "2026-10-10T22:05:43.205Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "ojk.go.id",
+          "url": "https://www.ojk.go.id/id/Fungsi-Utama/ITSK/Perizinan-ITSK-Aset-Keuangan-Digital-Aset-Kripto/Documents/Daftar%20Penyelenggara%20Perdagangan%20Aset%20Keuangan%20Digital%20Posisi%2015%20Oktober%202025.pdf"
+        },
+        {
+          "rank": 2,
+          "domain": "ojk.go.id",
+          "url": "https://ojk.go.id/id/regulasi/Pages/POJK-27-2024-AKD-AK.aspx"
+        },
+        {
+          "rank": 3,
+          "domain": "ceklegalitas.bappebti.go.id",
+          "url": "https://ceklegalitas.bappebti.go.id/"
+        },
+        {
+          "rank": 4,
+          "domain": "coinvestasi.com",
+          "url": "https://coinvestasi.com/berita/daftar-exchange-kripto-berizin-ojk-di-indonesia"
+        },
+        {
+          "rank": 5,
+          "domain": "blockchainmedia.id",
+          "url": "https://blockchainmedia.id/crypto-exchange-indonesia/"
+        },
+        {
+          "rank": 6,
+          "domain": "tekno.kompas.com",
+          "url": "https://tekno.kompas.com/read/2026/07/07/15350087/hati-hati-pinjol-ilegal-ini-link-resmi-daftar-pinjol-berizin-ojk-2026"
+        },
+        {
+          "rank": 7,
+          "domain": "volubit.id",
+          "url": "https://www.volubit.id/ini-daftar-29-exchange-kripto-berizin-di-indonesia-yang-dirilis-resmi-ojk/"
+        },
+        {
+          "rank": 8,
+          "domain": "reviewsteknologiku.tech",
+          "url": "https://www.reviewsteknologiku.tech/2025/02/cara-cek-legalitas-aplikasi-di-ojk.html"
+        },
+        {
+          "rank": 9,
+          "domain": "idntimes.com",
+          "url": "https://www.idntimes.com/business/finance/daftar-putih-29-exchange-kripto-indonesia-c1c2-01-d9plj-06l8n4"
+        },
+        {
+          "rank": 10,
+          "domain": "sumbarkita.id",
+          "url": "https://sumbarkita.id/daftar-pinjol-resmi-ojk-september-2026-ini-94-platform-yang-berizin/"
+        }
+      ]
+    },
+    {
+      "questionId": "okx-referral-code",
+      "lang": "en",
+      "market": "global",
+      "query": "best OKX referral code",
+      "targetPath": "/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:09.080Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "bitdegree.org",
+          "url": "https://www.bitdegree.org/crypto/deals/okx-referral-code"
+        },
+        {
+          "rank": 2,
+          "domain": "cryptoninjas.net",
+          "url": "https://www.cryptoninjas.net/referral-code/okx/"
+        },
+        {
+          "rank": 3,
+          "domain": "nftevening.com",
+          "url": "https://nftevening.com/okx-referral-code/"
+        },
+        {
+          "rank": 4,
+          "domain": "ventureburn.com",
+          "url": "https://ventureburn.com/okx-referral-code/"
+        },
+        {
+          "rank": 5,
+          "domain": "chainplay.gg",
+          "url": "https://chainplay.gg/blog/okx-referral-code/"
+        },
+        {
+          "rank": 6,
+          "domain": "investingintheweb.com",
+          "url": "https://investingintheweb.com/bonus/okx-referral-code/"
+        },
+        {
+          "rank": 7,
+          "domain": "okxcodes.com",
+          "url": "https://okxcodes.com/"
+        },
+        {
+          "rank": 8,
+          "domain": "okxreferralcode.firstory.io",
+          "url": "https://okxreferralcode.firstory.io/"
+        },
+        {
+          "rank": 9,
+          "domain": "nftplazas.com",
+          "url": "https://nftplazas.com/referral-code/okx/"
+        },
+        {
+          "rank": 10,
+          "domain": "memeburn.com",
+          "url": "https://memeburn.com/okx-referral-code/"
+        }
+      ]
+    },
+    {
+      "questionId": "okx-vs-binance-fees",
+      "lang": "en",
+      "market": "global",
+      "query": "OKX vs Binance fees",
+      "targetPath": "/compare/binance-vs-okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:12.562Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "bitdegree.org",
+          "url": "https://www.bitdegree.org/crypto-exchange-comparison/binance-vs-okex"
+        },
+        {
+          "rank": 2,
+          "domain": "traderssecondbrain.com",
+          "url": "https://traderssecondbrain.com/guides/binance-vs-okx"
+        },
+        {
+          "rank": 3,
+          "domain": "coinbureau.com",
+          "url": "https://coinbureau.com/review/binance-vs-okx-review"
+        },
+        {
+          "rank": 4,
+          "domain": "brokerquant.com",
+          "url": "https://brokerquant.com/en/compare/binance-vs-okx"
+        },
+        {
+          "rank": 5,
+          "domain": "coincodecap.com",
+          "url": "https://coincodecap.com/okex-vs-binance"
+        },
+        {
+          "rank": 6,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/okx-vs-binance"
+        },
+        {
+          "rank": 7,
+          "domain": "makeitbigtoday.com",
+          "url": "https://www.makeitbigtoday.com/blog/okx-vs-binance/"
+        },
+        {
+          "rank": 8,
+          "domain": "chaindepin.com",
+          "url": "https://chaindepin.com/binance-vs-okx-fees/"
+        },
+        {
+          "rank": 9,
+          "domain": "binance.com",
+          "url": "https://www.binance.com/en/square/post/26449864146545"
+        },
+        {
+          "rank": 10,
+          "domain": "cryptoninjas.net",
+          "url": "https://www.cryptoninjas.net/exchange/binance-vs-okx/"
+        }
+      ]
+    },
+    {
+      "questionId": "bitget-referral-rebate",
+      "lang": "en",
+      "market": "global",
+      "query": "Bitget referral code rebate",
+      "targetPath": "/exchanges/bitget",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:15.767Z",
+      "status": "ok",
+      "httpStatus": 200,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": [
+        {
+          "rank": 1,
+          "domain": "luncmetrics.com",
+          "url": "https://www.luncmetrics.com/referral-codes/bitget"
+        },
+        {
+          "rank": 2,
+          "domain": "datawallet.com",
+          "url": "https://www.datawallet.com/crypto/bitget-referral-code"
+        },
+        {
+          "rank": 3,
+          "domain": "coinperps.com",
+          "url": "https://www.coinperps.com/referral-codes/bitget"
+        },
+        {
+          "rank": 4,
+          "domain": "bitdegree.org",
+          "url": "https://www.bitdegree.org/crypto/deals/bitget-referral-code"
+        },
+        {
+          "rank": 5,
+          "domain": "cryptperks.com",
+          "url": "https://cryptperks.com/guides/bitget-referral-code-2026/"
+        },
+        {
+          "rank": 6,
+          "domain": "crypto-gcg.com",
+          "url": "https://crypto-gcg.com/en/exchanges/bitget"
+        },
+        {
+          "rank": 7,
+          "domain": "crypto-referral.com",
+          "url": "http://crypto-referral.com/exchanges/bitget"
+        },
+        {
+          "rank": 8,
+          "domain": "cryptoninjas.net",
+          "url": "https://www.cryptoninjas.net/referral-code/bitget/"
+        },
+        {
+          "rank": 9,
+          "domain": "nftevening.com",
+          "url": "https://nftevening.com/bitget-referral-code/"
+        },
+        {
+          "rank": 10,
+          "domain": "tradeassi.com",
+          "url": "https://tradeassi.com/en/bitget-referral-code"
+        }
+      ]
+    },
+    {
+      "questionId": "binance-vs-bybit-cheaper",
+      "lang": "en",
+      "market": "global",
+      "query": "Binance vs Bybit which is cheaper",
+      "targetPath": "/compare/binance-vs-bybit",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:19.894Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "crypto-liquidations-today",
+      "lang": "en",
+      "market": "global",
+      "query": "crypto liquidations today",
+      "targetPath": "/liquidations",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:23.000Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "btc-funding-rate-binance-okx",
+      "lang": "en",
+      "market": "global",
+      "query": "BTC funding rate now Binance vs OKX",
+      "targetPath": "/funding-rates",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:25.785Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "bitget-signup-referral",
+      "lang": "en",
+      "market": "global",
+      "query": "how to sign up on Bitget with a referral code",
+      "targetPath": "/exchanges/bitget",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:28.658Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "mexc-vs-bybit-kyc",
+      "lang": "en",
+      "market": "global",
+      "query": "MEXC vs Bybit KYC",
+      "targetPath": "/compare/bybit-vs-mexc",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:31.577Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "lowest-perp-fees",
+      "lang": "en",
+      "market": "global",
+      "query": "which exchange has the lowest perp fees",
+      "targetPath": "/derivatives",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:34.799Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "bitget-cafe-official",
+      "lang": "en",
+      "market": "global",
+      "query": "is bitget.cafe an official Bitget domain",
+      "targetPath": "/exchanges/bitget",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:38.587Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "tr-okx-referans-nerede",
+      "lang": "en",
+      "market": "tr",
+      "query": "where to enter the OKX referral code",
+      "targetPath": "/tr/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:42.208Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "tr-okx-referans-nerede",
+      "lang": "tr",
+      "market": "tr",
+      "query": "okx referans kodu nerede yazar",
+      "targetPath": "/tr/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:45.667Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "tr-okx-kayit",
+      "lang": "en",
+      "market": "tr",
+      "query": "how to register on OKX TR",
+      "targetPath": "/tr/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:49.050Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "tr-okx-kayit",
+      "lang": "tr",
+      "market": "tr",
+      "query": "okx tr nasıl kayıt olunur",
+      "targetPath": "/tr/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:52.391Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "vi-okx-ma-gioi-thieu",
+      "lang": "en",
+      "market": "vi",
+      "query": "where to get an OKX referral code",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:55.961Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "vi-okx-ma-gioi-thieu",
+      "lang": "vi",
+      "market": "vi",
+      "query": "mã giới thiệu okx lấy ở đâu",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:12:59.709Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "vi-okx-dang-ky",
+      "lang": "en",
+      "market": "vi",
+      "query": "how to register on OKX",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:02.842Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "vi-okx-dang-ky",
+      "lang": "vi",
+      "market": "vi",
+      "query": "cách đăng ký okx",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:06.290Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "vi-okx-hoan-phi",
+      "lang": "en",
+      "market": "vi",
+      "query": "does OKX refund trading fees",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:09.539Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "vi-okx-hoan-phi",
+      "lang": "vi",
+      "market": "vi",
+      "query": "okx có hoàn phí giao dịch không",
+      "targetPath": "/vi/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:12.843Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "es-okx-codigo-referido",
+      "lang": "en",
+      "market": "es",
+      "query": "OKX referral code Mexico",
+      "targetPath": "/es/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:16.578Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "es-okx-codigo-referido",
+      "lang": "es",
+      "market": "es",
+      "query": "okx codigo de referido",
+      "targetPath": "/es/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:19.721Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "es-okx-registrarse",
+      "lang": "en",
+      "market": "es",
+      "query": "how to register on OKX in Mexico",
+      "targetPath": "/es/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:22.534Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "es-okx-registrarse",
+      "lang": "es",
+      "market": "es",
+      "query": "como registrarse en okx",
+      "targetPath": "/es/exchanges/okx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:25.158Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "es-okx-confiable-mexico",
+      "lang": "en",
+      "market": "es",
+      "query": "is OKX reliable in Mexico",
+      "targetPath": "/mx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:27.830Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "es-okx-confiable-mexico",
+      "lang": "es",
+      "market": "es",
+      "query": "okx es confiable en mexico",
+      "targetPath": "/mx",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:30.944Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "ru-bybit-komissii",
+      "lang": "en",
+      "market": "ru",
+      "query": "Bybit trading fees",
+      "targetPath": "/ru/exchanges/bybit",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:34.509Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "ru-bybit-komissii",
+      "lang": "ru",
+      "market": "ru",
+      "query": "bybit комиссии за торговлю",
+      "targetPath": "/ru/exchanges/bybit",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:38.116Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "id-bitget-ojk",
+      "lang": "en",
+      "market": "id",
+      "query": "is Bitget registered with OJK",
+      "targetPath": "/id-id/exchanges/bitget",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:41.432Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    },
+    {
+      "questionId": "id-bitget-ojk",
+      "lang": "id",
+      "market": "id",
+      "query": "bitget terdaftar di ojk",
+      "targetPath": "/id-id/exchanges/bitget",
+      "engine": "brave",
+      "fetchedAt": "2026-10-10T22:13:44.143Z",
+      "status": "blocked",
+      "httpStatus": 429,
+      "nexualphaRank": null,
+      "nexualphaUrl": null,
+      "top": []
+    }
+  ]
+}
