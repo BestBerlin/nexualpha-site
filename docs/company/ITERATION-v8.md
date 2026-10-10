@@ -71,10 +71,34 @@ desk → fee comparison → sheet; profile copy code + official link; home calcu
 | (run 37943963293) | 3.0-20261009T2224-GH-4b8b96d | Partner wall: all 10 partners with real codes (logos, disclosed shares) under the animated 50%; home copy in all 15 locales (zh-Hant had shown Simplified, 13 locales English). |
 | (run 37947377440) | 3.0-20261009T2252-GH-5837ced | Three-step rebate guide replaces the chart; calc rows regridded; CJK display text breaks only after punctuation; footer centred; notices refreshed by the server every 30 min (server/intel-feed.mjs; live feed confirmed). First run 37946604272 stopped by the CTA gate: removing the home research drawer dropped 13 sign-up links (Aevo, HashKey, HTX have no other one) — drawer restored pending owner decision. |
 
-| gh-20261010t1152-52b4720 | 3.0-20261010T1152-GH-52b4720 | Full-site QA batch 1 (PR #16), local deploy: CJK home headline / 40% / calc title no longer break (text-wrap shorthand reset nowrap); news TTFB 0.8-1.15 s -> 0.03-0.06 s on standby (parse cached by feed sha); trailing slash 301; profile rebate line; PoR + pending copy in 15 locales; dYdX spot "not offered". Standby preflight 13/13, CTA links identical, public checks + invites passed. Previous 1107-7949c79 kept for rollback; 1027 stopped. **Current live.** |
+| gh-20261010t1152-52b4720 | 3.0-20261010T1152-GH-52b4720 | Full-site QA batch 1 (PR #16), local deploy: CJK home headline / 40% / calc title no longer break (text-wrap shorthand reset nowrap); news TTFB 0.8-1.15 s -> 0.03-0.06 s on standby (parse cached by feed sha); trailing slash 301; profile rebate line; PoR + pending copy in 15 locales; dYdX spot "not offered". Standby preflight 13/13, CTA links identical, public checks + invites passed. Previous 1107-7949c79 kept for rollback; 1027 stopped. |
+| (local) | 3.0-20261010T1311 … T1411 | Settle badge as two chips; search-engine verification files served 200; `scripts/search-engines.mjs` (verify / submit / status); Telegram pill in header + home Telegram block; live announcement stream. |
+| (local) | 3.0-20261010T1448-GH-d22491b | Announcements from six exchanges (OKX, Binance, KuCoin, Kraken, Bitget, Bybit) with sign-up routes; placeholder `NEXU_*` codes gated out (3 links removed, `ALLOW_CTA_CHANGE=1`); funding-rate board. |
+| (local) | 3.0-20261010T1455-GH-2e45bc2 | Owner: no floating offer / no home row buttons. News sign-up card under the article, in the side rail, and timed at 15 s (phones only). |
+| (local) | 3.0-20261010T1527-GH-1d9a928 / T1536-GH-3664fce | Layout pass across all 15 locales at 966-1440 / 768 / 390 (600-page sweep 317 -> 148, rest intentional scroll rows / button wraps). |
+| (local) | 3.0-20261010T1552-GH-b7a27a8 | `/intel/partners.json` for the Telegram Mini App and channel feed. |
+| (local) | 3.0-20261010T1651-GH-f65d304 / T1653-GH-254a2c3 | Activities: live exchange campaigns (event notices, 30 days) with invite routes; English channel @NexuAlphaGlobal on the home page. Sitemaps submitted (Yandex fetch failed once, retried). **Current live.** |
 Rollback: Actions → "Rollback production" with the newest release name (returns to the previous one), e.g. `gh-20261009t2034-3738f5c` (returns to ba66747), or `gh-20261009t2026-ba66747` (returns to pre-v8 `gh-20261009t1328-63a82a1`).
 
 **Milestone status: 23/23 accepted (2026-10-09).** Acceptance means this stage met its checklist, not that the site cannot improve.
 
 ## Next
 Next milestone backlog (ranked): (1) schedule the notice fetch (Bybit works from this machine, not from CI cloud IPs — needs a runner/server cron that writes `public/intel/` or a server-side path; no scheduler is configured yet); (2) owner decisions: sticky-bar disclosure as a full sentence, 50% tier, H1 sign-off for other locales, translations of the home copy (13 locales); (3) news list boilerplate summaries, dock chip name truncation, /ar ticker label, zh search result titles; (4) triage the 56 pre-existing failing tests (release-blockers-v8.md).
+
+## 2026-10-10 Telegram stack (not part of the site deploy)
+Accepted 7/7 + 4/4:
+- Stack moved from CT121 (home) to the BaoTa server in Docker (compose project `nexualpha-tg`, file
+  `/srv/agent/stacks/crypto-telegram-ops/baota/apps-compose.yml`, profile `cutover`; DB project `crypto-telegram-ops`).
+  Checks: bot replies (owner-confirmed), poller coverage full, DB 20 tables restored, timers -> `scheduler.sh` all exit 0,
+  encrypted daily backup verified (11:55 CST), restart policies, CT121 units disabled (rollback only, never run both).
+- Bot: `/signup` (+ /注册 /开户 /邀请码, private free-text intent) card with every partner invite code and link from
+  `/intel/partners.json`, hub button, command menu read back. No rebate lookup (owner: not possible).
+- Mini App: 5th tab "活动" (same rule as the site module), 15 locales, 390 checked, no overflow.
+- app.nexualpha.com off the Cloudflare tunnel: A 103.250.172.210 DNS-only + BaoTa nginx + Let's Encrypt (acme.sh,
+  auto-renew). From the owner's network 2-40 s -> ~0.3 s per request, first screen ~1.8 s. Rollback:
+  `Telegram/switch-app-domain.sh --rollback`. Runbook: `Telegram/BAOTA-MIGRATION-CUTOVER.md`.
+
+## Resume here
+Next (owner-approved order): news pipeline (also fills the empty news-sitemap), Brazil/global pages, AEO answers,
+backlinks. Open owner decisions: the Mini App's old demo prediction game; KuCoin / Deribit / GMX invite codes;
+bot menu button still reads back `commands`.

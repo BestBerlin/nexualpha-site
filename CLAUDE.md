@@ -15,3 +15,7 @@ On every new session, first read `docs/company/ITERATION-v8.md` (current milesto
 - No scroll-driven `view()` entrance animations (content got stuck half-faded); respect `prefers-reduced-motion`.
 - Verify visually in a real browser at 390 / 768 / 1440 before calling a UI change done; tests alone are not evidence.
 - `npm test` has 57 pre-existing failures (see `pilot-01-prototype/docs/release-blockers-v8.md`); a change must not add new ones.
+- Telegram stack (bot, Mini App app.nexualpha.com, channel feed) runs in Docker on the BaoTa server since 2026-10-10;
+  CT121 copies are disabled rollback only. Bot sign-up cards and the Mini App read `/intel/partners.json`, so partner
+  codes change in one place (the site data). Never run a second poller for the same bot token.
+- After every site deploy: `node scripts/search-engines.mjs submit`.
