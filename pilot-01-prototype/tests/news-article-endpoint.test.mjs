@@ -14,7 +14,11 @@ test("article endpoint returns one full article plus summaries of linked article
   const res = await worker.fetch(new Request("https://nexualpha.com/api/news/article/target-one"), env);
   assert.equal(res.status, 200);
   const body = await res.json();
-  assert.deepEqual(body.articles.map((a) => a.slug), ["target-one", "linked-one"]);
+  // 2026-10-10 news library: related articles (same category / shared platforms) are added as summaries, so the
+  // unrelated article now appears as a summary-only "related research" row (all fixtures share a category).
+  assert.equal(body.articles[0].slug, "target-one");
+  assert.ok(body.articles.some((a) => a.slug === "linked-one"), "linked articles stay included");
+  assert.ok(body.articles.slice(1).every((a) => a.content === undefined), "only the target ships a body");
   assert.ok(body.articles[0].content, "target keeps its body");
   assert.ok(!JSON.stringify(body).includes("x".repeat(1000)), "unrelated bodies are not shipped");
   assert.equal((await worker.fetch(new Request("https://nexualpha.com/api/news/article/missing"), env)).status, 404);
