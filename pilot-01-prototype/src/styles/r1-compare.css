@@ -144,18 +144,42 @@
   letter-spacing: -.022em;
   text-wrap: balance;
 }
+/* Mobile first screen (2026-10-10): verdict + the two official sign-up routes right under the H1, disclosure in the
+   same viewport. Buttons reuse the page-wide registration treatment (.v3-compare-hero-actions__btn is in the list above). */
+#top.v3-compare-page .v3-compare-hero-actions { display: grid; gap: 12px; min-inline-size: 0; }
+#top.v3-compare-page .v3-compare-hero-actions__verdict { margin: 0; max-inline-size: 42em; font-size: clamp(1rem, .95rem + .35vw, 1.125rem); line-height: 1.5; color: var(--ink); text-wrap: pretty; }
+#top.v3-compare-page .v3-compare-hero-actions__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+#top.v3-compare-page .v3-compare-hero-actions__btn:not(#_):not(#_):not(#_):not(#_) {
+  display: flex; align-items: center; justify-content: flex-start; gap: 10px; min-block-size: 52px; padding: 8px 14px; border-radius: 10px;
+  font-size: 14px; font-weight: 600; text-align: start; text-decoration: none; min-inline-size: 0;
+}
+#top.v3-compare-page .v3-compare-hero-actions__btn:not(#_):not(#_):not(#_):not(#_)[data-cta-kind="registration"] { background: var(--r1-go); border: 1px solid var(--r1-go); color: var(--r1-go-ink); }
+#top.v3-compare-page .v3-compare-hero-actions__btn:not(#_):not(#_):not(#_):not(#_)[data-cta-kind="registration"]:hover { background: var(--r1-go-hover); border-color: var(--r1-go-hover); }
+#top.v3-compare-page .v3-compare-hero-actions__btn:not(#_):not(#_):not(#_):not(#_):not([data-cta-kind="registration"]) { background: transparent; border: 1px solid var(--r1-rule-strong); color: var(--ink); }
+#top.v3-compare-page .v3-compare-hero-actions__btn:not(#_):not(#_):not(#_):not(#_):focus-visible { outline: 2px solid var(--blue-text); outline-offset: 3px; }
+#top.v3-compare-page .v3-compare-hero-actions__btn:not(#_):not(#_):not(#_):not(#_) > :first-child { flex: none; }
+#top.v3-compare-page .v3-compare-hero-actions__btn:not(#_):not(#_):not(#_):not(#_) > span[aria-hidden] { margin-inline-start: auto; }
+#top.v3-compare-page .v3-compare-hero-actions__label { display: grid; gap: 2px; min-inline-size: 0; line-height: 1.25; }
+#top.v3-compare-page .v3-compare-hero-actions__label strong { font-weight: 600; overflow-wrap: anywhere; }
+#top.v3-compare-page .v3-compare-hero-actions__label small { font: 500 11.5px/1.3 "Geist Mono V5", ui-monospace, monospace; opacity: .8; }
+#top.v3-compare-page .v3-compare-hero-actions__disclosure { margin: 0; font-size: 12.5px; }
+@media (max-width: 560px) { #top.v3-compare-page .v3-compare-hero-actions__row { grid-template-columns: minmax(0, 1fr); } }
+
+/* "Copy link to continue later" is a text link now, below the ledger, not the first button on the page. */
 #top.v3-compare-page .v3-venue-hero .decision-return-link { margin: 0; }
 #top.v3-compare-page .v3-venue-hero .decision-return-link > button {
-  min-block-size: 40px;
-  padding: 0 14px;
-  border-radius: 8px;
-  border: 1px solid var(--r1-rule-strong);
+  min-block-size: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
   background: transparent;
   color: var(--muted);
   font-size: 13.5px;
-  transition: color .18s ease, border-color .18s ease;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color .18s ease;
 }
-#top.v3-compare-page .v3-venue-hero .decision-return-link > button:hover { color: var(--ink); border-color: var(--blue-text); }
+#top.v3-compare-page .v3-venue-hero .decision-return-link > button:hover { color: var(--ink); }
 
 /* Jump index: flush to the grid, left aligned, one ruled line. */
 #top.v3-compare-page .v3-compare-decision-nav {
