@@ -474,8 +474,10 @@ test("worker injects one article hydration state for non-prerendered localized n
     assert.match(body, /data-nexualpha-ssr-fallback="news-detail"/, prefix);
     assert.ok(state, `${prefix}: expected fallback hydration state`);
     assert.equal(state.locale, prefix === "zh-hant" ? "zh-Hant" : (prefix || "en"));
-    assert.equal(state.newsArticles?.length, 1);
+    // 2026-10-10 news library: the one full article is followed by at most six summary-only related articles.
+    assert.ok(state.newsArticles?.length >= 1 && state.newsArticles.length <= 7, `${prefix}: one article plus related summaries`);
     assert.equal(state.newsArticles?.[0]?.slug, article.slug);
+    assert.ok(state.newsArticles.slice(1).every((item) => item.slug !== article.slug && !item.content?.en && !item.content?.["zh-Hans"]), `${prefix}: related rows carry no article bodies`);
     assert.ok(state.newsArticles?.[0]?.content?.en || state.newsArticles?.[0]?.content?.["zh-Hans"], `${prefix}: expected article content in state`);
   }
 });

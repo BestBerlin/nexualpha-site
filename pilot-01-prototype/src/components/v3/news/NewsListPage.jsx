@@ -1,11 +1,12 @@
 /**
  * NewsListPage — 实时新闻、深度研报与 SEO 文章大厅二级页面
- * 路由：/news
+ * 路由：/news, /news/page/N, /news/category/<key>[/page/N]
  */
 import React, { useEffect, useRef, useState } from "react";
-import { filterNewsIndex, newsIndexSearchCopy } from "../../../data/news-index-search.js";
+import { newsIndexSearchCopy } from "../../../data/news-index-search.js";
+import { NEWS_CATEGORY_KEYS, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, searchNewsArticles } from "../../../data/news-library.js";
 import { venueDatabase } from "../../../data/venue-database.js";
-import { exchangeUrl, hasLocalizedNewsText, loadNewsArticleSummaries, localizedNewsSummary, localizedNewsTitle, localizedValue, newsArticleUrl, normalizeNewsFeedSummaries } from "../../../data/news-feed-client.js";
+import { exchangeUrl, hasLocalizedNewsText, loadNewsArticleSummaries, loadNewsLibraryPage, localizedNewsSummary, localizedNewsTitle, localizedValue, newsArticleUrl, normalizeNewsFeedSummaries } from "../../../data/news-feed-client.js";
 import { contextualHref } from "../../../data/contextual-href.js";
 import { BrandMark } from "../../brand/BrandMark.jsx";
 import { DecisionPathRail } from "../DecisionPathRail.jsx";
@@ -229,23 +230,33 @@ const newsReaderUi = {
 };
 for (const [locale, nativeUi] of Object.entries(newsReaderUi)) copy[locale] = { ...copy[locale], ...nativeUi };
 
-export function NewsListPage({ locale = "en", market, product, initialArticles }) {
-  const [activeCategory, setActiveCategory] = useState("all");
+// News library (2026-10-10): real <a href> category archives and pages; search covers the whole published library
+// through /api/news/search (compact rows only) and falls back to the compact summary feed on static hosts.
+const NEWS_SEARCH_DEBOUNCE_MS = 250;
+const idleSearch = { status: "idle", query: "", rows: [], total: 0, page: 0, totalPages: 0 };
+
+export function NewsListPage({ locale = "en", market, product, initialArticles, category = null, page = 1, listing }) {
+  const activeCategory = isNewsCategory(category) ? category : null;
+  const requestedPage = Number.isInteger(page) && page > 0 ? page : 1;
   const [query, setQuery] = useState("");
   const searchInputRef = useRef(null);
   const searchCopy = newsIndexSearchCopy(locale);
-  const allArticlesButtonRef = useRef(null);
+  const libraryCopy = newsLibraryCopy(locale);
   const [visibleArticleCount, setVisibleArticleCount] = useState(NEWS_INITIAL_VISIBLE_COUNT);
   const [feedArticles, setFeedArticles] = useState(() => initialArticles ? normalizeNewsFeedSummaries(initialArticles) : []);
   const [feedState, setFeedState] = useState(() => initialArticles ? "ready" : "loading");
+  // Server-paginated rows (Worker hydration state or the search endpoint); null means feedArticles is the whole library.
+  const [serverListing, setServerListing] = useState(() => initialArticles && Number.isFinite(listing?.totalPages) ? listing : null);
+  const [search, setSearch] = useState(idleSearch);
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
   const t = copy[locale] || copy[String(locale || "").split("-")[0]] || (isHant ? copy["zh-Hant"] : isZh ? copy["zh-Hans"] : copy.en);
-  const categoryLabels = { all: t.all, research: t.research, rates: t.rates, compliance: t.compliance };
   const localizeCategory = (article) => {
+    const own = article.categoryName && typeof article.categoryName === "object" ? article.categoryName[locale] : null;
+    if (own) return own;
     const categoryName = localizedValue(article.categoryName, locale);
-    if (article.category === "research" && categoryName === "Source-Backed Research") return t.sourceBackedResearch;
-    return categoryName || categoryLabels[article.category] || article.categoryName || article.category;
+    if (article.category === "research" && categoryName === "Source-Backed Research") return newsCategoryCopy("research", locale)?.label || t.sourceBackedResearch;
+    return newsCategoryCopy(article.category, locale)?.label || categoryName || article.category;
   };
   const localizeAuthor = (author) => author === "NexuAlpha Research Desk" ? (t.researchDesk || "NexuAlpha Research Desk") : author;
   const withContext = (href) => contextualHref(href, { locale, market, product });
@@ -253,80 +264,124 @@ export function NewsListPage({ locale = "en", market, product, initialArticles }
   useEffect(() => {
     if (initialArticles) return undefined;
     let alive = true;
-    loadNewsArticleSummaries().then((articles) => {
+    loadNewsLibraryPage({ category: activeCategory, page: requestedPage, locale }).then(async (result) => {
+      if (!alive) return;
+      if (result) {
+        setFeedArticles(result.articles);
+        setServerListing({ category: activeCategory, page: result.page, total: result.total, totalPages: result.totalPages, libraryTotal: result.libraryTotal, counts: result.counts });
+        setFeedState("ready");
+        return;
+      }
+      const articles = await loadNewsArticleSummaries();
       if (alive) {
         setFeedArticles(articles);
+        setServerListing(null);
         setFeedState("ready");
       }
     });
     return () => { alive = false; };
-  }, [initialArticles]);
+  }, [initialArticles, activeCategory, requestedPage, locale]);
 
-  const articles = filterNewsIndex(feedArticles, { query, category: activeCategory, locale });
+  const trimmedQuery = query.trim();
+  useEffect(() => {
+    if (!trimmedQuery) {
+      setSearch(idleSearch);
+      return undefined;
+    }
+    let alive = true;
+    setSearch((current) => ({ ...current, status: "loading", query: trimmedQuery }));
+    const timer = setTimeout(async () => {
+      // Search always covers the whole published library (the scope line says so), also on category archives.
+      const result = await loadNewsLibraryPage({ query: trimmedQuery, locale, limit: NEWS_SEARCH_MAX_LIMIT });
+      if (!alive) return;
+      if (result) {
+        setSearch({ status: "ready", query: trimmedQuery, rows: result.articles, total: result.total, page: result.page, totalPages: result.totalPages });
+        return;
+      }
+      const library = serverListing ? await loadNewsArticleSummaries() : feedArticles;
+      if (!alive) return;
+      const rows = searchNewsArticles(library, { query: trimmedQuery });
+      setSearch({ status: "ready", query: trimmedQuery, rows, total: rows.length, page: 1, totalPages: 1 });
+    }, NEWS_SEARCH_DEBOUNCE_MS);
+    return () => { alive = false; clearTimeout(timer); };
+  }, [trimmedQuery, locale]);
+
+  const localPage = serverListing ? null : paginateNews(feedArticles, { category: activeCategory, page: requestedPage });
+  const pageRows = serverListing ? feedArticles : localPage.rows;
+  const currentPage = serverListing ? serverListing.page : localPage.page;
+  const totalPages = serverListing ? serverListing.totalPages : localPage.totalPages;
+  const libraryTotal = serverListing?.libraryTotal || (serverListing ? 0 : feedArticles.length);
+  const counts = serverListing?.counts || (!serverListing && feedArticles.length ? newsCategoryCounts(feedArticles) : null);
+  const searching = Boolean(trimmedQuery);
+  const articles = searching ? search.rows : pageRows;
   const visibleArticles = articles.slice(0, visibleArticleCount);
-  const hasMoreArticles = visibleArticleCount < articles.length;
+  const moreSearchPages = searching && search.status === "ready" && search.page < search.totalPages;
+  const hasMoreArticles = visibleArticleCount < articles.length || moreSearchPages;
 
   useEffect(() => {
     setVisibleArticleCount(NEWS_INITIAL_VISIBLE_COUNT);
-  }, [activeCategory, query]);
+  }, [activeCategory, trimmedQuery, requestedPage]);
+
+  const showMore = async () => {
+    if (visibleArticleCount < articles.length) {
+      setVisibleArticleCount((count) => Math.min(count + NEWS_BATCH_SIZE, articles.length));
+      return;
+    }
+    if (!moreSearchPages) return;
+    const next = await loadNewsLibraryPage({ query: search.query, locale, page: search.page + 1, limit: NEWS_SEARCH_MAX_LIMIT });
+    if (!next) return;
+    setSearch((current) => current.query === search.query
+      ? { ...current, rows: [...current.rows, ...next.articles], page: next.page, totalPages: next.totalPages, total: next.total }
+      : current);
+    setVisibleArticleCount((count) => count + NEWS_BATCH_SIZE);
+  };
+
+  const categoryCopy = activeCategory ? newsCategoryCopy(activeCategory, locale) : null;
+  const statusText = searching
+    ? (search.status === "ready" ? searchCopy.results(search.total) : libraryCopy.searching)
+    : libraryCopy.pageOf(currentPage, totalPages);
+  const tabs = [{ key: null, label: libraryCopy.all }, ...NEWS_CATEGORY_KEYS.map((key) => ({ key, label: newsCategoryCopy(key, locale).label }))];
 
   return (
-    <main className="v6 v2-page v3-page news-page" id="top">
+    <main className="v6 v2-page v3-page news-page" id="top" data-news-category={activeCategory || "all"} data-news-page={currentPage}>
       <section className="news-hero v2-shell">
         <div className="news-hero__badge">
           <span className="news-hero__pulse"></span>
           {t.eyebrow}
         </div>
-        <h1 className="news-hero__title">{t.title}</h1>
-        <p className="news-hero__subtitle">{t.subtitle}</p>
+        <h1 className="news-hero__title">{categoryCopy ? categoryCopy.label : t.title}</h1>
+        <p className="news-hero__subtitle">{categoryCopy ? categoryCopy.intro : t.subtitle}</p>
 
         <div className="news-index-controls">
         <div className="news-index-search">
           <label htmlFor="news-index-query">{searchCopy.label}</label>
           <input ref={searchInputRef} id="news-index-query" type="search" value={query} placeholder={searchCopy.placeholder} aria-describedby="news-index-search-scope" onChange={(event) => setQuery(event.target.value)} />
           {query && <button type="button" className="news-index-search__clear" onClick={() => { setQuery(""); searchInputRef.current?.focus({ preventScroll: true }); }}>{searchCopy.clear}</button>}
-          <p className="news-index-search__scope" id="news-index-search-scope">{searchCopy.scope}</p>
+          <p className="news-index-search__scope" id="news-index-search-scope">{libraryTotal ? libraryCopy.scope(libraryTotal) : null}</p>
         </div>
-        <nav className="news-tabs" aria-label={t.all}>
-          <button
-            type="button"
-            className={`news-tab ${activeCategory === "all" ? "news-tab--active" : ""}`}
-            aria-pressed={activeCategory === "all"}
-            ref={allArticlesButtonRef}
-            onClick={() => setActiveCategory("all")}
-          >
-            {t.all}
-          </button>
-          <button
-            type="button"
-            className={`news-tab ${activeCategory === "research" ? "news-tab--active" : ""}`}
-            aria-pressed={activeCategory === "research"}
-            onClick={() => setActiveCategory("research")}
-          >
-            {t.research}
-          </button>
-          <button
-            type="button"
-            className={`news-tab ${activeCategory === "rates" ? "news-tab--active" : ""}`}
-            aria-pressed={activeCategory === "rates"}
-            onClick={() => setActiveCategory("rates")}
-          >
-            {t.rates}
-          </button>
-          <button
-            type="button"
-            className={`news-tab ${activeCategory === "compliance" ? "news-tab--active" : ""}`}
-            aria-pressed={activeCategory === "compliance"}
-            onClick={() => setActiveCategory("compliance")}
-          >
-            {t.compliance}
-          </button>
+        <nav className="news-tabs news-category-nav" aria-label={libraryCopy.browse}>
+          {tabs.map(({ key, label }) => {
+            const current = (key || null) === activeCategory;
+            return (
+              <a
+                key={key || "all"}
+                className={`news-tab ${current ? "news-tab--active" : ""}`}
+                href={withContext(newsListingPath({ category: key }))}
+                aria-current={current ? "page" : undefined}
+                data-cta-kind="research"
+                data-cta-placement="news-category-nav"
+              >
+                {label}
+                {key && counts && Number.isFinite(counts[key]) && <span className="news-tab__count">{counts[key]}</span>}
+              </a>
+            );
+          })}
         </nav>
         </div>
-        {feedState === "ready" && <p className="news-index-status" role="status" aria-live="polite">{searchCopy.results(articles.length)}</p>}
+        {feedState === "ready" && <p className="news-index-status" role="status" aria-live="polite">{statusText}</p>}
       </section>
 
-      <section className="news-grid-section v2-shell" aria-live="polite" aria-busy={feedState === "loading"} data-route-label={t.all || copy.en.all}>
+      <section className="news-grid-section v2-shell" aria-live="polite" aria-busy={feedState === "loading" || search.status === "loading"} data-route-label={t.all || copy.en.all}>
         {feedState === "loading" && (
           <div className="news-grid news-grid--loading" role="status" aria-label={t.loadingTitle}>
             {Array.from({ length: 6 }, (_, index) => (
@@ -339,15 +394,13 @@ export function NewsListPage({ locale = "en", market, product, initialArticles }
             ))}
           </div>
         )}
-        {feedState === "ready" && articles.length === 0 && (
+        {feedState === "ready" && articles.length === 0 && !(searching && search.status === "loading") && (
           <div className="news-article-card">
-            <h2 className="news-article-card__title">{feedArticles.length ? (query ? searchCopy.empty : t.emptyCategory) : t.emptyTitle}</h2>
-            <p className="news-article-card__summary">{feedArticles.length ? (query ? searchCopy.scope : t.emptyCategoryBody) : t.emptyBody}</p>
-            {feedArticles.length > 0 && <button type="button" className="news-tab" onClick={() => {
-              setQuery("");
-              setActiveCategory("all");
-              allArticlesButtonRef.current?.focus({ preventScroll: true });
-            }}>{query ? searchCopy.reset : t.all}</button>}
+            <h2 className="news-article-card__title">{searching ? libraryCopy.empty : feedArticles.length || serverListing?.total === 0 ? t.emptyCategory : t.emptyTitle}</h2>
+            <p className="news-article-card__summary">{searching ? (libraryTotal ? libraryCopy.scope(libraryTotal) : null) : feedArticles.length || serverListing?.total === 0 ? t.emptyCategoryBody : t.emptyBody}</p>
+            {searching
+              ? <button type="button" className="news-tab" onClick={() => { setQuery(""); searchInputRef.current?.focus({ preventScroll: true }); }}>{searchCopy.reset}</button>
+              : activeCategory && <a className="news-tab" href={withContext(newsListingPath({}))}>{libraryCopy.all}</a>}
           </div>
         )}
         <div className="news-grid" id="news-article-grid" data-visible-count={visibleArticles.length}>
@@ -432,22 +485,25 @@ export function NewsListPage({ locale = "en", market, product, initialArticles }
             className="news-articles-toggle"
             aria-controls="news-article-grid news-research-index"
             aria-expanded={visibleArticleCount > NEWS_INITIAL_VISIBLE_COUNT}
-            aria-label={`${t.showMore}: ${Math.min(visibleArticleCount + NEWS_BATCH_SIZE, articles.length)} / ${articles.length}`}
+            aria-label={`${t.showMore}: ${Math.min(visibleArticleCount + NEWS_BATCH_SIZE, searching ? search.total : articles.length)} / ${searching ? search.total : articles.length}`}
             data-cta-placement="news-articles-more"
-            onClick={() => setVisibleArticleCount((count) => Math.min(count + NEWS_BATCH_SIZE, articles.length))}
+            onClick={showMore}
           >
             {t.showMore}
           </button>
         )}
+        {!searching && feedState === "ready" && (
+          <NewsPagination locale={locale} category={activeCategory} page={currentPage} totalPages={totalPages} withContext={withContext} copy={libraryCopy} />
+        )}
       <div className="v2-shell news-page__decision-rail">
         <DecisionPathRail locale={locale} market={market} product={product} current="news" />
       </div>
-        {feedState === "ready" && feedArticles.length > NEWS_INITIAL_VISIBLE_COUNT && (
+        {feedState === "ready" && pageRows.length > NEWS_INITIAL_VISIBLE_COUNT && (
           <details className="news-research-index" id="news-research-index" data-ssr-indexable="true" data-route-label={t.researchIndex || copy.en.researchIndex}>
             <summary className="news-research-index__summary">{t.researchIndex || copy.en.researchIndex}</summary>
             <p className="news-research-index__body">{t.researchIndexBody || copy.en.researchIndexBody}</p>
             <nav aria-label={t.researchIndex || copy.en.researchIndex} className="news-research-index__links">
-              {feedArticles.map((article) => (
+              {pageRows.map((article) => (
                 <a key={`index-${article.slug}`} href={withContext(newsArticleUrl(article.slug, locale))}>
                   {localizedNewsTitle(article, locale)}
                 </a>
@@ -457,6 +513,31 @@ export function NewsListPage({ locale = "en", market, product, initialArticles }
         )}
       </section>
     </main>
+  );
+}
+
+function NewsPagination({ locale, category, page, totalPages, withContext, copy: libraryCopy }) {
+  if (totalPages <= 1) return null;
+  const href = (n) => withContext(newsListingPath({ category, page: n }));
+  return (
+    <nav className="news-pagination" aria-label={libraryCopy.pagination} data-page={page} data-total-pages={totalPages} lang={locale}>
+      {page > 1 && (
+        <a className="news-pagination__step news-pagination__step--prev" href={href(page - 1)} rel="prev" data-cta-placement="news-pagination-prev">
+          <span aria-hidden="true">←</span> {libraryCopy.previous}
+        </a>
+      )}
+      <ol className="news-pagination__pills">
+        {newsPaginationItems(page, totalPages).map((n, index) => n === null
+          ? <li key={`gap-${index}`} className="news-pagination__gap" aria-hidden="true">…</li>
+          : <li key={n}><a className="news-pagination__pill" href={href(n)} aria-current={n === page ? "page" : undefined}>{n}</a></li>)}
+      </ol>
+      <p className="news-pagination__status">{libraryCopy.pageOf(page, totalPages)}</p>
+      {page < totalPages && (
+        <a className="news-pagination__step news-pagination__step--next" href={href(page + 1)} rel="next" data-cta-placement="news-pagination-next">
+          {libraryCopy.next} <span aria-hidden="true">→</span>
+        </a>
+      )}
+    </nav>
   );
 }
 

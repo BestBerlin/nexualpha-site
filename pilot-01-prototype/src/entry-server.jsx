@@ -1,7 +1,7 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { App } from "./App.jsx";
-import { normalizeNewsFeed, normalizeNewsFeedSummaries } from "./data/news-feed-client.js";
+import { normalizeNewsArticlePool, normalizeNewsFeed, normalizeNewsFeedSummaries } from "./data/news-feed-client.js";
 import { getBrazilPage } from "./data/brazil-market.js";
 import { supportedLocales } from "./content/locale-manifest";
 import { parsePublicRoute } from "./data/locale-routing.js";
@@ -18,7 +18,7 @@ export function render(url, { newsArticles } = {}) {
         ? publicRoute.locale
         : "en";
   const normalizedNewsArticles = Array.isArray(newsArticles)
-    ? (normalizeNewsFeed(newsArticles).length ? normalizeNewsFeed(newsArticles) : normalizeNewsFeedSummaries(newsArticles))
+    ? (normalizeNewsFeed(newsArticles).length ? normalizeNewsArticlePool(newsArticles) : normalizeNewsFeedSummaries(newsArticles))
     : undefined;
   return renderToString(
     <React.StrictMode>
