@@ -1190,3 +1190,101 @@
 @media (max-width: 600px) {
   .tg-task-desk .tg-topic-card--mobile-collapsed { display: none; }
 }
+
+/* ==========================================================================
+   /telegram first screen (2026-10-10): alerts product — copy + sample bubble.
+   ========================================================================== */
+.tg-signal-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: clamp(20px, 3vw, 40px);
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+.tg-signal-hero__copy { display: grid; gap: 14px; min-width: 0; }
+.tg-signal-hero__copy .tg-hub__title { margin: 0; text-align: start; }
+.tg-signal-hero__copy .tg-hub__subtitle { max-width: 56ch; }
+.tg-signal-hero__cta { display: grid; gap: 8px; justify-items: start; margin-top: 4px; }
+.tg-signal-hero__cta .tg-signal-hero__primary { min-height: 48px; padding-inline: 1.5rem; font-size: 0.95rem; }
+.tg-signal-hero__hint { margin: 0; max-width: 52ch; font-size: 0.8125rem; line-height: 1.5; color: #94a3b8; }
+.tg-signal-hero__topics-title { margin: 8px 0 0; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #9097A0; }
+.tg-signal-hero__topics { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: tg-topic; }
+.tg-signal-hero__topics li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 2px 10px; padding: 10px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); counter-increment: tg-topic; }
+.tg-signal-hero__topics li::before { content: counter(tg-topic, decimal-leading-zero); grid-row: 1 / span 2; font: 500 12px/1.6 "Geist Mono V5", ui-monospace, monospace; color: #67e8f9; }
+.tg-signal-hero__topics li strong { font-size: 0.95rem; font-weight: 600; color: #f1f5f9; }
+.tg-signal-hero__topics li span { font-size: 0.8375rem; line-height: 1.5; color: #94a3b8; }
+[dir="rtl"] .tg-signal-hero__topics li::before { font-family: inherit; }
+
+.tg-signal-sample { margin: 0; display: grid; gap: 12px; min-width: 0; }
+.tg-signal-sample__label { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #9097A0; }
+.tg-signal-sample__label small { font-size: 0.75rem; letter-spacing: 0; text-transform: none; color: #6b7280; }
+.tg-signal-sample__bubble {
+  position: relative;
+  padding: 12px 14px 12px;
+  border-radius: 14px 14px 14px 4px;
+  background: #182533;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e5edf5;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.8);
+}
+[dir="rtl"] .tg-signal-sample__bubble { border-radius: 14px 14px 4px 14px; }
+.tg-signal-sample__head { display: flex; justify-content: space-between; gap: 10px; margin: 0 0 6px; font-size: 0.75rem; color: #8aa4c0; }
+.tg-signal-sample__sender { font-weight: 600; color: #67e8f9; }
+.tg-signal-sample__title { margin: 0 0 8px; font-weight: 700; color: #ffffff; }
+.tg-signal-sample__rows { margin: 0; display: grid; gap: 4px; }
+.tg-signal-sample__rows > div { display: grid; grid-template-columns: minmax(84px, auto) minmax(0, 1fr); gap: 10px; }
+.tg-signal-sample__rows dt { color: #8aa4c0; }
+.tg-signal-sample__rows dd { margin: 0; font-family: "Geist Mono V5", ui-monospace, monospace; font-size: 0.8375rem; color: #f1f5f9; overflow-wrap: anywhere; }
+.tg-signal-sample__side { font-family: inherit; }
+.tg-signal-sample__side--long { color: #f87171; }
+.tg-signal-sample__source { margin: 8px 0 0; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.75rem; line-height: 1.45; color: #8aa4c0; }
+
+.tg-signal-hero__secondary { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.tg-signal-hero__secondary a {
+  display: grid; gap: 2px; min-height: 48px; padding: 8px 12px; border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.04); color: #f1f5f9; text-decoration: none;
+  transition: border-color .2s ease, background-color .2s ease;
+}
+.tg-signal-hero__secondary a:hover { border-color: rgba(103, 232, 249, 0.5); background: rgba(255, 255, 255, 0.07); }
+.tg-signal-hero__secondary a:focus-visible { outline: 2px solid #67e8f9; outline-offset: 3px; }
+.tg-signal-hero__secondary b { font-size: 0.875rem; font-weight: 600; }
+.tg-signal-hero__secondary small { font-size: 0.75rem; color: #94a3b8; overflow-wrap: anywhere; }
+.tg-signal-hero__note { margin: 0; font-size: 0.75rem; line-height: 1.5; color: #6b7280; }
+
+@media (max-width: 900px) {
+  .tg-signal-hero { grid-template-columns: minmax(0, 1fr); }
+  /* Phones: title, primary button, then the sample and the topics — the button and the start of the sample share the first screen. */
+  .tg-signal-hero__copy { display: contents; }
+  .tg-signal-hero__copy .tg-hub__title { order: 0; }
+  .tg-signal-hero__copy .tg-hub__subtitle { order: 1; }
+  .tg-signal-hero__cta { order: 2; }
+  .tg-signal-sample { order: 3; display: contents; }
+  .tg-signal-sample__label { order: 3; }
+  .tg-signal-sample__bubble { order: 4; }
+  .tg-signal-hero__topics-title { order: 5; }
+  .tg-signal-hero__topics { order: 6; }
+  .tg-signal-hero__secondary { order: 7; }
+  .tg-signal-hero__note { order: 8; }
+  .tg-signal-hero__cta .tg-signal-hero__primary { width: 100%; }
+}
+@media (max-width: 480px) {
+  .tg-signal-hero__secondary { grid-template-columns: minmax(0, 1fr); }
+  .tg-signal-hero__copy .tg-hub__title { font-size: clamp(1.45rem, 6.5vw, 1.8rem); }
+}
+
+/* Page-level overrides for the alerts layout (above the v6 page stack, which keys a two-column desk off .tg-hub__header). */
+#top.r1-telegram-page .tg-signal-hero__topics-title:not(#_):not(#_):not(#_) { margin: 8px 0 0; font-size: .75rem; line-height: 1.4; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #9097A0; }
+#top.r1-telegram-page .tg-signal-hero__secondary a:not(#_):not(#_):not(#_), #top.r1-telegram-page .tg-signal-hero__secondary a:not(#_):not(#_):not(#_) :is(b, small) { text-decoration: none; }
+#top.r1-telegram-page .tg-signal-hero__secondary a:not(#_):not(#_):not(#_) b { font-size: .875rem; }
+#top.r1-telegram-page .tg-signal-hero__secondary a:not(#_):not(#_):not(#_) small { font-size: .75rem; color: #94a3b8; }
+#top.r1-telegram-page .tg-signal-hero__topics li:not(#_):not(#_):not(#_) strong { font-size: .95rem; }
+#top.r1-telegram-page .tg-signal-hero__topics li:not(#_):not(#_):not(#_) span { font-size: .8375rem; }
+#top.r1-telegram-page .tg-signal-sample__rows:not(#_):not(#_):not(#_) :is(dt, dd) { font-size: .8375rem; line-height: 1.5; }
+#top.r1-telegram-page .tg-signal-sample__source:not(#_):not(#_):not(#_), #top.r1-telegram-page .tg-signal-sample__head:not(#_):not(#_):not(#_) { font-size: .75rem; }
+@media (min-width: 1024px) {
+  #top#top#top#top#top.v6.r1-telegram-page .tg-hub__container:not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); column-gap: 0; }
+  #top#top#top#top#top.v6.r1-telegram-page .tg-topic-gateway:not(#_):not(#_):not(#_):not(#_) > .tg-topic-gateway__header { grid-column: 1 / -1; grid-row: auto; align-self: start; padding-inline-start: 0; border-inline-start: 0; }
+  #top#top#top#top#top.v6.r1-telegram-page .tg-topic-gateway__toggle:not(#_):not(#_):not(#_):not(#_) { margin-block-start: 0; }
+}

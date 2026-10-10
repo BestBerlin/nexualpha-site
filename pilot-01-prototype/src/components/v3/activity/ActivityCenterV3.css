@@ -743,3 +743,21 @@
   .activity-center-v3__rewards .activity-center-v3__research-identity { flex-wrap: nowrap; }
   .activity-center-v3__rewards .activity-center-v3__research-identity small { flex-basis: auto; margin-inline-start: auto; }
 }
+
+/* Exchange groups (2026-10-10): all items in the HTML, items after the third collapsed until "Show all (n)". */
+.activity-center-v3__groups { display: grid; gap: 24px; min-width: 0; }
+.activity-center-v3__group { display: grid; gap: 12px; min-width: 0; }
+.activity-center-v3__group-head { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 1rem; font-weight: 600; }
+.activity-center-v3__group-head .activity-center-v3__chip-count { margin-inline-start: 2px; }
+.activity-center-v3__group[data-expanded="false"] .activity-card-v3[data-group-overflow="true"] { display: none; }
+.activity-center-v3__group-toggle {
+  justify-self: start; min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 7px;
+  background: transparent; color: var(--blue-text); font: inherit; font-size: .875rem; cursor: pointer;
+}
+.activity-center-v3__group-toggle:hover { border-color: var(--blue-text); }
+.activity-center-v3__group-toggle:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 3px; }
+/* The intro used to sit ~100px above the first module (section gap + the campaigns block's own 40px top margin). */
+.activity-center-v3 > .live-campaigns:not(#_):not(#_):not(#_) { margin-block-start: 4px; margin-block-end: 32px; }
+#top.v3-activity-center .activity-center-v3__head:not(#_):not(#_):not(#_) { margin-block-end: 0; }
+#top.v3-activity-center .activity-center-v3__head span:not(#_):not(#_):not(#_) { margin-block-end: 0; }
+#top.v3-activity-center .activity-center-v3 > .live-campaigns:not(#_):not(#_):not(#_) { margin-block-start: 16px; }
