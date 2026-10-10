@@ -266,7 +266,7 @@ const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/ra
 // visible text under 20% per locale), so every locale edition is published to search, not only en/zh/ja/ko/tr.
 // /methodology and /telegram stay on the short list (still partly English), as do the venue profiles below whose
 // localized editions are still 25%+ English.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain"]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates"]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);

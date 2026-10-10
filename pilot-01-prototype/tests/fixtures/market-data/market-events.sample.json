@@ -1,0 +1,224 @@
+{
+ "generatedAt": "2026-10-10T14:58:12.739Z",
+ "liquidations": {
+  "source": "Binance USDT-M force-order stream (at most one order per symbol per second) plus OKX liquidation orders for BTC/ETH/SOL/XRP/DOGE; a lower bound, not the whole market",
+  "coverageSince": "2026-10-10T09:11:50.250Z",
+  "h1": {
+   "longUsd": 14691,
+   "shortUsd": 3329977,
+   "totalUsd": 3344668,
+   "orders": 250,
+   "topSymbols": [
+    {
+     "symbol": "OKX:SOLUSDT",
+     "usd": 2017955
+    },
+    {
+     "symbol": "OKX:ETHUSDT",
+     "usd": 1102157
+    },
+    {
+     "symbol": "OKX:BTCUSDT",
+     "usd": 215811
+    },
+    {
+     "symbol": "OKX:DOGEUSDT",
+     "usd": 7236
+    },
+    {
+     "symbol": "OKX:XRPUSDT",
+     "usd": 1509
+    }
+   ],
+   "largest": {
+    "symbol": "OKX:SOLUSDT",
+    "side": "short",
+    "usd": 1452978,
+    "at": "2026-10-10T14:29:53.025Z"
+   }
+  },
+  "h4": {
+   "longUsd": 14691,
+   "shortUsd": 3339862,
+   "totalUsd": 3354553,
+   "orders": 254,
+   "topSymbols": [
+    {
+     "symbol": "OKX:SOLUSDT",
+     "usd": 2017955
+    },
+    {
+     "symbol": "OKX:ETHUSDT",
+     "usd": 1105126
+    },
+    {
+     "symbol": "OKX:BTCUSDT",
+     "usd": 222727
+    },
+    {
+     "symbol": "OKX:DOGEUSDT",
+     "usd": 7236
+    },
+    {
+     "symbol": "OKX:XRPUSDT",
+     "usd": 1509
+    }
+   ],
+   "largest": {
+    "symbol": "OKX:SOLUSDT",
+    "side": "short",
+    "usd": 1452978,
+    "at": "2026-10-10T14:29:53.025Z"
+   }
+  },
+  "h24": {
+   "longUsd": 1233574,
+   "shortUsd": 4880561,
+   "totalUsd": 6114135,
+   "orders": 683,
+   "topSymbols": [
+    {
+     "symbol": "OKX:SOLUSDT",
+     "usd": 2680936
+    },
+    {
+     "symbol": "OKX:ETHUSDT",
+     "usd": 1659099
+    },
+    {
+     "symbol": "OKX:BTCUSDT",
+     "usd": 940729
+    },
+    {
+     "symbol": "OKX:DOGEUSDT",
+     "usd": 640324
+    },
+    {
+     "symbol": "OKX:XRPUSDT",
+     "usd": 193047
+    }
+   ],
+   "largest": {
+    "symbol": "OKX:SOLUSDT",
+    "side": "short",
+    "usd": 1452978,
+    "at": "2026-10-10T14:29:53.025Z"
+   }
+  }
+ },
+ "market": {
+  "majors": [
+   {
+    "symbol": "BTCUSDT",
+    "price": 82952.8,
+    "change1hPct": 0.2,
+    "change24hPct": -0.16,
+    "quoteVolume24h": 4143038905
+   },
+   {
+    "symbol": "ETHUSDT",
+    "price": 2508.2,
+    "change1hPct": 0.41,
+    "change24hPct": 0.59,
+    "quoteVolume24h": 2560928223
+   },
+   {
+    "symbol": "SOLUSDT",
+    "price": 110.52,
+    "change1hPct": 0.59,
+    "change24hPct": 0.3,
+    "quoteVolume24h": 863494819
+   },
+   {
+    "symbol": "XRPUSDT",
+    "price": 1.4071,
+    "change1hPct": 0.19,
+    "change24hPct": 1.54,
+    "quoteVolume24h": 388032273
+   },
+   {
+    "symbol": "DOGEUSDT",
+    "price": 0.0863,
+    "change1hPct": 0.59,
+    "change24hPct": 1.84,
+    "quoteVolume24h": 205159486
+   },
+   {
+    "symbol": "BNBUSDT",
+    "price": 753.32,
+    "change1hPct": 0.37,
+    "change24hPct": 1.59,
+    "quoteVolume24h": 175458964
+   }
+  ]
+ },
+ "funding": {
+  "generatedAt": "2026-10-10T14:58:12.739Z",
+  "source": "Binance USDT-M premiumIndex (lastFundingRate, nextFundingTime) + OKX public funding-rate per instrument; top symbols by Binance 24h quote volume",
+  "rows": [
+   {
+    "symbol": "BTC",
+    "binanceRate": 0.0000326,
+    "binanceNextAt": "2026-10-10T16:00:00.000Z",
+    "okxRate": 0.0000183440742622,
+    "okxNextAt": "2026-10-10T16:00:00.000Z"
+   },
+   {
+    "symbol": "ETH",
+    "binanceRate": 0.00003167,
+    "binanceNextAt": "2026-10-10T16:00:00.000Z",
+    "okxRate": -0.0000421,
+    "okxNextAt": "2026-10-10T16:00:00.000Z"
+   },
+   {
+    "symbol": "SOL",
+    "binanceRate": -0.00012,
+    "binanceNextAt": "2026-10-10T16:00:00.000Z",
+    "okxRate": null,
+    "okxNextAt": null
+   },
+   {
+    "symbol": "1000PEPE",
+    "binanceRate": 0.0001,
+    "binanceNextAt": "2026-10-10T16:00:00.000Z",
+    "okxRate": 0.0000349843876729,
+    "okxNextAt": "2026-10-10T16:00:00.000Z"
+   }
+  ]
+ },
+ "events": [
+  {
+   "type": "top-mover",
+   "severity": "medium",
+   "text": "LUMIAUSDT 38.25% in 24h on 158M USD volume"
+  },
+  {
+   "type": "top-mover",
+   "severity": "medium",
+   "text": "USUSDT -34.09% in 24h on 524M USD volume"
+  },
+  {
+   "type": "top-mover",
+   "severity": "medium",
+   "text": "ERAUSDT 27.93% in 24h on 144M USD volume"
+  }
+ ],
+ "headlines": [
+  {
+   "source": "Decrypt",
+   "title": "French Committee Backs Stablecoin Swap Tax and Crypto Exit Tax, Then Rejects the Budget",
+   "url": "https://decrypt.co/380630/france-stablecoin-swap-crypto-exit-tax",
+   "publishedAt": "2026-10-10T13:01:03.000Z",
+   "tags": [
+    "stablecoin"
+   ]
+  },
+  {
+   "source": "Cointelegraph",
+   "title": "Here’s what happened in crypto today",
+   "url": "https://cointelegraph.com/news/what-happened-in-crypto-today?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+   "publishedAt": "2026-10-10T12:30:00.000Z",
+   "tags": []
+  }
+ ]
+}
