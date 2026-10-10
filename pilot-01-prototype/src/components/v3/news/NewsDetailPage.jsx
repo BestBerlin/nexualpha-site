@@ -7,7 +7,7 @@ import { splitArticleReadingSections } from "./article-reading-sections.js";
 import React, { useEffect, useRef, useState } from "react";
 import { getNewsArticleBySlug } from "../../../data/news-articles-data.js";
 import { venueDatabase } from "../../../data/venue-database.js";
-import { OKX_USD_USDC_OWNER_CHECKLIST, loadNewsArticles, localizedNewsSummary, localizedNewsTitle, localizedValue, resolveNewsContentLocale } from "../../../data/news-feed-client.js";
+import { OKX_USD_USDC_OWNER_CHECKLIST, loadNewsArticleBySlug, localizedNewsSummary, localizedNewsTitle, localizedValue, resolveNewsContentLocale } from "../../../data/news-feed-client.js";
 import { contextualHref } from "../../../data/contextual-href.js";
 import { validComparison } from "../../../data/browser-state.js";
 import { injectSeoMetadata } from "../../../data/seo-injection.js";
@@ -557,7 +557,8 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const withContext = (href) => contextualHref(href, { locale, market, product });
   const [articles, setArticles] = useState(() => initialArticles ?? []);
   const [feedState, setFeedState] = useState(() => initialArticles ? "ready" : "loading");
-  const [showFullArticle, setShowFullArticle] = useState(false);
+  // 2026-10-10 (audit finding 11): the full analysis is open by default; readers can still collapse it.
+  const [showFullArticle, setShowFullArticle] = useState(true);
   const articleDisclosureRef = useRef(null);
   const articleDisclosureContextRef = useRef(null);
   const article = getNewsArticleBySlug(slug, articles);
@@ -571,7 +572,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
     if (articleDisclosureContextRef.current === context) return;
     const retainedOpen = articleDisclosureContextRef.current === null && Boolean(articleDisclosureRef.current?.open);
     articleDisclosureContextRef.current = context;
-    setShowFullArticle(retainedOpen || (window.innerWidth > 640 && hasRequestedLanguageBody));
+    setShowFullArticle(retainedOpen || hasRequestedLanguageBody);
   }, [slug, locale, hasRequestedLanguageBody]);
 
   useEffect(() => {
@@ -580,14 +581,14 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
     // letting a transient client feed failure rewrite a valid article as 404.
     if (initialArticles) return undefined;
     let alive = true;
-    loadNewsArticles().then((rows) => {
+    loadNewsArticleBySlug(slug).then((rows) => {
       if (alive) {
         setArticles(rows);
         setFeedState("ready");
       }
     });
     return () => { alive = false; };
-  }, [initialArticles]);
+  }, [initialArticles, slug]);
 
   useEffect(() => {
     if (feedState !== "ready") return;

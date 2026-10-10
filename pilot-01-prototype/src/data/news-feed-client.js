@@ -618,6 +618,19 @@ export async function loadNewsArticles(fetchImpl = globalThis.fetch) {
   }
 }
 
+/** One article (and compact summaries of articles it links to); falls back to the full feed on older servers. */
+export async function loadNewsArticleBySlug(slug, fetchImpl = globalThis.fetch) {
+  if (typeof fetchImpl !== "function") return [];
+  try {
+    const response = await fetchImpl(`/api/news/article/${encodeURIComponent(slug)}`, { cache: "no-store" });
+    if (response?.status === 404) return [];
+    if (response?.ok) return normalizeNewsFeed(await response.json());
+  } catch {
+    // fall through to the full feed
+  }
+  return loadNewsArticles(fetchImpl);
+}
+
 export async function loadNewsArticleSummaries(fetchImpl = globalThis.fetch) {
   if (typeof fetchImpl !== "function") return [];
   try {

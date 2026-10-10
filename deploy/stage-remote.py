@@ -9,6 +9,7 @@
 #   3. the standby answers 200 on every preflight route and reports the expected buildId
 #   4. registration / invite links on the money pages are identical to the live site
 #      (unless ALLOW_CTA_CHANGE=1)
+import glob
 import json, os, pathlib, re, socket, subprocess, sys, time, urllib.request
 
 RELEASE = os.environ['RELEASE']
@@ -122,6 +123,13 @@ info = json.loads(out('docker', 'inspect', old))[0]
 content = [m['Source'] for m in info.get('Mounts', []) if m.get('Destination') == '/app/dist/client/content']
 pathlib.Path(ROOT).mkdir(parents=True)
 sh('tar', '-xzf', PKG, '-C', ROOT)
+# 2026-10-10: keep hashed JS/CSS from recent releases. HTML cached by browsers and search engines still references
+# them; deleting them on every release produced 404s (Googlebot fetched /assets/route-news-detail-XKXONHly.js after
+# its release was replaced). Hashed names never collide with different content; the new build's files win (cp -n).
+for old_assets in sorted(glob.glob('/data/wwwroot/*/dist/client/assets')):
+    if old_assets.startswith(ROOT) or time.time() - os.path.getmtime(old_assets) > 21 * 86400:
+        continue
+    subprocess.run(['sh', '-c', 'cp -np "$0"/*-*.js "$0"/*-*.css "$1"/ 2>/dev/null; true', old_assets, ROOT + '/dist/client/assets'])
 version = json.loads(pathlib.Path(ROOT + '/dist/client/version.json').read_text())
 if version['buildId'] != BUILD_ID:
     sys.exit('ABORT package buildId %s != expected %s' % (version['buildId'], BUILD_ID))
@@ -130,15 +138,27 @@ args = ['docker', 'run', '-d', '--name', NEW, '--restart', 'unless-stopped',
 if content:
     args += ['-v', content[0] + ':/app/dist/client/content:ro']
 args += ['-w', '/app']
+# 2026-10-10: the CTA proxy target used to be copied from the previous container. That carried a collector that had
+# exited (R42) and the default bridge network, so every click event failed with 503 from 2026-10-06. The target is now
+# the newest *running* collector, and the container always joins the network the collectors live on.
+COLLECTOR_NET = 'nexualpha-internal'
+running = [n for n in out('docker', 'ps', '--filter', 'name=nexualpha-cta-collector-', '--format', '{{.CreatedAt}}\t{{.Names}}').splitlines() if n.strip() and 'rollback' not in n]
+collector = sorted(running)[-1].split('\t')[1] if running else None
 for item in info['Config']['Env']:
     key = item.split('=', 1)[0]
-    if key in ['PORT', 'BUILD_ID', 'CTA_ANALYTICS_ORIGIN', 'NODE_ENV']:
+    if key in ['PORT', 'BUILD_ID', 'NODE_ENV']:
         args += ['-e', ('BUILD_ID=' + BUILD_ID) if key == 'BUILD_ID' else item]
+if collector:
+    args += ['-e', 'CTA_ANALYTICS_ORIGIN=http://%s:8080' % collector]
+# Error monitor (/health/errors-ready): append-only events outside the app tree, same directory older releases used.
+args += ['-v', '/data/private/nexualpha/errors:/errors', '-e', 'ERROR_EVENT_FILE=/errors/nexualpha-web.jsonl']
 args += [info['Config']['Image'], 'node', 'server.mjs']
 sh(*args, stdout=subprocess.DEVNULL)
-for net in (info.get('NetworkSettings', {}).get('Networks') or {}):
-    if net not in ('bridge', 'host', 'none'):
-        subprocess.run(['docker', 'network', 'connect', net, NEW], check=False)
+nets = {n for n in (info.get('NetworkSettings', {}).get('Networks') or {}) if n not in ('bridge', 'host', 'none')}
+if collector:
+    nets.add(COLLECTOR_NET)
+for net in sorted(nets):
+    subprocess.run(['docker', 'network', 'connect', net, NEW], check=False)
 
 
 def preflight():
@@ -146,6 +166,15 @@ def preflight():
         status, _ = get(new_port, r, 30, 1)
         if status != 200:
             raise RuntimeError('%s -> %s' % (r, status))
+    # the click collector must be reachable from the new container (a configured-but-dead proxy reads "ready")
+    if collector:
+        probe = subprocess.run(['docker', 'exec', NEW, 'node', '-e',
+            'fetch("http://%s:8080/health/cta-ready").then(r=>r.json()).then(j=>process.exit(j.ready?0:3)).catch(()=>process.exit(4))' % collector])
+        if probe.returncode != 0:
+            raise RuntimeError('cta collector %s unreachable from standby (%s)' % (collector, probe.returncode))
+    errors = json.loads(get(new_port, '/health/errors-ready', 30, 1)[1] or '{}')
+    if not errors.get('ready'):
+        raise RuntimeError('error monitor not ready: %s' % errors.get('reasonCode'))
     got = json.loads(get(new_port, '/version.json', 30, 1)[1])['buildId']
     if got != BUILD_ID:
         raise RuntimeError('buildId %s != %s' % (got, BUILD_ID))
