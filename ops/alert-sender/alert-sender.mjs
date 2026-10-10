@@ -21,6 +21,8 @@ const ENV_FILE = process.env.BOT_ENV_FILE || "/srv/agent/stacks/crypto-telegram-
 const CHANNELS = { zh: "@NexuAlphaClub", en: "@NexuAlphaGlobal" };
 const OWNER_CHAT_ID = (process.env.OWNER_CHAT_ID || "").trim();
 const CLICKS = process.env.CLICK_EVENT_FILE || "";
+// the /alerts card speaks 8 languages (2026-10-11) but alert texts exist in zh and en only: non-Chinese readers get English
+const msgLang = (u) => (u?.lang === "zh" ? "zh" : "en");
 const DRY = process.argv.includes("--dry-run");
 const ONCE = process.argv.includes("--once");
 const log = (m) => console.log(`[alerts] ${new Date().toISOString()} ${m}`);
@@ -146,7 +148,7 @@ async function cycle(tok) {
     if (state.sentEvents[key] || !state.initialized) { state.sentEvents[key] = state.sentEvents[key] || "baseline"; continue; }
     const topic = ev.type === "sharp-move" ? "moves" : "liquidation";
     for (const lang of ["zh", "en"]) await send(tok, CHANNELS[lang], eventMessage(ev, mk, lang), partnerButtons(partners, lang, `tg-alert-channel-${lang}`));
-    for (const [uid, u] of users) if (u.topics?.includes(topic)) await dm(uid, eventMessage(ev, mk, u.lang === "en" ? "en" : "zh"), partnerButtons(partners, u.lang === "en" ? "en" : "zh", `tg-alert-dm-${u.lang === "en" ? "en" : "zh"}`));
+    for (const [uid, u] of users) if (u.topics?.includes(topic)) await dm(uid, eventMessage(ev, mk, msgLang(u)), partnerButtons(partners, msgLang(u), `tg-alert-dm-${msgLang(u)}`));
     state.sentEvents[key] = new Date().toISOString();
     log(`event ${ev.type} sent`);
   }
@@ -155,7 +157,7 @@ async function cycle(tok) {
   const fresh = (ann.items || []).filter((i) => ["listing", "event"].includes(i.category) && bySlug[i.venue] && Date.now() - Date.parse(i.publishedAt) < 6 * 3600e3);
   for (const item of fresh) {
     if (state.sentListings[item.id]) continue;
-    if (state.initialized) for (const [uid, u] of users) if (u.topics?.includes("listings")) { const m = listingMessage(item, bySlug[item.venue], u.lang === "en" ? "en" : "zh"); await dm(uid, m.text, m.buttons); }
+    if (state.initialized) for (const [uid, u] of users) if (u.topics?.includes("listings")) { const m = listingMessage(item, bySlug[item.venue], msgLang(u)); await dm(uid, m.text, m.buttons); }
     state.sentListings[item.id] = new Date().toISOString();
   }
 
@@ -166,7 +168,7 @@ async function cycle(tok) {
     const articles = (feed.articles || []).filter((a) => Date.now() - Date.parse(a.publishedAt) < 24 * 3600e3).sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
     const campaigns = (ann.items || []).filter((i) => i.category === "event" && bySlug[i.venue] && Date.now() - Date.parse(i.publishedAt) < 48 * 3600e3);
     for (const lang of ["zh", "en"]) { const d = digestMessage(mk, partners, articles, campaigns, lang); await send(tok, CHANNELS[lang], d.text, d.buttons); }
-    for (const [uid, u] of users) if (u.topics?.includes("digest")) { const lang = u.lang === "en" ? "en" : "zh"; const d = digestMessage(mk, partners, articles, campaigns, lang); await dm(uid, d.text, d.buttons); }
+    for (const [uid, u] of users) if (u.topics?.includes("digest")) { const lang = msgLang(u); const d = digestMessage(mk, partners, articles, campaigns, lang); await dm(uid, d.text, d.buttons); }
     state.digestDates = [...state.digestDates.slice(-30), today];
     log("daily brief sent");
   }
