@@ -508,3 +508,14 @@ body:has(> #root > main.v5 > .container) .nx-ftr__inner {
 @media (max-width: 859px) {
   .nx-ftr .nx-ftr__list--inline ul:not(#_):not(#_):not(#_) { gap: 0 20px; }
 }
+
+/* Telegram entry (owner 2026-10-10): a visible pill beside search; an icon button next to the menu below 1100px. */
+.nx-tg { display: inline-flex; align-items: center; gap: 6px; block-size: 36px; padding-inline: 12px; border-radius: 999px; font: 600 13px/1 var(--nx-font, inherit); color: #fff; text-decoration: none; background: #229ED9; border: 1px solid rgb(255 255 255 / 0.14); box-shadow: 0 0 0 0 rgb(34 158 217 / 0.4); transition: background-color .2s, box-shadow .2s, transform .2s; white-space: nowrap; }
+.nx-tg:hover { background: #1c8cc2; box-shadow: 0 0 18px rgb(34 158 217 / 0.45); }
+.nx-tg:active { transform: translateY(1px); }
+.nx-tg:focus-visible { outline: 2px solid var(--nx-accent, #1FE0C0); outline-offset: 2px; }
+.nx-tg--compact { display: none; inline-size: 44px; block-size: 44px; padding: 0; justify-content: center; margin-inline-start: auto; }
+.nx-tg--compact .nx-ico { inline-size: 20px; block-size: 20px; }
+@media (max-width: 1099px) { .nx-tg--compact { display: inline-flex; } }
+@media (prefers-reduced-motion: reduce) { .nx-tg { transition: none; } }
+@media (max-width: 1099px) { .nx-tg--compact ~ .nx-burger { margin-inline-start: 6px; } }

@@ -374,3 +374,23 @@
 .h7:not(#_):not(#_) .h7-auto--cad{color:var(--ink2);background:rgb(255 255 255/.04);border-color:var(--line)}
 .h7:not(#_):not(#_) .h7-auto--cad::before{background:var(--ink3)}
 .h7:not(#_):not(#_) .h7-lg-max{flex-wrap:wrap;row-gap:10px}
+
+/* Telegram block (owner 2026-10-10). Telegram blue marks the entry; cards follow the dark system. */
+.h7:not(#_):not(#_) .h7-tg-list{list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px}
+.h7:not(#_):not(#_) .h7-tg-card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;min-height:88px;padding:16px 18px;border-radius:14px;text-decoration:none;color:var(--ink);background:var(--sf);border:1px solid var(--line);transition:border-color .2s,background-color .2s,transform .2s}
+.h7:not(#_):not(#_) .h7-tg-card:hover{border-color:rgb(34 158 217/.6);background:rgb(34 158 217/.08)}
+.h7:not(#_):not(#_) .h7-tg-card:active{transform:translateY(1px)}
+.h7:not(#_):not(#_) .h7-tg-card:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.h7:not(#_):not(#_) .h7-tg-ico{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#229ED9;color:#fff}
+.h7:not(#_):not(#_) .h7-tg-txt{display:grid;gap:3px;min-width:0}
+.h7:not(#_):not(#_) .h7-tg-txt b{font-weight:600;font-size:16px}
+.h7:not(#_):not(#_) .h7-tg-txt small{font-size:13px;line-height:1.4;color:var(--ink2)}
+.h7:not(#_):not(#_) .h7-tg-handle{font:500 12px/1.3 var(--mono);color:var(--ink3)}
+.h7:not(#_):not(#_) .h7-tg-go{font-weight:600;font-size:14px;color:#4FB8EA;white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-tg-card{transition:none}}
+.h7:not(#_):not(#_) .h7-tg{padding-block:clamp(56px,8vw,96px) 0}
+
+/* Live stream marker (owner 2026-10-10) */
+.h7:not(#_):not(#_) .h7-live{display:inline-flex;align-items:center;gap:6px;margin-inline-start:10px;padding:3px 10px;border-radius:999px;vertical-align:middle;font:600 12px/1.4 var(--mono);letter-spacing:.04em;color:var(--ac);background:rgb(31 224 192/.08);border:1px solid rgb(31 224 192/.3);white-space:nowrap}
+.h7:not(#_):not(#_) .h7-live i{width:7px;height:7px;border-radius:50%;background:var(--ac);animation:h7pulse 2.4s var(--ease) infinite}
+@media(prefers-reduced-motion:reduce){.h7:not(#_):not(#_) .h7-live i{animation:none}}
