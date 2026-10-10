@@ -98,3 +98,10 @@ Main (`11d1eb3`) is ahead of live (`3.0-20261010T0106-GH-070b520`) and NOT deplo
 - Copy rules kept: no "locked"/"exclusive"/"automatic for all"; auto-settle badge only for HOME_AUTO_SETTLE (okx, bitget, binance).
 - Next: deploy when quota clears; fee-range display for GMX/AMMs; inner pages (exchange detail first) in the new visual
   language; CTA click events for copy/tab/dock; SERP titles/descriptions for the low CTR.
+
+## 2026-10-10 releases (deployed from this Mac with the owner's SSH permission rules; GitHub artifact quota still full)
+| Release | buildId | Notes |
+|---|---|---|
+| gh-20261010t1027-11d1eb3 | 3.0-20261010T1027-GH-11d1eb3 | Conversion + craft pass, slider, more fees. Server then ran out of memory (24 old web containers); owner stopped 22 of them. |
+| gh-20261010t1107-7949c79 | 3.0-20261010T1107-GH-7949c79 | Owner shares: OKX up to 40%, Binance up to 25%, Bitget up to 60% (headline now 60%); OKX/Binance paid hourly, Bitget daily; original logo colours restored. CTA gate identical; 13 routes 200. **Current live.** Rollback target: 11d1eb3 (running). |
+Local deploy = the same steps as deploy.yml (build gates → scp + sha256 → stage-remote.py → cutover-remote.py → public checks → rollback-remote.py on failure), run with `ssh -i ~/.ssh/nexualpha_gh_deploy -p 56724 root@103.250.172.210` (allowed in ~/.claude/settings.json). After each release keep only live + previous web container running.
