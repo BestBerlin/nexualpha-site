@@ -365,3 +365,12 @@
 .h7:not(#_):not(#_) .h7-calc h2:lang(ja){font-size:min(2.75rem,calc(100cqi / 12.6))}
 }
 @media(max-width:640px){.h7:not(#_):not(#_) h1:lang(zh){font-size:min(2rem,calc((100vw - 40px) / 8.4))}.h7:not(#_):not(#_) .h7-calc h2:lang(zh){font-size:min(1.75rem,calc(100cqi / 10.4))}.h7:not(#_):not(#_) h1:lang(ja){font-size:min(2rem,calc((100vw - 40px) / 10.4))}.h7:not(#_):not(#_) .h7-calc h2:lang(ja){font-size:min(1.75rem,calc(100cqi / 12.6))}}
+
+/* QA 2026-10-10 (owner): "官方自动结算 · 每小时返佣" wrapped mid-phrase beside the big number (2 lines zh, 3 lines ja).
+   Two chips, each one unbroken line, stacked and aligned to the end. */
+.h7:not(#_):not(#_) .h7-lg-max>.h7-num{flex:none}
+.h7:not(#_):not(#_) .h7-lg-who{min-width:0}
+.h7:not(#_):not(#_) .h7-auto{white-space:nowrap;text-wrap-mode:nowrap}
+.h7:not(#_):not(#_) .h7-auto--cad{color:var(--ink2);background:rgb(255 255 255/.04);border-color:var(--line)}
+.h7:not(#_):not(#_) .h7-auto--cad::before{background:var(--ink3)}
+.h7:not(#_):not(#_) .h7-lg-max{flex-wrap:wrap;row-gap:10px}
