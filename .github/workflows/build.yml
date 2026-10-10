@@ -98,4 +98,4 @@ jobs:
           path: |
             nexualpha-ui-${{ steps.id.outputs.release }}.tgz
             nexualpha-ui-${{ steps.id.outputs.release }}.tgz.sha256
-          retention-days: 14
+          retention-days: 3
