@@ -18,12 +18,22 @@ export function registrationAnchor(target) {
   return anchor.dataset?.ctaKind === 'registration' ? anchor : null;
 }
 
+// A visitor who arrived from an embedded widget carries ?src=embed-<kind> (the widget's footer link, see
+// server/embed-widgets.mjs). That landing source wins over the button placement so clicks attribute to the embed.
+const EMBED_SRC_RE = /^embed-[a-z0-9][a-z0-9-]{0,40}$/;
+export function landingSource(search) {
+  try {
+    const value = new URLSearchParams(String(search || '')).get('src');
+    return value && EMBED_SRC_RE.test(value) ? value : null;
+  } catch { return null; }
+}
+
 export function ctaClickPayload(anchor, location = globalThis.location) {
   const data = anchor?.dataset || {};
   const partner = String(data.ctaPartner || data.ctaPlatform || '').trim().toLowerCase();
   if (!/^[a-z0-9][a-z0-9_-]{0,47}$/.test(partner)) return null;
   const pathname = String(location?.pathname || '/');
-  return { partner, src: ctaClickSource(data.ctaPlacement), path: PATH_RE.test(pathname) ? pathname : pathname.slice(0, 200) };
+  return { partner, src: landingSource(location?.search) || ctaClickSource(data.ctaPlacement), path: PATH_RE.test(pathname) ? pathname : pathname.slice(0, 200) };
 }
 
 export function sendCtaClick(payload, { navigator: nav = globalThis.navigator, fetcher = globalThis.fetch } = {}) {
