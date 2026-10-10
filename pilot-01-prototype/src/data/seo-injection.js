@@ -11,7 +11,7 @@ import { getBrazilPage } from "./brazil-market.js";
 const INDEXABLE_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
 import { getBrazilSeo } from "./brazil-seo.js";
 import { sanitizePublicText } from "./public-copy-sanitizer.js";
-import { NEWS_INDEXABLE_LOCALES, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
+import { newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "./locale-routing.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
@@ -268,7 +268,7 @@ const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/ra
 // visible text under 20% per locale), so every locale edition is published to search, not only en/zh/ja/ko/tr.
 // /methodology and /telegram stay on the short list (still partly English), as do the venue profiles below whose
 // localized editions are still 25%+ English.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain"]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates"]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -315,7 +315,7 @@ function searchPublicationLocales(pathname, options = {}) {
   if (regionalLocales) return regionalLocales;
   if (pathname === "/topics" || pathname === "/factbook") return ["en"];
   if (pathname === "/embed/calculator") return ["en"];
-  if (pathname === "/news") return NEWS_INDEXABLE_LOCALES;
+  if (pathname === "/news") return newsListingPublishedLocales(options.newsArticles);
   if (options.article) {
     if (!Array.isArray(options.newsArticles)) return isReviewedNewsSearchArticle(options.article) ? newsArticleSeoLocales(options.article) : [];
     return selectReviewedNewsSearchSlugs(options.newsArticles).has(options.article.slug) ? newsArticleSeoLocales(options.article) : [];
@@ -2128,9 +2128,11 @@ export function computeRouteSeo(options = {}) {
     title = staticPageCopy?.[0] || STATIC_COPY_LOCALIZED[rawLocale]?.[pathname] || STATIC_COPY[pathname][isZh ? 1 : 0];
     description = staticPageCopy?.[1] || STATIC_DESCRIPTION_LOCALIZED[rawLocale] || (isZh ? "NexuAlpha 交易平台、手续费、账户条件与来源说明。" : "NexuAlpha platform research, trading fees, account requirements and source context.");
     if (pathname === "/news") {
-      const content = resolveNewsContentLocale(locale, NEWS_INDEXABLE_LOCALES);
+      // Listing editions: the core locales plus every locale with a search-published native article in the feed.
+      const listingLocales = newsListingPublishedLocales(options.newsArticles);
+      const content = resolveNewsContentLocale(locale, listingLocales);
       const display = UI_LOCALES.has(locale) ? locale : content;
-      const published = NEWS_INDEXABLE_LOCALES.includes(locale) && content === locale;
+      const published = listingLocales.includes(locale) && content === locale;
       title = STATIC_COPY_LOCALIZED[display]?.[pathname] || STATIC_COPY_LOCALIZED[content]?.[pathname] || STATIC_COPY[pathname][content === "zh-Hans" ? 1 : 0];
       description = STATIC_DESCRIPTION_LOCALIZED[display] || STATIC_DESCRIPTION_LOCALIZED[content] || (content === "zh-Hans" ? "NexuAlpha 交易平台、手续费、账户条件与来源说明。" : "NexuAlpha platform research, trading fees, account requirements and source context.");
       robots = published ? "index,follow" : "noindex,follow";
@@ -2341,7 +2343,7 @@ export function computeRouteSeo(options = {}) {
     const activity = (options.updates || []).find((update) => update.id === route.id);
     if (activity) { accept(); robots = "noindex,follow"; title = `${localized(activity.title, locale)} — NexuAlpha`; description = localized(activity.summary, locale); }
   }
-  const newsClientLocale = pathname === "/news" ? resolveNewsContentLocale(locale, NEWS_INDEXABLE_LOCALES) : null;
+  const newsClientLocale = pathname === "/news" ? resolveNewsContentLocale(locale, newsListingPublishedLocales(options.newsArticles)) : null;
   const newsArticleClientLocale = newsMatch && options.article ? resolveNewsContentLocale(locale, newsArticleSeoLocales(options.article)) : null;
   const tokenizedClientLocale = topicMatch && tokenizedAssetPage(topicMatch[1]) ? tokenizedAssetLocale(locale) : null;
   const collectionHubLocale = pathname === "/topics" || pathname === "/factbook" ? "en" : null;
@@ -2368,7 +2370,7 @@ export function computeRouteSeo(options = {}) {
     ? [{ hreflang: regionalPreviewCanonicalLocale(route.market, locale), href: regionalPreviewCanonical }, { hreflang: "x-default", href: regionalPreviewCanonical }]
     : pathname === "/news"
     ? [
-      ...NEWS_INDEXABLE_LOCALES.map((hreflang) => ({ hreflang, href: canonical(pathname, hreflang) })),
+      ...newsListingPublishedLocales(options.newsArticles).map((hreflang) => ({ hreflang, href: canonical(pathname, hreflang) })),
       { hreflang: "x-default", href: canonical(pathname, "en") },
     ]
     : newsMatch && options.article

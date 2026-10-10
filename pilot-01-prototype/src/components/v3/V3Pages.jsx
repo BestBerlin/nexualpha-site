@@ -4,6 +4,8 @@ import { enIfLatin } from "../../utils/fallback-lang.js";
 import { useEffect, useRef, useState } from "react";
 import { buildDecisionReturnHref } from "../../data/decision-return.js";
 import { DecisionReturnLink } from "./DecisionReturnLink.jsx";
+import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
+import { TelegramAlertsStrip } from "./TelegramAlertsStrip.jsx";
 import { BrandMark } from "../brand/BrandMark";
 import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
@@ -38,7 +40,7 @@ import { ctaUiCopy, fillCta, trackCodeCopy } from "../../data/cta-ui-copy.js";
 import { contextualHref } from "../../data/contextual-href.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { compareDirectAnswerFor } from "../../data/compare-direct-answers.js";
-import { CompareFinalChoiceCard, CompareFinalChoiceEvidence } from "./CompareFinalChoiceCard.jsx";
+import { CompareHeroActions, CompareFinalChoiceCard, CompareFinalChoiceEvidence } from "./CompareFinalChoiceCard.jsx";
 import { compareFaqBadge, compareFaqEntries, compareFaqText, compareStickyAria } from "../../data/compare-faq-locales.js";
 import { interfaceCopyByLocale } from "../../content/v3-interface-copy.js";
 import { VenueReadinessChecklist } from "./VenueReadinessChecklist.jsx";
@@ -2492,7 +2494,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     </div>
   );
 
-  return <main className="v6 v2-page v3-page v3-profile-page v5 v5-detail" id="top">
+  return <main className="v6 v2-page v3-page v3-profile-page v5 v5-detail" id="top" {...sectionEyebrowAttrs(locale, "exchanges")}>
     <section className="v3-page-hero v2-shell">
       <TelegramReturnBanner
         expectedKind="venue"
@@ -2546,6 +2548,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         <article className="v3-detail-grid__handoff">
           <OutboundHandoff compact locale={locale} venueSlug={profile.slug} fallbackDomain={profile.officialDomain} market={market} product={product} accountStage={accountStage} funding={funding} />
         </article>
+        <TelegramAlertsStrip locale={locale} placement="venue-telegram-alerts" className="tg-signal-strip--venue" />
         </div>
 
         </div>
@@ -4171,7 +4174,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
         </div>
   );
 
-  return <main className="v6 v2-page v3-page v3-compare-page" id="top">
+  return <main className="v6 v2-page v3-page v3-compare-page" id="top" {...sectionEyebrowAttrs(locale, "compare")}>
     {/* 移动端/桌面端吸顶 PK 表头 */}
     <div className={`v3-compare-sticky-bar${stickyCtaActive ? " is-active" : ""}`} aria-label={compareStickyAria(locale)} aria-hidden={!stickyCtaActive} inert={!stickyCtaActive}>
       <div className="v3-compare-sticky-bar__inner">
@@ -4243,8 +4246,9 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
               : part)}
           </span>)}
         </h1>
-        <DecisionReturnLink locale={locale} href={buildDecisionReturnHref({kind:"compare",slugs:selected,locale,market,product})} />
+        {profiles.length === 2 && <CompareHeroActions directAnswer={directAnswer} profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />}
         {profiles.length === 2 && <CompareFeeLedger a={profiles[0].slug} b={profiles[1].slug} nameA={getLocalizedVenueName(profiles[0], locale)} nameB={getLocalizedVenueName(profiles[1], locale)} locale={locale} />}
+        <DecisionReturnLink locale={locale} href={buildDecisionReturnHref({kind:"compare",slugs:selected,locale,market,product})} />
         {!isPriorityTwoVenueDirectAnswer && comparisonBanner}
         {!isPriorityTwoVenueDirectAnswer && comparisonIntro}
         {isPriorityTwoVenueDirectAnswer && <CompareDecisionNav locale={locale} text={text} hasFinalChoice={Boolean(directAnswer)} />}

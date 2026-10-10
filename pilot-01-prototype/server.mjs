@@ -14,6 +14,9 @@ import { createNewsSsrRenderer } from './server/news-ssr.mjs';
 import { createIntelFeed, INTEL_PATH } from './server/intel-feed.mjs';
 import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
+import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
+import { createOgImageRoute, OG_PATH_PREFIX } from './server/og-image.mjs';
+import { CTA_CLICK_PATH, clientKey, createCtaClickBeacon } from './server/cta-click.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
@@ -29,12 +32,23 @@ export async function createProductionServer({ env = process.env, appRoot = root
   const renderNews = createNewsSsrRenderer(distRoot);
   const intel = createIntelFeed(clientRoot, { enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const funding = createFundingFeed({ enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  // /liquidations and /funding-rates SSR: the collector feed, read at most once per 60 s (MARKET_EVENTS_FILE or MARKET_EVENTS_URL).
+  const marketEvents = marketEventsReaderFromEnv(env, { log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const version = suppliedWorker && !existsSync(path.join(clientRoot, 'version.json'))
     ? { buildId: env.BUILD_ID || '3.0-test-build' }
     : JSON.parse(await readFile(path.join(clientRoot, 'version.json'), 'utf8'));
   if (env.BUILD_ID && env.BUILD_ID !== version.buildId) throw new Error('BUILD_ID_RUNTIME_MISMATCH');
   // tracked partner redirect /go/<partner>?src= (owner 2026-10-10); clicks are appended to CLICK_EVENT_FILE when set
-  const goRedirect = createGoRedirect({ clientRoot, eventFile: env.CLICK_EVENT_FILE ? await privateDataFile(env.CLICK_EVENT_FILE, appRoot, clientRoot) : null });
+  const clickEventFile = env.CLICK_EVENT_FILE ? await privateDataFile(env.CLICK_EVENT_FILE, appRoot, clientRoot) : null;
+  const goRedirect = createGoRedirect({ clientRoot, eventFile: clickEventFile });
+  // site sign-up buttons keep their partner hrefs; the browser reports the click to POST /api/cta-click (same file, kind "site")
+  const ctaClick = createCtaClickBeacon({ clientRoot, eventFile: clickEventFile });
+  // Social data cards /og/<kind>/<id>.png (2026-10-10): rendered from the page's own data, cached per build id.
+  const ogImages = createOgImageRoute({
+    clientRoot, buildId: version.buildId, cacheDir: env.OG_CACHE_DIR || null, fontDir: env.OG_FONT_DIR || null,
+    marketEventsFile: env.MARKET_EVENTS_FILE || null, fallbackImage: path.join(clientRoot, 'brand', 'nexualpha', 'nexualpha-social-v1.jpg'),
+    log: (m) => console.log(`[NexuAlpha] ${m}`),
+  });
   const errorRequired = env.ERROR_MONITOR_REQUIRED === '1';
   if (errorRequired && !env.ERROR_EVENT_FILE) throw new Error('ERROR_MONITOR_REQUIRED');
   let errorMonitor = null;
@@ -95,8 +109,12 @@ export async function createProductionServer({ env = process.env, appRoot = root
         res.end();
         return;
       }
-      if (requestPath.startsWith('/go/') && (req.method === 'GET' || req.method === 'HEAD')) {
+      if (requestPath === CTA_CLICK_PATH) {
+        result = await ctaClick(request, clientKey(req));
+      } else if (requestPath.startsWith('/go/') && (req.method === 'GET' || req.method === 'HEAD')) {
         result = await goRedirect(request);
+      } else if (requestPath.startsWith(OG_PATH_PREFIX) && (req.method === 'GET' || req.method === 'HEAD')) {
+        result = await ogImages(request);
       } else if (requestPath === '/healthz' || requestPath === '/api/health') {
         result = new Response(JSON.stringify({ status: 'ok', service: 'nexualpha-web' }), { status: 200,
           headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
@@ -147,7 +165,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else if (mode || testQuery) result = smokeCollector ? await smokeCollector(request) : unavailable('CTA_SMOKE_NOT_CONFIGURED');
         else result = await collector(request);
       } else result = await worker.fetch(request, {
-        ASSETS: assets, NEWS_SSR_RENDER: renderNews, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+        ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
         CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
       });
       if (result.status >= 500 && !isHealthCheckPath(requestPath)) await errorMonitor?.record({ requestId, route: requestPath,

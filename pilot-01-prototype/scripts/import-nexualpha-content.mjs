@@ -1,7 +1,24 @@
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { dedupeRepeatedLongSentences } from "../src/data/news-feed-client.js";
+import { NEWS_INDEXABLE_LOCALES, dedupeRepeatedLongSentences } from "../src/data/news-feed-client.js";
+
+// Localized news lane (2026-10-10): a package always carries article.en.md (the canonical edition) and may carry
+// article.<locale>.md for any other UI locale, declared in article.json bodyFiles[<locale>] with titles[<locale>].
+// Each optional edition is written natively (not translated) and must meet the same length gate the English body
+// meets in the publisher: 900+ words for alphabetic scripts, 1,000+ characters for CJK locales.
+const OPTIONAL_LOCALE_MIN_WORDS = 900;
+const OPTIONAL_LOCALE_MIN_CJK_CHARS = 1000;
+const CJK_LOCALES = new Set(["zh-Hans", "zh-Hant", "ja", "ko"]);
+const CORE_LOCALES = new Set(["en", "zh-Hans"]);
+
+export function localeBodyLength(markdown, locale) {
+  const text = cleanArticleBody(markdown);
+  if (CJK_LOCALES.has(locale)) {
+    return { unit: "characters", count: (text.match(/[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/g) ?? []).length, minimum: OPTIONAL_LOCALE_MIN_CJK_CHARS };
+  }
+  return { unit: "words", count: (text.match(/\p{L}[\p{L}\p{M}'’-]*/gu) ?? []).length, minimum: OPTIONAL_LOCALE_MIN_WORDS };
+}
 
 const REQUIRED_REVIEW_PASSES = new Set([
   "source_and_claim",
@@ -123,11 +140,15 @@ function completeSentenceExcerpt(value, maxLength = 230) {
   return "";
 }
 
-function estimateReadTime(enMarkdown, zhMarkdown) {
+function estimateReadTime(enMarkdown, zhMarkdown = "") {
   const enWords = cleanString(enMarkdown).split(/\s+/).filter(Boolean).length;
   const zhChars = cleanString(zhMarkdown).replace(/[\s\p{P}\p{S}]/gu, "").length;
   const minutes = Math.max(3, Math.ceil(Math.max(enWords / 220, zhChars / 450)));
   return `${minutes} min`;
+}
+
+function pickLocales(record, locales) {
+  return Object.fromEntries(locales.flatMap((locale) => (cleanString(record?.[locale]) ? [[locale, record[locale]]] : [])));
 }
 
 function validateSources(sources) {
@@ -202,23 +223,15 @@ function publishedBodyBlocker(markdown) {
 
 function toPublishedArticle(article, siteOrigin) {
   const canonical = `${siteOrigin}/news/${article.slug}`;
+  const locales = Array.isArray(article.availableLocales) ? article.availableLocales : ["en"];
   return {
     ...article,
     sourceStatus: PUBLIC_SOURCE_STATUS,
     status: "PUBLISHED",
-    availableLocales: ["en", "zh-Hans"],
-    title: {
-      en: article.title.en,
-      "zh-Hans": article.title["zh-Hans"],
-    },
-    summary: {
-      en: article.summary.en,
-      "zh-Hans": article.summary["zh-Hans"],
-    },
-    content: {
-      en: article.content.en,
-      "zh-Hans": article.content["zh-Hans"],
-    },
+    availableLocales: locales,
+    title: pickLocales(article.title, locales),
+    summary: pickLocales(article.summary, locales),
+    content: pickLocales(article.content, locales),
     seo: {
       ...article.seo,
       canonical,
@@ -249,31 +262,48 @@ export async function importArticlePackage(packageDir, options = {}) {
   }
 
   const enFile = cleanString(article.bodyFiles?.en);
-  const zhFile = cleanString(article.bodyFiles?.["zh-Hans"]);
-  if (!enFile || !zhFile) {
+  if (!enFile) {
     return { ok: false, packageDir, reason: "missing localized body file declarations" };
   }
+  // Every declared edition: English first, then any other UI locale the package carries (zh-Hans included).
+  const bodyLocales = ["en", ...NEWS_INDEXABLE_LOCALES.filter((locale) => locale !== "en" && cleanString(article.bodyFiles?.[locale]))];
+  const unsupported = Object.keys(isRecord(article.bodyFiles) ? article.bodyFiles : {})
+    .filter((key) => key !== "htmlPreview" && !NEWS_INDEXABLE_LOCALES.includes(key));
+  if (unsupported.length) {
+    return { ok: false, packageDir, reason: `unsupported body locale: ${unsupported.join(", ")}` };
+  }
 
-  let enMarkdown;
-  let zhMarkdown;
+  const markdownByLocale = {};
   try {
-    [enMarkdown, zhMarkdown] = await Promise.all([
-      readFile(path.join(packageDir, enFile), "utf8"),
-      readFile(path.join(packageDir, zhFile), "utf8"),
-    ]);
+    await Promise.all(bodyLocales.map(async (locale) => {
+      markdownByLocale[locale] = await readFile(path.join(packageDir, cleanString(article.bodyFiles[locale])), "utf8");
+    }));
   } catch (error) {
     return { ok: false, packageDir, reason: `missing localized body file: ${error.message}` };
   }
+  const enMarkdown = markdownByLocale.en;
+  const zhMarkdown = markdownByLocale["zh-Hans"] || "";
 
-  const enContent = cleanArticleBody(enMarkdown);
-  const zhContent = cleanArticleBody(zhMarkdown);
-  if (!enContent || !zhContent) {
+  const contentByLocale = Object.fromEntries(bodyLocales.map((locale) => [locale, cleanArticleBody(markdownByLocale[locale])]));
+  const enContent = contentByLocale.en;
+  if (!enContent || bodyLocales.some((locale) => !contentByLocale[locale])) {
     return { ok: false, packageDir, reason: "missing localized body content" };
   }
   if (options.publish === true) {
-    const blocker = publishedBodyBlocker(`${enContent}\n${zhContent}`);
+    const blocker = publishedBodyBlocker(bodyLocales.map((locale) => contentByLocale[locale]).join("\n"));
     if (blocker) {
       return { ok: false, packageDir, reason: `published body still contains staging-only language: ${blocker}` };
+    }
+  }
+  // Optional editions meet the per-locale length gate on their own; en and zh-Hans are gated by the package builder
+  // and the publisher's English search gate, so existing packages keep importing unchanged.
+  for (const locale of bodyLocales.filter((item) => !CORE_LOCALES.has(item))) {
+    const length = localeBodyLength(markdownByLocale[locale], locale);
+    if (length.count < length.minimum) {
+      return { ok: false, packageDir, reason: `${locale} body is too thin: ${length.count} ${length.unit}; minimum is ${length.minimum}` };
+    }
+    if (!cleanString(article.titles?.[locale])) {
+      return { ok: false, packageDir, reason: `missing ${locale} title for the ${locale} body` };
     }
   }
 
@@ -287,8 +317,20 @@ export async function importArticlePackage(packageDir, options = {}) {
     ? seoDescription
     : cleanString(article.aeo?.directAnswer) || firstParagraph(enMarkdown);
   const summaryEn = completeSentenceExcerpt(summarySource);
-  if (!slug || !titleEn || !titleZh || Number.isNaN(Date.parse(publishedAt))) {
+  if (!slug || !titleEn || (bodyLocales.includes("zh-Hans") && !titleZh) || Number.isNaN(Date.parse(publishedAt))) {
     return { ok: false, packageDir, reason: "missing slug, titles, or valid published time" };
+  }
+  // Optional editions: the package may ship a native summary (article.json summaries[<locale>]); otherwise the first
+  // paragraph of that body (after its first "## " section) becomes the summary, as it does for zh-Hans.
+  const localizedTitles = pickLocales(article.titles, bodyLocales);
+  const localizedSummaries = Object.fromEntries(bodyLocales.filter((locale) => locale !== "en").flatMap((locale) => {
+    const summary = completeSentenceExcerpt(cleanString(article.summaries?.[locale])) || firstParagraph(markdownByLocale[locale]);
+    return summary ? [[locale, summary]] : [];
+  }));
+  const availableLocales = bodyLocales.filter((locale) => locale === "en" || (localizedTitles[locale] && localizedSummaries[locale]));
+  const missingSummary = bodyLocales.find((locale) => !availableLocales.includes(locale));
+  if (missingSummary) {
+    return { ok: false, packageDir, reason: `missing ${missingSummary} title or summary for the ${missingSummary} body` };
   }
   if (updatedAt && Number.isNaN(Date.parse(updatedAt))) {
     return { ok: false, packageDir, reason: "invalid updated time" };
@@ -311,18 +353,10 @@ export async function importArticlePackage(packageDir, options = {}) {
       updatedAt: updatedAt ? new Date(Date.parse(updatedAt)).toISOString() : null,
       readTime: estimateReadTime(enMarkdown, zhMarkdown),
       author: cleanString(article.author) || "NexuAlpha Research Desk",
-      title: {
-        en: titleEn,
-        "zh-Hans": titleZh,
-      },
-      summary: {
-        en: summaryEn,
-        "zh-Hans": firstParagraph(zhMarkdown),
-      },
-      content: {
-        en: enContent,
-        "zh-Hans": zhContent,
-      },
+      title: { ...localizedTitles, en: titleEn },
+      summary: { ...localizedSummaries, en: summaryEn },
+      content: pickLocales(contentByLocale, availableLocales),
+      availableLocales,
       sources,
       claims: Array.isArray(article.claims) ? article.claims : [],
       relatedVenues: relatedVenues(article),

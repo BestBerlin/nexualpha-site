@@ -6,7 +6,7 @@ import { getBrazilPage } from "./data/brazil-market.js";
 import { supportedLocales } from "./content/locale-manifest";
 import { parsePublicRoute } from "./data/locale-routing.js";
 
-export function render(url, { newsArticles } = {}) {
+export function render(url, { newsArticles, marketEvents } = {}) {
   const parsedUrl = new URL(url, "https://nexualpha.com");
   const requestedLocale = parsedUrl.searchParams.get("locale");
   const publicRoute = parsePublicRoute(parsedUrl.pathname, parsedUrl.searchParams);
@@ -27,6 +27,7 @@ export function render(url, { newsArticles } = {}) {
         initialLocale={initialLocale}
         initialCompareSelection={["binance", "okx"]}
         initialNewsArticles={normalizedNewsArticles}
+        initialMarketEvents={marketEvents && typeof marketEvents === "object" ? marketEvents : undefined}
       />
     </React.StrictMode>,
   );

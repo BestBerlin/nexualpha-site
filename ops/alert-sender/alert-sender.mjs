@@ -3,23 +3,36 @@
 //   - market alerts (liquidation spikes, longs-and-shorts liquidated, BTC/ETH sharp moves) to members who turned the
 //     topic on in the bot (/alerts), and the high-severity ones to the zh/en channels;
 //   - partner-venue listings and campaigns to members subscribed to "listings";
-//   - a daily brief at 13:00 UTC (21:00 Beijing) to the channels and "digest" subscribers.
+//   - a daily brief at 13:00 UTC (21:00 Beijing) to the channels and "digest" subscribers;
+//   - a private funnel report for the owner at 13:05 UTC (OWNER_CHAT_ID; skipped when unset) built from the site's
+//     click log (CLICK_EVENT_FILE, read-only mount of /data/private/nexualpha/clicks/go-clicks.jsonl).
+// Every alert and the digest end with a "Read more / 查看详情" link back to the site tagged ?src=tg-….
 // Sign-up buttons go through https://nexualpha.com/go/<partner>?src=... so clicks are attributed; the redirect lands on
 // the unchanged partner link. Idempotent via a state file; DMs are rate-limited; users who blocked the bot are removed.
 import { readFileSync, writeFileSync, renameSync, mkdirSync } from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
+import { countSubscribers, funnelReportMessage, parseClickLines, summarizeClicks } from "./funnel-report.mjs";
 
 const SITE = "https://nexualpha.com";
 const SUBS = process.env.ALERT_SUBSCRIPTIONS_FILE || "/var/lib/crypto-telegram-ops/alert-subscriptions.json";
 const STATE = process.env.ALERT_STATE_FILE || "/var/lib/nexualpha-alerts/state.json";
 const ENV_FILE = process.env.BOT_ENV_FILE || "/srv/agent/stacks/crypto-telegram-ops/community-poller.env";
 const CHANNELS = { zh: "@NexuAlphaClub", en: "@NexuAlphaGlobal" };
+const OWNER_CHAT_ID = (process.env.OWNER_CHAT_ID || "").trim();
+const CLICKS = process.env.CLICK_EVENT_FILE || "";
+// the /alerts card speaks 8 languages (2026-10-11) but alert texts exist in zh and en only: non-Chinese readers get English
+const msgLang = (u) => (u?.lang === "zh" ? "zh" : "en");
 const DRY = process.argv.includes("--dry-run");
 const ONCE = process.argv.includes("--once");
 const log = (m) => console.log(`[alerts] ${new Date().toISOString()} ${m}`);
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const usd = (n) => (n >= 1e9 ? `${(n / 1e9).toFixed(2)}B` : n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : `${Math.round(n / 1e3)}K`);
 const go = (slug, src) => `${SITE}/go/${slug}?src=${src}`;
+// Backlink to the site, locale-prefixed like the digest article links, with a src tag so the visit is attributable.
+export const sitePath = (lang, p, src) => `${SITE}${lang === "zh" ? "/zh-hans" : ""}${p}?src=${src}`;
+export const readMore = (lang, p, src) => `<a href="${sitePath(lang, p, src)}">${lang === "zh" ? "查看详情 →" : "Read more →"}</a>`;
+export const BACKLINK_PATH = { "liquidation-spike": "/liquidations", "both-sides-liquidated": "/liquidations", "sharp-move": "/liquidations", listing: "/activities", digest: "/news" };
 
 function readJson(file, fallback) { try { return JSON.parse(readFileSync(file, "utf8")); } catch { return fallback; } }
 function writeJson(file, data) { mkdirSync(path.dirname(file), { recursive: true }); writeFileSync(`${file}.tmp`, JSON.stringify(data)); renameSync(`${file}.tmp`, file); }
@@ -52,7 +65,7 @@ function partnerButtons(partners, lang, src) {
 }
 const DISCLOSURE = { zh: "<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>", en: "<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Binance + OKX public data, a lower bound. Not investment advice.</i>" };
 
-function eventMessage(ev, mk, lang) {
+export function eventMessage(ev, mk, lang) {
   const L = mk.liquidations;
   const btc = mk.market.majors.find((m) => m.symbol === "BTCUSDT"), eth = mk.market.majors.find((m) => m.symbol === "ETHUSDT");
   const head = {
@@ -74,11 +87,11 @@ function eventMessage(ev, mk, lang) {
     if (L.h1.largest) lines.push(`Largest: ${esc(L.h1.largest.symbol)} ${L.h1.largest.side} ${usd(L.h1.largest.usd)} USD`);
     lines.push("", "Lower leverage, check your liquidation price; funding rates jump in moves like this.");
   }
-  lines.push("", DISCLOSURE[lang]);
+  lines.push("", readMore(lang, BACKLINK_PATH[ev.type] || "/liquidations", "tg-alert"), "", DISCLOSURE[lang]);
   return lines.join("\n");
 }
 
-function digestMessage(mk, partners, articles, campaigns, lang) {
+export function digestMessage(mk, partners, articles, campaigns, lang) {
   const L = mk.liquidations.h24;
   const lines = [lang === "zh" ? "<b>🗞 NexuAlpha 每日市场简报</b>" : "<b>🗞 NexuAlpha daily brief</b>", ""];
   for (const m of mk.market.majors.slice(0, 4)) lines.push(`${m.symbol.replace("USDT", "")} ${m.price.toLocaleString("en-US")}  ${m.change24hPct > 0 ? "+" : ""}${m.change24hPct}%`);
@@ -92,14 +105,25 @@ function digestMessage(mk, partners, articles, campaigns, lang) {
     lines.push("", lang === "zh" ? "<b>交易所活动</b>" : "<b>Exchange campaigns</b>");
     for (const c of campaigns.slice(0, 3)) lines.push(`• ${esc(c.venue.toUpperCase())}: <a href="${c.url}">${esc(c.title.slice(0, 90))}</a>`);
   }
-  lines.push("", DISCLOSURE[lang]);
+  lines.push("", readMore(lang, BACKLINK_PATH.digest, "tg-digest"), "", DISCLOSURE[lang]);
   return { text: lines.join("\n"), buttons: partnerButtons(partners, lang, `tg-digest-${lang}`) };
 }
 
-function listingMessage(item, partner, lang) {
+export function listingMessage(item, partner, lang) {
   const cat = { listing: { zh: "上币", en: "Listing" }, event: { zh: "活动", en: "Campaign" } }[item.category]?.[lang] || item.category;
-  const text = [`<b>${lang === "zh" ? `【${cat}｜${esc(partner.name)}】` : `[${cat} · ${esc(partner.name)}] `}</b>${esc(item.title)}`, "", DISCLOSURE[lang].replace(/ 数据为.*?。|Binance \+ OKX public data, a lower bound\. /, "")].join("\n");
+  const text = [`<b>${lang === "zh" ? `【${cat}｜${esc(partner.name)}】` : `[${cat} · ${esc(partner.name)}] `}</b>${esc(item.title)}`, "", readMore(lang, BACKLINK_PATH.listing, "tg-listing"), "", DISCLOSURE[lang].replace(/ 数据为.*?。|Binance \+ OKX public data, a lower bound\. /, "")].join("\n");
   return { text, buttons: [[{ text: lang === "zh" ? "官方公告" : "Official notice", url: item.url }, { text: lang === "zh" ? `注册 ${partner.name}` : `Sign up on ${partner.name}`, url: go(partner.slug, `tg-dm-listing-${lang}`) }]] };
+}
+
+// Owner funnel DM: last 24 h / 7 d from the click log, subscriber count only (no user data leaves the box).
+export function buildFunnelReport({ clicksText, subs, now = Date.now(), lang = "zh" }) {
+  const summary = summarizeClicks(parseClickLines(clicksText || ""), now);
+  return funnelReportMessage({ summary, subscribers: countSubscribers(subs), lang, fileReadable: typeof clicksText === "string", date: new Date(now).toISOString().slice(0, 10) });
+}
+export function funnelReportDue({ now = new Date(), sentDates = [], ownerChatId = OWNER_CHAT_ID } = {}) {
+  if (!ownerChatId) return false;
+  const today = now.toISOString().slice(0, 10);
+  return now.getUTCHours() === 13 && now.getUTCMinutes() >= 5 && !sentDates.includes(today);
 }
 
 // ---------- cycle ----------
@@ -124,7 +148,7 @@ async function cycle(tok) {
     if (state.sentEvents[key] || !state.initialized) { state.sentEvents[key] = state.sentEvents[key] || "baseline"; continue; }
     const topic = ev.type === "sharp-move" ? "moves" : "liquidation";
     for (const lang of ["zh", "en"]) await send(tok, CHANNELS[lang], eventMessage(ev, mk, lang), partnerButtons(partners, lang, `tg-alert-channel-${lang}`));
-    for (const [uid, u] of users) if (u.topics?.includes(topic)) await dm(uid, eventMessage(ev, mk, u.lang === "en" ? "en" : "zh"), partnerButtons(partners, u.lang === "en" ? "en" : "zh", `tg-alert-dm-${u.lang === "en" ? "en" : "zh"}`));
+    for (const [uid, u] of users) if (u.topics?.includes(topic)) await dm(uid, eventMessage(ev, mk, msgLang(u)), partnerButtons(partners, msgLang(u), `tg-alert-dm-${msgLang(u)}`));
     state.sentEvents[key] = new Date().toISOString();
     log(`event ${ev.type} sent`);
   }
@@ -133,7 +157,7 @@ async function cycle(tok) {
   const fresh = (ann.items || []).filter((i) => ["listing", "event"].includes(i.category) && bySlug[i.venue] && Date.now() - Date.parse(i.publishedAt) < 6 * 3600e3);
   for (const item of fresh) {
     if (state.sentListings[item.id]) continue;
-    if (state.initialized) for (const [uid, u] of users) if (u.topics?.includes("listings")) { const m = listingMessage(item, bySlug[item.venue], u.lang === "en" ? "en" : "zh"); await dm(uid, m.text, m.buttons); }
+    if (state.initialized) for (const [uid, u] of users) if (u.topics?.includes("listings")) { const m = listingMessage(item, bySlug[item.venue], msgLang(u)); await dm(uid, m.text, m.buttons); }
     state.sentListings[item.id] = new Date().toISOString();
   }
 
@@ -144,9 +168,18 @@ async function cycle(tok) {
     const articles = (feed.articles || []).filter((a) => Date.now() - Date.parse(a.publishedAt) < 24 * 3600e3).sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
     const campaigns = (ann.items || []).filter((i) => i.category === "event" && bySlug[i.venue] && Date.now() - Date.parse(i.publishedAt) < 48 * 3600e3);
     for (const lang of ["zh", "en"]) { const d = digestMessage(mk, partners, articles, campaigns, lang); await send(tok, CHANNELS[lang], d.text, d.buttons); }
-    for (const [uid, u] of users) if (u.topics?.includes("digest")) { const lang = u.lang === "en" ? "en" : "zh"; const d = digestMessage(mk, partners, articles, campaigns, lang); await dm(uid, d.text, d.buttons); }
+    for (const [uid, u] of users) if (u.topics?.includes("digest")) { const lang = msgLang(u); const d = digestMessage(mk, partners, articles, campaigns, lang); await dm(uid, d.text, d.buttons); }
     state.digestDates = [...state.digestDates.slice(-30), today];
     log("daily brief sent");
+  }
+
+  // owner funnel report at 13:05 UTC (private DM; skipped silently without OWNER_CHAT_ID)
+  state.funnelDates = state.funnelDates || [];
+  if (funnelReportDue({ sentDates: state.funnelDates }) && state.initialized) {
+    let clicksText = null;
+    try { clicksText = CLICKS ? readFileSync(CLICKS, "utf8") : null; } catch { clicksText = null; }
+    const r = await send(tok, OWNER_CHAT_ID, buildFunnelReport({ clicksText, subs: readJson(SUBS, { users: {} }) }));
+    if (r.ok) { state.funnelDates = [...state.funnelDates.slice(-30), today]; log("owner funnel report sent"); } else log(`owner funnel report failed: ${r.description || "unknown"}`);
   }
 
   if (blocked.size) { const s2 = readJson(SUBS, { users: {} }); for (const uid of blocked) delete s2.users[uid]; writeJson(SUBS, s2); log(`removed ${blocked.size} blocked users`); }
@@ -155,8 +188,11 @@ async function cycle(tok) {
   if (!DRY) writeJson(STATE, state);
 }
 
-const tok = DRY ? "" : token();
-if (!DRY && !tok) { console.error("bot token missing"); process.exit(1); }
-const run = () => cycle(tok).catch((e) => log(`cycle failed: ${e.message}`));
-await run();
-if (!ONCE) setInterval(run, 2 * 60 * 1000);
+// Only run as a program; tests import the message builders above.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const tok = DRY ? "" : token();
+  if (!DRY && !tok) { console.error("bot token missing"); process.exit(1); }
+  const run = () => cycle(tok).catch((e) => log(`cycle failed: ${e.message}`));
+  await run();
+  if (!ONCE) setInterval(run, 2 * 60 * 1000);
+}

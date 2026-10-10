@@ -287,6 +287,9 @@ export function TopIntelligenceHub({ locale = "en" }) {
                   target="_blank"
                   rel="sponsored noopener noreferrer"
                   className="hub-campaign-card__cta"
+                  data-cta-kind="registration"
+                  data-cta-platform={item.slug}
+                  data-cta-placement="hub-campaign-card"
                 >
                   {t.claimBtn}
                 </a>

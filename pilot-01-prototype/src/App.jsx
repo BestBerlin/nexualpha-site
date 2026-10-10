@@ -33,7 +33,12 @@ import { readDecisionPassport } from "./data/decision-passport.js";
 import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, parsePublicRoute } from "./data/locale-routing.js";
 import { parseNewsListingPath } from "./data/news-library.js";
+import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { NewsListPage as EagerNewsListPage } from "./components/v3/news/NewsListPage.jsx";
+// Public data pages (owner 2026-10-10): statically imported like the news list so SSR and hydration share one tree.
+import { LiquidationsPage } from "./components/data/LiquidationsPage.jsx";
+import { FundingRatesPage } from "./components/data/FundingRatesPage.jsx";
+import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
 import {
   modulePathsForRoute,
@@ -206,7 +211,7 @@ const readComparison = () => {
 
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
-const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram"]);
+const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
 const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
@@ -462,6 +467,8 @@ function routeState(venues, initialUrl) {
   if (pathname === "/embed/calculator") return { name: "embedCalculator" };
   if (pathname === "/partners" || pathname === "/partners/embed-guide") return { name: "partners" };
   if (pathname === "/telegram") return { name: "telegram" };
+  if (pathname === LIQUIDATIONS_PATH) return { name: "liquidations" };
+  if (pathname === FUNDING_RATES_PATH) return { name: "fundingRates" };
   if (pathname === "/topics") return { name: "topicCollection", ...contextParams() };
   const topicMatch = pathname.match(/^\/topics\/([a-z0-9-]+)$/);
   if (topicMatch && TOKENIZED_ASSET_SLUGS.includes(topicMatch[1])) return { name: "tokenizedAssets", slug: topicMatch[1], ...contextParams() };
@@ -563,6 +570,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
     [text.activities, withLocale(locale, "/activities")],
     [locale === "zh-Hant" || locale === "zh-TW" ? "新聞與研究" : locale.startsWith("zh") ? "新闻与研究" : ({ ja: "マーケットニュース", ko: "시장 뉴스", tr: "Piyasa Haberleri", ru: "Новости рынка", de: "Marktnachrichten", fr: "Actualités du marché", es: "Noticias del mercado", "pt-BR": "Notícias do mercado", it: "Notizie di mercato", id: "Berita pasar", vi: "Tin thị trường", ar: "أخبار السوق" }[locale] || "Market news"), withLocale(locale, "/news")],
     [locale === "zh-Hant" || locale === "zh-TW" ? "賽道選型" : locale.startsWith("zh") ? "赛道选型" : ({ ja: "トピックガイド", ko: "주제 가이드", tr: "Konu Rehberleri", ru: "Тематические гиды", de: "Themen-Guides", fr: "Guides thématiques", es: "Guías temáticas", "pt-BR": "Guias temáticos", it: "Guide tematiche", id: "Panduan topik", vi: "Hướng dẫn chủ đề", ar: "أدلة المواضيع" }[locale] || "Topic Guides"), withLocale(locale, "/topics/meme-coins")],
+    [dataPageCopy(locale).nav.liquidations, withLocale(locale, LIQUIDATIONS_PATH)],
     [locale.startsWith("zh") ? "Telegram" : ({ ja: "Telegram調査", ko: "Telegram 리서치", tr: "Telegram araştırma", ru: "Исследование в Telegram", de: "Telegram-Recherche", fr: "Recherche Telegram", es: "Investigación en Telegram", "pt-BR": "Pesquisa no Telegram", it: "Ricerca Telegram", id: "Riset Telegram", vi: "Nghiên cứu Telegram", ar: "بحث Telegram" }[locale] || "Telegram Research"), withLocale(locale, "/telegram")],
   ];
   useEffect(() => {
@@ -582,7 +590,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -695,6 +703,10 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
       // shared SEO injector is coordinated for this new route family.
       return;
     }
+    if (route.name === "liquidations" || route.name === "fundingRates") {
+      // Data page metadata (title, hreflang, Dataset/FAQ JSON-LD) is owned by the Worker route metadata.
+      return;
+    }
     const currentRoutedVenue = (route.name === "venue" || route.name === "factbook")
       ? (command.venueCatalog.find((venue) => venue.slug === route.slug) || venueDatabase[route.slug])
       : null;
@@ -737,7 +749,9 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "regionalDecision") return pageShell(<RegionalMarketPreview market={route.market} locale={route.locale || locale} decisionPath={route.decisionPath} decisionPassport={decisionPassport} />);
   if (route.name === "methodology") return pageShell(<AuditMethodologyPage locale={locale} />);
   if (route.name === "partners") return pageShell(<PartnerEmbedGuide locale={locale} />);
-  if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
+  if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
+  if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
+  if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);
   if (route.name === "factbookCollection") return pageShell(<CollectionHubPage kind="factbook" locale={locale} />);
   if (route.name === "tokenizedAssets") return pageShell(<TokenizedAssetsPage slug={route.slug} locale={locale} />, { crawlScope: "tokenized" });
@@ -766,7 +780,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "research") return pageShell(<OfficialResearchPage locale={locale} market={route.market} product={route.product} venue={command.venueCatalog.find((venue) => venue.slug === route.slug)} venues={command.venueCatalog} />);
   if (route.name === "activity") return pageShell(<ActivityDetailPage copy={copy} locale={locale} market={route.market} product={route.product} update={(model.officialUpdates ?? []).find((update) => update.id === route.id)} venues={command.venueCatalog} />);
   if (route.name === "activities") return pageShell(<ActivityCenterPage copy={copy} locale={locale} market={route.market} product={route.product} venues={command.venueCatalog} updates={model.officialUpdates ?? []} />);
-  if (route.name === "directory") return pageShell(<main className="v6 v2-page v3-page" id="top" dir={getTextDirection(locale)}><VenueYellowPages venues={command.venueCatalog} locale={locale} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} headingLevel={1} /></main>, { deferContent: false, crawlScope: "directory" });
+  if (route.name === "directory") return pageShell(<main className="v6 v2-page v3-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "exchanges")}><VenueYellowPages venues={command.venueCatalog} locale={locale} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} headingLevel={1} /></main>, { deferContent: false, crawlScope: "directory" });
   if (route.name === "notFound") return pageShell(<NotFoundPage locale={locale} />);
 
   // 顶级转化漏斗首页：跑马灯 -> LeanHero首屏 -> 横向对比决策 -> 交易暗亏体检仪 -> 核心黄页开户 -> 辅助情报模块 -> 实时社交证明浮窗

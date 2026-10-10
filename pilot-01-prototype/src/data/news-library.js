@@ -2,6 +2,7 @@
 // Shared by the Worker (server-rendered fallback, /api/news/search, sitemap) and the React news pages so both
 // produce the same pages, links and ordering. Pure functions only; no fetch, no DOM.
 import { localizedPath } from "./locale-routing.js";
+import { NEWS_CORE_LOCALES, hasNewsArticleLocale } from "./news-feed-client.js";
 
 export const NEWS_PAGE_SIZE = 24;
 export const NEWS_SEARCH_MAX_LIMIT = 48;
@@ -53,8 +54,22 @@ export function filterNewsByCategory(articles, category) {
   return category ? rows.filter((article) => article?.category === category) : rows;
 }
 
-export function paginateNews(articles, { category = null, page = 1, pageSize = NEWS_PAGE_SIZE } = {}) {
-  const pool = sortNewsArticles(filterNewsByCategory(articles, category));
+/**
+ * Localized news lane (2026-10-10): on a non-core listing locale (e.g. /tr/news) the articles written natively in that
+ * locale come first, newest first, followed by the rest of the library in its usual order. Core locales (en, zh-Hans)
+ * keep the plain newest-first order because every article has those editions.
+ */
+export function sortNewsForLocale(articles, locale = "en") {
+  const rows = sortNewsArticles(articles);
+  if (!locale || NEWS_CORE_LOCALES.includes(locale)) return rows;
+  const localized = rows.filter((article) => hasNewsArticleLocale(article, locale));
+  if (!localized.length) return rows;
+  const localizedSlugs = new Set(localized.map((article) => article.slug));
+  return [...localized, ...rows.filter((article) => !localizedSlugs.has(article.slug))];
+}
+
+export function paginateNews(articles, { category = null, page = 1, pageSize = NEWS_PAGE_SIZE, locale = "en" } = {}) {
+  const pool = sortNewsForLocale(filterNewsByCategory(articles, category), locale);
   const total = pool.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const current = Math.min(Math.max(1, page), totalPages);

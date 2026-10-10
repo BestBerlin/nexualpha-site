@@ -1,8 +1,10 @@
 // Quiet "get alerts in Telegram" line under each article (owner 2026-10-10: close the loop site -> Telegram).
 // The deep link opens the bot's /alerts card directly; subscribing there is the reader's explicit opt-in.
-const ALERTS_URL = "https://t.me/NexuAlphaAssistantBot?start=alerts";
+export const TELEGRAM_ALERTS_URL = "https://t.me/NexuAlphaAssistantBot?start=alerts";
+const ALERTS_URL = TELEGRAM_ALERTS_URL;
 
-const COPY = {
+// One copy source for every "get alerts" line on the site (article footer, home / venue / news-list strips).
+export const TELEGRAM_ALERTS_COPY = {
   en: ["Get liquidation and sharp-move alerts in Telegram", "Open the bot"],
   "zh-Hans": ["在 Telegram 接收爆仓与急涨急跌告警", "打开机器人"],
   "zh-Hant": ["在 Telegram 接收爆倉與急漲急跌提醒", "打開機器人"],
@@ -19,6 +21,9 @@ const COPY = {
   vi: ["Nhận cảnh báo thanh lý và biến động mạnh trên Telegram", "Mở bot"],
   ar: ["احصل على تنبيهات التصفية والتحركات الحادة على تيليجرام", "افتح البوت"],
 };
+const COPY = TELEGRAM_ALERTS_COPY;
+
+export const telegramAlertsCopy = (locale) => COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
 
 export function NewsTelegramAlerts({ locale = "en" }) {
   const [text, action] = COPY[locale] || COPY.en;
