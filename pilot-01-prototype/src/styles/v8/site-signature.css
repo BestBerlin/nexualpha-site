@@ -56,3 +56,26 @@ main.v6 :is(p, li, dd):lang(zh) { text-wrap-style: pretty; } /* longhand: the sh
 :is(.guide-tg-btn, .kol-venue-card__cta, .bleed-venue-btn, .embed-attribution-link):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { min-block-size: 44px; }
 :is(.br-chain__evidence a, .methodology-page a, main a[href*="/kr"], main a[href*="/br"]):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { min-inline-size: 44px; justify-content: center; }
 .bleed-cta-disclosure:not(#_):not(#_) { margin: 0 0 10px; }
+
+/* Layout pass 2026-10-10: headings in every locale break into balanced lines — no last line holding one
+   word or one or two CJK characters. text-wrap-style (longhand) so it never resets white-space: nowrap. */
+:is(h1, h2, h3):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { text-wrap-style: balance; }
+/* Japanese headings break between phrases (Chrome auto-phrase), never leaving one kana on the last line. */
+:is(h1, h2, h3):lang(ja):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { word-break: auto-phrase; }
+/* Invite codes are never split across lines (ru 2026-10-10: "nexu88 / 8" beside a long copy label). When the copy
+   button does not fit beside the code, it moves under it. */
+:is(.registration-card__code-value, .r9-route__v, .v3-venue-quick-registration__code strong, .v3-rebate-code-btn strong, .v3-fee-tip strong, .v3-mobile-sticky-bar__code strong, .h7-meta code, .news-offer__code code, [class*="invite-code"], [class*="code-value"]):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; word-break: keep-all; overflow-wrap: normal; }
+.registration-card__code-section:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 12px; }
+.registration-card__code-info:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { min-width: max-content; }
+/* Rates: long button labels (de/fr/ru/tr/pt/id) wrap inside the button instead of being clipped or spilling. */
+:is(.fee-terminal__cta-btn, .cost-decision__cta, .v3-compare-quick-actions__cta):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  white-space: normal; text-wrap-style: balance; text-align: center; max-inline-size: 100%; min-inline-size: 0; overflow-wrap: anywhere; line-height: 1.25; block-size: auto; min-block-size: 44px; padding-block: 8px; box-sizing: border-box;
+}
+/* Directory sort row on phones (ru/it/de/fr 2026-10-10): sort buttons keep whole labels and the row scrolls
+   sideways like app filter chips, instead of clipping or splitting words. */
+@media (max-width: 760px) {
+  .mx-th--fee:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_), .mx-th--sortable:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex: none; inline-size: auto; min-inline-size: 0; }
+  :has(> .mx-th--sortable):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; padding-inline-end: 16px; }
+  .mx-sort:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; inline-size: auto; padding-inline: 12px; gap: 6px; scroll-snap-align: start; }
+  .mx-sort__text > *:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { white-space: nowrap; }
+}

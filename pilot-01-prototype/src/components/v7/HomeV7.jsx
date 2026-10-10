@@ -294,7 +294,7 @@ export function HomeV7({ locale, venues: _catalog }) {
         <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
         <div className="h7-hc">
           <p className="h7-kick">{t.kick}</p>
-          <h1><span className="h7-h1l">{t.h1a}</span><br /><span className="h7-h1l">{t.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{HOME_REBATE_MAX_PCT}%</em>{part}</span> : <span key={i}>{part}</span>)}</span></h1>
+          <h1><span className="h7-h1l">{t.h1a}</span><br /><span className="h7-h1l">{t.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{HOME_REBATE_MAX_PCT}%</em>{part}</span> : <span key={i}>{part.replace(/ $/, "\u00a0")}</span>)}</span></h1>
           <p className="h7-sub">{t.sub}</p>
           <div className="h7-cta">
             <a className="h7-btn h7-hero-go" href="#h7-desk" onClick={(e) => { const go = document.querySelector(".h7-lg-go"); if (go) { e.preventDefault(); document.getElementById("h7-desk")?.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); go.focus({ preventScroll: true }); } }}>{t.heroGo}</a>
@@ -364,8 +364,9 @@ export function HomeV7({ locale, venues: _catalog }) {
             <div key={r.slug} ref={(e) => { rowEls.current[i] = e; }} className={`h7-xr${calc.best?.slug === r.slug ? " best" : ""}${r.share ? "" : " nr"}`}>
               <p className="h7-xn"><BrandMark slug={r.slug} compact /><b>{r.name}</b><span className="h7-bd">{r.share ? `${t.upTo} ${Math.round(r.share * 100)}%` : t.pending}</span></p>
               <div className="h7-am">{r.net == null ? "–" : <>{r.share ? <s>{usd(r.gross)}</s> : null}<Roll value={r.net} /></>}</div>
-              <p className="h7-meta"><span>{t.rate} {r.maker != null ? `${r.maker.toFixed(2)}% / ${r.taker.toFixed(2)}%` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}<a className="h7-dt" href={localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}</a></p>
+              <p className="h7-meta"><span>{t.rate} {r.maker != null ? `${r.maker.toFixed(2)}% / ${r.taker.toFixed(2)}%` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}</p>
               <Cta v={r} locale={locale} className="h7-btn h7-sm" placement="home-v7-row"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
+              <a className="h7-dt" href={localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}<span className="h7-sr"> {r.name}</span></a>
             </div>
           ))}
         </div>

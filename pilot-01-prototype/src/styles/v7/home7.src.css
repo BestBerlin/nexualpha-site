@@ -418,3 +418,44 @@
 @media(max-width:640px){@ .h7-fr-row{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.8fr);padding:10px 14px}@ .h7-fr-row>:nth-child(4){display:none}@ .h7-fr-n{font-size:14px}}
 @media(prefers-reduced-motion:reduce){@ .h7-fr-tabs button{transition:none}}
 @media(max-width:640px){@ .h7-fr-tabs{flex-wrap:nowrap;gap:6px}@ .h7-fr-tabs button{flex:1 1 0;min-width:0;padding:0 6px}}
+
+/* ===== Layout pass 2026-10-10 (owner, every locale, real Chrome widths) =====
+   Decides the hero card layout once, after the v7/v8 layers. */
+/* Card: the share label and chips sit beside the number only when the card is wide enough;
+   otherwise they stack under it, start-aligned (no staircase of right-aligned lines). */
+@ .h7-lg{container-type:inline-size;container-name:h7lg}
+@ .h7-lg-max{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;flex-wrap:nowrap;gap:10px;margin:0 0 16px}
+@ .h7-lg-who{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;justify-items:start;gap:6px 8px;margin:0;text-align:start;min-width:0}
+@ .h7-lg-who b{flex-basis:100%;display:block;font-size:14px}
+@container h7lg (min-width:470px){
+  @ .h7-lg-max{flex-direction:row;align-items:flex-end;justify-content:space-between;gap:16px}
+  @ .h7-lg-who{flex-direction:column;align-items:flex-end;text-align:end}
+  @ .h7-lg-who b{flex-basis:auto}
+}
+/* Exchange tabs: one height for all three (the "highest of three" note is redundant with the headline). */
+@ .h7-lg-tabs button i{display:none}
+/* Estimate line: the two parts wrap as whole units instead of squeezing into narrow columns. */
+@ .h7-lg-top{flex-wrap:wrap;row-gap:4px}
+@ .h7-lg-vol{margin-inline-start:auto}
+/* Hero: headline aligns with the top of the card instead of floating in the middle of empty space. */
+@media(min-width:901px){@ .h7-hero{align-items:start}@ .h7-hc{padding-top:clamp(20px,3.5vw,64px)}}
+@ .h7-lg-go small,@ .h7-hero-go small,@ .h7-go-disclosure{text-wrap-style:balance}
+/* Calculator rows: same structure in every row and language — name / fee+code on the left, amount, then the
+   sign-up button with "Details" directly under it. The input column stays in view while the list scrolls. */
+@ .h7-xr{grid-template-areas:"n am go" "m am dt";row-gap:4px}
+@ .h7-xr .h7-dt{grid-area:dt;justify-self:center;min-height:32px;padding-inline:8px}
+@ .h7-meta{flex-direction:column;align-items:flex-start;gap:2px}
+@media(min-width:901px){@ .h7-calc>div:first-child{position:sticky;top:96px}}
+@media(max-width:700px){@ .h7-xr{grid-template-areas:"n am" "m m" "go dt";grid-template-columns:minmax(0,1fr) auto}@ .h7-xr .h7-dt{min-height:44px}}
+/* Three steps: titles take the same height so the descriptions line up. */
+@ .h7-steps h3{min-height:2.3em;display:flex;align-items:flex-end}
+@media(max-width:700px){@ .h7-steps h3{min-height:0}}
+@ .h7-xn{flex-wrap:wrap;row-gap:6px}
+@media(max-width:640px){@ .h7-fr-v{gap:6px;font-size:14px}@ .h7-fr-v img{width:18px;height:18px}@ .h7-fr-row{gap:8px}}
+@media(max-width:900px){@ .h7-fl{display:none}}
+/* Telegram cards: on a narrow card the "Join" label moves under the text instead of squeezing it. */
+@ .h7-tg-list>li{container-type:inline-size}
+@container (max-width:340px){@ .h7-tg-card{grid-template-columns:auto minmax(0,1fr);row-gap:8px}@ .h7-tg-go{grid-column:2}}
+@ .h7-tg-txt small{overflow-wrap:break-word}
+/* Funding board header labels never spill out of their column on phones. */
+@media(max-width:640px){@ .h7-fr-head span{overflow-wrap:anywhere;font-size:11px;letter-spacing:0}}
