@@ -12,7 +12,7 @@ import { homedir } from "node:os";
 import path from "node:path";
 
 const SITE = "https://nexualpha.com/";
-const SITEMAPS = ["https://nexualpha.com/sitemap.xml", "https://nexualpha.com/news-sitemap.xml", "https://nexualpha.com/news-library-sitemap.xml"];
+const SITEMAPS = ["https://nexualpha.com/sitemap.xml", "https://nexualpha.com/news-sitemap.xml", "https://nexualpha.com/news-library-sitemap.xml", "https://nexualpha.com/locale-sitemap.xml"];
 // An empty news sitemap is reported by Google as an error ("missing <url>"); submit only sitemaps that list URLs.
 async function nonEmptySitemaps() {
   const keep = [];

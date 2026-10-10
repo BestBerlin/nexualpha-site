@@ -3,6 +3,7 @@ import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
+import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles } from "../src/data/news-library.js";
 export default {
@@ -15,6 +16,7 @@ export default {
     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
     if (url.pathname === "/api/news/search" && request.method === "GET" && env?.ASSETS) return handleNewsSearchJson(env, url);
     if (url.pathname === "/news-library-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleNewsLibrarySitemap(env, url);
+    if (url.pathname === "/locale-sitemap.xml" && request.method === "GET") return handleLocaleSitemap(env);
     if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
       const response = await env.ASSETS.fetch(request);
       if (!response.ok) return response;
@@ -3932,6 +3934,36 @@ async function handleNewsSearchJson(env, url) {
 
 // Sitemap for the news library collections (/news pages and category archives) in the two indexable news locales.
 // Article URLs stay in the publisher-written /sitemap.xml and the live /news-sitemap.xml.
+// Every indexable, self-canonical page in all 15 locales (2026-10-10). The main /sitemap.xml is written by the content
+// publisher and only carried en, zh-Hans and a few ja/ko/tr pages, so the translated exchange, rates, compare and
+// activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
+// non-canonical URL; cached for an hour.
+const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook"];
+let localeSitemapCache = null;
+export async function renderLocaleSitemap(env = {}) {
+  const paths = [...LOCALE_SITEMAP_STATIC, ...[...ACTIVE_VENUE_SLUGS].map((slug) => `/exchanges/${slug}`), ...[...CURATED_COMPARISONS].map((pair) => `/compare/${pair}`)];
+  const rows = [];
+  for (const pathname of paths) {
+    for (const locale of INDEXABLE_LOCALES) {
+      const loc = `${PUBLIC_ORIGIN}${localizedPath(pathname, locale)}`.replace(/\/$/, "") || PUBLIC_ORIGIN;
+      let meta;
+      try { meta = await routeMetadata(new URL(loc), env); } catch { continue; }
+      if (meta?.status !== 200 || meta.robots !== "index,follow" || meta.canonical !== loc) continue;
+      rows.push([
+        "  <url>",
+        `    <loc>${xmlText(loc)}</loc>`,
+        ...(meta.alternates || []).map((alt) => `    <xhtml:link rel="alternate" hreflang="${xmlText(alt.hreflang)}" href="${xmlText(alt.href)}" />`),
+        "  </url>",
+      ].join("\n"));
+    }
+  }
+  return ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">', ...rows, "</urlset>", ""].join("\n");
+}
+async function handleLocaleSitemap(env) {
+  if (!localeSitemapCache || Date.now() - localeSitemapCache.at > 3600e3) localeSitemapCache = { at: Date.now(), xml: await renderLocaleSitemap(env) };
+  return new Response(localeSitemapCache.xml, { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=3600" } });
+}
+
 export function renderNewsLibrarySitemap(articles) {
   const rows = [];
   const lastmodFor = (items) => {
@@ -4593,10 +4625,12 @@ function buildWorkerVenueSchema(venue, locale, canonicalUrl, seoOverride = null)
     });
   } else {
     const official = `https://${venue.officialDomain}`;
+    // Same localized fallback as venueProfileFaq() in src/data/seo-injection.js (client/Worker parity).
+    const zhFallback = locale === "zh-Hans" ? [[`${venue.name} 的最终手续费和账户条件在哪里确认？`, `应在 ${venue.name} 官方账户流程中确认最终手续费、身份验证、地区可用性、产品和账户条件。NexuAlpha 页面只整理公开资料。`], [`NexuAlpha 是否保证 ${venue.name} 的优惠或邀请权益？`, "不保证。优惠、邀请权益和账户条件会随地区、账户、产品和官方当前条款变化，必须以官方页面为准。"]] : null;
     schemas.push({
       "@type": "FAQPage",
       inLanguage: locale,
-      mainEntity: [
+      mainEntity: zhFallback ? zhFallback.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text, citation: [official] } })) : [
         {
           "@type": "Question",
           name: `Where should ${venue.name} fees and account terms be confirmed?`,
@@ -5819,7 +5853,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       robots: "index,follow",
       marker: VENUE_ROUTE_MARKER,
       alternates: routeAlternates(canonicalPath),
-      schema: buildWorkerVenueSchema(venue, schemaLocale, canonical, effectiveVenueSeoOverride),
+      schema: buildWorkerVenueSchema(venue, schemaLocale, canonical, effectiveVenueSeoOverride).map((entry) => applyPartnerVenueFaqSchema(entry, slug, requestedLocale)),
     };
   }
 
