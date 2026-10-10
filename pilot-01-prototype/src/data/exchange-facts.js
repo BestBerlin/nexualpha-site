@@ -161,12 +161,12 @@ const raw = {
     "spot": {
      "maker": 0.4,
      "taker": 0.8,
-     "note": "Kraken Pro Tier 1 as extracted from fee schedule; re-check manually, figure looks high vs. historical 0.25/0.40"
+     "note": "Tier 1 ($0+ < $5M) Spot Maker/Taker 0.40%/0.80% on Kraken's official fee schedule (cross-platform tiers), read 2026-10-10. A Spot Maker Rebate table on the same page shows 0.38%/0.80%."
     },
     "perp": {
      "maker": 0.02,
      "taker": 0.05,
-     "note": "Futures Tier 1 (<$5M 30d volume); futures not available to US/Canada/NZ customers per page"
+     "note": "Tier 1 Futures Maker/Taker 0.02%/0.05% on the official fee schedule; also futures.kraken.com fee schedule API tier 0. Read 2026-10-10."
     }
    },
    "discount": {},
@@ -176,9 +176,11 @@ const raw = {
    ],
    "source_urls": [
     "https://www.kraken.com/features/fee-schedule",
-    "https://support.kraken.com/articles/360000381846-kraken-and-kyc-verification-levels"
+    "https://support.kraken.com/articles/360000381846-kraken-and-kyc-verification-levels",
+    "https://www.kraken.com/en-us/features/fee-schedule",
+    "https://futures.kraken.com/derivatives/api/v3/feeschedules"
    ],
-   "verified_on": "2026-10-08",
+   "verified_on": "2026-10-10",
    "status": "verified"
   },
   {
@@ -276,14 +278,14 @@ const raw = {
    "type": "cex",
    "fees": {
     "spot": {
-     "maker": 0.0,
+     "maker": null,
      "taker": null,
-     "note": "Official fee page shows spot Maker 0.0000% and Taker range 0.0000%-0.0500% across pairs; no single base-tier taker, so taker null."
+     "note": "Not published: official sources disagree (fee page says 0% spot; official API sets per-pair fees, most commonly 0/0.08%). Varies by pair and region (2026-10-10)."
     },
     "perp": {
      "maker": null,
      "taker": null,
-     "note": "Official fee page shows perp Maker 0.000%-0.040% and Taker 0.000%-0.100% by contract (per-pair rates); no single base rate, so null."
+     "note": "Not published: fee page states 0%/0.04% standard futures, official contract API varies per contract (BTC_USDT 0/0.02%, most 0.01/0.04%). Varies by pair (2026-10-10)."
     }
    },
    "discount": {
@@ -295,9 +297,10 @@ const raw = {
    "kyc": null,
    "restricted_regions": [],
    "source_urls": [
-    "https://www.mexc.com/fee"
+    "https://www.mexc.com/fee",
+    "https://www.mexc.co/fee"
    ],
-   "verified_on": "2026-10-08",
+   "verified_on": "2026-10-10",
    "status": "unverifiable"
   },
   {
@@ -308,12 +311,12 @@ const raw = {
     "spot": {
      "maker": null,
      "taker": null,
-     "note": "unverifiable: live fee table hides VIP0-4 rows for logged-out viewers; only a 2024-11-06 official announcement states VIP0 Class A 0.1/0.1 (B 0.2, C 0.3), too old to treat as current"
+     "note": "Not confirmed: the official VIP page is JS-rendered and the base-fee endpoint needs auth (2026-10-10)."
     },
     "perp": {
-     "maker": null,
-     "taker": null,
-     "note": "unverifiable: no VIP0 futures rate on any fetched official page"
+     "maker": 0.02,
+     "taker": 0.06,
+     "note": "Official futures API: every active USDT-settled contract (e.g. XBTUSDTM) makerFeeRate 0.0002 / takerFeeRate 0.0006. Read 2026-10-10."
     }
    },
    "discount": {},
@@ -321,10 +324,11 @@ const raw = {
    "restricted_regions": [],
    "source_urls": [
     "https://www.kucoin.com/vip/level",
-    "https://www.kucoin.com/announcement/it-vip-program-update-spot-trading-fees-volume-requirements-will-be-updated"
+    "https://www.kucoin.com/announcement/it-vip-program-update-spot-trading-fees-volume-requirements-will-be-updated",
+    "https://api-futures.kucoin.com/api/v1/contracts/XBTUSDTM"
    ],
-   "verified_on": "2026-10-08",
-   "status": "unverifiable"
+   "verified_on": "2026-10-10",
+   "status": "verified"
   },
   {
    "slug": "htx",
@@ -372,6 +376,31 @@ const raw = {
    "restricted_regions": [],
    "source_urls": [
     "https://docs.dydx.xyz/concepts/trading/rewards"
+   ],
+   "verified_on": "2026-10-10",
+   "status": "verified"
+  },
+  {
+   "slug": "deribit",
+   "name": "Deribit",
+   "type": "cex",
+   "fees": {
+    "spot": {
+     "maker": 0.02,
+     "taker": 0.05,
+     "note": "Official public API instrument BTC_USDC: maker_commission 0.0002, taker_commission 0.0005. Read 2026-10-10."
+    },
+    "perp": {
+     "maker": 0.015,
+     "taker": 0.035,
+     "note": "Official public API: BTC_USDC-PERPETUAL (USDC-margined linear perps; the USDT perp is archived) maker 0.00015 / taker 0.00035; inverse BTC-PERPETUAL the same. Read 2026-10-10."
+    }
+   },
+   "discount": {},
+   "kyc": null,
+   "restricted_regions": [],
+   "source_urls": [
+    "https://www.deribit.com/api/v2/public/get_instruments?currency=USDC&kind=future"
    ],
    "verified_on": "2026-10-10",
    "status": "verified"
