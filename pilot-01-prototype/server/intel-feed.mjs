@@ -57,7 +57,7 @@ export async function buildFeed(previous, { now = Date.now(), fetchImpl = fetch,
 }
 
 // Serves the feed and refreshes it in the background every `everyMs` (never blocks a request on the exchanges).
-export function createIntelFeed(clientRoot, { everyMs = 30 * 60 * 1000, enabled = true, fetchImpl = fetch, log = () => {} } = {}) {
+export function createIntelFeed(clientRoot, { everyMs = 15 * 60 * 1000, enabled = true, fetchImpl = fetch, log = () => {} } = {}) {
   let feed = null, body = null, refreshing = null;
   const set = (next) => { feed = next; body = `${JSON.stringify(next)}\n`; };
   const seeded = readFile(path.join(clientRoot, 'intel', 'official-announcements.json'), 'utf8')

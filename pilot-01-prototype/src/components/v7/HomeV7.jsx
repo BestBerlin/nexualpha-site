@@ -1,6 +1,7 @@
 // Home v7: one number as the signature visual, a dark scroll story, and one row per exchange that goes straight to the
 // official sign-up. Reads fees from exchange-facts.js and the registration link/code from publicCtaForVenue (same source as
 // the directory), so invite codes, hrefs and rel attributes are never typed here.
+import { TelegramBlock } from "./home7-telegram.jsx";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
@@ -93,16 +94,20 @@ function useIntel(venues) {
   const slugs = venues.map((v) => v.slug).join(",");
   useEffect(() => {
     let alive = true;
-    fetch(INTEL_URL, { headers: { accept: "application/json" } })
+    const load = (first) => fetch(INTEL_URL, { headers: { accept: "application/json" }, cache: first ? "default" : "no-cache" })
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
         if (!alive) return;
         const items = j ? readIntelFeed(j, { venues: slugs.split(",") }).filter((i) => INTEL_SHOW.includes(i.category)) : [];
-        // null = still loading, false = unavailable (fail closed: no invented notices).
-        setFeed(items.length ? { items: items.slice(0, 40), generatedAt: j.generatedAt } : false);
+        // null = still loading, false = unavailable (fail closed: no invented notices). A failed refresh keeps what is shown.
+        if (items.length) setFeed({ items: items.slice(0, 40), generatedAt: j.generatedAt });
+        else if (first) setFeed(false);
       })
-      .catch(() => { if (alive) setFeed(false); });
-    return () => { alive = false; };
+      .catch(() => { if (alive && first) setFeed(false); });
+    load(true);
+    // Live stream (owner 2026-10-10): refresh every 5 minutes while the page is visible.
+    const timer = setInterval(() => { if (document.visibilityState === "visible") load(false); }, 5 * 60 * 1000);
+    return () => { alive = false; clearInterval(timer); };
   }, [slugs]);
   return feed;
 }
@@ -155,21 +160,36 @@ function IntelSheet({ item, venues, t, locale, onClose }) {
 
 const fmtAsOf = (iso, locale) => new Date(iso).toLocaleString(locale === "zh-Hans" ? "zh-CN" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
 
+// Minute-precise "time ago" in the reader's language (Intl), ticking once a minute.
+function useNow(stepMs = 60 * 1000) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => { const id = setInterval(() => setNow(Date.now()), stepMs); return () => clearInterval(id); }, [stepMs]);
+  return now;
+}
+function timeAgo(ms, locale) {
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "short" });
+  const min = Math.max(0, Math.round(ms / 60000));
+  if (min < 60) return rtf.format(-min, "minute");
+  const h = Math.round(min / 60);
+  return h < 24 ? rtf.format(-h, "hour") : rtf.format(-Math.round(h / 24), "day");
+}
+const LIVE = { "zh-Hans": "实时", "zh-Hant": "即時", ja: "ライブ", ko: "실시간", ar: "مباشر", ru: "Онлайн", tr: "Canlı", es: "En vivo", "pt-BR": "Ao vivo", fr: "En direct", de: "Live", it: "Live", id: "Langsung", vi: "Trực tiếp" };
+
 function IntelBlock({ intel, t, locale, venues }) {
   const [open, setOpen] = useState(null);
+  const now = useNow();
   if (!intel) return null;
-  const now = Date.now();
   const asOf = fmtAsOf(intel.generatedAt, locale);
   return (
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
-      <div className="h7-ih"><h2>{t.inH}</h2><p>{t.inSub}</p></div>
+      <div className="h7-ih"><h2>{t.inH} <span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span></h2><p>{t.inSub}</p></div>
       <ul className="h7-il">
         {intel.items.slice(0, 6).map((i) => (
           <li key={i.id}>
             <span className={`h7-ic h7-ic-${i.category}`}>{t.inCat[i.category]}</span>
             <span className="h7-iv"><BrandMark slug={i.venue} compact />{nameOf(i.venue)}</span>
             <a className="h7-it" href={i.url} target="_blank" rel="noopener noreferrer nofollow">{i.title}<span className="h7-sr"> ({t.inOpen})</span></a>
-            <time dateTime={i.publishedAt}>{t.inAgo(now - Date.parse(i.publishedAt))}</time>
+            <time dateTime={i.publishedAt}>{timeAgo(now - Date.parse(i.publishedAt), locale)}</time>
             <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => setOpen(i)}>{t.inBtn}</button>
           </li>
         ))}
@@ -340,6 +360,7 @@ export function HomeV7({ locale, venues: _catalog }) {
         </div>
       </section>
       <IntelBlock intel={intel} t={t} locale={locale} venues={priced} />
+      <TelegramBlock locale={locale} />
       <div className="h7-in h7-foot">{t.foot(FACTS_AS_OF).replace("{max}", String(HOME_REBATE_MAX_PCT)).split(/(?<=[。．.])\s*(?=\S)/u).map((x) => <p key={x}>{x}</p>)}</div>
       <MobileDock heroRef={heroRef} sel={sel} rebated={rebated} setPick={setPick} t={t} locale={locale} />
     </div>

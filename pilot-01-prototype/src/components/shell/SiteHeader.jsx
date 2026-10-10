@@ -8,6 +8,9 @@ const PRIMARY_COUNT = 4;
 function Chevron() {
   return <svg className="nx-ico nx-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" /></svg>;
 }
+function TelegramIcon() {
+  return <svg className="nx-ico" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21.6 3.2 2.9 10.4c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.8c.3-1.3-.5-1.9-1.4-1.5ZM8.3 13.2l10.4-6.6c.5-.3.9-.1.6.2l-8.9 8-.3 3.7-1.8-5.3Z" /></svg>;
+}
 function SearchIcon() {
   return <svg className="nx-ico" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="4.75" /><path d="m10.5 10.5 3.25 3.25" /></svg>;
 }
@@ -43,8 +46,11 @@ export function SiteHeader({
   const moreRef = useRef(null);
   const moreBtnRef = useRef(null);
   const sentinelRef = useRef(null);
-  const primary = nav.slice(0, PRIMARY_COUNT);
-  const secondary = nav.slice(PRIMARY_COUNT);
+  // Owner 2026-10-10: Telegram is a first-class entry beside search, not an item under "More".
+  const telegramItem = nav.find(([, href]) => href.includes("/telegram"));
+  const pages = nav.filter((item) => item !== telegramItem);
+  const primary = pages.slice(0, PRIMARY_COUNT);
+  const secondary = pages.slice(PRIMARY_COUNT);
   const secondaryActive = secondary.some(([, href]) => navState(href).active);
 
   // Scroll-linked state without a scroll listener: a sentinel at the very top of the
@@ -92,7 +98,9 @@ export function SiteHeader({
             </li>}
           </ul>
         </nav>
+        {telegramItem && <a className="nx-tg nx-tg--compact" href={telegramItem[1]} aria-label={telegramItem[0]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header-compact")}><TelegramIcon /></a>}
         <div className="nx-tools">
+          {telegramItem && <a className="nx-tg" href={telegramItem[1]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header")}><TelegramIcon /><span className="nx-tg__label">Telegram</span></a>}
           <button type="button" className="nx-search" onClick={onSearch} aria-keyshortcuts="Control+K Meta+K">
             <SearchIcon /><span className="nx-search__label">{copy.hero.search}</span><kbd className="nx-search__kbd" aria-hidden="true">⌘K</kbd>
           </button>
