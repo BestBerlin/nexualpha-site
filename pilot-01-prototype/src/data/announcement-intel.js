@@ -9,7 +9,7 @@
  *    carries reward, eligibility or "offer" claims. Those stay with the
  *    reviewed activity model (official-campaign-model.js).
  */
-import { officialResearchUrl } from "./official-campaign-model.js";
+import { officialResearchUrl } from "./official-research-route.js";
 
 export const INTEL_CATEGORIES = Object.freeze(["listing", "event", "delisting", "news", "product", "security"]);
 export const MAX_FUTURE_SKEW_MS = 60 * 60 * 1000;

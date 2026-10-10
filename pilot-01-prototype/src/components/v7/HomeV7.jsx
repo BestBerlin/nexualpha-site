@@ -1,29 +1,26 @@
 // Home v7: one number as the signature visual, a dark scroll story, and one row per exchange that goes straight to the
 // official sign-up. Reads fees from exchange-facts.js and the registration link/code from publicCtaForVenue (same source as
 // the directory), so invite codes, hrefs and rel attributes are never typed here.
-import { TelegramBlock } from "./home7-telegram.jsx";
-import { FundingBoard } from "./home7-funding.jsx";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, useEffect, useMemo, useRef, useState } from "react";
 import { feeFact, FACTS_AS_OF } from "../../data/exchange-facts.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_PARTNERS, HOME_PUSH, HOME_AUTO_SETTLE, HOME_SETTLE } from "../../data/home-rebate-tiers.js";
 import { TelegramAlertsStrip } from "../v3/TelegramAlertsStrip.jsx";
 import { formatPercent, replaceMaxPercent } from "../../data/format-percent.js";
-import { brandsBySlug } from "../../content/brand-manifest";
-import { readIntelFeed } from "../../data/announcement-intel.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
+import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
+import { Cta, Roll, nameOf, reduced, usd } from "./home7-shared.jsx";
 import "../../styles/v7/home7.css";
 
-const nameOf = (slug) => brandsBySlug[slug]?.name || slug;
-const CHIPS = [10000, 50000, 100000, 500000];
-// Volume slider: log scale $10K..$5M, snapped to readable steps.
-const VMIN = 1e4, VMAX = 5e6;
-const toVol = (p) => { const v = VMIN * Math.pow(VMAX / VMIN, p / 1000); const step = v < 1e5 ? 1e3 : v < 1e6 ? 1e4 : 1e5; return Math.round(v / step) * step; };
-const toPos = (v) => Math.round(1000 * Math.log(Math.min(Math.max(v, VMIN), VMAX) / VMIN) / Math.log(VMAX / VMIN));
-const usd = (n) => `$${Math.round(n).toLocaleString("en-US")}`;
-const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+// Below the first viewport (calculator, funding board, announcement stream, Telegram): the server renders the module
+// inline; the browser fetches its chunk only when the calculator scrolls near (perf lane 2026-10-11). The eager glob is
+// dropped from browser builds by vite.config.mjs (nexualpha-client-drops-ssr-eager-glob).
+const ssrHomeBelowModules = import.meta.env.SSR ? import.meta.glob(["./home7-below.jsx"], { eager: true }) : {};
+let homeBelowChunk;
+const loadHomeBelow = () => (homeBelowChunk ??= import("./home7-below.jsx"));
+const HomeBelowFold = import.meta.env.SSR ? ssrHomeBelowModules["./home7-below.jsx"].HomeBelowFold : lazy(() => loadHomeBelow().then((m) => ({ default: m.HomeBelowFold })));
 
 // Owner (2026-10-10): show perpetual-contract fees by default; spot stays one tap away.
 function useVenues(locale, product) {
@@ -37,21 +34,6 @@ function useVenues(locale, product) {
       url: cta.registrationUrl, open: Boolean(cta.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "")),
     };
   }), [locale, product]);
-}
-
-// Ledger figures roll to their new value (eased); reduced motion and SSR render the final value.
-function Roll({ value, prefix = "", fmt = usd, nudge }) {
-  const [shown, setShown] = useState(value);
-  const from = useRef(value);
-  useEffect(() => {
-    if (value == null || from.current == null || reduced()) { from.current = value; setShown(value); return undefined; }
-    const a = from.current, b = value, t0 = performance.now(); let raf = 0;
-    const f = (n) => { const k = Math.min(1, (n - t0) / 700); const v = a + (b - a) * (1 - Math.pow(1 - k, 4)); setShown(v); if (k < 1) raf = requestAnimationFrame(f); else from.current = b; };
-    raf = requestAnimationFrame(f);
-    return () => { cancelAnimationFrame(raf); from.current = b; };
-  }, [value]);
-  // a spring nudge plays when `nudge` changes (e.g. another exchange picked), not on every slider step
-  return <span className={nudge == null ? undefined : "h7-roll"} key={nudge ?? "v"}>{shown == null ? "–" : `${prefix}${fmt(shown)}`}</span>;
 }
 
 function CopyCode({ code, t }) {
@@ -83,136 +65,6 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
   );
 }
 
-function Cta({ v, locale, children, className, placement }) {
-  if (v.open) {
-    return <a className={className} href={v.url} target="_blank" rel="sponsored noopener noreferrer" data-cta-kind="registration" data-cta-platform={v.slug} data-cta-placement={placement} data-cta-code={v.code || undefined}>{children}</a>;
-  }
-  return <a className={className} href={localizedHref(`/exchanges/${v.slug}#registration-path`, { locale })} data-cta-placement={`${placement}-eligibility`}>{children}</a>;
-}
-
-
-const INTEL_URL = "/intel/official-announcements.json";
-const INTEL_SHOW = ["listing", "event", "delisting", "news", "product", "security"];
-function useIntel(venues) {
-  const [feed, setFeed] = useState(null);
-  const slugs = venues.map((v) => v.slug).join(",");
-  useEffect(() => {
-    let alive = true;
-    const load = (first) => fetch(INTEL_URL, { headers: { accept: "application/json" }, cache: first ? "default" : "no-cache" })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((j) => {
-        if (!alive) return;
-        const items = j ? readIntelFeed(j).filter((i) => INTEL_SHOW.includes(i.category)) : [];
-        // null = still loading, false = unavailable (fail closed: no invented notices). A failed refresh keeps what is shown.
-        if (items.length) setFeed({ items: items.slice(0, 40), generatedAt: j.generatedAt });
-        else if (first) setFeed(false);
-      })
-      .catch(() => { if (alive && first) setFeed(false); });
-    load(true);
-    // Live stream (owner 2026-10-10): refresh every 5 minutes while the page is visible.
-    const timer = setInterval(() => { if (document.visibilityState === "visible") load(false); }, 5 * 60 * 1000);
-    return () => { alive = false; clearInterval(timer); };
-  }, [slugs]);
-  return feed;
-}
-
-const PERP_RE = /(futures|perp|contract|永续|合约)/i;
-const pct = (n) => `${n.toFixed(n < 0.1 ? 3 : 2).replace(/0+$/, "").replace(/\.$/, "")}%`;
-// Base fees for the market an announcement concerns, with the disclosed rebate applied. Unchecked fees stay null.
-function compareRows(venues, perp) {
-  return venues.map((v) => {
-    const f = feeFact(v.slug, perp ? "perp" : "spot");
-    const ok = f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker);
-    const k = 1 - (v.share || 0);
-    return { ...v, maker: ok ? f.maker : null, taker: ok ? f.taker : null, mk: ok ? f.maker * k : null, tk: ok ? f.taker * k : null };
-  });
-}
-
-function IntelSheet({ item, venues, t, locale, onClose }) {
-  const ref = useRef(null);
-  const perp = PERP_RE.test(item.title);
-  useEffect(() => {
-    const d = ref.current;
-    const opener = document.activeElement;
-    if (d && !d.open) d.showModal();
-    const root = document.documentElement; const prev = root.style.overflow; root.style.overflow = "hidden";
-    return () => { root.style.overflow = prev; if (opener && opener.isConnected && typeof opener.focus === "function") opener.focus(); };
-  }, []);
-  const rows = compareRows(venues, perp);
-  return (
-    <dialog ref={ref} className="h7-sheet" aria-labelledby="h7-sh-t" onClose={onClose} onClick={(e) => { if (e.target === ref.current) ref.current.close(); }}>
-      <div className="h7-sh-in">
-        <button type="button" className="h7-sh-x" onClick={() => ref.current.close()} aria-label={t.shClose}>×</button>
-        <h3 id="h7-sh-t" className="h7-sh-h">{t.shH}</h3>
-        <p className="h7-sh-ev"><span className={`h7-ic h7-ic-${item.category}`}>{t.inCat[item.category]}</span> {item.title}</p>
-        <p className="h7-sh-sub">{perp ? t.shPerp : t.shSpot}</p>
-        <ul className="h7-sh-l">
-          {rows.map((r) => (
-            <li key={r.slug}>
-              <div className="h7-sh-n"><BrandMark slug={r.slug} compact /><b>{r.name}</b>{r.share ? <span className="h7-bd">{t.upTo} {formatPercent(locale, Math.round(r.share * 100))}</span> : <span className="h7-bd" data-nr>{t.pending}</span>}</div>
-              <div className="h7-sh-f">{r.maker != null ? <>{t.maker} {pct(r.maker)} / {t.taker} {pct(r.taker)}{r.share ? <small>{t.shAfter} {pct(r.mk)} / {pct(r.tk)}</small> : null}</> : t.unchecked}</div>
-              <Cta v={r} locale={locale} className="h7-btn h7-sm h7-sh-b" placement="home-v7-intel"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
-            </li>
-          ))}
-        </ul>
-        <a className="h7-ln" href={item.url} target="_blank" rel="noopener noreferrer nofollow">{t.shSrc}</a>
-        <p className="h7-sh-note">{t.t2b} {t.shNote}</p>
-      </div>
-    </dialog>
-  );
-}
-
-const fmtAsOf = (iso, locale) => new Date(iso).toLocaleString(locale === "zh-Hans" ? "zh-CN" : "en-GB", { dateStyle: "medium", timeStyle: "short" });
-
-// Minute-precise "time ago" in the reader's language (Intl), ticking once a minute.
-function useNow(stepMs = 60 * 1000) {
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => { const id = setInterval(() => setNow(Date.now()), stepMs); return () => clearInterval(id); }, [stepMs]);
-  return now;
-}
-function timeAgo(ms, locale) {
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "short" });
-  const min = Math.max(0, Math.round(ms / 60000));
-  if (min < 60) return rtf.format(-min, "minute");
-  const h = Math.round(min / 60);
-  return h < 24 ? rtf.format(-h, "hour") : rtf.format(-Math.round(h / 24), "day");
-}
-const LIVE = { "zh-Hans": "实时", "zh-Hant": "即時", ja: "ライブ", ko: "실시간", ar: "مباشر", ru: "Онлайн", tr: "Canlı", es: "En vivo", "pt-BR": "Ao vivo", fr: "En direct", de: "Live", it: "Live", id: "Langsung", vi: "Trực tiếp" };
-
-// Newest first, but at most `perVenue` rows per exchange until the list is full (one venue's batch of listings
-// should not hide every other exchange).
-function spread(items, limit, perVenue) {
-  const count = {}, picked = [], rest = [];
-  for (const i of items) {
-    if ((count[i.venue] || 0) < perVenue && picked.length < limit) { picked.push(i); count[i.venue] = (count[i.venue] || 0) + 1; } else rest.push(i);
-  }
-  return [...picked, ...rest].slice(0, limit).sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
-}
-
-function IntelBlock({ intel, t, locale, venues }) {
-  const [open, setOpen] = useState(null);
-  const now = useNow();
-  if (!intel) return null;
-  const asOf = fmtAsOf(intel.generatedAt, locale);
-  return (
-    <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
-      <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span><h2>{t.inH}</h2></div><p>{t.inSub}</p></div>
-      <ul className="h7-il">
-        {spread(intel.items, 10, 2).map((i) => (
-          <li key={i.id}>
-            <span className={`h7-ic h7-ic-${i.category}`}>{t.inCat[i.category]}</span>
-            <span className="h7-iv"><BrandMark slug={i.venue} compact />{nameOf(i.venue)}</span>
-            <a className="h7-it" href={i.url} target="_blank" rel="noopener noreferrer nofollow">{i.title}<span className="h7-sr"> ({t.inOpen})</span></a>
-            <time dateTime={i.publishedAt}>{timeAgo(now - Date.parse(i.publishedAt), locale)}</time>
-            <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => setOpen(i)}>{t.inBtn}</button>
-          </li>
-        ))}
-      </ul>
-      <p className="h7-ia">{t.inAsOf(asOf)}</p>
-      {open && <IntelSheet item={open} venues={venues} t={t} locale={locale} onClose={() => setOpen(null)} />}
-    </section>
-  );
-}
 
 export function HomeV7({ locale, venues: _catalog }) {
   const t = h7Copy(locale);
@@ -220,7 +72,6 @@ export function HomeV7({ locale, venues: _catalog }) {
   const venues = useVenues(locale, product);
   const [vol, setVol] = useState(100000);
   const [mode, setMode] = useState("taker");
-  const intel = useIntel(venues);
 
   const priced = useMemo(() => venues.filter((v) => v.maker != null), [venues]);
   const calc = useMemo(() => {
@@ -287,10 +138,6 @@ export function HomeV7({ locale, venues: _catalog }) {
     return () => { stopped = true; cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); io?.disconnect(); };
   }, [venues]);
 
-  const rowsRef = useRef(null), rowEls = useRef([]);
-
-  const onVol = (e) => { const d = e.target.value.replace(/[^0-9]/g, ""); setVol(Math.min(Number(d) || 0, 1e8)); };
-
   return (
     <div className="h7" {...(h7IsFallback(locale) ? { lang: "en", dir: "ltr" } : {})}>
       <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha">
@@ -349,36 +196,9 @@ export function HomeV7({ locale, venues: _catalog }) {
         </ol>
       </section>
 
-      <section className="h7-in h7-calc" id="h7-calc">
-        <div>
-          <h2>{t.calcH}</h2>
-          <label className="h7-vin"><span>$</span><input value={vol ? vol.toLocaleString("en-US") : ""} onChange={onVol} inputMode="numeric" aria-label={t.volLabel} /><small>{t.perMonth}</small></label>
-          <input className="h7-range" type="range" min="0" max="1000" step="1" value={toPos(vol || VMIN)} style={{ "--p": `${toPos(vol || VMIN) / 10}%` }} onChange={(e) => setVol(toVol(Number(e.target.value)))} aria-label={t.volLabel} aria-valuetext={`${usd(vol)} ${t.perMonth}`} />
-          <div className="h7-range-scale" aria-hidden="true">{[[1e4, "$10K"], [1e5, "$100K"], [1e6, "$1M"], [5e6, "$5M"]].map(([v, l]) => <span key={l} style={{ "--x": `${toPos(v) / 10}%` }}>{l}</span>)}</div>
-          <div className="h7-ctl">
-            {CHIPS.map((c) => <button key={c} type="button" aria-pressed={vol === c} onClick={() => setVol(c)}>${c / 1000}K</button>)}
-            <div className="h7-seg" role="group" aria-label={`${t.perpL} / ${t.spotL}`}><button type="button" aria-pressed={product === "perp"} onClick={() => setProduct("perp")}>{t.perpL}</button><button type="button" aria-pressed={product === "spot"} onClick={() => setProduct("spot")}>{t.spotL}</button></div>
-            <div className="h7-seg" role="group" aria-label="maker / taker"><button type="button" aria-pressed={mode === "maker"} onClick={() => setMode("maker")}>{t.maker}</button><button type="button" aria-pressed={mode === "taker"} onClick={() => setMode("taker")}>{t.taker}</button></div>
-          </div>
-          <p className="h7-vd" aria-live="polite">{!vol ? t.calcEmpty : <>{calc.best && <>{t.lowest(calc.best.name, usd(calc.best.net))}<br /></>}{calc.most && calc.most.save > 0 && t.most(calc.most.name, usd(calc.most.save))}</>}</p>
-          <a className="h7-ln h7-all" href={localizedHref("/exchanges", { locale })}>{t.all}</a>
-        </div>
-        <div className="h7-rows" ref={rowsRef}>
-          <p className="h7-disc">{t.t2b}</p>
-          {calc.rows.map((r, i) => (
-            <div key={r.slug} ref={(e) => { rowEls.current[i] = e; }} className={`h7-xr${calc.best?.slug === r.slug ? " best" : ""}${r.share ? "" : " nr"}`}>
-              <p className="h7-xn"><BrandMark slug={r.slug} compact /><b>{r.name}</b><span className="h7-bd">{r.share ? `${t.upTo} ${formatPercent(locale, Math.round(r.share * 100))}` : t.pending}</span></p>
-              <div className="h7-am">{r.net == null ? "–" : <>{r.share ? <s>{usd(r.gross)}</s> : null}<Roll value={r.net} /></>}</div>
-              <p className="h7-meta"><span>{t.rate} {r.maker != null ? `${formatPercent(locale, r.maker, { fractionDigits: 2 })} / ${formatPercent(locale, r.taker, { fractionDigits: 2 })}` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}</p>
-              <Cta v={r} locale={locale} className="h7-btn h7-sm" placement="home-v7-row"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
-              <a className="h7-dt" href={localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}<span className="h7-sr"> {r.name}</span></a>
-            </div>
-          ))}
-        </div>
-      </section>
-      <FundingBoard locale={locale} />
-      <IntelBlock intel={intel} t={t} locale={locale} venues={priced} />
-      <TelegramBlock locale={locale} />
+      <DeferUntilVisible target="#h7-calc" prefetch={loadHomeBelow}>
+        <HomeBelowFold t={t} locale={locale} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} />
+      </DeferUntilVisible>
       <div className="h7-in h7-foot">{replaceMaxPercent(t.foot(FACTS_AS_OF), locale, HOME_REBATE_MAX_PCT).split(/(?<=[。．.])\s*(?=\S)/u).map((x) => <p key={x}>{x}</p>)}</div>
       <MobileDock heroRef={heroRef} sel={sel} rebated={rebated} setPick={setPick} t={t} locale={locale} />
     </div>

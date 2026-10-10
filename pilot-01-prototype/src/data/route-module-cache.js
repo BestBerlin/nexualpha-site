@@ -28,6 +28,13 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   brazilDecision: "./components/v3/international/BrazilDecisionPage.jsx",
   brazilCostEmbed: "./components/v3/international/BrazilCostEmbed.jsx",
   regionalPreview: "./components/v3/international/RegionalMarketPreview.jsx",
+  // Perf lane 2026-10-11: these used to be static imports of App.jsx and shipped with every page.
+  directory: "./components/v3/VenueYellowPages.jsx",
+  crossroadsCompare: "./components/v3/CrossroadsCompare.jsx",
+  platformMatcher: "./components/v3/PlatformMatcher.jsx",
+  newsList: "./components/v3/news/NewsListPage.jsx",
+  liquidations: "./components/data/LiquidationsPage.jsx",
+  fundingRates: "./components/data/FundingRatesPage.jsx",
 });
 
 export const DEFERRED_ROUTE_MODULE_PATHS = Object.freeze(Object.values(ROUTE_MODULE_PATHS));
@@ -93,20 +100,14 @@ export function clearRouteModuleCache() {
 
 export function modulePathsForRoute(route, sourceUrl = "") {
   const name = route?.name || "home";
-  if (name === "home") {
-    return [
-      ROUTE_MODULE_PATHS.rebateTicker,
-      ROUTE_MODULE_PATHS.leanHero,
-      ROUTE_MODULE_PATHS.brazilDecision,
-      ROUTE_MODULE_PATHS.tradingBleed,
-      ROUTE_MODULE_PATHS.campaignRadar,
-      ROUTE_MODULE_PATHS.feeBenchmark,
-      ROUTE_MODULE_PATHS.onchain,
-      ROUTE_MODULE_PATHS.telegram,
-      ROUTE_MODULE_PATHS.marketFearGreed,
-      ROUTE_MODULE_PATHS.liveProof,
-    ];
-  }
+  // Home (v7) hydrates with no deferred module: the research drawer (CampaignRadar, FeeBenchmarkTerminal,
+  // OnChainLiquidityBoard, TelegramBotHub, MarketFearGreedPanel) and the closing index load when they scroll near
+  // (DeferUntilVisible), so the first screen is interactive without the old ten-module preload (perf lane 2026-10-11).
+  if (name === "home") return [];
+  if (name === "directory") return [ROUTE_MODULE_PATHS.directory];
+  if (name === "newsList") return [ROUTE_MODULE_PATHS.newsList];
+  if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
+  if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
   if (["activity", "activities", "compare", "venue", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
   if (name === "research") return [ROUTE_MODULE_PATHS.officialResearch];
   if (name === "newsDetail") return [ROUTE_MODULE_PATHS.newsDetail];

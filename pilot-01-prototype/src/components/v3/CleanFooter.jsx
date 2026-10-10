@@ -1,7 +1,7 @@
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { v3Copy } from "../../data/v3-product.js";
 import { localizedHref } from "../../data/locale-routing.js";
-import { dataPageCopy } from "../../data/market-data-pages.js";
+import { dataPageCopy } from "../../data/market-data-pages-nav.js";
 
 const copyDict = {
   "zh-Hans": {

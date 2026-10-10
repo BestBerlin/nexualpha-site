@@ -1,6 +1,6 @@
 import { REGIONAL_FUNDING_VERIFICATION_MATRIX, regionalFundingRowsForMarkets } from "./regional-funding-verification-matrix.js";
 import { regionalDirectoryHref, regionalToolHref } from "./regional-directory.js";
-import { getTelegramDeepLink } from "./telegram-config.js";
+import { getTelegramDeepLink } from "./telegram-start-payload.js";
 
 export const REGIONAL_SHORTLIST_STATES = Object.freeze({
   RESEARCHABLE: "researchable",
