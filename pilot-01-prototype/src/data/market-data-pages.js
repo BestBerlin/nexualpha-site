@@ -5,10 +5,9 @@
 // missing — the pages render an "unavailable" state instead.
 import { localizedPath } from "./locale-routing.js";
 
-export const MARKET_EVENTS_PATH = "/intel/market-events.json";
-export const LIQUIDATIONS_PATH = "/liquidations";
-export const FUNDING_RATES_PATH = "/funding-rates";
-export const DATA_PAGE_PATHS = Object.freeze([LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
+import { DATA_PAGE_NAV, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH } from "./market-data-pages-nav.js";
+
+export { DATA_PAGE_NAV, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH };
 export const DATA_PAGE_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"]);
 export const DATA_PAGE_REFRESH_MS = 60 * 1000;
 // Annualised estimate: the current 8-hour rate repeated 3 times a day for 365 days (labelled as an estimate in the UI).
@@ -122,7 +121,7 @@ export function formatCountdown(ms) {
 
 const COPY = {
   en: {
-    nav: { data: "Data", liquidations: "Liquidations today", funding: "Funding rates" },
+    nav: DATA_PAGE_NAV["en"],
     common: {
       home: "Home", updated: "Updated", source: "Source", refresh: "Re-reads the feed every 60 seconds while this page is open. Times are UTC.",
       unavailableTitle: "Live data is temporarily unavailable", unavailable: "The feed refreshes every few minutes. Nothing is estimated while it is missing — try again shortly.",
@@ -178,7 +177,7 @@ const COPY = {
     },
   },
   "zh-Hans": {
-    nav: { data: "数据", liquidations: "今日爆仓", funding: "资金费率" },
+    nav: DATA_PAGE_NAV["zh-Hans"],
     common: {
       home: "首页", updated: "更新于", source: "来源", refresh: "页面打开期间每 60 秒重新读取数据，时间均为 UTC。",
       unavailableTitle: "实时数据暂时不可用", unavailable: "数据源每几分钟刷新一次。数据缺失时不做任何估算，请稍后再试。",
@@ -234,7 +233,7 @@ const COPY = {
     },
   },
   "zh-Hant": {
-    nav: { data: "數據", liquidations: "今日爆倉", funding: "資金費率" },
+    nav: DATA_PAGE_NAV["zh-Hant"],
     common: {
       home: "首頁", updated: "更新於", source: "來源", refresh: "頁面開啟期間每 60 秒重新讀取資料，時間均為 UTC。",
       unavailableTitle: "即時資料暫時無法取得", unavailable: "資料來源每幾分鐘更新一次。資料缺失時不做任何估算，請稍後再試。",
@@ -290,7 +289,7 @@ const COPY = {
     },
   },
   es: {
-    nav: { data: "Datos", liquidations: "Liquidaciones de hoy", funding: "Tasas de funding" },
+    nav: DATA_PAGE_NAV["es"],
     common: {
       home: "Inicio", updated: "Actualizado", source: "Fuente", refresh: "Relee el feed cada 60 segundos mientras la página está abierta. Horas en UTC.",
       unavailableTitle: "Los datos en vivo no están disponibles temporalmente", unavailable: "El feed se actualiza cada pocos minutos. Nada se estima mientras falta; vuelve a intentarlo en breve.",
@@ -346,7 +345,7 @@ const COPY = {
     },
   },
   "pt-BR": {
-    nav: { data: "Dados", liquidations: "Liquidações de hoje", funding: "Taxas de funding" },
+    nav: DATA_PAGE_NAV["pt-BR"],
     common: {
       home: "Início", updated: "Atualizado", source: "Fonte", refresh: "Relê o feed a cada 60 segundos enquanto a página está aberta. Horários em UTC.",
       unavailableTitle: "Os dados ao vivo estão temporariamente indisponíveis", unavailable: "O feed é atualizado a cada poucos minutos. Nada é estimado enquanto ele falta; tente novamente em instantes.",
@@ -402,7 +401,7 @@ const COPY = {
     },
   },
   fr: {
-    nav: { data: "Données", liquidations: "Liquidations du jour", funding: "Taux de funding" },
+    nav: DATA_PAGE_NAV["fr"],
     common: {
       home: "Accueil", updated: "Mis à jour", source: "Source", refresh: "Relit le flux toutes les 60 secondes tant que la page est ouverte. Heures en UTC.",
       unavailableTitle: "Les données en direct sont temporairement indisponibles", unavailable: "Le flux se rafraîchit toutes les quelques minutes. Rien n'est estimé en son absence ; réessayez dans un instant.",
@@ -458,7 +457,7 @@ const COPY = {
     },
   },
   de: {
-    nav: { data: "Daten", liquidations: "Liquidationen heute", funding: "Funding-Raten" },
+    nav: DATA_PAGE_NAV["de"],
     common: {
       home: "Start", updated: "Aktualisiert", source: "Quelle", refresh: "Liest den Feed alle 60 Sekunden neu, solange die Seite offen ist. Zeiten in UTC.",
       unavailableTitle: "Live-Daten sind vorübergehend nicht verfügbar", unavailable: "Der Feed wird alle paar Minuten erneuert. Solange er fehlt, wird nichts geschätzt – bitte gleich noch einmal versuchen.",
@@ -514,7 +513,7 @@ const COPY = {
     },
   },
   it: {
-    nav: { data: "Dati", liquidations: "Liquidazioni di oggi", funding: "Tassi di funding" },
+    nav: DATA_PAGE_NAV["it"],
     common: {
       home: "Home", updated: "Aggiornato", source: "Fonte", refresh: "Rilegge il feed ogni 60 secondi mentre la pagina è aperta. Orari in UTC.",
       unavailableTitle: "I dati in tempo reale non sono temporaneamente disponibili", unavailable: "Il feed si aggiorna ogni pochi minuti. Nulla viene stimato quando manca; riprova tra poco.",
@@ -570,7 +569,7 @@ const COPY = {
     },
   },
   ja: {
-    nav: { data: "データ", liquidations: "本日の清算", funding: "資金調達率" },
+    nav: DATA_PAGE_NAV["ja"],
     common: {
       home: "ホーム", updated: "更新", source: "出典", refresh: "ページを開いている間、60秒ごとにフィードを再読み込みします。時刻はUTCです。",
       unavailableTitle: "ライブデータは一時的に利用できません", unavailable: "フィードは数分ごとに更新されます。欠損中は一切推定しません。しばらくしてからお試しください。",
@@ -626,7 +625,7 @@ const COPY = {
     },
   },
   ko: {
-    nav: { data: "데이터", liquidations: "오늘의 청산", funding: "펀딩비" },
+    nav: DATA_PAGE_NAV["ko"],
     common: {
       home: "홈", updated: "업데이트", source: "출처", refresh: "페이지가 열려 있는 동안 60초마다 피드를 다시 읽습니다. 시간은 UTC입니다.",
       unavailableTitle: "실시간 데이터를 일시적으로 사용할 수 없습니다", unavailable: "피드는 몇 분마다 갱신됩니다. 데이터가 없는 동안에는 어떤 값도 추정하지 않습니다. 잠시 후 다시 시도하세요.",
@@ -682,7 +681,7 @@ const COPY = {
     },
   },
   ru: {
-    nav: { data: "Данные", liquidations: "Ликвидации сегодня", funding: "Ставки финансирования" },
+    nav: DATA_PAGE_NAV["ru"],
     common: {
       home: "Главная", updated: "Обновлено", source: "Источник", refresh: "Перечитывает фид каждые 60 секунд, пока страница открыта. Время в UTC.",
       unavailableTitle: "Данные в реальном времени временно недоступны", unavailable: "Фид обновляется каждые несколько минут. Пока его нет, ничего не оценивается — попробуйте чуть позже.",
@@ -738,7 +737,7 @@ const COPY = {
     },
   },
   tr: {
-    nav: { data: "Veri", liquidations: "Bugünkü tasfiyeler", funding: "Fonlama oranları" },
+    nav: DATA_PAGE_NAV["tr"],
     common: {
       home: "Ana sayfa", updated: "Güncellendi", source: "Kaynak", refresh: "Sayfa açıkken akışı her 60 saniyede yeniden okur. Saatler UTC.",
       unavailableTitle: "Canlı veri geçici olarak kullanılamıyor", unavailable: "Akış birkaç dakikada bir yenilenir. Veri yokken hiçbir şey tahmin edilmez; kısa süre sonra yeniden deneyin.",
@@ -794,7 +793,7 @@ const COPY = {
     },
   },
   id: {
-    nav: { data: "Data", liquidations: "Likuidasi hari ini", funding: "Funding rate" },
+    nav: DATA_PAGE_NAV["id"],
     common: {
       home: "Beranda", updated: "Diperbarui", source: "Sumber", refresh: "Membaca ulang feed setiap 60 detik selama halaman terbuka. Waktu dalam UTC.",
       unavailableTitle: "Data langsung sementara tidak tersedia", unavailable: "Feed diperbarui setiap beberapa menit. Tidak ada yang diperkirakan saat data hilang; coba lagi sebentar.",
@@ -850,7 +849,7 @@ const COPY = {
     },
   },
   vi: {
-    nav: { data: "Dữ liệu", liquidations: "Thanh lý hôm nay", funding: "Funding rate" },
+    nav: DATA_PAGE_NAV["vi"],
     common: {
       home: "Trang chủ", updated: "Cập nhật", source: "Nguồn", refresh: "Đọc lại nguồn dữ liệu mỗi 60 giây khi trang đang mở. Giờ theo UTC.",
       unavailableTitle: "Dữ liệu trực tiếp tạm thời không khả dụng", unavailable: "Nguồn dữ liệu làm mới vài phút một lần. Không có gì được ước tính khi dữ liệu thiếu; hãy thử lại sau ít phút.",
@@ -906,7 +905,7 @@ const COPY = {
     },
   },
   ar: {
-    nav: { data: "البيانات", liquidations: "تصفيات اليوم", funding: "أسعار التمويل" },
+    nav: DATA_PAGE_NAV["ar"],
     common: {
       home: "الرئيسية", updated: "آخر تحديث", source: "المصدر", refresh: "تُعاد قراءة البيانات كل 60 ثانية ما دامت الصفحة مفتوحة. الأوقات بتوقيت UTC.",
       unavailableTitle: "البيانات المباشرة غير متاحة مؤقتًا", unavailable: "يتجدد المصدر كل بضع دقائق. لا يُقدَّر أي رقم أثناء غيابه؛ حاول مرة أخرى بعد قليل.",

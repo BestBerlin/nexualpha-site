@@ -17,6 +17,7 @@ import { createGoRedirect } from './server/go-redirect.mjs';
 import { marketEventsReaderFromEnv } from './server/market-events-feed.mjs';
 import { createOgImageRoute, OG_PATH_PREFIX } from './server/og-image.mjs';
 import { CTA_CLICK_PATH, clientKey, createCtaClickBeacon } from './server/cta-click.mjs';
+import { createSsrPageCache } from './server/ssr-page-cache.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
@@ -79,6 +80,13 @@ export async function createProductionServer({ env = process.env, appRoot = root
   }
   if (!suppliedWorker && !existsSync(path.join(clientRoot, 'index.html'))) throw new Error('SITE_BUILD_MISSING');
   const worker = suppliedWorker || (await import(pathToFileURL(path.join(distRoot, 'server/index.js')))).default;
+  // /exchanges directory HTML is cached for 60 s per path + query (perf lane 2026-10-11, SSR_PAGE_CACHE=off disables).
+  // The key carries the intel feed version and the published news feed hash, so a feed refresh never serves stale HTML.
+  const newsFeedHash = createFileFingerprint(path.join(clientRoot, 'content', 'news-feed.sha256.txt'));
+  const pageCache = env.SSR_PAGE_CACHE === 'off' ? null : createSsrPageCache({
+    ttlMs: Math.max(1000, Number.parseInt(env.SSR_PAGE_CACHE_TTL_MS || '60000', 10) || 60000),
+    fingerprint: async () => `${intel.version?.() || ''}|${await newsFeedHash()}`,
+  });
   const assets = {
     async fetch(request) {
       const file = resolveAssetPath(clientRoot, new URL(request.url).pathname);
@@ -164,10 +172,13 @@ export async function createProductionServer({ env = process.env, appRoot = root
         if (mode && !['smoke', 'test'].includes(mode)) result = new Response(null, { status: 400 });
         else if (mode || testQuery) result = smokeCollector ? await smokeCollector(request) : unavailable('CTA_SMOKE_NOT_CONFIGURED');
         else result = await collector(request);
-      } else result = await worker.fetch(request, {
-        ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
-        CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
-      });
+      } else {
+        const renderPage = (pageRequest) => worker.fetch(pageRequest, {
+          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+          CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
+        });
+        result = pageCache ? await pageCache.fetch(request, renderPage) : await renderPage(request);
+      }
       if (result.status >= 500 && !isHealthCheckPath(requestPath)) await errorMonitor?.record({ requestId, route: requestPath,
         component: requestPath === '/api/analytics/cta' ? 'cta' : 'web',
         errorCode: requestPath === '/api/analytics/cta' ? 'CTA_COLLECTOR_WRITE_FAILED' : 'SITE_REQUEST_UNAVAILABLE', httpStatus: result.status });
@@ -187,6 +198,19 @@ export async function createProductionServer({ env = process.env, appRoot = root
       } else res.destroy();
     }
   });
+}
+
+// Re-reads a small fingerprint file at most every few seconds; missing file = empty fingerprint (cache still works).
+function createFileFingerprint(file, { everyMs = 5000 } = {}) {
+  let value = '';
+  let readAt = 0;
+  return async () => {
+    const now = Date.now();
+    if (now - readAt < everyMs) return value;
+    readAt = now;
+    try { value = (await readFile(file, 'utf8')).trim(); } catch { value = ''; }
+    return value;
+  };
 }
 
 function isHealthCheckPath(pathname) {

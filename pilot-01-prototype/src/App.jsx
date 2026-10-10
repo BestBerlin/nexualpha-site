@@ -7,26 +7,19 @@ import { marketCommand, presentationModel, neutralVenueCatalog } from "./data/ma
 import { DesignSystem } from "./components/DesignSystem";
 import { SiteHeader, MobileSheet } from "./components/shell/SiteHeader.jsx";
 import { LanguageMenu } from "./components/shell/LanguageMenu.jsx";
-import { researchRoute } from "./data/official-campaign-model";
+import { researchRoute } from "./data/official-research-route.js";
 import { v3Copy } from "./data/v3-product";
 import { storedLocale, validComparison, cleanSelection, installHashNavigation } from "./data/browser-state";
-import { VenueYellowPages } from "./components/v3/VenueYellowPages";
-import { CrossroadsCompare } from "./components/v3/CrossroadsCompare";
 import { HomeV7 } from "./components/v7/HomeV7.jsx";
-import { RouteFinder } from "./components/v6/RouteFinder";
-import { CompareLab } from "./components/v6/CompareLab";
-import { VerifyBand } from "./components/v6/VerifyBand";
-import { DirectoryV6 } from "./components/v6/DirectoryV6";
 import { ClosingBand } from "./components/v6/ClosingBand";
 import { createSelectionStore } from "./components/v6/home-selection.js";
-import { PlatformMatcher } from "./components/v3/PlatformMatcher";
 import { CleanFooter } from "./components/v3/CleanFooter";
+import { DeferUntilVisible } from "./components/shared/DeferUntilVisible.jsx";
 import { headerNavigationState } from "./data/header-navigation-state.js";
 // Mobile bottom dock removed in v8 (owner request 2026-10-09); navigation lives in the header menu.
 import { venueDatabase } from "./data/venue-database.js";
-import { TOPIC_SLUGS } from "./data/topic-guides-data.js";
-import { TOKENIZED_ASSET_SLUGS } from "./data/tokenized-assets-cluster.js";
-import { injectSeoMetadata } from "./data/seo-injection.js";
+import { TOPIC_SLUGS } from "./data/topic-slugs.js";
+import { TOKENIZED_ASSET_SLUGS } from "./data/tokenized-asset-slugs.js";
 import { getBrazilPage } from "./data/brazil-market.js";
 import { trackGrowthDecision } from "./data/cta-analytics.js";
 import { readDecisionPassport } from "./data/decision-passport.js";
@@ -34,11 +27,7 @@ import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, parsePublicRoute } from "./data/locale-routing.js";
 import { parseNewsListingPath } from "./data/news-library.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
-import { NewsListPage as EagerNewsListPage } from "./components/v3/news/NewsListPage.jsx";
-// Public data pages (owner 2026-10-10): statically imported like the news list so SSR and hydration share one tree.
-import { LiquidationsPage } from "./components/data/LiquidationsPage.jsx";
-import { FundingRatesPage } from "./components/data/FundingRatesPage.jsx";
-import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages.js";
+import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
 import {
   modulePathsForRoute,
@@ -73,6 +62,12 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/v3/international/BrazilDecisionPage.jsx",
   "./components/v3/international/BrazilCostEmbed.jsx",
   "./components/v3/international/RegionalMarketPreview.jsx",
+  "./components/v3/VenueYellowPages.jsx",
+  "./components/v3/CrossroadsCompare.jsx",
+  "./components/v3/PlatformMatcher.jsx",
+  "./components/v3/news/NewsListPage.jsx",
+  "./components/data/LiquidationsPage.jsx",
+  "./components/data/FundingRatesPage.jsx",
 ]);
 
 if (!import.meta.env.SSR) registerRouteModuleLoaders(deferredPageModules);
@@ -103,6 +98,12 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/v3/international/BrazilDecisionPage.jsx",
   "./components/v3/international/BrazilCostEmbed.jsx",
   "./components/v3/international/RegionalMarketPreview.jsx",
+  "./components/v3/VenueYellowPages.jsx",
+  "./components/v3/CrossroadsCompare.jsx",
+  "./components/v3/PlatformMatcher.jsx",
+  "./components/v3/news/NewsListPage.jsx",
+  "./components/data/LiquidationsPage.jsx",
+  "./components/data/FundingRatesPage.jsx",
 ], { eager: true }) : {};
 
 function deferredComponent(path, exportName) {
@@ -127,7 +128,14 @@ const CompareDeepPage = deferredComponent("./components/v3/V3Pages.jsx", "Compar
 const NotFoundPage = deferredComponent("./components/v3/V3Pages.jsx", "NotFoundPage");
 const VenueDetailPage = deferredComponent("./components/v3/V3Pages.jsx", "VenueDetailPage");
 const OfficialResearchPage = deferredComponent("./components/v3/activity/OfficialResearch.jsx", "OfficialResearchPage");
-const NewsListPage = EagerNewsListPage;
+// Perf lane 2026-10-11: the directory, the home comparison slots, the news list and the data pages are route modules
+// too (preloaded by modulePathsForRoute before hydration on their own routes), so other pages stop shipping them.
+const NewsListPage = deferredComponent("./components/v3/news/NewsListPage.jsx", "NewsListPage");
+const VenueYellowPages = deferredComponent("./components/v3/VenueYellowPages.jsx", "VenueYellowPages");
+const CrossroadsCompare = deferredComponent("./components/v3/CrossroadsCompare.jsx", "CrossroadsCompare");
+const PlatformMatcher = deferredComponent("./components/v3/PlatformMatcher.jsx", "PlatformMatcher");
+const LiquidationsPage = deferredComponent("./components/data/LiquidationsPage.jsx", "LiquidationsPage");
+const FundingRatesPage = deferredComponent("./components/data/FundingRatesPage.jsx", "FundingRatesPage");
 const NewsDetailPage = deferredComponent("./components/v3/news/NewsDetailPage.jsx", "NewsDetailPage");
 const LeanHero = deferredComponent("./components/v3/LeanHero.jsx", "LeanHero");
 const RebateTickerBar = deferredComponent("./components/v3/RebateTickerBar.jsx", "RebateTickerBar");
@@ -710,13 +718,20 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     const currentRoutedVenue = (route.name === "venue" || route.name === "factbook")
       ? (command.venueCatalog.find((venue) => venue.slug === route.slug) || venueDatabase[route.slug])
       : null;
-    injectSeoMetadata({
-      route,
-      locale,
-      venue: currentRoutedVenue,
-      venues: command.venueCatalog,
-      updates: model.officialUpdates ?? [],
-    });
+    // The injector carries the whole SEO data set (compare answers, topic guides, factbook dates); load it after the
+    // page is interactive instead of shipping it in every page's initial bundle (perf lane 2026-10-11).
+    let cancelled = false;
+    import("./data/seo-injection.js").then(({ injectSeoMetadata }) => {
+      if (cancelled) return;
+      injectSeoMetadata({
+        route,
+        locale,
+        venue: currentRoutedVenue,
+        venues: command.venueCatalog,
+        updates: model.officialUpdates ?? [],
+      });
+    }).catch(() => { /* Server-rendered metadata stays authoritative when the injector cannot load. */ });
+    return () => { cancelled = true; };
   }, [command.venueCatalog, copy.discovery.title, copy.hero.title, locale, model.officialUpdates, route]);
 
   if (import.meta.env.DEV && typeof window !== "undefined" && window.location.pathname === "/dev/design-system") return <DesignSystem />;
@@ -823,7 +838,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
     </>,
     // Kept (folded): the drawer holds the only sign-up links for some partners (e.g. Aevo, HashKey, HTX); removing it needs owner sign-off.
     closing: <>
-      <DeferredBoundary scope="home-research"><HomeResearchDrawer locale={locale} /></DeferredBoundary>
+      <DeferredBoundary scope="home-research"><DeferUntilVisible target="#research-tools"><HomeResearchDrawer locale={locale} /></DeferUntilVisible></DeferredBoundary>
       <CrawlPriorityLinks locale={locale} scope="home" />
     </>,
   };

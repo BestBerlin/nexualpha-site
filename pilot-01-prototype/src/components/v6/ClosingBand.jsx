@@ -1,13 +1,19 @@
 // V6 act 5: closing band. A large-type statement + next-action CTAs (one line-draw route + a
 // word-rise), then the legacy research drawer and CrawlPriorityLinks re-hosted unchanged as a typographic index
 // (restyled in src/styles/v6/closing.css). The legacy slot keeps every link in the DOM in its original order.
-import { Fragment, memo, useEffect, useRef, useState } from "react";
+import { Fragment, lazy, memo, useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
 import { CLOSE_COPY, RAIL, pickLocale } from "../v3/LeanHeroCopyV6.js";
-import { LeanHero } from "../v3/LeanHero";
 import { RailDock, RailSeg } from "./RouteRail.jsx";
-import { BrazilEntryLink } from "../v3/international/BrazilDecisionPage.jsx";
 import { prefersReducedMotionNow, whenReached } from "../../lib/revealGuard.js";
+import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
+
+// The folded index (LeanHero facets + BrazilEntryLink) is server-rendered inline and loaded in the browser only when
+// the fold scrolls near (perf lane 2026-10-11); the eager glob is dropped from browser builds by vite.config.mjs.
+const ssrClosingIndexModules = import.meta.env.SSR ? import.meta.glob(["./closing-index.jsx"], { eager: true }) : {};
+let closingIndexChunk;
+const loadClosingIndex = () => (closingIndexChunk ??= import("./closing-index.jsx"));
+const ClosingIndexGroups = import.meta.env.SSR ? ssrClosingIndexModules["./closing-index.jsx"].ClosingIndexGroups : lazy(() => loadClosingIndex().then((m) => ({ default: m.ClosingIndexGroups })));
 
 
 // The two next-step CTAs are GET forms, not anchors: they work without JS and keep the page's crawlable <a href> set
@@ -78,12 +84,9 @@ function ClosingBandImpl({ legacy, locale = "en" }) {
       {/* v8: the directory facets and more-entry links fold into one drawer (same links, still in the DOM for crawlers). */}
       <details className="crawl-priority-links__details v6-close__fold">
         <summary className="crawl-priority-links__intro"><strong>{r[4]}</strong><span>{r[2]}</span><b aria-hidden="true">＋</b></summary>
-        <div className="crawl-priority-links__groups">
-          <LeanHero locale={locale} render={(k) => <>
-            <div className="crawl-priority-links__group v6-close__more"><span>{r[2]}</span>{k.pills.map((p) => <a key={p.text} href={p.href}>{p.text}</a>)}</div>
-            <div className="crawl-priority-links__group v6-close__more"><span>{r[4]}</span><a href={k.telegram.href} target="_blank" rel="noopener noreferrer">{k.telegram.label}</a><BrazilEntryLink locale={locale} /></div>
-          </>} />
-        </div>
+        <DeferUntilVisible target=".v6-close__fold" prefetch={loadClosingIndex}>
+          <ClosingIndexGroups locale={locale} r={r} />
+        </DeferUntilVisible>
       </details>
     </div>
   </section>;
