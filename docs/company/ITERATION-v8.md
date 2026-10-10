@@ -147,3 +147,8 @@ conversion, #51 news locales, #52 data pages, #53 compare pairs. Each merged wit
   App, per-language channels instead.
 - Open: OWNER_CHAT_ID for the funnel DM; HTX localized profiles need the venue reactivated; Naver / Cốc Cốc webmaster
   accounts; per-language channels; seo-onpage PR (titles, H1, description clamp, /br /sg 301, tr percent, news→venue links).
+- 2026-10-11 later: PR #54 seo-onpage merged (intent H1 on exchange pages, home title/description ×15, 160/80-char
+  description clamp, Turkish %60, news→venue autolinks + related line). Lead rewrote 44 mechanically trimmed
+  descriptions by hand and moved the prerender contract to the official binance.com route. `/br` and `/sg` were NOT
+  redirected: `/br` is a 7-page Portuguese hub with its own tests and `/sg` a unique checklist — consolidation with
+  `/pt-br` needs an owner decision (GSC: /br pos 71, duplicates /pt-br intent).
