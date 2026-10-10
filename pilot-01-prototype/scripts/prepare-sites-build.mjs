@@ -10,7 +10,7 @@ const worker = path.join(root, "worker", "index.js");
 const newsRuntime = path.join(dist, "news-ssr", "entry-server.js");
 const publication = path.join(root, "src", "data", "reviewed-news-publication.js");
 const attribution = path.join(root, "src", "data", "tracking-attribution.js");
-const sharedSchemaData = ["topic-reviewed-faqs.js", "topic-source-registry.js", "topic-guides-data.js", "exchange-research.js", "tokenized-assets-cluster.js", "news-feed-client.js", "locale-routing.js"];
+const sharedSchemaData = ["referral-seo.js", "referral-partners.generated.js", "topic-reviewed-faqs.js", "topic-source-registry.js", "topic-guides-data.js", "exchange-research.js", "tokenized-assets-cluster.js", "news-feed-client.js", "locale-routing.js"];
 const hosting = path.join(root, ".openai", "hosting.json");
 
 for (const file of [index, worker, newsRuntime, hosting, publication, attribution, ...sharedSchemaData.map(name => path.join(root, "src", "data", name))]) {

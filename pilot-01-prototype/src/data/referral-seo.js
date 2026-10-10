@@ -1,9 +1,10 @@
 // Search titles for partner exchange profiles (owner 2026-10-10: grow search traffic). People who are about to open
 // an account search for "<exchange> referral code" / "<交易所> 邀请码" / "código de indicação <exchange>", so the
 // profile title and description lead with the real invite code and, where the owner has a rebate share, the share.
-// Codes, shares and payout cadence come from the partner feed (one source of truth); nothing is typed by hand here,
-// and an exchange without a real invite route gets no referral title.
-import { buildPartnersFeed } from "./partners-feed.js";
+// Codes, shares and payout cadence come from the partner feed (one source of truth) via the generated
+// referral-partners.generated.js (scripts/generate-referral-partners.mjs); nothing is typed by hand here, and an
+// exchange without a real invite route gets no referral title.
+import { REFERRAL_PARTNERS } from "./referral-partners.generated.js";
 
 const YEAR = () => new Date().getUTCFullYear();
 
@@ -86,11 +87,8 @@ const COPY = {
   ],
 };
 
-let cache = null;
-function partnersBySlug() {
-  if (!cache) cache = Object.fromEntries(buildPartnersFeed({ generatedAt: "static" }).partners.map((p) => [p.slug, p]));
-  return cache;
-}
+const BY_SLUG = Object.fromEntries(REFERRAL_PARTNERS.map((p) => [p.slug, p]));
+const partnersBySlug = () => BY_SLUG;
 
 /** { title, description } for a partner exchange profile in `locale`, or null when there is no real invite code. */
 export function referralSeoFor(slug, locale = "en") {
