@@ -100,4 +100,4 @@ jobs:
             qa-cta.md
             qa-scan.md
             qa-scan.json
-          retention-days: 14
+          retention-days: 3
