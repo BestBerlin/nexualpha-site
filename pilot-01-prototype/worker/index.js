@@ -10,6 +10,8 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/api/analytics/cta") return handleAnalyticsCollector(request, env, url);
+    // Site click beacon is served by server.mjs (needs the private CLICK_EVENT_FILE); the worker alone has nowhere to write it.
+    if (url.pathname === "/api/cta-click") return new Response(null, { status: 404, headers: { "cache-control": "no-store" } });
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
