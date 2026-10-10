@@ -9,7 +9,7 @@ import { venueDatabase } from "../src/data/venue-database.js";
 import { priorityVenueAnswerFor } from "../src/data/priority-venue-answers.js";
 import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
 import { TOKENIZED_ASSET_CLUSTER_REVIEW_DATE, TOKENIZED_ASSET_PAGES, TOKENIZED_ASSET_LOCALES } from "../src/data/tokenized-assets-cluster.js";
-import { NEWS_DISPLAY_LOCALES, NEWS_INDEXABLE_LOCALES, normalizeNewsFeed, normalizeNewsFeedSummaries, newsArticleAvailableLocales, projectNewsFeedForRoute } from "../src/data/news-feed-client.js";
+import { NEWS_DISPLAY_LOCALES, newsListingPublishedLocales, newsSitemapLanguage, normalizeNewsFeed, normalizeNewsFeedSummaries, newsArticleAvailableLocales, projectNewsFeedForRoute } from "../src/data/news-feed-client.js";
 import { BRAZIL_PAGES, BRAZIL_SOURCES } from "../src/data/brazil-market.js";
 import { getBrazilSeo } from "../src/data/brazil-seo.js";
 import { AUDIT_DATE as FACTBOOK_SOURCE_REVIEW_DATE } from "../src/data/factbook-registry.js";
@@ -126,10 +126,9 @@ export function routeInventory(newsArticles = []) {
     // Display locales may show a safe client-side summary, but only reviewed
     // locales are indexable. Keep the inventory honest so SEO verification,
     // canonical tags, robots and sitemap publication share one boundary.
-    // The feed currently carries reviewed English and Simplified Chinese
-    // article bodies. Other locales remain summary-only and stay outside the
-    // collection index graph until their full review is complete.
-    ...(pathname === "/news" ? { locales: NEWS_INDEXABLE_LOCALES } : {}),
+    // Localized news lane (2026-10-10): the listing is published in the core editions (en, zh-Hans) plus every
+    // locale that has at least one search-published article written natively in it.
+    ...(pathname === "/news" ? { locales: newsListingPublishedLocales(newsArticles) } : {}),
     ...(["/topics", "/factbook"].includes(pathname) ? { locales: ["en"] } : {}),
     ...(pathname.startsWith("/news/") ? { locales: newsArticleAvailableLocales(newsArticles.find((article) => pathname === `/news/${article.slug}`)) } : {}),
     ...(COUNTRY_OWNER_LOCALES[pathname] ? { locales: COUNTRY_OWNER_LOCALES[pathname] } : {}),
@@ -253,7 +252,7 @@ export function buildNewsSitemap(newsArticles, { generatedAt = new Date().toISOS
       }
       const lastmod = article.updatedAt || article.publishedAt;
       if (lastmod && Number.isFinite(Date.parse(lastmod))) lines.push(`    <lastmod>${new Date(Date.parse(lastmod)).toISOString().slice(0, 10)}</lastmod>`);
-      lines.push("    <news:news>", "      <news:publication>", `        <news:name>${escape(NEWS_PUBLICATION_NAME)}</news:name>`, `        <news:language>${escape(locale)}</news:language>`, "      </news:publication>");
+      lines.push("    <news:news>", "      <news:publication>", `        <news:name>${escape(NEWS_PUBLICATION_NAME)}</news:name>`, `        <news:language>${escape(newsSitemapLanguage(locale))}</news:language>`, "      </news:publication>");
       lines.push(`      <news:publication_date>${escape(new Date(Date.parse(article.publishedAt)).toISOString())}</news:publication_date>`, `      <news:title>${escape(title)}</news:title>`, "    </news:news>", "  </url>");
       urlCount += 1;
     }

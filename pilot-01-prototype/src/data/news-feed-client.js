@@ -5,8 +5,19 @@ export const NEWS_FEED_SUMMARY_URL = "/content/news-feed-summary.json";
 
 const VALID_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const PUBLISHABLE_STATUSES = new Set(["PUBLISHED"]);
-export const NEWS_INDEXABLE_LOCALES = ["en", "zh-Hans"];
+// Localized news lane (2026-10-10): an article may carry a natively written body in any UI locale. The English
+// body is always required (it is the canonical edition); every other locale is optional and becomes a published,
+// indexable edition only when title, summary and body exist for that locale. `en` and `zh-Hans` are the two core
+// editions the content lane always writes; the listing pages are published in them even when the feed is empty.
+export const NEWS_CORE_LOCALES = ["en", "zh-Hans"];
+export const NEWS_INDEXABLE_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
 export const NEWS_DISPLAY_LOCALES = ["en", "zh-Hans", "zh-Hant", "ja", "ko", "tr", "es", "pt-BR", "fr", "de", "ar", "ru", "id", "vi", "it"];
+
+/** Google News sitemap <news:language> value for an edition locale (ISO 639-1; zh-cn / zh-tw are the documented exceptions). */
+export function newsSitemapLanguage(locale = "en") {
+  const special = { "zh-Hans": "zh-cn", "zh-Hant": "zh-tw", "pt-BR": "pt" };
+  return special[locale] || String(locale || "en").split("-")[0].toLowerCase();
+}
 
 // Small, explicitly reviewed seed pack for the highest-intent article. These
 // are concise decision summaries, not machine-translated claims; the full
@@ -115,14 +126,13 @@ function cleanString(value) {
 function cleanLocalizedText(value) {
   if (!isRecord(value)) return null;
   const en = cleanString(value.en);
-  const zhHans = cleanString(value["zh-Hans"]);
-  if (!en || !zhHans) return null;
-  const supported = ["zh-Hant", "ja", "ko", "tr", "es", "pt-BR", "fr", "de", "ar", "ru", "id", "vi", "it"];
-  return supported.reduce((result, locale) => {
+  // English is the canonical edition and stays required; every other locale (zh-Hans included) is carried when present.
+  if (!en) return null;
+  return NEWS_INDEXABLE_LOCALES.reduce((result, locale) => {
     const text = cleanString(value[locale]);
     if (text) result[locale] = text;
     return result;
-  }, { en, "zh-Hans": zhHans });
+  }, {});
 }
 
 function cleanCompactLocalizedText(value) {
@@ -407,6 +417,7 @@ function routeProjection(article, locale = undefined) {
   };
 }
 
+/** Locales whose title, summary and body are all present: the editions the article can be read and indexed in. */
 export function newsArticleAvailableLocales(article) {
   if (!isRecord(article)) return [];
   const explicit = Array.isArray(article.availableLocales)
@@ -420,6 +431,45 @@ export function newsArticleAvailableLocales(article) {
       && cleanString(article.content?.[locale]);
   });
   return NEWS_INDEXABLE_LOCALES.filter((locale) => locales.includes(locale));
+}
+
+/**
+ * Locales a summary row declares an edition for. Summary rows carry no body, so the feed's `availableLocales` (written
+ * by the publisher only for locales with a full body) or the carried route projection is the authority; a row without
+ * either falls back to the core editions that every article has.
+ */
+export function newsArticleDeclaredLocales(article) {
+  if (!isRecord(article)) return [];
+  const explicit = Array.isArray(article.availableLocales)
+    ? article.availableLocales.map(cleanString).filter((locale) => NEWS_INDEXABLE_LOCALES.includes(locale))
+    : [];
+  const projected = projectionLocales(article);
+  const declared = explicit.length ? explicit : projected.length ? projected : newsArticleAvailableLocales(article);
+  return NEWS_INDEXABLE_LOCALES.filter((locale) => declared.includes(locale));
+}
+
+/** True when the article has its own edition (title + summary, body when the row carries one) in `locale`. */
+export function hasNewsArticleLocale(article, locale) {
+  if (!isRecord(article) || !NEWS_INDEXABLE_LOCALES.includes(locale)) return false;
+  if (isRecord(article.content)) return newsArticleAvailableLocales(article).includes(locale);
+  return newsArticleDeclaredLocales(article).includes(locale)
+    && Boolean(cleanString(article.title?.[locale]) && cleanString(article.summary?.[locale]));
+}
+
+/**
+ * Locales the news listing pages (/news, pagination, categories) are published in: the core editions plus every
+ * locale at least one search-published article has an edition for. Rows without `seo` (summary rows) count by their
+ * declared locales; full rows must be search-published (`seo.noindex === false`).
+ */
+export function newsListingPublishedLocales(articles = []) {
+  const locales = new Set(NEWS_CORE_LOCALES);
+  for (const article of Array.isArray(articles) ? articles : []) {
+    if (!isRecord(article)) continue;
+    if (article.status && article.status !== "PUBLISHED") continue;
+    if (isRecord(article.seo) && article.seo.noindex !== false) continue;
+    for (const locale of newsArticleDeclaredLocales(article)) locales.add(locale);
+  }
+  return NEWS_INDEXABLE_LOCALES.filter((locale) => locales.has(locale));
 }
 
 function newsArticleSummaryAvailableLocales(article) {
@@ -454,13 +504,14 @@ export function resolveNewsContentLocale(requestedLocale = "en", articleOrLocale
   return available.includes("en") ? "en" : available[0] || "en";
 }
 
-export function newsArticleUrl(slug, locale = "en") {
+export function newsArticleUrl(slug, locale = "en", article = null) {
   const pathname = `/news/${encodeURIComponent(slug)}`;
-  // Only English and reviewed Simplified Chinese article routes are
-  // published as canonical news documents. Other display locales keep the
-  // query-locale form so they resolve to the same SSR article instead of an
-  // unprerendered /ja/news/:slug path that hydrates as a 404.
-  if (locale !== "en" && locale !== "zh-Hans") return `${pathname}?locale=${encodeURIComponent(locale)}`;
+  // English and Simplified Chinese editions always have a canonical path route. Another locale gets its path route
+  // (/tr/news/:slug) only when the article carries that edition; otherwise the display locale keeps the query form so
+  // it resolves to the same English SSR article instead of a thin localized URL.
+  if (locale !== "en" && locale !== "zh-Hans" && !hasNewsArticleLocale(article, locale)) {
+    return `${pathname}?locale=${encodeURIComponent(locale)}`;
+  }
   return localizedHref(pathname, { locale });
 }
 
@@ -627,10 +678,11 @@ export async function loadNewsArticles(fetchImpl = globalThis.fetch) {
 }
 
 /** One article (and compact summaries of articles it links to); falls back to the full feed on older servers. */
-export async function loadNewsArticleBySlug(slug, fetchImpl = globalThis.fetch) {
+export async function loadNewsArticleBySlug(slug, fetchImpl = globalThis.fetch, { locale } = {}) {
   if (typeof fetchImpl !== "function") return [];
   try {
-    const response = await fetchImpl(`/api/news/article/${encodeURIComponent(slug)}`, { cache: "no-store" });
+    const localeQuery = locale && NEWS_DISPLAY_LOCALES.includes(locale) ? `?locale=${encodeURIComponent(locale)}` : "";
+    const response = await fetchImpl(`/api/news/article/${encodeURIComponent(slug)}${localeQuery}`, { cache: "no-store" });
     if (response?.status === 404) return [];
     if (response?.ok) return normalizeNewsArticlePool(await response.json());
   } catch {

@@ -84,8 +84,10 @@ export function sitemapLocalesForRoute(route, allLocales = DEFAULT_POLICY.priori
   if (pathname.startsWith("/br")) return ["pt-BR"];
   if (COUNTRY_ROUTE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) return supportedRouteLocales(route, allLocales);
   if (["topicCollection", "factbookCollection"].includes(template)) return pickSupportedLocales(route, ["en"], allLocales);
-  if (template === "article") return pickSupportedLocales(route, ["en", "zh-Hans"], allLocales);
-  if (template === "newsList") return pickSupportedLocales(route, ["en", "zh-Hans"], allLocales);
+  // Localized news lane (2026-10-10): an article or listing route carries its published editions in route.locales
+  // (English and Simplified Chinese plus every locale with a native body); without them the two core editions apply.
+  if (template === "article") return pickSupportedLocales(route, route.locales || ["en", "zh-Hans"], allLocales);
+  if (template === "newsList") return pickSupportedLocales(route, route.locales || ["en", "zh-Hans"], allLocales);
   if (template === "regionalPreview") return supportedRouteLocales(route, allLocales);
   if (!isLocalePathEligible(pathname)) return pickSupportedLocales(route, ["en"], allLocales);
   if (SITEMAP_CORE_STATIC_PATHS.has(pathname)) {
