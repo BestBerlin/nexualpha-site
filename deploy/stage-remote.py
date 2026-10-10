@@ -152,6 +152,8 @@ if collector:
     args += ['-e', 'CTA_ANALYTICS_ORIGIN=http://%s:8080' % collector]
 # Error monitor (/health/errors-ready): append-only events outside the app tree, same directory older releases used.
 args += ['-v', '/data/private/nexualpha/errors:/errors', '-e', 'ERROR_EVENT_FILE=/errors/nexualpha-web.jsonl']
+# Tracked partner redirect /go/<partner>?src= (2026-10-10): anonymous click log outside the app tree.
+args += ['-v', '/data/private/nexualpha/clicks:/clicks', '-e', 'CLICK_EVENT_FILE=/clicks/go-clicks.jsonl']
 args += [info['Config']['Image'], 'node', 'server.mjs']
 sh(*args, stdout=subprocess.DEVNULL)
 nets = {n for n in (info.get('NetworkSettings', {}).get('Networks') or {}) if n not in ('bridge', 'host', 'none')}

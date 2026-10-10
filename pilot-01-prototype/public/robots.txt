@@ -33,6 +33,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /go/
 
 Sitemap: https://nexualpha.com/sitemap.xml
 Sitemap: https://nexualpha.com/news-sitemap.xml
