@@ -15,6 +15,7 @@ export default {
     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
     if (url.pathname === "/api/news/search" && request.method === "GET" && env?.ASSETS) return handleNewsSearchJson(env, url);
     if (url.pathname === "/news-library-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleNewsLibrarySitemap(env, url);
+    if (url.pathname === "/locale-sitemap.xml" && request.method === "GET") return handleLocaleSitemap(env);
     if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
       const response = await env.ASSETS.fetch(request);
       if (!response.ok) return response;
@@ -3932,6 +3933,36 @@ async function handleNewsSearchJson(env, url) {
 
 // Sitemap for the news library collections (/news pages and category archives) in the two indexable news locales.
 // Article URLs stay in the publisher-written /sitemap.xml and the live /news-sitemap.xml.
+// Every indexable, self-canonical page in all 15 locales (2026-10-10). The main /sitemap.xml is written by the content
+// publisher and only carried en, zh-Hans and a few ja/ko/tr pages, so the translated exchange, rates, compare and
+// activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
+// non-canonical URL; cached for an hour.
+const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook"];
+let localeSitemapCache = null;
+export async function renderLocaleSitemap(env = {}) {
+  const paths = [...LOCALE_SITEMAP_STATIC, ...[...ACTIVE_VENUE_SLUGS].map((slug) => `/exchanges/${slug}`), ...[...CURATED_COMPARISONS].map((pair) => `/compare/${pair}`)];
+  const rows = [];
+  for (const pathname of paths) {
+    for (const locale of INDEXABLE_LOCALES) {
+      const loc = `${PUBLIC_ORIGIN}${localizedPath(pathname, locale)}`.replace(/\/$/, "") || PUBLIC_ORIGIN;
+      let meta;
+      try { meta = await routeMetadata(new URL(loc), env); } catch { continue; }
+      if (meta?.status !== 200 || meta.robots !== "index,follow" || meta.canonical !== loc) continue;
+      rows.push([
+        "  <url>",
+        `    <loc>${xmlText(loc)}</loc>`,
+        ...(meta.alternates || []).map((alt) => `    <xhtml:link rel="alternate" hreflang="${xmlText(alt.hreflang)}" href="${xmlText(alt.href)}" />`),
+        "  </url>",
+      ].join("\n"));
+    }
+  }
+  return ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">', ...rows, "</urlset>", ""].join("\n");
+}
+async function handleLocaleSitemap(env) {
+  if (!localeSitemapCache || Date.now() - localeSitemapCache.at > 3600e3) localeSitemapCache = { at: Date.now(), xml: await renderLocaleSitemap(env) };
+  return new Response(localeSitemapCache.xml, { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=3600" } });
+}
+
 export function renderNewsLibrarySitemap(articles) {
   const rows = [];
   const lastmodFor = (items) => {
