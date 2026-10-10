@@ -4164,7 +4164,7 @@
   },
   "derivatives:en": {
     "title": "Crypto Perpetual Platform Comparison: Fees, Funding and Liquidation Checks — NexuAlpha",
-    "description": "Compare crypto perpetual platforms by account model, published fees, funding, margin mode, liquidation rules, oracle route, collateral movement, regional access and product permissions before signup or wallet connection.",
+    "description": "Perpetual platform checks: published fees, funding, margin mode, liquidation rules, oracle route, collateral movement, regional access and product permissions.",
     "canonical": "https://nexualpha.com/topics/derivatives",
     "locale": "en",
     "htmlLocale": "en",

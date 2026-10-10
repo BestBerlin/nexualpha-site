@@ -1,6 +1,6 @@
 // Search snippet budget (owner 2026-10-10, GSC CTR work): Google shows about 160 Latin characters, about 80 for
 // zh/ja/ko, before truncating with an ellipsis. Copy sources stay within budget; this clamp is the guarantee applied by
-// the Worker (served HTML) and by computeRouteSeo (client navigation), so both emit the same description.
+// the Worker (served HTML); copy sources are kept within budget so the client router emits the same text.
 const CJK_META_LOCALE = /^(zh|ja|ko)(?:[-_]|$)/i;
 const META_SENTENCE_END = "。！？";
 const META_CLAUSE_BREAK = /[\s,;:，、；：]/;
