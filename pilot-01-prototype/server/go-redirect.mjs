@@ -5,13 +5,14 @@
 import { readFile, appendFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
-const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|telegrambot|whatsapp|curl|wget|python|headless|lighthouse/i;
-const SRC = /^[a-z0-9][a-z0-9_-]{0,47}$/;
+export const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|telegrambot|whatsapp|curl|wget|python|headless|lighthouse/i;
+export const SRC = /^[a-z0-9][a-z0-9_-]{0,47}$/;
 
-export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date() } = {}) {
+// Shared by /go/<partner> and the site click beacon (/api/cta-click): slug -> https registration URL, refreshed every 5 min.
+export function createPartnerMapLoader(clientRoot) {
   let partners = null;
   let loadedAt = 0;
-  const partnerMap = async () => {
+  return async () => {
     if (!partners || Date.now() - loadedAt > 5 * 60 * 1000) {
       const feed = JSON.parse(await readFile(path.join(clientRoot, 'intel', 'partners.json'), 'utf8'));
       partners = new Map((feed.partners || []).filter((p) => /^https:\/\//.test(p.registrationUrl || '')).map((p) => [p.slug, p.registrationUrl]));
@@ -19,6 +20,10 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
     }
     return partners;
   };
+}
+
+export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date() } = {}) {
+  const partnerMap = createPartnerMapLoader(clientRoot);
   if (eventFile) mkdir(path.dirname(eventFile), { recursive: true }).catch(() => {});
 
   return async function handle(request) {

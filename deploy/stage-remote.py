@@ -154,6 +154,10 @@ if collector:
 args += ['-v', '/data/private/nexualpha/errors:/errors', '-e', 'ERROR_EVENT_FILE=/errors/nexualpha-web.jsonl']
 # Tracked partner redirect /go/<partner>?src= (2026-10-10): anonymous click log outside the app tree.
 args += ['-v', '/data/private/nexualpha/clicks:/clicks', '-e', 'CLICK_EVENT_FILE=/clicks/go-clicks.jsonl']
+# Social cards /og/<kind>/<id>.png (2026-10-10): rendered PNGs are cached outside the read-only app tree, keyed by build id.
+args += ['-v', '/data/private/nexualpha/og-cache:/og-cache', '-e', 'OG_CACHE_DIR=/og-cache']
+# Host fonts for the cards (node:20-bookworm-slim has none): DejaVu covers Latin/Cyrillic/Arabic, WenQuanYi covers CJK.
+args += ['-v', '/data/private/nexualpha/og-fonts:/og-fonts:ro', '-e', 'OG_FONT_DIR=/og-fonts']
 args += [info['Config']['Image'], 'node', 'server.mjs']
 sh(*args, stdout=subprocess.DEVNULL)
 nets = {n for n in (info.get('NetworkSettings', {}).get('Networks') or {}) if n not in ('bridge', 'host', 'none')}
