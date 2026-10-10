@@ -17,6 +17,7 @@ import { NextDecisionBridge } from "../NextDecisionBridge.jsx";
 import { OnsiteTelegramBotHandoff } from "../OnsiteTelegramBotHandoff.jsx";
 import { TopDecisionBox } from "../TopDecisionBox.jsx";
 import { NewsVenueOffer } from "./NewsVenueOffer.jsx";
+import { NewsTelegramAlerts } from "./NewsTelegramAlerts.jsx";
 import "./news-detail-page.css";
 
 const copy = {
@@ -736,6 +737,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
               {deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t))}
             </div>
           </details>}
+          <NewsTelegramAlerts locale={locale} />
           <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="inline" />
           {article.sources.length > 0 && (
             <section className="news-detail__prose news-detail__sources" aria-labelledby="article-sources">

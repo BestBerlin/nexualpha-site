@@ -883,3 +883,30 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
   #top.news-detail-page .news-detail-container:not(#_) > .news-detail__content > :is(.news-detail__local-brief, .news-detail__section-nav, .news-detail__prose--lead) { order: 1; }
   #top.news-detail-page .news-detail-container:not(#_) > .news-detail__rail { order: 2; margin-block-start: 32px; }
 }
+
+/* "Get alerts in Telegram" line under the article (2026-10-10): quiet, matches the header's outline controls */
+.news-tg-alerts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 1.75rem 0 1.25rem;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.news-tg-alerts svg { flex: none; color: #94a3b8; }
+.news-tg-alerts span { flex: 1 1 14rem; }
+.news-tg-alerts a {
+  flex: none;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  color: #67e8f9;
+  font-weight: 600;
+  text-decoration: none;
+}
+.news-tg-alerts a:hover, .news-tg-alerts a:focus-visible { text-decoration: underline; }
