@@ -394,3 +394,11 @@
 #top#top#top#top#top#top.v6.r1-rates-page .ft-src a { min-inline-size: 44px; min-block-size: 44px; padding-inline: 8px; }
 /* CJK headings: strict line breaking + pretty wrapping (no orphan glyphs, no balance-induced mid-word split). keep-all is avoided: CJK has no spaces, so it turns a whole sentence into one unbreakable word. */
 #top#top#top#top#top#top.v6.r1-rates-page :is(h1, h2, h3):lang(zh) { word-break: normal; line-break: strict; text-wrap: pretty; }
+
+/* Layout pass 2026-10-10: on narrow cards the base-rate note gets its own line, so a long note
+   ("Tarifa base 0.055% · +5 USDT frente a la más baja") never runs into the benefit link. */
+@media (max-width: 760px) {
+  #top#top#top#top#top#top.v6.r1-rates-page .cost-decision__results > article { grid-template-areas: "logo name amount" "logo base base" "logo offer offer" ". bar bar" ". src src" "cta cta cta"; }
+  #top#top#top#top#top#top.v6.r1-rates-page .cost-decision__results > article > p:not(.cost-decision__amount):not(.rt-checked) { justify-self: start; text-align: start; }
+  #top#top#top#top#top#top.v6.r1-rates-page .cost-decision__results .rt-offer { margin-block-start: 8px; }
+}
