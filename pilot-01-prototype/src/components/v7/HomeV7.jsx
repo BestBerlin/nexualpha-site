@@ -14,8 +14,11 @@ import "../../styles/v7/home7.css";
 
 const nameOf = (slug) => brandsBySlug[slug]?.name || slug;
 const CHIPS = [10000, 50000, 100000, 500000];
+// Volume slider: log scale $10K..$5M, snapped to readable steps.
+const VMIN = 1e4, VMAX = 5e6;
+const toVol = (p) => { const v = VMIN * Math.pow(VMAX / VMIN, p / 1000); const step = v < 1e5 ? 1e3 : v < 1e6 ? 1e4 : 1e5; return Math.round(v / step) * step; };
+const toPos = (v) => Math.round(1000 * Math.log(Math.min(Math.max(v, VMIN), VMAX) / VMIN) / Math.log(VMAX / VMIN));
 const usd = (n) => `$${Math.round(n).toLocaleString("en-US")}`;
-const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // Owner (2026-10-10): show perpetual-contract fees by default; spot stays one tap away.
@@ -33,7 +36,7 @@ function useVenues(locale, product) {
 }
 
 // Ledger figures roll to their new value (eased); reduced motion and SSR render the final value.
-function Roll({ value, prefix = "", fmt = usd }) {
+function Roll({ value, prefix = "", fmt = usd, nudge }) {
   const [shown, setShown] = useState(value);
   const from = useRef(value);
   useEffect(() => {
@@ -43,8 +46,8 @@ function Roll({ value, prefix = "", fmt = usd }) {
     raf = requestAnimationFrame(f);
     return () => { cancelAnimationFrame(raf); from.current = b; };
   }, [value]);
-  // the figure nudges up with a spring when its target changes (CSS .h7-roll, off under reduced motion)
-  return <span className="h7-roll" key={String(value)}>{shown == null ? "–" : `${prefix}${fmt(shown)}`}</span>;
+  // a spring nudge plays when `nudge` changes (e.g. another exchange picked), not on every slider step
+  return <span className={nudge == null ? undefined : "h7-roll"} key={nudge ?? "v"}>{shown == null ? "–" : `${prefix}${fmt(shown)}`}</span>;
 }
 
 function CopyCode({ code, t }) {
@@ -250,18 +253,7 @@ export function HomeV7({ locale, venues: _catalog }) {
     return () => { stopped = true; cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); io?.disconnect(); };
   }, [venues]);
 
-  /* ---------- rows: a year runs through them when they scroll in ---------- */
   const rowsRef = useRef(null), rowEls = useRef([]);
-  const paintRows = useCallback((p) => {
-    calc.rows.forEach((r, i) => { const el = rowEls.current[i]; if (!el || r.net == null) return; const bar = el.querySelector("[data-bar]"), am = el.querySelector("[data-am]"); if (bar) bar.style.width = `${(r.net / calc.maxGross) * 100 * p}%`; if (am) am.innerHTML = `${r.share ? `<s>${usd(r.gross)}</s>` : ""}${usd(r.gross - (r.gross - r.net) * p)}`; });
-  }, [calc]);
-  const ran = useRef(false);
-  useEffect(() => {
-    const el = rowsRef.current; if (!el || reduced()) return undefined;
-    const io = new IntersectionObserver((es) => { if (es[0].isIntersecting && !ran.current) { ran.current = true; const t0 = performance.now(); const f = (n) => { const k = Math.min(1, (n - t0) / 1400); paintRows(ease(k)); if (k < 1) requestAnimationFrame(f); }; paintRows(0); requestAnimationFrame(f); } }, { threshold: 0.25 });
-    io.observe(el); return () => io.disconnect();
-  }, [paintRows]);
-  useEffect(() => { if (ran.current) paintRows(1); }, [calc, paintRows]);
 
   const onVol = (e) => { const d = e.target.value.replace(/[^0-9]/g, ""); setVol(Math.min(Number(d) || 0, 1e8)); };
 
@@ -284,14 +276,14 @@ export function HomeV7({ locale, venues: _catalog }) {
             {rebated.map((r, i) => <button key={r.slug} ref={(e) => { pillRefs.current[i] = e; }} type="button" data-brand={r.slug} aria-pressed={r.slug === sel.slug} onClick={() => setPick(r.slug)}><BrandMark slug={r.slug} compact /><span>{r.name}</span><b><span className="h7-sr">{t.rebate} </span>{Math.round(r.share * 100)}%</b>{r.share === topShare && rebated.length > 1 ? <i>{t.lgTop}</i> : null}</button>)}
           </div>
           <div className="h7-lg-max">
-            <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgShare(sel.name)} </span><Roll value={Math.round(sel.share * 100)} fmt={(n) => String(Math.round(n))} /><span>%</span></p>
+            <p className="h7-num" ref={numRef}><span className="h7-sr">{t.lgShare(sel.name)} </span><Roll value={Math.round(sel.share * 100)} fmt={(n) => String(Math.round(n))} nudge={sel.slug} /><span>%</span></p>
             <div className="h7-lg-who"><b>{t.lgShare(sel.name)}</b>{auto && <span className="h7-auto">{t.lgAuto}</span>}</div>
           </div>
           <p className="h7-lg-top"><span className="h7-dot" aria-hidden="true" />{t.lgEst}<span className="h7-lg-vol">{t.lgVol(usd(vol), `${product === "perp" ? t.perpL : t.spotL}${t.sep}${mode === "maker" ? t.maker : t.taker}`)}</span></p>
           <dl className="h7-lg-rows">
-            <div><dt>{t.lgWithout}</dt><dd><Roll value={sel.gross} /></dd></div>
-            <div className="up"><dt>{t.lgBack}</dt><dd><Roll value={sel.save} prefix="+" /></dd></div>
-            <div className="h7-lg-net"><dt>{t.lgNet}</dt><dd><Roll value={sel.net} /></dd></div>
+            <div><dt>{t.lgWithout}</dt><dd><Roll value={sel.gross} nudge={sel.slug} /></dd></div>
+            <div className="up"><dt>{t.lgBack}</dt><dd><Roll value={sel.save} prefix="+" nudge={sel.slug} /></dd></div>
+            <div className="h7-lg-net"><dt>{t.lgNet}</dt><dd><Roll value={sel.net} nudge={sel.slug} /></dd></div>
           </dl>
           {sel.code && <p className="h7-lg-code"><span>{t.code}</span><code>{sel.code}</code><CopyCode code={sel.code} t={t} /></p>}
           <Cta v={sel} locale={locale} className={`h7-btn h7-lg-go h7-go--${sel.slug}`} placement="home-v7-hero"><span className="h7-go-l">{t.lgGo(sel.name)}</span><small className="h7-go-disclosure">{sel.open ? `${t.lgBuilt} · ` : ""}{t.lgAd}</small></Cta>
@@ -325,6 +317,8 @@ export function HomeV7({ locale, venues: _catalog }) {
         <div>
           <h2>{t.calcH}</h2>
           <label className="h7-vin"><span>$</span><input value={vol ? vol.toLocaleString("en-US") : ""} onChange={onVol} inputMode="numeric" aria-label={t.volLabel} /><small>{t.perMonth}</small></label>
+          <input className="h7-range" type="range" min="0" max="1000" step="1" value={toPos(vol || VMIN)} style={{ "--p": `${toPos(vol || VMIN) / 10}%` }} onChange={(e) => setVol(toVol(Number(e.target.value)))} aria-label={t.volLabel} aria-valuetext={`${usd(vol)} ${t.perMonth}`} />
+          <div className="h7-range-scale" aria-hidden="true">{[[1e4, "$10K"], [1e5, "$100K"], [1e6, "$1M"], [5e6, "$5M"]].map(([v, l]) => <span key={l} style={{ "--x": `${toPos(v) / 10}%` }}>{l}</span>)}</div>
           <div className="h7-ctl">
             {CHIPS.map((c) => <button key={c} type="button" aria-pressed={vol === c} onClick={() => setVol(c)}>${c / 1000}K</button>)}
             <div className="h7-seg" role="group" aria-label={`${t.perpL} / ${t.spotL}`}><button type="button" aria-pressed={product === "perp"} onClick={() => setProduct("perp")}>{t.perpL}</button><button type="button" aria-pressed={product === "spot"} onClick={() => setProduct("spot")}>{t.spotL}</button></div>
@@ -338,7 +332,7 @@ export function HomeV7({ locale, venues: _catalog }) {
           {calc.rows.map((r, i) => (
             <div key={r.slug} ref={(e) => { rowEls.current[i] = e; }} className={`h7-xr${calc.best?.slug === r.slug ? " best" : ""}${r.share ? "" : " nr"}`}>
               <p className="h7-xn"><BrandMark slug={r.slug} compact /><b>{r.name}</b><span className="h7-bd">{r.share ? `${t.rebate} ${Math.round(r.share * 100)}%` : t.pending}</span></p>
-              <div className="h7-am" data-am dangerouslySetInnerHTML={{ __html: r.net == null ? "–" : `${r.share ? `<s>${usd(r.gross)}</s>` : ""}${usd(r.net)}` }} />
+              <div className="h7-am">{r.net == null ? "–" : <>{r.share ? <s>{usd(r.gross)}</s> : null}<Roll value={r.net} /></>}</div>
               <p className="h7-meta"><span>{t.rate} {r.maker != null ? `${r.maker.toFixed(2)}% / ${r.taker.toFixed(2)}%` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}<a className="h7-dt" href={localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}</a></p>
               <Cta v={r} locale={locale} className="h7-btn h7-sm" placement="home-v7-row"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
             </div>
