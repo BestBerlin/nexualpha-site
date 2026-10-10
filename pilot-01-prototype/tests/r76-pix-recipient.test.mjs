@@ -11,7 +11,7 @@ import { getBrazilSeo } from "../src/data/brazil-seo.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const expectedCommercialHashes = {
-  "src/data/partner-registry.js": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
+  "src/data/partner-registry.js": "e53261a6e7e39e64bd35bbedda4ef4a36c1521521750a77eaff3d26c52925d69", // owner-authorized Binance primary link change 2026-10-10
   "src/data/venue-database.js": "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52",
   "src/data/public-cta.js": "675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3",
   "src/data/regional-cta.js": "a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665",

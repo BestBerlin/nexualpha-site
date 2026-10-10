@@ -4,12 +4,14 @@ import { publicCtaForVenue, publicCtaForTopicPlatform } from "../src/data/public
 
 test("public CTA keeps official destination but hides unverified partner economics", () => {
   const cta = publicCtaForVenue("binance", "en");
-  assert.equal(cta.registrationUrl, "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy");
+  // owner instruction 2026-10-10: official binance.com route is primary
+  assert.equal(cta.registrationUrl, "https://www.binance.com?ref=11350287");
   assert.deepEqual(cta.registrationUrls, [
-    "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy",
-    "https://www.bsmkweb.cc/join?ref=11350287",
+    "https://www.binance.com?ref=11350287",
     "https://www.binance.com/join?ref=11350287",
     "https://accounts.binance.com/register?ref=11350287",
+    "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy",
+    "https://www.bsmkweb.cc/join?ref=11350287",
   ]);
   assert.equal(cta.hasPartnerRoute, true);
   assert.equal(cta.routeAvailable, true);
@@ -31,7 +33,7 @@ test("public CTA preserves Bitget attribution parameters on the signup route", (
 
 test("public CTA exposes configured invite codes without verifying private benefit economics", () => {
   const expected = {
-    binance: ["https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy", "11350287"],
+    binance: ["https://www.binance.com?ref=11350287", "11350287"],
     bitget: ["https://partner.bitget.cafe/bg/C6PRAF", "nexu888"],
     okx: ["https://www.okx.com/join/nexu888", "nexu888"],
     backpack: ["https://backpack.exchange/join/luckybitcoin", "luckybitcoin"],
@@ -68,7 +70,7 @@ test("topic CTA projection keeps partner route separate from unverified benefit 
     rebate: 20,
     bonus: "$100",
   }, "en");
-  assert.equal(platform.affiliateUrl, "https://www.bsmkweb.cc/join?ref=11350287&utm_medium=web_share_copy");
+  assert.equal(platform.affiliateUrl, "https://www.binance.com?ref=11350287");
   assert.equal(platform.hasPartnerRoute, true);
   assert.equal(platform.benefitVerified, false);
   assert.equal(platform.inviteCode, "11350287");
