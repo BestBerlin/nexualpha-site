@@ -115,6 +115,8 @@ export function createIntelFeed(clientRoot, { everyMs = 15 * 60 * 1000, enabled 
     stop: () => { if (timer) clearInterval(timer); },
     // Changes whenever a refresh replaced the feed; the SSR page cache keys on it so cached HTML never outlives a feed.
     version: () => feed?.generatedAt || "",
+    // The current feed object (seed or last good refresh) for request-time SSR of /activities; null until seeded.
+    async read() { await seeded; return feed; },
     async respond() {
       await seeded;
       if (!body) return new Response('Not Found', { status: 404, headers: { 'cache-control': 'no-store' } });

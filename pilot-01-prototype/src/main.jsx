@@ -72,6 +72,7 @@ function HydrationBootstrap() {
       initialNewsArticles={prerenderState?.newsArticles}
       initialNewsListing={prerenderState?.newsListing}
       initialMarketEvents={prerenderState?.marketEvents}
+      initialOfficialAnnouncements={prerenderState?.officialAnnouncements}
     />
     {initialUrl === bootstrap.browserUrl && <ClientHydrationSignal />}
   </>;

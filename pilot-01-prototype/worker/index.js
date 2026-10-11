@@ -11,6 +11,8 @@ import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
+import { newsListHeroCopy } from "../src/data/news-list-copy.js";
+import { readIntelFeed } from "../src/data/announcement-intel.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
   async fetch(request, env) {
@@ -3000,8 +3002,10 @@ function safeJson(value) {
 }
 
 function replaceOrInsert(html, expression, replacement) {
-  if (expression.test(html)) return html.replace(expression, replacement);
-  return html.replace(/<\/head>/i, `    ${replacement}\n  </head>`);
+  // Function replacers: page text may contain "$'" or "$&", which String.replace would otherwise expand (QA 2026-10-11:
+  // a Turkish research summary with "200$'a" truncated the SSR body and broke hydration on /tr/activities).
+  if (expression.test(html)) return html.replace(expression, () => replacement);
+  return html.replace(/<\/head>/i, () => `    ${replacement}\n  </head>`);
 }
 
 function routeLocale(url) {
@@ -3366,7 +3370,7 @@ function injectRouteMetadata(html, metadata) {
     const alternateHtml = metadata.alternates
       .map((alternate) => `    <link rel="alternate" hreflang="${alternate.hreflang}" href="${escapeHtml(alternate.href)}" data-nexualpha-route-seo="alternate" />`)
       .join("\n");
-    output = output.replace(/<\/head>/i, `${alternateHtml}\n  </head>`);
+    output = output.replace(/<\/head>/i, () => `${alternateHtml}\n  </head>`);
   }
   output = replaceOrInsert(
     output,
@@ -3394,7 +3398,7 @@ function injectRouteMetadata(html, metadata) {
   if (schemaPayload) {
     output = output.replace(
       /<\/head>/i,
-      `    <script id="nexualpha-route-schema" type="application/ld+json">${safeJson(schemaPayload)}</script>\n  </head>`,
+      () => `    <script id="nexualpha-route-schema" type="application/ld+json">${safeJson(schemaPayload)}</script>\n  </head>`,
     );
   }
   return output;
@@ -3421,11 +3425,15 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
   const brProjection = projectBrazilAttributionHtml(appHtml, pathname, url);
   const payload = safeJson({ pathname, locale, version: "nexualpha-prerender-v1",
     ...(brProjection.attribution ? { brAttribution: brProjection.attribution } : {}),
-    ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(pathname, route.newsArticles, locale, { preserveSsrContent: true }) } : {}),
+    // Listing payloads are summary rows for one page ("/news" projection: no content, sources or seo), never article bodies.
+    ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }) } : {}),
+    ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
+    ...(route.officialAnnouncements && typeof route.officialAnnouncements === "object" ? { officialAnnouncements: route.officialAnnouncements } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
-  return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, body);
+  // Function replacer: the body is page text and may contain "$'" / "$&" replacement patterns.
+  return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, () => body);
 }
 
 function decodeHtmlAttribute(value) {
@@ -3807,11 +3815,13 @@ function renderNewsListingFallback(metadata, locale, listing) {
   const pagination = paginateNews(metadata.newsArticles, { category, page, locale });
   const libraryCopy = newsLibraryCopy(locale);
   const categoryCopy = category ? newsCategoryCopy(category, locale) : null;
-  const heading = categoryCopy ? categoryCopy.label : metadata.newsListing?.heading || metadata.title.replace(/\s+—\s+NexuAlpha$/, "");
-  const subtitle = categoryCopy ? categoryCopy.intro : metadata.newsListing?.intro || metadata.description;
+  // Same heading source as NewsListPage (src/data/news-list-copy.js): the fallback must never show a different H1.
+  const hero = newsListHeroCopy(locale);
+  const heading = categoryCopy ? categoryCopy.label : hero.title;
+  const subtitle = categoryCopy ? categoryCopy.intro : hero.subtitle;
   return `<main class="v6 v2-page v3-page news-page" id="top" data-nexualpha-ssr-fallback="news-list" data-news-category="${escapeHtml(category || "all")}" data-news-page="${pagination.page}">
       <section class="news-hero v2-shell">
-        <div class="news-hero__badge">${escapeHtml(t.badge)}</div>
+        <div class="news-hero__badge">${escapeHtml(hero.eyebrow)}</div>
         <h1 class="news-hero__title">${escapeHtml(heading)}</h1>
         <p class="news-hero__subtitle">${escapeHtml(subtitle)}</p>
         <div class="news-index-controls">${renderNewsCategoryNavHtml(locale, category, newsCategoryCounts(metadata.newsArticles))}</div>
@@ -3902,7 +3912,7 @@ function injectFallbackBody(html, metadata, url) {
     hydrationArticles = article ? initialNewsArticlesForRoute(contentUrl.pathname, [article, ...newsRelatedSummaries(article, sourceArticles)], locale) : [];
   }
   if (!hydrationArticles.length) {
-    return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, `<div id="root" data-nexualpha-client-render="true">${appHtml}</div>`);
+    return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, () => `<div id="root" data-nexualpha-client-render="true">${appHtml}</div>`);
   }
   const payload = safeJson({
     pathname: contentUrl.pathname,
@@ -3914,8 +3924,75 @@ function injectFallbackBody(html, metadata, url) {
   });
   return html.replace(
     /<div\s+id=["']root["']\s*>\s*<\/div>/i,
-    `<div id="root" data-nexualpha-client-render="true">${appHtml}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`,
+    () => `<div id="root" data-nexualpha-client-render="true">${appHtml}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`,
   );
+}
+
+// The URL the browser hydrates with (src/data/hydration-bootstrap.js): content pathname + explicit locale, no other
+// query. Rendering the same URL on the server keeps every generated href identical between SSR and first render.
+function hydrationRenderUrl(url, pathname, locale) {
+  const renderUrl = new URL(url);
+  renderUrl.pathname = pathname;
+  renderUrl.search = "";
+  renderUrl.hash = "";
+  renderUrl.searchParams.set("locale", locale || "en");
+  return renderUrl.href;
+}
+
+async function renderNewsListingAtRequestTime(html, metadata, url, env, publicRoute) {
+  const pathname = publicRoute.contentPathname;
+  const listing = parseNewsListingPath(pathname);
+  if (!listing || listing.invalid || listing.redirect || !Array.isArray(metadata.newsArticles)) return null;
+  const locale = publicRoute.locale;
+  try {
+    const pagination = paginateNews(metadata.newsArticles, { category: listing.category, page: listing.page, locale });
+    const newsArticles = initialNewsArticlesForRoute("/news", pagination.rows, locale);
+    const newsListing = {
+      category: listing.category, page: pagination.page, total: pagination.total, totalPages: pagination.totalPages,
+      libraryTotal: metadata.newsArticles.length, counts: newsCategoryCounts(metadata.newsArticles),
+    };
+    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, locale), { newsArticles, newsListing });
+    if (typeof appHtml === "string" && appHtml.includes('class="news-hero__title"')) {
+      metadata.newsSsrMode = "runtime";
+      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, { newsArticles, newsListing }, url);
+    }
+    console.error(`[NexuAlpha] news listing SSR returned no listing body for ${pathname} (${locale}); serving the fallback template`);
+  } catch (error) {
+    console.error(`[NexuAlpha] news listing SSR failed for ${pathname} (${locale}): ${error?.message || error}`);
+  }
+  return null;
+}
+
+// Campaign rows for the /activities SSR and its hydration payload: official "event" announcements of the last 30 days
+// (the same filter LiveCampaigns applies), only the fields the cards render. Nothing is invented: no feed, no rows.
+const LIVE_CAMPAIGN_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+export function compactOfficialAnnouncements(feed, now = Date.now()) {
+  if (!feed || typeof feed !== "object" || !Array.isArray(feed.items)) return null;
+  const items = readIntelFeed(feed, { now })
+    .filter((item) => item.category === "event" && now - Date.parse(item.publishedAt) < LIVE_CAMPAIGN_WINDOW_MS)
+    .map(({ id, venue, category, title, summary, url, publishedAt }) => ({ id, venue, category, title, ...(typeof summary === "string" && summary ? { summary } : {}), url, publishedAt }));
+  return { generatedAt: typeof feed.generatedAt === "string" ? feed.generatedAt : null, items };
+}
+
+async function renderActivitiesAtRequestTime(html, metadata, url, env) {
+  if (typeof env?.NEWS_SSR_RENDER !== "function" || typeof env?.INTEL_READ !== "function") return null;
+  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
+  let officialAnnouncements = null;
+  try { officialAnnouncements = compactOfficialAnnouncements(await env.INTEL_READ()); } catch (error) {
+    console.error(`[NexuAlpha] activities SSR could not read the announcement feed: ${error?.message || error}`);
+  }
+  if (!officialAnnouncements) return null;
+  try {
+    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, "/activities", publicRoute.locale), { officialAnnouncements });
+    if (typeof appHtml === "string" && appHtml.includes('class="live-campaigns')) {
+      metadata.activitiesSsrMode = "runtime";
+      return injectPrerenderedBody(html, appHtml, `/activities|${publicRoute.locale}`, { officialAnnouncements }, url);
+    }
+    console.error(`[NexuAlpha] activities SSR returned no campaign body (${publicRoute.locale}); serving the prerendered page`);
+  } catch (error) {
+    console.error(`[NexuAlpha] activities SSR failed (${publicRoute.locale}): ${error?.message || error}`);
+  }
+  return null;
 }
 
 async function injectPrerenderedRoute(html, metadata, url, env) {
@@ -3925,6 +4002,14 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   const fallback = async () => {
     const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
     const pathname = publicRoute.contentPathname;
+    // News listings (2026-10-11): /news, /news/page/N and /news/category/<key>[/page/N] in every locale are rendered at
+    // request time with the NewsListPage the browser hydrates (summary rows of this page + library counts), so the
+    // SSR body, the head and the first client render agree and crawlers index the current listing. The hand-written
+    // renderNewsListingFallback stays only for hosts without the renderer, or when it throws (logged).
+    if (metadata.marker === NEWS_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      const rendered = await renderNewsListingAtRequestTime(html, metadata, url, env, publicRoute);
+      if (rendered) return rendered;
+    }
     if (metadata.marker === ARTICLE_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
       const article = metadata.newsArticles?.find(item => `/news/${item.slug}` === pathname);
       if (article) {
@@ -3977,6 +4062,18 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     metadata.newsSsrMode = "fallback";
     return injectFallbackBody(html, metadata, url);
   };
+  if (typeof env?.NEWS_SSR_RENDER === "function") {
+    const contentPath = parsePublicRoute(url.pathname, url.searchParams).contentPathname;
+    // Listing pages never come from the build-time manifest: the feed is published after the build.
+    const listing = metadata.marker === NEWS_ROUTE_MARKER ? parseNewsListingPath(contentPath) : null;
+    if (listing && !listing.invalid && !listing.redirect) return fallback();
+    // /activities: campaigns come from the live announcement feed, so the body is rendered per request when the feed is
+    // readable; without a feed the prerendered page (fixed-height campaign placeholder) is served as before.
+    if (contentPath === "/activities" && metadata.marker === ACTIVITIES_ROUTE_MARKER) {
+      const rendered = await renderActivitiesAtRequestTime(html, metadata, url, env);
+      if (rendered) return rendered;
+    }
+  }
   const routeKey = prerenderRouteKey(url);
   if (!routeKey) return fallback();
   const manifest = await loadPrerenderManifest(env, url);
@@ -6546,7 +6643,8 @@ async function routeMetadataBase(url, env, newsFeed) {
       robots: isPublishedLocale && hasArticles ? "index,follow" : "noindex,follow",
       marker: NEWS_ROUTE_MARKER,
       alternates: isPublishedLocale && hasArticles ? routeAlternates(listingPath, publishedLocales) : [],
-      newsListing: { category, page, total: pagination.total, totalPages: pagination.totalPages, path: listingPath, heading: sectionName, intro: newsCopy[1] },
+      // Heading and intro are the NewsListPage hero copy (one source for SSR, fallback and client).
+      newsListing: { category, page, total: pagination.total, totalPages: pagination.totalPages, path: listingPath, heading: categoryCopy ? categoryCopy.label : newsListHeroCopy(displayLocale).title, intro: categoryCopy ? categoryCopy.intro : newsListHeroCopy(displayLocale).subtitle },
       schema: {
         ...newsCollectionSchema({
           title: localizedCopy.title,
@@ -6998,7 +7096,9 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname.startsWith("/exchanges/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"];
   if (pathname.startsWith("/compare/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-compare-", "route-v3-pages-"];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
-  if (pathname === "/news") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
+  // The list route renders the Telegram alerts strip (route-v3-pages-strip chunk) in SSR; keep its stylesheet so the
+  // strip is styled at first paint instead of when its JS chunk injects the CSS.
+  if (pathname === "/news" || parseNewsListingPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-", "route-v3-pages-strip-"];
   if (pathname.startsWith("/news/tokenized-treasuries")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
   if (pathname.startsWith("/news/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
   if (pathname === "/partners" || pathname.startsWith("/partners/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-partners-"];
