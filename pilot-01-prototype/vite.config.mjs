@@ -81,9 +81,15 @@ export const STYLESHEET_LINK_ORDER = Object.freeze([
   // .mx-disclosure keeps winning on the directory).
   "route-news-commission", "route-topic-guide-bridge",
   "route-v3-registration", "route-kol", "route-v3-wizard", "route-v3-calculators", "shared-decision-return", "route-v3-home",
+  // growth-conversion.css used to sit inside route-v3-home (linked only on home; the venue and compare pages got it from
+  // Vite's chunk preload after hydration). Own CSS-only chunk, linked right after route-v3-home on every route that shows
+  // its buttons (venue-graph lane 2026-10-11).
+  "route-v3-pages-growth",
   "route-factbook", "shared-decision-rail", "route-embed", "route-rates", "route-v3-social-proof", "route-market",
   "route-methodology", "route-onchain", "route-partners", "route-topic-guide", "route-v3-decision-articles", "route-activity",
-  "route-v3-research-panels", "route-v3-readiness", "route-v3-pages-strip", "route-v3-pages", "route-v3-pages-directory", "route-news-shared",
+  "route-v3-research-panels", "route-v3-readiness", "route-v3-pages-strip", "route-v3-pages",
+  // Venue detail styles split out of route-v3-pages (they followed crossroads-compare.css inside that file).
+  "route-v3-pages-detail", "route-v3-pages-return-banner", "route-v3-pages-directory", "route-news-shared",
   "route-telegram", "route-tokenized-assets", "route-international", "route-data",
   "page-home-early", "index", "page-home-mid1", "page-compare-mid1", "page-profile-mid1", "core-b", "page-home-mid2",
   "page-directory-mid2", "page-detail-mid2", "core-c", "page-home-late", "page-br-late", "page-rates-late",
@@ -125,6 +131,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
         // the app shell. This reduces repeat navigation cost without changing
         // SSR output or hiding indexable content behind a client-only loader.
         manualChunks(id, { getModuleInfo }) {
+          // Vite's dynamic-import preload helper is an unassigned virtual module: Rollup folds it into the first manual
+          // chunk that dynamically imports something (route-v3-venue once the venue page lazy-loaded its research hub),
+          // and the browser entry then imports that route chunk statically on every page. Keep it with the shell.
+          if (!isSsrBuild && id.endsWith("vite/preload-helper.js")) return "core-ui";
           // This navigation is shared by several lazy routes. Otherwise Rollup
           // assigns its CSS to Factbook and route-specific HTML drops the style.
           if (id.endsWith("/src/components/v3/decision-path-rail.css")) return "shared-decision-rail";
@@ -188,6 +198,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/v3/TopicGuidePage")) return "route-topic-guide";
           if (id.includes("/src/components/v3/FactbookPage")) return "route-factbook";
           if (id.includes("/src/components/v3/international/")) return "route-international";
+          // campaignCopy labels the venue page's activity panel too; alone in its chunk it no longer drags route-activity
+          // (official-campaign-localizations, 750 KB) onto venue pages (venue-graph lane 2026-10-11).
+          if (id.includes("/src/components/v3/activity/campaign-copy")) return "data-campaign-copy";
           if (id.includes("/src/components/v3/activity/")) return "route-activity";
           if (id.includes("/src/components/v3/news/NewsListPage")) return "route-news-list";
           if (id.includes("/src/components/v3/news/NewsDetailPage")) return "route-news-detail";
@@ -230,6 +243,22 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/data/official-campaign-research.js")) return "data-official-research";
           if (id.includes("/src/data/venue-decision-content.js")) return "data-decision-content";
           if (id.includes("/src/data/priority-venue-answers.js")) return "data-priority-venue-answers";
+          // Venue-graph lane (2026-10-11): /exchanges/<slug> gets its own route module. Rollup folds the unassigned static
+          // dependencies of a manual chunk into whichever manual chunk visits them first, so small helpers the venue page
+          // shares with other routes used to sit inside route-topic-guide (public-copy-sanitizer), route-factbook
+          // (ExchangeFactsV5, exchange-matrix-copy), route-collection-hubs (fallback-lang), route-v3-calculators
+          // (reviewed-fee-copy, venue-fee-summary, venue-name-helper), route-v3-home (reviewed-base-fees) and route-activity
+          // (campaign-copy) and dragged those graphs onto every venue page; after the audit merge plural-copy sat inside
+          // route-rates and pulled the rates, factbook and calculator graphs back in. Pin them to small shared chunks.
+          if (/\/src\/(?:data\/reviewed-fee-copy|data\/venue-fee-summary|data\/reviewed-base-fees|data\/public-copy-sanitizer|data\/contextual-href|data\/plural-copy|utils\/fallback-lang|utils\/venue-name-helper|components\/v3\/exchange-matrix-copy)\.js$/.test(id)) return "shared-venue-copy";
+          if (id.includes("/src/components/v3/ExchangeFactsV5") || id.includes("/src/components/v6/InnerLedger") || id.includes("/src/components/v6/inner-r9-copy") || id.includes("/src/lib/v5/")) return "shared-exchange-facts";
+          // CSS-only chunks keep the "route-v3-pages-" prefix the Worker allow-lists on the venue, compare and home routes.
+          if (id.endsWith("/src/components/v3/profile-density.css") || id.endsWith("/src/components/v3/HyperliquidFeeScenario.css")) return "route-v3-pages-detail";
+          if (id.endsWith("/src/components/v3/growth-conversion.css")) return "route-v3-pages-growth";
+          if (id.includes("/src/components/v3/TelegramReturnBanner") || id.endsWith("/src/components/v3/telegram-return-banner.css")) return "route-v3-pages-return-banner";
+          if (id.includes("/src/components/v3/v3-pages-shared")) return "route-v3-pages-shared";
+          if (id.includes("/src/components/v3/VenueDetailResearch")) return "route-v3-venue-research";
+          if (id.includes("/src/components/v3/VenueDetailPage") || id.includes("/src/components/v3/venue-detail-shared")) return "route-v3-venue";
           // Compare-any (PR #60): keep the pair policy/templates, the picker and the route helper out of route-v3-pages,
           // otherwise the directory's picker import drags every V3 route chunk in (QA 2026-10-11: /exchanges 456 → 1003 KB).
           if (id.includes("/src/data/compare-generated.js") || id.includes("/src/data/compare-pairs/") || id.includes("/src/data/compare-pair-answers.js")) return "data-compare-generated";

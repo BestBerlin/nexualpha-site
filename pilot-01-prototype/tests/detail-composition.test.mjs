@@ -2,7 +2,14 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const source = await readFile(new URL("../src/components/v3/V3Pages.jsx", import.meta.url), "utf8");
+// venue-graph lane 2026-10-11: the venue detail route lives in its own modules: VenueDetailPage.jsx (first screen),
+// VenueDetailResearch.jsx (collapsed sources hub, hydrated on demand) and venue-detail-shared.jsx (shared dictionaries).
+// `source` is their concatenation in reading order (shared, research, page); `detail` is the page body followed by the hub.
+const venuePage = await readFile(new URL("../src/components/v3/VenueDetailPage.jsx", import.meta.url), "utf8");
+const venueResearch = await readFile(new URL("../src/components/v3/VenueDetailResearch.jsx", import.meta.url), "utf8");
+const venueShared = await readFile(new URL("../src/components/v3/venue-detail-shared.jsx", import.meta.url), "utf8");
+const source = [venueShared, venueResearch, venuePage].join("\n");
+const venueDetailSource = `${venuePage.slice(venuePage.indexOf("export function VenueDetailPage"))}\n${venueResearch}`;
 const css = await readFile(new URL("../src/components/v3/v3.css", import.meta.url), "utf8");
 const research = await readFile(new URL("../src/components/v3/ResearchPanels.jsx", import.meta.url), "utf8");
 const registrationCard = await readFile(new URL("../src/components/v3/RegistrationCard.jsx", import.meta.url), "utf8");
@@ -107,10 +114,7 @@ test("venue route and evidence labels reuse the localized detail and DEX diction
 });
 
 test("venue detail consolidates repeated cost modules without hiding them from SSR", () => {
-  const detail = source.slice(
-    source.indexOf("export function VenueDetailPage"),
-    source.indexOf("export function CompareDeepPage")
-  );
+  const detail = venueDetailSource;
   assert.equal((detail.match(/className="v3-profile-cost-conditions"/g) || []).length, 1);
   assert.doesNotMatch(detail, /className="v3-venue-metrics-disclosure"/);
   assert.doesNotMatch(detail, /className="v3-detail-calculator-disclosure"/);
@@ -120,10 +124,7 @@ test("venue detail consolidates repeated cost modules without hiding them from S
 });
 
 test("venue detail moves protected invite and registration action into the hero decision area", () => {
-  const detail = source.slice(
-    source.indexOf("export function VenueDetailPage"),
-    source.indexOf("export function CompareDeepPage")
-  );
+  const detail = venueDetailSource;
   const quickIndex = detail.indexOf('className="v3-venue-quick-registration"');
   const directAnswerIndex = detail.indexOf('className="v3-venue-direct-answer"');
   const costIndex = detail.indexOf('className="v3-profile-cost-conditions"');
@@ -144,9 +145,10 @@ test("venue detail moves protected invite and registration action into the hero 
 });
 
 test("Hyperliquid and Uniswap direct answers cover on-chain cost and production-boundary queries", () => {
+  // The overrides table ends where the lookup helper starts (detailCtaLabel moved to v3-pages-shared.jsx, venue-graph lane).
   const directAnswerBlock = source.slice(
     source.indexOf("const venueDirectAnswerOverrides = {"),
-    source.indexOf("const detailCtaLabel =")
+    source.indexOf("const venueDirectAnswerFor =")
   );
 
   assert.match(directAnswerBlock, /Hyperliquid fees are a stack: rolling maker\/taker tier, referral discount, hourly funding, collateral route, liquidation rule and wallet permission/);

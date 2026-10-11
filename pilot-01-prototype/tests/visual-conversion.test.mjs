@@ -53,7 +53,8 @@ test("section eyebrow names the section in all 15 locales and the CSS reads it f
   assert.match(await read("src/components/v3/activity/ActivityPages.jsx"), /v3-activity-center" id="top" \{\.\.\.sectionEyebrowAttrs\(locale, "campaigns"\)\}/);
   const v3 = await read("src/components/v3/V3Pages.jsx");
   assert.match(v3, /v3-compare-page" id="top" \{\.\.\.sectionEyebrowAttrs\(locale, "compare"\)\}/);
-  assert.match(v3, /v5-detail" id="top" \{\.\.\.sectionEyebrowAttrs\(locale, "exchanges"\)\}/);
+  // venue-graph lane 2026-10-11: the venue detail route lives in VenueDetailPage.jsx.
+  assert.match(await read("src/components/v3/VenueDetailPage.jsx"), /v5-detail" id="top" \{\.\.\.sectionEyebrowAttrs\(locale, "exchanges"\)\}/);
   assert.doesNotMatch(await read("src/components/v7/HomeV7.jsx"), /sectionEyebrow/, "home keeps its own kicker");
 });
 
@@ -67,7 +68,7 @@ test("alerts strip reuses the article alerts copy and sits under the home hero, 
   const heroEnd = home.indexOf("</section>\n\n      <TelegramAlertsStrip");
   assert.ok(heroEnd > home.indexOf('className="h7-hero"'), "strip follows the hero section (rebate ledger inside it)");
   assert.ok(home.indexOf('placement="home-telegram-alerts"') < home.indexOf('className="h7-trust"'), "strip precedes the next home block");
-  const v3 = await read("src/components/v3/V3Pages.jsx");
+  const v3 = await read("src/components/v3/VenueDetailPage.jsx"); // venue detail route module (venue-graph lane)
   const handoff = v3.indexOf("<OutboundHandoff compact locale={locale} venueSlug={profile.slug}");
   const venueStrip = v3.indexOf('placement="venue-telegram-alerts"');
   assert.ok(handoff > 0 && venueStrip > handoff && venueStrip - handoff < 400, "venue strip directly below the registration card");

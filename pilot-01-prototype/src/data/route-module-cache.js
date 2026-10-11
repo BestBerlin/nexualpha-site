@@ -4,6 +4,11 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   finder: "./components/finder/CommandFinder.jsx",
   searchDialog: "./components/finder/SearchDialog.jsx",
   v3Pages: "./components/v3/V3Pages.jsx",
+  // venue-graph perf lane 2026-10-11: the venue detail route left V3Pages.jsx so /exchanges/<slug> stops loading the
+  // compare, activity and topic-guide graphs (39 chunks, 1.3 MB) after hydration.
+  venueDetail: "./components/v3/VenueDetailPage.jsx",
+  // Its collapsed "Sources" hub: not preloaded for the route; App.jsx loads it when the disclosure opens.
+  venueResearch: "./components/v3/VenueDetailResearch.jsx",
   officialResearch: "./components/v3/activity/OfficialResearch.jsx",
   newsDetail: "./components/v3/news/NewsDetailPage.jsx",
   leanHero: "./components/v3/LeanHero.jsx",
@@ -108,7 +113,8 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "newsList") return [ROUTE_MODULE_PATHS.newsList];
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
-  if (["activity", "activities", "compare", "compareHub", "venue", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
+  if (name === "venue") return [ROUTE_MODULE_PATHS.venueDetail];
+  if (["activity", "activities", "compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
   if (name === "research") return [ROUTE_MODULE_PATHS.officialResearch];
   if (name === "newsDetail") return [ROUTE_MODULE_PATHS.newsDetail];
   if (name === "rateTerminal") return [ROUTE_MODULE_PATHS.feeBenchmark];

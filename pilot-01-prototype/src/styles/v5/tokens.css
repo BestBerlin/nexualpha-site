@@ -67,8 +67,8 @@
   --caution: var(--amber);
 
   /* ---- type families ---- */
-  --font-sans: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif;
-  --font-mono: "Geist Mono V5", ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  --font-sans: "Geist V5", "Geist V5 Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif;
+  --font-mono: "Geist Mono V5", "Geist Mono V5 Fallback", ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
 
   /* ---- type scale: 8 steps, fluid, display <= 6rem ---- */
   --t-xs: 0.75rem;

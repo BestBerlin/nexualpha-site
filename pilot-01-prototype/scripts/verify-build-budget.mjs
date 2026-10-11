@@ -19,7 +19,7 @@ const checks = rules.map((rule) => {
   // The manual V3 main chunk shares its prefix with copy/state subchunks.
   // Unknown additional main candidates are ambiguous and must fail closed.
   const matches = rows.filter((row) => rule.pattern.test(row.name)
-    && (rule.label !== "V3 route" || !/^route-v3-pages-(?:copy|state|strip)-/.test(row.name)));
+    && (rule.label !== "V3 route" || !/^route-v3-pages-(?:copy|state|strip|shared|return-banner|detail|growth)-/.test(row.name)));
   const match = matches.length === 1 ? matches[0] : null;
   return {
     label: rule.label,

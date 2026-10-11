@@ -30,7 +30,7 @@ function Ready({ onReady }) {
 
 export const DEFER_OPEN_EVENTS = Object.freeze(["pointerdown", "keydown", "focusin", "toggle"]);
 
-function ClientGate({ target, rootMargin, prefetch, children }) {
+function ClientGate({ target, rootMargin, prefetch, interactionOnly, children }) {
   const [gate] = useState(createVisibilityGate);
   const [live, setLive] = useState(false);
   const frozen = useRef(null);
@@ -39,16 +39,20 @@ function ClientGate({ target, rootMargin, prefetch, children }) {
     if (gate.open) return undefined;
     const open = () => { gate.release(); prefetch?.(); };
     const element = target ? document.querySelector(target) : null;
-    if (!element || typeof IntersectionObserver === "undefined") { open(); return undefined; }
-    const observer = new IntersectionObserver((entries) => { if (entries.some((entry) => entry.isIntersecting)) open(); }, { rootMargin });
-    observer.observe(element);
+    if (!element || (!interactionOnly && typeof IntersectionObserver === "undefined")) { open(); return undefined; }
+    // Content behind a collapsed <details> (interactionOnly): nothing is visible until the reader opens it, so only the
+    // interaction events below load the chunk. A disclosure the browser already expanded (fragment navigation into it,
+    // find-in-page) hydrates at once.
+    if (interactionOnly && element.open) { open(); return undefined; }
+    const observer = interactionOnly ? null : new IntersectionObserver((entries) => { if (entries.some((entry) => entry.isIntersecting)) open(); }, { rootMargin });
+    observer?.observe(element);
     // A reader who reaches the section before the observer fires (anchor jump, keyboard, tap) opens the gate too.
     for (const type of DEFER_OPEN_EVENTS) element.addEventListener(type, open, { capture: true, passive: true, once: true });
     return () => {
-      observer.disconnect();
+      observer?.disconnect();
       for (const type of DEFER_OPEN_EVENTS) element.removeEventListener(type, open, { capture: true });
     };
-  }, [gate, target, rootMargin, prefetch]);
+  }, [gate, target, rootMargin, prefetch, interactionOnly]);
   if (live) return <Suspense fallback={null}>{children}</Suspense>;
   // Same element reference on every render until hydrated: React bails out, so no update reaches the dehydrated boundary.
   if (!frozen.current) frozen.current = <Suspense fallback={null}><Gate gate={gate}>{children}<Ready onReady={onReady} /></Gate></Suspense>;
@@ -60,8 +64,10 @@ function ClientGate({ target, rootMargin, prefetch, children }) {
  * @param {string} props.target CSS selector of the server-rendered element that marks the section (must exist in SSR HTML).
  * @param {string} [props.rootMargin] IntersectionObserver margin; the default loads half a viewport ahead.
  * @param {() => void} [props.prefetch] Starts the chunk download the moment the gate opens (pass the React.lazy loader).
+ * @param {boolean} [props.interactionOnly] No visibility observer: open only on pointer/key/focus/toggle inside the target
+ *   (or when the target is a <details> that is already open). For content hidden behind a collapsed disclosure.
  */
-export function DeferUntilVisible({ target, rootMargin = "50% 0px", prefetch, children }) {
+export function DeferUntilVisible({ target, rootMargin = "50% 0px", prefetch, interactionOnly = false, children }) {
   if (typeof window === "undefined") return <Suspense fallback={null}>{children}</Suspense>;
-  return <ClientGate target={target} rootMargin={rootMargin} prefetch={prefetch}>{children}</ClientGate>;
+  return <ClientGate target={target} rootMargin={rootMargin} prefetch={prefetch} interactionOnly={interactionOnly}>{children}</ClientGate>;
 }

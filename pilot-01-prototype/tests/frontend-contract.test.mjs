@@ -31,7 +31,16 @@ const v3LayoutStability = await readFile(new URL("../src/styles/v3-layout-stabil
 const commandData = await readFile(new URL("../src/data/market-command.js", import.meta.url), "utf8");
 const siteData = await readFile(new URL("../src/data/site-data.ts", import.meta.url), "utf8");
 const rail = await readFile(new URL("../src/components/market-rail/MarketRail.jsx", import.meta.url), "utf8");
-const v3Pages = await readFile(new URL("../src/components/v3/V3Pages.jsx", import.meta.url), "utf8");
+// venue-graph lane 2026-10-11: V3Pages.jsx keeps the compare pages; the venue detail moved to VenueDetailPage.jsx
+// (+ VenueDetailResearch.jsx for the collapsed sources hub, venue-detail-shared.jsx and v3-pages-shared.jsx for shared
+// helpers). `v3Pages` is the concatenation of all of them, `venueDetailSource` the venue page body followed by the hub.
+const v3PagesOnly = await readFile(new URL("../src/components/v3/V3Pages.jsx", import.meta.url), "utf8");
+const venuePage = await readFile(new URL("../src/components/v3/VenueDetailPage.jsx", import.meta.url), "utf8");
+const venueResearch = await readFile(new URL("../src/components/v3/VenueDetailResearch.jsx", import.meta.url), "utf8");
+const venueShared = await readFile(new URL("../src/components/v3/venue-detail-shared.jsx", import.meta.url), "utf8");
+const pagesShared = await readFile(new URL("../src/components/v3/v3-pages-shared.jsx", import.meta.url), "utf8");
+const v3Pages = [v3PagesOnly, pagesShared, venueShared, venueResearch, venuePage].join("\n");
+const venueDetailSource = `${venuePage.slice(venuePage.indexOf("export function VenueDetailPage"))}\n${venueResearch}`;
 const compareFinalChoiceCard = await readFile(new URL("../src/components/v3/CompareFinalChoiceCard.jsx", import.meta.url), "utf8");
 const venueFaqSection = await readFile(new URL("../src/components/v3/VenueFaqSection.jsx", import.meta.url), "utf8");
 const v3InterfaceCopy = await readFile(new URL("../src/content/v3-interface-copy.js", import.meta.url), "utf8");
@@ -96,7 +105,7 @@ const topDecisionBoxCss = await readFile(new URL("../src/components/v3/top-decis
 const newsListPage = await readFile(new URL("../src/components/v3/news/NewsListPage.jsx", import.meta.url), "utf8");
 const newsListPageCss = await readFile(new URL("../src/components/v3/news/news-list-page.css", import.meta.url), "utf8");
 const newsDetailCss = await readFile(new URL("../src/components/v3/news/news-detail-page.css", import.meta.url), "utf8");
-const v3PagesSource = await readFile(new URL("../src/components/v3/V3Pages.jsx", import.meta.url), "utf8");
+const v3PagesSource = v3Pages;
 const feeRebateCalculator = await readFile(new URL("../src/components/v3/FeeRebateCalculator.jsx", import.meta.url), "utf8");
 const campaignRadar = await readFile(new URL("../src/components/v3/CampaignRadar.jsx", import.meta.url), "utf8");
 const tradingBleedAnalyzer = await readFile(new URL("../src/components/v3/TradingBleedAnalyzer.jsx", import.meta.url), "utf8");
@@ -463,7 +472,7 @@ test("venue detail mobile decision cards collapse into compact full-width rows",
 });
 
 test("venue detail renders source-bound direct answers for GSC priority venue pages", () => {
-  const detail = v3Pages.slice(v3Pages.indexOf("export function VenueDetailPage"), v3Pages.indexOf("export function CompareDeepPage"));
+  const detail = venueDetailSource;
   assert.match(v3Pages, /const venueDirectAnswerOverrides = \{[\s\S]*en:[\s\S]*hyperliquid:[\s\S]*rolling maker\/taker tier, referral discount, hourly funding, collateral route[\s\S]*funded-account search should separate self-funded collateral[\s\S]*uniswap:[\s\S]*Uniswap testnet and mainnet checks start with the official app, docs, token contract, approval and wallet preview/);
   assert.match(v3Pages, /de:[\s\S]*uniswap:[\s\S]*Uniswap in Deutschland prüfen:[\s\S]*Offizielle App und v4-Deployments/);
   assert.match(v3Pages, /keine klassische CEX-Anmeldung mit Euro-Einzahlung oder verwahrtem Konto/);
@@ -489,7 +498,7 @@ test("venue detail renders source-bound direct answers for GSC priority venue pa
 
 
 test("Wave31 priority Binance and Binance vs OKX pages expose compact decision answers without hardcoded invites", () => {
-  const detail = v3Pages.slice(v3Pages.indexOf("export function VenueDetailPage"), v3Pages.indexOf("export function CompareDeepPage"));
+  const detail = venueDetailSource;
   const comparePage = v3Pages.slice(v3Pages.indexOf("export function CompareDeepPage"));
 
   assert.match(v3Pages, /binance-vs-okx[\s\S]*Binance vs OKX: decide by fee schedule, KYC, fiat route and product fit/);
@@ -844,7 +853,7 @@ test("deep comparison actions preserve bounded growth attribution", () => {
 });
 
 test("venue detail mobile CTA density keeps one primary route plus compact support blocks", () => {
-  const detail = v3PagesSource.slice(v3PagesSource.indexOf("export function VenueDetailPage"), v3PagesSource.indexOf("export function CompareDeepPage"));
+  const detail = venueDetailSource;
   const rebateBlock = detail.slice(detail.indexOf('className="v3-venue-rebate-card"'), detail.indexOf('className="v3-profile-cost-conditions"'));
 
   assert.match(detail, /data-cta-placement="venue-hero-quick-registration"/);
@@ -1121,7 +1130,9 @@ test("NexuAlpha 3.0 adds exchange profiles, deep comparison, activities, and a v
   assert.match(app, /<ActivityCenterPage/);
   assert.match(app, /<ActivityDetailPage/);
   assert.doesNotMatch(app, /<ConversionFunnel/);
-  assert.match(v3Pages, /import \{ ResearchPanel, ResearchComparison \} from "\.\/ResearchPanels"/);
+  // venue-graph lane 2026-10-11: ResearchPanel renders in the venue research hub, ResearchComparison in the compare page.
+  assert.match(venueResearch, /import \{ ResearchPanel \} from "\.\/ResearchPanels"/);
+  assert.match(v3PagesOnly, /import \{ ResearchComparison \} from "\.\/ResearchPanels"/);
   assert.match(v3Pages, /<ResearchPanel slug=\{profile\.slug\} locale=\{locale\}/);
   assert.match(v3Pages, /<ResearchComparison profiles=\{profiles\} locale=\{locale\}/);
   assert.match(v3Pages, /SnapshotStrip/);
@@ -1579,7 +1590,7 @@ test("locale state and the fixed default market cover the application root witho
 
 test("hero note cannot become a vertical spacer and detail content is not duplicated", () => {
   assert.match(v3LayoutStability, /\.hero-copy > \.hero-disclosure\s*\{\s*flex: none;/);
-  const detail = v3Pages.slice(v3Pages.indexOf("export function VenueDetailPage"), v3Pages.indexOf("export function CompareDeepPage"));
+  const detail = venueDetailSource;
   assert.doesNotMatch(detail, /<RegistrationActionMap|<SnapshotStrip|<RouteReadiness/);
   assert.match(detail, /<OutboundHandoff/);
   assert.equal((detail.match(/id="registration-path"/g) || []).length, 0);

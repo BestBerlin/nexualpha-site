@@ -231,7 +231,7 @@ test("venue direct-answer internal links preserve regional decision context", as
   const html = await renderFixture(`
     import React from "react";
     import { renderToStaticMarkup } from "react-dom/server";
-    import { VenueDetailPage } from "../../src/components/v3/V3Pages.jsx";
+    import { VenueDetailPage } from "../../src/components/v3/VenueDetailPageStatic.jsx";
     import { venueDatabase } from "../../src/data/venue-database.js";
 
     const html = renderToStaticMarkup(React.createElement(VenueDetailPage, {
@@ -273,7 +273,7 @@ test("priority venue direct-answer internal links preserve validated context", a
   const html = await renderFixture(`
     import React from "react";
     import { renderToStaticMarkup } from "react-dom/server";
-    import { VenueDetailPage } from "../../src/components/v3/V3Pages.jsx";
+    import { VenueDetailPage } from "../../src/components/v3/VenueDetailPageStatic.jsx";
     import { venueDatabase } from "../../src/data/venue-database.js";
 
     const html = renderToStaticMarkup(React.createElement(VenueDetailPage, {
