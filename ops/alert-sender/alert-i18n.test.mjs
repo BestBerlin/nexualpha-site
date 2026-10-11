@@ -151,3 +151,10 @@ test("digest article links use the locale edition only when availableLocales lis
   assert.equal(articleLink({ slug: "s", title: { en: "E" } }, "tr"), '• <a href="https://nexualpha.com/news/s">E</a>');
   assert.equal(articleLink({ slug: "s", title: { en: "E", ru: "R" }, availableLocales: ["en"] }, "ru"), '• <a href="https://nexualpha.com/news/s">E</a>', "listed locales win over a stray title");
 });
+
+test("ALERT_CHANNELS maps one channel per known language and drops unknown or empty entries", async () => {
+  const { parseChannels } = await import("./alert-sender.mjs");
+  assert.deepEqual(parseChannels("zh:@NexuAlphaClub, en:@NexuAlphaGlobal,ru:@NexuAlphaRU,tr:-1003789577571,xx:@nope,vi:"), {
+    zh: "@NexuAlphaClub", en: "@NexuAlphaGlobal", ru: "@NexuAlphaRU", tr: "-1003789577571",
+  });
+});
