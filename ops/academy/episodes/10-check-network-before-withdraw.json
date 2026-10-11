@@ -1,0 +1,410 @@
+{
+  "meta": {
+    "level": 10,
+    "slug": "check-network-before-withdraw",
+    "title_zh": "提币先核对网络",
+    "title_en": "Check the network before you withdraw",
+    "hook_zh": "转个 U 怎么就没了？选错网络还能找回吗？",
+    "cta": {
+      "kind": "neutral",
+      "partner": null,
+      "original_kind": "telegram",
+      "line_zh": "在 NexuAlpha 的 Telegram 领取\"提币前五项检查\"清单，每次提币前对照一遍。",
+      "line_en": "Get the \"five checks before you withdraw\" list on NexuAlpha's Telegram and run through it before every withdrawal."
+    },
+    "next_slug": "seed-phrase-basics",
+    "sources": [
+      "https://www.binance.com/en/academy/articles/your-guide-to-binance-deposit-withdrawal",
+      "https://www.binance.com/en-AU/support/faq/detail/85a1c394ac1d489fb0bfac0ef2fceafd",
+      "https://help.coinbase.com/en/coinbase/trading-and-funding/sending-or-receiving-cryptocurrency/unsupported-network-transactions-automatic-return",
+      "https://developers.tron.network/docs/account",
+      "https://ethereum.org/en/developers/docs/accounts/",
+      "https://www.okx.com/help/how-to-check-the-withdrawal-status-on-the-blockchain",
+      "https://www.okx.com/help/why-do-i-need-to-fill-in-tags-tagmemo-when-i-withdraw-or-deposit-certain-cryptos"
+    ],
+    "sensitive": false,
+    "review_notes": "复用试播集 01《转币前核对网络》的结构与措辞（接收方优先、两边网络一致、核对开头和末尾、Memo/Tag、五项检查、'网络先，地址后，确认一次'），中文为主。沿用'可能无法找回'，不说一律不可恢复。新增事实：TRON Base58 地址以 T 开头（TRON 开发者文档）；以太坊地址以 0x 开头（ethereum.org），并提醒 BNB Smart Chain 等兼容链地址同样以 0x 开头，所以开头字符不能代替选网络。小额测试与 TxID 查询依据 OKX 帮助中心。Telegram CTA 无合作链接。",
+    "next_title_zh": "助记词是总钥匙",
+    "next_title_en": "Your seed phrase is the master key",
+    "writer_meta": {
+      "level": 10,
+      "slug": "check-network-before-withdraw",
+      "title_zh": "提币先核对网络",
+      "title_en": "Check the network before you withdraw",
+      "hook_zh": "转个 U 怎么就没了？选错网络还能找回吗？",
+      "cta": {
+        "kind": "telegram",
+        "partner": null,
+        "line_zh": "在 NexuAlpha 的 Telegram 领取\"提币前五项检查\"清单，每次提币前对照一遍。",
+        "line_en": "Get the \"five checks before you withdraw\" list on NexuAlpha's Telegram and run through it before every withdrawal."
+      },
+      "next_slug": "seed-phrase-basics",
+      "sources": [
+        "https://www.binance.com/en/academy/articles/your-guide-to-binance-deposit-withdrawal",
+        "https://www.binance.com/en-AU/support/faq/detail/85a1c394ac1d489fb0bfac0ef2fceafd",
+        "https://help.coinbase.com/en/coinbase/trading-and-funding/sending-or-receiving-cryptocurrency/unsupported-network-transactions-automatic-return",
+        "https://developers.tron.network/docs/account",
+        "https://ethereum.org/en/developers/docs/accounts/",
+        "https://www.okx.com/help/how-to-check-the-withdrawal-status-on-the-blockchain",
+        "https://www.okx.com/help/why-do-i-need-to-fill-in-tags-tagmemo-when-i-withdraw-or-deposit-certain-cryptos"
+      ],
+      "sensitive": false,
+      "review_notes": "复用试播集 01《转币前核对网络》的结构与措辞（接收方优先、两边网络一致、核对开头和末尾、Memo/Tag、五项检查、'网络先，地址后，确认一次'），中文为主。沿用'可能无法找回'，不说一律不可恢复。新增事实：TRON Base58 地址以 T 开头（TRON 开发者文档）；以太坊地址以 0x 开头（ethereum.org），并提醒 BNB Smart Chain 等兼容链地址同样以 0x 开头，所以开头字符不能代替选网络。小额测试与 TxID 查询依据 OKX 帮助中心。Telegram CTA 无合作链接。"
+    },
+    "source_note": "复用试播集 01《转币前核对网络》的结构与措辞（接收方优先、两边网络一致、核对开头和末尾、Memo/Tag、五项检查、'网络先，地址后，确认一次'），中文为主。沿用'可能无法找回'，不说一律不可恢复。新增事实：TRON Base58 地址以 T 开头（TRON 开发者文档）；以太坊地址以 0x 开头（ethereum.org），并提醒 BNB Smart Chain 等兼容链地址同样以 0x 开头，所以开头字符不能代替选网络。小额测试与 TxID 查询依据 OKX 帮助中心。Telegram CTA 无合作链接。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"提币的时候选错了网络，钱还能找回来吗？\"很可能找不回。所以在点发送之前，先把手停在\"网络\"这一栏。",
+      "voice_en": "\"I picked the wrong network when withdrawing. Can I get it back?\" Maybe not. So before you send, stop at the network field.",
+      "title": "先停在网络栏",
+      "sub": "选错网络，可能无法找回",
+      "visual": {
+        "type": "phone-mock",
+        "params": {
+          "screen": "交易所 App · 提币",
+          "highlight": "网络",
+          "note": "原创示意画面，非真实界面",
+          "title": "交易所 App · 提币",
+          "fields": [
+            [
+              "重点",
+              "网络"
+            ],
+            [
+              "说明",
+              "原创示意画面，非真实界面"
+            ]
+          ],
+          "writer_params": {
+            "screen": "交易所 App · 提币",
+            "highlight": "网络",
+            "note": "原创示意画面，非真实界面"
+          }
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "同一种资产，可能存在于不同的区块链上。比如 USDT，可以走以太坊网络，也可以走波场网络。这两条路绝不能混用。",
+      "voice_en": "The same asset can live on different blockchains. USDT, for example, may move on Ethereum or on Tron. Those routes are not interchangeable.",
+      "title": "一种资产，多条网络",
+      "sub": "USDT 可走不同区块链",
+      "visual": {
+        "type": "flow",
+        "params": {
+          "nodes": [
+            "USDT"
+          ],
+          "branches": [
+            "Ethereum（ERC20）",
+            "Tron（TRC20）"
+          ],
+          "note": "两条路径不能混用",
+          "steps": [
+            "USDT",
+            "Ethereum（ERC20）",
+            "Tron（TRC20）"
+          ],
+          "caption": "两条路径不能混用",
+          "writer_params": {
+            "nodes": [
+              "USDT"
+            ],
+            "branches": [
+              "Ethereum（ERC20）",
+              "Tron（TRC20）"
+            ],
+            "note": "两条路径不能混用"
+          }
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "第一步，先打开接收平台，选好币种，看它当前支持哪个充值网络。务必以接收平台当前的说明为准。",
+      "voice_en": "Open the receiving platform first. Choose the asset and read which deposit network it supports right now. Treat its current instructions as the source of truth.",
+      "title": "先看接收方",
+      "sub": "以接收平台当前说明为准",
+      "visual": {
+        "type": "phone-mock",
+        "params": {
+          "screen": "接收平台 · 充值 USDT",
+          "fields": [
+            [
+              "网络：TRC20",
+              ""
+            ],
+            [
+              "地址：T…（示例）",
+              ""
+            ]
+          ],
+          "note": "示意",
+          "title": "接收平台 · 充值 USDT",
+          "writer_params": {
+            "screen": "接收平台 · 充值 USDT",
+            "fields": [
+              "网络：TRC20",
+              "地址：T…（示例）"
+            ],
+            "note": "示意"
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "第二步，再回到发送平台，选择同一个网络。千万不要只因为手续费低，就改选别的网络。",
+      "voice_en": "Then go back to the sending platform and choose the same network. Never switch networks just because the fee is lower.",
+      "title": "两边网络一致",
+      "sub": "不因手续费低而换网络",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "接收方",
+            "发送方"
+          ],
+          "rows": [
+            [
+              "网络",
+              "TRC20",
+              "TRC20 ✓"
+            ]
+          ],
+          "writer_params": {
+            "columns": [
+              "",
+              "接收方",
+              "发送方"
+            ],
+            "rows": [
+              [
+                "网络",
+                "TRC20",
+                "TRC20 ✓"
+              ]
+            ]
+          }
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "地址开头也能帮你检查。波场地址以 T 开头，以太坊地址以 0x 开头。但其他兼容链也是 0x，所以光看开头不能代替选网络。",
+      "voice_en": "The start of the address helps too. Tron addresses begin with T, Ethereum addresses with 0x. But other compatible chains also use 0x, so the prefix can't replace choosing the network.",
+      "title": "看地址开头",
+      "sub": "T 开头 · 0x 开头",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "网络",
+            "地址开头"
+          ],
+          "rows": [
+            [
+              "",
+              "Tron（TRC20）",
+              "T"
+            ],
+            [
+              "",
+              "Ethereum（ERC20）",
+              "0x"
+            ],
+            [
+              "",
+              "其他兼容链（如 BEP20）",
+              "也是 0x"
+            ]
+          ],
+          "writer_params": {
+            "columns": [
+              "网络",
+              "地址开头"
+            ],
+            "rows": [
+              [
+                "Tron（TRC20）",
+                "T"
+              ],
+              [
+                "Ethereum（ERC20）",
+                "0x"
+              ],
+              [
+                "其他兼容链（如 BEP20）",
+                "也是 0x"
+              ]
+            ]
+          }
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "从接收平台复制地址，粘贴后务必核对开头和末尾几位。如果页面要求填 Memo 或 Tag，也必须如实填上。",
+      "voice_en": "Copy the address from the receiver, paste it, and check the first and last characters. If a memo or tag is required, fill it in too.",
+      "title": "核对地址与 Memo",
+      "sub": "开头、末尾都要对",
+      "visual": {
+        "type": "phone-mock",
+        "params": {
+          "screen": "发送平台 · 提币确认",
+          "fields": [
+            [
+              "地址：T9yD…k3Qp",
+              ""
+            ],
+            [
+              "Memo：如需填写",
+              ""
+            ]
+          ],
+          "note": "示意地址",
+          "title": "发送平台 · 提币确认",
+          "writer_params": {
+            "screen": "发送平台 · 提币确认",
+            "fields": [
+              "地址：T9yD…k3Qp",
+              "Memo：如需填写"
+            ],
+            "note": "示意地址"
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "第一次往新地址转账，先发一小笔测试。发出后，可以用交易哈希也就是 TxID，在区块链浏览器上查看状态。",
+      "voice_en": "When sending to a new address for the first time, send a small test first. Once it's sent, you can look up its status on a block explorer with the transaction ID, the TxID.",
+      "title": "先小额测试",
+      "sub": "用 TxID 查状态",
+      "visual": {
+        "type": "timeline",
+        "params": {
+          "events": [
+            {
+              "t": "1",
+              "text": "小额测试"
+            },
+            {
+              "t": "2",
+              "text": "用 TxID 查到账"
+            },
+            {
+              "t": "3",
+              "text": "再转剩余金额"
+            }
+          ],
+          "writer_params": {
+            "events": [
+              {
+                "t": "1",
+                "text": "小额测试"
+              },
+              {
+                "t": "2",
+                "text": "用 TxID 查到账"
+              },
+              {
+                "t": "3",
+                "text": "再转剩余金额"
+              }
+            ]
+          }
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "提交前做五项复核：币种、网络、地址、Memo、金额。网络在先，地址在后。核对清楚，比手快重要得多。",
+      "voice_en": "Five checks before you submit: asset, network, address, memo, amount. Network first. Address next. Confirm once. Checking carefully matters more than speed.",
+      "title": "网络先，地址后",
+      "sub": "币种·网络·地址·Memo·金额",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "币种",
+            "网络",
+            "地址",
+            "Memo / Tag",
+            "金额"
+          ],
+          "next": "seed-phrase-basics",
+          "writer_params": {
+            "items": [
+              "币种",
+              "网络",
+              "地址",
+              "Memo / Tag",
+              "金额"
+            ],
+            "next": "seed-phrase-basics"
+          }
+        }
+      },
+      "min_s": 11
+    }
+  ],
+  "page": {
+    "summary_zh": "提币选错网络，资产可能无法找回，能否找回取决于资产、网络、钱包控制权和接收平台的支持情况。正确顺序是：先在接收平台查看当前支持的充值网络，再在发送平台选择同一网络，核对地址开头和末尾，需要时填写 Memo/Tag。波场地址以 T 开头、以太坊地址以 0x 开头，但其他兼容链也用 0x，所以地址开头不能代替选择网络。第一次转到新地址先小额测试，并用 TxID 查询状态。",
+    "checklist_zh": [
+      "已在接收平台确认当前支持的充值网络",
+      "发送平台选择了同一网络",
+      "核对了地址开头和末尾几位",
+      "需要 Memo / Tag 的已填写",
+      "新地址先发一小笔测试",
+      "提交前复核币种、网络、地址、Memo、金额"
+    ],
+    "quiz": [
+      {
+        "q": "提币时，网络应该以谁的说明为准？",
+        "options": [
+          "接收平台当前的充值说明",
+          "手续费最低的网络",
+          "朋友的建议"
+        ],
+        "answer": "接收平台当前的充值说明",
+        "why": "接收方支持哪个网络，决定了你应该选哪个网络。"
+      },
+      {
+        "q": "地址以 0x 开头，能确定是以太坊网络吗？",
+        "options": [
+          "不能，其他兼容链也用 0x",
+          "能，0x 只属于以太坊",
+          "能，所有地址都以 0x 开头"
+        ],
+        "answer": "不能，其他兼容链也用 0x",
+        "why": "BNB Smart Chain 等兼容链地址同样以 0x 开头，所以必须以网络选项为准。"
+      },
+      {
+        "q": "第一次往新地址转大额，稳妥的做法是？",
+        "options": [
+          "先发一小笔测试",
+          "一次全转",
+          "不填 Memo 更快"
+        ],
+        "answer": "先发一小笔测试",
+        "why": "小额测试到账后再转剩余部分，出错时损失更小。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "提币选错网络能找回吗？",
+        "a": "视情况而定。取决于资产、网络、你是否控制接收地址的私钥、以及接收平台是否支持找回。有的可以，有的无法找回。不要相信要求先付费的\"找回服务\"。"
+      },
+      {
+        "q": "TRC20 和 ERC20 有什么区别？",
+        "a": "它们是 USDT 在不同区块链上的版本：TRC20 在波场（Tron）上，地址以 T 开头；ERC20 在以太坊上，地址以 0x 开头。两者不能混用。"
+      },
+      {
+        "q": "TxID 是什么，怎么用？",
+        "a": "TxID 是链上交易的编号。把它粘贴到对应网络的区块浏览器里，可以看到交易是否已确认、转到了哪个地址。"
+      }
+    ]
+  }
+}
