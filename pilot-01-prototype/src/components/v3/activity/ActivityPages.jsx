@@ -1,3 +1,4 @@
+import { CampaignJoin } from "./CampaignJoin.jsx";
 import { BrandMark } from "../../brand/BrandMark";
 import { visibleOfficialUpdates } from "../../official-updates/official-updates-model";
 import { contextualHref } from "../../../data/contextual-href.js";
@@ -83,6 +84,7 @@ export function ActivityDetailPage({ copy, locale, market, product, update: cand
         </div>
       </div>}
     </section>
+    {update && <section className="v2-section"><CampaignJoin venue={update.platform.slug} locale={locale} market={market} officialUrl={update.officialSource.url} placement="activity-detail-join" /></section>}
     {update && <section className="v2-section v3-page-snapshot v3-activity-snapshot">
       <SnapshotStrip items={snapshotItems} />
     </section>}

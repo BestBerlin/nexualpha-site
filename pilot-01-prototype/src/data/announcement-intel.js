@@ -16,6 +16,7 @@ export const MAX_FUTURE_SKEW_MS = 60 * 60 * 1000;
 
 const BITGET_TYPES = Object.freeze({
   coin_listings: "listing",
+  trading_competitions_promotions: "event",
   symbol_delisting: "delisting",
   latest_news: "news",
   product_updates: "product",
