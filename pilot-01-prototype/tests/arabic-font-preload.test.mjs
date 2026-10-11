@@ -27,3 +27,9 @@ test("Arabic pages preload the Arabic font once, right after the Geist preloads"
 test("non-Arabic pages do not preload the Arabic font", async () => {
   for (const pathname of ["/news", "/zh-hans/news", "/tr/about"]) assert.equal((await page(pathname)).includes("ar-400.woff2"), false, pathname);
 });
+
+test("the Arabic face uses font-display optional so a late arrival never reflows the page", () => {
+  const css = readFileSync(new URL("../src/font-faces.css", import.meta.url), "utf8");
+  const face = css.match(/@font-face\{font-family:"Pilot Noto Arabic";[^}]*\}/)?.[0] || "";
+  assert.match(face, /font-display:optional/);
+});
