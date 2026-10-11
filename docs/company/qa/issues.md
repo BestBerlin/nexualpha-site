@@ -31,3 +31,5 @@ Severity: S1 blocking / data error · S2 core UX or SEO defect · S3 consistency
 | 25 | S2 | Home mobile (NX-04) | Lab LCP 3.4 s / TBT 659 ms at mobile (external tool, single run) | Measure medians; defer below-fold work (after venue-graph PR) | open |
 
 Open counts are maintained in `coverage.md`.
+| 26 | S2 | /ar/news at 768 (after PR #70 deploy) | CLS 0.35: the Arabic face arrived 1-3 s after first paint and re-wrapped the intro onto 2 lines, shifting everything below | worker preloads /fonts/ar-400.woff2 on rtl pages (tests/arabic-font-preload.test.mjs) | fixed (deploying) |
+| 27 | S3 | article page at 768 | 1 of 2 loads CLS 0.115 on the meta line (1 px text shift, likely mono font swap) | investigate | open |
