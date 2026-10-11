@@ -168,7 +168,7 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
   }), [currentVol, db, type, benefitVerified, commercialClaim.rebatePercent]);
   const hasReviewedBaseFee = Number.isFinite(calculations.annualTotalFee);
 
-  const inviteCode = regionalCta.inviteCode ?? partner.inviteCode ?? db.inviteCode ?? null;
+  const inviteCode = regionalCta.inviteCode ?? null;
   const directRoute = Boolean(regionalCta.direct && /^https:\/\//i.test(regionalCta.ctaHref || ""));
   const regUrl = regionalCta.ctaHref;
 

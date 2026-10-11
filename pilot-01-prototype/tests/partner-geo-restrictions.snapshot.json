@@ -1,0 +1,1271 @@
+{
+  "version": 1,
+  "checked": "2026-10-11",
+  "restrictions": {
+    "okx": [
+      {
+        "country": "AF",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CA",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CU",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "HK",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "IR",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "IN",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "JP",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "MY",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "NP",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "KP",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SY",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "UZ",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      }
+    ],
+    "bitget": [
+      {
+        "country": "AT",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CA",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "FR",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "DE",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "HK",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "IR",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "JP",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "KZ",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "MY",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SG",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "US",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "IQ",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "LY",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "YE",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "AF",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CF",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CD",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "GW",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "HT",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "LB",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SO",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SS",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "TH",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SD",
+        "source": "https://www.bitget.com/support/articles/360014944032",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "TR",
+        "source": "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/tasfiye-surecinde-olanlar-listesi",
+        "checked": "2026-10-11",
+        "reason": "Existing Turkey policy: Bitget is on the SPK liquidation list",
+        "verified": true
+      }
+    ],
+    "mexc": [
+      {
+        "country": "KP",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CU",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SD",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "IR",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CN",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SG",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "MY",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "US",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "GB",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "HK",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "KZ",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CA",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "ID",
+        "source": "https://www.mexc.com/es/support/articles/360031501631",
+        "checked": "2026-10-11",
+        "reason": "Restricted in Spanish-language terms",
+        "verified": true
+      },
+      {
+        "country": "VE",
+        "source": "https://www.mexc.com/es/support/articles/360031501631",
+        "checked": "2026-10-11",
+        "reason": "Restricted in Spanish-language terms",
+        "verified": true
+      }
+    ],
+    "kucoin": [
+      {
+        "country": "US",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SG",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CN",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "HK",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "MY",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "KZ",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "UZ",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CA-ON",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CA-BC",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "FR",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "NL",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      }
+    ],
+    "gate-io": [
+      {
+        "country": "US",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CN",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SG",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CA",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "FR",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "DE",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "HK",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "MY",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "MT",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "ES",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "NL",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "GB",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "MM",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "VE",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "UZ",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "AT",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "IN",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "ID",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "JP",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "AR",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "KH",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "AE",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "TH",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "KR",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "PH",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "PK",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "VN",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "RU",
+        "source": "https://www.gate.com/legal/user-agreement",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      }
+    ],
+    "kraken": [
+      {
+        "country": "AF",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "BY",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CU",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CD",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "IR",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "IQ",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "JP",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "LY",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "KP",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "RU",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SD",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SS",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "SY",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      }
+    ],
+    "hyperliquid": [
+      {
+        "country": "US",
+        "source": "https://app.hyperliquid.xyz/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      },
+      {
+        "country": "CA-ON",
+        "source": "https://app.hyperliquid.xyz/terms",
+        "checked": "2026-10-11",
+        "reason": "Restricted jurisdiction in partner terms",
+        "verified": true
+      }
+    ],
+    "bybit": [
+      {
+        "country": "US",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      },
+      {
+        "country": "CA",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      },
+      {
+        "country": "CN",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      },
+      {
+        "country": "HK",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      },
+      {
+        "country": "SG",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      },
+      {
+        "country": "UZ",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      },
+      {
+        "country": "IR",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      },
+      {
+        "country": "SY",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      },
+      {
+        "country": "AE-DU",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      },
+      {
+        "country": "SD",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      },
+      {
+        "country": "KP",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      },
+      {
+        "country": "CU",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+        "verified": false
+      }
+    ],
+    "binance": [
+      {
+        "country": "CA",
+        "source": "https://cointelegraph.com/news/regulators-invite-binance-seek-new-license-mica-setback-teng",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official terms did not render a list",
+        "verified": false
+      },
+      {
+        "country": "NL",
+        "source": "https://cointelegraph.com/news/regulators-invite-binance-seek-new-license-mica-setback-teng",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official terms did not render a list",
+        "verified": false
+      }
+    ],
+    "htx": [
+      {
+        "country": "BD",
+        "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page empty and sources conflict",
+        "verified": false
+      },
+      {
+        "country": "VE",
+        "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page empty and sources conflict",
+        "verified": false
+      },
+      {
+        "country": "BO",
+        "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page empty and sources conflict",
+        "verified": false
+      },
+      {
+        "country": "EC",
+        "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page empty and sources conflict",
+        "verified": false
+      },
+      {
+        "country": "ES",
+        "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+        "checked": "2026-10-11",
+        "reason": "Secondary list; official page empty and sources conflict",
+        "verified": false
+      }
+    ]
+  },
+  "territorialRestrictions": {
+    "okx": [
+      {
+        "scope": "OCCUPIED_UKRAINE",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Occupied Ukraine regions",
+        "verified": true
+      },
+      {
+        "scope": "US_UNSPECIFIED",
+        "source": "https://www.okx.com/help/risk-compliance-disclosure",
+        "checked": "2026-10-11",
+        "reason": "Certain US jurisdictions; exact list absent from facts document",
+        "verified": true
+      }
+    ],
+    "mexc": [
+      {
+        "scope": "OCCUPIED_UKRAINE",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Occupied Ukraine regions",
+        "verified": true
+      },
+      {
+        "scope": "SANCTIONED",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "Sanctioned jurisdictions",
+        "verified": true
+      },
+      {
+        "scope": "FATF_HIGH_RISK",
+        "source": "https://www.mexc.com/terms",
+        "checked": "2026-10-11",
+        "reason": "FATF high-risk jurisdictions",
+        "verified": true
+      }
+    ],
+    "kucoin": [
+      {
+        "scope": "OCCUPIED_UKRAINE",
+        "source": "https://www.kucoin.com/legal/terms-of-use",
+        "checked": "2026-10-11",
+        "reason": "Occupied Ukraine regions",
+        "verified": true
+      }
+    ],
+    "kraken": [
+      {
+        "scope": "OCCUPIED_UKRAINE",
+        "source": "https://support.kraken.com/articles/360001368823",
+        "checked": "2026-10-11",
+        "reason": "Occupied Ukraine regions",
+        "verified": true
+      }
+    ],
+    "hyperliquid": [
+      {
+        "scope": "SANCTIONED",
+        "source": "https://app.hyperliquid.xyz/terms",
+        "checked": "2026-10-11",
+        "reason": "Sanctions or export-control jurisdictions; also citizens of restricted territories regardless of location",
+        "verified": true
+      }
+    ],
+    "bybit": [
+      {
+        "scope": "OCCUPIED_UKRAINE",
+        "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+        "checked": "2026-10-11",
+        "reason": "Occupied regions; official page timed out",
+        "verified": false
+      }
+    ],
+    "binance": [
+      {
+        "scope": "SANCTIONED",
+        "source": "https://cointelegraph.com/news/regulators-invite-binance-seek-new-license-mica-setback-teng",
+        "checked": "2026-10-11",
+        "reason": "Sanctioned territories; secondary list",
+        "verified": false
+      },
+      {
+        "scope": "EU",
+        "source": "https://cointelegraph.com/news/regulators-invite-binance-seek-new-license-mica-setback-teng",
+        "checked": "2026-10-11",
+        "reason": "EU wind-down after MiCA; unverified",
+        "verified": false
+      }
+    ],
+    "htx": [
+      {
+        "scope": "EU",
+        "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+        "checked": "2026-10-11",
+        "reason": "Possibly all EU; conflicting secondary sources",
+        "verified": false
+      }
+    ],
+    "backpack": [
+      {
+        "scope": "SANCTIONED",
+        "source": "https://assets.ctfassets.net/ft3afpzda8pn/2fAZnrqUKZsCSZUsWE3rPT/09d6bc2fdde9afd8a23709ad0838d618/User_Agreement.pdf",
+        "checked": "2026-10-11",
+        "reason": "Sanctioned jurisdictions; country list unverified",
+        "verified": false
+      }
+    ]
+  },
+  "countryByLocale": {
+    "tr": "TR",
+    "vi": "VN",
+    "id": "ID",
+    "id-id": "ID",
+    "ru": "RU",
+    "uk": "UA",
+    "uk-ua": "UA",
+    "ur": "PK",
+    "pt-BR": "BR",
+    "pt-br": "BR",
+    "ja": "JP",
+    "ko": "KR"
+  },
+  "countryByMarket": {
+    "EU": [
+      "AT",
+      "BE",
+      "BG",
+      "HR",
+      "CY",
+      "CZ",
+      "DK",
+      "EE",
+      "FI",
+      "FR",
+      "DE",
+      "GR",
+      "HU",
+      "IE",
+      "IT",
+      "LV",
+      "LT",
+      "LU",
+      "MT",
+      "NL",
+      "PL",
+      "PT",
+      "RO",
+      "SK",
+      "SI",
+      "ES",
+      "SE"
+    ],
+    "INT": [],
+    "UK": "GB",
+    "BR": "BR",
+    "MX": "MX",
+    "TW": "TW",
+    "ID": "ID",
+    "VN": "VN",
+    "HK": "HK",
+    "US": "US",
+    "JP": "JP",
+    "KR": "KR",
+    "SG": "SG",
+    "TR": "TR",
+    "IN": "IN",
+    "AR-COUNTRY": "AR"
+  },
+  "turkeyPromotedPartners": [
+    "okx",
+    "binance",
+    "bybit",
+    "gate-io",
+    "mexc"
+  ],
+  "turkeyPromotionPolicy": {
+    "source": "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi",
+    "checked": "2026-10-11",
+    "reason": "Existing Turkey policy: only the five listed partners retain promotion; listing is not an authorization verdict"
+  },
+  "unverified": [
+    {
+      "slug": "bybit",
+      "country": "US",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "country": "CA",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "country": "CN",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "country": "HK",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "country": "SG",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "country": "UZ",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "country": "IR",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "country": "SY",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "country": "AE-DU",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "country": "SD",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "country": "KP",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "country": "CU",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page timed out (Dubai applies to global entity)",
+      "verified": false
+    },
+    {
+      "slug": "binance",
+      "country": "CA",
+      "source": "https://cointelegraph.com/news/regulators-invite-binance-seek-new-license-mica-setback-teng",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official terms did not render a list",
+      "verified": false
+    },
+    {
+      "slug": "binance",
+      "country": "NL",
+      "source": "https://cointelegraph.com/news/regulators-invite-binance-seek-new-license-mica-setback-teng",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official terms did not render a list",
+      "verified": false
+    },
+    {
+      "slug": "htx",
+      "country": "BD",
+      "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page empty and sources conflict",
+      "verified": false
+    },
+    {
+      "slug": "htx",
+      "country": "VE",
+      "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page empty and sources conflict",
+      "verified": false
+    },
+    {
+      "slug": "htx",
+      "country": "BO",
+      "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page empty and sources conflict",
+      "verified": false
+    },
+    {
+      "slug": "htx",
+      "country": "EC",
+      "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page empty and sources conflict",
+      "verified": false
+    },
+    {
+      "slug": "htx",
+      "country": "ES",
+      "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+      "checked": "2026-10-11",
+      "reason": "Secondary list; official page empty and sources conflict",
+      "verified": false
+    },
+    {
+      "slug": "bybit",
+      "scope": "OCCUPIED_UKRAINE",
+      "source": "https://www.datawallet.com/es/cripto/países-con-bybit-restringido",
+      "checked": "2026-10-11",
+      "reason": "Occupied regions; official page timed out",
+      "verified": false
+    },
+    {
+      "slug": "binance",
+      "scope": "SANCTIONED",
+      "source": "https://cointelegraph.com/news/regulators-invite-binance-seek-new-license-mica-setback-teng",
+      "checked": "2026-10-11",
+      "reason": "Sanctioned territories; secondary list",
+      "verified": false
+    },
+    {
+      "slug": "binance",
+      "scope": "EU",
+      "source": "https://cointelegraph.com/news/regulators-invite-binance-seek-new-license-mica-setback-teng",
+      "checked": "2026-10-11",
+      "reason": "EU wind-down after MiCA; unverified",
+      "verified": false
+    },
+    {
+      "slug": "htx",
+      "scope": "EU",
+      "source": "https://cryptoticker.io/es/htx-prohibicion-transacciones-ue/",
+      "checked": "2026-10-11",
+      "reason": "Possibly all EU; conflicting secondary sources",
+      "verified": false
+    },
+    {
+      "slug": "backpack",
+      "scope": "SANCTIONED",
+      "source": "https://assets.ctfassets.net/ft3afpzda8pn/2fAZnrqUKZsCSZUsWE3rPT/09d6bc2fdde9afd8a23709ad0838d618/User_Agreement.pdf",
+      "checked": "2026-10-11",
+      "reason": "Sanctioned jurisdictions; country list unverified",
+      "verified": false
+    }
+  ]
+}

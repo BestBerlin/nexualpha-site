@@ -617,7 +617,7 @@ test("homepage source notes use native disclosure without removing source links"
 
 test("topic guide CTAs use the public projection and disclose verified referral links", () => {
   assert.match(topicGuidePage, /publicCtaForTopicPlatform/);
-  assert.match(topicGuidePage, /publicCtaForVenue\(platform\.slug, locale\)/);
+  assert.match(topicGuidePage, /publicCtaForVenue\(platform\.slug, locale, market\)/);
   assert.match(topicGuidePage, /usePartnerRoute = p\.hasPartnerRoute && p\.claimStatus === "verified"/);
   assert.match(topicGuidePage, /usePartnerRoute \? \(p\.hasReferral \? "sponsored noopener noreferrer" : "noopener noreferrer"\) : undefined/);
   assert.match(topicGuidePage, /usePartnerRoute \? p\.affiliateUrl : profileHref\(p\.slug\)/);
@@ -1473,7 +1473,7 @@ test("full exchange directory uses compact expandable rows without changing home
   assert.match(venueYellowPages, /aria-controls=\{`yellow-card-details-\$\{venue\.slug\}`\}/);
   assert.match(venueYellowPages, /className="yellow-card__btn-toggle"/);
   assert.match(venueYellowPages, /className="yellow-card__directory-details"/);
-  assert.match(venueYellowPages, /publicCtaForVenue\(venue\.slug, locale\)/);
+  assert.match(venueYellowPages, /publicCtaForVenue\(venue\.slug, locale, market\)/);
   assert.match(venueYellowPages, /href=\{registrationUrl\}/);
   assert.match(venueYellowPages, /data-cta-placement="directory-card"/);
   assert.match(venueYellowPages, /data-cta-placement="directory-compare-select"/);
@@ -1843,8 +1843,8 @@ test("public venue decision copy has an editorial gate separate from commercial 
 
 test("venue detail CTA uses the source-bound public projection while preserving approved invite codes", () => {
   assert.match(v3Pages, /import \{ publicCtaForVenue \} from "\.\.\/\.\.\/data\/source-bound-cta\.js"/);
-  assert.match(v3Pages, /function publicVenueAccess\(slug, locale = "en"\)/);
-  assert.match(v3Pages, /const publicCta = publicCtaForVenue\(slug, locale\)/);
+  assert.match(v3Pages, /function publicVenueAccess\(slug, locale = "en", market\)/);
+  assert.match(v3Pages, /const publicCta = publicCtaForVenue\(slug, locale, market\)/);
   assert.match(v3Pages, /inviteCode: publicCta\.inviteCode/);
   assert.match(v3Pages, /registrationUrl: publicCta\.registrationUrl/);
   assert.match(v3Pages, /benefitText: publicCta\.benefit/);
@@ -2165,8 +2165,8 @@ test("Brazil unsupported locale fallback is visible in client-only previews", ()
   assert.match(brazilDecisionPage, /dir="ltr"/);
   assert.match(brazilDecisionPage, /data-requested-locale=\{requestedLocale === pageLocale \? undefined : requestedLocale\}/);
   assert.match(brazilDecisionPage, /data-locale-fallback=\{requestedLocale === pageLocale \? undefined : pageLocale\}/);
-  assert.match(brazilDecisionPage, /publicCtaForVenue\(state\.platform, pageLocale\)/);
-  assert.match(brazilDecisionPage, /publicCtaForVenue\(venue\.slug, pageLocale\)/);
+  assert.match(brazilDecisionPage, /publicCtaForVenue\(state\.platform, pageLocale, state\.region\)/);
+  assert.match(brazilDecisionPage, /publicCtaForVenue\(venue\.slug, pageLocale, state\.region\)/);
   assert.match(brazilDecisionPage, /venueBenefit\(partner, pageLocale\)/);
   assert.match(brazilDecisionPage, /formatCurrency\(pageLocale, estimate\.total\)/);
   assert.match(brazilDecisionPage, /target\.searchParams\.set\("locale", pageLocale\)/);

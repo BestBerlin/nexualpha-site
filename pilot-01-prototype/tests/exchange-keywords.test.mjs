@@ -11,7 +11,8 @@ import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeMetadata } from "../worker/index.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 import { REFERRAL_PARTNERS } from "../src/data/referral-partners.generated.js";
-import { TR_SPK_LISTED, referralSeoFor, referralTitleAllowed } from "../src/data/referral-seo.js";
+import { referralSeoFor, referralTitleAllowed } from "../src/data/referral-seo.js";
+import { TURKEY_PROMOTED_PARTNERS } from "../src/data/partner-geo-restrictions.js";
 import { PARTNER_VENUE_FAQ_LOCAL_TARGETS, partnerVenueFaqFor } from "../src/data/partner-venue-faq.js";
 import { HYPERLIQUID_FEE_TIERS, VENUE_KEYWORD_SECTION_LOCALES, BACKPACK_STOCKS_LOCALES, backpackStocksCopy } from "../src/data/venue-keyword-sections.js";
 import { VENUE_ALTERNATIVE_PAGES, venueAlternativePage, venueAlternativeRows } from "../src/data/venue-alternatives.js";
@@ -34,12 +35,12 @@ test("Turkish referral allow-list matches SPK's operating list (01 Oct 2026) and
   // https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi
   // OKX TR (#38), Binance Turkey (#4), Bybit (#11) and Gate (#23) are listed. Bitget Teknoloji AŞ is on the
   // liquidation list. MEXC stays neutral in Turkish by owner decision 2026-10-11.
-  assert.deepEqual([...TR_SPK_LISTED], ["okx", "binance", "bybit", "gate-io", "mexc"]);
+  assert.deepEqual([...TURKEY_PROMOTED_PARTNERS], ["okx", "binance", "bybit", "gate-io", "mexc"]);
   for (const slug of ["bitget", "backpack", "hyperliquid", "kraken", "htx"]) {
     assert.equal(referralTitleAllowed(slug, "tr"), false, slug);
     assert.equal(referralSeoFor(slug, "tr"), null, slug);
   }
-  for (const slug of TR_SPK_LISTED) assert.ok(referralSeoFor(slug, "tr")?.title.includes(codeOf(slug)), slug);
+  for (const slug of TURKEY_PROMOTED_PARTNERS) assert.ok(referralSeoFor(slug, "tr")?.title.includes(codeOf(slug)), slug);
 });
 
 test("pt-BR referral titles lead with 'código de convite' and keep 'indicação'", () => {

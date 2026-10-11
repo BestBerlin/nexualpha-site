@@ -110,7 +110,7 @@ const finalChoiceFallbackCopy = (locale) => ({
   evidenceLabel: locale.startsWith("zh") ? zhText(locale, "展开来源与判断依据", "展開來源與判斷依據") : ({ ja: "出典と判断根拠", ko: "출처와 판단 근거", tr: "Kaynakları ve karar notlarını aç" }[textLocaleKey(locale)] || "Review sources and decision notes"),
 });
 
-const publicVenueAccess = (slug, locale = "en") => publicCtaForVenue(slug, locale);
+const publicVenueAccess = (slug, locale = "en", market) => publicCtaForVenue(slug, locale, market);
 
 function LocalLink({ locale, href, children, className, ...props }) {
   return <a className={className} href={localizedHref(href, { locale })} {...props}>{children}</a>;
@@ -149,7 +149,7 @@ function choiceContext({ profiles, locale, market, product, accountStage, fundin
   const detailHref = (slug) => appendDecisionPassportQuery(`/exchanges/${slug}${contextSearch ? `?${contextSearch}` : ""}#registration-path`, pageContext);
   const ctas = profiles.slice(0, 2).map((profile) => ({
     profile,
-    access: publicVenueAccess(profile.slug, locale),
+    access: publicVenueAccess(profile.slug, locale, market),
     cta: regionalVenueCta(profile.slug, locale, market, product, { accountStage, funding }),
     decision: decisionForVenue(profile.slug, locale),
   }));
@@ -322,7 +322,7 @@ function FinalChoiceEvidenceBody({ directAnswer, locale, pageContext, ctas, deta
                   data-growth-market={market}
                   data-growth-product={product}
                 >
-                  {detailCtaLabel(locale, { direct: false, hasReferral: publicVenueAccess(profile.slug, locale).hasReferral })}: {getLocalizedVenueName(profile, locale)} →
+                  {detailCtaLabel(locale, { direct: false, hasReferral: publicVenueAccess(profile.slug, locale, market).hasReferral })}: {getLocalizedVenueName(profile, locale)} →
                 </LocalLink>
               ))}
             </div>

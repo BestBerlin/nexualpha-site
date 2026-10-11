@@ -2,7 +2,7 @@ import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "./re
 /** Route metadata mirrors the standalone Worker; UI-only locale fallbacks share their content canonical. */
 import { venueDatabase } from "./venue-database.js";
 import { mergePriorityVenueSeo } from "./priority-venue-seo.js";
-import { referralSeoFor } from "./referral-seo.js";
+import { referralSeoFor, geoSafeVenueSeoOverride } from "./referral-seo.js";
 import { applyPartnerVenueFaqSchema } from "./partner-venue-faq.js";
 import { VENUE_ALTERNATIVES_INDEX_LOCALES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "./venue-alternatives.js";
 import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIndexLocales, brazilDeadlineIndexable, brazilDeadlinePathFor, isBrazilDeadlineSlug } from "./brazil-vasp-deadline-slugs.js";
@@ -1270,13 +1270,13 @@ const LOCALIZED_TOPIC_SEO_OVERRIDES = {
 function mergeLocalizedOverride(base, localizedOverride) {
   return localizedOverride && base ? { ...localizedOverride, sourceUrls: base.sourceUrls, relatedLinks: base.relatedLinks } : null;
 }
-export function venueSeoOverrideFor(slug, locale) {
+export function venueSeoOverrideFor(slug, locale, market) {
   const base = VENUE_SEO_OVERRIDES[slug];
   const existing = locale === "en" ? base || null : mergeLocalizedOverride(base, LOCALIZED_VENUE_SEO_OVERRIDES[locale]?.[slug]);
   const merged = mergePriorityVenueSeo(slug, locale, existing);
   // Owner 2026-10-10: partner profiles lead with the real invite code ("<exchange> referral code" searches).
-  const referral = referralSeoFor(slug, locale);
-  return referral ? { ...(merged || {}), title: referral.title, description: referral.description } : merged;
+  const referral = referralSeoFor(slug, locale, market);
+  return referral ? { ...(merged || {}), title: referral.title, description: referral.description } : geoSafeVenueSeoOverride(merged, slug, { locale, market });
 }
 function compareSeoOverrideFor(pair, locale) {
   const directAnswerOverride = compareSeoOverrideFromDirectAnswer(pair, locale);
@@ -2263,7 +2263,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
     const venue = venueDatabase[slug];
     if (venue && (type === "factbook" || ACTIVE_VENUES.has(slug))) {
       accept();
-      const venueSeoOverride = type === "exchanges" ? venueSeoOverrideFor(slug, locale) : null;
+      const venueSeoOverride = type === "exchanges" ? venueSeoOverrideFor(slug, locale, url.searchParams.get("market")) : null;
       const factbookLabel = FACTBOOK_TITLE_LOCALIZED[rawLocale] || "Source Review Factbook";
       title = venueSeoOverride?.title || `${venue.name} ${type === "factbook" ? factbookLabel : DETAIL_TITLE_LOCALIZED[rawLocale]?.profile || DETAIL_TITLE_LOCALIZED[locale]?.profile || (isZh ? "平台档案与手续费" : "Review, Fee Conditions & Official Route")} — NexuAlpha`;
       const profileDescription = DETAIL_DESCRIPTION_LOCALIZED[rawLocale]?.profile?.(venue.name) || DETAIL_DESCRIPTION_LOCALIZED[locale]?.profile?.(venue.name);
@@ -2274,7 +2274,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
       schemas = type === "factbook" ? buildFactbookSchemas(venue, locale, canonical(pathname, locale)) : [
         breadcrumbs(venue.name, canonical(pathname, locale), locale),
         { ...pageSchema(title, canonical(pathname, locale), locale), dateModified: venueSeoOverride?.reviewedAt || "2026-09-15", ...researchAttribution([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])]), about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` }, isBasedOn: [...new Set([`https://${venue.officialDomain}`, ...(venueSeoOverride?.sourceUrls || [])])], ...(venueSeoOverride?.relatedLinks ? { relatedLink: venueSeoOverride.relatedLinks.map((link) => `${PUBLIC_ORIGIN}${link}`) } : {}) },
-      ].concat([applyPartnerVenueFaqSchema(directAnswerSchema || venueProfileFaq(venue, locale), slug, locale)]);
+      ].concat([applyPartnerVenueFaqSchema(directAnswerSchema || venueProfileFaq(venue, locale), slug, locale, url.searchParams.get("market"))]);
     }
   } else if (compareMatch) {
     const slugs = compareMatch[1].split("-vs-");

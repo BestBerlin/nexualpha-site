@@ -391,7 +391,7 @@ export function CampaignRadar({ locale = "en" }) {
         slug,
         name: db.name || partner.name || slug,
         category: db.category || partner.category || "CEX",
-        inviteCode: publicCta.hasReferral ? (db.inviteCode || partner.inviteCode) : null,
+        inviteCode: publicCta.hasReferral ? publicCta.inviteCode : null,
         registrationUrl: publicCta.registrationUrl,
         hasReferral: publicCta.hasReferral,
         summaryText,

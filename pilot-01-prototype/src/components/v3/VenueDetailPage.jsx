@@ -440,7 +440,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   // Owner 2026-10-10 (GSC: exchange pages earn impressions, no clicks): the H1 carries the search intent, under the same
   // referral-title policy as the <title> (referral-seo.js: ru, ar and zh-Hant stay neutral; tr only for SPK-listed
   // venues). The invite code is the data-bound one from the CTA, never typed here.
-  const referralHeadlineCode = hasReferral && inviteCode && referralSeoFor(venue.slug, locale) ? inviteCode : null;
+  const referralHeadlineCode = hasReferral && inviteCode && referralSeoFor(venue.slug, locale, market) ? inviteCode : null;
   const detailTitleStr = referralHeadlineCode
     ? text.detailReferralTitle(localizedVenueName, referralHeadlineCode, new Date().getUTCFullYear(), referralSharePercent(venue.slug))
     : text.detailFeesTitle(localizedVenueName);
@@ -539,7 +539,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   const handleStickyCopy = () => { handleCopyCode(); if (inviteCode) trackCodeCopy(venue.slug, "venue-mobile-sticky-code"); };
   // The sticky bar opens the same protected partner route as the registration card's primary button (same decision
   // state, same href). Where the card itself would not open a third-party route, the bar keeps the review link.
-  const stickyDecision = buildRegistrationDecisionState({ publicCta: publicCtaForVenue(venue.slug, locale), regionalCta: venueCta });
+  const stickyDecision = buildRegistrationDecisionState({ publicCta: publicCtaForVenue(venue.slug, locale, market), regionalCta: venueCta });
   const stickyOpensSignup = stickyDecision.canOpenThirdParty && stickyDecision.protectedHref === venueCta.ctaHref;
   const ctaText = ctaUiCopy(locale);
   const profileChapters = profileResearchChapterCopy[textLocaleKey(locale)] || profileResearchChapterCopy.en;
@@ -683,7 +683,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
         <VenueFeeLedger slug={profile.slug} locale={locale} />
         <VenueRoute domain={officialDomain} code={hasReferral ? inviteCode : null} locale={locale} />
-        <VenueKeywordSections slug={profile.slug} locale={locale} inviteCode={hasReferral ? inviteCode : null} />
+        <VenueKeywordSections slug={profile.slug} locale={locale} market={market} inviteCode={hasReferral ? inviteCode : null} />
         <BrazilDeadlineNotice locale={locale} slug={profile.slug} placement="venue" />
 
         {venueDirectAnswer && (
@@ -796,7 +796,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     </section>
 
     {/* 针对 SEO 关键词的 FAQ 折叠/展开模块 */}
-    <VenueFaqSection venue={venue} profile={profile} locale={locale} db={db} partner={partner} />
+    <VenueFaqSection venue={venue} profile={profile} locale={locale} market={market} db={db} partner={partner} />
 
     <section className={`v2-section v3-activity-panel${related.length ? "" : " v3-activity-panel--empty"}`}>
       <SectionRule stamp={related.length || null} />

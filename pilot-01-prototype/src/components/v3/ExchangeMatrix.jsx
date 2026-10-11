@@ -120,7 +120,7 @@ export function ExchangeMatrix({
       inviteCode: db.inviteCode || null,
       registrationUrl: db.registrationUrl || `https://${db.officialDomain || venue.officialDomain || `${venue.slug}.com`}`,
     };
-    const publicCta = publicCtaForVenue(venue.slug, locale);
+    const publicCta = publicCtaForVenue(venue.slug, locale, market);
     const marketStatus = venueMarketStatus(venue, market);
     const regionalCandidate = regionalDirectoryCandidateState(venue, { market, product, locale, accountStage, funding });
     const displayMarketStatus = regionalCandidate.status !== "unscoped" ? regionalCandidate.status : marketStatus;

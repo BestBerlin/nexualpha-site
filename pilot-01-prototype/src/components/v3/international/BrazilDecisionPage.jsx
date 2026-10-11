@@ -596,7 +596,7 @@ function BrazilDecisionPath({ state, selectedVenues, mainRegistrationUrl, mainRe
 
 function earlyNextStepItems({ venues, state, pageLocale }) {
   return selectVenues(venues, state.platform).slice(0, 2).map((venue) => {
-    const publicCta = publicCtaForVenue(venue.slug, pageLocale);
+    const publicCta = publicCtaForVenue(venue.slug, pageLocale, state.region);
     const regionalCta = regionalVenueCta(venue.slug, pageLocale, state.region, state.product);
     const canRegister = state.region === "BR"
       && state.product === "spot"
@@ -744,7 +744,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
   const isSpot = state.product === "spot";
   const selectedIsBrazilShortlist = isBrazilShortlistPlatform(venues, state.platform);
   const activePartner = selectedIsBrazilShortlist && partnerForVenue(selectedVenues.find(venue => venue.slug === state.platform) || {});
-  const activeCta = selectedIsBrazilShortlist ? publicCtaForVenue(state.platform, pageLocale) : null;
+  const activeCta = selectedIsBrazilShortlist ? publicCtaForVenue(state.platform, pageLocale, state.region) : null;
   const activeRegionalCta = selectedIsBrazilShortlist ? regionalVenueCta(state.platform, pageLocale, state.region, state.product) : null;
   const directRegistration = Boolean(isBrazil && isSpot && selectedIsBrazilShortlist && activeCta?.hasReferral && activeRegionalCta?.direct && activeRegionalCta?.hasReferral && /^https:\/\//i.test(activeRegionalCta.ctaHref || ""));
   const mainRegistrationUrl = directRegistration ? activeRegionalCta.ctaHref : null;
@@ -872,7 +872,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
       <div className="br-venue-grid">
         {selectedVenues.map((venue) => {
           const partner = partnerForVenue(venue);
-          const cta = publicCtaForVenue(venue.slug, pageLocale);
+          const cta = publicCtaForVenue(venue.slug, pageLocale, state.region);
           const regionalCta = regionalVenueCta(venue.slug, pageLocale, state.region, state.product);
           const registrationUrl = regionalCta.ctaHref || "";
           const canRegister = isBrazil && isSpot && cta.hasReferral && regionalCta.direct && regionalCta.hasReferral && /^https:\/\//i.test(registrationUrl);

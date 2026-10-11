@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { buildPartnerGeoRestrictionsFeed } from "../src/data/partner-geo-restrictions.js";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -349,7 +350,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(projectRoot, "public", "sitemap.xml"), sitemap);
   // Partner feed for the Telegram Mini App (one source of truth for shares, codes, links and checked fees).
   const partnersFeed = `${JSON.stringify(buildPartnersFeed())}\n`;
-  for (const dir of [path.join(projectRoot, "public", "intel"), path.join(clientDir, "intel")]) { mkdirSync(dir, { recursive: true }); writeFileSync(path.join(dir, "partners.json"), partnersFeed); }
+  for (const dir of [path.join(projectRoot, "public", "intel"), path.join(clientDir, "intel")]) { mkdirSync(dir, { recursive: true }); writeFileSync(path.join(dir, "partners.json"), partnersFeed); writeFileSync(path.join(dir, "partner-geo-restrictions.json"), `${JSON.stringify(buildPartnerGeoRestrictionsFeed(), null, 2)}\n`); }
   writeFileSync(path.join(projectRoot, "public", "news-sitemap.xml"), newsSitemap);
   writeFileSync(path.join(projectRoot, "public", "content", "search-publication-report.json"), `${publicationReport}\n`);
   const clientContentDir = path.join(clientDir, "content");
