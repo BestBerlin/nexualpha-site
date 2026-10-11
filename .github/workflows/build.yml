@@ -73,6 +73,7 @@ jobs:
           node node_modules/vite/bin/vite.js build --ssr src/entry-server.jsx --outDir dist/ssr
           node scripts/build-news-ssr.mjs
           node scripts/generate-prerender-manifest.mjs
+          node scripts/build-critical-css.mjs
           node scripts/prepare-sites-build.mjs
           node scripts/verify-build-budget.mjs --strict
 
