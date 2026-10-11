@@ -467,3 +467,19 @@
 .h7:not(#_):not(#_) .h7-intel .h7-live{margin:0 0 12px;margin-inline-start:0}
 /* A little more air between the big share figure and its label. */
 .h7:not(#_):not(#_) .h7-lg-max{gap:16px}
+/* Local market brief on /tr, /vi, /id-id (links-l10n lane 2026-10-11, scorecard M5): regulator, local payment rail,
+   what cannot be confirmed; every line with its source link. */
+.h7:not(#_):not(#_) .h7-local{padding-block:var(--sec)}
+.h7:not(#_):not(#_) .h7-local h2{font-weight:600;font-size:1.75rem;line-height:1.12;letter-spacing:-.03em;color:var(--ink);margin:0;text-wrap:balance}
+.h7:not(#_):not(#_) .h7-local-lead{margin:16px 0 0;max-width:46rem;font-size:15px;line-height:1.7;color:var(--ink2)}
+.h7:not(#_):not(#_) .h7-local-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:32px}
+.h7:not(#_):not(#_) .h7-local-col{padding:24px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgb(255 255 255/.025),transparent 60%);min-width:0}
+.h7:not(#_):not(#_) .h7-local-col h3{margin:0;font-weight:600;font-size:1.125rem;line-height:1.35;color:var(--ink)}
+.h7:not(#_):not(#_) .h7-local-reg{margin:10px 0 0}
+.h7:not(#_):not(#_) .h7-local-reg a,.h7:not(#_):not(#_) .h7-local-foot a{display:inline-flex;align-items:center;min-height:44px;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.h7:not(#_):not(#_) .h7-local-col ul{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:14px}
+.h7:not(#_):not(#_) .h7-local-col li{display:grid;gap:4px;font-size:14px;line-height:1.65;color:var(--ink2);overflow-wrap:anywhere}
+.h7:not(#_):not(#_) .h7-local-src{display:inline-flex;align-items:center;min-height:32px;font:400 12px/1.4 var(--mono);color:var(--ink3);text-decoration:underline;text-underline-offset:3px}
+.h7:not(#_):not(#_) .h7-local-foot{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center;margin:24px 0 0;font-size:13px;color:var(--ink3)}
+@media(min-width:641px){.h7:not(#_):not(#_) .h7-local h2{font-size:2.25rem}}
+@media(max-width:900px){.h7:not(#_):not(#_) .h7-local-grid{grid-template-columns:minmax(0,1fr)}.h7:not(#_):not(#_) .h7-local-col{padding:20px}}

@@ -23,6 +23,7 @@ import { TopDecisionBox } from "../TopDecisionBox.jsx";
 import { NewsVenueOffer } from "./NewsVenueOffer.jsx";
 import { NewsTelegramAlerts } from "./NewsTelegramAlerts.jsx";
 import { createPartnerAutolinker, relatedPartnerLinks } from "./partner-autolink.js";
+import { articleClusterLineLabel, articleClusterLinks } from "../../../data/topic-clusters.js";
 import { tokenizeInlineMarkdown } from "../../../data/article-inline-markdown.js";
 import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
 import { ArticleMarketContext } from "./ArticleMarketContext.jsx";
@@ -793,6 +794,9 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const categoryHref = isNewsCategory(article.category) ? withContext(newsListingPath({ category: article.category })) : null;
   const deepNodes = deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t, partnerLinker, locale));
   const relatedPartners = relatedPartnerLinks({ locale, slugs: partnerLinker.mentionedSlugs() });
+  // Topic hubs & tools (links-l10n lane 2026-10-11, scorecard C5/D4): the main page of every query family this article
+  // belongs to and the data tools on its subject, from the mapping in src/data/topic-clusters.js.
+  const clusterLinks = articleClusterLinks(article, locale);
   const sectionLabel = sectionNavigationLabels[locale] || sectionNavigationLabels.en;
   const sectionTargets = articleSectionTargets([...leadBlocks, ...deepBlocks], article.sources.length > 0, leadBlockCount, t.sourcesTitle);
   const jumpToSection = (id) => {
@@ -911,6 +915,17 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
                   <a href={withContext(relatedPartners.compare.href)} data-related-compare={relatedPartners.compare.slug} data-cta-kind="research" data-cta-placement="news-detail-related-partners">{relatedPartners.compare.label}</a>
                 </>
               )}
+            </p>
+          )}
+          {clusterLinks.length > 0 && (
+            <p className="news-detail__cluster-links" lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} data-news-cluster-links="">
+              <span className="news-detail__cluster-links-label">{articleClusterLineLabel(locale)}:</span>
+              {clusterLinks.map((link, index) => (
+                <React.Fragment key={link.id}>
+                  {index > 0 && <span aria-hidden="true"> · </span>}
+                  <a href={withContext(link.href)} data-cluster-link={link.id} data-cta-kind="research" data-cta-placement="news-detail-cluster-links">{link.label}</a>
+                </React.Fragment>
+              ))}
             </p>
           )}
           <NewsTelegramAlerts locale={locale} />

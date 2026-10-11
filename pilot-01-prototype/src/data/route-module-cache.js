@@ -40,6 +40,9 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   newsList: "./components/v3/news/NewsListPage.jsx",
   liquidations: "./components/data/LiquidationsPage.jsx",
   fundingRates: "./components/data/FundingRatesPage.jsx",
+  // Tool page -> related articles block (links-l10n lane 2026-10-11). Not preloaded: it sits in its own Suspense
+  // boundary below the tool, so React keeps the server HTML until the chunk arrives and then hydrates it.
+  toolArticles: "./components/shared/ToolArticleLinks.jsx",
 });
 
 export const DEFERRED_ROUTE_MODULE_PATHS = Object.freeze(Object.values(ROUTE_MODULE_PATHS));

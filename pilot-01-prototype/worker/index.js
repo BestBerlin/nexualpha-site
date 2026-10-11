@@ -16,6 +16,8 @@ import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, br
 import { newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
 import { factbookDates } from "../src/data/factbook-dates.js";
+import { repairNewsArticle } from "../src/data/news-content-repair.js";
+import { TOOL_CLUSTER_IDS, articleClusterLineLabel, articleClusterLinks, toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
   async fetch(request, env) {
@@ -34,6 +36,7 @@ export default {
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
     if (url.pathname === "/api/news/search" && request.method === "GET" && env?.ASSETS) return handleNewsSearchJson(env, url);
+    if (url.pathname === "/api/news/tool-articles" && request.method === "GET" && env?.ASSETS) return handleToolArticlesJson(env, url);
     if (url.pathname === "/news-library-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleNewsLibrarySitemap(env, url);
     if (url.pathname === "/locale-sitemap.xml" && request.method === "GET") return handleLocaleSitemap(env);
     if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
@@ -3447,6 +3450,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
     ...(route.officialAnnouncements && typeof route.officialAnnouncements === "object" ? { officialAnnouncements: route.officialAnnouncements } : {}),
+    ...(route.toolArticles && typeof route.toolArticles === "object" ? { toolArticles: route.toolArticles } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
   // Function replacer: the body is page text and may contain "$'" / "$&" replacement patterns.
@@ -3765,7 +3769,7 @@ function renderNewsFallbackBody(metadata, url) {
   const showsOriginalLanguage = contentLocale !== locale;
   const content = dedupeLongSentences(showsOriginalLanguage ? summary : (localizedArticleText(article.content, contentLocale) || summary));
   const contentHtml = content.split("\n\n").map((block, index) => markdownBlockHtml(block, index, locale)).join("");
-  const relatedLinksHtml = renderNewsRelatedArticlesHtml(article, metadata.newsArticles, locale) + renderArticleRelatedLinks(article, locale);
+  const relatedLinksHtml = renderArticleClusterLinksHtml(article, locale) + renderNewsRelatedArticlesHtml(article, metadata.newsArticles, locale) + renderArticleRelatedLinks(article, locale);
   const sourcesHtml = Array.isArray(article.sources) && article.sources.length
     ? `<h2>${escapeHtml(t.sources)}</h2><ul>${article.sources.map((source) => `<li><a href="${escapeHtml(source?.url || "#")}" rel="noopener noreferrer">${escapeHtml(source?.publisher || source?.title || source?.url || "Source")}${source?.title ? `: ${escapeHtml(source.title)}` : ""}</a></li>`).join("")}</ul>`
     : "";
@@ -3868,6 +3872,13 @@ function renderNewsRelatedArticlesHtml(article, articles, locale) {
     const label = localizedNewsTitle(item, locale) || item.slug;
     return `<li><a class="news-detail__related-card" href="${escapeHtml(href)}" data-cta-kind="research" data-cta-placement="news-detail-related-article"><span class="news-detail__related-meta">${escapeHtml(newsCardCategoryLabel(item, locale))} · <time datetime="${escapeHtml(item.publishedAt || "")}">${escapeHtml(String(item.publishedAt || "").slice(0, 10))}</time></span><span class="news-detail__related-title">${escapeHtml(label)}</span></a></li>`;
   }).join("")}</ul></section>`;
+}
+
+// "Topic hubs & tools" (links-l10n lane 2026-10-11, scorecard C5/D4): the same cluster links NewsDetailPage renders.
+function renderArticleClusterLinksHtml(article, locale) {
+  const links = articleClusterLinks(article, locale);
+  if (!links.length) return "";
+  return `<p class="news-detail__cluster-links" data-news-cluster-links=""><span>${escapeHtml(articleClusterLineLabel(locale))}:</span> ${links.map((link) => `<a href="${escapeHtml(link.href)}" data-cluster-link="${escapeHtml(link.id)}">${escapeHtml(link.label)}</a>`).join(" · ")}</p>`;
 }
 
 function renderArticleRelatedLinks(article, locale) {
@@ -3993,10 +4004,11 @@ async function renderActivitiesAtRequestTime(html, metadata, url, env) {
   }
   if (!officialAnnouncements) return null;
   try {
-    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, "/activities", publicRoute.locale), { officialAnnouncements });
+    const toolArticles = await toolArticlesForRequest(env, url, "/activities", publicRoute.locale);
+    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, "/activities", publicRoute.locale), { officialAnnouncements, toolArticles });
     if (typeof appHtml === "string" && appHtml.includes('class="live-campaigns')) {
       metadata.activitiesSsrMode = "runtime";
-      return injectPrerenderedBody(html, appHtml, `/activities|${publicRoute.locale}`, { officialAnnouncements }, url);
+      return injectPrerenderedBody(html, appHtml, `/activities|${publicRoute.locale}`, { officialAnnouncements, toolArticles }, url);
     }
     console.error(`[NexuAlpha] activities SSR returned no campaign body (${publicRoute.locale}); serving the prerendered page`);
   } catch (error) {
@@ -4074,10 +4086,11 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       let marketEvents = null;
       try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ()) : null; } catch { marketEvents = null; }
       try {
-        const appHtml = await env.NEWS_SSR_RENDER(url.href, { marketEvents });
+        const toolArticles = await toolArticlesForRequest(env, url, pathname, publicRoute.locale);
+        const appHtml = await env.NEWS_SSR_RENDER(url.href, { marketEvents, toolArticles });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxd-hero")) {
           metadata.dataSsrMode = marketEvents ? "runtime" : "runtime-no-feed";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { marketEvents }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { marketEvents, toolArticles }, url);
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
@@ -4085,10 +4098,11 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     // x 15 locales); render them at request time with the same renderer so crawlers and no-JS readers get the matrix.
     if ((pathname === "/compare" || (metadata.marker === COMPARE_ROUTE_MARKER && metadata.generatedComparison)) && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
-        const appHtml = await env.NEWS_SSR_RENDER(url.href, {});
+        const toolArticles = await toolArticlesForRequest(env, url, pathname, publicRoute.locale);
+        const appHtml = await env.NEWS_SSR_RENDER(url.href, { toolArticles });
         if (typeof appHtml === "string" && (appHtml.includes("v3-compare-page") || appHtml.includes("v3-compare-hub"))) {
           metadata.compareSsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { toolArticles }, url);
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
@@ -4154,7 +4168,9 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
 function sanitizeRawNewsFeedArticle(article) {
   if (!article || typeof article !== "object") return article;
   const { routeProjection: _discardRawRouteProjection, ...rest } = article;
-  return rest;
+  // Content sweep guard (scorecard C4): a feed that has not been repaired yet never shows a truncated summary,
+  // Markdown markers in plain text or a link to a local filesystem path (scripts/repair-news-feed-content.mjs).
+  return repairNewsArticle(rest).article;
 }
 
 // The production feed is a mounted, auto-updated file (~23 MB). Parsing, sanitizing and hashing it on every news request
@@ -4234,6 +4250,42 @@ async function handleNewsArticleJson(env, url) {
 // Full-library search and listing (2026-10-10). Searches titles and summaries of every published article in the
 // cached feed and returns compact rows only; without q it returns one newest-first page of the (category) archive.
 //   GET /api/news/search?q=&locale=&category=&page=&limit=
+// Tool page -> related articles (links-l10n lane 2026-10-11, scorecard D4): the newest articles on a tool's subject,
+// from the live feed, for the request-time renders of /liquidations, /funding-rates, /compare(/pair) and /activities
+// and for client-side route changes (GET /api/news/tool-articles). Build-time prerendered tool routes (/rates, curated
+// pairs) carry the same payload from scripts/generate-prerender-manifest.mjs. Cached per feed fingerprint.
+const toolArticlesCache = new Map();
+function cachedToolArticleLinks(feed, toolKey, locale) {
+  const key = `${feed.fingerprint}|${toolKey}|${locale}`;
+  if (!toolArticlesCache.has(key)) {
+    if (toolArticlesCache.size > 2000) toolArticlesCache.clear();
+    toolArticlesCache.set(key, toolArticleLinks(toolKey, feed.articles, locale));
+  }
+  return toolArticlesCache.get(key);
+}
+async function toolArticlesForRequest(env, url, pathname, locale) {
+  const toolKey = toolKeyForPath(pathname);
+  if (!toolKey || !env?.ASSETS) return undefined;
+  try {
+    const feed = await loadNewsFeed(env, url);
+    if (!feed?.fingerprint || !feed.articles.length) return undefined;
+    return cachedToolArticleLinks(feed, toolKey, UI_LOCALES.has(locale) ? locale : "en") || undefined;
+  } catch { return undefined; }
+}
+async function handleToolArticlesJson(env, url) {
+  const headers = { "content-type": "application/json; charset=utf-8", "x-content-type-options": "nosniff" };
+  const tool = String(url.searchParams.get("tool") || "");
+  const toolPath = tool.startsWith("compare:") ? `/compare/${tool.slice(8)}` : TOOL_CLUSTER_IDS.includes(tool) ? `/${tool}` : "";
+  const toolKey = toolKeyForPath(toolPath);
+  const requestedLocale = url.searchParams.get("locale") || "en";
+  const locale = UI_LOCALES.has(requestedLocale) ? requestedLocale : "en";
+  if (!toolKey) return new Response(JSON.stringify({ version: 1, status: "invalid", items: [] }), { status: 400, headers: { ...headers, "cache-control": "no-store" } });
+  const feed = await loadNewsFeed(env, url);
+  if (!feed.fingerprint) return new Response(JSON.stringify({ version: 1, status: "unavailable", items: [] }), { status: 503, headers: { ...headers, "cache-control": "no-store" } });
+  const payload = cachedToolArticleLinks(feed, toolKey, locale) || { tool: toolKey, locale, items: [] };
+  return new Response(JSON.stringify({ version: 1, status: "ok", ...payload }), { status: 200, headers: { ...headers, "cache-control": "public, max-age=300" } });
+}
+
 async function handleNewsSearchJson(env, url) {
   const headers = { "content-type": "application/json; charset=utf-8", "x-content-type-options": "nosniff" };
   const params = url.searchParams;
