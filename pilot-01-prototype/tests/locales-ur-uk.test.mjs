@@ -8,6 +8,23 @@ import { referralSeoFor, referralTitleAllowed } from '../src/data/referral-seo.j
 import { platformCount } from '../src/data/plural-copy.js';
 
 const paths = ['/', '/exchanges', '/exchanges/okx', '/news', '/about'];
+
+test('draft MEXC comparisons and topic summaries require identity verification', async () => {
+  const { bitgetVsMexc } = await import('../src/data/compare-pairs/bitget-vs-mexc.js');
+  const { bybitVsMexc } = await import('../src/data/compare-pairs/bybit-vs-mexc.js');
+  const { topicHubItems } = await import('../src/data/collection-hubs.js');
+  for (const locale of ['ur', 'uk']) {
+    const mandatory = locale === 'ur' ? /شناختی تصدیق.*(?:لازم|ضروری|مانگتا)/ : /(?:вимагає|обов’язков).*(?:перевірк|верифікаці).*особи/;
+    for (const pair of [bitgetVsMexc, bybitVsMexc]) {
+      assert.match(pair[locale].body, mandatory, locale);
+      assert.match(JSON.stringify(pair[locale].faq), /mexc\.com\/terms/, locale);
+      assert.doesNotMatch(JSON.stringify(pair[locale]), /اختیاری|необов’язков/, locale);
+    }
+    const topic = topicHubItems(locale).find(item => item.slug === 'no-kyc');
+    assert.match(topic.description, mandatory, locale);
+    assert.doesNotMatch(topic.title, /KYC کے بغیر|без KYC/, locale);
+  }
+});
 const shell = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const assets = { fetch: async request => {
   const path = new URL(request.url).pathname;

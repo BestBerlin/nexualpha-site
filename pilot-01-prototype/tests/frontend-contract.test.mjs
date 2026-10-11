@@ -1591,7 +1591,7 @@ test("methodology remains available in code without occupying the conversion hom
 test("locale state and the fixed default market cover the application root without a region selector", () => {
   assert.match(app, /<main key=\{`locale-\$\{locale\}`\} className="v2-page home-refinement v5 v6" id="top" dir=\{getTextDirection\(locale\)\}>/);
   assert.match(app, /document\.documentElement\.dir = getTextDirection\(locale\)/);
-  assert.match(app, /supportedLocales\.filter\(\(code\) => !brazil \|\| code === "pt-BR"\)\.map/);
+  assert.match(app, /supportedLocales\.map\(\(code\) => \(\{ code, label: localeManifest\[code\]\.language \}\)\)\.filter\(\(option\) => !brazil \|\| option\.code === "pt-BR"\)/);
   assert.match(app, /const region = "Global"/);
   assert.doesNotMatch(app, /aria-label=\{copy\.ui\.marketRegion\}/);
   assert.match(app, /const readLocale = \(initialUrl\) =>/);

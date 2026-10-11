@@ -2921,9 +2921,9 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
       vi: "Truy cập crypto không KYC: Hyperliquid, dYdX và MEXC",
       it: "Accesso crypto senza KYC: Hyperliquid, dYdX e MEXC",
       // l10n: needs native review
-      ur: "KYC کے بغیر کرپٹو رسائی: Hyperliquid، dYdX اور MEXC",
+      ur: "کرپٹو رسائی اور شناختی تصدیق: Hyperliquid، dYdX اور MEXC",
       // l10n: needs native review
-      uk: "Криптодоступ без KYC: Hyperliquid, dYdX і MEXC",
+      uk: "Криптодоступ і перевірка особи: Hyperliquid, dYdX і MEXC",
     },
   }[topic.slug]?.[locale];
   const localizedTopicTitle = ({
