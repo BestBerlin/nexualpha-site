@@ -9,7 +9,8 @@ import { fileURLToPath } from "node:url";
 import { aeoQuestionsForMarket } from "../src/data/aeo-question-registry.js";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const expectedPartnerHash = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
+// Class b: 84b6426 made the official binance.com referral route the accepted protected registry bytes.
+const expectedPartnerHash = "e53261a6e7e39e64bd35bbedda4ef4a36c1521521750a77eaff3d26c52925d69";
 const protectedHashes = new Map([
   ["src/data/partner-registry.js", expectedPartnerHash],
   ["src/data/venue-database.js", "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52"],

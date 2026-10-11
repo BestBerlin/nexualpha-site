@@ -1,0 +1,31 @@
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ directive parsing: known widgets and aliases, symbols for funding, unknown = nothing, prose untouched (1909.138542ms)
+✔ model: widget heights, tool links and copy in all 17 locales (1.271ms)
+✔ isolate + strip: a directive glued to prose becomes its own paragraph; plain-text surfaces drop it (0.087625ms)
+✔ article SSR renders the embeds (en) and hydrates without mismatch (565.313666ms)
+✔ article SSR renders the embeds (ar) and hydrates without mismatch (503ms)
+✔ worker fallback article HTML (no SSR renderer) emits the same embed blocks (7.696ms)
+✔ funding widget ?symbol= lists that row first and highlights it (0.964542ms)
+✔ content importer passes the directive through unchanged (6.915917ms)
+✔ liquidations embed shows the page's numbers, no script, footer attribution link with ?src=embed-liquidations (2.950708ms)
+✔ funding embed lists the top rows with signed rates; a missing feed renders the unavailable copy, never zeros (0.392833ms)
+✔ the injector script inserts a responsive iframe after its own tag and honours data-locale / data-theme (0.176584ms)
+✔ route: iframe-friendly headers (no X-Frame-Options, frame-ancestors *), noindex, 5-minute public cache; unknown embeds fall through (2.896208ms)
+✔ production server serves the embeds from MARKET_EVENTS_FILE ahead of the worker and leaves /embed/calculator to it (26.94825ms)
+✔ snippets shown on the pages match the routes; embeds stay out of the locale sitemap; the beacon honours ?src=embed-* (69.890416ms)
+✔ 17 UI locales use collision-free, round-trip public routes (1.412709ms)
+✔ native-review locales are noindex and absent from sitemap and hreflang clusters (71.356042ms)
+✔ Urdu shell is RTL with the local Arabic fallback; Ukrainian is LTR (31.718625ms)
+✔ Ukrainian and Urdu counts use their own plural forms (0.27825ms)
+✔ new locales keep partner metadata neutral pending regulator review (0.49875ms)
+✔ draft comparison answers preserve complete structures, source routes and numeric facts (1.068792ms)
+✔ draft campaign explanations preserve numerical facts and shared FAQ coverage (5.344459ms)
+✔ new home copy defines every English UI key without inheriting English controls (1.41325ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3391.721459

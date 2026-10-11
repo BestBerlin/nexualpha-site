@@ -1,0 +1,102 @@
+[
+  {
+    "url": "http://127.0.0.1:4189/ur",
+    "status": 200,
+    "lang": "ur",
+    "dir": "rtl",
+    "h1": "فیس ضائع کرنا بند کریں۔60% تک واپس حاصل کریں۔",
+    "robots": "noindex,follow",
+    "canonical": "https://nexualpha.com/ur",
+    "alternates": 0
+  },
+  {
+    "url": "http://127.0.0.1:4189/ur/exchanges",
+    "status": 200,
+    "lang": "ur",
+    "dir": "rtl",
+    "h1": "کرپٹو پلیٹ فارم ڈائریکٹری",
+    "robots": "noindex,follow",
+    "canonical": "https://nexualpha.com/ur/exchanges",
+    "alternates": 0
+  },
+  {
+    "url": "http://127.0.0.1:4189/ur/exchanges/okx",
+    "status": 200,
+    "lang": "ur",
+    "dir": "rtl",
+    "h1": "OKX فیس اور پلیٹ فارم پروفائل",
+    "robots": "noindex,follow",
+    "canonical": "https://nexualpha.com/ur/exchanges/okx",
+    "alternates": 0
+  },
+  {
+    "url": "http://127.0.0.1:4189/ur/news",
+    "status": 200,
+    "lang": "ur",
+    "dir": "rtl",
+    "h1": "خبریں اور تحقیق",
+    "robots": "noindex,follow",
+    "canonical": "https://nexualpha.com/ur/news",
+    "alternates": 0
+  },
+  {
+    "url": "http://127.0.0.1:4189/ur/about",
+    "status": 200,
+    "lang": "ur",
+    "dir": "rtl",
+    "h1": "NexuAlpha کے بارے میں",
+    "robots": "noindex,follow",
+    "canonical": "https://nexualpha.com/ur/about",
+    "alternates": 0
+  },
+  {
+    "url": "http://127.0.0.1:4189/uk-ua",
+    "status": 200,
+    "lang": "uk",
+    "dir": "ltr",
+    "h1": "Ваші комісії повертаються.До 60% назад.",
+    "robots": "noindex,follow",
+    "canonical": "https://nexualpha.com/uk-ua",
+    "alternates": 0
+  },
+  {
+    "url": "http://127.0.0.1:4189/uk-ua/exchanges",
+    "status": 200,
+    "lang": "uk",
+    "dir": "ltr",
+    "h1": "Каталог криптоплатформ",
+    "robots": "noindex,follow",
+    "canonical": "https://nexualpha.com/uk-ua/exchanges",
+    "alternates": 0
+  },
+  {
+    "url": "http://127.0.0.1:4189/uk-ua/exchanges/okx",
+    "status": 200,
+    "lang": "uk",
+    "dir": "ltr",
+    "h1": "OKX комісії та профіль платформи",
+    "robots": "noindex,follow",
+    "canonical": "https://nexualpha.com/uk-ua/exchanges/okx",
+    "alternates": 0
+  },
+  {
+    "url": "http://127.0.0.1:4189/uk-ua/news",
+    "status": 200,
+    "lang": "uk",
+    "dir": "ltr",
+    "h1": "Новини та дослідження",
+    "robots": "noindex,follow",
+    "canonical": "https://nexualpha.com/uk-ua/news",
+    "alternates": 0
+  },
+  {
+    "url": "http://127.0.0.1:4189/uk-ua/about",
+    "status": 200,
+    "lang": "uk",
+    "dir": "ltr",
+    "h1": "Про NexuAlpha",
+    "robots": "noindex,follow",
+    "canonical": "https://nexualpha.com/uk-ua/about",
+    "alternates": 0
+  }
+]

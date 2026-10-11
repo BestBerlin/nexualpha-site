@@ -1,0 +1,39 @@
+/* Brazil BCB deadline topic (/topics/brazil-crypto-exchange-deadline-2026, /pt-br/topics/prazo-banco-central-...).
+   The status table scrolls inside its wrapper, so the page never scrolls sideways at 390px. */
+.brazil-deadline-page { background: var(--v3-bg, #071018); }
+.brazil-deadline-hero { padding-top: clamp(32px, 6vw, 72px); padding-bottom: clamp(12px, 3vw, 28px); }
+.brazil-deadline-hero h1 { max-width: 980px; margin: 12px 0 16px; font-size: clamp(1.9rem, 4.2vw, 3.6rem); line-height: var(--lh-tight, 1.08); text-wrap: balance; }
+.brazil-deadline-hero__lead { max-width: 820px; color: var(--v3-muted, #a5b4c7); }
+.brazil-deadline-facts { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 16px 0 0; padding: 0; list-style: none; color: var(--v3-muted, #a5b4c7); }
+.brazil-deadline-facts b { color: var(--v3-text, #e8eef6); font-weight: 600; }
+.brazil-deadline-lang { margin: 12px 0 0; }
+.brazil-deadline-lang a, .brazil-deadline-sources a, .brazil-deadline-table a { display: inline-flex; align-items: center; min-height: 44px; }
+.brazil-deadline-section { padding-block: clamp(14px, 3vw, 28px); min-width: 0; overflow-wrap: anywhere; }
+.brazil-deadline-section h2 { margin: 0 0 12px; font-size: clamp(1.25rem, 2.4vw, 1.6rem); }
+.brazil-deadline-section p, .brazil-deadline-section ul, .brazil-deadline-section ol { max-width: 880px; }
+.brazil-deadline-section li { margin-block: 6px; }
+.brazil-deadline-answer { max-width: 880px; padding: 16px 18px; border: 1px solid var(--line, rgba(255,255,255,.12)); border-inline-start: 3px solid var(--accent, #5287ff); border-radius: 8px; }
+.brazil-deadline-answer p { margin: 0; }
+.brazil-deadline-table-wrap { overflow-x: auto; max-width: 100%; margin-block: 12px; border: 1px solid var(--line, rgba(255,255,255,.12)); border-radius: 8px; -webkit-overflow-scrolling: touch; }
+.brazil-deadline-table-wrap:focus-visible { outline: 2px solid var(--accent, #5287ff); outline-offset: 2px; }
+.brazil-deadline-table { border-collapse: collapse; width: 100%; min-width: 860px; font-size: .95rem; }
+.brazil-deadline-table th, .brazil-deadline-table td { padding: 12px 14px; border-bottom: 1px solid var(--line, rgba(255,255,255,.12)); text-align: start; vertical-align: top; }
+.brazil-deadline-table thead th { font-weight: 600; color: var(--v3-muted, #a5b4c7); white-space: nowrap; }
+.brazil-deadline-table tbody tr:last-child :is(th, td) { border-bottom: 0; }
+.brazil-deadline-table td small { display: block; margin-top: 4px; color: var(--v3-muted, #a5b4c7); }
+.brazil-deadline-status { display: inline-block; padding: 2px 8px; border: 1px solid var(--line, rgba(255,255,255,.18)); border-radius: 999px; font-size: .85rem; white-space: nowrap; }
+.brazil-deadline-status--unknown { color: var(--v3-muted, #a5b4c7); }
+.brazil-deadline-status--leaving { border-color: rgba(255, 120, 120, .55); }
+.brazil-deadline-actions a + a { margin-inline-start: 14px; }
+.brazil-deadline-note { color: var(--v3-muted, #a5b4c7); font-size: .9rem; }
+.brazil-deadline-faq { max-width: 880px; border-top: 1px solid var(--line, rgba(255,255,255,.12)); }
+.brazil-deadline-faq > summary { min-height: 44px; padding-block: 12px; cursor: pointer; font-weight: 600; }
+.brazil-deadline-sources { padding-inline-start: 1.2rem; }
+.brazil-deadline-sources time { color: var(--v3-muted, #a5b4c7); font-size: .9rem; }
+.brazil-deadline-page :is(a, summary):focus-visible { outline: 2px solid var(--accent, #5287ff); outline-offset: 3px; }
+.brazil-deadline-table tbody th[scope="row"], .brazil-deadline-table td.v6-num { white-space: nowrap; }
+.brazil-deadline-table td:nth-child(2) { min-width: 320px; }
+.brazil-deadline-table td:nth-child(3) a { white-space: nowrap; }
+.brazil-deadline-table, .brazil-deadline-table :is(th, td) { overflow-wrap: normal; word-break: normal; }
+.brazil-deadline-table tbody th[scope="row"]:not(#_):not(#_), .brazil-deadline-table td.v6-num:not(#_):not(#_) { white-space: nowrap; }
+.brazil-deadline-table td time:not(#_):not(#_):not(#_) { white-space: nowrap; display: inline-block; }

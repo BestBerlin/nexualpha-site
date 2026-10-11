@@ -20,7 +20,7 @@ import { buildVenueFeeSummary, feeSummaryCopy } from "../../data/venue-fee-summa
 import { reviewedFeeCopy } from "../../data/reviewed-fee-copy.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
 import { directoryContextSearch } from "../../data/directory-context.js";
-import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
+import { appendDecisionPassportQuery, readDecisionPassport } from "../../data/decision-passport.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
 import { feePctOfRate, isoDay } from "../../data/exchange-facts.js";
 import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
@@ -578,6 +578,9 @@ copy.uk = { ...copy.en, eyebrow:"ТЕРМІНАЛ / ОРІЄНТИР КОМІС�
 
 export function FeeBenchmarkTerminal({ locale = "en", market, product: productParam, accountStage, funding }) {
   const product = productParam || "spot";
+  const decisionPassport = readDecisionPassport("", { market, product, accountStage, funding });
+  const safeAccountStage = decisionPassport.accountStage;
+  const safeFunding = decisionPassport.funding;
   const [filter, setFilter] = useState("all");
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
@@ -594,7 +597,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
     const spotRate = buildRateView(rateForProduct(feeSummary, "spot"), locale, labels);
     const futuresRate = buildRateView(rateForProduct(feeSummary, "futures"), locale, labels);
     const commercialClaim = resolveCommercialClaim({ partner, venue: db });
-    const cta = regionalVenueCta(slug, locale, market, product, { accountStage, funding });
+    const cta = regionalVenueCta(slug, locale, market, product, { accountStage: safeAccountStage, funding: safeFunding });
     const rebatePercent = commercialClaim.status === "verified" ? commercialClaim.rebatePercent : 0;
     // Partner venues (audit NX-02/NX-03): the share comes from the single partner benefit record and the net figure uses
     // the home calculator's formula (base × (1 − top share)), labelled "after max rebate".
@@ -635,16 +638,16 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
   const nextStep = nextStepCopy[locale] || nextStepCopy[localeKey] || nextStepCopy[normalizedLocale] || nextStepCopy.en;
   const answerLabels = answerLabelCopy[locale] || answerLabelCopy[localeKey] || answerLabelCopy[normalizedLocale] || answerLabelCopy.en;
   const answerBlock = answerBlockCopy[locale] || answerBlockCopy[localeKey] || answerBlockCopy[normalizedLocale] || answerBlockCopy.en;
-  const contextSearch = directoryContextSearch({ market, product, locale, accountStage, funding });
+  const contextSearch = directoryContextSearch({ market, product, locale, accountStage: safeAccountStage, funding: safeFunding });
   const answerHref = (href, answerProduct) => appendDecisionPassportQuery(
     localizedHref(href, { locale, market, product: answerProduct }),
-    { market, product: answerProduct, accountStage, funding },
+    { market, product: answerProduct, accountStage: safeAccountStage, funding: safeFunding },
   );
 
   const hasTrend = rows.some((r) => r.trend);
   const hasBenefit = rows.some((r) => r.rebateDisplay || r.netDisplay);
   const colCount = 5 + (hasBenefit ? 2 : 0) + (hasTrend ? 1 : 0);
-  const venueLink = (row) => <a href={`/exchanges/${row.slug}?${contextSearch}#registration-path`} data-cta-kind="research" data-cta-placement="rate-benchmark-detail" data-growth-decision={row.slug} data-growth-placement="rate-benchmark-detail" data-growth-market={market} data-growth-product={product} data-growth-account-stage={accountStage} data-growth-funding={funding} translate="no">{getLocalizedVenueName(row, locale)}</a>;
+  const venueLink = (row) => <a href={`/exchanges/${row.slug}?${contextSearch}#registration-path`} data-cta-kind="research" data-cta-placement="rate-benchmark-detail" data-growth-decision={row.slug} data-growth-placement="rate-benchmark-detail" data-growth-market={market} data-growth-product={product} data-growth-account-stage={safeAccountStage} data-growth-funding={safeFunding} translate="no">{getLocalizedVenueName(row, locale)}</a>;
   const ctaLink = (row) => <a
     href={row.ctaHref}
     target={row.ctaDirect ? "_blank" : undefined}
@@ -657,8 +660,8 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
     data-growth-placement="rate-benchmark-row"
     data-growth-market={market}
     data-growth-product={product}
-    data-growth-account-stage={accountStage}
-    data-growth-funding={funding}
+    data-growth-account-stage={safeAccountStage}
+    data-growth-funding={safeFunding}
     data-growth-campaign={market ? `${String(market).toLowerCase()}-research-preview` : undefined}
     data-cta-code={row.ctaDirect && row.inviteCode ? row.inviteCode : undefined}
   >{row.ctaDirect ? `${ctaUiCopy(locale).caption} ↗` : ({ ja: "地域条件を確認", ko: "지역 조건 확인", tr: "Bölgesel uygunluğu doğrula", es: "Verificar elegibilidad", "pt-BR": "Verificar elegibilidade", fr: "Vérifier l’éligibilité régionale", de: "Regionale Eignung prüfen", ru: "Проверить региональную доступность", ar: "تحقق من الأهلية الإقليمية", id: "Verifikasi kelayakan wilayah", vi: "Kiểm tra điều kiện khu vực", it: "Verifica idoneità regionale",
@@ -707,8 +710,8 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
                   data-growth-placement="rates-next-step"
                   data-growth-market={market}
                   data-growth-product={product}
-                  data-growth-account-stage={accountStage}
-                  data-growth-funding={funding}
+                  data-growth-account-stage={safeAccountStage}
+                  data-growth-funding={safeFunding}
                   data-growth-campaign="rates_next_step"
                 >
                   {nextStep[2]}
@@ -717,8 +720,8 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
               </div>
             </div>
         {/* Owner 2026-10-10: show perpetual fees by default (same as the home calculator); an explicit ?product=spot still wins. */}
-        <CostDecision locale={locale} regionMarket={market} product={productParam || "perpetuals"} accountStage={accountStage} funding={funding} />
-        <DecisionPathRail locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} current="rates" />
+        <CostDecision locale={locale} regionMarket={market} product={productParam || "perpetuals"} accountStage={safeAccountStage} funding={safeFunding} />
+        <DecisionPathRail locale={locale} market={market} product={product} accountStage={safeAccountStage} funding={safeFunding} current="rates" />
       </div>
       <header className="fee-terminal__header">
         <h2 className="fee-terminal__title">{t.title}</h2>

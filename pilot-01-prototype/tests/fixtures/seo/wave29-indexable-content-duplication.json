@@ -1,0 +1,1918 @@
+{
+  "generatedAt": "2026-09-15T05:07:48.742Z",
+  "status": "IMPROVED",
+  "boundary": "Exact duplicate and thin-content screening only. Similar wording can still be legitimate; every merge, rewrite or noindex decision requires page-intent review.",
+  "totals": {
+    "indexablePages": 1247,
+    "duplicateTitleGroups": 19,
+    "duplicateDescriptionGroups": 0,
+    "duplicateH1Groups": 53,
+    "duplicateMainFingerprintGroups": 0,
+    "localeFallbackRiskGroups": 0,
+    "thinPages": 0
+  },
+  "severity": {
+    "high": 0,
+    "medium": 0,
+    "advisory": 72
+  },
+  "duplicateTitles": [
+    {
+      "value": "backpack review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/backpack",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/backpack"
+        },
+        {
+          "path": "/exchanges/backpack",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/backpack?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "binance vs bybit: trading fees & platform comparison — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "binance vs kraken: trading fees & platform comparison — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=zh-Hant"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken"
+        }
+      ]
+    },
+    {
+      "value": "binance vs mexc: trading fees & platform comparison — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "coinbase review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/coinbase",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/coinbase"
+        },
+        {
+          "path": "/exchanges/coinbase",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/coinbase?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "curve review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/curve",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/curve"
+        },
+        {
+          "path": "/exchanges/curve",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/curve?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "deribit review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/deribit",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/deribit"
+        },
+        {
+          "path": "/exchanges/deribit",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/deribit?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "drift review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/drift",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/drift"
+        },
+        {
+          "path": "/exchanges/drift",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/drift?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "dydx review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/dydx",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/dydx"
+        },
+        {
+          "path": "/exchanges/dydx",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/dydx?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "gate.io review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/gate-io",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/gate-io"
+        },
+        {
+          "path": "/exchanges/gate-io",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/gate-io?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "gate.io vs mexc: trading fees & platform comparison — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "gmx review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/gmx",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/gmx"
+        },
+        {
+          "path": "/exchanges/gmx",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/gmx?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "kraken review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/kraken",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/kraken"
+        },
+        {
+          "path": "/exchanges/kraken",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/kraken?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "kucoin review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/kucoin",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/kucoin"
+        },
+        {
+          "path": "/exchanges/kucoin",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/kucoin?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "mexc review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/mexc",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/mexc"
+        },
+        {
+          "path": "/exchanges/mexc",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/mexc?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "okx vs bybit: trading fees & platform comparison — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "okx vs mexc: trading fees & platform comparison — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "pancakeswap review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/pancakeswap",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/pancakeswap"
+        },
+        {
+          "path": "/exchanges/pancakeswap",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/pancakeswap?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "raydium review, fee conditions & official route — nexualpha",
+      "count": 2,
+      "members": [
+        {
+          "path": "/exchanges/raydium",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/exchanges/raydium"
+        },
+        {
+          "path": "/exchanges/raydium",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/exchanges/raydium?locale=zh-Hant"
+        }
+      ]
+    }
+  ],
+  "duplicateDescriptions": [],
+  "duplicateH1s": [
+    {
+      "value": "bybit vs bitget",
+      "count": 15,
+      "members": [
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget?locale=zh-Hans"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget?locale=zh-Hant"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget?locale=es"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget?locale=pt-BR"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget?locale=fr"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget?locale=de"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/compare/bybit-vs-bitget"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/compare/bybit-vs-bitget"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget?locale=ar"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/compare/bybit-vs-bitget"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget?locale=id"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget?locale=ru"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget?locale=vi"
+        },
+        {
+          "path": "/compare/bybit-vs-bitget",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/compare/bybit-vs-bitget?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "hyperliquid vs dydx",
+      "count": 15,
+      "members": [
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx?locale=zh-Hant"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx?locale=zh-Hans"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx?locale=es"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx?locale=pt-BR"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx?locale=fr"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/compare/hyperliquid-vs-dydx"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx?locale=de"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/compare/hyperliquid-vs-dydx"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx?locale=ar"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx?locale=id"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/compare/hyperliquid-vs-dydx"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx?locale=ru"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx?locale=vi"
+        },
+        {
+          "path": "/compare/hyperliquid-vs-dydx",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/compare/hyperliquid-vs-dydx?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "binance vs bybit",
+      "count": 13,
+      "members": [
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=es"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=pt-BR"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=fr"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/compare/binance-vs-bybit"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/compare/binance-vs-bybit"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=de"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=ar"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/compare/binance-vs-bybit"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=ru"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=id"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=vi"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "binance vs kraken",
+      "count": 13,
+      "members": [
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=es"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=pt-BR"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=fr"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=de"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/compare/binance-vs-kraken"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/compare/binance-vs-kraken"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=ar"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/compare/binance-vs-kraken"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=ru"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=id"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=vi"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "binance vs mexc",
+      "count": 13,
+      "members": [
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=es"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=pt-BR"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=fr"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=de"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/compare/binance-vs-mexc"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/compare/binance-vs-mexc"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=ar"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/compare/binance-vs-mexc"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=id"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=ru"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=vi"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "binance vs okx",
+      "count": 13,
+      "members": [
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx?locale=es"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx?locale=pt-BR"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/compare/binance-vs-okx"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx?locale=fr"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx?locale=de"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/compare/binance-vs-okx"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx?locale=ar"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx?locale=ru"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/compare/binance-vs-okx"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx?locale=id"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx?locale=vi"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "crypto perpetual platform comparison: binance, bybit and hyperliquid",
+      "count": 13,
+      "members": [
+        {
+          "path": "/topics/derivatives",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/topics/derivatives"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/topics/derivatives?locale=es"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/topics/derivatives?locale=pt-BR"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/topics/derivatives?locale=fr"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/topics/derivatives?locale=de"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/topics/derivatives"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/topics/derivatives"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/topics/derivatives?locale=ar"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/topics/derivatives"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/topics/derivatives?locale=id"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/topics/derivatives?locale=ru"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/topics/derivatives?locale=vi"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/topics/derivatives?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "gate.io vs mexc",
+      "count": 13,
+      "members": [
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=es"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=pt-BR"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=fr"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/compare/gate-io-vs-mexc"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=de"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/compare/gate-io-vs-mexc"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=ar"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=ru"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/compare/gate-io-vs-mexc"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=id"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=vi"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "okx vs bybit",
+      "count": 13,
+      "members": [
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=es"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=pt-BR"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=fr"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=de"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/compare/okx-vs-bybit"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/compare/okx-vs-bybit"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=ar"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=ru"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=vi"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=id"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/compare/okx-vs-bybit"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "okx vs mexc",
+      "count": 13,
+      "members": [
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=es"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=pt-BR"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=fr"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=de"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/compare/okx-vs-mexc"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/compare/okx-vs-mexc"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=ar"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=vi"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=id"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=ru"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/compare/okx-vs-mexc"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "published fee and market terms regulated crypto exchanges for fiat on/off-ramp (2026): hashkey vs kraken vs okx",
+      "count": 13,
+      "members": [
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges?locale=es"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges?locale=pt-BR"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges?locale=fr"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges?locale=de"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/topics/compliant-exchanges"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/topics/compliant-exchanges"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges?locale=ar"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/topics/compliant-exchanges"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges?locale=ru"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges?locale=id"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges?locale=vi"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "top no-kyc crypto exchanges & privacy trading (2026): hyperliquid vs dydx vs mexc",
+      "count": 11,
+      "members": [
+        {
+          "path": "/topics/no-kyc",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/topics/no-kyc"
+        },
+        {
+          "path": "/topics/no-kyc",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/topics/no-kyc?locale=es"
+        },
+        {
+          "path": "/topics/no-kyc",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/topics/no-kyc?locale=pt-BR"
+        },
+        {
+          "path": "/topics/no-kyc",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/topics/no-kyc?locale=fr"
+        },
+        {
+          "path": "/topics/no-kyc",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/topics/no-kyc?locale=de"
+        },
+        {
+          "path": "/topics/no-kyc",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/topics/no-kyc"
+        },
+        {
+          "path": "/topics/no-kyc",
+          "locale": "ar",
+          "canonical": "https://nexualpha.com/topics/no-kyc?locale=ar"
+        },
+        {
+          "path": "/topics/no-kyc",
+          "locale": "ru",
+          "canonical": "https://nexualpha.com/topics/no-kyc?locale=ru"
+        },
+        {
+          "path": "/topics/no-kyc",
+          "locale": "id",
+          "canonical": "https://nexualpha.com/topics/no-kyc?locale=id"
+        },
+        {
+          "path": "/topics/no-kyc",
+          "locale": "vi",
+          "canonical": "https://nexualpha.com/topics/no-kyc?locale=vi"
+        },
+        {
+          "path": "/topics/no-kyc",
+          "locale": "it",
+          "canonical": "https://nexualpha.com/topics/no-kyc?locale=it"
+        }
+      ]
+    },
+    {
+      "value": "embed real-time crypto fee intelligence on your blog or research portal",
+      "count": 8,
+      "members": [
+        {
+          "path": "/partners",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/partners"
+        },
+        {
+          "path": "/partners",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/partners?locale=es"
+        },
+        {
+          "path": "/partners",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/partners?locale=pt-BR"
+        },
+        {
+          "path": "/partners",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/partners?locale=fr"
+        },
+        {
+          "path": "/partners",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/partners?locale=de"
+        },
+        {
+          "path": "/partners",
+          "locale": "ja",
+          "canonical": "https://nexualpha.com/ja/partners"
+        },
+        {
+          "path": "/partners",
+          "locale": "ko",
+          "canonical": "https://nexualpha.com/ko/partners"
+        },
+        {
+          "path": "/partners",
+          "locale": "tr",
+          "canonical": "https://nexualpha.com/tr/partners"
+        }
+      ]
+    },
+    {
+      "value": "nexualpha rating methodology & data audit framework",
+      "count": 5,
+      "members": [
+        {
+          "path": "/methodology",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/methodology"
+        },
+        {
+          "path": "/methodology",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/methodology?locale=es"
+        },
+        {
+          "path": "/methodology",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/methodology?locale=pt-BR"
+        },
+        {
+          "path": "/methodology",
+          "locale": "fr",
+          "canonical": "https://nexualpha.com/methodology?locale=fr"
+        },
+        {
+          "path": "/methodology",
+          "locale": "de",
+          "canonical": "https://nexualpha.com/methodology?locale=de"
+        }
+      ]
+    },
+    {
+      "value": "estimate your current exchange's annual base-fee cost",
+      "count": 3,
+      "members": [
+        {
+          "path": "/embed/calculator",
+          "locale": "en",
+          "canonical": "https://nexualpha.com/embed/calculator"
+        },
+        {
+          "path": "/embed/calculator",
+          "locale": "es",
+          "canonical": "https://nexualpha.com/embed/calculator?locale=es"
+        },
+        {
+          "path": "/embed/calculator",
+          "locale": "pt-BR",
+          "canonical": "https://nexualpha.com/embed/calculator?locale=pt-BR"
+        }
+      ]
+    },
+    {
+      "value": "2026 免实名与去中心化隐私交易平台评测:hyperliquid vs dydx vs mexc 选型底牌",
+      "count": 2,
+      "members": [
+        {
+          "path": "/topics/no-kyc",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/topics/no-kyc?locale=zh-Hans"
+        },
+        {
+          "path": "/topics/no-kyc",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/topics/no-kyc?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "2026 全球合规法币出入金与防冻卡交易所白皮书:hashkey vs kraken vs okx 深度测评",
+      "count": 2,
+      "members": [
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges?locale=zh-Hans"
+        },
+        {
+          "path": "/topics/compliant-exchanges",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/topics/compliant-exchanges?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "2026 高波动土狗打新与 meme 币交易平台独立研究选型指南:mexc vs gate.io vs raydium",
+      "count": 2,
+      "members": [
+        {
+          "path": "/topics/meme-coins",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/topics/meme-coins?locale=zh-Hans"
+        },
+        {
+          "path": "/topics/meme-coins",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/topics/meme-coins?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "aerodrome 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/aerodrome",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/aerodrome?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/aerodrome",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/aerodrome?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "aevo 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/aevo",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/aevo?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/aevo",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/aevo?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "backpack 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/backpack",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/backpack?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/backpack",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/backpack?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "binance (币安) vs bybit",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=zh-Hans"
+        },
+        {
+          "path": "/compare/binance-vs-bybit",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/binance-vs-bybit?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "binance (币安) vs kraken (海妖)",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=zh-Hant"
+        },
+        {
+          "path": "/compare/binance-vs-kraken",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/compare/binance-vs-kraken?locale=zh-Hans"
+        }
+      ]
+    },
+    {
+      "value": "binance (币安) vs mexc (抹茶)",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=zh-Hant"
+        },
+        {
+          "path": "/compare/binance-vs-mexc",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/compare/binance-vs-mexc?locale=zh-Hans"
+        }
+      ]
+    },
+    {
+      "value": "binance (币安) vs okx (欧易)",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx?locale=zh-Hans"
+        },
+        {
+          "path": "/compare/binance-vs-okx",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/binance-vs-okx?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "binance 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/binance",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/binance?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/binance",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/binance?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "bitget 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/bitget",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/bitget?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/bitget",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/bitget?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "bybit 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/bybit",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/bybit?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/bybit",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/bybit?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "coinbase 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/coinbase",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/coinbase?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/coinbase",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/coinbase?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "curve 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/curve",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/curve?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/curve",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/curve?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "deribit 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/deribit",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/deribit?locale=zh-Hant"
+        },
+        {
+          "path": "/factbook/deribit",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/deribit?locale=zh-Hans"
+        }
+      ]
+    },
+    {
+      "value": "drift 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/drift",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/drift?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/drift",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/drift?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "dydx 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/dydx",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/dydx?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/dydx",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/dydx?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "gate.io (芝麻开门) vs mexc (抹茶)",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=zh-Hans"
+        },
+        {
+          "path": "/compare/gate-io-vs-mexc",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/gate-io-vs-mexc?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "gate.io 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/gate-io",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/gate-io?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/gate-io",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/gate-io?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "gmx 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/gmx",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/gmx?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/gmx",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/gmx?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "hashkey global 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/hashkey",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/hashkey?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/hashkey",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/hashkey?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "htx 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/htx",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/htx?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/htx",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/htx?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "hyperliquid 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/hyperliquid",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/hyperliquid?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/hyperliquid",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/hyperliquid?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "jupiter 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/jupiter",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/jupiter?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/jupiter",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/jupiter?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "kraken 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/kraken",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/kraken?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/kraken",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/kraken?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "kucoin 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/kucoin",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/kucoin?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/kucoin",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/kucoin?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "mexc 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/mexc",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/mexc?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/mexc",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/mexc?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "nexualpha 评测方法论与数据审计标准",
+      "count": 2,
+      "members": [
+        {
+          "path": "/methodology",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/methodology?locale=zh-Hans"
+        },
+        {
+          "path": "/methodology",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/methodology?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "okx (欧易) vs bybit",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=zh-Hans"
+        },
+        {
+          "path": "/compare/okx-vs-bybit",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/okx-vs-bybit?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "okx (欧易) vs mexc (抹茶)",
+      "count": 2,
+      "members": [
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=zh-Hans"
+        },
+        {
+          "path": "/compare/okx-vs-mexc",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/compare/okx-vs-mexc?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "okx 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/okx",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/okx?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/okx",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/okx?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "pancakeswap 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/pancakeswap",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/pancakeswap?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/pancakeswap",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/pancakeswap?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "raydium 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/raydium",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/raydium?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/raydium",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/raydium?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "uniswap 来源审阅事实库",
+      "count": 2,
+      "members": [
+        {
+          "path": "/factbook/uniswap",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/factbook/uniswap?locale=zh-Hans"
+        },
+        {
+          "path": "/factbook/uniswap",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/factbook/uniswap?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "为您的网站、博客或研报接入 实时加密费率量化组件",
+      "count": 2,
+      "members": [
+        {
+          "path": "/partners",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/partners?locale=zh-Hans"
+        },
+        {
+          "path": "/partners",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/partners?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "交易所手续费基准终端",
+      "count": 2,
+      "members": [
+        {
+          "path": "/rates",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/rates?locale=zh-Hans"
+        },
+        {
+          "path": "/rates",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/rates?locale=zh-Hant"
+        }
+      ]
+    },
+    {
+      "value": "加密永续合约平台比较:binance、bybit 与 hyperliquid",
+      "count": 2,
+      "members": [
+        {
+          "path": "/topics/derivatives",
+          "locale": "zh-Hans",
+          "canonical": "https://nexualpha.com/topics/derivatives?locale=zh-Hans"
+        },
+        {
+          "path": "/topics/derivatives",
+          "locale": "zh-Hant",
+          "canonical": "https://nexualpha.com/topics/derivatives?locale=zh-Hant"
+        }
+      ]
+    }
+  ],
+  "duplicateMainFingerprints": [],
+  "localeFallbackRisks": [],
+  "thinPages": [],
+  "baselineComparison": {
+    "status": "IMPROVED",
+    "previous": {
+      "high": 0,
+      "medium": 20,
+      "advisory": 72
+    },
+    "current": {
+      "high": 0,
+      "medium": 0,
+      "advisory": 72
+    },
+    "delta": {
+      "high": 0,
+      "medium": -20,
+      "advisory": 0
+    },
+    "policy": "High-confidence body, locale-fallback and thin-page signals take priority. Description regressions break ties; repeated brand titles and H1s remain advisory until page-intent review."
+  }
+}

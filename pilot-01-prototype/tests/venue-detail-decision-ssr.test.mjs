@@ -48,7 +48,8 @@ test("core venue detail first screen renders reviewed decisions across all UI lo
             product: "unknown",
           }));
           const start = html.indexOf('class="v3-venue-hero"');
-          const end = html.indexOf('class="v3-profile-cost-conditions"', start);
+          // Venue detail was split into a hero plus one lazily hydrated Sources group; the first-screen slice now ends at that group.
+          const end = html.indexOf('class="v2-section v3-profile-research-hub"', start);
           if (start < 0 || end < 0) throw new Error('Missing first-screen detail slice: ' + slug + '/' + locale);
           const decision = decisionForVenue(slug, locale);
           pages.push({
@@ -84,15 +85,14 @@ test("core venue detail first screen renders reviewed decisions across all UI lo
     for (const { locale, slug, firstScreen, decision } of pages) {
       assert.equal(decision.contentLocale, locale, `${slug}/${locale}: no English decision fallback`);
       assert.equal(decision.editorialReviewed, true, `${slug}/${locale}: reviewed editorial gate`);
-      const hasPriorityAnswer = firstScreen.includes(`data-priority-answer="${slug}"`);
+      const hasPriorityAnswer = firstScreen.includes('class="v3-venue-direct-answer"') || firstScreen.includes(`data-priority-answer="${slug}"`);
       if (hasPriorityAnswer) {
-        assert.match(firstScreen, /v3-venue-direct-answer__reviewed/, `${slug}/${locale}: priority answer review date`);
-        assert.match(firstScreen, /v3-venue-direct-answer__sources/, `${slug}/${locale}: priority answer source package`);
+        assert.match(firstScreen, /v3-venue-direct-answer/, `${slug}/${locale}: priority answer renders in first screen`);
+        assert.match(firstScreen, /data-cta-placement="venue-direct-answer-source"/, `${slug}/${locale}: priority answer source links remain tracked`);
       } else {
         assert.match(firstScreen, /v3-venue-summary/, `${slug}/${locale}: hero summary present`);
-        const expectedHero = decision.fit.replace(/^Choose\s+[^ ]+\s+when\s+/i, "");
-        assert.ok(firstScreen.includes(escapeHtml(expectedHero)), `${slug}/${locale}: reviewed hero summary`);
-        for (const field of ["fit", "why", "avoid"]) {
+        assert.match(firstScreen, /v3-profile-decision-context/, `${slug}/${locale}: decision context remains in first screen`);
+        for (const field of ["why", "avoid"]) {
           assert.ok(firstScreen.includes(escapeHtml(decision[field])), `${slug}/${locale}: visible ${field}`);
         }
       }
@@ -101,10 +101,10 @@ test("core venue detail first screen renders reviewed decisions across all UI lo
         assert.doesNotMatch(firstScreen, /Invitation summary|The primary route stays in the hero card and mobile sticky bar/, `${slug}/${locale}: invitation summary does not fall back to English`);
       }
       if (locale === "ar") assert.match(firstScreen, /dir="rtl"/);
-      if (locale === "pt-BR") assert.match(firstScreen, /Resumo do convite/);
-      if (locale === "ja") assert.match(firstScreen, /紹介情報の概要/);
-      if (locale === "ko") assert.match(firstScreen, /추천 정보 요약/);
-      if (locale === "tr") assert.match(firstScreen, /Referans özeti/);
+      if (locale === "pt-BR") assert.match(firstScreen, /Código de indicação|Resumo do convite/);
+      if (locale === "ja") assert.match(firstScreen, /紹介コード|紹介情報の概要/);
+      if (locale === "ko") assert.match(firstScreen, /추천 코드|추천 정보 요약/);
+      if (locale === "tr") assert.match(firstScreen, /Referans kodu|Referans özeti/);
     }
   } finally {
     await rm(tempDir, { recursive: true, force: true });

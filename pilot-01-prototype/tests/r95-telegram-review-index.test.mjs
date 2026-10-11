@@ -1,10 +1,35 @@
-import test from 'node:test';
+import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, readFile, writeFile, readdir, rm } from 'node:fs/promises';
+import { copyFile, mkdir, mkdtemp, readFile, writeFile, readdir, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { tmpdir } from 'node:os';
+import { fileURLToPath } from 'node:url';
 import { REVIEW_INDEX_INPUTS as refs, loadReviewIndexInputs, buildTelegramReviewIndex, generateTelegramReviewIndex } from '../scripts/generate-telegram-review-index.mjs';
-const inputs=await loadReviewIndexInputs();
+const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
+// Class c: exercise the real loader in an isolated input tree; lifecycle values are
+// synthetic unit inputs, not evidence that any PostgreSQL or production check ran.
+const fixtureDir = await mkdtemp(path.join(tmpdir(), 'r95-review-inputs-'));
+const fixtureRoot = path.join(fixtureDir, 'project');
+after(() => rm(fixtureDir, { recursive: true, force: true }));
+async function copyInput(artifact) {
+ const destination = path.resolve(fixtureRoot, artifact);
+ await mkdir(path.dirname(destination), { recursive: true });
+ if (artifact === refs.lifecycle) {
+  await writeFile(destination, JSON.stringify({
+   schema: 'r95-synthetic-lifecycle-test-input-v1',
+   postgresTests: { passed: 13 }, compiledPostgresSmoke: { checks: 16 },
+   productionPromoted: false, realAccountUiAccepted: false,
+  }));
+ } else {
+  await copyFile(path.resolve(root, artifact), destination);
+ }
+}
+for (const artifact of Object.values(refs)) await copyInput(artifact);
+const manual = JSON.parse(await readFile(path.resolve(fixtureRoot, refs.manual), 'utf8'));
+for (const row of manual.drafts) {
+ for (const artifact of [row.draftSourcePath, row.sourceQueue, ...(row.evidencePaths || [])]) await copyInput(artifact);
+}
+const inputs = await loadReviewIndexInputs(fixtureRoot);
 const options={reviewedAt:'2026-10-02'};
 const clone=()=>structuredClone(inputs);
 
@@ -74,6 +99,6 @@ test('local output requires explicit date, preserves inputs and refuses either d
   const json=await readFile(path.join(outputDir,'r95-telegram-review-index-20261002.json'),'utf8');
   await assert.rejects(generateTelegramReviewIndex({outputDir,...options},inputs),/Refusing existing archive/);
   assert.equal(await readFile(path.join(outputDir,'r95-telegram-review-index-20261002.json'),'utf8'),json);
-  assert.deepEqual((await loadReviewIndexInputs()).hashes,inputs.hashes);
+  assert.deepEqual((await loadReviewIndexInputs(fixtureRoot)).hashes,inputs.hashes);
  } finally {await rm(outputDir,{recursive:true,force:true});}
 });

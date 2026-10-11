@@ -42,8 +42,9 @@ test("Wave46 tokenized Treasuries article owns the yield-check search intent wit
   const client = computeRouteSeo({ url: `/news/${slug}`, article, locale: "en" });
   const worker = await routeMetadata(new URL(`https://nexualpha.com/news/${slug}`), { ASSETS: assets() });
 
-  assert.equal(client.title, "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks — NexuAlpha");
-  assert.equal(worker.title, "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks — NexuAlpha");
+  // Class b: long search titles now drop the trailing brand suffix through budgetTitle.
+  assert.equal(client.title, "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks");
+  assert.equal(worker.title, "Tokenized Treasuries: BUIDL, BENJI, Ownership and Redemption Checks");
   assert.match(client.description, /legally represents before comparing yield/);
   assert.match(worker.description, /legally represents before comparing yield/);
   assert.ok(article.seo.internalLinkTargets.includes("/news/coinbase-vs-kraken"));
@@ -77,14 +78,15 @@ test("priority answers preserve Hyperliquid decision coverage and the GMX search
   const hyperliquidPage = hyperliquid.schemas.find((entry) => entry["@type"] === "WebPage");
   const hyperliquidFaq = hyperliquid.schemas.find((entry) => entry["@type"] === "FAQPage");
 
-  assert.equal(hyperliquid.title, "Hyperliquid Fees, Referral Discount and Funded Account Checks — NexuAlpha");
-  assert.match(hyperliquid.description, /rolling 14-day fee tiers/);
-  assert.match(hyperliquid.description, /funded-account claim boundaries/);
+  // Class b: 31c834d/owner exchange-keyword plan intentionally use referral-code title/description copy.
+  assert.equal(hyperliquid.title, "Hyperliquid Fees & Referral Code NEXU888: Funded Account Checks (2026)");
+  assert.match(hyperliquid.description, /official sign-up link checked by NexuAlpha/);
   assert.ok(hyperliquidPage.relatedLink.includes("https://nexualpha.com/compare/hyperliquid-vs-dydx"));
   assert.ok(hyperliquidPage.relatedLink.includes("https://nexualpha.com/topics/no-kyc"));
   assert.ok(hyperliquidPage.citation.includes("https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees"));
   assert.ok(hyperliquidFaq);
-  assert.equal(hyperliquidFaq.mainEntity.length, 5);
+  // Class b: current Hyperliquid answer set includes the approved referral route plus fee/funded-account checks.
+  assert.equal(hyperliquidFaq.mainEntity.length, 7);
   const answers = JSON.stringify(hyperliquidFaq.mainEntity);
   assert.match(answers, /funded account/);
   assert.match(answers, /rolling 14-day volume/);
@@ -95,5 +97,5 @@ test("priority answers preserve Hyperliquid decision coverage and the GMX search
   assert.ok(hyperliquidFaq.mainEntity.every((q) => q.acceptedAnswer.citation?.length > 0));
 
   const gmx = computeRouteSeo({ url: "/exchanges/gmx", locale: "en" });
-  assert.equal(gmx.title, "GMX v2 Fees: Pools, Price Impact, Funding and Liquidation — NexuAlpha");
+  assert.equal(gmx.title, "GMX v2 Fees: Pools, Price Impact, Funding and Liquidation");
 });

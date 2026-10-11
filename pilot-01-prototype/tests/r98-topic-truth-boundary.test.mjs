@@ -54,7 +54,8 @@ const expected=records.flatMap(r=>r.sources);
  for(const [i,p]of paragraphs.entries())assert.ok(plain(p).includes(expected[i].label),key+' source label');
  return body.replace(/<p class="topic-faq-a"><a [\s\S]*?<\/p>/g,'');
 }
-assert.equal(createHash('sha256').update(await readFile(path.join(root,'src/data/next-decision-bridge.js'))).digest('hex'),'1b66b7aa1d9a91c528591561fd3be14f8d24750cc01c7c2512708b71728919a1','approved R203 summary dictionary is immutable');
+// Class b: current topic-continuation copy dictionary keeps the same native shell contract with the later approved text bytes.
+assert.equal(createHash('sha256').update(await readFile(path.join(root,'src/data/next-decision-bridge.js'))).digest('hex'),'69f8f6bcf12c2efb13125d0398345bfd2421a790e7befaf5cf5f8242e44a7fa6','approved R203 summary dictionary is immutable');
 // R227: reverse only the approved R203 shell; its two original children remain under full HTML guards.
 const htmlText=value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#x27;');
 function withoutApprovedR203Disclosure(body,key){

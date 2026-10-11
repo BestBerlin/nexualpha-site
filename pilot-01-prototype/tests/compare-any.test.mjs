@@ -10,6 +10,7 @@ import { fileURLToPath } from "node:url";
 
 import worker, { renderLocaleSitemap, routeMetadata } from "../worker/index.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
+import { budgetTitle } from "../src/data/meta-description.js";
 import {
   ACTIVE_COMPARE_VENUE_SLUGS, COMPARE_LOCALES, CURATED_COMPARISON_SLUGS, canonicalComparePairSlug, generatedCompareCopy,
   generatedCompareLocales, generatedComparePairs, generatedComparePolicy, indexableGeneratedComparePairs, comparePickerCopy, compareIndexCopy,
@@ -48,7 +49,8 @@ test("a generated pair resolves in all 17 locales with templated copy and the sh
     const copy = generatedCompareCopy(locale, { nameA: "Gate.io", nameB: "Kraken", date: "2026-10-10" });
     assert.equal(meta.status, 200, url);
     assert.equal(meta.canonical, url, url);
-    assert.equal(meta.title, copy.title, url);
+    // Owner title-budget rule: long served titles drop the trailing brand suffix, while source copy keeps it.
+    assert.equal(meta.title, budgetTitle(copy.title), url);
     assert.ok(meta.description.length > 40 && meta.description.length <= 160 + 20, url);
     const expected = generatedCompareLocales(INDEXABLE_PAIR).includes(locale) ? "index,follow" : "noindex,follow";
     assert.equal(meta.robots, expected, url);

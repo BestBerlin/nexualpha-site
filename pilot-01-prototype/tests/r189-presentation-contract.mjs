@@ -56,15 +56,21 @@ export function assertApprovedResearchMove(current, original, locale) {
   const group = [prefix + '/exchanges/hashkey', prefix + '/compare/hashkey-vs-kraken', prefix + '/telegram'];
   const locate = (array) => array.flatMap((_, i) => group.every((v, j) => array[i + j] === v) ? [i] : []);
   assert.deepEqual(locate(original), [7], 'exactly one original research group at approved original position');
-  assert.deepEqual(locate(current), [19], 'exactly one group at approved post-sources position');
+  // Class b: a4dee31 already omits the archived compare shortcut; pin the exact current research exits and all other hrefs.
+  const currentGroup = [group[0], group[2]];
+  const locateCurrent = (array) => array.flatMap((_, i) => currentGroup.every((v, j) => array[i + j] === v) ? [i] : []);
+  assert.deepEqual(locate(current), [], 'archived compare group is absent');
+  assert.deepEqual(locateCurrent(current), [19], 'exactly one current research group at approved post-sources position');
   assert.equal(original[6], 'https://www.kraken.com/features');
   assert.equal(current[18], 'https://www.okx.com/en-us/help/freeze-coverage-faq');
-  assert.match(current[22], /tg_return=bot/, 'research group precedes original contextual return path');
+  assert.match(current[21], /tg_return=bot/, 'research group precedes original contextual return path');
   const restored = [...current];
-  restored.splice(19, 3);
+  restored.splice(19, 2);
   restored.splice(7, 0, ...group);
   assert.deepEqual(restored, original, 'every other href value, duplicate count and ordered position is unchanged');
-  assert.deepEqual([...current].sort(), [...original].sort(), 'all complete href multiplicities preserved');
+  const expectedMultiset = [...original];
+  expectedMultiset.splice(8, 1);
+  assert.deepEqual([...current].sort(), expectedMultiset.sort(), 'only the single archived compare shortcut is removed');
 }
 
 

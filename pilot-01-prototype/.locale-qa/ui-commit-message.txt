@@ -1,0 +1,11 @@
+Let new locale readers complete the same page flows
+
+Constraint: Reuse existing RTL fonts and preserve partner codes, URLs and commission disclosures.
+Rejected: Entry-loading every product dictionary | it exceeds the strict initial JavaScript budget.
+Confidence: high
+Scope-risk: moderate
+Directive: Keep translated drafts marked for native review and preserve noindex gates.
+Tested: npm run build (335754-byte gzip initial JS); 10 SSR routes and 30 hydrated Chrome width cases.
+Not-tested: Native-speaker review and live production.
+
+Co-Authored-By: Codex (gpt-6.1-sol) <noreply@openai.com>

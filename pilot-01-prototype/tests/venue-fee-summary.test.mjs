@@ -5,22 +5,31 @@ import { buildVenueFeeSummary, feeSummaryCopy } from '../src/data/venue-fee-summ
 const source = 'https://www.bitget.com/fee';
 const dated = { feeCheckedAt: '2026-09-22T00:00:00Z', feeSourceUrl: source };
 
+const exactRates = {
+  binance: { spot: [0.001, 0.001], futures: [0.0002, 0.0005] },
+  bitget: { spot: [0.001, 0.001], futures: [0.0002, 0.0006] },
+  bybit: { spot: [0.001, 0.001], futures: [0.0002, 0.00055] },
+  okx: { spot: [0.0008, 0.001], futures: [0.0002, 0.0005] },
+};
+
 test('an unchecked base rate never becomes an invented VIP schedule', () => {
   assert.deepEqual(buildVenueFeeSummary({ spotFee: { makerRate: .001, takerRate: .001 } }).rates, []);
   assert.deepEqual(buildVenueFeeSummary({ ...dated, spotFee: { makerRate: null, takerRate: .001 } }).rates, []);
   assert.deepEqual(buildVenueFeeSummary({ ...dated, feeSourceUrl: '', spotFee: { makerRate: .001, takerRate: .001 } }).rates, []);
 });
 
-test('only complete sourced base rates are shown, without tier or discount multiplication', () => {
-  const result = buildVenueFeeSummary({ ...dated, spotFee: { makerRate: 0, takerRate: .001 }, futuresFee: { makerRate: -.0001, takerRate: .0005 } });
-  assert.equal(result.rates.length, 2);
-  assert.equal(result.rates[0].makerRate, 0);
-  assert.equal(result.rates[1].makerRate, -.0001);
-  assert.equal(result.rates[1].takerRate, .0005);
-  assert.equal(result.rates[0].sourceUrl, source);
-  assert.equal(result.rates[0].tierKey, 'spot-published-base');
-  assert.equal(result.rates[0].scopeKey, 'explicit-db-source-account-region-not-proven');
-  assert.equal(result.rates.some(row => 'netRate' in row || 'vipTier' in row), false);
+test('ad hoc venue-database rates stay rejected while reviewed fixtures keep exact base rows', () => {
+  // Official fee rows now come only from exchange-facts/reviewed-base-fees, never ad hoc venue-database fields.
+  const adHoc = buildVenueFeeSummary({ ...dated, spotFee: { makerRate: 0, takerRate: .001 }, futuresFee: { makerRate: -.0001, takerRate: .0005 } });
+  assert.deepEqual(adHoc.rates, []);
+
+  const reviewed = buildVenueFeeSummary({ slug: 'bitget', ...dated, spotFee: { makerRate: 0, takerRate: .001 } });
+  assert.deepEqual(reviewed.sources, ['https://www.bitget.com/support/articles/12560603892734']);
+  assert.deepEqual(reviewed.rates.map(({ product, makerRate, takerRate, tierKey, sourceUrl, checkedAt, conditions }) => ({ product, makerRate, takerRate, tierKey, sourceUrl, checkedAt, conditionsLength: conditions.length })), [
+    { product: 'spot', makerRate: 0.001, takerRate: 0.001, tierKey: 'standard-non-vip', sourceUrl: 'https://www.bitget.com/support/articles/12560603892734', checkedAt: '2026-10-10', conditionsLength: 1 },
+    { product: 'futures', makerRate: 0.0002, takerRate: 0.0006, tierKey: 'standard-non-vip', sourceUrl: 'https://www.bitget.com/support/articles/12560603892734', checkedAt: '2026-10-10', conditionsLength: 1 },
+  ]);
+  assert.equal(reviewed.rates.some(row => 'netRate' in row || 'vipTier' in row || 'rebate' in row || 'commission' in row), false);
 });
 
 test('missing numbers do not become zero and invalid source/date cannot verify numbers', () => {
@@ -37,29 +46,30 @@ test('only explicit fee research sources appear and duplicate source URLs are co
 
 test('reviewed official spot base rates are keyed by venue slug and include display scope fields', () => {
   const cases = [
-    ['binance', 'regular-user', 'https://www.binance.com/en/fee/trading', /discounts-excluded/],
-    ['bitget', 'standard-non-vip', 'https://www.bitget.com/support/articles/12560603892734', /bgb-discount-excluded/],
-    ['bybit', 'vip-0', 'https://www.bybit.com/en/help-center/article/Trading-Fee-Structure', /special-zones-excluded/],
+    ['binance', 'spot', 'regular-user', 'https://www.binance.com/en/fee/schedule', /discounts-excluded/],
+    ['bitget', 'spot', 'standard-non-vip', 'https://www.bitget.com/support/articles/12560603892734', /bgb-discount-excluded/],
+    ['bybit', 'spot', 'vip-0', 'https://www.bybit.com/en/help-center/article/Trading-Fee-Structure', /special-zones-excluded/],
+    ['okx', 'spot', 'regular-user', 'https://www.okx.com/fees', /official-fee-page-base-account-region-not-proven/],
+    ['okx', 'futures', 'regular-user', 'https://www.okx.com/fees', /official-fee-page-base-account-region-not-proven/],
   ];
-  for (const [slug, tierKey, sourceUrl, scopePattern] of cases) {
+  for (const [slug, product, tierKey, sourceUrl, scopePattern] of cases) {
     const result = buildVenueFeeSummary({ slug, spotFee: { makerRate: 0.009, takerRate: 0.009 } });
-    assert.equal(result.rates.length, 1, slug);
-    const [spot] = result.rates;
-    assert.equal(spot.product, 'spot');
-    assert.equal(spot.makerRate, 0.001);
-    assert.equal(spot.takerRate, 0.001);
-    assert.equal(spot.tierKey, tierKey);
-    assert.match(spot.scopeKey, scopePattern);
-    assert.equal(spot.sourceUrl, sourceUrl);
-    assert.equal(spot.checkedAt, '2026-09-22');
-    assert.ok(spot.conditions.length >= 2, `${slug} should expose account/region/discount conditions`);
+    const row = result.rates.find((rate) => rate.product === product);
+    assert.ok(row, `${slug} ${product}`);
+    assert.deepEqual([row.makerRate, row.takerRate], exactRates[slug][product], `${slug} ${product} exact maker/taker`);
+    assert.equal(row.tierKey, tierKey);
+    assert.match(row.scopeKey, scopePattern);
+    assert.equal(row.sourceUrl, sourceUrl);
+    assert.equal(row.checkedAt, '2026-10-10');
+    assert.equal(row.conditions.length, 1, `${slug} ${product} should expose one exact reviewed condition`);
     assert.equal(result.sources[0], sourceUrl);
-    assert.equal('netRate' in spot || 'rebate' in spot || 'commission' in spot, false);
+    assert.equal('netRate' in row || 'rebate' in row || 'commission' in row, false);
   }
 });
 
 test('conditional or unreadable venues remain unknown unless a separate sourced rate is provided', () => {
-  assert.deepEqual(buildVenueFeeSummary({ slug: 'okx', spotFee: { makerRate: 0.0008, takerRate: 0.001 } }).rates, []);
+  // OKX was promoted to official reviewed fee rows on 2026-10-10; Backpack still has no separate sourced fee row.
+  assert.equal(buildVenueFeeSummary({ slug: 'okx', spotFee: { makerRate: 0.0008, takerRate: 0.001 } }).rates.length, 2);
   assert.deepEqual(buildVenueFeeSummary({ slug: 'backpack', spotFee: { makerRate: 0, takerRate: 0.0005 } }).rates, []);
 });
 

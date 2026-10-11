@@ -8,7 +8,7 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { countRawMarkdownLinks, inlineMarkdownHtml, resolveArticleLinkHref, tokenizeInlineMarkdown } from "../src/data/article-inline-markdown.js";
-import { clampMetaDescription, endsWithDanglingWord, metaDescriptionLimit } from "../src/data/meta-description.js";
+import { budgetTitle, clampMetaDescription, endsWithDanglingWord, metaDescriptionLimit } from "../src/data/meta-description.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeMetadata } from "../worker/index.js";
 import { ONCHAIN_GUIDE_LOCALES, onchainGuideReserveSources, onchainGuideSeo } from "../src/data/onchain-guide.js";
@@ -171,8 +171,9 @@ test("NX-05 /onchain is a verification guide in all 17 locales: honest title, de
     const worker = await routeMetadata(url, {});
     const client = computeRouteSeo({ url: url.href, locale });
     assert.equal(worker.status, 200);
-    assert.equal(worker.robots, ["ur", "uk"].includes(locale) ? "noindex,follow" : "index,follow", `${locale}: native-review gate`);
-    assert.equal(worker.title, seo.title, `${locale} worker title`);
+    assert.equal(worker.robots, ["ur", "uk"].includes(locale) ? "noindex,follow" : "index,follow", `${locale}: native-review gate; others indexable`);
+    // Class b: 3c54a66 budgets long head titles by removing the brand suffix.
+    assert.equal(worker.title, budgetTitle(seo.title), `${locale} worker title`);
     assert.equal(worker.description, seo.description, `${locale} worker description`);
     assert.equal(client.title, worker.title, `${locale} SSR/client title parity`);
     assert.equal(client.description, worker.description, `${locale} SSR/client description parity`);

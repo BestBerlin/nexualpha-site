@@ -10,6 +10,7 @@ import {REVIEWED_TOPIC_FAQS,topicReviewedFaqRecords} from '../src/data/topic-rev
 import {spawnSync} from 'node:child_process';
 import worker from '../worker/index.js';
 import {computeRouteSeo} from '../src/data/seo-injection.js';
+import {budgetTitle} from '../src/data/meta-description.js';
 const root=fileURLToPath(new URL('..',import.meta.url));
 const owners=['meme-coins','derivatives','no-kyc'];
 const locales=['en','zh-Hans','zh-Hant'];
@@ -23,6 +24,29 @@ try{
 }finally{await rm(dir,{recursive:true,force:true});}
 const plain=s=>s.replace(/<[^>]*>/g,'').replaceAll('&amp;','&').replaceAll('&quot;','"').replaceAll('&#x27;',"'").replaceAll('&lt;','<').replaceAll('&gt;','>');
 const faqNodes=html=>[...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].flatMap(m=>{const j=JSON.parse(m[1]);return j['@graph']||[j]}).filter(s=>s['@type']==='FAQPage');
+function normalizeAuthorizedSeoTransition(value, mode) {
+ const clone=structuredClone(value);
+ const walk=(node)=>{
+  if(!node||typeof node!=='object')return;
+  if(node['@type']==='Organization'&&node.name==='NexuAlpha Research Desk'){
+   // Class b: PR #58 added a canonical Research Desk entity to some route schemas; old-shaped source nodes stay under full equality.
+   if(mode==='current'&&node['@id']!==undefined){
+    assert.equal(node['@id'],'https://nexualpha.com/about#research-desk');assert.equal(node.url,'https://nexualpha.com/about#research-desk');assert.deepEqual(node.parentOrganization,{'@id':'https://nexualpha.com/#organization','@type':'Organization',name:'NexuAlpha'});
+    delete node['@id'];delete node.parentOrganization;node.url='https://nexualpha.com/methodology';
+   }
+  }
+  if(node['@type']==='Organization'&&node.name==='NexuAlpha'){
+   if(mode==='current'&&node['@id']!==undefined){
+    assert.equal(node['@id'],'https://nexualpha.com/#organization');assert.deepEqual(node.logo,{'@type':'ImageObject',url:'https://nexualpha.com/brand/nexualpha/nexualpha-round.svg',width:'512',height:'512'});
+    delete node['@id'];node.logo=node.logo.url;
+   }
+  }
+  for(const child of Object.values(node))if(child&&typeof child==='object')walk(child);
+ };
+ walk(clone);
+ if(mode==='baseline'&&typeof clone.title==='string')clone.title=budgetTitle(clone.title);
+ return clone;
+}
 for(const slug of owners)for(const locale of locales){
  test(`${slug}/${locale}: visible FAQ owns one exact client and Worker answer group`,async()=>{
   const body=renders[slug+':'+locale];
@@ -46,7 +70,7 @@ test('all sixty non-FAQ metadata contracts and all 51 outside-scope FAQ contract
   const now=computeRouteSeo({pathname:prefix+'/topics/'+slug,locale});
   const scoped=owners.includes(slug)&&locales.includes(locale);
   const withoutFaq=x=>({...x,schemas:x.schemas.filter(s=>s['@type']!=='FAQPage')});
-  assert.deepEqual(scoped?withoutFaq(now):now,scoped?withoutFaq(value):value,key);
+  assert.deepEqual(normalizeAuthorizedSeoTransition(scoped?withoutFaq(now):now,'current'),normalizeAuthorizedSeoTransition(scoped?withoutFaq(value):value,'baseline'),key);
  }
 });
 test('exactly eleven stable reviewed question IDs append without changing any old130records',async()=>{

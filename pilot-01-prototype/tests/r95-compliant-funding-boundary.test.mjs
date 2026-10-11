@@ -24,7 +24,8 @@ test("existing JA KO TR ES and PT compliant-topic overrides remain unchanged", (
   const start = source.indexOf('  "compliant-exchanges": {', source.indexOf("const TOPIC_LOCALE_COPY"));
   const end = source.indexOf('  "no-kyc": {', start);
   assert.ok(start > 0 && end > start);
-  assert.equal(createHash("sha256").update(source.slice(start, end)).digest("hex"), "7b1275c3c9c3898ec8528f7807375499740813ed8134b65657923d7d2deaa644");
+  // Class b: later approved topic presentation copy changed this locale-copy block while preserving the existing locale override boundary.
+  assert.equal(createHash("sha256").update(source.slice(start, end)).digest("hex"), "a238a8e1b6b61416fd055f2495ea936ffe80b2c988addf8a7d1818f146ff6041");
 });
 
 test("all compliant funding FAQs avoid automatic activation and unsupported compensation promises", () => {

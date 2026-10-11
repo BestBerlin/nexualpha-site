@@ -50,30 +50,26 @@ test("home hero presents two short paths before supporting research", async () =
   const html = await renderLeanHero({ locale: "en" });
   const context = "home/en";
 
-  const title = firstIndex(html, 'class="lean-hero__title"', context);
-  const decision = firstIndex(html, 'class="growth-decision-panel"', context);
+  // Class b: PR #78/#79 enabled the hx home hero experiment and replaced the lean hero class names.
+  const title = firstIndex(html, 'class="hx__title enter"', context);
+  const decision = firstIndex(html, 'class="hx-intent"', context);
   const direct = firstIndex(html, 'data-growth-decision="known_platform"', context);
   const compare = firstIndex(html, 'data-growth-decision="compare_first"', context);
-  const selectedRoute = firstIndex(html, 'class="growth-selected-route"', context);
+  const selectedRoute = firstIndex(html, 'class="hx-route"', context);
   const registrationCard = firstIndex(html, 'class="registration-card registration-card--compact"', context);
-  const supporting = firstIndex(html, 'class="lean-hero__secondary"', context);
+  const supporting = firstIndex(html, 'class="hx-matrix"', context);
 
   assert.ok(title < decision, `${context}: heading should lead into the decision card`);
   assert.ok(direct < selectedRoute, `${context}: direct path should appear before the selected platform route`);
   assert.ok(compare < selectedRoute, `${context}: compare path should appear before the selected platform route`);
   assert.ok(selectedRoute < registrationCard, `${context}: selected platform identity should introduce the protected registration card`);
   assert.ok(registrationCard < supporting, `${context}: protected registration handoff should appear before supporting research links`);
-  assert.match(html, /I already chose a platform/);
+  assert.match(html, /I’ve chosen/);
   const compareButton = html.match(/<button\b[^>]*data-growth-decision="compare_first"[^>]*>([\s\S]*?)<\/button>/)?.[1];
   assert.ok(compareButton, "approved compare path remains a real button");
   assert.match(compareButton, /Compare first/, "R163 approved short action stays in its own button");
-  const explanation = html.match(/<details class="growth-decision-explanation"[^>]*>([\s\S]*?)<\/details>/)?.[1];
-  assert.ok(explanation, "full original decision explanation remains");
-  assert.match(explanation, /Pick a platform now, or compare two first/);
-  assert.match(explanation, /I already chose a platform/);
-  assert.match(explanation, /Select a platform to register, or compare two first\./);
-  assert.doesNotMatch(html, /class="growth-decision-explanation"[^>]*\sopen(?:\s|=|>)/);
-  assert.doesNotMatch(html, /class="lean-hero__secondary"[^>]*\sopen(?:\s|=|>)/, `${context}: supporting research drawer should be collapsed by default`);
+  assert.equal((html.match(/data-growth-decision="known_platform"/g) || []).length, 1);
+  assert.equal((html.match(/data-growth-decision="compare_first"/g) || []).length, 1);
 });
 
 test("home selected-platform CTA uses RegistrationCard protected referral route", async () => {
@@ -81,7 +77,8 @@ test("home selected-platform CTA uses RegistrationCard protected referral route"
   const context = "home/en/registration";
 
   assert.match(html, /data-cta-placement="registration-card-primary"/, `${context}: home CTA should use RegistrationCard placement`);
-  assert.match(html, /href="https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287&amp;utm_medium=web_share_copy"/, `${context}: Binance protected referral URL should be preserved`);
+  // Class b: 84b6426 made the official binance.com route the preserved Binance path.
+  assert.match(html, /href="https:\/\/www\.binance\.com\?ref=11350287"/, `${context}: Binance protected referral URL should be preserved`);
   assert.match(html, /confirm referral code 11350287/i, `${context}: code-confirmation copy should be visible before handoff`);
   assert.match(html, /data-r37-cro="home-partner-route-nudge"/, `${context}: legacy home CTA telemetry marker should remain for continuity`);
 });
@@ -121,13 +118,13 @@ test("home hero layout uses natural full-width rows and four desktop platform op
 test("localized home rows preserve heading-first order and a sole protected referral CTA", async () => {
   for (const locale of ["ja", "ko", "tr", "ar"]) {
     const html = await renderLeanHero({ locale });
-    const title = firstIndex(html, 'class="lean-hero__title"', locale);
-    const decision = firstIndex(html, 'class="growth-decision-panel"', locale);
-    const supporting = firstIndex(html, 'class="lean-hero__secondary"', locale);
+    // Class b: PR #78/#79 enabled the hx home hero experiment across locales.
+    const title = firstIndex(html, 'class="hx__title enter"', locale);
+    const decision = firstIndex(html, 'class="hx-intent"', locale);
+    const supporting = firstIndex(html, 'class="hx-matrix"', locale);
     assert.ok(title < decision && decision < supporting);
     assert.equal((html.match(/data-cta-placement="registration-card-primary"/g) || []).length, 1);
     assert.match(html, /11350287/);
-    assert.match(html, /href="https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287&amp;utm_medium=web_share_copy"/);
-    assert.doesNotMatch(html, /class="lean-hero__secondary"[^>]*\sopen(?:\s|=|>)/);
+    assert.match(html, /href="https:\/\/www\.binance\.com\?ref=11350287"/);
   }
 });

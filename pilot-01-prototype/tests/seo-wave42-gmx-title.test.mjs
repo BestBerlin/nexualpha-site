@@ -4,7 +4,8 @@ import test from "node:test";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeMetadata } from "../worker/index.js";
 
-const expectedTitle = "GMX v2 Fees: Pools, Price Impact, Funding and Liquidation — NexuAlpha";
+// Class b: long search titles now drop the trailing brand suffix through budgetTitle.
+const expectedTitle = "GMX v2 Fees: Pools, Price Impact, Funding and Liquidation";
 const expectedDescription = "Source-backed GMX answer covering GM/GLV pools, oracle pricing, collateral, position and swap fees, price impact, borrow, funding and liquidation boundaries.";
 
 test("Wave42 changes only the English GMX title for the observed exact query", async () => {

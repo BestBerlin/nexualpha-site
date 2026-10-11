@@ -11,6 +11,8 @@ import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
 import { TOKENIZED_ASSET_CLUSTER_REVIEW_DATE, TOKENIZED_ASSET_PAGES, TOKENIZED_ASSET_LOCALES } from "../src/data/tokenized-assets-cluster.js";
 import { toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js";
 import { VENUE_ALTERNATIVE_PAGES, VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERNATIVES_REVIEWED_AT } from "../src/data/venue-alternatives.js";
+import { BRAZIL_DEADLINE_PATH_EN, BRAZIL_DEADLINE_PATH_PT, brazilDeadlineIndexLocales, isBrazilDeadlineSlug } from "../src/data/brazil-vasp-deadline-slugs.js";
+import { BRAZIL_DEADLINE_REVIEWED_AT } from "../src/data/brazil-vasp-status.js";
 import { NEWS_DISPLAY_LOCALES, newsListingIndexableLocales, newsListingPublishedLocales, newsSitemapLanguage, normalizeNewsFeed, normalizeNewsFeedSummaries, newsArticleAvailableLocales, newsArticleSeoLocales, projectNewsFeedForRoute } from "../src/data/news-feed-client.js";
 import { BRAZIL_PAGES, BRAZIL_SOURCES } from "../src/data/brazil-market.js";
 import { getBrazilSeo } from "../src/data/brazil-seo.js";
@@ -114,6 +116,8 @@ export function routeInventory(newsArticles = []) {
     ...Object.keys(TOPIC_GUIDES).map((slug) => `/topics/${slug}`),
     ...Object.values(TOKENIZED_ASSET_PAGES).map((page) => page.path),
     ...Object.values(VENUE_ALTERNATIVE_PAGES).map((page) => page.path),
+    BRAZIL_DEADLINE_PATH_EN,
+    BRAZIL_DEADLINE_PATH_PT,
     ...CURATED_COMPARISONS.map((pair) => `/compare/${pair}`),
     ...newsArticles.filter((article) => article.seo?.noindex === false).map((article) => `/news/${article.slug}`),
   ];
@@ -150,6 +154,9 @@ export function routeInventory(newsArticles = []) {
     ...(pathname === "/markets/turkiye" ? { prerenderLocales: ["tr", "en"] } : {}),
     ...(Object.values(TOKENIZED_ASSET_PAGES).some((page) => page.path === pathname) ? { locales: TOKENIZED_ASSET_LOCALES } : {}),
     ...(Object.values(VENUE_ALTERNATIVE_PAGES).some((page) => page.path === pathname) ? { locales: VENUE_ALTERNATIVES_INDEX_LOCALES } : {}),
+    // Brazil BCB deadline topic: one edition per slug (English slug in en, Portuguese slug in pt-BR); the sitemap lists
+    // exactly those editions (ownLocales).
+    ...([BRAZIL_DEADLINE_PATH_EN, BRAZIL_DEADLINE_PATH_PT].includes(pathname) ? { locales: brazilDeadlineIndexLocales(pathname), ownLocales: true } : {}),
   })).concat(BRAZIL_PAGES.map(({ path: pathname }) => ({ pathname, level: pathname === '/br' ? 2 : 3,
     template: 'brazilDecision', index: true, locales: ['pt-BR'] })));
 }
@@ -217,6 +224,7 @@ export function routeLastmod(route, article, locale = "en", { newsArticles = [] 
   if (route.template === "topic") {
     const slug = pathSlug(route.pathname, "/topics/");
     if (VENUE_ALTERNATIVE_PAGES[slug]) return VENUE_ALTERNATIVES_REVIEWED_AT;
+    if (isBrazilDeadlineSlug(slug)) return BRAZIL_DEADLINE_REVIEWED_AT;
     return TOPIC_GUIDES[slug]?.lastUpdated || TOKENIZED_ASSET_PAGES[slug]?.updatedAt || TOKENIZED_ASSET_CLUSTER_REVIEW_DATE;
   }
   if (route.template === "venue") return priorityVenueAnswerFor(pathSlug(route.pathname, "/exchanges/"), locale)?.reviewedAt || "2026-09-15";

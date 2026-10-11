@@ -5598,7 +5598,7 @@ This is an editorial research index, not an operator statement, legal opinion, s
 
 ## Product and access fields
 - Product category: CEX
-- KYC field recorded by research: optional
+- KYC field recorded by research: mandatory
 - Supported-region field recorded by research: Global, Taiwan, Latin America, Southeast Asia, Africa
 - Restricted-region field recorded by research: United States, Mainland China, Singapore, North Korea
 - Regional outcome: pending platform-side eligibility and jurisdiction checks.

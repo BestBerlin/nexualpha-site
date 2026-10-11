@@ -1,0 +1,10 @@
+Keep new locale coverage aligned with routing and source facts
+
+Constraint: Existing assertions stay strong while the supported UI locale set grows to seventeen.
+Confidence: high
+Scope-risk: narrow
+Directive: Review indexing separately from locale routing; unreviewed locales must remain excluded.
+Tested: npm test (1035 passed, 59 pre-existing failures, 1 skipped; no new failing names versus built origin/main); targeted tests (22 passed); npm run i18n:check; npm run typecheck; git diff --check.
+Not-tested: Native-speaker editorial approval; npm test downstream stages blocked by inherited test:sites failures.
+
+Co-Authored-By: Codex (gpt-6.1-sol) <noreply@openai.com>

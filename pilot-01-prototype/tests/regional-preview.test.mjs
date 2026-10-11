@@ -618,7 +618,8 @@ test('international preview routes unlisted country traffic to sourced market pa
 test('regional research cards keep question, answer, and next step in a readable vertical flow', () => {
   const css = readFileSync(new URL('../src/components/v3/international/regional-market-preview.css', import.meta.url), 'utf8');
   assert.match(css, /\.regional-market-preview__questions \.v3-card\s*\{[^}]*display:\s*flex;[^}]*flex-direction:\s*column;/s);
-  assert.match(css, /\.regional-market-preview__questions \.v3-card p\s*\{[^}]*line-height:\s*1\.55;/s);
+  // Class b: 244ad6f moved body rhythm to the shared token, retaining the 1.55 fallback.
+  assert.match(css, /\.regional-market-preview__questions \.v3-card p\s*\{[^}]*line-height:\s*var\(--lh-body, 1\.55\);/s);
 });
 
 test('Japan regional component exposes a direct answer for AI and search extraction', () => {

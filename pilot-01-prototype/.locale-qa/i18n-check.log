@@ -1,0 +1,5 @@
+
+> pilot-01-prototype@3.0.0 i18n:check
+> node scripts/i18n-check.mjs
+
+i18n check passed: 17 catalogs, 116 keys, placeholders, RTL metadata, review gates, and UI limits validated.

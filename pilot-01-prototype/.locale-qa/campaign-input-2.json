@@ -1,0 +1,610 @@
+[
+  {
+    "id": "dydx.sources.dydx-surge-june.summary",
+    "en": "The 1 June notice covers June incentives: BTC/BONK trading-fee discounts and partial liquidation rebates on eligible non-BTC markets. Gas, bridging, slippage and third-party costs remain. It establishes no September renewal, so the reviewed June period is historical."
+  },
+  {
+    "id": "dydx.sources.dydx-arcus-july.summary",
+    "en": "The July update distinguishes the new Arcus product from dYdX v4 and says v4 continues to be supported. A possible future token allocation is mentioned without a claim amount or date. Neither this notice nor a historical campaign proves a current signup reward."
+  },
+  {
+    "id": "bybit.sources.bybit-cpusdt-september.summary",
+    "en": "The 4 September notice describes CPUSDT perpetuals in the Innovation Zone, settled in USDT with four-hour funding. Innovation Zone fees are higher; listing parameters can change. It does not establish spot availability or personal eligibility."
+  },
+  {
+    "id": "binance.sources.binance-monitoring-september.summary",
+    "en": "The 4 September notice adds AVA, GNS, SCR and TOWNS to Monitoring Tags, identifying possible delisting risk. The UK page warns that some named tokens may not be available there; this is a monitoring notice, not a new listing or reward."
+  },
+  {
+    "id": "gate-io.sources.gate-europe-august-campaign.summary",
+    "en": "This dated Europe campaign ends at 00:00 UTC on 7 September. The first-200 new-user deposit/trade tasks award fee-rebate vouchers, not cash; higher tiers have distinct terms."
+  },
+  {
+    "id": "hyperliquid.signupReward.conditions.2",
+    "en": "The inviter's $10,000 volume requirement and fee share are separate from the referred user's benefit. Region and identity requirements are not specified on this page."
+  },
+  {
+    "id": "hyperliquid.signupReward.conditions.0",
+    "en": "A valid referral code or link must be applied. This research panel does not include referral codes; the sign-up cards on this site do and disclose the commission."
+  },
+  {
+    "id": "drift.summary",
+    "en": "The reviewed Drift notice discusses recovery of outstanding user losses and a protocol reboot. It does not verify normal current trading or deposit availability."
+  },
+  {
+    "id": "dydx.summary",
+    "en": "The reviewed dYdX incentive notice covers June, while a later product update distinguishes Arcus from dYdX v4. Neither establishes a current signup payout."
+  },
+  {
+    "id": "drift.notices.0",
+    "en": "Material service-status caution: do not label Drift as normally available or promote a deposit based solely on the reviewed historical recovery notice."
+  },
+  {
+    "id": "drift.evidenceRequirements.gaps.3",
+    "en": "Current service access and reward eligibility require fresh official confirmation. Old referral or points posts are not evidence of an active offer."
+  },
+  {
+    "id": "hyperliquid.signupReward.summary",
+    "en": "The documented discount is 4% on fees for the first $25 million of volume; vaults and sub-accounts are excluded. This is not a cash signup reward."
+  },
+  {
+    "id": "aerodrome.summary",
+    "en": "The official documentation page returned no readable body in this pass. Existing platform research is not replaced with invented campaign terms."
+  },
+  {
+    "id": "dydx.evidenceRequirements.limitations",
+    "en": "The June campaign is historical. No September renewal, current referral benefit or personal eligibility was established in the reviewed sources."
+  },
+  {
+    "id": "gmx.signupReward.summary",
+    "en": "The documented trader discount is 5% at tier 1 and 10% at tiers 2–3. Borrowing and funding fees are excluded; governance may change the rules."
+  },
+  {
+    "id": "bitget.signupReward.summary",
+    "en": "The 2025 guide describes a 6,200 USDT face-value bundle. Its current availability and the account's exact voucher terms require confirmation."
+  },
+  {
+    "id": "bitget.evidenceRequirements.gaps.3",
+    "en": "The 2025 guide describes a 6,200 USDT face-value bundle. Its current availability and the account's exact voucher terms require confirmation."
+  },
+  {
+    "id": "kraken.evidenceRequirements.limitations",
+    "en": "The heading says up to $200 while the FAQ describes a fixed 20 in the default currency. No common amount should be advertised until resolved."
+  },
+  {
+    "id": "pancakeswap.sources.pancakeswap-tmx-competition.summary",
+    "en": "Dated official contest rules, with explicit Singapore time and incomplete TBD wording. This snapshot is research, not an approved live offer."
+  },
+  {
+    "id": "backpack.evidenceRequirements.gaps.2",
+    "en": "The source describes a 10% inviter fee share after the referred user completes KYC. No invitee cash amount was verified from this document."
+  },
+  {
+    "id": "mexc.summary",
+    "en": "MEXC futures welcome tasks use net-deposit, holding and fee-paying-volume conditions; older campaign pages do not prove a current offer."
+  },
+  {
+    "id": "curve.summary",
+    "en": "Curve's introduction separates swaps, liquidity and lending; LLAMMA's gradual collateral conversion does not eliminate liquidation risk."
+  },
+  {
+    "id": "coinbase.evidenceRequirements.limitations",
+    "en": "Check country, purchase deadline and non-stacking terms. Referral participants are excluded from specified new-user spin promotions."
+  },
+  {
+    "id": "pancakeswap.signupReward.conditions.2",
+    "en": "The source retains TBD placeholders in asset-related clauses. Resolve those terms before treating the event as participation-ready."
+  },
+  {
+    "id": "pancakeswap.evidenceRequirements.gaps.2",
+    "en": "The source retains TBD placeholders in asset-related clauses. Resolve those terms before treating the event as participation-ready."
+  },
+  {
+    "id": "kucoin.signupReward.summary",
+    "en": "The FAQ advertises an aggregate up to 3,200 USDT in USDT and coupons; some task rewards are random and withdrawal is conditional."
+  },
+  {
+    "id": "kucoin.evidenceRequirements.maximumConditions",
+    "en": "The FAQ advertises an aggregate up to 3,200 USDT in USDT and coupons; some task rewards are random and withdrawal is conditional."
+  },
+  {
+    "id": "uniswap.summary",
+    "en": "Uniswap v4 can host permissioned pools: issuer allowlists can apply to swaps and liquidity separately, unlike unrestricted pools."
+  },
+  {
+    "id": "deribit.signupReward.conditions.2",
+    "en": "New affiliate creation stops on 9 September 2026; the document ends new-user onboarding through legacy links on 1 January 2027."
+  },
+  {
+    "id": "gmx.sources.gmx-referrals-v2.summary",
+    "en": "The page distinguishes v2 execution-time discounts from inactive v1 rewards; additional esGMX bonuses ended on 4 February 2026."
+  },
+  {
+    "id": "coinbase.evidenceRequirements.gaps.3",
+    "en": "The official page describes country- and offer-specific rewards, including random prizes. No universal amount is established."
+  },
+  {
+    "id": "bitget.summary",
+    "en": "The stated welcome bundle combines different tasks, including inviting another person; it is not a simple deposit cash gift."
+  },
+  {
+    "id": "pancakeswap.summary",
+    "en": "The reviewed PancakeSwap event is a wallet trading competition with random winners, not a guaranteed account-opening reward."
+  },
+  {
+    "id": "hyperliquid.evidenceRequirements.trading",
+    "en": "The fee discount stops after the referred account's first $25 million in volume; vaults and sub-accounts do not inherit it."
+  },
+  {
+    "id": "mexc.signupReward.conditions.1",
+    "en": "The guide counts on-chain/P2P deposits, not internal transfers, and requires maintaining the task's minimum net balance."
+  },
+  {
+    "id": "mexc.evidenceRequirements.deposit",
+    "en": "The guide counts on-chain/P2P deposits, not internal transfers, and requires maintaining the task's minimum net balance."
+  },
+  {
+    "id": "drift.signupReward.conditions.2",
+    "en": "Reconfirm the official application and documentation destination; the documentation URL redirected during this check."
+  },
+  {
+    "id": "kucoin.signupReward.conditions.2",
+    "en": "Check the reward withdrawal threshold, claim deadline and coupon expiry rather than relying on the headline maximum."
+  },
+  {
+    "id": "okx.summary",
+    "en": "The EEA program assigns offers by account and acquisition channel; depositing alone does not create an entitlement."
+  },
+  {
+    "id": "okx.evidenceRequirements.gaps.1",
+    "en": "The EEA FAQ covers crypto, X-Perps vouchers and VIP passes. This is region-specific, not a worldwide welcome offer."
+  },
+  {
+    "id": "binance.evidenceRequirements.gaps.2",
+    "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active."
+  },
+  {
+    "id": "bybit.evidenceRequirements.gaps.1",
+    "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active."
+  },
+  {
+    "id": "okx.evidenceRequirements.gaps.0",
+    "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active."
+  },
+  {
+    "id": "gate-io.signupReward.summary",
+    "en": "The public hub labels the 135 USDT welcome package as multiple vouchers, not 135 USDT of freely withdrawable cash."
+  },
+  {
+    "id": "gate-io.evidenceRequirements.gaps.1",
+    "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active."
+  },
+  {
+    "id": "kucoin.evidenceRequirements.gaps.1",
+    "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active."
+  },
+  {
+    "id": "backpack.evidenceRequirements.gaps.1",
+    "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active."
+  },
+  {
+    "id": "uniswap.evidenceRequirements.gaps.2",
+    "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active."
+  },
+  {
+    "id": "jupiter.evidenceRequirements.gaps.2",
+    "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active."
+  },
+  {
+    "id": "aerodrome.evidenceRequirements.gaps.2",
+    "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active."
+  },
+  {
+    "id": "hyperliquid.evidenceRequirements.gaps.2",
+    "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active."
+  },
+  {
+    "id": "gmx.evidenceRequirements.gaps.2",
+    "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active."
+  },
+  {
+    "id": "kraken.summary",
+    "en": "Kraken Pro referrals require an app-specific eligible path; the public page contains inconsistent reward amounts."
+  },
+  {
+    "id": "bybit.summary",
+    "en": "Bybit distinguishes bonuses, Fee Savers, airdrops and trial funds; these do not share the same withdrawal rules."
+  },
+  {
+    "id": "kraken.signupReward.conditions.1",
+    "en": "Meet the app's fiat-deposit and trading requirements within 30 days; card deposits are excluded in these terms."
+  },
+  {
+    "id": "kraken.evidenceRequirements.trading",
+    "en": "Meet the app's fiat-deposit and trading requirements within 30 days; card deposits are excluded in these terms."
+  },
+  {
+    "id": "bybit.evidenceRequirements.gaps.2",
+    "en": "The Rewards Hub FAQ confirms that bonuses and Fee Savers are not withdrawable and unused rewards can expire."
+  },
+  {
+    "id": "pancakeswap.evidenceRequirements.eligibility",
+    "en": "The entry tier requires at least $500 of eligible TMX volume on BNB Chain through PancakeSwap web or mobile."
+  },
+  {
+    "id": "binance.evidenceRequirements.gaps.1",
+    "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC."
+  },
+  {
+    "id": "bitget.evidenceRequirements.gaps.1",
+    "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC."
+  },
+  {
+    "id": "gate-io.evidenceRequirements.eligibility",
+    "en": "The package combines signup, identity/face verification, first deposit, first trade and first app download."
+  },
+  {
+    "id": "mexc.signupReward.summary",
+    "en": "The August 2025 announcement is historical program guidance, not a verified current 10,000 USDT cash offer."
+  },
+  {
+    "id": "mexc.evidenceRequirements.gaps.2",
+    "en": "The August 2025 announcement is historical program guidance, not a verified current 10,000 USDT cash offer."
+  },
+  {
+    "id": "uniswap.evidenceRequirements.gaps.1",
+    "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC."
+  },
+  {
+    "id": "jupiter.evidenceRequirements.gaps.1",
+    "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC."
+  },
+  {
+    "id": "aerodrome.evidenceRequirements.gaps.1",
+    "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC."
+  },
+  {
+    "id": "hyperliquid.evidenceRequirements.gaps.1",
+    "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC."
+  },
+  {
+    "id": "dydx.evidenceRequirements.gaps.1",
+    "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC."
+  },
+  {
+    "id": "drift.evidenceRequirements.gaps.1",
+    "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC."
+  },
+  {
+    "id": "bybit.sources.bybit-rewards-faq.summary",
+    "en": "Help-page update shown: 25 November 2025; the page does not establish a current account-specific amount."
+  },
+  {
+    "id": "deribit.sources.deribit-affiliate-migration.summary",
+    "en": "Updated 7 August 2026. Migration dates are stated without a timezone; no precise UTC cutoff is invented."
+  },
+  {
+    "id": "okx.evidenceRequirements.deposit",
+    "en": "Use the assigned task thresholds and deadlines; internal transfers do not qualify as eligible deposits."
+  },
+  {
+    "id": "gate-io.summary",
+    "en": "Gate's welcome package is composed of vouchers. Gate Europe runs separate, region-bound campaign terms."
+  },
+  {
+    "id": "kucoin.evidenceRequirements.deposit",
+    "en": "Verify whether the selected task needs identity checks, a first purchase/deposit or a specific trade."
+  },
+  {
+    "id": "backpack.signupReward.conditions.0",
+    "en": "Add a referral code before completing KYC; the document disallows adding one retroactively after KYC."
+  },
+  {
+    "id": "backpack.evidenceRequirements.kyc",
+    "en": "Add a referral code before completing KYC; the document disallows adding one retroactively after KYC."
+  },
+  {
+    "id": "raydium.evidenceRequirements.gaps.3",
+    "en": "The readable product index does not establish a current farm rate, token giveaway or new-user reward."
+  },
+  {
+    "id": "kucoin.signupReward.conditions.0",
+    "en": "Complete the relevant new-user tasks within 30 days of registration; participation is once per user."
+  },
+  {
+    "id": "curve.signupReward.conditions.2",
+    "en": "Check the specific pool or lending-market terms; this introduction states no universal reward rate."
+  },
+  {
+    "id": "okx.sources.okx-eea-new-user.summary",
+    "en": "The page shows 27 August 2026; reward amount and task timing are assigned in the eligible account."
+  },
+  {
+    "id": "okx.evidenceRequirements.kyc",
+    "en": "Confirm EEA residence support, a new main account, identity checks and the eligible entry channel."
+  },
+  {
+    "id": "pancakeswap.signupReward.conditions.1",
+    "en": "External-aggregator volume is excluded; one wallet can win only one prize and selection is random."
+  },
+  {
+    "id": "deribit.signupReward.conditions.0",
+    "en": "Confirm the account is under DRB Panama, not Deribit FZE, and that the user's region is eligible."
+  },
+  {
+    "id": "deribit.evidenceRequirements.regions",
+    "en": "Confirm the account is under DRB Panama, not Deribit FZE, and that the user's region is eligible."
+  },
+  {
+    "id": "coinbase.summary",
+    "en": "New-customer promotions and referral rewards are different entry paths; some cannot be combined."
+  },
+  {
+    "id": "coinbase.evidenceRequirements.trading",
+    "en": "Referral purchases use eligible retail payment methods; Advanced and Prime trades are excluded."
+  },
+  {
+    "id": "okx.evidenceRequirements.limitations",
+    "en": "Check channel binding and stacking restrictions before using a different referral or promotion."
+  },
+  {
+    "id": "kraken.sources.kraken-pro-referrals.summary",
+    "en": "Page update shown: 8 May 2026. The amount conflict is preserved as an unresolved source issue."
+  },
+  {
+    "id": "gmx.signupReward.conditions.0",
+    "en": "For v2, use a valid case-sensitive code; it is saved on-chain with the first qualifying order."
+  },
+  {
+    "id": "bitget.signupReward.conditions.2",
+    "en": "Rewards go to the coupon center; check each instrument's use, expiry and current eligibility."
+  },
+  {
+    "id": "backpack.evidenceRequirements.limitations",
+    "en": "Review product exclusions and claim terms; equity-perpetual fees are excluded in this source."
+  },
+  {
+    "id": "gate-io.evidenceRequirements.trading",
+    "en": "The displayed deposit task requires at least 50 USDT; the first trade task at least 30 USDT."
+  },
+  {
+    "id": "deribit.evidenceRequirements.trading",
+    "en": "The discount covers the first six months and excludes spot trading; it is not a cash bonus."
+  },
+  {
+    "id": "raydium.sources.raydium-docs.summary",
+    "en": "Product-family navigation was readable; reward-specific rates and deadlines remain unknown."
+  },
+  {
+    "id": "kraken.evidenceRequirements.eligibility",
+    "en": "The friend must be new to Kraken, verified, and use the referral during account creation."
+  },
+  {
+    "id": "gate-io.signupReward.conditions.2",
+    "en": "Read the account's voucher utility, claim deadline and jurisdiction before participating."
+  },
+  {
+    "id": "gmx.signupReward.conditions.1",
+    "en": "Confirm the code's tier and keep position fees separate from borrowing and funding costs."
+  },
+  {
+    "id": "binance.evidenceRequirements.gaps.0",
+    "en": "A complete country/region eligibility list was not established for this specific offer."
+  },
+  {
+    "id": "coinbase.evidenceRequirements.gaps.0",
+    "en": "A complete country/region eligibility list was not established for this specific offer."
+  },
+  {
+    "id": "bitget.evidenceRequirements.gaps.0",
+    "en": "A complete country/region eligibility list was not established for this specific offer."
+  },
+  {
+    "id": "kucoin.evidenceRequirements.gaps.0",
+    "en": "A complete country/region eligibility list was not established for this specific offer."
+  },
+  {
+    "id": "mexc.evidenceRequirements.trading",
+    "en": "Confirm fee-paying futures-volume rules and whether moving funds would forfeit a bonus."
+  },
+  {
+    "id": "backpack.evidenceRequirements.gaps.0",
+    "en": "A complete country/region eligibility list was not established for this specific offer."
+  },
+  {
+    "id": "pancakeswap.evidenceRequirements.gaps.0",
+    "en": "A complete country/region eligibility list was not established for this specific offer."
+  },
+  {
+    "id": "raydium.evidenceRequirements.gaps.0",
+    "en": "A complete country/region eligibility list was not established for this specific offer."
+  },
+  {
+    "id": "aerodrome.evidenceRequirements.gaps.0",
+    "en": "A complete country/region eligibility list was not established for this specific offer."
+  },
+  {
+    "id": "hyperliquid.evidenceRequirements.gaps.0",
+    "en": "A complete country/region eligibility list was not established for this specific offer."
+  },
+  {
+    "id": "gmx.evidenceRequirements.gaps.0",
+    "en": "A complete country/region eligibility list was not established for this specific offer."
+  },
+  {
+    "id": "drift.evidenceRequirements.gaps.0",
+    "en": "A complete country/region eligibility list was not established for this specific offer."
+  },
+  {
+    "id": "mexc.evidenceRequirements.eligibility",
+    "en": "Some tasks require advanced identity verification; confirm the account's current task."
+  },
+  {
+    "id": "uniswap.signupReward.conditions.1",
+    "en": "Check the issuer's wallet eligibility separately for swapping and liquidity provision."
+  },
+  {
+    "id": "jupiter.signupReward.summary",
+    "en": "No amount, deadline or eligibility was verified; this does not mean no program exists."
+  },
+  {
+    "id": "kraken.signupReward.conditions.2",
+    "en": "Verify supported countries and the same-country or eligible EEA cross-country rule."
+  },
+  {
+    "id": "curve.signupReward.conditions.0",
+    "en": "Identify whether the intended action is swapping, supplying liquidity or borrowing."
+  },
+  {
+    "id": "backpack.signupReward.conditions.1",
+    "en": "Keep inviter commission separate from any benefit actually offered to the invitee."
+  },
+  {
+    "id": "bybit.evidenceRequirements.limitations",
+    "en": "Confirm the reward type and permitted use; do not treat bonus face value as cash."
+  },
+  {
+    "id": "bitget.evidenceRequirements.limitations",
+    "en": "It describes a three-day observation period, then a two-day manual claim window."
+  },
+  {
+    "id": "curve.evidenceRequirements.limitations",
+    "en": "For lending, distinguish collateral conversion from an assurance against losses."
+  },
+  {
+    "id": "uniswap.signupReward.conditions.2",
+    "en": "Review issuer controls and the risk that permission can be paused or withdrawn."
+  },
+  {
+    "id": "binance.signupReward.summary",
+    "en": "No account-specific amount or qualifying task was exposed in this public view."
+  },
+  {
+    "id": "binance.evidenceRequirements.gaps.3",
+    "en": "No account-specific amount or qualifying task was exposed in this public view."
+  },
+  {
+    "id": "coinbase.signupReward.conditions.0",
+    "en": "For the referral path, apply the link or code while creating the new account."
+  },
+  {
+    "id": "curve.signupReward.summary",
+    "en": "This source explains protocol products, not an account-opening cash reward."
+  },
+  {
+    "id": "bitget.evidenceRequirements.eligibility",
+    "en": "The guide gives new users seven days for the deposit/trading challenge."
+  },
+  {
+    "id": "bitget.evidenceRequirements.trading",
+    "en": "The guide gives new users seven days for the deposit/trading challenge."
+  },
+  {
+    "id": "gmx.signupReward.conditions.2",
+    "en": "Do not apply old v1 rebate or ended esGMX bonus terms to new v2 orders."
+  },
+  {
+    "id": "drift.signupReward.conditions.0",
+    "en": "Read current recovery and service notices before considering a deposit."
+  },
+  {
+    "id": "binance.signupReward.conditions.2",
+    "en": "Region, KYC and funding thresholds remain unconfirmed in this view."
+  },
+  {
+    "id": "bybit.evidenceRequirements.datePrecision",
+    "en": "Source date retained as displayed; no missing timezone is inferred."
+  },
+  {
+    "id": "okx.evidenceRequirements.datePrecision",
+    "en": "Source date retained as displayed; no missing timezone is inferred."
+  },
+  {
+    "id": "kucoin.evidenceRequirements.datePrecision",
+    "en": "Source date retained as displayed; no missing timezone is inferred."
+  },
+  {
+    "id": "uniswap.evidenceRequirements.datePrecision",
+    "en": "Source date retained as displayed; no missing timezone is inferred."
+  },
+  {
+    "id": "aerodrome.signupReward.summary",
+    "en": "Reward amount, eligibility and dates are unknown from this attempt."
+  },
+  {
+    "id": "drift.evidenceRequirements.datePrecision",
+    "en": "Source date retained as displayed; no missing timezone is inferred."
+  },
+  {
+    "id": "binance.evidenceRequirements.limitations",
+    "en": "Read voucher use and expiry separately from points redemption."
+  },
+  {
+    "id": "binance.evidenceRequirements.eligibility",
+    "en": "Open the task assigned to the eligible account before acting."
+  },
+  {
+    "id": "bybit.evidenceRequirements.kyc",
+    "en": "Complete the required identity verification before claiming."
+  },
+  {
+    "id": "uniswap.evidenceRequirements.trading",
+    "en": "Identify whether the specific pool uses permissioned access."
+  },
+  {
+    "id": "uniswap.evidenceRequirements.rewardType",
+    "en": "Pool-access product rules; no signup reward established"
+  },
+  {
+    "id": "curve.evidenceRequirements.rewardType",
+    "en": "Protocol product guidance; no signup reward established"
+  },
+  {
+    "id": "bitget.evidenceRequirements.rewardType",
+    "en": "Trading bonus and vouchers; not uniformly withdrawable"
+  },
+  {
+    "id": "bybit.evidenceRequirements.eligibility",
+    "en": "Complete and claim each task before its own deadline."
+  },
+  {
+    "id": "kraken.evidenceRequirements.rewardType",
+    "en": "Referral reward; public amount conflict unresolved"
+  },
+  {
+    "id": "binance.evidenceRequirements.rewardType",
+    "en": "Account-assigned tasks, points and vouchers"
+  },
+  {
+    "id": "raydium.evidenceRequirements.rewardType",
+    "en": "Product-specific incentives not verified"
+  },
+  {
+    "id": "okx.evidenceRequirements.rewardType",
+    "en": "Crypto, trading voucher or VIP pass"
+  },
+  {
+    "id": "gmx.evidenceRequirements.rewardType",
+    "en": "Discount on specified trading fees"
+  },
+  {
+    "id": "kucoin.evidenceRequirements.publishedDate",
+    "en": "2026-03-16 01:28:00"
+  },
+  {
+    "id": "deribit.evidenceRequirements.publishedDate",
+    "en": "2026-08-07 16:12"
+  },
+  {
+    "id": "okx.evidenceRequirements.publishedDate",
+    "en": "2026-08-27"
+  },
+  {
+    "id": "uniswap.evidenceRequirements.publishedDate",
+    "en": "2026-08-24"
+  },
+  {
+    "id": "drift.evidenceRequirements.publishedDate",
+    "en": "2026-06-04"
+  }
+]

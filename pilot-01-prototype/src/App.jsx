@@ -21,6 +21,7 @@ import { venueDatabase } from "./data/venue-database.js";
 import { TOPIC_SLUGS } from "./data/topic-slugs.js";
 import { TOKENIZED_ASSET_SLUGS } from "./data/tokenized-asset-slugs.js";
 import { VENUE_ALTERNATIVE_SLUGS } from "./data/venue-alternative-slugs.js";
+import { BRAZIL_DEADLINE_SLUGS } from "./data/brazil-vasp-deadline-slugs.js";
 import { getBrazilPage } from "./data/brazil-market.js";
 import { trackGrowthDecision } from "./data/cta-analytics.js";
 import { readDecisionPassport } from "./data/decision-passport.js";
@@ -68,6 +69,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/v3/CollectionHubPage.jsx",
   "./components/v3/TokenizedAssetsPage.jsx",
   "./components/v3/VenueAlternativesPage.jsx",
+  "./components/v3/BrazilDeadlinePage.jsx",
   "./components/v3/international/BrazilDecisionPage.jsx",
   "./components/v3/international/BrazilCostEmbed.jsx",
   "./components/v3/international/RegionalMarketPreview.jsx",
@@ -110,6 +112,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/v3/CollectionHubPage.jsx",
   "./components/v3/TokenizedAssetsPage.jsx",
   "./components/v3/VenueAlternativesPage.jsx",
+  "./components/v3/BrazilDeadlinePage.jsx",
   "./components/v3/international/BrazilDecisionPage.jsx",
   "./components/v3/international/BrazilCostEmbed.jsx",
   "./components/v3/international/RegionalMarketPreview.jsx",
@@ -182,6 +185,7 @@ const FactbookPage = deferredComponent("./components/v3/FactbookPage.jsx", "Fact
 const CollectionHubPage = deferredComponent("./components/v3/CollectionHubPage.jsx", "CollectionHubPage");
 const TokenizedAssetsPage = deferredComponent("./components/v3/TokenizedAssetsPage.jsx", "TokenizedAssetsPage");
 const VenueAlternativesPage = deferredComponent("./components/v3/VenueAlternativesPage.jsx", "VenueAlternativesPage");
+const BrazilDeadlinePage = deferredComponent("./components/v3/BrazilDeadlinePage.jsx", "BrazilDeadlinePage");
 const BrazilDecisionPage = deferredComponent("./components/v3/international/BrazilDecisionPage.jsx", "BrazilDecisionPage");
 const BrazilEntryLink = deferredComponent("./components/v3/international/BrazilDecisionPage.jsx", "BrazilEntryLink");
 const BrazilCostEmbed = deferredComponent("./components/v3/international/BrazilCostEmbed.jsx", "BrazilCostEmbed");
@@ -527,6 +531,7 @@ function routeState(venues, initialUrl) {
   const topicMatch = pathname.match(/^\/topics\/([a-z0-9-]+)$/);
   if (topicMatch && TOKENIZED_ASSET_SLUGS.includes(topicMatch[1])) return { name: "tokenizedAssets", slug: topicMatch[1], ...contextParams() };
   if (topicMatch && VENUE_ALTERNATIVE_SLUGS.includes(topicMatch[1])) return { name: "venueAlternatives", slug: topicMatch[1], ...contextParams() };
+  if (topicMatch && BRAZIL_DEADLINE_SLUGS.includes(topicMatch[1])) return { name: "brazilDeadline", slug: topicMatch[1], ...contextParams() };
   if (topicMatch) return TOPIC_SLUGS.includes(topicMatch[1]) ? { name: "topic", slug: topicMatch[1], ...contextParams() } : { name: "notFound" };
   if (pathname === "/factbook") return { name: "factbookCollection", ...contextParams() };
   const factbookMatch = pathname.match(/^\/factbook\/([a-z0-9-]+)$/);
@@ -807,6 +812,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "factbookCollection") return pageShell(<CollectionHubPage kind="factbook" locale={locale} />);
   if (route.name === "tokenizedAssets") return pageShell(<TokenizedAssetsPage slug={route.slug} locale={locale} />, { crawlScope: "tokenized" });
   if (route.name === "venueAlternatives") return pageShell(<VenueAlternativesPage slug={route.slug} locale={locale} />);
+  if (route.name === "brazilDeadline") return pageShell(<BrazilDeadlinePage locale={locale} />);
   if (route.name === "topic") return pageShell(<TopicGuidePage slug={route.slug} locale={locale} market={route.market} product={route.product} venues={command.venueCatalog} />);
   if (route.name === "factbook") return pageShell(<FactbookPage slug={route.slug} locale={locale} market={route.market} product={route.product} />);
   if (route.name === "kolLanding") return pageShell(<KolLandingPage kolHandle={route.kol} locale={locale} market={route.market} product={route.product} />);

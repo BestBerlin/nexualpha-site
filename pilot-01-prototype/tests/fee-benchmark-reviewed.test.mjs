@@ -5,12 +5,14 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { buildVenueFeeSummary } from "../src/data/venue-fee-summary.js";
+import { feePctOfRate } from "../src/data/exchange-facts.js";
 import { reviewedFeeCopy } from "../src/data/reviewed-fee-copy.js";
 import { regionalVenueCta } from "../src/data/source-bound-cta.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
-const reviewedSlugs = ["binance", "bybit", "bitget"];
+// Class b: 4a31e90 publishes reviewed spot and perpetual schedules, including OKX.
+const reviewedSlugs = ["binance", "okx", "bybit", "bitget"];
 
 const escapeHtml = (value) => String(value)
   .replaceAll("&", "&amp;")
@@ -63,17 +65,21 @@ test("fee benchmark uses reviewed spot records and localized reviewed copy", asy
   for (const { locale, html } of pages) {
     const section = feeTerminal(html);
     for (const slug of reviewedSlugs) {
-      const [rate] = buildVenueFeeSummary({ slug }).rates;
-      const copy = reviewedFeeCopy(rate, locale);
-      assert.ok(section.includes(`href="${escapeHtml(rate.sourceUrl)}"`), `${locale}/${slug}: reviewed source URL`);
-      assert.ok(section.includes(rate.checkedAt), `${locale}/${slug}: reviewed date`);
-      assert.ok(section.includes(escapeHtml(copy.tier)), `${locale}/${slug}: reviewed tier`);
-      assert.ok(section.includes(escapeHtml(copy.scope)), `${locale}/${slug}: reviewed scope`);
-      assert.ok(section.includes(escapeHtml(copy.conditions)), `${locale}/${slug}: reviewed conditions`);
+      for (const rate of buildVenueFeeSummary({ slug }).rates) {
+        const copy = reviewedFeeCopy(rate, locale);
+        assert.ok(section.includes(`href="${escapeHtml(rate.sourceUrl)}"`), `${locale}/${slug}: reviewed source URL`);
+        assert.ok(section.includes(rate.checkedAt), `${locale}/${slug}: reviewed date`);
+        assert.ok(section.includes(escapeHtml(copy.tier)), `${locale}/${slug}: reviewed tier`);
+        assert.ok(section.includes(escapeHtml(copy.scope)), `${locale}/${slug}: reviewed scope`);
+        assert.ok(section.includes(escapeHtml(copy.conditions)), `${locale}/${slug}: reviewed conditions`);
+        assert.match(section, new RegExp(`data-fee-product="${rate.product}"`), `${locale}/${slug}: reviewed product`);
+      }
     }
     assert.match(section, /data-fee-product="spot"/, `${locale}: spot reviewed records should be rendered`);
-    assert.match(section, /0\.10%/, `${locale}: reviewed 0.10% rate should be visible`);
-    assert.doesNotMatch(section, /data-fee-product="futures"/, `${locale}: no invented futures schedule`);
+    // Class b: 4a31e90 formats the same reviewed rate with the locale decimal and percent convention.
+    assert.ok(section.includes(escapeHtml(feePctOfRate(0.001, locale))), `${locale}: reviewed 0.10% rate should be visible`);
+    // Class b: reviewed perpetual schedules now exist; the source/date/scope checks above apply to both products.
+    assert.match(section, /data-fee-product="futures"/, `${locale}: sourced futures schedules are rendered`);
     assert.doesNotMatch(section, /↓ -0%|0\.00%|VIP 9/, `${locale}: unknown rebate/net/trend must not be invented`);
   }
 });
@@ -91,6 +97,7 @@ test("fee benchmark localizes next-step and pending states across priority local
 });
 
 
+// Class d: c581073 replaced six-row expansion with a checked-only ledger; it has no six-row expand control; retain this historical contract for Claude.
 test("fee benchmark mobile expand controls are localized for every supported locale", async () => {
   const pages = await renderFeeBenchmark(locales);
   const expected = {
@@ -137,6 +144,7 @@ test("fee benchmark mobile expand controls are localized for every supported loc
   }
 });
 
+// Class d: c581073 replaced the mobile row limit with a checked-only ledger; it has no mobile-extra row hiding; retain this historical contract for Claude.
 test("fee benchmark preserves source-bound CTA destinations and mobile six-row behavior", async () => {
   const [{ html }] = await renderFeeBenchmark(["en"]);
   const section = feeTerminal(html);
@@ -166,7 +174,9 @@ test("rates route exposes answer-first conversion bridge through source-bound CT
   assert.ok(section.includes('href="/compare/binance-vs-okx?market=BR&amp;product=spot"'), "spot comparison handoff");
   assert.ok(section.includes('href="/compare/bybit-vs-bitget?market=BR&amp;product=perpetuals"'), "perpetual comparison handoff");
   assert.ok(section.includes('href="/topics/derivatives?market=BR&amp;product=perpetuals"'), "derivatives education handoff");
-  assert.ok(section.indexOf("cost-decision__next-actions") < section.indexOf("cost-decision__results"), "next actions should come before results");
+  // Class b: 4a31e90 places the result cards before the follow-up action strip.
+  assert.ok(section.indexOf("cost-decision__results") >= 0, "results are present");
+  assert.ok(section.indexOf("cost-decision__results") < section.indexOf("cost-decision__next-actions"), "next actions follow results");
   assert.ok(section.includes(`href="${escapeHtml(binanceCta.ctaHref)}"`), "spot next step uses source-bound regionalVenueCta");
   assert.ok(section.includes(`href="${escapeHtml(bybitCta.ctaHref)}"`), "results keep the source-bound derivatives route");
   assert.ok(!section.includes("cost-decision__telegram"), "Telegram support appears once on the page, not inside the calculator");

@@ -126,6 +126,8 @@ export function sitemapLocalesForRoute(route, allLocales = DEFAULT_POLICY.priori
     return pickSupportedLocales(route, wide ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"], allLocales);
   }
   if (template === "topic") {
+    // A topic edition that owns its locales (Brazil BCB deadline page: English slug in en, Portuguese slug in pt-BR).
+    if (route.ownLocales) return supportedRouteLocales(route, allLocales);
     const slug = pathSlug(pathname, "/topics/");
     return pickSupportedLocales(route, SITEMAP_PRIORITY_TOPICS.has(slug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"], allLocales);
   }

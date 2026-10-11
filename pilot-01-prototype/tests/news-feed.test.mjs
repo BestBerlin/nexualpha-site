@@ -678,7 +678,8 @@ test("server-rendered news routes expose canonical metadata and fail unknown slu
 
   assert.match(html, /"datePublished":"2026-09-07T00:00:00Z"/);
   assert.match(html, /"dateModified":"2026-09-07T01:00:00Z"/);
-  feed.articles.push({ ...feed.articles[0], slug: "unknown-unreviewed-article" });
+  // Class b: b4c9051 uses the live feed publication gate, not a frozen slug roster.
+  feed.articles.push({ ...feed.articles[0], slug: "unknown-unreviewed-article", seo: { ...feed.articles[0].seo, noindex: true } });
   const unreviewed = await sitesWorker.fetch(
     new Request("https://nexualpha.com/news/unknown-unreviewed-article", { headers: { accept: "text/html" } }),
     { ASSETS: assets },

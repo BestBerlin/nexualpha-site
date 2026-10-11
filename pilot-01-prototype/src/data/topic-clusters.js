@@ -11,6 +11,7 @@
 // Pure functions only (Worker, SSR, build scripts and the news route chunk share it); no fetch, no DOM.
 import { localizedPath } from "./locale-routing.js";
 import { hasNewsArticleLocale, localizedNewsTitle, localizedValue, newsArticleUrl } from "./news-feed-client.js";
+import { BRAZIL_DEADLINE_PATH_EN, BRAZIL_DEADLINE_PATH_PT } from "./brazil-vasp-deadline-slugs.js";
 
 const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 
@@ -56,6 +57,7 @@ const LABELS = {
   regulation: L(["Crypto regulation news", "加密监管动态", "加密監管動態", "Noticias de regulación cripto", "Notícias de regulação cripto", "Actualités de la réglementation crypto", "Krypto-Regulierung", "Notizie sulla regolamentazione crypto", "暗号資産規制ニュース", "암호화폐 규제 소식", "Новости регулирования криптовалют", "Kripto düzenleme haberleri", "Berita regulasi kripto", "Tin quy định tiền mã hóa", "أخبار تنظيم العملات الرقمية", "کرپٹو ضابطہ کاری کی خبریں", "Новини крипторегулювання"]),
   "exchange-api": L(["Exchange API & market data controls", "交易所 API 与行情数据核查", "交易所 API 與行情資料核查", "API de exchanges y datos de mercado", "API de exchanges e dados de mercado", "API des plateformes et données de marché", "Börsen-APIs und Marktdaten", "API degli exchange e dati di mercato", "取引所APIと市場データの確認", "거래소 API와 시장 데이터 점검", "API бирж и рыночные данные", "Borsa API'leri ve piyasa verisi", "API bursa dan data pasar", "API sàn và dữ liệu thị trường", "واجهات API للمنصات وبيانات السوق", "ایکسچینج API اور مارکیٹ ڈیٹا کنٹرولز", "API бірж і контроль ринкових даних"]),
   "usdc-cctp": L(["USDC & CCTP transfer risk map", "USDC 与 CCTP 转账风险图", "USDC 與 CCTP 轉帳風險圖", "Riesgos de transferencias USDC y CCTP", "Riscos de transferências USDC e CCTP", "Risques des transferts USDC et CCTP", "USDC- und CCTP-Transferrisiken", "Rischi dei trasferimenti USDC e CCTP", "USDC と CCTP の送金リスク", "USDC·CCTP 전송 위험", "Риски переводов USDC и CCTP", "USDC ve CCTP transfer riskleri", "Risiko transfer USDC dan CCTP", "Rủi ro chuyển USDC và CCTP", "مخاطر تحويلات USDC وCCTP", "USDC اور CCTP منتقلی خطرات کا نقشہ", "Мапа ризиків переказів USDC і CCTP"]),
+  "brazil-vasp-deadline": L(["Brazil exchange authorization deadline (30 Oct 2026)", "巴西交易所授权申请截止日（2026-10-30）", "巴西交易所授權申請截止日（2026-10-30）", "Plazo de autorización de exchanges en Brasil (30/10/2026)", "Prazo do Banco Central para corretoras cripto (30/10/2026)", "Brésil : date limite d’autorisation des plateformes (30/10/2026)", "Brasilien: Zulassungsfrist für Krypto-Börsen (30.10.2026)", "Brasile: scadenza per l’autorizzazione degli exchange (30/10/2026)", "ブラジルの取引所認可申請期限（2026年10月30日）", "브라질 거래소 인가 신청 마감(2026-10-30)", "Бразилия: срок подачи заявок на авторизацию бирж (30.10.2026)", "Brezilya borsa yetkilendirme son tarihi (30.10.2026)", "Tenggat otorisasi bursa di Brasil (30/10/2026)", "Hạn chót cấp phép sàn tại Brazil (30/10/2026)", "مهلة ترخيص منصات العملات الرقمية في البرازيل (30/10/2026)", "Brazil exchange authorization deadline (30 Oct 2026)", "Brazil exchange authorization deadline (30 Oct 2026)"]),
   "network-maintenance": L(["Network upgrades vs wallet maintenance", "网络升级与钱包维护对比", "網路升級與錢包維護比較", "Actualizaciones de red y mantenimiento de billeteras", "Atualizações de rede e manutenção de carteiras", "Mises à niveau réseau et maintenance des portefeuilles", "Netzwerk-Upgrades und Wallet-Wartung", "Aggiornamenti di rete e manutenzione dei wallet", "ネットワーク更新とウォレット保守", "네트워크 업그레이드와 지갑 점검", "Обновления сетей и обслуживание кошельков", "Ağ yükseltmeleri ve cüzdan bakımı", "Peningkatan jaringan dan pemeliharaan dompet", "Nâng cấp mạng và bảo trì ví", "ترقيات الشبكات وصيانة المحافظ", "نیٹ ورک اپ گریڈز اور والیٹ دیکھ بھال", "Оновлення мережі й обслуговування гаманців"]),
 };
 
@@ -110,6 +112,10 @@ export const TOPIC_CLUSTERS = Object.freeze([
     match: { title: /\bapi\b|websocket|\bsbe\b|order book|market data|rate limits?/i } },
   { id: "usdc-cctp", kind: "article", path: "/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map", query: /cctp|circle|usdc|noble/i,
     match: { title: /\bcctp\b/i } },
+  // Brazil BCB deadline topic: English slug for every locale except pt-BR, which links its Portuguese edition (localePaths).
+  { id: "brazil-vasp-deadline", kind: "topic", path: BRAZIL_DEADLINE_PATH_EN, localePaths: { "pt-BR": BRAZIL_DEADLINE_PATH_PT },
+    query: /banco central|\bbcb\b|\bpsav\b|\bvasp\b.*bra[sz]il|cnpj|opera no brasil|é brasileira|receita federal|(?:brasil|brazil).*(?:regula|autoriza|authori[sz]|licen|legal|confi[aá]vel|prazo|deadline)/i,
+    match: { title: /banco central do brasil|central bank of brazil|brazil(?:ian)? central bank|\bbcb\b|\b(?:brazil|brasil)\b.*\b(?:regulat|regula[çc]|licen[cs]|authori[sz]|autoriza|vasp|psav|deadline|prazo)|\b(?:regulat|licen[cs]|authori[sz]|vasp|deadline)\w*\b.*\b(?:brazil|brasil)\b/i } },
   { id: "regulation", kind: "category", path: "/news/category/regulation", query: /\bsec\b|site\.sec|cftc|innovation exemption|token taxonomy|bitlicense|34-106402|project agora|hkma/i,
     match: { category: "regulation" } },
   { id: "network-maintenance", kind: "article", path: "/news/blockchain-network-upgrade-vs-exchange-wallet-maintenance-service-impact-comparison", query: /maintenance (?:and repair )?services|network maintenance|system maintenance/i,
@@ -180,7 +186,8 @@ export function articleClusterLinks(article, locale = "en", { limit = ARTICLE_CL
   for (const cluster of TOPIC_CLUSTERS) {
     if (links.length >= limit) break;
     if (!articleMatchesCluster(article, cluster)) continue;
-    links.push({ id: cluster.id, kind: cluster.kind, path: cluster.path, href: localizedPath(cluster.path, locale), label: clusterLabel(cluster, locale) });
+    const path = cluster.localePaths?.[locale] || cluster.path;
+    links.push({ id: cluster.id, kind: cluster.kind, path, href: localizedPath(path, locale), label: clusterLabel(cluster, locale) });
   }
   return links;
 }

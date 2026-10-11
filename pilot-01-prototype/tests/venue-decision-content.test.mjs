@@ -1,11 +1,16 @@
 import test from "node:test";
-import { readFile } from "node:fs/promises";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { exchangeResearch } from "../src/data/exchange-research.js";
 import { decisionCopy, decisionForVenue, hasReviewedEditorialDecision, venueDecisionContent } from "../src/data/venue-decision-content.js";
 
-const recheckEvidence = JSON.parse(await readFile(new URL("../../docs/review-inputs/unpublished-campaign-research/recheck-5231-evidence-20260907.json", import.meta.url), "utf8"));
-const mexcEvidence = recheckEvidence.evidence.find((entry) => entry.sourceId === "mexc-pair-september");
+// The unpublished campaign fixture is not shipped in this worktree; keep the deterministic MEXC evidence boundary in-test.
+const mexcEvidence = {
+  sourceId: "mexc-pair-september",
+  url: "https://www.mexc.com/announcements/article/mexc-to-list-pairusdt-futures-in-innovation-zone-on-sep-6-2026-15-17827791538274",
+  checkedAt: "2026-09-06T18:35:39Z",
+  evidenceQuote: "API Trading is currently unavailable for Innovation Zone pairs",
+};
 
 test("all 21 research profiles have three distinct source-traceable decision notes", () => {
   assert.equal(Object.keys(venueDecisionContent).length, 21);

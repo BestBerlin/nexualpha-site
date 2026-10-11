@@ -147,3 +147,11 @@ body { counter-reset: nx-section; }
   margin: -2px 0 0; max-inline-size: 30em; margin-inline: auto; text-align: center;
   font-size: 14px; font-weight: 500; line-height: 1.45; letter-spacing: .005em; color: var(--nx-n11, #b0b4ba); text-wrap: balance;
 }
+
+/* Brazil BCB deadline notice (/pt-br/exchanges and the profiles in the status table, owner plan 2026-10-12). */
+.brazil-deadline-notice { margin: 16px 0; padding: 14px 16px; border: 1px solid var(--line, rgba(255,255,255,.14)); border-inline-start: 3px solid var(--accent, #5287ff); border-radius: 8px; background: rgba(82, 135, 255, .06); max-width: 880px; overflow-wrap: anywhere; }
+.brazil-deadline-notice p { margin: 0 0 6px; }
+.brazil-deadline-notice__title b { color: var(--v3-text, #e8eef6); }
+.brazil-deadline-notice__body { color: var(--v3-muted, #a5b4c7); }
+.brazil-deadline-notice__link { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+.brazil-deadline-notice__link:focus-visible { outline: 2px solid var(--accent, #5287ff); outline-offset: 3px; }

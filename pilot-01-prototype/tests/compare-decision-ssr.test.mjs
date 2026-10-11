@@ -67,10 +67,11 @@ test("Bybit vs Bitget compare renders reviewed editorial differences and no lega
     assert.equal((html.match(/data-testid="compare-versus-sources-bitget"/g) || []).length, 1, "Bitget source disclosure should have one stable hydration target");
     assert.doesNotMatch(html, />Standard KYC</);
     assert.match(html, /VIP 0/);
-    assert.match(html, /Standard non-VIP/);
+    assert.match(html, /Bitget Trading Fees FAQ/);
     assert.match(html, /Adventure Zone/);
-    assert.equal(occurrenceCount(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/g), 3, "Bitget protected registration link should appear in sticky, command surface and supporting CTA only");
-    assert.equal(occurrenceCount(html, /href="https:\/\/www\.bybit\.com\/register\?affiliate_id=48553"/g), 3, "Bybit protected registration link should appear in sticky, command surface and supporting CTA only");
+    // R111 added a hero signup row before the final-choice card; the protected routes now appear in sticky, hero, final choice and supporting CTA.
+    assert.equal(occurrenceCount(html, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"/g), 4, "Bitget protected registration link should appear in sticky, hero, command surface and supporting CTA only");
+    assert.equal(occurrenceCount(html, /href="https:\/\/www\.bybit\.com\/register\?affiliate_id=48553"/g), 4, "Bybit protected registration link should appear in sticky, hero, command surface and supporting CTA only");
     const stickyStart = html.indexOf('class="v3-compare-sticky-bar');
     const heroStart = html.indexOf('id="compare-hero"');
     assert.ok(stickyStart >= 0 && heroStart > stickyStart, "sticky compare CTA bar should render before the hero");
@@ -81,7 +82,8 @@ test("Bybit vs Bitget compare renders reviewed editorial differences and no lega
     const versusStart = html.indexOf('id="compare-versus-card"');
     assert.ok(finalCardStart > 0 && versusStart > finalCardStart, "final choice card should render before versus cards");
     const finalCard = html.slice(finalCardStart, versusStart);
-    assert.match(finalCard, /Final call before signup/);
+    // R111 removed the eyebrow from the priority final-choice card; the card now starts with the decision title/body.
+    assert.match(finalCard, /Choose Bybit for product breadth and xStocks checks/);
     assert.match(finalCard, /Who it fits/);
     assert.match(finalCard, /Verify first/);
     assert.match(finalCard, /data-cta-placement="compare-final-choice-registration"/);
@@ -90,9 +92,8 @@ test("Bybit vs Bitget compare renders reviewed editorial differences and no lega
     assert.match(finalCard, /data-cta-placement="compare-final-choice-detail"/);
     assert.match(finalCard, /href="\/exchanges\/bybit\?market=unknown&amp;product=unknown#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="bybit"/);
     assert.match(finalCard, /href="\/exchanges\/bitget\?market=unknown&amp;product=unknown#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="bitget"/);
-    assert.match(finalCard, /href="#hardcore-matrix"/);
-    assert.match(finalCard, /Full matrix/);
-    assert.match(finalCard, new RegExp(`class="v3-compare-final-choice-card__evidence" data-mobile-evidence-default="collapsed" aria-label="${directAnswer.seoQuestion.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+    assert.match(finalCard, /Bybit vs Bitget: choose by product route/);
+    assert.match(finalCard, new RegExp(`class="v3-compare-final-choice-evidence"[^>]*aria-label="${directAnswer.seoQuestion.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
     assert.doesNotMatch(html, /<details class="v3-versus-stats-disclosure" open/);
     assert.doesNotMatch(html, /Regional restrictions, account eligibility and campaign terms need official verification/);
     assert.doesNotMatch(html, /Published fee reference: Spot 0\.10% \/ 0\.10%, Futures 0\.02% \/ 0\.055%/);
@@ -152,13 +153,14 @@ test("Binance vs OKX compare renders reviewed editorial differences without comm
     const versusStart = html.indexOf('id="compare-versus-card"');
     assert.ok(finalCardStart > 0 && versusStart > finalCardStart, "final choice card should render before versus cards");
     const finalCard = html.slice(finalCardStart, versusStart);
-    assert.match(finalCard, /Final call before signup/);
+    // R111 removed the eyebrow from the priority final-choice card; the card now starts with the decision title/body.
+    assert.match(finalCard, /Choose Binance for broad exchange depth/);
     assert.match(finalCard, /data-cta-placement="compare-final-choice-registration"/);
-    assert.match(finalCard, /href="https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287&amp;utm_medium=web_share_copy"[\s\S]*data-cta-kind="registration"[\s\S]*data-cta-platform="binance"/);
+    assert.match(finalCard, /href="https:\/\/www\.binance\.com\?ref=11350287"[\s\S]*data-cta-kind="registration"[\s\S]*data-cta-platform="binance"/);
     assert.match(finalCard, /href="https:\/\/www\.okx\.com\/join\/nexu888"[\s\S]*data-cta-kind="registration"[\s\S]*data-cta-platform="okx"/);
     assert.match(finalCard, /href="\/exchanges\/binance\?market=unknown&amp;product=unknown#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="binance"/);
     assert.match(finalCard, /href="\/exchanges\/okx\?market=unknown&amp;product=unknown#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="okx"/);
-    assert.match(finalCard, /href="#hardcore-matrix"/);
+    assert.match(finalCard, /Binance vs OKX: compare fees, product scope, KYC and Web3 access before choosing/);
     assert.doesNotMatch(html, /Verify public products, regional eligibility and official fees first/);
   } finally {
     await rm(tempDir, { recursive: true, force: true });

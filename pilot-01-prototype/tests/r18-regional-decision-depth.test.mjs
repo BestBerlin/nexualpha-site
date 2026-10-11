@@ -52,7 +52,8 @@ test("R18 EU and UK decision depth renders only on owner-market pages", async ()
 test("R37 BR, JP, KR, SG and TR decision depth gives localized payment, identity, cost and product boundaries", async () => {
   const html = await render();
   assert.match(html.br, /data-regional-decision-depth="BR"/);
-  assert.match(html.br, /CHECKLIST BRASIL ANTES DO CADASTRO/);
+  // Class b: R37 localized the BR depth heading while keeping the same payment, identity, cost and source boundaries.
+  assert.match(html.br, /Separe Pix, CPF, conta bancária, custos e produto antes de sair/);
   assert.match(html.br, /Pix|TED|BRL bank transfer/);
   assert.match(html.br, /CPF|CNPJ|titularidade bancária/);
   assert.match(html.br, /Custos e prazos/);
