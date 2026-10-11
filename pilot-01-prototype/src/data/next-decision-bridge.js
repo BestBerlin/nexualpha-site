@@ -1,5 +1,6 @@
 import { localizedHref } from "./locale-routing.js";
 import { appendDecisionPassportQuery } from "./decision-passport.js";
+import { comparePathFor } from "../components/v6/compare-routes.js";
 
 const COPY = {
   en: {
@@ -177,7 +178,11 @@ export function buildNextDecisionBridge({
   const suppliedProfilePath = typeof profileHref === "string" ? profileHref.split(/[?#]/)[0] : "";
   const profileRoute = suppliedProfilePath === profilePath ? profileHref : profilePath;
   const slugs = (Array.isArray(compareSlugs) ? compareSlugs : []).map(cleanSlug).filter(Boolean);
-  const comparison = compareHref || (slugs.length >= 2 ? `/compare/${slugs.slice(0, 2).join("-vs-")}` : "");
+  // Factbook-only venues (HTX, HashKey, Aevo) have no compare route: comparePathFor() reports a fallback, and the
+  // bridge then offers no comparison instead of a 404 link (QA 2026-10-11: /topics/compliant-exchanges linked
+  // /compare/hashkey-vs-kraken).
+  const pairPath = slugs.length >= 2 ? comparePathFor(slugs.slice(0, 2)) : null;
+  const comparison = compareHref || (pairPath && !pairPath.fallback ? pairPath.path : "");
   const contextualHref = (href) => {
     const target = new URL(String(href || "/"), "https://nexualpha.com");
     return appendDecisionPassportQuery(localizedHref(href, { locale }), {

@@ -72,7 +72,7 @@ function harness(file, { reduced = false, hidden = false, width = 390, expose = 
     resolveNewsContentLocale: locale => locale,
     localizedValue: (value, locale) => typeof value === 'object' ? value[locale] || value.en : value,
     localizedNewsTitle: () => 'Fixture', localizedNewsSummary: () => 'Fixture summary',
-    contextualHref: href => href, injectSeoMetadata() {}
+    contextualHref: href => href, injectSeoMetadata() {}, syncRouteSeo() {}, applyNotFoundSeo() {}
   };
   const source = readFileSync(new URL(file, import.meta.url), 'utf8');
   const compiled = transformSync(source + expose, { loader: 'jsx', format: 'cjs', jsx: 'transform' }).code;

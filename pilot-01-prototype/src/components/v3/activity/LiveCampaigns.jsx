@@ -33,8 +33,10 @@ const COPY = {
 const copyFor = (locale) => COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
 const pick = (v, locale) => (v && typeof v === "object" ? v[locale] || (String(locale).startsWith("zh") ? v["zh-Hans"] : null) || v.en : v);
 
-function useCampaignFeed() {
-  const [state, setState] = useState({ items: null, failed: false });
+// `initialFeed` is the worker's request-time snapshot (prerender state `officialAnnouncements`): the server renders the
+// same cards the browser would, and the client refresh below only replaces them with newer rows of the same shape.
+function useCampaignFeed(initialFeed) {
+  const [state, setState] = useState(() => ({ items: Array.isArray(initialFeed?.items) ? initialFeed.items : null, failed: false }));
   useEffect(() => {
     let alive = true;
     const load = () => fetch(FEED, { headers: { accept: "application/json" }, cache: "no-cache" })
@@ -52,9 +54,9 @@ function route(slug, locale) {
   return cta?.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "") ? cta : null;
 }
 
-export function LiveCampaigns({ locale = "en" }) {
+export function LiveCampaigns({ locale = "en", initialFeed }) {
   const t = copyFor(locale);
-  const { items, failed } = useCampaignFeed();
+  const { items, failed } = useCampaignFeed(initialFeed);
   const [venue, setVenue] = useState("all");
   const [openGroups, setOpenGroups] = useState(() => new Set());
   const toggleGroup = (slug) => setOpenGroups((current) => { const next = new Set(current); if (next.has(slug)) next.delete(slug); else next.add(slug); return next; });
@@ -81,7 +83,23 @@ export function LiveCampaigns({ locale = "en" }) {
           {["all", ...venues].map((v) => <button key={v} type="button" role="tab" aria-selected={venue === v} className={venue === v ? "is-on" : undefined} onClick={() => setVenue(v)}>{v === "all" ? t.all : NAMES[v] || v}</button>)}
         </div>
       )}
-      {!items && !featured.length && <p className="live-campaigns__state">{failed ? t.failed : t.loading}</p>}
+      {/* No feed yet (assets-only host or feed down): a fixed-height placeholder the size of one group of three cards, so the
+          research section, notes and disclosure below do not move when the client inserts the real cards. */}
+      {!items && !featured.length && (
+        <section className="live-campaigns__group live-campaigns__group--skeleton" data-campaign-group="skeleton" aria-busy={!failed} role="status">
+          <p className="live-campaigns__state live-campaigns__state--inline">{failed ? t.failed : t.loading}</p>
+          <ul className="live-campaigns__list" aria-hidden="true">
+            {Array.from({ length: GROUP_PREVIEW_COUNT }, (_, index) => (
+              <li key={`skeleton-${index}`} className="live-campaigns__card live-campaigns__card--skeleton">
+                <span className="live-campaigns__skeleton-line live-campaigns__skeleton-line--meta" />
+                <span className="live-campaigns__skeleton-line live-campaigns__skeleton-line--title" />
+                <span className="live-campaigns__skeleton-line" />
+                <span className="live-campaigns__skeleton-line live-campaigns__skeleton-line--action" />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       {items && !shown.length && <p className="live-campaigns__state">{t.empty}</p>}
       {groups.map((group) => {
         const expanded = openGroups.has(group.venue) || group.items.length <= GROUP_PREVIEW_COUNT;
@@ -100,7 +118,8 @@ export function LiveCampaigns({ locale = "en" }) {
                   <BrandMark slug={c.venue} compact />
                   <b>{name}</b>
                   {c.featured && <span className="live-campaigns__tag">{t.featured}</span>}
-                  {c.publishedAt && <time dateTime={c.publishedAt}>{ago(c.publishedAt)}</time>}
+                  {/* Relative time depends on the clock and the ICU build; the server text may differ by a minute. */}
+                  {c.publishedAt && <time dateTime={c.publishedAt} suppressHydrationWarning>{ago(c.publishedAt)}</time>}
                 </div>
                 <h4 dir="auto">{c.title}</h4>
                 {c.summary && <p className="live-campaigns__sum">{c.summary}</p>}

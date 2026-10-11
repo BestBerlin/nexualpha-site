@@ -39,3 +39,6 @@ On every new session, first read `docs/company/ITERATION-v8.md` (current milesto
   transform; never add eager globs reachable from the browser entry. `scripts/verify-build-budget.mjs --strict`
   fails the build if the entry's static closure exceeds 350 KB gzip. Below-the-fold home modules hydrate through
   `DeferUntilVisible` (SSR HTML stays complete). `/exchanges` HTML is cached 60 s server-side (`x-nexualpha-ssr-cache`).
+  Route SEO (seo-payload lane): `src/data/seo-injection.js` is Node/SSR-only (the client vite build throws if it is
+  reached); the browser keeps the SSR head and, only after a client-side route change, fetches
+  `/api/route-seo?path=…` (worker `routeSeoPayload`, same helpers as the SSR head) via `src/data/route-seo-client.js`.

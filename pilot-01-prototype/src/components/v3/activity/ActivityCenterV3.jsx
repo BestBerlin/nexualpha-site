@@ -78,11 +78,13 @@ function normalizeUpdate(update, now) {
 
 function formatDate(locale, time) {
   if (!time) return "—";
+  // Fixed UTC zone: the server and the reader's browser must print the same text or hydration fails (React #418).
   return new Intl.DateTimeFormat(locale || "en", {
     month: "short",
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "UTC",
   }).format(new Date(time));
 }
 
@@ -133,7 +135,7 @@ const activitySupportSummary = {
 };
 
 
-export function ActivityCenterV3({ locale = "en", market, product, venues = [], publicUpdates = [] }) {
+export function ActivityCenterV3({ locale = "en", market, product, venues = [], publicUpdates = [], campaignFeed }) {
   const activityLocaleUi = {
     ja: { badge: "公式出典リサーチ速報", body: "出典付きの活動、上場、条件を掲載します。資格、期限、具体的な条件は公式アカウントで確認してください。", subscribe: "Telegramで出典付き調査を購読 ↗", index: "公式リサーチ索引を開く", indexHint: "サービス別に出典、状態、確認日を見る" },
     ko: { badge: "공식 출처 리서치 브리핑", body: "출처가 있는 활동, 상장 및 조건을 게시합니다. 자격, 기간과 혜택은 공식 계정에서 확인하세요.", subscribe: "Telegram에서 출처 리서치 구독 ↗", index: "공식 리서치 색인 열기", indexHint: "플랫폼별 출처, 상태와 검토일 확인" },
@@ -258,7 +260,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
 
     </div>
 
-    <LiveCampaigns locale={locale} />
+    <LiveCampaigns locale={locale} initialFeed={campaignFeed} />
 
     {feedItemList.length > 0 && filterControls}
 

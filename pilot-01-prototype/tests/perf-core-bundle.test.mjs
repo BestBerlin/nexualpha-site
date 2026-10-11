@@ -91,7 +91,9 @@ test("the shell no longer imports the heavy data modules directly", async () => 
   assert.doesNotMatch(app, /from "\.\/data\/tokenized-assets-cluster\.js"/);
   assert.doesNotMatch(app, /from "\.\/data\/market-data-pages\.js"/);
   assert.doesNotMatch(app, /^import \{ injectSeoMetadata \}/m);
-  assert.match(app, /import\("\.\/data\/seo-injection\.js"\)/, "SEO injector loads after hydration");
+  // seo-payload lane 2026-10-11: the route SEO tables left the browser graph entirely; the client asks /api/route-seo.
+  assert.doesNotMatch(app, /seo-injection\.js/, "App.jsx must not load the route SEO tables in the browser");
+  assert.match(app, /import \{ syncRouteSeo \} from "\.\/data\/route-seo-client\.js"/, "route-scoped SEO client is the only injector");
   assert.match(app, /import \{ researchRoute \} from "\.\/data\/official-research-route\.js"/);
   const shortlist = await read("../src/data/regional-shortlist.js");
   assert.match(shortlist, /from "\.\/telegram-start-payload\.js"/);

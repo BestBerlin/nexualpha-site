@@ -5,11 +5,14 @@ import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../s
 import { referralSeoFor } from "../src/data/referral-seo.js";
 import { clampMetaDescription, metaDescriptionLimit } from "../src/data/meta-description.js";
 import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
+import { ACTIVE_COMPARE_VENUE_SLUGS, CURATED_COMPARISON_SLUGS, canonicalComparePairSlug, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, indexableGeneratedComparePairs, parseComparePair } from "../src/data/compare-generated.js";
 import { socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
+import { newsListHeroCopy } from "../src/data/news-list-copy.js";
+import { readIntelFeed } from "../src/data/announcement-intel.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
   async fetch(request, env) {
@@ -23,6 +26,7 @@ export default {
     // Site click beacon is served by server.mjs (needs the private CLICK_EVENT_FILE); the worker alone has nowhere to write it.
     if (url.pathname === "/api/cta-click") return new Response(null, { status: 404, headers: { "cache-control": "no-store" } });
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
+    if (url.pathname === "/api/route-seo" && ["GET", "HEAD"].includes(request.method)) return handleRouteSeoJson(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
@@ -51,6 +55,27 @@ export default {
       const preserved = new URLSearchParams(preservedRedirectSearch(url.searchParams).slice(1));
       for (const [key, value] of preserved) destination.searchParams.append(key, value);
       return Response.redirect(destination.href, 301);
+    }
+    // Compare-any (2026-10-11): the no-JS picker submits GET /compare?a=<slug>&b=<slug>; normalize to the canonical
+    // pair path (302) and send invalid selections back to the picker. A reverse two-venue slug 301s to its canonical.
+    if (parsedRoute.contentPathname === "/compare" && ["GET", "HEAD"].includes(request.method) && (url.searchParams.has("a") || url.searchParams.has("b"))) {
+      const pair = parseComparePair(`${cleanSlug(url.searchParams.get("a")) || ""}-vs-${cleanSlug(url.searchParams.get("b")) || ""}`);
+      const target = pair ? `/compare/${canonicalComparePairSlug(pair)}` : "/compare";
+      const destination = new URL(localizedPath(target, parsedRoute.locale), PUBLIC_ORIGIN);
+      const preserved = new URLSearchParams(preservedRedirectSearch(url.searchParams).slice(1));
+      for (const [key, value] of preserved) destination.searchParams.append(key, value);
+      return Response.redirect(destination.href, 302);
+    }
+    const reverseComparePair = parsedRoute.contentPathname.match(/^\/compare\/([a-z0-9-]+-vs-[a-z0-9-]+)$/)?.[1];
+    if (reverseComparePair && ["GET", "HEAD"].includes(request.method)) {
+      const slugs = parseComparePair(reverseComparePair);
+      const canonicalPair = slugs ? canonicalComparePairSlug(slugs) : null;
+      if (canonicalPair && canonicalPair !== reverseComparePair) {
+        const destination = new URL(localizedPath(`/compare/${canonicalPair}`, parsedRoute.locale), PUBLIC_ORIGIN);
+        const preserved = new URLSearchParams(preservedRedirectSearch(url.searchParams).slice(1));
+        for (const [key, value] of preserved) destination.searchParams.append(key, value);
+        return Response.redirect(destination.href, 301);
+      }
     }
     const legacyFactbookSlug = LEGACY_VENUE_FACTBOOK_REDIRECTS[parsedRoute.contentPathname];
     if (legacyFactbookSlug && ["GET", "HEAD"].includes(request.method)) {
@@ -2468,15 +2493,11 @@ const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics"
 const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
-const CURATED_COMPARISONS = new Set([
-  "binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "binance-vs-mexc",
-  "okx-vs-mexc", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "binance-vs-kraken", "gate-io-vs-mexc",
-  // 2026-10-10 market plan: most-wanted pairs that had no indexable page.
-  "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc",
-]);
+// Hand-written pairs; the list lives in src/data/compare-generated.js so the app, seo-injection and worker agree.
+const CURATED_COMPARISONS = new Set(CURATED_COMPARISON_SLUGS);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 // Owner 2026-10-10 (search growth): mirror of src/data/seo-injection.js — fully translated pages publish all 15 locales.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -2820,7 +2841,7 @@ const REGIONAL_PREVIEW_SEO_LOCALIZED = {
     tr: ["Türkiye kripto platformu araştırması: SPK, TRY ve hesap kapsamı — NexuAlpha", "SPK geçici listesi, tasfiye listesi, Paribu hesap doğrulaması ve TRY yatırma kaynaklarını ayrı ayrı kontrol edin."],
   },
 };
-const ACTIVE_VENUE_SLUGS = new Set(["binance", "coinbase", "bybit", "bitget", "okx", "kraken", "gate-io", "kucoin", "mexc", "backpack", "deribit", "uniswap", "pancakeswap", "jupiter", "raydium", "aerodrome", "curve", "hyperliquid", "dydx", "gmx", "drift"]);
+const ACTIVE_VENUE_SLUGS = new Set(ACTIVE_COMPARE_VENUE_SLUGS);
 const SEARCH_REVIEWED_TRILINGUAL_VENUES = new Set(["drift", "deribit"]);
 const prerenderManifests = new WeakMap();
 const brazilCatalogs = new WeakMap();
@@ -2981,8 +3002,10 @@ function safeJson(value) {
 }
 
 function replaceOrInsert(html, expression, replacement) {
-  if (expression.test(html)) return html.replace(expression, replacement);
-  return html.replace(/<\/head>/i, `    ${replacement}\n  </head>`);
+  // Function replacers: page text may contain "$'" or "$&", which String.replace would otherwise expand (QA 2026-10-11:
+  // a Turkish research summary with "200$'a" truncated the SSR body and broke hydration on /tr/activities).
+  if (expression.test(html)) return html.replace(expression, () => replacement);
+  return html.replace(/<\/head>/i, () => `    ${replacement}\n  </head>`);
 }
 
 function routeLocale(url) {
@@ -3200,6 +3223,121 @@ function routeHasRegionalFundingDataset(schema) {
   return nested.includes(REGIONAL_FUNDING_MATRIX_URLS.json) || nested.includes(REGIONAL_FUNDING_MATRIX_URLS.csv);
 }
 
+// Head fragments shared by the SSR head (injectRouteMetadata) and the client navigation payload (/api/route-seo):
+// one source for og/twitter/trust meta and the JSON-LD payload, so a client-side route change renders the same head.
+function routeOpenGraphPairs(metadata) {
+  return [
+    ["og:type", metadata.ogType || "website"],
+    ["og:site_name", "NexuAlpha"],
+    ["og:title", metadata.title],
+    ["og:description", metadata.description],
+    ["og:url", metadata.canonical],
+    ["og:image", metadata.image || DEFAULT_SOCIAL_IMAGE],
+    ["og:image:width", String(SOCIAL_IMAGE_WIDTH)],
+    ["og:image:height", String(SOCIAL_IMAGE_HEIGHT)],
+    ["og:image:alt", metadata.title],
+  ];
+}
+
+function routeTwitterPairs(metadata) {
+  return [
+    ["twitter:card", "summary_large_image"],
+    ["twitter:site", "@NexuAlpha"],
+    ["twitter:title", metadata.title],
+    ["twitter:description", metadata.description],
+    ["twitter:image", metadata.image || DEFAULT_SOCIAL_IMAGE],
+  ];
+}
+
+function routeTrustPairs(metadata) {
+  const reviewedAt = routeDateModified(metadata.schema);
+  const hasRegionalFundingDataset = routeHasRegionalFundingDataset(metadata.schema);
+  return [
+    ["author", "NexuAlpha Research Desk"],
+    ["nexualpha-last-reviewed", reviewedAt],
+    ["nexualpha-methodology", `${PUBLIC_ORIGIN}/methodology`],
+    ["nexualpha-llms", `${PUBLIC_ORIGIN}/llms.txt`],
+    ["nexualpha-regional-funding-dataset", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_URLS.json : null],
+    ["nexualpha-regional-funding-dataset-reviewed", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_REVIEWED_AT : null],
+    ["nexualpha-regional-funding-dataset-limitations", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_LIMITATIONS : null],
+  ].filter(([, content]) => Boolean(content));
+}
+
+function routeSchemaPayload(schema) {
+  if (!schema) return null;
+  return Array.isArray(schema)
+    ? { "@context": "https://schema.org", "@graph": schema.map((item) => { const copy = { ...item }; delete copy["@context"]; return copy; }) }
+    : schema;
+}
+
+// <html lang> for a route: Brazil and /mx follow the content locale, news follows the displayed edition, every other
+// route keeps the requested UI locale (a Japanese reader of an English-only page still gets a Japanese shell).
+function documentLocaleFor(metadata, url) {
+  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
+  const requestedLocale = publicRoute.localeSource === "path" ? publicRoute.locale : url.searchParams.get("locale");
+  return brazilPath(publicRoute.contentPathname)
+    ? metadata.locale
+    : publicRoute.contentPathname === "/mx"
+    ? metadata.locale
+    : [NEWS_ROUTE_MARKER, ARTICLE_ROUTE_MARKER].includes(metadata.marker)
+    ? metadata.displayLocale || metadata.locale
+    : UI_LOCALES.has(requestedLocale) ? requestedLocale : metadata.locale;
+}
+
+// Client navigation SEO payload (seo-payload lane 2026-10-11). The browser no longer ships the route SEO tables
+// (src/data/seo-injection.js stays a Node/SSR module); after a client-side route change it fetches exactly what the
+// SSR head for that URL contains. Everything here is derived from routeMetadata() through the same helpers as
+// injectRouteMetadata, so the two cannot drift. Feed internals (newsArticles, fingerprints) never leave the server.
+export function routeSeoPayload(metadata, url) {
+  return {
+    path: url.pathname,
+    search: url.search,
+    status: metadata.status,
+    marker: metadata.marker || null,
+    locale: metadata.locale,
+    htmlLocale: documentLocaleFor(metadata, url),
+    title: metadata.title,
+    description: metadata.description,
+    canonical: metadata.canonical,
+    robots: metadata.robots || "index,follow",
+    alternates: Array.isArray(metadata.alternates) ? metadata.alternates.map(({ hreflang, href }) => ({ hreflang, href })) : [],
+    openGraph: routeOpenGraphPairs(metadata),
+    twitter: routeTwitterPairs(metadata),
+    trust: routeTrustPairs(metadata),
+    schema: routeSchemaPayload(metadata.schema),
+  };
+}
+
+export function routeSeoTargetUrl(requestUrl) {
+  const requested = requestUrl.searchParams.get("path") || "/";
+  if (!requested.startsWith("/") || requested.startsWith("//")) return null;
+  let target;
+  try { target = new URL(requested, requestUrl.origin); } catch { return null; }
+  if (target.origin !== requestUrl.origin || target.pathname.startsWith("/api/")) return null;
+  const locale = requestUrl.searchParams.get("locale");
+  if (locale) target.searchParams.set("locale", locale);
+  target.hash = "";
+  return target;
+}
+
+async function handleRouteSeoJson(request, env, url) {
+  const target = routeSeoTargetUrl(url);
+  if (!target) return json({ error: "path must be a site-relative pathname" }, 400);
+  const metadata = await routeMetadata(target, env);
+  const payload = routeSeoPayload(metadata, target);
+  const body = request.method === "HEAD" ? null : JSON.stringify(payload);
+  return new Response(body, {
+    status: 200,
+    headers: {
+      ...jsonHeaders,
+      // The payload mirrors a cacheable HTML head; a 404 route answer must not be kept around.
+      "cache-control": metadata.status === 200 ? "public, max-age=300, stale-while-revalidate=600" : "no-store",
+      "x-robots-tag": "noindex",
+      "x-nexualpha-route-seo-status": String(metadata.status),
+    },
+  });
+}
+
 function injectRouteMetadata(html, metadata) {
   const pageLocale = metadata.locale || "en";
   const pageDirection = String(pageLocale).toLowerCase().split("-")[0] === "ar" ? "rtl" : "ltr";
@@ -3219,27 +3357,11 @@ function injectRouteMetadata(html, metadata) {
     /<meta\b[^>]*name=["']description["'][^>]*>/i,
     `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
   );
-  for (const [property, content] of [
-    ["og:type", metadata.ogType || "website"],
-    ["og:site_name", "NexuAlpha"],
-    ["og:title", metadata.title],
-    ["og:description", metadata.description],
-    ["og:url", metadata.canonical],
-    ["og:image", metadata.image || DEFAULT_SOCIAL_IMAGE],
-    ["og:image:width", String(SOCIAL_IMAGE_WIDTH)],
-    ["og:image:height", String(SOCIAL_IMAGE_HEIGHT)],
-    ["og:image:alt", metadata.title],
-  ]) {
+  for (const [property, content] of routeOpenGraphPairs(metadata)) {
     const expression = new RegExp(`<meta\\b[^>]*property=["']${property.replace(":", "\\:")}["'][^>]*>`, "i");
     output = replaceOrInsert(output, expression, `<meta property="${property}" content="${escapeHtml(content)}" data-nexualpha-route-seo="social" />`);
   }
-  for (const [name, content] of [
-    ["twitter:card", "summary_large_image"],
-    ["twitter:site", "@NexuAlpha"],
-    ["twitter:title", metadata.title],
-    ["twitter:description", metadata.description],
-    ["twitter:image", metadata.image || DEFAULT_SOCIAL_IMAGE],
-  ]) {
+  for (const [name, content] of routeTwitterPairs(metadata)) {
     const expression = new RegExp(`<meta\\b[^>]*name=["']${name.replace(":", "\\:")}["'][^>]*>`, "i");
     output = replaceOrInsert(output, expression, `<meta name="${name}" content="${escapeHtml(content)}" data-nexualpha-route-seo="social" />`);
   }
@@ -3248,7 +3370,7 @@ function injectRouteMetadata(html, metadata) {
     const alternateHtml = metadata.alternates
       .map((alternate) => `    <link rel="alternate" hreflang="${alternate.hreflang}" href="${escapeHtml(alternate.href)}" data-nexualpha-route-seo="alternate" />`)
       .join("\n");
-    output = output.replace(/<\/head>/i, `${alternateHtml}\n  </head>`);
+    output = output.replace(/<\/head>/i, () => `${alternateHtml}\n  </head>`);
   }
   output = replaceOrInsert(
     output,
@@ -3260,17 +3382,7 @@ function injectRouteMetadata(html, metadata) {
     /<meta\b[^>]*name=["']robots["'][^>]*>/i,
     `<meta name="robots" content="${metadata.robots || "index,follow"}" data-nexualpha-route-seo="robots" />`,
   );
-  const reviewedAt = routeDateModified(metadata.schema);
-  const hasRegionalFundingDataset = routeHasRegionalFundingDataset(metadata.schema);
-  for (const [name, content] of [
-    ["author", "NexuAlpha Research Desk"],
-    ["nexualpha-last-reviewed", reviewedAt],
-    ["nexualpha-methodology", `${PUBLIC_ORIGIN}/methodology`],
-    ["nexualpha-llms", `${PUBLIC_ORIGIN}/llms.txt`],
-    ["nexualpha-regional-funding-dataset", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_URLS.json : null],
-    ["nexualpha-regional-funding-dataset-reviewed", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_REVIEWED_AT : null],
-    ["nexualpha-regional-funding-dataset-limitations", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_LIMITATIONS : null],
-  ].filter(([, content]) => Boolean(content))) {
+  for (const [name, content] of routeTrustPairs(metadata)) {
     const expression = new RegExp(`<meta\\b[^>]*name=["']${name.replace(":", "\\:")}["'][^>]*>`, "i");
     output = replaceOrInsert(output, expression, `<meta name="${name}" content="${escapeHtml(content)}" data-nexualpha-route-seo="trust" />`);
   }
@@ -3282,13 +3394,11 @@ function injectRouteMetadata(html, metadata) {
     );
   }
   output = output.replace(/\s*<script\b[^>]*id=["']nexualpha-route-schema["'][^>]*>[\s\S]*?<\/script>\s*/gi, "\n");
-  if (metadata.schema) {
-    const schemaPayload = Array.isArray(metadata.schema)
-      ? { "@context": "https://schema.org", "@graph": metadata.schema.map((item) => { const copy = { ...item }; delete copy["@context"]; return copy; }) }
-      : metadata.schema;
+  const schemaPayload = routeSchemaPayload(metadata.schema);
+  if (schemaPayload) {
     output = output.replace(
       /<\/head>/i,
-      `    <script id="nexualpha-route-schema" type="application/ld+json">${safeJson(schemaPayload)}</script>\n  </head>`,
+      () => `    <script id="nexualpha-route-schema" type="application/ld+json">${safeJson(schemaPayload)}</script>\n  </head>`,
     );
   }
   return output;
@@ -3315,11 +3425,15 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
   const brProjection = projectBrazilAttributionHtml(appHtml, pathname, url);
   const payload = safeJson({ pathname, locale, version: "nexualpha-prerender-v1",
     ...(brProjection.attribution ? { brAttribution: brProjection.attribution } : {}),
-    ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(pathname, route.newsArticles, locale, { preserveSsrContent: true }) } : {}),
+    // Listing payloads are summary rows for one page ("/news" projection: no content, sources or seo), never article bodies.
+    ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }) } : {}),
+    ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
+    ...(route.officialAnnouncements && typeof route.officialAnnouncements === "object" ? { officialAnnouncements: route.officialAnnouncements } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
-  return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, body);
+  // Function replacer: the body is page text and may contain "$'" / "$&" replacement patterns.
+  return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, () => body);
 }
 
 function decodeHtmlAttribute(value) {
@@ -3701,11 +3815,13 @@ function renderNewsListingFallback(metadata, locale, listing) {
   const pagination = paginateNews(metadata.newsArticles, { category, page, locale });
   const libraryCopy = newsLibraryCopy(locale);
   const categoryCopy = category ? newsCategoryCopy(category, locale) : null;
-  const heading = categoryCopy ? categoryCopy.label : metadata.newsListing?.heading || metadata.title.replace(/\s+—\s+NexuAlpha$/, "");
-  const subtitle = categoryCopy ? categoryCopy.intro : metadata.newsListing?.intro || metadata.description;
+  // Same heading source as NewsListPage (src/data/news-list-copy.js): the fallback must never show a different H1.
+  const hero = newsListHeroCopy(locale);
+  const heading = categoryCopy ? categoryCopy.label : hero.title;
+  const subtitle = categoryCopy ? categoryCopy.intro : hero.subtitle;
   return `<main class="v6 v2-page v3-page news-page" id="top" data-nexualpha-ssr-fallback="news-list" data-news-category="${escapeHtml(category || "all")}" data-news-page="${pagination.page}">
       <section class="news-hero v2-shell">
-        <div class="news-hero__badge">${escapeHtml(t.badge)}</div>
+        <div class="news-hero__badge">${escapeHtml(hero.eyebrow)}</div>
         <h1 class="news-hero__title">${escapeHtml(heading)}</h1>
         <p class="news-hero__subtitle">${escapeHtml(subtitle)}</p>
         <div class="news-index-controls">${renderNewsCategoryNavHtml(locale, category, newsCategoryCounts(metadata.newsArticles))}</div>
@@ -3796,7 +3912,7 @@ function injectFallbackBody(html, metadata, url) {
     hydrationArticles = article ? initialNewsArticlesForRoute(contentUrl.pathname, [article, ...newsRelatedSummaries(article, sourceArticles)], locale) : [];
   }
   if (!hydrationArticles.length) {
-    return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, `<div id="root" data-nexualpha-client-render="true">${appHtml}</div>`);
+    return html.replace(/<div\s+id=["']root["']\s*>\s*<\/div>/i, () => `<div id="root" data-nexualpha-client-render="true">${appHtml}</div>`);
   }
   const payload = safeJson({
     pathname: contentUrl.pathname,
@@ -3808,8 +3924,75 @@ function injectFallbackBody(html, metadata, url) {
   });
   return html.replace(
     /<div\s+id=["']root["']\s*>\s*<\/div>/i,
-    `<div id="root" data-nexualpha-client-render="true">${appHtml}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`,
+    () => `<div id="root" data-nexualpha-client-render="true">${appHtml}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`,
   );
+}
+
+// The URL the browser hydrates with (src/data/hydration-bootstrap.js): content pathname + explicit locale, no other
+// query. Rendering the same URL on the server keeps every generated href identical between SSR and first render.
+function hydrationRenderUrl(url, pathname, locale) {
+  const renderUrl = new URL(url);
+  renderUrl.pathname = pathname;
+  renderUrl.search = "";
+  renderUrl.hash = "";
+  renderUrl.searchParams.set("locale", locale || "en");
+  return renderUrl.href;
+}
+
+async function renderNewsListingAtRequestTime(html, metadata, url, env, publicRoute) {
+  const pathname = publicRoute.contentPathname;
+  const listing = parseNewsListingPath(pathname);
+  if (!listing || listing.invalid || listing.redirect || !Array.isArray(metadata.newsArticles)) return null;
+  const locale = publicRoute.locale;
+  try {
+    const pagination = paginateNews(metadata.newsArticles, { category: listing.category, page: listing.page, locale });
+    const newsArticles = initialNewsArticlesForRoute("/news", pagination.rows, locale);
+    const newsListing = {
+      category: listing.category, page: pagination.page, total: pagination.total, totalPages: pagination.totalPages,
+      libraryTotal: metadata.newsArticles.length, counts: newsCategoryCounts(metadata.newsArticles),
+    };
+    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, locale), { newsArticles, newsListing });
+    if (typeof appHtml === "string" && appHtml.includes('class="news-hero__title"')) {
+      metadata.newsSsrMode = "runtime";
+      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, { newsArticles, newsListing }, url);
+    }
+    console.error(`[NexuAlpha] news listing SSR returned no listing body for ${pathname} (${locale}); serving the fallback template`);
+  } catch (error) {
+    console.error(`[NexuAlpha] news listing SSR failed for ${pathname} (${locale}): ${error?.message || error}`);
+  }
+  return null;
+}
+
+// Campaign rows for the /activities SSR and its hydration payload: official "event" announcements of the last 30 days
+// (the same filter LiveCampaigns applies), only the fields the cards render. Nothing is invented: no feed, no rows.
+const LIVE_CAMPAIGN_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+export function compactOfficialAnnouncements(feed, now = Date.now()) {
+  if (!feed || typeof feed !== "object" || !Array.isArray(feed.items)) return null;
+  const items = readIntelFeed(feed, { now })
+    .filter((item) => item.category === "event" && now - Date.parse(item.publishedAt) < LIVE_CAMPAIGN_WINDOW_MS)
+    .map(({ id, venue, category, title, summary, url, publishedAt }) => ({ id, venue, category, title, ...(typeof summary === "string" && summary ? { summary } : {}), url, publishedAt }));
+  return { generatedAt: typeof feed.generatedAt === "string" ? feed.generatedAt : null, items };
+}
+
+async function renderActivitiesAtRequestTime(html, metadata, url, env) {
+  if (typeof env?.NEWS_SSR_RENDER !== "function" || typeof env?.INTEL_READ !== "function") return null;
+  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
+  let officialAnnouncements = null;
+  try { officialAnnouncements = compactOfficialAnnouncements(await env.INTEL_READ()); } catch (error) {
+    console.error(`[NexuAlpha] activities SSR could not read the announcement feed: ${error?.message || error}`);
+  }
+  if (!officialAnnouncements) return null;
+  try {
+    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, "/activities", publicRoute.locale), { officialAnnouncements });
+    if (typeof appHtml === "string" && appHtml.includes('class="live-campaigns')) {
+      metadata.activitiesSsrMode = "runtime";
+      return injectPrerenderedBody(html, appHtml, `/activities|${publicRoute.locale}`, { officialAnnouncements }, url);
+    }
+    console.error(`[NexuAlpha] activities SSR returned no campaign body (${publicRoute.locale}); serving the prerendered page`);
+  } catch (error) {
+    console.error(`[NexuAlpha] activities SSR failed (${publicRoute.locale}): ${error?.message || error}`);
+  }
+  return null;
 }
 
 async function injectPrerenderedRoute(html, metadata, url, env) {
@@ -3819,6 +4002,14 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   const fallback = async () => {
     const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
     const pathname = publicRoute.contentPathname;
+    // News listings (2026-10-11): /news, /news/page/N and /news/category/<key>[/page/N] in every locale are rendered at
+    // request time with the NewsListPage the browser hydrates (summary rows of this page + library counts), so the
+    // SSR body, the head and the first client render agree and crawlers index the current listing. The hand-written
+    // renderNewsListingFallback stays only for hosts without the renderer, or when it throws (logged).
+    if (metadata.marker === NEWS_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      const rendered = await renderNewsListingAtRequestTime(html, metadata, url, env, publicRoute);
+      if (rendered) return rendered;
+    }
     if (metadata.marker === ARTICLE_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
       const article = metadata.newsArticles?.find(item => `/news/${item.slug}` === pathname);
       if (article) {
@@ -3846,6 +4037,17 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
+    // Compare hub and generated pairs (compare-any, 2026-10-11) are not in the build-time prerender manifest (196 pairs
+    // x 15 locales); render them at request time with the same renderer so crawlers and no-JS readers get the matrix.
+    if ((pathname === "/compare" || (metadata.marker === COMPARE_ROUTE_MARKER && metadata.generatedComparison)) && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const appHtml = await env.NEWS_SSR_RENDER(url.href, {});
+        if (typeof appHtml === "string" && (appHtml.includes("v3-compare-page") || appHtml.includes("v3-compare-hub"))) {
+          metadata.compareSsrMode = "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+        }
+      } catch { /* fall through to the client-rendered shell */ }
+    }
     // Brand pages (/about, /editorial-policy) are static copy: render them at request time with the same renderer so
     // crawlers and no-JS readers get the full entity page instead of an empty #root.
     if (isBrandPagePath(pathname) && typeof env?.NEWS_SSR_RENDER === "function") {
@@ -3860,6 +4062,18 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     metadata.newsSsrMode = "fallback";
     return injectFallbackBody(html, metadata, url);
   };
+  if (typeof env?.NEWS_SSR_RENDER === "function") {
+    const contentPath = parsePublicRoute(url.pathname, url.searchParams).contentPathname;
+    // Listing pages never come from the build-time manifest: the feed is published after the build.
+    const listing = metadata.marker === NEWS_ROUTE_MARKER ? parseNewsListingPath(contentPath) : null;
+    if (listing && !listing.invalid && !listing.redirect) return fallback();
+    // /activities: campaigns come from the live announcement feed, so the body is rendered per request when the feed is
+    // readable; without a feed the prerendered page (fixed-height campaign placeholder) is served as before.
+    if (contentPath === "/activities" && metadata.marker === ACTIVITIES_ROUTE_MARKER) {
+      const rendered = await renderActivitiesAtRequestTime(html, metadata, url, env);
+      if (rendered) return rendered;
+    }
+  }
   const routeKey = prerenderRouteKey(url);
   if (!routeKey) return fallback();
   const manifest = await loadPrerenderManifest(env, url);
@@ -4017,10 +4231,12 @@ async function handleNewsSearchJson(env, url) {
 // publisher and only carried en, zh-Hans and a few ja/ko/tr pages, so the translated exchange, rates, compare and
 // activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
 // non-canonical URL; cached for an hour.
-const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS];
+const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS];
 let localeSitemapCache = null;
 export async function renderLocaleSitemap(env = {}) {
-  const paths = [...LOCALE_SITEMAP_STATIC, ...[...ACTIVE_VENUE_SLUGS].map((slug) => `/exchanges/${slug}`), ...[...CURATED_COMPARISONS].map((pair) => `/compare/${pair}`)];
+  // Generated pairs: only the indexable ones (both venues with reviewed fee rows and at least one partner); their
+  // locale set is enforced by routeMetadata via searchPublicationLocales, so noindex locales never slip in.
+  const paths = [...LOCALE_SITEMAP_STATIC, ...[...ACTIVE_VENUE_SLUGS].map((slug) => `/exchanges/${slug}`), ...[...CURATED_COMPARISONS].map((pair) => `/compare/${pair}`), ...indexableGeneratedComparePairs().map((pair) => `/compare/${pair}`)];
   const rows = [];
   for (const pathname of paths) {
     for (const locale of INDEXABLE_LOCALES) {
@@ -5350,6 +5566,10 @@ function searchPublicationLocales(pathname, options = {}) {
   if (factbookSlug && VENUE_REGISTRY[factbookSlug]) return SEARCH_PRIORITY_FACTBOOK.has(factbookSlug) ? ["en", "zh-Hans"] : ["en"];
   const comparisonSlug = pathname.match(/^\/compare\/([a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2})$/)?.[1];
   if (comparisonSlug && CURATED_COMPARISONS.has(comparisonSlug)) return SEARCH_PRIORITY_COMPARISONS.has(comparisonSlug) && !comparisonSlug.split("-vs-").some((v) => SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS.has(v)) ? INDEXABLE_LOCALES : ["en", "zh-Hans"];
+  if (comparisonSlug && parseComparePair(comparisonSlug)?.length === 2) {
+    const policy = generatedComparePolicy(comparisonSlug);
+    return policy.indexable ? generatedCompareLocales(comparisonSlug) : [];
+  }
   const topicSlug = pathname.match(/^\/topics\/([a-z0-9-]+)$/)?.[1];
   if (topicSlug && TOPIC_REGISTRY[topicSlug]) return SEARCH_PRIORITY_TOPICS.has(topicSlug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"];
   return [];
@@ -5947,6 +6167,25 @@ async function routeMetadataBase(url, env, newsFeed) {
     };
   }
 
+  if (canonicalPath === "/compare") {
+    // Compare hub (2026-10-11): the "compare any two" picker plus the curated and indexable generated pair lists.
+    const hubCopy = compareIndexCopy(requestedLocale);
+    const canonical = localizedCanonical("/compare", locale);
+    return {
+      status: 200,
+      title: hubCopy.title,
+      description: hubCopy.description,
+      canonical,
+      locale,
+      robots: "index,follow",
+      marker: COMPARE_ROUTE_MARKER,
+      alternates: routeAlternates("/compare"),
+      schema: [pageBreadcrumb(hubCopy.h1, canonical, "Exchanges", "/exchanges", schemaLocale), {
+        "@type": "CollectionPage", name: hubCopy.h1, description: hubCopy.description, url: canonical, inLanguage: schemaLocale,
+        hasPart: [...CURATED_COMPARISONS].map((pair) => ({ "@type": "WebPage", url: localizedCanonical(`/compare/${pair}`, locale) })),
+      }],
+    };
+  }
   const compareMatch = canonicalPath.match(/^\/compare\/([a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2})$/);
   if (compareMatch) {
     const pair = compareMatch[1];
@@ -5958,6 +6197,19 @@ async function routeMetadataBase(url, env, newsFeed) {
     const name = venues.map((venue) => venue.name).join(isZh ? " 对比 " : " vs ");
     const canonical = localizedCanonical(canonicalPath, locale);
     const curated = CURATED_COMPARISONS.has(pair);
+    // Generated two-venue pairs (compare-any, 2026-10-11): templated copy per locale, index policy from the data.
+    const generatedPolicy = !curated && slugs.length === 2 ? generatedComparePolicy(pair) : null;
+    if (generatedPolicy?.generated) {
+      const generatedCopy = generatedCompareCopy(requestedLocale, { nameA: venues[0].name, nameB: venues[1].name, date: generatedCompareDataDate(slugs) });
+      return {
+        status: 200,
+        title: generatedCopy.title,
+        description: generatedCopy.description,
+        canonical, locale, robots: generatedPolicy.robots, marker: COMPARE_ROUTE_MARKER, generatedComparison: true,
+        alternates: generatedPolicy.indexable ? routeAlternates(canonicalPath, generatedCompareLocales(pair)) : [],
+        schema: buildWorkerCompareSchema(venues, schemaLocale, canonical, null),
+      };
+    }
     const compareSeoOverrides = {
       "binance-vs-okx": {
         title: "Binance vs OKX: Fees, Products, KYC and Web3 Access Checks — NexuAlpha",
@@ -6391,7 +6643,8 @@ async function routeMetadataBase(url, env, newsFeed) {
       robots: isPublishedLocale && hasArticles ? "index,follow" : "noindex,follow",
       marker: NEWS_ROUTE_MARKER,
       alternates: isPublishedLocale && hasArticles ? routeAlternates(listingPath, publishedLocales) : [],
-      newsListing: { category, page, total: pagination.total, totalPages: pagination.totalPages, path: listingPath, heading: sectionName, intro: newsCopy[1] },
+      // Heading and intro are the NewsListPage hero copy (one source for SSR, fallback and client).
+      newsListing: { category, page, total: pagination.total, totalPages: pagination.totalPages, path: listingPath, heading: categoryCopy ? categoryCopy.label : newsListHeroCopy(displayLocale).title, intro: categoryCopy ? categoryCopy.intro : newsListHeroCopy(displayLocale).subtitle },
       schema: {
         ...newsCollectionSchema({
           title: localizedCopy.title,
@@ -6771,15 +7024,7 @@ async function appHtmlResponse(response, url, env, forceHtml = false) {
     headers.set("x-robots-tag", metadata.robots || "index,follow");
     return htmlSecurityResponse(new Response(null, { status: metadata.status, headers }), true, publicEmbed, url);
   }
-  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
-  const requestedLocale = publicRoute.localeSource === "path" ? publicRoute.locale : url.searchParams.get("locale");
-  const htmlLocale = brazilPath(publicRoute.contentPathname)
-    ? metadata.locale
-    : publicRoute.contentPathname === "/mx"
-    ? metadata.locale
-    : [NEWS_ROUTE_MARKER, ARTICLE_ROUTE_MARKER].includes(metadata.marker)
-    ? metadata.displayLocale || metadata.locale
-    : UI_LOCALES.has(requestedLocale) ? requestedLocale : metadata.locale;
+  const htmlLocale = documentLocaleFor(metadata, url);
   const html = optimizeRouteResourceHints(
     injectRouteMetadata(await injectPrerenderedRoute(await response.text(), metadata, url, env), { ...metadata, locale: htmlLocale }),
     metadata,
@@ -6851,7 +7096,9 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname.startsWith("/exchanges/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"];
   if (pathname.startsWith("/compare/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-compare-", "route-v3-pages-"];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
-  if (pathname === "/news") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
+  // The list route renders the Telegram alerts strip (route-v3-pages-strip chunk) in SSR; keep its stylesheet so the
+  // strip is styled at first paint instead of when its JS chunk injects the CSS.
+  if (pathname === "/news" || parseNewsListingPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-", "route-v3-pages-strip-"];
   if (pathname.startsWith("/news/tokenized-treasuries")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
   if (pathname.startsWith("/news/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
   if (pathname === "/partners" || pathname.startsWith("/partners/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-partners-"];

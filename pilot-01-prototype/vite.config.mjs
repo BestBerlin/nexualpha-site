@@ -83,7 +83,7 @@ export const STYLESHEET_LINK_ORDER = Object.freeze([
   "route-v3-registration", "route-kol", "route-v3-wizard", "route-v3-calculators", "shared-decision-return", "route-v3-home",
   "route-factbook", "shared-decision-rail", "route-embed", "route-rates", "route-v3-social-proof", "route-market",
   "route-methodology", "route-onchain", "route-partners", "route-topic-guide", "route-v3-decision-articles", "route-activity",
-  "route-v3-research-panels", "route-v3-readiness", "route-v3-pages-strip", "route-v3-pages", "route-news-shared",
+  "route-v3-research-panels", "route-v3-readiness", "route-v3-pages-strip", "route-v3-pages", "route-v3-pages-directory", "route-news-shared",
   "route-telegram", "route-tokenized-assets", "route-international", "route-data",
   "page-home-early", "index", "page-home-mid1", "page-compare-mid1", "page-profile-mid1", "core-b", "page-home-mid2",
   "page-directory-mid2", "page-detail-mid2", "core-c", "page-home-late", "page-br-late", "page-rates-late",
@@ -195,7 +195,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/v3/CollectionHubPage")) return "route-collection-hubs";
           if (id.includes("/src/components/v3/KolLandingPage")) return "route-kol";
           if (id.includes("/src/components/v3/TelegramBotHub")) return "route-telegram";
-          if (id.includes("/src/data/seo-injection.js")) return "data-seo-injection";
+          // src/data/seo-injection.js is a Node/SSR-only module since the seo-payload lane (2026-10-11): the browser gets
+          // route heads from /api/route-seo. Keep it out of every client chunk; the SSR build may still bundle it.
+          if (!isSsrBuild && id.includes("/src/data/seo-injection.js")) throw new Error("seo-injection.js reached the client bundle: " + id);
           // Scroll-loaded home sections (DeferUntilVisible): own chunks, so a route module that shares a helper with them
           // cannot absorb them into its chunk.
           if (!isSsrBuild && /\/src\/components\/v7\/home7-(?:below|funding|telegram)\.jsx$/.test(id)) return "home-below-fold";
@@ -228,6 +230,11 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/data/official-campaign-research.js")) return "data-official-research";
           if (id.includes("/src/data/venue-decision-content.js")) return "data-decision-content";
           if (id.includes("/src/data/priority-venue-answers.js")) return "data-priority-venue-answers";
+          // Compare-any (PR #60): keep the pair policy/templates, the picker and the route helper out of route-v3-pages,
+          // otherwise the directory's picker import drags every V3 route chunk in (QA 2026-10-11: /exchanges 456 → 1003 KB).
+          if (id.includes("/src/data/compare-generated.js") || id.includes("/src/data/compare-pairs/") || id.includes("/src/data/compare-pair-answers.js")) return "data-compare-generated";
+          if (id.includes("/src/components/compare/CompareAnyPicker") || id.includes("/src/components/compare/compare-any-picker.css")) return "shared-compare-picker";
+          if (id.includes("/src/components/v6/compare-routes.js") || id.includes("/src/data/compare-slug.js")) return "shared-compare-routes";
           if (id.includes("/src/data/compare-direct-answers.js")) return "data-compare-direct-answers";
           if (id.includes("/src/data/compare-faq-locales.js")) return "data-compare-faq-locales";
           if (id.includes("/src/data/telegram-config.js")) return "data-telegram";
@@ -237,7 +244,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/content/v3-interface-copy.js")) return "data-v3-interface-copy";
           if (id.includes("/src/components/v3/venue-yellow-pages-copy.js")) return "route-v3-pages-copy";
           if (id.includes("/src/components/v3/venue-yellow-pages-state.js")) return "route-v3-pages-state";
-          if (id.endsWith("/src/components/v3/venue-yellow-pages.css")) return "route-v3-pages";
+          // The directory stylesheet used to live inside the V3 page chunk, which made the directory statically import
+          // the whole route-v3-pages graph (QA 2026-10-11: /exchanges loaded 1 MB after idle). Own CSS-only chunk;
+          // the "route-v3-pages-" prefix keeps the Worker's per-route stylesheet allow-list unchanged.
+          if (id.endsWith("/src/components/v3/venue-yellow-pages.css")) return "route-v3-pages-directory";
           if (id.includes("/src/components/v3/VenueYellowPages")) return "route-v3-directory";
           if (id.includes("/src/components/v3/V3Pages")) return "route-v3-pages";
           return undefined;

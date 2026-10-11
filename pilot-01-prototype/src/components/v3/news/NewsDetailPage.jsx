@@ -14,7 +14,7 @@ import { OKX_USD_USDC_OWNER_CHECKLIST, loadNewsArticleBySlug, localizedNewsSumma
 import { newsCategoryCopy, newsLibraryCopy, relatedNewsArticles } from "../../../data/news-library.js";
 import { contextualHref } from "../../../data/contextual-href.js";
 import { validComparison } from "../../../data/browser-state.js";
-import { injectSeoMetadata } from "../../../data/seo-injection.js";
+import { applyNotFoundSeo, syncRouteSeo } from "../../../data/route-seo-client.js";
 import { BrandMark } from "../../brand/BrandMark.jsx";
 import { nextDecisionBridgeCopy } from "../../../data/next-decision-bridge.js";
 import { NextDecisionBridge } from "../NextDecisionBridge.jsx";
@@ -672,9 +672,11 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
   useEffect(() => {
     if (feedState !== "ready") return;
-    injectSeoMetadata(article
-      ? { article, locale, force: true }
-      : { route: { name: "notFound" }, locale, force: true });
+    // The Worker rendered this article's head (title, canonical, hreflang, JSON-LD); keep it on first load and refetch
+    // only after a client-side route or locale change (route-seo-client). An article the feed no longer has gets the
+    // component-level 404 head (robots noindex) without a round trip.
+    if (!article) { applyNotFoundSeo({ locale }); return; }
+    syncRouteSeo({ pathname: window.location.pathname, search: window.location.search, locale });
   }, [article, feedState, locale]);
 
   useEffect(() => {

@@ -26,10 +26,10 @@ function SnapshotStrip({ items }) {
   </article>)}</div>;
 }
 
-export function ActivityCenterPage({ copy, locale, market, product, venues, updates }) {
+export function ActivityCenterPage({ copy, locale, market, product, venues, updates, campaignFeed }) {
   const profiles = venues.map((venue) => venueProfile(venue, locale));
   return <main className="v6 v2-page v3-page v3-activity-center" id="top" {...sectionEyebrowAttrs(locale, "campaigns")}>
-    <ActivityCenterV3 locale={locale} market={market} product={product} copy={copy} venues={profiles} publicUpdates={updates} />
+    <ActivityCenterV3 locale={locale} market={market} product={product} copy={copy} venues={profiles} publicUpdates={updates} campaignFeed={campaignFeed} />
   </main>;
 }
 
