@@ -98,12 +98,18 @@ test("Uniswap vs Jupiter SSR exposes source-bound support body, limitations and 
 });
 
 test("Owner compare support routes enter sitemap locales and public llms support-owner records", async () => {
+  // 2026-10-11: DEX venues (uniswap, jupiter, hyperliquid) are noindex outside en/zh-Hans in the Worker
+  // (SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS), so the sitemap lists only the two indexable editions.
   assert.deepEqual(
     sitemapLocalesForRoute({ pathname: "/compare/uniswap-vs-jupiter", template: "comparison", index: true, expectedStatus: 200 }),
-    ["en", "zh-Hans", "ja", "ko", "tr"],
+    ["en", "zh-Hans"],
   );
   assert.deepEqual(
     sitemapLocalesForRoute({ pathname: "/compare/hyperliquid-vs-dydx", template: "comparison", index: true, expectedStatus: 200 }),
+    ["en", "zh-Hans"],
+  );
+  assert.deepEqual(
+    sitemapLocalesForRoute({ pathname: "/compare/binance-vs-okx", template: "comparison", index: true, expectedStatus: 200 }),
     ["en", "zh-Hans", "ja", "ko", "tr"],
   );
 

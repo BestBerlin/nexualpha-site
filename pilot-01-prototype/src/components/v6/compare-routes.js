@@ -3,6 +3,8 @@
 // every compare route that names them 404s (or redirects away). This mirrors
 // FACTBOOK_ONLY_LEGACY_SLUGS in scripts/generate-prerender-manifest.mjs and
 // factbookOnlyDecisionSlugs in FactbookPage.jsx.
+import { canonicalComparePairSlug } from "../../data/compare-generated.js";
+
 export const NO_COMPARE_ROUTE = new Set(["htx", "hashkey", "aevo"]);
 
 export const hasCompareRoute = (slug) => Boolean(slug) && !NO_COMPARE_ROUTE.has(slug);
@@ -14,7 +16,8 @@ export function comparePairHasRoute(slugs = []) {
 // Path (unlocalized, no query) for a selection: the compare page when it exists,
 // otherwise the Factbook record of the first venue without a compare page.
 export function comparePathFor(slugs = []) {
-  if (comparePairHasRoute(slugs)) return { path: `/compare/${slugs.join("-vs-")}`, fallback: false };
+  // Two-venue selections open the canonical slug (curated order or alphabetical) so the handoff never hits the 301.
+  if (comparePairHasRoute(slugs)) return { path: `/compare/${canonicalComparePairSlug(slugs)}`, fallback: false };
   const orphan = slugs.find((slug) => !hasCompareRoute(slug));
   return { path: orphan ? `/factbook/${orphan}` : "/exchanges", fallback: true };
 }

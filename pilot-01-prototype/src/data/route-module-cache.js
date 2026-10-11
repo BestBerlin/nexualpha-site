@@ -108,7 +108,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "newsList") return [ROUTE_MODULE_PATHS.newsList];
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
-  if (["activity", "activities", "compare", "venue", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
+  if (["activity", "activities", "compare", "compareHub", "venue", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
   if (name === "research") return [ROUTE_MODULE_PATHS.officialResearch];
   if (name === "newsDetail") return [ROUTE_MODULE_PATHS.newsDetail];
   if (name === "rateTerminal") return [ROUTE_MODULE_PATHS.feeBenchmark];

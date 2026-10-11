@@ -120,12 +120,12 @@ if (cmd === "verify") {
   const domainProbe = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent("sc-domain:nexualpha.com")}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions: [], rowLimit: 1 });
   const perfSite = domainProbe.status === 200 ? encodeURIComponent("sc-domain:nexualpha.com") : gscSite;
   if (domainProbe.status !== 200) console.log("note: no access to sc-domain:nexualpha.com (add the service account as a user there); using the URL-prefix property");
-  const q = async (dimensions, rowLimit = 25) => {
-    const r = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${perfSite}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions, rowLimit });
+  const q = async (dimensions, rowLimit = 25, extra = {}) => {
+    const r = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${perfSite}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions, rowLimit, ...extra });
     if (r.status !== 200) throw new Error(`searchAnalytics ${r.status} ${short(r.text)}`);
     return JSON.parse(r.text).rows || [];
   };
-  const fmt = (x) => `${String(x.clicks).padStart(5)} clicks ${String(x.impressions).padStart(7)} impr  pos ${x.position.toFixed(1).padStart(5)}`;
+  const fmt = (x) => `${String(x.clicks).padStart(5)} clicks ${String(x.impressions).padStart(7)} impr  pos ${typeof x.position === "number" ? x.position.toFixed(1).padStart(5) : "    -"}`;
   const [total] = await q([], 1);
   console.log(`Google ${start}..${end}: ${total ? fmt(total) : "no data"}`);
   console.log("\nTop queries"); for (const x of await q(["query"])) console.log(`${fmt(x)}  ${x.keys[0]}`);
@@ -135,6 +135,15 @@ if (cmd === "verify") {
   for (const x of pages) { const k = x.keys[0].replace(SITE, "/").split("/").filter(Boolean).filter((p) => !/^(zh-hans|zh-hant|ja|ko|ru|es|pt-br|tr|vi|id|de|fr|it|ar)$/.test(p))[0] || "(home)"; const a = (sec[k] ||= { pages: 0, clicks: 0, impressions: 0 }); a.pages++; a.clicks += x.clicks; a.impressions += x.impressions; }
   console.log("\nBy section (pages with impressions)"); for (const [k, a] of Object.entries(sec).sort((a, b) => b[1].impressions - a[1].impressions)) console.log(`${String(a.pages).padStart(5)} pages ${String(a.clicks).padStart(5)} clicks ${String(a.impressions).padStart(7)} impr  /${k}`);
   console.log("\nBy country"); for (const x of await q(["country"], 10)) console.log(`${fmt(x)}  ${x.keys[0]}`);
+  // By locale prefix (2026-10-11): the 14 non-English prefixes vs English, so the localized lane can be judged.
+  const loc = {};
+  for (const x of pages) { const first = x.keys[0].replace(SITE, "/").split("/").filter(Boolean)[0] || ""; const k = /^(zh-hans|zh-hant|ja|ko|ru|es|pt-br|tr|vi|id-id|de|fr|it|ar)$/.test(first) ? first : "en"; const a = (loc[k] ||= { pages: 0, clicks: 0, impressions: 0 }); a.pages++; a.clicks += x.clicks; a.impressions += x.impressions; }
+  const totalImpr = Object.values(loc).reduce((n, a) => n + a.impressions, 0) || 1;
+  console.log("\nBy locale prefix"); for (const [k, a] of Object.entries(loc).sort((a, b) => b[1].impressions - a[1].impressions)) console.log(`${String(a.pages).padStart(5)} pages ${String(a.clicks).padStart(5)} clicks ${String(a.impressions).padStart(7)} impr ${String(Math.round((100 * a.impressions) / totalImpr)).padStart(3)}%  ${k}`);
+  // Google Discover (news cards): separate search type; usually empty until the site has Discover traffic.
+  const disc = await q([], 1, { type: "discover" }).catch(() => null);
+  console.log(`\nDiscover ${start}..${end}: ${disc && disc[0] ? fmt(disc[0]) : "no data"}`);
+  if (disc && disc[0]) for (const x of await q(["page"], 10, { type: "discover" })) console.log(`${fmt(x)}  ${x.keys[0].replace(SITE, "/")}`);
 } else {
   console.log("usage: node scripts/search-engines.mjs verify|submit|status|inspect <url>...|perf [days] [--full]");
   process.exitCode = 1;
