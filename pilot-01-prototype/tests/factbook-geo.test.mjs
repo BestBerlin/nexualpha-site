@@ -82,7 +82,7 @@ test("Factbook keeps HTX partner route visible without claiming unverified user 
 
   const source = await readFile(new URL("../src/components/v3/FactbookPage.jsx", import.meta.url), "utf8");
   assert.match(source, /benefitVerified: offerVerified/);
-  assert.match(source, /publicCtaForVenue\(venue\.slug, locale\)/);
+  assert.match(source, /publicCtaForVenue\(venue\.slug, locale, market\)/);
   assert.match(source, /href=\{activationCta\.registrationUrl\}/);
   assert.match(source, /User benefit status/);
   assert.match(source, /Open partner signup route/);

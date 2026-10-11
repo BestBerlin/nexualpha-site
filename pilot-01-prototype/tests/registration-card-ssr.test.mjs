@@ -59,9 +59,9 @@ test("Turkish official fallback renders source route without sponsored registrat
   const html = await renderRegistrationCard({ venueSlug: "coinbase", fallbackDomain: "www.coinbase.com", locale: "tr", market: "TR", product: "spot" });
 
   assert.match(html, /Resmi rota/);
-  assert.match(html, /Resmi akışta kontrol edin/);
-  assert.match(html, /Resmi rotayı aç/);
-  assert.match(html, /https:\/\/www\.coinbase\.com\/signup/);
+  assert.match(html, /Bu bölge için doğrudan kayıt önerilmez/);
+  assert.match(html, /data-registration-decision-reason="region-blocked"/);
+  assert.doesNotMatch(html, /https:\/\/www\.coinbase\.com\/signup/);
   assert.doesNotMatch(html, /Kayıt aktarımı bekliyor|Pending configuration|This opens/);
   assert.doesNotMatch(html, /rel="sponsored noopener noreferrer"/);
 });
@@ -181,7 +181,7 @@ function routeDisclosure(html) {
 }
 
 test("compact partner card keeps its sole attributed CTA and referral copy outside collapsed conditions", async () => {
-  const html = await renderRegistrationCard({ venueSlug: "bitget", fallbackDomain: "www.bitget.com", locale: "ja", market: "unknown", product: "spot", compact: true });
+  const html = await renderRegistrationCard({ venueSlug: "bitget", fallbackDomain: "www.bitget.com", locale: "en", market: "unknown", product: "spot", compact: true });
   const details = routeDisclosure(html);
   assert.ok(details);
   assert.doesNotMatch(details.split(">", 1)[0], /open=/);
@@ -198,24 +198,25 @@ test("compact partner card keeps its sole attributed CTA and referral copy outsi
 });
 
 test("full partner card preserves its expanded detailed handoff", async () => {
-  const html = await renderRegistrationCard({ venueSlug: "bitget", fallbackDomain: "www.bitget.com", locale: "ja", market: "unknown", product: "spot" });
+  const html = await renderRegistrationCard({ venueSlug: "bitget", fallbackDomain: "www.bitget.com", locale: "en", market: "unknown", product: "spot" });
   const details = routeDisclosure(html);
   assert.match(details, /^<details[^>]*open=""/);
   assert.match(details, /data-registration-preflight="partner-route"/);
   assert.match(details, /data-cta-placement="registration-card-primary"/);
   assert.equal((html.match(/data-cta-placement="registration-card-primary"/g) || []).length, 1);
-  const compactHtml = await renderRegistrationCard({ venueSlug: "bitget", fallbackDomain: "www.bitget.com", locale: "ja", market: "unknown", product: "spot", compact: true });
+  const compactHtml = await renderRegistrationCard({ venueSlug: "bitget", fallbackDomain: "www.bitget.com", locale: "en", market: "unknown", product: "spot", compact: true });
   const primaryAnchor = (markup) => markup.match(/<a[^>]*data-cta-placement="registration-card-primary"[^>]*>[\s\S]*?<\/a>/)?.[0];
   const compactAnchor = primaryAnchor(compactHtml);
   const fullAnchor = primaryAnchor(html);
   assert.equal(compactAnchor.match(/^<a[^>]*>/)[0], fullAnchor.match(/^<a[^>]*>/)[0], "compact placement preserves the exact protected href and all attribution attributes");
-  assert.match(compactAnchor, />公式登録へ ↗<\/a>$/, "authorized compact Japanese action stays concise");
-  assert.match(fullAnchor, />公式登録ページへ ↗<\/a>$/, "full Japanese action retains its original wording");
+  assert.match(compactAnchor, />Official sign-up ↗<\/a>$/, "authorized compact English action stays concise");
+  assert.match(fullAnchor, />Go to Official Registration ↗<\/a>$/, "full English action retains its original wording");
 });
 
 test("compact official-only and unavailable cards retain their guarded primary state outside conditions", async () => {
   const official = await renderRegistrationCard({ venueSlug: "coinbase", fallbackDomain: "www.coinbase.com", locale: "tr", market: "TR", product: "spot", compact: true });
-  assert.match(official, /data-cta-placement="registration-card-official-route"/);
+  assert.match(official, /registration-card__primary-btn--disabled" aria-disabled="true"/);
+  assert.match(official, /data-registration-decision-reason="region-blocked"/);
   assert.doesNotMatch(routeDisclosure(official), /registration-card__primary-btn/);
   assert.doesNotMatch(official, /rel="sponsored noopener noreferrer"/);
   const blocked = await renderRegistrationCard({ venueSlug: "unknown-venue", fallbackDomain: "", locale: "ja", market: "BR", product: "spot", compact: true });

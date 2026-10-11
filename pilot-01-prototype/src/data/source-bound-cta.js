@@ -1,3 +1,4 @@
+import { partnerPromotionGate } from "./partner-geo-policy.js";
 import {
   publicCtaForTopicPlatform as basePublicCtaForTopicPlatform,
   publicCtaForVenue as basePublicCtaForVenue,
@@ -45,14 +46,14 @@ function failClosedPublicCta(cta, gate) {
   };
 }
 
-export function publicCtaForVenue(slug, locale = "en") {
+export function publicCtaForVenue(slug, locale = "en", market) {
   const cta = basePublicCtaForVenue(slug, locale);
-  return failClosedPublicCta(cta, sourceBoundActionGate(slug) || placeholderGate(cta));
+  return failClosedPublicCta(cta, partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta));
 }
 
 export function regionalVenueCta(slug, locale = "en", market, product, context = {}) {
   const cta = baseRegionalVenueCta(slug, locale, market, product);
-  const gate = sourceBoundActionGate(slug) || placeholderGate(cta);
+  const gate = partnerPromotionGate(slug, { locale, market }) || sourceBoundActionGate(slug) || placeholderGate(cta);
   const contextSearch = directoryContextSearch({
     market,
     product,

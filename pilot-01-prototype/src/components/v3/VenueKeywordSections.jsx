@@ -23,9 +23,9 @@ function SourceLinks({ items, placement }) {
   );
 }
 
-function HyperliquidSections({ locale, inviteCode }) {
+function HyperliquidSections({ locale, market, inviteCode }) {
   const t = hyperliquidKeywordCopy(locale);
-  const showReferral = Boolean(inviteCode && t.referralTitle && referralTitleAllowed("hyperliquid", locale));
+  const showReferral = Boolean(inviteCode && t.referralTitle && referralTitleAllowed("hyperliquid", locale, market));
   return (
     <section className="v3-kw" data-keyword-section="hyperliquid" aria-labelledby="hl-fees-title">
       <h2 id="hl-fees-title">{t.feesTitle}</h2>
@@ -82,8 +82,8 @@ function BackpackStocksSection({ locale }) {
   );
 }
 
-export function VenueKeywordSections({ slug, locale = "en", inviteCode = null }) {
-  if (slug === "hyperliquid") return <HyperliquidSections locale={locale} inviteCode={inviteCode} />;
+export function VenueKeywordSections({ slug, locale = "en", market, inviteCode = null }) {
+  if (slug === "hyperliquid") return <HyperliquidSections locale={locale} market={market} inviteCode={inviteCode} />;
   if (slug === "backpack") return <BackpackStocksSection locale={locale} />;
   return null;
 }

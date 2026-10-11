@@ -1,8 +1,10 @@
+import { isPartnerPromotableIn } from "../src/data/partner-geo-policy.js";
+import { PARTNER_RESTRICTED_COUNTRIES, PARTNER_RESTRICTED_SCOPES } from "../src/data/partner-geo-policy.generated.js";
 import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
-import { referralSeoFor } from "../src/data/referral-seo.js";
+import { referralSeoFor, geoSafeVenueSeoOverride } from "../src/data/referral-seo.js";
 import { budgetTitle, clampMetaDescription, metaDescriptionLimit } from "../src/data/meta-description.js";
 import { HOME_SEARCH_COPY } from "../src/data/home-search-copy.js";
 import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
@@ -4088,13 +4090,18 @@ async function renderActivitiesAtRequestTime(html, metadata, url, env) {
 // 0.3-0.9 at 390, nothing for no-JS readers). Render the same component with the same props and the same bootstrap URL
 // the browser hydrates (content pathname + explicit locale); the shell is served only when the renderer throws or
 // returns no page (both logged). `accept` names the markup that proves the renderer produced the client's page.
-async function renderRouteAtRequestTime(html, metadata, url, env, { accept, label }) {
+async function renderRouteAtRequestTime(html, metadata, url, env, { accept, label, preserveContext = false }) {
   if (typeof env?.NEWS_SSR_RENDER !== "function") return null;
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   const pathname = publicRoute.contentPathname;
   const locale = publicRoute.locale;
   try {
-    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, locale), {});
+    const renderUrl = new URL(hydrationRenderUrl(url, pathname, locale));
+    if (preserveContext) for (const key of ["market", "product", "account_stage", "funding"]) {
+      const value = url.searchParams.get(key);
+      if (value) renderUrl.searchParams.set(key, value);
+    }
+    const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, {});
     if (typeof appHtml === "string" && accept(appHtml)) {
       metadata.fallbackSsrMode = "runtime";
       return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, {}, url);
@@ -4205,6 +4212,18 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       const rendered = await renderActivitiesAtRequestTime(html, metadata, url, env);
       if (rendered) return rendered;
     }
+  }
+  // The manifest ignores decision query parameters. A country can change promotion policy,
+  // so a locale-only snapshot must never expose a code excluded by the requested market.
+  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
+  const market = url.searchParams.get("market");
+  const promotionPage = /^\/(?:exchanges|compare|topics|factbook|ref)(?:\/|$)/.test(publicRoute.contentPathname) || publicRoute.contentPathname === "/rates";
+  const policyChanges = market && promotionPage && [...new Set([...Object.keys(PARTNER_RESTRICTED_COUNTRIES), ...Object.keys(PARTNER_RESTRICTED_SCOPES)])].some(slug =>
+    !isPartnerPromotableIn(slug, { locale: publicRoute.locale, market }) && isPartnerPromotableIn(slug, { locale: publicRoute.locale }));
+  if (policyChanges) {
+    const rendered = await renderRouteAtRequestTime(html, metadata, url, env, { accept: hasMainWithHeading, label: "country promotion policy", preserveContext: true });
+    // Fail closed if the host cannot render country context; do not fall back to an ungated snapshot.
+    return rendered || html;
   }
   const routeKey = prerenderRouteKey(url);
   if (!routeKey) return fallback();
@@ -6308,9 +6327,10 @@ async function routeMetadataBase(url, env, newsFeed) {
       },
     }[slug];
     const localizedVenueOverride = localizedVenueSeoOverride(slug, requestedLocale, venueSeoOverride);
-    const baseVenueSeoOverride = PRIORITY_VENUE_SEO[slug]?.[requestedLocale] || localizedVenueOverride || (requestedLocale === "en" ? venueSeoOverride : null);
+    const candidateVenueSeoOverride = PRIORITY_VENUE_SEO[slug]?.[requestedLocale] || localizedVenueOverride || (requestedLocale === "en" ? venueSeoOverride : null);
+    const baseVenueSeoOverride = geoSafeVenueSeoOverride(candidateVenueSeoOverride, slug, { locale: requestedLocale, market: url.searchParams.get("market") });
     // Owner 2026-10-10: partner profiles lead with the real invite code (same rule as src/data/seo-injection.js).
-    const referralSeo = referralSeoFor(slug, requestedLocale);
+    const referralSeo = referralSeoFor(slug, requestedLocale, url.searchParams.get("market"));
     const effectiveVenueSeoOverride = referralSeo ? { ...(baseVenueSeoOverride || {}), title: referralSeo.title, description: referralSeo.description } : baseVenueSeoOverride;
     const title = effectiveVenueSeoOverride?.title || (isZh
       ? `${venue.name} 评测、手续费与账户条件 — NexuAlpha`
@@ -6346,7 +6366,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       robots: "index,follow",
       marker: VENUE_ROUTE_MARKER,
       alternates: routeAlternates(canonicalPath),
-      schema: buildWorkerVenueSchema(venue, schemaLocale, canonical, effectiveVenueSeoOverride).map((entry) => applyPartnerVenueFaqSchema(entry, slug, requestedLocale)),
+      schema: buildWorkerVenueSchema(venue, schemaLocale, canonical, effectiveVenueSeoOverride).map((entry) => applyPartnerVenueFaqSchema(entry, slug, requestedLocale, url.searchParams.get("market"))),
     };
   }
 

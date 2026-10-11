@@ -1,3 +1,4 @@
+import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 // Localized partner-exchange FAQ (owner growth plan 2026-10-10, MARKET-PLAN.md "Problems found" #1 and #5).
 //
 // One source for BOTH the visible FAQ on /<locale>/exchanges/<slug> and its FAQPage JSON-LD, used by the client SSR
@@ -900,11 +901,12 @@ export function partnerFaqQuestion(entry) {
  * Apply the partner FAQ to an exchange-profile FAQPage schema (client and Worker call this with the same inputs).
  * Returns the schema unchanged when no partner FAQ applies.
  */
-export function applyPartnerVenueFaqSchema(faqSchema, slug, locale) {
+export function applyPartnerVenueFaqSchema(faqSchema, slug, locale, market) {
   if (!faqSchema || faqSchema["@type"] !== "FAQPage") return faqSchema;
   const partnerFaq = partnerVenueFaqFor(slug, locale);
   if (!partnerFaq) return faqSchema;
-  const added = partnerFaq.entries.map(partnerFaqQuestion);
+  const added = partnerFaq.entries.filter(entry => isPartnerPromotableIn(slug, { locale, market }) || !entry.showsInviteCode).map(partnerFaqQuestion);
+  if (!added.length) return faqSchema;
   if (partnerFaq.mode === "replace") return { ...faqSchema, mainEntity: added };
   const existingNames = new Set((faqSchema.mainEntity || []).map((question) => question.name));
   return { ...faqSchema, mainEntity: [...(faqSchema.mainEntity || []), ...added.filter((question) => !existingNames.has(question.name))] };

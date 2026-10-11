@@ -1,3 +1,4 @@
+import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 // Search titles for partner exchange profiles (owner 2026-10-10: grow search traffic). People who are about to open
 // an account search for "<exchange> referral code" / "<交易所> 邀请码" / "código de indicação <exchange>", so the
 // profile title and description lead with the real invite code and, where the owner has a rebate share, the share.
@@ -125,16 +126,10 @@ const partnersBySlug = () => BY_SLUG;
 // treats promotion of platforms without SPK authorization as unauthorized service, so only exchanges whose Turkish
 // entity is on the SPK list keep a referral title.
 const NEUTRAL_TITLE_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
-// SPK "Faaliyette Bulunanlar Listesi" (temporary list dated 01 Ekim 2026, read 2026-10-11:
-// https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi) lists OKX TR (#38),
-// Binance Turkey (#4), Bybit (#11), Gate (#23) and MEXC (#35, "Mexc Kripto Varlık Alım Satım Platformu AŞ").
-// Bitget Teknoloji AŞ is on the liquidation list (tasfiye-surecinde-olanlar-listesi).
-// The list itself says being on it is not an authorization verdict. Pinned in tests/exchange-keywords.test.mjs.
-export const TR_SPK_LISTED = Object.freeze(["okx", "binance", "bybit", "gate-io", "mexc"]);
-export function referralTitleAllowed(slug, locale) {
+// Turkey SPK allow-list and every other country restriction live in partner-geo-restrictions.js (sourced, dated).
+export function referralTitleAllowed(slug, locale, market) {
   if (NEUTRAL_TITLE_LOCALES.has(locale)) return false;
-  if (locale === "tr") return TR_SPK_LISTED.includes(slug);
-  return true;
+  return isPartnerPromotableIn(slug, { locale, market });
 }
 
 /** Owner-confirmed rebate share (percent) from the partner feed, or null. Used by the localized profile H1. */
@@ -144,9 +139,9 @@ export function referralSharePercent(slug) {
 }
 
 /** { title, description } for a partner exchange profile in `locale`, or null when there is no real invite code. */
-export function referralSeoFor(slug, locale = "en") {
+export function referralSeoFor(slug, locale = "en", market) {
   const p = partnersBySlug()[slug];
-  if (!p?.inviteCode || !referralTitleAllowed(slug, locale)) return null;
+  if (!p?.inviteCode || !referralTitleAllowed(slug, locale, market)) return null;
   const [withShare, withoutShare, describe] = COPY[locale] || COPY.en;
   const pct = p.share != null ? Math.round(p.share * 100) : null;
   const override = TITLE_OVERRIDES[slug]?.[locale];
@@ -154,4 +149,13 @@ export function referralSeoFor(slug, locale = "en") {
     title: override ? override(p.name, p.inviteCode, YEAR()) : pct ? withShare(p.name, p.inviteCode, pct, YEAR()) : withoutShare(p.name, p.inviteCode, YEAR()),
     description: describe(p.name, p.inviteCode, pct, p.settle),
   };
+}
+
+/** Remove code-bearing legacy overrides when promotion is gated; keep neutral reviewed metadata. */
+export function geoSafeVenueSeoOverride(override, slug, context = {}) {
+  const code = partnersBySlug()[slug]?.inviteCode;
+  if (!override || !code || isPartnerPromotableIn(slug, context)) return override;
+  const safe = { ...override };
+  for (const field of ["title", "description"]) if (safe[field]?.includes(code)) delete safe[field];
+  return safe;
 }

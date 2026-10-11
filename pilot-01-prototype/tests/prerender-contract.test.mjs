@@ -788,7 +788,7 @@ test("prerendered embedded calculator protects first input while keeping eager m
   assert.equal((body.match(/data-nexualpha-deferred-hydration/g) || []).length, 1);
 });
 
-test("decision-passport query routes hydrate eagerly so query state becomes visible", async () => {
+test("restricted decision-passport query routes retain eager hydration without an unsafe snapshot", async () => {
   const shell = '<!doctype html><html><head><script type="module" src="/assets/index.js"></script></head><body><div id="root"></div></body></html>';
   const manifest = { version: "nexualpha-prerender-v1", routes: { "/exchanges/bitget|zh-Hant": {
     pathname: "/exchanges/bitget", locale: "zh-Hant", asset: "/prerender/zh-Hant/exchanges-bitget.json",
@@ -803,9 +803,9 @@ test("decision-passport query routes hydrate eagerly so query state becomes visi
   const response = await worker.fetch(new Request("https://nexualpha.com/zh-hant/exchanges/bitget?market=HK&product=spot&account_stage=new_account&funding=HKD%20bank%20transfer", { headers: { accept: "text/html" } }), { ASSETS: assets });
   const body = await response.text();
   assert.equal(response.status, 200);
-  assert.match(body, /data-nexualpha-deferred-hydration/);
+  assert.doesNotMatch(body, /id="nexualpha-prerender-state"/);
+  assert.match(body, /<div id="root"><\/div>/);
   assert.match(body, /<script type="module" src="\/assets\/index\.js"><\/script>/);
-  assert.ok(body.indexOf('data-nexualpha-deferred-hydration') < body.indexOf('<script type="module"'), "capture bridge precedes eager decision hydration");
 });
 
 test("worker leaves embed and 404 shells eager while trimming fallback route preloads", async () => {

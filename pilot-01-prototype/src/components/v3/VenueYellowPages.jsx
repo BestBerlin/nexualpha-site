@@ -1179,7 +1179,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
               : (db.kycSummary?.en || db.kycSummary?.[locale] || null))
             : null;
           const trust = null;
-          const publicCta = publicCtaForVenue(venue.slug, locale);
+          const publicCta = publicCtaForVenue(venue.slug, locale, market);
           const hasReferral = publicCta.hasReferral;
           const inviteCode = publicCta.inviteCode;
           const registrationUrl = publicCta.registrationUrl;

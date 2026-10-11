@@ -870,7 +870,7 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
 
   // Project commercial fields through the public CTA boundary. Raw partner
   // records may contain unverified codes or benefits and must never render.
-  const publicCta = publicCtaForVenue(venueSlug, locale);
+  const publicCta = publicCtaForVenue(venueSlug, locale, market);
   const regionalCta = regionalVenueCta(venueSlug, locale, market, product, { accountStage, funding });
   const officialRouteUrl = !publicCta.hasPartnerRoute && /^https:\/\//i.test(publicCta.registrationUrl || "")
     ? publicCta.registrationUrl

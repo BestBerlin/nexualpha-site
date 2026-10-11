@@ -133,7 +133,9 @@ test('TradingBleedAnalyzer SSR has native visible copy across all supported loca
     import { renderToStaticMarkup } from 'react-dom/server';
     import { TradingBleedAnalyzer } from '../../src/components/v3/TradingBleedAnalyzer.jsx';
     import { tradingBleedCopy, tradingBleedLocales } from '../../src/data/trading-bleed-copy.js';
-    const result = Object.fromEntries(tradingBleedLocales.map((locale) => [locale, { copy: tradingBleedCopy(locale), html: renderToStaticMarkup(React.createElement(TradingBleedAnalyzer, { locale, headingLevel: 2 })) }]));
+    import { isPartnerPromotableIn } from '../../src/data/partner-geo-restrictions.js';
+    import { publicCtaForVenue } from '../../src/data/source-bound-cta.js';
+    const result = Object.fromEntries(tradingBleedLocales.map((locale) => [locale, { copy: tradingBleedCopy(locale), promotable: isPartnerPromotableIn('okx', { locale }), cta: publicCtaForVenue('okx', 'en'), html: renderToStaticMarkup(React.createElement(TradingBleedAnalyzer, { locale, headingLevel: 2 })) }]));
     console.log(JSON.stringify(result));
   `);
   const result = JSON.parse(output);
@@ -153,15 +155,23 @@ test('TradingBleedAnalyzer SSR has native visible copy across all supported loca
     'Copy iframe embed code',
     'USDT/yr',
   ];
-  for (const [locale, { copy, html }] of Object.entries(result)) {
+  const escapeRegex = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  for (const [locale, { copy, promotable, cta, html }] of Object.entries(result)) {
     const visible = html.replace(/&#x27;/g, "'").replace(/&amp;/g, '&');
-    for (const key of ['title', 'currentVenue', 'tradingType', 'monthlyVol', 'bleedResultTitle', 'baseline', 'benefitPending', 'codeLabel', 'embed', 'embedTitle']) {
+    const visibleKeys = ['title', 'currentVenue', 'tradingType', 'monthlyVol', 'bleedResultTitle', 'baseline', 'benefitPending', 'embed', 'embedTitle'];
+    if (promotable) visibleKeys.push('codeLabel');
+    for (const key of visibleKeys) {
       assert.ok(copy[key]?.trim(), `${locale}.${key}`);
-      assert.match(visible, new RegExp(copy[key].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+      assert.match(visible, new RegExp(escapeRegex(copy[key])));
     }
-    assert.match(visible, /nexu888/);
+    if (promotable) {
+      assert.match(visible, /nexu888/);
+    } else {
+      assert.doesNotMatch(visible, /nexu888/);
+      assert.ok(!visible.includes(cta.registrationUrl), `${locale} leaked gated registration URL`);
+    }
     if (locale !== 'en') {
-      for (const sentinel of englishSentinels) assert.doesNotMatch(visible, new RegExp(sentinel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `${locale} leaked ${sentinel}`);
+      for (const sentinel of englishSentinels) assert.doesNotMatch(visible, new RegExp(escapeRegex(sentinel)), `${locale} leaked ${sentinel}`);
     }
   }
 });
@@ -172,7 +182,8 @@ test('calculator source wires safe return hrefs and preserves protected third-pa
   assert.match(bleed, /buildDecisionReturnHref\(\{\s*kind: "fees"/s);
   assert.match(bleed, /regionalVenueCta\(selectedSlug, locale, market, product\)/);
   assert.match(bleed, /await copyTextWithFeedback/);
-  assert.match(bleed, /partner\.inviteCode \?\? db\.inviteCode/);
+  assert.match(bleed, /const inviteCode = regionalCta\.inviteCode \?\? null/);
+  assert.doesNotMatch(bleed, /partner\.inviteCode \?\? db\.inviteCode/);
   assert.doesNotMatch(bleed, /benefitVerified \? \(partner\.inviteCode/);
   assert.match(bleed, /const directRoute = Boolean\(regionalCta\.direct && \/\^https:/);
   assert.match(bleed, /data-growth-market=\{market\}/);

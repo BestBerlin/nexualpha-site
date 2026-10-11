@@ -25,8 +25,8 @@ ur: "سرکاری ماخذ کی تصدیق باقی ہے",
 // l10n: needs native review
 uk: "Очікує перевірки офіційного джерела" }[localeKey(locale)] || "Pending official-source verification");
 
-function publicVenueAccess(slug, locale = "en") {
-  const publicCta = publicCtaForVenue(slug, locale);
+function publicVenueAccess(slug, locale = "en", market) {
+  const publicCta = publicCtaForVenue(slug, locale, market);
   return {
     db: publicCta.db,
     partner: publicCta.partner,
@@ -73,7 +73,7 @@ const publishableFeeRate = (summary, product, locale = "en") => {
   return { ...rate, publishable: true, display: `${pair} · ${scope.tier} · ${scope.scope}`, conditions: scope.conditions };
 };
 
-function getVenueFaqs(venue, profile, locale, db, partner) {
+function getVenueFaqs(venue, profile, locale, db, partner, market) {
   const isZh = locale.startsWith("zh");
   const zh = (hans, hant) => locale === "zh-Hant" ? hant : hans;
   const locName = getLocalizedVenueName(venue, locale) || profile.name;
@@ -84,7 +84,7 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
   const futuresRate = publishableFeeRate(feeSummary, "futures", locale);
   const spotFee = spotRate?.display || feeCopy.pendingRate;
   const futuresFee = futuresRate?.display || feeCopy.pendingRate;
-  const access = publicVenueAccess(venue.slug, locale);
+  const access = publicVenueAccess(venue.slug, locale, market);
   const benefitVerified = access.commercialClaim.status === "verified";
   const rebate = benefitVerified ? access.rebatePercent : null;
   const inviteCode = access.inviteCode;
@@ -363,21 +363,24 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
   ];
 }
 
-export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} }) {
+export function VenueFaqSection({ venue, profile, locale, market, db = {}, partner = {} }) {
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant";
   const priorityAnswer = priorityVenueAnswerFor(venue.slug, locale);
   const faqs = priorityAnswer ? priorityAnswer.faq.map(([q, answer, citations = []]) => ({
     q,
     a: <><p>{answer}</p><p className="v3-venue-direct-answer__links">{citations.map((href) => <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-faq-source">{(() => { const label = priorityAnswer.sources.find(([, url]) => url === href)?.[0]; return label ? <span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> : (isZh ? "官方来源" : (locale === "es" ? "Fuente oficial" : "Official source")); })()} ↗</a>)}</p></>,
-  })) : getVenueFaqs(venue, profile, locale, db, partner);
+  })) : getVenueFaqs(venue, profile, locale, db, partner, market);
   // Localized partner FAQ (src/data/partner-venue-faq.js): the same entries feed the FAQPage schema.
   const partnerFaq = partnerVenueFaqFor(venue.slug, locale);
-  const partnerFaqItems = (partnerFaq?.entries || []).map((entry) => ({
+  const partnerAccess = partnerFaq ? publicVenueAccess(venue.slug, locale, market) : null;
+  const partnerFaqEntries = (partnerFaq?.entries || []).filter((entry) => partnerAccess?.hasReferral || !entry.showsInviteCode);
+  const partnerFaqItems = partnerFaqEntries.map((entry) => ({
     q: entry.question,
     a: <><p>{entry.answer}</p><p className="v3-venue-direct-answer__links">{entry.sources.map(([label, href]) => <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="venue-faq-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</a>)}</p></>,
   }));
-  const shownFaqs = !partnerFaq ? faqs : partnerFaq.mode === "replace" ? partnerFaqItems : [...faqs, ...partnerFaqItems.filter((item) => !faqs.some((existing) => existing.q === item.q))];
+  const hasPartnerFaqItems = partnerFaqItems.length > 0;
+  const shownFaqs = !hasPartnerFaqItems ? faqs : partnerFaq.mode === "replace" ? partnerFaqItems : [...faqs, ...partnerFaqItems.filter((item) => !faqs.some((existing) => existing.q === item.q))];
   const usePriorityUi = Boolean(priorityAnswer || partnerFaq?.mode === "replace");
   const locName = getLocalizedVenueName(venue, locale) || profile.name;
   const priorityUiByLocale = {
@@ -462,7 +465,7 @@ export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} 
             </button>
           )}
         </div>
-        {partnerFaq?.showsInviteCode ? <CommissionDisclosureLine locale={locale} placement="venue-faq" /> : null}
+        {partnerFaqEntries.some((entry) => entry.showsInviteCode) ? <CommissionDisclosureLine locale={locale} placement="venue-faq" /> : null}
       </div>
     </section>
   );

@@ -8,6 +8,7 @@ import { partnerRegistry } from "../../data/partner-registry.js";
 import { venueDatabase } from "../../data/venue-database.js";
 import { officialCampaignResearchByVenue } from "../../data/official-campaign-research.js";
 import { resolveCommercialClaim } from "../../data/commercial-claims.js";
+import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { v3Copy } from "../../data/v3-product.js";
 import "./top-intelligence-hub.css";
 
@@ -223,13 +224,14 @@ export function TopIntelligenceHub({ locale = "en" }) {
         ? (db.benefit?.[locale] || db.benefit?.["zh-Hans"] || "")
         : (db.benefit?.en || db.benefit?.[locale] || "");
       const commercialClaim = resolveCommercialClaim({ partner, venue: db });
+      const publicCta = publicCtaForVenue(slug, locale);
 
       return {
         slug,
         name: db.name || partner.name || slug,
         category: db.category || partner.category || "CEX",
-        inviteCode: db.inviteCode || partner.inviteCode,
-        registrationUrl: partner.registrationUrl || db.registrationUrl,
+        inviteCode: publicCta.hasReferral ? publicCta.inviteCode : null,
+        registrationUrl: publicCta.hasReferral ? publicCta.registrationUrl : null,
         rewardSummary: commercialClaim.status === "verified" ? rewardSummary : (v3Copy(locale).verifyBefore || "User terms require official account verification"),
         perkText: commercialClaim.status === "verified" ? perkText : (v3Copy(locale).pendingReview || "User benefits require official verification"),
         claimStatus: commercialClaim.status,

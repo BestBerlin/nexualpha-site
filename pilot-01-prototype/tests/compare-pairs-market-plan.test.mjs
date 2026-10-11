@@ -13,6 +13,7 @@ import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { budgetTitle } from "../src/data/meta-description.js";
 import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
 import { comparePairAnswerSlugs, comparePairAnswers, COMPARE_PAIR_LOCALES } from "../src/data/compare-pair-answers.js";
+import { isPartnerPromotableIn } from "../src/data/partner-geo-restrictions.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 import { CURATED_COMPARISONS, sitemapLocalesForRoute } from "../scripts/generate-prerender-manifest.mjs";
 import { venueDatabase } from "../src/data/venue-database.js";
@@ -195,8 +196,13 @@ test("SSR renders both venue sign-up routes beside the commission disclosure for
     for (const slug of [left, right]) {
       const anchor = card.match(new RegExp(`<a[^>]+data-cta-platform="${slug}"[^>]+data-cta-placement="compare-final-choice-registration"[^>]*>`))?.[0];
       assert.ok(anchor, `${label} ${slug} sign-up route`);
-      assert.match(anchor, /href="https?:\/\//, `${label} ${slug} external href`);
-      assert.match(anchor, /rel="sponsored noopener noreferrer"/, `${label} ${slug} sponsored rel`);
+      if (isPartnerPromotableIn(slug, { locale, market: "unknown" })) {
+        assert.match(anchor, /href="https?:\/\//, `${label} ${slug} external href`);
+        assert.match(anchor, /rel="sponsored noopener noreferrer"/, `${label} ${slug} sponsored rel`);
+      } else {
+        assert.match(anchor, /data-cta-kind="research"/, `${label} ${slug} gated research route`);
+        assert.doesNotMatch(anchor, /rel="sponsored noopener noreferrer"|data-cta-code=/, `${label} ${slug} no sponsored gated route`);
+      }
     }
     // The sticky bar and the hero versus card also carry one route per venue.
     for (const slug of [left, right]) {

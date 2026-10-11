@@ -952,7 +952,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             </p>
           )}
           <NewsTelegramAlerts locale={locale} />
-          <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="inline" />
+          <NewsVenueOffer venues={article.relatedVenues} locale={locale} market={market} articleSlug={article.slug} variant="inline" />
           {article.sources.length > 0 && (
             <section className="news-detail__prose news-detail__sources news-detail__footnotes" aria-labelledby="article-sources">
               <DataRule
@@ -985,7 +985,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             on screen: desktop pins it to the second grid column, below 1024px CSS order puts it after the lead section. */}
         <div className="news-detail__rail">
           <ArticleDecisionSummary article={article} withContext={withContext} locale={locale} t={t} />
-          <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="rail" />
+          <NewsVenueOffer venues={article.relatedVenues} locale={locale} market={market} articleSlug={article.slug} variant="rail" />
           <div className="news-detail__rail-sticky">
             {sectionTargets.length >= 2 && <nav className="news-detail__toc" aria-label={sectionLabel} lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
               <p className="news-detail__toc-label">{sectionLabel}</p>
@@ -1056,7 +1056,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
         <RelatedResearch links={relatedLinks} relatedArticles={relatedNewsArticles(article, articles)} locale={locale} t={t} withContext={withContext} article={article} />
 
-        <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="timed" />
+        <NewsVenueOffer venues={article.relatedVenues} locale={locale} market={market} articleSlug={article.slug} variant="timed" />
 
         {article.relatedVenues && article.relatedVenues.length > 0 && (
           <NextDecisionBridge

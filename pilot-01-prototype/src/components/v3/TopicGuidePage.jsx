@@ -3057,7 +3057,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
   const localizedTelegramCommands = topicNativeCopy?.telegramCommands || topicCopy?.telegramCommands?.map(([cmd, desc]) => ({ cmd, descEn: desc, descZh: desc })) || topic.telegramCommands;
   const publicPlatforms = topic.platforms.map((platform) => {
     const projected = publicCtaForTopicPlatform(platform, locale);
-    const publicCta = publicCtaForVenue(platform.slug, locale);
+    const publicCta = publicCtaForVenue(platform.slug, locale, market);
     return {
       ...projected,
       affiliateUrl: publicCta.registrationUrl,

@@ -61,9 +61,9 @@ function OfferBody({ slug, cta, locale, t, placement }) {
 }
 
 /** variant: "inline" (under the article), "rail" (desktop side rail), "timed" (slides in after 15 s of reading). */
-export function NewsVenueOffer({ venues, locale = "en", articleSlug, variant = "inline" }) {
+export function NewsVenueOffer({ venues, locale = "en", market, articleSlug, variant = "inline" }) {
   const t = copyFor(locale);
-  const pick = pickNewsOfferVenue(venues, locale);
+  const pick = pickNewsOfferVenue(venues, locale, market);
   const [shown, setShown] = useState(false);
   const [closed, setClosed] = useState(false);
   const timer = useRef(null);

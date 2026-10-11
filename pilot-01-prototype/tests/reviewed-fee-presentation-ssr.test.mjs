@@ -6,7 +6,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { buildVenueFeeSummary } from '../src/data/venue-fee-summary.js';
 import { reviewedFeeCopy } from '../src/data/reviewed-fee-copy.js';
-import { publicCtaForVenue } from '../src/data/public-cta.js';
+import { publicCtaForVenue } from '../src/data/source-bound-cta.js';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const locales = ['en', 'zh-Hans', 'zh-Hant', 'es', 'pt-BR', 'fr', 'de', 'ja', 'ko', 'ar', 'tr', 'ru', 'id', 'vi', 'it', "ur", "uk"];
@@ -44,8 +44,12 @@ test('all core locale profiles show reviewed fee scope and preserve invitations;
     assert.equal(pages.length, locales.length * 5);
     for (const { locale, slug, feeHtml } of pages) {
       const cta = publicCtaForVenue(slug, locale);
-      assert.ok(feeHtml.includes(`href="${escaped(cta.registrationUrl)}"`), `${slug}/${locale}: original invitation URL`);
-      assert.ok(feeHtml.includes(escaped(cta.inviteCode)), `${slug}/${locale}: original invitation code`);
+      if (cta.hasReferral) {
+        assert.ok(feeHtml.includes(`href="${escaped(cta.registrationUrl)}"`), `${slug}/${locale}: original invitation URL`);
+        assert.ok(feeHtml.includes(escaped(cta.inviteCode)), `${slug}/${locale}: original invitation code`);
+      } else {
+        assert.ok(!feeHtml.includes('rel="sponsored noopener noreferrer"'), `${slug}/${locale}: gated profile fee section has no sponsored route`);
+      }
       const [rate] = buildVenueFeeSummary({ slug }).rates;
       if (!rate) {
         assert.ok(!feeHtml.includes('data-fee-product='), `${slug}/${locale}: unreviewed numbers must remain absent`);

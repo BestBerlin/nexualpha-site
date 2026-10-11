@@ -5,6 +5,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { LOCALE_PREFIX_BY_CODE } from '../src/data/locale-routing.js';
+import { isPartnerPromotableIn } from '../src/data/partner-geo-restrictions.js';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const locales = ['en','zh-Hans','zh-Hant','es','pt-BR','fr','de','ja','ko','ar','tr','ru','id','vi','it', "ur", "uk"];
@@ -29,7 +30,11 @@ test('cost decision localizes the whole rendered tool and keeps decimal input pl
       assert.ok(html[locale].includes(`href="${binanceOfferHref}"`), `${locale}: exact onsite calculator eligibility href`);
       assert.ok(html[locale].includes('href="https://www.binance.com?ref=11350287"'), `${locale}: exact Binance protected registration href`);
       assert.ok(html[locale].includes('href="https://www.bybit.com/register?affiliate_id=48553"'), `${locale}: exact Bybit protected registration href`);
-      assert.ok(html[locale].includes('href="https://partner.bitget.cafe/bg/C6PRAF"'), `${locale}: exact Bitget protected registration href`);
+      if (isPartnerPromotableIn('bitget', { locale })) {
+        assert.ok(html[locale].includes('href="https://partner.bitget.cafe/bg/C6PRAF"'), `${locale}: exact Bitget protected registration href`);
+      } else {
+        assert.ok(!html[locale].includes('href="https://partner.bitget.cafe/bg/C6PRAF"'), `${locale}: gated Bitget route stays onsite`);
+      }
       assert.ok(html[locale].includes('data-cta-placement="cost-calculator-eligibility"'), `${locale}: eligibility action placement`);
       assert.ok(html[locale].includes('data-cta-placement="cost-calculator"'), `${locale}: calculator action placement`);
       assert.doesNotMatch(html[locale], /bsmkweb\.cc|utm_medium=web_share_copy/, `${locale}: no obsolete Binance invite route`);

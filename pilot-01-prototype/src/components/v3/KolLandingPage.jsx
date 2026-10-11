@@ -96,7 +96,7 @@ export function KolLandingPage({ kolHandle = "crypto-zhang", locale = "en", mark
         <div className="kol-venues__grid">
           {kol.topVenues.map((slug) => {
             const db = venueDatabase[slug] || {};
-            const cta = publicCtaForVenue(slug, locale);
+            const cta = publicCtaForVenue(slug, locale, market);
             const inviteCode = cta.inviteCode;
             const directRoute = cta.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "");
             const routeHref = directRoute

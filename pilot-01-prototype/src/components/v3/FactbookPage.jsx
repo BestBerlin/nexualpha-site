@@ -1302,7 +1302,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
   const venue = useMemo(() => {
     return publicFactbookVenue(FACTBOOK_REGISTRY[slug] || FACTBOOK_REGISTRY.binance, locale);
   }, [slug, locale]);
-  const activationCta = useMemo(() => publicCtaForVenue(venue.slug, locale), [venue.slug, locale]);
+  const activationCta = useMemo(() => publicCtaForVenue(venue.slug, locale, market), [venue.slug, locale, market]);
   // Audit NX-02/NX-06: partner benefit status and the record dates come from the shared records, not from this page.
   const partnerBenefit = partnerBenefitParts(venue.slug, locale);
   const recordDates = factbookDates(venue.slug);
