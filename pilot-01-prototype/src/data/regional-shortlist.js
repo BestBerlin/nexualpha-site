@@ -9,6 +9,11 @@ export const REGIONAL_SHORTLIST_STATES = Object.freeze({
 });
 
 const STATE_COPY = {
+  // l10n: needs native review
+  ur: {"heading": "علاقائی مختصر فہرست", "controls": "فہرست کی شرائط بدلیں", "residence": "رہائش", "product": "مصنوعات", "funding": "فنڈنگ راستہ", "accountStage": "اکاؤنٹ کا مرحلہ", "researchable": "تحقیق ممکن", "account_confirm": "اکاؤنٹ میں تصدیق کریں", "paused": "موقوف / جائزہ", "openProfile": "تحقیقی پروفائل کھولیں", "noDirectCta": "براہ راست رجسٹریشن نہیں", "compare": "موجودہ فہرست کا موازنہ", "telegram": "اسی سیاق کے ساتھ Telegram میں جاری رکھیں", "note": "فہرست کی حیثیت جانچی گئی علاقائی پالیسی اور فنڈنگ ریکارڈ سے آتی ہے۔ یہ اکاؤنٹ کی منظوری، مصنوعات تک رسائی، فنڈنگ یا فوائد کی دستیابی ثابت نہیں کرتی۔"},
+  // l10n: needs native review
+  uk: {"heading": "Регіональний короткий список", "controls": "Налаштувати список", "residence": "Місце проживання", "product": "Продукт", "funding": "Маршрут поповнення", "accountStage": "Етап облікового запису", "researchable": "Можна досліджувати", "account_confirm": "Підтвердити в обліковому записі", "paused": "Призупинено / перевірка", "openProfile": "Відкрити дослідницький профіль", "noDirectCta": "Без прямої реєстрації", "compare": "Порівняти поточний список", "telegram": "Продовжити з цим контекстом у Telegram", "note": "Стани списку походять із перевірених регіональних правил і записів поповнення. Вони не підтверджують схвалення облікового запису, доступність продукту, поповнення чи переваг."},
+
   en: {
     heading: "Regional shortlist",
     controls: "Tune the shortlist",
@@ -264,6 +269,10 @@ export const REGIONAL_SHORTLIST_ACCOUNT_STAGES = Object.freeze([
 ]);
 
 const PRODUCT_LABELS = {
+  // l10n: needs native review
+  ur: { spot: "اسپاٹ", perpetuals: "پرپیچوئل", dex: "DEX" },
+  // l10n: needs native review
+  uk: { spot: "Спот", perpetuals: "Безстрокові контракти", dex: "DEX" },
   es: { spot: "Spot", perpetuals: "Perpetuos", dex: "DEX" },
   "pt-BR": { spot: "Spot", perpetuals: "Perpétuos", dex: "DEX" },
   fr: { spot: "Spot", perpetuals: "Perpétuels", dex: "DEX" },
@@ -280,6 +289,10 @@ const PRODUCT_LABELS = {
 };
 
 const ACCOUNT_STAGE_LABELS = {
+  // l10n: needs native review
+  ur: { new_account: "نیا اکاؤنٹ", another_platform: "دوسرا پلیٹ فارم استعمال کرتا ہوں", existing_account: "موجودہ اکاؤنٹ" },
+  // l10n: needs native review
+  uk: { new_account: "Новий обліковий запис", another_platform: "Користуюся іншою платформою", existing_account: "Наявний обліковий запис" },
   es: { new_account: "Cuenta nueva", another_platform: "Ya uso otra plataforma", existing_account: "Cuenta existente" },
   "pt-BR": { new_account: "Conta nova", another_platform: "Já uso outra plataforma", existing_account: "Conta existente" },
   fr: { new_account: "Nouveau compte", another_platform: "J'utilise déjà une autre plateforme", existing_account: "Compte existant" },
@@ -341,6 +354,10 @@ const MARKET_LABELS = {
 };
 
 const CANDIDATE_NOTE_COPY = {
+  // l10n: needs native review
+  ur: { paused: "ماخذ کے سیاق کا جائزہ باقی ہے؛ اسے براہ راست رجسٹریشن راستہ نہ سمجھیں۔", researchable: "ماخذ کے ساتھ تحقیقی امیدوار؛ اکاؤنٹ کا نتیجہ تصدیق شدہ نہیں۔", fundingName: (currency) => `${currency} فنڈنگ راستہ`, fundingNote: (funding) => `${funding} کی جانچ سرکاری لاگ ان اکاؤنٹ میں کریں۔` },
+  // l10n: needs native review
+  uk: { paused: "Контекст джерела призупинено для перевірки; це не прямий шлях реєстрації.", researchable: "Кандидат для дослідження з джерелами; результат облікового запису не підтверджено.", fundingName: (currency) => `Маршрут поповнення ${currency}`, fundingNote: (funding) => `${funding} слід перевірити в офіційному обліковому записі після входу.` },
   en: {
     paused: "Stop-and-review source context; do not present as a direct handoff.",
     researchable: "Source-linked research candidate; account outcome remains unconfirmed.",

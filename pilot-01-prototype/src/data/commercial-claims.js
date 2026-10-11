@@ -29,6 +29,10 @@ const benefitVerificationCopy = {
   de: (venueName) => `Vorteile im offiziellen ${venueName}-Konto prüfen`,
   ja: (venueName) => `${venueName} の公式アカウントで特典条件を確認してください`,
   ko: (venueName) => `${venueName} 공식 계정에서 혜택 조건을 확인하세요`,
+  // l10n: needs native review
+  ur: (venueName) => `صارف کے فوائد ${venueName} کے سرکاری اکاؤنٹ میں چیک کریں`,
+  // l10n: needs native review
+  uk: (venueName) => `Перевірте переваги користувача в офіційному обліковому записі ${venueName}`,
   ar: (venueName) => `تحقق من مزايا المستخدم داخل حساب ${venueName} الرسمي`,
   tr: (venueName) => `Kullanıcı avantajlarını resmi ${venueName} hesabında doğrulayın`,
   ru: (venueName) => `Проверьте преимущества в официальном аккаунте ${venueName}`,

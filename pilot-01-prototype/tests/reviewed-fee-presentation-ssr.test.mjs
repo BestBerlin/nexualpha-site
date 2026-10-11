@@ -9,7 +9,7 @@ import { reviewedFeeCopy } from '../src/data/reviewed-fee-copy.js';
 import { publicCtaForVenue } from '../src/data/public-cta.js';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
-const locales = ['en', 'zh-Hans', 'zh-Hant', 'es', 'pt-BR', 'fr', 'de', 'ja', 'ko', 'ar', 'tr', 'ru', 'id', 'vi', 'it'];
+const locales = ['en', 'zh-Hans', 'zh-Hant', 'es', 'pt-BR', 'fr', 'de', 'ja', 'ko', 'ar', 'tr', 'ru', 'id', 'vi', 'it', "ur", "uk"];
 const slugs = ['binance', 'bitget', 'bybit', 'okx', 'backpack'];
 const escaped = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll("'", '&#x27;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 
@@ -41,7 +41,7 @@ test('all core locale profiles show reviewed fee scope and preserve invitations;
     `);
     execFileSync(path.join(root, 'node_modules/.bin/esbuild'), [entry, '--bundle', '--platform=node', '--format=cjs', `--outfile=${bundle}`, '--loader:.css=empty', '--log-level=warning'], { cwd: root, stdio: 'pipe' });
     const pages = JSON.parse(execFileSync('node', [bundle], { cwd: root, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 }));
-    assert.equal(pages.length, 75);
+    assert.equal(pages.length, locales.length * 5);
     for (const { locale, slug, feeHtml } of pages) {
       const cta = publicCtaForVenue(slug, locale);
       assert.ok(feeHtml.includes(`href="${escaped(cta.registrationUrl)}"`), `${slug}/${locale}: original invitation URL`);

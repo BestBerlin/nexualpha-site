@@ -83,6 +83,24 @@ const directoryCountCopy = {
     metricSub: `${directoryStats.cex} CEX · ${directoryStats.dex} DEX · ${directoryStats.perpDex} Perp DEX`,
     verifiedStatus: `✓ ${directoryStats.total} platformun kaynakları listelendi; koşullar tek tek kontrol edilmeli`,
   },
+  // l10n: needs native review
+  ur: {
+    badge: `تصدیق شدہ کرپٹو پلیٹ فارم ڈائریکٹری · ${directoryStats.total} مقامات · تحویل صفر`,
+    title: `${directoryStats.total} عالمی پلیٹ فارمز کا آزاد موازنہ: شائع شدہ شرائط، ماخذ اور سرکاری راستے`,
+    pills: [`${directoryStats.cex} مرکزی CEX`, `${directoryStats.dex} آن چین DEX`, `${directoryStats.perpDex} تیز رفتار Perp DEX`],
+    metricValue: `${directoryStats.total} مقامات`,
+    metricSub: `${directoryStats.cex} CEX · ${directoryStats.dex} DEX · ${directoryStats.perpDex} Perp DEX`,
+    verifiedStatus: `✓ ${directoryStats.total} مقامات کے ماخذ درج ہیں؛ شرائط ہر صفحے پر الگ چیک کریں`,
+  },
+  // l10n: needs native review
+  uk: {
+    badge: `Перевірений довідник криптоплатформ · ${directoryStats.total} майданчиків · без зберігання активів`,
+    title: `Незалежне порівняння ${directoryStats.total} глобальних платформ: опубліковані умови, джерела й офіційні маршрути`,
+    pills: [`${directoryStats.cex} провідних CEX`, `${directoryStats.dex} ончейн DEX`, `${directoryStats.perpDex} швидких Perp DEX`],
+    metricValue: `${directoryStats.total} майданчиків`,
+    metricSub: `${directoryStats.cex} CEX · ${directoryStats.dex} DEX · ${directoryStats.perpDex} Perp DEX`,
+    verifiedStatus: `✓ Джерела для ${directoryStats.total} майданчиків внесено; умови перевіряйте по кожному пункту`,
+  },
 };
 
 function withDirectoryCounts(ui, locale) {
@@ -115,6 +133,10 @@ const TELEGRAM_CTA_LABELS = {
   id: "Gabung Telegram NexuAlpha · Pantau ketentuan · Akses aman",
   vi: "Tham gia Telegram NexuAlpha · Theo dõi điều kiện · Truy cập an toàn",
   it: "Unisciti al Telegram NexuAlpha · Monitora le condizioni · Accesso sicuro",
+  // l10n: needs native review
+  ur: "NexuAlpha Telegram میں شامل ہوں · شرائط کی نگرانی · محفوظ آغاز",
+  // l10n: needs native review
+  uk: "Приєднатися до Telegram NexuAlpha · Відстеження умов · Безпечний старт",
 };
 
 const telegramCtaLabel = (locale) => {
@@ -181,6 +203,26 @@ const SOCIAL_PROOFS_TR = [
   { flag: "🇩🇪", action: "Araştırma yolu: Telegram'da ücret durumunu ve kaynakları izle" },
   { flag: "🇹🇷", action: "Örnek yol: GMX maker ücret koşullarını doğrula" },
   { flag: "🇳🇱", action: "Araştırma yolu: saklama modelini ve Uniswap rotasını incele" },
+];
+
+// l10n: needs native review
+const SOCIAL_PROOFS_UR = [
+  { flag: "🇵🇰", action: "مثال راستہ: Hyperliquid کی عوامی فیس اور عملدرآمد شرائط چیک کریں" },
+  { flag: "🇸🇬", action: "تحقیقی راستہ: Binance کے ذخائر اور سرکاری ڈومین کی تصدیق" },
+  { flag: "🇬🇧", action: "مثال راستہ: Bybit API رسائی اور فیس شرائط کا موازنہ" },
+  { flag: "🇦🇺", action: "تحقیقی راستہ: Telegram میں فیس حالت اور ماخذ دیکھیں" },
+  { flag: "🇵🇰", action: "مثال راستہ: GMX میکر فیس شرائط چیک کریں" },
+  { flag: "🇳🇱", action: "تحقیقی راستہ: تحویل ماڈل اور Uniswap راستہ دیکھیں" },
+];
+
+// l10n: needs native review
+const SOCIAL_PROOFS_UK = [
+  { flag: "🇺🇦", action: "Приклад маршруту: перевірити публічні комісії та умови виконання Hyperliquid" },
+  { flag: "🇸🇬", action: "Дослідницький маршрут: перевірити резерви Binance й офіційний домен" },
+  { flag: "🇬🇧", action: "Приклад маршруту: порівняти доступ до API Bybit і умови комісій" },
+  { flag: "🇦🇺", action: "Дослідницький маршрут: стежити за статусом комісій і джерелами в Telegram" },
+  { flag: "🇺🇦", action: "Приклад маршруту: перевірити умови мейкер-комісії GMX" },
+  { flag: "🇳🇱", action: "Дослідницький маршрут: переглянути модель зберігання та маршрут Uniswap" },
 ];
 
 const uiText = {
@@ -526,6 +568,10 @@ const registrationLinkCopy = {
   id: "Buka tautan daftar partner",
   vi: "Mở liên kết đăng ký đối tác",
   it: "Apri registrazione partner",
+  // l10n: needs native review
+  ur: "پارٹنر رجسٹریشن کھولیں",
+  // l10n: needs native review
+  uk: "Відкрити партнерську реєстрацію",
 };
 
 function getUi(locale) {
@@ -587,6 +633,8 @@ function getProofs(locale) {
   if (locale === "ja") return SOCIAL_PROOFS_JA;
   if (locale === "ko") return SOCIAL_PROOFS_KO;
   if (locale === "tr") return SOCIAL_PROOFS_TR;
+  if (locale === "ur") return SOCIAL_PROOFS_UR;
+  if (locale === "uk") return SOCIAL_PROOFS_UK;
   return SOCIAL_PROOFS_EN;
 }
 
@@ -655,6 +703,18 @@ const homeModeTaskCopy = Object.freeze({
     "direct": "已選平台",
     "compare": "先做比較"
   },
+
+  // l10n: needs native review
+  "ur": {
+    "direct": "پلیٹ فارم چن لیا",
+    "compare": "پہلے موازنہ"
+  },
+
+  // l10n: needs native review
+  "uk": {
+    "direct": "Платформу вибрано",
+    "compare": "Спершу порівняти"
+  },
   "ja": {
     "direct": "利用先は決定済み",
     "compare": "まず比較"
@@ -721,7 +781,13 @@ function HomeDecisionPanel({ locale, ui, selectedSlug, onSelectSlug, cardOnly = 
     "ar": "تغيير المنصة",
     "id": "Ganti platform",
     "vi": "Đổi nền tảng",
-    "it": "Cambia piattaforma"
+    "it": "Cambia piattaforma",
+
+    // l10n: needs native review
+    "ur": "پلیٹ فارم بدلیں",
+
+    // l10n: needs native review
+    "uk": "Змінити платформу"
   };
   const compactHomeTaskCopy = {
     ru: { change: "Сменить", copy: "Копировать", copyFull: "Скопировать код", signup: "Регистрация ↗" },
@@ -729,6 +795,12 @@ function HomeDecisionPanel({ locale, ui, selectedSlug, onSelectSlug, cardOnly = 
     "pt-BR": { change: "Trocar", copy: "Copiar", copyFull: "Copiar código", signup: "Cadastro ↗" },
     tr: { change: "Değiştir", copy: "Kopyala", copyFull: "Kodu kopyala", signup: "Kayıt ↗" },
     it: { change: "Cambia", copy: "Copia", copyFull: "Copia codice", signup: "Registrazione ↗" },
+
+    // l10n: needs native review
+    ur: { change: "بدلیں", copy: "کاپی", copyFull: "کوڈ کاپی کریں", signup: "رجسٹریشن ↗" },
+
+    // l10n: needs native review
+    uk: { change: "Змінити", copy: "Копіювати", copyFull: "Скопіювати код", signup: "Реєстрація ↗" },
   };
   const chooserEmptyCopy = {
     en: { noResults: "No matching platform in this shortlist.", clear: "Clear search" },
@@ -746,6 +818,12 @@ function HomeDecisionPanel({ locale, ui, selectedSlug, onSelectSlug, cardOnly = 
     id: { noResults: "Tidak ada platform yang cocok", clear: "Hapus pencarian" },
     vi: { noResults: "Không có nền tảng phù hợp", clear: "Xóa tìm kiếm" },
     it: { noResults: "Nessuna piattaforma corrispondente", clear: "Cancella ricerca" },
+
+    // l10n: needs native review
+    ur: { noResults: "کوئی مطابق پلیٹ فارم نہیں", clear: "تلاش صاف کریں" },
+
+    // l10n: needs native review
+    uk: { noResults: "Немає відповідної платформи", clear: "Очистити пошук" },
   };
   const localeBase = String(locale || "en").split("-")[0];
   const modeTaskCopy = homeModeTaskCopy[locale] || homeModeTaskCopy[localeBase] || homeModeTaskCopy.en;
@@ -913,6 +991,10 @@ const MATRIX_COPY = {
   id: { label: "Matriks platform", platform: "Platform", spot: "Spot maker / taker", code: "Kode", note: (d) => `Biaya spot dasar dari halaman resmi, dicek ${d}. Tanda strip berarti belum ditinjau.`, pick: "Tampilkan rute daftar untuk", pending: "Belum ditinjau" },
   vi: { label: "Ma trận nền tảng", platform: "Nền tảng", spot: "Giao ngay maker / taker", code: "Mã", note: (d) => `Phí giao ngay cơ bản lấy từ trang chính thức, kiểm tra ngày ${d}. Dấu gạch nghĩa là chưa được xem xét.`, pick: "Xem lộ trình đăng ký của", pending: "Chưa xem xét" },
   it: { label: "Matrice delle piattaforme", platform: "Piattaforma", spot: "Spot maker / taker", code: "Codice", note: (d) => `Commissioni spot base dalle pagine ufficiali, verificate il ${d}. Il trattino indica che non è ancora stato verificato.`, pick: "Mostra il percorso di registrazione di", pending: "Non ancora verificato" },
+  // l10n: needs native review
+  ur: { label: "پلیٹ فارم میٹرکس", platform: "پلیٹ فارم", spot: "اسپاٹ میکر / ٹیکر", code: "کوڈ", note: (d) => `اسپاٹ بنیادی فیس سرکاری صفحات سے، ${d} کو چیک ہوئی۔ ڈیش کا مطلب ہے ابھی جائزہ نہیں ہوا۔`, pick: "رجسٹریشن راستہ دکھائیں:", pending: "ابھی جائزہ نہیں ہوا" },
+  // l10n: needs native review
+  uk: { label: "Матриця платформ", platform: "Платформа", spot: "Спот maker / taker", code: "Код", note: (d) => `Базові спотові комісії з офіційних сторінок, перевірено ${d}. Риска означає, що ще не переглянуто.`, pick: "Показати маршрут реєстрації для", pending: "Ще не переглянуто" },
 };
 
 function matrixCopy(locale) {
@@ -1014,6 +1096,10 @@ const VALUE_LINE = {
   id: "Periksa biaya, bukti cadangan, dan rute pendaftaran resmi sebelum membuka akun.",
   vi: "Kiểm tra phí, bằng chứng dự trữ và lộ trình đăng ký chính thức trước khi mở tài khoản.",
   it: "Verifica commissioni, prova di riserve e percorso ufficiale di registrazione prima di aprire un conto.",
+  // l10n: needs native review
+  ur: "اکاؤنٹ کھولنے سے پہلے فیس، ذخائر کا ثبوت اور سرکاری رجسٹریشن راستہ چیک کریں۔",
+  // l10n: needs native review
+  uk: "Перед відкриттям акаунта перевірте комісії, підтвердження резервів і офіційний маршрут реєстрації.",
 };
 
 function valueLine(locale) {
@@ -1192,7 +1278,11 @@ export function LeanHero({ locale = "en", render }) {
             </span>
             <p className="hx__trust-line">{ui.badge}</p>
           </div>
-          <button type="button" className="hx__more-toggle" ref={secondaryToggleRef} aria-expanded={secondaryOpen} aria-controls="lean-hero-support" onClick={() => setSecondaryOpen(open => !open)}>{({"en": "Platform selection help", "zh-Hans": "选所辅助", "zh-Hant": "選所輔助", "ja": "取引所選びのサポート", "ko": "거래소 선택 도움", "tr": "Platform seçimi desteği", "ar": "مساعدة في اختيار المنصة", "es": "Ayuda para elegir plataforma", "pt-BR": "Ajuda para escolher a plataforma", "fr": "Aide au choix de plateforme", "de": "Hilfe bei der Plattformwahl", "ru": "Помощь в выборе платформы", "id": "Bantuan memilih platform", "vi": "Hỗ trợ chọn nền tảng", "it": "Aiuto nella scelta della piattaforma"})[locale] || "Platform selection help"}</button>
+          <button type="button" className="hx__more-toggle" ref={secondaryToggleRef} aria-expanded={secondaryOpen} aria-controls="lean-hero-support" onClick={() => setSecondaryOpen(open => !open)}>{({"en": "Platform selection help", "zh-Hans": "选所辅助", "zh-Hant": "選所輔助", "ja": "取引所選びのサポート", "ko": "거래소 선택 도움", "tr": "Platform seçimi desteği", "ar": "مساعدة في اختيار المنصة", "es": "Ayuda para elegir plataforma", "pt-BR": "Ajuda para escolher a plataforma", "fr": "Aide au choix de plateforme", "de": "Hilfe bei der Plattformwahl", "ru": "Помощь в выборе платформы", "id": "Bantuan memilih platform", "vi": "Hỗ trợ chọn nền tảng", "it": "Aiuto nella scelta della piattaforma",
+          // l10n: needs native review
+          "ur": "پلیٹ فارم چننے میں مدد",
+          // l10n: needs native review
+          "uk": "Допомога з вибором платформи"})[locale] || "Platform selection help"}</button>
           <div className="hx__more-body" id="lean-hero-research" onBlurCapture={(event) => {
             const toggle = secondaryToggleRef.current;
             if (event.relatedTarget === null && event.currentTarget.getClientRects().length === 0 && toggle?.getClientRects().length > 0) {

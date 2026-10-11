@@ -233,15 +233,15 @@ body:has(> #root > main#top.v6.home-refinement) { overflow-x: clip; overflow-y: 
   --font-sans: "Geist V5", "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Pilot Noto JP", sans-serif;
   --v6-sans: var(--font-sans);
 }
-#top.v6:lang(ar) {
+#top.v6:is(:lang(ar), :lang(ur)) {
   --font-sans: "Geist V5", "Noto Sans Arabic", "Noto Sans Arabic UI", "IBM Plex Sans Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Pilot Noto Arabic", sans-serif;
   --v6-sans: var(--font-sans);
 }
-#top.v6:is(:lang(ja), :lang(ar)) { font-family: var(--font-sans); }
-#top.v6:is(:lang(ja), :lang(ar)) :is(.nx-hdr, .nx-ftr, .mobile-bottom-nav) { --nx-font: var(--font-sans); }
+#top.v6:is(:lang(ja), :lang(ar), :lang(ur)) { font-family: var(--font-sans); }
+#top.v6:is(:lang(ja), :lang(ar), :lang(ur)) :is(.nx-hdr, .nx-ftr, .mobile-bottom-nav) { --nx-font: var(--font-sans); }
 /* the legacy index and matcher force Geist with !important (components.css); ar / ja get their pairing the same way */
-#top.v6:is(:lang(ja), :lang(ar)) :is(.crawl-priority-links, .crawl-priority-links *, .platform-matcher, .platform-matcher *):not(svg, svg *) { font-family: var(--font-sans) !important; }
-#top.v6:lang(ar) :is(h1, h2, .rf-title, .v6-h1, .v6-h2, .v6-close__title):not(#_) { line-height: var(--lh-head, 1.15); }
+#top.v6:is(:lang(ja), :lang(ar), :lang(ur)) :is(.crawl-priority-links, .crawl-priority-links *, .platform-matcher, .platform-matcher *):not(svg, svg *) { font-family: var(--font-sans) !important; }
+#top.v6:is(:lang(ar), :lang(ur)) :is(h1, h2, .rf-title, .v6-h1, .v6-h2, .v6-close__title):not(#_) { line-height: var(--lh-head, 1.15); }
 
 /* ---------- tap targets: the focus-revealed section nav and the footer links reach 44 x 44 ---------- */
 #top.v6 .rf .rf-skip .home-section-nav a { min-inline-size: 44px; min-block-size: 44px; justify-content: center; padding-inline: var(--s-2); }

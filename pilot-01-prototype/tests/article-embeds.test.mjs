@@ -17,7 +17,7 @@ import { renderEmbedHtml } from "../server/embed-widgets.mjs";
 import { importArticlePackage } from "../scripts/import-nexualpha-content.mjs";
 import { createSsrHarness, SHELL_HTML, prerenderState, rootInnerHtml, hydrateInJsdom, hydrationErrors } from "./helpers/ssr-hydration-harness.mjs";
 
-const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
+const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 
 test("directive parsing: known widgets and aliases, symbols for funding, unknown = nothing, prose untouched", () => {
   assert.deepEqual(parseArticleEmbed("::embed liquidations"), { kind: "liquidations", symbol: null });
@@ -35,7 +35,7 @@ test("directive parsing: known widgets and aliases, symbols for funding, unknown
   assert.equal(articleEmbedHtml(null), "");
 });
 
-test("model: widget heights, tool links and copy in all 15 locales", () => {
+test("model: widget heights, tool links and copy in all 17 locales", () => {
   for (const kind of Object.keys(ARTICLE_EMBED_KINDS)) {
     assert.equal(ARTICLE_EMBED_KINDS[kind].height, EMBED_KINDS[kind].height, `${kind} frame height equals the widget height`);
     assert.equal(ARTICLE_EMBED_KINDS[kind].toolPath, EMBED_KINDS[kind].path);

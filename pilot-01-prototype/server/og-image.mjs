@@ -26,8 +26,8 @@ export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
 export const OG_PATH_PREFIX = "/og/";
 export const OG_KINDS = Object.freeze(["news", "venue", "compare", "liquidations", "default"]);
-export const OG_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"]);
-const RTL_LOCALES = new Set(["ar"]);
+export const OG_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]);
+const RTL_LOCALES = new Set(["ar", "ur"]);
 const ID_PATTERN = /^[a-z0-9][a-z0-9-]{0,159}$/;
 const MEMORY_LIMIT = 500;
 const CACHE_CONTROL = "public, max-age=86400";
@@ -41,7 +41,7 @@ const COLOR = Object.freeze({ bg: "#070a0e", surface: "#121a24", ink: "#f5f7fa",
 // cover CJK + Arabic on macOS, Noto CJK/Arabic and DejaVu on Linux hosts that have fonts-noto installed.
 const FONT_FAMILY = "Inter, 'Noto Sans', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans CJK SC', 'Noto Sans Arabic', 'WenQuanYi Micro Hei', 'WenQuanYi Zen Hei', 'PingFang SC', 'Hiragino Sans GB', 'Geeza Pro', 'Arial Unicode MS', 'DejaVu Sans', Arial, sans-serif";
 
-// Labels printed on cards. All 15 UI locales (brief: every user-visible string ships in every locale).
+// Labels printed on cards. All 17 UI locales (brief: every user-visible string ships in every locale).
 const LABELS = {
   en: { feesChecked: "Fees checked {date}", rebate: "Rebate share up to {pct}", rebatePending: "Rebate share pending", spot: "Spot maker / taker", perp: "Perp maker / taker", notChecked: "Not yet checked", vs: "vs", compare: "Fee comparison", liquidations: "Futures liquidations · 24h", longs: "Longs", shorts: "Shorts", largest: "Largest single", lowerBound: "Binance + OKX, lower bound · {time} UTC", feedUpdating: "Liquidation feed is updating", tagline: "Independent crypto platform research", research: "Source-checked research" },
   "zh-Hans": { feesChecked: "费率核验于 {date}", rebate: "返佣比例最高 {pct}", rebatePending: "返佣比例待确认", spot: "现货 挂单 / 吃单", perp: "合约 挂单 / 吃单", notChecked: "尚未核验", vs: "对比", compare: "费率对比", liquidations: "合约爆仓 · 24 小时", longs: "多单", shorts: "空单", largest: "最大单笔", lowerBound: "Binance + OKX，下限值 · {time} UTC", feedUpdating: "爆仓数据正在更新", tagline: "独立加密交易平台研究", research: "源头核验研究" },
@@ -58,6 +58,11 @@ const LABELS = {
   id: { feesChecked: "Biaya diverifikasi {date}", rebate: "Rebate hingga {pct}", rebatePending: "Rebate belum dikonfirmasi", spot: "Spot maker / taker", perp: "Perp maker / taker", notChecked: "Belum diverifikasi", vs: "vs", compare: "Perbandingan biaya", liquidations: "Likuidasi futures · 24 jam", longs: "Long", shorts: "Short", largest: "Order terbesar", lowerBound: "Binance + OKX, batas bawah · {time} UTC", feedUpdating: "Feed likuidasi sedang diperbarui", tagline: "Riset platform kripto independen", research: "Riset terverifikasi sumber" },
   vi: { feesChecked: "Phí được kiểm tra {date}", rebate: "Hoàn phí tới {pct}", rebatePending: "Tỷ lệ hoàn phí chờ xác nhận", spot: "Spot maker / taker", perp: "Perp maker / taker", notChecked: "Chưa kiểm tra", vs: "vs", compare: "So sánh phí", liquidations: "Thanh lý hợp đồng tương lai · 24h", longs: "Long", shorts: "Short", largest: "Lệnh lớn nhất", lowerBound: "Binance + OKX, giới hạn dưới · {time} UTC", feedUpdating: "Dữ liệu thanh lý đang được cập nhật", tagline: "Nghiên cứu nền tảng tiền mã hóa độc lập", research: "Nghiên cứu đã xác minh nguồn" },
   ar: { feesChecked: "تم التحقق من الرسوم {date}", rebate: "حصة الاسترداد حتى {pct}", rebatePending: "حصة الاسترداد قيد التأكيد", spot: "سبوت صانع / متداول", perp: "عقود دائمة صانع / متداول", notChecked: "لم يتم التحقق بعد", vs: "مقابل", compare: "مقارنة الرسوم", liquidations: "تصفيات العقود الآجلة · 24 ساعة", longs: "الشراء", shorts: "البيع", largest: "أكبر أمر منفرد", lowerBound: "Binance + OKX، حد أدنى · {time} UTC", feedUpdating: "يتم تحديث بيانات التصفية", tagline: "بحث مستقل في منصات العملات الرقمية", research: "بحث موثق بالمصادر" },
+  // l10n: needs native review
+  ur: { feesChecked: "فیس کی جانچ {date}", rebate: "ریبٹ حصہ زیادہ سے زیادہ {pct}", rebatePending: "ریبٹ حصہ زیرِ تصدیق", spot: "اسپاٹ میکر / ٹیکر", perp: "دائمی معاہدے میکر / ٹیکر", notChecked: "ابھی جانچ نہیں ہوئی", vs: "بمقابلہ", compare: "فیس کا موازنہ", liquidations: "فیوچر لیکویڈیشن · 24 گھنٹے", longs: "لانگ", shorts: "شارٹ", largest: "سب سے بڑی واحد", lowerBound: "Binance + OKX، کم از کم حد · {time} UTC", feedUpdating: "لیکویڈیشن فیڈ اپ ڈیٹ ہو رہی ہے", tagline: "کرپٹو پلیٹ فارمز کی آزاد تحقیق", research: "ذرائع کی جانچ پر مبنی تحقیق" },
+  // l10n: needs native review
+  uk: { feesChecked: "Комісії перевірено {date}", rebate: "Частка повернення до {pct}", rebatePending: "Частка повернення очікує перевірки", spot: "Спот мейкер / тейкер", perp: "Безстрокові мейкер / тейкер", notChecked: "Ще не перевірено", vs: "проти", compare: "Порівняння комісій", liquidations: "Ліквідації ф'ючерсів · 24 год", longs: "Лонги", shorts: "Шорти", largest: "Найбільша окрема", lowerBound: "Binance + OKX, нижня межа · {time} UTC", feedUpdating: "Стрічка ліквідацій оновлюється", tagline: "Незалежне дослідження криптоплатформ", research: "Дослідження з перевіркою джерел" },
+
 };
 
 export function normalizeOgLocale(value) {

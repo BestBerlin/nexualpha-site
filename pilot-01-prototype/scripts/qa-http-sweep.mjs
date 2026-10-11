@@ -11,7 +11,7 @@ const concurrency = Number(rest[rest.indexOf("--concurrency") + 1]) || 12;
 const ORIGIN = "https://nexualpha.com";
 const UA = "NexuAlpha-QA-sweep/1.0 (+https://nexualpha.com/about)";
 const CJK = new Set(["zh-hans", "zh-hant", "ja", "ko"]);
-const LOCALES = /^(zh-hans|zh-hant|ja|ko|ru|es|pt-br|tr|vi|id-id|de|fr|it|ar)$/;
+const LOCALES = /^(zh-hans|zh-hant|ja|ko|ru|es|pt-br|tr|vi|id-id|de|fr|it|ar|ur|uk-ua)$/;
 const SMELLS = [
   [/lorem ipsum/i, "lorem"], [/\bTODO\b|\bTBD\b|\bFIXME\b/, "todo"], [/\{\{[^}]+\}\}/, "mustache"],
   [/\b(nav|cta|hero|footer|common|meta)\.[a-z][a-zA-Z0-9_.]+\b(?![^<]*<\/(code|script))/, "i18n-key"],
@@ -70,7 +70,7 @@ async function check(item) {
     if (row.imgNoAlt) row.issues.push(`img-no-alt-${row.imgNoAlt}`);
     const expectedLang = { "zh-hans": "zh-Hans", "zh-hant": "zh-Hant", "pt-br": "pt-BR", "id-id": "id" }[locale] || locale;
     if (row.lang && row.lang.toLowerCase() !== expectedLang.toLowerCase()) row.issues.push(`html-lang-${row.lang}`);
-    if (locale === "ar" && row.dir !== "rtl") row.issues.push("ar-not-rtl");
+    if ((locale === "ar" || locale === "ur") && row.dir !== "rtl") row.issues.push(`${locale}-not-rtl`);
     const text = stripTags(html);
     for (const [re, name] of SMELLS) if (re.test(text)) row.issues.push(`smell-${name}`);
     if (crawl) {

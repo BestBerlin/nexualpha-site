@@ -29,8 +29,8 @@ test("all 21 research profiles have three distinct source-traceable decision not
   }
 });
 
-test("15 UI languages explicitly retain English content provenance for untranslated notes", () => {
-  assert.equal(Object.keys(decisionCopy).length, 15);
+test("17 UI languages explicitly retain English content provenance for untranslated notes", () => {
+  assert.equal(Object.keys(decisionCopy).length, 17);
   for (const [locale, labels] of Object.entries(decisionCopy)) {
     assert.equal(labels.length, 4);
     assert.ok(labels.every(label => typeof label === "string" && label.length > 0));
@@ -41,8 +41,8 @@ test("15 UI languages explicitly retain English content provenance for untransla
 });
 
 
-test("five core platforms have reviewed editorial decisions in all 15 UI locales", () => {
-  const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+test("five core platforms have reviewed editorial decisions in all 17 UI locales", () => {
+  const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
   const slugs = ["binance", "okx", "bybit", "bitget", "backpack"];
   for (const slug of slugs) {
     assert.equal(hasReviewedEditorialDecision(slug), true, `${slug} should have an independent editorial decision review gate`);

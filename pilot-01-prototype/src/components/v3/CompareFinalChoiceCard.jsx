@@ -43,6 +43,10 @@ const localePending = (locale, zh = "待官方来源核验") => String(locale ||
   it: "Verifica della fonte in sospeso",
   es: "Pendiente de verificación de la fuente",
   "pt-BR": "Aguardando verificação da fonte",
+  // l10n: needs native review
+  ur: "سرکاری ماخذ کی تصدیق باقی ہے",
+  // l10n: needs native review
+  uk: "Очікує перевірки офіційного джерела",
 }[localeKey(locale)] || "Pending official-source verification");
 
 const detailCtaLabel = (locale, { direct, hasReferral }) => {
@@ -61,6 +65,10 @@ const detailCtaLabel = (locale, { direct, hasReferral }) => {
     id: { verify: "Verifikasi kelayakan wilayah", official: "Buka situs resmi", register: "Daftar di situs resmi" },
     vi: { verify: "Kiểm tra điều kiện khu vực", official: "Mở trang chính thức", register: "Đăng ký trên trang chính thức" },
     it: { verify: "Verifica l’idoneità regionale", official: "Apri il sito ufficiale", register: "Registrati sul sito ufficiale" },
+    // l10n: needs native review
+    ur: { verify: "پہلے علاقائی اہلیت چیک کریں", official: "سرکاری سائٹ کھولیں", register: "سرکاری سائٹ پر رجسٹر کریں" },
+    // l10n: needs native review
+    uk: { verify: "Спершу перевірте регіональну доступність", official: "Відкрити офіційний сайт", register: "Зареєструватися на офіційному сайті" },
   };
   const copy = labels[locale] || labels[String(locale).split("-")[0]] || {
     verify: "Verify regional eligibility first",
@@ -87,6 +95,11 @@ const compareDetailPhrase = (locale, key, fallback) => ({
   id: { accountTerms: "Periksa ketentuan akun resmi dan sumber" },
   vi: { accountTerms: "Kiểm tra điều kiện tài khoản và nguồn chính thức" },
   it: { accountTerms: "Controlla termini account e fonti ufficiali" },
+
+ // l10n: needs native review
+ ur:{accountTerms:"سرکاری اکاؤنٹ کی شرائط اور ماخذ جانچیں"},
+ // l10n: needs native review
+ uk:{accountTerms:"Перевірити офіційні умови акаунта та джерела"},
 }[textLocaleKey(locale)]?.[key] || fallback);
 
 const finalChoiceFallbackCopy = (locale) => ({
@@ -255,6 +268,13 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
   );
 }
 
+
+const evidencePairs = (value) => {
+  if (Array.isArray(value)) return value.map((entry) => Array.isArray(entry) ? entry : [String(entry), ""]);
+  if (value && typeof value === "object") return Object.entries(value);
+  return [];
+};
+
 function FinalChoiceEvidenceBody({ directAnswer, locale, pageContext, ctas, detailHref, market, product }) {
   return <>
           <h3>{directAnswer.title}</h3>
@@ -264,14 +284,14 @@ function FinalChoiceEvidenceBody({ directAnswer, locale, pageContext, ctas, deta
               <strong>{directAnswer.searchIntent.label}</strong>: {directAnswer.searchIntent.detail}
             </p>
           )}
-          {directAnswer.productTypes?.length > 0 && (
+          {evidencePairs(directAnswer.productTypes).length > 0 && (
             <dl className="v3-compare-direct-answer__product-types">
-              {directAnswer.productTypes.map(([label, detail]) => <div key={label}><dt>{label}</dt><dd>{detail}</dd></div>)}
+              {evidencePairs(directAnswer.productTypes).map(([label, detail]) => <div key={label}><dt>{label}</dt><dd>{detail}</dd></div>)}
             </dl>
           )}
-          {directAnswer.searchDemand?.length > 0 && (
+          {evidencePairs(directAnswer.searchDemand).length > 0 && (
             <dl className="v3-compare-direct-answer__search-demand">
-              {directAnswer.searchDemand.map(([label, detail]) => <div key={label}><dt>{label}</dt><dd>{detail}</dd></div>)}
+              {evidencePairs(directAnswer.searchDemand).map(([label, detail]) => <div key={label}><dt>{label}</dt><dd>{detail}</dd></div>)}
             </dl>
           )}
           {directAnswer.checks?.length > 0 && <ul>{directAnswer.checks.map((check) => <li key={check}>{check}</li>)}</ul>}
@@ -283,10 +303,10 @@ function FinalChoiceEvidenceBody({ directAnswer, locale, pageContext, ctas, deta
           {directAnswer.boundary && <small>{directAnswer.boundary}</small>}
           {(directAnswer.sourceLinks?.length || directAnswer.internalLinks?.length || ctas.length) && (
             <div className="v3-compare-direct-answer__links">
-              {directAnswer.sourceLinks?.map(([label, href]) => (
+              {evidencePairs(directAnswer.sourceLinks).map(([label, href]) => (
                 <a key={href} href={href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="compare-direct-answer-source"><span {...(/^[\x20-\x7e]+$/.test(label) ? { translate: "no", lang: "en" } : {})}>{label}</span> ↗</a>
               ))}
-              {directAnswer.internalLinks?.map(([label, href]) => (
+              {evidencePairs(directAnswer.internalLinks).map(([label, href]) => (
                 <LocalLink key={href} locale={locale} href={contextualInternalHref(href, pageContext)} data-cta-kind="research" data-cta-placement="compare-direct-answer-internal">{label}</LocalLink>
               ))}
               {ctas.map(({ profile }) => (

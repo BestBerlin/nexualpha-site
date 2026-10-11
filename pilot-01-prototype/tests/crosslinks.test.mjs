@@ -3,7 +3,7 @@
 //   "Related research" block with the newest matching articles, computed by the Worker from the live feed and carried in
 //   the prerender state, so hydration reproduces it (no mismatch) and crawlers see the links.
 // - Articles link the main page of every query family / tool they belong to ("Topic hubs & tools" line), from the same
-//   mapping (src/data/topic-clusters.js), in all 15 locales.
+//   mapping (src/data/topic-clusters.js), in all 17 locales.
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
@@ -18,7 +18,7 @@ import { ROUTE_MODULE_PATHS } from "../src/data/route-module-cache.js";
 import { createSsrHarness, SHELL_HTML, prerenderState, rootInnerHtml, hydrateInJsdom, hydrationErrors } from "./helpers/ssr-hydration-harness.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
-const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
+const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 const repoFeed = JSON.parse(fs.readFileSync(path.join(root, "public/content/news-feed.json"), "utf8")).articles;
 
 const NOW = Date.now();
@@ -46,7 +46,7 @@ const feedArticles = [
 const feedText = JSON.stringify({ version: 1, articles: feedArticles });
 const feedSha = "a".repeat(64);
 
-test("every cluster has a main page, a label in all 15 locales and an article rule; tools are the five data/tool pages", () => {
+test("every cluster has a main page, a label in all 17 locales and an article rule; tools are the five data/tool pages", () => {
   assert.deepEqual([...TOOL_CLUSTER_IDS].sort(), ["activities", "compare", "funding-rates", "liquidations", "rates"]);
   const ids = new Set();
   for (const cluster of TOPIC_CLUSTERS) {

@@ -460,6 +460,36 @@ for (const [locale, [topicBadge, topicTitle, topicSubtitle]] of Object.entries({
   ar: ["ابدأ بالإجابة", "ابحث عن الإجابة في NexuAlpha أولًا", "قارن المنصات وافتح ملفًا وراجع الرسوم أو قائمة التحقق الخاصة بمنطقتك هنا، ثم تابع في البوت."],
 })) copy[locale] = { ...copy[locale], topicBadge, topicTitle, topicSubtitle };
 
+
+// l10n: needs native review
+copy.ur = {
+  ...copy.en,
+  badge: "TELEGRAM BOT ایکو سسٹم / فیصلے کا راستہ",
+  title: "موازنہ، تصدیق اور واپسی کے راستے Telegram میں لے جائیں",
+  subtitle: "Telegram سے وہی تحقیقی راستہ کھولیں، ماخذ کی حالت، عوامی فیس منظرنامے اور سرکاری داخلے دیکھیں۔ مخصوص ڈیٹا اور صارف فوائد پھر بھی صفحے اور سرکاری اکاؤنٹ کے تابع ہیں۔",
+  inboundBadge: "واپسی کا راستہ", inboundTitle: "مسودے پہلے سائٹ کے جواب صفحے پر آتے ہیں، پھر Bot میں", inboundSubtitle: "ہر Telegram پیغام ایک ایسے صفحے سے جڑا ہے جسے پہلے NexuAlpha پر دیکھا جا سکتا ہے۔", inboundStats: [["53", "زیر جائزہ مسودے"], ["7 دن", "دستی رفتار"], ["0", "خام رجسٹریشن لنک"]],
+  commandsBadge: "کمانڈ ڈیک", commandsTitle: "Telegram میں اپنا تحقیقی راستہ جاری رکھیں", commandsSubtitle: "یہ کمانڈز موازنہ، حساب، مہم تحقیق یا ڈومین تصدیق کا راستہ کھولتی ہیں؛ نتیجہ موجودہ جانچے ہوئے ڈیٹا ذرائع پر منحصر ہے۔",
+  btnCopyCmd: "کمانڈ کاپی کریں", btnCopiedCmd: "کاپی ہو گیا", btnCopyFailed: "کاپی ناکام، دستی طور پر کاپی کریں", btnLaunchDeepLink: "براہ راست کھولیں", samplePrefix: "مثال:",
+  features: [["", "ماخذی فیس تحقیق", "عوامی موازنہ راستے سے صفحے پر واپس آ کر فیس، اپ ڈیٹ وقت اور سرکاری شرائط دیکھیں؛ بے ماخذ ڈیٹا زیر تصدیق رہتا ہے۔"], ["", "سرکاری ڈومین تصدیق", "ایکسچینج ڈومین کو تصدیقی راستے میں بھیجیں؛ نتیجہ صرف ترتیب شدہ سرکاری ماخذوں پر مبنی ہے۔"], ["", "آپٹ اِن تحقیقی الرٹس", "صرف جانچے ہوئے مہم یا فیس اپ ڈیٹس الرٹس میں جاتے ہیں؛ غیر منسلک ذرائع صاف نشان زد رہتے ہیں۔"]].map(([icon,title,desc]) => ({ icon, title, desc })),
+  btnJoinBot: "Telegram میں معاون Bot شروع کریں ↗", btnJoinGroup: "Telegram کمیونٹی میں شامل ہوں ↗", btnJoinChannel: "سرکاری چینل سبسکرائب کریں ↗", btnWebPreview: "عوامی چینل پیش منظر ↗",
+  topicBadge: "پہلے جواب والے راستے", topicTitle: "پہلے سوال کا جواب، پھر اگلا قدم", topicSubtitle: "Telegram سے واپس آنے والے صارف پہلے عوامی تحقیقی صفحہ دیکھتے ہیں؛ موازنہ یا فیس چیک کے بعد ضرورت ہو تو Bot کھولتے ہیں۔", topicOpen: "سائٹ کا راستہ کھولیں", topicBot: "Bot میں جاری رکھیں", topicMore: "مزید تحقیقی راستے", topicLess: "اضافی راستے چھپائیں",
+  reviewTitle: "اشاعت سے پہلے اور بعد صرف گمنام سائٹ اشارے", reviewSubtitle: "اشاعت سے پہلے NexuAlpha لنک، UTM پیرامیٹرز اور خام رجسٹریشن لنک نہ ہونے کی جانچ کریں؛ بعد میں صرف مجموعی 24h/7d اشارے۔", returnTitle: "اگلی واپسی کی واضح وجہ دیں", returnSubtitle: "دوبارہ شروع نہ کریں: آخری موازنہ، فیس حساب یا پلیٹ فارم نگرانی سے جاری رکھیں۔",
+};
+// l10n: needs native review
+copy.uk = {
+  ...copy.en,
+  badge: "TELEGRAM BOT ECOSYSTEM / Вхід до рішення",
+  title: "Перенесіть порівняння, перевірки й маршрути повернення в Telegram",
+  subtitle: "Відкривайте той самий дослідницький маршрут із Telegram, переглядайте стан джерел, публічні сценарії комісій і офіційні входи. Конкретні дані й переваги користувача залежать від сторінки та офіційного акаунта.",
+  inboundBadge: "Маршрут повернення", inboundTitle: "Чернетки спершу повертаються на сторінки відповідей, потім у Bot", inboundSubtitle: "Кожне повідомлення Telegram відповідає сторінці, яку спершу можна переглянути на NexuAlpha.", inboundStats: [["53", "чернетки на перевірці"], ["7 днів", "ручний ритм"], ["0", "сирих реєстраційних посилань"]],
+  commandsBadge: "Панель команд", commandsTitle: "Продовжуйте дослідження в Telegram", commandsSubtitle: "Команди відкривають порівняння, розрахунки, дослідження кампаній або перевірку домену; актуальність залежить від підключених і перевірених джерел.",
+  btnCopyCmd: "Копіювати команду", btnCopiedCmd: "Скопійовано", btnCopyFailed: "Не вдалося скопіювати, скопіюйте вручну", btnLaunchDeepLink: "Відкрити напряму", samplePrefix: "Приклад:",
+  features: [["", "Дослідження комісій із джерелами", "Поверніться зі шляху порівняння на сторінку й перегляньте комісії, час оновлення та офіційні умови; дані без джерела лишаються на перевірці."], ["", "Перевірка офіційного домену", "Передайте домен біржі в маршрут перевірки; результат спирається лише на налаштовані офіційні джерела."], ["", "Дослідницькі сповіщення за згодою", "До сповіщень потрапляють лише перевірені кампанії або оновлення комісій; непідключені джерела позначаються явно."]].map(([icon,title,desc]) => ({ icon, title, desc })),
+  btnJoinBot: "Запустити помічника Bot у Telegram ↗", btnJoinGroup: "Приєднатися до Telegram-спільноти ↗", btnJoinChannel: "Підписатися на офіційний канал ↗", btnWebPreview: "Публічний перегляд каналу ↗",
+  topicBadge: "Маршрути з відповіддю спочатку", topicTitle: "Спершу відповідь, потім наступний крок", topicSubtitle: "Користувачі з Telegram спершу потрапляють на публічну дослідницьку сторінку; після порівняння або перевірки комісій за потреби відкривають Bot.", topicOpen: "Відкрити маршрут на сайті", topicBot: "Продовжити в Bot", topicMore: "Більше дослідницьких маршрутів", topicLess: "Сховати додаткові маршрути",
+  reviewTitle: "До й після публікації — лише анонімні сигнали сайту", reviewSubtitle: "Перед публікацією перевіряйте пріоритет посилання NexuAlpha, повні UTM і відсутність сирих реєстраційних посилань; після — лише агреговані 24h/7d сигнали.", returnTitle: "Дайте чітку причину повернутися", returnSubtitle: "Не починайте заново: продовжуйте з останнього порівняння, розрахунку комісій або моніторингу платформи.",
+};
+
 const RETURN_RAIL_COPY = Object.freeze({
   en: {
     title: "Return to the actual onsite tools",
@@ -484,6 +514,12 @@ const RETURN_RAIL_COPY = Object.freeze({
   id: { title: "Kembali ke alat situs yang benar-benar tersedia", subtitle: "Pilih langkah konkret: buka perbandingan, hitung biaya, atau baca materi yang ditinjau.", items: [["Buka ulang perbandingan", "Buka halaman Binance vs OKX", "/compare/binance-vs-okx", "compare_binance_okx"], ["Hitung biaya", "Buka benchmark biaya dan kalkulator", "/rates", "rates"], ["Lihat materi terbaru", "Buka aktivitas dan sumber yang ditinjau", "/activities", "activities"]] },
   vi: { title: "Quay lại công cụ thật trên site", subtitle: "Chọn bước tiếp theo cụ thể: mở so sánh, tính chi phí hoặc đọc tài liệu đã rà soát.", items: [["Mở lại so sánh", "Mở trang Binance vs OKX", "/compare/binance-vs-okx", "compare_binance_okx"], ["Tính phí", "Mở benchmark phí và máy tính", "/rates", "rates"], ["Xem tài liệu mới", "Mở hoạt động và nguồn đã rà soát", "/activities", "activities"]] },
   it: { title: "Torna agli strumenti reali del sito", subtitle: "Scegli un prossimo passo concreto: confronto, calcolo costi o materiali verificati.", items: [["Riapri confronto", "Apri il confronto Binance vs OKX", "/compare/binance-vs-okx", "compare_binance_okx"], ["Calcola costi", "Apri benchmark fee e calcolatore", "/rates", "rates"], ["Vedi materiali recenti", "Apri attività e fonti verificate", "/activities", "activities"]] },
+
+  // l10n: needs native review
+  ur: { title: "اصل سائٹ ٹولز پر واپس جائیں", subtitle: "ایک واضح اگلا قدم چنیں: پلیٹ فارم موازنہ، فیس منظرنامہ یا جائزہ شدہ اپ ڈیٹس۔", items: [["موازنہ دوبارہ کھولیں", "Binance vs OKX موازنہ صفحہ کھولیں", "/compare/binance-vs-okx", "compare_binance_okx"], ["فیس حساب کریں", "فیس بنچ مارک اور کیلکولیٹر کھولیں", "/rates", "rates"], ["تازہ تحقیق دیکھیں", "جائزہ شدہ سرگرمیاں اور ماخذ اپ ڈیٹس کھولیں", "/activities", "activities"]] },
+
+  // l10n: needs native review
+  uk: { title: "Повернутися до реальних інструментів сайту", subtitle: "Оберіть конкретний наступний крок: порівняти платформи, розрахувати комісії або прочитати перевірені оновлення.", items: [["Знову відкрити порівняння", "Відкрити сторінку Binance vs OKX", "/compare/binance-vs-okx", "compare_binance_okx"], ["Розрахувати комісії", "Відкрити бенчмарк комісій і калькулятор", "/rates", "rates"], ["Переглянути останні дослідження", "Відкрити перевірені активності й оновлення джерел", "/activities", "activities"]] },
 });
 
 function returnRailCopyFor(locale) {
@@ -504,6 +540,10 @@ function pickLocalized(value, locale, fallback = "") {
 const contextValue = (value, fallback) => String(value || fallback || "").trim();
 
 const returnStatusCopy = {
+  // l10n: needs native review
+  ur: { restored: "Telegram واپسی کا سیاق بحال", fallback: "صرف ویب fallback فعال", body: "بحال شدہ عوامی صفحہ سیاق سے جاری رکھیں۔ یہ ایکسچینج رجسٹریشن، گروپ شمولیت یا کمیشن واقعہ نہیں۔" },
+  // l10n: needs native review
+  uk: { restored: "Контекст повернення з Telegram відновлено", fallback: "Активний лише веб-запасний шлях", body: "Продовжуйте з відновленого публічного контексту сторінки. Це не реєстрація на біржі, вступ до групи чи комісійна подія." },
   en: { restored: "Telegram return context restored", fallback: "Web-only fallback active", body: "Continue from the restored public page context. This is not an exchange registration, group join or commission event." },
   "zh-Hans": { restored: "已恢复 Telegram 回流上下文", fallback: "已启用站内降级路径", body: "继续查看恢复的公开页面上下文；这不是交易所注册、入群或佣金事件。" },
   "zh-Hant": { restored: "已恢復 Telegram 回流脈絡", fallback: "已啟用站內降級路徑", body: "繼續查看恢復的公開頁面脈絡；這不是交易所註冊、入群或佣金事件。" },
@@ -518,6 +558,10 @@ function returnCopyFor(locale) {
 }
 
 const topicDisclosureLabels = Object.freeze({
+  // l10n: needs native review
+  ur: ["مزید تحقیقی راستے دیکھیں", "اضافی تحقیقی راستے چھپائیں"],
+  // l10n: needs native review
+  uk: ["Показати більше дослідницьких маршрутів", "Сховати додаткові маршрути"],
   ja: ["他の研究ルートを見る", "追加の研究ルートを閉じる"],
   ko: ["더 많은 연구 경로 보기", "추가 연구 경로 숨기기"],
   tr: ["Daha fazla araştırma yolu", "Ek araştırma yollarını gizle"],
@@ -532,6 +576,10 @@ const topicDisclosureLabels = Object.freeze({
 });
 
 const expandableControlLabels = Object.freeze({
+  // l10n: needs native review
+  ur: { moreCommands: "مزید کمانڈز دیکھیں", lessCommands: "کمانڈز چھپائیں", moreFeatures: "Telegram خصوصیات دیکھیں", lessFeatures: "Telegram خصوصیات چھپائیں" },
+  // l10n: needs native review
+  uk: { moreCommands: "Показати інші команди", lessCommands: "Сховати інші команди", moreFeatures: "Показати функції Telegram", lessFeatures: "Сховати функції Telegram" },
   ja: { moreCommands: "他のコマンドを見る", lessCommands: "他のコマンドを閉じる", moreFeatures: "Telegram 機能を見る", lessFeatures: "Telegram 機能を閉じる" },
   ko: { moreCommands: "다른 명령 보기", lessCommands: "다른 명령 숨기기", moreFeatures: "Telegram 기능 보기", lessFeatures: "Telegram 기능 숨기기" },
   tr: { moreCommands: "Diğer komutları göster", lessCommands: "Diğer komutları gizle", moreFeatures: "Telegram özelliklerini göster", lessFeatures: "Telegram özelliklerini gizle" },
@@ -539,22 +587,43 @@ const expandableControlLabels = Object.freeze({
 
 // Audit NX-08 (2026-10-11): at most four natural related questions instead of the long keyword-style list of search
 // queries (that queue stays in telegram-config.js for the Telegram drafting workflow, not as public copy).
+// l10n: ur/uk labels need native review
 const RELATED_QUESTIONS = [
   { id: "related-rates", primaryPath: "/rates", campaign: "telegram_related_rates", labels: {
     en: "Which exchange is cheapest for my trading volume?", "zh-Hans": "按我的成交额，哪家交易所手续费最低？", "zh-Hant": "依我的成交額，哪家交易所手續費最低？", ja: "自分の取引量だと、どの取引所の手数料が最も安い？", ko: "내 거래량 기준으로 수수료가 가장 낮은 거래소는?", tr: "İşlem hacmime göre en ucuz borsa hangisi?", es: "¿Qué plataforma es más barata para mi volumen?", "pt-BR": "Qual corretora é mais barata para o meu volume?", fr: "Quelle plateforme coûte le moins pour mon volume ?", de: "Welche Börse ist für mein Volumen am günstigsten?", ru: "Какая биржа дешевле всего при моём объёме?", ar: "أي منصة أرخص لحجم تداولي؟", id: "Bursa mana yang termurah untuk volume saya?", vi: "Sàn nào rẻ nhất với khối lượng giao dịch của tôi?", it: "Quale piattaforma costa meno per il mio volume?",
+    // l10n: needs native review
+    ur: "میرے حجم کے لیے کون سا ایکسچینج سب سے سستا ہے؟",
+    // l10n: needs native review
+    uk: "Яка біржа найдешевша для мого обсягу?",
   } },
   { id: "related-binance-okx", primaryPath: "/compare/binance-vs-okx", campaign: "telegram_related_compare", labels: {
     en: "Binance vs OKX: fees and account conditions", "zh-Hans": "币安与 OKX：手续费与开户条件对比", "zh-Hant": "幣安與 OKX：手續費與開戶條件對比", ja: "Binance と OKX：手数料と口座条件の比較", ko: "Binance vs OKX: 수수료와 계정 조건", tr: "Binance ve OKX: ücretler ve hesap koşulları", es: "Binance vs OKX: comisiones y condiciones de cuenta", "pt-BR": "Binance vs OKX: taxas e condições de conta", fr: "Binance vs OKX : frais et conditions de compte", de: "Binance vs. OKX: Gebühren und Kontobedingungen", ru: "Binance и OKX: комиссии и условия аккаунта", ar: "Binance مقابل OKX: الرسوم وشروط الحساب", id: "Binance vs OKX: biaya dan ketentuan akun", vi: "Binance và OKX: phí và điều kiện tài khoản", it: "Binance vs OKX: commissioni e condizioni del conto",
+    // l10n: needs native review
+    ur: "Binance vs OKX: فیس اور اکاؤنٹ شرائط",
+    // l10n: needs native review
+    uk: "Binance vs OKX: комісії та умови акаунта",
   } },
   { id: "related-hyperliquid", primaryPath: "/exchanges/hyperliquid", campaign: "telegram_related_hyperliquid", labels: {
     en: "Hyperliquid fees, funding and liquidation rules", "zh-Hans": "Hyperliquid 的手续费、资金费率与强平规则", "zh-Hant": "Hyperliquid 的手續費、資金費率與強平規則", ja: "Hyperliquid の手数料・資金調達率・清算ルール", ko: "Hyperliquid 수수료, 펀딩비, 청산 규칙", tr: "Hyperliquid ücretleri, fonlama ve likidasyon kuralları", es: "Hyperliquid: comisiones, financiación y liquidaciones", "pt-BR": "Hyperliquid: taxas, funding e regras de liquidação", fr: "Hyperliquid : frais, financement et règles de liquidation", de: "Hyperliquid: Gebühren, Funding und Liquidationsregeln", ru: "Hyperliquid: комиссии, фандинг и правила ликвидации", ar: "Hyperliquid: الرسوم والتمويل وقواعد التصفية", id: "Hyperliquid: biaya, funding, dan aturan likuidasi", vi: "Hyperliquid: phí, funding và quy tắc thanh lý", it: "Hyperliquid: commissioni, funding e regole di liquidazione",
+    // l10n: needs native review
+    ur: "Hyperliquid: فیس، فنڈنگ اور لیکویڈیشن قواعد",
+    // l10n: needs native review
+    uk: "Hyperliquid: комісії, фінансування й правила ліквідації",
   } },
   { id: "related-derivatives", primaryPath: "/topics/derivatives", campaign: "telegram_related_derivatives", labels: {
     en: "Which perpetual-contract costs should I check?", "zh-Hans": "永续合约要核对哪些成本？", "zh-Hant": "永續合約要核對哪些成本？", ja: "無期限先物で確認すべきコストは？", ko: "무기한 선물에서 확인할 비용은?", tr: "Sürekli vadeli işlemlerde hangi maliyetleri kontrol etmeliyim?", es: "¿Qué costes de los perpetuos debo revisar?", "pt-BR": "Quais custos dos perpétuos devo verificar?", fr: "Quels coûts vérifier sur les contrats perpétuels ?", de: "Welche Kosten bei Perpetual-Kontrakten prüfen?", ru: "Какие расходы проверять по бессрочным контрактам?", ar: "ما تكاليف العقود الدائمة التي يجب التحقق منها؟", id: "Biaya kontrak perpetual apa yang perlu dicek?", vi: "Cần kiểm tra những chi phí nào của hợp đồng vĩnh cửu?", it: "Quali costi dei contratti perpetui controllare?",
+    // l10n: needs native review
+    ur: "پرپیچوئل معاہدوں کی کون سی لاگت چیک کرنی چاہیے؟",
+    // l10n: needs native review
+    uk: "Які витрати безстрокових контрактів перевіряти?",
   } },
 ];
 
 const editorialDisclosureLabels = {
+  // l10n: needs native review
+  "ur": "NexuAlpha پر جواب دیے گئے سوالات",
+  // l10n: needs native review
+  "uk": "Питання з відповідями на NexuAlpha",
   "en": "Questions answered on NexuAlpha",
   "zh-Hans": "NexuAlpha 已解答的问题",
   "zh-Hant": "NexuAlpha 已解答的問題",

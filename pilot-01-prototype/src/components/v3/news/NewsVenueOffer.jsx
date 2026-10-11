@@ -25,6 +25,11 @@ const COPY = {
   id: { lead: (n) => `Mau trading di ${n}?`, go: (n) => `Daftar di ${n}`, code: "Kode undangan", copy: "Salin", copied: "Tersalin ✓", close: "Tutup", fallback: "Daftar lewat tautan mitra" },
   vi: { lead: (n) => `Bạn giao dịch trên ${n}?`, go: (n) => `Đăng ký ${n}`, code: "Mã mời", copy: "Sao chép", copied: "Đã chép ✓", close: "Đóng", fallback: "Đăng ký qua liên kết đối tác" },
   it: { lead: (n) => `Fai trading su ${n}?`, go: (n) => `Registrati su ${n}`, code: "Codice invito", copy: "Copia", copied: "Copiato ✓", close: "Chiudi", fallback: "Registrati con il nostro link partner" },
+
+ // l10n: needs native review
+ ur: {lead:(n)=>`${n} پر تجارت کرتے ہیں؟`,go:(n)=>`${n} پر رجسٹر کریں`,code:"دعوتی کوڈ",copy:"کاپی",copied:"کاپی ہو گیا ✓",close:"بند کریں",fallback:"ہمارے شراکتی لنک سے رجسٹر کریں"},
+ // l10n: needs native review
+ uk: {lead:(n)=>`Торгуєте на ${n}?`,go:(n)=>`Зареєструватися на ${n}`,code:"Код запрошення",copy:"Копіювати",copied:"Скопійовано ✓",close:"Закрити",fallback:"Зареєструватися через наше партнерське посилання"},
 };
 const copyFor = (locale) => COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
 const DISMISS_KEY = "nexu.newsOffer.closed";

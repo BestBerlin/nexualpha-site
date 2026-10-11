@@ -37,8 +37,8 @@ const regionalRoutes = [
   { id: "uk", path: "/uk", required: [".regional-market-preview", "[data-market-gate=\"UK\"]", "[data-regional-cta=\"directory\"]"] },
 ];
 
-const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
-const screenshotLocales = new Set(["en", "zh-Hans", "zh-Hant", "it", "ar"]);
+const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
+const screenshotLocales = new Set(["en", "zh-Hans", "zh-Hant", "it", "ar", "ur", "uk"]);
 const regionalLocales = ["en", "pt-BR", "zh-Hant", "es", "id"];
 const viewports = [
   { id: "mobile", width: 375, height: 812 },

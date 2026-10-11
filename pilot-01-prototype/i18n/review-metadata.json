@@ -1,0 +1,174 @@
+{
+  "locales": {
+    "ur": {
+      "label": "Urdu",
+      "direction": "rtl",
+      "translationStatus": "draft-native-review",
+      "humanReview": "pending",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "agent-linguistic-qa-complete",
+      "indexable": false
+    },
+    "uk": {
+      "label": "Ukrainian",
+      "direction": "ltr",
+      "translationStatus": "draft-native-review",
+      "humanReview": "pending",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "agent-linguistic-qa-complete",
+      "indexable": false
+    },
+    "en": {
+      "label": "en",
+      "direction": "ltr",
+      "translationStatus": "source",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "zh-Hans": {
+      "label": "zh-Hans",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "zh-Hant": {
+      "label": "zh-Hant",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "es": {
+      "label": "es",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "pt-BR": {
+      "label": "pt-BR",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "fr": {
+      "label": "fr",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "de": {
+      "label": "de",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "ja": {
+      "label": "ja",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "ko": {
+      "label": "ko",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "ar": {
+      "label": "ar",
+      "direction": "rtl",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "tr": {
+      "label": "tr",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "ru": {
+      "label": "ru",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "id": {
+      "label": "id",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "vi": {
+      "label": "vi",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    },
+    "it": {
+      "label": "it",
+      "direction": "ltr",
+      "translationStatus": "human-reviewed",
+      "humanReview": "verified",
+      "machineTranslation": "not-used",
+      "agentReview": "complete",
+      "qaStatus": "human-reviewed",
+      "indexable": true
+    }
+  }
+}

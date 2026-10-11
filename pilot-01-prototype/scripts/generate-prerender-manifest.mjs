@@ -28,9 +28,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const NEWS_PUBLICATION_NAME = "NexuAlpha";
 const NEWS_SITEMAP_LIMIT = 1000;
 export const INDEXABLE_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
-// Every indexable language gets an SSR document. Client-only shells are not
-// sufficient for international search discovery or social previews.
-export const PRERENDER_LOCALES = INDEXABLE_LOCALES;
+export const UI_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
+// Every UI language gets an SSR document. New ur/uk pages remain noindex and
+// outside sitemap publication until native review promotes them.
+export const PRERENDER_LOCALES = UI_LOCALES;
 export const CURATED_COMPARISONS = [
   "binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "binance-vs-mexc",
   "okx-vs-mexc", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "binance-vs-kraken", "gate-io-vs-mexc",
@@ -134,7 +135,7 @@ export function routeInventory(newsArticles = []) {
     pathname, level: pathname === "/" ? 1 : pathname.split("/").filter(Boolean).length + 1,
     template: routeTemplate(pathname),
     index: indexable.includes(pathname),
-    ...(pathname === "/" ? { locales: INDEXABLE_LOCALES } : {}),
+    ...(pathname === "/" ? { locales: UI_LOCALES } : {}),
     // Display locales may show a safe client-side summary, but only reviewed
     // locales are indexable. Keep the inventory honest so SEO verification,
     // canonical tags, robots and sitemap publication share one boundary.
@@ -338,7 +339,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   }
   const manifest = { version: "nexualpha-prerender-v1", generatedAt: new Date().toISOString(), routes };
   writeFileSync(path.join(clientDir, "prerender-manifest.json"), `${JSON.stringify(manifest)}\n`);
-  writeFileSync(path.join(clientDir, "route-inventory.json"), `${JSON.stringify({ locales: PRERENDER_LOCALES, routes: inventory }, null, 2)}\n`);
+  writeFileSync(path.join(clientDir, "route-inventory.json"), `${JSON.stringify({ locales: PRERENDER_LOCALES, indexableLocales: INDEXABLE_LOCALES, routes: inventory }, null, 2)}\n`);
   const publicationReport = JSON.stringify({
     generatedAt: new Date().toISOString(),
     ...buildSearchPublicationReport(publication),

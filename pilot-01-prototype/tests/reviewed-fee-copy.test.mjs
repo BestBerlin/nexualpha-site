@@ -3,7 +3,7 @@ import test from "node:test";
 import { reviewedBaseFeesByVenue } from "../src/data/reviewed-base-fees.js";
 import { reviewedFeeCopy } from "../src/data/reviewed-fee-copy.js";
 
-const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const venueRates = Object.fromEntries(Object.entries(reviewedBaseFeesByVenue).map(([slug, record]) => [slug, record.rates[0]]));
 const requiredSymbols = {
   binance: [/USDC/, /BNB|BNB|币安币|幣安幣/],

@@ -175,7 +175,11 @@ const wizardLocaleUi = {
   ar: { badge:"مساعد اختيار المنصة", title:"اعثر على المنصة المناسبة خلال 30 ثانية", subtitle:"نقطة بحث قابلة للتحقق حسب منطقتك وأسلوب التداول والسيولة. تحقق من الرسوم والأهلية والأمان عبر المصادر الرسمية.", closeBtn:"إغلاق", prevBtn:"السابق", nextBtn:"التالي", restartBtn:"إعادة البدء", finishBtn:"عرض النتيجة", steps:["الإقامة والهوية","أسلوب التداول","الإيداع والحجم"], result:["المنصة المقترحة","نوع الملاءمة","لماذا تناسبك:","مسار تسجيل الشريك:","رمز الشريك:","فتح مسار الشريك الرسمي ↗","راجع الشروط الرسمية أولاً ↗","مسار الشريك جاهز","تحقق من الشروط في صفحة التسجيل الرسمية","تحقق من الأهلية الإقليمية في الحساب الرسمي","عرض الملف الكامل"] },
   id: { badge:"Pencari platform", title:"Temukan platform yang cocok dalam 30 detik", subtitle:"Titik awal riset yang dapat diperiksa berdasarkan wilayah, gaya trading, dan likuiditas. Verifikasi biaya, kelayakan, dan keamanan melalui sumber resmi.", closeBtn:"Tutup", prevBtn:"Sebelumnya", nextBtn:"Berikutnya", restartBtn:"Mulai lagi", finishBtn:"Lihat hasil", steps:["Domisili dan identitas","Gaya trading","Deposit dan volume"], result:["Platform rekomendasi","Jenis kecocokan","Mengapa cocok:","Rute pendaftaran mitra:","Kode mitra:","Buka rute mitra resmi ↗","Tinjau ketentuan resmi ↗","Rute mitra tersedia","Verifikasi ketentuan di halaman resmi","Verifikasi kelayakan wilayah di akun resmi","Lihat profil lengkap"] },
   vi: { badge:"Trình chọn sàn", title:"Tìm nền tảng phù hợp trong 30 giây", subtitle:"Điểm bắt đầu nghiên cứu có thể kiểm chứng theo khu vực, phong cách giao dịch và thanh khoản. Hãy xác minh phí, điều kiện và an toàn từ nguồn chính thức.", closeBtn:"Đóng", prevBtn:"Quay lại", nextBtn:"Tiếp theo", restartBtn:"Làm lại", finishBtn:"Xem kết quả", steps:["Nơi cư trú và danh tính","Phong cách giao dịch","Nạp tiền và quy mô"], result:["Nền tảng đề xuất","Loại phù hợp","Vì sao phù hợp:","Đường dẫn đăng ký đối tác:","Mã đối tác:","Mở đường dẫn đối tác chính thức ↗","Xem điều kiện chính thức ↗","Đã cấu hình đường dẫn đối tác","Xác minh điều kiện trên trang chính thức","Xác minh điều kiện khu vực trong tài khoản","Xem hồ sơ đầy đủ"] },
-  it: { badge:"Assistente per la scelta", title:"Trova la piattaforma giusta in 30 secondi", subtitle:"Un punto di partenza verificabile in base ad area, stile di trading e liquidità. Verifica costi, idoneità e sicurezza nelle fonti ufficiali.", closeBtn:"Chiudi", prevBtn:"Indietro", nextBtn:"Avanti", restartBtn:"Ricomincia", finishBtn:"Vedi risultato", steps:["Residenza e identità","Stile di trading","Deposito e volume"], result:["Piattaforma consigliata","Tipo di idoneità","Perché è adatta:","Percorso partner di registrazione:","Codice partner:","Apri percorso partner ufficiale ↗","Controlla prima i termini ufficiali ↗","Percorso partner configurato","Verifica i termini sulla pagina ufficiale","Verifica l’idoneità regionale nell’account ufficiale","Vedi profilo completo"] }
+  it: { badge:"Assistente per la scelta", title:"Trova la piattaforma giusta in 30 secondi", subtitle:"Un punto di partenza verificabile in base ad area, stile di trading e liquidità. Verifica costi, idoneità e sicurezza nelle fonti ufficiali.", closeBtn:"Chiudi", prevBtn:"Indietro", nextBtn:"Avanti", restartBtn:"Ricomincia", finishBtn:"Vedi risultato", steps:["Residenza e identità","Stile di trading","Deposito e volume"], result:["Piattaforma consigliata","Tipo di idoneità","Perché è adatta:","Percorso partner di registrazione:","Codice partner:","Apri percorso partner ufficiale ↗","Controlla prima i termini ufficiali ↗","Percorso partner configurato","Verifica i termini sulla pagina ufficiale","Verifica l’idoneità regionale nell’account ufficiale","Vedi profilo completo"] },
+  // l10n: needs native review
+  ur: { badge:"AI پلیٹ فارم میچر", title:"30 سیکنڈ میں مناسب پلیٹ فارم چنیں", subtitle:"آپ کے علاقے، ٹریڈنگ انداز اور لیکویڈیٹی ضرورت کے مطابق قابلِ تصدیق تحقیقی آغاز۔ فیس، اہلیت اور سکیورٹی شرائط سرکاری ماخذ سے چیک کریں۔", closeBtn:"بند کریں", prevBtn:"واپس", nextBtn:"اگلا", restartBtn:"دوبارہ شروع", finishBtn:"نتیجہ دیکھیں", steps:["رہائش اور شناخت","ٹریڈنگ انداز","ڈپازٹ اور حجم"], result:["تجویز کردہ پلیٹ فارم","مطابقت کی قسم","یہ آپ کے لیے کیوں مناسب ہے:","پارٹنر رجسٹریشن راستہ:","پارٹنر کوڈ:","سرکاری پارٹنر راستہ کھولیں ↗","پہلے سرکاری شرائط دیکھیں ↗","پارٹنر راستہ ترتیب شدہ","شرائط سرکاری رجسٹریشن صفحے پر تصدیق کریں","علاقائی اہلیت سرکاری اکاؤنٹ عمل میں تصدیق کریں","تفصیلی پروفائل دیکھیں"] },
+  // l10n: needs native review
+  uk: { badge:"AI-підбір платформи", title:"Знайдіть відповідну платформу за 30 секунд", subtitle:"Перевірна стартова точка за вашим регіоном, стилем торгівлі та потребою в ліквідності. Комісії, доступність і безпеку підтверджуйте за офіційними джерелами.", closeBtn:"Закрити", prevBtn:"Назад", nextBtn:"Далі", restartBtn:"Почати знову", finishBtn:"Показати результат", steps:["Резиденція та особа","Стиль торгівлі","Поповнення й обсяг"], result:["Рекомендована платформа","Тип відповідності","Чому підходить:","Партнерський маршрут реєстрації:","Партнерський код:","Відкрити офіційний партнерський маршрут ↗","Спершу переглянути офіційні умови ↗","Партнерський маршрут налаштовано","Перевірте умови на офіційній сторінці реєстрації","Регіональна доступність підтверджується в офіційному процесі акаунта","Переглянути детальний профіль"] }
 };
 const wizardOptionUi = {
   ja: [
@@ -237,6 +241,18 @@ const wizardOptionUi = {
     [["Cina·passaporto", "Documenti cinesi e verifica flessibile"], ["Residenza o identità estera", "Passaporto, residenza o conto bancario internazionale"], ["Privacy·senza KYC", "Trading in auto-custodia senza documenti"]],
     [["Spot·DCA·rendimento", "Liquidità, sicurezza e prova delle riserve"], ["Breve termine·perpetui", "Velocità, commissioni basse e poco slippage"], ["DEX·nuovi token·yield", "Trading on-chain su Solana/Base"]],
     [["Fiat·P2P·banca", "Depositi e prelievi locali con escrow"], ["Grandi volumi·oltre 100.000 USDT", "Fondo di protezione e solvibilità istituzionale"], ["Solo crypto·stablecoin", "Depositi on-chain senza canali bancari"]],
+  ],
+  // l10n: needs native review
+  ur: [
+    [["China mainland·passport", "چینی دستاویزات اور لچک دار تصدیق"], ["بیرون ملک رہائش یا شناخت", "بین الاقوامی پاسپورٹ، رہائش یا بینک اکاؤنٹ"], ["پرائیویسی·KYC نہیں", "دستاویز جمع کیے بغیر self-custody ٹریڈنگ"]],
+    [["Spot·DCA·yield", "لیکویڈیٹی، سکیورٹی اور proof of reserves"], ["مختصر مدت·perpetuals", "رفتار، کم فیس اور کم slippage"], ["DEX·نئے tokens·yield", "Solana/Base پر on-chain ٹریڈنگ"]],
+    [["Fiat·P2P·bank", "مقامی ڈپازٹ/وتھڈرا اور escrow"], ["بڑا حجم·100,000 USDT+", "تحفظ فنڈ اور ادارہ جاتی solvency"], ["صرف crypto·stablecoins", "بینک چینل کے بغیر on-chain ڈپازٹ"]],
+  ],
+  // l10n: needs native review
+  uk: [
+    [["China mainland·passport", "Китайські документи та гнучка перевірка"], ["Іноземна резиденція або особа", "Міжнародний паспорт, резиденція або банківський рахунок"], ["Приватність·без KYC", "Self-custody торгівля без подання документів"]],
+    [["Spot·DCA·yield", "Ліквідність, безпека та proof of reserves"], ["Короткий строк·perpetuals", "Швидкість, низькі комісії та малий slippage"], ["DEX·нові tokens·yield", "On-chain торгівля на Solana/Base"]],
+    [["Fiat·P2P·bank", "Локальні поповнення й виведення з escrow"], ["Великий обсяг·100 000 USDT+", "Фонд захисту та інституційна платоспроможність"], ["Лише crypto·stablecoins", "On-chain поповнення без банківського каналу"]],
   ],
 };
 
@@ -301,6 +317,18 @@ const wizardStepDescUi = {
     "Spot, derivati e programmi di lancio hanno commissioni e condizioni di esecuzione diverse.",
     "Per grandi importi conta la protezione; per il retail la facilità di deposito e prelievo.",
   ],
+  // l10n: needs native review
+  ur: [
+    "ہر پلیٹ فارم کی علاقائی رسائی اور شناختی تصدیق کی شرائط مختلف ہوتی ہیں۔",
+    "Spot، derivatives اور launch پروگراموں میں فیس اور execution شرائط بدلتی ہیں۔",
+    "بڑی رقم کے لیے تحفظ کا ڈھانچا اہم ہے؛ retail استعمال میں ڈپازٹ اور وتھڈرا کی آسانی اہم ہے۔",
+  ],
+  // l10n: needs native review
+  uk: [
+    "Кожна платформа має різні регіональні обмеження та вимоги до ідентифікації.",
+    "Spot, derivatives і launch-програми мають різні комісії та умови виконання.",
+    "Для великих сум важлива структура захисту; для retail — зручність поповнення й виведення.",
+  ],
 };
 
 function localizedWizard(locale) {
@@ -333,6 +361,10 @@ const wizardStatusUi = {
   id: { yes: "Ya", pending: "Menunggu verifikasi", noCode: "Tanpa kode" },
   vi: { yes: "Có", pending: "Đang chờ xác minh", noCode: "Không cần mã" },
   it: { yes: "Sì", pending: "Verifica in sospeso", noCode: "Nessun codice" },
+  // l10n: needs native review
+  ur: { yes: "ہاں", pending: "تصدیق باقی", noCode: "کوڈ درکار نہیں" },
+  // l10n: needs native review
+  uk: { yes: "Так", pending: "Очікує перевірки", noCode: "Код не потрібен" },
 };
 
 function wizardStatus(locale) {

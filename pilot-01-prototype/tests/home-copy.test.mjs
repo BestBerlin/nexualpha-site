@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { homeCopy, homeHeroH1 } from "../src/content/home-copy.js";
 
-const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const emptyishPattern = /^\s*$/;
 const forbiddenPromisePattern = /(?:profit|yield|guarantee|eligible|收益|资格|資格|保證|保证)/i;
 

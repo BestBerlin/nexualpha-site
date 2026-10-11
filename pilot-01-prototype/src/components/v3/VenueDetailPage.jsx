@@ -54,6 +54,10 @@ const invitationSummaryByLocale = {
   ja: { label: "紹介情報の概要", note: "招待情報と口座条件を確認できます。" },
   ko: { label: "추천 정보 요약", note: "초대 정보와 계정 조건을 확인하세요." },
   ar: { label: "ملخص الإحالة", note: "راجع تفاصيل الدعوة وشروط الحساب." },
+  // l10n: needs native review
+  ur: { label: "دعوت خلاصہ", note: "دعوتی تفصیلات اور اکاؤنٹ شرائط کا جائزہ لیں۔" },
+  // l10n: needs native review
+  uk: { label: "Підсумок запрошення", note: "Перегляньте деталі запрошення й умови рахунку." },
   tr: { label: "Referans özeti", note: "Davet bilgilerini ve hesap koşullarını inceleyin." },
   ru: { label: "Сводка приглашения", note: "Проверьте данные приглашения и условия аккаунта." },
   id: { label: "Ringkasan referral", note: "Periksa informasi undangan dan ketentuan akun." },
@@ -72,6 +76,10 @@ const officialFlowLabelByLocale = {
   ja: "公式手続きで確認",
   ko: "공식 절차에서 확인",
   ar: "تحقق داخل المسار الرسمي",
+  // l10n: needs native review
+  ur: "سرکاری فلو میں تصدیق کریں",
+  // l10n: needs native review
+  uk: "Перевірити в офіційному процесі",
   tr: "Resmî akışta doğrula",
   ru: "Проверить в официальном процессе",
   id: "Verifikasi di alur resmi",
@@ -277,6 +285,10 @@ const detailRegistrationReviewLabel = (locale, { hasReferral }) => {
     id: { code: "Periksa kode dan syarat pendaftaran", route: "Periksa domain dan syarat pendaftaran" },
     vi: { code: "Kiểm tra mã và điều kiện đăng ký", route: "Kiểm tra miền và điều kiện đăng ký" },
     it: { code: "Verifica codice e condizioni di registrazione", route: "Verifica dominio e condizioni di registrazione" },
+    // l10n: needs native review
+    ur: { code: "کوڈ اور رجسٹریشن شرائط چیک کریں", route: "سرکاری ڈومین اور رجسٹریشن شرائط چیک کریں" },
+    // l10n: needs native review
+    uk: { code: "Перевірити код і умови реєстрації", route: "Перевірити офіційний домен і умови реєстрації" },
   };
   const copy = labels[locale] || labels[String(locale).split("-")[0]] || {
     code: "Review code and signup conditions",
@@ -285,7 +297,7 @@ const detailRegistrationReviewLabel = (locale, { hasReferral }) => {
   return hasReferral ? copy.code : copy.route;
 };
 
-const textDirectionForLocale = (locale) => locale === "ar" ? "rtl" : "ltr";
+const textDirectionForLocale = (locale) => ["ar", "ur"].includes(locale) ? "rtl" : "ltr";
 
 function reviewedDecisionConciseFit(decision) {
   return typeof decision?.fit === "string" ? sanitizePublicText(decision.fit).replace(/^Choose\s+[^ ]+\s+when\s+/i, "").replace(/^Avoid\s+/i, "") : "";
@@ -309,6 +321,10 @@ function reviewedDecisionHeroSummary(name, locale, decision) {
     id: `${name}: periksa akun, produk, dan kelayakan berbasis sumber sebelum mendaftar.`,
     vi: `${name}: kiểm tra tài khoản, sản phẩm và điều kiện bằng nguồn trước khi đăng ký.`,
     it: `${name}: verifica account, prodotti e idoneità con fonti prima dell'iscrizione.`,
+    // l10n: needs native review
+    ur: `${name}: رجسٹریشن سے پہلے اکاؤنٹ، پروڈکٹ اور اہلیت کو ماخذ کے ساتھ چیک کریں۔`,
+    // l10n: needs native review
+    uk: `${name}: перед реєстрацією перевірте акаунт, продукти та доступність за джерелами.`,
   };
   const conciseFit = reviewedDecisionConciseFit(decision);
   if (conciseFit.trim()) return `${name}: ${conciseFit}`;
@@ -408,6 +424,10 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     id: ["Biaya dasar spot", "Bukti cadangan (PoR)", "Persyaratan KYC", "Leverage maksimum", "Pohon Merkle publik", "Verifikasi internasional", "Periksa ketentuan resmi"],
     vi: ["Phí spot cơ bản", "Bằng chứng dự trữ (PoR)", "Yêu cầu KYC", "Đòn bẩy tối đa", "Cây Merkle công khai", "Xác minh quốc tế", "Xem điều kiện chính thức"],
     it: ["Commissione base spot", "Prova delle riserve (PoR)", "Requisito KYC", "Leva massima", "Albero Merkle pubblico", "Verifica internazionale", "Controlla le condizioni ufficiali"],
+    // l10n: needs native review
+    ur: ["Spot بنیادی فیس", "Proof of Reserves (PoR)", "KYC تقاضا", "زیادہ سے زیادہ leverage", "Public Merkle Tree", "بین الاقوامی تصدیق", "سرکاری پروڈکٹ شرائط چیک کریں"],
+    // l10n: needs native review
+    uk: ["Базова spot комісія", "Proof of Reserves (PoR)", "Вимога KYC", "Максимальне плече", "Публічне Merkle Tree", "Міжнародна перевірка", "Перевірте офіційні умови продукту"],
   }[localeBase];
   const localizedVenueName = getLocalizedVenueName(venue, locale) || profile.name;
   const detailDecision = decisionForVenue(profile.slug, locale);
@@ -674,7 +694,11 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
             )}
             <p>{venueDirectAnswer.body}</p>
             {priorityAnswer && <details className="v3-venue-direct-answer__sources">
-              <summary>{locale === "zh-Hant" ? "費用、使用條件與官方資料" : isZhLocale ? "费用、使用条件与官方资料" : ({"es": "Costes, condiciones y fuentes oficiales", "pt-BR": "Custos, condições e fontes oficiais", "fr": "Frais, conditions et sources officielles", "de": "Kosten, Bedingungen und offizielle Quellen", "ja": "費用・条件・公式ソース", "ko": "비용, 조건, 공식 출처", "tr": "Maliyetler, koşullar ve resmî kaynaklar", "ru": "Расходы, условия и официальные источники", "ar": "التكاليف والشروط والمصادر الرسمية", "id": "Biaya, ketentuan, dan sumber resmi", "vi": "Chi phí, điều kiện và nguồn chính thức", "it": "Costi, condizioni e fonti ufficiali"}[locale] || "Costs, conditions and official sources")}</summary>
+              <summary>{locale === "zh-Hant" ? "費用、使用條件與官方資料" : isZhLocale ? "费用、使用条件与官方资料" : ({"es": "Costes, condiciones y fuentes oficiales", "pt-BR": "Custos, condições e fontes oficiais", "fr": "Frais, conditions et sources officielles", "de": "Kosten, Bedingungen und offizielle Quellen", "ja": "費用・条件・公式ソース", "ko": "비용, 조건, 공식 출처", "tr": "Maliyetler, koşullar ve resmî kaynaklar", "ru": "Расходы, условия и официальные источники", "ar": "التكاليف والشروط والمصادر الرسمية", "id": "Biaya, ketentuan, dan sumber resmi", "vi": "Chi phí, điều kiện và nguồn chính thức", "it": "Costi, condizioni e fonti ufficiali",
+              // l10n: needs native review
+              "ur": "لاگت، شرائط اور سرکاری ماخذ",
+              // l10n: needs native review
+              "uk": "Витрати, умови та офіційні джерела"}[locale] || "Costs, conditions and official sources")}</summary>
               <div className="v3-venue-direct-answer__expanded">
               {venueDirectAnswerDetails}
               <div className="v3-venue-direct-answer__links">
@@ -942,6 +966,18 @@ const profileResearchChapterCopy = {
     "Account e costi",
     "Fonti e sicurezza",
     "Continuare a seguire"
+  ],
+  // l10n: needs native review
+  "ur": [
+    "اکاؤنٹ اور لاگت",
+    "ماخذ اور سکیورٹی",
+    "پیروی جاری رکھیں"
+  ],
+  // l10n: needs native review
+  "uk": [
+    "Акаунт і витрати",
+    "Джерела та безпека",
+    "Продовжити стеження"
   ]
 };
 

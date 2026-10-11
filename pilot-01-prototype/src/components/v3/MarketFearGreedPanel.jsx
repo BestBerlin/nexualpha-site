@@ -51,6 +51,10 @@ const copy = {
   vi: { eyebrow: "Theo dõi tâm lý thị trường và rủi ro", title: "Chỉ số sợ hãi và tham lam tiền mã hóa và theo dõi tài sản", subtitle: "Chưa kết nối nguồn thị trường hoặc tâm lý có thể kiểm chứng; giá mô phỏng, chỉ số và khuyến nghị nền tảng được ẩn.", fearIndexTitle: "Chỉ số sợ hãi và tham lam tiền mã hóa", fearIndexStatus: "Không có dữ liệu", fearIndexValue: "—", marketAssets: [], signalAdvice: "Trạng thái dữ liệu: chưa có nguồn trực tiếp đã xác minh nên không hiển thị kết luận về thị trường hay nền tảng." },
   // l10n: needs native review
   ar: { eyebrow: "مراقبة معنويات السوق والمخاطر", title: "مؤشر الخوف والجشع للعملات المشفرة ومراقبة الأصول", subtitle: "لا يوجد مصدر سوق أو معنويات قابل للتحقق متصل حاليًا؛ الأسعار والمؤشرات المحاكاة وتوصيات المنصات مخفية.", fearIndexTitle: "مؤشر الخوف والجشع للعملات المشفرة", fearIndexStatus: "البيانات غير متاحة", fearIndexValue: "—", marketAssets: [], signalAdvice: "حالة البيانات: لا يوجد مصدر مباشر موثّق بعد، لذلك لا تُعرض استنتاجات عن السوق أو المنصات." },
+  // l10n: needs native review
+  ur: { eyebrow: "مارکیٹ مزاج اور خطرہ مانیٹر", title: "کرپٹو خوف و لالچ اشاریہ اور اثاثہ مانیٹر", subtitle: "ابھی کوئی قابل تصدیق مارکیٹ یا جذباتی ڈیٹا ذریعہ منسلک نہیں؛ فرضی قیمتیں، اشاریے اور پلیٹ فارم مشورے چھپے ہیں۔", fearIndexTitle: "کرپٹو خوف و لالچ اشاریہ", fearIndexStatus: "ڈیٹا دستیاب نہیں", fearIndexValue: "—", marketAssets: [], signalAdvice: "ڈیٹا حالت: ابھی تصدیق شدہ براہ راست ذریعہ نہیں، اس لیے مارکیٹ یا پلیٹ فارم نتیجہ نہیں دکھایا جاتا۔" },
+  // l10n: needs native review
+  uk: { eyebrow: "Монітор настрою ринку й ризику", title: "Індекс страху й жадібності крипторинку та монітор активів", subtitle: "Перевірене джерело ринку або настрою не підключене; симульовані ціни, індекси й поради щодо платформ приховані.", fearIndexTitle: "Індекс страху й жадібності крипторинку", fearIndexStatus: "Дані недоступні", fearIndexValue: "—", marketAssets: [], signalAdvice: "Стан даних: перевіреного живого джерела ще немає, тому висновки щодо ринку або платформ не показуються." },
 };
 
 export const marketFearGreedCopy = copy;

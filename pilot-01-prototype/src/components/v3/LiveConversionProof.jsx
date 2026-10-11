@@ -61,6 +61,10 @@ const localizedExampleEvents = {
   id: ["Jalur contoh", "Contoh", ["Tinjau syarat akun dan wilayah OKX", "Verifikasi domain resmi dan biaya Binance", "Bandingkan akses dan produk Bybit", "Tinjau persyaratan futures Bitget", "Baca dokumentasi resmi Hyperliquid"], "Ketentuan pengguna harus diverifikasi resmi"],
   vi: ["Lộ trình minh họa", "Ví dụ", ["Kiểm tra điều kiện tài khoản và khu vực OKX", "Xác minh tên miền chính thức và phí Binance", "So sánh quyền truy cập và sản phẩm Bybit", "Kiểm tra yêu cầu futures Bitget", "Đọc tài liệu chính thức của Hyperliquid"], "Điều kiện người dùng cần được xác minh chính thức"],
   it: ["Percorso illustrativo", "Esempio", ["Verifica condizioni di account e regione OKX", "Verifica dominio ufficiale e commissioni Binance", "Confronta accesso e prodotto Bybit", "Verifica requisiti futures Bitget", "Leggi la documentazione ufficiale Hyperliquid"], "Le condizioni utente richiedono verifica ufficiale"],
+  // l10n: needs native review
+  ur: ["مثالی راستہ", "مثال", ["OKX کے اکاؤنٹ اور علاقے کی شرائط دیکھیں", "Binance کے سرکاری ڈومین اور فیس کی تصدیق کریں", "Bybit تک رسائی اور مصنوعات کا موازنہ کریں", "Bitget کے فیوچرز کی شرائط دیکھیں", "Hyperliquid کی سرکاری دستاویزات پڑھیں"], "صارف کی شرائط کی سرکاری تصدیق ضروری ہے"],
+  // l10n: needs native review
+  uk: ["Приклад маршруту", "Приклад", ["Перевірити умови акаунта й регіону OKX", "Перевірити офіційний домен і комісії Binance", "Порівняти доступ і продукти Bybit", "Переглянути вимоги ф’ючерсів Bitget", "Читати офіційну документацію Hyperliquid"], "Умови користувача потребують офіційної перевірки"],
 };
 for (const [locale, [trader, time, actions, perk]] of Object.entries(localizedExampleEvents)) {
   MOCK_EVENTS[locale] = MOCK_EVENTS.en.map((event, index) => ({ ...event, trader, time, action: actions[index], perk }));
@@ -82,13 +86,19 @@ const examplePlaybackCopy = {
   id: ["Putar contoh", "Jeda contoh"],
   vi: ["Phát ví dụ", "Tạm dừng ví dụ"],
   it: ["Riproduci esempi", "Metti in pausa"],
+
+ // l10n: needs native review
+ ur: ["مثالیں چلائیں","مثالیں روکیں"],
+ // l10n: needs native review
+ uk: ["Відтворити приклади","Призупинити приклади"],
 };
 
 export function LiveConversionProof({ locale = "en" }) {
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
   const events = MOCK_EVENTS[locale] || (isHant ? MOCK_EVENTS["zh-Hant"] : isZh ? MOCK_EVENTS["zh-Hans"] : MOCK_EVENTS.en);
-  const exampleLabel = locale === "ja" ? "例示の判断パス · 実際のユーザーイベントではありません" : locale === "ko" ? "예시 의사결정 경로 · 실제 사용자 이벤트가 아닙니다" : locale === "tr" ? "Örnek karar yolu · gerçek kullanıcı olayı değildir" : locale === "ru" ? "Пример пути · не реальное событие пользователя" : locale === "es" ? "Ruta de ejemplo · no es un evento real de usuario" : locale === "de" ? "Beispielpfad · kein echtes Nutzerereignis" : locale === "fr" ? "Parcours illustratif · pas un événement utilisateur réel" : locale === "pt-BR" ? "Caminho ilustrativo · não é um evento real de usuário" : locale === "ar" ? "مسار توضيحي · ليس حدثاً حقيقياً لمستخدم" : locale === "id" ? "Jalur ilustratif · bukan peristiwa pengguna nyata" : locale === "vi" ? "Lộ trình minh họa · không phải sự kiện người dùng thật" : locale === "it" ? "Percorso illustrativo · non è un evento utente reale" : isHant ? "示例決策路徑 · 非即時用戶事件" : isZh ? "示例决策路径 · 非实时用户事件" : "Illustrative decision path · not a live user event";
+  // l10n: needs native review
+  const exampleLabel = locale === "ur" ? "مثالی فیصلہ کرنے کا راستہ · کسی صارف کی حقیقی کارروائی نہیں" : locale === "uk" ? "Приклад шляху рішення · не справжня подія користувача" : locale === "ja" ? "例示の判断パス · 実際のユーザーイベントではありません" : locale === "ko" ? "예시 의사결정 경로 · 실제 사용자 이벤트가 아닙니다" : locale === "tr" ? "Örnek karar yolu · gerçek kullanıcı olayı değildir" : locale === "ru" ? "Пример пути · не реальное событие пользователя" : locale === "es" ? "Ruta de ejemplo · no es un evento real de usuario" : locale === "de" ? "Beispielpfad · kein echtes Nutzerereignis" : locale === "fr" ? "Parcours illustratif · pas un événement utilisateur réel" : locale === "pt-BR" ? "Caminho ilustrativo · não é um evento real de usuário" : locale === "ar" ? "مسار توضيحي · ليس حدثاً حقيقياً لمستخدم" : locale === "id" ? "Jalur ilustratif · bukan peristiwa pengguna nyata" : locale === "vi" ? "Lộ trình minh họa · không phải sự kiện người dùng thật" : locale === "it" ? "Percorso illustrativo · non è un evento utente reale" : isHant ? "示例決策路徑 · 非即時用戶事件" : isZh ? "示例决策路径 · 非实时用户事件" : "Illustrative decision path · not a live user event";
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visible, setVisible] = useState(true);

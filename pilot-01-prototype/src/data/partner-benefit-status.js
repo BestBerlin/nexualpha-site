@@ -54,6 +54,10 @@ const COPY = {
   tr: ["Ortaklık iade oranı", "ortaklık koşulları {date} tarihinde teyit edildi", "hesabınızın uygunluğunu kayıttan sonra borsa teyit eder", "Borsa her hesap için teyit eder: kapsanan ürünler, bölge, hesap seviyesi ve borsa kampanyalarıyla birleşip birleşmediği."],
   id: ["Porsi rabat mitra", "ketentuan mitra dikonfirmasi {date}", "kelayakan akun Anda dikonfirmasi bursa setelah pendaftaran", "Dikonfirmasi bursa per akun: cakupan produk, wilayah, tingkat akun, dan apakah dapat digabung dengan promo bursa."],
   vi: ["Tỷ lệ hoàn phí đối tác", "điều khoản đối tác xác nhận ngày {date}", "sàn xác nhận tài khoản của bạn có đủ điều kiện sau khi đăng ký", "Sàn xác nhận theo từng tài khoản: sản phẩm áp dụng, khu vực, cấp tài khoản và việc cộng dồn với khuyến mãi của sàn."],
+  // l10n: needs native review
+  ur: ["پارٹنر کی فیس واپسی کا تناسب", "پارٹنر کی شرائط کی تصدیق: {date}", "رجسٹریشن کے بعد ایکسچینج آپ کے اکاؤنٹ کی اہلیت کی تصدیق کرتا ہے", "ایکسچینج ہر اکاؤنٹ کے لیے مصنوعات، علاقہ، اکاؤنٹ کی سطح اور دیگر آفرز کے ساتھ استعمال کی تصدیق کرتا ہے۔"],
+  // l10n: needs native review
+  uk: ["Частка партнерського повернення комісій", "партнерські умови підтверджено {date}", "біржа підтверджує відповідність вашого облікового запису після реєстрації", "Біржа підтверджує для кожного облікового запису: продукти, регіон, рівень і сумісність з акціями біржі."],
   ar: ["نسبة استرداد الشريك", "تم تأكيد شروط الشراكة في {date}", "تؤكد المنصة أهلية حسابك بعد التسجيل", "تؤكدها المنصة لكل حساب: المنتجات المشمولة والمنطقة ومستوى الحساب وإمكانية الجمع مع عروض المنصة."],
 };
 

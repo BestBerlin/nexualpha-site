@@ -1,4 +1,4 @@
-// Brand slogans (owner decision 2026-10-11, src/data/brand-slogan.js): Organization JSON-LD slogan in all 15 locales,
+// Brand slogans (owner decision 2026-10-11, src/data/brand-slogan.js): Organization JSON-LD slogan in all 17 locales,
 // home title/description parity between the Worker SSR head, /api/route-seo and computeRouteSeo, the 60-wide title
 // budget, slogan B's share derived from HOME_REBATE_MAX_PCT, the footer line, the default social card and llms.txt.
 import test from "node:test";
@@ -22,7 +22,7 @@ import { defaultCardSvg, newsCardSvg, BRAND_MARK_PATHS } from "../server/og-imag
 import { socialImagePathForRoute } from "../src/data/social-image.js";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
-const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
+const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 const ORIGIN = "https://nexualpha.com";
 const SHELL = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Shell</title><meta name="description" content="shell" /></head><body><div id="root"></div></body></html>`;
 const env = {
@@ -35,7 +35,7 @@ const env = {
 const decode = (text) => text.replace(/&#x27;/g, "'").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 const organizationIn = (schemas) => [schemas?.["@graph"] || schemas].flat().find((node) => node && node["@type"] === "Organization" && String(node["@id"] || "").endsWith("/#organization"));
 
-test("both slogans exist in all 15 locales and slogan B carries no typed percentage", async () => {
+test("both slogans exist in all 17 locales and slogan B carries no typed percentage", async () => {
   assert.deepEqual([...SLOGAN_LOCALES], LOCALES);
   for (const locale of LOCALES) {
     assert.ok(BRAND_SLOGAN_PRIMARY[locale]?.trim(), `${locale} slogan A`);
@@ -80,7 +80,7 @@ test("Organization JSON-LD carries slogan A in every locale, identical in the Wo
   }
 });
 
-test("home title and description match across the SSR head, /api/route-seo and computeRouteSeo in 15 locales", async () => {
+test("home title and description match across the SSR head, /api/route-seo and computeRouteSeo in 17 locales", async () => {
   for (const locale of LOCALES) {
     const target = localizedPath("/", locale);
     const page = await worker.fetch(new Request(`${ORIGIN}${target}`, { headers: { accept: "text/html" } }), env);
@@ -102,7 +102,7 @@ test("home title and description match across the SSR head, /api/route-seo and c
 });
 
 test("home title fits the 60-wide budget with the brand, and slogan A sits in the title or leads the description", () => {
-  const disclosure = { en: /disclosed/, "zh-Hans": /披露/, "zh-Hant": /揭露/, es: /declarados/, "pt-BR": /informados/, fr: /signalés/, de: /offengelegt/, it: /dichiarati/, ja: /開示/, ko: /공개/, ru: /раскрыты/, tr: /belirtilir/, id: /diungkapkan/, vi: /Công bố/, ar: /مُفصح/ };
+  const disclosure = { en: /disclosed/, "zh-Hans": /披露/, "zh-Hant": /揭露/, es: /declarados/, "pt-BR": /informados/, fr: /signalés/, de: /offengelegt/, it: /dichiarati/, ja: /開示/, ko: /공개/, ru: /раскрыты/, tr: /belirtilir/, id: /diungkapkan/, vi: /Công bố/, ar: /مُفصح/, ur: /ظاہر|افشا|واضح|پارٹنر/, uk: /розкрит|позначен|партнерськ/i };
   for (const locale of LOCALES) {
     const [title, description] = HOME_SEARCH_COPY[locale];
     assert.ok(titleDisplayWidth(title) <= HOME_TITLE_BUDGET, `${locale}: title width ${titleDisplayWidth(title)}`);
@@ -126,8 +126,8 @@ test("home title fits the 60-wide budget with the brand, and slogan A sits in th
     assert.match(description, /Binance|币安|幣安/, `${locale}: Binance fact`);
     assert.match(description, disclosure[locale], `${locale}: partner links disclosed`);
   }
-  // Owner 2026-10-11 ("土耳其站照常写"): Turkish carries slogan B; only ru and ar stay neutral.
-  assert.deepEqual([...NEUTRAL_HOME_DESCRIPTION_LOCALES].sort(), ["ar", "ru"]);
+  // Owner 2026-10-11 ("土耳其站照常写"): Turkish carries slogan B; ru, ar, ur and uk stay neutral pending local review.
+  assert.deepEqual([...NEUTRAL_HOME_DESCRIPTION_LOCALES].sort(), ["ar", "ru", "uk", "ur"]);
   // Turkey promotes OKX/Binance/Bybit only (owner 2026-10-11), so slogan B uses the best of those shares (OKX 40%).
   assert.ok(HOME_SEARCH_COPY.tr[1].includes("En fazla %40."), "tr description carries slogan B with the Turkish percent");
   assert.doesNotMatch(HOME_SEARCH_COPY.tr[1], /Bitget/);

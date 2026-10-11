@@ -63,13 +63,28 @@ export const verifyCopy = {
     "Dominio ufficiale", "Prima di inserire qualsiasi cosa, la barra degli indirizzi deve mostrare esattamente questo dominio.", "Nella nostra scheda verificata",
     "Codice referral", "Se la pagina di registrazione non lo precompila, inseriscilo prima di inviare.", "Questa piattaforma non richiede codice", "Copia codice", "Copiato",
     "Informativa", "Potremmo ricevere una commissione se ti registri tramite i nostri link, senza costi aggiuntivi per te. Ogni vantaggio segue i termini della piattaforma.", "Leggi l'informativa affiliati"),
+
+ // l10n: needs native review
+ ur: k("جانے سے پہلے تصدیق کریں","جعلی سائٹس اور غیر متوقع شرائط سے بچانے والی تین جانچیں۔ ہر جانچ اس پلیٹ فارم کے محفوظ ریکارڈ پر مبنی ہے۔","جانچ کے لیے پلیٹ فارم","سرکاری ڈومین","کچھ بھی درج کرنے سے پہلے ایڈریس بار میں بالکل یہی ڈومین ہونا چاہیے۔","ہمارے جائزہ شدہ ریکارڈ میں","دعوتی کوڈ","اگر رجسٹریشن صفحہ اسے خود نہ بھرے تو جمع کرنے سے پہلے درج کریں۔","اس پلیٹ فارم کے لیے کوڈ ضروری نہیں","کوڈ کاپی کریں","کاپی ہو گیا","انکشاف","ہمارے لنکس سے رجسٹریشن پر ہمیں کمیشن مل سکتا ہے، آپ کے لیے اضافی لاگت کے بغیر۔ ہر فائدہ پلیٹ فارم کی اپنی شرائط کے تابع ہے۔","شراکت کا انکشاف پڑھیں"),
+ // l10n: needs native review
+ uk: k("Перевірте перед переходом","Три перевірки проти сайтів-двійників і неочікуваних умов. Кожна використовує наш запис про платформу.","Платформа для перевірки","Офіційний домен","Перед введенням будь-яких даних адресний рядок має показувати саме цей домен.","У нашому перевіреному записі","Реферальний код","Якщо сторінка реєстрації не заповнила його автоматично, введіть перед надсиланням.","Для цієї платформи код не потрібен","Копіювати код","Скопійовано","Розкриття інформації","Ми можемо отримати комісію за реєстрацію через наші посилання без додаткових витрат для вас. Будь-які переваги залежать від власних умов платформи.","Читати розкриття партнерства"),
 };
 
 // The stamp that lands on the address bar once the domain matches our record.
-const official = { en: "Official", "zh-Hans": "官方", "zh-Hant": "官方", ja: "公式", ko: "공식", tr: "Resmi", fr: "Officiel", de: "Offiziell", es: "Oficial", "pt-BR": "Oficial", ru: "Официальный", ar: "رسمي", id: "Resmi", vi: "Chính thức", it: "Ufficiale" };
+const official = { en: "Official", "zh-Hans": "官方", "zh-Hant": "官方", ja: "公式", ko: "공식", tr: "Resmi", fr: "Officiel", de: "Offiziell", es: "Oficial", "pt-BR": "Oficial", ru: "Официальный", ar: "رسمي", id: "Resmi", vi: "Chính thức", it: "Ufficiale" ,
+ // l10n: needs native review
+ ur: "سرکاری",
+ // l10n: needs native review
+ uk: "Офіційний",
+};
 
 // Lookalike demo on the address bar: the tag, and the one-line lesson. Every locale.
-const fake = { en: "Not official", "zh-Hans": "非官方", "zh-Hant": "非官方", ja: "非公式", ko: "비공식", tr: "Resmi değil", fr: "Non officiel", de: "Nicht offiziell", es: "No oficial", "pt-BR": "Não oficial", ru: "Не официальный", ar: "غير رسمي", id: "Tidak resmi", vi: "Không chính thức", it: "Non ufficiale" };
+const fake = { en: "Not official", "zh-Hans": "非官方", "zh-Hant": "非官方", ja: "非公式", ko: "비공식", tr: "Resmi değil", fr: "Non officiel", de: "Nicht offiziell", es: "No oficial", "pt-BR": "Não oficial", ru: "Не официальный", ar: "غير رسمي", id: "Tidak resmi", vi: "Không chính thức", it: "Non ufficiale" ,
+ // l10n: needs native review
+ ur: "سرکاری نہیں",
+ // l10n: needs native review
+ uk: "Неофіційний",
+};
 const fakeNote = {
   en: "One changed character is enough. Lookalike domains copy the real page.",
   "zh-Hans": "只改一个字符就够了。仿冒域名会照搬真实页面。",
@@ -86,6 +101,11 @@ const fakeNote = {
   id: "Satu karakter yang diubah sudah cukup. Domain tiruan menyalin halaman asli.",
   vi: "Chỉ cần đổi một ký tự. Tên miền giả mạo sao chép trang thật.",
   it: "Basta un carattere cambiato. I domini simili copiano la pagina vera.",
+
+ // l10n: needs native review
+ ur: "ایک بدلا ہوا حرف بھی کافی ہے۔ مشابہ ڈومین اصل صفحے کی نقل کرتے ہیں۔",
+ // l10n: needs native review
+ uk: "Достатньо одного зміненого символу. Домени-двійники копіюють справжню сторінку.",
 };
 
 export function getVerifyCopy(locale) {

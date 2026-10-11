@@ -45,5 +45,10 @@ export const NEWS_DAY_COPY = {
   id: { latest: "Terbaru", today: "Hari ini", yesterday: "Kemarin", stories: (n) => `${n} artikel` },
   vi: { latest: "Mới nhất", today: "Hôm nay", yesterday: "Hôm qua", stories: (n) => `${n} bài` },
   ar: { latest: "الأحدث", today: "اليوم", yesterday: "أمس", stories: (n) => `${n} ${n === 1 ? "مقال" : n === 2 ? "مقالان" : n <= 10 ? "مقالات" : "مقالًا"}` },
+
+ // l10n: needs native review
+ ur: {latest:"تازہ ترین",today:"آج",yesterday:"گزشتہ روز",stories:(n)=>`${n} ${n === 1 ? "تحریر" : "تحریریں"}`},
+ // l10n: needs native review
+ uk: {latest:"Найновіше",today:"Сьогодні",yesterday:"Учора",stories:(n)=>`${n} ${({one:"матеріал",few:"матеріали",many:"матеріалів",other:"матеріалу"})[new Intl.PluralRules("uk").select(n)]}`},
 };
 export const newsDayCopy = (locale) => NEWS_DAY_COPY[locale] || (String(locale || "").startsWith("zh") ? NEWS_DAY_COPY["zh-Hans"] : NEWS_DAY_COPY.en);

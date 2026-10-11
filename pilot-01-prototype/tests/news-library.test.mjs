@@ -64,7 +64,7 @@ test("listing paths parse to canonical pages and reject unknown categories", () 
     assert.match(copy.scope(612), /612/);
     for (const key of NEWS_CATEGORY_KEYS) assert.ok(newsCategoryCopy(key, locale).label && newsCategoryCopy(key, locale).intro, `${locale}.${key}`);
   }
-  assert.equal(NEWS_LIBRARY_LOCALES.length, 15);
+  assert.equal(NEWS_LIBRARY_LOCALES.length, 17);
 });
 
 test("/news renders 24 newest articles with crawlable next-page links and a self canonical", async () => {

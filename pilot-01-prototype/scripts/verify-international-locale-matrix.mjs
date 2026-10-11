@@ -6,7 +6,7 @@ const require = createRequire("/Users/bestberlin/.codex/shared-tools/web-quality
 const puppeteer = require("puppeteer-core");
 const base = process.env.AUDIT_URL || "http://127.0.0.1:4230";
 const output = path.resolve(process.env.INTERNATIONAL_MATRIX_OUT || "artifacts/international-locale-matrix/latest.json");
-const locales = ["en", "zh-Hans", "zh-Hant", "pt-BR", "es", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const locales = ["en", "zh-Hans", "zh-Hant", "pt-BR", "es", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const markets = ["mx", "tw", "id", "hk", "eu", "uk", "jp", "kr", "int"];
 const widths = [390, 1440];
 

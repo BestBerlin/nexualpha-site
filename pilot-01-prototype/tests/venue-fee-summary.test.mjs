@@ -74,7 +74,7 @@ test('conditional or unreadable venues remain unknown unless a separate sourced 
 });
 
 test('compact fee guidance has native copy in every supported locale', () => {
-  for (const locale of ['en', 'zh-Hans', 'zh-Hant', 'es', 'pt-BR', 'fr', 'de', 'ja', 'ko', 'ar', 'tr', 'ru', 'id', 'vi', 'it']) {
+  for (const locale of ['en', 'zh-Hans', 'zh-Hant', 'es', 'pt-BR', 'fr', 'de', 'ja', 'ko', 'ar', 'tr', 'ru', 'id', 'vi', 'it', "ur", "uk"]) {
     const copy = feeSummaryCopy(locale);
     for (const key of ['title', 'body', 'source', 'registration', 'checked']) assert.ok(copy[key]?.trim(), `${locale}.${key}`);
     if (locale !== 'en') assert.notEqual(copy.body, feeSummaryCopy('en').body, locale);

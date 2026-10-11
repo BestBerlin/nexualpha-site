@@ -15,12 +15,22 @@ export const RF_T = {
   id: { chk: "Diperiksa", group: "Apa yang ingin Anda lakukan?", venues: "Platform untuk rute ini", none: "Belum diperiksa", spot: "Spot", perp: "Perp", off: "Tidak tersedia di rute ini", mt: "Maker / taker", i: { spot: ["Spot", "Beli dan jual koin"], perps: ["Perpetual", "Kontrak berleverage"], fiat: ["Setor fiat", "Kartu, bank, atau P2P"], chain: ["On-chain", "DEX langsung dari dompet"] } },
   vi: { chk: "Kiểm tra ngày", group: "Bạn muốn làm gì?", venues: "Nền tảng cho lộ trình này", none: "Chưa kiểm tra", spot: "Giao ngay", perp: "Vĩnh cửu", off: "Không hỗ trợ ở lộ trình này", mt: "Maker / taker", i: { spot: ["Giao ngay", "Mua bán coin"], perps: ["Vĩnh cửu", "Hợp đồng đòn bẩy"], fiat: ["Nạp fiat", "Thẻ, ngân hàng hoặc P2P"], chain: ["On-chain", "DEX từ ví"] } },
   it: { chk: "Verificato il", group: "Cosa vuoi fare?", venues: "Piattaforme per questa rotta", none: "Non ancora verificato", spot: "Spot", perp: "Perp", off: "Non disponibile su questa rotta", mt: "Maker / taker", i: { spot: ["Spot", "Compra e vendi monete"], perps: ["Perpetui", "Contratti con leva"], fiat: ["Ingresso fiat", "Carta, banca o P2P"], chain: ["On-chain", "DEX dal wallet"] } },
+
+ // l10n: needs native review
+ ur: {chk:"جانچ شدہ",group:"آپ کیا کرنا چاہتے ہیں؟",venues:"اس راستے کے پلیٹ فارم",none:"ابھی جانچ نہیں ہوئی",spot:"اسپاٹ",perp:"دائمی معاہدے",off:"اس راستے پر دستیاب نہیں",mt:"میکر / ٹیکر",i:{spot:["اسپاٹ","کوائن خریدیں اور بیچیں"],perps:["دائمی معاہدے","لیوریج والے معاہدے"],fiat:["روایتی کرنسی سے داخلہ","کارڈ، بینک یا P2P"],chain:["آن چین","والیٹ سے DEX تجارت"]}},
+ // l10n: needs native review
+ uk: {chk:"Перевірено",group:"Що ви хочете зробити?",venues:"Платформи для цього маршруту",none:"Ще не перевірено",spot:"Спот",perp:"Безстрокові контракти",off:"Не пропонується для цього маршруту",mt:"мейкер / тейкер",i:{spot:["Спот","Купівля й продаж монет"],perps:["Безстрокові контракти","Контракти з кредитним плечем"],fiat:["Введення фіату","Картка, банк або P2P"],chain:["Ончейн","Торгівля на DEX із гаманця"]}},
 };
 export const RF_HUB = {
   en: ["You", "Official domain check"], "zh-Hans": ["你", "官方域名核验"], "zh-Hant": ["你", "官方網域核驗"], ja: ["あなた", "公式ドメイン確認"],
   ko: ["나", "공식 도메인 확인"], tr: ["Siz", "Resmî alan adı kontrolü"], es: ["Tú", "Verificación del dominio oficial"], "pt-BR": ["Você", "Checagem do domínio oficial"],
   fr: ["Vous", "Vérification du domaine officiel"], de: ["Sie", "Prüfung der offiziellen Domain"], ru: ["Вы", "Проверка официального домена"], ar: ["أنت", "فحص النطاق الرسمي"],
   id: ["Anda", "Cek domain resmi"], vi: ["Bạn", "Kiểm tra tên miền chính thức"], it: ["Tu", "Verifica del dominio ufficiale"],
+
+ // l10n: needs native review
+ ur: ["آپ","سرکاری ڈومین کی جانچ"],
+ // l10n: needs native review
+ uk: ["Ви","Перевірка офіційного домену"],
 };
 export const CLOSE_COPY = {
   en: { title: "Pick your route. Then open the account.", lead: "Start from the directory, or put two platforms side by side first. Every sign-up link goes to the official page.", dir: "Browse the directory", cmp: "Compare two platforms", note: "Official sign-up pages only. Affiliate links are disclosed." },
@@ -38,6 +48,11 @@ export const CLOSE_COPY = {
   id: { title: "Pilih rutenya. Lalu buka akun.", lead: "Mulai dari direktori, atau bandingkan dua platform berdampingan lebih dulu. Setiap tautan pendaftaran mengarah ke halaman resmi.", dir: "Lihat direktori", cmp: "Bandingkan dua platform", note: "Hanya halaman pendaftaran resmi. Tautan afiliasi diungkapkan." },
   vi: { title: "Chọn lộ trình. Rồi mở tài khoản.", lead: "Bắt đầu từ danh bạ, hoặc đặt hai nền tảng cạnh nhau trước. Mọi liên kết đăng ký đều dẫn tới trang chính thức.", dir: "Xem danh bạ", cmp: "So sánh hai nền tảng", note: "Chỉ trang đăng ký chính thức. Liên kết tiếp thị liên kết được công khai." },
   ar: { title: "اختر المسار. ثم افتح الحساب.", lead: "ابدأ من الدليل، أو قارن منصتين جنبًا إلى جنب أولًا. كل رابط تسجيل يقود إلى الصفحة الرسمية.", dir: "تصفّح الدليل", cmp: "قارن بين منصتين", note: "صفحات التسجيل الرسمية فقط. علاقات الإحالة معلنة." },
+
+ // l10n: needs native review
+ ur: {title:"اپنا راستہ چنیں، پھر اکاؤنٹ کھولیں۔",lead:"فہرست سے شروع کریں یا پہلے دو پلیٹ فارم ساتھ رکھ کر دیکھیں۔ ہر رجسٹریشن لنک سرکاری صفحے پر جاتا ہے۔",dir:"فہرست دیکھیں",cmp:"دو پلیٹ فارم کا موازنہ",note:"صرف سرکاری رجسٹریشن صفحات۔ شراکتی لنکس ظاہر کیے جاتے ہیں۔"},
+ // l10n: needs native review
+ uk: {title:"Оберіть маршрут, потім відкрийте акаунт.",lead:"Почніть із каталогу або спочатку зіставте дві платформи. Кожне посилання реєстрації веде на офіційну сторінку.",dir:"Переглянути каталог",cmp:"Порівняти дві платформи",note:"Лише офіційні сторінки реєстрації. Партнерські посилання розкрито."},
 };
 // Route-rail dock labels (act names) and the closing index's extra group labels: [compare, verify, directory, account, more]
 export const RAIL = {
@@ -56,5 +71,10 @@ export const RAIL = {
   id: ["Bandingkan", "Verifikasi", "Direktori", "Daftar", "Rute lain"],
   vi: ["So sánh", "Xác minh", "Danh bạ", "Đăng ký", "Lộ trình khác"],
   it: ["Confronta", "Verifica", "Directory", "Iscriviti", "Altre rotte"],
+
+ // l10n: needs native review
+ ur: ["موازنہ","تصدیق","فہرست","رجسٹریشن","مزید راستے"],
+ // l10n: needs native review
+ uk: ["Порівняти","Перевірити","Каталог","Реєстрація","Інші маршрути"],
 };
 export const pickLocale = (m, locale) => m[locale] || m[String(locale || "en").split("-")[0]] || m.en;

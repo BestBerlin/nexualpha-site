@@ -29,7 +29,7 @@ const root = process.env.NEXUALPHA_LLMS_OUTPUT_DIR
   : new URL("../public/", import.meta.url);
 const PUBLIC_ORIGIN = "https://nexualpha.com";
 const TECHNICAL_INDEX_AUDIT_DATE = "2026-09-21";
-const PUBLIC_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const PUBLIC_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const REGIONAL_FUNDING_MATRIX_REVIEWED_AT = "2026-09-15";
 const REGIONAL_FUNDING_MATRIX_COVERAGE = "Reviewed funding checklist rows currently cover BR, MX, TW, ID, EU, UK, US, JP, HK, KR, SG and TR; every rail and account outcome still requires confirmation in the official logged-in account flow.";
 const REGIONAL_FUNDING_MATRIX_LIMITATIONS = "The matrix is a dated research checklist, not a live-rate feed, account approval decision, funding availability promise, product-access promise, user-benefit promise or registration outcome.";

@@ -22,6 +22,11 @@ const COPY = {
   id: ["Riset terkait", "Artikel terbaru di pustaka NexuAlpha tentang topik ini, masing-masing dengan daftar sumbernya.", "Semua artikel"],
   vi: ["Nghiên cứu liên quan", "Các bài viết mới nhất trong thư viện NexuAlpha về chủ đề này, mỗi bài đều liệt kê nguồn.", "Tất cả bài viết"],
   ar: ["أبحاث ذات صلة", "أحدث مقالات مكتبة NexuAlpha حول هذا الموضوع، مع ذكر مصادر كل مقال.", "كل المقالات"],
+
+ // l10n: needs native review
+ ur: ["متعلقہ تحقیق", "اس موضوع پر NexuAlpha کی تازہ ترین تحریریں، ہر تحریر کے ساتھ ماخذ درج ہیں۔", "تمام تحریریں"],
+ // l10n: needs native review
+ uk: ["Пов’язані дослідження", "Найновіші матеріали бібліотеки NexuAlpha на цю тему з переліком джерел у кожному.", "Усі матеріали"],
 };
 
 export function toolArticleCopy(locale = "en") {
@@ -48,11 +53,11 @@ export function ToolArticleLinks({ tool, locale = "en", initial = null }) {
   const copy = toolArticleCopy(locale);
   const headingId = `tool-articles-${String(tool).replace(/[^a-z0-9-]/gi, "-")}`;
   return (
-    <section className="nx-tool-articles v2-shell" aria-labelledby={headingId} data-tool-articles={tool} dir={locale === "ar" ? "rtl" : "ltr"}>
+    <section className="nx-tool-articles v2-shell" aria-labelledby={headingId} data-tool-articles={tool} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
       <div className="nx-tool-articles__intro">
         <h2 id={headingId}>{copy.title}</h2>
         <p>{copy.body}</p>
-        <a className="nx-tool-articles__all" href={localizedHref("/news", { locale })}>{copy.all} <span aria-hidden="true">{locale === "ar" ? "←" : "→"}</span></a>
+        <a className="nx-tool-articles__all" href={localizedHref("/news", { locale })}>{copy.all} <span aria-hidden="true">{["ar", "ur"].includes(locale) ? "←" : "→"}</span></a>
       </div>
       <ol className="nx-tool-articles__list">
         {data.items.map((item) => (

@@ -29,6 +29,10 @@ const copy = {
  ja:['記事を検索','テーマまたはプラットフォーム','このページに読み込まれた記事のみを検索します。','検索をクリア','条件に一致する読み込み済み記事はありません。','検索とカテゴリをリセット','検索結果：{n}'],
  ko:['기사 검색','주제 또는 플랫폼','이 페이지에 불러온 기사만 검색합니다.','검색 지우기','조건에 맞는 불러온 기사가 없습니다.','검색과 분류 초기화','결과: {n}'],
  tr:['Makalelerde ara','Konu veya platform','Yalnızca bu sayfada yüklenen makaleler aranır.','Aramayı temizle','Yüklenen makaleler arasında eşleşme yok.','Aramayı ve kategoriyi sıfırla','Sonuçlar: {n}'],
+  // l10n: needs native review
+  ur: ["مضامین تلاش کریں", "موضوع یا پلیٹ فارم", "تلاش صرف اس صفحے پر لوڈ کیے گئے مضامین میں ہوتی ہے۔", "تلاش صاف کریں", "لوڈ کیے گئے مضامین میں ان شرائط کے مطابق کوئی نتیجہ نہیں۔", "تلاش اور زمرہ دوبارہ ترتیب دیں", "نتائج: {n}"],
+  // l10n: needs native review
+  uk: ["Пошук статей", "Тема або платформа", "Пошук лише серед статей, завантажених на цій сторінці.", "Очистити пошук", "Серед завантажених статей немає відповідних результатів.", "Скинути пошук і категорію", "Результати: {n}"],
  ar:['البحث في المقالات','موضوع أو منصة','يقتصر البحث على المقالات المحمّلة في هذه الصفحة.','مسح البحث','لا توجد مقالات محمّلة تطابق هذه الشروط.','إعادة ضبط البحث والفئة','النتائج: {n}'],
  es:['Buscar artículos','Tema o plataforma','La búsqueda se limita a los artículos cargados en esta página.','Borrar búsqueda','Ningún artículo cargado coincide con estas condiciones.','Restablecer búsqueda y categoría','Resultados: {n}'],
  'pt-BR':['Pesquisar artigos','Tema ou plataforma','A pesquisa abrange apenas os artigos carregados nesta página.','Limpar pesquisa','Nenhum artigo carregado corresponde a estas condições.','Redefinir pesquisa e categoria','Resultados: {n}'],

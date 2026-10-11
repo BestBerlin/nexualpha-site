@@ -42,7 +42,7 @@ const PARAMS = {
   accountStage: "account_stage",
   funding: "funding",
 };
-const SAFE_LOCALES = new Set(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"]);
+const SAFE_LOCALES = new Set(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"]);
 
 function enumValue(value, allowed, fallback) {
   return allowed.includes(value) ? value : fallback;

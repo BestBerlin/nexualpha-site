@@ -9,6 +9,10 @@ export const productPathLabel = (locale, product) => {
     de: { spot: "Spot", fallback: "Plattformpfad" },
     ru: { spot: "Спот", fallback: "Маршрут платформы" },
     ar: { spot: "فوري", fallback: "مسار المنصة" },
+    // l10n: needs native review
+    ur: { spot: "Spot", fallback: "پلیٹ فارم راستہ" },
+    // l10n: needs native review
+    uk: { spot: "Спот", fallback: "Маршрут платформи" },
     id: { spot: "Spot", fallback: "Rute platform" },
     vi: { spot: "Spot", fallback: "Lộ trình nền tảng" },
     it: { spot: "Spot", fallback: "Percorso della piattaforma" },
@@ -24,6 +28,10 @@ export function decisionCopy(locale) {
   if (locale === "tr") return { primary: "Birincil rota", alternative: "Alternatif", verify: "Doğrula", open: "Profili ve koşulları görüntüle", verifyBody: "Yalnızca küresel kapsam kayıtlı; ikamet ve ürün uygunluğunu resmî akışta doğrulayın." };
   if (locale === "es") return { primary: "Primera opción", alternative: "Alternativa", verify: "Verificar", open: "Ver perfil y condiciones", verifyBody: "Solo hay datos de cobertura global; confirma residencia y producto en el flujo oficial." };
   if (locale === "id") return { primary: "Pilihan utama", alternative: "Alternatif", verify: "Perlu verifikasi", open: "Lihat profil dan syarat", verifyBody: "Data yang tersedia bersifat global; verifikasi domisili dan produk di alur resmi." };
+  // l10n: needs native review
+  if (locale === "ur") return { primary: "بنیادی راستہ", alternative: "متبادل", verify: "پہلے تصدیق کریں", open: "پروفائل اور شرائط دیکھیں", verifyBody: "صرف عالمی کوریج درج ہے؛ رہائش اور پروڈکٹ اہلیت کو سرکاری فلو میں چیک کریں۔" };
+  // l10n: needs native review
+  if (locale === "uk") return { primary: "Основний маршрут", alternative: "Альтернатива", verify: "Спершу перевірте", open: "Переглянути профіль і умови", verifyBody: "Записано лише глобальне покриття; перевірте резидентство й доступність продукту в офіційному процесі." };
   if (locale.startsWith("zh")) return { primary: "首选入口", alternative: "次选入口", verify: "需核验", open: "查看平台决策页", verifyBody: "目前只有全球范围资料，请先在官方流程核对居住地与产品资格。" };
   return { primary: "Primary route", alternative: "Alternative", verify: "Verify first", open: "View profile and conditions", verifyBody: "Only global coverage is recorded; verify residence and product eligibility in the official flow." };
 }
@@ -41,6 +49,10 @@ export function accountStageCopy(locale, stage) {
     de: { new_account: ["Erstes Konto", "Prüfen Sie zuerst Konto, Einzahlung und Produkt."], another_platform: ["Andere Plattform wird genutzt", "Vergleichen Sie die Unterschiede vor einem weiteren Konto."], existing_account: ["Zielkonto vorhanden", "Prüfen Sie die aktuellen Bedingungen im offiziellen Ablauf."] },
     ru: { new_account: ["Первый аккаунт", "Сначала проверьте аккаунт, пополнение и продукт."], another_platform: ["Используется другая платформа", "Сравните различия до открытия нового аккаунта."], existing_account: ["Целевой аккаунт уже есть", "Проверьте текущие условия в официальном процессе."] },
     ar: { new_account: ["الحساب الأول", "تحقق أولاً من الحساب والتمويل والمنتج."], another_platform: ["تستخدم منصة أخرى", "راجع الفروقات قبل فتح حساب إضافي."], existing_account: ["الحساب المستهدف موجود", "تحقق من الشروط الحالية في المسار الرسمي."] },
+    // l10n: needs native review
+    ur: { new_account: ["پہلا اکاؤنٹ", "اکاؤنٹ، فنڈنگ اور پروڈکٹ چیکس سے شروع کریں۔"], another_platform: ["کسی موجودہ پلیٹ فارم سے موازنہ", "دوسرا اکاؤنٹ کھولنے سے پہلے فرق دیکھیں۔"], existing_account: ["ہدف اکاؤنٹ پہلے سے موجود ہے", "موجودہ اکاؤنٹ شرائط کو سرکاری فلو میں تصدیق کریں۔"] },
+    // l10n: needs native review
+    uk: { new_account: ["Перший рахунок", "Почніть із перевірки рахунку, поповнення й продукту."], another_platform: ["Порівняння з наявною платформою", "Перегляньте різницю перед відкриттям ще одного рахунку."], existing_account: ["Цільовий рахунок уже існує", "Підтвердьте поточні умови рахунку в офіційному процесі."] },
     vi: { new_account: ["Tài khoản đầu tiên", "Kiểm tra tài khoản, nạp tiền và sản phẩm trước."], another_platform: ["Đang dùng nền tảng khác", "Xem khác biệt trước khi mở thêm tài khoản."], existing_account: ["Đã có tài khoản mục tiêu", "Xác minh điều kiện hiện tại trong quy trình chính thức."] },
     it: { new_account: ["Primo account", "Verifica prima account, finanziamento e prodotto."], another_platform: ["Usi già un’altra piattaforma", "Confronta le differenze prima di aprire un altro account."], existing_account: ["Account obiettivo già presente", "Verifica le condizioni attuali nel percorso ufficiale."] },
   };
@@ -163,6 +175,46 @@ const directoryLocaleCopy = {
     verifyEligibility: "تحقق أولاً من الأهلية الإقليمية",
     compactSummary: (count) => `تعرض الصفحة الرئيسية 6 منصات على الكمبيوتر و3 على الهاتف؛ العدد المتاح ${count}.`,
     copied: (code) => `تم نسخ رمز الدعوة [${code}]`,
+  },
+  // l10n: needs native review
+  "ur": {
+    context: (label, product) => `تحقیق سیاق: ${label} · پروڈکٹ راستہ: ${product === "spot" ? "Spot" : "پلیٹ فارم پر منتخب کریں"}۔ اہلیت کو سرکاری فلو میں چیک کریں۔`,
+    shortlist: "درج شدہ علاقائی شواہد پر مبنی شارٹ لسٹ",
+    partnerRoute: "پارٹنر راستہ کنفیگر ہے",
+    officialRoute: "سرکاری راستہ",
+    showMoreRoutes: "دیگر علاقائی راستے دیکھیں",
+    hideMoreRoutes: "دیگر علاقائی راستے چھپائیں",
+    fitPending: "پہلے عوامی پروڈکٹس، علاقائی اہلیت اور سرکاری فیس چیک کریں",
+    regionalFit: "علاقائی مطابقت",
+    factsSummary: "فیس، PoR اور KYC حالت دیکھیں",
+    spotFee: "Spot فیس",
+    futuresPool: "Futures / pools",
+    porReserves: "PoR ذخائر",
+    copyInviteTitle: "دعوتی کوڈ کاپی کریں",
+    detailPending: "پروفائل زیر التوا",
+    verifyEligibility: "پہلے علاقائی اہلیت چیک کریں",
+    compactSummary: (count) => `ہوم پیج ڈیسک ٹاپ پر 6 اور موبائل پر 3 پلیٹ فارمز دکھاتا ہے؛ کل ${count} دستیاب ہیں۔`,
+    copied: (code) => `دعوتی کوڈ کاپی ہو گیا [${code}]`,
+  },
+  // l10n: needs native review
+  "uk": {
+    context: (label, product) => `Контекст дослідження: ${label} · Маршрут продукту: ${product === "spot" ? "Спот" : "Оберіть на платформі"}. Перевірте доступність в офіційному процесі.`,
+    shortlist: "Добірка на основі зафіксованих регіональних доказів",
+    partnerRoute: "Партнерський маршрут налаштовано",
+    officialRoute: "Офіційний маршрут",
+    showMoreRoutes: "Показати інші регіональні маршрути",
+    hideMoreRoutes: "Сховати інші регіональні маршрути",
+    fitPending: "Спершу перевірте публічні продукти, регіональну доступність і офіційні комісії",
+    regionalFit: "Регіональна відповідність",
+    factsSummary: "Переглянути комісії, PoR і статус KYC",
+    spotFee: "Спотова комісія",
+    futuresPool: "Ф’ючерси / пули",
+    porReserves: "Резерви PoR",
+    copyInviteTitle: "Скопіювати код запрошення",
+    detailPending: "Профіль очікує",
+    verifyEligibility: "Спершу перевірте регіональну доступність",
+    compactSummary: (count) => `Головна показує 6 платформ на комп’ютері й 3 на мобільному; доступно ${count}.`,
+    copied: (code) => `Код запрошення скопійовано [${code}]`,
   },
   "id": {
     context: (label, product) => `Konteks riset: ${label} · Rute produk: ${product === "spot" ? "Spot" : "Pilih di platform"}. Verifikasi kelayakan dalam alur resmi.`,

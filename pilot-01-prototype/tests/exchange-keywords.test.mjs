@@ -21,7 +21,7 @@ import { routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 import { sitemapLocalesForRoute } from "../scripts/sitemap-publication-policy.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
-const ALL_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
+const ALL_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 const graph = (value) => value?.["@graph"] || (Array.isArray(value) ? value : [value]);
 const faqOf = (schemas) => graph(schemas).find((schema) => schema?.["@type"] === "FAQPage");
 const codeOf = (slug) => REFERRAL_PARTNERS.find((p) => p.slug === slug)?.inviteCode;

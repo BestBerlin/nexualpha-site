@@ -10,7 +10,7 @@ test('commercial claims fail closed without timestamp and official source', () =
 
 test('commercial benefit warning is localized for every supported locale without changing brand names', () => {
   const claim = resolveCommercialClaim({ partner: { rebatePercent: 20 }, venue: {} });
-  const locales = ['en', 'zh-Hans', 'zh-Hant', 'es', 'pt-BR', 'fr', 'de', 'ja', 'ko', 'ar', 'tr', 'ru', 'id', 'vi', 'it'];
+  const locales = ['en', 'zh-Hans', 'zh-Hant', 'es', 'pt-BR', 'fr', 'de', 'ja', 'ko', 'ar', 'tr', 'ru', 'id', 'vi', 'it', "ur", "uk"];
 
   for (const locale of locales) {
     const message = publicCommercialBenefit({ locale, venueName: 'Bitget', claim });

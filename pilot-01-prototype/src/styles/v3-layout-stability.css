@@ -309,11 +309,11 @@ html:lang(en) .explorer-section .section-lead h1 {
 }
 
 /* Arabic prose labels must not inherit tracked Latin data typography. */
-html:lang(ar) .v3-back-link,
-html:lang(ar) .v3-independent-badge,
-html:lang(ar) .v3-decision-brief > span,
-html:lang(ar) .v3-decision-brief dt,
-html:lang(ar) .v3-profile-decision article > span {
+html:is(:lang(ar), :lang(ur)) .v3-back-link,
+html:is(:lang(ar), :lang(ur)) .v3-independent-badge,
+html:is(:lang(ar), :lang(ur)) .v3-decision-brief > span,
+html:is(:lang(ar), :lang(ur)) .v3-decision-brief dt,
+html:is(:lang(ar), :lang(ur)) .v3-profile-decision article > span {
   font-family: var(--font-body);
   font-size: .875rem;
   font-weight: 600;

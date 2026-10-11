@@ -27,7 +27,7 @@
 }
 .v6 .v6-close .v6-close__title:lang(ja):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(zh):not(#_):not(#_), .v6 .v6-close .v6-close__title:lang(ko):not(#_):not(#_) { line-height: var(--lh-head, 1.15); letter-spacing: -0.02em; word-break: keep-all; overflow-wrap: anywhere; line-break: strict; }
 
-.v6 .v6-close .v6-close__title:lang(ar):not(#_):not(#_) { letter-spacing: 0; line-height: var(--lh-head, 1.15); }
+.v6 .v6-close .v6-close__title:is(:lang(ar), :lang(ur)):not(#_):not(#_) { letter-spacing: 0; line-height: var(--lh-head, 1.15); }
 .v6 .v6-close__line { display: block; }
 .v6 .v6-close__w { display: inline-block; overflow: hidden; vertical-align: top; padding-block: 0.1em; margin-block: -0.1em; padding-inline: 0.02em; margin-inline: -0.02em; }
 .v6 .v6-close__w > span { display: inline-block; }

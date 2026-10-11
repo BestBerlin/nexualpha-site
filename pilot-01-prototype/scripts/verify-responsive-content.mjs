@@ -5,7 +5,7 @@ const require=createRequire('/Users/bestberlin/.codex/shared-tools/web-quality/p
 const base=process.env.AUDIT_URL||'http://127.0.0.1:4202';
 const out=path.resolve(process.env.CONTENT_AUDIT_OUT||'artifacts/responsive-content');await mkdir(out,{recursive:true});
 const browser=await require('puppeteer-core').launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
-const locales=process.env.CONTENT_AUDIT_SMOKE?['zh-Hans']:['en','zh-Hans','zh-Hant','pt-BR','es','fr','de','ja','ko','ar','tr','ru','id','vi','it'];
+const locales=process.env.CONTENT_AUDIT_SMOKE?['zh-Hans']:['en','zh-Hans','zh-Hant','pt-BR','es','fr','de','ja','ko','ar','tr','ru','id','vi','it','ur','uk'];
 const jobs=[];
 for(const locale of locales)for(const width of process.env.CONTENT_AUDIT_SMOKE?[390]:[320,390,768,1440])for(const route of ['/compare/binance-vs-okx','/factbook/binance','/'])jobs.push({locale,width,route});
 if(!process.env.CONTENT_AUDIT_SMOKE)for(const locale of ['en','zh-Hans','zh-Hant','pt-BR','ar'])for(const route of ['/compare/binance-vs-okx','/factbook/binance','/'])jobs.push({locale,width:390,route,large:true});

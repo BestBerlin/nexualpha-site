@@ -11,7 +11,7 @@ const workspaceRoot = resolve(projectRoot, "..");
 const sharedRoot = "/Users/bestberlin/.codex/shared-tools/web-quality";
 const sharedRequire = createRequire(join(sharedRoot, "package.json"));
 const puppeteer = sharedRequire("puppeteer-core");
-const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const routes = ["/news", "/activities", "/rates", "/factbook/binance"];
 // Keep the verifier aligned with the canonical local Sites preview port. CI or
 // production runs can still override this with RAIL_LOCALE_URL.

@@ -15,7 +15,7 @@ const DEFAULT_GSC_BASELINE = path.join(projectRoot, "docs", "evidence", "four-we
 const DEFAULT_OUTPUT = path.join(projectRoot, "docs", "evidence", "four-week-growth-20260927", "index-backlog-priority.json");
 const DEFAULT_MARKDOWN = path.join(projectRoot, "docs", "evidence", "four-week-growth-20260927", "index-backlog-priority.md");
 
-const LOCALE_PREFIXES = new Set(["ar", "de", "en", "es", "fr", "id", "ja", "ko", "pt-BR", "pt", "ru", "th", "tr", "vi", "zh-Hans", "zh-Hant"]);
+const LOCALE_PREFIXES = new Set(["ar", "de", "en", "es", "fr", "id", "ja", "ko", "pt-BR", "pt", "ru", "th", "tr", "uk", "ur", "vi", "zh-Hans", "zh-Hant"]);
 const BRAZIL_ROUTES = new Set(["/br", "/br/comparar", "/br/conta", "/br/custos", "/br/kyc-cpf", "/br/pix", "/br/saque-pix"]);
 
 const PRIORITY_OWNERS = new Map([

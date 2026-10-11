@@ -66,5 +66,5 @@ test("onchain body remains compact and readable", () => {
   assert.match(css, /@media \(max-width:\s*860px\) \{[\s\S]*\.onchain-board__answer\s*\{\s*grid-template-columns:\s*1fr;/);
   assert.match(css, /\.onchain-board__empty\s*\{[\s\S]*gap:\s*0\.35rem/);
   assert.match(source, /role="status"/);
-  assert.match(source, /dir=\{locale === "ar" \? "rtl" : undefined\}/);
+  assert.match(source, /dir=\{\["ar", "ur"\]\.includes\(String\(locale \|\| ""\)\.split\("-"\)\[0\]\) \? "rtl" : undefined\}/);
 });

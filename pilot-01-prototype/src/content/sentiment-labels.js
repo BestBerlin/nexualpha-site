@@ -14,6 +14,10 @@ const labels = {
   ru: ["Крайний страх", "Страх", "Нейтрально", "Жадность", "Крайняя жадность"],
   id: ["Ketakutan ekstrem", "Ketakutan", "Netral", "Keserakahan", "Keserakahan ekstrem"],
   vi: ["Sợ hãi tột độ", "Sợ hãi", "Trung lập", "Tham lam", "Tham lam tột độ"],
+  // l10n: needs native review
+  ur: ["انتہائی خوف", "خوف", "غیر جانبدار", "لالچ", "انتہائی لالچ"],
+  // l10n: needs native review
+  uk: ["Крайній страх", "Страх", "Нейтрально", "Жадібність", "Крайня жадібність"],
   it: ["Paura estrema", "Paura", "Neutrale", "Avidità", "Avidità estrema"],
 };
 

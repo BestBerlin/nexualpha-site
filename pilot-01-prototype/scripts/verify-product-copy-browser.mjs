@@ -14,7 +14,7 @@ const sharedRoot = process.env.CODEX_WEB_QUALITY_ROOT || "/Users/bestberlin/.cod
 const sharedRequire = createRequire(join(sharedRoot, "package.json"));
 const puppeteer = sharedRequire("puppeteer-core");
 
-const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const localePathPrefixes = [...locales.map((locale) => locale.toLowerCase()), "id-id"];
 const viewports = [
   { id: "390", width: 390, height: 844 },

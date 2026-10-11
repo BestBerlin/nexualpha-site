@@ -6,7 +6,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const nonEnglishLocales = locales.filter((locale) => locale !== "en");
 
 const renderComparePages = async (cases) => {
@@ -106,7 +106,7 @@ test("comparison matrix preserves hero partner CTAs while routing matrix actions
   assert.match(page.html, /<strong class="v3-matrix-code-val">nexu888<\/strong>/);
 });
 
-test("comparison helper labels and pending disclosure avoid English fallback in 15 locales", async () => {
+test("comparison helper labels and pending disclosure avoid English fallback all 17 locales", async () => {
   const pages = await renderComparePages(locales.map((locale) => ({ key: locale, locale, selected: ["bybit", "bitget"] })));
   assert.equal(pages.length, locales.length);
 

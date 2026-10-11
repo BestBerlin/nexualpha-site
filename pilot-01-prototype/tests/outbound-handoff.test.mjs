@@ -140,7 +140,7 @@ test("offerIdentity changes when country or offer version changes so consent and
 });
 
 test("handoffCopy provides local strings for every supported selector locale", () => {
-  assert.deepEqual(handoffLocales, ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"]);
+  assert.deepEqual(handoffLocales, ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"]);
   for (const locale of handoffLocales) {
     const copy = handoffCopy(locale);
     for (const key of ["title", "loading", "noOffer", "unavailable", "retry", "countryLabel", "chooseCountry", "chooseCountryHint", "consentLabel", "continue", "disclosurePrefix", "originalDisclosureNote", "destinationHost", "safetyError", "requestError", "staleError"]) {

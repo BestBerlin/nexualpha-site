@@ -248,6 +248,11 @@ export const NEWS_DETAIL_COPY_L10N = Object.freeze({
     loadingTitle: "جارٍ تحميل المقال…",
     loadingBody: "جارٍ قراءة النص الموثق والمصادر.",
   },
+
+  // l10n: needs native review
+  ur: { notFoundTitle: "مضمون نہیں ملا", notFoundBody: "مطلوبہ مضمون موجود نہیں یا محفوظ کر دیا گیا ہے۔", loadingTitle: "مضمون لوڈ ہو رہا ہے…", loadingBody: "تصدیق شدہ متن اور ذرائع پڑھے جا رہے ہیں۔" },
+  // l10n: needs native review
+  uk: { notFoundTitle: "Статтю не знайдено", notFoundBody: "Запитаної статті немає або її архівовано.", loadingTitle: "Завантаження статті…", loadingBody: "Читаємо перевірений текст і джерела." },
 });
 
 // Fills the keys each locale object of `copy` still inherits from English; keys defined inline win.

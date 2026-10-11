@@ -62,7 +62,7 @@ for (const r of results) {
   if (r.ms > 3000) add("slow>3s", r, `${r.ms}ms`);
   const want = HTML_LANG[r.locale] || r.locale;
   if (r.lang !== want) add("html-lang", r, `${r.lang} want ${want}`);
-  if (r.locale === "ar" && r.dir !== "rtl") add("dir", r, String(r.dir));
+  if (["ar", "ur"].includes(r.locale) && r.dir !== "rtl") add("dir", r, String(r.dir));
   if (!r.title) add("no-title", r);
   if (!r.description) add("no-description", r);
   if (r.h1 !== 1) add("h1-count", r, String(r.h1));

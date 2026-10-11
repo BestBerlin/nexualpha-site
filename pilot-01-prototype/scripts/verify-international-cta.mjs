@@ -13,7 +13,7 @@ const puppeteer = require('puppeteer-core');
 // this for production or another isolated preview with AUDIT_URL.
 const base = process.env.AUDIT_URL || 'http://127.0.0.1:4173';
 const out = path.resolve(process.env.INTERNATIONAL_OUT || '../artifacts/international-cta/current');
-const locales = ['en','zh-Hans','zh-Hant','pt-BR','es','fr','de','ja','ko','ar','tr','ru','id','vi','it'];
+const locales = ['en','zh-Hans','zh-Hant','pt-BR','es','fr','de','ja','ko','ar','tr','ru','id','vi','it','ur','uk'];
 
 const readPositiveInt = (value, fallback) => {
   const parsed = Number.parseInt(value ?? '', 10);

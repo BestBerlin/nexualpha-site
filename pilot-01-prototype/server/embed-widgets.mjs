@@ -5,7 +5,7 @@
 // GET /embed/<kind>.js is a tiny injector that inserts the iframe after its own <script> tag.
 // Headers: no X-Frame-Options and `frame-ancestors *` so any site can iframe it; X-Robots-Tag noindex (crawlable, not
 // indexed, never in a sitemap); Cache-Control public, max-age=300 (the collector rewrites every five minutes).
-// Options: ?locale=<one of the 15 UI locales>, ?theme=dark|light and (funding only) ?symbol=BTC to list that row first. Nothing is estimated when the feed is missing —
+// Options: ?locale=<one of the 17 UI locales>, ?theme=dark|light and (funding only) ?symbol=BTC to list that row first. Nothing is estimated when the feed is missing —
 // the widget shows the pages' "temporarily unavailable" copy instead.
 import {
   DATA_PAGE_LOCALES, EMBED_KINDS, EMBED_MAX_HEIGHT, EMBED_PATH_PREFIX, dataPageCopy, embedSource, formatRatePct, formatUsdCompact, formatUtcTime,
@@ -119,7 +119,7 @@ export function renderEmbedHtml(kind, feed, { locale = "en", theme = "dark", ori
   const { body, ok, generatedAt } = kind === "liquidations" ? liquidationsBody(feed, loc) : fundingBody(feed, loc, normalizeEmbedSymbol(symbol));
   const title = `${kind === "liquidations" ? copy.liquidations.h1 : copy.funding.h1} — NexuAlpha`;
   const html = `<!doctype html>
-<html lang="${esc(loc)}" dir="${loc === "ar" ? "rtl" : "ltr"}" data-theme="${th}">
+<html lang="${esc(loc)}" dir="${["ar", "ur"].includes(loc) ? "rtl" : "ltr"}" data-theme="${th}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

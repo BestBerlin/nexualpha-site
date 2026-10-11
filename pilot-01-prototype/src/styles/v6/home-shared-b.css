@@ -10,18 +10,18 @@
   --v6-sans: var(--font-sans);
 }
 /* from home-r7.css */
-#top.v6:lang(ar) {
+#top.v6:is(:lang(ar), :lang(ur)) {
   --font-sans: "Geist V5", "Noto Sans Arabic", "Noto Sans Arabic UI", "IBM Plex Sans Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Pilot Noto Arabic", sans-serif;
   --v6-sans: var(--font-sans);
 }
 /* from home-r7.css */
-#top.v6:is(:lang(ja), :lang(ar)) { font-family: var(--font-sans); }
+#top.v6:is(:lang(ja), :lang(ar), :lang(ur)) { font-family: var(--font-sans); }
 /* from home-r7.css */
-#top.v6:lang(ar) :is(h1, h2, .rf-title, .v6-h1, .v6-h2, .v6-close__title):not(#_) { line-height: var(--lh-head, 1.15); }
+#top.v6:is(:lang(ar), :lang(ur)) :is(h1, h2, .rf-title, .v6-h1, .v6-h2, .v6-close__title):not(#_) { line-height: var(--lh-head, 1.15); }
 /* from home-r8.css */
-#top.v6:lang(ar) {
+#top.v6:is(:lang(ar), :lang(ur)) {
   --font-sans: "Geist V5", "Pilot Noto Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif;
   --v6-sans: var(--font-sans);
 }
 /* from home-r8.css */
-#top.v6:is(:lang(ja), :lang(ar)) { font-synthesis-weight: none; }
+#top.v6:is(:lang(ja), :lang(ar), :lang(ur)) { font-synthesis-weight: none; }

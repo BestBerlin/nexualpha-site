@@ -15,7 +15,7 @@ const copyDict = runInNewContext(
   { timeout: 1000 },
 );
 
-const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const routeAndPreflightKeys = [
   "officialRouteState",
   "openOfficial",

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { LOCALE_PREFIX_BY_CODE } from '../src/data/locale-routing.js';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
-const locales = ['en','zh-Hans','zh-Hant','es','pt-BR','fr','de','ja','ko','ar','tr','ru','id','vi','it'];
+const locales = ['en','zh-Hans','zh-Hant','es','pt-BR','fr','de','ja','ko','ar','tr','ru','id','vi','it', "ur", "uk"];
 
 test('cost decision localizes the whole rendered tool and keeps decimal input plus tracked actions', async () => {
   const temp = await mkdtemp(path.join(root,'tests/.tmp-cost-locales-'));

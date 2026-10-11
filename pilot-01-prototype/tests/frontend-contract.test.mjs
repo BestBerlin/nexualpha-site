@@ -574,7 +574,7 @@ test("international regional previews provide localized controls beyond the five
   assert.match(regionalPreview, /ui\.sourceStatus/);
   assert.match(regionalPreview, /pageBoundary/);
   assert.match(regionalPreviewCopy, /Source pack pending/);
-  assert.match(regionalPreview, /dir=\{locale === "ar" \? "rtl" : "ltr"\}/);
+  assert.match(regionalPreview, /dir=\{\["ar", "ur"\]\.includes\(locale\) \? "rtl" : "ltr"\}/);
 });
 
 test("regional locale tags preserve pt-BR detail labels instead of collapsing to pt", () => {
@@ -685,7 +685,7 @@ test("news detail adds compact first-decision summaries for priority CTR article
   assert.match(newsDetailPage, /ctaPlacement="news-detail-first-decision"/);
   assert.match(newsDetailPage, /originalSource = article\.sources\?\.find/);
   assert.match(newsDetailPage, /sourceAction = originalSource/);
-  assert.match(newsDetailPage, /<DataRule[\s\S]*as="h2"[\s\S]*label=\{t\.sourcesTitle\}[\s\S]*labelId="article-sources"[\s\S]*lang: t\.sourcesTitle === copy\.en\.sourcesTitle \? "en" : locale, dir: locale === "ar" \? "rtl" : "ltr"/);
+  assert.match(newsDetailPage, /<DataRule[\s\S]*as="h2"[\s\S]*label=\{t\.sourcesTitle\}[\s\S]*labelId="article-sources"[\s\S]*lang: t\.sourcesTitle === copy\.en\.sourcesTitle \? "en" : locale, dir: \["ar", "ur"\]\.includes\(locale\) \? "rtl" : "ltr"/);
   assert.match(newsDetailPage, /const fallbackCopy = copy\.en/);
   assert.ok(
     newsDetailPage.indexOf("<ArticleDecisionSummary") < newsDetailPage.indexOf("news-detail__partners-box"),
@@ -1591,7 +1591,7 @@ test("methodology remains available in code without occupying the conversion hom
 test("locale state and the fixed default market cover the application root without a region selector", () => {
   assert.match(app, /<main key=\{`locale-\$\{locale\}`\} className="v2-page home-refinement v5 v6" id="top" dir=\{getTextDirection\(locale\)\}>/);
   assert.match(app, /document\.documentElement\.dir = getTextDirection\(locale\)/);
-  assert.match(app, /supportedLocales\.filter\(\(code\) => !brazil \|\| code === "pt-BR"\)\.map/);
+  assert.match(app, /supportedLocales\.map\(\(code\) => \(\{ code, label: localeManifest\[code\]\.language \}\)\)\.filter\(\(option\) => !brazil \|\| option\.code === "pt-BR"\)/);
   assert.match(app, /const region = "Global"/);
   assert.doesNotMatch(app, /aria-label=\{copy\.ui\.marketRegion\}/);
   assert.match(app, /const readLocale = \(initialUrl\) =>/);

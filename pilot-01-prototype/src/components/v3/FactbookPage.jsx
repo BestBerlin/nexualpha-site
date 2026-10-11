@@ -780,6 +780,10 @@ const factbookChromeLocale = {
   id: { secPorTitle: "Bukti cadangan dan informasi keuangan", foundedLabel: "Didirikan", hqLabel: "Kantor pusat", primaryLabel: "Situs resmi", secPorSub: "Periksa cadangan dan pengungkapan keuangan yang dipublikasikan dari sumber resmi.", openReserveData: "Buka semua data cadangan", openComplianceData: "Buka semua data kepatuhan", openSecurityData: "Buka semua endpoint keamanan" },
   vi: { secPorTitle: "Bằng chứng dự trữ và thông tin tài chính", foundedLabel: "Thành lập", hqLabel: "Trụ sở", primaryLabel: "Trang chính thức", secPorSub: "Kiểm tra dữ liệu dự trữ và công bố tài chính từ nguồn chính thức.", openReserveData: "Mở toàn bộ dữ liệu dự trữ", openComplianceData: "Mở toàn bộ dữ liệu tuân thủ", openSecurityData: "Mở toàn bộ điểm cuối bảo mật" },
   it: { secPorTitle: "Prova delle riserve e informazioni finanziarie", foundedLabel: "Fondazione", hqLabel: "Sede", primaryLabel: "Sito ufficiale", secPorSub: "Verifica riserve pubblicate e dati finanziari tramite fonti ufficiali.", openReserveData: "Apri tutti i dati sulle riserve", openComplianceData: "Apri tutti i dati sulla conformità", openSecurityData: "Apri tutti gli endpoint di sicurezza" },
+  // l10n: needs native review
+  ur: { secPorTitle: "ذخائر کا ثبوت اور مالی معلومات", foundedLabel: "قیام", hqLabel: "مرکزی دفتر", primaryLabel: "سرکاری سائٹ", secPorSub: "شائع شدہ ذخائر اور مالی افشا بیانات کو سرکاری ذرائع سے چیک کریں۔", openReserveData: "تمام ذخائر ڈیٹا کھولیں", openComplianceData: "تمام تعمیل ڈیٹا کھولیں", openSecurityData: "تمام سیکیورٹی اینڈ پوائنٹس کھولیں" },
+  // l10n: needs native review
+  uk: { secPorTitle: "Підтвердження резервів і фінансова інформація", foundedLabel: "Засновано", hqLabel: "Штаб-квартира", primaryLabel: "Офіційний сайт", secPorSub: "Перевіряйте опубліковані резерви й фінансові розкриття за офіційними джерелами.", openReserveData: "Відкрити всі дані резервів", openComplianceData: "Відкрити всі дані відповідності", openSecurityData: "Відкрити всі безпекові ендпоїнти" },
 };
 // These fields sit above the long fact tables and must never fall back to the
 // English benchmark copy on an otherwise localized page.
@@ -1144,6 +1148,105 @@ const VENUE_MORE = {
   vi: { all: (n) => `Hiện tất cả ${n}`, fewer: "Thu gọn" },
   ar: { all: (n) => `عرض الكل (${n})`, fewer: "عرض أقل" },
 };
+
+// l10n: needs native review
+i18n.ur = {
+  ...i18n.en,
+  eyebrow: "GEO FACTBOOK · حقیقی ڈیٹا بنچ مارک",
+  auditLabel: "NexuAlpha ماخذی جائزہ",
+  auditIsolation: "آڈٹ علیحدگی کا بیان",
+  verifiedBadge: "ماخذ کی حالت کے لیے ہر آئٹم کی تصدیق ضروری ہے",
+  copyHash: "شناختی نشان کاپی کریں",
+  copiedHash: "✓ کاپی ہو گیا",
+  copyMarkdownBtn: "LLM کے لیے موزوں Markdown ڈیٹا کاپی کریں",
+  copyMarkdownSub: "LLM پرامپٹس اور RAG کے لیے منظم · ہر ماخذ خانہ تصدیق کریں",
+  copiedMarkdown: "✓ LLM علمی بلاک کاپی ہو گیا!",
+  answerEyebrow: "رجسٹریشن سے پہلے براہ راست جواب",
+  answerTitle: "سرکاری عمل میں داخل ہونے سے پہلے تین شرائط چیک کریں",
+  answerBody: "یہ فیکٹ بک صرف قابل سراغ عوامی تحقیق فراہم کرتی ہے۔ فیس، علاقائی اہلیت اور شناختی تقاضے اکاؤنٹ اور وقت کے ساتھ بدلتے ہیں؛ آخری شرائط سرکاری پلیٹ فارم صفحے پر نافذ ہوتی ہیں۔",
+  answerSteps: ["علاقہ اور مصنوعات دستیاب ہیں یا نہیں", "فیس اور اکاؤنٹ سطحوں کی ماخذ تاریخ", "سرکاری ڈومین اور KYC تقاضے"],
+  openDecisionPath: "پلیٹ فارم فیصلہ صفحہ کھولیں →",
+  previewMarkdown: "خام LLM Markdown ڈیٹا دیکھیں",
+  hidePreview: "خام Markdown پیش منظر چھپائیں",
+  navAll: "تمام فیکٹ بک تحقیقی ریکارڈ",
+  researchScopeNote: `فیکٹ بک میں ${factbookRecordCount} تحقیقی ریکارڈ؛ ڈائریکٹری میں ${comparisonDirectoryCount} موازنہ پروفائلز ہیں۔`,
+  secVipTitle: "VIP0 تا VIP9 فیس شیڈول اور خالص شرحیں",
+  secVipSub: "سرکاری maker/taker بنیادی فیس سطحیں اور مقامی ٹوکن قواعد؛ خالص شرح سے پہلے صارف فوائد کی ماخذی تصدیق ضروری ہے۔",
+  tabSpot: "اسپاٹ مارکیٹ",
+  tabFutures: "فیوچرز / ڈیریویٹوز",
+  secPorTitle: "ذخائر کا ثبوت",
+  secPorSub: "ذخائر کے اعداد صرف تاریخ والے سرکاری ماخذ کے ساتھ دکھتے ہیں؛ تب تک ہر آئٹم 'ابھی جانچ نہیں' رہتا ہے۔",
+  secKycTitle: "ضابطہ کاری، KYC اور اکاؤنٹ سکیورٹی",
+  secSecurityTitle: "سرکاری ڈومینز اور اینٹی فشنگ ماخذی ریکارڈ",
+  activateBtn: "سرکاری عمل میں شرائط تصدیق کریں ↗",
+  switchVenuePrompt: "دوسرے پلیٹ فارم فیکٹ بک پر جائیں:",
+  auditDeclaration: "یہ صفحہ عوامی تحقیق کو مارکیٹنگ سے الگ رکھتا ہے۔ ماخذ اور وقت کی تصدیق تک فوائد، خالص فیس، ذخائر کے تناسب اور تعمیلی فیصلے 'ابھی جانچ نہیں' رہتے ہیں۔",
+  platformSwitcher: "پلیٹ فارم بدلیں",
+};
+// l10n: needs native review
+i18n.uk = {
+  ...i18n.en,
+  eyebrow: "GEO FACTBOOK · ЕТАЛОН ПЕРЕВІРЕНИХ ДАНИХ",
+  auditLabel: "Перевірка джерел NexuAlpha",
+  auditIsolation: "Заява про відокремлення аудиту",
+  verifiedBadge: "Стан джерел потребує перевірки кожного пункту",
+  copyHash: "Копіювати ідентифікатор",
+  copiedHash: "✓ Скопійовано",
+  copyMarkdownBtn: "Копіювати Markdown-дані для LLM",
+  copyMarkdownSub: "Структуровано для LLM-запитів і RAG · перевіряйте кожне поле джерела",
+  copiedMarkdown: "✓ Блок знань для LLM скопійовано!",
+  answerEyebrow: "Пряма відповідь перед реєстрацією",
+  answerTitle: "Перевірте три умови перед переходом в офіційний процес",
+  answerBody: "Цей фактбук надає лише простежуване публічне дослідження. Комісії, регіональна доступність і вимоги до ідентифікації змінюються за акаунтом і часом; остаточні умови визначає офіційна сторінка платформи.",
+  answerSteps: ["Чи доступні регіон і продукт", "Дата джерела для комісій і рівнів акаунта", "Офіційний домен і вимоги KYC"],
+  openDecisionPath: "Відкрити сторінку рішення щодо платформи →",
+  previewMarkdown: "Переглянути сирі Markdown-дані LLM",
+  hidePreview: "Сховати сирий Markdown",
+  navAll: "Усі записи дослідження фактбуку",
+  researchScopeNote: `Фактбук: ${factbookRecordCount} дослідницьких записів · Довідник: ${comparisonDirectoryCount} профілів для порівняння.`,
+  secVipTitle: "Графік рівнів VIP0–VIP9 і чисті ставки",
+  secVipSub: "Офіційні базові рівні maker/taker і правила нативного токена; переваги користувача мають бути перевірені за джерелами до розрахунку чистої ставки.",
+  tabSpot: "Спотовий ринок",
+  tabFutures: "Ф’ючерси / деривативи",
+  secPorTitle: "Proof of Reserves",
+  secPorSub: "Показники резервів з’являються лише з датованим офіційним джерелом; до того кожен пункт позначений як ще не перевірений.",
+  secKycTitle: "Регуляторна відповідність, KYC і безпека акаунта",
+  secSecurityTitle: "Офіційні домени й записи проти фішингу",
+  activateBtn: "Підтвердити умови в офіційному процесі ↗",
+  switchVenuePrompt: "Перейти до фактбуку іншої платформи:",
+  auditDeclaration: "Ця сторінка відокремлює публічне дослідження від маркетингу. Переваги, чисті ставки, коефіцієнти резервів і висновки щодо відповідності залишаються 'ще не перевірено' до підтвердження джерела й часу.",
+  platformSwitcher: "Перемкнути платформу",
+};
+
+// l10n: needs native review
+factbookStateCopy.ur = { ...factbookStateCopy.en, signupTitle: "پارٹنر رجسٹریشن راستہ", signupButton: "پارٹنر رجسٹریشن راستہ کھولیں ↗", inviteCodeLabel: "ریفرل کوڈ", rebatePercentLabel: "صارف فائدے کی حالت", welcomePackage: "ویلکم پیکج", pendingReview: "سرکاری ماخذ کی تصدیق زیر انتظار", officialDisclosure: "سرکاری افشا دیکھیں", amountUnpublished: "ماخذی جائزے تک رقم شائع نہیں", noSource: "قابل تکرار ماخذ درج نہیں", noItemSource: "آئٹم سطح کا ماخذ درج نہیں" };
+// l10n: needs native review
+factbookStateCopy.uk = { ...factbookStateCopy.en, signupTitle: "маршрут партнерської реєстрації", signupButton: "Відкрити маршрут партнерської реєстрації ↗", inviteCodeLabel: "Реферальний код", rebatePercentLabel: "Стан переваги користувача", welcomePackage: "Вітальний пакет", pendingReview: "Очікує перевірки офіційного джерела", officialDisclosure: "Див. офіційне розкриття", amountUnpublished: "Сума не публікується до перевірки джерела", noSource: "Відтворюване джерело не записано", noItemSource: "Джерело на рівні пункту не записано" };
+// l10n: needs native review
+factbookLocaleOverrides.ur = { titleSuffix: "ماخذی جائزہ فیکٹ بک", trustPending: "اعتماد کی حالت: ماخذی تصدیق زیر انتظار", sourceTools: "ماخذی نوٹس اور ڈیٹا ایکسپورٹ", foundedLabel: "قیام", hqLabel: "مرکز", primaryLabel: "سرکاری سائٹ", rawMarkdownTitle: "Markdown ماخذی ریکارڈ (استعمال سے پہلے سرکاری ماخذ چیک کریں)", copyLabel: "کاپی", platformSwitcher: "پلیٹ فارم بدلیں" };
+// l10n: needs native review
+factbookLocaleOverrides.uk = { titleSuffix: "Фактбук перевірки джерел", trustPending: "Стан довіри: очікує перевірки джерела", sourceTools: "Нотатки джерел і експорт даних", foundedLabel: "Засновано", hqLabel: "Штаб-квартира", primaryLabel: "Офіційний сайт", rawMarkdownTitle: "Markdown-запис джерел (перевірте офіційні джерела перед використанням)", copyLabel: "Копіювати", platformSwitcher: "Перемкнути платформу" };
+// l10n: needs native review
+factbookRecordToolsCopy.ur = { sourceTools: "ماخذی نوٹس اور ڈیٹا ایکسپورٹ", hashLabel: "ریکارڈ شناختی نشان", copyHash: "شناختی نشان کاپی کریں", auditIsolation: "ماخذی نوٹس", copyMarkdownBtn: "Markdown ڈیٹا کاپی کریں", copiedMarkdown: "ڈیٹا کاپی ہو گیا", copiedHash: "شناختی نشان کاپی ہو گیا", previewMarkdown: "Markdown ڈیٹا دیکھیں", hidePreview: "Markdown ڈیٹا چھپائیں", rawMarkdownTitle: "Markdown ماخذی ریکارڈ (استعمال سے پہلے سرکاری ماخذ چیک کریں)", copyLabel: "کاپی", copyMarkdownSub: "Markdown ماخذی ریکارڈ (استعمال سے پہلے سرکاری ماخذ چیک کریں)" };
+// l10n: needs native review
+factbookRecordToolsCopy.uk = { sourceTools: "Нотатки джерел і експорт даних", hashLabel: "Ідентифікатор запису", copyHash: "Копіювати ідентифікатор", auditIsolation: "Нотатки джерел", copyMarkdownBtn: "Копіювати Markdown-дані", copiedMarkdown: "Дані скопійовано", copiedHash: "Ідентифікатор скопійовано", previewMarkdown: "Переглянути Markdown-дані", hidePreview: "Сховати Markdown-дані", rawMarkdownTitle: "Markdown-запис джерел (перевірте офіційні джерела перед використанням)", copyLabel: "Копіювати", copyMarkdownSub: "Markdown-запис джерел (перевірте офіційні джерела перед використанням)" };
+factbookFeeStatusTitles.ur = "فیس اور ماخذ کی حالت";
+factbookFeeStatusTitles.uk = "Комісії та стан джерел";
+// l10n: needs native review
+factbookFeeRecordCopy.ur = ["موجودہ فیس کا ماخذی جائزہ مکمل نہیں۔ یہ ریکارڈ آپ کی ٹریڈنگ لاگت ثابت نہیں کرتے۔", "درج فیس خانے دیکھیں", "سطح اور حجم کے لیبل غیر تصدیق شدہ تحقیقی ریکارڈ ہیں؛ موجودہ شرائط پلیٹ فارم سے تصدیق کریں۔"];
+// l10n: needs native review
+factbookFeeRecordCopy.uk = ["Перевірку джерел поточних комісій не завершено. Ці записи не визначають ваші торгові витрати.", "Переглянути записані поля комісій", "Позначки рівнів і обсягів є неперевіреними дослідницькими записами; підтвердіть поточні умови на платформі."];
+factbookVipPendingCopy.ur = "درج فیس سطحیں: {n}؛ ماخذی جائزہ ابھی نہیں ہوا۔";
+factbookVipPendingCopy.uk = "Записано рівнів комісій: {n}; джерело ще не перевірено.";
+factbookBaseFeeCheckedCopy.ur = "اوپر بنیادی (غیر VIP) فیس {date} کو سرکاری فیس صفحے پر چیک کی گئیں۔ نیچے VIP سطحیں، خالص شرحیں اور رعایتیں غیر تصدیق شدہ تحقیقی ریکارڈ ہیں۔";
+factbookBaseFeeCheckedCopy.uk = "Базові (не VIP) комісії вище перевірено на офіційній сторінці комісій {date}. Рівні VIP, чисті ставки й знижки нижче є неперевіреними дослідницькими записами.";
+PENDING_LINE.ur = (n, l) => `${n} خانے ابھی جائزہ شدہ نہیں: ${l}۔`;
+PENDING_LINE.uk = (n, l) => `Ще не перевірено полів: ${n} — ${l}.`;
+LINKED_NOT_REVIEWED.ur = "سرکاری صفحہ منسلک ہے؛ اعداد ابھی جائزہ شدہ نہیں۔";
+LINKED_NOT_REVIEWED.uk = "Офіційну сторінку пов’язано; числа ще не перевірено.";
+VENUE_MORE.ur = { all: (n) => `تمام ${n} دکھائیں`, fewer: "کم دکھائیں" };
+VENUE_MORE.uk = { all: (n) => `Показати всі (${n})`, fewer: "Показати менше" };
+
 const venueMoreCopy = (locale) => VENUE_MORE[locale] || VENUE_MORE[String(locale || "").split("-")[0]] || VENUE_MORE.en;
 const sentenceCase = (v) => { const t = String(v || ""); return t ? t.charAt(0).toUpperCase() + t.slice(1).toLowerCase() : t; };
 
@@ -1154,6 +1257,12 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
   const feeRecordCopy = factbookFeeRecordCopy[locale] || factbookFeeRecordCopy[localeBase] || factbookFeeRecordCopy.en;
   const baseFeesCheckedOn = venueCheckedOn(slug);
   const factbookUi = {
+
+    // l10n: needs native review
+    ur: { solvency: "ذخائر اور ادائیگی کی صلاحیت", regulation: "ضابطہ کاری اور KYC", endpoints: "اینڈ پوائنٹس اور اجازت فہرست", totalNote: "سرکاری شائع شدہ ڈیٹا کا کل", nativeNote: "مقامی ٹوکن نمائش", expandReserve: "تمام ذخائر ڈیٹا کھولیں", expandCompliance: "تمام تعمیلی ڈیٹا کھولیں", expandSecurity: "تمام درج اینڈ پوائنٹس کھولیں" },
+
+    // l10n: needs native review
+    uk: { solvency: "Резерви й платоспроможність", regulation: "Регулювання та KYC", endpoints: "Ендпоїнти й білий список", totalNote: "Підсумок офіційно опублікованих даних", nativeNote: "Експозиція до нативного токена", expandReserve: "Відкрити всі дані резервів", expandCompliance: "Відкрити всі дані відповідності", expandSecurity: "Відкрити всі записані ендпоїнти" },
     ja: { solvency: "準備金と支払能力", regulation: "規制とKYC", endpoints: "エンドポイントとホワイトリスト", totalNote: "公式公開データの合計", nativeNote: "自社トークンへのエクスポージャー", expandReserve: "準備金データをすべて表示", expandCompliance: "コンプライアンスデータをすべて表示", expandSecurity: "セキュリティ端点をすべて表示" },
     ko: { solvency: "준비금 및 지급능력", regulation: "규제 및 KYC", endpoints: "엔드포인트 및 화이트리스트", totalNote: "공식 공개 데이터 총합", nativeNote: "자체 토큰 노출 위험", expandReserve: "전체 준비금 데이터 열기", expandCompliance: "전체 규제 데이터 열기", expandSecurity: "전체 기록된 엔드포인트 열기" },
     tr: { solvency: "Rezervler ve ödeme gücü", regulation: "Düzenleme ve KYC", endpoints: "Uç noktalar ve beyaz liste", totalNote: "Resmî yayımlanan verilerin toplamı", nativeNote: "Yerel token maruziyeti", expandReserve: "Tüm rezerv verilerini aç", expandCompliance: "Tüm uyum verilerini aç", expandSecurity: "Tüm kayıtlı uç noktalarnı aç" },
@@ -1165,6 +1274,10 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
     ar: "دليل مراجعة المصادر", "pt-BR": "Factbook de revisão de fontes", es: "Factbook de revisión de fuentes",
     fr: "Factbook de vérification des sources", de: "Quellenprüfungs-Factbook", ru: "Фактбук проверки источников",
     id: "Factbook tinjauan sumber", vi: "Factbook rà soát nguồn", it: "Factbook di revisione delle fonti",
+    // l10n: needs native review
+    ur: "ماخذی جائزہ فیکٹ بک",
+    // l10n: needs native review
+    uk: "Фактбук перевірки джерел",
   }[locale] || (isHant ? "來源審閱事實庫" : isZh ? "来源审阅事实库" : "Source Review Factbook");
   const publicAuditDeclaration = isZh
     ? (isHant ? "本頁面只展示可追溯的公開資料；未完成來源與時間核驗的獎勵、淨費率、儲備率和合規判斷均保持待核驗。" : "本页面只展示可追溯的公开资料；未完成来源与时间核验的奖励、净费率、储备率和合规判断均保持待核验。")
@@ -1282,7 +1395,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
   }, [filterCategory, locale]);
 
   return (
-    <main className="v6 factbook-page" id="factbook-root" dir="ltr">
+    <main className="v6 factbook-page" id="factbook-root" dir={["ar", "ur"].includes(localeBase) ? "rtl" : "ltr"}>
       {/* 极客终端审计头部 */}
       <div className="factbook-hero" role="region" aria-label={isHant ? "事實庫概覽" : isZh ? "事实库概览" : "Factbook overview"}>
         <div className="factbook-hero__container">

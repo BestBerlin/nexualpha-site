@@ -31,4 +31,4 @@
 body:has(> #root > main.v6.home-refinement) { font-family: "Geist V5", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Pilot Noto SC", "Pilot Noto TC", "Pilot Noto JP", "Noto Sans KR", sans-serif; }
 body:has(> #root > main.v6.home-refinement:is(:lang(zh), :lang(ko))) { font-family: var(--font-body); }
 body:has(> #root > main.v6.home-refinement:lang(ja)) { font-family: "Geist V5", "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Pilot Noto JP", sans-serif; }
-body:has(> #root > main.v6.home-refinement:lang(ar)) { font-family: "Geist V5", "Pilot Noto Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif; }
+body:has(> #root > main.v6.home-refinement:is(:lang(ar), :lang(ur))) { font-family: "Geist V5", "Pilot Noto Arabic", "Geeza Pro", "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif; }

@@ -48,7 +48,11 @@ const sourceStatusLabel = (text, venue) => venue.sourceHubs?.length ? text.openO
 const linkedNotReviewed = (locale) => {
   const k = String(locale || "en");
   if (k.startsWith("zh")) return k === "zh-Hant" || k === "zh-TW" || k === "zh-HK" ? "已連結官方頁面，數字尚未複核" : "已链接官方页面，数字尚未复核";
-  return ({ ja: "公式ページあり・数値は未確認", ko: "공식 페이지 연결됨, 수치 미검토", es: "Página oficial enlazada, cifras sin revisar", "pt-BR": "Página oficial vinculada, números ainda não revisados", pt: "Página oficial vinculada, números ainda não revisados", fr: "Page officielle liée, chiffres non encore vérifiés", de: "Offizielle Seite verlinkt, Zahlen noch nicht geprüft", it: "Pagina ufficiale collegata, cifre non ancora verificate", ru: "Официальная страница указана, цифры ещё не проверены", tr: "Resmî sayfa bağlantılı, rakamlar henüz incelenmedi", id: "Halaman resmi ditautkan, angka belum ditinjau", vi: "Đã liên kết trang chính thức, số liệu chưa được rà soát", ar: "الصفحة الرسمية مرتبطة، والأرقام لم تُراجع بعد" })[k] || "Official page linked, figures not yet reviewed";
+  return ({ ja: "公式ページあり・数値は未確認", ko: "공식 페이지 연결됨, 수치 미검토", es: "Página oficial enlazada, cifras sin revisar", "pt-BR": "Página oficial vinculada, números ainda não revisados", pt: "Página oficial vinculada, números ainda não revisados", fr: "Page officielle liée, chiffres non encore vérifiés", de: "Offizielle Seite verlinkt, Zahlen noch nicht geprüft", it: "Pagina ufficiale collegata, cifre non ancora verificate", ru: "Официальная страница указана, цифры ещё не проверены", tr: "Resmî sayfa bağlantılı, rakamlar henüz incelenmedi", id: "Halaman resmi ditautkan, angka belum ditinjau", vi: "Đã liên kết trang chính thức, số liệu chưa được rà soát", ar: "الصفحة الرسمية مرتبطة، والأرقام لم تُراجع بعد",
+  // l10n: needs native review
+  ur: "سرکاری صفحہ منسلک ہے، اعداد ابھی دوبارہ نہیں دیکھے گئے",
+  // l10n: needs native review
+  uk: "Офіційну сторінку пов’язано, цифри ще не перевірені" })[k] || "Official page linked, figures not yet reviewed";
 };
 function publicVenueAccess(slug, locale = "en") {
   const publicCta = publicCtaForVenue(slug, locale);
@@ -123,6 +127,10 @@ const codeLabelByLocale = {
   id: "Kode",
   vi: "Mã",
   it: "Codice",
+  // l10n: needs native review
+  ur: "کوڈ",
+  // l10n: needs native review
+  uk: "Код",
 };
 
 
@@ -142,6 +150,10 @@ const basicKycLabelByLocale = {
   id: "KYC dasar (ID saja)",
   vi: "KYC cơ bản (chỉ giấy tờ)",
   it: "KYC base (solo documento)",
+  // l10n: needs native review
+  ur: "بنیادی KYC (صرف شناختی دستاویز)",
+  // l10n: needs native review
+  uk: "Базовий KYC (лише документ)",
 };
 
 const compareReviewChoiceByLocale = {
@@ -150,6 +162,10 @@ const compareReviewChoiceByLocale = {
   de: "Auswahl prüfen", ja: "選択を確認", ko: "선택 확인", ar: "مراجعة الاختيار",
   tr: "Seçimi incele", ru: "Проверить выбор", id: "Tinjau pilihan",
   vi: "Xem lựa chọn", it: "Valuta la scelta",
+  // l10n: needs native review
+  ur: "انتخاب دیکھیں",
+  // l10n: needs native review
+  uk: "Переглянути вибір",
 };
 
 const compareStatDisclosureByLocale = {
@@ -168,6 +184,10 @@ const compareStatDisclosureByLocale = {
   id: "Tinjau biaya, cadangan, dan KYC",
   vi: "Xem phí, dự trữ và KYC",
   it: "Rivedi commissioni, riserve e KYC",
+  // l10n: needs native review
+  ur: "فیس، ذخائر اور KYC دیکھیں",
+  // l10n: needs native review
+  uk: "Переглянути комісії, резерви та KYC",
 };
 
 const detailLinksByLocale = {
@@ -186,6 +206,10 @@ const detailLinksByLocale = {
   id: "Buka detail platform",
   vi: "Mở chi tiết nền tảng",
   it: "Apri dettagli delle piattaforme",
+  // l10n: needs native review
+  ur: "پلیٹ فارم تفصیلی لنکس کھولیں",
+  // l10n: needs native review
+  uk: "Відкрити детальні посилання платформ",
 };
 
 const compareDecisionGuideCopyByLocale = {
@@ -309,6 +333,24 @@ const compareDecisionGuideCopyByLocale = {
     reserves: "Riserve, solvibilità e sicurezza restano in attesa di verifica delle fonti",
     leverage: "Leva, margine, liquidazione e limiti prodotto vanno verificati per regione e account",
   },
+  // l10n: needs native review
+  ur: {
+    persona: (name) => `پہلے ${name} کی علاقائی اہلیت، پروڈکٹ دائرہ اور سرکاری فیس شیڈول چیک کریں`,
+    productSources: (name) => `${name} کی عوامی مصنوعات، فیس اور علاقائی شرائط سرکاری ماخذ سے چیک ہونی چاہییں`,
+    feeReference: (spot, futures, sourceBound) => `شائع شدہ فیس حوالہ: اسپاٹ ${spot}، فیوچرز ${futures}؛ ${sourceBound}`,
+    feePending: (sourceBound) => `شائع شدہ فیس ماخذ ابھی جائزے کے منتظر ہیں؛ ${sourceBound}`,
+    reserves: "ذخائر، ادائیگی کی صلاحیت اور سکیورٹی دعوے سرکاری ماخذ کی تصدیق کے منتظر ہیں",
+    leverage: "لیوریج، مارجن، لیکویڈیشن اور پروڈکٹ حدیں موجودہ علاقہ اور اکاؤنٹ کے مطابق تصدیق طلب ہیں",
+  },
+  // l10n: needs native review
+  uk: {
+    persona: (name) => `Спершу перевірте регіональну доступність, охоплення продуктів і офіційний графік комісій ${name}`,
+    productSources: (name) => `Публічні продукти, комісії та регіональні умови ${name} слід звіряти з офіційними джерелами`,
+    feeReference: (spot, futures, sourceBound) => `Опублікований орієнтир комісій: спот ${spot}, ф’ючерси ${futures}; ${sourceBound}`,
+    feePending: (sourceBound) => `Опубліковані джерела комісій ще потребують перегляду; ${sourceBound}`,
+    reserves: "Резерви, платоспроможність і безпекові заяви ще не перевірені за офіційними джерелами",
+    leverage: "Плече, маржа, ліквідація та продуктові ліміти потребують перевірки для поточного регіону й акаунта",
+  },
 };
 
 const compareDecisionGuideCopy = (locale) => compareDecisionGuideCopyByLocale[textLocaleKey(locale)] || compareDecisionGuideCopyByLocale.en;
@@ -337,6 +379,10 @@ export const compareDecisionLeadCopyByLocale = {
   vi: { eyebrow: "DANH SÁCH KIỂM TRA TRƯỚC KHI ĐĂNG KÝ", title: (a, b) => `${a} và ${b}: nên so sánh những điều kiện nào?`, subtitle: "Kiểm tra phí công bố, phạm vi sản phẩm, điều kiện theo khu vực, yêu cầu tài khoản và ngày của nguồn trước khi bắt đầu đăng ký." },
   // l10n: needs native review
   ar: { eyebrow: "قائمة القرار قبل التسجيل", title: (a, b) => `${a} مقابل ${b}: أي الشروط ينبغي مقارنتها؟`, subtitle: "تحقق من الرسوم المنشورة ونطاق المنتجات والأهلية الإقليمية ومتطلبات الحساب وتواريخ المصادر قبل بدء التسجيل." },
+  // l10n: needs native review
+  ur: { eyebrow: "رجسٹریشن سے پہلے فیصلہ فہرست", title: (a, b) => `${a} اور ${b}: کن شرائط کا موازنہ کرنا چاہیے؟`, subtitle: "رجسٹریشن شروع کرنے سے پہلے شائع شدہ فیس، مصنوعات کا دائرہ، علاقائی اہلیت، اکاؤنٹ شرائط اور ذریعہ تاریخیں چیک کریں۔" },
+  // l10n: needs native review
+  uk: { eyebrow: "СПИСОК ПЕРЕВІРКИ ПЕРЕД РЕЄСТРАЦІЄЮ", title: (a, b) => `${a} і ${b}: які умови варто порівняти?`, subtitle: "Перед реєстрацією перевірте опубліковані комісії, охоплення продуктів, регіональну доступність, вимоги до акаунта й дати джерел." },
 };
 const compareDecisionLeadCopy = (locale) => compareDecisionLeadCopyByLocale[textLocaleKey(locale)] || compareDecisionLeadCopyByLocale.en;
 
@@ -358,12 +404,21 @@ const compareUi = (locale) => {
     id: { curatedOpen: "Buka perbandingan pilihan", curatedTitle: "Perbandingan platform pilihan", curatedHint: "Bandingkan biaya, produk, dan ketentuan wilayah", compareBadge: "BANDINGKAN", jump: "Ke bagian", official: "Perbandingan dari sumber resmi", matrix: "Perbandingan biaya, cadangan, dan batas", matrixLead: "Perbandingan berdasarkan sumber resmi dan kondisi terverifikasi.", review: "Tinjau detail dan batas", sources: "Sumber resmi", visit: "Kunjungi situs resmi", faq: "FAQ perbandingan", faqLead: "Jawaban berbasis sumber untuk memilih antara dua platform.", metrics: "Metrik", trust: "Skor kepercayaan", spotFee: "Biaya spot maker / taker", futuresFee: "Biaya futures maker / taker", benefitStatus: "Status manfaat pengguna", netCost: "Biaya bersih efektif", por: "Bukti cadangan (PoR)", kyc: "Persyaratan KYC", leverage: "Leverage futures maksimum", bonus: "Manfaat pengguna baru" },
     vi: { curatedOpen: "Mở các so sánh chọn lọc", curatedTitle: "So sánh nền tảng chọn lọc", curatedHint: "So sánh phí, sản phẩm và điều kiện khu vực", compareBadge: "SO SÁNH", jump: "Đến phần", official: "So sánh theo nguồn chính thức", matrix: "So sánh phí, dự trữ và hạn mức", matrixLead: "So sánh dựa trên nguồn chính thức và điều kiện đã xác minh.", review: "Xem chi tiết và giới hạn", sources: "Nguồn chính thức", visit: "Mở trang chính thức", faq: "FAQ so sánh", faqLead: "Câu trả lời có nguồn để chọn giữa hai nền tảng.", metrics: "Chỉ số", trust: "Điểm tin cậy", spotFee: "Phí spot maker / taker", futuresFee: "Phí futures maker / taker", benefitStatus: "Trạng thái ưu đãi", netCost: "Chi phí ròng thực", por: "Bằng chứng dự trữ (PoR)", kyc: "Yêu cầu KYC", leverage: "Đòn bẩy futures tối đa", bonus: "Ưu đãi người dùng mới" },
     it: { curatedOpen: "Apri i confronti selezionati", curatedTitle: "Confronti selezionati", curatedHint: "Confronta commissioni, prodotti e condizioni regionali", compareBadge: "CONFRONTA", jump: "Vai alla sezione", official: "Confronto con fonti ufficiali", matrix: "Confronto di commissioni, riserve e limiti", matrixLead: "Confronto basato su fonti ufficiali e condizioni verificate.", review: "Rivedi dettagli e limiti", sources: "Fonti ufficiali", visit: "Visita il sito ufficiale", faq: "FAQ del confronto", faqLead: "Risposte con fonti per scegliere tra le due piattaforme.", metrics: "Metriche", trust: "Punteggio di fiducia", spotFee: "Commissione spot maker / taker", futuresFee: "Commissione futures maker / taker", benefitStatus: "Stato dei vantaggi", netCost: "Costo netto effettivo", por: "Prova delle riserve (PoR)", kyc: "Requisiti KYC", leverage: "Leva futures massima", bonus: "Vantaggi per nuovi utenti" },
+    // l10n: needs native review
+    ur: { curatedOpen: "منتخب موازنے کھولیں", curatedTitle: "منتخب پلیٹ فارم موازنے", curatedHint: "فیس، مصنوعات اور علاقائی شرائط کا موازنہ کریں", compareBadge: "موازنہ", jump: "حصے پر جائیں", official: "سرکاری ماخذ کے ساتھ موازنہ", matrix: "فیس، ذخائر اور حدوں کا موازنہ", matrixLead: "موازنہ سرکاری ماخذ اور تصدیق شدہ شرائط پر مبنی ہے۔", review: "تفصیلات اور حدیں دیکھیں", sources: "سرکاری ماخذ", visit: "سرکاری سائٹ کھولیں", faq: "موازنے کے سوالات", faqLead: "دو پلیٹ فارمز کے درمیان انتخاب کے لیے ماخذ والی جوابات۔", metrics: "میٹرکس", trust: "اعتماد اسکور", spotFee: "اسپاٹ میکر / ٹیکر فیس", futuresFee: "فیوچرز میکر / ٹیکر فیس", benefitStatus: "فائدہ حالت", netCost: "موثر خالص لاگت", por: "ذخائر کا ثبوت (PoR)", kyc: "KYC تقاضے", leverage: "زیادہ سے زیادہ فیوچرز لیوریج", bonus: "نئے صارف فوائد" },
+    // l10n: needs native review
+    uk: { curatedOpen: "Відкрити вибрані порівняння", curatedTitle: "Вибрані порівняння платформ", curatedHint: "Порівняйте комісії, продукти та регіональні умови", compareBadge: "ПОРІВНЯТИ", jump: "Перейти до розділу", official: "Порівняння з офіційними джерелами", matrix: "Порівняння комісій, резервів і лімітів", matrixLead: "Порівняння на основі офіційних джерел і перевірених умов.", review: "Переглянути деталі та обмеження", sources: "Офіційні джерела", visit: "Відвідати офіційний сайт", faq: "FAQ порівняння", faqLead: "Відповіді з джерелами для вибору між двома платформами.", metrics: "Показники", trust: "Оцінка довіри", spotFee: "Спотова комісія maker / taker", futuresFee: "Ф’ючерсна комісія maker / taker", benefitStatus: "Статус умов для користувача", netCost: "Ефективна чиста вартість", por: "Підтвердження резервів (PoR)", kyc: "Вимоги KYC", leverage: "Максимальне плече ф’ючерсів", bonus: "Умови для нових користувачів" },
   }[textLocaleKey(locale)] || {};
   // Plain-language name for the side-by-side numbers block (was the untranslated internal word "Metrics").
   const metrics = {
     en: "Side-by-side numbers", "zh-Hans": "数据对比", "zh-Hant": "數據對比", es: "Cifras lado a lado", "pt-BR": "Números lado a lado",
     fr: "Chiffres côte à côte", de: "Zahlen im Vergleich", ja: "数値の比較", ko: "수치 비교", ar: "مقارنة الأرقام",
     tr: "Rakamlar yan yana", ru: "Цифры рядом", id: "Angka berdampingan", vi: "So sánh số liệu", it: "Numeri a confronto",
+
+    // l10n: needs native review
+    ur: "اعداد ساتھ ساتھ",
+    // l10n: needs native review
+    uk: "Числа поруч",
   }[textLocaleKey(locale)] || "Side-by-side numbers";
   return { ...labels, ...fallback, metrics };
 };
@@ -386,6 +441,10 @@ const matrixUi = (locale) => {
     id: { hintSpot: "Biaya standar perdagangan spot", hintFutures: "Biaya standar futures perpetual" },
     vi: { hintSpot: "Phí giao dịch spot tiêu chuẩn", hintFutures: "Phí futures vĩnh viễn tiêu chuẩn" },
     it: { hintSpot: "Commissioni spot standard", hintFutures: "Commissioni futures perpetui standard" },
+    // l10n: needs native review
+    ur: { hintSpot: "معیاری اسپاٹ ٹریڈنگ فیس", hintFutures: "معیاری پرپیچوئل فیوچرز فیس" },
+    // l10n: needs native review
+    uk: { hintSpot: "Стандартні комісії спотової торгівлі", hintFutures: "Стандартні комісії безстрокових ф’ючерсів" },
   }[textLocaleKey(locale)] || {};
   return {
     spot: labels.spotFee || "Spot maker / taker fee",
@@ -419,21 +478,41 @@ const compareLeverageHint = (locale) => ({
   id: "Kontrak perpetual BTC/ETH",
   vi: "Hợp đồng vĩnh viễn BTC/ETH",
   it: "Contratti perpetui BTC/ETH",
+  // l10n: needs native review
+  ur: "BTC/ETH پرپیچوئل کنٹریکٹس",
+  // l10n: needs native review
+  uk: "Безстрокові контракти BTC/ETH",
 }[textLocaleKey(locale)] || "BTC/ETH perpetual contracts");
 
 const compareCompactLabel = (locale, key) => {
   const labels = {
     compareFirst: {
       en: "Compare first", "zh-Hans": "先比较", "zh-Hant": "先比較", es: "Comparar primero", "pt-BR": "Comparar primeiro", fr: "Comparer d’abord", de: "Zuerst vergleichen", ja: "まず比較", ko: "먼저 비교", ar: "قارن أولاً", tr: "Önce karşılaştır", ru: "Сначала сравнить", id: "Bandingkan dulu", vi: "So sánh trước", it: "Confronta prima",
+      // l10n: needs native review
+      ur: "پہلے موازنہ",
+      // l10n: needs native review
+      uk: "Спершу порівняти",
     },
     nextStep: {
       en: "Next step", "zh-Hans": "下一步", "zh-Hant": "下一步", es: "Siguiente paso", "pt-BR": "Próximo passo", fr: "Étape suivante", de: "Nächster Schritt", ja: "次のステップ", ko: "다음 단계", ar: "الخطوة التالية", tr: "Sonraki adım", ru: "Следующий шаг", id: "Langkah berikutnya", vi: "Bước tiếp theo", it: "Prossimo passo",
+      // l10n: needs native review
+      ur: "اگلا قدم",
+      // l10n: needs native review
+      uk: "Наступний крок",
     },
     join: {
       en: "Join", "zh-Hans": "开户", "zh-Hant": "開戶", es: "Registrarse", "pt-BR": "Cadastrar", fr: "S’inscrire", de: "Registrieren", ja: "登録", ko: "가입", ar: "تسجيل", tr: "Katıl", ru: "Регистрация", id: "Daftar", vi: "Đăng ký", it: "Registrati",
+      // l10n: needs native review
+      ur: "رجسٹر",
+      // l10n: needs native review
+      uk: "Реєстрація",
     },
     verify: {
       en: "Verify", "zh-Hans": "先核对", "zh-Hant": "先核對", es: "Verificar", "pt-BR": "Verificar", fr: "Vérifier", de: "Prüfen", ja: "確認", ko: "확인", ar: "تحقق", tr: "Doğrula", ru: "Проверить", id: "Periksa", vi: "Kiểm tra", it: "Verifica",
+      // l10n: needs native review
+      ur: "تصدیق",
+      // l10n: needs native review
+      uk: "Перевірити",
     },
   };
   return labels[key]?.[textLocaleKey(locale)] || labels[key]?.en || "";
@@ -545,6 +624,22 @@ const compareMatrixAuxCopy = (locale) => ({
     pendingLead: "Queste righe sono raggruppate perché tutte le piattaforme selezionate richiedono ancora verifica da fonte ufficiale. Aprendole restano visibili nomi e limiti originali.",
     pendingSuffix: "Non sono mostrate come differenza valutata finché almeno una piattaforma non ha un valore con fonte.",
   },
+  // l10n: needs native review
+  ur: {
+    scrollHint: "تمام کالمز کا موازنہ کرنے کے لیے میٹرکس کو ایک طرف سوائپ کریں۔",
+    pendingTitle: "وہ آئٹمز جو ابھی چیک نہیں ہوئے",
+    pendingSummary: "ابھی غیر چیک شدہ آئٹمز دکھائیں",
+    pendingLead: "یہ قطاریں اس لیے اکٹھی کی گئی ہیں کہ منتخب تمام پلیٹ فارمز کو ابھی سرکاری ماخذ کی تصدیق چاہیے۔ کھولنے پر اصل فیلڈ نام اور حدیں نظر رہتی ہیں۔",
+    pendingSuffix: "جب تک کم از کم ایک پلیٹ فارم کے پاس ماخذ والی قدر نہ ہو، اسے اسکور شدہ فرق کے طور پر نہیں دکھایا جاتا۔",
+  },
+  // l10n: needs native review
+  uk: {
+    scrollHint: "Проведіть матрицю вбік, щоб порівняти всі колонки.",
+    pendingTitle: "Пункти, які ми ще не перевірили",
+    pendingSummary: "Показати ще не перевірені пункти",
+    pendingLead: "Ці рядки згруповано, бо всі вибрані платформи ще потребують перевірки офіційного джерела. Після відкриття зберігаються початкові назви полів і ліміти.",
+    pendingSuffix: "Не показується як оцінювана різниця, доки хоча б одна вибрана платформа не матиме значення з джерелом.",
+  },
 }[textLocaleKey(locale)] || compareMatrixAuxCopy("en"));
 
 const compareSectionDisclosureCopy = (locale, key) => {
@@ -565,6 +660,12 @@ const compareSectionDisclosureCopy = (locale, key) => {
       id: "Buka perbandingan riset terperinci",
       vi: "Mở so sánh nghiên cứu chi tiết",
       it: "Apri il confronto di ricerca dettagliato",
+
+      // l10n: needs native review
+      ur: "تفصیلی تحقیقی موازنہ کھولیں",
+
+      // l10n: needs native review
+      uk: "Відкрити детальне дослідницьке порівняння",
     },
     scenario: {
       en: "Open scenario fit and next steps",
@@ -582,6 +683,12 @@ const compareSectionDisclosureCopy = (locale, key) => {
       id: "Buka kecocokan skenario dan langkah berikutnya",
       vi: "Mở mức phù hợp theo kịch bản và bước tiếp theo",
       it: "Apri idoneità per scenario e prossimi passi",
+
+      // l10n: needs native review
+      ur: "منظرنامے کی موزونیت اور اگلے قدم کھولیں",
+
+      // l10n: needs native review
+      uk: "Відкрити відповідність сценарію та наступні кроки",
     },
   };
   return copy[key]?.[textLocaleKey(locale)] || copy[key]?.en || "";
@@ -600,6 +707,10 @@ const compareFaqAnswerNotice = (locale) => ({
   id: "Jawaban terperinci ditampilkan setelah biaya resmi, cadangan, dan ketentuan wilayah diperiksa. Lakukan pendaftaran, KYC, dan transaksi di situs resmi.",
   vi: "Câu trả lời chi tiết chỉ hiển thị sau khi kiểm tra phí chính thức, dự trữ và điều kiện khu vực. Hãy đăng ký, KYC và giao dịch trên trang chính thức.",
   it: "La risposta dettagliata viene mostrata dopo aver verificato commissioni ufficiali, riserve e condizioni regionali. Registrazione, KYC e operazioni avvengono sul sito ufficiale.",
+  // l10n: needs native review
+  ur: "تفصیلی جواب سرکاری فیس، ذخائر اور علاقائی شرائط کی جانچ کے بعد دکھایا جاتا ہے۔ رجسٹریشن، KYC اور ٹریڈنگ سرکاری سائٹ پر ہوتی ہیں۔",
+  // l10n: needs native review
+  uk: "Детальна відповідь показується після перевірки офіційних комісій, резервів і регіональних умов. Реєстрація, KYC і торгівля відбуваються на офіційному сайті.",
 }[localeKey(locale)] || "");
 
 const compareShortUi = (locale) => {
@@ -610,6 +721,11 @@ const compareShortUi = (locale) => {
     trust: labels.trust || "Trust score",
     audit: ({
       en: "View audit report", "zh-Hans": "查看审计报告", "zh-Hant": "查看稽核報告", es: "Ver informe de auditoría", "pt-BR": "Ver relatório de auditoria", fr: "Voir le rapport d’audit", de: "Auditbericht ansehen", ja: "監査レポートを見る", ko: "감사 보고서 보기", ar: "عرض تقرير التدقيق", tr: "Denetim raporunu görüntüle", ru: "Открыть отчёт аудита", id: "Lihat laporan audit", vi: "Xem báo cáo kiểm toán", it: "Vedi rapporto di audit",
+
+      // l10n: needs native review
+      ur: "آڈٹ رپورٹ دیکھیں",
+      // l10n: needs native review
+      uk: "Переглянути аудиторський звіт",
     }[textLocaleKey(locale)] || "View audit report"),
     official: labels.official || "Official-source comparison",
     statsDisclosure: compareStatDisclosureByLocale[textLocaleKey(locale)] || compareStatDisclosureByLocale.en,
@@ -636,6 +752,10 @@ const compareDetailPhrase = (locale, key, fallback) => {
     id: { review: "Tinjau detail verifikasi dan batas", spotNet: "Spot net:", futuresNet: "Futures net:", strictKyc: "KYC ketat (wajah + ID)", margin: "Margin cross dan isolated", rewards: " Manfaat pengguna menunggu verifikasi", claim: "Periksa pusat manfaat setelah daftar", signup: "Daftar di situs resmi", region: "Wilayah · produk · level akun", eligibility: "Periksa kelayakan sebelum alur resmi", accountTerms: "Periksa ketentuan akun resmi dan sumber", netHint: "Biaya riil setelah manfaat dikurangi", reserveHint: "Verifikasi cadangan pohon Merkle", kycHint: "Level verifikasi dan friksi proses", rewardHint: "Voucher dan paket pengguna baru", fewerMetrics: "Tampilkan lebih sedikit metrik", fullMetrics: "Lihat matriks kuantitatif lengkap", officialAction: "Aksi resmi", antiPhishingPortal: "Portal resmi anti-phishing" },
     vi: { review: "Xem chi tiết xác minh và giới hạn", spotNet: "Spot ròng:", futuresNet: "Futures ròng:", strictKyc: "KYC nghiêm ngặt (khuôn mặt + ID)", margin: "Ký quỹ chéo và cô lập", rewards: " Ưu đãi người dùng chờ xác minh", claim: "Kiểm tra trung tâm ưu đãi sau khi đăng ký", signup: "Đăng ký trên trang chính thức", region: "Khu vực · sản phẩm · cấp tài khoản", eligibility: "Kiểm tra điều kiện trước luồng chính thức", accountTerms: "Kiểm tra điều kiện tài khoản và nguồn chính thức", netHint: "Chi phí thực sau khi trừ ưu đãi", reserveHint: "Xác minh dự trữ bằng cây Merkle", kycHint: "Cấp xác minh và độ phức tạp", rewardHint: "Phiếu thưởng và gói cho người dùng mới", fewerMetrics: "Hiển thị ít chỉ số hơn", fullMetrics: "Xem toàn bộ ma trận định lượng", officialAction: "Hành động chính thức", antiPhishingPortal: "Cổng chính thức chống lừa đảo" },
     it: { review: "Rivedi dettagli e limiti", spotNet: "Spot netto:", futuresNet: "Futures netto:", strictKyc: "KYC rigoroso (volto + documento)", margin: "Margine cross e isolato", rewards: " Vantaggi utente in attesa di verifica", claim: "Controlla il centro vantaggi dopo l’iscrizione", signup: "Registrati sul sito ufficiale", region: "Regione · prodotto · livello account", eligibility: "Verifica l’idoneità prima del flusso ufficiale", accountTerms: "Controlla termini account e fonti ufficiali", netHint: "Costo reale dopo la deduzione del vantaggio", reserveHint: "Verifica riserve con albero Merkle", kycHint: "Livello di verifica e attrito", rewardHint: "Coupon e pacchetto nuovi utenti", fewerMetrics: "Mostra meno metriche", fullMetrics: "Vedi matrice quantitativa completa", officialAction: "Azione ufficiale", antiPhishingPortal: "Portale ufficiale anti-phishing" },
+    // l10n: needs native review
+    ur: { review: "تفصیلات اور حدیں دیکھیں", spotNet: "اسپاٹ خالص:", futuresNet: "فیوچرز خالص:", strictKyc: "سخت KYC (چہرہ + شناختی دستاویز)", margin: "کراس اور آئسولیٹڈ مارجن", rewards: " صارف فوائد تصدیق طلب", claim: "رجسٹریشن کے بعد فوائد مرکز چیک کریں", signup: "سرکاری سائٹ پر رجسٹر کریں", region: "علاقہ · پروڈکٹ · اکاؤنٹ درجہ", eligibility: "سرکاری عمل سے پہلے اہلیت چیک کریں", accountTerms: "سرکاری اکاؤنٹ شرائط اور ماخذ چیک کریں", netHint: "صارف فائدہ منہا کرنے کے بعد حقیقی لاگت", reserveHint: "Merkle-tree ذخائر کی تصدیق", kycHint: "تصدیقی درجہ اور عمل کی رکاوٹ", rewardHint: "نئے صارف کوپن اور انعام پیک", fewerMetrics: "کم میٹرکس دکھائیں", fullMetrics: "مکمل مقداری میٹرکس دیکھیں", officialAction: "سرکاری کارروائی", antiPhishingPortal: "اینٹی فشنگ سرکاری پورٹل" },
+    // l10n: needs native review
+    uk: { review: "Переглянути деталі та обмеження", spotNet: "Спот нетто:", futuresNet: "Ф’ючерси нетто:", strictKyc: "Суворий KYC (обличчя + документ)", margin: "Крос- та ізольована маржа", rewards: " Умови для користувача очікують перевірки", claim: "Перевірте центр умов після реєстрації", signup: "Зареєструватися на офіційному сайті", region: "Регіон · продукт · рівень акаунта", eligibility: "Перевірте доступність перед офіційним процесом", accountTerms: "Перевірте офіційні умови акаунта та джерела", netHint: "Реальна вартість після відрахування умови для користувача", reserveHint: "Перевірка резервів через дерево Merkle", kycHint: "Рівень перевірки та складність процесу", rewardHint: "Купони й пакет для нових користувачів", fewerMetrics: "Показати менше показників", fullMetrics: "Переглянути повну кількісну матрицю", officialAction: "Офіційна дія", antiPhishingPortal: "Офіційний антифішинговий портал" },
   }[k] || {};
   return t[key] || fallback;
 };
@@ -981,7 +1101,11 @@ export function CompareGoldMatrixNav({ currentSlugs = [], locale = "en", market,
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
   const locKey = isHant ? "zh-Hant" : isZh ? "zh-Hans" : "en";
   const matrixText = compareUi(locale);
-  const matrixFallback = { es: { official: "Comparación con fuentes oficiales", hint: "Compara comisiones, productos, elegibilidad regional y fecha de la fuente" }, de: { official: "Vergleich mit offiziellen Quellen", hint: "Gebühren, Produkte, regionale Eignung und Quelldatum prüfen" }, ja: { official: "公式ソース比較", hint: "手数料、商品、地域資格、出典日を確認" }, ko: { official: "공식 출처 비교", hint: "수수료, 상품, 지역 자격과 출처 날짜를 확인하세요" }, tr: { official: "Resmî kaynak karşılaştırması", hint: "Ücretleri, ürünleri, bölgesel uygunluğu ve kaynak tarihini kontrol edin" }, ar: { official: "مقارنة المصادر الرسمية", hint: "تحقق من الرسوم والمنتج والأهلية الإقليمية وتاريخ المصدر" }, "pt-BR": { official: "Comparação de fontes oficiais", hint: "Confira taxas, produtos, elegibilidade regional e data da fonte" }, fr: { official: "Comparaison des sources officielles", hint: "Comparez frais, produits, éligibilité régionale et dates des sources" }, ru: { official: "Сравнение по официальным источникам", hint: "Сравните комиссии, продукты, региональную доступность и даты источников" }, id: { official: "Perbandingan sumber resmi", hint: "Bandingkan biaya, produk, kelayakan wilayah, dan tanggal sumber" }, vi: { official: "So sánh theo nguồn chính thức", hint: "So sánh phí, sản phẩm, điều kiện theo khu vực và ngày nguồn" }, it: { official: "Confronto delle fonti ufficiali", hint: "Confronta commissioni, prodotti, idoneità regionale e date delle fonti" } }[locale] || { official: "Official-source comparison", hint: "Compare fees, products, regional eligibility and source dates" };
+  const matrixFallback = { es: { official: "Comparación con fuentes oficiales", hint: "Compara comisiones, productos, elegibilidad regional y fecha de la fuente" }, de: { official: "Vergleich mit offiziellen Quellen", hint: "Gebühren, Produkte, regionale Eignung und Quelldatum prüfen" }, ja: { official: "公式ソース比較", hint: "手数料、商品、地域資格、出典日を確認" }, ko: { official: "공식 출처 비교", hint: "수수료, 상품, 지역 자격과 출처 날짜를 확인하세요" }, tr: { official: "Resmî kaynak karşılaştırması", hint: "Ücretleri, ürünleri, bölgesel uygunluğu ve kaynak tarihini kontrol edin" }, ar: { official: "مقارنة المصادر الرسمية", hint: "تحقق من الرسوم والمنتج والأهلية الإقليمية وتاريخ المصدر" }, "pt-BR": { official: "Comparação de fontes oficiais", hint: "Confira taxas, produtos, elegibilidade regional e data da fonte" }, fr: { official: "Comparaison des sources officielles", hint: "Comparez frais, produits, éligibilité régionale et dates des sources" }, ru: { official: "Сравнение по официальным источникам", hint: "Сравните комиссии, продукты, региональную доступность и даты источников" }, id: { official: "Perbandingan sumber resmi", hint: "Bandingkan biaya, produk, kelayakan wilayah, dan tanggal sumber" }, vi: { official: "So sánh theo nguồn chính thức", hint: "So sánh phí, sản phẩm, điều kiện theo khu vực và ngày nguồn" }, it: { official: "Confronto delle fonti ufficiali", hint: "Confronta commissioni, prodotti, idoneità regionale e date delle fonti" },
+  // l10n: needs native review
+  ur: { official: "سرکاری ماخذ کا موازنہ", hint: "فیس، پروڈکٹس، علاقائی اہلیت اور ماخذ تاریخ چیک کریں" },
+  // l10n: needs native review
+  uk: { official: "Порівняння за офіційними джерелами", hint: "Перевірте комісії, продукти, регіональну доступність і дати джерел" } }[locale] || { official: "Official-source comparison", hint: "Compare fees, products, regional eligibility and source dates" };
 
   const isPairActive = (pair) => {
     if (currentSlugs.length !== 2) return false;
@@ -1142,7 +1266,11 @@ export function CompareDecisionGuide({ profiles, locale = "en", market, product,
           </div>
 
           <div className="v3-decision-persona-lead">
-            {isZh ? "适合谁 (Target Persona)" : ({ ja: "対象ユーザー", ko: "적합한 사용자", tr: "Uygun kullanıcı profili", fr: "Profil de trader idéal", de: "Passendes Traderprofil", es: "Perfil de trader ideal", "pt-BR": "Perfil ideal do trader", ru: "Профиль подходящего трейдера", ar: "ملف المتداول المناسب", id: "Profil trader yang sesuai", vi: "Hồ sơ nhà giao dịch phù hợp", it: "Profilo trader ideale" }[localeKey(locale)] || "Ideal Trader Profile")}
+            {isZh ? "适合谁 (Target Persona)" : ({ ja: "対象ユーザー", ko: "적합한 사용자", tr: "Uygun kullanıcı profili", fr: "Profil de trader idéal", de: "Passendes Traderprofil", es: "Perfil de trader ideal", "pt-BR": "Perfil ideal do trader", ru: "Профиль подходящего трейдера", ar: "ملف المتداول المناسب", id: "Profil trader yang sesuai", vi: "Hồ sơ nhà giao dịch phù hợp", it: "Profilo trader ideale",
+            // l10n: needs native review
+            ur: "مناسب ٹریڈر پروفائل",
+            // l10n: needs native review
+            uk: "Профіль відповідного трейдера" }[localeKey(locale)] || "Ideal Trader Profile")}
           </div>
           <div className="v3-decision-persona-text">
             {leftPersonaText}
@@ -1193,7 +1321,11 @@ export function CompareDecisionGuide({ profiles, locale = "en", market, product,
           </div>
 
           <div className="v3-decision-persona-lead">
-            {isZh ? "适合谁 (Target Persona)" : ({ ja: "対象ユーザー", ko: "적합한 사용자", tr: "Uygun kullanıcı profili", fr: "Profil de trader idéal", de: "Passendes Traderprofil", es: "Perfil de trader ideal", "pt-BR": "Perfil ideal do trader", ru: "Профиль подходящего трейдера", ar: "ملف المتداول المناسب", id: "Profil trader yang sesuai", vi: "Hồ sơ nhà giao dịch phù hợp", it: "Profilo trader ideale" }[localeKey(locale)] || "Ideal Trader Profile")}
+            {isZh ? "适合谁 (Target Persona)" : ({ ja: "対象ユーザー", ko: "적합한 사용자", tr: "Uygun kullanıcı profili", fr: "Profil de trader idéal", de: "Passendes Traderprofil", es: "Perfil de trader ideal", "pt-BR": "Perfil ideal do trader", ru: "Профиль подходящего трейдера", ar: "ملف المتداول المناسب", id: "Profil trader yang sesuai", vi: "Hồ sơ nhà giao dịch phù hợp", it: "Profilo trader ideale",
+            // l10n: needs native review
+            ur: "مناسب ٹریڈر پروفائل",
+            // l10n: needs native review
+            uk: "Профіль відповідного трейдера" }[localeKey(locale)] || "Ideal Trader Profile")}
           </div>
           <div className="v3-decision-persona-text">
             {rightPersonaText}
@@ -1251,6 +1383,10 @@ const compareFeeSurfaceCopyTable = {
   id: { pendingRate: "Biaya menunggu verifikasi sumber resmi", pendingBenefit: "Manfaat pengguna menunggu verifikasi akun resmi", base: "Biaya dasar resmi (hanya sumber terverifikasi)", net: "Verifikasi manfaat dan biaya neto", netUnavailable: "Biaya neto menunggu verifikasi", sourceBound: "Hanya maker/taker dengan tanggal tinjauan dan sumber HTTPS resmi yang ditampilkan.", verdict: "Kesimpulan: bandingkan biaya resmi bersumber terlebih dahulu; manfaat dan biaya neto tampil setelah syarat akun diverifikasi.", spotNet: "Spot net", futuresNet: "Futures net", benefit: "Manfaat" },
   vi: { pendingRate: "Phí chờ xác minh nguồn chính thức", pendingBenefit: "Ưu đãi chờ xác minh trong tài khoản chính thức", base: "Phí cơ sở chính thức (chỉ nguồn đã xác minh)", net: "Xác minh ưu đãi và phí ròng", netUnavailable: "Phí ròng chờ xác minh", sourceBound: "Chỉ hiển thị maker/taker có ngày rà soát và nguồn HTTPS chính thức.", verdict: "Kết luận: so sánh phí chính thức có nguồn trước; ưu đãi và chi phí ròng chỉ hiện sau khi xác minh điều kiện tài khoản.", spotNet: "Spot ròng", futuresNet: "Futures ròng", benefit: "Ưu đãi" },
   it: { pendingRate: "Commissione in attesa di fonte ufficiale", pendingBenefit: "Vantaggio utente da verificare nell'account ufficiale", base: "Commissioni base ufficiali (solo fonti verificate)", net: "Verifica vantaggio e commissione netta", netUnavailable: "Commissione netta in attesa", sourceBound: "Mostriamo solo maker/taker con data di revisione e fonte HTTPS ufficiale.", verdict: "Verdetto: confronta prima le commissioni ufficiali con fonte; vantaggi e costo netto solo dopo verifica dell'account.", spotNet: "Spot netto", futuresNet: "Futures netto", benefit: "Vantaggio" },
+  // l10n: needs native review
+  ur: { pendingRate: "فیس سرکاری ماخذ کی تصدیق کے منتظر", pendingBenefit: "صارف فائدہ سرکاری اکاؤنٹ تصدیق کے منتظر", base: "سرکاری بنیادی فیس شیڈولز (صرف تصدیق شدہ ماخذ)", net: "صارف فائدہ اور خالص فیس کی تصدیق", netUnavailable: "خالص فیس تصدیق طلب", sourceBound: "صرف وہ میکر/ٹیکر ریٹس دکھائے جاتے ہیں جن کے ساتھ جائزہ تاریخ اور HTTPS سرکاری ماخذ ہو۔", verdict: "نتیجہ: پہلے ماخذ سے منسلک سرکاری بنیادی فیس شیڈولز کا موازنہ کریں؛ صارف فائدہ اور خالص لاگت صرف سرکاری اکاؤنٹ شرائط کی تصدیق کے بعد دکھتے ہیں۔", spotNet: "اسپاٹ خالص", futuresNet: "فیوچرز خالص", benefit: "صارف فائدہ" },
+  // l10n: needs native review
+  uk: { pendingRate: "Комісія очікує перевірки офіційного джерела", pendingBenefit: "Умова для користувача очікує перевірки в офіційному акаунті", base: "Офіційні базові графіки комісій (лише перевірені джерела)", net: "Перевірка умови для користувача та чистої комісії", netUnavailable: "Чиста комісія очікує перевірки", sourceBound: "Показуються лише ставки maker/taker з датою перегляду та офіційним HTTPS-джерелом.", verdict: "Висновок: спершу порівнюйте офіційні базові графіки з джерелами; умови для користувача й чиста вартість з’являються лише після перевірки умов офіційного акаунта.", spotNet: "Спот нетто", futuresNet: "Ф’ючерси нетто", benefit: "Умова для користувача" },
 };
 const compareFeeSurfaceCopy = (locale) => compareFeeSurfaceCopyTable[locale] || compareFeeSurfaceCopyTable[localeKey(locale)] || (String(locale || "").startsWith("zh") ? compareFeeSurfaceCopyTable["zh-Hans"] : compareFeeSurfaceCopyTable.en);
 
@@ -1259,6 +1395,12 @@ const formatCompareRate = (rate) => feePctOfRate(rate);
 const formatVerifiedNet = (rate, rebate, product = "spot") => rate?.publishable && Number.isFinite(rebate)
   ? formatCompareRate(rate.takerRate * (1 - rebate / 100))
   : null;
+
+const compareTupleEntries = (value) => {
+  if (Array.isArray(value)) return value.map((entry) => Array.isArray(entry) ? entry : [String(entry), ""]);
+  if (value && typeof value === "object") return Object.entries(value);
+  return [];
+};
 
 export function CompareFaqSection({ profiles, locale = "en" }) {
   if (!profiles || profiles.length < 2) return null;
@@ -1271,10 +1413,15 @@ export function CompareFaqSection({ profiles, locale = "en" }) {
 
   const compareSlugKey = profiles.map((profile) => profile.slug).join("-vs-");
   const priorityAnswer = compareDirectAnswerFor(compareSlugKey, locale);
+  const priorityFaqEntries = priorityAnswer
+    ? (Array.isArray(priorityAnswer.faq)
+      ? priorityAnswer.faq.map((entry) => Array.isArray(entry) ? entry : [entry?.q || entry?.question || "", entry?.a || entry?.answer || ""])
+      : compareTupleEntries(priorityAnswer.faq))
+    : [];
   const priorityFaqs = priorityAnswer
     ? [
         { q: priorityAnswer.seoQuestion, a: priorityAnswer.body, priority: true },
-        ...priorityAnswer.faq.map(([q, a]) => ({ q, a, priority: true })),
+        ...priorityFaqEntries.map(([q, a]) => ({ q, a, priority: true })),
       ]
     : null;
 
@@ -1343,7 +1490,7 @@ function DecisionComparisonValue({ slug, locale, field, fallback }) {
 
   const value = reviewed ? sanitizePublicText(decision?.[field]) : pending[field];
   const reviewedLocale = decision?.contentLocale ?? locale;
-  const reviewedDir = reviewedLocale === "ar" ? "rtl" : "ltr";
+  const reviewedDir = ["ar", "ur"].includes(reviewedLocale) ? "rtl" : "ltr";
   return <>{field === "avoid" && reviewed && decision?.suitabilityUnresolved && <small>{ui[3]}: </small>}<span lang={reviewed ? reviewedLocale : locale} dir={reviewed ? reviewedDir : undefined}>{value ?? sanitizePublicText(fallback)}</span></>;
 }
 
@@ -1367,6 +1514,10 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
     id: "Bandingkan biaya bersumber, cadangan, KYC, batas produk, dan status manfaat; item belum terverifikasi tetap tertunda.",
     vi: "So sánh phí có nguồn, dự trữ, KYC, giới hạn sản phẩm và trạng thái ưu đãi; mục chưa xác minh vẫn chờ kiểm tra.",
     it: "Confronta commissioni con fonte, riserve, KYC, limiti prodotto e vantaggi; gli elementi non verificati restano in attesa.",
+    // l10n: needs native review
+    ur: "ماخذ والی فیس، ذخائر، KYC، پروڈکٹ حدیں اور صارف فائدہ حالت کا موازنہ کریں؛ غیر تصدیق شدہ چیزیں زیر التوا رہتی ہیں۔",
+    // l10n: needs native review
+    uk: "Порівнюйте комісії з джерелами, резерви, KYC, продуктові ліміти й статус умов для користувача; неперевірені пункти залишаються очікуваними.",
   };
   const matrixLeadCopy = matrixLeadByLocale[locale] || matrixLeadByLocale[localeKey(locale)] || matrixLeadByLocale.en;
   const matrixTitleCopy = locale === "zh-Hant"
@@ -1727,7 +1878,11 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                       <div>
                         {d.kycCategory === "none" && (
                           <span className="v3-kyc-pill v3-kyc-pill--none">
-                            {isZh ? "免 KYC（邮箱注册）" : ({ ja: "KYC不要", ko: "KYC 불필요", tr: "KYC gerekmez", fr: "KYC non requis", de: "Kein KYC erforderlich", es: "No se requiere KYC", "pt-BR": "KYC não exigido", ru: "KYC не требуется", ar: "لا يلزم التحقق", id: "KYC tidak diperlukan", vi: "Không cần KYC", it: "KYC non richiesto" }[localeKey(locale)] || "No KYC Required")}
+                            {isZh ? "免 KYC（邮箱注册）" : ({ ja: "KYC不要", ko: "KYC 불필요", tr: "KYC gerekmez", fr: "KYC non requis", de: "Kein KYC erforderlich", es: "No se requiere KYC", "pt-BR": "KYC não exigido", ru: "KYC не требуется", ar: "لا يلزم التحقق", id: "KYC tidak diperlukan", vi: "Không cần KYC", it: "KYC non richiesto",
+                            // l10n: needs native review
+                            ur: "KYC درکار نہیں",
+                            // l10n: needs native review
+                            uk: "KYC не потрібен" }[localeKey(locale)] || "No KYC Required")}
                           </span>
                         )}
                         {d.kycCategory === "basic" && (
@@ -1951,13 +2106,21 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
             <span style={{ color: "var(--ink-2, #B0B4BA)", fontWeight: 600, fontSize: "0.875rem", letterSpacing: "0.02em" }}>
                {[activeGoldPair.left, activeGoldPair.right].every((slug) => publicVenueAccess(slug, locale).commercialClaim.status === "verified" && hasReviewedDecisionSource(slug))
                 ? (activeGoldPair.title[locKey] || activeGoldPair.title.en)
-                : (isZhLoc ? zhText(locale, "官方资料对比", "官方資料對比") : (compareLabels.official || ({ de: "Vergleich mit offiziellen Quellen", ja: "公式ソース比較", ko: "공식 출처 비교", tr: "Resmî kaynak karşılaştırması", ar: "مقارنة المصادر الرسمية", "pt-BR": "Comparação de fontes oficiais", fr: "Comparaison des sources officielles", ru: "Сравнение по официальным источникам", id: "Perbandingan sumber resmi", vi: "So sánh theo nguồn chính thức", it: "Confronto delle fonti ufficiali" }[locale] || "Official-source comparison")))}
+                : (isZhLoc ? zhText(locale, "官方资料对比", "官方資料對比") : (compareLabels.official || ({ de: "Vergleich mit offiziellen Quellen", ja: "公式ソース比較", ko: "공식 출처 비교", tr: "Resmî kaynak karşılaştırması", ar: "مقارنة المصادر الرسمية", "pt-BR": "Comparação de fontes oficiais", fr: "Comparaison des sources officielles", ru: "Сравнение по официальным источникам", id: "Perbandingan sumber resmi", vi: "So sánh theo nguồn chính thức", it: "Confronto delle fonti ufficiali",
+                // l10n: needs native review
+                ur: "سرکاری ماخذ کا موازنہ",
+                // l10n: needs native review
+                uk: "Порівняння за офіційними джерелами" }[locale] || "Official-source comparison")))}
             </span>
             <span style={{ color: "rgba(255, 255, 255, 0.3)" }}>|</span>
             <span style={{ color: "#e2e8f0", fontSize: "0.875rem", fontWeight: 500 }}>
               {[activeGoldPair.left, activeGoldPair.right].every((slug) => publicVenueAccess(slug, locale).commercialClaim.status === "verified" && hasReviewedDecisionSource(slug))
                 ? (activeGoldPair.tagline[locKey] || activeGoldPair.tagline.en)
-                : (isZhLoc ? zhText(locale, "核对费率、产品、地区资格与来源日期", "核對費率、產品、地區資格與來源日期") : ({ es: "Compara comisiones, productos, elegibilidad regional y fecha de la fuente", de: "Gebühren, Produkte, regionale Eignung und Quelldatum prüfen", ja: "手数料、商品、地域資格、出典日を確認", ko: "수수료, 상품, 지역 자격과 출처 날짜를 확인하세요", tr: "Ücretleri, ürünleri, bölgesel uygunluğu ve kaynak tarihini kontrol edin", ar: "تحقق من الرسوم والمنتج والأهلية الإقليمية وتاريخ المصدر", "pt-BR": "Confira taxas, produtos, elegibilidade regional e data da fonte", fr: "Comparez frais, produits, éligibilité régionale et dates des sources", ru: "Сравните комиссии, продукты, региональную доступность и даты источников", id: "Bandingkan biaya, produk, kelayakan wilayah, dan tanggal sumber", vi: "So sánh phí, sản phẩm, điều kiện theo khu vực và ngày nguồn", it: "Confronta commissioni, prodotti, idoneità regionale e date delle fonti" }[locale] || "Compare fees, products, regional eligibility and source dates"))}
+                : (isZhLoc ? zhText(locale, "核对费率、产品、地区资格与来源日期", "核對費率、產品、地區資格與來源日期") : ({ es: "Compara comisiones, productos, elegibilidad regional y fecha de la fuente", de: "Gebühren, Produkte, regionale Eignung und Quelldatum prüfen", ja: "手数料、商品、地域資格、出典日を確認", ko: "수수료, 상품, 지역 자격과 출처 날짜를 확인하세요", tr: "Ücretleri, ürünleri, bölgesel uygunluğu ve kaynak tarihini kontrol edin", ar: "تحقق من الرسوم والمنتج والأهلية الإقليمية وتاريخ المصدر", "pt-BR": "Confira taxas, produtos, elegibilidade regional e data da fonte", fr: "Comparez frais, produits, éligibilité régionale et dates des sources", ru: "Сравните комиссии, продукты, региональную доступность и даты источников", id: "Bandingkan biaya, produk, kelayakan wilayah, dan tanggal sumber", vi: "So sánh phí, sản phẩm, điều kiện theo khu vực và ngày nguồn", it: "Confronta commissioni, prodotti, idoneità regionale e date delle fonti",
+                // l10n: needs native review
+                ur: "فیس، پروڈکٹس، علاقائی اہلیت اور ماخذ تاریخ کا موازنہ کریں",
+                // l10n: needs native review
+                uk: "Порівняйте комісії, продукти, регіональну доступність і дати джерел" }[locale] || "Compare fees, products, regional eligibility and source dates"))}
             </span>
           </div>
         )
@@ -1999,7 +2162,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
                   </div>
                 </div>
 
-                {hasReviewedEditorialDecision(p.slug) && <p className="v3-versus-fit" lang={locale} dir={locale === "ar" ? "rtl" : undefined}>{decisionForVenue(p.slug, locale).fit}</p>}
+                {hasReviewedEditorialDecision(p.slug) && <p className="v3-versus-fit" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : undefined}>{decisionForVenue(p.slug, locale).fit}</p>}
                 <details className="v3-versus-stats-disclosure" data-testid={`compare-versus-stats-${p.slug}`}>
                   <summary>{compareStatDisclosureByLocale[textLocaleKey(locale)] || compareStatDisclosureByLocale.en}<span aria-hidden="true">＋</span></summary>
                   <div className="v3-versus-side__stats">
@@ -2162,7 +2325,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
 
       <div className="v3-venue-hero">
         {!isPriorityTwoVenueDirectAnswer && comparisonBadge}
-        <h1 translate={compareOwnerQuestion || generatedCopy ? undefined : "no"} lang={generatedCopy ? locale : directAnswer?.locale || (isZhLoc ? "zh-Hans" : "en")} dir={locale === "ar" ? "rtl" : "ltr"}>
+        <h1 translate={compareOwnerQuestion || generatedCopy ? undefined : "no"} lang={generatedCopy ? locale : directAnswer?.locale || (isZhLoc ? "zh-Hans" : "en")} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
           {compareOwnerQuestion || generatedCopy?.h1 || profiles.map((profile, index) => <span key={profile.slug}>
             {index > 0 ? " vs " : ""}
             {getLocalizedVenueName(profile, locale).split(/(\([^)]*\))/).map((part, partIndex) => part.startsWith("(")
@@ -2170,7 +2333,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
               : part)}
           </span>)}
         </h1>
-        {generatedCopy && <p className="v3-compare-generated-note" lang={locale} dir={locale === "ar" ? "rtl" : undefined} data-compare-generated-note>{generatedCopy.note}</p>}
+        {generatedCopy && <p className="v3-compare-generated-note" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : undefined} data-compare-generated-note>{generatedCopy.note}</p>}
         {profiles.length === 2 && <CompareHeroActions directAnswer={directAnswer} profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />}
         {profiles.length === 2 && <CompareFeeLedger a={profiles[0].slug} b={profiles[1].slug} nameA={getLocalizedVenueName(profiles[0], locale)} nameB={getLocalizedVenueName(profiles[1], locale)} locale={locale} />}
         <DecisionReturnLink locale={locale} href={buildDecisionReturnHref({kind:"compare",slugs:selected,locale,market,product})} />
@@ -2364,7 +2527,7 @@ export function CompareHubPage({ locale = "en", venues = [], market, product, ac
   const text = v3Copy(locale);
   const contextSearch = directoryContextSearch({ market, product, locale, accountStage, funding });
   const generatedPairs = indexableGeneratedComparePairs();
-  return <main className="v6 v2-page v3-page v3-compare-hub" id="top" dir={locale === "ar" ? "rtl" : undefined} {...sectionEyebrowAttrs(locale, "compare")}>
+  return <main className="v6 v2-page v3-page v3-compare-hub" id="top" dir={["ar", "ur"].includes(locale) ? "rtl" : undefined} {...sectionEyebrowAttrs(locale, "compare")}>
     <section className="v3-page-hero v2-shell" id="compare-hub-hero">
       <LocalLink locale={locale} href={`/exchanges?${contextSearch}`} className="v3-back-link">← {text.backToDirectory}</LocalLink>
       <div className="v3-venue-hero">
@@ -2410,6 +2573,10 @@ const compareNotesGroupCopy = {
   id: ["Sumber dan catatan keputusan", "Sebelum mendaftar"],
   vi: ["Nguồn và ghi chú quyết định", "Trước khi đăng ký"],
   it: ["Fonti e note decisionali", "Prima di registrarti"],
+  // l10n: needs native review
+  ur: ["ماخذ اور فیصلے کے نوٹس", "رجسٹریشن سے پہلے"],
+  // l10n: needs native review
+  uk: ["Джерела та нотатки до рішення", "Перед реєстрацією"],
 };
 // Groups consecutive compare disclosures under one row. Off (children rendered as-is) outside the two-venue answer layout.
 function CompareNotesGroup({ kind, locale, enabled, children }) {
@@ -2438,7 +2605,13 @@ const compareContinueResearchCopy = {
   "ru": "Продолжить исследование",
   "id": "Lanjutkan penelitian",
   "vi": "Tiếp tục nghiên cứu",
-  "it": "Continuare la ricerca"
+  "it": "Continuare la ricerca",
+
+  // l10n: needs native review
+  "ur": "تحقیق جاری رکھیں",
+
+  // l10n: needs native review
+  "uk": "Продовжити дослідження"
 };
 
 const compareFaqScopeCopy = {
@@ -2456,7 +2629,11 @@ const compareFaqScopeCopy = {
  ru: "Эти вопросы относятся к первым двум платформам. Для всех выбранных платформ проверьте таблицу сравнения и источники.",
  id: "FAQ ini membahas dua platform pertama. Periksa tabel perbandingan dan sumber untuk semua platform yang dipilih.",
  vi: "Các câu hỏi này đề cập đến hai nền tảng đầu tiên. Hãy kiểm tra bảng so sánh và nguồn cho tất cả nền tảng đã chọn.",
- it: "Queste domande riguardano le prime due piattaforme. Consulta la tabella comparativa e le fonti per tutte le piattaforme selezionate."
+ it: "Queste domande riguardano le prime due piattaforme. Consulta la tabella comparativa e le fonti per tutte le piattaforme selezionate.",
+ // l10n: needs native review
+ ur: "یہ سوالات پہلے دو پلیٹ فارمز کا احاطہ کرتے ہیں۔ تمام منتخب پلیٹ فارمز کے لیے موازنہ جدول اور ماخذ چیک کریں۔",
+ // l10n: needs native review
+ uk: "Ці запитання охоплюють перші дві платформи. Для всіх вибраних платформ перевіряйте таблицю порівняння та джерела."
 };
 
 const profileAccountDisclosureCopy = {
@@ -2474,7 +2651,13 @@ const profileAccountDisclosureCopy = {
   "ru": "Приглашение, комиссии и проверки регистрации",
   "id": "Undangan, biaya, dan pemeriksaan pendaftaran",
   "vi": "Lời mời, phí và kiểm tra đăng ký",
-  "it": "Invito, commissioni e verifiche di registrazione"
+  "it": "Invito, commissioni e verifiche di registrazione",
+
+  // l10n: needs native review
+  "ur": "دعوت، فیس اور رجسٹریشن چیک",
+
+  // l10n: needs native review
+  "uk": "Запрошення, комісії та перевірки реєстрації"
 };
 
 export function NotFoundPage({ locale }) {

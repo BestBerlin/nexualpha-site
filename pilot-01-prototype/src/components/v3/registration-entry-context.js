@@ -14,6 +14,11 @@ const entryCopy = {
  id: ['Kode undangan belum diatur','Jalur ini tidak memiliki kode undangan yang diatur.','Akses protokol','Periksa jaringan, kontrak, dan izin dompet sebelum menghubungkan.'],
  vi: ['Chưa cấu hình mã mời','Đường dẫn này chưa được cấu hình mã mời.','Truy cập giao thức','Kiểm tra mạng, hợp đồng và quyền ví trước khi kết nối.'],
  it: ['Nessun codice invito configurato','Questo percorso non ha un codice invito configurato.','Accesso al protocollo','Verifica rete, contratto e autorizzazioni del wallet prima di collegarlo.'],
+
+ // l10n: needs native review
+ ur: ["دعوتی کوڈ ترتیب نہیں دیا گیا","اس راستے کے لیے دعوتی کوڈ ترتیب نہیں دیا گیا۔","پروٹوکول کا راستہ","منسلک ہونے سے پہلے نیٹ ورک، معاہدہ اور والیٹ کی اجازتیں جانچیں۔"],
+ // l10n: needs native review
+ uk: ["Код запрошення не налаштовано","Для цього маршруту код запрошення не налаштовано.","Перехід до протоколу","Перед підключенням перевірте мережу, контракт і дозволи гаманця."],
 };
 export function registrationEntryContext(category, locale = 'en') {
  const copy = entryCopy[locale] || entryCopy.en;

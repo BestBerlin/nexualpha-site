@@ -34,6 +34,11 @@ const copy = {
   id: { label: "KEPUTUSAN BERIKUTNYA", compare: "Bandingkan biaya total", facts: "Lihat factbook sumber", directory: "Pilih berdasarkan kondisi" },
   vi: { label: "QUYẾT ĐỊNH TIẾP THEO", compare: "So sánh tổng chi phí", facts: "Xem hồ sơ nguồn", directory: "Chọn theo điều kiện" },
   it: { label: "PROSSIMA DECISIONE", compare: "Confronta il costo totale", facts: "Apri il factbook delle fonti", directory: "Scegli per condizioni" },
+
+ // l10n: needs native review
+ ur:{label:"اگلا فیصلہ",compare:"کل لاگت کا موازنہ",facts:"ماخذ کی فیکٹ بک کا جائزہ",directory:"شرائط کے لحاظ سے انتخاب"},
+ // l10n: needs native review
+ uk:{label:"НАСТУПНЕ РІШЕННЯ",compare:"Порівняти загальні витрати",facts:"Перевірити фактбук джерел",directory:"Вибрати за умовами"},
 };
 
 const FALLBACK_PAIR = ["binance", "okx"];

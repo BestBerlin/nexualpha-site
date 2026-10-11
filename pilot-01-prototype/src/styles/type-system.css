@@ -62,8 +62,8 @@
   text-transform: var(--label-case);
 }
 
-/* Letter-spacing is a Latin convention; it breaks Arabic joining. */
-:is([dir="rtl"], :lang(ar), :lang(zh), :lang(ja), :lang(ko)) {
+/* Letter-spacing is a Latin convention; it breaks Arabic/Urdu joining. */
+:is([dir="rtl"], :lang(ar), :lang(ur), :lang(zh), :lang(ja), :lang(ko)) {
   --label-tracking: 0;
 }
 

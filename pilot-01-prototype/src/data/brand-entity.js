@@ -18,7 +18,7 @@ export const BRAND_PAGE_PATHS = Object.freeze([ABOUT_PATH, EDITORIAL_POLICY_PATH
 // Date the entity facts and the two brand pages were last reviewed (rendered on both pages and as dateModified).
 export const ENTITY_REVIEWED_AT = "2026-10-11";
 
-export const BRAND_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"]);
+export const BRAND_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]);
 
 export const BRAND = Object.freeze({
   name: "NexuAlpha",
@@ -75,6 +75,10 @@ const ORGANIZATION_DESCRIPTION = Object.freeze({
   tr: "Kaynağa dayalı bağımsız kripto platform araştırması: yayımlanmış ücretler, referans koşulları, bölgesel koşullar ve rezerv açıklamaları, her biri resmi kaynağı ve inceleme tarihiyle.",
   id: "Riset platform kripto yang independen dan berbasis sumber: biaya resmi, ketentuan referral, kondisi regional dan pengungkapan cadangan, masing-masing dengan sumber resmi dan tanggal tinjauan.",
   vi: "Nghiên cứu nền tảng tiền mã hóa độc lập, dựa trên nguồn: phí công bố, điều khoản giới thiệu, điều kiện khu vực và công bố dự trữ, mỗi mục kèm nguồn chính thức và ngày rà soát.",
+  // l10n: needs native review
+  ur: "آزاد اور ماخذ پر مبنی کرپٹو ایکسچینج تحقیق: شائع شدہ فیس، ریفرل شرائط، علاقائی شرائط اور ذخائر کے افشا، ہر نکتے کے ساتھ سرکاری ماخذ اور جائزے کی تاریخ۔",
+  // l10n: needs native review
+  uk: "Незалежні дослідження криптобірж на основі джерел: опубліковані комісії, реферальні та регіональні умови, розкриття резервів — з офіційним джерелом і датою перевірки для кожного пункту.",
   ar: "بحث مستقل قائم على المصادر حول منصات العملات المشفرة: الرسوم المنشورة وشروط الإحالة والشروط الإقليمية وإفصاحات الاحتياطيات، كل بند مع مصدره الرسمي وتاريخ مراجعته.",
 });
 
@@ -93,6 +97,10 @@ const RESEARCH_DESK_DESCRIPTION = Object.freeze({
   tr: "NexuAlpha'nın iç editoryal ekibi. Ücretleri, referans koşullarını ve resmi duyuruları birincil kaynaklarla karşılaştırır; makaleler yapay zekâ desteğiyle araştırılıp yazılır ve yayından önce incelenir. Adı geçen bir kişi, danışman, aracı kurum veya borsa işletmecisi değildir.",
   id: "Tim editorial internal NexuAlpha. Memeriksa biaya, ketentuan referral dan pengumuman resmi terhadap sumber primer; artikel diriset dan ditulis dengan bantuan AI lalu ditinjau sebelum terbit. Bukan individu bernama, penasihat, broker, atau operator bursa.",
   vi: "Đội ngũ biên tập nội bộ của NexuAlpha. Đối chiếu phí, điều khoản giới thiệu và thông báo chính thức với nguồn gốc; bài viết được nghiên cứu và viết với sự hỗ trợ của AI và được rà soát trước khi đăng. Không phải cá nhân có tên, cố vấn, nhà môi giới hay đơn vị vận hành sàn.",
+  // l10n: needs native review
+  ur: "NexuAlpha کی داخلی ادارتی ٹیم۔ فیس، ریفرل شرائط اور سرکاری اعلانات بنیادی ماخذ سے جانچتی ہے؛ مضامین AI کی مدد سے تیار اور اشاعت سے پہلے جائزہ لیے جاتے ہیں۔ یہ کسی نامزد شخص، مشیر، بروکر یا ایکسچینج آپریٹر کی نمائندگی نہیں کرتی۔",
+  // l10n: needs native review
+  uk: "Внутрішня редакційна команда NexuAlpha. Перевіряє комісії, реферальні умови й офіційні оголошення за першоджерелами; статті готуються за допомогою ШІ та перевіряються перед публікацією. Це не окрема особа, консультант, брокер чи оператор біржі.",
   ar: "فريق التحرير الداخلي في NexuAlpha. يتحقق من الرسوم وشروط الإحالة والإعلانات الرسمية مقابل المصادر الأولية؛ تُبحث المقالات وتُكتب بمساعدة الذكاء الاصطناعي وتُراجع قبل النشر. ليس شخصًا مُسمّى ولا مستشارًا ولا وسيطًا ولا مشغّل منصة.",
 });
 
@@ -109,7 +117,11 @@ export function brandLocale(locale) {
 
 export function localizedBrandPath(pathname, locale) {
   const code = brandLocale(locale);
-  const prefix = { "zh-Hans": "zh-hans", "zh-Hant": "zh-hant", es: "es", "pt-BR": "pt-br", fr: "fr", de: "de", ja: "ja", ko: "ko", ar: "ar", tr: "tr", ru: "ru", id: "id-id", vi: "vi", it: "it" }[code];
+  const prefix = { "zh-Hans": "zh-hans", "zh-Hant": "zh-hant", es: "es", "pt-BR": "pt-br", fr: "fr", de: "de", ja: "ja", ko: "ko", ar: "ar", tr: "tr", ru: "ru", id: "id-id", vi: "vi", it: "it",
+  // l10n: needs native review
+  ur: "ur",
+  // l10n: needs native review
+  uk: "uk-ua" }[code];
   return prefix ? `/${prefix}${pathname}` : pathname;
 }
 
@@ -201,6 +213,10 @@ export const BRAND_PAGE_SEO = Object.freeze({
     tr: ["NexuAlpha Hakkında: Yayıncı, Finansman ve Research Desk", "NexuAlpha'yı kim yayımlıyor, site ortaklık komisyonlarından nasıl gelir elde ediyor, ücretler ve bilgiler nasıl doğrulanıyor, Research Desk'e nasıl ulaşılır."],
     id: ["Tentang NexuAlpha: Penerbit, Pendanaan dan Research Desk", "Siapa yang menerbitkan NexuAlpha, bagaimana situs memperoleh komisi mitra, bagaimana biaya dan fakta diverifikasi, dan cara menghubungi Research Desk."],
     vi: ["Về NexuAlpha: nhà xuất bản, nguồn thu và Research Desk", "Ai xuất bản NexuAlpha, trang kiếm tiền từ hoa hồng đối tác như thế nào, phí và dữ kiện được kiểm chứng ra sao, và cách liên hệ Research Desk qua Telegram."],
+    // l10n: needs native review
+    ur: ["NexuAlpha کے بارے میں: ناشر، آمدنی اور تحقیقی ٹیم", "NexuAlpha کا ناشر، پارٹنر کمیشن سے آمدنی، فیس اور حقائق کی جانچ اور Telegram پر تحقیقی ٹیم سے رابطہ۔"],
+    // l10n: needs native review
+    uk: ["Про NexuAlpha: видавець, фінансування й дослідницька команда", "Хто видає NexuAlpha, як сайт отримує партнерські комісії, як перевіряє комісії та факти і як зв’язатися з командою через Telegram."],
     ar: ["عن NexuAlpha: الناشر والتمويل وفريق البحث", "من ينشر NexuAlpha، وكيف يحقق الموقع دخله من عمولات الشركاء، وكيف تُراجع الرسوم والحقائق، وكيفية التواصل مع فريق البحث عبر Telegram."],
   }),
   [EDITORIAL_POLICY_PATH]: Object.freeze({
@@ -218,6 +234,10 @@ export const BRAND_PAGE_SEO = Object.freeze({
     tr: ["NexuAlpha Editoryal Politikası: Kaynaklar, Düzeltmeler ve YZ", "NexuAlpha iddiaları nasıl kaynaklar, alt sınır verilerini işaretler, düzeltmeleri ve ortak bağlantılarını yönetir, YZ desteğini nasıl kullanır."],
     id: ["Kebijakan Editorial NexuAlpha: Sumber, Koreksi dan AI", "Cara NexuAlpha memberi sumber setiap klaim, menandai data batas bawah, menangani koreksi dan tautan mitra, memakai bantuan AI, dan memperbarui halaman."],
     vi: ["Chính sách biên tập NexuAlpha: nguồn, đính chính và AI", "Cách NexuAlpha dẫn nguồn mọi nhận định, đánh dấu dữ liệu giới hạn dưới, xử lý đính chính và liên kết đối tác, dùng hỗ trợ AI và cập nhật trang."],
+    // l10n: needs native review
+    ur: ["NexuAlpha کی ادارتی پالیسی: ماخذ، تصحیحات اور AI", "NexuAlpha دعووں کے ماخذ، کم از کم ڈیٹا، تصحیحات، پارٹنر لنکس، AI کی مدد اور صفحات کی تازہ کاری کو کیسے سنبھالتا ہے۔"],
+    // l10n: needs native review
+    uk: ["Редакційна політика NexuAlpha: джерела, виправлення й ШІ", "Як NexuAlpha підтверджує твердження джерелами, позначає нижні межі даних, обробляє виправлення й партнерські посилання, використовує ШІ та оновлює сторінки."],
     ar: ["السياسة التحريرية لـ NexuAlpha: المصادر والتصحيحات والـ AI", "كيف توثّق NexuAlpha كل ادعاء بمصدر، وتُعلّم بيانات الحد الأدنى، وتعالج التصحيحات وروابط الشركاء، وتستخدم مساعدة الذكاء الاصطناعي، وتحدّث الصفحات."],
   }),
 });

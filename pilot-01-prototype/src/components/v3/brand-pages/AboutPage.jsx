@@ -7,7 +7,7 @@ import { CommissionDisclosureLine } from "../CommissionDisclosureLine.jsx";
 import { ABOUT_COPY } from "./about-copy.js";
 import "./brand-pages.css";
 
-export const textDirection = (locale) => (locale === "ar" ? "rtl" : "ltr");
+export const textDirection = (locale) => (["ar", "ur"].includes(locale) ? "rtl" : "ltr");
 
 export function BrandPageHeader({ locale, copy, pathname, children }) {
   const home = localizedHref("/", { locale });

@@ -1,4 +1,4 @@
-// Compare Lab strings, all 15 supported locales. {a}/{b} are venue names.
+// Compare Lab strings, all 17 supported locales. {a}/{b} are venue names.
 const E = (first, second, swap, preview, popular, cta, nc, rows, checked, note, status) =>
   ({ first, second, swap, preview, popular, cta, nc, rows, checked, note, status });
 
@@ -63,6 +63,11 @@ export const labCopy = {
     ["Spot maker", "Spot taker", "Perp maker", "Perp taker"], "Pagina commissioni verificata",
     "Commissioni base pubblicate nelle pagine ufficiali. Livelli e sconti possono cambiare quanto paghi. Le barre condividono una scala per prodotto. Affiancato, non una classifica.",
     "Confronto tra {a} e {b}"),
+
+ // l10n: needs native review
+ ur: E("پہلا پلیٹ فارم","دوسرا پلیٹ فارم","پلیٹ فارم بدلیں","پیش منظر","مقبول جوڑیاں","مکمل موازنہ کھولیں","ابھی جانچ نہیں ہوئی",["اسپاٹ میکر","اسپاٹ ٹیکر","دائمی معاہدے کا میکر","دائمی معاہدے کا ٹیکر"],"فیس کا صفحہ جانچا گیا","سرکاری فیس صفحات کی شائع شدہ بنیادی شرحیں۔ سطحیں اور رعایتیں آپ کی اصل فیس بدل سکتی ہیں۔ ہر مصنوع کے بار ایک ہی پیمانہ استعمال کرتے ہیں۔ یہ ساتھ ساتھ موازنہ ہے، درجہ بندی نہیں۔","{a} اور {b} کا موازنہ"),
+ // l10n: needs native review
+ uk: E("Перша платформа","Друга платформа","Поміняти платформи","Попередній перегляд","Популярні пари","Відкрити повне порівняння","Ще не перевірено",["Спотовий мейкер","Спотовий тейкер","Мейкер безстрокових контрактів","Тейкер безстрокових контрактів"],"Сторінку комісій перевірено","Опубліковані базові ставки з офіційних сторінок комісій. Рівні й знижки можуть змінити вашу плату. Стовпчики мають спільну шкалу для кожного продукту. Це зіставлення, а не рейтинг.","Порівнюємо {a} та {b}"),
 };
 // R2 additions: [pending line, spot/perp words, gap caption, identical, "{n} is lower on {row}"]
 const X = (pending, prod, gap, same, lower) => ({ pending, prod, gap, same, lower });
@@ -82,6 +87,11 @@ const labExtra = {
   id: X("Data biaya menunggu", ["Spot", "Perp"], "Selisih biaya spot, poin persentase", "Biaya dasar spot identik", "{n} lebih rendah di {row}"),
   vi: X("Dữ liệu phí đang chờ", ["Spot", "Perp"], "Chênh lệch phí spot, điểm %", "Phí cơ bản spot giống nhau", "{n} thấp hơn ở {row}"),
   it: X("Dati sulle commissioni in attesa", ["Spot", "Perp"], "Differenza commissioni spot, punti", "Commissioni base spot identiche", "{n} è più basso su {row}"),
+
+ // l10n: needs native review
+ ur: X("فیس کا ڈیٹا باقی",["اسپاٹ","دائمی معاہدے"],"اسپاٹ فیس کا فرق، فیصدی پوائنٹس","یکساں بنیادی اسپاٹ شرحیں","{row} میں {n} کم ہے"),
+ // l10n: needs native review
+ uk: X("Дані комісій очікуються",["Спот","Безстрокові контракти"],"Різниця спотових комісій, процентні пункти","Однакові базові спотові ставки","{n} має нижчу ставку в рядку {row}"),
 };
 export const labText = (locale) => {
   const k = labCopy[locale] ? locale : labCopy[String(locale || "").split("-")[0]] ? String(locale).split("-")[0] : "en";

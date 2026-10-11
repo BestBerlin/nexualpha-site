@@ -1,0 +1,11 @@
+Preserve source facts when readers use the new locale drafts
+
+Constraint: Dates, numbers, source URLs, partner facts and existing locale text remain authoritative.
+Rejected: Generic comparison and campaign summaries | they omit product-specific facts and checks.
+Confidence: high
+Scope-risk: moderate
+Directive: Keep the Urdu and Ukrainian drafts behind native-review and indexing gates.
+Tested: node --test tests/article-embeds.test.mjs tests/embed-widgets.test.mjs tests/locales-ur-uk.test.mjs (22 passed); npm run i18n:check
+Not-tested: Native-speaker editorial approval.
+
+Co-Authored-By: Codex (gpt-6.1-sol) <noreply@openai.com>

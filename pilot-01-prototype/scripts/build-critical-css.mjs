@@ -4,7 +4,7 @@
 // The home page links ~26 stylesheets (~200 KB gzip, 1.2 MB raw) and all of them blocked the first paint; a coverage
 // run showed that only ~90 KB of those rules match any element of the home page. This build step keeps, from the exact
 // stylesheets the Worker links on the home route and in their cascade order, every rule whose selector can match an
-// element of a prerendered home page (all 15 locales), and writes them to dist/client/critical-css.json. The Worker
+// element of a prerendered home page (all 17 UI locales), and writes them to dist/client/critical-css.json. The Worker
 // inlines that CSS and turns the stylesheet links into non-blocking loads (same order, so the final cascade is the one
 // the page had before). A rule is dropped only when it provably matches nothing in the SSR markup:
 //   - dynamic pseudo-classes (:hover, :focus-visible, :checked...), pseudo-elements and [open] (native <details>
@@ -355,7 +355,7 @@ export function extractCriticalCss(cssTexts, documents, { postcss = loadPostcss(
   return { css, stats };
 }
 
-const HOME_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
+const HOME_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 
 export function stylesheetHrefs(indexHtml) {
   return [...indexHtml.matchAll(/<link\b[^>]*rel=["']stylesheet["'][^>]*>/gi)]
@@ -380,7 +380,7 @@ async function main() {
     const asset = path.join(clientRoot, "prerender", locale, "home.json");
     if (!existsSync(asset)) throw new Error(`critical css: missing prerendered home for ${locale}`);
     const { html } = JSON.parse(await readFile(asset, "utf8"));
-    const dir = locale === "ar" ? "rtl" : "ltr";
+    const dir = ["ar", "ur"].includes(locale) ? "rtl" : "ltr";
     documents.push(new JSDOM(`<!doctype html><html lang="${locale}" dir="${dir}"><head></head><body><div id="root">${html}</div></body></html>`).window.document);
   }
   const { css, stats } = extractCriticalCss(cssTexts, documents);

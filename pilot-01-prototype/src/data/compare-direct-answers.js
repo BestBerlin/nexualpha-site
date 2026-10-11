@@ -1,7 +1,8 @@
+import { compareDirectAnswerDrafts } from "./compare-direct-answer-drafts.js";
 import { comparePairAnswers, comparePairAnswerSlugs } from "./compare-pair-answers.js";
 
 // 2026-10-10: the four market-plan pairs carry all 15 UI locales; the older pairs keep their reviewed subset.
-const supportedLocales = new Set(["en", "zh-Hans", "zh-Hant", "ja", "ko", "ar", "tr", "de", "pt-BR", "es", "fr", "it", "ru", "id", "vi"]);
+const supportedLocales = new Set(["en", "zh-Hans", "zh-Hant", "ja", "ko", "ar", "tr", "de", "pt-BR", "es", "fr", "it", "ru", "id", "vi", "ur", "uk"]);
 
 const normalizeCompareAnswerLocale = (locale = "en") => {
   const raw = String(locale || "en");
@@ -15,7 +16,7 @@ const normalizeCompareAnswerLocale = (locale = "en") => {
   if (lower === "tr" || lower.startsWith("tr-")) return "tr";
   if (lower === "de" || lower.startsWith("de-")) return "de";
   if (lower === "pt" || lower.startsWith("pt-")) return "pt-BR";
-  for (const code of ["es", "fr", "it", "ru", "id", "vi"]) if (lower === code || lower.startsWith(`${code}-`)) return code;
+  for (const code of ["es", "fr", "it", "ru", "id", "vi", "ur", "uk"]) if (lower === code || lower.startsWith(`${code}-`)) return code;
   return null;
 };
 
@@ -1403,7 +1404,7 @@ export function compareDirectAnswerFor(slug, locale = "en") {
   const normalizedLocale = normalizeCompareAnswerLocale(locale);
   const record = compareDirectAnswers[slug];
   if (!record || !normalizedLocale || !supportedLocales.has(normalizedLocale)) return null;
-  const answer = record[normalizedLocale];
+  const answer = record[normalizedLocale] || compareDirectAnswerDrafts[slug]?.[normalizedLocale];
   if (!answer) return null;
   return {
     slug,

@@ -15,6 +15,10 @@ const PLATFORM_COUNT = {
   tr: { other: "{n} platform" },
   id: { other: "{n} platform" },
   vi: { other: "{n} nền tảng" },
+  // l10n: needs native review
+  ur: { one: "{n} پلیٹ فارم", other: "{n} پلیٹ فارم" },
+  // l10n: needs native review
+  uk: { one: "{n} платформа", few: "{n} платформи", many: "{n} платформ", other: "{n} платформи" },
   ar: { zero: "لا توجد منصات", one: "منصة واحدة", two: "منصتان", few: "{n} منصات", many: "{n} منصة", other: "{n} منصة" },
 };
 
@@ -33,10 +37,18 @@ const SHOW_MORE_PLATFORMS = {
   tr: { other: "{n} platform daha göster" },
   id: { other: "Tampilkan {n} platform lagi" },
   vi: { other: "Hiện thêm {n} nền tảng" },
+  // l10n: needs native review
+  ur: { one: "مزید {n} پلیٹ فارم دکھائیں", other: "مزید {n} پلیٹ فارم دکھائیں" },
+  // l10n: needs native review
+  uk: { one: "Показати ще {n} платформу", few: "Показати ще {n} платформи", many: "Показати ще {n} платформ", other: "Показати ще {n} платформи" },
   ar: { one: "عرض منصة أخرى", two: "عرض منصتين أخريين", few: "عرض {n} منصات أخرى", many: "عرض {n} منصة أخرى", other: "عرض {n} منصة أخرى" },
 };
 
 const SHOW_FEWER_PLATFORMS = {
+  // l10n: needs native review
+  ur: "کم پلیٹ فارم دکھائیں",
+  // l10n: needs native review
+  uk: "Показати менше платформ",
   en: "Show fewer platforms", "zh-Hans": "收起平台", "zh-Hant": "收起平台", es: "Mostrar menos plataformas", "pt-BR": "Mostrar menos plataformas",
   fr: "Afficher moins de plateformes", de: "Weniger Plattformen anzeigen", it: "Mostra meno piattaforme", ja: "表示を減らす", ko: "간단히 보기",
   ru: "Свернуть список", tr: "Daha az göster", id: "Tampilkan lebih sedikit", vi: "Thu gọn", ar: "عرض عدد أقل",

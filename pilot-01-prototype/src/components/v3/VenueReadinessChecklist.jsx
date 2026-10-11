@@ -19,6 +19,10 @@ const READINESS_ITEMS = [
     idLocale: ["Wilayah", "Negara resmi, domisili, dan ketersediaan akun sudah diperiksa."],
     vi: ["Khu vực", "Đã kiểm tra quốc gia chính thức, nơi cư trú và khả dụng tài khoản."],
     it: ["Regione", "Paese ufficiale, residenza e disponibilità account verificati."],
+    // l10n: needs native review
+    ur: ["علاقہ", "سرکاری ملک، رہائش اور اکاؤنٹ دستیابی چیک ہو چکی۔"],
+    // l10n: needs native review
+    uk: ["Регіон", "Офіційну країну, резидентство й доступність акаунта перевірено."],
   },
   {
     id: "kyc",
@@ -37,6 +41,10 @@ const READINESS_ITEMS = [
     idLocale: ["KYC", "Level identitas, jenis dokumen, dan batas akun sudah diperiksa."],
     vi: ["KYC", "Đã kiểm tra cấp xác minh, loại giấy tờ và giới hạn tài khoản."],
     it: ["KYC", "Livello identità, tipo di documento e limiti account verificati."],
+    // l10n: needs native review
+    ur: ["KYC", "شناخت سطح، دستاویز قسم اور اکاؤنٹ حدود چیک ہو چکیں۔"],
+    // l10n: needs native review
+    uk: ["KYC", "Рівень ідентифікації, тип документа й ліміти акаунта перевірено."],
   },
   {
     id: "funding",
@@ -55,6 +63,10 @@ const READINESS_ITEMS = [
     idLocale: ["Pendanaan", "Rute deposit, fiat atau jaringan, dan waktu tunggu sudah diperiksa."],
     vi: ["Nạp tiền", "Đã kiểm tra tuyến nạp, tiền pháp định hoặc mạng và thời gian chờ."],
     it: ["Deposito", "Percorso di deposito, fiat o rete, e tempi di attesa verificati."],
+    // l10n: needs native review
+    ur: ["فنڈنگ", "ڈپازٹ راستہ، فیاٹ یا نیٹ ورک، اور انتظار وقت چیک ہو چکے۔"],
+    // l10n: needs native review
+    uk: ["Поповнення", "Маршрут депозиту, фіат або мережу й час очікування перевірено."],
   },
   {
     id: "products",
@@ -73,6 +85,10 @@ const READINESS_ITEMS = [
     idLocale: ["Produk", "Cakupan spot, derivatif, wallet, atau produk regional sudah diperiksa."],
     vi: ["Sản phẩm", "Đã kiểm tra phạm vi spot, phái sinh, ví hoặc sản phẩm theo khu vực."],
     it: ["Prodotti", "Ambito spot, derivati, wallet o prodotti regionali verificato."],
+    // l10n: needs native review
+    ur: ["مصنوعات", "اسپاٹ، ڈیریویٹوز، والیٹ یا علاقائی مصنوعات کا دائرہ چیک ہو چکا۔"],
+    // l10n: needs native review
+    uk: ["Продукти", "Спот, деривативи, гаманець або регіональний обсяг продуктів перевірено."],
   },
 ];
 
@@ -272,6 +288,10 @@ const copyByLocale = {
     restored: "Ripristinato da questo browser o URL",
     boundary: "Questa guida salva solo lo stato della checklist. Non salva risultati di account, identità, deposito o pagamento.",
   },
+  // l10n: needs native review
+  ur: { eyebrow: "اکاؤنٹ تیاری", title: "سرکاری بہاؤ کھولنے سے پہلے چیک کریں", body: "اس نجی صفحہ حالت سے چار چیک نشان زد کریں جو ابھی آپ کے علاقے اور سرکاری اکاؤنٹ اسکرین پر منحصر ہیں۔", open: "چیک لسٹ کھولیں", close: "چیک لسٹ بند کریں", pending: "زیر التوا", checked: "چیک شدہ", progress: (done) => `${done}/4 چیک شدہ`, reset: "دوبارہ سیٹ", restored: "اس براؤزر یا URL سے بحال", boundary: "یہ رہنما صرف چیک لسٹ حالت محفوظ کرتا ہے۔ یہ اکاؤنٹ، شناخت، فنڈنگ یا ادائیگی نتائج محفوظ نہیں کرتا۔" },
+  // l10n: needs native review
+  uk: { eyebrow: "Готовність акаунта", title: "Перевірте перед відкриттям офіційного шляху", body: "Використовуйте приватний стан цієї сторінки, щоб позначити чотири перевірки, які ще залежать від вашого регіону й офіційного екрана акаунта.", open: "Відкрити перелік", close: "Згорнути перелік", pending: "Очікує", checked: "Перевірено", progress: (done) => `${done}/4 перевірено`, reset: "Скинути", restored: "Відновлено з цього браузера або URL", boundary: "Цей гід зберігає лише стан переліку. Він не зберігає результати акаунта, ідентифікації, поповнення чи виплат." },
 };
 
 function localeKey(locale) {
@@ -360,7 +380,7 @@ export function VenueReadinessChecklist({ venueSlug, locale, market, product }) 
   const done = checkedIds.length;
 
   return (
-    <section className="venue-readiness" data-venue-readiness-checklist={venueSlug} aria-labelledby={`venue-readiness-${venueSlug}`}>
+    <section className="venue-readiness" dir={localeKey(locale) === "ur" ? "rtl" : undefined} data-venue-readiness-checklist={venueSlug} aria-labelledby={`venue-readiness-${venueSlug}`}>
       <details className="venue-readiness__disclosure">
         <summary className="venue-readiness__summary">
           <h2 id={`venue-readiness-${venueSlug}`}>{labels.title}</h2>

@@ -91,7 +91,7 @@
 @ .h7-pw img,@ .h7-pw [data-brand-fallback]{width:28px;height:28px;border-radius:8px}
 @ .h7-pn{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @ .h7-pw small{font:500 12px/1 var(--mono);color:var(--ac)}
-@ .h7-kick:lang(ar){font-family:inherit;letter-spacing:0}
+@ .h7-kick:is(:lang(ar), :lang(ur)){font-family:inherit;letter-spacing:0}
 /* ---------- hero copy ---------- */
 @ .h7-kick{margin:0 0 20px;font:500 12px/1.4 var(--mono);letter-spacing:.08em;color:var(--ink3)}
 @ h1 em{font-style:normal;color:var(--ac)}

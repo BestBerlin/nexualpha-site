@@ -24,7 +24,7 @@ import { createCtaClickBeacon } from "../server/cta-click.mjs";
 import { summarize } from "../server/growth-report.mjs";
 import { createSsrHarness, prerenderState, rootInnerHtml, hydrateInJsdom, hydrationErrors, h1Texts } from "./helpers/ssr-hydration-harness.mjs";
 
-const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
+const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 const HUMAN_UA = "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36";
 const BOT_UAS = [
   "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
@@ -38,7 +38,7 @@ const BOT_UAS = [
 const disabledRegistry = { ...experimentRegistry, [HOME_HERO_EXPERIMENT_ID]: { ...experimentRegistry[HOME_HERO_EXPERIMENT_ID], enabled: false, status: "DESIGNED" } };
 const enabledRegistry = { ...experimentRegistry, [HOME_HERO_EXPERIMENT_ID]: { ...experimentRegistry[HOME_HERO_EXPERIMENT_ID], enabled: true, status: "ACTIVE" } };
 
-test("registry: home_hero_copy_v1 is running (owner approved 2026-10-11), valid, on the 15 localized home routes", () => {
+test("registry: home_hero_copy_v1 is running (owner approved 2026-10-11), valid, on the 17 localized home routes", () => {
   const definition = experimentRegistry[HOME_HERO_EXPERIMENT_ID];
   assert.equal(definition.enabled, true, "owner approved variant B and started the test on 2026-10-11");
   assert.equal(definition.status, "ACTIVE");
@@ -54,7 +54,7 @@ test("registry: home_hero_copy_v1 is running (owner approved 2026-10-11), valid,
   assert.equal(resolveExperimentContext({ experiment: HOME_HERO_EXPERIMENT_ID, variant: "b", pathname: "/ar", market: "unknown", registry: enabledRegistry }).ok, true);
 });
 
-test("variant B copy: 15 locales, headline keeps {max}%, no new numbers, differs from A", () => {
+test("variant B copy: 17 locales, headline keeps {max}%, no new numbers, differs from A", () => {
   assert.deepEqual(Object.keys(HOME_HERO_B).sort(), [...LOCALES].sort());
   for (const locale of LOCALES) {
     const b = HOME_HERO_B[locale];

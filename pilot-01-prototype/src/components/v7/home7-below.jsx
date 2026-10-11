@@ -100,7 +100,12 @@ function timeAgo(ms, locale) {
   const h = Math.round(min / 60);
   return h < 24 ? rtf.format(-h, "hour") : rtf.format(-Math.round(h / 24), "day");
 }
-const LIVE = { "zh-Hans": "实时", "zh-Hant": "即時", ja: "ライブ", ko: "실시간", ar: "مباشر", ru: "Онлайн", tr: "Canlı", es: "En vivo", "pt-BR": "Ao vivo", fr: "En direct", de: "Live", it: "Live", id: "Langsung", vi: "Trực tiếp" };
+// l10n: needs native review
+const LIVE = {
+// l10n: needs native review
+ur: "لائیو",
+// l10n: needs native review
+uk: "Наживо", "zh-Hans": "实时", "zh-Hant": "即時", ja: "ライブ", ko: "실시간", ar: "مباشر", ru: "Онлайн", tr: "Canlı", es: "En vivo", "pt-BR": "Ao vivo", fr: "En direct", de: "Live", it: "Live", id: "Langsung", vi: "Trực tiếp" };
 
 // Newest first, but at most `perVenue` rows per exchange until the list is full (one venue's batch of listings
 // should not hide every other exchange).

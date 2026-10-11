@@ -8,7 +8,7 @@ test("browser regression plan covers every V3 route, locale, and viewport", asyn
   assert.equal(result.status, "DRY_RUN");
   assert.deepEqual(routes.map((route) => route.path), ["/", "/exchanges", "/exchanges/binance", "/compare/binance-vs-okx", "/activities"]);
   assert.ok(routes.find((route) => route.id === "compare-binance-okx").required.includes(".v3-compare-section-disclosure"));
-  assert.equal(locales.length, 15);
+  assert.equal(locales.length, 17);
   assert.deepEqual(viewports.map((viewport) => viewport.width), [375, 768, 1440]);
   assert.deepEqual(result.plan.screenshotLocales.sort(), ["ar", "en", "it", "zh-Hans", "zh-Hant"]);
 });

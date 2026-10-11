@@ -8,9 +8,9 @@ import { fileURLToPath } from "node:url";
 const execFileAsync = promisify(execFile);
 const root = new URL("..", import.meta.url);
 
-test("catalog tooling validates the 15-locale contract", async () => {
+test("catalog tooling validates the 17-locale contract", async () => {
   const { stdout } = await execFileAsync(process.execPath, ["scripts/i18n-check.mjs"], { cwd: fileURLToPath(root) });
-  assert.match(stdout, /15 catalogs/);
+  assert.match(stdout, /17 catalogs/);
 });
 
 test("the catalog covers every visible Pilot 01 page surface", async () => {
@@ -88,6 +88,6 @@ test("V3 interface copy reflects reviewed partner routes instead of pre-launch r
       ...(copy.activityMetrics ?? []),
     ].join(" ");
     assert.doesNotMatch(visibleCopy, staleLaunchCopy, `${locale} contains stale pre-launch referral placeholder copy`);
-    assert.match(visibleCopy, /partner|socio|parceiro|partenaire|合作|パートナー|파트너|شركاء|ortağı|партнёр|mitra|đối tác/i, `${locale} should describe reviewed partner routes`);
+    assert.match(visibleCopy, /partner|socio|parceiro|partenaire|合作|パートナー|파트너|شركاء|ortağı|партнёр|mitra|đối tác|پارٹنر|партнер/i, `${locale} should describe reviewed partner routes`);
   }
 });

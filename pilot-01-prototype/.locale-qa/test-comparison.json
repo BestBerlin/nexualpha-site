@@ -1,0 +1,15 @@
+{
+  "baseline": 61,
+  "current": 59,
+  "new": [],
+  "resolved": [
+    "tests/market-collector-funding.test.mjs",
+    "tests/market-history.test.mjs"
+  ],
+  "summary": [
+    "\u2139 tests 1095",
+    "\u2139 pass 1035",
+    "\u2139 fail 59",
+    "\u2139 skipped 1"
+  ]
+}

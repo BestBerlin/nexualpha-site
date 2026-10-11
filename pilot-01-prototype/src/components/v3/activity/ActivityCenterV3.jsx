@@ -132,7 +132,11 @@ const activitySupportSummary = {
   "ru": "Примечания об источниках, правила проверки и Telegram",
   "id": "Catatan sumber, aturan tinjauan, dan Telegram",
   "vi": "Ghi chú nguồn, quy tắc rà soát và Telegram",
-  "it": "Note sulle fonti, regole di revisione e Telegram"
+  "it": "Note sulle fonti, regole di revisione e Telegram",
+ // l10n: needs native review
+ ur: "ماخذ کے نوٹس، جائزے کے اصول اور Telegram",
+ // l10n: needs native review
+ uk: "Примітки щодо джерел, правила перевірки та Telegram",
 };
 
 
@@ -150,6 +154,11 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
     vi: { badge: "BẢN TIN NGHIÊN CỨU CÓ NGUỒN", body: "Chúng tôi đăng nghiên cứu có nguồn về chiến dịch, niêm yết và điều kiện. Hãy xác minh tư cách, thời hạn và quyền lợi tại tài khoản chính thức.", subscribe: "Đăng ký nghiên cứu trên Telegram ↗", index: "Mở chỉ mục nghiên cứu chính thức", indexHint: "Xem nguồn, trạng thái và ngày rà soát theo nền tảng" },
     it: { badge: "BRIEFING DI RICERCA CON FONTI", body: "Pubblichiamo ricerche con fonti su campagne, listing e condizioni. Verifica idoneità, scadenze e vantaggi sull’account ufficiale.", subscribe: "Iscriviti alla ricerca su Telegram ↗", index: "Apri l’indice di ricerca ufficiale", indexHint: "Fonte, stato e data di revisione per piattaforma" },
     ar: { badge: "موجز بحثي موثق بالمصادر", body: "ننشر أبحاث الحملات والإدراجات والشروط مع مصادر. تحقق من الأهلية والمواعيد والمزايا في الحساب الرسمي.", subscribe: "اشترك في أبحاث Telegram ↗", index: "فتح فهرس البحث الرسمي", indexHint: "عرض المصدر والحالة وتاريخ المراجعة لكل منصة" },
+    // l10n: needs native review
+    ur: { badge: "سرکاری ذرائع کی تحقیقی خبریں", body: "ہم ذرائع کے ساتھ سرگرمیوں، لسٹنگز اور شرائط کی تحقیق شائع کرتے ہیں۔ اہلیت، اوقات اور فوائد کی تصدیق سرکاری اکاؤنٹ میں کریں۔", subscribe: "Telegram پر ذرائع پر مبنی تحقیق کی رکنیت لیں ↗", index: "سرکاری تحقیق کا اشاریہ کھولیں", indexHint: "ہر پلیٹ فارم کے ذرائع، حیثیت اور جائزے کی تاریخ دیکھیں" },
+    // l10n: needs native review
+    uk: { badge: "ОГЛЯД ДОСЛІДЖЕНЬ ОФІЦІЙНИХ ДЖЕРЕЛ", body: "Ми публікуємо дослідження кампаній, лістингів і умов із джерелами. Підтвердьте допуск, строки та переваги в офіційному акаунті.", subscribe: "Підписатися на дослідження джерел у Telegram ↗", index: "Відкрити індекс офіційних досліджень", indexHint: "Переглянути джерела, статус і дату перевірки за платформами" },
+
   }[locale] || null;
   const [filter, setFilter] = useState("all");
   const [showAllResearch, setShowAllResearch] = useState(false);

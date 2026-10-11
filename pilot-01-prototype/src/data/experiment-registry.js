@@ -6,11 +6,11 @@
 // Home hero copy A/B (scorecard X5, 2026-10-11). The ONLY switch: while `enabled` is false nobody is assigned, no cookie
 // is set, every visitor and crawler sees variant A and the home HTML/headers are byte-for-byte what they were before.
 // Flipping it to true (owner approval of the variant B copy in src/components/v7/home7-hero-variants.js) makes the
-// worker assign a stable 50/50 first-party cookie on the 15 localized home routes; see src/data/home-hero-experiment.js.
+// worker assign a stable 50/50 first-party cookie on the 17 localized home routes; see src/data/home-hero-experiment.js.
 // Owner approved variant B and the test on 2026-10-11 ("B 吧").
 const HOME_HERO_COPY_ENABLED = true;
-// Home routes in the 15 UI locales (localizedHref("/", { locale }), pinned by tests/home-hero-experiment.test.mjs).
-export const HOME_HERO_ROUTES = Object.freeze(["/", "/zh-hans", "/zh-hant", "/es", "/pt-br", "/fr", "/de", "/it", "/ja", "/ko", "/ru", "/tr", "/id-id", "/vi", "/ar"]);
+// Home routes in the 17 UI locales (localizedHref("/", { locale }), pinned by tests/home-hero-experiment.test.mjs).
+export const HOME_HERO_ROUTES = Object.freeze(["/", "/zh-hans", "/zh-hant", "/es", "/pt-br", "/fr", "/de", "/it", "/ja", "/ko", "/ru", "/tr", "/id-id", "/vi", "/ar", "/ur", "/uk-ua"]);
 
 export const experimentRegistry = Object.freeze({
   home_hero_copy_v1: Object.freeze({

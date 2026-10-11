@@ -21,6 +21,10 @@ export const DATA_PAGE_NAV = Object.freeze({
   tr: { data: "Veri", liquidations: "Bugünkü tasfiyeler", funding: "Fonlama oranları" },
   id: { data: "Data", liquidations: "Likuidasi hari ini", funding: "Funding rate" },
   vi: { data: "Dữ liệu", liquidations: "Thanh lý hôm nay", funding: "Funding rate" },
+  // l10n: needs native review
+  ur: { data: "ڈیٹا", liquidations: "آج کی لیکویڈیشن", funding: "فنڈنگ کی شرحیں" },
+  // l10n: needs native review
+  uk: { data: "Дані", liquidations: "Ліквідації сьогодні", funding: "Ставки фінансування" },
   ar: { data: "البيانات", liquidations: "تصفيات اليوم", funding: "أسعار التمويل" },
 });
 

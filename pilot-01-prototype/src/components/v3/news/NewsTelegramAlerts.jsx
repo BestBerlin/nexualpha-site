@@ -27,6 +27,11 @@ export const TELEGRAM_ALERTS_COPY = {
   id: ["Dapatkan peringatan likuidasi dan pergerakan tajam di Telegram", "Buka bot"],
   vi: ["Nhận cảnh báo thanh lý và biến động mạnh trên Telegram", "Mở bot"],
   ar: ["احصل على تنبيهات التصفية والتحركات الحادة على تيليجرام", "افتح البوت"],
+
+ // l10n: needs native review
+ ur: ["Telegram میں لیکویڈیشن اور تیز اتار چڑھاؤ کے الرٹس حاصل کریں","بوٹ کھولیں"],
+ // l10n: needs native review
+ uk: ["Отримуйте сповіщення про ліквідації та різкі зміни в Telegram","Відкрити бота"],
 };
 const COPY = TELEGRAM_ALERTS_COPY;
 
@@ -35,7 +40,7 @@ export const telegramAlertsCopy = (locale) => COPY[locale] || (String(locale || 
 export function NewsTelegramAlerts({ locale = "en" }) {
   const [text, action] = COPY[locale] || COPY.en;
   return (
-    <aside className="news-tg-alerts" dir={locale === "ar" ? "rtl" : "ltr"}>
+    <aside className="news-tg-alerts" dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 4 3 11l6 2m12-9-4 16-8-7m12-9L9 13" /></svg>
       <span>{text}</span>
       <a href={telegramAlertsUrl(locale)} target="_blank" rel="noopener" data-cta-placement="news-telegram-alerts">{action} →</a>
