@@ -102,7 +102,7 @@ test('English FAQ and meme native-copy risk boundaries remain readable after the
  assert.doesNotMatch(meme,/not execution stated terms|not solvency stated terms/);
  assert.ok(derivatives.includes(topicReviewedFaqRecords('derivatives','en')[1].answer));
  assert.doesNotMatch(meme,/no route stated terms approval/);assert.doesNotMatch(derivatives,/not a safety stated terms/);
- for(const slug of owners)for(const locale of ['en','zh-Hans','zh-Hant'])assert.equal((current[slug+':'+locale].match(/class="topic-faq-item"/g)||[]).length,slug==='no-kyc'?4:3,slug+locale);
+ for(const slug of owners)for(const locale of ['en','zh-Hans','zh-Hant'])assert.equal((current[slug+':'+locale].match(/class="topic-faq-item"/g)||[]).length,slug==='no-kyc'?5:3,slug+locale);
 });
 test('all four pending-stat gates survive and no raw score, fee or self-custody guarantee is exposed',()=>{
  for(const slug of owners)for(const locale of ['en','zh-Hans','zh-Hant']){

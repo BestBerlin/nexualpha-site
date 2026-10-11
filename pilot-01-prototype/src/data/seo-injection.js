@@ -13,6 +13,7 @@ import { getBrazilSeo } from "./brazil-seo.js";
 import { sanitizePublicText } from "./public-copy-sanitizer.js";
 import { budgetTitle, clampMetaDescription } from "./meta-description.js";
 import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
+import { NEWS_HUB_SEO_EN } from "./news-list-copy.js";
 import { newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "./locale-routing.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
@@ -364,7 +365,7 @@ const STATIC_COPY = {
   "/exchanges": ["Crypto Exchanges Directory & Fee Comparison — NexuAlpha", "交易平台黄页与手续费对比 — NexuAlpha"],
   "/compare": [compareIndexCopy("en").title, compareIndexCopy("zh-Hans").title],
   "/activities": ["Official Crypto Campaigns — NexuAlpha", "官方活动中心 — NexuAlpha"],
-  "/news": ["Market News & Research — NexuAlpha", "市场新闻与研究 — NexuAlpha"],
+  "/news": [NEWS_HUB_SEO_EN.title, "市场新闻与研究 — NexuAlpha"],
   "/rates": ["Crypto Exchange Fee Benchmark Terminal — NexuAlpha", "交易所手续费基准终端 — NexuAlpha"],
   "/onchain": [onchainGuideSeo("en").title, onchainGuideSeo("zh-Hans").title],
   "/methodology": ["Research Methodology & Editorial Policy — NexuAlpha", "研究方法与编辑政策 — NexuAlpha"],
@@ -2152,7 +2153,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
       const display = UI_LOCALES.has(locale) ? locale : content;
       const published = listingLocales.includes(locale) && content === locale;
       title = STATIC_COPY_LOCALIZED[display]?.[pathname] || STATIC_COPY_LOCALIZED[content]?.[pathname] || STATIC_COPY[pathname][content === "zh-Hans" ? 1 : 0];
-      description = STATIC_DESCRIPTION_LOCALIZED[display] || STATIC_DESCRIPTION_LOCALIZED[content] || (content === "zh-Hans" ? "NexuAlpha 交易平台、手续费、账户条件与来源说明。" : "NexuAlpha platform research, trading fees, account requirements and source context.");
+      description = STATIC_DESCRIPTION_LOCALIZED[display] || STATIC_DESCRIPTION_LOCALIZED[content] || (content === "zh-Hans" ? "NexuAlpha 交易平台、手续费、账户条件与来源说明。" : NEWS_HUB_SEO_EN.description);
       robots = published ? "index,follow" : "noindex,follow";
       schemas = [pageSchema(title, canonical(pathname, content), content)];
     } else {

@@ -38,7 +38,8 @@ const ownerQuestionByVenue = {
     "zh-Hant": "核對 Drift 目前官網、更新公告和文件路徑後，是否還應該繼續？",
   },
   deribit: {
-    en: "Should you use Deribit after checking product, margin, API and liquidation boundaries?",
+    // Striking distance (GSC 2026-10-11): "deribit fees" sits at ~35, so the H1 names fees first.
+    en: "Should you use Deribit after checking fees, margin, API and liquidation rules?",
     "zh-Hans": "核对产品、保证金、API 和清算边界后，Deribit 是否适合你？",
     "zh-Hant": "核對產品、保證金、API 和清算邊界後，Deribit 是否適合你？",
   },
@@ -693,8 +694,8 @@ export const priorityVenueAnswers = {
         faq("How should I read Deribit liquidation risk?", "Deribit describes incremental auto-liquidation and says users do not control the account during the process. Treat liquidation fees, margin usage, collateral model and possible portfolio-margin hedges as separate risk checks from the entry order.", ["https://support.deribit.com/hc/en-us/articles/25944769313309-Liquidations", "https://support.deribit.com/hc/en-us/articles/25944811317149-Margin-types-and-usage"]),
         faq("What changes after the Deribit affiliate migration dates?", "Treat 2026-09-09 as the stop date for creating new affiliates and 2027-01-01 as the stop date for onboarding new users through legacy affiliate links, based on the cited notice. Recheck entity, region and attribution before treating an old readable link as current.", ["https://support.deribit.com/hc/en-us/articles/25944777728797-Affiliate-Program"]),
       ],
-      seoTitle: "Deribit Options Fees, 10% User Discount, Migration and Entity Checks",
-      seoDescription: "Deribit options and futures fees, six-month 10% user fee discount terms, DRB Panama versus FZE entity limits, spot exclusion, margin modes and liquidation risk.",
+      seoTitle: "Deribit Fees: Options, Futures and 10% User Discount Terms",
+      seoDescription: "Deribit fees for options and futures, the six-month 10% user fee discount, DRB Panama vs FZE entity limits, spot exclusion, margin modes and liquidation risk.",
     },
     "zh-Hans": {
       title: "Deribit 决策检查：先确认产品、保证金、affiliate 实体和迁移限制，再把它当作专业衍生品平台使用。",

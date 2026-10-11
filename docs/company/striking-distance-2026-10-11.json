@@ -1,0 +1,3240 @@
+{
+  "generatedAt": "2026-10-11T13:02:20.535Z",
+  "snapshotDate": "2026-10-11",
+  "property": "sc-domain:nexualpha.com",
+  "filter": {
+    "minPosition": 4,
+    "maxPosition": 30,
+    "minImpressions": 3,
+    "dimensions": [
+      "query",
+      "page"
+    ],
+    "score": "impressions × (31 − impression-weighted avg position) / 27"
+  },
+  "windows": {
+    "d90": {
+      "days": 90,
+      "start": "2026-07-11",
+      "end": "2026-10-09",
+      "rowsFetched": 224,
+      "pages": [
+        {
+          "page": "/zh-hans/news/how-to-verify-binance-travel-rule-address-book-satoshi-test",
+          "url": "https://nexualpha.com/zh-hans/news/how-to-verify-binance-travel-rule-address-book-satoshi-test",
+          "impressions": 13,
+          "clicks": 0,
+          "avgPosition": 7.5,
+          "bestPosition": 7.5,
+          "queryCount": 1,
+          "score": 11.3,
+          "topQueries": [
+            {
+              "query": "binance satoshi test",
+              "impressions": 13,
+              "clicks": 0,
+              "position": 7.5
+            }
+          ]
+        },
+        {
+          "page": "/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+          "url": "https://nexualpha.com/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+          "impressions": 12,
+          "clicks": 0,
+          "avgPosition": 8.8,
+          "bestPosition": 8,
+          "queryCount": 2,
+          "score": 9.9,
+          "topQueries": [
+            {
+              "query": "binance sbe",
+              "impressions": 9,
+              "clicks": 0,
+              "position": 9.1
+            },
+            {
+              "query": "binance sbe market data",
+              "impressions": 3,
+              "clicks": 0,
+              "position": 8
+            }
+          ]
+        },
+        {
+          "page": "/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map",
+          "url": "https://nexualpha.com/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map",
+          "impressions": 4,
+          "clicks": 0,
+          "avgPosition": 6.8,
+          "bestPosition": 6.8,
+          "queryCount": 1,
+          "score": 3.6,
+          "topQueries": [
+            {
+              "query": "is circle cctp an open protocol that any developer can integrate?",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 6.8
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-set-up-kraken-global-settings-lock-safely",
+          "url": "https://nexualpha.com/news/how-to-set-up-kraken-global-settings-lock-safely",
+          "impressions": 4,
+          "clicks": 0,
+          "avgPosition": 7,
+          "bestPosition": 7,
+          "queryCount": 1,
+          "score": 3.6,
+          "topQueries": [
+            {
+              "query": "global settings lock",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 7
+            }
+          ]
+        },
+        {
+          "page": "/news/okx-api-upcoming-changes-websocket-amend-cancel-order-controls",
+          "url": "https://nexualpha.com/news/okx-api-upcoming-changes-websocket-amend-cancel-order-controls",
+          "impressions": 9,
+          "clicks": 0,
+          "avgPosition": 22.8,
+          "bestPosition": 22.8,
+          "queryCount": 1,
+          "score": 2.7,
+          "topQueries": [
+            {
+              "query": "okx api doc",
+              "impressions": 9,
+              "clicks": 0,
+              "position": 22.8
+            }
+          ]
+        },
+        {
+          "page": "/news/binance-local-order-book-vs-okx-checksum-depth-controls",
+          "url": "https://nexualpha.com/news/binance-local-order-book-vs-okx-checksum-depth-controls",
+          "impressions": 3,
+          "clicks": 0,
+          "avgPosition": 6.3,
+          "bestPosition": 6.3,
+          "queryCount": 1,
+          "score": 2.7,
+          "topQueries": [
+            {
+              "query": "site.developers.binance.com \"how to manage a local order book correctly\"",
+              "impressions": 3,
+              "clicks": 0,
+              "position": 6.3
+            }
+          ]
+        },
+        {
+          "page": "/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist",
+          "url": "https://nexualpha.com/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist",
+          "impressions": 4,
+          "clicks": 0,
+          "avgPosition": 21.5,
+          "bestPosition": 21.5,
+          "queryCount": 1,
+          "score": 1.4,
+          "topQueries": [
+            {
+              "query": "okx api doc",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 21.5
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+          "url": "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+          "impressions": 12,
+          "clicks": 0,
+          "avgPosition": 28.5,
+          "bestPosition": 27.9,
+          "queryCount": 2,
+          "score": 1.1,
+          "topQueries": [
+            {
+              "query": "gemini verify identity",
+              "impressions": 8,
+              "clicks": 0,
+              "position": 27.9
+            },
+            {
+              "query": "gemini id verification",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 29.8
+            }
+          ]
+        },
+        {
+          "page": "/vi/exchanges/uniswap?product=spot",
+          "url": "https://nexualpha.com/vi/exchanges/uniswap?product=spot",
+          "impressions": 4,
+          "clicks": 0,
+          "avgPosition": 24.8,
+          "bestPosition": 24.8,
+          "queryCount": 1,
+          "score": 0.9,
+          "topQueries": [
+            {
+              "query": "uniswap testnet",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 24.8
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/hyperliquid",
+          "url": "https://nexualpha.com/exchanges/hyperliquid",
+          "impressions": 4,
+          "clicks": 0,
+          "avgPosition": 25.8,
+          "bestPosition": 25.8,
+          "queryCount": 1,
+          "score": 0.8,
+          "topQueries": [
+            {
+              "query": "hyperliquid cashback",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 25.8
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-set-up-binance-anti-phishing-code",
+          "url": "https://nexualpha.com/news/how-to-set-up-binance-anti-phishing-code",
+          "impressions": 3,
+          "clicks": 0,
+          "avgPosition": 24,
+          "bestPosition": 24,
+          "queryCount": 1,
+          "score": 0.8,
+          "topQueries": [
+            {
+              "query": "how to create anti phishing code",
+              "impressions": 3,
+              "clicks": 0,
+              "position": 24
+            }
+          ]
+        }
+      ],
+      "pageLevelOnly": [
+        {
+          "page": "/news",
+          "impressions": 83,
+          "clicks": 0,
+          "position": 10.8,
+          "visibleQueries": [
+            {
+              "query": "crypto websocket data normalized",
+              "impressions": 3,
+              "clicks": 0,
+              "position": 92.3
+            },
+            {
+              "query": "bitlicense approval rate",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 81
+            },
+            {
+              "query": "okx bybit coinbase bitget kraken 2026 new product launch",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 1
+            },
+            {
+              "query": "okx bybit coinbase kucoin gate.io bitget 2026 strategic moves",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 8
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-register-okx-account-verify-identity-safely",
+          "impressions": 59,
+          "clicks": 0,
+          "position": 8.4,
+          "visibleQueries": [
+            {
+              "query": "okx register",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 16
+            }
+          ]
+        },
+        {
+          "page": "/",
+          "impressions": 54,
+          "clicks": 3,
+          "position": 6.9,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/okx-usd-to-usdc-spot-pair-migration",
+          "impressions": 49,
+          "clicks": 0,
+          "position": 6.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/hyperliquid-vs-dydx",
+          "impressions": 50,
+          "clicks": 0,
+          "position": 8.2,
+          "visibleQueries": [
+            {
+              "query": "hyperliquid vs dydx",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 71.5
+            },
+            {
+              "query": "site:hyperliquid.gitbook.io/hyperliquid-docs \"funding is paid hourly\"",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 2.5
+            }
+          ]
+        },
+        {
+          "page": "/news/bybit-v5-api-rate-limit-header-retry-budget-checklist",
+          "impressions": 27,
+          "clicks": 0,
+          "position": 6.6,
+          "visibleQueries": [
+            {
+              "query": "bybit api rate limits",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            }
+          ]
+        },
+        {
+          "page": "/news/okx-order-book-checksum-deprecation-sequence-integrity-radar",
+          "impressions": 22,
+          "clicks": 0,
+          "position": 4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bybit-vs-okx-api-key-ip-binding-expiry-withdraw-permission-controls",
+          "impressions": 23,
+          "clicks": 0,
+          "position": 5.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/deribit",
+          "impressions": 22,
+          "clicks": 0,
+          "position": 11,
+          "visibleQueries": [
+            {
+              "query": "deribit mark price",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 32
+            },
+            {
+              "query": "deribit fees",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 35
+            }
+          ]
+        },
+        {
+          "page": "/news/okx-usd-to-usdc-spot-pair-migration?locale=en",
+          "impressions": 17,
+          "clicks": 0,
+          "position": 6.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/dtc-tokenization-service-vs-sec-tokenized-securities-venue-market-function-comparison",
+          "impressions": 25,
+          "clicks": 2,
+          "position": 15.3,
+          "visibleQueries": [
+            {
+              "query": "%site.sec.gov \"34-106402\"",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 4
+            },
+            {
+              "query": "+site.sec.gov \"34-106402\"",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 9.5
+            },
+            {
+              "query": "site.sec.gov \"34-106402\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 6
+            }
+          ]
+        },
+        {
+          "page": "/es/exchanges/hyperliquid",
+          "impressions": 14,
+          "clicks": 0,
+          "position": 4.6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bybit-tradfi-cfd-leverage-upgrade-margin-release-risk-radar",
+          "impressions": 15,
+          "clicks": 0,
+          "position": 6.6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-spot-api-rate-limit-websocket-order-control-checklist",
+          "impressions": 14,
+          "clicks": 0,
+          "position": 5.6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/aerodrome",
+          "impressions": 17,
+          "clicks": 0,
+          "position": 10.4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/circle-noble-usdc-cctp-v1-winddown-exit-redemption-timeline",
+          "impressions": 13,
+          "clicks": 0,
+          "position": 5.5,
+          "visibleQueries": [
+            {
+              "query": "\"circle is discontinuing support for usdc and cctp v1 on noble\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 9
+            },
+            {
+              "query": "cctp noble",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 19
+            }
+          ]
+        },
+        {
+          "page": "/news/bybit-vs-okx-subaccounts-risk-isolation-api-controls",
+          "impressions": 12,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/backpack",
+          "impressions": 11,
+          "clicks": 0,
+          "position": 6.3,
+          "visibleQueries": [
+            {
+              "query": "backpack fee",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 6
+            }
+          ]
+        },
+        {
+          "page": "/news/tokenized-stocks-vs-stock-perpetuals",
+          "impressions": 11,
+          "clicks": 0,
+          "position": 6.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/dtcc-tokenized-assets-vs-nyse-tokenized-securities-rule-filing-rights-map",
+          "impressions": 10,
+          "clicks": 0,
+          "position": 6.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/how-to-use-jupiter-connect-wallet-and-make-first-swap-safely",
+          "impressions": 11,
+          "clicks": 0,
+          "position": 8.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/okx-usd-usdc-spot-order-book-migration-api-bot-checklist",
+          "impressions": 10,
+          "clicks": 0,
+          "position": 7.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/optimism-usdt0-vs-opusdte-after-binance-contract-swap-user-controls",
+          "impressions": 9,
+          "clicks": 1,
+          "position": 6.2,
+          "visibleQueries": [
+            {
+              "query": "opusdte",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 7.5
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/hyperliquid?locale=ru",
+          "impressions": 9,
+          "clicks": 0,
+          "position": 6.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/tokenized-nms-stock-amm-liquidity-pool-exemption-operational-checklist?locale=zh-Hans",
+          "impressions": 9,
+          "clicks": 0,
+          "position": 6.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/gate-io-vs-coinbase?locale=en",
+          "impressions": 10,
+          "clicks": 0,
+          "position": 10,
+          "visibleQueries": [
+            {
+              "query": "gate io vs coinbase",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 21
+            }
+          ]
+        },
+        {
+          "page": "/news/swift-tokenised-deposit-ledger-24-7-cross-border-payment-readiness",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 4.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-derivatives-cash-settled-equity-and-etf-futures-filing-explained",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-websocket-market-data-pricing-september-15-capacity-checklist",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/cex-vs-dex-vs-perp-dex",
+          "impressions": 15,
+          "clicks": 0,
+          "position": 17.4,
+          "visibleQueries": [
+            {
+              "query": "dex vs cex for perpetuals",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 87.5
+            }
+          ]
+        },
+        {
+          "page": "/news/kraken-rest-authentication-api-signature-nonce-order-action-checklist",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 6.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/topics/no-kyc",
+          "impressions": 10,
+          "clicks": 0,
+          "position": 11.9,
+          "visibleQueries": [
+            {
+              "query": "does hyperliquid require kyc",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 64
+            },
+            {
+              "query": "hyperliquid latest news",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 1
+            }
+          ]
+        },
+        {
+          "page": "/news/bis-hidden-complexity-defi-data-measurement-risk-map",
+          "impressions": 8,
+          "clicks": 1,
+          "position": 8.1,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/okx-websocket-orders-state-live-finality-checklist",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 9,
+          "visibleQueries": [
+            {
+              "query": "okx rpi",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            }
+          ]
+        },
+        {
+          "page": "/activities",
+          "impressions": 7,
+          "clicks": 0,
+          "position": 8,
+          "visibleQueries": [
+            {
+              "query": "e n a b l e d c o m m e r c i a l l a u n d r o m a t e q u i p m e n t b r o a d m a t c h u l m - m f h / r o u t e m u l t i f a m i l y - u n i v e r s i t y n o t e l i g i b l e c a m p a i g n p a u s e d 0 0 - - u s d 0 0 . 0 0 0 . 0 0 % 0 . 0 0 0",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 33
+            }
+          ]
+        },
+        {
+          "page": "/news/sec-tokenized-nms-stock-innovation-exemption-five-year-conditions-comment-roadmap",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 10.9,
+          "visibleQueries": [
+            {
+              "query": "\"innovation exemption\" \"september\" \"2026\" site:sec.gov",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 7
+            },
+            {
+              "query": "%site.sec.gov \"34-106402\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            },
+            {
+              "query": "sec innovation exemption",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 30
+            }
+          ]
+        },
+        {
+          "page": "/news/cftc-crypto-blockchain-faq-tokenized-customer-funds-recordkeeping",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 4.7,
+          "visibleQueries": [
+            {
+              "query": "site:cftc.gov \"blockchain technologies to satisfy a registrant’s recordkeeping requirements\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 4
+            },
+            {
+              "query": "site:cftc.gov \"use of blockchain technologies to satisfy a registrant’s recordkeeping requirements\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 4
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-use-uniswap-connect-wallet-and-make-first-swap-safely",
+          "impressions": 7,
+          "clicks": 0,
+          "position": 8.9,
+          "visibleQueries": [
+            {
+              "query": "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"seed phrase\")",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 6
+            },
+            {
+              "query": "site:sites.google.com \"uniswap\" (\"connect wallet\" or \"wallet connect\")",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            },
+            {
+              "query": "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"sync wallet\")",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 21
+            }
+          ]
+        },
+        {
+          "page": "/compare/gate-io-vs-binance?locale=en",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/factbook/gmx",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/kraken-withdrawal-hold-deposit-method-security-action-checklist",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-bncb-bstocks-spot-listing-redemption-eligibility-checklist",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 7.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bybit-brazil-entity-migration-kyc-liquidation-fiat-conversion-deadline-checklist",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 7.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/bybit",
+          "impressions": 10,
+          "clicks": 0,
+          "position": 17.4,
+          "visibleQueries": [
+            {
+              "query": "bybit derivative",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 21
+            },
+            {
+              "query": "does bybit require kyc",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 50
+            }
+          ]
+        },
+        {
+          "page": "/news/binance-september-22-wallet-system-upgrade-deposit-withdrawal-checklist",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 8.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-enable-robinhood-crypto-transfers-allowlisting-safely",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 4.4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-onboard-hyperliquid-connect-wallet-enable-trading-and-test-deposit",
+          "impressions": 11,
+          "clicks": 0,
+          "position": 19,
+          "visibleQueries": [
+            {
+              "query": "hyperliquid deposit",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 70
+            },
+            {
+              "query": "hyperliquid testnet faucet",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 100
+            }
+          ]
+        },
+        {
+          "page": "/news/bybit-rpi-vs-standard-order-book-tradfi-perpetual-execution-comparison",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 9.2,
+          "visibleQueries": [
+            {
+              "query": "bybit rpi",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 14
+            }
+          ]
+        },
+        {
+          "page": "/news/binance-vs-okx-tokenized-stock-collateral-haircut-liquidation-controls",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bis-project-agora-tokenized-cross-border-payments-settlement-readiness",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 5.2,
+          "visibleQueries": [
+            {
+              "query": "project agora bis",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-set-up-okx-subaccount-api-permissions-and-ip-binding-safely",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 5.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/oecd-carf-2027-crypto-reporting-implementation-readiness",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/cftc-september-2026-blockchain-recordkeeping-industry-map",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 6.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/esma-mica-register-how-to-check-casp-issuer-status",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 6.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/kraken-vs-coinbase?locale=en",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 6.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/okx-vs-mexc",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 7.6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/gemini-vs-coinbase-withdrawal-protection-vault-delay-controls",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 7.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-travel-rule-address-book-satoshi-test-checklist",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 8,
+          "visibleQueries": [
+            {
+              "query": "binance satoshi test",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            }
+          ]
+        },
+        {
+          "page": "/news/ondo-stocks-tokenized-equity-economic-exposure-vs-shareholder-rights",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/binance-vs-mexc?product=spot",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 4.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/crypto-loan-collateral-tier-vs-collateral-ratio-borrowing-capacity-comparison",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 4.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/exchange-user-websocket-order-state-reconciliation-radar",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 4.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-vs-coinbase-exchange-allowlist-vault-withdrawal-controls",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 13.7,
+          "visibleQueries": [
+            {
+              "query": "allowlist coinbase",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 11
+            },
+            {
+              "query": "coinbase whitelist",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 33
+            }
+          ]
+        },
+        {
+          "page": "/news/okx-anti-phishing-code-setup-email-verification-tutorial",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 5.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/ja/exchanges/deribit",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 5.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/circle-arc-mainnet-launch-validator-usdc-finality-institutional-readiness",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 5.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/how-to-enable-robinhood-crypto-transfers-allowlisting-safely",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 5.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/crypto-exchange-market-data-schema-versioning-disclosure-radar",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 11,
+          "visibleQueries": [
+            {
+              "query": "crypto exchange market data feed",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 5.5
+            },
+            {
+              "query": "binance sbe api",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 5
+            },
+            {
+              "query": "crypto websocket data normalized",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 34
+            }
+          ]
+        },
+        {
+          "page": "/de/exchanges/hyperliquid",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 6.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/order-preview-validate-amend-acknowledgement-radar-api-execution-controls",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 6.3,
+          "visibleQueries": [
+            {
+              "query": "how do i submit, amend and cancel orders through an execution api without losing order state?",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 7
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/jupiter",
+          "impressions": 12,
+          "clicks": 0,
+          "position": 22.8,
+          "visibleQueries": [
+            {
+              "query": "jupiter fees",
+              "impressions": 3,
+              "clicks": 0,
+              "position": 70.3
+            }
+          ]
+        },
+        {
+          "page": "/news/dtcc-ledgerscan-vs-tokenization-service-record-reconciliation-boundary",
+          "impressions": 4,
+          "clicks": 1,
+          "position": 6.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/crypto-collateral-alert-liquidation-disclosure-radar",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 6.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-vs-kraken-passkey-recovery-and-withdrawal-verification-controls",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 6.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/okx-order-book-checksum-deprecation-sequence-integrity-radar",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 6.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-create-bitstamp-account-verify-identity-and-secure-withdrawals",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/circle-cctp-v2-usdc-crosschain-finality-fee-readiness-controls",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 7.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/ar/exchanges/hyperliquid",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 7.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-enable-kraken-trading-funding-2fa-global-settings-lock-safely",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 7.5,
+          "visibleQueries": [
+            {
+              "query": "funding 2fa kraken",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 9
+            }
+          ]
+        },
+        {
+          "page": "/vi",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 12.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/activities/research/kucoin",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 7.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-set-up-bitstamp-2fa-and-withdrawal-whitelist-safely",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 7.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges",
+          "impressions": 7,
+          "clicks": 0,
+          "position": 18,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-set-up-bybit-anti-phishing-code-and-authenticity-check",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 8.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-unlock-kraken-pro-stock-trading-and-verify-equities-eligibility",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 8.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bybit-september-11-perpetual-risk-limit-adjustment-checklist",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 9,
+          "visibleQueries": []
+        },
+        {
+          "page": "/factbook/raydium",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 9.3,
+          "visibleQueries": [
+            {
+              "query": "https //api.raydium.io v2 main pairs",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 8
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/kraken?locale=zh-Hans",
+          "impressions": 4,
+          "clicks": 1,
+          "position": 9.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-address-allowlist-setup-network-hold-tutorial",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 10,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/dtc-tokenization-service-wallet-registration-lifecycle-operational-readiness",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/coinbase-exchange-prime-onchain-address-book-governance-comparison",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-collateral-ratio-change-borrow-transfer-unimmr-liquidation-radar",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/kraken-websocket-token-authenticated-channel-session-reconnect-checklist",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/sec-tokenized-nms-stock-amm-exemption-conditions-risk-map",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/jupiter-vs-raydium-solana-swap-routing-execution-controls",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/binance",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bis-stablecoin-tokenisation-trust-in-money-risk-map",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/dtcc-tokenization-interoperability-collateral-appchain-readiness",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-ai-beta-market-insights-evidence-risk-checklist",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/superstate-ustb-tokenized-treasury-recordkeeping-boundary",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/vi/compare/hyperliquid-vs-dydx",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/coinbase-derivatives-cash-settled-equity-and-etf-futures-filing-explained",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/coinbase",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 11.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/kraken",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 11.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/activities/research/uniswap?locale=en",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/ko/compare/uniswap-vs-jupiter",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/eu-casp-sanctions-coinbase-prime-transfer-restriction-map",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/leveraged-etf-x-perp-vs-standard-equity-perpetual-stacked-leverage-risk",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-vs-kraken-withdrawal-address-allowlist-hold-controls",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 6.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-transfer-protection-time-delay-verification-threshold-checklist",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 12.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-websocket-stream-limits-ping-pong-reconnect-checklist",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 13,
+          "visibleQueries": [
+            {
+              "query": "binance websocket limits",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 33
+            }
+          ]
+        },
+        {
+          "page": "/zh-hans/news/jupiter-vs-raydium-solana-swap-routing-execution-controls",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/cpmi-iosco-fmi-cyber-resilience-tokenized-settlement-third-party-controls",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 7.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/how-to-register-deribit-complete-kyc-and-secure-first-login",
+          "impressions": 3,
+          "clicks": 1,
+          "position": 8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/okx-xmeta-vs-sec-tokenized-nms-stock-rights-ownership-comparison",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 13.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/kraken-vs-binance?locale=en",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 8.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/onchain",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 8.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/bitget",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 8.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/kraken-crypto-withdrawal-network-address-confirmation-checklist",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 8.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-bstocks-collateral-vs-sec-tokenized-securities-venue-market-function-comparison",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 9.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/partners",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 9.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/sec-regulation-crypto-assets-proposal-exemptions-safe-harbor",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 11,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/gate-io",
+          "impressions": 15,
+          "clicks": 0,
+          "position": 27.1,
+          "visibleQueries": [
+            {
+              "query": "buy verified gate.io accounts",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 38.5
+            },
+            {
+              "query": "buy verified gate.io account",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 58
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/jupiter?locale=pt-BR",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 15,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/hkma-project-ensemble-tokenised-deposit-settlement-sandbox-risk-map",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 20,
+          "visibleQueries": [
+            {
+              "query": "hkma project ensemble tokenised deposits hong kong",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 62
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-register-mexc-account-complete-primary-kyc-and-secure-first-deposit",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 23,
+          "visibleQueries": [
+            {
+              "query": "\"mexc\" \"verification\" \"kyc\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 19
+            },
+            {
+              "query": "does mexc require kyc",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 75
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-create-coinbase-account-verify-identity-securely",
+          "impressions": 9,
+          "clicks": 0,
+          "position": 26.6,
+          "visibleQueries": [
+            {
+              "query": "https www coinbase com verifications documents new",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 19
+            },
+            {
+              "query": "coinbase com verify document",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 40
+            },
+            {
+              "query": "coinbase identity verification",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 48
+            }
+          ]
+        },
+        {
+          "page": "/news/coinbase-stock-trading-tokenize-platform-market-structure-readiness",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 21.3,
+          "visibleQueries": [
+            {
+              "query": "coinbase tokenization",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 72
+            }
+          ]
+        },
+        {
+          "page": "/compare/binance-vs-bybit",
+          "impressions": 7,
+          "clicks": 0,
+          "position": 27,
+          "visibleQueries": [
+            {
+              "query": "binance vs bybit",
+              "impressions": 3,
+              "clicks": 0,
+              "position": 56
+            }
+          ]
+        },
+        {
+          "page": "/telegram",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 27.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hant/compare/binance-vs-okx",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 26.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/gate-io-vs-mexc",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 26.7,
+          "visibleQueries": [
+            {
+              "query": "mexc vs gate.io",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 65
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/gate-io?locale=pt-BR",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 27,
+          "visibleQueries": [
+            {
+              "query": "taxa gate io",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 35
+            },
+            {
+              "query": "taxas gate io",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 36
+            }
+          ]
+        }
+      ]
+    },
+    "d28": {
+      "days": 28,
+      "start": "2026-09-11",
+      "end": "2026-10-09",
+      "rowsFetched": 221,
+      "pages": [
+        {
+          "page": "/zh-hans/news/how-to-verify-binance-travel-rule-address-book-satoshi-test",
+          "url": "https://nexualpha.com/zh-hans/news/how-to-verify-binance-travel-rule-address-book-satoshi-test",
+          "impressions": 13,
+          "clicks": 0,
+          "avgPosition": 7.5,
+          "bestPosition": 7.5,
+          "queryCount": 1,
+          "score": 11.3,
+          "topQueries": [
+            {
+              "query": "binance satoshi test",
+              "impressions": 13,
+              "clicks": 0,
+              "position": 7.5
+            }
+          ]
+        },
+        {
+          "page": "/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+          "url": "https://nexualpha.com/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+          "impressions": 12,
+          "clicks": 0,
+          "avgPosition": 8.8,
+          "bestPosition": 8,
+          "queryCount": 2,
+          "score": 9.9,
+          "topQueries": [
+            {
+              "query": "binance sbe",
+              "impressions": 9,
+              "clicks": 0,
+              "position": 9.1
+            },
+            {
+              "query": "binance sbe market data",
+              "impressions": 3,
+              "clicks": 0,
+              "position": 8
+            }
+          ]
+        },
+        {
+          "page": "/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map",
+          "url": "https://nexualpha.com/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map",
+          "impressions": 4,
+          "clicks": 0,
+          "avgPosition": 6.8,
+          "bestPosition": 6.8,
+          "queryCount": 1,
+          "score": 3.6,
+          "topQueries": [
+            {
+              "query": "is circle cctp an open protocol that any developer can integrate?",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 6.8
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-set-up-kraken-global-settings-lock-safely",
+          "url": "https://nexualpha.com/news/how-to-set-up-kraken-global-settings-lock-safely",
+          "impressions": 4,
+          "clicks": 0,
+          "avgPosition": 7,
+          "bestPosition": 7,
+          "queryCount": 1,
+          "score": 3.6,
+          "topQueries": [
+            {
+              "query": "global settings lock",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 7
+            }
+          ]
+        },
+        {
+          "page": "/news/okx-api-upcoming-changes-websocket-amend-cancel-order-controls",
+          "url": "https://nexualpha.com/news/okx-api-upcoming-changes-websocket-amend-cancel-order-controls",
+          "impressions": 9,
+          "clicks": 0,
+          "avgPosition": 22.8,
+          "bestPosition": 22.8,
+          "queryCount": 1,
+          "score": 2.7,
+          "topQueries": [
+            {
+              "query": "okx api doc",
+              "impressions": 9,
+              "clicks": 0,
+              "position": 22.8
+            }
+          ]
+        },
+        {
+          "page": "/news/binance-local-order-book-vs-okx-checksum-depth-controls",
+          "url": "https://nexualpha.com/news/binance-local-order-book-vs-okx-checksum-depth-controls",
+          "impressions": 3,
+          "clicks": 0,
+          "avgPosition": 6.3,
+          "bestPosition": 6.3,
+          "queryCount": 1,
+          "score": 2.7,
+          "topQueries": [
+            {
+              "query": "site.developers.binance.com \"how to manage a local order book correctly\"",
+              "impressions": 3,
+              "clicks": 0,
+              "position": 6.3
+            }
+          ]
+        },
+        {
+          "page": "/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist",
+          "url": "https://nexualpha.com/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist",
+          "impressions": 4,
+          "clicks": 0,
+          "avgPosition": 21.5,
+          "bestPosition": 21.5,
+          "queryCount": 1,
+          "score": 1.4,
+          "topQueries": [
+            {
+              "query": "okx api doc",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 21.5
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+          "url": "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+          "impressions": 12,
+          "clicks": 0,
+          "avgPosition": 28.5,
+          "bestPosition": 27.9,
+          "queryCount": 2,
+          "score": 1.1,
+          "topQueries": [
+            {
+              "query": "gemini verify identity",
+              "impressions": 8,
+              "clicks": 0,
+              "position": 27.9
+            },
+            {
+              "query": "gemini id verification",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 29.8
+            }
+          ]
+        },
+        {
+          "page": "/vi/exchanges/uniswap?product=spot",
+          "url": "https://nexualpha.com/vi/exchanges/uniswap?product=spot",
+          "impressions": 4,
+          "clicks": 0,
+          "avgPosition": 24.8,
+          "bestPosition": 24.8,
+          "queryCount": 1,
+          "score": 0.9,
+          "topQueries": [
+            {
+              "query": "uniswap testnet",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 24.8
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/hyperliquid",
+          "url": "https://nexualpha.com/exchanges/hyperliquid",
+          "impressions": 4,
+          "clicks": 0,
+          "avgPosition": 25.8,
+          "bestPosition": 25.8,
+          "queryCount": 1,
+          "score": 0.8,
+          "topQueries": [
+            {
+              "query": "hyperliquid cashback",
+              "impressions": 4,
+              "clicks": 0,
+              "position": 25.8
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-set-up-binance-anti-phishing-code",
+          "url": "https://nexualpha.com/news/how-to-set-up-binance-anti-phishing-code",
+          "impressions": 3,
+          "clicks": 0,
+          "avgPosition": 24,
+          "bestPosition": 24,
+          "queryCount": 1,
+          "score": 0.8,
+          "topQueries": [
+            {
+              "query": "how to create anti phishing code",
+              "impressions": 3,
+              "clicks": 0,
+              "position": 24
+            }
+          ]
+        }
+      ],
+      "pageLevelOnly": [
+        {
+          "page": "/news",
+          "impressions": 81,
+          "clicks": 0,
+          "position": 10,
+          "visibleQueries": [
+            {
+              "query": "crypto websocket data normalized",
+              "impressions": 3,
+              "clicks": 0,
+              "position": 92.3
+            },
+            {
+              "query": "bitlicense approval rate",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 81
+            },
+            {
+              "query": "okx bybit coinbase bitget kraken 2026 new product launch",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 1
+            },
+            {
+              "query": "okx bybit coinbase kucoin gate.io bitget 2026 strategic moves",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 8
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-register-okx-account-verify-identity-safely",
+          "impressions": 59,
+          "clicks": 0,
+          "position": 8.4,
+          "visibleQueries": [
+            {
+              "query": "okx register",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 16
+            }
+          ]
+        },
+        {
+          "page": "/news/okx-usd-to-usdc-spot-pair-migration",
+          "impressions": 49,
+          "clicks": 0,
+          "position": 6.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/",
+          "impressions": 45,
+          "clicks": 0,
+          "position": 7.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/hyperliquid-vs-dydx",
+          "impressions": 45,
+          "clicks": 0,
+          "position": 8.6,
+          "visibleQueries": [
+            {
+              "query": "hyperliquid vs dydx",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 71.5
+            },
+            {
+              "query": "site:hyperliquid.gitbook.io/hyperliquid-docs \"funding is paid hourly\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 3
+            }
+          ]
+        },
+        {
+          "page": "/news/bybit-v5-api-rate-limit-header-retry-budget-checklist",
+          "impressions": 27,
+          "clicks": 0,
+          "position": 6.6,
+          "visibleQueries": [
+            {
+              "query": "bybit api rate limits",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            }
+          ]
+        },
+        {
+          "page": "/news/okx-order-book-checksum-deprecation-sequence-integrity-radar",
+          "impressions": 22,
+          "clicks": 0,
+          "position": 4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bybit-vs-okx-api-key-ip-binding-expiry-withdraw-permission-controls",
+          "impressions": 23,
+          "clicks": 0,
+          "position": 5.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/dtc-tokenization-service-vs-sec-tokenized-securities-venue-market-function-comparison",
+          "impressions": 25,
+          "clicks": 2,
+          "position": 15.3,
+          "visibleQueries": [
+            {
+              "query": "%site.sec.gov \"34-106402\"",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 4
+            },
+            {
+              "query": "+site.sec.gov \"34-106402\"",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 9.5
+            },
+            {
+              "query": "site.sec.gov \"34-106402\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 6
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/deribit",
+          "impressions": 20,
+          "clicks": 0,
+          "position": 11.4,
+          "visibleQueries": [
+            {
+              "query": "deribit mark price",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 32
+            },
+            {
+              "query": "deribit fees",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 35
+            }
+          ]
+        },
+        {
+          "page": "/es/exchanges/hyperliquid",
+          "impressions": 14,
+          "clicks": 0,
+          "position": 4.6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bybit-tradfi-cfd-leverage-upgrade-margin-release-risk-radar",
+          "impressions": 15,
+          "clicks": 0,
+          "position": 6.6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-spot-api-rate-limit-websocket-order-control-checklist",
+          "impressions": 14,
+          "clicks": 0,
+          "position": 5.6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/circle-noble-usdc-cctp-v1-winddown-exit-redemption-timeline",
+          "impressions": 13,
+          "clicks": 0,
+          "position": 5.5,
+          "visibleQueries": [
+            {
+              "query": "\"circle is discontinuing support for usdc and cctp v1 on noble\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 9
+            },
+            {
+              "query": "cctp noble",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 19
+            }
+          ]
+        },
+        {
+          "page": "/news/bybit-vs-okx-subaccounts-risk-isolation-api-controls",
+          "impressions": 12,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/dtcc-tokenized-assets-vs-nyse-tokenized-securities-rule-filing-rights-map",
+          "impressions": 10,
+          "clicks": 0,
+          "position": 6.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/how-to-use-jupiter-connect-wallet-and-make-first-swap-safely",
+          "impressions": 11,
+          "clicks": 0,
+          "position": 8.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/tokenized-stocks-vs-stock-perpetuals",
+          "impressions": 10,
+          "clicks": 0,
+          "position": 6.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/okx-usd-usdc-spot-order-book-migration-api-bot-checklist",
+          "impressions": 10,
+          "clicks": 0,
+          "position": 7.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/okx-usd-to-usdc-spot-pair-migration?locale=en",
+          "impressions": 9,
+          "clicks": 0,
+          "position": 6.1,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/optimism-usdt0-vs-opusdte-after-binance-contract-swap-user-controls",
+          "impressions": 9,
+          "clicks": 1,
+          "position": 6.2,
+          "visibleQueries": [
+            {
+              "query": "opusdte",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 7.5
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/hyperliquid?locale=ru",
+          "impressions": 9,
+          "clicks": 0,
+          "position": 6.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/tokenized-nms-stock-amm-liquidity-pool-exemption-operational-checklist?locale=zh-Hans",
+          "impressions": 9,
+          "clicks": 0,
+          "position": 6.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/gate-io-vs-coinbase?locale=en",
+          "impressions": 10,
+          "clicks": 0,
+          "position": 10,
+          "visibleQueries": [
+            {
+              "query": "gate io vs coinbase",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 21
+            }
+          ]
+        },
+        {
+          "page": "/news/swift-tokenised-deposit-ledger-24-7-cross-border-payment-readiness",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 4.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-derivatives-cash-settled-equity-and-etf-futures-filing-explained",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-websocket-market-data-pricing-september-15-capacity-checklist",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/kraken-rest-authentication-api-signature-nonce-order-action-checklist",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 6.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/backpack",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 6.9,
+          "visibleQueries": [
+            {
+              "query": "backpack fee",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 6
+            }
+          ]
+        },
+        {
+          "page": "/news/bis-hidden-complexity-defi-data-measurement-risk-map",
+          "impressions": 8,
+          "clicks": 1,
+          "position": 8.1,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/cex-vs-dex-vs-perp-dex",
+          "impressions": 14,
+          "clicks": 0,
+          "position": 18.2,
+          "visibleQueries": [
+            {
+              "query": "dex vs cex for perpetuals",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 87.5
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/aerodrome",
+          "impressions": 10,
+          "clicks": 0,
+          "position": 13.4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/okx-websocket-orders-state-live-finality-checklist",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 9,
+          "visibleQueries": [
+            {
+              "query": "okx rpi",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            }
+          ]
+        },
+        {
+          "page": "/activities",
+          "impressions": 7,
+          "clicks": 0,
+          "position": 8,
+          "visibleQueries": [
+            {
+              "query": "e n a b l e d c o m m e r c i a l l a u n d r o m a t e q u i p m e n t b r o a d m a t c h u l m - m f h / r o u t e m u l t i f a m i l y - u n i v e r s i t y n o t e l i g i b l e c a m p a i g n p a u s e d 0 0 - - u s d 0 0 . 0 0 0 . 0 0 % 0 . 0 0 0",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 33
+            }
+          ]
+        },
+        {
+          "page": "/news/sec-tokenized-nms-stock-innovation-exemption-five-year-conditions-comment-roadmap",
+          "impressions": 8,
+          "clicks": 0,
+          "position": 10.9,
+          "visibleQueries": [
+            {
+              "query": "\"innovation exemption\" \"september\" \"2026\" site:sec.gov",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 7
+            },
+            {
+              "query": "%site.sec.gov \"34-106402\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            },
+            {
+              "query": "sec innovation exemption",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 30
+            }
+          ]
+        },
+        {
+          "page": "/news/cftc-crypto-blockchain-faq-tokenized-customer-funds-recordkeeping",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 4.7,
+          "visibleQueries": [
+            {
+              "query": "site:cftc.gov \"blockchain technologies to satisfy a registrant’s recordkeeping requirements\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 4
+            },
+            {
+              "query": "site:cftc.gov \"use of blockchain technologies to satisfy a registrant’s recordkeeping requirements\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 4
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-use-uniswap-connect-wallet-and-make-first-swap-safely",
+          "impressions": 7,
+          "clicks": 0,
+          "position": 8.9,
+          "visibleQueries": [
+            {
+              "query": "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"seed phrase\")",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 6
+            },
+            {
+              "query": "site:sites.google.com \"uniswap\" (\"connect wallet\" or \"wallet connect\")",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            },
+            {
+              "query": "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"sync wallet\")",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 21
+            }
+          ]
+        },
+        {
+          "page": "/factbook/gmx",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/kraken-withdrawal-hold-deposit-method-security-action-checklist",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-bncb-bstocks-spot-listing-redemption-eligibility-checklist",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 7.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bybit-brazil-entity-migration-kyc-liquidation-fiat-conversion-deadline-checklist",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 7.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-september-22-wallet-system-upgrade-deposit-withdrawal-checklist",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 8.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-enable-robinhood-crypto-transfers-allowlisting-safely",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 4.4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-onboard-hyperliquid-connect-wallet-enable-trading-and-test-deposit",
+          "impressions": 11,
+          "clicks": 0,
+          "position": 19,
+          "visibleQueries": [
+            {
+              "query": "hyperliquid deposit",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 70
+            },
+            {
+              "query": "hyperliquid testnet faucet",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 100
+            }
+          ]
+        },
+        {
+          "page": "/news/bybit-rpi-vs-standard-order-book-tradfi-perpetual-execution-comparison",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 9.2,
+          "visibleQueries": [
+            {
+              "query": "bybit rpi",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 14
+            }
+          ]
+        },
+        {
+          "page": "/news/binance-vs-okx-tokenized-stock-collateral-haircut-liquidation-controls",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bis-project-agora-tokenized-cross-border-payments-settlement-readiness",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 5.2,
+          "visibleQueries": [
+            {
+              "query": "project agora bis",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-set-up-okx-subaccount-api-permissions-and-ip-binding-safely",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 5.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/gate-io-vs-binance?locale=en",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/oecd-carf-2027-crypto-reporting-implementation-readiness",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/cftc-september-2026-blockchain-recordkeeping-industry-map",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 6.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/esma-mica-register-how-to-check-casp-issuer-status",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 6.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/okx-vs-mexc",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 7.6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/gemini-vs-coinbase-withdrawal-protection-vault-delay-controls",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 7.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-travel-rule-address-book-satoshi-test-checklist",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 8,
+          "visibleQueries": [
+            {
+              "query": "binance satoshi test",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 10
+            }
+          ]
+        },
+        {
+          "page": "/news/ondo-stocks-tokenized-equity-economic-exposure-vs-shareholder-rights",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/binance-vs-mexc?product=spot",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 4.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/crypto-loan-collateral-tier-vs-collateral-ratio-borrowing-capacity-comparison",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 4.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/exchange-user-websocket-order-state-reconciliation-radar",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 4.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-vs-coinbase-exchange-allowlist-vault-withdrawal-controls",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 13.7,
+          "visibleQueries": [
+            {
+              "query": "allowlist coinbase",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 11
+            },
+            {
+              "query": "coinbase whitelist",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 33
+            }
+          ]
+        },
+        {
+          "page": "/news/okx-anti-phishing-code-setup-email-verification-tutorial",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 5.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/ja/exchanges/deribit",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 5.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/circle-arc-mainnet-launch-validator-usdc-finality-institutional-readiness",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 5.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/how-to-enable-robinhood-crypto-transfers-allowlisting-safely",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 5.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/crypto-exchange-market-data-schema-versioning-disclosure-radar",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 11,
+          "visibleQueries": [
+            {
+              "query": "crypto exchange market data feed",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 5.5
+            },
+            {
+              "query": "binance sbe api",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 5
+            },
+            {
+              "query": "crypto websocket data normalized",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 34
+            }
+          ]
+        },
+        {
+          "page": "/de/exchanges/hyperliquid",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 6.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/order-preview-validate-amend-acknowledgement-radar-api-execution-controls",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 6.3,
+          "visibleQueries": [
+            {
+              "query": "how do i submit, amend and cancel orders through an execution api without losing order state?",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 7
+            }
+          ]
+        },
+        {
+          "page": "/news/dtcc-ledgerscan-vs-tokenization-service-record-reconciliation-boundary",
+          "impressions": 4,
+          "clicks": 1,
+          "position": 6.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/crypto-collateral-alert-liquidation-disclosure-radar",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 6.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-vs-kraken-passkey-recovery-and-withdrawal-verification-controls",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 6.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/okx-order-book-checksum-deprecation-sequence-integrity-radar",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 6.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-create-bitstamp-account-verify-identity-and-secure-withdrawals",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/circle-cctp-v2-usdc-crosschain-finality-fee-readiness-controls",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 7.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/ar/exchanges/hyperliquid",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 7.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-enable-kraken-trading-funding-2fa-global-settings-lock-safely",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 7.5,
+          "visibleQueries": [
+            {
+              "query": "funding 2fa kraken",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 9
+            }
+          ]
+        },
+        {
+          "page": "/vi",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 12.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-set-up-bitstamp-2fa-and-withdrawal-whitelist-safely",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 7.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges",
+          "impressions": 7,
+          "clicks": 0,
+          "position": 18,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-set-up-bybit-anti-phishing-code-and-authenticity-check",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 8.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/how-to-unlock-kraken-pro-stock-trading-and-verify-equities-eligibility",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 8.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bybit-september-11-perpetual-risk-limit-adjustment-checklist",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 9,
+          "visibleQueries": []
+        },
+        {
+          "page": "/factbook/raydium",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 9.3,
+          "visibleQueries": [
+            {
+              "query": "https //api.raydium.io v2 main pairs",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 8
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/kraken?locale=zh-Hans",
+          "impressions": 4,
+          "clicks": 1,
+          "position": 9.5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-address-allowlist-setup-network-hold-tutorial",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 10,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/dtc-tokenization-service-wallet-registration-lifecycle-operational-readiness",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/coinbase-exchange-prime-onchain-address-book-governance-comparison",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-collateral-ratio-change-borrow-transfer-unimmr-liquidation-radar",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/kraken-websocket-token-authenticated-channel-session-reconnect-checklist",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/sec-tokenized-nms-stock-amm-exemption-conditions-risk-map",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/jupiter-vs-raydium-solana-swap-routing-execution-controls",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 4.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/binance",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/bis-stablecoin-tokenisation-trust-in-money-risk-map",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/dtcc-tokenization-interoperability-collateral-appchain-readiness",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-ai-beta-market-insights-evidence-risk-checklist",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/superstate-ustb-tokenized-treasury-recordkeeping-boundary",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/vi/compare/hyperliquid-vs-dydx",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/coinbase-derivatives-cash-settled-equity-and-etf-futures-filing-explained",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/coinbase",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 11.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/kraken",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 11.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/activities/research/uniswap?locale=en",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/ko/compare/uniswap-vs-jupiter",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 5.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/eu-casp-sanctions-coinbase-prime-transfer-restriction-map",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/leveraged-etf-x-perp-vs-standard-equity-perpetual-stacked-leverage-risk",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 6,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-vs-kraken-withdrawal-address-allowlist-hold-controls",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 6.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/coinbase-transfer-protection-time-delay-verification-threshold-checklist",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 12.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/binance-websocket-stream-limits-ping-pong-reconnect-checklist",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 13,
+          "visibleQueries": [
+            {
+              "query": "binance websocket limits",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 33
+            }
+          ]
+        },
+        {
+          "page": "/topics/no-kyc",
+          "impressions": 6,
+          "clicks": 0,
+          "position": 19,
+          "visibleQueries": [
+            {
+              "query": "does hyperliquid require kyc",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 64
+            }
+          ]
+        },
+        {
+          "page": "/zh-hans/news/jupiter-vs-raydium-solana-swap-routing-execution-controls",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/kraken-vs-coinbase?locale=en",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 7.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/cpmi-iosco-fmi-cyber-resilience-tokenized-settlement-third-party-controls",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 7.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hans/news/how-to-register-deribit-complete-kyc-and-secure-first-login",
+          "impressions": 3,
+          "clicks": 1,
+          "position": 8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/okx-xmeta-vs-sec-tokenized-nms-stock-rights-ownership-comparison",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 13.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/onchain",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 8.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/kraken-crypto-withdrawal-network-address-confirmation-checklist",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 8.7,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/bybit",
+          "impressions": 7,
+          "clicks": 0,
+          "position": 21.6,
+          "visibleQueries": [
+            {
+              "query": "bybit derivative",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 21
+            },
+            {
+              "query": "does bybit require kyc",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 50
+            }
+          ]
+        },
+        {
+          "page": "/news/binance-bstocks-collateral-vs-sec-tokenized-securities-venue-market-function-comparison",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 9.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/partners",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 9.3,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/sec-regulation-crypto-assets-proposal-exemptions-safe-harbor",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 11,
+          "visibleQueries": []
+        },
+        {
+          "page": "/exchanges/jupiter?locale=pt-BR",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 15,
+          "visibleQueries": []
+        },
+        {
+          "page": "/news/hkma-project-ensemble-tokenised-deposit-settlement-sandbox-risk-map",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 20,
+          "visibleQueries": [
+            {
+              "query": "hkma project ensemble tokenised deposits hong kong",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 62
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-register-mexc-account-complete-primary-kyc-and-secure-first-deposit",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 23,
+          "visibleQueries": [
+            {
+              "query": "\"mexc\" \"verification\" \"kyc\"",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 19
+            },
+            {
+              "query": "does mexc require kyc",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 75
+            }
+          ]
+        },
+        {
+          "page": "/news/how-to-create-coinbase-account-verify-identity-securely",
+          "impressions": 9,
+          "clicks": 0,
+          "position": 26.6,
+          "visibleQueries": [
+            {
+              "query": "https www coinbase com verifications documents new",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 19
+            },
+            {
+              "query": "coinbase com verify document",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 40
+            },
+            {
+              "query": "coinbase identity verification",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 48
+            }
+          ]
+        },
+        {
+          "page": "/news/coinbase-stock-trading-tokenize-platform-market-structure-readiness",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 21.3,
+          "visibleQueries": [
+            {
+              "query": "coinbase tokenization",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 72
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/gate-io",
+          "impressions": 11,
+          "clicks": 0,
+          "position": 27.8,
+          "visibleQueries": [
+            {
+              "query": "buy verified gate.io accounts",
+              "impressions": 2,
+              "clicks": 0,
+              "position": 38.5
+            },
+            {
+              "query": "buy verified gate.io account",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 58
+            }
+          ]
+        },
+        {
+          "page": "/compare/binance-vs-bybit",
+          "impressions": 7,
+          "clicks": 0,
+          "position": 27,
+          "visibleQueries": [
+            {
+              "query": "binance vs bybit",
+              "impressions": 3,
+              "clicks": 0,
+              "position": 56
+            }
+          ]
+        },
+        {
+          "page": "/telegram",
+          "impressions": 5,
+          "clicks": 0,
+          "position": 27.2,
+          "visibleQueries": []
+        },
+        {
+          "page": "/zh-hant/compare/binance-vs-okx",
+          "impressions": 4,
+          "clicks": 0,
+          "position": 26.8,
+          "visibleQueries": []
+        },
+        {
+          "page": "/compare/gate-io-vs-mexc",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 26.7,
+          "visibleQueries": [
+            {
+              "query": "mexc vs gate.io",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 65
+            }
+          ]
+        },
+        {
+          "page": "/exchanges/gate-io?locale=pt-BR",
+          "impressions": 3,
+          "clicks": 0,
+          "position": 27,
+          "visibleQueries": [
+            {
+              "query": "taxa gate io",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 35
+            },
+            {
+              "query": "taxas gate io",
+              "impressions": 1,
+              "clicks": 0,
+              "position": 36
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "ranking": [
+    {
+      "page": "/zh-hans/news/how-to-verify-binance-travel-rule-address-book-satoshi-test",
+      "score": 22.6,
+      "d90": {
+        "impressions": 13,
+        "avgPosition": 7.5,
+        "bestPosition": 7.5
+      },
+      "d28": {
+        "impressions": 13,
+        "avgPosition": 7.5,
+        "bestPosition": 7.5
+      }
+    },
+    {
+      "page": "/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+      "score": 19.8,
+      "d90": {
+        "impressions": 12,
+        "avgPosition": 8.8,
+        "bestPosition": 8
+      },
+      "d28": {
+        "impressions": 12,
+        "avgPosition": 8.8,
+        "bestPosition": 8
+      }
+    },
+    {
+      "page": "/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map",
+      "score": 7.2,
+      "d90": {
+        "impressions": 4,
+        "avgPosition": 6.8,
+        "bestPosition": 6.8
+      },
+      "d28": {
+        "impressions": 4,
+        "avgPosition": 6.8,
+        "bestPosition": 6.8
+      }
+    },
+    {
+      "page": "/news/how-to-set-up-kraken-global-settings-lock-safely",
+      "score": 7.2,
+      "d90": {
+        "impressions": 4,
+        "avgPosition": 7,
+        "bestPosition": 7
+      },
+      "d28": {
+        "impressions": 4,
+        "avgPosition": 7,
+        "bestPosition": 7
+      }
+    },
+    {
+      "page": "/news/binance-local-order-book-vs-okx-checksum-depth-controls",
+      "score": 5.4,
+      "d90": {
+        "impressions": 3,
+        "avgPosition": 6.3,
+        "bestPosition": 6.3
+      },
+      "d28": {
+        "impressions": 3,
+        "avgPosition": 6.3,
+        "bestPosition": 6.3
+      }
+    },
+    {
+      "page": "/news/okx-api-upcoming-changes-websocket-amend-cancel-order-controls",
+      "score": 5.4,
+      "d90": {
+        "impressions": 9,
+        "avgPosition": 22.8,
+        "bestPosition": 22.8
+      },
+      "d28": {
+        "impressions": 9,
+        "avgPosition": 22.8,
+        "bestPosition": 22.8
+      }
+    },
+    {
+      "page": "/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist",
+      "score": 2.8,
+      "d90": {
+        "impressions": 4,
+        "avgPosition": 21.5,
+        "bestPosition": 21.5
+      },
+      "d28": {
+        "impressions": 4,
+        "avgPosition": 21.5,
+        "bestPosition": 21.5
+      }
+    },
+    {
+      "page": "/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "score": 2.2,
+      "d90": {
+        "impressions": 12,
+        "avgPosition": 28.5,
+        "bestPosition": 27.9
+      },
+      "d28": {
+        "impressions": 12,
+        "avgPosition": 28.5,
+        "bestPosition": 27.9
+      }
+    },
+    {
+      "page": "/vi/exchanges/uniswap?product=spot",
+      "score": 1.8,
+      "d90": {
+        "impressions": 4,
+        "avgPosition": 24.8,
+        "bestPosition": 24.8
+      },
+      "d28": {
+        "impressions": 4,
+        "avgPosition": 24.8,
+        "bestPosition": 24.8
+      }
+    },
+    {
+      "page": "/exchanges/hyperliquid",
+      "score": 1.6,
+      "d90": {
+        "impressions": 4,
+        "avgPosition": 25.8,
+        "bestPosition": 25.8
+      },
+      "d28": {
+        "impressions": 4,
+        "avgPosition": 25.8,
+        "bestPosition": 25.8
+      }
+    },
+    {
+      "page": "/news/how-to-set-up-binance-anti-phishing-code",
+      "score": 1.6,
+      "d90": {
+        "impressions": 3,
+        "avgPosition": 24,
+        "bestPosition": 24
+      },
+      "d28": {
+        "impressions": 3,
+        "avgPosition": 24,
+        "bestPosition": 24
+      }
+    }
+  ]
+}

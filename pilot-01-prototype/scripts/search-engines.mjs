@@ -6,7 +6,10 @@
 //   node scripts/search-engines.mjs status   # sitemap state, errors and indexing summary (--full for whole responses)
 //   node scripts/search-engines.mjs inspect <url>...   # Google URL inspection: index state, crawl time, canonical
 //   node scripts/search-engines.mjs perf [days]   # Google clicks / impressions: totals, top queries, top pages, by section
-import { readFileSync, existsSync } from "node:fs";
+//   node scripts/search-engines.mjs striking [--write <dir>] [--date YYYY-MM-DD]   # pages at avg position 4–30 (90 + 28 days)
+// Network: run with NODE_OPTIONS=--dns-result-order=ipv4first on the owner's Mac (IPv6 routes to Google time out).
+import { readFileSync, existsSync, writeFileSync, mkdirSync } from "node:fs";
+import { groupStrikingRows, mergeStrikingWindows, strikingMarkdownTable } from "./striking-distance-lib.mjs";
 import { createSign } from "node:crypto";
 import { homedir } from "node:os";
 import path from "node:path";
@@ -33,8 +36,24 @@ function readEnv(file) {
 const out = (engine, step, status, detail = "") => console.log(`${engine.padEnd(7)} ${step.padEnd(16)} ${String(status).padEnd(5)} ${detail}`.trimEnd());
 const short = (text) => (process.argv.includes("--full") ? String(text) : String(text).replace(/\s+/g, " ").slice(0, 300));
 
+// Transient TLS / socket failures (ECONNRESET, "fetch failed", handshake errors) are retried with backoff.
+const TRANSIENT = /fetch failed|ECONNRESET|ETIMEDOUT|EPIPE|ENOTFOUND|EAI_AGAIN|socket|TLS|SSL|certificate|UND_ERR/i;
+async function fetchRetry(url, init, tries = 5) {
+  for (let attempt = 1; ; attempt++) {
+    try { return await fetch(url, init); }
+    catch (error) {
+      const msg = `${error.message} ${error.cause?.code || ""} ${error.cause?.message || ""}`;
+      if (attempt >= tries || !TRANSIENT.test(msg)) throw error;
+      console.error(`retry   ${attempt}/${tries - 1} after network error: ${msg.trim().slice(0, 120)}`);
+      await new Promise((r) => setTimeout(r, 800 * attempt));
+    }
+  }
+}
+
 // ---------- Google (service account) ----------
+let cachedToken = null;
 async function googleToken() {
+  if (cachedToken && cachedToken.exp > Date.now() + 60_000) return cachedToken.value;
   const env = readEnv("gsc-api.env");
   if (!env.GOOGLE_APPLICATION_CREDENTIALS) throw new Error("gsc-api.env has no GOOGLE_APPLICATION_CREDENTIALS");
   const key = JSON.parse(readFileSync(env.GOOGLE_APPLICATION_CREDENTIALS, "utf8"));
@@ -43,14 +62,15 @@ async function googleToken() {
   const head = b64({ alg: "RS256", typ: "JWT" });
   const claim = b64({ iss: key.client_email, scope: "https://www.googleapis.com/auth/webmasters https://www.googleapis.com/auth/siteverification", aud: "https://oauth2.googleapis.com/token", iat: now, exp: now + 3600 });
   const sig = createSign("RSA-SHA256").update(`${head}.${claim}`).sign(key.private_key, "base64url");
-  const res = await fetch("https://oauth2.googleapis.com/token", { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" },
+  const res = await fetchRetry("https://oauth2.googleapis.com/token", { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" },
     body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${head}.${claim}.${sig}` });
   const json = await res.json();
   if (!json.access_token) throw new Error(`Google auth failed: ${json.error || res.status}`);
+  cachedToken = { value: json.access_token, exp: Date.now() + 3500_000 };
   return json.access_token;
 }
 async function google(method, url, body) {
-  const res = await fetch(url, { method, headers: { authorization: `Bearer ${await googleToken()}`, "content-type": "application/json" }, body: body && JSON.stringify(body) });
+  const res = await fetchRetry(url, { method, headers: { authorization: `Bearer ${await googleToken()}`, "content-type": "application/json" }, body: body && JSON.stringify(body) });
   return { status: res.status, text: await res.text() };
 }
 const gscSite = encodeURIComponent(SITE);
@@ -81,6 +101,32 @@ async function run(engine, step, fn) {
   try { const r = await fn(); out(engine, step, r.status, short(r.text)); return r; }
   catch (error) { out(engine, step, "ERR", error.message); return null; }
 }
+
+// Search data lives in the domain property (sc-domain:nexualpha.com); the URL-prefix property has none. Use the
+// domain property when the service account has been added to it, else fall back.
+function gscWindow(days, endOffsetDays = 2) {
+  const end = new Date(Date.now() - endOffsetDays * 864e5).toISOString().slice(0, 10);
+  const start = new Date(Date.now() - (days + endOffsetDays) * 864e5).toISOString().slice(0, 10);
+  return { start, end };
+}
+async function perfProperty(start, end) {
+  const domainProbe = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent("sc-domain:nexualpha.com")}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions: [], rowLimit: 1 });
+  if (domainProbe.status === 200) return encodeURIComponent("sc-domain:nexualpha.com");
+  console.log("note: no access to sc-domain:nexualpha.com (add the service account as a user there); using the URL-prefix property");
+  return gscSite;
+}
+// All [query, page] rows for a window, paged 25 000 at a time (the API maximum per request).
+async function queryPageRows(property, start, end) {
+  const rows = [];
+  for (let startRow = 0; ; startRow += 25000) {
+    const r = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${property}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions: ["query", "page"], rowLimit: 25000, startRow, dataState: "final" });
+    if (r.status !== 200) throw new Error(`searchAnalytics ${r.status} ${short(r.text)}`);
+    const page = JSON.parse(r.text).rows || [];
+    rows.push(...page);
+    if (page.length < 25000) return rows;
+  }
+}
+function argValue(name) { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : undefined; }
 
 const cmd = process.argv[2];
 if (cmd === "verify") {
@@ -122,13 +168,8 @@ if (cmd === "verify") {
   }
 } else if (cmd === "perf") {
   const days = Number(process.argv[3]) || 28;
-  const end = new Date(Date.now() - 2 * 864e5).toISOString().slice(0, 10);
-  const start = new Date(Date.now() - (days + 2) * 864e5).toISOString().slice(0, 10);
-  // Search data lives in the domain property (sc-domain:nexualpha.com); the URL-prefix property has none. Use the
-  // domain property when the service account has been added to it, else fall back.
-  const domainProbe = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent("sc-domain:nexualpha.com")}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions: [], rowLimit: 1 });
-  const perfSite = domainProbe.status === 200 ? encodeURIComponent("sc-domain:nexualpha.com") : gscSite;
-  if (domainProbe.status !== 200) console.log("note: no access to sc-domain:nexualpha.com (add the service account as a user there); using the URL-prefix property");
+  const { start, end } = gscWindow(days);
+  const perfSite = await perfProperty(start, end);
   const q = async (dimensions, rowLimit = 25, extra = {}) => {
     const r = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${perfSite}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions, rowLimit, ...extra });
     if (r.status !== 200) throw new Error(`searchAnalytics ${r.status} ${short(r.text)}`);
@@ -153,7 +194,59 @@ if (cmd === "verify") {
   const disc = await q([], 1, { type: "discover" }).catch(() => null);
   console.log(`\nDiscover ${start}..${end}: ${disc && disc[0] ? fmt(disc[0]) : "no data"}`);
   if (disc && disc[0]) for (const x of await q(["page"], 10, { type: "discover" })) console.log(`${fmt(x)}  ${x.keys[0].replace(SITE, "/")}`);
+} else if (cmd === "striking") {
+  // Striking-distance pages: average position 4–30 with ≥ 3 impressions per [query, page] row, grouped by page.
+  const snapshotDate = argValue("--date") || new Date().toISOString().slice(0, 10);
+  const windows = {};
+  let property = null;
+  for (const days of [90, 28]) {
+    const { start, end } = gscWindow(days);
+    property ||= await perfProperty(start, end);
+    const rows = await queryPageRows(property, start, end);
+    const pages = groupStrikingRows(rows, { site: SITE, topQueries: 5 });
+    // Page-level supplement: Search Console hides rare/anonymized queries from [query, page] rows, so a page can sit
+    // in striking distance overall while no single query row reaches 3 impressions. Listed separately, never merged.
+    const pr = await google("POST", `https://www.googleapis.com/webmasters/v3/sites/${property}/searchAnalytics/query`, { startDate: start, endDate: end, dimensions: ["page"], rowLimit: 25000 });
+    if (pr.status !== 200) throw new Error(`searchAnalytics ${pr.status} ${short(pr.text)}`);
+    const queryLevel = new Set(pages.map((p) => p.page));
+    const pageLevel = (JSON.parse(pr.text).rows || [])
+      .map((x) => ({ page: x.keys[0].startsWith(SITE) ? `/${x.keys[0].slice(SITE.length)}` : x.keys[0], impressions: x.impressions, clicks: x.clicks, position: Math.round(x.position * 10) / 10 }))
+      .filter((x) => x.position >= 4 && x.position <= 30 && x.impressions >= 3 && !queryLevel.has(x.page))
+      .sort((a, b) => b.impressions * (31 - b.position) - a.impressions * (31 - a.position));
+    // Context for intent: the visible queries behind each page-level entry, any impressions or position.
+    for (const entry of pageLevel) {
+      entry.visibleQueries = rows.filter((x) => x.keys[1] === `${SITE}${entry.page.slice(1)}`)
+        .sort((a, b) => b.impressions - a.impressions).slice(0, 8)
+        .map((x) => ({ query: x.keys[0], impressions: x.impressions, clicks: x.clicks, position: Math.round(x.position * 10) / 10 }));
+    }
+    windows[`d${days}`] = { days, start, end, rowsFetched: rows.length, pages, pageLevelOnly: pageLevel };
+    console.log(`\nStriking distance, last ${days} days (${start}..${end}): ${pages.length} pages from ${rows.length} [query, page] rows`);
+    console.log(strikingMarkdownTable(pages, { limit: 30 }));
+  }
+  const merged = mergeStrikingWindows(windows.d90.pages, windows.d28.pages);
+  const snapshot = { generatedAt: new Date().toISOString(), snapshotDate, property: decodeURIComponent(property),
+    filter: { minPosition: 4, maxPosition: 30, minImpressions: 3, dimensions: ["query", "page"], score: "impressions × (31 − impression-weighted avg position) / 27" },
+    windows, ranking: merged.map((m) => ({ page: m.page, score: m.score, d90: m.d90 && { impressions: m.d90.impressions, avgPosition: m.d90.avgPosition, bestPosition: m.d90.bestPosition }, d28: m.d28 && { impressions: m.d28.impressions, avgPosition: m.d28.avgPosition, bestPosition: m.d28.bestPosition } })) };
+  const dir = argValue("--write");
+  if (dir) {
+    mkdirSync(dir, { recursive: true });
+    const base = path.join(dir, `striking-distance-${snapshotDate}`);
+    writeFileSync(`${base}.json`, `${JSON.stringify(snapshot, null, 2)}\n`);
+    const md = [`# Striking-distance pages — ${snapshotDate}`, "",
+      `Google Search Console (${snapshot.property}), dimensions [query, page]; rows kept when average position is 4–30 and impressions ≥ 3, then grouped by page.`,
+      "Score = impressions × closeness to the top 10, where closeness = (31 − impression-weighted average position) / 27. Re-measure with",
+      "`NODE_OPTIONS=--dns-result-order=ipv4first node scripts/search-engines.mjs striking --write ../docs/company` and compare page by page.", "",
+      `## Combined ranking (90-day score + 28-day score), top 40`, "",
+      "| # | Page | Score | 90d impr | 90d avg pos | 90d best | 28d impr | 28d avg pos | 28d best |", "|---|---|---:|---:|---:|---:|---:|---:|---:|",
+      ...merged.slice(0, 40).map((m, i) => `| ${i + 1} | \`${m.page}\` | ${m.score} | ${m.d90?.impressions ?? "-"} | ${m.d90?.avgPosition ?? "-"} | ${m.d90?.bestPosition ?? "-"} | ${m.d28?.impressions ?? "-"} | ${m.d28?.avgPosition ?? "-"} | ${m.d28?.bestPosition ?? "-"} |`), "",
+      ...["d90", "d28"].flatMap((k) => [`## Last ${windows[k].days} days (${windows[k].start}..${windows[k].end}) — ${windows[k].pages.length} pages`, "", strikingMarkdownTable(windows[k].pages, { limit: 60 }), "",
+        `### Page-level only, last ${windows[k].days} days — position 4–30 and ≥ 3 impressions for the page, but no single query row qualifies (queries hidden or spread thin)`, "",
+        "| Page | Impr | Clicks | Avg pos | Visible queries (impr / pos) |", "|---|---:|---:|---:|---|", ...windows[k].pageLevelOnly.slice(0, 40).map((x) => `| \`${x.page}\` | ${x.impressions} | ${x.clicks} | ${x.position} | ${x.visibleQueries.slice(0, 4).map((q) => `${q.query.replace(/\|/g, "\\|")} (${q.impressions} / ${q.position})`).join("<br>") || "(hidden)"} |`), ""]),
+    ].join("\n");
+    writeFileSync(`${base}.md`, md);
+    console.log(`\nwrote ${base}.json and ${base}.md`);
+  }
 } else {
-  console.log("usage: node scripts/search-engines.mjs verify|submit|status|inspect <url>...|perf [days] [--full]");
+  console.log("usage: node scripts/search-engines.mjs verify|submit|status|inspect <url>...|perf [days]|striking [--write dir] [--date YYYY-MM-DD] [--full]");
   process.exitCode = 1;
 }

@@ -27,7 +27,7 @@ for(const slug of owners)for(const locale of locales){
  test(`${slug}/${locale}: visible FAQ owns one exact client and Worker answer group`,async()=>{
   const body=renders[slug+':'+locale];
   const visible=[...body.matchAll(/<div class="topic-faq-item">([\s\S]*?)<\/div>/g)].map(m=>({question:plain(m[1].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)[1]).replace(/^Q\d+:\s*/,''),answer:plain(m[1].match(/<p class="topic-faq-a">([\s\S]*?)<\/p>/)[1])}));
-  assert.equal(visible.length,slug==='no-kyc'?4:3);
+  assert.equal(visible.length,slug==='no-kyc'?5:3);
   const pathname=(locale==='en'?'':locale==='zh-Hans'?'/zh-hans':'/zh-hant')+'/topics/'+slug;
   const schema=computeRouteSeo({pathname,locale}).schemas.filter(x=>x['@type']==='FAQPage');
   assert.equal(schema.length,1,'one shared client FAQ owner');
@@ -49,9 +49,9 @@ test('all sixty non-FAQ metadata contracts and all 51 outside-scope FAQ contract
   assert.deepEqual(scoped?withoutFaq(now):now,scoped?withoutFaq(value):value,key);
  }
 });
-test('exactly ten stable reviewed question IDs append without changing any old130records',async()=>{
+test('exactly eleven stable reviewed question IDs append without changing any old130records',async()=>{
  const old=JSON.parse(await readFile(path.join(root,'docs/evidence/four-week-growth-20260927/r100-before/aeo-question-registry.json'),'utf8'));
- const ids=owners.flatMap(slug=>Array.from({length:slug==='no-kyc'?4:3},(_,i)=>'r100-'+slug+'-'+(i+1)));
+ const ids=owners.flatMap(slug=>Array.from({length:slug==='no-kyc'?5:3},(_,i)=>'r100-'+slug+'-'+(i+1)));
  assert.deepEqual(AEO_QUESTION_REGISTRY.filter(q=>ids.includes(q.id)).map(q=>q.id),ids);
  assert.deepEqual(AEO_QUESTION_REGISTRY.filter(q=>!ids.includes(q.id)),old);
 });
