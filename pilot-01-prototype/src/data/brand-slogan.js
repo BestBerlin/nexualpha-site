@@ -30,7 +30,7 @@ export const BRAND_SLOGAN_PRIMARY = Object.freeze({
   vi: "Một cổng đã xác minh tới các sàn giao dịch toàn cầu.", // l10n: needs native review
   ar: "بوابة واحدة موثّقة إلى منصات التداول حول العالم.", // l10n: needs native review
   ur: "دنیا کی ایکسچینجز تک ایک تصدیق شدہ دروازہ۔", // l10n: needs native review
-  uk: "Один перевірений вхід до світових бірж.", // l10n: needs native review
+  uk: "Єдиний перевірений шлях до світових бірж.", // l10n: needs native review
 });
 
 // B: "Your fees, returned. Up to {max}." / 你的手续费，最高返还 {max} — "{max}" = formatPercent(locale, HOME_REBATE_MAX_PCT).

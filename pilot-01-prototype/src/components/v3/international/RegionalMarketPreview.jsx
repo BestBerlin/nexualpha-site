@@ -1767,7 +1767,7 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
       // l10n: needs native review
       ur: "United Kingdom: رہائش اور پروڈکٹ دائرہ چیک کریں",
       // l10n: needs native review
-      uk: "Велика Британія: перевірте резиденцію та доступність продуктів",
+      uk: "Велика Британія: перевірте резидентство та доступність продуктів",
     },
     OTHER: {
       ar: "مسار السوق الدولي: حدد بلدك قبل اختيار منصة",
