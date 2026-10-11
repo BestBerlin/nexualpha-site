@@ -1,6 +1,6 @@
 import { pendingDecisionCopy } from "../../data/pending-decision-copy.js";
 import "./profile-density.css";
-import { enIfLatin } from "../../utils/fallback-lang.js";
+import { enAttrs, enIfLatin } from "../../utils/fallback-lang.js";
 import { useEffect, useRef, useState } from "react";
 import { buildDecisionReturnHref } from "../../data/decision-return.js";
 import { DecisionReturnLink } from "./DecisionReturnLink.jsx";
@@ -27,6 +27,7 @@ import { researchForVenue } from "../../data/exchange-research";
 import { buildVenueFeeSummary, feeSummaryCopy } from "../../data/venue-fee-summary.js";
 import { reviewedFeeCopy } from "../../data/reviewed-fee-copy.js";
 import { officialCampaignResearchByVenue } from "../../data/official-campaign-research.js";
+import { campaignResearchLocalizedText } from "../../data/official-campaign-localizations.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { buildTelegramWebsiteFunnelContext, getTelegramDeepLink, TELEGRAM_CONFIG } from "../../data/telegram-config.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
@@ -403,6 +404,34 @@ const compareDecisionGuideCopyByLocale = {
 
 const officialFlowLabel = (locale) => officialFlowLabelByLocale[textLocaleKey(locale)] || officialFlowLabelByLocale.en;
 const compareDecisionGuideCopy = (locale) => compareDecisionGuideCopyByLocale[textLocaleKey(locale)] || compareDecisionGuideCopyByLocale.en;
+
+// Lead of the compare decision guide (eyebrow, H2, subtitle) for every UI locale; previously only zh/en existed.
+export const compareDecisionLeadCopyByLocale = {
+  en: { eyebrow: "PRE-SIGNUP DECISION CHECKLIST", title: (a, b) => `${a} vs ${b}: which conditions should you compare?`, subtitle: "Check published fees, product scope, regional eligibility, account requirements and source dates before entering a signup flow." },
+  "zh-Hans": { eyebrow: "开户前选型清单", title: (a, b) => `${a} 与 ${b}：哪些条件需要逐项比较？`, subtitle: "按公开费率、产品范围、地区资格、账户要求和来源日期核对，再决定是否进入注册流程。" },
+  "zh-Hant": { eyebrow: "開戶前選型清單", title: (a, b) => `${a} 與 ${b}：哪些條件需要逐項比較？`, subtitle: "按公開費率、產品範圍、地區資格、帳戶要求和來源日期核對，再決定是否進入註冊流程。" },
+  // l10n: needs native review
+  ja: { eyebrow: "登録前の判断チェックリスト", title: (a, b) => `${a} と ${b}：どの条件を比較すべきか？`, subtitle: "公開手数料、商品範囲、地域の利用資格、口座要件、出典日を確認したうえで、登録手続きに進むか判断してください。" },
+  // l10n: needs native review
+  ko: { eyebrow: "가입 전 판단 체크리스트", title: (a, b) => `${a} vs ${b}: 어떤 조건을 비교해야 할까요?`, subtitle: "공개 수수료, 상품 범위, 지역별 자격, 계정 요건과 출처 날짜를 확인한 뒤 가입 절차로 넘어가세요." },
+  // l10n: needs native review
+  tr: { eyebrow: "KAYIT ÖNCESİ KARAR LİSTESİ", title: (a, b) => `${a} ve ${b}: hangi koşulları karşılaştırmalısınız?`, subtitle: "Kayıt akışına girmeden önce yayımlanan ücretleri, ürün kapsamını, bölgesel uygunluğu, hesap gereksinimlerini ve kaynak tarihlerini kontrol edin." },
+  es: { eyebrow: "LISTA DE DECISIÓN ANTES DEL REGISTRO", title: (a, b) => `${a} vs ${b}: ¿qué condiciones debería comparar?`, subtitle: "Compruebe comisiones publicadas, alcance de productos, elegibilidad regional, requisitos de cuenta y fechas de las fuentes antes de iniciar un registro." },
+  "pt-BR": { eyebrow: "CHECKLIST DE DECISÃO ANTES DO CADASTRO", title: (a, b) => `${a} vs ${b}: quais condições você deve comparar?`, subtitle: "Verifique taxas publicadas, escopo de produtos, elegibilidade regional, requisitos de conta e datas das fontes antes de iniciar um cadastro." },
+  fr: { eyebrow: "CHECKLIST DE DÉCISION AVANT INSCRIPTION", title: (a, b) => `${a} vs ${b} : quelles conditions comparer ?`, subtitle: "Vérifiez les frais publiés, le périmètre produit, l’éligibilité régionale, les exigences de compte et les dates des sources avant d’entamer une inscription." },
+  de: { eyebrow: "ENTSCHEIDUNGS-CHECKLISTE VOR DER REGISTRIERUNG", title: (a, b) => `${a} vs. ${b}: Welche Bedingungen sollten Sie vergleichen?`, subtitle: "Prüfen Sie veröffentlichte Gebühren, Produktumfang, regionale Berechtigung, Kontoanforderungen und Quellendaten, bevor Sie eine Registrierung beginnen." },
+  it: { eyebrow: "CHECKLIST DECISIONALE PRIMA DELLA REGISTRAZIONE", title: (a, b) => `${a} vs ${b}: quali condizioni confrontare?`, subtitle: "Verifica commissioni pubblicate, ambito prodotti, idoneità regionale, requisiti dell’account e date delle fonti prima di avviare una registrazione." },
+  // l10n: needs native review
+  ru: { eyebrow: "ЧЕК-ЛИСТ ПЕРЕД РЕГИСТРАЦИЕЙ", title: (a, b) => `${a} и ${b}: какие условия стоит сравнить?`, subtitle: "Проверьте опубликованные комиссии, охват продуктов, региональную доступность, требования к аккаунту и даты источников, прежде чем начинать регистрацию." },
+  // l10n: needs native review
+  id: { eyebrow: "DAFTAR PERIKSA SEBELUM MENDAFTAR", title: (a, b) => `${a} vs ${b}: syarat apa yang perlu dibandingkan?`, subtitle: "Periksa biaya yang dipublikasikan, cakupan produk, kelayakan regional, persyaratan akun, dan tanggal sumber sebelum memulai pendaftaran." },
+  // l10n: needs native review
+  vi: { eyebrow: "DANH SÁCH KIỂM TRA TRƯỚC KHI ĐĂNG KÝ", title: (a, b) => `${a} và ${b}: nên so sánh những điều kiện nào?`, subtitle: "Kiểm tra phí công bố, phạm vi sản phẩm, điều kiện theo khu vực, yêu cầu tài khoản và ngày của nguồn trước khi bắt đầu đăng ký." },
+  // l10n: needs native review
+  ar: { eyebrow: "قائمة القرار قبل التسجيل", title: (a, b) => `${a} مقابل ${b}: أي الشروط ينبغي مقارنتها؟`, subtitle: "تحقق من الرسوم المنشورة ونطاق المنتجات والأهلية الإقليمية ومتطلبات الحساب وتواريخ المصادر قبل بدء التسجيل." },
+};
+const compareDecisionLeadCopy = (locale) => compareDecisionLeadCopyByLocale[textLocaleKey(locale)] || compareDecisionLeadCopyByLocale.en;
+
 
 const detailUi = (locale) => {
   const key = textLocaleKey(locale);
@@ -3167,6 +3196,7 @@ export function CompareDecisionGuide({ profiles, locale = "en", market, product,
   const nameB = getLocalizedVenueName(pB, locale) || pB.name;
 
   const guideCopy = compareDecisionGuideCopy(locale);
+  const leadCopy = compareDecisionLeadCopy(locale);
   const leftPersonaText = guideCopy.persona(nameA);
   const rightPersonaText = guideCopy.persona(nameB);
 
@@ -3204,15 +3234,13 @@ export function CompareDecisionGuide({ profiles, locale = "en", market, product,
     <section className="v2-section v3-compare-decision-section" id="decision-guide">
       <div className="v3-decision-lead">
         <span className="v3-decision-eyebrow">
-           {isZh ? "开户前选型清单" : "PRE-SIGNUP DECISION CHECKLIST"}
+           {leadCopy.eyebrow}
         </span>
         <h2 className="v3-decision-title">
-          {isZh ? `${nameA} 与 ${nameB}：哪些条件需要逐项比较？` : `${pA.name} vs ${pB.name}: which conditions should you compare?`}
+          {leadCopy.title(isZh ? nameA : pA.name, isZh ? nameB : pB.name)}
         </h2>
         <p className="v3-decision-subtitle">
-          {isZh
-            ? "按公开费率、产品范围、地区资格、账户要求和来源日期核对，再决定是否进入注册流程。"
-            : "Check published fees, product scope, regional eligibility, account requirements and source dates before entering a signup flow."}
+          {leadCopy.subtitle}
         </p>
       </div>
 
@@ -4156,7 +4184,11 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
                         {pConditions.slice(0, 2).map((cond, cIdx) => (
                           <li key={cIdx} className="v3-versus-sources__item">
                             <span>•</span>
-                            <span {...(locale === "ar" ? { lang: "en", dir: "ltr" } : {})}>{locale === "ar" ? cond.en : cond[locale] || cond[textLocaleKey(locale)] || cond["zh-Hans"] || cond.en}</span>
+                            {(() => {
+                              // l10n 2026-10-11: read the 15-locale edition; before, non-zh locales fell through to zh-Hans and ar was forced to English.
+                              const localizedCond = campaignResearchLocalizedText(p.slug, ["signupReward", "conditions", String(cIdx)], locale) || cond[locale] || cond[textLocaleKey(locale)] || cond.en;
+                              return <span {...(localizedCond === cond.en ? enAttrs(locale) : undefined)}>{localizedCond}</span>;
+                            })()}
                           </li>
                         ))}
                       </ul>

@@ -2210,7 +2210,9 @@ test("comparison decision fallback never invents fee, leverage or benefit defaul
   assert.match(guide, /guideCopy\.reserves/);
   assert.match(guide, /guideCopy\.productSources\(nameA\)/);
   assert.match(guide, /guideCopy\.productSources\(nameB\)/);
-  assert.match(guide, /PRE-SIGNUP DECISION CHECKLIST/);
+  // l10n 2026-10-11: the lead eyebrow/title/subtitle moved from inline zh/en ternaries into a 15-locale copy map.
+  assert.match(guide, /const leadCopy = compareDecisionLeadCopy\(locale\)/);
+  assert.match(v3Pages, /compareDecisionLeadCopyByLocale = \{[^]*?eyebrow: "PRE-SIGNUP DECISION CHECKLIST"/);
   assert.doesNotMatch(guide, /access[AB]\.rebatePercent/);
   assert.doesNotMatch(guide, /\|\| "0\.10%"/);
   assert.doesNotMatch(guide, /\|\| "100x"/);
