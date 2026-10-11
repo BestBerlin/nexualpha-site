@@ -81,12 +81,14 @@ async def main():
             menu = pg.locator('header button[aria-label="Menu"]')
             if await menu.count() and await menu.first.is_visible():
                 await menu.first.click(); await pg.wait_for_timeout(600)
-            lang_btn = pg.locator('button[aria-label^="Language"]:visible').first
-            if await lang_btn.count():
-                await lang_btn.click(); await pg.wait_for_timeout(600)
-                opt = pg.locator('[role=option]').filter(has_text="日本語").first
-                if await opt.count():
-                    await opt.scroll_into_view_if_needed(); await opt.click(force=True); await pg.wait_for_timeout(3000)
+            # the header holds a hidden desktop copy and the drawer a visible one; pick whichever is actually visible
+            clicked = await pg.evaluate("""() => { const b = [...document.querySelectorAll('button[aria-label^="Language"]')].find(e => e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden'); if (!b) return false; b.click(); return true; }""")
+            if clicked:
+                await pg.wait_for_timeout(600)
+                picked = await pg.evaluate("""() => { const o = [...document.querySelectorAll('[role=option]')].find(e => /日本語/.test(e.textContent) && e.getClientRects().length); if (!o) return false; o.scrollIntoView({block: 'center'}); o.click(); return true; }""")
+                await pg.wait_for_timeout(3000)
+                if not picked:
+                    rec("language menu switch stays on the venue page" + tag, False, "no visible 日本語 option"); continue
                 rec("language menu switch stays on the venue page" + tag, "/ja/exchanges/bitget" in pg.url and (await pg.evaluate("document.documentElement.lang")) == "ja", f"url={pg.url}")
             else:
                 rec("language menu switch stays on the venue page" + tag, False, "no visible language button")
