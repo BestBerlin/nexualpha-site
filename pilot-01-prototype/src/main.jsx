@@ -6,6 +6,8 @@ import { installOutboundFeedback } from "./data/outbound-feedback.js";
 import { installCtaClickBeacon } from "./data/cta-click-beacon.js";
 import { signalRootHydrated } from "./data/hydration-readiness.js";
 import { buildHydrationBootstrap } from "./data/hydration-bootstrap.js";
+import { clientHomeHeroVariant } from "./data/home-hero-experiment.js";
+import { withHomeHeroVariant } from "./components/v7/home7-hero-variants.js";
 import { createHydrationOnceController, createHydrationRoutePreparer } from "./data/route-module-cache.js";
 import "./font-faces.css";
 import "./styles/tokens.css";
@@ -78,7 +80,10 @@ function HydrationBootstrap() {
   </>;
 }
 
-const app = <React.StrictMode><HydrationBootstrap /></React.StrictMode>;
+// Home hero copy experiment (X5): hydrate with exactly the variant the server rendered (prerender state); other pages
+// use the worker-set assignment cookie for a later client-side visit to the home page. Never swapped after render.
+const heroVariant = clientHomeHeroVariant({ prerenderState, cookie: typeof document !== "undefined" ? document.cookie : "" });
+const app = withHomeHeroVariant(<React.StrictMode><HydrationBootstrap /></React.StrictMode>, heroVariant);
 const routePreparer = createHydrationRoutePreparer({ preloadForUrl: preloadCurrentRouteModulesForUrl });
 let hydrationController;
 

@@ -88,7 +88,8 @@ function firstParagraph(markdown) {
   const paragraph = body
     .split(/\n{2,}/)
     .map((part) => part.trim())
-    .find((part) => part && !part.startsWith("#") && !part.startsWith("|"));
+    // `::embed <widget>` lines (article live-data widgets, src/data/article-embeds.js) are never summary text.
+    .find((part) => part && !part.startsWith("#") && !part.startsWith("|") && !part.startsWith("::embed"));
   return paragraph ? completeSentenceExcerpt(paragraph) : "";
 }
 

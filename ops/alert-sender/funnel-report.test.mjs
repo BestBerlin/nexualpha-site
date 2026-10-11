@@ -62,3 +62,19 @@ test("formats the owner DM in zh and en with subscriber count only", () => {
   assert.match(empty, /按交易所: 暂无点击/);
   assert.match(empty, /与前一日持平（0）/);
 });
+
+test("home hero A/B (X5): rows carrying experiment + variant are split per variant in the 7-day report", () => {
+  const text = [
+    JSON.stringify({ t: h(1), partner: "okx", src: "home-v7-hero", ref: "/", kind: "site", experiment: "home_hero_copy_v1", variant: "a" }),
+    JSON.stringify({ t: h(2), partner: "bitget", src: "home-v7-hero", ref: "/", kind: "site", experiment: "home_hero_copy_v1", variant: "b" }),
+    JSON.stringify({ t: h(3), partner: "okx", src: "tg-channel-zh", ref: "t.me", experiment: "home_hero_copy_v1", variant: "b" }),
+    JSON.stringify({ t: h(4), partner: "okx", src: "home-v7-hero", ref: "/", kind: "site", experiment: "home_hero_copy_v1" }),
+    JSON.stringify({ t: h(5), partner: "okx", src: "home-v7-hero", ref: "/", kind: "site", experiment: "<script>", variant: "b" }),
+  ].join("\n");
+  const rows = parseClickLines(text);
+  assert.equal(rows.filter((r) => r.variant).length, 3, "a variant without an experiment (or a bad id) is dropped, the click is kept");
+  const s = summarizeClicks(rows, NOW);
+  assert.deepEqual(s.week.experiments, { home_hero_copy_v1: { a: 1, b: 2 } });
+  assert.match(funnelReportMessage({ summary: s, subscribers: 0, lang: "en" }), /A\/B clicks \(7 d\) home_hero_copy_v1: a 1 · b 2/);
+  assert.doesNotMatch(funnelReportMessage({ summary: summarizeClicks(parseClickLines(FIXTURE), NOW), subscribers: 0, lang: "en" }), /A\/B/, "no line without experiment rows");
+});

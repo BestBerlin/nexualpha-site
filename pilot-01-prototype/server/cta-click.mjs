@@ -3,10 +3,12 @@
 // navigator.sendBeacon('/api/cta-click', {partner, src, path}) and this route appends
 // {t, partner, src, ref: path, kind: "site"} to the same CLICK_EVENT_FILE the /go/<partner> redirect writes.
 // Validation: partner must exist in the build's partner feed, src is a placement slug, path is a site path.
-// Same crawler filter as /go. Per-IP rate limit lives in memory only; no IP, cookie or user id is ever written.
+// Same crawler filter as /go. Per-IP rate limit lives in memory only; no IP, cookie value or user id is ever written
+// (the home hero experiment adds only its id and the a/b bucket, read from the first-party nx_hero cookie).
 import { appendFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { BOT_UA, SRC, createPartnerMapLoader } from './go-redirect.mjs';
+import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
 
 export const CTA_CLICK_PATH = '/api/cta-click';
 const PATH_RE = /^\/[A-Za-z0-9/_.~%-]{0,199}$/;
@@ -47,7 +49,7 @@ export function clientKey(req) {
   return first || req?.socket?.remoteAddress || 'unknown';
 }
 
-export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () => new Date(), limit = 30, windowMs = 60_000 } = {}) {
+export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () => new Date(), limit = 30, windowMs = 60_000, heroForce = null, registry } = {}) {
   const partnerMap = createPartnerMapLoader(clientRoot);
   const allow = createRateLimiter({ limit, windowMs });
   if (eventFile) mkdir(path.dirname(eventFile), { recursive: true }).catch(() => {});
@@ -74,7 +76,9 @@ export function createCtaClickBeacon({ clientRoot, eventFile = null, now = () =>
     if (!click) return new Response(null, { status: 400, headers: NO_STORE });
     const ua = request.headers.get('user-agent') || '';
     if (eventFile && !BOT_UA.test(ua)) {
-      appendFile(eventFile, `${JSON.stringify({ t: now().toISOString(), ...click, kind: 'site' })}\n`, { mode: 0o600 }).catch(() => {});
+      // Home hero experiment (X5): {experiment, variant} from the visitor's bucket cookie while the experiment runs.
+      const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
+      appendFile(eventFile, `${JSON.stringify({ t: now().toISOString(), ...click, kind: 'site', ...(hero || {}) })}\n`, { mode: 0o600 }).catch(() => {});
     }
     return new Response(null, { status: 204, headers: NO_STORE });
   };

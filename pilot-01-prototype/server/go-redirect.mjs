@@ -1,9 +1,10 @@
 // Tracked partner redirect (owner 2026-10-10): /go/<partner>?src=<source> records one click and redirects to the
 // partner's registration URL from the build's partner feed (intel/partners.json), unchanged, so invite codes and
-// links stay exactly what the registry says. Only time, partner, source and the referring host are recorded;
-// no IP, no cookie, no user id. Crawlers are not counted and the route is noindex.
+// links stay exactly what the registry says. Only time, partner, source and the referring host are recorded (plus the
+// home hero experiment id and a/b bucket while that experiment runs); no IP, no cookie value, no user id. Crawlers are not counted and the route is noindex.
 import { readFile, appendFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
+import { homeHeroClickContext } from '../src/data/home-hero-experiment.js';
 
 export const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|telegrambot|whatsapp|curl|wget|python|headless|lighthouse/i;
 export const SRC = /^[a-z0-9][a-z0-9_-]{0,47}$/;
@@ -22,7 +23,7 @@ export function createPartnerMapLoader(clientRoot) {
   };
 }
 
-export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date() } = {}) {
+export function createGoRedirect({ clientRoot, eventFile = null, now = () => new Date(), heroForce = null, registry } = {}) {
   const partnerMap = createPartnerMapLoader(clientRoot);
   if (eventFile) mkdir(path.dirname(eventFile), { recursive: true }).catch(() => {});
 
@@ -38,7 +39,9 @@ export function createGoRedirect({ clientRoot, eventFile = null, now = () => new
     if (eventFile && !BOT_UA.test(ua) && request.method === 'GET') {
       let refHost = null;
       try { refHost = new URL(request.headers.get('referer')).host; } catch { /* none */ }
-      appendFile(eventFile, `${JSON.stringify({ t: now().toISOString(), partner: slug, src, ref: refHost })}\n`, { mode: 0o600 }).catch(() => {});
+      // Home hero experiment (X5): the visitor's one-bit bucket cookie, only while the experiment runs.
+      const hero = homeHeroClickContext({ cookieHeader: request.headers.get('cookie') || '', userAgent: ua, force: heroForce, ...(registry ? { registry } : {}) });
+      appendFile(eventFile, `${JSON.stringify({ t: now().toISOString(), partner: slug, src, ref: refHost, ...(hero || {}) })}\n`, { mode: 0o600 }).catch(() => {});
     }
     return new Response(null, { status: 302, headers: { ...headers, location: target } });
   };

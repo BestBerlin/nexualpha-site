@@ -301,9 +301,21 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
         ...(isNews ? { newsArticles: projectNewsFeedForRoute(pathname, initialArticles, locale), newsFeedFingerprint } : {}),
       };
       writeFileSync(assetPath, `${JSON.stringify(assetPayload)}\n`);
+      // Home hero copy experiment (X5): variant B of every home edition is prerendered next to A with the same renderer,
+      // so a visitor the worker assigns to B gets complete SSR HTML from the same fast path (no request-time render, no
+      // client swap). Only the worker's assignment (experimentRegistry.home_hero_copy_v1.enabled) ever serves it.
+      let heroVariants;
+      if (pathname === "/") {
+        const htmlB = stripReactResourceHints(await render(url, { heroVariant: "b" }));
+        if (!/<h1\b/i.test(htmlB) || !htmlB.includes('data-hero-variant="b"')) throw new Error(`Missing hero variant B prerender: ${url}`);
+        const assetB = `/prerender/${locale}/home-hero-b.json`;
+        writeFileSync(path.join(clientDir, assetB), `${JSON.stringify({ html: htmlB })}\n`);
+        heroVariants = { b: assetB };
+      }
       routes[`${pathname}|${locale}`] = { pathname, locale, asset,
         searchPublished: publishedRouteLocales.has(`${pathname}|${locale}`),
         ...(isNews ? { newsFeedFingerprint } : {}),
+        ...(heroVariants ? { heroVariants } : {}),
       };
     }
   }
