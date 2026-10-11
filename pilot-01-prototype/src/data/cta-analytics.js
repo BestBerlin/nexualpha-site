@@ -68,6 +68,10 @@ export function firstTouchSource({ search = '', referrer = '', origin = '' } = {
   const params = new URLSearchParams(search);
   const utmSource = sanitizeCtaSource(params.get('utm_source'));
   if (utmSource) return utmSource;
+  // Our own links (Telegram bot, channels, alerts) tag visits with ?src=tg-… (2026-10-11, scorecard G4); Telegram's in-app
+  // browser sends no referrer, so without this they were all counted as "direct".
+  const ownSource = sanitizeCtaSource(params.get('src'));
+  if (ownSource) return ownSource;
   for (const [key, source] of CLICK_ID_SOURCES) {
     if (params.has(key)) return source;
   }
