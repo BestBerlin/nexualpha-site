@@ -1,0 +1,10 @@
+Give starter lessons a reusable narration-led visual language
+
+Constraint: Worktree-only changes; no uploads, installs, deployment or partner-data edits.
+Rejected: Estimated timing as narrated production evidence | macOS say generated empty audio.
+Confidence: medium
+Scope-risk: narrow
+Directive: Release only after real Tingting/Samantha narration and sentence synchronization are reviewed.
+Tested: 12 unit tests; both layout/language preflights; four 30fps H.264/AAC exports fully decoded; encoded QR decoded.
+Not-tested: Real narration quality and audiovisual sentence synchronization; speech output is empty in this environment.
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>

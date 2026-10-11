@@ -1,0 +1,246 @@
+{
+  "meta": {
+    "level": 4,
+    "slug": "04-network-check",
+    "title_zh": "转币前，为什么要核对网络？",
+    "title_en": "Check the network before sending",
+    "next_title_zh": "小额测试与到账核对",
+    "next_title_en": "Test transfer and receipt check",
+    "cta": {
+      "partner": null,
+      "kind": "neutral"
+    },
+    "sources": [
+      "https://www.binance.com/en/academy/articles/your-guide-to-binance-deposit-withdrawal",
+      "https://www.binance.com/en-AU/support/faq/detail/85a1c394ac1d489fb0bfac0ef2fceafd",
+      "https://help.coinbase.com/en/coinbase/trading-and-funding/sending-or-receiving-cryptocurrency/unsupported-network-transactions-automatic-return"
+    ],
+    "source_note": "Ported from pilot episode01-review-zh.md. Recovery depends on asset, network, wallet control and receiving-platform support; do not imply universal irrecoverability."
+  },
+  "scenes": [
+    {
+      "voice_zh": "发送加密资产前，先停在网络这一栏。选错网络，资产可能无法找回。",
+      "voice_en": "Before you send crypto, stop at the network field. One wrong choice can leave funds out of reach.",
+      "title": "转币之前，先停一下",
+      "sub": "先核对网络",
+      "title_en": "Before you send",
+      "sub_en": "Check the network first.",
+      "visual": {
+        "type": "flow",
+        "params": {
+          "labels": [
+            "发送平台",
+            "接收平台"
+          ],
+          "labels_en": [
+            "Sender",
+            "Receiver"
+          ]
+        }
+      },
+      "min_s": 4
+    },
+    {
+      "voice_zh": "同一种资产可能存在于不同区块链上。例如 USDT 可以通过以太坊或波场网络转移。这两条路径不能混用。",
+      "voice_en": "The same asset can travel on different blockchains. For example, U S D T may be offered on Ethereum or Tron. Those routes are not interchangeable.",
+      "title": "同一种资产，不同网络",
+      "sub": "路径不能混用",
+      "title_en": "One asset. Different networks.",
+      "sub_en": "USDT can travel on different blockchains.",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "以太坊",
+            "波场"
+          ],
+          "columns_en": [
+            "Ethereum",
+            "Tron"
+          ],
+          "rows": [
+            [
+              "标准",
+              "ERC-20",
+              "TRC-20"
+            ],
+            [
+              "规则",
+              "须匹配",
+              "须匹配"
+            ]
+          ],
+          "rows_en": [
+            [
+              "Standard",
+              "ERC-20",
+              "TRC-20"
+            ],
+            [
+              "Rule",
+              "Match",
+              "Match"
+            ]
+          ]
+        }
+      },
+      "min_s": 4
+    },
+    {
+      "voice_zh": "先打开接收平台，选择币种，查看这个账户当前支持的具体充值网络。以接收平台当前说明为准。",
+      "voice_en": "Open the receiving platform first. Choose the asset, then read the exact deposit network shown for that account. Use its current instructions as your source of truth.",
+      "title": "先看接收方",
+      "sub": "以当前充值说明为准",
+      "title_en": "Start with the receiver",
+      "sub_en": "Read the supported deposit network.",
+      "visual": {
+        "type": "phone-mock",
+        "params": {
+          "fields": [
+            [
+              "币种",
+              "USDT"
+            ],
+            [
+              "网络",
+              "Ethereum"
+            ],
+            [
+              "地址",
+              "0x71C4…E92A"
+            ]
+          ],
+          "fields_en": [
+            [
+              "Asset",
+              "USDT"
+            ],
+            [
+              "Network",
+              "Ethereum"
+            ],
+            [
+              "Address",
+              "0x71C4…E92A"
+            ]
+          ],
+          "title": "通用示意界面",
+          "title_en": "Illustrative form"
+        }
+      },
+      "min_s": 4
+    },
+    {
+      "voice_zh": "再回到发送平台，选择同一个网络。不要只因为手续费较低，就改选其他网络。",
+      "voice_en": "Now return to the sending platform. Select that same network. A lower fee is never a reason to choose a different route.",
+      "title": "发送方选择同一网络",
+      "sub": "不能只看手续费",
+      "title_en": "Match it on the sender",
+      "sub_en": "Both sides must use the same network.",
+      "visual": {
+        "type": "split-choice",
+        "params": {
+          "left": "同一网络",
+          "right": "只选低费用",
+          "left_en": "Same network",
+          "right_en": "Lowest fee only",
+          "left_caption": "继续核对",
+          "right_caption": "暂停",
+          "left_caption_en": "Check next",
+          "right_caption_en": "Pause"
+        }
+      },
+      "min_s": 4
+    },
+    {
+      "voice_zh": "从接收平台复制地址，粘贴到发送平台，仔细核对完整地址，包括开头和末尾字符。如果接收平台要求 Memo 或 Tag，也要填写。",
+      "voice_en": "Copy the receiving address and paste it on the sending side. Compare the address carefully, including the beginning and end. If the receiver asks for a memo or tag, include that too.",
+      "title": "然后，核对完整地址",
+      "sub": "需要 Memo 或 Tag 时也要填写",
+      "title_en": "Then verify the address",
+      "sub_en": "Check the pasted value before continuing.",
+      "visual": {
+        "type": "phone-mock",
+        "params": {
+          "fields": [
+            [
+              "完整地址",
+              "核对粘贴值"
+            ],
+            [
+              "Memo / Tag",
+              "按要求填写"
+            ]
+          ],
+          "fields_en": [
+            [
+              "Full address",
+              "Verify pasted value"
+            ],
+            [
+              "Memo / Tag",
+              "If required"
+            ]
+          ],
+          "title": "通用示意界面",
+          "title_en": "Illustrative form"
+        }
+      },
+      "min_s": 4
+    },
+    {
+      "voice_zh": "提交前复核币种、网络、地址、所需 Memo 和金额。有任何一项不明确，就暂停，并查看接收平台的官方帮助说明。",
+      "voice_en": "Review the asset, network, address, any required memo, and the amount. If one item is unclear, pause and check the receiver's official help page.",
+      "title": "确认之前，复核五项",
+      "sub": "不明确，就暂停",
+      "title_en": "Five checks before confirm",
+      "sub_en": "Asset  ·  Network  ·  Address  ·  Memo  ·  Amount",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "币种",
+            "网络",
+            "完整地址",
+            "Memo / Tag",
+            "金额"
+          ],
+          "items_en": [
+            "Asset",
+            "Network",
+            "Full address",
+            "Memo / Tag",
+            "Amount"
+          ],
+          "title": "确认前的五项检查",
+          "title_en": "Pre-confirm checklist"
+        }
+      },
+      "min_s": 4
+    },
+    {
+      "voice_zh": "先核对网络，再核对地址，最后确认。清楚核对，比快速点击更重要。",
+      "voice_en": "Network first. Address next. Confirm once. That habit matters more than speed.",
+      "title": "先网络，再地址，最后确认",
+      "sub": "清楚核对，比快速点击更重要",
+      "title_en": "Network first.",
+      "sub_en": "Address next. Confirm once.",
+      "visual": {
+        "type": "timeline",
+        "params": {
+          "events": [
+            "核对网络",
+            "核对地址",
+            "最后确认"
+          ],
+          "events_en": [
+            "Network",
+            "Address",
+            "Confirm"
+          ]
+        }
+      },
+      "min_s": 4
+    }
+  ]
+}
