@@ -189,11 +189,21 @@ const TEXTS = {
 export const T = (lang) => TEXTS[lang] || TEXTS.en;
 
 // ---------- message builders ----------
+// Owner 2026-10-11: promote Bybit, Hyperliquid and Backpack more (second row). Turkey: only partners whose Turkish
+// entity is on the SPK "operating" list (OKX TR, Binance Turkey, Bybit) — Bitget Teknoloji AŞ is on the liquidation list.
+export const PARTNER_ROWS = { default: [null, ["bybit", "hyperliquid", "backpack"]], tr: [["okx", "binance", "bybit"]] };
+export const PARTNER_EXCLUDED = { tr: new Set(["bitget", "backpack", "hyperliquid"]) };
 export function partnerButtons(partners, lang, src) {
   const t = T(lang);
-  const featured = partners.filter((p) => p.featured).slice(0, 3);
+  const bySlug = Object.fromEntries(partners.map((p) => [p.slug, p]));
+  const excluded = PARTNER_EXCLUDED[lang] || new Set();
+  // "(返佣)"-style wording only where a rebate share is confirmed in partners.json
+  const button = (p) => ({ text: p.share === null ? t.signUpListing(p.name) : t.signUp(p.name), url: go(p.slug, src) });
+  const rows = (PARTNER_ROWS[lang] || PARTNER_ROWS.default).map((row) =>
+    (row === null ? partners.filter((p) => p.featured && !excluded.has(p.slug)).slice(0, 3) : row.map((slug) => bySlug[slug]).filter((p) => p && !excluded.has(p.slug)))
+      .map(button)).filter((row) => row.length);
   return [
-    featured.map((p) => ({ text: t.signUp(p.name), url: go(p.slug, src) })),
+    ...rows,
     [{ text: t.getAlerts, url: "https://t.me/NexuAlphaAssistantBot?start=alerts" },
      { text: t.fundingRates, url: `${SITE}${LOCALE_PATH[lang] ?? ""}/rates` }],
   ];
