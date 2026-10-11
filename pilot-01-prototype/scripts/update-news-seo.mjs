@@ -3,16 +3,16 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { newsArticleAvailableLocales, newsSitemapLanguage, normalizeNewsFeed } from "../src/data/news-feed-client.js";
+import { hreflangAlternates, newsArticleSeoLocales, newsSitemapLanguage, normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
-import { INDEXABLE_LOCALES, routeInventory } from "./generate-prerender-manifest.mjs";
+import { INDEXABLE_LOCALES, routeInventory, routeLastmod } from "./generate-prerender-manifest.mjs";
 import {
   SEARCH_PUBLICATION_VERSION,
   buildSearchPublicationReport,
   loadSearchPublicationBaseline,
   selectPublicationNewsArticles,
   selectSitemapPublicationEntries,
-  sitemapUrl,
+  sitemapHreflangAlternates,
 } from "./sitemap-publication-policy.mjs";
 
 const PUBLIC_ORIGIN = "https://nexualpha.com";
@@ -147,7 +147,9 @@ function mergeSitemap(existingSitemap, generatedUrls, origin, managedPaths = new
       }
       seen.add(loc);
       const generatedEntry = generatedByLoc.get(loc);
-      return [{ loc, block: generatedEntry ? serializeUrl(generatedEntry) : block }];
+      // A carried-over entry keeps its URL and date but not an old hreflang set: alternates for non-news routes are
+      // owned by the page and /locale-sitemap.xml (audit 2026-10-11 #1), so a stale smaller set never contradicts them.
+      return [{ loc, block: generatedEntry ? serializeUrl(generatedEntry) : withoutAlternates(block) }];
     });
   const generated = generatedUrls
     .filter(({ loc }) => {
@@ -162,6 +164,10 @@ function mergeSitemap(existingSitemap, generatedUrls, origin, managedPaths = new
     urls: blocks.map(({ loc }) => ({ loc })),
     preservedUrlCount: preserved.length,
   };
+}
+
+function withoutAlternates(block) {
+  return String(block).replace(/\n[ \t]*<xhtml:link\b[^>]*\/>/g, "");
 }
 
 function serializeMergedBlocks(blocks) {
@@ -227,7 +233,7 @@ function mergeLlms(existingLlms, articles, origin, publicationReport) {
     return [
       "# NexuAlpha",
       "",
-      "> NexuAlpha publishes independent, source-backed crypto platform, market-structure, risk and tokenized-asset research. Unknown or time-sensitive facts remain explicitly qualified.",
+      "> NexuAlpha is independent crypto exchange research that checks trading fees, official domains and sign-up routes against each exchange's own sources, with disclosed partner links and invite codes.",
       "",
       "## Core pages",
       "",
@@ -243,7 +249,7 @@ function mergeLlms(existingLlms, articles, origin, publicationReport) {
       "## Editorial boundary",
       "",
       "- Sources and verification limits are shown in each article.",
-      "- Commercial destinations remain unavailable unless separately verified.",
+      "- Partner links may earn NexuAlpha a platform-paid commission at no extra cost to you: https://nexualpha.com/methodology#disclosure.",
       "- Publication and search-engine submission do not prove indexing or ranking.",
       "",
     ].join("\n");
@@ -292,33 +298,18 @@ function recentIndexableNewsArticles(articles, generatedAt) {
 function newsSitemapEntries(articles, generatedAt, origin) {
   const href = (pathname, locale) => `${origin}${localizedPath(pathname, locale)}`;
   return recentIndexableNewsArticles(articles, generatedAt)
-    .flatMap((article) => newsArticleAvailableLocales(article).map((locale) => {
+    .flatMap((article) => newsArticleSeoLocales(article).map((locale) => {
       const title = cleanString(article.title?.[locale]) || cleanString(article.title?.en) || article.slug;
       return {
         loc: href(`/news/${article.slug}`, locale),
         language: newsSitemapLanguage(locale),
         publicationDate: new Date(Date.parse(article.publishedAt)).toISOString(),
         lastmod: newsSitemapLastmod(article, Date.parse(generatedAt)),
-        alternates: [...newsArticleAvailableLocales(article), "x-default"].map((hreflang) => ({
-          hreflang,
-          href: href(`/news/${article.slug}`, hreflang === "x-default" ? "en" : hreflang),
-        })),
+        alternates: hreflangAlternates(newsArticleSeoLocales(article), (hreflang) => href(`/news/${article.slug}`, hreflang)),
         title,
       };
     }))
     .slice(0, NEWS_SITEMAP_LIMIT);
-}
-
-function publicationAlternates(publicationUrls, pathname) {
-  const entries = publicationUrls
-    .filter((entry) => entry.route?.pathname === pathname)
-    .sort((a, b) => a.locale.localeCompare(b.locale));
-  if (!entries.length) return [];
-  const defaultEntry = entries.find((entry) => entry.locale === "en") || entries[0];
-  return [
-    ...entries.map((entry) => ({ hreflang: entry.locale, href: entry.loc || sitemapUrl(pathname, entry.locale) })),
-    { hreflang: "x-default", href: defaultEntry.loc || sitemapUrl(pathname, defaultEntry.locale) },
-  ];
 }
 
 export function buildNewsSeoFiles(feed, options = {}) {
@@ -335,20 +326,26 @@ export function buildNewsSeoFiles(feed, options = {}) {
   const publicationReport = buildSearchPublicationReport(publication);
   const indexableArticles = selectPublicationNewsArticles(articles, publication);
 
-  const generatedUrls = publication.urls.map(({ route, loc }) => {
+  const generatedUrls = publication.urls.map(({ route, loc, locale }) => {
     const article = articles.find((item) => route.pathname === `/news/${item.slug}`);
     const pathname = route.pathname;
     return {
       loc,
-      lastmod: article ? dateOnly(article.updatedAt || article.publishedAt, generatedDate) : generatedDate,
+      // The route's own content date (audit 2026-10-11 #3); the feed date only for a route without any date.
+      lastmod: dateOnly(routeLastmod(route, article, locale, { newsArticles: articles }), generatedDate),
       changefreq: pathname === "/news" ? "daily" : pathname.startsWith("/news/") ? "monthly" : "weekly",
       priority: pathname === "/" ? "1.0" : pathname === "/news" ? "0.9" : pathname.startsWith("/news/") ? "0.8" : "0.7",
-      alternates: publicationAlternates(publication.urls, pathname),
+      alternates: sitemapHreflangAlternates(pathname, { article, newsArticles: articles }),
     };
   });
   const newsSitemapUrls = newsSitemapEntries(indexableArticles, generatedAt, origin);
 
-  const managedPaths = new Set(publication.urls.map(({ route }) => route.pathname));
+  // Inventory routes that are not indexable (e.g. /embed/calculator since audit 2026-10-11 #13) are managed too, so an
+  // old entry for them is dropped instead of carried over.
+  const managedPaths = new Set([
+    ...publication.urls.map(({ route }) => route.pathname),
+    ...inventory.filter((route) => !route.index).map((route) => route.pathname),
+  ]);
   const sitemapResult = mergeSitemap(options.existingSitemap, generatedUrls, origin, managedPaths);
   const llms = mergeLlms(options.existingLlms, indexableArticles, origin, publicationReport);
 

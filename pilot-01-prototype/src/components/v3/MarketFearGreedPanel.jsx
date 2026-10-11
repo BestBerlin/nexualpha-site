@@ -63,8 +63,13 @@ export function marketFearGreedCopyFor(locale = "en") {
   return copy[normalized] || copy[base] || (base === "zh" ? copy["zh-Hans"] : copy.en);
 }
 
-export function MarketFearGreedPanel({ locale = "en" }) {
-  const t = marketFearGreedCopyFor(locale);
+// No verified sentiment feed is connected, so the panel renders nothing (SEO audit 2026-10-11 #6: the home page
+// server-rendered "Data unavailable" and a "no verified live feed yet" status line to crawlers and readers). Pass a
+// verified reading as `index` ({ value: 0-100 }) to show it; the copy table stays for that case.
+export function MarketFearGreedPanel({ locale = "en", index = null }) {
+  const value = Number(index?.value);
+  if (!index || !Number.isFinite(value) || value < 0 || value > 100) return null;
+  const t = { ...marketFearGreedCopyFor(locale), fearIndexValue: String(Math.round(value)) };
 
   return (
     <section className="sentiment-section v2-shell">
@@ -74,14 +79,12 @@ export function MarketFearGreedPanel({ locale = "en" }) {
           {t.eyebrow}
         </div>
         <h2 className="sentiment__title">{t.title}</h2>
-        <p className="sentiment__subtitle">{t.subtitle}</p>
       </header>
 
       <div className="sentiment__grid">
         <div className="sentiment__card sentiment__card--index">
           <div className="sentiment-index__meta">
             <span className="sentiment-index__label">{t.fearIndexTitle}</span>
-            <span className="sentiment-index__badge">{t.fearIndexStatus}</span>
           </div>
 
           <div className="sentiment-index__value-box">
@@ -107,9 +110,6 @@ export function MarketFearGreedPanel({ locale = "en" }) {
         </div>
       </div>
 
-      <div className="sentiment__advice-box">
-        <span>{t.signalAdvice}</span>
-      </div>
     </section>
   );
 }

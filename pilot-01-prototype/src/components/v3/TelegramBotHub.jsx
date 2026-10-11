@@ -440,6 +440,26 @@ for (const [locale, labels] of Object.entries({
 })) copy[locale] = { ...copy[locale], ...labels };
 
 
+// Topic gateway in reader language (SEO audit 2026-10-11 #6): the heading and intro used to describe the routing spec
+// ("Answer the question before the Telegram handoff … Telegram visitors get a clear onsite path first"). Same in 15 locales.
+for (const [locale, [topicBadge, topicTitle, topicSubtitle]] of Object.entries({
+  en: ["START WITH THE ANSWER", "Find your answer on NexuAlpha first", "Compare venues, open a profile, check fees or go through your region's checklist here. The Bot can pick up from there."],
+  "zh-Hans": ["站内研究入口", "先在站内找到答案", "先在 NexuAlpha 比较平台、查看档案、核对费用或地区清单，之后再按需要在 Bot 中继续。"],
+  "zh-Hant": ["站內研究入口", "先在站內找到答案", "先在 NexuAlpha 比較平台、查看檔案、核對費用或地區清單，之後再按需要在 Bot 中繼續。"],
+  ja: ["まずサイトで確認", "答えはまず NexuAlpha で", "取引所の比較、プロフィール、手数料、地域チェックリストをここで確認できます。続きは Bot でも開けます。"],
+  ko: ["사이트에서 먼저", "답은 먼저 NexuAlpha에서 확인하세요", "거래소 비교, 프로필, 수수료, 지역 체크리스트를 여기에서 확인하세요. 이어서 Bot에서 계속할 수 있습니다."],
+  tr: ["ÖNCE YANIT", "Yanıtı önce NexuAlpha'da bulun", "Platformları karşılaştırın, profil açın, ücretleri veya bölgenizin kontrol listesini burada inceleyin. Bot daha sonra kaldığınız yerden devam eder."],
+  es: ["EMPIEZA POR LA RESPUESTA", "Encuentra primero la respuesta en NexuAlpha", "Compara plataformas, abre un perfil, revisa comisiones o la lista de tu región aquí. Después puedes seguir en el bot."],
+  "pt-BR": ["COMECE PELA RESPOSTA", "Encontre a resposta primeiro na NexuAlpha", "Compare plataformas, abra um perfil, confira taxas ou o checklist da sua região aqui. Depois, continue no bot."],
+  fr: ["D’ABORD LA RÉPONSE", "Trouvez d’abord la réponse sur NexuAlpha", "Comparez les plateformes, ouvrez un profil, vérifiez les frais ou la liste de votre région ici. Le bot prend ensuite le relais."],
+  de: ["ZUERST DIE ANTWORT", "Die Antwort zuerst auf NexuAlpha finden", "Vergleichen Sie Plattformen, öffnen Sie ein Profil, prüfen Sie Gebühren oder die Checkliste Ihrer Region hier. Danach geht es im Bot weiter."],
+  it: ["PRIMA LA RISPOSTA", "Trova prima la risposta su NexuAlpha", "Confronta le piattaforme, apri un profilo, controlla le commissioni o la checklist della tua regione qui. Poi puoi continuare nel bot."],
+  ru: ["СНАЧАЛА ОТВЕТ", "Сначала найдите ответ на NexuAlpha", "Сравните платформы, откройте профиль, проверьте комиссии или чек-лист своего региона здесь. Затем можно продолжить в боте."],
+  id: ["MULAI DARI JAWABAN", "Temukan jawabannya dulu di NexuAlpha", "Bandingkan platform, buka profil, cek biaya, atau daftar periksa wilayah Anda di sini. Setelah itu lanjutkan di bot."],
+  vi: ["BẮT ĐẦU TỪ CÂU TRẢ LỜI", "Tìm câu trả lời trên NexuAlpha trước", "So sánh nền tảng, mở hồ sơ, kiểm tra phí hoặc danh sách kiểm tra theo khu vực của bạn tại đây. Sau đó tiếp tục trong bot."],
+  ar: ["ابدأ بالإجابة", "ابحث عن الإجابة في NexuAlpha أولًا", "قارن المنصات وافتح ملفًا وراجع الرسوم أو قائمة التحقق الخاصة بمنطقتك هنا، ثم تابع في البوت."],
+})) copy[locale] = { ...copy[locale], topicBadge, topicTitle, topicSubtitle };
+
 const RETURN_RAIL_COPY = Object.freeze({
   en: {
     title: "Return to the actual onsite tools",

@@ -76,6 +76,21 @@ const env = {
     },
   },
 };
+// SEO audit 2026-10-11 #4 (owner-approved, scorecard M3): a locale news listing is indexable only with >= 5 native
+// editions. feed5 adds four more Turkish articles so /tr/news crosses the threshold; feed keeps one (noindex listing).
+const extraTr = Array.from({ length: 4 }, (_, index) => ({ ...trArticle, slug: `okx-turkiye-ek-${index + 1}`, publishedAt: `2026-10-0${index + 1}T09:00:00Z` }));
+const feed5 = { ...feed, articles: [...feed.articles, ...extraTr] };
+const envFor = (data) => ({
+  ASSETS: {
+    async fetch(request) {
+      const pathname = new URL(request.url).pathname;
+      if (pathname === "/index.html" || pathname === "/") return new Response(indexHtml, { status: 200, headers: { "content-type": "text/html; charset=utf-8" } });
+      if (pathname === "/content/news-feed.json") return new Response(JSON.stringify(data), { status: 200, headers: { "content-type": "application/json" } });
+      return new Response("Not Found", { status: 404, headers: { "content-type": "text/plain" } });
+    },
+  },
+});
+const env5 = envFor(feed5);
 const page = async (pathname) => {
   const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), env);
   return { status: response.status, html: await response.text() };
@@ -183,15 +198,19 @@ test("worker HTML for a localized edition carries the native body, lang attribut
   assert.doesNotMatch(fallback.html, /hreflang=/);
 });
 
-test("locale news index is indexable once a native article exists and lists native articles first", async () => {
-  const tr = await routeMetadata(new URL("https://nexualpha.com/tr/news"), env);
+test("locale news index is indexable once it has 5 native articles and lists native articles first", async () => {
+  const thin = await routeMetadata(new URL("https://nexualpha.com/tr/news"), env);
+  assert.equal(thin.robots, "noindex,follow", "one native Turkish article: listing renders but stays out of the index");
+  assert.equal(thin.canonical, "https://nexualpha.com/tr/news");
+  assert.deepEqual(thin.alternates, []);
+  const tr = await routeMetadata(new URL("https://nexualpha.com/tr/news"), env5);
   assert.equal(tr.robots, "index,follow");
   assert.equal(tr.canonical, "https://nexualpha.com/tr/news");
-  assert.deepEqual(tr.alternates.map((item) => item.hreflang), ["en", "zh-Hans", "ru", "tr", "x-default"]);
+  assert.deepEqual(tr.alternates.map((item) => item.hreflang), ["en", "zh-Hans", "tr", "x-default"], "ru (1) stays out; zh-Hans has 7");
   const listed = tr.schema.mainEntity.itemListElement.map((item) => item.url);
   assert.equal(listed[0], "https://nexualpha.com/tr/news/okx-turkiye-kayit-rehberi");
   assert.equal(tr.schema.mainEntity.itemListElement[0].item.inLanguage, "tr");
-  const trHtml = await page("/tr/news");
+  const trHtml = { html: await (await worker.fetch(new Request("https://nexualpha.com/tr/news", { headers: { accept: "text/html" } }), env5)).text() };
   assert.match(trHtml.html, /name="robots" content="index,follow"/);
   const firstCard = trHtml.html.indexOf("okx-turkiye-kayit-rehberi");
   assert.ok(firstCard > 0 && firstCard < trHtml.html.indexOf("binance-fee-update-october"), "native Turkish article is listed before the English-only article");
@@ -220,18 +239,21 @@ test("live news sitemap and news-library sitemap include localized URLs with xht
   assert.match(enBlock, /<news:language>en<\/news:language>/);
   assert.match(live.split("<url>").find((block) => block.includes("<loc>https://nexualpha.com/zh-hans/news/binance-fee-update-october</loc>")), /<news:language>zh-cn<\/news:language>/);
 
-  const library = renderNewsLibrarySitemap(feed.articles);
+  const library = renderNewsLibrarySitemap(feed5.articles);
   assert.match(library, /<loc>https:\/\/nexualpha\.com\/tr\/news<\/loc>/);
-  assert.match(library, /<loc>https:\/\/nexualpha\.com\/ru\/news<\/loc>/);
+  assert.doesNotMatch(library, /<loc>https:\/\/nexualpha\.com\/ru\/news<\/loc>/, "one ru edition: below the 5-article threshold");
   assert.doesNotMatch(library, /<loc>https:\/\/nexualpha\.com\/vi\/news<\/loc>/);
   const libraryTr = library.split("<url>").find((block) => block.includes("<loc>https://nexualpha.com/tr/news</loc>"));
   assert.match(libraryTr, /hreflang="tr" href="https:\/\/nexualpha\.com\/tr\/news"/);
-  assert.match(libraryTr, /hreflang="ru" href="https:\/\/nexualpha\.com\/ru\/news"/);
+  assert.doesNotMatch(libraryTr, /hreflang="ru"/);
   assert.match(libraryTr, /hreflang="x-default" href="https:\/\/nexualpha\.com\/news"/);
-  // Core-only feeds keep the two-locale library sitemap.
+  assert.doesNotMatch(renderNewsLibrarySitemap(feed.articles), /\/(?:tr|ru)\/news/, "one native article is not enough");
+  // A core-only feed lists English; zh-Hans needs 5 Chinese editions like every other locale.
   const coreLibrary = renderNewsLibrarySitemap([plainArticle]);
   assert.doesNotMatch(coreLibrary, /\/tr\/news/);
-  assert.match(coreLibrary, /<loc>https:\/\/nexualpha\.com\/zh-hans\/news<\/loc>/);
+  assert.match(coreLibrary, /<loc>https:\/\/nexualpha\.com\/news<\/loc>/);
+  assert.doesNotMatch(coreLibrary, /<loc>https:\/\/nexualpha\.com\/zh-hans\/news<\/loc>/);
+  assert.match(renderNewsLibrarySitemap(feed5.articles), /<loc>https:\/\/nexualpha\.com\/zh-hans\/news<\/loc>/);
 });
 
 test("published news sitemap generator emits localized article URLs with the right news:language", () => {
@@ -280,8 +302,10 @@ test("client SEO mirror indexes a localized edition and keeps the English-only r
   const plain = computeRouteSeo({ article: plainArticle, locale: "tr", pathname: "/news/binance-fee-update-october" });
   assert.equal(plain.robots, "noindex,follow");
   assert.equal(plain.canonical, "https://nexualpha.com/news/binance-fee-update-october");
-  const listing = computeRouteSeo({ route: { name: "newsList", category: null, page: 1 }, pathname: "/news", locale: "tr", newsArticles: feed.articles });
+  const listing = computeRouteSeo({ route: { name: "newsList", category: null, page: 1 }, pathname: "/news", locale: "tr", newsArticles: feed5.articles });
   assert.equal(listing.robots, "index,follow");
+  const thinListing = computeRouteSeo({ route: { name: "newsList", category: null, page: 1 }, pathname: "/news", locale: "tr", newsArticles: feed.articles });
+  assert.equal(thinListing.robots, "noindex,follow", "SSR head mirrors the worker's 5-article rule");
   const emptyListing = computeRouteSeo({ route: { name: "newsList", category: null, page: 1 }, pathname: "/news", locale: "tr", newsArticles: [plainArticle] });
   assert.equal(emptyListing.robots, "noindex,follow");
 });

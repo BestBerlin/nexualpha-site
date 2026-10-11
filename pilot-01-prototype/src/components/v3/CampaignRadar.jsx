@@ -36,7 +36,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "来源日期待补充",
     eligibilityNote: "资格与期限需以官方账户为准",
     perkTag: "新用户活动状态",
-    perkPending: "用户权益待官方核验；来源摘要不等于个人资格或保证奖励。",
     openRegistration: "前往官方注册开户 ↗",
   },
   "zh-Hant": {
@@ -55,7 +54,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "來源日期待補充",
     eligibilityNote: "資格與期限需以官方帳戶為準",
     perkTag: "新用戶活動狀態",
-    perkPending: "用戶權益待官方核驗；來源摘要不等於個人資格或保證獎勵。",
     openRegistration: "前往官方註冊開戶 ↗",
   },
   en: {
@@ -74,7 +72,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "Review date unavailable",
     eligibilityNote: "Eligibility and timing depend on the official account",
     perkTag: "Welcome campaign status",
-    perkPending: "Pending official-source review",
     openRegistration: "Open official registration ↗",
   },
   ja: {
@@ -93,7 +90,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "確認日未設定",
     eligibilityNote: "資格と期間は公式アカウントを確認",
     perkTag: "新規ユーザー向けキャンペーンの状態",
-    perkPending: "特典は公式確認が必要です。情報要約は個人資格や報酬を保証しません。",
     openRegistration: "公式登録へ進む ↗",
   },
   ko: {
@@ -112,7 +108,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "검토 날짜 없음",
     eligibilityNote: "자격과 기간은 공식 계정 기준",
     perkTag: "신규 사용자 캠페인 상태",
-    perkPending: "혜택은 공식 확인이 필요합니다. 출처 요약은 개인 자격이나 보상을 보장하지 않습니다.",
     openRegistration: "공식 가입으로 이동 ↗",
   },
   tr: {
@@ -131,7 +126,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "İnceleme tarihi yok",
     eligibilityNote: "Uygunluk ve süre resmî hesaba bağlıdır",
     perkTag: "Hoş geldin kampanyası durumu",
-    perkPending: "Kullanıcı avantajları resmî doğrulama gerektirir; kaynak özeti kişisel uygunluk veya ödül garantisi değildir.",
     openRegistration: "Resmî kayda git ↗",
   },
   es: {
@@ -150,7 +144,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "Fecha de revisión no disponible",
     eligibilityNote: "La elegibilidad y los plazos dependen de la cuenta oficial",
     perkTag: "Estado de la campaña de bienvenida",
-    perkPending: "Los beneficios requieren verificación oficial; el resumen de la fuente no garantiza elegibilidad personal ni recompensas.",
     openRegistration: "Abrir el registro oficial ↗",
   },
   "pt-BR": {
@@ -169,7 +162,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "Data de revisão indisponível",
     eligibilityNote: "Elegibilidade e prazos dependem da conta oficial",
     perkTag: "Status da campanha de boas-vindas",
-    perkPending: "Os benefícios exigem verificação oficial; o resumo da fonte não garante elegibilidade pessoal nem recompensa.",
     openRegistration: "Abrir cadastro oficial ↗",
   },
   fr: {
@@ -188,7 +180,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "Date de vérification indisponible",
     eligibilityNote: "L’éligibilité et les délais dépendent du compte officiel",
     perkTag: "Statut de la campagne de bienvenue",
-    perkPending: "Les avantages exigent une vérification officielle ; le résumé de la source ne garantit ni éligibilité personnelle ni récompense.",
     openRegistration: "Ouvrir l’inscription officielle ↗",
   },
   de: {
@@ -207,7 +198,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "Prüfdatum nicht verfügbar",
     eligibilityNote: "Berechtigung und Fristen richten sich nach dem offiziellen Konto",
     perkTag: "Status der Willkommensaktion",
-    perkPending: "Nutzervorteile erfordern eine offizielle Bestätigung; die Quellenzusammenfassung garantiert weder persönliche Berechtigung noch Prämien.",
     openRegistration: "Offizielle Registrierung öffnen ↗",
   },
   it: {
@@ -226,7 +216,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "Data di verifica non disponibile",
     eligibilityNote: "Idoneità e tempi dipendono dall’account ufficiale",
     perkTag: "Stato della campagna di benvenuto",
-    perkPending: "I vantaggi richiedono una verifica ufficiale; il riepilogo della fonte non garantisce idoneità personale né ricompense.",
     openRegistration: "Apri la registrazione ufficiale ↗",
   },
   // l10n: needs native review
@@ -246,7 +235,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "Дата проверки недоступна",
     eligibilityNote: "Право на участие и сроки определяются официальным аккаунтом",
     perkTag: "Статус приветственной акции",
-    perkPending: "Бонусы требуют официального подтверждения; сводка источника не гарантирует личное право на участие или вознаграждение.",
     openRegistration: "Открыть официальную регистрацию ↗",
   },
   // l10n: needs native review
@@ -266,7 +254,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "Tanggal tinjauan tidak tersedia",
     eligibilityNote: "Kelayakan dan waktu bergantung pada akun resmi",
     perkTag: "Status kampanye sambutan",
-    perkPending: "Manfaat pengguna memerlukan verifikasi resmi; ringkasan sumber tidak menjamin kelayakan pribadi atau hadiah.",
     openRegistration: "Buka pendaftaran resmi ↗",
   },
   // l10n: needs native review
@@ -286,7 +273,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "Chưa có ngày rà soát",
     eligibilityNote: "Điều kiện và thời hạn phụ thuộc vào tài khoản chính thức",
     perkTag: "Trạng thái chương trình chào mừng",
-    perkPending: "Quyền lợi cần xác minh chính thức; tóm tắt nguồn không bảo đảm điều kiện cá nhân hay phần thưởng.",
     openRegistration: "Mở đăng ký chính thức ↗",
   },
   // l10n: needs native review
@@ -306,7 +292,6 @@ export const campaignRadarCopy = {
     reviewDateUnavailable: "تاريخ المراجعة غير متاح",
     eligibilityNote: "تعتمد الأهلية والمواعيد على الحساب الرسمي",
     perkTag: "حالة حملة الترحيب",
-    perkPending: "تتطلب المزايا تأكيدًا رسميًا؛ ولا يضمن ملخص المصدر الأهلية الشخصية أو المكافأة.",
     openRegistration: "فتح التسجيل الرسمي ↗",
   },
 };
@@ -469,12 +454,17 @@ export function CampaignRadar({ locale = "en" }) {
               </div>
             )}
 
-            <div className="campaign-card__perk-hero">
-              <div className="campaign-card__perk-tag">
-                {t.perkTag}
+            {/* A welcome benefit is shown only once it is verified; an unverified one renders nothing (SEO audit 2026-10-11
+                #6: twelve cards read "Pending official-source review"). The radar subtitle already says benefits need
+                account-level confirmation. */}
+            {item.commercialClaim.status === "verified" && item.perkText ? (
+              <div className="campaign-card__perk-hero">
+                <div className="campaign-card__perk-tag">
+                  {t.perkTag}
+                </div>
+                <p className="campaign-card__perk-text">{item.perkText}</p>
               </div>
-              <p className="campaign-card__perk-text">{item.commercialClaim.status === "verified" ? item.perkText : t.perkPending}</p>
-            </div>
+            ) : null}
 
             {item.rewardSummary && (
               <p className="campaign-card__summary">{item.rewardSummary}</p>

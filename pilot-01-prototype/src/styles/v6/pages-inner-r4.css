@@ -185,7 +185,8 @@ main.v3-profile-page.v6 .v3-venue-identity__info > .v3-venue-identity__badges:no
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-metric-tile:not(#_):not(#_):not(#_):not(#_):not(#_) { display: grid; gap: 4px; padding: 16px 0; border: 0; border-block-end: 1px solid var(--line); border-radius: 0; background: none; min-block-size: 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-metric-tile__val:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); font-weight: 600; line-height: var(--lh-body, 1.55); color: var(--ink); }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-metric-tile__sub:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-12); color: var(--ink-3); }
-:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-account-section__heading:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); margin-block: 24px 4px; }
+/* h4 since the SEO audit 2026-10-11 #6 (chapter h3 > section h4): keep the h3 ink colour from components.css */
+:is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-account-section__heading:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-16); margin-block: 24px 4px; color: var(--ink); }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-profile-account-section__hint:not(#_):not(#_):not(#_):not(#_):not(#_) { font-size: var(--t-14); color: var(--ink-2); margin-block: 0 8px; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-detail-calculator:not(#_):not(#_):not(#_):not(#_):not(#_) { background: none; border: 0; border-block-end: 1px solid var(--line); border-radius: 0; padding: 24px 0; }
 :is(main, .factbook-page).v6:not(.home-refinement) .v3-detail-calc__slider:not(#_):not(#_):not(#_):not(#_):not(#_) { accent-color: var(--accent); }

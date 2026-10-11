@@ -2,7 +2,8 @@ import { articleSectionTargets, activateArticleSection } from "./article-section
 import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
 import { EDITORIAL_POLICY_PATH, RESEARCH_DESK_ANCHOR, RESEARCH_DESK_NAME, brandLocale } from "../../../data/brand-entity.js";
 import { localizedHref } from "../../../data/locale-routing.js";
-import { splitArticleReadingSections } from "./article-reading-sections.js";
+import { dropEmptyArticleHeadings, splitArticleReadingSections } from "./article-reading-sections.js";
+import { estimateReadMinutes, formatReadTime, newsReadTimeFor } from "../../../data/news-read-time.js";
 /**
  * NewsDetailPage — 实时新闻与 SEO 文章二级详情页
  * 路由：/news/:slug
@@ -791,7 +792,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const localizedSummary = localizedNewsSummary(article, locale);
   const content = localizedValue(article.content, contentLocale);
   const showsOriginalLanguage = contentLocale !== locale;
-  const { leadBlocks, deepBlocks } = splitArticleReadingSections(isolateArticleEmbedDirectives(content));
+  const { leadBlocks, deepBlocks } = splitArticleReadingSections(dropEmptyArticleHeadings(isolateArticleEmbedDirectives(content)));
   const leadBlockCount = leadBlocks.length;
   // Owner 2026-10-10: first plain-text mention of each partner exchange links to its profile; the state lives for one
   // render, so server and client output stay identical.
@@ -850,7 +851,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             <ArticleByline article={article} locale={locale} />
             <div className="news-detail__meta">
               <time className="news-detail__date" dateTime={article.publishedAt}>{new Date(article.publishedAt).toLocaleDateString(locale, { timeZone: "UTC" })}{publishedStamp ? <span className="news-detail__clock"> {publishedStamp.slice(13)}</span> : null}</time>
-              <span className="news-detail__readtime">{localizeReadTime(article.readTime, t)}</span>
+              <span className="news-detail__readtime">{localizeReadTime(content ? formatReadTime(estimateReadMinutes(content, contentLocale)) : newsReadTimeFor(article, contentLocale), t)}</span>
             </div>
           </div>
           {showsOriginalLanguage && (
@@ -859,20 +860,6 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             </p>
           )}
         </header>
-
-        <div className="news-detail__rail">
-          <ArticleDecisionSummary article={article} withContext={withContext} locale={locale} t={t} />
-          <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="rail" />
-          <div className="news-detail__rail-sticky">
-            {sectionTargets.length >= 2 && <nav className="news-detail__toc" aria-label={sectionLabel} lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
-              <p className="news-detail__toc-label">{sectionLabel}</p>
-              <ol>
-                {sectionTargets.map((target) => <li key={target.id}><button type="button" lang={target.id === "article-sources" ? locale : contentLocale} aria-current={activeSection === target.id ? "true" : undefined} onClick={() => jumpToSection(target.id)}>{target.label}</button></li>)}
-              </ol>
-            </nav>}
-            <ArticleMarketContext assets={marketAssets} locale={locale} />
-          </div>
-        </div>
 
         {/* 文章正文 */}
         <section className="news-detail__content" lang={contentLocale} dir={contentLocale === "ar" ? "rtl" : "ltr"} data-news-content-locale={contentLocale}>
@@ -974,6 +961,23 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             </section>
           )}
         </section>
+
+        {/* Rail after the body in the document (audit 2026-10-11 #5): the article's lead answer ("The short answer") is the
+            first content after the H1 and byline for crawlers, answer engines and screen readers. The rail keeps its place
+            on screen: desktop pins it to the second grid column, below 1024px CSS order puts it after the lead section. */}
+        <div className="news-detail__rail">
+          <ArticleDecisionSummary article={article} withContext={withContext} locale={locale} t={t} />
+          <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="rail" />
+          <div className="news-detail__rail-sticky">
+            {sectionTargets.length >= 2 && <nav className="news-detail__toc" aria-label={sectionLabel} lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+              <p className="news-detail__toc-label">{sectionLabel}</p>
+              <ol>
+                {sectionTargets.map((target) => <li key={target.id}><button type="button" lang={target.id === "article-sources" ? locale : contentLocale} aria-current={activeSection === target.id ? "true" : undefined} onClick={() => jumpToSection(target.id)}>{target.label}</button></li>)}
+              </ol>
+            </nav>}
+            <ArticleMarketContext assets={marketAssets} locale={locale} />
+          </div>
+        </div>
 
         {(article.slug === OKX_USD_USDC_OWNER_CHECKLIST.slug || article.relatedVenues?.length > 0) && (
         <details className="news-detail__research-disclosure">

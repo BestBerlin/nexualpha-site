@@ -47,8 +47,10 @@ test("Wave60 discovery files retain canonical source and answer inventories", as
     assert.match(text, /## Reviewed news article answers/);
     assert.doesNotMatch(text.match(/## Priority answer map[\s\S]*?(?=\n\n## Reviewed news article answers)/)?.[0] || "", /nexu888|11350287|LUCKX|CANDY007|INS898|luckybitcoin|commission rate/i);
   }
-  assert.ok(Buffer.byteLength(small) < 5_000, `llms-small.txt should stay compact, got ${Buffer.byteLength(small)} bytes`);
-  assert.match(small, /NexuAlpha is a neutral crypto trading-venue research directory/);
+  // SEO audit 2026-10-11 #9 (owner-approved): the compact entry adds a short Key facts block (featured partner codes and
+  // the commission disclosure) and describes the site as independent exchange research, not a neutral directory.
+  assert.ok(Buffer.byteLength(small) < 6_000, `llms-small.txt should stay compact, got ${Buffer.byteLength(small)} bytes`);
+  assert.match(small, /NexuAlpha is independent crypto exchange research/);
   assert.match(small, /https:\/\/nexualpha\.com\/llms\.txt/);
   assert.match(small, /https:\/\/nexualpha\.com\/llms-full\.txt/);
   assert.match(small, /https:\/\/nexualpha\.com\/exchanges/);

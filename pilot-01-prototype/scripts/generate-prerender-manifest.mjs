@@ -11,13 +11,14 @@ import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
 import { TOKENIZED_ASSET_CLUSTER_REVIEW_DATE, TOKENIZED_ASSET_PAGES, TOKENIZED_ASSET_LOCALES } from "../src/data/tokenized-assets-cluster.js";
 import { toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js";
 import { VENUE_ALTERNATIVE_PAGES, VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERNATIVES_REVIEWED_AT } from "../src/data/venue-alternatives.js";
-import { NEWS_DISPLAY_LOCALES, newsListingPublishedLocales, newsSitemapLanguage, normalizeNewsFeed, normalizeNewsFeedSummaries, newsArticleAvailableLocales, projectNewsFeedForRoute } from "../src/data/news-feed-client.js";
+import { NEWS_DISPLAY_LOCALES, newsListingIndexableLocales, newsListingPublishedLocales, newsSitemapLanguage, normalizeNewsFeed, normalizeNewsFeedSummaries, newsArticleAvailableLocales, newsArticleSeoLocales, projectNewsFeedForRoute } from "../src/data/news-feed-client.js";
 import { BRAZIL_PAGES, BRAZIL_SOURCES } from "../src/data/brazil-market.js";
 import { getBrazilSeo } from "../src/data/brazil-seo.js";
 import { AUDIT_DATE as FACTBOOK_SOURCE_REVIEW_DATE } from "../src/data/factbook-registry.js";
 import { factbookDates } from "../src/data/factbook-dates.js";
+import { FACTS_AS_OF } from "../src/data/exchange-facts.js";
 import { COUNTRY_ROUTE_PREFIXES, localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
-import { buildSearchPublicationReport, selectSitemapPublicationEntries, sitemapLocalesForRoute } from "./sitemap-publication-policy.mjs";
+import { buildSearchPublicationReport, selectSitemapPublicationEntries, sitemapHreflangAlternates, sitemapLocalesForRoute } from "./sitemap-publication-policy.mjs";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
 export { sitemapLocalesForRoute };
 
@@ -87,7 +88,8 @@ export function routeTemplate(pathname) {
 }
 
 export function routeInventory(newsArticles = []) {
-  const staticPaths = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/news", "/methodology", "/embed/calculator", "/partners", "/telegram"];
+  // /embed/calculator is an iframe widget: rendered, but noindex and never in a sitemap (audit 2026-10-11 #13).
+  const staticPaths = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
   const venueProfileSlugs = neutralVenueCatalog
     .map(({ slug }) => slug)
     .filter((slug) => !FACTBOOK_ONLY_LEGACY_SLUGS.has(slug));
@@ -122,6 +124,7 @@ export function routeInventory(newsArticles = []) {
     ...newsArticles.filter((article) => article.seo?.noindex !== false).map((article) => `/news/${article.slug}`),
     "/ref/crypto-zhang", "/ref/alpha-king", "/ref/partner",
     "/compare/binance-vs-okx-vs-bybit",
+    "/embed/calculator",
   ];
   return [...new Set([...indexable, ...nonindexed])].map((pathname) => ({
     pathname, level: pathname === "/" ? 1 : pathname.split("/").filter(Boolean).length + 1,
@@ -133,7 +136,9 @@ export function routeInventory(newsArticles = []) {
     // canonical tags, robots and sitemap publication share one boundary.
     // Localized news lane (2026-10-10): the listing is published in the core editions (en, zh-Hans) plus every
     // locale that has at least one search-published article written natively in it.
-    ...(pathname === "/news" ? { locales: newsListingPublishedLocales(newsArticles) } : {}),
+    // Search locales need >= NEWS_LISTING_MIN_NATIVE_ARTICLES native editions (audit 2026-10-11 #4); every published
+    // listing edition is still prerendered.
+    ...(pathname === "/news" ? { locales: newsListingIndexableLocales(newsArticles), prerenderLocales: newsListingPublishedLocales(newsArticles) } : {}),
     ...(["/topics", "/factbook"].includes(pathname) ? { locales: ["en"] } : {}),
     ...(pathname.startsWith("/news/") ? { locales: newsArticleAvailableLocales(newsArticles.find((article) => pathname === `/news/${article.slug}`)) } : {}),
     ...(COUNTRY_OWNER_LOCALES[pathname] ? { locales: COUNTRY_OWNER_LOCALES[pathname] } : {}),
@@ -172,32 +177,18 @@ export function buildSitemap(inventory, newsArticles, options = {}) {
     ...options,
     allLocales: INDEXABLE_LOCALES,
   });
-  const publishedLocalesByPathname = new Map();
-  for (const { route, locale } of publication.urls) {
-    const locales = publishedLocalesByPathname.get(route.pathname) || [];
-    if (!locales.includes(locale)) locales.push(locale);
-    publishedLocalesByPathname.set(route.pathname, locales);
-  }
-  // Keep each indexable language address unique in sitemap/hreflang. The page
-  // canonical may still collapse the default locale, but pt-BR needs its own
-  // discoverable URL so it cannot duplicate the English <loc> entry.
-  const href = (pathname, locale) => COUNTRY_ROUTE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))
-    ? `https://nexualpha.com${pathname}`
-    : `https://nexualpha.com${localizedPath(pathname, locale)}`;
   const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
   for (const { route, loc, locale } of publication.urls) {
     const article = newsArticles.find((article) => route.pathname === `/news/${article.slug}`);
-    const date = routeLastmod(route, article, locale);
-    // Alternates must describe the URLs that passed the publication gate.
-    // Route capability alone is insufficient: a locale can exist and render
-    // while remaining deliberately excluded from search publication.
-    const locales = publishedLocalesByPathname.get(route.pathname) || [locale];
-    const defaultLocale = locales.includes("en") ? "en" : locales[0];
+    const date = routeLastmod(route, article, locale, { newsArticles }) || options.buildDate || new Date().toISOString();
+    // hreflang comes from the same helpers as the page head (audit 2026-10-11 #1): news routes carry their indexable
+    // editions; every other route's alternates live on the page and in /locale-sitemap.xml (worker routeMetadata), so
+    // this file never states a second, smaller set for the same <loc>.
     lines.push("  <url>", `    <loc>${escape(loc)}</loc>`);
-    for (const alternate of [...locales, "x-default"]) {
-      lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate}" href="${escape(href(route.pathname, alternate === "x-default" ? defaultLocale : alternate))}" />`);
+    for (const alternate of sitemapHreflangAlternates(route.pathname, { article, newsArticles })) {
+      lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
     }
-    // A rebuild is not a content update; use route-level reviewed dates.
+    // A rebuild is not a content update: the route's own content date, the build date only when it has none.
     if (date && Number.isFinite(Date.parse(date))) lines.push(`    <lastmod>${new Date(date).toISOString().slice(0, 10)}</lastmod>`);
     lines.push("  </url>");
   }
@@ -212,8 +203,15 @@ function latestDate(values, fallback = SITE_CONTENT_REVIEW_DATE) {
   return dates.length ? new Date(dates[0]).toISOString() : fallback;
 }
 
-function routeLastmod(route, article, locale = "en") {
-  if (article) return article.updatedAt || article.publishedAt;
+// Real content date of a sitemap route (audit 2026-10-11 #3): article dateModified/publishedAt, the newest article for the
+// home and news listings, venue/factbook/topic review dates from data. Shared with scripts/update-news-seo.mjs so the
+// publisher never stamps the publish date on pages that did not change. Returns null when the route has no date.
+export function routeLastmod(route, article, locale = "en", { newsArticles = [] } = {}) {
+  if (article) return article.updatedAt || article.publishedAt || null;
+  if (route.pathname === "/" || route.template === "newsList" || route.pathname === "/news") {
+    const newest = latestDate((Array.isArray(newsArticles) ? newsArticles : []).filter((item) => item?.seo?.noindex === false).map((item) => item.updatedAt || item.publishedAt), null);
+    if (newest) return newest;
+  }
   if (route.pathname.startsWith("/br")) return latestDate(BRAZIL_SOURCES.map((source) => source.checkedAt));
   if (route.template === "topic") {
     const slug = pathSlug(route.pathname, "/topics/");
@@ -226,6 +224,8 @@ function routeLastmod(route, article, locale = "en") {
   // Shared comparison presentation changed on this date, not on every build.
   if (route.template === "comparison") return "2026-09-22";
   if (route.template === "regionalPreview") return "2026-09-15";
+  // Fee tables on the directory and the rate terminal show the facts file's check date.
+  if (["exchangeDirectory", "rateTerminal"].includes(route.template) && FACTS_AS_OF) return FACTS_AS_OF;
   return SITE_CONTENT_REVIEW_DATE;
 }
 
@@ -248,15 +248,14 @@ export function buildNewsSitemap(newsArticles, { generatedAt = new Date().toISOS
   const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
   let urlCount = 0;
   for (const article of recentArticles) {
-    const locales = newsArticleAvailableLocales(article);
+    const locales = newsArticleSeoLocales(article);
     for (const locale of locales) {
       if (urlCount >= NEWS_SITEMAP_LIMIT) break;
       const pathname = `/news/${article.slug}`;
       const title = article.title?.[locale] || article.title?.en || article.slug;
       lines.push("  <url>", `    <loc>${escape(href(pathname, locale))}</loc>`);
-      for (const alternate of [...locales, "x-default"]) {
-        const alternateLocale = alternate === "x-default" ? locales[0] : alternate;
-        lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate}" href="${escape(href(pathname, alternateLocale))}" />`);
+      for (const alternate of sitemapHreflangAlternates(pathname, { article })) {
+        lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
       }
       const lastmod = article.updatedAt || article.publishedAt;
       if (lastmod && Number.isFinite(Date.parse(lastmod))) lines.push(`    <lastmod>${new Date(Date.parse(lastmod)).toISOString().slice(0, 10)}</lastmod>`);

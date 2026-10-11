@@ -1,5 +1,6 @@
 import { localizedHref } from "./locale-routing.js";
 import { stripPlainMarkdown } from "./news-content-repair.js";
+import { newsReadTimes } from "./news-read-time.js";
 
 export const NEWS_FEED_URL = "/content/news-feed.json";
 export const NEWS_FEED_SUMMARY_URL = "/content/news-feed-summary.json";
@@ -469,14 +470,45 @@ export function hasNewsArticleLocale(article, locale) {
  * declared locales; full rows must be search-published (`seo.noindex === false`).
  */
 export function newsListingPublishedLocales(articles = []) {
-  const locales = new Set(NEWS_CORE_LOCALES);
+  const counts = newsListingNativeArticleCounts(articles);
+  return NEWS_INDEXABLE_LOCALES.filter((locale) => NEWS_CORE_LOCALES.includes(locale) || counts[locale] > 0);
+}
+
+/** Search-published native editions per locale (same row rules as newsListingPublishedLocales). */
+export function newsListingNativeArticleCounts(articles = []) {
+  const counts = {};
   for (const article of Array.isArray(articles) ? articles : []) {
     if (!isRecord(article)) continue;
     if (article.status && article.status !== "PUBLISHED") continue;
     if (isRecord(article.seo) && article.seo.noindex !== false) continue;
-    for (const locale of newsArticleDeclaredLocales(article)) locales.add(locale);
+    for (const locale of newsArticleDeclaredLocales(article)) counts[locale] = (counts[locale] || 0) + 1;
   }
-  return NEWS_INDEXABLE_LOCALES.filter((locale) => locales.has(locale));
+  return counts;
+}
+
+// SEO audit 2026-10-11 #4 / scorecard M3: a locale news index (/<locale>/news, its pages and categories) is indexable
+// only once that locale has at least this many native, search-published article editions. Below it the listing still
+// renders (newsListingPublishedLocales) but is noindex,follow, carries no hreflang and stays out of every sitemap; at the
+// threshold it becomes index,follow automatically. English is the default edition and is always indexable.
+export const NEWS_LISTING_MIN_NATIVE_ARTICLES = 5;
+
+/** Locales whose news listing pages are index,follow (and listed in sitemaps / hreflang). */
+export function newsListingIndexableLocales(articles = [], minimum = NEWS_LISTING_MIN_NATIVE_ARTICLES) {
+  const counts = newsListingNativeArticleCounts(articles);
+  return newsListingPublishedLocales(articles).filter((locale) => locale === "en" || (counts[locale] || 0) >= minimum);
+}
+
+/**
+ * hreflang alternates for a set of indexable editions: one link per locale plus x-default on the first edition.
+ * The page head (worker routeAlternates), /api/route-seo and every sitemap writer use this shape.
+ */
+export function hreflangAlternates(locales = [], hrefFor = (locale) => locale) {
+  const list = Array.isArray(locales) ? locales.filter(Boolean) : [];
+  if (!list.length) return [];
+  return [
+    ...list.map((hreflang) => ({ hreflang, href: hrefFor(hreflang) })),
+    { hreflang: "x-default", href: hrefFor(list[0]) },
+  ];
 }
 
 function newsArticleSummaryAvailableLocales(article) {
@@ -542,6 +574,9 @@ export function normalizeNewsArticle(article) {
   const publishedTime = Date.parse(article.publishedAt);
 
   if (!title || !summary || !content || sources.length === 0 || Number.isNaN(publishedTime)) return null;
+  // Reading time measured on each edition's own body (SEO audit 2026-10-11 #7), so stored values from older imports
+  // (English pages showed the Chinese edition's time) are corrected wherever the full article is loaded.
+  const readTimeByLocale = newsReadTimes(content);
 
   return {
     slug,
@@ -550,7 +585,8 @@ export function normalizeNewsArticle(article) {
     categoryName: categoryName || { en: "Research", "zh-Hans": "研究文章", "zh-Hant": "研究文章" },
     publishedAt: new Date(publishedTime).toISOString(),
     updatedAt: cleanString(article.updatedAt) || null,
-    readTime: cleanString(article.readTime) || "6 min",
+    readTime: readTimeByLocale.en || cleanString(article.readTime) || "6 min",
+    readTimeByLocale,
     author: cleanString(article.author) || "NexuAlpha Research Desk",
     title,
     summary,
@@ -586,6 +622,7 @@ export function normalizeNewsArticleSummary(article) {
     publishedAt: new Date(publishedTime).toISOString(),
     updatedAt: cleanString(article.updatedAt) || null,
     readTime: cleanString(article.readTime) || "6 min",
+    ...(isRecord(article.readTimeByLocale) ? { readTimeByLocale: Object.fromEntries(Object.entries(article.readTimeByLocale).filter(([key, value]) => NEWS_INDEXABLE_LOCALES.includes(key) && /^\d{1,3} min$/.test(String(value)))) } : {}),
     author: cleanString(article.author) || "NexuAlpha Research Desk",
     title,
     summary,
@@ -644,6 +681,7 @@ export function projectNewsArticleForLocale(article, locale = "en", { includeCon
     publishedAt: article.publishedAt,
     updatedAt: article.updatedAt || null,
     readTime: article.readTime,
+    ...(isRecord(article.readTimeByLocale) ? { readTimeByLocale: compactLocalizedRecord(article.readTimeByLocale, locale) } : {}),
     author: article.author,
     title: compactLocalizedRecord(article.title, locale),
     summary: compactLocalizedRecord(article.summary, locale),

@@ -309,7 +309,10 @@ test("NX-08 home research modules render without editorial/dev instructions in e
     if (topics) assert.ok((topics[1].match(/<li/g) || []).length <= 4, `${locale}: at most 4 related links`);
   }
   assert.match(text(out.en), /This research panel does not include referral codes; the sign-up cards on this site do and disclose the commission/);
-  assert.match(text(out.en), /Welcome campaign status/);
+  // SEO audit 2026-10-11 #6 (owner-approved): an unverified welcome benefit renders nothing (was "Welcome campaign
+  // status: Pending official-source review" on every card); the radar subtitle carries the account-level caveat.
+  assert.match(text(out.en), /Official Exchange Campaigns & Welcome Packs/);
+  assert.doesNotMatch(text(out.en), /Pending official-source review/);
 });
 
 test("NX-08 the partner/commercial copy sources contain none of the banned internal phrases", async () => {

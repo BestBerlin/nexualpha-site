@@ -3,6 +3,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { NEWS_INDEXABLE_LOCALES, dedupeRepeatedLongSentences } from "../src/data/news-feed-client.js";
 import { repairNewsArticle } from "../src/data/news-content-repair.js";
+import { newsReadTimes } from "../src/data/news-read-time.js";
 
 // Localized news lane (2026-10-10): a package always carries article.en.md (the canonical edition) and may carry
 // article.<locale>.md for any other UI locale, declared in article.json bodyFiles[<locale>] with titles[<locale>].
@@ -142,12 +143,6 @@ function completeSentenceExcerpt(value, maxLength = 230) {
   return "";
 }
 
-function estimateReadTime(enMarkdown, zhMarkdown = "") {
-  const enWords = cleanString(enMarkdown).split(/\s+/).filter(Boolean).length;
-  const zhChars = cleanString(zhMarkdown).replace(/[\s\p{P}\p{S}]/gu, "").length;
-  const minutes = Math.max(3, Math.ceil(Math.max(enWords / 220, zhChars / 450)));
-  return `${minutes} min`;
-}
 
 function pickLocales(record, locales) {
   return Object.fromEntries(locales.flatMap((locale) => (cleanString(record?.[locale]) ? [[locale, record[locale]]] : [])));
@@ -284,7 +279,6 @@ export async function importArticlePackage(packageDir, options = {}) {
     return { ok: false, packageDir, reason: `missing localized body file: ${error.message}` };
   }
   const enMarkdown = markdownByLocale.en;
-  const zhMarkdown = markdownByLocale["zh-Hans"] || "";
 
   const contentByLocale = Object.fromEntries(bodyLocales.map((locale) => [locale, cleanArticleBody(markdownByLocale[locale])]));
   const enContent = contentByLocale.en;
@@ -353,7 +347,9 @@ export async function importArticlePackage(packageDir, options = {}) {
       },
       publishedAt: new Date(Date.parse(publishedAt)).toISOString(),
       updatedAt: updatedAt ? new Date(Date.parse(updatedAt)).toISOString() : null,
-      readTime: estimateReadTime(enMarkdown, zhMarkdown),
+      // Each edition's own reading time (SEO audit 2026-10-11 #7); readTime stays the English edition's for old readers.
+      readTime: newsReadTimes(pickLocales(contentByLocale, availableLocales)).en,
+      readTimeByLocale: newsReadTimes(pickLocales(contentByLocale, availableLocales)),
       author: cleanString(article.author) || "NexuAlpha Research Desk",
       title: { ...localizedTitles, en: titleEn },
       summary: { ...localizedSummaries, en: summaryEn },

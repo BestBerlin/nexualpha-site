@@ -15,7 +15,7 @@ const execFileAsync = promisify(execFile);
 const rootPath = fileURLToPath(new URL("..", import.meta.url));
 const assetUrl = new URL("../public/research/wave48-tokenized-treasury-rights-ops.json", import.meta.url);
 const protectedPartnerRegistrySha = "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a";
-const findingPattern = /Wave57 finding: the reviewed tokenized Treasury matrix covers five products across four distinct product types/i;
+const findingPattern = /(?:Wave57 )?finding: the reviewed tokenized Treasury matrix covers five products across four distinct product types/i;
 
 function assets() {
   return {
@@ -66,6 +66,8 @@ test("Wave57 tokenized Treasury finding is exposed in client and Worker Dataset 
   }
 });
 
+// SEO audit 2026-10-11 #9 (owner-approved): llms*.txt list partner invite codes with the commission disclosure and drop
+// internal wave labels, so these checks no longer forbid the words "invite code".
 test("Wave57 finding is visible on the tokenized Treasuries page source and AI source index", async () => {
   const component = await readFile(new URL("../src/components/v3/TokenizedAssetsPage.jsx", import.meta.url), "utf8");
   assert.match(component, /Citation-ready finding · 2026-09-16/);
@@ -82,7 +84,7 @@ test("Wave57 finding is visible on the tokenized Treasuries page source and AI s
     for (const text of [llms, full]) {
       assert.match(text, findingPattern);
       assert.match(text, /Canonical owner: https:\/\/nexualpha\.com\/topics\/tokenized-treasuries/);
-      assert.doesNotMatch(text, /private commission|invite code|ref=|guaranteed registration|guaranteed redemption/i);
+      assert.doesNotMatch(text, /private commission|guaranteed registration|guaranteed redemption/i);
     }
   } finally {
     await rm(outputDir, { recursive: true, force: true });

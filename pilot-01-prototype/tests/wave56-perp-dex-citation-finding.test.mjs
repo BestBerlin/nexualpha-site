@@ -79,14 +79,16 @@ test("Wave56 finding is exposed by the derivatives owner page and Dataset schema
   }
 });
 
+// SEO audit 2026-10-11 #9 (owner-approved): llms*.txt list partner invite codes with the commission disclosure and drop
+// internal wave labels, so these checks no longer forbid the words "invite code".
 test("Wave56 finding is included in public AI source indexes without creating commercial claims", async () => {
   const llms = await readFile(new URL("../public/llms.txt", import.meta.url), "utf8");
   const full = await readFile(new URL("../public/llms-full.txt", import.meta.url), "utf8");
 
   for (const text of [llms, full]) {
-    assert.match(text, /Wave56 finding: across Hyperliquid, dYdX, GMX and Aevo/);
+    assert.match(text, /(?:Wave56 f|F)inding: across Hyperliquid, dYdX, GMX and Aevo/);
     assert.match(text, /single static fee or live funding quote/);
-    assert.doesNotMatch(text, /private commission|invite code|guaranteed registration|guaranteed eligibility/i);
+    assert.doesNotMatch(text, /private commission|guaranteed registration|guaranteed eligibility/i);
   }
 });
 
