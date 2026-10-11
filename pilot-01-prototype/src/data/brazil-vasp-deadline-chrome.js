@@ -1,0 +1,186 @@
+// Interface strings of the Brazil BCB deadline topic page in all 15 locales (the article itself is English and
+// Portuguese only: brazil-vasp-deadline.js). Imported only by brazil-vasp-deadline.js.
+// l10n: needs native review (ru, id, vi, ar, tr strings below)
+const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
+
+const dateFormat = (intlLocale) => (iso) => {
+  try { return new Intl.DateTimeFormat(intlLocale, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${iso}T00:00:00Z`)); }
+  catch { return iso; }
+};
+
+const CHROME = {
+  en: {
+    intl: "en-GB", deadline: "Filing deadline", reviewed: "Last reviewed",
+    editionsNote: "This guide is published in English and Portuguese.", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "Status of each exchange in Brazil",
+    tableLead: "Each status comes only from the exchange's own official pages or from the Banco Central do Brasil. Where neither has published anything, the row says “Not confirmed”.",
+    cols: ["Exchange", "Status in Brazil", "Official source", "Source date", "Next step"],
+    noSource: "No official statement found", profile: "Profile", register: "Official sign-up",
+    tableNote: "Not a ranking. Partner sign-up links appear only for an exchange with an official Brazil record, never for one that is leaving.",
+    sourcesTitle: "Sources", sourceDated: (date) => `(${date})`,
+    disclaimer: "Information, not legal or tax advice. Check the entity on your account and the official pages before you act.",
+  },
+  "zh-Hans": {
+    intl: "zh-CN", deadline: "申请截止日", reviewed: "最近核对",
+    editionsNote: "本指南以英文和葡萄牙文发布。", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "各交易所在巴西的状态",
+    tableLead: "每个状态只来自交易所自己的官方页面或巴西中央银行。两者都没有发布信息时，显示“未确认”。",
+    cols: ["交易所", "巴西状态", "官方来源", "来源日期", "下一步"],
+    noSource: "未找到官方声明", profile: "平台档案", register: "官方注册",
+    tableNote: "不是排名。只有具备巴西官方记录的交易所才显示合作注册链接，正在退出的交易所一律不显示。",
+    sourcesTitle: "来源", sourceDated: (date) => `（${date}）`,
+    disclaimer: "仅为信息，不构成法律或税务建议。行动前请核对账户所属主体与官方页面。",
+  },
+  "zh-Hant": {
+    intl: "zh-TW", deadline: "申請截止日", reviewed: "最近核對",
+    editionsNote: "本指南以英文和葡萄牙文發布。", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "各交易所在巴西的狀態",
+    tableLead: "每個狀態只來自交易所自己的官方頁面或巴西中央銀行。兩者都沒有發布資訊時，顯示「未確認」。",
+    cols: ["交易所", "巴西狀態", "官方來源", "來源日期", "下一步"],
+    noSource: "未找到官方聲明", profile: "平台檔案", register: "官方註冊",
+    tableNote: "不是排名。只有具備巴西官方紀錄的交易所才顯示合作註冊連結，正在退出的交易所一律不顯示。",
+    sourcesTitle: "來源", sourceDated: (date) => `（${date}）`,
+    disclaimer: "僅為資訊，不構成法律或稅務建議。行動前請核對帳戶所屬主體與官方頁面。",
+  },
+  es: {
+    intl: "es-ES", deadline: "Plazo de solicitud", reviewed: "Última revisión",
+    editionsNote: "Esta guía se publica en inglés y portugués.", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "Estado de cada exchange en Brasil",
+    tableLead: "Cada estado proviene solo de las páginas oficiales del exchange o del Banco Central do Brasil. Si ninguno ha publicado nada, la fila dice “No confirmado”.",
+    cols: ["Exchange", "Estado en Brasil", "Fuente oficial", "Fecha de la fuente", "Siguiente paso"],
+    noSource: "Sin declaración oficial encontrada", profile: "Perfil", register: "Registro oficial",
+    tableNote: "No es un ranking. Los enlaces de registro de socios solo aparecen para exchanges con un registro oficial en Brasil, nunca para uno que se retira.",
+    sourcesTitle: "Fuentes", sourceDated: (date) => `(${date})`,
+    disclaimer: "Información, no asesoría legal ni fiscal. Verifica la entidad de tu cuenta y las páginas oficiales antes de actuar.",
+  },
+  "pt-BR": {
+    intl: "pt-BR", deadline: "Prazo para o pedido", reviewed: "Última revisão",
+    editionsNote: "", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "Status de cada corretora no Brasil",
+    tableLead: "Cada status vem apenas das páginas oficiais da própria corretora ou do Banco Central do Brasil. Quando nenhum dos dois publicou nada, a linha diz “Não confirmado”.",
+    cols: ["Corretora", "Status no Brasil", "Fonte oficial", "Data da fonte", "Próximo passo"],
+    noSource: "Nenhuma declaração oficial encontrada", profile: "Perfil", register: "Cadastro oficial",
+    tableNote: "Não é um ranking. Links de cadastro de parceiros aparecem só para corretoras com registro oficial no Brasil, nunca para uma que está saindo.",
+    sourcesTitle: "Fontes", sourceDated: (date) => `(${date})`,
+    disclaimer: "Conteúdo informativo, não é aconselhamento jurídico ou tributário. Confira a empresa responsável pela sua conta e as páginas oficiais antes de agir.",
+  },
+  fr: {
+    intl: "fr-FR", deadline: "Date limite de dépôt", reviewed: "Dernière vérification",
+    editionsNote: "Ce guide est publié en anglais et en portugais.", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "Statut de chaque plateforme au Brésil",
+    tableLead: "Chaque statut provient uniquement des pages officielles de la plateforme ou du Banco Central do Brasil. Si aucun des deux n’a rien publié, la ligne indique « Non confirmé ».",
+    cols: ["Plateforme", "Statut au Brésil", "Source officielle", "Date de la source", "Étape suivante"],
+    noSource: "Aucune déclaration officielle trouvée", profile: "Profil", register: "Inscription officielle",
+    tableNote: "Ce n’est pas un classement. Les liens d’inscription partenaires n’apparaissent que pour une plateforme ayant un statut officiel au Brésil, jamais pour une plateforme qui se retire.",
+    sourcesTitle: "Sources", sourceDated: (date) => `(${date})`,
+    disclaimer: "Information, pas un conseil juridique ou fiscal. Vérifiez l’entité de votre compte et les pages officielles avant d’agir.",
+  },
+  de: {
+    intl: "de-DE", deadline: "Antragsfrist", reviewed: "Zuletzt geprüft",
+    editionsNote: "Dieser Leitfaden erscheint auf Englisch und Portugiesisch.", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "Status jeder Börse in Brasilien",
+    tableLead: "Jeder Status stammt ausschließlich von den offiziellen Seiten der Börse oder der Banco Central do Brasil. Hat keine Seite etwas veröffentlicht, steht in der Zeile „Nicht bestätigt“.",
+    cols: ["Börse", "Status in Brasilien", "Offizielle Quelle", "Datum der Quelle", "Nächster Schritt"],
+    noSource: "Keine offizielle Erklärung gefunden", profile: "Profil", register: "Offizielle Anmeldung",
+    tableNote: "Kein Ranking. Partner-Anmeldelinks erscheinen nur bei Börsen mit offiziellem Brasilien-Status, nie bei einer Börse, die sich zurückzieht.",
+    sourcesTitle: "Quellen", sourceDated: (date) => `(${date})`,
+    disclaimer: "Information, keine Rechts- oder Steuerberatung. Prüfen Sie vor jedem Schritt die Gesellschaft Ihres Kontos und die offiziellen Seiten.",
+  },
+  it: {
+    intl: "it-IT", deadline: "Scadenza della domanda", reviewed: "Ultima verifica",
+    editionsNote: "Questa guida è pubblicata in inglese e portoghese.", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "Stato di ogni exchange in Brasile",
+    tableLead: "Ogni stato proviene solo dalle pagine ufficiali dell’exchange o dal Banco Central do Brasil. Se nessuno dei due ha pubblicato nulla, la riga indica “Non confermato”.",
+    cols: ["Exchange", "Stato in Brasile", "Fonte ufficiale", "Data della fonte", "Passo successivo"],
+    noSource: "Nessuna dichiarazione ufficiale trovata", profile: "Profilo", register: "Registrazione ufficiale",
+    tableNote: "Non è una classifica. I link di registrazione dei partner compaiono solo per exchange con uno stato ufficiale in Brasile, mai per uno che si ritira.",
+    sourcesTitle: "Fonti", sourceDated: (date) => `(${date})`,
+    disclaimer: "Informazione, non consulenza legale o fiscale. Verifica l’entità del tuo conto e le pagine ufficiali prima di agire.",
+  },
+  ja: {
+    intl: "ja-JP", deadline: "申請期限", reviewed: "最終確認日",
+    editionsNote: "このガイドは英語とポルトガル語で公開しています。", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "各取引所のブラジルでの状況",
+    tableLead: "各状況は取引所自身の公式ページまたはブラジル中央銀行の情報のみに基づきます。どちらにも情報がない場合は「未確認」と表示します。",
+    cols: ["取引所", "ブラジルでの状況", "公式ソース", "ソースの日付", "次のステップ"],
+    noSource: "公式声明は見つかりません", profile: "概要", register: "公式登録",
+    tableNote: "ランキングではありません。提携登録リンクはブラジルでの公式記録がある取引所にのみ表示し、撤退する取引所には表示しません。",
+    sourcesTitle: "出典", sourceDated: (date) => `（${date}）`,
+    disclaimer: "情報提供であり、法律・税務上の助言ではありません。行動する前に、口座の運営主体と公式ページを確認してください。",
+  },
+  ko: {
+    intl: "ko-KR", deadline: "신청 마감일", reviewed: "최종 검토일",
+    editionsNote: "이 가이드는 영어와 포르투갈어로 게시됩니다.", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "거래소별 브라질 내 상태",
+    tableLead: "각 상태는 거래소의 공식 페이지 또는 브라질 중앙은행 자료만을 근거로 합니다. 둘 다 발표한 내용이 없으면 “미확인”으로 표시합니다.",
+    cols: ["거래소", "브라질 내 상태", "공식 출처", "출처 날짜", "다음 단계"],
+    noSource: "공식 발표를 찾지 못함", profile: "프로필", register: "공식 가입",
+    tableNote: "순위가 아닙니다. 파트너 가입 링크는 브라질 공식 기록이 있는 거래소에만 표시하며, 철수하는 거래소에는 표시하지 않습니다.",
+    sourcesTitle: "출처", sourceDated: (date) => `(${date})`,
+    disclaimer: "정보 제공용이며 법률·세무 조언이 아닙니다. 행동하기 전에 계정의 운영 법인과 공식 페이지를 확인하세요.",
+  },
+  ru: {
+    intl: "ru-RU", deadline: "Срок подачи заявки", reviewed: "Последняя проверка",
+    editionsNote: "Это руководство опубликовано на английском и португальском.", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "Статус каждой биржи в Бразилии",
+    tableLead: "Каждый статус взят только с официальных страниц самой биржи или Banco Central do Brasil. Если ни один из них ничего не опубликовал, в строке указано «Не подтверждено».",
+    cols: ["Биржа", "Статус в Бразилии", "Официальный источник", "Дата источника", "Следующий шаг"],
+    noSource: "Официальное заявление не найдено", profile: "Профиль", register: "Официальная регистрация",
+    tableNote: "Это не рейтинг. Партнёрские ссылки на регистрацию показываются только для бирж с официальным статусом в Бразилии и никогда для уходящих.",
+    sourcesTitle: "Источники", sourceDated: (date) => `(${date})`,
+    disclaimer: "Информация, а не юридическая или налоговая консультация. Перед действиями проверьте компанию, обслуживающую ваш аккаунт, и официальные страницы.",
+  },
+  tr: {
+    intl: "tr-TR", deadline: "Başvuru son tarihi", reviewed: "Son kontrol",
+    editionsNote: "Bu rehber İngilizce ve Portekizce yayımlanır.", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "Her borsanın Brezilya’daki durumu",
+    tableLead: "Her durum yalnızca borsanın kendi resmî sayfalarından veya Banco Central do Brasil’den gelir. İkisi de bir şey yayımlamadıysa satırda “Doğrulanmadı” yazar.",
+    cols: ["Borsa", "Brezilya’daki durum", "Resmî kaynak", "Kaynak tarihi", "Sonraki adım"],
+    noSource: "Resmî açıklama bulunamadı", profile: "Profil", register: "Resmî kayıt",
+    tableNote: "Bu bir sıralama değildir. Ortak kayıt bağlantıları yalnızca Brezilya’da resmî kaydı olan borsalarda görünür, çıkış yapan bir borsada asla görünmez.",
+    sourcesTitle: "Kaynaklar", sourceDated: (date) => `(${date})`,
+    disclaimer: "Bilgi amaçlıdır; hukuki veya vergi tavsiyesi değildir. Harekete geçmeden önce hesabınızın bağlı olduğu şirketi ve resmî sayfaları kontrol edin.",
+  },
+  id: {
+    intl: "id-ID", deadline: "Batas pengajuan", reviewed: "Terakhir ditinjau",
+    editionsNote: "Panduan ini diterbitkan dalam bahasa Inggris dan Portugis.", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "Status setiap bursa di Brasil",
+    tableLead: "Setiap status hanya berasal dari halaman resmi bursa itu sendiri atau dari Banco Central do Brasil. Jika keduanya belum menerbitkan apa pun, barisnya bertuliskan “Belum dikonfirmasi”.",
+    cols: ["Bursa", "Status di Brasil", "Sumber resmi", "Tanggal sumber", "Langkah berikutnya"],
+    noSource: "Tidak ada pernyataan resmi", profile: "Profil", register: "Pendaftaran resmi",
+    tableNote: "Bukan peringkat. Tautan pendaftaran mitra hanya muncul untuk bursa yang memiliki catatan resmi di Brasil, tidak pernah untuk bursa yang keluar.",
+    sourcesTitle: "Sumber", sourceDated: (date) => `(${date})`,
+    disclaimer: "Informasi, bukan nasihat hukum atau pajak. Periksa entitas akun Anda dan halaman resmi sebelum bertindak.",
+  },
+  vi: {
+    intl: "vi-VN", deadline: "Hạn nộp hồ sơ", reviewed: "Rà soát gần nhất",
+    editionsNote: "Hướng dẫn này được xuất bản bằng tiếng Anh và tiếng Bồ Đào Nha.", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "Trạng thái của từng sàn tại Brazil",
+    tableLead: "Mỗi trạng thái chỉ lấy từ trang chính thức của chính sàn đó hoặc từ Banco Central do Brasil. Nếu cả hai chưa công bố gì, dòng đó ghi “Chưa xác nhận”.",
+    cols: ["Sàn", "Trạng thái tại Brazil", "Nguồn chính thức", "Ngày của nguồn", "Bước tiếp theo"],
+    noSource: "Không tìm thấy tuyên bố chính thức", profile: "Hồ sơ", register: "Đăng ký chính thức",
+    tableNote: "Không phải bảng xếp hạng. Liên kết đăng ký đối tác chỉ hiển thị cho sàn có hồ sơ chính thức tại Brazil, không bao giờ cho sàn đang rút lui.",
+    sourcesTitle: "Nguồn", sourceDated: (date) => `(${date})`,
+    disclaimer: "Thông tin tham khảo, không phải tư vấn pháp lý hay thuế. Hãy kiểm tra pháp nhân quản lý tài khoản của bạn và các trang chính thức trước khi hành động.",
+  },
+  ar: {
+    intl: "ar", deadline: "آخر موعد لتقديم الطلب", reviewed: "آخر مراجعة",
+    editionsNote: "يُنشر هذا الدليل بالإنجليزية والبرتغالية.", readEn: "Read in English", readPt: "Ler em português",
+    tableTitle: "حالة كل منصة في البرازيل",
+    tableLead: "تأتي كل حالة فقط من الصفحات الرسمية للمنصة نفسها أو من البنك المركزي البرازيلي. إذا لم ينشر أيٌّ منهما شيئًا، يظهر في السطر «غير مؤكد».",
+    cols: ["المنصة", "الحالة في البرازيل", "المصدر الرسمي", "تاريخ المصدر", "الخطوة التالية"],
+    noSource: "لم يُعثر على بيان رسمي", profile: "الملف", register: "التسجيل الرسمي",
+    tableNote: "هذا ليس تصنيفًا. تظهر روابط التسجيل لدى الشركاء فقط للمنصات التي لها سجل رسمي في البرازيل، ولا تظهر أبدًا لمنصة تنسحب.",
+    sourcesTitle: "المصادر", sourceDated: (date) => `(${date})`,
+    disclaimer: "معلومات وليست استشارة قانونية أو ضريبية. تحقّق من الكيان المسؤول عن حسابك ومن الصفحات الرسمية قبل أي إجراء.",
+  },
+};
+
+export const BRAZIL_DEADLINE_CHROME_LOCALES = Object.freeze(LOCALES.filter((locale) => CHROME[locale]));
+
+/** Interface copy for a locale (English fallback), with a localized long-date formatter. */
+export function brazilDeadlineChrome(locale = "en") {
+  const code = CHROME[locale] ? locale : "en";
+  const copy = CHROME[code];
+  return { ...copy, locale: code, formatDate: dateFormat(copy.intl) };
+}

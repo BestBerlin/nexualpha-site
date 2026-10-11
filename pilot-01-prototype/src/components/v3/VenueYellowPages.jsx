@@ -18,6 +18,8 @@ import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { accountStageCopy, decisionCopy, directoryCopy, productPathLabel } from "./venue-yellow-pages-copy.js";
 import { appendAccountStageToSearch, emptyYellowPagesFilters, restoreYellowPagesStateFromUrl, writeYellowPagesStateToUrl } from "./venue-yellow-pages-state.js";
 import { ExchangeMatrix } from "./ExchangeMatrix.jsx";
+import { BrazilDeadlineNotice } from "./BrazilDeadlineNotice.jsx";
+import { venueKycLevel } from "../../data/venue-kyc-corrections.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
 import "./venue-yellow-pages.css";
 
@@ -833,7 +835,8 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
     }
     list = list.filter((v) => {
       const db = venueDatabase[v.slug] || {};
-      if (filters.noKyc && db.kycLevel !== "optional" && db.kycLevel !== "none") return false;
+      const kycLevel = venueKycLevel(v.slug, db);
+      if (filters.noKyc && kycLevel !== "optional" && kycLevel !== "none") return false;
       if (filters.por && !(db.proofOfReserves && db.porAuditCheckedAt && db.porAuditUrl)) return false;
       if (filters.fiat && (!db.fiatChannels || db.fiatChannels.length === 0)) return false;
       if (filters.highLev) {
@@ -869,6 +872,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
         <HeadingTag className={compact ? "yellow-pages__title" : "mx-title"}>{ui.sectionTitle}</HeadingTag>
         <p className={compact ? "yellow-pages__lead" : "mx-lead"}>{ui.sectionLead}</p>
         </div>
+        {!compact && <BrazilDeadlineNotice locale={locale} placement="directory" />}
         {context.scoped && (
           <p className="yellow-pages__context" data-directory-context={`${context.market}:${context.product}`}>
             {locale.startsWith("zh") ? `当前研究地区：${context.label} · 产品路径：${context.product === "spot" ? "现货" : "待选择"} · 资格仍需在平台官方流程确认。` : (dc.context?.(context.label, context.product) || `Research context: ${context.label} · Product path: ${context.product === "spot" ? "Spot" : "Choose in platform"}. Verify eligibility in the official flow.`)}

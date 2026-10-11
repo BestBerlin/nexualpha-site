@@ -5,6 +5,8 @@ import { mergePriorityVenueSeo } from "./priority-venue-seo.js";
 import { referralSeoFor } from "./referral-seo.js";
 import { applyPartnerVenueFaqSchema } from "./partner-venue-faq.js";
 import { VENUE_ALTERNATIVES_INDEX_LOCALES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "./venue-alternatives.js";
+import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIndexLocales, brazilDeadlineIndexable, brazilDeadlinePathFor, isBrazilDeadlineSlug } from "./brazil-vasp-deadline-slugs.js";
+import { brazilDeadlineContent, brazilDeadlineSchemas } from "./brazil-vasp-deadline.js";
 import { neutralVenueCatalog } from "./market-command.js";
 import { TOPIC_GUIDES } from "./topic-guides-data.js";
 import { TOPIC_SOURCE_REVIEW_DATE, topicSourcesFor, topicFaqSchemaEntries } from "./topic-source-registry.js";
@@ -326,6 +328,7 @@ function searchPublicationLocales(pathname, options = {}) {
   }
   if (tokenizedAssetPage(pathname.replace(/^\/topics\//, ""))) return TOKENIZED_ASSET_LOCALES;
   if (venueAlternativePage(pathname.replace(/^\/topics\//, ""))) return VENUE_ALTERNATIVES_INDEX_LOCALES;
+  if (isBrazilDeadlineSlug(pathname.replace(/^\/topics\//, ""))) return brazilDeadlineIndexLocales(pathname);
   if (SEARCH_ALL_LOCALE_STATIC_PATHS.has(pathname)) return INDEXABLE_LOCALES;
   if (SEARCH_CORE_STATIC_PATHS.has(pathname)) return ["en", "zh-Hans", "ja", "ko", "tr"];
   if (SEARCH_SECONDARY_STATIC_PATHS.has(pathname)) return ["en", "zh-Hans"];
@@ -2258,6 +2261,15 @@ function computeRouteSeoUnbudgeted(options = {}) {
         ],
       }] : []);
     }
+  } else if (topicMatch && isBrazilDeadlineSlug(topicMatch[1])) {
+    // Brazil BCB deadline topic (owner plan 2026-10-12): English slug indexable in en, Portuguese slug in pt-BR; every
+    // other locale/slug pair is noindex with a canonical to the edition of its language (overridden below).
+    accept();
+    const content = brazilDeadlineContent(locale);
+    title = `${content.metaTitle} — NexuAlpha`;
+    description = content.metaDescription;
+    robots = brazilDeadlineIndexable(pathname, locale) ? "index,follow" : "noindex,follow";
+    schemas = brazilDeadlineSchemas(locale, canonical(brazilDeadlinePathFor(locale), brazilDeadlineContentLocale(locale)), PUBLIC_ORIGIN);
   } else if (topicMatch && venueAlternativePage(topicMatch[1])) {
     // /topics/<exchange>-alternatives (exchange keyword plan 2026-10-11): indexable in English; other locales render
     // translated chrome with noindex and an English canonical, like the tokenized-asset cluster.
@@ -2387,7 +2399,10 @@ function computeRouteSeoUnbudgeted(options = {}) {
     : null;
   const mxDecisionPath = Boolean(MX_DECISION_SEO[pathname]);
   const mxDecisionIndexable = mxDecisionPath && locale === "es";
-  const canonicalUrl = mxDecisionPath
+  const brazilDeadlineRoute = Boolean(topicMatch && isBrazilDeadlineSlug(topicMatch[1]));
+  const canonicalUrl = brazilDeadlineRoute
+    ? canonical(brazilDeadlinePathFor(locale), brazilDeadlineContentLocale(locale))
+    : mxDecisionPath
     ? `${PUBLIC_ORIGIN}${pathname}`
     : route.name === "regionalPreview"
     ? (regionalPreviewIsIndexable(route.market, locale) ? regionalPreviewCanonical : `${PUBLIC_ORIGIN}${pathname}`)
@@ -2398,6 +2413,8 @@ function computeRouteSeoUnbudgeted(options = {}) {
   }
   const alternateLocales = robots !== "index,follow"
     ? []
+    : brazilDeadlineRoute
+    ? brazilDeadlineAlternates(canonical)
     : getBrazilPage(pathname)
     ? [{ hreflang: "pt-BR", href: canonical(pathname, "pt-BR") }, { hreflang: "x-default", href: canonical(pathname, "pt-BR") }]
     : route.name === "regionalPreview" && regionalPreviewIsIndexable(route.market, locale)

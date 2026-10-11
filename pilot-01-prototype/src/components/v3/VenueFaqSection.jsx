@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SectionRule } from "../shared/DataRule.jsx";
+import { venueKycLevel, venueKycSummary } from "../../data/venue-kyc-corrections.js";
 import { v3Copy } from "../../data/v3-product";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { researchForVenue } from "../../data/exchange-research";
@@ -83,9 +84,11 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
   const porUrl = db.porAuditUrl || `https://${db.officialDomain || `${venue.slug}.com`}/proof-of-reserves`;
   const securityFund = db.securityFund || (isZh ? zh("投资者风险保护基金", "投資者風險保護基金") : "Risk Protection Fund");
   const officialDomain = partner.officialDomain || db.officialDomain || `${venue.slug}.com`;
+  // Sourced KYC corrections (venue-kyc-corrections.js) win over the hash-pinned registry values.
+  const kycDb = { ...db, kycLevel: venueKycLevel(venue.slug, db), kycSummary: venueKycSummary(venue.slug, db) };
   const kycSummary = isZh
-    ? (db.kycSummary?.[locale] || db.kycSummary?.["zh-Hans"] || (db.kycLevel === "none" ? "完全免 KYC（仅邮箱注册）" : "基础实名认证（证件上传 + 人脸核验）"))
-    : (db.kycSummary?.[locale] || db.kycSummary?.en || (db.kycLevel === "none"
+    ? (kycDb.kycSummary?.[locale] || kycDb.kycSummary?.["zh-Hans"] || (kycDb.kycLevel === "none" ? "完全免 KYC（仅邮箱注册）" : "基础实名认证（证件上传 + 人脸核验）"))
+    : (kycDb.kycSummary?.[locale] || kycDb.kycSummary?.en || (kycDb.kycLevel === "none"
       ? ({ ja: "KYC不要（メールのみ）", ko: "KYC 불필요(이메일만)", tr: "KYC gerekmez (yalnızca e-posta)", fr: "KYC non requis (e-mail uniquement)", de: "Kein KYC erforderlich (nur E-Mail)", es: "No se requiere KYC (solo correo)", "pt-BR": "KYC não exigido (apenas e-mail)", ru: "KYC не требуется (только электронная почта)", ar: "لا يلزم التحقق (البريد الإلكتروني فقط)", id: "KYC tidak diperlukan (hanya email)", vi: "Không cần KYC (chỉ email)", it: "KYC non richiesto (solo email)" }[localeKey(locale)] || "No KYC Required (Email Only)")
       : ({ ja: "標準本人確認", ko: "표준 신원 인증", tr: "Standart kimlik doğrulama", fr: "Vérification d’identité standard", de: "Standard-Identitätsprüfung", es: "Verificación de identidad estándar", "pt-BR": "Verificação de identidade padrão", ru: "Стандартная проверка личности", ar: "تحقق قياسي من الهوية", id: "Verifikasi identitas standar", vi: "Xác minh danh tính tiêu chuẩn", it: "Verifica dell’identità standard" }[localeKey(locale)] || "Standard Identity Verification")));
 

@@ -14,6 +14,8 @@ import { dropEmptyArticleHeadings } from "../src/data/article-empty-headings.js"
 import { socialImageObject, socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERNATIVE_PAGES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "../src/data/venue-alternatives.js";
+import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIndexLocales, brazilDeadlineIndexable, brazilDeadlinePathFor, isBrazilDeadlinePath } from "../src/data/brazil-vasp-deadline-slugs.js";
+import { brazilDeadlineContent, brazilDeadlineSchemas } from "../src/data/brazil-vasp-deadline.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
@@ -4651,9 +4653,9 @@ const VENUE_REGISTRY = {
     futuresFee: "0.00% / 0.02%",
     porCoverage: "102.8% (Public PoR)",
     securityFund: "MEXC 投资者保护金",
-    kycLevel: "optional",
-    kycSummaryZh: "邮箱即可注册（小额提币免 KYC）",
-    kycSummaryEn: "Optional KYC for basic limits",
+    kycLevel: "mandatory",
+    kycSummaryZh: "根据 MEXC 用户协议（https://www.mexc.com/terms）须完成身份认证；MEXC 未公布未认证账户的官方限额。",
+    kycSummaryEn: "Identity verification required under the MEXC User Agreement (https://www.mexc.com/terms); MEXC publishes no official limit for unverified accounts.",
     inviteCode: "4BRhe",
     restrictedRegionsZh: "美国、中国大陆、新加坡",
     restrictedRegionsEn: "United States, Mainland China, Singapore",
@@ -5693,6 +5695,7 @@ function searchPublicationLocales(pathname, options = {}) {
   }
   if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname)) return TOKENIZED_ASSET_LOCALES;
   if (venueAlternativePage(pathname.match(/^\/topics\/([a-z0-9-]+)$/)?.[1])) return VENUE_ALTERNATIVES_INDEX_LOCALES;
+  if (isBrazilDeadlinePath(pathname)) return brazilDeadlineIndexLocales(pathname);
   if (SEARCH_ALL_LOCALE_STATIC_PATHS.has(pathname)) return INDEXABLE_LOCALES;
   if (SEARCH_CORE_STATIC_PATHS.has(pathname)) return ["en", "zh-Hans", "ja", "ko", "tr"];
   if (SEARCH_SECONDARY_STATIC_PATHS.has(pathname)) return ["en", "zh-Hans"];
@@ -5733,7 +5736,9 @@ function applySearchPublicationEligibility(metadata, pathname, locale, options =
   if (metadata.robots !== "index,follow") {
     metadata.alternates = [];
   } else if (publishedLocales.length) {
-    metadata.alternates = CLEAN_REGIONAL_ROOTS.has(pathname) || MX_DECISION_SEO[pathname]
+    metadata.alternates = isBrazilDeadlinePath(pathname)
+      ? brazilDeadlineAlternates(localizedCanonical)
+      : CLEAN_REGIONAL_ROOTS.has(pathname) || MX_DECISION_SEO[pathname]
       ? [...publishedLocales.map((hreflang) => ({ hreflang, href: `${PUBLIC_ORIGIN}${pathname}` })), { hreflang: "x-default", href: `${PUBLIC_ORIGIN}${pathname}` }]
       : routeAlternates(pathname, publishedLocales);
   }
@@ -6539,6 +6544,25 @@ async function routeMetadataBase(url, env, newsFeed) {
     };
   }
 
+  // Brazil BCB deadline topic (owner plan 2026-10-12): same data and head as computeRouteSeo. English slug indexable in
+  // en, Portuguese slug in pt-BR; other pairs are noindex with a canonical to the edition of their language.
+  if (isBrazilDeadlinePath(canonicalPath)) {
+    const indexable = brazilDeadlineIndexable(canonicalPath, locale);
+    const content = brazilDeadlineContent(locale);
+    const canonical = localizedCanonical(brazilDeadlinePathFor(locale), brazilDeadlineContentLocale(locale));
+    return {
+      status: 200,
+      title: `${content.metaTitle} — NexuAlpha`,
+      description: content.metaDescription,
+      canonical,
+      locale,
+      robots: indexable ? "index,follow" : "noindex,follow",
+      marker: TOPIC_ROUTE_MARKER,
+      alternates: indexable ? brazilDeadlineAlternates(localizedCanonical) : [],
+      schema: brazilDeadlineSchemas(locale, canonical, PUBLIC_ORIGIN),
+    };
+  }
+
   // /topics/<exchange>-alternatives (exchange keyword plan 2026-10-11): same data and head as computeRouteSeo.
   const alternativesPage = venueAlternativePage(canonicalPath.match(/^\/topics\/([a-z0-9-]+)$/)?.[1]);
   if (alternativesPage) {
@@ -7280,7 +7304,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname.startsWith("/news/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
   if (pathname === "/partners" || pathname.startsWith("/partners/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-partners-"];
   if (pathname === "/topics/derivatives") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-", "route-v3-pages-"];
-  if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname) || Object.values(VENUE_ALTERNATIVE_PAGES).some((page) => page.path === pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-tokenized-assets-"];
+  if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname) || Object.values(VENUE_ALTERNATIVE_PAGES).some((page) => page.path === pathname) || isBrazilDeadlinePath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-tokenized-assets-"];
   // The topic and factbook hubs render CollectionHubPage, whose editorial index CSS lives in route-collection-hubs.
   if (pathname === "/topics") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-", "route-collection-hubs-"];
   if (pathname === "/factbook") return [...SHARED_ROUTE_STYLE_PREFIXES, "page-factbook-", "page-detail-", "route-factbook-", "route-activity-", "route-collection-hubs-"];
