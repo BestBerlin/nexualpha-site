@@ -195,6 +195,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
           if (id.includes("/src/components/v3/brand-pages/")) return "route-brand-pages";
           if (id.includes("/src/components/v3/TokenizedAssetsPage")) return "route-tokenized-assets";
+          // /topics/<exchange>-alternatives shares the small topic-cluster chunk (and its route stylesheet prefix in the Worker).
+          if (id.includes("/src/components/v3/VenueAlternativesPage")) return "route-tokenized-assets";
           if (id.includes("/src/components/v3/TopicGuidePage")) return "route-topic-guide";
           if (id.includes("/src/components/v3/FactbookPage")) return "route-factbook";
           if (id.includes("/src/components/v3/international/")) return "route-international";

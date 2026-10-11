@@ -428,7 +428,9 @@ const ptBR = {
     { title: "Continuar ao registro", body: "Saia apenas com relação, destino e limites de elegibilidade claros." },
   ],
   detailTitle: (name) => `Perfil independente de ${name}`,
-  detailReferralTitle: (name, code, year) => `Taxas da ${name}, código de indicação ${code} e cashback (${year})`,
+  // Exchange keyword map 2026-10-11: the H1 leads with the phrase people type ("código de convite <exchange>"); the
+  // rebate word only appears when the partner feed has a confirmed share (pass it as the 4th argument).
+  detailReferralTitle: (name, code, year, share) => share ? `Código de convite ${name} ${code}, taxas e cashback (${year})` : `Código de convite ${name} ${code} e taxas (${year})`,
   detailFeesTitle: (name) => `Taxas e perfil da ${name}`,
   compareTitle: "Comparação detalhada de plataformas",
   compareIntro: "Compare tipo, acesso, cobertura de fontes, atividade e prontidão do registro em uma tela.",
@@ -1016,7 +1018,8 @@ const tr = {
     { title: "Kayda devam et", body: "İlişki, hedef ve uygunluk sınırları netse ayrılın." },
   ],
   detailTitle: (name) => `${name} bağımsız profili`,
-  detailReferralTitle: (name, code, year) => `${name} ücretleri, referans kodu ${code} ve iade (${year})`,
+  // Exchange keyword map 2026-10-11: "<exchange> referans kodu" first; iade only with a confirmed share.
+  detailReferralTitle: (name, code, year, share) => share ? `${name} referans kodu ${code}, ücretler ve iade (${year})` : `${name} referans kodu ${code} ve ücretler (${year})`,
   detailFeesTitle: (name) => `${name} ücretleri ve platform profili`,
   compareTitle: "İşlem platformu derin karşılaştırması",
   compareIntro: "Tür, erişim, kaynak kapsamı, etkinlik durumu ve kayıt hazırlığını tek görünümde karşılaştırın.",
@@ -1212,7 +1215,8 @@ const id = {
     { title: "Lanjut registrasi", body: "Keluar hanya saat relasi, tujuan, dan batas kelayakan jelas." },
   ],
   detailTitle: (name) => `Profil independen ${name}`,
-  detailReferralTitle: (name, code, year) => `Biaya ${name}, kode referral ${code}, dan rabat (${year})`,
+  // Exchange keyword map 2026-10-11: "kode referral <exchange>" first; rabat only with a confirmed share.
+  detailReferralTitle: (name, code, year, share) => share ? `Kode referral ${name} ${code}, biaya dan rabat (${year})` : `Kode referral ${name} ${code} dan biaya (${year})`,
   detailFeesTitle: (name) => `Biaya dan profil ${name}`,
   compareTitle: "Perbandingan mendalam platform trading",
   compareIntro: "Bandingkan jenis, akses, cakupan sumber, status aktivitas, dan kesiapan registrasi dalam satu tampilan.",
@@ -1310,7 +1314,8 @@ const vi = {
     { title: "Tiếp tục đăng ký", body: "Chỉ rời trang khi quan hệ, đích đến và giới hạn đủ điều kiện đã rõ." },
   ],
   detailTitle: (name) => `Hồ sơ độc lập ${name}`,
-  detailReferralTitle: (name, code, year) => `Phí ${name}, mã giới thiệu ${code} và hoàn phí (${year})`,
+  // Exchange keyword map 2026-10-11: "mã giới thiệu <exchange>" first; hoàn phí only with a confirmed share.
+  detailReferralTitle: (name, code, year, share) => share ? `Mã giới thiệu ${name} ${code}, phí và hoàn phí (${year})` : `Mã giới thiệu ${name} ${code} và phí (${year})`,
   detailFeesTitle: (name) => `Phí và hồ sơ ${name}`,
   compareTitle: "So sánh chuyên sâu nền tảng giao dịch",
   compareIntro: "So sánh loại, cách truy cập, nguồn, trạng thái hoạt động và độ sẵn sàng đăng ký trong một màn hình.",

@@ -59,3 +59,31 @@
   white-space: normal;
   overflow-wrap: anywhere;
 }
+
+/* Exchange keyword sections (hyperliquid fees / funded account, backpack tokenized stocks). Uses the profile's own
+   tokens; the fee table scrolls inside its wrapper so the page never scrolls sideways at 390px. */
+.v3-kw {
+  border-top: 1px solid var(--line);
+  padding-block: 1rem 1.25rem;
+  color: var(--ink);
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: var(--lh-body, 1.55);
+}
+.v3-kw h2 { margin: 0 0 .5rem; font-size: 1.25rem; line-height: 1.3; }
+.v3-kw h3 { margin: 1rem 0 .35rem; font-size: 1.05rem; line-height: 1.35; }
+.v3-kw p { margin-block: .4rem .6rem; }
+.v3-kw__table-wrap { overflow-x: auto; max-width: 100%; margin-block: .5rem; -webkit-overflow-scrolling: touch; }
+.v3-kw__table-wrap:focus-visible { outline: 2px solid var(--accent, #5287ff); outline-offset: 2px; }
+.v3-kw__table { border-collapse: collapse; width: 100%; min-width: 34rem; font-size: .9rem; }
+.v3-kw__table th, .v3-kw__table td { padding: .45rem .6rem; border-bottom: 1px solid var(--line); text-align: end; white-space: nowrap; }
+.v3-kw__table thead th { font-weight: 600; color: var(--ink-2, var(--ink)); }
+.v3-kw__table :is(th, td):first-child { text-align: start; }
+.v3-kw__table .v6-num { font-variant-numeric: tabular-nums; }
+.v3-kw__note, .v3-kw__checked { font-size: .9rem; color: var(--ink-2, var(--ink)); }
+.v3-kw__block code { font-weight: 600; padding: .05rem .35rem; border: 1px solid var(--line); border-radius: 4px; }
+.v3-kw__list { margin: .4rem 0 .6rem; padding-inline-start: 1.2rem; }
+.v3-kw__list li { margin-block: .35rem; }
+.v3-kw__sources { display: flex; flex-wrap: wrap; gap: .25rem 1rem; }
+.v3-kw__sources a { display: inline-flex; align-items: center; min-height: 44px; }
+.v3-kw a:focus-visible { outline: 2px solid var(--accent, #5287ff); outline-offset: 3px; }

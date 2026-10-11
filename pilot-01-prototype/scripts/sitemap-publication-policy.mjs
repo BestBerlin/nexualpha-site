@@ -16,6 +16,15 @@ const SITEMAP_PRIORITY_FACTBOOK = new Set(["binance", "okx", "bybit", "bitget", 
 const SITEMAP_LOCALE_EXCLUDED_VENUES = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SITEMAP_PRIORITY_COMPARISONS = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "coinbase-vs-kraken", "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc"]);
 const SITEMAP_PRIORITY_TOPICS = new Set(["meme-coins", "derivatives", "compliant-exchanges", "no-kyc", "tokenized-assets"]);
+// Owner exchange keyword plan 2026-10-11: localized profiles that now carry the localized referral FAQ (and backpack's
+// French "avis" answers) are listed in the sitemap in those locales too. They were already index,follow.
+const SITEMAP_KEYWORD_VENUE_LOCALES = Object.freeze({
+  okx: ["tr", "vi", "id", "pt-BR"],
+  binance: ["tr", "vi", "pt-BR"],
+  bybit: ["tr", "vi", "id"],
+  bitget: ["vi", "id"],
+  backpack: ["fr"],
+});
 
 const DEFAULT_POLICY = Object.freeze({
   minSitemapUrls: 802,
@@ -100,7 +109,8 @@ export function sitemapLocalesForRoute(route, allLocales = DEFAULT_POLICY.priori
   if (template === "venue") {
     const slug = pathSlug(pathname, "/exchanges/");
     if (SITEMAP_REVIEWED_TRILINGUAL_VENUES.has(slug)) return pickSupportedLocales(route, ["en", "zh-Hans", "zh-Hant"], allLocales);
-    return pickSupportedLocales(route, SITEMAP_PRIORITY_VENUES.has(slug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"], allLocales);
+    const base = SITEMAP_PRIORITY_VENUES.has(slug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"];
+    return pickSupportedLocales(route, [...base, ...(SITEMAP_KEYWORD_VENUE_LOCALES[slug] || [])], allLocales);
   }
   if (template === "factbook") {
     const slug = pathSlug(pathname, "/factbook/");
