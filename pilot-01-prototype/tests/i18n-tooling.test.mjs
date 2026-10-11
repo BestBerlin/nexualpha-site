@@ -88,6 +88,6 @@ test("V3 interface copy reflects reviewed partner routes instead of pre-launch r
       ...(copy.activityMetrics ?? []),
     ].join(" ");
     assert.doesNotMatch(visibleCopy, staleLaunchCopy, `${locale} contains stale pre-launch referral placeholder copy`);
-    assert.match(visibleCopy, /partner|socio|parceiro|partenaire|合作|パートナー|파트너|شركاء|ortağı|партнёр|mitra|đối tác/i, `${locale} should describe reviewed partner routes`);
+    assert.match(visibleCopy, /partner|socio|parceiro|partenaire|合作|パートナー|파트너|شركاء|ortağı|партнёр|mitra|đối tác|پارٹنر|партнер/i, `${locale} should describe reviewed partner routes`);
   }
 });

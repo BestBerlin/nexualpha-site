@@ -234,7 +234,7 @@ test("NX-07 eligibility lists never repeat an entry in any locale or venue", () 
 });
 
 test("NX-07 platform counts use CLDR plural rules", () => {
-  assert.deepEqual(PLURAL_COPY_LOCALES.slice().sort(), [...LOCALES, "ur", "uk"].sort());
+  assert.deepEqual(PLURAL_COPY_LOCALES.slice().sort(), LOCALES.slice().sort());
   assert.equal(platformCount(1, "fr"), "1 plateforme");
   assert.equal(platformCount(2, "fr"), "2 plateformes");
   assert.equal(platformCount(1, "en"), "1 platform");

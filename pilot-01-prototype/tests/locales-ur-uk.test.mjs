@@ -74,3 +74,56 @@ test('new locales keep partner metadata neutral pending regulator review', async
     assert.doesNotMatch(meta.title, /referral|invite|cashback|rebate|реферальн|запрошенн|دعوتی|ریفرل/i);
   }
 });
+
+test('draft comparison answers preserve complete structures, source routes and numeric facts', async () => {
+  const { compareDirectAnswerFor } = await import('../src/data/compare-direct-answers.js');
+  const numbers = value => [...String(value).matchAll(/\d+(?:[.,:]\d+)*/g)].map(m => m[0]).sort();
+  function check(source, draft, path) {
+    if (Array.isArray(source)) {
+      assert.ok(Array.isArray(draft), path);
+      assert.equal(draft.length, source.length, path);
+      source.forEach((value, i) => check(value, draft[i], `${path}.${i}`));
+    } else if (source && typeof source === 'object') {
+      assert.deepEqual(Object.keys(draft).sort(), Object.keys(source).sort(), path);
+      for (const key of Object.keys(source)) if (key !== 'locale') check(source[key], draft[key], `${path}.${key}`);
+    } else if (typeof source === 'string') {
+      assert.equal(typeof draft, 'string', path);
+      assert.ok(draft.trim(), path);
+      if (/^(?:https?:\/\/|\/)/.test(source) || path.endsWith('.reviewedAt') || path.endsWith('.slug')) assert.equal(draft, source, path);
+      assert.deepEqual(numbers(draft), numbers(source), path);
+    } else assert.equal(draft, source, path);
+  }
+  for (const slug of ['binance-vs-okx', 'bybit-vs-bitget', 'hyperliquid-vs-dydx', 'uniswap-vs-jupiter']) {
+    const source = compareDirectAnswerFor(slug, 'en');
+    for (const locale of ['ur', 'uk']) check(source, compareDirectAnswerFor(slug, locale), `${slug}.${locale}`);
+  }
+});
+
+test('draft campaign explanations preserve numerical facts and shared FAQ coverage', async () => {
+  const { officialCampaignResearchLocalizations } = await import('../src/data/official-campaign-localizations.js');
+  const { COMPARE_FAQ_LOCALES } = await import('../src/data/compare-faq-locales.js');
+  const numbers = value => [...String(value).matchAll(/\d+(?:[.,:]\d+)*/g)].map(m => m[0]).sort();
+  let count = 0;
+  function walk(value, path = '') {
+    if (!value || typeof value !== 'object') return;
+    if (typeof value.en === 'string' && Object.keys(value).length >= 15) {
+      count++;
+      for (const locale of ['ur', 'uk']) {
+        assert.ok(value[locale]?.trim(), `${path}.${locale}`);
+        assert.deepEqual(numbers(value[locale]), numbers(value.en), `${path}.${locale}`);
+      }
+    } else for (const [key, child] of Object.entries(value)) walk(child, `${path}.${key}`);
+  }
+  walk(officialCampaignResearchLocalizations);
+  assert.equal(count, 304);
+  for (const locale of ['ur', 'uk']) assert.equal(COMPARE_FAQ_LOCALES[locale].rows.length, COMPARE_FAQ_LOCALES.en.rows.length);
+});
+
+test('new home copy defines every English UI key without inheriting English controls', async () => {
+  const { H7_COPY } = await import('../src/components/v7/home7-copy.js');
+  for (const locale of ['ur', 'uk']) {
+    assert.deepEqual(Object.keys(H7_COPY[locale]).sort(), Object.keys(H7_COPY.en).sort(), locale);
+    for (const key of ['heroGo', 'dockGo']) assert.notEqual(H7_COPY[locale][key], H7_COPY.en[key], `${locale}.${key}`);
+    for (const key of Object.keys(H7_COPY.en.inCat)) assert.notEqual(H7_COPY[locale].inCat[key], H7_COPY.en.inCat[key], `${locale}.inCat.${key}`);
+  }
+});

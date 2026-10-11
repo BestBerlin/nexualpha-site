@@ -10,6 +10,8 @@ const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "k
 const nonEnglishLocales = locales.filter((locale) => locale !== "en");
 
 const expectedCodeLabel = {
+  ur: "کوڈ:",
+  uk: "Код:",
   "zh-Hans": "专属码:",
   "zh-Hant": "專屬碼:",
   es: "Código:",
@@ -27,6 +29,8 @@ const expectedCodeLabel = {
 };
 
 const expectedOfficialFlow = {
+  ur: "سرکاری فلو میں تصدیق کریں",
+  uk: "Перевірити в офіційному процесі",
   "zh-Hans": "官方流程核验",
   "zh-Hant": "官方流程核驗",
   es: "Verificar en el flujo oficial",
@@ -44,6 +48,8 @@ const expectedOfficialFlow = {
 };
 
 const expectedDecisionGuideNeedle = {
+  ur: "پہلے Bybit کی علاقائی اہلیت",
+  uk: "Спершу перевірте регіональну доступність",
   "zh-Hans": "先核对 Bybit 的地区资格、产品范围与官方费率",
   "zh-Hant": "先核對 Bybit 的地區資格、產品範圍與官方費率",
   es: "Verifica primero la elegibilidad regional",
@@ -67,7 +73,7 @@ const escapeHtml = (value) => String(value)
   .replaceAll("<", "&lt;")
   .replaceAll(">", "&gt;");
 
-test("v3 detail and comparison labels are localized in server-rendered 15-locale pages", async () => {
+test("v3 detail and comparison labels are localized in server-rendered 17-locale pages", async () => {
   const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-v3-label-ssr-"));
   try {
     const entryPath = path.join(tempDir, "entry.mjs");

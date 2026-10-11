@@ -567,7 +567,7 @@ test("international regional previews provide localized controls beyond the five
   assert.match(regionalPreview, /ui\.sourceStatus/);
   assert.match(regionalPreview, /pageBoundary/);
   assert.match(regionalPreviewCopy, /Source pack pending/);
-  assert.match(regionalPreview, /dir=\{locale === "ar" \? "rtl" : "ltr"\}/);
+  assert.match(regionalPreview, /dir=\{\["ar", "ur"\]\.includes\(locale\) \? "rtl" : "ltr"\}/);
 });
 
 test("regional locale tags preserve pt-BR detail labels instead of collapsing to pt", () => {
@@ -677,7 +677,7 @@ test("news detail adds compact first-decision summaries for priority CTR article
   assert.match(newsDetailPage, /ctaPlacement="news-detail-first-decision"/);
   assert.match(newsDetailPage, /originalSource = article\.sources\?\.find/);
   assert.match(newsDetailPage, /sourceAction = originalSource/);
-  assert.match(newsDetailPage, /<h2 id="article-sources" lang=\{t\.sourcesTitle === copy\.en\.sourcesTitle \? "en" : locale\} dir=\{locale === "ar" \? "rtl" : "ltr"\}>\{t\.sourcesTitle\}<\/h2>/);
+  assert.match(newsDetailPage, /<h2 id="article-sources" lang=\{t\.sourcesTitle === copy\.en\.sourcesTitle \? "en" : locale\} dir=\{\["ar", "ur"\]\.includes\(locale\) \? "rtl" : "ltr"\}>\{t\.sourcesTitle\}<\/h2>/);
   assert.match(newsDetailPage, /const fallbackCopy = copy\.en/);
   assert.ok(
     newsDetailPage.indexOf("<ArticleDecisionSummary") < newsDetailPage.indexOf("news-detail__partners-box"),
