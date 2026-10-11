@@ -12,6 +12,24 @@ import worker from '../worker/index.js';
 import {computeRouteSeo} from '../src/data/seo-injection.js';
 import {budgetTitle} from '../src/data/meta-description.js';
 const root=fileURLToPath(new URL('..',import.meta.url));
+const NO_KYC_TITLE_EXPECTED=JSON.parse(await readFile(path.join(root,'tests/fixtures/no-kyc-titles.json'),'utf8'));
+const NO_KYC_R100_OLD_TITLE={
+ en:'No-KYC Crypto Access: Wallet, CEX, Perp and Withdrawal Checks — NexuAlpha',
+ 'zh-Hans':'2026 免实名加密交易平台选型评测：Hyperliquid vs DYDX vs MEXC — NexuAlpha',
+ 'zh-Hant':'No-KYC 加密訪問比較：錢包、CEX、永續與出金檢查 — NexuAlpha',
+ ja:'No-KYC暗号資産アクセス：ウォレット、CEX、パープ、出金確認 — NexuAlpha',
+ ko:'No-KYC 암호화폐 접근 비교: Hyperliquid, dYdX, MEXC — NexuAlpha',
+ tr:'No-KYC kripto erişim karşılaştırması: Hyperliquid, dYdX, MEXC — NexuAlpha',
+ es:'Acceso cripto sin KYC: wallet, CEX, perps y retiros — NexuAlpha',
+ 'pt-BR':'Acesso cripto sem KYC: carteira, CEX, perps e saques — NexuAlpha',
+ fr:'Accès crypto sans KYC : wallet, CEX, perps et retraits — NexuAlpha',
+ de:'No-KYC-Krypto-Zugang: Wallet, CEX, Perps und Auszahlungen — NexuAlpha',
+ ar:'وصول العملات الرقمية دون KYC: المحافظ وCEX والعقود الدائمة والسحب — NexuAlpha',
+ ru:'Крипто-доступ без KYC: кошелёк, CEX, перпетуалы и вывод — NexuAlpha',
+ id:'Akses kripto no-KYC: dompet, CEX, perp, dan penarikan — NexuAlpha',
+ vi:'Truy cập crypto không KYC: ví, CEX, perp và rút tiền — NexuAlpha',
+ it:'Accesso crypto no-KYC: wallet, CEX, perp e prelievi — NexuAlpha',
+};
 const owners=['meme-coins','derivatives','no-kyc'];
 const locales=['en','zh-Hans','zh-Hant'];
 const dir=await mkdtemp(path.join(root,'tests/.tmp-r100-faq-'));
@@ -24,10 +42,17 @@ try{
 }finally{await rm(dir,{recursive:true,force:true});}
 const plain=s=>s.replace(/<[^>]*>/g,'').replaceAll('&amp;','&').replaceAll('&quot;','"').replaceAll('&#x27;',"'").replaceAll('&lt;','<').replaceAll('&gt;','>');
 const faqNodes=html=>[...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].flatMap(m=>{const j=JSON.parse(m[1]);return j['@graph']||[j]}).filter(s=>s['@type']==='FAQPage');
-function normalizeAuthorizedSeoTransition(value, mode) {
+function normalizeAuthorizedSeoTransition(value, mode, key) {
  const clone=structuredClone(value);
+ const [slug,locale]=(key||'').split(':');
+ const noKycOldTitle=slug==='no-kyc'?NO_KYC_R100_OLD_TITLE[locale]:null;
+ const noKycNewTitle=slug==='no-kyc'?NO_KYC_TITLE_EXPECTED[locale]:null;
  const walk=(node)=>{
   if(!node||typeof node!=='object')return;
+  if(mode==='current'&&noKycOldTitle&&noKycNewTitle&&node.name===`${noKycNewTitle} — NexuAlpha`){
+   // Class b: MEXC is now the KYC exchange contrast; normalize only the approved route title/name fields.
+   node.name=noKycOldTitle;
+  }
   if(node['@type']==='Organization'&&node.name==='NexuAlpha Research Desk'){
    // Class b: PR #58 added a canonical Research Desk entity to some route schemas; old-shaped source nodes stay under full equality.
    if(mode==='current'&&node['@id']!==undefined){
@@ -44,6 +69,11 @@ function normalizeAuthorizedSeoTransition(value, mode) {
   for(const child of Object.values(node))if(child&&typeof child==='object')walk(child);
  };
  walk(clone);
+ if(mode==='current'&&noKycOldTitle&&noKycNewTitle){
+  // Class b: assert the approved new title before mapping it to the frozen r100 baseline shape.
+  assert.equal(clone.title,noKycNewTitle,key);
+  clone.title=budgetTitle(noKycOldTitle);
+ }
  if(mode==='baseline'&&typeof clone.title==='string')clone.title=budgetTitle(clone.title);
  return clone;
 }
@@ -70,7 +100,7 @@ test('all sixty non-FAQ metadata contracts and all 51 outside-scope FAQ contract
   const now=computeRouteSeo({pathname:prefix+'/topics/'+slug,locale});
   const scoped=owners.includes(slug)&&locales.includes(locale);
   const withoutFaq=x=>({...x,schemas:x.schemas.filter(s=>s['@type']!=='FAQPage')});
-  assert.deepEqual(normalizeAuthorizedSeoTransition(scoped?withoutFaq(now):now,'current'),normalizeAuthorizedSeoTransition(scoped?withoutFaq(value):value,'baseline'),key);
+  assert.deepEqual(normalizeAuthorizedSeoTransition(scoped?withoutFaq(now):now,'current',key),normalizeAuthorizedSeoTransition(scoped?withoutFaq(value):value,'baseline',key),key);
  }
 });
 test('exactly eleven stable reviewed question IDs append without changing any old130records',async()=>{

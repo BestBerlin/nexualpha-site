@@ -98,8 +98,9 @@ test("Wave28 standard topic pages expose localized answer-engine metadata", asyn
     ["/topics/meme-coins?locale=es", /Comparación de plataformas meme coin/, /contratos de tokens/],
     ["/topics/compliant-exchanges?locale=fr", /Accès fiat/, /éligibilité régionale/],
     ["/topics/derivatives?locale=de", /Krypto-Perpetual/, /Liquidation/],
-    ["/topics/no-kyc?locale=it", /Accesso crypto no-KYC/, /prelievi/],
-    ["/ja/topics/no-kyc", /No-KYC暗号資産アクセス/, /地域制限/],
+    // Class b: MEXC is now the KYC exchange contrast, not part of the no-KYC set.
+    ["/topics/no-kyc?locale=it", /Autocustodia senza KYC vs exchange con KYC/, /prelievi/],
+    ["/ja/topics/no-kyc", /本人確認なしの自己管理 vs 本人確認必須の取引所/, /地域制限/],
   ];
   for (const row of cases) await assertParity(...row);
 });

@@ -170,7 +170,8 @@ test('Wave15 English no-KYC topic emits FAQ schema and route-specific next steps
 
   assert.equal(seo.status, 200);
   assert.equal(seo.robots, 'index,follow');
-  assert.match(seo.title, /No-KYC Crypto Access/);
+  // Class b: MEXC is now the KYC exchange contrast, not part of the no-KYC set.
+  assert.match(seo.title, /No-KYC Self-Custody vs KYC Exchange/);
   assert.match(seo.description, /wallet access, CEX account flows, withdrawals/i);
   assert.ok(topic.relatedLink.some((link) => link.endsWith('/compare/hyperliquid-vs-dydx')));
   assert.ok(faq);

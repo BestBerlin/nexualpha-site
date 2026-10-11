@@ -5381,8 +5381,8 @@ const TOPIC_REGISTRY = {
   },
   "no-kyc": {
     slug: "no-kyc",
-    titleZh: "钱包连接与账户式交易入口比较：Hyperliquid、dYdX 与 MEXC — NexuAlpha",
-    titleEn: "Wallet-Based and Account-Based Access: Hyperliquid, dYdX and MEXC — NexuAlpha",
+    titleZh: "2026 免实名自托管 vs 实名交易所：Hyperliquid、dYdX 与 MEXC 对比 — NexuAlpha",
+    titleEn: "No-KYC Self-Custody vs KYC Exchange (2026): Hyperliquid, dYdX and MEXC — NexuAlpha",
     descZh: "比较钱包连接、账户注册、身份核验、提现、地区限制和风险边界。平台可根据规则或风控要求追加验证。",
     descEn: "Compare wallet connection, account registration, identity checks, withdrawals, regional restrictions and risk boundaries. Venues may require additional verification under current rules or risk controls.",
     categoryZh: "钱包与账户访问",
@@ -5523,10 +5523,10 @@ const LOCALIZED_COMPARE_SEO_OVERRIDES = {
 const LOCALIZED_TOPIC_SEO_OVERRIDES = {
   en: {
     "derivatives": ["Crypto Perpetual Platform Comparison: Fees, Funding and Liquidation Checks — NexuAlpha", "Perpetual platform checks: published fees, funding, margin mode, liquidation rules, oracle route, collateral movement, regional access and product permissions.", "What is a crypto perpetual platform, and how should I compare one?", "A crypto perpetual platform lets users trade contracts with no fixed expiry. Compare platform type first: account-based CEX futures such as Binance or Bybit require fee, funding, margin mode, KYC, region and product-permission checks, while wallet-connected perpetual protocols such as Hyperliquid require collateral, oracle, bridge, liquidation and front-end checks. Use Binance vs OKX or Bybit vs Bitget for account-based decisions, Hyperliquid vs dYdX for wallet-connected mechanics, and the tokenized-stock guide when the search intent mixes stock-like exposure with derivatives.", [["Which page should I use after a broad crypto perpetual platform search?", "Use this derivatives topic as the evergreen checklist, then continue to Binance vs OKX for account-based CEX futures, Bybit vs Bitget for derivatives and copy-trading conditions, or Hyperliquid vs dYdX for wallet-connected perpetual mechanics."], ["Should funding rates decide the perpetual platform choice?", "No. Funding is one input. Compare maker and taker fees, funding cadence, liquidity, collateral movement, margin mode, liquidation rules, oracle route, withdrawal path, region and identity requirements before choosing a route."], ["Which mechanics should every perpetual checklist cover?", "Check funding cadence, isolated or cross margin, accepted collateral, oracle or mark-price route, liquidation rules, insurance or ADL disclosures, deposit and withdrawal path, and product access by region before treating a platform as usable."], ["Does a public comparison prove my account can trade perpetuals?", "No. Public comparison narrows the decision path. Final product access, KYC, country availability, benefits, leverage and fee tier must be verified in the official platform account or wallet flow."]]],
-    "no-kyc": ["No-KYC Crypto Access: Wallet, CEX, Perp and Withdrawal Checks — NexuAlpha", "Compare wallet access, CEX account flows, withdrawals, regional limits, sanctions controls, front-end availability and liquidation risk before treating any crypto platform as no-KYC.", "What should I check before using a no-KYC crypto platform?", "Start by separating wallet-connected protocols from centralized accounts. Check whether access depends on a front end, smart contract, bridge, liquidity route, withdrawal limit, regional restriction, sanctions control, wallet screening, product type or later identity review. No-KYC is a current access condition, not a permanent account promise.", [["Does wallet connection mean no KYC forever?", "No. Wallet connection describes how a user signs transactions. A protocol, front end, bridge, region rule, sanctions screen or risk control can still limit access, and centralized platforms may request identity checks later."], ["Which page should I use after the no-KYC overview?", "Use the Hyperliquid vs dYdX comparison for perpetual mechanics, then open each venue profile to verify official domains, collateral, liquidation, bridge, withdrawal and regional conditions."], ["Can a centralized exchange be treated as no-KYC?", "Only with caution. Email or low-friction onboarding can change by region, limit, product, withdrawal route, account age and risk review. Verify the current official account flow before depositing or trading."]]]
+    "no-kyc": ["No-KYC Self-Custody vs KYC Exchange (2026): Hyperliquid, dYdX and MEXC — NexuAlpha", "Compare wallet access, CEX account flows, withdrawals, regional limits, sanctions controls, front-end availability and liquidation risk before treating any crypto platform as no-KYC.", "What should I check before using a no-KYC crypto platform?", "Start by separating wallet-connected protocols from centralized accounts. Check whether access depends on a front end, smart contract, bridge, liquidity route, withdrawal limit, regional restriction, sanctions control, wallet screening, product type or later identity review. No-KYC is a current access condition, not a permanent account promise.", [["Does wallet connection mean no KYC forever?", "No. Wallet connection describes how a user signs transactions. A protocol, front end, bridge, region rule, sanctions screen or risk control can still limit access, and centralized platforms may request identity checks later."], ["Which page should I use after the no-KYC overview?", "Use the Hyperliquid vs dYdX comparison for perpetual mechanics, then open each venue profile to verify official domains, collateral, liquidation, bridge, withdrawal and regional conditions."], ["Can a centralized exchange be treated as no-KYC?", "Only with caution. Email or low-friction onboarding can change by region, limit, product, withdrawal route, account age and risk review. Verify the current official account flow before depositing or trading."]]]
   },
-  ko: { "no-kyc": ["No-KYC 암호화폐 접근 비교: Hyperliquid, dYdX, MEXC — NexuAlpha", "지갑 연결, 계정 가입, 본인확인 가능성, 출금, 지역 제한과 리스크 경계를 Hyperliquid, dYdX, MEXC 기준으로 비교하세요.", "No-KYC 암호화폐 플랫폼을 비교할 때 무엇을 먼저 확인해야 하나요?", "No-KYC 비교는 로그인 방식보다 넓게 봐야 합니다. 지갑 연결, 계정 가입, 추가 본인확인 가능성, 출금 제한, 지역 차단, 프런트엔드 접근, 스마트 컨트랙트, 브리지, 유동성과 복구 경로를 함께 확인하세요.", [["지갑 연결은 KYC와 지역 제한이 없다는 뜻인가요?", "아니요. 지갑 연결은 로그인 경로일 뿐입니다. 프런트엔드, 프로토콜, 제재 규칙, 유동성, 브리지와 계정 상태가 접근과 출금을 제한할 수 있습니다."], ["이메일 가입 CEX는 출금 때 KYC가 없나요?", "항상 그렇지 않습니다. 지역, 한도, 계정 상태와 리스크 관리에 따라 추가 신원 또는 보안 확인이 요구될 수 있습니다."]]] },
-  tr: { "no-kyc": ["No-KYC kripto erişim karşılaştırması: Hyperliquid, dYdX, MEXC — NexuAlpha", "Cüzdan bağlantısı, hesap kaydı, kimlik kontrolü olasılığı, çekim, bölgesel sınırlamalar ve risk sınırlarını Hyperliquid, dYdX ve MEXC üzerinden karşılaştırın.", "No-KYC kripto platformları karşılaştırılırken önce ne kontrol edilmeli?", "No-KYC karşılaştırması yalnızca giriş yönteminden ibaret değildir. Cüzdan bağlantısı, hesap kaydı, ek kimlik kontrolü olasılığı, çekim limitleri, bölgesel bloklar, frontend erişimi, akıllı kontratlar, bridge, likidite ve kurtarma yolu birlikte kontrol edilmelidir.", [["Cüzdan bağlantısı KYC veya bölge sınırı olmadığı anlamına gelir mi?", "Hayır. Cüzdan bağlantısı yalnızca giriş ve imza yolunu anlatır. Frontend, protokol, yaptırım kuralları, likidite, bridge ve hesap durumu erişimi veya çekimi etkileyebilir."], ["E-posta ile kayıt olunan CEX çekimde KYC istemez mi?", "Her zaman değil. Bölge, limit, hesap durumu ve risk kontrollerine göre ek kimlik veya güvenlik doğrulaması istenebilir."]]] },
+  ko: { "no-kyc": ["KYC 없는 셀프 커스터디 vs KYC 필수 거래소(2026): Hyperliquid, dYdX, MEXC 비교 — NexuAlpha", "지갑 연결, 계정 가입, 본인확인 가능성, 출금, 지역 제한과 리스크 경계를 Hyperliquid, dYdX, MEXC 기준으로 비교하세요.", "No-KYC 암호화폐 플랫폼을 비교할 때 무엇을 먼저 확인해야 하나요?", "No-KYC 비교는 로그인 방식보다 넓게 봐야 합니다. 지갑 연결, 계정 가입, 추가 본인확인 가능성, 출금 제한, 지역 차단, 프런트엔드 접근, 스마트 컨트랙트, 브리지, 유동성과 복구 경로를 함께 확인하세요.", [["지갑 연결은 KYC와 지역 제한이 없다는 뜻인가요?", "아니요. 지갑 연결은 로그인 경로일 뿐입니다. 프런트엔드, 프로토콜, 제재 규칙, 유동성, 브리지와 계정 상태가 접근과 출금을 제한할 수 있습니다."], ["이메일 가입 CEX는 출금 때 KYC가 없나요?", "항상 그렇지 않습니다. 지역, 한도, 계정 상태와 리스크 관리에 따라 추가 신원 또는 보안 확인이 요구될 수 있습니다."]]] },
+  tr: { "no-kyc": ["KYC’siz öz saklama vs KYC zorunlu borsa (2026): Hyperliquid, dYdX ve MEXC — NexuAlpha", "Cüzdan bağlantısı, hesap kaydı, kimlik kontrolü olasılığı, çekim, bölgesel sınırlamalar ve risk sınırlarını Hyperliquid, dYdX ve MEXC üzerinden karşılaştırın.", "No-KYC kripto platformları karşılaştırılırken önce ne kontrol edilmeli?", "No-KYC karşılaştırması yalnızca giriş yönteminden ibaret değildir. Cüzdan bağlantısı, hesap kaydı, ek kimlik kontrolü olasılığı, çekim limitleri, bölgesel bloklar, frontend erişimi, akıllı kontratlar, bridge, likidite ve kurtarma yolu birlikte kontrol edilmelidir.", [["Cüzdan bağlantısı KYC veya bölge sınırı olmadığı anlamına gelir mi?", "Hayır. Cüzdan bağlantısı yalnızca giriş ve imza yolunu anlatır. Frontend, protokol, yaptırım kuralları, likidite, bridge ve hesap durumu erişimi veya çekimi etkileyebilir."], ["E-posta ile kayıt olunan CEX çekimde KYC istemez mi?", "Her zaman değil. Bölge, limit, hesap durumu ve risk kontrollerine göre ek kimlik veya güvenlik doğrulaması istenebilir."]]] },
 };
 
 const TOPIC_METADATA_LOCALIZED_PACK = {
@@ -5534,37 +5534,37 @@ const TOPIC_METADATA_LOCALIZED_PACK = {
     "meme-coins": ["迷因幣平台比較：MEXC、Gate.io、Raydium — NexuAlpha", "比較迷因幣平台的上幣節奏、流動性、池子檢查、交易成本、合約地址和地區帳戶條件。"],
     "compliant-exchanges": ["法幣通道與帳戶資格：HashKey、Kraken、OKX — NexuAlpha", "比較地區資格、身份核驗、同名銀行要求、法幣通道和官方規則來源，並區分銀行、平台和監管條件。"],
     derivatives: ["加密永續合約平台比較：費率、資金費與清算檢查 — NexuAlpha", "按帳戶模式、公開費率、資金費、保證金模式、清算規則、預言機、地區限制與身份要求比較永續合約平台。"],
-    "no-kyc": ["No-KYC 加密訪問比較：錢包、CEX、永續與出金檢查 — NexuAlpha", "比較錢包連接、中心化帳戶流程、出金、地區限制、制裁控制、前端可用性和清算風險。"],
+    "no-kyc": ["2026 免實名自託管 vs 實名交易所：Hyperliquid、dYdX 與 MEXC 比較 — NexuAlpha", "比較錢包連接、中心化帳戶流程、出金、地區限制、制裁控制、前端可用性和清算風險。"],
   },
   es: {
     "meme-coins": ["Comparación de plataformas meme coin: MEXC, Gate.io y Raydium — NexuAlpha", "Compara acceso, liquidez, costes, contratos de tokens, rutas de pools y condiciones de cuenta para operar meme coins."],
     "compliant-exchanges": ["Acceso fiat y elegibilidad de cuenta: HashKey, Kraken y OKX — NexuAlpha", "Compara elegibilidad regional, identidad, banca a mismo nombre, rutas fiat y fuentes oficiales antes de elegir plataforma."],
     derivatives: ["Comparación de plataformas perpetuas cripto: comisiones, funding y liquidación — NexuAlpha", "Compara plataformas perpetuas por modelo de cuenta, comisiones publicadas, funding, margen, liquidación, oráculos y acceso regional."],
-    "no-kyc": ["Acceso cripto sin KYC: wallet, CEX, perps y retiros — NexuAlpha", "Compara acceso con wallet, cuentas CEX, retiros, límites regionales, controles de sanciones, front ends y riesgo de liquidación."],
+    "no-kyc": ["Autocustodia sin KYC vs exchange con KYC (2026): Hyperliquid, dYdX y MEXC — NexuAlpha", "Compara acceso con wallet, cuentas CEX, retiros, límites regionales, controles de sanciones, front ends y riesgo de liquidación."],
   },
   "pt-BR": {
     "meme-coins": ["Comparação de plataformas meme coin: MEXC, Gate.io e Raydium — NexuAlpha", "Compare acesso, liquidez, custos, contratos de token, rotas de pools e condições de conta para meme coins."],
     "compliant-exchanges": ["Acesso fiat e elegibilidade de conta: HashKey, Kraken e OKX — NexuAlpha", "Compare elegibilidade regional, identidade, banco em mesmo nome, rotas fiat e fontes oficiais antes de escolher uma plataforma."],
     derivatives: ["Comparação de plataformas perpétuas cripto: taxas, funding e liquidação — NexuAlpha", "Compare plataformas perpétuas por modelo de conta, taxas publicadas, funding, margem, liquidação, oráculos e acesso regional."],
-    "no-kyc": ["Acesso cripto sem KYC: carteira, CEX, perps e saques — NexuAlpha", "Compare acesso por carteira, contas CEX, saques, limites regionais, controles de sanções, front ends e risco de liquidação."],
+    "no-kyc": ["Autocustódia sem KYC vs exchange com KYC (2026): Hyperliquid, dYdX e MEXC — NexuAlpha", "Compare acesso por carteira, contas CEX, saques, limites regionais, controles de sanções, front ends e risco de liquidação."],
   },
   fr: {
     "meme-coins": ["Comparatif des plateformes meme coin : MEXC, Gate.io et Raydium — NexuAlpha", "Comparez accès, liquidité, frais, contrats de tokens, pools et conditions de compte pour les meme coins."],
     "compliant-exchanges": ["Accès fiat et éligibilité de compte : HashKey, Kraken et OKX — NexuAlpha", "Comparez éligibilité régionale, identité, banque au même nom, rails fiat et sources officielles avant de choisir."],
     derivatives: ["Comparatif des plateformes perpétuelles crypto : frais, funding et liquidation — NexuAlpha", "Comparez les plateformes perpétuelles par compte, frais publiés, funding, marge, liquidation, oracle et accès régional."],
-    "no-kyc": ["Accès crypto sans KYC : wallet, CEX, perps et retraits — NexuAlpha", "Comparez l’accès wallet, les comptes CEX, retraits, limites régionales, contrôles de sanctions, front ends et risque de liquidation."],
+    "no-kyc": ["Auto-garde sans KYC vs exchange avec KYC (2026) : Hyperliquid, dYdX et MEXC — NexuAlpha", "Comparez l’accès wallet, les comptes CEX, retraits, limites régionales, contrôles de sanctions, front ends et risque de liquidation."],
   },
   de: {
     "meme-coins": ["Meme-Coin-Plattformvergleich: MEXC, Gate.io und Raydium — NexuAlpha", "Vergleichen Sie Zugang, Liquidität, Kosten, Token-Verträge, Pool-Routen und Kontobedingungen für Meme Coins."],
     "compliant-exchanges": ["Fiat-Zugang und Kontoeignung: HashKey, Kraken und OKX — NexuAlpha", "Vergleichen Sie regionale Eignung, Identität, gleichnamige Bankkonten, Fiat-Wege und offizielle Quellen vor der Wahl."],
     derivatives: ["Krypto-Perpetual-Plattformen: Gebühren, Funding und Liquidation — NexuAlpha", "Vergleichen Sie Perpetual-Plattformen nach Kontomodell, Gebühren, Funding, Margin, Liquidation, Oracle und regionalem Zugang."],
-    "no-kyc": ["No-KYC-Krypto-Zugang: Wallet, CEX, Perps und Auszahlungen — NexuAlpha", "Vergleichen Sie Wallet-Zugang, CEX-Konten, Auszahlungen, regionale Grenzen, Sanktionsprüfungen, Frontends und Liquidationsrisiko."],
+    "no-kyc": ["Selbstverwahrung ohne KYC vs Börse mit KYC (2026): Hyperliquid, dYdX und MEXC — NexuAlpha", "Vergleichen Sie Wallet-Zugang, CEX-Konten, Auszahlungen, regionale Grenzen, Sanktionsprüfungen, Frontends und Liquidationsrisiko."],
   },
   ja: {
     "meme-coins": ["ミームコイン取引プラットフォーム比較：MEXC、Gate.io、Raydium — NexuAlpha", "ミームコインの上場、流動性、手数料、トークンコントラクト、プール経路、口座条件を比較します。"],
     "compliant-exchanges": ["法定通貨アクセスと口座適格性：HashKey、Kraken、OKX — NexuAlpha", "地域適格性、本人確認、同名義銀行、法定通貨ルート、公式ルール情報を比較します。"],
     derivatives: ["暗号資産パーペチュアル比較：手数料、資金調達率、清算チェック — NexuAlpha", "口座モデル、公開手数料、資金調達率、証拠金、清算、オラクル、地域条件で比較します。"],
-    "no-kyc": ["No-KYC暗号資産アクセス：ウォレット、CEX、パープ、出金確認 — NexuAlpha", "ウォレット接続、CEX口座、出金、地域制限、制裁チェック、フロントエンド、清算リスクを比較します。"],
+    "no-kyc": ["本人確認なしの自己管理 vs 本人確認必須の取引所（2026）：Hyperliquid、dYdX、MEXC比較 — NexuAlpha", "ウォレット接続、CEX口座、出金、地域制限、制裁チェック、フロントエンド、清算リスクを比較します。"],
   },
   ko: {
     "meme-coins": ["밈코인 플랫폼 비교: MEXC, Gate.io, Raydium — NexuAlpha", "밈코인 상장, 유동성, 비용, 토큰 계약, 풀 경로와 계정 조건을 비교하세요."],
@@ -5585,7 +5585,7 @@ const TOPIC_METADATA_LOCALIZED_PACK = {
     ],
     "compliant-exchanges": ["الوصول إلى العملات التقليدية وأهلية الحساب: HashKey وKraken وOKX — NexuAlpha", "قارن الأهلية الإقليمية والهوية ومتطلبات الحساب البنكي ومسارات العملات التقليدية والمصادر الرسمية."],
     derivatives: ["مقارنة منصات العقود الدائمة: الرسوم والتمويل والتصفية — NexuAlpha", "قارن منصات العقود الدائمة حسب نموذج الحساب والرسوم المنشورة والتمويل والهامش والتصفية والأوراكل والوصول الإقليمي."],
-    "no-kyc": ["وصول العملات الرقمية دون KYC: المحافظ وCEX والعقود الدائمة والسحب — NexuAlpha", "قارن اتصال المحفظة وحسابات CEX والسحب والحدود الإقليمية وفحص العقوبات والواجهات ومخاطر التصفية."],
+    "no-kyc": ["حفظ ذاتي دون KYC مقابل منصة تتطلب KYC (2026): Hyperliquid وdYdX وMEXC — NexuAlpha", "قارن اتصال المحفظة وحسابات CEX والسحب والحدود الإقليمية وفحص العقوبات والواجهات ومخاطر التصفية."],
   },
   tr: {
     "meme-coins": ["Meme coin platform karşılaştırması: MEXC, Gate.io ve Raydium — NexuAlpha", "Meme coin erişimini, likiditeyi, maliyetleri, token kontratlarını, pool rotalarını ve hesap koşullarını karşılaştırın."],
@@ -5596,25 +5596,25 @@ const TOPIC_METADATA_LOCALIZED_PACK = {
     "meme-coins": ["Сравнение платформ для meme coin: MEXC, Gate.io и Raydium — NexuAlpha", "Сравните доступ, ликвидность, комиссии, контракты токенов, маршруты пулов и условия аккаунта для meme coin."],
     "compliant-exchanges": ["Фиатный доступ и условия аккаунта: HashKey, Kraken и OKX — NexuAlpha", "Сравните региональную доступность, идентификацию, одноимённый банк, фиатные маршруты и официальные источники."],
     derivatives: ["Сравнение крипто-перпетуалов: комиссии, funding и ликвидация — NexuAlpha", "Сравните perpetual-платформы по модели аккаунта, комиссиям, funding, марже, ликвидации, oracle и региональному доступу."],
-    "no-kyc": ["Крипто-доступ без KYC: кошелёк, CEX, перпетуалы и вывод — NexuAlpha", "Сравните wallet-доступ, CEX-аккаунты, вывод, региональные лимиты, санкционные проверки, фронтенды и риск ликвидации."],
+    "no-kyc": ["Самостоятельное хранение без KYC vs биржа с KYC (2026): Hyperliquid, dYdX и MEXC — NexuAlpha", "Сравните wallet-доступ, CEX-аккаунты, вывод, региональные лимиты, санкционные проверки, фронтенды и риск ликвидации."],
   },
   id: {
     "meme-coins": ["Perbandingan platform meme coin: MEXC, Gate.io, dan Raydium — NexuAlpha", "Bandingkan akses, likuiditas, biaya, kontrak token, rute pool, dan ketentuan akun untuk meme coin."],
     "compliant-exchanges": ["Akses fiat dan kelayakan akun: HashKey, Kraken, dan OKX — NexuAlpha", "Bandingkan kelayakan regional, identitas, bank atas nama sama, jalur fiat, dan sumber aturan resmi."],
     derivatives: ["Perbandingan platform perpetual kripto: biaya, funding, dan likuidasi — NexuAlpha", "Bandingkan platform perpetual menurut model akun, biaya publik, funding, margin, likuidasi, oracle, dan akses regional."],
-    "no-kyc": ["Akses kripto no-KYC: dompet, CEX, perp, dan penarikan — NexuAlpha", "Bandingkan akses dompet, akun CEX, penarikan, batas regional, kontrol sanksi, front end, dan risiko likuidasi."],
+    "no-kyc": ["Swakelola tanpa KYC vs bursa dengan KYC (2026): Hyperliquid, dYdX, dan MEXC — NexuAlpha", "Bandingkan akses dompet, akun CEX, penarikan, batas regional, kontrol sanksi, front end, dan risiko likuidasi."],
   },
   vi: {
     "meme-coins": ["So sánh nền tảng meme coin: MEXC, Gate.io và Raydium — NexuAlpha", "So sánh quyền truy cập, thanh khoản, chi phí, hợp đồng token, tuyến pool và điều kiện tài khoản cho meme coin."],
     "compliant-exchanges": ["Truy cập fiat và điều kiện tài khoản: HashKey, Kraken và OKX — NexuAlpha", "So sánh điều kiện khu vực, danh tính, ngân hàng cùng tên, tuyến fiat và nguồn quy tắc chính thức."],
     derivatives: ["So sánh nền tảng perpetual crypto: phí, funding và thanh lý — NexuAlpha", "So sánh nền tảng perpetual theo mô hình tài khoản, phí công bố, funding, ký quỹ, thanh lý, oracle và truy cập khu vực."],
-    "no-kyc": ["Truy cập crypto không KYC: ví, CEX, perp và rút tiền — NexuAlpha", "So sánh kết nối ví, tài khoản CEX, rút tiền, giới hạn khu vực, kiểm soát trừng phạt, front end và rủi ro thanh lý."],
+    "no-kyc": ["Tự lưu ký không KYC vs sàn yêu cầu KYC (2026): Hyperliquid, dYdX và MEXC — NexuAlpha", "So sánh kết nối ví, tài khoản CEX, rút tiền, giới hạn khu vực, kiểm soát trừng phạt, front end và rủi ro thanh lý."],
   },
   it: {
     "meme-coins": ["Confronto piattaforme meme coin: MEXC, Gate.io e Raydium — NexuAlpha", "Confronta accesso, liquidità, costi, contratti token, pool e condizioni account per le meme coin."],
     "compliant-exchanges": ["Accesso fiat e idoneità account: HashKey, Kraken e OKX — NexuAlpha", "Confronta idoneità regionale, identità, banca con stesso nome, percorsi fiat e fonti ufficiali."],
     derivatives: ["Confronto piattaforme perpetual crypto: commissioni, funding e liquidazione — NexuAlpha", "Confronta piattaforme perpetual per modello account, commissioni pubblicate, funding, margine, liquidazione, oracle e accesso regionale."],
-    "no-kyc": ["Accesso crypto no-KYC: wallet, CEX, perp e prelievi — NexuAlpha", "Confronta accesso wallet, account CEX, prelievi, limiti regionali, controlli sanzioni, front end e rischio di liquidazione."],
+    "no-kyc": ["Autocustodia senza KYC vs exchange con KYC (2026): Hyperliquid, dYdX e MEXC — NexuAlpha", "Confronta accesso wallet, account CEX, prelievi, limiti regionali, controlli sanzioni, front end e rischio di liquidazione."],
   },
 };
 for (const [locale, topics] of Object.entries(TOPIC_METADATA_LOCALIZED_PACK)) {
@@ -6726,7 +6726,7 @@ async function routeMetadataBase(url, env, newsFeed) {
         "meme-coins": "Meme coin platform comparison (2026): MEXC vs Gate.io vs Raydium — NexuAlpha",
         derivatives: "Crypto perpetual platform comparison: Binance, Bybit and Hyperliquid — NexuAlpha",
         "compliant-exchanges": "Regulated crypto exchange comparison for fiat access: HashKey, Kraken and OKX — NexuAlpha",
-        "no-kyc": "Crypto access without KYC: Hyperliquid, dYdX and MEXC — NexuAlpha",
+        "no-kyc": "No-KYC Self-Custody vs KYC Exchange (2026): Hyperliquid, dYdX and MEXC — NexuAlpha",
       },
       ja: {
         "meme-coins": "ミームコイン取引プラットフォーム比較：MEXC・Gate.io・Raydium — NexuAlpha",
