@@ -3,7 +3,7 @@ import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
-import { clampMetaDescription, metaDescriptionLimit } from "../src/data/meta-description.js";
+import { budgetTitle, clampMetaDescription, metaDescriptionLimit } from "../src/data/meta-description.js";
 import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
 import { ONCHAIN_GUIDE_LOCALES, ONCHAIN_GUIDE_PATH, onchainGuideSchema, onchainGuideSeo } from "../src/data/onchain-guide.js";
 import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
@@ -5720,6 +5720,7 @@ export async function routeMetadata(url, env) {
   if (metadata && typeof metadata.description === "string") {
     metadata.description = clampMetaDescription(metadata.description, metadata.locale);
   }
+  if (metadata && typeof metadata.title === "string") metadata.title = budgetTitle(metadata.title);
   return metadata;
 }
 

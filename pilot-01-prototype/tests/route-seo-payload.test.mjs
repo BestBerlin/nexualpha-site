@@ -316,7 +316,7 @@ test("the browser graph no longer imports seo-injection.js; the SSR/worker side 
   const vite = await readFile(new URL("../vite.config.mjs", import.meta.url), "utf8");
   assert.match(vite, /seo-injection\.js reached the client bundle/, "vite fails the client build if the tables come back");
   const { computeRouteSeo } = await import("../src/data/seo-injection.js");
-  assert.equal(computeRouteSeo({ pathname: "/telegram", locale: "en" }).title, "Telegram Research Bot & Platform Intelligence Hub — NexuAlpha", "Node consumers (r100 baselines, SEO contracts) still have computeRouteSeo");
+  assert.equal(computeRouteSeo({ pathname: "/telegram", locale: "en" }).title, "Telegram Research Bot & Platform Intelligence Hub", "Node consumers (r100 baselines, SEO contracts) still have computeRouteSeo");
 });
 
 // Strings that exist only in the route SEO tables (src/data/seo-injection.js) and the worker, never in a UI module.
