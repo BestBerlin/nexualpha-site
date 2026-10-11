@@ -13,6 +13,7 @@ import { NEWS_DISPLAY_LOCALES, newsListingPublishedLocales, newsSitemapLanguage,
 import { BRAZIL_PAGES, BRAZIL_SOURCES } from "../src/data/brazil-market.js";
 import { getBrazilSeo } from "../src/data/brazil-seo.js";
 import { AUDIT_DATE as FACTBOOK_SOURCE_REVIEW_DATE } from "../src/data/factbook-registry.js";
+import { factbookDates } from "../src/data/factbook-dates.js";
 import { COUNTRY_ROUTE_PREFIXES, localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
 import { buildSearchPublicationReport, selectSitemapPublicationEntries, sitemapLocalesForRoute } from "./sitemap-publication-policy.mjs";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
@@ -215,7 +216,8 @@ function routeLastmod(route, article, locale = "en") {
     return TOPIC_GUIDES[slug]?.lastUpdated || TOKENIZED_ASSET_PAGES[slug]?.updatedAt || TOKENIZED_ASSET_CLUSTER_REVIEW_DATE;
   }
   if (route.template === "venue") return priorityVenueAnswerFor(pathSlug(route.pathname, "/exchanges/"), locale)?.reviewedAt || "2026-09-15";
-  if (route.template === "factbook") return FACTBOOK_SOURCE_REVIEW_DATE;
+  // Latest real review of the data on the page (fees checked / benefit terms / dossier), same as the Dataset schema.
+  if (route.template === "factbook") return factbookDates(pathSlug(route.pathname, "/factbook/")).latestReviewOn || FACTBOOK_SOURCE_REVIEW_DATE;
   // Shared comparison presentation changed on this date, not on every build.
   if (route.template === "comparison") return "2026-09-22";
   if (route.template === "regionalPreview") return "2026-09-15";

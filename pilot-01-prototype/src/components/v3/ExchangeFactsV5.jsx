@@ -58,7 +58,7 @@ function StripCell({ value, locale, none = false }) {
   if (value == null) return <span className="d5-rate d5-rate--null"><span className="d5-null-note">{none ? matrixCopy(locale).notOffered : matrixCopy(locale).unchecked}</span></span>;
   return (
     <span className="d5-rate">
-      <HeroCount value={value} text={feePct(value)} locale={locale} className="num d5-figure d5-figure--hero" />
+      <HeroCount value={value} text={feePct(value, locale)} locale={locale} className="num d5-figure d5-figure--hero" />
     </span>
   );
 }

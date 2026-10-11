@@ -12,7 +12,7 @@ import { regionalShortlistAccountStageOptions, regionalShortlistCopy } from "../
 import { bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
 import { buildRegistrationDecisionState } from "./registration-decision-state.js";
 import { trackCodeCopy } from "../../data/cta-ui-copy.js";
-import { ownerRebateLine } from "../../data/owner-rebate-line.js";
+import { ownerRebateLine, partnerBenefitParts } from "../../data/owner-rebate-line.js";
 import "./registration-card.css";
 
 const passportLabels = Object.freeze({
@@ -870,6 +870,8 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
 
   // QA 2026-10-10: the home desk promises these terms; the profile must say the same (one shared source).
   const benefitText = ownerRebateLine(publicCta.slug, locale, publicCta.name) || publicCta.benefit;
+  // Audit NX-02: the partner benefit row reads the same record as the line above (never "confirm" next to a stated share).
+  const partnerBenefit = partnerBenefitParts(publicCta.slug, locale);
   const context = directoryContext({ market, product, locale });
   const decisionPassport = readDecisionPassport("", { market, product, accountStage, funding });
   const decisionCopy = passportCopy(locale);
@@ -1084,7 +1086,9 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
             <div className="registration-card__action-group">
               <div className="registration-card__state-list" role="group" aria-label={locale.startsWith("zh") ? "合作入口、优惠和地区状态" : (copy.stateListLabel || "Partner route, benefit and regional states")}>
                 <p><span>{publicCta.hasPartnerRoute ? copy.routeState : (copy.officialRouteState || copy.officialDomain)}</span><b>{publicCta.hasPartnerRoute ? copy.routeReady : (officialRouteUrl ? copy.regionVerify : copy.routePending)}</b></p>
-                <p><span>{showProtocolContext && !publicCta.benefitVerified ? entryContext.title : copy.benefitState}</span><b>{publicCta.benefitVerified ? copy.benefitVerified : showProtocolContext ? entryContext.body : copy.benefitPending}</b></p>
+                {partnerBenefit && !publicCta.benefitVerified
+                  ? <p><span>{partnerBenefit.label}</span><b>{partnerBenefit.value} · {partnerBenefit.confirmed}; {partnerBenefit.account}</b></p>
+                  : <p><span>{showProtocolContext && !publicCta.benefitVerified ? entryContext.title : copy.benefitState}</span><b>{publicCta.benefitVerified ? copy.benefitVerified : showProtocolContext ? entryContext.body : copy.benefitPending}</b></p>}
                 <p><span>{copy.regionState}</span><b>{regionStateText}</b></p>
               </div>
               {!compact && <>{preflight}{primaryAction}</>}

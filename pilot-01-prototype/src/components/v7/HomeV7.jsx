@@ -7,6 +7,7 @@ import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { HOME_REBATE_MAX_PCT, HOME_REBATE_SHARE, HOME_PARTNERS, HOME_PUSH, HOME_AUTO_SETTLE, HOME_SETTLE } from "../../data/home-rebate-tiers.js";
 import { TelegramAlertsStrip } from "../v3/TelegramAlertsStrip.jsx";
+import { partnerRebateShare } from "../../data/partner-benefit-status.js";
 import { formatPercent, replaceMaxPercent } from "../../data/format-percent.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
@@ -30,7 +31,7 @@ function useVenues(locale, product) {
     const checked = f.state === "checked" && Number.isFinite(f.maker) && Number.isFinite(f.taker);
     return {
       slug, name: nameOf(slug), maker: checked ? f.maker : null, taker: checked ? f.taker : null,
-      share: HOME_REBATE_SHARE[slug], code: cta.hasReferral ? cta.inviteCode : null,
+      share: partnerRebateShare(slug), code: cta.hasReferral ? cta.inviteCode : null,
       url: cta.registrationUrl, open: Boolean(cta.hasReferral && /^https:\/\//i.test(cta.registrationUrl || "")),
     };
   }), [locale, product]);
