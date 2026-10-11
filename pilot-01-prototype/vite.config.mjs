@@ -197,6 +197,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/v3/TokenizedAssetsPage")) return "route-tokenized-assets";
           // /topics/<exchange>-alternatives shares the small topic-cluster chunk (and its route stylesheet prefix in the Worker).
           if (id.includes("/src/components/v3/VenueAlternativesPage")) return "route-tokenized-assets";
+          // /topics/<brazil deadline> (pt-BR + en) uses the same small topic chunk and route stylesheet prefix.
+          if (id.includes("/src/components/v3/BrazilDeadlinePage")) return "route-tokenized-assets";
           if (id.includes("/src/components/v3/TopicGuidePage")) return "route-topic-guide";
           if (id.includes("/src/components/v3/FactbookPage")) return "route-factbook";
           if (id.includes("/src/components/v3/international/")) return "route-international";
@@ -253,6 +255,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // (campaign-copy) and dragged those graphs onto every venue page; after the audit merge plural-copy sat inside
           // route-rates and pulled the rates, factbook and calculator graphs back in. Pin them to small shared chunks.
           if (/\/src\/(?:data\/reviewed-fee-copy|data\/venue-fee-summary|data\/reviewed-base-fees|data\/public-copy-sanitizer|data\/contextual-href|data\/plural-copy|utils\/fallback-lang|utils\/venue-name-helper|components\/v3\/exchange-matrix-copy)\.js$/.test(id)) return "shared-venue-copy";
+          // Brazil BCB deadline notice: shared by the directory, venue and Brazil topic chunks (no stylesheet of its own).
+          if (/\/src\/(?:data\/brazil-vasp-status\.js|data\/venue-kyc-corrections\.js|components\/v3\/BrazilDeadlineNotice\.jsx)$/.test(id)) return "shared-venue-copy";
           if (id.includes("/src/components/v3/ExchangeFactsV5") || id.includes("/src/components/v6/InnerLedger") || id.includes("/src/components/v6/inner-r9-copy") || id.includes("/src/lib/v5/")) return "shared-exchange-facts";
           // CSS-only chunks keep the "route-v3-pages-" prefix the Worker allow-lists on the venue, compare and home routes.
           if (id.endsWith("/src/components/v3/profile-density.css") || id.endsWith("/src/components/v3/HyperliquidFeeScenario.css")) return "route-v3-pages-detail";

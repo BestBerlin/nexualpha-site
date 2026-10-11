@@ -38,6 +38,7 @@ import { localeKey, textLocaleKey, zhText, localePending, interfaceText, detailC
 import { detailUi, dexFeeCompactUi, copyFeedbackLabel, useCopyFeedback, CopyFeedbackStatus, telegramLocaleUi } from "./venue-detail-shared.jsx";
 import { VenueFaqSection } from "./VenueFaqSection.jsx";
 import { VenueKeywordSections } from "./VenueKeywordSections.jsx";
+import { BrazilDeadlineNotice } from "./BrazilDeadlineNotice.jsx";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { SectionRule } from "../shared/DataRule.jsx";
 
@@ -663,6 +664,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
         <VenueFeeLedger slug={profile.slug} locale={locale} />
         <VenueRoute domain={officialDomain} code={hasReferral ? inviteCode : null} locale={locale} />
         <VenueKeywordSections slug={profile.slug} locale={locale} inviteCode={hasReferral ? inviteCode : null} />
+        <BrazilDeadlineNotice locale={locale} slug={profile.slug} placement="venue" />
 
         {venueDirectAnswer && (
           <div className="v3-venue-direct-answer" role="region" aria-label={priorityAnswer?.title || `${profile.name} direct answer`} data-priority-answer={priorityAnswer ? venue.slug : undefined} lang={priorityAnswer?.locale || locale}>

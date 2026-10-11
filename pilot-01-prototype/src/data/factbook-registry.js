@@ -645,16 +645,15 @@ export const FACTBOOK_REGISTRY = {
       fundAmount: "$100M+ equivalent reserve pool",
     },
     compliance: {
-      kycLevel: "optional",
-      kycSummaryZh: "纯币币交易可选 KYC（每日免实名提现最高 30 BTC）",
-      kycSummaryEn: "Optional KYC for crypto-only tiers (up to 30 BTC daily withdrawal)",
+      // MEXC User Agreement (https://www.mexc.com/terms) requires identity documents; no official unverified limit.
+      kycLevel: "mandatory",
+      kycSummaryZh: "根据 MEXC 用户协议（https://www.mexc.com/terms）须完成身份认证；提币限额随 KYC 等级提高，MEXC 未公布未认证账户的官方限额。",
+      kycSummaryEn: "Identity verification required under the MEXC User Agreement (https://www.mexc.com/terms); withdrawal limits rise with the KYC tier, and MEXC publishes no official limit for unverified accounts.",
       kycTiersZh: [
-        "Unverified (免 KYC): 仅邮箱注册，单日免实名提现 30 BTC，不可使用法币充提",
         "Primary KYC: 基础身份认证，单日提现 80 BTC",
         "Advanced KYC: 完整人脸与地址核验，单日提现 200 BTC",
       ],
       kycTiersEn: [
-        "Unverified: Email only, 30 BTC/day withdrawal limit, no fiat on-ramps",
         "Primary KYC: Basic ID verification, 80 BTC/day limit",
         "Advanced KYC: Full biometric check, 200 BTC/day limit",
       ],
