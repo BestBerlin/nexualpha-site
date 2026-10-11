@@ -6,7 +6,9 @@
 @font-face{font-family:"Pilot Noto TC";font-style:normal;font-weight:100 900;font-display:swap;src:url("/fonts/zh-Hant-400.woff2") format("woff2");unicode-range:U+2E80-2FDF, U+3000-303F, U+3040-30FF, U+3100-312F, U+3190-31FF, U+3200-33FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FF0A, U+FF0C-FFEF, U+20000-2FA1F}
 @font-face{font-family:"Pilot Noto JP";font-style:normal;font-weight:100 900;font-display:swap;src:url("/fonts/ja-400.woff2") format("woff2");unicode-range:U+2E80-2FDF, U+3000-303F, U+3040-30FF, U+3100-312F, U+3190-31FF, U+3200-33FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FF0A, U+FF0C-FFEF, U+20000-2FA1F}
 @font-face{font-family:"Pilot Noto KR";font-style:normal;font-weight:100 900;font-display:swap;src:url("/fonts/ko-400.woff2") format("woff2");unicode-range:U+1100-11FF, U+3000-303F, U+3130-318F, U+3200-32FF, U+A960-A97F, U+AC00-D7FF, U+FF00-FF0A, U+FF0C-FFEF}
-@font-face{font-family:"Pilot Noto Arabic";font-style:normal;font-weight:100 900;font-display:swap;src:url("/fonts/ar-400.woff2") format("woff2");unicode-range:U+0600-06FF, U+0750-077F, U+0870-08FF, U+FB50-FDFF, U+FE70-FEFF}
+/* Arabic uses optional (2026-10-11): even preloaded, the face sometimes landed after first paint and the wider glyphs
+   re-wrapped /ar/news (CLS 0.35 at 768 px). If it is not ready at first paint the system Arabic font stays for that view. */
+@font-face{font-family:"Pilot Noto Arabic";font-style:normal;font-weight:100 900;font-display:optional;src:url("/fonts/ar-400.woff2") format("woff2");unicode-range:U+0600-06FF, U+0750-077F, U+0870-08FF, U+FB50-FDFF, U+FE70-FEFF}
 
 :root{
   --font-display:"Pilot Inter","Noto Sans SC","PingFang SC",system-ui,sans-serif;
