@@ -84,9 +84,9 @@ async def main():
             lang_btn = pg.locator('button[aria-label^="Language"]:visible').first
             if await lang_btn.count():
                 await lang_btn.click(); await pg.wait_for_timeout(600)
-                opt = pg.locator('[role=option]:has-text("日本語")').first
+                opt = pg.locator('[role=option]').filter(has_text="日本語").first
                 if await opt.count():
-                    await opt.click(); await pg.wait_for_timeout(3000)
+                    await opt.scroll_into_view_if_needed(); await opt.click(force=True); await pg.wait_for_timeout(3000)
                 rec("language menu switch stays on the venue page" + tag, "/ja/exchanges/bitget" in pg.url and (await pg.evaluate("document.documentElement.lang")) == "ja", f"url={pg.url}")
             else:
                 rec("language menu switch stays on the venue page" + tag, False, "no visible language button")
