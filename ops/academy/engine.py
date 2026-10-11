@@ -43,7 +43,7 @@ def validate(script):
             raise ValueError(f'{key} required')
     cta = meta.get('cta', {})
     if not isinstance(cta,dict): raise ValueError('CTA object required')
-    if cta.get('kind') not in ('neutral','partner') or (cta['kind']=='partner' and not isinstance(cta.get('partner'),str)):
+    if cta.get('kind') not in ('none','neutral','partner') or (cta['kind']=='partner' and not isinstance(cta.get('partner'),str)):
         raise ValueError('CTA kind neutral or partner required')
     if not isinstance(script.get('scenes'), list) or not script['scenes']:
         raise ValueError('nonempty scenes required')
@@ -139,7 +139,7 @@ def logo(size):
 
 
 def resolve_cta(meta,locale,market=''):
-    if meta['cta']['kind']=='neutral' or locale in ('ru','ar','zh-Hant','ur','uk'):
+    if meta['cta']['kind']!='partner' or locale in ('ru','ar','zh-Hant','ur','uk'):
         return None
     return json.loads(run(['node',ROOT/'cta.mjs',meta['cta']['partner'],locale,market]))
 
@@ -253,24 +253,28 @@ def frame(script,timing,t,size,locale,cta,burn=False):
         local=t; duration=3
     elif t>=timing['end_start']:
         local=t-timing['end_start']; duration=7
-        text(im,'NEXT LEVEL' if en else '下一关',(margin,185,w-margin,260),42,BLUE,locale)
+        heading=('SEASON COMPLETE' if en else '第一季完成') if meta.get('next_slug') == '' else ('NEXT LEVEL' if en else '下一关')
+        text(im,heading,(margin,185,w-margin,260),42,BLUE,locale)
         next_title=meta['next_title_en' if en else 'next_title_zh']
         text(im,next_title,(margin,280,w-margin,450),62,WHITE,locale)
         if cta:
-            claim=f'在 {cta["name"]} 官方入口完成这一步 · 邀请码 {cta["inviteCode"]}'
-            if cta['share'] is not None: claim+=f' · 手续费最高返还 {cta["share"]*100:g}%'
+            claim=f'在 {cta["name"]} 官方入口完成这一步\n邀请码 {cta["inviteCode"]}'
+            if cta['share'] is not None: claim+=f'\n手续费最高返还 {cta["share"]*100:g}%'
             if en:
-                claim=f'Complete this step via {cta["name"]} · Invite code {cta["inviteCode"]}'
-                if cta['share'] is not None: claim+=f' · Fee rebate up to {cta["share"]*100:g}%'
+                claim=f'Complete this step via {cta["name"]}\nInvite code {cta["inviteCode"]}'
+                if cta['share'] is not None: claim+=f'\nFee rebate up to {cta["share"]*100:g}%'
             disclosure='Promotion link; commission paid by the exchange' if en else '合作推广链接，佣金由交易所支付'
         else:
-            claim='Read the official receiving instructions before proceeding.' if en else '继续之前，先查阅接收平台的官方说明。'
+            claim=f'nexualpha.com/zh-hans/starter/\n{meta["slug"]}'
             disclosure='Independent educational example' if en else '中立教学示例 · 以平台当前说明为准'
         qr_x=margin if vertical else w-420; qr_y=950 if vertical else 500
         block_right=w-margin if vertical else w-490
-        text(im,claim,(margin,500,block_right,860 if vertical else 740),44,WHITE,locale)
-        text(im,disclosure,(margin,800 if vertical else 765,block_right,950 if vertical else 870),34,MUTED,locale)
-        text(im,'Not investment advice' if en else '不构成投资建议',(margin,h-230,w-margin,h-145),34,MUTED,locale)
+        text(im,claim,(margin,500,block_right,780 if vertical else 700),44,WHITE,locale)
+        text(im,disclosure,(margin,800 if vertical else 740,block_right,895 if vertical else 805),34,MUTED,locale)
+        if cta and meta['level']==8 and cta.get('slug')=='bitget':
+            domain_line='partner.bitget.cafe is an official Bitget partner domain' if en else 'partner.bitget.cafe 为 Bitget 官方合作域名'
+            text(im,domain_line,(margin,895 if vertical else 810,block_right,945 if vertical else 865),34,MUTED,locale)
+        text(im,'Not investment advice' if en else '不构成投资建议',(margin,1690 if vertical else 900,w-margin,1775 if vertical else 955),34,MUTED,locale)
         try:
             qr=qr_image(meta['slug'])
             im.paste(qr,(qr_x,qr_y))
@@ -285,7 +289,7 @@ def frame(script,timing,t,size,locale,cta,burn=False):
         text(im,scene.get('sub_en',scene['sub']) if en else scene['sub'],(margin,y+(220 if vertical else 160),w-margin,y+(400 if vertical else 290)),38,MUTED,locale)
         box=(margin,620 if vertical else 470,w-margin,1430 if vertical else 810)
         draw_visual(im,box,scene['visual']['type'],scene['visual']['params'],local,duration,locale)
-        text(im,f'{i+1:02} / {len(script["scenes"]):02} · '+('NETWORK CHECK' if en else '转账前的网络核对'),(margin,h-330 if vertical else h-260,w-margin,h-250 if vertical else h-205),34,BLUE,locale)
+        text(im,f'{i+1:02} / {len(script["scenes"]):02} · '+('STARTER PATH' if en else '新手村'),(margin,h-330 if vertical else h-260,w-margin,h-250 if vertical else h-205),34,BLUE,locale)
         if burn:
             active=next((c for c in timing['cues'] if c['start']<=t<c['end']),None)
             if active:
@@ -304,7 +308,9 @@ def frame(script,timing,t,size,locale,cta,burn=False):
     return im
 
 
-def render(script,timing,out,locale,cta):
+def render(script,timing,out,locale,cta,diagnostic_frame_rate=FPS):
+    # Diagnostic reviews may sample motion sparsely; final narrated exports remain 30fps.
+    input_fps=diagnostic_frame_rate if timing.get('diagnostic') else FPS
     for vertical in (False,True):
         size=(1080,1920) if vertical else (1920,1080); label='vertical' if vertical else 'master'
         # Encode clean and captioned versions from the same frames and narration timeline.
@@ -312,12 +318,12 @@ def render(script,timing,out,locale,cta):
         for burn in (False,True):
             name=f'{label}-{locale}'+('-captions' if burn else '')+'.mp4'
             temporary=out/f'.{name}.partial.mp4'
-            args=[FFMPEG,'-y','-v','error','-f','rawvideo','-pix_fmt','rgb24','-s',f'{size[0]}x{size[1]}','-r',FPS,'-i','pipe:0','-i',out/f'{locale}.wav','-c:v','libx264','-preset','veryfast','-crf','21','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k','-movflags','+faststart',temporary]
+            args=[FFMPEG,'-nostdin','-y','-v','error','-f','rawvideo','-pix_fmt','rgb24','-s',f'{size[0]}x{size[1]}','-r',input_fps,'-i','pipe:0','-i',out/f'{locale}.wav','-r',FPS,'-c:v','libx264','-preset','veryfast','-crf','21','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k','-movflags','+faststart','-t',timing['duration'],temporary]
             writers.append((burn,subprocess.Popen([str(a) for a in args],stdin=subprocess.PIPE,stderr=subprocess.PIPE,env=ENV),out/name,temporary))
         try:
-            for n in range(math.ceil(timing['duration']*FPS)):
-                if n % (FPS*10) == 0: print(f'{label}: {n/FPS:.0f}/{timing["duration"]:.1f}s',flush=True)
-                t=n/FPS
+            for n in range(math.ceil(timing['duration']*input_fps)):
+                if n % (input_fps*10) == 0: print(f'{label}: {n/input_fps:.0f}/{timing["duration"]:.1f}s',flush=True)
+                t=n/input_fps
                 clean=frame(script,timing,t,size,locale,cta,False)
                 for burn,process,_,_ in writers:
                     im=clean
@@ -327,10 +333,13 @@ def render(script,timing,out,locale,cta):
                         w,h=size
                         text(im,active['text'],(64,h-250 if vertical else h-205,w-64,h-105),36,WHITE,locale)
                     process.stdin.write(im.tobytes())
-            for _,process,target,temporary in writers:
+            # Signal EOF to every encoder before waiting for any one of them.
+            for _,process,_,_ in writers:
                 process.stdin.close()
-                error=process.stderr.read().decode(); code=process.wait()
-                if code: raise RuntimeError(error)
+                process.stdin=None
+            for _,process,target,temporary in writers:
+                _,error=process.communicate(timeout=60)
+                if process.returncode: raise RuntimeError(error.decode())
             for _,_,target,temporary in writers: temporary.replace(target)
         finally:
             for _,process,_,temporary in writers:
@@ -392,6 +401,7 @@ def main():
     parser.add_argument('--out',type=Path,default=ROOT/'samples')
     parser.add_argument('--locale',choices=['zh-Hans','en'],default='zh-Hans')
     parser.add_argument('--market',default='')
+    parser.add_argument('--diagnostic-frame-rate',type=int,choices=[1,2,5,10,30],default=FPS,help='Sparse motion sampling for silent diagnostics only; output remains 30fps')
     parser.add_argument('--preview-only',action='store_true')
     parser.add_argument('--diagnostic-silent',action='store_true',help='Explicitly incomplete visual review only; estimated timing, silent AAC')
     args=parser.parse_args()
@@ -412,11 +422,12 @@ def main():
     fingerprint_path.write_text(fingerprint)
     cta=resolve_cta(script['meta'],args.locale,args.market)
     preflight(script,timings[args.locale],args.locale,cta)
+    (out/'layout-preflight.json').write_text(json.dumps({'status':'PASS','locale':args.locale,'scenes':len(script['scenes']),'sizes':[[1920,1080],[1080,1920]],'minimum_font_px':34,'coverage':'intro, end card, each scene at 2/50/98 percent, every sentence caption'},indent=2)+'\n')
     previews(script,timings[args.locale],out,args.locale,cta)
     if not args.preview_only:
         (out/'render-manifest.json').write_text(json.dumps({'status':'RENDERING','script_sha256':fingerprint})+'\n')
-        render(script,timings[args.locale],out,args.locale,cta)
-    (out/'render-manifest.json').write_text(json.dumps({'locale':args.locale,'market':args.market,'script_sha256':fingerprint,'cta':cta,'duration':timings[args.locale]['duration'],'fps':FPS,'status':'INCOMPLETE_SILENT_DIAGNOSTIC' if args.diagnostic_silent else 'NARRATED','timing_basis':'estimated' if args.diagnostic_silent else 'measured_sentence_audio'},ensure_ascii=False,indent=2)+'\n')
+        render(script,timings[args.locale],out,args.locale,cta,args.diagnostic_frame_rate)
+    (out/'render-manifest.json').write_text(json.dumps({'locale':args.locale,'market':args.market,'script_sha256':fingerprint,'cta':cta,'duration':timings[args.locale]['duration'],'fps':FPS,'status':'INCOMPLETE_SILENT_DIAGNOSTIC' if args.diagnostic_silent else 'NARRATED','motion_sample_fps':args.diagnostic_frame_rate if args.diagnostic_silent else FPS,'timing_basis':'estimated' if args.diagnostic_silent else 'measured_sentence_audio'},ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({'output':str(out),'duration':timings[args.locale]['duration'],'fps':FPS}))
 
 if __name__=='__main__': main()

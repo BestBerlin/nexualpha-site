@@ -257,57 +257,89 @@ class _Context:
 
 
 def _draw_flow(ctx: _Context) -> None:
-    labels = _list_param(ctx, "steps", _list_param(ctx, "labels", ["Receiver", "Network", "Sender"]))
-    if len(labels) < 2:
-        labels = [labels[0], "Confirm"] if labels else ["Receiver", "Confirm"]
-    active = min(len(labels) - 1, int(ctx.progress * len(labels)))
-    y = ctx.sy(0.48)
-    radius = max(90, min(ctx.w // (len(labels) * 5), ctx.h // 7))
-    left = ctx.sx(0.12)
-    right = ctx.sx(0.88)
-    gap = (right - left) / max(1, len(labels) - 1)
-    points = [(int(round(left + i * gap)), y) for i in range(len(labels))]
+    nodes = _list_param(ctx, "nodes", _list_param(ctx, "steps", ["Receiver", "Network", "Sender"]))
+    branches = _list_param(ctx, "branches", [])
+    edge_labels = _list_param(ctx, "labels", [])
+    note = _param(ctx, "note", _param(ctx, "warning", _param(ctx, "label", None)))
+    if len(nodes) < 2:
+        nodes = [nodes[0], "Confirm"] if nodes else ["Receiver", "Confirm"]
 
     _rounded(ctx.draw, ctx.box, 28, fill="#0f151d", outline="#1e2a3a")
-    for index in range(len(points) - 1):
+    if branches:
+        _draw_flow_branches(ctx, nodes[0], branches, note)
+        return
+
+    count = len(nodes)
+    compact = count >= 4 or ctx.h < 420
+    y = ctx.sy(0.45 if note else 0.50)
+    left = ctx.sx(0.08)
+    right = ctx.sx(0.92)
+    gap = (right - left) / max(1, count - 1)
+    node_w = min(max(170, int((right - left) / count * 0.82)), max(170, int(ctx.w * 0.22)))
+    node_h = max(118, min(150, int(ctx.h * (0.34 if compact else 0.40))))
+    points = [(int(round(left + i * gap)), y) for i in range(count)]
+    active = min(count - 1, int(ctx.progress * count))
+
+    for index in range(count - 1):
         x0, y0 = points[index]
         x1, y1 = points[index + 1]
-        local = _range_progress(ctx.progress, index / (len(points) - 1), (index + 1) / (len(points) - 1))
-        ctx.draw.line((x0 + radius, y0, x1 - radius, y1), fill=_rgba(BLUE, 90), width=max(5, ctx.h // 90))
-        ctx.draw.line((x0 + radius, y0, x0 + radius + int((x1 - x0 - 2 * radius) * local), y1), fill=BLUE, width=max(7, ctx.h // 76))
-        _arrow(ctx.draw, (x1 - radius - 12, y1), (x1 - radius + 18, y1), BLUE if local > 0.82 else _rgba(BLUE, 90))
+        start_x = x0 + node_w // 2
+        end_x = x1 - node_w // 2
+        local = _range_progress(ctx.progress, index / (count - 1), (index + 1) / (count - 1))
+        if end_x <= start_x:
+            continue
+        ctx.draw.line((start_x, y0, end_x, y1), fill=_rgba(BLUE, 80), width=max(5, ctx.h // 90))
+        ctx.draw.line((start_x, y0, start_x + int((end_x - start_x) * local), y1), fill=BLUE, width=max(7, ctx.h // 76))
+        _arrow(ctx.draw, (end_x - 24, y1), (end_x + 4, y1), BLUE if local > 0.82 else _rgba(BLUE, 90))
+        if index < len(edge_labels) and edge_labels[index]:
+            draw_text_fit(
+                ctx.draw,
+                (start_x + 6, y0 - node_h * 0.52, end_x - 6, y0 - node_h * 0.17),
+                edge_labels[index],
+                locale=ctx.locale,
+                fill=MUTED,
+                max_size=ctx.size(0.043),
+                align="center",
+                valign="center",
+                max_lines=1,
+            )
 
     for index, (x, node_y) in enumerate(points):
         fill = "#172234" if index > active else "#14342d"
         outline = GREEN if index <= active else "#334056"
-        _rounded(ctx.draw, (x - radius, node_y - radius, x + radius, node_y + radius), radius // 2, fill=fill, outline=outline, width=3)
+        box = (x - node_w // 2, node_y - node_h // 2, x + node_w // 2, node_y + node_h // 2)
+        _rounded(ctx.draw, box, 22, fill=fill, outline=outline, width=3)
         draw_text_fit(
             ctx.draw,
-            (x - radius + 14, node_y - radius + 16, x + radius - 14, node_y + radius - 16),
-            labels[index],
+            (box[0] + 14, box[1] + 12, box[2] - 14, box[3] - 12),
+            nodes[index],
             locale=ctx.locale,
             fill=TEXT,
-            max_size=ctx.size(0.075),
+            max_size=ctx.size(0.056),
             align="center",
             valign="center",
-            max_lines=2,
+            max_lines=3,
         )
 
-    path_index = min(len(points) - 2, int(ctx.progress * (len(points) - 1)))
-    segment_t = (ctx.progress * (len(points) - 1)) % 1
-    if len(points) > 1:
-        x0, dot_y = points[path_index]
-        x1, _ = points[path_index + 1]
-        dot_x = int(round((x0 + radius) + (x1 - x0 - 2 * radius) * segment_t))
-        pulse = 0.7 + 0.3 * math.sin(ctx.t * 7.0)
-        ctx.draw.ellipse((dot_x - 12, dot_y - 12, dot_x + 12, dot_y + 12), fill=_rgba(GREEN, int(190 + 50 * pulse)))
+    if note:
+        draw_text_fit(ctx.draw, (ctx.sx(0.09), ctx.sy(0.76), ctx.sx(0.91), ctx.sy(0.91)), note, locale=ctx.locale, fill=AMBER, max_size=ctx.size(0.046), align="center", valign="center", max_lines=2)
+
+    path_index = min(count - 2, int(ctx.progress * (count - 1)))
+    segment_t = (ctx.progress * (count - 1)) % 1
+    x0, dot_y = points[path_index]
+    x1, _ = points[path_index + 1]
+    dot_x = int(round((x0 + node_w // 2) + (x1 - x0 - node_w) * segment_t))
+    pulse = 0.7 + 0.3 * math.sin(ctx.t * 7.0)
+    ctx.draw.ellipse((dot_x - 12, dot_y - 12, dot_x + 12, dot_y + 12), fill=_rgba(GREEN, int(190 + 50 * pulse)))
 
 
 def _draw_phone_mock(ctx: _Context) -> None:
-    title = _param(ctx, "title", "Generic verification form")
+    title = _param(ctx, "title", _param(ctx, "screen", "Generic verification form"))
     pairs = _field_pairs(ctx)
+    tabs = _list_param(ctx, "tabs", [])
+    note = _param(ctx, "note", _param(ctx, "label", None))
     if ctx.h < 500:
-        _draw_phone_mock_compact(ctx, title, pairs)
+        _draw_phone_mock_compact(ctx, title, pairs, tabs, note)
         return
     phone_w = int(ctx.w * 0.72)
     phone_h = min(int(ctx.h * 0.92), int(phone_w * 1.55))
@@ -329,8 +361,22 @@ def _draw_phone_mock(ctx: _Context) -> None:
     )
     draw_text_fit(ctx.draw, title_box, title, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.062), weight="bold", max_lines=2)
 
-    start_y = int(screen[1] + phone_h * 0.24)
-    bottom_y = int(screen[3] - phone_h * 0.06)
+    cursor_y = int(screen[1] + phone_h * 0.22)
+    if tabs:
+        tab_h = max(58, int(phone_h * 0.08))
+        tab_gap = 10
+        tab_w = int((screen[2] - screen[0] - phone_w * 0.10 - tab_gap * (len(tabs) - 1)) / max(1, len(tabs)))
+        tab_x = int(screen[0] + phone_w * 0.05)
+        for index, tab in enumerate(tabs):
+            reveal = _range_progress(ctx.progress, index / max(1, len(tabs)), (index + 0.7) / max(1, len(tabs)))
+            box = (tab_x + index * (tab_w + tab_gap), cursor_y, tab_x + index * (tab_w + tab_gap) + tab_w, cursor_y + tab_h)
+            active = index == 0
+            _rounded(ctx.draw, box, 16, fill="#183044" if active else "#182231", outline=BLUE if active else "#29364a", width=3 if active else 2)
+            draw_text_fit(ctx.draw, _pad(box, 10, 4, 10, 4), tab, locale=ctx.locale, fill=TEXT if active else MUTED, max_size=38, weight="bold" if active else "regular", align="center", valign="center", max_lines=1)
+        cursor_y += tab_h + 16
+
+    start_y = cursor_y
+    bottom_y = int(screen[3] - phone_h * (0.13 if note else 0.06))
     row_h = int((bottom_y - start_y) / max(1, len(pairs)))
     if row_h < 58:
         raise TextOverflowError(f"phone-mock has {len(pairs)} fields but only {bottom_y - start_y}px available")
@@ -346,19 +392,30 @@ def _draw_phone_mock(ctx: _Context) -> None:
             value_box = (label_box[2] + 10, row[1] + 8, row[2] - 42, row[3] - 8)
         draw_text_fit(ctx.draw, label_box, label, locale=ctx.locale, fill=MUTED, max_size=38, max_lines=1, valign="center")
         visible = _clip_text(str(value), reveal)
-        draw_text_fit(ctx.draw, value_box, visible or " ", locale=ctx.locale, fill=GREEN if reveal >= 0.98 else TEXT, max_size=42, weight="bold", max_lines=1, valign="center")
+        draw_text_fit(ctx.draw, value_box, visible or " ", locale=ctx.locale, fill=GREEN if reveal >= 0.98 else TEXT, max_size=42, weight="bold", max_lines=2 if row_h >= 96 else 1, valign="center")
         if reveal >= 0.98:
             _check(ctx.draw, (int(row[2] - 30), int(row[1] + row_h * 0.36)), 15, GREEN)
+    if note:
+        draw_text_fit(ctx.draw, (int(screen[0] + phone_w * 0.05), int(screen[3] - phone_h * 0.11), int(screen[2] - phone_w * 0.05), int(screen[3] - phone_h * 0.03)), note, locale=ctx.locale, fill=MUTED, max_size=36, align="center", valign="center", max_lines=2)
 
 
-def _draw_phone_mock_compact(ctx: _Context, title: Any, pairs: Sequence[tuple[str, str]]) -> None:
+def _draw_phone_mock_compact(ctx: _Context, title: Any, pairs: Sequence[tuple[str, str]], tabs: Sequence[str], note: Any) -> None:
     _rounded(ctx.draw, ctx.box, 28, fill="#0e141c", outline="#344054", width=4)
     screen = _pad(ctx.box, ctx.w * 0.035, ctx.h * 0.06, ctx.w * 0.035, ctx.h * 0.04)
     _rounded(ctx.draw, screen, 22, fill="#121a24", outline="#202c3c")
     ctx.draw.rounded_rectangle((ctx.sx(0.43), ctx.sy(0.045), ctx.sx(0.57), ctx.sy(0.065)), radius=7, fill="#2d3748")
     draw_text_fit(ctx.draw, (screen[0] + 24, screen[1] + 8, screen[2] - 24, screen[1] + 50), title, locale=ctx.locale, fill=TEXT, max_size=42, weight="bold", max_lines=1, valign="center")
     rows_top = screen[1] + 54
-    rows_bottom = screen[3] - 12
+    if tabs:
+        tab_h = 48
+        gap = 8
+        tab_w = int((screen[2] - screen[0] - 44 - gap * (len(tabs) - 1)) / max(1, len(tabs)))
+        for index, tab in enumerate(tabs):
+            box = (screen[0] + 22 + index * (tab_w + gap), rows_top, screen[0] + 22 + index * (tab_w + gap) + tab_w, rows_top + tab_h)
+            _rounded(ctx.draw, box, 14, fill="#183044" if index == 0 else "#182231", outline=BLUE if index == 0 else "#29364a")
+            draw_text_fit(ctx.draw, _pad(box, 8, 3, 8, 3), tab, locale=ctx.locale, fill=TEXT if index == 0 else MUTED, max_size=36, align="center", valign="center", max_lines=1)
+        rows_top += tab_h + 10
+    rows_bottom = screen[3] - (54 if note else 12)
     row_h = int((rows_bottom - rows_top) / max(1, len(pairs)))
     if row_h < 46:
         raise TextOverflowError(f"phone-mock has {len(pairs)} fields but only {rows_bottom - rows_top}px available")
@@ -369,35 +426,47 @@ def _draw_phone_mock_compact(ctx: _Context, title: Any, pairs: Sequence[tuple[st
         label_box = (row[0] + 16, row[1] + 6, row[0] + int((row[2] - row[0]) * 0.34), row[3] - 6)
         value_box = (label_box[2] + 12, row[1] + 6, row[2] - 44, row[3] - 6)
         draw_text_fit(ctx.draw, label_box, label, locale=ctx.locale, fill=MUTED, max_size=38, max_lines=1, valign="center")
-        draw_text_fit(ctx.draw, value_box, _clip_text(str(value), reveal) or " ", locale=ctx.locale, fill=GREEN if reveal >= 0.98 else TEXT, max_size=40, weight="bold", max_lines=1, valign="center")
+        draw_text_fit(ctx.draw, value_box, _clip_text(str(value), reveal) or " ", locale=ctx.locale, fill=GREEN if reveal >= 0.98 else TEXT, max_size=40, weight="bold", max_lines=2 if row_h >= 82 else 1, valign="center")
         if reveal >= 0.98:
             _check(ctx.draw, (row[2] - 26, (row[1] + row[3]) // 2), 14, GREEN)
+    if note:
+        draw_text_fit(ctx.draw, (screen[0] + 22, screen[3] - 50, screen[2] - 22, screen[3] - 10), note, locale=ctx.locale, fill=MUTED, max_size=34, align="center", valign="center", max_lines=1)
 
 
 def _draw_checklist(ctx: _Context) -> None:
-    title = _param(ctx, "title", "Pre-confirm checklist")
+    title = _param(ctx, "title", "核对清单" if _prefers_pingfang(ctx.locale) else "Checklist")
     items = _list_param(ctx, "items", ["Asset matches", "Network matches", "Address checked", "Memo included if required"])
+    active_raw = _param(ctx, "active", None)
+    all_checked = bool(_param(ctx, "all_checked", False))
+    example = _param(ctx, "example", None)
+    risk_note = _param(ctx, "risk_note", None)
     _rounded(ctx.draw, ctx.box, 30, fill="#101721", outline="#26364a")
-    draw_text_fit(ctx.draw, (ctx.sx(0.07), ctx.sy(0.08), ctx.sx(0.93), ctx.sy(0.22)), title, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.075), weight="bold", max_lines=2)
+    draw_text_fit(ctx.draw, (ctx.sx(0.07), ctx.sy(0.06), ctx.sx(0.93), ctx.sy(0.18)), title, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.058), weight="bold", max_lines=2)
     if ctx.h < 420 and len(items) >= 5:
         _draw_checklist_tiles(ctx, items)
         return
-    top = ctx.sy(0.27)
-    row_h = int((ctx.sy(0.90) - top) / max(1, len(items)))
-    if row_h < 50:
-        raise TextOverflowError(f"checklist has {len(items)} items but only {ctx.sy(0.90) - top}px available")
+    top = ctx.sy(0.23)
+    bottom = ctx.sy(0.86 if (example or risk_note) else 0.90)
+    row_h = int((bottom - top) / max(1, len(items)))
+    if row_h < 48:
+        raise TextOverflowError(f"checklist has {len(items)} items but only {bottom - top}px available")
+    active = int(active_raw) if isinstance(active_raw, int) and not isinstance(active_raw, bool) else None
     for index, item in enumerate(items):
         reveal = _range_progress(ctx.progress, index / max(1, len(items)), (index + 0.7) / max(1, len(items)))
         y0 = top + index * row_h
         row = (ctx.sx(0.08), y0, ctx.sx(0.92), y0 + row_h - 6)
-        _rounded(ctx.draw, row, 18, fill=_rgba("#172130", int(95 + 70 * reveal)), outline="#2b3a50")
+        highlighted = all_checked or active == index or (active is None and reveal > 0.55)
+        _rounded(ctx.draw, row, 18, fill=_rgba("#172130", int(95 + 70 * reveal)), outline=GREEN if highlighted else "#2b3a50", width=3 if highlighted else 2)
         cx = row[0] + max(30, min(42, row_h // 2))
         cy = (row[1] + row[3]) // 2
         icon = max(15, min(19, row_h // 3))
-        ctx.draw.ellipse((cx - icon, cy - icon, cx + icon, cy + icon), outline=GREEN if reveal > 0.45 else "#48576c", width=3)
-        if reveal > 0.55:
+        ctx.draw.ellipse((cx - icon, cy - icon, cx + icon, cy + icon), outline=GREEN if highlighted else "#48576c", width=3)
+        if highlighted:
             _check(ctx.draw, (cx, cy), icon, GREEN)
         draw_text_fit(ctx.draw, (cx + icon + 16, row[1] + 3, row[2] - 16, row[3] - 3), item, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.055), max_lines=1, valign="center")
+    footer = example or risk_note
+    if footer:
+        draw_text_fit(ctx.draw, (ctx.sx(0.09), ctx.sy(0.875), ctx.sx(0.91), ctx.sy(0.98)), footer, locale=ctx.locale, fill=AMBER if risk_note else MUTED, max_size=ctx.size(0.040), align="center", valign="center", max_lines=2)
 
 
 def _draw_checklist_tiles(ctx: _Context, items: Sequence[str]) -> None:
@@ -424,25 +493,34 @@ def _draw_checklist_tiles(ctx: _Context, items: Sequence[str]) -> None:
 
 
 def _draw_compare_table(ctx: _Context) -> None:
-    columns = _list_param(ctx, "columns", ["Receiver", "Sender"])[:2]
-    rows = _param(ctx, "rows", [["Asset", "USDT", "USDT"], ["Network", "ERC-20", "ERC-20"], ["Memo", "Required", "Included"]])
+    source_params = ctx.params.get("writer_params") if isinstance(ctx.params.get("writer_params"), Mapping) else ctx.params
+    table_ctx = _Context(ctx.image, ctx.draw, ctx.box, dict(source_params), ctx.progress, ctx.t, ctx.locale)
+    columns = _list_param(table_ctx, "columns", ["Receiver", "Sender"])
+    rows = _param(table_ctx, "rows", [["Asset", "USDT", "USDT"], ["Network", "ERC-20", "ERC-20"], ["Memo", "Required", "Included"]])
     if not isinstance(rows, Sequence):
         rows = []
-    rows = [list(row) for row in rows]
+    rows = [list(row) if isinstance(row, Sequence) and not isinstance(row, str) else [row] for row in rows]
+    note = _param(table_ctx, "note", _param(table_ctx, "risk_note", None))
+    if len(columns) == 2 and any(len(row) == 3 for row in rows):
+        columns = [""] + columns
+    max_cols = max([len(columns), *(len(row) for row in rows)] or [2])
+    max_cols = max(2, min(4, max_cols))
+    columns = (columns + [""] * max_cols)[:max_cols]
+    rows = [(row + [""] * max_cols)[:max_cols] for row in rows]
     _rounded(ctx.draw, ctx.box, 26, fill="#101721", outline="#28374a")
     left = ctx.sx(0.06)
-    mid = ctx.sx(0.36)
-    col2 = ctx.sx(0.66)
     right = ctx.sx(0.94)
-    header_h = max(70, min(96, int(ctx.h * 0.24)))
-    header = (left, ctx.sy(0.07), right, ctx.sy(0.07) + header_h)
+    header_h = max(54, min(82, int(ctx.h * 0.17)))
+    header = (left, ctx.sy(0.055), right, ctx.sy(0.055) + header_h)
     _rounded(ctx.draw, header, 16, fill="#162134", outline="#2a3a54")
-    draw_text_fit(ctx.draw, (mid + 18, header[1] + 8, col2 - 16, header[3] - 8), columns[0], locale=ctx.locale, fill=BLUE, max_size=ctx.size(0.05), weight="bold", align="center", valign="center", max_lines=1)
-    draw_text_fit(ctx.draw, (col2 + 18, header[1] + 8, right - 16, header[3] - 8), columns[1], locale=ctx.locale, fill=BLUE, max_size=ctx.size(0.05), weight="bold", align="center", valign="center", max_lines=1)
-    rows_top = header[3] + max(12, int(ctx.h * 0.035))
-    rows_bottom = ctx.sy(0.92)
+    widths = _table_widths(max_cols)
+    edges = _scaled_edges(left, right, widths)
+    for col, heading in enumerate(columns):
+        draw_text_fit(ctx.draw, (edges[col] + 10, header[1] + 8, edges[col + 1] - 10, header[3] - 8), heading, locale=ctx.locale, fill=BLUE if col else MUTED, max_size=ctx.size(0.046), weight="bold", align="center" if col else "left", valign="center", max_lines=1)
+    rows_top = header[3] + max(6, int(ctx.h * 0.020))
+    rows_bottom = ctx.sy(0.84 if note else 0.92)
     row_h = int((rows_bottom - rows_top) / max(1, len(rows)))
-    if row_h < 52:
+    if row_h < 48:
         raise TextOverflowError(f"compare-table has {len(rows)} rows but only {rows_bottom - rows_top}px available")
     for index, row in enumerate(rows):
         reveal = _range_progress(ctx.progress, index / max(1, len(rows)), (index + 0.7) / max(1, len(rows)))
@@ -450,96 +528,181 @@ def _draw_compare_table(ctx: _Context) -> None:
         alpha = int(60 + 120 * reveal)
         fill = _rgba("#152132", alpha)
         _rounded(ctx.draw, (left, y0, right, y0 + row_h - 12), 14, fill=fill, outline="#253449")
-        label, a, b = _compare_cells(row)
-        draw_text_fit(ctx.draw, (left + 18, y0 + 8, mid - 14, y0 + row_h - 20), label, locale=ctx.locale, fill=MUTED, max_size=ctx.size(0.045), weight="bold", valign="center", max_lines=1)
-        draw_text_fit(ctx.draw, (mid + 16, y0 + 8, col2 - 16, y0 + row_h - 20), a, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.05), align="center", valign="center", max_lines=1)
-        draw_text_fit(ctx.draw, (col2 + 16, y0 + 8, right - 16, y0 + row_h - 20), b, locale=ctx.locale, fill=GREEN if str(a).lower() == str(b).lower() else AMBER, max_size=ctx.size(0.05), align="center", valign="center", max_lines=1)
+        comparable = len(row) >= 3 and str(row[-1]).lower().replace(" ✓", "") == str(row[-2]).lower()
+        for col, cell in enumerate(row):
+            fill_color = MUTED if col == 0 else (GREEN if col == max_cols - 1 and comparable else TEXT)
+            draw_text_fit(ctx.draw, (edges[col] + 10, y0 + 3, edges[col + 1] - 10, y0 + row_h - 7), cell, locale=ctx.locale, fill=fill_color, max_size=ctx.size(0.044), weight="bold" if col == 0 else "regular", align="center" if col else "left", valign="center", max_lines=2 if row_h >= 72 else 1)
+    if note:
+        draw_text_fit(ctx.draw, (ctx.sx(0.08), ctx.sy(0.855), ctx.sx(0.92), ctx.sy(0.98)), note, locale=ctx.locale, fill=AMBER, max_size=ctx.size(0.038), align="center", valign="center", max_lines=2)
 
 
 def _draw_warning_card(ctx: _Context) -> None:
-    title = _param(ctx, "title", "Check before you confirm")
-    body = _param(ctx, "body", "A lower fee is not a reason to choose a different network.")
+    level = str(_param(ctx, "level", "warn")).lower()
+    title = _param(ctx, "title", _param(ctx, "text", "Check before you confirm"))
+    items = _list_param(ctx, "items", [])
+    body = _param(ctx, "body", _param(ctx, "detail", "\n".join(items) if items else "A lower fee is not a reason to choose a different network."))
+    source = _param(ctx, "source", None)
+    color = RED if level in {"danger", "warn"} else AMBER
     pulse = 0.5 + 0.5 * math.sin(ctx.t * 2.6)
     inset = int(max(0, math.sin(ctx.t * 1.8)) * ctx.w * 0.006)
     card = (ctx.box[0] + inset, ctx.box[1] + inset, ctx.box[2] - inset, ctx.box[3] - inset)
-    _rounded(ctx.draw, card, 30, fill="#211316", outline=_rgba(RED, int(150 + 80 * pulse)), width=4)
+    _rounded(ctx.draw, card, 30, fill="#211316" if level != "info" else "#181b16", outline=_rgba(color, int(150 + 80 * pulse)), width=4)
     cx = ctx.sx(0.16)
     cy = ctx.sy(0.30)
     size = min(ctx.w, ctx.h) * 0.12
-    ctx.draw.polygon([(cx, cy - size), (cx - size, cy + size * 0.78), (cx + size, cy + size * 0.78)], fill=_rgba(RED, 75), outline=RED)
+    ctx.draw.polygon([(cx, cy - size), (cx - size, cy + size * 0.78), (cx + size, cy + size * 0.78)], fill=_rgba(color, 75), outline=color)
     mark_w = max(5, int(size * 0.12))
-    ctx.draw.line((cx, cy - size * 0.30, cx, cy + size * 0.22), fill=RED, width=mark_w)
+    ctx.draw.line((cx, cy - size * 0.30, cx, cy + size * 0.22), fill=color, width=mark_w)
     dot = max(4, int(size * 0.10))
-    ctx.draw.ellipse((cx - dot, cy + size * 0.38 - dot, cx + dot, cy + size * 0.38 + dot), fill=RED)
+    ctx.draw.ellipse((cx - dot, cy + size * 0.38 - dot, cx + dot, cy + size * 0.38 + dot), fill=color)
     draw_text_fit(ctx.draw, (ctx.sx(0.30), ctx.sy(0.16), ctx.sx(0.91), ctx.sy(0.40)), title, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.075), weight="bold", max_lines=2)
-    draw_text_fit(ctx.draw, (ctx.sx(0.10), ctx.sy(0.49), ctx.sx(0.90), ctx.sy(0.84)), body, locale=ctx.locale, fill="#ffdfe1", max_size=ctx.size(0.058), max_lines=4, valign="center")
+    body_box = (ctx.sx(0.10), ctx.sy(0.47), ctx.sx(0.90), ctx.sy(0.76 if source else 0.84))
+    draw_text_fit(ctx.draw, body_box, body, locale=ctx.locale, fill="#ffdfe1", max_size=ctx.size(0.055), max_lines=4, valign="center")
+    if source:
+        draw_text_fit(ctx.draw, (ctx.sx(0.12), ctx.sy(0.78), ctx.sx(0.88), ctx.sy(0.92)), source, locale=ctx.locale, fill=MUTED, max_size=ctx.size(0.040), align="center", valign="center", max_lines=1)
 
 
 def _draw_number_counter(ctx: _Context) -> None:
     label = _param(ctx, "label", "Checks before confirm")
-    start = float(_param(ctx, "start", 0))
-    end = float(_param(ctx, "value", _param(ctx, "end", 5)))
-    suffix = str(_param(ctx, "suffix", ""))
-    decimals = int(_param(ctx, "decimals", 0))
-    value = start + (end - start) * _ease_out_cubic(ctx.progress)
-    number = f"{value:,.{decimals}f}{suffix}"
     _rounded(ctx.draw, ctx.box, 34, fill="#101721", outline="#28374a")
     orbit = 0.5 + 0.5 * math.sin(ctx.t * 1.3)
     ctx.draw.ellipse((ctx.sx(0.62), ctx.sy(0.10 + orbit * 0.05), ctx.sx(0.92), ctx.sy(0.46 + orbit * 0.05)), fill=_rgba(BLUE, 28))
+    if "from" in ctx.params or "rate" in ctx.params or "result" in ctx.params:
+        source = f"{_param(ctx, 'from', '')} {_param(ctx, 'unit', '')}".strip()
+        rate = _param(ctx, "rate", "")
+        result = _param(ctx, "result", "")
+        draw_text_fit(ctx.draw, (ctx.sx(0.09), ctx.sy(0.13), ctx.sx(0.91), ctx.sy(0.27)), label, locale=ctx.locale, fill=MUTED, max_size=ctx.size(0.052), weight="bold", align="center", max_lines=1)
+        draw_text_fit(ctx.draw, (ctx.sx(0.10), ctx.sy(0.31), ctx.sx(0.42), ctx.sy(0.60)), source, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.090), weight="bold", align="center", valign="center", max_lines=1)
+        draw_text_fit(ctx.draw, (ctx.sx(0.44), ctx.sy(0.31), ctx.sx(0.57), ctx.sy(0.60)), "×", locale=ctx.locale, fill=BLUE, max_size=ctx.size(0.080), align="center", valign="center", max_lines=1)
+        draw_text_fit(ctx.draw, (ctx.sx(0.59), ctx.sy(0.31), ctx.sx(0.90), ctx.sy(0.60)), rate, locale=ctx.locale, fill=AMBER, max_size=ctx.size(0.090), weight="bold", align="center", valign="center", max_lines=1)
+        draw_text_fit(ctx.draw, (ctx.sx(0.11), ctx.sy(0.66), ctx.sx(0.89), ctx.sy(0.86)), result, locale=ctx.locale, fill=GREEN, max_size=ctx.size(0.060), weight="bold", align="center", valign="center", max_lines=2)
+        return
+    formula_keys = ["margin", "leverage", "position", "move", "loss"]
+    if any(key in ctx.params for key in formula_keys):
+        values = [(key, _param(ctx, key, "")) for key in formula_keys if _param(ctx, key, None) not in (None, "")]
+        draw_text_fit(ctx.draw, (ctx.sx(0.09), ctx.sy(0.09), ctx.sx(0.91), ctx.sy(0.22)), label, locale=ctx.locale, fill=MUTED, max_size=ctx.size(0.050), weight="bold", align="center", max_lines=1)
+        grid_top = ctx.sy(0.27)
+        grid_bottom = ctx.sy(0.77)
+        cols = 3 if ctx.w >= ctx.h else 2
+        rows = math.ceil(len(values) / cols)
+        gap = max(10, int(ctx.w * 0.012))
+        cell_w = int((ctx.sx(0.88) - ctx.sx(0.12) - gap * (cols - 1)) / cols)
+        cell_h = int((grid_bottom - grid_top - gap * (rows - 1)) / rows)
+        if cell_h < 72:
+            raise TextOverflowError(f"number-counter formula grid cannot fit {len(values)} values")
+        for index, (_, value_text) in enumerate(values):
+            col = index % cols
+            row = index // cols
+            x0 = ctx.sx(0.12) + col * (cell_w + gap)
+            y0 = grid_top + row * (cell_h + gap)
+            card = (x0, y0, x0 + cell_w, y0 + cell_h)
+            last = index == len(values) - 1
+            _rounded(ctx.draw, card, 18, fill="#142336" if not last else "#123327", outline=GREEN if last else "#27364c", width=3 if last else 2)
+            draw_text_fit(ctx.draw, _pad(card, 10, 6, 10, 6), value_text, locale=ctx.locale, fill=GREEN if last else TEXT, max_size=ctx.size(0.055), weight="bold", align="center", valign="center", max_lines=1)
+        risk_note = _param(ctx, "risk_note", None)
+        if risk_note:
+            draw_text_fit(ctx.draw, (ctx.sx(0.10), ctx.sy(0.82), ctx.sx(0.90), ctx.sy(0.92)), risk_note, locale=ctx.locale, fill=AMBER, max_size=ctx.size(0.038), align="center", valign="center", max_lines=2)
+        return
+
+    value = _param(ctx, "value", _param(ctx, "end", 5))
+    if _is_number(value):
+        start = float(_param(ctx, "start", 0))
+        end = float(value)
+        suffix = str(_param(ctx, "suffix", ""))
+        decimals = int(_param(ctx, "decimals", 0))
+        current = start + (end - start) * _ease_out_cubic(ctx.progress)
+        number = f"{current:,.{decimals}f}{suffix}"
+    else:
+        number = str(value)
     draw_text_fit(ctx.draw, (ctx.sx(0.09), ctx.sy(0.16), ctx.sx(0.91), ctx.sy(0.34)), label, locale=ctx.locale, fill=MUTED, max_size=ctx.size(0.055), weight="bold", align="center", max_lines=2)
-    draw_text_fit(ctx.draw, (ctx.sx(0.08), ctx.sy(0.37), ctx.sx(0.92), ctx.sy(0.72)), number, locale=ctx.locale, fill=GREEN, max_size=ctx.size(0.22), weight="bold", align="center", valign="center", max_lines=1)
+    draw_text_fit(ctx.draw, (ctx.sx(0.08), ctx.sy(0.37), ctx.sx(0.92), ctx.sy(0.67)), number, locale=ctx.locale, fill=GREEN, max_size=ctx.size(0.18), weight="bold", align="center", valign="center", max_lines=1)
     caption = _param(ctx, "caption", None)
-    if caption is not None:
-        draw_text_fit(ctx.draw, (ctx.sx(0.12), ctx.sy(0.76), ctx.sx(0.88), ctx.sy(0.90)), caption, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.05), align="center", max_lines=2)
+    steps = _list_param(ctx, "steps", [])
+    footer = caption or " · ".join(steps)
+    if footer:
+        draw_text_fit(ctx.draw, (ctx.sx(0.12), ctx.sy(0.72), ctx.sx(0.88), ctx.sy(0.90)), footer, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.05), align="center", max_lines=2)
 
 
 def _draw_timeline(ctx: _Context) -> None:
-    events = _list_param(ctx, "events", ["Receive instructions", "Match network", "Verify address", "Confirm once"])
+    events = _timeline_events(ctx)
+    source = _param(ctx, "source", _param(ctx, "risk_note", None))
     _rounded(ctx.draw, ctx.box, 28, fill="#101721", outline="#28374a")
-    vertical = ctx.h > ctx.w
+    count = len(events)
+    vertical = ctx.image.height > ctx.image.width
     if vertical:
-        x = ctx.sx(0.17)
-        y0 = ctx.sy(0.12)
-        y1 = ctx.sy(0.88)
-        ctx.draw.line((x, y0, x, y1), fill="#2a3648", width=5)
-        ctx.draw.line((x, y0, x, y0 + int((y1 - y0) * ctx.progress)), fill=BLUE, width=7)
-        for index, event in enumerate(events):
-            pos = index / max(1, len(events) - 1)
-            y = int(y0 + (y1 - y0) * pos)
-            reveal = _range_progress(ctx.progress, max(0, pos - 0.12), min(1, pos + 0.12))
-            ctx.draw.ellipse((x - 18, y - 18, x + 18, y + 18), fill=GREEN if reveal > 0.8 else "#1f2a3a", outline=GREEN if reveal > 0.25 else "#45546a", width=3)
-            draw_text_fit(ctx.draw, (ctx.sx(0.25), y - 40, ctx.sx(0.92), y + 42), event, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.052), valign="center", max_lines=2)
+        x = ctx.sx(0.14)
+        top, bottom = ctx.sy(0.10), ctx.sy(0.82 if source else 0.91)
+        row_h = (bottom - top) / count
+        centers = [top + (i + 0.5) * row_h for i in range(count)]
+        ctx.draw.line((x, centers[0], x, centers[-1]), fill="#2a3648", width=5)
+        ctx.draw.line((x, centers[0], x, centers[0] + (centers[-1] - centers[0]) * ctx.progress), fill=BLUE, width=7)
+        for index, (date, event) in enumerate(events):
+            y = centers[index]
+            reveal = _range_progress(ctx.progress, index / count, (index + 0.8) / count)
+            ctx.draw.ellipse((x - 18, y - 18, x + 18, y + 18), fill=GREEN if reveal > 0.8 else "#1f2a3a", outline=BLUE, width=3)
+            label = f"{date} · {event}" if date else event
+            draw_text_fit(ctx.draw, (ctx.sx(0.23), top + index * row_h + 8, ctx.sx(0.92), top + (index + 1) * row_h - 8), label, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.048), valign="center", max_lines=4)
     else:
-        y = ctx.sy(0.50)
-        x0 = ctx.sx(0.10)
-        x1 = ctx.sx(0.90)
-        ctx.draw.line((x0, y, x1, y), fill="#2a3648", width=5)
-        ctx.draw.line((x0, y, x0 + int((x1 - x0) * ctx.progress), y), fill=BLUE, width=7)
-        for index, event in enumerate(events):
-            pos = index / max(1, len(events) - 1)
-            x = int(x0 + (x1 - x0) * pos)
-            reveal = _range_progress(ctx.progress, max(0, pos - 0.12), min(1, pos + 0.12))
-            ctx.draw.ellipse((x - 18, y - 18, x + 18, y + 18), fill=GREEN if reveal > 0.8 else "#1f2a3a", outline=GREEN if reveal > 0.25 else "#45546a", width=3)
-            text_box = (x - ctx.w * 0.13, ctx.sy(0.58), x + ctx.w * 0.13, ctx.sy(0.84))
-            draw_text_fit(ctx.draw, text_box, event, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.043), align="center", max_lines=3)
+        left, right = ctx.sx(0.04), ctx.sx(0.96)
+        cell_w = (right - left) / count
+        y = ctx.sy(0.20)
+        centers = [left + (i + 0.5) * cell_w for i in range(count)]
+        ctx.draw.line((centers[0], y, centers[-1], y), fill="#2a3648", width=5)
+        ctx.draw.line((centers[0], y, centers[0] + (centers[-1] - centers[0]) * ctx.progress, y), fill=BLUE, width=7)
+        for index, (date, event) in enumerate(events):
+            x = centers[index]
+            reveal = _range_progress(ctx.progress, index / count, (index + 0.8) / count)
+            ctx.draw.ellipse((x - 18, y - 18, x + 18, y + 18), fill=GREEN if reveal > 0.8 else "#1f2a3a", outline=BLUE, width=3)
+            label = f"{date} · {event}" if date else event
+            draw_text_fit(ctx.draw, (left + index * cell_w + 16, ctx.sy(0.32), left + (index + 1) * cell_w - 16, ctx.sy(0.79 if source else 0.91)), label, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.045), align="center", valign="center", max_lines=4)
+    if source:
+        draw_text_fit(ctx.draw, (ctx.sx(0.10), ctx.sy(0.84), ctx.sx(0.90), ctx.sy(0.97)), source, locale=ctx.locale, fill=MUTED if "sec" in str(source).lower() or "sfc" in str(source).lower() else AMBER, max_size=ctx.size(0.038), align="center", valign="center", max_lines=2)
 
 
 def _draw_split_choice(ctx: _Context) -> None:
-    left = _param(ctx, "left", "Exact match")
-    right = _param(ctx, "right", "Different network")
-    left_caption = _param(ctx, "left_caption", "Continue")
-    right_caption = _param(ctx, "right_caption", "Pause")
+    options = _list_param(ctx, "options", [])
+    question = _param(ctx, "question", None)
+    note = _param(ctx, "note", None)
+    highlight = _param(ctx, "highlight", 0)
+    if options:
+        choices = [(option, "") for option in options[:3]]
+    else:
+        left = _param(ctx, "left", "Exact match")
+        right = _param(ctx, "right", "Different network")
+        left_caption = _param(ctx, "left_caption", "Continue")
+        right_caption = _param(ctx, "right_caption", "Pause")
+        choices = [(left, left_caption), (right, right_caption)]
+    if question:
+        draw_text_fit(ctx.draw, (ctx.sx(0.08), ctx.sy(0.06), ctx.sx(0.92), ctx.sy(0.18)), question, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.058), weight="bold", align="center", valign="center", max_lines=2)
     gap = max(24, int(ctx.w * 0.035))
-    card_w = (ctx.w - gap - int(ctx.w * 0.12)) // 2
-    y0 = ctx.sy(0.16)
-    y1 = ctx.sy(0.84)
-    left_box = (ctx.sx(0.06), y0, ctx.sx(0.06) + card_w, y1)
-    right_box = (ctx.sx(0.06) + card_w + gap, y0, ctx.sx(0.06) + card_w * 2 + gap, y1)
-    _choice_card(ctx, left_box, left, left_caption, True, _range_progress(ctx.progress, 0.0, 0.7))
-    _choice_card(ctx, right_box, right, right_caption, False, _range_progress(ctx.progress, 0.18, 0.9))
+    y0 = ctx.sy(0.22 if question else 0.16)
+    y1 = ctx.sy(0.76 if note else 0.84)
+    left_edge = ctx.sx(0.06)
+    right_edge = ctx.sx(0.94)
+    count = len(choices)
+    image_vertical = ctx.image.height > ctx.image.width
+    if image_vertical and count >= 3:
+        row_gap = max(18, int(ctx.h * 0.018))
+        card_h = int((y1 - y0 - row_gap * (count - 1)) / count)
+        for index, (title, caption) in enumerate(choices):
+            top = y0 + index * (card_h + row_gap)
+            box = (left_edge, top, right_edge, top + card_h)
+            _choice_row(ctx, box, title, int(highlight) == index, _range_progress(ctx.progress, index * 0.10, 0.72 + index * 0.10))
+        if note:
+            draw_text_fit(ctx.draw, (ctx.sx(0.10), ctx.sy(0.79), ctx.sx(0.90), ctx.sy(0.91)), note, locale=ctx.locale, fill=MUTED, max_size=ctx.size(0.044), align="center", valign="center", max_lines=2)
+        return
+    card_w = int((right_edge - left_edge - gap * (count - 1)) / max(1, count))
+    for index, (title, caption) in enumerate(choices):
+        box = (left_edge + index * (card_w + gap), y0, left_edge + index * (card_w + gap) + card_w, y1)
+        _choice_card(ctx, box, title, caption, int(highlight) == index, _range_progress(ctx.progress, index * 0.10, 0.72 + index * 0.10))
+    if note:
+        draw_text_fit(ctx.draw, (ctx.sx(0.10), ctx.sy(0.79), ctx.sx(0.90), ctx.sy(0.91)), note, locale=ctx.locale, fill=MUTED, max_size=ctx.size(0.044), align="center", valign="center", max_lines=2)
 
 
 def _draw_quote(ctx: _Context) -> None:
+    if "term" in ctx.params or "lines" in ctx.params:
+        _draw_definition(ctx)
+        return
     quote = _param(ctx, "quote", _param(ctx, "text", "Network first. Address next. Confirm once."))
     source = _param(ctx, "source", _param(ctx, "label", "NexuAlpha Starter Path"))
     _rounded(ctx.draw, ctx.box, 34, fill="#101721", outline="#28374a")
@@ -550,9 +713,50 @@ def _draw_quote(ctx: _Context) -> None:
     ctx.draw.line((glint, ctx.sy(0.16), glint + ctx.w * 0.10, ctx.sy(0.86)), fill=_rgba("#ffffff", 22), width=max(2, ctx.w // 260))
 
 
+def _draw_definition(ctx: _Context) -> None:
+    term = _param(ctx, "term", "Definition")
+    lines = _list_param(ctx, "lines", [])
+    body = "\n".join(lines) if lines else _param(ctx, "text", "")
+    source = _param(ctx, "source", _param(ctx, "risk_note", None))
+    _rounded(ctx.draw, ctx.box, 34, fill="#101721", outline="#28374a")
+    ctx.draw.rectangle((ctx.sx(0.08), ctx.sy(0.16), ctx.sx(0.095), ctx.sy(0.82)), fill=BLUE)
+    draw_text_fit(ctx.draw, (ctx.sx(0.14), ctx.sy(0.12), ctx.sx(0.90), ctx.sy(0.32)), term, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.090), weight="bold", valign="center", max_lines=2)
+    body_bottom = ctx.sy(0.70 if source else 0.82)
+    if body:
+        draw_text_fit(ctx.draw, (ctx.sx(0.15), ctx.sy(0.36), ctx.sx(0.90), body_bottom), body, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.052), valign="center", max_lines=max(3, len(lines)))
+    if source:
+        draw_text_fit(ctx.draw, (ctx.sx(0.15), ctx.sy(0.73), ctx.sx(0.90), ctx.sy(0.88)), source, locale=ctx.locale, fill=AMBER if "风险" in str(source) else MUTED, max_size=ctx.size(0.040), max_lines=2)
+    glint = ctx.sx(0.12 + 0.70 * ((ctx.t * 0.16) % 1.0))
+    ctx.draw.line((glint, ctx.sy(0.14), glint + ctx.w * 0.10, ctx.sy(0.86)), fill=_rgba("#ffffff", 22), width=max(2, ctx.w // 260))
+
+
+def _draw_flow_branches(ctx: _Context, root: str, branches: Sequence[str], note: Any) -> None:
+    root_box = (ctx.sx(0.08), ctx.sy(0.28), ctx.sx(0.34), ctx.sy(0.62))
+    _rounded(ctx.draw, root_box, 24, fill="#14342d", outline=GREEN, width=3)
+    draw_text_fit(ctx.draw, _pad(root_box, 14, 12, 14, 12), root, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.060), weight="bold", align="center", valign="center", max_lines=2)
+    right_x0 = ctx.sx(0.48)
+    right_x1 = ctx.sx(0.92)
+    top = ctx.sy(0.18)
+    bottom = ctx.sy(0.76 if note else 0.84)
+    row_h = int((bottom - top) / max(1, len(branches)))
+    for index, branch in enumerate(branches):
+        y0 = top + index * row_h
+        card = (right_x0, y0, right_x1, y0 + row_h - 10)
+        reveal = _range_progress(ctx.progress, index / max(1, len(branches)), (index + 0.7) / max(1, len(branches)))
+        _rounded(ctx.draw, card, 20, fill=_rgba("#172234", int(100 + 70 * reveal)), outline=BLUE)
+        start = (root_box[2], (root_box[1] + root_box[3]) // 2)
+        end = (card[0], (card[1] + card[3]) // 2)
+        ctx.draw.line(start + end, fill=_rgba(BLUE, int(80 + 120 * reveal)), width=5)
+        _arrow(ctx.draw, (end[0] - 26, end[1]), (end[0] - 2, end[1]), BLUE)
+        draw_text_fit(ctx.draw, _pad(card, 18, 8, 18, 8), branch, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.054), align="center", valign="center", max_lines=2)
+    if note:
+        draw_text_fit(ctx.draw, (ctx.sx(0.09), ctx.sy(0.80), ctx.sx(0.91), ctx.sy(0.92)), note, locale=ctx.locale, fill=AMBER, max_size=ctx.size(0.044), align="center", valign="center", max_lines=2)
+
+
 def _choice_card(ctx: _Context, box: tuple[int, int, int, int], title: Any, caption: Any, ok: bool, reveal: float) -> None:
-    color = GREEN if ok else RED
-    fill = "#10231e" if ok else "#24171a"
+    neutral = not bool(_clean_text(caption))
+    color = GREEN if ok else (BLUE if neutral else RED)
+    fill = "#10231e" if ok else ("#172234" if neutral else "#24171a")
     _rounded(ctx.draw, box, 24, fill=_rgba(fill, int(105 + 70 * reveal)), outline=_rgba(color, int(80 + 145 * reveal)), width=3)
     cx = (box[0] + box[2]) // 2
     card_h = box[3] - box[1]
@@ -561,12 +765,68 @@ def _choice_card(ctx: _Context, box: tuple[int, int, int, int], title: Any, capt
     ctx.draw.ellipse((cx - icon_size, icon_y - icon_size, cx + icon_size, icon_y + icon_size), fill=_rgba(color, 44), outline=color, width=4)
     if ok:
         _check(ctx.draw, (cx, icon_y), max(20, icon_size - 6), color)
-    else:
+    elif not neutral:
         cross = max(14, icon_size - 12)
         ctx.draw.line((cx - cross, icon_y - cross, cx + cross, icon_y + cross), fill=color, width=7)
         ctx.draw.line((cx + cross, icon_y - cross, cx - cross, icon_y + cross), fill=color, width=7)
     draw_text_fit(ctx.draw, (box[0] + 28, box[1] + card_h * 0.40, box[2] - 28, box[1] + card_h * 0.66), title, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.058), weight="bold", align="center", valign="center", max_lines=2)
-    draw_text_fit(ctx.draw, (box[0] + 28, box[1] + card_h * 0.70, box[2] - 28, box[3] - 20), caption, locale=ctx.locale, fill=color, max_size=ctx.size(0.045), align="center", valign="center", max_lines=2)
+    if not neutral:
+        draw_text_fit(ctx.draw, (box[0] + 28, box[1] + card_h * 0.70, box[2] - 28, box[3] - 20), caption, locale=ctx.locale, fill=color, max_size=ctx.size(0.045), align="center", valign="center", max_lines=2)
+
+
+def _choice_row(ctx: _Context, box: tuple[int, int, int, int], title: Any, active: bool, reveal: float) -> None:
+    color = GREEN if active else BLUE
+    fill = "#10231e" if active else "#172234"
+    _rounded(ctx.draw, box, 22, fill=_rgba(fill, int(110 + 65 * reveal)), outline=_rgba(color, int(100 + 120 * reveal)), width=3 if active else 2)
+    cy = (box[1] + box[3]) // 2
+    icon_size = max(22, min(32, (box[3] - box[1]) // 4))
+    cx = box[0] + 54
+    ctx.draw.ellipse((cx - icon_size, cy - icon_size, cx + icon_size, cy + icon_size), fill=_rgba(color, 44), outline=color, width=4)
+    if active:
+        _check(ctx.draw, (cx, cy), max(18, icon_size - 6), color)
+    draw_text_fit(ctx.draw, (box[0] + 100, box[1] + 14, box[2] - 28, box[3] - 14), title, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.052), weight="bold", valign="center", max_lines=2)
+
+
+def _table_widths(columns: int) -> list[float]:
+    if columns == 2:
+        return [0.42, 0.58]
+    if columns == 3:
+        return [0.34, 0.33, 0.33]
+    return [0.28, 0.24, 0.24, 0.24]
+
+
+def _scaled_edges(left: int, right: int, widths: Sequence[float]) -> list[int]:
+    total = float(sum(widths)) or 1.0
+    span = right - left
+    edges = [left]
+    cursor = left
+    for width in widths[:-1]:
+        cursor += int(round(span * (width / total)))
+        edges.append(cursor)
+    edges.append(right)
+    return edges
+
+
+def _timeline_events(ctx: _Context) -> list[tuple[str, str]]:
+    raw = _param(ctx, "events", ["Receive instructions", "Match network", "Confirm"])
+    events: list[tuple[str, str]] = []
+    if isinstance(raw, Sequence) and not isinstance(raw, str):
+        for item in raw:
+            if isinstance(item, Mapping):
+                events.append((str(item.get("t", "")), str(item.get("text", ""))))
+            else:
+                events.append(("", str(item)))
+    if not events:
+        events = [("", "Receive instructions"), ("", "Match network"), ("", "Confirm")]
+    return events
+
+
+def _is_number(value: Any) -> bool:
+    try:
+        float(value)
+    except (TypeError, ValueError):
+        return False
+    return True
 
 
 def _normalize_box(box: Box, image_size: tuple[int, int]) -> tuple[int, int, int, int]:
@@ -662,6 +922,22 @@ def _list_param(ctx: _Context, name: str, default: Sequence[Any]) -> list[str]:
 
 
 def _field_pairs(ctx: _Context) -> list[tuple[str, str]]:
+    if "fields" not in ctx.params and "values" not in ctx.params:
+        pairs: list[tuple[str, str]] = []
+        status = _param(ctx, "status", None)
+        if status:
+            pairs.append(("状态" if _prefers_pingfang(ctx.locale) else "Status", str(status)))
+        message = _param(ctx, "message", None)
+        if message:
+            pairs.append(("消息" if _prefers_pingfang(ctx.locale) else "Message", str(message)))
+        toggle = _param(ctx, "toggle", None)
+        state = _param(ctx, "state", None)
+        if toggle or state:
+            pairs.append((str(toggle or ("开关" if _prefers_pingfang(ctx.locale) else "Toggle")), str(state or "")))
+        highlight = _param(ctx, "highlight", None)
+        if highlight:
+            pairs.append(("重点" if _prefers_pingfang(ctx.locale) else "Focus", str(highlight)))
+        return pairs
     fields = _param(ctx, "fields", [["Asset", "USDT"], ["Network", "Selected"], ["Address", "0x71...E92A"], ["Memo", "If required"]])
     values = _param(ctx, "values", None)
     if isinstance(fields, Sequence) and not isinstance(fields, str):

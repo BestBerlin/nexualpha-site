@@ -1,0 +1,362 @@
+{
+  "meta": {
+    "level": 8,
+    "slug": "first-spot-trade",
+    "title_zh": "第一笔现货交易",
+    "title_en": "Your first spot trade",
+    "hook_zh": "第一次买币，市价单和限价单点哪个？",
+    "cta": {
+      "kind": "partner",
+      "partner": "bitget",
+      "original_kind": "trade",
+      "line_zh": "在官方 App 用小额做一次现货练习。还没有账户的话，可以用 Bitget 邀请码 nexu888 注册。这是合作推广链接，佣金由交易所支付。",
+      "line_en": "Practise one small spot trade in the official app. If you don't have an account yet, you can sign up on Bitget with invite code nexu888. This is a partner link; the exchange pays the commission."
+    },
+    "next_slug": "fees-and-rebates",
+    "sources": [
+      "https://www.bitget.com/fee",
+      "https://www.okx.com/fees",
+      "https://www.okx.com/help/cryptocurrency-trading-app-web",
+      "https://www.okx.com/help/how-to-use-demo-trading",
+      "https://nexualpha.com/intel/partners.json"
+    ],
+    "sensitive": false,
+    "review_notes": "费率取自 partners.json（feesAsOf 2026-10-10，基础档）：Bitget 现货挂单/吃单 0.10%/0.10%，OKX 0.08%/0.10%；示例 100 USDT × 0.10% = 0.1 USDT。【需业主确认】partners.json 中 Bitget 注册链接域名为 partner.bitget.cafe，与本系列'只认官方域名'的教育口径冲突，请确认它是 Bitget 官方合作域名，或换成 bitget.com 域名的邀请链接。界面为通用示意。",
+    "next_title_zh": "手续费与返佣，讲清楚",
+    "next_title_en": "Fees & rebates, explained",
+    "writer_meta": {
+      "level": 8,
+      "slug": "first-spot-trade",
+      "title_zh": "第一笔现货交易",
+      "title_en": "Your first spot trade",
+      "hook_zh": "第一次买币，市价单和限价单点哪个？",
+      "cta": {
+        "kind": "trade",
+        "partner": "bitget",
+        "line_zh": "在官方 App 用小额做一次现货练习。还没有账户的话，可以用 Bitget 邀请码 nexu888 注册。这是合作推广链接，佣金由交易所支付。",
+        "line_en": "Practise one small spot trade in the official app. If you don't have an account yet, you can sign up on Bitget with invite code nexu888. This is a partner link; the exchange pays the commission."
+      },
+      "next_slug": "fees-and-rebates",
+      "sources": [
+        "https://www.bitget.com/fee",
+        "https://www.okx.com/fees",
+        "https://www.okx.com/help/cryptocurrency-trading-app-web",
+        "https://www.okx.com/help/how-to-use-demo-trading",
+        "https://nexualpha.com/intel/partners.json"
+      ],
+      "sensitive": false,
+      "review_notes": "费率取自 partners.json（feesAsOf 2026-10-10，基础档）：Bitget 现货挂单/吃单 0.10%/0.10%，OKX 0.08%/0.10%；示例 100 USDT × 0.10% = 0.1 USDT。【需业主确认】partners.json 中 Bitget 注册链接域名为 partner.bitget.cafe，与本系列'只认官方域名'的教育口径冲突，请确认它是 Bitget 官方合作域名，或换成 bitget.com 域名的邀请链接。界面为通用示意。"
+    },
+    "source_note": "费率取自 partners.json（feesAsOf 2026-10-10，基础档）：Bitget 现货挂单/吃单 0.10%/0.10%，OKX 0.08%/0.10%；示例 100 USDT × 0.10% = 0.1 USDT。【需业主确认】partners.json 中 Bitget 注册链接域名为 partner.bitget.cafe，与本系列'只认官方域名'的教育口径冲突，请确认它是 Bitget 官方合作域名，或换成 bitget.com 域名的邀请链接。界面为通用示意。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"终于要买第一笔了，市价、限价，到底点哪个？\"先说清楚：今天我们只讲基础的现货交易。",
+      "voice_en": "\"I'm finally making my first buy. Market or limit, which do I tap?\" First, to be clear: today is about spot only.",
+      "title": "点哪个？",
+      "sub": "今天只讲现货",
+      "visual": {
+        "type": "phone-mock",
+        "params": {
+          "screen": "交易所 App · 现货下单",
+          "tabs": [
+            "市价",
+            "限价"
+          ],
+          "note": "通用示意界面",
+          "title": "交易所 App · 现货下单",
+          "fields": [
+            [
+              "模式",
+              "市价 / 限价"
+            ],
+            [
+              "说明",
+              "通用示意界面"
+            ]
+          ],
+          "writer_params": {
+            "screen": "交易所 App · 现货下单",
+            "tabs": [
+              "市价",
+              "限价"
+            ],
+            "note": "通用示意界面"
+          }
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "现货，就是用你账户里的钱，直接买下这个币。没有借钱，也不碰杠杆。买到的币实打实记在你的账户里。",
+      "voice_en": "Spot means using money in your account to buy the coin outright. No borrowing, no leverage. The coins you buy are credited to your account.",
+      "title": "现货是什么",
+      "sub": "直接买币，不借钱",
+      "visual": {
+        "type": "definition",
+        "params": {
+          "term": "现货",
+          "lines": [
+            "用自己的钱直接买币",
+            "没有借款、没有杠杆",
+            "合约是另一种产品（第 12 关）"
+          ],
+          "quote": "现货：用自己的钱直接买币；没有借款、没有杠杆；合约是另一种产品（第 12 关）",
+          "source": "NexuAlpha Starter Path",
+          "writer_params": {
+            "term": "现货",
+            "lines": [
+              "用自己的钱直接买币",
+              "没有借款、没有杠杆",
+              "合约是另一种产品（第 12 关）"
+            ]
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "市价单：按当前能成交的价格马上成交。速度最快，但实际成交价可能和你看到的略有不同。",
+      "voice_en": "A market order fills right away at the best price available. It's fast, but the fill price can differ slightly from what you saw.",
+      "title": "市价单",
+      "sub": "马上成交，价格可能有偏差",
+      "visual": {
+        "type": "split-choice",
+        "params": {
+          "question": "市价单",
+          "options": [
+            "优点：立即成交",
+            "注意：成交价可能偏差"
+          ],
+          "left": "优点：立即成交",
+          "right": "注意：成交价可能偏差",
+          "left_caption": "市价单",
+          "right_caption": "暂停核对",
+          "writer_params": {
+            "question": "市价单",
+            "options": [
+              "优点：立即成交",
+              "注意：成交价可能偏差"
+            ]
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "限价单：你自己定一个价格。市场到了这个价才成交，没到就一直挂着，也可能一直不成交。",
+      "voice_en": "A limit order lets you set the price. It fills only if the market reaches it; otherwise it waits, and it may never fill.",
+      "title": "限价单",
+      "sub": "你定价格，可能不成交",
+      "visual": {
+        "type": "split-choice",
+        "params": {
+          "question": "限价单",
+          "options": [
+            "优点：价格由你定",
+            "注意：可能不成交"
+          ],
+          "left": "优点：价格由你定",
+          "right": "注意：可能不成交",
+          "left_caption": "限价单",
+          "right_caption": "暂停核对",
+          "writer_params": {
+            "question": "限价单",
+            "options": [
+              "优点：价格由你定",
+              "注意：可能不成交"
+            ]
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "挂着等别人来成交的单叫挂单，也叫 Maker。立刻吃掉现有报价的单叫吃单，也叫 Taker。两者费率可能不同。",
+      "voice_en": "An order that waits on the book is a maker order. One that takes an existing price immediately is a taker order. Their fees can differ.",
+      "title": "Maker 与 Taker",
+      "sub": "挂单 vs 吃单，费率可能不同",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "挂单 Maker",
+            "吃单 Taker"
+          ],
+          "rows": [
+            [
+              "Bitget 现货",
+              "0.10%",
+              "0.10%"
+            ],
+            [
+              "OKX 现货",
+              "0.08%",
+              "0.10%"
+            ]
+          ],
+          "note": "基础档，截至 2026-10-10，以官方费率页为准",
+          "writer_params": {
+            "columns": [
+              "",
+              "挂单 Maker",
+              "吃单 Taker"
+            ],
+            "rows": [
+              [
+                "Bitget 现货",
+                "0.10%",
+                "0.10%"
+              ],
+              [
+                "OKX 现货",
+                "0.08%",
+                "0.10%"
+              ]
+            ],
+            "note": "基础档，截至 2026-10-10，以官方费率页为准"
+          }
+        }
+      },
+      "min_s": 13
+    },
+    {
+      "voice_zh": "算一笔账：用 100 USDT 以市价买币。按 0.1% 的吃单费率算，手续费约 0.1 USDT。",
+      "voice_en": "Quick math: buy with 100 USDT at market. At a 0.1% taker fee, that's about 0.1 USDT in fees.",
+      "title": "算一笔",
+      "sub": "100 × 0.1% ≈ 0.1 USDT",
+      "visual": {
+        "type": "number-counter",
+        "params": {
+          "from": 100,
+          "unit": "USDT",
+          "rate": "0.1%",
+          "result": "≈ 0.1 USDT 手续费",
+          "value": 0.1,
+          "label": "手续费估算",
+          "suffix": " USDT",
+          "decimals": 1,
+          "caption": "≈ 0.1 USDT 手续费",
+          "writer_params": {
+            "from": 100,
+            "unit": "USDT",
+            "rate": "0.1%",
+            "result": "≈ 0.1 USDT 手续费"
+          }
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "还有一个隐形成本叫点差。有些简易买币页面，价格里已经包含了点差。下单前务必看清最终成交价。",
+      "voice_en": "There's also a hidden cost: the spread. Some simple buy screens already include it in the price. Check the final price before you confirm.",
+      "title": "隐形成本：点差",
+      "sub": "看清最终成交价",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "info",
+          "text": "点差也是成本",
+          "detail": "简易买币页的报价可能包含点差",
+          "title": "点差也是成本",
+          "body": "简易买币页的报价可能包含点差",
+          "writer_params": {
+            "level": "info",
+            "text": "点差也是成本",
+            "detail": "简易买币页的报价可能包含点差"
+          }
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "回顾一下：现货就是直接买币。急用市价，想自己定价用限价。先拿小额练一次手。下一关：手续费和返佣，一次讲清。",
+      "voice_en": "Recap: spot means buying the coin outright. Use market for speed, limit to set your price. Practise once with a small amount. Next: fees and rebates, explained.",
+      "title": "小额练一次",
+      "sub": "下一关：手续费与返佣",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "现货 = 直接买币",
+            "市价快，限价定价",
+            "看清费率和点差",
+            "先小额练习"
+          ],
+          "next": "fees-and-rebates",
+          "writer_params": {
+            "items": [
+              "现货 = 直接买币",
+              "市价快，限价定价",
+              "看清费率和点差",
+              "先小额练习"
+            ],
+            "cta_card": {
+              "partner": "Bitget",
+              "code": "nexu888",
+              "disclosure": "合作推广链接，佣金由交易所支付"
+            },
+            "next": "fees-and-rebates"
+          }
+        }
+      },
+      "min_s": 11
+    }
+  ],
+  "page": {
+    "summary_zh": "现货交易就是用自己账户里的钱直接买币，不借钱、没有杠杆。市价单立即成交但成交价可能略有偏差；限价单由你定价格，但可能不成交。挂在盘口等待成交的是挂单（Maker），立即成交的是吃单（Taker），费率可能不同。以 0.1% 吃单费率计算，100 USDT 的手续费约 0.1 USDT；另外要注意简易买币页面可能包含点差。",
+    "checklist_zh": [
+      "确认自己在\"现货\"页面，而不是合约页面",
+      "想立即成交用市价，想控制价格用限价",
+      "在官方费率页确认挂单/吃单费率",
+      "下单前看清最终成交价和手续费",
+      "第一笔只用小额"
+    ],
+    "quiz": [
+      {
+        "q": "现货交易和合约交易最大的区别是？",
+        "options": [
+          "现货不借钱、没有杠杆",
+          "现货手续费一定为零",
+          "现货一定赚钱"
+        ],
+        "answer": "现货不借钱、没有杠杆",
+        "why": "现货是用自己的钱直接买币；合约涉及保证金和杠杆，是另一种产品。"
+      },
+      {
+        "q": "限价单的特点是？",
+        "options": [
+          "你定价格，但可能不成交",
+          "一定立即成交",
+          "没有手续费"
+        ],
+        "answer": "你定价格，但可能不成交",
+        "why": "只有市场价格到达你设定的价格时，限价单才会成交。"
+      },
+      {
+        "q": "100 USDT 市价买入，吃单费率 0.1%，手续费约是？",
+        "options": [
+          "0.1 USDT",
+          "1 USDT",
+          "10 USDT"
+        ],
+        "answer": "0.1 USDT",
+        "why": "100 × 0.1% = 0.1 USDT。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "现货和合约有什么区别？",
+        "a": "现货是用自己的钱直接买币，没有杠杆；合约是用保证金交易价格变化，可以加杠杆，亏损也会被放大。新手先从现货开始。"
+      },
+      {
+        "q": "Maker 和 Taker 是什么？",
+        "a": "挂在盘口等待别人成交的订单是 Maker（挂单）；立即和现有报价成交的是 Taker（吃单）。很多平台两者费率不同，以官方费率页为准。"
+      },
+      {
+        "q": "为什么实际成交价和我看到的不一样？",
+        "a": "市价单按当时可成交的价格成交，价格变化快时会有偏差；简易买币页面的报价也可能包含点差。"
+      }
+    ]
+  }
+}

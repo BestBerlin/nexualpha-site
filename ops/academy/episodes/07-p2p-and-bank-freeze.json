@@ -1,0 +1,370 @@
+{
+  "meta": {
+    "level": 7,
+    "slug": "p2p-and-bank-freeze",
+    "title_zh": "买卖 U 与冻卡风险",
+    "title_en": "Buying USDT & bank-freeze risk",
+    "hook_zh": "我只是卖了点 U，银行卡怎么被冻了？",
+    "cta": {
+      "kind": "none",
+      "partner": null,
+      "original_kind": "none",
+      "line_zh": "没有推荐。先确认你所在地的法律是否允许，再阅读平台官方的 P2P 规则。",
+      "line_en": "No recommendation. First confirm whether this is allowed where you live, then read the platform's official P2P rules."
+    },
+    "next_slug": "first-spot-trade",
+    "sources": [
+      "https://www.okx.com/help/how-can-i-protect-myself-from-scammers",
+      "https://www.okx.com/help/how-to-prevent-illegal-crimes-such-as-capital-disks-buying-coins-and-running-points",
+      "https://www.okx.com/help/how-do-i-avoid-scams-from-off-site-communication-in-p2p-transactions",
+      "https://www.okx.com/help/how-to-prevent-offline-transaction-fraud",
+      "https://www.okx.com/help/risk-compliance-disclosure"
+    ],
+    "sensitive": true,
+    "review_notes": "【需法务审核】敏感话题，地区中立，不点名任何国家/银行。只讲：冻卡的一般机制（收到的款项被认为与可疑资金有关）、平台内与站外交易差别、付款人姓名须与实名一致、不代买不借卡、保留记录、先确认当地法律。不承诺任何做法能完全避免冻结；不教拆分汇款、换卡、绕开银行风控。'付款人与实名不一致不放币'依据 OKX 防诈骗文章；'来源不明资金拆分'依据 OKX 跑分防范文章。被冻后的建议仅为'通过官方渠道联系银行、配合说明、咨询当地专业律师'，请法务确认措辞。无 CTA。",
+    "next_title_zh": "第一笔现货交易",
+    "next_title_en": "Your first spot trade",
+    "writer_meta": {
+      "level": 7,
+      "slug": "p2p-and-bank-freeze",
+      "title_zh": "买卖 U 与冻卡风险",
+      "title_en": "Buying USDT & bank-freeze risk",
+      "hook_zh": "我只是卖了点 U，银行卡怎么被冻了？",
+      "cta": {
+        "kind": "none",
+        "partner": null,
+        "line_zh": "没有推荐。先确认你所在地的法律是否允许，再阅读平台官方的 P2P 规则。",
+        "line_en": "No recommendation. First confirm whether this is allowed where you live, then read the platform's official P2P rules."
+      },
+      "next_slug": "first-spot-trade",
+      "sources": [
+        "https://www.okx.com/help/how-can-i-protect-myself-from-scammers",
+        "https://www.okx.com/help/how-to-prevent-illegal-crimes-such-as-capital-disks-buying-coins-and-running-points",
+        "https://www.okx.com/help/how-do-i-avoid-scams-from-off-site-communication-in-p2p-transactions",
+        "https://www.okx.com/help/how-to-prevent-offline-transaction-fraud",
+        "https://www.okx.com/help/risk-compliance-disclosure"
+      ],
+      "sensitive": true,
+      "review_notes": "【需法务审核】敏感话题，地区中立，不点名任何国家/银行。只讲：冻卡的一般机制（收到的款项被认为与可疑资金有关）、平台内与站外交易差别、付款人姓名须与实名一致、不代买不借卡、保留记录、先确认当地法律。不承诺任何做法能完全避免冻结；不教拆分汇款、换卡、绕开银行风控。'付款人与实名不一致不放币'依据 OKX 防诈骗文章；'来源不明资金拆分'依据 OKX 跑分防范文章。被冻后的建议仅为'通过官方渠道联系银行、配合说明、咨询当地专业律师'，请法务确认措辞。无 CTA。"
+    },
+    "source_note": "【需法务审核】敏感话题，地区中立，不点名任何国家/银行。只讲：冻卡的一般机制（收到的款项被认为与可疑资金有关）、平台内与站外交易差别、付款人姓名须与实名一致、不代买不借卡、保留记录、先确认当地法律。不承诺任何做法能完全避免冻结；不教拆分汇款、换卡、绕开银行风控。'付款人与实名不一致不放币'依据 OKX 防诈骗文章；'来源不明资金拆分'依据 OKX 跑分防范文章。被冻后的建议仅为'通过官方渠道联系银行、配合说明、咨询当地专业律师'，请法务确认措辞。无 CTA。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"我只是卖了点 U，怎么银行卡就被冻了？\"这是很多华语用户最怕的事。今天讲清楚背后的原因，也讲清楚安全的边界。",
+      "voice_en": "\"I just sold some USDT. Why was my bank card frozen?\" It's one of the biggest fears for many users. Let's cover the cause, and the limits of what anyone can promise.",
+      "title": "为什么会冻卡？",
+      "sub": "讲原因，也讲边界",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "info",
+          "text": "这一关只讲风险，不做推荐",
+          "detail": "各地法律不同，请先确认所在地规则",
+          "title": "这一关只讲风险，不做推荐",
+          "body": "各地法律不同，请先确认所在地规则",
+          "writer_params": {
+            "level": "info",
+            "text": "这一关只讲风险，不做推荐",
+            "detail": "各地法律不同，请先确认所在地规则"
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "先看规则：各地对买卖加密资产的规定不同。有的地区明确禁止相关业务。开始之前，先确认当地法律是否允许。",
+      "voice_en": "First, the rules: regions treat crypto trading differently, and some prohibit related activity outright. Before anything else, confirm what the law allows where you live.",
+      "title": "先看当地规则",
+      "sub": "有的地区明确禁止",
+      "visual": {
+        "type": "split-choice",
+        "params": {
+          "question": "所在地是否允许？",
+          "options": [
+            "允许：继续了解",
+            "不允许或不确定：先停下"
+          ],
+          "highlight": 1,
+          "left": "不允许或不确定：先停下",
+          "right": "允许：继续了解",
+          "left_caption": "所在地是否允许？",
+          "right_caption": "暂停核对",
+          "writer_params": {
+            "question": "所在地是否允许？",
+            "options": [
+              "允许：继续了解",
+              "不允许或不确定：先停下"
+            ],
+            "highlight": 1
+          }
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "冻卡通常和你收到的那笔钱有关。如果对方付给你的钱，被认为来自诈骗等问题资金，相关账户就可能被调查。",
+      "voice_en": "A freeze is usually about the money you received. If the buyer's payment is linked to fraud or other illicit funds, the accounts it touched may be investigated.",
+      "title": "钱从哪里来",
+      "sub": "问题常出在对方资金来源",
+      "visual": {
+        "type": "flow",
+        "params": {
+          "nodes": [
+            "来源有问题的资金",
+            "付款给你",
+            "你的银行账户被调查"
+          ],
+          "note": "机制示意，不代表一定发生",
+          "steps": [
+            "来源有问题的资金",
+            "付款给你",
+            "你的银行账户被调查"
+          ],
+          "caption": "机制示意，不代表一定发生",
+          "writer_params": {
+            "nodes": [
+              "来源有问题的资金",
+              "付款给你",
+              "你的银行账户被调查"
+            ],
+            "note": "机制示意，不代表一定发生"
+          }
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "平台内的 P2P，对方做过实名，币由平台托管，出了问题可以申诉。如果去站外私下交易，这些保护全都没有。",
+      "voice_en": "On-platform P2P means the other side is verified, coins are held in escrow, and you can file a dispute. A private off-platform deal has none of that.",
+      "title": "平台内 vs 站外",
+      "sub": "保护只在平台内",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "平台内 P2P",
+            "站外私下"
+          ],
+          "rows": [
+            [
+              "对方实名",
+              "有",
+              "未知"
+            ],
+            [
+              "平台托管",
+              "有",
+              "无"
+            ],
+            [
+              "申诉渠道",
+              "有",
+              "无"
+            ]
+          ],
+          "writer_params": {
+            "columns": [
+              "",
+              "平台内 P2P",
+              "站外私下"
+            ],
+            "rows": [
+              [
+                "对方实名",
+                "有",
+                "未知"
+              ],
+              [
+                "平台托管",
+                "有",
+                "无"
+              ],
+              [
+                "申诉渠道",
+                "有",
+                "无"
+              ]
+            ]
+          }
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "三条自我保护：付款人姓名和平台实名不一致，坚决不放币。不替别人代买，也绝不出借银行卡。",
+      "voice_en": "Three ways to protect yourself. If the payer's name doesn't match the buyer's verified name, don't release. Don't buy for others, and never lend your bank card.",
+      "title": "自我保护",
+      "sub": "姓名一致 · 不代买 · 不借卡",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "付款人 = 对方实名",
+            "不替别人代买",
+            "不出借银行卡或收款码"
+          ],
+          "writer_params": {
+            "items": [
+              "付款人 = 对方实名",
+              "不替别人代买",
+              "不出借银行卡或收款码"
+            ]
+          }
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "再加一条：完整保留订单记录和平台内的聊天记录。需要说明情况时，这些就是你的自证依据。",
+      "voice_en": "One more: keep your order records and on-platform chat history. If you ever need to explain a transaction, that's your evidence.",
+      "title": "留存记录",
+      "sub": "订单与平台内聊天",
+      "visual": {
+        "type": "timeline",
+        "params": {
+          "events": [
+            {
+              "t": "下单",
+              "text": "保存订单号"
+            },
+            {
+              "t": "付款",
+              "text": "保存付款凭证"
+            },
+            {
+              "t": "放币",
+              "text": "保存平台内聊天"
+            }
+          ],
+          "writer_params": {
+            "events": [
+              {
+                "t": "下单",
+                "text": "保存订单号"
+              },
+              {
+                "t": "付款",
+                "text": "保存付款凭证"
+              },
+              {
+                "t": "放币",
+                "text": "保存平台内聊天"
+              }
+            ]
+          }
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "要说实话：这些做法能降低风险，但不能彻底消除。宣称\"百分之百安全\"的说法，一定要格外警惕。",
+      "voice_en": "To be honest: these habits lower the risk, but cannot remove it. Be especially wary of anyone claiming it's \"100 percent safe\".",
+      "title": "没有零风险",
+      "sub": "警惕\"百分之百安全\"",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "warn",
+          "text": "能降低，不能消除",
+          "detail": "如遇冻结：通过官方渠道联系银行，必要时咨询当地专业律师",
+          "title": "能降低，不能消除",
+          "body": "如遇冻结：通过官方渠道联系银行，必要时咨询当地专业律师",
+          "writer_params": {
+            "level": "warn",
+            "text": "能降低，不能消除",
+            "detail": "如遇冻结：通过官方渠道联系银行，必要时咨询当地专业律师"
+          }
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "回顾一下：先查当地规则，只在平台内交易，核对姓名，不代买，留记录。下一关：第一笔现货交易。",
+      "voice_en": "Recap: check local rules, trade only on the platform, match names, don't buy for others, keep records. Next: your first spot trade.",
+      "title": "五条记住",
+      "sub": "下一关：第一笔现货交易",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "先确认当地规则",
+            "只在平台内交易",
+            "付款人姓名一致",
+            "不代买、不借卡",
+            "保留记录"
+          ],
+          "next": "first-spot-trade",
+          "writer_params": {
+            "items": [
+              "先确认当地规则",
+              "只在平台内交易",
+              "付款人姓名一致",
+              "不代买、不借卡",
+              "保留记录"
+            ],
+            "next": "first-spot-trade"
+          }
+        }
+      },
+      "min_s": 10
+    }
+  ],
+  "page": {
+    "summary_zh": "银行卡被冻结，通常与你收到的款项来源有关：如果对方付款的资金被认为涉及诈骗等问题，相关账户可能被调查。各地对加密资产买卖的规定不同，有的地区明确禁止，开始前请先确认当地法律。平台内 P2P 有实名、托管和申诉，站外私下交易没有这些保护。核对付款人姓名、不代买不借卡、保留记录能降低风险，但不能消除风险。",
+    "checklist_zh": [
+      "已确认所在地法律是否允许",
+      "只在平台内完成 P2P 订单",
+      "付款人姓名与对方实名一致才放币",
+      "不替别人代买，不出借银行卡或收款码",
+      "保存订单号、付款凭证和平台内聊天记录",
+      "如遇冻结，通过官方渠道联系银行，必要时咨询当地律师"
+    ],
+    "quiz": [
+      {
+        "q": "银行卡被冻结，最常见的原因与什么有关？",
+        "options": [
+          "收到的款项来源有问题",
+          "交易所 App 版本太旧",
+          "买的币种太少"
+        ],
+        "answer": "收到的款项来源有问题",
+        "why": "如果对方付款资金被认为与诈骗等问题资金有关，相关账户可能被调查。"
+      },
+      {
+        "q": "付款人姓名和对方实名不一致，应该？",
+        "options": [
+          "不放币，通过平台申诉",
+          "先放币再说",
+          "让对方再转一笔"
+        ],
+        "answer": "不放币，通过平台申诉",
+        "why": "平台防诈骗指引要求：第三方付款不放币，并发起申诉。"
+      },
+      {
+        "q": "关于冻卡风险，哪句话是对的？",
+        "options": [
+          "好习惯能降低风险，但不能消除",
+          "按教程做就一定不会冻",
+          "站外交易更安全"
+        ],
+        "answer": "好习惯能降低风险，但不能消除",
+        "why": "没有任何做法能保证零风险，宣称绝对安全的说法要警惕。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "卖 USDT 为什么会冻卡？",
+        "a": "通常是因为收到的款项被认为与可疑资金有关，银行或相关机构因此调查涉及的账户。具体规则因地区而异。"
+      },
+      {
+        "q": "怎么降低 P2P 冻卡风险？",
+        "a": "先确认所在地法律允许；只在平台内交易；付款人姓名须与对方实名一致；不代买、不借卡；保留订单与聊天记录。这些能降低风险，但不能保证不发生。"
+      },
+      {
+        "q": "卡已经被冻了怎么办？",
+        "a": "通过银行官方渠道了解原因，如实说明交易情况并提供记录，必要时咨询当地专业律师。不要轻信声称能\"快速解冻\"的付费服务。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,320 @@
+{
+  "meta": {
+    "level": 3,
+    "slug": "can-an-exchange-collapse",
+    "title_zh": "交易所会跑路吗",
+    "title_en": "Can an exchange collapse?",
+    "hook_zh": "钱放在交易所，真的会跑路吗？",
+    "cta": {
+      "kind": "none",
+      "partner": null,
+      "original_kind": "none",
+      "line_zh": "想查一家平台的持牌和储备信息，可以看 NexuAlpha 的平台资料页，每项都附官方来源。",
+      "line_en": "To check a platform's licence and reserve information, see the NexuAlpha exchange profiles; every item links to an official source."
+    },
+    "next_slug": "signup-and-kyc",
+    "sources": [
+      "https://www.sec.gov/news/press-release/2022-219",
+      "https://www.sfc.hk/en/News-and-announcements/Policy-statements-and-announcements/Statement-on-JPEX",
+      "https://www.sfc.hk/en/alert-list",
+      "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
+      "https://www.okx.com/help/section/faq-proof-of-reserves"
+    ],
+    "sensitive": false,
+    "review_notes": "FTX 部分只用 SEC 2022-219 新闻稿中的'指控'表述（SEC 指控挪用客户资金），不写判决细节。JPEX 部分依据香港证监会《Statement on JPEX》：JPEX 未持牌、未申请牌照，证监会已转介警方。未引用媒体统计的报案人数。法务请确认'指控'措辞。 时间线中'2022-11 FTX 暂停提币、申请破产'为公开事实，但 SEC 新闻稿未必逐字写明日期，发布前请用法院破产文件或 SEC 起诉书核对。",
+    "next_title_zh": "注册 + KYC 一次过",
+    "next_title_en": "Sign-up & KYC, first try",
+    "writer_meta": {
+      "level": 3,
+      "slug": "can-an-exchange-collapse",
+      "title_zh": "交易所会跑路吗",
+      "title_en": "Can an exchange collapse?",
+      "hook_zh": "钱放在交易所，真的会跑路吗？",
+      "cta": {
+        "kind": "none",
+        "partner": null,
+        "line_zh": "想查一家平台的持牌和储备信息，可以看 NexuAlpha 的平台资料页，每项都附官方来源。",
+        "line_en": "To check a platform's licence and reserve information, see the NexuAlpha exchange profiles; every item links to an official source."
+      },
+      "next_slug": "signup-and-kyc",
+      "sources": [
+        "https://www.sec.gov/news/press-release/2022-219",
+        "https://www.sfc.hk/en/News-and-announcements/Policy-statements-and-announcements/Statement-on-JPEX",
+        "https://www.sfc.hk/en/alert-list",
+        "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
+        "https://www.okx.com/help/section/faq-proof-of-reserves"
+      ],
+      "sensitive": false,
+      "review_notes": "FTX 部分只用 SEC 2022-219 新闻稿中的'指控'表述（SEC 指控挪用客户资金），不写判决细节。JPEX 部分依据香港证监会《Statement on JPEX》：JPEX 未持牌、未申请牌照，证监会已转介警方。未引用媒体统计的报案人数。法务请确认'指控'措辞。 时间线中'2022-11 FTX 暂停提币、申请破产'为公开事实，但 SEC 新闻稿未必逐字写明日期，发布前请用法院破产文件或 SEC 起诉书核对。"
+    },
+    "source_note": "FTX 部分只用 SEC 2022-219 新闻稿中的'指控'表述（SEC 指控挪用客户资金），不写判决细节。JPEX 部分依据香港证监会《Statement on JPEX》：JPEX 未持牌、未申请牌照，证监会已转介警方。未引用媒体统计的报案人数。法务请确认'指控'措辞。 时间线中'2022-11 FTX 暂停提币、申请破产'为公开事实，但 SEC 新闻稿未必逐字写明日期，发布前请用法院破产文件或 SEC 起诉书核对。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"钱放在交易所，它会不会哪天跑路？\"这个担心完全合理。因为历史上真的发生过。",
+      "voice_en": "\"If I keep money on an exchange, could it just disappear one day?\" That worry is fair. It has happened before.",
+      "title": "会跑路吗？",
+      "sub": "这个担心是合理的",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "info",
+          "text": "真的发生过",
+          "detail": "所以要知道风险从哪里来",
+          "title": "真的发生过",
+          "body": "所以要知道风险从哪里来",
+          "writer_params": {
+            "level": "info",
+            "text": "真的发生过",
+            "detail": "所以要知道风险从哪里来"
+          }
+        }
+      },
+      "min_s": 8
+    },
+    {
+      "voice_zh": "2022 年，美国证监会指控 FTX 创始人挪用客户资金。平台倒下时，很多用户的钱根本提不出来。",
+      "voice_en": "In 2022, the US SEC charged FTX's founder with diverting customer funds. When the platform fell, many users could not withdraw.",
+      "title": "FTX · 2022",
+      "sub": "指控：挪用客户资金",
+      "visual": {
+        "type": "timeline",
+        "params": {
+          "events": [
+            {
+              "t": "2022-11",
+              "text": "FTX 暂停提币、申请破产"
+            },
+            {
+              "t": "2022-12",
+              "text": "美国 SEC 起诉创始人（指控挪用客户资金）"
+            }
+          ],
+          "source": "sec.gov 2022-219",
+          "writer_params": {
+            "events": [
+              {
+                "t": "2022-11",
+                "text": "FTX 暂停提币、申请破产"
+              },
+              {
+                "t": "2022-12",
+                "text": "美国 SEC 起诉创始人（指控挪用客户资金）"
+              }
+            ],
+            "source": "sec.gov 2022-219"
+          }
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "2023 年香港的 JPEX，没有持牌，也没申请牌照。它用高息理财吸引用户，后来证监会把案件转交给了警方。",
+      "voice_en": "In 2023, Hong Kong's JPEX had no licence and had not applied for one. It drew users with high-yield products. The regulator later referred the case to police.",
+      "title": "JPEX · 2023",
+      "sub": "无牌 + 高息理财",
+      "visual": {
+        "type": "timeline",
+        "params": {
+          "events": [
+            {
+              "t": "2022-07",
+              "text": "列入香港证监会可疑平台警示名单"
+            },
+            {
+              "t": "2023-09",
+              "text": "证监会声明：未持牌，已转介警方"
+            }
+          ],
+          "source": "sfc.hk",
+          "writer_params": {
+            "events": [
+              {
+                "t": "2022-07",
+                "text": "列入香港证监会可疑平台警示名单"
+              },
+              {
+                "t": "2023-09",
+                "text": "证监会声明：未持牌，已转介警方"
+              }
+            ],
+            "source": "sfc.hk"
+          }
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "暴雷风险主要来自三处：挪用客户资产、没有牌照、或者承诺高得离谱的固定收益。",
+      "voice_en": "The risk mainly comes from three places: misuse of customer assets, no licence, and fixed returns that sound too good to be true.",
+      "title": "三个风险来源",
+      "sub": "挪用 · 无牌 · 超高收益",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "挪用客户资产",
+            "没有当地牌照",
+            "超高固定收益"
+          ],
+          "style": "warning",
+          "writer_params": {
+            "items": [
+              "挪用客户资产",
+              "没有当地牌照",
+              "超高固定收益"
+            ],
+            "style": "warning"
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "怎么降低风险？第一，先查当地监管机构的持牌名单和警示名单。第二，看平台有没有定期公布储备证明。",
+      "voice_en": "How do you lower the risk? First, check your regulator's licensed list and alert list. Then see whether the platform publishes proof of reserves regularly.",
+      "title": "先查名单",
+      "sub": "持牌名单 + 警示名单",
+      "visual": {
+        "type": "flow",
+        "params": {
+          "nodes": [
+            "当地监管机构网站",
+            "持牌名单",
+            "警示名单",
+            "平台储备证明"
+          ],
+          "steps": [
+            "当地监管机构网站",
+            "持牌名单",
+            "警示名单",
+            "平台储备证明"
+          ],
+          "writer_params": {
+            "nodes": [
+              "当地监管机构网站",
+              "持牌名单",
+              "警示名单",
+              "平台储备证明"
+            ]
+          }
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "平时养成两个好习惯：不要把全部资产放在一个平台。看到\"年化很高、保证收益\"，先停下来。",
+      "voice_en": "Two more habits: don't keep everything on one platform. And when you see \"high yearly yield, guaranteed\", stop and check first.",
+      "title": "两条习惯",
+      "sub": "分散存放，警惕高息",
+      "visual": {
+        "type": "split-choice",
+        "params": {
+          "question": "资产怎么放？",
+          "options": [
+            "全部放一个平台",
+            "分散在不同地方"
+          ],
+          "highlight": 1,
+          "left": "分散在不同地方",
+          "right": "全部放一个平台",
+          "left_caption": "资产怎么放？",
+          "right_caption": "暂停核对",
+          "writer_params": {
+            "question": "资产怎么放？",
+            "options": [
+              "全部放一个平台",
+              "分散在不同地方"
+            ],
+            "highlight": 1
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "回顾一下：交易所有倒闭风险，没有绝对安全。查牌照、看储备、分散放、警惕高息。下一关，带你开始注册。",
+      "voice_en": "Recap: exchanges can fail, and nothing is perfectly safe. Check licences, read reserves, spread your assets, be wary of high yields. Next: signing up.",
+      "title": "没有绝对安全",
+      "sub": "下一关：注册 + KYC",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "查持牌与警示名单",
+            "看储备证明",
+            "不全放一处",
+            "警惕超高收益"
+          ],
+          "next": "signup-and-kyc",
+          "writer_params": {
+            "items": [
+              "查持牌与警示名单",
+              "看储备证明",
+              "不全放一处",
+              "警惕超高收益"
+            ],
+            "next": "signup-and-kyc"
+          }
+        }
+      },
+      "min_s": 12
+    }
+  ],
+  "page": {
+    "summary_zh": "交易所确实可能倒闭或无法提币，FTX（2022）和香港 JPEX（2023）都是例子。风险主要来自挪用客户资产、没有当地牌照、以及承诺超高固定收益。降低风险的方法：先查当地监管机构的持牌名单和警示名单，看平台是否定期公布储备证明，不把全部资产放在一个平台，遇到\"保证高收益\"先停下来。",
+    "checklist_zh": [
+      "在当地监管机构网站查过持牌名单",
+      "查过监管机构的可疑平台警示名单",
+      "看过平台的储备证明",
+      "没有把全部资产放在同一个平台",
+      "对\"保证高收益\"保持警惕"
+    ],
+    "quiz": [
+      {
+        "q": "JPEX 事件里，香港证监会指出的关键问题是？",
+        "options": [
+          "平台未持牌，也未申请牌照",
+          "手续费太高",
+          "App 太难用"
+        ],
+        "answer": "平台未持牌，也未申请牌照",
+        "why": "证监会声明 JPEX 从未申请牌照，并已将案件转介警方。"
+      },
+      {
+        "q": "看到\"保证年化很高\"的理财产品，应该？",
+        "options": [
+          "先停下来查证",
+          "马上全仓买入",
+          "拉朋友一起买"
+        ],
+        "answer": "先停下来查证",
+        "why": "超高固定收益是常见的风险信号，JPEX 就以高息理财吸引用户。"
+      },
+      {
+        "q": "哪种做法能降低单一平台风险？",
+        "options": [
+          "分散存放资产",
+          "全部放在收益最高的平台",
+          "只看网红推荐"
+        ],
+        "answer": "分散存放资产",
+        "why": "不把全部资产放在一处，单个平台出问题时影响更小。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "交易所会跑路吗？",
+        "a": "有这种风险，FTX、JPEX 都发生过严重问题。没有绝对安全的平台，但查牌照、看储备、分散存放能降低风险。"
+      },
+      {
+        "q": "怎么查一家平台有没有牌照？",
+        "a": "到你所在地监管机构的网站查持牌名单和警示名单。例如香港证监会公布了持牌虚拟资产交易平台名单和可疑平台警示名单。"
+      },
+      {
+        "q": "高息理财为什么危险？",
+        "a": "收益越高、越\"保证\"，越需要查证资金从哪里来。JPEX 就是用高息产品吸引用户，最终被监管机构转介警方。"
+      }
+    ]
+  }
+}

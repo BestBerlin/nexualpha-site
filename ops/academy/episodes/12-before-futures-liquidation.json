@@ -1,0 +1,402 @@
+{
+  "meta": {
+    "level": 12,
+    "slug": "before-futures-liquidation",
+    "title_zh": "合约前先懂爆仓",
+    "title_en": "Before futures: how liquidation happens",
+    "hook_zh": "10U 开了 100 倍，怎么一下就没了？",
+    "cta": {
+      "kind": "none",
+      "partner": null,
+      "original_kind": "none",
+      "line_zh": "这一关没有开仓按钮。如果你仍想了解合约，请先读平台的风险披露，并用模拟交易练习。",
+      "line_en": "There is no trade button in this level. If you still want to learn about futures, read the platform's risk disclosure first and practise with demo trading."
+    },
+    "next_slug": "",
+    "sources": [
+      "https://www.okx.com/help/risk-compliance-disclosure",
+      "https://www.okx.com/help/faq-on-usd-margined-futures",
+      "https://www.okx.com/help/okx-x-perps-eea-leverage-explained",
+      "https://www.okx.com/help/how-to-use-demo-trading",
+      "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
+      "https://www.investor.gov/introduction-investing/investing-basics/glossary/margin-call"
+    ],
+    "sensitive": true,
+    "review_notes": "风险教育关卡，无 CTA，不出现任何开仓按钮或合作链接。所有出现杠杆倍数的画面都带同屏风险提示（params.risk_note）。示例为简化算术（100 USDT × 10 倍 = 1,000 USDT 仓位，反向 10% 亏损 100 USDT），并明确说明实际强平更早（维持保证金、手续费）。逐仓/全仓定义为通用说明，以平台规则为准。本关为季终，next_slug 为空。",
+    "next_title_zh": "回顾：从第一关再走一遍",
+    "next_title_en": "Season complete",
+    "writer_meta": {
+      "level": 12,
+      "slug": "before-futures-liquidation",
+      "title_zh": "合约前先懂爆仓",
+      "title_en": "Before futures: how liquidation happens",
+      "hook_zh": "10U 开了 100 倍，怎么一下就没了？",
+      "cta": {
+        "kind": "none",
+        "partner": null,
+        "line_zh": "这一关没有开仓按钮。如果你仍想了解合约，请先读平台的风险披露，并用模拟交易练习。",
+        "line_en": "There is no trade button in this level. If you still want to learn about futures, read the platform's risk disclosure first and practise with demo trading."
+      },
+      "next_slug": "",
+      "sources": [
+        "https://www.okx.com/help/risk-compliance-disclosure",
+        "https://www.okx.com/help/faq-on-usd-margined-futures",
+        "https://www.okx.com/help/okx-x-perps-eea-leverage-explained",
+        "https://www.okx.com/help/how-to-use-demo-trading",
+        "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
+        "https://www.investor.gov/introduction-investing/investing-basics/glossary/margin-call"
+      ],
+      "sensitive": true,
+      "review_notes": "风险教育关卡，无 CTA，不出现任何开仓按钮或合作链接。所有出现杠杆倍数的画面都带同屏风险提示（params.risk_note）。示例为简化算术（100 USDT × 10 倍 = 1,000 USDT 仓位，反向 10% 亏损 100 USDT），并明确说明实际强平更早（维持保证金、手续费）。逐仓/全仓定义为通用说明，以平台规则为准。本关为季终，next_slug 为空。"
+    },
+    "source_note": "风险教育关卡，无 CTA，不出现任何开仓按钮或合作链接。所有出现杠杆倍数的画面都带同屏风险提示（params.risk_note）。示例为简化算术（100 USDT × 10 倍 = 1,000 USDT 仓位，反向 10% 亏损 100 USDT），并明确说明实际强平更早（维持保证金、手续费）。逐仓/全仓定义为通用说明，以平台规则为准。本关为季终，next_slug 为空。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"我只拿了 10U 开 100 倍，怎么一下就没了？\"这一关不教怎么开仓，只讲爆仓究竟是怎么发生的。",
+      "voice_en": "\"I opened 100x with just 10 USDT. How did it vanish so fast?\" This level doesn't teach you to open a position. It only shows how liquidation happens.",
+      "title": "怎么就没了？",
+      "sub": "只讲风险，不教开仓",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "danger",
+          "text": "本关为风险教育",
+          "detail": "合约可能让你在很短时间内亏光保证金",
+          "title": "本关为风险教育",
+          "body": "合约可能让你在很短时间内亏光保证金",
+          "writer_params": {
+            "level": "danger",
+            "text": "本关为风险教育",
+            "detail": "合约可能让你在很短时间内亏光保证金"
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "合约交易是用一笔保证金，去撬动更大金额的价格波动。杠杆倍数越高，同样的行情波动，盈亏放大得就越多。",
+      "voice_en": "Futures let you use margin to trade price moves on a much larger amount. The higher the leverage, the more the same move is magnified, both ways.",
+      "title": "杠杆放大一切",
+      "sub": "盈亏同时放大",
+      "visual": {
+        "type": "definition",
+        "params": {
+          "term": "杠杆",
+          "lines": [
+            "保证金 × 倍数 = 仓位大小",
+            "盈利和亏损同样放大"
+          ],
+          "risk_note": "杠杆交易风险极高，可能损失全部保证金",
+          "quote": "杠杆：保证金 × 倍数 = 仓位大小；盈利和亏损同样放大",
+          "source": "NexuAlpha Starter Path",
+          "writer_params": {
+            "term": "杠杆",
+            "lines": [
+              "保证金 × 倍数 = 仓位大小",
+              "盈利和亏损同样放大"
+            ],
+            "risk_note": "杠杆交易风险极高，可能损失全部保证金"
+          }
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "算一笔细账：100 USDT 保证金开 10 倍，仓位就是 1000 USDT。价格反向走 10%，亏损就是 100 USDT。保证金当场没了。",
+      "voice_en": "Quick math: 100 USDT of margin at 10x is a 1,000 USDT position. If the price moves 10% against you, the loss is 100 USDT. Your margin is gone.",
+      "title": "10 倍算一笔",
+      "sub": "反向 10% ≈ 保证金归零",
+      "visual": {
+        "type": "number-counter",
+        "params": {
+          "margin": "100 USDT",
+          "leverage": "10×",
+          "position": "1,000 USDT",
+          "move": "-10%",
+          "loss": "-100 USDT",
+          "risk_note": "简化示例；可能损失全部保证金",
+          "value": 1000.0,
+          "label": "仓位 1,000 USDT",
+          "suffix": " USDT",
+          "decimals": 0,
+          "caption": "简化示例；可能损失全部保证金",
+          "writer_params": {
+            "margin": "100 USDT",
+            "leverage": "10×",
+            "position": "1,000 USDT",
+            "move": "-10%",
+            "loss": "-100 USDT",
+            "risk_note": "简化示例；可能损失全部保证金"
+          }
+        }
+      },
+      "min_s": 13
+    },
+    {
+      "voice_zh": "换成 100 倍，行情只要反向走大约 1%，就够了。而且实际强平往往来得更早，因为还要扣维持保证金和手续费。",
+      "voice_en": "At 100x, a move of about 1% against you is enough. And liquidation actually comes sooner, because of maintenance margin and fees.",
+      "title": "100 倍呢？",
+      "sub": "约 1% 反向波动",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "杠杆",
+            "保证金归零约需反向波动"
+          ],
+          "rows": [
+            [
+              "",
+              "10×",
+              "约 10%"
+            ],
+            [
+              "",
+              "20×",
+              "约 5%"
+            ],
+            [
+              "",
+              "100×",
+              "约 1%"
+            ]
+          ],
+          "note": "简化示例，实际强平更早",
+          "risk_note": "杠杆交易风险极高，可能损失全部保证金",
+          "writer_params": {
+            "columns": [
+              "杠杆",
+              "保证金归零约需反向波动"
+            ],
+            "rows": [
+              [
+                "10×",
+                "约 10%"
+              ],
+              [
+                "20×",
+                "约 5%"
+              ],
+              [
+                "100×",
+                "约 1%"
+              ]
+            ],
+            "note": "简化示例，实际强平更早",
+            "risk_note": "杠杆交易风险极高，可能损失全部保证金"
+          }
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "所谓的强平，就是保证金不足以维持仓位时，平台强制帮你平仓。这时候，你的保证金可能已经全部亏掉了。",
+      "voice_en": "Liquidation is when your margin can no longer support the position, so the platform closes it automatically. By then, your margin may be entirely lost.",
+      "title": "什么是强平",
+      "sub": "保证金不够，自动平仓",
+      "visual": {
+        "type": "timeline",
+        "params": {
+          "events": [
+            {
+              "t": "1",
+              "text": "价格反向波动"
+            },
+            {
+              "t": "2",
+              "text": "保证金率下降到维持线"
+            },
+            {
+              "t": "3",
+              "text": "平台强制平仓"
+            }
+          ],
+          "risk_note": "强平后保证金可能全部损失",
+          "writer_params": {
+            "events": [
+              {
+                "t": "1",
+                "text": "价格反向波动"
+              },
+              {
+                "t": "2",
+                "text": "保证金率下降到维持线"
+              },
+              {
+                "t": "3",
+                "text": "平台强制平仓"
+              }
+            ],
+            "risk_note": "强平后保证金可能全部损失"
+          }
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "逐仓模式下，亏损一般限于这个仓位的保证金。全仓模式下，会动用账户里更多余额来扛，可能亏掉更多。具体以平台规则为准。",
+      "voice_en": "Isolated margin generally limits the loss to that position's margin. Cross margin draws on more of your account balance and can lose more. Check your platform's rules.",
+      "title": "逐仓 vs 全仓",
+      "sub": "全仓可能亏得更多",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "逐仓",
+            "全仓"
+          ],
+          "rows": [
+            [
+              "用到的保证金",
+              "该仓位保证金",
+              "账户更多余额"
+            ],
+            [
+              "最大亏损范围",
+              "一般限于该仓位",
+              "可能更大"
+            ]
+          ],
+          "risk_note": "两种模式都可能亏损全部所用保证金",
+          "writer_params": {
+            "columns": [
+              "",
+              "逐仓",
+              "全仓"
+            ],
+            "rows": [
+              [
+                "用到的保证金",
+                "该仓位保证金",
+                "账户更多余额"
+              ],
+              [
+                "最大亏损范围",
+                "一般限于该仓位",
+                "可能更大"
+              ]
+            ],
+            "risk_note": "两种模式都可能亏损全部所用保证金"
+          }
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "说句实在话：大多数新手根本不需要碰合约。如果仍然想了解，先读完平台的风险披露，再用模拟交易去练习。",
+      "voice_en": "Honestly: most beginners don't need futures. If you still want to learn, read the platform's risk disclosure first, then practise with demo trading.",
+      "title": "大多数人不需要",
+      "sub": "先读风险披露，再模拟",
+      "visual": {
+        "type": "split-choice",
+        "params": {
+          "question": "仍想了解合约？",
+          "options": [
+            "先读风险披露",
+            "再用模拟交易练习"
+          ],
+          "note": "本关不提供开仓入口",
+          "left": "先读风险披露",
+          "right": "再用模拟交易练习",
+          "left_caption": "本关不提供开仓入口",
+          "right_caption": "暂停核对",
+          "writer_params": {
+            "question": "仍想了解合约？",
+            "options": [
+              "先读风险披露",
+              "再用模拟交易练习"
+            ],
+            "note": "本关不提供开仓入口"
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "回顾一下：杠杆同时放大盈亏，倍数越高离爆仓越近，全仓可能亏得更多。第一季到这里全部结业。想从头复习，随时回到第一关。",
+      "voice_en": "Recap: leverage magnifies gains and losses, higher leverage means liquidation is closer, and cross margin can lose more. That's the end of season one. To review, go back to level one.",
+      "title": "第一季，完成",
+      "sub": "回顾：从第一关再走一遍",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "杠杆放大盈亏",
+            "倍数越高，离强平越近",
+            "全仓可能亏更多",
+            "大多数新手不需要合约"
+          ],
+          "risk_note": "杠杆交易风险极高，可能损失全部保证金",
+          "writer_params": {
+            "items": [
+              "杠杆放大盈亏",
+              "倍数越高，离强平越近",
+              "全仓可能亏更多",
+              "大多数新手不需要合约"
+            ],
+            "risk_note": "杠杆交易风险极高，可能损失全部保证金"
+          }
+        }
+      },
+      "min_s": 11
+    }
+  ],
+  "page": {
+    "summary_zh": "合约是用保证金交易更大金额的价格变化，杠杆会同时放大盈利和亏损。以 100 USDT 保证金、10 倍杠杆为例，价格反向波动约 10% 就可能亏光保证金；100 倍时约 1% 就够，而且因为维持保证金和手续费，实际强平会更早。逐仓的亏损一般限于该仓位保证金，全仓会动用账户更多余额。大多数新手不需要合约；如仍想了解，请先读平台风险披露并使用模拟交易。",
+    "checklist_zh": [
+      "我知道杠杆会同时放大亏损",
+      "我能算出某个倍数下约多少反向波动会亏光保证金",
+      "我知道实际强平比简单计算更早",
+      "我分得清逐仓和全仓",
+      "我读过平台的风险披露",
+      "我只在模拟交易里练习过"
+    ],
+    "quiz": [
+      {
+        "q": "100 USDT 保证金开 10 倍，价格反向波动约多少会亏光保证金（简化计算）？",
+        "options": [
+          "约 10%",
+          "约 50%",
+          "约 100%"
+        ],
+        "answer": "约 10%",
+        "why": "仓位 1,000 USDT，反向 10% 亏损 100 USDT，正好等于保证金；实际强平还会更早。"
+      },
+      {
+        "q": "为什么实际强平比简单计算来得更早？",
+        "options": [
+          "有维持保证金和手续费",
+          "平台故意提前",
+          "价格不会波动"
+        ],
+        "answer": "有维持保证金和手续费",
+        "why": "保证金低于维持要求时就会触发强平，手续费也会消耗保证金。"
+      },
+      {
+        "q": "关于新手和合约，哪句话更符合本关观点？",
+        "options": [
+          "大多数新手不需要合约",
+          "合约是新手赚快钱的工具",
+          "倍数越高越安全"
+        ],
+        "answer": "大多数新手不需要合约",
+        "why": "杠杆放大亏损，新手应先理解风险，最多用模拟交易练习。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "合约爆仓是什么意思？",
+        "a": "当价格反向波动，保证金不足以维持仓位时，平台会强制平仓，这就是爆仓（强平）。此时保证金可能已全部亏损。"
+      },
+      {
+        "q": "合约爆仓怎么计算？",
+        "a": "简化估算：保证金归零所需的反向波动约等于 1 ÷ 杠杆倍数，例如 10 倍约 10%、100 倍约 1%。实际强平价还受维持保证金率和手续费影响，会更早触发，以平台显示为准。"
+      },
+      {
+        "q": "逐仓和全仓哪个风险大？",
+        "a": "全仓会动用账户中更多余额来维持仓位，亏损可能超出单个仓位的保证金；逐仓一般把亏损限制在该仓位保证金内。两者都可能亏光所用保证金。"
+      }
+    ]
+  }
+}

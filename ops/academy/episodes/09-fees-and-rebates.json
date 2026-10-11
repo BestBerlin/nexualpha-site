@@ -1,0 +1,380 @@
+{
+  "meta": {
+    "level": 9,
+    "slug": "fees-and-rebates",
+    "title_zh": "手续费与返佣，讲清楚",
+    "title_en": "Fees & rebates, explained",
+    "hook_zh": "到处都在推的返佣，到底是不是骗局？",
+    "cta": {
+      "kind": "neutral",
+      "partner": null,
+      "original_kind": "signup",
+      "line_zh": "在 NexuAlpha 对比页查看各平台已确认的返佣条件，再决定是否使用。页面上的注册入口是合作推广链接，佣金由交易所支付。返佣只能降低成本，不会降低风险。",
+      "line_en": "See each platform's confirmed rebate terms on the NexuAlpha compare page, then decide. Sign-up buttons there are partner links; the exchange pays the commission. Rebates lower costs, not risk."
+    },
+    "next_slug": "check-network-before-withdraw",
+    "sources": [
+      "https://nexualpha.com/intel/partners.json",
+      "https://www.okx.com/help/what-is-okx-referral-program",
+      "https://www.okx.com/fees",
+      "https://www.bitget.com/fee",
+      "https://www.binance.com/en/fee/schedule",
+      "https://nexualpha.com/compare"
+    ],
+    "sensitive": false,
+    "review_notes": "【需业主确认】返还比例取自 partners.json（termsConfirmedOn 2026-10-10）：Bitget 60%、OKX 40%、Binance 25%；Bybit share=null，不写比例。脚本写成'返还比例'，需确认基数是'交易所支付的佣金'还是'你付的手续费'，确认后在页面注明。'最高 60%'与 maxSharePct=60 一致。'邀请码只能在注册时填写，之后不能补填'依据 OKX 推荐计划 FAQ，其他平台规则以官方为准。坦诚说明 NexuAlpha 的收入来源。",
+    "next_title_zh": "提币先核对网络",
+    "next_title_en": "Check the network before you withdraw",
+    "writer_meta": {
+      "level": 9,
+      "slug": "fees-and-rebates",
+      "title_zh": "手续费与返佣，讲清楚",
+      "title_en": "Fees & rebates, explained",
+      "hook_zh": "到处都在推的返佣，到底是不是骗局？",
+      "cta": {
+        "kind": "signup",
+        "partner": null,
+        "line_zh": "在 NexuAlpha 对比页查看各平台已确认的返佣条件，再决定是否使用。页面上的注册入口是合作推广链接，佣金由交易所支付。返佣只能降低成本，不会降低风险。",
+        "line_en": "See each platform's confirmed rebate terms on the NexuAlpha compare page, then decide. Sign-up buttons there are partner links; the exchange pays the commission. Rebates lower costs, not risk."
+      },
+      "next_slug": "check-network-before-withdraw",
+      "sources": [
+        "https://nexualpha.com/intel/partners.json",
+        "https://www.okx.com/help/what-is-okx-referral-program",
+        "https://www.okx.com/fees",
+        "https://www.bitget.com/fee",
+        "https://www.binance.com/en/fee/schedule",
+        "https://nexualpha.com/compare"
+      ],
+      "sensitive": false,
+      "review_notes": "【需业主确认】返还比例取自 partners.json（termsConfirmedOn 2026-10-10）：Bitget 60%、OKX 40%、Binance 25%；Bybit share=null，不写比例。脚本写成'返还比例'，需确认基数是'交易所支付的佣金'还是'你付的手续费'，确认后在页面注明。'最高 60%'与 maxSharePct=60 一致。'邀请码只能在注册时填写，之后不能补填'依据 OKX 推荐计划 FAQ，其他平台规则以官方为准。坦诚说明 NexuAlpha 的收入来源。"
+    },
+    "source_note": "【需业主确认】返还比例取自 partners.json（termsConfirmedOn 2026-10-10）：Bitget 60%、OKX 40%、Binance 25%；Bybit share=null，不写比例。脚本写成'返还比例'，需确认基数是'交易所支付的佣金'还是'你付的手续费'，确认后在页面注明。'最高 60%'与 maxSharePct=60 一致。'邀请码只能在注册时填写，之后不能补填'依据 OKX 推荐计划 FAQ，其他平台规则以官方为准。坦诚说明 NexuAlpha 的收入来源。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"返佣是什么？会不会是拉人头的骗局？\"这一关把手续费拆开看，也讲讲我们自己怎么赚钱。",
+      "voice_en": "\"What's a rebate? Is it some kind of referral scam?\" This level covers fees, and how we ourselves make money.",
+      "title": "返佣是什么？",
+      "sub": "也说说我们怎么赚钱",
+      "visual": {
+        "type": "split-choice",
+        "params": {
+          "question": "返佣是？",
+          "options": [
+            "交易所的正式推荐计划",
+            "拉人头骗局"
+          ],
+          "highlight": 0,
+          "left": "交易所的正式推荐计划",
+          "right": "拉人头骗局",
+          "left_caption": "返佣是？",
+          "right_caption": "暂停核对",
+          "writer_params": {
+            "question": "返佣是？",
+            "options": [
+              "交易所的正式推荐计划",
+              "拉人头骗局"
+            ],
+            "highlight": 0
+          }
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "先看你实际要付的费用：交易手续费、买卖点差、提币时的网络费。如果做合约，还有资金费率。",
+      "voice_en": "First, what you actually pay: trading fees, the spread, and network fees when you withdraw. If you trade futures, there's also the funding rate.",
+      "title": "你付的费用",
+      "sub": "交易费 · 点差 · 提币费",
+      "visual": {
+        "type": "flow",
+        "params": {
+          "nodes": [
+            "交易手续费",
+            "点差",
+            "提币网络费",
+            "合约资金费率（如有）"
+          ],
+          "label": "费用会叠加",
+          "steps": [
+            "交易手续费",
+            "点差",
+            "提币网络费",
+            "合约资金费率（如有）"
+          ],
+          "caption": "费用会叠加",
+          "writer_params": {
+            "nodes": [
+              "交易手续费",
+              "点差",
+              "提币网络费",
+              "合约资金费率（如有）"
+            ],
+            "label": "费用会叠加"
+          }
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "返佣其实是交易所的推荐计划。你用推荐码注册，交易所从收到的手续费里拿出一部分返还。这笔钱由交易所出。",
+      "voice_en": "A rebate is the exchange's referral programme. Sign up with a referral code, and the exchange returns part of the fees it collects to the referrer and to you. The exchange pays.",
+      "title": "钱从哪来",
+      "sub": "交易所从手续费里拿出一部分",
+      "visual": {
+        "type": "flow",
+        "params": {
+          "nodes": [
+            "你付手续费",
+            "交易所",
+            "一部分返给你",
+            "一部分给推荐方"
+          ],
+          "steps": [
+            "你付手续费",
+            "交易所",
+            "一部分返给你",
+            "一部分给推荐方"
+          ],
+          "writer_params": {
+            "nodes": [
+              "你付手续费",
+              "交易所",
+              "一部分返给你",
+              "一部分给推荐方"
+            ]
+          }
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "NexuAlpha 就是这个推荐方。你用我们的合作推广链接注册，佣金完全由交易所支付，你不会多付一分钱。",
+      "voice_en": "NexuAlpha is the referrer. If you sign up through our partner link, the exchange pays the commission. You don't pay anything extra.",
+      "title": "我们怎么赚钱",
+      "sub": "合作推广链接，佣金由交易所支付",
+      "visual": {
+        "type": "definition",
+        "params": {
+          "term": "NexuAlpha 的收入",
+          "lines": [
+            "来自交易所的推荐佣金",
+            "你不额外付费",
+            "每个注册入口都有标注"
+          ],
+          "quote": "NexuAlpha 的收入：来自交易所的推荐佣金；你不额外付费；每个注册入口都有标注",
+          "source": "NexuAlpha Starter Path",
+          "writer_params": {
+            "term": "NexuAlpha 的收入",
+            "lines": [
+              "来自交易所的推荐佣金",
+              "你不额外付费",
+              "每个注册入口都有标注"
+            ]
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "以下是 2026 年 10 月 10 日确认的条款。返还比例：Bitget 60%，OKX 40%，Binance 25%。没确认的平台，我们绝不写比例。",
+      "voice_en": "Under terms confirmed on 10 October 2026, the return rates are: Bitget 60%, OKX 40%, Binance 25%. Where terms aren't confirmed, we don't show a rate.",
+      "title": "已确认的比例",
+      "sub": "条款确认于 2026-10-10",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "返还比例",
+            "结算"
+          ],
+          "rows": [
+            [
+              "Bitget",
+              "60%",
+              "每日"
+            ],
+            [
+              "OKX",
+              "40%",
+              "每小时"
+            ],
+            [
+              "Binance",
+              "25%",
+              "每小时"
+            ],
+            [
+              "Bybit",
+              "未确认",
+              "—"
+            ]
+          ],
+          "note": "以 NexuAlpha 对比页与交易所官方条款为准",
+          "writer_params": {
+            "columns": [
+              "平台",
+              "返还比例",
+              "结算"
+            ],
+            "rows": [
+              [
+                "Bitget",
+                "60%",
+                "每日"
+              ],
+              [
+                "OKX",
+                "40%",
+                "每小时"
+              ],
+              [
+                "Binance",
+                "25%",
+                "每小时"
+              ],
+              [
+                "Bybit",
+                "未确认",
+                "—"
+              ]
+            ],
+            "note": "以 NexuAlpha 对比页与交易所官方条款为准"
+          }
+        }
+      },
+      "min_s": 13
+    },
+    {
+      "voice_zh": "两个限制要提前知道。第一，推荐码通常只能在注册时填写，之后不能补。第二，返佣只降低成本，不降低风险。",
+      "voice_en": "Two limits to know. A referral code usually has to be entered at sign-up and can't be added later. And rebates lower your costs, not your risk.",
+      "title": "两个限制",
+      "sub": "注册时填写 · 不降低风险",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "info",
+          "items": [
+            "推荐码一般只能注册时填写",
+            "返佣只降低成本，不降低风险"
+          ],
+          "title": "确认前暂停",
+          "body": "推荐码一般只能注册时填写；返佣只降低成本，不降低风险",
+          "writer_params": {
+            "level": "info",
+            "items": [
+              "推荐码一般只能注册时填写",
+              "返佣只降低成本，不降低风险"
+            ]
+          }
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "所以千万别为了拿返佣去频繁交易。你交易得越多，付出的手续费也越多。",
+      "voice_en": "So don't trade more just to earn rebates. The more you trade, the more fees you pay.",
+      "title": "别为返佣多交易",
+      "sub": "交易越多，费用越多",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "warn",
+          "text": "返佣不是交易的理由",
+          "title": "返佣不是交易的理由",
+          "body": "",
+          "writer_params": {
+            "level": "warn",
+            "text": "返佣不是交易的理由"
+          }
+        }
+      },
+      "min_s": 8
+    },
+    {
+      "voice_zh": "回顾一下：各项费用会叠加，返佣由交易所出钱，只降成本不降风险。下一关：提币前，先核对网络。",
+      "voice_en": "Recap: fees stack up, the exchange pays the rebate, and it lowers cost but not risk. Next: before you withdraw, check the network.",
+      "title": "费用看全，返佣看清",
+      "sub": "下一关：提币先核对网络",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "交易费 + 点差 + 提币费",
+            "返佣由交易所支付",
+            "注册时填写推荐码",
+            "不为返佣多交易"
+          ],
+          "next": "check-network-before-withdraw",
+          "writer_params": {
+            "items": [
+              "交易费 + 点差 + 提币费",
+              "返佣由交易所支付",
+              "注册时填写推荐码",
+              "不为返佣多交易"
+            ],
+            "next": "check-network-before-withdraw"
+          }
+        }
+      },
+      "min_s": 10
+    }
+  ],
+  "page": {
+    "summary_zh": "你在交易所的成本包括交易手续费、点差、提币网络费，做合约还有资金费率。返佣是交易所的正式推荐计划：用推荐码注册后，交易所从手续费中拿出一部分返给推荐方和你，钱由交易所支付。NexuAlpha 的收入来自这类推荐佣金。按 2026-10-10 确认的条款，返还比例为 Bitget 60%、OKX 40%、Binance 25%；返佣只降低成本，不降低风险，也不应成为多交易的理由。",
+    "checklist_zh": [
+      "算过交易费、点差、提币费的总和",
+      "知道返佣由交易所支付",
+      "注册时就填写推荐码（之后通常不能补填）",
+      "在官方条款中确认返佣比例和条件",
+      "不为了返佣增加交易次数"
+    ],
+    "quiz": [
+      {
+        "q": "返佣的钱由谁支付？",
+        "options": [
+          "交易所，从手续费中拿出一部分",
+          "用户额外支付",
+          "推荐方自掏腰包"
+        ],
+        "answer": "交易所，从手续费中拿出一部分",
+        "why": "返佣是交易所推荐计划的一部分，用户不额外付费。"
+      },
+      {
+        "q": "推荐码一般什么时候填写？",
+        "options": [
+          "注册时",
+          "交易一个月后",
+          "随时都能补填"
+        ],
+        "answer": "注册时",
+        "why": "例如 OKX 规定推荐关系只能在注册时建立，之后不能添加或修改。"
+      },
+      {
+        "q": "关于返佣，哪句话是对的？",
+        "options": [
+          "只降低成本，不降低风险",
+          "可以让交易稳定盈利",
+          "交易越多越划算"
+        ],
+        "answer": "只降低成本，不降低风险",
+        "why": "返佣抵扣的是部分手续费，价格波动的风险不会因此减少。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "返佣是骗局吗？",
+        "a": "正规返佣是交易所官方的推荐计划，钱来自交易所收取的手续费。要警惕的是承诺\"高返佣 + 高杠杆\"、诱导频繁交易的推广。"
+      },
+      {
+        "q": "NexuAlpha 怎么赚钱？",
+        "a": "用户通过我们的合作推广链接注册时，交易所会向我们支付推荐佣金，并按条款把一部分返还给用户。你不需要额外付费。"
+      },
+      {
+        "q": "已经注册的账户能补填邀请码吗？",
+        "a": "通常不能。以 OKX 为例，推荐关系只能在注册时建立。其他平台以官方规则为准。"
+      }
+    ]
+  }
+}
