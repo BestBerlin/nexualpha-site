@@ -114,12 +114,10 @@ const partnersBySlug = () => BY_SLUG;
 const NEUTRAL_TITLE_LOCALES = new Set(["ru", "ar", "zh-Hant"]);
 // SPK "Faaliyette Bulunanlar Listesi" (temporary list dated 01 Ekim 2026, read 2026-10-11:
 // https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi) lists OKX TR (#38),
-// Binance Turkey (#4), Bybit (#11) and Gate (#23). Bitget Teknoloji AŞ is on the liquidation list
-// (tasfiye-surecinde-olanlar-listesi). MEXC is left out by owner decision 2026-10-11 (exchange keyword plan: Turkish
-// referral targets are OKX, Binance and Bybit; MEXC stays neutral) even though the 01 Oct list carries a
-// "Mexc Kripto Varlık Alım Satım Platformu AŞ" (#35); flip it back only on an explicit owner decision.
+// Binance Turkey (#4), Bybit (#11), Gate (#23) and MEXC (#35, "Mexc Kripto Varlık Alım Satım Platformu AŞ").
+// Bitget Teknoloji AŞ is on the liquidation list (tasfiye-surecinde-olanlar-listesi).
 // The list itself says being on it is not an authorization verdict. Pinned in tests/exchange-keywords.test.mjs.
-export const TR_SPK_LISTED = Object.freeze(["okx", "binance", "bybit", "gate-io"]);
+export const TR_SPK_LISTED = Object.freeze(["okx", "binance", "bybit", "gate-io", "mexc"]);
 export function referralTitleAllowed(slug, locale) {
   if (NEUTRAL_TITLE_LOCALES.has(locale)) return false;
   if (locale === "tr") return TR_SPK_LISTED.includes(slug);

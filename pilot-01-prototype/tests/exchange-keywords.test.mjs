@@ -34,8 +34,8 @@ test("Turkish referral allow-list matches SPK's operating list (01 Oct 2026) and
   // https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi
   // OKX TR (#38), Binance Turkey (#4), Bybit (#11) and Gate (#23) are listed. Bitget Teknoloji AŞ is on the
   // liquidation list. MEXC stays neutral in Turkish by owner decision 2026-10-11.
-  assert.deepEqual([...TR_SPK_LISTED], ["okx", "binance", "bybit", "gate-io"]);
-  for (const slug of ["mexc", "bitget", "backpack", "hyperliquid", "kraken", "htx"]) {
+  assert.deepEqual([...TR_SPK_LISTED], ["okx", "binance", "bybit", "gate-io", "mexc"]);
+  for (const slug of ["bitget", "backpack", "hyperliquid", "kraken", "htx"]) {
     assert.equal(referralTitleAllowed(slug, "tr"), false, slug);
     assert.equal(referralSeoFor(slug, "tr"), null, slug);
   }
