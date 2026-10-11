@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SectionRule } from "../shared/DataRule.jsx";
 import { v3Copy } from "../../data/v3-product";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { researchForVenue } from "../../data/exchange-research";
@@ -392,6 +393,7 @@ export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} 
 
   return (
     <section className="v2-section v3-faq-section" id="faq">
+      <SectionRule stamp={shownFaqs.length || null} />
       <div className="v3-faq-card">
         <div className="v3-faq-card__header">
           <h2 className="v3-faq-card__title">

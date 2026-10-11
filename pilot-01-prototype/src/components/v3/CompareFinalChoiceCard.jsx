@@ -1,5 +1,6 @@
 import { CodeChip } from "../v6/CodeChip.jsx";
 import { BrandMark } from "../brand/BrandMark";
+import { SectionRule } from "../shared/DataRule.jsx";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { regionalVenueCta } from "../../data/source-bound-cta.js";
 import { sanitizePublicText } from "../../data/public-copy-sanitizer.js";
@@ -193,6 +194,7 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
 
   return (
     <article className="v3-compare-final-choice-card" aria-label={title}>
+      <SectionRule />
       <div className="v3-compare-final-choice-card__head">
         <h2>{title}</h2>
         <p>{directAnswer.body}</p>

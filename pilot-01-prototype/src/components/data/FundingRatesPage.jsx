@@ -1,8 +1,9 @@
 // /funding-rates — Binance vs OKX perpetual funding for the top symbols, from the market collector feed.
 import React from "react";
+import { SectionRule, UtcRuleStamp } from "../shared/DataRule.jsx";
 import { FUNDING_RATES_PATH, dataPageCopy, formatCountdown, formatRatePct, formatUtcTime, readFunding } from "../../data/market-data-pages.js";
 import { DataPageHero, DataPageTail, DataUnavailable, textDirection } from "./DataPageFrame.jsx";
-import { useClientNow, useMarketEvents } from "./useMarketEvents.js";
+import { prefersReducedMotion, useClientNow, useMarketEvents } from "./useMarketEvents.js";
 
 const tone = (rate) => (rate == null ? "" : rate > 0 ? " pos" : rate < 0 ? " neg" : "");
 
@@ -12,7 +13,7 @@ function NextCell({ at, now, copy }) {
   return (
     <span className="nxd-next" dir="ltr">
       <time dateTime={at}>{formatUtcTime(at)}</time>
-      {remaining != null ? <small>{copy.nextIn} {formatCountdown(remaining)}</small> : null}
+      {remaining != null ? <small>{copy.nextIn} {formatCountdown(remaining, { seconds: !prefersReducedMotion() })}</small> : null}
     </span>
   );
 }
@@ -29,6 +30,7 @@ export function FundingRatesPage({ locale = "en", initialFeed }) {
 
       {!data ? <DataUnavailable locale={locale} /> : (
         <section className="nxd-funding v2-shell" data-rv="1" aria-label={page.h1}>
+          <SectionRule stamp={<UtcRuleStamp iso={data.generatedAt} />} dateTime={data.generatedAt} />
           <p className="nxd-legend"><span className="pos">▲</span> <span className="neg">▼</span> {page.legend}</p>
           <table className="nxd-table nxd-table--funding" dir="ltr">
             <thead>

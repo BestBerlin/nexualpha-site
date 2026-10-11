@@ -1,5 +1,5 @@
 import React from "react";
-import { collectionHubCopy, collectionHubIndexCopy, factbookHubItems, topicHubItems } from "../../data/collection-hubs.js";
+import { collectionHubCopy, collectionHubIndexCopy, factbookHubItems, hubRecordsLocalized, topicHubItems } from "../../data/collection-hubs.js";
 import { enAttrs } from "../../utils/fallback-lang.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark";
@@ -38,8 +38,9 @@ export function CollectionHubPage({ kind, locale = "en" }) {
   const copy = collectionHubCopy(kind, locale);
   const ix = collectionHubIndexCopy(locale);
   const items = kind === "factbook" ? factbookHubItems(locale) : topicHubItems(locale);
-  // Headings are localized in all 15 locales; record titles and descriptions stay in their reviewed language.
-  const recordLang = String(locale).startsWith("zh") ? undefined : enAttrs(locale);
+  // Headings and record rows are localized in all 15 locales (links-l10n lane 2026-10-11); a locale without record
+  // copy would keep the English rows, marked as English.
+  const recordLang = hubRecordsLocalized(kind, locale) ? undefined : enAttrs(locale);
   const hubDecision = kind === "factbook" ? "factbook_source_record" : "topic_research_path";
   const hubProduct = kind === "factbook" ? "source-review" : "research";
   const href = (path) => localizedHref(path, { locale });

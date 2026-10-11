@@ -1,9 +1,10 @@
 // Live funding-rate board (owner 2026-10-10). Data: FUNDING_PATH, refreshed by the server every 5 minutes from each
 // exchange's public endpoint. Renders nothing until real data arrives; a venue that did not answer is not shown.
 import React, { useEffect, useMemo, useState } from "react";
-import { FUNDING_PATH, FUNDING_SYMBOLS, fundingTable } from "../../data/funding-rates.js";
+import { FUNDING_PATH, FUNDING_SYMBOLS, FUNDING_VENUES, fundingTable } from "../../data/funding-rates.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
+import { reduced } from "./home7-shared.jsx";
 import { brandsBySlug } from "../../content/brand-manifest";
 
 const COPY = {
@@ -25,49 +26,64 @@ const COPY = {
 };
 const copyFor = (locale) => COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
 const pct = (v, d) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v * 100).toFixed(d)}%`;
-const countdown = (ms) => { if (!(ms > 0)) return "—"; const s = Math.floor(ms / 1000); return [Math.floor(s / 3600), Math.floor(s / 60) % 60, s % 60].map((n) => String(n).padStart(2, "0")).join(":"); };
+// Reduced motion: hh:mm, refreshed once a minute (no digits changing every second).
+const countdown = (ms, seconds = true) => { if (!(ms > 0)) return "—"; const s = Math.floor(ms / 1000); const parts = [Math.floor(s / 3600), Math.floor(s / 60) % 60, s % 60]; return (seconds ? parts : parts.slice(0, 2)).map((n) => String(n).padStart(2, "0")).join(":"); };
 
+// T2 (2026-10-11): the board used to render nothing until the feed arrived and then pushed the sections below it down
+// (CLS 0.23-0.73 on the live home at 1440). It now holds its place with one placeholder row per venue while loading and
+// collapses only when the first read fails.
 function useFunding() {
   const [feed, setFeed] = useState(null);
+  const [failed, setFailed] = useState(false);
   useEffect(() => {
     let alive = true;
     const load = () => fetch(FUNDING_PATH, { headers: { accept: "application/json" }, cache: "no-cache" })
-      .then((r) => (r.ok ? r.json() : null)).then((j) => { if (alive && j?.venues) setFeed(j); }).catch(() => {});
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => { if (!alive) return; if (j?.venues) setFeed(j); else setFailed(true); })
+      .catch(() => { if (alive) setFailed(true); });
     load();
     const id = setInterval(() => { if (document.visibilityState === "visible") load(); }, 5 * 60 * 1000);
     return () => { alive = false; clearInterval(id); };
   }, []);
-  return feed;
+  return { feed, failed };
 }
 
 function useTick() {
   const [now, setNow] = useState(() => Date.now());
-  useEffect(() => { const id = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(id); }, []);
+  useEffect(() => { const id = setInterval(() => setNow(Date.now()), reduced() ? 60 * 1000 : 1000); return () => clearInterval(id); }, []);
   return now;
 }
 
 export function FundingBoard({ locale }) {
   const t = copyFor(locale);
-  const feed = useFunding();
+  const { feed, failed } = useFunding();
   const now = useTick();
   const [symbol, setSymbol] = useState("BTC");
   const rows = useMemo(() => (feed ? fundingTable(feed, symbol) : []), [feed, symbol]);
-  if (!feed) return null;
-  const asOf = new Date(feed.generatedAt).toLocaleString(locale, { dateStyle: "medium", timeStyle: "short" });
+  if (!feed && failed) return null;
+  const asOf = feed ? new Date(feed.generatedAt).toLocaleString(locale, { dateStyle: "medium", timeStyle: "short" }) : "—";
   return (
     <section className="h7-in h7-fr" id="h7-funding" aria-labelledby="h7-fr-h">
       <div className="h7-ih"><h2 id="h7-fr-h">{t.h}</h2><p>{t.sub}</p></div>
       <div className="h7-fr-tabs" role="tablist" aria-label={t.h}>
         {FUNDING_SYMBOLS.map((s) => <button key={s} type="button" role="tab" aria-selected={s === symbol} className={s === symbol ? "on" : undefined} onClick={() => setSymbol(s)} translate="no">{s}</button>)}
       </div>
-      <div className="h7-fr-table" role="table" aria-label={`${t.h} · ${symbol}`}>
+      <div className="h7-fr-table" role="table" aria-label={`${t.h} · ${symbol}`} aria-busy={feed ? undefined : "true"}>
         <div className="h7-fr-row h7-fr-head" role="row"><span role="columnheader">{t.venue}</span><span role="columnheader">{t.rate}</span><span role="columnheader">{t.apr}</span><span role="columnheader">{t.next}</span></div>
+        {!feed && FUNDING_VENUES.map((venue) => (
+          <div key={venue} role="row" className="h7-fr-row h7-fr-row--wait">
+            <span role="cell" className="h7-fr-v"><BrandMark slug={venue} compact />{brandsBySlug[venue]?.name || venue}</span>
+            <span role="cell" className="h7-fr-n" dir="ltr">—</span>
+            <span role="cell" className="h7-fr-n" dir="ltr">—</span>
+            <span role="cell" className="h7-fr-n h7-fr-cd" dir="ltr">—</span>
+          </div>
+        ))}
         {rows.map((r, i) => (
           <a key={r.venue} role="row" className={`h7-fr-row${i === 0 ? " best" : ""}`} href={localizedHref(`/exchanges/${r.venue}`, { locale })}>
             <span role="cell" className="h7-fr-v"><BrandMark slug={r.venue} compact />{brandsBySlug[r.venue]?.name || r.venue}</span>
             <span role="cell" className="h7-fr-n" dir="ltr">{pct(r.rate, 4)}<small>{t.every(r.intervalH)}</small></span>
             <span role="cell" className={`h7-fr-n ${r.apr > 0 ? "pos" : r.apr < 0 ? "neg" : ""}`} dir="ltr">{pct(r.apr, 1)}</span>
-            <span role="cell" className="h7-fr-n h7-fr-cd" dir="ltr">{countdown(Date.parse(r.nextAt) - now)}</span>
+            <span role="cell" className="h7-fr-n h7-fr-cd" dir="ltr">{countdown(Date.parse(r.nextAt) - now, !reduced())}</span>
           </a>
         ))}
       </div>

@@ -38,6 +38,7 @@ import { localeKey, textLocaleKey, zhText, localePending, interfaceText, detailC
 import { detailUi, dexFeeCompactUi, copyFeedbackLabel, useCopyFeedback, CopyFeedbackStatus, telegramLocaleUi } from "./venue-detail-shared.jsx";
 import { VenueFaqSection } from "./VenueFaqSection.jsx";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
+import { SectionRule } from "../shared/DataRule.jsx";
 
 
 const invitationSummaryByLocale = {
@@ -721,6 +722,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
         {!priorityAnswer && (
           <section className="v3-profile-decision-context" data-profile-task="context">
+            <SectionRule />
             <h2>{ui.profileSignal}</h2>
             <VenueDecisionStrip text={text} profile={profile} decision={reviewedDecision} locale={locale} />
           </section>
@@ -769,6 +771,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     <VenueFaqSection venue={venue} profile={profile} locale={locale} db={db} partner={partner} />
 
     <section className={`v2-section v3-activity-panel${related.length ? "" : " v3-activity-panel--empty"}`}>
+      <SectionRule stamp={related.length || null} />
       <div className="section-lead"><h2>{text.reviewedActivity}</h2>{related.length > 0 && <span>{text.verifiedOnly}</span>}</div>
       {/* empty state: one line and one link (no disclosure dressed as a button) */}
       {related.length ? <ActivityCards copy={copy} text={text} locale={locale} updates={related} /> : <p className="v3-activity-empty v3-activity-empty--line" role="status">{String(text.activityEmpty || "").split(/(?<=[.。])\s*/)[0]} <LocalLink locale={locale} href={`/activities/research/${profile.slug}`}>{campaignCopy(locale).openResearch}</LocalLink></p>}
@@ -776,6 +779,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
     </section>
 
     <section className="v2-section v3-similar v3-similar-section" aria-labelledby={`similar-${profile.slug}`}>
+      <SectionRule stamp={similar.length || null} />
       <div className="section-lead v3-similar-section__lead"><h2 id={`similar-${profile.slug}`}>{text.similar}</h2></div>
       <ul className="v3-alternative-list" data-collapsed={!showAllSimilar && similar.length > 2 ? "true" : undefined}>{similar.map((candidate) => {
         const alternative = venueProfile(candidate, locale);

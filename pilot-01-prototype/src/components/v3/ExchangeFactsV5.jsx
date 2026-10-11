@@ -4,6 +4,7 @@ import { venueDatabase } from "../../data/venue-database.js";
 import { paymentMethodLabels, paymentMethodSeparator } from "../../data/payment-method-labels.js";
 import { uniqueTextEntries } from "../../utils/unique-text.js";
 import { useEffect, useRef } from "react";
+import { SectionRule } from "../shared/DataRule.jsx";
 import { Reveal, prefersReducedMotion } from "../../lib/v5/index.js";
 
 // Short labels only. Everything else on the page comes from existing localized content.
@@ -117,6 +118,7 @@ export function ExchangeFactsV5({ slug, locale, profile }) {
     <div className="d5-facts">
       {(strengths.length > 0 || eligibility.length > 0) && (
         <section className="d5-block d5-scope">
+          <SectionRule />
           {strengths.length > 0 && (
             <Reveal as="div" className="d5-scope__col">
               <h2>{l.products}</h2>

@@ -989,7 +989,8 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
 .news-detail__partner-link:focus-visible {
   text-decoration-color: currentColor;
 }
-.news-detail__related-partners {
+.news-detail__related-partners,
+.news-detail__cluster-links {
   margin: 1.25rem 0 0;
   padding: 0.75rem 0 0;
   border-top: 1px solid var(--border-subtle, rgba(127, 127, 127, 0.25));
@@ -997,11 +998,13 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
-.news-detail__related-partners-label {
+.news-detail__related-partners-label,
+.news-detail__cluster-links-label {
   font-weight: 600;
   margin-inline-end: 0.35em;
 }
-.news-detail__related-partners a {
+.news-detail__related-partners a,
+.news-detail__cluster-links a {
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 0.14em;

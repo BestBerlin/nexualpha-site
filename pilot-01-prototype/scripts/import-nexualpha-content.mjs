@@ -2,6 +2,7 @@ import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { NEWS_INDEXABLE_LOCALES, dedupeRepeatedLongSentences } from "../src/data/news-feed-client.js";
+import { repairNewsArticle } from "../src/data/news-content-repair.js";
 
 // Localized news lane (2026-10-10): a package always carries article.en.md (the canonical edition) and may carry
 // article.<locale>.md for any other UI locale, declared in article.json bodyFiles[<locale>] with titles[<locale>].
@@ -488,6 +489,9 @@ function assertPublishedArticlesPreserved(existing, incoming) {
   }
 }
 
+// Every article written to the feed (new and retained) gets the deterministic text repairs of
+// src/data/news-content-repair.js (scorecard C4, 2026-10-11): truncated summaries completed from the body, Markdown
+// markers removed from plain-text fields, Markdown links to local filesystem paths reduced to their label.
 function sanitizeArticleContent(article) {
   if (!isRecord(article?.content)) return article;
   const content = Object.fromEntries(
@@ -496,7 +500,7 @@ function sanitizeArticleContent(article) {
       typeof markdown === "string" ? dedupeRepeatedLongSentences(markdown) : markdown,
     ]),
   );
-  return { ...article, content };
+  return repairNewsArticle({ ...article, content }).article;
 }
 
 export async function writeBatchFeed(batchDir, outputDir, options = {}) {

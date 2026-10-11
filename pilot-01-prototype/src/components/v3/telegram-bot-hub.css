@@ -1217,7 +1217,7 @@
 
 .tg-signal-sample { margin: 0; display: grid; gap: 12px; min-width: 0; }
 .tg-signal-sample__label { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #9097A0; }
-.tg-signal-sample__label small { font-size: 0.75rem; letter-spacing: 0; text-transform: none; color: #6b7280; }
+.tg-signal-sample__label small { font-size: 0.75rem; letter-spacing: 0; text-transform: none; color: #9097a0; }
 .tg-signal-sample__bubble {
   position: relative;
   padding: 12px 14px 12px;
@@ -1251,7 +1251,7 @@
 .tg-signal-hero__secondary a:focus-visible { outline: 2px solid #67e8f9; outline-offset: 3px; }
 .tg-signal-hero__secondary b { font-size: 0.875rem; font-weight: 600; }
 .tg-signal-hero__secondary small { font-size: 0.75rem; color: #94a3b8; overflow-wrap: anywhere; }
-.tg-signal-hero__note { margin: 0; font-size: 0.75rem; line-height: 1.5; color: #6b7280; }
+.tg-signal-hero__note { margin: 0; font-size: 0.75rem; line-height: 1.5; color: #9097a0; }
 
 @media (max-width: 900px) {
   .tg-signal-hero { grid-template-columns: minmax(0, 1fr); }

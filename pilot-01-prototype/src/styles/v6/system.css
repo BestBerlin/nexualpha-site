@@ -111,7 +111,7 @@ body:has(> #root > main.v6:not(.home-refinement)) :is(.mobile-bottom-nav__label,
 :is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_)::-webkit-details-marker { display: none; }
 :is(main, .factbook-page).v6:not(.home-refinement) details > summary:not(#_):not(#_)::marker { content: ""; }
 :is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(span, small, strong, h2, h3):not(#_):not(#_) { font-size: inherit; }
-:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(small, span + span):not(#_):not(#_) { font-size: var(--t-14); font-weight: 400; opacity: 0.72; }
+:is(main, .factbook-page).v6:not(.home-refinement) details > summary > :is(small, span + span):not(#_):not(#_) { font-size: var(--t-14); font-weight: 400; color: var(--ink-3, #9097a0); } /* V4: was opacity .72, which took ink-3 text below 4.5:1 */
 /* top-level rows get hairlines; nested ones stay quiet */
 :is(main, .factbook-page).v6:not(.home-refinement) > details:not(#_):not(#_), :is(main, .factbook-page).v6:not(.home-refinement) > section > details:not(#_):not(#_) { border-block-end: 1px solid var(--v6-hair); border-radius: 0; background: none; box-shadow: none; }
 :is(main, .factbook-page).v6:not(.home-refinement) > details:not(:has(+ details)):not(#_):not(#_) { border-block-end: 1px solid var(--v6-hair); }

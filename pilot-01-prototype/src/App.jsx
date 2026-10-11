@@ -75,6 +75,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/v3/news/NewsListPage.jsx",
   "./components/data/LiquidationsPage.jsx",
   "./components/data/FundingRatesPage.jsx",
+  "./components/shared/ToolArticleLinks.jsx",
 ]);
 
 if (!import.meta.env.SSR) registerRouteModuleLoaders(deferredPageModules);
@@ -115,6 +116,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/v3/news/NewsListPage.jsx",
   "./components/data/LiquidationsPage.jsx",
   "./components/data/FundingRatesPage.jsx",
+  "./components/shared/ToolArticleLinks.jsx",
 ], { eager: true }) : {};
 
 function deferredComponent(path, exportName) {
@@ -152,6 +154,11 @@ const PlatformMatcher = deferredComponent("./components/v3/PlatformMatcher.jsx",
 const LiquidationsPage = deferredComponent("./components/data/LiquidationsPage.jsx", "LiquidationsPage");
 const FundingRatesPage = deferredComponent("./components/data/FundingRatesPage.jsx", "FundingRatesPage");
 const NewsDetailPage = deferredComponent("./components/v3/news/NewsDetailPage.jsx", "NewsDetailPage");
+const ToolArticleLinks = deferredComponent("./components/shared/ToolArticleLinks.jsx", "ToolArticleLinks");
+// Tool key of a route (mirror of toolKeyForRoute in src/data/topic-clusters.js, kept here so the mapping stays off the
+// browser entry; tests/crosslinks.test.mjs pins that both agree).
+const toolKeyOf = (route) => ({ liquidations: "liquidations", fundingRates: "funding-rates", rateTerminal: "rates", compareHub: "compare", activities: "activities" })[route?.name]
+  || (route?.name === "compare" && Array.isArray(route.slugs) && route.slugs.length >= 2 ? `compare:${route.slugs.join("-vs-")}` : null);
 const LeanHero = deferredComponent("./components/v3/LeanHero.jsx", "LeanHero");
 const RebateTickerBar = deferredComponent("./components/v3/RebateTickerBar.jsx", "RebateTickerBar");
 const CampaignRadar = deferredComponent("./components/v3/CampaignRadar.jsx", "CampaignRadar");
@@ -618,7 +625,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -742,7 +749,8 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   // Locale changes must remount the complete route subtree. Several legacy
   // sections keep derived copy in child state; reusing those nodes can leave
   // an English body below a translated header after a client-side switch.
-  const pageShell = (content, { deferContent = true, crawlScope = null } = {}) => <React.Fragment key={`locale-${locale}`}><Header copy={copy} locale={locale} brazil={route.name === "brazil"} onLocaleChange={changeLocale} onSearch={openSearchDialog} />{deferContent ? <DeferredBoundary scope="page-content">{content}</DeferredBoundary> : <ScopedContent scope="page-content" defer={false}>{content}</ScopedContent>}{crawlScope ? <CrawlPriorityLinks locale={locale} scope={crawlScope} /> : null}{footer}{searchDialog}</React.Fragment>;
+  const toolKey = toolKeyOf(route);
+  const pageShell = (content, { deferContent = true, crawlScope = null } = {}) => <React.Fragment key={`locale-${locale}`}><Header copy={copy} locale={locale} brazil={route.name === "brazil"} onLocaleChange={changeLocale} onSearch={openSearchDialog} />{deferContent ? <DeferredBoundary scope="page-content">{content}</DeferredBoundary> : <ScopedContent scope="page-content" defer={false}>{content}</ScopedContent>}{toolKey ? <React.Suspense fallback={null}><ToolArticleLinks tool={toolKey} locale={locale} initial={initialToolArticles} /></React.Suspense> : null}{crawlScope ? <CrawlPriorityLinks locale={locale} scope={crawlScope} /> : null}{footer}{searchDialog}</React.Fragment>;
 
   const adjustSelection = () => document.querySelector("#exchanges")?.scrollIntoView({ behavior: typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   if (route.name === "embedCalculator") {

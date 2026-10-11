@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { SectionRule } from "../../shared/DataRule.jsx";
 import { BrandMark } from "../../brand/BrandMark";
 import { visibleOfficialUpdates } from "../../official-updates/official-updates-model";
 import { activityCenterCopy } from "./activity-copy";
@@ -330,6 +331,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
 
 
     <section className="activity-center-v3__rewards activity-research-desk" aria-labelledby="activity-center-v3-rewards-title">
+      <SectionRule stamp={researchItemList.length || null} />
       <div className="activity-center-v3__sources-head activity-research-desk__heading">
         <div>
           <h2 id="activity-center-v3-rewards-title">{rewardsText.reward}</h2>

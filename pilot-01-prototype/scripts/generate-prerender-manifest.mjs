@@ -9,6 +9,7 @@ import { venueDatabase } from "../src/data/venue-database.js";
 import { priorityVenueAnswerFor } from "../src/data/priority-venue-answers.js";
 import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
 import { TOKENIZED_ASSET_CLUSTER_REVIEW_DATE, TOKENIZED_ASSET_PAGES, TOKENIZED_ASSET_LOCALES } from "../src/data/tokenized-assets-cluster.js";
+import { toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js";
 import { NEWS_DISPLAY_LOCALES, newsListingPublishedLocales, newsSitemapLanguage, normalizeNewsFeed, normalizeNewsFeedSummaries, newsArticleAvailableLocales, projectNewsFeedForRoute } from "../src/data/news-feed-client.js";
 import { BRAZIL_PAGES, BRAZIL_SOURCES } from "../src/data/brazil-market.js";
 import { getBrazilSeo } from "../src/data/brazil-seo.js";
@@ -292,13 +293,18 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
       const url = prerenderUrl(pathname, locale);
       const isNews = pathname === "/news" || pathname.startsWith("/news/");
       const initialArticles = isNews ? (pathname === "/news" ? newsArticleSummaries : newsArticles.filter((article) => pathname === `/news/${article.slug}`)) : undefined;
-      const html = stripReactResourceHints(await render(url, { newsArticles: initialArticles }));
+      // Tool pages (/rates, curated compare pairs, /activities without a live feed) list their related articles from the
+      // build feed; the Worker renders the request-time tool routes from the live feed (links-l10n lane, scorecard D4).
+      const toolKey = toolKeyForPath(pathname);
+      const toolArticles = toolKey ? toolArticleLinks(toolKey, newsArticles, locale) || undefined : undefined;
+      const html = stripReactResourceHints(await render(url, { newsArticles: initialArticles, toolArticles }));
       if (!/<h1\b/i.test(html)) throw new Error(`Missing prerender H1: ${url}`);
       const asset = `/prerender/${locale}/${pathname === "/" ? "home" : pathname.slice(1)}.json`;
       const assetPath = path.join(clientDir, asset);
       mkdirSync(path.dirname(assetPath), { recursive: true });
       const assetPayload = { html,
         ...(isNews ? { newsArticles: projectNewsFeedForRoute(pathname, initialArticles, locale), newsFeedFingerprint } : {}),
+        ...(toolArticles ? { toolArticles } : {}),
       };
       writeFileSync(assetPath, `${JSON.stringify(assetPayload)}\n`);
       // Home hero copy experiment (X5): variant B of every home edition is prerendered next to A with the same renderer,
