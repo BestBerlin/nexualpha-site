@@ -28,6 +28,9 @@ const refinement = await readFile(new URL("../src/styles/v2-refinement.css", imp
 const releaseVisualGates = await readFile(new URL("../src/styles/release-visual-gates.css", import.meta.url), "utf8");
 const tokens = await readFile(new URL("../src/styles/tokens.css", import.meta.url), "utf8");
 const v3LayoutStability = await readFile(new URL("../src/styles/v3-layout-stability.css", import.meta.url), "utf8");
+const homeV7 = await readFile(new URL("../src/components/v7/HomeV7.jsx", import.meta.url), "utf8");
+const closingBand = await readFile(new URL("../src/components/v6/ClosingBand.jsx", import.meta.url), "utf8");
+const profileRefinement = await readFile(new URL("../src/styles/profile-refinement.css", import.meta.url), "utf8");
 const commandData = await readFile(new URL("../src/data/market-command.js", import.meta.url), "utf8");
 const siteData = await readFile(new URL("../src/data/site-data.ts", import.meta.url), "utf8");
 const rail = await readFile(new URL("../src/components/market-rail/MarketRail.jsx", import.meta.url), "utf8");
@@ -74,6 +77,8 @@ const decisionPathRail = await readFile(new URL("../src/components/v3/DecisionPa
 const kolLandingPage = await readFile(new URL("../src/components/v3/KolLandingPage.jsx", import.meta.url), "utf8");
 const decisionPathRailCss = await readFile(new URL("../src/components/v3/decision-path-rail.css", import.meta.url), "utf8");
 const crossroadsCompareCss = await readFile(new URL("../src/components/v3/crossroads-compare.css", import.meta.url), "utf8");
+const compareAnyPicker = await readFile(new URL("../src/components/compare/CompareAnyPicker.jsx", import.meta.url), "utf8");
+const compareAnyPickerCss = await readFile(new URL("../src/components/compare/compare-any-picker.css", import.meta.url), "utf8");
 const partnerEmbedGuide = await readFile(new URL("../src/components/v3/PartnerEmbedGuide.jsx", import.meta.url), "utf8");
 const partnerEmbedGuideCss = await readFile(new URL("../src/components/v3/partner-embed-guide.css", import.meta.url), "utf8");
 const costDecision = await readFile(new URL("../src/components/v3/CostDecision.jsx", import.meta.url), "utf8");
@@ -239,57 +244,39 @@ test("regional research previews expose bounded AEO questions and source freshne
   assert.match(venueYellowPagesCss, /\.yellow-pages__decision-card--mobile-collapsed \{ display: none; \}/);
 });
 
-// Class d: 7d04eb4 replaced the hero intent/chooser workbench with the v5 matrix selector; growth-compare-shortcuts no longer exists. Needs Claude decision; keep the historical assertions.
+// The active HomeV7 decision desk precedes the research drawer hosted by ClosingBand.
 test("homepage keeps primary decisions above a collapsible research drawer", () => {
-  assert.match(app, /<HomeSectionNav locale=\{locale\} \/>/);
-  assert.match(app, /<HomeResearchDrawer locale=\{locale\} \/>/);
-  assert.match(app, /<PlatformMatcher locale=\{locale\}[\s\S]*defaultOpen=\{false\}/);
-  assert.match(app, /id=\"research-tools\"/);
-  assert.match(app, /href=\"#compare\"/);
-  assert.match(app, /href=\"#exchanges\"/);
-  assert.match(leanHero, /\{activeIntent === "compare" \? \(/);
-  assert.match(leanHero, /<section className="growth-compare-shortcuts" aria-labelledby="growth-compare-shortcuts-title">/);
-  assert.match(leanHero, /<span id="growth-compare-shortcuts-title">\{ui\.intentCompare\}<\/span>/);
-  assert.match(leanHero, /className="growth-compare-shortcuts__links"/);
-  assert.match(leanHero, /: \(\s*<>\s*<div className="growth-direct-workbench">\s*<details\s+className="growth-platform-chooser"\s+open=\{chooserOpen\}/);
-  assert.match(leanHero, /const \[chooserOpen, setChooserOpen\] = useState\(false\)/);
-  assert.match(leanHero, /onToggle=\{\(event\) => setChooserOpen\(event\.currentTarget\.open\)\}/);
-  assert.match(leanHero, /<ul className="growth-platform-list"/);
-  assert.match(leanHero, /<label className="growth-platform-search"/);
-  assert.ok(leanHero.indexOf('className="growth-platform-search"') < leanHero.indexOf('className="growth-selected-route"'));
-  assert.ok(leanHero.indexOf('className="growth-platform-chooser"') < leanHero.indexOf('className="growth-selected-route"'));
-  assert.match(leanHero, /setChooserOpen\(false\);[\s\S]*chooserSummaryRef\.current\?\.focus\?\.\(\)/);
-  assert.doesNotMatch(leanHero, /<details className="growth-compare-shortcuts"/);
-  assert.doesNotMatch(leanHero, /onToggle=\{\(event\) => setActiveIntent/);
-  assert.match(leanHero, /className="growth-intent-switch"/);
-  assert.match(leanHero, /data-growth-decision="known_platform"/);
-  assert.match(leanHero, /data-growth-decision="compare_first"/);
-  assert.match(leanHero, /data-growth-placement="home-intent-switch"/);
-  assert.match(leanHero, /<RegistrationCard[\s\S]+?venueSlug=\{selected\.slug\}/);
-  assert.match(leanHero, /data-growth-decision="venue_directory"/);
+  const activeHome = app.slice(app.lastIndexOf('return <main key={`locale-${locale}`}'));
+  assert.match(activeHome, /<HomeV7 locale=\{locale\} \/>/);
+  assert.match(activeHome, /<ClosingBand locale=\{locale\} legacy=\{homeSlots\.closing\} \/>/);
+  assert.ok(activeHome.indexOf("<HomeV7") < activeHome.indexOf("<ClosingBand"), "primary decision desk precedes secondary research");
+  const closingSlot = app.slice(app.indexOf("closing: <>"), app.indexOf("const homeCtx"));
+  assert.match(closingSlot, /<HomeResearchDrawer locale=\{locale\} \/>/);
+  assert.match(closingBand, /className="v6-close__index v6-wrap"[^>]*>\{legacy\}/);
+  assert.match(homeV7, /<aside className="h7-lg" id="h7-desk" aria-label=\{t\.lgTitle\}/);
+  assert.match(homeV7, /className="h7-lg-tabs" role="group" aria-label=\{t\.lgPick\}/);
+  assert.match(homeV7, /aria-pressed=\{r\.slug === sel\.slug\} onClick=\{\(\) => setPick\(r\.slug\)\}/);
+  assert.match(homeV7, /<Cta v=\{sel\} locale=\{locale\}[^>]*placement="home-v7-hero"/);
+  assert.match(homeV7, /href="#h7-desk"/);
+  assert.match(homeV7, /href="#h7-calc"/);
+  assert.match(app, /return <details className="home-research-drawer" id="research-tools"/);
+  assert.doesNotMatch(app, /<details className="home-research-drawer"[^>]*\bopen[=\s>]/, "secondary research starts collapsed");
+  assert.match(app, /<summary><strong>\{text\.summary\}<\/strong>/);
+  assert.match(app, /className="home-research-drawer__body"/);
+  for (const component of ["CampaignRadar", "FeeBenchmarkTerminal", "OnChainLiquidityBoard", "TelegramBotHub", "MarketFearGreedPanel"]) {
+    assert.match(app.slice(app.indexOf('className="home-research-drawer__body"'), app.indexOf("const crawlPriorityLinks")), new RegExp(`<${component} locale=\\{locale\\}`));
+  }
   assert.match(v3LayoutStability, /\.home-research-drawer:not\(\[open\]\) > \.home-research-drawer__body \{ display: none; \}/);
-  assert.match(app, /className="home-analyzer-drawer"/);
-  assert.match(v3LayoutStability, /\.home-analyzer-drawer:not\(\[open\]\) > \.home-analyzer-drawer__body \{ display: none; \}/);
-  assert.match(platformMatcher, /const \[isOpen, setIsOpen\] = useState\(defaultOpen\)/);
-  assert.match(platformMatcher, /<details className="platform-matcher__details" open=\{isOpen\} onToggle=\{\(event\) => setIsOpen\(event\.currentTarget\.open\)\}>/);
-  assert.match(platformMatcher, /className="platform-matcher__summary"/);
-  assert.match(platformMatcher, /className="platform-matcher__body"/);
-  assert.match(matcherCss, /\.platform-matcher__details:not\(\[open\]\) > \.platform-matcher__body \{\s*display: none;\s*\}/);
 });
 
-// Class d: 4a31e90 removed the search-topic/manual-review deck from the public hub; the public hub no longer renders TELEGRAM_SEARCH_TOPIC_QUEUE. Needs Claude decision; keep the historical assertions.
+// Class d retarget: the removed public manual-review queue is now an answer-first topic gateway plus collapsed ops pack.
 test("Telegram research hub answers first and keeps command depth expandable", () => {
   assert.match(telegramHub, /TELEGRAM_RESEARCH_PATHS/);
   assert.match(telegramHub, /import \{ localizedHref \} from "\.\.\/\.\.\/data\/locale-routing\.js"/);
-  assert.match(telegramHub, /TELEGRAM_SEARCH_TOPIC_QUEUE/);
-  assert.match(telegramHub, /TELEGRAM_MANUAL_REVIEW_POLICY/);
+  assert.match(telegramHub, /TelegramAlertsHero/);
   assert.match(telegramHub, /export function TelegramBotHub\(\{ locale = "en", headingLevel = 2, market, product \}\)/);
   assert.match(telegramHub, /const withTelegramContext = \(target, campaign\) =>/);
   assert.match(telegramHub, /tg-topic-gateway/);
-  assert.match(telegramHub, /tg-search-topics/);
-  assert.match(telegramHub, /tg-manual-review/);
-  assert.match(telegramHub, /data-telegram-review-cadence="24h-7d"/);
-  assert.match(telegramHub, /data-telegram-anonymous-metrics/);
   assert.match(telegramHub, /telegram-topic-onsite/);
   assert.match(telegramHub, /telegram-topic-bot/);
   assert.match(telegramHub, /telegram-search-topic-onsite/);
@@ -298,10 +285,7 @@ test("Telegram research hub answers first and keeps command depth expandable", (
   assert.match(telegramHub, /"data-growth-product": telegramContext\.product/);
   assert.match(telegramHub, /href=\{localizedHref\(entry\.href, \{ locale, market: telegramContext\.market, product: telegramContext\.product \}\)\}/);
   assert.match(telegramHub, /href=\{localizedHref\(topic\.primaryPath, \{ locale, market: telegramContext\.market, product: telegramContext\.product \}\)\}/);
-  assert.match(telegramHub, /href=\{hubBotHref\}/);
-  assert.match(telegramHub, /<div className="tg-hub__quick-cta" role="group" aria-label=\{t\.primaryActionsLabel \|\| "Primary Telegram actions"\}>/);
   assert.match(telegramHub, /withTelegramContext\(cmd\.deepLinkAction, `telegram_command_\$\{cmd\.id\}`\)/);
-  assert.match(telegramHub, /\.\.\.growthContextAttrs\("telegram_hub_bot"\)/);
   assert.match(telegramHub, /\.\.\.growthContextAttrs\("telegram_hub_directory"\)/);
   assert.match(telegramHub, /\.\.\.growthContextAttrs\(`telegram_topic_\$\{topic\.id\}`\)/);
   assert.match(telegramHub, /\.\.\.growthContextAttrs\(topic\.campaign\)/);
@@ -314,11 +298,10 @@ test("Telegram research hub answers first and keeps command depth expandable", (
   assert.match(telegramHub, /tg-cmd-card--mobile-collapsed/);
   assert.ok(telegramHub.indexOf('tg-topic-gateway') < telegramHub.indexOf('tg-hub__cta-box'));
   assert.ok(telegramHub.indexOf('tg-hub__cta-box') < telegramHub.indexOf('tg-ops-pack'));
-  assert.match(telegramHub, /<details className="tg-ops-pack">/);
+  assert.match(telegramHub, /<details className="tg-ops-pack tg-public-topics-disclosure">/);
   assert.ok(telegramHub.indexOf('tg-hub__cta-box') < telegramHub.indexOf('tg-deck'));
   assert.match(telegramHub, /data-cta-kind="telegram"/);
-  assert.match(telegramHub, /data-cta-placement="telegram-hub-bot"/);
-  assert.match(telegramHub, /tg-hub__quick-cta/);
+  assert.match(telegramHub, /data-cta-placement="telegram-topic-bot"/);
   assert.match(telegramHub, /data-cta-placement="telegram-command-deep-link"/);
   assert.match(telegramHub, /data-growth-placement="telegram-command"/);
   assert.match(telegramHub, /tg-return-rail/);
@@ -326,12 +309,11 @@ test("Telegram research hub answers first and keeps command depth expandable", (
   assert.match(telegramHub, /保存比较|Save comparison/);
   assert.doesNotMatch(telegramHubCss, /\.tg-inbound-summary\s*\{[^}]*\border:\s*\d/, "inbound summary should follow source order instead of a stale flex order override");
   assert.doesNotMatch(telegramHubCss, /\.tg-topic-gateway\s*\{[^}]*\border:\s*\d/, "topic gateway should follow source order instead of a stale flex order override");
-  assert.ok(telegramHub.indexOf('tg-ops-pack') < telegramHub.indexOf('tg-inbound-summary'), "ops details may precede inbound metrics when collapsed and expandable");
+  assert.ok(telegramHub.indexOf('tg-hub__cta-box') < telegramHub.indexOf('tg-ops-pack'), "ops details stay after the primary Telegram handoff");
   assert.match(telegramHubCss, /\.tg-ops-pack/);
   assert.match(telegramHubCss, /\.tg-hub__cta-box/);
   assert.match(telegramHubCss, /\.tg-topic-gateway__grid/);
-  assert.match(telegramHubCss, /\.tg-search-topics__grid/);
-  assert.match(telegramHubCss, /\.tg-manual-review__grid/);
+  assert.match(telegramHubCss, /\.tg-command-disclosure/);
   assert.match(telegramHubCss, /\.tg-topic-card--mobile-collapsed \{ display: none; \}/);
   assert.match(telegramHubCss, /\.tg-cmd-card--mobile-collapsed \{ display: none; \}/);
   assert.match(telegramHubCss, /\.tg-return-rail__grid/);
@@ -436,18 +418,18 @@ test("topic Telegram CTA carries the topic and regional research context", () =>
   assert.match(topicGuidePage, /data-growth-product=\{product\}/);
 });
 
-// Class b: regional dock ownership is market-gated; preserve the single-layer checks.
-// Class d: 57baf4c removed the shared MobileBottomNav from App; this contract still requires its rendered layer. Needs Claude decision; keep the historical assertions.
+// Class b/d retarget: regional docks and route-owned sticky bars must prevent a duplicate shared mobile layer.
 test("detail and comparison routes keep one mobile action layer", () => {
   assert.match(app, /const regionalDecisionDockOwnsMobileNav = \["regionalPreview", "regionalDecision"\]\.includes\(route\.name\)[\s\S]*&& REGIONAL_DECISION_DOCK_MARKETS\.has\(route\.market\)/);
   assert.match(app, /const showSharedMobileNav = route\.name !== "venue" && route\.name !== "compare" && !regionalDecisionDockOwnsMobileNav;/);
-  assert.match(app, /\{showSharedMobileNav && <MobileBottomNav/);
+  assert.doesNotMatch(app, /<MobileBottomNav/);
+  assert.match(venuePage, /<aside className=\{`v3-mobile-sticky-bar\$\{mobileStickyActive \? " is-active" : ""\}`\}/);
+  assert.match(venuePage, /href=\{`\/exchanges\/\$\{profile\.slug\}\?\$\{contextSearch\}#registration-path`\}/);
+  assert.match(v3Pages, /className="v3-compare-quick-actions__item"/);
   assert.match(fintechPremiumCss, /\.v3-mobile-sticky-bar \{[\s\S]*bottom: 0;/);
-  assert.match(fintechPremiumCss, /Reserve only the venue CTA bar; the shared dock is omitted on detail routes/);
-  assert.match(fintechPremiumCss, /\.v3-profile-page \{[\s\S]*padding-bottom: calc\(4\.75rem \+ env\(safe-area-inset-bottom, 12px\)\) !important;/);
-  assert.match(mobileBottomNavCss, /body:has\(\.mobile-bottom-nav\) \{[\s\S]*padding-bottom:/);
-  assert.match(mobileBottomNavCss, /body:has\(\.v3-profile-page\) \.mobile-bottom-nav,[\s\S]*body:has\(\.v3-compare-page\) \.mobile-bottom-nav \{[\s\S]*display: none;/);
-  assert.match(mobileBottomNavCss, /body:has\(\.v3-profile-page\),[\s\S]*body:has\(\.v3-compare-page\) \{[\s\S]*--mobile-bottom-nav-reserve: 0px;/);
+  assert.match(mobileBottomNavCss, /body:has\([^)]*mobile-bottom-nav[\s\S]*padding-bottom:/);
+  assert.match(mobileBottomNavCss, /body:has\(> #root > main\.v3-profile-page\) \.mobile-bottom-nav,[\s\S]*body:has\(> #root > main\.v3-compare-page\) \.mobile-bottom-nav \{[\s\S]*display: none;/);
+  assert.match(mobileBottomNavCss, /body:has\(> #root > main\.v3-profile-page\),[\s\S]*body:has\(> #root > main\.v3-compare-page\) \{[\s\S]*--mobile-bottom-nav-reserve: 0px;/);
 });
 
 // Class b: 8a062bf groups secondary research paths in the shared similar-pairs disclosure.
@@ -1002,12 +984,17 @@ test("topic comparison and showdown links use honest research or registration at
   assert.match(topicGuidePage, /data-growth-placement="topic-showdown"/);
 });
 
-// Class d: aecb36e removed showAllMetrics/v3-matrix-expand; current comparison uses section disclosures. Needs Claude decision; keep the historical assertions.
-test("deep comparison keeps high-intent metrics visible while expanding the full matrix on mobile", () => {
-  assert.match(v3PagesSource, /showAllMetrics/);
-  assert.match(v3PagesSource, /v3-matrix-expand/);
-  assert.match(v3PagesSource, /v3-matrix-table-wrap\$\{showAllMetrics/);
+// Class d retarget: the full matrix is rendered expanded; unknown metrics move into the pending disclosure.
+test("deep comparison keeps high-intent metrics visible with pending metrics disclosed on mobile", () => {
+  assert.match(v3PagesSource, /const compactPendingRows = metricRows\.filter\(\(row\) => !row\.hasKnown\)/);
+  assert.match(v3PagesSource, /const shouldRenderMetricRow = \(key\) => !compactPendingKeys\.has\(key\)/);
+  assert.match(v3PagesSource, /<div className="v3-matrix-table-wrap is-expanded"/);
+  for (const key of ["spot", "futures", "benefit", "net"]) {
+    assert.match(v3PagesSource, new RegExp(`shouldRenderMetricRow\\("${key}"\\)`));
+  }
+  assert.match(v3PagesSource, /<details className="v3-matrix-pending-disclosure">/);
   assert.match(v3PagesSource, /View full quantitative matrix/);
+  assert.doesNotMatch(v3PagesSource, /showAllMetrics/);
 });
 
 test("deep comparison snapshot cards use a compact, bounded mobile grid", () => {
@@ -1160,7 +1147,7 @@ test("NexuAlpha 3.0 adds exchange profiles, deep comparison, activities, and a v
   assert.match(v3Css, /\.v3-page-hero/);
 });
 
-// Class d: 542c15a replaced the evidence drawer with visible grouped bodies; this contract requires the removed drawer. Needs Claude decision; keep the historical assertions.
+// Class d retarget: evidence is now grouped into visible research chapters inside the sources hub.
 test("3.0 secondary pages stay visibly independent and keep commercial handoffs explicit", () => {
   assert.match(v3Product, /not an exchange website/);
   assert.match(v3Product, /不是交易所官网/);
@@ -1169,9 +1156,12 @@ test("3.0 secondary pages stay visibly independent and keep commercial handoffs 
   assert.match(v3Pages, /"registration"/);
   assert.match(v3Pages, /rel=\{[^}]*sponsored noopener noreferrer/);
   assert.match(v3Pages, /text\.relationship/);
-  assert.match(v3Pages, /v3-profile-evidence-drawer/);
-  assert.match(v3Pages, /Open deeper verification material|展开深度核验资料/);
-  assert.match(v3LayoutStability, /\.v3-profile-evidence-drawer:not\(\[open\]\)\s*>\s*\.v3-profile-evidence-drawer__body\s*\{\s*display:\s*none;/);
+  assert.match(venuePage, /className="v3-profile-sources-group"/);
+  assert.match(venueResearch, /v3-profile-research-chapter/);
+  assert.match(venueResearch, /v3-profile-evidence-block/);
+  assert.match(venueResearch, /v3-profile-account-section/);
+  assert.match(profileRefinement, /\.v3-profile-page \.v3-profile-research-hub \.v3-profile-research-chapter/);
+  assert.match(profileRefinement, /\.v3-profile-page \.v3-profile-research-hub \.v3-profile-account-section/);
   assert.doesNotMatch(v3Pages, /login|password|kycUpload/i);
   assert.doesNotMatch(v3Product, /Global high-liquidity|Regulated-market|Derivatives-focused/);
 });
@@ -1234,17 +1224,20 @@ test("rates route preserves regional CTA context into the benchmark and calculat
   assert.match(costDecision, /useState\(product === 'spot' \? 'spotFee' : 'futuresFee'\)/);
 });
 
-// Class d: c581073 replaced six-row expansion with the checked ledger; no showAllRows control remains. Needs Claude decision; keep the historical assertions.
+// Class d retarget: the checked ledger keeps verified rows visible and groups only fully pending venues.
 test("rate benchmark keeps the mobile table progressive without removing full venue access", () => {
-  assert.match(feeBenchmarkTerminal, /const \[showAllRows, setShowAllRows\] = useState\(false\)/);
-  assert.match(feeBenchmarkTerminal, /rows\.map\(\(row, index\) =>/);
-  assert.match(feeBenchmarkTerminal, /index >= 6 \? "fee-terminal__mobile-extra" : undefined/);
-  assert.match(feeBenchmarkTerminal, /expandLabels\.expand\(rows\.length\)/);
-  assert.match(feeBenchmarkTerminal, /showAllRows \? expandLabels\.collapse/);
-  assert.match(feeBenchmarkTerminal, /aria-controls="rate-terminal-table"/);
-  assert.match(feeBenchmarkTerminalCss, /fee-terminal__expand-row/);
-  assert.match(feeBenchmarkTerminalCss, /fee-terminal-section:not\(\.fee-terminal-section--expanded\) \.fee-terminal__mobile-extra/);
-  assert.match(feeBenchmarkTerminalCss, /display: none/);
+  assert.match(feeBenchmarkTerminal, /const checkedRows = rows\.filter\(\(r\) => !isPending\(r\)\)/);
+  assert.match(feeBenchmarkTerminal, /const pendingRows = rows\.filter\(isPending\)/);
+  assert.match(feeBenchmarkTerminal, /<table className="fee-terminal__table ft-table" id="rate-terminal-table" data-cols=\{colCount\}>/);
+  assert.match(feeBenchmarkTerminal, /\{checkedRows\.map\(\(row\) => \{/);
+  assert.match(feeBenchmarkTerminal, /<tr className="ft-pending">/);
+  assert.match(feeBenchmarkTerminal, /<summary><strong className="ft-pending__count">\{pendingGroup\(pendingRows\.length\)\}<\/strong>/);
+  assert.match(feeBenchmarkTerminal, /pendingRows\.map\(\(row\) => \(/);
+  assert.match(feeBenchmarkTerminal, /venueLink\(row\)/);
+  assert.match(feeBenchmarkTerminal, /ctaLink\(row\)/);
+  assert.match(feeBenchmarkTerminalCss, /\.fee-terminal__table-wrapper/);
+  assert.match(feeBenchmarkTerminalCss, /\.fee-terminal__unknown-chip/);
+  assert.doesNotMatch(feeBenchmarkTerminal, /showAllRows/);
   assert.doesNotMatch(feeBenchmarkTerminal, /rows\.slice\(0, 6\)/);
 });
 
@@ -1513,20 +1506,85 @@ test("directory search narrows platform choices without changing the bounded CTA
   assert.match(venueYellowPagesCss, /\.yellow-pages__search-control input/);
 });
 
-// Class d: compare-any replaced the legacy card-selection tray with CompareAnyPicker; the historical tray is disabled. Needs Claude decision; keep the historical assertions.
-test("directory cards can form a bounded two-platform comparison handoff", () => {
+// Class d retarget: card selection feeds the CompareAnyPicker and canonical /compare handoff; the old tray is disabled.
+test("directory cards can form a bounded two-platform comparison handoff", async () => {
   assert.match(venueYellowPages, /compareSelection/);
-  assert.match(venueYellowPages, /compareSlug\(compareSelection\)/);
+  assert.match(venueYellowPages, /import \{ CompareAnyPicker \} from "\.\.\/compare\/CompareAnyPicker\.jsx"/);
+  assert.match(venueYellowPages, /comparePathFor\(compareSelection\)\.path/);
+  assert.match(venueYellowPages, /<CompareAnyPicker locale=\{locale\} venues=\{venues\} initial=\{compareSelection\} placement="exchange-directory" compact \/>/);
   assert.match(venueYellowPages, /data-cta-placement="directory-compare-select"/);
-  assert.match(venueYellowPages, /data-cta-placement="directory-compare-open"/);
-  assert.match(venueYellowPages, /data-growth-decision="directory_compare_open"/);
+  assert.match(venueYellowPages, /aria-pressed=\{compareSelection\.includes\(venue\.slug\)\}/);
+  assert.match(venueYellowPages, /disabled=\{!compareSelection\.includes\(venue\.slug\) && compareSelection\.length >= 2\}/);
+  assert.match(venueYellowPages, /onClick=\{\(\) => toggleCompareSelection\(venue\.slug\)\}/);
+  assert.match(compareAnyPicker, /method="get"/);
+  assert.match(compareAnyPicker, /action=\{action\}/);
+  assert.match(compareAnyPicker, /window\.location\.assign\(localizedHref\(canonicalComparePath\(\[a, b\]\), \{ locale \}\)\)/);
+  assert.match(v3Pages, /<CompareAnyPicker locale=\{locale\} venues=\{venues\} placement="compare-hub" \/>/);
   assert.match(venueYellowPagesCss, /\.yellow-card__btn-compare/);
-  assert.match(venueYellowPagesCss, /\.yellow-pages__compare-tray/);
+  assert.match(compareAnyPickerCss, /\.compare-any__field select[\s\S]*min-height: 44px/);
+  assert.match(venueYellowPages, /\{false && !compact && compareSelection\.length > 0 && \(/);
   assert.match(venueYellowPagesCss, /@media \(max-width: 480px\)[\s\S]*\.yellow-card__actions[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
   assert.match(factbookCss, /factbook-section-disclosure:not\(\.is-open\)[\s\S]*padding: 0\.9rem 1rem/);
   assert.match(factbookCss, /factbook-section-disclosure:not\(\.is-open\) \.factbook-section__sub[\s\S]*-webkit-line-clamp: 2/);
   assert.match(regionalPreviewCss, /regional-market-preview__gate article[\s\S]*gap: 0\.2rem[\s\S]*padding: 0\.6rem/);
   assert.match(regionalPreviewCss, /regional-market-preview__gate small[\s\S]*text-overflow: ellipsis[\s\S]*white-space: nowrap/);
+  const [{ JSDOM }, React, { createRoot }, { createServer }] = await Promise.all([
+    import("jsdom"),
+    import("react"),
+    import("react-dom/client"),
+    import("vite"),
+  ]);
+  const dom = new JSDOM("<!doctype html><html><body><div id=\"root\"></div></body></html>", { url: "https://nexualpha.com/exchanges" });
+  const previousWindow = globalThis.window;
+  const previousDocument = globalThis.document;
+  const previousNavigator = Object.getOwnPropertyDescriptor(globalThis, "navigator");
+  const previousHTMLElement = globalThis.HTMLElement;
+  const previousHTMLSelectElement = globalThis.HTMLSelectElement;
+  const previousHTMLButtonElement = globalThis.HTMLButtonElement;
+  const previousEvent = globalThis.Event;
+  const previousActEnv = globalThis.IS_REACT_ACT_ENVIRONMENT;
+  globalThis.window = dom.window;
+  globalThis.document = dom.window.document;
+  Object.defineProperty(globalThis, "navigator", { value: dom.window.navigator, configurable: true });
+  globalThis.HTMLElement = dom.window.HTMLElement;
+  globalThis.HTMLSelectElement = dom.window.HTMLSelectElement;
+  globalThis.HTMLButtonElement = dom.window.HTMLButtonElement;
+  globalThis.Event = dom.window.Event;
+  globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+  const server = await createServer({ server: { middlewareMode: true }, appType: "custom", logLevel: "silent" });
+  let root;
+  try {
+    const [{ VenueYellowPages }, { venueDatabase }] = await Promise.all([
+      server.ssrLoadModule("/src/components/v3/VenueYellowPages.jsx"),
+      server.ssrLoadModule("/src/data/venue-database.js"),
+    ]);
+    root = createRoot(document.getElementById("root"));
+    await React.act(async () => {
+      root.render(React.createElement(VenueYellowPages, { locale: "en", venues: Object.values(venueDatabase).slice(0, 8), compact: false }));
+    });
+    const buttons = [...document.querySelectorAll('[data-cta-placement="directory-compare-select"]')];
+    assert.ok(buttons.length >= 2, "directory must render at least two compare-select buttons");
+    const clickedSlugs = buttons.slice(0, 2).map((button) => button.getAttribute("data-cta-platform"));
+    await React.act(async () => buttons[0].dispatchEvent(new dom.window.MouseEvent("click", { bubbles: true })));
+    await React.act(async () => buttons[1].dispatchEvent(new dom.window.MouseEvent("click", { bubbles: true })));
+    const selectedValues = [...document.querySelectorAll(".compare-any select")].map((select) => select.value).filter(Boolean);
+    assert.deepEqual(selectedValues, clickedSlugs, "card compare selections must populate CompareAnyPicker before opening the canonical comparison");
+  } finally {
+    if (root) {
+      await React.act(async () => root.unmount());
+    }
+    await server.close();
+    dom.window.close();
+    globalThis.window = previousWindow;
+    globalThis.document = previousDocument;
+    if (previousNavigator) Object.defineProperty(globalThis, "navigator", previousNavigator);
+    else delete globalThis.navigator;
+    globalThis.HTMLElement = previousHTMLElement;
+    globalThis.HTMLSelectElement = previousHTMLSelectElement;
+    globalThis.HTMLButtonElement = previousHTMLButtonElement;
+    globalThis.Event = previousEvent;
+    globalThis.IS_REACT_ACT_ENVIRONMENT = previousActEnv;
+  }
 });
 
 test("directory URL state restores only shareable research controls", () => {
@@ -1659,7 +1717,7 @@ test("V2 copy exposes locale-aware compact terms for every selector locale", () 
   }
 });
 
-// Class d: 542c15a replaced v3-registration-notes disclosure with account section bodies; the old disclosure is absent. Needs Claude decision; keep the historical assertions.
+// Class d retarget: venue registration prep now lives in visible account sections, while compare pages keep locked handoffs.
 test("V3 adds first-class conversion routes without exchange impersonation", () => {
   assert.match(app, /const venueMatch = pathname\.match/);
   assert.match(app, /const compareMatch = pathname\.match/);
@@ -1679,9 +1737,13 @@ test("V3 adds first-class conversion routes without exchange impersonation", () 
   assert.match(v3Pages, /text\.registrationLocked/);
   assert.match(v3Data, /Open official registration route|查看官方注册入口/);
   assert.match(v3Pages, /v3-decision-brief/);
-  assert.match(v3Pages, /className="v3-registration-notes"/);
+  assert.match(venueResearch, /v3-registration-notes__body/);
+  assert.match(venueResearch, /v3-profile-account-section v3-profile-account-cost/);
+  assert.match(venueResearch, /v3-profile-account-section v3-profile-account-decision/);
+  assert.match(venuePage, /#registration-path/);
+  assert.match(venuePage, /#registration-checklist/);
   assert.match(v3Data, /Review pre-registration checklist/);
-  assert.match(v3LayoutStability, /\.v3-registration-notes:not\(\[open\]\) > \.v3-registration-notes__body \{ display: none; \}/);
+  assert.match(profileRefinement, /\.v3-profile-page \.v3-profile-research-hub \.v3-profile-account-section/);
   assert.match(v3Data, /NexuAlpha 3\.0/);
   assert.match(v3Data, /not an exchange website|不是交易所官网/);
   assert.match(siteData, /officialDomain: venue\.officialDomains\[0\] \?\? ""/);

@@ -90,7 +90,8 @@ test('every fixed route has matching status, canonical and indexing policy in it
         : route.pathname.startsWith('/tw/') || route.pathname.startsWith('/hk/') ? localizedPath(route.pathname, locale === 'en' ? 'zh-Hant' : locale)
         : newsCanonicalFallback;
       assert.equal(canonical(html),`https://nexualpha.com${expectedPath}`,path);
-      const searchPublished = publicationEligibility.has(route.pathname, locale);
+      const fixedRouteLocalePreview = route.pathname === '/' && ['ur', 'uk'].includes(locale);
+      const searchPublished = !fixedRouteLocalePreview && publicationEligibility.has(route.pathname, locale);
       assert.match(html,new RegExp(`name="robots" content="${searchPublished?'index':'noindex'},follow"`),path);
     }
   }
