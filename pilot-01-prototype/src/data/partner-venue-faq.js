@@ -11,7 +11,12 @@
 // - No bonus promises and no rebate percentages (the profile already shows the owner-confirmed share elsewhere).
 // - pt-BR, es (neutral Latin American) and fr replace the generic English schema FAQ on those pages; en and zh-Hans
 //   only gain the "exchange account vs Web3 wallet" answer for OKX and Bitget.
-// - tr, vi, zh-Hant, ru, id and ar are intentionally absent (regulatory review pending with the owner).
+// - zh-Hant, ru and ar are intentionally absent (owner policy 2026-10-10: neutral locales).
+// - tr, vi and id (owner exchange keyword plan 2026-10-11, docs/company/exchange-keyword-map-2026-10-11.md) carry the
+//   referral long tail only for the owner's target exchanges (LOCAL_TARGETS below; tr is limited to exchanges whose
+//   Turkish entity is on SPK's operating list). Answers restate the same official pages read 2026-10-10, plus SPK's
+//   list (tr) and OJK's own notice (id) for the local-entity question. These strings need a native review.
+// - hyperliquid (en) and backpack (en, fr) use the exchange's own docs / help pages read 2026-10-11.
 import { REFERRAL_PARTNERS } from "./referral-partners.generated.js";
 import { priorityVenueAnswerFor } from "./priority-venue-answers.js";
 
@@ -19,6 +24,14 @@ export const PARTNER_VENUE_FAQ_REVIEWED_AT = "2026-10-10";
 export const PARTNER_VENUE_FAQ_SLUGS = Object.freeze(["okx", "bitget", "binance", "bybit", "gate-io", "mexc"]);
 export const PARTNER_VENUE_FAQ_REPLACE_LOCALES = Object.freeze(["pt-BR", "es", "fr"]);
 export const PARTNER_VENUE_FAQ_APPEND_LOCALES = Object.freeze(["en", "zh-Hans"]);
+// Owner exchange keyword plan 2026-10-11: localized referral FAQ only for these exchanges per locale (replace mode).
+export const PARTNER_VENUE_FAQ_LOCAL_TARGETS = Object.freeze({
+  tr: Object.freeze(["okx", "binance", "bybit"]),
+  vi: Object.freeze(["okx", "bitget", "bybit", "binance"]),
+  id: Object.freeze(["bybit", "bitget", "okx"]),
+});
+// Partner exchanges whose FAQ covers only some locales (hyperliquid: en; backpack: en + fr).
+export const PARTNER_VENUE_FAQ_EXTRA_SLUGS = Object.freeze(["hyperliquid", "backpack"]);
 
 export function normalizePartnerFaqLocale(locale = "en") {
   const raw = String(locale || "en");
@@ -28,6 +41,9 @@ export function normalizePartnerFaqLocale(locale = "en") {
   if (lower === "fr" || lower.startsWith("fr-")) return "fr";
   if (lower === "en" || lower.startsWith("en-")) return "en";
   if (raw === "zh-Hans" || lower === "zh" || lower === "zh-cn" || lower === "zh-hans" || lower === "zh-sg") return "zh-Hans";
+  if (lower === "tr" || lower.startsWith("tr-")) return "tr";
+  if (lower === "vi" || lower.startsWith("vi-")) return "vi";
+  if (lower === "id" || lower.startsWith("id-")) return "id";
   return null;
 }
 
@@ -36,6 +52,18 @@ const DISCLOSURE = {
   "pt-BR": "Transparência: {code} é um código de parceiro da NexuAlpha, e a NexuAlpha pode receber comissão da {name} quando você o usa.",
   es: "Transparencia: {code} es un código de socio de NexuAlpha, y NexuAlpha puede recibir una comisión de {name} cuando lo usas.",
   fr: "Transparence : {code} est un code partenaire de NexuAlpha, qui peut percevoir une commission de {name} lorsque vous l’utilisez.",
+  en: "Disclosure: {code} is a NexuAlpha partner code, and NexuAlpha may receive a commission from {name} when you use it.",
+  // l10n: needs native review (tr, vi, id)
+  tr: "Açıklama: {code} bir NexuAlpha ortaklık kodudur; bu kodu kullandığınızda NexuAlpha, {name} tarafından komisyon alabilir.",
+  vi: "Công bố: {code} là mã đối tác của NexuAlpha, và NexuAlpha có thể nhận hoa hồng từ {name} khi bạn dùng mã này.",
+  id: "Pengungkapan: {code} adalah kode mitra NexuAlpha, dan NexuAlpha dapat menerima komisi dari {name} saat Anda menggunakannya.",
+};
+
+// Payout cadence from the partner feed ({cadence}); an entry using it is dropped when the feed has no cadence.
+const CADENCE = {
+  tr: { hourly: "saatlik", daily: "günlük" },
+  vi: { hourly: "mỗi giờ", daily: "hằng ngày" },
+  id: { hourly: "setiap jam", daily: "setiap hari" },
 };
 
 // [label, url] pairs. Labels are shown next to the visible answer; URLs feed the schema `citation` field.
@@ -79,6 +107,7 @@ const SRC = {
     franceSignup: ["Bitget — Inscriptions en France et en Allemagne", "https://www.bitget.com/fr/support/articles/12560603848103"],
     africanFiat: ["Bitget — Monnaies africaines sur Bitget P2P", "https://www.bitget.com/fr/support/articles/12560603867954"],
     wallet: ["Bitget Wallet — Docs (About Bitget Wallet)", "https://web3.bitget.com/en/docs"],
+    kycRejectEn: ["Bitget — Reasons a KYC submission is rejected", "https://www.bitget.com/support/articles/12560603808909"],
   },
   binance: {
     register: ["Binance — How to register on the Binance app", "https://www.binance.com/en/support/faq/detail/360042718372"],
@@ -119,6 +148,28 @@ const SRC = {
     kycFaq: ["MEXC — KYC FAQ", "https://www.mexc.com/support/article/mexc-kyc-faq-342632287349720064"],
     kycFail: ["MEXC — Why did my KYC verification fail", "https://www.mexc.com/support/article/why-did-my-kyc-verification-fail-17827791519720"],
     tn: ["MEXC — Fiat channels T+N policy", "https://www.mexc.com/support/article/fiat-channels-t-n-policy-overview-17827791529891"],
+  },
+};
+
+// Local regulators, cited only for the "local entity" answers (tr: SPK lists read 2026-10-11; id: OJK notice).
+const REG = {
+  spkOperating: ["SPK — Faaliyette bulunanlar listesi (01.10.2026)", "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi"],
+  ojkTransition: ["OJK — Pengalihan tugas aset kripto dari Bappebti ke OJK", "https://ojk.go.id/id/berita-dan-kegiatan/siaran-pers/Pages/Bappebti-Kemendag-Alihkan-Tugas-Aset-Keuangan-Digital-termasuk-Aset-Kripto-serta-Derivatif-Keuangan-kepada-OJK-dan-BI.aspx"],
+};
+
+// Hyperliquid docs and Backpack help/learn pages, read 2026-10-11.
+const SRC_EXTRA = {
+  hyperliquid: {
+    referrals: ["Hyperliquid Docs — Referrals", "https://hyperliquid.gitbook.io/hyperliquid-docs/referrals"],
+    fees: ["Hyperliquid Docs — Fees", "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees"],
+  },
+  backpack: {
+    about: ["Backpack — About", "https://learn.backpack.exchange/about"],
+    margin: ["Backpack — Margin (technical docs)", "https://support.backpack.exchange/technical-docs/trading/margin"],
+    kyc: ["Backpack — KYC required documents", "https://support.backpack.exchange/exchange/exchange-account/identity-verification/kyc-required-documents"],
+    securities: ["Backpack Learn — What is Backpack Securities", "https://learn.backpack.exchange/articles/what-is-backpack-securities"],
+    tokenized: ["Backpack Support — Tokenized securities", "https://support.backpack.exchange/backpack-securities/tokenized-securities"],
+    home: ["Backpack — backpack.exchange", "https://backpack.exchange/"],
   },
 };
 
@@ -272,10 +323,10 @@ const ENTRIES = {
   },
   binance: {
     "pt-BR": [
-      faq("Onde coloco o código de indicação da Binance?",
+      faq("Onde coloco o código de convite (indicação) da Binance?",
         "No app, logo depois de criar a conta, aparece a etapa do código de indicação. Se você chegou por um link de indicação, o código já vem preenchido com um sinal verde e “Vinculado”; se o código for inválido, dá para editar ou digitar outro nessa mesma etapa. O código de parceiro da NexuAlpha para a Binance é {code}. {disclosure}",
         [SRC.binance.register]),
-      faq("O código de indicação da Binance não funcionou. Dá para corrigir depois?",
+      faq("O código de convite da Binance não funciona. Dá para corrigir depois?",
         "Não. A Binance informa que, depois de vinculado, o código não pode ser modificado, e que nenhuma correção é possível depois que o novo usuário conclui o cadastro. Os motivos que ela lista para o vínculo falhar: outro código foi usado, o código não foi digitado no cadastro, ou a conta violou os termos.",
         [SRC.binance.register, SRC.binance.referralLite]),
       faq("Como depositar reais na Binance com Pix?",
@@ -337,10 +388,10 @@ const ENTRIES = {
   },
   bybit: {
     "pt-BR": [
-      faq("Onde coloco o código de indicação da Bybit?",
+      faq("Onde coloco o código de convite (indicação) da Bybit?",
         "No cadastro, depois de escolher o país e informar e-mail ou celular, digite o código de indicação ou de afiliado antes de clicar em criar a conta (Sign Up Now). O código de parceiro da NexuAlpha para a Bybit é {code}. {disclosure}",
         [SRC.bybit.register]),
-      faq("Esqueci o código na Bybit. Dá para adicionar depois?",
+      faq("Esqueci o código de convite na Bybit. Dá para adicionar depois?",
         "Em regra, não: depois que a conta é criada, a Bybit não permite adicionar, alterar nem apagar o código de indicação ou de afiliado. A exceção é o código de afiliado: a conta principal pode adicioná-lo em até 14 dias após o cadastro, em Conta > “Join an Affiliate's Community”, se ainda não tiver nenhum código vinculado. Códigos do programa de indicação de usuários comuns não entram por esse caminho, e depois de adicionado o código não pode ser trocado.",
         [SRC.bybit.register, SRC.bybit.affiliateCode, SRC.bybit.referralFaq]),
       faq("A Bybit aceita depósito em reais por Pix?",
@@ -508,15 +559,281 @@ const ENTRIES = {
   },
 };
 
+// Owner exchange keyword plan 2026-10-11: referral long-tail answers in tr / vi / id (questions follow the real
+// autocomplete phrasing in docs/company/exchange-keyword-map-2026-10-11.md), plus hyperliquid (en) and backpack
+// (en, fr). Same rules as ENTRIES: official pages only, `{code}` from the partner feed, disclosure in the same answer.
+// l10n: needs native review (tr, vi, id blocks below)
+const LOCAL_ENTRIES = {
+  okx: {
+    // l10n: needs native review
+    tr: [
+      faq("OKX referans kodu nereye yazılır?",
+        "Referans kodu hesap oluşturulmadan önce girilir: kayıt formundaki alana yazılır ya da bir davet bağlantısını açtığınızda alan önceden dolu gelir. Bağlantı açılmazsa OKX, uygulamayı indirip kodu kayıt sayfasına yazmanızı önerir. NexuAlpha'nın OKX ortaklık kodu {code}. {disclosure}",
+        [SRC.okx.refEn]),
+      faq("OKX referans kodu sonradan eklenir mi, değiştirilebilir mi?",
+        "Hayır. OKX'e göre referans kodu yalnızca kayıt sırasında bağlanabilir: hesap açıldıktan sonra kod eklenemez veya değiştirilemez, bağlantı kayıttan ya da kimlik doğrulamadan sonra da değişmez. Hesabınızın bir davet edeni olup olmadığını uygulamada Menü > Hesap ayarları > Profil > Referans ödülleri yolundan kontrol edebilirsiniz; bu seçenek görünmüyorsa bağlantı oluşmamıştır.",
+        [SRC.okx.refEn]),
+      faq("OKX referans kodu neden çalışmıyor?",
+        "OKX'in saydığı nedenler: hesap zaten açılmıştır (kod sonradan girilemez); son 30 gün içinde bir davet bağlantısı açtığınız ya da uygulamayı kodlu bir bağlantıdan indirdiğiniz için başka bir kod önceden dolmuştur (OKX bu durumda gizli pencerede kayıt olmanızı ve tamamlamadan önce kodu kontrol etmenizi önerir); ya da referans özelliği her kullanıcıya açık değildir. OKX ayrıca farklı bölgeler arasındaki davetlerin davet edene ödül kazandırmadığını belirtir.",
+        [SRC.okx.refEn]),
+      faq("OKX komisyon iadesi nasıl yapılır, kim öder?",
+        "NexuAlpha'nın ortaklık verilerine göre iade, ödediğiniz işlem ücretinden gelir ve OKX tarafından {cadence} olarak ödenir; güncel oran bu sayfadaki kayıt kartında gösterilir. İade, kaydı {code} koduyla ya da davet bağlantısıyla yapılan hesaplar içindir; kod sonradan eklenemez. {disclosure}",
+        [SRC.okx.refEn]),
+      faq("OKX TR mi, global OKX hesabı mı? Referans kodu hangisinde geçerli?",
+        "SPK'nın faaliyette bulunanlar listesinde (01 Ekim 2026 tarihli geçici liste) OKX TR Kripto Varlık Alım Satım Platformu AŞ yer alır; SPK, listede bulunmanın yetkilendirme anlamına gelmediğini de belirtir. {code}, NexuAlpha'nın OKX referans programındaki ortaklık kodudur ve NexuAlpha bu kodun OKX TR hesaplarında geçerli olduğunu henüz doğrulamamıştır. OKX, farklı bölgeler arasındaki davetlerin davet edene ödül kazandırmadığını belirtir. Kayıt ekranında hangi kuruluşa kaydolduğunuzu kontrol edin. {disclosure}",
+        [REG.spkOperating, SRC.okx.refEn]),
+      faq("OKX hesabı ile OKX Wallet aynı şey mi?",
+        "Hayır. OKX Web3 Wallet saklama hizmeti olmayan (non-custodial) bir cüzdandır: kurtarma ifadesini veya özel anahtarı siz saklarsınız, cüzdan kimlik doğrulama ya da giriş istemez ve kurtarma ifadesini kaybeden varlıklarına erişimini kaybeder. OKX borsa hesabı ise kimlik doğrulamalı ayrı bir kayıttır. Referans kodu bu borsa hesabı açılmadan önce girilir.",
+        [SRC.okx.walletEn, SRC.okx.refEn, SRC.okx.kycEn]),
+      faq("OKX kimlik doğrulaması (KYC) için ne istiyor?",
+        "OKX, ülkenizde kabul edilen fotoğraflı resmî bir kimlik belgesi, belgeyle karşılaştırılan bir selfie ve ikamet adresinizi ister; adresiniz değiştiyse son 3 ay içinde düzenlenmiş bir fatura veya hesap özeti gibi güncel bir belge istenebilir. 18 yaşını doldurmuş olmanız gerekir. Doğrulamayı tamamlamak para yatırma ve çekme limitlerini yükseltir.",
+        [SRC.okx.kycEn]),
+    ],
+    // l10n: needs native review
+    vi: [
+      faq("Nhập mã giới thiệu OKX ở đâu?",
+        "Mã giới thiệu phải được nhập trước khi tạo tài khoản: trong ô của biểu mẫu đăng ký, hoặc mã được điền sẵn khi bạn mở một liên kết mời. Nếu liên kết không mở được, OKX hướng dẫn tải ứng dụng và nhập mã ở trang đăng ký (trên điện thoại hay trên máy tính đều là bước đăng ký này). Mã đối tác của NexuAlpha cho OKX là {code}. {disclosure}",
+        [SRC.okx.refEn]),
+      faq("Đã đăng ký OKX rồi có thêm hoặc đổi mã giới thiệu được không?",
+        "Không. Theo OKX, mã giới thiệu chỉ được liên kết khi đăng ký: sau khi tài khoản đã tạo thì không thể thêm hay đổi mã, và liên kết không thay đổi sau khi đăng ký hoặc xác minh danh tính. Để xem tài khoản có người giới thiệu hay không, vào ứng dụng Menu > Cài đặt tài khoản > Hồ sơ > Phần thưởng giới thiệu; nếu không thấy mục này thì chưa có liên kết nào.",
+        [SRC.okx.refEn]),
+      faq("Vì sao mã giới thiệu OKX không dùng được?",
+        "Các trường hợp OKX nêu: tài khoản đã được tạo trước đó (không nhập mã sau được); một mã khác đã được điền sẵn vì bạn mở liên kết mời hoặc tải ứng dụng qua liên kết có mã trong 30 ngày gần đây (OKX khuyên đăng ký trong cửa sổ ẩn danh và kiểm tra mã trước khi hoàn tất); hoặc tính năng giới thiệu không mở cho mọi người dùng. OKX cũng cho biết lời mời giữa các khu vực khác nhau không mang lại phần thưởng cho người mời.",
+        [SRC.okx.refEn]),
+      faq("Tài khoản sàn OKX và ví OKX Wallet có phải là một?",
+        "Không. OKX Web3 Wallet là ví không lưu ký: bạn tự giữ cụm từ khôi phục hoặc khóa riêng, ví không cần xác minh danh tính hay đăng nhập, và mất cụm từ khôi phục là mất quyền truy cập tài sản. Tài khoản sàn OKX là một đăng ký riêng, có xác minh danh tính. Mã giới thiệu được nhập khi tạo tài khoản sàn này.",
+        [SRC.okx.walletEn, SRC.okx.refEn, SRC.okx.kycEn]),
+      faq("OKX yêu cầu gì khi xác minh danh tính (KYC)?",
+        "OKX yêu cầu giấy tờ tùy thân có ảnh do nhà nước cấp và được chấp nhận ở quốc gia của bạn, một ảnh selfie để đối chiếu với giấy tờ, và địa chỉ cư trú; nếu bạn đã chuyển nơi ở, có thể cần một chứng từ gần đây (hóa đơn tiện ích hoặc sao kê ngân hàng trong 3 tháng gần nhất). Bạn phải đủ 18 tuổi. Hoàn tất xác minh giúp nâng hạn mức nạp và rút.",
+        [SRC.okx.kycEn]),
+    ],
+    // l10n: needs native review
+    id: [
+      faq("Di mana memasukkan kode referral OKX?",
+        "Kode referral dimasukkan sebelum akun dibuat: di kolom formulir pendaftaran, atau sudah terisi otomatis saat Anda membuka tautan undangan. Jika tautan tidak terbuka, OKX menyarankan mengunduh aplikasi lalu mengetik kode di halaman pendaftaran. Kode mitra NexuAlpha untuk OKX adalah {code}. {disclosure}",
+        [SRC.okx.refEn]),
+      faq("Sudah daftar OKX, apakah kode referral bisa ditambahkan atau diganti?",
+        "Tidak. Menurut OKX, kode referral hanya dapat ditautkan saat pendaftaran: setelah akun dibuat, kode tidak bisa ditambahkan atau diubah, dan tautan tidak berubah setelah pendaftaran atau verifikasi identitas. Untuk mengecek apakah akun Anda punya pengundang, buka aplikasi Menu > Pengaturan akun > Profil > Hadiah referral; jika menu itu tidak muncul, belum ada tautan.",
+        [SRC.okx.refEn]),
+      faq("Kenapa kode referral OKX tidak berfungsi?",
+        "Penyebab yang disebut OKX: akun sudah dibuat sebelumnya (kode tidak bisa dimasukkan belakangan); kode lain sudah terisi karena Anda membuka tautan undangan atau mengunduh aplikasi lewat tautan berkode dalam 30 hari terakhir (OKX menyarankan mendaftar di jendela penyamaran dan memeriksa kode sebelum selesai); atau fitur referral tidak tersedia untuk semua pengguna. OKX juga menyebut undangan antarwilayah tidak memberi hadiah kepada pengundang.",
+        [SRC.okx.refEn]),
+      faq("Apakah OKX terdaftar di OJK?",
+        "Pengawasan aset kripto di Indonesia sudah dialihkan dari Bappebti ke OJK. Halaman ini tidak memastikan bahwa platform global OKX terdaftar atau berizin di Indonesia: NexuAlpha belum memverifikasi status tersebut. Periksa daftar dan pengumuman resmi OJK sebelum mendaftar.",
+        [REG.ojkTransition]),
+      faq("Akun bursa OKX dan OKX Wallet, apa bedanya?",
+        "OKX Web3 Wallet adalah dompet non-kustodian: Anda menyimpan sendiri frasa pemulihan atau kunci privat, dompet tidak memerlukan verifikasi identitas atau login, dan frasa yang hilang berarti akses aset hilang. Akun bursa OKX adalah pendaftaran terpisah dengan verifikasi identitas. Kode referral dimasukkan saat membuat akun bursa ini.",
+        [SRC.okx.walletEn, SRC.okx.refEn, SRC.okx.kycEn]),
+      faq("Dokumen apa yang diminta OKX untuk verifikasi identitas (KYC)?",
+        "OKX meminta dokumen identitas resmi berfoto yang diterima di negara Anda, swafoto yang dicocokkan dengan dokumen, dan alamat tempat tinggal; jika alamat sudah berubah, bisa diminta bukti terbaru (tagihan utilitas atau rekening koran 3 bulan terakhir). Usia minimal 18 tahun. Verifikasi menaikkan batas deposit dan penarikan.",
+        [SRC.okx.kycEn]),
+    ],
+  },
+  binance: {
+    // l10n: needs native review
+    tr: [
+      faq("Binance referans kodu nereye yazılır?",
+        "Uygulamada hesabı oluşturduktan hemen sonra referans kodu adımı gelir. Bir referans bağlantısıyla geldiyseniz kod, yeşil onay işareti ve “Bağlandı” etiketiyle önceden dolu olur; kod geçersizse aynı adımda düzenleyebilir veya başka bir kod yazabilirsiniz. NexuAlpha'nın Binance ortaklık kodu {code}. {disclosure}",
+        [SRC.binance.register]),
+      faq("Binance referans kodu sonradan eklenir mi veya değiştirilir mi?",
+        "Hayır. Binance'e göre bağlanan kod sonradan değiştirilemez ve yeni kullanıcı kaydı tamamladıktan sonra düzeltme yapılamaz. Binance'in saydığı bağlanmama nedenleri: başka bir kod kullanılmıştır, kayıt sırasında kod girilmemiştir ya da hesap kuralları ihlal etmiştir.",
+        [SRC.binance.register, SRC.binance.referralLite]),
+      faq("Binance komisyon iadesi nasıl yapılır, kim öder?",
+        "NexuAlpha'nın ortaklık verilerine göre iade, ödediğiniz işlem ücretinden gelir ve Binance tarafından {cadence} olarak ödenir; güncel oran bu sayfadaki kayıt kartında gösterilir. İade, kaydı {code} koduyla ya da referans bağlantısıyla yapılan hesaplar içindir; Binance bağlanan kodun sonradan değiştirilemeyeceğini belirtir. {disclosure}",
+        [SRC.binance.register, SRC.binance.referralLite]),
+      faq("Binance TR mi, global Binance mi? Kod hangisinde geçerli?",
+        "SPK'nın faaliyette bulunanlar listesinde (01 Ekim 2026 tarihli geçici liste) Binance Turkey Kripto Varlık Alım Satım Platformu AŞ yer alır; SPK, listede bulunmanın yetkilendirme anlamına gelmediğini de belirtir. {code}, NexuAlpha'nın Binance referans programındaki ortaklık kodudur ve NexuAlpha bu kodun Binance TR hesaplarında geçerli olduğunu henüz doğrulamamıştır. Kayıt ekranında hangi kuruluşa kaydolduğunuzu kontrol edin. {disclosure}",
+        [REG.spkOperating, SRC.binance.register]),
+      faq("Binance Wallet, Binance hesabıyla aynı şey mi?",
+        "Hayır. Binance Wallet uygulamanın içindeki, anahtarı parçalara bölünüp cihazınızda ve bulutunuzda saklanan bir kendi kendine saklama cüzdanıdır; grubun başka bir şirketinin sunduğu isteğe bağlı bir üründür. Borsa hesabı ise kimlik doğrulamalı kayıttır ve referans kodu bu hesaba bağlanır.",
+        [SRC.binance.wallet, SRC.binance.register]),
+      faq("Binance kimlik doğrulamasında ne istiyor?",
+        "Her yeni kullanıcı para yatırmak ve işlem yapmak için Doğrulanmış seviyeyi tamamlamalıdır. İkamet ülkesini, belgeyi veren ülkeyi ve belge türünü seçer, belgenin ön ve arka yüzünü yükler, kamerayla canlılık kontrolünü yapar ve bilgilerinizi onaylarsınız; bilgiler belgeyle eşleşmeli ve onaylandıktan sonra değiştirilemez.",
+        [SRC.binance.kyc]),
+    ],
+    // l10n: needs native review
+    vi: [
+      faq("Nhập mã giới thiệu Binance ở đâu?",
+        "Trong ứng dụng, ngay sau khi tạo tài khoản sẽ có bước nhập mã giới thiệu. Nếu bạn đến từ một liên kết giới thiệu, mã đã được điền sẵn kèm dấu tích xanh và nhãn “Đã liên kết”; nếu mã không hợp lệ, bạn có thể sửa hoặc nhập mã khác ngay ở bước này. Mã đối tác của NexuAlpha cho Binance là {code}. {disclosure}",
+        [SRC.binance.register]),
+      faq("Đổi mã giới thiệu Binance sau khi đăng ký được không?",
+        "Không. Binance cho biết mã đã liên kết thì không thể sửa, và không thể điều chỉnh sau khi người dùng mới đã hoàn tất đăng ký.",
+        [SRC.binance.register, SRC.binance.referralLite]),
+      faq("Vì sao mã giới thiệu Binance không được liên kết?",
+        "Các lý do Binance nêu: đã dùng một mã khác, không nhập mã trong lúc đăng ký, hoặc tài khoản vi phạm điều khoản. Vì không sửa được sau khi đăng ký, hãy kiểm tra mã ở bước nhập mã trước khi tiếp tục.",
+        [SRC.binance.referralLite, SRC.binance.register]),
+      faq("Mã giới thiệu Binance Wallet có giống tài khoản Binance không?",
+        "Không. Binance Wallet là ví tự lưu ký trong ứng dụng, khóa được chia thành nhiều phần lưu trên thiết bị và đám mây của bạn; đây là sản phẩm tùy chọn do một công ty khác trong tập đoàn cung cấp. Tài khoản sàn là đăng ký có xác minh danh tính, và mã giới thiệu được liên kết với tài khoản này.",
+        [SRC.binance.wallet, SRC.binance.register]),
+      faq("Binance yêu cầu gì khi xác minh danh tính?",
+        "Mọi người dùng mới phải hoàn tất cấp Đã xác minh để nạp tiền và giao dịch. Bạn chọn nơi cư trú, quốc gia cấp và loại giấy tờ, tải lên hai mặt, quét khuôn mặt bằng camera rồi xác nhận thông tin; thông tin phải khớp với giấy tờ và không thể sửa sau khi xác nhận.",
+        [SRC.binance.kyc]),
+    ],
+  },
+  bybit: {
+    // l10n: needs native review
+    tr: [
+      faq("Bybit referans kodu nereye yazılır?",
+        "Kayıt sırasında ülkenizi seçip e-posta veya telefon numaranızı girdikten sonra, hesap oluşturma (Sign Up Now) düğmesine basmadan önce referans ya da affiliate kodunu yazın. NexuAlpha'nın Bybit ortaklık kodu {code}. {disclosure}",
+        [SRC.bybit.register]),
+      faq("Bybit referans kodu sonradan eklenir mi?",
+        "Genel kural olarak hayır: hesap açıldıktan sonra Bybit referans veya affiliate kodunun eklenmesine izin vermez. İstisna affiliate kodudur: ana hesap, henüz bağlı bir kod yoksa kayıttan sonraki 14 gün içinde Hesap > “Join an Affiliate's Community” yolundan affiliate kodu ekleyebilir. Kullanıcıdan kullanıcıya referans programının kodları bu yolla eklenemez.",
+        [SRC.bybit.register, SRC.bybit.affiliateCode, SRC.bybit.referralFaq]),
+      faq("Bybit referans kodu değiştirilebilir mi?",
+        "Hayır. Bybit, hesap oluşturulduktan sonra referans veya affiliate kodunun değiştirilmesine ya da silinmesine izin vermez; 14 günlük affiliate istisnasıyla eklenen kod da sonradan değiştirilemez.",
+        [SRC.bybit.register, SRC.bybit.affiliateCode]),
+      faq("Bybit TR mi, global Bybit mi? Kod hangisinde geçerli?",
+        "SPK'nın faaliyette bulunanlar listesinde (01 Ekim 2026 tarihli geçici liste) Bybit Kripto Varlık Alım Satım Platformu AŞ yer alır; SPK, listede bulunmanın yetkilendirme anlamına gelmediğini de belirtir. {code}, NexuAlpha'nın Bybit ortaklık kodudur ve NexuAlpha bu kodun Bybit'in Türkiye hesaplarında geçerli olduğunu henüz doğrulamamıştır. Kayıt ekranında hangi kuruluşa kaydolduğunuzu kontrol edin. {disclosure}",
+        [REG.spkOperating, SRC.bybit.register]),
+      faq("Bybit Wallet, Bybit hesabıyla aynı şey mi?",
+        "Hayır. Bybit Wallet üç cüzdan türü sunar ve hiçbiri kimlik doğrulama istemez: kurtarma ifadeli cüzdanda anahtarları siz kontrol edersiniz; keyless cüzdanda anahtar Bybit ile bulutunuz arasında bölünür; bulut cüzdanda anahtarları Bybit yönetir. Borsa hesabı ise KYC'li kayıttır ve referans kodu bu hesaba girilir.",
+        [SRC.bybit.wallet, SRC.bybit.register]),
+      faq("Bybit'te kimlik doğrulaması (KYC) zorunlu mu?",
+        "Evet. Tüm ürün ve hizmetler için en az Standard seviye zorunludur; bazı bölgeler veya ürünler daha yüksek seviye ister. Pasaport, kimlik kartı ve oturma izni kabul edilen belgeler arasındadır. Sonuç e-postayla gelir; en sık ret nedenleri okunamayan ad veya doğum tarihi, net olmayan yüz fotoğrafı ya da imzasız pasaporttur.",
+        [SRC.bybit.kycFaq, SRC.bybit.kycFail]),
+    ],
+    // l10n: needs native review
+    vi: [
+      faq("Mã giới thiệu Bybit nhập ở đâu (trên máy tính hay điện thoại)?",
+        "Khi đăng ký, sau khi chọn quốc gia và nhập email hoặc số điện thoại, hãy nhập mã giới thiệu hoặc mã affiliate trước khi bấm tạo tài khoản (Sign Up Now). Mã đối tác của NexuAlpha cho Bybit là {code}. {disclosure}",
+        [SRC.bybit.register]),
+      faq("Quên nhập mã giới thiệu Bybit, có thêm sau được không?",
+        "Về nguyên tắc là không: sau khi tạo tài khoản, Bybit không cho thêm mã giới thiệu hay mã affiliate. Ngoại lệ là mã affiliate: tài khoản chính có thể thêm trong 14 ngày sau khi đăng ký, tại Tài khoản > “Join an Affiliate's Community”, nếu chưa liên kết mã nào. Mã của chương trình giới thiệu giữa người dùng không thêm được theo cách này.",
+        [SRC.bybit.register, SRC.bybit.affiliateCode, SRC.bybit.referralFaq]),
+      faq("Đổi mã giới thiệu Bybit được không?",
+        "Không. Bybit không cho đổi hay xóa mã giới thiệu hoặc mã affiliate sau khi tài khoản đã tạo; mã đã thêm theo ngoại lệ affiliate 14 ngày cũng không đổi được.",
+        [SRC.bybit.register, SRC.bybit.affiliateCode]),
+      faq("Bybit Wallet và tài khoản sàn Bybit khác nhau thế nào?",
+        "Bybit Wallet có ba loại ví và không loại nào cần xác minh danh tính: ví có cụm từ khôi phục do bạn giữ khóa; ví keyless chia khóa giữa Bybit và đám mây của bạn; ví đám mây do Bybit quản lý khóa. Tài khoản sàn là đăng ký có KYC, và mã giới thiệu được nhập cho tài khoản này.",
+        [SRC.bybit.wallet, SRC.bybit.register]),
+      faq("Xác minh danh tính (KYC) trên Bybit có bắt buộc không?",
+        "Có. Tối thiểu cấp Standard là bắt buộc cho mọi sản phẩm và dịch vụ; một số khu vực hoặc sản phẩm yêu cầu cấp cao hơn. Giấy tờ được chấp nhận gồm hộ chiếu, căn cước và giấy phép cư trú. Kết quả gửi qua email; lý do bị từ chối thường gặp là tên hoặc ngày sinh không đọc được, ảnh khuôn mặt không rõ hoặc hộ chiếu chưa ký.",
+        [SRC.bybit.kycFaq, SRC.bybit.kycFail]),
+    ],
+    // l10n: needs native review
+    id: [
+      faq("Di mana memasukkan kode referral Bybit?",
+        "Saat mendaftar, setelah memilih negara dan mengisi email atau nomor ponsel, ketik kode referral atau kode afiliasi sebelum menekan tombol buat akun (Sign Up Now). Kode mitra NexuAlpha untuk Bybit adalah {code}. {disclosure}",
+        [SRC.bybit.register]),
+      faq("Lupa memasukkan kode referral Bybit, bisa ditambahkan nanti?",
+        "Pada umumnya tidak: setelah akun dibuat, Bybit tidak mengizinkan penambahan kode referral atau kode afiliasi. Pengecualiannya kode afiliasi: akun utama dapat menambahkannya dalam 14 hari setelah pendaftaran lewat Akun > “Join an Affiliate's Community”, bila belum ada kode yang tertaut. Kode dari program referral antarpengguna tidak bisa ditambahkan dengan cara ini.",
+        [SRC.bybit.register, SRC.bybit.affiliateCode, SRC.bybit.referralFaq]),
+      faq("Apakah kode referral Bybit bisa diganti?",
+        "Tidak. Bybit tidak mengizinkan kode referral atau afiliasi diubah atau dihapus setelah akun dibuat; kode yang ditambahkan lewat pengecualian afiliasi 14 hari juga tidak bisa diganti.",
+        [SRC.bybit.register, SRC.bybit.affiliateCode]),
+      faq("Apakah Bybit terdaftar di OJK?",
+        "Pengawasan aset kripto di Indonesia sudah dialihkan dari Bappebti ke OJK. Halaman ini tidak memastikan bahwa platform global Bybit terdaftar atau berizin di Indonesia: NexuAlpha belum memverifikasi status tersebut. Periksa daftar dan pengumuman resmi OJK sebelum mendaftar.",
+        [REG.ojkTransition]),
+      faq("Bybit Wallet dan akun bursa Bybit, apa bedanya?",
+        "Bybit Wallet punya tiga jenis dompet dan tidak ada yang memerlukan verifikasi identitas: dompet frasa pemulihan (Anda memegang kunci), dompet keyless (kunci dibagi antara Bybit dan cloud Anda), dan dompet cloud (kunci dikelola Bybit). Akun bursa adalah pendaftaran dengan KYC, dan kode referral dimasukkan untuk akun ini.",
+        [SRC.bybit.wallet, SRC.bybit.register]),
+      faq("Apakah verifikasi identitas (KYC) wajib di Bybit?",
+        "Ya. Minimal level Standard wajib untuk semua produk dan layanan; beberapa wilayah atau produk meminta level lebih tinggi. Dokumen yang diterima antara lain paspor, kartu identitas, dan izin tinggal. Hasil dikirim lewat email; penolakan paling sering terjadi karena nama atau tanggal lahir tidak terbaca, foto wajah kurang jelas, atau paspor tidak ditandatangani.",
+        [SRC.bybit.kycFaq, SRC.bybit.kycFail]),
+    ],
+  },
+  bitget: {
+    // l10n: needs native review
+    vi: [
+      faq("Cách nhập mã giới thiệu Bitget khi đăng ký?",
+        "Theo hướng dẫn đăng ký chính thức, sau khi nhập email hoặc số điện thoại, bước 2 là nhập mã mời (không bắt buộc), trước khi đồng ý điều khoản và tạo tài khoản. Vì ô này ghi “không bắt buộc” nên nhiều người bỏ qua. Mã đối tác của NexuAlpha cho Bitget là {code}. {disclosure}",
+        [SRC.bitget.regEn]),
+      faq("Đã đăng ký Bitget rồi có thêm hoặc đổi mã giới thiệu được không?",
+        "Hướng dẫn đăng ký của Bitget chỉ có ô nhập mã trong biểu mẫu tạo tài khoản và không mô tả cách thêm hay đổi mã sau đó. Chương trình giới thiệu của Bitget tính người được mời là người đăng ký bằng liên kết hoặc mã. Vì vậy hãy kiểm tra mã trước khi hoàn tất đăng ký.",
+        [SRC.bitget.regEn, SRC.bitget.referral]),
+      faq("Hoàn phí Bitget do ai trả và nhận khi nào?",
+        "Theo dữ liệu đối tác của NexuAlpha, phần hoàn phí đến từ phí giao dịch bạn trả và do Bitget chi trả, thanh toán {cadence}; tỷ lệ hiện tại hiển thị trên thẻ đăng ký của trang này. Người được mời là người đăng ký bằng liên kết hoặc mã giới thiệu, theo chương trình giới thiệu của Bitget.",
+        [SRC.bitget.referral]),
+      faq("Bitget và Bitget Wallet có phải là một?",
+        "Không. Theo tài liệu chính thức, Bitget Wallet là ví tiền mã hóa không lưu ký. Tài khoản sàn Bitget là một đăng ký khác, bằng email hoặc số điện thoại, có xác minh danh tính để nạp, rút và giao dịch. Mã giới thiệu trên trang này dùng cho việc đăng ký tài khoản sàn.",
+        [SRC.bitget.wallet, SRC.bitget.regEn, SRC.bitget.kycEn]),
+      faq("KYC của Bitget gồm những bước nào và vì sao bị từ chối?",
+        "Bạn chọn quốc gia và loại giấy tờ, nhập họ tên đúng như trên giấy tờ, tải ảnh giấy tờ lên rồi quét khuôn mặt. Việc duyệt thường mất 1 ngày làm việc. Lý do bị từ chối thường gặp: thông tin không khớp giấy tờ, ảnh mờ, bị cắt hoặc đen trắng, giấy tờ hết hạn hoặc chỉ gửi một mặt, và ảnh selfie không đạt.",
+        [SRC.bitget.kycEn, SRC.bitget.kycRejectEn]),
+    ],
+    // l10n: needs native review
+    id: [
+      faq("Di mana kolom kode referral Bitget saat daftar?",
+        "Menurut panduan pendaftaran resmi, setelah mengisi email atau nomor ponsel, langkah 2 adalah memasukkan kode undangan (opsional), sebelum menyetujui ketentuan dan membuat akun. Karena kolomnya bertanda “opsional”, banyak orang melewatkannya. Kode mitra NexuAlpha untuk Bitget adalah {code}. {disclosure}",
+        [SRC.bitget.regEn]),
+      faq("Sudah daftar Bitget, apakah kode referral bisa ditambahkan nanti?",
+        "Panduan pendaftaran Bitget hanya menampilkan kolom kode di formulir pembuatan akun dan tidak menjelaskan cara menambahkannya setelah itu. Program referral Bitget menghitung pengguna yang diundang sebagai orang yang mendaftar memakai tautan atau kode. Jadi periksa kode sebelum menyelesaikan pendaftaran.",
+        [SRC.bitget.regEn, SRC.bitget.referral]),
+      faq("Rabat biaya Bitget dibayar siapa dan kapan?",
+        "Menurut data mitra NexuAlpha, rabat berasal dari biaya trading yang Anda bayar dan dibayarkan oleh Bitget {cadence}; persentase saat ini tampil di kartu pendaftaran halaman ini. Pengguna yang diundang adalah orang yang mendaftar memakai tautan atau kode referral, sesuai program referral Bitget.",
+        [SRC.bitget.referral]),
+      faq("Kode referral Bitget Wallet sama dengan akun Bitget?",
+        "Tidak. Menurut dokumentasi resminya, Bitget Wallet adalah dompet kripto non-kustodian. Akun bursa Bitget adalah pendaftaran lain, memakai email atau nomor ponsel dan verifikasi identitas untuk deposit, penarikan, dan trading. Kode referral di halaman ini berlaku untuk pendaftaran akun bursa.",
+        [SRC.bitget.wallet, SRC.bitget.regEn, SRC.bitget.kycEn]),
+      faq("Apakah Bitget terdaftar di OJK?",
+        "Pengawasan aset kripto di Indonesia sudah dialihkan dari Bappebti ke OJK. Halaman ini tidak memastikan bahwa platform global Bitget terdaftar atau berizin di Indonesia: NexuAlpha belum memverifikasi status tersebut. Periksa daftar dan pengumuman resmi OJK sebelum mendaftar.",
+        [REG.ojkTransition]),
+      faq("Bagaimana KYC Bitget dan kenapa bisa ditolak?",
+        "Anda memilih negara dan jenis dokumen, mengisi nama persis seperti di dokumen, mengunggah foto dokumen, lalu melakukan pengenalan wajah. Peninjauan biasanya 1 hari kerja. Penolakan yang sering terjadi: data tidak sesuai dokumen, foto buram, terpotong, atau hitam-putih, dokumen kedaluwarsa atau hanya satu sisi, dan swafoto tidak sesuai.",
+        [SRC.bitget.kycEn, SRC.bitget.kycRejectEn]),
+    ],
+  },
+  hyperliquid: {
+    en: [
+      faq("What does a Hyperliquid referral code give you?",
+        "Hyperliquid's docs say that using a referral code gives a 4% discount on your fees for your first $25M in volume, and that referral discounts do not apply to vaults or sub-accounts. You enter the code on the app's referrals page (app.hyperliquid.xyz/referrals) or by opening a shared join link (app.hyperliquid.xyz/join/…). NexuAlpha's partner code for Hyperliquid is {code}; NexuAlpha publishes no rebate share for Hyperliquid. {disclosure}",
+        [SRC_EXTRA.hyperliquid.referrals, SRC_EXTRA.hyperliquid.fees]),
+      faq("Can I change my Hyperliquid referral code later?",
+        "Hyperliquid's referral docs explain how to enter a code but do not describe changing or removing one afterwards, so NexuAlpha cannot confirm that a code can be changed. Check the referrals page in the app before you enter a code.",
+        [SRC_EXTRA.hyperliquid.referrals]),
+    ],
+  },
+  backpack: {
+    en: [
+      faq("Does Backpack Exchange offer tokenized US stocks?",
+        "Yes, through Backpack Securities. Backpack says eligible users with a verified Backpack account can buy US-listed stocks and ETFs, held as security entitlements under New York UCC Article 8, and that selected stocks can be tokenized 1:1 on Solana and redeemed 1:1 back into the underlying share. The tokenized form is a separate instrument (a claim on an SPV holding the underlying assets) and trades 24/7 on Solana. Backpack Securities is not available in the United States, the United Kingdom, the UAE, Japan or through Backpack EU.",
+        [SRC_EXTRA.backpack.securities, SRC_EXTRA.backpack.tokenized]),
+      faq("Does Backpack Exchange require KYC?",
+        "Yes. Backpack's help center lists standard KYC as full name, date of birth and address, source of income and occupation, a valid ID document and a liveness check; some countries can verify through local government digital ID, and some (for example Australia and the UAE) may need proof of address. Backpack says it does not serve residents of North Korea, Iran, Cuba, Syria and the Crimea, Sevastopol, Luhansk and Donetsk regions, and asks residents of Canada, Japan and New Zealand to “stay tuned”.",
+        [SRC_EXTRA.backpack.kyc]),
+    ],
+    fr: [
+      faq("Backpack Exchange : avis — de quoi s’agit-il ?",
+        "Backpack sépare deux produits : Backpack Exchange, une plateforme d’échange avec compte, et Backpack Wallet, une application Web3 en auto-garde. Selon sa documentation technique, chaque sous-compte de l’exchange est en marge croisée, multi-devises, et donne accès au spot, aux contrats perpétuels, à la marge, à l’emprunt et au prêt. Backpack propose aussi des actions américaines via Backpack Securities.",
+        [SRC_EXTRA.backpack.about, SRC_EXTRA.backpack.margin, SRC_EXTRA.backpack.securities]),
+      faq("Backpack Exchange est-il disponible en France ?",
+        "NexuAlpha n’a pas confirmé l’accès depuis la France. La page KYC de Backpack cite les régions non servies (Corée du Nord, Iran, Cuba, Syrie, Crimée, Sébastopol, Louhansk, Donetsk) et demande aux résidents du Canada, du Japon et de la Nouvelle-Zélande de « patienter » ; la France n’y figure pas. Backpack mentionne aussi Backpack EU à part et précise que Backpack Securities (les actions) n’y est pas proposé. Vérifiez l’entité et les produits proposés pour votre pays au moment de l’inscription.",
+        [SRC_EXTRA.backpack.kyc, SRC_EXTRA.backpack.securities]),
+      faq("Quels sont les frais de Backpack Exchange ?",
+        "Le site de Backpack annonce 0 % de frais sur les transactions d’actions. NexuAlpha n’a pas encore vérifié la grille de frais spot et perpétuels de Backpack ; aucun taux n’est donc affiché ici. Consultez la grille publiée dans le centre d’aide de Backpack avant de trader.",
+        [SRC_EXTRA.backpack.home]),
+      faq("Faut-il un KYC sur Backpack Exchange ?",
+        "Oui. Le KYC standard demande le nom complet, la date de naissance et l’adresse, la source de revenus et la profession, une pièce d’identité valide et une vérification du vivant (liveness). Certains pays passent par une identité numérique publique locale, d’autres (Australie, Émirats arabes unis) peuvent demander un justificatif de domicile de moins de 3 mois.",
+        [SRC_EXTRA.backpack.kyc]),
+      faq("Backpack propose-t-il des actions américaines tokenisées ?",
+        "Oui, via Backpack Securities : les détentions sont des droits sur titres (security entitlements) régis par le droit de New York (UCC Article 8), et certaines actions peuvent être tokenisées 1:1 sur Solana puis rachetées 1:1 contre l’action sous-jacente. La version tokenisée est un instrument distinct (une créance sur une SPV qui détient les actifs) et s’échange 24 h/24, 7 j/7 sur Solana. Backpack Securities n’est pas disponible aux États-Unis, au Royaume-Uni, aux Émirats arabes unis, au Japon ni via Backpack EU.",
+        [SRC_EXTRA.backpack.securities, SRC_EXTRA.backpack.tokenized]),
+      faq("Backpack Wallet ou compte Backpack Exchange : quelle différence ?",
+        "Backpack Wallet est une application Web3 en auto-garde : vous gardez vos clés. Le compte Backpack Exchange est une inscription distincte, soumise au KYC, qui donne accès au spot, aux perpétuels et à la marge.",
+        [SRC_EXTRA.backpack.about, SRC_EXTRA.backpack.kyc, SRC_EXTRA.backpack.margin]),
+    ],
+  },
+};
+
 function partnerFor(slug) {
   return REFERRAL_PARTNERS.find((partner) => partner.slug === slug) || null;
+}
+
+function cadenceFor(partner, locale) {
+  return CADENCE[locale]?.[partner?.settle] || "";
 }
 
 function fill(text, partner, locale) {
   const name = partner?.name || "";
   const code = partner?.inviteCode || "";
   const disclosure = (DISCLOSURE[locale] || "").replaceAll("{code}", code).replaceAll("{name}", name);
-  return String(text).replaceAll("{disclosure}", disclosure).replaceAll("{code}", code).replaceAll("{name}", name);
+  return String(text).replaceAll("{disclosure}", disclosure).replaceAll("{code}", code).replaceAll("{name}", name).replaceAll("{cadence}", cadenceFor(partner, locale));
+}
+
+function rawEntriesFor(slug, locale) {
+  const local = PARTNER_VENUE_FAQ_LOCAL_TARGETS[locale];
+  if (local) return local.includes(slug) ? LOCAL_ENTRIES[slug]?.[locale] || null : null;
+  return ENTRIES[slug]?.[locale] || LOCAL_ENTRIES[slug]?.[locale] || null;
 }
 
 /**
@@ -527,12 +844,13 @@ function fill(text, partner, locale) {
  */
 export function partnerVenueFaqFor(slug, locale = "en") {
   const normalized = normalizePartnerFaqLocale(locale);
-  if (!normalized || !PARTNER_VENUE_FAQ_SLUGS.includes(slug)) return null;
-  const raw = ENTRIES[slug]?.[normalized];
+  if (!normalized || !(PARTNER_VENUE_FAQ_SLUGS.includes(slug) || PARTNER_VENUE_FAQ_EXTRA_SLUGS.includes(slug))) return null;
+  const raw = rawEntriesFor(slug, normalized);
   if (!raw?.length) return null;
   const partner = partnerFor(slug);
-  // A code placeholder without a real partner code must never render as an empty code.
-  const usable = raw.filter((entry) => partner?.inviteCode || !/\{code\}/.test(entry.answer));
+  // A code placeholder without a real partner code must never render as an empty code, and a payout-cadence answer
+  // needs a cadence in the partner feed.
+  const usable = raw.filter((entry) => (partner?.inviteCode || !/\{code\}/.test(entry.answer)) && (cadenceFor(partner, normalized) || !/\{cadence\}/.test(entry.answer)));
   const entries = usable.map((entry) => ({
     question: fill(entry.question, partner, normalized),
     answer: fill(entry.answer, partner, normalized),
@@ -541,7 +859,7 @@ export function partnerVenueFaqFor(slug, locale = "en") {
     showsInviteCode: /\{code\}/.test(entry.answer),
     origin: "partner",
   }));
-  const mode = PARTNER_VENUE_FAQ_REPLACE_LOCALES.includes(normalized) ? "replace" : "append";
+  const mode = PARTNER_VENUE_FAQ_REPLACE_LOCALES.includes(normalized) || PARTNER_VENUE_FAQ_LOCAL_TARGETS[normalized] ? "replace" : "append";
   if (mode === "replace") {
     const priority = priorityVenueAnswerFor(slug, normalized);
     for (const [question, answer, citations = []] of priority?.faq || []) {

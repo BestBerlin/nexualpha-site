@@ -76,7 +76,7 @@ test("exchange H1 carries fees + referral code + rebate where allowed, fees + pr
   const en = pages.find((p) => p.locale === "en" && p.slug === "okx");
   assert.match(textOf(en.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), /^OKX fees, referral code nexu888 and rebate \(\d{4}\)$/);
   const tr = pages.find((p) => p.locale === "tr" && p.slug === "okx");
-  assert.match(textOf(tr.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), /^OKX ücretleri, referans kodu nexu888 ve iade \(\d{4}\)$/);
+  assert.match(textOf(tr.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), /^OKX referans kodu nexu888, ücretler ve iade \(\d{4}\)$/);
   const trBitget = pages.find((p) => p.locale === "tr" && p.slug === "bitget");
   assert.match(textOf(trBitget.html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1]), /^Bitget ücretleri ve platform profili$/, "tr only promotes SPK-listed venues");
   const ru = pages.find((p) => p.locale === "ru" && p.slug === "okx");

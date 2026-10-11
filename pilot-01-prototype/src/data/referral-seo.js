@@ -31,10 +31,12 @@ const COPY = {
     (n, c, y) => `Código de referido ${n} ${c}: registro y comisiones (${y})`,
     (n, c, p) => `Código de referido ${n} ${c}: comisiones y enlace oficial verificados por NexuAlpha${p ? `; hasta ${p}% de comisiones de vuelta, paga ${n}` : ""}. Enlace de socio.`,
   ],
+  // Exchange keyword map 2026-10-11: Brazilians type "código de convite" more often than "código de indicação"
+  // (Google autocomplete 16 vs 6), so the title leads with convite and the description keeps indicação as well.
   "pt-BR": [
-    (n, c, p, y) => `Código de indicação ${n} ${c}: até ${p}% de cashback (${y})`,
-    (n, c, y) => `Código de indicação ${n} ${c}: cadastro e taxas (${y})`,
-    (n, c, p) => `Código de indicação ${n} ${c}: taxas e link oficial verificados pela NexuAlpha${p ? `; até ${p}% das taxas de volta, pago pela ${n}` : ""}. Link de parceiro.`,
+    (n, c, p, y) => `Código de convite ${n} ${c}: até ${p}% de cashback (${y})`,
+    (n, c, y) => `Código de convite ${n} ${c}: indicação, cadastro e taxas (${y})`,
+    (n, c, p) => `Código de convite (indicação) ${n} ${c}: taxas e link oficial verificados pela NexuAlpha${p ? `; até ${p}% das taxas de volta, pago pela ${n}` : ""}. Link de parceiro.`,
   ],
   fr: [
     (n, c, p, y) => `Code de parrainage ${n} ${c} : jusqu’à ${p} % de remise (${y})`,
@@ -95,7 +97,12 @@ const TITLE_OVERRIDES = {
   hyperliquid: { en: (n, c, y) => `${n} Fees & Referral Code ${c}: Funded Account Checks (${y})` },
   // Striking distance (GSC 2026-10-11): "backpack fee" ranks ~6; the default no-share title ran past 60 characters and
   // put "Fees" late. Same invite code from the partner feed, fees first, within the title budget.
-  backpack: { en: (n, c, y) => `${n} Fees & Referral Code ${c} (${y})` },
+  // Exchange keyword map 2026-10-11 row 38: French searchers type "backpack exchange avis" (GSC impressions at ~67);
+  // the French profile answers it (partner-venue-faq.js fr entries), so the title names it.
+  backpack: {
+    en: (n, c, y) => `${n} Fees & Referral Code ${c} (${y})`,
+    fr: (n, c, y) => `${n} Exchange : avis, frais et code de parrainage ${c} (${y})`,
+  },
 };
 const partnersBySlug = () => BY_SLUG;
 
@@ -105,11 +112,24 @@ const partnersBySlug = () => BY_SLUG;
 // treats promotion of platforms without SPK authorization as unauthorized service, so only exchanges whose Turkish
 // entity is on the SPK list keep a referral title.
 const NEUTRAL_TITLE_LOCALES = new Set(["ru", "ar", "zh-Hant"]);
-const TR_SPK_LISTED = new Set(["okx", "binance", "bybit", "gate-io", "mexc"]);
+// SPK "Faaliyette Bulunanlar Listesi" (temporary list dated 01 Ekim 2026, read 2026-10-11:
+// https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi) lists OKX TR (#38),
+// Binance Turkey (#4), Bybit (#11) and Gate (#23). Bitget Teknoloji AŞ is on the liquidation list
+// (tasfiye-surecinde-olanlar-listesi). MEXC is left out by owner decision 2026-10-11 (exchange keyword plan: Turkish
+// referral targets are OKX, Binance and Bybit; MEXC stays neutral) even though the 01 Oct list carries a
+// "Mexc Kripto Varlık Alım Satım Platformu AŞ" (#35); flip it back only on an explicit owner decision.
+// The list itself says being on it is not an authorization verdict. Pinned in tests/exchange-keywords.test.mjs.
+export const TR_SPK_LISTED = Object.freeze(["okx", "binance", "bybit", "gate-io"]);
 export function referralTitleAllowed(slug, locale) {
   if (NEUTRAL_TITLE_LOCALES.has(locale)) return false;
-  if (locale === "tr") return TR_SPK_LISTED.has(slug);
+  if (locale === "tr") return TR_SPK_LISTED.includes(slug);
   return true;
+}
+
+/** Owner-confirmed rebate share (percent) from the partner feed, or null. Used by the localized profile H1. */
+export function referralSharePercent(slug) {
+  const share = partnersBySlug()[slug]?.share;
+  return share != null ? Math.round(share * 100) : null;
 }
 
 /** { title, description } for a partner exchange profile in `locale`, or null when there is no real invite code. */
