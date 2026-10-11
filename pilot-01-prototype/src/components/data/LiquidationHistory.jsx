@@ -3,6 +3,7 @@
 // the same feed as the live numbers; while fewer than two days exist the section says the history is being collected.
 // The chart is always LTR (dates and numerals); the surrounding copy follows the page direction.
 import React from "react";
+import { SectionRule } from "../shared/DataRule.jsx";
 import { formatUsdCompact, formatUtc } from "../../data/market-data-pages.js";
 import { CHART_COMPACT_HEIGHT, CHART_COMPACT_WIDTH, historyChartModel, historyFacts } from "../../data/liquidation-history.js";
 
@@ -40,6 +41,7 @@ export function LiquidationHistory({ history, now24hUsd, page, locale }) {
   if (history.collecting) {
     return (
       <section className="nxd-history v2-shell" id="history" data-rv="1" aria-labelledby="nxd-history-h" data-testid="liquidation-history" data-state="collecting">
+        <SectionRule />
         <h2 id="nxd-history-h">{page.historyTitle}</h2>
         <p className="nxd-history__collecting" role="status">{page.historyCollecting(dayLabel(history.since.slice(0, 10)))}</p>
       </section>
@@ -50,6 +52,7 @@ export function LiquidationHistory({ history, now24hUsd, page, locale }) {
   const facts = historyFacts(history, now24hUsd);
   return (
     <section className="nxd-history v2-shell" id="history" data-rv="1" aria-labelledby="nxd-history-h" data-testid="liquidation-history" data-state="ready">
+      <SectionRule />
       <h2 id="nxd-history-h">{page.historyTitle}</h2>
       <p className="nxd-history__lead">{page.historyLead}</p>
       {facts?.vsAverage || facts?.rank ? (

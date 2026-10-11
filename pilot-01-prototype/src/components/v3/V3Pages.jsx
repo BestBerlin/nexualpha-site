@@ -2,6 +2,7 @@ import { pendingDecisionCopy } from "../../data/pending-decision-copy.js";
 import "./profile-density.css";
 import { enAttrs } from "../../utils/fallback-lang.js";
 import { useEffect, useState } from "react";
+import { SectionRule } from "../shared/DataRule.jsx";
 import { buildDecisionReturnHref } from "../../data/decision-return.js";
 import { DecisionReturnLink } from "./DecisionReturnLink.jsx";
 import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
@@ -1284,6 +1285,7 @@ export function CompareFaqSection({ profiles, locale = "en" }) {
 
   return (
     <section className="v2-section v3-faq-section" id="compare-faq">
+      <SectionRule stamp={faqs.length || null} />
       <div className="v3-faq-card">
         <div className="v3-faq-card__header">
           <span className="v3-faq-card__eyebrow">
@@ -1505,6 +1507,7 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
 
   return (
     <section className="v2-section v3-metric-matrix-section" id="hardcore-matrix">
+      <SectionRule />
       <div className="v3-matrix-header">
         <h2 className="v3-matrix-title">
           {matrixTitleCopy}

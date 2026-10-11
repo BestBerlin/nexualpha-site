@@ -146,7 +146,7 @@
 /* the controls stay in view while the exchange rows scroll past (no empty column under them) */
 .h7:not(#_):not(#_) .h7-calc>div:first-child{position:sticky;top:88px}
 .h7:not(#_):not(#_) .h7-vin{display:flex;align-items:baseline;gap:12px;margin:32px 0 16px;font:500 2.75rem/1 var(--mono);color:var(--ink);border-bottom:1px solid var(--line2);padding-bottom:12px;font-variant-numeric:tabular-nums;transition:border-color 140ms}
-.h7:not(#_):not(#_) .h7-vin:focus-within{border-color:var(--ac)}
+.h7:not(#_):not(#_) .h7-vin:focus-within{border-color:var(--ac);box-shadow:0 1px 0 var(--ac)}
 .h7:not(#_):not(#_) .h7-vin span{color:var(--ink3)}.h7:not(#_):not(#_) .h7-vin input{border:0;background:transparent;font:inherit;color:inherit;outline:none;min-width:0;width:100%;padding:0;box-shadow:none;caret-color:var(--ac)}
 .h7:not(#_):not(#_) .h7-vin small{font-size:14px;font-weight:400;line-height:1;font-family:inherit;color:var(--ink3);white-space:nowrap}
 .h7:not(#_):not(#_) .h7-ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}

@@ -105,6 +105,16 @@ main.v6 :is(p, li, dd):lang(zh) { text-wrap-style: pretty; } /* longhand: the sh
 @media (max-width: 640px) { .nx-rule .nx-rule__date:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; } }
 @media (max-width: 640px) { .nx-rule:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex-wrap: wrap; row-gap: 4px; } }
 
+/* Section rule (V3 2026-10-11, docs/design-unified-v8.md "Data rule"): the data rule as the line above section headings
+   on the venue profile, compare pairs, activities and the liquidation / funding pages (SectionRule in DataRule.jsx).
+   Label = running section number (counter), hairline, optional mono figure or UTC stamp; the h2 below keeps its size. */
+body { counter-reset: nx-section; }
+.nx-rule.nx-rule--section:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { counter-increment: nx-section; grid-column: 1 / -1; flex: 0 0 100%; inline-size: 100%; box-sizing: border-box; margin: 0 0 20px; }
+.nx-rule.nx-rule--section .nx-rule__index:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_)::before { content: counter(nx-section, decimal-leading-zero); display: inline; }
+.nx-rule--section .nx-rule__index:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { color: #9097a0; font-size: 12px; letter-spacing: .04em; }
+/* The rule is the section's top line: blocks that drew their own top hairline drop it when they carry one. */
+:is(.v3-compare-final-choice-card, .v3-activity-panel):has(> .nx-rule--section):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { border-block-start-color: transparent; }
+.v3-activity-panel:has(> .nx-rule--section):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex-wrap: wrap; }
 /* Tool page -> related articles (links-l10n lane 2026-10-11, scorecard D4; src/components/shared/ToolArticleLinks.jsx):
    below the tool, above the related-research index. Intro on the left, a dated list of article links on the right;
    one column on phones. Ink + hairline only, like the data rule. */

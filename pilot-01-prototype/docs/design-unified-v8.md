@@ -61,6 +61,14 @@ Geist Mono label, a 1px hairline (`rgb(255 255 255/.14)`) that fills the line, a
 stamp drops and the rule may wrap. Stamps are deterministic UTC strings (identical in SSR and hydration); dates inside
 Arabic text sit in `<bdi dir="ltr">`. Use it for new editorial section heads instead of eyebrows or pills.
 
+**Section rule** (V3, 2026-10-11; `SectionRule` in `DataRule.jsx`, `.nx-rule--section`). On product pages whose section
+headings are large h2s (venue profile, compare pairs, `/activities`, `/liquidations`, `/funding-rates`) the data rule
+is the line directly above the heading: running section number (CSS counter `nx-section`, so conditional sections never
+leave gaps, `01 ——— 2026-10-11 · 09:08 UTC`, `03 ——— 5`), hairline, and an optional stamp that is only a figure or a
+UTC time (no words, so no copy per locale). The h2 keeps its size; the rule is decorative (`aria-hidden`), spans the
+full row in grid/flex sections, and blocks that drew their own top hairline drop it. Never on the home hero; `/exchanges`
+has no section headings, so it has none.
+
 Article rules: one measure (68ch), body 17/1.7 (16 on phones; CJK 1.8), h2 24/1.25 (20 on phones), h3 18/1.35,
 captions and table hints 13. The first H2 section is the lead answer block (2px accent start rule, ink-1 18px text).
 Section index: sticky in the rail from 1024px (scroll-spy marks the current section), a collapsed disclosure below.
@@ -77,3 +85,11 @@ and review dates; headings localized in 15 locales, record text marked with its 
 Accessibility: every interactive element on these templates has a 2px accent `:focus-visible` ring (rows ring the whole
 row); `scripts/editorial-axe.py` runs axe-core (WCAG 2.1 AA) on the four templates in en and ar at 390/1440 and must
 report 0 serious/critical; transitions drop to 0 ms under `prefers-reduced-motion`.
+
+Site-wide sweeps (2026-10-11): `scripts/qa-axe-sweep.py <base> [out.json]` runs axe-core (WCAG 2.1 A/AA, whole document)
+plus a keyboard focus walk (Tab through the page; a stop whose outline, shadow, border, background, colour or
+underline does not change is a failure) on the 19 templates in `scripts/qa_templates.py` (en, zh-hans, ar, tr at 390
+and 1440); `--approx` re-checks text over background gradients, which axe leaves as "needs review".
+`scripts/qa-reduced-motion.py <base>` loads the same templates with reduced motion and reports running animations,
+CSS durations above 0.01 s, requestAnimationFrame loops and text that keeps changing (count-ups, tickers). Under
+reduced motion live countdowns tick once a minute and show hh:mm.
