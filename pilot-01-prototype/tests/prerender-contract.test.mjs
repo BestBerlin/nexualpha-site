@@ -281,7 +281,10 @@ test("regional JP KR and Türkiye routes ship full SSR with delayed hydration bu
     assert.equal(state.locale, expectedRoute.locale, `${pathname}: prerender locale`);
     assert.equal(countDeferredHydrationBridges(html), 1, `${pathname}: one deferred hydration bridge`);
     assert.equal((html.match(/<script\b(?=[^>]*type=["']module["'])/gi) || []).length, 0, `${pathname}: no first-screen module script`);
-    assert.ok(countStylesheets(html) <= 4, `${pathname}: stylesheet budget <= 4`);
+    // Class b: 451eb4b split the shared cascade into index, core-b and core-c (+2 links).
+    assert.ok(countStylesheets(html) <= 6, `${pathname}: stylesheet budget <= 6`);
+    const styles = [...html.matchAll(/<link\b(?=[^>]*rel=["']stylesheet["'])[^>]*href="([^"]+)"/gi)].map((match) => match[1]);
+    assert.ok(styles.every((href) => /\/(?:index-|core-[bc]-|shared-decision-(?:rail|return)-|route-international-)/.test(href)), `${pathname}: only regional and shared CSS`);
   }
 });
 

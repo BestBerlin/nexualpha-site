@@ -3,37 +3,39 @@ import test from "node:test";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 
 const englishCases = [
+  // Class b: 3c54a66 budgets long head titles by removing the brand suffix.
   {
     url: "/mx?locale=en",
     route: { name: "regionalPreview", market: "MX" },
-    title: "Mexico: compare MXN, SPEI and identity before opening an account — NexuAlpha",
+    title: "Mexico: compare MXN, SPEI and identity before opening an account",
     description: "A Mexico-specific research path that separates SPEI, bank-account ownership, identity checks, product scope and official account conditions before registration.",
     canonical: "https://nexualpha.com/mx",
   },
   {
     url: "/mx/comparar?locale=en",
     route: { name: "regionalDecision", market: "MX", decisionPath: "comparar" },
-    title: "Mexico: compare Binance, OKX and other candidates before registration — NexuAlpha",
+    title: "Mexico: compare Binance, OKX and other candidates before registration",
     description: "A Mexico comparison page that separates the documented MXN/SPEI route, official domain, identity checks, product scope and account conditions before any CTA.",
     canonical: "https://nexualpha.com/mx/comparar",
   },
   {
     url: "/mx/costos?locale=en",
     route: { name: "regionalDecision", market: "MX", decisionPath: "costos" },
-    title: "Mexico: separate spot fee, MXN/SPEI, spread, withdrawal and account conditions — NexuAlpha",
+    title: "Mexico: separate spot fee, MXN/SPEI, spread, withdrawal and account conditions",
     description: "A Mexico cost page that turns a registration decision into an editable cost hypothesis, with clear limits between published fees and final account costs.",
     canonical: "https://nexualpha.com/mx/costos",
   },
   {
     url: "/mx/conta?locale=en",
     route: { name: "regionalDecision", market: "MX", decisionPath: "conta" },
-    title: "Mexico: account, partner route, code, KYC and benefit before registration — NexuAlpha",
+    title: "Mexico: account, partner route, code, KYC and benefit before registration",
     description: "A Mexico account page that separates partner link, visible code, benefit, KYC, residence, product and approval before continuing to official registration.",
     canonical: "https://nexualpha.com/mx/conta",
   },
 ];
 
 const spanishCases = [
+  // Class b: 3c54a66 budgets long head titles by removing the brand suffix.
   {
     url: "/mx?locale=es",
     route: { name: "regionalPreview", market: "MX" },
@@ -46,7 +48,7 @@ const spanishCases = [
   {
     url: "/mx/comparar?locale=es",
     route: { name: "regionalDecision", market: "MX", decisionPath: "comparar" },
-    title: "Comparar exchanges en México: MXN, SPEI y cuenta oficial — NexuAlpha",
+    title: "Comparar exchanges en México: MXN, SPEI y cuenta oficial",
     description: "Compara Binance, OKX y otros candidatos para México separando MXN, SPEI, identidad, producto, dominio oficial y condiciones de cuenta antes del registro.",
     canonical: "https://nexualpha.com/mx/comparar",
     robots: "noindex,follow",
@@ -55,7 +57,7 @@ const spanishCases = [
   {
     url: "/mx/costos?locale=es",
     route: { name: "regionalDecision", market: "MX", decisionPath: "costos" },
-    title: "Costos cripto en México: MXN, SPEI, spot y tarifa de cuenta — NexuAlpha",
+    title: "Costos cripto en México: MXN, SPEI, spot y tarifa de cuenta",
     description: "Separa comisión spot, coste de entrada MXN/SPEI, spread, retiro, límites y condiciones de cuenta para México antes de registrarte o depositar.",
     canonical: "https://nexualpha.com/mx/costos",
     robots: "noindex,follow",
@@ -64,7 +66,7 @@ const spanishCases = [
   {
     url: "/mx/conta?locale=es",
     route: { name: "regionalDecision", market: "MX", decisionPath: "conta" },
-    title: "Cuenta cripto en México: partner, código, beneficio y KYC — NexuAlpha",
+    title: "Cuenta cripto en México: partner, código, beneficio y KYC",
     description: "Distingue enlace de partner, código, beneficio, KYC, residencia, producto y aprobación de cuenta para México antes de seguir una ruta oficial.",
     canonical: "https://nexualpha.com/mx/conta",
     robots: "noindex,follow",

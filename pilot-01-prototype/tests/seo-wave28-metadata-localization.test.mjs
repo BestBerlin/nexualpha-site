@@ -42,6 +42,8 @@ function normalizePath(path) {
 function expectedRobots(path) {
   const url = new URL(`https://nexualpha.com${path}`);
   const route = parsePublicRoute(url.pathname, url.searchParams);
+  // Class b: the 2026-10-10 search expansion intentionally publishes all-locale static utility pages.
+  if (route.contentPathname === "/onchain") return "index,follow";
   return publicationEligibility.has(route.contentPathname, route.locale) ? "index,follow" : "noindex,follow";
 }
 
@@ -80,8 +82,9 @@ async function assertParity(path, titlePattern, descriptionPattern) {
 
 test("Wave28 static pages receive locale-specific metadata without changing Worker/client policy", async () => {
   const cases = [
-    ["/onchain?locale=es", /Panel de liquidez on-chain y reservas/, /flujos netos/],
-    ["/onchain?locale=zh-Hant", /鏈上資金流與儲備金償付能力看板/, /公開儲備金證明/],
+    // Class b: onchain now owns the proof-of-reserves verification guide copy.
+    ["/onchain?locale=es", /Prueba de reservas: cómo verificar un exchange cripto/, /prueba de reservas/],
+    ["/onchain?locale=zh-Hant", /鏈上流動性與儲備證明核驗指南/, /儲備證明/],
     ["/partners?locale=de", /Partner-Einbettungen und Distribution/, /Integrationshinweise/],
     ["/partners?locale=de", /Partner-Einbettungen und Distribution/, /Integrationshinweise/],
     ["/methodology?locale=zh-Hant", /研究方法與編輯政策/, /商業合作關係/],
@@ -104,9 +107,10 @@ test("Wave28 standard topic pages expose localized answer-engine metadata", asyn
 test("Wave28 Factbook pages localize descriptions while preserving source-bound metadata", async () => {
   const cases = [
     ["/factbook/binance?locale=zh-Hant", /Binance 來源審閱事實庫 \(Factbook\).*— NexuAlpha/, /基礎費率/],
-    ["/factbook/binance?locale=es", /Binance Ficha de fuentes \[2026-09-08\] — NexuAlpha/, /comisiones base/],
-    ["/factbook/okx?locale=pt-BR", /OKX Ficha de fontes \[2026-09-08\] — NexuAlpha/, /taxas base/],
-    ["/ar/factbook/bybit", /Bybit سجل المصادر \[2026-09-08\] — NexuAlpha/, /الرسوم الأساسية/],
+    // Class b: factbook route titles no longer duplicate the dossier date; dateModified carries review timing.
+    ["/factbook/binance?locale=es", /Binance Ficha de fuentes — NexuAlpha/, /comisiones base/],
+    ["/factbook/okx?locale=pt-BR", /OKX Ficha de fontes — NexuAlpha/, /taxas base/],
+    ["/ar/factbook/bybit", /Bybit سجل المصادر — NexuAlpha/, /الرسوم الأساسية/],
   ];
   for (const row of cases) await assertParity(...row);
 });

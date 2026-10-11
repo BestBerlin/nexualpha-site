@@ -25,7 +25,8 @@ const dexCompactDictionary = source.slice(
 
 test("profile separates locale prose from the preserved platform identity", () => {
   assert.match(source, /className="v3-venue-context"/);
-  assert.match(source, /className="v3-venue-identity">\s*<BrandMark/);
+  // Venue graph split adds the enter animation modifier, but the brand mark remains inside the preserved identity group.
+  assert.match(source, /className="v3-venue-identity enter"[^>]*>\s*<BrandMark/);
   assert.doesNotMatch(source, /className="v3-venue-identity" translate="no" lang="en" dir="ltr"/);
   assert.match(css, /\.v3-venue-identity\s*\{[^}]*align-items:\s*center/s);
   assert.match(source, /className="v3-venue-title__suffix"/);
@@ -51,8 +52,9 @@ test("shared secondary headings and domain labels use one readable axis", () => 
   assert.match(css, /\.v3-venue-hero\s*\{[^}]*min-width:\s*0/s);
 });
 
-test("research dates are localized and full source labels remain accessible", () => {
-  assert.match(research, /Intl\.DateTimeFormat\(locale/);
+test("research dates use the shared ISO date contract and full source labels remain accessible", () => {
+  // R110 venue split kept source dates deterministic as ISO days inside the lazy research hub.
+  assert.match(research, /new Date\(research\.checkedAt\)\.toISOString\(\)\.slice\(0, 10\)/);
   assert.match(research, /dateTime=\{research.checkedAt\}/);
   assert.match(research, /aria-label=\{`\$\{text\[2\]\}: \$\{fact.label\}`\}/);
 });
@@ -110,24 +112,25 @@ test("venue route and evidence labels reuse the localized detail and DEX diction
   assert.match(source, /const routeUi = dexFeeCompactUi\(locale, localizedVenueName, false\)/);
   assert.match(source, /<span className="v3-rebate-tag">\{detailLabels\.review\}<\/span>/);
   assert.match(source, /<p className="v3-rebate-no-code">\{routeUi\.noCode\}<\/p>/);
-  assert.match(source, /<span>\{detailLabels\.deeper\}<\/span>/);
+  assert.match(source, /<span>\{isZhLocale \? zhText\(locale, "下一步", "下一步"\) : runtimeUi\.preRegister\}<\/span>/);
 });
 
 test("venue detail consolidates repeated cost modules without hiding them from SSR", () => {
   const detail = venueDetailSource;
-  assert.equal((detail.match(/className="v3-profile-cost-conditions"/g) || []).length, 1);
+  // R110 renamed the single cost disclosure shell to the grouped account-cost section.
+  assert.equal((detail.match(/className="v3-profile-account-section v3-profile-account-cost"/g) || []).length, 1);
   assert.doesNotMatch(detail, /className="v3-venue-metrics-disclosure"/);
   assert.doesNotMatch(detail, /className="v3-detail-calculator-disclosure"/);
   assert.doesNotMatch(premiumCss, /\.v3-venue-metrics-disclosure|\.v3-detail-calculator-disclosure/);
   assert.match(detail, /className="v3-profile-cost-conditions__body"[\s\S]*className="v3-venue-metrics-grid"[\s\S]*className="v3-detail-calculator"[\s\S]*<VenueTieredFeeMatrix/);
-  assert.match(detail, /className="v3-venue-rebate-card"[\s\S]*className="v3-profile-cost-conditions"/);
+  assert.match(detail, /className="v3-venue-rebate-card"[\s\S]*className="v3-profile-account-section v3-profile-account-cost"/);
 });
 
 test("venue detail moves protected invite and registration action into the hero decision area", () => {
   const detail = venueDetailSource;
   const quickIndex = detail.indexOf('className="v3-venue-quick-registration"');
   const directAnswerIndex = detail.indexOf('className="v3-venue-direct-answer"');
-  const costIndex = detail.indexOf('className="v3-profile-cost-conditions"');
+  const costIndex = detail.indexOf('className="v3-profile-account-section v3-profile-account-cost"');
   const fullCardIndex = detail.indexOf('id="registration-checklist"');
   assert.ok(quickIndex > 0, "quick registration strip exists in detail hero");
   assert.ok(quickIndex < directAnswerIndex, "quick registration strip appears before the long direct answer");
@@ -138,8 +141,9 @@ test("venue detail moves protected invite and registration action into the hero 
   assert.match(detail, /detailRegistrationReviewLabel\(locale, \{ hasReferral \}\)/);
   assert.match(detail, /\{registrationReviewLabel\}/);
   assert.doesNotMatch(detail, /前往官网注册|前往官網註冊|Register on Official Site/);
-  assert.doesNotMatch(detail, /href=\{venueCta\.ctaHref\}/);
-  assert.doesNotMatch(detail, /rel=\{venueCta\.direct \? "sponsored noopener noreferrer" : undefined\}/);
+  // Class b, b16ef53 venue split: direct third-party signup moved to the guarded mobile sticky path when it matches the protected CTA.
+  assert.match(detail, /const stickyOpensSignup = stickyDecision\.canOpenThirdParty && stickyDecision\.protectedHref === venueCta\.ctaHref/);
+  assert.match(detail, /stickyOpensSignup \? \([\s\S]*href=\{venueCta\.ctaHref\}[\s\S]*rel="sponsored noopener noreferrer"[\s\S]*data-cta-placement="venue-mobile-sticky"/);
   assert.match(detail, /data-cta-placement="venue-hero-quick-registration"/);
   assert.match(css, /\.v3-venue-quick-registration\s*\{/);
 });
@@ -168,6 +172,7 @@ test("venue detail high-intent controls cannot render English fallbacks for supp
   assert.match(source, /const detailRuntimeUi = \(locale, text, venueName\) => \(\{/);
   assert.match(source, /calculatorOpen: text\.comparisonMatrix/);
   assert.match(source, /calculatorPending: text\.ctaLocked/);
+  // Similar-platform open actions now reuse v3Copy(locale).openDetail rather than the old runtimeUi.similarOpen alias.
   for (const token of [
     "runtimeUi.calculatorOpen",
     "runtimeUi.calculatorTitle(localizedVenueName)",
@@ -175,7 +180,7 @@ test("venue detail high-intent controls cannot render English fallbacks for supp
     "runtimeUi.volumeSlider",
     "runtimeUi.calculatorBenefit(inviteCode)",
     "runtimeUi.calculatorPending",
-    "runtimeUi.similarOpen",
+    "text.openDetail",
     "runtimeUi.showFewer",
     "runtimeUi.showMore(similar.length - 2)",
     "runtimeUi.stickyQuickAction",

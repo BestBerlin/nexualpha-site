@@ -82,19 +82,20 @@ test("venue detail mobile contract keeps the registration path before long evide
     const quickRegistration = firstIndex(html, 'data-cta-surface="venue-profile-main-registration"', context);
     const primaryCta = firstIndex(html, 'data-cta-placement="registration-card-primary"', context);
     const directAnswer = html.indexOf('class="v3-venue-direct-answer"');
-    const invitationDisclosure = firstIndex(html, 'class="v3-registration-notes v3-venue-invitation-disclosure"', context);
+    // R110 venue split moved invitation proof into the grouped Sources chapter while keeping the CTA route before it.
+    const invitationDisclosure = firstIndex(html, 'class="v3-profile-account-block v3-venue-invitation-disclosure"', context);
     const rebateCard = firstIndex(html, 'class="v3-venue-rebate-card"', context);
-    const costDrawer = firstIndex(html, 'class="v3-profile-cost-conditions"', context);
-    const evidenceDrawer = firstIndex(html, 'class="v3-profile-evidence-drawer"', context);
+    const costDrawer = firstIndex(html, 'class="v3-profile-account-section v3-profile-account-cost"', context);
+    const evidenceDrawer = firstIndex(html, 'class="v3-profile-research-chapter" data-research-task="sources"', context);
     const checklist = firstIndex(html, 'id="registration-checklist"', context);
     const stickyBar = firstIndex(html, 'class="v3-mobile-sticky-bar"', context);
 
     assert.ok(quickRegistration < invitationDisclosure, `${context}: quick registration appears before invite proof disclosure`);
     assert.equal((html.match(/data-cta-surface="venue-profile-main-registration"/g) || []).length, 1, `${context}: sole main registration owner`);
     const readiness = firstIndex(html, 'class="venue-readiness"', context);
-    assert.ok(readiness < quickRegistration, `${context}: eligibility/readiness remains before main registration`);
+    assert.ok(readiness < costDrawer, `${context}: eligibility/readiness remains before long cost evidence`);
     if (directAnswer >= 0) {
-      assert.ok(directAnswer < quickRegistration, `${context}: existing product decision and key restrictions remain before main registration`);
+      assert.ok(directAnswer < costDrawer, `${context}: existing product decision and key restrictions remain before long cost evidence`);
     }
     assert.ok(invitationDisclosure < rebateCard, `${context}: invite proof is nested inside the disclosure`);
     assert.ok(rebateCard < costDrawer, `${context}: invite proof remains available before cost drawer`);
@@ -102,9 +103,7 @@ test("venue detail mobile contract keeps the registration path before long evide
     assert.ok(primaryCta < evidenceDrawer, `${context}: primary CTA appears before evidence drawer`);
     assert.ok(stickyBar > checklist, `${context}: sticky CTA stays available after the decision content`);
     assert.match(html, /data-cta-placement="venue-mobile-sticky"/, `${context}: mobile sticky CTA is tracked`);
-    assertClosedDetails(html, "v3-registration-notes v3-venue-invitation-disclosure", context);
-    assertClosedDetails(html, "v3-profile-cost-conditions", context);
-    assertClosedDetails(html, "v3-profile-evidence-drawer", context);
+    assertClosedDetails(html, "v3-profile-sources-group", context);
     assertClosedDetails(html, "v3-registration-notes", context);
     assertClosedDetails(html, "v2-section v3-similar v3-similar-disclosure", context);
     if (locale === "ar") assert.match(html, /dir="rtl"/, `${context}: RTL text direction is represented`);
@@ -154,11 +153,13 @@ test("English compare page mobile contract presents final choice before dense ma
     const scenario = firstIndex(html, 'v3-compare-section-disclosure', context);
 
     assert.ok(stickyBar < hero, `${context}: sticky CTA is mounted before hero for mobile activation`);
+    // R111 keeps the high-intent matrix visible before the final-choice card, then groups repeated evidence below it.
+    assert.ok(matrix < finalChoice, `${context}: metric matrix appears before final choice`);
     assert.ok(finalChoice < versus, `${context}: final choice appears before versus cards`);
-    assert.ok(finalChoice < matrix, `${context}: final choice appears before metric matrix`);
     assert.ok(versus < snapshot, `${context}: snapshot is downgraded below the decisive hero area`);
     assert.ok(versus < scenario, `${context}: hero comparison appears before scenario research drawer`);
-    assert.match(html, /data-mobile-evidence-default="collapsed"/, `${context}: evidence is mobile-collapsed`);
+    assertClosedDetails(html, "v2-section v3-compare-group v3-compare-group--notes", context);
+    assert.match(html, /class="v3-compare-final-choice-evidence"[^>]*aria-label=/, `${context}: source evidence remains grouped below the final choice`);
     assert.match(html, /data-cta-placement="compare-final-choice-registration"/, `${context}: command surface owns the primary registration CTA`);
     assert.match(html, /class="v3-versus-card v3-versus-card--supporting"/, `${context}: versus card is downgraded to supporting evidence`);
     assertClosedDetails(html, "v2-section v3-page-snapshot v3-compare-snapshot v3-compare-snapshot-disclosure", context);
@@ -209,11 +210,12 @@ test("localized compare pages keep dense research collapsed before the matrix", 
     const scenario = firstIndex(html, 'v3-compare-section-disclosure', context);
 
     assert.ok(stickyBar < hero, `${context}: sticky CTA is mounted before hero for mobile activation`);
+    assert.ok(matrix < finalChoice, `${context}: localized metric matrix appears before final choice`);
     assert.ok(finalChoice < versus, `${context}: localized final choice appears before versus cards`);
-    assert.ok(versus < matrix, `${context}: hero comparison appears before metric matrix`);
     assert.ok(versus < snapshot, `${context}: snapshot is downgraded below the decisive hero area`);
     assert.ok(versus < scenario, `${context}: hero comparison appears before research drawers`);
-    assert.match(html, /data-mobile-evidence-default="collapsed"/, `${context}: localized final-choice evidence is collapsed`);
+    assertClosedDetails(html, "v2-section v3-compare-group v3-compare-group--notes", context);
+    assert.match(html, /class="v3-compare-final-choice-evidence"[^>]*aria-label=/, `${context}: localized source evidence remains grouped below the final choice`);
     assert.match(html, /data-cta-placement="compare-final-choice-registration"/, `${context}: localized command surface owns the primary registration CTA`);
     assert.match(html, /class="v3-versus-card v3-versus-card--supporting"/, `${context}: localized versus card is downgraded to supporting evidence`);
     assertClosedDetails(html, "v2-section v3-page-snapshot v3-compare-snapshot v3-compare-snapshot-disclosure", context);
@@ -246,21 +248,19 @@ test("rates page mobile contract answers first and limits the first table payloa
   assert.equal(pages.length, coreLocales.length);
   for (const { locale, html } of pages) {
     const context = `rates/${locale}`;
-    const answer = firstIndex(html, 'class="fee-terminal__answer-block"', context);
-    const nextStep = firstIndex(html, 'class="fee-terminal__next-step"', context);
-    const costDecision = firstIndex(html, 'class="cost-decision', context);
+    const answer = firstIndex(html, 'class="fee-terminal__answer-block ', context);
+    const nextStep = firstIndex(html, 'class="fee-terminal__next-step ', context);
+    const costDecision = firstIndex(html, 'class="cost-decision ', context);
     const rail = firstIndex(html, 'class="decision-path-rail"', context);
     const table = firstIndex(html, 'id="rate-terminal-table"', context);
-    const expand = firstIndex(html, 'class="fee-terminal__expand-btn"', context);
 
     assert.ok(answer < nextStep, `${context}: answer block appears before next-step CTA`);
     assert.ok(nextStep < costDecision, `${context}: CTA bridge appears before calculator results`);
     assert.ok(costDecision < rail, `${context}: calculator appears before related decision rail`);
     assert.ok(rail < table, `${context}: decision rail appears before dense benchmark table`);
-    assert.ok(expand > table, `${context}: mobile expansion control follows the compact table`);
-    assert.match(html, /class="fee-terminal__mobile-extra"/, `${context}: rows after six are marked for mobile hiding`);
-    assert.match(html, /aria-expanded="false"/, `${context}: table expansion defaults closed`);
-    assert.match(html, /class="fee-terminal__table-wrapper" tabindex="0"/, `${context}: table wrapper remains keyboard reachable`);
+    // R11 renders reviewed rows directly and collapses only the unsourced venue group in-table.
+    assert.match(html, /class="ft-pending"[\s\S]*<details>/, `${context}: pending venue payload stays collapsed after reviewed rows`);
+    assert.match(html, /class="fee-terminal__table-wrapper [^"]*" tabindex="0"/, `${context}: table wrapper remains keyboard reachable`);
     if (locale === "ar") assert.match(html, /dir="rtl"/, `${context}: RTL table direction is represented`);
   }
 });
@@ -276,6 +276,6 @@ test("mobile disclosure controls keep keyboard and touch affordances in CSS", as
   assert.match(layoutCss, /\.v3-registration-notes > summary[\s\S]*cursor:\s*pointer/, "venue registration notes summary is visibly interactive");
   assert.match(compareCss, /\.v3-compare-section-disclosure > summary[\s\S]*cursor:\s*pointer/, "compare section summary is visibly interactive");
   assert.match(compareCss, /\.v3-compare-final-choice-card__evidence > summary[\s\S]*cursor:\s*pointer/, "compare evidence summary is visibly interactive");
-  assert.match(ratesCss, /\.fee-terminal__expand-btn[\s\S]*min-height:\s*44px/, "rates expand button has a mobile tap target");
+  assert.match(ratesCss, /\.fee-terminal__table-wrapper:focus-visible[\s\S]*outline:/, "rates table wrapper has a keyboard focus state");
   assert.match(ratesCss, /\.fee-terminal__table-wrapper[\s\S]*overflow-x:\s*auto/, "rates table remains horizontally scrollable instead of overflowing the page");
 });

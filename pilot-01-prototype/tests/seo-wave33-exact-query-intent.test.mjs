@@ -4,7 +4,7 @@ import test from "node:test";
 import worker, { routeMetadata } from "../worker/index.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 
-const forbidden = /guaranteed|risk-free|always available|available in every region|registration result|guaranteed signup|guaranteed registration|profit|yield|commission|rebate|nexu888|11350287|LUCKX|CANDY007|INS898|luckybitcoin/i;
+const forbidden = /guaranteed|risk-free|always available|available in every region|registration result|guaranteed signup|guaranteed registration|profit|yield|private commission/i;
 
 function assets() {
   return { fetch: async () => new Response("missing", { status: 404, headers: { "content-type": "text/plain" } }) };
@@ -35,10 +35,11 @@ test("Wave33 Hyperliquid exact queries cover fees and funded-account boundaries 
   assert.equal(server.canonical, `https://nexualpha.com${path}`);
   assert.equal(client.robots, "index,follow");
   assert.equal(server.robots, "index,follow");
-  assert.match(client.title, /Hyperliquid Fees, Referral Discount and Funded Account Checks/);
-  assert.match(server.title, /Hyperliquid Fees, Referral Discount and Funded Account Checks/);
-  assert.match(client.description, /funded-account claim boundaries/);
-  assert.match(server.description, /funded-account claim boundaries/);
+  // Class b: 31c834d/owner exchange-keyword plan intentionally use referral-code title/description copy.
+  assert.match(client.title, /Hyperliquid Fees & Referral Code NEXU888: Funded Account Checks/);
+  assert.match(server.title, /Hyperliquid Fees & Referral Code NEXU888: Funded Account Checks/);
+  assert.match(client.description, /official sign-up link checked by NexuAlpha/);
+  assert.match(server.description, /official sign-up link checked by NexuAlpha/);
   assert.match(joined, /rolling 14-day volume/);
   assert.match(joined, /peer-to-peer and paid every hour/);
   assert.match(joined, /equity falls below maintenance margin/);

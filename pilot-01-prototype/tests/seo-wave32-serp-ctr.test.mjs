@@ -35,13 +35,15 @@ test("Wave32 news SERP overrides sharpen top-ten zero-CTR article snippets witho
       path: "/news/okx-usd-to-usdc-spot-pair-migration",
       article: article("okx-usd-to-usdc-spot-pair-migration"),
       title: /^OKX USD to USDC Migration \(Sept 2026\): API, Orders and Bots/,
-      description: /open orders, bots, API instId and tradeQuoteCcy fields/,
+      // Class b: 6435cda shortened the snippet while preserving the same migration fields.
+      description: /open orders, bots, API instId and tradeQuoteCcy/,
       about: /OKX USD to USDC spot-pair migration/,
     },
     {
       path: "/news/hyperliquid-vs-dydx",
       article: article("hyperliquid-vs-dydx"),
-      title: /Hyperliquid vs dYdX: Fees, Funding and Liquidation — NexuAlpha/,
+      // Class b: long search titles now drop the trailing brand suffix through budgetTitle.
+      title: /Hyperliquid vs dYdX: Fees, Funding and Liquidation/,
       description: /fees, funding, collateral, liquidation, oracle, wallet and recovery mechanics/,
       about: /choose Hyperliquid or dYdX for perp DEX trading/,
     },
@@ -70,14 +72,16 @@ test("Wave32 DEX profile SERP snippets keep parity and source-bound intent for A
   const cases = [
     {
       path: "/exchanges/aerodrome",
-      title: /Aerodrome Review: Base DEX Fees, Pools, Slipstream & veAERO — NexuAlpha/,
+      // Class b: long search titles now drop the trailing brand suffix through budgetTitle.
+      title: /Aerodrome Review: Base DEX Fees, Pools, Slipstream & veAERO/,
       description: /pool-level fees, Slipstream routing, Base bridge, token contracts, gas, incentives and veAERO reward boundaries/,
       question: /Aerodrome route and pool fee plus veAERO conditions/,
       answer: /standard or Slipstream pool type.*displayed pool fee.*price impact/,
     },
     {
       path: "/exchanges/jupiter",
-      title: /Jupiter Solana Swap Routes, Ultra Quotes and Fee Checks — NexuAlpha/,
+      // Class b: long search titles now drop the trailing brand suffix through budgetTitle.
+      title: /Jupiter Solana Swap Routes, Ultra Quotes and Fee Checks/,
       description: /no-route or failed-swap causes, platform fee boundaries, slippage, priority fees and route legs/,
       question: /Jupiter route, test quote and platform fee conditions/,
       answer: /failed-swap diagnosis/,

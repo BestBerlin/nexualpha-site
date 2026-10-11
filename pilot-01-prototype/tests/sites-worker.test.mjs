@@ -120,7 +120,8 @@ test("HTML asset responses preserve existing CSP while adding frame protection",
   assert.equal(response.headers.get("referrer-policy"), null);
   assert.equal(response.headers.get("x-content-type-options"), null);
   assert.equal(response.headers.get("permissions-policy"), EXPECTED_HTML_PERMISSIONS_POLICY);
-  assert.equal(response.headers.get("cache-control"), "public, max-age=300, stale-while-revalidate=600");
+  // Class b: PR #79 makes personalized home experiment responses private.
+  assert.equal(response.headers.get("cache-control"), "private, max-age=300");
 });
 
 test("HTML asset responses remove edge-owned security headers and keep app-owned headers", async () => {
@@ -262,7 +263,8 @@ test("Singapore regional worker metadata keeps answer-first checks and onsite CT
   const faq = graph.find((entry) => entry["@type"] === "FAQPage");
 
   assert.equal(response.status, 200);
-  assert.match(html, /<title translate="no" lang="en">Singapore crypto account checks: MAS DPT, SGD, PayNow and FAST — NexuAlpha<\/title>/);
+  // Class b: 3c54a66 removes the brand suffix from long head titles.
+  assert.match(html, /<title translate="no" lang="en">Singapore crypto account checks: MAS DPT, SGD, PayNow and FAST<\/title>/);
   assert.deepEqual(webPage.relatedLink, [
     "https://nexualpha.com/exchanges?market=SG&product=spot",
     "https://nexualpha.com/rates?market=SG&product=spot",

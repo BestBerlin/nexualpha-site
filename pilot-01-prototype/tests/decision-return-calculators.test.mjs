@@ -44,8 +44,8 @@ test('calculator restore helpers accept only their own scenario kind', async () 
       costZero: restoreCostDecisionState('?scenario=cost&instrument=spot&order=taker&volume=0'),
       costRejectFees: restoreCostDecisionState('?scenario=fees&venue=bitget&instrument=spot&volume=500000'),
       reviewedSpotMaker: Object.fromEntries(['binance', 'bybit', 'bitget'].map(slug => [slug, reviewedCostDecisionRate(venueDatabase[slug], 'spotFee', 'makerRate')?.rate * 100000])),
-      okxPending: reviewedCostDecisionRate(venueDatabase.okx, 'spotFee', 'makerRate'),
-      bitgetFuturesPending: reviewedCostDecisionRate(venueDatabase.bitget, 'futuresFee', 'makerRate'),
+      okxSpotReviewed: reviewedCostDecisionRate(venueDatabase.okx, 'spotFee', 'makerRate'),
+      bitgetFuturesReviewed: reviewedCostDecisionRate(venueDatabase.bitget, 'futuresFee', 'makerRate'),
       bleedSpotCost: calculateBleedScenario({ db: venueDatabase.bitget, type: 'spot', volume: 100000 }),
       bleedFuturesPending: calculateBleedScenario({ db: venueDatabase.bitget, type: 'futures', volume: 100000 }),
       bleedOkxPending: reviewedBleedAnalyzerRate(venueDatabase.okx, 'spot'),
@@ -63,16 +63,19 @@ test('calculator restore helpers accept only their own scenario kind', async () 
   assert.deepEqual(result.fees, { selectedSlug: 'bitget', type: 'spot', volIndex: 5 });
   assert.equal(result.feesRejectCost, null);
   assert.equal(result.feesRejectOffTier, null);
-  assert.deepEqual(result.cost, { volume: '12500.25', market: 'futuresFee', order: 'makerRate' });
-  assert.deepEqual(result.costZero, { volume: '0', market: 'spotFee', order: 'takerRate' });
+  // NX-03 added an explicit base/rebate basis to cost restore state; old URLs default safely to base.
+  assert.deepEqual(result.cost, { volume: '12500.25', market: 'futuresFee', order: 'makerRate', basis: 'base' });
+  assert.deepEqual(result.costZero, { volume: '0', market: 'spotFee', order: 'takerRate', basis: 'base' });
   assert.equal(result.costRejectFees, null);
   assert.deepEqual(result.reviewedSpotMaker, { binance: 100, bybit: 100, bitget: 100 });
-  // OKX spot became an official reviewed record on 2026-10-08 (docs/data/exchange-facts-20261008.json).
-  assert.equal(result.okxPending?.rate * 100000, 80);
-  assert.equal(result.bitgetFuturesPending, null);
+  // 2026-10-10 reviewed base-fee rows promote OKX spot and Bitget futures from pending to source-backed rates.
+  assert.equal(result.okxSpotReviewed?.rate * 100000, 80);
+  assert.equal(result.okxSpotReviewed?.reviewedRate?.sourceUrl, 'https://www.okx.com/fees');
+  assert.equal(result.bitgetFuturesReviewed?.rate * 100000, 20);
+  assert.equal(result.bitgetFuturesReviewed?.reviewedRate?.sourceUrl, 'https://www.bitget.com/support/articles/12560603892734');
   assert.deepEqual(result.bleedSpotCost, { rate: 0.001, annualTotalFee: 1200, annualBleed: 0 });
-  assert.deepEqual(result.bleedFuturesPending, { rate: null, annualTotalFee: null, annualBleed: null });
-  assert.equal(result.bleedOkxPending, null);
+  assert.deepEqual(result.bleedFuturesPending, { rate: 0.0006, annualTotalFee: 720, annualBleed: 0 });
+  assert.equal(result.bleedOkxPending * 100000, 100);
   assert.deepEqual(result.copySuccess, { status: 'copied', value: 'nexu888' });
   assert.deepEqual(result.copyFailure, { status: 'failed', value: 'nexu888' });
   assert.deepEqual(result.copyUnavailable, { status: 'failed', value: 'iframe' });
@@ -97,7 +100,7 @@ test('calculator SSR defaults stay stable while exposing return-copy controls', 
   assert.doesNotMatch(fees, /Save report to Telegram Bot|保存诊断至 Telegram/);
   assert.match(fees, /Copy link to continue later/);
   assert.match(fees, /nexu888/);
-  assert.match(fees, /Pending/);
+  assert.match(fees, /User benefit pending official verification/);
   assert.doesNotMatch(fees, /bleed-verdict__numbers/);
   assert.doesNotMatch(fees, /bleed-seats-counter/);
   assert.equal((fees.match(/User benefit pending official verification/g) || []).length, 1);
@@ -112,13 +115,15 @@ test('calculator SSR defaults stay stable while exposing return-copy controls', 
   for (const venue of ['Binance', 'Bybit', 'Bitget']) {
     const match = cost.match(new RegExp(`<article><h3>${venue}</h3>[\\s\\S]*?</article>`));
     assert.ok(match, `${venue} card should render`);
-    assert.match(match[0], /<p class=\"cost-decision__amount\">100<small> USDT\/mo<\/small><\/p>/);
+    assert.match(match[0], /<p class=\"cost-decision__amount\">100<small> USDT\/mo<\/small><small class=\"rt-basis\" data-basis=\"base\">per month · base fees<\/small><\/p>/);
     assert.match(match[0], /View fee source/);
   }
   const okx = cost.match(/<article><h3>OKX<\/h3>[\s\S]*?<\/article>/);
   assert.ok(okx, 'OKX card should render');
-  assert.match(okx[0], /Pending source review/);
-  assert.doesNotMatch(okx[0], /View fee source/);
+  // OKX spot became an official reviewed record on 2026-10-10.
+  assert.match(okx[0], /href="https:\/\/www\.okx\.com\/fees"/);
+  assert.match(okx[0], /View fee source/);
+  assert.doesNotMatch(okx[0], /Pending source review/);
 });
 
 

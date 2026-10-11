@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile, mkdtemp, mkdir, copyFile, writeFile, unlink, rm } from 'node:fs/promises';
+import { readFile, mkdtemp, mkdir, copyFile, writeFile, unlink, rm, cp } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -10,7 +10,6 @@ import { promisify } from 'node:util';
 const run = promisify(execFile);
 const root = fileURLToPath(new URL('../', import.meta.url));
 const shared = ['topic-reviewed-faqs.js','topic-source-registry.js','topic-guides-data.js','exchange-research.js','tokenized-assets-cluster.js','news-feed-client.js','locale-routing.js'];
-const runtimeData = [...shared,'reviewed-news-publication.js','tracking-attribution.js'];
 async function importWorker(entry) {
  const code = `globalThis.fetch=()=>{throw new Error('External network forbidden');};
   const {default:worker}=await import(${JSON.stringify(pathToFileURL(entry).href)});
@@ -35,7 +34,7 @@ test('isolated dist package imports without repository fallback and missing tran
   await writeFile(path.join(dir,'package.json'),'{"type":"module"}\n');
   const entry=path.join(dir,'server/index.js');
   await copyFile(path.join(root,'dist/server/index.js'),entry);
-  for(const name of runtimeData)await copyFile(path.join(root,'dist/src/data',name),path.join(dir,'src/data',name));
+  await cp(path.join(root,'dist/src/data'),path.join(dir,'src/data'),{recursive:true});
   assert.match((await importWorker(entry)).stdout,/STANDALONE_IMPORT_PASS/);
   await unlink(path.join(dir,'src/data/topic-reviewed-faqs.js'));
   await assert.rejects(importWorker(entry),error=>{assert.match(error.stderr,/topic-reviewed-faqs\.js/);return true;});

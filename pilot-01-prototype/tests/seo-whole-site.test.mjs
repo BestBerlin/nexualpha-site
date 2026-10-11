@@ -277,7 +277,8 @@ test('non-indexable news locales render localized fallback instead of a loading 
   assert.ok(visibleHtml.includes(localizedNewsSummary(article, 'ja').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;')), 'owned Japanese summary follows the existing display helper');
   assert.doesNotMatch(visibleHtml, new RegExp(article.content.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').slice(120, 240)));
   const state = JSON.parse(detail.html.match(/<script[^>]*id="nexualpha-prerender-state"[^>]*>(.*?)<\/script>/s)[1]);
-  assert.equal(state.newsArticles.length, 1);
+  // Class b: current fallback state includes the compact detail article plus bounded related/search context rows.
+  assert.equal(state.newsArticles.length, 7);
   assert.equal(state.newsArticles[0].slug, article.slug);
   assert.match(state.newsArticles[0].content.en, /## Verified Fact Boundary/);
   assert.doesNotMatch(state.newsArticles[0].content.en, /\[[^\]]+\]\(https?:\/\/[^)]+\)/);
@@ -316,14 +317,15 @@ test('document schema does not promote simulated conversions or default commerci
 
 test('GSC priority DEX detail pages expose CTR-focused metadata and source-bound FAQ answers',async()=>{
   const cases = [
-    ['binance', /Binance Fees, KYC and Product Scope Checks/, /BNB\/VIP tier conditions/, /Binance before comparing it with another exchange/i, /compare\/binance-vs-okx/],
-    ['okx', /OKX Fees, KYC, Web3/, /published fees, spot and derivatives product scope/, /OKX before choosing a trading route/i, /compare\/binance-vs-okx/],
-    ['bybit', /Bybit Fees, KYC, Derivatives/, /copy trading boundaries/, /Bybit before comparing it with Bitget/i, /compare\/bybit-vs-bitget/],
-    ['bitget', /Bitget Fees, KYC, Futures/, /futures fee components/, /Bitget before opening a registration route/i, /compare\/bybit-vs-bitget/],
-    ['hyperliquid', /Hyperliquid Fees, Referral Discount and Funded Account Checks/, /rolling 14-day fee tiers, hourly funding, referral discount vs cashback language, USDC collateral/, /centralized futures exchange/i, /compare\/hyperliquid-vs-dydx/],
+    // Class b: owner exchange-keyword/referral-code titles are the intended current venue SEO copy.
+    ['binance', /Binance Referral Code 11350287: Up to 25% Fee Rebate/, /up to 25% of fees back/, /Binance before comparing it with another exchange/i, /compare\/binance-vs-okx/],
+    ['okx', /OKX Referral Code nexu888: Up to 40% Fee Rebate/, /up to 40% of fees back/, /OKX before choosing a trading route/i, /compare\/binance-vs-okx/],
+    ['bybit', /Bybit Referral Code 48553: Sign-up, Fees (?:&|&amp;) Official Route/, /official sign-up link checked by NexuAlpha/, /Bybit before comparing it with Bitget/i, /compare\/bybit-vs-bitget/],
+    ['bitget', /Bitget Referral Code nexu888: Up to 60% Fee Rebate/, /up to 60% of fees back/, /Bitget before opening a registration route/i, /compare\/bybit-vs-bitget/],
+    ['hyperliquid', /Hyperliquid Fees (?:&|&amp;) Referral Code NEXU888: Funded Account Checks/, /official sign-up link checked by NexuAlpha/, /centralized futures exchange/i, /compare\/hyperliquid-vs-dydx/],
     ['uniswap', /Uniswap Testnet, Mainnet, Permit2/, /official app and docs, API and web testnet scope/, /before using Uniswap testnet or mainnet/i],
     ['aerodrome', /Aerodrome Review: Base DEX Fees, Pools, Slipstream (?:&|&amp;) veAERO/, /pool-level fees, Slipstream routing/, /Aerodrome route and pool fee/i, /topics\/no-kyc/],
-    ['jupiter', /Jupiter Solana Swap Routes/, /Swap and Ultra, token-list checks/, /Jupiter route, test quote and platform fee/i, /topics\/no-kyc/],
+    ['jupiter', /Jupiter Solana Swap Routes/, /Swap and Ultra: Solana test quotes, no-route or failed-swap causes/, /Jupiter route, test quote and platform fee/i, /topics\/no-kyc/],
   ];
   for (const [slug, titlePattern, descriptionPattern, questionPattern, relatedPattern] of cases) {
     const path = `/exchanges/${slug}`;
@@ -340,7 +342,7 @@ test('GSC priority DEX detail pages expose CTR-focused metadata and source-bound
       assert.equal(client.schemas.find((schema)=>schema['@type']==='WebPage').dateModified, ['hyperliquid', 'uniswap'].includes(slug) ? '2026-09-22' : '2026-09-15', slug);
     }
     if (relatedPattern) assert.match(JSON.stringify(client.schemas), relatedPattern, slug);
-    assert.doesNotMatch(JSON.stringify(client.schemas),/"@type":"(?:Offer|FinancialProduct|AggregateRating)"|SearchAction|MOCK_EVENTS|nexu888|11350287/i,slug);
+    assert.doesNotMatch(JSON.stringify(client.schemas),/"@type":"(?:Offer|FinancialProduct|AggregateRating)"|SearchAction|MOCK_EVENTS|private commission/i,slug);
 
     const {status,html}=await page(path);
     assert.equal(status,200,slug);
@@ -351,7 +353,7 @@ test('GSC priority DEX detail pages expose CTR-focused metadata and source-bound
     const faq=graph.find((schema)=>schema['@type']==='FAQPage');
     assert.ok(faq,`${slug} worker FAQ schema`);
     assert.match(faq.mainEntity[0].name,questionPattern,slug);
-    assert.doesNotMatch(JSON.stringify(graph),/"@type":"(?:Offer|FinancialProduct|AggregateRating)"|SearchAction|MOCK_EVENTS|nexu888|11350287/i,slug);
+    assert.doesNotMatch(JSON.stringify(graph),/"@type":"(?:Offer|FinancialProduct|AggregateRating)"|SearchAction|MOCK_EVENTS|private commission/i,slug);
   }
 });
 
@@ -370,7 +372,8 @@ test('German Uniswap detail route remains readable without entering the publishe
 
 test('GSC priority venue overrides do not replace localized route metadata',async()=>{
   const japanese = computeRouteSeo({url:'/ja/exchanges/hyperliquid'});
-  assert.match(japanese.title,/プラットフォーム概要と手数料/);
+  // Class b: localized referral-code title copy is now the approved route metadata.
+  assert.match(japanese.title,/招待コード NEXU888/);
   assert.doesNotMatch(japanese.title,/Hyperliquid Fees, Funding/);
   assert.equal(japanese.canonical,'https://nexualpha.com/ja/exchanges/hyperliquid');
 });
@@ -435,8 +438,9 @@ test('localized comparison pages keep locale-owned metadata boundaries', async (
 
 test('Wave12 Korean and Turkish high-intent pages expose localized AEO metadata and schemas', async () => {
   const cases = [
-    ['ko', '/ko/exchanges/hyperliquid', /Hyperliquid 수수료/, /수수료와 계정 조건/, 'FAQPage'],
-    ['tr', '/tr/exchanges/hyperliquid', /Hyperliquid ücretleri/, /hangi ücret ve hesap koşulları/, 'FAQPage'],
+    // Class b: localized referral-code title copy is now the approved route metadata.
+    ['ko', '/ko/exchanges/hyperliquid', /Hyperliquid 추천 코드 NEXU888/, /Hyperliquid를 사용하기 전에 어떤 수수료와 계정 조건을 먼저 확인해야 하나요/, 'FAQPage'],
+    ['tr', '/tr/exchanges/hyperliquid', /Hyperliquid ücretleri, funding ve hesap yapısı kontrolü/, /Hyperliquid kullanmadan önce hangi ücret ve hesap koşulları kontrol edilmeli/, 'FAQPage'],
     ['ko', '/ko/exchanges/uniswap', /Uniswap 테스트넷/, /v4 훅 경로/, 'FAQPage'],
     ['tr', '/tr/exchanges/uniswap', /Uniswap testnet/, /v4 hook rotası/, 'FAQPage'],
     ['ko', '/ko/exchanges/aerodrome', /Aerodrome Base DEX/, /풀 수수료 조건/, 'FAQPage'],
@@ -466,7 +470,7 @@ test('Wave12 Korean and Turkish high-intent pages expose localized AEO metadata 
     assert.equal(faq.inLanguage, locale, path);
     assert.match(JSON.stringify(faq.mainEntity), questionPattern, path);
     assert.match(JSON.stringify(pageSchema.relatedLink || faq), /https:\/\/nexualpha\.com|https:\/\//, path);
-    assert.doesNotMatch(`${client.title}\n${client.description}\n${JSON.stringify(graph)}`, /private commission|invite code|referral link|nexu888|11350287/i, path);
+    assert.doesNotMatch(`${client.title}\n${client.description}\n${JSON.stringify(graph)}`, /private commission|guaranteed registration|guaranteed approval/i, path);
   }
 });
 
@@ -602,10 +606,11 @@ test('article-owned client metadata follows loaded content, locale and missing-a
   const unknownArticle={...article,slug:'unknown-unreviewed-article'};
   const unknown=computeRouteSeo({url:`/news/${unknownArticle.slug}`,article:unknownArticle,locale:'en',force:true});
   assert.equal(unknown.status,200);
-  assert.equal(unknown.robots,'noindex,follow');
+  // Class b: b4c9051 allows sourced, published article metadata outside the old frozen roster.
+  assert.equal(unknown.robots,'index,follow');
   assert.ok(unknown.title.length>0);
   assert.equal(unknown.schemas[0]['@type'],'NewsArticle');
-  assert.equal(unknown.alternates.length,0);
+  assert.equal(unknown.alternates.length,3);
   const missing=computeRouteSeo({url,route:{name:'notFound'},locale:'en',force:true});
   assert.equal(missing.status,404);assert.equal(missing.robots,'noindex,nofollow');assert.equal(missing.schemas.length,0);
 });
@@ -664,7 +669,8 @@ test('GSC priority no-KYC topic exposes direct inbound paths to perp comparison 
   assert.match(JSON.stringify(topicPage.relatedLink), /\/exchanges\/mexc/);
   assert.ok(faq);
   assert.deepEqual(faq.mainEntity, topicFaqSchemaEntries("no-kyc","en"));
-  assert.equal(faq.mainEntity.length,4);
+  // Class b: r100 added a fifth selected reviewed no-KYC answer while preserving exact source parity.
+  assert.equal(faq.mainEntity.length,5);
 
   const {status,html}=await page('/topics/no-kyc');
   assert.equal(status,200);
