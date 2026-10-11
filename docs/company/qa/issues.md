@@ -13,5 +13,8 @@ Severity: S1 blocking / data error · S2 core UX or SEO defect · S3 consistency
 | 7 | S3 | /about at 320px | 10 tap targets < 24px (contact list links) | Enlarge link padding | open |
 | 8 | — | QA tooling | `qa-flows.py` false negatives: directory search typed before hydration; language menu lives in the drawer on mobile | Script fixed | fixed |
 | 9 | — | false positives | "undefined"/"TBD" in article prose (quoted source wording), sr-only spans flagged as clipped, aborted prefetches flagged as failed requests, legacy market pages (/br, /hk, /tw…) have their own `lang` | none | closed |
+| 10 | S2 | /<locale>/topics, /<locale>/factbook (noindex fallback locales, e.g. /ja/topics) | SSR fallback body replaced by the client render: CLS 0.3–0.8 at 390 (`browser-sweep.jsonl`, `clip2.py`) — same family as #1 | Request-time SSR of the localized component for fallback locales | open (after #1 lands) |
+| 11 | S2 | /tr/activities at 390 | React error #418 (hydration text mismatch) in the console | Same SSR/client copy source for activities | fixing (agent news-ssr-cls) |
+| 12 | S3 | /compare/* at 390 | Small shifts (CLS 0.02–0.05) from the hero actions / disclosure line after hydration | Reserve height for the hero action row | open |
 
 Open counts are maintained in `coverage.md`.
