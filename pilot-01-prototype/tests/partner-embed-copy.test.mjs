@@ -4,7 +4,8 @@ import { readFile } from "node:fs/promises";
 import { PARTNER_EMBED_LOCALIZED_LOCALES, partnerEmbedCopy } from "../src/data/partner-embed-copy.js";
 
 test("priority partner embed routes have complete localized copy", () => {
-  for (const locale of ["zh-Hans", "zh-Hant", "ja", "ko", "tr", "es", "pt-BR"]) {
+  // 2026-10-11: the embed guide ships in every UI locale (fr, de, it, ru, id, vi, ar were English fallbacks before).
+  for (const locale of ["zh-Hans", "zh-Hant", "ja", "ko", "tr", "es", "pt-BR", "fr", "de", "it", "ru", "id", "vi", "ar"]) {
     const copy = partnerEmbedCopy(locale);
     assert.ok(PARTNER_EMBED_LOCALIZED_LOCALES.includes(locale));
     assert.equal(copy.cards.length, 3, `${locale} cards`);

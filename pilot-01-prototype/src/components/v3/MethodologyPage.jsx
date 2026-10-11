@@ -2,24 +2,29 @@ import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { enFallback } from "../../utils/fallback-lang.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { getTextDirection } from "../../paraglide/runtime.js";
+import { formatDate, formatMonthYear } from "../../data/format-date.js";
 import "./methodology-page.css";
 
+const RESEARCH_PAGE_REVIEWED_AT = "2026-09-15";
+const METHODOLOGY_REVISED_MONTH = "2026-09";
+const METHODOLOGY_SPEC_VERSION = "v3.8";
+
 const researchTrustCopy = {
-  en: { label: "Research identity", byline: "Published by NexuAlpha Research Desk", reviewed: "Page reviewed 2026-09-15", assets: "Downloadable research data", perp: "Perp cost-field dictionary", funding: "Regional funding verification matrix", json: "JSON", csv: "CSV" },
-  "zh-Hans": { label: "研究身份", byline: "由 NexuAlpha 研究团队发布", reviewed: "页面复核：2026-09-15", assets: "可下载研究数据", perp: "永续合约成本字段字典", funding: "区域入金核验矩阵", json: "JSON", csv: "CSV" },
-  "zh-Hant": { label: "研究身分", byline: "由 NexuAlpha 研究團隊發布", reviewed: "頁面複核：2026-09-15", assets: "可下載研究資料", perp: "永續合約成本欄位字典", funding: "區域入金核驗矩陣", json: "JSON", csv: "CSV" },
-  es: { label: "Identidad de investigación", byline: "Publicado por NexuAlpha Research Desk", reviewed: "Página revisada: 2026-09-15", assets: "Datos de investigación descargables", perp: "Diccionario de costes de perpetuos", funding: "Matriz regional de verificación de fondos", json: "JSON", csv: "CSV" },
-  "pt-BR": { label: "Identidade da pesquisa", byline: "Publicado pela equipe de pesquisa NexuAlpha", reviewed: "Página revisada: 2026-09-15", assets: "Dados de pesquisa para download", perp: "Dicionário de custos de perpétuos", funding: "Matriz regional de verificação de depósitos", json: "JSON", csv: "CSV" },
-  fr: { label: "Identité de la recherche", byline: "Publié par le NexuAlpha Research Desk", reviewed: "Page révisée : 2026-09-15", assets: "Données de recherche téléchargeables", perp: "Dictionnaire des coûts des perpétuels", funding: "Matrice régionale de vérification des dépôts", json: "JSON", csv: "CSV" },
-  de: { label: "Forschungsidentität", byline: "Veröffentlicht vom NexuAlpha Research Desk", reviewed: "Seite geprüft: 2026-09-15", assets: "Herunterladbare Forschungsdaten", perp: "Kostenfeld-Lexikon für Perpetuals", funding: "Regionale Einzahlungs-Prüfmatrix", json: "JSON", csv: "CSV" },
-  ja: { label: "調査主体", byline: "NexuAlpha Research Desk が公開", reviewed: "ページ確認日：2026-09-15", assets: "ダウンロード可能な調査データ", perp: "無期限契約のコスト項目辞書", funding: "地域別入金確認マトリクス", json: "JSON", csv: "CSV" },
-  ko: { label: "연구 주체", byline: "NexuAlpha Research Desk 게시", reviewed: "페이지 검토일: 2026-09-15", assets: "다운로드 가능한 연구 데이터", perp: "무기한 계약 비용 필드 사전", funding: "지역별 입금 검증 매트릭스", json: "JSON", csv: "CSV" },
-  ar: { label: "هوية البحث", byline: "منشور بواسطة فريق أبحاث NexuAlpha", reviewed: "تمت مراجعة الصفحة: 2026-09-15", assets: "بيانات بحث قابلة للتنزيل", perp: "قاموس حقول تكلفة العقود الدائمة", funding: "مصفوفة التحقق من التمويل الإقليمي", json: "JSON", csv: "CSV" },
-  tr: { label: "Araştırma kimliği", byline: "NexuAlpha Research Desk tarafından yayımlandı", reviewed: "Sayfa inceleme tarihi: 2026-09-15", assets: "İndirilebilir araştırma verileri", perp: "Sürekli vadeli maliyet alanları sözlüğü", funding: "Bölgesel fonlama doğrulama matrisi", json: "JSON", csv: "CSV" },
-  ru: { label: "Авторство исследования", byline: "Опубликовано NexuAlpha Research Desk", reviewed: "Страница проверена: 2026-09-15", assets: "Данные для скачивания", perp: "Словарь полей стоимости бессрочных контрактов", funding: "Матрица проверки регионального пополнения", json: "JSON", csv: "CSV" },
-  id: { label: "Identitas riset", byline: "Diterbitkan oleh NexuAlpha Research Desk", reviewed: "Halaman ditinjau: 2026-09-15", assets: "Data riset yang dapat diunduh", perp: "Kamus bidang biaya perpetual", funding: "Matriks verifikasi pendanaan regional", json: "JSON", csv: "CSV" },
-  vi: { label: "Danh tính nghiên cứu", byline: "Được xuất bản bởi NexuAlpha Research Desk", reviewed: "Trang được rà soát: 2026-09-15", assets: "Dữ liệu nghiên cứu có thể tải xuống", perp: "Từ điển trường chi phí hợp đồng vĩnh cửu", funding: "Ma trận xác minh nạp tiền theo khu vực", json: "JSON", csv: "CSV" },
-  it: { label: "Identità della ricerca", byline: "Pubblicato dal NexuAlpha Research Desk", reviewed: "Pagina verificata: 2026-09-15", assets: "Dati di ricerca scaricabili", perp: "Dizionario dei costi dei perpetual", funding: "Matrice regionale di verifica dei depositi", json: "JSON", csv: "CSV" },
+  en: { label: "Research identity", byline: "Published by NexuAlpha Research Desk", reviewed: "Page reviewed {date}", assets: "Downloadable research data", perp: "Perp cost-field dictionary", funding: "Regional funding verification matrix", json: "JSON", csv: "CSV" },
+  "zh-Hans": { label: "研究身份", byline: "由 NexuAlpha 研究团队发布", reviewed: "页面复核：{date}", assets: "可下载研究数据", perp: "永续合约成本字段字典", funding: "区域入金核验矩阵", json: "JSON", csv: "CSV" },
+  "zh-Hant": { label: "研究身分", byline: "由 NexuAlpha 研究團隊發布", reviewed: "頁面複核：{date}", assets: "可下載研究資料", perp: "永續合約成本欄位字典", funding: "區域入金核驗矩陣", json: "JSON", csv: "CSV" },
+  es: { label: "Identidad de investigación", byline: "Publicado por NexuAlpha Research Desk", reviewed: "Página revisada: {date}", assets: "Datos de investigación descargables", perp: "Diccionario de costes de perpetuos", funding: "Matriz regional de verificación de fondos", json: "JSON", csv: "CSV" },
+  "pt-BR": { label: "Identidade da pesquisa", byline: "Publicado pela equipe de pesquisa NexuAlpha", reviewed: "Página revisada: {date}", assets: "Dados de pesquisa para download", perp: "Dicionário de custos de perpétuos", funding: "Matriz regional de verificação de depósitos", json: "JSON", csv: "CSV" },
+  fr: { label: "Identité de la recherche", byline: "Publié par le NexuAlpha Research Desk", reviewed: "Page révisée : {date}", assets: "Données de recherche téléchargeables", perp: "Dictionnaire des coûts des perpétuels", funding: "Matrice régionale de vérification des dépôts", json: "JSON", csv: "CSV" },
+  de: { label: "Forschungsidentität", byline: "Veröffentlicht vom NexuAlpha Research Desk", reviewed: "Seite geprüft: {date}", assets: "Herunterladbare Forschungsdaten", perp: "Kostenfeld-Lexikon für Perpetuals", funding: "Regionale Einzahlungs-Prüfmatrix", json: "JSON", csv: "CSV" },
+  ja: { label: "調査主体", byline: "NexuAlpha Research Desk が公開", reviewed: "ページ確認日：{date}", assets: "ダウンロード可能な調査データ", perp: "無期限契約のコスト項目辞書", funding: "地域別入金確認マトリクス", json: "JSON", csv: "CSV" },
+  ko: { label: "연구 주체", byline: "NexuAlpha Research Desk 게시", reviewed: "페이지 검토일: {date}", assets: "다운로드 가능한 연구 데이터", perp: "무기한 계약 비용 필드 사전", funding: "지역별 입금 검증 매트릭스", json: "JSON", csv: "CSV" },
+  ar: { label: "هوية البحث", byline: "منشور بواسطة فريق أبحاث NexuAlpha", reviewed: "تمت مراجعة الصفحة: {date}", assets: "بيانات بحث قابلة للتنزيل", perp: "قاموس حقول تكلفة العقود الدائمة", funding: "مصفوفة التحقق من التمويل الإقليمي", json: "JSON", csv: "CSV" },
+  tr: { label: "Araştırma kimliği", byline: "NexuAlpha Research Desk tarafından yayımlandı", reviewed: "Sayfa inceleme tarihi: {date}", assets: "İndirilebilir araştırma verileri", perp: "Sürekli vadeli maliyet alanları sözlüğü", funding: "Bölgesel fonlama doğrulama matrisi", json: "JSON", csv: "CSV" },
+  ru: { label: "Авторство исследования", byline: "Опубликовано NexuAlpha Research Desk", reviewed: "Страница проверена: {date}", assets: "Данные для скачивания", perp: "Словарь полей стоимости бессрочных контрактов", funding: "Матрица проверки регионального пополнения", json: "JSON", csv: "CSV" },
+  id: { label: "Identitas riset", byline: "Diterbitkan oleh NexuAlpha Research Desk", reviewed: "Halaman ditinjau: {date}", assets: "Data riset yang dapat diunduh", perp: "Kamus bidang biaya perpetual", funding: "Matriks verifikasi pendanaan regional", json: "JSON", csv: "CSV" },
+  vi: { label: "Danh tính nghiên cứu", byline: "Được xuất bản bởi NexuAlpha Research Desk", reviewed: "Trang được rà soát: {date}", assets: "Dữ liệu nghiên cứu có thể tải xuống", perp: "Từ điển trường chi phí hợp đồng vĩnh cửu", funding: "Ma trận xác minh nạp tiền theo khu vực", json: "JSON", csv: "CSV" },
+  it: { label: "Identità della ricerca", byline: "Pubblicato dal NexuAlpha Research Desk", reviewed: "Pagina verificata: {date}", assets: "Dati di ricerca scaricabili", perp: "Dizionario dei costi dei perpetual", funding: "Matrice regionale di verifica dei depositi", json: "JSON", csv: "CSV" },
 };
 
 const DATA_LICENSE_COPY = {
@@ -38,6 +43,57 @@ const DATA_LICENSE_COPY = {
   "pt-BR": {
     title: "Licença de dados e limite de fontes da NexuAlpha",
     body: "O acesso aos datasets da NexuAlpha não concede direitos de redistribuição. A NexuAlpha preserva direitos sobre sua compilação original, definições de campos, metadados normalizados, notas de revisão e textos de limitação. Documentos, nomes, marcas e materiais vinculados de terceiros continuam sujeitos aos respectivos titulares e termos. Para reutilização, republicação ou licenciamento, contate contact@nexualpha.com.",
+  },
+  "zh-Hant": {
+    title: "NexuAlpha 資料授權與來源邊界",
+    body: "存取 NexuAlpha 資料集不等於取得再散布授權。NexuAlpha 對原創編排、欄位定義、標準化中繼資料、複核說明與限制文字保留權利。第三方來源文件、名稱、商標與連結材料的權利歸各自權利人並受其條款約束。如需再利用、轉載或授權，請聯絡 contact@nexualpha.com。",
+  },
+  // l10n: needs native review (legal/compliance wording)
+  ja: {
+    title: "NexuAlpha データライセンスと出典の範囲",
+    body: "NexuAlpha のデータセットへのアクセスは再配布権を付与するものではありません。NexuAlpha は独自の編集物、フィールド定義、正規化されたメタデータ、確認メモ、制限事項の記述に関する権利を保持します。第三者の出典文書、名称、商標、リンク先の資料は、それぞれの権利者と利用条件に従います。再利用、再掲載、ライセンスについては contact@nexualpha.com までご連絡ください。",
+  },
+  // l10n: needs native review (legal/compliance wording)
+  ko: {
+    title: "NexuAlpha 데이터 라이선스와 출처 경계",
+    body: "NexuAlpha 데이터세트에 접근하는 것이 재배포 권한을 부여하지는 않습니다. NexuAlpha는 원본 편집물, 필드 정의, 정규화된 메타데이터, 검토 메모 및 제한 문구에 대한 권리를 보유합니다. 제3자 출처 문서, 명칭, 상표 및 링크된 자료는 각 권리자와 해당 약관에 따릅니다. 재사용, 재게재 또는 라이선스 요청은 contact@nexualpha.com으로 문의하세요.",
+  },
+  // l10n: needs native review (legal/compliance wording)
+  tr: {
+    title: "NexuAlpha veri lisansı ve kaynak sınırı",
+    body: "NexuAlpha veri kümelerine erişim, yeniden dağıtım hakkı vermez. NexuAlpha; özgün derlemesi, alan tanımları, normalleştirilmiş meta veriler, inceleme notları ve sınırlama metinleri üzerindeki haklarını saklı tutar. Üçüncü taraf kaynak belgeleri, adlar, markalar ve bağlantılı materyaller ilgili sahiplerine ve koşullarına tabidir. Yeniden kullanım, yeniden yayım veya lisans talepleri için contact@nexualpha.com adresine yazın.",
+  },
+  fr: {
+    title: "Licence des données NexuAlpha et périmètre des sources",
+    body: "L’accès aux jeux de données NexuAlpha ne confère aucun droit de redistribution. NexuAlpha conserve ses droits sur sa compilation originale, les définitions de champs, les métadonnées normalisées, les notes de vérification et les textes de limitation. Les documents sources, noms, marques et contenus liés de tiers restent soumis à leurs titulaires et conditions respectifs. Pour toute réutilisation, republication ou licence, écrivez à contact@nexualpha.com.",
+  },
+  de: {
+    title: "NexuAlpha-Datenlizenz und Quellengrenze",
+    body: "Der Zugriff auf NexuAlpha-Datensätze gewährt keine Weiterverbreitungsrechte. NexuAlpha behält sich die Rechte an seiner eigenen Zusammenstellung, den Felddefinitionen, normalisierten Metadaten, Prüfnotizen und Einschränkungstexten vor. Quelldokumente, Namen, Marken und verlinkte Materialien Dritter unterliegen weiterhin deren Inhabern und Bedingungen. Anfragen zu Wiederverwendung, Neuveröffentlichung oder Lizenzierung richten Sie an contact@nexualpha.com.",
+  },
+  it: {
+    title: "Licenza dei dati NexuAlpha e confine delle fonti",
+    body: "L’accesso ai dataset NexuAlpha non concede diritti di ridistribuzione. NexuAlpha conserva i diritti sulla propria compilazione originale, sulle definizioni dei campi, sui metadati normalizzati, sulle note di verifica e sui testi di limitazione. Documenti, nomi, marchi e materiali collegati di terze parti restano soggetti ai rispettivi titolari e condizioni. Per riutilizzo, ripubblicazione o licenze scrivere a contact@nexualpha.com.",
+  },
+  // l10n: needs native review (legal/compliance wording)
+  ru: {
+    title: "Лицензия на данные NexuAlpha и границы источников",
+    body: "Доступ к наборам данных NexuAlpha не даёт права на их распространение. NexuAlpha сохраняет права на собственную компиляцию, определения полей, нормализованные метаданные, заметки о проверке и тексты ограничений. Документы, названия, товарные знаки и материалы третьих сторон остаются собственностью их правообладателей и регулируются их условиями. По вопросам повторного использования, перепубликации или лицензирования пишите на contact@nexualpha.com.",
+  },
+  // l10n: needs native review (legal/compliance wording)
+  id: {
+    title: "Lisensi data NexuAlpha dan batas sumber",
+    body: "Akses ke dataset NexuAlpha tidak memberikan hak redistribusi. NexuAlpha mempertahankan hak atas kompilasi aslinya, definisi bidang, metadata yang dinormalisasi, catatan tinjauan, dan teks batasan. Dokumen sumber, nama, merek dagang, dan materi tertaut milik pihak ketiga tetap tunduk pada pemilik dan ketentuan masing-masing. Untuk penggunaan ulang, publikasi ulang, atau lisensi, hubungi contact@nexualpha.com.",
+  },
+  // l10n: needs native review (legal/compliance wording)
+  vi: {
+    title: "Giấy phép dữ liệu NexuAlpha và ranh giới nguồn",
+    body: "Việc truy cập bộ dữ liệu NexuAlpha không đồng nghĩa với quyền phân phối lại. NexuAlpha giữ quyền đối với phần biên soạn gốc, định nghĩa trường, siêu dữ liệu đã chuẩn hóa, ghi chú rà soát và nội dung giới hạn. Tài liệu nguồn, tên, nhãn hiệu và tài liệu liên kết của bên thứ ba vẫn thuộc chủ sở hữu và điều khoản tương ứng. Để tái sử dụng, đăng lại hoặc cấp phép, liên hệ contact@nexualpha.com.",
+  },
+  // l10n: needs native review (legal/compliance wording)
+  ar: {
+    title: "ترخيص بيانات NexuAlpha وحدود المصادر",
+    body: "لا يمنح الوصول إلى مجموعات بيانات NexuAlpha أي حق في إعادة التوزيع. تحتفظ NexuAlpha بحقوقها في التجميع الأصلي وتعريفات الحقول والبيانات الوصفية الموحدة وملاحظات المراجعة ونصوص القيود. وتبقى وثائق المصادر والأسماء والعلامات التجارية والمواد المرتبطة التابعة لأطراف ثالثة خاضعة لأصحابها وشروطهم. لطلبات إعادة الاستخدام أو إعادة النشر أو الترخيص، راسل contact@nexualpha.com.",
   },
 };
 
@@ -66,6 +122,349 @@ const REGIONAL_FUNDING_ROUTE_COPY = {
       ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
     ],
   },
+  "zh-Hans": {
+    eyebrow: "区域入金路径解答",
+    title: "国际用户应如何核验加密货币入金路径？",
+    answer: "先从区域入金矩阵出发，再打开对应市场页核对居住地、身份、本地支付通道与官方账户要求。只有在地区、产品和入金路径都明确后，再使用比较页。该矩阵是带日期的研究清单，不是实时费率报价、开户承诺、入金保证、用户权益承诺或注册结果。",
+    routesLabel: "有来源支持的区域入口",
+    datasetLabel: "机器可读矩阵",
+    compareLabel: "再比较平台路径",
+    marketRoutes: [
+      ["香港", "/hk", "SFC 牌照状态、港元入金、身份与产品范围"],
+      ["欧盟", "/eu", "MiCA 登记背景、国家范围与欧元或 SEPA 通道"],
+      ["英国", "/uk", "FCA 背景、英镑入金、居住地与开户检查"],
+      ["日本", "/jp?locale=ja", "FSA 登记背景、日元入金与账户名核对"],
+      ["韩国", "/kr?locale=ko", "韩元入金、实名银行账户与身份检查"],
+      ["新加坡", "/sg", "MAS DPT 背景、新元入金与产品范围"],
+      ["土耳其", "/tr/markets/turkiye", "SPK 名单背景、里拉入金与产品范围"],
+      ["巴西", "/br", "Pix、CPF/KYC 与雷亚尔入金路径检查"],
+      ["墨西哥", "/mx", "墨西哥比索、SPEI 与注册前身份检查"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  "zh-Hant": {
+    eyebrow: "區域入金路徑解答",
+    title: "國際用戶應如何核驗加密貨幣入金路徑？",
+    answer: "先從區域入金矩陣出發，再打開對應市場頁核對居住地、身分、本地支付通道與官方帳戶要求。只有在地區、產品和入金路徑都明確後，再使用比較頁。該矩陣是附日期的研究清單，不是即時費率報價、開戶承諾、入金保證、用戶權益承諾或註冊結果。",
+    routesLabel: "有來源支持的區域入口",
+    datasetLabel: "機器可讀矩陣",
+    compareLabel: "再比較平台路徑",
+    marketRoutes: [
+      ["香港", "/hk", "SFC 牌照狀態、港元入金、身分與產品範圍"],
+      ["歐盟", "/eu", "MiCA 登記背景、國家範圍與歐元或 SEPA 通道"],
+      ["英國", "/uk", "FCA 背景、英鎊入金、居住地與開戶檢查"],
+      ["日本", "/jp?locale=ja", "FSA 登記背景、日圓入金與帳戶名核對"],
+      ["韓國", "/kr?locale=ko", "韓元入金、實名銀行帳戶與身分檢查"],
+      ["新加坡", "/sg", "MAS DPT 背景、新元入金與產品範圍"],
+      ["土耳其", "/tr/markets/turkiye", "SPK 名單背景、里拉入金與產品範圍"],
+      ["巴西", "/br", "Pix、CPF/KYC 與雷亞爾入金路徑檢查"],
+      ["墨西哥", "/mx", "墨西哥披索、SPEI 與註冊前身分檢查"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  // l10n: needs native review (legal/compliance wording)
+  ja: {
+    eyebrow: "地域別入金ルートの回答",
+    title: "海外ユーザーは暗号資産の入金ルートをどう確認すべきですか？",
+    answer: "まず地域別入金マトリクスから始め、次に該当する市場ページで居住地、本人確認、現地の送金手段、公式アカウントの条件を確認します。比較ページは、地域・商品・入金経路が明確になってから使ってください。このマトリクスは日付付きの調査チェックリストであり、リアルタイムの手数料見積、口座承認の約束、入金の保証、ユーザー特典の約束、登録結果ではありません。",
+    routesLabel: "出典に基づく地域別の入口",
+    datasetLabel: "機械可読マトリクス",
+    compareLabel: "次にプラットフォームのルートを比較",
+    marketRoutes: [
+      ["香港", "/hk", "SFC の登録状況、HKD 入金、本人確認と商品範囲"],
+      ["欧州連合", "/eu", "MiCA 登録の背景、対象国と EUR または SEPA ルート"],
+      ["英国", "/uk", "FCA の背景、GBP 入金、居住地と口座開設の確認"],
+      ["日本", "/jp?locale=ja", "金融庁登録の背景、JPY 入金と口座名義の確認"],
+      ["韓国", "/kr?locale=ko", "KRW 入金、実名銀行口座と本人確認"],
+      ["シンガポール", "/sg", "MAS DPT の背景、SGD 入金と商品範囲"],
+      ["トルコ", "/tr/markets/turkiye", "SPK リストの背景、TRY 入金と商品範囲"],
+      ["ブラジル", "/br", "Pix、CPF/KYC と BRL 入金ルートの確認"],
+      ["メキシコ", "/mx", "MXN、SPEI と登録前の本人確認"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  // l10n: needs native review (legal/compliance wording)
+  ko: {
+    eyebrow: "지역별 입금 경로 답변",
+    title: "해외 사용자는 암호화폐 입금 경로를 어떻게 확인해야 하나요?",
+    answer: "먼저 지역별 입금 매트릭스에서 시작한 뒤 해당 시장 페이지에서 거주지, 신원 확인, 현지 송금 수단, 공식 계정 조건을 확인하세요. 비교 페이지는 지역·상품·입금 경로가 명확해진 뒤에만 사용하세요. 이 매트릭스는 날짜가 표기된 연구 체크리스트이며 실시간 수수료 견적, 계정 승인 약속, 입금 보장, 사용자 혜택 약속 또는 가입 결과가 아닙니다.",
+    routesLabel: "출처 기반 지역 진입점",
+    datasetLabel: "기계 판독용 매트릭스",
+    compareLabel: "다음으로 플랫폼 경로 비교",
+    marketRoutes: [
+      ["홍콩", "/hk", "SFC 라이선스 상태, HKD 입금, 신원 확인 및 상품 범위"],
+      ["유럽연합", "/eu", "MiCA 등록 배경, 국가 범위 및 EUR 또는 SEPA 경로"],
+      ["영국", "/uk", "FCA 배경, GBP 입금, 거주지 및 가입 절차 확인"],
+      ["일본", "/jp?locale=ja", "FSA 등록 배경, JPY 입금 및 계좌 명의 확인"],
+      ["한국", "/kr?locale=ko", "KRW 입금, 실명 은행 계좌 및 신원 확인"],
+      ["싱가포르", "/sg", "MAS DPT 배경, SGD 입금 및 상품 범위"],
+      ["튀르키예", "/tr/markets/turkiye", "SPK 목록 배경, TRY 입금 및 상품 범위"],
+      ["브라질", "/br", "Pix, CPF/KYC 및 BRL 입금 경로 확인"],
+      ["멕시코", "/mx", "MXN, SPEI 및 가입 전 신원 확인"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  // l10n: needs native review (legal/compliance wording)
+  tr: {
+    eyebrow: "Bölgesel fonlama rotası yanıtı",
+    title: "Uluslararası kullanıcılar kripto fonlama rotalarını nasıl doğrulamalı?",
+    answer: "Bölgesel fonlama matrisinden başlayın; ardından ikamet, kimlik, yerel ödeme kanalı ve resmî hesap kontrolleri için pazar sayfasını açın. Karşılaştırma sayfalarını yalnızca bölge, ürün ve fonlama yolu netleştikten sonra kullanın. Matris tarihli bir araştırma kontrol listesidir; canlı ücret teklifi, hesap onayı vaadi, fonlama garantisi, kullanıcı avantajı vaadi veya kayıt sonucu değildir.",
+    routesLabel: "Kaynağa dayalı bölgesel giriş noktaları",
+    datasetLabel: "Makine tarafından okunabilir matris",
+    compareLabel: "Ardından platform rotalarını karşılaştırın",
+    marketRoutes: [
+      ["Hong Kong", "/hk", "SFC durumu, HKD fonlama, kimlik ve ürün kapsamı"],
+      ["Avrupa Birliği", "/eu", "MiCA kayıt bağlamı, ülke kapsamı ve EUR ya da SEPA rotası"],
+      ["Birleşik Krallık", "/uk", "FCA bağlamı, GBP fonlama, ikamet ve hesap açma kontrolleri"],
+      ["Japonya", "/jp?locale=ja", "FSA kayıt bağlamı, JPY fonlama ve hesap adı kontrolleri"],
+      ["Güney Kore", "/kr?locale=ko", "KRW fonlama, gerçek isimli banka hesabı ve kimlik kontrolleri"],
+      ["Singapur", "/sg", "MAS DPT bağlamı, SGD fonlama ve ürün kapsamı"],
+      ["Türkiye", "/tr/markets/turkiye", "SPK listesi bağlamı, TRY fonlama ve ürün kapsamı"],
+      ["Brezilya", "/br", "Pix, CPF/KYC ve BRL fonlama rotası kontrolleri"],
+      ["Meksika", "/mx", "MXN, SPEI ve kayıt öncesi kimlik kontrolleri"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  es: {
+    eyebrow: "Respuesta sobre rutas regionales de depósito",
+    title: "¿Cómo deben verificar los usuarios internacionales las rutas de depósito cripto?",
+    answer: "Empiece por la matriz regional de depósitos y luego abra la página del mercado para comprobar residencia, identidad, vía de pago local y cuenta oficial. Use las páginas de comparación solo cuando la región, el producto y la ruta de depósito estén claros. La matriz es una lista de verificación de investigación con fecha, no una cotización de comisiones en vivo, una promesa de aprobación de cuenta, una garantía de depósito, una promesa de beneficios ni un resultado de registro.",
+    routesLabel: "Puntos de entrada regionales con fuente",
+    datasetLabel: "Matriz legible por máquina",
+    compareLabel: "Después compare las rutas de las plataformas",
+    marketRoutes: [
+      ["Hong Kong", "/hk", "Estado SFC, depósitos en HKD, identidad y alcance de productos"],
+      ["Unión Europea", "/eu", "Contexto del registro MiCA, alcance por país y ruta EUR o SEPA"],
+      ["Reino Unido", "/uk", "Contexto FCA, depósitos en GBP, residencia y comprobaciones de alta"],
+      ["Japón", "/jp?locale=ja", "Contexto del registro FSA, depósitos en JPY y comprobación del titular"],
+      ["Corea del Sur", "/kr?locale=ko", "Depósitos en KRW, cuenta bancaria a nombre propio y comprobaciones de identidad"],
+      ["Singapur", "/sg", "Contexto MAS DPT, depósitos en SGD y alcance de productos"],
+      ["Turquía", "/tr/markets/turkiye", "Contexto de la lista SPK, depósitos en TRY y alcance de productos"],
+      ["Brasil", "/br", "Comprobaciones de Pix, CPF/KYC y ruta de depósito en BRL"],
+      ["México", "/mx", "MXN, SPEI y comprobaciones de identidad antes del registro"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  "pt-BR": {
+    eyebrow: "Resposta sobre rotas regionais de depósito",
+    title: "Como usuários internacionais devem verificar rotas de depósito em cripto?",
+    answer: "Comece pela matriz regional de depósitos e depois abra a página do mercado para verificar residência, identidade, meio de pagamento local e conta oficial. Use as páginas de comparação apenas quando região, produto e rota de depósito estiverem claros. A matriz é uma lista de verificação de pesquisa com data, não uma cotação de taxas em tempo real, promessa de aprovação de conta, garantia de depósito, promessa de benefício ou resultado de cadastro.",
+    routesLabel: "Pontos de entrada regionais com fonte",
+    datasetLabel: "Matriz legível por máquina",
+    compareLabel: "Depois compare as rotas das plataformas",
+    marketRoutes: [
+      ["Hong Kong", "/hk", "Status na SFC, depósitos em HKD, identidade e escopo de produtos"],
+      ["União Europeia", "/eu", "Contexto do registro MiCA, escopo por país e rota EUR ou SEPA"],
+      ["Reino Unido", "/uk", "Contexto FCA, depósitos em GBP, residência e checagens de abertura"],
+      ["Japão", "/jp?locale=ja", "Contexto do registro na FSA, depósitos em JPY e checagem do titular"],
+      ["Coreia do Sul", "/kr?locale=ko", "Depósitos em KRW, conta bancária em nome próprio e checagens de identidade"],
+      ["Singapura", "/sg", "Contexto MAS DPT, depósitos em SGD e escopo de produtos"],
+      ["Turquia", "/tr/markets/turkiye", "Contexto da lista SPK, depósitos em TRY e escopo de produtos"],
+      ["Brasil", "/br", "Checagens de Pix, CPF/KYC e rota de depósito em BRL"],
+      ["México", "/mx", "MXN, SPEI e checagens de identidade antes do cadastro"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  fr: {
+    eyebrow: "Réponse sur les voies de dépôt régionales",
+    title: "Comment les utilisateurs internationaux doivent-ils vérifier les voies de dépôt crypto ?",
+    answer: "Partez de la matrice régionale de dépôt, puis ouvrez la page du marché pour vérifier la résidence, l’identité, le moyen de paiement local et le compte officiel. N’utilisez les pages de comparaison qu’une fois la région, le produit et la voie de dépôt clarifiés. La matrice est une liste de contrôle de recherche datée : ni devis de frais en temps réel, ni promesse d’approbation de compte, ni garantie de dépôt, ni promesse d’avantage, ni résultat d’inscription.",
+    routesLabel: "Points d’entrée régionaux sourcés",
+    datasetLabel: "Matrice lisible par machine",
+    compareLabel: "Comparez ensuite les parcours des plateformes",
+    marketRoutes: [
+      ["Hong Kong", "/hk", "Statut SFC, dépôts en HKD, identité et périmètre produit"],
+      ["Union européenne", "/eu", "Contexte du registre MiCA, périmètre par pays et voie EUR ou SEPA"],
+      ["Royaume-Uni", "/uk", "Contexte FCA, dépôts en GBP, résidence et contrôles d’ouverture"],
+      ["Japon", "/jp?locale=ja", "Contexte de l’enregistrement FSA, dépôts en JPY et contrôle du titulaire"],
+      ["Corée du Sud", "/kr?locale=ko", "Dépôts en KRW, compte bancaire nominatif et contrôles d’identité"],
+      ["Singapour", "/sg", "Contexte MAS DPT, dépôts en SGD et périmètre produit"],
+      ["Turquie", "/tr/markets/turkiye", "Contexte de la liste SPK, dépôts en TRY et périmètre produit"],
+      ["Brésil", "/br", "Contrôles Pix, CPF/KYC et voie de dépôt en BRL"],
+      ["Mexique", "/mx", "MXN, SPEI et contrôles d’identité avant inscription"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  de: {
+    eyebrow: "Antwort zu regionalen Einzahlungswegen",
+    title: "Wie sollten internationale Nutzer Krypto-Einzahlungswege prüfen?",
+    answer: "Beginnen Sie mit der regionalen Einzahlungsmatrix und öffnen Sie dann die Marktseite für die Prüfung von Wohnsitz, Identität, lokalem Zahlungsweg und offiziellem Konto. Nutzen Sie Vergleichsseiten erst, wenn Region, Produkt und Einzahlungsweg klar sind. Die Matrix ist eine datierte Recherche-Checkliste, kein Live-Gebührenangebot, keine Zusage einer Kontofreigabe, keine Einzahlungsgarantie, kein Nutzervorteil-Versprechen und kein Registrierungsergebnis.",
+    routesLabel: "Quellenbasierte regionale Einstiegspunkte",
+    datasetLabel: "Maschinenlesbare Matrix",
+    compareLabel: "Danach Plattformwege vergleichen",
+    marketRoutes: [
+      ["Hongkong", "/hk", "SFC-Status, HKD-Einzahlung, Identität und Produktumfang"],
+      ["Europäische Union", "/eu", "MiCA-Registerkontext, Länderumfang und EUR- oder SEPA-Weg"],
+      ["Vereinigtes Königreich", "/uk", "FCA-Kontext, GBP-Einzahlung, Wohnsitz und Onboarding-Prüfungen"],
+      ["Japan", "/jp?locale=ja", "FSA-Registrierungskontext, JPY-Einzahlung und Kontonamensprüfung"],
+      ["Südkorea", "/kr?locale=ko", "KRW-Einzahlung, Bankkonto auf eigenen Namen und Identitätsprüfungen"],
+      ["Singapur", "/sg", "MAS-DPT-Kontext, SGD-Einzahlung und Produktumfang"],
+      ["Türkei", "/tr/markets/turkiye", "SPK-Listenkontext, TRY-Einzahlung und Produktumfang"],
+      ["Brasilien", "/br", "Pix-, CPF/KYC- und BRL-Einzahlungswegprüfungen"],
+      ["Mexiko", "/mx", "MXN, SPEI und Identitätsprüfungen vor der Registrierung"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  it: {
+    eyebrow: "Risposta sui percorsi regionali di deposito",
+    title: "Come dovrebbero verificare i percorsi di deposito crypto gli utenti internazionali?",
+    answer: "Partite dalla matrice regionale dei depositi, poi aprite la pagina del mercato per i controlli su residenza, identità, canale di pagamento locale e account ufficiale. Usate le pagine di confronto solo quando regione, prodotto e percorso di deposito sono chiari. La matrice è una checklist di ricerca datata, non un preventivo di commissioni in tempo reale, una promessa di approvazione dell’account, una garanzia di deposito, una promessa di vantaggi o un esito di registrazione.",
+    routesLabel: "Punti di accesso regionali con fonte",
+    datasetLabel: "Matrice leggibile da macchina",
+    compareLabel: "Poi confrontate i percorsi delle piattaforme",
+    marketRoutes: [
+      ["Hong Kong", "/hk", "Stato SFC, depositi in HKD, identità e ambito prodotti"],
+      ["Unione Europea", "/eu", "Contesto del registro MiCA, ambito per paese e percorso EUR o SEPA"],
+      ["Regno Unito", "/uk", "Contesto FCA, depositi in GBP, residenza e controlli di apertura"],
+      ["Giappone", "/jp?locale=ja", "Contesto della registrazione FSA, depositi in JPY e controllo del titolare"],
+      ["Corea del Sud", "/kr?locale=ko", "Depositi in KRW, conto bancario nominativo e controlli d’identità"],
+      ["Singapore", "/sg", "Contesto MAS DPT, depositi in SGD e ambito prodotti"],
+      ["Turchia", "/tr/markets/turkiye", "Contesto della lista SPK, depositi in TRY e ambito prodotti"],
+      ["Brasile", "/br", "Controlli su Pix, CPF/KYC e percorso di deposito in BRL"],
+      ["Messico", "/mx", "MXN, SPEI e controlli d’identità prima della registrazione"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  // l10n: needs native review (legal/compliance wording)
+  ru: {
+    eyebrow: "Ответ о региональных способах пополнения",
+    title: "Как международным пользователям проверять способы пополнения криптосчёта?",
+    answer: "Начните с региональной матрицы пополнения, затем откройте страницу рынка для проверки резидентства, идентификации, локального платёжного канала и официального аккаунта. Используйте страницы сравнения только после того, как регион, продукт и способ пополнения определены. Матрица — это датированный исследовательский чек-лист, а не котировка комиссий в реальном времени, обещание одобрения аккаунта, гарантия пополнения, обещание бонуса или результат регистрации.",
+    routesLabel: "Региональные точки входа с источниками",
+    datasetLabel: "Машиночитаемая матрица",
+    compareLabel: "Затем сравните маршруты платформ",
+    marketRoutes: [
+      ["Гонконг", "/hk", "Статус SFC, пополнение в HKD, идентификация и охват продуктов"],
+      ["Европейский союз", "/eu", "Контекст реестра MiCA, охват стран и маршрут EUR или SEPA"],
+      ["Великобритания", "/uk", "Контекст FCA, пополнение в GBP, резидентство и проверки при открытии"],
+      ["Япония", "/jp?locale=ja", "Контекст регистрации FSA, пополнение в JPY и проверка имени владельца счёта"],
+      ["Южная Корея", "/kr?locale=ko", "Пополнение в KRW, банковский счёт на своё имя и проверки идентификации"],
+      ["Сингапур", "/sg", "Контекст MAS DPT, пополнение в SGD и охват продуктов"],
+      ["Турция", "/tr/markets/turkiye", "Контекст списка SPK, пополнение в TRY и охват продуктов"],
+      ["Бразилия", "/br", "Проверки Pix, CPF/KYC и маршрута пополнения в BRL"],
+      ["Мексика", "/mx", "MXN, SPEI и проверки идентификации перед регистрацией"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  // l10n: needs native review (legal/compliance wording)
+  id: {
+    eyebrow: "Jawaban rute pendanaan regional",
+    title: "Bagaimana pengguna internasional sebaiknya memverifikasi rute pendanaan kripto?",
+    answer: "Mulailah dari matriks pendanaan regional, lalu buka halaman pasar untuk memeriksa domisili, identitas, jalur pembayaran lokal, dan akun resmi. Gunakan halaman perbandingan hanya setelah wilayah, produk, dan jalur pendanaan sudah jelas. Matriks ini adalah daftar periksa riset bertanggal, bukan kuotasi biaya langsung, janji persetujuan akun, jaminan pendanaan, janji manfaat pengguna, atau hasil pendaftaran.",
+    routesLabel: "Titik masuk regional berbasis sumber",
+    datasetLabel: "Matriks yang dapat dibaca mesin",
+    compareLabel: "Lalu bandingkan rute platform",
+    marketRoutes: [
+      ["Hong Kong", "/hk", "Status SFC, pendanaan HKD, identitas, dan cakupan produk"],
+      ["Uni Eropa", "/eu", "Konteks register MiCA, cakupan negara, dan rute EUR atau SEPA"],
+      ["Inggris", "/uk", "Konteks FCA, pendanaan GBP, domisili, dan pemeriksaan pembukaan akun"],
+      ["Jepang", "/jp?locale=ja", "Konteks registrasi FSA, pendanaan JPY, dan pemeriksaan nama rekening"],
+      ["Korea Selatan", "/kr?locale=ko", "Pendanaan KRW, rekening bank atas nama sendiri, dan pemeriksaan identitas"],
+      ["Singapura", "/sg", "Konteks MAS DPT, pendanaan SGD, dan cakupan produk"],
+      ["Turki", "/tr/markets/turkiye", "Konteks daftar SPK, pendanaan TRY, dan cakupan produk"],
+      ["Brasil", "/br", "Pemeriksaan Pix, CPF/KYC, dan rute pendanaan BRL"],
+      ["Meksiko", "/mx", "MXN, SPEI, dan pemeriksaan identitas sebelum pendaftaran"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  // l10n: needs native review (legal/compliance wording)
+  vi: {
+    eyebrow: "Giải đáp về lộ trình nạp tiền theo khu vực",
+    title: "Người dùng quốc tế nên xác minh lộ trình nạp tiền crypto như thế nào?",
+    answer: "Bắt đầu từ ma trận nạp tiền theo khu vực, sau đó mở trang thị trường để kiểm tra nơi cư trú, danh tính, kênh thanh toán nội địa và tài khoản chính thức. Chỉ dùng trang so sánh khi khu vực, sản phẩm và lộ trình nạp tiền đã rõ. Ma trận là danh sách kiểm tra nghiên cứu có ghi ngày, không phải báo giá phí trực tiếp, lời hứa phê duyệt tài khoản, bảo đảm nạp tiền, cam kết quyền lợi người dùng hay kết quả đăng ký.",
+    routesLabel: "Điểm vào theo khu vực có nguồn dẫn",
+    datasetLabel: "Ma trận máy đọc được",
+    compareLabel: "Sau đó so sánh lộ trình các nền tảng",
+    marketRoutes: [
+      ["Hồng Kông", "/hk", "Trạng thái SFC, nạp HKD, danh tính và phạm vi sản phẩm"],
+      ["Liên minh châu Âu", "/eu", "Bối cảnh đăng ký MiCA, phạm vi quốc gia và lộ trình EUR hoặc SEPA"],
+      ["Vương quốc Anh", "/uk", "Bối cảnh FCA, nạp GBP, nơi cư trú và kiểm tra mở tài khoản"],
+      ["Nhật Bản", "/jp?locale=ja", "Bối cảnh đăng ký FSA, nạp JPY và kiểm tra tên tài khoản"],
+      ["Hàn Quốc", "/kr?locale=ko", "Nạp KRW, tài khoản ngân hàng chính chủ và kiểm tra danh tính"],
+      ["Singapore", "/sg", "Bối cảnh MAS DPT, nạp SGD và phạm vi sản phẩm"],
+      ["Thổ Nhĩ Kỳ", "/tr/markets/turkiye", "Bối cảnh danh sách SPK, nạp TRY và phạm vi sản phẩm"],
+      ["Brazil", "/br", "Kiểm tra Pix, CPF/KYC và lộ trình nạp BRL"],
+      ["Mexico", "/mx", "MXN, SPEI và kiểm tra danh tính trước khi đăng ký"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
+  // l10n: needs native review (legal/compliance wording)
+  ar: {
+    eyebrow: "إجابة حول مسارات التمويل الإقليمية",
+    title: "كيف ينبغي للمستخدمين الدوليين التحقق من مسارات تمويل حسابات العملات المشفرة؟",
+    answer: "ابدأ من مصفوفة التمويل الإقليمية، ثم افتح صفحة السوق للتحقق من الإقامة والهوية وقناة الدفع المحلية والحساب الرسمي. استخدم صفحات المقارنة فقط بعد أن تتضح المنطقة والمنتج ومسار التمويل. المصفوفة قائمة تحقق بحثية مؤرخة، وليست عرض رسوم مباشرًا ولا وعدًا بالموافقة على الحساب ولا ضمانًا للتمويل ولا وعدًا بمزايا للمستخدم ولا نتيجة تسجيل.",
+    routesLabel: "نقاط دخول إقليمية مدعومة بالمصادر",
+    datasetLabel: "مصفوفة قابلة للقراءة آليًا",
+    compareLabel: "ثم قارن مسارات المنصات",
+    marketRoutes: [
+      ["هونغ كونغ", "/hk", "حالة SFC، التمويل بالدولار الهونغ كونغي، الهوية ونطاق المنتجات"],
+      ["الاتحاد الأوروبي", "/eu", "سياق سجل MiCA، نطاق الدول ومسار اليورو أو SEPA"],
+      ["المملكة المتحدة", "/uk", "سياق FCA، التمويل بالجنيه الإسترليني، الإقامة وفحوص فتح الحساب"],
+      ["اليابان", "/jp?locale=ja", "سياق تسجيل FSA، التمويل بالين وفحوص اسم الحساب"],
+      ["كوريا الجنوبية", "/kr?locale=ko", "التمويل بالوون الكوري، حساب بنكي بالاسم الحقيقي وفحوص الهوية"],
+      ["سنغافورة", "/sg", "سياق MAS DPT، التمويل بالدولار السنغافوري ونطاق المنتجات"],
+      ["تركيا", "/tr/markets/turkiye", "سياق قائمة SPK، التمويل بالليرة التركية ونطاق المنتجات"],
+      ["البرازيل", "/br", "فحوص Pix وCPF/KYC ومسار التمويل بالريال البرازيلي"],
+      ["المكسيك", "/mx", "البيزو المكسيكي وSPEI وفحوص الهوية قبل التسجيل"],
+    ],
+    compareLinks: [
+      ["Binance vs OKX", "/compare/binance-vs-okx"],
+      ["Bybit vs Bitget", "/compare/bybit-vs-bitget"],
+      ["Hyperliquid vs dYdX", "/compare/hyperliquid-vs-dydx"],
+    ],
+  },
 };
 
 // Pillars are a set, not a sequence: the "1." … "4." prefixes in the copy are not shown.
@@ -76,7 +475,7 @@ const methodologyCopy = {
     badge: "E-E-A-T 机构级评审准则",
     title: "NexuAlpha 评测方法论与数据审计标准",
     subtitle: "我们如何核对交易所费率、储备金披露与官方域名，以及每条记录背后的来源、日期与限制。",
-    lastUpdated: "最后修订：2026-09（v3.8 规范）",
+    lastUpdated: "最后修订：{date}（{version} 规范）",
     pill1: "来源可追溯",
     pill2: "零付费改榜",
     pill3: "链上储备核验",
@@ -101,7 +500,7 @@ const methodologyCopy = {
     badge: "E-E-A-T Institutional Research Standards",
     title: "NexuAlpha data and review methodology",
     subtitle: "How we check exchange fee schedules, reserve disclosures and official domains, and the sources, dates and limits behind every record.",
-    lastUpdated: "Last revised 2026-09 · specification v3.8",
+    lastUpdated: "Last revised {date} · specification {version}",
     pill1: "Traceable Sources",
     pill2: "Zero Pay-for-Rank",
     pill3: "On-Chain Solvency Audit",
@@ -124,21 +523,50 @@ const methodologyCopy = {
   }
 };
 
-methodologyCopy.ja = { ...methodologyCopy.en, badge: "E-E-A-T 機関レベルの調査基準", title: "NexuAlpha 評価方法論とデータ監査フレームワーク", subtitle: "取引所の手数料、Proof of Reserves、運用上の安全性をどのように検証するかを公開します。", lastUpdated: "最終更新：2026-09（v3.8）", pill1: "追跡可能な出典", pill2: "有料順位なし", pill3: "オンチェーン監査", pillarsTitle: "4つの評価基準", pillarsSummary: "評価基準とデータ範囲を見る", wallTitle: "編集独立性と商業分離", feedbackTitle: "データ訂正とコミュニティ監督", btnBack: "← 端末に戻る", btnTg: "Telegramで調査チームに連絡" };
-methodologyCopy.ko = { ...methodologyCopy.en, badge: "E-E-A-T 기관급 연구 기준", title: "NexuAlpha 평가 방법론 및 데이터 감사 프레임워크", subtitle: "거래소 수수료, Proof of Reserves와 운영 보안을 검증하는 방식을 공개합니다.", lastUpdated: "최종 수정: 2026-09 (v3.8)", pill1: "추적 가능한 출처", pill2: "유료 순위 없음", pill3: "온체인 감사", pillarsTitle: "4가지 평가 기준", pillarsSummary: "평가 기준과 데이터 범위 보기", wallTitle: "편집 독립성과 상업적 분리", feedbackTitle: "데이터 정정 및 커뮤니티 감독", btnBack: "← 터미널로 돌아가기", btnTg: "Telegram에서 리서치 팀에 문의" };
-methodologyCopy.tr = { ...methodologyCopy.en, badge: "E-E-A-T kurumsal araştırma standartları", title: "NexuAlpha değerlendirme yöntemi ve veri denetimi", subtitle: "Platform ücretlerini, Proof of Reserves verilerini ve operasyonel güvenliği nasıl doğruladığımızı açıklıyoruz.", lastUpdated: "Son güncelleme: 2026-09 (v3.8)", pill1: "İzlenebilir kaynaklar", pill2: "Ücretli sıralama yok", pill3: "On-chain denetim", pillarsTitle: "Dört değerlendirme standardı", pillarsSummary: "Standartları ve veri sınırlarını gör", wallTitle: "Editoryal bağımsızlık ve ticari ayrım", feedbackTitle: "Veri düzeltme ve topluluk denetimi", btnBack: "← Terminale dön", btnTg: "Telegram'da araştırma ekibine ulaş" };
-methodologyCopy.es = { ...methodologyCopy.en, badge: "Estándares de investigación institucional E-E-A-T", title: "Metodología de evaluación y marco de auditoría de datos de NexuAlpha", subtitle: "Cómo verificamos de forma transparente las comisiones de plataformas, Proof of Reserves y seguridad operativa.", lastUpdated: "Última revisión: 2026-09 (v3.8)", pill1: "Fuentes rastreables", pill2: "Sin ranking pagado", pill3: "Auditoría on-chain", pillarsTitle: "Cuatro pilares de evaluación", pillarsSummary: "Ver estándares y límites de datos", wallTitle: "Independencia editorial y separación comercial", feedbackTitle: "Corrección de datos y supervisión comunitaria", btnBack: "← Volver al terminal", btnTg: "Contactar al equipo de investigación en Telegram" };
-methodologyCopy["pt-BR"] = { ...methodologyCopy.en, badge: "Padrões institucionais de pesquisa E-E-A-T", title: "Metodologia de avaliação e estrutura de auditoria de dados da NexuAlpha", subtitle: "Como verificamos taxas de plataformas, Proof of Reserves e segurança operacional de forma transparente.", lastUpdated: "Última revisão: 2026-09 (v3.8)", pill1: "Fontes rastreáveis", pill2: "Sem ranking pago", pill3: "Auditoria on-chain", pillarsTitle: "Quatro pilares de avaliação", pillarsSummary: "Ver padrões e limites dos dados", wallTitle: "Independência editorial e separação comercial", feedbackTitle: "Correção de dados e supervisão da comunidade", btnBack: "← Voltar ao terminal", btnTg: "Contatar a equipe de pesquisa no Telegram" };
+methodologyCopy.ja = { ...methodologyCopy.en, badge: "E-E-A-T 機関レベルの調査基準", title: "NexuAlpha 評価方法論とデータ監査フレームワーク", subtitle: "取引所の手数料、Proof of Reserves、運用上の安全性をどのように検証するかを公開します。", lastUpdated: "最終更新：{date}（{version}）", pill1: "追跡可能な出典", pill2: "有料順位なし", pill3: "オンチェーン監査", pillarsTitle: "4つの評価基準", pillarsSummary: "評価基準とデータ範囲を見る", wallTitle: "編集独立性と商業分離", feedbackTitle: "データ訂正とコミュニティ監督", btnBack: "← 端末に戻る", btnTg: "Telegramで調査チームに連絡" };
+methodologyCopy.ko = { ...methodologyCopy.en, badge: "E-E-A-T 기관급 연구 기준", title: "NexuAlpha 평가 방법론 및 데이터 감사 프레임워크", subtitle: "거래소 수수료, Proof of Reserves와 운영 보안을 검증하는 방식을 공개합니다.", lastUpdated: "최종 수정: {date} ({version})", pill1: "추적 가능한 출처", pill2: "유료 순위 없음", pill3: "온체인 감사", pillarsTitle: "4가지 평가 기준", pillarsSummary: "평가 기준과 데이터 범위 보기", wallTitle: "편집 독립성과 상업적 분리", feedbackTitle: "데이터 정정 및 커뮤니티 감독", btnBack: "← 터미널로 돌아가기", btnTg: "Telegram에서 리서치 팀에 문의" };
+methodologyCopy.tr = { ...methodologyCopy.en, badge: "E-E-A-T kurumsal araştırma standartları", title: "NexuAlpha değerlendirme yöntemi ve veri denetimi", subtitle: "Platform ücretlerini, Proof of Reserves verilerini ve operasyonel güvenliği nasıl doğruladığımızı açıklıyoruz.", lastUpdated: "Son güncelleme: {date} ({version})", pill1: "İzlenebilir kaynaklar", pill2: "Ücretli sıralama yok", pill3: "On-chain denetim", pillarsTitle: "Dört değerlendirme standardı", pillarsSummary: "Standartları ve veri sınırlarını gör", wallTitle: "Editoryal bağımsızlık ve ticari ayrım", feedbackTitle: "Veri düzeltme ve topluluk denetimi", btnBack: "← Terminale dön", btnTg: "Telegram'da araştırma ekibine ulaş" };
+methodologyCopy.es = { ...methodologyCopy.en, badge: "Estándares de investigación institucional E-E-A-T", title: "Metodología de evaluación y marco de auditoría de datos de NexuAlpha", subtitle: "Cómo verificamos de forma transparente las comisiones de plataformas, Proof of Reserves y seguridad operativa.", lastUpdated: "Última revisión: {date} ({version})", pill1: "Fuentes rastreables", pill2: "Sin ranking pagado", pill3: "Auditoría on-chain", pillarsTitle: "Cuatro pilares de evaluación", pillarsSummary: "Ver estándares y límites de datos", wallTitle: "Independencia editorial y separación comercial", feedbackTitle: "Corrección de datos y supervisión comunitaria", btnBack: "← Volver al terminal", btnTg: "Contactar al equipo de investigación en Telegram" };
+methodologyCopy["pt-BR"] = { ...methodologyCopy.en, badge: "Padrões institucionais de pesquisa E-E-A-T", title: "Metodologia de avaliação e estrutura de auditoria de dados da NexuAlpha", subtitle: "Como verificamos taxas de plataformas, Proof of Reserves e segurança operacional de forma transparente.", lastUpdated: "Última revisão: {date} ({version})", pill1: "Fontes rastreáveis", pill2: "Sem ranking pago", pill3: "Auditoria on-chain", pillarsTitle: "Quatro pilares de avaliação", pillarsSummary: "Ver padrões e limites dos dados", wallTitle: "Independência editorial e separação comercial", feedbackTitle: "Correção de dados e supervisão da comunidade", btnBack: "← Voltar ao terminal", btnTg: "Contatar a equipe de pesquisa no Telegram" };
 
 
-methodologyCopy.ar = { ...methodologyCopy.en, badge: "معايير بحث مؤسسية وفق E-E-A-T", title: "منهجية تقييم NexuAlpha وإطار تدقيق البيانات", subtitle: "نوضح كيف نتحقق من رسوم المنصات وإثبات الاحتياطيات والأمان التشغيلي بطريقة شفافة وقابلة للمراجعة.", lastUpdated: "آخر تحديث: 2026-09 (الإصدار 3.8)", pill1: "مصادر قابلة للتتبع", pill2: "لا ترتيب مدفوع", pill3: "تدقيق للاحتياطيات على السلسلة", pillarsTitle: "أربع ركائز للتقييم", pillarsSummary: "عرض معايير التقييم وحدود البيانات", wallTitle: "الاستقلال التحريري والفصل التجاري", feedbackTitle: "تصحيح البيانات والرقابة المجتمعية", btnBack: "← العودة إلى محطة التداول", btnTg: "التواصل مع فريق البحث عبر Telegram" };
+methodologyCopy.ar = { ...methodologyCopy.en, badge: "معايير بحث مؤسسية وفق E-E-A-T", title: "منهجية تقييم NexuAlpha وإطار تدقيق البيانات", subtitle: "نوضح كيف نتحقق من رسوم المنصات وإثبات الاحتياطيات والأمان التشغيلي بطريقة شفافة وقابلة للمراجعة.", lastUpdated: "آخر تحديث: {date} ({version})", pill1: "مصادر قابلة للتتبع", pill2: "لا ترتيب مدفوع", pill3: "تدقيق للاحتياطيات على السلسلة", pillarsTitle: "أربع ركائز للتقييم", pillarsSummary: "عرض معايير التقييم وحدود البيانات", wallTitle: "الاستقلال التحريري والفصل التجاري", feedbackTitle: "تصحيح البيانات والرقابة المجتمعية", btnBack: "← العودة إلى محطة التداول", btnTg: "التواصل مع فريق البحث عبر Telegram" };
 
 
-methodologyCopy.id = { ...methodologyCopy.en, badge: "Standar riset institusional E-E-A-T", title: "Metodologi riset dan kerangka audit data NexuAlpha", subtitle: "Cara kami memverifikasi biaya platform, Proof of Reserves, dan keamanan operasional secara transparan.", lastUpdated: "Pembaruan terakhir: 2026-09 (v3.8)", pill1: "Sumber terlacak", pill2: "Tanpa peringkat berbayar", pill3: "Audit solvabilitas on-chain", pillarsTitle: "Empat pilar evaluasi", pillarsSummary: "Lihat standar evaluasi dan batas data", wallTitle: "Independensi editorial dan pemisahan komersial", feedbackTitle: "Koreksi data dan pengawasan komunitas", btnBack: "← Kembali ke terminal", btnTg: "Hubungi tim riset di Telegram" };
-methodologyCopy.vi = { ...methodologyCopy.en, badge: "Tiêu chuẩn nghiên cứu tổ chức E-E-A-T", title: "Phương pháp đánh giá và khung kiểm toán dữ liệu NexuAlpha", subtitle: "Cách chúng tôi xác minh phí nền tảng, Proof of Reserves và an toàn vận hành một cách minh bạch.", lastUpdated: "Cập nhật lần cuối: 2026-09 (v3.8)", pill1: "Nguồn có thể truy xuất", pill2: "Không xếp hạng trả phí", pill3: "Kiểm toán khả năng thanh toán on-chain", pillarsTitle: "Bốn trụ cột đánh giá", pillarsSummary: "Xem tiêu chuẩn và giới hạn dữ liệu", wallTitle: "Độc lập biên tập và tách biệt thương mại", feedbackTitle: "Sửa dữ liệu và giám sát cộng đồng", btnBack: "← Quay lại terminal", btnTg: "Liên hệ nhóm nghiên cứu trên Telegram" };
-methodologyCopy.it = { ...methodologyCopy.en, badge: "Standard di ricerca istituzionale E-E-A-T", title: "Metodologia di valutazione e framework di audit dei dati NexuAlpha", subtitle: "Come verifichiamo in modo trasparente commissioni, Proof of Reserves e sicurezza operativa.", lastUpdated: "Ultimo aggiornamento: 2026-09 (v3.8)", pill1: "Fonti tracciabili", pill2: "Nessuna classifica a pagamento", pill3: "Audit di solvibilità on-chain", pillarsTitle: "Quattro pilastri di valutazione", pillarsSummary: "Visualizza standard e limiti dei dati", wallTitle: "Indipendenza editoriale e separazione commerciale", feedbackTitle: "Correzione dei dati e controllo della comunità", btnBack: "← Torna al terminale", btnTg: "Contatta il team di ricerca su Telegram" };
+methodologyCopy.id = { ...methodologyCopy.en, badge: "Standar riset institusional E-E-A-T", title: "Metodologi riset dan kerangka audit data NexuAlpha", subtitle: "Cara kami memverifikasi biaya platform, Proof of Reserves, dan keamanan operasional secara transparan.", lastUpdated: "Pembaruan terakhir: {date} ({version})", pill1: "Sumber terlacak", pill2: "Tanpa peringkat berbayar", pill3: "Audit solvabilitas on-chain", pillarsTitle: "Empat pilar evaluasi", pillarsSummary: "Lihat standar evaluasi dan batas data", wallTitle: "Independensi editorial dan pemisahan komersial", feedbackTitle: "Koreksi data dan pengawasan komunitas", btnBack: "← Kembali ke terminal", btnTg: "Hubungi tim riset di Telegram" };
+methodologyCopy.vi = { ...methodologyCopy.en, badge: "Tiêu chuẩn nghiên cứu tổ chức E-E-A-T", title: "Phương pháp đánh giá và khung kiểm toán dữ liệu NexuAlpha", subtitle: "Cách chúng tôi xác minh phí nền tảng, Proof of Reserves và an toàn vận hành một cách minh bạch.", lastUpdated: "Cập nhật lần cuối: {date} ({version})", pill1: "Nguồn có thể truy xuất", pill2: "Không xếp hạng trả phí", pill3: "Kiểm toán khả năng thanh toán on-chain", pillarsTitle: "Bốn trụ cột đánh giá", pillarsSummary: "Xem tiêu chuẩn và giới hạn dữ liệu", wallTitle: "Độc lập biên tập và tách biệt thương mại", feedbackTitle: "Sửa dữ liệu và giám sát cộng đồng", btnBack: "← Quay lại terminal", btnTg: "Liên hệ nhóm nghiên cứu trên Telegram" };
+methodologyCopy.it = { ...methodologyCopy.en, badge: "Standard di ricerca istituzionale E-E-A-T", title: "Metodologia di valutazione e framework di audit dei dati NexuAlpha", subtitle: "Come verifichiamo in modo trasparente commissioni, Proof of Reserves e sicurezza operativa.", lastUpdated: "Ultimo aggiornamento: {date} ({version})", pill1: "Fonti tracciabili", pill2: "Nessuna classifica a pagamento", pill3: "Audit di solvibilità on-chain", pillarsTitle: "Quattro pilastri di valutazione", pillarsSummary: "Visualizza standard e limiti dei dati", wallTitle: "Indipendenza editoriale e separazione commerciale", feedbackTitle: "Correzione dei dati e controllo della comunità", btnBack: "← Torna al terminale", btnTg: "Contatta il team di ricerca su Telegram" };
 
-methodologyCopy.ru = { ...methodologyCopy.en, badge: "Институциональные стандарты исследований E-E-A-T", title: "Методология оценки и аудит данных NexuAlpha", subtitle: "Как мы прозрачно проверяем комиссии платформ, Proof of Reserves и операционную безопасность.", lastUpdated: "Последнее обновление: 2026-09 (v3.8)", pill1: "Отслеживаемые источники", pill2: "Без платного ранжирования", pill3: "Ончейн-аудит платёжеспособности", pillarsTitle: "Четыре опоры оценки", pillarsSummary: "Стандарты оценки и границы данных", wallTitle: "Редакционная независимость и коммерческое разделение", feedbackTitle: "Исправление данных и контроль сообщества", btnBack: "← Вернуться к терминалу", btnTg: "Связаться с исследовательской командой в Telegram" };
+methodologyCopy.ru = { ...methodologyCopy.en, badge: "Институциональные стандарты исследований E-E-A-T", title: "Методология оценки и аудит данных NexuAlpha", subtitle: "Как мы прозрачно проверяем комиссии платформ, Proof of Reserves и операционную безопасность.", lastUpdated: "Последнее обновление: {date} ({version})", pill1: "Отслеживаемые источники", pill2: "Без платного ранжирования", pill3: "Ончейн-аудит платёжеспособности", pillarsTitle: "Четыре опоры оценки", pillarsSummary: "Стандарты оценки и границы данных", wallTitle: "Редакционная независимость и коммерческое разделение", feedbackTitle: "Исправление данных и контроль сообщества", btnBack: "← Вернуться к терминалу", btnTg: "Связаться с исследовательской командой в Telegram" };
+
+methodologyCopy.fr = { ...methodologyCopy.en, badge: "Standards de recherche institutionnels E-E-A-T", subtitle: "Comment nous vérifions les grilles de frais, les publications de réserves et les domaines officiels des plateformes, ainsi que les sources, dates et limites derrière chaque enregistrement.", lastUpdated: "Dernière révision : {date} · spécification {version}", pill1: "Sources traçables", pill2: "Aucun classement payant", pill3: "Audit de solvabilité on-chain", pillarsTitle: "Quatre piliers d’évaluation", pillarsSummary: "Voir les quatre standards d’évaluation et les limites des données", wallTitle: "Indépendance éditoriale et séparation commerciale", feedbackTitle: "Correction des données et gouvernance communautaire", btnBack: "← Retour au terminal", btnTg: "Contacter le Research Desk sur Telegram" };
+methodologyCopy.de = { ...methodologyCopy.en, badge: "Institutionelle E-E-A-T-Forschungsstandards", subtitle: "Wie wir Gebührentabellen, Reserveangaben und offizielle Domains der Börsen prüfen – und welche Quellen, Daten und Grenzen hinter jedem Eintrag stehen.", lastUpdated: "Zuletzt überarbeitet: {date} · Spezifikation {version}", pill1: "Nachvollziehbare Quellen", pill2: "Kein bezahltes Ranking", pill3: "On-Chain-Solvenzprüfung", pillarsTitle: "Vier Bewertungssäulen", pillarsSummary: "Die vier Bewertungsstandards und Datengrenzen ansehen", wallTitle: "Redaktionelle Unabhängigkeit und kommerzielle Trennung", feedbackTitle: "Datenkorrektur und Community-Governance", btnBack: "← Zurück zum Terminal", btnTg: "Research Desk auf Telegram kontaktieren" };
+// l10n: needs native review (legal/compliance wording)
+methodologyCopy["zh-Hant"] = {
+  badge: "E-E-A-T 機構級評審準則",
+  title: "NexuAlpha 評測方法論與資料審計標準",
+  subtitle: "我們如何核對交易所費率、儲備金披露與官方域名，以及每條記錄背後的來源、日期與限制。",
+  lastUpdated: "最後修訂：{date}（{version} 規範）",
+  pill1: "來源可追溯",
+  pill2: "零付費改榜",
+  pill3: "鏈上儲備核驗",
+  pillarsTitle: "四項評審支柱",
+  pillarsSummary: "查看四項評審標準與資料邊界",
+  pillar1Title: "1. 基礎費率、來源頁面與核驗日期",
+  pillar1Desc: "我們只發布已經核驗的內容：每家平台普通用戶檔的 maker/taker 基礎費率、對應的官方費率頁面以及核驗日期。VIP 檔位、平台幣折扣和用戶權益在有官方來源支持之前，一律標註為尚未複核。",
+  pillar2Title: "2. 儲備金證明 (Proof of Reserves) 與清償能力透視",
+  pillar2Desc: "當平台公開 Merkle Tree 資產快照或第三方審計報告時，我們記錄其覆蓋範圍、日期、審計主體與限制。未能找到可複核來源的儲備金、保險或償付能力說法會保持待核驗。",
+  pillar3Title: "3. 域名防釣魚來源記錄與官方通道核對",
+  pillar3Desc: "針對 Google 搜尋廣告釣魚與假冒 Telegram 群氾濫，NexuAlpha 記錄交易所主域名、備用登入域名及官方核對頁面的來源線索。未知域名會提示風險；已記錄域名也不代表即時授權或安全保證。",
+  pillar4Title: "4. 營運韌性與合規出入金門檻",
+  pillar4Desc: "評估交易所針對全球不同司法管轄區的 KYC 強制等級（免 KYC / 基礎認證 / 嚴格認證）、單日提幣額度限制，以及面對極端行情（如 519、FTX 事件）時撮合引擎的可用性與停機歷史記錄。",
+  wallTitle: "商業利益隔離牆與編輯獨立性聲明 (Wall of Separation)",
+  wallDesc: "NexuAlpha 堅守嚴格的編輯獨立性原則。我們透過合規的交易所官方返佣（Affiliate Commission）維持伺服器與量化爬蟲系統運轉，返佣支出由交易所商業推廣預算承擔，絕不向用戶收取額外費用。沒有任何交易所可以透過贊助、付費廣告或商業合作更改其費率資料、儲備金記錄或對比順序。",
+  feedbackTitle: "資料糾錯與社群監督",
+  feedbackDesc: "如果您發現費率、鏡像域名或儲備金來源發生變化，請透過我們的研究員管道提交來源。我們會在完成官方或鏈上複核後更新，並保留複核日期與限制。",
+  btnBack: "← 返回全景交易終端",
+  btnTg: "在 Telegram 中聯絡研究員",
+};
 
 // The first version localized only the shell of this page and inherited the
 // English pillar copy when a disclosure was opened. Keep the shared template,
@@ -243,23 +671,29 @@ const methodologyDetails = {
   }
 };
 
+// Exposed for the locale-completeness tests (tests/l10n-gaps.test.mjs).
+export const methodologyCopyMaps = Object.freeze({ methodologyCopy, methodologyDetails, researchTrustCopy, DATA_LICENSE_COPY, REGIONAL_FUNDING_ROUTE_COPY });
+
 export function MethodologyPage({ locale = "en" }) {
-  const base = methodologyCopy[locale] || methodologyCopy[String(locale || "").split("-")[0]] || (locale.startsWith("zh") ? methodologyCopy["zh-Hans"] : methodologyCopy.en);
+  const base = methodologyCopy[locale] || methodologyCopy[String(locale || "").split("-")[0]] || (locale === "zh-TW" || locale === "zh-HK" ? methodologyCopy["zh-Hant"] : locale.startsWith("zh") ? methodologyCopy["zh-Hans"] : methodologyCopy.en);
   const methodologyH1 = {
     fr: "Méthodologie d’évaluation et cadre d’audit des données NexuAlpha",
     de: "NexuAlpha-Bewertungsmethodik und Datenprüfungsrahmen",
   }[String(locale || "").split("-")[0]];
   const t = { ...base, ...(methodologyDetails[locale] || methodologyDetails[String(locale || "").split("-")[0]] || {}), ...(methodologyH1 ? { title: methodologyH1 } : {}) };
+  // Dates come from Intl, not from the copy: "2026-09" → "September 2026" / "2026年9月" / "settembre 2026".
+  const lastUpdated = String(t.lastUpdated).replace("{date}", formatMonthYear(locale, METHODOLOGY_REVISED_MONTH)).replace("{version}", METHODOLOGY_SPEC_VERSION);
+  const reviewedOn = formatDate(locale, RESEARCH_PAGE_REVIEWED_AT, { dateStyle: "medium" });
   const trust = researchTrustCopy[locale] || researchTrustCopy[String(locale || "").split("-")[0]] || (locale.startsWith("zh") ? researchTrustCopy["zh-Hans"] : researchTrustCopy.en);
   const dataLicense = DATA_LICENSE_COPY[locale] || DATA_LICENSE_COPY[String(locale || "").split("-")[0]] || (locale.startsWith("zh") ? DATA_LICENSE_COPY["zh-Hans"] : DATA_LICENSE_COPY.en);
-  const fundingRoute = REGIONAL_FUNDING_ROUTE_COPY[locale] || REGIONAL_FUNDING_ROUTE_COPY[String(locale || "").split("-")[0]] || REGIONAL_FUNDING_ROUTE_COPY.en;
+  const fundingRoute = REGIONAL_FUNDING_ROUTE_COPY[locale] || REGIONAL_FUNDING_ROUTE_COPY[String(locale || "").split("-")[0]] || (locale.startsWith("zh") ? REGIONAL_FUNDING_ROUTE_COPY["zh-Hans"] : REGIONAL_FUNDING_ROUTE_COPY.en);
 
   return (
     <main className="v6 methodology-page v2-page" id="top" lang={locale} dir={getTextDirection(locale)}>
       <div className="methodology-page__inner v2-shell">
         <header className="methodology-page__header">
           <div className="methodology-page__badge-row">
-            <span className="methodology-page__date">{t.lastUpdated}</span>
+            <span className="methodology-page__date"><time dateTime={METHODOLOGY_REVISED_MONTH}>{lastUpdated}</time></span>
           </div>
           <h1 className="methodology-page__title">{t.title}</h1>
           <p className="methodology-page__subtitle">{t.subtitle}</p>
@@ -267,7 +701,7 @@ export function MethodologyPage({ locale = "en" }) {
           <aside className="methodology-page__research-trust" aria-label={trust.label}>
             <div className="methodology-page__research-byline">
               <strong>{trust.byline}</strong>
-              <time dateTime="2026-09-15">{trust.reviewed}</time>
+              <time dateTime="2026-09-15">{String(trust.reviewed).replace("{date}", reviewedOn)}</time>
             </div>
             <div className="methodology-page__research-assets">
               <span>{trust.assets}</span>
