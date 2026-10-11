@@ -235,6 +235,18 @@ def qr_image(slug):
     return qrcode.make(f'https://nexualpha.com/zh-hans/starter/{slug}?src=academy-video').convert('RGB').resize((300,300),Image.Resampling.NEAREST)
 
 
+def scene_layout(size):
+    """Keep the component centred between subtitle and caption safe bands."""
+    w, h = size
+    if h > w:
+        return {'title': (64,170,w-64,370), 'sub': (64,390,w-64,530),
+                'component': (64,580,w-64,1640), 'index': (64,1640,w-64,1690),
+                'caption': (64,1690,w-64,h-105)}
+    return {'title': (64,120,w-64,213), 'sub': (64,215,w-64,271),
+            'component': (64,276,w-64,870), 'index': (w-1100,40,w-535,115),
+            'caption': (64,875,w-64,h-105)}
+
+
 def frame(script,timing,t,size,locale,cta,burn=False):
     from visuals import draw_visual
     w,h=size; vertical=h>w; im=Image.new('RGB',size,BG); d=ImageDraw.Draw(im)
@@ -284,16 +296,15 @@ def frame(script,timing,t,size,locale,cta,burn=False):
         i=next(i for i,s in enumerate(timing['scenes']) if s['start']<=t<s['start']+s['duration'])
         timing_scene=timing['scenes'][i]; scene=script['scenes'][i]
         local=t-timing_scene['start']; duration=timing_scene['duration']
-        y=170
-        text(im,scene.get('title_en',scene['title']) if en else scene['title'],(margin,y,w-margin,y+(200 if vertical else 145)),64,WHITE,locale)
-        text(im,scene.get('sub_en',scene['sub']) if en else scene['sub'],(margin,y+(220 if vertical else 160),w-margin,y+(400 if vertical else 290)),38,MUTED,locale)
-        box=(margin,620 if vertical else 470,w-margin,1430 if vertical else 810)
-        draw_visual(im,box,scene['visual']['type'],scene['visual']['params'],local,duration,locale)
-        text(im,f'{i+1:02} / {len(script["scenes"]):02} · '+('STARTER PATH' if en else '新手村'),(margin,h-330 if vertical else h-260,w-margin,h-250 if vertical else h-205),34,BLUE,locale)
+        layout=scene_layout(size)
+        text(im,scene.get('title_en',scene['title']) if en else scene['title'],layout['title'],64,WHITE,locale)
+        text(im,scene.get('sub_en',scene['sub']) if en else scene['sub'],layout['sub'],38,MUTED,locale)
+        draw_visual(im,layout['component'],scene['visual']['type'],scene['visual']['params'],local,duration,locale)
+        text(im,f'{i+1:02} / {len(script["scenes"]):02} · '+('STARTER PATH' if en else '新手村'),layout['index'],34,BLUE,locale)
         if burn:
             active=next((c for c in timing['cues'] if c['start']<=t<c['end']),None)
             if active:
-                text(im,active['text'],(margin,h-250 if vertical else h-205,w-margin,h-105),36,WHITE,locale)
+                text(im,active['text'],layout['caption'],36,WHITE,locale)
     # Smooth 0.3s fade through brand background at each chapter boundary.
     alpha=min(ease(local/.3),ease((duration-local)/.3))
     im=Image.blend(Image.new('RGB',size,BG),im,alpha)
@@ -331,7 +342,7 @@ def render(script,timing,out,locale,cta,diagnostic_frame_rate=FPS):
                     if burn and active:
                         im=clean.copy()
                         w,h=size
-                        text(im,active['text'],(64,h-250 if vertical else h-205,w-64,h-105),36,WHITE,locale)
+                        text(im,active['text'],scene_layout(size)['caption'],36,WHITE,locale)
                     process.stdin.write(im.tobytes())
             # Signal EOF to every encoder before waiting for any one of them.
             for _,process,_,_ in writers:

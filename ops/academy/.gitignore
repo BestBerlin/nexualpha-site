@@ -1,3 +1,5 @@
 __pycache__/
 samples/**/work/
 samples/**/*.wav
+# Full silent polish exports are reproducible local review artifacts.
+samples/season1-polish/**/*.mp4

@@ -280,8 +280,8 @@ class VisualComponentTest(unittest.TestCase):
     }
 
     BOXES = [
-        ((1920, 1080), (64, 470, 1856, 810)),
-        ((1080, 1920), (64, 620, 1016, 1430)),
+        ((1920, 1080), engine.scene_layout((1920, 1080))["component"]),
+        ((1080, 1920), engine.scene_layout((1080, 1920))["component"]),
     ]
 
     def test_all_visual_components_fit_and_animate_in_production_boxes(self):
