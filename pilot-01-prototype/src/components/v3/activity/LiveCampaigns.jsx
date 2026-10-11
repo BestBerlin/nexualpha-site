@@ -12,6 +12,9 @@ import { CommissionDisclosureLine } from "../CommissionDisclosureLine.jsx";
 import { GROUP_PREVIEW_COUNT, showAllCopy } from "./show-all-copy.js";
 import "./live-campaigns.css";
 
+// Official announcement rows arrive in English from the exchanges' feeds; owner campaigns carry their own locale editions.
+const feedLang = (item, locale) => (!item.featured && !/^en(?:-|$)/i.test(String(locale || "en")) ? "en" : undefined);
+
 const FEED = "/intel/official-announcements.json";
 const NAMES = { okx: "OKX", bitget: "Bitget", binance: "Binance", bybit: "Bybit", kucoin: "KuCoin", kraken: "Kraken", "gate-io": "Gate.io", hyperliquid: "Hyperliquid", mexc: "MEXC", htx: "HTX" };
 const COPY = {
@@ -123,8 +126,9 @@ export function LiveCampaigns({ locale = "en", initialFeed }) {
                   {/* Relative time depends on the clock and the ICU build; the server text may differ by a minute. */}
                   {c.publishedAt && <time dateTime={c.publishedAt} suppressHydrationWarning>{ago(c.publishedAt)}</time>}
                 </div>
-                <h4 dir="auto">{c.title}</h4>
-                {c.summary && <p className="live-campaigns__sum">{c.summary}</p>}
+                {/* Feed rows are the exchanges' own English announcement titles (data): marked lang="en" on other pages. */}
+                <h4 dir="auto" lang={feedLang(c, locale)}>{c.title}</h4>
+                {c.summary && <p className="live-campaigns__sum" lang={feedLang(c, locale)}>{c.summary}</p>}
                 <div className="live-campaigns__acts">
                   <a className="live-campaigns__details" href={c.url} target="_blank" rel="noopener noreferrer nofollow">{t.details} ↗</a>
                   {cta && (
