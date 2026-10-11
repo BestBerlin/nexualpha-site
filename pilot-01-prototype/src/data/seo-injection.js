@@ -21,6 +21,7 @@ import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js"
 import { CURATED_COMPARISON_SLUGS, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, parseComparePair } from "./compare-generated.js";
 import { compareFaqSchemaEntries } from "./compare-faq-locales.js";
 import { AUDIT_DATE as FACTBOOK_SOURCE_REVIEW_DATE } from "./factbook-registry.js";
+import { factbookDates } from "./factbook-dates.js";
 import { collectionHubCopy, factbookHubItems, topicHubItems } from "./collection-hubs.js";
 import {
   TOKENIZED_ASSET_CLUSTER_REVIEW_DATE,
@@ -1975,7 +1976,8 @@ export function buildFactbookSchemas(venue, locale = "en", canonicalUrl = canoni
     ...pageSchema(`${venue.name} Platform Factbook`, canonicalUrl, locale, "Dataset"),
     "@id": `${canonicalUrl}#dataset`,
     description: "Platform fee, custody and access reference. Consult the page for source dates, assumptions and limitations.",
-    dateModified: FACTBOOK_SOURCE_REVIEW_DATE,
+    // Latest real review date of the data on the page (fees checked / benefit terms confirmed / dossier compiled).
+    dateModified: factbookDates(venue.slug).latestReviewOn,
     ...researchAttribution([`https://${venue.officialDomain}`]),
     creator: { "@type": "Organization", name: "NexuAlpha", url: `${PUBLIC_ORIGIN}/` },
     about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` },
@@ -2200,7 +2202,7 @@ export function computeRouteSeo(options = {}) {
       accept();
       const venueSeoOverride = type === "exchanges" ? venueSeoOverrideFor(slug, locale) : null;
       const factbookLabel = FACTBOOK_TITLE_LOCALIZED[rawLocale] || "Source Review Factbook";
-      title = venueSeoOverride?.title || `${venue.name} ${type === "factbook" ? `${factbookLabel} [${FACTBOOK_SOURCE_REVIEW_DATE}]` : DETAIL_TITLE_LOCALIZED[rawLocale]?.profile || DETAIL_TITLE_LOCALIZED[locale]?.profile || (isZh ? "平台档案与手续费" : "Review, Fee Conditions & Official Route")} — NexuAlpha`;
+      title = venueSeoOverride?.title || `${venue.name} ${type === "factbook" ? factbookLabel : DETAIL_TITLE_LOCALIZED[rawLocale]?.profile || DETAIL_TITLE_LOCALIZED[locale]?.profile || (isZh ? "平台档案与手续费" : "Review, Fee Conditions & Official Route")} — NexuAlpha`;
       const profileDescription = DETAIL_DESCRIPTION_LOCALIZED[rawLocale]?.profile?.(venue.name) || DETAIL_DESCRIPTION_LOCALIZED[locale]?.profile?.(venue.name);
       description = venueSeoOverride?.description || (type === "factbook"
         ? (FACTBOOK_DESCRIPTION_LOCALIZED[rawLocale] || FACTBOOK_DESCRIPTION_LOCALIZED[locale] || ((name) => `Source-aware Factbook for ${name}: base fee schedules, regional access, KYC references, and official-domain checks. User benefits and reserve figures require item-level source verification.`))(venue.name)

@@ -8,6 +8,7 @@ import {
   generateLlmMarkdown,
 } from "../src/data/factbook-registry.js";
 import { buildFactbookSchemas } from "../src/data/seo-injection.js";
+import { factbookDates } from "../src/data/factbook-dates.js";
 import sitesWorker from "../worker/index.js";
 
 const EXPECTED_VENUES = [
@@ -201,7 +202,9 @@ test("worker serves factbook route SSR with marker, Schema.org Dataset, and loca
   const expectedModified = buildFactbookSchemas(FACTBOOK_REGISTRY.binance, "en")
     .find((schema) => schema["@type"] === "Dataset")
     .dateModified;
-  assert.equal(expectedModified, AUDIT_DATE);
+  // Audit NX-06 (2026-10-11): dateModified is the latest real review date of the data shown, not the dossier date.
+  assert.equal(expectedModified, factbookDates("binance").latestReviewOn);
+  assert.ok(expectedModified >= AUDIT_DATE);
   assert.ok(htmlEn.includes(`"dateModified":"${expectedModified}"`));
   assert.match(htmlEn, /"isBasedOn":"https:\/\/www\.binance\.com"/);
   assert.doesNotMatch(htmlEn, /"@type":"FAQPage"/);

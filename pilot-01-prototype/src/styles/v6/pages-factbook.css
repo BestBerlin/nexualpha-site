@@ -328,3 +328,12 @@
 @media (max-width: 1023px) {
   #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-body__container:not(#_) { gap: 24px; }
 }
+/* Audit NX-06: the three record dates (fees checked / benefit terms confirmed / source dossier compiled). */
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-dates { display: flex; flex-wrap: wrap; gap: var(--s-2, 8px) var(--s-6, 24px); margin: var(--s-3, 12px) 0 0; padding: 0; font-size: var(--t-14); line-height: var(--lh-body, 1.55); color: var(--n11); }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-dates > div { display: flex; gap: 6px; margin: 0; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-dates dt { margin: 0; color: var(--n11); font-weight: 400; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-dates dd { margin: 0; color: var(--n12); font-variant-numeric: tabular-nums; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-act-badge--partner dd { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-act-badge--partner .act-note { font-size: var(--t-14); color: var(--n11); }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-act-badge--partner small.act-note { flex-basis: 100%; }
+#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-activation-disclosure { margin-block-start: var(--s-2, 8px); }

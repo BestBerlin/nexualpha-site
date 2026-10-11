@@ -118,6 +118,8 @@
   font-variant-numeric: tabular-nums;
 }
 .mx-count b { color: var(--text-strong); font-weight: 600; }
+/* 5.4: what "Verified first" means (base fees checked), on its own line under the toolbar. */
+.mx-legend { flex: 1 0 100%; order: 10; margin: 0; font-size: var(--t-xs); line-height: 1.5; color: var(--text-muted); }
 
 /* ---------- table ---------- */
 .mx-scroll {

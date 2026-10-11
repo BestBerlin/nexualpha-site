@@ -48,7 +48,7 @@ const PREVIOUSLY_ENGLISH = {
     "Crypto Fear &amp; Greed Index &amp; Asset Monitor",
     "Crypto Fear &amp; Greed Index",
     "No verifiable market or sentiment feed is currently connected; simulated prices, indexes and venue advice are hidden.",
-    "Data status: unavailable. Connect a verified feed before publishing market or venue conclusions.",
+    "Data status: no verified live feed yet, so no market or venue conclusions are shown.",
     "Data unavailable",
   ],
   telegram: ["Open advanced Bot commands"],

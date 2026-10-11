@@ -17,6 +17,7 @@ import { tradingBleedCopy, bleedCopyFeedback } from "../../data/trading-bleed-co
 import { buildDecisionReturnHref, readDecisionReturnState, decisionReturnCopy } from "../../data/decision-return.js";
 import { DecisionReturnLink } from "./DecisionReturnLink.jsx";
 import { formatPercent } from "../../data/format-percent.js";
+import { formatFeeRate } from "../../data/format-fee.js";
 import "./trading-bleed-analyzer.css";
 
 export async function copyTextWithFeedback(clipboard, text) {
@@ -157,7 +158,7 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
   const reviewedBaseFee = useMemo(() => reviewedBleedAnalyzerFee(db, type), [db, type]);
   const feeText = feeSummaryCopy(locale);
   const reviewedBaseFeeCopy = reviewedBaseFee ? reviewedFeeCopy(reviewedBaseFee, locale) : null;
-  const formattedRate = reviewedBaseFee ? new Intl.NumberFormat(locale, { maximumFractionDigits: 4 }).format(reviewedBaseFee.takerRate * 100) : null;
+  const formattedRate = reviewedBaseFee ? formatFeeRate(reviewedBaseFee.takerRate, locale) : null;
   const calculations = useMemo(() => calculateBleedScenario({
     db,
     type,
@@ -296,9 +297,9 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
             <p className="bleed-verdict__alert">{String(ui.statusHigh).replace(/^[^\p{L}\p{N}]+/u, "")}</p>
             {reviewedBaseFee && reviewedBaseFeeCopy && (
               <details className="bleed-fee-source">
-                <summary>{feeText.checked}: {reviewedBaseFee.checkedAt} · {formattedRate}% · {reviewedBaseFeeCopy.tier}</summary>
+                <summary>{feeText.checked}: {reviewedBaseFee.checkedAt} · {formattedRate} · {reviewedBaseFeeCopy.tier}</summary>
                 <p>{reviewedBaseFeeCopy.scope}</p>
-                <p>{ui.monthlyVol} {currentVol.toLocaleString()} {ui.unit} × {formattedRate}% × 12</p>
+                <p>{ui.monthlyVol} {currentVol.toLocaleString()} {ui.unit} × {formattedRate} × 12</p>
                 <a href={reviewedBaseFee.sourceUrl} target="_blank" rel="noopener noreferrer">{feeText.source} ↗</a>
               </details>
             )}

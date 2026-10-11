@@ -3,6 +3,7 @@
 // the accent marks only a lower verified figure (positive data) and the destination of the route.
 import { BrandMark } from "../brand/BrandMark";
 import { EXCHANGE_FACTS, factsForVenue, feeFact, feePct } from "../../data/exchange-facts.js";
+import { formatFeeNumber } from "../../data/format-fee.js";
 import { labels as factLabels } from "../v3/ExchangeFactsV5.jsx";
 import { matrixCopy } from "../v3/exchange-matrix-copy.js";
 import { labText } from "../v3/LeanHeroCopyLab.js";
@@ -14,10 +15,10 @@ import { r9Text } from "./inner-r9-copy.js";
 export const FEE_SCALE = Math.max(0, ...Object.values(EXCHANGE_FACTS).flatMap((f) => ["spot", "perp"].flatMap((p) => (f.fields[p].state === "checked" ? [f.fields[p].maker, f.fields[p].taker] : [])).filter((v) => Number.isFinite(v)))) || 0.1;
 const share = (v) => Math.max(0, Math.min(1, v / FEE_SCALE));
 
-function Axis({ className = "r9-axis" }) {
+function Axis({ className = "r9-axis", locale = "en" }) {
   return (
     <div className={className} aria-hidden="true">
-      <span className="v6-num">0</span><span className="v6-num">{feePct(FEE_SCALE / 2)}</span><span className="v6-num">{feePct(FEE_SCALE)}</span>
+      <span className="v6-num">0</span><span className="v6-num">{feePct(FEE_SCALE / 2, locale)}</span><span className="v6-num">{feePct(FEE_SCALE, locale)}</span>
     </div>
   );
 }
@@ -36,7 +37,7 @@ export function VenueFeeLedger({ slug, locale }) {
   let n = 0;
   return (
     <figure className="r9-led" aria-label={l.fees}>
-      <Axis />
+      <Axis locale={locale} />
       {groups.map(({ key, name, sub, f }) => {
         const none = f.maker == null && f.taker == null;
         return (
@@ -50,7 +51,7 @@ export function VenueFeeLedger({ slug, locale }) {
                   <span className="r9-led__side">{side}</span>
                   {v == null
                     ? <span className="r9-led__fig r9-led__fig--nc">{nc}</span>
-                    : <span className="r9-led__fig v6-num" translate="no">{feePct(v)}</span>}
+                    : <span className="r9-led__fig v6-num" translate="no">{feePct(v, locale)}</span>}
                   <span className="r9-track" aria-hidden="true">{v != null && <i style={{ "--w": share(v) }} />}</span>
                 </p>
               ))
@@ -59,7 +60,7 @@ export function VenueFeeLedger({ slug, locale }) {
         );
       })}
       <figcaption className="r9-led__foot">
-        <span>{t.scale.replace("{max}", feePct(FEE_SCALE))}</span>
+        <span>{t.scale.replace("{max}", feePct(FEE_SCALE, locale))}</span>
         {discounts.length > 0 && (
           <span className="r9-led__disc">
             {l.discount}{" "}
@@ -101,7 +102,7 @@ export function CompareFeeLedger({ a, b, nameA, nameB, locale }) {
     .filter((p) => !full(p.g) && [...p.pa, ...p.pb].some((x) => x != null));
   if (!rows.length && !half.length) return null;
   const pendingBits = ["spot", "perp"].filter((g) => [0, 1].every((i) => val(fa, g, i) == null && val(fb, g, i) == null)).map((g) => t.prod[g === "spot" ? 0 : 1]);
-  const pairText = (p) => (p.every((x) => x == null) ? t.nc : p.map((x) => (x == null ? "–" : feePct(x))).join(" / "));
+  const pairText = (p) => (p.every((x) => x == null) ? t.nc : p.map((x) => (x == null ? "–" : feePct(x, locale))).join(" / "));
   const spot = [0, 1].map((i) => [val(fa, "spot", i), val(fb, "spot", i)]);
   let gap = null;
   if (spot.every(([x, y]) => x != null && y != null)) {
@@ -111,17 +112,17 @@ export function CompareFeeLedger({ a, b, nameA, nameB, locale }) {
     gap = { v: Math.round(d[k] * 1e4) / 1e4, low: x === y ? null : (x < y ? nameA : nameB), row: t.rows[k] };
   }
   const gapText = gap ? (gap.low ? t.lower.replace("{n}", gap.low).replace("{row}", gap.row) : t.same) : t.nc;
-  const fig = (v) => <span className="r9-cmp__fig v6-num" translate="no">{feePct(v)}</span>;
+  const fig = (v) => <span className="r9-cmp__fig v6-num" translate="no">{feePct(v, locale)}</span>;
   const bar = (v, other) => <span className="r9-track" aria-hidden="true"><i style={{ "--w": share(v) }} data-low={v < other ? "" : undefined} /></span>;
   return (
     <section className="r9-cmp" aria-label={`${nameA} / ${nameB}: ${t.gap}`}>
       <div className="r9-cmp__head">
         <p className="r9-cmp__id r9-cmp__id--a" translate="no"><BrandMark slug={a} compact /><b>{nameA}</b></p>
         <div className="r9-cmp__gap" data-tie={gap && !gap.low ? "" : undefined} data-none={gap ? undefined : ""}>
-          <p className="r9-cmp__num v6-num" aria-hidden="true">{gap ? feePct(gap.v).replace("%", "") : "–"}{gap && <small>pp</small>}</p>
+          <p className="r9-cmp__num v6-num" aria-hidden="true">{gap ? formatFeeNumber(gap.v, locale) : "–"}{gap && <small>pp</small>}</p>
           <p className="r9-cmp__cap">{t.gap}</p>
           <p className="r9-cmp__low">{gapText}</p>
-          <span className="cl-sr">{gap ? `${t.gap}: ${feePct(gap.v).replace("%", "")} pp. ${gapText}` : `${t.gap}: ${t.nc}`}</span>
+          <span className="cl-sr">{gap ? `${t.gap}: ${formatFeeNumber(gap.v, locale)} pp. ${gapText}` : `${t.gap}: ${t.nc}`}</span>
         </div>
         <p className="r9-cmp__id r9-cmp__id--b" translate="no"><BrandMark slug={b} compact /><b>{nameB}</b></p>
       </div>
@@ -142,7 +143,7 @@ export function CompareFeeLedger({ a, b, nameA, nameB, locale }) {
         ))}
         {pendingBits.length > 0 && <p className="r9-cmp__pending">{`${t.nc}: ${pendingBits.join(", ")}`}</p>}
       </div>
-      <p className="r9-cmp__foot">{r.scale.replace("{max}", feePct(FEE_SCALE))}</p>
+      <p className="r9-cmp__foot">{r.scale.replace("{max}", feePct(FEE_SCALE, locale))}</p>
     </section>
   );
 }

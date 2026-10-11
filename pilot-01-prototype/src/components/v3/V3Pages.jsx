@@ -1853,7 +1853,7 @@ function VenueTieredFeeMatrix({ venue, locale, db, rebatePercent, inviteCode, re
 
   const feeText = feeSummaryCopy(locale);
   const summary = buildVenueFeeSummary(db, researchForVenue(venue.slug, locale) || {});
-  const formatRate = feePctOfRate;
+  const formatRate = (rate) => feePctOfRate(rate, locale);
 
   return (
     <section className="v2-section v3-fee-matrix-section" id="fee-schedule">
@@ -3381,7 +3381,7 @@ const publishableFeeRate = (summary, product, locale = "en") => {
   const rate = summary.rates.find((item) => item.product === product);
   if (!rate) return null;
   const scope = reviewedFeeCopy(rate, locale);
-  const pair = `${feePctOfRate(rate.makerRate)} / ${feePctOfRate(rate.takerRate)}`;
+  const pair = `${feePctOfRate(rate.makerRate, locale)} / ${feePctOfRate(rate.takerRate, locale)}`;
   return { ...rate, publishable: true, pair, tier: scope.tier, display: `${pair} (${matrixCopy(locale).maker}) · ${scope.tier} · ${scope.scope}`, conditions: scope.conditions };
 };
 const formatVerifiedNet = (rate, rebate, product = "spot") => rate?.publishable && Number.isFinite(rebate)
@@ -3782,10 +3782,10 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                       <div className="v3-matrix-net-box">
                         <div className="v3-matrix-net-row">
                           <span className="v3-matrix-net-label">{isZh ? "现货净:" : compareDetailPhrase(locale, "spotNet", "Spot Net:")}</span>
-                          <strong className={Number.isFinite(d.effectiveSpotTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveSpotTaker) ? formatCompareRate(d.effectiveSpotTaker) : localePending(locale)}</strong>
+                          <strong className={Number.isFinite(d.effectiveSpotTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveSpotTaker) ? feePctOfRate(d.effectiveSpotTaker, locale) : localePending(locale)}</strong>
                           <span className="v3-matrix-net-label">|</span>
                           <span className="v3-matrix-net-label">{isZh ? "合约净:" : compareDetailPhrase(locale, "futuresNet", "Futures Net:")}</span>
-                          <strong className={Number.isFinite(d.effectiveFuturesTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveFuturesTaker) ? formatCompareRate(d.effectiveFuturesTaker) : localePending(locale)}</strong>
+                          <strong className={Number.isFinite(d.effectiveFuturesTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveFuturesTaker) ? feePctOfRate(d.effectiveFuturesTaker, locale) : localePending(locale)}</strong>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
                           {Number.isFinite(d.rebate) && d.rebate > 0 && d.netCostPublishable && (

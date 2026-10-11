@@ -6,6 +6,7 @@ import { venueDecisionContent } from "../../data/venue-decision-content";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { regionalCtaState, regionalDirectoryCandidateState, venueMarketStatus } from "../../data/directory-context.js";
 import { localizedHref } from "../../data/locale-routing.js";
+import { formatFeeParts } from "../../data/format-fee.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { EXCHANGE_FACTS, venueCheckedOn } from "../../data/exchange-facts.js";
 import { localizeRegionNote } from "./exchange-matrix-copy.js";
@@ -19,10 +20,8 @@ const SEGMENTS = [
   { id: "Perp DEX", key: "perpdex" },
 ];
 
-const fmtRate = (value) => {
-  const s = Number(value).toFixed(3);
-  return s.endsWith("0") ? s.slice(0, -1) : s;
-};
+// Shared fee formatter (format-fee.js): exact reviewed precision, locale decimal separator and percent placement.
+const feeParts = (value, locale) => formatFeeParts(Number(value), locale) || { prefix: "", number: "–", suffix: "" };
 const hasPair = (pair) => Array.isArray(pair) && pair[0] != null && pair[1] != null;
 
 function SortIcon() {
@@ -49,7 +48,7 @@ function ArrowIcon() {
 }
 
 // Fee figure that fades/translates in when its column becomes the sort key. The digits are never tweened.
-function CountNum({ value, run, delay = 0 }) {
+function CountNum({ value, run, delay = 0, locale }) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
@@ -59,7 +58,8 @@ function CountNum({ value, run, delay = 0 }) {
     const anim = el.animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 420, delay, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "backwards" });
     return () => anim.cancel();
   }, [run, value, delay]);
-  return <b ref={ref}>{fmtRate(value)}</b>;
+  const p = feeParts(value, locale);
+  return <>{p.prefix ? <u>{p.prefix}</u> : null}<b ref={ref}>{p.number}</b>{p.suffix ? <u>{p.suffix}</u> : null}</>;
 }
 
 function DockSlot({ row, onRemove, mc }) {
@@ -223,7 +223,7 @@ export function ExchangeMatrix({
     const delay = Math.min(index, 10) * 28;
     return (
       <span className="mx-fee num" dir="ltr" translate="no">
-        <CountNum value={pair[0]} run={run} delay={delay} /><u>%</u><i aria-hidden="true">{" / "}</i><CountNum value={pair[1]} run={run} delay={delay} /><u>%</u>
+        <CountNum value={pair[0]} run={run} delay={delay} locale={locale} /><i aria-hidden="true">{" / "}</i><CountNum value={pair[1]} run={run} delay={delay} locale={locale} />
       </span>
     );
   };
@@ -273,10 +273,11 @@ export function ExchangeMatrix({
           />
           {searchQuery ? <button type="button" className="mx-search__clear" onClick={onClearSearch} aria-label={ui.clearSearch}>×</button> : null}
         </div>
-        <button type="button" className="mx-toggle" aria-pressed={verifiedFirst} onClick={() => setVerifiedFirst((v) => !v)} title={mc.recommended}>
+        <button type="button" className="mx-toggle" aria-pressed={verifiedFirst} onClick={() => setVerifiedFirst((v) => !v)} title={mc.verifiedHint} aria-describedby="mx-verified-legend">
           <span className="mx-toggle__box" aria-hidden="true"><svg viewBox="0 0 16 16" width="11" height="11" focusable="false"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
           <span>{mc.verifiedFirst}</span>
         </button>
+        <p className="mx-legend" id="mx-verified-legend">{mc.verifiedHint}</p>
         <p className="mx-count num" role="status" aria-live="polite">
           <span>{mc.show}</span> <b>{venues.length}</b> <span>{mc.of}</span> <b>{totalCount}</b>
         </p>
