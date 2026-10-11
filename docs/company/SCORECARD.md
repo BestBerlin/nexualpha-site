@@ -78,3 +78,4 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 | 2026-10-11 | 68 | baseline (owner request: ≥ 90) |
 | 2026-10-11 18:00 | ~74 | criteria passed: T1 T3 T4 T5 V1 V2 X1 X3 (+ D5, V3, G1 partial). Open in priority order: G1 first ru/tr/vi post, T2 full sweep, V4 axe all templates, C1-C3 content streak, M1/M2 localization, S* time-dependent |
 | 2026-10-11 19:00 | ~80 | passed: T1-T5 V1-V5 C4 C5 D4 M1 M5 X1 X3 (+ D5, D3, X5, G1 partial). Remaining are mostly time-based: C1-C3 streaks, D1/D2 data history, G2/G4 audience, S1-S5 search results, X2/X4 |
+| 2026-10-11 23:30 | ~83 | since 19:00: G1 G3 G5 verified; X5 running (owner chose B); exchange-keyword pages, slogans, SEO/GEO audit fixes (#86 #85 #87) live; articles every 2 h (24/day). Still time-bound: C1–C3 streaks, D1 (11-09), D2/G4 (10-18), X5 data (10-25), S1–S5, X2/X4 |
