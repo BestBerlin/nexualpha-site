@@ -1,0 +1,78 @@
+# NexuAlpha scorecard (target ≥ 90 / 100, set 2026-10-11)
+
+Each module is scored from measurable criteria only. A criterion counts when its evidence (command, file or live URL)
+is recorded here with a date. Weighted total = Σ(module score × weight). Baseline 2026-10-11 = 68.
+
+| Module | Weight | Baseline | Target |
+|---|---|---|---|
+| Technical foundation | 15% | 85 | 95 |
+| Visual & experience | 15% | 75 | 90 |
+| Content | 15% | 55 | 90 |
+| Data & tools | 10% | 70 | 90 |
+| Multilingual | 10% | 60 | 90 |
+| Telegram ecosystem | 10% | 55 | 90 |
+| SEO / AEO results | 15% | 35 | 85 |
+| Conversion | 10% | 40 | 85 |
+
+## Criteria (each worth equal points inside its module)
+
+### Technical foundation
+- T1 Full sitemap sweep: 0 non-200, 0 noindex, 0 non-self-canonical (`/tmp/qa/smnoindex.mjs`). ✅ 2026-10-11 (2,070 URLs)
+- T2 Template × locale browser sweep 390/1440: 0 horizontal overflow, 0 console errors, CLS ≤ 0.1 on ≥ 98% of loads.
+- T3 Key flows 26/26 (`scripts/qa-flows.py`). ✅ 2026-10-11
+- T4 Mobile home: median of 5 Lighthouse-equivalent runs (Playwright, 4× CPU throttle, Fast 3G): LCP ≤ 2.5 s, TBT ≤ 200 ms.
+- T5 Strict build budget passes; settled JS: home ≤ 350 KB, venue ≤ 200 KB, directory ≤ 200 KB. ✅ 2026-10-11 (344/150/177)
+
+### Visual & experience
+- V1 Article page redesigned (reading width, typographic rhythm, lead answer block, data figure support, sticky TOC on desktop) and reviewed at 390/768/1440 with before/after shots.
+- V2 News list, topic hub, factbook hub redesigned to home-level quality (no generic title+card grid).
+- V3 One recognizable brand signature element applied site-wide (documented in DESIGN rules).
+- V4 Keyboard focus visible on all interactive elements; text contrast ≥ 4.5:1 on all templates (axe sweep 0 serious).
+- V5 prefers-reduced-motion respected everywhere (sweep).
+
+### Content
+- C1 ≥ 80% of the last 7 days' articles are hot-news topics (ledger `type`).
+- C2 12 articles/day for 5 consecutive days without a missed run.
+- C3 ≥ 1 article/day uses NexuAlpha's own data (liquidations, funding, flows) as the original angle.
+- C4 0 raw-markdown links, 0 dangling descriptions, 0 local-path links across the feed (sweep).
+- C5 Topic clusters: each top-20 query family has one main page and internal links from its articles.
+
+### Data & tools
+- D1 Liquidation history ≥ 30 days and chart live.
+- D2 Funding page shows ≥ 20 symbols with < 10 min staleness for 7 days (collector log).
+- D3 Embed widget used on ≥ 1 external site OR in ≥ 3 published articles.
+- D4 Every tool page links to the related articles and vice versa (crawl check).
+- D5 Calculator, compare, rates share one state model (URL params round trip test). ✅ partial 2026-10-11
+
+### Multilingual
+- M1 0 identical-to-English UI segments on 252 locale pages except data (l10n.py).
+- M2 ≥ 3 native localized articles/day across the rotation; tr, vi, id each ≥ 10 by 2026-10-25.
+- M3 Every non-English locale news index index,follow with ≥ 5 native articles.
+- M4 Native-review queue for ar/vi/id/ru strings tracked and cleared (owner or reviewer).
+- M5 Locale-specific landing for tr, vi, id (local exchanges, payment rails, regulator) live.
+
+### Telegram ecosystem
+- G1 Per-language channels zh/en/ru/tr/vi live with the channel-feed and alerts posting.
+- G2 Site → bot deep links in every locale; alerts subscribers ≥ 100.
+- G3 Main Mini App configured; Mini App opens from bot profile.
+- G4 Bot → site backlinks tracked (`?src=tg-*`) with ≥ 50 visits/week.
+- G5 Daily funnel DM delivered to owner (21:05).
+
+### SEO / AEO results (time-dependent)
+- S1 GSC 28-day clicks ≥ 300 (baseline 8).
+- S2 GSC average position ≤ 12 (baseline 19.6).
+- S3 Non-English share of impressions ≥ 30% (baseline 13%).
+- S4 AEO monitor: nexualpha.com in DuckDuckGo top 10 for ≥ 6/30 tracked queries (baseline 0/30).
+- S5 URL inspection sample ≥ 80% indexed (baseline 60%).
+
+### Conversion
+- X1 Click attribution complete (site beacon + /go) and reported daily. ✅ 2026-10-11 (G5 pending delivery check)
+- X2 ≥ 30 partner sign-up clicks/week from real visitors (excluding qa-*).
+- X3 Every page with a code shows disclosure in the same viewport (test). ✅
+- X4 Sign-up click → registration confirmation process documented with exchange back-office (owner-provided numbers).
+- X5 A/B-ready CTA copy variants on the home hero (experiment registry) with ≥ 2 weeks of data.
+
+## Score log
+| Date | Total | Notes |
+|---|---|---|
+| 2026-10-11 | 68 | baseline (owner request: ≥ 90) |

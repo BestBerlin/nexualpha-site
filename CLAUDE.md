@@ -1,6 +1,6 @@
 # NexuAlpha site — project instructions
 
-On every new session, first read `docs/company/ITERATION-v8.md` (current milestone, checklist, next steps) and
+On every new session, first read `docs/company/SCORECARD.md` (owner target ≥ 90/100, measurable criteria), `docs/company/ITERATION-v8.md` (current milestone, checklist, next steps) and
 `docs/company/HANDOFF-LOCAL.md`. Design rules live in `pilot-01-prototype/docs/design-unified-v8.md`.
 
 ## Stable rules
