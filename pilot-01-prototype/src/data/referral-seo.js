@@ -93,6 +93,9 @@ const BY_SLUG = Object.fromEntries(REFERRAL_PARTNERS.map((p) => [p.slug, p]));
 // 68 impressions, "hyperliquid funded account" 16), with the invite code added.
 const TITLE_OVERRIDES = {
   hyperliquid: { en: (n, c, y) => `${n} Fees & Referral Code ${c}: Funded Account Checks (${y})` },
+  // Striking distance (GSC 2026-10-11): "backpack fee" ranks ~6; the default no-share title ran past 60 characters and
+  // put "Fees" late. Same invite code from the partner feed, fees first, within the title budget.
+  backpack: { en: (n, c, y) => `${n} Fees & Referral Code ${c} (${y})` },
 };
 const partnersBySlug = () => BY_SLUG;
 

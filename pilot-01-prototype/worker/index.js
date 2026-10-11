@@ -13,7 +13,7 @@ import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
-import { newsListHeroCopy } from "../src/data/news-list-copy.js";
+import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
 import { factbookDates } from "../src/data/factbook-dates.js";
 import { assignHomeHeroVariant, homeHeroSetCookie } from "../src/data/home-hero-experiment.js";
@@ -886,8 +886,8 @@ const PRIORITY_VENUE_SEO = {
   },
   "deribit": {
     "en": {
-      "title": "Deribit Options Fees, 10% User Discount, Migration and Entity Checks",
-      "description": "Deribit options and futures fees, six-month 10% user fee discount terms, DRB Panama versus FZE entity limits, spot exclusion, margin modes and liquidation risk.",
+      "title": "Deribit Fees: Options, Futures and 10% User Discount Terms",
+      "description": "Deribit fees for options and futures, the six-month 10% user fee discount, DRB Panama vs FZE entity limits, spot exclusion, margin modes and liquidation risk.",
       "reviewedAt": "2026-09-29",
       "sourceUrls": [
         "https://support.deribit.com/hc/en-us/articles/25944746248989-Fees",
@@ -6749,7 +6749,7 @@ async function routeMetadataBase(url, env, newsFeed) {
       id: ["Berita pasar dan riset berbasis sumber — NexuAlpha", "NexuAlpha meneliti pasar kripto, platform, risiko, dan aset bertoken dengan tautan sumber."],
       vi: ["Tin thị trường và nghiên cứu có nguồn — NexuAlpha", "NexuAlpha nghiên cứu thị trường tiền mã hóa, nền tảng, rủi ro và tài sản token hóa kèm liên kết nguồn."],
       it: ["Notizie di mercato e ricerca con fonti — NexuAlpha", "NexuAlpha analizza mercati crypto, piattaforme, rischi e asset tokenizzati con link alle fonti."],
-    }[displayLocale] || ["Market News & Source-Backed Research — NexuAlpha", "Source-backed crypto market structure, exchange, risk and tokenized-asset research from NexuAlpha."];
+    }[displayLocale] || [NEWS_HUB_SEO_EN.title, NEWS_HUB_SEO_EN.description];
     // Library pages (2026-10-10): /news/page/N and /news/category/<key>[/page/N] are self-canonical collections.
     const { category, page } = newsListing;
     const pagination = paginateNews(newsFeed?.articles || [], { category, page, locale: displayLocale });

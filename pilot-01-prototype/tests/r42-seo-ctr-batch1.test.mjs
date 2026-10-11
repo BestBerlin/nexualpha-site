@@ -61,8 +61,9 @@ test("R42 SEO CTR batch sharpens four owner pages without changing commercial li
     },
     {
       path: "/exchanges/deribit",
-      title: /Deribit Options Fees, 10% User Discount, Migration and Entity Checks/,
-      description: /six-month 10% user fee discount terms/,
+      // Striking distance 2026-10-11: fees-first title within the 60-character budget.
+      title: /Deribit Fees: Options, Futures and 10% User Discount Terms/,
+      description: /six-month 10% user fee discount/,
       schema: /crypto options, futures, perpetuals, margin models, API execution or liquidation mechanics/,
     },
     {

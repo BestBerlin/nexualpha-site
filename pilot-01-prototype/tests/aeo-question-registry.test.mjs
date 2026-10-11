@@ -9,8 +9,9 @@ import {
 } from "../src/data/aeo-question-registry.js";
 
 test("AEO question registry contains unique, bounded international targets", () => {
-  assert.equal(AEO_QUESTION_REGISTRY.length, 140);
-  assert.equal(new Set(AEO_QUESTION_REGISTRY.map((item) => item.id)).size, 140);
+  // 141 since 2026-10-11: reviewed no-kyc FAQ r100-no-kyc-5 ("Does Hyperliquid require KYC?", striking-distance lane).
+  assert.equal(AEO_QUESTION_REGISTRY.length, 141);
+  assert.equal(new Set(AEO_QUESTION_REGISTRY.map((item) => item.id)).size, 141);
   for (const item of AEO_QUESTION_REGISTRY) {
     assert.match(item.canonicalPath, /^\//);
     assert.ok(item.question.length >= 20);

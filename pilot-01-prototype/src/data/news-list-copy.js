@@ -2,7 +2,9 @@
 // NewsListPage renders it in the browser and in the SSR entry; the worker uses the same strings for the fallback body
 // and for the routeMetadata heading/intro, so the server HTML and the first client render can never disagree.
 const HERO_COPY = Object.freeze({
-  en: { eyebrow: "Market news & research", title: "News & Research", subtitle: "Explore platform choices, trading costs and policy changes through analysis linked to official sources." },
+  // Striking distance (GSC 2026-10-11): /news ranks ~10.8 for exchange-news queries ("okx bybit coinbase bitget kraken
+  // 2026 new product launch"), so the English H1 and intro name the venues the feed actually covers most.
+  en: { eyebrow: "Market news & research", title: "Crypto exchange news & research", subtitle: "News on Binance, OKX, Coinbase, Kraken and Bybit: product and API changes, account guides and regulation, each linked to official sources." },
   "zh-Hans": { eyebrow: "市场观察与研究", title: "新闻与研究", subtitle: "通过附有官方来源的分析，了解平台选择、交易成本与政策变化。" },
   "zh-Hant": { eyebrow: "市場觀察與研究", title: "新聞與研究", subtitle: "透過附有官方來源的分析，了解平台選擇、交易成本與政策變化。" },
   ja: { eyebrow: "市場ニュースとリサーチ", title: "ニュースとリサーチ", subtitle: "公式資料に基づく分析で、プラットフォーム選び、取引コスト、政策の変化を確認できます。" },
@@ -17,6 +19,12 @@ const HERO_COPY = Object.freeze({
   id: { eyebrow: "Berita pasar dan riset", title: "Berita dan riset", subtitle: "Pelajari pilihan platform, biaya perdagangan, dan perubahan kebijakan melalui analisis yang merujuk pada sumber resmi." },
   vi: { eyebrow: "Tin thị trường và nghiên cứu", title: "Tin tức và nghiên cứu", subtitle: "Tìm hiểu cách chọn nền tảng, chi phí giao dịch và thay đổi chính sách qua các phân tích dựa trên nguồn chính thức." },
   it: { eyebrow: "Notizie di mercato e ricerca", title: "Notizie e ricerca", subtitle: "Approfondisci la scelta delle piattaforme, i costi di negoziazione e i cambiamenti normativi con analisi basate su fonti ufficiali." },
+});
+
+// English search head of the /news hub (Worker routeMetadata and the SSR seo-injection share it).
+export const NEWS_HUB_SEO_EN = Object.freeze({
+  title: "Crypto Exchange News & Research — NexuAlpha",
+  description: "Exchange news and research on Binance, OKX, Coinbase, Kraken and Bybit: API and product changes, account guides and regulation, linked to official sources.",
 });
 
 export const NEWS_LIST_COPY_LOCALES = Object.freeze(Object.keys(HERO_COPY));

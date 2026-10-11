@@ -257,6 +257,24 @@ export const REVIEWED_TOPIC_FAQS = {
         }
       ],
       "answerBoundary": "Official Hyperliquid interface only; no country-list, personal eligibility, contract enforcement or universal protocol claim. Browser evidence supplied by root and read from the proof file. Official Interface terms are readable in the browser supplement. Interface restrictions cannot be generalized to the underlying protocol, other frontends or personal eligibility."
+    },
+    {
+      "id": "r100-no-kyc-5",
+      "qEn": "Does Hyperliquid require KYC?",
+      "aEn": "NexuAlpha's Hyperliquid record lists no identity-verification (KYC) step: the official interface is used by connecting a self-custody wallet, not by opening an identity-verified account. That does not mean there are no rules. Hyperliquid's official Interface terms bind users when they connect a wallet, prohibit Restricted Persons from using the Interface and prohibit concealing location or circumventing restrictions, and our record notes front-end blocking for United States IPs. Check the current terms and your own eligibility before depositing.",
+      "qZh": "Hyperliquid 需要 KYC 吗？",
+      "aZh": "NexuAlpha 的 Hyperliquid 记录未列出身份验证（KYC）步骤：官方界面通过连接自托管钱包使用，而不是开设经身份验证的账户。但这不等于没有规则。Hyperliquid 官方界面条款在用户连接钱包时即对其生效，禁止受限人员使用该界面，并禁止隐瞒所在地或规避限制；我们的记录还注明前端会屏蔽美国 IP。转入资金前，请核对最新条款和你本人的使用资格。",
+      "qHant": "Hyperliquid 需要 KYC 嗎？",
+      "aHant": "NexuAlpha 的 Hyperliquid 紀錄未列出身分驗證（KYC）步驟：官方介面透過連接自託管錢包使用，而不是開設經身分驗證的帳戶。但這不代表沒有規則。Hyperliquid 官方介面條款於使用者連接錢包時即對其生效，禁止受限人士使用該介面，並禁止隱瞞所在地或規避限制；我們的紀錄也註明前端會封鎖美國 IP。入金前，請查閱最新條款與你本人的使用資格。",
+      "sources": [
+        {
+          "url": "https://app.hyperliquid.xyz/terms",
+          "label": "Hyperliquid Terms — official interface, Chrome browser evidence",
+          "reviewedAt": "2026-10-02T01:21:36.687Z",
+          "updatedAt": "2026-06-15"
+        }
+      ],
+      "answerBoundary": "Striking-distance answer (GSC 2026-10-11, query 'does hyperliquid require kyc'). No-KYC-step and US front-end blocking come from the existing NexuAlpha venue record (venue-database kycLevel 'none', restrictedRegions); wallet connection, Restricted Persons and anti-circumvention come from the official Interface terms already cited in r100-no-kyc-4. No country list, personal eligibility, protocol-level or future-policy claim."
     }
   ]
 };
