@@ -11,7 +11,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { getNewsArticleBySlug } from "../../../data/news-articles-data.js";
 import { venueDatabase } from "../../../data/venue-database.js";
 import { OKX_USD_USDC_OWNER_CHECKLIST, loadNewsArticleBySlug, localizedNewsSummary, localizedNewsTitle, localizedValue, newsArticleUrl, resolveNewsContentLocale } from "../../../data/news-feed-client.js";
-import { newsCategoryCopy, newsLibraryCopy, relatedNewsArticles } from "../../../data/news-library.js";
+import { isNewsCategory, newsCategoryCopy, newsLibraryCopy, newsListingPath, relatedNewsArticles } from "../../../data/news-library.js";
 import { contextualHref } from "../../../data/contextual-href.js";
 import { validComparison } from "../../../data/browser-state.js";
 import { applyNotFoundSeo, syncRouteSeo } from "../../../data/route-seo-client.js";
@@ -24,6 +24,9 @@ import { NewsVenueOffer } from "./NewsVenueOffer.jsx";
 import { NewsTelegramAlerts } from "./NewsTelegramAlerts.jsx";
 import { createPartnerAutolinker, relatedPartnerLinks } from "./partner-autolink.js";
 import { tokenizeInlineMarkdown } from "../../../data/article-inline-markdown.js";
+import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
+import { ArticleMarketContext } from "./ArticleMarketContext.jsx";
+import { detectArticleAssets } from "./article-market-context.js";
 import "./news-detail-page.css";
 
 const copy = {
@@ -544,6 +547,20 @@ function renderInline(text, linker = null, locale = "en") {
   return parts.length === 1 && typeof parts[0] === "string" ? parts[0] : parts;
 }
 
+// A cell that is only a figure (price, percent, bps, multiple, signed change) is set in tabular figures, end-aligned.
+const NUMERIC_CELL = /^[~≈<>≤≥±+\-−]?\s?[$€£¥]?\s?\d[\d,.\s]*(?:%|bps|x|×|[KMB]\b|\s?(?:USD|USDT|USDC|BTC|ETH|SOL))?(?:\s?(?:\/|–|-|to)\s?[$€£¥]?\d[\d,.]*(?:%|bps|x|×|[KMB])?)?$/i;
+export function isNumericCell(cell) {
+  const text = String(cell || "").replace(/\*\*|`/g, "").trim();
+  return text.length > 0 && text.length <= 32 && NUMERIC_CELL.test(text);
+}
+
+// Lead answer (editorial templates 2026-10-11): the article's first H2 section is the direct answer. Its heading text is
+// what the publisher wrote ("The short answer", "简短回答", "Kısa cevap", …); this list only marks it as such.
+const SHORT_ANSWER_HEADING = /^(?:the\s+)?short\s+answer|^in\s+short|^简短回答|^簡短回答|^核心结论|^一句话|^短い答え|^要点|^짧은\s*답|^핵심\s*답|^kısa\s+cevap|^trả\s+lời\s+ngắn|^câu\s+trả\s+lời\s+ngắn|^краткий\s+ответ|^коротко|^respuesta\s+corta|^en\s+resumen|^resposta\s+curta|^em\s+resumo|^réponse\s+courte|^en\s+bref|^kurze\s+antwort|^kurz\s+gesagt|^risposta\s+breve|^in\s+breve|^jawaban\s+singkat|^singkatnya|^الإجابة\s+المختصرة|^الجواب\s+المختصر|^باختصار/i;
+export function isShortAnswerHeading(text) {
+  return SHORT_ANSWER_HEADING.test(String(text || "").replace(/^#+\s*/, "").trim());
+}
+
 function renderMarkdownBlock(block, index, t, linker = null, locale = "en") {
   // Headings count as mentions for the related line but never carry a partner link.
   if (block.startsWith("### ")) { linker?.observe(block); return <h3 key={index}>{renderInline(block.replace(/^### /, ""), null, locale)}</h3>; }
@@ -567,7 +584,7 @@ function renderMarkdownBlock(block, index, t, linker = null, locale = "en") {
             </thead>
             <tbody>
               {body.map((row, rowIndex) => (
-                <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={`${rowIndex}-${cellIndex}`}>{renderInline(cell, linker, locale)}</td>)}</tr>
+                <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={`${rowIndex}-${cellIndex}`} className={isNumericCell(cell) ? "is-num" : undefined}>{renderInline(cell, linker, locale)}</td>)}</tr>
               ))}
             </tbody>
           </table>
@@ -645,6 +662,8 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   // 2026-10-10 (audit finding 11): the full analysis is open by default; readers can still collapse it.
   const [showFullArticle, setShowFullArticle] = useState(true);
   const articleDisclosureRef = useRef(null);
+  // Scroll-spy for the desktop section index; null on the server and the first client render (no hydration drift).
+  const [activeSection, setActiveSection] = useState(null);
   const articleDisclosureContextRef = useRef(null);
   const article = getNewsArticleBySlug(slug, articles);
   const hasRequestedLanguageBody = Boolean(article?.content?.[locale]);
@@ -703,6 +722,18 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
     return () => window.removeEventListener("hashchange", onHash);
   }, [article, feedState, locale]);
 
+  useEffect(() => {
+    if (!article || feedState !== "ready" || typeof IntersectionObserver !== "function") return undefined;
+    const targets = [...document.querySelectorAll('.news-detail__content [id^="article-section-"], #article-sources')];
+    if (!targets.length) return undefined;
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible[0]) setActiveSection(visible[0].target.id);
+    }, { rootMargin: "-88px 0px -66% 0px", threshold: 0 });
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, [article, feedState, locale]);
+
   if (feedState === "loading") {
     return (
       <main className="v6 v2-page v3-page news-detail-page v3-page--empty" id="top" {...sectionEyebrowAttrs(locale, "news")} aria-live="polite" aria-busy="true">
@@ -747,7 +778,15 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
       <a key={`partner-${slug}`} href={withContext(href)} className="news-detail__partner-link" data-partner-link={slug} data-cta-kind="research" data-cta-placement="news-detail-partner-mention">{text}</a>
     ),
   });
-  const leadNodes = leadBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index, t, partnerLinker, locale));
+  // The first H2 section is the lead answer: its heading becomes the section's data rule (same id, same TOC target).
+  const leadHeading = leadBlocks[0]?.startsWith("## ") ? leadBlocks[0] : null;
+  if (leadHeading) partnerLinker.observe(leadHeading);
+  const leadKind = leadHeading ? (isShortAnswerHeading(leadHeading) ? "short-answer" : "lead") : null;
+  const leadNodes = leadBlocks.map((paragraph, index) => (index === 0 && leadHeading) ? null : renderMarkdownBlock(paragraph, index, t, partnerLinker, locale));
+  const publishedStamp = utcStamp(article.publishedAt);
+  const marketAssets = detectArticleAssets({ title: `${title}\n${localizedNewsTitle(article, "en")}`, summary: `${localizedSummary}\n${localizedNewsSummary(article, "en")}`, body: content });
+  const categoryLabel = localizedValue(article.categoryName, locale);
+  const categoryHref = isNewsCategory(article.category) ? withContext(newsListingPath({ category: article.category })) : null;
   const deepNodes = deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t, partnerLinker, locale));
   const relatedPartners = relatedPartnerLinks({ locale, slugs: partnerLinker.mentionedSlugs() });
   const sectionLabel = sectionNavigationLabels[locale] || sectionNavigationLabels.en;
@@ -773,15 +812,21 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
         </nav>
 
         <header className="news-detail__header">
-          <div className="news-detail__meta">
-            <span className="news-detail__tag">{localizedValue(article.categoryName, locale)}</span>
-            <time className="news-detail__date" dateTime={article.publishedAt}>{new Date(article.publishedAt).toLocaleDateString(locale, { timeZone: "UTC" })}</time>
-            <span className="news-detail__readtime">{localizeReadTime(article.readTime, t)}</span>
-          </div>
+          <p className="news-detail__category">
+            {categoryHref
+              ? <a className="news-detail__tag" href={categoryHref} data-cta-kind="research" data-cta-placement="news-detail-category">{categoryLabel}</a>
+              : <span className="news-detail__tag">{categoryLabel}</span>}
+          </p>
 
           <h1 className="news-detail__title">{title}</h1>
 
-          <ArticleByline article={article} locale={locale} />
+          <div className="news-detail__metaline">
+            <ArticleByline article={article} locale={locale} />
+            <div className="news-detail__meta">
+              <time className="news-detail__date" dateTime={article.publishedAt}>{new Date(article.publishedAt).toLocaleDateString(locale, { timeZone: "UTC" })}{publishedStamp ? <span className="news-detail__clock"> {publishedStamp.slice(13)}</span> : null}</time>
+              <span className="news-detail__readtime">{localizeReadTime(article.readTime, t)}</span>
+            </div>
+          </div>
           {showsOriginalLanguage && (
             <p className="news-detail__translation-note" role="note">
               {t.originalLanguageNotice}
@@ -792,12 +837,15 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
         <div className="news-detail__rail">
           <ArticleDecisionSummary article={article} withContext={withContext} locale={locale} t={t} />
           <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="rail" />
-          {sectionTargets.length >= 2 && <nav className="news-detail__toc" aria-label={sectionLabel} lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
-            <p className="news-detail__toc-label">{sectionLabel}</p>
-            <ol>
-              {sectionTargets.map((target) => <li key={target.id}><button type="button" lang={target.id === "article-sources" ? locale : contentLocale} onClick={() => jumpToSection(target.id)}>{target.label}</button></li>)}
-            </ol>
-          </nav>}
+          <div className="news-detail__rail-sticky">
+            {sectionTargets.length >= 2 && <nav className="news-detail__toc" aria-label={sectionLabel} lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+              <p className="news-detail__toc-label">{sectionLabel}</p>
+              <ol>
+                {sectionTargets.map((target) => <li key={target.id}><button type="button" lang={target.id === "article-sources" ? locale : contentLocale} aria-current={activeSection === target.id ? "true" : undefined} onClick={() => jumpToSection(target.id)}>{target.label}</button></li>)}
+              </ol>
+            </nav>}
+            <ArticleMarketContext assets={marketAssets} locale={locale} />
+          </div>
         </div>
 
         {/* 文章正文 */}
@@ -809,14 +857,25 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
               <small>{t.sourceBodyBody}</small>
             </aside>
           )}
+          {/* below 1024px the section index is a collapsed disclosure; desktop uses the sticky rail index */}
           {sectionTargets.length >= 2 && <nav className="news-detail__section-nav" aria-label={sectionLabel} lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
-            <label className="news-detail__section-nav-label" htmlFor="article-section-select">{sectionLabel}</label>
-            <select className="news-detail__section-select" id="article-section-select" defaultValue="" onChange={(event) => { jumpToSection(event.currentTarget.value); event.currentTarget.value = ""; }}>
-              <option value="" disabled>{sectionLabel}</option>
-              {sectionTargets.map((target) => <option key={target.id} value={target.id} lang={target.id === "article-sources" ? locale : contentLocale}>{target.label}</option>)}
-            </select>
+            <details className="news-detail__section-disclosure">
+              <summary><span>{sectionLabel}</span><span className="news-detail__section-count">{String(sectionTargets.length).padStart(2, "0")}</span></summary>
+              <ol>
+                {sectionTargets.map((target) => <li key={target.id}><a href={`#${target.id}`} lang={target.id === "article-sources" ? locale : contentLocale} onClick={(event) => { event.preventDefault(); const disclosure = event.currentTarget.closest("details"); if (disclosure) disclosure.open = false; jumpToSection(target.id); }}>{target.label}</a></li>)}
+              </ol>
+            </details>
           </nav>}
-          <div className="news-detail__prose news-detail__prose--lead">
+          <div className={`news-detail__prose news-detail__prose--lead${leadHeading ? " news-detail__answer" : ""}`} data-lead-kind={leadKind || undefined}>
+            {leadHeading && <DataRule
+              as="h2"
+              className="news-detail__answer-rule"
+              label={renderInline(leadHeading.replace(/^## /, ""), null, locale)}
+              labelId="article-section-0"
+              labelProps={{ tabIndex: -1 }}
+              stamp={publishedStamp ? <><span className="nx-rule__date">{publishedStamp.slice(0, 13)}</span>{publishedStamp.slice(13)}</> : null}
+              dateTime={article.publishedAt}
+            />}
             {leadNodes}
           </div>
           {deepBlocks.length > 0 && <details
@@ -853,20 +912,30 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
           <NewsTelegramAlerts locale={locale} />
           <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="inline" />
           {article.sources.length > 0 && (
-            <section className="news-detail__prose news-detail__sources" aria-labelledby="article-sources">
-              <h2 id="article-sources" tabIndex={-1} lang={t.sourcesTitle === copy.en.sourcesTitle ? "en" : locale} dir={locale === "ar" ? "rtl" : "ltr"}>{t.sourcesTitle}</h2>
-              <ul>
-                {article.sources.map((source) => (
-                  <li key={source.id || source.url}>
-                    <a href={source.url} target="_blank" rel="noopener noreferrer">
-                      <span className="news-detail__source-meta"><span translate="no" lang="en">{source.publisher}</span>: </span><span className="news-detail__source-title">{source.title}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-    
-        </section>
-              )}
+            <section className="news-detail__prose news-detail__sources news-detail__footnotes" aria-labelledby="article-sources">
+              <DataRule
+                as="h2"
+                label={t.sourcesTitle}
+                labelId="article-sources"
+                labelProps={{ tabIndex: -1, lang: t.sourcesTitle === copy.en.sourcesTitle ? "en" : locale, dir: locale === "ar" ? "rtl" : "ltr" }}
+                stamp={String(article.sources.length).padStart(2, "0")}
+              />
+              <ol className="news-detail__footnote-list">
+                {article.sources.map((source, index) => {
+                  const sourceDate = utcStamp(source.publishedAt, { time: false });
+                  return (
+                    <li key={source.id || source.url} id={`article-source-${index + 1}`}>
+                      <span className="news-detail__footnote-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                      <a href={source.url} target="_blank" rel="noopener noreferrer">
+                        <span className="news-detail__source-meta"><span translate="no" lang="en">{source.publisher}</span>{sourceDate ? <time dateTime={sourceDate}>{sourceDate}</time> : null}</span>
+                        <span className="news-detail__source-title">{source.title}</span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
+          )}
         </section>
 
         {(article.slug === OKX_USD_USDC_OWNER_CHECKLIST.slug || article.relatedVenues?.length > 0) && (

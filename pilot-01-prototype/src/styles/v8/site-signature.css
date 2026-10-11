@@ -87,3 +87,20 @@ main.v6 :is(p, li, dd):lang(zh) { text-wrap-style: pretty; } /* longhand: the sh
 /* Chinese headings: the CJK keep-all rule turned whole headings into one unbreakable run, so the line broke at the
    very end and left one or two characters behind. Headings break between characters again and balance. */
 :is(h1, h2, h3):is(:lang(zh), :lang(zh-Hans), :lang(zh-Hant)):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { word-break: normal; line-break: strict; }
+
+/* Data rule (v9 editorial signature, 2026-10-11; docs/design-unified-v8.md "Data rule"): every editorial section head
+   is a mono label, a 1px hairline that fills the line, and a mono figure or UTC stamp at the end
+   (src/components/shared/DataRule.jsx). Used by the article (lead answer, sources, market context), the news index
+   (lead story, day groups) and the topic / factbook hubs. No colour beyond ink and hairline; no motion. */
+.nx-rule:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: flex; align-items: center; gap: 12px; min-inline-size: 0; margin: 0 0 16px; padding: 0; border: 0; }
+.nx-rule .nx-rule__label:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
+  flex: 0 1 auto; min-inline-size: 0; margin: 0; padding: 0; border: 0;
+  font: 500 12px/1.4 "Geist Mono V5", "Geist Mono V5 Fallback", ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: .04em; text-transform: none; color: #edeef0; text-wrap: balance;
+}
+.nx-rule .nx-rule__label::before { content: none; display: none; }
+:is(:lang(ar), :lang(zh), :lang(ja), :lang(ko)) .nx-rule .nx-rule__label:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { letter-spacing: 0; font-size: 13px; }
+.nx-rule .nx-rule__line:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex: 1 1 24px; min-inline-size: 24px; block-size: 1px; background: rgb(255 255 255 / .14); }
+.nx-rule .nx-rule__stamp:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex: none; font: 400 12px/1.4 "Geist Mono V5", "Geist Mono V5 Fallback", ui-monospace, "SF Mono", Menlo, monospace; color: #9097a0; font-variant-numeric: tabular-nums; letter-spacing: .02em; white-space: nowrap; unicode-bidi: plaintext; }
+@media (max-width: 640px) { .nx-rule .nx-rule__date:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; } }
+@media (max-width: 640px) { .nx-rule:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex-wrap: wrap; row-gap: 4px; } }

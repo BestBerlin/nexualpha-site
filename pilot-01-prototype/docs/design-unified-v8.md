@@ -48,3 +48,32 @@ v6 tokens below. Inner pages are not redesigned; they are polished against the s
 
 ## Review dimensions (each 1-10, screenshot evidence at 390 / 768 / 1280 / 1440, zh-hans + en + ar)
 typography, whitespace, hierarchy, colour, motion, microinteraction, responsive, originality.
+
+## Editorial templates (v9 layer, 2026-10-11)
+Article (`/news/<slug>`), news index (`/news`, categories, pages) and the topic / factbook hubs share one editorial
+grammar on the tokens above. CSS stays in the route chunks (`news-detail-page.css`, `news-list-page.css`,
+`CollectionHubPage.css` in `route-collection-hubs`); only the signature lives in `v8/site-signature.css`.
+
+**Signature: the data rule** (`src/components/shared/DataRule.jsx`, `.nx-rule`). Every editorial section head is a
+Geist Mono label, a 1px hairline (`rgb(255 255 255/.14)`) that fills the line, and a mono figure or UTC stamp at the end
+(`The short answer ——— 2026-10-11 · 06:05 UTC`, `Sources ——— 14`, `Today ——— 2026-10-11 · 5 stories`,
+`Centralized exchanges ——— 13 records · Fees checked 2026-10-10`). No colour, no motion; on phones the date part of a
+stamp drops and the rule may wrap. Stamps are deterministic UTC strings (identical in SSR and hydration); dates inside
+Arabic text sit in `<bdi dir="ltr">`. Use it for new editorial section heads instead of eyebrows or pills.
+
+Article rules: one measure (68ch), body 17/1.7 (16 on phones; CJK 1.8), h2 24/1.25 (20 on phones), h3 18/1.35,
+captions and table hints 13. The first H2 section is the lead answer block (2px accent start rule, ink-1 18px text).
+Section index: sticky in the rail from 1024px (scroll-spy marks the current section), a collapsed disclosure below.
+Sources are a footnote panel (`[01] Publisher · date / title`). Tables: tabular figures, figure cells (`is-num`)
+end-aligned in mono, horizontal scroll inside their frame. Market context (BTC/ETH/SOL articles) reads
+`/intel/market-events.json` after mount and renders nothing without data. Partner cards never sit between the title and
+the lead answer; the disclosure stays inside each card.
+
+Index rules: newest story leads (larger headline, dek, mentioned venues, read / compare); every other row of the page
+sits in UTC day groups (time · headline · one-line dek · category), each row one link with a whole-row hit area.
+"Today" / "Yesterday" are applied after mount. Hubs: featured row, grouped sections with a one-line description, counts
+and review dates; headings localized in 15 locales, record text marked with its own language.
+
+Accessibility: every interactive element on these templates has a 2px accent `:focus-visible` ring (rows ring the whole
+row); `scripts/editorial-axe.py` runs axe-core (WCAG 2.1 AA) on the four templates in en and ar at 390/1440 and must
+report 0 serious/critical; transitions drop to 0 ms under `prefers-reduced-motion`.
