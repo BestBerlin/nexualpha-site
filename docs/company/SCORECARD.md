@@ -70,7 +70,7 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 - X2 ≥ 30 partner sign-up clicks/week from real visitors (excluding qa-*).
 - X3 Every page with a code shows disclosure in the same viewport (test). ✅
 - X4 Sign-up click → registration confirmation process documented with exchange back-office (owner-provided numbers).
-- X5 A/B-ready CTA copy variants on the home hero (experiment registry) with ≥ 2 weeks of data. ◐ 2026-10-11: server-side 50/50 framework live with flag off (PR #78); variant B copy awaiting owner approval, then 2 weeks of data
+- X5 A/B-ready CTA copy variants on the home hero (experiment registry) with ≥ 2 weeks of data. ◐ running since 2026-10-11 19:37 (owner chose B; PR #79). Passes after 2 weeks of data (≈ 2026-10-25). Kill switch: HOME_HERO_EXPERIMENT_FORCE=off
 
 ## Score log
 | Date | Total | Notes |
