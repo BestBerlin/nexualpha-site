@@ -6,7 +6,11 @@ export const intlLocale = (locale) => ({
   "zh-Hans": "zh-CN",
   "zh-Hant": "zh-TW",
   "pt-BR": "pt-BR",
-  ur: "ur-PK",
+
+  // l10n: needs native review
+  ur: "ur",
+
+  // l10n: needs native review
   uk: "uk",
 }[locale] ?? locale);
 

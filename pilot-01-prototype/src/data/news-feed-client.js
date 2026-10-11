@@ -267,6 +267,11 @@ const INTERNATIONAL_NEWS_COPY = {
     titlePrefix: "Ricerca verificata da fonti",
     summary: "Riassume fonti ufficiali, commissioni, condizioni regionali e prossimi controlli per {venues}. Il corpo resta nella lingua fonte verificata.",
   },
+  // l10n: needs native review
+  ur: { titlePrefix: "ذرائع کی جانچ پر مبنی تحقیق", summary: "{venues} کے سرکاری ذرائع، فیس، علاقائی شرائط اور اگلی جانچوں کا خلاصہ۔ مضمون کا متن تصدیق شدہ اصل زبان میں دکھایا گیا ہے۔" },
+  // l10n: needs native review
+  uk: { titlePrefix: "Дослідження з перевіркою джерел", summary: "Огляд офіційних джерел, комісій, регіональних умов і наступних перевірок для {venues}. Текст статті подано перевіреною мовою оригіналу." },
+
 };
 
 function localeCopy(locale = "en") {

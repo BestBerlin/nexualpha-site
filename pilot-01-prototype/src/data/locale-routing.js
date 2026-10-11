@@ -14,7 +14,11 @@ export const LOCALE_PREFIX_BY_CODE = Object.freeze({
   id: "id-id",
   vi: "vi",
   it: "it",
+
+  // l10n: needs native review
   ur: "ur",
+
+  // l10n: needs native review
   uk: "uk-ua",
 });
 

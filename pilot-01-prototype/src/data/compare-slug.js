@@ -193,23 +193,27 @@ export const COMPARE_PICKER_COPY = Object.freeze({
     "same": "Scegli due piattaforme diverse.",
     "placeholder": "Seleziona una piattaforma"
   },
+
+  // l10n: needs native review
   "ur": {
-    "title": "کوئی بھی دو platforms compare کریں",
-    "a": "پہلا platform",
-    "b": "دوسرا platform",
-    "submit": "Compare",
-    "hint": "دو مختلف platforms منتخب کریں؛ page canonical order میں کھلے گا۔",
-    "same": "دو مختلف platforms منتخب کریں۔",
-    "placeholder": "Platform منتخب کریں"
+    "title": "کوئی بھی دو پلیٹ فارم موازنہ کریں",
+    "a": "پہلا پلیٹ فارم",
+    "b": "دوسرا پلیٹ فارم",
+    "submit": "موازنہ کریں",
+    "hint": "دو مختلف پلیٹ فارم منتخب کریں؛ صفحہ مقررہ ترتیب میں کھلے گا۔",
+    "same": "دو مختلف پلیٹ فارم منتخب کریں۔",
+    "placeholder": "پلیٹ فارم منتخب کریں"
   },
+
+  // l10n: needs native review
   "uk": {
-    "title": "Порівняйте будь-які дві platforms",
-    "a": "Перша platform",
-    "b": "Друга platform",
+    "title": "Порівняйте будь-які дві платформи",
+    "a": "Перша платформа",
+    "b": "Друга платформа",
     "submit": "Порівняти",
-    "hint": "Оберіть дві різні platforms; page відкриється в canonical order.",
-    "same": "Оберіть дві різні platforms.",
-    "placeholder": "Оберіть platform"
+    "hint": "Оберіть дві різні платформи; сторінка відкриється у канонічному порядку.",
+    "same": "Оберіть дві різні платформи.",
+    "placeholder": "Оберіть платформу"
   }
 });
 export function comparePickerCopy(locale) {

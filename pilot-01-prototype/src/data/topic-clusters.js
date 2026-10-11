@@ -185,7 +185,7 @@ export function articleClusterLinks(article, locale = "en", { limit = ARTICLE_CL
   return links;
 }
 
-const ARTICLE_LINE_COPY = L(["Topic hubs & tools", "相关专题与工具", "相關專題與工具", "Temas y herramientas", "Temas e ferramentas", "Thèmes et outils", "Themen und Tools", "Temi e strumenti", "関連テーマとツール", "관련 주제와 도구", "Темы и инструменты", "Konular ve araçlar", "Topik dan alat", "Chủ đề và công cụ", "مواضيع وأدوات", "Topic hubs اور tools", "Topic hubs і tools"]);
+const ARTICLE_LINE_COPY = L(["Topic hubs & tools", "相关专题与工具", "相關專題與工具", "Temas y herramientas", "Temas e ferramentas", "Thèmes et outils", "Themen und Tools", "Temi e strumenti", "関連テーマとツール", "관련 주제와 도구", "Темы и инструменты", "Konular ve araçlar", "Topik dan alat", "Chủ đề và công cụ", "مواضيع وأدوات", "موضوعی مراکز اور اوزار", "Тематичні хаби й інструменти"]);
 export function articleClusterLineLabel(locale = "en") {
   return ARTICLE_LINE_COPY[LOCALES.includes(locale) ? locale : "en"];
 }

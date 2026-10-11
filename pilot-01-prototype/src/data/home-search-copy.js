@@ -40,6 +40,8 @@ const HOME_TITLE_KEYWORDS = Object.freeze({
   id: "Kode referral dan rabat biaya exchange kripto",
   vi: "Mã giới thiệu và hoàn phí sàn giao dịch crypto",
   ar: "رسوم منصات العملات الرقمية: OKX وBitget وBinance",
+
+  // l10n: needs native review
   ur: "کرپٹو ایکسچینج فیس: OKX، Bitget اور Binance", // l10n: needs native review
   uk: "Комісії криптобірж: OKX, Bitget і Binance", // l10n: needs native review
 });
@@ -64,6 +66,8 @@ const HOME_FACTS = Object.freeze({
   id: "OKX, Bitget dan Binance, dibayar oleh exchange. Kemitraan diungkapkan.",
   vi: "OKX, Bitget, Binance do sàn chi trả. Công bố quan hệ đối tác.",
   ar: "مقارنة رسوم OKX وBitget وBinance وفق الجداول الرسمية. روابط الشراكة مُفصح عنها.",
+
+  // l10n: needs native review
   ur: "OKX، Bitget اور Binance کی فیس سرکاری جدولوں کے مطابق موازنہ کریں۔ پارٹنر لنکس ظاہر کیے گئے ہیں۔", // l10n: needs native review
   uk: "Порівнюйте комісії OKX, Bitget і Binance за офіційними таблицями. Партнерські посилання розкриті.", // l10n: needs native review
 });

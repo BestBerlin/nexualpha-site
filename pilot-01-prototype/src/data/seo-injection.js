@@ -389,7 +389,11 @@ const STATIC_COPY_LOCALIZED = {
 for (const [locale, title] of Object.entries({
   ar: "منهجية البحث والسياسة التحريرية — NexuAlpha", ru: "Методология исследований и редакционная политика — NexuAlpha", id: "Metodologi riset dan kebijakan editorial — NexuAlpha", vi: "Phương pháp nghiên cứu và chính sách biên tập — NexuAlpha", it: "Metodologia di ricerca e politica editoriale — NexuAlpha",
   es: "Metodología de investigación y política editorial — NexuAlpha", "pt-BR": "Metodologia de pesquisa e política editorial — NexuAlpha", fr: "Méthodologie de recherche et politique éditoriale — NexuAlpha", de: "Forschungsmethodik und redaktionelle Richtlinie — NexuAlpha", ja: "調査方法論と編集方針 — NexuAlpha", ko: "조사 방법론 및 편집 정책 — NexuAlpha", tr: "Araştırma yöntemi ve editoryal politika — NexuAlpha", "zh-Hans": "研究方法与编辑政策 — NexuAlpha", "zh-Hant": "研究方法與編輯政策 — NexuAlpha",
-  ur: "تحقیقی طریقۂ کار اور ادارتی پالیسی — NexuAlpha", uk: "Методологія досліджень і редакційна політика — NexuAlpha"
+
+  // l10n: needs native review
+  ur: "تحقیقی طریقۂ کار اور ادارتی پالیسی — NexuAlpha",
+  // l10n: needs native review
+  uk: "Методологія досліджень і редакційна політика — NexuAlpha"
 })) STATIC_COPY_LOCALIZED[locale]["/methodology"] = title;
 
 const REVIEW_PENDING_COMPARE_INDEX_COPY = Object.freeze({
@@ -414,7 +418,11 @@ const STATIC_PAGE_COPY_LOCALIZED = {
     "pt-BR": ["Terminal de comparação de taxas cripto — NexuAlpha", "Compare taxas maker e taker publicadas por CEXs, DEXs e plataformas perpétuas."],
     fr: ["Terminal de comparaison des frais crypto — NexuAlpha", "Comparez les frais maker et taker publiés par les CEX, DEX et plateformes perpétuelles."],
     de: ["Terminal für Krypto-Gebührenvergleiche — NexuAlpha", "Vergleichen Sie veröffentlichte Maker- und Taker-Gebühren von CEXs, DEXs und Perpetual-Plattformen."],
+
+    // l10n: needs native review
     ur: ["کرپٹو فیس موازنے کا بنچ مارک ٹرمینل — NexuAlpha", "CEX، DEX اور پرپیچوئل پلیٹ فارمز کی شائع شدہ maker اور taker فیس حوالہ جات موازنہ کریں؛ آخری اکاؤنٹ شرائط سرکاری پلیٹ فارم پر تصدیق کریں۔"],
+
+    // l10n: needs native review
     uk: ["Термінал порівняння комісій криптобірж — NexuAlpha", "Порівнюйте опубліковані довідкові комісії maker і taker для CEX, DEX і безстрокових платформ; остаточні умови акаунта перевіряйте на офіційній платформі."],
   },
   "/methodology": {
@@ -423,7 +431,11 @@ const STATIC_PAGE_COPY_LOCALIZED = {
     "pt-BR": ["Metodologia de pesquisa e política editorial — NexuAlpha", "Como a NexuAlpha verifica fontes, separa fatos de estimativas e declara relações comerciais."],
     fr: ["Méthodologie de recherche et politique éditoriale — NexuAlpha", "Comment NexuAlpha vérifie les sources, sépare faits et estimations et déclare les relations commerciales."],
     de: ["Forschungsmethodik und redaktionelle Richtlinie — NexuAlpha", "Wie NexuAlpha Quellen prüft, Fakten von Schätzungen trennt und kommerzielle Beziehungen offenlegt."],
+
+    // l10n: needs native review
     ur: ["تحقیقی طریقۂ کار اور ادارتی پالیسی — NexuAlpha", "NexuAlpha ماخذوں کی تصدیق، حقائق کو اندازوں سے الگ کرنے اور تجارتی تعلقات ظاہر کرنے کا طریقہ۔"],
+
+    // l10n: needs native review
     uk: ["Методологія досліджень і редакційна політика — NexuAlpha", "Як NexuAlpha перевіряє джерела, відокремлює факти від оцінок і розкриває комерційні зв’язки."],
   },
   "/embed/calculator": {
@@ -435,7 +447,11 @@ const STATIC_PAGE_COPY_LOCALIZED = {
     ja: ["埋め込み可能な取引手数料計算機 — NexuAlpha", "透明な前提と開示を備えた手数料比較計算機を埋め込みます。"],
     ko: ["임베드 가능한 거래 수수료 계산기 — NexuAlpha", "투명한 가정과 고지를 포함한 수수료 비교 계산기를 삽입합니다."],
     tr: ["Gömülebilir işlem ücreti hesaplayıcısı — NexuAlpha", "Şeffaf varsayımlar ve açıklamalar içeren ücret karşılaştırma aracını gömün."],
+
+    // l10n: needs native review
     ur: ["ایمبیڈ کے قابل ٹریڈنگ فیس کیلکولیٹر — NexuAlpha", "شفاف مفروضات اور افشا بیانات کے ساتھ فیس موازنہ کیلکولیٹر ایمبیڈ کریں۔"],
+
+    // l10n: needs native review
     uk: ["Калькулятор торгових комісій для вбудовування — NexuAlpha", "Вбудуйте калькулятор порівняння комісій із прозорими припущеннями та розкриттями."],
   },
   "/partners": {
@@ -447,7 +463,11 @@ const STATIC_PAGE_COPY_LOCALIZED = {
     ja: ["パートナー埋め込みと配信 — NexuAlpha", "NexuAlphaの調査と比較モジュールを使う発行者向けの導入ガイドです。"],
     ko: ["파트너 임베드와 배포 — NexuAlpha", "NexuAlpha 리서치와 비교 모듈을 사용하는 게시자를 위한 연동 안내입니다."],
     tr: ["Partner embedleri ve dağıtım — NexuAlpha", "NexuAlpha araştırma ve karşılaştırma modüllerini kullanan yayıncılar için entegrasyon rehberi."],
+
+    // l10n: needs native review
     ur: ["پارٹنر ایمبیڈز اور تقسیم — NexuAlpha", "NexuAlpha کی تحقیق اور موازنہ ماڈیولز استعمال کرنے والے ناشرین کے لیے انضمام کی رہنمائی۔"],
+
+    // l10n: needs native review
     uk: ["Партнерські вбудовування й дистрибуція — NexuAlpha", "Інструкції з інтеграції для видавців, які використовують дослідження й модулі порівняння NexuAlpha."],
   },
 };
@@ -466,7 +486,11 @@ const STATIC_DESCRIPTION_LOCALIZED = {
   ja: "公開手数料、地域条件、公式ルートを整理した独立暗号資産プラットフォームデータベース。アカウント条件は必ず確認してください。",
   ko: "공개 수수료, 지역 조건, 공식 경로를 정리한 독립 암호화폐 플랫폼 데이터베이스입니다. 계정 조건을 반드시 확인하세요.",
   tr: "Yayınlanmış ücretleri, bölgesel koşulları ve resmî yolları sunan bağımsız kripto platformu veritabanı. Hesap koşullarınızı mutlaka doğrulayın.",
+
+  // l10n: needs native review
   ur: "شائع شدہ فیس، علاقائی شرائط اور سرکاری راستوں کے ساتھ آزاد کرپٹو پلیٹ فارم ڈیٹابیس۔ اپنے اکاؤنٹ کی شرائط ہمیشہ سرکاری عمل میں تصدیق کریں۔",
+
+  // l10n: needs native review
   uk: "Незалежна база криптоплатформ з опублікованими комісіями, регіональними умовами й офіційними маршрутами. Умови акаунта завжди перевіряйте в офіційному процесі.",
 };
 const COMPARE_DESCRIPTION_LOCALIZED = {
@@ -485,7 +509,11 @@ const COMPARE_DESCRIPTION_LOCALIZED = {
   id: (name) => `Bandingkan ${name} berdasarkan biaya, produk, ketentuan akun, dan perbedaan platform.`,
   vi: (name) => `So sánh ${name} theo phí, sản phẩm, điều kiện tài khoản và khác biệt nền tảng.`,
   it: (name) => `Confronta ${name} per commissioni, prodotti, requisiti dell’account e differenze tra piattaforme.`,
+
+  // l10n: needs native review
   ur: (name) => `${name} کو ٹریڈنگ فیس، مصنوعات، اکاؤنٹ کی شرائط اور پلیٹ فارم کے فرق کے لحاظ سے موازنہ کریں۔`,
+
+  // l10n: needs native review
   uk: (name) => `Порівняйте ${name} за торговими комісіями, продуктами, вимогами до акаунта й відмінностями платформ.`,
 };
 
@@ -2060,7 +2088,11 @@ function computeRouteSeoUnbudgeted(options = {}) {
       ja: ["Telegram 調査ボットとプラットフォーム情報センター — NexuAlpha", "Telegramでプラットフォーム比較、手数料調査、公式ソース確認を続けます。"],
       ko: ["Telegram 리서치 봇 및 플랫폼 정보 센터 — NexuAlpha", "Telegram에서 플랫폼 비교, 수수료 조사와 공식 출처 확인을 이어갑니다."],
       tr: ["Telegram araştırma botu ve platform bilgi merkezi — NexuAlpha", "Telegram'da platform karşılaştırması, ücret araştırması ve resmi kaynak kontrolüne devam edin."],
+
+      // l10n: needs native review
       ur: ["Telegram تحقیقی بوٹ اور پلیٹ فارم معلوماتی مرکز — NexuAlpha", "Telegram میں پلیٹ فارم موازنہ، فیس تحقیق، سرکاری ماخذ کی جانچ اور واپسی کے راستے جاری رکھیں۔"],
+
+      // l10n: needs native review
       uk: ["Telegram-бот для досліджень і центр даних про платформи — NexuAlpha", "Продовжуйте в Telegram порівняння платформ, дослідження комісій, перевірки офіційних джерел і маршрути повернення."],
     }[locale] || ["Telegram Research Bot & Platform Intelligence Hub — NexuAlpha", "Continue platform comparisons, fee research, official-source checks and return paths in Telegram."];
     [title, description] = telegramSeo;

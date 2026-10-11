@@ -117,7 +117,11 @@ export function brandLocale(locale) {
 
 export function localizedBrandPath(pathname, locale) {
   const code = brandLocale(locale);
-  const prefix = { "zh-Hans": "zh-hans", "zh-Hant": "zh-hant", es: "es", "pt-BR": "pt-br", fr: "fr", de: "de", ja: "ja", ko: "ko", ar: "ar", tr: "tr", ru: "ru", id: "id-id", vi: "vi", it: "it", ur: "ur", uk: "uk-ua" }[code];
+  const prefix = { "zh-Hans": "zh-hans", "zh-Hant": "zh-hant", es: "es", "pt-BR": "pt-br", fr: "fr", de: "de", ja: "ja", ko: "ko", ar: "ar", tr: "tr", ru: "ru", id: "id-id", vi: "vi", it: "it",
+  // l10n: needs native review
+  ur: "ur",
+  // l10n: needs native review
+  uk: "uk-ua" }[code];
   return prefix ? `/${prefix}${pathname}` : pathname;
 }
 

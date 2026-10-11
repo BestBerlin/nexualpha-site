@@ -1,3 +1,4 @@
+import { compareDirectAnswerDrafts } from "./compare-direct-answer-drafts.js";
 import { comparePairAnswers, comparePairAnswerSlugs } from "./compare-pair-answers.js";
 
 // 2026-10-10: the four market-plan pairs carry all 15 UI locales; the older pairs keep their reviewed subset.
@@ -1399,19 +1400,11 @@ Object.assign(compareDirectAnswers["hyperliquid-vs-dydx"], {
   },
 });
 
-// l10n: needs native review
-const localizedDraftDirectAnswer = (slug, locale, base) => {
-  if (!base || (locale !== "ur" && locale !== "uk")) return null;
-  const uk = locale === "uk";
-  const names = String(base.title || slug).split(":")[0] || slug;
-  return { ...base, title: uk ? `${names}: комісії, продукти й перевірки акаунта` : `${names}: فیس، مصنوعات اور اکاؤنٹ چیکس`, deck: uk ? "Чернетка локалізованої відповіді з тих самих перевірених джерел; перед дією перевірте офіційні умови." : "اسی جائزہ شدہ ذرائع سے مقامی جواب کا مسودہ؛ کارروائی سے پہلے سرکاری شرائط چیک کریں۔", body: uk ? "Порівняйте опубліковані комісії, охоплення продуктів, доступ акаунта, регіональні обмеження й дати офіційних джерел. Партнерські маршрути не гарантують схвалення, бонус або кінцеву чисту вартість." : "شائع شدہ فیس، مصنوعات کا دائرہ، اکاؤنٹ رسائی، علاقائی حدود اور سرکاری ذرائع کی تاریخیں موازنہ کریں۔ پارٹنر راستے منظوری، بونس یا آخری خالص لاگت کی ضمانت نہیں دیتے۔", verdict: uk ? "Обирайте за потрібним продуктом, регіоном і підтвердженим потоком акаунта; неперевірені поля лишаються відкритими." : "ضروری مصنوعات، ریجن اور تصدیق شدہ اکاؤنٹ فلو کے مطابق منتخب کریں؛ غیر چیک شدہ خانے کھلے رہتے ہیں۔", reviewedLabel: uk ? "Офіційні джерела перевірено" : "سرکاری ذرائع کا جائزہ", methodology: uk ? "NexuAlpha використовує ті самі перевірені посилання на джерела, внутрішні посилання й датовані записи, без нового редакційного вердикту." : "NexuAlpha وہی جائزہ شدہ ذریعہ لنکس، اندرونی لنکس اور تاریخ وار ریکارڈ استعمال کرتا ہے؛ کوئی نیا ادارتی فیصلہ نہیں۔", searchDemand: [{ title: uk ? "Якщо шукаєте нижчу комісію" : "اگر کم فیس تلاش کر رہے ہیں", body: uk ? "Порівняйте мейкер/тейкер, фінансування, ліквідність і маршрут виведення разом." : "میکر/ٹیکر، فنڈنگ، لیکویڈیٹی اور واپسی کا راستہ ایک ساتھ موازنہ کریں۔" }], nextSteps: uk ? ["Перевірте офіційний домен і чинні умови.", "Порівняйте рядки комісій і доступ до продуктів.", "Відкривайте партнерський маршрут лише після перевірок акаунта."] : ["سرکاری ڈومین اور موجودہ شرائط چیک کریں۔", "فیس قطاریں اور مصنوعات تک رسائی موازنہ کریں۔", "اکاؤنٹ چیکس کے بعد ہی پارٹنر راستہ کھولیں۔"], boundary: uk ? "Ця чернетка не підтверджує придатність, бонус, живу ціну, схвалення або кінцеву торгову вартість." : "یہ مسودہ اہلیت، بونس، لائیو قیمت، منظوری یا آخری ٹریڈنگ لاگت کی تصدیق نہیں کرتا۔", faq: uk ? [{ q: "Що порівнювати спершу?", a: "Почніть з опублікованих спотових і ф'ючерсних комісій, рівня акаунта, регіону й дати джерела." }] : [{ q: "سب سے پہلے کیا موازنہ کریں؟", a: "شائع شدہ اسپاٹ اور فیوچر فیس، اکاؤنٹ درجے، ریجن اور ذریعہ تاریخ سے شروع کریں۔" }], seoTitle: uk ? `${names}: комісії, продукти й перевірки акаунта — NexuAlpha` : `${names}: فیس، مصنوعات اور اکاؤنٹ چیکس — NexuAlpha`, seoDescription: uk ? `Порівняйте ${names} за перевіреними комісіями, доступом до продуктів, KYC, датами джерел і офіційними посиланнями.` : `${names} کو جائزہ شدہ فیس، مصنوعات تک رسائی، KYC، ذریعہ تاریخوں اور سرکاری لنکس کے لحاظ سے موازنہ کریں۔`, seoQuestion: uk ? `Як порівняти ${names}?` : `${names} کا موازنہ کیسے کریں؟` };
-};
-
 export function compareDirectAnswerFor(slug, locale = "en") {
   const normalizedLocale = normalizeCompareAnswerLocale(locale);
   const record = compareDirectAnswers[slug];
   if (!record || !normalizedLocale || !supportedLocales.has(normalizedLocale)) return null;
-  const answer = record[normalizedLocale] || localizedDraftDirectAnswer(slug, normalizedLocale, record.en);
+  const answer = record[normalizedLocale] || compareDirectAnswerDrafts[slug]?.[normalizedLocale];
   if (!answer) return null;
   return {
     slug,
