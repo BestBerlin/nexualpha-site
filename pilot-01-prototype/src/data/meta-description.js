@@ -127,3 +127,19 @@ export function endsWithDanglingWord(description) {
   const body = value.replace(/…$/u, "").trim();
   return TRAILING_PUNCTUATION.test(body) || trimDanglingTail(body) !== body;
 }
+
+// Title budget (owner decision 2026-10-11): search results show roughly 60 characters of a title (about 30 for
+// CJK, which renders double-width), and the site name already appears separately from the WebSite/Organization
+// schema. Long titles therefore drop the trailing " — NexuAlpha" brand suffix instead of letting it be cut to "…";
+// short titles keep it. The title text itself is never shortened here.
+const BRAND_SUFFIX = " — NexuAlpha";
+export function titleDisplayWidth(text) {
+  let width = 0;
+  for (const ch of String(text || "")) width += /[\u1100-\u115f\u2e80-\ua4cf\uac00-\ud7a3\uf900-\ufaff\ufe30-\ufe4f\uff00-\uff60\uffe0-\uffe6]/u.test(ch) ? 2 : 1;
+  return width;
+}
+export function budgetTitle(title, budget = 60) {
+  const value = String(title || "");
+  if (!value.endsWith(BRAND_SUFFIX)) return value;
+  return titleDisplayWidth(value) > budget ? value.slice(0, -BRAND_SUFFIX.length) : value;
+}

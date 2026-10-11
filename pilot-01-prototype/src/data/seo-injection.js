@@ -11,7 +11,7 @@ import { getBrazilPage } from "./brazil-market.js";
 const INDEXABLE_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
 import { getBrazilSeo } from "./brazil-seo.js";
 import { sanitizePublicText } from "./public-copy-sanitizer.js";
-import { clampMetaDescription } from "./meta-description.js";
+import { budgetTitle, clampMetaDescription } from "./meta-description.js";
 import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
 import { newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "./locale-routing.js";
@@ -1987,7 +1987,13 @@ export function buildFactbookSchemas(venue, locale = "en", canonicalUrl = canoni
   }];
 }
 
+// Same title budget as the Worker head (meta-description.js budgetTitle).
 export function computeRouteSeo(options = {}) {
+  const seo = computeRouteSeoUnbudgeted(options);
+  return seo && typeof seo.title === "string" ? { ...seo, title: budgetTitle(seo.title) } : seo;
+}
+
+function computeRouteSeoUnbudgeted(options = {}) {
   const url = new URL(options.url || options.pathname || (typeof window !== "undefined" ? window.location.href : "/"), PUBLIC_ORIGIN);
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   const contentPathname = publicRoute.contentPathname;

@@ -91,7 +91,7 @@ test("paginated pages are self-canonical, indexable and link both directions", a
   assert.equal(canonical(html), "https://nexualpha.com/news/page/2");
   assert.equal(robots(html), "index,follow");
   assert.match(html, /hreflang="zh-Hans" href="https:\/\/nexualpha\.com\/zh-hans\/news\/page\/2"/);
-  assert.match(html, /<title[^>]*>[^<]*Page 2 of 3 — NexuAlpha<\/title>/);
+  assert.match(html, /<title[^>]*>[^<]*Page 2 of 3(?: — NexuAlpha)?<\/title>/); // long titles drop the brand suffix (owner 2026-10-11)
   assert.deepEqual(cardSlugs(html), articles.slice(24, 48).map((article) => article.slug));
   assert.match(html, /href="\/news" rel="prev"/);
   assert.match(html, /href="\/news\/page\/3" rel="next"/);
