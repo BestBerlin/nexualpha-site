@@ -97,12 +97,12 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
   const kycSummary = isZh
     ? (kycDb.kycSummary?.[locale] || kycDb.kycSummary?.["zh-Hans"] || (kycDb.kycLevel === "none" ? "完全免 KYC（仅邮箱注册）" : "基础实名认证（证件上传 + 人脸核验）"))
     : (kycDb.kycSummary?.[locale] || kycDb.kycSummary?.en || (kycDb.kycLevel === "none"
-      ? ({ ja: "KYC不要（メールのみ）", ko: "KYC 불필요(이메일만)", tr: "KYC gerekmez (yalnızca e-posta)", fr: "KYC non requis (e-mail uniquement)", de: "Kein KYC erforderlich (nur E-Mail)", es: "No se requiere KYC (solo correo)", "pt-BR": "KYC não exigido (apenas e-mail)", ru: "KYC не требуется (только электронная почта)", ar: "لا يلزم التحقق (البريد الإلكتروني فقط)", id: "KYC tidak diperlukan (hanya email)", vi: "Không cần KYC (chỉ email)", it: "KYC non richiesto (solo email)"
+      ? ({ ja: "KYC不要（メールのみ）", ko: "KYC 불필요(이메일만)", tr: "KYC gerekmez (yalnızca e-posta)", fr: "KYC non requis (e-mail uniquement)", de: "Kein KYC erforderlich (nur E-Mail)", es: "No se requiere KYC (solo correo)", "pt-BR": "KYC não exigido (apenas e-mail)", ru: "KYC не требуется (только электронная почта)", ar: "لا يلزم التحقق (البريد الإلكتروني فقط)", id: "KYC tidak diperlukan (hanya email)", vi: "Không cần KYC (chỉ email)", it: "KYC non richiesto (solo email)",
       // l10n: needs native review
       ur: "KYC درکار نہیں (صرف ای میل)",
       // l10n: needs native review
       uk: "KYC не потрібен (лише електронна пошта)" }[localeKey(locale)] || "No KYC Required (Email Only)")
-      : ({ ja: "標準本人確認", ko: "표준 신원 인증", tr: "Standart kimlik doğrulama", fr: "Vérification d’identité standard", de: "Standard-Identitätsprüfung", es: "Verificación de identidad estándar", "pt-BR": "Verificação de identidade padrão", ru: "Стандартная проверка личности", ar: "تحقق قياسي من الهوية", id: "Verifikasi identitas standar", vi: "Xác minh danh tính tiêu chuẩn", it: "Verifica dell’identità standard"
+      : ({ ja: "標準本人確認", ko: "표준 신원 인증", tr: "Standart kimlik doğrulama", fr: "Vérification d’identité standard", de: "Standard-Identitätsprüfung", es: "Verificación de identidad estándar", "pt-BR": "Verificação de identidade padrão", ru: "Стандартная проверка личности", ar: "تحقق قياسي من الهوية", id: "Verifikasi identitas standar", vi: "Xác minh danh tính tiêu chuẩn", it: "Verifica dell’identità standard",
       // l10n: needs native review
       ur: "معیاری شناختی تصدیق",
       // l10n: needs native review
