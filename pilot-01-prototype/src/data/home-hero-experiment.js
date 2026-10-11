@@ -82,6 +82,8 @@ function randomUnit() {
  * Returns { active, variant, setCookie }: `active` false means "behave exactly as before the experiment existed".
  */
 export function assignHomeHeroVariant({ cookieHeader = "", userAgent = "", method = "GET", force = null, random = randomUnit, registry = experimentRegistry } = {}) {
+  // "off" is the kill switch (allowed in production too): everyone gets A, no cookie, headers as before the experiment.
+  if (force === "off") return { active: false, variant: HOME_HERO_CONTROL, setCookie: null };
   const forced = force === "on" || isHomeHeroVariant(force) ? force : null;
   if (!homeHeroEnabled(registry) && !forced) return { active: false, variant: HOME_HERO_CONTROL, setCookie: null };
   if (isHomeHeroBot(userAgent) || (method !== "GET" && method !== "HEAD")) return { active: true, variant: HOME_HERO_CONTROL, setCookie: null, crawler: isHomeHeroBot(userAgent) };
@@ -98,6 +100,7 @@ export function assignHomeHeroVariant({ cookieHeader = "", userAgent = "", metho
  * enabled (or preview-forced) experiment produces a context; crawlers never do.
  */
 export function homeHeroClickContext({ cookieHeader = "", userAgent = "", force = null, registry = experimentRegistry } = {}) {
+  if (force === "off") return null;
   const forced = force === "on" || isHomeHeroVariant(force);
   if (!homeHeroEnabled(registry) && !forced) return null;
   if (isHomeHeroBot(userAgent)) return null;
