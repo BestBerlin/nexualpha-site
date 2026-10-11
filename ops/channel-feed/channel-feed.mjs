@@ -5,8 +5,10 @@
 // file records every posted id; the first run only records the current items (no backlog flood). Max 5 posts a run.
 //   node channel-feed.mjs            post new items
 //   node channel-feed.mjs --dry-run  print what would be posted, change nothing
-import { readFileSync, writeFileSync, mkdirSync, existsSync, renameSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, renameSync, rmdirSync, statSync } from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
+import { runArticleFeed } from "./article-feed.mjs";
 
 const DRY = process.argv.includes("--dry-run");
 const STATE_DIR = process.env.CHANNEL_FEED_STATE_DIR || "/var/lib/nexualpha-channel-feed";
@@ -104,7 +106,22 @@ async function send(token, chat, msg) {
 }
 
 async function main() {
-  mkdirSync(STATE_DIR, { recursive: true });
+  if (!DRY) mkdirSync(STATE_DIR, { recursive: true });
+  // Separate article state; announcement baselines/rate limits stay independent.
+  const articlePath = path.join(STATE_DIR, "articles.json");
+  try {
+    const articleState = existsSync(articlePath) ? JSON.parse(readFileSync(articlePath, "utf8")) : {};
+    await runArticleFeed({
+      feed: await getJson(`${SITE}/content/news-feed-summary.json`), channels: CHANNELS, state: articleState, dryRun: DRY,
+      send: async (chat, msg) => {
+        if (DRY) { console.log(`--- ${chat}\n${msg.text}`); return; }
+        const tok = process.env.COMMUNITY_BOT_TOKEN || readEnv(ENV_FILE).COMMUNITY_BOT_TOKEN;
+        if (!tok) throw new Error("bot token missing in env file");
+        await send(tok, chat, msg);
+      },
+      save: (data) => { const tmp = `${articlePath}.tmp`; writeFileSync(tmp, JSON.stringify(data)); renameSync(tmp, articlePath); },
+    });
+  } catch (e) { console.error(`article feed: ${e.message}`); process.exitCode = 1; }
   const statePath = path.join(STATE_DIR, "state.json");
   const state = existsSync(statePath) ? JSON.parse(readFileSync(statePath, "utf8")) : { posted: {}, initialized: false };
   const [feed, partnersFeed] = await Promise.all([getJson(`${SITE}/intel/official-announcements.json`), getJson(`${SITE}/intel/partners.json`).catch(() => ({ partners: [] }))]);
@@ -140,4 +157,14 @@ async function main() {
   save();
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main().catch((e) => { console.error(String(e?.message || e)); process.exit(1); });
+// Scheduler invocations must not race the article state read/send/write transaction.
+async function run() {
+  if (DRY) return main();
+  mkdirSync(STATE_DIR, { recursive: true });
+  const lock = path.join(STATE_DIR, "channel-feed.lock");
+  // A lock older than 15 min is left over from a killed run; clear it so the feed cannot stall forever.
+  try { if (Date.now() - statSync(lock).mtimeMs > 15 * 60 * 1000) rmdirSync(lock); } catch {}
+  try { mkdirSync(lock); } catch (e) { if (e.code === "EEXIST") { console.log("channel-feed already running (lock exists)"); return; } throw e; }
+  try { await main(); } finally { rmdirSync(lock); }
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) run().catch((e) => { console.error(String(e?.message || e)); process.exit(1); });

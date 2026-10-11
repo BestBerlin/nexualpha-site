@@ -13,6 +13,7 @@
 import { readFileSync, writeFileSync, renameSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { runChannelRhythm } from "./channel-rhythm.mjs";
 import { countSubscribers, funnelReportMessage, parseClickLines, summarizeClicks } from "./funnel-report.mjs";
 
 const SITE = "https://nexualpha.com";
@@ -55,6 +56,17 @@ export const readMore = (lang, p, src) => `<a href="${sitePath(lang, p, src)}">$
 export const BACKLINK_PATH = { "liquidation-spike": "/liquidations", "both-sides-liquidated": "/liquidations", "sharp-move": "/liquidations", listing: "/activities", digest: "/news" };
 
 function readJson(file, fallback) { try { return JSON.parse(readFileSync(file, "utf8")); } catch { return fallback; } }
+function readState(file, fallback) {
+  try {
+    const state = JSON.parse(readFileSync(file, "utf8"));
+    if (!state || typeof state !== "object" || Array.isArray(state)) throw new Error("root is not an object");
+    return state;
+  }
+  catch (error) {
+    if (error.code === "ENOENT") return structuredClone(fallback);
+    throw new Error(`state file unreadable; refusing to send: ${error.message}`);
+  }
+}
 function writeJson(file, data) { mkdirSync(path.dirname(file), { recursive: true }); writeFileSync(`${file}.tmp`, JSON.stringify(data)); renameSync(`${file}.tmp`, file); }
 function token() {
   const line = readFileSync(ENV_FILE, "utf8").split("\n").find((l) => l.startsWith("COMMUNITY_BOT_TOKEN="));
@@ -70,6 +82,14 @@ async function send(tok, chat, text, buttons) {
   const res = await fetch(`https://api.telegram.org/bot${tok}/sendMessage`, {
     method: "POST", headers: { "content-type": "application/json" }, signal: AbortSignal.timeout(15000),
     body: JSON.stringify({ chat_id: chat, text, parse_mode: "HTML", disable_web_page_preview: true, reply_markup: buttons ? { inline_keyboard: buttons } : undefined }),
+  });
+  return res.json().catch(() => ({ ok: false }));
+}
+async function sendPoll(tok, chat, poll) {
+  if (DRY) { log(`DRY poll -> ${chat}: ${poll.question}`); return { ok: true }; }
+  const res = await fetch(`https://api.telegram.org/bot${tok}/sendPoll`, {
+    method: "POST", headers: { "content-type": "application/json" }, signal: AbortSignal.timeout(15000),
+    body: JSON.stringify({ chat_id: chat, question: poll.question, options: poll.options, is_anonymous: poll.is_anonymous }),
   });
   return res.json().catch(() => ({ ok: false }));
 }
@@ -270,18 +290,42 @@ export function funnelReportDue({ now = new Date(), sentDates = [], ownerChatId 
 
 // ---------- cycle ----------
 async function cycle(tok) {
-  const state = readJson(STATE, { sentEvents: {}, sentListings: {}, digestDates: [], initialized: false });
+  const state = readState(STATE, { sentEvents: {}, sentListings: {}, digestDates: [], initialized: false });
   const subs = readJson(SUBS, { users: {} });
   const users = Object.entries(subs.users || {});
   const [mk, partnersFeed, ann] = await Promise.all([getJson(`${SITE}/intel/market-events.json`), getJson(`${SITE}/intel/partners.json`), getJson(`${SITE}/intel/official-announcements.json`).catch(() => ({ items: [] }))]);
   const partners = partnersFeed.partners || [];
   const bySlug = Object.fromEntries(partners.map((p) => [p.slug, p]));
+  const saveState = () => { if (!DRY) writeJson(STATE, state); };
   const blocked = new Set();
   const dm = async (uid, text, buttons) => {
     const r = await send(tok, uid, text, buttons);
     if (!r.ok && /blocked|deactivated|chat not found/i.test(r.description || "")) blocked.add(uid);
     await new Promise((res) => setTimeout(res, 60));
   };
+
+  try {
+    await runChannelRhythm({
+      channels: Object.entries(CHANNELS),
+      state,
+      market: mk,
+      partners,
+      dryRun: DRY,
+      disclosureFor: (lang) => T(lang).disclosure,
+      buttonsFor: (lang, src) => partnerButtons(partners, lang, src),
+      sendMessage: async (chat, text, buttons) => {
+        const r = await send(tok, chat, text, buttons);
+        if (!r.ok) throw new Error(r.description || "sendMessage failed");
+      },
+      sendPoll: async (chat, poll) => {
+        const r = await sendPoll(tok, chat, poll);
+        if (!r.ok) throw new Error(r.description || "sendPoll failed");
+      },
+      save: saveState,
+    });
+  } catch (error) {
+    log(error.message);
+  }
 
   // market events (one alert per type per 3 hours)
   const hourKey = (type) => `${type}:${Math.floor(Date.now() / (3 * 3600e3))}`;
@@ -327,14 +371,21 @@ async function cycle(tok) {
   if (blocked.size) { const s2 = readJson(SUBS, { users: {} }); for (const uid of blocked) delete s2.users[uid]; writeJson(SUBS, s2); log(`removed ${blocked.size} blocked users`); }
   for (const k of Object.keys(state.sentListings)) if (Object.keys(state.sentListings).length > 2000) delete state.sentListings[k];
   state.initialized = true;
-  if (!DRY) writeJson(STATE, state);
+  saveState();
 }
 
 // Only run as a program; tests import the message builders above.
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const tok = DRY ? "" : token();
   if (!DRY && !tok) { console.error("bot token missing"); process.exit(1); }
-  const run = () => cycle(tok).catch((e) => log(`cycle failed: ${e.message}`));
+  let inFlight = false;
+  const run = async () => {
+    if (inFlight) { log("cycle skipped: previous cycle still running"); return; }
+    inFlight = true;
+    try { await cycle(tok); }
+    catch (e) { log(`cycle failed: ${e.message}`); }
+    finally { inFlight = false; }
+  };
   await run();
   if (!ONCE) setInterval(run, 2 * 60 * 1000);
 }
