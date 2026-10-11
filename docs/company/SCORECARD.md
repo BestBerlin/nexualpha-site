@@ -32,7 +32,7 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 
 ### Content
 - C1 ≥ 80% of the last 7 days' articles are hot-news topics (ledger `type`).
-- C2 12 articles/day for 5 consecutive days without a missed run.
+- C2 12 articles/day for 5 consecutive days without a missed run. ◐ scheduled runs restored 2026-10-11 (20:35 run auto-started 20:46, published 3); cadence now every 2 h, 2/run = 24/day; streak counts from 2026-10-12
 - C3 ≥ 1 article/day uses NexuAlpha's own data (liquidations, funding, flows) as the original angle.
 - C4 0 raw-markdown links, 0 dangling descriptions, 0 local-path links across the feed (sweep). ✅ 2026-10-11 live feed 627 articles: 0 in all six classes (`scripts/qa-content-sweep.mjs`); 7 articles repaired, backup /data/backups/nexualpha/news-feed-pre-repair-20261011.tgz
 - C5 Topic clusters: each top-20 query family has one main page and internal links from its articles. ✅ 2026-10-11 (PR #76, docs/company/topic-clusters.md; live `qa-crosslinks.mjs` failures 0). Gap: meme-coins family has 0 articles
@@ -52,11 +52,11 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 - M5 Locale-specific landing for tr, vi, id (local exchanges, payment rails, regulator) live. ✅ 2026-10-11 live: /tr, /vi, /id-id local section (owner approved "全部照实上线"); no partner shown as available without sourced eligibility
 
 ### Telegram ecosystem
-- G1 Per-language channels zh/en/ru/tr/vi live with the channel-feed and alerts posting. ◐ 2026-10-11: channels created (@NexuAlphaRU public; TR -1003789577571 and VN -1004303684624 private for now), bot admin with post rights in all 5 (getChatMember), ALERT_CHANNELS + CHANNEL_FEED_TARGETS live. Passes when the first ru/tr/vi post lands (21:00 digest).
+- G1 Per-language channels zh/en/ru/tr/vi live with the channel-feed and alerts posting. ✅ 2026-10-11 21:00: daily brief delivered in ru (t.me/s/NexuAlphaRU 13:00:26 UTC), tr and vi (seen in the channels), plus channel-feed announcements in ru/tr; zh/en unchanged
 - G2 Site → bot deep links in every locale; alerts subscribers ≥ 100.
 - G3 Main Mini App configured; Mini App opens from bot profile. ✅ 2026-10-11: Bot API getMe has_main_web_app=true; menu button web_app https://app.nexualpha.com/ (200)
 - G4 Bot → site backlinks tracked (`?src=tg-*`) with ≥ 50 visits/week. ◐ tracking fixed 2026-10-11 (PR #81: ?src= was recorded as direct); count = page_view rows with source tg-* in /data/private/nexualpha/analytics/production.jsonl (exclude qa-*); first full week ends 2026-10-18
-- G5 Daily funnel DM delivered to owner (21:05).
+- G5 Daily funnel DM delivered to owner (21:05). ✅ 2026-10-11 21:06 owner funnel report sent (alert-sender log); first day with the A/B line
 
 ### SEO / AEO results (time-dependent)
 - S1 GSC 28-day clicks ≥ 300 (baseline 8).
