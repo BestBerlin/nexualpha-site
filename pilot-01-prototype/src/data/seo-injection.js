@@ -11,6 +11,8 @@ import { getBrazilPage } from "./brazil-market.js";
 const INDEXABLE_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
 import { getBrazilSeo } from "./brazil-seo.js";
 import { sanitizePublicText } from "./public-copy-sanitizer.js";
+import { clampMetaDescription } from "./meta-description.js";
+import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
 import { newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "./locale-routing.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
@@ -364,7 +366,7 @@ const STATIC_COPY = {
   "/activities": ["Official Crypto Campaigns — NexuAlpha", "官方活动中心 — NexuAlpha"],
   "/news": ["Market News & Research — NexuAlpha", "市场新闻与研究 — NexuAlpha"],
   "/rates": ["Crypto Exchange Fee Benchmark Terminal — NexuAlpha", "交易所手续费基准终端 — NexuAlpha"],
-  "/onchain": ["On-Chain Liquidity Board — NexuAlpha", "链上资金流看板 — NexuAlpha"],
+  "/onchain": [onchainGuideSeo("en").title, onchainGuideSeo("zh-Hans").title],
   "/methodology": ["Research Methodology & Editorial Policy — NexuAlpha", "研究方法与编辑政策 — NexuAlpha"],
   [ABOUT_PATH]: [BRAND_PAGE_SEO[ABOUT_PATH].en[0], BRAND_PAGE_SEO[ABOUT_PATH]["zh-Hans"][0]],
   [EDITORIAL_POLICY_PATH]: [BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH].en[0], BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH]["zh-Hans"][0]],
@@ -406,20 +408,6 @@ const STATIC_PAGE_COPY_LOCALIZED = {
     "pt-BR": ["Terminal de comparação de taxas cripto — NexuAlpha", "Compare taxas maker e taker publicadas por CEXs, DEXs e plataformas perpétuas."],
     fr: ["Terminal de comparaison des frais crypto — NexuAlpha", "Comparez les frais maker et taker publiés par les CEX, DEX et plateformes perpétuelles."],
     de: ["Terminal für Krypto-Gebührenvergleiche — NexuAlpha", "Vergleichen Sie veröffentlichte Maker- und Taker-Gebühren von CEXs, DEXs und Perpetual-Plattformen."],
-  },
-  "/onchain": {
-    en: ["On-Chain Liquidity & Reserve Solvency Board — NexuAlpha", "Review exchange wallet holdings, net-flow context and published Proof of Reserves signals with clear limitations."],
-    "zh-Hans": ["链上资金流与储备金偿付能力看板 — NexuAlpha", "查看交易所钱包资产、资金净流向和公开储备金证明信号，并明确数据边界。"],
-    "zh-Hant": ["鏈上資金流與儲備金償付能力看板 — NexuAlpha", "查看交易所錢包資產、資金淨流向和公開儲備金證明訊號，並明確資料邊界。"],
-    es: ["Panel de liquidez on-chain y reservas — NexuAlpha", "Revisa wallets de plataformas, flujos netos y señales públicas de Proof of Reserves con límites claros."],
-    "pt-BR": ["Painel de liquidez on-chain e reservas — NexuAlpha", "Revise carteiras de plataformas, fluxos líquidos e sinais públicos de Proof of Reserves com limites claros."],
-    fr: ["Tableau de liquidité on-chain et réserves — NexuAlpha", "Examinez les wallets, les flux nets et les signaux publics de Proof of Reserves avec leurs limites."],
-    de: ["On-Chain-Liquidität und Reserven — NexuAlpha", "Prüfen Sie Wallet-Bestände, Nettoflüsse und veröffentlichte Proof-of-Reserves-Signale mit klaren Grenzen."],
-    ja: ["オンチェーン流動性と準備金健全性ボード — NexuAlpha", "取引所ウォレット、純流入出、公開準備金証明を限界とともに確認します。"],
-    ko: ["온체인 유동성 및 준비금 건전성 보드 — NexuAlpha", "거래소 지갑, 순 유입·유출과 공개 준비금 증명을 한계와 함께 확인합니다."],
-    ar: ["لوحة السيولة والاحتياطيات على السلسلة — NexuAlpha", "راجع أرصدة محافظ المنصات وصافي التدفقات وإشارات إثبات الاحتياطيات مع توضيح الحدود."],
-    tr: ["Zincir üstü likidite ve rezerv sağlığı panosu — NexuAlpha", "Borsa cüzdanlarını, net akış bağlamını ve yayımlanmış rezerv kanıtlarını sınırlamalarıyla inceleyin."],
-    ru: ["Панель ончейн-ликвидности и резервов — NexuAlpha", "Изучайте кошельки платформ, чистые потоки и опубликованные сигналы Proof of Reserves с указанием ограничений."],
   },
   "/methodology": {
     "zh-Hant": ["研究方法與編輯政策 — NexuAlpha", "了解 NexuAlpha 如何核驗來源、區分事實與估算，並披露商業合作關係。"],
@@ -2179,6 +2167,11 @@ export function computeRouteSeo(options = {}) {
         ? ratesRouteSchemas(title, description, canonical(pathname, locale), locale)
         : [staticSchema];
     }
+    if (pathname === "/onchain") {
+      // Verification guide (audit NX-05): one copy source shared with the Worker head; WebPage schema, no Dataset.
+      ({ title, description } = onchainGuideSeo(rawLocale));
+      schemas = [onchainGuideSchema(schemaLocale(locale), { canonical: canonical(pathname, locale) })];
+    }
     if (pathname === "/") {
       const featuredVenues = neutralVenueCatalog.slice(0, 6).map((venue, index) => ({
         "@type": "ListItem",
@@ -2338,6 +2331,9 @@ export function computeRouteSeo(options = {}) {
       title = `${localizedNewsTitle(article, locale)} — NexuAlpha`;
       description = localizedNewsSummary(article, locale);
     }
+    // Meta/og/twitter descriptions use the same complete-sentence clamp as the Worker head (audit NX-09); the
+    // NewsArticle JSON-LD keeps the full summary.
+    description = clampMetaDescription(description, articleLocale); // same locale argument as the Worker (metadata.locale)
     robots = article.seo?.noindex === false && isPublishedLocale ? "index,follow" : "noindex,follow";
     const isTokenizedTreasuryArticle = article.slug === "tokenized-treasuries-structure-access-risks";
     const tokenizedTreasuryGscFaq = isTokenizedTreasuryArticle ? tokenizedTreasuryGscFaqEntry(articleLocale) : null;

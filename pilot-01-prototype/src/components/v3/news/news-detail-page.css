@@ -1006,3 +1006,12 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
   text-decoration: underline;
   text-underline-offset: 0.14em;
 }
+
+/* Article blockquotes (audit NX-10: "> " blocks used to render with a literal ">"). */
+#top.news-detail-page .news-detail__prose blockquote:not(#_) {
+  margin: 1.25rem 0;
+  padding: 0.25rem 0 0.25rem 1rem;
+  border-inline-start: 3px solid var(--na-line-strong, rgba(127, 127, 127, 0.45));
+  color: inherit;
+}
+#top.news-detail-page .news-detail__prose blockquote > p:not(#_) { margin: 0; }

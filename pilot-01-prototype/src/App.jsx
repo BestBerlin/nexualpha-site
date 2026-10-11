@@ -585,7 +585,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
     // Header items name real destinations: the exchange directory and the comparison page,
     // not anchors on the home page (the home page has no #exchanges / #compare section any more).
     [copy.nav.exchanges, withLocale(locale, "/exchanges")],
-    [copy.nav.compare, withLocale(locale, "/compare/binance-vs-okx")],
+    [copy.nav.compare, withLocale(locale, "/compare")], // compare hub: any-two picker + popular pairs (audit 4.6)
     [text.activities, withLocale(locale, "/activities")],
     [locale === "zh-Hant" || locale === "zh-TW" ? "新聞與研究" : locale.startsWith("zh") ? "新闻与研究" : ({ ja: "マーケットニュース", ko: "시장 뉴스", tr: "Piyasa Haberleri", ru: "Новости рынка", de: "Marktnachrichten", fr: "Actualités du marché", es: "Noticias del mercado", "pt-BR": "Notícias do mercado", it: "Notizie di mercato", id: "Berita pasar", vi: "Tin thị trường", ar: "أخبار السوق" }[locale] || "Market news"), withLocale(locale, "/news")],
     [locale === "zh-Hant" || locale === "zh-TW" ? "賽道選型" : locale.startsWith("zh") ? "赛道选型" : ({ ja: "トピックガイド", ko: "주제 가이드", tr: "Konu Rehberleri", ru: "Тематические гиды", de: "Themen-Guides", fr: "Guides thématiques", es: "Guías temáticas", "pt-BR": "Guias temáticos", it: "Guide tematiche", id: "Panduan topik", vi: "Hướng dẫn chủ đề", ar: "أدلة المواضيع" }[locale] || "Topic Guides"), withLocale(locale, "/topics/meme-coins")],

@@ -13,7 +13,9 @@ const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "j
 test("header Exchanges and Compare point at real pages, not home anchors", () => {
   const app = read("src/App.jsx");
   assert.match(app, /\[copy\.nav\.exchanges, withLocale\(locale, "\/exchanges"\)\]/);
-  assert.match(app, /\[copy\.nav\.compare, withLocale\(locale, "\/compare\/binance-vs-okx"\)\]/);
+  // Owner/audit 4.6 (2026-10-11): Compare opens the compare hub (any-two picker + popular pairs), not one fixed pair.
+  assert.match(app, /\[copy\.nav\.compare, withLocale\(locale, "\/compare"\)\]/);
+  assert.doesNotMatch(app, /\[copy\.nav\.compare, withLocale\(locale, "\/compare\/[a-z-]+"\)\]/);
   assert.doesNotMatch(app, /withLocale\(locale, "\/#(exchanges|compare)"\)/);
 });
 
@@ -25,6 +27,10 @@ test("header active state follows the directory, profiles and every comparison p
   assert.deepEqual(headerNavigationState("/compare/binance-vs-okx", "https://nexualpha.com/compare/bybit-vs-bitget"), { active: true });
   assert.deepEqual(headerNavigationState("/exchanges", "https://nexualpha.com/compare/binance-vs-okx"), {});
   assert.deepEqual(headerNavigationState("/compare/binance-vs-okx", "https://nexualpha.com/exchanges"), {});
+  assert.equal(headerNavigationState("/compare", "https://nexualpha.com/compare").current, "page");
+  assert.deepEqual(headerNavigationState("/compare", "https://nexualpha.com/compare/bybit-vs-bitget"), { active: true });
+  assert.deepEqual(headerNavigationState("/fr/compare", "https://nexualpha.com/fr/compare/okx-vs-bybit"), { active: true });
+  assert.deepEqual(headerNavigationState("/compare", "https://nexualpha.com/exchanges"), {});
 });
 
 test("Telegram header entry is an outline control, not a filled brand-blue pill", () => {

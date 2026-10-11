@@ -3,6 +3,7 @@
  * 展示带来源状态的基础费率；没有字段级核验时保持待核验。
  */
 import React, { useState } from "react";
+import { pluralPhrase } from "../../data/plural-copy.js";
 import { ctaUiCopy } from "../../data/cta-ui-copy.js";
 import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
@@ -244,23 +245,25 @@ const stateCopy = Object.freeze({
 
 
 // One row replaces the venues with no checked fee, no checked benefit and no reviewed trend.
-const pendingGroupCopy = Object.freeze({
-  en: (n) => `${n} venues pending source review`,
-  "zh-Hans": (n) => `${n} 家平台待来源核验`,
-  "zh-Hant": (n) => `${n} 家平台待來源核驗`,
-  es: (n) => `${n} plataformas pendientes de revisión de fuente`,
-  "pt-BR": (n) => `${n} plataformas com fonte pendente de revisão`,
-  fr: (n) => `${n} plateformes en attente de vérification de source`,
-  de: (n) => `${n} Plattformen mit ausstehender Quellenprüfung`,
-  ja: (n) => `${n}件のサービスが出典確認待ち`,
-  ko: (n) => `${n}개 플랫폼 출처 확인 대기`,
-  ar: (n) => `${n} منصة بانتظار مراجعة المصدر`,
-  tr: (n) => `${n} platform kaynak incelemesi bekliyor`,
-  ru: (n) => `${n} платформ ожидают проверки источника`,
-  id: (n) => `${n} platform menunggu tinjauan sumber`,
-  vi: (n) => `${n} nền tảng đang chờ rà soát nguồn`,
-  it: (n) => `${n} piattaforme con fonte in attesa di revisione`,
+// CLDR plural forms per locale (audit NX-07): "1 plateforme en attente", "2 платформы ожидают", "5 платформ ожидают".
+const pendingGroupForms = Object.freeze({
+  en: { one: "{n} venue pending source review", other: "{n} venues pending source review" },
+  "zh-Hans": { other: "{n} 家平台待来源核验" },
+  "zh-Hant": { other: "{n} 家平台待來源核驗" },
+  es: { one: "{n} plataforma pendiente de revisión de fuente", other: "{n} plataformas pendientes de revisión de fuente" },
+  "pt-BR": { one: "{n} plataforma com fonte pendente de revisão", other: "{n} plataformas com fonte pendente de revisão" },
+  fr: { one: "{n} plateforme en attente de vérification de source", other: "{n} plateformes en attente de vérification de source" },
+  de: { one: "{n} Plattform mit ausstehender Quellenprüfung", other: "{n} Plattformen mit ausstehender Quellenprüfung" },
+  ja: { other: "{n}件のサービスが出典確認待ち" },
+  ko: { other: "{n}개 플랫폼 출처 확인 대기" },
+  ar: { one: "منصة واحدة بانتظار مراجعة المصدر", two: "منصتان بانتظار مراجعة المصدر", few: "{n} منصات بانتظار مراجعة المصدر", other: "{n} منصة بانتظار مراجعة المصدر" },
+  tr: { other: "{n} platform kaynak incelemesi bekliyor" },
+  ru: { one: "{n} платформа ожидает проверки источника", few: "{n} платформы ожидают проверки источника", many: "{n} платформ ожидают проверки источника", other: "{n} платформы ожидают проверки источника" },
+  id: { other: "{n} platform menunggu tinjauan sumber" },
+  vi: { other: "{n} nền tảng đang chờ rà soát nguồn" },
+  it: { one: "{n} piattaforma con fonte in attesa di revisione", other: "{n} piattaforme con fonte in attesa di revisione" },
 });
+const pendingGroupCopy = Object.freeze(Object.fromEntries(Object.keys(pendingGroupForms).map((code) => [code, (n) => pluralPhrase(pendingGroupForms, n, code)])));
 
 const nextStepCopy = Object.freeze({
   en: ["Need the full directory?", "Keep the same market and product context when you browse all platforms. Telegram is available after the on-site checks.", "View platform directory →", "Telegram support ↗"],
