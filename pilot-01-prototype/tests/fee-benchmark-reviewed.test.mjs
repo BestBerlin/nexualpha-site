@@ -7,6 +7,8 @@ import { fileURLToPath } from "node:url";
 import { buildVenueFeeSummary } from "../src/data/venue-fee-summary.js";
 import { feePctOfRate } from "../src/data/exchange-facts.js";
 import { reviewedFeeCopy } from "../src/data/reviewed-fee-copy.js";
+import { JSDOM } from "jsdom";
+import { venueDatabase } from "../src/data/venue-database.js";
 import { regionalVenueCta } from "../src/data/source-bound-cta.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
@@ -97,69 +99,78 @@ test("fee benchmark localizes next-step and pending states across priority local
 });
 
 
-// Class d: c581073 replaced six-row expansion with a checked-only ledger; it has no six-row expand control; retain this historical contract for Claude.
-test("fee benchmark mobile expand controls are localized for every supported locale", async () => {
-  const pages = await renderFeeBenchmark(locales);
-  const expected = {
-    en: [/Mobile shows 6 of \d+ venues first/, /View all \d+ venues/],
-    "zh-Hans": [/手机先显示 6 家，共 \d+ 家，可展开查看全部。/, /查看全部 \d+ 家平台/],
-    "zh-Hant": [/手機先顯示 6 家，共 \d+ 家，可展開查看全部。/, /查看全部 \d+ 家平台/],
-    es: [/En móvil se muestran primero 6 de \d+ plataformas/, /Ver las \d+ plataformas/],
-    "pt-BR": [/No celular, aparecem primeiro 6 de \d+ plataformas/, /Ver todas as \d+ plataformas/],
-    fr: [/Sur mobile, 6 plateformes sur \d+ s'affichent d'abord/, /Voir les \d+ plateformes/],
-    de: [/Auf Mobilgeräten werden zuerst 6 von \d+ Plattformen angezeigt/, /Alle \d+ Plattformen anzeigen/],
-    ja: [/モバイルではまず6件／全\d+件を表示します。/, /全\d+件を表示/],
-    ko: [/모바일에서는 먼저 6개 \/ 전체 \d+개 플랫폼을 표시합니다。|모바일에서는 먼저 6개 \/ 전체 \d+개 플랫폼을 표시합니다\./, /전체 \d+개 플랫폼 보기/],
-    ar: [/على الهاتف نعرض أولاً 6 من أصل \d+ منصة/, /عرض كل المنصات \(\d+\)/],
-    tr: [/Mobilde önce \d+ platformdan 6 tanesi gösterilir/, /\d+ platformun tümünü gör/],
-    ru: [/На телефоне сначала показано 6 из \d+ платформ/, /Показать все \d+ платформ/],
-    id: [/Di ponsel, 6 dari \d+ platform ditampilkan lebih dulu/, /Lihat semua \d+ platform/],
-    vi: [/Trên điện thoại, hiển thị trước 6 trong tổng số \d+ nền tảng/, /Xem tất cả \d+ nền tảng/],
-    it: [/Su mobile vengono mostrate prima 6 piattaforme su \d+/, /Vedi tutte le \d+ piattaforme/],
+// c581073 replaces the six-row toggle with native, localized ledger disclosures.
+test("fee benchmark progressive ledger controls are localized for every supported locale", async () => {
+  const expectedConditions = {
+    en: "Conditions", "zh-Hans": "条件", "zh-Hant": "条件", es: "Condiciones",
+    "pt-BR": "Condições", fr: "Conditions", de: "Bedingungen", ja: "条件",
+    ko: "조건", ar: "الشروط", tr: "Koşullar", ru: "Условия", id: "Ketentuan",
+    vi: "Điều kiện", it: "Condizioni", ur: "شرائط", uk: "Умови",
   };
-  for (const { locale, html } of pages) {
-    const section = feeTerminal(html);
-    const visibleText = section.replaceAll("&#x27;", "'").replaceAll("&amp;", "&");
-    for (const pattern of expected[locale]) {
-      assert.match(visibleText, pattern, locale);
+  for (const { locale, html } of await renderFeeBenchmark(locales)) {
+    const dom = new JSDOM(html);
+    try {
+      const section = dom.window.document.querySelector("#rate-terminal");
+      const conditions = [...section.querySelectorAll("details.ft-cond")];
+      assert.ok(conditions.length >= reviewedSlugs.length, `${locale}: reviewed rows offer expandable conditions`);
+      for (const details of conditions) {
+        assert.equal(details.querySelector("summary").textContent, expectedConditions[locale], `${locale}: localized conditions control`);
+        assert.equal(details.open, false, `${locale}: conditions start collapsed`);
+        assert.ok(details.querySelector("p")?.textContent.trim(), `${locale}: full conditions remain in SSR`);
+      }
+      const pending = section.querySelector(".ft-pending details");
+      assert.ok(pending, `${locale}: pending venues have a native disclosure`);
+      assert.equal(pending.open, false, `${locale}: pending venues start collapsed`);
+      assert.ok(pending.querySelector("summary .ft-pending__count")?.textContent.trim(), `${locale}: pending control has a visible label`);
+      assert.ok(pending.querySelectorAll("li a").length > 0, `${locale}: pending venue access remains available`);
+      if (locale !== "en") {
+        assert.doesNotMatch(pending.querySelector("summary").textContent, /venues? pending source review/, `${locale}: pending control has no English fallback`);
+      }
+      assert.equal(section.getAttribute("dir"), ["ar", "ur"].includes(locale) ? "rtl" : null, `${locale}: ledger direction`);
+    } finally {
+      dom.window.close();
     }
-    if (locale !== "en") {
-      assert.doesNotMatch(visibleText, /Mobile shows|View all|Show fewer|high-intent|高意向|高意圖/, locale);
-    }
-  }
-
-  const source = await readFile(new URL("../src/components/v3/FeeBenchmarkTerminal.jsx", import.meta.url), "utf8");
-  for (const phrase of [
-    "Show fewer venues",
-    "收起平台列表",
-    "Afficher moins de plateformes",
-    "Weniger Plattformen anzeigen",
-    "عرض منصات أقل",
-    "Показать меньше платформ",
-    "Tampilkan lebih sedikit platform",
-    "Hiển thị ít nền tảng hơn",
-    "Mostra meno piattaforme",
-  ]) {
-    assert.ok(source.includes(phrase), `collapse copy present: ${phrase}`);
   }
 });
 
-// Class d: c581073 replaced the mobile row limit with a checked-only ledger; it has no mobile-extra row hiding; retain this historical contract for Claude.
-test("fee benchmark preserves source-bound CTA destinations and mobile six-row behavior", async () => {
+test("fee benchmark preserves source-bound CTA destinations and progressive full venue access", async () => {
   const [{ html }] = await renderFeeBenchmark(["en"]);
-  const section = feeTerminal(html);
-  for (const slug of ["binance", "okx", "bybit", "bitget", "backpack"]) {
-    const cta = regionalVenueCta(slug, "en", "BR", "spot");
-    assert.ok(section.includes(`href="${escapeHtml(cta.ctaHref)}"`), `${slug}: CTA href remains from source-bound regionalVenueCta`);
+  const dom = new JSDOM(html);
+  try {
+    const section = dom.window.document.querySelector("#rate-terminal");
+    const table = section.querySelector("#rate-terminal-table");
+    const actions = [...table.querySelectorAll('[data-cta-placement="rate-benchmark-row"]')];
+    assert.deepEqual(actions.map((a) => a.dataset.ctaPlatform).sort(), Object.keys(venueDatabase).sort(), "every venue retains exactly one ledger action");
+    for (const action of actions) {
+      const slug = action.dataset.ctaPlatform;
+      const cta = regionalVenueCta(slug, "en", "BR", "spot");
+      assert.equal(action.getAttribute("href"), cta.ctaHref, `${slug}: exact source-bound destination`);
+      assert.equal(action.dataset.ctaKind, cta.direct ? "registration" : "research", `${slug}: explicit action kind`);
+      if (cta.direct) assert.equal(action.getAttribute("rel"), "sponsored noopener noreferrer", `${slug}: sponsored handoff`);
+      const container = action.closest("li") || action.closest("tr");
+      const research = container.querySelector('[data-cta-placement="rate-benchmark-detail"]');
+      assert.ok(research, `${slug}: full platform research remains accessible`);
+      const url = new URL(research.href, "https://nexualpha.com");
+      assert.equal(url.pathname, `/exchanges/${slug}`);
+      assert.equal(url.searchParams.get("market"), "BR");
+      assert.equal(url.searchParams.get("product"), "spot");
+      assert.equal(url.hash, "#registration-path");
+    }
+    const pending = table.querySelector(".ft-pending details");
+    assert.equal(pending.open, false, "pending venue list remains progressive");
+    assert.ok(pending.querySelectorAll("li").length > 0, "collapsed pending list retains all its actions in SSR");
+    for (const slug of reviewedSlugs) {
+      const action = actions.find((a) => a.dataset.ctaPlatform === slug);
+      assert.ok(action.closest("tr").querySelector(".ft-checked time"), `${slug}: checked schedule is visible outside pending disclosure`);
+      assert.equal(action.closest(".ft-pending"), null, `${slug}: checked venue is not hidden with pending venues`);
+    }
+    const block = table.closest(".fee-terminal__table-block");
+    assert.ok(block.querySelector('[data-disclosure-placement="rates-benchmark"]')?.textContent.trim(), "ledger actions share a visible commission disclosure");
+  } finally {
+    dom.window.close();
   }
-  const rows = section.match(/<tr/g) || [];
-  assert.ok(rows.length > 6, "SSR keeps the full table DOM to avoid hydration row-count jumps");
-  assert.match(section, /fee-terminal__mobile-extra/, "rows after the sixth are marked for mobile CSS hiding");
   const source = await readFile(new URL("../src/components/v3/FeeBenchmarkTerminal.jsx", import.meta.url), "utf8");
-  const css = await readFile(new URL("../src/components/v3/fee-benchmark-terminal.css", import.meta.url), "utf8");
-  assert.doesNotMatch(source, /rows\.slice\(0, 6\)|window\.innerWidth|isMobile/, "mobile row limit should not depend on client viewport detection");
-  assert.match(css, /max-width:\s*768px[\s\S]*fee-terminal__mobile-extra[\s\S]*display:\s*none/, "CSS hides extra mobile rows before hydration");
-  assert.match(css, /fee-terminal-section--expanded[\s\S]*fee-terminal__mobile-extra[\s\S]*display:\s*table-row/, "expanded state restores hidden mobile rows");
+  assert.doesNotMatch(source, /rows\.slice\(0, 6\)|window\.innerWidth|isMobile/, "SSR venue access does not depend on client viewport detection");
   assert.doesNotMatch(source, /partnerRegistry\[[^\]]+\]\s*=/, "benchmark must not mutate partner registry");
 });
 
