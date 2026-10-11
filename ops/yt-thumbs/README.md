@@ -6,8 +6,8 @@ Run from the repository root on macOS with PingFang SC, the existing prototype
 ```sh
 node ops/yt-thumbs/render-thumbs.mjs ops/yt-thumbs/fixture.json ops/yt-thumbs/out/fixture-final
 node --test ops/yt-thumbs/render-thumbs.test.mjs
-node ops/yt-thumbs/render-thumbs.mjs /Volumes/致态2TB/nx-agents/youtube/titles-v2.json ops/yt-thumbs/out/catalogue-v2
-YT_THUMB_TEST_OUT=ops/yt-thumbs/out/catalogue-v2 YT_THUMB_TEST_INPUT=/Volumes/致态2TB/nx-agents/youtube/titles-v2.json node --test ops/yt-thumbs/render-thumbs.test.mjs
+node ops/yt-thumbs/render-thumbs.mjs /Volumes/致态2TB/nx-agents/youtube/titles-v2.json ops/yt-thumbs/out/catalogue-v3
+YT_THUMB_TEST_OUT=ops/yt-thumbs/out/catalogue-v3 YT_THUMB_TEST_INPUT=/Volumes/致态2TB/nx-agents/youtube/titles-v2.json node --test ops/yt-thumbs/render-thumbs.test.mjs
 ```
 
 CLI: `node ops/yt-thumbs/render-thumbs.mjs [input.json] [output-directory]`.
@@ -31,8 +31,13 @@ are cached and scaled linearly. The Bitcoin glyph is drawn as a vector because
 PingFang lacks that character.
 Hero text starts at 170 px and shrinks to fit two lines; exceptional long inputs
 may require sizes below 130 px. Subtitles start at 54 px and fit one line.
-Unbreakable numerical expressions (including `11 万`) and Latin words are never
-split; impossible input fails before rendering. Bearish words take precedence,
+Contiguous Chinese phrases, numerical expressions (including `11 万`), and
+Latin words are never split. Breaks occur at spaces or semantic token boundaries
+(such as `5.4亿 / 期权到期`); phrases without a safe break shrink intact. Trailing
+subtitle dates (`YYYY.MM.DD` or `YYYY-MM-DD`, with an optional ` · ` separator)
+are removed at render time, leaving the title-derived bottom date chip. Source
+text is unchanged. Accent spans cover the complete selected phrase or number
+with its unit; impossible input fails before rendering. Bearish words take precedence,
 then rebound/up words, then one number/word in blue. The timestamp exclusion is
 x=1060…1280, y=640…720. Faint chart texture is decorative, not historical data.
 
