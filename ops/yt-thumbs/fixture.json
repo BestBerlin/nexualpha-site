@@ -1,0 +1,86 @@
+[
+  {
+    "id": "fixture-01",
+    "title": "【2025-11-27 复盘】BTC 跌破 11 万",
+    "thumb_main": "BTC 跌破 11 万",
+    "thumb_sub": "关注支撑与资金流",
+    "topic": "btc"
+  },
+  {
+    "id": "fixture-02",
+    "title": "【2025-11-27 复盘】币市反弹复盘",
+    "thumb_main": "币市反弹复盘",
+    "thumb_sub": "机构与宏观双因素",
+    "topic": "btc"
+  },
+  {
+    "id": "fixture-03",
+    "title": "【2025-11-27 复盘】ETH 跌 12.87%",
+    "thumb_main": "ETH 跌 12.87%",
+    "thumb_sub": "三个月累计表现",
+    "topic": "eth"
+  },
+  {
+    "id": "fixture-04",
+    "title": "【2025-11-27 复盘】美元指数 99 关口",
+    "thumb_main": "美元指数 99 关口",
+    "thumb_sub": "加密回调风险",
+    "topic": "macro"
+  },
+  {
+    "id": "fixture-05",
+    "title": "【2025-11-27 复盘】山寨币上涨",
+    "thumb_main": "山寨币上涨",
+    "thumb_sub": "成交量与市场广度",
+    "topic": "alt"
+  },
+  {
+    "id": "fixture-06",
+    "title": "【2025-11-27 复盘】美股资金流向",
+    "thumb_main": "美股资金流向",
+    "thumb_sub": "利率与风险资产",
+    "topic": "us-stock"
+  },
+  {
+    "id": "fixture-07",
+    "title": "【2025-11-27 复盘】仓位管理策略",
+    "thumb_main": "仓位管理策略",
+    "thumb_sub": "不喊单，只讲数据",
+    "topic": "strategy"
+  },
+  {
+    "id": "fixture-08",
+    "title": "【2025-11-27 复盘】交易所数据对比",
+    "thumb_main": "交易所数据对比",
+    "thumb_sub": "深度与流动性分析",
+    "topic": "exchange"
+  },
+  {
+    "id": "fixture-09",
+    "title": "无日期测试",
+    "thumb_main": "BTC",
+    "thumb_sub": "关键位复盘",
+    "topic": "btc"
+  },
+  {
+    "id": "fixture-10",
+    "title": "【2025-11-27 复盘】以太坊失守 3000",
+    "thumb_main": "以太坊失守 3000",
+    "thumb_sub": "量价关系复盘",
+    "topic": "eth"
+  },
+  {
+    "id": "fixture-11",
+    "title": "【2025-11-27 复盘】BTC 11 万美元关键位与机构资金复盘",
+    "thumb_main": "BTC 11 万美元关键位与机构资金复盘",
+    "thumb_sub": "这是较长副标题：机构资金流向与宏观利率观察",
+    "topic": "btc"
+  },
+  {
+    "id": "fixture-12",
+    "title": "【2025-11-27 复盘】ETF 资金流入 5.4 亿",
+    "thumb_main": "ETF 资金流入 5.4 亿",
+    "thumb_sub": "数据观察",
+    "topic": "other"
+  }
+]
