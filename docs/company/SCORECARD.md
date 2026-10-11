@@ -18,7 +18,7 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 
 ### Technical foundation
 - T1 Full sitemap sweep: 0 non-200, 0 noindex, 0 non-self-canonical (`/tmp/qa/smnoindex.mjs`). ✅ 2026-10-11 (2,070 URLs)
-- T2 Template × locale browser sweep 390/1440: 0 horizontal overflow, 0 console errors, CLS ≤ 0.1 on ≥ 98% of loads.
+- T2 Template × locale browser sweep 390/1440: 0 horizontal overflow, 0 console errors, CLS ≤ 0.1 on ≥ 98% of loads. ✅ 2026-10-11: PR #77 local sweep 19 templates × 15 locales × 390/1440 = 570 loads, 0 overflow, CLS ≤ 0.1 on 100%; production home 1440 shift (1.115) fixed, live recheck /, /de, /it 0
 - T3 Key flows 26/26 (`scripts/qa-flows.py`). ✅ 2026-10-11
 - T4 Mobile home: median of 5 Lighthouse-equivalent runs (Playwright, 4× CPU throttle, Fast 3G): LCP ≤ 2.5 s, TBT ≤ 200 ms. ✅ 2026-10-11 live (`scripts/mobile-lab.mjs`): / 1288 ms / 87 ms; /tr /vi /ar /zh-hans 1100-1364 ms, TBT ≤ 153
 - T5 Strict build budget passes; settled JS: home ≤ 350 KB, venue ≤ 200 KB, directory ≤ 200 KB. ✅ 2026-10-11 (344/150/177)
@@ -26,9 +26,9 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 ### Visual & experience
 - V1 Article page redesigned (reading width, typographic rhythm, lead answer block, data figure support, sticky TOC on desktop) and reviewed at 390/768/1440 with before/after shots. ✅ 2026-10-11 (PR #70, owner approved preview)
 - V2 News list, topic hub, factbook hub redesigned to home-level quality (no generic title+card grid). ✅ 2026-10-11 (PR #70)
-- V3 One recognizable brand signature element applied site-wide (documented in DESIGN rules). ◐ data-rule heading on article/news/hubs (docs/design-unified-v8.md); not yet on venue/compare/home
-- V4 Keyboard focus visible on all interactive elements; text contrast ≥ 4.5:1 on all templates (axe sweep 0 serious).
-- V5 prefers-reduced-motion respected everywhere (sweep).
+- V3 One recognizable brand signature element applied site-wide (documented in DESIGN rules). ✅ 2026-10-11: data rule on article/news/hubs (PR #70) + SectionRule on venue, compare, activities, liquidations, funding (PR #77); docs/design-unified-v8.md
+- V4 Keyboard focus visible on all interactive elements; text contrast ≥ 4.5:1 on all templates (axe sweep 0 serious). ✅ 2026-10-11 live: axe 152 loads (19 templates × en/zh-hans/ar/tr × 390/1440) 0 serious/critical; 7,344 focus stops, 0 without visible style (`scripts/qa-axe-sweep.py`)
+- V5 prefers-reduced-motion respected everywhere (sweep). ✅ 2026-10-11 live: 152 loads under reduce, 0 running animations, 0 rAF loops (`scripts/qa-reduced-motion.py`); 3 one-off text updates on home lazy section are content load, not motion
 
 ### Content
 - C1 ≥ 80% of the last 7 days' articles are hot-news topics (ledger `type`).
@@ -40,7 +40,7 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 ### Data & tools
 - D1 Liquidation history ≥ 30 days and chart live.
 - D2 Funding page shows ≥ 20 symbols with < 10 min staleness for 7 days (collector log).
-- D3 Embed widget used on ≥ 1 external site OR in ≥ 3 published articles.
+- D3 Embed widget used on ≥ 1 external site OR in ≥ 3 published articles. ◐ 2026-10-11: `::embed liquidations|funding [SYM]` directive live (PR #78), runbook §3b; passes when 3 published articles use it
 - D4 Every tool page links to the related articles and vice versa (crawl check). ✅ 2026-10-11 live: 5 tools × 15 locales ≥ 3 article links; 195/195 relevant articles link back
 - D5 Calculator, compare, rates share one state model (URL params round trip test). ✅ partial 2026-10-11
 
@@ -49,7 +49,7 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 - M2 ≥ 3 native localized articles/day across the rotation; tr, vi, id each ≥ 10 by 2026-10-25.
 - M3 Every non-English locale news index index,follow with ≥ 5 native articles.
 - M4 Native-review queue for ar/vi/id/ru strings tracked and cleared (owner or reviewer).
-- M5 Locale-specific landing for tr, vi, id (local exchanges, payment rails, regulator) live. ◐ built and sourced (PR #76), switched off (`LOCAL_MARKET_BRIEF_ENABLED=false`) pending owner decision: TR brief states Bitget Teknoloji AŞ is on the SPK liquidation list
+- M5 Locale-specific landing for tr, vi, id (local exchanges, payment rails, regulator) live. ✅ 2026-10-11 live: /tr, /vi, /id-id local section (owner approved "全部照实上线"); no partner shown as available without sourced eligibility
 
 ### Telegram ecosystem
 - G1 Per-language channels zh/en/ru/tr/vi live with the channel-feed and alerts posting. ◐ 2026-10-11: channels created (@NexuAlphaRU public; TR -1003789577571 and VN -1004303684624 private for now), bot admin with post rights in all 5 (getChatMember), ALERT_CHANNELS + CHANNEL_FEED_TARGETS live. Passes when the first ru/tr/vi post lands (21:00 digest).
@@ -70,10 +70,11 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 - X2 ≥ 30 partner sign-up clicks/week from real visitors (excluding qa-*).
 - X3 Every page with a code shows disclosure in the same viewport (test). ✅
 - X4 Sign-up click → registration confirmation process documented with exchange back-office (owner-provided numbers).
-- X5 A/B-ready CTA copy variants on the home hero (experiment registry) with ≥ 2 weeks of data.
+- X5 A/B-ready CTA copy variants on the home hero (experiment registry) with ≥ 2 weeks of data. ◐ 2026-10-11: server-side 50/50 framework live with flag off (PR #78); variant B copy awaiting owner approval, then 2 weeks of data
 
 ## Score log
 | Date | Total | Notes |
 |---|---|---|
 | 2026-10-11 | 68 | baseline (owner request: ≥ 90) |
-| 2026-10-11 evening | ~74 | criteria passed: T1 T3 T4 T5 V1 V2 X1 X3 (+ D5, V3, G1 partial). Open in priority order: G1 first ru/tr/vi post, T2 full sweep, V4 axe all templates, C1-C3 content streak, M1/M2 localization, S* time-dependent |
+| 2026-10-11 18:00 | ~74 | criteria passed: T1 T3 T4 T5 V1 V2 X1 X3 (+ D5, V3, G1 partial). Open in priority order: G1 first ru/tr/vi post, T2 full sweep, V4 axe all templates, C1-C3 content streak, M1/M2 localization, S* time-dependent |
+| 2026-10-11 19:00 | ~80 | passed: T1-T5 V1-V5 C4 C5 D4 M1 M5 X1 X3 (+ D5, D3, X5, G1 partial). Remaining are mostly time-based: C1-C3 streaks, D1/D2 data history, G2/G4 audience, S1-S5 search results, X2/X4 |
