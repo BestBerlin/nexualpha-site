@@ -20,6 +20,10 @@ const component = await readFile(new URL("../src/components/v3/RegistrationCard.
 const registrationCardCss = await readFile(new URL("../src/components/v3/registration-card.css", import.meta.url), "utf8");
 const componentCss = await readFile(new URL("../src/components/v3/outbound-handoff.css", import.meta.url), "utf8");
 const v3Pages = await readFile(new URL("../src/components/v3/V3Pages.jsx", import.meta.url), "utf8");
+// venue-graph lane 2026-10-11: the venue detail route lives in VenueDetailPage.jsx (+ VenueDetailResearch.jsx for the sources hub).
+const venuePage = await readFile(new URL("../src/components/v3/VenueDetailPage.jsx", import.meta.url), "utf8");
+const venueResearch = await readFile(new URL("../src/components/v3/VenueDetailResearch.jsx", import.meta.url), "utf8");
+const venueDetailSource = `${venuePage.slice(venuePage.indexOf("export function VenueDetailPage"))}\n${venueResearch}`;
 
 const offer = Object.freeze({
   offerId: "123e4567-e89b-42d3-a456-426614174111",
@@ -166,7 +170,7 @@ test("RegistrationCard (OutboundHandoff) provides complete link, copyable code, 
 test("detail-page registration handoff supports a compact repeated decision point", () => {
   assert.match(component, /compact = false/);
   assert.match(component, /registration-card--compact/);
-  assert.match(v3Pages, /<OutboundHandoff compact/);
+  assert.match(venuePage, /<OutboundHandoff compact/);
   assert.match(component, /registration-card__mobile-route-details/);
   assert.match(component, /setMobileRouteOpen\(!compact\)/);
   assert.doesNotMatch(component, /window\.matchMedia/);
@@ -192,9 +196,9 @@ test("OutboundHandoff keeps the detail card full width and uses scalable hit-are
 });
 
 test("VenueDetailPage mounts one registration-path handoff and removes static pending partner state", () => {
-  const detail = v3Pages.slice(v3Pages.indexOf("export function VenueDetailPage"), v3Pages.indexOf("export function CompareDeepPage"));
+  const detail = venueDetailSource;
 
-  assert.match(v3Pages, /import \{ OutboundHandoff \} from "\.\/OutboundHandoff"/);
+  assert.match(venuePage, /import \{ OutboundHandoff \} from "\.\/OutboundHandoff"/);
   assert.match(detail, /<OutboundHandoff/);
   assert.equal((detail.match(/id="registration-path"/g) || []).length, 0);
   assert.match(component, /id="registration-path"/);

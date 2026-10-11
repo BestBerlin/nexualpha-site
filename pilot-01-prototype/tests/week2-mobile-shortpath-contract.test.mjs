@@ -51,7 +51,7 @@ test("venue detail mobile contract keeps the registration path before long evide
   const pages = await renderStaticPages(`
     import React from "react";
     import { renderToStaticMarkup } from "react-dom/server";
-    import { VenueDetailPage } from "../../src/components/v3/V3Pages.jsx";
+    import { VenueDetailPage } from "../../src/components/v3/VenueDetailPageStatic.jsx";
     import { venueDatabase } from "../../src/data/venue-database.js";
     const copy = { common: { dimension: "Dimension" }, assetCapabilities: { none: "Pending source review" } };
     const venues = Object.values(venueDatabase);

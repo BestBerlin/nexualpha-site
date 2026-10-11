@@ -58,7 +58,7 @@ test("priority FAQs exist in server HTML while remaining questions are initially
       import React from "react";
       import { renderToStaticMarkup } from "react-dom/server";
       import { VenueFaqSection } from "../../src/components/v3/VenueFaqSection.jsx";
-      import { VenueDetailPage } from "../../src/components/v3/V3Pages.jsx";
+      import { VenueDetailPage } from "../../src/components/v3/VenueDetailPageStatic.jsx";
       import { venueDatabase } from "../../src/data/venue-database.js";
       import { priorityVenueAnswers } from "../../src/data/priority-venue-answers.js";
       const result = {};

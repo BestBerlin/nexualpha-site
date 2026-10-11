@@ -31,7 +31,9 @@ import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/mark
 import { signalInteractionReady } from "./data/hydration-readiness.js";
 import { syncRouteSeo } from "./data/route-seo-client.js";
 import {
+  ROUTE_MODULE_PATHS,
   modulePathsForRoute,
+  preloadRouteModule,
   preloadRouteModules,
   readRouteModuleExport,
   registerRouteModuleLoaders,
@@ -41,6 +43,8 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/finder/CommandFinder.jsx",
   "./components/finder/SearchDialog.jsx",
   "./components/v3/V3Pages.jsx",
+  "./components/v3/VenueDetailPage.jsx",
+  "./components/v3/VenueDetailResearch.jsx",
   "./components/v3/activity/OfficialResearch.jsx",
   "./components/v3/news/NewsDetailPage.jsx",
   "./components/v3/LeanHero.jsx",
@@ -79,6 +83,8 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/finder/CommandFinder.jsx",
   "./components/finder/SearchDialog.jsx",
   "./components/v3/V3Pages.jsx",
+  "./components/v3/VenueDetailPage.jsx",
+  "./components/v3/VenueDetailResearch.jsx",
   "./components/v3/activity/OfficialResearch.jsx",
   "./components/v3/news/NewsDetailPage.jsx",
   "./components/v3/LeanHero.jsx",
@@ -132,7 +138,10 @@ const ActivityDetailPage = deferredComponent("./components/v3/V3Pages.jsx", "Act
 const CompareDeepPage = deferredComponent("./components/v3/V3Pages.jsx", "CompareDeepPage");
 const CompareHubPage = deferredComponent("./components/v3/V3Pages.jsx", "CompareHubPage");
 const NotFoundPage = deferredComponent("./components/v3/V3Pages.jsx", "NotFoundPage");
-const VenueDetailPage = deferredComponent("./components/v3/V3Pages.jsx", "VenueDetailPage");
+const VenueDetailPage = deferredComponent("./components/v3/VenueDetailPage.jsx", "VenueDetailPage");
+// The venue page's collapsed "Sources" hub: static on the server, loaded on toggle in the browser (venue-graph lane).
+const VenueDetailResearch = deferredComponent("./components/v3/VenueDetailResearch.jsx", "VenueDetailResearch");
+const prefetchVenueResearch = () => preloadRouteModule(ROUTE_MODULE_PATHS.venueResearch).catch(() => {});
 const OfficialResearchPage = deferredComponent("./components/v3/activity/OfficialResearch.jsx", "OfficialResearchPage");
 // Perf lane 2026-10-11: the directory, the home comparison slots, the news list and the data pages are route modules
 // too (preloaded by modulePathsForRoute before hydration on their own routes), so other pages stop shipping them.
@@ -775,7 +784,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "newsList") return pageShell(<NewsListPage locale={locale} market={route.market} product={route.product} category={route.category} page={route.page} initialArticles={initialNewsArticles} listing={initialNewsListing} />);
   if (route.name === "newsDetail") return pageShell(<NewsDetailPage slug={route.slug} locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} />);
   if (route.name === "venue" && !routedVenue) return pageShell(<NotFoundPage locale={locale} />);
-  if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />);
+  if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} researchComponent={VenueDetailResearch} prefetchResearch={prefetchVenueResearch} />);
   if (route.name === "compareHub") return pageShell(<CompareHubPage locale={locale} venues={command.venueCatalog} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });
   if (route.name === "compare" && selectedFromRoute.length < 2) return pageShell(<NotFoundPage locale={locale} />);
   if (route.name === "compare" && selectedFromRoute.length >= 2) return pageShell(<CompareDeepPage copy={copy} locale={locale} selected={selectedFromRoute} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });

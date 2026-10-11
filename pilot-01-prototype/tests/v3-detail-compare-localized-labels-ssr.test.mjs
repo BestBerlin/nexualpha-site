@@ -75,7 +75,8 @@ test("v3 detail and comparison labels are localized in server-rendered 15-locale
     await writeFile(entryPath, `
       import React from "react";
       import { renderToStaticMarkup } from "react-dom/server";
-      import { CompareDeepPage, VenueDetailPage } from "../../src/components/v3/V3Pages.jsx";
+      import { CompareDeepPage } from "../../src/components/v3/V3Pages.jsx";
+      import { VenueDetailPage } from "../../src/components/v3/VenueDetailPageStatic.jsx";
       import { venueDatabase } from "../../src/data/venue-database.js";
 
       const pageCopy = {

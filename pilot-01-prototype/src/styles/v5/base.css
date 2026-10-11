@@ -23,6 +23,26 @@
   font-display: swap;
   src: url("/fonts/geist/geist-mono-latin.woff2") format("woff2");
 }
+/* Metric-matched fallbacks (venue-graph lane 2026-10-11): while Geist is still downloading, text is laid out in Arial /
+ * Courier New scaled to Geist's average advance and vertical metrics, so the swap does not reflow the page. Measured
+ * against public/fonts/geist/*.woff2 (hhea 1005/-295/0 on 1000 upm; weighted a-z advance 0.4732 em vs Arial 0.4470 em).
+ * Before, the hero rebate card shifted 0.11-0.19 CLS on /it and /de at the moment the fonts arrived. */
+@font-face {
+  font-family: "Geist V5 Fallback";
+  src: local("Arial");
+  size-adjust: 105.8541%;
+  ascent-override: 94.942%;
+  descent-override: 27.8686%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Geist Mono V5 Fallback";
+  src: local("Courier New");
+  size-adjust: 99.9833%;
+  ascent-override: 100.5168%;
+  descent-override: 29.5049%;
+  line-gap-override: 0%;
+}
 
 /* ---------- root surface ---------- */
 .v5 {

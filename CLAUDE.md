@@ -53,3 +53,15 @@ On every new session, first read `docs/company/ITERATION-v8.md` (current milesto
 - Stylesheet chunk names decide what the Worker links per route (`route-v3-pages-*` etc.). A route's own CSS must live
   in its own chunk (`route-v3-pages-directory`), not inside another route's chunk, or Vite preloads that route's whole
   graph (the /exchanges 1 MB regression).
+- Venue route (venue-graph lane): `/exchanges/<slug>` is its own route module (`src/components/v3/VenueDetailPage.jsx`,
+  chunk `route-v3-venue`); the collapsed "Sources" hub (`VenueDetailResearch.jsx`, chunk `route-v3-venue-research`)
+  hydrates only when opened (`DeferUntilVisible interactionOnly`, wired from App.jsx so esbuild tests can still render
+  the page through `VenueDetailPageStatic.jsx`). Rollup folds the unassigned static dependencies of a manual chunk into
+  whichever manual chunk visits them first: a small helper shared by two route chunks must be pinned in
+  `vite.config.mjs` (`shared-venue-copy`, `shared-exchange-facts`, `data-campaign-copy`), and Vite's preload helper is
+  pinned to `core-ui` or the browser entry imports a route chunk statically. Check with
+  `tests/venue-graph.test.mjs` after a build: the venue preload list must not contain route-activity, route-v3-pages,
+  route-topic-guide or data-compare-*.
+- Web fonts: Geist (home hero, v5 pages) is preloaded in `index.html` and has metric-matched fallbacks (`"Geist V5
+  Fallback"`, `"Geist Mono V5 Fallback"` in `src/styles/v5/base.css`); keep both families in every Geist font stack, or
+  the font swap reflows the hero (CLS 0.1–0.19 on /it, /de).

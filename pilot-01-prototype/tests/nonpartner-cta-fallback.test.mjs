@@ -6,7 +6,8 @@ import { publicCtaForVenue } from "../src/data/public-cta.js";
 import { regionalVenueCta } from "../src/data/regional-cta.js";
 
 const registrationCard = await readFile(new URL("../src/components/v3/RegistrationCard.jsx", import.meta.url), "utf8");
-const detailPage = await readFile(new URL("../src/components/v3/V3Pages.jsx", import.meta.url), "utf8");
+// venue-graph lane 2026-10-11: the venue detail lives in VenueDetailPage.jsx (first screen) + VenueDetailResearch.jsx (sources hub).
+const detailPage = [await readFile(new URL("../src/components/v3/VenueDetailPage.jsx", import.meta.url), "utf8"), await readFile(new URL("../src/components/v3/VenueDetailResearch.jsx", import.meta.url), "utf8")].join("\n");
 const partnerRegistrySource = await readFile(new URL("../src/data/partner-registry.js", import.meta.url), "utf8");
 
 const protectedPartners = {
