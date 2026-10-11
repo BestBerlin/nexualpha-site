@@ -195,7 +195,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/v3/CollectionHubPage")) return "route-collection-hubs";
           if (id.includes("/src/components/v3/KolLandingPage")) return "route-kol";
           if (id.includes("/src/components/v3/TelegramBotHub")) return "route-telegram";
-          if (id.includes("/src/data/seo-injection.js")) return "data-seo-injection";
+          // src/data/seo-injection.js is a Node/SSR-only module since the seo-payload lane (2026-10-11): the browser gets
+          // route heads from /api/route-seo. Keep it out of every client chunk; the SSR build may still bundle it.
+          if (!isSsrBuild && id.includes("/src/data/seo-injection.js")) throw new Error("seo-injection.js reached the client bundle: " + id);
           // Scroll-loaded home sections (DeferUntilVisible): own chunks, so a route module that shares a helper with them
           // cannot absorb them into its chunk.
           if (!isSsrBuild && /\/src\/components\/v7\/home7-(?:below|funding|telegram)\.jsx$/.test(id)) return "home-below-fold";
