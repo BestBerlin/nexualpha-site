@@ -1047,8 +1047,8 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
           const perkText = isZhLocale
             ? (db.benefit?.[locale] || db.benefit?.["zh-Hans"] || partner.benefit?.[locale] || partner.benefit?.["zh-Hans"] || "")
             : (db.benefit?.en || db.benefit?.[locale] || partner.benefit?.en || partner.benefit?.[locale] || "");
-          const spotFee = feeDisplay(venue.slug, "spot");
-          const futuresFee = feeDisplay(venue.slug, "perp");
+          const spotFee = feeDisplay(venue.slug, "spot", locale);
+          const futuresFee = feeDisplay(venue.slug, "perp", locale);
           const porCoverage = db.porCoverageRatio && db.porAuditCheckedAt ? db.porCoverageRatio : null;
           const welcomeBadge = commercialVerified && isZhLocale
             ? (db.welcomeRewardBadge?.[locale] || db.welcomeRewardBadge?.["zh-Hans"] || "")

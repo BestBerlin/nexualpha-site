@@ -5,7 +5,7 @@
  */
 import React, { useState, useCallback, useEffect } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
-import { TELEGRAM_CONFIG, TELEGRAM_COMMANDS, TELEGRAM_RESEARCH_PATHS, TELEGRAM_SEARCH_TOPIC_QUEUE, getTelegramDeepLink } from "../../data/telegram-config.js";
+import { TELEGRAM_CONFIG, TELEGRAM_COMMANDS, TELEGRAM_RESEARCH_PATHS, getTelegramDeepLink } from "../../data/telegram-config.js";
 import { buildTelegramReturnContext, readTelegramReturnContext, telegramReturnDataAttrs } from "../../data/telegram-decision-return.js";
 import { TelegramAlertsHero, telegramAlertsHeroCopy } from "./TelegramAlertsHero.jsx";
 import "./telegram-bot-hub.css";
@@ -17,7 +17,7 @@ const copy = {
     subtitle: "从 Telegram 打开同一条研究路径，查看来源状态、公开费率情景和官方入口。具体数据与用户权益仍以页面和官方账户为准。",
     inboundBadge: "WAVE14 回流承接",
     inboundTitle: "53 条草稿先回到站内答案页，再进入 Bot",
-    inboundSubtitle: "每条 Telegram 文案都有对应的 NexuAlpha canonical landing、可审阅 UTM 和人工发布检查。用户先看比较、地区核对、费用工具或研究页，再决定是否继续到 Bot。",
+    inboundSubtitle: "每条 Telegram 消息都对应一个可先在 NexuAlpha 查看的页面。用户先看比较、地区核对、费用工具或研究页，再决定是否继续到 Bot。",
     inboundStats: [["53", "待审核草稿"], ["7 天", "人工节奏"], ["0", "原始注册链接"]],
     commandsBadge: "COMMAND DECK / 指令入口",
     commandsTitle: "在 Telegram 中继续你的研究路径",
@@ -87,7 +87,7 @@ const copy = {
     subtitle: "從 Telegram 打開同一條研究路徑，查看來源狀態、公開費率情景和官方入口。具體資料與用戶權益仍以頁面和官方帳戶為準。",
     inboundBadge: "WAVE14 回流承接",
     inboundTitle: "53 條草稿先回到站內答案頁，再進入 Bot",
-    inboundSubtitle: "每條 Telegram 文案都有對應的 NexuAlpha canonical landing、可審閱 UTM 和人工發布檢查。用戶先看比較、地區核對、費用工具或研究頁，再決定是否繼續到 Bot。",
+    inboundSubtitle: "每則 Telegram 訊息都對應一個可先在 NexuAlpha 查看的頁面。用戶先看比較、地區核對、費用工具或研究頁，再決定是否繼續到 Bot。",
     inboundStats: [["53", "待審核草稿"], ["7 天", "人工節奏"], ["0", "原始註冊連結"]],
     commandsBadge: "COMMAND DECK / 指令入口",
     commandsTitle: "在 Telegram 中繼續你的研究路徑",
@@ -157,7 +157,7 @@ const copy = {
     subtitle: "Open the same comparison, source-review, and official-link paths from Telegram. Data and user benefits remain subject to the page and official account.",
     inboundBadge: "WAVE14 INBOUND PATH",
     inboundTitle: "53 reviewed drafts send users to NexuAlpha before the Bot",
-    inboundSubtitle: "Each Telegram draft has a canonical NexuAlpha landing URL, reviewable UTM context, and a manual preflight check. Visitors get the comparison, regional checklist, fee tool, or research answer before any Bot follow-up.",
+    inboundSubtitle: "Each Telegram message links to a NexuAlpha page you can read first. Visitors get the comparison, regional checklist, fee tool, or research answer before any Bot follow-up.",
     inboundStats: [["53", "review drafts"], ["7 days", "manual rhythm"], ["0", "raw signup links"]],
     commandsBadge: "SOURCE-REVIEW COMMANDS",
     commandsTitle: "Telegram research command deck",
@@ -368,7 +368,7 @@ for (const [locale, labels] of Object.entries({
   es: {
     inboundBadge: "RESPUESTA PRIMERO EN EL SITIO",
     inboundTitle: "53 borradores llevan a NexuAlpha antes del Bot",
-    inboundSubtitle: "Cada borrador de Telegram conserva una URL canonical de NexuAlpha, UTM revisable y una comprobación manual. El visitante ve comparación, checklist regional, herramienta de costes o respuesta de investigación antes de abrir el Bot.",
+    inboundSubtitle: "Cada mensaje de Telegram enlaza a una página de NexuAlpha que puedes leer primero. El visitante ve comparación, checklist regional, herramienta de costes o respuesta de investigación antes de abrir el Bot.",
     inboundStats: [["53", "borradores"], ["7 días", "ritmo manual"], ["0", "links directos de registro"]],
     channelFeedBadge: "CANAL OFICIAL",
     channelFeedDesc: "El canal publica investigación con fuentes, comparaciones y notas de seguridad. Frecuencia y cobertura dependen de datos verificados.",
@@ -516,6 +516,23 @@ const expandableControlLabels = Object.freeze({
   ko: { moreCommands: "다른 명령 보기", lessCommands: "다른 명령 숨기기", moreFeatures: "Telegram 기능 보기", lessFeatures: "Telegram 기능 숨기기" },
   tr: { moreCommands: "Diğer komutları göster", lessCommands: "Diğer komutları gizle", moreFeatures: "Telegram özelliklerini göster", lessFeatures: "Telegram özelliklerini gizle" },
 });
+
+// Audit NX-08 (2026-10-11): at most four natural related questions instead of the long keyword-style list of search
+// queries (that queue stays in telegram-config.js for the Telegram drafting workflow, not as public copy).
+const RELATED_QUESTIONS = [
+  { id: "related-rates", primaryPath: "/rates", campaign: "telegram_related_rates", labels: {
+    en: "Which exchange is cheapest for my trading volume?", "zh-Hans": "按我的成交额，哪家交易所手续费最低？", "zh-Hant": "依我的成交額，哪家交易所手續費最低？", ja: "自分の取引量だと、どの取引所の手数料が最も安い？", ko: "내 거래량 기준으로 수수료가 가장 낮은 거래소는?", tr: "İşlem hacmime göre en ucuz borsa hangisi?", es: "¿Qué plataforma es más barata para mi volumen?", "pt-BR": "Qual corretora é mais barata para o meu volume?", fr: "Quelle plateforme coûte le moins pour mon volume ?", de: "Welche Börse ist für mein Volumen am günstigsten?", ru: "Какая биржа дешевле всего при моём объёме?", ar: "أي منصة أرخص لحجم تداولي؟", id: "Bursa mana yang termurah untuk volume saya?", vi: "Sàn nào rẻ nhất với khối lượng giao dịch của tôi?", it: "Quale piattaforma costa meno per il mio volume?",
+  } },
+  { id: "related-binance-okx", primaryPath: "/compare/binance-vs-okx", campaign: "telegram_related_compare", labels: {
+    en: "Binance vs OKX: fees and account conditions", "zh-Hans": "币安与 OKX：手续费与开户条件对比", "zh-Hant": "幣安與 OKX：手續費與開戶條件對比", ja: "Binance と OKX：手数料と口座条件の比較", ko: "Binance vs OKX: 수수료와 계정 조건", tr: "Binance ve OKX: ücretler ve hesap koşulları", es: "Binance vs OKX: comisiones y condiciones de cuenta", "pt-BR": "Binance vs OKX: taxas e condições de conta", fr: "Binance vs OKX : frais et conditions de compte", de: "Binance vs. OKX: Gebühren und Kontobedingungen", ru: "Binance и OKX: комиссии и условия аккаунта", ar: "Binance مقابل OKX: الرسوم وشروط الحساب", id: "Binance vs OKX: biaya dan ketentuan akun", vi: "Binance và OKX: phí và điều kiện tài khoản", it: "Binance vs OKX: commissioni e condizioni del conto",
+  } },
+  { id: "related-hyperliquid", primaryPath: "/exchanges/hyperliquid", campaign: "telegram_related_hyperliquid", labels: {
+    en: "Hyperliquid fees, funding and liquidation rules", "zh-Hans": "Hyperliquid 的手续费、资金费率与强平规则", "zh-Hant": "Hyperliquid 的手續費、資金費率與強平規則", ja: "Hyperliquid の手数料・資金調達率・清算ルール", ko: "Hyperliquid 수수료, 펀딩비, 청산 규칙", tr: "Hyperliquid ücretleri, fonlama ve likidasyon kuralları", es: "Hyperliquid: comisiones, financiación y liquidaciones", "pt-BR": "Hyperliquid: taxas, funding e regras de liquidação", fr: "Hyperliquid : frais, financement et règles de liquidation", de: "Hyperliquid: Gebühren, Funding und Liquidationsregeln", ru: "Hyperliquid: комиссии, фандинг и правила ликвидации", ar: "Hyperliquid: الرسوم والتمويل وقواعد التصفية", id: "Hyperliquid: biaya, funding, dan aturan likuidasi", vi: "Hyperliquid: phí, funding và quy tắc thanh lý", it: "Hyperliquid: commissioni, funding e regole di liquidazione",
+  } },
+  { id: "related-derivatives", primaryPath: "/topics/derivatives", campaign: "telegram_related_derivatives", labels: {
+    en: "Which perpetual-contract costs should I check?", "zh-Hans": "永续合约要核对哪些成本？", "zh-Hant": "永續合約要核對哪些成本？", ja: "無期限先物で確認すべきコストは？", ko: "무기한 선물에서 확인할 비용은?", tr: "Sürekli vadeli işlemlerde hangi maliyetleri kontrol etmeliyim?", es: "¿Qué costes de los perpetuos debo revisar?", "pt-BR": "Quais custos dos perpétuos devo verificar?", fr: "Quels coûts vérifier sur les contrats perpétuels ?", de: "Welche Kosten bei Perpetual-Kontrakten prüfen?", ru: "Какие расходы проверять по бессрочным контрактам?", ar: "ما تكاليف العقود الدائمة التي يجب التحقق منها؟", id: "Biaya kontrak perpetual apa yang perlu dicek?", vi: "Cần kiểm tra những chi phí nào của hợp đồng vĩnh cửu?", it: "Quali costi dei contratti perpetui controllare?",
+  } },
+];
 
 const editorialDisclosureLabels = {
   "en": "Questions answered on NexuAlpha",
@@ -835,10 +852,10 @@ export function TelegramBotHub({ locale = "en", headingLevel = 2, market, produc
           <summary>{editorialDisclosureLabels[locale] || editorialDisclosureLabels[localeBase] || editorialDisclosureLabels.en}</summary>
           <nav className="tg-public-topics" aria-label={editorialDisclosureLabels[locale] || editorialDisclosureLabels[localeBase] || editorialDisclosureLabels.en}>
             <ul className="tg-public-topics__list">
-              {TELEGRAM_SEARCH_TOPIC_QUEUE.map((topic) => (
+              {RELATED_QUESTIONS.map((topic) => (
                 <li key={topic.id}>
                   <a href={localizedHref(topic.primaryPath, { locale, market: telegramContext.market, product: telegramContext.product })} data-cta-kind="internal" data-cta-placement="telegram-wave7-onsite" data-growth-decision={topic.id} data-growth-placement="telegram-search-topic-onsite" {...growthContextAttrs(topic.campaign)}>
-                    {topic.query}
+                    {topic.labels[locale] || topic.labels[localeBase] || topic.labels.en}
                   </a>
                 </li>
               ))}

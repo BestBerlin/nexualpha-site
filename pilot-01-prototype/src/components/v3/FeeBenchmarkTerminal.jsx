@@ -3,6 +3,7 @@
  * 展示带来源状态的基础费率；没有字段级核验时保持待核验。
  */
 import React, { useState } from "react";
+import { pluralPhrase } from "../../data/plural-copy.js";
 import { ctaUiCopy } from "../../data/cta-ui-copy.js";
 import { venueDatabase } from "../../data/venue-database.js";
 import { partnerRegistry } from "../../data/partner-registry.js";
@@ -23,6 +24,9 @@ import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
 import { feePctOfRate, isoDay } from "../../data/exchange-facts.js";
 import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
+import { partnerBenefitStatus } from "../../data/partner-benefit-status.js";
+import { costBasisCopy } from "../../data/cost-decision-copy.js";
+import { h7Copy } from "../v7/home7-copy.js";
 
 // Scope and conditions are two sentences: the scope gets its own full stop ("…USDC columns. Uses…").
 const sentence = (t) => { const v = String(t || "").trim(); return !v || /[.!?。！？:：]$/.test(v) ? v : `${v}.`; };
@@ -241,23 +245,25 @@ const stateCopy = Object.freeze({
 
 
 // One row replaces the venues with no checked fee, no checked benefit and no reviewed trend.
-const pendingGroupCopy = Object.freeze({
-  en: (n) => `${n} venues pending source review`,
-  "zh-Hans": (n) => `${n} 家平台待来源核验`,
-  "zh-Hant": (n) => `${n} 家平台待來源核驗`,
-  es: (n) => `${n} plataformas pendientes de revisión de fuente`,
-  "pt-BR": (n) => `${n} plataformas com fonte pendente de revisão`,
-  fr: (n) => `${n} plateformes en attente de vérification de source`,
-  de: (n) => `${n} Plattformen mit ausstehender Quellenprüfung`,
-  ja: (n) => `${n}件のサービスが出典確認待ち`,
-  ko: (n) => `${n}개 플랫폼 출처 확인 대기`,
-  ar: (n) => `${n} منصة بانتظار مراجعة المصدر`,
-  tr: (n) => `${n} platform kaynak incelemesi bekliyor`,
-  ru: (n) => `${n} платформ ожидают проверки источника`,
-  id: (n) => `${n} platform menunggu tinjauan sumber`,
-  vi: (n) => `${n} nền tảng đang chờ rà soát nguồn`,
-  it: (n) => `${n} piattaforme con fonte in attesa di revisione`,
+// CLDR plural forms per locale (audit NX-07): "1 plateforme en attente", "2 платформы ожидают", "5 платформ ожидают".
+const pendingGroupForms = Object.freeze({
+  en: { one: "{n} venue pending source review", other: "{n} venues pending source review" },
+  "zh-Hans": { other: "{n} 家平台待来源核验" },
+  "zh-Hant": { other: "{n} 家平台待來源核驗" },
+  es: { one: "{n} plataforma pendiente de revisión de fuente", other: "{n} plataformas pendientes de revisión de fuente" },
+  "pt-BR": { one: "{n} plataforma com fonte pendente de revisão", other: "{n} plataformas com fonte pendente de revisão" },
+  fr: { one: "{n} plateforme en attente de vérification de source", other: "{n} plateformes en attente de vérification de source" },
+  de: { one: "{n} Plattform mit ausstehender Quellenprüfung", other: "{n} Plattformen mit ausstehender Quellenprüfung" },
+  ja: { other: "{n}件のサービスが出典確認待ち" },
+  ko: { other: "{n}개 플랫폼 출처 확인 대기" },
+  ar: { one: "منصة واحدة بانتظار مراجعة المصدر", two: "منصتان بانتظار مراجعة المصدر", few: "{n} منصات بانتظار مراجعة المصدر", other: "{n} منصة بانتظار مراجعة المصدر" },
+  tr: { other: "{n} platform kaynak incelemesi bekliyor" },
+  ru: { one: "{n} платформа ожидает проверки источника", few: "{n} платформы ожидают проверки источника", many: "{n} платформ ожидают проверки источника", other: "{n} платформы ожидают проверки источника" },
+  id: { other: "{n} platform menunggu tinjauan sumber" },
+  vi: { other: "{n} nền tảng đang chờ rà soát nguồn" },
+  it: { one: "{n} piattaforma con fonte in attesa di revisione", other: "{n} piattaforme con fonte in attesa di revisione" },
 });
+const pendingGroupCopy = Object.freeze(Object.fromEntries(Object.keys(pendingGroupForms).map((code) => [code, (n) => pluralPhrase(pendingGroupForms, n, code)])));
 
 const nextStepCopy = Object.freeze({
   en: ["Need the full directory?", "Keep the same market and product context when you browse all platforms. Telegram is available after the on-site checks.", "View platform directory →", "Telegram support ↗"],
@@ -453,8 +459,8 @@ function buildRateView(rate, locale, labels) {
     productLabel: labels[rate.product] || rate.product,
     makerRate: rate.makerRate,
     takerRate: rate.takerRate,
-    makerDisplay: feePctOfRate(rate.makerRate),
-    takerDisplay: feePctOfRate(rate.takerRate),
+    makerDisplay: feePctOfRate(rate.makerRate, locale),
+    takerDisplay: feePctOfRate(rate.takerRate, locale),
     checkedAt: isoDay(rate.checkedAt),
     sourceUrl: rate.sourceUrl,
     tier: copyForRate.tier,
@@ -555,6 +561,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
   const normalizedLocale = normalizeLocale(locale);
   const t = copy[locale] || copy[localeKey] || copy[normalizedLocale] || (isHant ? copy["zh-Hant"] : isZh ? copy["zh-Hans"] : copy.en);
   const labels = { ...(stateCopy[normalizedLocale] || stateCopy.en), unchecked: matrixCopy(locale).unchecked };
+  const basisText = costBasisCopy(locale);
 
   const rows = MONITOR_SLUGS.map((slug) => {
     const db = venueDatabase[slug] || {};
@@ -565,10 +572,14 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
     const commercialClaim = resolveCommercialClaim({ partner, venue: db });
     const cta = regionalVenueCta(slug, locale, market, product, { accountStage, funding });
     const rebatePercent = commercialClaim.status === "verified" ? commercialClaim.rebatePercent : 0;
-    const rebateDisplay = rebatePercent > 0 ? formatPercent(locale, rebatePercent) : null;
-    const productRate = product === "futures" || product === "perp" ? futuresRate : spotRate;
-    const netDisplay = rebatePercent > 0 && Number.isFinite(productRate?.takerRate)
-      ? feePctOfRate(productRate.takerRate * (1 - rebatePercent / 100))
+    // Partner venues (audit NX-02/NX-03): the share comes from the single partner benefit record and the net figure uses
+    // the home calculator's formula (base × (1 − top share)), labelled "after max rebate".
+    const partner_ = rebatePercent > 0 ? null : partnerBenefitStatus(slug);
+    const sharePct = rebatePercent > 0 ? rebatePercent : partner_?.sharePct || 0;
+    const rebateDisplay = rebatePercent > 0 ? formatPercent(locale, rebatePercent) : partner_ ? `${h7Copy(locale).upTo} ${formatPercent(locale, partner_.sharePct)}` : null;
+    const productRate = product === "futures" || product === "perp" || product === "perpetuals" ? futuresRate : spotRate;
+    const netDisplay = sharePct > 0 && Number.isFinite(productRate?.takerRate)
+      ? feePctOfRate(productRate.takerRate * (1 - sharePct / 100), locale)
       : null;
 
     return {
@@ -712,7 +723,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
               <th scope="col">{mx.perp}<span className="ft-th-sub">{mx.maker}</span></th>
               <th scope="col">{checkedLabel}</th>
               {hasBenefit && <th scope="col">{t.colRebate}</th>}
-              {hasBenefit && <th scope="col">{t.colNetTaker}</th>}
+              {hasBenefit && <th scope="col">{t.colNetTaker}<span className="ft-th-sub">{basisText.rebate} · {(product === "futures" || product === "perp" || product === "perpetuals") ? mx.perp : mx.spot} · {labels.taker}</span></th>}
               {hasTrend && <th scope="col">{t.colTrend}</th>}
               <th scope="col" className="ft-th-action"><span className="rt-sr">{t.colAction}</span></th>
             </tr>

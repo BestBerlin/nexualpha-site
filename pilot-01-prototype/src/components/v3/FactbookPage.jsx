@@ -3,6 +3,9 @@ import { FACTBOOK_REGISTRY, FACTBOOK_SLUGS, AUDIT_DATE, AUDIT_DECLARATION, gener
 import { neutralVenueCatalog } from "../../data/market-command.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatPercent } from "../../data/format-percent.js";
+import { factbookDates, factbookDatesCopy } from "../../data/factbook-dates.js";
+import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
+import { partnerBenefitParts } from "../../data/owner-rebate-line.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
@@ -1187,6 +1190,10 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
     return publicFactbookVenue(FACTBOOK_REGISTRY[slug] || FACTBOOK_REGISTRY.binance, locale);
   }, [slug, locale]);
   const activationCta = useMemo(() => publicCtaForVenue(venue.slug, locale), [venue.slug, locale]);
+  // Audit NX-02/NX-06: partner benefit status and the record dates come from the shared records, not from this page.
+  const partnerBenefit = partnerBenefitParts(venue.slug, locale);
+  const recordDates = factbookDates(venue.slug);
+  const recordDatesCopy = factbookDatesCopy(locale);
   const hasVenueProfile = useMemo(
     () => !factbookOnlyDecisionSlugs.has(venue.slug) && neutralVenueCatalog.some((candidate) => candidate.slug === venue.slug),
     [venue.slug],
@@ -1312,6 +1319,12 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                 ● {t.verifiedBadge}
               </span>
             </div>
+            {/* Audit NX-06: three records, three dates — never one date standing in for all of them. */}
+            <dl className="factbook-dates">
+              <div><dt>{recordDatesCopy.fees}</dt><dd>{recordDates.feesCheckedOn ? <time dateTime={recordDates.feesCheckedOn}>{recordDates.feesCheckedOn}</time> : recordDatesCopy.notYet}</dd></div>
+              <div><dt>{recordDatesCopy.benefit}</dt><dd>{recordDates.benefitConfirmedOn ? <time dateTime={recordDates.benefitConfirmedOn}>{recordDates.benefitConfirmedOn}</time> : recordDatesCopy.notYet}</dd></div>
+              <div><dt>{recordDatesCopy.dossier}</dt><dd><time dateTime={recordDates.dossierCompiledOn}>{recordDates.dossierCompiledOn}</time></dd></div>
+            </dl>
 
           </div>
 
@@ -1335,7 +1348,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
             <div className="factbook-audit-box">
               <div className="factbook-audit-box__header">
                 <span className="factbook-audit-tag">{t.auditIsolation}</span>
-                <time className="factbook-audit-date" dateTime={AUDIT_DATE}>{t.auditLabel}: {AUDIT_DATE}</time>
+                <time className="factbook-audit-date" dateTime={AUDIT_DATE}>{recordDatesCopy.dossier}: {AUDIT_DATE}</time>
                 <button type="button" onClick={handleCopyHash} className="factbook-hash-copy-btn">
                   {copiedHash === "success" ? t.copiedHash : t.copyHash}
                 </button>
@@ -1785,7 +1798,12 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                         <dd><strong className="act-val">{activationCta.inviteCode}</strong></dd>
                       </div>
                     )}
-                    {activationCta.benefitVerified && activationCta.rebatePercent > 0 ? (
+                    {partnerBenefit && !activationCta.benefitVerified ? (
+                      <div className="factbook-act-badge factbook-act-badge--partner">
+                        <dt className="act-lbl">{partnerBenefit.label}</dt>
+                        <dd><strong className="act-val highlight-green">{partnerBenefit.value}</strong> <span className="act-note">— {partnerBenefit.confirmed}; {partnerBenefit.account}</span>{partnerBenefit.settle ? <small className="act-note">{partnerBenefit.settle}</small> : null}<small className="act-note">{partnerBenefit.checks}</small></dd>
+                      </div>
+                    ) : activationCta.benefitVerified && activationCta.rebatePercent > 0 ? (
                       <div className="factbook-act-badge">
                         <dt className="act-lbl">{t.rebatePercentLabel}</dt>
                         <dd><strong className="act-val highlight-green">{formatPercent(locale, activationCta.rebatePercent)}</strong></dd>
@@ -1820,6 +1838,7 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                   >
                     {activationCta.benefitVerified ? t.activateBtn : t.signupButton}
                   </a>
+                  <CommissionDisclosureLine locale={locale} className="factbook-activation-disclosure" placement="factbook-activation" />
                 </div>
               </div>
             </section>

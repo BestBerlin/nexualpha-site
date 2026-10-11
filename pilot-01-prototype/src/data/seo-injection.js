@@ -11,6 +11,8 @@ import { getBrazilPage } from "./brazil-market.js";
 const INDEXABLE_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
 import { getBrazilSeo } from "./brazil-seo.js";
 import { sanitizePublicText } from "./public-copy-sanitizer.js";
+import { clampMetaDescription } from "./meta-description.js";
+import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
 import { newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "./locale-routing.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
@@ -19,6 +21,7 @@ import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js"
 import { CURATED_COMPARISON_SLUGS, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, parseComparePair } from "./compare-generated.js";
 import { compareFaqSchemaEntries } from "./compare-faq-locales.js";
 import { AUDIT_DATE as FACTBOOK_SOURCE_REVIEW_DATE } from "./factbook-registry.js";
+import { factbookDates } from "./factbook-dates.js";
 import { collectionHubCopy, factbookHubItems, topicHubItems } from "./collection-hubs.js";
 import {
   TOKENIZED_ASSET_CLUSTER_REVIEW_DATE,
@@ -363,7 +366,7 @@ const STATIC_COPY = {
   "/activities": ["Official Crypto Campaigns — NexuAlpha", "官方活动中心 — NexuAlpha"],
   "/news": ["Market News & Research — NexuAlpha", "市场新闻与研究 — NexuAlpha"],
   "/rates": ["Crypto Exchange Fee Benchmark Terminal — NexuAlpha", "交易所手续费基准终端 — NexuAlpha"],
-  "/onchain": ["On-Chain Liquidity Board — NexuAlpha", "链上资金流看板 — NexuAlpha"],
+  "/onchain": [onchainGuideSeo("en").title, onchainGuideSeo("zh-Hans").title],
   "/methodology": ["Research Methodology & Editorial Policy — NexuAlpha", "研究方法与编辑政策 — NexuAlpha"],
   [ABOUT_PATH]: [BRAND_PAGE_SEO[ABOUT_PATH].en[0], BRAND_PAGE_SEO[ABOUT_PATH]["zh-Hans"][0]],
   [EDITORIAL_POLICY_PATH]: [BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH].en[0], BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH]["zh-Hans"][0]],
@@ -405,20 +408,6 @@ const STATIC_PAGE_COPY_LOCALIZED = {
     "pt-BR": ["Terminal de comparação de taxas cripto — NexuAlpha", "Compare taxas maker e taker publicadas por CEXs, DEXs e plataformas perpétuas."],
     fr: ["Terminal de comparaison des frais crypto — NexuAlpha", "Comparez les frais maker et taker publiés par les CEX, DEX et plateformes perpétuelles."],
     de: ["Terminal für Krypto-Gebührenvergleiche — NexuAlpha", "Vergleichen Sie veröffentlichte Maker- und Taker-Gebühren von CEXs, DEXs und Perpetual-Plattformen."],
-  },
-  "/onchain": {
-    en: ["On-Chain Liquidity & Reserve Solvency Board — NexuAlpha", "Review exchange wallet holdings, net-flow context and published Proof of Reserves signals with clear limitations."],
-    "zh-Hans": ["链上资金流与储备金偿付能力看板 — NexuAlpha", "查看交易所钱包资产、资金净流向和公开储备金证明信号，并明确数据边界。"],
-    "zh-Hant": ["鏈上資金流與儲備金償付能力看板 — NexuAlpha", "查看交易所錢包資產、資金淨流向和公開儲備金證明訊號，並明確資料邊界。"],
-    es: ["Panel de liquidez on-chain y reservas — NexuAlpha", "Revisa wallets de plataformas, flujos netos y señales públicas de Proof of Reserves con límites claros."],
-    "pt-BR": ["Painel de liquidez on-chain e reservas — NexuAlpha", "Revise carteiras de plataformas, fluxos líquidos e sinais públicos de Proof of Reserves com limites claros."],
-    fr: ["Tableau de liquidité on-chain et réserves — NexuAlpha", "Examinez les wallets, les flux nets et les signaux publics de Proof of Reserves avec leurs limites."],
-    de: ["On-Chain-Liquidität und Reserven — NexuAlpha", "Prüfen Sie Wallet-Bestände, Nettoflüsse und veröffentlichte Proof-of-Reserves-Signale mit klaren Grenzen."],
-    ja: ["オンチェーン流動性と準備金健全性ボード — NexuAlpha", "取引所ウォレット、純流入出、公開準備金証明を限界とともに確認します。"],
-    ko: ["온체인 유동성 및 준비금 건전성 보드 — NexuAlpha", "거래소 지갑, 순 유입·유출과 공개 준비금 증명을 한계와 함께 확인합니다."],
-    ar: ["لوحة السيولة والاحتياطيات على السلسلة — NexuAlpha", "راجع أرصدة محافظ المنصات وصافي التدفقات وإشارات إثبات الاحتياطيات مع توضيح الحدود."],
-    tr: ["Zincir üstü likidite ve rezerv sağlığı panosu — NexuAlpha", "Borsa cüzdanlarını, net akış bağlamını ve yayımlanmış rezerv kanıtlarını sınırlamalarıyla inceleyin."],
-    ru: ["Панель ончейн-ликвидности и резервов — NexuAlpha", "Изучайте кошельки платформ, чистые потоки и опубликованные сигналы Proof of Reserves с указанием ограничений."],
   },
   "/methodology": {
     "zh-Hant": ["研究方法與編輯政策 — NexuAlpha", "了解 NexuAlpha 如何核驗來源、區分事實與估算，並披露商業合作關係。"],
@@ -1987,7 +1976,8 @@ export function buildFactbookSchemas(venue, locale = "en", canonicalUrl = canoni
     ...pageSchema(`${venue.name} Platform Factbook`, canonicalUrl, locale, "Dataset"),
     "@id": `${canonicalUrl}#dataset`,
     description: "Platform fee, custody and access reference. Consult the page for source dates, assumptions and limitations.",
-    dateModified: FACTBOOK_SOURCE_REVIEW_DATE,
+    // Latest real review date of the data on the page (fees checked / benefit terms confirmed / dossier compiled).
+    dateModified: factbookDates(venue.slug).latestReviewOn,
     ...researchAttribution([`https://${venue.officialDomain}`]),
     creator: { "@type": "Organization", name: "NexuAlpha", url: `${PUBLIC_ORIGIN}/` },
     about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` },
@@ -2177,6 +2167,11 @@ export function computeRouteSeo(options = {}) {
         ? ratesRouteSchemas(title, description, canonical(pathname, locale), locale)
         : [staticSchema];
     }
+    if (pathname === "/onchain") {
+      // Verification guide (audit NX-05): one copy source shared with the Worker head; WebPage schema, no Dataset.
+      ({ title, description } = onchainGuideSeo(rawLocale));
+      schemas = [onchainGuideSchema(schemaLocale(locale), { canonical: canonical(pathname, locale) })];
+    }
     if (pathname === "/") {
       const featuredVenues = neutralVenueCatalog.slice(0, 6).map((venue, index) => ({
         "@type": "ListItem",
@@ -2207,7 +2202,7 @@ export function computeRouteSeo(options = {}) {
       accept();
       const venueSeoOverride = type === "exchanges" ? venueSeoOverrideFor(slug, locale) : null;
       const factbookLabel = FACTBOOK_TITLE_LOCALIZED[rawLocale] || "Source Review Factbook";
-      title = venueSeoOverride?.title || `${venue.name} ${type === "factbook" ? `${factbookLabel} [${FACTBOOK_SOURCE_REVIEW_DATE}]` : DETAIL_TITLE_LOCALIZED[rawLocale]?.profile || DETAIL_TITLE_LOCALIZED[locale]?.profile || (isZh ? "平台档案与手续费" : "Review, Fee Conditions & Official Route")} — NexuAlpha`;
+      title = venueSeoOverride?.title || `${venue.name} ${type === "factbook" ? factbookLabel : DETAIL_TITLE_LOCALIZED[rawLocale]?.profile || DETAIL_TITLE_LOCALIZED[locale]?.profile || (isZh ? "平台档案与手续费" : "Review, Fee Conditions & Official Route")} — NexuAlpha`;
       const profileDescription = DETAIL_DESCRIPTION_LOCALIZED[rawLocale]?.profile?.(venue.name) || DETAIL_DESCRIPTION_LOCALIZED[locale]?.profile?.(venue.name);
       description = venueSeoOverride?.description || (type === "factbook"
         ? (FACTBOOK_DESCRIPTION_LOCALIZED[rawLocale] || FACTBOOK_DESCRIPTION_LOCALIZED[locale] || ((name) => `Source-aware Factbook for ${name}: base fee schedules, regional access, KYC references, and official-domain checks. User benefits and reserve figures require item-level source verification.`))(venue.name)
@@ -2336,6 +2331,9 @@ export function computeRouteSeo(options = {}) {
       title = `${localizedNewsTitle(article, locale)} — NexuAlpha`;
       description = localizedNewsSummary(article, locale);
     }
+    // Meta/og/twitter descriptions use the same complete-sentence clamp as the Worker head (audit NX-09); the
+    // NewsArticle JSON-LD keeps the full summary.
+    description = clampMetaDescription(description, articleLocale); // same locale argument as the Worker (metadata.locale)
     robots = article.seo?.noindex === false && isPublishedLocale ? "index,follow" : "noindex,follow";
     const isTokenizedTreasuryArticle = article.slug === "tokenized-treasuries-structure-access-risks";
     const tokenizedTreasuryGscFaq = isTokenizedTreasuryArticle ? tokenizedTreasuryGscFaqEntry(articleLocale) : null;

@@ -32,6 +32,7 @@ import { TelegramReturnBanner } from "./TelegramReturnBanner.jsx";
 import { footerDisclosureLabel } from "./CleanFooter.jsx";
 import { formatPercent } from "../../data/format-percent.js";
 import { referralSeoFor } from "../../data/referral-seo.js";
+import { showFewerPlatforms, showMorePlatforms } from "../../data/plural-copy.js";
 import "./growth-conversion.css";
 import { localeKey, textLocaleKey, zhText, localePending, interfaceText, detailCtaLabel, LocalLink, isoDates, publishableFeeRate } from "./v3-pages-shared.jsx";
 import { detailUi, dexFeeCompactUi, copyFeedbackLabel, useCopyFeedback, CopyFeedbackStatus, telegramLocaleUi } from "./venue-detail-shared.jsx";
@@ -90,8 +91,9 @@ const detailRuntimeUi = (locale, text, venueName) => ({
   preRegister: text.registrationPrepCta,
   preRegisterHint: text.detailPreKycFunding,
   similarOpen: text.detailCompare,
-  showFewer: text.cardsView,
-  showMore: (count) => (String(locale || "en").startsWith("en") ? `Show ${count} more ${count === 1 ? "platform" : "platforms"}` : text.resultVenues(count)),
+  // "Show N more platforms" / "Show fewer" with CLDR plurals in every locale (audit NX-07: French showed "1 plateformes").
+  showFewer: showFewerPlatforms(locale),
+  showMore: (count) => showMorePlatforms(count, locale),
   stickyQuickAction: text.registrationPrepCta,
   stickyOfficial: text.officialDomain,
   stickyFeeBenefit: text.partnerState,

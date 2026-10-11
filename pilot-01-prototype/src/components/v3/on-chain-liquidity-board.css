@@ -233,3 +233,25 @@ main.v3-page:has(> .onchain-board-section) {
 @media (prefers-reduced-motion: reduce) {
   .onchain-board__pulse { animation: none; }
 }
+
+/* NX-05 (2026-10-11): verification guide layout — steps, checklist and sources side by side on wide screens, official
+   proof-of-reserves links as a compact list, and the "not a solvency guarantee" note always visible. */
+.onchain-board__intro { color: #cbd5e1; font-size: clamp(.92rem, 1.6vw, 1rem); line-height: var(--lh-body, 1.55); max-width: 72ch; margin: 0 0 .5rem; }
+.onchain-board__answer { grid-template-columns: minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr); }
+@media (max-width: 1080px) { .onchain-board__answer { grid-template-columns: minmax(0,1fr) minmax(0,1fr); } .onchain-board__steps { grid-column: 1 / -1; } }
+@media (max-width: 640px) { .onchain-board__answer { grid-template-columns: minmax(0,1fr); } }
+.onchain-board__card h3 { margin: 0; color: #e0f2fe; font-size: 0.92rem; line-height: var(--lh-head, 1.15); }
+.onchain-board__steps ol { display: grid; gap: .5rem; margin: 0; padding-inline-start: 1.25rem; color: #cbd5e1; font-size: .86rem; line-height: var(--lh-body, 1.55); }
+.onchain-board__reserves,
+.onchain-board__guarantee { border: 1px solid rgba(148, 163, 184, 0.16); border-radius: 12px; background: rgba(13, 17, 23, 0.62); padding: .9rem; margin: 0 0 .75rem; display: grid; gap: .55rem; }
+.onchain-board__reserves h2, .onchain-board__reserves h3,
+.onchain-board__guarantee h2, .onchain-board__guarantee h3 { margin: 0; color: #e0f2fe; font-size: .92rem; line-height: var(--lh-head, 1.15); }
+.onchain-board__reserve-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: .25rem .75rem; }
+.onchain-board__reserve-list li { display: flex; align-items: center; gap: .6rem; min-height: 44px; border-bottom: 1px solid rgba(148,163,184,.12); color: #e2e8f0; font-size: .86rem; }
+.onchain-board__reserve-list li > span { font-weight: 600; min-width: 5.5rem; }
+.onchain-board__reserve-list a { color: #7dd3fc; text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; min-height: 44px; }
+.onchain-board__reserve-list a:focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; border-radius: 4px; }
+.onchain-board__profile-link { margin-inline-start: auto; color: #94a3b8 !important; font-size: .78rem; }
+.onchain-board__guarantee { border-color: rgba(251, 191, 36, 0.35); }
+.onchain-board__guarantee p { margin: 0; color: #e2e8f0; font-size: .88rem; line-height: var(--lh-body, 1.55); }
+.onchain-board__note { margin: 0; color: #94a3b8 !important; font-size: .8rem !important; line-height: var(--lh-body, 1.55); }

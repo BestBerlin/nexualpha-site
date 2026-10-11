@@ -4,6 +4,8 @@ import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokeniz
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
 import { clampMetaDescription, metaDescriptionLimit } from "../src/data/meta-description.js";
+import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
+import { ONCHAIN_GUIDE_LOCALES, ONCHAIN_GUIDE_PATH, onchainGuideSchema, onchainGuideSeo } from "../src/data/onchain-guide.js";
 import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
 import { ACTIVE_COMPARE_VENUE_SLUGS, CURATED_COMPARISON_SLUGS, canonicalComparePairSlug, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, indexableGeneratedComparePairs, parseComparePair } from "../src/data/compare-generated.js";
 import { socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
@@ -13,6 +15,7 @@ import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, is
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
 import { newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
+import { factbookDates } from "../src/data/factbook-dates.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
   async fetch(request, env) {
@@ -3601,20 +3604,10 @@ async function handlePublicNewsSummaryFeed(request, env, url) {
   }
 }
 
-function markdownInlineHtml(value) {
-  const text = String(value || "");
-  let cursor = 0;
-  let html = "";
-  const linkPattern = /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g;
-  for (const match of text.matchAll(linkPattern)) {
-    html += escapeHtml(text.slice(cursor, match.index));
-    const label = match[1].replace(/\s+/g, " ").trim();
-    const href = match[2];
-    html += `<a href="${escapeHtml(href)}" rel="noopener noreferrer">${escapeHtml(label || href)}</a>`;
-    cursor = match.index + match[0].length;
-  }
-  html += escapeHtml(text.slice(cursor));
-  return html;
+// Same tokenizer and link rules as the React article renderer (src/data/article-inline-markdown.js):
+// internal "[label](/news/...)" links become localized <a> elements, never raw Markdown text (audit NX-10).
+function markdownInlineHtml(value, locale = "en") {
+  return inlineMarkdownHtml(String(value || ""), { locale });
 }
 
 function dedupeLongSentences(markdown) {
@@ -3649,23 +3642,26 @@ const newsTableScrollHints = {
 function markdownBlockHtml(block, index = 0, locale = "en") {
   const text = String(block || "").trim();
   if (!text) return "";
-  if (text.startsWith("### ")) return `<h3>${escapeHtml(text.replace(/^###\s+/, ""))}</h3>`;
-  if (text.startsWith("## ")) return `<h2>${escapeHtml(text.replace(/^##\s+/, ""))}</h2>`;
+  if (text.startsWith("### ")) return `<h3>${markdownInlineHtml(text.replace(/^###\s+/, ""), locale)}</h3>`;
+  if (text.startsWith("## ")) return `<h2>${markdownInlineHtml(text.replace(/^##\s+/, ""), locale)}</h2>`;
   const lines = text.split("\n").map((line) => line.trim()).filter(Boolean);
+  if (lines.length && lines.every((line) => line.startsWith(">"))) {
+    return `<blockquote><p>${markdownInlineHtml(lines.map((line) => line.replace(/^>\s?/, "")).join(" "), locale)}</p></blockquote>`;
+  }
   if (lines.length >= 2 && lines.every((line) => line.startsWith("|"))) {
     const rows = lines
       .filter((line) => !/^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(line))
       .map((line) => line.replace(/^\||\|$/g, "").split("|").map((cell) => cell.trim()));
     const [head = [], ...body] = rows;
     const hint = newsTableScrollHints[locale] || newsTableScrollHints.en;
-    return `<div class="news-detail__table-block"><p class="news-detail__table-hint" id="news-table-hint-${index}">${escapeHtml(hint)}</p><div class="news-detail__table-scroll" role="region" aria-labelledby="news-table-hint-${index}" tabindex="0"><table style="--news-table-columns:${head.length}"><thead><tr>${head.map((cell) => `<th scope="col">${markdownInlineHtml(cell)}</th>`).join("")}</tr></thead><tbody>${body.map((row) => `<tr>${row.map((cell) => `<td>${markdownInlineHtml(cell)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`;
+    return `<div class="news-detail__table-block"><p class="news-detail__table-hint" id="news-table-hint-${index}">${escapeHtml(hint)}</p><div class="news-detail__table-scroll" role="region" aria-labelledby="news-table-hint-${index}" tabindex="0"><table style="--news-table-columns:${head.length}"><thead><tr>${head.map((cell) => `<th scope="col">${markdownInlineHtml(cell, locale)}</th>`).join("")}</tr></thead><tbody>${body.map((row) => `<tr>${row.map((cell) => `<td>${markdownInlineHtml(cell, locale)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`;
   }
   if (lines.some((line) => line.startsWith("- "))) {
-    const lead = lines.filter((line) => !line.startsWith("- ")).map((line) => `<p>${markdownInlineHtml(line)}</p>`).join("");
-    const items = lines.filter((line) => line.startsWith("- ")).map((line) => `<li>${markdownInlineHtml(line.replace(/^- /, ""))}</li>`).join("");
+    const lead = lines.filter((line) => !line.startsWith("- ")).map((line) => `<p>${markdownInlineHtml(line, locale)}</p>`).join("");
+    const items = lines.filter((line) => line.startsWith("- ")).map((line) => `<li>${markdownInlineHtml(line.replace(/^- /, ""), locale)}</li>`).join("");
     return `${lead}<ul>${items}</ul>`;
   }
-  return `<p>${markdownInlineHtml(text)}</p>`;
+  return `<p>${markdownInlineHtml(text, locale)}</p>`;
 }
 
 function newsFallbackCopy(locale) {
@@ -3995,8 +3991,42 @@ async function renderActivitiesAtRequestTime(html, metadata, url, env) {
   return null;
 }
 
+// Request-time render of a route the build-time manifest does not carry (QA #10, 2026-10-11). Locale editions without
+// their own content (/ja/topics, /ar/factbook, /ko/topics/tokenized-assets, …) are served noindex with a canonical to the
+// owner edition, but their SSR body used to be the empty app shell: the client then rendered the whole page (CLS
+// 0.3-0.9 at 390, nothing for no-JS readers). Render the same component with the same props and the same bootstrap URL
+// the browser hydrates (content pathname + explicit locale); the shell is served only when the renderer throws or
+// returns no page (both logged). `accept` names the markup that proves the renderer produced the client's page.
+async function renderRouteAtRequestTime(html, metadata, url, env, { accept, label }) {
+  if (typeof env?.NEWS_SSR_RENDER !== "function") return null;
+  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
+  const pathname = publicRoute.contentPathname;
+  const locale = publicRoute.locale;
+  try {
+    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, locale), {});
+    if (typeof appHtml === "string" && accept(appHtml)) {
+      metadata.fallbackSsrMode = "runtime";
+      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, {}, url);
+    }
+    console.error(`[NexuAlpha] ${label} SSR returned no page body for ${pathname} (${locale}); serving the app shell`);
+  } catch (error) {
+    console.error(`[NexuAlpha] ${label} SSR failed for ${pathname} (${locale}): ${error?.message || error}`);
+  }
+  return null;
+}
+
+const hasMainWithHeading = (appHtml) => /<main\b/i.test(appHtml) && /<h1\b/i.test(appHtml);
+const REQUEST_TIME_FALLBACK_EXCLUDED_MARKERS = new Set([NEWS_ROUTE_MARKER, ARTICLE_ROUTE_MARKER, HOME_ROUTE_MARKER, EXCHANGES_ROUTE_MARKER, VENUE_ROUTE_MARKER, COMPARE_ROUTE_MARKER, ACTIVITIES_ROUTE_MARKER]);
+// NotFoundPage (V3Pages.jsx): `/ja/br` and other legacy market paths resolve to a different client page, so only the
+// 404 component itself is accepted; anything else keeps the shell.
+const isNotFoundPage = (appHtml) => appHtml.includes("v3-page--empty") && /<h1\b[^>]*>404<\/h1>/.test(appHtml);
+
 async function injectPrerenderedRoute(html, metadata, url, env) {
-  if (metadata.status !== 200 || !/<div\s+id=["']root["']\s*>\s*<\/div>/i.test(html)) return html;
+  if (!/<div\s+id=["']root["']\s*>\s*<\/div>/i.test(html)) return html;
+  if (metadata.status === 404) {
+    return (await renderRouteAtRequestTime(html, metadata, url, env, { accept: isNotFoundPage, label: "not-found" })) || html;
+  }
+  if (metadata.status !== 200) return html;
   // Latest article body must use the same component as hydration. Keep the
   // existing content fingerprint gate; never admit an obsolete prerender.
   const fallback = async () => {
@@ -4058,6 +4088,15 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
           return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
         }
       } catch { /* fall through to the client-rendered shell */ }
+    }
+    // Every other 200 route the manifest does not carry (locale fallback editions of /topics, /factbook, the
+    // tokenized-asset topics and /markets/turkiye; /ref/<slug> entries) is rendered at request time with the component
+    // the client hydrates. News routes keep their own fallback template above; families prerendered in all 15 locales
+    // (home, /exchanges, venue pages, curated compare pairs, /activities) keep their build-time path and the shell on a
+    // manifest miss (junk-query URLs), as tests/compare-any.test.mjs pins.
+    if (!REQUEST_TIME_FALLBACK_EXCLUDED_MARKERS.has(metadata.marker)) {
+      const rendered = await renderRouteAtRequestTime(html, metadata, url, env, { accept: hasMainWithHeading, label: "route fallback" });
+      if (rendered) return rendered;
     }
     metadata.newsSsrMode = "fallback";
     return injectFallbackBody(html, metadata, url);
@@ -4991,7 +5030,7 @@ function buildWorkerFactbookSchema(venue, locale, canonicalUrl) {
     description: "Platform fee, custody and access reference. Consult the page for source dates, assumptions and limitations.",
     license: NEXUALPHA_DATA_LICENSE_URL,
     url: canonicalUrl, inLanguage: locale,
-    dateModified: FACTBOOK_SOURCE_REVIEW_DATE,
+    dateModified: factbookDates(venue.slug).latestReviewOn,
     ...researchAttribution([`https://${venue.officialDomain}`]),
     creator: { "@type": "Organization", name: "NexuAlpha", url: `${PUBLIC_ORIGIN}/` },
     about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` },
@@ -6557,8 +6596,8 @@ async function routeMetadataBase(url, env, newsFeed) {
     }
 
     const title = isZh
-      ? `${venue.name} 来源审阅事实库 (Factbook) [${FACTBOOK_SOURCE_REVIEW_DATE}] — NexuAlpha`
-      : `${venue.name} ${({ "zh-Hans": "来源审阅事实库 (Factbook)", "zh-Hant": "來源審閱事實庫 (Factbook)", ja: "出典ファクトブック", ko: "출처 팩트북", tr: "Kaynak factbook", es: "Ficha de fuentes", "pt-BR": "Ficha de fontes", fr: "Fiche des sources", de: "Quellen-Factbook", ar: "سجل المصادر", ru: "Досье источников", id: "Factbook sumber", vi: "Hồ sơ nguồn", it: "Factbook delle fonti" }[requestedLocale] || "Source Review Factbook")} [${FACTBOOK_SOURCE_REVIEW_DATE}] — NexuAlpha`;
+      ? `${venue.name} 来源审阅事实库 (Factbook) — NexuAlpha`
+      : `${venue.name} ${({ "zh-Hans": "来源审阅事实库 (Factbook)", "zh-Hant": "來源審閱事實庫 (Factbook)", ja: "出典ファクトブック", ko: "출처 팩트북", tr: "Kaynak factbook", es: "Ficha de fuentes", "pt-BR": "Ficha de fontes", fr: "Fiche des sources", de: "Quellen-Factbook", ar: "سجل المصادر", ru: "Досье источников", id: "Factbook sumber", vi: "Hồ sơ nguồn", it: "Factbook delle fonti" }[requestedLocale] || "Source Review Factbook")} — NexuAlpha`;
     const factbookDescriptions = {
       "zh-Hans": `${venue.name} 来源审阅事实库：基础费率、地区资格、KYC 参考与官方域名核验。用户权益和储备数据须逐项核对来源与更新时间。`,
       "zh-Hant": `${venue.name} 來源審閱事實庫：基礎費率、地區資格、KYC 參考與官方網域核驗。用戶權益和儲備資料須逐項核對來源與更新時間。`,
@@ -6784,19 +6823,6 @@ async function routeMetadataBase(url, env, newsFeed) {
       tr: { title: "Kripto borsa ücretleri kıyaslama terminali — NexuAlpha", description: "CEX, DEX ve perpetual platformların yayınlanmış maker ve taker ücretlerini karşılaştırın." },
       es: { title: "Terminal de comparación de comisiones cripto — NexuAlpha", description: "Compara las comisiones maker y taker publicadas de exchanges centralizados, DEX y plataformas perpetuas." },
     },
-    "/onchain": {
-      en: {
-        title: "On-Chain Liquidity & Reserve Solvency Board — NexuAlpha",
-        description: "Review exchange wallet holdings, net-flow context and published Proof of Reserves signals with clear limitations.",
-      },
-      "zh-Hans": {
-        title: "链上资金流与储备金偿付能力看板 — NexuAlpha",
-        description: "查看交易所钱包资产、资金净流向和公开储备金证明信号，并明确数据边界。",
-      },
-      ja: { title: "オンチェーン流動性と準備金健全性ボード — NexuAlpha", description: "取引所ウォレット、純流入出、公開準備金証明を限界とともに確認します。" },
-      ko: { title: "온체인 유동성 및 준비금 건전성 보드 — NexuAlpha", description: "거래소 지갑, 순 유입·유출과 공개 준비금 증명을 한계와 함께 확인합니다." },
-      tr: { title: "Zincir üstü likidite ve rezerv sağlığı panosu — NexuAlpha", description: "Borsa cüzdanlarını, net akış bağlamını ve yayımlanmış rezerv kanıtlarını sınırlamalarıyla inceleyin." },
-    },
     "/methodology": {
       en: {
         title: "Research Methodology & Editorial Policy — NexuAlpha",
@@ -6863,27 +6889,23 @@ async function routeMetadataBase(url, env, newsFeed) {
   const extraStaticLocales = {
     ar: {
       "/rates": { title: "مقارنة رسوم منصات العملات الرقمية — NexuAlpha", description: "قارن رسوم الصانع والمتداول المنشورة بين المنصات المركزية وDEX ومنصات العقود الدائمة." },
-      "/onchain": { title: "لوحة السيولة والاحتياطيات على السلسلة — NexuAlpha", description: "راجع أرصدة محافظ المنصات وصافي التدفقات وإشارات إثبات الاحتياطيات مع توضيح الحدود." },
       "/embed/calculator": { title: "حاسبة رسوم التداول القابلة للتضمين — NexuAlpha", description: "أضف حاسبة مقارنة رسوم التداول مع افتراضات وإفصاحات واضحة." },
       "/partners": { title: "تضمين بيانات رسوم العملات الرقمية وتوزيعها — NexuAlpha", description: "إرشادات للناشرين الذين يستخدمون أدوات بحث ومقارنة NexuAlpha." },
     },
     id: {
       "/rates": { title: "Perbandingan biaya platform kripto — NexuAlpha", description: "Bandingkan biaya maker dan taker yang dipublikasikan untuk CEX, DEX, dan platform perpetual." },
-      "/onchain": { title: "Papan likuiditas on-chain dan cadangan — NexuAlpha", description: "Tinjau dompet platform, arus bersih, dan sinyal Proof of Reserves dengan batasan yang jelas." },
       "/methodology": { title: "Metodologi riset dan kebijakan editorial — NexuAlpha", description: "Cara NexuAlpha memverifikasi sumber, memisahkan fakta dari estimasi, dan mengungkap hubungan komersial." },
       "/embed/calculator": { title: "Kalkulator biaya perdagangan yang dapat disematkan — NexuAlpha", description: "Sematkan kalkulator perbandingan biaya dengan asumsi dan pengungkapan yang transparan." },
       "/partners": { title: "Embed mitra dan distribusi — NexuAlpha", description: "Panduan integrasi bagi penerbit yang menggunakan riset dan alat perbandingan NexuAlpha." },
     },
     vi: {
       "/rates": { title: "So sánh phí nền tảng tiền mã hóa — NexuAlpha", description: "So sánh phí maker và taker được công bố trên CEX, DEX và nền tảng hợp đồng vĩnh cửu." },
-      "/onchain": { title: "Bảng thanh khoản on-chain và dự trữ — NexuAlpha", description: "Xem ví nền tảng, dòng tiền ròng và tín hiệu Proof of Reserves cùng các giới hạn dữ liệu." },
       "/methodology": { title: "Phương pháp nghiên cứu và chính sách biên tập — NexuAlpha", description: "Cách NexuAlpha xác minh nguồn, tách sự thật khỏi ước tính và công bố quan hệ thương mại." },
       "/embed/calculator": { title: "Máy tính phí giao dịch có thể nhúng — NexuAlpha", description: "Nhúng máy tính so sánh phí với giả định và công bố minh bạch." },
       "/partners": { title: "Nhúng đối tác và phân phối — NexuAlpha", description: "Hướng dẫn tích hợp cho nhà xuất bản sử dụng công cụ nghiên cứu và so sánh NexuAlpha." },
     },
     it: {
       "/rates": { title: "Confronto delle commissioni delle piattaforme crypto — NexuAlpha", description: "Confronta le commissioni maker e taker pubblicate di CEX, DEX e piattaforme perpetual." },
-      "/onchain": { title: "Pannello liquidità on-chain e riserve — NexuAlpha", description: "Esamina wallet, flussi netti e segnali Proof of Reserves con limiti chiari." },
       "/methodology": { title: "Metodologia di ricerca e politica editoriale — NexuAlpha", description: "Come NexuAlpha verifica le fonti, separa fatti e stime e dichiara i rapporti commerciali." },
       "/embed/calculator": { title: "Calcolatore di commissioni di trading incorporabile — NexuAlpha", description: "Incorpora un calcolatore di confronto con ipotesi e informative trasparenti." },
       "/partners": { title: "Embed per partner e distribuzione — NexuAlpha", description: "Guida all'integrazione per editori che usano gli strumenti di ricerca e confronto NexuAlpha." },
@@ -6891,7 +6913,6 @@ async function routeMetadataBase(url, env, newsFeed) {
     ru: {
       "/methodology": { title: "Методология исследований и редакционная политика — NexuAlpha", description: "Как NexuAlpha проверяет источники, отделяет факты от оценок и раскрывает коммерческие отношения." },
       "/rates": { title: "Сравнение комиссий криптоплатформ — NexuAlpha", description: "Сравнивайте опубликованные комиссии maker и taker для CEX, DEX и бессрочных платформ." },
-      "/onchain": { title: "Панель ончейн-ликвидности и резервов — NexuAlpha", description: "Изучайте кошельки платформ, чистые потоки и опубликованные сигналы Proof of Reserves с указанием ограничений." },
       "/embed/calculator": { title: "Встраиваемый калькулятор торговых комиссий — NexuAlpha", description: "Встраивайте калькулятор сравнения комиссий с прозрачными допущениями и раскрытиями." },
       "/partners": { title: "Партнёрские встраивания и дистрибуция — NexuAlpha", description: "Руководство для издателей, использующих исследовательские и сравнительные инструменты NexuAlpha." },
     },
@@ -6905,13 +6926,6 @@ async function routeMetadataBase(url, env, newsFeed) {
       "pt-BR": { title: "Terminal de comparação de taxas cripto — NexuAlpha", description: "Compare taxas maker e taker publicadas por CEXs, DEXs e plataformas perpétuas." },
       fr: { title: "Terminal de comparaison des frais crypto — NexuAlpha", description: "Comparez les frais maker et taker publiés par les CEX, DEX et plateformes perpétuelles." },
       de: { title: "Terminal für Krypto-Gebührenvergleiche — NexuAlpha", description: "Vergleichen Sie veröffentlichte Maker- und Taker-Gebühren von CEXs, DEXs und Perpetual-Plattformen." },
-    },
-    "/onchain": {
-      "zh-Hant": { title: "鏈上資金流與儲備金償付能力看板 — NexuAlpha", description: "查看交易所錢包資產、資金淨流向和公開儲備金證明訊號，並明確資料邊界。" },
-      es: { title: "Panel de liquidez on-chain y reservas — NexuAlpha", description: "Revisa wallets de plataformas, flujos netos y señales públicas de Proof of Reserves con límites claros." },
-      "pt-BR": { title: "Painel de liquidez on-chain e reservas — NexuAlpha", description: "Revise carteiras de plataformas, fluxos líquidos e sinais públicos de Proof of Reserves com limites claros." },
-      fr: { title: "Tableau de liquidité on-chain et réserves — NexuAlpha", description: "Examinez les wallets, les flux nets et les signaux publics de Proof of Reserves avec leurs limites." },
-      de: { title: "On-Chain-Liquidität und Reserven — NexuAlpha", description: "Prüfen Sie Wallet-Bestände, Nettoflüsse und veröffentlichte Proof-of-Reserves-Signale mit klaren Grenzen." },
     },
     "/methodology": {
       "zh-Hant": { title: "研究方法與編輯政策 — NexuAlpha", description: "了解 NexuAlpha 如何核驗來源、區分事實與估算，並披露商業合作關係。" },
@@ -6945,6 +6959,12 @@ async function routeMetadataBase(url, env, newsFeed) {
     staticPageCopy[pathname] ||= {};
     for (const [locale, copy] of Object.entries(locales)) staticPageCopy[pathname][locale] = copy;
   }
+  // /onchain is a proof-of-reserves verification guide (audit NX-05): title, description and schema come from
+  // src/data/onchain-guide.js, shared with computeRouteSeo.
+  staticPageCopy[ONCHAIN_GUIDE_PATH] = Object.fromEntries(ONCHAIN_GUIDE_LOCALES.map((code) => {
+    const { title, description } = onchainGuideSeo(code);
+    return [code, { title, description }];
+  }));
   const staticPage = staticPageCopy[canonicalPath];
   if (staticPage) {
     const copy = staticPage[requestedLocale] || staticPage[locale] || staticPage.en;
@@ -6971,7 +6991,9 @@ async function routeMetadataBase(url, env, newsFeed) {
       robots: "index,follow",
       marker: STATIC_ROUTE_MARKER,
       alternates: routeAlternates(canonicalPath),
-      schema: canonicalPath === "/methodology" ? [staticSchema, ...regionalFundingRouteSchemas(locale)] : staticSchema,
+      schema: canonicalPath === "/methodology"
+        ? [staticSchema, ...regionalFundingRouteSchemas(locale)]
+        : canonicalPath === ONCHAIN_GUIDE_PATH ? onchainGuideSchema(locale, { canonical }) : staticSchema,
     };
   }
 
@@ -7032,6 +7054,7 @@ async function appHtmlResponse(response, url, env, forceHtml = false) {
   );
   const headers = new Headers(response.headers);
   if (metadata.newsSsrMode) headers.set("x-nexualpha-news-render", metadata.newsSsrMode);
+  if (metadata.fallbackSsrMode) headers.set("x-nexualpha-fallback-render", metadata.fallbackSsrMode);
   headers.delete("content-length");
   return htmlSecurityResponse(new Response(html, {
     status: metadata.status,

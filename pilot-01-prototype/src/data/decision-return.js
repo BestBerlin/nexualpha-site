@@ -4,7 +4,9 @@ import { sanitizeMarket, sanitizeProduct } from './growth-context.js';
 
 const FEE_VENUES = new Set(['binance','okx','bybit','bitget','gate-io','kucoin','mexc']);
 const FEE_VOLUMES = new Set([5000,20000,50000,100000,300000,500000,1000000]);
-const STATE_KEYS = ['scenario','venue','instrument','volume','order','market','product'];
+const STATE_KEYS = ['scenario','venue','instrument','volume','order','market','product','basis'];
+// Cost basis (audit NX-03): 'base' = published base fees, 'rebate' = after the partner programme's maximum rebate share.
+const BASES = new Set(['base','rebate']);
 
 function normalizeScenario(input) {
   if (!['fees','cost'].includes(input.kind) || !['spot','futures'].includes(input.instrument)) return null;
@@ -17,7 +19,8 @@ function normalizeScenario(input) {
     return {...context,venue:input.venue,instrument:input.instrument,volume};
   }
   if (!['maker','taker'].includes(input.order)) return null;
-  return {...context,instrument:input.instrument,order:input.order,volume:Math.round(volume*100)/100};
+  const basis=BASES.has(input.basis)?input.basis:null;
+  return {...context,instrument:input.instrument,order:input.order,volume:Math.round(volume*100)/100,...(basis?{basis}:{})};
 }
 
 // Deliberately build fresh parameters: never reuse the current URL's identity,
@@ -41,7 +44,22 @@ export function buildDecisionReturnHref(input={}) {
 export function readDecisionReturnState(search='') {
   const params=new URLSearchParams(search);
   if(STATE_KEYS.some(key=>params.getAll(key).length>1)) return null;
-  return normalizeScenario({kind:params.get('scenario'),venue:params.get('venue'),instrument:params.get('instrument'),volume:params.get('volume'),order:params.get('order'),market:params.get('market')});
+  return normalizeScenario({kind:params.get('scenario'),venue:params.get('venue'),instrument:params.get('instrument'),volume:params.get('volume'),order:params.get('order'),market:params.get('market'),basis:params.get('basis')});
+}
+
+// Carries a cost scenario (volume, spot/futures, maker/taker, basis) onto an onward link — /rates → venue or compare —
+// with the same parameter names the "copy link to continue" URL uses. Existing parameters and the hash are kept.
+export function appendCostScenarioQuery(href, input={}) {
+  const state=normalizeScenario({...input,kind:'cost'});
+  if (!state) return href;
+  const [pathAndSearch, hash=''] = String(href || '').split('#');
+  const target=new URL(pathAndSearch,'https://nexualpha.com');
+  target.searchParams.set('scenario','cost');
+  target.searchParams.set('instrument',state.instrument);
+  target.searchParams.set('order',state.order);
+  target.searchParams.set('volume',String(state.volume));
+  if (state.basis) target.searchParams.set('basis',state.basis);
+  return `${target.pathname}${target.search}${hash ? `#${hash}` : ''}`;
 }
 
 const COPY = {

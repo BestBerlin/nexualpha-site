@@ -23,6 +23,7 @@ import { TopDecisionBox } from "../TopDecisionBox.jsx";
 import { NewsVenueOffer } from "./NewsVenueOffer.jsx";
 import { NewsTelegramAlerts } from "./NewsTelegramAlerts.jsx";
 import { createPartnerAutolinker, relatedPartnerLinks } from "./partner-autolink.js";
+import { tokenizeInlineMarkdown } from "../../../data/article-inline-markdown.js";
 import "./news-detail-page.css";
 
 const copy = {
@@ -521,31 +522,36 @@ function OwnerChecklist({ article }) {
 
 const sectionNavigationLabels = {"en": "Jump to section", "zh-Hans": "跳转到章节", "zh-Hant": "跳轉至章節", "ja": "セクションへ移動", "ko": "섹션으로 이동", "tr": "Bölüme git", "ar": "الانتقال إلى القسم", "es": "Ir a la sección", "pt-BR": "Ir para a seção", "fr": "Aller à la section", "de": "Zum Abschnitt springen", "ru": "Перейти к разделу", "id": "Ke bagian", "vi": "Chuyển đến mục", "it": "Vai alla sezione"};
 
-// Inline markdown in article prose: [label](https://...) links, **strong** and `code`. Only http(s) targets are
-// linked; anything else stays plain text.
-const INLINE_TOKEN = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*|`([^`]+)`/g;
-function renderInline(text, linker = null) {
-  const value = String(text);
-  if (!/\]\(http|\*\*|`/.test(value)) return linker ? linker.linkSegments([value]) : value;
-  const parts = [];
-  let last = 0;
-  for (const match of value.matchAll(INLINE_TOKEN)) {
-    if (match.index > last) parts.push(value.slice(last, match.index));
-    if (match[2]) parts.push(<a key={match.index} href={match[2]} target="_blank" rel="noopener noreferrer">{match[1]}</a>);
-    else if (match[3]) parts.push(<strong key={match.index}>{match[3]}</strong>);
-    else parts.push(<code key={match.index}>{match[4]}</code>);
-    last = match.index + match[0].length;
-  }
-  if (last < value.length) parts.push(value.slice(last));
-  // Existing links, bold and code are React elements here and pass through the linker untouched.
-  return linker ? linker.linkSegments(parts) : parts;
+// Inline markdown in article prose: [label](href) links, **strong**, *em* and `code`, tokenized by
+// article-inline-markdown.js (shared with the Worker fallback HTML). External http(s) links open in a new tab; allowed
+// internal paths (/news/, /exchanges/, /compare/, /rates, ...) are localized; any other target renders as its label.
+function renderInlineTokens(tokens, keyPrefix, linker) {
+  return tokens.flatMap((token, index) => {
+    const key = `${keyPrefix}-${index}`;
+    // Only top-level plain text can carry a partner autolink: links, code, strong and em pass through untouched.
+    if (token.type === "text") return linker ? linker.linkSegments([token.text]) : [token.text];
+    if (token.type === "code") return [<code key={key}>{token.text}</code>];
+    if (token.type === "strong") return [<strong key={key}>{renderInlineTokens(token.children, key, null)}</strong>];
+    if (token.type === "em") return [<em key={key}>{renderInlineTokens(token.children, key, null)}</em>];
+    return [token.external
+      ? <a key={key} href={token.href} target="_blank" rel="noopener noreferrer">{renderInlineTokens(token.children, key, null)}</a>
+      : <a key={key} href={token.href}>{renderInlineTokens(token.children, key, null)}</a>];
+  });
 }
 
-function renderMarkdownBlock(block, index, t, linker = null) {
+function renderInline(text, linker = null, locale = "en") {
+  const parts = renderInlineTokens(tokenizeInlineMarkdown(text, { locale }), "md", linker);
+  return parts.length === 1 && typeof parts[0] === "string" ? parts[0] : parts;
+}
+
+function renderMarkdownBlock(block, index, t, linker = null, locale = "en") {
   // Headings count as mentions for the related line but never carry a partner link.
-  if (block.startsWith("### ")) { linker?.observe(block); return <h3 key={index}>{block.replace(/^### /, "")}</h3>; }
-  if (block.startsWith("## ")) { linker?.observe(block); return <h2 key={index} id={`article-section-${index}`} tabIndex={-1}>{block.replace(/^## /, "")}</h2>; }
+  if (block.startsWith("### ")) { linker?.observe(block); return <h3 key={index}>{renderInline(block.replace(/^### /, ""), null, locale)}</h3>; }
+  if (block.startsWith("## ")) { linker?.observe(block); return <h2 key={index} id={`article-section-${index}`} tabIndex={-1}>{renderInline(block.replace(/^## /, ""), null, locale)}</h2>; }
   const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+  if (lines.length && lines.every((line) => line.startsWith(">"))) {
+    return <blockquote key={index}><p>{renderInline(lines.map((line) => line.replace(/^>\s?/, "")).join(" "), linker, locale)}</p></blockquote>;
+  }
   if (lines.length >= 2 && lines.every((line) => line.startsWith("|"))) {
     const rows = lines
       .filter((line) => !/^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(line))
@@ -557,11 +563,11 @@ function renderMarkdownBlock(block, index, t, linker = null) {
         <div className="news-detail__table-scroll" role="region" aria-labelledby={`news-table-hint-${index}`} tabIndex={0}>
           <table style={{ "--news-table-columns": head.length }}>
             <thead>
-              <tr>{head.map((cell) => <th key={cell} scope="col">{cell}</th>)}</tr>
+              <tr>{head.map((cell) => <th key={cell} scope="col">{renderInline(cell, null, locale)}</th>)}</tr>
             </thead>
             <tbody>
               {body.map((row, rowIndex) => (
-                <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={`${rowIndex}-${cellIndex}`}>{renderInline(cell, linker)}</td>)}</tr>
+                <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={`${rowIndex}-${cellIndex}`}>{renderInline(cell, linker, locale)}</td>)}</tr>
               ))}
             </tbody>
           </table>
@@ -574,15 +580,15 @@ function renderMarkdownBlock(block, index, t, linker = null) {
     const items = lines.filter((line) => line.startsWith("- ")).map((line) => line.replace(/^- /, ""));
     return (
       <React.Fragment key={index}>
-        {leadLines.length > 0 && <p>{renderInline(leadLines.join(" "), linker)}</p>}
+        {leadLines.length > 0 && <p>{renderInline(leadLines.join(" "), linker, locale)}</p>}
         {/* a list of short terms flows into columns (a 7-item glossary was a 280px-tall strip beside empty space) */}
         <ul className={items.length >= 4 && items.every((item) => item.trim().length <= 40) ? "news-detail__terms" : undefined}>
-          {items.map((item, itemIndex) => <li key={itemIndex}>{renderInline(item.trim(), linker)}</li>)}
+          {items.map((item, itemIndex) => <li key={itemIndex}>{renderInline(item.trim(), linker, locale)}</li>)}
         </ul>
       </React.Fragment>
     );
   }
-  return <p key={index}>{renderInline(block, linker)}</p>;
+  return <p key={index}>{renderInline(block, linker, locale)}</p>;
 }
 
 // Article byline (E-E-A-T): "By NexuAlpha Research Desk · Reviewed <date> · Editorial policy". The author links to the
@@ -741,8 +747,8 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
       <a key={`partner-${slug}`} href={withContext(href)} className="news-detail__partner-link" data-partner-link={slug} data-cta-kind="research" data-cta-placement="news-detail-partner-mention">{text}</a>
     ),
   });
-  const leadNodes = leadBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index, t, partnerLinker));
-  const deepNodes = deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t, partnerLinker));
+  const leadNodes = leadBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index, t, partnerLinker, locale));
+  const deepNodes = deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t, partnerLinker, locale));
   const relatedPartners = relatedPartnerLinks({ locale, slugs: partnerLinker.mentionedSlugs() });
   const sectionLabel = sectionNavigationLabels[locale] || sectionNavigationLabels.en;
   const sectionTargets = articleSectionTargets([...leadBlocks, ...deepBlocks], article.sources.length > 0, leadBlockCount, t.sourcesTitle);

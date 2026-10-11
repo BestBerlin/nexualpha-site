@@ -528,7 +528,7 @@ function VenueTieredFeeMatrix({ venue, locale, db, rebatePercent, inviteCode, re
 
   const feeText = feeSummaryCopy(locale);
   const summary = buildVenueFeeSummary(db, researchForVenue(venue.slug, locale) || {});
-  const formatRate = feePctOfRate;
+  const formatRate = (rate) => feePctOfRate(rate, locale);
 
   return (
     <section className="v2-section v3-fee-matrix-section" id="fee-schedule">

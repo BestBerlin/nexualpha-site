@@ -1,6 +1,8 @@
 import { factsForVenue, feeFact, venueCheckedOn, feePct } from "../../data/exchange-facts.js";
 import { matrixCopy } from "./exchange-matrix-copy.js";
 import { venueDatabase } from "../../data/venue-database.js";
+import { paymentMethodLabels, paymentMethodSeparator } from "../../data/payment-method-labels.js";
+import { uniqueTextEntries } from "../../utils/unique-text.js";
 import { useEffect, useRef } from "react";
 import { Reveal, prefersReducedMotion } from "../../lib/v5/index.js";
 
@@ -56,7 +58,7 @@ function StripCell({ value, locale, none = false }) {
   if (value == null) return <span className="d5-rate d5-rate--null"><span className="d5-null-note">{none ? matrixCopy(locale).notOffered : matrixCopy(locale).unchecked}</span></span>;
   return (
     <span className="d5-rate">
-      <HeroCount value={value} text={feePct(value)} locale={locale} className="num d5-figure d5-figure--hero" />
+      <HeroCount value={value} text={feePct(value, locale)} locale={locale} className="num d5-figure d5-figure--hero" />
     </span>
   );
 }
@@ -105,9 +107,10 @@ export function ExchangeFactsV5({ slug, locale, profile }) {
   const strengths = [];
   if (category && category !== "Perp DEX") strengths.push(mc.pSpot);
   if (category === "Perp DEX" || (category === "CEX" && (db.futuresFee || perpChecked))) strengths.push(mc.pPerp);
-  if (category === "CEX" && hasList(db.fiatChannels)) strengths.push(`${mc.pFiat}: ${db.fiatChannels.join(", ")}`);
+  if (category === "CEX" && hasList(db.fiatChannels)) strengths.push(`${mc.pFiat}: ${paymentMethodLabels(db.fiatChannels, locale).join(paymentMethodSeparator(locale))}`);
   if (category && category !== "CEX") strengths.push(mc.pChain);
-  const eligibility = [...(profile?.checks || []), ...(profile?.limitations || [])].slice(0, 6);
+  // venueProfile already removes limitations that repeat a check; dedupe again here so no source can list one item twice.
+  const eligibility = uniqueTextEntries([...(profile?.checks || []), ...(profile?.limitations || [])]).slice(0, 6);
   if (!strengths.length && !eligibility.length) return null;
 
   return (

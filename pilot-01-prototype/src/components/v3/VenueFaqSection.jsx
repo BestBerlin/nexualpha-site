@@ -59,7 +59,7 @@ const publishableFeeRate = (summary, product, locale = "en") => {
   if (!rate) return null;
   const scope = reviewedFeeCopy(rate, locale);
   // One formatter (exchange-facts.js), maker first and labelled.
-  const pair = `${feePctOfRate(rate.makerRate)} / ${feePctOfRate(rate.takerRate)} (${matrixCopy(locale).maker})`;
+  const pair = `${feePctOfRate(rate.makerRate, locale)} / ${feePctOfRate(rate.takerRate, locale)} (${matrixCopy(locale).maker})`;
   return { ...rate, publishable: true, display: `${pair} · ${scope.tier} · ${scope.scope}`, conditions: scope.conditions };
 };
 

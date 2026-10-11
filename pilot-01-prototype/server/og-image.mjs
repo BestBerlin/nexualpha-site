@@ -17,7 +17,7 @@ import path from "node:path";
 import { localizedNewsTitle } from "../src/data/news-feed-client.js";
 import { newsCategoryCopy } from "../src/data/news-library.js";
 import { FACTS_AS_OF, factsForVenue, feeDisplay, venueCheckedOn } from "../src/data/exchange-facts.js";
-import { HOME_REBATE_SHARE } from "../src/data/home-rebate-tiers.js";
+import { partnerRebateShare } from "../src/data/partner-benefit-status.js";
 export { socialImagePathForRoute } from "../src/data/social-image.js";
 
 export const OG_WIDTH = 1200;
@@ -302,26 +302,27 @@ function createNewsSource(clientRoot) {
   };
 }
 
-export function venueCardData(slug, clientRoot) {
+export function venueCardData(slug, clientRoot, locale = "en") {
   const facts = factsForVenue(slug);
   if (!facts) return null;
   const logoFile = clientRoot ? path.join(clientRoot, "brands", `${slug}.png`) : null;
   return {
     name: facts.name,
     logoFile: logoFile && existsSync(logoFile) ? logoFile : null,
-    spot: feeDisplay(slug, "spot"),
-    perp: feeDisplay(slug, "perp"),
+    // Same formatter as the pages (format-fee.js): exact reviewed precision, locale decimal/percent style.
+    spot: feeDisplay(slug, "spot", locale),
+    perp: feeDisplay(slug, "perp", locale),
     checkedOn: venueCheckedOn(slug),
-    rebateShare: Number.isFinite(HOME_REBATE_SHARE[slug]) ? HOME_REBATE_SHARE[slug] : null,
+    rebateShare: partnerRebateShare(slug),
   };
 }
 
-export function compareCardData(pair) {
+export function compareCardData(pair, locale = "en") {
   const slugs = String(pair || "").split("-vs-");
   if (slugs.length < 2 || slugs.length > 3 || new Set(slugs).size !== slugs.length) return null;
   const venues = slugs.map((slug) => {
     const facts = factsForVenue(slug);
-    return facts ? { slug, name: facts.name, spot: feeDisplay(slug, "spot"), perp: feeDisplay(slug, "perp"), checkedOn: venueCheckedOn(slug) } : null;
+    return facts ? { slug, name: facts.name, spot: feeDisplay(slug, "spot", locale), perp: feeDisplay(slug, "perp", locale), checkedOn: venueCheckedOn(slug) } : null;
   });
   return venues.every(Boolean) ? { venues } : null;
 }
@@ -429,13 +430,13 @@ export function createOgImageRoute({ clientRoot, buildId = "dev", cacheDir = nul
       return { svg: newsCardSvg({ title, category, date: isoDay(article.publishedAt), locale }), cacheKey: `${feed.fingerprint}:${isoDay(article.updatedAt) || ""}`, cacheControl: CACHE_CONTROL, persist: true };
     }
     if (kind === "venue") {
-      const data = venueCardData(id, clientRoot);
+      const data = venueCardData(id, clientRoot, locale);
       if (!data) return null;
       const logoPng = data.logoFile ? await readFile(data.logoFile).catch(() => null) : null;
       return { svg: venueCardSvg({ ...data, logoPng, locale }), cacheKey: `${FACTS_AS_OF}:${data.logoFile ? "logo" : "nologo"}`, cacheControl: CACHE_CONTROL, persist: true };
     }
     if (kind === "compare") {
-      const data = compareCardData(id);
+      const data = compareCardData(id, locale);
       if (!data) return null;
       return { svg: compareCardSvg({ ...data, locale }), cacheKey: FACTS_AS_OF, cacheControl: CACHE_CONTROL, persist: true };
     }

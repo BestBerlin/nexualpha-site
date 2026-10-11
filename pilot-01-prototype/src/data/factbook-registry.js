@@ -7,8 +7,10 @@
  */
 
 import { feeFact, primarySourceUrl } from "./exchange-facts.js";
+import { FACTBOOK_DOSSIER_COMPILED_ON } from "./factbook-dates.js";
 
-export const AUDIT_DATE = "2026-09-08";
+// The source dossier date lives in factbook-dates.js (audit NX-06: one of three dated records on a factbook).
+export const AUDIT_DATE = FACTBOOK_DOSSIER_COMPILED_ON;
 export const AUDIT_DECLARATION = {
   zh: "NexuAlpha 来源审阅基准：本事实库数据已隔离商业营销宣传；链上状态、官方 REST/WS 端点、监管注册与默克尔树证明均按记录来源逐项复核，不构成实时授权、安全保证或完整性承诺。",
   en: "NexuAlpha Source Review Benchmark: This factbook is separated from marketing claims. On-chain states, official REST/WS endpoints, regulatory registries, and Merkle tree proofs are reviewed field by field against recorded sources; this is not a live authorization, safety guarantee, or completeness promise.",

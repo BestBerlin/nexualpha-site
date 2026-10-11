@@ -66,7 +66,7 @@ const publishableFeeRate = (summary, product, locale = "en") => {
   const rate = summary.rates.find((item) => item.product === product);
   if (!rate) return null;
   const scope = reviewedFeeCopy(rate, locale);
-  const pair = `${feePctOfRate(rate.makerRate)} / ${feePctOfRate(rate.takerRate)}`;
+  const pair = `${feePctOfRate(rate.makerRate, locale)} / ${feePctOfRate(rate.takerRate, locale)}`;
   return { ...rate, publishable: true, pair, tier: scope.tier, display: `${pair} (${matrixCopy(locale).maker}) · ${scope.tier} · ${scope.scope}`, conditions: scope.conditions };
 };
 

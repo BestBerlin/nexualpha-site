@@ -1653,10 +1653,10 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
                       <div className="v3-matrix-net-box">
                         <div className="v3-matrix-net-row">
                           <span className="v3-matrix-net-label">{isZh ? "现货净:" : compareDetailPhrase(locale, "spotNet", "Spot Net:")}</span>
-                          <strong className={Number.isFinite(d.effectiveSpotTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveSpotTaker) ? formatCompareRate(d.effectiveSpotTaker) : localePending(locale)}</strong>
+                          <strong className={Number.isFinite(d.effectiveSpotTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveSpotTaker) ? feePctOfRate(d.effectiveSpotTaker, locale) : localePending(locale)}</strong>
                           <span className="v3-matrix-net-label">|</span>
                           <span className="v3-matrix-net-label">{isZh ? "合约净:" : compareDetailPhrase(locale, "futuresNet", "Futures Net:")}</span>
-                          <strong className={Number.isFinite(d.effectiveFuturesTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveFuturesTaker) ? formatCompareRate(d.effectiveFuturesTaker) : localePending(locale)}</strong>
+                          <strong className={Number.isFinite(d.effectiveFuturesTaker) ? undefined : "is-pending"}>{Number.isFinite(d.effectiveFuturesTaker) ? feePctOfRate(d.effectiveFuturesTaker, locale) : localePending(locale)}</strong>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
                           {Number.isFinite(d.rebate) && d.rebate > 0 && d.netCostPublishable && (
