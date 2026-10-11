@@ -95,7 +95,8 @@ test("news detail SSR renders one compact top decision before long article conte
   const box = firstDecisionBox(html);
 
   assert.ok(html.indexOf('data-top-decision-box="true"') < html.indexOf('class="news-detail__partners-box"'));
-  assert.ok(html.indexOf('data-top-decision-box="true"') < html.indexOf('class="news-detail__content"'));
+  // SEO audit 2026-10-11 #5 (owner-approved): the lead answer precedes the decision box in the document.
+  assert.ok(html.indexOf('news-detail__prose--lead') < html.indexOf('data-top-decision-box="true"'));
   assert.equal(countLinks(box), 3);
   assert.equal((box.match(/data-cta-kind="research"/g) || []).length, 2);
   assert.equal((box.match(/data-cta-kind="source"/g) || []).length, 1);

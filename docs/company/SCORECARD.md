@@ -40,7 +40,7 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 ### Data & tools
 - D1 Liquidation history ≥ 30 days and chart live. ◐ history starts 2026-10-10 22:22 UTC (market-history.jsonl); 30 days on 2026-11-09
 - D2 Funding page shows ≥ 20 symbols with < 10 min staleness for 7 days (collector log). ◐ logging since 2026-10-11 19:46 (ops/data-freshness, every 5 min, BaoTa scheduler; `node data-freshness.mjs --report`); 20 rows, 2-4 min old at start; judge on 2026-10-18
-- D3 Embed widget used on ≥ 1 external site OR in ≥ 3 published articles. ◐ 2026-10-11: `::embed liquidations|funding [SYM]` directive live (PR #78), runbook §3b; passes when 3 published articles use it
+- D3 Embed widget used on ≥ 1 external site OR in ≥ 3 published articles. ✅ 2026-10-11: live widgets in 3 articles / 10 URLs (liquidations, STRK funding, funding explainer en/zh/ru/tr/vi/id), CLS 0 at 390
 - D4 Every tool page links to the related articles and vice versa (crawl check). ✅ 2026-10-11 live: 5 tools × 15 locales ≥ 3 article links; 195/195 relevant articles link back
 - D5 Calculator, compare, rates share one state model (URL params round trip test). ✅ partial 2026-10-11
 
@@ -78,3 +78,4 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 | 2026-10-11 | 68 | baseline (owner request: ≥ 90) |
 | 2026-10-11 18:00 | ~74 | criteria passed: T1 T3 T4 T5 V1 V2 X1 X3 (+ D5, V3, G1 partial). Open in priority order: G1 first ru/tr/vi post, T2 full sweep, V4 axe all templates, C1-C3 content streak, M1/M2 localization, S* time-dependent |
 | 2026-10-11 19:00 | ~80 | passed: T1-T5 V1-V5 C4 C5 D4 M1 M5 X1 X3 (+ D5, D3, X5, G1 partial). Remaining are mostly time-based: C1-C3 streaks, D1/D2 data history, G2/G4 audience, S1-S5 search results, X2/X4 |
+| 2026-10-11 23:30 | ~83 | since 19:00: G1 G3 G5 verified; X5 running (owner chose B); exchange-keyword pages, slogans, SEO/GEO audit fixes (#86 #85 #87) live; articles every 2 h (24/day). Still time-bound: C1–C3 streaks, D1 (11-09), D2/G4 (10-18), X5 data (10-25), S1–S5, X2/X4 |

@@ -147,7 +147,8 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
       },
       {
         q: enQ(`Which official ${name} sources has NexuAlpha marked?`) || `${name}: ${localized.sourceIntake || review}`,
-        a: <p><strong>{review}</strong>。{source}。{localized.relationship || verify}。</p>,
+        // Answer with what is marked (the official domain), never the internal review state (SEO audit 2026-10-11 #6).
+        a: <p><strong>{localized.sourceIntake || official}：<code>{officialDomain}</code></strong>。{source}。{localized.relationship || verify}。</p>,
       },
       {
         q: enQ(`How is a ${name} account accessed?`) || `${name}: ${localized.accessModel || verify}`,

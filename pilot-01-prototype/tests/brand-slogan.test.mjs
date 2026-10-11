@@ -196,7 +196,9 @@ test("the default card's inlined brand mark matches public/brand/nexualpha/nexua
 
 test("llms.txt and llms-small.txt lead with slogan A", async () => {
   const script = await readFile(path.join(root, "scripts/generate-public-llms.mjs"), "utf8");
-  assert.match(script, /const header = `# NexuAlpha public source review index\n\n> \$\{brandSlogan\("en"\)\}\n\n/);
-  assert.match(script, /const small = `# NexuAlpha compact machine-readable entry\n\n> \$\{brandSlogan\("en"\)\}\n\n/);
+  // SEO audit 2026-10-11 #9 (owner-approved): brand H1 and a one-sentence summary that starts with slogan A.
+  assert.match(script, /const SITE_SUMMARY = `\$\{brandSlogan\("en"\)\.replace\(/);
+  assert.match(script, /const header = `# NexuAlpha\n\n> \$\{SITE_SUMMARY\}\n\n/);
+  assert.match(script, /const small = `# NexuAlpha\n\n> \$\{SITE_SUMMARY\}\n\n/);
   assert.equal(brandSlogan("en"), BRAND_SLOGAN_PRIMARY.en);
 });

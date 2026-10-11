@@ -16,7 +16,8 @@ import { budgetTitle, clampMetaDescription } from "./meta-description.js";
 import { HOME_SEARCH_COPY } from "./home-search-copy.js";
 import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
 import { NEWS_HUB_SEO_EN } from "./news-list-copy.js";
-import { newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
+import { socialImageObject } from "./social-image.js";
+import { newsListingIndexableLocales, newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
 import { localizedPath, parsePublicRoute } from "./locale-routing.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
@@ -316,8 +317,9 @@ function searchPublicationLocales(pathname, options = {}) {
   }[pathname];
   if (regionalLocales) return regionalLocales;
   if (pathname === "/topics" || pathname === "/factbook") return ["en"];
-  if (pathname === "/embed/calculator") return ["en"];
-  if (pathname === "/news") return newsListingPublishedLocales(options.newsArticles);
+  // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
+  if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
+  if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
   if (options.article) {
     if (!Array.isArray(options.newsArticles)) return isReviewedNewsSearchArticle(options.article) ? newsArticleSeoLocales(options.article) : [];
     return selectReviewedNewsSearchSlugs(options.newsArticles).has(options.article.slug) ? newsArticleSeoLocales(options.article) : [];
@@ -2136,7 +2138,8 @@ function computeRouteSeoUnbudgeted(options = {}) {
       const listingLocales = newsListingPublishedLocales(options.newsArticles);
       const content = resolveNewsContentLocale(locale, listingLocales);
       const display = UI_LOCALES.has(locale) ? locale : content;
-      const published = listingLocales.includes(locale) && content === locale;
+      // Indexable only with >= NEWS_LISTING_MIN_NATIVE_ARTICLES native editions (audit 2026-10-11 #4, worker parity).
+      const published = listingLocales.includes(locale) && content === locale && newsListingIndexableLocales(options.newsArticles).includes(locale);
       title = STATIC_COPY_LOCALIZED[display]?.[pathname] || STATIC_COPY_LOCALIZED[content]?.[pathname] || STATIC_COPY[pathname][content === "zh-Hans" ? 1 : 0];
       description = STATIC_DESCRIPTION_LOCALIZED[display] || STATIC_DESCRIPTION_LOCALIZED[content] || (content === "zh-Hans" ? "NexuAlpha 交易平台、手续费、账户条件与来源说明。" : NEWS_HUB_SEO_EN.description);
       robots = published ? "index,follow" : "noindex,follow";
@@ -2357,7 +2360,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
     const articleCanonical = canonical(pathname, articleLocale);
     const owner = priorityOwnerForPath(pathname);
     schemas = [
-      { ...pageSchema(articleTitle, articleCanonical, articleLocale, "NewsArticle"), headline: articleTitle, description: schemaDescription, mainEntityOfPage: { "@type": "WebPage", "@id": articleCanonical }, datePublished: article.publishedAt, dateModified: article.updatedAt || article.publishedAt, ...articleAttribution, author: newsArticleAuthor(article), ...(owner ? { isPartOf: `${PUBLIC_ORIGIN}${owner.canonicalOwnerPath}`, articleSection: "Dated source trail" } : {}), ...(articleRelatedLinks.length ? { relatedLink: articleRelatedLinks.map((link) => publicRelatedUrl(link, articleLocale)) } : {}), ...(serpOverride?.question ? { about: { "@type": "Thing", name: serpOverride.question } } : {}) },
+      { ...pageSchema(articleTitle, articleCanonical, articleLocale, "NewsArticle"), headline: articleTitle, description: schemaDescription, mainEntityOfPage: { "@type": "WebPage", "@id": articleCanonical }, image: [socialImageObject(pathname, rawLocale, PUBLIC_ORIGIN)].filter(Boolean), datePublished: article.publishedAt, dateModified: article.updatedAt || article.publishedAt, ...articleAttribution, author: newsArticleAuthor(article), ...(owner ? { isPartOf: `${PUBLIC_ORIGIN}${owner.canonicalOwnerPath}`, articleSection: "Dated source trail" } : {}), ...(articleRelatedLinks.length ? { relatedLink: articleRelatedLinks.map((link) => publicRelatedUrl(link, articleLocale)) } : {}), ...(serpOverride?.question ? { about: { "@type": "Thing", name: serpOverride.question } } : {}) },
       sectionBreadcrumb("News", "/news", articleTitle, articleCanonical, articleLocale),
       ...(articleFaq.length ? [{
         "@context": "https://schema.org",
@@ -2401,7 +2404,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
     ? [{ hreflang: regionalPreviewCanonicalLocale(route.market, locale), href: regionalPreviewCanonical }, { hreflang: "x-default", href: regionalPreviewCanonical }]
     : pathname === "/news"
     ? [
-      ...newsListingPublishedLocales(options.newsArticles).map((hreflang) => ({ hreflang, href: canonical(pathname, hreflang) })),
+      ...newsListingIndexableLocales(options.newsArticles).map((hreflang) => ({ hreflang, href: canonical(pathname, hreflang) })),
       { hreflang: "x-default", href: canonical(pathname, "en") },
     ]
     : newsMatch && options.article

@@ -43,3 +43,7 @@ export function splitArticleReadingSections(content = "") {
   }
   return { leadBlocks: blocks.slice(0, boundary), deepBlocks: blocks.slice(boundary) };
 }
+
+
+// Shared with the worker's fallback article HTML, so it lives in src/data (shipped with the server build).
+export { dropEmptyArticleHeadings } from "../../../data/article-empty-headings.js";

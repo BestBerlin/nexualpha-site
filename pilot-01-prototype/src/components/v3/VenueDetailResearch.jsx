@@ -603,7 +603,7 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
         <div className="v3-por-header">
           <div className="v3-por-badge-row">
             <span className="v3-por-shield-badge" {...enIfLatin(isZh ? zhText(locale, "资产偿付能力审计", "資產償付能力稽核") : (ui.badge || "Solvency & PoR"), locale)}> {isZh ? zhText(locale, "资产偿付能力审计", "資產償付能力稽核") : (ui.badge || "Solvency & PoR")}</span>
-            <span className="v3-por-status-pill" dir="auto">{porVerified ? (isZh ? zhText(locale, "官方来源待复核", "官方來源待複核") : (ui.sourcePending || "Official source pending review")) : localePending(locale)}</span>
+            {porVerified && <span className="v3-por-status-pill" dir="auto">{isZh ? zhText(locale, "官方来源待复核", "官方來源待複核") : (ui.sourcePending || "Official source pending review")}</span>}
           </div>
           <h2 className="v3-por-title">
             {isZh ? zhText(locale, `${localizedVenueName} 资产储备证明 (PoR) 深度透视与链上核验`, `${localizedVenueName} 資產儲備證明 (PoR) 深度透視與鏈上核驗`) : (ui.title || `${venue.name} Proof of Reserves (PoR) & On-Chain Solvency`)}
@@ -615,6 +615,9 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
           </p>
         </div>
 
+        {/* Reserve figures appear only from a verified official report; without one the card keeps the explanation and
+            the self-check guide and shows no "Pending" placeholders (SEO audit 2026-10-11 #6). */}
+        {porVerified && <>
         <div className="v3-por-metrics">
           <div className="v3-por-metric-item">
             <span className="v3-por-metric-label" {...enIfLatin(isZh ? zhText(locale, "综合储备总充足率", "綜合儲備總充足率") : (ui.total || "Total Reserve Ratio"), locale)}>{isZh ? zhText(locale, "综合储备总充足率", "綜合儲備總充足率") : (ui.total || "Total Reserve Ratio")}</span>
@@ -665,6 +668,7 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
             <small>{isZh ? zhText(locale, "稳定币覆盖依据待官方来源核验", "穩定幣覆蓋依據待官方來源核驗") : (ui.stableSub || "Stablecoin coverage basis requires official-source verification")}</small>
           </div>
         </div>
+        </>}
 
         <div className="v3-por-verify-guide">
           <h4 className="v3-por-guide-title" {...enIfLatin(isZh ? zhText(locale, "交易者三步链上自查指南", "交易者三步鏈上自查指南") : (ui.guide || "3-Step Verification Guide"), locale)}>{isZh ? zhText(locale, "交易者三步链上自查指南", "交易者三步鏈上自查指南") : (ui.guide || "3-Step Verification Guide")}</h4>
@@ -905,12 +909,14 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
       {venueDirectAnswerDetails}
     </section>
   )}
+  {/* Chapter = h3, its sub-sections = h4, so the chapter heading is never an empty h3 in the outline (SEO audit
+      2026-10-11 #6). */}
   <section className="v3-profile-research-chapter" data-research-task="account">
     <h3 className="v3-profile-sources-group__heading">{profileChapters[0]}</h3>
     <div className="v3-profile-research-chapter__body">
     <div className="v3-profile-account-block v3-venue-invitation-disclosure">
       <div className="v3-registration-notes__body">
-        <h3 className="v3-profile-account-section__heading">{invitationSummary.label}</h3>
+        <h4 className="v3-profile-account-section__heading">{invitationSummary.label}</h4>
         <p className="v3-profile-account-section__hint">{invitationSummary.note}</p>
         {quickRegistration}
         <div className="v3-venue-rebate-card">
@@ -938,7 +944,7 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
         </div>
     <section className="v3-profile-account-section v3-profile-account-cost">
       <header>
-        <h3 className="v3-profile-account-section__heading">{isZhLocale ? zhText(locale, "费率、条件与费用测算", "費率、條件與費用測算") : detailLabels.review}</h3>
+        <h4 className="v3-profile-account-section__heading">{isZhLocale ? zhText(locale, "费率、条件与费用测算", "費率、條件與費用測算") : detailLabels.review}</h4>
         <p className="v3-profile-account-section__hint">{isZhLocale ? zhText(locale, "集中查看费率、储备金、KYC、杠杆与年度费用", "集中查看費率、儲備金、KYC、槓桿與年度費用") : runtimeUi.calculatorOpen}</p>
       </header>
       <div className="v3-profile-cost-conditions__body">
@@ -948,21 +954,26 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
             <strong className="v3-metric-tile__val text-blue" translate="no">{spotFeeDisplay}</strong>
             <span className="v3-metric-tile__sub">{reviewedSpotRate ? reviewedSpotRate.conditions : matrixCopy(locale).maker}</span>
           </div>
+          {/* Tiles with no verified value render nothing (SEO audit 2026-10-11 #6: "Pending official-source verification"). */}
+          {porVerified && (
           <div className="v3-metric-tile">
-            <span className="v3-metric-tile__label">{isZhLocale ? zhText(locale, "资产储备证明 (PoR)", "資產儲備證明 (PoR)") : (metricText?.[1] || "Proof of Reserves")}</span>
-            <strong className={`v3-metric-tile__val${porVerified ? " text-green" : ""}`} translate="no">{porVerified ? porRatio : (isZhLocale ? zhText(locale, "待官方核验", "待官方核驗") : runtimeUi.pendingVerification)}</strong>
-            <span className="v3-metric-tile__sub">{porVerified ? (db.auditFirm || (isZhLocale ? zhText(locale, "公开链上默克尔树", "公開鏈上默克爾樹") : metricText?.[4] || "Public Merkle Tree")) : (isZhLocale ? zhText(locale, "未记录可复核来源", "未記錄可複核來源") : runtimeUi.noSource)}</span>
-          </div>
+              <span className="v3-metric-tile__label">{isZhLocale ? zhText(locale, "资产储备证明 (PoR)", "資產儲備證明 (PoR)") : (metricText?.[1] || "Proof of Reserves")}</span>
+              <strong className={`v3-metric-tile__val${porVerified ? " text-green" : ""}`} translate="no">{porVerified ? porRatio : (isZhLocale ? zhText(locale, "待官方核验", "待官方核驗") : runtimeUi.pendingVerification)}</strong>
+              <span className="v3-metric-tile__sub">{porVerified ? (db.auditFirm || (isZhLocale ? zhText(locale, "公开链上默克尔树", "公開鏈上默克爾樹") : metricText?.[4] || "Public Merkle Tree")) : (isZhLocale ? zhText(locale, "未记录可复核来源", "未記錄可複核來源") : runtimeUi.noSource)}</span>
+            </div>
+          )}
           <div className="v3-metric-tile">
             <span className="v3-metric-tile__label">{isZhLocale ? zhText(locale, "身份验证要求", "身分驗證要求") : (metricText?.[2] || "KYC Requirement")}</span>
             <strong className="v3-metric-tile__val text-purple">{kycSummary}</strong>
             <span className="v3-metric-tile__sub">{isZhLocale ? zhText(locale, "支持多国认证", "支援多國認證") : runtimeUi.globalVerification}</span>
           </div>
+          {db.maxLeverage && db.leverageCheckedAt && (
           <div className="v3-metric-tile">
-            <span className="v3-metric-tile__label">{isZhLocale ? "最大合约杠杆" : (metricText?.[3] || "Max Leverage")}</span>
-            <strong className="v3-metric-tile__val text-gold" translate="no">{maxLev}</strong>
-            <span className="v3-metric-tile__sub">{isZhLocale ? "以官方产品条款为准" : runtimeUi.productTerms}</span>
-          </div>
+              <span className="v3-metric-tile__label">{isZhLocale ? "最大合约杠杆" : (metricText?.[3] || "Max Leverage")}</span>
+              <strong className="v3-metric-tile__val text-gold" translate="no">{maxLev}</strong>
+              <span className="v3-metric-tile__sub">{isZhLocale ? "以官方产品条款为准" : runtimeUi.productTerms}</span>
+            </div>
+          )}
         </div>
 
       {/* In-page Interactive Fee Savings Calculator */}
@@ -1006,7 +1017,7 @@ export function VenueDetailResearch({ annualSavings, codeFeedback, commercialCla
     <section className="v2-section v3-detail-grid v3-profile-decision" id="registration-checklist">
   <section className="v3-profile-account-section v3-profile-account-decision">
   <header>
-      <h3 className="v3-profile-account-section__heading">{isZhLocale ? zhText(locale, "展开完整注册前决策说明", "展開完整註冊前決策說明") : (detailLabels.preRegister || runtimeUi.preRegister)}</h3>
+      <h4 className="v3-profile-account-section__heading">{isZhLocale ? zhText(locale, "展开完整注册前决策说明", "展開完整註冊前決策說明") : (detailLabels.preRegister || runtimeUi.preRegister)}</h4>
       <p className="v3-profile-account-section__hint">{isZhLocale ? zhText(locale, "适配人群、限制和 KYC / 入金检查集中在这里", "適配人群、限制和 KYC / 入金檢查集中在這裡") : (detailLabels.preRegisterHint || runtimeUi.preRegisterHint)}</p>
     </header>
     <div className="v3-registration-notes__body">

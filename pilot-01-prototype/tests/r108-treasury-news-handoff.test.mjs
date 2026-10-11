@@ -75,7 +75,10 @@ function firstDecision(html) {
   const box = html.slice(open, end + '</aside>'.length);
   assert.equal((box.match(/<aside\b/g) || []).length, 1, 'no nested/neighbor module included');
   assert.equal((box.match(/<\/aside>/g) || []).length, 1, 'exact sole primary decision boundary');
-  assert.ok(end < html.indexOf('class="news-detail__content"', start), 'primary decision stays before complete body');
+  // SEO audit 2026-10-11 #5 (owner-approved): the article's lead answer comes first in the document; the decision rail
+  // follows the body (on screen it stays in the side column / after the lead section).
+  const lead = html.indexOf('news-detail__prose--lead');
+  assert.ok(lead >= 0 && lead < open, 'primary decision follows the lead answer');
   return box;
 }
 

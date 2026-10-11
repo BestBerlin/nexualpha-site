@@ -175,7 +175,10 @@ test("home sentiment panel copy is complete for every locale, including the Chin
     assertNoneOf(render(mod.MarketFearGreedPanel, { locale }), PREVIOUSLY_ENGLISH.sentiment, `sentiment ${locale}`);
   }
   assertCompleteCopy(mod.marketFearGreedCopy, "marketFearGreedCopy", { allowSame: ["fearIndexValue", "marketAssets"] });
-  assert.match(render(mod.MarketFearGreedPanel, { locale: "zh-Hans" }), /市场情绪与风险监测/);
+  // SEO audit 2026-10-11 #6 (owner-approved): without a verified feed the panel renders nothing; with a reading it shows
+  // the localized panel.
+  assert.equal(render(mod.MarketFearGreedPanel, { locale: "zh-Hans" }), "");
+  assert.match(render(mod.MarketFearGreedPanel, { locale: "zh-Hans", index: { value: 42 } }), /市场情绪与风险监测[\s\S]*42/);
 });
 
 test("telegram hub command summary is localized wherever the command deck renders", () => {
