@@ -3341,6 +3341,8 @@ async function handleRouteSeoJson(request, env, url) {
   });
 }
 
+const ARABIC_FONT_PRELOAD_HREF = "/fonts/ar-400.woff2";
+
 function injectRouteMetadata(html, metadata) {
   const pageLocale = metadata.locale || "en";
   const pageDirection = String(pageLocale).toLowerCase().split("-")[0] === "ar" ? "rtl" : "ltr";
@@ -3350,6 +3352,11 @@ function injectRouteMetadata(html, metadata) {
       .replace(/\s+dir=["'][^"']*["']/gi, "");
     return `<html${preserved} lang="${pageLocale}" dir="${pageDirection}">`;
   });
+  // Arabic pages: fetch the Arabic face with the Geist preloads. Without it the font arrived 1-3 s after first paint and the
+  // wider glyphs re-wrapped the /ar/news intro, shifting everything below it (CLS 0.35 at 768 px, 2026-10-11).
+  if (pageDirection === "rtl" && !output.includes(ARABIC_FONT_PRELOAD_HREF)) {
+    output = output.replace(/(<link\b[^>]*rel=["']preload["'][^>]*geist-mono-latin\.woff2[^>]*>)/i, (tag) => `${tag}\n    <link rel="preload" href="${ARABIC_FONT_PRELOAD_HREF}" as="font" type="font/woff2" crossorigin />`);
+  }
   output = replaceOrInsert(
     output,
     /<title\b[^>]*>[\s\S]*?<\/title>/i,
