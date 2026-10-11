@@ -35,12 +35,13 @@ const BOT_UAS = [
   "TelegramBot (like TwitterBot)",
   "",
 ];
+const disabledRegistry = { ...experimentRegistry, [HOME_HERO_EXPERIMENT_ID]: { ...experimentRegistry[HOME_HERO_EXPERIMENT_ID], enabled: false, status: "DESIGNED" } };
 const enabledRegistry = { ...experimentRegistry, [HOME_HERO_EXPERIMENT_ID]: { ...experimentRegistry[HOME_HERO_EXPERIMENT_ID], enabled: true, status: "ACTIVE" } };
 
-test("registry: home_hero_copy_v1 ships disabled, valid, on the 15 localized home routes", () => {
+test("registry: home_hero_copy_v1 is running (owner approved 2026-10-11), valid, on the 15 localized home routes", () => {
   const definition = experimentRegistry[HOME_HERO_EXPERIMENT_ID];
-  assert.equal(definition.enabled, false, "the flag ships off; the owner flips it after approving variant B");
-  assert.equal(definition.status, "DESIGNED");
+  assert.equal(definition.enabled, true, "owner approved variant B and started the test on 2026-10-11");
+  assert.equal(definition.status, "ACTIVE");
   assert.deepEqual(validateExperimentDefinition(definition), { ok: true });
   assert.deepEqual([...HOME_HERO_ROUTES], LOCALES.map((locale) => localizedHref("/", { locale })));
   assert.equal(definition.control.id, "a");
@@ -48,7 +49,8 @@ test("registry: home_hero_copy_v1 ships disabled, valid, on the 15 localized hom
   for (const route of HOME_HERO_ROUTES) assert.ok(isHomeHeroRoute(route) && isHomeHeroRoute(`${route}/`), route);
   assert.equal(isHomeHeroRoute("/exchanges"), false);
   // While disabled, the collector rejects any event claiming the experiment.
-  assert.equal(resolveExperimentContext({ experiment: HOME_HERO_EXPERIMENT_ID, variant: "b", pathname: "/", market: "unknown" }).ok, false);
+  assert.equal(resolveExperimentContext({ experiment: HOME_HERO_EXPERIMENT_ID, variant: "b", pathname: "/", market: "unknown", registry: disabledRegistry }).ok, false);
+  assert.equal(resolveExperimentContext({ experiment: HOME_HERO_EXPERIMENT_ID, variant: "b", pathname: "/", market: "unknown" }).ok, true);
   assert.equal(resolveExperimentContext({ experiment: HOME_HERO_EXPERIMENT_ID, variant: "b", pathname: "/ar", market: "unknown", registry: enabledRegistry }).ok, true);
 });
 
@@ -68,15 +70,18 @@ test("variant B copy: 15 locales, headline keeps {max}%, no new numbers, differs
   }
 });
 
-test("assignment: flag off = inactive for everyone, no cookie", () => {
+test("assignment: flag off (or kill switch) = inactive for everyone, no cookie", () => {
+  const off = { registry: disabledRegistry };
   for (const userAgent of [HUMAN_UA, ...BOT_UAS]) {
     for (const cookieHeader of ["", `${HOME_HERO_COOKIE}=b`]) {
-      assert.deepEqual(assignHomeHeroVariant({ cookieHeader, userAgent }), { active: false, variant: "a", setCookie: null });
+      assert.deepEqual(assignHomeHeroVariant({ ...off, cookieHeader, userAgent }), { active: false, variant: "a", setCookie: null });
+      assert.deepEqual(assignHomeHeroVariant({ cookieHeader, userAgent, force: "off" }), { active: false, variant: "a", setCookie: null }, "kill switch beats the live flag");
     }
   }
-  assert.equal(homeHeroClickContext({ cookieHeader: `${HOME_HERO_COOKIE}=b`, userAgent: HUMAN_UA }), null);
-  assert.deepEqual(homeHeroEventContext({ pathname: "/", cookie: `${HOME_HERO_COOKIE}=b` }), {});
-  assert.equal(clientHomeHeroVariant({ prerenderState: null, cookie: `${HOME_HERO_COOKIE}=b` }), "a");
+  assert.equal(homeHeroClickContext({ ...off, cookieHeader: `${HOME_HERO_COOKIE}=b`, userAgent: HUMAN_UA }), null);
+  assert.equal(homeHeroClickContext({ cookieHeader: `${HOME_HERO_COOKIE}=b`, userAgent: HUMAN_UA, force: "off" }), null);
+  assert.deepEqual(homeHeroEventContext({ ...off, pathname: "/", cookie: `${HOME_HERO_COOKIE}=b` }), {});
+  assert.equal(clientHomeHeroVariant({ ...off, prerenderState: null, cookie: `${HOME_HERO_COOKIE}=b` }), "a");
 });
 
 test("assignment: stable cookie, 50/50 draw, crawlers always A without a cookie", () => {
@@ -112,7 +117,7 @@ test("browser: hydrates the server's variant on a home page, uses the cookie els
   assert.equal(clientHomeHeroVariant({ prerenderState: { pathname: "/", heroVariant: "b" }, cookie: "nx_hero=a" }), "b");
   assert.equal(clientHomeHeroVariant({ prerenderState: { pathname: "/" }, cookie: "nx_hero=b", registry: enabledRegistry }), "a", "home HTML without a variant is A");
   assert.equal(clientHomeHeroVariant({ prerenderState: { pathname: "/exchanges" }, cookie: "nx_hero=b", registry: enabledRegistry }), "b");
-  assert.equal(clientHomeHeroVariant({ prerenderState: { pathname: "/exchanges" }, cookie: "nx_hero=b" }), "a");
+  assert.equal(clientHomeHeroVariant({ prerenderState: { pathname: "/exchanges" }, cookie: "nx_hero=b", registry: disabledRegistry }), "a");
 });
 
 // ---- worker: SSR, headers, hydration ----
@@ -143,11 +148,11 @@ test.before(async () => {
 });
 test.after(async () => { await harness?.close(); });
 
-const fetchHome = (pathname, { ua = HUMAN_UA, cookie, force, method = "GET" } = {}) => worker.fetch(new Request(`https://nexualpha.com${pathname}`, {
+const fetchHome = (pathname, { ua = HUMAN_UA, cookie, force = "off", method = "GET" } = {}) => worker.fetch(new Request(`https://nexualpha.com${pathname}`, {
   method, headers: { accept: "text/html", "user-agent": ua, ...(cookie ? { cookie } : {}) },
 }), { ASSETS: assets, ...(force ? { HOME_HERO_EXPERIMENT_FORCE: force } : {}) });
 
-test("worker, flag off: home HTML and headers are unchanged (A, public cache, no cookie, no variant state)", async () => {
+test("worker, kill switch off: home HTML and headers are unchanged (A, public cache, no cookie, no variant state)", async () => {
   for (const cookie of [undefined, "nx_hero=b"]) {
     const response = await fetchHome("/", { cookie });
     const html = await response.text();
@@ -232,7 +237,7 @@ const readRows = async (file) => (await readFile(file, "utf8").catch(() => "")).
 test("/go/<partner> and the site beacon record experiment + variant while it runs, nothing extra when off", async () => {
   const { dir, clientRoot, eventFile } = await clickFixture();
   try {
-    const goOff = createGoRedirect({ clientRoot, eventFile });
+    const goOff = createGoRedirect({ clientRoot, eventFile, registry: disabledRegistry });
     const goOn = createGoRedirect({ clientRoot, eventFile, registry: enabledRegistry });
     const beaconOn = createCtaClickBeacon({ clientRoot, eventFile, registry: enabledRegistry });
     const beaconForced = createCtaClickBeacon({ clientRoot, eventFile, heroForce: "on" });
@@ -273,7 +278,7 @@ test("v2 analytics events on home routes carry the variant (collector-valid) and
   try {
     assert.deepEqual(getExperimentContext("", { pathname: "/zh-hans", market: "unknown", registry: enabledRegistry }), { experiment: HOME_HERO_EXPERIMENT_ID, variant: "b" });
     assert.deepEqual(getExperimentContext("", { pathname: "/exchanges", market: "unknown", registry: enabledRegistry }), {}, "only the home routes");
-    assert.deepEqual(getExperimentContext("", { pathname: "/", market: "unknown" }), {}, "flag off: no context");
+    assert.deepEqual(getExperimentContext("", { pathname: "/", market: "unknown", registry: disabledRegistry }), {}, "flag off: no context");
   } finally {
     if (saved) Object.defineProperty(globalThis, "document", saved); else delete globalThis.document;
   }

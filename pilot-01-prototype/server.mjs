@@ -44,7 +44,8 @@ export async function createProductionServer({ env = process.env, appRoot = root
   const clickEventFile = env.CLICK_EVENT_FILE ? await privateDataFile(env.CLICK_EVENT_FILE, appRoot, clientRoot) : null;
   // Home hero copy experiment (X5): HOME_HERO_EXPERIMENT_FORCE=on|a|b previews the experiment on a local/staging build
   // while the registry flag is off. Ignored in production, where only experimentRegistry.home_hero_copy_v1.enabled counts.
-  const heroForce = env.NODE_ENV !== 'production' && ['on', 'a', 'b'].includes(env.HOME_HERO_EXPERIMENT_FORCE) ? env.HOME_HERO_EXPERIMENT_FORCE : undefined;
+  // HOME_HERO_EXPERIMENT_FORCE=off is the kill switch and also works in production (container env, no rebuild).
+  const heroForce = env.HOME_HERO_EXPERIMENT_FORCE === 'off' ? 'off' : env.NODE_ENV !== 'production' && ['on', 'a', 'b'].includes(env.HOME_HERO_EXPERIMENT_FORCE) ? env.HOME_HERO_EXPERIMENT_FORCE : undefined;
   // Both click recorders add {experiment, variant} from the visitor's hero cookie while the experiment runs.
   const goRedirect = createGoRedirect({ clientRoot, eventFile: clickEventFile, heroForce });
   // site sign-up buttons keep their partner hrefs; the browser reports the click to POST /api/cta-click (same file, kind "site")
