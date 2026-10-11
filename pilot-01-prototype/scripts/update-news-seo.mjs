@@ -131,12 +131,20 @@ function serializeNewsSitemap(entries) {
   ].join("\n");
 }
 
-function mergeSitemap(existingSitemap, generatedUrls, origin) {
+// managedPaths: content pathnames the publication policy decides (route inventory). An existing entry for one of those
+// paths that the policy no longer lists (e.g. a locale edition that became noindex) is dropped instead of preserved
+// forever (QA 2026-10-11: six ja/ko/tr DEX compare URLs stayed in sitemap.xml after turning noindex).
+function mergeSitemap(existingSitemap, generatedUrls, origin, managedPaths = new Set()) {
   const seen = new Set();
   const generatedByLoc = new Map(generatedUrls.map((entry) => [entry.loc, entry]));
   const preserved = existingUrlBlocks(existingSitemap)
     .flatMap(({ loc, block }) => {
       if (isManagedNewsUrl(loc, origin) || seen.has(loc)) return [];
+      if (!generatedByLoc.has(loc) && managedPaths.size) {
+        let contentPath = null;
+        try { contentPath = parsePublicRoute(new URL(loc).pathname, new URLSearchParams()).contentPathname; } catch { contentPath = null; }
+        if (contentPath && managedPaths.has(contentPath)) return [];
+      }
       seen.add(loc);
       const generatedEntry = generatedByLoc.get(loc);
       return [{ loc, block: generatedEntry ? serializeUrl(generatedEntry) : block }];
@@ -340,7 +348,8 @@ export function buildNewsSeoFiles(feed, options = {}) {
   });
   const newsSitemapUrls = newsSitemapEntries(indexableArticles, generatedAt, origin);
 
-  const sitemapResult = mergeSitemap(options.existingSitemap, generatedUrls, origin);
+  const managedPaths = new Set(publication.urls.map(({ route }) => route.pathname));
+  const sitemapResult = mergeSitemap(options.existingSitemap, generatedUrls, origin, managedPaths);
   const llms = mergeLlms(options.existingLlms, indexableArticles, origin, publicationReport);
 
   return {
