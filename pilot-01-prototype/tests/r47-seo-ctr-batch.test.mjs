@@ -34,7 +34,7 @@ function assets() {
 
 test("R47 gives four English owner pages concise query-first snippets and direct answers", async () => {
   const cases = [
-    ["/news/okx-usd-to-usdc-spot-pair-migration", article("okx-usd-to-usdc-spot-pair-migration"), /^OKX USD to USDC Migration: API, Orders and Bot Checklist/, /official pair scope first/],
+    ["/news/okx-usd-to-usdc-spot-pair-migration", article("okx-usd-to-usdc-spot-pair-migration"), /^OKX USD to USDC Migration \(Sept 2026\): API, Orders and Bots/, /official pair scope first/],
     ["/news/hyperliquid-vs-dydx", article("hyperliquid-vs-dydx"), /^Hyperliquid vs dYdX: Fees, Funding and Liquidation/, /no single quoted rate settles the decision/],
     ["/exchanges/deribit", null, /^Deribit Options Fees: Margin, API and Liquidation Guide/, /Open Deribit when the query is about crypto options/],
     ["/topics/tokenized-stocks-vs-perpetuals", null, /^Tokenized Stocks vs Stock Perps: Rights and Liquidation/, /legal claim before comparing price exposure/],

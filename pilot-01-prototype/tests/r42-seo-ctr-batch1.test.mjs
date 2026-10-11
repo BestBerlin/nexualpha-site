@@ -55,7 +55,7 @@ test("R42 SEO CTR batch sharpens four owner pages without changing commercial li
     {
       path: "/news/okx-usd-to-usdc-spot-pair-migration",
       article: article("okx-usd-to-usdc-spot-pair-migration"),
-      title: /OKX USD to USDC Migration: API, Orders and Bot Checklist — NexuAlpha/,
+      title: /^OKX USD to USDC Migration \(Sept 2026\): API, Orders and Bots/,
       description: /open orders, bots, API instId and tradeQuoteCcy fields/,
       schema: /OKX USD to USDC spot-pair migration/,
     },

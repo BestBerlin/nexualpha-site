@@ -2522,8 +2522,8 @@ const SEARCH_PRIORITY_TOPICS = new Set(["meme-coins", "derivatives", "compliant-
 
 const SERP_CTR_NEWS_OVERRIDES = {
   "okx-usd-to-usdc-spot-pair-migration": {
-    title: "OKX USD to USDC Migration: API, Orders and Bot Checklist",
-    description: "Check affected OKX USD and USDC pairs, open orders, bots, API instId and tradeQuoteCcy fields before changing a live account workflow.",
+    title: "OKX USD to USDC Migration (Sept 2026): API, Orders and Bots",
+    description: "OKX moved affected Crypto-USD spot pairs to Crypto-USDC in September 2026. Check open orders, bots, API instId and tradeQuoteCcy before a live change.",
     question: "What should I check before the OKX USD to USDC spot-pair migration?",
     answer: "Check the official pair scope first, then inspect open orders, bots, API instrument identifiers, quote-currency handling and account balances before changing a live workflow.",
   },
