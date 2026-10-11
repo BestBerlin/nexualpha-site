@@ -20,13 +20,13 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 - T1 Full sitemap sweep: 0 non-200, 0 noindex, 0 non-self-canonical (`/tmp/qa/smnoindex.mjs`). ✅ 2026-10-11 (2,070 URLs)
 - T2 Template × locale browser sweep 390/1440: 0 horizontal overflow, 0 console errors, CLS ≤ 0.1 on ≥ 98% of loads.
 - T3 Key flows 26/26 (`scripts/qa-flows.py`). ✅ 2026-10-11
-- T4 Mobile home: median of 5 Lighthouse-equivalent runs (Playwright, 4× CPU throttle, Fast 3G): LCP ≤ 2.5 s, TBT ≤ 200 ms.
+- T4 Mobile home: median of 5 Lighthouse-equivalent runs (Playwright, 4× CPU throttle, Fast 3G): LCP ≤ 2.5 s, TBT ≤ 200 ms. ✅ 2026-10-11 live (`scripts/mobile-lab.mjs`): / 1288 ms / 87 ms; /tr /vi /ar /zh-hans 1100-1364 ms, TBT ≤ 153
 - T5 Strict build budget passes; settled JS: home ≤ 350 KB, venue ≤ 200 KB, directory ≤ 200 KB. ✅ 2026-10-11 (344/150/177)
 
 ### Visual & experience
-- V1 Article page redesigned (reading width, typographic rhythm, lead answer block, data figure support, sticky TOC on desktop) and reviewed at 390/768/1440 with before/after shots.
-- V2 News list, topic hub, factbook hub redesigned to home-level quality (no generic title+card grid).
-- V3 One recognizable brand signature element applied site-wide (documented in DESIGN rules).
+- V1 Article page redesigned (reading width, typographic rhythm, lead answer block, data figure support, sticky TOC on desktop) and reviewed at 390/768/1440 with before/after shots. ✅ 2026-10-11 (PR #70, owner approved preview)
+- V2 News list, topic hub, factbook hub redesigned to home-level quality (no generic title+card grid). ✅ 2026-10-11 (PR #70)
+- V3 One recognizable brand signature element applied site-wide (documented in DESIGN rules). ◐ data-rule heading on article/news/hubs (docs/design-unified-v8.md); not yet on venue/compare/home
 - V4 Keyboard focus visible on all interactive elements; text contrast ≥ 4.5:1 on all templates (axe sweep 0 serious).
 - V5 prefers-reduced-motion respected everywhere (sweep).
 
@@ -76,3 +76,4 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 | Date | Total | Notes |
 |---|---|---|
 | 2026-10-11 | 68 | baseline (owner request: ≥ 90) |
+| 2026-10-11 evening | ~74 | criteria passed: T1 T3 T4 T5 V1 V2 X1 X3 (+ D5, V3, G1 partial). Open in priority order: G1 first ru/tr/vi post, T2 full sweep, V4 axe all templates, C1-C3 content streak, M1/M2 localization, S* time-dependent |
