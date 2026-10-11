@@ -170,3 +170,19 @@ conversion, #51 news locales, #52 data pages, #53 compare pairs. Each merged wit
   cache hit confirmed. Incidental fix: the /exchanges disclosure line and /news alerts strip now receive their CSS.
   Open from perf: SEO-injector data still ~600 KB after idle; home7.css not split.
 - Owner to supply: sameAs profiles in src/data/brand-entity.js; OWNER_CHAT_ID; Naver / Cốc Cốc accounts; channels.
+
+## 2026-10-11: full-site QA pass (batch 1–2)
+Live 3.0-20261011T1025-GH-7ee7989 (+ PR #63 deploying). Ledger: docs/company/qa/coverage.md, issues.md.
+- Inventory: 1,898 sitemap URLs + 1,333 crawled links (HTTP sweep); 285 template×locale pages at 390/1440 and 30 at
+  320/768/1024 in Chromium; 13 user flows ×2 widths (26/26 pass); 252 locale pages vs English (l10n check).
+- Fixed and live: news listings SSR = client (CLS 0.5–0.9 → 0; crawlers now see 24 links not 3); activities SSR'd
+  from the feed (CLS 0.3–0.6 → 0; the `$'` splice bug behind React #418 on /tr/activities); 706 generated compare
+  pages now have an H1 and only 34 stay indexable (PR #60); hashkey-vs-kraken 404 link; 6 sitemap-noindex URLs
+  (policy synced to the publisher checkout; live sitemap.xml updates on the next publish); /exchanges JS 1003 → 437 KB
+  (compare-slug split + directory CSS chunk); /about tap targets; SEO client payload (PR #61: home 1019 → 338 KB).
+- Merged, deploying: PR #63 localization of 86 UI strings ×15 locales (campaign hub, fear/greed panel, telegram
+  command summary, methodology, compare lead, partner embed copy); ar/vi/id/ru strings flagged for native review.
+- Open: #10 noindex locale fallbacks of /topics and /factbook ship an empty SSR shell (CLS 0.8); #13 home hero card
+  hydration shift ≈0.18 in some locales; #15 venue pages now hydrate and pull the V3 graph (577 KB gz) — split
+  route-activity/compare data out; #6 long titles (377 > 80 chars, mostly news); exchange-research fact notes
+  English-only in non-zh locales.

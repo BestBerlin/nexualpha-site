@@ -42,3 +42,14 @@ On every new session, first read `docs/company/ITERATION-v8.md` (current milesto
   Route SEO (seo-payload lane): `src/data/seo-injection.js` is Node/SSR-only (the client vite build throws if it is
   reached); the browser keeps the SSR head and, only after a client-side route change, fetches
   `/api/route-seo?path=…` (worker `routeSeoPayload`, same helpers as the SSR head) via `src/data/route-seo-client.js`.
+- Full-site QA (2026-10-11): `docs/company/qa/` holds the coverage ledger, issue log and the sweep scripts
+  (`scripts/qa-http-sweep.mjs`, `qa-browser-sweep.py`, `qa-flows.py`, run against production). Re-run them after
+  any batch that touches routing, SSR or chunking; a page is "checked" only when it appears in the ledger.
+- Every HTML splice in the Worker/server uses a function replacer (`html.replace(re, () => text)`): a string replacer
+  expands `$'`/`$&` inside user or feed text (a Turkish "200$'a" truncated /tr/activities and broke hydration).
+- Listing/collection routes (news lists, activities, data/brand pages, generated compare pairs) render at request time
+  through `NEWS_SSR_RENDER` with the same component and props the client hydrates; never ship a different SSR
+  template than the client component (CLS 0.5–0.9 and stale crawled copy were the symptom).
+- Stylesheet chunk names decide what the Worker links per route (`route-v3-pages-*` etc.). A route's own CSS must live
+  in its own chunk (`route-v3-pages-directory`), not inside another route's chunk, or Vite preloads that route's whole
+  graph (the /exchanges 1 MB regression).
