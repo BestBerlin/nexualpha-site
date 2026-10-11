@@ -1,4 +1,5 @@
 import { localizedHref } from "./locale-routing.js";
+import { stripPlainMarkdown } from "./news-content-repair.js";
 
 export const NEWS_FEED_URL = "/content/news-feed.json";
 export const NEWS_FEED_SUMMARY_URL = "/content/news-feed-summary.json";
@@ -133,6 +134,12 @@ function cleanLocalizedText(value) {
     if (text) result[locale] = text;
     return result;
   }, {});
+}
+
+// Plain-text fields (title, summary) are rendered literally: Markdown markers never reach the page (scorecard C4).
+function cleanPlainLocalizedText(value, clean) {
+  const localized = clean(value);
+  return localized ? Object.fromEntries(Object.entries(localized).map(([locale, text]) => [locale, stripPlainMarkdown(text)])) : localized;
 }
 
 function cleanCompactLocalizedText(value) {
@@ -527,8 +534,8 @@ export function normalizeNewsArticle(article) {
   if (!PUBLISHABLE_STATUSES.has(status)) return null;
 
   const override = REVIEWED_NEWS_LOCALE_OVERRIDES[slug] || {};
-  const title = cleanLocalizedText({ ...(article.title || {}), ...(override.title || {}) });
-  const summary = cleanLocalizedText({ ...(article.summary || {}), ...(override.summary || {}) });
+  const title = cleanPlainLocalizedText({ ...(article.title || {}), ...(override.title || {}) }, cleanLocalizedText);
+  const summary = cleanPlainLocalizedText({ ...(article.summary || {}), ...(override.summary || {}) }, cleanLocalizedText);
   const content = cleanLocalizedContent(article.content);
   const categoryName = cleanLocalizedText(article.categoryName);
   const sources = cleanSources(article.sources);
@@ -565,8 +572,8 @@ export function normalizeNewsArticleSummary(article) {
   const status = cleanString(article.status) || "PUBLISHED";
   if (!PUBLISHABLE_STATUSES.has(status)) return null;
   const override = REVIEWED_NEWS_LOCALE_OVERRIDES[slug] || {};
-  const title = cleanCompactLocalizedText({ ...(article.title || {}), ...(override.title || {}) });
-  const summary = cleanCompactLocalizedText({ ...(article.summary || {}), ...(override.summary || {}) });
+  const title = cleanPlainLocalizedText({ ...(article.title || {}), ...(override.title || {}) }, cleanCompactLocalizedText);
+  const summary = cleanPlainLocalizedText({ ...(article.summary || {}), ...(override.summary || {}) }, cleanCompactLocalizedText);
   const categoryName = cleanCompactLocalizedText(article.categoryName);
   const publishedTime = Date.parse(article.publishedAt);
   if (!title || !summary || Number.isNaN(publishedTime)) return null;

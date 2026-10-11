@@ -1,0 +1,4150 @@
+{
+ "window": {
+  "start": "2026-07-11",
+  "end": "2026-10-09",
+  "days": 90
+ },
+ "queries": [
+  {
+   "keys": [
+    "\"circle is discontinuing support for usdc and cctp v1 on noble\""
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "\"gemini\" \"verified account\""
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "\"innovation exemption\" \"september\" \"2026\" site:sec.gov"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "\"mexc\" \"verification\" \"kyc\""
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "%site.sec.gov \"34-106402\""
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "+site.sec.gov \"34-106402\""
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "1f3cpgben5uramptnprl9coabkp9ymwqfb"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "6pysqkpygm5z2hkvnh5wcjcpybb6ktctf2jvsuctmvu31rxrhted3a9sct"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "achat dydx"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "aerodrome"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "aevo login"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "allowlist coinbase"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "anti phishing code"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "backpack exchange avis"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 51.5
+  },
+  {
+   "keys": [
+    "backpack exchange avis avis"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 51.25
+  },
+  {
+   "keys": [
+    "backpack fee"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "best perp dex"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "best perps exchange"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "binance perps alternative"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 60.5
+  },
+  {
+   "keys": [
+    "binance satoshi test"
+   ],
+   "clicks": 0,
+   "impressions": 14,
+   "ctr": 0,
+   "position": 7.714285714285714
+  },
+  {
+   "keys": [
+    "binance sbe"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 9.11111111111111
+  },
+  {
+   "keys": [
+    "binance sbe api"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "binance sbe market data"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "binance vs bybit"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 56
+  },
+  {
+   "keys": [
+    "binance websocket limits"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "bitfastdealsfx"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 45
+  },
+  {
+   "keys": [
+    "bitget cfd pro vs stp"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 22.5
+  },
+  {
+   "keys": [
+    "bitget stock perps 资金费率"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "bitget vs bybit"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 56.5
+  },
+  {
+   "keys": [
+    "bitget vs bybit stocks"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 56.666666666666664
+  },
+  {
+   "keys": [
+    "bitget vs bybit uta"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 59.5
+  },
+  {
+   "keys": [
+    "bitget 与 bybit uta对比"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 82.5
+  },
+  {
+   "keys": [
+    "bitget 手續費"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "bitlicense approval rate"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "blockchain network maintenance services market"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 38.166666666666664
+  },
+  {
+   "keys": [
+    "blockchain system maintenance and repair services market"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "buy verified gate.io account"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "buy verified gate.io accounts"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 38.5
+  },
+  {
+   "keys": [
+    "bybit alternative"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 75
+  },
+  {
+   "keys": [
+    "bybit alternatives"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 76.8
+  },
+  {
+   "keys": [
+    "bybit api rate limits"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "bybit binance"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 20
+  },
+  {
+   "keys": [
+    "bybit competitors"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "bybit derivative"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "bybit gebühren"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 63
+  },
+  {
+   "keys": [
+    "bybit register"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 45
+  },
+  {
+   "keys": [
+    "bybit registration"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 42
+  },
+  {
+   "keys": [
+    "bybit registro"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "bybit rpi"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "bybit sign up"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 53
+  },
+  {
+   "keys": [
+    "bybit taxas"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "bybit vs bitget"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 58.5
+  },
+  {
+   "keys": [
+    "bybit vs phemex"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "bybit 注册"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "bybit注册"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 35.6
+  },
+  {
+   "keys": [
+    "cash token crypto institutional analysis"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "cctp noble"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "cctp v2"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 63
+  },
+  {
+   "keys": [
+    "circle cctp explorer"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "coinbase com verify document"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 40
+  },
+  {
+   "keys": [
+    "coinbase identity verification"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "coinbase tokenization"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "coinbase whitelist"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "contentxi6mbh84rqpqbd6unhal0gctafdyzkuwwobxjp1bpbu"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 96
+  },
+  {
+   "keys": [
+    "coopfy"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 79
+  },
+  {
+   "keys": [
+    "crypto exchange market data feed"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "crypto futures platform"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "crypto perpetual platform"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "crypto to fiat singapore"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 75
+  },
+  {
+   "keys": [
+    "crypto websocket data normalized"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 77.75
+  },
+  {
+   "keys": [
+    "decentralized perpetual trading"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 100
+  },
+  {
+   "keys": [
+    "deribit fees"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 35
+  },
+  {
+   "keys": [
+    "deribit mark price"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "dex vs cex for perpetuals"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 87.5
+  },
+  {
+   "keys": [
+    "does bybit require kyc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 50
+  },
+  {
+   "keys": [
+    "does hyperliquid require kyc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 64
+  },
+  {
+   "keys": [
+    "does mexc require kyc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 75
+  },
+  {
+   "keys": [
+    "does uniswap require kyc"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 77.5
+  },
+  {
+   "keys": [
+    "drift protocol"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 73.125
+  },
+  {
+   "keys": [
+    "drift solana"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 72.5
+  },
+  {
+   "keys": [
+    "drift trade"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "driftprotocol"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "dxxbzqgqsobnq2ltza4xsxn9ewuimgkveuc7h8b8j1qm"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 93.5
+  },
+  {
+   "keys": [
+    "dydx"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "e n a b l e d c o m m e r c i a l l a u n d r o m a t e q u i p m e n t b r o a d m a t c h u l m - m f h / r o u t e m u l t i f a m i l y - u n i v e r s i t y n o t e l i g i b l e c a m p a i g n p a u s e d 0 0 - - u s d 0 0 . 0 0 0 . 0 0 % 0 . 0 0 0"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "funding 2fa kraken"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "gate io vs coinbase"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "gate verification"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "gate.io 紹介コード"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "gemedaychomo predictions breakdowns quasar rating buy"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "gemini account verification"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "gemini id verification"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 29.75
+  },
+  {
+   "keys": [
+    "gemini identity verification"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "gemini ssn"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "gemini verify account"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "gemini verify identity"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 27.875
+  },
+  {
+   "keys": [
+    "get funded to trade hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 55.166666666666664
+  },
+  {
+   "keys": [
+    "global settings lock"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "gmx dex"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 72.5
+  },
+  {
+   "keys": [
+    "gmx docs"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "gmx glp liquidity pool mechanism oracle pricing perpetual"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "gmx pricing"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 73.5
+  },
+  {
+   "keys": [
+    "gmx tvl"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 52
+  },
+  {
+   "keys": [
+    "gmx v2 perpetual dex"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 68.5
+  },
+  {
+   "keys": [
+    "hashkey exchange avis"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 94
+  },
+  {
+   "keys": [
+    "hkma project ensemble tokenised deposits hong kong"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "how do i submit, amend and cancel orders through an execution api without losing order state?"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "how to add withdrawal address on kraken"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "how to create anti phishing code"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "https //api.raydium.io v2 main pairs"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "https www coinbase com verifications documents new"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "hyperliquid assistance fund"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "hyperliquid audit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "hyperliquid cashback"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 25.75
+  },
+  {
+   "keys": [
+    "hyperliquid deposit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "hyperliquid fee"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 56
+  },
+  {
+   "keys": [
+    "hyperliquid fee rebates"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "hyperliquid fees"
+   ],
+   "clicks": 0,
+   "impressions": 69,
+   "ctr": 0,
+   "position": 61.94202898550725
+  },
+  {
+   "keys": [
+    "hyperliquid funded account"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 45.1764705882353
+  },
+  {
+   "keys": [
+    "hyperliquid funding"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "hyperliquid funding rate api"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "hyperliquid funding rate arbitrage"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 86
+  },
+  {
+   "keys": [
+    "hyperliquid funding rates"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 63.666666666666664
+  },
+  {
+   "keys": [
+    "hyperliquid latest news"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "hyperliquid maintenance margin"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 59.5
+  },
+  {
+   "keys": [
+    "hyperliquid perps prop firm"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "hyperliquid precompiles"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 74
+  },
+  {
+   "keys": [
+    "hyperliquid rebates"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 52.333333333333336
+  },
+  {
+   "keys": [
+    "hyperliquid sub account"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "hyperliquid taxes"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 90.5
+  },
+  {
+   "keys": [
+    "hyperliquid testnet faucet"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 100
+  },
+  {
+   "keys": [
+    "hyperliquid trading fees"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "hyperliquid vault"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 52
+  },
+  {
+   "keys": [
+    "hyperliquid vs dydx"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 71.5
+  },
+  {
+   "keys": [
+    "hyperliquid withdrawal fee"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 64
+  },
+  {
+   "keys": [
+    "is circle cctp an open protocol that any developer can integrate?"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 6.75
+  },
+  {
+   "keys": [
+    "jupiter ag"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "jupiter fees"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 70.33333333333333
+  },
+  {
+   "keys": [
+    "jupiter finance"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 43
+  },
+  {
+   "keys": [
+    "jupiter platform"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "kraken 2fa"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "kraken or binance"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 94
+  },
+  {
+   "keys": [
+    "kraken ou binance"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 61.5
+  },
+  {
+   "keys": [
+    "kraken vs binance"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 63.6
+  },
+  {
+   "keys": [
+    "kraken vs binance fees"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "kraken vs binance staking"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "kucoin register"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "meme coin alternatives"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "mexc alpha"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "mexc inscribirse"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "mexc vs gate.io"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "mtm1nty0mjeznzgzntg2odm2mw.gpg92n.u4yqmnecduemqshwr0bwbgkybq 8uoqllga5ia"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 45
+  },
+  {
+   "keys": [
+    "neoarb"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "okx api doc"
+   ],
+   "clicks": 0,
+   "impressions": 12,
+   "ctr": 0,
+   "position": 22.666666666666668
+  },
+  {
+   "keys": [
+    "okx api docs"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 20
+  },
+  {
+   "keys": [
+    "okx bybit coinbase bitget kraken 2026 new product launch"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "okx bybit coinbase kucoin gate.io bitget 2026 strategic moves"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "okx comisiones"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 53
+  },
+  {
+   "keys": [
+    "okx gebühren"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 56.5
+  },
+  {
+   "keys": [
+    "okx rate limit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "okx register"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 16
+  },
+  {
+   "keys": [
+    "okx rpi"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "okx test"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 86.33333333333333
+  },
+  {
+   "keys": [
+    "okx vs binance"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 58.5
+  },
+  {
+   "keys": [
+    "opusdte"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "pancakeswap fees"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "perpetual crypto trading platform"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 99
+  },
+  {
+   "keys": [
+    "phemex vs bybit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "plateforme indépendant finance"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 3.25
+  },
+  {
+   "keys": [
+    "pr for crypto innovators"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 73
+  },
+  {
+   "keys": [
+    "project agora bis"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "prop firm on hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "raydium ortalama hesaplama"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 12.5
+  },
+  {
+   "keys": [
+    "sec innovation exemption"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "sec token taxonomy"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 71
+  },
+  {
+   "keys": [
+    "servicio de listado en exchange de criptomonedas"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "servicio de listado en exchanges de criptomonedas"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 72.4375
+  },
+  {
+   "keys": [
+    "servicios de listado de intercambio de criptomonedas"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 30.5
+  },
+  {
+   "keys": [
+    "site.developers.binance.com \"how to manage a local order book correctly\""
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6.333333333333333
+  },
+  {
+   "keys": [
+    "site.sec.gov \"34-106402\""
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "site:cftc.gov \"blockchain technologies to satisfy a registrant’s recordkeeping requirements\""
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "site:cftc.gov \"use of blockchain technologies to satisfy a registrant’s recordkeeping requirements\""
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "site:docs.cdp.coinbase.com \"advanced trade api sandbox\""
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "site:hyperliquid.gitbook.io/hyperliquid-docs \"funding is paid hourly\""
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 2.5
+  },
+  {
+   "keys": [
+    "site:sites.google.com \"uniswap\" (\"connect wallet\" or \"wallet connect\")"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"seed phrase\")"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"sync wallet\")"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "skipshift"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 92
+  },
+  {
+   "keys": [
+    "taxa bybit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "taxa gate io"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 35
+  },
+  {
+   "keys": [
+    "taxas bybit"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 57
+  },
+  {
+   "keys": [
+    "taxas gate io"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "token treasury"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "tokenized treasuries"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 83.71428571428571
+  },
+  {
+   "keys": [
+    "tokenized treasury"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "tokenized treasury bills"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 79.66666666666667
+  },
+  {
+   "keys": [
+    "tokenized treasury funds"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "uncx locker"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "uniswap affiliate program"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 19.5
+  },
+  {
+   "keys": [
+    "uniswap kyc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "uniswap smart contract platform"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "uniswap testnet"
+   ],
+   "clicks": 0,
+   "impressions": 35,
+   "ctr": 0,
+   "position": 52.08571428571429
+  },
+  {
+   "keys": [
+    "what are tokenized treasuries"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 87.25
+  },
+  {
+   "keys": [
+    "where is hyperliquid allowed"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "which crypto exchange has the best funding rate"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 97
+  },
+  {
+   "keys": [
+    "أفضل عملات الميم"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 50.22222222222222
+  },
+  {
+   "keys": [
+    "افضل عملات الميم"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 51
+  },
+  {
+   "keys": [
+    "代币化股票保证金"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "幣安手續費"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 67
+  },
+  {
+   "keys": [
+    "複合效應 槓桿損耗"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 64
+  },
+  {
+   "keys": [
+    "밈코인 거래소"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  }
+ ],
+ "queryPages": [
+  {
+   "keys": [
+    "\"circle is discontinuing support for usdc and cctp v1 on noble\"",
+    "https://nexualpha.com/news/circle-noble-usdc-cctp-v1-winddown-exit-redemption-timeline"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "\"gemini\" \"verified account\"",
+    "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 29
+  },
+  {
+   "keys": [
+    "\"innovation exemption\" \"september\" \"2026\" site:sec.gov",
+    "https://nexualpha.com/news/sec-tokenized-nms-stock-innovation-exemption-five-year-conditions-comment-roadmap"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "\"mexc\" \"verification\" \"kyc\"",
+    "https://nexualpha.com/news/how-to-register-mexc-account-complete-primary-kyc-and-secure-first-deposit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "%site.sec.gov \"34-106402\"",
+    "https://nexualpha.com/news/dtc-tokenization-service-vs-sec-tokenized-securities-venue-market-function-comparison"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "%site.sec.gov \"34-106402\"",
+    "https://nexualpha.com/news/sec-tokenized-nms-stock-innovation-exemption-five-year-conditions-comment-roadmap"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "+site.sec.gov \"34-106402\"",
+    "https://nexualpha.com/news/dtc-tokenization-service-vs-sec-tokenized-securities-venue-market-function-comparison"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9.5
+  },
+  {
+   "keys": [
+    "1f3cpgben5uramptnprl9coabkp9ymwqfb",
+    "https://nexualpha.com/br"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "6pysqkpygm5z2hkvnh5wcjcpybb6ktctf2jvsuctmvu31rxrhted3a9sct",
+    "https://nexualpha.com/br"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "achat dydx",
+    "https://nexualpha.com/fr/exchanges/dydx"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "aerodrome",
+    "https://nexualpha.com/zh-hant/exchanges/aerodrome"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "aevo login",
+    "https://nexualpha.com/factbook/aevo?locale=fr"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "allowlist coinbase",
+    "https://nexualpha.com/news/coinbase-vs-coinbase-exchange-allowlist-vault-withdrawal-controls"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "anti phishing code",
+    "https://nexualpha.com/news/how-to-set-up-binance-anti-phishing-code"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "backpack exchange avis",
+    "https://nexualpha.com/exchanges/backpack?locale=fr"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 71.5
+  },
+  {
+   "keys": [
+    "backpack exchange avis",
+    "https://nexualpha.com/factbook/backpack?locale=fr"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 80.5
+  },
+  {
+   "keys": [
+    "backpack exchange avis",
+    "https://nexualpha.com/fr/factbook/backpack"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 45
+  },
+  {
+   "keys": [
+    "backpack exchange avis avis",
+    "https://nexualpha.com/exchanges/backpack?locale=fr"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 71
+  },
+  {
+   "keys": [
+    "backpack exchange avis avis",
+    "https://nexualpha.com/factbook/backpack?locale=fr"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 79
+  },
+  {
+   "keys": [
+    "backpack exchange avis avis",
+    "https://nexualpha.com/fr/factbook/backpack"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 51.5
+  },
+  {
+   "keys": [
+    "backpack fee",
+    "https://nexualpha.com/exchanges/backpack"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "best perp dex",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "best perps exchange",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "binance perps alternative",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 60.5
+  },
+  {
+   "keys": [
+    "binance satoshi test",
+    "https://nexualpha.com/news/binance-travel-rule-address-book-satoshi-test-checklist"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "binance satoshi test",
+    "https://nexualpha.com/zh-hans/news/how-to-verify-binance-travel-rule-address-book-satoshi-test"
+   ],
+   "clicks": 0,
+   "impressions": 13,
+   "ctr": 0,
+   "position": 7.538461538461538
+  },
+  {
+   "keys": [
+    "binance sbe",
+    "https://nexualpha.com/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 9.11111111111111
+  },
+  {
+   "keys": [
+    "binance sbe api",
+    "https://nexualpha.com/news/crypto-exchange-market-data-schema-versioning-disclosure-radar"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "binance sbe market data",
+    "https://nexualpha.com/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "binance vs bybit",
+    "https://nexualpha.com/compare/binance-vs-bybit"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 56
+  },
+  {
+   "keys": [
+    "binance websocket limits",
+    "https://nexualpha.com/news/binance-websocket-stream-limits-ping-pong-reconnect-checklist"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "bitfastdealsfx",
+    "https://nexualpha.com/ja/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 45
+  },
+  {
+   "keys": [
+    "bitget cfd pro vs stp",
+    "https://nexualpha.com/compare/bybit-vs-bitget?locale=en"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 22.5
+  },
+  {
+   "keys": [
+    "bitget stock perps 资金费率",
+    "https://nexualpha.com/zh-hant"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "bitget vs bybit",
+    "https://nexualpha.com/compare/bybit-vs-bitget?locale=en"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 56.5
+  },
+  {
+   "keys": [
+    "bitget vs bybit stocks",
+    "https://nexualpha.com/compare/bybit-vs-bitget?locale=en"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 56.666666666666664
+  },
+  {
+   "keys": [
+    "bitget vs bybit uta",
+    "https://nexualpha.com/compare/bybit-vs-bitget?locale=en"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 59.5
+  },
+  {
+   "keys": [
+    "bitget 与 bybit uta对比",
+    "https://nexualpha.com/compare/bybit-vs-bitget?locale=en"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 82.5
+  },
+  {
+   "keys": [
+    "bitget 手續費",
+    "https://nexualpha.com/zh-hant/exchanges/bitget"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "bitlicense approval rate",
+    "https://nexualpha.com/news"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "blockchain network maintenance services market",
+    "https://nexualpha.com/news/blockchain-network-upgrade-vs-exchange-wallet-maintenance-service-impact-comparison"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 38.166666666666664
+  },
+  {
+   "keys": [
+    "blockchain system maintenance and repair services market",
+    "https://nexualpha.com/news/blockchain-network-upgrade-vs-exchange-wallet-maintenance-service-impact-comparison"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 78
+  },
+  {
+   "keys": [
+    "buy verified gate.io account",
+    "https://nexualpha.com/exchanges/gate-io"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "buy verified gate.io accounts",
+    "https://nexualpha.com/exchanges/gate-io"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 38.5
+  },
+  {
+   "keys": [
+    "bybit alternative",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 75
+  },
+  {
+   "keys": [
+    "bybit alternatives",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 76.8
+  },
+  {
+   "keys": [
+    "bybit api rate limits",
+    "https://nexualpha.com/news/bybit-v5-api-rate-limit-header-retry-budget-checklist"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "bybit binance",
+    "https://nexualpha.com/ja/compare/binance-vs-bybit?product=spot"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 20
+  },
+  {
+   "keys": [
+    "bybit competitors",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "bybit derivative",
+    "https://nexualpha.com/exchanges/bybit"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "bybit gebühren",
+    "https://nexualpha.com/de/exchanges/bybit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 63
+  },
+  {
+   "keys": [
+    "bybit register",
+    "https://nexualpha.com/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 45
+  },
+  {
+   "keys": [
+    "bybit registration",
+    "https://nexualpha.com/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 42
+  },
+  {
+   "keys": [
+    "bybit registro",
+    "https://nexualpha.com/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 28
+  },
+  {
+   "keys": [
+    "bybit rpi",
+    "https://nexualpha.com/news/bybit-rpi-vs-standard-order-book-tradfi-perpetual-execution-comparison"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "bybit sign up",
+    "https://nexualpha.com/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 53
+  },
+  {
+   "keys": [
+    "bybit taxas",
+    "https://nexualpha.com/exchanges/bybit?locale=pt-BR"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "bybit vs bitget",
+    "https://nexualpha.com/compare/bybit-vs-bitget?locale=en"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 58.5
+  },
+  {
+   "keys": [
+    "bybit vs phemex",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "bybit 注册",
+    "https://nexualpha.com/zh-hans/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "bybit注册",
+    "https://nexualpha.com/zh-hans/news/how-to-register-bybit-account-complete-kyc-and-secure-first-login"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 35.6
+  },
+  {
+   "keys": [
+    "cash token crypto institutional analysis",
+    "https://nexualpha.com/news/institutional-stablecoin-cash-management-governance-controls-radar"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 11
+  },
+  {
+   "keys": [
+    "cctp noble",
+    "https://nexualpha.com/news/circle-noble-usdc-cctp-v1-winddown-exit-redemption-timeline"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "cctp v2",
+    "https://nexualpha.com/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 63
+  },
+  {
+   "keys": [
+    "circle cctp explorer",
+    "https://nexualpha.com/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "coinbase com verify document",
+    "https://nexualpha.com/news/how-to-create-coinbase-account-verify-identity-securely"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 40
+  },
+  {
+   "keys": [
+    "coinbase identity verification",
+    "https://nexualpha.com/news/how-to-create-coinbase-account-verify-identity-securely"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 48
+  },
+  {
+   "keys": [
+    "coinbase tokenization",
+    "https://nexualpha.com/news/coinbase-stock-trading-tokenize-platform-market-structure-readiness"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 72
+  },
+  {
+   "keys": [
+    "coinbase whitelist",
+    "https://nexualpha.com/news/coinbase-vs-coinbase-exchange-allowlist-vault-withdrawal-controls"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "contentxi6mbh84rqpqbd6unhal0gctafdyzkuwwobxjp1bpbu",
+    "https://nexualpha.com/br"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 96
+  },
+  {
+   "keys": [
+    "coopfy",
+    "https://nexualpha.com/br"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 79
+  },
+  {
+   "keys": [
+    "crypto exchange market data feed",
+    "https://nexualpha.com/news/crypto-exchange-market-data-schema-versioning-disclosure-radar"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 5.5
+  },
+  {
+   "keys": [
+    "crypto futures platform",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "crypto perpetual platform",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 88
+  },
+  {
+   "keys": [
+    "crypto to fiat singapore",
+    "https://nexualpha.com/sg"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 75
+  },
+  {
+   "keys": [
+    "crypto websocket data normalized",
+    "https://nexualpha.com/news"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 92.33333333333333
+  },
+  {
+   "keys": [
+    "crypto websocket data normalized",
+    "https://nexualpha.com/news/crypto-exchange-market-data-schema-versioning-disclosure-radar"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "decentralized perpetual trading",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 100
+  },
+  {
+   "keys": [
+    "deribit fees",
+    "https://nexualpha.com/exchanges/deribit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 35
+  },
+  {
+   "keys": [
+    "deribit mark price",
+    "https://nexualpha.com/exchanges/deribit"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 32
+  },
+  {
+   "keys": [
+    "dex vs cex for perpetuals",
+    "https://nexualpha.com/news/cex-vs-dex-vs-perp-dex"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 87.5
+  },
+  {
+   "keys": [
+    "does bybit require kyc",
+    "https://nexualpha.com/exchanges/bybit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 50
+  },
+  {
+   "keys": [
+    "does hyperliquid require kyc",
+    "https://nexualpha.com/topics/no-kyc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 64
+  },
+  {
+   "keys": [
+    "does mexc require kyc",
+    "https://nexualpha.com/news/how-to-register-mexc-account-complete-primary-kyc-and-secure-first-deposit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 75
+  },
+  {
+   "keys": [
+    "does uniswap require kyc",
+    "https://nexualpha.com/exchanges/uniswap"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 77.5
+  },
+  {
+   "keys": [
+    "drift protocol",
+    "https://nexualpha.com/exchanges/drift"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 73.125
+  },
+  {
+   "keys": [
+    "drift solana",
+    "https://nexualpha.com/exchanges/drift"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 72.5
+  },
+  {
+   "keys": [
+    "drift trade",
+    "https://nexualpha.com/exchanges/drift?locale=es"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 5
+  },
+  {
+   "keys": [
+    "driftprotocol",
+    "https://nexualpha.com/exchanges/drift"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "dxxbzqgqsobnq2ltza4xsxn9ewuimgkveuc7h8b8j1qm",
+    "https://nexualpha.com/br"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 93.5
+  },
+  {
+   "keys": [
+    "dydx",
+    "https://nexualpha.com/fr/exchanges/dydx"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "e n a b l e d c o m m e r c i a l l a u n d r o m a t e q u i p m e n t b r o a d m a t c h u l m - m f h / r o u t e m u l t i f a m i l y - u n i v e r s i t y n o t e l i g i b l e c a m p a i g n p a u s e d 0 0 - - u s d 0 0 . 0 0 0 . 0 0 % 0 . 0 0 0",
+    "https://nexualpha.com/activities"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 33
+  },
+  {
+   "keys": [
+    "funding 2fa kraken",
+    "https://nexualpha.com/news/how-to-enable-kraken-trading-funding-2fa-global-settings-lock-safely"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "gate io vs coinbase",
+    "https://nexualpha.com/compare/gate-io-vs-coinbase?locale=en"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "gate verification",
+    "https://nexualpha.com/news/how-to-register-gate-account-complete-identity-verification-and-secure-access"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 18
+  },
+  {
+   "keys": [
+    "gate.io 紹介コード",
+    "https://nexualpha.com/ja/exchanges/gate-io"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "gemedaychomo predictions breakdowns quasar rating buy",
+    "https://nexualpha.com/topics/meme-coins"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "gemini account verification",
+    "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "gemini id verification",
+    "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 29.75
+  },
+  {
+   "keys": [
+    "gemini identity verification",
+    "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "gemini ssn",
+    "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "gemini verify account",
+    "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 9
+  },
+  {
+   "keys": [
+    "gemini verify identity",
+    "https://nexualpha.com/news/how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection"
+   ],
+   "clicks": 0,
+   "impressions": 8,
+   "ctr": 0,
+   "position": 27.875
+  },
+  {
+   "keys": [
+    "get funded to trade hyperliquid",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 55.166666666666664
+  },
+  {
+   "keys": [
+    "global settings lock",
+    "https://nexualpha.com/news/how-to-set-up-kraken-global-settings-lock-safely"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "gmx dex",
+    "https://nexualpha.com/exchanges/gmx"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 72.5
+  },
+  {
+   "keys": [
+    "gmx docs",
+    "https://nexualpha.com/exchanges/gmx?locale=en"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "gmx glp liquidity pool mechanism oracle pricing perpetual",
+    "https://nexualpha.com/exchanges/gmx"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "gmx pricing",
+    "https://nexualpha.com/exchanges/gmx"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 73.5
+  },
+  {
+   "keys": [
+    "gmx tvl",
+    "https://nexualpha.com/exchanges/gmx"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 52
+  },
+  {
+   "keys": [
+    "gmx v2 perpetual dex",
+    "https://nexualpha.com/exchanges/gmx"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 68.5
+  },
+  {
+   "keys": [
+    "hashkey exchange avis",
+    "https://nexualpha.com/topics/compliant-exchanges?locale=fr"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 94
+  },
+  {
+   "keys": [
+    "hkma project ensemble tokenised deposits hong kong",
+    "https://nexualpha.com/news/hkma-project-ensemble-tokenised-deposit-settlement-sandbox-risk-map"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "how do i submit, amend and cancel orders through an execution api without losing order state?",
+    "https://nexualpha.com/news/order-preview-validate-amend-acknowledgement-radar-api-execution-controls"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 7
+  },
+  {
+   "keys": [
+    "how to add withdrawal address on kraken",
+    "https://nexualpha.com/news/how-to-add-kraken-withdrawal-address-confirm-delete-and-test-safely"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "how to create anti phishing code",
+    "https://nexualpha.com/news/how-to-set-up-binance-anti-phishing-code"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 24
+  },
+  {
+   "keys": [
+    "https //api.raydium.io v2 main pairs",
+    "https://nexualpha.com/factbook/raydium"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "https www coinbase com verifications documents new",
+    "https://nexualpha.com/news/how-to-create-coinbase-account-verify-identity-securely"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "hyperliquid assistance fund",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "hyperliquid audit",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 81
+  },
+  {
+   "keys": [
+    "hyperliquid cashback",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 25.75
+  },
+  {
+   "keys": [
+    "hyperliquid deposit",
+    "https://nexualpha.com/news/how-to-onboard-hyperliquid-connect-wallet-enable-trading-and-test-deposit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 70
+  },
+  {
+   "keys": [
+    "hyperliquid fee",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 56
+  },
+  {
+   "keys": [
+    "hyperliquid fee rebates",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "hyperliquid fees",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 69,
+   "ctr": 0,
+   "position": 61.94202898550725
+  },
+  {
+   "keys": [
+    "hyperliquid funded account",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 17,
+   "ctr": 0,
+   "position": 45.1764705882353
+  },
+  {
+   "keys": [
+    "hyperliquid funding",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "hyperliquid funding rate api",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 58
+  },
+  {
+   "keys": [
+    "hyperliquid funding rate arbitrage",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 86
+  },
+  {
+   "keys": [
+    "hyperliquid funding rates",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 63.666666666666664
+  },
+  {
+   "keys": [
+    "hyperliquid latest news",
+    "https://nexualpha.com/topics/no-kyc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "hyperliquid maintenance margin",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 59.5
+  },
+  {
+   "keys": [
+    "hyperliquid perps prop firm",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "hyperliquid precompiles",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 74
+  },
+  {
+   "keys": [
+    "hyperliquid rebates",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 6,
+   "ctr": 0,
+   "position": 52.333333333333336
+  },
+  {
+   "keys": [
+    "hyperliquid sub account",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "hyperliquid taxes",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 90.5
+  },
+  {
+   "keys": [
+    "hyperliquid testnet faucet",
+    "https://nexualpha.com/news/how-to-onboard-hyperliquid-connect-wallet-enable-trading-and-test-deposit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 100
+  },
+  {
+   "keys": [
+    "hyperliquid trading fees",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "hyperliquid vault",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 52
+  },
+  {
+   "keys": [
+    "hyperliquid vs dydx",
+    "https://nexualpha.com/news/hyperliquid-vs-dydx"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 71.5
+  },
+  {
+   "keys": [
+    "hyperliquid withdrawal fee",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 64
+  },
+  {
+   "keys": [
+    "is circle cctp an open protocol that any developer can integrate?",
+    "https://nexualpha.com/news/circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 6.75
+  },
+  {
+   "keys": [
+    "jupiter ag",
+    "https://nexualpha.com/it/exchanges/jupiter"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 34
+  },
+  {
+   "keys": [
+    "jupiter fees",
+    "https://nexualpha.com/exchanges/jupiter"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 70.33333333333333
+  },
+  {
+   "keys": [
+    "jupiter finance",
+    "https://nexualpha.com/vi/exchanges/jupiter"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 43
+  },
+  {
+   "keys": [
+    "jupiter platform",
+    "https://nexualpha.com/vi/exchanges/jupiter"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "kraken 2fa",
+    "https://nexualpha.com/news/how-to-secure-a-kraken-account-passkeys-funding-2fa-verification"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 80
+  },
+  {
+   "keys": [
+    "kraken or binance",
+    "https://nexualpha.com/compare/binance-vs-kraken"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 94
+  },
+  {
+   "keys": [
+    "kraken ou binance",
+    "https://nexualpha.com/compare/binance-vs-kraken"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 61.5
+  },
+  {
+   "keys": [
+    "kraken vs binance",
+    "https://nexualpha.com/compare/binance-vs-kraken"
+   ],
+   "clicks": 0,
+   "impressions": 5,
+   "ctr": 0,
+   "position": 63.6
+  },
+  {
+   "keys": [
+    "kraken vs binance fees",
+    "https://nexualpha.com/compare/binance-vs-kraken"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "kraken vs binance staking",
+    "https://nexualpha.com/compare/binance-vs-kraken"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 76
+  },
+  {
+   "keys": [
+    "kucoin register",
+    "https://nexualpha.com/news/how-to-register-kucoin-account-complete-identity-verification-and-secure-access"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 14
+  },
+  {
+   "keys": [
+    "meme coin alternatives",
+    "https://nexualpha.com/topics/meme-coins"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 27
+  },
+  {
+   "keys": [
+    "mexc alpha",
+    "https://nexualpha.com/exchanges/mexc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "mexc inscribirse",
+    "https://nexualpha.com/es/compare/okx-vs-mexc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "mexc vs gate.io",
+    "https://nexualpha.com/compare/gate-io-vs-mexc"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "mexc vs gate.io",
+    "https://nexualpha.com/topics/meme-coins"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 44
+  },
+  {
+   "keys": [
+    "mtm1nty0mjeznzgzntg2odm2mw.gpg92n.u4yqmnecduemqshwr0bwbgkybq 8uoqllga5ia",
+    "https://nexualpha.com/br"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 45
+  },
+  {
+   "keys": [
+    "neoarb",
+    "https://nexualpha.com/br"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "okx api doc",
+    "https://nexualpha.com/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 21.5
+  },
+  {
+   "keys": [
+    "okx api doc",
+    "https://nexualpha.com/news/okx-api-upcoming-changes-websocket-amend-cancel-order-controls"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 22.77777777777778
+  },
+  {
+   "keys": [
+    "okx api docs",
+    "https://nexualpha.com/news/okx-api-upcoming-changes-websocket-amend-cancel-order-controls"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 20
+  },
+  {
+   "keys": [
+    "okx bybit coinbase bitget kraken 2026 new product launch",
+    "https://nexualpha.com/news"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 1
+  },
+  {
+   "keys": [
+    "okx bybit coinbase kucoin gate.io bitget 2026 strategic moves",
+    "https://nexualpha.com/news"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 8
+  },
+  {
+   "keys": [
+    "okx comisiones",
+    "https://nexualpha.com/es/compare/okx-vs-bybit"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 53
+  },
+  {
+   "keys": [
+    "okx gebühren",
+    "https://nexualpha.com/de/exchanges/okx"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 56.5
+  },
+  {
+   "keys": [
+    "okx rate limit",
+    "https://nexualpha.com/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 19
+  },
+  {
+   "keys": [
+    "okx register",
+    "https://nexualpha.com/news/how-to-register-okx-account-verify-identity-safely"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 16
+  },
+  {
+   "keys": [
+    "okx rpi",
+    "https://nexualpha.com/news/okx-websocket-orders-state-live-finality-checklist"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "okx test",
+    "https://nexualpha.com/de/exchanges/okx"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 86.33333333333333
+  },
+  {
+   "keys": [
+    "okx vs binance",
+    "https://nexualpha.com/compare/binance-vs-okx?market=GLOBAL&product=research"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 58.5
+  },
+  {
+   "keys": [
+    "opusdte",
+    "https://nexualpha.com/news/optimism-usdt0-vs-opusdte-after-binance-contract-swap-user-controls"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 7.5
+  },
+  {
+   "keys": [
+    "pancakeswap fees",
+    "https://nexualpha.com/exchanges/pancakeswap"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "perpetual crypto trading platform",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 99
+  },
+  {
+   "keys": [
+    "phemex vs bybit",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "plateforme indépendant finance",
+    "https://nexualpha.com/exchanges/pancakeswap?locale=fr"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 3.25
+  },
+  {
+   "keys": [
+    "pr for crypto innovators",
+    "https://nexualpha.com/sg"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 73
+  },
+  {
+   "keys": [
+    "project agora bis",
+    "https://nexualpha.com/news/bis-project-agora-tokenized-cross-border-payments-settlement-readiness"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "prop firm on hyperliquid",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 65
+  },
+  {
+   "keys": [
+    "raydium ortalama hesaplama",
+    "https://nexualpha.com/tr/factbook/raydium"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 12.5
+  },
+  {
+   "keys": [
+    "sec innovation exemption",
+    "https://nexualpha.com/news/sec-tokenized-nms-stock-innovation-exemption-five-year-conditions-comment-roadmap"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "sec token taxonomy",
+    "https://nexualpha.com/news/sec-cftc-crypto-asset-interpretation-token-taxonomy-user-boundary"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 71
+  },
+  {
+   "keys": [
+    "servicio de listado en exchange de criptomonedas",
+    "https://nexualpha.com/exchanges?locale=es"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "servicio de listado en exchanges de criptomonedas",
+    "https://nexualpha.com/exchanges?locale=es"
+   ],
+   "clicks": 0,
+   "impressions": 16,
+   "ctr": 0,
+   "position": 72.4375
+  },
+  {
+   "keys": [
+    "servicios de listado de intercambio de criptomonedas",
+    "https://nexualpha.com/exchanges?locale=es"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 30.5
+  },
+  {
+   "keys": [
+    "site.developers.binance.com \"how to manage a local order book correctly\"",
+    "https://nexualpha.com/news/binance-local-order-book-vs-okx-checksum-depth-controls"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 6.333333333333333
+  },
+  {
+   "keys": [
+    "site.sec.gov \"34-106402\"",
+    "https://nexualpha.com/news/dtc-tokenization-service-vs-sec-tokenized-securities-venue-market-function-comparison"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "site:cftc.gov \"blockchain technologies to satisfy a registrant’s recordkeeping requirements\"",
+    "https://nexualpha.com/news/cftc-crypto-blockchain-faq-tokenized-customer-funds-recordkeeping"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "site:cftc.gov \"use of blockchain technologies to satisfy a registrant’s recordkeeping requirements\"",
+    "https://nexualpha.com/news/cftc-crypto-blockchain-faq-tokenized-customer-funds-recordkeeping"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "site:docs.cdp.coinbase.com \"advanced trade api sandbox\"",
+    "https://nexualpha.com/news/kraken-cancel-on-disconnect-vs-coinbase-order-policy-api-lifecycle-controls?locale=zh-Hans"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "site:docs.cdp.coinbase.com \"advanced trade api sandbox\"",
+    "https://nexualpha.com/zh-hans/news/kraken-cancel-on-disconnect-vs-coinbase-order-policy-api-lifecycle-controls"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 4
+  },
+  {
+   "keys": [
+    "site:hyperliquid.gitbook.io/hyperliquid-docs \"funding is paid hourly\"",
+    "https://nexualpha.com/news/hyperliquid-vs-dydx"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 2.5
+  },
+  {
+   "keys": [
+    "site:sites.google.com \"uniswap\" (\"connect wallet\" or \"wallet connect\")",
+    "https://nexualpha.com/news/how-to-use-uniswap-connect-wallet-and-make-first-swap-safely"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 10
+  },
+  {
+   "keys": [
+    "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"seed phrase\")",
+    "https://nexualpha.com/news/how-to-use-uniswap-connect-wallet-and-make-first-swap-safely"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 6
+  },
+  {
+   "keys": [
+    "site:sites.google.com \"uniswap\" (\"verify wallet\" or \"sync wallet\")",
+    "https://nexualpha.com/news/how-to-use-uniswap-connect-wallet-and-make-first-swap-safely"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 21
+  },
+  {
+   "keys": [
+    "skipshift",
+    "https://nexualpha.com/exchanges?locale=es"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 92
+  },
+  {
+   "keys": [
+    "taxa bybit",
+    "https://nexualpha.com/exchanges/bybit?locale=pt-BR"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 59
+  },
+  {
+   "keys": [
+    "taxa gate io",
+    "https://nexualpha.com/exchanges/gate-io?locale=pt-BR"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 35
+  },
+  {
+   "keys": [
+    "taxas bybit",
+    "https://nexualpha.com/exchanges/bybit?locale=pt-BR"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 57
+  },
+  {
+   "keys": [
+    "taxas gate io",
+    "https://nexualpha.com/exchanges/gate-io?locale=pt-BR"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 36
+  },
+  {
+   "keys": [
+    "token treasury",
+    "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 89
+  },
+  {
+   "keys": [
+    "tokenized treasuries",
+    "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks"
+   ],
+   "clicks": 0,
+   "impressions": 7,
+   "ctr": 0,
+   "position": 83.71428571428571
+  },
+  {
+   "keys": [
+    "tokenized treasury",
+    "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks"
+   ],
+   "clicks": 0,
+   "impressions": 10,
+   "ctr": 0,
+   "position": 82
+  },
+  {
+   "keys": [
+    "tokenized treasury bills",
+    "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 79.66666666666667
+  },
+  {
+   "keys": [
+    "tokenized treasury funds",
+    "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "uncx locker",
+    "https://nexualpha.com/br"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 62
+  },
+  {
+   "keys": [
+    "uniswap affiliate program",
+    "https://nexualpha.com/exchanges/uniswap"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 19.5
+  },
+  {
+   "keys": [
+    "uniswap kyc",
+    "https://nexualpha.com/exchanges/uniswap"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 66
+  },
+  {
+   "keys": [
+    "uniswap smart contract platform",
+    "https://nexualpha.com/exchanges/uniswap"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 83
+  },
+  {
+   "keys": [
+    "uniswap testnet",
+    "https://nexualpha.com/exchanges/uniswap"
+   ],
+   "clicks": 0,
+   "impressions": 30,
+   "ctr": 0,
+   "position": 57.06666666666667
+  },
+  {
+   "keys": [
+    "uniswap testnet",
+    "https://nexualpha.com/exchanges/uniswap?locale=de"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 30
+  },
+  {
+   "keys": [
+    "uniswap testnet",
+    "https://nexualpha.com/exchanges/uniswap?locale=fr"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 47
+  },
+  {
+   "keys": [
+    "uniswap testnet",
+    "https://nexualpha.com/vi/exchanges/uniswap?product=spot"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 24.75
+  },
+  {
+   "keys": [
+    "what are tokenized treasuries",
+    "https://nexualpha.com/news/tokenized-treasuries-structure-access-risks"
+   ],
+   "clicks": 0,
+   "impressions": 4,
+   "ctr": 0,
+   "position": 87.25
+  },
+  {
+   "keys": [
+    "where is hyperliquid allowed",
+    "https://nexualpha.com/exchanges/hyperliquid"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 69
+  },
+  {
+   "keys": [
+    "which crypto exchange has the best funding rate",
+    "https://nexualpha.com/topics/derivatives"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 97
+  },
+  {
+   "keys": [
+    "أفضل عملات الميم",
+    "https://nexualpha.com/topics/meme-coins"
+   ],
+   "clicks": 0,
+   "impressions": 9,
+   "ctr": 0,
+   "position": 50.22222222222222
+  },
+  {
+   "keys": [
+    "افضل عملات الميم",
+    "https://nexualpha.com/topics/meme-coins"
+   ],
+   "clicks": 0,
+   "impressions": 3,
+   "ctr": 0,
+   "position": 51
+  },
+  {
+   "keys": [
+    "代币化股票保证金",
+    "https://nexualpha.com/news/tokenized-stocks-vs-stock-perpetuals?locale=zh-Hans"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 31
+  },
+  {
+   "keys": [
+    "幣安手續費",
+    "https://nexualpha.com/zh-hant/exchanges/binance"
+   ],
+   "clicks": 0,
+   "impressions": 2,
+   "ctr": 0,
+   "position": 67
+  },
+  {
+   "keys": [
+    "複合效應 槓桿損耗",
+    "https://nexualpha.com/zh-hans/news/leveraged-etf-x-perp-vs-standard-equity-perpetual-stacked-leverage-risk"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 64
+  },
+  {
+   "keys": [
+    "밈코인 거래소",
+    "https://nexualpha.com/topics/meme-coins"
+   ],
+   "clicks": 0,
+   "impressions": 1,
+   "ctr": 0,
+   "position": 4
+  }
+ ]
+}

@@ -13,6 +13,7 @@ import { appendCostScenarioQuery, buildDecisionReturnHref } from "../../data/dec
 import { readIntelFeed } from "../../data/announcement-intel.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { CHIPS, Cta, Roll, VMIN, nameOf, toPos, toVol, usd } from "./home7-shared.jsx";
+import { LocalMarketBrief } from "./home7-local-market.jsx";
 
 const INTEL_URL = "/intel/official-announcements.json";
 const INTEL_SHOW = ["listing", "event", "delisting", "news", "product", "security"];
@@ -179,6 +180,7 @@ export function HomeBelowFold({ t, locale, vol, setVol, mode, setMode, product, 
       <FundingBoard locale={locale} />
       <IntelSection t={t} locale={locale} venues={priced} />
       <TelegramBlock locale={locale} />
+      <LocalMarketBrief locale={locale} />
     </>
   );
 }

@@ -6,7 +6,7 @@ import { getBrazilPage } from "./data/brazil-market.js";
 import { supportedLocales } from "./content/locale-manifest";
 import { parsePublicRoute } from "./data/locale-routing.js";
 
-export function render(url, { newsArticles, newsListing, marketEvents, officialAnnouncements } = {}) {
+export function render(url, { newsArticles, newsListing, marketEvents, officialAnnouncements, toolArticles } = {}) {
   const parsedUrl = new URL(url, "https://nexualpha.com");
   const requestedLocale = parsedUrl.searchParams.get("locale");
   const publicRoute = parsePublicRoute(parsedUrl.pathname, parsedUrl.searchParams);
@@ -30,6 +30,7 @@ export function render(url, { newsArticles, newsListing, marketEvents, officialA
         initialNewsListing={newsListing && typeof newsListing === "object" ? newsListing : undefined}
         initialMarketEvents={marketEvents && typeof marketEvents === "object" ? marketEvents : undefined}
         initialOfficialAnnouncements={officialAnnouncements && typeof officialAnnouncements === "object" ? officialAnnouncements : undefined}
+        initialToolArticles={toolArticles && typeof toolArticles === "object" ? toolArticles : undefined}
       />
     </React.StrictMode>,
   );

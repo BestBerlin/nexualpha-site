@@ -16,7 +16,7 @@ import { resolveCommercialClaim } from "../../data/commercial-claims.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { contextualHref } from "../../data/contextual-href.js";
 import { formatDate } from "../../data/format-date.js";
-import { enIfLatin } from "../../utils/fallback-lang.js";
+import { enAttrs } from "../../utils/fallback-lang.js";
 import "./campaign-radar.css";
 
 export const campaignRadarCopy = {
@@ -508,7 +508,7 @@ export function CampaignRadar({ locale = "en" }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="campaign-card__source-link"
-                      {...(src.title ? enIfLatin(src.title, locale) : undefined)}
+                      {...(src.title ? enAttrs(locale) : undefined)}
                     >
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
