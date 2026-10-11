@@ -12,47 +12,12 @@ import { FACTS_AS_OF } from "./exchange-facts.js";
 import { REFERRAL_PARTNERS } from "./referral-partners.generated.js";
 import { researchForVenue } from "./exchange-research.js";
 
-export const COMPARE_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"]);
-
-// Mirror of ACTIVE_VENUE_SLUGS in worker/index.js (the worker builds its set from this list).
-export const ACTIVE_COMPARE_VENUE_SLUGS = Object.freeze([
-  "binance", "coinbase", "bybit", "bitget", "okx", "kraken", "gate-io", "kucoin", "mexc", "backpack", "deribit",
-  "uniswap", "pancakeswap", "jupiter", "raydium", "aerodrome", "curve", "hyperliquid", "dydx", "gmx", "drift",
-]);
-
-// Hand-written comparison pages. Their slug order is editorial and stays canonical; the reverse slug redirects.
-export const CURATED_COMPARISON_SLUGS = Object.freeze([
-  "binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "binance-vs-mexc",
-  "okx-vs-mexc", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "binance-vs-kraken", "gate-io-vs-mexc",
-  // 2026-10-10 market plan: most-wanted pairs that had no indexable page.
-  "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc",
-]);
-
-const ACTIVE = new Set(ACTIVE_COMPARE_VENUE_SLUGS);
-const CURATED = new Set(CURATED_COMPARISON_SLUGS);
-const CURATED_BY_KEY = new Map(CURATED_COMPARISON_SLUGS.map((slug) => [[...slug.split("-vs-")].sort().join("|"), slug]));
-
-export const isActiveCompareVenue = (slug) => ACTIVE.has(String(slug || ""));
-export const isCuratedComparison = (pair) => CURATED.has(String(pair || ""));
-
-export function parseComparePair(pair) {
-  const slugs = String(pair || "").split("-vs-").filter(Boolean);
-  if (slugs.length < 2 || slugs.length > 3 || new Set(slugs).size !== slugs.length) return null;
-  return slugs.every(isActiveCompareVenue) ? slugs : null;
-}
-
-// Canonical slug for a selection. Two venues: the curated slug when the pair is curated (either order), otherwise
-// alphabetical. Three-venue selections are not canonicalized (no generated page policy applies to them).
-export function canonicalComparePairSlug(slugs = []) {
-  const list = Array.isArray(slugs) ? slugs.filter(Boolean) : String(slugs || "").split("-vs-").filter(Boolean);
-  if (list.length !== 2 || list[0] === list[1]) return list.join("-vs-");
-  return CURATED_BY_KEY.get([...list].sort().join("|")) || [...list].sort().join("-vs-");
-}
-export const canonicalComparePath = (slugs) => `/compare/${canonicalComparePairSlug(slugs)}`;
-export function isCanonicalComparePair(pair) {
-  const slugs = parseComparePair(pair);
-  return Boolean(slugs) && (slugs.length !== 2 || canonicalComparePairSlug(slugs) === pair);
-}
+export {
+  COMPARE_LOCALES, ACTIVE_COMPARE_VENUE_SLUGS, CURATED_COMPARISON_SLUGS, isActiveCompareVenue, isCuratedComparison,
+  parseComparePair, canonicalComparePairSlug, canonicalComparePath, isCanonicalComparePair, normalizeCompareLocale,
+  comparePickerCopy,
+} from "./compare-slug.js";
+import { COMPARE_LOCALES, ACTIVE_COMPARE_VENUE_SLUGS, CURATED_COMPARISON_SLUGS, isActiveCompareVenue, isCuratedComparison, parseComparePair, canonicalComparePairSlug, canonicalComparePath, isCanonicalComparePair, normalizeCompareLocale } from "./compare-slug.js";
 
 // Reviewed fee row = exchange-facts.js has a checked maker AND taker figure for spot or perp (reviewed-base-fees.js).
 export function venueHasReviewedFees(slug) {
@@ -300,16 +265,6 @@ const COPY = {
   },
 };
 
-export function normalizeCompareLocale(locale = "en") {
-  const value = String(locale || "en");
-  if (COPY[value]) return value;
-  if (value === "zh-CN" || value === "zh-SG") return "zh-Hans";
-  if (value === "zh-TW" || value === "zh-HK" || value === "zh-MO") return "zh-Hant";
-  if (value.startsWith("zh")) return "zh-Hans";
-  if (value.toLowerCase().startsWith("pt")) return "pt-BR";
-  const base = value.split(/[-_]/)[0];
-  return COPY[base] ? base : "en";
-}
 
 // Title / description / H1 / provenance note for a generated pair in one locale.
 export function generatedCompareCopy(locale, { nameA = "", nameB = "", date = FACTS_AS_OF } = {}) {
@@ -324,9 +279,6 @@ export function generatedCompareCopy(locale, { nameA = "", nameB = "", date = FA
     relatedCurated: (name) => fill(copy.relatedCurated, { name }),
     moreWith: (name) => fill(copy.moreWith, { name }),
   };
-}
-export function comparePickerCopy(locale) {
-  return COPY[normalizeCompareLocale(locale)].picker;
 }
 export function compareIndexCopy(locale) {
   return COPY[normalizeCompareLocale(locale)].index;
