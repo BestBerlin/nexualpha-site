@@ -2,6 +2,7 @@ import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { v3Copy } from "../../data/v3-product.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { dataPageCopy } from "../../data/market-data-pages-nav.js";
+import { brandSlogan } from "../../data/brand-slogan.js";
 
 const copyDict = {
   "zh-Hans": {
@@ -417,6 +418,8 @@ export function CleanFooter({ locale = "en", brazil = false }) {
       <div className="nx-ftr__inner">
         <div className="nx-ftr__brand">
           <NexuAlphaWordmark variant="footer" href={href("/#top")} />
+          {/* Brand slogan A (owner 2026-10-11, src/data/brand-slogan.js): one quiet line under the mark on every page. */}
+          <p className="nx-ftr__slogan">{brandSlogan(locale)}</p>
           <p className="clean-footer__summary">{compact.summary || `${compact.brand} ${compact.affiliate}`}</p>
         </div>
 

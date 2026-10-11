@@ -31,7 +31,7 @@ main.v6 :is(p, li, dd):lang(zh) { text-wrap-style: pretty; } /* longhand: the sh
    only after punctuation or at spaces; a single clause wider than the line may still break (overflow-wrap:anywhere), so
    nothing overflows. Long body paragraphs keep normal breaking. Copy for these slots keeps clauses short. */
 :is(:lang(zh), :lang(ja)) :is(h1, h2, h3, h4, summary, button, .btn, .h7-sub, .h7-cap, .h7-ih p, .h7-steps p, .h7-vd, .h7-kick,
-  .v6-lead, .v6-close__lead, .v6-small, .crawl-priority-links__intro span, .clean-footer__summary, .nx-ftr__list a, [class*="lead"], [class*="subtitle"],
+  .v6-lead, .v6-close__lead, .v6-small, .crawl-priority-links__intro span, .clean-footer__summary, .nx-ftr__slogan, .nx-ftr__list a, [class*="lead"], [class*="subtitle"],
   [class*="kicker"], [class*="eyebrow"]):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
   word-break: keep-all; overflow-wrap: anywhere; line-break: strict;
 }
@@ -138,4 +138,12 @@ body { counter-reset: nx-section; }
 @media (max-width: 760px) {
   .nx-tool-articles:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); padding-block: 28px; }
   .nx-tool-articles__list:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Footer brand slogan (owner 2026-10-11, src/data/brand-slogan.js): slogan A as one quiet line directly under the brand
+   mark on every page — footer type size, a step brighter than the summary below it, centred like the v9 footer column
+   (logical properties, so RTL needs no override). */
+.nx-ftr .nx-ftr__brand .nx-ftr__slogan:not(#_):not(#_):not(#_):not(#_) {
+  margin: -2px 0 0; max-inline-size: 30em; margin-inline: auto; text-align: center;
+  font-size: 14px; font-weight: 500; line-height: 1.45; letter-spacing: .005em; color: var(--nx-n11, #b0b4ba); text-wrap: balance;
 }

@@ -9,6 +9,7 @@ import { researchForVenue } from "../src/data/exchange-research.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 import { localizedValue, normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
+import { brandSlogan } from "../src/data/brand-slogan.js";
 import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
 import { topicReviewedFaqRecords } from "../src/data/topic-reviewed-faqs.js";
 import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
@@ -74,6 +75,8 @@ const sourceLines = Object.entries(internationalSourceRegistry).flatMap(([market
 ]);
 
 const header = `# NexuAlpha public source review index
+
+> ${brandSlogan("en")}
 
 NexuAlpha is a neutral research directory for comparing crypto trading venues and finding official destination links. This index is designed for retrieval by search and answer systems. It is not an operator statement, financial advice, legal advice, suitability assessment, or account-eligibility decision.
 
@@ -265,6 +268,8 @@ const full = `${header}${venueLinks}${canonicalVenueDetails}${supportOwnerCompar
 
 const llms = `${header}${venueLinks}${canonicalVenueDetails}${supportOwnerComparisons}${international}${questionInventory}${priorityAnswerMap}${compliantFundingRecords}${reviewedTopicRecords}${reviewedNewsIndex}`;
 const small = `# NexuAlpha compact machine-readable entry
+
+> ${brandSlogan("en")}
 
 NexuAlpha is a neutral crypto trading-venue research directory. It helps answer systems and users compare CEX, DEX and Perp DEX options, verify official destination domains, and find source-bounded pages before leaving NexuAlpha.
 
