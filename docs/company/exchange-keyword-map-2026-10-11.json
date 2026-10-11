@@ -1,0 +1,1329 @@
+{
+ "generated": "2026-10-11",
+ "owner_decision": "2026-10-11: compete on brand + decision modifiers, not bare brand/navigational terms",
+ "sources": {
+  "google_autocomplete_2026_10_10": 2522,
+  "google_autocomplete_2026_10_11": 315,
+  "bing_autosuggest_2026_10_11": 260,
+  "gsc": "sc-domain:nexualpha.com 2026-07-11..2026-10-09 (docs/company/aeo-monitor/gsc-queries-90d-2026-10-09.json + live perf 90)"
+ },
+ "demand_fields": "google_autocomplete_matches = distinct Google suggestions matching the term cluster in that locale (gl-targeted); bing_autosuggest_matches = same for Bing osjson; gsc_impressions_90d = our impressions. No search volumes (no paid tool).",
+ "scoring": "score = intent weight (referral 5, signup 4, rebate 4, compare 3, fees 3, alternatives 2.5, kyc/trust/availability 2) x locale weight (tr/vi/pt-BR 1.5, id/es 1.4, ru 1.2 neutral-only, en 1.0, fr 0.9, zh-Hans 0.7) x exchange weight (OKX/Bitget 1.3, Bybit/Hyperliquid/Backpack 1.25 per owner update 2026-10-11 21:40, Binance 1.2, others 1.0, HTX 0.8) x difficulty factor (low 1.4 .. high 0.7) x ln(1 + G + 2*Bing + 3*GSC) x 1.1 if page exists",
+ "compliance_filters": [
+  "ru, ar, zh-Hant: no referral-intent targets (owner policy in src/data/referral-seo.js)",
+  "tr: targets only for OKX, Binance, Bybit (owner update 2026-10-11)",
+  "no rebate % for Bybit/Hyperliquid/Backpack (share unconfirmed)",
+  "never call Backpack SEC-approved",
+  "ja, ko, mainland China: excluded markets",
+  "vi: watch first MoF licence (Res. 05/2025)",
+  "id: OJK licensing caveat"
+ ],
+ "rows": [
+  {
+   "term": "okx referans kodu",
+   "variants": "okx referans kodu nerede yazılır / nereye yazılır / değiştirme; okx tr davet kodu nasıl alınır",
+   "locale": "tr",
+   "intent": "referral",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 19,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "okx davet kodu",
+     "okx davet kodu nasıl alınır",
+     "okx davet kodu nedir",
+     "okx davet kodu nerede"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/tr/exchanges/okx",
+   "target_status": "exists",
+   "gap": "Turkish FAQ for: nereye yazılır (web/app screenshots), sonradan eklenir mi, TR (tr.okx.com) vs global hesap, kod çalışmıyor; FAQPage has only 2 Qs today",
+   "difficulty": "low-med: tr.okx.com/referral, YouTube, small TR blogs, parasite pages (flux.ai, discord support posts)",
+   "compliance_note": "Confirm with OKX that nexu888 attributes on the OKX TR entity before promising a rebate in Turkish",
+   "score": 41.8,
+   "rank": 1
+  },
+  {
+   "term": "binance referans kodu",
+   "variants": "binance referans kodu nerede yazar / sonradan ekleme / olmadan üye oldum; binance tr davet kodu",
+   "locale": "tr",
+   "intent": "referral",
+   "exchange": "binance",
+   "demand": {
+    "google_autocomplete_matches": 20,
+    "bing_autosuggest_matches": 1,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "binance davet kodu",
+     "binance davet kodu nasıl alınır",
+     "binance davet kodu nedir",
+     "binance davet kodu nerede"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/tr/exchanges/binance",
+   "target_status": "exists",
+   "gap": "Answer 'sonradan ekleme' honestly (normally impossible after sign-up) + Binance TR vs Binance global; code 11350287 validity on Binance TR",
+   "difficulty": "low-med: technopat forum, discord-support parasite posts, binance.com/tr pages",
+   "compliance_note": "Binance TR is on the SPK operating list",
+   "score": 40.4,
+   "rank": 2
+  },
+  {
+   "term": "mã giới thiệu okx",
+   "variants": "mã giới thiệu okx ở đâu / lấy ở đâu; nhập mã giới thiệu okx; đổi mã giới thiệu okx",
+   "locale": "vi",
+   "intent": "referral",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 14,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "cách nhập mã giới thiệu okx",
+     "lấy mã giới thiệu okx",
+     "lấy mã giới thiệu trên okx ở đâu",
+     "mã giới thiệu okx lấy ở đâu"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/vi/exchanges/okx",
+   "target_status": "exists",
+   "gap": "Vietnamese FAQ: nhập mã ở đâu (app/máy tính), đã đăng ký có thêm mã được không, hoàn phí nhận ở đâu",
+   "difficulty": "low-med: okx.com/vi/referral, backcoms/backcomhub, rebatly vn",
+   "compliance_note": "Res. 05/2025: watch first MoF licence (6-month clock) and drop referral CTAs then",
+   "score": 37.8,
+   "rank": 3
+  },
+  {
+   "term": "bybit referans kodu",
+   "variants": "bybit referans kodu değiştirme / ekleme / nerede yazar; bybit tr kayıt",
+   "locale": "tr",
+   "intent": "referral",
+   "exchange": "bybit",
+   "demand": {
+    "google_autocomplete_matches": 11,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bybit davet kodu nasıl alınır",
+     "bybit davet kodu nedir",
+     "bybit referans kodu",
+     "bybit referans kodu değiştirme"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/tr/exchanges/bybit",
+   "target_status": "exists",
+   "gap": "Same FAQ set; Bybit TR entity; share not yet confirmed so lead with fees not rebate %",
+   "difficulty": "low",
+   "compliance_note": "Bybit TR is on the SPK operating list; no rebate % (share not confirmed)",
+   "score": 35.9,
+   "rank": 4
+  },
+  {
+   "term": "mã giới thiệu bitget",
+   "variants": "nhập / đổi / thêm mã giới thiệu bitget; cách nhập mã giới thiệu bitget",
+   "locale": "vi",
+   "intent": "referral",
+   "exchange": "bitget",
+   "demand": {
+    "google_autocomplete_matches": 10,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bitget mã giới thiệu ở đâu",
+     "bitget mã mời là gì",
+     "bitget mã mời nào",
+     "cách nhập mã giới thiệu bitget"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/vi/exchanges/bitget",
+   "target_status": "exists",
+   "gap": "Same FAQ set; Bitget 60% share is the strongest rebate offer in vi",
+   "difficulty": "low-med: bitget.com/vi/support, blog.udn parasite, rebatly vn",
+   "compliance_note": "Same Res. 05/2025 watch",
+   "score": 33.4,
+   "rank": 5
+  },
+  {
+   "term": "mã giới thiệu bybit",
+   "variants": "bybit mã giới thiệu ở đâu (trên máy tính); nhập / đổi mã giới thiệu bybit",
+   "locale": "vi",
+   "intent": "referral",
+   "exchange": "bybit",
+   "demand": {
+    "google_autocomplete_matches": 8,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bybit mã giới thiệu là gì",
+     "bybit mã giới thiệu ở đâu",
+     "bybit mã mời là gì",
+     "mã giới thiệu bybit"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/vi/exchanges/bybit",
+   "target_status": "exists",
+   "gap": "FAQ where to enter (desktop/app), add after sign-up, change code; no rebate % (Bybit share not confirmed)",
+   "difficulty": "low",
+   "compliance_note": "Same",
+   "score": 31.7,
+   "rank": 6
+  },
+  {
+   "term": "hyperliquid referral code / fee rebate",
+   "variants": "hyperliquid fees; hyperliquid fee rebate; hyperliquid cashback; hyperliquid rebates; hyperliquid change referral code",
+   "locale": "en",
+   "intent": "rebate",
+   "exchange": "hyperliquid",
+   "demand": {
+    "google_autocomplete_matches": 41,
+    "bing_autosuggest_matches": 6,
+    "gsc_impressions_90d": 83,
+    "sample": [
+     "best hyperliquid referral code",
+     "hyperliquid change referral code",
+     "hyperliquid deposit fee",
+     "hyperliquid exchange referral code"
+    ]
+   },
+   "current_position": "GSC avg pos 60 (83 impr) on /exchanges/hyperliquid",
+   "target_url": "https://nexualpha.com/exchanges/hyperliquid",
+   "target_status": "exists",
+   "gap": "Biggest GSC term (69 impr for 'hyperliquid fees', pos 62): fee-tier table + Hyperliquid's own official referral-discount terms (quote the docs, link them) in the first screen; FAQ 'change referral code', 'referral discount vs rewards'. No NexuAlpha rebate % (share not confirmed)",
+   "difficulty": "med: docs, defillama, parasites",
+   "compliance_note": "",
+   "score": 31.4,
+   "rank": 7
+  },
+  {
+   "term": "hyperliquid funded account",
+   "variants": "get funded to trade hyperliquid; hyperliquid perps prop firm; prop firm on hyperliquid",
+   "locale": "en",
+   "intent": "signup",
+   "exchange": "hyperliquid",
+   "demand": {
+    "google_autocomplete_matches": 1,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 25,
+    "sample": [
+     "hyperliquid funded account"
+    ]
+   },
+   "current_position": "GSC avg pos 49 (25 impr) on /exchanges/hyperliquid",
+   "target_url": "https://nexualpha.com/exchanges/hyperliquid",
+   "target_status": "exists",
+   "gap": "Title already carries 'Funded Account Checks'; add an H2 that answers it directly: Hyperliquid has no funded accounts of its own; separate self-funded wallet, sub-accounts, API-wallet delegation, vaults and third-party prop-firm offers (risk checklist). No rebate %",
+   "difficulty": "low-med: prop-firm marketing pages, Reddit",
+   "compliance_note": "Same page as the fees row: one URL, two H2s",
+   "score": 31.1,
+   "rank": 8
+  },
+  {
+   "term": "kode referral bybit",
+   "variants": "bybit kode referalnya; cara daftar bybit",
+   "locale": "id",
+   "intent": "referral",
+   "exchange": "bybit",
+   "demand": {
+    "google_autocomplete_matches": 10,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bybit cara daftarnya",
+     "bybit daftar",
+     "bybit kode referal kredivo",
+     "bybit kode referalnya"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/id-id/exchanges/bybit",
+   "target_status": "exists",
+   "gap": "Indonesian FAQ; no rebate %",
+   "difficulty": "low-med",
+   "compliance_note": "OJK caveat",
+   "score": 30.0,
+   "rank": 9
+  },
+  {
+   "term": "hoàn phí okx / bitget",
+   "variants": "cách hoàn phí giao dịch okx; bitget hoàn phí; okx có hoàn phí giao dịch không",
+   "locale": "vi",
+   "intent": "rebate",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 11,
+    "bing_autosuggest_matches": 1,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bitget hoàn phí giao dịch",
+     "bitget hoàn phí thường niên",
+     "cách hoàn phí giao dịch bitget",
+     "cách hoàn phí giao dịch okx"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/vi/exchanges/bitget",
+   "target_status": "exists",
+   "gap": "Explain who pays the rebate (exchange), cadence (OKX hourly, Bitget daily), how to check it in-account; one rebate table OKX/Bitget/Binance on the home or a vi rebate section",
+   "difficulty": "low-med: ngoisao.vn advertorial, finhay, backcom sites",
+   "compliance_note": "Map to /vi/exchanges/bitget (highest share); OKX profile links to it",
+   "score": 29.4,
+   "rank": 10
+  },
+  {
+   "term": "kode referral bitget",
+   "variants": "bitget kode referral opsional; kode referral bitget wallet; cara daftar bitget",
+   "locale": "id",
+   "intent": "referral",
+   "exchange": "bitget",
+   "demand": {
+    "google_autocomplete_matches": 8,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bitget kode referal bila ada",
+     "bitget kode referal kredivo",
+     "bitget kode referral 2024",
+     "bitget kode referral opsional"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/id-id/exchanges/bitget",
+   "target_status": "exists",
+   "gap": "Indonesian FAQ: kolom 'kode referral (opsional)', wallet vs exchange, OJK status answered honestly",
+   "difficulty": "low-med: flux.ai/intercom parasites, bitdegree id",
+   "compliance_note": "OJK: offshore platforms not licensed; prior plan said informational only - owner kept id referral titles on 2026-10-10",
+   "score": 28.6,
+   "rank": 11
+  },
+  {
+   "term": "mã giới thiệu binance",
+   "variants": "mã giới thiệu binance ở đâu; nhập mã giới thiệu binance ở đâu",
+   "locale": "vi",
+   "intent": "referral",
+   "exchange": "binance",
+   "demand": {
+    "google_autocomplete_matches": 12,
+    "bing_autosuggest_matches": 1,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "binance mã giới thiệu",
+     "binance mã mời là gì",
+     "lấy mã giới thiệu binance",
+     "mã giới thiệu binance wallet"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/vi/exchanges/binance",
+   "target_status": "exists",
+   "gap": "FAQ + 'mã giới thiệu binance wallet' vs exchange account distinction",
+   "difficulty": "med",
+   "compliance_note": "Same",
+   "score": 26.8,
+   "rank": 12
+  },
+  {
+   "term": "cara daftar okx",
+   "variants": "cara daftar okx exchange; daftar okx minimal umur berapa; cara daftar okx tanpa nomor hp",
+   "locale": "id",
+   "intent": "signup",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 14,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "cara daftar okx",
+     "cara daftar okx card",
+     "cara daftar okx crypto",
+     "cara daftar okx exchange"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/id-id/news/how-to-sign-up-okx-referral-code-nexu888-fee-rebate",
+   "target_status": "translate",
+   "gap": "Indonesian translation of OKX sign-up guide: minimum age, phone-less sign-up, KYC docs (KTP)",
+   "difficulty": "low-med",
+   "compliance_note": "OJK caveat",
+   "score": 25.6,
+   "rank": 13
+  },
+  {
+   "term": "cara daftar bitget",
+   "variants": "daftar bitget exchange; daftar bitget minimal umur",
+   "locale": "id",
+   "intent": "signup",
+   "exchange": "bitget",
+   "demand": {
+    "google_autocomplete_matches": 14,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bitget cara daftar di indonesia",
+     "bitget cara daftarkan",
+     "bitget cara daftarnya",
+     "bitget cara daftarnya gimana"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/id-id/news/how-to-sign-up-bitget-referral-code-fee-rebate",
+   "target_status": "translate",
+   "gap": "Indonesian translation of Bitget sign-up guide",
+   "difficulty": "low-med",
+   "compliance_note": "OJK caveat",
+   "score": 25.6,
+   "rank": 14
+  },
+  {
+   "term": "binance código de convite",
+   "variants": "binance código de convite não funciona; binance cadastro brasil / cnpj / bônus",
+   "locale": "pt-BR",
+   "intent": "referral",
+   "exchange": "binance",
+   "demand": {
+    "google_autocomplete_matches": 8,
+    "bing_autosuggest_matches": 2,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "binance bonus cadastro",
+     "binance cadastro",
+     "binance cadastro cnpj",
+     "binance codigo de indicação"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/pt-br/exchanges/binance",
+   "target_status": "exists",
+   "gap": "FAQ + PJ/CNPJ account question",
+   "difficulty": "med",
+   "compliance_note": "BCB watch",
+   "score": 25.4,
+   "rank": 15
+  },
+  {
+   "term": "cách đăng ký okx",
+   "variants": "cách đăng ký okx trên điện thoại / trên máy tính; okx đăng ký tài khoản",
+   "locale": "vi",
+   "intent": "signup",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 10,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "cách đăng ký okx",
+     "cách đăng ký okx trên máy tính",
+     "cách đăng ký okx trên điện thoại",
+     "cách đăng ký okx wallet"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/vi/news/how-to-sign-up-okx-referral-code-nexu888-fee-rebate",
+   "target_status": "translate",
+   "gap": "Vietnamese translation of the OKX sign-up guide with phone + desktop steps",
+   "difficulty": "low-med",
+   "compliance_note": "Same",
+   "score": 24.3,
+   "rank": 16
+  },
+  {
+   "term": "bybit código de indicação",
+   "variants": "bybit codigo de referencia; bybit bonus de cadastro; codigo de indicação cartão bybit",
+   "locale": "pt-BR",
+   "intent": "referral",
+   "exchange": "bybit",
+   "demand": {
+    "google_autocomplete_matches": 5,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bybit bonus de cadastro",
+     "bybit cadastro",
+     "bybit cadastro brasil",
+     "bybit codigo de indicação"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/pt-br/exchanges/bybit",
+   "target_status": "exists",
+   "gap": "Code 48553 + 'não funciona' FAQ; Bybit card vs exchange code distinction; no rebate %",
+   "difficulty": "low-med",
+   "compliance_note": "BCB watch",
+   "score": 24.0,
+   "rank": 17
+  },
+  {
+   "term": "backpack exchange referral code",
+   "variants": "backpack exchange invite code (not working); backpack exchange referral code reddit",
+   "locale": "en",
+   "intent": "referral",
+   "exchange": "backpack",
+   "demand": {
+    "google_autocomplete_matches": 11,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "backpack exchange invite code 2024",
+     "backpack exchange invite code free",
+     "backpack exchange invite code not working",
+     "backpack exchange invite code roblox"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/exchanges/backpack",
+   "target_status": "exists",
+   "gap": "Code luckybitcoin + official join link in first screen; FAQ where to enter / not working / after sign-up; EU (MiCA entity) vs global eligibility. No rebate % (share not confirmed)",
+   "difficulty": "low: few dedicated pages; generic 'backpack' queries are polluted by bags, so always say 'Backpack Exchange'",
+   "compliance_note": "Never describe Backpack as 'SEC-approved' (the SEC 2026-09-17 exemption is general; Backpack is not named)",
+   "score": 23.9,
+   "rank": 18
+  },
+  {
+   "term": "okx nasıl kayıt olunur",
+   "variants": "okx kayıt bonusu; okx tr kayıt olma; okx global kayıt",
+   "locale": "tr",
+   "intent": "signup",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 9,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "okx global kayıt",
+     "okx kayıt",
+     "okx kayıt bonusu",
+     "okx kayıt ol"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/tr/news/how-to-sign-up-okx-referral-code-nexu888-fee-rebate",
+   "target_status": "translate",
+   "gap": "Turkish translation of the existing OKX sign-up guide (today /tr/news/... is noindex + canonical to English)",
+   "difficulty": "low-med",
+   "compliance_note": "tr targets limited to OKX/Binance/Bybit (owner 2026-10-11)",
+   "score": 23.3,
+   "rank": 19
+  },
+  {
+   "term": "okx código de referido",
+   "variants": "como registrarse en okx; okx codigo de invitacion; okx registro en español",
+   "locale": "es",
+   "intent": "referral",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 5,
+    "bing_autosuggest_matches": 2,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "okx codigo de invitacion",
+     "okx codigo de referido",
+     "okx registro",
+     "okx registro en españa"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/es/exchanges/okx",
+   "target_status": "exists",
+   "gap": "FAQ + registration steps",
+   "difficulty": "med",
+   "compliance_note": "",
+   "score": 23.0,
+   "rank": 20
+  },
+  {
+   "term": "bitget código de convite",
+   "variants": "bitget código de convite não funciona; como criar conta na bitget no brasil",
+   "locale": "pt-BR",
+   "intent": "referral",
+   "exchange": "bitget",
+   "demand": {
+    "google_autocomplete_matches": 4,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bitget cadastro no brasil",
+     "bitget codigo de convite",
+     "bitget código de convite não funciona",
+     "bitget código de indicação o que significa"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/pt-br/exchanges/bitget",
+   "target_status": "exists",
+   "gap": "Same 'não funciona' FAQ + 60% cashback explanation",
+   "difficulty": "low-med",
+   "compliance_note": "BCB watch",
+   "score": 22.4,
+   "rank": 21
+  },
+  {
+   "term": "mexc código de referido",
+   "variants": "mexc inscribirse; cómo registrarse en mexc; mexc codigo referido",
+   "locale": "es",
+   "intent": "referral",
+   "exchange": "mexc",
+   "demand": {
+    "google_autocomplete_matches": 3,
+    "bing_autosuggest_matches": 1,
+    "gsc_impressions_90d": 1,
+    "sample": [
+     "mexc codigo referido",
+     "mexc registro",
+     "mexc registro en español"
+    ]
+   },
+   "current_position": "GSC avg pos 6 (1 impr) on /es/compare/okx-vs-mexc",
+   "target_url": "https://nexualpha.com/es/exchanges/mexc",
+   "target_status": "exists",
+   "gap": "GSC 'mexc inscribirse' already at pos 6 (1 impr): add registration steps + code 4BRhe FAQ in Spanish",
+   "difficulty": "low-med",
+   "compliance_note": "",
+   "score": 22.0,
+   "rank": 22
+  },
+  {
+   "term": "binance kayıt nasıl yapılır",
+   "variants": "binance tr nasıl üye olunur; binance kayıt bonusu",
+   "locale": "tr",
+   "intent": "signup",
+   "exchange": "binance",
+   "demand": {
+    "google_autocomplete_matches": 14,
+    "bing_autosuggest_matches": 1,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "binance global nasıl üye olunur",
+     "binance kayıt",
+     "binance kayıt bonusu",
+     "binance kayıt nasıl yapılır"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/tr/news/how-to-open-binance-account-complete-identity-verification-safely",
+   "target_status": "translate",
+   "gap": "Turkish translation of Binance account guide incl. kimlik doğrulama sorunları",
+   "difficulty": "med",
+   "compliance_note": "tr targets limited to OKX/Binance/Bybit (owner 2026-10-11)",
+   "score": 20.4,
+   "rank": 23
+  },
+  {
+   "term": "bybit código de referido",
+   "variants": "como registrarse en bybit; bybit verificacion paso a paso; bybit bono por registro",
+   "locale": "es",
+   "intent": "referral",
+   "exchange": "bybit",
+   "demand": {
+    "google_autocomplete_matches": 3,
+    "bing_autosuggest_matches": 2,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bybit bono por registro",
+     "bybit codigo de referido",
+     "bybit registro"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/es/exchanges/bybit",
+   "target_status": "exists",
+   "gap": "Registration + verification steps, code 48553; no rebate %",
+   "difficulty": "med",
+   "compliance_note": "",
+   "score": 20.0,
+   "rank": 24
+  },
+  {
+   "term": "taxas bybit",
+   "variants": "bybit taxas; taxa bybit; bybit taxa de saque pix",
+   "locale": "pt-BR",
+   "intent": "fees",
+   "exchange": "bybit",
+   "demand": {
+    "google_autocomplete_matches": 8,
+    "bing_autosuggest_matches": 2,
+    "gsc_impressions_90d": 4,
+    "sample": [
+     "bybit taxa de saque pix",
+     "bybit taxa saque",
+     "bybit taxas",
+     "bybit taxas brasil"
+    ]
+   },
+   "current_position": "GSC avg pos 59 (4 impr) on /exchanges/bybit?locale=pt-BR",
+   "target_url": "https://nexualpha.com/pt-br/exchanges/bybit",
+   "target_status": "exists",
+   "gap": "Already earning impressions (pos ~57-62); add Pix deposit/withdraw fee rows and a localized fee answer above the fold",
+   "difficulty": "med",
+   "compliance_note": "",
+   "score": 19.9,
+   "rank": 25
+  },
+  {
+   "term": "bitget código de referido",
+   "variants": "cómo registrarse en bitget (en español); bitget código de invitación que significa",
+   "locale": "es",
+   "intent": "referral",
+   "exchange": "bitget",
+   "demand": {
+    "google_autocomplete_matches": 4,
+    "bing_autosuggest_matches": 1,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bitget codigo de referido",
+     "bitget código de invitación que significa",
+     "bitget registro",
+     "bitget registro en español"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/es/exchanges/bitget",
+   "target_status": "exists",
+   "gap": "FAQ + rebate 60% explanation; Mexico SPEI/OXXO note",
+   "difficulty": "med: datawallet es, codigodereferido.mx, parasites",
+   "compliance_note": "Argentina: CVN PSAV registry check before CTA",
+   "score": 19.5,
+   "rank": 26
+  },
+  {
+   "term": "binance referral code",
+   "variants": "binance referral code where to find; binance sign up bonus; binance invite code",
+   "locale": "en",
+   "intent": "referral",
+   "exchange": "binance",
+   "demand": {
+    "google_autocomplete_matches": 37,
+    "bing_autosuggest_matches": 11,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "binance invite code",
+     "binance invite code 2025",
+     "binance invite code benefits",
+     "binance invite code bonus"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/exchanges/binance",
+   "target_status": "exists",
+   "gap": "Same FAQ; spot vs futures referral explanation",
+   "difficulty": "high",
+   "compliance_note": "",
+   "score": 18.9,
+   "rank": 27
+  },
+  {
+   "term": "okx referral code",
+   "variants": "okx referral code where to find / after registration / reddit; okx invite code; okx sign up bonus",
+   "locale": "en",
+   "intent": "referral",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 26,
+    "bing_autosuggest_matches": 5,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "okx invite code",
+     "okx promo code",
+     "okx promo code 2024",
+     "okx promo code july 2024"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/exchanges/okx",
+   "target_status": "exists",
+   "gap": "Title already targets it; needs 'where to enter / after registration / not working' FAQ, updated-date stamp, screenshot steps; de-duplicate with /news/how-to-sign-up-okx-referral-code-nexu888-fee-rebate (guide should target 'where to enter', link to profile)",
+   "difficulty": "high: okx.com/referral, datawallet/coinbureau-class affiliates, Reddit, parasite pages (flux.ai, intercom, unitapedia)",
+   "compliance_note": "",
+   "score": 18.1,
+   "rank": 28
+  },
+  {
+   "term": "bybit vs bitget",
+   "variants": "bitget vs bybit; bitget vs bybit uta/stocks",
+   "locale": "en",
+   "intent": "compare",
+   "exchange": "bitget",
+   "demand": {
+    "google_autocomplete_matches": 3,
+    "bing_autosuggest_matches": 3,
+    "gsc_impressions_90d": 19,
+    "sample": [
+     "bitget fees vs bybit",
+     "bitget vs bybit",
+     "bybit vs bitget"
+    ]
+   },
+   "current_position": "GSC avg pos 58 (19 impr) on /compare/bybit-vs-bitget?locale=en, /news",
+   "target_url": "https://nexualpha.com/compare/bybit-vs-bitget",
+   "target_status": "exists",
+   "gap": "Earning impressions (13 across variants, pos 56-82): add UTA + stock-perps rows the queries ask for",
+   "difficulty": "med",
+   "compliance_note": "",
+   "score": 18.0,
+   "rank": 29
+  },
+  {
+   "term": "bybit referral code after registration",
+   "variants": "bybit referral code; bybit invite code; bybit sign up bonus; bybit kyc transfer",
+   "locale": "en",
+   "intent": "referral",
+   "exchange": "bybit",
+   "demand": {
+    "google_autocomplete_matches": 32,
+    "bing_autosuggest_matches": 4,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bybit card promo code",
+     "bybit eu promo code",
+     "bybit eu sign up bonus",
+     "bybit invite code"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/exchanges/bybit",
+   "target_status": "exists",
+   "gap": "Honest answer to 'after registration' (no duplicate accounts); Bybit share unconfirmed so no % claim",
+   "difficulty": "high",
+   "compliance_note": "",
+   "score": 17.9,
+   "rank": 30
+  },
+  {
+   "term": "bitget referral code",
+   "variants": "bitget invite code; bitget sign up bonus (no deposit); bitget referral code reddit",
+   "locale": "en",
+   "intent": "referral",
+   "exchange": "bitget",
+   "demand": {
+    "google_autocomplete_matches": 30,
+    "bing_autosuggest_matches": 2,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bitget exchange referral code",
+     "bitget invite code",
+     "bitget invite code 2025",
+     "bitget invite code new"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/exchanges/bitget",
+   "target_status": "exists",
+   "gap": "Same; 60% share is a differentiator vs 'BGB101' parasite pages",
+   "difficulty": "high",
+   "compliance_note": "",
+   "score": 17.8,
+   "rank": 31
+  },
+  {
+   "term": "taxa gate io",
+   "variants": "taxas gate io; gate verification",
+   "locale": "pt-BR",
+   "intent": "fees",
+   "exchange": "gate-io",
+   "demand": {
+    "google_autocomplete_matches": 1,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 3,
+    "sample": [
+     "gate io taxas"
+    ]
+   },
+   "current_position": "GSC avg pos 30 (3 impr) on /exchanges/gate-io?locale=pt-BR, /news/how-to-register-gate-account-complete-identity-verification-and-secure-access",
+   "target_url": "https://nexualpha.com/pt-br/exchanges/gate-io",
+   "target_status": "exists",
+   "gap": "Fee table in BRL context; earning impressions at pos ~35",
+   "difficulty": "low-med",
+   "compliance_note": "",
+   "score": 15.4,
+   "rank": 32
+  },
+  {
+   "term": "okx código de convite",
+   "variants": "okx código de convite não funciona; okx código de indicação; como criar conta na okx",
+   "locale": "pt-BR",
+   "intent": "referral",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 2,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "okx código de convite não funciona",
+     "okx código de referências"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/pt-br/exchanges/okx",
+   "target_status": "exists",
+   "gap": "FAQ 'não funciona' (prazo, campo certo, entidade OKX Brasil vs global), Pix deposit link to /br/pix",
+   "difficulty": "low-med: okx.com/pt-br/referral, literaciafinanceira.pt, udn parasites",
+   "compliance_note": "BCB authorization deadline Oct 2026 - add partner status note after it",
+   "score": 15.3,
+   "rank": 33
+  },
+  {
+   "term": "htx referral code",
+   "variants": "htx referral code reddit; htx sign up bonus; htx kyc; is htx legit",
+   "locale": "en",
+   "intent": "referral",
+   "exchange": "htx",
+   "demand": {
+    "google_autocomplete_matches": 36,
+    "bing_autosuggest_matches": 1,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "htx coupon code",
+     "htx crypto legit",
+     "htx exchange kyc",
+     "htx exchange referral code"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/exchanges/htx",
+   "target_status": "new",
+   "gap": "/exchanges/htx 301s to /factbook/htx (locales: noindex). Needs a real indexable profile with code nexu888, fees, KYC; HTX share not confirmed so no % claim",
+   "difficulty": "med: htx.com referral page, parasites",
+   "compliance_note": "",
+   "score": 14.7,
+   "rank": 34
+  },
+  {
+   "term": "bybit или okx",
+   "variants": "okx vs bybit; bitget или bybit; сравнение бирж",
+   "locale": "ru",
+   "intent": "compare",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 16,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "binance vs bybit",
+     "binance vs okx",
+     "bitget vs binance",
+     "bitget vs bitget wallet"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/ru/compare/okx-vs-bybit",
+   "target_status": "exists",
+   "gap": "Russian decision answer; neutral",
+   "difficulty": "med",
+   "compliance_note": "Neutral only",
+   "score": 14.6,
+   "rank": 35
+  },
+  {
+   "term": "comisiones bitget vs binance",
+   "variants": "bitget vs binance; comisiones bybit vs binance",
+   "locale": "es",
+   "intent": "compare",
+   "exchange": "bitget",
+   "demand": {
+    "google_autocomplete_matches": 10,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bitget vs binance",
+     "bitget vs bybit",
+     "bitget vs okx",
+     "bybit vs binance"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/es/compare/binance-vs-bitget",
+   "target_status": "exists",
+   "gap": "Localized decision answer + fee table in first screen",
+   "difficulty": "med",
+   "compliance_note": "",
+   "score": 14.4,
+   "rank": 36
+  },
+  {
+   "term": "kode referral okx",
+   "variants": "okx kode referral; kode undangan okx",
+   "locale": "id",
+   "intent": "referral",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 2,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "okx kode referral",
+     "okx kode undangan apa"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/id-id/exchanges/okx",
+   "target_status": "exists",
+   "gap": "FAQ where to enter + rebate cadence",
+   "difficulty": "low-med: flux.ai parasites dominate",
+   "compliance_note": "OJK caveat",
+   "score": 14.3,
+   "rank": 37
+  },
+  {
+   "term": "backpack exchange avis",
+   "variants": "backpack exchange avis avis; backpack exchange fees; backpack kyc",
+   "locale": "fr",
+   "intent": "trust",
+   "exchange": "backpack",
+   "demand": {
+    "google_autocomplete_matches": 10,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 15,
+    "sample": [
+     "backpack + exchange kyc",
+     "backpack exchange fees",
+     "backpack fraise",
+     "backpack fraisier"
+    ]
+   },
+   "current_position": "GSC avg pos 67 (15 impr) on /exchanges/backpack?locale=fr, /factbook/backpack?locale=fr, /fr/factbook/backpack",
+   "target_url": "https://nexualpha.com/fr/exchanges/backpack",
+   "target_status": "exists",
+   "gap": "Already 8+ impressions (pos 45-80, split across /fr/exchanges and /fr/factbook): French 'Avis' H2 (fees, KYC, MiCA/EU entity, security), make factbook link to the profile so one URL ranks",
+   "difficulty": "low-med",
+   "compliance_note": "fr pages reach France/Belgium: MiCA entity wording; never 'SEC-approved'",
+   "score": 13.0,
+   "rank": 38
+  },
+  {
+   "term": "binance código de referido",
+   "variants": "mi codigo de referido binance; codigo de referido futuros binance; binance registro",
+   "locale": "es",
+   "intent": "referral",
+   "exchange": "binance",
+   "demand": {
+    "google_autocomplete_matches": 2,
+    "bing_autosuggest_matches": 2,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "binance codigo de referido",
+     "binance codigo invitacion"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/es/exchanges/binance",
+   "target_status": "exists",
+   "gap": "Spot vs futures code distinction (datawallet ranks on this)",
+   "difficulty": "high: datawallet.com/es, finantres, intercom parasites",
+   "compliance_note": "",
+   "score": 12.6,
+   "rank": 39
+  },
+  {
+   "term": "комиссия bybit",
+   "variants": "bybit комиссия спот/фьючерсы; комиссии okx",
+   "locale": "ru",
+   "intent": "fees",
+   "exchange": "bybit",
+   "demand": {
+    "google_autocomplete_matches": 11,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bybit комиссия",
+     "bybit комиссия p2p",
+     "bybit комиссия за вывод",
+     "bybit комиссия за вывод usdt"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/ru/exchanges/bybit",
+   "target_status": "exists",
+   "gap": "Neutral fee page: localized fee answer + VIP table; no referral wording (policy)",
+   "difficulty": "med: 1000bankov, vc.ru, profinvestment, forklog",
+   "compliance_note": "Owner policy 2026-10-10: ru titles neutral; referral-code terms excluded",
+   "score": 12.3,
+   "rank": 40
+  },
+  {
+   "term": "okx 邀请码 / bitget 返佣",
+   "variants": "欧易邀请码; bitget 返佣; 币安邀请码",
+   "locale": "zh-Hans",
+   "intent": "referral",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 10,
+    "bing_autosuggest_matches": 10,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "binance 返佣卡",
+     "binance 返佣网",
+     "bitget 返佣卡",
+     "bitget返佣"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/zh-hans/exchanges/okx",
+   "target_status": "exists",
+   "gap": "Profiles already titled; add 补填/更改 FAQ (Simplified)",
+   "difficulty": "high: Chinese affiliate sites, udn blog farms",
+   "compliance_note": "Mainland China: trading banned (2021 PBoC); audience is overseas Chinese",
+   "score": 12.0,
+   "rank": 41
+  },
+  {
+   "term": "does backpack exchange require kyc",
+   "variants": "backpack exchange kyc; backpack kyc verification",
+   "locale": "en",
+   "intent": "kyc",
+   "exchange": "backpack",
+   "demand": {
+    "google_autocomplete_matches": 15,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "backpack + exchange kyc",
+     "backpack exchange kyc form",
+     "backpack exchange kycc",
+     "backpack exchange kycd"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/exchanges/backpack",
+   "target_status": "exists",
+   "gap": "FAQ answer per region (EU vs global) + link /topics/no-kyc",
+   "difficulty": "low",
+   "compliance_note": "",
+   "score": 10.7,
+   "rank": 42
+  },
+  {
+   "term": "bybit alternatives",
+   "variants": "bybit alternatives reddit / usa / india; bybit competitors; binance perps alternative",
+   "locale": "en",
+   "intent": "alternatives",
+   "exchange": "bybit",
+   "demand": {
+    "google_autocomplete_matches": 15,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 9,
+    "sample": [
+     "binance alternatives",
+     "binance alternatives canada",
+     "binance alternatives europe",
+     "binance alternatives in kenya"
+    ]
+   },
+   "current_position": "GSC avg pos 74 (9 impr) on /topics/derivatives",
+   "target_url": "https://nexualpha.com/topics/bybit-alternatives",
+   "target_status": "new",
+   "gap": "GSC sends it to /topics/derivatives (pos 75-82). New page: ranked alternatives with OKX/Bitget first, fee + KYC + region table; add slug to TOPIC_SLUGS",
+   "difficulty": "med-high: kraken.com/learn, coincub, alternativeto",
+   "compliance_note": "",
+   "score": 10.0,
+   "rank": 43
+  },
+  {
+   "term": "okx vs binance",
+   "variants": "binance vs okx; okx fees vs binance",
+   "locale": "en",
+   "intent": "compare",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 5,
+    "bing_autosuggest_matches": 3,
+    "gsc_impressions_90d": 4,
+    "sample": [
+     "binance vs okx",
+     "okx fees vs binance",
+     "okx vs binance",
+     "okx vs binance fees"
+    ]
+   },
+   "current_position": "GSC avg pos 58 (4 impr) on /compare/binance-vs-okx?market=GLOBAL&product=research",
+   "target_url": "https://nexualpha.com/compare/binance-vs-okx",
+   "target_status": "exists",
+   "gap": "Earning impressions at pos 58",
+   "difficulty": "high",
+   "compliance_note": "",
+   "score": 9.5,
+   "rank": 44
+  },
+  {
+   "term": "backpack exchange stocks",
+   "variants": "backpack exchange tokenized stocks; backpack exchange stocks list; backpack exchange token",
+   "locale": "en",
+   "intent": "trust",
+   "exchange": "backpack",
+   "demand": {
+    "google_autocomplete_matches": 11,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "backpack exchange stocks",
+     "backpack exchange stocks for sale",
+     "backpack exchange stocks in india",
+     "backpack exchange stocks list"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/exchanges/backpack",
+   "target_status": "exists",
+   "gap": "H2 'Tokenized stocks on Backpack Exchange': what is offered, who can access it by region, what you own (token vs share), link /topics/tokenized-stocks-vs-perpetuals; dated, sourced to Backpack's own announcements",
+   "difficulty": "low-med: Backpack blog/announcements, crypto news",
+   "compliance_note": "Never 'SEC-approved'; describe the SEC exemption only as general and not naming Backpack",
+   "score": 8.9,
+   "rank": 45
+  },
+  {
+   "term": "binance vs bitget",
+   "variants": "bitget vs binance; bitget fees vs binance",
+   "locale": "en",
+   "intent": "compare",
+   "exchange": "bitget",
+   "demand": {
+    "google_autocomplete_matches": 2,
+    "bing_autosuggest_matches": 3,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bitget fees vs binance",
+     "bitget vs binance"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/compare/binance-vs-bitget",
+   "target_status": "exists",
+   "gap": "Fee table + decision answer",
+   "difficulty": "med-high",
+   "compliance_note": "",
+   "score": 8.0,
+   "rank": 46
+  },
+  {
+   "term": "hyperliquid kyc",
+   "variants": "does hyperliquid require kyc; hyperliquid no kyc; where is hyperliquid allowed",
+   "locale": "en",
+   "intent": "kyc",
+   "exchange": "hyperliquid",
+   "demand": {
+    "google_autocomplete_matches": 10,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 2,
+    "sample": [
+     "does hyperliquid kyc",
+     "hyperliquid exchange kyc",
+     "hyperliquid kyc",
+     "hyperliquid kyc or not"
+    ]
+   },
+   "current_position": "GSC avg pos 66 (2 impr) on /exchanges/hyperliquid, /topics/no-kyc",
+   "target_url": "https://nexualpha.com/exchanges/hyperliquid",
+   "target_status": "exists",
+   "gap": "FAQ answer + link to /topics/no-kyc",
+   "difficulty": "med",
+   "compliance_note": "",
+   "score": 7.8,
+   "rank": 47
+  },
+  {
+   "term": "backpack exchange opiniones",
+   "variants": "backpack exchange mica; backpack exchange fees",
+   "locale": "es",
+   "intent": "trust",
+   "exchange": "backpack",
+   "demand": {
+    "google_autocomplete_matches": 3,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "backpack exchange fees",
+     "backpack exchange mica",
+     "backpack exchange opiniones"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/es/exchanges/backpack",
+   "target_status": "exists",
+   "gap": "Spanish review H2: fees, KYC, MiCA status for EU users",
+   "difficulty": "low",
+   "compliance_note": "Never 'SEC-approved'",
+   "score": 7.5,
+   "rank": 48
+  },
+  {
+   "term": "is bitget safe / legit",
+   "variants": "is bitget legit in nigeria/uk/canada; is bitget safe reddit",
+   "locale": "en",
+   "intent": "trust",
+   "exchange": "bitget",
+   "demand": {
+    "google_autocomplete_matches": 20,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "is bitget legit",
+     "is bitget legit app",
+     "is bitget legit in canada",
+     "is bitget legit in malaysia"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/exchanges/bitget",
+   "target_status": "exists",
+   "gap": "Add a 'Is Bitget safe?' H2 that summarises PoR, protection fund, licences by region (sections exist but are not phrased as the question)",
+   "difficulty": "med-high: coinbureau, cypherock",
+   "compliance_note": "",
+   "score": 7.4,
+   "rank": 49
+  },
+  {
+   "term": "is okx available in <country>",
+   "variants": "is okx available in usa / nigeria / philippines / canada / india",
+   "locale": "en",
+   "intent": "availability",
+   "exchange": "okx",
+   "demand": {
+    "google_autocomplete_matches": 11,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "is okx available in canada",
+     "is okx available in india",
+     "is okx available in malaysia",
+     "is okx available in new york"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/exchanges/okx",
+   "target_status": "exists",
+   "gap": "Region availability table (country -> entity -> code works?) on the profile 'Regions and eligibility' block; FAQ per top countries",
+   "difficulty": "med",
+   "compliance_note": "",
+   "score": 7.1,
+   "rank": 50
+  },
+  {
+   "term": "bitget vs okx",
+   "variants": "okx vs bitget; bitget fees vs okx",
+   "locale": "en",
+   "intent": "compare",
+   "exchange": "bitget",
+   "demand": {
+    "google_autocomplete_matches": 2,
+    "bing_autosuggest_matches": 0,
+    "gsc_impressions_90d": 0,
+    "sample": [
+     "bitget vs okx",
+     "okx vs bitget"
+    ]
+   },
+   "current_position": "no GSC impressions for this term",
+   "target_url": "https://nexualpha.com/compare/bitget-vs-okx",
+   "target_status": "exists",
+   "gap": "Page live; needs fee table + 'which for futures' answer; both featured partners so CTA for both",
+   "difficulty": "med-high: coinbureau, tradersunion, rfp.wiki",
+   "compliance_note": "",
+   "score": 4.0,
+   "rank": 51
+  }
+ ]
+}
