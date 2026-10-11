@@ -28,6 +28,7 @@ import { DataRule, utcStamp } from "../../shared/DataRule.jsx";
 import { ArticleMarketContext } from "./ArticleMarketContext.jsx";
 import { detectArticleAssets } from "./article-market-context.js";
 import "./news-detail-page.css";
+import { mergeNewsDetailCopy } from "./news-detail-copy-l10n.js";
 
 const copy = {
   "zh-Hans": {
@@ -149,6 +150,9 @@ copy.ar = { ...copy.en, back: "← العودة إلى الأخبار والتق
 copy.id = { ...copy.en, originalLanguageNotice: "Isi artikel ditampilkan dalam bahasa Inggris asli yang telah diverifikasi. Terjemahan ditambahkan setelah tinjauan sumber." };
 copy.vi = { ...copy.en, originalLanguageNotice: "Nội dung bài viết đang hiển thị bằng bản gốc tiếng Anh đã xác minh. Bản dịch sẽ được thêm sau khi rà soát nguồn." };
 copy.it = { ...copy.en, originalLanguageNotice: "Il corpo dell'articolo è mostrato nell'originale inglese verificato. La traduzione sarà aggiunta dopo la revisione delle fonti." };
+
+// fr/de/it/ru/id/vi article chrome and the missing not-found/loading strings (2026-10-11, ru/id/vi/ar need native review)
+mergeNewsDetailCopy(copy);
 
 const tableScrollHints = {
   "en": "Article table: scroll horizontally, or focus the table area and use the arrow keys.",
