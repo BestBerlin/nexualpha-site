@@ -103,7 +103,8 @@ for (const lang of NEW_LANGS) {
     } else {
       assert.ok(d.text.includes('<a href="https://nexualpha.com/news/btc-liquidations-weekly">BTC liquidations weekly</a>'), `${lang} falls back to English article`);
     }
-    assert.deepEqual(d.buttons[0].map((b) => b.url), [`https://nexualpha.com/go/okx?src=tg-digest-${lang}`, `https://nexualpha.com/go/bitget?src=tg-digest-${lang}`]);
+    // Turkey (owner 2026-10-11): only SPK-"operating" partners (OKX, Binance, Bybit); the fixture has OKX of those.
+    assert.deepEqual(d.buttons[0].map((b) => b.url), lang === "tr" ? [`https://nexualpha.com/go/okx?src=tg-digest-tr`] : [`https://nexualpha.com/go/okx?src=tg-digest-${lang}`, `https://nexualpha.com/go/bitget?src=tg-digest-${lang}`]);
     assert.equal(d.buttons[0][0].text, e.signUp);
     assert.deepEqual(d.buttons[1].map((b) => b.text), [e.getAlerts, e.funding]);
     assert.equal(d.buttons[1][1].url, `https://nexualpha.com${path}/rates`);
@@ -157,4 +158,20 @@ test("ALERT_CHANNELS maps one channel per known language and drops unknown or em
   assert.deepEqual(parseChannels("zh:@NexuAlphaClub, en:@NexuAlphaGlobal,ru:@NexuAlphaRU,tr:-1003789577571,xx:@nope,vi:"), {
     zh: "@NexuAlphaClub", en: "@NexuAlphaGlobal", ru: "@NexuAlphaRU", tr: "-1003789577571",
   });
+});
+
+
+test("partner buttons: second row Bybit / Hyperliquid / Backpack; Turkey only SPK-operating partners; no rebate wording without a confirmed share", async () => {
+  const { partnerButtons } = await import("./alert-sender.mjs");
+  const P = [
+    { slug: "okx", name: "OKX", featured: true, share: 0.4 }, { slug: "bitget", name: "Bitget", featured: true, share: 0.6 },
+    { slug: "binance", name: "Binance", featured: true, share: 0.25 }, { slug: "bybit", name: "Bybit", share: null },
+    { slug: "hyperliquid", name: "Hyperliquid", share: null }, { slug: "backpack", name: "Backpack", share: null },
+  ];
+  const slugs = (rows) => rows.slice(0, -1).map((r) => r.map((b) => b.url.match(/go\/([a-z]+)/)[1]));
+  assert.deepEqual(slugs(partnerButtons(P, "en", "x")), [["okx", "bitget", "binance"], ["bybit", "hyperliquid", "backpack"]]);
+  assert.deepEqual(slugs(partnerButtons(P, "tr", "x")), [["okx", "binance", "bybit"]]);
+  const zh = partnerButtons(P, "zh", "x");
+  assert.match(zh[0][0].text, /返佣/);
+  assert.doesNotMatch(zh[1][0].text, /返佣/, "Bybit has no confirmed share");
 });

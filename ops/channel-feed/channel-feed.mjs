@@ -72,7 +72,11 @@ async function getJson(url) {
   return res.json();
 }
 
-export function buildMessage(item, partner, lang) {
+// Turkey (owner 2026-10-11): no sign-up route for partners without an SPK "operating" listing (Bitget Teknoloji AŞ is on
+// the liquidation list); the announcement itself still posts with its official link.
+const NO_SIGNUP = { tr: new Set(["bitget", "backpack", "hyperliquid"]) };
+export function buildMessage(item, partnerIn, lang) {
+  const partner = NO_SIGNUP[lang]?.has(item.venue) ? null : partnerIn;
   const c = COPY[lang] || COPY.en;
   const name = NAMES[item.venue] || item.venue;
   const tag = lang === "zh" ? `【${esc(c.cat[item.category] || item.category)}｜${esc(name)}】` : `[${esc(c.cat[item.category] || item.category)} · ${esc(name)}] `;
