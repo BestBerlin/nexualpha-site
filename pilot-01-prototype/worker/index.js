@@ -7128,6 +7128,9 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === "/partners" || pathname.startsWith("/partners/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-partners-"];
   if (pathname === "/topics/derivatives") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-", "route-v3-pages-"];
   if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-tokenized-assets-"];
+  // The topic and factbook hubs render CollectionHubPage, whose editorial index CSS lives in route-collection-hubs.
+  if (pathname === "/topics") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-", "route-collection-hubs-"];
+  if (pathname === "/factbook") return [...SHARED_ROUTE_STYLE_PREFIXES, "page-factbook-", "page-detail-", "route-factbook-", "route-activity-", "route-collection-hubs-"];
   if (pathname === "/topics" || pathname.startsWith("/topics/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-"];
   if (pathname === "/factbook" || pathname.startsWith("/factbook/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-factbook-", "page-detail-", "route-factbook-", "route-activity-"];
   if (pathname.startsWith("/ref/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-kol-"];

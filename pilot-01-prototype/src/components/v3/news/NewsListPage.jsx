@@ -7,16 +7,20 @@ import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
 import { TelegramAlertsStrip } from "../TelegramAlertsStrip.jsx";
 import { newsIndexSearchCopy } from "../../../data/news-index-search.js";
 import { newsListHeroCopy } from "../../../data/news-list-copy.js";
-import { NEWS_CATEGORY_KEYS, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, searchNewsArticles } from "../../../data/news-library.js";
+import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, searchNewsArticles } from "../../../data/news-library.js";
 import { venueDatabase } from "../../../data/venue-database.js";
 import { exchangeUrl, hasLocalizedNewsText, loadNewsArticleSummaries, loadNewsLibraryPage, localizedNewsSummary, localizedNewsTitle, localizedValue, newsArticleUrl, normalizeNewsFeedSummaries } from "../../../data/news-feed-client.js";
 import { contextualHref } from "../../../data/contextual-href.js";
 import { BrandMark } from "../../brand/BrandMark.jsx";
 import { DecisionPathRail } from "../DecisionPathRail.jsx";
+import { DataRule, utcClock, utcStamp } from "../../shared/DataRule.jsx";
+import { groupNewsByDay, newsDayCopy, relativeDay } from "./news-day-groups.js";
 import "./news-list-page.css";
 
-const NEWS_INITIAL_VISIBLE_COUNT = 4;
-const NEWS_BATCH_SIZE = 4;
+// Editorial index (2026-10-11): a whole page is one lead story plus dense day-grouped rows, so every row of the page is
+// visible; search results still arrive in page-sized batches.
+const NEWS_INITIAL_VISIBLE_COUNT = NEWS_PAGE_SIZE;
+const NEWS_BATCH_SIZE = NEWS_PAGE_SIZE;
 
 const copy = {
   "zh-Hans": {
@@ -256,6 +260,10 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
   };
   const localizeAuthor = (author) => author === "NexuAlpha Research Desk" ? (t.researchDesk || "NexuAlpha Research Desk") : author;
   const withContext = (href) => contextualHref(href, { locale, market, product });
+  const dayCopy = newsDayCopy(locale);
+  // Reader clock for "Today" / "Yesterday": set after mount only, so SSR and hydration render the same dates.
+  const [nowMs, setNowMs] = useState(null);
+  useEffect(() => { setNowMs(Date.now()); }, []);
 
   useEffect(() => {
     if (initialArticles) return undefined;
@@ -311,6 +319,9 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
   const searching = Boolean(trimmedQuery);
   const articles = searching ? search.rows : pageRows;
   const visibleArticles = articles.slice(0, visibleArticleCount);
+  // Lead story: the newest row of a listing's first page (not in search results); the rest are the day-grouped rows.
+  const leadArticle = !searching && currentPage === 1 && visibleArticles.length > 1 ? visibleArticles[0] : null;
+  const listRows = leadArticle ? visibleArticles.slice(1) : visibleArticles;
   const moreSearchPages = searching && search.status === "ready" && search.page < search.totalPages;
   const hasMoreArticles = visibleArticleCount < articles.length || moreSearchPages;
 
@@ -400,36 +411,26 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
               : activeCategory && <a className="news-tab" href={withContext(newsListingPath({}))}>{libraryCopy.all}</a>}
           </div>
         )}
-        <div className="news-grid" id="news-article-grid" data-visible-count={visibleArticles.length}>
-          {visibleArticles.map((article) => {
-            const title = localizedNewsTitle(article, locale);
-            const summary = localizedNewsSummary(article, locale);
-            const hasLocalizedContent = hasLocalizedNewsText(article, "title", locale) && hasLocalizedNewsText(article, "summary", locale);
-            const catName = localizeCategory(article);
-            const articleUrl = withContext(newsArticleUrl(article.slug, locale, article));
-            const compareSlugs = (article.relatedVenues || []).slice(0, 2);
-            const compareUrl = compareSlugs.length === 2
-              ? withContext(`/compare/${compareSlugs.join("-vs-")}`)
-              : null;
-
-            return (
-              <article key={article.slug} className="news-article-card">
-                <div className="news-article-card__header">
-                  <span className={`news-article-card__tag news-article-card__tag--${article.category}`}>
-                    {catName}
-                  </span>
-                  <time className="news-article-card__time" dateTime={article.publishedAt}>
-                    {String(article.publishedAt).slice(0, 10)}
-                  </time>
-                </div>
-
-                <h2 className="news-article-card__title">
-                  <a href={articleUrl}>{title}</a>
-                </h2>
-
-                <p className="news-article-card__summary">{summary}</p>
-                {!hasLocalizedContent && locale !== "en" && <p className="news-article-card__translation-note" role="note">{t.originalLanguageNotice || "Original-language source; translation pending review."}</p>}
-
+        {leadArticle && (() => {
+          const article = leadArticle;
+          const title = localizedNewsTitle(article, locale);
+          const summary = localizedNewsSummary(article, locale);
+          const hasLocalizedContent = hasLocalizedNewsText(article, "title", locale) && hasLocalizedNewsText(article, "summary", locale);
+          const articleUrl = withContext(newsArticleUrl(article.slug, locale, article));
+          const compareSlugs = (article.relatedVenues || []).slice(0, 2);
+          const compareUrl = compareSlugs.length === 2
+            ? withContext(`/compare/${compareSlugs.join("-vs-")}`)
+            : null;
+          return (
+            <article className="news-lead" aria-labelledby="news-lead-title" data-news-lead={article.slug}>
+              <DataRule label={dayCopy.latest} stamp={utcStamp(article.publishedAt)} dateTime={article.publishedAt} />
+              <p className="news-lead__meta">
+                <span className={`news-row__cat news-row__cat--${article.category}`}>{localizeCategory(article)}</span>
+              </p>
+              <h2 className="news-lead__title" id="news-lead-title"><a href={articleUrl}>{title}</a></h2>
+              <p className="news-lead__summary">{summary}</p>
+              {!hasLocalizedContent && locale !== "en" && <p className="news-article-card__translation-note" role="note">{t.originalLanguageNotice || "Original-language source; translation pending review."}</p>}
+              <div className="news-lead__foot">
                 {article.relatedVenues && article.relatedVenues.length > 0 && (
                   <div className="news-article-card__venues">
                     <span className="news-article-card__venues-label">{t.partnerOffer}:</span>
@@ -453,9 +454,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
                     })}
                   </div>
                 )}
-
-                <footer className="news-article-card__footer">
-                  <span className="news-article-card__author">{localizeAuthor(article.author)}</span>
+                <div className="news-lead__actions">
                   {compareUrl && (
                     <a
                       href={compareUrl}
@@ -471,8 +470,38 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
                   <a href={articleUrl} className="news-article-card__read-link" data-cta-kind="research" data-cta-placement="news-card-read" data-growth-decision={article.slug || article.id} data-growth-placement="news-card-read">
                     {t.readArticle}
                   </a>
-                </footer>
-              </article>
+                </div>
+              </div>
+            </article>
+          );
+        })()}
+        <div className="news-grid news-days" id="news-article-grid" data-visible-count={visibleArticles.length}>
+          {groupNewsByDay(listRows).map((group) => {
+            const relative = relativeDay(group.day, nowMs);
+            const headingId = `news-day-${group.day}`;
+            return (
+              <section className="news-day" key={group.day} aria-labelledby={headingId} data-news-day={group.day}>
+                <DataRule as="h2" label={relative ? dayCopy[relative] : <bdi dir="ltr">{group.day}</bdi>} labelId={headingId} stamp={relative ? <><bdi dir="ltr">{group.day}</bdi> · {dayCopy.stories(group.rows.length)}</> : dayCopy.stories(group.rows.length)} />
+                <ol className="news-day__list">
+                  {group.rows.map((article) => {
+                    const title = localizedNewsTitle(article, locale);
+                    const summary = localizedNewsSummary(article, locale);
+                    const hasLocalizedContent = hasLocalizedNewsText(article, "title", locale) && hasLocalizedNewsText(article, "summary", locale);
+                    const articleUrl = withContext(newsArticleUrl(article.slug, locale, article));
+                    return (
+                      <li key={article.slug} className="news-row" data-news-row={article.slug}>
+                        <time className="news-row__time" dateTime={article.publishedAt}>{utcClock(article.publishedAt)}</time>
+                        <div className="news-row__main">
+                          <h3 className="news-row__title"><a href={articleUrl} data-cta-kind="research" data-cta-placement="news-row-read" data-growth-decision={article.slug || article.id} data-growth-placement="news-row-read">{title}</a></h3>
+                          <p className="news-row__summary">{summary}</p>
+                          {!hasLocalizedContent && locale !== "en" && <p className="news-row__note">{t.originalLanguageNotice || "Original-language source; translation pending review."}</p>}
+                        </div>
+                        <span className={`news-row__cat news-row__cat--${article.category}`}>{localizeCategory(article)}</span>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </section>
             );
           })}
         </div>
@@ -480,7 +509,7 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
           <button
             type="button"
             className="news-articles-toggle"
-            aria-controls="news-article-grid news-research-index"
+            aria-controls="news-article-grid"
             aria-expanded={visibleArticleCount > NEWS_INITIAL_VISIBLE_COUNT}
             aria-label={`${t.showMore}: ${Math.min(visibleArticleCount + NEWS_BATCH_SIZE, searching ? search.total : articles.length)} / ${searching ? search.total : articles.length}`}
             data-cta-placement="news-articles-more"
@@ -495,19 +524,6 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
       <div className="v2-shell news-page__decision-rail">
         <DecisionPathRail locale={locale} market={market} product={product} current="news" />
       </div>
-        {feedState === "ready" && pageRows.length > NEWS_INITIAL_VISIBLE_COUNT && (
-          <details className="news-research-index" id="news-research-index" data-ssr-indexable="true" data-route-label={t.researchIndex || copy.en.researchIndex}>
-            <summary className="news-research-index__summary">{t.researchIndex || copy.en.researchIndex}</summary>
-            <p className="news-research-index__body">{t.researchIndexBody || copy.en.researchIndexBody}</p>
-            <nav aria-label={t.researchIndex || copy.en.researchIndex} className="news-research-index__links">
-              {pageRows.map((article) => (
-                <a key={`index-${article.slug}`} href={withContext(newsArticleUrl(article.slug, locale, article))}>
-                  {localizedNewsTitle(article, locale)}
-                </a>
-              ))}
-            </nav>
-          </details>
-        )}
       </section>
     </main>
   );

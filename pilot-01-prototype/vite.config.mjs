@@ -187,7 +187,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // CSS-free components shared by the shell and route modules (otherwise a route chunk absorbs them).
           if (!isSsrBuild && (id.includes("/src/components/brand/BrandMark") || id.includes("/src/components/brand/NexuAlphaWordmark")
             || id.includes("/src/components/v3/CleanFooter") || id.includes("/src/components/v7/home7-shared")
-            || id.includes("/src/components/shared/DeferUntilVisible"))) return "core-ui";
+            || id.includes("/src/components/shared/DeferUntilVisible") || id.includes("/src/components/shared/DataRule"))) return "core-ui";
           // Keep infrequently visited editorial and regional surfaces out of
           // the first route payload. They remain statically imported for SSR,
           // but can be cached and fetched as separate browser chunks.
