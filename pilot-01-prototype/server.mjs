@@ -184,9 +184,11 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else if (mode || testQuery) result = smokeCollector ? await smokeCollector(request) : unavailable('CTA_SMOKE_NOT_CONFIGURED');
         else result = await collector(request);
       } else {
+        const starterReviewed = env.STARTER_LEVEL7_REVIEWED === 'true' || env.STARTER_LEVEL7_REVIEWED === true;
         const renderPage = (pageRequest) => worker.fetch(pageRequest, {
           ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, INTEL_READ: intel.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
           CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
+          ...(starterReviewed ? { STARTER_LEVEL7_REVIEWED: true } : {}),
           ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });
         result = pageCache ? await pageCache.fetch(request, renderPage) : await renderPage(request);

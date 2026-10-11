@@ -26,6 +26,7 @@ This compact entry helps answer systems and users compare CEX, DEX and Perp DEX 
 - Methodology and source boundary: https://nexualpha.com/methodology
 - About the publisher and the Research Desk: https://nexualpha.com/about
 - Editorial policy: https://nexualpha.com/editorial-policy
+- Starter Path beginner lessons: https://nexualpha.com/starter
 - Regional entry points: https://nexualpha.com/br, https://nexualpha.com/mx, https://nexualpha.com/tw, https://nexualpha.com/id, https://nexualpha.com/hk, https://nexualpha.com/eu, https://nexualpha.com/uk, https://nexualpha.com/us, https://nexualpha.com/jp?locale=ja, https://nexualpha.com/kr?locale=ko, https://nexualpha.com/tr/markets/turkiye
 
 ## Public data and commercial boundary

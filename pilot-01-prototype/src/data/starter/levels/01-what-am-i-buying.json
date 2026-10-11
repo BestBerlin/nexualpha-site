@@ -1,0 +1,281 @@
+{
+  "meta": {
+    "level": 1,
+    "slug": "what-am-i-buying",
+    "title_zh": "你买的到底是什么",
+    "title_en": "What are you actually buying?",
+    "hook_zh": "买币，到底买了个啥？",
+    "cta": {
+      "kind": "none",
+      "partner": null,
+      "line_zh": "下一关：怎么挑一个靠谱的交易所。",
+      "line_en": "Next level: how to pick an exchange you can check."
+    },
+    "next_slug": "pick-an-exchange",
+    "sources": [
+      "https://bitcoin.org/en/how-it-works",
+      "https://bitcoin.org/en/you-need-to-know",
+      "https://tether.to/en/how-it-works",
+      "https://tether.to/en/legal",
+      "https://www.investor.gov/additional-resources/spotlight/crypto-assets"
+    ],
+    "sensitive": false,
+    "review_notes": "第一关不放注册按钮。USDT '可被发行方冻结' 依据 Tether 服务条款（tether.to/en/legal）。'价格可能大幅波动' 依据 bitcoin.org 'You need to know' 与 Investor.gov。没有提及任何收益预期。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"我想买点比特币，可我到底买了个啥？\"很多人卡在这一步。今天用一分多钟讲清楚。",
+      "voice_en": "\"I want to buy some Bitcoin, but what am I actually buying?\" Many people get stuck right here. Let's clear it up in about a minute.",
+      "title": "买了个啥？",
+      "sub": "先分清三样东西",
+      "visual": {
+        "type": "split-choice",
+        "params": {
+          "question": "买币，到底买了个啥？",
+          "options": [
+            "比特币 BTC",
+            "USDT",
+            "交易所账户"
+          ],
+          "note": "三样东西，不是一回事"
+        }
+      },
+      "min_s": 8
+    },
+    {
+      "voice_zh": "比特币是一种数字资产，记录在一条公开的区块链上。没有哪家公司发行它，总量有上限。",
+      "voice_en": "Bitcoin is a digital asset recorded on a public blockchain. No single company issues it, and its total supply is capped.",
+      "title": "比特币 BTC",
+      "sub": "公开账本上的数字资产",
+      "visual": {
+        "type": "definition",
+        "params": {
+          "term": "比特币 BTC",
+          "lines": [
+            "记录在公开区块链上",
+            "没有单一发行公司",
+            "总量有上限"
+          ],
+          "source": "bitcoin.org"
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "它的价格每天都在变，涨跌幅度可能很大。买之前先接受这一点。",
+      "voice_en": "Its price changes every day, and the swings can be large. Accept that before you buy.",
+      "title": "价格会大幅波动",
+      "sub": "没有人能保证涨跌",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "info",
+          "text": "价格可能大幅波动",
+          "detail": "只用你承受得起损失的钱"
+        }
+      },
+      "min_s": 8
+    },
+    {
+      "voice_zh": "USDT 是一种稳定币，由 Tether 公司发行，目标是与美元一比一挂钩。很多人把它当作买其他币的中转。",
+      "voice_en": "USDT is a stablecoin issued by the company Tether. It aims to track the US dollar one to one, and many people use it as a stepping stone to other assets.",
+      "title": "USDT 稳定币",
+      "sub": "由公司发行，目标锚定美元",
+      "visual": {
+        "type": "definition",
+        "params": {
+          "term": "USDT",
+          "lines": [
+            "发行方：Tether 公司",
+            "目标：1 USDT ≈ 1 美元",
+            "常用作中转"
+          ],
+          "source": "tether.to"
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "因为有发行方，按照它的条款，发行方可以冻结特定地址上的 USDT。这和比特币不一样。",
+      "voice_en": "Because it has an issuer, Tether's terms allow it to freeze USDT at specific addresses. That is different from Bitcoin.",
+      "title": "有发行方的代价",
+      "sub": "条款允许发行方冻结",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "",
+            "BTC",
+            "USDT"
+          ],
+          "rows": [
+            [
+              "发行方",
+              "无",
+              "Tether 公司"
+            ],
+            [
+              "价格",
+              "波动",
+              "目标锚定美元"
+            ],
+            [
+              "可被冻结",
+              "无发行方冻结机制",
+              "条款允许"
+            ]
+          ]
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "交易所账户是平台替你记账的地方。币放在交易所，实际由平台保管。自己钱包里的币，由你自己保管。",
+      "voice_en": "An exchange account is where the platform keeps records for you. Coins on an exchange are held by the platform. Coins in your own wallet are held by you.",
+      "title": "钱在哪里",
+      "sub": "平台保管 vs 自己保管",
+      "visual": {
+        "type": "flow",
+        "params": {
+          "nodes": [
+            "你的银行账户",
+            "交易所账户（平台保管）",
+            "自己的钱包（你保管）"
+          ],
+          "labels": [
+            "入金",
+            "提币"
+          ]
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "回顾：比特币是资产，USDT 是有发行方的稳定币。交易所是保管和交易的地方。下一关，我们看怎么挑交易所。",
+      "voice_en": "Recap: Bitcoin is the asset, USDT is a stablecoin with an issuer, and the exchange is where things are held and traded. Next level: how to pick an exchange.",
+      "title": "三件事，分清了",
+      "sub": "下一关：挑交易所 5 项检查",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "BTC：公开账本上的资产",
+            "USDT：有发行方的稳定币",
+            "交易所：平台保管",
+            "钱包：自己保管"
+          ],
+          "next": "pick-an-exchange"
+        }
+      },
+      "min_s": 12
+    }
+  ],
+  "page": {
+    "summary_zh": "买币时其实涉及三样东西：资产本身（比如比特币）、稳定币（比如 USDT）、以及保管它们的地方（交易所账户或自己的钱包）。比特币没有单一发行公司，价格可能大幅波动。USDT 由 Tether 公司发行，目标与美元挂钩，按其条款发行方可以冻结特定地址。币放在交易所由平台保管，转到自己的钱包则由你自己保管。",
+    "checklist_zh": [
+      "我能说出 BTC 和 USDT 的区别",
+      "我知道 USDT 有发行方，条款允许冻结",
+      "我知道放在交易所的币由平台保管",
+      "我只打算投入承受得起损失的钱"
+    ],
+    "quiz": [
+      {
+        "q": "USDT 和比特币最大的区别是什么？",
+        "options": [
+          "USDT 有发行方，目标锚定美元",
+          "USDT 总量有上限",
+          "两者完全一样"
+        ],
+        "answer": "USDT 有发行方，目标锚定美元",
+        "why": "USDT 由 Tether 公司发行，目标 1:1 对应美元；比特币没有单一发行方。"
+      },
+      {
+        "q": "币放在交易所账户里，由谁保管？",
+        "options": [
+          "交易所平台",
+          "我自己",
+          "区块链基金会"
+        ],
+        "answer": "交易所平台",
+        "why": "交易所账户是平台代为保管和记账，转到自己钱包后才由你自己保管。"
+      },
+      {
+        "q": "比特币价格会怎样？",
+        "options": [
+          "可能大幅波动",
+          "只涨不跌",
+          "固定不变"
+        ],
+        "answer": "可能大幅波动",
+        "why": "官方资料和监管机构都提示加密资产价格波动很大，没有人能保证涨跌。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "比特币是什么？",
+        "a": "比特币是一种记录在公开区块链上的数字资产，没有单一发行公司，总量有上限。价格可能大幅波动。"
+      },
+      {
+        "q": "USDT 是什么？会被冻结吗？",
+        "a": "USDT 是 Tether 公司发行的稳定币，目标与美元 1:1 挂钩。按照 Tether 的服务条款，它可以冻结特定地址上的 USDT。"
+      },
+      {
+        "q": "币放在交易所安全吗？",
+        "a": "没有绝对安全。放在交易所意味着由平台保管，风险取决于平台本身。下一关讲怎么检查一家交易所。"
+      }
+    ],
+    "summary_en": "Buying crypto involves three different things: the asset itself, such as Bitcoin; a stablecoin, such as USDT; and the place that holds them, either an exchange account or your own wallet. Bitcoin has no single issuing company, and its price can swing sharply. USDT is issued by Tether, aims to track the US dollar, and under its terms the issuer can freeze specific addresses. Coins left on an exchange are held by the platform; coins moved to your own wallet are your responsibility.",
+    "checklist_en": [
+      "I can explain the difference between BTC and USDT",
+      "I know USDT has an issuer and its terms allow freezes",
+      "I know coins in an exchange account are held by the platform",
+      "I only plan to use money I can afford to lose"
+    ],
+    "quiz_en": [
+      {
+        "q": "What is the biggest difference between USDT and Bitcoin?",
+        "options": [
+          "USDT has an issuer and aims to track the dollar",
+          "USDT has a fixed maximum supply",
+          "They are exactly the same"
+        ],
+        "answer": "USDT has an issuer and aims to track the dollar",
+        "why": "USDT is issued by Tether and aims to stay 1:1 with the US dollar; Bitcoin has no single issuer."
+      },
+      {
+        "q": "When coins are in an exchange account, who holds them?",
+        "options": [
+          "The exchange platform",
+          "Me directly",
+          "A blockchain foundation"
+        ],
+        "answer": "The exchange platform",
+        "why": "An exchange account means the platform keeps custody and records balances for you; after you withdraw to your own wallet, you hold them yourself."
+      },
+      {
+        "q": "What can happen to the Bitcoin price?",
+        "options": [
+          "It can move sharply",
+          "It only goes up",
+          "It stays fixed"
+        ],
+        "answer": "It can move sharply",
+        "why": "Official education and regulator materials both warn that crypto-asset prices can be highly volatile. No one can guarantee the direction."
+      }
+    ],
+    "faq_en": [
+      {
+        "q": "What is Bitcoin?",
+        "a": "Bitcoin is a digital asset recorded on a public blockchain. It has no single issuing company, has a capped supply, and its price can move sharply."
+      },
+      {
+        "q": "What is USDT? Can it be frozen?",
+        "a": "USDT is a stablecoin issued by Tether and aims to track the US dollar 1:1. Under Tether's terms of service, it can freeze USDT at specific addresses."
+      },
+      {
+        "q": "Are coins safe on an exchange?",
+        "a": "There is no absolute safety. Keeping coins on an exchange means the platform holds them, so the risk depends on the platform. The next level explains how to check an exchange."
+      }
+    ]
+  }
+}

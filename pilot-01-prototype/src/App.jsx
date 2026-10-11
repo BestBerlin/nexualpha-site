@@ -44,6 +44,7 @@ import {
 const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/finder/CommandFinder.jsx",
   "./components/finder/SearchDialog.jsx",
+  "./components/starter/StarterPage.jsx",
   "./components/v3/V3Pages.jsx",
   "./components/v3/VenueDetailPage.jsx",
   "./components/v3/VenueDetailResearch.jsx",
@@ -87,6 +88,7 @@ if (!import.meta.env.SSR) registerRouteModuleLoaders(deferredPageModules);
 const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/finder/CommandFinder.jsx",
   "./components/finder/SearchDialog.jsx",
+  "./components/starter/StarterPage.jsx",
   "./components/v3/V3Pages.jsx",
   "./components/v3/VenueDetailPage.jsx",
   "./components/v3/VenueDetailResearch.jsx",
@@ -141,6 +143,7 @@ function deferredComponent(path, exportName) {
 
 const CommandFinder = deferredComponent("./components/finder/CommandFinder.jsx", "CommandFinder");
 const SearchDialog = deferredComponent("./components/finder/SearchDialog.jsx", "SearchDialog");
+const StarterPage = deferredComponent("./components/starter/StarterPage.jsx", "StarterPage");
 const ActivityCenterPage = deferredComponent("./components/v3/V3Pages.jsx", "ActivityCenterPage");
 const ActivityDetailPage = deferredComponent("./components/v3/V3Pages.jsx", "ActivityDetailPage");
 const CompareDeepPage = deferredComponent("./components/v3/V3Pages.jsx", "CompareDeepPage");
@@ -252,7 +255,7 @@ const readComparison = () => {
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
 const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
-const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets"];
+const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/starter", "/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
   const normalized = String(pathname || "/").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
@@ -475,6 +478,7 @@ function routeState(venues, initialUrl) {
   const publicRoute = parsePublicRoute(sourceUrl.pathname, sourceUrl.searchParams);
   const pathname = publicRoute.contentPathname;
   const search = sourceUrl.search;
+  if (pathname === "/starter" || /^\/starter\/[a-z0-9-]+$/.test(pathname)) return { name: "starter", slug: pathname.split("/")[2], market: sourceUrl.searchParams.get("market") || undefined };
   if (getBrazilPage(pathname)) return { name: "brazil", pathname };
   // Market-specific decision routes reuse the audited global tools while
   // preserving the user's market and locale context.
@@ -627,6 +631,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
     // Header items name real destinations: the exchange directory and the comparison page,
     // not anchors on the home page (the home page has no #exchanges / #compare section any more).
     [copy.nav.exchanges, withLocale(locale, "/exchanges")],
+    [locale === "zh-Hans" ? "新手村" : "Starter Path", locale === "zh-Hans" ? "/zh-hans/starter" : "/starter"],
     [copy.nav.compare, withLocale(locale, "/compare")], // compare hub: any-two picker + popular pairs (audit 4.6)
     [text.activities, withLocale(locale, "/activities")],
     [locale === "zh-Hant" || locale === "zh-TW" ? "新聞與研究" : locale.startsWith("zh") ? "新闻与研究" : ({ ja: "マーケットニュース", ko: "시장 뉴스", tr: "Piyasa Haberleri", ru: "Новости рынка", de: "Marktnachrichten", fr: "Actualités du marché", es: "Noticias del mercado", "pt-BR": "Notícias do mercado", it: "Notizie di mercato", id: "Berita pasar", vi: "Tin thị trường",
@@ -663,7 +668,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles, initialStarterReviewed } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -798,6 +803,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
       && (!embedUrl.searchParams.has("product") || embedUrl.searchParams.get("product") === "spot");
     return <DeferredBoundary scope="embed-content">{isBrazilWidget ? <BrazilCostEmbed initialUrl={initialUrl} locale="pt-BR" /> : <EmbedCalculator locale={locale} market={embedUrl.searchParams.get("market")} product={embedUrl.searchParams.get("product")} />}</DeferredBoundary>;
   }
+  if (route.name === "starter") return pageShell(<StarterPage slug={route.slug} locale={locale} market={route.market} reviewed={initialStarterReviewed ?? (typeof document !== "undefined" && document.querySelector("[data-starter-reviewed]")?.dataset.starterReviewed === "true")} />, { deferContent: false });
   if (route.name === "brazil") return pageShell(<BrazilDecisionPage pathname={route.pathname} initialUrl={initialUrl} locale={locale} trackGrowthDecision={trackGrowthDecision} />);
   if (route.name === "regionalPreview") return pageShell(<RegionalMarketPreview market={route.market} locale={locale} decisionPassport={decisionPassport} />);
   if (route.name === "regionalDecision") return pageShell(<RegionalMarketPreview market={route.market} locale={route.locale || locale} decisionPath={route.decisionPath} decisionPassport={decisionPassport} />);

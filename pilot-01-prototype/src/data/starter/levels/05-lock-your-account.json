@@ -1,0 +1,269 @@
+{
+  "meta": {
+    "level": 5,
+    "slug": "lock-your-account",
+    "title_zh": "先锁好账户",
+    "title_en": "Lock down your account first",
+    "hook_zh": "\"客服\"找我要验证码，给吗？",
+    "cta": {
+      "kind": "none",
+      "partner": null,
+      "line_zh": "现在就打开交易所 App 的安全设置，把这三项打开。",
+      "line_en": "Open your exchange app's security settings now and switch these three on."
+    },
+    "next_slug": "first-deposit",
+    "sources": [
+      "https://www.okx.com/help/how-can-you-protect-yourself-from-a-phishing-attack",
+      "https://www.okx.com/help/how-do-i-link-an-authenticator-app",
+      "https://www.okx.com/help/how-do-i-enhance-my-okx-app-security",
+      "https://www.okx.com/help/how-can-i-protect-myself-from-scammers",
+      "https://www.ic3.gov/PSA/2023/PSA230824"
+    ],
+    "sensitive": false,
+    "review_notes": "防钓鱼码机制、'官方不会索要验证码'、'手动输入官网地址' 均来自 OKX 帮助中心钓鱼防范文章。验证器 App 设置依据 OKX 'link an authenticator app'。'付费追回'为二次诈骗依据 FBI IC3 PSA230824。界面为通用示意，不复制任何交易所真实界面。不导流。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"自称客服的人私信我，要验证码帮我解冻账户，给不给？\"不给。今天讲注册后的第一件事。",
+      "voice_en": "\"Someone claiming to be support messaged me asking for a code to unlock my account. Should I send it?\" No. Today: the first thing to do after signing up.",
+      "title": "给不给验证码？",
+      "sub": "答案：不给",
+      "visual": {
+        "type": "phone-mock",
+        "params": {
+          "screen": "陌生私信",
+          "message": "您好，我是官方客服，请提供验证码以解冻账户",
+          "label": "示意：典型诈骗私信"
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "第一项，开启双重验证，最好用验证器 App。这样就算密码泄露，别人也很难直接登录。",
+      "voice_en": "Step one: turn on two-factor authentication, ideally with an authenticator app. Even if your password leaks, it's much harder for someone to log in.",
+      "title": "① 双重验证 2FA",
+      "sub": "优先用验证器 App",
+      "visual": {
+        "type": "phone-mock",
+        "params": {
+          "screen": "交易所 App · 安全设置",
+          "toggle": "验证器 App",
+          "state": "已开启",
+          "note": "通用示意界面"
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "第二项，设置防钓鱼码。之后平台发给你的官方邮件里，都会带上这串码。没有这串码的邮件，就当作假的。",
+      "voice_en": "Step two: set an anti-phishing code. Official emails from the platform will then include it. An email without your code should be treated as fake.",
+      "title": "② 防钓鱼码",
+      "sub": "邮件里没有它，就是假的",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "邮件",
+            "防钓鱼码",
+            "判断"
+          ],
+          "rows": [
+            [
+              "邮件 A",
+              "有：你设置的码",
+              "可能是官方"
+            ],
+            [
+              "邮件 B",
+              "没有",
+              "当作伪造"
+            ]
+          ]
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "第三项，只用官方 App 和官网。网址自己手动输入，或者用收藏夹。不点短信和私信里的链接。",
+      "voice_en": "Step three: use only the official app and website. Type the address yourself or use a bookmark. Don't tap links in texts or private messages.",
+      "title": "③ 只认官方入口",
+      "sub": "手动输入网址或用收藏夹",
+      "visual": {
+        "type": "split-choice",
+        "params": {
+          "question": "从哪里进入？",
+          "options": [
+            "收藏夹 / 手动输入",
+            "短信或私信里的链接"
+          ],
+          "highlight": 0
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "记住一条底线：平台官方不会向你索要验证码、密码或助记词。谁要，谁就是骗子。",
+      "voice_en": "Remember one rule: the platform will never ask for your verification codes, password, or seed phrase. Anyone who asks is a scammer.",
+      "title": "一条底线",
+      "sub": "验证码、密码、助记词不给任何人",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "danger",
+          "text": "官方不会索要",
+          "items": [
+            "验证码",
+            "密码",
+            "助记词"
+          ]
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "如果已经被骗，别再找\"付费追回\"的人。美国联邦调查局提醒，这类服务常常是二次诈骗。",
+      "voice_en": "If you've already been scammed, avoid people offering paid recovery. The FBI warns these services are often a second scam.",
+      "title": "被骗之后",
+      "sub": "\"付费追回\"常是二次诈骗",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "warn",
+          "text": "警惕付费追回服务",
+          "detail": "联系平台官方客服，并向当地警方报案",
+          "source": "FBI IC3"
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "回顾：开验证器、设防钓鱼码、只走官方入口。验证码谁要都不给。下一关：第一次入金。",
+      "voice_en": "Recap: authenticator on, anti-phishing code set, official entry points only. Never share codes with anyone. Next: your first deposit.",
+      "title": "三项都打开",
+      "sub": "下一关：第一次入金",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "验证器 App 2FA",
+            "防钓鱼码",
+            "只用官方入口",
+            "验证码不给任何人"
+          ],
+          "next": "first-deposit"
+        }
+      },
+      "min_s": 10
+    }
+  ],
+  "page": {
+    "summary_zh": "注册后第一件事是锁好账户：开启双重验证（优先用验证器 App）、设置防钓鱼码、只通过官方 App 或手动输入的官网登录。平台官方不会向你索要验证码、密码或助记词，任何索要这些信息的人都是骗子。如果已经被骗，不要相信\"付费追回\"服务，它们常常是二次诈骗。",
+    "checklist_zh": [
+      "已用验证器 App 开启双重验证",
+      "已设置防钓鱼码",
+      "官网已加入收藏夹",
+      "不点短信、私信里的链接",
+      "验证码、密码、助记词不给任何人"
+    ],
+    "quiz": [
+      {
+        "q": "收到一封\"官方\"邮件，但里面没有你设置的防钓鱼码，应该？",
+        "options": [
+          "当作伪造邮件处理",
+          "按邮件提示操作",
+          "回复邮件确认"
+        ],
+        "answer": "当作伪造邮件处理",
+        "why": "设置防钓鱼码后，官方邮件都会带这串码；没有就是伪造的。"
+      },
+      {
+        "q": "\"客服\"私信你要短信验证码，应该？",
+        "options": [
+          "不给，并通过官方渠道核实",
+          "给他，帮忙解冻账户",
+          "先给一半"
+        ],
+        "answer": "不给，并通过官方渠道核实",
+        "why": "平台官方不会以任何方式索要验证码。"
+      },
+      {
+        "q": "被骗后有人说\"付费可以帮你追回\"，这通常是？",
+        "options": [
+          "二次诈骗",
+          "官方服务",
+          "保险理赔"
+        ],
+        "answer": "二次诈骗",
+        "why": "FBI 提醒，冒充追回服务的骗局专门针对已受害的人。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "防钓鱼码是什么？",
+        "a": "你在交易所安全设置里自定义的一串字符。之后官方邮件都会带上它，邮件里没有这串码就可以判断为伪造。"
+      },
+      {
+        "q": "2FA 用短信还是验证器 App？",
+        "a": "两者都比不开好。验证器 App 生成的动态码保存在你自己的手机上，通常被认为比短信更难被截获。"
+      },
+      {
+        "q": "被盗了能找人追回吗？",
+        "a": "先联系平台官方客服并向警方报案。不要付钱给声称能追回资产的人，这类服务常是二次诈骗。"
+      }
+    ],
+    "summary_en": "After registration, the first job is to lock down your account: enable two-factor authentication, preferably with an authenticator app; set an anti-phishing code; and log in only through the official app or a website address you typed manually. Platform staff will never ask for your verification code, password, or seed phrase. Anyone asking for those is a scammer. If you have already been scammed, do not trust paid “recovery” services; they are often a second scam.",
+    "checklist_en": [
+      "I have enabled two-factor authentication with an authenticator app",
+      "I have set an anti-phishing code",
+      "I have bookmarked the official website",
+      "I do not click links from SMS or private messages",
+      "I never give verification codes, passwords, or seed phrases to anyone"
+    ],
+    "quiz_en": [
+      {
+        "q": "You receive an “official” email, but it does not include your anti-phishing code. What should you do?",
+        "options": [
+          "Treat it as a forged email",
+          "Follow the email instructions",
+          "Reply to the email to confirm"
+        ],
+        "answer": "Treat it as a forged email",
+        "why": "After you set an anti-phishing code, official emails should include it. If it is missing, treat the email as forged."
+      },
+      {
+        "q": "“Support” privately asks for your SMS code. What should you do?",
+        "options": [
+          "Do not provide it, and verify through official channels",
+          "Give it so they can unfreeze the account",
+          "Give only half of it first"
+        ],
+        "answer": "Do not provide it, and verify through official channels",
+        "why": "Platform staff will not ask for verification codes in any channel."
+      },
+      {
+        "q": "After you are scammed, someone says they can recover your assets for a fee. What is this usually?",
+        "options": [
+          "A second scam",
+          "An official service",
+          "An insurance claim"
+        ],
+        "answer": "A second scam",
+        "why": "The FBI warns that fake recovery services often target people who have already been victimized."
+      }
+    ],
+    "faq_en": [
+      {
+        "q": "What is an anti-phishing code?",
+        "a": "It is a custom string you set in the exchange security settings. Future official emails include it; if an email does not, you can treat it as forged."
+      },
+      {
+        "q": "Should I use SMS or an authenticator app for 2FA?",
+        "a": "Either is better than having no 2FA. Authenticator apps generate codes on your own phone and are generally considered harder to intercept than SMS."
+      },
+      {
+        "q": "Can someone recover stolen assets for me?",
+        "a": "Contact the platform's official support and file a police report first. Do not pay people who claim they can recover assets; those services are often a second scam."
+      }
+    ]
+  }
+}

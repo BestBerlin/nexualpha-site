@@ -1,0 +1,290 @@
+{
+  "meta": {
+    "level": 6,
+    "slug": "first-deposit",
+    "title_zh": "第一次入金",
+    "title_en": "Your first deposit",
+    "hook_zh": "钱怎么放进交易所？",
+    "cta": {
+      "kind": "deposit",
+      "partner": null,
+      "line_zh": "登录你已注册的交易所官网，查看你所在地支持哪些入金方式，先用小额试一次。NexuAlpha 页面上的注册入口是合作推广链接，佣金由交易所支付；你的入金资金不经过 NexuAlpha。",
+      "line_en": "Log in to your exchange's official site, check which deposit methods are supported where you live, and try a small amount first. Sign-up buttons on NexuAlpha are partner links; the exchange pays the commission. Your deposit never passes through NexuAlpha."
+    },
+    "next_slug": "p2p-and-bank-freeze",
+    "sources": [
+      "https://www.okx.com/help/buy-sell-and-convert-crypto-faq",
+      "https://www.okx.com/help/how-do-i-buy-and-sell-crypto-with-a-third-party",
+      "https://www.okx.com/help/how-long-does-it-take-for-a-deposit-to-be-completed",
+      "https://www.okx.com/help/how-to-prevent-offline-transaction-fraud",
+      "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html"
+    ],
+    "sensitive": false,
+    "review_notes": "地区中立：不点名任何银行、不推荐任何 P2P 商家、不承诺不会冻卡。不给出银行卡手续费具体百分比（各平台、各地区不同，以下单页显示为准）。P2P 细节与冻卡风险放到第 7 关。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"账户开好了，钱要怎么放进去？\"常见有三条路。它们的成本和风险都不一样。",
+      "voice_en": "\"My account is open. How do I get money in?\" There are three common routes. Their costs and risks are different.",
+      "title": "钱怎么放进去？",
+      "sub": "三条路，成本风险各不同",
+      "visual": {
+        "type": "flow",
+        "params": {
+          "nodes": [
+            "你的钱",
+            "银行转账 / 银行卡 / P2P",
+            "交易所账户"
+          ]
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "第一条，银行转账入金。前提是平台在你所在地支持法币入金。通常费用较低，到账需要等一段时间。",
+      "voice_en": "Route one: bank transfer. It only works if the platform supports fiat deposits where you live. Fees are usually lower, but it can take time to arrive.",
+      "title": "① 银行转账",
+      "sub": "看所在地是否支持",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "方式",
+            "费用",
+            "速度",
+            "前提"
+          ],
+          "rows": [
+            [
+              "银行转账",
+              "通常较低",
+              "较慢",
+              "所在地支持法币入金"
+            ]
+          ]
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "第二条，用银行卡直接买币。通常最快，但费用往往更高。下单前看清页面上显示的总价和手续费。",
+      "voice_en": "Route two: buy with a bank card. It's usually the fastest, but often costs more. Check the total and the fee shown before you confirm.",
+      "title": "② 银行卡买币",
+      "sub": "快，但先看清总费用",
+      "visual": {
+        "type": "phone-mock",
+        "params": {
+          "screen": "交易所 App · 银行卡买币",
+          "fields": [
+            "支付金额",
+            "手续费",
+            "到手数量"
+          ],
+          "note": "通用示意界面"
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "第三条，P2P，也就是在平台上向其他用户买币。平台会先托管卖家的币。但对方是谁、钱从哪来，是额外的风险。",
+      "voice_en": "Route three: P2P, buying from other users on the platform. The platform holds the seller's coins in escrow. But who the other person is, and where their money came from, adds risk.",
+      "title": "③ P2P 买币",
+      "sub": "平台托管，但有对手方风险",
+      "visual": {
+        "type": "flow",
+        "params": {
+          "nodes": [
+            "卖家的币由平台托管",
+            "你向卖家付款",
+            "卖家确认收款后放币"
+          ],
+          "warning": "对手方风险 → 下一关细讲"
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "不管哪条路，都只在平台内完成。有人拉你到站外私下交易，就停下来。",
+      "voice_en": "Whichever route you use, keep it on the platform. If someone pulls you into a private deal off the platform, stop.",
+      "title": "只在平台内完成",
+      "sub": "站外私下交易，停",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "warn",
+          "text": "不做站外私下交易",
+          "detail": "平台保护只覆盖平台内订单"
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "第一次入金，先用小额。确认到账、确认流程都看懂了，再考虑下一步。",
+      "voice_en": "For your first deposit, start small. Make sure it arrives and you understand every step before doing more.",
+      "title": "先小额试一次",
+      "sub": "到账、看懂，再继续",
+      "visual": {
+        "type": "number-counter",
+        "params": {
+          "label": "第一次入金",
+          "value": "小额",
+          "steps": [
+            "小额试",
+            "确认到账",
+            "再决定"
+          ]
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "回顾：银行转账便宜但慢，银行卡快但贵，P2P 要多一层小心。先小额，只在平台内。下一关细讲买卖 U 和冻卡风险。",
+      "voice_en": "Recap: bank transfer is cheaper but slower, cards are fast but cost more, and P2P needs extra care. Start small and stay on the platform. Next: buying USDT and bank-freeze risk.",
+      "title": "三条路，先小额",
+      "sub": "下一关：买卖 U 与冻卡风险",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "方式",
+            "费用",
+            "速度",
+            "注意"
+          ],
+          "rows": [
+            [
+              "银行转账",
+              "较低",
+              "较慢",
+              "看所在地"
+            ],
+            [
+              "银行卡",
+              "较高",
+              "快",
+              "看清总价"
+            ],
+            [
+              "P2P",
+              "看报价",
+              "中",
+              "对手方风险"
+            ]
+          ],
+          "next": "p2p-and-bank-freeze"
+        }
+      },
+      "min_s": 13
+    }
+  ],
+  "page": {
+    "summary_zh": "第一次入金常见三种方式：银行转账（所在地需支持法币入金，费用通常较低但较慢）、银行卡直接买币（快，但费用往往更高）、P2P 向其他用户买币（平台托管卖家的币，但存在对手方风险）。无论哪种，都只在平台内完成，第一次先用小额试，确认到账再继续。",
+    "checklist_zh": [
+      "在官网确认所在地支持的入金方式",
+      "下单前看清总价和手续费",
+      "只在平台内完成交易，不做站外私下交易",
+      "第一次只用小额",
+      "保存好每笔入金记录"
+    ],
+    "quiz": [
+      {
+        "q": "用银行卡直接买币，最需要注意什么？",
+        "options": [
+          "下单前看清总价和手续费",
+          "越快下单越好",
+          "不用看费用"
+        ],
+        "answer": "下单前看清总价和手续费",
+        "why": "银行卡买币通常最快，但费用往往更高，以页面显示为准。"
+      },
+      {
+        "q": "P2P 交易中，有人拉你到站外私下交易，应该？",
+        "options": [
+          "停下来，只在平台内交易",
+          "跟他走，价格更好",
+          "先转一半试试"
+        ],
+        "answer": "停下来，只在平台内交易",
+        "why": "平台的托管和申诉只覆盖平台内订单。"
+      },
+      {
+        "q": "第一次入金，比较稳妥的做法是？",
+        "options": [
+          "先用小额试",
+          "一次性全部转入",
+          "借钱入金"
+        ],
+        "answer": "先用小额试",
+        "why": "小额能帮你确认流程和到账时间，出错时损失也更小。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "入金要多久到账？",
+        "a": "取决于方式和平台。银行转账通常较慢，银行卡较快，链上充值要等区块确认。以平台官方说明为准。"
+      },
+      {
+        "q": "为什么银行不让我转账到交易所？",
+        "a": "各地银行和监管规则不同。先在交易所官网确认你所在地支持的入金方式，不要用拆分汇款等方式绕开银行规则。"
+      },
+      {
+        "q": "P2P 安全吗？",
+        "a": "平台会托管卖家的币，但交易对手和资金来源是额外风险。下一关专门讲 P2P 与冻卡风险。"
+      }
+    ],
+    "summary_en": "First deposits usually use one of three methods: bank transfer, if fiat deposits are supported where you live, usually lower cost but slower; direct card purchase, fast but often more expensive; or P2P, where you buy from another user while the platform holds the seller's coins in escrow, but counterparty risk remains. Whichever method you use, complete it only inside the platform, start with a small amount, and continue only after the deposit arrives.",
+    "checklist_en": [
+      "I have checked supported deposit methods on the official site for my location",
+      "I checked the total price and fees before placing the order",
+      "I complete the transaction only inside the platform, not off-platform",
+      "I use only a small amount for the first deposit",
+      "I save records for every deposit"
+    ],
+    "quiz_en": [
+      {
+        "q": "When buying crypto directly with a card, what matters most?",
+        "options": [
+          "Check the total price and fees before ordering",
+          "Order as fast as possible",
+          "Ignore fees"
+        ],
+        "answer": "Check the total price and fees before ordering",
+        "why": "Card purchases are often fast, but fees can be higher. Use the amount shown on the page as the reference."
+      },
+      {
+        "q": "In a P2P trade, someone asks you to leave the platform and trade privately. What should you do?",
+        "options": [
+          "Stop and trade only inside the platform",
+          "Go with them because the price is better",
+          "Send half first to test"
+        ],
+        "answer": "Stop and trade only inside the platform",
+        "why": "Platform escrow and appeals cover platform orders, not off-platform private deals."
+      },
+      {
+        "q": "For your first deposit, what is the safer approach?",
+        "options": [
+          "Try a small amount first",
+          "Deposit everything at once",
+          "Borrow money to deposit"
+        ],
+        "answer": "Try a small amount first",
+        "why": "A small amount helps you confirm the flow and arrival time, and limits loss if something goes wrong."
+      }
+    ],
+    "faq_en": [
+      {
+        "q": "How long does a deposit take?",
+        "a": "It depends on the method and platform. Bank transfer is usually slower, card purchase is faster, and on-chain deposits wait for block confirmations. Follow the platform's official explanation."
+      },
+      {
+        "q": "Why will my bank not let me transfer to an exchange?",
+        "a": "Bank and regulatory rules differ by region. First check supported deposit methods on the exchange's official site for your location. Do not try to bypass bank rules by splitting transfers or similar tactics."
+      },
+      {
+        "q": "Is P2P safe?",
+        "a": "The platform can escrow the seller's coins, but the counterparty and source of funds add risk. The next level covers P2P and bank-freeze risk."
+      }
+    ]
+  }
+}

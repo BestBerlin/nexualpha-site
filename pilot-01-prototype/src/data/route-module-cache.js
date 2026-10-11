@@ -1,6 +1,7 @@
 const routeModuleEntries = new Map();
 
 export const ROUTE_MODULE_PATHS = Object.freeze({
+  starter: "./components/starter/StarterPage.jsx",
   finder: "./components/finder/CommandFinder.jsx",
   searchDialog: "./components/finder/SearchDialog.jsx",
   v3Pages: "./components/v3/V3Pages.jsx",
@@ -114,6 +115,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   // OnChainLiquidityBoard, TelegramBotHub, MarketFearGreedPanel) and the closing index load when they scroll near
   // (DeferUntilVisible), so the first screen is interactive without the old ten-module preload (perf lane 2026-10-11).
   if (name === "home") return [];
+  if (name === "starter") return [ROUTE_MODULE_PATHS.starter];
   if (name === "directory") return [ROUTE_MODULE_PATHS.directory];
   if (name === "newsList") return [ROUTE_MODULE_PATHS.newsList];
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];

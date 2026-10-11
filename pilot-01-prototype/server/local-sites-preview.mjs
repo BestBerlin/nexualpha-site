@@ -19,6 +19,7 @@ const { default: worker } = await import(pathToFileURL(path.join(distRoot, "serv
 const collectCta = createCtaCollector(process.env.CTA_DATA_FILE || path.join(root, ".private", "analytics", "local-cta.jsonl"));
 const port = Number.parseInt(process.env.PORT ?? "4173", 10);
 const host = process.env.HOST ?? "127.0.0.1";
+const starterReviewed = process.env.STARTER_LEVEL7_REVIEWED === "true";
 
 if (!existsSync(path.join(clientRoot, "index.html"))) {
   throw new Error("Run npm run build before starting the local Sites preview.");
@@ -61,6 +62,7 @@ createServer(async (request, response) => {
       MARKET_EVENTS_READ: marketEvents.read,
       CORE_API_ORIGIN: process.env.CORE_API_ORIGIN,
       CORE_API_BASE_URL: process.env.CORE_API_BASE_URL,
+      ...(starterReviewed ? { STARTER_LEVEL7_REVIEWED: true } : {}),
     });
 
     const headers = Object.fromEntries(workerResponse.headers);

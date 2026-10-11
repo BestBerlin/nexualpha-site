@@ -14,6 +14,7 @@ import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
 import { topicReviewedFaqRecords } from "../src/data/topic-reviewed-faqs.js";
 import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
+import { publicStarterLevels, starterContent, starterHref } from "../src/data/starter/index.js";
 import { retainRetrievalNews } from "./retrieval-news-policy.mjs";
 import { INDEXABLE_LOCALES, routeInventory } from "./generate-prerender-manifest.mjs";
 import {
@@ -295,9 +296,15 @@ const reviewedTopicRecords = "\n\n## Source-bound topic decision answers\n" + ['
   return `\n### ${record.question}\n\n- Canonical: ${PUBLIC_ORIGIN}${localizedPath(entry.canonicalPath,locale)}\n- Language: ${locale}\n- Direct answer: ${record.answer}\n- Sources:\n${sources}\n- Boundary: ${record.answerBoundary}\n`;
 }).join("\n")).join("\n")).join("\n");
 
-const full = `${header}${venueLinks}${canonicalVenueDetails}${supportOwnerComparisons}${international}${questionInventory}${priorityAnswerMap}${pixRecipientRecord}${uniswapAffiliateRecords}${compliantFundingRecords}${reviewedTopicRecords}${reviewedNewsIndex}${reviewedNewsFull}\n\n## Detailed venue records\n\n${FACTBOOK_SLUGS.map((slug) => generateLlmMarkdown(FACTBOOK_REGISTRY[slug])).join("\n\n")}`;
+const starterRecords = `\n\n## Starter Path beginner lessons\n\nThe Starter Path is a beginner education sequence, not financial advice, account eligibility review, trading instruction or a partner-benefit promise. Level 7 is excluded from the public lesson map and public index until legal review is complete.\n\n- Hub: ${PUBLIC_ORIGIN}${starterHref("", "en")} / ${PUBLIC_ORIGIN}${starterHref("", "zh-Hans")}\n${publicStarterLevels(false).map((level) => {
+  const en = starterContent(level, "en");
+  const zh = starterContent(level, "zh-Hans");
+  return `- Level ${level.meta.level}: [${en.title}](${PUBLIC_ORIGIN}${starterHref(level.meta.slug, "en")}) / [${zh.title}](${PUBLIC_ORIGIN}${starterHref(level.meta.slug, "zh-Hans")}) — ${en.summary}`;
+}).join("\n")}\n`;
 
-const llms = `${header}${venueLinks}${canonicalVenueDetails}${supportOwnerComparisons}${international}${questionInventory}${priorityAnswerMap}${compliantFundingRecords}${reviewedTopicRecords}${reviewedNewsIndex}`;
+const full = `${header}${venueLinks}${canonicalVenueDetails}${supportOwnerComparisons}${international}${questionInventory}${priorityAnswerMap}${pixRecipientRecord}${uniswapAffiliateRecords}${compliantFundingRecords}${reviewedTopicRecords}${starterRecords}${reviewedNewsIndex}${reviewedNewsFull}\n\n## Detailed venue records\n\n${FACTBOOK_SLUGS.map((slug) => generateLlmMarkdown(FACTBOOK_REGISTRY[slug])).join("\n\n")}`;
+
+const llms = `${header}${venueLinks}${canonicalVenueDetails}${supportOwnerComparisons}${international}${questionInventory}${priorityAnswerMap}${compliantFundingRecords}${reviewedTopicRecords}${starterRecords}${reviewedNewsIndex}`;
 const small = `# NexuAlpha
 
 > ${SITE_SUMMARY}
@@ -319,6 +326,7 @@ ${keyFactsCompact}
 - Methodology and source boundary: https://nexualpha.com/methodology
 - About the publisher and the Research Desk: https://nexualpha.com/about
 - Editorial policy: https://nexualpha.com/editorial-policy
+- Starter Path beginner lessons: https://nexualpha.com/starter
 - Regional entry points: https://nexualpha.com/br, https://nexualpha.com/mx, https://nexualpha.com/tw, https://nexualpha.com/id, https://nexualpha.com/hk, https://nexualpha.com/eu, https://nexualpha.com/uk, https://nexualpha.com/us, https://nexualpha.com/jp?locale=ja, https://nexualpha.com/kr?locale=ko, https://nexualpha.com/tr/markets/turkiye
 
 ## Public data and commercial boundary

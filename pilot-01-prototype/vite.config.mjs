@@ -131,6 +131,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
         // the app shell. This reduces repeat navigation cost without changing
         // SSR output or hiding indexable content behind a client-only loader.
         manualChunks(id, { getModuleInfo }) {
+          if (id.includes("/src/components/starter/") || id.includes("/src/data/starter/")) return "route-starter";
           // Vite's dynamic-import preload helper is an unassigned virtual module: Rollup folds it into the first manual
           // chunk that dynamically imports something (route-v3-venue once the venue page lazy-loaded its research hub),
           // and the browser entry then imports that route chunk statically on every page. Keep it with the shell.

@@ -23,6 +23,8 @@ import { FACTS_AS_OF } from "../src/data/exchange-facts.js";
 import { COUNTRY_ROUTE_PREFIXES, localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
 import { buildSearchPublicationReport, selectSitemapPublicationEntries, sitemapHreflangAlternates, sitemapLocalesForRoute } from "./sitemap-publication-policy.mjs";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
+import { publicStarterLevels } from "../src/data/starter/index.js";
+import { starterSeoLastmod } from "../src/data/starter/seo.js";
 export { sitemapLocalesForRoute };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -76,7 +78,7 @@ export function routeTemplate(pathname) {
   const staticTemplates = {
     "/": "home", "/exchanges": "exchangeDirectory", "/activities": "activityCenter",
     "/rates": "rateTerminal", "/onchain": "onchainBoard", "/news": "newsList",
-    "/methodology": "methodology", "/embed/calculator": "embedCalculator", "/partners": "partnerEmbedGuide", "/telegram": "telegram",
+    "/methodology": "methodology", "/embed/calculator": "embedCalculator", "/partners": "partnerEmbedGuide", "/telegram": "telegram", "/starter": "starter",
     "/index.html": "home", "/topics": "topicCollection", "/factbook": "factbookCollection", "/partners/embed-guide": "partnerEmbedGuide",
   };
   if (staticTemplates[pathname]) return staticTemplates[pathname];
@@ -85,6 +87,7 @@ export function routeTemplate(pathname) {
   if (pathname.startsWith("/exchanges/")) return "venue";
   if (pathname.startsWith("/factbook/")) return "factbook";
   if (pathname.startsWith("/compare/")) return "comparison";
+  if (pathname.startsWith("/starter/")) return "starter";
   if (pathname.startsWith("/topics/")) return "topic";
   if (pathname.startsWith("/news/")) return "article";
   if (pathname.startsWith("/ref/")) return "kolLanding";
@@ -94,11 +97,13 @@ export function routeTemplate(pathname) {
 export function routeInventory(newsArticles = []) {
   // /embed/calculator is an iframe widget: rendered, but noindex and never in a sitemap (audit 2026-10-11 #13).
   const staticPaths = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
+  const starterPaths = ["/starter", ...publicStarterLevels(false).map((level) => `/starter/${level.meta.slug}`)];
   const venueProfileSlugs = neutralVenueCatalog
     .map(({ slug }) => slug)
     .filter((slug) => !FACTBOOK_ONLY_LEGACY_SLUGS.has(slug));
   const indexable = [
     ...staticPaths,
+    ...starterPaths,
     "/topics",
     "/factbook",
     "/mx",
@@ -146,6 +151,7 @@ export function routeInventory(newsArticles = []) {
     // listing edition is still prerendered.
     ...(pathname === "/news" ? { locales: newsListingIndexableLocales(newsArticles), prerenderLocales: newsListingPublishedLocales(newsArticles) } : {}),
     ...(["/topics", "/factbook"].includes(pathname) ? { locales: ["en"] } : {}),
+    ...(starterPaths.includes(pathname) ? { locales: ["en", "zh-Hans"], prerenderLocales: ["en", "zh-Hans"] } : {}),
     ...(pathname.startsWith("/news/") ? { locales: newsArticleAvailableLocales(newsArticles.find((article) => pathname === `/news/${article.slug}`)) } : {}),
     ...(COUNTRY_OWNER_LOCALES[pathname] ? { locales: COUNTRY_OWNER_LOCALES[pathname] } : {}),
     // Native English display documents are not additional search owners.
@@ -234,6 +240,7 @@ export function routeLastmod(route, article, locale = "en", { newsArticles = [] 
   // Shared comparison presentation changed on this date, not on every build.
   if (route.template === "comparison") return "2026-09-22";
   if (route.template === "regionalPreview") return "2026-09-15";
+  if (route.template === "starter") return starterSeoLastmod;
   // Fee tables on the directory and the rate terminal show the facts file's check date.
   if (["exchangeDirectory", "rateTerminal"].includes(route.template) && FACTS_AS_OF) return FACTS_AS_OF;
   return SITE_CONTENT_REVIEW_DATE;
@@ -310,7 +317,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
       // build feed; the Worker renders the request-time tool routes from the live feed (links-l10n lane, scorecard D4).
       const toolKey = toolKeyForPath(pathname);
       const toolArticles = toolKey ? toolArticleLinks(toolKey, newsArticles, locale) || undefined : undefined;
-      const html = stripReactResourceHints(await render(url, { newsArticles: initialArticles, toolArticles }));
+      const html = stripReactResourceHints(await render(url, { newsArticles: initialArticles, toolArticles, starterReviewed: false }));
       if (!/<h1\b/i.test(html)) throw new Error(`Missing prerender H1: ${url}`);
       const asset = `/prerender/${locale}/${pathname === "/" ? "home" : pathname.slice(1)}.json`;
       const assetPath = path.join(clientDir, asset);

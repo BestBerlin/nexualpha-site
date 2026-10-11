@@ -26,6 +26,8 @@ import { readIntelFeed } from "../src/data/announcement-intel.js";
 import { factbookDates } from "../src/data/factbook-dates.js";
 import { assignHomeHeroVariant, homeHeroSetCookie } from "../src/data/home-hero-experiment.js";
 import { articleEmbedHtml, articleEmbedModel, isolateArticleEmbedDirectives, parseArticleEmbed, stripArticleEmbedDirectives } from "../src/data/article-embeds.js";
+import { publicStarterLevels } from "../src/data/starter/index.js";
+import { starterSeo } from "../src/data/starter/seo.js";
 import { repairNewsArticle } from "../src/data/news-content-repair.js";
 import { TOOL_CLUSTER_IDS, articleClusterLineLabel, articleClusterLinks, toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
@@ -2489,6 +2491,7 @@ const COMPARE_ROUTE_MARKER = "NEXUALPHA_COMPARE_ROUTE_V1";
 const ACTIVITIES_ROUTE_MARKER = "NEXUALPHA_ACTIVITIES_ROUTE_V1";
 const TOPIC_ROUTE_MARKER = "NEXUALPHA_TOPIC_ROUTE_V1";
 const FACTBOOK_ROUTE_MARKER = "NEXUALPHA_FACTBOOK_ROUTE_V1";
+const STARTER_ROUTE_MARKER = "NEXUALPHA_STARTER_ROUTE_V1";
 const FACTBOOK_SOURCE_REVIEW_DATE = "2026-09-08";
 const HOME_ROUTE_MARKER = "NEXUALPHA_HOME_ROUTE_V1";
 const STATIC_ROUTE_MARKER = "NEXUALPHA_STATIC_ROUTE_V1";
@@ -2509,6 +2512,7 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [ACTIVITIES_ROUTE_MARKER]: ["route-activity-"],
   [TOPIC_ROUTE_MARKER]: ["route-topic-guide-"],
   [FACTBOOK_ROUTE_MARKER]: ["page-factbook-", "page-detail-", "route-factbook-", "route-activity-"],
+  [STARTER_ROUTE_MARKER]: ["route-starter-"],
   [NEWS_ROUTE_MARKER]: ["route-news-", "route-activity-"],
   [ARTICLE_ROUTE_MARKER]: ["route-news-"],
 });
@@ -2553,7 +2557,7 @@ const LOCALE_CODE_BY_PREFIX = Object.freeze(Object.fromEntries(Object.entries(LO
 const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"));
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
-const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets"]);
+const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/starter"]);
 const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
@@ -4189,6 +4193,16 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
+    if (metadata.marker === STARTER_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const starterReviewed = env?.STARTER_LEVEL7_REVIEWED === true || env?.STARTER_LEVEL7_REVIEWED === "true";
+        const appHtml = await env.NEWS_SSR_RENDER(url.href, { starterReviewed });
+        if (typeof appHtml === "string" && (appHtml.includes("route-starter") || appHtml.includes("starter-page"))) {
+          metadata.starterSsrMode = "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { starterReviewed }, url);
+        }
+      } catch { /* fall through to the client-rendered shell */ }
+    }
     // Every other 200 route the manifest does not carry (locale fallback editions of /topics, /factbook, the
     // tokenized-asset topics and /markets/turkiye; /ref/<slug> entries) is rendered at request time with the component
     // the client hydrates. News routes keep their own fallback template above; families prerendered in all 15 locales
@@ -4201,8 +4215,13 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     metadata.newsSsrMode = "fallback";
     return injectFallbackBody(html, metadata, url);
   };
+  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
+  const starterMarketRequest = metadata.marker === STARTER_ROUTE_MARKER && url.searchParams.has("market");
   if (typeof env?.NEWS_SSR_RENDER === "function") {
-    const contentPath = parsePublicRoute(url.pathname, url.searchParams).contentPathname;
+    const contentPath = publicRoute.contentPathname;
+    // Starter routes can carry review-state and market-scoped CTA decisions that static prerender artifacts cannot
+    // represent. Always render them with the React route the client hydrates when the server renderer is available.
+    if (metadata.marker === STARTER_ROUTE_MARKER) return fallback();
     // Listing pages never come from the build-time manifest: the feed is published after the build.
     const listing = metadata.marker === NEWS_ROUTE_MARKER ? parseNewsListingPath(contentPath) : null;
     if (listing && !listing.invalid && !listing.redirect) return fallback();
@@ -4213,9 +4232,11 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
       if (rendered) return rendered;
     }
   }
+  // Market-scoped starter requests must never use a build-time snapshot because the neutral snapshot can contain an
+  // affiliate CTA that the requested market blocks. Without a renderer, fail closed to the shell plus metadata.
+  if (starterMarketRequest) return html;
   // The manifest ignores decision query parameters. A country can change promotion policy,
   // so a locale-only snapshot must never expose a code excluded by the requested market.
-  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   const market = url.searchParams.get("market");
   const promotionPage = /^\/(?:exchanges|compare|topics|factbook|ref)(?:\/|$)/.test(publicRoute.contentPathname) || publicRoute.contentPathname === "/rates";
   const policyChanges = market && promotionPage && [...new Set([...Object.keys(PARTNER_RESTRICTED_COUNTRIES), ...Object.keys(PARTNER_RESTRICTED_SCOPES)])].some(slug =>
@@ -4225,6 +4246,8 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     // Fail closed if the host cannot render country context; do not fall back to an ungated snapshot.
     return rendered || html;
   }
+  const starterReviewed = env?.STARTER_LEVEL7_REVIEWED === true || env?.STARTER_LEVEL7_REVIEWED === "true";
+  if (starterReviewed && publicRoute.contentPathname === "/starter") return fallback();
   const routeKey = prerenderRouteKey(url);
   if (!routeKey) return fallback();
   const manifest = await loadPrerenderManifest(env, url);
@@ -4437,11 +4460,12 @@ async function handleNewsSearchJson(env, url) {
 // activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
 // non-canonical URL; cached for an hour.
 const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS];
+const LOCALE_SITEMAP_STARTER_PATHS = ["/starter", ...publicStarterLevels(false).map((level) => `/starter/${level.meta.slug}`)];
 let localeSitemapCache = null;
 export async function renderLocaleSitemap(env = {}) {
   // Generated pairs: only the indexable ones (both venues with reviewed fee rows and at least one partner); their
   // locale set is enforced by routeMetadata via searchPublicationLocales, so noindex locales never slip in.
-  const paths = [...LOCALE_SITEMAP_STATIC, ...[...ACTIVE_VENUE_SLUGS].map((slug) => `/exchanges/${slug}`), ...[...CURATED_COMPARISONS].map((pair) => `/compare/${pair}`), ...indexableGeneratedComparePairs().map((pair) => `/compare/${pair}`)];
+  const paths = [...LOCALE_SITEMAP_STATIC, ...LOCALE_SITEMAP_STARTER_PATHS, ...[...ACTIVE_VENUE_SLUGS].map((slug) => `/exchanges/${slug}`), ...[...CURATED_COMPARISONS].map((pair) => `/compare/${pair}`), ...indexableGeneratedComparePairs().map((pair) => `/compare/${pair}`)];
   const rows = [];
   for (const pathname of paths) {
     for (const locale of INDEXABLE_LOCALES) {
@@ -5749,6 +5773,7 @@ function searchPublicationLocales(pathname, options = {}) {
   }[pathname];
   if (regionalLocales) return regionalLocales;
   if (pathname === "/topics" || pathname === "/factbook") return ["en"];
+  if (pathname === "/starter" || pathname.startsWith("/starter/")) return ["en", "zh-Hans"];
   // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
@@ -5938,6 +5963,13 @@ async function routeMetadataBase(url, env, newsFeed) {
   const requestedLocale = url.searchParams.get("locale") || locale;
   const schemaLocale = String(requestedLocale).startsWith("zh") ? requestedLocale : locale;
   const isZh = locale === "zh-Hans";
+  const starterReviewed = env?.STARTER_LEVEL7_REVIEWED === true || env?.STARTER_LEVEL7_REVIEWED === "true";
+
+  if (canonicalPath === "/starter" || canonicalPath.startsWith("/starter/")) {
+    const metadata = starterSeo(canonicalPath, schemaLocale, starterReviewed);
+    if (metadata) return { ...metadata, marker: STARTER_ROUTE_MARKER };
+    return notFoundMetadata(canonicalPath, locale);
+  }
 
   if (canonicalPath === "/") {
     const homeCopyLocale = HOME_SEARCH_COPY[requestedLocale] ? requestedLocale : locale;
@@ -7327,6 +7359,7 @@ async function appHtmlResponse(response, url, env, forceHtml = false, request = 
   const headers = new Headers(response.headers);
   if (metadata.newsSsrMode) headers.set("x-nexualpha-news-render", metadata.newsSsrMode);
   if (metadata.fallbackSsrMode) headers.set("x-nexualpha-fallback-render", metadata.fallbackSsrMode);
+  if (metadata.starterSsrMode) headers.set("x-nexualpha-starter-render", metadata.starterSsrMode);
   // Iframe widgets carry noindex in the header too, as the server-rendered /embed/liquidations widgets do (SEO audit
   // 2026-10-11 #13); HEAD already mirrors metadata.robots above.
   if (/^\/embed(?:\/|$)/.test(url.pathname)) headers.set("x-robots-tag", metadata.robots || "noindex,follow");
@@ -7436,6 +7469,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname.startsWith("/news/tokenized-treasuries")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
   if (pathname.startsWith("/news/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
   if (pathname === "/partners" || pathname.startsWith("/partners/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-partners-"];
+  if (pathname === "/starter" || pathname.startsWith("/starter/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-starter-"];
   if (pathname === "/topics/derivatives") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-", "route-v3-pages-"];
   if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname) || Object.values(VENUE_ALTERNATIVE_PAGES).some((page) => page.path === pathname) || isBrazilDeadlinePath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-tokenized-assets-"];
   // The topic and factbook hubs render CollectionHubPage, whose editorial index CSS lives in route-collection-hubs.

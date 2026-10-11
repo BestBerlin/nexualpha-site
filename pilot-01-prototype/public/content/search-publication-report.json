@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-11T19:14:11.595Z",
+  "generatedAt": "2026-10-11T20:47:18.485Z",
   "version": "nexualpha-search-publication-v1",
   "publicationScope": "reviewed-indexable-routes-only",
   "publicationScopeNote": "The sitemap publishes currently indexable routes only through the shared reviewed sitemap locale policy. Historical GSC URLs are separated into redirected legacy URLs, accessible noindex URLs, and truly missing URLs instead of being reintroduced as thin sitemap entries.",
-  "totalUrls": 889,
+  "totalUrls": 913,
   "queryLocaleUrls": 0,
-  "cleanOrPathUrls": 889,
+  "cleanOrPathUrls": 913,
   "urlsByTemplate": {
     "home": 17,
     "activityCenter": 5,
@@ -24,10 +24,11 @@
     "newsList": 2,
     "article": 624,
     "partnerEmbedGuide": 2,
+    "starter": 24,
     "topicCollection": 1
   },
   "urlsByLocale": {
-    "en": 395,
+    "en": 407,
     "ar": 1,
     "pt-BR": 11,
     "de": 1,
@@ -43,7 +44,7 @@
     "uk": 1,
     "ur": 1,
     "vi": 5,
-    "zh-Hans": 371
+    "zh-Hans": 383
   },
   "routesByTemplate": {
     "home": 1,
@@ -63,6 +64,7 @@
     "newsList": 1,
     "article": 312,
     "partnerEmbedGuide": 1,
+    "starter": 12,
     "topicCollection": 1
   },
   "lowDifferentiationUrlCount": 656,

@@ -26,6 +26,7 @@ import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
 import { CURATED_COMPARISON_SLUGS, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, parseComparePair } from "./compare-generated.js";
 import { compareFaqSchemaEntries } from "./compare-faq-locales.js";
+import { starterSeo } from "./starter/seo.js";
 import { AUDIT_DATE as FACTBOOK_SOURCE_REVIEW_DATE } from "./factbook-registry.js";
 import { factbookDates } from "./factbook-dates.js";
 import { collectionHubCopy, factbookHubItems, topicHubItems } from "./collection-hubs.js";
@@ -324,6 +325,7 @@ function searchPublicationLocales(pathname, options = {}) {
   }[pathname];
   if (regionalLocales) return regionalLocales;
   if (pathname === "/topics" || pathname === "/factbook") return ["en"];
+  if (pathname === "/starter" || pathname.startsWith("/starter/")) return ["en", "zh-Hans"];
   // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
@@ -2070,6 +2072,15 @@ function computeRouteSeoUnbudgeted(options = {}) {
 
   if (route.name === "notFound") {
     // A component-level 404 must never receive homepage metadata.
+  } else if (pathname === "/starter" || pathname.startsWith("/starter/")) {
+    const starter = starterSeo(pathname, locale, options.starterReviewed === true);
+    if (starter) {
+      title = starter.title;
+      description = starter.description;
+      status = starter.status;
+      robots = starter.robots;
+      schemas = starter.schema;
+    }
   } else if (ref || /^\/ref\/[a-z0-9-]+$/.test(pathname)) {
     if (ref && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(ref)) pathname = `/ref/${ref}`;
     accept(); robots = "noindex,follow";
@@ -2459,8 +2470,11 @@ function computeRouteSeoUnbudgeted(options = {}) {
     : null;
   const newsArticleClientLocale = newsMatch && options.article ? resolveNewsContentLocale(locale, newsArticleSeoLocales(options.article)) : null;
   const tokenizedClientLocale = topicMatch && tokenizedAssetPage(topicMatch[1]) ? tokenizedAssetLocale(locale) : topicMatch && venueAlternativePage(topicMatch[1]) && !VENUE_ALTERNATIVES_INDEX_LOCALES.includes(locale) ? "en" : null;
+  const starterClientLocale = pathname === "/starter" || pathname.startsWith("/starter/")
+    ? (locale === "zh-Hans" ? "zh-Hans" : "en")
+    : null;
   const collectionHubLocale = pathname === "/topics" || pathname === "/factbook" ? "en" : null;
-  const canonicalLocale = collectionHubLocale || newsArticleClientLocale || newsClientLocale || tokenizedClientLocale || locale;
+  const canonicalLocale = collectionHubLocale || newsArticleClientLocale || newsClientLocale || tokenizedClientLocale || starterClientLocale || locale;
   const regionalPreviewCanonical = route.name === "regionalPreview"
     ? regionalPreviewCanonicalUrl(pathname, route.market, locale)
     : null;
@@ -2520,7 +2534,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
       ...INDEXABLE_LOCALES.map((hreflang) => ({ hreflang, href: canonical(pathname, hreflang) })),
       { hreflang: "x-default", href: canonical(pathname, "en") },
     ];
-  const returnedLocale = newsArticleClientLocale || newsClientLocale || tokenizedClientLocale || locale;
+  const returnedLocale = newsArticleClientLocale || newsClientLocale || tokenizedClientLocale || starterClientLocale || locale;
   const returnedHtmlLocale = (pathname === "/news" || Boolean(newsMatch && options.article)) && UI_LOCALES.has(locale)
     ? locale
     : UI_LOCALES.has(rawLocale) && !newsClientLocale && !newsArticleClientLocale && !tokenizedClientLocale

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { copyFileSync, existsSync, mkdirSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -32,6 +32,7 @@ for (const name of sharedSchemaData) copyFileSync(path.join(root, "src", "data",
 for (const name of comparePairData) copyFileSync(path.join(root, "src", "data", name), path.join(dist, "src", "data", name));
 mkdirSync(path.join(dist, "src", "data", comparePairsDir), { recursive: true });
 for (const name of comparePairFiles) copyFileSync(path.join(root, "src", "data", comparePairsDir, name), path.join(dist, "src", "data", comparePairsDir, name));
+cpSync(path.join(root, "src", "data", "starter"), path.join(dist, "src", "data", "starter"), { recursive: true });
 copyFileSync(hosting, path.join(dist, ".openai", "hosting.json"));
 
 console.log("Prepared Sites build: dist/server/index.js and dist/.openai/hosting.json");

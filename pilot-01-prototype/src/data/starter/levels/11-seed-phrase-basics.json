@@ -1,0 +1,274 @@
+{
+  "meta": {
+    "level": 11,
+    "slug": "seed-phrase-basics",
+    "title_zh": "助记词是总钥匙",
+    "title_en": "Your seed phrase is the master key",
+    "hook_zh": "助记词能截图存手机吗？",
+    "cta": {
+      "kind": "none",
+      "partner": null,
+      "line_zh": "没有推荐。如果要用自托管钱包，只从钱包的官方网站下载，警惕假 App。",
+      "line_en": "No recommendation. If you use a self-custody wallet, download it only from the wallet's official website and watch out for fake apps."
+    },
+    "next_slug": "before-futures-liquidation",
+    "sources": [
+      "https://ethereum.org/en/security/",
+      "https://bitcoin.org/en/secure-your-wallet",
+      "https://ethereum.org/en/guides/how-to-use-a-wallet/",
+      "https://www.okx.com/help/how-can-you-protect-yourself-from-a-phishing-attack",
+      "https://www.okx.com/help/how-do-i-safeguard-my-web3-wallet-from-fraudsters"
+    ],
+    "sensitive": true,
+    "review_notes": "敏感关卡（资产安全），无 CTA，不导流任何钱包下载。'不要截图，可能同步到云端'与'任何理由都不要分享助记词'依据 ethereum.org/security；'备份放在多个地点'依据 bitcoin.org/secure-your-wallet；'官方不会索要助记词'依据 OKX 钓鱼防范文章。不提及任何'找回/破解'工具的名称，只提醒其为骗局风险。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"钱包给了我一串单词，截个图存手机里，行吗？\"不行。这一关讲为什么。",
+      "voice_en": "\"My wallet gave me a list of words. Can I just screenshot it?\" No. This level explains why.",
+      "title": "能截图吗？",
+      "sub": "不能",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "danger",
+          "text": "不要截图助记词"
+        }
+      },
+      "min_s": 8
+    },
+    {
+      "voice_zh": "这串单词叫助记词，是钱包的总钥匙。谁拿到它，谁就能在任何设备上恢复这个钱包，转走里面的资产。",
+      "voice_en": "Those words are your seed phrase, the master key to the wallet. Whoever has it can restore the wallet on any device and move the assets.",
+      "title": "助记词是什么",
+      "sub": "钱包的总钥匙",
+      "visual": {
+        "type": "definition",
+        "params": {
+          "term": "助记词",
+          "lines": [
+            "一组单词",
+            "可在任何设备恢复钱包",
+            "拿到它 = 控制资产"
+          ]
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "自己的钱包，没有客服能帮你重置。助记词丢了，钱包可能就再也打不开了。",
+      "voice_en": "With a self-custody wallet, no support team can reset it for you. Lose the seed phrase, and you may never open the wallet again.",
+      "title": "丢了没人能重置",
+      "sub": "自托管 = 自己负责",
+      "visual": {
+        "type": "split-choice",
+        "params": {
+          "question": "谁能帮你找回？",
+          "options": [
+            "交易所账户：可联系客服",
+            "自托管钱包：只有助记词"
+          ]
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "为什么不能截图？截图可能自动同步到云端。云账户一旦被盗，助记词也跟着泄露。",
+      "voice_en": "Why no screenshots? They may sync to the cloud automatically. If that cloud account is breached, your seed phrase leaks too.",
+      "title": "截图会上云",
+      "sub": "云账户被盗，一起泄露",
+      "visual": {
+        "type": "flow",
+        "params": {
+          "nodes": [
+            "截图",
+            "自动同步云端",
+            "云账户被盗",
+            "资产被转走"
+          ]
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "比较稳妥的做法：手写在纸上，抄两份，分开放在安全的地方。不拍照，不存聊天记录，不存网盘。",
+      "voice_en": "A safer way: write it by hand, make two copies, and keep them in separate safe places. No photos, no chat messages, no cloud drives.",
+      "title": "手写，分开放",
+      "sub": "不拍照 · 不聊天 · 不网盘",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "手写在纸上",
+            "抄两份",
+            "分开放在安全地方",
+            "不拍照、不存网盘、不发聊天"
+          ]
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "最重要的一条：任何人向你要助记词，都是诈骗。客服、\"技术支持\"、要你\"验证钱包\"的网站，都一样。",
+      "voice_en": "The most important rule: anyone who asks for your seed phrase is a scammer. Support agents, \"tech help\", or a site asking you to \"verify your wallet\" — all the same.",
+      "title": "谁要都是骗子",
+      "sub": "官方从不索要助记词",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "danger",
+          "text": "索要助记词 = 诈骗",
+          "items": [
+            "自称客服",
+            "技术支持",
+            "\"验证钱包\"网站"
+          ]
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "声称能\"破解\"或\"找回\"助记词的工具和服务，也要格外小心。它们常常是骗局。",
+      "voice_en": "Be very careful with tools or services claiming they can \"crack\" or \"recover\" seed phrases. They are often scams.",
+      "title": "警惕\"找回工具\"",
+      "sub": "常常是骗局",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "warn",
+          "text": "警惕\"破解 / 找回\"服务"
+        }
+      },
+      "min_s": 8
+    },
+    {
+      "voice_zh": "回顾：助记词是总钥匙。不截图，不上云，手写两份分开放，谁要都不给。下一关，也是本季最后一关：合约前先懂爆仓。",
+      "voice_en": "Recap: the seed phrase is the master key. No screenshots, no cloud, two handwritten copies kept apart, and never share it. Next, the season finale: understand liquidation before futures.",
+      "title": "总钥匙，自己守",
+      "sub": "下一关：合约前先懂爆仓",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "不截图",
+            "不上云",
+            "手写两份分开放",
+            "谁要都不给"
+          ],
+          "next": "before-futures-liquidation"
+        }
+      },
+      "min_s": 11
+    }
+  ],
+  "page": {
+    "summary_zh": "助记词是自托管钱包的总钥匙，任何人拿到它都能在其他设备上恢复钱包并转走资产；丢失后没有客服能帮你重置。不要截图（可能自动同步到云端），不要存网盘或聊天记录。比较稳妥的做法是手写两份，分开放在安全的地方。任何人、任何网站向你索要助记词，都是诈骗。",
+    "checklist_zh": [
+      "助记词手写在纸上，没有截图或拍照",
+      "抄了两份，分开存放在安全地方",
+      "没有存进网盘、备忘录或聊天记录",
+      "钱包 App 从官方网站下载",
+      "任何人索要助记词，一律不给"
+    ],
+    "quiz": [
+      {
+        "q": "为什么不建议截图保存助记词？",
+        "options": [
+          "截图可能自动同步到云端",
+          "截图不够清晰",
+          "截图会占手机空间"
+        ],
+        "answer": "截图可能自动同步到云端",
+        "why": "云账户一旦被盗，截图里的助记词也会泄露。"
+      },
+      {
+        "q": "自称\"官方客服\"的人要你提供助记词，应该？",
+        "options": [
+          "拒绝，这是诈骗",
+          "提供，方便他帮你",
+          "只提供前几个词"
+        ],
+        "answer": "拒绝，这是诈骗",
+        "why": "官方从不索要助记词；只提供一部分也会大大降低安全性。"
+      },
+      {
+        "q": "自托管钱包的助记词丢了，会怎样？",
+        "options": [
+          "钱包可能再也无法恢复",
+          "客服可以重置",
+          "交易所会帮你找回"
+        ],
+        "answer": "钱包可能再也无法恢复",
+        "why": "自托管意味着只有你掌握钥匙，没有第三方能重置。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "助记词是什么？",
+        "a": "助记词是一组单词，是自托管钱包的总钥匙。用它可以在任何设备上恢复钱包，所以拿到它的人就能控制里面的资产。"
+      },
+      {
+        "q": "助记词丢了怎么办？",
+        "a": "如果钱包还能打开，立即重新抄写备份，或把资产转到新建的钱包并妥善备份。如果已经打不开，没有客服能重置；对声称能\"破解\"助记词的服务要格外警惕。"
+      },
+      {
+        "q": "助记词能存在手机备忘录或网盘里吗？",
+        "a": "不建议。联网的设备和云账户都有被盗风险。手写在纸上，抄两份分开存放更稳妥。"
+      }
+    ],
+    "summary_en": "A seed phrase is the master key for a self-custody wallet. Anyone who has it can restore the wallet on another device and move the assets; if you lose it, no support team can reset it for you. Do not screenshot it, because screenshots may sync to the cloud. Do not store it in cloud drives or chat records. A safer approach is to write two paper copies and keep them in separate secure places. Anyone or any website asking for your seed phrase is a scam.",
+    "checklist_en": [
+      "My seed phrase is handwritten on paper, with no screenshot or photo",
+      "I made two copies and stored them separately in secure places",
+      "I did not save it in cloud drives, notes, or chat records",
+      "I downloaded the wallet app from the official website",
+      "I never give my seed phrase to anyone who asks"
+    ],
+    "quiz_en": [
+      {
+        "q": "Why is saving a seed phrase as a screenshot not recommended?",
+        "options": [
+          "The screenshot may sync to the cloud automatically",
+          "The screenshot may be unclear",
+          "The screenshot uses phone storage"
+        ],
+        "answer": "The screenshot may sync to the cloud automatically",
+        "why": "If the cloud account is compromised, the seed phrase in the screenshot can leak too."
+      },
+      {
+        "q": "Someone claiming to be “official support” asks for your seed phrase. What should you do?",
+        "options": [
+          "Refuse; it is a scam",
+          "Provide it so they can help",
+          "Provide only the first few words"
+        ],
+        "answer": "Refuse; it is a scam",
+        "why": "Official teams never ask for seed phrases. Even sharing part of it greatly weakens security."
+      },
+      {
+        "q": "What can happen if you lose the seed phrase for a self-custody wallet?",
+        "options": [
+          "The wallet may never be recoverable",
+          "Support can reset it",
+          "An exchange will recover it for you"
+        ],
+        "answer": "The wallet may never be recoverable",
+        "why": "Self-custody means you hold the key. There is no third party that can reset it."
+      }
+    ],
+    "faq_en": [
+      {
+        "q": "What is a seed phrase?",
+        "a": "A seed phrase is a set of words and the master key for a self-custody wallet. It can restore the wallet on any device, so whoever has it can control the assets inside."
+      },
+      {
+        "q": "What should I do if I lose my seed phrase?",
+        "a": "If the wallet still opens, immediately create a new written backup or move assets to a new wallet and back it up properly. If it no longer opens, no support team can reset it. Be very cautious of services claiming they can “crack” a seed phrase."
+      },
+      {
+        "q": "Can I keep a seed phrase in phone notes or cloud storage?",
+        "a": "Not recommended. Connected devices and cloud accounts can be compromised. Writing it on paper and keeping two copies in separate secure places is safer."
+      }
+    ]
+  }
+}

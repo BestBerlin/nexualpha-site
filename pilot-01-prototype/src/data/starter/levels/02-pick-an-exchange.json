@@ -1,0 +1,308 @@
+{
+  "meta": {
+    "level": 2,
+    "slug": "pick-an-exchange",
+    "title_zh": "挑交易所：5 项检查",
+    "title_en": "Picking an exchange: 5 checks",
+    "hook_zh": "币安、OKX，到底选哪个？",
+    "cta": {
+      "kind": "signup",
+      "partner": null,
+      "line_zh": "先在 NexuAlpha 对比页核对这 5 项的官方来源，再从官网注册。页面上的注册入口是合作推广链接，佣金由交易所支付。",
+      "line_en": "Check the official sources for these five items on the NexuAlpha compare page, then sign up on the official site. Sign-up buttons there are partner links; the exchange pays the commission."
+    },
+    "next_slug": "can-an-exchange-collapse",
+    "sources": [
+      "https://www.okx.com/proof-of-reserves",
+      "https://www.bitget.com/proof-of-reserves",
+      "https://www.binance.com/en/proof-of-reserves",
+      "https://www.sfc.hk/en/Welcome-to-the-Fintech-Contact-Point/Virtual-assets/Virtual-asset-trading-platforms-operators/Lists-of-virtual-asset-trading-platforms",
+      "https://www.okx.com/fees",
+      "https://www.bitget.com/fee",
+      "https://nexualpha.com/compare"
+    ],
+    "sensitive": false,
+    "review_notes": "中立对比，不点名推荐单一平台；CTA 指向 /compare，partner=null。储备证明只说'能说明某一时点的资产与负债情况，不等于没有风险'。香港持牌名单只作为'怎么查'的示例，其他地区请查当地监管机构。需披露 NexuAlpha 与 OKX、Bitget、Binance 等平台有合作。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"币安、OKX、Bitget，到底选哪个？\"网上的对比文，很多自带返佣链接。我们换个方法：教你自己查。",
+      "voice_en": "\"Binance, OKX, Bitget — which one should I pick?\" Many comparison posts carry referral links. Let's do it differently: check for yourself.",
+      "title": "到底选哪个？",
+      "sub": "不听推荐，自己查 5 项",
+      "visual": {
+        "type": "split-choice",
+        "params": {
+          "question": "选哪家交易所？",
+          "options": [
+            "交易所 A",
+            "交易所 B",
+            "交易所 C"
+          ],
+          "note": "先检查，再决定"
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "第一项，储备证明。看平台有没有定期公布用户资产和储备的对照。它说明某一时点的情况，不等于零风险。",
+      "voice_en": "Check one: proof of reserves. See whether the platform regularly publishes user assets against its reserves. It shows one moment in time, not zero risk.",
+      "title": "① 储备证明",
+      "sub": "定期公布，但不等于零风险",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "储备证明",
+            "所在地可用",
+            "安全记录",
+            "费用",
+            "官方域名"
+          ],
+          "active": 0
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "第二项，你所在的地方能不能用。各地规则不同，有的地区要求平台持牌。去当地监管机构的网站查名单。",
+      "voice_en": "Check two: is it available where you live? Rules differ by region, and some require a licence. Look up the list on your local regulator's website.",
+      "title": "② 所在地可用",
+      "sub": "以当地监管机构名单为准",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "储备证明",
+            "所在地可用",
+            "安全记录",
+            "费用",
+            "官方域名"
+          ],
+          "active": 1,
+          "example": "示例：香港证监会公布持牌平台名单"
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "第三项，安全记录。搜一下平台名称加\"被盗\"或\"暂停提币\"。出过事不一定不能用，关键看它怎么处理。",
+      "voice_en": "Check three: security record. Search the platform name with \"hack\" or \"withdrawals paused\". A past incident isn't automatically a deal-breaker; how it was handled matters.",
+      "title": "③ 安全记录",
+      "sub": "出过事，看怎么处理",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "储备证明",
+            "所在地可用",
+            "安全记录",
+            "费用",
+            "官方域名"
+          ],
+          "active": 2
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "第四项，费用。看官方费率页上的现货挂单和吃单费率。还要看提币费，不只看交易费。",
+      "voice_en": "Check four: fees. Read the maker and taker spot rates on the official fee page. Look at withdrawal fees too, not just trading fees.",
+      "title": "④ 费用",
+      "sub": "以官方费率页为准",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "",
+            "现货挂单",
+            "现货吃单"
+          ],
+          "rows": [
+            [
+              "OKX",
+              "0.08%",
+              "0.10%"
+            ],
+            [
+              "Bitget",
+              "0.10%",
+              "0.10%"
+            ],
+            [
+              "Binance",
+              "0.10%",
+              "0.10%"
+            ]
+          ],
+          "note": "基础档费率，截至 2026-10-10，以官方页面为准"
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "第五项，官方域名。只从官网或官方应用商店页面下载 App。搜索广告和私信链接，都可能是仿冒的。",
+      "voice_en": "Check five: the official domain. Download the app only from the official site or its official app-store page. Search ads and DM links can be fakes.",
+      "title": "⑤ 官方域名",
+      "sub": "搜索广告、私信链接要当心",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "warn",
+          "text": "只认官方域名",
+          "detail": "仿冒网站常出现在搜索广告和私信里"
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "说明一下：NexuAlpha 和这些平台有合作。我们的对比页把每一项都链接到官方来源，你可以自己核对。",
+      "voice_en": "A note: NexuAlpha has partnerships with these platforms. Our compare page links every item to its official source, so you can verify it yourself.",
+      "title": "利益关系先说清",
+      "sub": "合作推广链接，佣金由交易所支付",
+      "visual": {
+        "type": "definition",
+        "params": {
+          "term": "合作披露",
+          "lines": [
+            "NexuAlpha 与 OKX、Bitget、Binance 等有合作",
+            "每项事实都附官方来源",
+            "合作推广链接，佣金由交易所支付"
+          ]
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "回顾：储备、所在地、安全记录、费用、域名，五项都查过再决定。没有绝对安全的平台。下一关，聊聊交易所会不会跑路。",
+      "voice_en": "Recap: reserves, availability, security record, fees, domain. Check all five before you decide. No platform is perfectly safe. Next: can an exchange collapse?",
+      "title": "五项查完再选",
+      "sub": "下一关：交易所会跑路吗",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "储备证明",
+            "所在地可用",
+            "安全记录",
+            "费用",
+            "官方域名"
+          ],
+          "all_checked": true,
+          "next": "can-an-exchange-collapse"
+        }
+      },
+      "min_s": 11
+    }
+  ],
+  "page": {
+    "summary_zh": "挑交易所没有\"最好\"，只有\"查过\"。注册前检查五项：是否公布储备证明、你所在地是否允许使用、历史安全记录及处理方式、官方费率页上的交易费和提币费、以及是否从官方域名下载。储备证明只反映某一时点的情况，不代表没有风险。NexuAlpha 与多家交易所有合作，对比页上的每项事实都附官方来源。",
+    "checklist_zh": [
+      "看过该平台最近一期储备证明",
+      "在当地监管机构网站确认过是否可用",
+      "搜索过平台的安全事件及处理方式",
+      "在官方费率页看过交易费和提币费",
+      "确认 App 来自官网或官方应用商店页面"
+    ],
+    "quiz": [
+      {
+        "q": "储备证明能说明什么？",
+        "options": [
+          "某一时点资产与储备的对照",
+          "平台永远不会出问题",
+          "你一定能赚钱"
+        ],
+        "answer": "某一时点资产与储备的对照",
+        "why": "储备证明是某个时间点的快照，有参考价值，但不等于零风险。"
+      },
+      {
+        "q": "怎么确认一家平台在你所在地是否合规？",
+        "options": [
+          "查当地监管机构公布的名单",
+          "看网红推荐",
+          "看平台自己的广告"
+        ],
+        "answer": "查当地监管机构公布的名单",
+        "why": "以监管机构的官方名单为准，例如香港证监会公布的持牌平台名单。"
+      },
+      {
+        "q": "下载交易所 App，最稳妥的入口是？",
+        "options": [
+          "官网或官方应用商店页面",
+          "搜索广告第一条",
+          "私信发来的链接"
+        ],
+        "answer": "官网或官方应用商店页面",
+        "why": "仿冒网站和假 App 常通过搜索广告和私信传播。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "币安和 OKX 哪个好？",
+        "a": "没有对所有人都最好的平台。按五项检查：储备证明、所在地是否可用、安全记录、费用、官方域名，再结合自己的需要决定。"
+      },
+      {
+        "q": "有储备证明就安全吗？",
+        "a": "不一定。储备证明说明某一时点的资产与负债对照，是有用的信号，但不能排除所有风险。"
+      },
+      {
+        "q": "NexuAlpha 推荐的平台是不是收了钱？",
+        "a": "我们与 OKX、Bitget、Binance 等平台有合作，用户通过合作推广链接注册时，佣金由交易所支付。所以我们把每项事实都链接到官方来源，方便你自己核对。"
+      }
+    ],
+    "summary_en": "There is no single best exchange, only one you have checked. Before signing up, check five things: whether it publishes proof of reserves, whether it is available where you live, its security history and how incidents were handled, trading and withdrawal fees on official fee pages, and whether you are downloading from the official domain. Proof of reserves only reflects a point in time and does not mean zero risk. NexuAlpha works with multiple exchanges, and each fact on the compare page links to an official source.",
+    "checklist_en": [
+      "I have reviewed the platform's latest proof of reserves",
+      "I have checked whether it is available through my local regulator's site",
+      "I have searched for past security incidents and how they were handled",
+      "I have checked trading and withdrawal fees on the official fee page",
+      "I have confirmed the app comes from the official site or official app-store page"
+    ],
+    "quiz_en": [
+      {
+        "q": "What can proof of reserves show?",
+        "options": [
+          "A point-in-time comparison of assets and reserves",
+          "That the platform can never fail",
+          "That you are guaranteed to make money"
+        ],
+        "answer": "A point-in-time comparison of assets and reserves",
+        "why": "Proof of reserves is a snapshot at a specific time. It is useful, but it does not mean zero risk."
+      },
+      {
+        "q": "How should you check whether a platform is compliant where you live?",
+        "options": [
+          "Check the list published by your local regulator",
+          "Follow an influencer recommendation",
+          "Trust the platform's advertisement"
+        ],
+        "answer": "Check the list published by your local regulator",
+        "why": "Use official regulator lists as the reference, such as a licensed-platform list published by a local authority."
+      },
+      {
+        "q": "What is the safest entry point for downloading an exchange app?",
+        "options": [
+          "The official site or official app-store page",
+          "The first search ad",
+          "A private-message link"
+        ],
+        "answer": "The official site or official app-store page",
+        "why": "Fake websites and fake apps often spread through search ads and private messages."
+      }
+    ],
+    "faq_en": [
+      {
+        "q": "Is Binance or OKX better?",
+        "a": "No platform is best for everyone. Check the five items: proof of reserves, local availability, security record, fees, and official domain, then decide based on your needs."
+      },
+      {
+        "q": "Does proof of reserves mean an exchange is safe?",
+        "a": "Not necessarily. Proof of reserves shows a point-in-time comparison of assets and liabilities. It is a useful signal, but it cannot remove every risk."
+      },
+      {
+        "q": "Does NexuAlpha get paid for recommended platforms?",
+        "a": "We work with OKX, Bitget, Binance, and other platforms. If users sign up through partner links, the exchange pays the commission. That is why each fact links to an official source so you can check it yourself."
+      }
+    ]
+  }
+}

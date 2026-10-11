@@ -476,6 +476,7 @@ export function CleanFooter({ locale = "en", brazil = false }) {
         <nav className="clean-footer__nav clean-footer__nav--primary nx-ftr__list nx-ftr__list--inline" aria-label={labels.navAria}>
           <ul>
             <li><a href={href("/exchanges")}>{labels.directory}</a></li>
+            <li><a href={locale === "zh-Hans" ? "/zh-hans/starter" : "/starter"}>{locale === "zh-Hans" ? "新手村" : "Starter Path"}</a></li>
             <li><a href={href("/topics")}>{labels.topics}</a></li>
             <li><a href={href("/factbook")}>{labels.factbook}</a></li>
             <li><a href={brazil ? "/br/custos" : href("/embed/calculator")}>{labels.calculator}</a></li>
