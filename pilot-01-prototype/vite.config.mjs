@@ -230,6 +230,11 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/data/official-campaign-research.js")) return "data-official-research";
           if (id.includes("/src/data/venue-decision-content.js")) return "data-decision-content";
           if (id.includes("/src/data/priority-venue-answers.js")) return "data-priority-venue-answers";
+          // Compare-any (PR #60): keep the pair policy/templates, the picker and the route helper out of route-v3-pages,
+          // otherwise the directory's picker import drags every V3 route chunk in (QA 2026-10-11: /exchanges 456 → 1003 KB).
+          if (id.includes("/src/data/compare-generated.js") || id.includes("/src/data/compare-pairs/") || id.includes("/src/data/compare-pair-answers.js")) return "data-compare-generated";
+          if (id.includes("/src/components/compare/CompareAnyPicker") || id.includes("/src/components/compare/compare-any-picker.css")) return "shared-compare-picker";
+          if (id.includes("/src/components/v6/compare-routes.js") || id.includes("/src/data/compare-slug.js")) return "shared-compare-routes";
           if (id.includes("/src/data/compare-direct-answers.js")) return "data-compare-direct-answers";
           if (id.includes("/src/data/compare-faq-locales.js")) return "data-compare-faq-locales";
           if (id.includes("/src/data/telegram-config.js")) return "data-telegram";

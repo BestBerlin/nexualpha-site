@@ -3,7 +3,7 @@
 // every compare route that names them 404s (or redirects away). This mirrors
 // FACTBOOK_ONLY_LEGACY_SLUGS in scripts/generate-prerender-manifest.mjs and
 // factbookOnlyDecisionSlugs in FactbookPage.jsx.
-import { canonicalComparePairSlug } from "../../data/compare-generated.js";
+import { canonicalComparePairSlug } from "../../data/compare-slug.js";
 
 export const NO_COMPARE_ROUTE = new Set(["htx", "hashkey", "aevo"]);
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
-import { ACTIVE_COMPARE_VENUE_SLUGS, canonicalComparePath, comparePickerCopy } from "../../data/compare-generated.js";
+import { ACTIVE_COMPARE_VENUE_SLUGS, canonicalComparePath, comparePickerCopy } from "../../data/compare-slug.js";
 import "./compare-any-picker.css";
 
 // "Compare any two" picker (2026-10-11). Works without JavaScript: a GET form to /compare?a=<slug>&b=<slug> that the
