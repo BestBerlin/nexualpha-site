@@ -20,4 +20,4 @@
 [lang="zh-Hant"]{--font-display:"Pilot Noto TC","PingFang TC","Microsoft JhengHei",sans-serif;--font-body:var(--font-display);--font-data:var(--font-display)}
 [lang="ja"]{--font-display:"Pilot Noto JP","Hiragino Sans",sans-serif;--font-body:var(--font-display);--font-data:var(--font-display)}
 [lang="ko"]{--font-display:"Pilot Noto KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;--font-body:var(--font-display);--font-data:var(--font-display)}
-[lang="ar"]{--font-display:"Pilot Noto Arabic",Tahoma,Arial,sans-serif;--font-body:var(--font-display);--font-data:var(--font-display)}
+[lang="ar"], [lang="ur"]{--font-display:"Pilot Noto Arabic",Tahoma,Arial,sans-serif;--font-body:var(--font-display);--font-data:var(--font-display)}

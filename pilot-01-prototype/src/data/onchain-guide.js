@@ -39,6 +39,10 @@ const SEO = {
   id: ["Proof of reserves: cara memverifikasi exchange kripto", (n) => `Panduan langkah demi langkah membaca laporan proof of reserves exchange, dengan tautan resmi ${n} platform. Laporan cadangan bukan jaminan solvabilitas.`],
   vi: ["Bằng chứng dự trữ: cách kiểm tra một sàn crypto", (n) => `Hướng dẫn từng bước đọc báo cáo bằng chứng dự trữ (PoR) của sàn, kèm liên kết chính thức của ${n} sàn. Báo cáo dự trữ không đảm bảo khả năng thanh toán.`],
   ar: ["إثبات الاحتياطيات: كيف تتحقق من منصة تداول", (n) => `دليل خطوة بخطوة لقراءة تقرير إثبات الاحتياطيات لدى المنصة، مع روابط رسمية لـ ${n} منصات. تقرير الاحتياطيات ليس ضمانًا للملاءة أو الأمان.`],
+  // l10n: needs native review
+  ur: ["ذخائر کا ثبوت: کرپٹو ایکسچینج کی تصدیق کیسے کریں", (n) => `ایکسچینج کی ذخائر کے ثبوت والی رپورٹ پڑھنے کا مرحلہ وار رہنما، ${n} پلیٹ فارمز کی سرکاری رپورٹ کے روابط کے ساتھ۔ ذخائر کی رپورٹس ادائیگی کی صلاحیت کی ضمانت نہیں ہوتیں۔`],
+  // l10n: needs native review
+  uk: ["Proof of Reserves: як перевірити криптобіржу", (n) => `Покроковий посібник із читання звіту біржі про підтвердження резервів, з офіційними посиланнями на звіти для ${n} платформ. Звіти про резерви не гарантують платоспроможність.`],
 };
 
 export const ONCHAIN_GUIDE_LOCALES = Object.freeze(Object.keys(SEO));

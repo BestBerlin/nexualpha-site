@@ -3,6 +3,11 @@ import { appendDecisionPassportQuery } from "./decision-passport.js";
 import { comparePathFor } from "../components/v6/compare-routes.js";
 
 const COPY = {
+  // l10n: needs native review
+  ur: {"eyebrow": "اگلا قدم", "title": "تحقیق کا اگلا راستہ منتخب کریں", "body": "اکاؤنٹ پر کوئی اقدام کرنے سے پہلے NexuAlpha میں پلیٹ فارم کا پروفائل، موازنہ اور Telegram تحقیق کا سیاق دیکھیں۔", "profile": "پلیٹ فارم پروفائل کھولیں", "compare": "موازنہ کھولیں", "telegram": "Telegram میں تحقیق جاری رکھیں"},
+  // l10n: needs native review
+  uk: {"eyebrow": "НАСТУПНИЙ КРОК", "title": "Виберіть наступний крок дослідження", "body": "Перед діями з обліковим записом перегляньте на NexuAlpha профіль платформи, порівняння та дослідницький контекст Telegram.", "profile": "Відкрити профіль платформи", "compare": "Відкрити порівняння", "telegram": "Продовжити дослідження в Telegram"},
+
   en: {
     eyebrow: "NEXT STEP",
     title: "Choose the next research step",

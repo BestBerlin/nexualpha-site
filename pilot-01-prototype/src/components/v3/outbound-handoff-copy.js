@@ -262,9 +262,14 @@ const localizedCopy = {
     safetyError: "La destinazione non ha superato il controllo di sicurezza. Nessuna navigazione.",
     submitted: "Richiesta registrata. Apertura del sito ufficiale.",
   },
+
+ // l10n: needs native review
+ ur: {title:"سرکاری سائٹ پر منتقلی",loading:"اس پلیٹ فارم کے لیے منظور شدہ منتقلی کی جانچ ہو رہی ہے۔",noOffer:"اس پلیٹ فارم اور ملک کے لیے منظور شدہ عوامی منتقلی دستیاب نہیں۔",unavailable:"منتقلی کی خدمت دستیاب نہیں۔ کوئی بیرونی لنک نہیں کھولا جاتا۔",retry:"منتقلی دوبارہ جانچیں",countryLabel:"اعلان کردہ ملک",chooseCountry:"ملک / علاقہ منتخب کریں",chooseCountryHint:"پہلے ملک یا علاقہ منتخب کریں؛ یہ آپ کا اعلان ہے، مصنوعات کی اہلیت نہیں۔ NexuAlpha زبان یا IP سے اس کا اندازہ نہیں لگاتا۔",consentLabel:"میں نے انکشاف پڑھ لیا ہے اور سرکاری بیرونی سائٹ کھولنا چاہتا ہوں۔",continue:"سرکاری سائٹ کھولیں",disclosurePrefix:"اصل جائزہ شدہ انکشاف",originalDisclosureNote:"جائزہ شدہ ماخذ کا اصل متن دکھایا گیا ہے؛ NexuAlpha یہاں شراکت دار کے انکشاف کا ترجمہ یا ترمیم نہیں کرتا۔",destinationHost:"سرکاری ڈومین",safetyError:"منزل حفاظتی جانچ میں ناکام ہوئی۔ کوئی منتقلی نہیں ہوئی۔",requestError:"منتقلی کی درخواست مکمل نہیں ہو سکی۔ یہی تصدیق برقرار رکھ کر دوبارہ کوشش کریں۔",staleError:"پیشکش بدل گئی یا ختم ہو گئی۔ منتقلی دوبارہ جانچیں اور پھر تصدیق کریں۔",submitted:"منتقلی ریکارڈ ہو گئی۔ سرکاری سائٹ کھل رہی ہے۔"},
+ // l10n: needs native review
+ uk: {title:"Перехід на офіційний сайт",loading:"Перевіряємо схвалений перехід для цієї платформи.",noOffer:"Для цієї платформи та країни немає схваленого публічного переходу.",unavailable:"Сервіс переходу недоступний. Зовнішнє посилання не відкривається.",retry:"Перевірити перехід повторно",countryLabel:"Заявлена країна",chooseCountry:"Виберіть країну / регіон",chooseCountryHint:"Спочатку виберіть країну або регіон; це ваша заява, а не підтвердження доступності продукту. NexuAlpha не визначає її за мовою чи IP.",consentLabel:"Я прочитав розкриття інформації та хочу відкрити офіційний зовнішній сайт.",continue:"Відкрити офіційний сайт",disclosurePrefix:"Оригінальне перевірене розкриття",originalDisclosureNote:"Показано перевірений текст джерела; NexuAlpha тут не перекладає та не переписує розкриття партнера.",destinationHost:"Офіційний домен",safetyError:"Адреса призначення не пройшла перевірку безпеки. Перехід не відбувся.",requestError:"Не вдалося виконати запит переходу. Збережіть це підтвердження та спробуйте ще раз.",staleError:"Пропозиція змінилася або завершилася. Перевірте перехід і підтвердьте знову.",submitted:"Перехід записано. Відкриваємо офіційний сайт."},
 };
 
-export const handoffLocales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+export const handoffLocales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 
 export function handoffCopy(locale) {
   return { ...defaultCopy, ...(localizedCopy[locale] ?? {}) };

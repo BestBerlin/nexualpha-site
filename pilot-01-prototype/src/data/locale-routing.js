@@ -14,6 +14,8 @@ export const LOCALE_PREFIX_BY_CODE = Object.freeze({
   id: "id-id",
   vi: "vi",
   it: "it",
+  ur: "ur",
+  uk: "uk-ua",
 });
 
 export const LOCALE_CODE_BY_PREFIX = Object.freeze(

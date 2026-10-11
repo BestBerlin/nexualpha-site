@@ -18,6 +18,11 @@ const COPY = {
   id: ["Tampilkan semua ({n})", "Tampilkan lebih sedikit"],
   vi: ["Hiện tất cả ({n})", "Thu gọn"],
   ar: ["عرض الكل ({n})", "عرض أقل"],
+
+ // l10n: needs native review
+ ur: ["تمام دکھائیں ({n})","کم دکھائیں"],
+ // l10n: needs native review
+ uk: ["Показати всі ({n})","Показати менше"],
 };
 
 export function showAllCopy(locale, n) {

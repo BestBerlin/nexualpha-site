@@ -2,7 +2,7 @@ import { researchForVenue } from "../../data/exchange-research.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { sanitizeAccountStage, sanitizeFunding, sanitizeMarket, sanitizeProduct } from "../../data/growth-context.js";
 
-const supportedLocales = new Set(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"]);
+const supportedLocales = new Set(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"]);
 
 // Search-only aliases preserve the official names displayed in every locale.
 const venueSearchAliases = new Map([

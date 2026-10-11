@@ -11,7 +11,7 @@ import { NEWS_DAY_COPY, groupNewsByDay, relativeDay } from "../src/components/v3
 import { MARKET_CONTEXT_COPY, detectArticleAssets, formatFunding, formatPrice, formatUsdShort, marketContextSnapshot } from "../src/components/v3/news/article-market-context.js";
 import { createSsrHarness, SHELL_HTML, prerenderState, rootInnerHtml, hydrateInJsdom, hydrationErrors } from "./helpers/ssr-hydration-harness.mjs";
 
-const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
+const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 
 const body = [
   "## The short answer",
@@ -65,7 +65,7 @@ test.before(async () => { harness = await createSsrHarness(); });
 test.after(async () => { await harness?.close(); });
 const fetchPage = (pathname, env) => worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), env);
 
-test("copy for the new blocks exists in all 15 locales", () => {
+test("copy for the new blocks exists in all 17 locales", () => {
   assert.deepEqual(Object.keys(NEWS_DAY_COPY).sort(), [...LOCALES].sort());
   assert.deepEqual(Object.keys(MARKET_CONTEXT_COPY).sort(), [...LOCALES].sort());
   assert.deepEqual([...COLLECTION_HUB_LOCALES].sort(), [...LOCALES].sort());

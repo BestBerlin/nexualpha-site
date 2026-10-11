@@ -19,8 +19,13 @@ const labels = {
   id: ["Detail platform", "Fakta bersumber, bukan skor", "Lihat sumber", "Diperiksa", "Riset asli dalam bahasa Inggris", "Bandingkan detail", "Hanya perbedaan", "Produk", "Biaya", "Penyimpanan aset", "Akun dan akses", "Eksekusi", "Belum didokumentasikan", "Tidak ada perbedaan pada kolom tersedia", "Referensi resmi"],
   vi: ["Chi tiết nền tảng", "Dữ kiện có nguồn, không chấm điểm", "Xem nguồn", "Ngày kiểm tra", "Nghiên cứu gốc bằng tiếng Anh", "So sánh chi tiết", "Chỉ xem khác biệt", "Sản phẩm", "Phí", "Lưu ký", "Tài khoản và truy cập", "Khớp lệnh", "Chưa được ghi nhận", "Các trường hiện có không khác biệt", "Tài liệu chính thức"],
   it: ["La piattaforma in dettaglio", "Fatti con fonti, non punteggi", "Leggi la fonte", "Verificato", "Ricerca originale in inglese", "Confronta i dettagli", "Solo differenze", "Prodotti", "Commissioni", "Custodia", "Account e accesso", "Esecuzione", "Non documentato nella ricerca", "Nessuna differenza nei campi disponibili", "Riferimenti ufficiali"],
+  // l10n: needs native review
+  ur: ["پلیٹ فارم کی تفصیل", "ماخذ سے جڑے حقائق، اسکور نہیں", "ماخذ پڑھیں", "تحقیق کی جانچ", "اصل تحقیق انگریزی میں ہے", "تفصیلات کا موازنہ", "صرف فرق دکھائیں", "مصنوعات", "فیس", "تحویل", "اکاؤنٹ اور رسائی", "عمل درآمد", "اس تحقیق میں درج نہیں", "دستیاب خانوں میں کوئی فرق نہیں", "سرکاری حوالہ جات"],
+  // l10n: needs native review
+  uk: ["Платформа докладно", "Факти з джерелами, а не оцінка", "Читати джерело", "Дослідження перевірено", "Оригінальне дослідження англійською", "Порівняти деталі", "Показати лише відмінності", "Продукти", "Комісії", "Зберігання активів", "Акаунт і доступ", "Виконання", "Не задокументовано в цьому дослідженні", "У доступних полях немає відмінностей", "Офіційні посилання"],
 };
 const textFor = (locale) => labels[locale] ?? labels[String(locale || "").split("-")[0]] ?? labels.en;
+const isRtlLocale = (locale) => ["ar", "ur"].includes(String(locale || "").split("-")[0]);
 const axes = ["products", "fees", "custody", "access", "execution"];
 
 export function ResearchPanel({ slug, locale }) {
@@ -30,7 +35,7 @@ export function ResearchPanel({ slug, locale }) {
   return <section className="v2-section research-panel" id="platform-facts">
     <div className="research-heading"><div><p>{text[1]}</p><h2>{text[0]}</h2></div><small>{text[3]} <time dateTime={research.checkedAt}>{new Date(research.checkedAt).toISOString().slice(0, 10)}</time></small></div>
     {research.contentLocale !== locale && <p className="research-language-note">{text[4]}</p>}
-    <dl className="research-facts" lang={research.contentLocale} dir={research.contentLocale === "ar" ? "rtl" : "ltr"}>
+    <dl className="research-facts" lang={research.contentLocale} dir={isRtlLocale(research.contentLocale) ? "rtl" : "ltr"}>
       {research.facts.map((fact) => <div key={fact.id ?? fact.label}><dt>{fact.label}</dt><dd>{fact.value}<a href={fact.sourceUrl} target="_blank" rel="noopener noreferrer" lang={locale} aria-label={`${text[2]}: ${fact.label}`}>{text[2]} <span aria-hidden="true">↗</span></a></dd></div>)}
     </dl>
     <details className="research-references"><summary>{text[14]} <span>{research.sources.length}</span></summary><ul>{research.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a></li>)}</ul></details>
@@ -49,7 +54,7 @@ export function ResearchComparison({ profiles, locale }) {
     <div className="research-heading"><h2>{text[5]}</h2><label className="research-differences"><input type="checkbox" checked={differences} onChange={(event) => setDifferences(event.target.checked)} />{text[6]}</label></div>
     {research.some((entry) => entry && entry.contentLocale !== locale) && <p className="research-language-note">{text[4]}</p>}
     {rows.length ? <table className="research-table"><thead><tr><th scope="col">{text[5]}</th>{profiles.map((profile) => <th scope="col" key={profile.slug}><span translate="no" lang="en" dir="ltr"><BrandMark slug={profile.slug} compact />{profile.name}</span></th>)}</tr></thead>
-      <tbody>{rows.map((row) => <tr key={row.id}><th scope="row">{row.label}</th>{row.facts.map((facts, index) => <td key={profiles[index].slug} data-platform={profiles[index].name} lang={facts.length ? research[index].contentLocale : locale} dir={facts.length && research[index].contentLocale !== "ar" ? "ltr" : undefined}>{facts.length ? facts.map((fact) => <p key={fact.id}>{fact.value}<a href={fact.sourceUrl} target="_blank" rel="noopener noreferrer" lang={locale}>{text[2]} ↗</a></p>) : text[12]}</td>)}</tr>)}</tbody>
+      <tbody>{rows.map((row) => <tr key={row.id}><th scope="row">{row.label}</th>{row.facts.map((facts, index) => <td key={profiles[index].slug} data-platform={profiles[index].name} lang={facts.length ? research[index].contentLocale : locale} dir={facts.length ? (isRtlLocale(research[index].contentLocale) ? "rtl" : "ltr") : undefined}>{facts.length ? facts.map((fact) => <p key={fact.id}>{fact.value}<a href={fact.sourceUrl} target="_blank" rel="noopener noreferrer" lang={locale}>{text[2]} ↗</a></p>) : text[12]}</td>)}</tr>)}</tbody>
     </table> : <p role="status">{text[13]}</p>}
   </section>;
 }

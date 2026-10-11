@@ -95,11 +95,15 @@ copy.fr = { ...copy.en, all:"Tous les articles", research:"Recherche approfondie
 copy.de = { ...copy.en, all:"Alle Artikel", research:"Tiefenrecherche", rates:"Gebührenänderungen", compliance:"Compliance", readArticle:"Artikel lesen →", compareVenues:"Genannte Plattformen vergleichen →", readTime:"Lesezeit", verifiedSource:"Offizielle Quelle geprüft", openRegister:"Offizielle Website öffnen ↗", emptyTitle:"Noch keine geprüften Artikel", loadingTitle:"Geprüfte Artikel werden geladen…", showMore:"Mehr Artikel anzeigen", showFewer:"Artikel einklappen" };
 copy.ru = { ...copy.en, all:"Все статьи", research:"Глубокое исследование", rates:"Изменения комиссий", compliance:"Регулирование", readArticle:"Читать статью →", compareVenues:"Сравнить упомянутые площадки →", readTime:"Время чтения", verifiedSource:"Официальный источник проверен", openRegister:"Открыть официальный сайт ↗", emptyTitle:"Проверенных статей пока нет", loadingTitle:"Загрузка проверенных статей…", showMore:"Показать ещё статьи", showFewer:"Свернуть статьи" };
 copy.ar = { ...copy.en, all:"كل المقالات", research:"بحث معمق", rates:"تغييرات الرسوم", compliance:"الامتثال", readArticle:"قراءة المقال →", compareVenues:"مقارنة المنصات المذكورة →", readTime:"وقت القراءة", verifiedSource:"مصدر رسمي متحقق", openRegister:"فتح الموقع الرسمي ↗", emptyTitle:"لا توجد مقالات مراجعة بعد", loadingTitle:"جارٍ تحميل المقالات المراجعة…", showMore:"عرض المزيد", showFewer:"طي المقالات" };
+// l10n: needs native review
+copy.ur = { ...copy.en, all:"تمام مضامین", research:"گہری تحقیق", rates:"فیس تبدیلیاں", compliance:"کمپلائنس", readArticle:"مضمون پڑھیں →", compareVenues:"ذکر کردہ پلیٹ فارمز کا موازنہ →", readTime:"مطالعہ وقت", verifiedSource:"تصدیق شدہ سرکاری ذریعہ", partnerOffer:"ذکر کردہ پلیٹ فارمز", openRegister:"سرکاری سائٹ کھولیں ↗", emptyTitle:"ابھی کوئی جائزہ شدہ مضمون نہیں", emptyBody:"مضامین عارضی طور پر دستیاب نہیں۔ بعد میں دوبارہ کوشش کریں۔", emptyCategory:"اس زمرے میں ابھی کوئی مضمون نہیں", emptyCategoryBody:"پلیٹ فارمز اور ٹریڈنگ لاگت دیکھنے کے لیے تمام مضامین کھولیں۔", loadingTitle:"جائزہ شدہ مضامین لوڈ ہو رہے ہیں…", loadingBody:"تازہ ترین ذریعہ تصدیق شدہ مواد پڑھا جا رہا ہے۔", showMore:"مزید مضامین دکھائیں", showFewer:"مضامین کم دکھائیں", researchIndex:"تحقیق اشاریہ", researchIndexBody:"جائزہ شدہ آرکائیو کو مضمون کے حساب سے دیکھیں۔" };
+// l10n: needs native review
+copy.uk = { ...copy.en, all:"Усі статті", research:"Глибоке дослідження", rates:"Зміни комісій", compliance:"Комплаєнс", readArticle:"Читати статтю →", compareVenues:"Порівняти згадані платформи →", readTime:"Час читання", verifiedSource:"Перевірене офіційне джерело", partnerOffer:"Згадані платформи", openRegister:"Відкрити офіційний сайт ↗", emptyTitle:"Переглянутих статей ще немає", emptyBody:"Статті тимчасово недоступні. Спробуйте пізніше.", emptyCategory:"У цій категорії ще немає статей", emptyCategoryBody:"Перегляньте всі статті, щоб дослідити платформи й торгові витрати.", loadingTitle:"Завантаження переглянутих статей…", loadingBody:"Читаємо найновіший матеріал із перевіреними джерелами.", showMore:"Показати більше статей", showFewer:"Показати менше статей", researchIndex:"Індекс досліджень", researchIndexBody:"Переглядайте перевірений архів за статтями." };
 copy.id = { ...copy.en, all:"Semua artikel", research:"Riset mendalam", rates:"Perubahan biaya", compliance:"Kepatuhan", readArticle:"Baca artikel →", compareVenues:"Bandingkan platform yang disebut →", readTime:"Waktu baca", verifiedSource:"Sumber resmi terverifikasi", openRegister:"Buka situs resmi ↗", emptyTitle:"Belum ada artikel yang ditinjau", loadingTitle:"Memuat artikel yang ditinjau…", showMore:"Tampilkan artikel lainnya", showFewer:"Ringkas artikel" };
 copy.vi = { ...copy.en, all:"Tất cả bài viết", research:"Nghiên cứu chuyên sâu", rates:"Thay đổi phí", compliance:"Tuân thủ", readArticle:"Đọc bài →", compareVenues:"So sánh nền tảng được đề cập →", readTime:"Thời gian đọc", verifiedSource:"Đã xác minh nguồn chính thức", openRegister:"Mở trang chính thức ↗", emptyTitle:"Chưa có bài viết được duyệt", loadingTitle:"Đang tải bài viết đã duyệt…", showMore:"Xem thêm bài viết", showFewer:"Thu gọn bài viết" };
 copy.it = { ...copy.en, all:"Tutti gli articoli", research:"Ricerca approfondita", rates:"Variazioni delle commissioni", compliance:"Conformità", readArticle:"Leggi l'articolo →", compareVenues:"Confronta le piattaforme citate →", readTime:"Tempo di lettura", verifiedSource:"Fonte ufficiale verificata", openRegister:"Apri il sito ufficiale ↗", emptyTitle:"Nessun articolo verificato", loadingTitle:"Caricamento degli articoli verificati…", showMore:"Mostra altri articoli", showFewer:"Riduci articoli" };
 const untranslatedNotice = {
-  ko: "이 글은 영어 원문입니다. 검토 후 번역본을 추가합니다.", tr: "Bu yazı İngilizce aslıyla gösteriliyor. İnceleme sonrası çeviri eklenecek.", es: "Este artículo está en inglés original. Añadiremos la traducción tras su revisión.", "pt-BR": "Este artigo está no idioma original em inglês. A tradução será adicionada após revisão.", fr: "Cet article est dans sa langue originale anglaise. La traduction sera ajoutée après vérification.", de: "Dieser Artikel liegt im englischen Original vor. Die Übersetzung folgt nach der Prüfung.", ar: "هذا المقال باللغة الإنجليزية الأصلية. ستُضاف الترجمة بعد المراجعة.", ru: "Статья приведена на английском оригинале. Перевод будет добавлен после проверки.", id: "Artikel ini ditampilkan dalam bahasa Inggris asli. Terjemahan ditambahkan setelah peninjauan.", vi: "Bài viết đang ở bản gốc tiếng Anh. Bản dịch sẽ được thêm sau khi rà soát.", it: "Questo articolo è nella versione originale inglese. La traduzione sarà aggiunta dopo la revisione.", "zh-Hans": "本文暂以英文原文展示，审核后补充翻译。", "zh-Hant": "本文暫以英文原文展示，審閱後補充翻譯。"
+  ko: "이 글은 영어 원문입니다. 검토 후 번역본을 추가합니다.", tr: "Bu yazı İngilizce aslıyla gösteriliyor. İnceleme sonrası çeviri eklenecek.", es: "Este artículo está en inglés original. Añadiremos la traducción tras su revisión.", "pt-BR": "Este artigo está no idioma original em inglês. A tradução será adicionada após revisão.", fr: "Cet article est dans sa langue originale anglaise. La traduction sera ajoutée après vérification.", de: "Dieser Artikel liegt im englischen Original vor. Die Übersetzung folgt nach der Prüfung.", ar: "هذا المقال باللغة الإنجليزية الأصلية. ستُضاف الترجمة بعد المراجعة.", ur: "یہ مضمون انگریزی اصل زبان میں دکھایا جا رہا ہے۔ جائزے کے بعد ترجمہ شامل کیا جائے گا.", uk: "Цю статтю показано в оригіналі англійською. Переклад буде додано після перегляду.", ru: "Статья приведена на английском оригинале. Перевод будет добавлен после проверки.", id: "Artikel ini ditampilkan dalam bahasa Inggris asli. Terjemahan ditambahkan setelah peninjauan.", vi: "Bài viết đang ở bản gốc tiếng Anh. Bản dịch sẽ được thêm sau khi rà soát.", it: "Questo articolo è nella versione originale inglese. La traduzione sarà aggiunta dopo la revisione.", "zh-Hans": "本文暂以英文原文展示，审核后补充翻译。", "zh-Hant": "本文暫以英文原文展示，審閱後補充翻譯。"
 };
 for (const [locale, notice] of Object.entries(untranslatedNotice)) copy[locale] = { ...copy[locale], originalLanguageNotice: notice };
 
@@ -197,6 +201,26 @@ const newsReaderUi = {
     "researchIndex": "فهرس الأبحاث",
     "researchIndexBody": "تصفح الأرشيف المُراجع حسب المقالة.",
     "sourceBackedResearch": "أبحاث تستند إلى المصادر"
+  },
+  // l10n: needs native review
+  "ur": {
+    "emptyBody": "مضامین عارضی طور پر دستیاب نہیں۔ بعد میں دوبارہ کوشش کریں۔",
+    "emptyCategory": "اس زمرے میں ابھی کوئی مضمون نہیں",
+    "emptyCategoryBody": "پلیٹ فارمز اور ٹریڈنگ لاگت دیکھنے کے لیے تمام مضامین دیکھیں۔",
+    "loadingBody": "تازہ ترین ذریعہ تصدیق شدہ مواد لوڈ ہو رہا ہے۔",
+    "researchIndex": "تحقیق اشاریہ",
+    "researchIndexBody": "جائزہ شدہ آرکائیو کو مضمون کے حساب سے دیکھیں۔",
+    "sourceBackedResearch": "ذرائع پر مبنی تحقیق"
+  },
+  // l10n: needs native review
+  "uk": {
+    "emptyBody": "Статті тимчасово недоступні. Спробуйте пізніше.",
+    "emptyCategory": "У цій категорії ще немає статей",
+    "emptyCategoryBody": "Перегляньте всі статті, щоб дослідити платформи й торгові витрати.",
+    "loadingBody": "Завантажуємо найновіший матеріал із перевіреними джерелами.",
+    "researchIndex": "Індекс досліджень",
+    "researchIndexBody": "Переглядайте перевірений архів за статтями.",
+    "sourceBackedResearch": "Дослідження на основі джерел"
   },
   "id": {
     "emptyBody": "Artikel sementara tidak tersedia. Coba lagi nanti.",

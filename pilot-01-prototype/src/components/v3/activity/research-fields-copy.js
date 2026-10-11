@@ -15,12 +15,27 @@ const rows = {
   id: ['Wilayah', 'Kelayakan', 'Verifikasi identitas', 'Syarat setoran', 'Syarat perdagangan', 'Jenis hadiah', 'Syarat hadiah maksimum', 'Batasan', 'Tanggal publikasi', 'Ketepatan tanggal', 'Bukti belum lengkap'],
   vi: ['Khu vực', 'Điều kiện tham gia', 'Xác minh danh tính', 'Yêu cầu nạp tiền', 'Yêu cầu giao dịch', 'Loại phần thưởng', 'Điều kiện thưởng tối đa', 'Giới hạn', 'Ngày công bố', 'Độ chính xác ngày', 'Thông tin chưa xác minh'],
   it: ['Regioni', 'Idoneità', 'Verifica dell’identità', 'Requisiti di deposito', 'Requisiti di negoziazione', 'Tipo di premio', 'Condizioni del premio massimo', 'Limitazioni', 'Data di pubblicazione', 'Precisione delle date', 'Informazioni da confermare'],
+
+ // l10n: needs native review
+ ur: ["علاقے","کون اہل ہے","شناخت کی تصدیق","جمع کرانے کی شرائط","تجارت کی شرائط","انعام کی قسم","زیادہ سے زیادہ انعام کی شرائط","حدود","اشاعت کی تاریخ","تاریخ کی درستگی","غیر حل شدہ شواہد"],
+ // l10n: needs native review
+ uk: ["Регіони","Хто має право на участь","Перевірка особи","Вимоги до депозиту","Вимоги до торгівлі","Тип винагороди","Умови максимальної винагороди","Обмеження","Дата публікації","Точність дати","Невирішені питання доказів"],
 };
 export const researchFieldsByLocale = Object.fromEntries(Object.entries(rows).map(([locale, values]) => [locale, Object.fromEntries(keys.map((key, index) => [key, values[index]]))]));
 export const researchFieldsCopy = (locale) => researchFieldsByLocale[locale] ?? researchFieldsByLocale.en;
 
-const unknown = { en: 'Not established by this source', 'zh-Hans': '该来源未确定', 'zh-Hant': '該來源未確定', es: 'No establecido por esta fuente', 'pt-BR': 'Não estabelecido por esta fonte', fr: 'Non établi par cette source', de: 'Durch diese Quelle nicht belegt', ja: 'この出典では未確認', ko: '이 출처에서 확인되지 않음', ar: 'غير مثبت في هذا المصدر', tr: 'Bu kaynakta belirtilmemiş', ru: 'Не установлено этим источником', id: 'Belum ditetapkan oleh sumber ini', vi: 'Nguồn này chưa xác nhận', it: 'Non stabilito da questa fonte' };
+const unknown = { en: 'Not established by this source', 'zh-Hans': '该来源未确定', 'zh-Hant': '該來源未確定', es: 'No establecido por esta fuente', 'pt-BR': 'Não estabelecido por esta fonte', fr: 'Non établi par cette source', de: 'Durch diese Quelle nicht belegt', ja: 'この出典では未確認', ko: '이 출처에서 확인되지 않음', ar: 'غير مثبت في هذا المصدر', tr: 'Bu kaynakta belirtilmemiş', ru: 'Не установлено этим источником', id: 'Belum ditetapkan oleh sumber ini', vi: 'Nguồn này chưa xác nhận', it: 'Non stabilito da questa fonte',
+ // l10n: needs native review
+ ur: "اس ماخذ سے ثابت نہیں",
+ // l10n: needs native review
+ uk: "Не встановлено цим джерелом",
+};
 export const researchUnknown = (locale) => unknown[locale] ?? unknown.en;
 
-const dateNotes = { en: 'Time or time zone not fully stated', 'zh-Hans': '原文时间或时区不完整', 'zh-Hant': '原文時間或時區不完整', es: 'Hora o zona horaria incompleta', 'pt-BR': 'Hora ou fuso horário incompleto', fr: 'Heure ou fuseau horaire non précisé', de: 'Uhrzeit oder Zeitzone nicht vollständig angegeben', ja: '時刻または時間帯の記載が不完全', ko: '시간 또는 시간대가 명확하지 않음', ar: 'الوقت أو المنطقة الزمنية غير مكتملين', tr: 'Saat veya saat dilimi tam belirtilmemiş', ru: 'Время или часовой пояс указаны не полностью', id: 'Waktu atau zona waktu belum lengkap', vi: 'Giờ hoặc múi giờ chưa đầy đủ', it: 'Ora o fuso orario non indicati completamente' };
+const dateNotes = { en: 'Time or time zone not fully stated', 'zh-Hans': '原文时间或时区不完整', 'zh-Hant': '原文時間或時區不完整', es: 'Hora o zona horaria incompleta', 'pt-BR': 'Hora ou fuso horário incompleto', fr: 'Heure ou fuseau horaire non précisé', de: 'Uhrzeit oder Zeitzone nicht vollständig angegeben', ja: '時刻または時間帯の記載が不完全', ko: '시간 또는 시간대가 명확하지 않음', ar: 'الوقت أو المنطقة الزمنية غير مكتملين', tr: 'Saat veya saat dilimi tam belirtilmemiş', ru: 'Время или часовой пояс указаны не полностью', id: 'Waktu atau zona waktu belum lengkap', vi: 'Giờ hoặc múi giờ chưa đầy đủ', it: 'Ora o fuso orario non indicati completamente',
+ // l10n: needs native review
+ ur: "وقت یا ٹائم زون مکمل درج نہیں",
+ // l10n: needs native review
+ uk: "Час або часовий пояс вказано не повністю",
+};
 export const researchDateNote = (locale) => dateNotes[locale] ?? dateNotes.en;

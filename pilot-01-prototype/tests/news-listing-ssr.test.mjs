@@ -115,8 +115,8 @@ test("hydrateRoot in jsdom reports no hydration mismatch for /news, /ru/news, /n
   }
 });
 
-test("the shared hero copy covers all 15 locales and the fallback template uses it when the renderer is unavailable", async () => {
-  assert.equal(NEWS_LIST_COPY_LOCALES.length, 15);
+test("the shared hero copy covers all 17 locales and the fallback template uses it when the renderer is unavailable", async () => {
+  assert.equal(NEWS_LIST_COPY_LOCALES.length, 17);
   for (const locale of NEWS_LIST_COPY_LOCALES) {
     const hero = newsListHeroCopy(locale);
     assert.ok(hero.title && hero.subtitle && hero.eyebrow, locale);

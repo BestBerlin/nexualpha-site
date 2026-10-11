@@ -22,7 +22,7 @@ const supportedLocales = [
   "id",
   "vi",
   "it",
-];
+ "ur", "uk"];
 
 const mustLocalizeKeys = [
   "rewards",

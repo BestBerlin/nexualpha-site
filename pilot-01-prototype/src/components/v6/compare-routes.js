@@ -27,6 +27,11 @@ const NO_COMPARE_COPY = {
   tr: "Karşılaştırma sayfası yok", es: "Sin página de comparación", "pt-BR": "Sem página de comparação", fr: "Pas de page de comparaison",
   de: "Keine Vergleichsseite", ru: "Нет страницы сравнения", ar: "لا توجد صفحة مقارنة", id: "Belum ada halaman perbandingan",
   vi: "Chưa có trang so sánh", it: "Nessuna pagina di confronto",
+
+ // l10n: needs native review
+ ur: "ابھی موازنہ کا صفحہ نہیں",
+ // l10n: needs native review
+ uk: "Сторінки порівняння ще немає",
 };
 export function noCompareLabel(locale = "en") {
   const l = String(locale || "en");

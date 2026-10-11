@@ -1,5 +1,10 @@
 const keys = ['eyebrow','title','intro','volume','market','order','spot','futures','taker','maker','base','offer','register','verify','pending','note','compare','perMonth','nextCompare','nextPlatform','nextRegister','telegramSupport'];
 const rows = {
+  // l10n: needs native review
+  ur: ["ٹریڈنگ کی لاگت کا حساب", "اسی حجم کی ٹریڈنگ پر کتنی فیس؟", "چار پلیٹ فارم کی بنیادی فیس کا موازنہ کریں، پھر اپنے اکاؤنٹ کی آفر چیک کریں۔", "ماہانہ حجم (USDT)", "مارکیٹ", "آرڈر کی قسم", "اسپاٹ", "پرپیچوئل", "ٹیکر", "میکر", "بنیادی شرح", "آفر اور اہلیت", "{venue} پر رجسٹر کریں", "پہلے علاقائی اہلیت کی تصدیق کریں", "ماخذ کا جائزہ باقی ہے", "طریقہ: ماہانہ مکمل شدہ حجم × بنیادی ٹریڈنگ فیس۔ اصل فیس آپ کے پلیٹ فارم اکاؤنٹ کے مطابق ہے۔", "Binance اور OKX کی اہلیت کا موازنہ →", "/ماہ", "موازنہ جاری رکھیں", "پلیٹ فارم کی شرائط دیکھیں", "سرکاری رجسٹریشن راستہ کھولیں", "Telegram مدد", "برابر · {n} پلیٹ فارم"],
+  // l10n: needs native review
+  uk: ["Розрахуйте вартість торгівлі", "Скільки коштує однаковий обсяг торгівлі?", "Порівняйте базові ставки чотирьох платформ, потім перевірте пропозицію для вашого облікового запису.", "Місячний обсяг (USDT)", "Ринок", "Тип ордера", "Спот", "Безстрокові контракти", "Тейкер", "Мейкер", "Базова ставка", "Пропозиція й умови", "Зареєструватися на {venue}", "Спочатку перевірте регіональну доступність", "Джерело очікує перевірки", "Метод: виконаний місячний обсяг × базова торгова комісія. Фактичні комісії визначає ваш обліковий запис на платформі.", "Порівняти умови Binance та OKX →", "/міс.", "Продовжити порівняння", "Переглянути умови платформи", "Відкрити офіційний шлях реєстрації", "Підтримка Telegram", "Однаково · {n} платформ"],
+
   en: ['CALCULATE YOUR TRADING COST','What does the same trading volume cost?','Compare four platforms at base rates, then check the offer available to your account.','Monthly volume (USDT)','Market','Order type','Spot','Perpetuals','Taker','Maker','Base rate','Offer & eligibility','Register at {venue}','Verify regional eligibility first','Pending source review','Method: monthly executed volume × base trading fee. Actual fees are determined by your platform account.','Compare Binance and OKX eligibility →','/mo','Continue comparison','View platform conditions','Open official registration route','Telegram support','Tie · {n} venues'],
   'zh-Hans': ['按你的交易方式计算','同样的成交额，手续费相差多少？','先用基础费率比较四家平台，再到对应平台查看你的账户优惠。','月成交额（USDT）','交易类别','成交方式','现货','永续合约','吃单 Taker','挂单 Maker','基础费率','查看优惠与条件','前往 {venue} 注册','先核对地区资格','待来源核验','计算口径：月成交额 × 基础交易费率。实际以平台账户显示为准。','继续比较 Binance 与 OKX 的开户条件 →','/月','继续比较','查看平台条件','打开官方注册链接','Telegram 辅助','持平 · {n} 家平台'],
   'zh-Hant': ['按你的交易方式計算','同樣的成交額，手續費相差多少？','先用基礎費率比較四家平台，再到對應平台查看你的帳戶優惠。','月成交額（USDT）','交易類別','成交方式','現貨','永續合約','吃單 Taker','掛單 Maker','基礎費率','查看優惠與條件','前往 {venue} 註冊','先核對地區資格','待來源核驗','計算口徑：月成交額 × 基礎交易費率。實際以平台帳戶顯示為準。','繼續比較 Binance 與 OKX 的開戶條件 →','/月','繼續比較','查看平台條件','打開官方註冊連結','Telegram 輔助','持平 · {n} 家平台'],
@@ -26,6 +31,11 @@ export function costDecisionCopy(locale='en') {
 // Calculator state notices. {max} = the volume cap, {n} = number of checked platforms (also the tie label), {x} = cost difference.
 const stateKeys = ['empty','capped','same','delta','tie'];
 const stateRows = {
+  // l10n: needs native review
+  ur: ["لاگت دیکھنے کے لیے 0 سے زیادہ ماہانہ حجم درج کریں۔", "حجم کو کیلکولیٹر کی حد {max} USDT تک محدود کیا گیا۔", "اس مارکیٹ اور آرڈر کی قسم میں تمام {n} جانچے گئے پلیٹ فارم کی بنیادی شرح یکساں ہے۔", "کم ترین سے +{x} USDT", "برابر · {n} پلیٹ فارم"],
+  // l10n: needs native review
+  uk: ["Введіть місячний обсяг понад 0, щоб побачити вартість.", "Обсяг обмежено максимумом калькулятора: {max} USDT.", "Усі {n} перевірених платформ мають однакову базову ставку для цього ринку й типу ордера.", "+{x} USDT до найнижчої", "Однаково · {n} платформ"],
+
   en: ['Enter a monthly volume above 0 to see the cost.','Volume capped at {max} USDT, the calculator maximum.','All {n} checked platforms charge the same base rate for this market and order type.','+{x} USDT vs lowest','Tie · {n} venues'],
   'zh-Hans': ['请输入大于 0 的月成交额以查看费用。','成交额已按计算器上限 {max} USDT 计算。','在此市场和成交方式下，{n} 家已核对平台的基础费率相同。','比最低高 {x} USDT','持平 · {n} 家平台'],
   'zh-Hant': ['請輸入大於 0 的月成交額以查看費用。','成交額已按計算器上限 {max} USDT 計算。','在此市場和成交方式下，{n} 家已核對平台的基礎費率相同。','比最低高 {x} USDT','持平 · {n} 家平台'],
@@ -53,6 +63,11 @@ export function costDecisionStateCopy(locale='en') {
 // rebate, and that it is per month (the home calculator shows the same formula per year).
 const basisKeys = ['group','base','rebate','perMonthBase','perMonthRebate','noShare','method'];
 const basisRows = {
+  // l10n: needs native review
+  ur: ["لاگت کی بنیاد", "بنیادی فیس", "زیادہ سے زیادہ واپسی کے بعد", "ماہانہ · بنیادی فیس", "ماہانہ · زیادہ سے زیادہ واپسی کے بعد", "پارٹنر فیس واپسی کا ریکارڈ نہیں", "زیادہ سے زیادہ واپسی کے بعد = بنیادی لاگت × (1 − پارٹنر پروگرام کی سب سے زیادہ واپسی کا تناسب)، ہوم کیلکولیٹر کا یہی فارمولا سالانہ دکھایا جاتا ہے۔"],
+  // l10n: needs native review
+  uk: ["Основа розрахунку", "Базові комісії", "Після максимального повернення", "на місяць · базові комісії", "на місяць · після максимального повернення", "Партнерське повернення не зазначено", "Після максимального повернення = базова вартість × (1 − максимальна частка партнерського повернення); та сама формула, що й у калькуляторі головної сторінки, який показує рік."],
+
   en: ['Cost basis','Base fees','After max rebate','per month · base fees','per month · after max rebate','No partner rebate recorded','After max rebate = base cost × (1 − the partner programme’s top rebate share), the same formula as the home calculator (which shows a year).'],
   'zh-Hans': ['费用口径','基础费率','按最高返佣后','每月 · 基础费率','每月 · 按最高返佣后','无合作返佣记录','按最高返佣后 = 基础费用 × (1 − 合作计划最高返佣比例)，与首页计算器公式相同（首页按年显示）。'],
   'zh-Hant': ['費用口徑','基礎費率','按最高返傭後','每月 · 基礎費率','每月 · 按最高返傭後','無合作返傭紀錄','按最高返傭後 = 基礎費用 × (1 − 合作計畫最高返傭比例)，與首頁計算器公式相同（首頁按年顯示）。'],

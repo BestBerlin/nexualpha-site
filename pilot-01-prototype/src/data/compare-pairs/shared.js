@@ -4,7 +4,7 @@
 // the review label and the boundary sentence. No fee figures, products or KYC facts are stated here; the page
 // renders those from venue-database.js and the reviewed fee records, so unknown values show the pending state.
 
-export const COMPARE_PAIR_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"]);
+export const COMPARE_PAIR_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"]);
 export const COMPARE_PAIR_REVIEWED_AT = "2026-10-10";
 
 const source = (label, href) => [label, href];
@@ -44,6 +44,11 @@ export function sourceLinksFor(a, b) {
 }
 
 const INTERNAL_LABELS = {
+  // l10n: needs native review
+  ur: { profile: (n) => `${n} کا پروفائل دیکھیں`, factbook: (n) => `${n} کی فیکٹ بک کھولیں`, rates: "فیس موازنہ کھولیں", derivatives: "مشتقات کی چیک لسٹ دیکھیں", meme: "نئی لسٹنگ اور میم کوائن رہنما کھولیں" },
+  // l10n: needs native review
+  uk: { profile: (n) => `Переглянути профіль ${n}`, factbook: (n) => `Відкрити фактбук ${n}`, rates: "Відкрити порівняння комісій", derivatives: "Скористатися списком перевірок деривативів", meme: "Відкрити посібник нових лістингів і мемкоїнів" },
+
   en: { profile: (n) => `Review ${n} profile`, factbook: (n) => `Open ${n} factbook`, rates: "Open the fee benchmark terminal", derivatives: "Use the derivatives checklist", meme: "Open the new-listing and meme coin guide" },
   "zh-Hans": { profile: (n) => `查看 ${n} 档案`, factbook: (n) => `打开 ${n} Factbook`, rates: "打开手续费基准终端", derivatives: "使用合约核对清单", meme: "打开新币与 Meme 币指南" },
   "zh-Hant": { profile: (n) => `查看 ${n} 檔案`, factbook: (n) => `打開 ${n} Factbook`, rates: "打開手續費基準終端", derivatives: "使用合約核對清單", meme: "打開新幣與迷因幣指南" },
@@ -78,6 +83,11 @@ export function internalLinksFor(locale, a, b, topic = "rates") {
 
 // UI labels of the final-choice card. Pair copy supplies only the card title and the two picks.
 export const DECISION_CARD_LABELS = {
+  // l10n: needs native review
+  ur: { eyebrow: "رجسٹریشن سے پہلے آخری فیصلہ", suitedForLabel: "کس کے لیے موزوں", verifyLabel: "پہلے تصدیق کریں", matrixLabel: "مکمل جدول", evidenceLabel: "ماخذ اور فیصلے کے نوٹس دیکھیں" },
+  // l10n: needs native review
+  uk: { eyebrow: "Остаточне рішення перед реєстрацією", suitedForLabel: "Кому підходить", verifyLabel: "Спочатку перевірте", matrixLabel: "Повна таблиця", evidenceLabel: "Переглянути джерела й примітки до рішення" },
+
   en: { eyebrow: "Final call before signup", suitedForLabel: "Who it fits", verifyLabel: "Verify first", matrixLabel: "Full matrix", evidenceLabel: "Review sources and decision notes" },
   "zh-Hans": { eyebrow: "注册前最终怎么选", suitedForLabel: "适合谁", verifyLabel: "先核验什么", matrixLabel: "查看详细矩阵", evidenceLabel: "展开来源与判断依据" },
   "zh-Hant": { eyebrow: "註冊前最終怎麼選", suitedForLabel: "適合誰", verifyLabel: "先核驗什麼", matrixLabel: "查看詳細矩陣", evidenceLabel: "展開來源與判斷依據" },
@@ -97,6 +107,11 @@ export const DECISION_CARD_LABELS = {
 
 // CompareFinalChoiceCard normalises "Month D, YYYY" to ISO for English; other locales state the ISO date directly.
 const REVIEWED_LABELS = {
+  // l10n: needs native review
+  ur: (a, b) => `${a} اور ${b} کے سرکاری ماخذ کا جائزہ: 10 اکتوبر 2026`,
+  // l10n: needs native review
+  uk: (a, b) => `Офіційні джерела ${a} та ${b} перевірено 10 жовтня 2026 року`,
+
   en: (a, b) => `Official ${a} and ${b} sources reviewed October 10, 2026`,
   "zh-Hans": (a, b) => `${a} 与 ${b} 官方来源复核于 2026-10-10`,
   "zh-Hant": (a, b) => `${a} 與 ${b} 官方來源複核於 2026-10-10`,
@@ -115,6 +130,11 @@ const REVIEWED_LABELS = {
 };
 
 const BOUNDARIES = {
+  // l10n: needs native review
+  ur: (a, b) => `${a} اور ${b} کا یہ موازنہ مصنوعات تک رسائی، علاقائی اہلیت، شناخت کی منظوری، صارف فائدے یا آپ کی حتمی لاگت کی تصدیق نہیں کرتا۔ آخری جانچ لاگ ان سرکاری اکاؤنٹ میں کریں۔`,
+  // l10n: needs native review
+  uk: (a, b) => `Це порівняння ${a} та ${b} не підтверджує доступ до продуктів, регіональну доступність, схвалення перевірки особи, переваги користувача чи остаточні витрати. Остання перевірка — в офіційному обліковому записі після входу.`,
+
   en: (a, b) => `This ${a} vs ${b} comparison cannot confirm product access, regional eligibility, identity approval, any user benefit or your final trading cost. The logged-in official account flow is the last check.`,
   "zh-Hans": (a, b) => `这份 ${a} 与 ${b} 的对比无法确认产品权限、地区资格、身份审核结果、任何用户权益或你的最终交易成本，最后一步仍以登录后的官方账户流程为准。`,
   "zh-Hant": (a, b) => `這份 ${a} 與 ${b} 的比較無法確認產品權限、地區資格、身份審核結果或你的最終交易成本，最後仍以登入後的官方帳戶流程為準。`,

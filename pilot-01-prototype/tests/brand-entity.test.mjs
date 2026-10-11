@@ -47,13 +47,13 @@ test("brand entity facts: one Organization @id, logo ImageObject, Telegram sameA
   assert.equal(RESEARCH_DESK.name, RESEARCH_DESK_NAME);
   assert.equal(RESEARCH_DESK.url, RESEARCH_DESK_ID);
   assert.match(ENTITY_REVIEWED_AT, /^\d{4}-\d{2}-\d{2}$/);
-  assert.deepEqual([...BRAND_LOCALES].sort(), [...LOCALES].sort());
+  assert.deepEqual([...BRAND_LOCALES].sort(), [...LOCALES, "ur", "uk"].sort());
   assert.ok(BRAND.telegram.channelZh && BRAND.telegram.channelEn && BRAND.telegram.bot && BRAND.telegram.miniApp);
 });
 
 test("/about and /editorial-policy route metadata in all 15 locales: indexable, self-canonical, length-bounded, 16 hreflang, entity JSON-LD", async () => {
   for (const pathname of BRAND_PAGE_PATHS) {
-    assert.deepEqual(Object.keys(BRAND_PAGE_SEO[pathname]).sort(), [...LOCALES].sort(), `${pathname} copy locales`);
+    assert.deepEqual(Object.keys(BRAND_PAGE_SEO[pathname]).sort(), [...LOCALES, "ur", "uk"].sort(), `${pathname} copy locales`);
     for (const locale of LOCALES) {
       const loc = `https://nexualpha.com${localizedPath(pathname, locale)}`;
       const meta = await routeMetadata(new URL(loc), env);

@@ -8,9 +8,9 @@ import { fileURLToPath } from "node:url";
 const execFileAsync = promisify(execFile);
 const root = new URL("..", import.meta.url);
 
-test("catalog tooling validates the 15-locale contract", async () => {
+test("catalog tooling validates the 17-locale contract", async () => {
   const { stdout } = await execFileAsync(process.execPath, ["scripts/i18n-check.mjs"], { cwd: fileURLToPath(root) });
-  assert.match(stdout, /15 catalogs/);
+  assert.match(stdout, /17 catalogs/);
 });
 
 test("the catalog covers every visible Pilot 01 page surface", async () => {

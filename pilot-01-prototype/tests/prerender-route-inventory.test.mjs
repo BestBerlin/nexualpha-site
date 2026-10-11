@@ -17,7 +17,7 @@ test("hyperliquid-dydx comparison adds one prerendered route per supported local
     .reduce((sum, route) => sum + (route.locales || PRERENDER_LOCALES).length, 0);
 
   assert.equal(totalRoutes - routesWithoutComparison, PRERENDER_LOCALES.length);
-  assert.equal(PRERENDER_LOCALES.length, 15);
+  assert.equal(PRERENDER_LOCALES.length, 17);
 });
 
 test("news list route prerenders the core editions and every locale with a native article", () => {

@@ -9,7 +9,7 @@ import { reviewedFeeCopy } from "../src/data/reviewed-fee-copy.js";
 import { regionalVenueCta } from "../src/data/source-bound-cta.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const reviewedSlugs = ["binance", "bybit", "bitget"];
 
 const escapeHtml = (value) => String(value)

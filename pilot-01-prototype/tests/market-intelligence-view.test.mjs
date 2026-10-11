@@ -26,7 +26,7 @@ test("sentiment cannot crash formatting or present future or expired data", () =
 });
 
 test("sentiment classification is localized and refresh cancels obsolete reads", () => {
-  const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+  const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
   for (const locale of locales) for (const classification of ["Extreme Fear", "Fear", "Neutral", "Greed", "Extreme Greed"]) assert.ok(sentimentLabel(classification, locale));
   assert.equal(sentimentLabel("Fear", "zh-Hans"), "恐惧");
   assert.equal(sentimentLabel("Fear", "zh-Hant"), "恐懼");

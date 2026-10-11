@@ -13,10 +13,18 @@ const rows = {
   ru: ["Сравните платформы, условия открытия счёта и пополнения, изучите официальные объявления перед выбором.", "Начните со сравнения", "Доступ к счёту, модель торговли и важные условия рядом.", "Все платформы", "Обзор платформ"],
   id: ["Bandingkan platform, pahami persyaratan akun dan setoran, serta baca pengumuman resmi sebelum memilih.", "Mulai dengan perbandingan", "Akses akun, model perdagangan, dan syarat penting berdampingan.", "Jelajahi semua platform", "Jelajahi platform"],
   vi: ["So sánh nền tảng, tìm hiểu điều kiện mở tài khoản và nạp tiền, rồi xem thông báo chính thức trước khi lựa chọn.", "Bắt đầu bằng so sánh", "Đặt cạnh nhau cách truy cập, mô hình giao dịch và các điều kiện quan trọng.", "Khám phá tất cả nền tảng", "Khám phá nền tảng"],
+  // l10n: needs native review
+  ur: ["پلیٹ فارمز کا موازنہ کریں، اکاؤنٹ اور فنڈنگ شرائط سمجھیں، اور فیصلہ کرنے سے پہلے سرکاری اعلانات دیکھیں۔", "موازنہ سے شروع کریں", "اکاؤنٹ رسائی، ٹریڈنگ ماڈل اور اہم شرائط ایک ساتھ۔", "تمام پلیٹ فارمز دیکھیں", "پلیٹ فارمز دیکھیں"],
+  // l10n: needs native review
+  uk: ["Порівнюйте платформи, розумійте вимоги до акаунта й поповнення та переглядайте офіційні оголошення перед рішенням.", "Почніть із порівняння", "Доступ до акаунта, модель торгівлі та важливі умови поруч.", "Переглянути всі платформи", "Переглянути платформи"],
   it: ["Confronta le piattaforme, scopri i requisiti di conto e deposito e consulta gli annunci ufficiali prima di scegliere.", "Inizia con un confronto", "Accesso al conto, modello di trading e condizioni importanti a confronto.", "Esplora tutte le piattaforme", "Esplora le piattaforme"],
 };
 
 const featuredLabels = {
+  // l10n: needs native review
+  ur: "نمایاں پلیٹ فارمز",
+  // l10n: needs native review
+  uk: "Вибрані платформи",
   en: "Featured platforms", "zh-Hans": "精选交易平台", "zh-Hant": "精選交易平台", es: "Plataformas destacadas", "pt-BR": "Plataformas em destaque", fr: "Sélection de plateformes", de: "Ausgewählte Plattformen", ja: "注目のプラットフォーム", ko: "주요 플랫폼", ar: "منصات مختارة", tr: "Öne çıkan platformlar", ru: "Избранные платформы", id: "Platform pilihan", vi: "Nền tảng nổi bật", it: "Piattaforme in evidenza",
 };
 
@@ -35,6 +43,10 @@ const slogans = {
   ru: "Увидьте различия. Выбирайте сами.",
   id: "Lihat bedanya. Pilih sendiri.",
   vi: "Thấy rõ khác biệt. Tự chọn.",
+  // l10n: needs native review
+  ur: "فرق سمجھیں۔ خود انتخاب کریں۔",
+  // l10n: needs native review
+  uk: "Побачте різницю. Оберіть самі.",
   it: "Vedi le differenze. Scegli tu.",
 };
 
@@ -53,6 +65,10 @@ const researchLabels = {
   ru: "Независимое исследование криптоплатформ",
   id: "Riset platform kripto independen",
   vi: "Nghiên cứu nền tảng crypto độc lập",
+  // l10n: needs native review
+  ur: "کرپٹو پلیٹ فارمز کی آزاد تحقیق",
+  // l10n: needs native review
+  uk: "Незалежне дослідження криптоплатформ",
   it: "Ricerca indipendente sulle piattaforme crypto",
 };
 
@@ -71,6 +87,10 @@ const heroH1 = {
   ru: "Сравните криптоплатформы и официальные маршруты",
   id: "Bandingkan platform kripto dan rute resmi",
   vi: "So sánh nền tảng crypto và tuyến chính thức",
+  // l10n: needs native review
+  ur: "کرپٹو پلیٹ فارمز اور سرکاری اکاؤنٹ راستوں کا موازنہ",
+  // l10n: needs native review
+  uk: "Порівнюйте криптоплатформи та офіційні маршрути акаунтів",
   it: "Confronta piattaforme crypto e percorsi ufficiali",
 };
 
@@ -89,6 +109,10 @@ const compareDimensionLabels = {
   ru: ["Продукты", "Комиссии", "Доступ к счёту"],
   id: ["Produk", "Biaya", "Akses akun"],
   vi: ["Sản phẩm", "Phí", "Truy cập tài khoản"],
+  // l10n: needs native review
+  ur: ["مصنوعات", "فیس", "اکاؤنٹ رسائی"],
+  // l10n: needs native review
+  uk: ["Продукти", "Комісії", "Доступ до акаунта"],
   it: ["Prodotti", "Commissioni", "Accesso account"],
 };
 

@@ -7,7 +7,7 @@ import { campaignCopyByLocale, campaignCopyKeys } from '../src/components/v3/act
 import { researchFieldsByLocale, researchUnknown } from '../src/components/v3/activity/research-fields-copy.js';
 import { visibleOfficialUpdates } from '../src/components/official-updates/official-updates-model.js';
 const now = Date.parse('2026-09-07T01:00:00Z');
-const locales = ['en', 'zh-Hans', 'zh-Hant', 'es', 'pt-BR', 'fr', 'de', 'ja', 'ko', 'ar', 'tr', 'ru', 'id', 'vi', 'it'];
+const locales = ['en', 'zh-Hans', 'zh-Hant', 'es', 'pt-BR', 'fr', 'de', 'ja', 'ko', 'ar', 'tr', 'ru', 'id', 'vi', 'it', "ur", "uk"];
 
 test('research routes resolve known catalogue slugs without activity ID collisions', () => {
   const venues = Object.keys(records).map((slug) => ({ slug }));

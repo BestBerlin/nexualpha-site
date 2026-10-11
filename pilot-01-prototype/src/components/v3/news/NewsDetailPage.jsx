@@ -150,6 +150,10 @@ copy.fr = { ...copy.en, originalLanguageNotice: "Le corps de l'article est affic
 copy.de = { ...copy.en, originalLanguageNotice: "Der Artikeltext wird im geprüften englischen Original angezeigt. Die Übersetzung folgt nach der Quellenprüfung." };
 copy.ru = { ...copy.en, originalLanguageNotice: "Текст статьи показан в проверенном английском оригинале. Перевод будет добавлен после проверки источников." };
 copy.ar = { ...copy.en, back: "← العودة إلى الأخبار والتقارير", author: "الكاتب", published: "تاريخ النشر", readTime: "وقت القراءة", partnerSectionTitle: "ملفات المنصات المذكورة", claimBtn: "عرض الملف", nextStepTitle: "تابع فحص شروط المنصة", nextStepBody: "قبل فتح حساب، راجع النطاق الرسمي والأهلية الإقليمية ونطاق المنتج وشروط الحساب الحالية.", compareBtn: "فتح المقارنة", verifiedDomain: "تم التحقق من النطاق الرسمي", sourcesTitle: "المصادر", openFullArticle: "فتح التحليل الكامل", closeFullArticle: "إظهار أقل", relatedTitle: "أبحاث ذات صلة", relatedBody: "تابع الملفات والمقارنات والمنهجية التي تدعم القرار التالي.", nextDecisionEyebrow: "القرار التالي", firstDecisionEyebrow: "اقرأ هذا أولا", firstDecisionTitle: "قبل التصرف بناء على هذا التحديث", firstDecisionBody: "استخدم هذا المقال كنقطة بداية موثقة بالمصادر. تحقق من النطاق الرسمي والأهلية الإقليمية ونطاق المنتج وشروط الحساب قبل التصرف.", firstDecisionChecks: ["راجع المصادر الرسمية أولا.", "افحص ملف المنصة وصفحة المقارنة.", "افصل بحث السوق عن قرار التسجيل."], sourceBodyTitle: "مقال بلغة المصدر الموثقة", sourceBodyBody: "يبقى النص الكامل بلغة المصدر الموثقة إلى أن تنشر ترجمة مراجعة بشريا.", minuteUnit: "دقيقة", profileSuffix: "ملف", factbookSuffix: "سجل حقائق", comparePrefix: "قارن", topicSuffix: "موضوع", methodologyLabel: "منهجية البحث", originalLanguageNotice: "يظهر نص المقال باللغة الإنجليزية الأصلية بعد التحقق. ستُضاف الترجمة بعد مراجعة المصادر." };
+// l10n: needs native review
+copy.ur = { ...copy.en, back: "← خبروں اور رپورٹس پر واپس", author: "مصنف", published: "شائع ہوا", readTime: "مطالعہ وقت", partnerSectionTitle: "مضمون میں ذکر کردہ پروفائلز", claimBtn: "پروفائل دیکھیں", nextStepTitle: "پلیٹ فارم شرائط کی جانچ جاری رکھیں", nextStepBody: "اکاؤنٹ کھولنے سے پہلے سرکاری ڈومین، علاقائی اہلیت، پروڈکٹ دائرہ اور موجودہ اکاؤنٹ شرائط کا جائزہ لیں۔", compareBtn: "موازنہ کھولیں", verifiedDomain: "سرکاری ڈومین تصدیق شدہ", sourcesTitle: "ذرائع", openFullArticle: "مکمل تجزیہ کھولیں", closeFullArticle: "کم دکھائیں", relatedTitle: "متعلقہ تحقیق", relatedBody: "اگلے فیصلے کے لیے پروفائلز، موازنوں اور طریقہ کار کے ساتھ جاری رکھیں۔", nextDecisionEyebrow: "اگلا فیصلہ", firstDecisionEyebrow: "پہلے پڑھیں", firstDecisionTitle: "اس اپ ڈیٹ پر عمل کرنے سے پہلے", firstDecisionBody: "اس مضمون کو ذریعہ تصدیق شدہ آغاز سمجھیں۔ عمل سے پہلے سرکاری ڈومین، علاقائی اہلیت، پروڈکٹ دائرہ اور اکاؤنٹ شرائط کی تصدیق کریں۔", firstDecisionChecks: ["پہلے سرکاری ذرائع دیکھیں۔", "پلیٹ فارم پروفائل اور موازنہ صفحہ چیک کریں۔", "مارکیٹ تحقیق کو سائن اپ فیصلے سے الگ رکھیں۔"], sourceBodyTitle: "تصدیق شدہ ذریعہ زبان کا مضمون", sourceBodyBody: "مکمل متن انسانی جائزہ شدہ ترجمہ شائع ہونے تک تصدیق شدہ ذریعہ زبان میں رہتا ہے۔", minuteUnit: "منٹ", profileSuffix: "پروفائل", factbookSuffix: "فیکٹ بک", comparePrefix: "موازنہ", topicSuffix: "موضوع", methodologyLabel: "تحقیق کا طریقہ کار", originalLanguageNotice: "مضمون کا متن تصدیق شدہ انگریزی اصل میں دکھایا گیا ہے۔ ذریعہ جائزے کے بعد ترجمہ شامل کیا جائے گا." };
+// l10n: needs native review
+copy.uk = { ...copy.en, back: "← Назад до новин і звітів", author: "Автор", published: "Опубліковано", readTime: "Час читання", partnerSectionTitle: "Профілі, згадані у статті", claimBtn: "Переглянути профіль", nextStepTitle: "Продовжуйте перевіряти умови платформи", nextStepBody: "Перед відкриттям рахунку перегляньте офіційний домен, регіональну доступність, обсяг продуктів і поточні умови рахунку.", compareBtn: "Відкрити порівняння", verifiedDomain: "Офіційний домен перевірено", sourcesTitle: "Джерела", openFullArticle: "Відкрити повний аналіз", closeFullArticle: "Показати менше", relatedTitle: "Пов’язане дослідження", relatedBody: "Продовжуйте з профілями, порівняннями та методологією, які підтримують наступне рішення.", nextDecisionEyebrow: "Наступне рішення", firstDecisionEyebrow: "Спершу прочитайте", firstDecisionTitle: "Перед дією на основі цього оновлення", firstDecisionBody: "Використовуйте цю статтю як стартову точку з перевіреними джерелами. Перед дією підтвердьте офіційний домен, регіональну доступність, обсяг продукту та умови рахунку.", firstDecisionChecks: ["Спершу перегляньте офіційні джерела.", "Перевірте профіль платформи й сторінку порівняння.", "Відокремлюйте ринкове дослідження від рішення про реєстрацію."], sourceBodyTitle: "Стаття перевіреною мовою джерела", sourceBodyBody: "Повний текст лишається перевіреною мовою джерела до публікації перекладу, переглянутого людиною.", minuteUnit: "хв", profileSuffix: "профіль", factbookSuffix: "фактбук", comparePrefix: "Порівняти", topicSuffix: "тема", methodologyLabel: "Методологія дослідження", originalLanguageNotice: "Текст статті показано у перевіреному англійському оригіналі. Переклад буде додано після перегляду джерел." };
 copy.id = { ...copy.en, originalLanguageNotice: "Isi artikel ditampilkan dalam bahasa Inggris asli yang telah diverifikasi. Terjemahan ditambahkan setelah tinjauan sumber." };
 copy.vi = { ...copy.en, originalLanguageNotice: "Nội dung bài viết đang hiển thị bằng bản gốc tiếng Anh đã xác minh. Bản dịch sẽ được thêm sau khi rà soát nguồn." };
 copy.it = { ...copy.en, originalLanguageNotice: "Il corpo dell'articolo è mostrato nell'originale inglese verificato. La traduzione sarà aggiunta dopo la revisione delle fonti." };
@@ -170,6 +174,8 @@ const tableScrollHints = {
   "tr": "Makale tablosu: yatay kaydırın veya tablo alanına odaklanıp ok tuşlarını kullanın.",
   "ru": "Таблица статьи: прокрутите по горизонтали или установите фокус на области таблицы и используйте клавиши со стрелками.",
   "ar": "جدول المقال: مرّر أفقيًا أو انقل التركيز إلى منطقة الجدول واستخدم مفاتيح الأسهم.",
+  "ur": "مضمون کی جدول: افقی اسکرول کریں، یا جدول کے علاقے پر فوکس کر کے تیر والے بٹن استعمال کریں۔",
+  "uk": "Таблиця статті: прокрутіть горизонтально або сфокусуйте область таблиці й використовуйте клавіші зі стрілками.",
   "id": "Tabel artikel: gulir secara horizontal atau fokuskan area tabel dan gunakan tombol panah.",
   "vi": "Bảng trong bài viết: cuộn ngang hoặc đặt tiêu điểm vào vùng bảng và dùng các phím mũi tên.",
   "it": "Tabella dell’articolo: scorri in orizzontale oppure porta il focus sull’area della tabella e usa i tasti freccia."
@@ -530,7 +536,7 @@ function OwnerChecklist({ article }) {
   );
 }
 
-const sectionNavigationLabels = {"en": "Jump to section", "zh-Hans": "跳转到章节", "zh-Hant": "跳轉至章節", "ja": "セクションへ移動", "ko": "섹션으로 이동", "tr": "Bölüme git", "ar": "الانتقال إلى القسم", "es": "Ir a la sección", "pt-BR": "Ir para a seção", "fr": "Aller à la section", "de": "Zum Abschnitt springen", "ru": "Перейти к разделу", "id": "Ke bagian", "vi": "Chuyển đến mục", "it": "Vai alla sezione"};
+const sectionNavigationLabels = {"en": "Jump to section", "zh-Hans": "跳转到章节", "zh-Hant": "跳轉至章節", "ja": "セクションへ移動", "ko": "섹션으로 이동", "tr": "Bölüme git", "ar": "الانتقال إلى القسم", "ur": "سیکشن پر جائیں", "uk": "Перейти до розділу", "es": "Ir a la sección", "pt-BR": "Ir para a seção", "fr": "Aller à la section", "de": "Zum Abschnitt springen", "ru": "Перейти к разделу", "id": "Ke bagian", "vi": "Chuyển đến mục", "it": "Vai alla sezione"};
 
 // Inline markdown in article prose: [label](href) links, **strong**, *em* and `code`, tokenized by
 // article-inline-markdown.js (shared with the Worker fallback HTML). External http(s) links open in a new tab; allowed
@@ -563,7 +569,7 @@ export function isNumericCell(cell) {
 
 // Lead answer (editorial templates 2026-10-11): the article's first H2 section is the direct answer. Its heading text is
 // what the publisher wrote ("The short answer", "简短回答", "Kısa cevap", …); this list only marks it as such.
-const SHORT_ANSWER_HEADING = /^(?:the\s+)?short\s+answer|^in\s+short|^简短回答|^簡短回答|^核心结论|^一句话|^短い答え|^要点|^짧은\s*답|^핵심\s*답|^kısa\s+cevap|^trả\s+lời\s+ngắn|^câu\s+trả\s+lời\s+ngắn|^краткий\s+ответ|^коротко|^respuesta\s+corta|^en\s+resumen|^resposta\s+curta|^em\s+resumo|^réponse\s+courte|^en\s+bref|^kurze\s+antwort|^kurz\s+gesagt|^risposta\s+breve|^in\s+breve|^jawaban\s+singkat|^singkatnya|^الإجابة\s+المختصرة|^الجواب\s+المختصر|^باختصار/i;
+const SHORT_ANSWER_HEADING = /^(?:the\s+)?short\s+answer|^in\s+short|^简短回答|^簡短回答|^核心结论|^一句话|^短い答え|^要点|^짧은\s*답|^핵심\s*답|^kısa\s+cevap|^trả\s+lời\s+ngắn|^câu\s+trả\s+lời\s+ngắn|^краткий\s+ответ|^коротко|^коротка\s+відповідь|^коротко|^respuesta\s+corta|^en\s+resumen|^resposta\s+curta|^em\s+resumo|^réponse\s+courte|^en\s+bref|^kurze\s+antwort|^kurz\s+gesagt|^risposta\s+breve|^in\s+breve|^jawaban\s+singkat|^singkatnya|^الإجابة\s+المختصرة|^الجواب\s+المختصر|^باختصار|^مختصر\s+جواب|^خلاصہ/i;
 export function isShortAnswerHeading(text) {
   return SHORT_ANSWER_HEADING.test(String(text || "").replace(/^#+\s*/, "").trim());
 }
@@ -600,7 +606,7 @@ function renderMarkdownBlock(block, index, t, linker = null, locale = "en") {
     const [head = [], ...body] = rows;
     return (
       <div className="news-detail__table-block" key={index}>
-        <p className="news-detail__table-hint" id={`news-table-hint-${index}`} lang={t.tableHintLocale} dir={t.tableHintLocale === "ar" ? "rtl" : "ltr"}>{t.tableScrollHint}</p>
+        <p className="news-detail__table-hint" id={`news-table-hint-${index}`} lang={t.tableHintLocale} dir={["ar", "ur"].includes(t.tableHintLocale) ? "rtl" : "ltr"}>{t.tableScrollHint}</p>
         <div className="news-detail__table-scroll" role="region" aria-labelledby={`news-table-hint-${index}`} tabIndex={0}>
           <table style={{ "--news-table-columns": head.length }}>
             <thead>
@@ -650,6 +656,10 @@ const BYLINE_COPY = {
   id: { by: "Oleh", reviewed: "Ditinjau", policy: "Kebijakan editorial" },
   vi: { by: "Bởi", reviewed: "Rà soát", policy: "Chính sách biên tập" },
   ar: { by: "بقلم", reviewed: "تمت المراجعة", policy: "السياسة التحريرية" },
+  // l10n: needs native review
+  ur: { by: "از طرف", reviewed: "جائزہ", policy: "ادارتی پالیسی" },
+  // l10n: needs native review
+  uk: { by: "Автор", reviewed: "Переглянуто", policy: "Редакційна політика" },
 };
 
 export function ArticleByline({ article, locale = "en" }) {

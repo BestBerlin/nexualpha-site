@@ -1,5 +1,5 @@
 import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
-import { v3Copy } from "../../data/v3-product.js";
+import { v3ShellCopy } from "../../data/v3-shell-copy.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { dataPageCopy } from "../../data/market-data-pages-nav.js";
 import { brandSlogan } from "../../data/brand-slogan.js";
@@ -194,6 +194,42 @@ const footerLabelByLocale = {
     contact: "اتصال",
     rights: "جميع الحقوق محفوظة.",
   },
+  // l10n: needs native review
+  ur: {
+    navAria: "NexuAlpha فٹر نیویگیشن",
+    directory: "پلیٹ فارم ڈائریکٹری",
+    topics: "موضوعاتی رہنما",
+    factbook: "فیکٹ بک",
+    onchain: "آن چین ڈیٹا",
+    editorial: "ادارتی پالیسی",
+    about: "ہمارے بارے میں",
+    methodology: "طریقہ کار",
+    calculator: "فیس کیلکولیٹر",
+    embedGuide: "ایمبیڈ وجٹس",
+    disclosure: "افیلی ایٹ انکشاف",
+    privacy: "رازداری نوٹس",
+    terms: "شرائط اور خطرے کا نوٹس",
+    contact: "رابطہ",
+    rights: "جملہ حقوق محفوظ ہیں۔",
+  },
+  // l10n: needs native review
+  uk: {
+    navAria: "Навігація футера NexuAlpha",
+    directory: "Каталог платформ",
+    topics: "Тематичні гайди",
+    factbook: "Фактбук",
+    onchain: "Ончейн-дані",
+    editorial: "Редакційна політика",
+    about: "Про нас",
+    methodology: "Методологія",
+    calculator: "Калькулятор комісій",
+    embedGuide: "Вбудовані віджети",
+    disclosure: "Розкриття партнерства",
+    privacy: "Повідомлення про приватність",
+    terms: "Умови та попередження про ризики",
+    contact: "Контакт",
+    rights: "Усі права захищено.",
+  },
   tr: {
     navAria: "NexuAlpha alt bilgi gezinmesi",
     directory: "Platform dizini",
@@ -354,6 +390,20 @@ const compactFooterCopy = {
     "summary": "بحث مستقل في منصات العملات المشفرة؛ بعض الروابط شراكة والمزايا تخضع لشروط المنصة.",
     "policies": "عن الموقع والسياسات"
   },
+  // l10n: needs native review
+  "ur": {
+    "brand": "کرپٹو پلیٹ فارمز کی آزاد تحقیق اور موازنہ۔",
+    "affiliate": "کچھ لنکس افیلی ایٹ ہیں؛ صارف فوائد پلیٹ فارم کی شرائط کے تابع ہیں۔",
+    "summary": "آزاد کرپٹو پلیٹ فارم تحقیق؛ کچھ لنکس افیلی ایٹ ہیں اور پلیٹ فارم شرائط لاگو ہوتی ہیں۔",
+    "policies": "تعارف اور پالیسیاں"
+  },
+  // l10n: needs native review
+  "uk": {
+    "brand": "Незалежне дослідження й порівняння криптоплатформ.",
+    "affiliate": "Деякі посилання є партнерськими; переваги користувача залежать від умов платформи.",
+    "summary": "Незалежне дослідження криптоплатформ; деякі посилання партнерські, умови платформ застосовуються.",
+    "policies": "Про нас і політики"
+  },
   "id": {
     "brand": "Riset dan perbandingan independen platform kripto.",
     "affiliate": "Sebagian tautan adalah tautan afiliasi; manfaat pengguna mengikuti ketentuan platform.",
@@ -384,7 +434,7 @@ function getCopy(locale) {
   if (locale === "zh-Hans" || locale === "zh-CN") return copyDict["zh-Hans"];
   if (locale === "zh-Hant" || locale === "zh-TW") return copyDict["zh-Hant"];
   if (locale && locale !== "en") {
-    const text = v3Copy(locale);
+    const text = v3ShellCopy(locale);
     return {
       ...copyDict.en,
       statement: text.relationship || copyDict.en.statement,

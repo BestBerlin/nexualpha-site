@@ -89,6 +89,18 @@ const COPY = {
     (n, c, y) => `رمز إحالة ${n} ‏${c}: التسجيل والرسوم (${y})`,
     (n, c, p) => `رمز إحالة ${n} ‏${c}: الرسوم والشروط والرابط الرسمي راجعتها NexuAlpha${p ? `؛ استرداد حتى ${p}% من الرسوم تدفعها ${n}` : ""}. رابط الشراكة مُفصح عنه.`,
   ],
+  // l10n: needs native review. Only neutral wording is drafted until partner regulator review.
+  ur: [
+    (n, c, p, y) => `${n}: فیس اور پلیٹ فارم کا تعارف (${y})`,
+    (n, c, y) => `${n}: فیس اور پلیٹ فارم کا تعارف (${y})`,
+    (n) => `${n} کی فیس، شرائط اور سرکاری ماخذ کا NexuAlpha کا آزاد جائزہ۔`,
+  ],
+  // l10n: needs native review. Only neutral wording is drafted until partner regulator review.
+  uk: [
+    (n, c, p, y) => `${n}: комісії та профіль платформи (${y})`,
+    (n, c, y) => `${n}: комісії та профіль платформи (${y})`,
+    (n) => `Незалежний огляд комісій, умов і офіційних джерел ${n} від NexuAlpha.`,
+  ],
 };
 
 const BY_SLUG = Object.fromEntries(REFERRAL_PARTNERS.map((p) => [p.slug, p]));
@@ -112,7 +124,7 @@ const partnersBySlug = () => BY_SLUG;
 // ru (Russia advertising rules), ar (Egypt CBE law 194/2020), zh-Hant (Hong Kong SFC Part 5B). In Turkish, Law 7518
 // treats promotion of platforms without SPK authorization as unauthorized service, so only exchanges whose Turkish
 // entity is on the SPK list keep a referral title.
-const NEUTRAL_TITLE_LOCALES = new Set(["ru", "ar", "zh-Hant"]);
+const NEUTRAL_TITLE_LOCALES = new Set(["ru", "ar", "zh-Hant", "ur", "uk"]);
 // SPK "Faaliyette Bulunanlar Listesi" (temporary list dated 01 Ekim 2026, read 2026-10-11:
 // https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi) lists OKX TR (#38),
 // Binance Turkey (#4), Bybit (#11), Gate (#23) and MEXC (#35, "Mexc Kripto Varlık Alım Satım Platformu AŞ").

@@ -15,7 +15,7 @@ const telegramAlertsUrl = (locale) => (ALERT_CARD_LANG[locale] ? `https://t.me/N
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const read = (p) => readFile(new URL(`../${p}`, import.meta.url), "utf8");
-const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
+const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
 const hrefs = (html) => [...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1].replace(/&amp;/g, "&"));
 
 async function render(entrySource) {
@@ -33,7 +33,7 @@ async function render(entrySource) {
   }
 }
 
-test("section eyebrow names the section in all 15 locales and the CSS reads it from main", async () => {
+test("section eyebrow names the section in all 17 locales and the CSS reads it from main", async () => {
   for (const locale of LOCALES) for (const key of SECTION_EYEBROW_KEYS) {
     const text = sectionEyebrow(locale, key);
     assert.match(text, /^NEXUALPHA · \S/, `${locale}/${key}`);
@@ -87,7 +87,7 @@ test("alerts strip reuses the article alerts copy and sits under the home hero, 
   assert.match(en, /href="https:\/\/t\.me\/NexuAlphaAssistantBot\?start=alerts-en"/);
 });
 
-test("Telegram page leads with the alerts product: sample message, four topics, Open the bot, channels and Mini App, in 15 locales", async () => {
+test("Telegram page leads with the alerts product: sample message, four topics, Open the bot, channels and Mini App, all 17 locales", async () => {
   const pages = await render(`
     import React from "react";
     import { renderToStaticMarkup } from "react-dom/server";

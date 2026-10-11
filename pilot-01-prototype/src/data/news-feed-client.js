@@ -13,7 +13,7 @@ const PUBLISHABLE_STATUSES = new Set(["PUBLISHED"]);
 // editions the content lane always writes; the listing pages are published in them even when the feed is empty.
 export const NEWS_CORE_LOCALES = ["en", "zh-Hans"];
 export const NEWS_INDEXABLE_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
-export const NEWS_DISPLAY_LOCALES = ["en", "zh-Hans", "zh-Hant", "ja", "ko", "tr", "es", "pt-BR", "fr", "de", "ar", "ru", "id", "vi", "it"];
+export const NEWS_DISPLAY_LOCALES = ["en", "zh-Hans", "zh-Hant", "ja", "ko", "tr", "es", "pt-BR", "fr", "de", "ar", "ru", "id", "vi", "it", "ur", "uk"];
 
 /** Google News sitemap <news:language> value for an edition locale (ISO 639-1; zh-cn / zh-tw are the documented exceptions). */
 export function newsSitemapLanguage(locale = "en") {

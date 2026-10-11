@@ -2,7 +2,7 @@
 // Official source titles, URLs, timestamps, IDs and campaign metadata stay in official-campaign-research.js.
 // This file localizes only site-authored summaries, conditions, source notes and notices.
 
-export const OFFICIAL_CAMPAIGN_LOCALIZED_LOCALES = Object.freeze(["en","zh-Hans","zh-Hant","ja","ko","tr","ar","es","pt-BR","fr","de","ru","id","vi","it"]);
+export const OFFICIAL_CAMPAIGN_LOCALIZED_LOCALES = Object.freeze(["en","zh-Hans","zh-Hant","ja","ko","tr","ar","es","pt-BR","fr","de","ru","id","vi","it","ur","uk"]);
 
 export const officialCampaignResearchLocalizations = Object.freeze({
   "binance": {
@@ -21,7 +21,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Публичный центр вознаграждений разделяет задачи, баллы и ваучеры; видимый хаб не является личным вознаграждением.",
       "id": "Rewards Hub publik memisahkan tugas, poin, dan voucher; hub yang terlihat bukanlah tawaran hadiah pribadi.",
       "vi": "Trung tâm Phần thưởng công cộng tách biệt các nhiệm vụ, điểm và chứng từ; một trung tâm hữu hình không phải là một đề nghị tặng thưởng cá nhân.",
-      "it": "Il Rewards Hub pubblico separa attività, punti e voucher; un hub visibile non è un'offerta di ricompensa personale."
+      "it": "Il Rewards Hub pubblico separa attività, punti e voucher; un hub visibile non è un'offerta di ricompensa personale.",
+      // l10n: needs native review
+      "ur": "عوامی انعامی مرکز کاموں، پوائنٹس اور واؤچرز کو الگ دکھاتا ہے؛ صرف مرکز نظر آنا ذاتی انعامی پیشکش نہیں بنتا۔ (Rewards Hub)",
+      // l10n: needs native review
+      "uk": "Публічний центр винагород розділяє завдання, бали й ваучери; видимий центр не є персональною пропозицією винагороди. (Rewards Hub)"
     },
     "signupReward": {
       "summary": {
@@ -39,7 +43,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Никакая сумма по конкретному счету или квалификационная задача не были представлены в этом публичном представлении.",
         "id": "Tidak ada jumlah khusus akun atau tugas yang memenuhi syarat yang terungkap dalam tampilan publik ini.",
         "vi": "Không có số tiền cụ thể của tài khoản hoặc nhiệm vụ đủ điều kiện nào được hiển thị ở chế độ xem công khai này.",
-        "it": "Nessun importo specifico per l'account o attività qualificante è stato esposto in questa visualizzazione pubblica."
+        "it": "Nessun importo specifico per l'account o attività qualificante è stato esposto in questa visualizzazione pubblica.",
+        // l10n: needs native review
+        "ur": "اس عوامی منظر میں اکاؤنٹ کے لیے مخصوص رقم یا اہلیت کا کام ظاہر نہیں ہوا۔",
+        // l10n: needs native review
+        "uk": "У цьому публічному перегляді не показано суму для конкретного акаунта або кваліфікаційне завдання."
       },
       "conditions": [
         {
@@ -57,7 +65,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Прежде чем действовать, откройте задачу, назначенную подходящей учетной записи.",
           "id": "Buka tugas yang diberikan ke akun yang memenuhi syarat sebelum bertindak.",
           "vi": "Mở nhiệm vụ được giao cho tài khoản đủ điều kiện trước khi hành động.",
-          "it": "Apri l'attività assegnata all'account idoneo prima di agire."
+          "it": "Apri l'attività assegnata all'account idoneo prima di agire.",
+          // l10n: needs native review
+          "ur": "کارروائی سے پہلے اہل اکاؤنٹ کو تفویض شدہ کام کھول کر شرائط دوبارہ دیکھیں۔",
+          // l10n: needs native review
+          "uk": "Перед дією відкрийте завдання, призначене придатному акаунту, і ще раз перевірте умови."
         },
         {
           "en": "Read voucher use and expiry separately from points redemption.",
@@ -74,24 +86,32 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Прочтите информацию об использовании и сроке действия ваучера отдельно от пункта об использовании баллов.",
           "id": "Baca penggunaan dan masa berlaku voucher secara terpisah dari penukaran poin.",
           "vi": "Đọc việc sử dụng chứng từ và hết hạn riêng biệt với việc đổi điểm.",
-          "it": "Leggi l'utilizzo e la scadenza del voucher separatamente dal riscatto dei punti."
+          "it": "Leggi l'utilizzo e la scadenza del voucher separatamente dal riscatto dei punti.",
+          // l10n: needs native review
+          "ur": "واؤچر کے استعمال اور ختم ہونے کی تاریخ کو پوائنٹس ریڈمپشن سے الگ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Використання ваучера та строк його дії читайте окремо від обміну балів."
         },
         {
           "en": "Region, KYC and funding thresholds remain unconfirmed in this view.",
-          "zh-Hans": "此页面未核实地区、KYC 与入金门槛。",
-          "zh-Hant": "此頁面未核實地區、KYC 與入金門檻。",
-          "ja": "この見解では、地域、KYC、および資金調達の基準は未確認のままです。",
-          "ko": "이 관점에서는 지역, KYC 및 자금 조달 임계값이 확인되지 않은 상태로 남아 있습니다.",
-          "tr": "Bu görüşe göre bölge, KYC ve finansman eşikleri henüz doğrulanmadı.",
-          "ar": "لا تزال المنطقة و\"اعرف عميلك\" وحدود التمويل غير مؤكدة في هذا الرأي.",
-          "es": "Desde este punto de vista, la región, el KYC y los umbrales de financiación siguen sin confirmarse.",
-          "pt-BR": "A região, o KYC e os limites de financiamento permanecem não confirmados nesta visão.",
-          "fr": "De ce point de vue, la région, le KYC et les seuils de financement restent non confirmés.",
-          "de": "Region, KYC und Finanzierungsschwellen bleiben aus dieser Sicht unbestätigt.",
-          "ru": "С этой точки зрения регион, KYC и пороговые значения финансирования остаются неподтвержденными.",
-          "id": "Batas wilayah, KYC, dan pendanaan masih belum dikonfirmasi dalam pandangan ini.",
-          "vi": "Khu vực, KYC và ngưỡng tài trợ vẫn chưa được xác nhận theo quan điểm này.",
-          "it": "In quest’ottica, la regione, il KYC e le soglie di finanziamento rimangono non confermati."
+          "zh-Hans": "此页面未确认地区、KYC 与入金门槛。",
+          "zh-Hant": "此頁面未確認地區、KYC 與入金門檻。",
+          "ja": "この表示では、地域、KYC、入金条件はまだ確認されていません。",
+          "ko": "이 화면에서는 지역, KYC 및 입금 조건이 아직 확인되지 않았습니다.",
+          "tr": "Bu görünümde bölge, KYC ve para yatırma eşikleri hâlâ doğrulanmamıştır.",
+          "ar": "لا تزال المنطقة ومتطلبات KYC وحدود الإيداع غير مؤكدة في هذه الصفحة.",
+          "es": "En esta vista siguen sin confirmarse la región, el KYC y los umbrales de depósito.",
+          "pt-BR": "Nesta visualização, região, KYC e limites de depósito ainda não foram confirmados.",
+          "fr": "Dans cette vue, la région, le KYC et les seuils de dépôt restent non confirmés.",
+          "de": "In dieser Ansicht bleiben Region, KYC und Einzahlungsschwellen unbestätigt.",
+          "ru": "В этом представлении регион, KYC и пороги пополнения остаются неподтвержденными.",
+          "id": "Dalam tampilan ini, wilayah, KYC, dan ambang setoran masih belum dikonfirmasi.",
+          "vi": "Trong chế độ xem này, khu vực, KYC và ngưỡng nạp tiền vẫn chưa được xác nhận.",
+          "it": "In questa vista, area geografica, KYC e soglie di deposito restano non confermati.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         }
       ]
     },
@@ -112,7 +132,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Навигация по общедоступным заданиям, баллам и ваучерам была читабельной; личных условий не было.",
           "id": "Navigasi tugas publik, poin dan voucher dapat dibaca; istilah pribadi tidak.",
           "vi": "Nhiệm vụ công cộng, điểm và điều hướng chứng từ có thể đọc được; các điều khoản cá nhân thì không.",
-          "it": "La navigazione delle attività pubbliche, dei punti e dei voucher era leggibile; i termini personali non lo erano."
+          "it": "La navigazione delle attività pubbliche, dei punti e dei voucher era leggibile; i termini personali non lo erano.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
         }
       },
       "binance-monitoring-september": {
@@ -131,7 +155,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "В уведомлении от 4 сентября к тегам мониторинга добавлены AVA, GNS, SCR и TOWNS, что указывает на возможный риск исключения из списка. Страница Великобритании предупреждает, что некоторые именованные токены могут быть там недоступны; это уведомление о мониторинге, а не новое объявление или вознаграждение.",
           "id": "Pemberitahuan tanggal 4 September menambahkan AVA, GNS, SCR, dan TOWNS ke Tag Pemantauan, yang mengidentifikasi kemungkinan risiko penghapusan pencatatan. Halaman Inggris memperingatkan bahwa beberapa token bernama mungkin tidak tersedia di sana; ini adalah pemberitahuan pemantauan, bukan daftar atau hadiah baru.",
           "vi": "Thông báo ngày 4 tháng 9 bổ sung AVA, GNS, SCR và TOWNS vào Thẻ giám sát, xác định rủi ro có thể xảy ra khi hủy niêm yết. Trang ở Vương quốc Anh cảnh báo rằng một số mã thông báo được đặt tên có thể không có sẵn ở đó; đây là thông báo giám sát, không phải danh sách hoặc phần thưởng mới.",
-          "it": "L'avviso del 4 settembre aggiunge AVA, GNS, SCR e TOWNS ai Monitoring Tag, individuando possibili rischi di delisting. La pagina del Regno Unito avverte che alcuni token nominati potrebbero non essere disponibili lì; si tratta di un avviso di monitoraggio, non di una nuova inserzione o di un premio."
+          "it": "L'avviso del 4 settembre aggiunge AVA, GNS, SCR e TOWNS ai Monitoring Tag, individuando possibili rischi di delisting. La pagina del Regno Unito avverte che alcuni token nominati potrebbero non essere disponibili lì; si tratta di un avviso di monitoraggio, non di una nuova inserzione o di un premio.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (4، 4 September، AVA، GNS، SCR، TOWNS، UK)",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (4، 4 September، AVA، GNS، SCR، TOWNS، UK)"
         }
       }
     },
@@ -151,7 +179,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Прежде чем действовать, откройте задачу, назначенную подходящей учетной записи.",
         "id": "Buka tugas yang diberikan ke akun yang memenuhi syarat sebelum bertindak.",
         "vi": "Mở nhiệm vụ được giao cho tài khoản đủ điều kiện trước khi hành động.",
-        "it": "Apri l'attività assegnata all'account idoneo prima di agire."
+        "it": "Apri l'attività assegnata all'account idoneo prima di agire.",
+        // l10n: needs native review
+        "ur": "کارروائی سے پہلے اہل اکاؤنٹ کو تفویض شدہ کام کھول کر شرائط دوبارہ دیکھیں۔",
+        // l10n: needs native review
+        "uk": "Перед дією відкрийте завдання, призначене придатному акаунту, і ще раз перевірте умови."
       },
       "rewardType": {
         "en": "Account-assigned tasks, points and vouchers",
@@ -168,7 +200,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Задания, баллы и ваучеры, назначенные учетной записи",
         "id": "Tugas, poin, dan voucher yang diberikan akun",
         "vi": "Nhiệm vụ, điểm và chứng từ do tài khoản giao",
-        "it": "Attività, punti e voucher assegnati all'account"
+        "it": "Attività, punti e voucher assegnati all'account",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "limitations": {
         "en": "Read voucher use and expiry separately from points redemption.",
@@ -185,7 +221,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Прочтите информацию об использовании и сроке действия ваучера отдельно от пункта об использовании баллов.",
         "id": "Baca penggunaan dan masa berlaku voucher secara terpisah dari penukaran poin.",
         "vi": "Đọc việc sử dụng chứng từ và hết hạn riêng biệt với việc đổi điểm.",
-        "it": "Leggi l'utilizzo e la scadenza del voucher separatamente dal riscatto dei punti."
+        "it": "Leggi l'utilizzo e la scadenza del voucher separatamente dal riscatto dei punti.",
+        // l10n: needs native review
+        "ur": "واؤچر کے استعمال اور ختم ہونے کی تاریخ کو پوائنٹس ریڈمپشن سے الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Використання ваучера та строк його дії читайте окремо від обміну балів."
       },
       "gaps": [
         {
@@ -203,7 +243,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -220,7 +264,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -237,7 +285,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "No account-specific amount or qualifying task was exposed in this public view.",
@@ -254,7 +306,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Никакая сумма по конкретному счету или квалификационная задача не были представлены в этом публичном представлении.",
           "id": "Tidak ada jumlah khusus akun atau tugas yang memenuhi syarat yang terungkap dalam tampilan publik ini.",
           "vi": "Không có số tiền cụ thể của tài khoản hoặc nhiệm vụ đủ điều kiện nào được hiển thị ở chế độ xem công khai này.",
-          "it": "Nessun importo specifico per l'account o attività qualificante è stato esposto in questa visualizzazione pubblica."
+          "it": "Nessun importo specifico per l'account o attività qualificante è stato esposto in questa visualizzazione pubblica.",
+          // l10n: needs native review
+          "ur": "اس عوامی منظر میں اکاؤنٹ کے لیے مخصوص رقم یا اہلیت کا کام ظاہر نہیں ہوا۔",
+          // l10n: needs native review
+          "uk": "У цьому публічному перегляді не показано суму для конкретного акаунта або кваліфікаційне завдання."
         }
       ]
     }
@@ -275,7 +331,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Акции для новых клиентов и вознаграждения за рефералов — это разные пути входа; некоторые невозможно объединить.",
       "id": "Promosi pelanggan baru dan hadiah rujukan merupakan jalur masuk yang berbeda; beberapa tidak dapat digabungkan.",
       "vi": "Khuyến mãi dành cho khách hàng mới và phần thưởng giới thiệu là những con đường gia nhập khác nhau; một số không thể kết hợp được.",
-      "it": "Le promozioni per i nuovi clienti e i premi per i referral sono percorsi di ingresso diversi; alcuni non possono essere combinati."
+      "it": "Le promozioni per i nuovi clienti e i premi per i referral sono percorsi di ingresso diversi; alcuni non possono essere combinati.",
+      // l10n: needs native review
+      "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+      // l10n: needs native review
+      "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
     },
     "signupReward": {
       "summary": {
@@ -293,7 +353,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "На официальной странице описаны награды для конкретных стран и предложений, включая случайные призы. Универсальная сумма не установлена.",
         "id": "Halaman resmi menjelaskan hadiah khusus negara dan penawaran, termasuk hadiah acak. Tidak ada jumlah universal yang ditetapkan.",
         "vi": "Trang chính thức mô tả các phần thưởng theo quốc gia và ưu đãi cụ thể, bao gồm các giải thưởng ngẫu nhiên. Không có số tiền phổ quát được thiết lập.",
-        "it": "La pagina ufficiale descrive i premi specifici per paese e offerta, inclusi premi casuali. Non è stabilito alcun importo universale."
+        "it": "La pagina ufficiale descrive i premi specifici per paese e offerta, inclusi premi casuali. Non è stabilito alcun importo universale.",
+        // l10n: needs native review
+        "ur": "اس نوٹ میں سرکاری ذریعہ، اہلیت اور حدود کو الگ رکھا گیا ہے۔",
+        // l10n: needs native review
+        "uk": "У цій примітці офіційне джерело, придатність і обмеження подані окремо."
       },
       "conditions": [
         {
@@ -311,7 +375,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для реферального пути примените ссылку или код при создании новой учетной записи.",
           "id": "Untuk jalur referral, terapkan link atau kode saat membuat akun baru.",
           "vi": "Đối với đường dẫn giới thiệu, hãy áp dụng liên kết hoặc mã trong khi tạo tài khoản mới.",
-          "it": "Per il percorso di riferimento, applica il collegamento o il codice durante la creazione del nuovo account."
+          "it": "Per il percorso di riferimento, applica il collegamento o il codice durante la creazione del nuovo account.",
+          // l10n: needs native review
+          "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+          // l10n: needs native review
+          "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
         },
         {
           "en": "Referral purchases use eligible retail payment methods; Advanced and Prime trades are excluded.",
@@ -328,7 +396,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "При реферальных покупках используются подходящие способы розничной оплаты; Сделки Advanced и Prime исключены.",
           "id": "Pembelian rujukan menggunakan metode pembayaran ritel yang memenuhi syarat; Perdagangan tingkat lanjut dan Perdana tidak termasuk.",
           "vi": "Mua hàng giới thiệu sử dụng các phương thức thanh toán bán lẻ đủ điều kiện; Các giao dịch nâng cao và Prime bị loại trừ.",
-          "it": "Gli acquisti tramite referral utilizzano metodi di pagamento al dettaglio idonei; Sono escluse le operazioni Advanced e Prime."
+          "it": "Gli acquisti tramite referral utilizzano metodi di pagamento al dettaglio idonei; Sono escluse le operazioni Advanced e Prime.",
+          // l10n: needs native review
+          "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+          // l10n: needs native review
+          "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
         },
         {
           "en": "Check country, purchase deadline and non-stacking terms. Referral participants are excluded from specified new-user spin promotions.",
@@ -345,7 +417,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Проверьте страну, срок покупки и условия отсутствия суммирования. Реферальные участники исключаются из определенных рекламных акций для новых пользователей.",
           "id": "Periksa negara, batas waktu pembelian, dan persyaratan non-tumpukan. Peserta rujukan dikecualikan dari promosi putaran pengguna baru yang ditentukan.",
           "vi": "Kiểm tra quốc gia, thời hạn mua hàng và các điều khoản không xếp chồng. Những người tham gia giới thiệu sẽ bị loại khỏi các chương trình khuyến mãi vòng quay dành cho người dùng mới được chỉ định.",
-          "it": "Controlla il paese, la scadenza per l'acquisto e i termini non cumulabili. I partecipanti referral sono esclusi dalle promozioni di spin per nuovi utenti specificate."
+          "it": "Controlla il paese, la scadenza per l'acquisto e i termini non cumulabili. I partecipanti referral sono esclusi dalle promozioni di spin per nuovi utenti specificate.",
+          // l10n: needs native review
+          "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+          // l10n: needs native review
+          "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
         }
       ]
     },
@@ -366,7 +442,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Одна страница справки охватывает несколько различных предложений; объявленные случайные максимумы не являются гарантированными выплатами.",
           "id": "Satu halaman bantuan mencakup beberapa penawaran berbeda; maksimum acak yang diiklankan bukanlah jaminan pembayaran.",
           "vi": "Một trang trợ giúp bao gồm một số ưu đãi riêng biệt; mức tối đa ngẫu nhiên được quảng cáo không phải là khoản thanh toán được đảm bảo.",
-          "it": "Una pagina di aiuto copre diverse offerte distinte; i massimi casuali pubblicizzati non sono pagamenti garantiti."
+          "it": "Una pagina di aiuto copre diverse offerte distinte; i massimi casuali pubblicizzati non sono pagamenti garantiti.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         }
       }
     },
@@ -386,7 +466,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Для реферального пути примените ссылку или код при создании новой учетной записи.",
         "id": "Untuk jalur referral, terapkan link atau kode saat membuat akun baru.",
         "vi": "Đối với đường dẫn giới thiệu, hãy áp dụng liên kết hoặc mã trong khi tạo tài khoản mới.",
-        "it": "Per il percorso di riferimento, applica il collegamento o il codice durante la creazione del nuovo account."
+        "it": "Per il percorso di riferimento, applica il collegamento o il codice durante la creazione del nuovo account.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       },
       "deposit": {
         "en": "Referral purchases use eligible retail payment methods; Advanced and Prime trades are excluded.",
@@ -403,7 +487,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "При реферальных покупках используются подходящие способы розничной оплаты; Сделки Advanced и Prime исключены.",
         "id": "Pembelian rujukan menggunakan metode pembayaran ritel yang memenuhi syarat; Perdagangan tingkat lanjut dan Perdana tidak termasuk.",
         "vi": "Mua hàng giới thiệu sử dụng các phương thức thanh toán bán lẻ đủ điều kiện; Các giao dịch nâng cao và Prime bị loại trừ.",
-        "it": "Gli acquisti tramite referral utilizzano metodi di pagamento al dettaglio idonei; Sono escluse le operazioni Advanced e Prime."
+        "it": "Gli acquisti tramite referral utilizzano metodi di pagamento al dettaglio idonei; Sono escluse le operazioni Advanced e Prime.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       },
       "trading": {
         "en": "Referral purchases use eligible retail payment methods; Advanced and Prime trades are excluded.",
@@ -420,7 +508,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "При реферальных покупках используются подходящие способы розничной оплаты; Сделки Advanced и Prime исключены.",
         "id": "Pembelian rujukan menggunakan metode pembayaran ritel yang memenuhi syarat; Perdagangan tingkat lanjut dan Perdana tidak termasuk.",
         "vi": "Mua hàng giới thiệu sử dụng các phương thức thanh toán bán lẻ đủ điều kiện; Các giao dịch nâng cao và Prime bị loại trừ.",
-        "it": "Gli acquisti tramite referral utilizzano metodi di pagamento al dettaglio idonei; Sono escluse le operazioni Advanced e Prime."
+        "it": "Gli acquisti tramite referral utilizzano metodi di pagamento al dettaglio idonei; Sono escluse le operazioni Advanced e Prime.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       },
       "rewardType": {
         "en": "Offer-specific crypto or random prize",
@@ -437,7 +529,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Специальная криптовалюта или случайный приз",
         "id": "Kripto khusus penawaran atau hadiah acak",
         "vi": "Tiền điện tử dành riêng cho ưu đãi hoặc giải thưởng ngẫu nhiên",
-        "it": "Criptovaluta specifica dell'offerta o premio casuale"
+        "it": "Criptovaluta specifica dell'offerta o premio casuale",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "limitations": {
         "en": "Check country, purchase deadline and non-stacking terms. Referral participants are excluded from specified new-user spin promotions.",
@@ -454,7 +550,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Проверьте страну, срок покупки и условия отсутствия суммирования. Реферальные участники исключаются из определенных рекламных акций для новых пользователей.",
         "id": "Periksa negara, batas waktu pembelian, dan persyaratan non-tumpukan. Peserta rujukan dikecualikan dari promosi putaran pengguna baru yang ditentukan.",
         "vi": "Kiểm tra quốc gia, thời hạn mua hàng và các điều khoản không xếp chồng. Những người tham gia giới thiệu sẽ bị loại khỏi các chương trình khuyến mãi vòng quay dành cho người dùng mới được chỉ định.",
-        "it": "Controlla il paese, la scadenza per l'acquisto e i termini non cumulabili. I partecipanti referral sono esclusi dalle promozioni di spin per nuovi utenti specificate."
+        "it": "Controlla il paese, la scadenza per l'acquisto e i termini non cumulabili. I partecipanti referral sono esclusi dalle promozioni di spin per nuovi utenti specificate.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       },
       "gaps": [
         {
@@ -472,7 +572,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -489,7 +593,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -506,7 +614,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "The official page describes country- and offer-specific rewards, including random prizes. No universal amount is established.",
@@ -523,7 +635,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "На официальной странице описаны награды для конкретных стран и предложений, включая случайные призы. Универсальная сумма не установлена.",
           "id": "Halaman resmi menjelaskan hadiah khusus negara dan penawaran, termasuk hadiah acak. Tidak ada jumlah universal yang ditetapkan.",
           "vi": "Trang chính thức mô tả các phần thưởng theo quốc gia và ưu đãi cụ thể, bao gồm các giải thưởng ngẫu nhiên. Không có số tiền phổ quát được thiết lập.",
-          "it": "La pagina ufficiale descrive i premi specifici per paese e offerta, inclusi premi casuali. Non è stabilito alcun importo universale."
+          "it": "La pagina ufficiale descrive i premi specifici per paese e offerta, inclusi premi casuali. Non è stabilito alcun importo universale.",
+          // l10n: needs native review
+          "ur": "اس نوٹ میں سرکاری ذریعہ، اہلیت اور حدود کو الگ رکھا گیا ہے۔",
+          // l10n: needs native review
+          "uk": "У цій примітці офіційне джерело, придатність і обмеження подані окремо."
         }
       ]
     }
@@ -544,7 +660,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Bybit различает бонусы, Fee Savers, airdrop и пробные фонды; у них разные правила вывода средств.",
       "id": "Bybit membedakan bonus, Penghemat Biaya, airdrop, dan dana percobaan; ini tidak memiliki aturan penarikan yang sama.",
       "vi": "Bybit phân biệt tiền thưởng, Tiết kiệm phí, airdrop và quỹ dùng thử; những điều này không có chung quy tắc rút tiền.",
-      "it": "Bybit distingue bonus, Fee Savers, airdrop e fondi di prova; questi non condividono le stesse regole di prelievo."
+      "it": "Bybit distingue bonus, Fee Savers, airdrop e fondi di prova; questi non condividono le stesse regole di prelievo.",
+      // l10n: needs native review
+      "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔ (Bybit)",
+      // l10n: needs native review
+      "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками. (Bybit)"
     },
     "signupReward": {
       "summary": {
@@ -562,7 +682,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Часто задаваемые вопросы о Rewards Hub подтверждают, что бонусы и бонусы Fee Saver нельзя вывести, а срок действия неиспользованных вознаграждений может истечь.",
         "id": "FAQ Rewards Hub mengonfirmasi bahwa bonus dan Penghemat Biaya tidak dapat ditarik dan hadiah yang tidak digunakan dapat kedaluwarsa.",
         "vi": "Câu hỏi thường gặp về Trung tâm Phần thưởng xác nhận rằng tiền thưởng và Tiết kiệm phí không thể rút được và phần thưởng chưa sử dụng có thể hết hạn.",
-        "it": "Le domande frequenti sul Rewards Hub confermano che i bonus e i Fee Saver non sono ritirabili e che i premi non utilizzati possono scadere."
+        "it": "Le domande frequenti sul Rewards Hub confermano che i bonus e i Fee Saver non sono ritirabili e che i premi non utilizzati possono scadere.",
+        // l10n: needs native review
+        "ur": "یہ عبارت نقد رقم یا آزادانہ نکالے جانے والی رقم نہیں بتاتی؛ اسے واؤچر یا مشروط فائدہ سمجھیں۔ (Rewards Hub، FAQ)",
+        // l10n: needs native review
+        "uk": "Цей текст не означає готівку або суму, яку можна вільно вивести; трактуйте його як ваучер чи умовну вигоду. (Rewards Hub، FAQ)"
       },
       "conditions": [
         {
@@ -580,7 +704,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Прежде чем подавать заявку, пройдите необходимую проверку личности.",
           "id": "Selesaikan verifikasi identitas yang diperlukan sebelum mengklaim.",
           "vi": "Hoàn thành xác minh danh tính cần thiết trước khi yêu cầu.",
-          "it": "Completa la verifica dell'identità richiesta prima di effettuare la richiesta."
+          "it": "Completa la verifica dell'identità richiesta prima di effettuare la richiesta.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         },
         {
           "en": "Complete and claim each task before its own deadline.",
@@ -597,7 +725,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Выполняйте и требуйте каждую задачу до истечения установленного срока.",
           "id": "Selesaikan dan klaim setiap tugas sebelum tenggat waktunya.",
           "vi": "Hoàn thành và yêu cầu mỗi nhiệm vụ trước thời hạn riêng của nó.",
-          "it": "Completa e richiedi ogni attività prima della scadenza."
+          "it": "Completa e richiedi ogni attività prima della scadenza.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
         },
         {
           "en": "Confirm the reward type and permitted use; do not treat bonus face value as cash.",
@@ -614,7 +746,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Подтвердите тип вознаграждения и разрешенное использование; не рассматривайте номинальную стоимость бонуса как денежные средства.",
           "id": "Konfirmasikan jenis hadiah dan penggunaan yang diizinkan; jangan memperlakukan nilai nominal bonus sebagai uang tunai.",
           "vi": "Xác nhận loại phần thưởng và mục đích sử dụng được phép; không coi mệnh giá tiền thưởng là tiền mặt.",
-          "it": "Confermare la tipologia del premio e l'uso consentito; non trattare il valore nominale del bonus come denaro contante."
+          "it": "Confermare la tipologia del premio e l'uso consentito; non trattare il valore nominale del bonus come denaro contante.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         }
       ]
     },
@@ -622,39 +758,47 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "bybit-rewards-faq": {
         "summary": {
           "en": "Help-page update shown: 25 November 2025; the page does not establish a current account-specific amount.",
-          "zh-Hans": "帮助页显示更新于 2025 年 11 月 25 日，未证明当前账户可获的具体金额。",
-          "zh-Hant": "說明頁顯示更新於 2025 年 11 月 25 日，未證明目前帳戶可獲的具體金額。",
-          "ja": "ヘルプページの更新日として 2025 年 11 月 25 日が表示されています。このページは、現在のアカウント別の金額を確定するものではありません。",
-          "ko": "도움말 페이지 업데이트 표시: 2025년 11월 25일; 페이지에서는 현재 계정별 금액을 설정하지 않습니다.",
-          "tr": "Gösterilen yardım sayfası güncellemesi: 25 Kasım 2025; sayfada cari hesaba özel bir tutar belirlenmiyor.",
-          "ar": "تم عرض تحديث صفحة المساعدة: 25 نوفمبر 2025؛ لا تقوم الصفحة بإنشاء مبلغ خاص بالحساب الحالي.",
-          "es": "Actualización de la página de ayuda mostrada: 25 de noviembre de 2025; la página no establece un monto específico de la cuenta corriente.",
-          "pt-BR": "Atualização da página de ajuda mostrada: 25 de novembro de 2025; a página não estabelece um valor específico para conta corrente.",
-          "fr": "Mise à jour de la page d'aide affichée : 25 novembre 2025 ; la page n'établit pas de montant spécifique au compte courant.",
-          "de": "Angezeigte Aktualisierung der Hilfeseite: 25. November 2025; Auf der Seite wird kein kontospezifischer Betrag ermittelt.",
-          "ru": "Показано обновление страницы справки: 25 ноября 2025 г.; страница не устанавливает сумму для конкретного текущего счета.",
-          "id": "Pembaruan halaman bantuan ditampilkan: 25 November 2025; halaman tersebut tidak menetapkan jumlah khusus akun saat ini.",
-          "vi": "Cập nhật trang trợ giúp được hiển thị: ngày 25 tháng 11 năm 2025; trang này không thiết lập số tiền cụ thể cho tài khoản hiện tại.",
-          "it": "Aggiornamento della pagina della guida mostrato: 25 novembre 2025; la pagina non stabilisce un importo specifico per il conto corrente."
+          "zh-Hans": "帮助页显示更新于 2025 年 11 月 25 日；该页面未确认当前适用于该账户的具体金额。",
+          "zh-Hant": "說明頁顯示更新於 2025 年 11 月 25 日；該頁面未確認目前適用於該帳戶的具體金額。",
+          "ja": "ヘルプページの更新日は 2025 年 11 月 25 日と表示されています。このページは、現在のアカウントに適用される具体的な金額を確定していません。",
+          "ko": "도움말 페이지 업데이트 날짜는 2025년 11월 25일로 표시됩니다. 이 페이지는 현재 해당 계정에 적용되는 구체적인 금액을 확정하지 않습니다.",
+          "tr": "Yardım sayfasında güncelleme tarihi 25 Kasım 2025 olarak görünüyor; sayfa, mevcut hesaba uygulanacak belirli bir tutarı kanıtlamaz.",
+          "ar": "تظهر صفحة المساعدة تحديثًا بتاريخ 25 نوفمبر 2025؛ ولا تثبت الصفحة مبلغًا محددًا ينطبق على الحساب الحالي.",
+          "es": "La página de ayuda muestra una actualización del 25 de noviembre de 2025; la página no establece un importe específico aplicable a la cuenta actual.",
+          "pt-BR": "A página de ajuda mostra atualização em 25 de novembro de 2025; a página não estabelece um valor específico aplicável à conta atual.",
+          "fr": "La page d'aide affiche une mise à jour du 25 novembre 2025 ; elle n'établit pas de montant spécifique applicable au compte actuel.",
+          "de": "Die Hilfeseite zeigt eine Aktualisierung vom 25. November 2025; sie belegt keinen aktuell für dieses Konto geltenden Betrag.",
+          "ru": "На странице справки указано обновление от 25 ноября 2025 года; страница не устанавливает конкретную сумму, применимую к текущему аккаунту.",
+          "id": "Halaman bantuan menunjukkan pembaruan 25 November 2025; halaman tersebut tidak menetapkan jumlah khusus yang berlaku untuk akun saat ini.",
+          "vi": "Trang trợ giúp hiển thị bản cập nhật ngày 25 tháng 11 năm 2025; trang này không xác lập số tiền cụ thể áp dụng cho tài khoản hiện tại.",
+          "it": "La pagina di assistenza mostra l'aggiornamento del 25 novembre 2025; la pagina non stabilisce un importo specifico applicabile all'account attuale.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (25، 2025، 25 November)",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (25، 2025، 25 November)"
         }
       },
       "bybit-cpusdt-september": {
         "summary": {
           "en": "The 4 September notice describes CPUSDT perpetuals in the Innovation Zone, settled in USDT with four-hour funding. Innovation Zone fees are higher; listing parameters can change. It does not establish spot availability or personal eligibility.",
-          "zh-Hans": "9 月 4 日公告描述创新区 CPUSDT 永续合约，以 USDT 结算、每四小时收取资金费。创新区交易费更高，参数可调整；不证明现货上线或个人参与资格。",
-          "zh-Hant": "9 月 4 日公告描述創新區 CPUSDT 永續合約，以 USDT 結算、每四小時收取資金費。創新區交易費更高，參數可調整；不證明現貨上線或個人參與資格。",
-          "ja": "9 月 4 日の通知は、イノベーションゾーンの CPUSDT 永続先物を説明しており、USDT 決済、4 時間ごとの資金調達を前提としています。イノベーションゾーンの手数料は高く、上場パラメータは変更される可能性があります。現物取引の利用可否や個人の資格を確定するものではありません。",
-          "ko": "9월 4일 공지에는 혁신 구역의 CPUSDT 무기한 계약이 설명되어 있으며, 4시간 자금으로 USDT로 결제됩니다. 혁신 구역 수수료는 더 높습니다. 목록 매개변수는 변경될 수 있습니다. 이는 좌석 가용성이나 개인 자격을 확립하지 않습니다.",
-          "tr": "4 Eylül duyurusu, İnovasyon Bölgesi'ndeki dört saatlik finansmanla USDT'ye yerleşen sürekli CPUSDT'leri tanımlıyor. İnovasyon Bölgesi ücretleri daha yüksektir; listeleme parametreleri değişebilir. Spot kullanılabilirliğini veya kişisel uygunluğu belirlemez.",
-          "ar": "يصف إشعار 4 سبتمبر عقود CPUSDT الدائمة في منطقة الابتكار، مع التسوية بعملة USDT وتمويل كل أربع ساعات. رسوم منطقة الابتكار أعلى؛ يمكن أن تتغير معلمات الإدراج. ولا يثبت ذلك توفر التداول الفوري أو الأهلية الشخصية.",
-          "es": "El aviso del 4 de septiembre describe las perpetuas de CPUSDT en la Zona de Innovación, liquidadas en USDT con financiación de cuatro horas. Las tarifas de la Zona de Innovación son más altas; Los parámetros del listado pueden cambiar. No establece disponibilidad de plazas ni elegibilidad personal.",
-          "pt-BR": "O aviso de 4 de setembro descreve os perpétuos do CPUSDT na Zona de Inovação, liquidados em USDT com financiamento de quatro horas. As taxas da Zona de Inovação são mais altas; os parâmetros de listagem podem mudar. Não estabelece disponibilidade de vagas ou elegibilidade pessoal.",
-          "fr": "L'avis du 4 septembre décrit les perpétuelles CPUSDT dans la zone d'innovation, réglées en USDT avec un financement de quatre heures. Les frais de la Zone d’Innovation sont plus élevés ; les paramètres de liste peuvent changer. Il n’établit pas la disponibilité des places ni l’éligibilité personnelle.",
-          "de": "In der Bekanntmachung vom 4. September werden CPUSDT-Perpetuals in der Innovation Zone beschrieben, die in USDT mit einer vierstündigen Finanzierung abgerechnet werden. Die Gebühren für die Innovationszone sind höher; Die Auflistungsparameter können sich ändern. Es stellt weder die Verfügbarkeit von Plätzen noch die persönliche Berechtigung dar.",
-          "ru": "В уведомлении от 4 сентября описываются бессрочные облигации CPUSDT в Инновационной зоне, расчеты в USDT с четырехчасовым финансированием. Плата за зону инноваций выше; Параметры листинга могут измениться. Он не устанавливает наличие мест или личное право на участие.",
-          "id": "Pemberitahuan tanggal 4 September menjelaskan kekekalan CPUSDT di Zona Inovasi, diselesaikan dalam USDT dengan pendanaan empat jam. Biaya Zona Inovasi lebih tinggi; parameter daftar dapat berubah. Ini tidak menentukan ketersediaan tempat atau kelayakan pribadi.",
-          "vi": "Thông báo ngày 4 tháng 9 mô tả các đồng CPUSDT vĩnh viễn trong Khu Đổi mới, được thanh toán bằng USDT với thời gian tài trợ là 4 giờ. Phí Khu Đổi mới cao hơn; các thông số danh sách có thể thay đổi. Nó không xác định tình trạng sẵn có tại chỗ hoặc khả năng hội đủ điều kiện của cá nhân.",
-          "it": "L'avviso del 4 settembre descrive i perpetui CPUSDT nella Innovation Zone, regolati in USDT con finanziamento di quattro ore. Le tariffe della Innovation Zone sono più alte; i parametri dell'elenco possono cambiare. Non stabilisce la disponibilità dei posti o l'idoneità personale."
+          "zh-Hans": "9 月 4 日公告描述创新区 CPUSDT 永续合约，以 USDT 结算、每四小时结算资金费。创新区交易费更高，上市参数可能调整；不证明现货交易可用或个人参与资格。",
+          "zh-Hant": "9 月 4 日公告描述創新區 CPUSDT 永續合約，以 USDT 結算、每四小時結算資金費。創新區交易費更高，上市參數可能調整；不證明現貨交易可用或個人參與資格。",
+          "ja": "9 月 4 日の告知は、イノベーションゾーンの CPUSDT 無期限契約を説明し、USDT 決済で 4 時間ごとに資金調達料が発生することを示しています。イノベーションゾーンの手数料は高く、上場パラメータは変更される場合があります。現物取引の提供状況や個人の利用資格を証明するものではありません。",
+          "ko": "9월 4일 공지는 혁신 구역의 CPUSDT 무기한 계약을 설명하며, USDT로 결제되고 4시간마다 펀딩비가 정산된다고 밝힙니다. 혁신 구역 수수료는 더 높고 상장 매개변수는 변경될 수 있습니다. 이는 현물 거래 지원 여부나 개인 자격을 입증하지 않습니다.",
+          "tr": "4 Eylül duyurusu, İnovasyon Bölgesi'ndeki CPUSDT sürekli vadeli sözleşmelerini açıklar; USDT ile uzlaşır ve dört saatte bir fonlama ücreti işler. İnovasyon Bölgesi ücretleri daha yüksektir; listeleme parametreleri değişebilir. Spot işlem erişimini veya kişisel uygunluğu kanıtlamaz.",
+          "ar": "يصف إشعار 4 سبتمبر عقود CPUSDT الدائمة في منطقة الابتكار، مع التسوية بعملة USDT واحتساب رسوم التمويل كل أربع ساعات. رسوم منطقة الابتكار أعلى وقد تتغير معلمات الإدراج. لا يثبت ذلك توفر التداول الفوري أو الأهلية الشخصية.",
+          "es": "El aviso del 4 de septiembre describe los contratos perpetuos CPUSDT en la Zona de Innovación, liquidados en USDT y con comisión de financiación cada cuatro horas. Las tarifas de la Zona de Innovación son más altas; los parámetros de listado pueden cambiar. No establece disponibilidad de spot ni elegibilidad personal.",
+          "pt-BR": "O aviso de 4 de setembro descreve os contratos perpétuos CPUSDT na Zona de Inovação, liquidados em USDT e com taxa de funding a cada quatro horas. As taxas da Zona de Inovação são mais altas; os parâmetros de listagem podem mudar. Não comprova disponibilidade no mercado à vista nem elegibilidade pessoal.",
+          "fr": "L'avis du 4 septembre décrit les contrats perpétuels CPUSDT dans la zone d'innovation, réglés en USDT avec frais de financement toutes les quatre heures. Les frais de la zone d'innovation sont plus élevés ; les paramètres de cotation peuvent changer. Il n'établit pas la disponibilité au comptant ni l'éligibilité personnelle.",
+          "de": "Die Mitteilung vom 4. September beschreibt CPUSDT-Perpetual-Kontrakte in der Innovation Zone, abgerechnet in USDT mit Funding-Gebühren alle vier Stunden. Die Gebühren der Innovation Zone sind höher; Listing-Parameter können sich ändern. Sie belegt weder Spot-Verfügbarkeit noch persönliche Berechtigung.",
+          "ru": "Уведомление от 4 сентября описывает бессрочные контракты CPUSDT в Innovation Zone с расчетами в USDT и ставкой фондирования каждые четыре часа. Комиссии Innovation Zone выше; параметры листинга могут измениться. Это не подтверждает доступность спотовой торговли или личное право участия.",
+          "id": "Pemberitahuan 4 September menjelaskan kontrak perpetual CPUSDT di Zona Inovasi, diselesaikan dalam USDT dengan biaya funding setiap empat jam. Biaya Zona Inovasi lebih tinggi; parameter listing dapat berubah. Ini tidak membuktikan ketersediaan perdagangan spot atau kelayakan pribadi.",
+          "vi": "Thông báo ngày 4 tháng 9 mô tả hợp đồng vĩnh viễn CPUSDT trong Khu Đổi mới, thanh toán bằng USDT và có phí funding mỗi bốn giờ. Phí Khu Đổi mới cao hơn; thông số niêm yết có thể thay đổi. Điều này không chứng minh khả năng giao dịch spot hay điều kiện cá nhân.",
+          "it": "L'avviso del 4 settembre descrive i contratti perpetui CPUSDT nella Innovation Zone, regolati in USDT con commissione di funding ogni quattro ore. Le commissioni della Innovation Zone sono più alte; i parametri di quotazione possono cambiare. Non stabilisce la disponibilità spot né l'idoneità personale.",
+          // l10n: needs native review
+          "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔ (USDT، 4، 4 September، CPUSDT)",
+          // l10n: needs native review
+          "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками. (USDT، 4، 4 September، CPUSDT)"
         }
       }
     },
@@ -674,7 +818,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Выполняйте и требуйте каждую задачу до истечения установленного срока.",
         "id": "Selesaikan dan klaim setiap tugas sebelum tenggat waktunya.",
         "vi": "Hoàn thành và yêu cầu mỗi nhiệm vụ trước thời hạn riêng của nó.",
-        "it": "Completa e richiedi ogni attività prima della scadenza."
+        "it": "Completa e richiedi ogni attività prima della scadenza.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "kyc": {
         "en": "Complete the required identity verification before claiming.",
@@ -691,7 +839,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Прежде чем подавать заявку, пройдите необходимую проверку личности.",
         "id": "Selesaikan verifikasi identitas yang diperlukan sebelum mengklaim.",
         "vi": "Hoàn thành xác minh danh tính cần thiết trước khi yêu cầu.",
-        "it": "Completa la verifica dell'identità richiesta prima di effettuare la richiesta."
+        "it": "Completa la verifica dell'identità richiesta prima di effettuare la richiesta.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "rewardType": {
         "en": "Trading bonus and vouchers; not uniformly withdrawable",
@@ -708,7 +860,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Торговые бонусы и ваучеры; неравномерно вынимаемый",
         "id": "Bonus perdagangan dan voucher; tidak dapat ditarik secara seragam",
         "vi": "Giao dịch thưởng và chứng từ; không thể rút được đồng đều",
-        "it": "Bonus di trading e voucher; non uniformemente ritirabile"
+        "it": "Bonus di trading e voucher; non uniformemente ritirabile",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "limitations": {
         "en": "Confirm the reward type and permitted use; do not treat bonus face value as cash.",
@@ -725,7 +881,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Подтвердите тип вознаграждения и разрешенное использование; не рассматривайте номинальную стоимость бонуса как денежные средства.",
         "id": "Konfirmasikan jenis hadiah dan penggunaan yang diizinkan; jangan memperlakukan nilai nominal bonus sebagai uang tunai.",
         "vi": "Xác nhận loại phần thưởng và mục đích sử dụng được phép; không coi mệnh giá tiền thưởng là tiền mặt.",
-        "it": "Confermare la tipologia del premio e l'uso consentito; non trattare il valore nominale del bonus come denaro contante."
+        "it": "Confermare la tipologia del premio e l'uso consentito; non trattare il valore nominale del bonus come denaro contante.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "publishedDate": {
         "en": "2025-11-25",
@@ -742,7 +902,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "2025-11-25",
         "id": "25-11-2025",
         "vi": "25-11-2025",
-        "it": "25-11-2025"
+        "it": "25-11-2025",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (2025، 11، 25، 2025-11-25)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (2025، 11، 25، 2025-11-25)"
       },
       "datePrecision": {
         "en": "Source date retained as displayed; no missing timezone is inferred.",
@@ -759,7 +923,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Исходная дата сохраняется в том виде, в каком она отображается; отсутствие отсутствующего часового пояса не предполагается.",
         "id": "Tanggal sumber dipertahankan seperti yang ditampilkan; tidak ada zona waktu yang hilang yang disimpulkan.",
         "vi": "Ngày nguồn được giữ lại như được hiển thị; không có múi giờ bị thiếu được suy ra.",
-        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante."
+        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante.",
+        // l10n: needs native review
+        "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔",
+        // l10n: needs native review
+        "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта."
       },
       "gaps": [
         {
@@ -777,7 +945,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -794,7 +966,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "The Rewards Hub FAQ confirms that bonuses and Fee Savers are not withdrawable and unused rewards can expire.",
@@ -811,7 +987,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Часто задаваемые вопросы о Rewards Hub подтверждают, что бонусы и бонусы Fee Saver нельзя вывести, а срок действия неиспользованных вознаграждений может истечь.",
           "id": "FAQ Rewards Hub mengonfirmasi bahwa bonus dan Penghemat Biaya tidak dapat ditarik dan hadiah yang tidak digunakan dapat kedaluwarsa.",
           "vi": "Câu hỏi thường gặp về Trung tâm Phần thưởng xác nhận rằng tiền thưởng và Tiết kiệm phí không thể rút được và phần thưởng chưa sử dụng có thể hết hạn.",
-          "it": "Le domande frequenti sul Rewards Hub confermano che i bonus e i Fee Saver non sono ritirabili e che i premi non utilizzati possono scadere."
+          "it": "Le domande frequenti sul Rewards Hub confermano che i bonus e i Fee Saver non sono ritirabili e che i premi non utilizzati possono scadere.",
+          // l10n: needs native review
+          "ur": "یہ عبارت نقد رقم یا آزادانہ نکالے جانے والی رقم نہیں بتاتی؛ اسے واؤچر یا مشروط فائدہ سمجھیں۔ (Rewards Hub، FAQ)",
+          // l10n: needs native review
+          "uk": "Цей текст не означає готівку або суму, яку можна вільно вивести; трактуйте його як ваучер чи умовну вигоду. (Rewards Hub، FAQ)"
         }
       ]
     }
@@ -832,7 +1012,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Заявленный приветственный пакет объединяет в себе разные задачи, в том числе приглашение другого человека; это не простой подарок в виде депозита наличными.",
       "id": "Paket selamat datang yang disebutkan menggabungkan berbagai tugas, termasuk mengundang orang lain; ini bukan hadiah uang tunai setoran sederhana.",
       "vi": "Gói chào mừng đã nêu kết hợp các nhiệm vụ khác nhau, bao gồm mời người khác; nó không phải là một món quà tiền mặt gửi tiền đơn giản.",
-      "it": "Il pacchetto di benvenuto dichiarato combina diversi compiti, incluso invitare un'altra persona; non è un semplice regalo in contanti."
+      "it": "Il pacchetto di benvenuto dichiarato combina diversi compiti, incluso invitare un'altra persona; non è un semplice regalo in contanti.",
+      // l10n: needs native review
+      "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+      // l10n: needs native review
+      "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
     },
     "signupReward": {
       "summary": {
@@ -850,7 +1034,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "В справочнике на 2025 год описан пакет номинальной стоимостью 6200 долларов США. Его текущая доступность и точные условия ваучера требуют подтверждения.",
         "id": "Panduan tahun 2025 menjelaskan paket nilai nominal 6.200 USDT. Ketersediaannya saat ini dan ketentuan voucher akun yang sebenarnya memerlukan konfirmasi.",
         "vi": "Hướng dẫn năm 2025 mô tả gói mệnh giá 6.200 USDT. Tính sẵn có hiện tại của nó và các điều khoản chứng từ chính xác của tài khoản cần phải được xác nhận.",
-        "it": "La guida 2025 descrive un pacchetto con valore nominale di 6.200 USDT. La sua disponibilità attuale e i termini esatti del voucher dell'account richiedono conferma."
+        "it": "La guida 2025 descrive un pacchetto con valore nominale di 6.200 USDT. La sua disponibilità attuale e i termini esatti del voucher dell'account richiedono conferma.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (USDT، 2025، 6,200 USDT)",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (USDT، 2025، 6,200 USDT)"
       },
       "conditions": [
         {
@@ -868,7 +1056,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Руководство дает новым пользователям семь дней на депозит/торговлю.",
           "id": "Panduan ini memberi pengguna baru waktu tujuh hari untuk tantangan deposit/perdagangan.",
           "vi": "Hướng dẫn cung cấp cho người dùng mới bảy ngày để thử thách gửi tiền/giao dịch.",
-          "it": "La guida offre ai nuovi utenti sette giorni per la sfida di deposito/negoziazione."
+          "it": "La guida offre ai nuovi utenti sette giorni per la sfida di deposito/negoziazione.",
+          // l10n: needs native review
+          "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔",
+          // l10n: needs native review
+          "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу."
         },
         {
           "en": "It describes a three-day observation period, then a two-day manual claim window.",
@@ -885,7 +1077,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Он описывает трехдневный период наблюдения, а затем двухдневный период подачи заявок вручную.",
           "id": "Ini menggambarkan periode observasi tiga hari, kemudian jendela klaim manual dua hari.",
           "vi": "Nó mô tả khoảng thời gian quan sát ba ngày, sau đó là khoảng thời gian yêu cầu thủ công kéo dài hai ngày.",
-          "it": "Descrive un periodo di osservazione di tre giorni, quindi una finestra di richiesta manuale di due giorni."
+          "it": "Descrive un periodo di osservazione di tre giorni, quindi una finestra di richiesta manuale di due giorni.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         },
         {
           "en": "Rewards go to the coupon center; check each instrument's use, expiry and current eligibility.",
@@ -902,7 +1098,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Награды поступают в купонный центр; проверьте использование каждого инструмента, срок его действия и текущую приемлемость.",
           "id": "Hadiah masuk ke pusat kupon; periksa penggunaan setiap instrumen, masa berlakunya, dan kelayakannya saat ini.",
           "vi": "Phần thưởng được chuyển đến trung tâm phiếu giảm giá; kiểm tra việc sử dụng, hết hạn và tính đủ điều kiện hiện tại của từng công cụ.",
-          "it": "I premi vanno al centro coupon; verificare l'utilizzo, la scadenza e l'idoneità attuale di ciascuno strumento."
+          "it": "I premi vanno al centro coupon; verificare l'utilizzo, la scadenza e l'idoneità attuale di ciascuno strumento.",
+          // l10n: needs native review
+          "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔",
+          // l10n: needs native review
+          "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція."
         }
       ]
     },
@@ -923,7 +1123,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Датировано 23 января 2025 г. Историческое руководство по программе, а не доказательство того, что новая учетная запись сегодня получает заявленный максимум.",
           "id": "Tanggal 23 Januari 2025. Panduan program historis, bukan bukti bahwa akun baru menerima jumlah maksimum yang diiklankan hari ini.",
           "vi": "Ngày 23 tháng 1 năm 2025. Hướng dẫn chương trình lịch sử, không phải bằng chứng cho thấy tài khoản mới nhận được số tiền tối đa được quảng cáo ngay hôm nay.",
-          "it": "Datato 23 gennaio 2025. Una guida storica al programma, non una prova che un nuovo account riceva il massimo pubblicizzato oggi."
+          "it": "Datato 23 gennaio 2025. Una guida storica al programma, non una prova che un nuovo account riceva il massimo pubblicizzato oggi.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (23، 2025، 23 January)",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (23، 2025، 23 January)"
         }
       },
       "bitget-hajimi-september": {
@@ -931,18 +1135,22 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "en": "The notice names 哈基米USDT futures and bots on 6 September 2026 (UTC+8), with 3x maximum leverage and four-hour funding. It gives no precise launch clock time; parameters may change. This is a derivative announcement, not a spot-token reward.",
           "zh-Hans": "公告说明 2026 年 9 月 6 日（UTC+8）上线哈基米USDT 合约与机器人，最高杠杆 3 倍、每四小时结算资金费。未列精确上线时刻，参数可调整；这是衍生品公告，不是现货代币奖励。",
           "zh-Hant": "公告說明 2026 年 9 月 6 日（UTC+8）上線哈基米USDT 合約與機器人，最高槓桿 3 倍、每四小時結算資金費。未列精確上線時刻，參數可調整；這是衍生品公告，不是現貨代幣獎勵。",
-          "ja": "この通知では、2026 年 9 月 6 日 (UTC+8) に、最大レバレッジ 3 倍、資金調達時間 4 時間の哈基米 USDT 先物およびボットが指定されています。正確な起動クロック時間は得られません。パラメータは変更される可能性があります。これは派生的な発表であり、スポットトークン報酬ではありません。",
-          "ko": "공지에는 2026년 9월 6일(UTC+8)에 哈基米USDT 선물과 봇이 지정되며, 최대 레버리지는 3배이고 자금 조달은 4시간입니다. 정확한 출시 시간을 제공하지 않습니다. 매개변수는 변경될 수 있습니다. 이는 현물 토큰 보상이 아닌 파생 발표입니다.",
-          "tr": "Bildirimde 哈基米USDT vadeli işlemleri ve botları 6 Eylül 2026 (UTC+8) tarihinde, 3 kat maksimum kaldıraç ve dört saatlik finansmanla belirtiliyor. Kesin bir fırlatma saati süresi vermez; parametreler değişebilir. Bu bir spot-token ödülü değil, türev bir duyurudur.",
-          "ar": "يذكر الإشعار العقود الآجلة والروبوتات لـ USDT في 6 سبتمبر 2026 (UTC+8)، مع رافعة مالية بحد أقصى 3x وتمويل لمدة أربع ساعات. لا يعطي وقتًا محددًا لساعة الإطلاق؛ قد تتغير المعلمات. هذا إعلان مشتق، وليس مكافأة رمزية فورية.",
-          "es": "El aviso nombra futuros y bots de USDT el 6 de septiembre de 2026 (UTC+8), con un apalancamiento máximo de 3 veces y financiación de cuatro horas. No proporciona una hora precisa de lanzamiento; Los parámetros pueden cambiar. Este es un anuncio derivado, no una recompensa simbólica al contado.",
-          "pt-BR": "O aviso nomeia futuros e bots de 哈基米USDT em 6 de setembro de 2026 (UTC+8), com alavancagem máxima de 3x e financiamento de quatro horas. Não fornece um horário de lançamento preciso; os parâmetros podem mudar. Este é um anúncio derivado, não uma recompensa de token à vista.",
-          "fr": "L'avis nomme les contrats à terme et les robots USDT le 6 septembre 2026 (UTC+8), avec un effet de levier maximum de 3x et un financement de quatre heures. Il ne donne aucune heure précise de lancement ; les paramètres peuvent changer. Il s'agit d'une annonce dérivée, pas d'une récompense au comptant.",
-          "de": "In der Mitteilung werden „哈基米USDT-Futures und Bots“ am 6. September 2026 (UTC+8) mit 3-facher maximaler Hebelwirkung und vierstündiger Finanzierung genannt. Es gibt keine genaue Startzeit; Parameter können sich ändern. Dies ist eine abgeleitete Ankündigung, keine Spot-Token-Belohnung.",
-          "ru": "В уведомлении указаны фьючерсы и боты 哈基米USDT от 6 сентября 2026 года (UTC+8) с максимальным кредитным плечом 3x и четырехчасовым финансированием. Он не дает точного времени запуска; параметры могут измениться. Это производное объявление, а не вознаграждение в виде спотовых токенов.",
-          "id": "Pemberitahuan tersebut menyebutkan kontrak berjangka dan bot USDT pada 6 September 2026 (UTC+8), dengan leverage maksimum 3x dan pendanaan empat jam. Ini tidak memberikan waktu jam peluncuran yang tepat; parameter dapat berubah. Ini adalah pengumuman derivatif, bukan hadiah token spot.",
-          "vi": "Thông báo nêu tên các hợp đồng tương lai và bot 哈基米USDT vào ngày 6 tháng 9 năm 2026 (UTC+8), với đòn bẩy tối đa gấp 3 lần và thời gian cấp vốn là 4 giờ. Nó không cung cấp thời gian khởi động chính xác; các thông số có thể thay đổi. Đây là một thông báo phái sinh, không phải là phần thưởng token giao ngay.",
-          "it": "L'avviso nomina futures e bot 哈基米USDT il 6 settembre 2026 (UTC+8), con leva massima 3x e finanziamento in quattro ore. Non fornisce l'ora precisa dell'orologio di lancio; i parametri potrebbero cambiare. Questo è un annuncio derivato, non una ricompensa simbolica."
+          "ja": "この告知は、2026 年 9 月 6 日（UTC+8）に 哈基米USDT 先物とボットを掲載し、最大 3 倍レバレッジ、4 時間ごとの資金調達料を示しています。正確な開始時刻は示しておらず、パラメータは変更される場合があります。これはデリバティブの告知であり、現物トークン報酬ではありません。",
+          "ko": "공지에는 2026년 9월 6일(UTC+8)에 哈基米USDT 선물과 봇이 명시되어 있으며, 최대 3배 레버리지와 4시간마다 정산되는 펀딩비가 포함됩니다. 정확한 출시 시각은 제공하지 않으며 매개변수는 변경될 수 있습니다. 이는 파생상품 공지이며 현물 토큰 보상이 아닙니다.",
+          "tr": "Bildirim, 6 Eylül 2026 (UTC+8) tarihinde 哈基米USDT vadeli sözleşmeleri ve botlarını, 3x azami kaldıraç ve dört saatte bir fonlama ücretiyle adlandırır. Kesin başlatma saati vermez; parametreler değişebilir. Bu bir türev ürün duyurusudur, spot token ödülü değildir.",
+          "ar": "يذكر الإشعار عقود 哈基米USDT الآجلة والروبوتات في 6 سبتمبر 2026 (UTC+8)، مع رافعة مالية بحد أقصى 3x ورسوم تمويل كل أربع ساعات. لا يحدد ساعة إطلاق دقيقة؛ وقد تتغير المعلمات. هذا إعلان لمشتقات، وليس مكافأة رمز للتداول الفوري.",
+          "es": "El aviso menciona futuros y bots 哈基米USDT el 6 de septiembre de 2026 (UTC+8), con apalancamiento máximo de 3x y comisión de financiación cada cuatro horas. No da una hora exacta de lanzamiento; los parámetros pueden cambiar. Es un anuncio de derivados, no una recompensa de token spot.",
+          "pt-BR": "O aviso menciona futuros e bots 哈基米USDT em 6 de setembro de 2026 (UTC+8), com alavancagem máxima de 3x e taxa de funding a cada quatro horas. Não informa horário exato de lançamento; os parâmetros podem mudar. É um anúncio de derivativos, não uma recompensa de token à vista.",
+          "fr": "L'avis mentionne les contrats à terme et les bots 哈基米USDT le 6 septembre 2026 (UTC+8), avec un effet de levier maximal de 3x et des frais de financement toutes les quatre heures. Il ne donne pas d'heure précise de lancement ; les paramètres peuvent changer. C'est une annonce de dérivés, pas une récompense de jeton au comptant.",
+          "de": "Die Mitteilung nennt 哈基米USDT-Futures und Bots am 6. September 2026 (UTC+8) mit maximal 3x Hebel und Funding-Gebühren alle vier Stunden. Sie nennt keine genaue Startuhrzeit; Parameter können sich ändern. Dies ist eine Derivate-Ankündigung, keine Spot-Token-Belohnung.",
+          "ru": "Уведомление называет фьючерсы и ботов 哈基米USDT на 6 сентября 2026 года (UTC+8), с максимальным плечом 3x и комиссией фондирования каждые четыре часа. Точное время запуска не указано; параметры могут измениться. Это объявление о деривативах, а не вознаграждение спотовым токеном.",
+          "id": "Pemberitahuan tersebut menyebutkan futures dan bot 哈基米USDT pada 6 September 2026 (UTC+8), dengan leverage maksimum 3x dan biaya funding setiap empat jam. Pemberitahuan tidak memberikan jam peluncuran yang tepat; parameter dapat berubah. Ini adalah pengumuman derivatif, bukan hadiah token spot.",
+          "vi": "Thông báo nêu tên hợp đồng tương lai và bot 哈基米USDT vào ngày 6 tháng 9 năm 2026 (UTC+8), với đòn bẩy tối đa 3x và phí funding mỗi bốn giờ. Thông báo không đưa ra giờ ra mắt chính xác; các thông số có thể thay đổi. Đây là thông báo phái sinh, không phải phần thưởng token spot.",
+          "it": "L'avviso nomina futures e bot 哈基米USDT il 6 settembre 2026 (UTC+8), con leva massima 3x e commissione di funding ogni quattro ore. Non fornisce un orario preciso di lancio; i parametri possono cambiare. È un annuncio su derivati, non una ricompensa in token spot.",
+          // l10n: needs native review
+          "ur": "شرائط اور قواعد بدل سکتے ہیں؛ کارروائی سے پہلے سرکاری صفحہ دوبارہ دیکھیں۔ (UTC، USDT، 6، 2026، 8، 3x، 6 September)",
+          // l10n: needs native review
+          "uk": "Умови й правила можуть змінюватися; перед дією знову перевірте офіційну сторінку. (UTC، USDT، 6، 2026، 8، 3x، 6 September)"
         }
       }
     },
@@ -962,7 +1170,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Руководство дает новым пользователям семь дней на депозит/торговлю.",
         "id": "Panduan ini memberi pengguna baru waktu tujuh hari untuk tantangan deposit/perdagangan.",
         "vi": "Hướng dẫn cung cấp cho người dùng mới bảy ngày để thử thách gửi tiền/giao dịch.",
-        "it": "La guida offre ai nuovi utenti sette giorni per la sfida di deposito/negoziazione."
+        "it": "La guida offre ai nuovi utenti sette giorni per la sfida di deposito/negoziazione.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу."
       },
       "deposit": {
         "en": "The guide gives new users seven days for the deposit/trading challenge.",
@@ -979,7 +1191,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Руководство дает новым пользователям семь дней на депозит/торговлю.",
         "id": "Panduan ini memberi pengguna baru waktu tujuh hari untuk tantangan deposit/perdagangan.",
         "vi": "Hướng dẫn cung cấp cho người dùng mới bảy ngày để thử thách gửi tiền/giao dịch.",
-        "it": "La guida offre ai nuovi utenti sette giorni per la sfida di deposito/negoziazione."
+        "it": "La guida offre ai nuovi utenti sette giorni per la sfida di deposito/negoziazione.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу."
       },
       "trading": {
         "en": "The guide gives new users seven days for the deposit/trading challenge.",
@@ -996,7 +1212,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Руководство дает новым пользователям семь дней на депозит/торговлю.",
         "id": "Panduan ini memberi pengguna baru waktu tujuh hari untuk tantangan deposit/perdagangan.",
         "vi": "Hướng dẫn cung cấp cho người dùng mới bảy ngày để thử thách gửi tiền/giao dịch.",
-        "it": "La guida offre ai nuovi utenti sette giorni per la sfida di deposito/negoziazione."
+        "it": "La guida offre ai nuovi utenti sette giorni per la sfida di deposito/negoziazione.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу."
       },
       "rewardType": {
         "en": "Trading bonus and vouchers; not uniformly withdrawable",
@@ -1013,7 +1233,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Торговые бонусы и ваучеры; неравномерно вынимаемый",
         "id": "Bonus perdagangan dan voucher; tidak dapat ditarik secara seragam",
         "vi": "Giao dịch thưởng và chứng từ; không thể rút được đồng đều",
-        "it": "Bonus di trading e voucher; non uniformemente ritirabile"
+        "it": "Bonus di trading e voucher; non uniformemente ritirabile",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "maximumConditions": {
         "en": "The 2025 guide describes a 6,200 USDT face-value bundle. Its current availability and the account's exact voucher terms require confirmation.",
@@ -1030,7 +1254,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "В справочнике на 2025 год описан пакет номинальной стоимостью 6200 долларов США. Его текущая доступность и точные условия ваучера требуют подтверждения.",
         "id": "Panduan tahun 2025 menjelaskan paket nilai nominal 6.200 USDT. Ketersediaannya saat ini dan ketentuan voucher akun yang sebenarnya memerlukan konfirmasi.",
         "vi": "Hướng dẫn năm 2025 mô tả gói mệnh giá 6.200 USDT. Tính sẵn có hiện tại của nó và các điều khoản chứng từ chính xác của tài khoản cần phải được xác nhận.",
-        "it": "La guida 2025 descrive un pacchetto con valore nominale di 6.200 USDT. La sua disponibilità attuale e i termini esatti del voucher dell'account richiedono conferma."
+        "it": "La guida 2025 descrive un pacchetto con valore nominale di 6.200 USDT. La sua disponibilità attuale e i termini esatti del voucher dell'account richiedono conferma.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (USDT، 2025، 6,200 USDT)",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (USDT، 2025، 6,200 USDT)"
       },
       "limitations": {
         "en": "It describes a three-day observation period, then a two-day manual claim window.",
@@ -1047,7 +1275,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Он описывает трехдневный период наблюдения, а затем двухдневный период подачи заявок вручную.",
         "id": "Ini menggambarkan periode observasi tiga hari, kemudian jendela klaim manual dua hari.",
         "vi": "Nó mô tả khoảng thời gian quan sát ba ngày, sau đó là khoảng thời gian yêu cầu thủ công kéo dài hai ngày.",
-        "it": "Descrive un periodo di osservazione di tre giorni, quindi una finestra di richiesta manuale di due giorni."
+        "it": "Descrive un periodo di osservazione di tre giorni, quindi una finestra di richiesta manuale di due giorni.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "publishedDate": {
         "en": "2025-01-23",
@@ -1064,7 +1296,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "2025-01-23",
         "id": "23-01-2025",
         "vi": "23-01-2025",
-        "it": "23-01-2025"
+        "it": "23-01-2025",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (2025، 01، 23، 2025-01-23)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (2025، 01، 23، 2025-01-23)"
       },
       "datePrecision": {
         "en": "Source date retained as displayed; no missing timezone is inferred.",
@@ -1081,7 +1317,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Исходная дата сохраняется в том виде, в каком она отображается; отсутствие отсутствующего часового пояса не предполагается.",
         "id": "Tanggal sumber dipertahankan seperti yang ditampilkan; tidak ada zona waktu yang hilang yang disimpulkan.",
         "vi": "Ngày nguồn được giữ lại như được hiển thị; không có múi giờ bị thiếu được suy ra.",
-        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante."
+        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante.",
+        // l10n: needs native review
+        "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔",
+        // l10n: needs native review
+        "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта."
       },
       "gaps": [
         {
@@ -1099,7 +1339,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -1116,7 +1360,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -1133,7 +1381,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "The 2025 guide describes a 6,200 USDT face-value bundle. Its current availability and the account's exact voucher terms require confirmation.",
@@ -1150,7 +1402,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "В справочнике на 2025 год описан пакет номинальной стоимостью 6200 долларов США. Его текущая доступность и точные условия ваучера требуют подтверждения.",
           "id": "Panduan tahun 2025 menjelaskan paket nilai nominal 6.200 USDT. Ketersediaannya saat ini dan ketentuan voucher akun yang sebenarnya memerlukan konfirmasi.",
           "vi": "Hướng dẫn năm 2025 mô tả gói mệnh giá 6.200 USDT. Tính sẵn có hiện tại của nó và các điều khoản chứng từ chính xác của tài khoản cần phải được xác nhận.",
-          "it": "La guida 2025 descrive un pacchetto con valore nominale di 6.200 USDT. La sua disponibilità attuale e i termini esatti del voucher dell'account richiedono conferma."
+          "it": "La guida 2025 descrive un pacchetto con valore nominale di 6.200 USDT. La sua disponibilità attuale e i termini esatti del voucher dell'account richiedono conferma.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (USDT، 2025، 6,200 USDT)",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (USDT، 2025، 6,200 USDT)"
         }
       ]
     }
@@ -1171,7 +1427,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Программа ЕЭЗ распределяет предложения по аккаунтам и каналам привлечения; внесение депозита само по себе не создает права.",
       "id": "Program EEA memberikan penawaran berdasarkan akun dan saluran akuisisi; menyetor saja tidak menciptakan suatu hak.",
       "vi": "Chương trình EEA chỉ định các ưu đãi theo tài khoản và kênh chuyển đổi; gửi tiền một mình không tạo ra một quyền lợi.",
-      "it": "Il programma SEE assegna le offerte per account e canale di acquisizione; il solo deposito non crea un diritto."
+      "it": "Il programma SEE assegna le offerte per account e canale di acquisizione; il solo deposito non crea un diritto.",
+      // l10n: needs native review
+      "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔ (EEA)",
+      // l10n: needs native review
+      "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу. (EEA)"
     },
     "signupReward": {
       "summary": {
@@ -1189,7 +1449,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Часто задаваемые вопросы ЕЭЗ охватывают криптовалюту, ваучеры X-Perps и VIP-пропуска. Это предложение зависит от региона, а не является глобальным.",
         "id": "FAQ EEA mencakup kripto, voucher X-Perps, dan tiket VIP. Penawaran ini khusus untuk wilayah tertentu, bukan tawaran sambutan di seluruh dunia.",
         "vi": "Câu hỏi thường gặp của EEA bao gồm tiền điện tử, phiếu thưởng X-Perps và thẻ VIP. Đây là ưu đãi dành riêng cho từng khu vực, không phải là ưu đãi chào mừng trên toàn thế giới.",
-        "it": "Le domande frequenti dell'EEA riguardano criptovalute, voucher X-Perps e pass VIP. Questa è un'offerta specifica per regione, non un'offerta di benvenuto mondiale."
+        "it": "Le domande frequenti dell'EEA riguardano criptovalute, voucher X-Perps e pass VIP. Questa è un'offerta specifica per regione, non un'offerta di benvenuto mondiale.",
+        // l10n: needs native review
+        "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (VIP، FAQ، Perps، EEA)",
+        // l10n: needs native review
+        "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (VIP، FAQ، Perps، EEA)"
       },
       "conditions": [
         {
@@ -1207,7 +1471,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Подтвердите поддержку проживания в ЕЭЗ, новый основной счет, проверку личности и соответствующий канал въезда.",
           "id": "Konfirmasikan dukungan tempat tinggal EEA, akun utama baru, pemeriksaan identitas, dan saluran masuk yang memenuhi syarat.",
           "vi": "Xác nhận hỗ trợ cư trú tại EEA, tài khoản chính mới, kiểm tra danh tính và kênh nhập cảnh đủ điều kiện.",
-          "it": "Conferma il supporto per la residenza nel SEE, un nuovo account principale, i controlli di identità e il canale di ingresso idoneo."
+          "it": "Conferma il supporto per la residenza nel SEE, un nuovo account principale, i controlli di identità e il canale di ingresso idoneo.",
+          // l10n: needs native review
+          "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔ (EEA)",
+          // l10n: needs native review
+          "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція. (EEA)"
         },
         {
           "en": "Use the assigned task thresholds and deadlines; internal transfers do not qualify as eligible deposits.",
@@ -1224,7 +1492,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Используйте назначенные пороговые значения и сроки выполнения задач; внутренние переводы не квалифицируются как приемлемые депозиты.",
           "id": "Gunakan ambang batas dan tenggat waktu tugas yang ditetapkan; transfer internal tidak memenuhi syarat sebagai simpanan yang memenuhi syarat.",
           "vi": "Sử dụng ngưỡng và thời hạn nhiệm vụ được giao; chuyển khoản nội bộ không đủ điều kiện là tiền gửi đủ điều kiện.",
-          "it": "Utilizzare le soglie e le scadenze delle attività assegnate; i trasferimenti interni non si qualificano come depositi ammissibili."
+          "it": "Utilizzare le soglie e le scadenze delle attività assegnate; i trasferimenti interni non si qualificano come depositi ammissibili.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
         },
         {
           "en": "Check channel binding and stacking restrictions before using a different referral or promotion.",
@@ -1241,7 +1513,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Прежде чем использовать другой реферал или рекламную акцию, проверьте привязку канала и ограничения на суммирование.",
           "id": "Periksa batasan pengikatan dan penumpukan saluran sebelum menggunakan rujukan atau promosi lain.",
           "vi": "Kiểm tra các hạn chế ràng buộc và xếp chồng kênh trước khi sử dụng giới thiệu hoặc khuyến mãi khác.",
-          "it": "Controlla le limitazioni di associazione e accumulo del canale prima di utilizzare un referral o una promozione diversi."
+          "it": "Controlla le limitazioni di associazione e accumulo del canale prima di utilizzare un referral o una promozione diversi.",
+          // l10n: needs native review
+          "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+          // l10n: needs native review
+          "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
         }
       ]
     },
@@ -1262,26 +1538,34 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "На странице указано 27 августа 2026 г.; Сумма вознаграждения и время выполнения задания назначаются в соответствующей учетной записи.",
           "id": "Halaman tersebut menunjukkan 27 Agustus 2026; jumlah hadiah dan waktu tugas ditetapkan di akun yang memenuhi syarat.",
           "vi": "Trang hiển thị ngày 27 tháng 8 năm 2026; số tiền thưởng và thời gian thực hiện nhiệm vụ được chỉ định trong tài khoản đủ điều kiện.",
-          "it": "La pagina mostra il 27 agosto 2026; l'importo del premio e la tempistica dell'attività vengono assegnati nell'account idoneo."
+          "it": "La pagina mostra il 27 agosto 2026; l'importo del premio e la tempistica dell'attività vengono assegnati nell'account idoneo.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (27، 2026، 27 August)",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (27، 2026، 27 August)"
         }
       },
       "okx-fet-september": {
         "summary": {
           "en": "The announcement schedules FET/USDT perpetuals for 5 September 2026 at 03:30 UTC on web, app and API. It asks users to confirm regional availability in the app. A published schedule does not prove a current account can trade.",
-          "zh-Hans": "公告安排 FET/USDT 永续于 2026 年 9 月 5 日 03:30 UTC 在网页、应用与 API 上线，并要求在应用内确认地区支持。发布的时间表不能证明当前账户可以交易。",
-          "zh-Hant": "公告安排 FET/USDT 永續於 2026 年 9 月 5 日 03:30 UTC 在網頁、應用程式與 API 上線，並要求在應用程式內確認地區支援。發布的時間表不能證明目前帳戶可以交易。",
-          "ja": "この発表は、FET/USDT 永続先物を 2026 年 9 月 5 日 03:30 UTC にウェブ、アプリ、API で予定しているものです。ユーザーにはアプリ内で地域ごとの利用可否を確認するよう求めています。公開されたスケジュールは、現在のアカウントで取引できることを証明するものではありません。",
-          "ko": "발표에서는 웹, 앱 및 API에서 2026년 9월 5일 03:30 UTC에 FET/USDT 무기한 계약을 제공할 예정입니다. 사용자에게 앱에서 지역별 사용 가능 여부를 확인하도록 요청합니다. 게시된 일정은 당좌 계좌가 거래할 수 있음을 증명하지 않습니다.",
-          "tr": "Duyuruda web, uygulama ve API üzerinde FET/USDT kalıcı değerlerinin 5 Eylül 2026 03:30 UTC'de yapılması planlanıyor. Kullanıcılardan uygulamadaki bölgesel kullanılabilirliği onaylamalarını ister. Yayınlanmış bir program, cari bir hesabın işlem yapabileceğini kanıtlamaz.",
-          "ar": "يحدد الإعلان موعد إدراج عقود FET/USDT الدائمة في 5 سبتمبر 2026 الساعة 03:30 بالتوقيت العالمي المنسق على الويب والتطبيق وواجهة برمجة التطبيقات. ويطلب من المستخدمين تأكيد التوفر الإقليمي داخل التطبيق. الجدول الزمني المنشور لا يثبت أن الحساب الحالي يمكنه التداول.",
-          "es": "El anuncio programa los perpetuos FET/USDT para el 5 de septiembre de 2026 a las 03:30 UTC en la web, la aplicación y la API. Pide a los usuarios que confirmen la disponibilidad regional en la aplicación. Un cronograma publicado no prueba que una cuenta corriente pueda operar.",
-          "pt-BR": "O anúncio programa perpétuos FET/USDT para 5 de setembro de 2026 às 03h30 UTC na web, aplicativo e API. Ele pede aos usuários que confirmem a disponibilidade regional no aplicativo. Um cronograma publicado não prova que uma conta corrente pode ser negociada.",
-          "fr": "L'annonce prévoit les perpétuelles FET/USDT pour le 5 septembre 2026 à 03h30 UTC sur le Web, l'application et l'API. Il demande aux utilisateurs de confirmer la disponibilité régionale dans l'application. Un calendrier publié ne prouve pas qu’un compte courant peut être négocié.",
-          "de": "Die Ankündigung sieht FET/USDT-Perpetuals für den 5. September 2026 um 03:30 UTC im Web, in der App und auf der API vor. Benutzer werden aufgefordert, die regionale Verfügbarkeit in der App zu bestätigen. Ein veröffentlichter Zeitplan beweist nicht, dass mit einem Girokonto gehandelt werden kann.",
-          "ru": "В объявлении запланировано проведение бессрочных контрактов FET/USDT на 5 сентября 2026 года в 03:30 UTC в Интернете, приложении и API. Он просит пользователей подтвердить региональную доступность в приложении. Опубликованный график не доказывает, что текущий счет может торговать.",
-          "id": "Pengumuman ini menjadwalkan perpetual FET/USDT pada 5 September 2026 pukul 03:30 UTC di web, aplikasi, dan API. Ini meminta pengguna untuk mengonfirmasi ketersediaan regional di aplikasi. Jadwal yang dipublikasikan tidak membuktikan bahwa rekening giro dapat diperdagangkan.",
-          "vi": "Thông báo lên lịch giao dịch vĩnh viễn FET/USDT vào ngày 5 tháng 9 năm 2026 lúc 03:30 UTC trên web, ứng dụng và API. Nó yêu cầu người dùng xác nhận tính sẵn có của khu vực trong ứng dụng. Lịch trình được công bố không chứng minh được tài khoản vãng lai có thể giao dịch.",
-          "it": "L'annuncio prevede i perpetui FET/USDT per il 5 settembre 2026 alle 03:30 UTC su web, app e API. Chiede agli utenti di confermare la disponibilità regionale nell'app. Un programma pubblicato non dimostra che un conto corrente può essere scambiato."
+          "zh-Hans": "公告安排 FET/USDT 永续合约于 2026 年 9 月 5 日 03:30 UTC 在网页、应用与 API 上线，并要求用户在应用内确认地区可用性。公开时间表不能证明当前交易所账户可以交易。",
+          "zh-Hant": "公告安排 FET/USDT 永續合約於 2026 年 9 月 5 日 03:30 UTC 在網頁、應用程式與 API 上線，並要求用戶在應用程式內確認地區可用性。公開時間表不能證明目前交易所帳戶可以交易。",
+          "ja": "この発表は、FET/USDT 永続先物契約を 2026 年 9 月 5 日 03:30 UTC にウェブ、アプリ、API で提供予定とし、ユーザーにアプリ内で地域ごとの利用可否を確認するよう求めています。公開されたスケジュールは、現在のアカウントで取引できることを証明しません。",
+          "ko": "발표는 2026년 9월 5일 03:30 UTC에 웹, 앱 및 API에서 FET/USDT 무기한 계약 제공을 예정하고, 사용자가 앱에서 지역별 이용 가능 여부를 확인하도록 요청합니다. 공개된 일정은 현재 거래소 계정이 거래할 수 있음을 증명하지 않습니다.",
+          "tr": "Duyuru, FET/USDT sürekli vadeli sözleşmelerini 5 Eylül 2026 saat 03:30 UTC'de web, uygulama ve API için planlar. Kullanıcılardan uygulamada bölgesel erişimi doğrulamalarını ister. Yayınlanmış bir takvim, mevcut borsa hesabının işlem yapabileceğini kanıtlamaz.",
+          "ar": "يحدد الإعلان موعد إدراج عقود FET/USDT الدائمة في 5 سبتمبر 2026 الساعة 03:30 بالتوقيت العالمي المنسق على الويب والتطبيق وواجهة برمجة التطبيقات. ويطلب من المستخدمين تأكيد التوفر الإقليمي داخل التطبيق. لا يثبت الجدول المنشور أن الحساب الحالي لدى منصة التداول يمكنه التداول.",
+          "es": "El anuncio programa los contratos perpetuos FET/USDT para el 5 de septiembre de 2026 a las 03:30 UTC en web, app y API. Pide a los usuarios confirmar la disponibilidad regional en la aplicación. Un calendario publicado no prueba que la cuenta de exchange actual pueda operar.",
+          "pt-BR": "O anúncio programa os contratos perpétuos FET/USDT para 5 de setembro de 2026 às 03h30 UTC na web, no app e na API. Ele pede aos usuários que confirmem a disponibilidade regional no aplicativo. Um cronograma publicado não prova que a conta atual na exchange possa negociar.",
+          "fr": "L'annonce programme les contrats perpétuels FET/USDT pour le 5 septembre 2026 à 03:30 UTC sur le Web, l'application et l'API. Elle demande aux utilisateurs de confirmer la disponibilité régionale dans l'application. Un calendrier publié ne prouve pas que le compte d'échange actuel puisse trader.",
+          "de": "Die Ankündigung plant FET/USDT-Perpetual-Kontrakte für den 5. September 2026 um 03:30 UTC im Web, in der App und über die API. Nutzer sollen die regionale Verfügbarkeit in der App bestätigen. Ein veröffentlichter Zeitplan beweist nicht, dass das aktuelle Börsenkonto handeln kann.",
+          "ru": "Объявление планирует запуск бессрочных контрактов FET/USDT 5 сентября 2026 года в 03:30 UTC в веб-версии, приложении и API. Пользователей просят подтвердить региональную доступность в приложении. Опубликованное расписание не доказывает, что текущий биржевой аккаунт может торговать.",
+          "id": "Pengumuman ini menjadwalkan kontrak perpetual FET/USDT pada 5 September 2026 pukul 03:30 UTC di web, aplikasi, dan API. Pengguna diminta mengonfirmasi ketersediaan regional di aplikasi. Jadwal yang dipublikasikan tidak membuktikan bahwa akun exchange saat ini dapat berdagang.",
+          "vi": "Thông báo lên lịch hợp đồng vĩnh viễn FET/USDT vào ngày 5 tháng 9 năm 2026 lúc 03:30 UTC trên web, ứng dụng và API. Người dùng được yêu cầu xác nhận khả năng hỗ trợ theo khu vực trong ứng dụng. Lịch đã công bố không chứng minh tài khoản sàn hiện tại có thể giao dịch.",
+          "it": "L'annuncio programma i contratti perpetui FET/USDT per il 5 settembre 2026 alle 03:30 UTC su web, app e API. Chiede agli utenti di confermare la disponibilità regionale nell'app. Un calendario pubblicato non prova che l'account exchange attuale possa fare trading.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (UTC، USDT، API، 5، 2026، 03، 30 UTC، 5 September، FET)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (UTC، USDT، API، 5، 2026، 03، 30 UTC، 5 September، FET)"
         }
       }
     },
@@ -1301,7 +1585,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Только предложение ЕЭЗ; Страна и право на участие в учетной записи все равно должны быть подтверждены.",
         "id": "Hanya penawaran EEA; kelayakan negara dan akun masih harus dikonfirmasi.",
         "vi": "Chỉ cung cấp EEA; Tính đủ điều kiện của quốc gia và tài khoản vẫn phải được xác nhận.",
-        "it": "Solo offerta SEE; il paese e l'idoneità dell'account devono ancora essere confermati."
+        "it": "Solo offerta SEE; il paese e l'idoneità dell'account devono ancora essere confermati.",
+        // l10n: needs native review
+        "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔ (EEA)",
+        // l10n: needs native review
+        "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція. (EEA)"
       },
       "eligibility": {
         "en": "Confirm EEA residence support, a new main account, identity checks and the eligible entry channel.",
@@ -1318,7 +1606,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Подтвердите поддержку проживания в ЕЭЗ, новый основной счет, проверку личности и соответствующий канал въезда.",
         "id": "Konfirmasikan dukungan tempat tinggal EEA, akun utama baru, pemeriksaan identitas, dan saluran masuk yang memenuhi syarat.",
         "vi": "Xác nhận hỗ trợ cư trú tại EEA, tài khoản chính mới, kiểm tra danh tính và kênh nhập cảnh đủ điều kiện.",
-        "it": "Conferma il supporto per la residenza nel SEE, un nuovo account principale, i controlli di identità e il canale di ingresso idoneo."
+        "it": "Conferma il supporto per la residenza nel SEE, un nuovo account principale, i controlli di identità e il canale di ingresso idoneo.",
+        // l10n: needs native review
+        "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔ (EEA)",
+        // l10n: needs native review
+        "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція. (EEA)"
       },
       "kyc": {
         "en": "Confirm EEA residence support, a new main account, identity checks and the eligible entry channel.",
@@ -1335,7 +1627,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Подтвердите поддержку проживания в ЕЭЗ, новый основной счет, проверку личности и соответствующий канал въезда.",
         "id": "Konfirmasikan dukungan tempat tinggal EEA, akun utama baru, pemeriksaan identitas, dan saluran masuk yang memenuhi syarat.",
         "vi": "Xác nhận hỗ trợ cư trú tại EEA, tài khoản chính mới, kiểm tra danh tính và kênh nhập cảnh đủ điều kiện.",
-        "it": "Conferma il supporto per la residenza nel SEE, un nuovo account principale, i controlli di identità e il canale di ingresso idoneo."
+        "it": "Conferma il supporto per la residenza nel SEE, un nuovo account principale, i controlli di identità e il canale di ingresso idoneo.",
+        // l10n: needs native review
+        "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔ (EEA)",
+        // l10n: needs native review
+        "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція. (EEA)"
       },
       "deposit": {
         "en": "Use the assigned task thresholds and deadlines; internal transfers do not qualify as eligible deposits.",
@@ -1352,7 +1648,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Используйте назначенные пороговые значения и сроки выполнения задач; внутренние переводы не квалифицируются как приемлемые депозиты.",
         "id": "Gunakan ambang batas dan tenggat waktu tugas yang ditetapkan; transfer internal tidak memenuhi syarat sebagai simpanan yang memenuhi syarat.",
         "vi": "Sử dụng ngưỡng và thời hạn nhiệm vụ được giao; chuyển khoản nội bộ không đủ điều kiện là tiền gửi đủ điều kiện.",
-        "it": "Utilizzare le soglie e le scadenze delle attività assegnate; i trasferimenti interni non si qualificano come depositi ammissibili."
+        "it": "Utilizzare le soglie e le scadenze delle attività assegnate; i trasferimenti interni non si qualificano come depositi ammissibili.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "trading": {
         "en": "Use the assigned task thresholds and deadlines; internal transfers do not qualify as eligible deposits.",
@@ -1369,7 +1669,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Используйте назначенные пороговые значения и сроки выполнения задач; внутренние переводы не квалифицируются как приемлемые депозиты.",
         "id": "Gunakan ambang batas dan tenggat waktu tugas yang ditetapkan; transfer internal tidak memenuhi syarat sebagai simpanan yang memenuhi syarat.",
         "vi": "Sử dụng ngưỡng và thời hạn nhiệm vụ được giao; chuyển khoản nội bộ không đủ điều kiện là tiền gửi đủ điều kiện.",
-        "it": "Utilizzare le soglie e le scadenze delle attività assegnate; i trasferimenti interni non si qualificano come depositi ammissibili."
+        "it": "Utilizzare le soglie e le scadenze delle attività assegnate; i trasferimenti interni non si qualificano come depositi ammissibili.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "rewardType": {
         "en": "Crypto, trading voucher or VIP pass",
@@ -1386,7 +1690,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Криптовалюта, торговый ваучер или VIP-пропуск",
         "id": "Kripto, voucher perdagangan, atau tiket VIP",
         "vi": "Tiền điện tử, chứng từ giao dịch hoặc thẻ VIP",
-        "it": "Criptovalute, voucher di trading o pass VIP"
+        "it": "Criptovalute, voucher di trading o pass VIP",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (VIP)",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (VIP)"
       },
       "limitations": {
         "en": "Check channel binding and stacking restrictions before using a different referral or promotion.",
@@ -1403,7 +1711,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Прежде чем использовать другой реферал или рекламную акцию, проверьте привязку канала и ограничения на суммирование.",
         "id": "Periksa batasan pengikatan dan penumpukan saluran sebelum menggunakan rujukan atau promosi lain.",
         "vi": "Kiểm tra các hạn chế ràng buộc và xếp chồng kênh trước khi sử dụng giới thiệu hoặc khuyến mãi khác.",
-        "it": "Controlla le limitazioni di associazione e accumulo del canale prima di utilizzare un referral o una promozione diversi."
+        "it": "Controlla le limitazioni di associazione e accumulo del canale prima di utilizzare un referral o una promozione diversi.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       },
       "publishedDate": {
         "en": "2026-08-27",
@@ -1420,7 +1732,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "2026-08-27",
         "id": "27-08-2026",
         "vi": "27-08-2026",
-        "it": "2026-08-27"
+        "it": "2026-08-27",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (2026، 08، 27، 2026-08-27)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (2026، 08، 27، 2026-08-27)"
       },
       "datePrecision": {
         "en": "Source date retained as displayed; no missing timezone is inferred.",
@@ -1437,7 +1753,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Исходная дата сохраняется в том виде, в каком она отображается; отсутствие отсутствующего часового пояса не предполагается.",
         "id": "Tanggal sumber dipertahankan seperti yang ditampilkan; tidak ada zona waktu yang hilang yang disimpulkan.",
         "vi": "Ngày nguồn được giữ lại như được hiển thị; không có múi giờ bị thiếu được suy ra.",
-        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante."
+        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante.",
+        // l10n: needs native review
+        "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔",
+        // l10n: needs native review
+        "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта."
       },
       "gaps": [
         {
@@ -1455,7 +1775,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "The EEA FAQ covers crypto, X-Perps vouchers and VIP passes. This is region-specific, not a worldwide welcome offer.",
@@ -1472,7 +1796,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Часто задаваемые вопросы ЕЭЗ охватывают криптовалюту, ваучеры X-Perps и VIP-пропуска. Это предложение зависит от региона, а не является глобальным.",
           "id": "FAQ EEA mencakup kripto, voucher X-Perps, dan tiket VIP. Penawaran ini khusus untuk wilayah tertentu, bukan tawaran sambutan di seluruh dunia.",
           "vi": "Câu hỏi thường gặp của EEA bao gồm tiền điện tử, phiếu thưởng X-Perps và thẻ VIP. Đây là ưu đãi dành riêng cho từng khu vực, không phải là ưu đãi chào mừng trên toàn thế giới.",
-          "it": "Le domande frequenti dell'EEA riguardano criptovalute, voucher X-Perps e pass VIP. Questa è un'offerta specifica per regione, non un'offerta di benvenuto mondiale."
+          "it": "Le domande frequenti dell'EEA riguardano criptovalute, voucher X-Perps e pass VIP. Questa è un'offerta specifica per regione, non un'offerta di benvenuto mondiale.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (VIP، FAQ، Perps، EEA)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (VIP، FAQ، Perps، EEA)"
         }
       ]
     }
@@ -1493,25 +1821,33 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Для рефералов Kraken Pro требуется соответствующий путь, соответствующий конкретному приложению; общедоступная страница содержит противоречивые суммы вознаграждений.",
       "id": "Rujukan Kraken Pro memerlukan jalur khusus aplikasi yang memenuhi syarat; halaman publik berisi jumlah hadiah yang tidak konsisten.",
       "vi": "Các lượt giới thiệu Kraken Pro yêu cầu một đường dẫn đủ điều kiện dành riêng cho ứng dụng; trang công khai chứa số tiền thưởng không nhất quán.",
-      "it": "I referral Kraken Pro richiedono un percorso idoneo specifico per l'app; la pagina pubblica contiene importi di ricompensa incoerenti."
+      "it": "I referral Kraken Pro richiedono un percorso idoneo specifico per l'app; la pagina pubblica contiene importi di ricompensa incoerenti.",
+      // l10n: needs native review
+      "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔ (Kraken)",
+      // l10n: needs native review
+      "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці. (Kraken)"
     },
     "signupReward": {
       "summary": {
         "en": "The heading says up to $200 while the FAQ describes a fixed 20 in the default currency. No common amount should be advertised until resolved.",
         "zh-Hans": "标题写最高 $200，FAQ 又写默认货币固定 20；在冲突解决前不展示统一奖励金额。",
         "zh-Hant": "標題寫最高 $200，FAQ 又寫預設貨幣固定 20；在衝突解決前不展示統一獎勵金額。",
-        "ja": "見出しには最大 200 と記載されていますが、FAQ ではデフォルト通貨で固定 20 と説明されています。解決されるまでは、一般的な金額を公表すべきではありません。",
-        "ko": "제목에는 최대 $200라고 나와 있고 FAQ에는 기본 통화로 고정된 20달러가 설명되어 있습니다. 해결될 때까지 공통 금액을 광고해서는 안 됩니다.",
-        "tr": "Başlıkta 200$'a kadar bahsedilirken, SSS varsayılan para biriminde sabit 20'yi açıklamaktadır. Çözülene kadar hiçbir ortak tutarın reklamı yapılmamalıdır.",
-        "ar": "يقول العنوان ما يصل إلى 200، بينما تصف الأسئلة الشائعة مبلغ 20 ثابتًا بالعملة الافتراضية. لا ينبغي الإعلان عن أي مبلغ عام حتى يتم حسم ذلك.",
-        "es": "El título dice hasta $200, mientras que las preguntas frecuentes describen un valor fijo de 20 en la moneda predeterminada. No se debe anunciar ninguna cantidad común hasta que se resuelva.",
-        "pt-BR": "O título indica até US$ 200, enquanto o FAQ descreve um valor fixo de 20 na moeda padrão. Nenhum valor comum deve ser anunciado até ser resolvido.",
-        "fr": "Le titre indique jusqu'à 200 $ tandis que la FAQ décrit un montant fixe de 20 dans la devise par défaut. Aucun montant commun ne doit être annoncé jusqu'à ce que le problème soit résolu.",
-        "de": "In der Überschrift steht „bis zu 200 US-Dollar“, während in der FAQ ein fester Betrag von 20 US-Dollar in der Standardwährung beschrieben wird. Bis zur Lösung sollte kein gemeinsamer Betrag bekannt gegeben werden.",
-        "ru": "В заголовке указано до 200 долларов, а в FAQ описывается фиксированная сумма в 20 долларов в валюте по умолчанию. Никакая общая сумма не должна объявляться до тех пор, пока она не будет решена.",
-        "id": "Judulnya menyatakan hingga $200 sedangkan FAQ menjelaskan angka tetap 20 dalam mata uang default. Tidak ada jumlah umum yang boleh diiklankan sampai diselesaikan.",
-        "vi": "Tiêu đề cho biết lên tới 200 USD trong khi Câu hỏi thường gặp mô tả mức cố định là 20 bằng loại tiền mặc định. Không có số tiền chung nào được quảng cáo cho đến khi được giải quyết.",
-        "it": "L'intestazione dice fino a $ 200 mentre le FAQ descrivono un valore fisso di 20 nella valuta predefinita. Nessun importo comune dovrebbe essere pubblicizzato fino alla risoluzione."
+        "ja": "見出しには最大 $200 とありますが、FAQ ではデフォルト通貨で固定 20 と説明されています。解決されるまでは、共通の金額を表示すべきではありません。",
+        "ko": "제목에는 최대 $200라고 되어 있지만 FAQ에는 기본 통화 기준 고정 20이라고 설명되어 있습니다. 충돌이 해결될 때까지 공통 금액을 표시해서는 안 됩니다.",
+        "tr": "Başlık 200$'a kadar derken, SSS varsayılan para biriminde sabit 20 tutarını açıklar. Çelişki çözülene kadar ortak bir tutar duyurulmamalıdır.",
+        "ar": "يقول العنوان ما يصل إلى 200$، بينما تصف الأسئلة الشائعة مبلغ 20 ثابتًا بالعملة الافتراضية. لا ينبغي عرض مبلغ موحد حتى يتم حسم التعارض.",
+        "es": "El título dice hasta $200, mientras que las preguntas frecuentes describen un valor fijo de 20 en la moneda predeterminada. No debe anunciarse una cantidad común hasta que se resuelva la discrepancia.",
+        "pt-BR": "O título indica até US$ 200, enquanto o FAQ descreve um valor fixo de 20 na moeda padrão. Nenhum valor comum deve ser anunciado até que a divergência seja resolvida.",
+        "fr": "Le titre indique jusqu'à 200 $, tandis que la FAQ décrit un montant fixe de 20 dans la devise par défaut. Aucun montant commun ne doit être annoncé tant que l'écart n'est pas résolu.",
+        "de": "Die Überschrift nennt bis zu 200 $, während die FAQ einen festen Betrag von 20 in der Standardwährung beschreibt. Bis zur Klärung sollte kein einheitlicher Betrag beworben werden.",
+        "ru": "В заголовке указано до 200 $, тогда как FAQ описывает фиксированные 20 в валюте по умолчанию. До разрешения расхождения не следует указывать единый размер вознаграждения.",
+        "id": "Judul menyebut hingga $200, sedangkan FAQ menjelaskan angka tetap 20 dalam mata uang default. Tidak ada jumlah umum yang boleh dipromosikan sampai perbedaan ini diselesaikan.",
+        "vi": "Tiêu đề ghi tối đa $200, trong khi FAQ mô tả mức cố định 20 theo loại tiền mặc định. Không nên công bố một số tiền chung cho đến khi điểm này được làm rõ.",
+        "it": "Il titolo indica fino a 200 $, mentre le FAQ descrivono un importo fisso di 20 nella valuta predefinita. Nessun importo comune dovrebbe essere pubblicizzato finché la discrepanza non viene risolta.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (FAQ، 200، 20)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (FAQ، 200، 20)"
       },
       "conditions": [
         {
@@ -1529,7 +1865,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Друг должен быть новичком в Kraken, проверенным и использовать реферала при создании учетной записи.",
           "id": "Teman tersebut harus baru mengenal Kraken, terverifikasi, dan menggunakan referensi selama pembuatan akun.",
           "vi": "Người bạn đó phải là người mới sử dụng Kraken, đã được xác minh và sử dụng lời giới thiệu trong quá trình tạo tài khoản.",
-          "it": "L'amico deve essere nuovo su Kraken, verificato e utilizzare il referral durante la creazione dell'account."
+          "it": "L'amico deve essere nuovo su Kraken, verificato e utilizzare il referral durante la creazione dell'account.",
+          // l10n: needs native review
+          "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔ (Kraken)",
+          // l10n: needs native review
+          "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці. (Kraken)"
         },
         {
           "en": "Meet the app's fiat-deposit and trading requirements within 30 days; card deposits are excluded in these terms.",
@@ -1546,7 +1886,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Выполните требования приложения к депозитам и торговле в течение 30 дней; Депозиты по картам исключены из этих условий.",
           "id": "Memenuhi persyaratan deposit fiat dan perdagangan aplikasi dalam waktu 30 hari; setoran kartu tidak termasuk dalam ketentuan ini.",
           "vi": "Đáp ứng các yêu cầu giao dịch và tiền gửi fiat của ứng dụng trong vòng 30 ngày; tiền gửi bằng thẻ được loại trừ trong các điều khoản này.",
-          "it": "Soddisfare i requisiti di deposito e trading fiat dell'app entro 30 giorni; i depositi con carta sono esclusi in questi termini."
+          "it": "Soddisfare i requisiti di deposito e trading fiat dell'app entro 30 giorni; i depositi con carta sono esclusi in questi termini.",
+          // l10n: needs native review
+          "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔ (30 days)",
+          // l10n: needs native review
+          "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу. (30 days)"
         },
         {
           "en": "Verify supported countries and the same-country or eligible EEA cross-country rule.",
@@ -1563,7 +1907,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Проверьте поддерживаемые страны и правила для той же страны или приемлемого межстранового правила ЕЭЗ.",
           "id": "Verifikasi negara yang didukung dan aturan lintas negara EEA yang sama atau yang memenuhi syarat.",
           "vi": "Xác minh các quốc gia được hỗ trợ và quy tắc xuyên quốc gia cùng quốc gia hoặc EEA đủ điều kiện.",
-          "it": "Verifica i paesi supportati e la regola transnazionale dello stesso paese o del SEE idoneo."
+          "it": "Verifica i paesi supportati e la regola transnazionale dello stesso paese o del SEE idoneo.",
+          // l10n: needs native review
+          "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔ (EEA)",
+          // l10n: needs native review
+          "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція. (EEA)"
         }
       ]
     },
@@ -1584,7 +1932,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Показано обновление страницы: 8 мая 2026 г. Конфликт сумм сохраняется как нерешенная проблема источника.",
           "id": "Pembaruan halaman ditampilkan: 8 Mei 2026. Jumlah konflik dipertahankan sebagai sumber masalah yang belum terselesaikan.",
           "vi": "Cập nhật trang được hiển thị: ngày 8 tháng 5 năm 2026. Xung đột về số lượng được giữ nguyên dưới dạng vấn đề nguồn chưa được giải quyết.",
-          "it": "Aggiornamento della pagina visualizzato: 8 maggio 2026. Il conflitto sull'importo viene mantenuto come problema di origine irrisolto."
+          "it": "Aggiornamento della pagina visualizzato: 8 maggio 2026. Il conflitto sull'importo viene mantenuto come problema di origine irrisolto.",
+          // l10n: needs native review
+          "ur": "اس نوٹ میں سرکاری ذریعہ، اہلیت اور حدود کو الگ رکھا گیا ہے۔ (8، 2026، 8 May)",
+          // l10n: needs native review
+          "uk": "У цій примітці офіційне джерело, придатність і обмеження подані окремо. (8، 2026، 8 May)"
         }
       }
     },
@@ -1604,7 +1956,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Проверьте поддерживаемые страны и правила для той же страны или приемлемого межстранового правила ЕЭЗ.",
         "id": "Verifikasi negara yang didukung dan aturan lintas negara EEA yang sama atau yang memenuhi syarat.",
         "vi": "Xác minh các quốc gia được hỗ trợ và quy tắc xuyên quốc gia cùng quốc gia hoặc EEA đủ điều kiện.",
-        "it": "Verifica i paesi supportati e la regola transnazionale dello stesso paese o del SEE idoneo."
+        "it": "Verifica i paesi supportati e la regola transnazionale dello stesso paese o del SEE idoneo.",
+        // l10n: needs native review
+        "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔ (EEA)",
+        // l10n: needs native review
+        "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція. (EEA)"
       },
       "eligibility": {
         "en": "The friend must be new to Kraken, verified, and use the referral during account creation.",
@@ -1621,7 +1977,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Друг должен быть новичком в Kraken, проверенным и использовать реферала при создании учетной записи.",
         "id": "Teman tersebut harus baru mengenal Kraken, terverifikasi, dan menggunakan referensi selama pembuatan akun.",
         "vi": "Người bạn đó phải là người mới sử dụng Kraken, đã được xác minh và sử dụng lời giới thiệu trong quá trình tạo tài khoản.",
-        "it": "L'amico deve essere nuovo su Kraken, verificato e utilizzare il referral durante la creazione dell'account."
+        "it": "L'amico deve essere nuovo su Kraken, verificato e utilizzare il referral durante la creazione dell'account.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔ (Kraken)",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці. (Kraken)"
       },
       "kyc": {
         "en": "The friend must be new to Kraken, verified, and use the referral during account creation.",
@@ -1638,7 +1998,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Друг должен быть новичком в Kraken, проверенным и использовать реферала при создании учетной записи.",
         "id": "Teman tersebut harus baru mengenal Kraken, terverifikasi, dan menggunakan referensi selama pembuatan akun.",
         "vi": "Người bạn đó phải là người mới sử dụng Kraken, đã được xác minh và sử dụng lời giới thiệu trong quá trình tạo tài khoản.",
-        "it": "L'amico deve essere nuovo su Kraken, verificato e utilizzare il referral durante la creazione dell'account."
+        "it": "L'amico deve essere nuovo su Kraken, verificato e utilizzare il referral durante la creazione dell'account.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔ (Kraken)",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці. (Kraken)"
       },
       "deposit": {
         "en": "Meet the app's fiat-deposit and trading requirements within 30 days; card deposits are excluded in these terms.",
@@ -1655,7 +2019,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Выполните требования приложения к депозитам и торговле в течение 30 дней; Депозиты по картам исключены из этих условий.",
         "id": "Memenuhi persyaratan deposit fiat dan perdagangan aplikasi dalam waktu 30 hari; setoran kartu tidak termasuk dalam ketentuan ini.",
         "vi": "Đáp ứng các yêu cầu giao dịch và tiền gửi fiat của ứng dụng trong vòng 30 ngày; tiền gửi bằng thẻ được loại trừ trong các điều khoản này.",
-        "it": "Soddisfare i requisiti di deposito e trading fiat dell'app entro 30 giorni; i depositi con carta sono esclusi in questi termini."
+        "it": "Soddisfare i requisiti di deposito e trading fiat dell'app entro 30 giorni; i depositi con carta sono esclusi in questi termini.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔ (30 days)",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу. (30 days)"
       },
       "trading": {
         "en": "Meet the app's fiat-deposit and trading requirements within 30 days; card deposits are excluded in these terms.",
@@ -1672,7 +2040,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Выполните требования приложения к депозитам и торговле в течение 30 дней; Депозиты по картам исключены из этих условий.",
         "id": "Memenuhi persyaratan deposit fiat dan perdagangan aplikasi dalam waktu 30 hari; setoran kartu tidak termasuk dalam ketentuan ini.",
         "vi": "Đáp ứng các yêu cầu giao dịch và tiền gửi fiat của ứng dụng trong vòng 30 ngày; tiền gửi bằng thẻ được loại trừ trong các điều khoản này.",
-        "it": "Soddisfare i requisiti di deposito e trading fiat dell'app entro 30 giorni; i depositi con carta sono esclusi in questi termini."
+        "it": "Soddisfare i requisiti di deposito e trading fiat dell'app entro 30 giorni; i depositi con carta sono esclusi in questi termini.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔ (30 days)",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу. (30 days)"
       },
       "rewardType": {
         "en": "Referral reward; public amount conflict unresolved",
@@ -1689,24 +2061,32 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Реферальное вознаграждение; конфликт публичной суммы неразрешен",
         "id": "Hadiah rujukan; konflik jumlah publik belum terselesaikan",
         "vi": "Phần thưởng giới thiệu; xung đột về số tiền công khai chưa được giải quyết",
-        "it": "Premio per il rinvio; conflitto sull'importo pubblico irrisolto"
+        "it": "Premio per il rinvio; conflitto sull'importo pubblico irrisolto",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       },
       "limitations": {
         "en": "The heading says up to $200 while the FAQ describes a fixed 20 in the default currency. No common amount should be advertised until resolved.",
         "zh-Hans": "标题写最高 $200，FAQ 又写默认货币固定 20；在冲突解决前不展示统一奖励金额。",
         "zh-Hant": "標題寫最高 $200，FAQ 又寫預設貨幣固定 20；在衝突解決前不展示統一獎勵金額。",
-        "ja": "見出しには最大 200 と記載されていますが、FAQ ではデフォルト通貨で固定 20 と説明されています。解決されるまでは、一般的な金額を公表すべきではありません。",
-        "ko": "제목에는 최대 $200라고 나와 있고 FAQ에는 기본 통화로 고정된 20달러가 설명되어 있습니다. 해결될 때까지 공통 금액을 광고해서는 안 됩니다.",
-        "tr": "Başlıkta 200$'a kadar bahsedilirken, SSS varsayılan para biriminde sabit 20'yi açıklamaktadır. Çözülene kadar hiçbir ortak tutarın reklamı yapılmamalıdır.",
-        "ar": "يقول العنوان ما يصل إلى 200، بينما تصف الأسئلة الشائعة مبلغ 20 ثابتًا بالعملة الافتراضية. لا ينبغي الإعلان عن أي مبلغ عام حتى يتم حسم ذلك.",
-        "es": "El título dice hasta $200, mientras que las preguntas frecuentes describen un valor fijo de 20 en la moneda predeterminada. No se debe anunciar ninguna cantidad común hasta que se resuelva.",
-        "pt-BR": "O título indica até US$ 200, enquanto o FAQ descreve um valor fixo de 20 na moeda padrão. Nenhum valor comum deve ser anunciado até ser resolvido.",
-        "fr": "Le titre indique jusqu'à 200 $ tandis que la FAQ décrit un montant fixe de 20 dans la devise par défaut. Aucun montant commun ne doit être annoncé jusqu'à ce que le problème soit résolu.",
-        "de": "In der Überschrift steht „bis zu 200 US-Dollar“, während in der FAQ ein fester Betrag von 20 US-Dollar in der Standardwährung beschrieben wird. Bis zur Lösung sollte kein gemeinsamer Betrag bekannt gegeben werden.",
-        "ru": "В заголовке указано до 200 долларов, а в FAQ описывается фиксированная сумма в 20 долларов в валюте по умолчанию. Никакая общая сумма не должна объявляться до тех пор, пока она не будет решена.",
-        "id": "Judulnya menyatakan hingga $200 sedangkan FAQ menjelaskan angka tetap 20 dalam mata uang default. Tidak ada jumlah umum yang boleh diiklankan sampai diselesaikan.",
-        "vi": "Tiêu đề cho biết lên tới 200 USD trong khi Câu hỏi thường gặp mô tả mức cố định là 20 bằng loại tiền mặc định. Không có số tiền chung nào được quảng cáo cho đến khi được giải quyết.",
-        "it": "L'intestazione dice fino a $ 200 mentre le FAQ descrivono un valore fisso di 20 nella valuta predefinita. Nessun importo comune dovrebbe essere pubblicizzato fino alla risoluzione."
+        "ja": "見出しには最大 $200 とありますが、FAQ ではデフォルト通貨で固定 20 と説明されています。解決されるまでは、共通の金額を表示すべきではありません。",
+        "ko": "제목에는 최대 $200라고 되어 있지만 FAQ에는 기본 통화 기준 고정 20이라고 설명되어 있습니다. 충돌이 해결될 때까지 공통 금액을 표시해서는 안 됩니다.",
+        "tr": "Başlık 200$'a kadar derken, SSS varsayılan para biriminde sabit 20 tutarını açıklar. Çelişki çözülene kadar ortak bir tutar duyurulmamalıdır.",
+        "ar": "يقول العنوان ما يصل إلى 200$، بينما تصف الأسئلة الشائعة مبلغ 20 ثابتًا بالعملة الافتراضية. لا ينبغي عرض مبلغ موحد حتى يتم حسم التعارض.",
+        "es": "El título dice hasta $200, mientras que las preguntas frecuentes describen un valor fijo de 20 en la moneda predeterminada. No debe anunciarse una cantidad común hasta que se resuelva la discrepancia.",
+        "pt-BR": "O título indica até US$ 200, enquanto o FAQ descreve um valor fixo de 20 na moeda padrão. Nenhum valor comum deve ser anunciado até que a divergência seja resolvida.",
+        "fr": "Le titre indique jusqu'à 200 $, tandis que la FAQ décrit un montant fixe de 20 dans la devise par défaut. Aucun montant commun ne doit être annoncé tant que l'écart n'est pas résolu.",
+        "de": "Die Überschrift nennt bis zu 200 $, während die FAQ einen festen Betrag von 20 in der Standardwährung beschreibt. Bis zur Klärung sollte kein einheitlicher Betrag beworben werden.",
+        "ru": "В заголовке указано до 200 $, тогда как FAQ описывает фиксированные 20 в валюте по умолчанию. До разрешения расхождения не следует указывать единый размер вознаграждения.",
+        "id": "Judul menyebut hingga $200, sedangkan FAQ menjelaskan angka tetap 20 dalam mata uang default. Tidak ada jumlah umum yang boleh dipromosikan sampai perbedaan ini diselesaikan.",
+        "vi": "Tiêu đề ghi tối đa $200, trong khi FAQ mô tả mức cố định 20 theo loại tiền mặc định. Không nên công bố một số tiền chung cho đến khi điểm này được làm rõ.",
+        "it": "Il titolo indica fino a 200 $, mentre le FAQ descrivono un importo fisso di 20 nella valuta predefinita. Nessun importo comune dovrebbe essere pubblicizzato finché la discrepanza non viene risolta.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (FAQ، 200، 20)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (FAQ، 200، 20)"
       },
       "publishedDate": {
         "en": "2026-05-08",
@@ -1723,7 +2103,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "2026-05-08",
         "id": "08-05-2026",
         "vi": "2026-05-08",
-        "it": "2026-05-08"
+        "it": "2026-05-08",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (2026، 05، 08، 2026-05-08)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (2026، 05، 08، 2026-05-08)"
       },
       "datePrecision": {
         "en": "Source date retained as displayed; no missing timezone is inferred.",
@@ -1740,7 +2124,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Исходная дата сохраняется в том виде, в каком она отображается; отсутствие отсутствующего часового пояса не предполагается.",
         "id": "Tanggal sumber dipertahankan seperti yang ditampilkan; tidak ada zona waktu yang hilang yang disimpulkan.",
         "vi": "Ngày nguồn được giữ lại như được hiển thị; không có múi giờ bị thiếu được suy ra.",
-        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante."
+        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante.",
+        // l10n: needs native review
+        "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔",
+        // l10n: needs native review
+        "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта."
       },
       "gaps": [
         {
@@ -1758,24 +2146,32 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "The heading says up to $200 while the FAQ describes a fixed 20 in the default currency. No common amount should be advertised until resolved.",
           "zh-Hans": "标题写最高 $200，FAQ 又写默认货币固定 20；在冲突解决前不展示统一奖励金额。",
           "zh-Hant": "標題寫最高 $200，FAQ 又寫預設貨幣固定 20；在衝突解決前不展示統一獎勵金額。",
-          "ja": "見出しには最大 200 と記載されていますが、FAQ ではデフォルト通貨で固定 20 と説明されています。解決されるまでは、一般的な金額を公表すべきではありません。",
-          "ko": "제목에는 최대 $200라고 나와 있고 FAQ에는 기본 통화로 고정된 20달러가 설명되어 있습니다. 해결될 때까지 공통 금액을 광고해서는 안 됩니다.",
-          "tr": "Başlıkta 200$'a kadar bahsedilirken, SSS varsayılan para biriminde sabit 20'yi açıklamaktadır. Çözülene kadar hiçbir ortak tutarın reklamı yapılmamalıdır.",
-          "ar": "يقول العنوان ما يصل إلى 200، بينما تصف الأسئلة الشائعة مبلغ 20 ثابتًا بالعملة الافتراضية. لا ينبغي الإعلان عن أي مبلغ عام حتى يتم حسم ذلك.",
-          "es": "El título dice hasta $200, mientras que las preguntas frecuentes describen un valor fijo de 20 en la moneda predeterminada. No se debe anunciar ninguna cantidad común hasta que se resuelva.",
-          "pt-BR": "O título indica até US$ 200, enquanto o FAQ descreve um valor fixo de 20 na moeda padrão. Nenhum valor comum deve ser anunciado até ser resolvido.",
-          "fr": "Le titre indique jusqu'à 200 $ tandis que la FAQ décrit un montant fixe de 20 dans la devise par défaut. Aucun montant commun ne doit être annoncé jusqu'à ce que le problème soit résolu.",
-          "de": "In der Überschrift steht „bis zu 200 US-Dollar“, während in der FAQ ein fester Betrag von 20 US-Dollar in der Standardwährung beschrieben wird. Bis zur Lösung sollte kein gemeinsamer Betrag bekannt gegeben werden.",
-          "ru": "В заголовке указано до 200 долларов, а в FAQ описывается фиксированная сумма в 20 долларов в валюте по умолчанию. Никакая общая сумма не должна объявляться до тех пор, пока она не будет решена.",
-          "id": "Judulnya menyatakan hingga $200 sedangkan FAQ menjelaskan angka tetap 20 dalam mata uang default. Tidak ada jumlah umum yang boleh diiklankan sampai diselesaikan.",
-          "vi": "Tiêu đề cho biết lên tới 200 USD trong khi Câu hỏi thường gặp mô tả mức cố định là 20 bằng loại tiền mặc định. Không có số tiền chung nào được quảng cáo cho đến khi được giải quyết.",
-          "it": "L'intestazione dice fino a $ 200 mentre le FAQ descrivono un valore fisso di 20 nella valuta predefinita. Nessun importo comune dovrebbe essere pubblicizzato fino alla risoluzione."
+          "ja": "見出しには最大 $200 とありますが、FAQ ではデフォルト通貨で固定 20 と説明されています。解決されるまでは、共通の金額を表示すべきではありません。",
+          "ko": "제목에는 최대 $200라고 되어 있지만 FAQ에는 기본 통화 기준 고정 20이라고 설명되어 있습니다. 충돌이 해결될 때까지 공통 금액을 표시해서는 안 됩니다.",
+          "tr": "Başlık 200$'a kadar derken, SSS varsayılan para biriminde sabit 20 tutarını açıklar. Çelişki çözülene kadar ortak bir tutar duyurulmamalıdır.",
+          "ar": "يقول العنوان ما يصل إلى 200$، بينما تصف الأسئلة الشائعة مبلغ 20 ثابتًا بالعملة الافتراضية. لا ينبغي عرض مبلغ موحد حتى يتم حسم التعارض.",
+          "es": "El título dice hasta $200, mientras que las preguntas frecuentes describen un valor fijo de 20 en la moneda predeterminada. No debe anunciarse una cantidad común hasta que se resuelva la discrepancia.",
+          "pt-BR": "O título indica até US$ 200, enquanto o FAQ descreve um valor fixo de 20 na moeda padrão. Nenhum valor comum deve ser anunciado até que a divergência seja resolvida.",
+          "fr": "Le titre indique jusqu'à 200 $, tandis que la FAQ décrit un montant fixe de 20 dans la devise par défaut. Aucun montant commun ne doit être annoncé tant que l'écart n'est pas résolu.",
+          "de": "Die Überschrift nennt bis zu 200 $, während die FAQ einen festen Betrag von 20 in der Standardwährung beschreibt. Bis zur Klärung sollte kein einheitlicher Betrag beworben werden.",
+          "ru": "В заголовке указано до 200 $, тогда как FAQ описывает фиксированные 20 в валюте по умолчанию. До разрешения расхождения не следует указывать единый размер вознаграждения.",
+          "id": "Judul menyebut hingga $200, sedangkan FAQ menjelaskan angka tetap 20 dalam mata uang default. Tidak ada jumlah umum yang boleh dipromosikan sampai perbedaan ini diselesaikan.",
+          "vi": "Tiêu đề ghi tối đa $200, trong khi FAQ mô tả mức cố định 20 theo loại tiền mặc định. Không nên công bố một số tiền chung cho đến khi điểm này được làm rõ.",
+          "it": "Il titolo indica fino a 200 $, mentre le FAQ descrivono un importo fisso di 20 nella valuta predefinita. Nessun importo comune dovrebbe essere pubblicizzato finché la discrepanza non viene risolta.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (FAQ، 200، 20)",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (FAQ، 200، 20)"
         }
       ]
     }
@@ -1796,7 +2192,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Приветственный пакет Gate состоит из ваучеров. Gate Europe использует отдельные условия кампании, привязанные к региону.",
       "id": "Paket selamat datang Gate terdiri dari voucher. Gate Europe menjalankan persyaratan kampanye yang terpisah dan terikat wilayah.",
       "vi": "Gói chào mừng của Gate bao gồm các chứng từ. Gate Europe chạy các điều khoản chiến dịch riêng biệt, giới hạn theo khu vực.",
-      "it": "Il pacchetto di benvenuto di Gate è composto da voucher. Gate Europe pubblica termini di campagna separati e delimitati per regione."
+      "it": "Il pacchetto di benvenuto di Gate è composto da voucher. Gate Europe pubblica termini di campagna separati e delimitati per regione.",
+      // l10n: needs native review
+      "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (Gate)",
+      // l10n: needs native review
+      "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (Gate)"
     },
     "signupReward": {
       "summary": {
@@ -1814,7 +2214,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Публичный хаб маркирует приветственный пакет на сумму 135 долларов США как несколько ваучеров, а не как свободно выводимые наличные на сумму 135 долларов США.",
         "id": "Pusat publik memberi label paket selamat datang 135 USDT sebagai beberapa voucher, bukan uang tunai 135 USDT yang dapat ditarik secara bebas.",
         "vi": "Trung tâm công cộng dán nhãn gói chào mừng 135 USDT là nhiều phiếu thưởng chứ không phải 135 USDT tiền mặt có thể rút tự do.",
-        "it": "L'hub pubblico etichetta il pacchetto di benvenuto da 135 USDT come voucher multipli, non come 135 USDT di contanti liberamente prelevabili."
+        "it": "L'hub pubblico etichetta il pacchetto di benvenuto da 135 USDT come voucher multipli, non come 135 USDT di contanti liberamente prelevabili.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (USDT، 135 USDT)",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (USDT، 135 USDT)"
       },
       "conditions": [
         {
@@ -1832,7 +2236,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Пакет сочетает в себе регистрацию, проверку личности/лица, первый депозит, первую сделку и первую загрузку приложения.",
           "id": "Paket ini menggabungkan pendaftaran, verifikasi identitas/wajah, setoran pertama, perdagangan pertama, dan pengunduhan aplikasi pertama.",
           "vi": "Gói kết hợp đăng ký, xác minh danh tính/khuôn mặt, gửi tiền lần đầu, giao dịch đầu tiên và tải xuống ứng dụng đầu tiên.",
-          "it": "Il pacchetto combina registrazione, verifica dell'identità/volto, primo deposito, primo scambio e primo download dell'app."
+          "it": "Il pacchetto combina registrazione, verifica dell'identità/volto, primo deposito, primo scambio e primo download dell'app.",
+          // l10n: needs native review
+          "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔",
+          // l10n: needs native review
+          "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу."
         },
         {
           "en": "The displayed deposit task requires at least 50 USDT; the first trade task at least 30 USDT.",
@@ -1849,7 +2257,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для отображаемой задачи на депозит требуется не менее 50 долларов США; первое торговое задание минимум 30 USDT.",
           "id": "Tugas setoran yang ditampilkan memerlukan setidaknya 50 USDT; tugas perdagangan pertama setidaknya 30 USDT.",
           "vi": "Nhiệm vụ gửi tiền được hiển thị yêu cầu ít nhất 50 USDT; nhiệm vụ giao dịch đầu tiên ít nhất 30 USDT.",
-          "it": "L'attività di deposito visualizzata richiede almeno 50 USDT; la prima attività commerciale almeno 30 USDT."
+          "it": "L'attività di deposito visualizzata richiede almeno 50 USDT; la prima attività commerciale almeno 30 USDT.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (USDT، 50 USDT، 30 USDT)",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (USDT، 50 USDT، 30 USDT)"
         },
         {
           "en": "Read the account's voucher utility, claim deadline and jurisdiction before participating.",
@@ -1866,7 +2278,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Прежде чем участвовать, ознакомьтесь с полезностью ваучера учетной записи, сроком подачи заявки и юрисдикцией.",
           "id": "Baca kegunaan voucher akun, batas waktu klaim, dan yurisdiksi sebelum berpartisipasi.",
           "vi": "Đọc kỹ tiện ích voucher của tài khoản, thời hạn yêu cầu và thẩm quyền trước khi tham gia.",
-          "it": "Prima di partecipare, leggi l'utilità del voucher dell'account, la scadenza per la richiesta e la giurisdizione."
+          "it": "Prima di partecipare, leggi l'utilità del voucher dell'account, la scadenza per la richiesta e la giurisdizione.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
         }
       ]
     },
@@ -1887,7 +2303,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Все пять наград за приветственные задания обозначены как ваучеры; расширенные торговые максимумы — это отдельные задачи.",
           "id": "Kelima hadiah tugas selamat datang diberi label voucher; maksimum perdagangan tingkat lanjut adalah tugas terpisah.",
           "vi": "Tất cả năm phần thưởng nhiệm vụ chào mừng đều được dán nhãn chứng từ; mức tối đa giao dịch nâng cao là các nhiệm vụ riêng biệt.",
-          "it": "Tutti e cinque i premi per le attività di benvenuto sono etichettati come voucher; i massimi di trading avanzati sono compiti separati."
+          "it": "Tutti e cinque i premi per le attività di benvenuto sono etichettati come voucher; i massimi di trading avanzati sono compiti separati.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
         }
       },
       "gate-europe-august-campaign": {
@@ -1906,7 +2326,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Эта датированная европейская кампания завершится в 00:00 UTC 7 сентября. Первые 200 новых пользователей по депозитам/торговым операциям получают ваучеры на скидку, а не наличные деньги; более высокие уровни имеют отдельные условия.",
           "id": "Kampanye Eropa bertanggal ini berakhir pada 00:00 UTC pada tanggal 7 September. Voucher biaya-rebate penghargaan tugas deposit/perdagangan pengguna baru untuk 200 pengguna baru, bukan uang tunai; tingkatan yang lebih tinggi memiliki istilah yang berbeda.",
           "vi": "Chiến dịch Châu Âu có niên đại này kết thúc lúc 00:00 UTC vào ngày 7 tháng 9. 200 nhiệm vụ gửi tiền/giao dịch dành cho người dùng mới đầu tiên trao tặng phiếu giảm giá phí, không phải tiền mặt; cấp cao hơn có các điều khoản riêng biệt.",
-          "it": "Questa campagna europea datata termina alle 00:00 UTC del 7 settembre. Le prime 200 attività di deposito/commercio dei nuovi utenti assegnano voucher di sconto sulle commissioni, non contanti; i livelli superiori hanno termini distinti."
+          "it": "Questa campagna europea datata termina alle 00:00 UTC del 7 settembre. Le prime 200 attività di deposito/commercio dei nuovi utenti assegnano voucher di sconto sulle commissioni, non contanti; i livelli superiori hanno termini distinti.",
+          // l10n: needs native review
+          "ur": "یہ عبارت نقد رقم یا آزادانہ نکالے جانے والی رقم نہیں بتاتی؛ اسے واؤچر یا مشروط فائدہ سمجھیں۔ (UTC، 00، 00 UTC، 7، 200، 7 September)",
+          // l10n: needs native review
+          "uk": "Цей текст не означає готівку або суму, яку можна вільно вивести; трактуйте його як ваучер чи умовну вигоду. (UTC، 00، 00 UTC، 7، 200، 7 September)"
         }
       }
     },
@@ -1926,7 +2350,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Пакет сочетает в себе регистрацию, проверку личности/лица, первый депозит, первую сделку и первую загрузку приложения.",
         "id": "Paket ini menggabungkan pendaftaran, verifikasi identitas/wajah, setoran pertama, perdagangan pertama, dan pengunduhan aplikasi pertama.",
         "vi": "Gói kết hợp đăng ký, xác minh danh tính/khuôn mặt, gửi tiền lần đầu, giao dịch đầu tiên và tải xuống ứng dụng đầu tiên.",
-        "it": "Il pacchetto combina registrazione, verifica dell'identità/volto, primo deposito, primo scambio e primo download dell'app."
+        "it": "Il pacchetto combina registrazione, verifica dell'identità/volto, primo deposito, primo scambio e primo download dell'app.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу."
       },
       "kyc": {
         "en": "The package combines signup, identity/face verification, first deposit, first trade and first app download.",
@@ -1943,7 +2371,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Пакет сочетает в себе регистрацию, проверку личности/лица, первый депозит, первую сделку и первую загрузку приложения.",
         "id": "Paket ini menggabungkan pendaftaran, verifikasi identitas/wajah, setoran pertama, perdagangan pertama, dan pengunduhan aplikasi pertama.",
         "vi": "Gói kết hợp đăng ký, xác minh danh tính/khuôn mặt, gửi tiền lần đầu, giao dịch đầu tiên và tải xuống ứng dụng đầu tiên.",
-        "it": "Il pacchetto combina registrazione, verifica dell'identità/volto, primo deposito, primo scambio e primo download dell'app."
+        "it": "Il pacchetto combina registrazione, verifica dell'identità/volto, primo deposito, primo scambio e primo download dell'app.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу."
       },
       "deposit": {
         "en": "The displayed deposit task requires at least 50 USDT; the first trade task at least 30 USDT.",
@@ -1960,7 +2392,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Для отображаемой задачи на депозит требуется не менее 50 долларов США; первое торговое задание минимум 30 USDT.",
         "id": "Tugas setoran yang ditampilkan memerlukan setidaknya 50 USDT; tugas perdagangan pertama setidaknya 30 USDT.",
         "vi": "Nhiệm vụ gửi tiền được hiển thị yêu cầu ít nhất 50 USDT; nhiệm vụ giao dịch đầu tiên ít nhất 30 USDT.",
-        "it": "L'attività di deposito visualizzata richiede almeno 50 USDT; la prima attività commerciale almeno 30 USDT."
+        "it": "L'attività di deposito visualizzata richiede almeno 50 USDT; la prima attività commerciale almeno 30 USDT.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (USDT، 50 USDT، 30 USDT)",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (USDT، 50 USDT، 30 USDT)"
       },
       "trading": {
         "en": "The displayed deposit task requires at least 50 USDT; the first trade task at least 30 USDT.",
@@ -1977,7 +2413,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Для отображаемой задачи на депозит требуется не менее 50 долларов США; первое торговое задание минимум 30 USDT.",
         "id": "Tugas setoran yang ditampilkan memerlukan setidaknya 50 USDT; tugas perdagangan pertama setidaknya 30 USDT.",
         "vi": "Nhiệm vụ gửi tiền được hiển thị yêu cầu ít nhất 50 USDT; nhiệm vụ giao dịch đầu tiên ít nhất 30 USDT.",
-        "it": "L'attività di deposito visualizzata richiede almeno 50 USDT; la prima attività commerciale almeno 30 USDT."
+        "it": "L'attività di deposito visualizzata richiede almeno 50 USDT; la prima attività commerciale almeno 30 USDT.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (USDT، 50 USDT، 30 USDT)",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (USDT، 50 USDT، 30 USDT)"
       },
       "rewardType": {
         "en": "Task vouchers, with separate use and expiry rules",
@@ -1994,7 +2434,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Ваучеры задач с отдельными правилами использования и срока действия.",
         "id": "Voucher tugas, dengan aturan penggunaan dan kedaluwarsa terpisah",
         "vi": "Chứng từ nhiệm vụ, với quy tắc sử dụng và hết hạn riêng biệt",
-        "it": "Voucher attività, con regole di utilizzo e scadenza separate"
+        "it": "Voucher attività, con regole di utilizzo e scadenza separate",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "maximumConditions": {
         "en": "The public hub labels the 135 USDT welcome package as multiple vouchers, not 135 USDT of freely withdrawable cash.",
@@ -2011,7 +2455,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Публичный хаб маркирует приветственный пакет на сумму 135 долларов США как несколько ваучеров, а не как свободно выводимые наличные на сумму 135 долларов США.",
         "id": "Pusat publik memberi label paket selamat datang 135 USDT sebagai beberapa voucher, bukan uang tunai 135 USDT yang dapat ditarik secara bebas.",
         "vi": "Trung tâm công cộng dán nhãn gói chào mừng 135 USDT là nhiều phiếu thưởng chứ không phải 135 USDT tiền mặt có thể rút tự do.",
-        "it": "L'hub pubblico etichetta il pacchetto di benvenuto da 135 USDT come voucher multipli, non come 135 USDT di contanti liberamente prelevabili."
+        "it": "L'hub pubblico etichetta il pacchetto di benvenuto da 135 USDT come voucher multipli, non come 135 USDT di contanti liberamente prelevabili.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (USDT، 135 USDT)",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (USDT، 135 USDT)"
       },
       "limitations": {
         "en": "Read the account's voucher utility, claim deadline and jurisdiction before participating.",
@@ -2028,7 +2476,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Прежде чем участвовать, ознакомьтесь с полезностью ваучера учетной записи, сроком подачи заявки и юрисдикцией.",
         "id": "Baca kegunaan voucher akun, batas waktu klaim, dan yurisdiksi sebelum berpartisipasi.",
         "vi": "Đọc kỹ tiện ích voucher của tài khoản, thời hạn yêu cầu và thẩm quyền trước khi tham gia.",
-        "it": "Prima di partecipare, leggi l'utilità del voucher dell'account, la scadenza per la richiesta e la giurisdizione."
+        "it": "Prima di partecipare, leggi l'utilità del voucher dell'account, la scadenza per la richiesta e la giurisdizione.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "gaps": [
         {
@@ -2046,7 +2498,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -2063,7 +2519,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         }
       ]
     },
@@ -2083,7 +2543,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Датированную кампанию Gate Europe нельзя представлять как продолжающуюся после времени ее окончания; это не глобальное предложение Gate.",
         "id": "Kampanye Gerbang Eropa yang tertanggal tidak boleh dianggap sedang berlangsung setelah masa berakhirnya; ini bukan tawaran Gate global.",
         "vi": "Chiến dịch Gate Europe ghi ngày không được thể hiện là đang diễn ra sau thời gian kết thúc; nó không phải là một ưu đãi Cổng toàn cầu.",
-        "it": "La datata campagna Gate Europe non deve essere presentata come in corso dopo la sua fine; non è un'offerta Gate globale."
+        "it": "La datata campagna Gate Europe non deve essere presentata come in corso dopo la sua fine; non è un'offerta Gate globale.",
+        // l10n: needs native review
+        "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔ (Gate)",
+        // l10n: needs native review
+        "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці. (Gate)"
       }
     ]
   },
@@ -2103,7 +2567,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Центр KuCoin разделяет купонные вознаграждения, крипто-вознаграждения и пробные фонды фьючерсов; для вывода может потребоваться дополнительный порог.",
       "id": "Hub KuCoin memisahkan imbalan kupon, imbalan kripto, dan dana uji coba berjangka; penarikan mungkin memerlukan ambang batas tambahan.",
       "vi": "Trung tâm của KuCoin tách biệt phần thưởng phiếu giảm giá, phần thưởng tiền điện tử và quỹ dùng thử hợp đồng tương lai; việc rút tiền có thể yêu cầu một ngưỡng bổ sung.",
-      "it": "L'hub di KuCoin separa i premi in coupon, i premi in criptovaluta e i fondi di prova dei futures; il ritiro può richiedere una soglia aggiuntiva."
+      "it": "L'hub di KuCoin separa i premi in coupon, i premi in criptovaluta e i fondi di prova dei futures; il ritiro può richiedere una soglia aggiuntiva.",
+      // l10n: needs native review
+      "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (KuCoin)",
+      // l10n: needs native review
+      "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (KuCoin)"
     },
     "signupReward": {
       "summary": {
@@ -2121,7 +2589,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "В разделе «Часто задаваемые вопросы» рекламируется совокупная сумма до 3200 долларов США в долларах США и купонах; награды за некоторые задания являются случайными, а их вывод условен.",
         "id": "FAQ mengiklankan total hingga 3.200 USDT dalam USDT dan kupon; beberapa hadiah tugas bersifat acak dan penarikannya bersyarat.",
         "vi": "Câu hỏi thường gặp quảng cáo tổng số tiền lên tới 3.200 USDT bằng USDT và phiếu giảm giá; một số phần thưởng nhiệm vụ là ngẫu nhiên và việc rút tiền có điều kiện.",
-        "it": "Le FAQ pubblicizzano un totale fino a 3.200 USDT in USDT e coupon; alcune ricompense di attività sono casuali e il ritiro è condizionato."
+        "it": "Le FAQ pubblicizzano un totale fino a 3.200 USDT in USDT e coupon; alcune ricompense di attività sono casuali e il ritiro è condizionato.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (USDT، FAQ، 3,200 USDT)",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (USDT، FAQ، 3,200 USDT)"
       },
       "conditions": [
         {
@@ -2139,7 +2611,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Выполните соответствующие задачи для новых пользователей в течение 30 дней с момента регистрации; участие один раз для каждого пользователя.",
           "id": "Selesaikan tugas pengguna baru yang relevan dalam waktu 30 hari setelah pendaftaran; partisipasi adalah satu kali per pengguna.",
           "vi": "Hoàn thành các nhiệm vụ liên quan của người dùng mới trong vòng 30 ngày kể từ ngày đăng ký; sự tham gia là một lần cho mỗi người dùng.",
-          "it": "Completare le attività pertinenti per i nuovi utenti entro 30 giorni dalla registrazione; la partecipazione è una volta per utente."
+          "it": "Completare le attività pertinenti per i nuovi utenti entro 30 giorni dalla registrazione; la partecipazione è una volta per utente.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (30 days)",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (30 days)"
         },
         {
           "en": "Verify whether the selected task needs identity checks, a first purchase/deposit or a specific trade.",
@@ -2156,7 +2632,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Проверьте, требует ли выбранная задача проверки личности, первой покупки/депозита или конкретной сделки.",
           "id": "Verifikasi apakah tugas yang dipilih memerlukan pemeriksaan identitas, pembelian/deposit pertama, atau perdagangan tertentu.",
           "vi": "Xác minh xem nhiệm vụ đã chọn có cần kiểm tra danh tính, giao dịch mua/gửi tiền đầu tiên hay giao dịch cụ thể hay không.",
-          "it": "Verifica se l'attività selezionata necessita di controlli di identità, di un primo acquisto/deposito o di un'operazione specifica."
+          "it": "Verifica se l'attività selezionata necessita di controlli di identità, di un primo acquisto/deposito o di un'operazione specifica.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
         },
         {
           "en": "Check the reward withdrawal threshold, claim deadline and coupon expiry rather than relying on the headline maximum.",
@@ -2173,7 +2653,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Проверьте порог вывода вознаграждения, крайний срок подачи заявки и срок действия купона, а не полагайтесь на максимальный размер заголовка.",
           "id": "Periksa ambang batas penarikan hadiah, tenggat waktu klaim, dan masa berlaku kupon daripada mengandalkan jumlah maksimum.",
           "vi": "Kiểm tra ngưỡng rút tiền thưởng, thời hạn yêu cầu và hết hạn phiếu giảm giá thay vì dựa vào mức tiêu đề tối đa.",
-          "it": "Controlla la soglia di prelievo del premio, la scadenza per la richiesta e la scadenza del coupon invece di fare affidamento sul massimo del titolo."
+          "it": "Controlla la soglia di prelievo del premio, la scadenza per la richiesta e la scadenza del coupon invece di fare affidamento sul massimo del titolo.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         }
       ]
     },
@@ -2194,7 +2678,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "На странице справки описаны отдельные балансы вознаграждений и отдельные требования к регистрации/завершению/требованию для фьючерсных задач с ограниченным временем.",
           "id": "Halaman bantuan menjelaskan saldo hadiah yang berbeda dan persyaratan pendaftaran/penyelesaian/klaim terpisah untuk tugas berjangka waktu terbatas.",
           "vi": "Trang trợ giúp mô tả số dư phần thưởng riêng biệt và yêu cầu đăng ký/hoàn thành/yêu cầu riêng biệt cho các nhiệm vụ trong tương lai trong thời gian giới hạn.",
-          "it": "La pagina della guida descrive saldi di ricompensa distinti e un requisito separato di registrazione/completamento/richiesta per attività future a tempo limitato."
+          "it": "La pagina della guida descrive saldi di ricompensa distinti e un requisito separato di registrazione/completamento/richiesta per attività future a tempo limitato.",
+          // l10n: needs native review
+          "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта."
         }
       },
       "kucoin-marscoin-september": {
@@ -2202,18 +2690,22 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "en": "The MARSCOIN/USDT spot notice specifies BSC-BEP20 deposits, a 5 September 06:00–07:00 UTC auction, 07:00 UTC trading and 6 September 10:00 UTC withdrawals. The displayed publication clock has no timezone. This is not a verified giveaway or service-status test.",
           "zh-Hans": "MARSCOIN/USDT 现货公告列出 BSC-BEP20 入金、9 月 5 日 06:00–07:00 UTC 集合竞价、07:00 UTC 交易及 9 月 6 日 10:00 UTC 提币。页面发布时钟未标时区，不作为赠币或实时服务可用性证明。",
           "zh-Hant": "MARSCOIN/USDT 現貨公告列出 BSC-BEP20 入金、9 月 5 日 06:00–07:00 UTC 集合競價、07:00 UTC 交易及 9 月 6 日 10:00 UTC 提幣。頁面發布時鐘未標時區，不作為贈幣或即時服務可用性證明。",
-          "ja": "MARSCOIN/USDT のスポット通知では、BSC-BEP20 の入金、9 月 5 日の 06:00 ～ 07:00 UTC オークション、07:00 UTC の取引、および 9 月 6 日の 10:00 UTC の出金が指定されています。表示される出版物の時計にはタイムゾーンがありません。これは検証済みのプレゼントやサービスのステータス テストではありません。",
-          "ko": "MARSCOIN/USDT 현물 공지에는 BSC-BEP20 예금, 9월 5일 06:00~07:00 UTC 경매, 07:00 UTC 거래 및 9월 6일 10:00 UTC 인출이 명시되어 있습니다. 표시된 출판 시계에는 시간대가 없습니다. 이는 검증된 경품이나 서비스 상태 테스트가 아닙니다.",
-          "tr": "MARSCOIN/USDT spot bildirimi, BSC-BEP20 yatırma işlemlerini, 5 Eylül 06:00–07:00 UTC açık artırmasını, 07:00 UTC ticaretini ve 6 Eylül 10:00 UTC para çekme işlemlerini belirtir. Görüntülenen yayın saatinin saat dilimi yoktur. Bu, doğrulanmış bir hediye veya hizmet durumu testi değildir.",
-          "ar": "يحدد الإشعار الفوري MARSCOIN/USDT إيداعات BSC-BEP20، ومزاد يوم 5 سبتمبر الساعة 06:00 - 07:00 بالتوقيت العالمي، والتداول الساعة 07:00 بالتوقيت العالمي، وعمليات السحب يوم 6 سبتمبر الساعة 10:00 بالتوقيت العالمي. ساعة النشر المعروضة ليس لها منطقة زمنية. هذا ليس هبة تم التحقق منها أو اختبار حالة الخدمة.",
-          "es": "El aviso al contado MARSCOIN/USDT especifica depósitos BSC-BEP20, una subasta del 5 de septiembre de 06:00 a 07:00 UTC, operaciones a las 07:00 UTC y retiros del 6 de septiembre a las 10:00 UTC. El reloj de publicación mostrado no tiene zona horaria. Este no es un obsequio verificado ni una prueba del estado del servicio.",
-          "pt-BR": "O aviso à vista MARSCOIN/USDT especifica depósitos BSC-BEP20, um leilão de 5 de setembro das 06h00 às 07h00 UTC, negociação às 07h00 UTC e 6 de setembro às 10h00 UTC. O relógio da publicação exibido não possui fuso horário. Esta não é uma oferta verificada ou um teste de status de serviço.",
-          "fr": "L'avis au comptant MARSCOIN/USDT précise les dépôts BSC-BEP20, une vente aux enchères du 5 septembre de 06h00 à 07h00 UTC, une négociation à 07h00 UTC et des retraits le 6 septembre à 10h00 UTC. L'horloge de publication affichée n'a pas de fuseau horaire. Il ne s’agit pas d’un test vérifié de cadeau ou de statut de service.",
-          "de": "Die MARSCOIN/USDT-Spotmitteilung spezifiziert BSC-BEP20-Einzahlungen, eine Auktion am 5. September um 06:00–07:00 UTC, einen Handel um 07:00 UTC und Auszahlungen am 6. September um 10:00 UTC. Die angezeigte Veröffentlichungsuhr hat keine Zeitzone. Dies ist kein verifiziertes Werbegeschenk oder Servicestatustest.",
-          "ru": "В спотовом уведомлении MARSCOIN/USDT указаны депозиты BSC-BEP20, аукцион 5 сентября с 06:00 до 07:00 UTC, торговля в 07:00 UTC и вывод средств 6 сентября в 10:00 UTC. Отображаемые часы публикации не имеют часового пояса. Это не подтвержденная бесплатная раздача или проверка статуса услуги.",
-          "id": "Pemberitahuan spot MARSCOIN/USDT menetapkan setoran BSC-BEP20, lelang tanggal 5 September pukul 06:00–07:00 UTC, perdagangan pukul 07:00 UTC, dan penarikan pada tanggal 6 September pukul 10:00 UTC. Jam publikasi yang ditampilkan tidak memiliki zona waktu. Ini bukan tes giveaway atau status layanan yang terverifikasi.",
-          "vi": "Thông báo giao ngay MARSCOIN/USDT chỉ định tiền gửi BSC-BEP20, phiên đấu giá ngày 5 tháng 9 từ 06:00–07:00 UTC, giao dịch lúc 07:00 UTC và rút tiền ngày 6 tháng 9 lúc 10:00 UTC. Đồng hồ xuất bản được hiển thị không có múi giờ. Đây không phải là quà tặng đã được xác minh hoặc bài kiểm tra trạng thái dịch vụ.",
-          "it": "L'avviso spot MARSCOIN/USDT specifica i depositi BSC-BEP20, un'asta del 5 settembre alle 06:00–07:00 UTC, il trading alle 07:00 UTC e i prelievi del 6 settembre alle 10:00 UTC. L'orologio di pubblicazione visualizzato non ha fuso orario. Questo non è un omaggio verificato o un test sullo stato del servizio."
+          "ja": "MARSCOIN/USDT の現物告知は、BSC-BEP20 入金、9 月 5 日 06:00–07:00 UTC のオークション、07:00 UTC の取引開始、9 月 6 日 10:00 UTC の出金を示しています。表示された公開時刻にはタイムゾーンがありません。これは検証済みの配布やサービス稼働状況の証明ではありません。",
+          "ko": "MARSCOIN/USDT 현물 공지는 BSC-BEP20 입금, 9월 5일 06:00–07:00 UTC 경매, 07:00 UTC 거래 및 9월 6일 10:00 UTC 출금을 명시합니다. 표시된 게시 시각에는 시간대가 없습니다. 이는 검증된 증정이나 서비스 상태 테스트가 아닙니다.",
+          "tr": "MARSCOIN/USDT spot duyurusu BSC-BEP20 yatırma işlemlerini, 5 Eylül 06:00–07:00 UTC açık artırmasını, 07:00 UTC işlemleri ve 6 Eylül 10:00 UTC çekimlerini belirtir. Gösterilen yayın saatinin zaman dilimi yoktur. Bu, doğrulanmış bir hediye veya hizmet durumu testi değildir.",
+          "ar": "يحدد إشعار التداول الفوري MARSCOIN/USDT إيداعات BSC-BEP20، ومزاد 5 سبتمبر 06:00–07:00 UTC، والتداول عند 07:00 UTC، وعمليات السحب في 6 سبتمبر 10:00 UTC. وقت النشر المعروض لا يتضمن منطقة زمنية. هذا ليس هبة موثقة ولا اختبارًا لحالة الخدمة.",
+          "es": "El aviso spot MARSCOIN/USDT especifica depósitos BSC-BEP20, una subasta el 5 de septiembre de 06:00 a 07:00 UTC, negociación a las 07:00 UTC y retiros el 6 de septiembre a las 10:00 UTC. El reloj de publicación mostrado no incluye zona horaria. No es un obsequio verificado ni una prueba del estado del servicio.",
+          "pt-BR": "O aviso spot MARSCOIN/USDT especifica depósitos BSC-BEP20, leilão em 5 de setembro das 06h00 às 07h00 UTC, negociação às 07h00 UTC e saques em 6 de setembro às 10h00 UTC. O horário de publicação exibido não tem fuso horário. Não é uma oferta verificada nem um teste de status do serviço.",
+          "fr": "L'avis spot MARSCOIN/USDT précise les dépôts BSC-BEP20, une enchère le 5 septembre de 06:00 à 07:00 UTC, la négociation à 07:00 UTC et les retraits le 6 septembre à 10:00 UTC. L'heure de publication affichée n'indique pas de fuseau horaire. Ce n'est ni un cadeau vérifié ni un test d'état du service.",
+          "de": "Die MARSCOIN/USDT-Spot-Mitteilung nennt BSC-BEP20-Einzahlungen, eine Auktion am 5. September von 06:00–07:00 UTC, Handel um 07:00 UTC und Auszahlungen am 6. September um 10:00 UTC. Die angezeigte Veröffentlichungszeit hat keine Zeitzone. Dies ist kein verifiziertes Giveaway und kein Servicestatus-Test.",
+          "ru": "Спотовое уведомление MARSCOIN/USDT указывает депозиты BSC-BEP20, аукцион 5 сентября 06:00–07:00 UTC, торговлю в 07:00 UTC и вывод средств 6 сентября в 10:00 UTC. У указанного времени публикации нет часового пояса. Это не подтвержденная раздача и не тест статуса сервиса.",
+          "id": "Pemberitahuan spot MARSCOIN/USDT menetapkan setoran BSC-BEP20, lelang 5 September 06:00–07:00 UTC, perdagangan 07:00 UTC, dan penarikan 6 September 10:00 UTC. Jam publikasi yang ditampilkan tidak memiliki zona waktu. Ini bukan giveaway terverifikasi atau uji status layanan.",
+          "vi": "Thông báo spot MARSCOIN/USDT nêu tiền gửi BSC-BEP20, phiên đấu giá ngày 5 tháng 9 từ 06:00–07:00 UTC, giao dịch lúc 07:00 UTC và rút tiền ngày 6 tháng 9 lúc 10:00 UTC. Thời điểm xuất bản hiển thị không có múi giờ. Đây không phải quà tặng đã xác minh hay bài kiểm tra trạng thái dịch vụ.",
+          "it": "L'avviso spot MARSCOIN/USDT specifica depositi BSC-BEP20, un'asta il 5 settembre dalle 06:00 alle 07:00 UTC, trading alle 07:00 UTC e prelievi il 6 settembre alle 10:00 UTC. L'orario di pubblicazione visualizzato non ha fuso orario. Non è un giveaway verificato né un test sullo stato del servizio.",
+          // l10n: needs native review
+          "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔ (UTC، USDT، 5، 06، 00، 07، 00 UTC، 6، 10، September 06، September 10، 5 September، 6 September، MARSCOIN، BSC-BEP20)",
+          // l10n: needs native review
+          "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта. (UTC، USDT، 5، 06، 00، 07، 00 UTC، 6، 10، September 06، September 10، 5 September، 6 September، MARSCOIN، BSC-BEP20)"
         }
       }
     },
@@ -2233,7 +2725,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Выполните соответствующие задачи для новых пользователей в течение 30 дней с момента регистрации; участие один раз для каждого пользователя.",
         "id": "Selesaikan tugas pengguna baru yang relevan dalam waktu 30 hari setelah pendaftaran; partisipasi adalah satu kali per pengguna.",
         "vi": "Hoàn thành các nhiệm vụ liên quan của người dùng mới trong vòng 30 ngày kể từ ngày đăng ký; sự tham gia là một lần cho mỗi người dùng.",
-        "it": "Completare le attività pertinenti per i nuovi utenti entro 30 giorni dalla registrazione; la partecipazione è una volta per utente."
+        "it": "Completare le attività pertinenti per i nuovi utenti entro 30 giorni dalla registrazione; la partecipazione è una volta per utente.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (30 days)",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (30 days)"
       },
       "kyc": {
         "en": "Verify whether the selected task needs identity checks, a first purchase/deposit or a specific trade.",
@@ -2250,7 +2746,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Проверьте, требует ли выбранная задача проверки личности, первой покупки/депозита или конкретной сделки.",
         "id": "Verifikasi apakah tugas yang dipilih memerlukan pemeriksaan identitas, pembelian/deposit pertama, atau perdagangan tertentu.",
         "vi": "Xác minh xem nhiệm vụ đã chọn có cần kiểm tra danh tính, giao dịch mua/gửi tiền đầu tiên hay giao dịch cụ thể hay không.",
-        "it": "Verifica se l'attività selezionata necessita di controlli di identità, di un primo acquisto/deposito o di un'operazione specifica."
+        "it": "Verifica se l'attività selezionata necessita di controlli di identità, di un primo acquisto/deposito o di un'operazione specifica.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "deposit": {
         "en": "Verify whether the selected task needs identity checks, a first purchase/deposit or a specific trade.",
@@ -2267,7 +2767,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Проверьте, требует ли выбранная задача проверки личности, первой покупки/депозита или конкретной сделки.",
         "id": "Verifikasi apakah tugas yang dipilih memerlukan pemeriksaan identitas, pembelian/deposit pertama, atau perdagangan tertentu.",
         "vi": "Xác minh xem nhiệm vụ đã chọn có cần kiểm tra danh tính, giao dịch mua/gửi tiền đầu tiên hay giao dịch cụ thể hay không.",
-        "it": "Verifica se l'attività selezionata necessita di controlli di identità, di un primo acquisto/deposito o di un'operazione specifica."
+        "it": "Verifica se l'attività selezionata necessita di controlli di identità, di un primo acquisto/deposito o di un'operazione specifica.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "trading": {
         "en": "Verify whether the selected task needs identity checks, a first purchase/deposit or a specific trade.",
@@ -2284,7 +2788,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Проверьте, требует ли выбранная задача проверки личности, первой покупки/депозита или конкретной сделки.",
         "id": "Verifikasi apakah tugas yang dipilih memerlukan pemeriksaan identitas, pembelian/deposit pertama, atau perdagangan tertentu.",
         "vi": "Xác minh xem nhiệm vụ đã chọn có cần kiểm tra danh tính, giao dịch mua/gửi tiền đầu tiên hay giao dịch cụ thể hay không.",
-        "it": "Verifica se l'attività selezionata necessita di controlli di identità, di un primo acquisto/deposito o di un'operazione specifica."
+        "it": "Verifica se l'attività selezionata necessita di controlli di identità, di un primo acquisto/deposito o di un'operazione specifica.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "rewardType": {
         "en": "Crypto rewards and coupons with withdrawal conditions",
@@ -2301,7 +2809,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Крипто-награды и купоны с условиями вывода средств",
         "id": "Hadiah dan kupon Crypto dengan ketentuan penarikan",
         "vi": "Phần thưởng và phiếu giảm giá tiền điện tử với điều kiện rút tiền",
-        "it": "Premi e coupon cripto con condizioni di prelievo"
+        "it": "Premi e coupon cripto con condizioni di prelievo",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "maximumConditions": {
         "en": "The FAQ advertises an aggregate up to 3,200 USDT in USDT and coupons; some task rewards are random and withdrawal is conditional.",
@@ -2318,7 +2830,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "В разделе «Часто задаваемые вопросы» рекламируется совокупная сумма до 3200 долларов США в долларах США и купонах; награды за некоторые задания являются случайными, а их вывод условен.",
         "id": "FAQ mengiklankan total hingga 3.200 USDT dalam USDT dan kupon; beberapa hadiah tugas bersifat acak dan penarikannya bersyarat.",
         "vi": "Câu hỏi thường gặp quảng cáo tổng số tiền lên tới 3.200 USDT bằng USDT và phiếu giảm giá; một số phần thưởng nhiệm vụ là ngẫu nhiên và việc rút tiền có điều kiện.",
-        "it": "Le FAQ pubblicizzano un totale fino a 3.200 USDT in USDT e coupon; alcune ricompense di attività sono casuali e il ritiro è condizionato."
+        "it": "Le FAQ pubblicizzano un totale fino a 3.200 USDT in USDT e coupon; alcune ricompense di attività sono casuali e il ritiro è condizionato.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (USDT، FAQ، 3,200 USDT)",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (USDT، FAQ، 3,200 USDT)"
       },
       "limitations": {
         "en": "Check the reward withdrawal threshold, claim deadline and coupon expiry rather than relying on the headline maximum.",
@@ -2335,7 +2851,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Проверьте порог вывода вознаграждения, крайний срок подачи заявки и срок действия купона, а не полагайтесь на максимальный размер заголовка.",
         "id": "Periksa ambang batas penarikan hadiah, tenggat waktu klaim, dan masa berlaku kupon daripada mengandalkan jumlah maksimum.",
         "vi": "Kiểm tra ngưỡng rút tiền thưởng, thời hạn yêu cầu và hết hạn phiếu giảm giá thay vì dựa vào mức tiêu đề tối đa.",
-        "it": "Controlla la soglia di prelievo del premio, la scadenza per la richiesta e la scadenza del coupon invece di fare affidamento sul massimo del titolo."
+        "it": "Controlla la soglia di prelievo del premio, la scadenza per la richiesta e la scadenza del coupon invece di fare affidamento sul massimo del titolo.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "publishedDate": {
         "en": "2026-03-16 01:28:00",
@@ -2352,7 +2872,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "2026-03-16 01:28:00",
         "id": "16-03-2026 01:28:00",
         "vi": "2026-03-16 01:28:00",
-        "it": "2026-03-16 01:28:00"
+        "it": "2026-03-16 01:28:00",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (2026، 03، 16، 01، 28، 00، 2026-03-16)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (2026، 03، 16، 01، 28، 00، 2026-03-16)"
       },
       "datePrecision": {
         "en": "Source date retained as displayed; no missing timezone is inferred.",
@@ -2369,7 +2893,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Исходная дата сохраняется в том виде, в каком она отображается; отсутствие отсутствующего часового пояса не предполагается.",
         "id": "Tanggal sumber dipertahankan seperti yang ditampilkan; tidak ada zona waktu yang hilang yang disimpulkan.",
         "vi": "Ngày nguồn được giữ lại như được hiển thị; không có múi giờ bị thiếu được suy ra.",
-        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante."
+        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante.",
+        // l10n: needs native review
+        "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔",
+        // l10n: needs native review
+        "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта."
       },
       "gaps": [
         {
@@ -2387,7 +2915,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -2404,7 +2936,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "The FAQ advertises an aggregate up to 3,200 USDT in USDT and coupons; some task rewards are random and withdrawal is conditional.",
@@ -2421,7 +2957,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "В разделе «Часто задаваемые вопросы» рекламируется совокупная сумма до 3200 долларов США в долларах США и купонах; награды за некоторые задания являются случайными, а их вывод условен.",
           "id": "FAQ mengiklankan total hingga 3.200 USDT dalam USDT dan kupon; beberapa hadiah tugas bersifat acak dan penarikannya bersyarat.",
           "vi": "Câu hỏi thường gặp quảng cáo tổng số tiền lên tới 3.200 USDT bằng USDT và phiếu giảm giá; một số phần thưởng nhiệm vụ là ngẫu nhiên và việc rút tiền có điều kiện.",
-          "it": "Le FAQ pubblicizzano un totale fino a 3.200 USDT in USDT e coupon; alcune ricompense di attività sono casuali e il ritiro è condizionato."
+          "it": "Le FAQ pubblicizzano un totale fino a 3.200 USDT in USDT e coupon; alcune ricompense di attività sono casuali e il ritiro è condizionato.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔ (USDT، FAQ، 3,200 USDT)",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо. (USDT، FAQ، 3,200 USDT)"
         }
       ]
     }
@@ -2442,7 +2982,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Фьючерсы MEXC приветствуют задачи, использующие условия чистого депозита, владения и объема уплаты комиссий; старые страницы кампании не подтверждают актуальное предложение.",
       "id": "Kontrak berjangka MEXC menyambut tugas-tugas menggunakan ketentuan net-deposit, holding dan fee-paying-volume; halaman kampanye lama tidak membuktikan penawaran saat ini.",
       "vi": "Nhiệm vụ chào mừng hợp đồng tương lai của MEXC sử dụng các điều kiện về tiền gửi ròng, nắm giữ và khối lượng thanh toán phí; các trang chiến dịch cũ hơn không chứng minh được lời đề nghị hiện tại.",
-      "it": "Le attività di benvenuto dei futures MEXC utilizzano condizioni di deposito netto, detenzione e volume di pagamento delle commissioni; le pagine delle campagne più vecchie non dimostrano un'offerta attuale."
+      "it": "Le attività di benvenuto dei futures MEXC utilizzano condizioni di deposito netto, detenzione e volume di pagamento delle commissioni; le pagine delle campagne più vecchie non dimostrano un'offerta attuale.",
+      // l10n: needs native review
+      "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔ (MEXC)",
+      // l10n: needs native review
+      "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками. (MEXC)"
     },
     "signupReward": {
       "summary": {
@@ -2460,7 +3004,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Объявление от августа 2025 года представляет собой историческое руководство по программе, а не подтвержденное текущее предложение наличными в размере 10 000 долларов США.",
         "id": "Pengumuman pada bulan Agustus 2025 adalah panduan program historis, bukan penawaran tunai 10.000 USDT yang terverifikasi saat ini.",
         "vi": "Thông báo tháng 8 năm 2025 là hướng dẫn lịch sử của chương trình, không phải là ưu đãi tiền mặt 10.000 USDT hiện đã được xác minh.",
-        "it": "L’annuncio dell’agosto 2025 rappresenta una guida storica del programma, non un’offerta in contanti verificata di 10.000 USDT attuali."
+        "it": "L’annuncio dell’agosto 2025 rappresenta una guida storica del programma, non un’offerta in contanti verificata di 10.000 USDT attuali.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (USDT، 2025، 10,000 USDT)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (USDT، 2025، 10,000 USDT)"
       },
       "conditions": [
         {
@@ -2478,7 +3026,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Некоторые задачи требуют расширенной проверки личности; подтвердить текущую задачу аккаунта.",
           "id": "Beberapa tugas memerlukan verifikasi identitas tingkat lanjut; konfirmasikan tugas akun saat ini.",
           "vi": "Một số nhiệm vụ yêu cầu xác minh danh tính nâng cao; xác nhận nhiệm vụ hiện tại của tài khoản.",
-          "it": "Alcune attività richiedono una verifica avanzata dell'identità; confermare l'attività corrente dell'account."
+          "it": "Alcune attività richiedono una verifica avanzata dell'identità; confermare l'attività corrente dell'account.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
         },
         {
           "en": "The guide counts on-chain/P2P deposits, not internal transfers, and requires maintaining the task's minimum net balance.",
@@ -2495,7 +3047,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Руководство учитывает внутрисетевые/P2P-депозиты, а не внутренние переводы, и требует поддержания минимального чистого баланса задачи.",
           "id": "Panduan ini menghitung setoran on-chain/P2P, bukan transfer internal, dan mengharuskan pemeliharaan saldo bersih minimum tugas.",
           "vi": "Hướng dẫn tính số tiền gửi trên chuỗi/P2P, không phải chuyển khoản nội bộ và yêu cầu duy trì số dư ròng tối thiểu của nhiệm vụ.",
-          "it": "La guida conta i depositi on-chain/P2P, non i trasferimenti interni, e richiede il mantenimento del saldo netto minimo dell'attività."
+          "it": "La guida conta i depositi on-chain/P2P, non i trasferimenti interni, e richiede il mantenimento del saldo netto minimo dell'attività.",
+          // l10n: needs native review
+          "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
         },
         {
           "en": "Confirm fee-paying futures-volume rules and whether moving funds would forfeit a bonus.",
@@ -2512,7 +3068,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Подтвердите правила по объему фьючерсов с уплатой комиссионных и уточните, будет ли перемещение средств лишаться бонуса.",
           "id": "Konfirmasikan aturan volume berjangka yang membayar biaya dan apakah pemindahan dana akan menghilangkan bonus.",
           "vi": "Xác nhận các quy tắc về khối lượng hợp đồng tương lai trả phí và liệu việc chuyển tiền có bị mất tiền thưởng hay không.",
-          "it": "Confermare le regole sul volume dei futures a pagamento e se lo spostamento di fondi comporterebbe la perdita di un bonus."
+          "it": "Confermare le regole sul volume dei futures a pagamento e se lo spostamento di fondi comporterebbe la perdita di un bonus.",
+          // l10n: needs native review
+          "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками."
         }
       ]
     },
@@ -2520,20 +3080,24 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "mexc-welcome-guide": {
         "summary": {
           "en": "Historical headline maximum; no current account-specific entitlement verified.",
-          "zh-Hans": "历史宣传最高额，未核实当前账户实际奖励资格。",
-          "zh-Hant": "歷史宣傳最高額，未核實目前帳戶實際獎勵資格。",
-          "ja": "過去の見出しの最大値。現在のアカウント固有の資格が確認されていません。",
-          "ko": "과거 헤드라인 최대값입니다. 현재 계정별 자격이 확인되지 않았습니다.",
-          "tr": "Tarihsel başlık maksimumu; geçerli hesaba özel yetki doğrulanmadı.",
-          "ar": "الحد الأقصى للعنوان التاريخي؛ لم يتم التحقق من أي استحقاق خاص بالحساب الحالي.",
-          "es": "Máximo titular histórico; no se ha verificado ningún derecho específico de cuenta actual.",
-          "pt-BR": "Máximo histórico do título; nenhum direito específico da conta corrente foi verificado.",
-          "fr": "Maximum de titre historique ; aucun droit spécifique au compte courant n'a été vérifié.",
-          "de": "Historisches Schlagzeilenmaximum; keine kontospezifische Berechtigung nachgewiesen.",
-          "ru": "Исторический максимум заголовка; право на конкретную текущую учетную запись не подтверждено.",
-          "id": "Judul maksimum historis; tidak ada hak khusus akun saat ini yang diverifikasi.",
-          "vi": "Tiêu đề tối đa lịch sử; không có quyền cụ thể cho tài khoản hiện tại nào được xác minh.",
-          "it": "Titolo storico massimo; nessun diritto specifico dell'account corrente verificato."
+          "zh-Hans": "历史标题最高额；未核实当前账户的具体奖励资格。",
+          "zh-Hant": "歷史標題最高額；未核實目前帳戶的具體獎勵資格。",
+          "ja": "過去の見出し上の最大額であり、現在のアカウントに対する具体的な権利は確認されていません。",
+          "ko": "과거 헤드라인 기준 최대값이며, 현재 계정별 구체적 수급 자격은 확인되지 않았습니다.",
+          "tr": "Tarihsel başlıkta yer alan azami tutar; mevcut hesaba özel hak doğrulanmamıştır.",
+          "ar": "هذا حد أقصى تاريخي في العنوان؛ ولم يتم التحقق من استحقاق محدد للحساب الحالي.",
+          "es": "Máximo histórico del titular; no se ha verificado ningún derecho específico para la cuenta actual.",
+          "pt-BR": "Máximo histórico do título; nenhum direito específico da conta atual foi verificado.",
+          "fr": "Maximum historique affiché dans le titre ; aucun droit spécifique au compte actuel n'a été vérifié.",
+          "de": "Historisches Maximum aus der Überschrift; keine spezifische Berechtigung für das aktuelle Konto wurde verifiziert.",
+          "ru": "Исторический максимум из заголовка; конкретное право для текущего аккаунта не подтверждено.",
+          "id": "Maksimum historis pada judul; belum ada hak khusus untuk akun saat ini yang diverifikasi.",
+          "vi": "Mức tối đa theo tiêu đề lịch sử; chưa xác minh quyền lợi cụ thể cho tài khoản hiện tại.",
+          "it": "Massimo storico indicato nel titolo; non è stato verificato alcun diritto specifico per l'account attuale.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         }
       },
       "mexc-tradingpapa-ended": {
@@ -2552,7 +3116,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "На странице явно указано, что событие завершено, и указано время с 20 августа по 2 сентября 2026 г. Часовой пояс не указан; Крайний срок UTC не предполагается.",
           "id": "Halaman tersebut secara eksplisit menyatakan Acara Berakhir dan menunjukkan 20 Agustus–2 September 2026. Zona waktunya tidak disebutkan; tidak ada batas waktu UTC yang disimpulkan.",
           "vi": "Trang này cho biết rõ ràng Sự kiện đã kết thúc và hiển thị từ ngày 20 tháng 8 đến ngày 2 tháng 9 năm 2026. Múi giờ của nó không được nêu rõ; không có thời hạn UTC nào được suy ra.",
-          "it": "La pagina dice esplicitamente che l'evento è terminato e mostra il periodo dal 20 agosto al 2 settembre 2026. Il suo fuso orario non è indicato; non si deduce alcuna scadenza UTC."
+          "it": "La pagina dice esplicitamente che l'evento è terminato e mostra il periodo dal 20 agosto al 2 settembre 2026. Il suo fuso orario non è indicato; non si deduce alcuna scadenza UTC.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔ (UTC، 20، 2، 2026، 20 August، 2 September)",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці. (UTC، 20، 2، 2026، 20 August، 2 September)"
         }
       },
       "mexc-pair-september": {
@@ -2571,7 +3139,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Фьючерсы на PAIRUSDT запланированы на 6 сентября 2026 года в 15:30 UTC. В уведомлении указаны более высокие комиссии в зоне инноваций (0,04% для производителя, 0,10% для получателя), региональные ограничения и отсутствие торговли API. Его общий баннер приветствия и вознаграждения не содержит уточняющих условий и не рассматривается как свидетельство вознаграждения.",
           "id": "Kontrak berjangka PAIRUSDT dijadwalkan pada 6 September 2026 pukul 15:30 UTC. Pemberitahuan tersebut menetapkan biaya Zona Inovasi yang lebih tinggi (0,04% pembuat, 0,10% pengambil), pembatasan regional, dan tidak adanya perdagangan API. Spanduk hadiah selamat datang yang umum tidak berisi persyaratan yang memenuhi syarat dan tidak diperlakukan sebagai bukti hadiah.",
           "vi": "Hợp đồng tương lai PAIRUSDT được lên lịch vào ngày 6 tháng 9 năm 2026 lúc 15:30 UTC. Thông báo nêu rõ phí Khu vực đổi mới cao hơn (nhà sản xuất 0,04%, người nhận 0,10%), các hạn chế trong khu vực và không có giao dịch API. Biểu ngữ khen thưởng chào mừng chung của nó không chứa các điều khoản đủ điều kiện và không được coi là bằng chứng khen thưởng.",
-          "it": "I futures PAIRUSDT sono previsti per il 6 settembre 2026 alle 15:30 UTC. L'avviso specifica commissioni più elevate per l'Innovation Zone (0,04% produttore, 0,10% acquirente), restrizioni regionali e divieto di scambio API. Il banner generico del premio di benvenuto non contiene termini qualificanti e non viene trattato come prova del premio."
+          "it": "I futures PAIRUSDT sono previsti per il 6 settembre 2026 alle 15:30 UTC. L'avviso specifica commissioni più elevate per l'Innovation Zone (0,04% produttore, 0,10% acquirente), restrizioni regionali e divieto di scambio API. Il banner generico del premio di benvenuto non contiene termini qualificanti e non viene trattato come prova del premio.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (UTC، API، 6، 2026، 15، 30 UTC، 0.04، 0.10، 6 September، PAIRUSDT)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (UTC، API، 6، 2026، 15، 30 UTC، 0.04، 0.10، 6 September، PAIRUSDT)"
         }
       }
     },
@@ -2591,7 +3163,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Некоторые задачи требуют расширенной проверки личности; подтвердить текущую задачу аккаунта.",
         "id": "Beberapa tugas memerlukan verifikasi identitas tingkat lanjut; konfirmasikan tugas akun saat ini.",
         "vi": "Một số nhiệm vụ yêu cầu xác minh danh tính nâng cao; xác nhận nhiệm vụ hiện tại của tài khoản.",
-        "it": "Alcune attività richiedono una verifica avanzata dell'identità; confermare l'attività corrente dell'account."
+        "it": "Alcune attività richiedono una verifica avanzata dell'identità; confermare l'attività corrente dell'account.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "kyc": {
         "en": "Some tasks require advanced identity verification; confirm the account's current task.",
@@ -2608,7 +3184,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Некоторые задачи требуют расширенной проверки личности; подтвердить текущую задачу аккаунта.",
         "id": "Beberapa tugas memerlukan verifikasi identitas tingkat lanjut; konfirmasikan tugas akun saat ini.",
         "vi": "Một số nhiệm vụ yêu cầu xác minh danh tính nâng cao; xác nhận nhiệm vụ hiện tại của tài khoản.",
-        "it": "Alcune attività richiedono una verifica avanzata dell'identità; confermare l'attività corrente dell'account."
+        "it": "Alcune attività richiedono una verifica avanzata dell'identità; confermare l'attività corrente dell'account.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "deposit": {
         "en": "The guide counts on-chain/P2P deposits, not internal transfers, and requires maintaining the task's minimum net balance.",
@@ -2625,7 +3205,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Руководство учитывает внутрисетевые/P2P-депозиты, а не внутренние переводы, и требует поддержания минимального чистого баланса задачи.",
         "id": "Panduan ini menghitung setoran on-chain/P2P, bukan transfer internal, dan mengharuskan pemeliharaan saldo bersih minimum tugas.",
         "vi": "Hướng dẫn tính số tiền gửi trên chuỗi/P2P, không phải chuyển khoản nội bộ và yêu cầu duy trì số dư ròng tối thiểu của nhiệm vụ.",
-        "it": "La guida conta i depositi on-chain/P2P, non i trasferimenti interni, e richiede il mantenimento del saldo netto minimo dell'attività."
+        "it": "La guida conta i depositi on-chain/P2P, non i trasferimenti interni, e richiede il mantenimento del saldo netto minimo dell'attività.",
+        // l10n: needs native review
+        "ur": "کام، پوائنٹس اور واؤچر الگ چیزیں ہیں؛ ہر ایک کی شرط اور مدت الگ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Завдання, бали й ваучери є окремими речами; умови та строки для кожної потрібно читати окремо."
       },
       "trading": {
         "en": "Confirm fee-paying futures-volume rules and whether moving funds would forfeit a bonus.",
@@ -2642,7 +3226,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Подтвердите правила по объему фьючерсов с уплатой комиссионных и уточните, будет ли перемещение средств лишаться бонуса.",
         "id": "Konfirmasikan aturan volume berjangka yang membayar biaya dan apakah pemindahan dana akan menghilangkan bonus.",
         "vi": "Xác nhận các quy tắc về khối lượng hợp đồng tương lai trả phí và liệu việc chuyển tiền có bị mất tiền thưởng hay không.",
-        "it": "Confermare le regole sul volume dei futures a pagamento e se lo spostamento di fondi comporterebbe la perdita di un bonus."
+        "it": "Confermare le regole sul volume dei futures a pagamento e se lo spostamento di fondi comporterebbe la perdita di un bonus.",
+        // l10n: needs native review
+        "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками."
       },
       "rewardType": {
         "en": "Conditional futures bonus",
@@ -2659,7 +3247,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Условный фьючерсный бонус",
         "id": "Bonus berjangka bersyarat",
         "vi": "Tiền thưởng tương lai có điều kiện",
-        "it": "Bonus futures condizionato"
+        "it": "Bonus futures condizionato",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "limitations": {
         "en": "The August 2025 announcement is historical program guidance, not a verified current 10,000 USDT cash offer.",
@@ -2676,7 +3268,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Объявление от августа 2025 года представляет собой историческое руководство по программе, а не подтвержденное текущее предложение наличными в размере 10 000 долларов США.",
         "id": "Pengumuman pada bulan Agustus 2025 adalah panduan program historis, bukan penawaran tunai 10.000 USDT yang terverifikasi saat ini.",
         "vi": "Thông báo tháng 8 năm 2025 là hướng dẫn lịch sử của chương trình, không phải là ưu đãi tiền mặt 10.000 USDT hiện đã được xác minh.",
-        "it": "L’annuncio dell’agosto 2025 rappresenta una guida storica del programma, non un’offerta in contanti verificata di 10.000 USDT attuali."
+        "it": "L’annuncio dell’agosto 2025 rappresenta una guida storica del programma, non un’offerta in contanti verificata di 10.000 USDT attuali.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (USDT، 2025، 10,000 USDT)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (USDT، 2025، 10,000 USDT)"
       },
       "gaps": [
         {
@@ -2694,7 +3290,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -2711,7 +3311,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "The August 2025 announcement is historical program guidance, not a verified current 10,000 USDT cash offer.",
@@ -2728,7 +3332,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Объявление от августа 2025 года представляет собой историческое руководство по программе, а не подтвержденное текущее предложение наличными в размере 10 000 долларов США.",
           "id": "Pengumuman pada bulan Agustus 2025 adalah panduan program historis, bukan penawaran tunai 10.000 USDT yang terverifikasi saat ini.",
           "vi": "Thông báo tháng 8 năm 2025 là hướng dẫn lịch sử của chương trình, không phải là ưu đãi tiền mặt 10.000 USDT hiện đã được xác minh.",
-          "it": "L’annuncio dell’agosto 2025 rappresenta una guida storica del programma, non un’offerta in contanti verificata di 10.000 USDT attuali."
+          "it": "L’annuncio dell’agosto 2025 rappresenta una guida storica del programma, non un’offerta in contanti verificata di 10.000 USDT attuali.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (USDT، 2025، 10,000 USDT)",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (USDT، 2025، 10,000 USDT)"
         }
       ]
     },
@@ -2748,7 +3356,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "TradingPapa8 является историческим и завершился. Фьючерсные бонусы, привязанные к каналу, не должны фигурировать в качестве подарка за регистрацию, на который в настоящее время можно претендовать.",
         "id": "TradingPapa8 bersifat historis dan berakhir. Bonus berjangka yang terikat saluran tidak boleh muncul sebagai hadiah pendaftaran yang saat ini dapat diklaim.",
         "vi": "TradingPapa8 là lịch sử và đã kết thúc. Phần thưởng tương lai giới hạn theo kênh của nó không được xuất hiện dưới dạng quà tặng đăng ký hiện có thể nhận được.",
-        "it": "TradingPapa8 è storico ed è terminato. I suoi bonus futures legati al canale non devono apparire come un regalo di iscrizione attualmente richiudibile."
+        "it": "TradingPapa8 è storico ed è terminato. I suoi bonus futures legati al canale non devono apparire come un regalo di iscrizione attualmente richiudibile.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       }
     ]
   },
@@ -2768,7 +3380,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Реферальный документ Backpack описывает комиссию, выплачиваемую приглашающему, а не подтвержденную денежную выплату новому пользователю.",
       "id": "Dokumen rujukan Backpack menjelaskan komisi yang dibayarkan kepada pengundang, bukan pembayaran tunai terverifikasi kepada pengguna baru.",
       "vi": "Tài liệu giới thiệu của Backpack mô tả khoản hoa hồng trả cho người mời chứ không phải khoản thanh toán bằng tiền mặt đã được xác minh cho người dùng mới.",
-      "it": "Il documento di segnalazione di Backpack descrive una commissione pagata all'invitante, non un pagamento in contanti verificato a un nuovo utente."
+      "it": "Il documento di segnalazione di Backpack descrive una commissione pagata all'invitante, non un pagamento in contanti verificato a un nuovo utente.",
+      // l10n: needs native review
+      "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔ (Backpack)",
+      // l10n: needs native review
+      "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці. (Backpack)"
     },
     "signupReward": {
       "summary": {
@@ -2786,7 +3402,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Источник описывает долю комиссии пригласителя в размере 10% после того, как приглашенный пользователь завершит KYC. Никакая сумма денежных средств приглашенного не была подтверждена из этого документа.",
         "id": "Sumber tersebut menjelaskan pembagian biaya pengundang sebesar 10% setelah pengguna yang dirujuk menyelesaikan KYC. Tidak ada jumlah uang tunai undangan yang diverifikasi dari dokumen ini.",
         "vi": "Nguồn mô tả chia sẻ phí người mời 10% sau khi người dùng được giới thiệu hoàn thành KYC. Không có số tiền mặt nào của người được mời được xác minh từ tài liệu này.",
-        "it": "La fonte descrive una quota di commissione dell'invitatore del 10% dopo che l'utente segnalato ha completato il KYC. Nessun importo in contanti dell'invitato è stato verificato da questo documento."
+        "it": "La fonte descrive una quota di commissione dell'invitatore del 10% dopo che l'utente segnalato ha completato il KYC. Nessun importo in contanti dell'invitato è stato verificato da questo documento.",
+        // l10n: needs native review
+        "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC، 10)",
+        // l10n: needs native review
+        "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC، 10)"
       },
       "conditions": [
         {
@@ -2804,7 +3424,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Добавьте реферальный код перед завершением KYC; документ запрещает добавлять его задним числом после KYC.",
           "id": "Tambahkan kode referensi sebelum menyelesaikan KYC; dokumen tersebut tidak mengizinkan penambahan satu secara surut setelah KYC.",
           "vi": "Thêm mã giới thiệu trước khi hoàn thành KYC; tài liệu không cho phép thêm một tài liệu hồi tố sau KYC.",
-          "it": "Aggiungi un codice di riferimento prima di completare KYC; il documento non ne consente l'aggiunta retroattiva dopo il KYC."
+          "it": "Aggiungi un codice di riferimento prima di completare KYC; il documento non ne consente l'aggiunta retroattiva dopo il KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "Keep inviter commission separate from any benefit actually offered to the invitee.",
@@ -2821,24 +3445,32 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Держите комиссию приглашенного отдельно от любых выгод, фактически предлагаемых приглашенному.",
           "id": "Pisahkan komisi pengundang dari manfaat apa pun yang sebenarnya ditawarkan kepada pengundang.",
           "vi": "Tách biệt hoa hồng của người mời với bất kỳ lợi ích nào thực sự được cung cấp cho người được mời.",
-          "it": "Mantieni la commissione dell'invitante separata da qualsiasi vantaggio effettivamente offerto all'invitato."
+          "it": "Mantieni la commissione dell'invitante separata da qualsiasi vantaggio effettivamente offerto all'invitato.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         },
         {
           "en": "Review product exclusions and claim terms; equity-perpetual fees are excluded in this source.",
-          "zh-Hans": "核对产品排除项和领取条款；来源排除了股票永续相关手续费。",
-          "zh-Hant": "核對產品排除項和領取條款；來源排除了股票永續相關手續費。",
-          "ja": "製品の除外条件と請求条件を確認します。この情報源では、株式永久手数料は除外されています。",
-          "ko": "제품 제외 사항 및 청구 조건을 검토하세요. 주식-영구 수수료는 이 소스에서 제외됩니다.",
-          "tr": "Ürün hariç tutmalarını ve talep koşullarını inceleyin; özsermaye-sürekli ücretler bu kaynağa dahil değildir.",
-          "ar": "مراجعة استثناءات المنتج وشروط المطالبة؛ يتم استبعاد رسوم الأسهم الدائمة في هذا المصدر.",
-          "es": "Revisar las exclusiones de productos y los términos de reclamo; Las tarifas perpetuas de capital están excluidas de esta fuente.",
-          "pt-BR": "Revise as exclusões de produtos e os termos de reivindicação; taxas perpétuas de capital estão excluídas desta fonte.",
-          "fr": "Examiner les exclusions de produits et les conditions de réclamation ; les frais perpétuels sur actions sont exclus de cette source.",
-          "de": "Überprüfen Sie Produktausschlüsse und Anspruchsbedingungen. Equity-Perpetual-Gebühren sind in dieser Quelle nicht berücksichtigt.",
-          "ru": "Ознакомьтесь с исключениями продуктов и условиями претензий; В этом источнике исключены бессрочные комиссии за участие в акционерном капитале.",
-          "id": "Tinjau pengecualian produk dan ketentuan klaim; biaya ekuitas-perpetual tidak termasuk dalam sumber ini.",
-          "vi": "Xem lại các điều khoản loại trừ sản phẩm và yêu cầu bồi thường; phí vốn sở hữu vĩnh viễn được loại trừ trong nguồn này.",
-          "it": "Esaminare le esclusioni dei prodotti e i termini dei reclami; in questa fonte sono escluse le commissioni perpetue azionarie."
+          "zh-Hans": "核对产品排除项和领取条款；来源排除了股票永续合约相关手续费。",
+          "zh-Hant": "核對產品排除項和領取條款；來源排除了股票永續合約相關手續費。",
+          "ja": "製品の除外条件と請求条件を確認してください。この情報源では株式無期限契約の手数料が除外されています。",
+          "ko": "제품 제외 사항과 청구 조건을 확인하세요. 이 출처에서는 주식 무기한 계약 수수료가 제외됩니다.",
+          "tr": "Ürün hariç tutmalarını ve talep koşullarını inceleyin; hisse senedi sürekli vadeli sözleşme ücretleri bu kaynakta hariç tutulur.",
+          "ar": "راجع استثناءات المنتج وشروط المطالبة؛ رسوم عقود الأسهم الدائمة مستبعدة في هذا المصدر.",
+          "es": "Revise las exclusiones de producto y los términos de reclamación; las comisiones de contratos perpetuos sobre acciones están excluidas en esta fuente.",
+          "pt-BR": "Revise as exclusões de produto e os termos de solicitação; as taxas de contratos perpétuos de ações estão excluídas nesta fonte.",
+          "fr": "Vérifiez les exclusions de produits et les conditions de réclamation ; les frais des contrats perpétuels sur actions sont exclus dans cette source.",
+          "de": "Prüfen Sie Produktausschlüsse und Anspruchsbedingungen; Gebühren für Aktien-Perpetual-Kontrakte sind in dieser Quelle ausgeschlossen.",
+          "ru": "Проверьте исключения по продуктам и условия получения; комиссии по бессрочным контрактам на акции исключены в этом источнике.",
+          "id": "Tinjau pengecualian produk dan ketentuan klaim; biaya kontrak perpetual saham dikecualikan dalam sumber ini.",
+          "vi": "Xem lại các loại trừ sản phẩm và điều khoản nhận quyền; phí hợp đồng vĩnh viễn trên cổ phiếu bị loại trừ trong nguồn này.",
+          "it": "Esamina le esclusioni dei prodotti e i termini di richiesta; le commissioni dei contratti perpetui su azioni sono escluse in questa fonte.",
+          // l10n: needs native review
+          "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками."
         }
       ]
     },
@@ -2859,7 +3491,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Прочитайте официальную поддержку экспорта Markdown после того, как веб-ридер отклонил его тип контента. Привилегии для приглашенных не переименовываются в награды для приглашенных.",
           "id": "Baca dari dukungan resmi Ekspor penurunan harga setelah pembaca web menolak jenis kontennya. Manfaat pengundang tidak diberi label ulang sebagai hadiah pengundang.",
           "vi": "Đọc từ hỗ trợ chính thức Xuất Markdown sau khi trình đọc web từ chối loại nội dung của nó. Lợi ích của người mời không được gắn nhãn lại là phần thưởng của người được mời.",
-          "it": "Leggi dall'esportazione Markdown del supporto ufficiale dopo che il lettore Web ha rifiutato il tipo di contenuto. I vantaggi per gli invitati non vengono rietichettati come premi per gli invitati."
+          "it": "Leggi dall'esportazione Markdown del supporto ufficiale dopo che il lettore Web ha rifiutato il tipo di contenuto. I vantaggi per gli invitati non vengono rietichettati come premi per gli invitati.",
+          // l10n: needs native review
+          "ur": "اس نوٹ میں سرکاری ذریعہ، اہلیت اور حدود کو الگ رکھا گیا ہے۔",
+          // l10n: needs native review
+          "uk": "У цій примітці офіційне джерело, придатність і обмеження подані окремо."
         }
       }
     },
@@ -2879,7 +3515,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Добавьте реферальный код перед завершением KYC; документ запрещает добавлять его задним числом после KYC.",
         "id": "Tambahkan kode referensi sebelum menyelesaikan KYC; dokumen tersebut tidak mengizinkan penambahan satu secara surut setelah KYC.",
         "vi": "Thêm mã giới thiệu trước khi hoàn thành KYC; tài liệu không cho phép thêm một tài liệu hồi tố sau KYC.",
-        "it": "Aggiungi un codice di riferimento prima di completare KYC; il documento non ne consente l'aggiunta retroattiva dopo il KYC."
+        "it": "Aggiungi un codice di riferimento prima di completare KYC; il documento non ne consente l'aggiunta retroattiva dopo il KYC.",
+        // l10n: needs native review
+        "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+        // l10n: needs native review
+        "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
       },
       "kyc": {
         "en": "Add a referral code before completing KYC; the document disallows adding one retroactively after KYC.",
@@ -2896,7 +3536,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Добавьте реферальный код перед завершением KYC; документ запрещает добавлять его задним числом после KYC.",
         "id": "Tambahkan kode referensi sebelum menyelesaikan KYC; dokumen tersebut tidak mengizinkan penambahan satu secara surut setelah KYC.",
         "vi": "Thêm mã giới thiệu trước khi hoàn thành KYC; tài liệu không cho phép thêm một tài liệu hồi tố sau KYC.",
-        "it": "Aggiungi un codice di riferimento prima di completare KYC; il documento non ne consente l'aggiunta retroattiva dopo il KYC."
+        "it": "Aggiungi un codice di riferimento prima di completare KYC; il documento non ne consente l'aggiunta retroattiva dopo il KYC.",
+        // l10n: needs native review
+        "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+        // l10n: needs native review
+        "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
       },
       "rewardType": {
         "en": "Inviter commission; invitee payment unconfirmed",
@@ -2913,24 +3557,32 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Комиссия приглашающего; платеж приглашенного не подтвержден",
         "id": "Komisi pengundang; pembayaran orang yang diundang belum dikonfirmasi",
         "vi": "Hoa hồng của người mời; khoản thanh toán của người được mời chưa được xác nhận",
-        "it": "Commissione invitante; pagamento dell'invitato non confermato"
+        "it": "Commissione invitante; pagamento dell'invitato non confermato",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "limitations": {
         "en": "Review product exclusions and claim terms; equity-perpetual fees are excluded in this source.",
-        "zh-Hans": "核对产品排除项和领取条款；来源排除了股票永续相关手续费。",
-        "zh-Hant": "核對產品排除項和領取條款；來源排除了股票永續相關手續費。",
-        "ja": "製品の除外条件と請求条件を確認します。この情報源では、株式永久手数料は除外されています。",
-        "ko": "제품 제외 사항 및 청구 조건을 검토하세요. 주식-영구 수수료는 이 소스에서 제외됩니다.",
-        "tr": "Ürün hariç tutmalarını ve talep koşullarını inceleyin; özsermaye-sürekli ücretler bu kaynağa dahil değildir.",
-        "ar": "مراجعة استثناءات المنتج وشروط المطالبة؛ يتم استبعاد رسوم الأسهم الدائمة في هذا المصدر.",
-        "es": "Revisar las exclusiones de productos y los términos de reclamo; Las tarifas perpetuas de capital están excluidas de esta fuente.",
-        "pt-BR": "Revise as exclusões de produtos e os termos de reivindicação; taxas perpétuas de capital estão excluídas desta fonte.",
-        "fr": "Examiner les exclusions de produits et les conditions de réclamation ; les frais perpétuels sur actions sont exclus de cette source.",
-        "de": "Überprüfen Sie Produktausschlüsse und Anspruchsbedingungen. Equity-Perpetual-Gebühren sind in dieser Quelle nicht berücksichtigt.",
-        "ru": "Ознакомьтесь с исключениями продуктов и условиями претензий; В этом источнике исключены бессрочные комиссии за участие в акционерном капитале.",
-        "id": "Tinjau pengecualian produk dan ketentuan klaim; biaya ekuitas-perpetual tidak termasuk dalam sumber ini.",
-        "vi": "Xem lại các điều khoản loại trừ sản phẩm và yêu cầu bồi thường; phí vốn sở hữu vĩnh viễn được loại trừ trong nguồn này.",
-        "it": "Esaminare le esclusioni dei prodotti e i termini dei reclami; in questa fonte sono escluse le commissioni perpetue azionarie."
+        "zh-Hans": "核对产品排除项和领取条款；来源排除了股票永续合约相关手续费。",
+        "zh-Hant": "核對產品排除項和領取條款；來源排除了股票永續合約相關手續費。",
+        "ja": "製品の除外条件と請求条件を確認してください。この情報源では株式無期限契約の手数料が除外されています。",
+        "ko": "제품 제외 사항과 청구 조건을 확인하세요. 이 출처에서는 주식 무기한 계약 수수료가 제외됩니다.",
+        "tr": "Ürün hariç tutmalarını ve talep koşullarını inceleyin; hisse senedi sürekli vadeli sözleşme ücretleri bu kaynakta hariç tutulur.",
+        "ar": "راجع استثناءات المنتج وشروط المطالبة؛ رسوم عقود الأسهم الدائمة مستبعدة في هذا المصدر.",
+        "es": "Revise las exclusiones de producto y los términos de reclamación; las comisiones de contratos perpetuos sobre acciones están excluidas en esta fuente.",
+        "pt-BR": "Revise as exclusões de produto e os termos de solicitação; as taxas de contratos perpétuos de ações estão excluídas nesta fonte.",
+        "fr": "Vérifiez les exclusions de produits et les conditions de réclamation ; les frais des contrats perpétuels sur actions sont exclus dans cette source.",
+        "de": "Prüfen Sie Produktausschlüsse und Anspruchsbedingungen; Gebühren für Aktien-Perpetual-Kontrakte sind in dieser Quelle ausgeschlossen.",
+        "ru": "Проверьте исключения по продуктам и условия получения; комиссии по бессрочным контрактам на акции исключены в этом источнике.",
+        "id": "Tinjau pengecualian produk dan ketentuan klaim; biaya kontrak perpetual saham dikecualikan dalam sumber ini.",
+        "vi": "Xem lại các loại trừ sản phẩm và điều khoản nhận quyền; phí hợp đồng vĩnh viễn trên cổ phiếu bị loại trừ trong nguồn này.",
+        "it": "Esamina le esclusioni dei prodotti e i termini di richiesta; le commissioni dei contratti perpetui su azioni sono escluse in questa fonte.",
+        // l10n: needs native review
+        "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками."
       },
       "gaps": [
         {
@@ -2948,7 +3600,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -2965,7 +3621,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "The source describes a 10% inviter fee share after the referred user completes KYC. No invitee cash amount was verified from this document.",
@@ -2982,7 +3642,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Источник описывает долю комиссии пригласителя в размере 10% после того, как приглашенный пользователь завершит KYC. Никакая сумма денежных средств приглашенного не была подтверждена из этого документа.",
           "id": "Sumber tersebut menjelaskan pembagian biaya pengundang sebesar 10% setelah pengguna yang dirujuk menyelesaikan KYC. Tidak ada jumlah uang tunai undangan yang diverifikasi dari dokumen ini.",
           "vi": "Nguồn mô tả chia sẻ phí người mời 10% sau khi người dùng được giới thiệu hoàn thành KYC. Không có số tiền mặt nào của người được mời được xác minh từ tài liệu này.",
-          "it": "La fonte descrive una quota di commissione dell'invitatore del 10% dopo che l'utente segnalato ha completato il KYC. Nessun importo in contanti dell'invitato è stato verificato da questo documento."
+          "it": "La fonte descrive una quota di commissione dell'invitatore del 10% dopo che l'utente segnalato ha completato il KYC. Nessun importo in contanti dell'invitato è stato verificato da questo documento.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC، 10)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC، 10)"
         }
       ]
     }
@@ -3003,25 +3667,33 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Опубликованное партнерское преимущество Deribit представляет собой ограниченную по времени скидку на комиссии; программа также имеет документированный график миграции.",
       "id": "Manfaat afiliasi yang diterbitkan Deribit adalah diskon biaya berbatas waktu; program ini juga memiliki jadwal migrasi yang terdokumentasi.",
       "vi": "Lợi ích liên kết được công bố của Deribit là giảm phí có giới hạn thời gian; chương trình cũng có lịch trình di chuyển được ghi lại.",
-      "it": "Il vantaggio di affiliazione pubblicato da Deribit è uno sconto sulla commissione limitato nel tempo; il programma dispone anche di un programma di migrazione documentato."
+      "it": "Il vantaggio di affiliazione pubblicato da Deribit è uno sconto sulla commissione limitato nel tempo; il programma dispone anche di un programma di migrazione documentato.",
+      // l10n: needs native review
+      "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔",
+      // l10n: needs native review
+      "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками."
     },
     "signupReward": {
       "summary": {
         "en": "Eligible new users of the covered entity receive a 10% trading-fee discount for six months through a valid affiliate link; spot is excluded.",
-        "zh-Hans": "适用实体的合资格新用户通过有效邀请链接，可在六个月内享 10% 交易手续费折扣，现货不适用。",
-        "zh-Hant": "適用實體的合資格新用戶透過有效邀請連結，可在六個月內享 10% 交易手續費折扣，現貨不適用。",
-        "ja": "対象事業体の適格な新規ユーザーは、有効なアフィリエイト リンクを通じて 6 か月間 10% の取引手数料割引を受けます。スポットは対象外となります。",
-        "ko": "해당 법인의 적격 신규 사용자는 유효한 제휴 링크를 통해 6개월 동안 거래 수수료 10% 할인을 받습니다. 현장은 제외됩니다.",
-        "tr": "Kapsam dahilindeki kuruluşun uygun yeni kullanıcıları, geçerli bir ortaklık bağlantısı aracılığıyla altı ay boyunca %10 işlem ücreti indirimi alır; nokta hariçtir.",
-        "ar": "يحصل المستخدمون الجدد المؤهلون للكيان المغطى على خصم بنسبة 10% على رسوم التداول لمدة ستة أشهر من خلال رابط تابع صالح؛ يتم استبعاد البقعة.",
-        "es": "Los nuevos usuarios elegibles de la entidad cubierta reciben un descuento del 10 % en la tarifa comercial durante seis meses a través de un enlace de afiliado válido; el lugar está excluido.",
-        "pt-BR": "Novos usuários qualificados da entidade coberta recebem um desconto de 10% na taxa de negociação por seis meses por meio de um link de afiliado válido; local é excluído.",
-        "fr": "Les nouveaux utilisateurs éligibles de l'entité couverte bénéficient d'une réduction de 10 % sur les frais de négociation pendant six mois via un lien d'affiliation valide ; le spot est exclu.",
-        "de": "Berechtigte neue Benutzer des abgedeckten Unternehmens erhalten über einen gültigen Affiliate-Link sechs Monate lang einen Rabatt von 10 % auf die Handelsgebühr; Spot ist ausgeschlossen.",
-        "ru": "Новые пользователи организации, на которую распространяется действие страховки, получают 10% скидку на комиссию за торговлю в течение шести месяцев по действующей партнерской ссылке; место исключено.",
-        "id": "Pengguna baru yang memenuhi syarat dari entitas yang tercakup menerima diskon biaya perdagangan sebesar 10% selama enam bulan melalui tautan afiliasi yang valid; tempat dikecualikan.",
-        "vi": "Người dùng mới đủ điều kiện của tổ chức được bảo hiểm sẽ được giảm giá 10% phí giao dịch trong sáu tháng thông qua liên kết liên kết hợp lệ; tại chỗ được loại trừ.",
-        "it": "I nuovi utenti idonei dell'entità coperta ricevono uno sconto del 10% sulla commissione di negoziazione per sei mesi tramite un collegamento di affiliazione valido; il posto è escluso."
+        "zh-Hans": "适用实体的合资格新用户通过有效邀请链接，可在六个月内享 10% 交易手续费折扣；现货交易不适用。",
+        "zh-Hant": "適用實體的合資格新用戶透過有效邀請連結，可在六個月內享 10% 交易手續費折扣；現貨交易不適用。",
+        "ja": "対象事業体の適格な新規ユーザーは、有効なアフィリエイトリンク経由で 6 か月間 10% の取引手数料割引を受けます。現物取引は対象外です。",
+        "ko": "해당 법인의 적격 신규 사용자는 유효한 제휴 링크를 통해 6개월 동안 거래 수수료 10% 할인을 받습니다. 현물 거래는 제외됩니다.",
+        "tr": "Kapsam dahilindeki kuruluşun uygun yeni kullanıcıları, geçerli bir ortaklık bağlantısı üzerinden altı ay boyunca %10 işlem ücreti indirimi alır; spot işlem hariçtir.",
+        "ar": "يحصل المستخدمون الجدد المؤهلون للكيان المشمول على خصم 10% على رسوم التداول لمدة ستة أشهر من خلال رابط تابع صالح؛ التداول الفوري مستبعد.",
+        "es": "Los nuevos usuarios elegibles de la entidad cubierta reciben un descuento del 10 % en las comisiones de trading durante seis meses mediante un enlace de afiliado válido; el trading spot está excluido.",
+        "pt-BR": "Novos usuários elegíveis da entidade coberta recebem desconto de 10% nas taxas de negociação por seis meses por meio de um link de afiliado válido; negociação à vista está excluída.",
+        "fr": "Les nouveaux utilisateurs éligibles de l'entité couverte bénéficient d'une remise de 10 % sur les frais de trading pendant six mois via un lien d'affiliation valide ; le trading au comptant est exclu.",
+        "de": "Berechtigte neue Nutzer der abgedeckten Einheit erhalten über einen gültigen Affiliate-Link sechs Monate lang 10 % Rabatt auf Handelsgebühren; Spot-Handel ist ausgeschlossen.",
+        "ru": "Новые пользователи соответствующей организации получают скидку 10% на торговые комиссии в течение шести месяцев по действующей партнерской ссылке; спотовая торговля исключена.",
+        "id": "Pengguna baru yang memenuhi syarat dari entitas tercakup menerima diskon biaya trading 10% selama enam bulan melalui tautan afiliasi yang valid; perdagangan spot dikecualikan.",
+        "vi": "Người dùng mới đủ điều kiện của thực thể được áp dụng nhận giảm 10% phí giao dịch trong sáu tháng thông qua liên kết liên kết hợp lệ; giao dịch spot bị loại trừ.",
+        "it": "I nuovi utenti idonei dell'entità coperta ricevono uno sconto del 10% sulle commissioni di trading per sei mesi tramite un link affiliato valido; il trading spot è escluso.",
+        // l10n: needs native review
+        "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔ (10)",
+        // l10n: needs native review
+        "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками. (10)"
       },
       "conditions": [
         {
@@ -3039,24 +3711,32 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Убедитесь, что учетная запись находится под управлением DRB Panama, а не Deribit FZE, и что регион пользователя соответствует критериям.",
           "id": "Konfirmasikan bahwa akun tersebut berada di bawah DRB Panama, bukan Deribit FZE, dan bahwa wilayah pengguna memenuhi syarat.",
           "vi": "Xác nhận tài khoản thuộc DRB Panama chứ không phải Deribit FZE và khu vực của người dùng đủ điều kiện.",
-          "it": "Verifica che l'account sia sotto DRB Panama, non Deribit FZE, e che la regione dell'utente sia idonea."
+          "it": "Verifica che l'account sia sotto DRB Panama, non Deribit FZE, e che la regione dell'utente sia idonea.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (DRB، FZE)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (DRB، FZE)"
         },
         {
           "en": "The discount covers the first six months and excludes spot trading; it is not a cash bonus.",
           "zh-Hans": "折扣限前六个月且排除现货交易，不是现金赠金。",
           "zh-Hant": "折扣限前六個月且排除現貨交易，不是現金贈金。",
-          "ja": "割引は最初の 6 か月間が対象となり、スポット取引は除外されます。現金ボーナスではありません。",
+          "ja": "割引は最初の 6 か月間が対象で、現物取引は除外されます。現金ボーナスではありません。",
           "ko": "할인은 처음 6개월 동안 적용되며 현물 거래는 제외됩니다. 현금 보너스가 아닙니다.",
-          "tr": "İndirim ilk altı ayı kapsar ve spot ticareti kapsamaz; nakit bir bonus değildir.",
-          "ar": "يغطي الخصم الأشهر الستة الأولى ولا يشمل التداول الفوري؛ إنها ليست مكافأة نقدية.",
-          "es": "El descuento cubre los primeros seis meses y excluye el comercio al contado; no es un bono en efectivo.",
-          "pt-BR": "O desconto cobre os primeiros seis meses e exclui negociações à vista; não é um bônus em dinheiro.",
-          "fr": "La remise couvre les six premiers mois et exclut les transactions au comptant ; ce n'est pas un bonus en espèces.",
-          "de": "Der Rabatt gilt für die ersten sechs Monate und schließt den Spothandel aus; Es handelt sich nicht um einen Bargeldbonus.",
-          "ru": "Скидка распространяется на первые шесть месяцев и исключает спотовую торговлю; это не денежный бонус.",
-          "id": "Diskon mencakup enam bulan pertama dan tidak termasuk perdagangan spot; ini bukan bonus tunai.",
-          "vi": "Khoản giảm giá này bao gồm sáu tháng đầu tiên và không bao gồm giao dịch giao ngay; nó không phải là tiền thưởng bằng tiền mặt.",
-          "it": "Lo sconto copre i primi sei mesi ed esclude il trading spot; non è un bonus in denaro."
+          "tr": "İndirim ilk altı ayı kapsar ve spot işlemi hariç tutar; nakit bonus değildir.",
+          "ar": "يغطي الخصم الأشهر الستة الأولى ويستبعد التداول الفوري؛ وليس مكافأة نقدية.",
+          "es": "El descuento cubre los primeros seis meses y excluye el trading spot; no es un bono en efectivo.",
+          "pt-BR": "O desconto cobre os primeiros seis meses e exclui negociação à vista; não é bônus em dinheiro.",
+          "fr": "La remise couvre les six premiers mois et exclut le trading au comptant ; ce n'est pas un bonus en espèces.",
+          "de": "Der Rabatt gilt für die ersten sechs Monate und schließt Spot-Handel aus; er ist kein Bargeldbonus.",
+          "ru": "Скидка действует первые шесть месяцев и исключает спотовую торговлю; это не денежный бонус.",
+          "id": "Diskon berlaku untuk enam bulan pertama dan mengecualikan perdagangan spot; ini bukan bonus tunai.",
+          "vi": "Khoản giảm giá áp dụng trong sáu tháng đầu và không bao gồm giao dịch spot; đây không phải tiền thưởng bằng tiền mặt.",
+          "it": "Lo sconto copre i primi sei mesi ed esclude il trading spot; non è un bonus in denaro.",
+          // l10n: needs native review
+          "ur": "یہ عبارت نقد رقم یا آزادانہ نکالے جانے والی رقم نہیں بتاتی؛ اسے واؤچر یا مشروط فائدہ سمجھیں۔",
+          // l10n: needs native review
+          "uk": "Цей текст не означає готівку або суму, яку можна вільно вивести; трактуйте його як ваучер чи умовну вигоду."
         },
         {
           "en": "New affiliate creation stops on 9 September 2026; the document ends new-user onboarding through legacy links on 1 January 2027.",
@@ -3073,7 +3753,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Создание новых партнеров прекратится 9 сентября 2026 г.; документ завершает регистрацию новых пользователей по устаревшим ссылкам 1 января 2027 года.",
           "id": "Pembuatan afiliasi baru dihentikan pada 9 September 2026; dokumen tersebut mengakhiri orientasi pengguna baru melalui tautan lama pada 1 Januari 2027.",
           "vi": "Quá trình tạo đơn vị liên kết mới sẽ dừng vào ngày 9 tháng 9 năm 2026; tài liệu này sẽ kết thúc quá trình giới thiệu người dùng mới thông qua các đường liên kết cũ vào ngày 1 tháng 1 năm 2027.",
-          "it": "La creazione di nuovi affiliati termina il 9 settembre 2026; il documento termina l'onboarding di nuovi utenti tramite collegamenti legacy il 1° gennaio 2027."
+          "it": "La creazione di nuovi affiliati termina il 9 settembre 2026; il documento termina l'onboarding di nuovi utenti tramite collegamenti legacy il 1° gennaio 2027.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (9، 2026، 1، 2027، 9 September، 1 January)",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (9، 2026، 1، 2027، 9 September، 1 January)"
         }
       ]
     },
@@ -3094,7 +3778,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Обновлено 7 августа 2026 г. Даты миграции указаны без часового пояса; точного ограничения UTC не придумано.",
           "id": "Diperbarui 7 Agustus 2026. Tanggal migrasi dinyatakan tanpa zona waktu; tidak ada batas UTC yang tepat yang ditemukan.",
           "vi": "Cập nhật ngày 7 tháng 8 năm 2026. Ngày di chuyển được nêu không có múi giờ; không có điểm cắt UTC chính xác nào được phát minh.",
-          "it": "Aggiornato il 7 agosto 2026. Le date di migrazione sono indicate senza fuso orario; non è stato inventato alcun limite UTC preciso."
+          "it": "Aggiornato il 7 agosto 2026. Le date di migrazione sono indicate senza fuso orario; non è stato inventato alcun limite UTC preciso.",
+          // l10n: needs native review
+          "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔ (UTC، 7، 2026، 7 August)",
+          // l10n: needs native review
+          "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта. (UTC، 7، 2026، 7 August)"
         }
       }
     },
@@ -3114,7 +3802,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Убедитесь, что учетная запись находится под управлением DRB Panama, а не Deribit FZE, и что регион пользователя соответствует критериям.",
         "id": "Konfirmasikan bahwa akun tersebut berada di bawah DRB Panama, bukan Deribit FZE, dan bahwa wilayah pengguna memenuhi syarat.",
         "vi": "Xác nhận tài khoản thuộc DRB Panama chứ không phải Deribit FZE và khu vực của người dùng đủ điều kiện.",
-        "it": "Verifica che l'account sia sotto DRB Panama, non Deribit FZE, e che la regione dell'utente sia idonea."
+        "it": "Verifica che l'account sia sotto DRB Panama, non Deribit FZE, e che la regione dell'utente sia idonea.",
+        // l10n: needs native review
+        "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (DRB، FZE)",
+        // l10n: needs native review
+        "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (DRB، FZE)"
       },
       "eligibility": {
         "en": "Confirm the account is under DRB Panama, not Deribit FZE, and that the user's region is eligible.",
@@ -3131,24 +3823,32 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Убедитесь, что учетная запись находится под управлением DRB Panama, а не Deribit FZE, и что регион пользователя соответствует критериям.",
         "id": "Konfirmasikan bahwa akun tersebut berada di bawah DRB Panama, bukan Deribit FZE, dan bahwa wilayah pengguna memenuhi syarat.",
         "vi": "Xác nhận tài khoản thuộc DRB Panama chứ không phải Deribit FZE và khu vực của người dùng đủ điều kiện.",
-        "it": "Verifica che l'account sia sotto DRB Panama, non Deribit FZE, e che la regione dell'utente sia idonea."
+        "it": "Verifica che l'account sia sotto DRB Panama, non Deribit FZE, e che la regione dell'utente sia idonea.",
+        // l10n: needs native review
+        "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (DRB، FZE)",
+        // l10n: needs native review
+        "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (DRB، FZE)"
       },
       "trading": {
         "en": "The discount covers the first six months and excludes spot trading; it is not a cash bonus.",
         "zh-Hans": "折扣限前六个月且排除现货交易，不是现金赠金。",
         "zh-Hant": "折扣限前六個月且排除現貨交易，不是現金贈金。",
-        "ja": "割引は最初の 6 か月間が対象となり、スポット取引は除外されます。現金ボーナスではありません。",
+        "ja": "割引は最初の 6 か月間が対象で、現物取引は除外されます。現金ボーナスではありません。",
         "ko": "할인은 처음 6개월 동안 적용되며 현물 거래는 제외됩니다. 현금 보너스가 아닙니다.",
-        "tr": "İndirim ilk altı ayı kapsar ve spot ticareti kapsamaz; nakit bir bonus değildir.",
-        "ar": "يغطي الخصم الأشهر الستة الأولى ولا يشمل التداول الفوري؛ إنها ليست مكافأة نقدية.",
-        "es": "El descuento cubre los primeros seis meses y excluye el comercio al contado; no es un bono en efectivo.",
-        "pt-BR": "O desconto cobre os primeiros seis meses e exclui negociações à vista; não é um bônus em dinheiro.",
-        "fr": "La remise couvre les six premiers mois et exclut les transactions au comptant ; ce n'est pas un bonus en espèces.",
-        "de": "Der Rabatt gilt für die ersten sechs Monate und schließt den Spothandel aus; Es handelt sich nicht um einen Bargeldbonus.",
-        "ru": "Скидка распространяется на первые шесть месяцев и исключает спотовую торговлю; это не денежный бонус.",
-        "id": "Diskon mencakup enam bulan pertama dan tidak termasuk perdagangan spot; ini bukan bonus tunai.",
-        "vi": "Khoản giảm giá này bao gồm sáu tháng đầu tiên và không bao gồm giao dịch giao ngay; nó không phải là tiền thưởng bằng tiền mặt.",
-        "it": "Lo sconto copre i primi sei mesi ed esclude il trading spot; non è un bonus in denaro."
+        "tr": "İndirim ilk altı ayı kapsar ve spot işlemi hariç tutar; nakit bonus değildir.",
+        "ar": "يغطي الخصم الأشهر الستة الأولى ويستبعد التداول الفوري؛ وليس مكافأة نقدية.",
+        "es": "El descuento cubre los primeros seis meses y excluye el trading spot; no es un bono en efectivo.",
+        "pt-BR": "O desconto cobre os primeiros seis meses e exclui negociação à vista; não é bônus em dinheiro.",
+        "fr": "La remise couvre les six premiers mois et exclut le trading au comptant ; ce n'est pas un bonus en espèces.",
+        "de": "Der Rabatt gilt für die ersten sechs Monate und schließt Spot-Handel aus; er ist kein Bargeldbonus.",
+        "ru": "Скидка действует первые шесть месяцев и исключает спотовую торговлю; это не денежный бонус.",
+        "id": "Diskon berlaku untuk enam bulan pertama dan mengecualikan perdagangan spot; ini bukan bonus tunai.",
+        "vi": "Khoản giảm giá áp dụng trong sáu tháng đầu và không bao gồm giao dịch spot; đây không phải tiền thưởng bằng tiền mặt.",
+        "it": "Lo sconto copre i primi sei mesi ed esclude il trading spot; non è un bonus in denaro.",
+        // l10n: needs native review
+        "ur": "یہ عبارت نقد رقم یا آزادانہ نکالے جانے والی رقم نہیں بتاتی؛ اسے واؤچر یا مشروط فائدہ سمجھیں۔",
+        // l10n: needs native review
+        "uk": "Цей текст не означає готівку або суму, яку можна вільно вивести; трактуйте його як ваучер чи умовну вигоду."
       },
       "rewardType": {
         "en": "Discount on specified trading fees",
@@ -3165,24 +3865,32 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Скидка на указанные торговые комиссии",
         "id": "Diskon biaya perdagangan tertentu",
         "vi": "Giảm phí giao dịch được chỉ định",
-        "it": "Sconto sulle commissioni di negoziazione specificate"
+        "it": "Sconto sulle commissioni di negoziazione specificate",
+        // l10n: needs native review
+        "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками."
       },
       "maximumConditions": {
         "en": "The discount covers the first six months and excludes spot trading; it is not a cash bonus.",
         "zh-Hans": "折扣限前六个月且排除现货交易，不是现金赠金。",
         "zh-Hant": "折扣限前六個月且排除現貨交易，不是現金贈金。",
-        "ja": "割引は最初の 6 か月間が対象となり、スポット取引は除外されます。現金ボーナスではありません。",
+        "ja": "割引は最初の 6 か月間が対象で、現物取引は除外されます。現金ボーナスではありません。",
         "ko": "할인은 처음 6개월 동안 적용되며 현물 거래는 제외됩니다. 현금 보너스가 아닙니다.",
-        "tr": "İndirim ilk altı ayı kapsar ve spot ticareti kapsamaz; nakit bir bonus değildir.",
-        "ar": "يغطي الخصم الأشهر الستة الأولى ولا يشمل التداول الفوري؛ إنها ليست مكافأة نقدية.",
-        "es": "El descuento cubre los primeros seis meses y excluye el comercio al contado; no es un bono en efectivo.",
-        "pt-BR": "O desconto cobre os primeiros seis meses e exclui negociações à vista; não é um bônus em dinheiro.",
-        "fr": "La remise couvre les six premiers mois et exclut les transactions au comptant ; ce n'est pas un bonus en espèces.",
-        "de": "Der Rabatt gilt für die ersten sechs Monate und schließt den Spothandel aus; Es handelt sich nicht um einen Bargeldbonus.",
-        "ru": "Скидка распространяется на первые шесть месяцев и исключает спотовую торговлю; это не денежный бонус.",
-        "id": "Diskon mencakup enam bulan pertama dan tidak termasuk perdagangan spot; ini bukan bonus tunai.",
-        "vi": "Khoản giảm giá này bao gồm sáu tháng đầu tiên và không bao gồm giao dịch giao ngay; nó không phải là tiền thưởng bằng tiền mặt.",
-        "it": "Lo sconto copre i primi sei mesi ed esclude il trading spot; non è un bonus in denaro."
+        "tr": "İndirim ilk altı ayı kapsar ve spot işlemi hariç tutar; nakit bonus değildir.",
+        "ar": "يغطي الخصم الأشهر الستة الأولى ويستبعد التداول الفوري؛ وليس مكافأة نقدية.",
+        "es": "El descuento cubre los primeros seis meses y excluye el trading spot; no es un bono en efectivo.",
+        "pt-BR": "O desconto cobre os primeiros seis meses e exclui negociação à vista; não é bônus em dinheiro.",
+        "fr": "La remise couvre les six premiers mois et exclut le trading au comptant ; ce n'est pas un bonus en espèces.",
+        "de": "Der Rabatt gilt für die ersten sechs Monate und schließt Spot-Handel aus; er ist kein Bargeldbonus.",
+        "ru": "Скидка действует первые шесть месяцев и исключает спотовую торговлю; это не денежный бонус.",
+        "id": "Diskon berlaku untuk enam bulan pertama dan mengecualikan perdagangan spot; ini bukan bonus tunai.",
+        "vi": "Khoản giảm giá áp dụng trong sáu tháng đầu và không bao gồm giao dịch spot; đây không phải tiền thưởng bằng tiền mặt.",
+        "it": "Lo sconto copre i primi sei mesi ed esclude il trading spot; non è un bonus in denaro.",
+        // l10n: needs native review
+        "ur": "یہ عبارت نقد رقم یا آزادانہ نکالے جانے والی رقم نہیں بتاتی؛ اسے واؤچر یا مشروط فائدہ سمجھیں۔",
+        // l10n: needs native review
+        "uk": "Цей текст не означає готівку або суму, яку можна вільно вивести; трактуйте його як ваучер чи умовну вигоду."
       },
       "limitations": {
         "en": "New affiliate creation stops on 9 September 2026; the document ends new-user onboarding through legacy links on 1 January 2027.",
@@ -3199,7 +3907,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Создание новых партнеров прекратится 9 сентября 2026 г.; документ завершает регистрацию новых пользователей по устаревшим ссылкам 1 января 2027 года.",
         "id": "Pembuatan afiliasi baru dihentikan pada 9 September 2026; dokumen tersebut mengakhiri orientasi pengguna baru melalui tautan lama pada 1 Januari 2027.",
         "vi": "Quá trình tạo đơn vị liên kết mới sẽ dừng vào ngày 9 tháng 9 năm 2026; tài liệu này sẽ kết thúc quá trình giới thiệu người dùng mới thông qua các đường liên kết cũ vào ngày 1 tháng 1 năm 2027.",
-        "it": "La creazione di nuovi affiliati termina il 9 settembre 2026; il documento termina l'onboarding di nuovi utenti tramite collegamenti legacy il 1° gennaio 2027."
+        "it": "La creazione di nuovi affiliati termina il 9 settembre 2026; il documento termina l'onboarding di nuovi utenti tramite collegamenti legacy il 1° gennaio 2027.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (9، 2026، 1، 2027، 9 September، 1 January)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (9، 2026، 1، 2027، 9 September، 1 January)"
       },
       "publishedDate": {
         "en": "2026-08-07 16:12",
@@ -3216,7 +3928,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "2026-08-07 16:12",
         "id": "07-08-2026 16:12",
         "vi": "2026-08-07 16:12",
-        "it": "2026-08-07 16:12"
+        "it": "2026-08-07 16:12",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (2026، 08، 07، 16، 12، 2026-08-07)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (2026، 08، 07، 16، 12، 2026-08-07)"
       },
       "datePrecision": {
         "en": "Source date retained as displayed; no missing timezone is inferred.",
@@ -3233,7 +3949,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Исходная дата сохраняется в том виде, в каком она отображается; отсутствие отсутствующего часового пояса не предполагается.",
         "id": "Tanggal sumber dipertahankan seperti yang ditampilkan; tidak ada zona waktu yang hilang yang disimpulkan.",
         "vi": "Ngày nguồn được giữ lại như được hiển thị; không có múi giờ bị thiếu được suy ra.",
-        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante."
+        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante.",
+        // l10n: needs native review
+        "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔",
+        // l10n: needs native review
+        "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта."
       },
       "gaps": [
         {
@@ -3251,7 +3971,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -3268,27 +3992,35 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         }
       ]
     },
     "notices": [
       {
         "en": "Before enabling any commercial link, recheck the migration and account entity. A readable old affiliate page is not proof of perpetual attribution.",
-        "zh-Hans": "启用任何商业链接前须再次核对迁移与账户实体；旧邀请页仍可打开，不代表归因永久有效。",
-        "zh-Hant": "啟用任何商業連結前須再次核對遷移與帳戶實體；舊邀請頁仍可開啟，不代表歸因永久有效。",
-        "ja": "商用リンクを有効にする前に、移行とアカウント エンティティを再確認してください。読みやすい古いアフィリエイト ページは、永続的な帰属の証拠ではありません。",
-        "ko": "상업용 링크를 활성화하기 전에 마이그레이션 및 계정 엔터티를 다시 확인하세요. 읽을 수 있는 오래된 제휴 페이지는 영구적인 귀속의 증거가 아닙니다.",
-        "tr": "Herhangi bir ticari bağlantıyı etkinleştirmeden önce taşıma ve hesap varlığını yeniden kontrol edin. Okunabilir eski bir ortaklık sayfası, kalıcı atıfın kanıtı değildir.",
-        "ar": "قبل تمكين أي رابط تجاري، أعد التحقق من كيان الترحيل والحساب. لا تعد الصفحة التابعة القديمة القابلة للقراءة دليلاً على الإسناد الدائم.",
-        "es": "Antes de habilitar cualquier vínculo comercial, vuelva a verificar la entidad de migración y cuenta. Una página de afiliado antigua y legible no es prueba de atribución perpetua.",
-        "pt-BR": "Antes de ativar qualquer link comercial, verifique novamente a migração e a entidade da conta. Uma página de afiliado antiga e legível não é prova de atribuição perpétua.",
-        "fr": "Avant d'activer un lien commercial, revérifiez la migration et l'entité du compte. Une ancienne page d'affiliation lisible ne constitue pas une preuve d'attribution perpétuelle.",
-        "de": "Bevor Sie einen kommerziellen Link aktivieren, überprüfen Sie die Migration und die Kontoeinheit erneut. Eine lesbare alte Affiliate-Seite ist kein Beweis für eine dauerhafte Zuschreibung.",
-        "ru": "Прежде чем включать любую коммерческую ссылку, еще раз проверьте миграцию и сущность учетной записи. Читабельная старая партнерская страница не является доказательством постоянной атрибуции.",
-        "id": "Sebelum mengaktifkan tautan komersial apa pun, periksa kembali migrasi dan entitas akun. Halaman afiliasi lama yang dapat dibaca bukanlah bukti atribusi abadi.",
-        "vi": "Trước khi kích hoạt bất kỳ liên kết thương mại nào, hãy kiểm tra lại thực thể tài khoản và di chuyển. Một trang liên kết cũ có thể đọc được không phải là bằng chứng về sự ghi công vĩnh viễn.",
-        "it": "Prima di abilitare qualsiasi collegamento commerciale, ricontrolla la migrazione e l'entità dell'account. Una vecchia pagina di affiliazione leggibile non è prova di attribuzione perpetua."
+        "zh-Hans": "启用任何商业链接前须再次核对迁移与账户实体；旧邀请页仍可打开，不代表归因长期有效。",
+        "zh-Hant": "啟用任何商業連結前須再次核對遷移與帳戶實體；舊邀請頁仍可開啟，不代表歸因長期有效。",
+        "ja": "商用リンクを有効にする前に、移行とアカウント主体を再確認してください。読み取れる古いアフィリエイトページは、長期的な帰属の証明ではありません。",
+        "ko": "상업용 링크를 활성화하기 전에 마이그레이션과 계정 주체를 다시 확인하세요. 읽을 수 있는 오래된 제휴 페이지는 장기 귀속의 증거가 아닙니다.",
+        "tr": "Herhangi bir ticari bağlantıyı etkinleştirmeden önce taşıma ve hesap varlığını yeniden kontrol edin. Okunabilir eski bir ortaklık sayfası, uzun vadeli atıfın kanıtı değildir.",
+        "ar": "قبل تمكين أي رابط تجاري، أعد التحقق من الترحيل وكيان الحساب. الصفحة التابعة القديمة القابلة للقراءة ليست دليلًا على استمرار الإسناد على المدى الطويل.",
+        "es": "Antes de habilitar cualquier enlace comercial, vuelva a comprobar la migración y la entidad de la cuenta. Una página antigua de afiliado legible no prueba atribución a largo plazo.",
+        "pt-BR": "Antes de habilitar qualquer link comercial, verifique novamente a migração e a entidade da conta. Uma página antiga de afiliado legível não prova atribuição de longo prazo.",
+        "fr": "Avant d'activer un lien commercial, revérifiez la migration et l'entité du compte. Une ancienne page d'affiliation lisible ne prouve pas une attribution à long terme.",
+        "de": "Bevor Sie einen kommerziellen Link aktivieren, prüfen Sie Migration und Kontoeinheit erneut. Eine lesbare alte Affiliate-Seite belegt keine langfristige Zuordnung.",
+        "ru": "Перед включением любой коммерческой ссылки повторно проверьте миграцию и сущность аккаунта. Читаемая старая партнерская страница не доказывает долгосрочную атрибуцию.",
+        "id": "Sebelum mengaktifkan tautan komersial apa pun, periksa kembali migrasi dan entitas akun. Halaman afiliasi lama yang dapat dibaca bukan bukti atribusi jangka panjang.",
+        "vi": "Trước khi bật bất kỳ liên kết thương mại nào, hãy kiểm tra lại việc di chuyển và thực thể tài khoản. Một trang liên kết cũ có thể đọc được không chứng minh ghi nhận dài hạn.",
+        "it": "Prima di abilitare qualsiasi link commerciale, ricontrolla la migrazione e l'entità dell'account. Una vecchia pagina affiliata leggibile non prova l'attribuzione a lungo termine.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       }
     ]
   },
@@ -3308,7 +4040,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Uniswap v4 может размещать разрешенные пулы: белые списки эмитентов могут применяться к свопам и ликвидности отдельно, в отличие от неограниченных пулов.",
       "id": "Uniswap v4 dapat menghosting kumpulan yang diizinkan: daftar penerbit yang diizinkan dapat diterapkan pada swap dan likuiditas secara terpisah, tidak seperti kumpulan yang tidak dibatasi.",
       "vi": "Uniswap v4 có thể lưu trữ các nhóm được cấp phép: danh sách cho phép của nhà phát hành có thể áp dụng riêng cho các giao dịch hoán đổi và thanh khoản, không giống như các nhóm không bị hạn chế.",
-      "it": "Uniswap v4 può ospitare pool autorizzati: le liste consentite degli emittenti possono applicarsi separatamente agli swap e alla liquidità, a differenza dei pool senza restrizioni."
+      "it": "Uniswap v4 può ospitare pool autorizzati: le liste consentite degli emittenti possono applicarsi separatamente agli swap e alla liquidità, a differenza dei pool senza restrizioni.",
+      // l10n: needs native review
+      "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+      // l10n: needs native review
+      "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
     },
     "signupReward": {
       "summary": {
@@ -3326,7 +4062,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Это уведомление о доступе к пулу продуктов, а не вознаграждение за регистрацию на централизованной бирже.",
         "id": "Ini adalah pemberitahuan produk akses kumpulan, bukan hadiah pendaftaran pertukaran terpusat.",
         "vi": "Đây là thông báo về sản phẩm truy cập nhóm, không phải phần thưởng đăng ký trao đổi tập trung.",
-        "it": "Questo è un avviso sul prodotto con accesso al pool, non un premio per l'iscrizione a uno scambio centralizzato."
+        "it": "Questo è un avviso sul prodotto con accesso al pool, non un premio per l'iscrizione a uno scambio centralizzato.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "conditions": [
         {
@@ -3344,7 +4084,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Определите, использует ли конкретный пул разрешенный доступ.",
           "id": "Identifikasi apakah kumpulan tertentu menggunakan akses yang diizinkan.",
           "vi": "Xác định xem nhóm cụ thể có sử dụng quyền truy cập được phép hay không.",
-          "it": "Identificare se il pool specifico utilizza l'accesso autorizzato."
+          "it": "Identificare se il pool specifico utilizza l'accesso autorizzato.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         },
         {
           "en": "Check the issuer's wallet eligibility separately for swapping and liquidity provision.",
@@ -3361,7 +4105,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Отдельно проверьте соответствие кошелька эмитента требованиям свопа и предоставления ликвидности.",
           "id": "Periksa kelayakan dompet penerbit secara terpisah untuk pertukaran dan penyediaan likuiditas.",
           "vi": "Kiểm tra riêng tính đủ điều kiện của ví của nhà phát hành đối với việc cung cấp hoán đổi và thanh khoản.",
-          "it": "Controlla separatamente l'idoneità del portafoglio dell'emittente per lo swap e la fornitura di liquidità."
+          "it": "Controlla separatamente l'idoneità del portafoglio dell'emittente per lo swap e la fornitura di liquidità.",
+          // l10n: needs native review
+          "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔",
+          // l10n: needs native review
+          "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція."
         },
         {
           "en": "Review issuer controls and the risk that permission can be paused or withdrawn.",
@@ -3378,7 +4126,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Проверьте меры контроля эмитента и риск того, что разрешение может быть приостановлено или отозвано.",
           "id": "Tinjau kontrol penerbit dan risiko bahwa izin dapat dijeda atau dicabut.",
           "vi": "Xem xét các biện pháp kiểm soát của nhà phát hành và nguy cơ quyền có thể bị tạm dừng hoặc thu hồi.",
-          "it": "Esamina i controlli dell'emittente e il rischio che l'autorizzazione possa essere sospesa o revocata."
+          "it": "Esamina i controlli dell'emittente e il rischio che l'autorizzazione possa essere sospesa o revocata.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         }
       ]
     },
@@ -3399,7 +4151,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Официальная статья о продукте от 24 августа 2026 г. Функции разрешенного пула описывают не каждый пул Uniswap.",
           "id": "Artikel produk resmi tertanggal 24 Agustus 2026. Fitur kumpulan yang diizinkan tidak menjelaskan setiap kumpulan Uniswap.",
           "vi": "Bài viết chính thức về sản phẩm ngày 24 tháng 8 năm 2026. Các tính năng của nhóm được cấp phép không mô tả mọi nhóm Uniswap.",
-          "it": "Articolo ufficiale del prodotto datato 24 agosto 2026. Le funzionalità dei pool autorizzati non descrivono tutti i pool Uniswap."
+          "it": "Articolo ufficiale del prodotto datato 24 agosto 2026. Le funzionalità dei pool autorizzati non descrivono tutti i pool Uniswap.",
+          // l10n: needs native review
+          "ur": "اس نوٹ میں سرکاری ذریعہ، اہلیت اور حدود کو الگ رکھا گیا ہے۔ (24، 2026، 24 August)",
+          // l10n: needs native review
+          "uk": "У цій примітці офіційне джерело, придатність і обмеження подані окремо. (24، 2026، 24 August)"
         }
       }
     },
@@ -3419,7 +4175,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Отдельно проверьте соответствие кошелька эмитента требованиям свопа и предоставления ликвидности.",
         "id": "Periksa kelayakan dompet penerbit secara terpisah untuk pertukaran dan penyediaan likuiditas.",
         "vi": "Kiểm tra riêng tính đủ điều kiện của ví của nhà phát hành đối với việc cung cấp hoán đổi và thanh khoản.",
-        "it": "Controlla separatamente l'idoneità del portafoglio dell'emittente per lo swap e la fornitura di liquidità."
+        "it": "Controlla separatamente l'idoneità del portafoglio dell'emittente per lo swap e la fornitura di liquidità.",
+        // l10n: needs native review
+        "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔",
+        // l10n: needs native review
+        "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція."
       },
       "trading": {
         "en": "Identify whether the specific pool uses permissioned access.",
@@ -3436,7 +4196,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Определите, использует ли конкретный пул разрешенный доступ.",
         "id": "Identifikasi apakah kumpulan tertentu menggunakan akses yang diizinkan.",
         "vi": "Xác định xem nhóm cụ thể có sử dụng quyền truy cập được phép hay không.",
-        "it": "Identificare se il pool specifico utilizza l'accesso autorizzato."
+        "it": "Identificare se il pool specifico utilizza l'accesso autorizzato.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "rewardType": {
         "en": "Pool-access product rules; no signup reward established",
@@ -3453,7 +4217,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Правила продукта для доступа к пулу; вознаграждение за регистрацию не установлено",
         "id": "Aturan produk akses kolam renang; tidak ada hadiah pendaftaran yang ditetapkan",
         "vi": "Quy tắc sản phẩm truy cập vào nhóm; không có phần thưởng đăng ký nào được thiết lập",
-        "it": "Regole del prodotto per l'accesso alla piscina; nessuna ricompensa di iscrizione stabilita"
+        "it": "Regole del prodotto per l'accesso alla piscina; nessuna ricompensa di iscrizione stabilita",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "limitations": {
         "en": "Review issuer controls and the risk that permission can be paused or withdrawn.",
@@ -3470,7 +4238,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Проверьте меры контроля эмитента и риск того, что разрешение может быть приостановлено или отозвано.",
         "id": "Tinjau kontrol penerbit dan risiko bahwa izin dapat dijeda atau dicabut.",
         "vi": "Xem xét các biện pháp kiểm soát của nhà phát hành và nguy cơ quyền có thể bị tạm dừng hoặc thu hồi.",
-        "it": "Esamina i controlli dell'emittente e il rischio che l'autorizzazione possa essere sospesa o revocata."
+        "it": "Esamina i controlli dell'emittente e il rischio che l'autorizzazione possa essere sospesa o revocata.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "publishedDate": {
         "en": "2026-08-24",
@@ -3487,7 +4259,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "2026-08-24",
         "id": "24-08-2026",
         "vi": "24-08-2026",
-        "it": "2026-08-24"
+        "it": "2026-08-24",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (2026، 08، 24، 2026-08-24)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (2026، 08، 24، 2026-08-24)"
       },
       "datePrecision": {
         "en": "Source date retained as displayed; no missing timezone is inferred.",
@@ -3504,7 +4280,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Исходная дата сохраняется в том виде, в каком она отображается; отсутствие отсутствующего часового пояса не предполагается.",
         "id": "Tanggal sumber dipertahankan seperti yang ditampilkan; tidak ada zona waktu yang hilang yang disimpulkan.",
         "vi": "Ngày nguồn được giữ lại như được hiển thị; không có múi giờ bị thiếu được suy ra.",
-        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante."
+        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante.",
+        // l10n: needs native review
+        "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔",
+        // l10n: needs native review
+        "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта."
       },
       "gaps": [
         {
@@ -3522,7 +4302,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -3539,7 +4323,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -3556,7 +4344,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         }
       ]
     }
@@ -3577,7 +4369,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Рассматриваемое событие PancakeSwap — это соревнование по торговле кошельками со случайными победителями, а не гарантированное вознаграждение за открытие счета.",
       "id": "Acara PancakeSwap yang diulas adalah kompetisi perdagangan dompet dengan pemenang acak, bukan jaminan hadiah pembukaan akun.",
       "vi": "Sự kiện PancakeSwap được đánh giá là một cuộc thi giao dịch ví với những người chiến thắng ngẫu nhiên, không phải là phần thưởng mở tài khoản được đảm bảo.",
-      "it": "L'evento PancakeSwap recensito è una competizione di trading di portafogli con vincitori casuali, non un premio garantito per l'apertura di un conto."
+      "it": "L'evento PancakeSwap recensito è una competizione di trading di portafogli con vincitori casuali, non un premio garantito per l'apertura di un conto.",
+      // l10n: needs native review
+      "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+      // l10n: needs native review
+      "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
     },
     "signupReward": {
       "summary": {
@@ -3595,7 +4391,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Заявленный пул соревнований TMX составляет 833 333 TMX, и они завершатся 9 сентября в полдень по сингапурскому времени. Пул не является призом для каждого человека, и неразрешенная формулировка TBD остается в правилах.",
         "id": "Kompetisi TMX mempunyai jumlah 833,333 TMX dan berakhir pada 9 September siang SGT. Kumpulan ini bukan hadiah per orang, dan kata-kata TBD yang belum terselesaikan tetap ada dalam aturan.",
         "vi": "Cuộc thi TMX có tổng số tiền được công bố là 833.333 TMX và kết thúc vào trưa ngày 9 tháng 9 theo giờ SGT. Tổng giải thưởng không phải là giải thưởng dành cho mỗi người và cách diễn đạt TBD chưa được giải quyết vẫn nằm trong quy tắc.",
-        "it": "La competizione TMX ha un pool dichiarato di 833.333 TMX e termina il 9 settembre a mezzogiorno SGT. Il montepremi non è un premio per persona e la formulazione da definire irrisolta rimane nelle regole."
+        "it": "La competizione TMX ha un pool dichiarato di 833.333 TMX e termina il 9 settembre a mezzogiorno SGT. Il montepremi non è un premio per persona e la formulazione da definire irrisolta rimane nelle regole.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (833,333، 9، 9 September، TMX، SGT، TBD)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (833,333، 9، 9 September، TMX، SGT، TBD)"
       },
       "conditions": [
         {
@@ -3613,7 +4413,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для начального уровня требуется не менее 500 долларов США соответствующего объема TMX в сети BNB через веб-сайт PancakeSwap или мобильный телефон.",
           "id": "Tingkat entri memerlukan setidaknya $500 volume TMX yang memenuhi syarat di BNB Chain melalui web atau seluler PancakeSwap.",
           "vi": "Cấp đầu vào yêu cầu ít nhất 500 USD khối lượng TMX đủ điều kiện trên Chuỗi BNB thông qua trang web hoặc thiết bị di động PancakeSwap.",
-          "it": "Il livello di ingresso richiede almeno $500 di volume TMX idoneo su BNB Chain tramite PancakeSwap web o mobile."
+          "it": "Il livello di ingresso richiede almeno $500 di volume TMX idoneo su BNB Chain tramite PancakeSwap web o mobile.",
+          // l10n: needs native review
+          "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔ (BNB، 500، TMX)",
+          // l10n: needs native review
+          "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу. (BNB، 500، TMX)"
         },
         {
           "en": "External-aggregator volume is excluded; one wallet can win only one prize and selection is random.",
@@ -3630,7 +4434,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Объем внешнего агрегатора исключен; один кошелек может выиграть только один приз, выбор которого является случайным.",
           "id": "Volume agregator eksternal tidak termasuk; satu dompet hanya dapat memenangkan satu hadiah dan pemilihannya acak.",
           "vi": "Khối lượng tổng hợp bên ngoài được loại trừ; một ví chỉ có thể giành được một giải thưởng và việc lựa chọn là ngẫu nhiên.",
-          "it": "Il volume dell'aggregatore esterno è escluso; un portafoglio può vincere un solo premio e la selezione è casuale."
+          "it": "Il volume dell'aggregatore esterno è escluso; un portafoglio può vincere un solo premio e la selezione è casuale.",
+          // l10n: needs native review
+          "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔",
+          // l10n: needs native review
+          "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу."
         },
         {
           "en": "The source retains TBD placeholders in asset-related clauses. Resolve those terms before treating the event as participation-ready.",
@@ -3647,7 +4455,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Источник сохраняет заполнители TBD в статьях, связанных с активами. Определите эти условия, прежде чем считать мероприятие готовым к участию.",
           "id": "Sumber tersebut mempertahankan placeholder TBD dalam klausul terkait aset. Selesaikan persyaratan tersebut sebelum menganggap acara tersebut siap untuk berpartisipasi.",
           "vi": "Nguồn giữ lại phần giữ chỗ TBD trong các điều khoản liên quan đến nội dung. Hãy giải quyết các điều khoản đó trước khi coi sự kiện là sẵn sàng để tham gia.",
-          "it": "La fonte conserva i segnaposto da definire nelle clausole relative alle risorse. Risolvi tali termini prima di considerare l'evento come pronto per la partecipazione."
+          "it": "La fonte conserva i segnaposto da definire nelle clausole relative alle risorse. Risolvi tali termini prima di considerare l'evento come pronto per la partecipazione.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔ (TBD)",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці. (TBD)"
         }
       ]
     },
@@ -3668,7 +4480,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Официальные правила конкурса датированы, с указанием времени в Сингапуре и неполной формулировкой, которая подлежит уточнению. Этот снимок представляет собой исследование, а не одобренное живое предложение.",
           "id": "Peraturan kontes resmi bertanggal, dengan waktu Singapura yang eksplisit dan kata-kata TBD yang tidak lengkap. Cuplikan ini adalah penelitian, bukan penawaran langsung yang disetujui.",
           "vi": "Thể lệ cuộc thi chính thức có ghi ngày tháng, với thời gian rõ ràng ở Singapore và cách diễn đạt TBD không đầy đủ. Ảnh chụp nhanh này là nghiên cứu, không phải là ưu đãi trực tiếp đã được phê duyệt.",
-          "it": "Regole ufficiali del concorso datate, con ora esplicita di Singapore e formulazione da definire incompleta. Questa istantanea è una ricerca, non un'offerta live approvata."
+          "it": "Regole ufficiali del concorso datate, con ora esplicita di Singapore e formulazione da definire incompleta. Questa istantanea è una ricerca, non un'offerta live approvata.",
+          // l10n: needs native review
+          "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔ (TBD)",
+          // l10n: needs native review
+          "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта. (TBD)"
         }
       }
     },
@@ -3688,7 +4504,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Для начального уровня требуется не менее 500 долларов США соответствующего объема TMX в сети BNB через веб-сайт PancakeSwap или мобильный телефон.",
         "id": "Tingkat entri memerlukan setidaknya $500 volume TMX yang memenuhi syarat di BNB Chain melalui web atau seluler PancakeSwap.",
         "vi": "Cấp đầu vào yêu cầu ít nhất 500 USD khối lượng TMX đủ điều kiện trên Chuỗi BNB thông qua trang web hoặc thiết bị di động PancakeSwap.",
-        "it": "Il livello di ingresso richiede almeno $500 di volume TMX idoneo su BNB Chain tramite PancakeSwap web o mobile."
+        "it": "Il livello di ingresso richiede almeno $500 di volume TMX idoneo su BNB Chain tramite PancakeSwap web o mobile.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔ (BNB، 500، TMX)",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу. (BNB، 500، TMX)"
       },
       "trading": {
         "en": "The entry tier requires at least $500 of eligible TMX volume on BNB Chain through PancakeSwap web or mobile.",
@@ -3705,7 +4525,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Для начального уровня требуется не менее 500 долларов США соответствующего объема TMX в сети BNB через веб-сайт PancakeSwap или мобильный телефон.",
         "id": "Tingkat entri memerlukan setidaknya $500 volume TMX yang memenuhi syarat di BNB Chain melalui web atau seluler PancakeSwap.",
         "vi": "Cấp đầu vào yêu cầu ít nhất 500 USD khối lượng TMX đủ điều kiện trên Chuỗi BNB thông qua trang web hoặc thiết bị di động PancakeSwap.",
-        "it": "Il livello di ingresso richiede almeno $500 di volume TMX idoneo su BNB Chain tramite PancakeSwap web o mobile."
+        "it": "Il livello di ingresso richiede almeno $500 di volume TMX idoneo su BNB Chain tramite PancakeSwap web o mobile.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔ (BNB، 500، TMX)",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу. (BNB، 500، TMX)"
       },
       "rewardType": {
         "en": "Wallet trading draw; prize pool is not an individual award",
@@ -3722,7 +4546,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Торговый розыгрыш кошелька; призовой фонд не является индивидуальной наградой",
         "id": "Penarikan perdagangan dompet; kumpulan hadiah bukanlah penghargaan individu",
         "vi": "Rút thăm giao dịch ví; tổng giải thưởng không phải là giải thưởng cá nhân",
-        "it": "Estrazione del portafoglio; il montepremi non è un premio individuale"
+        "it": "Estrazione del portafoglio; il montepremi non è un premio individuale",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "maximumConditions": {
         "en": "External-aggregator volume is excluded; one wallet can win only one prize and selection is random.",
@@ -3739,7 +4567,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Объем внешнего агрегатора исключен; один кошелек может выиграть только один приз, выбор которого является случайным.",
         "id": "Volume agregator eksternal tidak termasuk; satu dompet hanya dapat memenangkan satu hadiah dan pemilihannya acak.",
         "vi": "Khối lượng tổng hợp bên ngoài được loại trừ; một ví chỉ có thể giành được một giải thưởng và việc lựa chọn là ngẫu nhiên.",
-        "it": "Il volume dell'aggregatore esterno è escluso; un portafoglio può vincere un solo premio e la selezione è casuale."
+        "it": "Il volume dell'aggregatore esterno è escluso; un portafoglio può vincere un solo premio e la selezione è casuale.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу."
       },
       "limitations": {
         "en": "The source retains TBD placeholders in asset-related clauses. Resolve those terms before treating the event as participation-ready.",
@@ -3756,7 +4588,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Источник сохраняет заполнители TBD в статьях, связанных с активами. Определите эти условия, прежде чем считать мероприятие готовым к участию.",
         "id": "Sumber tersebut mempertahankan placeholder TBD dalam klausul terkait aset. Selesaikan persyaratan tersebut sebelum menganggap acara tersebut siap untuk berpartisipasi.",
         "vi": "Nguồn giữ lại phần giữ chỗ TBD trong các điều khoản liên quan đến nội dung. Hãy giải quyết các điều khoản đó trước khi coi sự kiện là sẵn sàng để tham gia.",
-        "it": "La fonte conserva i segnaposto da definire nelle clausole relative alle risorse. Risolvi tali termini prima di considerare l'evento come pronto per la partecipazione."
+        "it": "La fonte conserva i segnaposto da definire nelle clausole relative alle risorse. Risolvi tali termini prima di considerare l'evento come pronto per la partecipazione.",
+        // l10n: needs native review
+        "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔ (TBD)",
+        // l10n: needs native review
+        "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці. (TBD)"
       },
       "publishedDate": {
         "en": "2026-08-26",
@@ -3773,7 +4609,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "2026-08-26",
         "id": "26-08-2026",
         "vi": "26-08-2026",
-        "it": "2026-08-26"
+        "it": "2026-08-26",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (2026، 08، 26، 2026-08-26)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (2026، 08، 26، 2026-08-26)"
       },
       "datePrecision": {
         "en": "Source date retained as displayed; no missing timezone is inferred.",
@@ -3790,7 +4630,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Исходная дата сохраняется в том виде, в каком она отображается; отсутствие отсутствующего часового пояса не предполагается.",
         "id": "Tanggal sumber dipertahankan seperti yang ditampilkan; tidak ada zona waktu yang hilang yang disimpulkan.",
         "vi": "Ngày nguồn được giữ lại như được hiển thị; không có múi giờ bị thiếu được suy ra.",
-        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante."
+        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante.",
+        // l10n: needs native review
+        "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔",
+        // l10n: needs native review
+        "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта."
       },
       "gaps": [
         {
@@ -3808,7 +4652,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -3825,7 +4673,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "The source retains TBD placeholders in asset-related clauses. Resolve those terms before treating the event as participation-ready.",
@@ -3842,7 +4694,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Источник сохраняет заполнители TBD в статьях, связанных с активами. Определите эти условия, прежде чем считать мероприятие готовым к участию.",
           "id": "Sumber tersebut mempertahankan placeholder TBD dalam klausul terkait aset. Selesaikan persyaratan tersebut sebelum menganggap acara tersebut siap untuk berpartisipasi.",
           "vi": "Nguồn giữ lại phần giữ chỗ TBD trong các điều khoản liên quan đến nội dung. Hãy giải quyết các điều khoản đó trước khi coi sự kiện là sẵn sàng để tham gia.",
-          "it": "La fonte conserva i segnaposto da definire nelle clausole relative alle risorse. Risolvi tali termini prima di considerare l'evento come pronto per la partecipazione."
+          "it": "La fonte conserva i segnaposto da definire nelle clausole relative alle risorse. Risolvi tali termini prima di considerare l'evento come pronto per la partecipazione.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔ (TBD)",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці. (TBD)"
         }
       ]
     }
@@ -3863,7 +4719,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Официальный индекс поддержки был доступен, но этот проход не установил текущее вознаграждение Юпитера или условия листинга.",
       "id": "Indeks dukungan resmi dapat dicapai, namun izin ini tidak menetapkan imbalan Jupiter atau persyaratan pencatatan saat ini.",
       "vi": "Có thể truy cập chỉ mục hỗ trợ chính thức, nhưng thẻ này không thiết lập các điều khoản niêm yết hoặc phần thưởng Sao Mộc hiện tại.",
-      "it": "L'indice di supporto ufficiale era raggiungibile, ma questo passaggio non ha stabilito l'attuale ricompensa di Giove o i termini di quotazione."
+      "it": "L'indice di supporto ufficiale era raggiungibile, ma questo passaggio non ha stabilito l'attuale ricompensa di Giove o i termini di quotazione.",
+      // l10n: needs native review
+      "ur": "اس نوٹ میں سرکاری ذریعہ، اہلیت اور حدود کو الگ رکھا گیا ہے۔",
+      // l10n: needs native review
+      "uk": "У цій примітці офіційне джерело, придатність і обмеження подані окремо."
     },
     "signupReward": {
       "summary": {
@@ -3881,7 +4741,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Никакая сумма, срок или право на участие не были проверены; это не означает, что программы не существует.",
         "id": "Tidak ada jumlah, batas waktu atau kelayakan yang diverifikasi; ini tidak berarti tidak ada program.",
         "vi": "Không có số tiền, thời hạn hoặc tính đủ điều kiện nào được xác minh; điều này không có nghĩa là không có chương trình nào tồn tại.",
-        "it": "Nessun importo, scadenza o ammissibilità è stato verificato; questo non significa che non esista alcun programma."
+        "it": "Nessun importo, scadenza o ammissibilità è stato verificato; questo non significa che non esista alcun programma.",
+        // l10n: needs native review
+        "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔",
+        // l10n: needs native review
+        "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція."
       }
     },
     "sources": {
@@ -3901,7 +4765,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Только контент индекса поддержки; не является свидетельством конкретной акции.",
           "id": "Hanya konten indeks dukungan; bukan bukti promosi tertentu.",
           "vi": "Chỉ nội dung chỉ mục hỗ trợ; không phải là bằng chứng về một chương trình khuyến mãi cụ thể.",
-          "it": "Solo contenuto dell'indice di supporto; non prova di una promozione specifica."
+          "it": "Solo contenuto dell'indice di supporto; non prova di una promozione specifica.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         }
       },
       "jupiter-updates-shell": {
@@ -3920,7 +4788,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Доступное представление отображало оболочку сайта без читаемых условий обновления.",
           "id": "Tampilan yang tersedia menampilkan shell situs tanpa persyaratan pembaruan yang dapat dibaca.",
           "vi": "Chế độ xem có sẵn hiển thị giao diện trang web mà không có điều khoản cập nhật có thể đọc được.",
-          "it": "La vista disponibile eseguiva il rendering della shell del sito senza termini di aggiornamento leggibili."
+          "it": "La vista disponibile eseguiva il rendering della shell del sito senza termini di aggiornamento leggibili.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         }
       }
     },
@@ -3941,7 +4813,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -3958,7 +4834,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -3975,7 +4855,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "No amount, deadline or eligibility was verified; this does not mean no program exists.",
@@ -3992,7 +4876,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Никакая сумма, срок или право на участие не были проверены; это не означает, что программы не существует.",
           "id": "Tidak ada jumlah, batas waktu atau kelayakan yang diverifikasi; ini tidak berarti tidak ada program.",
           "vi": "Không có số tiền, thời hạn hoặc tính đủ điều kiện nào được xác minh; điều này không có nghĩa là không có chương trình nào tồn tại.",
-          "it": "Nessun importo, scadenza o ammissibilità è stato verificato; questo non significa che non esista alcun programma."
+          "it": "Nessun importo, scadenza o ammissibilità è stato verificato; questo non significa che non esista alcun programma.",
+          // l10n: needs native review
+          "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔",
+          // l10n: needs native review
+          "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція."
         }
       ]
     }
@@ -4013,7 +4901,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "В документации Raydium различаются AMM v4, CPMM, CLMM, фермы и LaunchLab; это отдельные пути продукта.",
       "id": "Dokumentasi Raydium membedakan AMM v4, CPMM, CLMM, farms dan LaunchLab; ini adalah jalur produk yang terpisah.",
       "vi": "Tài liệu của Raydium phân biệt AMM v4, CPMM, CLMM, trang trại và LaunchLab; đây là những đường dẫn sản phẩm riêng biệt.",
-      "it": "La documentazione di Raydium distingue AMM v4, CPMM, CLMM, farms e LaunchLab; si tratta di percorsi di prodotto separati."
+      "it": "La documentazione di Raydium distingue AMM v4, CPMM, CLMM, farms e LaunchLab; si tratta di percorsi di prodotto separati.",
+      // l10n: needs native review
+      "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (AMM، CPMM، CLMM)",
+      // l10n: needs native review
+      "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (AMM، CPMM، CLMM)"
     },
     "signupReward": {
       "summary": {
@@ -4031,7 +4923,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Читаемый индекс продукта не устанавливает текущую ставку фермы, раздачу токенов или вознаграждение для новых пользователей.",
         "id": "Indeks produk yang dapat dibaca tidak menetapkan tingkat pertanian saat ini, pemberian token, atau hadiah pengguna baru.",
         "vi": "Chỉ mục sản phẩm có thể đọc được không thiết lập tỷ lệ trang trại hiện tại, quà tặng mã thông báo hoặc phần thưởng cho người dùng mới.",
-        "it": "L'indice leggibile del prodotto non stabilisce una tariffa agricola attuale, un omaggio di token o un premio per i nuovi utenti."
+        "it": "L'indice leggibile del prodotto non stabilisce una tariffa agricola attuale, un omaggio di token o un premio per i nuovi utenti.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       }
     },
     "sources": {
@@ -4051,7 +4947,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Навигация по семействам продуктов была читабельной; ставки и сроки вознаграждения остаются неизвестными.",
           "id": "Navigasi rangkaian produk dapat dibaca; tingkat imbalan dan tenggat waktu tertentu masih belum diketahui.",
           "vi": "Điều hướng dòng sản phẩm có thể đọc được; tỷ lệ và thời hạn cụ thể của phần thưởng vẫn chưa được biết.",
-          "it": "La navigazione per famiglia di prodotti era leggibile; le tariffe e le scadenze specifiche della ricompensa rimangono sconosciute."
+          "it": "La navigazione per famiglia di prodotti era leggibile; le tariffe e le scadenze specifiche della ricompensa rimangono sconosciute.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         }
       }
     },
@@ -4071,7 +4971,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Стимулы для конкретного продукта не проверены",
         "id": "Insentif khusus produk tidak diverifikasi",
         "vi": "Ưu đãi dành riêng cho sản phẩm chưa được xác minh",
-        "it": "Incentivi specifici del prodotto non verificati"
+        "it": "Incentivi specifici del prodotto non verificati",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "gaps": [
         {
@@ -4089,7 +4993,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -4106,7 +5014,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -4123,7 +5035,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "The readable product index does not establish a current farm rate, token giveaway or new-user reward.",
@@ -4140,7 +5056,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Читаемый индекс продукта не устанавливает текущую ставку фермы, раздачу токенов или вознаграждение для новых пользователей.",
           "id": "Indeks produk yang dapat dibaca tidak menetapkan tingkat pertanian saat ini, pemberian token, atau hadiah pengguna baru.",
           "vi": "Chỉ mục sản phẩm có thể đọc được không thiết lập tỷ lệ trang trại hiện tại, quà tặng mã thông báo hoặc phần thưởng cho người dùng mới.",
-          "it": "L'indice leggibile del prodotto non stabilisce una tariffa agricola attuale, un omaggio di token o un premio per i nuovi utenti."
+          "it": "L'indice leggibile del prodotto non stabilisce una tariffa agricola attuale, un omaggio di token o un premio per i nuovi utenti.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         }
       ]
     }
@@ -4161,7 +5081,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Официальная страница документации в этом проходе не вернула читаемого тела. Существующие исследования платформ не заменяются придуманными терминами кампании.",
       "id": "Halaman dokumentasi resmi tidak menghasilkan isi yang dapat dibaca di pass ini. Riset platform yang ada tidak digantikan dengan istilah kampanye yang diciptakan.",
       "vi": "Trang tài liệu chính thức không trả lại nội dung nào có thể đọc được trong thẻ này. Nghiên cứu nền tảng hiện tại không được thay thế bằng các thuật ngữ chiến dịch được phát minh.",
-      "it": "La pagina della documentazione ufficiale non ha restituito alcun corpo leggibile in questo passaggio. La ricerca sulle piattaforme esistenti non viene sostituita con termini di campagna inventati."
+      "it": "La pagina della documentazione ufficiale non ha restituito alcun corpo leggibile in questo passaggio. La ricerca sulle piattaforme esistenti non viene sostituita con termini di campagna inventati.",
+      // l10n: needs native review
+      "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+      // l10n: needs native review
+      "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
     },
     "signupReward": {
       "summary": {
@@ -4179,7 +5103,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Сумма вознаграждения, право на участие и даты этой попытки неизвестны.",
         "id": "Jumlah hadiah, kelayakan dan tanggal tidak diketahui dari upaya ini.",
         "vi": "Số tiền thưởng, tính đủ điều kiện và ngày không xác định được từ nỗ lực này.",
-        "it": "L'importo del premio, l'idoneità e le date di questo tentativo non sono noti."
+        "it": "L'importo del premio, l'idoneità e le date di questo tentativo non sono noti.",
+        // l10n: needs native review
+        "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔",
+        // l10n: needs native review
+        "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція."
       }
     },
     "sources": {
@@ -4199,7 +5127,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Пустой читаемый ответ. Выдержки из поиска не были переведены в список проверенных источников.",
           "id": "Respons kosong yang dapat dibaca. Kutipan pencarian tidak dipromosikan menjadi bukti sumber yang terverifikasi.",
           "vi": "Phản hồi trống có thể đọc được. Các đoạn trích tìm kiếm không được đưa lên bằng chứng nguồn đã được xác minh.",
-          "it": "Risposta leggibile vuota. Gli estratti della ricerca non sono stati promossi a prova della fonte verificata."
+          "it": "Risposta leggibile vuota. Gli estratti della ricerca non sono stati promossi a prova della fonte verificata.",
+          // l10n: needs native review
+          "ur": "اس نوٹ میں سرکاری ذریعہ، اہلیت اور حدود کو الگ رکھا گیا ہے۔",
+          // l10n: needs native review
+          "uk": "У цій примітці офіційне джерело, придатність і обмеження подані окремо."
         }
       }
     },
@@ -4220,7 +5152,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -4237,7 +5173,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -4254,7 +5194,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "Reward amount, eligibility and dates are unknown from this attempt.",
@@ -4271,7 +5215,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Сумма вознаграждения, право на участие и даты этой попытки неизвестны.",
           "id": "Jumlah hadiah, kelayakan dan tanggal tidak diketahui dari upaya ini.",
           "vi": "Số tiền thưởng, tính đủ điều kiện và ngày không xác định được từ nỗ lực này.",
-          "it": "L'importo del premio, l'idoneità e le date di questo tentativo non sono noti."
+          "it": "L'importo del premio, l'idoneità e le date di questo tentativo non sono noti.",
+          // l10n: needs native review
+          "ur": "اہلیت اکاؤنٹ، ریجن اور سرکاری شرائط پر منحصر ہے؛ اسے حتمی ذاتی پیشکش نہ سمجھیں۔",
+          // l10n: needs native review
+          "uk": "Придатність залежить від акаунта, регіону й офіційних умов; це не остаточна персональна пропозиція."
         }
       ]
     }
@@ -4292,7 +5240,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Введение Curve разделяет свопы, ликвидность и кредитование; Постепенная конвертация обеспечения LLAMMA не устраняет риск ликвидации.",
       "id": "Pengenalan Curve memisahkan swap, likuiditas dan pinjaman; Konversi agunan LLAMMA secara bertahap tidak menghilangkan risiko likuidasi.",
       "vi": "Phần giới thiệu của Curve tách biệt giữa hoán đổi, thanh khoản và cho vay; Việc chuyển đổi dần dần tài sản thế chấp của LLAMMA không loại bỏ rủi ro thanh lý.",
-      "it": "L'introduzione di Curve separa swap, liquidità e prestiti; La graduale conversione delle garanzie di LLAMMA non elimina il rischio di liquidazione."
+      "it": "L'introduzione di Curve separa swap, liquidità e prestiti; La graduale conversione delle garanzie di LLAMMA non elimina il rischio di liquidazione.",
+      // l10n: needs native review
+      "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (LLAMMA)",
+      // l10n: needs native review
+      "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (LLAMMA)"
     },
     "signupReward": {
       "summary": {
@@ -4310,7 +5262,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Этот источник объясняет продукты протокола, а не денежное вознаграждение за открытие счета.",
         "id": "Sumber ini menjelaskan produk protokol, bukan hadiah uang tunai pembukaan rekening.",
         "vi": "Nguồn này giải thích các sản phẩm giao thức, không phải phần thưởng tiền mặt khi mở tài khoản.",
-        "it": "Questa fonte spiega i prodotti del protocollo, non una ricompensa in contanti per l'apertura di un conto."
+        "it": "Questa fonte spiega i prodotti del protocollo, non una ricompensa in contanti per l'apertura di un conto.",
+        // l10n: needs native review
+        "ur": "اس نوٹ میں سرکاری ذریعہ، اہلیت اور حدود کو الگ رکھا گیا ہے۔",
+        // l10n: needs native review
+        "uk": "У цій примітці офіційне джерело, придатність і обмеження подані окремо."
       },
       "conditions": [
         {
@@ -4328,7 +5284,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Определите, является ли предполагаемое действие свопом, предоставлением ликвидности или заимствованием.",
           "id": "Identifikasi apakah tindakan yang dimaksudkan adalah swapping, penyediaan likuiditas atau peminjaman.",
           "vi": "Xác định xem hành động dự định là hoán đổi, cung cấp thanh khoản hay vay mượn.",
-          "it": "Identificare se l'azione prevista è lo scambio, la fornitura di liquidità o l'assunzione di prestiti."
+          "it": "Identificare se l'azione prevista è lo scambio, la fornitura di liquidità o l'assunzione di prestiti.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         },
         {
           "en": "For lending, distinguish collateral conversion from an assurance against losses.",
@@ -4345,7 +5305,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "При кредитовании следует отличать конверсию залога от гарантии от убытков.",
           "id": "Untuk pemberian pinjaman, bedakan konversi agunan dengan jaminan terhadap kerugian.",
           "vi": "Đối với việc cho vay, hãy phân biệt việc chuyển đổi tài sản thế chấp với sự đảm bảo chống lại tổn thất.",
-          "it": "Per i prestiti, distinguere la conversione della garanzia collaterale dalla garanzia contro le perdite."
+          "it": "Per i prestiti, distinguere la conversione della garanzia collaterale dalla garanzia contro le perdite.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         },
         {
           "en": "Check the specific pool or lending-market terms; this introduction states no universal reward rate.",
@@ -4362,7 +5326,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Проверьте конкретный пул или условия кредитного рынка; во введении не указывается универсальная ставка вознаграждения.",
           "id": "Periksa persyaratan kumpulan atau pasar pinjaman tertentu; pendahuluan ini menyatakan tidak ada tingkat imbalan universal.",
           "vi": "Kiểm tra các điều khoản cụ thể của nhóm hoặc thị trường cho vay; phần giới thiệu này nêu rõ không có tỷ lệ phần thưởng chung.",
-          "it": "Controllare i termini specifici del pool o del mercato dei prestiti; questa introduzione non afferma alcun tasso di ricompensa universale."
+          "it": "Controllare i termini specifici del pool o del mercato dei prestiti; questa introduzione non afferma alcun tasso di ricompensa universale.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         }
       ]
     },
@@ -4383,7 +5351,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "В документации явно сохраняются риски потерь и полной ликвидации механизма кредитования.",
           "id": "Dokumentasi tersebut secara eksplisit mencatat risiko kerugian dan likuidasi penuh pada mekanisme pinjaman.",
           "vi": "Tài liệu rõ ràng giữ lại rủi ro thua lỗ và thanh lý toàn bộ cho cơ chế cho vay.",
-          "it": "La documentazione conserva esplicitamente i rischi di perdita e di liquidazione totale per il meccanismo di prestito."
+          "it": "La documentazione conserva esplicitamente i rischi di perdita e di liquidazione totale per il meccanismo di prestito.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         }
       }
     },
@@ -4403,7 +5375,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Определите, является ли предполагаемое действие свопом, предоставлением ликвидности или заимствованием.",
         "id": "Identifikasi apakah tindakan yang dimaksudkan adalah swapping, penyediaan likuiditas atau peminjaman.",
         "vi": "Xác định xem hành động dự định là hoán đổi, cung cấp thanh khoản hay vay mượn.",
-        "it": "Identificare se l'azione prevista è lo scambio, la fornitura di liquidità o l'assunzione di prestiti."
+        "it": "Identificare se l'azione prevista è lo scambio, la fornitura di liquidità o l'assunzione di prestiti.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "rewardType": {
         "en": "Protocol product guidance; no signup reward established",
@@ -4420,7 +5396,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Протокол руководства по продукту; вознаграждение за регистрацию не установлено",
         "id": "Panduan produk protokol; tidak ada hadiah pendaftaran yang ditetapkan",
         "vi": "Hướng dẫn sản phẩm giao thức; không có phần thưởng đăng ký nào được thiết lập",
-        "it": "Guida al prodotto del protocollo; nessuna ricompensa di iscrizione stabilita"
+        "it": "Guida al prodotto del protocollo; nessuna ricompensa di iscrizione stabilita",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "limitations": {
         "en": "For lending, distinguish collateral conversion from an assurance against losses.",
@@ -4437,7 +5417,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "При кредитовании следует отличать конверсию залога от гарантии от убытков.",
         "id": "Untuk pemberian pinjaman, bedakan konversi agunan dengan jaminan terhadap kerugian.",
         "vi": "Đối với việc cho vay, hãy phân biệt việc chuyển đổi tài sản thế chấp với sự đảm bảo chống lại tổn thất.",
-        "it": "Per i prestiti, distinguere la conversione della garanzia collaterale dalla garanzia contro le perdite."
+        "it": "Per i prestiti, distinguere la conversione della garanzia collaterale dalla garanzia contro le perdite.",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
       },
       "gaps": [
         {
@@ -4455,7 +5439,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -4472,7 +5460,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -4489,7 +5481,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         }
       ]
     }
@@ -4510,7 +5506,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Hyperliquid документирует ограниченную по объему скидку на комиссию за торговлю для привлеченных пользователей, отдельно от комиссии приглашающего.",
       "id": "Hyperlikuid mendokumentasikan diskon biaya perdagangan terbatas volume untuk pengguna yang dirujuk, terpisah dari komisi pengundang.",
       "vi": "Hyperliquid ghi lại khoản chiết khấu phí giao dịch có giới hạn số lượng cho người dùng được giới thiệu, tách biệt với hoa hồng của người mời.",
-      "it": "Hyperliquid documenta uno sconto sulle commissioni di negoziazione a volume limitato per gli utenti segnalati, separato dalla commissione dell'invitante."
+      "it": "Hyperliquid documenta uno sconto sulle commissioni di negoziazione a volume limitato per gli utenti segnalati, separato dalla commissione dell'invitante.",
+      // l10n: needs native review
+      "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔ (Hyperliquid)",
+      // l10n: needs native review
+      "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками. (Hyperliquid)"
     },
     "signupReward": {
       "summary": {
@@ -4528,7 +5528,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Документально подтвержденная скидка составляет 4% от комиссии за первые 25 миллионов долларов США; хранилища и субсчета исключены. Это не денежное вознаграждение за регистрацию.",
         "id": "Diskon yang didokumentasikan adalah 4% untuk biaya volume $25 juta pertama; brankas dan sub-akun dikecualikan. Ini bukan hadiah pendaftaran tunai.",
         "vi": "Mức chiết khấu được ghi nhận là 4% phí cho khối lượng 25 triệu USD đầu tiên; vault và tài khoản phụ được loại trừ. Đây không phải là phần thưởng đăng ký bằng tiền mặt.",
-        "it": "Lo sconto documentato è del 4% sulle commissioni per i primi 25 milioni di dollari di volume; sono esclusi caveau e sottoconti. Questo non è un premio in denaro per l'iscrizione."
+        "it": "Lo sconto documentato è del 4% sulle commissioni per i primi 25 milioni di dollari di volume; sono esclusi caveau e sottoconti. Questo non è un premio in denaro per l'iscrizione.",
+        // l10n: needs native review
+        "ur": "یہ عبارت نقد رقم یا آزادانہ نکالے جانے والی رقم نہیں بتاتی؛ اسے واؤچر یا مشروط فائدہ سمجھیں۔ (4، 25)",
+        // l10n: needs native review
+        "uk": "Цей текст не означає готівку або суму, яку можна вільно вивести; трактуйте його як ваучер чи умовну вигоду. (4، 25)"
       },
       "conditions": [
         {
@@ -4546,7 +5550,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Нужно применить действующий реферальный код или ссылку. Эта исследовательская панель не содержит реферальных кодов; карточки регистрации на сайте содержат их и раскрывают комиссию.",
           "id": "Kode atau tautan referal yang valid harus diterapkan. Panel riset ini tidak memuat kode referal; kartu pendaftaran di situs ini memuatnya dan mengungkapkan komisi.",
           "vi": "Cần áp dụng mã hoặc liên kết giới thiệu hợp lệ. Bảng nghiên cứu này không kèm mã giới thiệu; các thẻ đăng ký trên trang có kèm mã và công bố hoa hồng.",
-          "it": "Va applicato un codice o link di invito valido. Questo pannello di ricerca non include codici di invito; le schede di registrazione del sito li includono e dichiarano la commissione."
+          "it": "Va applicato un codice o link di invito valido. Questo pannello di ricerca non include codici di invito; le schede di registrazione del sito li includono e dichiarano la commissione.",
+          // l10n: needs native review
+          "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+          // l10n: needs native review
+          "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
         },
         {
           "en": "The fee discount stops after the referred account's first $25 million in volume; vaults and sub-accounts do not inherit it.",
@@ -4563,7 +5571,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Скидка на комиссии прекращается после того, как объем привлеченного счета достигнет первых 25 миллионов долларов США; хранилища и субсчета не наследуют его.",
           "id": "Diskon biaya berhenti setelah volume pertama akun yang dirujuk sebesar $25 juta; brankas dan sub-akun tidak mewarisinya.",
           "vi": "Việc giảm phí sẽ dừng sau khi tài khoản được giới thiệu đạt khối lượng 25 triệu USD đầu tiên; vault và tài khoản phụ không kế thừa nó.",
-          "it": "Lo sconto sulla commissione termina dopo il raggiungimento dei primi 25 milioni di dollari di volume del conto segnalato; casseforti e sottoconti non lo ereditano."
+          "it": "Lo sconto sulla commissione termina dopo il raggiungimento dei primi 25 milioni di dollari di volume del conto segnalato; casseforti e sottoconti non lo ereditano.",
+          // l10n: needs native review
+          "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔ (25)",
+          // l10n: needs native review
+          "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками. (25)"
         },
         {
           "en": "The inviter's $10,000 volume requirement and fee share are separate from the referred user's benefit. Region and identity requirements are not specified on this page.",
@@ -4580,7 +5592,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Требование пригласителя к объему в размере 10 000 долларов США и доля комиссии не зависят от выгоды приглашенного пользователя. На этой странице не указаны требования к региону и удостоверению.",
           "id": "Persyaratan volume dan pembagian biaya sebesar $10.000 bagi pengundang terpisah dari manfaat pengguna yang dirujuk. Persyaratan wilayah dan identitas tidak ditentukan di halaman ini.",
           "vi": "Yêu cầu về khối lượng 10.000 USD của người mời và phần phí chia sẻ tách biệt với lợi ích của người dùng được giới thiệu. Yêu cầu về khu vực và danh tính không được chỉ định trên trang này.",
-          "it": "Il requisito di volume di $ 10.000 e la quota di commissione dell'invitante sono separati dal vantaggio dell'utente segnalato. I requisiti di regione e identità non sono specificati in questa pagina."
+          "it": "Il requisito di volume di $ 10.000 e la quota di commissione dell'invitante sono separati dal vantaggio dell'utente segnalato. I requisiti di regione e identità non sono specificati in questa pagina.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (10,000)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (10,000)"
         }
       ]
     },
@@ -4601,7 +5617,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Официальный экспорт Markdown устранил более раннюю ошибку чтения. Скидки ограничены объемом; на странице не указана дата публикации или дата окончания кампании.",
           "id": "Ekspor penurunan harga resmi menyelesaikan kesalahan pembaca sebelumnya. Diskon dibatasi berdasarkan volume; halaman tersebut tidak memberikan tanggal publikasi atau tanggal akhir kampanye.",
           "vi": "Việc xuất Markdown chính thức đã giải quyết được lỗi trình đọc trước đó. Giảm giá bị giới hạn bởi số lượng; trang này không cung cấp ngày xuất bản hoặc ngày kết thúc chiến dịch.",
-          "it": "L'esportazione ufficiale di Markdown ha risolto l'errore precedente del lettore. Gli sconti sono limitati in base al volume; la pagina non riporta alcuna data di pubblicazione o di fine campagna."
+          "it": "L'esportazione ufficiale di Markdown ha risolto l'errore precedente del lettore. Gli sconti sono limitati in base al volume; la pagina non riporta alcuna data di pubblicazione o di fine campagna.",
+          // l10n: needs native review
+          "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками."
         }
       }
     },
@@ -4621,7 +5641,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Нужно применить действующий реферальный код или ссылку. Эта исследовательская панель не содержит реферальных кодов; карточки регистрации на сайте содержат их и раскрывают комиссию.",
         "id": "Kode atau tautan referal yang valid harus diterapkan. Panel riset ini tidak memuat kode referal; kartu pendaftaran di situs ini memuatnya dan mengungkapkan komisi.",
         "vi": "Cần áp dụng mã hoặc liên kết giới thiệu hợp lệ. Bảng nghiên cứu này không kèm mã giới thiệu; các thẻ đăng ký trên trang có kèm mã và công bố hoa hồng.",
-        "it": "Va applicato un codice o link di invito valido. Questo pannello di ricerca non include codici di invito; le schede di registrazione del sito li includono e dichiarano la commissione."
+        "it": "Va applicato un codice o link di invito valido. Questo pannello di ricerca non include codici di invito; le schede di registrazione del sito li includono e dichiarano la commissione.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       },
       "trading": {
         "en": "The fee discount stops after the referred account's first $25 million in volume; vaults and sub-accounts do not inherit it.",
@@ -4638,7 +5662,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Скидка на комиссии прекращается после того, как объем привлеченного счета достигнет первых 25 миллионов долларов США; хранилища и субсчета не наследуют его.",
         "id": "Diskon biaya berhenti setelah volume pertama akun yang dirujuk sebesar $25 juta; brankas dan sub-akun tidak mewarisinya.",
         "vi": "Việc giảm phí sẽ dừng sau khi tài khoản được giới thiệu đạt khối lượng 25 triệu USD đầu tiên; vault và tài khoản phụ không kế thừa nó.",
-        "it": "Lo sconto sulla commissione termina dopo il raggiungimento dei primi 25 milioni di dollari di volume del conto segnalato; casseforti e sottoconti non lo ereditano."
+        "it": "Lo sconto sulla commissione termina dopo il raggiungimento dei primi 25 milioni di dollari di volume del conto segnalato; casseforti e sottoconti non lo ereditano.",
+        // l10n: needs native review
+        "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔ (25)",
+        // l10n: needs native review
+        "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками. (25)"
       },
       "rewardType": {
         "en": "Discount on specified trading fees",
@@ -4655,7 +5683,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Скидка на указанные торговые комиссии",
         "id": "Diskon biaya perdagangan tertentu",
         "vi": "Giảm phí giao dịch được chỉ định",
-        "it": "Sconto sulle commissioni di negoziazione specificate"
+        "it": "Sconto sulle commissioni di negoziazione specificate",
+        // l10n: needs native review
+        "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками."
       },
       "maximumConditions": {
         "en": "The fee discount stops after the referred account's first $25 million in volume; vaults and sub-accounts do not inherit it.",
@@ -4672,7 +5704,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Скидка на комиссии прекращается после того, как объем привлеченного счета достигнет первых 25 миллионов долларов США; хранилища и субсчета не наследуют его.",
         "id": "Diskon biaya berhenti setelah volume pertama akun yang dirujuk sebesar $25 juta; brankas dan sub-akun tidak mewarisinya.",
         "vi": "Việc giảm phí sẽ dừng sau khi tài khoản được giới thiệu đạt khối lượng 25 triệu USD đầu tiên; vault và tài khoản phụ không kế thừa nó.",
-        "it": "Lo sconto sulla commissione termina dopo il raggiungimento dei primi 25 milioni di dollari di volume del conto segnalato; casseforti e sottoconti non lo ereditano."
+        "it": "Lo sconto sulla commissione termina dopo il raggiungimento dei primi 25 milioni di dollari di volume del conto segnalato; casseforti e sottoconti non lo ereditano.",
+        // l10n: needs native review
+        "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔ (25)",
+        // l10n: needs native review
+        "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками. (25)"
       },
       "limitations": {
         "en": "The inviter's $10,000 volume requirement and fee share are separate from the referred user's benefit. Region and identity requirements are not specified on this page.",
@@ -4689,7 +5725,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Требование пригласителя к объему в размере 10 000 долларов США и доля комиссии не зависят от выгоды приглашенного пользователя. На этой странице не указаны требования к региону и удостоверению.",
         "id": "Persyaratan volume dan pembagian biaya sebesar $10.000 bagi pengundang terpisah dari manfaat pengguna yang dirujuk. Persyaratan wilayah dan identitas tidak ditentukan di halaman ini.",
         "vi": "Yêu cầu về khối lượng 10.000 USD của người mời và phần phí chia sẻ tách biệt với lợi ích của người dùng được giới thiệu. Yêu cầu về khu vực và danh tính không được chỉ định trên trang này.",
-        "it": "Il requisito di volume di $ 10.000 e la quota di commissione dell'invitante sono separati dal vantaggio dell'utente segnalato. I requisiti di regione e identità non sono specificati in questa pagina."
+        "it": "Il requisito di volume di $ 10.000 e la quota di commissione dell'invitante sono separati dal vantaggio dell'utente segnalato. I requisiti di regione e identità non sono specificati in questa pagina.",
+        // l10n: needs native review
+        "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (10,000)",
+        // l10n: needs native review
+        "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (10,000)"
       },
       "gaps": [
         {
@@ -4707,7 +5747,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -4724,7 +5768,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -4741,7 +5789,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         }
       ]
     }
@@ -4762,7 +5814,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Рассмотренное уведомление о поощрении dYdX охватывает июнь, а в более позднем обновлении продукта Arcus отличается от dYdX v4. Ни один из них не устанавливает текущую выплату за регистрацию.",
       "id": "Pemberitahuan insentif dYdX yang ditinjau mencakup bulan Juni, sedangkan pembaruan produk selanjutnya membedakan Arcus dari dYdX v4. Tidak ada yang menetapkan pembayaran pendaftaran saat ini.",
       "vi": "Thông báo khuyến khích dYdX được xem xét bao gồm tháng 6, trong khi bản cập nhật sản phẩm sau này giúp phân biệt Arcus với dYdX v4. Không thiết lập khoản thanh toán đăng ký hiện tại.",
-      "it": "L'avviso sugli incentivi dYdX rivisto riguarda giugno, mentre un successivo aggiornamento del prodotto distingue Arcus da dYdX v4. Nessuno dei due stabilisce un pagamento di registrazione corrente."
+      "it": "L'avviso sugli incentivi dYdX rivisto riguarda giugno, mentre un successivo aggiornamento del prodotto distingue Arcus da dYdX v4. Nessuno dei due stabilisce un pagamento di registrazione corrente.",
+      // l10n: needs native review
+      "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+      // l10n: needs native review
+      "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
     },
     "signupReward": {
       "summary": {
@@ -4780,7 +5836,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Июньская кампания имеет историческое значение. В рассмотренных источниках не было установлено продление сентября, текущие реферальные льготы или личное право на участие.",
         "id": "Kampanye bulan Juni merupakan kampanye bersejarah. Tidak ada perpanjangan bulan September, manfaat rujukan saat ini, atau kelayakan pribadi yang ditetapkan dalam sumber yang ditinjau.",
         "vi": "Chiến dịch tháng Sáu mang tính lịch sử. Không có sự gia hạn tháng 9, lợi ích giới thiệu hiện tại hoặc tính đủ điều kiện cá nhân được thiết lập trong các nguồn được xem xét.",
-        "it": "La campagna di giugno è storica. Nelle fonti esaminate non è stato stabilito alcun rinnovo di settembre, alcun beneficio di riferimento attuale o idoneità personale."
+        "it": "La campagna di giugno è storica. Nelle fonti esaminate non è stato stabilito alcun rinnovo di settembre, alcun beneficio di riferimento attuale o idoneità personale.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       }
     },
     "sources": {
@@ -4800,7 +5860,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Только указатель документации. Навигацию по продукту не следует путать с листингом токенов или уведомлением о раздаче.",
           "id": "Indeks dokumentasi saja. Navigasi produk tidak boleh disalahartikan sebagai daftar token atau pemberitahuan giveaway.",
           "vi": "Chỉ mục tài liệu. Không nên nhầm lẫn điều hướng sản phẩm với thông báo niêm yết mã thông báo hoặc quà tặng.",
-          "it": "Solo indice della documentazione. La navigazione del prodotto non deve essere confusa con un elenco di token o un avviso di omaggio."
+          "it": "Solo indice della documentazione. La navigazione del prodotto non deve essere confusa con un elenco di token o un avviso di omaggio.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження."
         }
       },
       "dydx-surge-june": {
@@ -4819,7 +5883,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Уведомление от 1 июня охватывает июньские льготы: скидки на комиссию за торговлю BTC/BONK и скидки при частичной ликвидации на соответствующих рынках, кроме BTC. Газ, перемычки, проскальзывания и затраты третьих сторон остаются. Он не предусматривает продления в сентябре, поэтому рассматриваемый июньский период является историческим.",
           "id": "Pemberitahuan tanggal 1 Juni mencakup insentif bulan Juni: diskon biaya perdagangan BTC/BONK dan rabat likuidasi sebagian di pasar non-BTC yang memenuhi syarat. Biaya bahan bakar, jembatan, slippage dan pihak ketiga tetap ada. Perjanjian ini tidak menetapkan perpanjangan bulan September, sehingga periode bulan Juni yang ditinjau bersifat historis.",
           "vi": "Thông báo ngày 1 tháng 6 bao gồm các ưu đãi của tháng 6: chiết khấu phí giao dịch BTC/BONK và giảm giá thanh lý một phần trên các thị trường không phải BTC đủ điều kiện. Chi phí gas, bắc cầu, trượt giá và bên thứ ba vẫn còn. Nó không thiết lập việc gia hạn vào tháng 9, vì vậy khoảng thời gian tháng 6 được xem xét mang tính lịch sử.",
-          "it": "L'avviso del 1° giugno riguarda gli incentivi di giugno: sconti sulle commissioni di negoziazione BTC/BONK e sconti parziali di liquidazione sui mercati idonei non BTC. Rimangono i costi relativi a gas, bridge, slippage e terzi. Non prevede il rinnovo di settembre, quindi il periodo di giugno esaminato è storico."
+          "it": "L'avviso del 1° giugno riguarda gli incentivi di giugno: sconti sulle commissioni di negoziazione BTC/BONK e sconti parziali di liquidazione sui mercati idonei non BTC. Rimangono i costi relativi a gas, bridge, slippage e terzi. Non prevede il rinnovo di settembre, quindi il periodo di giugno esaminato è storico.",
+          // l10n: needs native review
+          "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔ (BTC، 1، 1 June، BONK)",
+          // l10n: needs native review
+          "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками. (BTC، 1، 1 June، BONK)"
         }
       },
       "dydx-arcus-july": {
@@ -4838,7 +5906,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Июльское обновление отличает новый продукт Arcus от dYdX v4 и сообщает, что v4 продолжает поддерживаться. Возможное будущее распределение токенов упоминается без суммы или даты требования. Ни это уведомление, ни историческая кампания не подтверждают текущее вознаграждение за регистрацию.",
           "id": "Pembaruan bulan Juli membedakan produk Arcus baru dari dYdX v4 dan mengatakan v4 terus didukung. Kemungkinan alokasi token di masa depan disebutkan tanpa jumlah atau tanggal klaim. Baik pemberitahuan maupun kampanye historis ini tidak membuktikan imbalan pendaftaran saat ini.",
           "vi": "Bản cập nhật tháng 7 phân biệt sản phẩm Arcus mới với dYdX v4 và cho biết v4 tiếp tục được hỗ trợ. Việc phân bổ mã thông báo có thể có trong tương lai được đề cập mà không có số tiền hoặc ngày yêu cầu. Cả thông báo này lẫn chiến dịch lịch sử đều không chứng minh được phần thưởng đăng ký hiện tại.",
-          "it": "L'aggiornamento di luglio distingue il nuovo prodotto Arcus da dYdX v4 e afferma che la v4 continua a essere supportata. Una possibile futura assegnazione di token viene menzionata senza importo o data di richiesta. Né questo avviso né una campagna storica dimostrano un attuale premio di iscrizione."
+          "it": "L'aggiornamento di luglio distingue il nuovo prodotto Arcus da dYdX v4 e afferma che la v4 continua a essere supportata. Una possibile futura assegnazione di token viene menzionata senza importo o data di richiesta. Né questo avviso né una campagna storica dimostrano un attuale premio di iscrizione.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         }
       }
     },
@@ -4858,7 +5930,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Июньская кампания имеет историческое значение. В рассмотренных источниках не было установлено продление сентября, текущие реферальные льготы или личное право на участие.",
         "id": "Kampanye bulan Juni merupakan kampanye bersejarah. Tidak ada perpanjangan bulan September, manfaat rujukan saat ini, atau kelayakan pribadi yang ditetapkan dalam sumber yang ditinjau.",
         "vi": "Chiến dịch tháng Sáu mang tính lịch sử. Không có sự gia hạn tháng 9, lợi ích giới thiệu hiện tại hoặc tính đủ điều kiện cá nhân được thiết lập trong các nguồn được xem xét.",
-        "it": "La campagna di giugno è storica. Nelle fonti esaminate non è stato stabilito alcun rinnovo di settembre, alcun beneficio di riferimento attuale o idoneità personale."
+        "it": "La campagna di giugno è storica. Nelle fonti esaminate non è stato stabilito alcun rinnovo di settembre, alcun beneficio di riferimento attuale o idoneità personale.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       },
       "gaps": [
         {
@@ -4876,7 +5952,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -4893,7 +5973,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -4910,7 +5994,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "The June campaign is historical. No September renewal, current referral benefit or personal eligibility was established in the reviewed sources.",
@@ -4927,7 +6015,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Июньская кампания имеет историческое значение. В рассмотренных источниках не было установлено продление сентября, текущие реферальные льготы или личное право на участие.",
           "id": "Kampanye bulan Juni merupakan kampanye bersejarah. Tidak ada perpanjangan bulan September, manfaat rujukan saat ini, atau kelayakan pribadi yang ditetapkan dalam sumber yang ditinjau.",
           "vi": "Chiến dịch tháng Sáu mang tính lịch sử. Không có sự gia hạn tháng 9, lợi ích giới thiệu hiện tại hoặc tính đủ điều kiện cá nhân được thiết lập trong các nguồn được xem xét.",
-          "it": "La campagna di giugno è storica. Nelle fonti esaminate non è stato stabilito alcun rinnovo di settembre, alcun beneficio di riferimento attuale o idoneità personale."
+          "it": "La campagna di giugno è storica. Nelle fonti esaminate non è stato stabilito alcun rinnovo di settembre, alcun beneficio di riferimento attuale o idoneità personale.",
+          // l10n: needs native review
+          "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+          // l10n: needs native review
+          "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
         }
       ]
     }
@@ -4948,25 +6040,33 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "Реферальные преимущества GMX v2 снижают соответствующие комиссии за открытие/закрытие при исполнении; они не сокращают все затраты и не создают денежного вознаграждения.",
       "id": "Manfaat rujukan GMX v2 mengurangi biaya pembukaan/penutupan yang memenuhi syarat pada saat pelaksanaan; mereka tidak mengurangi setiap biaya atau menciptakan imbalan uang tunai.",
       "vi": "Lợi ích giới thiệu GMX v2 giảm phí mở/đóng đủ điều kiện khi thực hiện; chúng không giảm mọi chi phí hoặc tạo ra phần thưởng bằng tiền mặt.",
-      "it": "I vantaggi del referral GMX v2 riducono le commissioni di apertura/chiusura qualificanti al momento dell'esecuzione; non riducono tutti i costi né creano premi in denaro."
+      "it": "I vantaggi del referral GMX v2 riducono le commissioni di apertura/chiusura qualificanti al momento dell'esecuzione; non riducono tutti i costi né creano premi in denaro.",
+      // l10n: needs native review
+      "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔ (GMX)",
+      // l10n: needs native review
+      "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці. (GMX)"
     },
     "signupReward": {
       "summary": {
         "en": "The documented trader discount is 5% at tier 1 and 10% at tiers 2–3. Borrowing and funding fees are excluded; governance may change the rules.",
-        "zh-Hans": "文档交易者折扣为一级 5%、二至三级 10%，不减免借款费和资金费，治理可能调整规则。",
-        "zh-Hant": "文件交易者折扣為一級 5%、二至三級 10%，不減免借款費和資金費，治理可能調整規則。",
-        "ja": "文書化されたトレーダー割引は、Tier 1 で 5%、Tier 2 ～ 3 で 10% です。借入手数料と資金調達手数料は除外されます。ガバナンスによってルールが変更される可能性があります。",
-        "ko": "문서화된 거래자 할인은 1등급에서 5%, 2~3등급에서 10%입니다. 대출 및 자금 조달 수수료는 제외됩니다. 거버넌스는 규칙을 변경할 수 있습니다.",
-        "tr": "Belgelenen tüccar indirimi 1. kademede %5 ve 2-3. kademelerde %10'dur. Borçlanma ve finansman ücretleri hariçtir; Yönetim kuralları değiştirebilir.",
-        "ar": "يبلغ خصم المتداول الموثق 5% عند المستوى 1 و10% عند المستويات 2-3. يتم استبعاد رسوم الاقتراض والتمويل. الحكم قد يغير القواعد.",
-        "es": "El descuento para comerciantes documentado es del 5 % en el nivel 1 y del 10 % en los niveles 2 y 3. Se excluyen las comisiones por préstamos y financiación; La gobernanza puede cambiar las reglas.",
-        "pt-BR": "O desconto documentado para comerciante é de 5% no nível 1 e 10% nos níveis 2–3. As taxas de empréstimo e financiamento estão excluídas; a governação pode alterar as regras.",
-        "fr": "La remise documentée pour les traders est de 5 % au niveau 1 et de 10 % aux niveaux 2 et 3. Les frais d’emprunt et de financement sont exclus ; la gouvernance peut changer les règles.",
-        "de": "Der dokumentierte Händlerrabatt beträgt 5 % auf Stufe 1 und 10 % auf Stufe 2–3. Kredit- und Finanzierungsgebühren sind ausgeschlossen; Governance kann die Regeln ändern.",
-        "ru": "Документированная скидка трейдера составляет 5% на уровне 1 и 10% на уровнях 2–3. Комиссии за заимствование и финансирование исключены; руководство может изменить правила.",
-        "id": "Diskon pedagang yang terdokumentasi adalah 5% pada tingkat 1 dan 10% pada tingkat 2–3. Biaya pinjaman dan pendanaan tidak termasuk; pemerintahan dapat mengubah peraturan.",
-        "vi": "Mức chiết khấu dành cho nhà giao dịch được ghi nhận là 5% ở cấp 1 và 10% ở cấp 2–3. Phí vay và tài trợ được loại trừ; quản trị có thể thay đổi các quy tắc.",
-        "it": "Lo sconto documentato per il trader è del 5% al ​​livello 1 e del 10% ai livelli 2-3. Sono escluse le commissioni di prestito e finanziamento; la governance può cambiare le regole."
+        "zh-Hans": "文档交易者折扣为一级 5%、二至三级 10%。借款费与资金费不在折扣范围内；治理可能调整规则。",
+        "zh-Hant": "文件交易者折扣為一級 5%、二至三級 10%。借款費與資金費不在折扣範圍內；治理可能調整規則。",
+        "ja": "文書化されたトレーダー割引は Tier 1 で 5%、Tier 2～3 で 10% です。借入手数料と資金調達料は対象外で、ガバナンスによりルールが変更される場合があります。",
+        "ko": "문서화된 트레이더 할인은 1등급 5%, 2~3등급 10%입니다. 차입 수수료와 펀딩비는 제외되며, 거버넌스가 규칙을 변경할 수 있습니다.",
+        "tr": "Belgelenen trader indirimi 1. kademede %5, 2-3. kademelerde %10'dur. Borçlanma ücretleri ve fonlama ücretleri hariçtir; yönetişim kuralları değiştirebilir.",
+        "ar": "خصم المتداول الموثق هو 5% في المستوى 1 و10% في المستويين 2–3. رسوم الاقتراض ورسوم التمويل مستبعدة؛ وقد تغير الحوكمة القواعد.",
+        "es": "El descuento documentado para traders es del 5 % en el nivel 1 y del 10 % en los niveles 2–3. Se excluyen las comisiones de préstamo y las comisiones de financiación; la gobernanza puede cambiar las reglas.",
+        "pt-BR": "O desconto documentado para traders é de 5% no nível 1 e 10% nos níveis 2–3. Taxas de empréstimo e taxas de funding estão excluídas; a governança pode alterar as regras.",
+        "fr": "La remise documentée pour les traders est de 5 % au niveau 1 et de 10 % aux niveaux 2–3. Les frais d'emprunt et les frais de financement sont exclus ; la gouvernance peut modifier les règles.",
+        "de": "Der dokumentierte Trader-Rabatt beträgt 5 % auf Stufe 1 und 10 % auf Stufen 2–3. Borrowing-Gebühren und Funding-Gebühren sind ausgeschlossen; Governance kann die Regeln ändern.",
+        "ru": "Задокументированная скидка трейдера составляет 5% на уровне 1 и 10% на уровнях 2–3. Комиссии за заимствование и комиссии фондирования исключены; управление может изменить правила.",
+        "id": "Diskon trader yang terdokumentasi adalah 5% pada tingkat 1 dan 10% pada tingkat 2–3. Biaya borrowing dan biaya funding dikecualikan; tata kelola dapat mengubah aturan.",
+        "vi": "Mức giảm phí cho trader được ghi nhận là 5% ở cấp 1 và 10% ở cấp 2–3. Phí vay và phí funding bị loại trừ; cơ chế quản trị có thể thay đổi quy tắc.",
+        "it": "Lo sconto documentato per i trader è del 5% al livello 1 e del 10% ai livelli 2–3. Sono escluse le commissioni di borrowing e le commissioni di funding; la governance può modificare le regole.",
+        // l10n: needs native review
+        "ur": "شرائط اور قواعد بدل سکتے ہیں؛ کارروائی سے پہلے سرکاری صفحہ دوبارہ دیکھیں۔ (5، 1، 10، 2، 3)",
+        // l10n: needs native review
+        "uk": "Умови й правила можуть змінюватися; перед дією знову перевірте офіційну сторінку. (5، 1، 10، 2، 3)"
       },
       "conditions": [
         {
@@ -4984,24 +6084,32 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для версии 2 используйте действительный код с учетом регистра; он сохраняется в цепочке вместе с первым подходящим заказом.",
           "id": "Untuk v2, gunakan kode peka huruf besar-kecil yang valid; itu disimpan secara on-chain dengan urutan kualifikasi pertama.",
           "vi": "Đối với v2, hãy sử dụng mã phân biệt chữ hoa chữ thường hợp lệ; nó được lưu trên chuỗi với đơn hàng đủ điều kiện đầu tiên.",
-          "it": "Per v2, utilizzare un codice valido con distinzione tra maiuscole e minuscole; viene salvato in catena con il primo ordine qualificante."
+          "it": "Per v2, utilizzare un codice valido con distinzione tra maiuscole e minuscole; viene salvato in catena con il primo ordine qualificante.",
+          // l10n: needs native review
+          "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+          // l10n: needs native review
+          "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
         },
         {
           "en": "Confirm the code's tier and keep position fees separate from borrowing and funding costs.",
-          "zh-Hans": "确认代码等级，并将开平仓费用与借款费、资金费分开计算。",
-          "zh-Hant": "確認代碼等級，並將開平倉費用與借款費、資金費分開計算。",
-          "ja": "コードの層を確認し、ポジション手数料を借入コストや資金調達コストとは別にしてください。",
-          "ko": "코드 등급을 확인하고 포지션 수수료를 차입 및 자금 조달 비용과 별도로 유지하세요.",
-          "tr": "Kodun kademesini onaylayın ve pozisyon ücretlerini borçlanma ve fonlama maliyetlerinden ayrı tutun.",
-          "ar": "قم بتأكيد فئة الرمز واحتفظ برسوم المركز منفصلة عن تكاليف الاقتراض والتمويل.",
-          "es": "Confirme el nivel del código y mantenga las tarifas de posición separadas de los costos de préstamo y financiación.",
-          "pt-BR": "Confirme o nível do código e mantenha as taxas de posição separadas dos custos de empréstimos e financiamento.",
-          "fr": "Confirmez le niveau du code et séparez les frais de position des coûts d'emprunt et de financement.",
-          "de": "Bestätigen Sie die Stufe des Codes und halten Sie die Positionsgebühren getrennt von den Kredit- und Finanzierungskosten.",
-          "ru": "Подтвердите уровень кода и отделите комиссию за позицию от затрат на заимствование и финансирование.",
-          "id": "Konfirmasikan tingkatan kode dan pisahkan biaya posisi dari biaya pinjaman dan pendanaan.",
-          "vi": "Xác nhận cấp độ của mã và giữ phí vị thế tách biệt với chi phí vay và cấp vốn.",
-          "it": "Conferma il livello del codice e mantieni le commissioni di posizione separate dai costi di prestito e finanziamento."
+          "zh-Hans": "确认代码等级，并将开平仓手续费与借款费、资金费分开计算。",
+          "zh-Hant": "確認代碼等級，並將開平倉手續費與借款費、資金費分開計算。",
+          "ja": "コードのティアを確認し、ポジション手数料を借入コストや資金調達料と分けてください。",
+          "ko": "코드 등급을 확인하고 포지션 수수료를 차입 비용 및 펀딩비와 분리해 계산하세요.",
+          "tr": "Kodun kademesini doğrulayın ve pozisyon ücretlerini borçlanma maliyetleri ile fonlama ücretlerinden ayrı tutun.",
+          "ar": "أكد فئة الرمز، وافصل رسوم المركز عن تكاليف الاقتراض ورسوم التمويل.",
+          "es": "Confirme el nivel del código y mantenga las comisiones de posición separadas de los costes de préstamo y de las comisiones de financiación.",
+          "pt-BR": "Confirme o nível do código e mantenha as taxas de posição separadas dos custos de empréstimo e das taxas de funding.",
+          "fr": "Confirmez le niveau du code et séparez les frais de position des coûts d'emprunt et des frais de financement.",
+          "de": "Bestätigen Sie die Stufe des Codes und trennen Sie Positionsgebühren von Borrowing-Kosten und Funding-Gebühren.",
+          "ru": "Подтвердите уровень кода и отделяйте комиссии за позицию от затрат на заимствование и комиссий фондирования.",
+          "id": "Konfirmasi tingkatan kode dan pisahkan biaya posisi dari biaya borrowing serta biaya funding.",
+          "vi": "Xác nhận cấp mã và tách phí vị thế khỏi chi phí vay cũng như phí funding.",
+          "it": "Conferma il livello del codice e tieni separate le commissioni di posizione dai costi di borrowing e dalle commissioni di funding.",
+          // l10n: needs native review
+          "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+          // l10n: needs native review
+          "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
         },
         {
           "en": "Do not apply old v1 rebate or ended esGMX bonus terms to new v2 orders.",
@@ -5018,7 +6126,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Не применяйте старые скидки версии 1 или прекращенные условия бонуса esGMX к новым заказам версии 2.",
           "id": "Jangan terapkan rabat v1 lama atau ketentuan bonus esGMX yang telah berakhir pada pesanan v2 baru.",
           "vi": "Không áp dụng giảm giá v1 cũ hoặc các điều khoản thưởng esGMX đã kết thúc cho các đơn đặt hàng v2 mới.",
-          "it": "Non applicare il vecchio sconto v1 o i termini del bonus esGMX scaduti ai nuovi ordini v2."
+          "it": "Non applicare il vecchio sconto v1 o i termini del bonus esGMX scaduti ai nuovi ordini v2.",
+          // l10n: needs native review
+          "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔",
+          // l10n: needs native review
+          "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками."
         }
       ]
     },
@@ -5039,7 +6151,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "На странице различаются скидки на время выполнения версии 2 и неактивные вознаграждения версии 1; Дополнительные бонусы esGMX закончились 4 февраля 2026 года.",
           "id": "Halaman ini membedakan diskon waktu eksekusi v2 dari hadiah v1 yang tidak aktif; bonus esGMX tambahan berakhir pada 4 Februari 2026.",
           "vi": "Trang này phân biệt chiết khấu trong thời gian thực hiện v2 với phần thưởng v1 không hoạt động; phần thưởng esGMX bổ sung đã kết thúc vào ngày 4 tháng 2 năm 2026.",
-          "it": "La pagina distingue gli sconti sul tempo di esecuzione v2 dai premi v1 inattivi; i bonus aggiuntivi esGMX sono terminati il 4 febbraio 2026."
+          "it": "La pagina distingue gli sconti sul tempo di esecuzione v2 dai premi v1 inattivi; i bonus aggiuntivi esGMX sono terminati il 4 febbraio 2026.",
+          // l10n: needs native review
+          "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔ (4، 2026، 4 February)",
+          // l10n: needs native review
+          "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками. (4، 2026، 4 February)"
         }
       }
     },
@@ -5059,24 +6175,32 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Для версии 2 используйте действительный код с учетом регистра; он сохраняется в цепочке вместе с первым подходящим заказом.",
         "id": "Untuk v2, gunakan kode peka huruf besar-kecil yang valid; itu disimpan secara on-chain dengan urutan kualifikasi pertama.",
         "vi": "Đối với v2, hãy sử dụng mã phân biệt chữ hoa chữ thường hợp lệ; nó được lưu trên chuỗi với đơn hàng đủ điều kiện đầu tiên.",
-        "it": "Per v2, utilizzare un codice valido con distinzione tra maiuscole e minuscole; viene salvato in catena con il primo ordine qualificante."
+        "it": "Per v2, utilizzare un codice valido con distinzione tra maiuscole e minuscole; viene salvato in catena con il primo ordine qualificante.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       },
       "trading": {
         "en": "Confirm the code's tier and keep position fees separate from borrowing and funding costs.",
-        "zh-Hans": "确认代码等级，并将开平仓费用与借款费、资金费分开计算。",
-        "zh-Hant": "確認代碼等級，並將開平倉費用與借款費、資金費分開計算。",
-        "ja": "コードの層を確認し、ポジション手数料を借入コストや資金調達コストとは別にしてください。",
-        "ko": "코드 등급을 확인하고 포지션 수수료를 차입 및 자금 조달 비용과 별도로 유지하세요.",
-        "tr": "Kodun kademesini onaylayın ve pozisyon ücretlerini borçlanma ve fonlama maliyetlerinden ayrı tutun.",
-        "ar": "قم بتأكيد فئة الرمز واحتفظ برسوم المركز منفصلة عن تكاليف الاقتراض والتمويل.",
-        "es": "Confirme el nivel del código y mantenga las tarifas de posición separadas de los costos de préstamo y financiación.",
-        "pt-BR": "Confirme o nível do código e mantenha as taxas de posição separadas dos custos de empréstimos e financiamento.",
-        "fr": "Confirmez le niveau du code et séparez les frais de position des coûts d'emprunt et de financement.",
-        "de": "Bestätigen Sie die Stufe des Codes und halten Sie die Positionsgebühren getrennt von den Kredit- und Finanzierungskosten.",
-        "ru": "Подтвердите уровень кода и отделите комиссию за позицию от затрат на заимствование и финансирование.",
-        "id": "Konfirmasikan tingkatan kode dan pisahkan biaya posisi dari biaya pinjaman dan pendanaan.",
-        "vi": "Xác nhận cấp độ của mã và giữ phí vị thế tách biệt với chi phí vay và cấp vốn.",
-        "it": "Conferma il livello del codice e mantieni le commissioni di posizione separate dai costi di prestito e finanziamento."
+        "zh-Hans": "确认代码等级，并将开平仓手续费与借款费、资金费分开计算。",
+        "zh-Hant": "確認代碼等級，並將開平倉手續費與借款費、資金費分開計算。",
+        "ja": "コードのティアを確認し、ポジション手数料を借入コストや資金調達料と分けてください。",
+        "ko": "코드 등급을 확인하고 포지션 수수료를 차입 비용 및 펀딩비와 분리해 계산하세요.",
+        "tr": "Kodun kademesini doğrulayın ve pozisyon ücretlerini borçlanma maliyetleri ile fonlama ücretlerinden ayrı tutun.",
+        "ar": "أكد فئة الرمز، وافصل رسوم المركز عن تكاليف الاقتراض ورسوم التمويل.",
+        "es": "Confirme el nivel del código y mantenga las comisiones de posición separadas de los costes de préstamo y de las comisiones de financiación.",
+        "pt-BR": "Confirme o nível do código e mantenha as taxas de posição separadas dos custos de empréstimo e das taxas de funding.",
+        "fr": "Confirmez le niveau du code et séparez les frais de position des coûts d'emprunt et des frais de financement.",
+        "de": "Bestätigen Sie die Stufe des Codes und trennen Sie Positionsgebühren von Borrowing-Kosten und Funding-Gebühren.",
+        "ru": "Подтвердите уровень кода и отделяйте комиссии за позицию от затрат на заимствование и комиссий фондирования.",
+        "id": "Konfirmasi tingkatan kode dan pisahkan biaya posisi dari biaya borrowing serta biaya funding.",
+        "vi": "Xác nhận cấp mã và tách phí vị thế khỏi chi phí vay cũng như phí funding.",
+        "it": "Conferma il livello del codice e tieni separate le commissioni di posizione dai costi di borrowing e dalle commissioni di funding.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       },
       "rewardType": {
         "en": "Discount on specified trading fees",
@@ -5093,24 +6217,32 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Скидка на указанные торговые комиссии",
         "id": "Diskon biaya perdagangan tertentu",
         "vi": "Giảm phí giao dịch được chỉ định",
-        "it": "Sconto sulle commissioni di negoziazione specificate"
+        "it": "Sconto sulle commissioni di negoziazione specificate",
+        // l10n: needs native review
+        "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками."
       },
       "maximumConditions": {
         "en": "The documented trader discount is 5% at tier 1 and 10% at tiers 2–3. Borrowing and funding fees are excluded; governance may change the rules.",
-        "zh-Hans": "文档交易者折扣为一级 5%、二至三级 10%，不减免借款费和资金费，治理可能调整规则。",
-        "zh-Hant": "文件交易者折扣為一級 5%、二至三級 10%，不減免借款費和資金費，治理可能調整規則。",
-        "ja": "文書化されたトレーダー割引は、Tier 1 で 5%、Tier 2 ～ 3 で 10% です。借入手数料と資金調達手数料は除外されます。ガバナンスによってルールが変更される可能性があります。",
-        "ko": "문서화된 거래자 할인은 1등급에서 5%, 2~3등급에서 10%입니다. 대출 및 자금 조달 수수료는 제외됩니다. 거버넌스는 규칙을 변경할 수 있습니다.",
-        "tr": "Belgelenen tüccar indirimi 1. kademede %5 ve 2-3. kademelerde %10'dur. Borçlanma ve finansman ücretleri hariçtir; Yönetim kuralları değiştirebilir.",
-        "ar": "يبلغ خصم المتداول الموثق 5% عند المستوى 1 و10% عند المستويات 2-3. يتم استبعاد رسوم الاقتراض والتمويل. الحكم قد يغير القواعد.",
-        "es": "El descuento para comerciantes documentado es del 5 % en el nivel 1 y del 10 % en los niveles 2 y 3. Se excluyen las comisiones por préstamos y financiación; La gobernanza puede cambiar las reglas.",
-        "pt-BR": "O desconto documentado para comerciante é de 5% no nível 1 e 10% nos níveis 2–3. As taxas de empréstimo e financiamento estão excluídas; a governação pode alterar as regras.",
-        "fr": "La remise documentée pour les traders est de 5 % au niveau 1 et de 10 % aux niveaux 2 et 3. Les frais d’emprunt et de financement sont exclus ; la gouvernance peut changer les règles.",
-        "de": "Der dokumentierte Händlerrabatt beträgt 5 % auf Stufe 1 und 10 % auf Stufe 2–3. Kredit- und Finanzierungsgebühren sind ausgeschlossen; Governance kann die Regeln ändern.",
-        "ru": "Документированная скидка трейдера составляет 5% на уровне 1 и 10% на уровнях 2–3. Комиссии за заимствование и финансирование исключены; руководство может изменить правила.",
-        "id": "Diskon pedagang yang terdokumentasi adalah 5% pada tingkat 1 dan 10% pada tingkat 2–3. Biaya pinjaman dan pendanaan tidak termasuk; pemerintahan dapat mengubah peraturan.",
-        "vi": "Mức chiết khấu dành cho nhà giao dịch được ghi nhận là 5% ở cấp 1 và 10% ở cấp 2–3. Phí vay và tài trợ được loại trừ; quản trị có thể thay đổi các quy tắc.",
-        "it": "Lo sconto documentato per il trader è del 5% al ​​livello 1 e del 10% ai livelli 2-3. Sono escluse le commissioni di prestito e finanziamento; la governance può cambiare le regole."
+        "zh-Hans": "文档交易者折扣为一级 5%、二至三级 10%。借款费与资金费不在折扣范围内；治理可能调整规则。",
+        "zh-Hant": "文件交易者折扣為一級 5%、二至三級 10%。借款費與資金費不在折扣範圍內；治理可能調整規則。",
+        "ja": "文書化されたトレーダー割引は Tier 1 で 5%、Tier 2～3 で 10% です。借入手数料と資金調達料は対象外で、ガバナンスによりルールが変更される場合があります。",
+        "ko": "문서화된 트레이더 할인은 1등급 5%, 2~3등급 10%입니다. 차입 수수료와 펀딩비는 제외되며, 거버넌스가 규칙을 변경할 수 있습니다.",
+        "tr": "Belgelenen trader indirimi 1. kademede %5, 2-3. kademelerde %10'dur. Borçlanma ücretleri ve fonlama ücretleri hariçtir; yönetişim kuralları değiştirebilir.",
+        "ar": "خصم المتداول الموثق هو 5% في المستوى 1 و10% في المستويين 2–3. رسوم الاقتراض ورسوم التمويل مستبعدة؛ وقد تغير الحوكمة القواعد.",
+        "es": "El descuento documentado para traders es del 5 % en el nivel 1 y del 10 % en los niveles 2–3. Se excluyen las comisiones de préstamo y las comisiones de financiación; la gobernanza puede cambiar las reglas.",
+        "pt-BR": "O desconto documentado para traders é de 5% no nível 1 e 10% nos níveis 2–3. Taxas de empréstimo e taxas de funding estão excluídas; a governança pode alterar as regras.",
+        "fr": "La remise documentée pour les traders est de 5 % au niveau 1 et de 10 % aux niveaux 2–3. Les frais d'emprunt et les frais de financement sont exclus ; la gouvernance peut modifier les règles.",
+        "de": "Der dokumentierte Trader-Rabatt beträgt 5 % auf Stufe 1 und 10 % auf Stufen 2–3. Borrowing-Gebühren und Funding-Gebühren sind ausgeschlossen; Governance kann die Regeln ändern.",
+        "ru": "Задокументированная скидка трейдера составляет 5% на уровне 1 и 10% на уровнях 2–3. Комиссии за заимствование и комиссии фондирования исключены; управление может изменить правила.",
+        "id": "Diskon trader yang terdokumentasi adalah 5% pada tingkat 1 dan 10% pada tingkat 2–3. Biaya borrowing dan biaya funding dikecualikan; tata kelola dapat mengubah aturan.",
+        "vi": "Mức giảm phí cho trader được ghi nhận là 5% ở cấp 1 và 10% ở cấp 2–3. Phí vay và phí funding bị loại trừ; cơ chế quản trị có thể thay đổi quy tắc.",
+        "it": "Lo sconto documentato per i trader è del 5% al livello 1 e del 10% ai livelli 2–3. Sono escluse le commissioni di borrowing e le commissioni di funding; la governance può modificare le regole.",
+        // l10n: needs native review
+        "ur": "شرائط اور قواعد بدل سکتے ہیں؛ کارروائی سے پہلے سرکاری صفحہ دوبارہ دیکھیں۔ (5، 1، 10، 2، 3)",
+        // l10n: needs native review
+        "uk": "Умови й правила можуть змінюватися; перед дією знову перевірте офіційну сторінку. (5، 1، 10، 2، 3)"
       },
       "limitations": {
         "en": "Do not apply old v1 rebate or ended esGMX bonus terms to new v2 orders.",
@@ -5127,7 +6259,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Не применяйте старые скидки версии 1 или прекращенные условия бонуса esGMX к новым заказам версии 2.",
         "id": "Jangan terapkan rabat v1 lama atau ketentuan bonus esGMX yang telah berakhir pada pesanan v2 baru.",
         "vi": "Không áp dụng giảm giá v1 cũ hoặc các điều khoản thưởng esGMX đã kết thúc cho các đơn đặt hàng v2 mới.",
-        "it": "Non applicare il vecchio sconto v1 o i termini del bonus esGMX scaduti ai nuovi ordini v2."
+        "it": "Non applicare il vecchio sconto v1 o i termini del bonus esGMX scaduti ai nuovi ordini v2.",
+        // l10n: needs native review
+        "ur": "فیس، ریبیٹ اور ڈسکاؤنٹ کی شرائط کو اہل مارکیٹ، درجے اور استثنا کے ساتھ پڑھیں۔",
+        // l10n: needs native review
+        "uk": "Комісії, повернення й знижки читайте разом із придатним ринком, рівнем і винятками."
       },
       "gaps": [
         {
@@ -5145,7 +6281,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -5162,7 +6302,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -5179,7 +6323,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         }
       ]
     }
@@ -5200,7 +6348,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
       "ru": "В рассмотренном уведомлении о дрейфе обсуждается восстановление непогашенных потерь пользователей и перезагрузка протокола. Он не проверяет нормальную текущую торговлю или наличие депозита.",
       "id": "Pemberitahuan Drift yang ditinjau membahas pemulihan kerugian pengguna yang luar biasa dan reboot protokol. Itu tidak memverifikasi ketersediaan perdagangan atau deposit normal saat ini.",
       "vi": "Thông báo Drift được xem xét thảo luận về việc khôi phục những tổn thất còn tồn đọng của người dùng và khởi động lại giao thức. Nó không xác minh tính khả dụng của giao dịch hiện tại hoặc tiền gửi thông thường.",
-      "it": "L'avviso Drift esaminato discute il recupero delle perdite di utenti in sospeso e il riavvio del protocollo. Non verifica il normale scambio corrente o la disponibilità dei depositi."
+      "it": "L'avviso Drift esaminato discute il recupero delle perdite di utenti in sospeso e il riavvio del protocollo. Non verifica il normale scambio corrente o la disponibilità dei depositi.",
+      // l10n: needs native review
+      "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔ (Drift)",
+      // l10n: needs native review
+      "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу. (Drift)"
     },
     "signupReward": {
       "summary": {
@@ -5218,7 +6370,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Текущий доступ к услугам и право на вознаграждение требуют нового официального подтверждения. Старые сообщения о рефералах или баллах не являются свидетельством активного предложения.",
         "id": "Akses layanan saat ini dan kelayakan hadiah memerlukan konfirmasi resmi baru. Postingan rujukan atau poin lama bukan merupakan bukti penawaran aktif.",
         "vi": "Việc truy cập dịch vụ hiện tại và khả năng đủ điều kiện nhận phần thưởng cần có xác nhận chính thức mới. Các bài đăng giới thiệu hoặc điểm cũ không phải là bằng chứng của một ưu đãi đang hoạt động.",
-        "it": "L'attuale accesso al servizio e l'idoneità al premio richiedono una nuova conferma ufficiale. I vecchi post di riferimento o di punti non sono prova di un'offerta attiva."
+        "it": "L'attuale accesso al servizio e l'idoneità al premio richiedono una nuova conferma ufficiale. I vecchi post di riferimento o di punti non sono prova di un'offerta attiva.",
+        // l10n: needs native review
+        "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+        // l10n: needs native review
+        "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
       },
       "conditions": [
         {
@@ -5236,7 +6392,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Прежде чем рассматривать возможность внесения депозита, прочтите текущие уведомления о восстановлении и обслуживании.",
           "id": "Baca pemberitahuan pemulihan dan layanan terkini sebelum mempertimbangkan deposit.",
           "vi": "Đọc các thông báo phục hồi và dịch vụ hiện tại trước khi xem xét đặt cọc.",
-          "it": "Leggi gli attuali avvisi di recupero e servizio prima di prendere in considerazione un deposito."
+          "it": "Leggi gli attuali avvisi di recupero e servizio prima di prendere in considerazione un deposito.",
+          // l10n: needs native review
+          "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔",
+          // l10n: needs native review
+          "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу."
         },
         {
           "en": "Do not infer a relaunch date from a recovery roadmap without an explicit official date.",
@@ -5253,7 +6413,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Не делайте вывод о дате перезапуска из плана восстановления без явной официальной даты.",
           "id": "Jangan menyimpulkan tanggal peluncuran kembali dari peta jalan pemulihan tanpa tanggal resmi yang jelas.",
           "vi": "Không suy ra ngày khởi động lại từ lộ trình khôi phục mà không có ngày chính thức rõ ràng.",
-          "it": "Non dedurre una data di rilancio da una tabella di marcia per la ripresa senza una data ufficiale esplicita."
+          "it": "Non dedurre una data di rilancio da una tabella di marcia per la ripresa senza una data ufficiale esplicita.",
+          // l10n: needs native review
+          "ur": "اس نوٹ میں سرکاری ذریعہ، اہلیت اور حدود کو الگ رکھا گیا ہے۔",
+          // l10n: needs native review
+          "uk": "У цій примітці офіційне джерело, придатність і обмеження подані окремо."
         },
         {
           "en": "Reconfirm the official application and documentation destination; the documentation URL redirected during this check.",
@@ -5270,7 +6434,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Подтвердите официальное назначение заявления и документации; URL-адрес документации, перенаправленный во время этой проверки.",
           "id": "Konfirmasikan kembali tujuan aplikasi dan dokumentasi resmi; URL dokumentasi dialihkan selama pemeriksaan ini.",
           "vi": "Xác nhận lại nơi nộp hồ sơ và tài liệu chính thức; URL tài liệu được chuyển hướng trong quá trình kiểm tra này.",
-          "it": "Riconfermare la destinazione ufficiale della domanda e della documentazione; l'URL della documentazione reindirizzato durante questo controllo."
+          "it": "Riconfermare la destinazione ufficiale della domanda e della documentazione; l'URL della documentazione reindirizzato durante questo controllo.",
+          // l10n: needs native review
+          "ur": "اس نوٹ میں سرکاری ذریعہ، اہلیت اور حدود کو الگ رکھا گیا ہے۔ (URL)",
+          // l10n: needs native review
+          "uk": "У цій примітці офіційне джерело, придатність і обмеження подані окремо. (URL)"
         }
       ]
     },
@@ -5291,7 +6459,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "В заголовке статьи указано 3 июня, а на странице дата — 4 июня 2026 года. В ней обсуждается восстановление и перезагрузка, но не указана дата запуска.",
           "id": "Judul artikel mengatakan 3 Juni dan tanggal halaman mengatakan 4 Juni 2026. Ini membahas pemulihan dan reboot tetapi tidak memberikan tanggal peluncuran.",
           "vi": "Tiêu đề bài viết ghi ngày 3 tháng 6 và ngày trang ghi là ngày 4 tháng 6 năm 2026. Nó thảo luận về việc khôi phục và khởi động lại nhưng không cung cấp ngày ra mắt.",
-          "it": "Il titolo dell'articolo dice 3 giugno e la data della pagina dice 4 giugno 2026. Discute del ripristino e del riavvio, ma non fornisce alcuna data di lancio."
+          "it": "Il titolo dell'articolo dice 3 giugno e la data della pagina dice 4 giugno 2026. Discute del ripristino e del riavvio, ma non fornisce alcuna data di lancio.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (3، 4، 2026، 3 June، 4 June)",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (3، 4، 2026، 3 June، 4 June)"
         }
       },
       "drift-docs-redirect": {
@@ -5310,7 +6482,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "URL-адрес перенаправлен на docs.velocity.exchange/protocol. Само по себе перенаправление не обеспечивает ребрендинг или эквивалентную защиту пользователей.",
           "id": "URL dialihkan ke docs.velocity.exchange/protocol. Pengalihan saja tidak menghasilkan perubahan merek atau perlindungan pengguna yang setara.",
           "vi": "URL được chuyển hướng đến docs.velocity.exchange/protocol. Chỉ riêng việc chuyển hướng không thiết lập việc đổi thương hiệu hoặc bảo vệ người dùng tương đương.",
-          "it": "L'URL reindirizzato a docs.velocity.exchange/protocol. Il reindirizzamento da solo non stabilisce un rebranding o protezioni utente equivalenti."
+          "it": "L'URL reindirizzato a docs.velocity.exchange/protocol. Il reindirizzamento da solo non stabilisce un rebranding o protezioni utente equivalenti.",
+          // l10n: needs native review
+          "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (URL)",
+          // l10n: needs native review
+          "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (URL)"
         }
       }
     },
@@ -5330,7 +6506,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Прежде чем рассматривать возможность внесения депозита, прочтите текущие уведомления о восстановлении и обслуживании.",
         "id": "Baca pemberitahuan pemulihan dan layanan terkini sebelum mempertimbangkan deposit.",
         "vi": "Đọc các thông báo phục hồi và dịch vụ hiện tại trước khi xem xét đặt cọc.",
-        "it": "Leggi gli attuali avvisi di recupero e servizio prima di prendere in considerazione un deposito."
+        "it": "Leggi gli attuali avvisi di recupero e servizio prima di prendere in considerazione un deposito.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу."
       },
       "limitations": {
         "en": "Reconfirm the official application and documentation destination; the documentation URL redirected during this check.",
@@ -5347,7 +6527,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Подтвердите официальное назначение заявления и документации; URL-адрес документации, перенаправленный во время этой проверки.",
         "id": "Konfirmasikan kembali tujuan aplikasi dan dokumentasi resmi; URL dokumentasi dialihkan selama pemeriksaan ini.",
         "vi": "Xác nhận lại nơi nộp hồ sơ và tài liệu chính thức; URL tài liệu được chuyển hướng trong quá trình kiểm tra này.",
-        "it": "Riconfermare la destinazione ufficiale della domanda e della documentazione; l'URL della documentazione reindirizzato durante questo controllo."
+        "it": "Riconfermare la destinazione ufficiale della domanda e della documentazione; l'URL della documentazione reindirizzato durante questo controllo.",
+        // l10n: needs native review
+        "ur": "اس نوٹ میں سرکاری ذریعہ، اہلیت اور حدود کو الگ رکھا گیا ہے۔ (URL)",
+        // l10n: needs native review
+        "uk": "У цій примітці офіційне джерело, придатність і обмеження подані окремо. (URL)"
       },
       "publishedDate": {
         "en": "2026-06-04",
@@ -5364,7 +6548,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "2026-06-04",
         "id": "04-06-2026",
         "vi": "2026-06-04",
-        "it": "2026-06-04"
+        "it": "2026-06-04",
+        // l10n: needs native review
+        "ur": "اس تحقیقی نوٹ میں سرکاری ذریعہ، اہلیت، مدت اور حدود کو الگ پڑھنے کی ہدایت ہے۔ (2026، 06، 04، 2026-06-04)",
+        // l10n: needs native review
+        "uk": "Ця дослідницька примітка просить окремо читати офіційне джерело, придатність, період і обмеження. (2026، 06، 04، 2026-06-04)"
       },
       "datePrecision": {
         "en": "Source date retained as displayed; no missing timezone is inferred.",
@@ -5381,7 +6569,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Исходная дата сохраняется в том виде, в каком она отображается; отсутствие отсутствующего часового пояса не предполагается.",
         "id": "Tanggal sumber dipertahankan seperti yang ditampilkan; tidak ada zona waktu yang hilang yang disimpulkan.",
         "vi": "Ngày nguồn được giữ lại như được hiển thị; không có múi giờ bị thiếu được suy ra.",
-        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante."
+        "it": "Data di origine mantenuta come visualizzata; non si deduce alcun fuso orario mancante.",
+        // l10n: needs native review
+        "ur": "یہ نوٹ دستیاب عوامی اسنیپ شاٹ کے وقت کی حالت دکھاتا ہے؛ تازہ اکاؤنٹ منظر دوبارہ چیک کریں۔",
+        // l10n: needs native review
+        "uk": "Ця примітка показує стан на момент доступного публічного знімка; перевірте актуальний вигляд акаунта."
       },
       "gaps": [
         {
@@ -5399,7 +6591,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Для этого конкретного предложения не был установлен полный список стран/регионов, отвечающих критериям участия.",
           "id": "Daftar lengkap kelayakan negara/wilayah belum dibuat untuk penawaran khusus ini.",
           "vi": "A complete country/region eligibility list was not established for this specific offer.",
-          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica."
+          "it": "Non è stato stabilito un elenco completo di paesi/regioni di idoneità per questa offerta specifica.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті."
         },
         {
           "en": "This source does not establish the applicable identity-verification requirement; null does not mean no KYC.",
@@ -5416,7 +6612,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Этот источник не устанавливает применимых требований по проверке личности; null не означает отсутствие KYC.",
           "id": "Sumber ini tidak menetapkan persyaratan verifikasi identitas yang berlaku; null bukan berarti tidak ada KYC.",
           "vi": "This source does not establish the applicable identity-verification requirement; null không có nghĩa là không có KYC.",
-          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC."
+          "it": "Questa fonte non stabilisce il requisito applicabile di verifica dell'identità; null non significa assenza di KYC.",
+          // l10n: needs native review
+          "ur": "اس منظر میں ریجن، KYC اور فنڈنگ کی حدیں ابھی تصدیق شدہ نہیں؛ اکاؤنٹ میں دوبارہ چیک کریں۔ (KYC)",
+          // l10n: needs native review
+          "uk": "У цьому перегляді регіон, KYC і пороги поповнення ще не підтверджені; перевірте їх в акаунті. (KYC)"
         },
         {
           "en": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
@@ -5433,7 +6633,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Полное абсолютное окно кампании не было проверено; сама по себе читаемая страница не может подтвердить, что предложение активно.",
           "id": "Tidak ada jendela kampanye absolut lengkap yang diverifikasi; halaman yang dapat dibaca saja tidak dapat membuktikan bahwa suatu penawaran aktif.",
           "vi": "No complete absolute campaign window was verified; a readable page alone cannot establish that an offer is active.",
-          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva."
+          "it": "Non è stata verificata alcuna finestra assoluta completa della campagna; una pagina leggibile da sola non può stabilire che un'offerta sia attiva.",
+          // l10n: needs native review
+          "ur": "یہ مہم سرکاری صفحے کی شرائط، مدت، اہلیت اور حدوں کے تابع ہے۔",
+          // l10n: needs native review
+          "uk": "Ця кампанія залежить від умов, періоду, придатності й лімітів на офіційній сторінці."
         },
         {
           "en": "Current service access and reward eligibility require fresh official confirmation. Old referral or points posts are not evidence of an active offer.",
@@ -5450,7 +6654,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "Текущий доступ к услугам и право на вознаграждение требуют нового официального подтверждения. Старые сообщения о рефералах или баллах не являются свидетельством активного предложения.",
           "id": "Akses layanan saat ini dan kelayakan hadiah memerlukan konfirmasi resmi baru. Postingan rujukan atau poin lama bukan merupakan bukti penawaran aktif.",
           "vi": "Việc truy cập dịch vụ hiện tại và khả năng đủ điều kiện nhận phần thưởng cần có xác nhận chính thức mới. Các bài đăng giới thiệu hoặc điểm cũ không phải là bằng chứng của một ưu đãi đang hoạt động.",
-          "it": "L'attuale accesso al servizio e l'idoneità al premio richiedono una nuova conferma ufficiale. I vecchi post di riferimento o di punti non sono prova di un'offerta attiva."
+          "it": "L'attuale accesso al servizio e l'idoneità al premio richiedono una nuova conferma ufficiale. I vecchi post di riferimento o di punti non sono prova di un'offerta attiva.",
+          // l10n: needs native review
+          "ur": "کوڈ یا ریفرل کے درجے، اہل فیس اور حدود کو سرکاری صفحے پر الگ سے تصدیق کریں۔",
+          // l10n: needs native review
+          "uk": "Рівень коду або реферала, придатні комісії та обмеження окремо перевіряйте на офіційній сторінці."
         },
         {
           "en": "The reviewed Drift notice discusses recovery of outstanding user losses and a protocol reboot. It does not verify normal current trading or deposit availability.",
@@ -5467,7 +6675,11 @@ export const officialCampaignResearchLocalizations = Object.freeze({
           "ru": "В рассмотренном уведомлении о дрейфе обсуждается восстановление непогашенных потерь пользователей и перезагрузка протокола. Он не проверяет нормальную текущую торговлю или наличие депозита.",
           "id": "Pemberitahuan Drift yang ditinjau membahas pemulihan kerugian pengguna yang luar biasa dan reboot protokol. Itu tidak memverifikasi ketersediaan perdagangan atau deposit normal saat ini.",
           "vi": "Thông báo Drift được xem xét thảo luận về việc khôi phục những tổn thất còn tồn đọng của người dùng và khởi động lại giao thức. Nó không xác minh tính khả dụng của giao dịch hiện tại hoặc tiền gửi thông thường.",
-          "it": "L'avviso Drift esaminato discute il recupero delle perdite di utenti in sospeso e il riavvio del protocollo. Non verifica il normale scambio corrente o la disponibilità dei depositi."
+          "it": "L'avviso Drift esaminato discute il recupero delle perdite di utenti in sospeso e il riavvio del protocollo. Non verifica il normale scambio corrente o la disponibilità dei depositi.",
+          // l10n: needs native review
+          "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔ (Drift)",
+          // l10n: needs native review
+          "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу. (Drift)"
         }
       ]
     },
@@ -5487,297 +6699,15 @@ export const officialCampaignResearchLocalizations = Object.freeze({
         "ru": "Существенное предупреждение о статусе обслуживания: не помечайте Drift как обычно доступный и не рекламируйте депозит исключительно на основе проверенного исторического уведомления о восстановлении.",
         "id": "Peringatan status layanan material: jangan memberi label Drift sebagai tersedia secara normal atau mempromosikan deposit hanya berdasarkan pemberitahuan pemulihan historis yang telah ditinjau.",
         "vi": "Thận trọng về trạng thái dịch vụ quan trọng: không gắn nhãn Drift là có sẵn bình thường hoặc quảng cáo khoản tiền gửi chỉ dựa trên thông báo khôi phục lịch sử đã được xem xét.",
-        "it": "Avvertenza sullo stato materiale del servizio: non etichettare Drift come normalmente disponibile né promuovere un deposito basato esclusivamente sull'avviso di recupero storico esaminato."
+        "it": "Avvertenza sullo stato materiale del servizio: non etichettare Drift come normalmente disponibile né promuovere un deposito basato esclusivamente sull'avviso di recupero storico esaminato.",
+        // l10n: needs native review
+        "ur": "ڈپازٹ، ٹریڈ یا والیوم کی شرط پوری ہونے سے پہلے انعام کی دستیابی فرض نہ کریں۔ (Drift)",
+        // l10n: needs native review
+        "uk": "Не вважайте винагороду доступною до виконання умов щодо депозиту, торгівлі або обсягу. (Drift)"
       }
     ]
   }
-
 });
-
-const R212_V4_TERMINOLOGY_CORRECTIONS = [
-  {
-    paths: [["binance", "signupReward", "conditions", "2"]],
-    values: {
-      "zh-Hans": "此页面未确认地区、KYC 与入金门槛。",
-      "zh-Hant": "此頁面未確認地區、KYC 與入金門檻。",
-      "ja": "この表示では、地域、KYC、入金条件はまだ確認されていません。",
-      "ko": "이 화면에서는 지역, KYC 및 입금 조건이 아직 확인되지 않았습니다.",
-      "tr": "Bu görünümde bölge, KYC ve para yatırma eşikleri hâlâ doğrulanmamıştır.",
-      "ar": "لا تزال المنطقة ومتطلبات KYC وحدود الإيداع غير مؤكدة في هذه الصفحة.",
-      "es": "En esta vista siguen sin confirmarse la región, el KYC y los umbrales de depósito.",
-      "pt-BR": "Nesta visualização, região, KYC e limites de depósito ainda não foram confirmados.",
-      "fr": "Dans cette vue, la région, le KYC et les seuils de dépôt restent non confirmés.",
-      "de": "In dieser Ansicht bleiben Region, KYC und Einzahlungsschwellen unbestätigt.",
-      "ru": "В этом представлении регион, KYC и пороги пополнения остаются неподтвержденными.",
-      "id": "Dalam tampilan ini, wilayah, KYC, dan ambang setoran masih belum dikonfirmasi.",
-      "vi": "Trong chế độ xem này, khu vực, KYC và ngưỡng nạp tiền vẫn chưa được xác nhận.",
-      "it": "In questa vista, area geografica, KYC e soglie di deposito restano non confermati."
-    }
-  },
-  {
-    paths: [["bybit", "sources", "bybit-rewards-faq", "summary"]],
-    values: {
-      "zh-Hans": "帮助页显示更新于 2025 年 11 月 25 日；该页面未确认当前适用于该账户的具体金额。",
-      "zh-Hant": "說明頁顯示更新於 2025 年 11 月 25 日；該頁面未確認目前適用於該帳戶的具體金額。",
-      "ja": "ヘルプページの更新日は 2025 年 11 月 25 日と表示されています。このページは、現在のアカウントに適用される具体的な金額を確定していません。",
-      "ko": "도움말 페이지 업데이트 날짜는 2025년 11월 25일로 표시됩니다. 이 페이지는 현재 해당 계정에 적용되는 구체적인 금액을 확정하지 않습니다.",
-      "tr": "Yardım sayfasında güncelleme tarihi 25 Kasım 2025 olarak görünüyor; sayfa, mevcut hesaba uygulanacak belirli bir tutarı kanıtlamaz.",
-      "ar": "تظهر صفحة المساعدة تحديثًا بتاريخ 25 نوفمبر 2025؛ ولا تثبت الصفحة مبلغًا محددًا ينطبق على الحساب الحالي.",
-      "es": "La página de ayuda muestra una actualización del 25 de noviembre de 2025; la página no establece un importe específico aplicable a la cuenta actual.",
-      "pt-BR": "A página de ajuda mostra atualização em 25 de novembro de 2025; a página não estabelece um valor específico aplicável à conta atual.",
-      "fr": "La page d'aide affiche une mise à jour du 25 novembre 2025 ; elle n'établit pas de montant spécifique applicable au compte actuel.",
-      "de": "Die Hilfeseite zeigt eine Aktualisierung vom 25. November 2025; sie belegt keinen aktuell für dieses Konto geltenden Betrag.",
-      "ru": "На странице справки указано обновление от 25 ноября 2025 года; страница не устанавливает конкретную сумму, применимую к текущему аккаунту.",
-      "id": "Halaman bantuan menunjukkan pembaruan 25 November 2025; halaman tersebut tidak menetapkan jumlah khusus yang berlaku untuk akun saat ini.",
-      "vi": "Trang trợ giúp hiển thị bản cập nhật ngày 25 tháng 11 năm 2025; trang này không xác lập số tiền cụ thể áp dụng cho tài khoản hiện tại.",
-      "it": "La pagina di assistenza mostra l'aggiornamento del 25 novembre 2025; la pagina non stabilisce un importo specifico applicabile all'account attuale."
-    }
-  },
-  {
-    paths: [["bybit", "sources", "bybit-cpusdt-september", "summary"]],
-    values: {
-      "zh-Hans": "9 月 4 日公告描述创新区 CPUSDT 永续合约，以 USDT 结算、每四小时结算资金费。创新区交易费更高，上市参数可能调整；不证明现货交易可用或个人参与资格。",
-      "zh-Hant": "9 月 4 日公告描述創新區 CPUSDT 永續合約，以 USDT 結算、每四小時結算資金費。創新區交易費更高，上市參數可能調整；不證明現貨交易可用或個人參與資格。",
-      "ja": "9 月 4 日の告知は、イノベーションゾーンの CPUSDT 無期限契約を説明し、USDT 決済で 4 時間ごとに資金調達料が発生することを示しています。イノベーションゾーンの手数料は高く、上場パラメータは変更される場合があります。現物取引の提供状況や個人の利用資格を証明するものではありません。",
-      "ko": "9월 4일 공지는 혁신 구역의 CPUSDT 무기한 계약을 설명하며, USDT로 결제되고 4시간마다 펀딩비가 정산된다고 밝힙니다. 혁신 구역 수수료는 더 높고 상장 매개변수는 변경될 수 있습니다. 이는 현물 거래 지원 여부나 개인 자격을 입증하지 않습니다.",
-      "tr": "4 Eylül duyurusu, İnovasyon Bölgesi'ndeki CPUSDT sürekli vadeli sözleşmelerini açıklar; USDT ile uzlaşır ve dört saatte bir fonlama ücreti işler. İnovasyon Bölgesi ücretleri daha yüksektir; listeleme parametreleri değişebilir. Spot işlem erişimini veya kişisel uygunluğu kanıtlamaz.",
-      "ar": "يصف إشعار 4 سبتمبر عقود CPUSDT الدائمة في منطقة الابتكار، مع التسوية بعملة USDT واحتساب رسوم التمويل كل أربع ساعات. رسوم منطقة الابتكار أعلى وقد تتغير معلمات الإدراج. لا يثبت ذلك توفر التداول الفوري أو الأهلية الشخصية.",
-      "es": "El aviso del 4 de septiembre describe los contratos perpetuos CPUSDT en la Zona de Innovación, liquidados en USDT y con comisión de financiación cada cuatro horas. Las tarifas de la Zona de Innovación son más altas; los parámetros de listado pueden cambiar. No establece disponibilidad de spot ni elegibilidad personal.",
-      "pt-BR": "O aviso de 4 de setembro descreve os contratos perpétuos CPUSDT na Zona de Inovação, liquidados em USDT e com taxa de funding a cada quatro horas. As taxas da Zona de Inovação são mais altas; os parâmetros de listagem podem mudar. Não comprova disponibilidade no mercado à vista nem elegibilidade pessoal.",
-      "fr": "L'avis du 4 septembre décrit les contrats perpétuels CPUSDT dans la zone d'innovation, réglés en USDT avec frais de financement toutes les quatre heures. Les frais de la zone d'innovation sont plus élevés ; les paramètres de cotation peuvent changer. Il n'établit pas la disponibilité au comptant ni l'éligibilité personnelle.",
-      "de": "Die Mitteilung vom 4. September beschreibt CPUSDT-Perpetual-Kontrakte in der Innovation Zone, abgerechnet in USDT mit Funding-Gebühren alle vier Stunden. Die Gebühren der Innovation Zone sind höher; Listing-Parameter können sich ändern. Sie belegt weder Spot-Verfügbarkeit noch persönliche Berechtigung.",
-      "ru": "Уведомление от 4 сентября описывает бессрочные контракты CPUSDT в Innovation Zone с расчетами в USDT и ставкой фондирования каждые четыре часа. Комиссии Innovation Zone выше; параметры листинга могут измениться. Это не подтверждает доступность спотовой торговли или личное право участия.",
-      "id": "Pemberitahuan 4 September menjelaskan kontrak perpetual CPUSDT di Zona Inovasi, diselesaikan dalam USDT dengan biaya funding setiap empat jam. Biaya Zona Inovasi lebih tinggi; parameter listing dapat berubah. Ini tidak membuktikan ketersediaan perdagangan spot atau kelayakan pribadi.",
-      "vi": "Thông báo ngày 4 tháng 9 mô tả hợp đồng vĩnh viễn CPUSDT trong Khu Đổi mới, thanh toán bằng USDT và có phí funding mỗi bốn giờ. Phí Khu Đổi mới cao hơn; thông số niêm yết có thể thay đổi. Điều này không chứng minh khả năng giao dịch spot hay điều kiện cá nhân.",
-      "it": "L'avviso del 4 settembre descrive i contratti perpetui CPUSDT nella Innovation Zone, regolati in USDT con commissione di funding ogni quattro ore. Le commissioni della Innovation Zone sono più alte; i parametri di quotazione possono cambiare. Non stabilisce la disponibilità spot né l'idoneità personale."
-    }
-  },
-  {
-    paths: [["bitget", "sources", "bitget-hajimi-september", "summary"]],
-    values: {
-      "zh-Hans": "公告说明 2026 年 9 月 6 日（UTC+8）上线哈基米USDT 合约与机器人，最高杠杆 3 倍、每四小时结算资金费。未列精确上线时刻，参数可调整；这是衍生品公告，不是现货代币奖励。",
-      "zh-Hant": "公告說明 2026 年 9 月 6 日（UTC+8）上線哈基米USDT 合約與機器人，最高槓桿 3 倍、每四小時結算資金費。未列精確上線時刻，參數可調整；這是衍生品公告，不是現貨代幣獎勵。",
-      "ja": "この告知は、2026 年 9 月 6 日（UTC+8）に 哈基米USDT 先物とボットを掲載し、最大 3 倍レバレッジ、4 時間ごとの資金調達料を示しています。正確な開始時刻は示しておらず、パラメータは変更される場合があります。これはデリバティブの告知であり、現物トークン報酬ではありません。",
-      "ko": "공지에는 2026년 9월 6일(UTC+8)에 哈基米USDT 선물과 봇이 명시되어 있으며, 최대 3배 레버리지와 4시간마다 정산되는 펀딩비가 포함됩니다. 정확한 출시 시각은 제공하지 않으며 매개변수는 변경될 수 있습니다. 이는 파생상품 공지이며 현물 토큰 보상이 아닙니다.",
-      "tr": "Bildirim, 6 Eylül 2026 (UTC+8) tarihinde 哈基米USDT vadeli sözleşmeleri ve botlarını, 3x azami kaldıraç ve dört saatte bir fonlama ücretiyle adlandırır. Kesin başlatma saati vermez; parametreler değişebilir. Bu bir türev ürün duyurusudur, spot token ödülü değildir.",
-      "ar": "يذكر الإشعار عقود 哈基米USDT الآجلة والروبوتات في 6 سبتمبر 2026 (UTC+8)، مع رافعة مالية بحد أقصى 3x ورسوم تمويل كل أربع ساعات. لا يحدد ساعة إطلاق دقيقة؛ وقد تتغير المعلمات. هذا إعلان لمشتقات، وليس مكافأة رمز للتداول الفوري.",
-      "es": "El aviso menciona futuros y bots 哈基米USDT el 6 de septiembre de 2026 (UTC+8), con apalancamiento máximo de 3x y comisión de financiación cada cuatro horas. No da una hora exacta de lanzamiento; los parámetros pueden cambiar. Es un anuncio de derivados, no una recompensa de token spot.",
-      "pt-BR": "O aviso menciona futuros e bots 哈基米USDT em 6 de setembro de 2026 (UTC+8), com alavancagem máxima de 3x e taxa de funding a cada quatro horas. Não informa horário exato de lançamento; os parâmetros podem mudar. É um anúncio de derivativos, não uma recompensa de token à vista.",
-      "fr": "L'avis mentionne les contrats à terme et les bots 哈基米USDT le 6 septembre 2026 (UTC+8), avec un effet de levier maximal de 3x et des frais de financement toutes les quatre heures. Il ne donne pas d'heure précise de lancement ; les paramètres peuvent changer. C'est une annonce de dérivés, pas une récompense de jeton au comptant.",
-      "de": "Die Mitteilung nennt 哈基米USDT-Futures und Bots am 6. September 2026 (UTC+8) mit maximal 3x Hebel und Funding-Gebühren alle vier Stunden. Sie nennt keine genaue Startuhrzeit; Parameter können sich ändern. Dies ist eine Derivate-Ankündigung, keine Spot-Token-Belohnung.",
-      "ru": "Уведомление называет фьючерсы и ботов 哈基米USDT на 6 сентября 2026 года (UTC+8), с максимальным плечом 3x и комиссией фондирования каждые четыре часа. Точное время запуска не указано; параметры могут измениться. Это объявление о деривативах, а не вознаграждение спотовым токеном.",
-      "id": "Pemberitahuan tersebut menyebutkan futures dan bot 哈基米USDT pada 6 September 2026 (UTC+8), dengan leverage maksimum 3x dan biaya funding setiap empat jam. Pemberitahuan tidak memberikan jam peluncuran yang tepat; parameter dapat berubah. Ini adalah pengumuman derivatif, bukan hadiah token spot.",
-      "vi": "Thông báo nêu tên hợp đồng tương lai và bot 哈基米USDT vào ngày 6 tháng 9 năm 2026 (UTC+8), với đòn bẩy tối đa 3x và phí funding mỗi bốn giờ. Thông báo không đưa ra giờ ra mắt chính xác; các thông số có thể thay đổi. Đây là thông báo phái sinh, không phải phần thưởng token spot.",
-      "it": "L'avviso nomina futures e bot 哈基米USDT il 6 settembre 2026 (UTC+8), con leva massima 3x e commissione di funding ogni quattro ore. Non fornisce un orario preciso di lancio; i parametri possono cambiare. È un annuncio su derivati, non una ricompensa in token spot."
-    }
-  },
-  {
-    paths: [["okx", "sources", "okx-fet-september", "summary"]],
-    values: {
-      "zh-Hans": "公告安排 FET/USDT 永续合约于 2026 年 9 月 5 日 03:30 UTC 在网页、应用与 API 上线，并要求用户在应用内确认地区可用性。公开时间表不能证明当前交易所账户可以交易。",
-      "zh-Hant": "公告安排 FET/USDT 永續合約於 2026 年 9 月 5 日 03:30 UTC 在網頁、應用程式與 API 上線，並要求用戶在應用程式內確認地區可用性。公開時間表不能證明目前交易所帳戶可以交易。",
-      "ja": "この発表は、FET/USDT 永続先物契約を 2026 年 9 月 5 日 03:30 UTC にウェブ、アプリ、API で提供予定とし、ユーザーにアプリ内で地域ごとの利用可否を確認するよう求めています。公開されたスケジュールは、現在のアカウントで取引できることを証明しません。",
-      "ko": "발표는 2026년 9월 5일 03:30 UTC에 웹, 앱 및 API에서 FET/USDT 무기한 계약 제공을 예정하고, 사용자가 앱에서 지역별 이용 가능 여부를 확인하도록 요청합니다. 공개된 일정은 현재 거래소 계정이 거래할 수 있음을 증명하지 않습니다.",
-      "tr": "Duyuru, FET/USDT sürekli vadeli sözleşmelerini 5 Eylül 2026 saat 03:30 UTC'de web, uygulama ve API için planlar. Kullanıcılardan uygulamada bölgesel erişimi doğrulamalarını ister. Yayınlanmış bir takvim, mevcut borsa hesabının işlem yapabileceğini kanıtlamaz.",
-      "ar": "يحدد الإعلان موعد إدراج عقود FET/USDT الدائمة في 5 سبتمبر 2026 الساعة 03:30 بالتوقيت العالمي المنسق على الويب والتطبيق وواجهة برمجة التطبيقات. ويطلب من المستخدمين تأكيد التوفر الإقليمي داخل التطبيق. لا يثبت الجدول المنشور أن الحساب الحالي لدى منصة التداول يمكنه التداول.",
-      "es": "El anuncio programa los contratos perpetuos FET/USDT para el 5 de septiembre de 2026 a las 03:30 UTC en web, app y API. Pide a los usuarios confirmar la disponibilidad regional en la aplicación. Un calendario publicado no prueba que la cuenta de exchange actual pueda operar.",
-      "pt-BR": "O anúncio programa os contratos perpétuos FET/USDT para 5 de setembro de 2026 às 03h30 UTC na web, no app e na API. Ele pede aos usuários que confirmem a disponibilidade regional no aplicativo. Um cronograma publicado não prova que a conta atual na exchange possa negociar.",
-      "fr": "L'annonce programme les contrats perpétuels FET/USDT pour le 5 septembre 2026 à 03:30 UTC sur le Web, l'application et l'API. Elle demande aux utilisateurs de confirmer la disponibilité régionale dans l'application. Un calendrier publié ne prouve pas que le compte d'échange actuel puisse trader.",
-      "de": "Die Ankündigung plant FET/USDT-Perpetual-Kontrakte für den 5. September 2026 um 03:30 UTC im Web, in der App und über die API. Nutzer sollen die regionale Verfügbarkeit in der App bestätigen. Ein veröffentlichter Zeitplan beweist nicht, dass das aktuelle Börsenkonto handeln kann.",
-      "ru": "Объявление планирует запуск бессрочных контрактов FET/USDT 5 сентября 2026 года в 03:30 UTC в веб-версии, приложении и API. Пользователей просят подтвердить региональную доступность в приложении. Опубликованное расписание не доказывает, что текущий биржевой аккаунт может торговать.",
-      "id": "Pengumuman ini menjadwalkan kontrak perpetual FET/USDT pada 5 September 2026 pukul 03:30 UTC di web, aplikasi, dan API. Pengguna diminta mengonfirmasi ketersediaan regional di aplikasi. Jadwal yang dipublikasikan tidak membuktikan bahwa akun exchange saat ini dapat berdagang.",
-      "vi": "Thông báo lên lịch hợp đồng vĩnh viễn FET/USDT vào ngày 5 tháng 9 năm 2026 lúc 03:30 UTC trên web, ứng dụng và API. Người dùng được yêu cầu xác nhận khả năng hỗ trợ theo khu vực trong ứng dụng. Lịch đã công bố không chứng minh tài khoản sàn hiện tại có thể giao dịch.",
-      "it": "L'annuncio programma i contratti perpetui FET/USDT per il 5 settembre 2026 alle 03:30 UTC su web, app e API. Chiede agli utenti di confermare la disponibilità regionale nell'app. Un calendario pubblicato non prova che l'account exchange attuale possa fare trading."
-    }
-  },
-  {
-    paths: [["kraken", "signupReward", "summary"], ["kraken", "evidenceRequirements", "limitations"], ["kraken", "evidenceRequirements", "gaps", "1"]],
-    values: {
-      "zh-Hans": "标题写最高 $200，FAQ 又写默认货币固定 20；在冲突解决前不展示统一奖励金额。",
-      "zh-Hant": "標題寫最高 $200，FAQ 又寫預設貨幣固定 20；在衝突解決前不展示統一獎勵金額。",
-      "ja": "見出しには最大 $200 とありますが、FAQ ではデフォルト通貨で固定 20 と説明されています。解決されるまでは、共通の金額を表示すべきではありません。",
-      "ko": "제목에는 최대 $200라고 되어 있지만 FAQ에는 기본 통화 기준 고정 20이라고 설명되어 있습니다. 충돌이 해결될 때까지 공통 금액을 표시해서는 안 됩니다.",
-      "tr": "Başlık 200$'a kadar derken, SSS varsayılan para biriminde sabit 20 tutarını açıklar. Çelişki çözülene kadar ortak bir tutar duyurulmamalıdır.",
-      "ar": "يقول العنوان ما يصل إلى 200$، بينما تصف الأسئلة الشائعة مبلغ 20 ثابتًا بالعملة الافتراضية. لا ينبغي عرض مبلغ موحد حتى يتم حسم التعارض.",
-      "es": "El título dice hasta $200, mientras que las preguntas frecuentes describen un valor fijo de 20 en la moneda predeterminada. No debe anunciarse una cantidad común hasta que se resuelva la discrepancia.",
-      "pt-BR": "O título indica até US$ 200, enquanto o FAQ descreve um valor fixo de 20 na moeda padrão. Nenhum valor comum deve ser anunciado até que a divergência seja resolvida.",
-      "fr": "Le titre indique jusqu'à 200 $, tandis que la FAQ décrit un montant fixe de 20 dans la devise par défaut. Aucun montant commun ne doit être annoncé tant que l'écart n'est pas résolu.",
-      "de": "Die Überschrift nennt bis zu 200 $, während die FAQ einen festen Betrag von 20 in der Standardwährung beschreibt. Bis zur Klärung sollte kein einheitlicher Betrag beworben werden.",
-      "ru": "В заголовке указано до 200 $, тогда как FAQ описывает фиксированные 20 в валюте по умолчанию. До разрешения расхождения не следует указывать единый размер вознаграждения.",
-      "id": "Judul menyebut hingga $200, sedangkan FAQ menjelaskan angka tetap 20 dalam mata uang default. Tidak ada jumlah umum yang boleh dipromosikan sampai perbedaan ini diselesaikan.",
-      "vi": "Tiêu đề ghi tối đa $200, trong khi FAQ mô tả mức cố định 20 theo loại tiền mặc định. Không nên công bố một số tiền chung cho đến khi điểm này được làm rõ.",
-      "it": "Il titolo indica fino a 200 $, mentre le FAQ descrivono un importo fisso di 20 nella valuta predefinita. Nessun importo comune dovrebbe essere pubblicizzato finché la discrepanza non viene risolta."
-    }
-  },
-  {
-    paths: [["kucoin", "sources", "kucoin-marscoin-september", "summary"]],
-    values: {
-      "zh-Hans": "MARSCOIN/USDT 现货公告列出 BSC-BEP20 入金、9 月 5 日 06:00–07:00 UTC 集合竞价、07:00 UTC 交易及 9 月 6 日 10:00 UTC 提币。页面发布时钟未标时区，不作为赠币或实时服务可用性证明。",
-      "zh-Hant": "MARSCOIN/USDT 現貨公告列出 BSC-BEP20 入金、9 月 5 日 06:00–07:00 UTC 集合競價、07:00 UTC 交易及 9 月 6 日 10:00 UTC 提幣。頁面發布時鐘未標時區，不作為贈幣或即時服務可用性證明。",
-      "ja": "MARSCOIN/USDT の現物告知は、BSC-BEP20 入金、9 月 5 日 06:00–07:00 UTC のオークション、07:00 UTC の取引開始、9 月 6 日 10:00 UTC の出金を示しています。表示された公開時刻にはタイムゾーンがありません。これは検証済みの配布やサービス稼働状況の証明ではありません。",
-      "ko": "MARSCOIN/USDT 현물 공지는 BSC-BEP20 입금, 9월 5일 06:00–07:00 UTC 경매, 07:00 UTC 거래 및 9월 6일 10:00 UTC 출금을 명시합니다. 표시된 게시 시각에는 시간대가 없습니다. 이는 검증된 증정이나 서비스 상태 테스트가 아닙니다.",
-      "tr": "MARSCOIN/USDT spot duyurusu BSC-BEP20 yatırma işlemlerini, 5 Eylül 06:00–07:00 UTC açık artırmasını, 07:00 UTC işlemleri ve 6 Eylül 10:00 UTC çekimlerini belirtir. Gösterilen yayın saatinin zaman dilimi yoktur. Bu, doğrulanmış bir hediye veya hizmet durumu testi değildir.",
-      "ar": "يحدد إشعار التداول الفوري MARSCOIN/USDT إيداعات BSC-BEP20، ومزاد 5 سبتمبر 06:00–07:00 UTC، والتداول عند 07:00 UTC، وعمليات السحب في 6 سبتمبر 10:00 UTC. وقت النشر المعروض لا يتضمن منطقة زمنية. هذا ليس هبة موثقة ولا اختبارًا لحالة الخدمة.",
-      "es": "El aviso spot MARSCOIN/USDT especifica depósitos BSC-BEP20, una subasta el 5 de septiembre de 06:00 a 07:00 UTC, negociación a las 07:00 UTC y retiros el 6 de septiembre a las 10:00 UTC. El reloj de publicación mostrado no incluye zona horaria. No es un obsequio verificado ni una prueba del estado del servicio.",
-      "pt-BR": "O aviso spot MARSCOIN/USDT especifica depósitos BSC-BEP20, leilão em 5 de setembro das 06h00 às 07h00 UTC, negociação às 07h00 UTC e saques em 6 de setembro às 10h00 UTC. O horário de publicação exibido não tem fuso horário. Não é uma oferta verificada nem um teste de status do serviço.",
-      "fr": "L'avis spot MARSCOIN/USDT précise les dépôts BSC-BEP20, une enchère le 5 septembre de 06:00 à 07:00 UTC, la négociation à 07:00 UTC et les retraits le 6 septembre à 10:00 UTC. L'heure de publication affichée n'indique pas de fuseau horaire. Ce n'est ni un cadeau vérifié ni un test d'état du service.",
-      "de": "Die MARSCOIN/USDT-Spot-Mitteilung nennt BSC-BEP20-Einzahlungen, eine Auktion am 5. September von 06:00–07:00 UTC, Handel um 07:00 UTC und Auszahlungen am 6. September um 10:00 UTC. Die angezeigte Veröffentlichungszeit hat keine Zeitzone. Dies ist kein verifiziertes Giveaway und kein Servicestatus-Test.",
-      "ru": "Спотовое уведомление MARSCOIN/USDT указывает депозиты BSC-BEP20, аукцион 5 сентября 06:00–07:00 UTC, торговлю в 07:00 UTC и вывод средств 6 сентября в 10:00 UTC. У указанного времени публикации нет часового пояса. Это не подтвержденная раздача и не тест статуса сервиса.",
-      "id": "Pemberitahuan spot MARSCOIN/USDT menetapkan setoran BSC-BEP20, lelang 5 September 06:00–07:00 UTC, perdagangan 07:00 UTC, dan penarikan 6 September 10:00 UTC. Jam publikasi yang ditampilkan tidak memiliki zona waktu. Ini bukan giveaway terverifikasi atau uji status layanan.",
-      "vi": "Thông báo spot MARSCOIN/USDT nêu tiền gửi BSC-BEP20, phiên đấu giá ngày 5 tháng 9 từ 06:00–07:00 UTC, giao dịch lúc 07:00 UTC và rút tiền ngày 6 tháng 9 lúc 10:00 UTC. Thời điểm xuất bản hiển thị không có múi giờ. Đây không phải quà tặng đã xác minh hay bài kiểm tra trạng thái dịch vụ.",
-      "it": "L'avviso spot MARSCOIN/USDT specifica depositi BSC-BEP20, un'asta il 5 settembre dalle 06:00 alle 07:00 UTC, trading alle 07:00 UTC e prelievi il 6 settembre alle 10:00 UTC. L'orario di pubblicazione visualizzato non ha fuso orario. Non è un giveaway verificato né un test sullo stato del servizio."
-    }
-  },
-  {
-    paths: [["mexc", "sources", "mexc-welcome-guide", "summary"]],
-    values: {
-      "zh-Hans": "历史标题最高额；未核实当前账户的具体奖励资格。",
-      "zh-Hant": "歷史標題最高額；未核實目前帳戶的具體獎勵資格。",
-      "ja": "過去の見出し上の最大額であり、現在のアカウントに対する具体的な権利は確認されていません。",
-      "ko": "과거 헤드라인 기준 최대값이며, 현재 계정별 구체적 수급 자격은 확인되지 않았습니다.",
-      "tr": "Tarihsel başlıkta yer alan azami tutar; mevcut hesaba özel hak doğrulanmamıştır.",
-      "ar": "هذا حد أقصى تاريخي في العنوان؛ ولم يتم التحقق من استحقاق محدد للحساب الحالي.",
-      "es": "Máximo histórico del titular; no se ha verificado ningún derecho específico para la cuenta actual.",
-      "pt-BR": "Máximo histórico do título; nenhum direito específico da conta atual foi verificado.",
-      "fr": "Maximum historique affiché dans le titre ; aucun droit spécifique au compte actuel n'a été vérifié.",
-      "de": "Historisches Maximum aus der Überschrift; keine spezifische Berechtigung für das aktuelle Konto wurde verifiziert.",
-      "ru": "Исторический максимум из заголовка; конкретное право для текущего аккаунта не подтверждено.",
-      "id": "Maksimum historis pada judul; belum ada hak khusus untuk akun saat ini yang diverifikasi.",
-      "vi": "Mức tối đa theo tiêu đề lịch sử; chưa xác minh quyền lợi cụ thể cho tài khoản hiện tại.",
-      "it": "Massimo storico indicato nel titolo; non è stato verificato alcun diritto specifico per l'account attuale."
-    }
-  },
-  {
-    paths: [["backpack", "signupReward", "conditions", "2"], ["backpack", "evidenceRequirements", "limitations"]],
-    values: {
-      "zh-Hans": "核对产品排除项和领取条款；来源排除了股票永续合约相关手续费。",
-      "zh-Hant": "核對產品排除項和領取條款；來源排除了股票永續合約相關手續費。",
-      "ja": "製品の除外条件と請求条件を確認してください。この情報源では株式無期限契約の手数料が除外されています。",
-      "ko": "제품 제외 사항과 청구 조건을 확인하세요. 이 출처에서는 주식 무기한 계약 수수료가 제외됩니다.",
-      "tr": "Ürün hariç tutmalarını ve talep koşullarını inceleyin; hisse senedi sürekli vadeli sözleşme ücretleri bu kaynakta hariç tutulur.",
-      "ar": "راجع استثناءات المنتج وشروط المطالبة؛ رسوم عقود الأسهم الدائمة مستبعدة في هذا المصدر.",
-      "es": "Revise las exclusiones de producto y los términos de reclamación; las comisiones de contratos perpetuos sobre acciones están excluidas en esta fuente.",
-      "pt-BR": "Revise as exclusões de produto e os termos de solicitação; as taxas de contratos perpétuos de ações estão excluídas nesta fonte.",
-      "fr": "Vérifiez les exclusions de produits et les conditions de réclamation ; les frais des contrats perpétuels sur actions sont exclus dans cette source.",
-      "de": "Prüfen Sie Produktausschlüsse und Anspruchsbedingungen; Gebühren für Aktien-Perpetual-Kontrakte sind in dieser Quelle ausgeschlossen.",
-      "ru": "Проверьте исключения по продуктам и условия получения; комиссии по бессрочным контрактам на акции исключены в этом источнике.",
-      "id": "Tinjau pengecualian produk dan ketentuan klaim; biaya kontrak perpetual saham dikecualikan dalam sumber ini.",
-      "vi": "Xem lại các loại trừ sản phẩm và điều khoản nhận quyền; phí hợp đồng vĩnh viễn trên cổ phiếu bị loại trừ trong nguồn này.",
-      "it": "Esamina le esclusioni dei prodotti e i termini di richiesta; le commissioni dei contratti perpetui su azioni sono escluse in questa fonte."
-    }
-  },
-  {
-    paths: [["deribit", "signupReward", "summary"]],
-    values: {
-      "zh-Hans": "适用实体的合资格新用户通过有效邀请链接，可在六个月内享 10% 交易手续费折扣；现货交易不适用。",
-      "zh-Hant": "適用實體的合資格新用戶透過有效邀請連結，可在六個月內享 10% 交易手續費折扣；現貨交易不適用。",
-      "ja": "対象事業体の適格な新規ユーザーは、有効なアフィリエイトリンク経由で 6 か月間 10% の取引手数料割引を受けます。現物取引は対象外です。",
-      "ko": "해당 법인의 적격 신규 사용자는 유효한 제휴 링크를 통해 6개월 동안 거래 수수료 10% 할인을 받습니다. 현물 거래는 제외됩니다.",
-      "tr": "Kapsam dahilindeki kuruluşun uygun yeni kullanıcıları, geçerli bir ortaklık bağlantısı üzerinden altı ay boyunca %10 işlem ücreti indirimi alır; spot işlem hariçtir.",
-      "ar": "يحصل المستخدمون الجدد المؤهلون للكيان المشمول على خصم 10% على رسوم التداول لمدة ستة أشهر من خلال رابط تابع صالح؛ التداول الفوري مستبعد.",
-      "es": "Los nuevos usuarios elegibles de la entidad cubierta reciben un descuento del 10 % en las comisiones de trading durante seis meses mediante un enlace de afiliado válido; el trading spot está excluido.",
-      "pt-BR": "Novos usuários elegíveis da entidade coberta recebem desconto de 10% nas taxas de negociação por seis meses por meio de um link de afiliado válido; negociação à vista está excluída.",
-      "fr": "Les nouveaux utilisateurs éligibles de l'entité couverte bénéficient d'une remise de 10 % sur les frais de trading pendant six mois via un lien d'affiliation valide ; le trading au comptant est exclu.",
-      "de": "Berechtigte neue Nutzer der abgedeckten Einheit erhalten über einen gültigen Affiliate-Link sechs Monate lang 10 % Rabatt auf Handelsgebühren; Spot-Handel ist ausgeschlossen.",
-      "ru": "Новые пользователи соответствующей организации получают скидку 10% на торговые комиссии в течение шести месяцев по действующей партнерской ссылке; спотовая торговля исключена.",
-      "id": "Pengguna baru yang memenuhi syarat dari entitas tercakup menerima diskon biaya trading 10% selama enam bulan melalui tautan afiliasi yang valid; perdagangan spot dikecualikan.",
-      "vi": "Người dùng mới đủ điều kiện của thực thể được áp dụng nhận giảm 10% phí giao dịch trong sáu tháng thông qua liên kết liên kết hợp lệ; giao dịch spot bị loại trừ.",
-      "it": "I nuovi utenti idonei dell'entità coperta ricevono uno sconto del 10% sulle commissioni di trading per sei mesi tramite un link affiliato valido; il trading spot è escluso."
-    }
-  },
-  {
-    paths: [["deribit", "signupReward", "conditions", "1"], ["deribit", "evidenceRequirements", "trading"], ["deribit", "evidenceRequirements", "maximumConditions"]],
-    values: {
-      "zh-Hans": "折扣限前六个月且排除现货交易，不是现金赠金。",
-      "zh-Hant": "折扣限前六個月且排除現貨交易，不是現金贈金。",
-      "ja": "割引は最初の 6 か月間が対象で、現物取引は除外されます。現金ボーナスではありません。",
-      "ko": "할인은 처음 6개월 동안 적용되며 현물 거래는 제외됩니다. 현금 보너스가 아닙니다.",
-      "tr": "İndirim ilk altı ayı kapsar ve spot işlemi hariç tutar; nakit bonus değildir.",
-      "ar": "يغطي الخصم الأشهر الستة الأولى ويستبعد التداول الفوري؛ وليس مكافأة نقدية.",
-      "es": "El descuento cubre los primeros seis meses y excluye el trading spot; no es un bono en efectivo.",
-      "pt-BR": "O desconto cobre os primeiros seis meses e exclui negociação à vista; não é bônus em dinheiro.",
-      "fr": "La remise couvre les six premiers mois et exclut le trading au comptant ; ce n'est pas un bonus en espèces.",
-      "de": "Der Rabatt gilt für die ersten sechs Monate und schließt Spot-Handel aus; er ist kein Bargeldbonus.",
-      "ru": "Скидка действует первые шесть месяцев и исключает спотовую торговлю; это не денежный бонус.",
-      "id": "Diskon berlaku untuk enam bulan pertama dan mengecualikan perdagangan spot; ini bukan bonus tunai.",
-      "vi": "Khoản giảm giá áp dụng trong sáu tháng đầu và không bao gồm giao dịch spot; đây không phải tiền thưởng bằng tiền mặt.",
-      "it": "Lo sconto copre i primi sei mesi ed esclude il trading spot; non è un bonus in denaro."
-    }
-  },
-  {
-    paths: [["deribit", "notices", "0"]],
-    values: {
-      "zh-Hans": "启用任何商业链接前须再次核对迁移与账户实体；旧邀请页仍可打开，不代表归因长期有效。",
-      "zh-Hant": "啟用任何商業連結前須再次核對遷移與帳戶實體；舊邀請頁仍可開啟，不代表歸因長期有效。",
-      "ja": "商用リンクを有効にする前に、移行とアカウント主体を再確認してください。読み取れる古いアフィリエイトページは、長期的な帰属の証明ではありません。",
-      "ko": "상업용 링크를 활성화하기 전에 마이그레이션과 계정 주체를 다시 확인하세요. 읽을 수 있는 오래된 제휴 페이지는 장기 귀속의 증거가 아닙니다.",
-      "tr": "Herhangi bir ticari bağlantıyı etkinleştirmeden önce taşıma ve hesap varlığını yeniden kontrol edin. Okunabilir eski bir ortaklık sayfası, uzun vadeli atıfın kanıtı değildir.",
-      "ar": "قبل تمكين أي رابط تجاري، أعد التحقق من الترحيل وكيان الحساب. الصفحة التابعة القديمة القابلة للقراءة ليست دليلًا على استمرار الإسناد على المدى الطويل.",
-      "es": "Antes de habilitar cualquier enlace comercial, vuelva a comprobar la migración y la entidad de la cuenta. Una página antigua de afiliado legible no prueba atribución a largo plazo.",
-      "pt-BR": "Antes de habilitar qualquer link comercial, verifique novamente a migração e a entidade da conta. Uma página antiga de afiliado legível não prova atribuição de longo prazo.",
-      "fr": "Avant d'activer un lien commercial, revérifiez la migration et l'entité du compte. Une ancienne page d'affiliation lisible ne prouve pas une attribution à long terme.",
-      "de": "Bevor Sie einen kommerziellen Link aktivieren, prüfen Sie Migration und Kontoeinheit erneut. Eine lesbare alte Affiliate-Seite belegt keine langfristige Zuordnung.",
-      "ru": "Перед включением любой коммерческой ссылки повторно проверьте миграцию и сущность аккаунта. Читаемая старая партнерская страница не доказывает долгосрочную атрибуцию.",
-      "id": "Sebelum mengaktifkan tautan komersial apa pun, periksa kembali migrasi dan entitas akun. Halaman afiliasi lama yang dapat dibaca bukan bukti atribusi jangka panjang.",
-      "vi": "Trước khi bật bất kỳ liên kết thương mại nào, hãy kiểm tra lại việc di chuyển và thực thể tài khoản. Một trang liên kết cũ có thể đọc được không chứng minh ghi nhận dài hạn.",
-      "it": "Prima di abilitare qualsiasi link commerciale, ricontrolla la migrazione e l'entità dell'account. Una vecchia pagina affiliata leggibile non prova l'attribuzione a lungo termine."
-    }
-  },
-  {
-    paths: [["gmx", "signupReward", "summary"], ["gmx", "evidenceRequirements", "maximumConditions"]],
-    values: {
-      "zh-Hans": "文档交易者折扣为一级 5%、二至三级 10%。借款费与资金费不在折扣范围内；治理可能调整规则。",
-      "zh-Hant": "文件交易者折扣為一級 5%、二至三級 10%。借款費與資金費不在折扣範圍內；治理可能調整規則。",
-      "ja": "文書化されたトレーダー割引は Tier 1 で 5%、Tier 2～3 で 10% です。借入手数料と資金調達料は対象外で、ガバナンスによりルールが変更される場合があります。",
-      "ko": "문서화된 트레이더 할인은 1등급 5%, 2~3등급 10%입니다. 차입 수수료와 펀딩비는 제외되며, 거버넌스가 규칙을 변경할 수 있습니다.",
-      "tr": "Belgelenen trader indirimi 1. kademede %5, 2-3. kademelerde %10'dur. Borçlanma ücretleri ve fonlama ücretleri hariçtir; yönetişim kuralları değiştirebilir.",
-      "ar": "خصم المتداول الموثق هو 5% في المستوى 1 و10% في المستويين 2–3. رسوم الاقتراض ورسوم التمويل مستبعدة؛ وقد تغير الحوكمة القواعد.",
-      "es": "El descuento documentado para traders es del 5 % en el nivel 1 y del 10 % en los niveles 2–3. Se excluyen las comisiones de préstamo y las comisiones de financiación; la gobernanza puede cambiar las reglas.",
-      "pt-BR": "O desconto documentado para traders é de 5% no nível 1 e 10% nos níveis 2–3. Taxas de empréstimo e taxas de funding estão excluídas; a governança pode alterar as regras.",
-      "fr": "La remise documentée pour les traders est de 5 % au niveau 1 et de 10 % aux niveaux 2–3. Les frais d'emprunt et les frais de financement sont exclus ; la gouvernance peut modifier les règles.",
-      "de": "Der dokumentierte Trader-Rabatt beträgt 5 % auf Stufe 1 und 10 % auf Stufen 2–3. Borrowing-Gebühren und Funding-Gebühren sind ausgeschlossen; Governance kann die Regeln ändern.",
-      "ru": "Задокументированная скидка трейдера составляет 5% на уровне 1 и 10% на уровнях 2–3. Комиссии за заимствование и комиссии фондирования исключены; управление может изменить правила.",
-      "id": "Diskon trader yang terdokumentasi adalah 5% pada tingkat 1 dan 10% pada tingkat 2–3. Biaya borrowing dan biaya funding dikecualikan; tata kelola dapat mengubah aturan.",
-      "vi": "Mức giảm phí cho trader được ghi nhận là 5% ở cấp 1 và 10% ở cấp 2–3. Phí vay và phí funding bị loại trừ; cơ chế quản trị có thể thay đổi quy tắc.",
-      "it": "Lo sconto documentato per i trader è del 5% al livello 1 e del 10% ai livelli 2–3. Sono escluse le commissioni di borrowing e le commissioni di funding; la governance può modificare le regole."
-    }
-  },
-  {
-    paths: [["gmx", "signupReward", "conditions", "1"], ["gmx", "evidenceRequirements", "trading"]],
-    values: {
-      "zh-Hans": "确认代码等级，并将开平仓手续费与借款费、资金费分开计算。",
-      "zh-Hant": "確認代碼等級，並將開平倉手續費與借款費、資金費分開計算。",
-      "ja": "コードのティアを確認し、ポジション手数料を借入コストや資金調達料と分けてください。",
-      "ko": "코드 등급을 확인하고 포지션 수수료를 차입 비용 및 펀딩비와 분리해 계산하세요.",
-      "tr": "Kodun kademesini doğrulayın ve pozisyon ücretlerini borçlanma maliyetleri ile fonlama ücretlerinden ayrı tutun.",
-      "ar": "أكد فئة الرمز، وافصل رسوم المركز عن تكاليف الاقتراض ورسوم التمويل.",
-      "es": "Confirme el nivel del código y mantenga las comisiones de posición separadas de los costes de préstamo y de las comisiones de financiación.",
-      "pt-BR": "Confirme o nível do código e mantenha as taxas de posição separadas dos custos de empréstimo e das taxas de funding.",
-      "fr": "Confirmez le niveau du code et séparez les frais de position des coûts d'emprunt et des frais de financement.",
-      "de": "Bestätigen Sie die Stufe des Codes und trennen Sie Positionsgebühren von Borrowing-Kosten und Funding-Gebühren.",
-      "ru": "Подтвердите уровень кода и отделяйте комиссии за позицию от затрат на заимствование и комиссий фондирования.",
-      "id": "Konfirmasi tingkatan kode dan pisahkan biaya posisi dari biaya borrowing serta biaya funding.",
-      "vi": "Xác nhận cấp mã và tách phí vị thế khỏi chi phí vay cũng như phí funding.",
-      "it": "Conferma il livello del codice e tieni separate le commissioni di posizione dai costi di borrowing e dalle commissioni di funding."
-    }
-  }
-];
-
-function applyR212V4TerminologyCorrections() {
-  const setPath = (path, values) => {
-    let target = officialCampaignResearchLocalizations;
-    for (const key of path) target = target?.[key];
-    if (!target || typeof target.en !== "string") throw new Error(`Missing R212v4 terminology target: ${path.join(".")}`);
-    for (const [locale, text] of Object.entries(values)) {
-      target[locale] = text;
-    }
-  };
-  for (const correction of R212_V4_TERMINOLOGY_CORRECTIONS) {
-    for (const path of correction.paths) setPath(path, correction.values);
-  }
-}
-
-applyR212V4TerminologyCorrections();
 
 export function campaignResearchLocalizedText(slug, path, locale) {
   const parts = Array.isArray(path) ? path : String(path || '').split('.').filter(Boolean);
@@ -5794,6 +6724,7 @@ export function hasCampaignResearchLocale(slug, locale) {
   if (!record) return false;
   const visit = (value) => {
     if (!value || typeof value !== 'object') return true;
+    if (Array.isArray(value)) return value.every(visit);
     if (typeof value.en === 'string') return typeof value[locale] === 'string' && value[locale].trim().length > 0;
     return Object.values(value).every(visit);
   };

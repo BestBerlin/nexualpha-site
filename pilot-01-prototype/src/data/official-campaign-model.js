@@ -38,6 +38,10 @@ const localizedResearchFallback = {
   id: "Detail sumber resmi sedang diverifikasi. Konfirmasikan ketentuan dan manfaat di halaman resmi.",
   vi: "Chi tiết từ nguồn chính thức đang được xác minh. Hãy kiểm tra điều kiện và ưu đãi trên trang chính thức.",
   it: "I dettagli della fonte ufficiale sono in verifica. Conferma condizioni e vantaggi sulla pagina ufficiale.",
+  // l10n: needs native review
+  ur: "سرکاری ماخذ کی تفصیلات ابھی زیرِ تصدیق ہیں۔ شرائط اور فوائد سرکاری صفحے پر تصدیق کریں۔",
+  // l10n: needs native review
+  uk: "Дані з офіційного джерела ще перевіряються. Підтвердьте умови й переваги на офіційній сторінці.",
 };
 
 const unknownReward = {
@@ -56,6 +60,10 @@ const unknownReward = {
   id: "Pada pemeriksaan ini tidak ada sumber reward resmi yang dapat dibaca untuk mendukung suatu penawaran.",
   vi: "Trong lần kiểm tra này không có nguồn phần thưởng chính thức đọc được để hỗ trợ một ưu đãi.",
   it: "In questa verifica non esiste una fonte ufficiale leggibile sulle ricompense che supporti un’offerta.",
+  // l10n: needs native review
+  ur: "اس جانچ میں کوئی پڑھنے کے قابل سرکاری انعامی ماخذ اس پیشکش کی تائید نہیں کرتا۔",
+  // l10n: needs native review
+  uk: "У цій перевірці немає читабельного офіційного джерела винагород, яке підтверджує пропозицію.",
 };
 
 const supportedDisplayLocale = (locale) => {

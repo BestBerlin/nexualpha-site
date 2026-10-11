@@ -14,7 +14,7 @@ export const interfaceCopyByLocale = {
     compareHint: "Select two or three platforms, then open the deep comparison.",
     handoffLabel: "Official-domain handoff",
     handoffBody: "NexuAlpha does not open accounts or collect KYC. It labels reviewed partner routes and leaves account creation to the official platform.",
-    sourceProof: "Source proof",
+    sourceProof: "ذریعہ ثبوت",
     strengths: "Why users shortlist it",
     limitations: "Limits to verify",
     compareWith: "Compare with",
@@ -565,6 +565,43 @@ export const interfaceCopyByLocale = {
   },
 };
 
+// l10n: needs native review
+interfaceCopyByLocale.ur = {
+  ...interfaceCopyByLocale.en,
+  profileSignal: "رجسٹریشن سے پہلے فیصلہ",
+  profileSignalBody: "یہ صفحہ ایک سوال کا جواب دیتا ہے: کیا یہ پلیٹ فارم مختصر فہرست میں آتا ہے، اور رجسٹریشن سے پہلے کیا چیک کرنا ہے۔",
+  tradeReadiness: "پہلی ٹریڈ سے پہلے",
+  routeReadiness: "قابل تجارت اثاثوں کے راستے",
+  routeReadinessBody: "مصنوعات کا دائرہ وسیع رکھیں: کرپٹو، ٹوکنائزڈ ایکویٹیز، کموڈٹیز اور کثیر اثاثہ رسائی شامل ہو سکتی ہے، مگر ہر شے کے لیے ذرائع اور پلیٹ فارم شرائط چاہئیں۔",
+  conversionIntent: "اگلا قدم",
+  conversionIntentBody: "پہلے موزونیت اور شرائط موازنہ کریں؛ جائزہ شدہ پارٹنر راستے NexuAlpha چھوڑنے سے پہلے نشان زد ہوتے ہیں۔",
+  activityQueue: "سرکاری سرگرمی ریڈار",
+  activityQueueBody: "سرکاری مہمات، لسٹنگز اور انعامی items انسانی جائزہ قطار میں جاتے ہیں؛ غیر جائزہ شدہ، ختم شدہ یا مثال والا مواد شائع نہیں ہوتا۔",
+  compareHint: "دو یا تین پلیٹ فارم منتخب کریں، پھر گہرا موازنہ کھولیں۔",
+  handoffLabel: "سرکاری ڈومین پر منتقلی",
+  handoffBody: "NexuAlpha اکاؤنٹس نہیں کھولتا اور KYC ڈیٹا جمع نہیں کرتا۔ جائزہ شدہ پارٹنر راستے نشان زد ہوتے ہیں؛ اکاؤنٹ بنانا سرکاری پلیٹ فارم پر ہوتا ہے۔",
+  sourceProof: "ذریعہ ثبوت",
+  conversionCards: ["بہترین موزونیت", "رجسٹریشن چیکس", "سرکاری راستہ"],
+};
+// l10n: needs native review
+interfaceCopyByLocale.uk = {
+  ...interfaceCopyByLocale.en,
+  profileSignal: "Рішення перед реєстрацією",
+  profileSignalBody: "Ця сторінка відповідає на одне питання: чи входить платформа до короткого списку і що перевірити до реєстрації.",
+  tradeReadiness: "Перед першою угодою",
+  routeReadiness: "Маршрути до торгових активів",
+  routeReadinessBody: "Тримайте продуктовий діапазон широким: крипто, токенізовані акції, сировинні товари й багатоактивний доступ можуть входити, але кожному пункту потрібні джерела та умови платформи.",
+  conversionIntent: "Наступний крок",
+  conversionIntentBody: "Спершу порівняйте відповідність і умови; перевірені партнерські маршрути позначаються перед виходом із NexuAlpha.",
+  activityQueue: "Радар офіційних активностей",
+  activityQueueBody: "Офіційні кампанії, лістинги й винагороди потрапляють у чергу людського огляду; неперевірений, прострочений або прикладовий контент не публікується.",
+  compareHint: "Виберіть дві або три платформи, потім відкрийте глибоке порівняння.",
+  handoffLabel: "Перехід на офіційний домен",
+  handoffBody: "NexuAlpha не відкриває акаунти й не збирає дані KYC. Перевірені партнерські маршрути позначаються; створення акаунта відбувається на офіційній платформі.",
+  sourceProof: "ذریعہ ثبوت",
+  conversionCards: ["بہترین موزونیت", "رجسٹریشن چیکس", "سرکاری راستہ"],
+};
+
 export const compareFaqQuestion = (locale, index, fallback, names = {}) => {
   const raw = String(locale || "");
   const key = raw.toLowerCase() === "pt-br" ? "pt-BR" : raw.split("-")[0];
@@ -583,6 +620,10 @@ export const compareFaqQuestion = (locale, index, fallback, names = {}) => {
     id: [`Mana yang biayanya lebih rendah, ${nameA} atau ${nameB}?`, `Mana yang lebih cocok untuk pemula kripto, ${nameA} atau ${nameB}?`, `Bagaimana memeriksa keamanan dan cadangan ${nameA} dan ${nameB}?`, `Apa yang harus diperiksa sebelum membuka akun di ${nameA} dan ${nameB}?`],
     vi: [`Nền tảng nào có phí thấp hơn, ${nameA} hay ${nameB}?`, `${nameA} hay ${nameB} phù hợp hơn cho người mới giao dịch crypto?`, `Làm sao kiểm tra an toàn và dự trữ của ${nameA} và ${nameB}?`, `Cần kiểm tra gì trước khi mở tài khoản tại ${nameA} và ${nameB}?`],
     it: [`Quale ha commissioni più basse, ${nameA} o ${nameB}?`, `${nameA} o ${nameB}: quale piattaforma è migliore per principianti crypto?`, `Come verificare sicurezza e riserve di ${nameA} e ${nameB}?`, `Cosa controllare prima di aprire account su ${nameA} e ${nameB}?`],
+    // l10n: needs native review
+    ur: [`${nameA} یا ${nameB}: کس کی فیس کم ہے؟`, `نئے کرپٹو ٹریڈر کے لیے ${nameA} یا ${nameB} کون بہتر ہے؟`, `${nameA} اور ${nameB} کی حفاظت اور ذخائر کیسے چیک کریں؟`, `${nameA} اور ${nameB} دونوں پر اکاؤنٹ کھولتے وقت کیا دیکھیں؟`],
+    // l10n: needs native review
+    uk: [`Де нижчі комісії: ${nameA} чи ${nameB}?`, `${nameA} чи ${nameB}: що краще для нового криптотрейдера?`, `Як перевірити безпеку й резерви ${nameA} та ${nameB}?`, `Що перевірити перед відкриттям акаунтів на ${nameA} і ${nameB}?`],
   }[key];
   return localized?.[index] || fallback;
 };

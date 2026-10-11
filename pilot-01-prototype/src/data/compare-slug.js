@@ -1,7 +1,7 @@
 // Light compare helpers (split out of compare-generated.js on 2026-10-11): slugs, canonical order, locale
 // normalisation and the picker copy. No data imports, so the directory picker, compare-routes.js and the
 // next-decision bridge can use them without pulling the 200 KB template/pair module into their chunk.
-export const COMPARE_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"]);
+export const COMPARE_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"]);
 
 // Mirror of ACTIVE_VENUE_SLUGS in worker/index.js (the worker builds its set from this list).
 export const ACTIVE_COMPARE_VENUE_SLUGS = Object.freeze([
@@ -192,6 +192,24 @@ export const COMPARE_PICKER_COPY = Object.freeze({
     "hint": "Scegli due piattaforme diverse; la pagina si apre nell’ordine canonico.",
     "same": "Scegli due piattaforme diverse.",
     "placeholder": "Seleziona una piattaforma"
+  },
+  "ur": {
+    "title": "کوئی بھی دو platforms compare کریں",
+    "a": "پہلا platform",
+    "b": "دوسرا platform",
+    "submit": "Compare",
+    "hint": "دو مختلف platforms منتخب کریں؛ page canonical order میں کھلے گا۔",
+    "same": "دو مختلف platforms منتخب کریں۔",
+    "placeholder": "Platform منتخب کریں"
+  },
+  "uk": {
+    "title": "Порівняйте будь-які дві platforms",
+    "a": "Перша platform",
+    "b": "Друга platform",
+    "submit": "Порівняти",
+    "hint": "Оберіть дві різні platforms; page відкриється в canonical order.",
+    "same": "Оберіть дві різні platforms.",
+    "placeholder": "Оберіть platform"
   }
 });
 export function comparePickerCopy(locale) {

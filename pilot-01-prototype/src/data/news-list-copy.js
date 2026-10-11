@@ -18,6 +18,10 @@ const HERO_COPY = Object.freeze({
   ar: { eyebrow: "أخبار السوق والأبحاث", title: "الأخبار والأبحاث", subtitle: "اطّلع على تحليلات تستند إلى مصادر رسمية لفهم اختيار المنصات وتكاليف التداول والتغييرات التنظيمية." },
   id: { eyebrow: "Berita pasar dan riset", title: "Berita dan riset", subtitle: "Pelajari pilihan platform, biaya perdagangan, dan perubahan kebijakan melalui analisis yang merujuk pada sumber resmi." },
   vi: { eyebrow: "Tin thị trường và nghiên cứu", title: "Tin tức và nghiên cứu", subtitle: "Tìm hiểu cách chọn nền tảng, chi phí giao dịch và thay đổi chính sách qua các phân tích dựa trên nguồn chính thức." },
+  // l10n: needs native review
+  ur: { eyebrow: "مارکیٹ خبریں اور تحقیق", title: "خبریں اور تحقیق", subtitle: "سرکاری ذرائع سے منسلک تجزیوں کے ذریعے پلیٹ فارم انتخاب، ٹریڈنگ لاگت اور پالیسی تبدیلیاں سمجھیں۔" },
+  // l10n: needs native review
+  uk: { eyebrow: "Ринкові новини та дослідження", title: "Новини та дослідження", subtitle: "Вивчайте вибір платформ, торгові витрати й регуляторні зміни через аналіз із посиланнями на офіційні джерела." },
   it: { eyebrow: "Notizie di mercato e ricerca", title: "Notizie e ricerca", subtitle: "Approfondisci la scelta delle piattaforme, i costi di negoziazione e i cambiamenti normativi con analisi basate su fonti ufficiali." },
 });
 

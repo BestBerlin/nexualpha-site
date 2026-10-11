@@ -37,7 +37,7 @@ test("15 UI languages explicitly retain English content provenance for untransla
 
 
 test("five core platforms have reviewed editorial decisions in all 15 UI locales", () => {
-  const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+  const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
   const slugs = ["binance", "okx", "bybit", "bitget", "backpack"];
   for (const slug of slugs) {
     assert.equal(hasReviewedEditorialDecision(slug), true, `${slug} should have an independent editorial decision review gate`);

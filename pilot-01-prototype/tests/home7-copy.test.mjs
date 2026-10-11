@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { H7_COPY, h7IsFallback } from "../src/components/v7/home7-copy.js";
 
-const locales = ["zh-Hans", "en", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const locales = ["zh-Hans", "en", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const enKeys = Object.keys(H7_COPY.en).sort();
 const enCatKeys = Object.keys(H7_COPY.en.inCat).sort();
 const fnKeys = enKeys.filter((key) => typeof H7_COPY.en[key] === "function");
@@ -23,7 +23,7 @@ const samples = [
   ["lgGo", ["Binance"]],
 ];
 
-test("home v7 copy exposes all 15 locales", () => {
+test("home v7 copy exposes all 17 locales", () => {
   assert.deepEqual(Object.keys(H7_COPY).sort(), [...locales].sort());
 });
 

@@ -9,7 +9,7 @@ import { NEXUALPHA_PUBLISHER, RESEARCH_DESK } from "./brand-entity.js";
 import { DATA_PAGE_NAV, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH } from "./market-data-pages-nav.js";
 
 export { DATA_PAGE_NAV, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH };
-export const DATA_PAGE_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"]);
+export const DATA_PAGE_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]);
 export const DATA_PAGE_REFRESH_MS = 60 * 1000;
 // Annualised estimate: the current 8-hour rate repeated 3 times a day for 365 days (labelled as an estimate in the UI).
 export const FUNDING_PERIODS_PER_YEAR = 3 * 365;
@@ -1153,8 +1153,151 @@ const COPY = {
   },
 };
 
+const REVIEW_PENDING_COPY_PATCH = Object.freeze({
+  // l10n: needs native review
+  ur: {
+    nav: DATA_PAGE_NAV["ur"],
+    common: {
+      home: "ہوم", updated: "اپ ڈیٹ", source: "ماخذ", refresh: "صفحہ کھلا ہو تو فیڈ ہر 60 سیکنڈ بعد دوبارہ پڑھی جاتی ہے۔ اوقات UTC میں ہیں۔",
+      unavailableTitle: "لائیو ڈیٹا عارضی طور پر دستیاب نہیں", unavailable: "فیڈ ہر چند منٹ بعد تازہ ہوتی ہے۔ غیر موجودگی میں کوئی اندازہ نہیں لگایا جاتا — کچھ دیر بعد دوبارہ کوشش کریں۔",
+      explainer: "یہ صفحہ کیا دکھاتا ہے", faq: "اکثر پوچھے گئے سوالات", relatedData: "مزید لائیو ڈیٹا", json: "خام JSON فیڈ",
+      embedTitle: "اسے اپنی سائٹ پر ایمبیڈ کریں", embedIntro: "ان میں سے کوئی ٹکڑا پیسٹ کریں۔ ویجیٹ یہی براہ راست اعداد دکھاتا ہے، کسی بھی کالم کی چوڑائی میں فٹ ہوتا ہے اور واپس اسی صفحے سے لنک کرتا ہے۔",
+      embedIframe: "iframe", embedScript: "اسکرپٹ ٹیگ", copy: "کاپی", copied: "کاپی ہو گیا", embedTerms: "ایمبیڈ مفت ہے۔ انتسابی لنک برقرار رکھیں؛ اعداد Binance اور OKX سے کم از کم حد ہیں اور ہر پانچ منٹ بعد تازہ ہوتے ہیں۔",
+      poweredBy: "NexuAlpha سے تقویت یافتہ", embedUpdated: "اپ ڈیٹ",
+    },
+    liquidations: {
+      title: "آج کی کرپٹو لیکویڈیشنز — لائیو 1 گھنٹہ / 4 گھنٹے / 24 گھنٹے | NexuAlpha",
+      description: "آج کی براہ راست کرپٹو فیوچرز لیکویڈیشنز: 1 گھنٹہ، 4 گھنٹے اور 24 گھنٹے کے کل اعداد، لانگ/شارٹ تقسیم، سب سے زیادہ لیکویڈ ہونے والی علامتیں اور Binance و OKX پر سب سے بڑا واحد آرڈر۔",
+      h1: "آج کی کرپٹو لیکویڈیشنز",
+      lead: "Binance اور OKX فیوچرز پر پچھلے ایک، چار اور 24 گھنٹوں میں کتنا لیوریجڈ کرپٹو زبردستی بند ہوا، لانگ اور شارٹ پوزیشنز کی تقسیم کے ساتھ۔",
+      h1Window: "گزشتہ 1 گھنٹہ", h4Window: "گزشتہ 4 گھنٹے", h24Window: "گزشتہ 24 گھنٹے", total: "کل لیکویڈیشن",
+      longs: "لانگ لیکویڈیشنز", shorts: "شارٹ لیکویڈیشنز", orders: (n) => `${n} آرڈرز`, split: "لانگ بمقابلہ شارٹ (24 گھنٹے)",
+      topTitle: "سب سے زیادہ لیکویڈ ہونے والی علامتیں (24 گھنٹے)", colSymbol: "علامت", colVenue: "ایکسچینج", colUsd: "لیکویڈ رقم", colShare: "حصہ",
+      largestTitle: "سب سے بڑی واحد لیکویڈیشن (24 گھنٹے)", sideLong: "لانگ", sideShort: "شارٹ", largestLine: (s) => `${s.base} ${s.side} — ${s.venue}`,
+      sourceLine: "Binance USDT-M force-order stream + OKX liquidation orders · کم از کم حد، پوری مارکیٹ نہیں",
+      coverage: "گنتی شروع", historyTitle: "گزشتہ 30 دن", historyLead: "Binance اور OKX فیوچرز پر روزانہ لیکویڈیشن کل اعداد، ہر UTC دن کے گھنٹہ وار snapshots سے جمع، لانگ اور شارٹ تہہ دار۔",
+      historyCollecting: (date) => `تاریخ ${date} سے جمع ہو رہی ہے۔ 30 دن کا چارٹ دو مکمل دن دستیاب ہونے کے بعد ظاہر ہوتا ہے۔`,
+      historyChartLabel: "روزانہ لیکویڈیشن کل اعداد، گزشتہ 30 دن", historyAvg: "30 دن اوسط", historyToday: "آج اب تک", historyLargest: "اس window کا سب سے بڑا دن",
+      historyPartial: "آج کا ستون صرف اب تک جمع شدہ گھنٹے دکھاتا ہے (UTC).", historyAxis: "مہینے کا دن (UTC)", historyDays: (n) => `${n} دن کی تاریخ`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `گزشتہ 24 گھنٹے (${now}) 30 دن کی روزانہ اوسط (${avg}) کے قریب ہیں۔` : `گزشتہ 24 گھنٹے (${now}) 30 دن کی روزانہ اوسط (${avg}) سے ${pct}% ${direction === "above" ? "اوپر" : "نیچے"} ہیں۔`,
+      historyRank: (rank, days) => `لیکویڈیشن حجم کے لحاظ سے آج اس مہینے کے ${days} دنوں میں ${rank} نمبر پر ہے (1 = سب سے بڑا).`,
+      explainer: [
+        "لیکویڈیشن اس وقت ہوتی ہے جب لیوریجڈ فیوچرز پوزیشن اتنا مارجن کھو دیتی ہے کہ ایکسچینج اسے زبردستی بند کر دیتا ہے۔ پوزیشن مارکیٹ پر بیچی جاتی ہے (لانگ) یا واپس خریدی جاتی ہے (شارٹ)، جو اکثر قیمت کو اسی سمت مزید دھکیلتا ہے۔",
+        "لانگ squeeze گراوٹ کے دوران لانگ لیکویڈیشنز کی لہر ہے؛ شارٹ squeeze ریلی کے دوران اس کا عکس ہے۔ جب اسی وقت کے خانے میں دونوں کالم بڑے ہوں تو دونوں طرف صاف ہوئیں — ایک تیز حرکت کے بعد تیز پلٹاؤ، جسے ٹریڈرز 多空双杀 کہتے ہیں۔",
+        "اعداد Binance کے عوامی force-order stream سے آتے ہیں، جو ہر علامت فی سیکنڈ زیادہ سے زیادہ ایک آرڈر بھیجتا ہے، ساتھ OKX liquidation-order endpoint برائے BTC, ETH, SOL, XRP اور DOGE۔ یہ دو ایکسچینجز کی کم حد ہے، پوری مارکیٹ نہیں، اور سرمایہ کاری کا مشورہ نہیں۔",
+      ],
+      faq: [
+        ["کرپٹو لیکویڈیشن کیا ہے؟", "جب لیوریجڈ پوزیشن کا مارجن لازمی حد سے نیچے آ جائے تو ایکسچینج اسے زبردستی بند کر دیتا ہے۔ ٹریڈر مارجن کھو دیتا ہے؛ ایکسچینج مزید نقصان روکنے کے لیے پوزیشن مارکیٹ پر بند کرتا ہے۔"],
+        ["لانگ اور شارٹ لیکویڈیشن الگ کیوں دکھائی گئی ہیں؟", "لانگ لیکویڈیشن قیمت گرنے پر ہوتی ہے، شارٹ لیکویڈیشن قیمت بڑھنے پر۔ یہ تقسیم دکھاتی ہے کہ مارکیٹ کی کون سی طرف پھنس گئی۔ ایک ہی وقت کے خانے میں دونوں طرف بڑے اعداد تیز حرکت کے بعد پلٹاؤ، یعنی 多空双杀، کی طرف اشارہ کرتے ہیں۔"],
+        ["یہ ڈیٹا کہاں سے آتا ہے اور کتنا مکمل ہے؟", "Binance کے عوامی USDT-M force-order WebSocket stream اور OKX public liquidation-orders API سے؛ NexuAlpha ہر پانچ منٹ بعد اسے جمع کرتا ہے۔ Binance ہر علامت فی سیکنڈ زیادہ سے زیادہ ایک آرڈر بھیجتا ہے، اس لیے کل اعداد کم حد ہیں اور صرف ان دو ایکسچینجز کو کور کرتے ہیں۔"],
+        ["یہ صفحہ کتنی بار اپ ڈیٹ ہوتا ہے؟", "کلیکٹر ہر پانچ منٹ بعد فیڈ دوبارہ لکھتا ہے اور صفحہ کھلا ہو تو ہر 60 سیکنڈ بعد اسے دوبارہ پڑھتا ہے۔ اعداد کے اوپر وقت دکھاتا ہے کہ فیڈ آخری بار کب UTC میں بنی۔"],
+      ],
+      datasetName: "NexuAlpha براہ راست کرپٹو لیکویڈیشنز (Binance + OKX)",
+      datasetDescription: "1 گھنٹہ، 4 گھنٹے اور 24 گھنٹے کے خانوں میں جمع شدہ فیوچرز لیکویڈیشنز: لانگ اور شارٹ USD کل اعداد، آرڈر گنتی، سب سے زیادہ لیکویڈ ہونے والی علامتیں اور سب سے بڑا واحد آرڈر۔ دو ایکسچینجز سے کم حد، ہر پانچ منٹ بعد دوبارہ لکھی جاتی ہے۔",
+    },
+    funding: {
+      title: "کرپٹو فنڈنگ ریٹس — Binance vs OKX پرپیچوئلز، براہ راست | NexuAlpha",
+      description: "Binance اور OKX پر top 20 علامتوں کے لیے براہ راست پرپیچوئل فنڈنگ ریٹس: موجودہ شرح، سالانہ تخمینہ اور اگلا فنڈنگ وقت۔ مثبت: لانگز شارٹس کو ادائیگی کرتے ہیں۔",
+      h1: "کرپٹو فنڈنگ ریٹس: Binance vs OKX", lead: "سب سے زیادہ ٹریڈ ہونے والے USDT پرپیچوئل معاہدوں کے لیے ہر مدت کی موجودہ فنڈنگ شرح، سالانہ تخمینہ اور ہر ایکسچینج پر اگلے تصفیے کے وقت کے ساتھ۔",
+      colSymbol: "علامت", colBinance: "Binance", colOkx: "OKX", colApr: "سالانہ (تخمینہ)", colNext: "اگلی فنڈنگ", perPeriod: "فی مدت",
+      estNote: "سالانہ تخمینہ = موجودہ شرح × 3 × 365، اس فرض کے ساتھ کہ 8 گھنٹے کی شرح پورا سال دہرائی جائے۔ یہ موازنہ مدد ہے، پیش گوئی نہیں۔",
+      legend: "مثبت: لانگز شارٹس کو ادائیگی کرتے ہیں۔ منفی: شارٹس لانگز کو ادائیگی کرتے ہیں۔", nextIn: "میں",
+      sourceLine: "Binance USDT-M premiumIndex + OKX public funding-rate API · Binance 24h حجم کے top علامتیں",
+      explainer: [
+        "Perpetual futures expire نہیں ہوتے، اس لیے exchanges funding payments استعمال کرتے ہیں تاکہ contract price spot index کے قریب رہے۔ ہر funding period (عام طور پر 8 گھنٹے) ایک side دوسری کو pay کرتی ہے۔",
+        "مسلسل high positive rate کا مطلب crowd long ہے اور اس کی قیمت ادا کر رہا ہے — crowded trade جلد unwind ہو سکتی ہے۔ negative rate کا مطلب shorts pay کر رہے ہیں، جو اکثر sharp drops کے بعد آتا ہے۔",
+        "Rates ہر exchange کی public API سے پڑھے جاتے ہیں۔ annualized column current rate کو سال کے 1,095 periods سے ضرب دیتا ہے؛ یہ comparison aid ہے، prediction نہیں۔ کچھ contracts ایک venue پر 4 گھنٹے یا ہر گھنٹے settle ہوتے ہیں — trade سے پہلے contract specification چیک کریں۔",
+      ],
+      faq: [
+        ["Funding rate کیا ہے؟", "Perpetual contract کے long اور short holders کے درمیان periodic payment جو اس کی price کو spot index کے قریب رکھتی ہے۔ یہ traders کے درمیان exchange ہوتی ہے، exchange کو fee نہیں۔"],
+        ["Positive یا negative funding rate کا کیا مطلب ہے؟", "Positive: longs shorts کو pay کرتے ہیں اور market long طرف جھکی ہے۔ Negative: shorts longs کو pay کرتے ہیں اور market short طرف جھکی ہے۔ size اہم ہے: 0.01% per 8 hours Binance پر common neutral baseline ہے؛ 0.1% یا زیادہ unusually high ہے۔"],
+        ["Annualized rate کیسے calculate ہوتا ہے؟", "Annualized = current rate × روزانہ 3 periods × 365 days۔ یہ current rate برقرار رہنے کا فرض کرتا ہے، جو کم ہی ہوتا ہے، اس لیے اسے expected return کے بجائے comparison aid سمجھیں۔"],
+        ["Binance اور OKX مختلف rates کیوں دکھاتے ہیں؟", "ہر exchange اپنے order book اور index سے funding calculate کرتا ہے، اپنے interest-rate component، caps اور کبھی مختلف interval کے ساتھ۔ یہی فرق traders کو position hold کرنے سے پہلے venues compare کرواتا ہے۔"],
+      ],
+      datasetName: "NexuAlpha live perpetual funding rates (Binance + OKX)",
+      datasetDescription: "Binance اور OKX پر top 20 USDT perpetual symbols کے current funding rate اور اگلے settlement time، دونوں public exchange APIs سے پڑھے گئے اور ہر پانچ منٹ بعد rewritten۔",
+    },
+  },
+  // l10n: needs native review
+  uk: {
+    nav: DATA_PAGE_NAV["uk"],
+    common: {
+      home: "Головна", updated: "Оновлено", source: "Джерело", refresh: "Поки сторінка відкрита, фід перечитується кожні 60 секунд. Час подано в UTC.",
+      unavailableTitle: "Живі дані тимчасово недоступні", unavailable: "Фід оновлюється кожні кілька хвилин. Коли його немає, нічого не оцінюється — спробуйте ще раз трохи пізніше.",
+      explainer: "Що показує ця сторінка", faq: "Поширені запитання", relatedData: "Більше живих даних", json: "Сирий JSON-фід",
+      embedTitle: "Вбудувати на свій сайт", embedIntro: "Вставте один із цих фрагментів. Віджет показує ті самі живі числа, підлаштовується під будь-яку ширину колонки й посилається назад сюди.",
+      embedIframe: "iframe", embedScript: "Тег script", copy: "Копіювати", copied: "Скопійовано", embedTerms: "Вбудовування безплатне. Залишайте посилання з атрибуцією; числа є нижньою межею з Binance та OKX і оновлюються кожні п’ять хвилин.",
+      poweredBy: "Працює на NexuAlpha", embedUpdated: "оновлено",
+    },
+    liquidations: {
+      title: "Криптоліквідації сьогодні — 1г / 4г / 24г | NexuAlpha",
+      description: "Живі ліквідації криптоф’ючерсів: підсумки за 1, 4 і 24 години, розподіл long/short, найліквідованіші символи й найбільший ордер на Binance та OKX.",
+      h1: "Криптоліквідації сьогодні", lead: "Скільки криптопозицій із плечем примусово закрито за останню годину, чотири години та 24 години на ф’ючерсах Binance і OKX, з розподілом на long та short.",
+      h1Window: "Остання 1 година", h4Window: "Останні 4 години", h24Window: "Останні 24 години", total: "Усього ліквідовано",
+      longs: "Ліквідовано long", shorts: "Ліквідовано short", orders: (n) => `${n} ордерів`, split: "Long проти short (24 год)",
+      topTitle: "Найбільш ліквідовані символи (24 год)", colSymbol: "Символ", colVenue: "Біржа", colUsd: "Ліквідовано", colShare: "Частка",
+      largestTitle: "Найбільша одиночна ліквідація (24 год)", sideLong: "long", sideShort: "short", largestLine: (s) => `${s.base} ${s.side} на ${s.venue}`,
+      sourceLine: "Binance USDT-M force-order stream + OKX liquidation orders · нижня межа, не весь ринок",
+      coverage: "Рахується з", historyTitle: "Останні 30 днів", historyLead: "Денні підсумки ліквідацій на ф’ючерсах Binance та OKX, зібрані з погодинних знімків за кожен UTC-день, із поділом long і short.",
+      historyCollecting: (date) => `Історія збирається з ${date}. 30-денний графік з’явиться після появи двох повних днів.`,
+      historyChartLabel: "Денні підсумки ліквідацій, останні 30 днів", historyAvg: "30-денне середнє", historyToday: "Сьогодні поки що", historyLargest: "Найбільший день у вікні",
+      historyPartial: "Сьогоднішній стовпчик охоплює лише вже зібрані години (UTC).", historyAxis: "День місяця (UTC)", historyDays: (n) => `${n} днів історії`,
+      historyVsAvg: ({ direction, pct, now, avg }) => direction === "near" ? `Останні 24 години (${now}) близькі до 30-денного денного середнього (${avg}).` : `Останні 24 години (${now}) на ${pct}% ${direction === "above" ? "вище" : "нижче"} за 30-денне денне середнє (${avg}).`,
+      historyRank: (rank, days) => `За обсягом ліквідацій сьогодні посідає ${rank} місце з ${days} днів цього місяця (1 = найбільший).`,
+      explainer: [
+        "Ліквідація відбувається, коли ф’ючерсна позиція з плечем втрачає стільки маржі, що біржа примусово її закриває. Позиція продається (long) або викуповується (short) за ринком, що часто штовхає ціну далі в тому самому напрямку.",
+        "Long squeeze — це хвиля long-ліквідацій під час падіння; short squeeze — дзеркальна ситуація під час ралі. Коли обидві колонки великі в одному вікні, обидві сторони були вибиті — різкий рух в один бік і різкий розворот, тобто 多空双杀.",
+        "Числа беруться з публічного force-order stream Binance, який надсилає максимум один ордер на символ за секунду, плюс endpoint OKX liquidation-order для BTC, ETH, SOL, XRP і DOGE. Це нижня межа для двох бірж, не весь ринок, і не інвестиційна порада.",
+      ],
+      faq: [
+        ["Що таке криптоліквідація?", "Це примусове закриття leveraged position біржею, коли її margin падає нижче maintenance requirement. Трейдер втрачає margin; біржа закриває позицію за ринком, щоб зупинити подальші збитки."],
+        ["Навіщо показувати long і short ліквідації окремо?", "Long-ліквідації відбуваються, коли ціна падає, short-ліквідації — коли зростає. Розподіл показує, яка сторона ринку потрапила в пастку. Великі числа з обох боків в одному вікні вказують на різкий рух і подальший розворот (多空双杀)."],
+        ["Звідки ці дані й наскільки вони повні?", "З публічного Binance USDT-M force-order WebSocket stream і публічного OKX liquidation-orders API, агреговано NexuAlpha кожні п’ять хвилин. Binance надсилає максимум один ордер на символ за секунду, тому підсумки є нижньою межею й покривають лише ці дві біржі."],
+        ["Як часто оновлюється сторінка?", "Collector переписує фід кожні п’ять хвилин, а сторінка перечитує його кожні 60 секунд, поки відкрита. Timestamp над числами показує, коли фід востаннє було згенеровано в UTC."],
+      ],
+      datasetName: "Живі криптоліквідації NexuAlpha (Binance + OKX)",
+      datasetDescription: "Агреговані ф’ючерсні ліквідації у вікнах 1 год, 4 год і 24 год: long і short USD totals, кількість ордерів, найбільш ліквідовані символи й найбільший одиночний ордер. Нижня межа з двох бірж, переписується кожні п’ять хвилин.",
+    },
+    funding: {
+      title: "Ставки фінансування криптодеривативів: Binance vs OKX | NexuAlpha",
+      description: "Живі ставки фінансування безстрокових контрактів Binance та OKX для top 20 символів: поточна ставка, річна оцінка й наступний час фінансування. Позитивне значення: long платять short.",
+      h1: "Ставки фінансування криптодеривативів: Binance vs OKX", lead: "Поточна ставка фінансування за період для найактивніших USDT безстрокових контрактів, з річною оцінкою й часом наступного розрахунку на кожній біржі.",
+      colSymbol: "Символ", colBinance: "Binance", colOkx: "OKX", colApr: "Річний (оцінка)", colNext: "Наступне фінансування", perPeriod: "за період",
+      estNote: "Річна оцінка = поточна ставка × 3 × 365, якщо припустити, що 8-годинна ставка повторюється весь рік. Це допомога для порівняння, не прогноз.",
+      legend: "Позитивна ставка: long платять short. Негативна: short платять long.", nextIn: "через",
+      sourceLine: "Binance USDT-M premiumIndex + OKX public funding-rate API · top символи за 24-годинним обсягом Binance",
+      explainer: [
+        "Безстрокові ф’ючерси не мають строку завершення, тому біржі використовують платежі фінансування, щоб ціна контракту трималася біля спотового індексу. Кожен період фінансування (зазвичай 8 годин) одна сторона платить іншій.",
+        "Стійко висока позитивна ставка означає, що натовп у long і платить за це — переповнена угода може швидко розгорнутися назад. Негативна ставка означає, що платять short, часто після різких падінь. Порівняння Binance з OKX показує, де ту саму позицію дешевше тримати.",
+        "Ставки читаються з публічного API кожної біржі. Річна колонка множить поточну ставку на 1 095 періодів на рік; це інструмент порівняння, не прогноз. Деякі контракти розраховуються кожні 4 години або щогодини на одній біржі — перевіряйте специфікацію перед торгівлею.",
+      ],
+      faq: [
+        ["Що таке funding rate?", "Періодичний платіж між long і short holders perpetual contract, який утримує його ціну близько до spot index. Він обмінюється між трейдерами, а не сплачується біржі."],
+        ["Що означає positive або negative funding rate?", "Positive: longs платять shorts, і ринок схиляється в long. Negative: shorts платять longs, і ринок схиляється в short. Розмір важливий: 0.01% за 8 годин — типовий neutral baseline на Binance; 0.1% або більше є незвично високим."],
+        ["Як розраховується annualized rate?", "Annualized = current rate × 3 periods per day × 365 days. Це припускає, що поточна ставка збережеться, що трапляється рідко, тому розглядайте це як інструмент порівняння, а не очікуваний return."],
+        ["Чому Binance і OKX показують різні rates?", "Кожна біржа обчислює funding зі свого order book та index, зі своїм interest-rate component, caps і іноді іншим interval. Через цю різницю трейдери порівнюють venues перед утриманням позиції."],
+      ],
+      datasetName: "Живі perpetual funding rates NexuAlpha (Binance + OKX)",
+      datasetDescription: "Current funding rate і next settlement time для top 20 USDT perpetual symbols на Binance та OKX, прочитані з public APIs обох бірж і переписані кожні п’ять хвилин.",
+    },
+  },
+});
+
+const copyForReviewPendingLocale = (locale) => {
+  const patch = REVIEW_PENDING_COPY_PATCH[locale];
+  if (!patch) return null;
+  return {
+    ...COPY.en,
+    ...patch,
+    common: { ...COPY.en.common, ...patch.common },
+    liquidations: { ...COPY.en.liquidations, ...patch.liquidations },
+    funding: { ...COPY.en.funding, ...patch.funding },
+  };
+};
+
+
 export function dataPageCopy(locale) {
-  return COPY[locale] || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
+  return COPY[locale] || copyForReviewPendingLocale(locale) || (String(locale || "").startsWith("zh") ? COPY["zh-Hans"] : COPY.en);
 }
 export const dataPageLocaleKeys = () => Object.keys(COPY);
 

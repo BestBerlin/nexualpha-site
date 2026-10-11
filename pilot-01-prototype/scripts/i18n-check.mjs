@@ -13,15 +13,16 @@ const placeholderNames = (message) => [...message.matchAll(/\{([A-Za-z][A-Za-z0-
 const bracesBalanced = (message) => [...message].reduce((depth, character) => depth + (character === "{" ? 1 : character === "}" ? -1 : 0), 0) === 0;
 const protectedEntities = /\b(?:NOVA|ORBIT|STELLAR|USDT|UTC|KYC|Binance(?: Spot)?|Bitget|Kraken|Bybit|OKX|dYdX|Singapore)\b/gi;
 const englishWordCount = (value) => (value.replace(protectedEntities, "").match(/\b[A-Za-z]{3,}\b/g) ?? []).length;
-const nonLatinLocales = new Set(["zh-Hans", "zh-Hant", "ja", "ko", "ar", "ru"]);
+const nonLatinLocales = new Set(["zh-Hans", "zh-Hant", "ja", "ko", "ar", "ru", "ur", "uk"]);
 const base = await readJson("locales/en.json");
-const baseKeys = Object.keys(base).sort();
+const visibleKeys = (catalog) => Object.keys(catalog).filter((key) => key !== "_review").sort();
+const baseKeys = visibleKeys(base);
 const failures = [];
 
 for (const locale of settings.locales) {
   if (!names.has(`${locale}.json`)) { failures.push(`${locale}: catalog missing`); continue; }
   const catalog = await readJson(`locales/${locale}.json`);
-  const keys = Object.keys(catalog).sort();
+  const keys = visibleKeys(catalog);
   if (JSON.stringify(keys) !== JSON.stringify(baseKeys)) failures.push(`${locale}: catalog keys differ from en`);
   for (const key of baseKeys) {
     const value = catalog[key];
@@ -38,7 +39,7 @@ for (const locale of settings.locales) {
     if (review.agentReview !== "complete") failures.push(`${locale}: agent review status missing`);
     if (review.qaStatus === "agent-linguistic-qa-complete" && review.translationStatus === "human-reviewed") failures.push(`${locale}: agent QA cannot set human-reviewed`);
     if (review.indexable && review.humanReview !== "verified") failures.push(`${locale}: indexable locale lacks human-review evidence`);
-    if (locale === "ar" && review.direction !== "rtl") failures.push("ar: RTL metadata missing");
+    if ((locale === "ar" || locale === "ur") && review.direction !== "rtl") failures.push(`${locale}: RTL metadata missing`);
   }
 }
 if (settings.baseLocale !== "en" || !settings.locales.includes("en")) failures.push("settings: en must be the base locale");

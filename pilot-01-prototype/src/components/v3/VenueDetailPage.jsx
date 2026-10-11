@@ -53,6 +53,10 @@ const invitationSummaryByLocale = {
   ja: { label: "紹介情報の概要", note: "招待情報と口座条件を確認できます。" },
   ko: { label: "추천 정보 요약", note: "초대 정보와 계정 조건을 확인하세요." },
   ar: { label: "ملخص الإحالة", note: "راجع تفاصيل الدعوة وشروط الحساب." },
+  // l10n: needs native review
+  ur: { label: "دعوت خلاصہ", note: "دعوتی تفصیلات اور اکاؤنٹ شرائط کا جائزہ لیں۔" },
+  // l10n: needs native review
+  uk: { label: "Підсумок запрошення", note: "Перегляньте деталі запрошення й умови рахунку." },
   tr: { label: "Referans özeti", note: "Davet bilgilerini ve hesap koşullarını inceleyin." },
   ru: { label: "Сводка приглашения", note: "Проверьте данные приглашения и условия аккаунта." },
   id: { label: "Ringkasan referral", note: "Periksa informasi undangan dan ketentuan akun." },
@@ -71,6 +75,10 @@ const officialFlowLabelByLocale = {
   ja: "公式手続きで確認",
   ko: "공식 절차에서 확인",
   ar: "تحقق داخل المسار الرسمي",
+  // l10n: needs native review
+  ur: "سرکاری فلو میں تصدیق کریں",
+  // l10n: needs native review
+  uk: "Перевірити в офіційному процесі",
   tr: "Resmî akışta doğrula",
   ru: "Проверить в официальном процессе",
   id: "Verifikasi di alur resmi",

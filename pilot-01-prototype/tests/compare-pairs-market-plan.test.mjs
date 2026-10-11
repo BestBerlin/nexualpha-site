@@ -52,11 +52,11 @@ test("the four market-plan pairs are registered everywhere a curated comparison 
   }
 });
 
-test("every pair carries natural copy in all 15 locales without invented figures or referral solicitation", () => {
-  assert.deepEqual([...COMPARE_PAIR_LOCALES], LOCALES);
+test("every pair carries natural copy in all 17 locales without invented figures or referral solicitation", () => {
+  assert.deepEqual([...COMPARE_PAIR_LOCALES], [...LOCALES, "ur", "uk"]);
   for (const pair of PAIRS) {
     const [left, right] = pair.split("-vs-");
-    for (const locale of LOCALES) {
+    for (const locale of [...LOCALES, "ur", "uk"]) {
       const answer = compareDirectAnswerFor(pair, locale);
       assert.ok(answer, `${pair} ${locale} answer`);
       assert.equal(answer.locale, locale);
@@ -76,8 +76,8 @@ test("every pair carries natural copy in all 15 locales without invented figures
       if (locale === "zh-Hans" || locale === "zh-Hant") assert.match(answer.body, /[\u4e00-\u9fff]/);
       if (locale === "ja") assert.match(answer.body, /[\u3040-\u30ff]/);
       if (locale === "ko") assert.match(answer.body, /[\uac00-\ud7af]/);
-      if (locale === "ar") assert.match(answer.body, /[\u0600-\u06ff]/);
-      if (locale === "ru") assert.match(answer.body, /[\u0400-\u04ff]/);
+      if (locale === "ar" || locale === "ur") assert.match(answer.body, /[\u0600-\u06ff]/);
+      if (locale === "ru" || locale === "uk") assert.match(answer.body, /[\u0400-\u04ff]/);
     }
     // Locale copy is pair-specific, not one template with the names swapped.
     const enBodies = PAIRS.map((slug) => comparePairAnswers[slug].en.body);

@@ -6,7 +6,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
-const locales = ['en','zh-Hans','zh-Hant','es','pt-BR','fr','de','ja','ko','ar','tr','ru','id','vi','it'];
+const locales = ['en','zh-Hans','zh-Hant','es','pt-BR','fr','de','ja','ko','ar','tr','ru','id','vi','it', "ur", "uk"];
 
 test('cost decision localizes the whole rendered tool and keeps decimal input and original invitations', async () => {
   const temp = await mkdtemp(path.join(root,'tests/.tmp-cost-locales-'));

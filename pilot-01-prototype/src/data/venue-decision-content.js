@@ -3,7 +3,7 @@ import { exchangeResearch } from "./exchange-research.js";
 // Editorial fit judgments, derived from the dated research below. These are not
 // platform endorsements, new source checks, availability claims, region permissions, or offers.
 const tr = (en, hans, hant) => ({ en, "zh-Hans": hans, "zh-Hant": hant });
-const supportedDecisionLocales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const supportedDecisionLocales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const localeText = (values) => {
   const missing = supportedDecisionLocales.filter((locale) => !values[locale]);
   if (missing.length) throw new Error(`VENUE_DECISION_LOCALE_MISSING:${missing.join(",")}`);
@@ -23,6 +23,10 @@ export const venueDecisionContent = {
       de: "Nutze Binance als Kandidat, wenn du Spot, Margin, Fiat, P2P und produktbezogene Gebühren vor der Anmeldung prüfen willst.",
       ja: "登録前にスポット、マージン、法定通貨、P2P、商品別手数料を確認したい場合、Binance は総合口座型の候補になります。",
       ko: "가입 전에 현물, 마진, 법정화폐, P2P, 상품별 수수료를 확인해야 한다면 Binance를 종합 계정형 후보로 볼 수 있습니다.",
+      // l10n: needs native review
+      ur: "Binance کو تب منتخب کریں جب رجسٹریشن سے پہلے اسپاٹ، مارجن، فیاٹ، P2P اور ہر مصنوعات کی فیس جانچنے کے لیے جامع اکاؤنٹ والا ایکسچینج درکار ہو۔",
+      // l10n: needs native review
+      uk: "Розгляньте Binance, якщо перед реєстрацією потрібна комплексна біржа зі спотом, маржею, фіатом, P2P і комісіями за окремими продуктами.",
       ar: "اختر Binance كمرشح حساب شامل عندما تحتاج إلى فحص الفوري والهامش والعملات التقليدية وP2P ورسوم كل منتج قبل التسجيل.",
       tr: "Kayıttan önce spot, marjin, fiat, P2P ve ürüne göre ücret sayfalarını kontrol etmek istiyorsan Binance geniş kapsamlı bir hesap borsası adayıdır.",
       ru: "Рассматривайте Binance, если перед регистрацией нужно проверить спот, маржу, фиат, P2P и комиссии по отдельным продуктам.",
@@ -40,6 +44,10 @@ export const venueDecisionContent = {
       de: "Die offiziellen Quellen trennen Gebührenstufen, BNB-Bestandsregeln, Identitätsprüfung und Ankündigungen, sodass die Anmeldung gebündelt geprüft werden kann.",
       ja: "公式情報は手数料階層、BNB 残高条件、本人確認、告知確認を分けているため、登録前の確認を一か所で進めやすい構成です。",
       ko: "공식 자료가 수수료 등급, BNB 보유 조건, 신원 인증, 공지 확인을 분리해 가입 전 점검을 한곳에서 하기 쉽습니다.",
+      // l10n: needs native review
+      ur: "سرکاری ماخذ فیس کی سطح، BNB بیلنس کے قواعد، شناخت کی تصدیق اور اعلانات کو الگ رکھتے ہیں، تاکہ رجسٹریشن کے راستے کا ایک جگہ جائزہ لیا جا سکے۔",
+      // l10n: needs native review
+      uk: "Офіційні джерела окремо описують рівні комісій, правила балансу BNB, перевірку особи й оголошення, тож шлях реєстрації можна перевірити в одному місці.",
       ar: "تفصل المصادر الرسمية مستويات الرسوم وقواعد رصيد BNB والتحقق من الهوية والإعلانات، لذلك يمكن مراجعة مسار التسجيل بوضوح.",
       tr: "Resmi kaynaklar ücret kademelerini, BNB bakiye kurallarını, kimlik doğrulamayı ve duyuruları ayırdığı için kayıt yolu tek yerde denetlenebilir.",
       ru: "Официальные источники разделяют уровни комиссий, правила баланса BNB, верификацию и объявления, поэтому путь регистрации удобно проверить вместе.",
@@ -57,6 +65,10 @@ export const venueDecisionContent = {
       de: "Nicht als weltweit bedingungslos verfügbar darstellen: Identität, Produktzugang und Regionenregeln müssen zum Konto passen.",
       ja: "無条件に全地域で使えるとは扱わないでください。本人確認、商品アクセス、地域ルールはアカウントごとに確認が必要です。",
       ko: "전 세계에서 무조건 이용 가능하다고 보지 마세요. 신원 인증, 상품 접근, 지역 규정은 계정별로 맞아야 합니다.",
+      // l10n: needs native review
+      ur: "اسے ہر جگہ دستیاب نہ سمجھیں: شناخت کی تصدیق، مصنوعات تک رسائی اور علاقائی قواعد صارف کے اکاؤنٹ کے مطابق ہونے چاہییں۔",
+      // l10n: needs native review
+      uk: "Не вважайте її доступною всюди: перевірка особи, доступ до продуктів і регіональні правила мають відповідати обліковому запису користувача.",
       ar: "لا تعتبره متاحًا عالميًا بلا شروط؛ فالتحقق والمنتجات والقواعد الإقليمية يجب أن تطابق حساب المستخدم.",
       tr: "Her yerde koşulsuz erişilebilir sayma; kimlik doğrulama, ürün erişimi ve bölge kuralları kullanıcının hesabıyla uyumlu olmalı.",
       ru: "Не считайте доступ универсальным: верификация, продукты и региональные правила должны соответствовать аккаунту пользователя.",
@@ -79,6 +91,10 @@ export const venueDecisionContent = {
       de: "Bybit passt, wenn Derivate, Copy-Trading-Prüfung und produktbezogene Gebühren wichtiger sind als ein reines Spot-Konto.",
       ja: "デリバティブ、コピー取引の確認、商品別手数料表を重視するなら、単純なスポット口座より Bybit を候補にできます。",
       ko: "파생상품, 카피 트레이딩 확인, 상품별 수수료표가 단순 현물 계정보다 중요하다면 Bybit를 후보로 볼 수 있습니다.",
+      // l10n: needs native review
+      ur: "Bybit کو تب منتخب کریں جب مشتقات، کاپی ٹریڈنگ کی جانچ اور ہر مصنوعات کی فیس سادہ اسپاٹ اکاؤنٹ سے زیادہ اہم ہوں۔",
+      // l10n: needs native review
+      uk: "Розгляньте Bybit, якщо деривативи, перевірка копітрейдингу й комісії за продуктами важливіші за простий спотовий обліковий запис.",
       ar: "اختر Bybit عندما تكون المشتقات وفحص نسخ التداول وجداول الرسوم حسب المنتج أهم من حساب فوري بسيط.",
       tr: "Türevler, copy trading kontrolü ve ürüne göre ücret tabloları basit spot hesaptan daha önemliyse Bybit adaydır.",
       ru: "Рассматривайте Bybit, если деривативы, проверка копитрейдинга и комиссии по продуктам важнее простого спот-счета.",
@@ -96,6 +112,10 @@ export const venueDecisionContent = {
       de: "Die offizielle KYC-FAQ verlangt Standard-Verifizierung, und die Gebührenquelle trennt Maker/Taker nach Produkttyp.",
       ja: "公式 KYC FAQ は Standard 本人確認を必須とし、手数料情報も商品タイプごとに maker/taker を分けています。",
       ko: "공식 KYC FAQ는 Standard 신원 인증을 필수로 두며, 수수료 자료도 상품 유형별 maker/taker를 구분합니다.",
+      // l10n: needs native review
+      ur: "سرکاری KYC سوالات کے مطابق Standard شناختی تصدیق لازمی ہے، اور فیس کا ماخذ ہر مصنوعات کے میکر اور ٹیکر کو الگ کرتا ہے۔",
+      // l10n: needs native review
+      uk: "Офіційні відповіді KYC зазначають обов’язкову перевірку особи Standard, а джерело комісій розділяє ролі мейкера й тейкера за типом продукту.",
       ar: "توضح أسئلة KYC الرسمية أن التحقق Standard إلزامي، كما تفصل صفحة الرسوم maker وtaker حسب نوع المنتج.",
       tr: "Resmi KYC SSS Standard kimlik doğrulamayı zorunlu kılar; ücret kaynağı da maker/taker rollerini ürün tipine göre ayırır.",
       ru: "Официальный FAQ KYC требует Standard-верификацию, а источник комиссий разделяет maker/taker по типам продуктов.",
@@ -113,6 +133,10 @@ export const venueDecisionContent = {
       de: "Keine anonyme Nutzung, globales Copy Trading oder lokale Derivateignung annehmen; alles hängt von Konto, Produkt und Region ab.",
       ja: "匿名利用、全地域でのコピー取引、地域別デリバティブ資格を前提にしないでください。口座、商品、地域で確認が必要です。",
       ko: "익명 접근, 전 세계 카피 트레이딩, 현지 파생상품 자격을 가정하지 마세요. 계정, 상품, 지역 확인이 필요합니다.",
+      // l10n: needs native review
+      ur: "گمنام رسائی، ہر جگہ کاپی ٹریڈنگ یا مقامی مشتقات کی اہلیت فرض نہ کریں؛ سب اکاؤنٹ، مصنوعات اور علاقائی جانچ پر منحصر ہیں۔",
+      // l10n: needs native review
+      uk: "Не припускайте анонімного доступу, універсального копітрейдингу чи місцевої доступності деривативів: усе залежить від облікового запису, продукту й регіону.",
       ar: "لا تفترض وصولًا مجهولًا أو نسخ تداول عالميًا أو أهلية مشتقات محلية؛ كل ذلك يعتمد على الحساب والمنتج والمنطقة.",
       tr: "Anonim erişim, evrensel copy trading veya yerel türev uygunluğu varsayma; hesap, ürün ve bölge kontrolü gerekir.",
       ru: "Не предполагайте анонимный доступ, универсальный копитрейдинг или местную доступность деривативов; нужны проверки аккаунта, продукта и региона.",
@@ -131,6 +155,10 @@ export const venueDecisionContent = {
       de: "Bitget passt, wenn Spot-/Futures-Gebührenmechanik und Copy-Trading-ähnliche Abläufe vor der Anmeldung geprüft werden müssen.",
       ja: "スポット/先物の手数料構造と、登録前に確認すべきコピー取引型の流れを重視する場合、Bitget を候補にできます。",
       ko: "현물/선물 수수료 구조와 가입 전 확인해야 하는 카피 트레이딩식 흐름이 중요하다면 Bitget를 후보로 볼 수 있습니다.",
+      // l10n: needs native review
+      ur: "Bitget کو تب منتخب کریں جب فیصلہ اسپاٹ اور فیوچرز کی فیس اور کاپی ٹریڈنگ کے ان طریقوں پر منحصر ہو جنہیں رجسٹریشن سے پہلے جانچنا ہے۔",
+      // l10n: needs native review
+      uk: "Розгляньте Bitget, якщо рішення залежить від спотових і ф’ючерсних комісій та процесів копітрейдингу, які слід перевірити перед реєстрацією.",
       ar: "اختر Bitget عندما يعتمد القرار على آليات رسوم الفوري والعقود وتدفقات نسخ التداول التي يجب فحصها قبل التسجيل.",
       tr: "Karar spot/futures ücret mekaniği ve kayıt öncesi kontrol edilmesi gereken copy trading akışlarına bağlıysa Bitget adaydır.",
       ru: "Рассматривайте Bitget, если решение зависит от механики спот/фьючерсных комиссий и сценариев копитрейдинга до регистрации.",
@@ -148,6 +176,10 @@ export const venueDecisionContent = {
       de: "Die offiziellen Seiten trennen Spot Maker/Taker, Futures-Transaktions- und Funding-Gebühren, Identitätsfluss und Ankündigungen.",
       ja: "公式ページはスポットの maker/taker、先物取引手数料と資金調達費、本人確認、告知確認を別々の確認点に分けています。",
       ko: "공식 페이지는 현물 maker/taker, 선물 거래 수수료와 펀딩, 신원 인증, 공지 확인을 별도 점검점으로 나눕니다.",
+      // l10n: needs native review
+      ur: "سرکاری صفحات اسپاٹ میکر/ٹیکر فیس، فیوچرز لین دین اور فنڈنگ فیس، شناخت اور اعلانات کو الگ جائزے کے نکات میں تقسیم کرتے ہیں۔",
+      // l10n: needs native review
+      uk: "Офіційні сторінки окремо описують спотові комісії мейкера/тейкера, ф’ючерсні й фінансувальні комісії, перевірку особи та оголошення.",
       ar: "تفصل الصفحات الرسمية رسوم maker/taker الفورية ورسوم معاملات العقود والتمويل ومسار الهوية والإعلانات كنقاط مراجعة منفصلة.",
       tr: "Resmi sayfalar spot maker/taker, futures işlem ve funding ücretleri, kimlik akışı ve duyuruları ayrı kontrol noktaları yapar.",
       ru: "Официальные страницы разделяют spot maker/taker, комиссии и funding фьючерсов, идентификацию и объявления на отдельные проверки.",
@@ -165,6 +197,10 @@ export const venueDecisionContent = {
       de: "Verlasse dich nicht auf BGB-Rabatte, Rewards, Copy-Verfügbarkeit oder Futures-Kosten, bevor Konto und Region bestätigt sind.",
       ja: "アカウント条件と地域を確認するまで、BGB 割引、報酬、コピー取引の可否、先物コストを前提にしないでください。",
       ko: "계정 조건과 지역을 확인하기 전에는 BGB 할인, 보상, 카피 가능 여부, 선물 비용에 의존하지 마세요.",
+      // l10n: needs native review
+      ur: "صارف کے اکاؤنٹ کی شرائط اور علاقے کی تصدیق سے پہلے BGB رعایت، انعام، کاپی ٹریڈنگ کی دستیابی یا فیوچرز کی لاگت پر انحصار نہ کریں۔",
+      // l10n: needs native review
+      uk: "Не покладайтеся на знижки BGB, винагороди, доступність копітрейдингу чи вартість ф’ючерсів до підтвердження умов облікового запису й регіону.",
       ar: "لا تعتمد على خصومات BGB أو المكافآت أو توفر النسخ أو تكاليف العقود قبل تأكيد شروط الحساب والمنطقة.",
       tr: "Hesap şartları ve bölge doğrulanmadan BGB indirimleri, ödüller, copy erişimi veya futures maliyetlerine güvenme.",
       ru: "Не полагайтесь на скидки BGB, rewards, доступность копирования или стоимость фьючерсов до проверки условий аккаунта и региона.",
@@ -183,6 +219,10 @@ export const venueDecisionContent = {
       de: "OKX passt, wenn ein Konto auch Web3, DEX, Bots, Copy Trading, Earn und Reservenprüfung abdecken soll.",
       ja: "1 つの口座導線で Web3、DEX、ボット、コピー取引、Earn、準備金確認も見たい場合、OKX を候補にできます。",
       ko: "하나의 계정 경로에서 Web3, DEX, 봇, 카피 트레이딩, Earn, 준비금 확인까지 보려면 OKX를 후보로 볼 수 있습니다.",
+      // l10n: needs native review
+      ur: "OKX کو تب منتخب کریں جب اکاؤنٹ کے ساتھ Web3، DEX، بوٹس، کاپی ٹریڈنگ، Earn اور ذخائر کے ثبوت کی تحقیق بھی درکار ہو۔",
+      // l10n: needs native review
+      uk: "Розгляньте OKX, якщо разом з обліковим записом потрібно дослідити Web3, DEX, ботів, копітрейдинг, Earn і підтвердження резервів.",
       ar: "اختر OKX عندما تريد مسار حساب يعرض أيضًا Web3 وDEX والبوتات ونسخ التداول وEarn وإثبات الاحتياطيات.",
       tr: "Tek hesap yolu içinde Web3, DEX, botlar, copy trading, Earn ve rezerv kanıtı alanlarını görmek istiyorsan OKX adaydır.",
       ru: "Рассматривайте OKX, если нужен один путь аккаунта с Web3, DEX, ботами, копитрейдингом, Earn и проверкой резервов.",
@@ -200,6 +240,10 @@ export const venueDecisionContent = {
       de: "Die Gebührenquelle trennt Spot, Futures, Optionen und andere Instrumente; die Navigation unterscheidet Exchange- und Web3-Wege.",
       ja: "手数料情報はスポット、先物、オプション、その他商品を分け、ナビゲーションも取引所と Web3 型の選択を区別しています。",
       ko: "수수료 자료는 현물, 선물, 옵션, 기타 상품을 구분하고, 내비게이션은 거래소와 Web3식 선택지를 나눕니다.",
+      // l10n: needs native review
+      ur: "فیس کا ماخذ اسپاٹ، فیوچرز، آپشنز اور دیگر مصنوعات الگ کرتا ہے، جبکہ نیویگیشن ایکسچینج اور Web3 کے اختیارات میں فرق دکھاتی ہے۔",
+      // l10n: needs native review
+      uk: "Джерело комісій розділяє спот, ф’ючерси, опціони та інші інструменти, а навігація відрізняє біржові можливості від Web3.",
       ar: "تفصل صفحة الرسوم الفوري والعقود والخيارات وأدوات أخرى، كما يميز التنقل بين البورصة وخيارات Web3.",
       tr: "Ücret kaynağı spot, futures, opsiyon ve diğer araçları ayırır; navigasyon da borsa ve Web3 seçeneklerini ayırt eder.",
       ru: "Источник комиссий разделяет спот, фьючерсы, опционы и другие инструменты, а навигация различает биржу и Web3-направления.",
@@ -217,6 +261,10 @@ export const venueDecisionContent = {
       de: "Web3, DEX, Earn oder Copy Trading nicht als identisch mit einem Exchange-Konto darstellen; jedes braucht Produkt-, Risiko- und Regionenprüfung.",
       ja: "Web3、DEX、Earn、コピー取引を取引所口座と同じ約束として扱わないでください。商品、リスク、地域の確認が別途必要です。",
       ko: "Web3, DEX, Earn, 카피 트레이딩을 거래소 계정과 같은 약속으로 보지 마세요. 각각 상품, 위험, 지역 확인이 필요합니다.",
+      // l10n: needs native review
+      ur: "Web3، DEX، Earn یا کاپی ٹریڈنگ کو ایکسچینج اکاؤنٹ جیسا وعدہ نہ سمجھیں؛ ہر ایک کی مصنوعات، خطرات اور علاقے کی جانچ ضروری ہے۔",
+      // l10n: needs native review
+      uk: "Не сприймайте Web3, DEX, Earn чи копітрейдинг як ту саму обіцянку, що й біржовий обліковий запис: кожен потребує перевірки продукту, ризиків і регіону.",
       ar: "لا تعامل Web3 أو DEX أو Earn أو نسخ التداول كالوعد نفسه لحساب البورصة؛ كل منها يحتاج فحص المنتج والمخاطر والمنطقة.",
       tr: "Web3, DEX, Earn veya copy trading'i borsa hesabıyla aynı vaat gibi görme; her biri ürün, risk ve bölge kontrolü ister.",
       ru: "Не приравнивайте Web3, DEX, Earn или копитрейдинг к обещанию биржевого аккаунта; нужны отдельные проверки продукта, риска и региона.",
@@ -235,6 +283,10 @@ export const venueDecisionContent = {
       de: "Backpack passt, wenn du ein engeres Exchange-plus-Wallet-Ökosystem vergleichst und Spot, Perps, Margin und Wallet-Grenzen zuerst prüfen willst.",
       ja: "より絞られた取引所＋ウォレットのエコシステムを比較し、スポット、永続先物、マージン、ウォレット境界を先に確認したい場合、Backpack を候補にできます。",
       ko: "더 좁은 거래소+지갑 생태계를 비교하고 현물, 무기한, 마진, 지갑 경계를 먼저 확인해야 한다면 Backpack을 후보로 볼 수 있습니다.",
+      // l10n: needs native review
+      ur: "Backpack کو تب منتخب کریں جب محدود ایکسچینج اور والیٹ نظام کا موازنہ کرتے ہوئے پہلے اسپاٹ، پرپس، مارجن اور والیٹ کی حدود جانچنا ہوں۔",
+      // l10n: needs native review
+      uk: "Розгляньте Backpack, якщо порівнюєте вужчу екосистему біржі й гаманця та спочатку перевіряєте межі споту, безстрокових контрактів, маржі й гаманця.",
       ar: "اختر Backpack عند مقارنة منظومة أضيق تجمع البورصة والمحفظة مع فحص الفوري والعقود الدائمة والهامش وحدود المحفظة أولًا.",
       tr: "Daha dar bir borsa artı cüzdan ekosistemini karşılaştırıp spot, perp, marjin ve cüzdan sınırlarını önce doğrulamak istiyorsan Backpack adaydır.",
       ru: "Рассматривайте Backpack, если сравниваете более узкую экосистему биржа плюс кошелек и сначала проверяете спот, бессрочные контракты, маржу и границы кошелька.",
@@ -252,6 +304,10 @@ export const venueDecisionContent = {
       de: "Offizielle Quellen trennen Backpack Exchange von Backpack Wallet; API- und Margin-Dokumente beschreiben Spot, Perps und Cross-Margin.",
       ja: "公式情報は Backpack Exchange と Backpack Wallet を分け、API とマージン文書はスポット、永続先物、クロスマージンを説明しています。",
       ko: "공식 자료는 Backpack Exchange와 Backpack Wallet을 구분하고, API 및 마진 문서는 현물, 무기한, 크로스 마진 구조를 설명합니다.",
+      // l10n: needs native review
+      ur: "سرکاری ماخذ Backpack Exchange اور Backpack Wallet کو الگ رکھتے ہیں، جبکہ API اور مارجن دستاویزات اسپاٹ، پرپیچوئل فیوچرز اور کراس مارجن کی وضاحت کرتی ہیں۔",
+      // l10n: needs native review
+      uk: "Офіційні джерела відрізняють Backpack Exchange від Backpack Wallet, а документація API та маржі описує спот, безстрокові ф’ючерси й кросмаржу.",
       ar: "تفصل المصادر الرسمية Backpack Exchange عن Backpack Wallet، وتشرح وثائق API والهامش الفوري والعقود الدائمة وآليات الهامش المتقاطع.",
       tr: "Resmi kaynaklar Backpack Exchange ile Backpack Wallet'ı ayırır; API ve marjin dokümanları spot, perp ve cross-margin mekaniklerini açıklar.",
       ru: "Официальные источники разделяют Backpack Exchange и Backpack Wallet, а API и margin-документы описывают спот, бессрочные контракты и кросс-маржу.",
@@ -269,6 +325,10 @@ export const venueDecisionContent = {
       de: "Nicht als breiten CEX-Ersatz, Self-Custody-Garantie oder Punktechance darstellen; unterstützte Produkte und Kontorisiko zuerst prüfen.",
       ja: "広範な CEX 代替、セルフカストディ保証、ポイント機会として扱わないでください。対応商品と口座リスクを先に確認します。",
       ko: "광범위한 CEX 대체재, 셀프커스터디 보장, 포인트 기회로 표현하지 마세요. 지원 상품과 계정 위험을 먼저 확인해야 합니다.",
+      // l10n: needs native review
+      ur: "اسے جامع CEX کا متبادل، خود تحویلی کی ضمانت یا پوائنٹس کی آفر نہ کہیں؛ پہلے دستیاب مصنوعات اور اکاؤنٹ کے خطرات چیک کریں۔",
+      // l10n: needs native review
+      uk: "Не представляйте його як універсальну заміну CEX, гарантію самостійного зберігання чи можливість заробити бали: спочатку перевірте продукти й ризики облікового запису.",
       ar: "لا تقدمه كبديل واسع لـ CEX أو ضمان حفظ ذاتي أو فرصة نقاط؛ يجب فحص المنتجات المدعومة ومخاطر الحساب أولًا.",
       tr: "Geniş CEX alternatifi, self-custody garantisi veya puan fırsatı gibi sunma; desteklenen ürünler ve hesap riski önce kontrol edilmeli.",
       ru: "Не описывайте его как широкую замену CEX, гарантию self-custody или возможность points; сначала проверяйте продукты и риск аккаунта.",
@@ -346,6 +406,10 @@ const mexcListingBasis = {
 };
 
 export const decisionCopy = {
+  // l10n: needs native review
+  ur: ["اوپر دی گئی ماخذ پر مبنی تحقیق سے موزونیت کا تجزیہ۔", "فیصلے کے نوٹس انگریزی میں", "معاون حقائق دیکھیں", "موزونیت ابھی ثابت نہیں"],
+  // l10n: needs native review
+  uk: ["Оцінка відповідності на основі досліджень із джерелами вище.", "Примітки до рішення англійською", "Перевірити підтверджувальні факти", "Відповідність ще не встановлено"],
   en: ["Editorial fit based on the source-linked research above.", "Decision notes in English", "Review supporting facts", "Suitability not yet established"],
   "zh-Hans": ["以下为基于上方来源事实的选择分析。", "以下选择分析为英文原文", "核对依据事实", "适用性待核实"],
   "zh-Hant": ["以下為基於上方來源事實的選擇分析。", "以下選擇分析為英文原文", "核對依據事實", "適用性待核實"],

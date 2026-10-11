@@ -30,6 +30,11 @@ export const PARTNER_RELATED_COPY = Object.freeze({
   id: { related: "Terkait", feesRebate: (n) => `Biaya dan rabat ${n}`, feesProfile: (n) => `Biaya dan profil ${n}`, compare: (a, b) => `Bandingkan ${a} vs ${b}` },
   vi: { related: "Liên quan", feesRebate: (n) => `Phí và hoàn phí ${n}`, feesProfile: (n) => `Phí và hồ sơ ${n}`, compare: (a, b) => `So sánh ${a} và ${b}` },
   ar: { related: "ذات صلة", feesRebate: (n) => `رسوم ${n} والاسترداد`, feesProfile: (n) => `رسوم ${n} وملف المنصة`, compare: (a, b) => `مقارنة ${a} و${b}` },
+
+ // l10n: needs native review
+ ur: {related:"متعلقہ",feesRebate:(n)=>`${n} کی فیس اور واپسی`,feesProfile:(n)=>`${n} کی فیس اور تعارف`,compare:(a,b)=>`${a} اور ${b} کا موازنہ`},
+ // l10n: needs native review
+ uk: {related:"Пов’язане",feesRebate:(n)=>`Комісії та повернення ${n}`,feesProfile:(n)=>`Комісії та профіль ${n}`,compare:(a,b)=>`Порівняти ${a} та ${b}`},
 });
 
 const escapeRegExp = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

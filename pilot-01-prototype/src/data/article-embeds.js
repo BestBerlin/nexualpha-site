@@ -22,8 +22,8 @@ const ALIASES = Object.freeze({
   funding: "funding-rates", "funding-rates": "funding-rates", "funding-rate": "funding-rates", fundingrates: "funding-rates",
 });
 
-// Path prefixes of the 15 UI locales (localizedHref; English has none).
-const LOCALE_PREFIX = Object.freeze({ en: "", "zh-Hans": "/zh-hans", "zh-Hant": "/zh-hant", es: "/es", "pt-BR": "/pt-br", fr: "/fr", de: "/de", it: "/it", ja: "/ja", ko: "/ko", ru: "/ru", tr: "/tr", id: "/id-id", vi: "/vi", ar: "/ar" });
+// Path prefixes of the 17 UI locales (localizedHref; English has none).
+const LOCALE_PREFIX = Object.freeze({ en: "", "zh-Hans": "/zh-hans", "zh-Hant": "/zh-hant", es: "/es", "pt-BR": "/pt-br", fr: "/fr", de: "/de", it: "/it", ja: "/ja", ko: "/ko", ru: "/ru", tr: "/tr", id: "/id-id", vi: "/vi", ar: "/ar", ur: "/ur", uk: "/uk-ua" });
 
 export const ARTICLE_EMBED_COPY = Object.freeze({
   en: { liquidations: "Crypto liquidations today", "funding-rates": "Crypto funding rates: Binance vs OKX", live: "Live NexuAlpha data, refreshed every few minutes.", open: "Open the full page" },
@@ -41,6 +41,10 @@ export const ARTICLE_EMBED_COPY = Object.freeze({
   id: { liquidations: "Likuidasi kripto hari ini", "funding-rates": "Funding rate kripto: Binance vs OKX", live: "Data langsung NexuAlpha, diperbarui setiap beberapa menit.", open: "Buka halaman lengkap" },
   vi: { liquidations: "Thanh lý crypto hôm nay", "funding-rates": "Funding rate crypto: Binance vs OKX", live: "Dữ liệu trực tiếp của NexuAlpha, cập nhật vài phút một lần.", open: "Mở trang đầy đủ" },
   ar: { liquidations: "تصفيات العملات الرقمية اليوم", "funding-rates": "أسعار التمويل للعملات الرقمية: Binance مقابل OKX", live: "بيانات NexuAlpha المباشرة، تُحدَّث كل بضع دقائق.", open: "افتح الصفحة الكاملة" },
+  // l10n: needs native review
+  ur: { liquidations: "آج کی کرپٹو لیکویڈیشنز", "funding-rates": "کرپٹو فنڈنگ ریٹس: Binance vs OKX", live: "NexuAlpha کا لائیو ڈیٹا، ہر چند منٹ بعد تازہ ہوتا ہے۔", open: "مکمل صفحہ کھولیں" },
+  // l10n: needs native review
+  uk: { liquidations: "Криптоліквідації сьогодні", "funding-rates": "Ставки фінансування криптодеривативів: Binance vs OKX", live: "Живі дані NexuAlpha, оновлюються кожні кілька хвилин.", open: "Відкрити повну сторінку" },
 });
 
 const LINK_SEPARATOR = Object.freeze({ "zh-Hans": "：", "zh-Hant": "：", ja: "：", fr: " : " });

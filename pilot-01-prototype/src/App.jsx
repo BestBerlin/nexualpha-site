@@ -8,7 +8,7 @@ import { DesignSystem } from "./components/DesignSystem";
 import { SiteHeader, MobileSheet } from "./components/shell/SiteHeader.jsx";
 import { LanguageMenu } from "./components/shell/LanguageMenu.jsx";
 import { researchRoute } from "./data/official-research-route.js";
-import { v3Copy } from "./data/v3-product";
+import { v3ShellCopy } from "./data/v3-shell-copy.js";
 import { storedLocale, validComparison, cleanSelection, installHashNavigation } from "./data/browser-state";
 import { HomeV7 } from "./components/v7/HomeV7.jsx";
 import { ClosingBand } from "./components/v6/ClosingBand";
@@ -283,6 +283,10 @@ const homeNavigationCopy = (locale) => {
     it: { label: "In questa pagina", compare: "Confronta", analyzer: "Controllo commissioni", venues: "Piattaforme", research: "Strumenti di ricerca" },
     id: { label: "Di halaman ini", compare: "Bandingkan", analyzer: "Cek biaya", venues: "Platform", research: "Alat riset" },
     vi: { label: "Trên trang này", compare: "So sánh", analyzer: "Kiểm tra phí", venues: "Nền tảng", research: "Công cụ nghiên cứu" },
+    // l10n: needs native review
+    ur: { label: "اس صفحے پر", compare: "موازنہ", analyzer: "فیس کی جانچ", venues: "پلیٹ فارم", research: "تحقیقی ٹولز" },
+    // l10n: needs native review
+    uk: { label: "На цій сторінці", compare: "Порівняння", analyzer: "Перевірка комісій", venues: "Платформи", research: "Дослідницькі інструменти" },
     ar: { label: "في هذه الصفحة", compare: "مقارنة", analyzer: "فحص الرسوم", venues: "المنصات", research: "أدوات البحث" },
   };
   if (localized[locale]) return localized[locale];
@@ -324,6 +328,10 @@ function HomeResearchDrawer({ locale }) {
         it: { summary: "Apri strumenti di ricerca", note: "Commissioni, liquidità on-chain, Telegram e stato del mercato" },
         id: { summary: "Buka alat riset", note: "Biaya, likuiditas on-chain, Telegram, dan kondisi pasar" },
         vi: { summary: "Mở công cụ nghiên cứu", note: "Phí, thanh khoản on-chain, Telegram và trạng thái thị trường" },
+        // l10n: needs native review
+        ur: { summary: "تحقیقی ٹولز کھولیں", note: "فیس، آن چین لیکویڈیٹی، Telegram اور مارکیٹ کی حالت" },
+        // l10n: needs native review
+        uk: { summary: "Відкрити дослідницькі інструменти", note: "Комісії, ліквідність у блокчейні, Telegram і стан ринку" },
         ar: { summary: "فتح أدوات البحث", note: "الرسوم والسيولة على السلسلة وTelegram وحالة السوق" },
       }[locale] || { summary: "Open research tools", note: "Fees, on-chain liquidity, Telegram and market state in one section" });
   return <details className="home-research-drawer" id="research-tools" ref={researchDrawerRef} onToggle={(event) => {
@@ -379,6 +387,10 @@ function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
     de: { label: "Verwandte Analysen", note: "Vergleichen Sie Regionen, Plattformen, Gebühren und Asset-Strukturen weiter", brazil: "Brasilien-Entscheidungen", compare: "Vergleiche", tools: "Gebühren-Tools", tokenized: "Tokenisierte Assets" },
     ja: { label: "関連リサーチ", note: "地域、プラットフォーム、手数料、資産構造を続けて比較できます", brazil: "ブラジルの選択肢", compare: "比較", tools: "手数料ツール", tokenized: "トークン化資産" },
     ko: { label: "관련 리서치", note: "지역, 플랫폼, 수수료와 자산 구조를 계속 비교하세요", brazil: "브라질 선택지", compare: "비교", tools: "수수료 도구", tokenized: "토큰화 자산" },
+    // l10n: needs native review
+    ur: { label: "متعلقہ تحقیق", note: "علاقوں، پلیٹ فارم، فیس اور اثاثوں کی ساخت کا موازنہ جاری رکھیں", brazil: "برازیل کے راستے", compare: "موازنہ", tools: "فیس ٹولز", tokenized: "ٹوکنائزڈ اثاثے" },
+    // l10n: needs native review
+    uk: { label: "Пов’язані дослідження", note: "Продовжуйте порівнювати регіони, платформи, комісії та структури активів", brazil: "Маршрути Бразилії", compare: "Порівняння", tools: "Інструменти комісій", tokenized: "Токенізовані активи" },
     ar: { label: "أبحاث ذات صلة", note: "تابع مقارنة المناطق والمنصات والرسوم وهياكل الأصول", brazil: "خيارات البرازيل", compare: "المقارنات", tools: "أدوات الرسوم", tokenized: "الأصول المرمّزة" },
     tr: { label: "İlgili araştırmalar", note: "Bölgeleri, platformları, ücretleri ve varlık yapılarını karşılaştırmaya devam edin", brazil: "Brezilya seçenekleri", compare: "Karşılaştırmalar", tools: "Ücret araçları", tokenized: "Tokenleştirilmiş varlıklar" },
     ru: { label: "Связанные исследования", note: "Продолжайте сравнивать регионы, платформы, комиссии и структуры активов", brazil: "Решения для Бразилии", compare: "Сравнения", tools: "Инструменты комиссий", tokenized: "Токенизированные активы" },
@@ -395,6 +407,10 @@ function CrawlPriorityLinks({ locale = "en", scope = "home" }) {
     de: ["Gebührenvergleich", "Zentrum für tokenisierte Vermögenswerte", "Tokenisierte Aktien und Perpetuals", "Prüfliste für tokenisierte Staatsanleihen"],
     ja: ["手数料比較", "トークン化資産ハブ", "トークン化株式と無期限先物", "トークン化国債チェックリスト"],
     ko: ["수수료 비교", "토큰화 자산 허브", "토큰화 주식과 무기한 선물", "토큰화 국채 점검표"],
+    // l10n: needs native review
+    ur: ["فیس موازنہ", "ٹوکنائزڈ اثاثوں کا مرکز", "ٹوکنائزڈ حصص اور پرپیچوئل", "ٹوکنائزڈ ٹریژری کی چیک لسٹ"],
+    // l10n: needs native review
+    uk: ["Порівняння комісій", "Центр токенізованих активів", "Токенізовані акції й безстрокові контракти", "Перевірки токенізованих казначейських облігацій"],
     ar: ["مقارنة الرسوم", "مركز الأصول المرمّزة", "الأسهم المرمّزة والعقود الدائمة", "قائمة تحقق للخزانة المرمّزة"],
     tr: ["Ücret karşılaştırması", "Tokenleştirilmiş varlık merkezi", "Tokenleştirilmiş hisseler ve sürekli vadeli işlemler", "Tokenleştirilmiş tahvil kontrol listesi"],
     ru: ["Сравнение комиссий", "Центр токенизированных активов", "Токенизированные акции и бессрочные контракты", "Проверка токенизированных казначейских бумаг"],
@@ -594,7 +610,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
   const mobileMenuRef = useRef(null);
   const mobileTriggerRef = useRef(null);
   const headerRef = useRef(null);
-  const text = v3Copy(locale);
+  const text = v3ShellCopy(locale);
   const nav = brazil ? [
     ["Comparar plataformas", "/br/comparar"],
     ["Pix", "/br/pix"],
@@ -608,16 +624,28 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false }) {
     [copy.nav.exchanges, withLocale(locale, "/exchanges")],
     [copy.nav.compare, withLocale(locale, "/compare")], // compare hub: any-two picker + popular pairs (audit 4.6)
     [text.activities, withLocale(locale, "/activities")],
-    [locale === "zh-Hant" || locale === "zh-TW" ? "新聞與研究" : locale.startsWith("zh") ? "新闻与研究" : ({ ja: "マーケットニュース", ko: "시장 뉴스", tr: "Piyasa Haberleri", ru: "Новости рынка", de: "Marktnachrichten", fr: "Actualités du marché", es: "Noticias del mercado", "pt-BR": "Notícias do mercado", it: "Notizie di mercato", id: "Berita pasar", vi: "Tin thị trường", ar: "أخبار السوق" }[locale] || "Market news"), withLocale(locale, "/news")],
-    [locale === "zh-Hant" || locale === "zh-TW" ? "賽道選型" : locale.startsWith("zh") ? "赛道选型" : ({ ja: "トピックガイド", ko: "주제 가이드", tr: "Konu Rehberleri", ru: "Тематические гиды", de: "Themen-Guides", fr: "Guides thématiques", es: "Guías temáticas", "pt-BR": "Guias temáticos", it: "Guide tematiche", id: "Panduan topik", vi: "Hướng dẫn chủ đề", ar: "أدلة المواضيع" }[locale] || "Topic Guides"), withLocale(locale, "/topics/meme-coins")],
+    [locale === "zh-Hant" || locale === "zh-TW" ? "新聞與研究" : locale.startsWith("zh") ? "新闻与研究" : ({ ja: "マーケットニュース", ko: "시장 뉴스", tr: "Piyasa Haberleri", ru: "Новости рынка", de: "Marktnachrichten", fr: "Actualités du marché", es: "Noticias del mercado", "pt-BR": "Notícias do mercado", it: "Notizie di mercato", id: "Berita pasar", vi: "Tin thị trường",
+        // l10n: needs native review
+        ur: "مارکیٹ کی خبریں",
+        // l10n: needs native review
+        uk: "Новини ринку", ar: "أخبار السوق" }[locale] || "Market news"), withLocale(locale, "/news")],
+    [locale === "zh-Hant" || locale === "zh-TW" ? "賽道選型" : locale.startsWith("zh") ? "赛道选型" : ({ ja: "トピックガイド", ko: "주제 가이드", tr: "Konu Rehberleri", ru: "Тематические гиды", de: "Themen-Guides", fr: "Guides thématiques", es: "Guías temáticas", "pt-BR": "Guias temáticos", it: "Guide tematiche", id: "Panduan topik", vi: "Hướng dẫn chủ đề",
+        // l10n: needs native review
+        ur: "موضوعاتی رہنما",
+        // l10n: needs native review
+        uk: "Тематичні посібники", ar: "أدلة المواضيع" }[locale] || "Topic Guides"), withLocale(locale, "/topics/meme-coins")],
     [dataPageCopy(locale).nav.liquidations, withLocale(locale, LIQUIDATIONS_PATH)],
-    [locale.startsWith("zh") ? "Telegram" : ({ ja: "Telegram調査", ko: "Telegram 리서치", tr: "Telegram araştırma", ru: "Исследование в Telegram", de: "Telegram-Recherche", fr: "Recherche Telegram", es: "Investigación en Telegram", "pt-BR": "Pesquisa no Telegram", it: "Ricerca Telegram", id: "Riset Telegram", vi: "Nghiên cứu Telegram", ar: "بحث Telegram" }[locale] || "Telegram Research"), withLocale(locale, "/telegram")],
+    [locale.startsWith("zh") ? "Telegram" : ({ ja: "Telegram調査", ko: "Telegram 리서치", tr: "Telegram araştırma", ru: "Исследование в Telegram", de: "Telegram-Recherche", fr: "Recherche Telegram", es: "Investigación en Telegram", "pt-BR": "Pesquisa no Telegram", it: "Ricerca Telegram", id: "Riset Telegram", vi: "Nghiên cứu Telegram",
+        // l10n: needs native review
+        ur: "Telegram تحقیق",
+        // l10n: needs native review
+        uk: "Дослідження Telegram", ar: "بحث Telegram" }[locale] || "Telegram Research"), withLocale(locale, "/telegram")],
   ];
   useEffect(() => {
     if (!mobileOpen) return;
     return activateMobileMenu(mobileMenuRef.current, mobileTriggerRef.current, headerRef.current, () => setMobileOpen(false));
   }, [mobileOpen]);
-  const localeOptions = useMemo(() => supportedLocales.filter((code) => !brazil || code === "pt-BR").map((code) => ({ code, label: localeManifest[code].language })), [brazil]);
+  const localeOptions = useMemo(() => supportedLocales.map((code) => ({ code, label: localeManifest[code].language })).filter((option) => !brazil || option.code === "pt-BR"), [brazil]);
   const navState = (href) => headerNavigationState(href, navigationUrl);
   const closeMobile = () => setMobileOpen(false);
   const languageMenu = <LanguageMenu locale={locale} options={localeOptions} label={copy.ui.language} disabled={brazil} onSelect={onLocaleChange} inline />;
@@ -783,11 +811,19 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "factbook") return pageShell(<FactbookPage slug={route.slug} locale={locale} market={route.market} product={route.product} />);
   if (route.name === "kolLanding") return pageShell(<KolLandingPage kolHandle={route.kol} locale={locale} market={route.market} product={route.product} />);
   if (route.name === "rateTerminal") return pageShell(<main className="v6 v2-page v3-page r1-rates-page" id="top">
-    <section className="v2-section v2-shell rt-hero" aria-label={({ "zh-Hant": "手續費計算", ja: "手数料比較", ko: "수수료 비교", tr: "Ücret karşılaştırması", ar: "مقارنة الرسوم", "pt-BR": "Comparação de taxas", es: "Comparación de comisiones", fr: "Comparaison des frais", de: "Gebührenvergleich", ru: "Сравнение комиссий", id: "Perbandingan biaya", vi: "Đối chiếu phí", it: "Confronto delle commissioni" }[locale] || (locale.startsWith("zh") ? "手续费计算" : "Fee benchmark"))}>
+    <section className="v2-section v2-shell rt-hero" aria-label={({ "zh-Hant": "手續費計算", ja: "手数料比較", ko: "수수료 비교", tr: "Ücret karşılaştırması",
+        // l10n: needs native review
+        ur: "فیس موازنہ",
+        // l10n: needs native review
+        uk: "Порівняння комісій", ar: "مقارنة الرسوم", "pt-BR": "Comparação de taxas", es: "Comparación de comisiones", fr: "Comparaison des frais", de: "Gebührenvergleich", ru: "Сравнение комиссий", id: "Perbandingan biaya", vi: "Đối chiếu phí", it: "Confronto delle commissioni" }[locale] || (locale.startsWith("zh") ? "手续费计算" : "Fee benchmark"))}>
       <h1>{({
         "zh-Hant": "交易所手續費基準終端",
         ja: "取引所手数料ベンチマーク", ko: "거래소 수수료 벤치마크", tr: "Borsa ücret karşılaştırma terminali",
-        ar: "مقارنة رسوم منصات التداول", "pt-BR": "Painel de referência de taxas", es: "Panel de referencia de comisiones",
+
+        // l10n: needs native review
+        ur: "پلیٹ فارم کی فیس کا موازنہ",
+        // l10n: needs native review
+        uk: "Порівняння комісій платформ", ar: "مقارنة رسوم منصات التداول", "pt-BR": "Painel de referência de taxas", es: "Panel de referencia de comisiones",
         fr: "Référentiel des frais des plateformes", de: "Gebühren-Benchmark für Handelsplattformen", ru: "Сравнение комиссий платформ",
         id: "Tolok ukur biaya platform", vi: "Bảng đối chiếu phí nền tảng", it: "Benchmark delle commissioni"
       }[locale] || (locale.startsWith("zh") ? "交易所手续费基准终端" : "Crypto Exchange Fee Benchmark Terminal"))}</h1>
@@ -826,16 +862,24 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
           "zh-Hans": "展开交易成本体检", "zh-Hant": "展開交易成本檢查", en: "Open the fee cost check",
           ja: "取引コストを確認", ko: "거래 비용 확인", tr: "İşlem maliyetini kontrol et",
           fr: "Vérifier les frais de transaction", de: "Handelskosten prüfen", es: "Revisar los costes de operación",
-          "pt-BR": "Verificar custos de negociação", ru: "Проверить торговые издержки", ar: "تحقق من تكاليف التداول",
+          "pt-BR": "Verificar custos de negociação", ru: "Проверить торговые издержки",
+        // l10n: needs native review
+        ur: "ٹریڈنگ لاگت چیک کریں",
+        // l10n: needs native review
+        uk: "Перевірити торгові витрати", ar: "تحقق من تكاليف التداول",
           id: "Periksa biaya perdagangan", vi: "Kiểm tra chi phí giao dịch", it: "Controlla i costi di trading",
-        }[locale] || v3Copy(locale).comparisonMatrix || "Open the fee cost check")}</strong>
+        }[locale] || v3ShellCopy(locale).comparisonMatrix || "Open the fee cost check")}</strong>
         <span>{({
           "zh-Hans": "用公开基础费率估算，再决定是否深入核对", "zh-Hant": "用公開基礎費率估算，再決定是否深入核對", en: "Estimate from published base rates before going deeper",
           ja: "公開基準手数料を見積もり、詳しい確認に進みます", ko: "공개 기본 수수료를 추정한 뒤 자세히 확인하세요", tr: "Yayınlanan temel oranlarla tahmin yapın, sonra ayrıntıları doğrulayın",
           fr: "Estimez avec les taux publiés avant d'aller plus loin", de: "Schätzen Sie anhand veröffentlichter Basissätze, bevor Sie weiterprüfen", es: "Estima con las tarifas base publicadas antes de profundizar",
-          "pt-BR": "Estime pelas taxas base publicadas antes de avançar", ru: "Оцените по опубликованным базовым ставкам перед подробной проверкой", ar: "قدّر التكلفة بالأسعار الأساسية المنشورة قبل التعمق",
+          "pt-BR": "Estime pelas taxas base publicadas antes de avançar", ru: "Оцените по опубликованным базовым ставкам перед подробной проверкой",
+        // l10n: needs native review
+        ur: "مزید تحقیق سے پہلے شائع شدہ بنیادی شرح سے تخمینہ لگائیں",
+        // l10n: needs native review
+        uk: "Оцініть за опублікованими базовими ставками перед детальнішою перевіркою", ar: "قدّر التكلفة بالأسعار الأساسية المنشورة قبل التعمق",
           id: "Perkirakan dari biaya dasar yang dipublikasikan sebelum menelusuri lebih jauh", vi: "Ước tính theo mức phí cơ bản đã công bố trước khi xem chi tiết", it: "Stima con le tariffe base pubblicate prima di approfondire",
-        }[locale] || v3Copy(locale).conversionPreviewBody || "Estimate from published base rates before going deeper")}</span>
+        }[locale] || v3ShellCopy(locale).conversionPreviewBody || "Estimate from published base rates before going deeper")}</span>
         <b aria-hidden="true">＋</b>
       </summary>
       <div className="home-analyzer-drawer__body"><DeferredBoundary scope="home-fees"><TradingBleedAnalyzer locale={locale} market={decisionPassport.market} product={decisionPassport.product} /></DeferredBoundary></div>

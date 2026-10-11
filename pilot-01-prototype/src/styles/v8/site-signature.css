@@ -99,7 +99,7 @@ main.v6 :is(p, li, dd):lang(zh) { text-wrap-style: pretty; } /* longhand: the sh
   letter-spacing: .04em; text-transform: none; color: #edeef0; text-wrap: balance;
 }
 .nx-rule .nx-rule__label::before { content: none; display: none; }
-:is(:lang(ar), :lang(zh), :lang(ja), :lang(ko)) .nx-rule .nx-rule__label:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { letter-spacing: 0; font-size: 13px; }
+:is(:lang(ar), :lang(ur), :lang(zh), :lang(ja), :lang(ko)) .nx-rule .nx-rule__label:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { letter-spacing: 0; font-size: 13px; }
 .nx-rule .nx-rule__line:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex: 1 1 24px; min-inline-size: 24px; block-size: 1px; background: rgb(255 255 255 / .14); }
 .nx-rule .nx-rule__stamp:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { flex: none; font: 400 12px/1.4 "Geist Mono V5", "Geist Mono V5 Fallback", ui-monospace, "SF Mono", Menlo, monospace; color: #9097a0; font-variant-numeric: tabular-nums; letter-spacing: .02em; white-space: nowrap; unicode-bidi: plaintext; }
 @media (max-width: 640px) { .nx-rule .nx-rule__date:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { display: none; } }

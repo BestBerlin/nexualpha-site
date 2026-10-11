@@ -2,14 +2,14 @@
 // the SSR/client router (seo-injection.js computeRouteSeo) and therefore /api/route-seo, so all three stay identical.
 //
 // Owner 2026-10-10 (GSC CTR work): the title carries the commercial search intent (referral code / fee rebate; ja/ko
-// informational; ru/ar neutral, matching src/data/referral-seo.js).
+// informational; ru/ar/ur/uk neutral, matching src/data/referral-seo.js).
 // Owner 2026-10-11 (brand slogans, src/data/brand-slogan.js):
 //   - title = search keywords + slogan A + " — NexuAlpha" when that fits the 60-wide budget (budgetTitle,
 //     titleDisplayWidth: CJK counts double); otherwise keywords + " — NexuAlpha" and slogan A leads the description;
 //   - description = [slogan A when not in the title] + slogan B + the existing facts (OKX/Bitget/Binance, settled by
 //     the exchange, partner links disclosed), clamped with clampMetaDescription.
-// Slogan B (a rebate share) is left out where the home copy was already kept neutral on 2026-10-10: ru (advertising
-// rules) and ar (Egypt CBE law 194/2020). Those two lead with slogan A and keep their neutral facts. Turkish carries
+// Slogan B (a rebate share) is left out where the home copy is neutral pending local review: ru (advertising
+// rules), ar (Egypt CBE law 194/2020), plus ur and uk until partner/regulator status is reviewed. These lead with slogan A and keep their neutral facts. Turkish carries
 // slogan B like the other locales (owner 2026-10-11: "土耳其站照常写"). Remove a locale from
 // NEUTRAL_HOME_DESCRIPTION_LOCALES to add slogan B.
 import { HOME_REBATE_SHARE } from "./home-rebate-tiers.js";
@@ -21,7 +21,7 @@ export const TR_REBATE_MAX_PCT = Math.round(Math.max(...TR_PROMOTED.map((slug) =
 
 export const HOME_TITLE_BUDGET = 60;
 const BRAND_SUFFIX = " — NexuAlpha";
-export const NEUTRAL_HOME_DESCRIPTION_LOCALES = Object.freeze(new Set(["ru", "ar"]));
+export const NEUTRAL_HOME_DESCRIPTION_LOCALES = Object.freeze(new Set(["ru", "ar", "ur", "uk"]));
 
 // Search keywords of the home title (the patterns pinned in tests/seo-onpage-metadata-length.test.mjs).
 const HOME_TITLE_KEYWORDS = Object.freeze({
@@ -40,6 +40,8 @@ const HOME_TITLE_KEYWORDS = Object.freeze({
   id: "Kode referral dan rabat biaya exchange kripto",
   vi: "Mã giới thiệu và hoàn phí sàn giao dịch crypto",
   ar: "رسوم منصات العملات الرقمية: OKX وBitget وBinance",
+  ur: "کرپٹو ایکسچینج فیس: OKX، Bitget اور Binance", // l10n: needs native review
+  uk: "Комісії криптобірж: OKX, Bitget і Binance", // l10n: needs native review
 });
 
 // Separator between keywords and slogan A inside the title.
@@ -62,6 +64,8 @@ const HOME_FACTS = Object.freeze({
   id: "OKX, Bitget dan Binance, dibayar oleh exchange. Kemitraan diungkapkan.",
   vi: "OKX, Bitget, Binance do sàn chi trả. Công bố quan hệ đối tác.",
   ar: "مقارنة رسوم OKX وBitget وBinance وفق الجداول الرسمية. روابط الشراكة مُفصح عنها.",
+  ur: "OKX، Bitget اور Binance کی فیس سرکاری جدولوں کے مطابق موازنہ کریں۔ پارٹنر لنکس ظاہر کیے گئے ہیں۔", // l10n: needs native review
+  uk: "Порівнюйте комісії OKX, Bitget і Binance за офіційними таблицями. Партнерські посилання розкриті.", // l10n: needs native review
 });
 
 const CJK_JOIN = new Set(["zh-Hans", "zh-Hant", "ja"]);

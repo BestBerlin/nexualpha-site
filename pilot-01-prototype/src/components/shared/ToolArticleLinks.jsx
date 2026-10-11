@@ -22,6 +22,11 @@ const COPY = {
   id: ["Riset terkait", "Artikel terbaru di pustaka NexuAlpha tentang topik ini, masing-masing dengan daftar sumbernya.", "Semua artikel"],
   vi: ["Nghiên cứu liên quan", "Các bài viết mới nhất trong thư viện NexuAlpha về chủ đề này, mỗi bài đều liệt kê nguồn.", "Tất cả bài viết"],
   ar: ["أبحاث ذات صلة", "أحدث مقالات مكتبة NexuAlpha حول هذا الموضوع، مع ذكر مصادر كل مقال.", "كل المقالات"],
+
+ // l10n: needs native review
+ ur: ["متعلقہ تحقیق", "اس موضوع پر NexuAlpha کی تازہ ترین تحریریں، ہر تحریر کے ساتھ ماخذ درج ہیں۔", "تمام تحریریں"],
+ // l10n: needs native review
+ uk: ["Пов’язані дослідження", "Найновіші матеріали бібліотеки NexuAlpha на цю тему з переліком джерел у кожному.", "Усі матеріали"],
 };
 
 export function toolArticleCopy(locale = "en") {

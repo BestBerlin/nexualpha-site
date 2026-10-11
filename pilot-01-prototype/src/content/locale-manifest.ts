@@ -1,6 +1,6 @@
 export type LocaleCode =
   | "en" | "zh-Hans" | "zh-Hant" | "es" | "pt-BR" | "fr" | "de"
-  | "ja" | "ko" | "ar" | "tr" | "ru" | "id" | "vi" | "it";
+  | "ja" | "ko" | "ar" | "tr" | "ru" | "id" | "vi" | "it" | "ur" | "uk";
 
 // Retained for the legacy source modules' type-checking only. The V2 runtime
 // uses Paraglide messages and must not import historical presentation copy.
@@ -35,6 +35,10 @@ export const localeManifest: Record<LocaleCode, LocaleManifestEntry> = {
   id: { language: "Bahasa Indonesia", direction: "ltr" },
   vi: { language: "Tiếng Việt", direction: "ltr" },
   it: { language: "Italiano", direction: "ltr" },
+  // l10n: needs native review
+  ur: { language: "اردو", direction: "rtl" },
+  // l10n: needs native review
+  uk: { language: "Українська", direction: "ltr" },
 };
 
 export const supportedLocales = Object.keys(localeManifest) as LocaleCode[];

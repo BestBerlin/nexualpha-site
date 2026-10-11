@@ -5,7 +5,7 @@
 // GET /embed/<kind>.js is a tiny injector that inserts the iframe after its own <script> tag.
 // Headers: no X-Frame-Options and `frame-ancestors *` so any site can iframe it; X-Robots-Tag noindex (crawlable, not
 // indexed, never in a sitemap); Cache-Control public, max-age=300 (the collector rewrites every five minutes).
-// Options: ?locale=<one of the 15 UI locales>, ?theme=dark|light and (funding only) ?symbol=BTC to list that row first. Nothing is estimated when the feed is missing —
+// Options: ?locale=<one of the 17 UI locales>, ?theme=dark|light and (funding only) ?symbol=BTC to list that row first. Nothing is estimated when the feed is missing —
 // the widget shows the pages' "temporarily unavailable" copy instead.
 import {
   DATA_PAGE_LOCALES, EMBED_KINDS, EMBED_MAX_HEIGHT, EMBED_PATH_PREFIX, dataPageCopy, embedSource, formatRatePct, formatUsdCompact, formatUtcTime,

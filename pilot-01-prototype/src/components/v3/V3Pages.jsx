@@ -337,6 +337,10 @@ export const compareDecisionLeadCopyByLocale = {
   vi: { eyebrow: "DANH SÁCH KIỂM TRA TRƯỚC KHI ĐĂNG KÝ", title: (a, b) => `${a} và ${b}: nên so sánh những điều kiện nào?`, subtitle: "Kiểm tra phí công bố, phạm vi sản phẩm, điều kiện theo khu vực, yêu cầu tài khoản và ngày của nguồn trước khi bắt đầu đăng ký." },
   // l10n: needs native review
   ar: { eyebrow: "قائمة القرار قبل التسجيل", title: (a, b) => `${a} مقابل ${b}: أي الشروط ينبغي مقارنتها؟`, subtitle: "تحقق من الرسوم المنشورة ونطاق المنتجات والأهلية الإقليمية ومتطلبات الحساب وتواريخ المصادر قبل بدء التسجيل." },
+  // l10n: needs native review
+  ur: { eyebrow: "رجسٹریشن سے پہلے فیصلہ فہرست", title: (a, b) => `${a} اور ${b}: کن شرائط کا موازنہ کرنا چاہیے؟`, subtitle: "رجسٹریشن شروع کرنے سے پہلے شائع شدہ فیس، مصنوعات کا دائرہ، علاقائی اہلیت، اکاؤنٹ شرائط اور ذریعہ تاریخیں چیک کریں۔" },
+  // l10n: needs native review
+  uk: { eyebrow: "СПИСОК ПЕРЕВІРКИ ПЕРЕД РЕЄСТРАЦІЄЮ", title: (a, b) => `${a} і ${b}: які умови варто порівняти?`, subtitle: "Перед реєстрацією перевірте опубліковані комісії, охоплення продуктів, регіональну доступність, вимоги до акаунта й дати джерел." },
 };
 const compareDecisionLeadCopy = (locale) => compareDecisionLeadCopyByLocale[textLocaleKey(locale)] || compareDecisionLeadCopyByLocale.en;
 
@@ -1260,6 +1264,12 @@ const formatVerifiedNet = (rate, rebate, product = "spot") => rate?.publishable 
   ? formatCompareRate(rate.takerRate * (1 - rebate / 100))
   : null;
 
+const compareTupleEntries = (value) => {
+  if (Array.isArray(value)) return value.map((entry) => Array.isArray(entry) ? entry : [String(entry), ""]);
+  if (value && typeof value === "object") return Object.entries(value);
+  return [];
+};
+
 export function CompareFaqSection({ profiles, locale = "en" }) {
   if (!profiles || profiles.length < 2) return null;
   const [showAllFaqs, setShowAllFaqs] = useState(false);
@@ -1271,10 +1281,15 @@ export function CompareFaqSection({ profiles, locale = "en" }) {
 
   const compareSlugKey = profiles.map((profile) => profile.slug).join("-vs-");
   const priorityAnswer = compareDirectAnswerFor(compareSlugKey, locale);
+  const priorityFaqEntries = priorityAnswer
+    ? (Array.isArray(priorityAnswer.faq)
+      ? priorityAnswer.faq.map((entry) => Array.isArray(entry) ? entry : [entry?.q || entry?.question || "", entry?.a || entry?.answer || ""])
+      : compareTupleEntries(priorityAnswer.faq))
+    : [];
   const priorityFaqs = priorityAnswer
     ? [
         { q: priorityAnswer.seoQuestion, a: priorityAnswer.body, priority: true },
-        ...priorityAnswer.faq.map(([q, a]) => ({ q, a, priority: true })),
+        ...priorityFaqEntries.map(([q, a]) => ({ q, a, priority: true })),
       ]
     : null;
 

@@ -10,7 +10,7 @@ import { compareFaqEntries, compareFaqBadge, compareStickyAria } from "../src/da
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const uiLocales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const uiLocales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 const nonEnglishLocales = uiLocales.filter((locale) => locale !== "en");
 const oldEnglishFallback = /Which has lower fees|Which is better for beginner crypto traders|Solvency & Liquidation|Dual-Exchange Strategies|Check Both Official Terms|For newcomers, ease-of-use|Welcome Packs|Running accounts on both may be possible|Show \d+ more questions|Compare sticky bar/;
 

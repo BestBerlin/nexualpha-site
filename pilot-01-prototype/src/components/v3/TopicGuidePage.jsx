@@ -23,6 +23,10 @@ const TOPIC_FAQ_SOURCE_COPY = {
   fr: ['Source vérifiée', 'Source mise à jour'], de: ['Quelle geprüft', 'Quelle aktualisiert'],
   ar: ['مراجعة المصدر', 'تحديث المصدر'], ru: ['Источник проверен', 'Источник обновлён'],
   id: ['Sumber ditinjau', 'Sumber diperbarui'], vi: ['Nguồn đã kiểm tra', 'Nguồn cập nhật'], it: ['Fonte verificata', 'Fonte aggiornata'],
+  // l10n: needs native review
+  ur: ['ماخذ کا جائزہ', 'ماخذ اپ ڈیٹ'],
+  // l10n: needs native review
+  uk: ['Джерело перевірено', 'Джерело оновлено'],
 };
 
 function sanitizeTopicText(value) {
@@ -2430,6 +2434,10 @@ const DERIVATIVES_QUICK_STAT_COPY = Object.freeze({
   de: { "Fee source": ["Gebührenquelle", "Produkt, Kontostufe und Ordertyp prüfen"], Funding: ["Finanzierungsrate", "Takt und Berechnung unterscheiden sich je Plattform"], Liquidation: ["Liquidation", "Margin, Oracle und Maintenance getrennt prüfen"], "Next step": ["Nächster Schritt", "Vor Registrierung Paarvergleiche nutzen"] },
   ru: { "Fee source": ["Источник комиссий", "Проверьте продукт, уровень аккаунта и тип ордера"], Funding: ["Фандинг", "Периодичность и расчёт отличаются по площадкам"], Liquidation: ["Ликвидация", "Разделяйте маржу, оракул и maintenance rules"], "Next step": ["Следующий шаг", "Сузьте выбор через парные сравнения до регистрации"] },
   ar: { "Fee source": ["مصدر الرسوم", "تحقق من المنتج ومستوى الحساب ونوع الأمر"], Funding: ["التمويل", "الدورة وطريقة الحساب تختلفان حسب المنصة"], Liquidation: ["التصفية", "افصل بين الهامش وoracle ومتطلبات الصيانة"], "Next step": ["الخطوة التالية", "استخدم المقارنات الثنائية قبل التسجيل"] },
+  // l10n: needs native review
+  ur: { "Fee source": ["فیس ماخذ", "مصنوعات، اکاؤنٹ سطح اور آرڈر قسم کی شرائط چیک کریں"], Funding: ["فنڈنگ", "وقفہ اور حساب پلیٹ فارم کے لحاظ سے بدلتا ہے"], Liquidation: ["لیکویڈیشن", "مارجن، اوریکل اور maintenance قواعد الگ دیکھیں"], "Next step": ["اگلا قدم", "رجسٹریشن سے پہلے جوڑی موازنہ استعمال کریں"] },
+  // l10n: needs native review
+  uk: { "Fee source": ["Джерело комісій", "Перевірте продукт, рівень акаунта й тип ордера"], Funding: ["Фінансування", "Ритм і розрахунок відрізняються за платформами"], Liquidation: ["Ліквідація", "Окремо перевіряйте маржу, oracle і maintenance-правила"], "Next step": ["Наступний крок", "Перед реєстрацією використайте парні порівняння"] },
   id: { "Fee source": ["Sumber biaya", "Periksa produk, tingkat akun, dan tipe order"], Funding: ["Pendanaan", "Jadwal dan perhitungan berbeda per platform"], Liquidation: ["Likuidasi", "Pisahkan margin, oracle, dan aturan maintenance"], "Next step": ["Langkah berikutnya", "Gunakan perbandingan pasangan sebelum daftar"] },
   vi: { "Fee source": ["Nguồn phí", "Kiểm tra sản phẩm, cấp tài khoản và loại lệnh"], Funding: ["Phí tài trợ", "Chu kỳ và cách tính khác nhau theo nền tảng"], Liquidation: ["Thanh lý", "Tách riêng ký quỹ, oracle và yêu cầu duy trì"], "Next step": ["Bước tiếp theo", "So sánh từng cặp trước khi đăng ký"] },
   it: { "Fee source": ["Fonte commissioni", "Verifica prodotto, livello account e tipo ordine"], Funding: ["Finanziamento", "Cadenza e calcolo variano per piattaforma"], Liquidation: ["Liquidazione", "Separa margine, oracle e requisiti di mantenimento"], "Next step": ["Passo successivo", "Usa confronti a coppie prima della registrazione"] },
@@ -2457,6 +2465,10 @@ const PERP_FIELD_LABEL_COPY = Object.freeze({
   de: ["Handelsgebühr", "Funding-Zahlung", "Spread und Slippage", "Sicherheit und Abrechnungswert", "Margin-Modell", "Oracle, Index und Mark-Preis", "Liquidation und Backstop", "Transfer- und Netzwerkkosten"],
   ru: ["Торговая комиссия", "Платёж funding", "Спред и проскальзывание", "Залог и расчётный актив", "Модель маржи", "Оракул, индекс и mark price", "Ликвидация и backstop", "Перевод и сетевые расходы"],
   ar: ["رسوم التداول", "دفعة التمويل", "الفارق والانزلاق", "الضمان وأصل التسوية", "نموذج الهامش", "Oracle والمؤشر وسعر mark", "التصفية وآلية الدعم", "تكلفة التحويل والشبكة"],
+  // l10n: needs native review
+  ur: ["ٹریڈنگ فیس", "فنڈنگ ادائیگی", "اسپریڈ اور سلپیج", "ضمانت اور تصفیہ اثاثہ", "مارجن ماڈل", "اوریکل، انڈیکس اور mark قیمت", "لیکویڈیشن اور backstop", "ٹرانسفر اور نیٹ ورک لاگت"],
+  // l10n: needs native review
+  uk: ["Торгова комісія", "Платіж фінансування", "Спред і slippage", "Застава й актив розрахунку", "Модель маржі", "Oracle, індекс і mark price", "Ліквідація й backstop", "Вартість переказу й мережі"],
   id: ["Biaya trading", "Pembayaran funding", "Spread dan slippage", "Kolateral dan aset penyelesaian", "Model margin", "Oracle, indeks, dan mark price", "Likuidasi dan backstop", "Biaya transfer dan jaringan"],
   vi: ["Phí giao dịch", "Khoản funding", "Spread và trượt giá", "Tài sản thế chấp và thanh toán", "Mô hình ký quỹ", "Oracle, chỉ số và giá mark", "Thanh lý và backstop", "Chi phí chuyển và mạng"],
   it: ["Commissione di trading", "Pagamento funding", "Spread e slippage", "Collaterale e asset di regolamento", "Modello di margine", "Oracle, indice e prezzo mark", "Liquidazione e backstop", "Costo di trasferimento e rete"],
@@ -2472,6 +2484,10 @@ const PERP_FIELD_BODY_COPY = Object.freeze({
   de: { definition: (label) => `${label} mit offizieller Quelle erfassen. Dies ist keine Live-Rate und keine Plattformempfehlung.`, rule: "Mit gleichem Konto, gleicher Route und gleichem Prüfzeitpunkt vergleichen." },
   ru: { definition: (label) => `Фиксируйте «${label}» по официальному источнику. Это не live-ставка и не рекомендация площадки.`, rule: "Сравнивайте при одинаковом аккаунте, маршруте и дате проверки." },
   ar: { definition: (label) => `سجّل ${label} وفق مصدر رسمي. هذا ليس سعراً مباشراً ولا توصية بمنصة.`, rule: "قارن بالشروط نفسها للحساب والمسار وتاريخ المراجعة." },
+  // l10n: needs native review
+  ur: { definition: (label) => `${label} کو سرکاری ماخذ کے ساتھ درج کریں۔ یہ براہ راست شرح یا پلیٹ فارم سفارش نہیں۔`, rule: "اسی اکاؤنٹ، اسی راستے اور اسی جائزہ تاریخ سے موازنہ کریں۔" },
+  // l10n: needs native review
+  uk: { definition: (label) => `Записуйте ${label} за офіційним джерелом. Це не жива ставка й не рекомендація платформи.`, rule: "Порівнюйте за тим самим акаунтом, маршрутом і датою перевірки." },
   id: { definition: (label) => `Catat ${label} dengan sumber resmi. Ini bukan tarif live atau rekomendasi platform.`, rule: "Bandingkan dengan akun, rute, dan waktu tinjauan yang sama." },
   vi: { definition: (label) => `Ghi ${label} theo nguồn chính thức. Đây không phải phí trực tiếp hay khuyến nghị nền tảng.`, rule: "So sánh với cùng điều kiện tài khoản, tuyến và thời điểm rà soát." },
   it: { definition: (label) => `Registra ${label} con fonte ufficiale. Non è una tariffa live né una raccomandazione di piattaforma.`, rule: "Confronta con stesso account, stesso percorso e stessa data di verifica." },
@@ -2513,6 +2529,10 @@ const DERIVATIVES_ROUTE_TASK_COPY = {
   ko: { chooser: "검토할 경로 선택", selected: "선택한 경로", evidence: "다음 확인 자료", costDictionary: "비용 항목 사전", routeLabels: { "cex-account": "CEX 계정", "wallet-perp-dex": "지갑 DEX", "specialist-options-perps": "옵션", "gmx-pool-route": "GMX" } },
   tr: { chooser: "İncelenecek rotayı seç", selected: "Seçili rota", evidence: "Sonraki kanıt", costDictionary: "Maliyet alanı sözlüğü", routeLabels: { "cex-account": "CEX hesabı", "wallet-perp-dex": "Cüzdan DEX", "specialist-options-perps": "Opsiyon", "gmx-pool-route": "GMX" } },
   ar: { chooser: "اختر المسار للمراجعة", selected: "المسار المحدد", evidence: "الدليل التالي", costDictionary: "قاموس حقول التكلفة", routeLabels: { "cex-account": "حساب CEX", "wallet-perp-dex": "DEX محفظة", "specialist-options-perps": "خيارات", "gmx-pool-route": "GMX" } },
+  // l10n: needs native review
+  ur: { chooser: "جائزے کا راستہ چنیں", selected: "منتخب راستہ", evidence: "اگلا ثبوت", costDictionary: "لاگت خانہ لغت", routeLabels: { "cex-account": "CEX اکاؤنٹ", "wallet-perp-dex": "والیٹ DEX", "specialist-options-perps": "آپشنز", "gmx-pool-route": "GMX" } },
+  // l10n: needs native review
+  uk: { chooser: "Оберіть маршрут для перевірки", selected: "Обраний маршрут", evidence: "Наступний доказ", costDictionary: "Словник полів витрат", routeLabels: { "cex-account": "Акаунт CEX", "wallet-perp-dex": "Гаманець DEX", "specialist-options-perps": "Опціони", "gmx-pool-route": "GMX" } },
   es: { chooser: "Elige ruta a revisar", selected: "Ruta seleccionada", evidence: "Siguiente evidencia", costDictionary: "Diccionario de costes", routeLabels: { "cex-account": "Cuenta CEX", "wallet-perp-dex": "DEX wallet", "specialist-options-perps": "Opciones", "gmx-pool-route": "GMX" } },
   "pt-BR": { chooser: "Escolha a rota para revisar", selected: "Rota selecionada", evidence: "Próxima evidência", costDictionary: "Dicionário de custos", routeLabels: { "cex-account": "Conta CEX", "wallet-perp-dex": "DEX carteira", "specialist-options-perps": "Opções", "gmx-pool-route": "GMX" } },
   fr: { chooser: "Choisir le parcours à vérifier", selected: "Parcours sélectionné", evidence: "Preuve suivante", costDictionary: "Dictionnaire des coûts", routeLabels: { "cex-account": "Compte CEX", "wallet-perp-dex": "DEX wallet", "specialist-options-perps": "Options", "gmx-pool-route": "GMX" } },

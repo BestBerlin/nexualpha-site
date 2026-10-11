@@ -22,20 +22,21 @@ const assets = { async fetch(request) {
   return new Response("missing", { status: 404 });
 } };
 
-test("both data pages have route metadata in all 15 locales: indexable, self-canonical, length-bounded, full hreflang", async () => {
-  assert.equal(DATA_PAGE_LOCALES.length, 15);
+test("both data pages have route metadata in all 17 locales: review-gated, self-canonical, length-bounded, full hreflang", async () => {
+  assert.equal(DATA_PAGE_LOCALES.length, 17);
   for (const pathname of DATA_PAGE_PATHS) {
     for (const locale of DATA_PAGE_LOCALES) {
       const loc = `https://nexualpha.com${localizedPath(pathname, locale)}`;
       const meta = await routeMetadata(new URL(loc), {});
       assert.equal(meta.status, 200, loc);
-      assert.equal(meta.robots, "index,follow", loc);
+      assert.equal(meta.robots, ["ur", "uk"].includes(locale) ? "noindex,follow" : "index,follow", loc);
       assert.equal(meta.canonical, loc, loc);
       assert.equal(meta.locale, locale, loc);
       assert.equal(meta.title, dataPageMeta(pathname, locale).title);
       assert.ok(meta.title.length <= 72, `${loc} title ${meta.title.length}`);
       assert.ok(meta.description.length <= (CJK.has(locale) ? 80 : 160), `${loc} description ${meta.description.length}`);
-      assert.equal(meta.alternates.length, 16, loc);
+      assert.equal(meta.alternates.length, ["ur", "uk"].includes(locale) ? 0 : 16, loc);
+      if (["ur", "uk"].includes(locale)) continue;
       assert.ok(meta.alternates.some((a) => a.hreflang === "x-default" && a.href === `https://nexualpha.com${pathname}`), loc);
       assert.ok(meta.alternates.some((a) => a.hreflang === locale && a.href === loc), loc);
     }
@@ -110,12 +111,12 @@ test("worker head carries the data-page schema, canonical and hreflang for a loc
   assert.match(html, /<meta name="robots" content="index,follow"/);
 });
 
-test("locale sitemap lists both data pages in all 15 locales", async () => {
+test("locale sitemap lists both data pages in 15 reviewed locales and excludes the two drafts", async () => {
   const xml = await renderLocaleSitemap({});
   for (const pathname of DATA_PAGE_PATHS) {
     for (const locale of DATA_PAGE_LOCALES) {
       const loc = `https://nexualpha.com${localizedPath(pathname, locale)}`;
-      assert.ok(xml.includes(`<loc>${loc}</loc>`), loc);
+      assert.equal(xml.includes(`<loc>${loc}</loc>`), !["ur", "uk"].includes(locale), loc);
     }
   }
 });

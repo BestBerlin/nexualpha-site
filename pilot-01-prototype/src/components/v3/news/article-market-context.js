@@ -91,5 +91,10 @@ export const MARKET_CONTEXT_COPY = {
   id: { title: "Konteks pasar", price: "Harga · 24j", funding: "Funding / 8j", liq: "Likuidasi 24j", venues: "Binance · OKX", source: "Data pasar NexuAlpha" },
   vi: { title: "Bối cảnh thị trường", price: "Giá · 24h", funding: "Funding / 8h", liq: "Thanh lý 24h", venues: "Binance · OKX", source: "Dữ liệu thị trường NexuAlpha" },
   ar: { title: "سياق السوق", price: "السعر · 24 ساعة", funding: "التمويل / 8 ساعات", liq: "التصفيات 24 ساعة", venues: "Binance · OKX", source: "بيانات سوق NexuAlpha" },
+
+ // l10n: needs native review
+ ur: {title:"مارکیٹ کا تناظر",price:"قیمت · 24h",funding:"فنڈنگ / 8h",liq:"لیکویڈیشنز 24h",venues:"Binance · OKX",source:"NexuAlpha مارکیٹ ڈیٹا"},
+ // l10n: needs native review
+ uk: {title:"Контекст ринку",price:"Ціна · 24h",funding:"Фінансування / 8h",liq:"Ліквідації 24h",venues:"Binance · OKX",source:"Ринкові дані NexuAlpha"},
 };
 export const marketContextCopy = (locale) => MARKET_CONTEXT_COPY[locale] || (String(locale || "").startsWith("zh") ? MARKET_CONTEXT_COPY["zh-Hans"] : MARKET_CONTEXT_COPY.en);

@@ -26,8 +26,8 @@ export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
 export const OG_PATH_PREFIX = "/og/";
 export const OG_KINDS = Object.freeze(["news", "venue", "compare", "liquidations", "default"]);
-export const OG_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"]);
-const RTL_LOCALES = new Set(["ar"]);
+export const OG_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]);
+const RTL_LOCALES = new Set(["ar", "ur"]);
 const ID_PATTERN = /^[a-z0-9][a-z0-9-]{0,159}$/;
 const MEMORY_LIMIT = 500;
 const CACHE_CONTROL = "public, max-age=86400";
@@ -41,7 +41,7 @@ const COLOR = Object.freeze({ bg: "#070a0e", surface: "#121a24", ink: "#f5f7fa",
 // cover CJK + Arabic on macOS, Noto CJK/Arabic and DejaVu on Linux hosts that have fonts-noto installed.
 const FONT_FAMILY = "Inter, 'Noto Sans', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans CJK SC', 'Noto Sans Arabic', 'WenQuanYi Micro Hei', 'WenQuanYi Zen Hei', 'PingFang SC', 'Hiragino Sans GB', 'Geeza Pro', 'Arial Unicode MS', 'DejaVu Sans', Arial, sans-serif";
 
-// Labels printed on cards. All 15 UI locales (brief: every user-visible string ships in every locale).
+// Labels printed on cards. All 17 UI locales (brief: every user-visible string ships in every locale).
 const LABELS = {
   en: { feesChecked: "Fees checked {date}", rebate: "Rebate share up to {pct}", rebatePending: "Rebate share pending", spot: "Spot maker / taker", perp: "Perp maker / taker", notChecked: "Not yet checked", vs: "vs", compare: "Fee comparison", liquidations: "Futures liquidations · 24h", longs: "Longs", shorts: "Shorts", largest: "Largest single", lowerBound: "Binance + OKX, lower bound · {time} UTC", feedUpdating: "Liquidation feed is updating", tagline: "Independent crypto platform research", research: "Source-checked research" },
   "zh-Hans": { feesChecked: "费率核验于 {date}", rebate: "返佣比例最高 {pct}", rebatePending: "返佣比例待确认", spot: "现货 挂单 / 吃单", perp: "合约 挂单 / 吃单", notChecked: "尚未核验", vs: "对比", compare: "费率对比", liquidations: "合约爆仓 · 24 小时", longs: "多单", shorts: "空单", largest: "最大单笔", lowerBound: "Binance + OKX，下限值 · {time} UTC", feedUpdating: "爆仓数据正在更新", tagline: "独立加密交易平台研究", research: "源头核验研究" },

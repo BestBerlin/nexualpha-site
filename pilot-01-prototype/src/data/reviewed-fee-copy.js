@@ -1,6 +1,11 @@
-const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it"];
+const locales = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "ja", "ko", "ar", "tr", "ru", "id", "vi", "it", "ur", "uk"];
 
 const TIER_COPY = Object.freeze({
+  // l10n: needs native review
+  ur: {"regular-user": "عام صارف", "standard-non-vip": "معیاری غیر VIP", "vip-0": "VIP 0", "unknown": "عوامی ماخذ کی سطح"},
+  // l10n: needs native review
+  uk: {"regular-user": "Звичайний користувач", "standard-non-vip": "Стандартний без VIP", "vip-0": "VIP 0", "unknown": "Рівень з публічного джерела"},
+
   en: {
     "regular-user": "Regular user",
     "standard-non-vip": "Standard non-VIP",
@@ -94,6 +99,11 @@ const TIER_COPY = Object.freeze({
 });
 
 const SCOPE_COPY = Object.freeze({
+  // l10n: needs native review
+  ur: {"official": {"scope": "سرکاری فیس صفحے کی بنیادی شرح", "conditions": "دکھائی گئی جانچ کی تاریخ پر پلیٹ فارم کے سرکاری فیس صفحے سے لیا گیا۔ VIP سطح، ٹوکن رعایت، آفرز، اکاؤنٹ کی شرائط اور علاقائی اہلیت شامل نہیں؛ سرکاری اکاؤنٹ میں ان کی تصدیق کریں۔"}, "binance": {"scope": "Binance کی معیاری اسپاٹ بنیادی شرح، USDC کالم کے بغیر", "conditions": "Binance کے عوامی Spot & Margin جدول کی Regular User قطار۔ BNB 25% رعایت، USDC کالم، VIP سطح، آفرز، اکاؤنٹ اور علاقائی اہلیت کی سرکاری اکاؤنٹ میں تصدیق کریں۔"}, "bitget": {"scope": "Bitget کی معیاری اسپاٹ بنیادی شرح", "conditions": "VIP سطح یا BGB رعایت سے پہلے Bitget کی معیاری اسپاٹ فیس۔ BGB ادائیگی کی رعایت، VIP سطح، آفرز، اکاؤنٹ اور علاقائی اہلیت موجودہ Fee Schedule اور سرکاری اکاؤنٹ میں چیک کریں۔"}, "bybit": {"scope": "Bybit کے عام زون میں کرپٹو سے کرپٹو اسپاٹ بنیادی شرح", "conditions": "Bybit Spot Trading (Crypto-Crypto) کی VIP 0 قطار۔ فیاٹ اسپاٹ، Adventure Zone، xStocks، مشتقات، آپشنز، Pro، VIP اور مارکیٹ میکر جدول شامل نہیں۔ حتمی فیس علاقہ اور شناخت کی تصدیق کے بعد My Fee Rate کے مطابق بدل سکتی ہے۔"}, "unknown": {"scope": "عوامی ماخذ اور اکاؤنٹ کی تصدیق", "conditions": "اس فیس کو صارف کی ذاتی شرح سمجھنے سے پہلے سرکاری ماخذ، اکاؤنٹ کی سطح، مصنوعات اور علاقائی اکاؤنٹ کی شرائط کی تصدیق ضروری ہے۔"}},
+  // l10n: needs native review
+  uk: {"official": {"scope": "Базова ставка з офіційної сторінки комісій", "conditions": "Взято з офіційної сторінки платформи на вказану дату перевірки. Рівні VIP, знижки за токени, акції, умови облікового запису й регіональна доступність не враховані; перевірте їх в офіційному обліковому записі."}, "binance": {"scope": "Базові стандартні спотові ставки Binance без колонок USDC", "conditions": "Використано рядок Regular User публічної таблиці Spot & Margin Binance. Знижку BNB 25%, колонки USDC, рівні VIP, акції та умови облікового запису й регіону перевіряйте в офіційному обліковому записі."}, "bitget": {"scope": "Базові стандартні спотові ставки Bitget", "conditions": "Використано стандартні спотові комісії Bitget до рівнів VIP або знижки BGB. Знижки за оплату BGB, VIP, акції, умови облікового запису й регіональну доступність перевіряйте в актуальному Fee Schedule та офіційному обліковому записі."}, "bybit": {"scope": "Базові спотові ставки крипто-крипто у звичайній зоні Bybit", "conditions": "Використано рядок VIP 0 для Spot Trading (Crypto-Crypto) Bybit. Виключено фіатні пари, Adventure Zone, xStocks, деривативи, опціони, Pro, VIP та тарифи маркетмейкерів; остаточні комісії можуть залежати від регіону й My Fee Rate після перевірки особи."}, "unknown": {"scope": "Публічне джерело й підтвердження облікового запису", "conditions": "Перш ніж вважати ставку персональною, перевірте офіційне джерело, рівень облікового запису, продукти й регіональні умови."}},
+
   en: {
     official: { scope: "Base rate from the official fee page", conditions: "Taken from the platform's official fee page on the check date shown. VIP tiers, token discounts, promotions, account-specific terms and regional eligibility are excluded and must be confirmed in the official account flow." },
     binance: {

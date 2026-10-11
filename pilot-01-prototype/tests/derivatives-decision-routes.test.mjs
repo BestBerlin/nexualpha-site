@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const locales = ["en", "zh-Hans", "zh-Hant", "ja", "ko", "tr", "es", "pt-BR", "fr", "de", "ru", "ar", "id", "vi", "it"];
+const locales = ["en", "zh-Hans", "zh-Hant", "ja", "ko", "tr", "es", "pt-BR", "fr", "de", "ru", "ar", "id", "vi", "it", "ur", "uk"];
 
 async function renderTopic(locale, slug = "derivatives") {
   const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-derivatives-routes-"));

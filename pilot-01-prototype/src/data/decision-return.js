@@ -73,6 +73,10 @@ const COPY = {
   es:{copy:'Copiar enlace para continuar después',copied:'Enlace copiado',failed:'No se pudo copiar. Selecciona y copia el enlace de abajo.',linkLabel:'Enlace con las selecciones actuales',botFeeOpen:'Abrir consulta de comisiones en Telegram'},
   fr:{copy:'Copier le lien pour continuer plus tard',copied:'Lien copié',failed:'Copie impossible. Sélectionnez et copiez le lien ci-dessous.',linkLabel:'Lien avec les sélections actuelles',botFeeOpen:'Ouvrir la recherche de frais sur Telegram'},
   de:{copy:'Link zum späteren Fortsetzen kopieren',copied:'Link kopiert',failed:'Kopieren fehlgeschlagen. Wählen und kopieren Sie den Link unten.',linkLabel:'Link mit der aktuellen Auswahl',botFeeOpen:'Gebührenabfrage in Telegram öffnen'},
+  // l10n: needs native review
+  ur:{copy:"بعد میں جاری رکھنے کے لیے لنک کاپی کریں",copied:"لنک کاپی ہو گیا",failed:"کاپی نہیں ہو سکا۔ نیچے دیا گیا لنک منتخب کر کے کاپی کریں۔",linkLabel:"موجودہ انتخاب کے ساتھ لنک",botFeeOpen:"Telegram میں فیس کی تلاش کھولیں"},
+  // l10n: needs native review
+  uk:{copy:"Скопіювати посилання, щоб продовжити пізніше",copied:"Посилання скопійовано",failed:"Не вдалося скопіювати. Виділіть і скопіюйте посилання нижче.",linkLabel:"Посилання з поточними налаштуваннями",botFeeOpen:"Відкрити запит комісій у Telegram"},
   ar:{copy:'نسخ الرابط للمتابعة لاحقًا',copied:'تم نسخ الرابط',failed:'تعذّر النسخ. حدّد الرابط أدناه وانسخه.',linkLabel:'رابط يتضمن الخيارات الحالية',botFeeOpen:'فتح استعلام الرسوم في Telegram'},
   ru:{copy:'Скопировать ссылку, чтобы продолжить позже',copied:'Ссылка скопирована',failed:'Не удалось скопировать. Выделите и скопируйте ссылку ниже.',linkLabel:'Ссылка с текущими настройками',botFeeOpen:'Открыть запрос комиссий в Telegram'},
   id:{copy:'Salin tautan untuk dilanjutkan nanti',copied:'Tautan disalin',failed:'Gagal menyalin. Pilih dan salin tautan di bawah.',linkLabel:'Tautan dengan pilihan saat ini',botFeeOpen:'Buka pemeriksaan biaya di Telegram'},

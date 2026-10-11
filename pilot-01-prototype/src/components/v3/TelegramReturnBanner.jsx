@@ -192,6 +192,11 @@ const copyByLocale = {
   },
 };
 
+// l10n: needs native review
+copyByLocale.ur = { ...copyByLocale.en, eyebrow: "Telegram واپسی", title: "آپ کا Telegram تحقیقی سیاق بحال ہو گیا", body: "اسی عوامی مارکیٹ، مصنوعات اور راستے کے سیاق کے ساتھ اس صفحے پر جاری رکھیں۔ Telegram اکاؤنٹ کا ڈیٹا یا رجسٹریشن کا نتیجہ یہاں محفوظ نہیں ہوتا۔", market: "مارکیٹ", product: "مصنوعات", object: "راستہ", expires: "قابل استعمال تا", continue: "اس صفحے پر جاری رکھیں", clear: "Telegram نشان صاف کریں" };
+// l10n: needs native review
+copyByLocale.uk = { ...copyByLocale.en, eyebrow: "Повернення з Telegram", title: "Ваш дослідницький контекст із Telegram відновлено", body: "Продовжуйте на цій сторінці з тим самим публічним контекстом ринку, продукту й маршруту. Дані акаунта Telegram або результат реєстрації тут не зберігаються.", market: "Ринок", product: "Продукт", object: "Маршрут", expires: "Дійсно до", continue: "Продовжити на цій сторінці", clear: "Очистити маркер Telegram" };
+
 // Anonymous resume copy is separate so existing Telegram-return fallbacks stay unchanged.
 const anonymousResumeCopyByLocale = {
   en: { ...copyByLocale.en, resumeBody: "Saved in this browser, separately from Bot choices. Restores public market, selected product, purpose and onsite research route, without identity, referral links or Telegram account data." },
@@ -320,6 +325,9 @@ const anonymousResumeCopyByLocale = {
 };
 
 
+anonymousResumeCopyByLocale.ur = { ...copyByLocale.ur, resumeEyebrow: "بعد میں جاری رکھیں", resumeTitle: "اپنا آخری گمنام فیصلہ جاری رکھیں", resumeBody: "صرف مارکیٹ، مصنوعات، منظرنامہ اور سائٹ کا راستہ بحال ہوتے ہیں؛ شناخت، ریفرل لنک یا Telegram اکاؤنٹ ڈیٹا محفوظ نہیں ہوتا۔", resume: "آخری فیصلہ جاری رکھیں", forget: "محفوظ فیصلہ بھلا دیں" };
+anonymousResumeCopyByLocale.uk = { ...copyByLocale.uk, resumeEyebrow: "Продовжити пізніше", resumeTitle: "Продовжити останнє анонімне рішення", resumeBody: "Відновлюються лише ринок, продукт, сценарій і маршрут на сайті; особа, реферальне посилання або дані акаунта Telegram не зберігаються.", resume: "Продовжити останнє рішення", forget: "Забути збережене рішення" };
+
 const anonymousResumeDetailsCopyByLocale = {
   "en": "Saved context and privacy",
   "zh-Hans": "保存的上下文与隐私",
@@ -337,6 +345,8 @@ const anonymousResumeDetailsCopyByLocale = {
   "vi": "Ngữ cảnh đã lưu và quyền riêng tư",
   "it": "Contesto salvato e privacy"
 };
+anonymousResumeDetailsCopyByLocale.ur = "کیا بحال ہوتا ہے؟";
+anonymousResumeDetailsCopyByLocale.uk = "Що відновлюється?";
 
 const localeKey = (locale) => {
   const normalized = String(locale || "en");

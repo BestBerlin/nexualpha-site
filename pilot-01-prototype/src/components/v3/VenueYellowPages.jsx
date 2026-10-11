@@ -71,6 +71,16 @@ const regionalStatusLabels = {
     "مرشح للبحث الإقليمي",
     "متوقف للمراجعة"
   ],
+  // l10n: needs native review
+  "ur": [
+    "علاقائی تحقیق امیدوار",
+    "جائزے کے لیے موقوف"
+  ],
+  // l10n: needs native review
+  "uk": [
+    "Кандидат для регіонального дослідження",
+    "Призупинено для перегляду"
+  ],
   "id": [
     "Kandidat riset regional",
     "Dijeda untuk peninjauan"
@@ -119,6 +129,22 @@ const regionalDecisionLabels = {
     "تحقق أولاً",
     "عرض الملف والشروط",
     "المسجل هو نطاق التغطية العالمي فقط. تحقق من الإقامة وأهلية المنتج في المسار الرسمي."
+  ],
+  // l10n: needs native review
+  "ur": [
+    "بنیادی راستہ",
+    "متبادل",
+    "پہلے تصدیق کریں",
+    "پروفائل اور شرائط دیکھیں",
+    "صرف عالمی کوریج درج ہے۔ رہائش اور پروڈکٹ اہلیت کو سرکاری فلو میں چیک کریں۔"
+  ],
+  // l10n: needs native review
+  "uk": [
+    "Основний маршрут",
+    "Альтернатива",
+    "Спершу перевірте",
+    "Переглянути профіль і умови",
+    "Зафіксовано лише глобальне покриття. Перевірте резидентство й доступність продукту в офіційному процесі."
   ],
   "vi": [
     "Lộ trình chính",
@@ -180,6 +206,30 @@ const uiText = {
     viewDetail: "View Details & Limits", openSignup: "Open Partner Signup ↗", openApp: "Open App ↗", verifyEligibility: "Verify eligibility first",
     codeLabel: "Code", noCode: "On-chain direct · No code", viewAll: "View full platform directory", viewMore: "Show more platforms", viewLess: "Show fewer platforms",
     searchLabel: "Search platforms", searchPlaceholder: "Enter a platform or category", clearSearch: "Clear search", compareSelect: "Add to compare", compareRemove: "Remove from compare", compareNeed: "Choose one more platform", compareOpen: "Open comparison", compareClear: "Clear selection",
+  },
+  // l10n: needs native review
+  ur: {
+    sectionTitle: "کرپٹو پلیٹ فارم ڈائریکٹری",
+    emptyTitle: "ان فلٹرز سے کوئی پلیٹ فارم نہیں ملتا",
+    emptyBody: "اس زمرے اور فلٹر مجموعے کا کوئی نتیجہ نہیں۔ دستیاب پلیٹ فارمز دیکھنے کے لیے فلٹر ری سیٹ کریں۔",
+    resetFilters: "فلٹر ری سیٹ کریں",
+    sectionLead: "NexuAlpha چھوڑنے سے پہلے سرکاری ڈومینز، استعمال کے کیسز، اکاؤنٹ چیکس اور جائزہ شدہ پارٹنر راستوں کا موازنہ کریں۔",
+    tabAll: "تمام پلیٹ فارمز", tabCex: "CEX", tabDex: "DEX", tabPerp: "Perp DEX",
+    viewDetail: "تفصیلات اور حدود دیکھیں", openSignup: "پارٹنر سائن اپ کھولیں ↗", openApp: "ایپ کھولیں ↗", verifyEligibility: "پہلے اہلیت چیک کریں",
+    codeLabel: "کوڈ", noCode: "آن چین براہ راست · کوڈ نہیں", viewAll: "مکمل پلیٹ فارم ڈائریکٹری دیکھیں", viewMore: "مزید پلیٹ فارمز دکھائیں", viewLess: "کم پلیٹ فارمز دکھائیں",
+    searchLabel: "پلیٹ فارم تلاش کریں", searchPlaceholder: "پلیٹ فارم یا زمرہ درج کریں", clearSearch: "تلاش صاف کریں", compareSelect: "موازنے میں شامل کریں", compareRemove: "موازنے سے نکالیں", compareNeed: "ایک اور پلیٹ فارم منتخب کریں", compareOpen: "موازنہ کھولیں", compareClear: "انتخاب صاف کریں",
+  },
+  // l10n: needs native review
+  uk: {
+    sectionTitle: "Каталог криптоплатформ",
+    emptyTitle: "Жодна платформа не відповідає цим фільтрам",
+    emptyBody: "Ця комбінація категорії та фільтрів не має результатів. Скиньте фільтри, щоб переглянути доступні платформи.",
+    resetFilters: "Скинути фільтри",
+    sectionLead: "Перед виходом із NexuAlpha порівняйте офіційні домени, сценарії використання, перевірки рахунку та переглянуті партнерські маршрути.",
+    tabAll: "Усі платформи", tabCex: "CEX", tabDex: "DEX", tabPerp: "Perp DEX",
+    viewDetail: "Переглянути деталі й обмеження", openSignup: "Відкрити партнерську реєстрацію ↗", openApp: "Відкрити застосунок ↗", verifyEligibility: "Спершу перевірте доступність",
+    codeLabel: "Код", noCode: "Ончейн напряму · без коду", viewAll: "Переглянути повний каталог платформ", viewMore: "Показати більше платформ", viewLess: "Показати менше платформ",
+    searchLabel: "Пошук платформ", searchPlaceholder: "Введіть платформу або категорію", clearSearch: "Очистити пошук", compareSelect: "Додати до порівняння", compareRemove: "Прибрати з порівняння", compareNeed: "Оберіть ще одну платформу", compareOpen: "Відкрити порівняння", compareClear: "Очистити вибір",
   },
 };
 
@@ -275,6 +325,28 @@ const directoryUiCopy = {
     emptyBody: "لا يوجد مرشح إقليمي تمت مراجعته لهذه المجموعة. غيّر الفلاتر أو ارجع إلى صفحة بحث السوق.",
     resetFilters: "إعادة ضبط الفلاتر",
   },
+  // l10n: needs native review
+  ur: {
+    returnToRegion: "مارکیٹ تحقیق پر واپس",
+    sectionTitle: "کرپٹو پلیٹ فارم ڈائریکٹری",
+    sectionLead: "NexuAlpha چھوڑنے سے پہلے سرکاری ڈومینز، استعمال، اکاؤنٹ شرائط اور جائزہ شدہ پارٹنر راستوں کا موازنہ کریں۔",
+    openSignup: "پارٹنر سائن اپ کھولیں ↗",
+    benefitPending: "فوائد کی تصدیق سرکاری اکاؤنٹ میں ہونی چاہیے",
+    emptyTitle: "ان فلٹرز سے کوئی جائزہ شدہ پلیٹ فارم نہیں ملتا",
+    emptyBody: "اس مجموعے کے لیے کوئی جائزہ شدہ علاقائی امیدوار نہیں۔ فلٹر بدلیں یا مارکیٹ تحقیق پر واپس جائیں۔",
+    resetFilters: "فلٹر ری سیٹ کریں",
+  },
+  // l10n: needs native review
+  uk: {
+    returnToRegion: "Повернутися до дослідження ринку",
+    sectionTitle: "Каталог криптоплатформ",
+    sectionLead: "Перед виходом із NexuAlpha порівняйте офіційні домени, сценарії використання, умови рахунку та перевірені партнерські маршрути.",
+    openSignup: "Відкрити партнерську реєстрацію ↗",
+    benefitPending: "Переваги потрібно перевірити в офіційному рахунку",
+    emptyTitle: "Немає перевіреної платформи для цих фільтрів",
+    emptyBody: "Для цієї комбінації ще немає перевірених регіональних кандидатів. Змініть фільтри або поверніться до дослідження ринку.",
+    resetFilters: "Скинути фільтри",
+  },
   tr: {
     returnToRegion: "Pazar araştırmasına dön",
     sectionTitle: "Kripto platform dizini",
@@ -340,12 +412,16 @@ const filterLabels = {
   fr: { noKyc: "Sans KYC", por: "Preuve de réserves", fiat: "Support fiat", highLev: "Effet de levier 50x+", sortLabel: "Trier", sortDefault: "Recommandés", sortFee: "Frais vérifiés d’abord", sortRebate: "Avantage vérifié d’abord" },
   de: { noKyc: "Ohne KYC", por: "Proof of Reserves", fiat: "Fiat-Unterstützung", highLev: "50x+ Hebel", sortLabel: "Sortieren", sortDefault: "Empfohlen", sortFee: "Verifizierte Gebühren zuerst", sortRebate: "Verifizierter Vorteil zuerst" },
   ar: { noKyc: "بدون KYC", por: "إثبات الاحتياطيات", fiat: "دعم العملات الرسمية", highLev: "رافعة 50x+", sortLabel: "ترتيب", sortDefault: "موصى به", sortFee: "الرسوم الموثقة أولاً", sortRebate: "المزايا الموثقة أولاً" },
+  // l10n: needs native review
+  ur: { noKyc: "بغیر KYC", por: "ریزرو ثبوت", fiat: "Fiat سپورٹ", highLev: "50x+ لیوریج", sortLabel: "ترتیب", sortDefault: "تجویز کردہ", sortFee: "پہلے تصدیق شدہ فیس", sortRebate: "پہلے تصدیق شدہ صارف فائدہ" },
+  // l10n: needs native review
+  uk: { noKyc: "Без KYC", por: "Підтвердження резервів", fiat: "Підтримка fiat", highLev: "Плече 50x+", sortLabel: "Сортування", sortDefault: "Рекомендовані", sortFee: "Спершу перевірена комісія", sortRebate: "Спершу перевірена перевага" },
   id: { noKyc: "Tanpa KYC", por: "Bukti cadangan", fiat: "Dukungan fiat", highLev: "Leverage 50x+", sortLabel: "Urutkan", sortDefault: "Direkomendasikan", sortFee: "Biaya terverifikasi dulu", sortRebate: "Manfaat terverifikasi dulu" },
   vi: { noKyc: "Không KYC", por: "Bằng chứng dự trữ", fiat: "Hỗ trợ tiền pháp định", highLev: "Đòn bẩy 50x+", sortLabel: "Sắp xếp", sortDefault: "Đề xuất", sortFee: "Phí đã xác minh trước", sortRebate: "Ưu đãi đã xác minh trước" },
   it: { noKyc: "Senza KYC", por: "Prova delle riserve", fiat: "Supporto fiat", highLev: "Leva 50x+", sortLabel: "Ordina", sortDefault: "Consigliati", sortFee: "Commissioni verificate prima", sortRebate: "Vantaggio verificato prima" },
 };
 const categoryLabels = {
-  ja: ["すべてのプラットフォーム", "CEX", "DEX", "Perp DEX"], ko: ["전체 플랫폼", "CEX", "DEX", "Perp DEX"], tr: ["Tüm platformlar", "CEX", "DEX", "Perp DEX"], ru: ["Все платформы", "CEX", "DEX", "Perp DEX"], es: ["Todas las plataformas", "CEX", "DEX", "Perp DEX"], "pt-BR": ["Todas as plataformas", "CEX", "DEX", "Perp DEX"], fr: ["Toutes les plateformes", "CEX", "DEX", "Perp DEX"], de: ["Alle Plattformen", "CEX", "DEX", "Perp DEX"], ar: ["كل المنصات", "CEX", "DEX", "Perp DEX"], id: ["Semua platform", "CEX", "DEX", "Perp DEX"], vi: ["Tất cả nền tảng", "CEX", "DEX", "Perp DEX"], it: ["Tutte le piattaforme", "CEX", "DEX", "Perp DEX"],
+  ja: ["すべてのプラットフォーム", "CEX", "DEX", "Perp DEX"], ko: ["전체 플랫폼", "CEX", "DEX", "Perp DEX"], tr: ["Tüm platformlar", "CEX", "DEX", "Perp DEX"], ru: ["Все платформы", "CEX", "DEX", "Perp DEX"], es: ["Todas las plataformas", "CEX", "DEX", "Perp DEX"], "pt-BR": ["Todas as plataformas", "CEX", "DEX", "Perp DEX"], fr: ["Toutes les plateformes", "CEX", "DEX", "Perp DEX"], de: ["Alle Plattformen", "CEX", "DEX", "Perp DEX"], ar: ["كل المنصات", "CEX", "DEX", "Perp DEX"], ur: ["تمام پلیٹ فارمز", "CEX", "DEX", "Perp DEX"], uk: ["Усі платформи", "CEX", "DEX", "Perp DEX"], id: ["Semua platform", "CEX", "DEX", "Perp DEX"], vi: ["Tất cả nền tảng", "CEX", "DEX", "Perp DEX"], it: ["Tutte le piattaforme", "CEX", "DEX", "Perp DEX"],
 };
 
 export function sanitizeEditorialText(value, locale) {
@@ -391,6 +467,18 @@ const directorySearchCopy = {
     "searchLabel": "البحث عن منصة",
     "searchPlaceholder": "أدخل اسم المنصة أو نوعها",
     "clearSearch": "مسح البحث"
+  },
+  // l10n: needs native review
+  "ur": {
+    "searchLabel": "پلیٹ فارم تلاش کریں",
+    "searchPlaceholder": "پلیٹ فارم کا نام یا قسم درج کریں",
+    "clearSearch": "تلاش صاف کریں"
+  },
+  // l10n: needs native review
+  "uk": {
+    "searchLabel": "Пошук платформ",
+    "searchPlaceholder": "Введіть назву або тип платформи",
+    "clearSearch": "Очистити пошук"
   },
   "es": {
     "searchLabel": "Buscar plataformas",
@@ -462,6 +550,22 @@ const directoryActionCopy = {
     "compareClear": "مسح الاختيار",
     "viewMore": "عرض المزيد من المنصات",
     "viewLess": "عرض منصات أقل"
+  },
+  // l10n: needs native review
+  "ur": {
+    "compareSelect": "موازنے میں شامل کریں",
+    "compareRemove": "موازنے سے نکالیں",
+    "compareClear": "انتخاب صاف کریں",
+    "viewMore": "مزید پلیٹ فارمز دکھائیں",
+    "viewLess": "کم پلیٹ فارمز دکھائیں"
+  },
+  // l10n: needs native review
+  "uk": {
+    "compareSelect": "Додати до порівняння",
+    "compareRemove": "Прибрати з порівняння",
+    "compareClear": "Очистити вибір",
+    "viewMore": "Показати більше платформ",
+    "viewLess": "Показати менше платформ"
   },
   "es": {
     "compareSelect": "Añadir a la comparación",
@@ -591,6 +695,10 @@ const copyFeedbackLocales = {
   de: { copying: "Einladungscode wird kopiert…", failed: "Kopieren fehlgeschlagen. Wählen Sie den Code unten aus und kopieren Sie ihn manuell.", manualLabel: "Einladungscode zum manuellen Kopieren" },
   ru: { copying: "Копируем пригласительный код…", failed: "Не удалось скопировать. Выделите код ниже и скопируйте вручную.", manualLabel: "Код приглашения для ручного копирования" },
   ar: { copying: "جارٍ نسخ رمز الدعوة…", failed: "تعذر النسخ. حدد الرمز أدناه وانسخه يدويًا.", manualLabel: "رمز الدعوة للنسخ اليدوي" },
+  // l10n: needs native review
+  ur: { copying: "دعوتی کوڈ کاپی ہو رہا ہے…", failed: "کاپی ناکام۔ نیچے کوڈ منتخب کر کے دستی کاپی کریں۔", manualLabel: "دستی دعوتی کوڈ" },
+  // l10n: needs native review
+  uk: { copying: "Копіюємо код запрошення…", failed: "Не вдалося скопіювати. Виділіть код нижче й скопіюйте вручну.", manualLabel: "Код запрошення для ручного копіювання" },
   id: { copying: "Menyalin kode undangan…", failed: "Gagal menyalin. Pilih kode di bawah ini lalu salin manual.", manualLabel: "Kode undangan untuk disalin manual" },
   vi: { copying: "Đang sao chép mã mời…", failed: "Không thể sao chép. Hãy chọn mã bên dưới và sao chép thủ công.", manualLabel: "Mã mời để sao chép thủ công" },
   it: { copying: "Copia del codice invito…", failed: "Copia non riuscita. Seleziona il codice qui sotto e copialo manualmente.", manualLabel: "Codice invito da copiare manualmente" },
@@ -609,7 +717,7 @@ export function getFilters(locale) {
 
 const CHECKED_LABELS = {
   en: "Checked", "zh-Hans": "核验于", "zh-Hant": "核驗於", ja: "確認日", ko: "확인일", tr: "Kontrol", es: "Revisado", "pt-BR": "Verificado", pt: "Verificado",
-  fr: "Vérifié", de: "Geprüft", ru: "Проверено", ar: "تم التحقق", id: "Dicek", vi: "Kiểm tra", it: "Verificato",
+  fr: "Vérifié", de: "Geprüft", ru: "Проверено", ar: "تم التحقق", ur: "تصدیق شدہ", uk: "Перевірено", id: "Dicek", vi: "Kiểm tra", it: "Verificato",
 };
 
 export function VenueYellowPages({ venues = [], locale = "en", market, product, accountStage, funding, headingLevel = 2, compact = false }) {

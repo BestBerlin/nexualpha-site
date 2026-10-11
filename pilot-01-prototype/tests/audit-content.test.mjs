@@ -18,8 +18,8 @@ import { PLURAL_COPY_LOCALES, platformCount, showFewerPlatforms, showMorePlatfor
 import { textEntryKey } from "../src/utils/unique-text.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
-const PREFIX = { en: "", "zh-Hans": "/zh-hans", "zh-Hant": "/zh-hant", "pt-BR": "/pt-br", id: "/id-id" };
+const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"];
+const PREFIX = { en: "", "zh-Hans": "/zh-hans", "zh-Hant": "/zh-hant", "pt-BR": "/pt-br", id: "/id-id", uk: "/uk-ua" };
 const localePath = (locale, pathname) => `${PREFIX[locale] ?? `/${locale}`}${pathname}`;
 
 // Paragraphs modeled on the production article that showed six raw links (okx-unified-tokenized-stocks-...).
@@ -153,7 +153,7 @@ test("NX-09 every article route in the feed gets a non-dangling meta description
   assert.ok(checked > feed.articles.length * 10, `checked ${checked} routes`);
 });
 
-test("NX-05 /onchain is a verification guide in all 15 locales: honest title, description, schema and status", async () => {
+test("NX-05 /onchain is a verification guide in all 17 locales: honest title, description, schema and status", async () => {
   const forbidden = /\b(board|dashboard|live)\b|看板|ボード|보드|panosu|\bPanel\b|Painel|Tableau|Pannello|Панель|لوحة|Papan|Bảng/i;
   assert.deepEqual([...ONCHAIN_GUIDE_LOCALES].sort(), [...LOCALES].sort());
   const sources = onchainGuideReserveSources();
@@ -171,7 +171,7 @@ test("NX-05 /onchain is a verification guide in all 15 locales: honest title, de
     const worker = await routeMetadata(url, {});
     const client = computeRouteSeo({ url: url.href, locale });
     assert.equal(worker.status, 200);
-    assert.equal(worker.robots, "index,follow", `${locale}: indexable, the content now matches the title`);
+    assert.equal(worker.robots, ["ur", "uk"].includes(locale) ? "noindex,follow" : "index,follow", `${locale}: native-review gate`);
     assert.equal(worker.title, seo.title, `${locale} worker title`);
     assert.equal(worker.description, seo.description, `${locale} worker description`);
     assert.equal(client.title, worker.title, `${locale} SSR/client title parity`);
@@ -202,7 +202,7 @@ test("NX-05 /onchain body: guide H1, plain 'not published' status, official repo
   assert.match(rendered.onchain.ja, /支払能力や安全の保証でも/);
 });
 
-test("NX-07 generic payment labels are localized in all 15 locales; brands stay as recorded", () => {
+test("NX-07 generic payment labels are localized in all 17 locales; brands stay as recorded", () => {
   for (const method of LOCALIZED_PAYMENT_METHODS) {
     for (const locale of LOCALES.filter((code) => code !== "en")) {
       const label = paymentMethodLabel(method, locale);
@@ -234,7 +234,7 @@ test("NX-07 eligibility lists never repeat an entry in any locale or venue", () 
 });
 
 test("NX-07 platform counts use CLDR plural rules", () => {
-  assert.deepEqual(PLURAL_COPY_LOCALES.slice().sort(), LOCALES.slice().sort());
+  assert.deepEqual(PLURAL_COPY_LOCALES.slice().sort(), [...LOCALES, "ur", "uk"].sort());
   assert.equal(platformCount(1, "fr"), "1 plateforme");
   assert.equal(platformCount(2, "fr"), "2 plateformes");
   assert.equal(platformCount(1, "en"), "1 platform");

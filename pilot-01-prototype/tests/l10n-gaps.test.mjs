@@ -21,7 +21,7 @@ const { renderToStaticMarkup } = require("react-dom/server");
 
 const localeManifest = fs.readFileSync(path.join(root, "src/content/locale-manifest.ts"), "utf8");
 const LOCALES = [...localeManifest.matchAll(/^\s+"?([A-Za-z-]+)"?:\s*\{\s*language:/gm)].map((m) => m[1]);
-assert.equal(LOCALES.length, 15, "15 UI locales");
+assert.equal(LOCALES.length, 17, "17 UI locales");
 const NON_EN = LOCALES.filter((l) => l !== "en");
 
 // Strings the production sweep found identical to the English page on non-English pages (classification "a").

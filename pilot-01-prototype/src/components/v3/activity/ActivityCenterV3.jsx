@@ -132,7 +132,11 @@ const activitySupportSummary = {
   "ru": "Примечания об источниках, правила проверки и Telegram",
   "id": "Catatan sumber, aturan tinjauan, dan Telegram",
   "vi": "Ghi chú nguồn, quy tắc rà soát và Telegram",
-  "it": "Note sulle fonti, regole di revisione e Telegram"
+  "it": "Note sulle fonti, regole di revisione e Telegram",
+ // l10n: needs native review
+ ur: "ماخذ کے نوٹس، جائزے کے اصول اور Telegram",
+ // l10n: needs native review
+ uk: "Примітки щодо джерел, правила перевірки та Telegram",
 };
 
 

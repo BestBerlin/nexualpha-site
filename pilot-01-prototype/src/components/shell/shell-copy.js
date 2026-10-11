@@ -12,6 +12,10 @@ const COPY = {
   de: { skip: "Zum Inhalt springen", more: "Mehr" },
   ru: { skip: "Перейти к содержимому", more: "Ещё" },
   ar: { skip: "انتقل إلى المحتوى", more: "المزيد" },
+  // l10n: needs native review
+  ur: { skip: "مواد پر جائیں", more: "مزید" },
+  // l10n: needs native review
+  uk: { skip: "Перейти до вмісту", more: "Більше" },
   id: { skip: "Lewati ke konten", more: "Lainnya" },
   vi: { skip: "Chuyển đến nội dung", more: "Thêm" },
   it: { skip: "Vai al contenuto", more: "Altro" },

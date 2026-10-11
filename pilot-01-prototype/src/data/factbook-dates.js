@@ -34,6 +34,10 @@ const COPY = {
   tr: ["Ücretler kontrol edildi", "Avantaj koşulları teyit edildi", "Kaynak dosyası derlendi", "Henüz değil"],
   id: ["Biaya diperiksa", "Ketentuan manfaat dikonfirmasi", "Berkas sumber disusun", "Belum"],
   vi: ["Ngày kiểm tra phí", "Ngày xác nhận điều khoản ưu đãi", "Ngày lập hồ sơ nguồn", "Chưa"],
+  // l10n: needs native review
+  ur: ["فیس کی جانچ", "فوائد کی شرائط کی تصدیق", "ماخذ کی فائل تیار", "ابھی نہیں"],
+  // l10n: needs native review
+  uk: ["Комісії перевірено", "Умови переваг підтверджено", "Досьє джерел укладено", "Ще ні"],
   ar: ["تاريخ التحقق من الرسوم", "تاريخ تأكيد شروط الميزة", "تاريخ إعداد ملف المصادر", "ليس بعد"],
 };
 

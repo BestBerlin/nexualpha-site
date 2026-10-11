@@ -30,6 +30,10 @@ const PAYMENT_LABELS_LOCALIZED = {
   "zh-Hant": { "Bank transfer": "銀行轉帳", Card: "銀行卡", "Local fiat": "本地法幣", "Global fiat": "全球法幣", "USDT on-chain": "USDT 鏈上", "USDT in platform": "平台內 USDT" },
   "pt-BR": { "Bank transfer": "Transferência bancária", Card: "Cartão", "Local fiat": "Moeda fiduciária local", "Global fiat": "Moeda fiduciária global", "USDT on-chain": "USDT on-chain", "USDT in platform": "USDT na plataforma" },
   id: { "Bank transfer": "Transferi bank", Card: "Kartu", "Local fiat": "Mata uang fiat lokal", "Global fiat": "Mata uang fiat global", "USDT on-chain": "USDT on-chain", "USDT in platform": "USDT di platform" },
+  // l10n: needs native review
+  ur: { "Bank transfer": "بینک ٹرانسفر", Card: "کارڈ", "Local fiat": "مقامی کرنسی", "Global fiat": "بین الاقوامی کرنسی", "USDT on-chain": "آن چین USDT", "USDT in platform": "پلیٹ فارم میں USDT" },
+  // l10n: needs native review
+  uk: { "Bank transfer": "Банківський переказ", Card: "Картка", "Local fiat": "Місцева фіатна валюта", "Global fiat": "Міжнародні фіатні валюти", "USDT on-chain": "USDT у блокчейні", "USDT in platform": "USDT на платформі" },
   ar: { "Bank transfer": "تحويل بنكي", Card: "بطاقة", "Local fiat": "عملة محلية", "Global fiat": "عملة عالمية", "USDT on-chain": "USDT على السلسلة", "USDT in platform": "USDT داخل المنصة" },
   vi: { "Bank transfer": "Chuyển khoản ngân hàng", Card: "Thẻ", "Local fiat": "Tiền pháp định nội địa", "Global fiat": "Tiền pháp định toàn cầu", "USDT on-chain": "USDT on-chain", "USDT in platform": "USDT trên nền tảng" },
   it: { "Bank transfer": "Bonifico bancario", Card: "Carta", "Local fiat": "Valuta fiat locale", "Global fiat": "Valuta fiat globale", "USDT on-chain": "USDT on-chain", "USDT in platform": "USDT sulla piattaforma" },

@@ -18,6 +18,10 @@ const LABELS = Object.freeze({
   tr: { news: "HABERLER VE ARAŞTIRMA", campaigns: "KAMPANYALAR", telegram: "TELEGRAM", compare: "KARŞILAŞTIRMA", exchanges: "BORSALAR" },
   id: { news: "BERITA & RISET", campaigns: "KAMPANYE", telegram: "TELEGRAM", compare: "BANDINGKAN", exchanges: "BURSA" },
   vi: { news: "TIN TỨC & NGHIÊN CỨU", campaigns: "SỰ KIỆN", telegram: "TELEGRAM", compare: "SO SÁNH", exchanges: "SÀN GIAO DỊCH" },
+  // l10n: needs native review
+  ur: { news: "خبریں اور تحقیق", campaigns: "مہمات", telegram: "TELEGRAM", compare: "موازنہ", exchanges: "ایکسچینجز" },
+  // l10n: needs native review
+  uk: { news: "НОВИНИ ТА ДОСЛІДЖЕННЯ", campaigns: "КАМПАНІЇ", telegram: "TELEGRAM", compare: "ПОРІВНЯТИ", exchanges: "БІРЖІ" },
   ar: { news: "الأخبار والأبحاث", campaigns: "الحملات", telegram: "TELEGRAM", compare: "المقارنة", exchanges: "المنصات" },
 });
 

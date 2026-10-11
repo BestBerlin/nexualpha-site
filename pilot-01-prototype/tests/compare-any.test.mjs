@@ -1,5 +1,5 @@
 // Compare-any (2026-10-11): every pair of active venues gets a data-only /compare/<a>-vs-<b> page. Route resolution in
-// all 15 locales, reverse-slug 301, the index policy matrix, locale-sitemap counts, GET-form normalization, runtime SSR
+// all 17 locales, reverse-slug 301, the index policy matrix, locale-sitemap counts, GET-form normalization, runtime SSR
 // injection, and the rendered page (one H1, both partner CTAs beside the disclosure, no CTA for a non-partner pair).
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
@@ -41,7 +41,7 @@ test("canonical slug: curated order wins, otherwise alphabetical; three-venue se
   for (const pair of CURATED_COMPARISON_SLUGS) assert.equal(canonicalComparePairSlug(pair.split("-vs-")), pair);
 });
 
-test("a generated pair resolves in all 15 locales with templated copy and the shared index policy", async () => {
+test("a generated pair resolves in all 17 locales with templated copy and the shared index policy", async () => {
   for (const locale of COMPARE_LOCALES) {
     const url = `https://nexualpha.com${localizedPath(`/compare/${INDEXABLE_PAIR}`, locale)}`;
     const meta = await routeMetadata(new URL(url), {});
@@ -160,7 +160,7 @@ test("generated pairs and the hub are server-rendered at request time when the r
   assert.equal(curatedCalls.length, 0);
 });
 
-test("every user-visible template exists in all 15 locales without placeholders left behind", () => {
+test("every user-visible template exists in all 17 locales without placeholders left behind", () => {
   for (const locale of COMPARE_LOCALES) {
     const copy = generatedCompareCopy(locale, { nameA: "A1", nameB: "B2", date: "2026-10-10" });
     for (const value of [copy.title, copy.description, copy.h1, copy.note, copy.profiles, copy.moreWith("A1"), copy.relatedCurated("A1")]) {

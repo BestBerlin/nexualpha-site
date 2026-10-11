@@ -13,6 +13,10 @@ const rows = {
   ru: ["Сервис данных подключён", "Обновления недоступны. Независимые исследования остаются доступны.", "Проверка сервиса данных…", "Обновить данные", "Данные локального предпросмотра"],
   id: ["Layanan data terhubung", "Pembaruan tidak tersedia. Riset independen tetap dapat dibaca.", "Memeriksa layanan data…", "Perbarui data", "Data pratinjau lokal"],
   vi: ["Đã kết nối dịch vụ dữ liệu", "Chưa có cập nhật. Nghiên cứu độc lập vẫn có thể truy cập.", "Đang kiểm tra dịch vụ dữ liệu…", "Làm mới dữ liệu", "Dữ liệu xem trước cục bộ"],
+  // l10n: needs native review
+  ur: ["ڈیٹا سروس منسلک ہے", "اپ ڈیٹس دستیاب نہیں۔ آزاد تحقیق پھر بھی دستیاب ہے۔", "ڈیٹا سروس چیک ہو رہی ہے…", "ڈیٹا تازہ کریں", "مقامی پیش منظر ڈیٹا"],
+  // l10n: needs native review
+  uk: ["Сервіс даних підключено", "Оновлення недоступні. Незалежне дослідження лишається доступним.", "Перевіряємо сервіс даних…", "Оновити дані", "Локальні дані попереднього перегляду"],
   it: ["Servizio dati connesso", "Aggiornamenti non disponibili. La ricerca indipendente resta accessibile.", "Verifica del servizio dati…", "Aggiorna dati", "Dati di anteprima locale"],
 };
 

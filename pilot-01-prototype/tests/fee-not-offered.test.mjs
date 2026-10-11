@@ -3,7 +3,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { feeFact, feeDisplay, EXCHANGE_FACTS } from "../src/data/exchange-facts.js";
 import { matrixCopy } from "../src/components/v3/exchange-matrix-copy.js";
-const SUPPORTED_LOCALES = ["en", "zh-Hans", "zh-Hant", "ja", "ko", "tr", "es", "pt-BR", "fr", "de", "ru", "ar", "id", "vi", "it"];
+const SUPPORTED_LOCALES = ["en", "zh-Hans", "zh-Hant", "ja", "ko", "tr", "es", "pt-BR", "fr", "de", "ru", "ar", "id", "vi", "it", "ur", "uk"];
 
 test("dYdX spot is not offered while its perp fee stays checked", () => {
   assert.equal(feeFact("dydx", "spot").state, "none");

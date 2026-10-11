@@ -10,7 +10,7 @@
 import { HOME_REBATE_MAX_PCT } from "./home-rebate-tiers.js";
 import { formatPercent } from "./format-percent.js";
 
-export const SLOGAN_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"]);
+export const SLOGAN_LOCALES = Object.freeze(["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar", "ur", "uk"]);
 
 // A: "One verified gateway to the world’s exchanges." / 全球交易所，一个官方入口
 export const BRAND_SLOGAN_PRIMARY = Object.freeze({
@@ -29,6 +29,8 @@ export const BRAND_SLOGAN_PRIMARY = Object.freeze({
   id: "Satu gerbang terverifikasi menuju bursa-bursa dunia.", // l10n: needs native review
   vi: "Một cổng đã xác minh tới các sàn giao dịch toàn cầu.", // l10n: needs native review
   ar: "بوابة واحدة موثّقة إلى منصات التداول حول العالم.", // l10n: needs native review
+  ur: "دنیا کی ایکسچینجز تک ایک تصدیق شدہ دروازہ۔", // l10n: needs native review
+  uk: "Один перевірений вхід до світових бірж.", // l10n: needs native review
 });
 
 // B: "Your fees, returned. Up to {max}." / 你的手续费，最高返还 {max} — "{max}" = formatPercent(locale, HOME_REBATE_MAX_PCT).
@@ -48,6 +50,8 @@ export const BRAND_SLOGAN_SECONDARY_TEMPLATE = Object.freeze({
   id: "Biaya Anda kembali. Hingga {max}.", // l10n: needs native review
   vi: "Phí giao dịch được hoàn lại. Lên đến {max}.", // l10n: needs native review
   ar: "رسومك تعود إليك. حتى {max}.", // l10n: needs native review
+  ur: "آپ کی فیس واپس۔ {max} تک۔", // l10n: needs native review
+  uk: "Ваші комісії повертаються. До {max}.", // l10n: needs native review
 });
 
 const CJK_SENTENCE_LOCALES = new Set(["zh-Hans", "zh-Hant", "ja"]);

@@ -17,12 +17,12 @@ const chromeUA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/53
 const fontApi = "https://fonts.googleapis.com/css2";
 
 const families = {
-  latin: { family: "Inter", css: "family=Inter:opsz,wght@14..32,400..700", locales: ["en", "es", "pt-BR", "fr", "de", "tr", "ru", "id", "vi", "it"] },
+  latin: { family: "Inter", css: "family=Inter:opsz,wght@14..32,400..700", locales: ["en", "es", "pt-BR", "fr", "de", "tr", "ru", "id", "vi", "it", "uk"] },
   "zh-Hans": { family: "Noto Sans SC", css: "family=Noto+Sans+SC:wght@400;500;600;700", locales: ["zh-Hans"] },
   "zh-Hant": { family: "Noto Sans TC", css: "family=Noto+Sans+TC:wght@400;500;600;700", locales: ["zh-Hant"] },
   ja: { family: "Noto Sans JP", css: "family=Noto+Sans+JP:wght@400;500;600;700", locales: ["ja"] },
   ko: { family: "Noto Sans KR", css: "family=Noto+Sans+KR:wght@400;500;600;700", locales: ["ko"] },
-  ar: { family: "Noto Sans Arabic", css: "family=Noto+Sans+Arabic:wght@400;500;600;700", locales: ["ar"] },
+  ar: { family: "Noto Sans Arabic", css: "family=Noto+Sans+Arabic:wght@400;500;600;700", locales: ["ar", "ur"] },
 };
 
 const licenses = [

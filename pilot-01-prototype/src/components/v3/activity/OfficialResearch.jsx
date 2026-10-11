@@ -82,7 +82,7 @@ export function OfficialResearchPage({ locale = 'en', market, product, venue, ve
   const alternatives = venues.filter((candidate) => candidate.slug !== venue?.slug && candidate.category === venue?.category);
   const comparison = alternatives[0] ? `${venue.slug}-vs-${alternatives[0].slug}` : null;
   const withContext = (path) => contextualHref(path, { locale, market, product });
-  return <main className="v6 v2-page v3-page official-research-page" id="top" {...sectionEyebrowAttrs(locale, "campaigns")} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+  return <main className="v6 v2-page v3-page official-research-page" id="top" {...sectionEyebrowAttrs(locale, "campaigns")} dir={['ar', 'ur'].includes(locale) ? 'rtl' : 'ltr'}>
     <div className="v2-shell official-research-page__inner">
       <nav className="official-research__actions" aria-label={nav.activities}><a href={withContext('/activities')}>{nav.activities}</a>{venue && <a href={withContext(`/exchanges/${venue.slug}`)}>{nav.openDetail}</a>}{comparison && <a href={withContext(`/compare/${comparison}`)}>{nav.compareTitle}</a>}</nav>
       <header className="official-research-page__hero"><div className="official-research__identity">{venue && <BrandMark slug={venue.slug} />}<h1><span translate="no" lang="en" dir="ltr">{venue?.name}</span><span>{text.detailTitle}</span></h1></div><p>{text.provenance}</p>{view?.usedFallback && <p className="official-research__fallback">{text.fallback}</p>}</header>
