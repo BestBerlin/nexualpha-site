@@ -1,5 +1,13 @@
 import { brandsBySlug } from "../content/brand-manifest";
 
+// "N platforms" with CLDR plural categories (audit NX-07: French showed "1 plateformes"). Self-contained so the copy
+// objects below stay importable without other modules; the same forms live in src/data/plural-copy.js.
+function countPhrase(locale, count, forms) {
+  let category = "other";
+  try { category = new Intl.PluralRules(locale).select(Number(count)); } catch { /* keep "other" */ }
+  return (forms[category] ?? forms.other).replace("{n}", String(count));
+}
+
 const zhHans = {
   version: "NexuAlpha 3.0",
   independent: "NexuAlpha 独立平台研究",
@@ -79,7 +87,7 @@ const zhHans = {
   sortName: "名称",
   sortType: "类型",
   sortSource: "官方域名",
-  resultVenues: (count) => `${count} 家平台`,
+  resultVenues: (count) => countPhrase("zh-Hans", count, { other: "{n} 家平台" }),
   detailBody: (name, category) => `这是 NexuAlpha 的 ${name} 独立平台研究，不是交易所官网。现阶段仅展示可核对的 ${category} 分类、交易方式、官方域名和已审核动态；没有来源支持时，不会给出费用、流动性或地区可用性结论。`,
   accessByCategory: {
     CEX: "账户式平台；实际 KYC、入金和地区资格需在官方端核对",
@@ -177,7 +185,7 @@ const en = {
   sortName: "Name",
   sortType: "Type",
   sortSource: "Official domain",
-  resultVenues: (count) => `${count} platforms`,
+  resultVenues: (count) => countPhrase("en", count, { one: "{n} platform", other: "{n} platforms" }),
   detailBody: (name, category) => `This is NexuAlpha's independent ${name} profile, not an exchange website. It currently presents the verifiable ${category} classification, access model, official domain, and approved official updates; it does not publish fee, liquidity, or regional-availability conclusions without source evidence.`,
   accessByCategory: {
     CEX: "Account-based access; verify KYC, funding, and regional eligibility on the official domain",
@@ -275,7 +283,7 @@ const zhHant = {
   sortName: "名稱",
   sortType: "類型",
   sortSource: "官方網域",
-  resultVenues: (count) => `${count} 家平台`,
+  resultVenues: (count) => countPhrase("zh-Hant", count, { other: "{n} 家平台" }),
   detailBody: (name, category) => `這是 NexuAlpha 的 ${name} 獨立平台研究，不是交易所官網。現階段僅展示可核對的 ${category} 分類、交易方式、官方網域和已審核官方動態；不發布沒有來源支持的費用、流動性或地區可用性結論。`,
   accessByCategory: {
     CEX: "帳戶式平台；實際 KYC、入金和地區資格需在官方端核對",
@@ -373,7 +381,7 @@ const es = {
   sortName: "Nombre",
   sortType: "Tipo",
   sortSource: "Estado de fuente",
-  resultVenues: (count) => `${count} plataformas`,
+  resultVenues: (count) => countPhrase("es", count, { one: "{n} plataforma", other: "{n} plataformas" }),
   detailBody: (name, category) => `Este es el perfil independiente de ${name} en NexuAlpha. Presenta clasificación ${category}, acceso, fuentes y novedades aprobadas; no publica comisiones, liquidez ni disponibilidad regional sin evidencia.`,
   accessByCategory: {
     CEX: "Acceso con cuenta; verifica KYC, fondos y elegibilidad regional en el dominio oficial",
@@ -471,7 +479,7 @@ const ptBR = {
   sortName: "Nome",
   sortType: "Tipo",
   sortSource: "Estado da fonte",
-  resultVenues: (count) => `${count} plataformas`,
+  resultVenues: (count) => countPhrase("pt-BR", count, { one: "{n} plataforma", other: "{n} plataformas" }),
   detailBody: (name, category) => `Este é o perfil independente de ${name} na NexuAlpha. Mostra classificação ${category}, acesso, fontes e atualizações aprovadas; não publica taxas, liquidez ou disponibilidade regional sem evidência.`,
   accessByCategory: {
     CEX: "Acesso por conta; verifique KYC, depósito e elegibilidade regional no domínio oficial",
@@ -569,7 +577,7 @@ const fr = {
   sortName: "Nom",
   sortType: "Type",
   sortSource: "État de source",
-  resultVenues: (count) => `${count} plateformes`,
+  resultVenues: (count) => countPhrase("fr", count, { one: "{n} plateforme", other: "{n} plateformes" }),
   detailBody: (name, category) => `Voici le profil indépendant ${name} de NexuAlpha. Il présente la classification ${category}, l'accès, les sources et mises à jour approuvées; sans preuve, pas de conclusion sur frais, liquidité ou région.`,
   accessByCategory: {
     CEX: "Accès avec compte; vérifier KYC, financement et éligibilité régionale sur le domaine officiel",
@@ -667,7 +675,7 @@ const de = {
   sortName: "Name",
   sortType: "Typ",
   sortSource: "Quellenstatus",
-  resultVenues: (count) => `${count} Plattformen`,
+  resultVenues: (count) => countPhrase("de", count, { one: "{n} Plattform", other: "{n} Plattformen" }),
   detailBody: (name, category) => `Dies ist das unabhängige ${name} Profil von NexuAlpha. Es zeigt geprüfte ${category} Einordnung, Zugang, Quellen und freigegebene Updates; ohne Beleg keine Aussagen zu Gebühren, Liquidität oder Regionen.`,
   accessByCategory: {
     CEX: "Kontobasierter Zugang; KYC, Einzahlung und regionale Eignung auf der offiziellen Domain prüfen",
@@ -765,7 +773,7 @@ const ja = {
   sortName: "名称",
   sortType: "タイプ",
   sortSource: "ソース状態",
-  resultVenues: (count) => `${count} 件のプラットフォーム`,
+  resultVenues: (count) => countPhrase("ja", count, { other: "{n} 件のプラットフォーム" }),
   detailBody: (name, category) => `これは NexuAlpha による ${name} の独立プロファイルです。確認できる ${category} 分類、アクセス方式、ソース、承認済み更新だけを表示し、根拠のない手数料、流動性、地域可用性の結論は出しません。`,
   accessByCategory: {
     CEX: "アカウント型アクセス。KYC、入金、地域条件は公式ドメインで確認",
@@ -863,7 +871,7 @@ const ko = {
   sortName: "이름",
   sortType: "유형",
   sortSource: "출처 상태",
-  resultVenues: (count) => `${count}개 플랫폼`,
+  resultVenues: (count) => countPhrase("ko", count, { other: "{n}개 플랫폼" }),
   detailBody: (name, category) => `이것은 NexuAlpha의 ${name} 독립 프로필입니다. 가입 전에 볼 ${category} 분류, 접근 방식, 출처, 공식 도메인과 확인 항목을 정리하며 근거 없는 수수료, 유동성, 지역 가능성 결론은 내지 않습니다.`,
   accessByCategory: {
     CEX: "계정 기반 접근; KYC, 입금, 지역 자격은 공식 도메인에서 확인",
@@ -961,7 +969,7 @@ const ar = {
   sortName: "الاسم",
   sortType: "النوع",
   sortSource: "حالة المصدر",
-  resultVenues: (count) => `${count} منصة`,
+  resultVenues: (count) => countPhrase("ar", count, { zero: "لا توجد منصات", one: "منصة واحدة", two: "منصتان", few: "{n} منصات", many: "{n} منصة", other: "{n} منصة" }),
   detailBody: (name, category) => `هذا هو ملف ${name} المستقل في NexuAlpha. يعرض التصنيف ${category} وطريقة الوصول والمصادر والتحديثات المعتمدة فقط؛ ولا ينشر احكاما عن الرسوم او السيولة او توفر المناطق بلا دليل.`,
   accessByCategory: {
     CEX: "وصول قائم على الحساب؛ تحقق من KYC والتمويل والاهلية الاقليمية على النطاق الرسمي",
@@ -1059,7 +1067,7 @@ const tr = {
   sortName: "Ad",
   sortType: "Tür",
   sortSource: "Kaynak durumu",
-  resultVenues: (count) => `${count} platform`,
+  resultVenues: (count) => countPhrase("tr", count, { other: "{n} platform" }),
   detailBody: (name, category) => `Bu, NexuAlpha'nın bağımsız ${name} profilidir. Kayıt öncesi bakılacak ${category} sınıfını, erişim modelini, kaynakları, resmi domaini ve kontrol adımlarını gösterir; kanıtsız ücret, likidite veya bölge sonucu yayınlamaz.`,
   accessByCategory: {
     CEX: "Hesap tabanlı erişim; KYC, fonlama ve bölgesel uygunluğu resmi domainde doğrula",
@@ -1157,7 +1165,7 @@ const ru = {
   sortName: "Название",
   sortType: "Тип",
   sortSource: "Статус источника",
-  resultVenues: (count) => `${count} платформ`,
+  resultVenues: (count) => countPhrase("ru", count, { one: "{n} платформа", few: "{n} платформы", many: "{n} платформ", other: "{n} платформы" }),
   detailBody: (name, category) => `Это независимый профиль ${name} от NexuAlpha. Он показывает проверяемую категорию ${category}, доступ, источники и одобренные обновления; без доказательств нет выводов о комиссиях, ликвидности или регионах.`,
   accessByCategory: {
     CEX: "Доступ через аккаунт; проверьте KYC, пополнение и региональные условия на официальном домене",
@@ -1255,7 +1263,7 @@ const id = {
   sortName: "Nama",
   sortType: "Jenis",
   sortSource: "Status sumber",
-  resultVenues: (count) => `${count} platform`,
+  resultVenues: (count) => countPhrase("id", count, { other: "{n} platform" }),
   detailBody: (name, category) => `Ini profil independen ${name} dari NexuAlpha. Saat ini hanya menampilkan klasifikasi ${category}, model akses, sumber, dan pembaruan yang disetujui; tanpa bukti, tidak ada kesimpulan biaya, likuiditas, atau wilayah.`,
   accessByCategory: {
     CEX: "Akses berbasis akun; cek KYC, pendanaan, dan kelayakan wilayah di domain resmi",
@@ -1353,7 +1361,7 @@ const vi = {
   sortName: "Tên",
   sortType: "Loại",
   sortSource: "Trạng thái nguồn",
-  resultVenues: (count) => `${count} nền tảng`,
+  resultVenues: (count) => countPhrase("vi", count, { other: "{n} nền tảng" }),
   detailBody: (name, category) => `Đây là hồ sơ độc lập ${name} của NexuAlpha. Hiện chỉ hiển thị phân loại ${category}, cách truy cập, nguồn và cập nhật đã duyệt; không đưa ra kết luận về phí, thanh khoản hay khu vực nếu thiếu bằng chứng.`,
   accessByCategory: {
     CEX: "Truy cập bằng tài khoản; kiểm tra KYC, nạp tiền và điều kiện khu vực trên tên miền chính thức",
@@ -1451,7 +1459,7 @@ const it = {
   sortName: "Nome",
   sortType: "Tipo",
   sortSource: "Stato fonte",
-  resultVenues: (count) => `${count} piattaforme`,
+  resultVenues: (count) => countPhrase("it", count, { one: "{n} piattaforma", other: "{n} piattaforme" }),
   detailBody: (name, category) => `Questo è il profilo indipendente ${name} di NexuAlpha. Mostra classificazione ${category}, accesso, fonti e aggiornamenti approvati; senza prove non pubblica conclusioni su commissioni, liquidità o regioni.`,
   accessByCategory: {
     CEX: "Accesso con account; verifica KYC, fondi e idoneità regionale sul dominio ufficiale",
@@ -1493,6 +1501,9 @@ export const v3VenueSlugs = [
   "uniswap", "pancakeswap", "jupiter", "raydium", "aerodrome", "curve",
   "hyperliquid", "dydx", "gmx", "drift",
 ];
+
+// Imported here, after the copy objects, so tests can evaluate the copy section on its own (ESM imports are hoisted).
+import { textEntryKey, uniqueTextEntries } from "../utils/unique-text.js";
 
 export const sourceHubs = {
   binance: [
@@ -1763,15 +1774,18 @@ export function venueProfile(venue, locale = "en") {
   const sources = sourceHubs[venue.slug] ?? [];
   const sourceHost = sources[0] ? new URL(sources[0].url).host : "";
   const editorial = priorityProfiles[locale]?.[venue.slug] ?? genericEditorial(venue, locale, sources.length, text);
+  const checks = uniqueTextEntries(editorial?.checks ?? text.checksByCategory[venue.category] ?? text.checksByCategory.CEX);
+  const checkKeys = new Set(checks.map(textEntryKey));
   return {
     ...venue,
     officialDomain: venue.officialDomain || "",
     sourceHost,
     positioning: editorial?.positioning ?? text.detailBody(venue.name, venue.category),
     useCases: editorial?.useCases ?? text.useCasesByCategory[venue.category] ?? text.useCasesByCategory.CEX,
-    checks: editorial?.checks ?? text.checksByCategory[venue.category] ?? text.checksByCategory.CEX,
+    checks,
     strengths: editorial.strengths,
-    limitations: editorial.limitations,
+    // Generic non-English profiles derive limitations from the same check list; never repeat a check (audit NX-07).
+    limitations: uniqueTextEntries(editorial.limitations).filter((item) => !checkKeys.has(textEntryKey(item))),
     suggestedComparisons: editorial.suggestedComparisons,
     accessModel: text.accessByCategory[venue.category] ?? text.accessByCategory.CEX,
     researchScope: text.verifiedOnly,

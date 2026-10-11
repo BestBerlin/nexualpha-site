@@ -749,7 +749,10 @@ test("tokenized Treasury news detail surfaces a source-bound first answer withou
   assert.ok(decisionStart >= 0, "tokenized Treasury first decision is server-rendered");
   const decisionEnd = html.indexOf('class="news-detail__partners-box"', decisionStart);
   assert.ok(decisionEnd > decisionStart, "first decision appears before mentioned exchange cards");
-  const firstDecision = html.slice(decisionStart, decisionEnd);
+  // Scope to the decision box itself: since NX-10 the article body below it renders its own Markdown links
+  // (including /topics/tokenized-treasuries), which this check is not about.
+  const firstDecision = html.slice(decisionStart, html.indexOf("</aside>", decisionStart));
+  assert.ok(firstDecision.length > 0 && decisionStart + firstDecision.length < decisionEnd);
   assert.match(firstDecision, /href="\/topics\/tokenized-treasuries#treasury-evidence-checklist"/);
   assert.match(firstDecision, /Open tokenized Treasury checklist/);
   assert.doesNotMatch(firstDecision, /href="\/topics\/tokenized-treasuries"/);

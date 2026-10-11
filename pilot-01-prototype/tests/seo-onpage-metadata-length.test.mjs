@@ -23,8 +23,11 @@ test("clampMetaDescription cuts at a word or punctuation boundary without a trai
   const clamped = clampMetaDescription(long, "en");
   assert.ok(clamped.length <= 160, `length ${clamped.length}`);
   assert.doesNotMatch(clamped, TRAILING_FRAGMENT);
-  assert.ok(long.startsWith(clamped), "clamp is a prefix of the source");
-  assert.ok(/word\d+$/.test(clamped), "ends on a whole word");
+  // Audit NX-09 (2026-10-11): a cut that is not a complete sentence now ends with "…" (owner-approved), so the
+  // text before the ellipsis is the prefix.
+  assert.ok(clamped.endsWith("…"), "a mid-text cut is marked with an ellipsis");
+  assert.ok(long.startsWith(clamped.slice(0, -1)), "clamp is a prefix of the source");
+  assert.ok(/word\d+…$/.test(clamped), "ends on a whole word");
   const sentence = "First sentence ends here. " + "x".repeat(150);
   assert.equal(clampMetaDescription(sentence, "en"), "First sentence ends here.");
   const cjk = "第一句说明手续费与邀请码的核验方式。" + "第二句很长没有标点".repeat(12);
