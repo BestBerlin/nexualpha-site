@@ -54,7 +54,7 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 ### Telegram ecosystem
 - G1 Per-language channels zh/en/ru/tr/vi live with the channel-feed and alerts posting. ◐ 2026-10-11: channels created (@NexuAlphaRU public; TR -1003789577571 and VN -1004303684624 private for now), bot admin with post rights in all 5 (getChatMember), ALERT_CHANNELS + CHANNEL_FEED_TARGETS live. Passes when the first ru/tr/vi post lands (21:00 digest).
 - G2 Site → bot deep links in every locale; alerts subscribers ≥ 100.
-- G3 Main Mini App configured; Mini App opens from bot profile.
+- G3 Main Mini App configured; Mini App opens from bot profile. ✅ 2026-10-11: Bot API getMe has_main_web_app=true; menu button web_app https://app.nexualpha.com/ (200)
 - G4 Bot → site backlinks tracked (`?src=tg-*`) with ≥ 50 visits/week. ◐ tracking fixed 2026-10-11 (PR #81: ?src= was recorded as direct); count = page_view rows with source tg-* in /data/private/nexualpha/analytics/production.jsonl (exclude qa-*); first full week ends 2026-10-18
 - G5 Daily funnel DM delivered to owner (21:05).
 
