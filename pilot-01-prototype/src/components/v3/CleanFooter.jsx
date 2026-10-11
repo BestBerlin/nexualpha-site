@@ -470,7 +470,7 @@ export function CleanFooter({ locale = "en", brazil = false }) {
           <NexuAlphaWordmark variant="footer" href={href("/#top")} />
           {/* Brand slogan A (owner 2026-10-11, src/data/brand-slogan.js): one quiet line under the mark on every page. */}
           <p className="nx-ftr__slogan">{brandSlogan(locale)}</p>
-          <p className="clean-footer__summary">{compact.summary || `${compact.brand} ${compact.affiliate}`}</p>
+          <p className="clean-footer__summary" data-nosnippet="">{compact.summary || `${compact.brand} ${compact.affiliate}`}</p>
         </div>
 
         <nav className="clean-footer__nav clean-footer__nav--primary nx-ftr__list nx-ftr__list--inline" aria-label={labels.navAria}>
@@ -496,7 +496,7 @@ export function CleanFooter({ locale = "en", brazil = false }) {
         {/* Statement and risk disclaimer stay in the page (SSR, find-in-page, #policy links) but fold to one line. */}
         <details className="clean-footer__policies nx-ftr__policies nx-ftr__fold" id="nx-ftr-policy-details">
           <summary id="nx-ftr-policies" className="nx-ftr__title">{compact.policies}</summary>
-          <div className="nx-ftr__legal clean-footer__policy-body">
+          <div className="nx-ftr__legal clean-footer__policy-body" data-nosnippet="">
             <p className="clean-footer__statement">{copy.statement}</p>
             <div className="clean-footer__disclaimer"><p>{copy.disclaimer}</p></div>
           </div>

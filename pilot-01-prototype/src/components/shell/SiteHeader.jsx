@@ -16,9 +16,15 @@ function SearchIcon() {
   return <svg className="nx-ico" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="4.75" /><path d="m10.5 10.5 3.25 3.25" /></svg>;
 }
 
+// Owner 2026-10-12: campaigns are where sign-ups happen, so the campaigns link sparkles (gold shimmer + twinkle,
+// static under prefers-reduced-motion) and phones get a compact campaigns chip next to the Telegram icon.
+const isCampaignHref = (href) => /\/activities(?:$|[/?#])/.test(href);
+const CAMPAIGN_CHIP = { "zh-Hans": "活动", "zh-Hant": "活動", en: "Campaigns", es: "Promos", "pt-BR": "Promoções", fr: "Promos", de: "Aktionen", it: "Promo", ja: "キャンペーン", ko: "이벤트", ru: "Акции", tr: "Kampanyalar", id: "Promo", vi: "Sự kiện", ar: "العروض", ur: "مہمات", uk: "Акції" };
+
 function linkProps(href, state, placement) {
   const telegram = href.includes("/telegram");
   return {
+    "data-hot": isCampaignHref(href) ? "campaigns" : undefined,
     "aria-current": state.current,
     "data-active": state.active ? "true" : undefined,
     "data-cta-kind": telegram ? "telegram" : undefined,
@@ -49,6 +55,7 @@ export function SiteHeader({
   const sentinelRef = useRef(null);
   // Owner 2026-10-10: Telegram is a first-class entry beside search, not an item under "More".
   const telegramItem = nav.find(([, href]) => href.includes("/telegram"));
+  const campaignItem = nav.find(([, href]) => isCampaignHref(href));
   const pages = nav.filter((item) => item !== telegramItem);
   const primary = pages.slice(0, PRIMARY_COUNT);
   const secondary = pages.slice(PRIMARY_COUNT);
@@ -99,6 +106,7 @@ export function SiteHeader({
             </li>}
           </ul>
         </nav>
+        {campaignItem && <a className="nx-hot-chip" href={campaignItem[1]} data-hot="campaigns" aria-current={navState(campaignItem[1]).current}><span className="nx-hot-chip__star" aria-hidden="true">✦</span>{CAMPAIGN_CHIP[locale] || campaignItem[0]}</a>}
         {telegramItem && <a className="nx-tg nx-tg--compact" href={telegramItem[1]} aria-label={telegramItem[0]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header-compact")}><TelegramIcon /></a>}
         <div className="nx-tools">
           {telegramItem && <a className="nx-tg" href={telegramItem[1]} {...linkProps(telegramItem[1], navState(telegramItem[1]), "header")}><TelegramIcon /><span className="nx-tg__label">Telegram</span></a>}
