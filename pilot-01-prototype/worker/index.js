@@ -2445,11 +2445,18 @@ const HOME_ROUTE_MARKER = "NEXUALPHA_HOME_ROUTE_V1";
 const STATIC_ROUTE_MARKER = "NEXUALPHA_STATIC_ROUTE_V1";
 const NOT_FOUND_ROUTE_MARKER = "NEXUALPHA_NOT_FOUND_ROUTE_V1";
 const SHARED_ROUTE_STYLE_PREFIXES = Object.freeze(["index-", "core-", "shared-decision-rail-", "shared-decision-return-"]);
+// Compare pages render the commission disclosure line under the hero sign-up buttons in SSR (QA #12): its stylesheet
+// (route-news-commission chunk) is linked with the page, not injected at hydration (CLS 0.02-0.05 at 390).
+const COMPARE_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "route-v3-pages-", "route-news-commission-"]);
+// The exchange directory renders the matrix disclosure line and the "compare any two" picker in SSR. Both stylesheets
+// used to arrive with their chunks at hydration: the picker row grew 50 -> 205 px (CLS 0.13 at 390) and the matrix
+// disclosure switched to its sticky 12 px style. Linked up front, the first paint already has the hydrated look.
+const DIRECTORY_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "page-directory-", "route-v3-pages-", "route-news-commission-", "shared-compare-picker-"]);
 const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [HOME_ROUTE_MARKER]: ["page-home-", "route-v3-home-", "route-v3-wizard-", "route-v3-pages-", "route-v3-registration-", "route-v3-calculators-", "route-v3-campaigns-", "route-v3-social-proof-", "route-international-", "route-rates-", "route-activity-", "route-onchain-", "route-telegram-", "route-market-"],
-  [EXCHANGES_ROUTE_MARKER]: ["page-compare-", "page-directory-", "route-v3-pages-"],
+  [EXCHANGES_ROUTE_MARKER]: DIRECTORY_PAGE_STYLE_PREFIXES,
   [VENUE_ROUTE_MARKER]: ["page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"],
-  [COMPARE_ROUTE_MARKER]: ["page-compare-", "route-v3-pages-"],
+  [COMPARE_ROUTE_MARKER]: COMPARE_PAGE_STYLE_PREFIXES,
   [ACTIVITIES_ROUTE_MARKER]: ["route-activity-"],
   [TOPIC_ROUTE_MARKER]: ["route-topic-guide-"],
   [FACTBOOK_ROUTE_MARKER]: ["page-factbook-", "page-detail-", "route-factbook-", "route-activity-"],
@@ -7055,11 +7062,14 @@ async function appHtmlResponse(response, url, env, forceHtml = false) {
     return htmlSecurityResponse(new Response(null, { status: metadata.status, headers }), true, publicEmbed, url);
   }
   const htmlLocale = documentLocaleFor(metadata, url);
-  const html = optimizeRouteResourceHints(
+  let html = optimizeRouteResourceHints(
     injectRouteMetadata(await injectPrerenderedRoute(await response.text(), metadata, url, env), { ...metadata, locale: htmlLocale }),
     metadata,
     url,
   );
+  if (isCriticalCssHomeRoute(html, metadata, url)) {
+    html = inlineCriticalStylesheets(html, (await loadCriticalCss(env, url))?.routes?.home);
+  }
   const headers = new Headers(response.headers);
   if (metadata.newsSsrMode) headers.set("x-nexualpha-news-render", metadata.newsSsrMode);
   if (metadata.fallbackSsrMode) headers.set("x-nexualpha-fallback-render", metadata.fallbackSsrMode);
@@ -7118,14 +7128,15 @@ function optimizeRouteResourceHints(html, metadata, url) {
 function routeStylePrefixesForPath(url, metadata) {
   const publicRoute = parsePublicRoute(url?.pathname || "/", url?.searchParams || new URLSearchParams());
   const pathname = normalizePathname(publicRoute.contentPathname || url?.pathname || "/");
-  if (/^\/(mx|tw|hk)\/(?:comparar|conta)$/.test(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-compare-", "page-directory-", "route-v3-pages-"];
+  if (/^\/(mx|tw|hk)\/(?:comparar|conta)$/.test(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...DIRECTORY_PAGE_STYLE_PREFIXES];
   if (/^\/(mx|tw|hk)\/costos$/.test(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-rates-", "route-rates-", "route-activity-"];
   if (brazilPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-br-", "route-international-"];
   if (REGIONAL_ROUTE_PATHS.has(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-international-"];
   if (pathname === "/") return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[HOME_ROUTE_MARKER]];
-  if (pathname === "/exchanges") return [...SHARED_ROUTE_STYLE_PREFIXES, "page-compare-", "page-directory-", "route-v3-pages-"];
+  if (pathname === "/exchanges") return [...SHARED_ROUTE_STYLE_PREFIXES, ...DIRECTORY_PAGE_STYLE_PREFIXES];
+  if (pathname === "/compare") return [...SHARED_ROUTE_STYLE_PREFIXES, ...COMPARE_PAGE_STYLE_PREFIXES, "shared-compare-picker-"];
   if (pathname.startsWith("/exchanges/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"];
-  if (pathname.startsWith("/compare/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-compare-", "route-v3-pages-"];
+  if (pathname.startsWith("/compare/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...COMPARE_PAGE_STYLE_PREFIXES];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   // The list route renders the Telegram alerts strip (route-v3-pages-strip chunk) in SSR; keep its stylesheet so the
   // strip is styled at first paint instead of when its JS chunk injects the CSS.
@@ -7146,6 +7157,64 @@ function routeStylePrefixesForPath(url, metadata) {
   const marker = ROUTE_STYLE_PREFIXES_BY_MARKER[metadata?.marker];
   if (marker) return [...SHARED_ROUTE_STYLE_PREFIXES, ...marker];
   return null;
+}
+
+// Home critical CSS (mobile-perf lane 2026-10-11, scorecard T4). scripts/build-critical-css.mjs writes
+// /critical-css.json: the rules of the home stylesheets that can match the prerendered home markup (15 locales), in
+// cascade order, plus the exact stylesheet list they were extracted from. The home HTML then carries that CSS inline
+// and loads the full stylesheets without blocking the first paint, in their original order; a small script switches
+// them on together once all have arrived (one style recalculation instead of one per file). When the linked list does
+// not equal the recorded list (stale or partial build), the page keeps its blocking links.
+const CRITICAL_CSS_PATH = "/critical-css.json";
+const criticalCssPayloads = new WeakMap();
+
+export function homeRouteStylePrefixes() {
+  return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[HOME_ROUTE_MARKER]];
+}
+
+async function loadCriticalCss(env, requestUrl) {
+  if (!env?.ASSETS) return null;
+  if (!criticalCssPayloads.has(env.ASSETS)) {
+    const pending = env.ASSETS.fetch(new Request(new URL(CRITICAL_CSS_PATH, requestUrl), { headers: { accept: "application/json" } }))
+      .then((response) => response.ok ? response.json() : null)
+      .then((payload) => payload?.version === 1 && payload.routes && typeof payload.routes === "object" ? payload : null)
+      .catch(() => null);
+    criticalCssPayloads.set(env.ASSETS, pending);
+  }
+  const payload = await criticalCssPayloads.get(env.ASSETS);
+  if (!payload) criticalCssPayloads.delete(env.ASSETS);
+  return payload;
+}
+
+function isCriticalCssHomeRoute(html, metadata, url) {
+  if (metadata?.status !== 200 || !url || url.pathname === "/embed/calculator") return false;
+  if (!/<script\b[^>]*\bid=["']nexualpha-prerender-state["'][^>]*>/i.test(html)) return false;
+  const publicRoute = parsePublicRoute(url.pathname, url.searchParams || new URLSearchParams());
+  return normalizePathname(publicRoute.contentPathname || url.pathname) === "/";
+}
+
+const DEFERRED_CSS_ATTR = "data-nexualpha-deferred-css";
+const DEFERRED_CSS_SWITCH = `<script>(()=>{const l=[...document.querySelectorAll("link[${DEFERRED_CSS_ATTR}]")];let n=l.length;const on=()=>{for(const e of l)e.media="all"};const d=()=>{if(--n===0)on()};for(const e of l){if(e.sheet)d();else{e.addEventListener("load",d,{once:true});e.addEventListener("error",d,{once:true})}}setTimeout(on,15000)})()</script>`;
+
+export function inlineCriticalStylesheets(html, critical) {
+  if (!critical || typeof critical.css !== "string" || !critical.css || !Array.isArray(critical.sheets) || !critical.sheets.length) return html;
+  const linkPattern = /<link\b[^>]*rel=["']stylesheet["'][^>]*>/gi;
+  const tags = html.match(linkPattern) || [];
+  const hrefOf = (tag) => /\bhref=["']([^"']+)["']/i.exec(tag)?.[1] || "";
+  if (tags.length !== critical.sheets.length || tags.some((tag, index) => hrefOf(tag) !== critical.sheets[index])) return html;
+  if (tags.some((tag) => /\bmedia=/i.test(tag))) return html;
+  const style = `<style data-nexualpha-critical="home">${critical.css.replace(/<\/style/gi, "<\\/style")}</style>`;
+  const noscript = `<noscript>${tags.join("")}</noscript>`;
+  let index = 0;
+  // Function replacer: the CSS text may contain "$" sequences.
+  return html.replace(linkPattern, (tag) => {
+    index += 1;
+    const deferred = tag.replace(/\s*\/?>$/, ` media="print" ${DEFERRED_CSS_ATTR}>`);
+    if (index === 1 && index === tags.length) return `${style}${deferred}${DEFERRED_CSS_SWITCH}${noscript}`;
+    if (index === 1) return `${style}${deferred}`;
+    if (index === tags.length) return `${deferred}${DEFERRED_CSS_SWITCH}${noscript}`;
+    return deferred;
+  });
 }
 
 function shouldKeepStylesheet(tag, allowedPrefixes) {
