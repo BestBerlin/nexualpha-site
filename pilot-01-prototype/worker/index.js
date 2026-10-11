@@ -3995,8 +3995,42 @@ async function renderActivitiesAtRequestTime(html, metadata, url, env) {
   return null;
 }
 
+// Request-time render of a route the build-time manifest does not carry (QA #10, 2026-10-11). Locale editions without
+// their own content (/ja/topics, /ar/factbook, /ko/topics/tokenized-assets, …) are served noindex with a canonical to the
+// owner edition, but their SSR body used to be the empty app shell: the client then rendered the whole page (CLS
+// 0.3-0.9 at 390, nothing for no-JS readers). Render the same component with the same props and the same bootstrap URL
+// the browser hydrates (content pathname + explicit locale); the shell is served only when the renderer throws or
+// returns no page (both logged). `accept` names the markup that proves the renderer produced the client's page.
+async function renderRouteAtRequestTime(html, metadata, url, env, { accept, label }) {
+  if (typeof env?.NEWS_SSR_RENDER !== "function") return null;
+  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
+  const pathname = publicRoute.contentPathname;
+  const locale = publicRoute.locale;
+  try {
+    const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, locale), {});
+    if (typeof appHtml === "string" && accept(appHtml)) {
+      metadata.fallbackSsrMode = "runtime";
+      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, {}, url);
+    }
+    console.error(`[NexuAlpha] ${label} SSR returned no page body for ${pathname} (${locale}); serving the app shell`);
+  } catch (error) {
+    console.error(`[NexuAlpha] ${label} SSR failed for ${pathname} (${locale}): ${error?.message || error}`);
+  }
+  return null;
+}
+
+const hasMainWithHeading = (appHtml) => /<main\b/i.test(appHtml) && /<h1\b/i.test(appHtml);
+const REQUEST_TIME_FALLBACK_EXCLUDED_MARKERS = new Set([NEWS_ROUTE_MARKER, ARTICLE_ROUTE_MARKER, HOME_ROUTE_MARKER, EXCHANGES_ROUTE_MARKER, VENUE_ROUTE_MARKER, COMPARE_ROUTE_MARKER, ACTIVITIES_ROUTE_MARKER]);
+// NotFoundPage (V3Pages.jsx): `/ja/br` and other legacy market paths resolve to a different client page, so only the
+// 404 component itself is accepted; anything else keeps the shell.
+const isNotFoundPage = (appHtml) => appHtml.includes("v3-page--empty") && /<h1\b[^>]*>404<\/h1>/.test(appHtml);
+
 async function injectPrerenderedRoute(html, metadata, url, env) {
-  if (metadata.status !== 200 || !/<div\s+id=["']root["']\s*>\s*<\/div>/i.test(html)) return html;
+  if (!/<div\s+id=["']root["']\s*>\s*<\/div>/i.test(html)) return html;
+  if (metadata.status === 404) {
+    return (await renderRouteAtRequestTime(html, metadata, url, env, { accept: isNotFoundPage, label: "not-found" })) || html;
+  }
+  if (metadata.status !== 200) return html;
   // Latest article body must use the same component as hydration. Keep the
   // existing content fingerprint gate; never admit an obsolete prerender.
   const fallback = async () => {
@@ -4058,6 +4092,15 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
           return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
         }
       } catch { /* fall through to the client-rendered shell */ }
+    }
+    // Every other 200 route the manifest does not carry (locale fallback editions of /topics, /factbook, the
+    // tokenized-asset topics and /markets/turkiye; /ref/<slug> entries) is rendered at request time with the component
+    // the client hydrates. News routes keep their own fallback template above; families prerendered in all 15 locales
+    // (home, /exchanges, venue pages, curated compare pairs, /activities) keep their build-time path and the shell on a
+    // manifest miss (junk-query URLs), as tests/compare-any.test.mjs pins.
+    if (!REQUEST_TIME_FALLBACK_EXCLUDED_MARKERS.has(metadata.marker)) {
+      const rendered = await renderRouteAtRequestTime(html, metadata, url, env, { accept: hasMainWithHeading, label: "route fallback" });
+      if (rendered) return rendered;
     }
     metadata.newsSsrMode = "fallback";
     return injectFallbackBody(html, metadata, url);
@@ -7032,6 +7075,7 @@ async function appHtmlResponse(response, url, env, forceHtml = false) {
   );
   const headers = new Headers(response.headers);
   if (metadata.newsSsrMode) headers.set("x-nexualpha-news-render", metadata.newsSsrMode);
+  if (metadata.fallbackSsrMode) headers.set("x-nexualpha-fallback-render", metadata.fallbackSsrMode);
   headers.delete("content-length");
   return htmlSecurityResponse(new Response(html, {
     status: metadata.status,
