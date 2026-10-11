@@ -56,7 +56,7 @@ test("factbook and topic hub records are written in the page language in every U
   }
 });
 
-test("the home local-market section stays off until the owner approves it", async () => {
+test("the home local-market section is on (owner approved 2026-10-11)", async () => {
   const { LOCAL_MARKET_BRIEF_ENABLED } = await import("../src/data/local-market-brief.js");
-  assert.equal(LOCAL_MARKET_BRIEF_ENABLED, false);
+  assert.equal(LOCAL_MARKET_BRIEF_ENABLED, true);
 });
