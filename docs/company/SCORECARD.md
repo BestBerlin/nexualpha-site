@@ -40,7 +40,7 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 ### Data & tools
 - D1 Liquidation history ≥ 30 days and chart live. ◐ history starts 2026-10-10 22:22 UTC (market-history.jsonl); 30 days on 2026-11-09
 - D2 Funding page shows ≥ 20 symbols with < 10 min staleness for 7 days (collector log). ◐ logging since 2026-10-11 19:46 (ops/data-freshness, every 5 min, BaoTa scheduler; `node data-freshness.mjs --report`); 20 rows, 2-4 min old at start; judge on 2026-10-18
-- D3 Embed widget used on ≥ 1 external site OR in ≥ 3 published articles. ◐ 2026-10-11: `::embed liquidations|funding [SYM]` directive live (PR #78), runbook §3b; passes when 3 published articles use it
+- D3 Embed widget used on ≥ 1 external site OR in ≥ 3 published articles. ✅ 2026-10-11: live widgets in 3 articles / 10 URLs (liquidations, STRK funding, funding explainer en/zh/ru/tr/vi/id), CLS 0 at 390
 - D4 Every tool page links to the related articles and vice versa (crawl check). ✅ 2026-10-11 live: 5 tools × 15 locales ≥ 3 article links; 195/195 relevant articles link back
 - D5 Calculator, compare, rates share one state model (URL params round trip test). ✅ partial 2026-10-11
 
