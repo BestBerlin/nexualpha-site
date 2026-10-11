@@ -1,4 +1,5 @@
 import { localizedHref } from "../../data/locale-routing.js";
+import { canonicalComparePairSlug } from "../../data/compare-generated.js";
 import { buildRegionalShortlist, regionalShortlistCopy } from "../../data/regional-shortlist.js";
 
 const categoriesByIntent = {
@@ -920,7 +921,7 @@ export function detailHref(locale, slug) {
 export function compareHref(locale, slugs) {
   const pair = Array.isArray(slugs) ? slugs.filter(Boolean).slice(0, 2) : [];
   if (pair.length < 2) return "";
-  return localizedHref(`/compare/${pair.map((slug) => encodeURIComponent(slug)).join("-vs-")}`, { locale: locale || "en" });
+  return localizedHref(`/compare/${canonicalComparePairSlug(pair)}`, { locale: locale || "en" });
 }
 
 function normalizeDecisionValue(key, value) {
@@ -1036,7 +1037,7 @@ export function platformMatcherModel({ locale = "en", venues = [], selected = []
   const regionalComparisonSlugs = normalizedRegionalCandidates.slice(0, 2).map((candidate) => candidate.slug);
   const canRegionalCompare = regionalComparisonSlugs.length >= 2;
   const regionalCompareHref = canRegionalCompare
-    ? localizedHref(`/compare/${regionalComparisonSlugs.map((slug) => encodeURIComponent(slug)).join("-vs-")}`, {
+    ? localizedHref(`/compare/${canonicalComparePairSlug(regionalComparisonSlugs)}`, {
       locale,
       market: regionalShortlist.market,
       product: regionalShortlist.product || "spot",

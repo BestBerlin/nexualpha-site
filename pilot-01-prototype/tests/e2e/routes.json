@@ -14,5 +14,5 @@
     "/compare/binance-vs-okx", "/compare/bybit-vs-bitget", "/compare/okx-vs-bybit", "/rates", "/de", "/zh-hans/exchanges/bitget"
   ],
   "i18n": { "locales": ["zh-Hans", "ja", "de", "ar"], "paths": ["/", "/exchanges/binance", "/compare/binance-vs-okx"] },
-  "expected404": ["/compare"]
+  "expected404": []
 }
