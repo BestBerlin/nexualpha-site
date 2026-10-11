@@ -63,7 +63,7 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 - S2 GSC average position ≤ 12 (baseline 19.6).
 - S3 Non-English share of impressions ≥ 30% (baseline 13%).
 - S4 AEO monitor: nexualpha.com in DuckDuckGo top 10 for ≥ 6/30 tracked queries (baseline 0/30).
-- S5 URL inspection sample ≥ 80% indexed (baseline 60%).
+- S5 URL inspection sample ≥ 80% indexed (baseline 60%). 2026-10-11 random 30 from sitemap (seed 20261011): 14 indexed (47%), 11 discovered-not-indexed, 4 stale noindex crawls (09-22…10-03, all index,follow now), 1 unknown
 
 ### Conversion
 - X1 Click attribution complete (site beacon + /go) and reported daily. ✅ 2026-10-11 (G5 pending delivery check)
