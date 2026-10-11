@@ -103,6 +103,15 @@ if (cmd === "verify") {
   await run("bing", "crawl issues", () => bing("GET", "GetCrawlIssues", { siteUrl: SITE }));
   await run("yandex", "summary", () => yandex("GET", `/hosts/${YHOST}/summary`));
   await run("yandex", "verification", () => yandex("GET", `/hosts/${YHOST}/verification`));
+} else if (cmd === "index-stats") {
+  // Per-sitemap submitted / indexed counts as Google reports them (the "indexed" field can lag or read 0).
+  const r = await google("GET", `https://www.googleapis.com/webmasters/v3/sites/${gscSite}/sitemaps`);
+  const list = r.status === 200 ? JSON.parse(r.text).sitemap || [] : [];
+  if (r.status !== 200) console.log(`google sitemaps ${r.status}`);
+  for (const sm of list) {
+    const web = (sm.contents || []).find((c) => c.type === "web") || {};
+    console.log(`google  ${sm.path.replace(SITE, "/").padEnd(28)} submitted ${String(web.submitted ?? "-").padStart(5)}  indexed ${String(web.indexed ?? "-").padStart(5)}  downloaded ${sm.lastDownloaded || "-"}  pending ${sm.isPending}`);
+  }
 } else if (cmd === "inspect") {
   for (const url of process.argv.slice(3).filter((a) => !a.startsWith("--"))) {
     await run("google", "inspect", async () => {
