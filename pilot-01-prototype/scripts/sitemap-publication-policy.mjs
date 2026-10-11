@@ -13,6 +13,7 @@ const SITEMAP_SECONDARY_STATIC_PATHS = new Set(["/embed/calculator", "/partners"
 const SITEMAP_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
 const SITEMAP_REVIEWED_TRILINGUAL_VENUES = new Set(["drift", "deribit"]);
 const SITEMAP_PRIORITY_FACTBOOK = new Set(["binance", "okx", "bybit", "bitget", "coinbase", "kraken", "hyperliquid", "uniswap"]);
+const SITEMAP_LOCALE_EXCLUDED_VENUES = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SITEMAP_PRIORITY_COMPARISONS = new Set(["binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "coinbase-vs-kraken", "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc"]);
 const SITEMAP_PRIORITY_TOPICS = new Set(["meme-coins", "derivatives", "compliant-exchanges", "no-kyc", "tokenized-assets"]);
 
@@ -107,7 +108,10 @@ export function sitemapLocalesForRoute(route, allLocales = DEFAULT_POLICY.priori
   }
   if (template === "comparison") {
     const slug = pathSlug(pathname, "/compare/");
-    return pickSupportedLocales(route, SITEMAP_PRIORITY_COMPARISONS.has(slug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"], allLocales);
+    // Mirrors the Worker: pairs with a venue in SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS are noindex outside en/zh-Hans, so the
+    // sitemap must not list their ja/ko/tr URLs (QA 2026-10-11 found 6 sitemap URLs served as noindex).
+    const wide = SITEMAP_PRIORITY_COMPARISONS.has(slug) && !slug.split("-vs-").some((v) => SITEMAP_LOCALE_EXCLUDED_VENUES.has(v));
+    return pickSupportedLocales(route, wide ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"], allLocales);
   }
   if (template === "topic") {
     const slug = pathSlug(pathname, "/topics/");
