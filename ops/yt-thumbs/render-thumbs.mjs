@@ -27,14 +27,16 @@ export function measure(value, size, weight = 600) {
   }
   return Object.fromEntries(Object.entries(cache.get(key)).map(([key, value]) => [key, value * size / 100]));
 }
-// ASCII words and numerical expressions with units are indivisible, including "11 万".
+// Keep contiguous CJK phrases intact: without a dictionary, shrinking is safer
+// than guessing word boundaries. Number+unit groups provide semantic breaks.
+const numberGroup = String.raw`\d[\d,.]*(?:\s*[万亿兆千百])?(?:\s*(?:美元|美金|%|％))?`;
 export function tokens(value) {
-  return value.match(/暴跌|下跌|跌破|失守|破位|下行|回调|走弱|领跌|反弹|回升|上涨|上攻|重回|创新高|新高|走强|\d[\d,.]*(?:\s*[万亿兆千百])?(?:\s*(?:美元|美金|%|％))?|[A-Za-z]+(?:[-'][A-Za-z]+)*|[^\s]|\s+/gu) || [];
+  return value.match(new RegExp(`${numberGroup}|[A-Za-z]+(?:[-'][A-Za-z]+)*|[\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}]+|[^\\s]|\\s+`, 'gu')) || [];
 }
 export function accentFor(value) {
   const down = value.match(/暴跌|下跌|跌破|失守|破位|下行|回调|走弱|领跌|跌|破|down|fall/iu);
   const up = value.match(/反弹|回升|上涨|上攻|重回|创新高|新高|走强|涨|up|rebound/iu);
-  const match = down || up || value.match(/\d[\d,.]*(?:\s*[万亿兆千百])?%?/u) || value.match(/[A-Za-z]+|[^\s]/u);
+  const match = down || up || value.match(new RegExp(numberGroup, 'u')) || value.match(/[A-Za-z]+|[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]+|[^\s]/u);
   return { word: match?.[0] || '', index: match?.index || 0, color: down ? '#ff5c5c' : up ? '#3ddc97' : '#4f7cff' };
 }
 export function fit(value, maxSize, width, maxLines = 2, minSize = 12) {
@@ -57,7 +59,8 @@ export function fit(value, maxSize, width, maxLines = 2, minSize = 12) {
 const badges = { btc: ['₿', '#f7931a'], eth: ['Ξ', '#8a92b2'], alt: ['ALT', '#4f7cff'], macro: ['DXY', '#4f7cff'], 'us-stock': ['US', '#4f7cff'], strategy: ['策略', '#4f7cff'], exchange: ['交易所', '#4f7cff'], other: ['$', '#4f7cff'] };
 export function buildThumbnail(item) {
   const hero = fit(item.thumb_main, 170, 835);
-  const sub = fit(item.thumb_sub, 54, 835, 1);
+  const subtitle = item.thumb_sub.replace(/\s*(?:·\s*)?\d{4}([.-])\d{2}\1\d{2}\s*$/u, '').trim();
+  const sub = subtitle ? fit(subtitle, 54, 835, 1) : { size: 54, lines: [] };
   const accent = accentFor(item.thumb_main);
   const [glyph, color] = badges[item.topic] || badges.other;
   const date = item.title.match(/【(\d{4}-\d{2}-\d{2})(?:[^】]*)】/u)?.[1];
@@ -88,7 +91,7 @@ export function buildThumbnail(item) {
     boundedText(line, hero.size, 48, baselines[i], '#fff', 600, [48, 170, 890, 565]);
     body += `<text x="48" y="${baselines[i]}" font-family="PingFang SC" font-weight="600" font-size="${hero.size}" fill="#fff">${parts}</text>`;
   });
-  body += boundedText(sub.lines[0], sub.size, 48, 590, '#aab3c0', 400, [48, 530, 890, 615]);
+  if (sub.lines.length) body += boundedText(sub.lines[0], sub.size, 48, 590, '#aab3c0', 400, [48, 530, 890, 615]);
   body += `<rect x="936" y="206" width="296" height="296" rx="58" fill="${color}" fill-opacity=".1" stroke="${color}" stroke-opacity=".55" stroke-width="3"/>`;
   if (glyph === '₿') {
     // Vector Bitcoin glyph: the system PingFang font has no U+20BF outline.

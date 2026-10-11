@@ -35,6 +35,36 @@ test('fixture text fits measured bounds and duration exclusion, with a maximum o
   assert.equal(buildThumbnail(fixture[8]).layout.hero.size,170);
   assert.ok(buildThumbnail(fixture[10]).layout.hero.size < 170);
 });
+test('subtitle dates appear only in the chip, without changing source text', () => {
+  for (const suffix of [' · 2025.11.27', ' · 2025-11-27', ' 2025-11-27', ' 2025.11.27']) {
+    const item = {...fixture[0], thumb_sub: `关键位${suffix}`};
+    const {svg, layout} = buildThumbnail(item);
+    assert.deepEqual(layout.sub.lines, ['关键位']);
+    assert.equal(layout.date, '2025-11-27');
+    assert.equal((svg.match(/2025-11-27/g) || []).length, 1);
+    assert.ok(!svg.includes('2025.11.27'));
+    assert.equal(item.thumb_sub, `关键位${suffix}`);
+  }
+  assert.deepEqual(buildThumbnail({...fixture[0], thumb_sub: '仅日期 · 2025.11.27 复盘'}).layout.sub.lines, ['仅日期 · 2025.11.27 复盘']);
+  assert.deepEqual(buildThumbnail({...fixture[0], thumb_sub: '2025-11-27'}).layout.sub.lines, []);
+});
+test('CJK phrases shrink intact and numbers break only after their units', () => {
+  assert.deepEqual(tokens('5.4亿期权到期'), ['5.4亿', '期权到期']);
+  assert.deepEqual(fit('5.4亿期权到期', 170, 835).lines, ['5.4亿', '期权到期']);
+  for (const phrase of ['黑色周五', '期权到期', '币市反弹复盘']) {
+    const layout = fit(phrase, 170, 400);
+    assert.deepEqual(layout.lines, [phrase]);
+    assert.ok(layout.size < 170);
+  }
+});
+test('accent spans the full fallback phrase or numerical group', () => {
+  assert.deepEqual(accentFor('黑色周五'), {word:'黑色周五', index:0, color:'#4f7cff'});
+  for (const word of ['5.4亿', '5.4 亿美元', '12.87%', '黑色周五']) {
+    const {svg, layout} = buildThumbnail({...fixture[0], thumb_main: word});
+    assert.equal(layout.accent.word, word);
+    assert.ok(svg.includes(`<tspan fill="#4f7cff">${word}</tspan>`));
+  }
+});
 test('input rejects traversal, output name collisions and missing fields', () => {
   validateItems(fixture);
   for (const id of ['../escape','a/b','contact-sheet-001']) assert.throws(()=>validateItems([{...fixture[0],id}]));
@@ -59,6 +89,25 @@ test('rendered JPEGs have expected dimensions and byte limits (fixture integrati
   if (process.env.YT_THUMB_TEST_INPUT) {
     const source = JSON.parse(readFileSync(process.env.YT_THUMB_TEST_INPUT));
     assert.deepEqual(manifest.items.map(item => item.id), source.map(item => item.id));
+    for (const [index, item] of manifest.items.entries()) {
+      const original = source[index];
+      const boundaries = new Set([0]);
+      let offset = 0;
+      for (const token of tokens(original.thumb_main)) {
+        offset += token.length;
+        boundaries.add(offset);
+      }
+      let consumed = 0;
+      for (const line of item.hero.lines) {
+        const start = original.thumb_main.indexOf(line, consumed);
+        assert.ok(start >= 0);
+        assert.ok(boundaries.has(start));
+        assert.ok(boundaries.has(start + line.length));
+        consumed = start + line.length;
+      }
+      assert.ok(item.hero.lines.some(line => line.includes(item.accent.word)));
+      assert.ok(!/\d{4}[.-]\d{2}[.-]\d{2}\s*$/u.test(item.sub.lines.join('')));
+    }
   }
   for (const item of manifest.items) {
     const buf=readFileSync(join(out, `${item.id}.jpg`));
