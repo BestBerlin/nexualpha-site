@@ -5,6 +5,7 @@ import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../s
 import { referralSeoFor } from "../src/data/referral-seo.js";
 import { clampMetaDescription, metaDescriptionLimit } from "../src/data/meta-description.js";
 import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
+import { ACTIVE_COMPARE_VENUE_SLUGS, CURATED_COMPARISON_SLUGS, canonicalComparePairSlug, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, indexableGeneratedComparePairs, parseComparePair } from "../src/data/compare-generated.js";
 import { socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
@@ -51,6 +52,27 @@ export default {
       const preserved = new URLSearchParams(preservedRedirectSearch(url.searchParams).slice(1));
       for (const [key, value] of preserved) destination.searchParams.append(key, value);
       return Response.redirect(destination.href, 301);
+    }
+    // Compare-any (2026-10-11): the no-JS picker submits GET /compare?a=<slug>&b=<slug>; normalize to the canonical
+    // pair path (302) and send invalid selections back to the picker. A reverse two-venue slug 301s to its canonical.
+    if (parsedRoute.contentPathname === "/compare" && ["GET", "HEAD"].includes(request.method) && (url.searchParams.has("a") || url.searchParams.has("b"))) {
+      const pair = parseComparePair(`${cleanSlug(url.searchParams.get("a")) || ""}-vs-${cleanSlug(url.searchParams.get("b")) || ""}`);
+      const target = pair ? `/compare/${canonicalComparePairSlug(pair)}` : "/compare";
+      const destination = new URL(localizedPath(target, parsedRoute.locale), PUBLIC_ORIGIN);
+      const preserved = new URLSearchParams(preservedRedirectSearch(url.searchParams).slice(1));
+      for (const [key, value] of preserved) destination.searchParams.append(key, value);
+      return Response.redirect(destination.href, 302);
+    }
+    const reverseComparePair = parsedRoute.contentPathname.match(/^\/compare\/([a-z0-9-]+-vs-[a-z0-9-]+)$/)?.[1];
+    if (reverseComparePair && ["GET", "HEAD"].includes(request.method)) {
+      const slugs = parseComparePair(reverseComparePair);
+      const canonicalPair = slugs ? canonicalComparePairSlug(slugs) : null;
+      if (canonicalPair && canonicalPair !== reverseComparePair) {
+        const destination = new URL(localizedPath(`/compare/${canonicalPair}`, parsedRoute.locale), PUBLIC_ORIGIN);
+        const preserved = new URLSearchParams(preservedRedirectSearch(url.searchParams).slice(1));
+        for (const [key, value] of preserved) destination.searchParams.append(key, value);
+        return Response.redirect(destination.href, 301);
+      }
     }
     const legacyFactbookSlug = LEGACY_VENUE_FACTBOOK_REDIRECTS[parsedRoute.contentPathname];
     if (legacyFactbookSlug && ["GET", "HEAD"].includes(request.method)) {
@@ -2468,15 +2490,11 @@ const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics"
 const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
-const CURATED_COMPARISONS = new Set([
-  "binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "binance-vs-mexc",
-  "okx-vs-mexc", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "binance-vs-kraken", "gate-io-vs-mexc",
-  // 2026-10-10 market plan: most-wanted pairs that had no indexable page.
-  "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc",
-]);
+// Hand-written pairs; the list lives in src/data/compare-generated.js so the app, seo-injection and worker agree.
+const CURATED_COMPARISONS = new Set(CURATED_COMPARISON_SLUGS);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 // Owner 2026-10-10 (search growth): mirror of src/data/seo-injection.js — fully translated pages publish all 15 locales.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -2820,7 +2838,7 @@ const REGIONAL_PREVIEW_SEO_LOCALIZED = {
     tr: ["Türkiye kripto platformu araştırması: SPK, TRY ve hesap kapsamı — NexuAlpha", "SPK geçici listesi, tasfiye listesi, Paribu hesap doğrulaması ve TRY yatırma kaynaklarını ayrı ayrı kontrol edin."],
   },
 };
-const ACTIVE_VENUE_SLUGS = new Set(["binance", "coinbase", "bybit", "bitget", "okx", "kraken", "gate-io", "kucoin", "mexc", "backpack", "deribit", "uniswap", "pancakeswap", "jupiter", "raydium", "aerodrome", "curve", "hyperliquid", "dydx", "gmx", "drift"]);
+const ACTIVE_VENUE_SLUGS = new Set(ACTIVE_COMPARE_VENUE_SLUGS);
 const SEARCH_REVIEWED_TRILINGUAL_VENUES = new Set(["drift", "deribit"]);
 const prerenderManifests = new WeakMap();
 const brazilCatalogs = new WeakMap();
@@ -3846,6 +3864,17 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
+    // Compare hub and generated pairs (compare-any, 2026-10-11) are not in the build-time prerender manifest (196 pairs
+    // x 15 locales); render them at request time with the same renderer so crawlers and no-JS readers get the matrix.
+    if ((pathname === "/compare" || (metadata.marker === COMPARE_ROUTE_MARKER && metadata.generatedComparison)) && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const appHtml = await env.NEWS_SSR_RENDER(url.href, {});
+        if (typeof appHtml === "string" && (appHtml.includes("v3-compare-page") || appHtml.includes("v3-compare-hub"))) {
+          metadata.compareSsrMode = "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+        }
+      } catch { /* fall through to the client-rendered shell */ }
+    }
     // Brand pages (/about, /editorial-policy) are static copy: render them at request time with the same renderer so
     // crawlers and no-JS readers get the full entity page instead of an empty #root.
     if (isBrandPagePath(pathname) && typeof env?.NEWS_SSR_RENDER === "function") {
@@ -4017,10 +4046,12 @@ async function handleNewsSearchJson(env, url) {
 // publisher and only carried en, zh-Hans and a few ja/ko/tr pages, so the translated exchange, rates, compare and
 // activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
 // non-canonical URL; cached for an hour.
-const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS];
+const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS];
 let localeSitemapCache = null;
 export async function renderLocaleSitemap(env = {}) {
-  const paths = [...LOCALE_SITEMAP_STATIC, ...[...ACTIVE_VENUE_SLUGS].map((slug) => `/exchanges/${slug}`), ...[...CURATED_COMPARISONS].map((pair) => `/compare/${pair}`)];
+  // Generated pairs: only the indexable ones (both venues with reviewed fee rows and at least one partner); their
+  // locale set is enforced by routeMetadata via searchPublicationLocales, so noindex locales never slip in.
+  const paths = [...LOCALE_SITEMAP_STATIC, ...[...ACTIVE_VENUE_SLUGS].map((slug) => `/exchanges/${slug}`), ...[...CURATED_COMPARISONS].map((pair) => `/compare/${pair}`), ...indexableGeneratedComparePairs().map((pair) => `/compare/${pair}`)];
   const rows = [];
   for (const pathname of paths) {
     for (const locale of INDEXABLE_LOCALES) {
@@ -5350,6 +5381,10 @@ function searchPublicationLocales(pathname, options = {}) {
   if (factbookSlug && VENUE_REGISTRY[factbookSlug]) return SEARCH_PRIORITY_FACTBOOK.has(factbookSlug) ? ["en", "zh-Hans"] : ["en"];
   const comparisonSlug = pathname.match(/^\/compare\/([a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2})$/)?.[1];
   if (comparisonSlug && CURATED_COMPARISONS.has(comparisonSlug)) return SEARCH_PRIORITY_COMPARISONS.has(comparisonSlug) && !comparisonSlug.split("-vs-").some((v) => SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS.has(v)) ? INDEXABLE_LOCALES : ["en", "zh-Hans"];
+  if (comparisonSlug && parseComparePair(comparisonSlug)?.length === 2) {
+    const policy = generatedComparePolicy(comparisonSlug);
+    return policy.indexable ? generatedCompareLocales(comparisonSlug) : [];
+  }
   const topicSlug = pathname.match(/^\/topics\/([a-z0-9-]+)$/)?.[1];
   if (topicSlug && TOPIC_REGISTRY[topicSlug]) return SEARCH_PRIORITY_TOPICS.has(topicSlug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"];
   return [];
@@ -5947,6 +5982,25 @@ async function routeMetadataBase(url, env, newsFeed) {
     };
   }
 
+  if (canonicalPath === "/compare") {
+    // Compare hub (2026-10-11): the "compare any two" picker plus the curated and indexable generated pair lists.
+    const hubCopy = compareIndexCopy(requestedLocale);
+    const canonical = localizedCanonical("/compare", locale);
+    return {
+      status: 200,
+      title: hubCopy.title,
+      description: hubCopy.description,
+      canonical,
+      locale,
+      robots: "index,follow",
+      marker: COMPARE_ROUTE_MARKER,
+      alternates: routeAlternates("/compare"),
+      schema: [pageBreadcrumb(hubCopy.h1, canonical, "Exchanges", "/exchanges", schemaLocale), {
+        "@type": "CollectionPage", name: hubCopy.h1, description: hubCopy.description, url: canonical, inLanguage: schemaLocale,
+        hasPart: [...CURATED_COMPARISONS].map((pair) => ({ "@type": "WebPage", url: localizedCanonical(`/compare/${pair}`, locale) })),
+      }],
+    };
+  }
   const compareMatch = canonicalPath.match(/^\/compare\/([a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2})$/);
   if (compareMatch) {
     const pair = compareMatch[1];
@@ -5958,6 +6012,19 @@ async function routeMetadataBase(url, env, newsFeed) {
     const name = venues.map((venue) => venue.name).join(isZh ? " 对比 " : " vs ");
     const canonical = localizedCanonical(canonicalPath, locale);
     const curated = CURATED_COMPARISONS.has(pair);
+    // Generated two-venue pairs (compare-any, 2026-10-11): templated copy per locale, index policy from the data.
+    const generatedPolicy = !curated && slugs.length === 2 ? generatedComparePolicy(pair) : null;
+    if (generatedPolicy?.generated) {
+      const generatedCopy = generatedCompareCopy(requestedLocale, { nameA: venues[0].name, nameB: venues[1].name, date: generatedCompareDataDate(slugs) });
+      return {
+        status: 200,
+        title: generatedCopy.title,
+        description: generatedCopy.description,
+        canonical, locale, robots: generatedPolicy.robots, marker: COMPARE_ROUTE_MARKER, generatedComparison: true,
+        alternates: generatedPolicy.indexable ? routeAlternates(canonicalPath, generatedCompareLocales(pair)) : [],
+        schema: buildWorkerCompareSchema(venues, schemaLocale, canonical, null),
+      };
+    }
     const compareSeoOverrides = {
       "binance-vs-okx": {
         title: "Binance vs OKX: Fees, Products, KYC and Web3 Access Checks — NexuAlpha",

@@ -40,6 +40,8 @@ import { ctaUiCopy, fillCta, trackCodeCopy } from "../../data/cta-ui-copy.js";
 import { contextualHref } from "../../data/contextual-href.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { compareDirectAnswerFor } from "../../data/compare-direct-answers.js";
+import { CURATED_COMPARISON_SLUGS, canonicalComparePath, compareIndexCopy, curatedPairsSharingVenue, generatedCompareCopy, generatedCompareDataDate, generatedComparePolicy, generatedPairsSharingVenue, indexableGeneratedComparePairs, isCuratedComparison } from "../../data/compare-generated.js";
+import { CompareAnyPicker } from "../compare/CompareAnyPicker.jsx";
 import { CompareHeroActions, CompareFinalChoiceCard, CompareFinalChoiceEvidence } from "./CompareFinalChoiceCard.jsx";
 import { compareFaqBadge, compareFaqEntries, compareFaqText, compareStickyAria } from "../../data/compare-faq-locales.js";
 import { interfaceCopyByLocale } from "../../content/v3-interface-copy.js";
@@ -4001,6 +4003,12 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
   const directAnswer = compareDirectAnswerFor(compareSlugKey, locale) || (locale === "en" ? compareDirectAnswerOverrides[compareSlugKey] : null);
   const isPriorityTwoVenueDirectAnswer = Boolean(directAnswer) && profiles.length === 2;
   const compareOwnerQuestion = directAnswer?.ownerQuestion || null;
+  // Compare-any (2026-10-11): a two-venue pair without a curated page renders from data with templated copy and a
+  // visible provenance note, so readers can tell generated pages from hand-written ones.
+  const generatedPolicy = profiles.length === 2 && !isCuratedComparison(compareSlugKey) ? generatedComparePolicy(compareSlugKey) : null;
+  const generatedCopy = generatedPolicy?.generated
+    ? generatedCompareCopy(locale, { nameA: getLocalizedVenueName(profiles[0], locale), nameB: getLocalizedVenueName(profiles[1], locale), date: generatedCompareDataDate(selected) })
+    : null;
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
     const updateStickyState = () => {
@@ -4182,7 +4190,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
         </div>
   );
 
-  return <main className="v6 v2-page v3-page v3-compare-page" id="top" {...sectionEyebrowAttrs(locale, "compare")}>
+  return <main className="v6 v2-page v3-page v3-compare-page" id="top" {...sectionEyebrowAttrs(locale, "compare")} data-compare-generated={generatedCopy ? "true" : undefined} data-compare-index={generatedPolicy ? generatedPolicy.robots : undefined}>
     {/* 移动端/桌面端吸顶 PK 表头 */}
     <div className={`v3-compare-sticky-bar${stickyCtaActive ? " is-active" : ""}`} aria-label={compareStickyAria(locale)} aria-hidden={!stickyCtaActive} inert={!stickyCtaActive}>
       <div className="v3-compare-sticky-bar__inner">
@@ -4246,14 +4254,15 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
 
       <div className="v3-venue-hero">
         {!isPriorityTwoVenueDirectAnswer && comparisonBadge}
-        <h1 translate={compareOwnerQuestion ? undefined : "no"} lang={directAnswer?.locale || (isZhLoc ? "zh-Hans" : "en")} dir={locale === "ar" ? "rtl" : "ltr"}>
-          {compareOwnerQuestion || profiles.map((profile, index) => <span key={profile.slug}>
+        <h1 translate={compareOwnerQuestion || generatedCopy ? undefined : "no"} lang={generatedCopy ? locale : directAnswer?.locale || (isZhLoc ? "zh-Hans" : "en")} dir={locale === "ar" ? "rtl" : "ltr"}>
+          {compareOwnerQuestion || generatedCopy?.h1 || profiles.map((profile, index) => <span key={profile.slug}>
             {index > 0 ? " vs " : ""}
             {getLocalizedVenueName(profile, locale).split(/(\([^)]*\))/).map((part, partIndex) => part.startsWith("(")
               ? <span key={partIndex} className="v3-compare-name-alias">{part}</span>
               : part)}
           </span>)}
         </h1>
+        {generatedCopy && <p className="v3-compare-generated-note" lang={locale} dir={locale === "ar" ? "rtl" : undefined} data-compare-generated-note>{generatedCopy.note}</p>}
         {profiles.length === 2 && <CompareHeroActions directAnswer={directAnswer} profiles={profiles} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />}
         {profiles.length === 2 && <CompareFeeLedger a={profiles[0].slug} b={profiles[1].slug} nameA={getLocalizedVenueName(profiles[0], locale)} nameB={getLocalizedVenueName(profiles[1], locale)} locale={locale} />}
         <DecisionReturnLink locale={locale} href={buildDecisionReturnHref({kind:"compare",slugs:selected,locale,market,product})} />
@@ -4379,6 +4388,7 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
           </LocalLink>
         ))}
       </div>
+            <CompareRelatedPairs selected={selected} profiles={profiles} locale={locale} generated={Boolean(generatedCopy)} market={market} product={product} accountStage={accountStage} funding={funding} />
             <CompareGoldMatrixNav currentSlugs={selected} locale={locale} market={market} product={product} accountStage={accountStage} funding={funding} />
             <OnsiteTelegramBotHandoff
               canonicalPath={`/compare/${compareSlugKey}`}
@@ -4390,6 +4400,89 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
       <p>{text.ctaLocked}</p>
     </details>
     </CompareNotesGroup>
+  </main>;
+}
+
+// Related comparisons (compare-any, 2026-10-11). Generated pages link to the curated pairs sharing a venue; curated
+// pages gain "More comparisons with <venue>" (indexable generated pairs, max 6). Both link to the venue profiles.
+function pairLabel(pair) {
+  return pair.split("-vs-").map((slug) => venueDatabase[slug]?.name || slug).join(" vs ");
+}
+export function CompareRelatedPairs({ selected = [], profiles = [], locale = "en", generated = false, market, product, accountStage, funding }) {
+  if (profiles.length !== 2) return null;
+  const copy = generatedCompareCopy(locale, { nameA: "", nameB: "", date: "" });
+  const current = selected.join("-vs-");
+  const contextSearch = directoryContextSearch({ market, product, locale, accountStage, funding });
+  const groups = generated
+    ? [{ key: "curated", label: copy.relatedCurated(profiles.map((profile) => getLocalizedVenueName(profile, locale)).join(" / ")), pairs: curatedPairsSharingVenue(selected, current) }]
+    : profiles.map((profile) => ({ key: profile.slug, label: copy.moreWith(getLocalizedVenueName(profile, locale)), pairs: generatedPairsSharingVenue(profile.slug, { limit: 3, exclude: current }) }));
+  const visible = groups.filter((group) => group.pairs.length);
+  const totalCap = generated ? 12 : 6;
+  let remaining = totalCap;
+  return (
+    <nav className="v3-compare-related" aria-label={copy.profiles} data-compare-related={generated ? "generated" : "curated"}>
+      {visible.map((group) => {
+        const pairs = group.pairs.slice(0, Math.max(0, remaining));
+        remaining -= pairs.length;
+        if (!pairs.length) return null;
+        return (
+          <div className="v3-compare-related__group" key={group.key}>
+            <strong className="v3-compare-related__label" lang={locale}>{group.label}</strong>
+            <ul className="v3-compare-related__list">
+              {pairs.map((pair) => (
+                <li key={pair}>
+                  <LocalLink locale={locale} href={`${canonicalComparePath(pair.split("-vs-"))}?${contextSearch}`} translate="no" lang="en" data-growth-placement={generated ? "generated-related-curated" : "curated-related-generated"}>{pairLabel(pair)}</LocalLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+      <div className="v3-compare-related__group">
+        <strong className="v3-compare-related__label" lang={locale}>{copy.profiles}</strong>
+        <ul className="v3-compare-related__list">
+          {profiles.map((profile) => (
+            <li key={profile.slug}><LocalLink locale={locale} href={`/exchanges/${profile.slug}?${contextSearch}`} translate="no" lang="en">{getLocalizedVenueName(profile, locale)}</LocalLink></li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+  );
+}
+
+// /compare hub (compare-any, 2026-10-11): the picker plus the curated and indexable generated pair lists.
+export function CompareHubPage({ locale = "en", venues = [], market, product, accountStage, funding }) {
+  const copy = compareIndexCopy(locale);
+  const text = v3Copy(locale);
+  const contextSearch = directoryContextSearch({ market, product, locale, accountStage, funding });
+  const generatedPairs = indexableGeneratedComparePairs();
+  return <main className="v6 v2-page v3-page v3-compare-hub" id="top" dir={locale === "ar" ? "rtl" : undefined} {...sectionEyebrowAttrs(locale, "compare")}>
+    <section className="v3-page-hero v2-shell" id="compare-hub-hero">
+      <LocalLink locale={locale} href={`/exchanges?${contextSearch}`} className="v3-back-link">← {text.backToDirectory}</LocalLink>
+      <div className="v3-venue-hero">
+        <span className="v3-independent-badge">{text.compareTitle}</span>
+        <h1 lang={locale}>{copy.h1}</h1>
+        <p lang={locale}>{copy.intro}</p>
+        <CompareAnyPicker locale={locale} venues={venues} placement="compare-hub" />
+      </div>
+    </section>
+    <section className="v2-section v2-shell v3-compare-hub__section" aria-labelledby="compare-hub-curated">
+      <h2 id="compare-hub-curated" lang={locale}>{copy.curated}</h2>
+      <ul className="v3-compare-hub__list">
+        {CURATED_COMPARISON_SLUGS.map((pair) => (
+          <li key={pair}><LocalLink locale={locale} href={`/compare/${pair}?${contextSearch}`} translate="no" lang="en" data-growth-placement="compare-hub-curated">{pairLabel(pair)}</LocalLink></li>
+        ))}
+      </ul>
+    </section>
+    <section className="v2-section v2-shell v3-compare-hub__section" aria-labelledby="compare-hub-generated">
+      <h2 id="compare-hub-generated" lang={locale}>{copy.generated}</h2>
+      <p className="v3-compare-generated-note" lang={locale}>{copy.generatedNote}</p>
+      <ul className="v3-compare-hub__list v3-compare-hub__list--dense">
+        {generatedPairs.map((pair) => (
+          <li key={pair}><LocalLink locale={locale} href={`/compare/${pair}?${contextSearch}`} translate="no" lang="en" data-growth-placement="compare-hub-generated">{pairLabel(pair)}</LocalLink></li>
+        ))}
+      </ul>
+    </section>
   </main>;
 }
 

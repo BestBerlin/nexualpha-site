@@ -129,6 +129,7 @@ const SearchDialog = deferredComponent("./components/finder/SearchDialog.jsx", "
 const ActivityCenterPage = deferredComponent("./components/v3/V3Pages.jsx", "ActivityCenterPage");
 const ActivityDetailPage = deferredComponent("./components/v3/V3Pages.jsx", "ActivityDetailPage");
 const CompareDeepPage = deferredComponent("./components/v3/V3Pages.jsx", "CompareDeepPage");
+const CompareHubPage = deferredComponent("./components/v3/V3Pages.jsx", "CompareHubPage");
 const NotFoundPage = deferredComponent("./components/v3/V3Pages.jsx", "NotFoundPage");
 const VenueDetailPage = deferredComponent("./components/v3/V3Pages.jsx", "VenueDetailPage");
 const OfficialResearchPage = deferredComponent("./components/v3/activity/OfficialResearch.jsx", "OfficialResearchPage");
@@ -502,6 +503,7 @@ function routeState(venues, initialUrl) {
   if (pathname === "/exchanges") return { name: "directory", ...contextParams() };
   const venueMatch = pathname.match(/^\/exchanges\/([a-z0-9-]+)$/);
   if (venueMatch) return { name: "venue", slug: venueMatch[1], ...contextParams() };
+  if (pathname === "/compare") return { name: "compareHub", ...contextParams() };
   const compareMatch = pathname.match(/^\/compare\/([a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2})$/);
   if (compareMatch) {
     const slugs = validComparison(compareMatch[1], venues);
@@ -800,6 +802,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "newsDetail") return pageShell(<NewsDetailPage slug={route.slug} locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} />);
   if (route.name === "venue" && !routedVenue) return pageShell(<NotFoundPage locale={locale} />);
   if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />);
+  if (route.name === "compareHub") return pageShell(<CompareHubPage locale={locale} venues={command.venueCatalog} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });
   if (route.name === "compare" && selectedFromRoute.length < 2) return pageShell(<NotFoundPage locale={locale} />);
   if (route.name === "compare" && selectedFromRoute.length >= 2) return pageShell(<CompareDeepPage copy={copy} locale={locale} selected={selectedFromRoute} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });
   if (route.name === "research") return pageShell(<OfficialResearchPage locale={locale} market={route.market} product={route.product} venue={command.venueCatalog.find((venue) => venue.slug === route.slug)} venues={command.venueCatalog} />);

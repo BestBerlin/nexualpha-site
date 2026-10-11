@@ -16,6 +16,7 @@ import { localizedPath, parsePublicRoute } from "./locale-routing.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
+import { CURATED_COMPARISON_SLUGS, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, parseComparePair } from "./compare-generated.js";
 import { compareFaqSchemaEntries } from "./compare-faq-locales.js";
 import { AUDIT_DATE as FACTBOOK_SOURCE_REVIEW_DATE } from "./factbook-registry.js";
 import { collectionHubCopy, factbookHubItems, topicHubItems } from "./collection-hubs.js";
@@ -257,18 +258,13 @@ function tokenizedTreasuryGscFaqEntry(articleLocale) {
     answer: "Tokenized Treasuries are blockchain-recorded products that reference Treasury-bill or Treasury-fund exposure, but the token label alone does not prove direct Treasury ownership. Check the issuer or legal wrapper, recordkeeper, custodian, redemption path, transfer controls, permitted chain, eligibility and yield basis before comparing products.",
   };
 }
-const CURATED_COMPARISONS = new Set([
-  "binance-vs-okx", "binance-vs-bybit", "okx-vs-bybit", "binance-vs-mexc",
-  "okx-vs-mexc", "bybit-vs-bitget", "hyperliquid-vs-dydx", "uniswap-vs-jupiter", "binance-vs-kraken", "gate-io-vs-mexc",
-  // 2026-10-10 market plan: most-wanted pairs that had no indexable page.
-  "binance-vs-bitget", "bitget-vs-okx", "bybit-vs-mexc", "bitget-vs-mexc",
-]);
+const CURATED_COMPARISONS = new Set(CURATED_COMPARISON_SLUGS);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 // Owner 2026-10-10 (search growth): these pages are fully translated in all 15 locales (measured English share of the
 // visible text under 20% per locale), so every locale edition is published to search, not only en/zh/ja/ko/tr.
 // /methodology and /telegram stay on the short list (still partly English), as do the venue profiles below whose
 // localized editions are still 25%+ English.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates", ...BRAND_PAGE_PATHS]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates", ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -334,6 +330,7 @@ function searchPublicationLocales(pathname, options = {}) {
   if (factbookSlug && venueDatabase[factbookSlug]) return SEARCH_PRIORITY_FACTBOOK.has(factbookSlug) ? ["en", "zh-Hans"] : ["en"];
   const comparisonSlug = pathname.match(/^\/compare\/([a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2})$/)?.[1];
   if (comparisonSlug && CURATED_COMPARISONS.has(comparisonSlug)) return SEARCH_PRIORITY_COMPARISONS.has(comparisonSlug) && !comparisonSlug.split("-vs-").some((v) => SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS.has(v)) ? INDEXABLE_LOCALES : ["en", "zh-Hans"];
+  if (comparisonSlug && parseComparePair(comparisonSlug)?.length === 2) return generatedComparePolicy(comparisonSlug).indexable ? generatedCompareLocales(comparisonSlug) : [];
   const topicSlug = pathname.match(/^\/topics\/([a-z0-9-]+)$/)?.[1];
   if (topicSlug && TOPIC_GUIDES[topicSlug]) return SEARCH_PRIORITY_TOPICS.has(topicSlug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"];
   return [];
@@ -362,6 +359,7 @@ export const HOME_SEARCH_COPY = {
 const STATIC_COPY = {
   "/": [HOME_SEARCH_COPY.en[0], HOME_SEARCH_COPY["zh-Hans"][0]],
   "/exchanges": ["Crypto Exchanges Directory & Fee Comparison — NexuAlpha", "交易平台黄页与手续费对比 — NexuAlpha"],
+  "/compare": [compareIndexCopy("en").title, compareIndexCopy("zh-Hans").title],
   "/activities": ["Official Crypto Campaigns — NexuAlpha", "官方活动中心 — NexuAlpha"],
   "/news": ["Market News & Research — NexuAlpha", "市场新闻与研究 — NexuAlpha"],
   "/rates": ["Crypto Exchange Fee Benchmark Terminal — NexuAlpha", "交易所手续费基准终端 — NexuAlpha"],
@@ -395,6 +393,8 @@ for (const [locale, title] of Object.entries({
 
 const STATIC_PAGE_COPY_LOCALIZED = {
   "/": { ...HOME_SEARCH_COPY },
+  // Compare hub (compare-any, 2026-10-11): templates live in compare-generated.js.
+  "/compare": Object.fromEntries([...UI_LOCALES].map((locale) => [locale, [compareIndexCopy(locale).title, compareIndexCopy(locale).description]])),
   [ABOUT_PATH]: { ...BRAND_PAGE_SEO[ABOUT_PATH] },
   [EDITORIAL_POLICY_PATH]: { ...BRAND_PAGE_SEO[EDITORIAL_POLICY_PATH] },
   "/rates": {
@@ -2227,7 +2227,14 @@ export function computeRouteSeo(options = {}) {
       const compareSeoOverride = compareSeoOverrideFor(compareMatch[1], locale);
       title = compareSeoOverride?.title || `${name}: ${DETAIL_TITLE_LOCALIZED[rawLocale]?.compare || DETAIL_TITLE_LOCALIZED[locale]?.compare || (isZh ? "手续费与平台选择" : "Trading Fees & Platform Comparison")} — NexuAlpha`;
       description = compareSeoOverride?.description || (COMPARE_DESCRIPTION_LOCALIZED[rawLocale] || COMPARE_DESCRIPTION_LOCALIZED[locale] || COMPARE_DESCRIPTION_LOCALIZED.en)(name);
-      robots = CURATED_COMPARISONS.has(compareMatch[1]) ? "index,follow" : "noindex,follow";
+      // Compare-any (2026-10-11): generated two-venue pairs use the shared index policy and templated copy.
+      const generatedPolicy = !CURATED_COMPARISONS.has(compareMatch[1]) && slugs.length === 2 ? generatedComparePolicy(compareMatch[1]) : null;
+      if (generatedPolicy?.generated) {
+        const generatedCopy = generatedCompareCopy(rawLocale, { nameA: compareNames[0], nameB: compareNames[1], date: generatedCompareDataDate(slugs) });
+        title = generatedCopy.title;
+        description = generatedCopy.description;
+      }
+      robots = generatedPolicy ? generatedPolicy.robots : CURATED_COMPARISONS.has(compareMatch[1]) ? "index,follow" : "noindex,follow";
       const comparisonUrl = canonical(pathname, locale);
       const hasCompleteFaqOverride = compareSeoOverride?.completeFaq === true;
       const directAnswer = hasCompleteFaqOverride ? compareSeoOverride?.directAnswer : null;

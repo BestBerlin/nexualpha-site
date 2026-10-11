@@ -2203,3 +2203,29 @@
     transition: none;
   }
 }
+
+/* Compare-any (2026-10-11): generated-page provenance note, related comparisons, /compare hub lists. */
+.v3-compare-generated-note {
+  margin: 0.5rem 0 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid #fdb022;
+  border-radius: 6px;
+  background: rgba(253, 176, 34, 0.08);
+  color: var(--ink-2, #b0b4ba);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+[dir="rtl"] .v3-compare-generated-note { border-left: 0; border-right: 3px solid #fdb022; }
+.v3-compare-related { display: grid; gap: 0.875rem; margin: 0.75rem 0 1rem; }
+.v3-compare-related__label { display: block; margin-bottom: 0.375rem; font-size: 0.8125rem; letter-spacing: 0.02em; color: var(--ink-2, #b0b4ba); }
+.v3-compare-related__list, .v3-compare-hub__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.v3-compare-related__list a, .v3-compare-hub__list a {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 0 0.875rem;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.14)); border-radius: 999px;
+  color: var(--ink, #f3f4f6); text-decoration: none; font-size: 0.875rem;
+}
+.v3-compare-related__list a:hover, .v3-compare-hub__list a:hover { border-color: #53b1fd; }
+.v3-compare-related__list a:focus-visible, .v3-compare-hub__list a:focus-visible { outline: 2px solid #53b1fd; outline-offset: 2px; }
+.v3-compare-hub__section { padding-top: 1rem; padding-bottom: 1.25rem; }
+.v3-compare-hub__section h2 { margin: 0 0 0.75rem; font-size: 1.25rem; }
+.v3-compare-hub__list--dense a { font-size: 0.8125rem; min-height: 36px; }

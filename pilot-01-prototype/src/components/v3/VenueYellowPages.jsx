@@ -7,6 +7,7 @@ import { resolveCommercialClaim } from "../../data/commercial-claims.js";
 import { venueDecisionContent } from "../../data/venue-decision-content";
 import { compareSlug, v3Copy } from "../../data/v3-product";
 import { comparePathFor } from "../v6/compare-routes.js";
+import { CompareAnyPicker } from "../compare/CompareAnyPicker.jsx";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { defaultDirectoryCategory, directoryContext, directoryContextSearch, filterDirectoryVenues, regionalCtaState, regionalDirectoryCandidateState, venueMarketStatus } from "../../data/directory-context.js";
 import { buildRegionalDecisionSet } from "../../data/regional-decision.js";
@@ -874,6 +875,7 @@ export function VenueYellowPages({ venues = [], locale = "en", market, product, 
           </p>
         )}
         {stageCopy && <p className="yellow-pages__context yellow-pages__context--stage" data-account-stage={effectiveAccountStage}>{stageCopy[0]} · {stageCopy[1]}</p>}
+        {!compact && <CompareAnyPicker locale={locale} venues={venues} initial={compareSelection} placement="exchange-directory" compact />}
         {context.scoped && decisions.primary && (
           <div className="yellow-pages__decision-strip" data-regional-decision={`${context.market}:${decisions.primary.venue.slug}`}>
             <div className="yellow-pages__decision-header">

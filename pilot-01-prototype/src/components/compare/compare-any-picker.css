@@ -1,0 +1,56 @@
+/* "Compare any two" picker (2026-10-11): /compare hub, exchange directory handoff. */
+.compare-any {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 1rem 0 1.25rem;
+  padding: 1rem;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.12));
+  border-radius: 14px;
+  background: var(--surface-2, rgba(255, 255, 255, 0.03));
+}
+.compare-any--compact { margin: 0.75rem 0 1rem; padding: 0.875rem; }
+.compare-any__head { display: grid; gap: 0.25rem; }
+.compare-any__title { font-size: 1.0625rem; font-weight: 600; color: var(--ink, #f3f4f6); }
+.compare-any__hint { font-size: 0.8125rem; color: var(--ink-2, #b0b4ba); }
+.compare-any__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto;
+  gap: 0.625rem;
+  align-items: end;
+}
+.compare-any__field { display: grid; gap: 0.3rem; min-width: 0; }
+.compare-any__field span { font-size: 0.75rem; letter-spacing: 0.02em; color: var(--ink-2, #b0b4ba); }
+.compare-any__field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.16));
+  background: var(--surface, #0f1419);
+  color: var(--ink, #f3f4f6);
+  font: inherit;
+  font-size: 0.9375rem;
+}
+.compare-any__field select:focus-visible { outline: 2px solid var(--accent, #53b1fd); outline-offset: 2px; }
+.compare-any__vs { align-self: center; padding-bottom: 0.1rem; font-size: 0.8125rem; font-weight: 700; color: var(--ink-2, #b0b4ba); text-transform: uppercase; }
+.compare-any__submit {
+  min-height: 44px;
+  padding: 0 1.125rem;
+  border: 0;
+  border-radius: 10px;
+  background: var(--accent, #53b1fd);
+  color: #0b1220;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.compare-any__submit:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.compare-any__error { margin: 0; font-size: 0.8125rem; color: #fca5a5; }
+@media (max-width: 640px) {
+  .compare-any__row { grid-template-columns: 1fr; }
+  .compare-any__vs { display: none; }
+  .compare-any__submit { width: 100%; }
+}
