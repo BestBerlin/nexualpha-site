@@ -14,6 +14,8 @@ import { DecisionPathRail } from "../DecisionPathRail.jsx";
 import { contextualHref as addContext } from "../../../data/contextual-href.js";
 import { normalizeActivityEligibility } from "./activity-eligibility.js";
 import "./ActivityCenterV3.css";
+import { campaignJoinCopy } from "./campaign-join-copy.js";
+import { CampaignJoin } from "./CampaignJoin.jsx";
 import { LiveCampaigns } from "./LiveCampaigns.jsx";
 import { OfficialResearchIndex } from "./OfficialResearch";
 import { isoDay } from "../../../data/exchange-facts.js";
@@ -270,7 +272,7 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
 
     </div>
 
-    <LiveCampaigns locale={locale} initialFeed={campaignFeed} />
+    <LiveCampaigns locale={locale} market={market} initialFeed={campaignFeed} />
 
     {feedItemList.length > 0 && filterControls}
 
@@ -321,8 +323,9 @@ export function ActivityCenterV3({ locale = "en", market, product, venues = [], 
           {eligibility.cta.enabled && update.id
             ? <a href={contextualHref(`/activities/${encodeURIComponent(update.id)}`)} data-cta-kind="research" data-cta-placement="activity-card-detail" data-growth-decision={update.id} data-growth-placement="activity-card-detail">{detailCopy.openActivityDetail}</a>
             : update.platform?.slug && <a href={eligibility.cta.alternativeHref} data-cta-kind="research" data-cta-platform={update.platform.slug} data-cta-placement="activity-card-research-alternative" data-growth-decision={update.platform.slug} data-growth-placement="activity-card-research-alternative">{eligibility.cta.alternativeLabel}</a>}
-          {eligibility.source?.url && <a href={eligibility.source.url} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="activity-card-source" data-growth-decision={update.platform?.slug || update.id} data-growth-placement="activity-card-source">{text.openSource}</a>}
+          {eligibility.source?.url && <a href={eligibility.source.url} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="activity-card-source" data-growth-decision={update.platform?.slug || update.id} data-growth-placement="activity-card-source">{campaignJoinCopy(locale).official}</a>}
         </div>
+        <CampaignJoin venue={update.platform?.slug} locale={locale} market={market} placement="activity-card-join" />
       </article>;
       })}
           </div>

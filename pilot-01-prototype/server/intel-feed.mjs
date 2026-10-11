@@ -30,8 +30,8 @@ async function getJson(url, fetchImpl) {
 export const SOURCES = {
   okx: async (now, fetchImpl) => {
     const out = [];
-    for (const q of ['', '&annType=announcements-new-listings', '&annType=latest-events', '&annType=announcements-delistings']) {
-      out.push(...normalizeOkxAnnouncements(await getJson(`https://www.okx.com/api/v5/support/announcements?page=1${q}`, fetchImpl), { now }));
+    for (const q of ['page=1', 'page=1&annType=announcements-new-listings', 'page=1&annType=latest-events', 'page=2&annType=latest-events', 'page=1&annType=announcements-delistings']) {
+      out.push(...normalizeOkxAnnouncements(await getJson(`https://www.okx.com/api/v5/support/announcements?${q}`, fetchImpl), { now }));
       await wait(300);
     }
     return out;
@@ -39,7 +39,7 @@ export const SOURCES = {
   binance: async (now, fetchImpl) => {
     const out = [];
     for (const catalogId of [48, 49, 93, 161]) {
-      out.push(...normalizeBinanceAnnouncements(await getJson(`https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&pageNo=1&pageSize=10&catalogId=${catalogId}`, fetchImpl), catalogId, { now }));
+      out.push(...normalizeBinanceAnnouncements(await getJson(`https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&pageNo=1&pageSize=20&catalogId=${catalogId}`, fetchImpl), catalogId, { now }));
       await wait(300);
     }
     return out;
@@ -47,7 +47,7 @@ export const SOURCES = {
   kucoin: async (now, fetchImpl) => {
     const out = [];
     for (const annType of ['new-listings', 'activities', 'delistings', 'latest-announcements']) {
-      out.push(...normalizeKucoinAnnouncements(await getJson(`https://api.kucoin.com/api/v3/announcements?pageSize=10&annType=${annType}&lang=en_US`, fetchImpl), annType, { now }));
+      out.push(...normalizeKucoinAnnouncements(await getJson(`https://api.kucoin.com/api/v3/announcements?pageSize=20&annType=${annType}&lang=en_US`, fetchImpl), annType, { now }));
       await wait(300);
     }
     return out;
@@ -55,8 +55,8 @@ export const SOURCES = {
   kraken: async (now, fetchImpl) => normalizeRssAnnouncements(await getText('https://blog.kraken.com/feed', fetchImpl), 'kraken', { now }),
   bitget: async (now, fetchImpl) => {
     const out = [];
-    for (const annType of ['coin_listings', 'latest_news', 'symbol_delisting']) {
-      out.push(...normalizeBitgetAnnouncements(await getJson(`https://api.bitget.com/api/v2/public/annoucements?language=en_US&annType=${annType}&limit=10`, fetchImpl), { now }));
+    for (const annType of ['coin_listings', 'trading_competitions_promotions', 'latest_news', 'symbol_delisting']) {
+      out.push(...normalizeBitgetAnnouncements(await getJson(`https://api.bitget.com/api/v2/public/annoucements?language=en_US&annType=${annType}&limit=20`, fetchImpl), { now }));
       await wait(300);
     }
     return out;
@@ -64,7 +64,7 @@ export const SOURCES = {
   bybit: async (now, fetchImpl) => {
     const out = [];
     for (const type of ['new_crypto', 'latest_activities', 'delistings']) {
-      out.push(...normalizeBybitAnnouncements(await getJson(`https://api.bybit.com/v5/announcements/index?locale=en-US&type=${type}&limit=10`, fetchImpl), { now }));
+      out.push(...normalizeBybitAnnouncements(await getJson(`https://api.bybit.com/v5/announcements/index?locale=en-US&type=${type}&limit=20`, fetchImpl), { now }));
       await wait(300);
     }
     return out;
@@ -87,11 +87,11 @@ export async function buildFeed(previous, { now = Date.now(), fetchImpl = fetch,
     }
   }
   if (!Object.values(status).some((s) => s.ok)) return null;
-  return { generatedAt: new Date(now).toISOString(), status: 'OK', sources: status, items: mergeIntel(lists, { now, limit: 120 }) };
+  return { generatedAt: new Date(now).toISOString(), status: 'OK', sources: status, items: mergeIntel(lists, { now, limit: 240 }) };
 }
 
 // Serves the feed and refreshes it in the background every `everyMs` (never blocks a request on the exchanges).
-export function createIntelFeed(clientRoot, { everyMs = 15 * 60 * 1000, enabled = true, fetchImpl = fetch, log = () => {} } = {}) {
+export function createIntelFeed(clientRoot, { everyMs = 5 * 60 * 1000, enabled = true, fetchImpl = fetch, log = () => {} } = {}) {
   let feed = null, body = null, refreshing = null;
   const set = (next) => { feed = next; body = `${JSON.stringify(next)}\n`; };
   const seeded = readFile(path.join(clientRoot, 'intel', 'official-announcements.json'), 'utf8')
