@@ -524,3 +524,64 @@ body:has(> #root > main.v5 > .container) .nx-ftr__inner {
 @media (max-width: 1099px) { .nx-tg--compact { display: inline-flex; } }
 @media (prefers-reduced-motion: reduce) { .nx-tg, .nx-tg .nx-ico { transition: none; } }
 @media (max-width: 1099px) { .nx-tg--compact ~ .nx-burger { margin-inline-start: 6px; } }
+
+/* Campaigns link: gold shimmer sweep + twinkling star (owner 2026-10-12: make 活动 impossible to miss).
+   Gradient text keeps WCAG contrast on the dark header; reduced-motion users get the static gold. */
+.nx-nav a[data-hot],
+.nx-sheet__nav a[data-hot],
+.nx-hot-chip {
+  --nx-gold: #f5c542;
+  background: linear-gradient(100deg, var(--nx-gold) 0%, var(--nx-gold) 38%, #fff8dc 48%, #ffe27a 52%, var(--nx-gold) 62%, var(--nx-gold) 100%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+  animation: nx-gold-sweep 2.6s linear infinite;
+}
+.nx-nav > ul > li > a[data-hot]::before {
+  content: "✦";
+  position: absolute;
+  inset-block-start: 9px;
+  inset-inline-end: 1px;
+  font-size: 10px;
+  line-height: 1;
+  color: #ffe27a;
+  -webkit-text-fill-color: #ffe27a;
+  text-shadow: 0 0 6px rgba(255, 214, 90, 0.9);
+  animation: nx-twinkle 1.3s ease-in-out infinite;
+}
+.nx-nav > ul > li > a[data-hot]::after { background: var(--nx-gold); }
+.nx-hot-chip {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  block-size: 32px;
+  padding-inline: 10px;
+  margin-inline-start: auto;
+  border: 1px solid rgba(245, 197, 66, 0.55);
+  border-radius: 999px;
+  font-size: 13px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 0 0 0 rgba(245, 197, 66, 0.45);
+  animation: nx-gold-sweep 2.6s linear infinite, nx-chip-glow 2.6s ease-out infinite;
+}
+.nx-hot-chip__star {
+  color: #ffe27a;
+  -webkit-text-fill-color: #ffe27a;
+  text-shadow: 0 0 6px rgba(255, 214, 90, 0.9);
+  animation: nx-twinkle 1.3s ease-in-out infinite;
+}
+@media (max-width: 1099px) {
+  .nx-hot-chip { display: inline-flex; }
+  .nx-hot-chip ~ .nx-tg--compact { margin-inline-start: 2px; }
+}
+@keyframes nx-gold-sweep { from { background-position: 130% 0; } to { background-position: -130% 0; } }
+@keyframes nx-twinkle { 0%, 100% { opacity: 0.35; transform: scale(0.75) rotate(0deg); } 50% { opacity: 1; transform: scale(1.15) rotate(20deg); } }
+@keyframes nx-chip-glow { 0% { box-shadow: 0 0 0 0 rgba(245, 197, 66, 0.45); } 70%, 100% { box-shadow: 0 0 0 7px rgba(245, 197, 66, 0); } }
+@media (prefers-reduced-motion: reduce) {
+  .nx-nav a[data-hot], .nx-sheet__nav a[data-hot], .nx-hot-chip, .nx-hot-chip__star,
+  .nx-nav > ul > li > a[data-hot]::before { animation: none; }
+}
