@@ -1,0 +1,84 @@
+{
+  "score": 95,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "Both encoded contact sheets were visually inspected at 2/9/16/23/31 seconds against the brief. Independent code review found no remaining code or English presentation defects; the missing Chinese deliverable flagged during its active render is now complete and reviewed.",
+  "samples": {
+    "zh-Hans": {
+      "path": "ops/shorts/samples/v2/2026-10-11-zh-Hans",
+      "generatedAt": "2026-10-11T19:48:13.946Z",
+      "fundingAt": "2026-10-11T19:48:13.945Z",
+      "duration": 35,
+      "voice": false,
+      "contactSheetTimes": [
+        2,
+        9,
+        16,
+        23,
+        31
+      ],
+      "codec": "h264",
+      "audio": "aac (silent)",
+      "fps": 30,
+      "dimensions": [
+        1080,
+        1920
+      ]
+    },
+    "en": {
+      "path": "ops/shorts/samples/v2/2026-10-11-en",
+      "generatedAt": "2026-10-11T19:48:13.946Z",
+      "fundingAt": "2026-10-11T19:48:13.945Z",
+      "duration": 35,
+      "voice": false,
+      "contactSheetTimes": [
+        2,
+        9,
+        16,
+        23,
+        31
+      ],
+      "codec": "h264",
+      "audio": "aac (silent)",
+      "fps": 30,
+      "dimensions": [
+        1080,
+        1920
+      ]
+    }
+  },
+  "tests": {
+    "shorts": {
+      "passed": 14,
+      "failed": 0
+    },
+    "site": {
+      "passed": 1126,
+      "failed": 3,
+      "skipped": 5,
+      "gap": "Missing dist/news-ssr/entry-server.js, dist/client/index.html and prerender build artifacts in this unbuilt worktree. Site files unchanged."
+    }
+  },
+  "voice": {
+    "status": "blocked in sandbox",
+    "probe": "Tingting wrote 4096-byte AIFF; ffprobe duration N/A",
+    "limitation": "Real voiced playback and caption synchronization need lead verification outside sandbox."
+  },
+  "geometry": {
+    "safe": {
+      "left": 64,
+      "right": 920,
+      "top": 48,
+      "bottom": 1500
+    },
+    "heroGlyphHeightPx": {
+      "zh-Hans": 300.3,
+      "en": 310.34
+    },
+    "minDisclaimerFontPx": 36
+  },
+  "reviewScope": "Local rendering only; no upload, push or deployment.",
+  "gitIndexLimitation": "Managed sandbox makes the original linked-worktree index read-only. Commit uses an alternate index inside this worktree; the lead must refresh the original index from HEAD outside sandbox."
+}

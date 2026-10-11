@@ -1,0 +1,5 @@
+*.log
+*.aiff
+iteration-*.png
+.git-index*
+.git-message

@@ -3,7 +3,7 @@ import {mkdir, mkdtemp, rename, rm, writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import {MARKET_URL, FUNDING_URL, validateData, buildPackage} from './builders.mjs';
-import {renderShort} from './render.mjs';
+import {renderShort, renderContactSheet} from './render.mjs';
 
 export function parseArgs(args) {
   const options = {voice: false, out: path.join(path.dirname(fileURLToPath(import.meta.url)), 'samples')};
@@ -38,6 +38,10 @@ export async function main(args = process.argv.slice(2)) {
   try {
     const result = await renderShort(slides, stage, options);
     const render = {...result};
+    if (slides.length === 5 && result.duration >= 32) {
+      await renderContactSheet(result.videoPath, path.join(stage, 'contact-sheet.png'));
+      render.contactSheet = 'contact-sheet.png';
+    }
     for (const key of ['videoPath', 'audioPath']) if (render[key]) render[key] = path.relative(stage, render[key]);
     if (render.framePaths) render.framePaths = render.framePaths.map(file => path.relative(stage, file));
     const metadata = {...meta, render, slides};
