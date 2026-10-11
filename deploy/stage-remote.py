@@ -49,6 +49,9 @@ def get(port, path, timeout=60, tries=4):
 
 
 def cta_links(html):
+    # inline <style> (home critical CSS since 2026-10-11) contains selectors like .registration-card__code-value;
+    # only markup may count as a registration code
+    html = re.sub(r'<style\b[^>]*>.*?</style>', '', html, flags=re.S | re.I)
     found = set()
     for tag in re.findall(r'<a\b[^>]*>', html):
         m = re.search(r'href="([^"]+)"', tag)
