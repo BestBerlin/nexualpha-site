@@ -1,10 +1,10 @@
 // Local market brief on the /tr, /vi and /id-id home pages (links-l10n lane 2026-10-11; scorecard M5): regulator with
 // its official site, the source-bound local payment rail and what NexuAlpha cannot confirm for residents. Content and
 // sources: src/data/local-market-brief.js. No partner link or invite code is shown here, so no commission disclosure.
-import { localMarketBrief, LOCAL_MARKET_BRIEF_REVIEWED_AT } from "../../data/local-market-brief.js";
+import { localMarketBrief, LOCAL_MARKET_BRIEF_ENABLED, LOCAL_MARKET_BRIEF_REVIEWED_AT } from "../../data/local-market-brief.js";
 
-export function LocalMarketBrief({ locale }) {
-  const brief = localMarketBrief(locale);
+export function LocalMarketBrief({ locale, enabled = LOCAL_MARKET_BRIEF_ENABLED }) {
+  const brief = enabled ? localMarketBrief(locale) : null;
   if (!brief) return null;
   return (
     <section className="h7-in h7-local" id="h7-local" aria-labelledby="h7-local-h" lang={locale} data-local-market={brief.market}>

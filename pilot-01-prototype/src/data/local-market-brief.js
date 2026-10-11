@@ -113,6 +113,11 @@ export const LOCAL_MARKET_BRIEFS = Object.freeze({
   },
 });
 
+// Off until the owner decides (2026-10-11): the TR brief states that a partner's Turkish entity is on the SPK
+// liquidation list and that no partner is confirmed available to residents. That touches commercial goals, so the
+// home section stays hidden while the data, sources and tests ship. Flip to true only on the owner's approval.
+export const LOCAL_MARKET_BRIEF_ENABLED = false;
+
 export function localMarketBrief(locale) {
   return LOCAL_MARKET_BRIEFS[locale] || null;
 }
