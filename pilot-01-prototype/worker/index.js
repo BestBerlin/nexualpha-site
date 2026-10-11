@@ -23,6 +23,7 @@ export default {
     // Site click beacon is served by server.mjs (needs the private CLICK_EVENT_FILE); the worker alone has nowhere to write it.
     if (url.pathname === "/api/cta-click") return new Response(null, { status: 404, headers: { "cache-control": "no-store" } });
     if (url.pathname.startsWith("/api/v1/")) return handleApi(request, env, url);
+    if (url.pathname === "/api/route-seo" && ["GET", "HEAD"].includes(request.method)) return handleRouteSeoJson(request, env, url);
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname.startsWith("/api/news/article/") && request.method === "GET" && env?.ASSETS) return handleNewsArticleJson(env, url);
@@ -3200,6 +3201,121 @@ function routeHasRegionalFundingDataset(schema) {
   return nested.includes(REGIONAL_FUNDING_MATRIX_URLS.json) || nested.includes(REGIONAL_FUNDING_MATRIX_URLS.csv);
 }
 
+// Head fragments shared by the SSR head (injectRouteMetadata) and the client navigation payload (/api/route-seo):
+// one source for og/twitter/trust meta and the JSON-LD payload, so a client-side route change renders the same head.
+function routeOpenGraphPairs(metadata) {
+  return [
+    ["og:type", metadata.ogType || "website"],
+    ["og:site_name", "NexuAlpha"],
+    ["og:title", metadata.title],
+    ["og:description", metadata.description],
+    ["og:url", metadata.canonical],
+    ["og:image", metadata.image || DEFAULT_SOCIAL_IMAGE],
+    ["og:image:width", String(SOCIAL_IMAGE_WIDTH)],
+    ["og:image:height", String(SOCIAL_IMAGE_HEIGHT)],
+    ["og:image:alt", metadata.title],
+  ];
+}
+
+function routeTwitterPairs(metadata) {
+  return [
+    ["twitter:card", "summary_large_image"],
+    ["twitter:site", "@NexuAlpha"],
+    ["twitter:title", metadata.title],
+    ["twitter:description", metadata.description],
+    ["twitter:image", metadata.image || DEFAULT_SOCIAL_IMAGE],
+  ];
+}
+
+function routeTrustPairs(metadata) {
+  const reviewedAt = routeDateModified(metadata.schema);
+  const hasRegionalFundingDataset = routeHasRegionalFundingDataset(metadata.schema);
+  return [
+    ["author", "NexuAlpha Research Desk"],
+    ["nexualpha-last-reviewed", reviewedAt],
+    ["nexualpha-methodology", `${PUBLIC_ORIGIN}/methodology`],
+    ["nexualpha-llms", `${PUBLIC_ORIGIN}/llms.txt`],
+    ["nexualpha-regional-funding-dataset", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_URLS.json : null],
+    ["nexualpha-regional-funding-dataset-reviewed", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_REVIEWED_AT : null],
+    ["nexualpha-regional-funding-dataset-limitations", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_LIMITATIONS : null],
+  ].filter(([, content]) => Boolean(content));
+}
+
+function routeSchemaPayload(schema) {
+  if (!schema) return null;
+  return Array.isArray(schema)
+    ? { "@context": "https://schema.org", "@graph": schema.map((item) => { const copy = { ...item }; delete copy["@context"]; return copy; }) }
+    : schema;
+}
+
+// <html lang> for a route: Brazil and /mx follow the content locale, news follows the displayed edition, every other
+// route keeps the requested UI locale (a Japanese reader of an English-only page still gets a Japanese shell).
+function documentLocaleFor(metadata, url) {
+  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
+  const requestedLocale = publicRoute.localeSource === "path" ? publicRoute.locale : url.searchParams.get("locale");
+  return brazilPath(publicRoute.contentPathname)
+    ? metadata.locale
+    : publicRoute.contentPathname === "/mx"
+    ? metadata.locale
+    : [NEWS_ROUTE_MARKER, ARTICLE_ROUTE_MARKER].includes(metadata.marker)
+    ? metadata.displayLocale || metadata.locale
+    : UI_LOCALES.has(requestedLocale) ? requestedLocale : metadata.locale;
+}
+
+// Client navigation SEO payload (seo-payload lane 2026-10-11). The browser no longer ships the route SEO tables
+// (src/data/seo-injection.js stays a Node/SSR module); after a client-side route change it fetches exactly what the
+// SSR head for that URL contains. Everything here is derived from routeMetadata() through the same helpers as
+// injectRouteMetadata, so the two cannot drift. Feed internals (newsArticles, fingerprints) never leave the server.
+export function routeSeoPayload(metadata, url) {
+  return {
+    path: url.pathname,
+    search: url.search,
+    status: metadata.status,
+    marker: metadata.marker || null,
+    locale: metadata.locale,
+    htmlLocale: documentLocaleFor(metadata, url),
+    title: metadata.title,
+    description: metadata.description,
+    canonical: metadata.canonical,
+    robots: metadata.robots || "index,follow",
+    alternates: Array.isArray(metadata.alternates) ? metadata.alternates.map(({ hreflang, href }) => ({ hreflang, href })) : [],
+    openGraph: routeOpenGraphPairs(metadata),
+    twitter: routeTwitterPairs(metadata),
+    trust: routeTrustPairs(metadata),
+    schema: routeSchemaPayload(metadata.schema),
+  };
+}
+
+export function routeSeoTargetUrl(requestUrl) {
+  const requested = requestUrl.searchParams.get("path") || "/";
+  if (!requested.startsWith("/") || requested.startsWith("//")) return null;
+  let target;
+  try { target = new URL(requested, requestUrl.origin); } catch { return null; }
+  if (target.origin !== requestUrl.origin || target.pathname.startsWith("/api/")) return null;
+  const locale = requestUrl.searchParams.get("locale");
+  if (locale) target.searchParams.set("locale", locale);
+  target.hash = "";
+  return target;
+}
+
+async function handleRouteSeoJson(request, env, url) {
+  const target = routeSeoTargetUrl(url);
+  if (!target) return json({ error: "path must be a site-relative pathname" }, 400);
+  const metadata = await routeMetadata(target, env);
+  const payload = routeSeoPayload(metadata, target);
+  const body = request.method === "HEAD" ? null : JSON.stringify(payload);
+  return new Response(body, {
+    status: 200,
+    headers: {
+      ...jsonHeaders,
+      // The payload mirrors a cacheable HTML head; a 404 route answer must not be kept around.
+      "cache-control": metadata.status === 200 ? "public, max-age=300, stale-while-revalidate=600" : "no-store",
+      "x-robots-tag": "noindex",
+      "x-nexualpha-route-seo-status": String(metadata.status),
+    },
+  });
+}
+
 function injectRouteMetadata(html, metadata) {
   const pageLocale = metadata.locale || "en";
   const pageDirection = String(pageLocale).toLowerCase().split("-")[0] === "ar" ? "rtl" : "ltr";
@@ -3219,27 +3335,11 @@ function injectRouteMetadata(html, metadata) {
     /<meta\b[^>]*name=["']description["'][^>]*>/i,
     `<meta name="description" content="${escapeHtml(metadata.description)}" />`,
   );
-  for (const [property, content] of [
-    ["og:type", metadata.ogType || "website"],
-    ["og:site_name", "NexuAlpha"],
-    ["og:title", metadata.title],
-    ["og:description", metadata.description],
-    ["og:url", metadata.canonical],
-    ["og:image", metadata.image || DEFAULT_SOCIAL_IMAGE],
-    ["og:image:width", String(SOCIAL_IMAGE_WIDTH)],
-    ["og:image:height", String(SOCIAL_IMAGE_HEIGHT)],
-    ["og:image:alt", metadata.title],
-  ]) {
+  for (const [property, content] of routeOpenGraphPairs(metadata)) {
     const expression = new RegExp(`<meta\\b[^>]*property=["']${property.replace(":", "\\:")}["'][^>]*>`, "i");
     output = replaceOrInsert(output, expression, `<meta property="${property}" content="${escapeHtml(content)}" data-nexualpha-route-seo="social" />`);
   }
-  for (const [name, content] of [
-    ["twitter:card", "summary_large_image"],
-    ["twitter:site", "@NexuAlpha"],
-    ["twitter:title", metadata.title],
-    ["twitter:description", metadata.description],
-    ["twitter:image", metadata.image || DEFAULT_SOCIAL_IMAGE],
-  ]) {
+  for (const [name, content] of routeTwitterPairs(metadata)) {
     const expression = new RegExp(`<meta\\b[^>]*name=["']${name.replace(":", "\\:")}["'][^>]*>`, "i");
     output = replaceOrInsert(output, expression, `<meta name="${name}" content="${escapeHtml(content)}" data-nexualpha-route-seo="social" />`);
   }
@@ -3260,17 +3360,7 @@ function injectRouteMetadata(html, metadata) {
     /<meta\b[^>]*name=["']robots["'][^>]*>/i,
     `<meta name="robots" content="${metadata.robots || "index,follow"}" data-nexualpha-route-seo="robots" />`,
   );
-  const reviewedAt = routeDateModified(metadata.schema);
-  const hasRegionalFundingDataset = routeHasRegionalFundingDataset(metadata.schema);
-  for (const [name, content] of [
-    ["author", "NexuAlpha Research Desk"],
-    ["nexualpha-last-reviewed", reviewedAt],
-    ["nexualpha-methodology", `${PUBLIC_ORIGIN}/methodology`],
-    ["nexualpha-llms", `${PUBLIC_ORIGIN}/llms.txt`],
-    ["nexualpha-regional-funding-dataset", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_URLS.json : null],
-    ["nexualpha-regional-funding-dataset-reviewed", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_REVIEWED_AT : null],
-    ["nexualpha-regional-funding-dataset-limitations", hasRegionalFundingDataset ? REGIONAL_FUNDING_MATRIX_LIMITATIONS : null],
-  ].filter(([, content]) => Boolean(content))) {
+  for (const [name, content] of routeTrustPairs(metadata)) {
     const expression = new RegExp(`<meta\\b[^>]*name=["']${name.replace(":", "\\:")}["'][^>]*>`, "i");
     output = replaceOrInsert(output, expression, `<meta name="${name}" content="${escapeHtml(content)}" data-nexualpha-route-seo="trust" />`);
   }
@@ -3282,10 +3372,8 @@ function injectRouteMetadata(html, metadata) {
     );
   }
   output = output.replace(/\s*<script\b[^>]*id=["']nexualpha-route-schema["'][^>]*>[\s\S]*?<\/script>\s*/gi, "\n");
-  if (metadata.schema) {
-    const schemaPayload = Array.isArray(metadata.schema)
-      ? { "@context": "https://schema.org", "@graph": metadata.schema.map((item) => { const copy = { ...item }; delete copy["@context"]; return copy; }) }
-      : metadata.schema;
+  const schemaPayload = routeSchemaPayload(metadata.schema);
+  if (schemaPayload) {
     output = output.replace(
       /<\/head>/i,
       `    <script id="nexualpha-route-schema" type="application/ld+json">${safeJson(schemaPayload)}</script>\n  </head>`,
@@ -6771,15 +6859,7 @@ async function appHtmlResponse(response, url, env, forceHtml = false) {
     headers.set("x-robots-tag", metadata.robots || "index,follow");
     return htmlSecurityResponse(new Response(null, { status: metadata.status, headers }), true, publicEmbed, url);
   }
-  const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
-  const requestedLocale = publicRoute.localeSource === "path" ? publicRoute.locale : url.searchParams.get("locale");
-  const htmlLocale = brazilPath(publicRoute.contentPathname)
-    ? metadata.locale
-    : publicRoute.contentPathname === "/mx"
-    ? metadata.locale
-    : [NEWS_ROUTE_MARKER, ARTICLE_ROUTE_MARKER].includes(metadata.marker)
-    ? metadata.displayLocale || metadata.locale
-    : UI_LOCALES.has(requestedLocale) ? requestedLocale : metadata.locale;
+  const htmlLocale = documentLocaleFor(metadata, url);
   const html = optimizeRouteResourceHints(
     injectRouteMetadata(await injectPrerenderedRoute(await response.text(), metadata, url, env), { ...metadata, locale: htmlLocale }),
     metadata,

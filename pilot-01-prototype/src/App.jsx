@@ -29,6 +29,7 @@ import { parseNewsListingPath } from "./data/news-library.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
+import { syncRouteSeo } from "./data/route-seo-client.js";
 import {
   modulePathsForRoute,
   preloadRouteModules,
@@ -704,43 +705,16 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const command = useMemo(() => marketCommand(copy, model.venues), [copy, model.venues]);
   const route = routeState(command.venueCatalog, initialUrl);
   useEffect(() => {
-    const text = v3Copy(locale);
     if (route.name === "newsDetail") {
       // The article component owns metadata after its feed resolves, including
       // locale switches and missing articles. Preserve the server head meanwhile.
       return;
     }
-    if (route.name === "newsList" && (route.category || route.page > 1)) {
-      // News library pages (/news/page/N, /news/category/<key>) are titled and canonicalized by the Worker.
-      return;
-    }
-    if (route.name === "tokenizedAssets") {
-      // Tokenized asset cluster metadata is owned by Worker/prerender until the
-      // shared SEO injector is coordinated for this new route family.
-      return;
-    }
-    if (route.name === "liquidations" || route.name === "fundingRates") {
-      // Data page metadata (title, hreflang, Dataset/FAQ JSON-LD) is owned by the Worker route metadata.
-      return;
-    }
-    const currentRoutedVenue = (route.name === "venue" || route.name === "factbook")
-      ? (command.venueCatalog.find((venue) => venue.slug === route.slug) || venueDatabase[route.slug])
-      : null;
-    // The injector carries the whole SEO data set (compare answers, topic guides, factbook dates); load it after the
-    // page is interactive instead of shipping it in every page's initial bundle (perf lane 2026-10-11).
-    let cancelled = false;
-    import("./data/seo-injection.js").then(({ injectSeoMetadata }) => {
-      if (cancelled) return;
-      injectSeoMetadata({
-        route,
-        locale,
-        venue: currentRoutedVenue,
-        venues: command.venueCatalog,
-        updates: model.officialUpdates ?? [],
-      });
-    }).catch(() => { /* Server-rendered metadata stays authoritative when the injector cannot load. */ });
-    return () => { cancelled = true; };
-  }, [command.venueCatalog, copy.discovery.title, copy.hero.title, locale, model.officialUpdates, route]);
+    // Route SEO is server-rendered for every route (worker routeMetadata). The browser keeps that head on first load
+    // and only after a client-side route change fetches that one route's head from /api/route-seo
+    // (src/data/route-seo-client.js, seo-payload lane 2026-10-11) instead of shipping the route tables.
+    syncRouteSeo({ pathname: window.location.pathname, search: window.location.search, locale });
+  }, [locale, route]);
 
   if (import.meta.env.DEV && typeof window !== "undefined" && window.location.pathname === "/dev/design-system") return <DesignSystem />;
   const selectedFromRoute = route.name === "compare" && route.slugs.length >= 2 ? route.slugs : compareSelection;
