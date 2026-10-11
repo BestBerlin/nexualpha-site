@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-10-11T19:18:00.000Z",
+  "liquidations": {
+    "source": "Binance USDT-M force-order stream plus OKX liquidation orders; lower bound",
+    "h24": {
+      "totalUsd": 16488040,
+      "longUsd": 2150379,
+      "shortUsd": 14337661,
+      "largest": {"symbol":"OKX:ETHUSDT","side":"short","usd":2528150,"at":"2026-10-11T15:40:26.612Z"}
+    }
+  },
+  "funding": {
+    "generatedAt": "2026-10-11T19:17:00.000Z",
+    "source": "Binance premiumIndex + OKX public funding-rate",
+    "rows": [
+      {"symbol":"BTC","binanceRate":0.00002671,"okxRate":-0.000007298152891},
+      {"symbol":"RLC","binanceRate":-0.00276609,"okxRate":null},
+      {"symbol":"S","binanceRate":-0.00017028,"okxRate":-0.0001430403954805},
+      {"symbol":"SOL","binanceRate":0.0001,"okxRate":0.0001}
+    ]
+  }
+}
