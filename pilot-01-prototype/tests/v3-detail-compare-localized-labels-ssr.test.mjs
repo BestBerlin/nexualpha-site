@@ -132,8 +132,10 @@ test("v3 detail and comparison labels are localized in server-rendered 15-locale
       assert.doesNotMatch(detailHtml, /Referral Code|Open deeper verification material|Review fees, reserves, KYC and leverage|Verify in official flow|Pending source review/, `${locale}: detail labels should not fall back to English`);
       assert.doesNotMatch(compareHtml, /CODE:|Official Action|Anti-phishing official portal|Review fees, reserves and KYC|Open platform detail links|Jump to|Verify Bybit&#x27;s regional eligibility, product scope and official fee schedule first|Published fee reference:|Published fee sources still require review|Reserve, solvency and security claims|Leverage, margin, liquidation and product limits/, `${locale}: compare labels should not fall back to English`);
       assert.ok(detailHtml.includes(escapeHtml(expectedOfficialFlow[locale])), `${locale}: localized official-flow KYC label appears in detail metrics`);
-      if (locale === "es") assert.ok(detailHtml.includes("Pendiente de verificación de la fuente"), `${locale}: localized max-leverage pending state`);
-      if (locale === "pt-BR") assert.ok(detailHtml.includes("Aguardando verificação da fonte"), `${locale}: localized max-leverage pending state`);
+      // SEO audit 2026-10-11 #6 (owner-approved): a metric tile without a checked value renders nothing instead of a
+      // localized "pending" placeholder.
+      if (locale === "es") assert.ok(!/v3-metric-tile__val[^>]*>Pendiente de verificación de la fuente/.test(detailHtml), `${locale}: no max-leverage pending tile`);
+      if (locale === "pt-BR") assert.ok(!/v3-metric-tile__val[^>]*>Aguardando verificação da fonte/.test(detailHtml), `${locale}: no max-leverage pending tile`);
       assert.ok(compareHtml.includes(escapeHtml(expectedCodeLabel[locale])), `${locale}: localized code label appears in compare CTA cells`);
       assert.ok(compareHtml.includes(escapeHtml(expectedDecisionGuideNeedle[locale])), `${locale}: localized pre-signup decision guide copy appears`);
     }

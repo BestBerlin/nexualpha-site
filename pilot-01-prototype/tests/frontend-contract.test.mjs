@@ -683,9 +683,10 @@ test("news detail adds compact first-decision summaries for priority CTR article
     newsDetailPage.indexOf("<ArticleDecisionSummary") < newsDetailPage.indexOf("news-detail__partners-box"),
     "first decision summary should appear before mentioned exchange cards",
   );
+  // SEO audit 2026-10-11 #5 (owner-approved): the lead answer comes first in the document; the decision rail follows the body.
   assert.ok(
-    newsDetailPage.indexOf("<ArticleDecisionSummary") < newsDetailPage.indexOf("news-detail__content"),
-    "first decision summary should appear before long article body",
+    newsDetailPage.indexOf('<section className="news-detail__content"') < newsDetailPage.indexOf("<ArticleDecisionSummary"),
+    "first decision summary follows the article body in the DOM",
   );
   assert.doesNotMatch(
     newsDetailPage,

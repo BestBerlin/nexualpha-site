@@ -18,3 +18,11 @@ export function socialImagePathForRoute(pathname, locale = "en") {
   if (clean === "/" || clean === "/funding-rates" || clean === "/rates") return `/og/default/site.png${suffix}`;
   return null;
 }
+
+// schema.org ImageObject for a page's social card (audit 2026-10-11 #2): NewsArticle JSON-LD carries the same 1200x630
+// /og/... card as og:image, in the SSR head (src/data/seo-injection.js) and the worker metadata (/api/route-seo).
+export function socialImageObject(pathname, locale = "en", origin = "https://nexualpha.com") {
+  const imagePath = socialImagePathForRoute(pathname, locale);
+  if (!imagePath) return null;
+  return { "@type": "ImageObject", url: `${origin}${imagePath}`, width: SOCIAL_IMAGE_WIDTH, height: SOCIAL_IMAGE_HEIGHT };
+}

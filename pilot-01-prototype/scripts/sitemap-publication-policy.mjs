@@ -3,13 +3,15 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { COUNTRY_ROUTE_PREFIXES, isLocalePathEligible, localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
+import { hreflangAlternates, newsArticleSeoLocales, newsListingIndexableLocales } from "../src/data/news-feed-client.js";
+import { parseNewsListingPath } from "../src/data/news-library.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const origin = "https://nexualpha.com";
 const defaultBaselinePath = path.join(root, "config", "search-publication-baseline.json");
 export const SEARCH_PUBLICATION_VERSION = "nexualpha-search-publication-v1";
 const SITEMAP_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
-const SITEMAP_SECONDARY_STATIC_PATHS = new Set(["/embed/calculator", "/partners"]);
+const SITEMAP_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SITEMAP_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
 const SITEMAP_REVIEWED_TRILINGUAL_VENUES = new Set(["drift", "deribit"]);
 const SITEMAP_PRIORITY_FACTBOOK = new Set(["binance", "okx", "bybit", "bitget", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -148,6 +150,22 @@ export function loadSearchPublicationBaseline({ projectRoot = root } = {}) {
     protectedIndexedUrls: unique((parsed.protectedIndexedUrls || []).map(normalizeUrl)),
     historicalIndexedUrlDispositions: normalizeHistoricalIndexedUrlDispositions(parsed.historicalIndexedUrlDispositions),
   };
+}
+
+// hreflang for one sitemap <loc> (audit 2026-10-11 #1: 113 URLs had a smaller alternate set in sitemap.xml than on the
+// page and in /locale-sitemap.xml). Alternates come only from the helpers the page head uses, so every sitemap entry
+// that carries them agrees with the page:
+//   - /news/<slug>: the article's indexable editions (newsArticleSeoLocales, the SSR head's function);
+//   - /news listings: the locales with enough native articles (newsListingIndexableLocales, the worker's function);
+//   - every other route: none here. Their hreflang lives on the page and in /locale-sitemap.xml, both built by the
+//     worker's routeMetadata, so this file never states a second, different set for the same URL.
+export function sitemapHreflangAlternates(pathname, { article = null, newsArticles = [] } = {}) {
+  const href = (locale) => `${origin}${localizedPath(pathname, locale)}`;
+  if (/^\/news\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(pathname) && !parseNewsListingPath(pathname)) {
+    return article ? hreflangAlternates(newsArticleSeoLocales(article), href) : [];
+  }
+  if (pathname === "/news" || parseNewsListingPath(pathname)) return hreflangAlternates(newsListingIndexableLocales(newsArticles), href);
+  return [];
 }
 
 export function sitemapUrl(pathname, locale) {

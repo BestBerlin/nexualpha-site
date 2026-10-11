@@ -1,4 +1,4 @@
-import { localizedNewsTitle, localizedNewsSummary, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
+import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
 import { topicFaqSchemaEntries } from "../src/data/topic-source-registry.js";
 import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokenized-assets-cluster.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
@@ -9,7 +9,9 @@ import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
 import { ONCHAIN_GUIDE_LOCALES, ONCHAIN_GUIDE_PATH, onchainGuideSchema, onchainGuideSeo } from "../src/data/onchain-guide.js";
 import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
 import { ACTIVE_COMPARE_VENUE_SLUGS, CURATED_COMPARISON_SLUGS, canonicalComparePairSlug, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, indexableGeneratedComparePairs, parseComparePair } from "../src/data/compare-generated.js";
-import { socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
+import { newsReadTimes } from "../src/data/news-read-time.js";
+import { dropEmptyArticleHeadings } from "../src/data/article-empty-headings.js";
+import { socialImageObject, socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
 import { VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERNATIVE_PAGES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "../src/data/venue-alternatives.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
@@ -3533,6 +3535,8 @@ function summarizeNewsArticle(article) {
     publishedAt: article.publishedAt,
     updatedAt: article.updatedAt || null,
     readTime: article.readTime || "6 min",
+    // Per-edition reading time written by the importer (SEO audit 2026-10-11 #7); article pages measure their own body.
+    ...(article.readTimeByLocale && typeof article.readTimeByLocale === "object" ? { readTimeByLocale: article.readTimeByLocale } : {}),
     author: article.author || "NexuAlpha Research Desk",
     title: article.title,
     summary: article.summary,
@@ -3777,7 +3781,7 @@ function renderNewsFallbackBody(metadata, url) {
   const contentLocale = newsContentLocale(locale, article);
   const showsOriginalLanguage = contentLocale !== locale;
   const content = dedupeLongSentences(showsOriginalLanguage ? summary : (localizedArticleText(article.content, contentLocale) || summary));
-  const contentHtml = isolateArticleEmbedDirectives(content).split("\n\n").map((block, index) => markdownBlockHtml(block, index, locale)).join("");
+  const contentHtml = dropEmptyArticleHeadings(isolateArticleEmbedDirectives(content)).split("\n\n").map((block, index) => markdownBlockHtml(block, index, locale)).join("");
   const relatedLinksHtml = renderArticleClusterLinksHtml(article, locale) + renderNewsRelatedArticlesHtml(article, metadata.newsArticles, locale) + renderArticleRelatedLinks(article, locale);
   const sourcesHtml = Array.isArray(article.sources) && article.sources.length
     ? `<h2>${escapeHtml(t.sources)}</h2><ul>${article.sources.map((source) => `<li><a href="${escapeHtml(source?.url || "#")}" rel="noopener noreferrer">${escapeHtml(source?.publisher || source?.title || source?.url || "Source")}${source?.title ? `: ${escapeHtml(source.title)}` : ""}</a></li>`).join("")}</ul>`
@@ -3786,7 +3790,7 @@ function renderNewsFallbackBody(metadata, url) {
     <article class="news-detail-container v2-shell">
       <nav class="news-detail__nav"><a href="${escapeHtml(newsHref)}" class="news-detail__back">${escapeHtml(t.back)}</a></nav>
       <header class="news-detail__header">
-        <div class="news-detail__meta"><span class="news-detail__tag">${escapeHtml(localizedArticleText(article.categoryName, locale) || article.category || "research")}</span><time class="news-detail__date" datetime="${escapeHtml(article.publishedAt || "")}">${escapeHtml(String(article.publishedAt || "").slice(0, 10))}</time><span class="news-detail__readtime">${escapeHtml(article.readTime || "")}</span></div>
+        <div class="news-detail__meta"><span class="news-detail__tag">${escapeHtml(localizedArticleText(article.categoryName, locale) || article.category || "research")}</span><time class="news-detail__date" datetime="${escapeHtml(article.publishedAt || "")}">${escapeHtml(String(article.publishedAt || "").slice(0, 10))}</time><span class="news-detail__readtime">${escapeHtml(newsReadTimes(article.content)[contentLocale] || article.readTime || "")}</span></div>
         <h1 class="news-detail__title">${escapeHtml(title)}</h1>
         <p class="news-detail__summary">${escapeHtml(summary)}</p>
         <div class="news-detail__author-bar"><span>${escapeHtml(t.author)}: <strong>${escapeHtml(article.author || "NexuAlpha Research Desk")}</strong></span></div>
@@ -4222,7 +4226,7 @@ export function renderLiveNewsSitemap(articles, now = Date.now()) {
       rows.push([
         "  <url>",
         `    <loc>${xmlText(href(article.slug, locale))}</loc>`,
-        ...[...locales, "x-default"].map((alt) => `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlText(href(article.slug, alt === "x-default" ? "en" : alt))}" />`),
+        ...sitemapAlternateLines(routeAlternates(`/news/${article.slug}`, locales)),
         "    <news:news>",
         "      <news:publication>",
         "        <news:name>NexuAlpha</news:name>",
@@ -4395,9 +4399,10 @@ export function renderNewsLibrarySitemap(articles) {
     const newest = items.reduce((max, item) => Math.max(max, Date.parse(item?.updatedAt || item?.publishedAt) || 0), 0);
     return newest ? new Date(newest).toISOString() : null;
   };
-  // Listing pages exist in the core editions plus every locale with at least one search-published native article.
-  const listingLocales = newsListingPublishedLocales(articles);
-  const alternates = (path) => [...listingLocales, "x-default"].map((alt) => `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlText(localizedCanonical(path, alt === "x-default" ? "en" : alt))}" />`);
+  // Listing pages are indexable (and listed) in English plus every locale with at least NEWS_LISTING_MIN_NATIVE_ARTICLES
+  // search-published native articles (audit 2026-10-11 #4, scorecard M3); thinner locale listings render as noindex.
+  const listingLocales = newsListingIndexableLocales(articles);
+  const alternates = (path) => sitemapAlternateLines(routeAlternates(path, listingLocales));
   for (const category of [null, ...NEWS_CATEGORY_KEYS]) {
     const { totalPages, total } = paginateNews(articles, { category });
     if (!total) continue;
@@ -5641,11 +5646,14 @@ function buildWorkerTopicSchema(topic, locale, canonicalUrl, seoOverride = null)
   return schemas;
 }
 
+// One hreflang shape for the page head, /api/route-seo and every sitemap (audit 2026-10-11 #1): hreflangAlternates in
+// src/data/news-feed-client.js, which the build/publisher sitemap writers use too.
 function routeAlternates(pathname, locales = INDEXABLE_LOCALES) {
-  return [
-    ...locales.map((hreflang) => ({ hreflang, href: localizedCanonical(pathname, hreflang) })),
-    { hreflang: "x-default", href: localizedCanonical(pathname, locales[0] || "en") },
-  ];
+  return hreflangAlternates(locales, (hreflang) => localizedCanonical(pathname, hreflang));
+}
+
+function sitemapAlternateLines(alternates = []) {
+  return alternates.map((alt) => `    <xhtml:link rel="alternate" hreflang="${xmlText(alt.hreflang)}" href="${xmlText(alt.href)}" />`);
 }
 
 function searchPublishedNewsSlugs(articles = []) {
@@ -5670,10 +5678,11 @@ function searchPublicationLocales(pathname, options = {}) {
   }[pathname];
   if (regionalLocales) return regionalLocales;
   if (pathname === "/topics" || pathname === "/factbook") return ["en"];
-  if (pathname === "/embed/calculator") return ["en"];
-  if (pathname === "/news") return newsListingPublishedLocales(options.newsArticles);
+  // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
+  if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
+  if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
   const newsListing = parseNewsListingPath(pathname);
-  if (newsListing && !newsListing.invalid && !newsListing.redirect) return newsListingPublishedLocales(options.newsArticles);
+  if (newsListing && !newsListing.invalid && !newsListing.redirect) return newsListingIndexableLocales(options.newsArticles);
   if (options.article) {
     if (typeof options.searchPublished === "boolean") {
       return options.searchPublished && isReviewedNewsSearchArticle(options.article) ? articleSeoLocales(options.article) : [];
@@ -6734,9 +6743,13 @@ async function routeMetadataBase(url, env, newsFeed) {
     // Summary rows still declare their editions in `availableLocales`, so a locale listing is published once one
     // search-published article carries that edition; the core editions stay published.
     const publishedLocales = newsListingPublishedLocales(newsFeed?.articles || []);
+    // Indexable only with >= NEWS_LISTING_MIN_NATIVE_ARTICLES native editions (audit 2026-10-11 #4); a thinner locale
+    // listing keeps its self-canonical edition but is noindex,follow without hreflang.
+    const indexableLocales = newsListingIndexableLocales(newsFeed?.articles || []);
     const contentLocale = newsContentLocale(locale, publishedLocales);
     const displayLocale = UI_LOCALES.has(locale) ? locale : contentLocale;
     const isPublishedLocale = publishedLocales.includes(locale) && contentLocale === locale;
+    const isIndexableLocale = isPublishedLocale && indexableLocales.includes(locale);
     const newsCopy = {
       "zh-Hans": ["市场新闻与源头核验研究 — NexuAlpha", "NexuAlpha 提供带来源链接的加密市场结构、交易平台、风险与代币化资产研究。"],
       "zh-Hant": ["市場新聞與來源核驗研究 — NexuAlpha", "NexuAlpha 提供附來源連結的加密市場結構、交易平台、風險與代幣化資產研究。"],
@@ -6772,9 +6785,9 @@ async function routeMetadataBase(url, env, newsFeed) {
       ...localizedCopy,
       canonical: localizedCanonical(listingPath, contentLocale),
       locale: displayLocale,
-      robots: isPublishedLocale && hasArticles ? "index,follow" : "noindex,follow",
+      robots: isIndexableLocale && hasArticles ? "index,follow" : "noindex,follow",
       marker: NEWS_ROUTE_MARKER,
-      alternates: isPublishedLocale && hasArticles ? routeAlternates(listingPath, publishedLocales) : [],
+      alternates: isIndexableLocale && hasArticles ? routeAlternates(listingPath, indexableLocales) : [],
       // Heading and intro are the NewsListPage hero copy (one source for SSR, fallback and client).
       newsListing: { category, page, total: pagination.total, totalPages: pagination.totalPages, path: listingPath, heading: categoryCopy ? categoryCopy.label : newsListHeroCopy(displayLocale).title, intro: categoryCopy ? categoryCopy.intro : newsListHeroCopy(displayLocale).subtitle },
       schema: {
@@ -6845,6 +6858,8 @@ async function routeMetadataBase(url, env, newsFeed) {
         datePublished: article.publishedAt,
         dateModified: article.updatedAt || article.publishedAt,
         mainEntityOfPage: { "@type": "WebPage", "@id": articleCanonical },
+        // The article's own 1200x630 social card, same URL as og:image (audit 2026-10-11 #2).
+        image: [socialImageObject(canonicalPath, locale, PUBLIC_ORIGIN)].filter(Boolean),
         inLanguage: contentLocale,
         author: newsArticleAuthor(article),
         publisher: NEXUALPHA_PUBLISHER,
@@ -7155,6 +7170,9 @@ async function appHtmlResponse(response, url, env, forceHtml = false, request = 
   const headers = new Headers(response.headers);
   if (metadata.newsSsrMode) headers.set("x-nexualpha-news-render", metadata.newsSsrMode);
   if (metadata.fallbackSsrMode) headers.set("x-nexualpha-fallback-render", metadata.fallbackSsrMode);
+  // Iframe widgets carry noindex in the header too, as the server-rendered /embed/liquidations widgets do (SEO audit
+  // 2026-10-11 #13); HEAD already mirrors metadata.robots above.
+  if (/^\/embed(?:\/|$)/.test(url.pathname)) headers.set("x-robots-tag", metadata.robots || "noindex,follow");
   headers.delete("content-length");
   return withHomeHeroHeaders(htmlSecurityResponse(new Response(html, {
     status: metadata.status,

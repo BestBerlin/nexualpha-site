@@ -1754,7 +1754,7 @@ ${list(v.compliance?.licensesEn)}
 ${baseFeeLines(v.slug)}
 - Any fee table or tier label below is a research pointer only; do not calculate a user's effective cost from it.
 ${tierNames}
-- Partner codes, rebates, welcome packages, commissions and other commercial terms are intentionally omitted from this machine-readable surface.
+- Partner invite codes and fee-return shares are listed under Key facts in https://nexualpha.com/llms.txt with the commission disclosure; welcome packages and campaign amounts are not asserted here.
 
 ## Reserves and security
 - Reserve ratios, asset coverage, auditor status, security-fund amounts and risk scores are not asserted here.

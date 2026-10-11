@@ -99,13 +99,15 @@ test("Wave49 llms generator exposes new assets without creating indexable resear
     const llms = await readFile(join(outputDir, "llms.txt"), "utf8");
     const full = await readFile(join(outputDir, "llms-full.txt"), "utf8");
     for (const text of [llms, full]) {
-      assert.match(text, /Wave48 Perp DEX cost citations/);
+      assert.match(text, /Perp DEX cost citations/);
+      assert.doesNotMatch(text, /\bWave\d+\b/, "llms labels carry no internal wave names (SEO audit 2026-10-11 #9)");
       assert.match(text, /wave48-perp-dex-cost-citations\.json/);
       assert.match(text, /wave48-perp-dex-cost-citations\.csv/);
-      assert.match(text, /Wave48 tokenized Treasury rights and operations/);
+      assert.match(text, /Tokenized Treasury rights and operations/);
       assert.match(text, /wave48-tokenized-treasury-rights-ops\.json/);
       assert.match(text, /Canonical owner: https:\/\/nexualpha\.com\/topics\/tokenized-treasuries/);
-      assert.doesNotMatch(text, /direct ownership guarantee|yield guarantee|guaranteed registration|private commission|invite code|\/ref\/|ref=/i);
+      // Partner invite codes are listed with the commission disclosure since the SEO audit 2026-10-11 #9 (owner-approved).
+      assert.doesNotMatch(text, /direct ownership guarantee|yield guarantee|guaranteed registration|private commission|\/ref\//i);
     }
 
     const sitemap = await readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8");

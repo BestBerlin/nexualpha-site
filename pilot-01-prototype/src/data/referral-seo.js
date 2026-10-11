@@ -5,6 +5,7 @@
 // referral-partners.generated.js (scripts/generate-referral-partners.mjs); nothing is typed by hand here, and an
 // exchange without a real invite route gets no referral title.
 import { REFERRAL_PARTNERS } from "./referral-partners.generated.js";
+import { trPercentDative } from "./tr-percent.js";
 
 const YEAR = () => new Date().getUTCFullYear();
 
@@ -69,9 +70,9 @@ const COPY = {
     (n, c, p) => `Реферальный код ${n} ${c}: комиссии, условия и официальная ссылка проверены NexuAlpha${p ? `; до ${p}% комиссий возвращает ${n}` : ""}. Партнёрская ссылка раскрыта.`,
   ],
   tr: [
-    (n, c, p, y) => `${n} referans kodu ${c}: %${p}'e varan komisyon iadesi (${y})`,
+    (n, c, p, y) => `${n} referans kodu ${c}: ${trPercentDative(p)} varan komisyon iadesi (${y})`,
     (n, c, y) => `${n} referans kodu ${c}: kayıt ve ücretler (${y})`,
-    (n, c, p) => `${n} referans kodu ${c}: ücretler ve resmî bağlantı NexuAlpha kontrolünden geçti${p ? `; ücretlerin %${p}'e varan kısmını ${n} iade eder` : ""}. Ortaklık bağlantısı.`,
+    (n, c, p) => `${n} referans kodu ${c}: ücretler ve resmî bağlantı NexuAlpha kontrolünden geçti${p ? `; ücretlerin ${trPercentDative(p)} varan kısmını ${n} iade eder` : ""}. Ortaklık bağlantısı.`,
   ],
   id: [
     (n, c, p, y) => `Kode referral ${n} ${c}: rabat biaya hingga ${p}% (${y})`,

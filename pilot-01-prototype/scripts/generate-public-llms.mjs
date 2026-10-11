@@ -10,6 +10,7 @@ import { localizedPath } from "../src/data/locale-routing.js";
 import { localizedValue, normalizeNewsFeed } from "../src/data/news-feed-client.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { brandSlogan } from "../src/data/brand-slogan.js";
+import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
 import { topicReviewedFaqRecords } from "../src/data/topic-reviewed-faqs.js";
 import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
@@ -32,9 +33,9 @@ const PUBLIC_LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "
 const REGIONAL_FUNDING_MATRIX_REVIEWED_AT = "2026-09-15";
 const REGIONAL_FUNDING_MATRIX_COVERAGE = "Reviewed funding checklist rows currently cover BR, MX, TW, ID, EU, UK, US, JP, HK, KR, SG and TR; every rail and account outcome still requires confirmation in the official logged-in account flow.";
 const REGIONAL_FUNDING_MATRIX_LIMITATIONS = "The matrix is a dated research checklist, not a live-rate feed, account approval decision, funding availability promise, product-access promise, user-benefit promise or registration outcome.";
-const WAVE48_ASSET_LIMITATIONS = "These Wave48 assets are dated source-review snapshots, not live rates, live yield, trading recommendations, legal advice, account eligibility decisions, registration outcomes, ownership guarantees or referral routes.";
-const WAVE56_PERP_DEX_FINDING = "Wave56 finding: across Hyperliquid, dYdX, GMX and Aevo, all 24 required venue-field records are source-backed as known, but Perp DEX cost review still requires the full fee, funding, collateral, margin, oracle and liquidation stack rather than a single static fee or live funding quote.";
-const WAVE57_TOKENIZED_TREASURY_FINDING = "Wave57 finding: the reviewed tokenized Treasury matrix covers five products across four distinct product types; compare issuer/legal wrapper, recordkeeper, custody, redemption, eligibility jurisdiction and yield basis before comparing yield, token addresses or venue access.";
+const WAVE48_ASSET_LIMITATIONS = "These assets are dated source-review snapshots, not live rates, live yield, trading recommendations, legal advice, account eligibility decisions, registration outcomes, ownership guarantees or referral routes.";
+const WAVE56_PERP_DEX_FINDING = "Finding: across Hyperliquid, dYdX, GMX and Aevo, all 24 required venue-field records are source-backed as known, but Perp DEX cost review still requires the full fee, funding, collateral, margin, oracle and liquidation stack rather than a single static fee or live funding quote.";
+const WAVE57_TOKENIZED_TREASURY_FINDING = "Finding: the reviewed tokenized Treasury matrix covers five products across four distinct product types; compare issuer/legal wrapper, recordkeeper, custody, redemption, eligibility jurisdiction and yield basis before comparing yield, token addresses or venue access.";
 const allNewsArticles = normalizeNewsFeed(JSON.parse(await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8")));
 const newsPublication = selectSitemapPublicationEntries(routeInventory(allNewsArticles), allNewsArticles, {
   policy: loadSearchPublicationBaseline(),
@@ -74,18 +75,48 @@ const sourceLines = Object.entries(internationalSourceRegistry).flatMap(([market
   ]) : ["- No authority source pack selected for this market."]),
 ]);
 
-const header = `# NexuAlpha public source review index
+// What the site is, in one sentence that starts with brand slogan A (SEO audit 2026-10-11 #9, owner-approved): independent
+// exchange research with disclosed partner links and invite codes. The old text called the site a "neutral directory"
+// and said referral codes were omitted, the opposite of what the venue pages say.
+const SITE_SUMMARY = `${brandSlogan("en").replace(/[.。]\s*$/, "")}: NexuAlpha is independent crypto exchange research that checks trading fees, official domains and sign-up routes against each exchange's own sources, with disclosed partner links and invite codes.`;
+// Same sentence as the site's registration-card and footer disclosure (src/components/v3/RegistrationCard.jsx disclosureShort).
+const COMMISSION_DISCLOSURE = "Partner links may earn NexuAlpha a platform-paid commission at no extra cost to you.";
+const partnersFeed = buildPartnersFeed();
+const percent = (share) => `${Math.round(Number(share) * 100)}%`;
+const partnerFactLines = partnersFeed.partners.filter((partner) => partner.inviteCode).map((partner) => {
+  const share = Number.isFinite(partner.share) && partner.share > 0
+    ? `up to ${percent(partner.share)} of trading fees returned${partner.settle ? `, settled ${partner.settle}` : ""}${partner.termsConfirmedOn ? ` (terms confirmed ${partner.termsConfirmedOn})` : ""}`
+    : "no fee-return share published";
+  return `- ${partner.name}: invite code ${partner.inviteCode}; ${share}; profile ${partner.profile}`;
+});
+const keyFactsCompact = `## Key facts
 
-> ${brandSlogan("en")}
+- Independent exchange research, not an exchange, broker, adviser or custodian. ${COMMISSION_DISCLOSURE} Disclosure: ${PUBLIC_ORIGIN}/methodology#disclosure.
+${partnerFactLines.filter((line) => line.includes("% of trading fees")).join("\n")}
+- Every partner invite code: ${PUBLIC_ORIGIN}/llms.txt (Key facts) and ${PUBLIC_ORIGIN}/intel/partners.json.
+`;
+const keyFacts = `## Key facts
 
-NexuAlpha is a neutral research directory for comparing crypto trading venues and finding official destination links. This index is designed for retrieval by search and answer systems. It is not an operator statement, financial advice, legal advice, suitability assessment, or account-eligibility decision.
+- NexuAlpha compares crypto exchanges (CEX, DEX and perp DEX): fees, official domains, account conditions and sign-up routes, each with an official source and date. It is not an exchange, broker, adviser or custodian and never asks for private keys.
+- Commercial model: ${COMMISSION_DISCLOSURE} Disclosure: ${PUBLIC_ORIGIN}/methodology#disclosure and ${PUBLIC_ORIGIN}/editorial-policy.
+- Partner invite codes and fee-return shares (machine-readable: ${PUBLIC_ORIGIN}/intel/partners.json; fees checked ${partnersFeed.feesAsOf}):
+${partnerFactLines.map((line) => `  ${line}`).join("\n")}
+- A fee-return share is part of the trading fees the exchange pays back to the user's account; current terms are confirmed on the exchange's own page.
+`;
 
+const header = `# NexuAlpha
+
+> ${SITE_SUMMARY}
+
+This index is designed for retrieval by search and answer systems. It is not an operator statement, financial advice, legal advice, suitability assessment, or account-eligibility decision.
+
+${keyFacts}
 ## Public data boundary
 
-- Review record date: ${AUDIT_DATE}
+- Factbook source review date: ${AUDIT_DATE}
 - Technical index audit: ${TECHNICAL_INDEX_AUDIT_DATE} (route, schema, sitemap and link-integrity verification; this does not change item-level source review dates)
 - NexuAlpha data license and reuse boundary: https://nexualpha.com/methodology#data-license. Access to public datasets and machine-readable indexes does not grant redistribution, republication or sublicensing rights; third-party source documents retain their original rights.
-- Commercial terms, referral codes, commissions, rebates and welcome offers are omitted from this machine-readable layer.
+- Partner invite codes and fee-return shares are listed under Key facts with the commission disclosure; welcome offers and campaign amounts are not asserted here.
 - Fee values, reserve figures, security scores, licensing conclusions and regional availability are not asserted unless an item-level official source and date are shown.
 - If a source or date is missing, report the field as pending source review instead of inferring a value.
 - The canonical human-readable context is each linked Factbook page; time-sensitive claims must be checked against the operator or regulator source.
@@ -116,8 +147,8 @@ NexuAlpha is a neutral research directory for comparing crypto trading venues an
 These assets expose stable field definitions and verification checklists. They are dated research snapshots, not live rates, account eligibility decisions or promises that a funding route is currently available.
 
 - [Perp DEX cost-field dictionary](https://nexualpha.com/topics/derivatives#perp-cost-field-dictionary) — [JSON](https://nexualpha.com/research/perp-dex-cost-field-dictionary.json) · [CSV](https://nexualpha.com/research/perp-dex-cost-field-dictionary.csv)
-- [Wave48 Perp DEX cost citations](https://nexualpha.com/topics/derivatives#perp-cost-field-dictionary) — stable JSON: https://nexualpha.com/research/wave48-perp-dex-cost-citations.json; stable CSV: https://nexualpha.com/research/wave48-perp-dex-cost-citations.csv. Canonical owner: https://nexualpha.com/topics/derivatives#perp-cost-field-dictionary. ${WAVE56_PERP_DEX_FINDING} Limitations: ${WAVE48_ASSET_LIMITATIONS}
-- [Wave48 tokenized Treasury rights and operations](https://nexualpha.com/topics/tokenized-treasuries) — stable JSON: https://nexualpha.com/research/wave48-tokenized-treasury-rights-ops.json. Canonical owner: https://nexualpha.com/topics/tokenized-treasuries. ${WAVE57_TOKENIZED_TREASURY_FINDING} Limitations: ${WAVE48_ASSET_LIMITATIONS}
+- [Perp DEX cost citations](https://nexualpha.com/topics/derivatives#perp-cost-field-dictionary) — stable JSON: https://nexualpha.com/research/wave48-perp-dex-cost-citations.json; stable CSV: https://nexualpha.com/research/wave48-perp-dex-cost-citations.csv. Canonical owner: https://nexualpha.com/topics/derivatives#perp-cost-field-dictionary. ${WAVE56_PERP_DEX_FINDING} Limitations: ${WAVE48_ASSET_LIMITATIONS}
+- [Tokenized Treasury rights and operations](https://nexualpha.com/topics/tokenized-treasuries) — stable JSON: https://nexualpha.com/research/wave48-tokenized-treasury-rights-ops.json. Canonical owner: https://nexualpha.com/topics/tokenized-treasuries. ${WAVE57_TOKENIZED_TREASURY_FINDING} Limitations: ${WAVE48_ASSET_LIMITATIONS}
 - [Regional funding verification matrix](https://nexualpha.com/br/pix#regional-funding-verification-matrix) — Dataset reviewed: ${REGIONAL_FUNDING_MATRIX_REVIEWED_AT}; stable JSON: https://nexualpha.com/research/regional-funding-verification-matrix.json; stable CSV: https://nexualpha.com/research/regional-funding-verification-matrix.csv. Coverage: ${REGIONAL_FUNDING_MATRIX_COVERAGE} Limitations: ${REGIONAL_FUNDING_MATRIX_LIMITATIONS}
 
 ## Language and regional entry points
@@ -161,7 +192,7 @@ const canonicalVenueDetailLines = canonicalVenueDetailSlugs.map((slug) => {
     : " Sources pending item-level review.";
   return `- [${venue.name} venue detail](${seo.canonical}) — ${seo.title}; ${sourceSummary} Boundary: verify fees, account permissions, regional availability and campaign terms in the official account flow before acting.${sourceSuffix}`;
 }).join("\n");
-const canonicalVenueDetails = `\n\n## Source-backed venue detail canonicals\n\nThese are existing English venue-detail pages with source-bounded summaries. They do not create new URLs, expose private partner economics, publish referral codes, or promise registration, fees, rebates, account eligibility or execution quality.\n\n${canonicalVenueDetailLines}\n`;
+const canonicalVenueDetails = `\n\n## Source-backed venue detail canonicals\n\nThese are existing English venue-detail pages with source-bounded summaries. Partner venues show their invite code and fee-return share next to the commission disclosure (see Key facts); nothing here promises registration, fees, account eligibility or execution quality.\n\n${canonicalVenueDetailLines}\n`;
 
 const SUPPORT_OWNER_COMPARE_SLUGS = ["hyperliquid-vs-dydx", "uniswap-vs-jupiter"];
 const supportOwnerCompareLines = SUPPORT_OWNER_COMPARE_SLUGS.map((slug) => {
@@ -174,7 +205,7 @@ const supportOwnerCompareLines = SUPPORT_OWNER_COMPARE_SLUGS.map((slug) => {
   const internalLinks = answer.internalLinks?.map(([label, href]) => `[${label}](${PUBLIC_ORIGIN}${href})`).join(", ") || "Internal support links pending source review.";
   return `### ${answer.title}\n\n- Canonical: ${seo.canonical}\n- Robots: ${seo.robots}\n- Reviewed: ${answer.reviewedAt}\n- Support-owner answer: ${answer.body}\n- Primary next step: ${primaryNextStep}\n- Limitations: ${limitations}\n- Internal support links: ${internalLinks}\n- Sources: ${sourceLinks}`;
 }).filter(Boolean).join("\n\n");
-const supportOwnerComparisons = `\n\n## Support-owner comparison records\n\nThese support records mirror visible comparison-page direct-answer content. They do not create new URLs, expose private partner economics, publish referral codes, or promise route execution, trading outcomes, account eligibility or user benefits.\n\n${supportOwnerCompareLines}\n`;
+const supportOwnerComparisons = `\n\n## Support-owner comparison records\n\nThese support records mirror visible comparison-page direct-answer content. They do not promise route execution, trading outcomes, account eligibility or user benefits.\n\n${supportOwnerCompareLines}\n`;
 
 const international = `\n\n## International authority source packs\n\nThese links are research aids for jurisdiction-specific review. They do not decide whether a user or product is eligible in a market. Source pack review date: ${INTERNATIONAL_SOURCE_REVIEWED_AT}.\n\n${sourceLines.join("\n")}\n`;
 
@@ -267,12 +298,13 @@ const reviewedTopicRecords = "\n\n## Source-bound topic decision answers\n" + ['
 const full = `${header}${venueLinks}${canonicalVenueDetails}${supportOwnerComparisons}${international}${questionInventory}${priorityAnswerMap}${pixRecipientRecord}${uniswapAffiliateRecords}${compliantFundingRecords}${reviewedTopicRecords}${reviewedNewsIndex}${reviewedNewsFull}\n\n## Detailed venue records\n\n${FACTBOOK_SLUGS.map((slug) => generateLlmMarkdown(FACTBOOK_REGISTRY[slug])).join("\n\n")}`;
 
 const llms = `${header}${venueLinks}${canonicalVenueDetails}${supportOwnerComparisons}${international}${questionInventory}${priorityAnswerMap}${compliantFundingRecords}${reviewedTopicRecords}${reviewedNewsIndex}`;
-const small = `# NexuAlpha compact machine-readable entry
+const small = `# NexuAlpha
 
-> ${brandSlogan("en")}
+> ${SITE_SUMMARY}
 
-NexuAlpha is a neutral crypto trading-venue research directory. It helps answer systems and users compare CEX, DEX and Perp DEX options, verify official destination domains, and find source-bounded pages before leaving NexuAlpha.
+This compact entry helps answer systems and users compare CEX, DEX and Perp DEX options, verify official destination domains, and find source-bounded pages before leaving NexuAlpha.
 
+${keyFactsCompact}
 ## Canonical machine-readable files
 
 - Compact entry: https://nexualpha.com/llms-small.txt
@@ -291,11 +323,11 @@ NexuAlpha is a neutral crypto trading-venue research directory. It helps answer 
 
 ## Public data and commercial boundary
 
-- Review record date: ${AUDIT_DATE}.
+- Factbook source review date: ${AUDIT_DATE}.
 - Technical index audit: ${TECHNICAL_INDEX_AUDIT_DATE} (route, schema, sitemap and link-integrity verification; item-level source review dates remain unchanged).
 - Data license and reuse boundary: https://nexualpha.com/methodology#data-license. Public datasets and machine-readable indexes may be read for citation context, but access does not grant redistribution, republication or sublicensing rights.
 - NexuAlpha is not an exchange, broker, adviser, custodian, regulator or eligibility decision-maker.
-- Commercial terms, referral codes, commission rates, rebates and welcome offers are intentionally omitted from public machine-readable files.
+- Partner invite codes and fee-return shares are listed under Key facts with the commission disclosure; commission rates paid to NexuAlpha, welcome offers and campaign amounts are not asserted here.
 - Fee values, reserve figures, security scores, licensing conclusions and regional availability require an item-level official source and date.
 - Missing source/date means pending source review, not zero, unavailable or verified.
 - Account eligibility, registration success, benefit availability and funding access must be checked in the official operator account flow.

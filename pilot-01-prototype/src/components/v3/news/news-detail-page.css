@@ -878,8 +878,9 @@ html[dir="rtl"] .news-detail-page .news-detail__table-hint {
 /* Mobile first screen (2026-10-10 review): below 1024 the rail used to sit between the author line and the
    article, so the generic "Before you act on this market update" guidance pushed the first section below the
    fold on a 390px phone. The content section is flattened into the column and the rail (guidance plus any
-   venue offer with its commission disclosure, kept intact) now follows the first lead section. DOM order is
-   unchanged, so desktop's sticky rail and screen-reader order are as before. */
+   venue offer with its commission disclosure, kept intact) now follows the first lead section. Since the SEO audit
+   2026-10-11 #5 the rail also follows the body in the DOM, so the lead answer is the first content after the byline
+   for crawlers and screen readers; desktop places the rail by grid-column/grid-row, so its position is unchanged. */
 @media (max-width: 1023px) {
   #top.news-detail-page .news-detail-container:not(#_) { display: flex; flex-direction: column; align-items: stretch; }
   #top.news-detail-page .news-detail-container:not(#_) > * { order: 4; min-inline-size: 0; inline-size: 100%; box-sizing: border-box; }

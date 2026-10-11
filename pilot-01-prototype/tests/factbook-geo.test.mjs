@@ -138,7 +138,8 @@ test("public llms files expose a comprehensive, source-bounded AI knowledge grap
 
   const llmsFull = await readFile(new URL("../public/llms-full.txt", import.meta.url), "utf-8");
   assert.ok(llmsFull.length > 50000, `llms-full.txt should be comprehensive (>50KB), got ${llmsFull.length}`);
-  assert.ok(llmsFull.includes("NexuAlpha public source review index"));
+  // H1 is the brand since the SEO audit 2026-10-11 #9 (was "NexuAlpha public source review index").
+  assert.ok(llmsFull.startsWith("# NexuAlpha"));
   assert.ok(llmsFull.includes("2026-09-08"));
   assert.ok(llmsFull.includes("Hong Kong SFC"));
   assert.ok(llmsFull.includes("European Securities and Markets Authority"));
