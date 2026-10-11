@@ -18,7 +18,7 @@ import { localizedNewsTitle } from "../src/data/news-feed-client.js";
 import { newsCategoryCopy } from "../src/data/news-library.js";
 import { FACTS_AS_OF, factsForVenue, feeDisplay, venueCheckedOn } from "../src/data/exchange-facts.js";
 import { partnerRebateShare } from "../src/data/partner-benefit-status.js";
-import { brandSlogan } from "../src/data/brand-slogan.js";
+import { brandSlogan, brandSloganSecondary } from "../src/data/brand-slogan.js";
 export { socialImagePathForRoute } from "../src/data/social-image.js";
 
 export const OG_WIDTH = 1200;
@@ -153,7 +153,7 @@ function textAttrs(locale, x, y, size, { weight = 400, color = COLOR.ink, family
 }
 const textEl = (locale, x, y, size, text, options) => `<text ${textAttrs(locale, x, y, size, options)}>${escapeXml(text)}</text>`;
 
-function frame(locale, { kicker, kickerColor = COLOR.blueText }) {
+function frame(locale, { kicker, kickerColor = COLOR.blueText, brandMark = false }) {
   const l = labelsFor(locale);
   return `<defs>
   <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${COLOR.bg}"/><stop offset="1" stop-color="${COLOR.surface}"/></linearGradient>
@@ -162,18 +162,34 @@ function frame(locale, { kicker, kickerColor = COLOR.blueText }) {
 <rect width="${OG_WIDTH}" height="${OG_HEIGHT}" fill="url(#bg)"/>
 <rect width="${OG_WIDTH}" height="${OG_HEIGHT}" fill="url(#glow)"/>
 <rect x="${RTL_LOCALES.has(locale) ? OG_WIDTH - 10 : 0}" y="0" width="10" height="${OG_HEIGHT}" fill="${COLOR.blue}"/>
-${wordmark(locale)}
-${kicker ? textEl(locale, 72, 180, 24, kicker, { weight: 600, color: kickerColor, extra: 'letter-spacing="1.5"' }) : ""}
+${wordmark(locale, { brandMark })}
+${kicker ? textEl(locale, 72, 180, 24, kicker, { weight: 600, color: kickerColor, extra: RTL_LOCALES.has(locale) ? "" : 'letter-spacing="1.5"' }) : ""}
 <line x1="72" y1="${OG_HEIGHT - 88}" x2="${OG_WIDTH - 72}" y2="${OG_HEIGHT - 88}" stroke="${COLOR.line}" stroke-width="2"/>
 ${textEl(locale, 72, OG_HEIGHT - 44, 24, "nexualpha.com", { weight: 600, color: COLOR.muted })}
 ${textEl(locale, OG_WIDTH - 72, OG_HEIGHT - 44, 22, l.tagline, { color: COLOR.muted, align: "end" })}`;
 }
 
-function wordmark(locale) {
+// The real NexuAlpha mark (public/brand/nexualpha/nexualpha-round.svg, 256x256 viewBox), inlined as vector paths so
+// resvg draws it without a file read: the server's release tarball and font mount need nothing extra, and the card
+// renders the same on macOS and the Linux host. tests/brand-slogan.test.mjs keeps it identical to the public file.
+export const BRAND_MARK_PATHS = Object.freeze([
+  '<circle cx="128" cy="128" r="120" fill="#070A0E"/>',
+  '<path fill="#315CFF" d="M42 207V53h29l84 109V53h37v154h-31L79 98v109z"/>',
+  '<path fill="#0B192D" d="m77 70 25-20 100 128-27 24z"/>',
+  '<path fill="#315CFF" d="m57 49 26-22 115 148-26 26z"/>',
+  '<path fill="#1FE0C0" d="m89 184 22-22 18 17 53-70h-15l32-32 32 32h-17l-77 96-27-25-18 19z"/>',
+]);
+
+function wordmark(locale, { brandMark = false } = {}) {
   const rtl = RTL_LOCALES.has(locale);
   const x = rtl ? OG_WIDTH - 72 - 40 : 72;
-  return `<rect x="${x}" y="68" width="40" height="40" rx="10" fill="${COLOR.blue}"/>
-<path d="M${x + 11} ${68 + 29} L${x + 11} ${68 + 11} L${x + 29} ${68 + 29} L${x + 29} ${68 + 11}" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  // Default/home card (owner review 2026-10-11): the real brand mark at the same 40x40 slot; other cards keep the
+  // generic square until they are reviewed.
+  const mark = brandMark
+    ? `<svg x="${x}" y="68" width="40" height="40" viewBox="0 0 256 256">${BRAND_MARK_PATHS.join("")}</svg>`
+    : `<rect x="${x}" y="68" width="40" height="40" rx="10" fill="${COLOR.blue}"/>
+<path d="M${x + 11} ${68 + 29} L${x + 11} ${68 + 11} L${x + 29} ${68 + 29} L${x + 29} ${68 + 11}" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+  return `${mark}
 <text x="${rtl ? x - 16 : x + 56}" y="100" font-size="34" font-weight="700" fill="${COLOR.ink}" font-family="${escapeXml(FONT_FAMILY)}" text-anchor="${rtl ? "end" : "start"}" letter-spacing="-0.5">NexuAlpha</text>`;
 }
 
@@ -274,11 +290,17 @@ ${textEl(locale, 72, 492, 30, largest, { weight: 600 })}
 ${textEl(locale, 72, OG_HEIGHT - 104, 20, fill(l.lowerBound, { time: ltrIsolate(time, locale) }), { color: COLOR.muted })}`);
 }
 
-// Default / home card (owner 2026-10-11): slogan A (src/data/brand-slogan.js) is the headline under the wordmark; the
-// footer line keeps the research tagline. News, venue, compare and liquidation cards are unchanged.
+// Default / home card (owner 2026-10-11): the real brand mark, slogan B as the kicker (share from HOME_REBATE_MAX_PCT)
+// and slogan A (src/data/brand-slogan.js) as the headline under the wordmark; the footer line keeps the research
+// tagline. News, venue, compare and liquidation cards are unchanged.
 export function defaultCardSvg({ locale = "en" }) {
-  const l = labelsFor(locale);
-  return svgDocument(locale, `${frame(locale, { kicker: l.research })}\n${titleBlock(locale, brandSlogan(locale), { size: 60 })}`);
+  // resvg's bidi puts a number that follows Arabic text, and a full stop after it, at the wrong end of an RTL line. A
+  // right-to-left mark before the number keeps "60%" at the line end (left), as a browser renders it; the kicker
+  // drops its final full stop in RTL (a label, not a sentence) so nothing lands at the line start.
+  const kicker = RTL_LOCALES.has(locale)
+    ? brandSloganSecondary(locale).replace(/[.。]$/u, "").replace(/(?=\d)/u, "\u200F")
+    : brandSloganSecondary(locale);
+  return svgDocument(locale, `${frame(locale, { kicker, brandMark: true })}\n${titleBlock(locale, brandSlogan(locale), { size: 60 })}`);
 }
 
 // ---------- data: same sources the pages use ----------
@@ -455,7 +477,7 @@ export function createOgImageRoute({ clientRoot, buildId = "dev", cacheDir = nul
     }
     if (kind === "default") {
       if (id !== "site") return null;
-      return { svg: defaultCardSvg({ locale }), cacheKey: "site-slogan-v1", cacheControl: CACHE_CONTROL, persist: true };
+      return { svg: defaultCardSvg({ locale }), cacheKey: "site-slogan-v2", cacheControl: CACHE_CONTROL, persist: true };
     }
     return null;
   }

@@ -9,14 +9,15 @@
 //   - description = [slogan A when not in the title] + slogan B + the existing facts (OKX/Bitget/Binance, settled by
 //     the exchange, partner links disclosed), clamped with clampMetaDescription.
 // Slogan B (a rebate share) is left out where the home copy was already kept neutral on 2026-10-10: ru (advertising
-// rules), ar (Egypt CBE law 194/2020) and tr (Law 7518: Bitget, the 60% tier, is not SPK-listed). Those three lead
-// with slogan A and keep their neutral facts. Remove a locale from NEUTRAL_HOME_DESCRIPTION_LOCALES to add slogan B.
+// rules) and ar (Egypt CBE law 194/2020). Those two lead with slogan A and keep their neutral facts. Turkish carries
+// slogan B like the other locales (owner 2026-10-11: "土耳其站照常写"). Remove a locale from
+// NEUTRAL_HOME_DESCRIPTION_LOCALES to add slogan B.
 import { brandSlogan, brandSloganSecondary, sloganSentence, sloganTitleFragment, SLOGAN_LOCALES } from "./brand-slogan.js";
 import { clampMetaDescription, titleDisplayWidth } from "./meta-description.js";
 
 export const HOME_TITLE_BUDGET = 60;
 const BRAND_SUFFIX = " — NexuAlpha";
-export const NEUTRAL_HOME_DESCRIPTION_LOCALES = Object.freeze(new Set(["ru", "ar", "tr"]));
+export const NEUTRAL_HOME_DESCRIPTION_LOCALES = Object.freeze(new Set(["ru", "ar"]));
 
 // Search keywords of the home title (the patterns pinned in tests/seo-onpage-metadata-length.test.mjs).
 const HOME_TITLE_KEYWORDS = Object.freeze({
@@ -53,7 +54,7 @@ const HOME_FACTS = Object.freeze({
   ja: "OKX・Bitget・Binance の紹介コード。還元は取引所が支払い、提携関係を開示。",
   ko: "OKX·Bitget·Binance 추천코드, 거래소 지급. 제휴 공개.",
   ru: "Комиссии OKX, Bitget и Binance по официальным тарифам и официальные ссылки. Партнёрские ссылки раскрыты.",
-  tr: "OKX ve Binance komisyonları, referans kodları ve borsanın ödediği iade. Ortaklık bağlantıları belirtilir.",
+  tr: "OKX, Bitget, Binance: iadeyi borsa öder. Ortaklık bağlantıları belirtilir.",
   id: "OKX, Bitget dan Binance, dibayar oleh exchange. Kemitraan diungkapkan.",
   vi: "OKX, Bitget, Binance do sàn chi trả. Công bố quan hệ đối tác.",
   ar: "مقارنة رسوم OKX وBitget وBinance وفق الجداول الرسمية. روابط الشراكة مُفصح عنها.",

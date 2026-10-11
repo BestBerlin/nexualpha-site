@@ -44,7 +44,7 @@ export const BRAND_SLOGAN_SECONDARY_TEMPLATE = Object.freeze({
   ja: "あなたの手数料を、最大{max}還元。",
   ko: "수수료, 최대 {max} 환급.",
   ru: "Ваши комиссии — обратно. До {max}.", // l10n: needs native review
-  tr: "Komisyonlarınız size geri döner. En fazla {max}.", // l10n: needs native review
+  tr: "Komisyonlarınız geri döner. En fazla {max}.", // l10n: needs native review
   id: "Biaya Anda kembali. Hingga {max}.", // l10n: needs native review
   vi: "Phí giao dịch được hoàn lại. Lên đến {max}.", // l10n: needs native review
   ar: "رسومك تعود إليك. حتى {max}.", // l10n: needs native review

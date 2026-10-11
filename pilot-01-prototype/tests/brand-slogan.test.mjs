@@ -18,7 +18,7 @@ import {
 } from "../src/data/brand-slogan.js";
 import { NEUTRAL_HOME_DESCRIPTION_LOCALES, homeTitleCarriesSlogan, HOME_TITLE_BUDGET } from "../src/data/home-search-copy.js";
 import { organizationSchema, brandPageSchemas } from "../src/data/brand-entity.js";
-import { defaultCardSvg, newsCardSvg } from "../server/og-image.mjs";
+import { defaultCardSvg, newsCardSvg, BRAND_MARK_PATHS } from "../server/og-image.mjs";
 import { socialImagePathForRoute } from "../src/data/social-image.js";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -61,7 +61,7 @@ test("slogan B's share follows HOME_REBATE_MAX_PCT through formatPercent", () =>
     assert.ok(brandSloganSecondary(locale, 45).includes(formatPercent(locale, 45)), `${locale} follows a changed constant`);
     assert.ok(!brandSloganSecondary(locale, 45).includes(String(HOME_REBATE_MAX_PCT)), `${locale}: no leftover share`);
   }
-  assert.equal(brandSloganSecondary("tr"), "Komisyonlarınız size geri döner. En fazla %60.");
+  assert.equal(brandSloganSecondary("tr"), "Komisyonlarınız geri döner. En fazla %60.");
 });
 
 test("Organization JSON-LD carries slogan A in every locale, identical in the Worker head and computeRouteSeo", async () => {
@@ -121,11 +121,13 @@ test("home title fits the 60-wide budget with the brand, and slogan A sits in th
       assert.ok(description.includes(brandSloganSecondary(locale)), `${locale}: description carries slogan B`);
       assert.ok(description.includes(formatPercent(locale, HOME_REBATE_MAX_PCT)), `${locale}: share from the constant`);
     }
-    // tr names only SPK-listed exchanges (Law 7518, src/data/referral-seo.js), so Bitget stays out of the Turkish copy.
-    for (const venue of locale === "tr" ? ["OKX"] : ["OKX", "Bitget"]) assert.ok(description.includes(venue), `${locale}: ${venue} fact`);
+    for (const venue of ["OKX", "Bitget"]) assert.ok(description.includes(venue), `${locale}: ${venue} fact`);
     assert.match(description, /Binance|币安|幣安/, `${locale}: Binance fact`);
     assert.match(description, disclosure[locale], `${locale}: partner links disclosed`);
   }
+  // Owner 2026-10-11 ("土耳其站照常写"): Turkish carries slogan B; only ru and ar stay neutral.
+  assert.deepEqual([...NEUTRAL_HOME_DESCRIPTION_LOCALES].sort(), ["ar", "ru"]);
+  assert.ok(HOME_SEARCH_COPY.tr[1].includes("En fazla %60."), "tr description carries slogan B with the Turkish percent");
   // Chinese fits the full slogan in the title; English does not and leads the description with it.
   assert.equal(HOME_SEARCH_COPY["zh-Hans"][0], "邀请码与手续费返佣｜全球交易所，一个官方入口 — NexuAlpha");
   assert.equal(homeTitleCarriesSlogan("en"), false);
@@ -167,10 +169,26 @@ test("default and home social cards carry slogan A; article cards are unchanged"
     const text = decode([...svg.matchAll(/<text[^>]*>([^<]*)<\/text>/g)].map((m) => m[1]).join(" "));
     assert.ok(text.includes(/\s/.test(BRAND_SLOGAN_PRIMARY[locale]) ? words : BRAND_SLOGAN_PRIMARY[locale].slice(0, 5)), `${locale}: slogan on the default card`);
   }
+  for (const locale of LOCALES) {
+    const svg = defaultCardSvg({ locale });
+    // RTL drops the kicker's final full stop and adds a right-to-left mark before the number (resvg bidi).
+    const kicker = locale === "ar" ? brandSloganSecondary(locale).replace(/\.$/, "") : brandSloganSecondary(locale);
+    assert.ok(decode(svg).replace(/\u200F/g, "").includes(`>${kicker}<`), `${locale}: slogan B is the default card kicker`);
+    assert.ok(svg.includes(formatPercent(locale, HOME_REBATE_MAX_PCT)), `${locale}: kicker share from the constant`);
+    assert.ok(BRAND_MARK_PATHS.every((p) => svg.includes(p)), `${locale}: real brand mark on the default card`);
+    assert.ok(!svg.includes('stroke="#ffffff" stroke-width="4"'), `${locale}: generic N square removed from the default card`);
+  }
   const news = newsCardSvg({ title: "Example headline", category: "News", date: "2026-10-11", locale: "en" });
   assert.ok(!news.includes("verified gateway"), "article cards keep their own headline");
   assert.equal(socialImagePathForRoute("/"), "/og/default/site.png");
   assert.equal(socialImagePathForRoute("/", "ar"), "/og/default/site.png?locale=ar");
+});
+
+test("the default card's inlined brand mark matches public/brand/nexualpha/nexualpha-round.svg", async () => {
+  const file = await readFile(path.join(root, "public/brand/nexualpha/nexualpha-round.svg"), "utf8");
+  assert.match(file, /viewBox="0 0 256 256"/);
+  const shapes = [...file.matchAll(/<(?:circle|path)\b[^>]*\/>/g)].map((m) => m[0]);
+  assert.deepEqual(shapes, [...BRAND_MARK_PATHS]);
 });
 
 test("llms.txt and llms-small.txt lead with slogan A", async () => {
