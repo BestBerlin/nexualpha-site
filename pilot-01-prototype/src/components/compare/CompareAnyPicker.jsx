@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
 import { ACTIVE_COMPARE_VENUE_SLUGS, canonicalComparePath, comparePickerCopy } from "../../data/compare-slug.js";
 import "./compare-any-picker.css";
@@ -13,6 +13,14 @@ export function CompareAnyPicker({ locale = "en", venues = [], initial = [], pla
   const [a, setA] = useState(initial[0] || "");
   const [b, setB] = useState(initial[1] || "");
   const [error, setError] = useState("");
+  // Directory cards change `initial` after mount (pick two cards → compare); follow it so the picker is not left empty.
+  const initialKey = initial.join("|");
+  useEffect(() => {
+    if (!initialKey) return;
+    setA(initial[0] || "");
+    setB(initial[1] || "");
+    setError("");
+  }, [initialKey]);
   const action = localizedHref("/compare", { locale });
   const idPrefix = `compare-any-${placement}`;
   const onSubmit = (event) => {
