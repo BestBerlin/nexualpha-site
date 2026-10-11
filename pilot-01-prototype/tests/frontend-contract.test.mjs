@@ -960,10 +960,12 @@ test("news cards provide a direct comparison handoff when two venues are mention
 test("news list uses summary data and progressive batch rendering instead of hidden full-card DOM", () => {
   assert.match(newsListPage, /loadNewsArticleSummaries/);
   assert.match(newsListPage, /normalizeNewsFeedSummaries\(initialArticles\)/);
-  assert.match(newsListPage, /const NEWS_INITIAL_VISIBLE_COUNT = 4/);
-  assert.match(newsListPage, /const NEWS_BATCH_SIZE = 4/);
+  // Editorial index (2026-10-11): a listing page shows all of its rows (lead story + day groups); search loads page-sized batches.
+  assert.match(newsListPage, /const NEWS_INITIAL_VISIBLE_COUNT = NEWS_PAGE_SIZE/);
+  assert.match(newsListPage, /const NEWS_BATCH_SIZE = NEWS_PAGE_SIZE/);
   assert.match(newsListPage, /visibleArticles = articles\.slice\(0, visibleArticleCount\)/);
-  assert.match(newsListPage, /visibleArticles\.map/);
+  assert.match(newsListPage, /listRows = leadArticle \? visibleArticles\.slice\(1\) : visibleArticles/);
+  assert.match(newsListPage, /groupNewsByDay\(listRows\)\.map/);
   assert.match(newsListPage, /setVisibleArticleCount\(\(count\) => Math\.min\(count \+ NEWS_BATCH_SIZE, articles\.length\)\)/);
   assert.doesNotMatch(newsListPage, /showAllArticles/);
   assert.doesNotMatch(newsListPageCss, /nth-child\(n \+ 4\)[\s\S]*display:\s*none/);

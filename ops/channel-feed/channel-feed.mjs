@@ -14,7 +14,8 @@ const ENV_FILE = process.env.CHANNEL_FEED_ENV || "/srv/agent/stacks/crypto-teleg
 const SITE = "https://nexualpha.com";
 const MAX_PER_RUN = 5;
 const MAX_AGE_MS = 36 * 3600 * 1000; // never post anything older than 36 h
-const CHANNELS = (process.env.CHANNEL_FEED_TARGETS || "zh:@NexuAlphaClub").split(",").map((x) => { const [lang, chat] = x.split(":"); return { lang, chat }; });
+const CHANNELS = (process.env.CHANNEL_FEED_TARGETS || "zh:@NexuAlphaClub").split(",").map((x) => { const [lang, chat] = x.trim().split(":"); return { lang, chat }; }).filter((c) => c.lang && c.chat);
+const LOCALE_PATH = { zh: "/zh-hans", en: "", ru: "/ru", tr: "/tr", vi: "/vi" };
 
 const NAMES = { okx: "OKX", bitget: "Bitget", binance: "Binance", bybit: "Bybit", kucoin: "KuCoin", kraken: "Kraken", "gate-io": "Gate.io", hyperliquid: "Hyperliquid", mexc: "MEXC", htx: "HTX" };
 const COPY = {
@@ -33,6 +34,31 @@ const COPY = {
     official: "Official notice", signUp: (n) => `Sign up on ${n}`, more: "Compare fees",
     disclosure: "Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you.",
     time: (iso) => new Date(iso).toUTCString().replace(/:\d\d GMT$/, " UTC"),
+  },
+  // ru/tr/vi channels (2026-10-11): same facts, local wording; time in UTC with the local date format.
+  ru: {
+    cat: { listing: "Листинг", event: "Акция", delisting: "Делистинг", news: "Объявление", product: "Продукт", security: "Безопасность" },
+    terms: (p) => [p.share != null ? `до ${Math.round(p.share * 100)}% возврата` : null, p.autoSettle ? "начисляет биржа" : null, p.settle === "hourly" ? "выплата каждый час" : p.settle === "daily" ? "выплата ежедневно" : null, p.inviteCode ? `код ${p.inviteCode}` : null].filter(Boolean).join(" · "),
+    via: (n) => `Регистрация на ${n} через NexuAlpha: `,
+    official: "Официальное объявление", signUp: (n) => `Регистрация на ${n}`, more: "Сравнить комиссии",
+    disclosure: "Партнёрские ссылки могут приносить NexuAlpha комиссию от биржи без дополнительных затрат для вас.",
+    time: (iso) => new Date(iso).toLocaleString("ru-RU", { timeZone: "UTC", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " UTC",
+  },
+  tr: {
+    cat: { listing: "Listeleme", event: "Kampanya", delisting: "Listeden çıkarma", news: "Duyuru", product: "Ürün", security: "Güvenlik" },
+    terms: (p) => [p.share != null ? `en fazla %${Math.round(p.share * 100)} iade` : null, p.autoSettle ? "borsa tarafından ödenir" : null, p.settle === "hourly" ? "saatlik ödeme" : p.settle === "daily" ? "günlük ödeme" : null, p.inviteCode ? `kod ${p.inviteCode}` : null].filter(Boolean).join(" · "),
+    via: (n) => `NexuAlpha üzerinden ${n} kaydı: `,
+    official: "Resmî duyuru", signUp: (n) => `${n} hesabı aç`, more: "Komisyonları karşılaştır",
+    disclosure: "Ortaklık bağlantıları, size ek maliyet olmadan NexuAlpha'ya borsa tarafından ödenen komisyon kazandırabilir.",
+    time: (iso) => new Date(iso).toLocaleString("tr-TR", { timeZone: "UTC", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " UTC",
+  },
+  vi: {
+    cat: { listing: "Niêm yết", event: "Sự kiện", delisting: "Hủy niêm yết", news: "Thông báo", product: "Sản phẩm", security: "Bảo mật" },
+    terms: (p) => [p.share != null ? `hoàn tới ${Math.round(p.share * 100)}%` : null, p.autoSettle ? "sàn tự động thanh toán" : null, p.settle === "hourly" ? "trả mỗi giờ" : p.settle === "daily" ? "trả mỗi ngày" : null, p.inviteCode ? `mã ${p.inviteCode}` : null].filter(Boolean).join(" · "),
+    via: (n) => `Đăng ký ${n} qua NexuAlpha: `,
+    official: "Thông báo chính thức", signUp: (n) => `Đăng ký ${n}`, more: "So sánh phí",
+    disclosure: "Liên kết đối tác có thể mang lại hoa hồng do sàn trả cho NexuAlpha, bạn không mất thêm chi phí.",
+    time: (iso) => new Date(iso).toLocaleString("vi-VN", { timeZone: "UTC", day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit" }) + " UTC",
   },
 };
 
@@ -59,7 +85,7 @@ export function buildMessage(item, partner, lang) {
   const row1 = [{ text: c.official, url: item.url }];
   // tracked redirect (2026-10-10): lands on the same registration URL, attributes the click to this channel
   if (partner) row1.push({ text: c.signUp(name), url: `${SITE}/go/${partner.slug}?src=tg-channel-${lang}` });
-  const row2 = [{ text: c.more, url: `${SITE}/${lang === "zh" ? "zh-hans/" : ""}exchanges/${item.venue}` }];
+  const row2 = [{ text: c.more, url: `${SITE}${LOCALE_PATH[lang] ?? ""}/exchanges/${item.venue}` }];
   return { text: lines.join("\n"), reply_markup: { inline_keyboard: [row1, row2] } };
 }
 

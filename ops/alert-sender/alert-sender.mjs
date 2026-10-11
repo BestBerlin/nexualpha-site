@@ -19,12 +19,17 @@ const SITE = "https://nexualpha.com";
 const SUBS = process.env.ALERT_SUBSCRIPTIONS_FILE || "/var/lib/crypto-telegram-ops/alert-subscriptions.json";
 const STATE = process.env.ALERT_STATE_FILE || "/var/lib/nexualpha-alerts/state.json";
 const ENV_FILE = process.env.BOT_ENV_FILE || "/srv/agent/stacks/crypto-telegram-ops/community-poller.env";
-const CHANNELS = { zh: "@NexuAlphaClub", en: "@NexuAlphaGlobal" };
+// Per-language channels (2026-10-11 owner approved ru/tr/vi): ALERT_CHANNELS="zh:@NexuAlphaClub,en:@NexuAlphaGlobal,ru:@NexuAlphaRU,tr:-100…"
+// (private channels use their numeric -100 id). Unknown languages are dropped so a typo never posts English to a local channel.
+export const parseChannels = (spec) => Object.fromEntries(String(spec || "").split(",").map((x) => x.trim()).filter(Boolean)
+  .map((x) => [x.slice(0, x.indexOf(":")), x.slice(x.indexOf(":") + 1)]).filter(([lang, chat]) => LANGS.includes(lang) && chat));
+const CHANNELS_SPEC = process.env.ALERT_CHANNELS || "zh:@NexuAlphaClub,en:@NexuAlphaGlobal";
 const OWNER_CHAT_ID = (process.env.OWNER_CHAT_ID || "").trim();
 const CLICKS = process.env.CLICK_EVENT_FILE || "";
 // Message languages = the /alerts card languages (2026-10-11): zh, en, ru, tr, vi, id, es, pt. Anyone else gets English.
-// Channels stay zh/en (CHANNELS); DMs follow state.lang from alert-subscriptions.json.
+// Channels follow ALERT_CHANNELS (one channel per language); DMs follow state.lang from alert-subscriptions.json.
 export const LANGS = ["zh", "en", "ru", "tr", "vi", "id", "es", "pt"];
+const CHANNELS = parseChannels(CHANNELS_SPEC);
 export const msgLang = (u) => (LANGS.includes(u?.lang) ? u.lang : "en");
 // Site locale path per message language (en is the unprefixed root) and the news-feed locale key for article editions.
 export const LOCALE_PATH = { zh: "/zh-hans", en: "", ru: "/ru", tr: "/tr", vi: "/vi", id: "/id-id", es: "/es", pt: "/pt-br" };
@@ -274,7 +279,7 @@ async function cycle(tok) {
     const key = hourKey(ev.type);
     if (state.sentEvents[key] || !state.initialized) { state.sentEvents[key] = state.sentEvents[key] || "baseline"; continue; }
     const topic = ev.type === "sharp-move" ? "moves" : "liquidation";
-    for (const lang of ["zh", "en"]) await send(tok, CHANNELS[lang], eventMessage(ev, mk, lang), partnerButtons(partners, lang, `tg-alert-channel-${lang}`));
+    for (const [lang, chat] of Object.entries(CHANNELS)) await send(tok, chat, eventMessage(ev, mk, lang), partnerButtons(partners, lang, `tg-alert-channel-${lang}`));
     for (const [uid, u] of users) if (u.topics?.includes(topic)) await dm(uid, eventMessage(ev, mk, msgLang(u)), partnerButtons(partners, msgLang(u), `tg-alert-dm-${msgLang(u)}`));
     state.sentEvents[key] = new Date().toISOString();
     log(`event ${ev.type} sent`);
@@ -294,7 +299,7 @@ async function cycle(tok) {
     const feed = await getJson(`${SITE}/content/news-feed-summary.json`).catch(() => ({ articles: [] }));
     const articles = (feed.articles || []).filter((a) => Date.now() - Date.parse(a.publishedAt) < 24 * 3600e3).sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
     const campaigns = (ann.items || []).filter((i) => i.category === "event" && bySlug[i.venue] && Date.now() - Date.parse(i.publishedAt) < 48 * 3600e3);
-    for (const lang of ["zh", "en"]) { const d = digestMessage(mk, partners, articles, campaigns, lang); await send(tok, CHANNELS[lang], d.text, d.buttons); }
+    for (const [lang, chat] of Object.entries(CHANNELS)) { const d = digestMessage(mk, partners, articles, campaigns, lang); await send(tok, chat, d.text, d.buttons); }
     for (const [uid, u] of users) if (u.topics?.includes("digest")) { const lang = msgLang(u); const d = digestMessage(mk, partners, articles, campaigns, lang); await dm(uid, d.text, d.buttons); }
     state.digestDates = [...state.digestDates.slice(-30), today];
     log("daily brief sent");
