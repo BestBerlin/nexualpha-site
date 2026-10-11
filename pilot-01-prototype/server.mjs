@@ -42,9 +42,13 @@ export async function createProductionServer({ env = process.env, appRoot = root
   if (env.BUILD_ID && env.BUILD_ID !== version.buildId) throw new Error('BUILD_ID_RUNTIME_MISMATCH');
   // tracked partner redirect /go/<partner>?src= (owner 2026-10-10); clicks are appended to CLICK_EVENT_FILE when set
   const clickEventFile = env.CLICK_EVENT_FILE ? await privateDataFile(env.CLICK_EVENT_FILE, appRoot, clientRoot) : null;
-  const goRedirect = createGoRedirect({ clientRoot, eventFile: clickEventFile });
+  // Home hero copy experiment (X5): HOME_HERO_EXPERIMENT_FORCE=on|a|b previews the experiment on a local/staging build
+  // while the registry flag is off. Ignored in production, where only experimentRegistry.home_hero_copy_v1.enabled counts.
+  const heroForce = env.NODE_ENV !== 'production' && ['on', 'a', 'b'].includes(env.HOME_HERO_EXPERIMENT_FORCE) ? env.HOME_HERO_EXPERIMENT_FORCE : undefined;
+  // Both click recorders add {experiment, variant} from the visitor's hero cookie while the experiment runs.
+  const goRedirect = createGoRedirect({ clientRoot, eventFile: clickEventFile, heroForce });
   // site sign-up buttons keep their partner hrefs; the browser reports the click to POST /api/cta-click (same file, kind "site")
-  const ctaClick = createCtaClickBeacon({ clientRoot, eventFile: clickEventFile });
+  const ctaClick = createCtaClickBeacon({ clientRoot, eventFile: clickEventFile, heroForce });
   // Social data cards /og/<kind>/<id>.png (2026-10-10): rendered from the page's own data, cached per build id.
   const ogImages = createOgImageRoute({
     clientRoot, buildId: version.buildId, cacheDir: env.OG_CACHE_DIR || null, fontDir: env.OG_FONT_DIR || null,
@@ -182,6 +186,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         const renderPage = (pageRequest) => worker.fetch(pageRequest, {
           ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, INTEL_READ: intel.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
           CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
+          ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });
         result = pageCache ? await pageCache.fetch(request, renderPage) : await renderPage(request);
       }

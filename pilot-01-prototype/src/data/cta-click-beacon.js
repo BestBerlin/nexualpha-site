@@ -2,7 +2,8 @@
 // <a data-cta-kind="registration" data-cta-platform="<slug>" data-cta-placement="<placement>" href=<partner URL>>.
 // The href stays the partner link (the deploy-time CTA guard compares it), so the click is reported out of band with
 // navigator.sendBeacon('/api/cta-click', {partner, src: placement, path}) and never delays or redirects navigation.
-// Only partner, placement and the site path are sent: no IP, cookie, session or user id (see server/cta-click.mjs).
+// Only partner, placement and the site path are sent: no IP, session or user id (see server/cta-click.mjs). The request
+// is same-origin like every beacon, so the server can add the home hero experiment bucket (nx_hero cookie, a/b) to the row.
 const SRC_RE = /^[a-z0-9][a-z0-9_-]{0,47}$/;
 const PATH_RE = /^\/[A-Za-z0-9/_.~%-]{0,199}$/;
 export const CTA_CLICK_ENDPOINT = '/api/cta-click';
@@ -43,7 +44,8 @@ export function sendCtaClick(payload, { navigator: nav = globalThis.navigator, f
     if (typeof nav?.sendBeacon === 'function') return nav.sendBeacon(CTA_CLICK_ENDPOINT, new Blob([body], { type: 'application/json' }));
   } catch { /* fall through to fetch */ }
   if (typeof fetcher !== 'function') return false;
-  fetcher(CTA_CLICK_ENDPOINT, { method: 'POST', headers: { 'content-type': 'application/json' }, body, keepalive: true, credentials: 'omit' }).catch(() => {});
+  // same-origin (like sendBeacon): the server reads only the home hero experiment bucket cookie (nx_hero) from it.
+  fetcher(CTA_CLICK_ENDPOINT, { method: 'POST', headers: { 'content-type': 'application/json' }, body, keepalive: true, credentials: 'same-origin' }).catch(() => {});
   return true;
 }
 

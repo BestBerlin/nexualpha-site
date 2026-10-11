@@ -16,6 +16,8 @@ import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, br
 import { newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
 import { factbookDates } from "../src/data/factbook-dates.js";
+import { assignHomeHeroVariant, homeHeroSetCookie } from "../src/data/home-hero-experiment.js";
+import { articleEmbedHtml, articleEmbedModel, isolateArticleEmbedDirectives, parseArticleEmbed, stripArticleEmbedDirectives } from "../src/data/article-embeds.js";
 import { repairNewsArticle } from "../src/data/news-content-repair.js";
 import { TOOL_CLUSTER_IDS, articleClusterLineLabel, articleClusterLinks, toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
@@ -117,13 +119,13 @@ export default {
     const looksLikeAppRoute = !url.pathname.startsWith("/api/") && !pathHasFileExtension(url.pathname);
 
     if (response.status !== 404 || (!acceptsHtml && !looksLikeAppRoute) || !["GET", "HEAD"].includes(request.method)) {
-      return appHtmlResponse(response, url, env);
+      return appHtmlResponse(response, url, env, false, request);
     }
 
     const indexUrl = new URL(request.url);
     indexUrl.pathname = "/index.html";
     indexUrl.search = "";
-    return appHtmlResponse(await env.ASSETS.fetch(assetFetchRequest(request, indexUrl, stripTrackedBrazilHtmlValidators)), url, env, true);
+    return appHtmlResponse(await env.ASSETS.fetch(assetFetchRequest(request, indexUrl, stripTrackedBrazilHtmlValidators)), url, env, true, request);
   },
 };
 
@@ -3176,7 +3178,7 @@ function newsCollectionSchema({ title, contentLocale, displayLocale, articles = 
 }
 
 function plainMarkdownText(value) {
-  return String(value || "")
+  return stripArticleEmbedDirectives(String(value || ""))
     .trim()
     .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
     .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
@@ -3450,6 +3452,8 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
     ...(route.officialAnnouncements && typeof route.officialAnnouncements === "object" ? { officialAnnouncements: route.officialAnnouncements } : {}),
+    // Home hero copy experiment (X5): the variant this HTML was rendered with; the browser hydrates the same one.
+    ...(route.heroVariant === "a" || route.heroVariant === "b" ? { heroVariant: route.heroVariant } : {}),
     ...(route.toolArticles && typeof route.toolArticles === "object" ? { toolArticles: route.toolArticles } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
@@ -3660,6 +3664,9 @@ const newsTableScrollHints = {
 function markdownBlockHtml(block, index = 0, locale = "en") {
   const text = String(block || "").trim();
   if (!text) return "";
+  // `::embed <widget>` (D3): same block as the React article renderer; unknown widgets render nothing.
+  const embed = parseArticleEmbed(text);
+  if (embed) return articleEmbedHtml(articleEmbedModel(embed, locale));
   if (text.startsWith("### ")) return `<h3>${markdownInlineHtml(text.replace(/^###\s+/, ""), locale)}</h3>`;
   if (text.startsWith("## ")) return `<h2>${markdownInlineHtml(text.replace(/^##\s+/, ""), locale)}</h2>`;
   const lines = text.split("\n").map((line) => line.trim()).filter(Boolean);
@@ -3768,7 +3775,7 @@ function renderNewsFallbackBody(metadata, url) {
   const contentLocale = newsContentLocale(locale, article);
   const showsOriginalLanguage = contentLocale !== locale;
   const content = dedupeLongSentences(showsOriginalLanguage ? summary : (localizedArticleText(article.content, contentLocale) || summary));
-  const contentHtml = content.split("\n\n").map((block, index) => markdownBlockHtml(block, index, locale)).join("");
+  const contentHtml = isolateArticleEmbedDirectives(content).split("\n\n").map((block, index) => markdownBlockHtml(block, index, locale)).join("");
   const relatedLinksHtml = renderArticleClusterLinksHtml(article, locale) + renderNewsRelatedArticlesHtml(article, metadata.newsArticles, locale) + renderArticleRelatedLinks(article, locale);
   const sourcesHtml = Array.isArray(article.sources) && article.sources.length
     ? `<h2>${escapeHtml(t.sources)}</h2><ul>${article.sources.map((source) => `<li><a href="${escapeHtml(source?.url || "#")}" rel="noopener noreferrer">${escapeHtml(source?.publisher || source?.title || source?.url || "Source")}${source?.title ? `: ${escapeHtml(source.title)}` : ""}</a></li>`).join("")}</ul>`
@@ -4154,13 +4161,29 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   }
   let routePayload = route;
   let appHtml = route.html;
-  if (isPrerenderAssetPath(route.asset)) {
+  // Home hero copy experiment (X5): a visitor assigned to "b" gets the build-time variant B prerender of the same edition.
+  // If that asset is unavailable the page falls back to A and says so (heroServed), never to a client-side swap.
+  const heroAssignment = metadata.heroAssignment;
+  let heroServed = heroAssignment?.active ? "a" : null;
+  if (heroAssignment?.variant === "b" && isPrerenderAssetPath(route.heroVariants?.b)) {
+    const payloadB = await loadPrerenderAssetPayload({ asset: route.heroVariants.b }, url, env);
+    if (payloadB && typeof payloadB.html === "string" && payloadB.html) {
+      routePayload = { ...route, ...payloadB };
+      appHtml = payloadB.html;
+      heroServed = "b";
+    }
+  }
+  if (heroServed !== "b" && isPrerenderAssetPath(route.asset)) {
     const payload = await loadPrerenderAssetPayload(route, url, env);
     if (!payload && !appHtml) return fallback();
     if (payload) {
       routePayload = { ...route, ...payload };
       if (typeof payload.html === "string") appHtml = payload.html;
     }
+  }
+  if (heroServed) {
+    metadata.heroServed = heroServed;
+    routePayload = { ...routePayload, heroVariant: heroServed };
   }
   return injectPrerenderedBody(html, appHtml, routeKey, routePayload, url);
 }
@@ -7097,12 +7120,16 @@ async function routeMetadataBase(url, env, newsFeed) {
   };
 }
 
-async function appHtmlResponse(response, url, env, forceHtml = false) {
+async function appHtmlResponse(response, url, env, forceHtml = false, request = null) {
   const contentType = response.headers.get("content-type") ?? "";
   if (!forceHtml && !contentType.includes("text/html")) {
     return staticAssetResponse(htmlSecurityResponse(response, forceHtml), url);
   }
   const metadata = await routeMetadata(url, env);
+  // Home hero copy experiment (X5): assigned here, server-side, before the prerendered body is chosen. Inactive (flag off
+  // and no preview force) = no cookie, no header change, variant A for everyone.
+  const heroAssignment = homeHeroAssignmentFor(request, url, metadata, env);
+  if (heroAssignment.active) metadata.heroAssignment = heroAssignment;
   // Match the app's exact widget route; ref and legacy article queries select other layouts.
   const publicEmbed = response.status === 200 && metadata.status === 200
     && url.pathname === "/embed/calculator"
@@ -7111,7 +7138,7 @@ async function appHtmlResponse(response, url, env, forceHtml = false) {
   if (!response.body) {
     const headers = new Headers(response.headers);
     headers.set("x-robots-tag", metadata.robots || "index,follow");
-    return htmlSecurityResponse(new Response(null, { status: metadata.status, headers }), true, publicEmbed, url);
+    return withHomeHeroHeaders(htmlSecurityResponse(new Response(null, { status: metadata.status, headers }), true, publicEmbed, url), metadata, url);
   }
   const htmlLocale = documentLocaleFor(metadata, url);
   let html = optimizeRouteResourceHints(
@@ -7126,10 +7153,45 @@ async function appHtmlResponse(response, url, env, forceHtml = false) {
   if (metadata.newsSsrMode) headers.set("x-nexualpha-news-render", metadata.newsSsrMode);
   if (metadata.fallbackSsrMode) headers.set("x-nexualpha-fallback-render", metadata.fallbackSsrMode);
   headers.delete("content-length");
-  return htmlSecurityResponse(new Response(html, {
+  return withHomeHeroHeaders(htmlSecurityResponse(new Response(html, {
     status: metadata.status,
     headers,
-  }), true, publicEmbed, url);
+  }), true, publicEmbed, url), metadata, url);
+}
+
+function isHomeHeroRequest(url, metadata) {
+  if (metadata?.status !== 200 || !url || url.pathname === "/embed/calculator") return false;
+  const publicRoute = parsePublicRoute(url.pathname, url.searchParams || new URLSearchParams());
+  return normalizePathname(publicRoute.contentPathname || url.pathname) === "/";
+}
+
+function homeHeroAssignmentFor(request, url, metadata, env) {
+  if (!request || !isHomeHeroRequest(url, metadata)) return { active: false };
+  return assignHomeHeroVariant({
+    cookieHeader: request.headers.get("cookie") || "",
+    userAgent: request.headers.get("user-agent") || "",
+    method: request.method,
+    // Non-production preview only (server.mjs forwards it when NODE_ENV !== "production"): "on" | "a" | "b".
+    force: typeof env?.HOME_HERO_EXPERIMENT_FORCE === "string" ? env.HOME_HERO_EXPERIMENT_FORCE : null,
+  });
+}
+
+// While the experiment runs, a home response depends on the visitor's cookie: it must never be stored by a shared cache
+// (private) and a browser cache keys it by the cookie (Vary). New visitors get their bucket cookie with the same response.
+function withHomeHeroHeaders(response, metadata, url) {
+  const assignment = metadata?.heroAssignment;
+  if (!assignment?.active) return response;
+  const headers = new Headers(response.headers);
+  const cacheControl = headers.get("cache-control") || "";
+  if (!cacheControl.includes("no-store")) headers.set("cache-control", "private, max-age=300");
+  const vary = headers.get("vary");
+  if (!/(^|,)\s*cookie\s*(,|$)/i.test(vary || "")) headers.set("vary", vary ? `${vary}, Cookie` : "Cookie");
+  headers.set("x-nexualpha-hero-variant", metadata.heroServed || assignment.variant);
+  if (assignment.setCookie) {
+    const cookie = homeHeroSetCookie(assignment.setCookie, { secure: url?.protocol === "https:" });
+    if (cookie) headers.append("set-cookie", cookie);
+  }
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
 }
 
 function protectPrerenderInteraction(html, eager = false) {

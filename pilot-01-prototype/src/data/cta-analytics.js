@@ -1,6 +1,7 @@
 import { partnerRegistry } from './partner-registry.js';
 import { getGrowthContext, sanitizeGrowthSlug, sanitizeMarket, sanitizeProduct } from './growth-context.js';
 import { resolveExperimentContext } from './experiment-registry.js';
+import { homeHeroEventContext } from './home-hero-experiment.js';
 import { referralClickPersistenceIdentity } from './analytics-event-contract.js';
 
 const partners = Object.values(partnerRegistry).filter((partner) => partner.hasReferral);
@@ -54,7 +55,12 @@ export function getExperimentContext(search = '', { pathname = '/', market = 'un
   const params = new URLSearchParams(search || '');
   const experiment = sanitizeGrowthSlug(params.get('experiment') || params.get('utm_experiment'));
   const variant = sanitizeGrowthSlug(params.get('variant') || params.get('utm_variant'));
-  if (!experiment || !variant) return {};
+  if (!experiment || !variant) {
+    // Home hero copy experiment (X5): the worker-assigned bucket cookie tags v2 events on the home routes while it runs,
+    // so growth-report splits page views, CTA visibility and referral clicks by variant.
+    const hero = homeHeroEventContext({ pathname, ...(registry ? { registry } : {}) });
+    return hero.experiment ? resolveExperimentContext({ ...hero, pathname, market, registry }).context : {};
+  }
   return resolveExperimentContext({ experiment, variant, pathname, market, registry }).context;
 }
 

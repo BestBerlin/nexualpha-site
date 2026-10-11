@@ -10,6 +10,7 @@ import { TelegramAlertsStrip } from "../v3/TelegramAlertsStrip.jsx";
 import { partnerRebateShare } from "../../data/partner-benefit-status.js";
 import { formatPercent, replaceMaxPercent } from "../../data/format-percent.js";
 import { h7Copy, h7IsFallback } from "./home7-copy.js";
+import { heroCopyFor, useHomeHeroVariant } from "./home7-hero-variants.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { Cta, Roll, nameOf, reduced, usd } from "./home7-shared.jsx";
@@ -69,6 +70,9 @@ function MobileDock({ heroRef, sel, rebated, setPick, t, locale }) {
 
 export function HomeV7({ locale, venues: _catalog }) {
   const t = h7Copy(locale);
+  // Hero copy experiment (X5): the variant comes from the SSR/hydration context, never from a client-side swap.
+  const heroVariant = useHomeHeroVariant();
+  const heroText = heroCopyFor(t, locale, heroVariant);
   const [product, setProduct] = useState("perp");
   const venues = useVenues(locale, product);
   const [vol, setVol] = useState(100000);
@@ -141,12 +145,12 @@ export function HomeV7({ locale, venues: _catalog }) {
 
   return (
     <div className="h7" {...(h7IsFallback(locale) ? { lang: "en", dir: "ltr" } : {})}>
-      <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha">
+      <section className="h7-hero" ref={heroRef} aria-label="NexuAlpha" {...(heroVariant === "b" ? { "data-hero-variant": "b" } : {})}>
         <canvas ref={cvRef} className="h7-fl" aria-hidden="true" />
         <div className="h7-hc">
           <p className="h7-kick">{t.kick}</p>
-          <h1><span className="h7-h1l">{t.h1a}</span><br /><span className="h7-h1l">{t.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{formatPercent(locale, HOME_REBATE_MAX_PCT)}</em>{part}</span> : <span key={i}>{part.replace(/ $/, "\u00a0")}</span>)}</span></h1>
-          <p className="h7-sub">{t.sub}</p>
+          <h1><span className="h7-h1l">{heroText.h1a}</span><br /><span className="h7-h1l">{heroText.h1b.split("{max}%").map((part, i) => i ? <span key={i}><em className="h7-h1n">{formatPercent(locale, HOME_REBATE_MAX_PCT)}</em>{part}</span> : <span key={i}>{part.replace(/ $/, "\u00a0")}</span>)}</span></h1>
+          <p className="h7-sub">{heroText.sub}</p>
           <div className="h7-cta">
             <a className="h7-btn h7-hero-go" href="#h7-desk" onClick={(e) => { const go = document.querySelector(".h7-lg-go"); if (go) { e.preventDefault(); document.getElementById("h7-desk")?.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); go.focus({ preventScroll: true }); } }}>{t.heroGo}</a>
             <a className="h7-ln h7-ln-down" href="#h7-calc">{t.calcLink}</a>

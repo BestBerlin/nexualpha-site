@@ -5,6 +5,7 @@ import { createRequire } from "node:module";
 import { createServer as createViteServer } from "vite";
 import { JSDOM } from "jsdom";
 import { buildHydrationBootstrap } from "../../src/data/hydration-bootstrap.js";
+import { clientHomeHeroVariant } from "../../src/data/home-hero-experiment.js";
 
 const require = createRequire(import.meta.url);
 
@@ -62,7 +63,10 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
     const React = require("react");
     const { hydrateRoot } = require("react-dom/client");
     const { App } = await vite.ssrLoadModule("/src/App.jsx");
-    const app = React.createElement(React.StrictMode, null, React.createElement(App, {
+    const { withHomeHeroVariant } = await vite.ssrLoadModule("/src/components/v7/home7-hero-variants.js");
+    // Same wrapper as src/main.jsx: the home hero variant comes from the prerender state (X5 hero experiment).
+    const heroVariant = clientHomeHeroVariant({ prerenderState: state, cookie: window.document.cookie });
+    const app = withHomeHeroVariant(React.createElement(React.StrictMode, null, React.createElement(App, {
       initialUrl: bootstrap.initialUrl,
       initialLocale: undefined,
       initialCompareSelection: ["binance", "okx"],
@@ -71,7 +75,7 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
       initialMarketEvents: state?.marketEvents,
       initialOfficialAnnouncements: state?.officialAnnouncements,
       initialToolArticles: state?.toolArticles,
-    }));
+    })), heroVariant);
     const root = window.document.getElementById("root");
     const reactRoot = hydrateRoot(root, app, { onRecoverableError: (error) => errors.push(`recoverable: ${error?.message || error}`) });
     const started = Date.now();

@@ -2,7 +2,67 @@
  * Experiments are deliberately registered before traffic is assigned.
  * A registry row is a design contract, not evidence that an experiment ran.
  */
+
+// Home hero copy A/B (scorecard X5, 2026-10-11). The ONLY switch: while `enabled` is false nobody is assigned, no cookie
+// is set, every visitor and crawler sees variant A and the home HTML/headers are byte-for-byte what they were before.
+// Flipping it to true (owner approval of the variant B copy in src/components/v7/home7-hero-variants.js) makes the
+// worker assign a stable 50/50 first-party cookie on the 15 localized home routes; see src/data/home-hero-experiment.js.
+const HOME_HERO_COPY_ENABLED = false;
+// Home routes in the 15 UI locales (localizedHref("/", { locale }), pinned by tests/home-hero-experiment.test.mjs).
+export const HOME_HERO_ROUTES = Object.freeze(["/", "/zh-hans", "/zh-hant", "/es", "/pt-br", "/fr", "/de", "/it", "/ja", "/ko", "/ru", "/tr", "/id-id", "/vi", "/ar"]);
+
 export const experimentRegistry = Object.freeze({
+  home_hero_copy_v1: Object.freeze({
+    id: "home_hero_copy_v1",
+    enabled: HOME_HERO_COPY_ENABLED,
+    status: HOME_HERO_COPY_ENABLED ? "ACTIVE" : "DESIGNED",
+    market: "MULTI",
+    routes: HOME_HERO_ROUTES,
+    variable: "home_hero_headline_copy",
+    hypothesis: "A hero headline that names the visitor's own fees and states the disclosed commission up front will raise partner sign-up clicks per home visitor without lowering CTA visibility.",
+    control: Object.freeze({ id: "a", description: "current hero headline and subline (crawlers and the disabled flag always get this)" }),
+    treatment: Object.freeze({ id: "b", description: "alternative hero headline and subline with the same claims: up to the headline rebate share, partner invite link, commission disclosed" }),
+    primaryMetric: "referral_click_rate",
+    guardrails: Object.freeze(["cta_visible_rate", "outbound_handoff_error_rate", "unverified_outbound_click_rate"]),
+    guardrailLimits: Object.freeze({
+      cta_visible_rate: Object.freeze({
+        type: "behavior_rate",
+        direction: "minimum_relative_to_control",
+        minimumRelativeToControl: 0.95,
+        appliesAfter: Object.freeze({ minimumSamplePerVariant: 200, exposureWindowDays: 14, attributionMaturityDays: 14 }),
+        decision: "BLOCK_WINNER_CALL",
+      }),
+      outbound_handoff_error_rate: Object.freeze({
+        type: "technical_error_rate",
+        direction: "maximum_absolute_rate",
+        maximumRate: 0.005,
+        appliesAfter: Object.freeze({ minimumSamplePerVariant: 200, exposureWindowDays: 14, attributionMaturityDays: 14 }),
+        decision: "BLOCK_WINNER_CALL",
+      }),
+      unverified_outbound_click_rate: Object.freeze({
+        type: "safety_rate",
+        direction: "maximum_absolute_rate",
+        maximumRate: 0,
+        appliesAfter: Object.freeze({ minimumSamplePerVariant: 200, exposureWindowDays: 14, attributionMaturityDays: 14 }),
+        decision: "BLOCK_WINNER_CALL",
+      }),
+    }),
+    outcomeClass: "first_party_behavior",
+    observableOutcomes: Object.freeze(["cta_visible", "referral_click", "outbound_handoff", "site_click_beacon", "go_redirect_click"]),
+    unavailableOutcomes: Object.freeze(["partner_registration", "partner_kyc", "partner_deposit", "partner_trade", "partner_commission"]),
+    winnerPolicy: Object.freeze({ lowSampleDecision: "INCONCLUSIVE", fullExposureWindowRequired: true, partnerOutcomeSubstitution: "FORBIDDEN" }),
+    assignment: Object.freeze({ unit: "first_party_cookie", cookie: "nx_hero", allocation: Object.freeze({ a: 50, b: 50 }), crawlers: "a", server: "worker" }),
+    minimumSamplePerVariant: 200,
+    exposureWindowDays: 14,
+    attributionMaturityDays: 14,
+    stopConditions: Object.freeze([
+      "persistent collector readiness is not verified",
+      "constitutional invitation link invariants fail",
+      "home mobile LCP median exceeds 2.5 s for either variant",
+      "a guardrail regresses materially after the full exposure window",
+    ]),
+    requiredEvidence: Object.freeze(["persistent_cta_events", "cta_visible_events", "referral_click_events", "click_log_variant_split"]),
+  }),
   br_compare_entry_v1: Object.freeze({
     id: "br_compare_entry_v1",
     status: "DESIGNED",

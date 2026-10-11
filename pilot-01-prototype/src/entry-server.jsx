@@ -5,8 +5,10 @@ import { normalizeNewsArticlePool, normalizeNewsFeed, normalizeNewsFeedSummaries
 import { getBrazilPage } from "./data/brazil-market.js";
 import { supportedLocales } from "./content/locale-manifest";
 import { parsePublicRoute } from "./data/locale-routing.js";
+import { withHomeHeroVariant } from "./components/v7/home7-hero-variants.js";
 
-export function render(url, { newsArticles, newsListing, marketEvents, officialAnnouncements, toolArticles } = {}) {
+// heroVariant: home hero copy experiment (X5). "b" only for the build-time variant B prerender; default "a" = live copy.
+export function render(url, { newsArticles, newsListing, marketEvents, officialAnnouncements, toolArticles, heroVariant } = {}) {
   const parsedUrl = new URL(url, "https://nexualpha.com");
   const requestedLocale = parsedUrl.searchParams.get("locale");
   const publicRoute = parsePublicRoute(parsedUrl.pathname, parsedUrl.searchParams);
@@ -20,7 +22,7 @@ export function render(url, { newsArticles, newsListing, marketEvents, officialA
   const normalizedNewsArticles = Array.isArray(newsArticles)
     ? (normalizeNewsFeed(newsArticles).length ? normalizeNewsArticlePool(newsArticles) : normalizeNewsFeedSummaries(newsArticles))
     : undefined;
-  return renderToString(
+  return renderToString(withHomeHeroVariant(
     <React.StrictMode>
       <App
         initialUrl={parsedUrl.pathname + parsedUrl.search + parsedUrl.hash}
@@ -33,5 +35,6 @@ export function render(url, { newsArticles, newsListing, marketEvents, officialA
         initialToolArticles={toolArticles && typeof toolArticles === "object" ? toolArticles : undefined}
       />
     </React.StrictMode>,
-  );
+    heroVariant,
+  ));
 }

@@ -30,6 +30,7 @@ import { ArticleMarketContext } from "./ArticleMarketContext.jsx";
 import { detectArticleAssets } from "./article-market-context.js";
 import "./news-detail-page.css";
 import { mergeNewsDetailCopy } from "./news-detail-copy-l10n.js";
+import { articleEmbedModel, isolateArticleEmbedDirectives, parseArticleEmbed, stripArticleEmbedDirectives } from "../../../data/article-embeds.js";
 
 const copy = {
   "zh-Hans": {
@@ -566,7 +567,24 @@ export function isShortAnswerHeading(text) {
   return SHORT_ANSWER_HEADING.test(String(text || "").replace(/^#+\s*/, "").trim());
 }
 
+// `::embed <widget> [SYMBOL]` (D3, src/data/article-embeds.js): a live data widget in a fixed-height box (no layout
+// shift), lazy-loaded, titled, with a localized caption linking to the tool page. Unknown widgets render nothing.
+function ArticleEmbed({ directive, locale }) {
+  const model = articleEmbedModel(directive, locale);
+  if (!model) return null;
+  return (
+    <figure className="news-embed" data-embed-kind={model.kind}>
+      <div className="news-embed__frame" style={{ height: `${model.height}px` }}>
+        <iframe src={model.src} title={model.title} loading="lazy" width="100%" height={model.height} scrolling="no" referrerPolicy="strict-origin-when-cross-origin" />
+      </div>
+      <figcaption className="news-embed__caption"><span>{model.caption}</span> <a href={model.toolHref}>{model.toolLinkText}</a></figcaption>
+    </figure>
+  );
+}
+
 function renderMarkdownBlock(block, index, t, linker = null, locale = "en") {
+  const embed = parseArticleEmbed(block);
+  if (embed) return embed.kind ? <ArticleEmbed key={index} directive={embed} locale={locale} /> : null;
   // Headings count as mentions for the related line but never carry a partner link.
   if (block.startsWith("### ")) { linker?.observe(block); return <h3 key={index}>{renderInline(block.replace(/^### /, ""), null, locale)}</h3>; }
   if (block.startsWith("## ")) { linker?.observe(block); return <h2 key={index} id={`article-section-${index}`} tabIndex={-1}>{renderInline(block.replace(/^## /, ""), null, locale)}</h2>; }
@@ -773,7 +791,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const localizedSummary = localizedNewsSummary(article, locale);
   const content = localizedValue(article.content, contentLocale);
   const showsOriginalLanguage = contentLocale !== locale;
-  const { leadBlocks, deepBlocks } = splitArticleReadingSections(content);
+  const { leadBlocks, deepBlocks } = splitArticleReadingSections(isolateArticleEmbedDirectives(content));
   const leadBlockCount = leadBlocks.length;
   // Owner 2026-10-10: first plain-text mention of each partner exchange links to its profile; the state lives for one
   // render, so server and client output stay identical.
@@ -789,7 +807,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const leadKind = leadHeading ? (isShortAnswerHeading(leadHeading) ? "short-answer" : "lead") : null;
   const leadNodes = leadBlocks.map((paragraph, index) => (index === 0 && leadHeading) ? null : renderMarkdownBlock(paragraph, index, t, partnerLinker, locale));
   const publishedStamp = utcStamp(article.publishedAt);
-  const marketAssets = detectArticleAssets({ title: `${title}\n${localizedNewsTitle(article, "en")}`, summary: `${localizedSummary}\n${localizedNewsSummary(article, "en")}`, body: content });
+  const marketAssets = detectArticleAssets({ title: `${title}\n${localizedNewsTitle(article, "en")}`, summary: `${localizedSummary}\n${localizedNewsSummary(article, "en")}`, body: stripArticleEmbedDirectives(content) });
   const categoryLabel = localizedValue(article.categoryName, locale);
   const categoryHref = isNewsCategory(article.category) ? withContext(newsListingPath({ category: article.category })) : null;
   const deepNodes = deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t, partnerLinker, locale));

@@ -5,7 +5,7 @@
 // GET /embed/<kind>.js is a tiny injector that inserts the iframe after its own <script> tag.
 // Headers: no X-Frame-Options and `frame-ancestors *` so any site can iframe it; X-Robots-Tag noindex (crawlable, not
 // indexed, never in a sitemap); Cache-Control public, max-age=300 (the collector rewrites every five minutes).
-// Options: ?locale=<one of the 15 UI locales> and ?theme=dark|light. Nothing is estimated when the feed is missing —
+// Options: ?locale=<one of the 15 UI locales>, ?theme=dark|light and (funding only) ?symbol=BTC to list that row first. Nothing is estimated when the feed is missing —
 // the widget shows the pages' "temporarily unavailable" copy instead.
 import {
   DATA_PAGE_LOCALES, EMBED_KINDS, EMBED_MAX_HEIGHT, EMBED_PATH_PREFIX, dataPageCopy, embedSource, formatRatePct, formatUsdCompact, formatUtcTime,
@@ -54,6 +54,7 @@ body{font:14px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,"Not
 table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:5px 4px;border-bottom:1px solid ${c.line};text-align:left;white-space:nowrap}
 th{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:${c.muted}}.num{text-align:right}tbody th{font-weight:650;text-transform:none;letter-spacing:0;font-size:13px;color:${c.ink}}
 tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+tbody tr.hl th,tbody tr.hl td{background:${c.soft}}tbody tr.hl th{box-shadow:inset 3px 0 0 ${c.link}}
 .u{margin:0;padding:10px 12px;border:1px dashed ${c.line};border-radius:10px;background:${c.soft};color:${c.muted};font-size:13px}.u b{display:block;color:${c.ink};margin-bottom:2px}
 .f{margin-top:auto;padding-top:8px;border-top:1px solid ${c.line};font-size:12px;color:${c.muted};display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .f a{color:${c.link};font-weight:600;text-decoration:none}.f a:hover{text-decoration:underline}
@@ -93,23 +94,29 @@ function liquidationsBody(feed, locale) {
   return { body, ok: true, generatedAt: data.generatedAt };
 }
 
-function fundingBody(feed, locale) {
+// ?symbol=BTC (article directive `::embed funding BTC`, D3): that symbol's row is listed first and highlighted. A symbol
+// the feed does not carry changes nothing.
+export const normalizeEmbedSymbol = (value) => (/^[A-Za-z0-9]{1,15}$/.test(String(value || "")) ? String(value).toUpperCase() : null);
+
+function fundingBody(feed, locale, symbol = null) {
   const copy = dataPageCopy(locale).funding;
   const data = readFunding(feed);
   if (!data) return { body: `<header class="h"><b>${esc(copy.h1)}</b></header>${unavailable(locale)}`, ok: false, generatedAt: null };
   const tone = (rate) => (rate == null ? "" : rate > 0 ? " pos" : rate < 0 ? " neg" : "");
-  const rows = data.rows.slice(0, FUNDING_ROWS).map((r) => `<tr><th scope="row" translate="no">${esc(r.symbol)}</th><td class="num${tone(r.binanceRate)}" dir="ltr">${esc(formatRatePct(r.binanceRate))}</td><td class="num${tone(r.okxRate)}" dir="ltr">${esc(formatRatePct(r.okxRate))}</td><td class="num" dir="ltr">${esc(formatRatePct(r.binanceApr, 1))} / ${esc(formatRatePct(r.okxApr, 1))}</td></tr>`).join("");
+  const focus = symbol ? data.rows.find((r) => String(r.symbol).toUpperCase() === symbol) : null;
+  const ordered = focus ? [focus, ...data.rows.filter((r) => r !== focus)] : data.rows;
+  const rows = ordered.slice(0, FUNDING_ROWS).map((r) => `<tr${r === focus ? ' class="hl"' : ""}><th scope="row" translate="no">${esc(r.symbol)}</th><td class="num${tone(r.binanceRate)}" dir="ltr">${esc(formatRatePct(r.binanceRate))}</td><td class="num${tone(r.okxRate)}" dir="ltr">${esc(formatRatePct(r.okxRate))}</td><td class="num" dir="ltr">${esc(formatRatePct(r.binanceApr, 1))} / ${esc(formatRatePct(r.okxApr, 1))}</td></tr>`).join("");
   const body = `<header class="h"><b>${esc(copy.h1)}</b><span>${esc(copy.legend)}</span></header>
 <table><thead><tr><th scope="col">${esc(copy.colSymbol)}</th><th scope="col" class="num">${esc(copy.colBinance)}</th><th scope="col" class="num">${esc(copy.colOkx)}</th><th scope="col" class="num">${esc(copy.colApr)}</th></tr></thead><tbody>${rows}</tbody></table>`;
   return { body, ok: true, generatedAt: data.generatedAt };
 }
 
 // The whole widget page. `feed` is the collector document (or null).
-export function renderEmbedHtml(kind, feed, { locale = "en", theme = "dark", origin = EMBED_ORIGIN } = {}) {
+export function renderEmbedHtml(kind, feed, { locale = "en", theme = "dark", origin = EMBED_ORIGIN, symbol = null } = {}) {
   if (!EMBED_KINDS[kind]) return null;
   const loc = normalizeEmbedLocale(locale), th = normalizeEmbedTheme(theme);
   const copy = dataPageCopy(loc);
-  const { body, ok, generatedAt } = kind === "liquidations" ? liquidationsBody(feed, loc) : fundingBody(feed, loc);
+  const { body, ok, generatedAt } = kind === "liquidations" ? liquidationsBody(feed, loc) : fundingBody(feed, loc, normalizeEmbedSymbol(symbol));
   const title = `${kind === "liquidations" ? copy.liquidations.h1 : copy.funding.h1} — NexuAlpha`;
   const html = `<!doctype html>
 <html lang="${esc(loc)}" dir="${loc === "ar" ? "rtl" : "ltr"}" data-theme="${th}">
@@ -163,7 +170,7 @@ export function createEmbedRoute({ readFeed, origin = EMBED_ORIGIN, log = () => 
     }
     let feed = null;
     try { feed = typeof readFeed === "function" ? await readFeed() : null; } catch (error) { log(`embed feed read failed: ${error?.message || error}`); }
-    const { html, ok } = renderEmbedHtml(kind, feed, { locale: url.searchParams.get("locale"), theme: url.searchParams.get("theme"), origin });
+    const { html, ok } = renderEmbedHtml(kind, feed, { locale: url.searchParams.get("locale"), theme: url.searchParams.get("theme"), origin, symbol: url.searchParams.get("symbol") });
     return new Response(request.method === "HEAD" ? null : html, { status: 200, headers: {
       ...common, "content-type": "text/html; charset=utf-8", "cache-control": ok ? EMBED_CACHE_CONTROL : UNAVAILABLE_CACHE_CONTROL,
       "content-security-policy": CSP, "referrer-policy": "strict-origin-when-cross-origin",
