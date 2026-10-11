@@ -449,8 +449,9 @@ test('Wave12 Korean and Turkish high-intent pages expose localized AEO metadata 
     ['tr', '/tr/exchanges/jupiter', /Jupiter Solana/, /platform ücretleri/, 'FAQPage'],
     ['ko', '/ko/compare/bybit-vs-bitget', /Bybit vs Bitget: 수수료/, /가입 전에 Bybit과 Bitget을 어떻게 비교해야 하나요|공식 가입 조건/, 'subjectOf'],
     ['tr', '/tr/compare/bybit-vs-bitget', /Bybit vs Bitget: ücretler/, /Kayıt olmadan önce Bybit ve Bitget nasıl karşılaştırılmalı|resmi kayıt koşulları/, 'subjectOf'],
-    ['ko', '/ko/topics/no-kyc', /No-KYC 암호화폐 접근 비교/, /No-KYC 암호화폐 플랫폼/, 'FAQPage'],
-    ['tr', '/tr/topics/no-kyc', /No-KYC kripto erişim karşılaştırması/, /No-KYC kripto platformları/, 'FAQPage'],
+    // Class b: MEXC is now the KYC exchange contrast, not part of the no-KYC set.
+    ['ko', '/ko/topics/no-kyc', /KYC 없는 셀프 커스터디 vs KYC 필수 거래소/, /No-KYC 암호화폐 플랫폼/, 'FAQPage'],
+    ['tr', '/tr/topics/no-kyc', /KYC’siz öz saklama vs KYC zorunlu borsa/, /No-KYC kripto platformları/, 'FAQPage'],
   ];
   for (const [locale, path, titlePattern, questionPattern, faqShape] of cases) {
     const client = computeRouteSeo({ url: path });

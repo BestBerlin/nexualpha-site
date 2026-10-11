@@ -2,11 +2,13 @@ import assert from "node:assert/strict";
 import { once } from "node:events";
 import { spawn } from "node:child_process";
 import { createRequire } from "node:module";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const require = createRequire("/Users/bestberlin/.codex/shared-tools/web-quality/package.json");
 const puppeteer = require("puppeteer-core");
 const chromeExecutablePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const noKycTitles = JSON.parse(readFileSync(new URL("./fixtures/no-kyc-titles.json", import.meta.url), "utf8"));
 
 function stripHtml(value = "") {
   return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -55,13 +57,15 @@ test("Korean and Turkish no-KYC topic SSR and hydration keep the no-KYC title", 
   const cases = [
     {
       path: "/ko/topics/no-kyc",
-      h1: "No-KYC 암호화폐 접근 비교: Hyperliquid, dYdX, MEXC",
+      // Class b: MEXC is now the KYC exchange contrast, not part of the no-KYC set.
+      h1: noKycTitles.ko,
       subtitle: /지갑 연결, 계정 가입, 본인확인 가능성/,
       blockedH1: /밈 코인 거래를 위한 암호화폐 플랫폼 가이드/,
     },
     {
       path: "/tr/topics/no-kyc",
-      h1: "No-KYC kripto erişim karşılaştırması: Hyperliquid, dYdX, MEXC",
+      // Class b: MEXC is now the KYC exchange contrast, not part of the no-KYC set.
+      h1: noKycTitles.tr,
       subtitle: /Cüzdan bağlantısı, hesap kaydı, kimlik kontrolü olasılığı/,
       blockedH1: /Meme coin işlemleri için kripto platform rehberi/,
     },
@@ -130,10 +134,11 @@ test("Korean and Turkish no-KYC topic mobile hard navigations keep hydration cle
   });
 
   const journeys = [
-    ["/ko/topics/no-kyc", "No-KYC 암호화폐 접근 비교: Hyperliquid, dYdX, MEXC"],
-    ["/tr/topics/no-kyc", "No-KYC kripto erişim karşılaştırması: Hyperliquid, dYdX, MEXC"],
-    ["/ko/topics/no-kyc", "No-KYC 암호화폐 접근 비교: Hyperliquid, dYdX, MEXC"],
-    ["/tr/topics/no-kyc", "No-KYC kripto erişim karşılaştırması: Hyperliquid, dYdX, MEXC"],
+    // Class b: MEXC is now the KYC exchange contrast, not part of the no-KYC set.
+    ["/ko/topics/no-kyc", noKycTitles.ko],
+    ["/tr/topics/no-kyc", noKycTitles.tr],
+    ["/ko/topics/no-kyc", noKycTitles.ko],
+    ["/tr/topics/no-kyc", noKycTitles.tr],
   ];
 
   for (const [path, expectedH1] of journeys) {

@@ -433,7 +433,7 @@ const TOPIC_LOCALE_COPY = {
     ja: {
       category: "本人確認なしアクセス",
       badge: "アクセス条件の境界チェック",
-      title: "No-KYC 暗号資産アクセス比較：Hyperliquid、dYdX、MEXC",
+      title: "本人確認なしの自己管理 vs 本人確認必須の取引所（2026）：Hyperliquid、dYdX、MEXC比較",
       description: "ウォレット接続、CEX 口座、出金、地域制限、制裁チェック、フロントエンド、清算リスクを分けて確認します。",
       pills: ["ウォレット接続を確認", "後日の本人確認リスクを確認", "出金制限を確認", "地域制限を確認"],
       painPoints: [["", "1. No-KYC を永久保証として読む", "No-KYC は現在のアクセス条件です。地域、出金、商品、リスク管理により後から本人確認が求められることがあります。"], ["", "2. フロントエンド、コントラクト、ブリッジを混同", "ウォレット接続できても、フロントエンド、制裁リスト、ブリッジ、流動性が利用を制限する場合があります。"], ["", "3. 出金と清算を確認しない", "CEX 口座と perp プロトコルでは、出金制限、担保、清算、地域ルールを別々に確認します。"]],
@@ -448,7 +448,7 @@ const TOPIC_LOCALE_COPY = {
     ko: {
       category: "No-KYC 접근",
       badge: "접근 조건 경계 확인",
-      title: "No-KYC 암호화폐 접근 비교: Hyperliquid, dYdX, MEXC",
+      title: "KYC 없는 셀프 커스터디 vs KYC 필수 거래소(2026): Hyperliquid, dYdX, MEXC 비교",
       description: "지갑 연결, 계정 가입, 본인확인 가능성, 출금, 지역 제한과 리스크 경계를 Hyperliquid, dYdX, MEXC 기준으로 비교합니다.",
       pills: ["지갑 연결 확인", "추후 본인확인 위험 확인", "출금 제한 확인", "지역 제한 확인"],
       painPoints: [["", "1. No-KYC를 영구 보장으로 해석", "No-KYC는 현재 접근 조건입니다. 지역, 출금, 상품, 리스크 통제에 따라 나중에 본인확인이 요구될 수 있습니다."], ["", "2. 프런트엔드, 컨트랙트, 브리지를 혼동", "지갑 연결이 가능해도 프런트엔드, 제재 목록, 브리지, 유동성이 이용을 제한할 수 있습니다."], ["", "3. 출금과 청산을 확인하지 않음", "CEX 계정과 perp 프로토콜은 출금 제한, 담보, 청산, 지역 규칙을 별도로 확인해야 합니다."]],
@@ -463,7 +463,7 @@ const TOPIC_LOCALE_COPY = {
     tr: {
       category: "No-KYC erişim",
       badge: "Erişim koşulu sınırı kontrolü",
-      title: "No-KYC kripto erişim karşılaştırması: Hyperliquid, dYdX, MEXC",
+      title: "KYC’siz öz saklama vs KYC zorunlu borsa (2026): Hyperliquid, dYdX ve MEXC",
       description: "Cüzdan bağlantısı, hesap kaydı, kimlik kontrolü olasılığı, çekim, bölgesel sınırlamalar ve risk sınırlarını Hyperliquid, dYdX ve MEXC üzerinden karşılaştırın.",
       pills: ["Cüzdan bağlantısı", "Sonradan kimlik riski", "Çekim sınırları", "Bölgesel sınırlar"],
       painPoints: [["", "1. No-KYC ifadesini kalıcı garanti sanmak", "No-KYC mevcut erişim koşuludur. Bölge, çekim, ürün ve risk kontrolleri daha sonra kimlik isteyebilir."], ["", "2. Arayüz, kontrat ve köprüyü karıştırmak", "Cüzdan bağlanabilse bile arayüz, yaptırım listesi, köprü veya likidite erişimi sınırlayabilir."], ["", "3. Çekim ve likidasyonu kontrol etmemek", "CEX hesabı ve perp protokolünde çekim sınırı, teminat, likidasyon ve bölge kuralları ayrı okunur."]],
@@ -478,7 +478,7 @@ const TOPIC_LOCALE_COPY = {
     es: {
       category: "Acceso no-KYC",
       badge: "Control de límites de acceso",
-      title: "Acceso cripto no-KYC: Hyperliquid, dYdX y MEXC",
+      title: "Autocustodia sin KYC vs exchange con KYC (2026): Hyperliquid, dYdX y MEXC",
       description: "Separa conexión por wallet, cuentas CEX, retiros, límites regionales, controles de sanciones, frontend y riesgo de liquidación.",
       pills: ["Conexión por wallet", "Riesgo de KYC posterior", "Límites de retiro", "Límites regionales"],
       painPoints: [["", "1. Leer no-KYC como promesa permanente", "No-KYC describe una condición actual de acceso. Región, retiros, producto y controles de riesgo pueden exigir identidad más adelante."], ["", "2. Mezclar frontend, contrato y puente", "Aunque conectes wallet, el frontend, listas de sanciones, puente o liquidez pueden limitar el uso."], ["", "3. Ignorar retiros y liquidación", "En CEX y protocolos perp hay que revisar retiros, colateral, liquidación y reglas regionales por separado."]],
@@ -493,7 +493,7 @@ const TOPIC_LOCALE_COPY = {
     "pt-BR": {
       category: "Acesso no-KYC",
       badge: "Controle de limites de acesso",
-      title: "Acesso cripto no-KYC: Hyperliquid, dYdX e MEXC",
+      title: "Autocustódia sem KYC vs exchange com KYC (2026): Hyperliquid, dYdX e MEXC",
       description: "Separe conexão por carteira, contas CEX, saques, limites regionais, controles de sanções, frontend e risco de liquidação.",
       pills: ["Conexão por carteira", "Risco de KYC posterior", "Limites de saque", "Limites regionais"],
       painPoints: [["", "1. Ler no-KYC como promessa permanente", "No-KYC descreve uma condição atual de acesso. Região, saques, produto e controles de risco podem exigir identidade depois."], ["", "2. Misturar frontend, contrato e ponte", "Mesmo conectando carteira, frontend, listas de sanções, ponte ou liquidez podem limitar o uso."], ["", "3. Ignorar saques e liquidação", "Em CEX e protocolos perp, saques, colateral, liquidação e regras regionais devem ser revisados separadamente."]],
@@ -2182,7 +2182,7 @@ function topicSummaryFor(slug, locale, fallback) {
     },
     "no-kyc": {
       category: "本人確認なしアクセス",
-      title: "本人確認なし暗号資産アクセス比較：Hyperliquid、dYdX、MEXC",
+      title: "本人確認なしの自己管理 vs 本人確認必須の取引所（2026）：Hyperliquid、dYdX、MEXC比較",
       description: "ウォレット接続、CEX口座、出金、地域制限、制裁チェック、フロントエンド、清算リスクを分けて確認します。",
     },
   }[slug] : null;
@@ -2910,16 +2910,16 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
       uk: "Фіатний доступ і доступність акаунта: HashKey, Kraken та OKX",
     },
     "no-kyc": {
-      en: "Crypto access without KYC: Hyperliquid, dYdX and MEXC",
-      fr: "Accès crypto sans KYC : Hyperliquid, dYdX et MEXC",
-      de: "Krypto-Zugang ohne KYC: Hyperliquid, dYdX und MEXC",
-      es: "Acceso cripto sin KYC: Hyperliquid, dYdX y MEXC",
-      "pt-BR": "Acesso cripto no-KYC: Hyperliquid, dYdX e MEXC",
-      ru: "Крипто-доступ без KYC: Hyperliquid, dYdX и MEXC",
-      ar: "الوصول إلى العملات الرقمية دون KYC: Hyperliquid وdYdX وMEXC",
-      id: "Akses kripto tanpa KYC: Hyperliquid, dYdX, dan MEXC",
-      vi: "Truy cập crypto không KYC: Hyperliquid, dYdX và MEXC",
-      it: "Accesso crypto senza KYC: Hyperliquid, dYdX e MEXC",
+      en: "No-KYC Self-Custody vs KYC Exchange (2026): Hyperliquid, dYdX and MEXC",
+      fr: "Auto-garde sans KYC vs exchange avec KYC (2026) : Hyperliquid, dYdX et MEXC",
+      de: "Selbstverwahrung ohne KYC vs Börse mit KYC (2026): Hyperliquid, dYdX und MEXC",
+      es: "Autocustodia sin KYC vs exchange con KYC (2026): Hyperliquid, dYdX y MEXC",
+      "pt-BR": "Autocustódia sem KYC vs exchange com KYC (2026): Hyperliquid, dYdX e MEXC",
+      ru: "Самостоятельное хранение без KYC vs биржа с KYC (2026): Hyperliquid, dYdX и MEXC",
+      ar: "حفظ ذاتي دون KYC مقابل منصة تتطلب KYC (2026): Hyperliquid وdYdX وMEXC",
+      id: "Swakelola tanpa KYC vs bursa dengan KYC (2026): Hyperliquid, dYdX, dan MEXC",
+      vi: "Tự lưu ký không KYC vs sàn yêu cầu KYC (2026): Hyperliquid, dYdX và MEXC",
+      it: "Autocustodia senza KYC vs exchange con KYC (2026): Hyperliquid, dYdX e MEXC",
       // l10n: needs native review
       ur: "کرپٹو رسائی اور شناختی تصدیق: Hyperliquid، dYdX اور MEXC",
       // l10n: needs native review
@@ -2942,8 +2942,8 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
       it: "Guida alle piattaforme crypto per meme coin",
     },
     "no-kyc": {
-      ko: "No-KYC 암호화폐 접근 비교: Hyperliquid, dYdX, MEXC",
-      tr: "No-KYC kripto erişim karşılaştırması: Hyperliquid, dYdX, MEXC",
+      ko: "KYC 없는 셀프 커스터디 vs KYC 필수 거래소(2026): Hyperliquid, dYdX, MEXC 비교",
+      tr: "KYC’siz öz saklama vs KYC zorunlu borsa (2026): Hyperliquid, dYdX ve MEXC",
     },
   }[topic.slug] || {})[locale];
   const localizedTopicDescription = ({
