@@ -58,7 +58,7 @@ test("vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-
   assert.equal(chunk("/src/components/v3/growth-conversion.css"), "route-v3-pages-growth");
   assert.equal(chunk("/src/components/v3/activity/campaign-copy.js"), "data-campaign-copy");
   assert.equal(chunk("/src/components/v3/activity/ActivityPages.jsx"), "route-activity");
-  for (const id of ["/src/data/reviewed-fee-copy.js", "/src/data/venue-fee-summary.js", "/src/data/reviewed-base-fees.js", "/src/data/public-copy-sanitizer.js", "/src/data/contextual-href.js", "/src/utils/fallback-lang.js", "/src/utils/venue-name-helper.js", "/src/components/v3/exchange-matrix-copy.js"]) {
+  for (const id of ["/src/data/reviewed-fee-copy.js", "/src/data/venue-fee-summary.js", "/src/data/reviewed-base-fees.js", "/src/data/public-copy-sanitizer.js", "/src/data/contextual-href.js", "/src/data/plural-copy.js", "/src/utils/fallback-lang.js", "/src/utils/venue-name-helper.js", "/src/components/v3/exchange-matrix-copy.js"]) {
     assert.equal(chunk(id), "shared-venue-copy", id);
   }
   for (const id of ["/src/components/v3/ExchangeFactsV5.jsx", "/src/components/v6/InnerLedger.jsx", "/src/components/v6/inner-r9-copy.js", "/src/lib/v5/Reveal.jsx"]) assert.equal(chunk(id), "shared-exchange-facts", id);
@@ -97,7 +97,7 @@ test("built entry: the venue route's preload list excludes the compare, activity
   const venue = routePreloadList(source, "./components/v3/VenueDetailPage.jsx");
   const chunkNames = venue.map((file) => file.replace(/-[\w-]{8}\.(?:js|css)$/, ""));
   assert.ok(chunkNames.includes("route-v3-venue"), "venue chunk is the module's own chunk");
-  for (const forbidden of ["route-activity", "route-v3-pages", "route-topic-guide", "route-factbook", "route-collection-hubs", "route-v3-home", "route-v3-wizard", "route-v3-calculators", "route-v3-venue-research", "data-compare-generated", "data-compare-direct-answers", "data-compare-faq-locales", "data-topic-guides", "data-factbook", "data-aeo-questions", "data-official-research"]) {
+  for (const forbidden of ["route-activity", "route-v3-pages", "route-topic-guide", "route-factbook", "route-collection-hubs", "route-v3-home", "route-v3-wizard", "route-v3-calculators", "route-rates", "home-below-fold", "route-v3-venue-research", "data-compare-generated", "data-compare-direct-answers", "data-compare-faq-locales", "data-topic-guides", "data-factbook", "data-aeo-questions", "data-official-research"]) {
     assert.ok(!chunkNames.includes(forbidden), `${forbidden} must not preload with the venue route (got ${chunkNames.join(", ")})`);
   }
   assert.ok(chunkNames.includes("route-v3-pages-detail") && chunkNames.includes("route-v3-pages-growth"), "venue CSS-only chunks ride along");

@@ -248,8 +248,9 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // shares with other routes used to sit inside route-topic-guide (public-copy-sanitizer), route-factbook
           // (ExchangeFactsV5, exchange-matrix-copy), route-collection-hubs (fallback-lang), route-v3-calculators
           // (reviewed-fee-copy, venue-fee-summary, venue-name-helper), route-v3-home (reviewed-base-fees) and route-activity
-          // (campaign-copy) and dragged those graphs onto every venue page. Pin them to small shared chunks.
-          if (/\/src\/(?:data\/reviewed-fee-copy|data\/venue-fee-summary|data\/reviewed-base-fees|data\/public-copy-sanitizer|data\/contextual-href|utils\/fallback-lang|utils\/venue-name-helper|components\/v3\/exchange-matrix-copy)\.js$/.test(id)) return "shared-venue-copy";
+          // (campaign-copy) and dragged those graphs onto every venue page; after the audit merge plural-copy sat inside
+          // route-rates and pulled the rates, factbook and calculator graphs back in. Pin them to small shared chunks.
+          if (/\/src\/(?:data\/reviewed-fee-copy|data\/venue-fee-summary|data\/reviewed-base-fees|data\/public-copy-sanitizer|data\/contextual-href|data\/plural-copy|utils\/fallback-lang|utils\/venue-name-helper|components\/v3\/exchange-matrix-copy)\.js$/.test(id)) return "shared-venue-copy";
           if (id.includes("/src/components/v3/ExchangeFactsV5") || id.includes("/src/components/v6/InnerLedger") || id.includes("/src/components/v6/inner-r9-copy") || id.includes("/src/lib/v5/")) return "shared-exchange-facts";
           // CSS-only chunks keep the "route-v3-pages-" prefix the Worker allow-lists on the venue, compare and home routes.
           if (id.endsWith("/src/components/v3/profile-density.css") || id.endsWith("/src/components/v3/HyperliquidFeeScenario.css")) return "route-v3-pages-detail";
