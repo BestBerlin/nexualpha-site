@@ -71,21 +71,97 @@ export function usd(value) {
 export const percent = value => `${(value * 100).toFixed(1)}%`;
 export const fundingPercent = value => `${value > 0 ? '+' : ''}${(value * 100).toFixed(5)}%`;
 const spokenUsdZh = value => value >= 10000 ? `${(Math.floor(value / 10000 * 100) / 100).toFixed(2)}万美元` : `${Math.floor(value)}美元`;
+function timestampLabel(value, lang) {
+  const at = new Date(value);
+  if (lang === 'zh-Hans') {
+    return `${new Date(at.getTime() + 8 * HOUR).toISOString().slice(0, 19).replace('T', ' ')} UTC+8`;
+  }
+  return `${at.toISOString().slice(0, 19).replace('T', ' ')} UTC`;
+}
+export function captionLines(value, lang) {
+  const max = 16;
+  const parts = String(value).split(/(?<=[。！？，,；;])|(?<=[.!?])(?!\d)/u).filter(Boolean);
+  return parts.flatMap(part => {
+    const units = /^zh/i.test(lang) ? [...part.trim()] : part.trim().split(/\s+/);
+    const lines = []; let line = '';
+    for (const unit of units) {
+      const next = line + (line && !/^zh/i.test(lang) ? ' ' : '') + unit;
+      if ([...next].length > max && line) {lines.push(line); line = unit;} else line = next;
+    }
+    if (line) lines.push(line);
+    return lines;
+  });
+}
 export function buildPackage(data, lang) {
   requireValue(['zh-Hans', 'en'].includes(lang), 'Language must be zh-Hans or en');
   const zh = lang === 'zh-Hans', q = data.liquidation, big = data.largest;
+  const longShare = q.longUsd / q.totalUsd;
   const shortShare = q.shortUsd / q.totalUsd;
+  const dominantShare = Math.max(longShare, shortShare);
+  const dominantSide = shortShare >= longShare ? 'short' : 'long';
   const title = zh ? `24小时爆仓至少 ${usd(q.totalUsd)}，空头占 ${percent(shortShare)}` : `24h liquidations ≥ ${usd(q.totalUsd)}; shorts ${percent(shortShare)}`;
   const scope = zh ? '覆盖交易所下限' : 'Covered venues · lower bound';
   const side = zh ? (big.side === 'long' ? '多头' : '空头') : big.side;
-  const rates = data.rates.map(r => ({text: `${r.venue} · ${r.symbol}  ${fundingPercent(r.rate)}${r.intervalH ? ` / ${r.intervalH}h` : ''}`, rate: r.rate}));
+  const time = timestampLabel(big.at, lang);
+  const rateRows = data.rates.map(r => ({
+    venue: r.venue,
+    symbol: r.symbol,
+    text: `${r.venue} · ${r.symbol}  ${fundingPercent(r.rate)}${r.intervalH ? ` / ${r.intervalH}h` : ''}`,
+    rate: r.rate,
+    intervalH: r.intervalH ?? null,
+  }));
   const slides = [
-    {title: zh ? '24小时爆仓数据' : '24h liquidation data', lines: [zh ? `至少 ${usd(q.totalUsd)}` : `At least ${usd(q.totalUsd)}`, zh ? `空头占 ${percent(shortShare)}` : `Shorts: ${percent(shortShare)}`, scope], narration: zh ? `24小时爆仓至少${spokenUsdZh(q.totalUsd)}，空头占${percent(shortShare)}。` : title},
-    {title: zh ? '多空爆仓分布' : 'Long / short split', lines: [scope, `${zh ? '多头' : 'Longs'} ${usd(q.longUsd)} · ${percent(1-shortShare)}`, `${zh ? '空头' : 'Shorts'} ${usd(q.shortUsd)} · ${percent(shortShare)}`], bar: {longShare: 1-shortShare}, narration: zh ? `多头${spokenUsdZh(q.longUsd)}，空头${spokenUsdZh(q.shortUsd)}，均为下限。` : `Long liquidations ${usd(q.longUsd)}. Shorts ${usd(q.shortUsd)}. A lower bound.`},
-    {title: zh ? '覆盖内最大单笔' : 'Largest observed order', lines: [`${big.venue} · ${big.symbol}`, `${side} · ${usd(big.usd)}`, `${big.at.replace('T',' ').replace(/\.\d+Z$/, ' UTC')}`], narration: zh ? `覆盖内最大单笔，${big.venue}，${side}，${spokenUsdZh(big.usd)}。` : `Largest observed order: ${big.venue}, ${big.symbol}, ${side}, ${usd(big.usd)}.`},
-    {title: zh ? '资金费率绝对值前三' : 'Top 3 absolute funding rates', lines: [zh ? '每结算周期费率，周期可能不同' : 'Per settlement interval; intervals vary', zh ? '当前快照，不代表24小时极值' : 'Current snapshot, not 24h extremes'], rates, narration: zh ? '当前资金费率，绝对值前三见屏幕。每结算周期费率，周期可能不同。' : `Current funding snapshot. Top three by absolute rate: ${data.rates.map(r=>`${r.symbol}, ${fundingPercent(r.rate)}`).join('; ')}.`},
-    {title: zh ? '完整数据 nexualpha.com' : 'Full data nexualpha.com', lines: ['Telegram @NexuAlphaClub', zh ? '数据为覆盖交易所的下限' : 'Covered venues only; a lower bound', zh ? '不构成投资建议' : 'Not investment advice'], narration: zh ? '完整数据见网站和电报。数据为覆盖交易所下限，不构成投资建议。' : 'Full data on NexuAlpha dot com. Telegram: NexuAlphaClub. A lower bound, not investment advice.'},
-  ].map(s => ({...s, duration: 7}));
+    {
+      kind: 'hero',
+      title: zh ? '24小时爆仓数据' : '24h liquidation data',
+      label: zh ? '24 小时爆仓 · 至少' : '24h liquidations · at least',
+      hero: {value: q.totalUsd, format: 'usd'},
+      support: [zh ? `空头 ${percent(shortShare)}` : `Shorts ${percent(shortShare)}`, scope],
+      lines: [zh ? `至少 ${usd(q.totalUsd)}` : `At least ${usd(q.totalUsd)}`, zh ? `空头占 ${percent(shortShare)}` : `Shorts: ${percent(shortShare)}`, scope],
+      narration: zh ? `24小时爆仓至少${spokenUsdZh(q.totalUsd)}，空头占${percent(shortShare)}。` : title,
+    },
+    {
+      kind: 'split',
+      title: zh ? '多空爆仓分布' : 'Long / short split',
+      label: zh ? '主导方向' : 'Dominant side',
+      hero: {value: dominantShare, format: 'percent', side: dominantSide},
+      support: [zh ? `空头 ${usd(q.shortUsd)}` : `Shorts ${usd(q.shortUsd)}`, zh ? `多头 ${usd(q.longUsd)}` : `Longs ${usd(q.longUsd)}`],
+      lines: [scope, `${zh ? '多头' : 'Longs'} ${usd(q.longUsd)} · ${percent(longShare)}`, `${zh ? '空头' : 'Shorts'} ${usd(q.shortUsd)} · ${percent(shortShare)}`],
+      longUsd: q.longUsd, shortUsd: q.shortUsd,
+      bar: {longShare, shortShare, longLabel: percent(longShare), shortLabel: percent(shortShare)},
+      narration: zh ? `多头爆仓${spokenUsdZh(q.longUsd)}，空头爆仓${spokenUsdZh(q.shortUsd)}。` : `Long liquidations ${usd(q.longUsd)}. Shorts ${usd(q.shortUsd)}. A lower bound.`,
+    },
+    {
+      kind: 'receipt',
+      title: zh ? '覆盖内最大单笔' : 'Largest observed order',
+      label: zh ? '最大单笔' : 'Largest order',
+      hero: {value: big.usd, format: 'usd'},
+      support: [`${big.venue} · ${big.symbol}`, `${side} · ${time}`],
+      receipt: {venue: big.venue, symbol: big.symbol, side: big.side, time},
+      lines: [`${big.venue} · ${big.symbol}`, `${side} · ${usd(big.usd)}`, time],
+      narration: zh ? `最大单笔来自${big.venue}，${big.symbol}，${side}，${spokenUsdZh(big.usd)}。` : `Largest observed order: ${big.venue}, ${big.symbol}, ${side}, ${usd(big.usd)}.`,
+    },
+    {
+      kind: 'funding',
+      title: zh ? '资金费率绝对值前三' : 'Top 3 absolute funding rates',
+      label: zh ? '费率绝对值前三' : 'Top absolute funding rates',
+      hero: {value: data.rates[0].rate, format: 'funding'},
+      support: [zh ? '负费率 = 空头付钱给多头' : 'Negative = shorts pay longs', zh ? '当前快照' : 'Current snapshot'],
+      lines: [zh ? '负费率 = 空头付钱给多头' : 'Negative = shorts pay longs', zh ? '当前快照，不代表24小时极值' : 'Current snapshot, not 24h extremes'],
+      rates: rateRows,
+      narration: zh ? `资金费率绝对值前三。负费率时，空头付钱给多头。` : `Current funding snapshot. Top three by absolute rate: ${data.rates.map(r=>`${r.symbol}, ${fundingPercent(r.rate)}`).join('; ')}.`,
+    },
+    {
+      kind: 'end',
+      title: zh ? '完整数据' : 'Full data',
+      label: zh ? '完整数据' : 'Full data',
+      domain: 'nexualpha.com',
+      cta: zh ? '每天更新 · 订阅不错过' : 'Daily · Subscribe',
+      support: ['Telegram @NexuAlphaClub', zh ? '数据为覆盖交易所的下限' : 'Covered venues only; a lower bound', zh ? '不构成投资建议' : 'Not investment advice'],
+      lines: ['nexualpha.com', 'Telegram @NexuAlphaClub', zh ? '每天更新 · 订阅不错过' : 'Daily · Subscribe', zh ? '数据为覆盖交易所的下限，不构成投资建议' : 'Covered venues only; not investment advice'],
+      narration: zh ? '完整数据见NexuAlpha网站。每天更新，订阅不错过。' : 'Full data on NexuAlpha dot com. Daily updates. Subscribe to keep up.',
+    },
+  ].map(s => ({...s, captions: captionLines(s.narration,lang), duration: 7}));
   const description = [zh ? '24小时爆仓总额与多空分布，仅代表覆盖交易所。' : '24h liquidations and long/short split for covered venues.', zh ? '最大单笔为覆盖内观测；资金费率为当前每结算周期快照。' : 'Largest observed order; funding is a current per-interval snapshot.', `https://nexualpha.com/zh-hans/liquidations?src=yt-short https://t.me/NexuAlphaClub`, DISCLAIMER].join('\n');
   const hashtags = zh ? ['#比特币','#加密货币','#爆仓','#资金费率','#NexuAlpha','#Shorts'] : ['#Bitcoin','#Crypto','#Liquidations','#FundingRates','#NexuAlpha','#Shorts'];
   requireValue([...title].length <= 70, 'Title exceeds 70 characters');

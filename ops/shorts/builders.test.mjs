@@ -33,10 +33,28 @@ test('5-slide bilingual package preserves numbers, lower bound and snapshot scop
     assert.ok(meta.description.includes('https://t.me/NexuAlphaClub'));
     assert.match(meta.title,/16\.48M/);
     assert.doesNotMatch(meta.title,/暴跌|崩盘|送钱|buy|sell/i);
+    assert.deepEqual(slides.map(s=>s.kind), ['hero','split','receipt','funding','end']);
+    assert.ok(slides.every(s=>Array.isArray(s.captions) && s.captions.length && s.captions.every(c=>[...c].length<=16)));
+    assert.deepEqual(slides[0].hero, {value:16488040, format:'usd'});
+    assert.equal(slides[1].hero.value, 14337661/16488040);
+    assert.equal(slides[1].hero.format, 'percent');
+    assert.equal(slides[1].hero.side, 'short');
     assert.ok(slides[2].lines.includes('OKX · ETHUSDT'));
-    assert.match(slides[2].lines[2],/15:40:26 UTC/);
+    assert.equal(slides[2].hero.value, 2528150);
+    assert.equal(slides[2].hero.format, 'usd');
+    assert.deepEqual(Object.keys(slides[2].receipt), ['venue','symbol','side','time']);
+    if (lang === 'zh-Hans') assert.match(slides[2].receipt.time,/2026-10-11 23:40:26 UTC\+8/);
+    else assert.match(slides[2].receipt.time,/2026-10-11 15:40:26 UTC/);
+    assert.equal(slides[2].lines[2], slides[2].receipt.time);
+    assert.equal(slides[3].hero.value, -.00276609);
+    assert.equal(slides[3].hero.format, 'funding');
+    assert.ok(slides[3].support[0].includes(lang === 'zh-Hans' ? '空头付钱给多头' : 'shorts pay longs'));
     assert.equal(slides[3].rates[0].rate,-.00276609);
+    assert.deepEqual(Object.keys(slides[3].rates[0]), ['venue','symbol','text','rate','intervalH']);
     assert.ok(Math.abs(slides[1].bar.longShare - 2150379/16488040)<1e-12);
+    assert.equal(slides[4].domain, 'nexualpha.com');
+    assert.equal(slides[4].lines[0], 'nexualpha.com');
+    assert.ok(slides[4].cta);
   }
 });
 test('freshness applies independently to market and funding; exact 60-minute boundary', () => {
