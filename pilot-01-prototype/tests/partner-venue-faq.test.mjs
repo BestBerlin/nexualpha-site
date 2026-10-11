@@ -11,6 +11,7 @@ import { REFERRAL_PARTNERS } from "../src/data/referral-partners.generated.js";
 import {
   PARTNER_VENUE_FAQ_SLUGS,
   PARTNER_VENUE_FAQ_REPLACE_LOCALES,
+  PARTNER_VENUE_FAQ_LOCAL_TARGETS,
   partnerVenueFaqFor,
 } from "../src/data/partner-venue-faq.js";
 
@@ -99,9 +100,17 @@ test("en and zh-Hans OKX/Bitget profiles add the exchange-vs-Web3-wallet answer 
   }
 });
 
-test("locales under regulatory review get no partner FAQ", () => {
-  for (const locale of ["tr", "vi", "zh-Hant", "ru", "id", "ar"]) {
+test("neutral locales get no partner FAQ; tr / vi / id only for the owner's target exchanges", () => {
+  // Owner update 2026-10-11 (exchange keyword plan): tr, vi and id moved from "under review" to a per-exchange target
+  // list (PARTNER_VENUE_FAQ_LOCAL_TARGETS); ru, ar and zh-Hant stay neutral.
+  for (const locale of ["zh-Hant", "ru", "ar"]) {
     for (const slug of PARTNER_VENUE_FAQ_SLUGS) assert.equal(partnerVenueFaqFor(slug, locale), null, `${slug}/${locale}`);
+  }
+  for (const locale of ["tr", "vi", "id"]) {
+    for (const slug of PARTNER_VENUE_FAQ_SLUGS) {
+      if (PARTNER_VENUE_FAQ_LOCAL_TARGETS[locale].includes(slug)) assert.ok(partnerVenueFaqFor(slug, locale)?.entries.length >= 5, `${slug}/${locale}`);
+      else assert.equal(partnerVenueFaqFor(slug, locale), null, `${slug}/${locale}`);
+    }
   }
 });
 

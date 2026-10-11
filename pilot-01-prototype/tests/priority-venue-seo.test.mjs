@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 import { priorityVenueAnswers, priorityVenueAnswerFor } from "../src/data/priority-venue-answers.js";
+import { partnerVenueFaqFor } from "../src/data/partner-venue-faq.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeMetadata } from "../worker/index.js";
 import { localizedPath } from "../src/data/locale-routing.js";
@@ -43,7 +44,10 @@ test("all twelve reviewed detail variants share visible questions, cited answers
       assert.equal(worker.description, client.description, route);
       const clientFaq = faqOf(client.schemas);
       assert.deepEqual(faqOf(graph(worker.schema)).mainEntity, clientFaq.mainEntity, route);
-      assert.deepEqual(clientFaq.mainEntity.map((q) => [q.name, q.acceptedAnswer.text]), answer.faq.map(([q, a]) => [q, a]), route);
+      // Owner exchange keyword plan 2026-10-11: partner FAQ entries (hyperliquid en: referral code) follow the reviewed
+      // priority answers; the priority answers themselves stay first and unchanged.
+      const appended = (partnerVenueFaqFor(slug, locale)?.mode === "append" ? partnerVenueFaqFor(slug, locale).entries : []).map((e) => [e.question, e.answer]);
+      assert.deepEqual(clientFaq.mainEntity.map((q) => [q.name, q.acceptedAnswer.text]), [...answer.faq.map(([q, a]) => [q, a]), ...appended], route);
       assert.ok(clientFaq.mainEntity.every((q) => q.acceptedAnswer.citation?.every((url) => url.startsWith("https://"))), route);
       assert.equal(client.schemas.find((s) => s["@type"] === "WebPage").dateModified, answer.reviewedAt, route);
     }
@@ -79,7 +83,8 @@ test("priority FAQs exist in server HTML while remaining questions are initially
         assert.ok(html.includes(escape(q)), `${key} question absent from SSR: ${q}`);
         assert.ok(html.includes(escape(a)), `${key} answer absent from SSR`);
       }
-      assert.equal((html.match(/class="v3-faq-item" hidden=""/g) || []).length, answer.faq.length - 2, key);
+      const appendedCount = partnerVenueFaqFor(slug, locale)?.mode === "append" ? partnerVenueFaqFor(slug, locale).entries.length : 0;
+      assert.equal((html.match(/class="v3-faq-item" hidden=""/g) || []).length, answer.faq.length + appendedCount - 2, key);
       assert.match(html, /aria-expanded="false"/);
       assert.doesNotMatch(html, /SEO FAQ|What should the CTA say|cryptographically validated/);
       assert.ok(heroHtml.includes(escape(answer.title)), `${key} direct answer mounted`);

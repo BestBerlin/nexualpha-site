@@ -12,8 +12,12 @@
 // rules) and ar (Egypt CBE law 194/2020). Those two lead with slogan A and keep their neutral facts. Turkish carries
 // slogan B like the other locales (owner 2026-10-11: "土耳其站照常写"). Remove a locale from
 // NEUTRAL_HOME_DESCRIPTION_LOCALES to add slogan B.
+import { HOME_REBATE_SHARE } from "./home-rebate-tiers.js";
 import { brandSlogan, brandSloganSecondary, sloganSentence, sloganTitleFragment, SLOGAN_LOCALES } from "./brand-slogan.js";
 import { clampMetaDescription, titleDisplayWidth } from "./meta-description.js";
+
+const TR_PROMOTED = ["okx", "binance", "bybit"];
+export const TR_REBATE_MAX_PCT = Math.round(Math.max(...TR_PROMOTED.map((slug) => HOME_REBATE_SHARE[slug] ?? 0)) * 100);
 
 export const HOME_TITLE_BUDGET = 60;
 const BRAND_SUFFIX = " — NexuAlpha";
@@ -54,7 +58,7 @@ const HOME_FACTS = Object.freeze({
   ja: "OKX・Bitget・Binance の紹介コード。還元は取引所が支払い、提携関係を開示。",
   ko: "OKX·Bitget·Binance 추천코드, 거래소 지급. 제휴 공개.",
   ru: "Комиссии OKX, Bitget и Binance по официальным тарифам и официальные ссылки. Партнёрские ссылки раскрыты.",
-  tr: "OKX, Bitget, Binance: iadeyi borsa öder. Ortaklık bağlantıları belirtilir.",
+  tr: "OKX, Binance, Bybit resmî kayıt. Ortaklık bağlantıları belirtilir.",
   id: "OKX, Bitget dan Binance, dibayar oleh exchange. Kemitraan diungkapkan.",
   vi: "OKX, Bitget, Binance do sàn chi trả. Công bố quan hệ đối tác.",
   ar: "مقارنة رسوم OKX وBitget وBinance وفق الجداول الرسمية. روابط الشراكة مُفصح عنها.",
@@ -79,7 +83,9 @@ export function homeTitleCarriesSlogan(locale) {
 export function homeDescription(locale) {
   const parts = [];
   if (!homeTitleCarriesSlogan(locale)) parts.push(sloganSentence(brandSlogan(locale), locale));
-  if (!NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale)) parts.push(sloganSentence(brandSloganSecondary(locale), locale));
+  // Turkey (owner 2026-10-11): Bitget is not promoted (its Turkish entity is on the SPK liquidation list), so the share in
+  // slogan B is the best confirmed share among the partners promoted in Turkey (OKX 40%), not the Bitget headline.
+  if (!NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale)) parts.push(sloganSentence(brandSloganSecondary(locale, locale === "tr" ? TR_REBATE_MAX_PCT : undefined), locale));
   parts.push(HOME_FACTS[locale] || HOME_FACTS.en);
   return clampMetaDescription(parts.join(CJK_JOIN.has(locale) ? "" : " "), locale);
 }

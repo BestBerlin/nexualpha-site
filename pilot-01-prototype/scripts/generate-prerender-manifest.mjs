@@ -10,6 +10,7 @@ import { priorityVenueAnswerFor } from "../src/data/priority-venue-answers.js";
 import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
 import { TOKENIZED_ASSET_CLUSTER_REVIEW_DATE, TOKENIZED_ASSET_PAGES, TOKENIZED_ASSET_LOCALES } from "../src/data/tokenized-assets-cluster.js";
 import { toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js";
+import { VENUE_ALTERNATIVE_PAGES, VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERNATIVES_REVIEWED_AT } from "../src/data/venue-alternatives.js";
 import { NEWS_DISPLAY_LOCALES, newsListingPublishedLocales, newsSitemapLanguage, normalizeNewsFeed, normalizeNewsFeedSummaries, newsArticleAvailableLocales, projectNewsFeedForRoute } from "../src/data/news-feed-client.js";
 import { BRAZIL_PAGES, BRAZIL_SOURCES } from "../src/data/brazil-market.js";
 import { getBrazilSeo } from "../src/data/brazil-seo.js";
@@ -109,6 +110,7 @@ export function routeInventory(newsArticles = []) {
     ...Object.keys(venueDatabase).map((slug) => `/factbook/${slug}`),
     ...Object.keys(TOPIC_GUIDES).map((slug) => `/topics/${slug}`),
     ...Object.values(TOKENIZED_ASSET_PAGES).map((page) => page.path),
+    ...Object.values(VENUE_ALTERNATIVE_PAGES).map((page) => page.path),
     ...CURATED_COMPARISONS.map((pair) => `/compare/${pair}`),
     ...newsArticles.filter((article) => article.seo?.noindex === false).map((article) => `/news/${article.slug}`),
   ];
@@ -141,6 +143,7 @@ export function routeInventory(newsArticles = []) {
     // (/tr/markets/turkiye). Prerender it too so crawlers and no-JS readers do not get an empty #root.
     ...(pathname === "/markets/turkiye" ? { prerenderLocales: ["tr", "en"] } : {}),
     ...(Object.values(TOKENIZED_ASSET_PAGES).some((page) => page.path === pathname) ? { locales: TOKENIZED_ASSET_LOCALES } : {}),
+    ...(Object.values(VENUE_ALTERNATIVE_PAGES).some((page) => page.path === pathname) ? { locales: VENUE_ALTERNATIVES_INDEX_LOCALES } : {}),
   })).concat(BRAZIL_PAGES.map(({ path: pathname }) => ({ pathname, level: pathname === '/br' ? 2 : 3,
     template: 'brazilDecision', index: true, locales: ['pt-BR'] })));
 }
@@ -214,6 +217,7 @@ function routeLastmod(route, article, locale = "en") {
   if (route.pathname.startsWith("/br")) return latestDate(BRAZIL_SOURCES.map((source) => source.checkedAt));
   if (route.template === "topic") {
     const slug = pathSlug(route.pathname, "/topics/");
+    if (VENUE_ALTERNATIVE_PAGES[slug]) return VENUE_ALTERNATIVES_REVIEWED_AT;
     return TOPIC_GUIDES[slug]?.lastUpdated || TOKENIZED_ASSET_PAGES[slug]?.updatedAt || TOKENIZED_ASSET_CLUSTER_REVIEW_DATE;
   }
   if (route.template === "venue") return priorityVenueAnswerFor(pathSlug(route.pathname, "/exchanges/"), locale)?.reviewedAt || "2026-09-15";

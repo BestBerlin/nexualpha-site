@@ -30,6 +30,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   factbook: "./components/v3/FactbookPage.jsx",
   collectionHub: "./components/v3/CollectionHubPage.jsx",
   tokenizedAssets: "./components/v3/TokenizedAssetsPage.jsx",
+  venueAlternatives: "./components/v3/VenueAlternativesPage.jsx",
   brazilDecision: "./components/v3/international/BrazilDecisionPage.jsx",
   brazilCostEmbed: "./components/v3/international/BrazilCostEmbed.jsx",
   regionalPreview: "./components/v3/international/RegionalMarketPreview.jsx",
@@ -132,6 +133,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (["topicCollection", "factbookCollection"].includes(name)) return [ROUTE_MODULE_PATHS.collectionHub];
   if (name === "factbook") return [ROUTE_MODULE_PATHS.factbook];
   if (name === "tokenizedAssets") return [ROUTE_MODULE_PATHS.tokenizedAssets];
+  if (name === "venueAlternatives") return [ROUTE_MODULE_PATHS.venueAlternatives];
   if (name === "brazil") return [ROUTE_MODULE_PATHS.brazilDecision];
   if (["regionalPreview", "regionalDecision"].includes(name)) return [ROUTE_MODULE_PATHS.regionalPreview];
   if (name === "embedCalculator") {

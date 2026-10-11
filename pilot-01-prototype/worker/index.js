@@ -11,6 +11,7 @@ import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-a
 import { ACTIVE_COMPARE_VENUE_SLUGS, CURATED_COMPARISON_SLUGS, canonicalComparePairSlug, compareIndexCopy, generatedCompareCopy, generatedCompareDataDate, generatedCompareLocales, generatedComparePolicy, indexableGeneratedComparePairs, parseComparePair } from "../src/data/compare-generated.js";
 import { socialImagePathForRoute, SOCIAL_IMAGE_WIDTH, SOCIAL_IMAGE_HEIGHT } from "../src/data/social-image.js";
 import { applyPartnerVenueFaqSchema } from "../src/data/partner-venue-faq.js";
+import { VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERNATIVE_PAGES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "../src/data/venue-alternatives.js";
 import { applySafeAttributionToSearchParams, sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
 import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
@@ -173,7 +174,7 @@ const PRIORITY_VENUE_SEO = {
         ],
         [
           "Does Hyperliquid offer a funded account?",
-          "Treat hyperliquid funded account keywords as a separate research path. Official Hyperliquid docs can support checks around self-funded wallet collateral, vault participation, sub-accounts and API-wallet signing routes, but they do not prove third-party trader-funding offers, a third-party capital allocation offer or a promised trader-funding result.",
+          "Not according to its own documentation: the full Hyperliquid docs (checked October 11, 2026) describe no funded-account or prop-trading programme run by Hyperliquid, and \"funded account\" offers on Hyperliquid come from third parties with their own terms. Official Hyperliquid docs can support checks around self-funded wallet collateral, vault participation, sub-accounts and API-wallet signing routes, but they do not prove third-party trader-funding offers, a third-party capital allocation offer or a promised trader-funding result.",
           [
             "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/account-abstraction-modes",
             "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/vaults",
@@ -5682,6 +5683,7 @@ function searchPublicationLocales(pathname, options = {}) {
       : [];
   }
   if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname)) return TOKENIZED_ASSET_LOCALES;
+  if (venueAlternativePage(pathname.match(/^\/topics\/([a-z0-9-]+)$/)?.[1])) return VENUE_ALTERNATIVES_INDEX_LOCALES;
   if (SEARCH_ALL_LOCALE_STATIC_PATHS.has(pathname)) return INDEXABLE_LOCALES;
   if (SEARCH_CORE_STATIC_PATHS.has(pathname)) return ["en", "zh-Hans", "ja", "ko", "tr"];
   if (SEARCH_SECONDARY_STATIC_PATHS.has(pathname)) return ["en", "zh-Hans"];
@@ -6528,6 +6530,25 @@ async function routeMetadataBase(url, env, newsFeed) {
     };
   }
 
+  // /topics/<exchange>-alternatives (exchange keyword plan 2026-10-11): same data and head as computeRouteSeo.
+  const alternativesPage = venueAlternativePage(canonicalPath.match(/^\/topics\/([a-z0-9-]+)$/)?.[1]);
+  if (alternativesPage) {
+    const indexable = VENUE_ALTERNATIVES_INDEX_LOCALES.includes(locale);
+    const content = venueAlternativesContent(alternativesPage, locale);
+    const canonical = localizedCanonical(canonicalPath, indexable ? locale : "en");
+    return {
+      status: 200,
+      title: `${content.metaTitle} — NexuAlpha`,
+      description: content.metaDescription,
+      canonical,
+      locale: indexable ? locale : content.locale,
+      robots: indexable ? "index,follow" : "noindex,follow",
+      marker: TOPIC_ROUTE_MARKER,
+      alternates: indexable ? routeAlternates(canonicalPath, VENUE_ALTERNATIVES_INDEX_LOCALES) : [],
+      schema: venueAlternativesSchemas(alternativesPage, locale, canonical, PUBLIC_ORIGIN),
+    };
+  }
+
   const tokenizedTopicMatch = canonicalPath.match(/^\/topics\/(tokenized-assets|tokenized-treasuries|tokenized-stocks-vs-perpetuals)$/);
   if (tokenizedTopicMatch) {
     const topic = TOKENIZED_ASSET_REGISTRY[tokenizedTopicMatch[1]];
@@ -7241,7 +7262,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname.startsWith("/news/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-"];
   if (pathname === "/partners" || pathname.startsWith("/partners/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-partners-"];
   if (pathname === "/topics/derivatives") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-", "route-v3-pages-"];
-  if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-tokenized-assets-"];
+  if (TOKENIZED_ASSET_TOPIC_PATHS.has(pathname) || Object.values(VENUE_ALTERNATIVE_PAGES).some((page) => page.path === pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-tokenized-assets-"];
   // The topic and factbook hubs render CollectionHubPage, whose editorial index CSS lives in route-collection-hubs.
   if (pathname === "/topics") return [...SHARED_ROUTE_STYLE_PREFIXES, "route-topic-guide-", "route-collection-hubs-"];
   if (pathname === "/factbook") return [...SHARED_ROUTE_STYLE_PREFIXES, "page-factbook-", "page-detail-", "route-factbook-", "route-activity-", "route-collection-hubs-"];

@@ -16,7 +16,7 @@ import { formatPercent } from "../src/data/format-percent.js";
 import {
   BRAND_SLOGAN_PRIMARY, BRAND_SLOGAN_SECONDARY_TEMPLATE, SLOGAN_LOCALES, brandSlogan, brandSloganSecondary, sloganTitleFragment,
 } from "../src/data/brand-slogan.js";
-import { NEUTRAL_HOME_DESCRIPTION_LOCALES, homeTitleCarriesSlogan, HOME_TITLE_BUDGET } from "../src/data/home-search-copy.js";
+import { NEUTRAL_HOME_DESCRIPTION_LOCALES, TR_REBATE_MAX_PCT, homeTitleCarriesSlogan, HOME_TITLE_BUDGET } from "../src/data/home-search-copy.js";
 import { organizationSchema, brandPageSchemas } from "../src/data/brand-entity.js";
 import { defaultCardSvg, newsCardSvg, BRAND_MARK_PATHS } from "../server/og-image.mjs";
 import { socialImagePathForRoute } from "../src/data/social-image.js";
@@ -118,16 +118,19 @@ test("home title fits the 60-wide budget with the brand, and slogan A sits in th
     if (NEUTRAL_HOME_DESCRIPTION_LOCALES.has(locale)) {
       assert.ok(!description.includes(brandSloganSecondary(locale)), `${locale}: neutral home copy keeps slogan B out`);
     } else {
-      assert.ok(description.includes(brandSloganSecondary(locale)), `${locale}: description carries slogan B`);
-      assert.ok(description.includes(formatPercent(locale, HOME_REBATE_MAX_PCT)), `${locale}: share from the constant`);
+      assert.ok(description.includes(brandSloganSecondary(locale, locale === "tr" ? TR_REBATE_MAX_PCT : undefined)), `${locale}: description carries slogan B`);
+      assert.ok(description.includes(formatPercent(locale, locale === "tr" ? TR_REBATE_MAX_PCT : HOME_REBATE_MAX_PCT)), `${locale}: share from the constant`);
     }
-    for (const venue of ["OKX", "Bitget"]) assert.ok(description.includes(venue), `${locale}: ${venue} fact`);
+    // Turkey does not promote Bitget (SPK liquidation list; owner 2026-10-11): OKX + Bybit instead.
+    for (const venue of locale === "tr" ? ["OKX", "Bybit"] : ["OKX", "Bitget"]) assert.ok(description.includes(venue), `${locale}: ${venue} fact`);
     assert.match(description, /Binance|币安|幣安/, `${locale}: Binance fact`);
     assert.match(description, disclosure[locale], `${locale}: partner links disclosed`);
   }
   // Owner 2026-10-11 ("土耳其站照常写"): Turkish carries slogan B; only ru and ar stay neutral.
   assert.deepEqual([...NEUTRAL_HOME_DESCRIPTION_LOCALES].sort(), ["ar", "ru"]);
-  assert.ok(HOME_SEARCH_COPY.tr[1].includes("En fazla %60."), "tr description carries slogan B with the Turkish percent");
+  // Turkey promotes OKX/Binance/Bybit only (owner 2026-10-11), so slogan B uses the best of those shares (OKX 40%).
+  assert.ok(HOME_SEARCH_COPY.tr[1].includes("En fazla %40."), "tr description carries slogan B with the Turkish percent");
+  assert.doesNotMatch(HOME_SEARCH_COPY.tr[1], /Bitget/);
   // Chinese fits the full slogan in the title; English does not and leads the description with it.
   assert.equal(HOME_SEARCH_COPY["zh-Hans"][0], "邀请码与手续费返佣｜全球交易所，一个官方入口 — NexuAlpha");
   assert.equal(homeTitleCarriesSlogan("en"), false);

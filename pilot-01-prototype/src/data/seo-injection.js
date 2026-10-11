@@ -4,6 +4,7 @@ import { venueDatabase } from "./venue-database.js";
 import { mergePriorityVenueSeo } from "./priority-venue-seo.js";
 import { referralSeoFor } from "./referral-seo.js";
 import { applyPartnerVenueFaqSchema } from "./partner-venue-faq.js";
+import { VENUE_ALTERNATIVES_INDEX_LOCALES, venueAlternativePage, venueAlternativesContent, venueAlternativesSchemas } from "./venue-alternatives.js";
 import { neutralVenueCatalog } from "./market-command.js";
 import { TOPIC_GUIDES } from "./topic-guides-data.js";
 import { TOPIC_SOURCE_REVIEW_DATE, topicSourcesFor, topicFaqSchemaEntries } from "./topic-source-registry.js";
@@ -322,6 +323,7 @@ function searchPublicationLocales(pathname, options = {}) {
     return selectReviewedNewsSearchSlugs(options.newsArticles).has(options.article.slug) ? newsArticleSeoLocales(options.article) : [];
   }
   if (tokenizedAssetPage(pathname.replace(/^\/topics\//, ""))) return TOKENIZED_ASSET_LOCALES;
+  if (venueAlternativePage(pathname.replace(/^\/topics\//, ""))) return VENUE_ALTERNATIVES_INDEX_LOCALES;
   if (SEARCH_ALL_LOCALE_STATIC_PATHS.has(pathname)) return INDEXABLE_LOCALES;
   if (SEARCH_CORE_STATIC_PATHS.has(pathname)) return ["en", "zh-Hans", "ja", "ko", "tr"];
   if (SEARCH_SECONDARY_STATIC_PATHS.has(pathname)) return ["en", "zh-Hans"];
@@ -2253,6 +2255,16 @@ function computeRouteSeoUnbudgeted(options = {}) {
         ],
       }] : []);
     }
+  } else if (topicMatch && venueAlternativePage(topicMatch[1])) {
+    // /topics/<exchange>-alternatives (exchange keyword plan 2026-10-11): indexable in English; other locales render
+    // translated chrome with noindex and an English canonical, like the tokenized-asset cluster.
+    accept(); const page = venueAlternativePage(topicMatch[1]);
+    const indexable = VENUE_ALTERNATIVES_INDEX_LOCALES.includes(locale);
+    const content = venueAlternativesContent(page, locale);
+    title = `${content.metaTitle} — NexuAlpha`;
+    description = content.metaDescription;
+    robots = indexable ? "index,follow" : "noindex,follow";
+    schemas = venueAlternativesSchemas(page, locale, canonical(pathname, indexable ? locale : "en"), PUBLIC_ORIGIN);
   } else if (topicMatch && tokenizedAssetPage(topicMatch[1])) {
     accept(); const page = tokenizedAssetPage(topicMatch[1]);
     const resolvedLocale = tokenizedAssetLocale(locale);
@@ -2364,7 +2376,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
   }
   const newsClientLocale = pathname === "/news" ? resolveNewsContentLocale(locale, newsListingPublishedLocales(options.newsArticles)) : null;
   const newsArticleClientLocale = newsMatch && options.article ? resolveNewsContentLocale(locale, newsArticleSeoLocales(options.article)) : null;
-  const tokenizedClientLocale = topicMatch && tokenizedAssetPage(topicMatch[1]) ? tokenizedAssetLocale(locale) : null;
+  const tokenizedClientLocale = topicMatch && tokenizedAssetPage(topicMatch[1]) ? tokenizedAssetLocale(locale) : topicMatch && venueAlternativePage(topicMatch[1]) && !VENUE_ALTERNATIVES_INDEX_LOCALES.includes(locale) ? "en" : null;
   const collectionHubLocale = pathname === "/topics" || pathname === "/factbook" ? "en" : null;
   const canonicalLocale = collectionHubLocale || newsArticleClientLocale || newsClientLocale || tokenizedClientLocale || locale;
   const regionalPreviewCanonical = route.name === "regionalPreview"

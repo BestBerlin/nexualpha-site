@@ -31,12 +31,13 @@ import { VenueReadinessChecklist } from "./VenueReadinessChecklist.jsx";
 import { TelegramReturnBanner } from "./TelegramReturnBanner.jsx";
 import { footerDisclosureLabel } from "./CleanFooter.jsx";
 import { formatPercent } from "../../data/format-percent.js";
-import { referralSeoFor } from "../../data/referral-seo.js";
+import { referralSeoFor, referralSharePercent } from "../../data/referral-seo.js";
 import { showFewerPlatforms, showMorePlatforms } from "../../data/plural-copy.js";
 import "./growth-conversion.css";
 import { localeKey, textLocaleKey, zhText, localePending, interfaceText, detailCtaLabel, LocalLink, isoDates, publishableFeeRate } from "./v3-pages-shared.jsx";
 import { detailUi, dexFeeCompactUi, copyFeedbackLabel, useCopyFeedback, CopyFeedbackStatus, telegramLocaleUi } from "./venue-detail-shared.jsx";
 import { VenueFaqSection } from "./VenueFaqSection.jsx";
+import { VenueKeywordSections } from "./VenueKeywordSections.jsx";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { SectionRule } from "../shared/DataRule.jsx";
 
@@ -420,7 +421,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
   // venues). The invite code is the data-bound one from the CTA, never typed here.
   const referralHeadlineCode = hasReferral && inviteCode && referralSeoFor(venue.slug, locale) ? inviteCode : null;
   const detailTitleStr = referralHeadlineCode
-    ? text.detailReferralTitle(localizedVenueName, referralHeadlineCode, new Date().getUTCFullYear())
+    ? text.detailReferralTitle(localizedVenueName, referralHeadlineCode, new Date().getUTCFullYear(), referralSharePercent(venue.slug))
     : text.detailFeesTitle(localizedVenueName);
   const [titleBefore, titleAfter] = detailTitleStr.includes(localizedVenueName)
     ? detailTitleStr.split(localizedVenueName)
@@ -661,6 +662,7 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
         <VenueFeeLedger slug={profile.slug} locale={locale} />
         <VenueRoute domain={officialDomain} code={hasReferral ? inviteCode : null} locale={locale} />
+        <VenueKeywordSections slug={profile.slug} locale={locale} inviteCode={hasReferral ? inviteCode : null} />
 
         {venueDirectAnswer && (
           <div className="v3-venue-direct-answer" role="region" aria-label={priorityAnswer?.title || `${profile.name} direct answer`} data-priority-answer={priorityAnswer ? venue.slug : undefined} lang={priorityAnswer?.locale || locale}>
