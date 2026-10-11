@@ -44,7 +44,7 @@ All components use eased staged reveals and/or continuing subtle motion; none is
 | Type | Parameters |
 | --- | --- |
 | `flow` | `labels` (two platform labels) |
-| `phone-mock` | `fields` (label/value pairs); generic illustrative UI |
+| `phone-mock` | `fields` (label/value pairs or `{label, value, state}` objects); `state` is `ok`, `bad`, or `neutral`. Absent state is inferred; unknown/illustrative text stays neutral. |
 | `checklist` | `items` (strings) |
 | `compare-table` | `columns` (two headers), `rows` (label, left value, right value triples) |
 | `warning-card` | `title`, `body` |
@@ -110,3 +110,22 @@ registry data is modified.
 Encoder inputs are all closed before waiting for completion; finalization has a 60-second
 timeout and removes partial outputs on failure. Restart a failed diagnostic in the same
 output directory; narrated renders must use a separate directory.
+
+## Season 1 visual polish diagnostics
+
+```bash
+bash ops/academy/render_polish.sh
+```
+
+Renders all twelve silent episodes at one motion sample per second, with four
+30fps MP4 exports per episode, then probes and fully decodes every export and
+checks its QR. Contact sheets and verification evidence are under
+`samples/season1-polish/`. These outputs retain the silent-review watermark and
+estimated timing; the lead must render narration separately.
+
+Scene cards use 55% of landscape height and 55.2% of portrait height, centred
+between the subtitle and caption band. Portrait linear flows stack vertically;
+node edges stay at least 48px inside the card. Checklist rows use 1.6 line
+spacing, a 34px minimum, and separate centred icon/text columns. Phone values
+use a green check only for `ok`, a red cross for `bad`, and no glyph for `neutral`.
+Legacy label/value arrays and localized fields remain supported.

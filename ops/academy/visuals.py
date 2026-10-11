@@ -198,7 +198,7 @@ def draw_text_fit(
             x = x1 - line_width
         else:
             x = x0
-        draw.text((x, y), line, font=layout.font, fill=fill)
+        draw.text((x, y), line, font=layout.font, fill=fill, anchor="lt")
         y += layout.line_height
     return layout
 
@@ -270,79 +270,57 @@ def _draw_flow(ctx: _Context) -> None:
         return
 
     count = len(nodes)
-    compact = count >= 4 or ctx.h < 420
-    y = ctx.sy(0.45 if note else 0.50)
-    left = ctx.sx(0.08)
-    right = ctx.sx(0.92)
-    gap = (right - left) / max(1, count - 1)
-    node_w = min(max(170, int((right - left) / count * 0.82)), max(170, int(ctx.w * 0.22)))
-    node_h = max(118, min(150, int(ctx.h * (0.34 if compact else 0.40))))
-    points = [(int(round(left + i * gap)), y) for i in range(count)]
+    vertical = ctx.h > ctx.w
+    # Distribute node edges, rather than centres, inside the card's safe box.
+    margin = max(48, int(min(ctx.w, ctx.h) * 0.08))
+    gap = max(64, int((ctx.h if vertical else ctx.w) * 0.07))
+    available = (ctx.h * (0.72 if note else 0.86) if vertical else ctx.w) - 2 * margin
+    extent = int((available - gap * (count - 1)) / count)
+    if extent < (76 if vertical else 96):
+        raise TextOverflowError("flow nodes cannot fit inside the 48px safe margin")
+    node_w = int(ctx.w * 0.72) if vertical else min(int(ctx.w * 0.26), extent)
+    node_h = min(180, extent) if vertical else int(ctx.h * 0.46)
+    extent = node_h if vertical else node_w
+    span = count * extent + (count - 1) * gap
+    origin = (ctx.sy(0.40 if note else 0.50) if vertical else ctx.sx(0.50)) - span / 2
+    points = [(ctx.sx(0.50), int(origin + extent / 2 + i * (extent + gap))) if vertical
+              else (int(origin + extent / 2 + i * (extent + gap)), ctx.sy(0.42 if note else 0.50)) for i in range(count)]
     active = min(count - 1, int(ctx.progress * count))
-
     for index in range(count - 1):
         x0, y0 = points[index]
         x1, y1 = points[index + 1]
-        start_x = x0 + node_w // 2
-        end_x = x1 - node_w // 2
+        start = (x0, y0 + node_h // 2) if vertical else (x0 + node_w // 2, y0)
+        end = (x1, y1 - node_h // 2) if vertical else (x1 - node_w // 2, y1)
         local = _range_progress(ctx.progress, index / (count - 1), (index + 1) / (count - 1))
-        if end_x <= start_x:
-            continue
-        ctx.draw.line((start_x, y0, end_x, y1), fill=_rgba(BLUE, 80), width=max(5, ctx.h // 90))
-        ctx.draw.line((start_x, y0, start_x + int((end_x - start_x) * local), y1), fill=BLUE, width=max(7, ctx.h // 76))
-        _arrow(ctx.draw, (end_x - 24, y1), (end_x + 4, y1), BLUE if local > 0.82 else _rgba(BLUE, 90))
+        tip = tuple(int(a + (b - a) * local) for a, b in zip(start, end))
+        ctx.draw.line(start + end, fill=_rgba(BLUE, 80), width=5)
+        ctx.draw.line(start + tip, fill=BLUE, width=7)
+        if vertical:
+            ctx.draw.polygon([(end[0], end[1]), (end[0]-10, end[1]-16), (end[0]+10, end[1]-16)], fill=BLUE)
+        else:
+            _arrow(ctx.draw, (end[0] - 24, end[1]), end, BLUE)
         if index < len(edge_labels) and edge_labels[index]:
-            draw_text_fit(
-                ctx.draw,
-                (start_x + 6, y0 - node_h * 0.52, end_x - 6, y0 - node_h * 0.17),
-                edge_labels[index],
-                locale=ctx.locale,
-                fill=MUTED,
-                max_size=ctx.size(0.043),
-                align="center",
-                valign="center",
-                max_lines=1,
-            )
-
-    for index, (x, node_y) in enumerate(points):
-        fill = "#172234" if index > active else "#14342d"
-        outline = GREEN if index <= active else "#334056"
-        box = (x - node_w // 2, node_y - node_h // 2, x + node_w // 2, node_y + node_h // 2)
-        _rounded(ctx.draw, box, 22, fill=fill, outline=outline, width=3)
-        draw_text_fit(
-            ctx.draw,
-            (box[0] + 14, box[1] + 12, box[2] - 14, box[3] - 12),
-            nodes[index],
-            locale=ctx.locale,
-            fill=TEXT,
-            max_size=ctx.size(0.056),
-            align="center",
-            valign="center",
-            max_lines=3,
-        )
-
+            label_box = (start[0] + 24, start[1], ctx.box[2] - margin, end[1]) if vertical else (start[0] - 30, y0 - node_h * 0.85, end[0] + 30, y0 - node_h * 0.52)
+            draw_text_fit(ctx.draw, label_box, edge_labels[index], locale=ctx.locale, fill=MUTED, max_size=ctx.size(0.043), align="center", valign="center", max_lines=2)
+        ctx.draw.ellipse((tip[0]-10, tip[1]-10, tip[0]+10, tip[1]+10), fill=GREEN)
+    for index, (x, y) in enumerate(points):
+        box = (x - node_w // 2, y - node_h // 2, x + node_w // 2, y + node_h // 2)
+        _rounded(ctx.draw, box, 22, fill="#172234" if index > active else "#14342d", outline=GREEN if index <= active else "#334056", width=3)
+        draw_text_fit(ctx.draw, _pad(box, 24, 16, 24, 16), nodes[index], locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.072), align="center", valign="center", max_lines=3)
     if note:
-        draw_text_fit(ctx.draw, (ctx.sx(0.09), ctx.sy(0.76), ctx.sx(0.91), ctx.sy(0.91)), note, locale=ctx.locale, fill=AMBER, max_size=ctx.size(0.046), align="center", valign="center", max_lines=2)
-
-    path_index = min(count - 2, int(ctx.progress * (count - 1)))
-    segment_t = (ctx.progress * (count - 1)) % 1
-    x0, dot_y = points[path_index]
-    x1, _ = points[path_index + 1]
-    dot_x = int(round((x0 + node_w // 2) + (x1 - x0 - node_w) * segment_t))
-    pulse = 0.7 + 0.3 * math.sin(ctx.t * 7.0)
-    ctx.draw.ellipse((dot_x - 12, dot_y - 12, dot_x + 12, dot_y + 12), fill=_rgba(GREEN, int(190 + 50 * pulse)))
+        draw_text_fit(ctx.draw, (ctx.sx(0.09), ctx.sy(0.80), ctx.sx(0.91), ctx.sy(0.94)), note, locale=ctx.locale, fill=AMBER, max_size=ctx.size(0.046), align="center", valign="center", max_lines=2)
 
 
 def _draw_phone_mock(ctx: _Context) -> None:
     title = _param(ctx, "title", _param(ctx, "screen", "Generic verification form"))
-    pairs = _field_pairs(ctx)
+    pairs = _phone_fields(ctx)
     tabs = _list_param(ctx, "tabs", [])
     note = _param(ctx, "note", _param(ctx, "label", None))
-    if ctx.h < 500:
+    if ctx.w > ctx.h:
         _draw_phone_mock_compact(ctx, title, pairs, tabs, note)
         return
     phone_w = int(ctx.w * 0.72)
-    phone_h = min(int(ctx.h * 0.92), int(phone_w * 1.55))
+    phone_h = min(ctx.h, int(phone_w * 1.55))
     x0 = ctx.box[0] + (ctx.w - phone_w) // 2
     y0 = ctx.box[1] + (ctx.h - phone_h) // 2
     x1 = x0 + phone_w
@@ -380,7 +358,7 @@ def _draw_phone_mock(ctx: _Context) -> None:
     row_h = int((bottom_y - start_y) / max(1, len(pairs)))
     if row_h < 58:
         raise TextOverflowError(f"phone-mock has {len(pairs)} fields but only {bottom_y - start_y}px available")
-    for index, (label, value) in enumerate(pairs):
+    for index, (label, value, state) in enumerate(pairs):
         reveal = _range_progress(ctx.progress, index / max(1, len(pairs)), (index + 0.8) / max(1, len(pairs)))
         row = (int(screen[0] + phone_w * 0.05), start_y + index * row_h, int(screen[2] - phone_w * 0.05), start_y + index * row_h + row_h - 8)
         _rounded(ctx.draw, row, 18, fill="#182231", outline="#29364a")
@@ -392,14 +370,14 @@ def _draw_phone_mock(ctx: _Context) -> None:
             value_box = (label_box[2] + 10, row[1] + 8, row[2] - 42, row[3] - 8)
         draw_text_fit(ctx.draw, label_box, label, locale=ctx.locale, fill=MUTED, max_size=38, max_lines=1, valign="center")
         visible = _clip_text(str(value), reveal)
-        draw_text_fit(ctx.draw, value_box, visible or " ", locale=ctx.locale, fill=GREEN if reveal >= 0.98 else TEXT, max_size=42, weight="bold", max_lines=2 if row_h >= 96 else 1, valign="center")
-        if reveal >= 0.98:
-            _check(ctx.draw, (int(row[2] - 30), int(row[1] + row_h * 0.36)), 15, GREEN)
+        draw_text_fit(ctx.draw, value_box, visible or " ", locale=ctx.locale, fill={"ok": GREEN, "bad": RED, "neutral": MUTED}[state], max_size=42, weight="bold", max_lines=2 if row_h >= 96 else 1, valign="center")
+        if reveal >= 0.98 and state != "neutral":
+            _status_icon(ctx.draw, (int(row[2] - 30), int((row[1] + row[3]) / 2)), 15, state)
     if note:
         draw_text_fit(ctx.draw, (int(screen[0] + phone_w * 0.05), int(screen[3] - phone_h * 0.11), int(screen[2] - phone_w * 0.05), int(screen[3] - phone_h * 0.03)), note, locale=ctx.locale, fill=MUTED, max_size=36, align="center", valign="center", max_lines=2)
 
 
-def _draw_phone_mock_compact(ctx: _Context, title: Any, pairs: Sequence[tuple[str, str]], tabs: Sequence[str], note: Any) -> None:
+def _draw_phone_mock_compact(ctx: _Context, title: Any, pairs: Sequence[tuple[str, str, str]], tabs: Sequence[str], note: Any) -> None:
     _rounded(ctx.draw, ctx.box, 28, fill="#0e141c", outline="#344054", width=4)
     screen = _pad(ctx.box, ctx.w * 0.035, ctx.h * 0.06, ctx.w * 0.035, ctx.h * 0.04)
     _rounded(ctx.draw, screen, 22, fill="#121a24", outline="#202c3c")
@@ -419,16 +397,16 @@ def _draw_phone_mock_compact(ctx: _Context, title: Any, pairs: Sequence[tuple[st
     row_h = int((rows_bottom - rows_top) / max(1, len(pairs)))
     if row_h < 46:
         raise TextOverflowError(f"phone-mock has {len(pairs)} fields but only {rows_bottom - rows_top}px available")
-    for index, (label, value) in enumerate(pairs):
+    for index, (label, value, state) in enumerate(pairs):
         reveal = _range_progress(ctx.progress, index / max(1, len(pairs)), (index + 0.8) / max(1, len(pairs)))
         row = (screen[0] + 22, rows_top + index * row_h, screen[2] - 22, rows_top + index * row_h + row_h - 8)
         _rounded(ctx.draw, row, 16, fill="#182231", outline="#29364a")
         label_box = (row[0] + 16, row[1] + 6, row[0] + int((row[2] - row[0]) * 0.34), row[3] - 6)
         value_box = (label_box[2] + 12, row[1] + 6, row[2] - 44, row[3] - 6)
         draw_text_fit(ctx.draw, label_box, label, locale=ctx.locale, fill=MUTED, max_size=38, max_lines=1, valign="center")
-        draw_text_fit(ctx.draw, value_box, _clip_text(str(value), reveal) or " ", locale=ctx.locale, fill=GREEN if reveal >= 0.98 else TEXT, max_size=40, weight="bold", max_lines=2 if row_h >= 82 else 1, valign="center")
-        if reveal >= 0.98:
-            _check(ctx.draw, (row[2] - 26, (row[1] + row[3]) // 2), 14, GREEN)
+        draw_text_fit(ctx.draw, value_box, _clip_text(str(value), reveal) or " ", locale=ctx.locale, fill={"ok": GREEN, "bad": RED, "neutral": MUTED}[state], max_size=40, weight="bold", max_lines=2 if row_h >= 82 else 1, valign="center")
+        if reveal >= 0.98 and state != "neutral":
+            _status_icon(ctx.draw, (row[2] - 26, (row[1] + row[3]) // 2), 14, state)
     if note:
         draw_text_fit(ctx.draw, (screen[0] + 22, screen[3] - 50, screen[2] - 22, screen[3] - 10), note, locale=ctx.locale, fill=MUTED, max_size=34, align="center", valign="center", max_lines=1)
 
@@ -445,16 +423,16 @@ def _draw_checklist(ctx: _Context) -> None:
     if ctx.h < 420 and len(items) >= 5:
         _draw_checklist_tiles(ctx, items)
         return
-    top = ctx.sy(0.23)
-    bottom = ctx.sy(0.86 if (example or risk_note) else 0.90)
+    top = ctx.sy(0.21)
+    bottom = ctx.sy(0.87 if (example or risk_note) else 0.90)
     row_h = int((bottom - top) / max(1, len(items)))
-    if row_h < 48:
+    if row_h < math.ceil(MIN_FONT_SIZE * 1.6) + 20:
         raise TextOverflowError(f"checklist has {len(items)} items but only {bottom - top}px available")
     active = int(active_raw) if isinstance(active_raw, int) and not isinstance(active_raw, bool) else None
     for index, item in enumerate(items):
         reveal = _range_progress(ctx.progress, index / max(1, len(items)), (index + 0.7) / max(1, len(items)))
         y0 = top + index * row_h
-        row = (ctx.sx(0.08), y0, ctx.sx(0.92), y0 + row_h - 6)
+        row = (ctx.sx(0.08), y0, ctx.sx(0.92), y0 + row_h - 12)
         highlighted = all_checked or active == index or (active is None and reveal > 0.55)
         _rounded(ctx.draw, row, 18, fill=_rgba("#172130", int(95 + 70 * reveal)), outline=GREEN if highlighted else "#2b3a50", width=3 if highlighted else 2)
         cx = row[0] + max(30, min(42, row_h // 2))
@@ -463,7 +441,7 @@ def _draw_checklist(ctx: _Context) -> None:
         ctx.draw.ellipse((cx - icon, cy - icon, cx + icon, cy + icon), outline=GREEN if highlighted else "#48576c", width=3)
         if highlighted:
             _check(ctx.draw, (cx, cy), icon, GREEN)
-        draw_text_fit(ctx.draw, (cx + icon + 16, row[1] + 3, row[2] - 16, row[3] - 3), item, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.055), max_lines=1, valign="center")
+        draw_text_fit(ctx.draw, (cx + icon + 16, row[1] + 3, row[2] - 16, row[3] - 3), item, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.065), line_spacing=1.6, max_lines=2, valign="center")
     footer = example or risk_note
     if footer:
         draw_text_fit(ctx.draw, (ctx.sx(0.09), ctx.sy(0.875), ctx.sx(0.91), ctx.sy(0.98)), footer, locale=ctx.locale, fill=AMBER if risk_note else MUTED, max_size=ctx.size(0.040), align="center", valign="center", max_lines=2)
@@ -489,7 +467,7 @@ def _draw_checklist_tiles(ctx: _Context, items: Sequence[str]) -> None:
         ctx.draw.ellipse((cx - icon, cy - icon, cx + icon, cy + icon), outline=GREEN if reveal > 0.45 else "#48576c", width=3)
         if reveal > 0.55:
             _check(ctx.draw, (cx, cy), icon, GREEN)
-        draw_text_fit(ctx.draw, (tile[0] + 12, tile[1] + 62, tile[2] - 12, tile[3] - 12), item, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.05), align="center", valign="center", max_lines=3)
+        draw_text_fit(ctx.draw, (tile[0] + 12, tile[1] + 62, tile[2] - 12, tile[3] - 12), item, locale=ctx.locale, fill=TEXT, max_size=ctx.size(0.05), line_spacing=1.6, align="center", valign="center", max_lines=3)
 
 
 def _draw_compare_table(ctx: _Context) -> None:
@@ -919,6 +897,41 @@ def _list_param(ctx: _Context, name: str, default: Sequence[Any]) -> list[str]:
     if not isinstance(value, Iterable):
         return [str(value)]
     return [str(item) for item in value]
+
+
+def _field_state(value: str, explicit: Optional[str] = None) -> str:
+    """Unknown form data is neutral; only positive statuses earn a check."""
+    if explicit is not None:
+        if explicit not in ("ok", "bad", "neutral"):
+            raise ValueError(f"invalid phone field state: {explicit!r}")
+        return explicit
+    value = _clean_text(value).lower()
+    if any(word in value for word in ("示意", "非真实", "illustrative", "illustration", "not a real", "generic", "example")):
+        return "neutral"
+    if any(word in value for word in ("未通过", "失败", "拒绝", "冻结", "错误", "未开启", "未完成", "不一致")) or re.search(r"\b(failed?|rejected?|frozen|error|not approved|disabled)\b", value):
+        return "bad"
+    if any(word in value for word in ("已通过", "已开启", "已完成", "成功")) or re.search(r"\b(approved|verified|enabled|complete[d]?|success|selected)\b", value):
+        return "ok"
+    return "neutral"
+
+
+def _phone_fields(ctx: _Context) -> list[tuple[str, str, str]]:
+    pairs = _field_pairs(ctx)
+    fields = _param(ctx, "fields", [])
+    if not isinstance(fields, Sequence) or isinstance(fields, str):
+        fields = []
+    return [(label, value, _field_state(value, fields[i].get("state") if i < len(fields) and isinstance(fields[i], Mapping) else None))
+            for i, (label, value) in enumerate(pairs)]
+
+
+def _status_icon(draw: ImageDraw.ImageDraw, center: tuple[int, int], size: int, state: str) -> None:
+    if state == "ok":
+        _check(draw, center, size, GREEN)
+    elif state == "bad":
+        cx, cy = center
+        radius = size * 0.7
+        for direction in (-1, 1):
+            draw.line((cx - radius, cy - direction * radius, cx + radius, cy + direction * radius), fill=RED, width=max(4, size // 4))
 
 
 def _field_pairs(ctx: _Context) -> list[tuple[str, str]]:
