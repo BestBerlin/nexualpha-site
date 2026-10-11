@@ -123,6 +123,11 @@ const tickerData = {
     { type: "RATE", text: "Le commissioni pubblicate variano per account, regione e prodotto" },
     { type: "UPDATE", text: "Il centro attività pubblica solo fonti verificate" },
   ],
+
+ // l10n: needs native review
+ ur: [{type:"INFO",text:"مارکیٹ ڈیٹا فی الحال دستیاب نہیں · فرضی قیمتیں چھپائی گئی ہیں"},{type:"INFO",text:"صارف کے فوائد اور ابتدائی شرائط کی سرکاری اکاؤنٹ میں تصدیق ضروری ہے"},{type:"DEEP",text:"موضوعاتی تحقیق سرکاری ماخذ سے منسلک ہے؛ موجودہ شرائط کی ہر اندراج پر جانچ باقی ہے"},{type:"RATE",text:"فیس کا موازنہ شائع شدہ بنیادی شرائط دکھاتا ہے؛ اکاؤنٹ، علاقے اور مصنوعات کی شرائط مختلف ہیں"},{type:"UPDATE",text:"سرگرمیوں کا مرکز صرف جائزہ شدہ ماخذ شائع کرتا ہے؛ پرانی اور غیر تصدیق شدہ پیشکشیں بند رہتی ہیں"}],
+ // l10n: needs native review
+ uk: [{type:"INFO",text:"Ринкові дані зараз недоступні · змодельовані ціни приховано"},{type:"INFO",text:"Переваги користувача й вітальні умови потрібно перевірити в офіційному акаунті"},{type:"DEEP",text:"Тематичні дослідження посилаються на офіційні джерела; поточні умови кожного запису очікують перевірки"},{type:"RATE",text:"Порівняння комісій показує оприлюднені базові умови; умови акаунта, регіону та продукту різняться"},{type:"UPDATE",text:"Центр подій публікує лише перевірені джерела; застарілі й неперевірені пропозиції залишаються закритими"}],
 };
 
 const sourceNoteActions = {
@@ -231,6 +236,11 @@ const sourceNoteActions = {
     "fees": "Apri la verifica dei costi di trading",
     "activity": "Verifica attività e condizioni di ciascuna"
   }
+,
+ // l10n: needs native review
+ ur: {market:"ڈیٹا کے استعمال کا طریقہ",account:"شرائط جانچنے کے لیے پلیٹ فارم منتخب کریں",topic:"ڈیریویٹوز کی تحقیق اور ماخذ کھولیں",fees:"فیس لاگت کی جانچ کھولیں",activity:"سرگرمیاں اور ہر اندراج کی شرائط جانچیں"},
+ // l10n: needs native review
+ uk: {market:"Як опрацьовуються дані",account:"Оберіть платформу для перевірки умов",topic:"Відкрити дослідження деривативів і джерела",fees:"Відкрити перевірку витрат на комісії",activity:"Перевірити події та умови записів"},
 };
 
 const sourceNotePaths = Object.freeze({
@@ -272,7 +282,12 @@ export function RebateTickerBar({ locale = "en", market = null, product = null }
     id: { aria: "Status sumber", tag: "Catatan sumber", viewAll: "Lihat semua", hide: "Tutup", badge: { INFO: "INFO", SOURCE: "SUMBER", DEEP: "DETAIL", RATE: "BIAYA", UPDATE: "PEMBARUAN" } },
     vi: { aria: "Trạng thái nguồn", tag: "Ghi chú nguồn", viewAll: "Xem tất cả", hide: "Đóng", badge: { INFO: "THÔNG TIN", SOURCE: "NGUỒN", DEEP: "CHI TIẾT", RATE: "PHÍ", UPDATE: "CẬP NHẬT" } },
     it: { aria: "Stato delle fonti", tag: "Note sulle fonti", viewAll: "Vedi tutto", hide: "Chiudi", badge: { INFO: "INFO", SOURCE: "FONTE", DEEP: "DETTAGLI", RATE: "COSTI", UPDATE: "AGGIORNAMENTO" } },
-  }[locale] || {};
+
+ // l10n: needs native review
+ ur: {aria:"ماخذ کی حالت",tag:"ماخذ کے نوٹس",viewAll:"تمام دیکھیں",hide:"چھپائیں",badge:{INFO:"معلومات",SOURCE:"ماخذ",DEEP:"تفصیل",RATE:"فیس",UPDATE:"تازہ معلومات"}},
+ // l10n: needs native review
+ uk: {aria:"Стан джерел",tag:"Примітки джерел",viewAll:"Переглянути всі",hide:"Приховати",badge:{INFO:"ІНФО",SOURCE:"ДЖЕРЕЛО",DEEP:"ПОДРОБИЦІ",RATE:"КОМІСІЯ",UPDATE:"ОНОВЛЕННЯ"}},
+}[locale] || {};
   const items = tickerData[locale] || (isHant ? tickerData["zh-Hant"] : isZh ? tickerData["zh-Hans"] : tickerData.en);
   const sourceTag = tickerUi.tag || (isHant ? "來源提示" : isZh ? "来源提示" : "Source notes");
   const sourceFullLabel = tickerUi.fullTag || null;

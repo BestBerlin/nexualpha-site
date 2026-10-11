@@ -325,7 +325,9 @@ const anonymousResumeCopyByLocale = {
 };
 
 
+// l10n: needs native review
 anonymousResumeCopyByLocale.ur = { ...copyByLocale.ur, resumeEyebrow: "بعد میں جاری رکھیں", resumeTitle: "اپنا آخری گمنام فیصلہ جاری رکھیں", resumeBody: "صرف مارکیٹ، مصنوعات، منظرنامہ اور سائٹ کا راستہ بحال ہوتے ہیں؛ شناخت، ریفرل لنک یا Telegram اکاؤنٹ ڈیٹا محفوظ نہیں ہوتا۔", resume: "آخری فیصلہ جاری رکھیں", forget: "محفوظ فیصلہ بھلا دیں" };
+// l10n: needs native review
 anonymousResumeCopyByLocale.uk = { ...copyByLocale.uk, resumeEyebrow: "Продовжити пізніше", resumeTitle: "Продовжити останнє анонімне рішення", resumeBody: "Відновлюються лише ринок, продукт, сценарій і маршрут на сайті; особа, реферальне посилання або дані акаунта Telegram не зберігаються.", resume: "Продовжити останнє рішення", forget: "Забути збережене рішення" };
 
 const anonymousResumeDetailsCopyByLocale = {
@@ -345,7 +347,9 @@ const anonymousResumeDetailsCopyByLocale = {
   "vi": "Ngữ cảnh đã lưu và quyền riêng tư",
   "it": "Contesto salvato e privacy"
 };
+// l10n: needs native review
 anonymousResumeDetailsCopyByLocale.ur = "کیا بحال ہوتا ہے؟";
+// l10n: needs native review
 anonymousResumeDetailsCopyByLocale.uk = "Що відновлюється?";
 
 const localeKey = (locale) => {

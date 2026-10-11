@@ -2031,21 +2031,37 @@ const WORKER_COMPARE_FAQ = {
   "ur": [
     [
       "پہلے کون سی فیس موازنہ کرنی چاہیے؟",
-      "ذریعہ والی spot اور futures فیس قطاریں، اکاؤنٹ tier اور جائزہ تاریخ دیکھیں۔ آخری فیس پروڈکٹ، ریجن، اکاؤنٹ سطح اور سرکاری اسکرین کے مطابق بدل سکتی ہے۔"
+      "ذریعہ والی اسپاٹ اور فیوچر فیس قطاریں، اکاؤنٹ درجے اور جائزہ تاریخ دیکھیں۔ آخری فیس پروڈکٹ، ریجن، اکاؤنٹ سطح اور سرکاری اسکرین کے مطابق بدل سکتی ہے۔"
     ],
     [
       "کیا دونوں پلیٹ فارمز کا پروڈکٹ دائرہ ایک جیسا ہے؟",
-      "نہیں۔ Spot، derivatives، copy trading اور شیئر جیسی exposure کو الگ پڑھیں۔ پروڈکٹ نام دوسری پلیٹ فارم پر دستیابی ثابت نہیں کرتا۔"
+      "نہیں۔ اسپاٹ، مشتقات، کاپی ٹریڈنگ اور شیئر جیسی نمائش کو الگ پڑھیں۔ پروڈکٹ نام دوسری پلیٹ فارم پر دستیابی ثابت نہیں کرتا۔"
+    ],
+    [
+      "KYC اور مقامی فنڈنگ کے بارے میں کیا تصدیق کروں؟",
+      "اکاؤنٹ میں رقم جمع کرنے سے پہلے سرکاری اکاؤنٹ کے عمل میں شناختی درجہ، رہائش، مقامی جمع اور نکاسی کے ذرائع، فیاٹ سہولت اور مصنوعات کی اجازت کی تصدیق کریں۔"
+    ],
+    [
+      "رجسٹریشن لنک کب استعمال کروں؟",
+      "سرکاری ڈومین، موجودہ شرائط اور مطلوبہ مصنوعات چیک کرنے کے بعد ہی استعمال کریں۔ پارٹنر راستہ منظوری، بونس کی اہلیت یا آخری خالص لاگت کی ضمانت نہیں دیتا۔"
     ]
   ],
   "uk": [
     [
       "Які комісії порівняти спершу?",
-      "Перевірте spot і futures комісії з джерелом, рівень акаунта й дату огляду. Фінальна комісія може відрізнятися за продуктом, регіоном, рівнем акаунта й офіційним екраном."
+      "Перевірте спотові та ф'ючерсні комісії з джерелом, рівень акаунта й дату огляду. Фінальна комісія може відрізнятися за продуктом, регіоном, рівнем акаунта й офіційним екраном."
     ],
     [
       "Чи однаковий набір продуктів?",
-      "Ні. Spot, деривативи, copy trading і експозиції, схожі на акції, потрібно розділяти."
+      "Ні. Спот, деривативи, копітрейдинг і експозиції, схожі на акції, потрібно розділяти. Назва продукту не доводить його доступність на іншій платформі."
+    ],
+    [
+      "Що перевірити щодо KYC і місцевого поповнення?",
+      "Перед поповненням підтвердьте рівень ідентифікації, місце проживання, місцеві канали внесення й виведення коштів, підтримку фіату та дозволи на продукти в офіційному процесі акаунта."
+    ],
+    [
+      "Коли використовувати посилання для реєстрації?",
+      "Лише після перевірки офіційного домену, чинних умов і потрібного продукту. Партнерський маршрут не гарантує схвалення, права на бонус або остаточної чистої вартості."
     ]
   ],
   "ar": [
@@ -2524,7 +2540,11 @@ const NEWS_SITEMAP_LANGUAGE = Object.freeze({ "zh-Hans": "zh-cn", "zh-Hant": "zh
 function newsSitemapLanguage(locale) {
   return NEWS_SITEMAP_LANGUAGE[locale] || String(locale || "en").split("-")[0].toLowerCase();
 }
-const LOCALE_PREFIX_BY_CODE = Object.freeze({ en: "", "zh-Hans": "zh-hans", "zh-Hant": "zh-hant", es: "es", "pt-BR": "pt-br", fr: "fr", de: "de", ja: "ja", ko: "ko", ar: "ar", tr: "tr", ru: "ru", id: "id-id", vi: "vi", it: "it", ur: "ur", uk: "uk-ua" });
+const LOCALE_PREFIX_BY_CODE = Object.freeze({ en: "", "zh-Hans": "zh-hans", "zh-Hant": "zh-hant", es: "es", "pt-BR": "pt-br", fr: "fr", de: "de", ja: "ja", ko: "ko", ar: "ar", tr: "tr", ru: "ru", id: "id-id", vi: "vi", it: "it",
+// l10n: needs native review
+ur: "ur",
+// l10n: needs native review
+uk: "uk-ua" });
 const LOCALE_CODE_BY_PREFIX = Object.freeze(Object.fromEntries(Object.entries(LOCALE_PREFIX_BY_CODE).filter(([, prefix]) => prefix).map(([locale, prefix]) => [prefix, locale])));
 const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"));
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
@@ -3685,7 +3705,11 @@ const newsTableScrollHints = {
   "ar": "جدول المقال: مرّر أفقيًا أو انقل التركيز إلى منطقة الجدول واستخدم مفاتيح الأسهم.",
   "id": "Tabel artikel: gulir secara horizontal atau fokuskan area tabel dan gunakan tombol panah.",
   "vi": "Bảng trong bài viết: cuộn ngang hoặc đặt tiêu điểm vào vùng bảng và dùng các phím mũi tên.",
-  "it": "Tabella dell’articolo: scorri in orizzontale oppure porta il focus sull’area della tabella e usa i tasti freccia."
+  "it": "Tabella dell’articolo: scorri in orizzontale oppure porta il focus sull’area della tabella e usa i tasti freccia.",
+  // l10n: needs native review
+  ur: "مضمون کا جدول: افقی اسکرول کریں، یا جدول کے حصے پر فوکس کرکے تیر کی کلیدیں استعمال کریں۔",
+  // l10n: needs native review
+  uk: "Таблиця статті: прокрутіть горизонтально або сфокусуйте область таблиці й використовуйте клавіші зі стрілками."
 };
 
 function markdownBlockHtml(block, index = 0, locale = "en") {
@@ -3761,6 +3785,11 @@ function decisionRailFallbackCopy(locale) {
     id: { label: "KEPUTUSAN BERIKUTNYA", compare: "Bandingkan biaya total", facts: "Lihat factbook sumber", directory: "Pilih berdasarkan kondisi" },
     vi: { label: "QUYẾT ĐỊNH TIẾP THEO", compare: "So sánh tổng phí", facts: "Xem hồ sơ nguồn", directory: "Chọn theo điều kiện" },
     it: { label: "PROSSIMA DECISIONE", compare: "Confronta il costo totale", facts: "Apri il factbook delle fonti", directory: "Scegli per condizioni" },
+    // l10n: needs native review
+    ur: { label: "اگلا فیصلہ", compare: "کل لاگت کا موازنہ", facts: "ذرائع کی فیکٹ بک دیکھیں", directory: "شرائط کے مطابق منتخب کریں" },
+    // l10n: needs native review
+    uk: { label: "НАСТУПНЕ РІШЕННЯ", compare: "Порівняти загальну вартість", facts: "Переглянути фактбук джерел", directory: "Вибрати за умовами" },
+
   };
   return copy[locale] || copy[localeKey] || (String(locale || "").startsWith("zh") ? copy["zh-Hans"] : copy.en);
 }
@@ -5983,7 +6012,11 @@ async function routeMetadataBase(url, env, newsFeed) {
       id: ["Direktori platform kripto dan perbandingan biaya (2026) — NexuAlpha", "Bandingkan biaya, cadangan, KYC, dan ketentuan wilayah CEX serta DEX berdasarkan sumber."],
       vi: ["Danh mục nền tảng tiền mã hóa và đối chiếu phí (2026) — NexuAlpha", "Đối chiếu phí công bố, dự trữ, KYC và điều kiện khu vực của CEX và DEX theo nguồn."],
       it: ["Directory delle piattaforme crypto e confronto commissioni (2026) — NexuAlpha", "Confronta commissioni pubblicate, riserve, KYC e condizioni regionali di CEX e DEX con le fonti."],
+
+      // l10n: needs native review
       ur: ["کرپٹو ایکسچینج ڈائریکٹری اور فیس موازنہ (2026) — NexuAlpha", "CEX اور DEX کی شائع شدہ فیس، ذخائر، KYC اور علاقائی شرائط کو ماخذوں کے ساتھ موازنہ کریں۔"],
+
+      // l10n: needs native review
       uk: ["Довідник криптобірж і порівняння комісій (2026) — NexuAlpha", "Порівнюйте опубліковані комісії, резерви, KYC і регіональні умови CEX та DEX за джерелами."],
     }[locale] || (isZh ? ["全球核心加密货币交易所黄页与费率评测 (2026) — NexuAlpha", "收录币安、OKX、Bybit、Bitget 等中心化与去中心化平台，整理 PoR 来源、现货与合约公开费率、KYC 要求和地区条件。"] : ["Crypto Exchanges Directory & Fee Comparison (2026) — NexuAlpha", "A source-linked directory of crypto CEXs and DEXs. Compare published spot/futures fees, reserve sources, KYC tiers and regional conditions."]);
     const [title, description] = directoryCopy;
@@ -6518,7 +6551,11 @@ async function routeMetadataBase(url, env, newsFeed) {
       : PRIORITY_COMPARE_SEO[pair]?.[requestedLocale] || localizedCompareSeoOverride(pair, requestedLocale, compareSeoOverrides[pair]) || baseCompareSeoOverride);
     return {
       status: 200,
-      title: compareSeoOverride?.title || `${name}: ${({ "zh-Hant": "手續費與平台選擇", ja: "取引手数料とプラットフォーム比較", ko: "거래 수수료 및 플랫폼 비교", tr: "İşlem ücretleri ve platform karşılaştırması", es: "Comisiones y comparación de plataformas", "pt-BR": "Taxas e comparação de plataformas", fr: "Frais et comparaison des plateformes", de: "Gebühren und Plattformvergleich", ar: "مقارنة الرسوم والمنصات", ru: "Сравнение комиссий и платформ", id: "Perbandingan biaya dan platform", vi: "So sánh phí và nền tảng", it: "Confronto di commissioni e piattaforme", ur: "فیس اور پلیٹ فارم موازنہ", uk: "Комісії та порівняння платформ" }[requestedLocale] || (isZh ? "手续费与平台选择" : "Trading Fees & Platform Comparison"))} — NexuAlpha`,
+      title: compareSeoOverride?.title || `${name}: ${({ "zh-Hant": "手續費與平台選擇", ja: "取引手数料とプラットフォーム比較", ko: "거래 수수료 및 플랫폼 비교", tr: "İşlem ücretleri ve platform karşılaştırması", es: "Comisiones y comparación de plataformas", "pt-BR": "Taxas e comparação de plataformas", fr: "Frais et comparaison des plateformes", de: "Gebühren und Plattformvergleich", ar: "مقارنة الرسوم والمنصات", ru: "Сравнение комиссий и платформ", id: "Perbandingan biaya dan platform", vi: "So sánh phí và nền tảng", it: "Confronto di commissioni e piattaforme",
+      // l10n: needs native review
+      ur: "فیس اور پلیٹ فارم موازنہ",
+      // l10n: needs native review
+      uk: "Комісії та порівняння платформ" }[requestedLocale] || (isZh ? "手续费与平台选择" : "Trading Fees & Platform Comparison"))} — NexuAlpha`,
       description: compareSeoOverride?.description || (isZh ? `${name}：比较手续费、产品、账户条件与平台差异。` : ({
         "zh-Hant": `比較 ${name} 的手續費、產品、帳戶條件與平台差異。`,
         ja: `${name}：手数料、商品、口座条件、プラットフォームの違いを比較します。`,
@@ -6533,7 +6570,11 @@ async function routeMetadataBase(url, env, newsFeed) {
         id: `${name}: bandingkan biaya, produk, ketentuan akun, dan perbedaan antarplatform.`,
         vi: `${name}: so sánh phí, sản phẩm, điều kiện tài khoản và khác biệt giữa các nền tảng.`,
         it: `${name}: confronta commissioni, prodotti, condizioni dell’account e differenze tra piattaforme.`,
+
+        // l10n: needs native review
         ur: `${name}: ٹریڈنگ فیس، مصنوعات، اکاؤنٹ کی شرائط اور پلیٹ فارم کے فرق کا موازنہ کریں۔`,
+
+        // l10n: needs native review
         uk: `${name}: порівняйте торгові комісії, продукти, вимоги до акаунта й відмінності платформ.`,
       }[requestedLocale] || `Compare ${name} by trading fees, products, account requirements and platform differences.`)),
       canonical, locale, robots: curated ? "index,follow" : "noindex,follow", marker: COMPARE_ROUTE_MARKER,
@@ -6790,6 +6831,10 @@ async function routeMetadataBase(url, env, newsFeed) {
       id: ["Berita pasar dan riset berbasis sumber — NexuAlpha", "NexuAlpha meneliti pasar kripto, platform, risiko, dan aset bertoken dengan tautan sumber."],
       vi: ["Tin thị trường và nghiên cứu có nguồn — NexuAlpha", "NexuAlpha nghiên cứu thị trường tiền mã hóa, nền tảng, rủi ro và tài sản token hóa kèm liên kết nguồn."],
       it: ["Notizie di mercato e ricerca con fonti — NexuAlpha", "NexuAlpha analizza mercati crypto, piattaforme, rischi e asset tokenizzati con link alle fonti."],
+      // l10n: needs native review
+      ur: ["مارکیٹ خبریں اور ماخذ والی تحقیق — NexuAlpha", "NexuAlpha کرپٹو مارکیٹوں، پلیٹ فارمز، خطرات اور ٹوکنائزڈ اثاثوں پر ماخذ روابط کے ساتھ تحقیق کرتا ہے۔"],
+      // l10n: needs native review
+      uk: ["Ринкові новини й дослідження з джерелами — NexuAlpha", "NexuAlpha досліджує крипторинки, платформи, ризики й токенізовані активи з посиланнями на джерела."],
     }[displayLocale] || [NEWS_HUB_SEO_EN.title, NEWS_HUB_SEO_EN.description];
     // Library pages (2026-10-10): /news/page/N and /news/category/<key>[/page/N] are self-canonical collections.
     const { category, page } = newsListing;
@@ -6972,7 +7017,11 @@ async function routeMetadataBase(url, env, newsFeed) {
       ko: { title: "조사 방법론 및 편집 정책 — NexuAlpha", description: "NexuAlpha가 출처를 검토하고 사실과 추정을 구분하며 상업적 관계를 공개하는 방법입니다." },
       tr: { title: "Araştırma yöntemi ve editoryal politika — NexuAlpha", description: "NexuAlpha'nın kaynakları doğrulama, gerçekleri tahminlerden ayırma ve ticari ilişkileri açıklama yöntemi." },
       ar: { title: "منهجية البحث والسياسة التحريرية — NexuAlpha", description: "كيف تتحقق NexuAlpha من المصادر وتفصل بين الحقائق والتقديرات وتفصح عن العلاقات التجارية." },
+
+      // l10n: needs native review
       ur: { title: "تحقیقی طریقۂ کار اور ادارتی پالیسی — NexuAlpha", description: "NexuAlpha ماخذوں کی تصدیق، حقائق کو اندازوں سے الگ کرنے اور تجارتی تعلقات ظاہر کرنے کا طریقہ۔" },
+
+      // l10n: needs native review
       uk: { title: "Методологія досліджень і редакційна політика — NexuAlpha", description: "Як NexuAlpha перевіряє джерела, відокремлює факти від оцінок і розкриває комерційні зв’язки." },
 
     },
@@ -6985,7 +7034,11 @@ async function routeMetadataBase(url, env, newsFeed) {
         title: "可嵌入交易手续费计算器 — NexuAlpha",
         description: "嵌入带透明假设与披露说明的 NexuAlpha 交易手续费对比计算器。",
       },
+
+      // l10n: needs native review
       ur: { title: "ایمبیڈ کے قابل ٹریڈنگ فیس کیلکولیٹر — NexuAlpha", description: "شفاف مفروضات اور افشا بیانات کے ساتھ فیس موازنہ کیلکولیٹر ایمبیڈ کریں۔" },
+
+      // l10n: needs native review
       uk: { title: "Калькулятор торгових комісій для вбудовування — NexuAlpha", description: "Вбудуйте калькулятор порівняння комісій із прозорими припущеннями та розкриттями." },
     },
     "/telegram": {
@@ -7004,7 +7057,11 @@ async function routeMetadataBase(url, env, newsFeed) {
       ja: { title: "Telegram 調査ボットとプラットフォーム情報センター — NexuAlpha", description: "Telegramでプラットフォーム比較、手数料調査、公式ソース確認を続けます。" },
       ko: { title: "Telegram 리서치 봇 및 플랫폼 정보 센터 — NexuAlpha", description: "Telegram에서 플랫폼 비교, 수수료 조사와 공식 출처 확인을 이어갑니다." },
       tr: { title: "Telegram araştırma botu ve platform bilgi merkezi — NexuAlpha", description: "Telegramda platform karşılaştırması, ücret araştırması ve resmi kaynak kontrolüne devam edin." },
+
+      // l10n: needs native review
       ur: { title: "Telegram تحقیقی بوٹ اور پلیٹ فارم معلوماتی مرکز — NexuAlpha", description: "Telegram میں پلیٹ فارم موازنہ، فیس تحقیق، سرکاری ماخذ کی جانچ اور واپسی کے راستے جاری رکھیں۔" },
+
+      // l10n: needs native review
       uk: { title: "Telegram-бот для досліджень і центр даних про платформи — NexuAlpha", description: "Продовжуйте в Telegram порівняння платформ, дослідження комісій, перевірки офіційних джерел і маршрути повернення." },
     },
     "/partners": {
@@ -7016,7 +7073,11 @@ async function routeMetadataBase(url, env, newsFeed) {
         title: "合作嵌入与内容分发 — NexuAlpha",
         description: "面向使用 NexuAlpha 研究与比较组件的发布者提供接入说明。",
       },
+
+      // l10n: needs native review
       ur: { title: "پارٹنر ایمبیڈز اور تقسیم — NexuAlpha", description: "NexuAlpha کی تحقیق اور موازنہ ماڈیولز استعمال کرنے والے ناشرین کے لیے انضمام کی رہنمائی۔" },
+
+      // l10n: needs native review
       uk: { title: "Партнерські вбудовування й дистрибуція — NexuAlpha", description: "Інструкції з інтеграції для видавців, які використовують дослідження й модулі порівняння NexuAlpha." },
     },
     "/partners/embed-guide": {
@@ -7060,12 +7121,16 @@ async function routeMetadataBase(url, env, newsFeed) {
       "/embed/calculator": { title: "Встраиваемый калькулятор торговых комиссий — NexuAlpha", description: "Встраивайте калькулятор сравнения комиссий с прозрачными допущениями и раскрытиями." },
       "/partners": { title: "Партнёрские встраивания и дистрибуция — NexuAlpha", description: "Руководство для издателей, использующих исследовательские и сравнительные инструменты NexuAlpha." },
     },
+
+    // l10n: needs native review
     ur: {
       "/rates": { title: "کرپٹو فیس موازنے کا بنچ مارک ٹرمینل — NexuAlpha", description: "CEX، DEX اور پرپیچوئل پلیٹ فارمز کی شائع شدہ maker اور taker فیس حوالہ جات موازنہ کریں۔" },
       "/methodology": { title: "تحقیقی طریقۂ کار اور ادارتی پالیسی — NexuAlpha", description: "ماخذوں، حقائق/اندازوں اور تجارتی افشا کے لیے NexuAlpha کا طریقہ۔" },
       "/embed/calculator": { title: "ایمبیڈ کے قابل ٹریڈنگ فیس کیلکولیٹر — NexuAlpha", description: "شفاف مفروضات اور افشا بیانات کے ساتھ فیس موازنہ کیلکولیٹر ایمبیڈ کریں۔" },
       "/partners": { title: "پارٹنر ایمبیڈز اور تقسیم — NexuAlpha", description: "NexuAlpha کی تحقیق اور موازنہ ماڈیولز استعمال کرنے والے ناشرین کے لیے انضمام کی رہنمائی۔" },
     },
+
+    // l10n: needs native review
     uk: {
       "/rates": { title: "Термінал порівняння комісій криптобірж — NexuAlpha", description: "Порівнюйте опубліковані довідкові комісії maker і taker для CEX, DEX і безстрокових платформ." },
       "/methodology": { title: "Методологія досліджень і редакційна політика — NexuAlpha", description: "Метод NexuAlpha для джерел, фактів/оцінок і комерційних розкриттів." },

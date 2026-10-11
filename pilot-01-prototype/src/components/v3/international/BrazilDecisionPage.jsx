@@ -703,6 +703,10 @@ export function BrazilEntryLink({ locale = "en" }) {
     <a className="br-entry-link" href="/br" data-testid="brazil-entry-link">
       <span>{localRouteLabel || copy.entry}</span>
       <small>{{
+        // l10n: needs native review
+        ur: "BRL، Pix، اسپاٹ پلیٹ فارمز کی مختصر فہرست",
+        // l10n: needs native review
+        uk: "BRL, Pix, короткий список спотових платформ",
         "zh-Hans": "BRL、Pix、现货候选清单",
         "zh-Hant": "BRL、Pix、現貨候選清單",
         ja: "BRL・Pix・現物取引の候補",

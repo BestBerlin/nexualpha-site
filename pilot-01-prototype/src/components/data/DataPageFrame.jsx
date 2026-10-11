@@ -11,7 +11,7 @@ import { NewsVenueOffer } from "../v3/news/NewsVenueOffer.jsx";
 import { EmbedThisBlock } from "./EmbedThisBlock.jsx";
 import "./data-pages.css";
 
-export const textDirection = (locale) => (locale === "ar" ? "rtl" : "ltr");
+export const textDirection = (locale) => (["ar", "ur"].includes(locale) ? "rtl" : "ltr");
 
 export function DataPageHero({ locale, page, pathname, generatedAt, sourceLine, children }) {
   const copy = dataPageCopy(locale);

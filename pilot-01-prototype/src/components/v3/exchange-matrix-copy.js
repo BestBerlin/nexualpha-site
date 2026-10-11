@@ -48,6 +48,10 @@ const REGION_NOTES = {
     id: "AS/Kanada/Selandia Baru: futures tidak tersedia (menurut halaman biaya)",
     vi: "Mỹ/Canada/New Zealand: không có futures (theo trang phí)",
     it: "USA/Canada/Nuova Zelanda: futures non disponibili (secondo la pagina delle commissioni)",
+    // l10n: needs native review
+    ur: "امریکا/Canada/New Zealand: futures دستیاب نہیں (فیس صفحے کے مطابق)",
+    // l10n: needs native review
+    uk: "США/Канада/Нова Зеландія: futures недоступні (за сторінкою комісій)",
   },
 };
 

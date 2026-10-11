@@ -18,7 +18,11 @@ const localeKey = (locale) => {
   return value.split("-")[0];
 };
 
-const localePending = (locale, zh = "待官方来源核验") => String(locale || "").startsWith("zh") ? zh : ({ ja: "公式ソース確認待ち", ko: "공식 출처 확인 대기", tr: "Resmi kaynak doğrulaması bekleniyor", fr: "Vérification de la source en attente", de: "Quellenprüfung ausstehend", ru: "Ожидается проверка источника", ar: "بانتظار التحقق من المصدر", id: "Menunggu verifikasi sumber", vi: "Đang chờ xác minh nguồn", it: "Verifica della fonte in sospeso", es: "Pendiente de verificación de la fuente", "pt-BR": "Aguardando verificação da fonte" }[localeKey(locale)] || "Pending official-source verification");
+const localePending = (locale, zh = "待官方来源核验") => String(locale || "").startsWith("zh") ? zh : ({ ja: "公式ソース確認待ち", ko: "공식 출처 확인 대기", tr: "Resmi kaynak doğrulaması bekleniyor", fr: "Vérification de la source en attente", de: "Quellenprüfung ausstehend", ru: "Ожидается проверка источника", ar: "بانتظار التحقق من المصدر", id: "Menunggu verifikasi sumber", vi: "Đang chờ xác minh nguồn", it: "Verifica della fonte in sospeso", es: "Pendiente de verificación de la fuente", "pt-BR": "Aguardando verificação da fonte",
+// l10n: needs native review
+ur: "سرکاری ماخذ کی تصدیق باقی ہے",
+// l10n: needs native review
+uk: "Очікує перевірки офіційного джерела" }[localeKey(locale)] || "Pending official-source verification");
 
 function publicVenueAccess(slug, locale = "en") {
   const publicCta = publicCtaForVenue(slug, locale);
@@ -51,6 +55,10 @@ const venueFaqFeeCopyTable = {
   id: { pendingRate: "Biaya menunggu verifikasi sumber resmi" },
   vi: { pendingRate: "Phí chờ xác minh nguồn chính thức" },
   it: { pendingRate: "Commissione in attesa di fonte ufficiale" },
+  // l10n: needs native review
+  ur: { pendingRate: "فیس کے لیے سرکاری ماخذ کی تصدیق باقی ہے" },
+  // l10n: needs native review
+  uk: { pendingRate: "Комісія очікує перевірки офіційного джерела" },
 };
 
 const venueFaqFeeCopy = (locale) => venueFaqFeeCopyTable[locale] || venueFaqFeeCopyTable[localeKey(locale)] || (String(locale || "").startsWith("zh") ? venueFaqFeeCopyTable["zh-Hans"] : venueFaqFeeCopyTable.en);
@@ -86,8 +94,16 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
   const kycSummary = isZh
     ? (db.kycSummary?.[locale] || db.kycSummary?.["zh-Hans"] || (db.kycLevel === "none" ? "完全免 KYC（仅邮箱注册）" : "基础实名认证（证件上传 + 人脸核验）"))
     : (db.kycSummary?.[locale] || db.kycSummary?.en || (db.kycLevel === "none"
-      ? ({ ja: "KYC不要（メールのみ）", ko: "KYC 불필요(이메일만)", tr: "KYC gerekmez (yalnızca e-posta)", fr: "KYC non requis (e-mail uniquement)", de: "Kein KYC erforderlich (nur E-Mail)", es: "No se requiere KYC (solo correo)", "pt-BR": "KYC não exigido (apenas e-mail)", ru: "KYC не требуется (только электронная почта)", ar: "لا يلزم التحقق (البريد الإلكتروني فقط)", id: "KYC tidak diperlukan (hanya email)", vi: "Không cần KYC (chỉ email)", it: "KYC non richiesto (solo email)" }[localeKey(locale)] || "No KYC Required (Email Only)")
-      : ({ ja: "標準本人確認", ko: "표준 신원 인증", tr: "Standart kimlik doğrulama", fr: "Vérification d’identité standard", de: "Standard-Identitätsprüfung", es: "Verificación de identidad estándar", "pt-BR": "Verificação de identidade padrão", ru: "Стандартная проверка личности", ar: "تحقق قياسي من الهوية", id: "Verifikasi identitas standar", vi: "Xác minh danh tính tiêu chuẩn", it: "Verifica dell’identità standard" }[localeKey(locale)] || "Standard Identity Verification")));
+      ? ({ ja: "KYC不要（メールのみ）", ko: "KYC 불필요(이메일만)", tr: "KYC gerekmez (yalnızca e-posta)", fr: "KYC non requis (e-mail uniquement)", de: "Kein KYC erforderlich (nur E-Mail)", es: "No se requiere KYC (solo correo)", "pt-BR": "KYC não exigido (apenas e-mail)", ru: "KYC не требуется (только электронная почта)", ar: "لا يلزم التحقق (البريد الإلكتروني فقط)", id: "KYC tidak diperlukan (hanya email)", vi: "Không cần KYC (chỉ email)", it: "KYC non richiesto (solo email)",
+      // l10n: needs native review
+      ur: "KYC درکار نہیں (صرف ای میل)",
+      // l10n: needs native review
+      uk: "KYC не потрібен (лише електронна пошта)" }[localeKey(locale)] || "No KYC Required (Email Only)")
+      : ({ ja: "標準本人確認", ko: "표준 신원 인증", tr: "Standart kimlik doğrulama", fr: "Vérification d’identité standard", de: "Standard-Identitätsprüfung", es: "Verificación de identidad estándar", "pt-BR": "Verificação de identidade padrão", ru: "Стандартная проверка личности", ar: "تحقق قياسي من الهوية", id: "Verifikasi identitas standar", vi: "Xác minh danh tính tiêu chuẩn", it: "Verifica dell’identità standard",
+      // l10n: needs native review
+      ur: "معیاری شناختی تصدیق",
+      // l10n: needs native review
+      uk: "Стандартна перевірка особи" }[localeKey(locale)] || "Standard Identity Verification")));
 
   // Historical FAQ copy contains operational and commercial assertions that
   // cannot be published without a dedicated, dated review record. Keep the
@@ -261,6 +277,10 @@ function getVenueFaqs(venue, profile, locale, db, partner) {
         id: `Di mana memverifikasi biaya spot dan futures ${name}?`,
         vi: `Xác minh phí spot và futures của ${name} ở đâu?`,
         it: `Dove verificare le commissioni spot e futures di ${name}?`,
+        // l10n: needs native review
+        ur: `${name} کی spot اور futures فیس کہاں verify کریں؟`,
+        // l10n: needs native review
+        uk: `Де перевірити spot і futures комісії ${name}?`,
       }[localeKey(locale)] || `What are ${name}'s spot & futures fees? Where can I verify user fee benefits via NexuAlpha?`),
       a: (
         <>
@@ -373,6 +393,10 @@ export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} 
     "id": { eyebrow: "Sebelum menggunakan platform", title: `Pertanyaan biaya dan akses ${locName}`, lead: "Baca setiap jawaban beserta sumber resmi yang mendukungnya.", more: "Tampilkan pertanyaan lainnya", less: "Tampilkan lebih sedikit pertanyaan" },
     "vi": { eyebrow: "Trước khi sử dụng", title: `Câu hỏi về chi phí và điều kiện sử dụng ${locName}`, lead: "Đọc từng câu trả lời cùng nguồn chính thức tương ứng.", more: "Xem các câu hỏi còn lại", less: "Thu gọn câu hỏi" },
     "it": { eyebrow: "Prima dell’utilizzo", title: `Domande su costi e accesso a ${locName}`, lead: "Leggi ogni risposta insieme alle relative fonti ufficiali.", more: "Mostra le domande rimanenti", less: "Mostra meno domande" },
+    // l10n: needs native review
+    "ur": { eyebrow: "ٹریڈ سے پہلے", title: `${locName} لاگت اور رسائی کے سوالات`, lead: "ہر جواب کو اس کے معاون سرکاری ماخذ کے ساتھ پڑھیں۔", more: "باقی سوالات دکھائیں", less: "کم سوالات دکھائیں" },
+    // l10n: needs native review
+    "uk": { eyebrow: "Перед торгівлею", title: `Питання про вартість і доступ до ${locName}`, lead: "Читайте кожну відповідь разом з офіційними джерелами, що її підтверджують.", more: "Показати решту запитань", less: "Показати менше запитань" },
   };
   const priorityUi = priorityUiByLocale[locale === "zh-Hant" ? "zh-Hant" : isZh ? "zh-Hans" : localeKey(locale)] || priorityUiByLocale.en;
   const faqUi = {
@@ -388,6 +412,10 @@ export function VenueFaqSection({ venue, profile, locale, db = {}, partner = {} 
     id: { eyebrow: "FAQ penting dan panduan keamanan", title: `FAQ biaya, cadangan, dan keamanan ${locName}`, lead: "Jawaban berbasis sumber tentang biaya, cadangan, KYC, dan keamanan.", more: "Tampilkan semua pertanyaan", less: "Ciutkan pertanyaan" },
     vi: { eyebrow: "FAQ trọng tâm và hướng dẫn an toàn", title: `FAQ phí, dự trữ và an toàn của ${locName}`, lead: "Câu trả lời có nguồn về phí, dự trữ, KYC và bảo mật.", more: "Hiện tất cả câu hỏi", less: "Thu gọn câu hỏi" },
     it: { eyebrow: "FAQ ad alta intenzione e guida alla sicurezza", title: `FAQ su commissioni, riserve e sicurezza di ${locName}`, lead: "Risposte con fonti su commissioni, riserve, KYC e sicurezza.", more: "Mostra tutte le domande", less: "Riduci le domande" },
+    // l10n: needs native review
+    ur: { eyebrow: "اہم FAQ اور سکیورٹی گائیڈ", title: `${locName} فیس، reserves اور security FAQ`, lead: "فیس، reserves، KYC اور security پر ماخذ کے ساتھ جوابات۔", more: "تمام FAQ دکھائیں", less: "FAQ سمیٹیں" },
+    // l10n: needs native review
+    uk: { eyebrow: "Пріоритетні FAQ і гайд безпеки", title: `FAQ про комісії, reserves і security ${locName}`, lead: "Відповіді з джерелами про комісії, reserves, KYC і security.", more: "Показати всі FAQ", less: "Згорнути FAQ" },
   }[localeKey(locale)] || {};
   const nonPriorityUi = isZh ? priorityUi : faqUi;
   const [showAllFaqs, setShowAllFaqs] = useState(false);

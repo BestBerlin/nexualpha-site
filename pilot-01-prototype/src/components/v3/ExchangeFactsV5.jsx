@@ -24,6 +24,10 @@ const L = {
   id: { feesChecked: "Biaya dicek", fees: "Biaya", spot: "Spot", perp: "Perpetual", maker: "Maker", taker: "Taker", discount: "Diskon biaya", check: "Cek halaman resmi", checked: "Dicek", products: "Produk", eligibility: "Wilayah dan kelayakan", spotSub: "Tingkat dasar", perpSub: "Tingkat dasar futures", pays: "jika biaya dibayar dengan" },
   vi: { feesChecked: "Phí đã kiểm tra", fees: "Phí", spot: "Giao ngay", perp: "Vĩnh cửu", maker: "Maker", taker: "Taker", discount: "Giảm phí", check: "Xem trang chính thức", checked: "Đã kiểm tra", products: "Sản phẩm", eligibility: "Khu vực và điều kiện", spotSub: "Bậc cơ bản", perpSub: "Bậc futures cơ bản", pays: "khi trả phí bằng" },
   it: { feesChecked: "Commissioni verificate", fees: "Commissioni", spot: "Spot", perp: "Perpetui", maker: "Maker", taker: "Taker", discount: "Sconto", check: "Vedi pagina ufficiale", checked: "Verificato", products: "Prodotti", eligibility: "Regioni e idoneità", spotSub: "Livello base", perpSub: "Livello base futures", pays: "pagando le commissioni in" },
+  // l10n: needs native review
+  ur: { feesChecked: "فیس چیک ہوئی", fees: "فیس", spot: "اسپاٹ", perp: "پرپیچوئل", maker: "Maker", taker: "Taker", discount: "فیس رعایت", check: "سرکاری صفحہ چیک کریں", checked: "چیک شدہ", products: "مصنوعات", eligibility: "علاقے اور اہلیت", spotSub: "بنیادی سطح", perpSub: "فیوچرز بنیادی سطح", pays: "جب فیس اس میں ادا ہو" },
+  // l10n: needs native review
+  uk: { feesChecked: "Комісії перевірено", fees: "Комісії", spot: "Спот", perp: "Безстрокові", maker: "Maker", taker: "Taker", discount: "Знижка комісії", check: "Перевірити офіційну сторінку", checked: "Перевірено", products: "Продукти", eligibility: "Регіони й доступність", spotSub: "Базовий рівень", perpSub: "Базовий рівень ф’ючерсів", pays: "коли комісії сплачуються в" },
 };
 
 export const labels = (locale) => L[locale] || L[String(locale || "en").split("-")[0]] || L.en;

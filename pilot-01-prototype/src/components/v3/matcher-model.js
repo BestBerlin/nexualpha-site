@@ -625,6 +625,30 @@ const matcherDecisionCopyByLocale = {
     },
     failClosed: "Servono almeno due candidati verificati per confrontare. Usa invece il profilo e i passaggi di verifica.",
   },
+  // l10n: needs native review
+  ur: {
+    filters: { kycPreference: "KYC ترجیح", usageFrequency: "استعمال کی رفتار", usageScale: "استعمال کا درجہ" },
+    options: {
+      kycPreference: { unsure: "ابھی یقین نہیں", kyc_ok: "KYC قابل قبول ہے", avoid_kyc: "KYC کے بغیر ترجیح" },
+      usageFrequency: { monthly: "ماہانہ", weekly: "ہفتہ وار", daily: "روزانہ" },
+      usageScale: { small_size: "چھوٹا درجہ", regular_size: "عام درجہ", larger_size: "بڑا درجہ" },
+    },
+    candidateLabels: { score: "مطابقت کا اسکور", reasons: "یہ کیوں دکھایا گیا", nextSteps: "اگلے قدم", profile: "سائٹ پر پروفائل کھولیں", compare: "جائزہ شدہ جوڑا موازنہ کریں", verify: "علاقائی موزونیت چیک کریں" },
+    reasons: { sourceReviewed: "علاقائی ماخذ کی قطار کا جائزہ ہو چکا", fundingRoute: "فنڈنگ راستہ جائزہ شدہ میٹرکس میں ہے", accountConfirm: "اکاؤنٹ عمل کو لاگ اِن کے بعد تصدیق چاہیے", kycConflict: "بغیر KYC ترجیح اکاؤنٹ والی جگہوں سے ٹکراتی ہے", paused: "روکے گئے ماخذ میچنگ سے خارج ہیں", frequency: "استعمال کی رفتار کو درجہ کے طور پر لیا گیا", scale: "استعمال کا پیمانہ رقم نہیں بلکہ درجہ ہے" },
+    failClosed: "موازنہ کے لیے کم از کم دو جائزہ شدہ امیدوار چاہییں۔ فی الحال پروفائل اور تصدیقی قدم استعمال کریں۔",
+  },
+  // l10n: needs native review
+  uk: {
+    filters: { kycPreference: "Перевага щодо KYC", usageFrequency: "Ритм використання", usageScale: "Рівень використання" },
+    options: {
+      kycPreference: { unsure: "Ще не вирішено", kyc_ok: "KYC прийнятний", avoid_kyc: "Краще без KYC" },
+      usageFrequency: { monthly: "Щомісяця", weekly: "Щотижня", daily: "Щодня" },
+      usageScale: { small_size: "Малий рівень", regular_size: "Звичайний рівень", larger_size: "Вищий рівень" },
+    },
+    candidateLabels: { score: "Оцінка відповідності", reasons: "Чому показано", nextSteps: "Наступні кроки", profile: "Відкрити профіль на сайті", compare: "Порівняти перевірену пару", verify: "Перевірити регіональну відповідність" },
+    reasons: { sourceReviewed: "Регіональний рядок джерела переглянуто", fundingRoute: "Маршрут поповнення є в перевіреній матриці", accountConfirm: "Процес акаунта ще потребує підтвердження після входу", kycConflict: "Перевага без KYC конфліктує з акаунтними платформами", paused: "Призупинені джерела виключено з підбору", frequency: "Ритм використання обробляється як рівень", scale: "Масштаб використання задається рівнем, а не сумою" },
+    failClosed: "Для порівняння потрібні щонайменше два перевірені кандидати. Скористайтеся профілем і кроками перевірки.",
+  },
 };
 
 const copyByLocale = {
@@ -881,6 +905,24 @@ const copyByLocale = {
       accountCex: { label: "CEX con account", title: "Exchange basato su account", body: "Custodia e login sono nell'account exchange. Verifica regione, KYC, funding, commissioni e prodotti.", custody: "Custodia nell'account exchange", model: "Order book e percorsi account", risk: "KYC, regione, commissioni, prelievi e limiti prodotto" },
       walletDex: { label: "DEX con wallet", title: "Percorso swap con wallet", body: "Mantieni il controllo del wallet e interagisci on-chain. Verifica dominio, rete, contratto, liquidità e gas.", custody: "Wallet in self-custody", model: "Swap e routing on-chain", risk: "Contratto, routing, liquidità, rete e gas" },
       onchainPerp: { label: "Perp on-chain", title: "Venue perpetual on-chain", body: "I derivati via wallet richiedono controlli su collaterale, liquidazione, oracle, funding e giurisdizione.", custody: "Controllo collaterale nel wallet", model: "Contratti perpetual on-chain", risk: "Liquidazione, leva, oracle, funding e contratto" },
+    },
+  },
+  // l10n: needs native review
+  ur: {
+    eyebrow: "پلیٹ فارم میچر", title: "اپنے ٹریڈنگ طریقے کے مطابق انتخاب کریں", body: "رسائی کا ماڈل چنیں تاکہ رجسٹریشن سے پہلے تحویل، عملدرآمد اور خطرات کے چیک کے ساتھ مختصر فہرست ملے۔", shortlistLabel: "مطابق مختصر فہرست", detailLabel: "پروفائل کھولیں", compareLabel: "پہلے دو کا موازنہ", comparePending: "موازنہ کے لیے دو پلیٹ فارم چاہییں", sourceLabel: "سرکاری ماخذ", selectLabel: "رسائی کا ماڈل چنیں", decisionLabels: { custody: "تحویل", model: "ماڈل", risk: "خطرہ" },
+    intents: {
+      accountCex: { label: "اکاؤنٹ CEX", title: "اکاؤنٹ پر مبنی ایکسچینج", body: "تحویل اور لاگ اِن ایکسچینج اکاؤنٹ کے ساتھ رہتے ہیں۔ رجسٹریشن سے پہلے علاقہ، KYC، فنڈنگ، فیس اور پروڈکٹ رسائی چیک کریں۔", custody: "ایکسچینج اکاؤنٹ تحویل", model: "آرڈر بک اور اکاؤنٹ راستے", risk: "KYC، علاقہ، فیس، واپسی اور پروڈکٹ حدیں" },
+      walletDex: { label: "والٹ DEX", title: "والٹ سویپ راستہ", body: "والٹ کا کنٹرول آپ کے پاس رہتا ہے اور تعامل آن چین ہوتا ہے۔ جڑنے سے پہلے ڈومین، نیٹ ورک، کنٹریکٹ ایڈریس، لیکویڈیٹی اور گیس چیک کریں۔", custody: "خود تحویلی والٹ", model: "آن چین سویپ اور روٹنگ", risk: "کنٹریکٹ، راستہ، لیکویڈیٹی، نیٹ ورک اور گیس خطرہ" },
+      onchainPerp: { label: "آن چین پرپ", title: "آن چین پرپیچوئل مقام", body: "والٹ پر مبنی ڈیریویٹوز میں کولیٹرل، لیکویڈیشن، اوریکل، فنڈنگ اور علاقائی حدیں اضافی طور پر چیک کریں۔", custody: "والٹ کولیٹرل کنٹرول", model: "آن چین پرپیچوئل کنٹریکٹس", risk: "لیکویڈیشن، لیوریج، اوریکل، فنڈنگ اور کنٹریکٹ خطرہ" },
+    },
+  },
+  // l10n: needs native review
+  uk: {
+    eyebrow: "Підбір платформи", title: "Обирайте за тим, як плануєте торгувати", body: "Оберіть модель доступу, щоб отримати короткий список із перевірками зберігання, виконання та ризиків перед реєстрацією.", shortlistLabel: "Відібраний список", detailLabel: "Відкрити профіль", compareLabel: "Порівняти перші дві", comparePending: "Для порівняння потрібні дві платформи", sourceLabel: "Офіційне джерело", selectLabel: "Оберіть модель доступу", decisionLabels: { custody: "Зберігання", model: "Модель", risk: "Ризик" },
+    intents: {
+      accountCex: { label: "Акаунт CEX", title: "Біржа на основі акаунта", body: "Зберігання та вхід прив’язані до біржового акаунта. Перед реєстрацією перевірте регіон, KYC, поповнення, комісії та доступ до продуктів.", custody: "Зберігання в акаунті біржі", model: "Книга заявок і маршрути акаунта", risk: "KYC, регіон, комісії, виведення та обмеження продуктів" },
+      walletDex: { label: "Гаманець DEX", title: "Маршрут обміну через гаманець", body: "Ви зберігаєте контроль над гаманцем і взаємодієте ончейн. Перевірте домен, мережу, адресу контракту, ліквідність і gas.", custody: "Самостійне зберігання в гаманці", model: "Ончейн-обмін і маршрутизація", risk: "Контракт, маршрут, ліквідність, мережа та gas" },
+      onchainPerp: { label: "Ончейн перпи", title: "Ончейн-майданчик безстрокових контрактів", body: "Деривативи через гаманець потребують додаткових перевірок застави, ліквідації, оракула, фінансування та юрисдикційних меж.", custody: "Контроль застави в гаманці", model: "Ончейн безстрокові контракти", risk: "Ліквідація, плече, оракул, фінансування та контрактний ризик" },
     },
   },
 };

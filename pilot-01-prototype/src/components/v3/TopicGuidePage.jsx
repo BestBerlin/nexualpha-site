@@ -585,6 +585,18 @@ const MEME_TOPIC_AUX_COPY = {
     summary: "Rivedi ambito del tema e limiti di verifica",
     pills: ["Verifica token e pool", "Commissioni pubblicate e spread", "Approvazione wallet e limiti MEV", "Percorso di uscita e condizioni regionali"],
   },
+  // l10n: needs native review
+  ur: {
+    badge: "ماخذ سے بندھی میم کوائن پلیٹ فارم چیک لسٹ",
+    summary: "موضوع کا دائرہ اور تصدیقی حدود دیکھیں",
+    pills: ["ٹوکن اور پول کی تصدیق", "شائع شدہ فیس اور اسپریڈ چیک", "والیٹ منظوری اور MEV حدود", "اخراجی راستہ اور علاقائی شرائط"],
+  },
+  // l10n: needs native review
+  uk: {
+    badge: "Перелік перевірок мемкоїн-платформи за джерелами",
+    summary: "Перегляньте межі теми й перевірки",
+    pills: ["Перевірка токена й пулу", "Опубліковані комісії та спред", "Дозволи гаманця й межі MEV", "Шлях виходу й регіональні умови"],
+  },
 };
 
 const MEME_TOPIC_NATIVE_COPY = Object.freeze({
@@ -1952,6 +1964,26 @@ const MEME_TOPIC_NATIVE_COPY = Object.freeze({
       "pitfallLead": "Controlla custodia, permessi e condizioni di uscita prima di procedere. Questi controlli non garantiscono sicurezza del capitale né recupero dei fondi.",
       "platformType": "Piattaforma / tipo"
     }
+  },
+  // l10n: needs native review
+  ur: {
+    quickStats: [
+      { labelEn: "ٹوکن معاہدہ", descEn: "پہلے سرکاری یا آن چین ماخذ کی تصدیق کریں", labelZh: "ٹوکن معاہدہ", descZh: "پہلے سرکاری یا آن چین ماخذ کی تصدیق کریں" },
+      { labelEn: "لیکویڈیٹی راستہ", descEn: "CEX آرڈر بک کو DEX پول سے الگ دیکھیں", labelZh: "لیکویڈیٹی راستہ", descZh: "CEX آرڈر بک کو DEX پول سے الگ دیکھیں" },
+      { labelEn: "منظوری خطرہ", descEn: "منظوری، دستخط اور منسوخی کا راستہ چیک کریں", labelZh: "منظوری خطرہ", descZh: "منظوری، دستخط اور منسوخی کا راستہ چیک کریں" },
+      { labelEn: "اخراجی شرائط", descEn: "واپسی، پل، stablecoin اور علاقائی شرائط چیک کریں", labelZh: "اخراجی شرائط", descZh: "واپسی، پل، stablecoin اور علاقائی شرائط چیک کریں" },
+    ],
+    sourceBoundUi: { scoreLabel: "ثبوتی حالت", speedDepth: "اعلانات چیک کریں", baseRates: "شائع شدہ فیس جدول", netFee: "لاگو فیس شرائط", slippageKyc: "مارکیٹ اور اکاؤنٹ چیک", action: "پروفائل اور اکاؤنٹ راستہ", painTitle: "استعمال سے پہلے خطرات اور شرائط چیک کریں", painLead: "پہلے سرکاری یا آن چین ماخذ کی تصدیق کریں", securityTitle: "پلیٹ فارم شرائط کا پہلو بہ پہلو موازنہ", securityLead: "شائع شدہ فیس، رسائی قواعد، عمل درآمد خطرات اور واپسی شرائط سرکاری ذرائع سے چیک کریں۔ غیر مصدقہ قدریں زیر التوا رہتی ہیں۔", pitfallLead: "آگے بڑھنے سے پہلے تحویل، اجازتیں اور اخراجی شرائط چیک کریں۔ یہ چیک سرمایہ کی حفاظت یا فنڈ واپسی کی ضمانت نہیں دیتے۔", platformType: "پلیٹ فارم / قسم" },
+  },
+  // l10n: needs native review
+  uk: {
+    quickStats: [
+      { labelEn: "Контракт токена", descEn: "Спершу перевірте офіційне або ончейн-джерело", labelZh: "Контракт токена", descZh: "Спершу перевірте офіційне або ончейн-джерело" },
+      { labelEn: "Шлях ліквідності", descEn: "Розділяйте книги заявок CEX і пули DEX", labelZh: "Шлях ліквідності", descZh: "Розділяйте книги заявок CEX і пули DEX" },
+      { labelEn: "Ризик дозволів", descEn: "Перевірте дозвіл, підпис і шлях відкликання", labelZh: "Ризик дозволів", descZh: "Перевірте дозвіл, підпис і шлях відкликання" },
+      { labelEn: "Умови виходу", descEn: "Перевірте виведення, міст, stablecoin і регіональні умови", labelZh: "Умови виходу", descZh: "Перевірте виведення, міст, stablecoin і регіональні умови" },
+    ],
+    sourceBoundUi: { scoreLabel: "Стан доказів", speedDepth: "Оголошення для перевірки", baseRates: "Опублікована таблиця комісій", netFee: "Застосовні умови комісій", slippageKyc: "Перевірки ринку й акаунта", action: "Профіль і шлях акаунта", painTitle: "Ризики й умови використання для перевірки", painLead: "Спершу перевірте офіційне або ончейн-джерело", securityTitle: "Умови платформ для порівняння поруч", securityLead: "Використовуйте офіційні джерела для перевірки опублікованих комісій, правил доступу, ризиків виконання та умов виведення. Неперевірені значення залишаються в очікуванні.", pitfallLead: "Перед дією перевірте зберігання, дозволи й умови виходу. Ці перевірки не гарантують безпеку капіталу чи повернення коштів.", platformType: "Платформа / тип" },
   }
 });
 
@@ -2017,6 +2049,16 @@ const MEME_TOPIC_TELEGRAM_COPY = Object.freeze({
     { cmd: "/rates meme", descEn: "Apri controlli su commissioni pubblicate, spread e costo di uscita", descZh: "Apri controlli su commissioni pubblicate, spread e costo di uscita" },
     { cmd: "/alert new_listings", descEn: "Segui avvisi su coppie e annunci da fonti revisionate", descZh: "Segui avvisi su coppie e annunci da fonti revisionate" },
   ],
+  // l10n: needs native review
+  ur: [
+    { cmd: "/rates meme", descEn: "شائع شدہ فیس، اسپریڈ اور اخراجی لاگت کے چیک کھولیں", descZh: "شائع شدہ فیس، اسپریڈ اور اخراجی لاگت کے چیک کھولیں" },
+    { cmd: "/alert new_listings", descEn: "جائزہ شدہ ذرائع کے جوڑوں اور اعلانات کے الرٹس لیں", descZh: "جائزہ شدہ ذرائع کے جوڑوں اور اعلانات کے الرٹس لیں" },
+  ],
+  // l10n: needs native review
+  uk: [
+    { cmd: "/rates meme", descEn: "Відкрити перевірки опублікованих комісій, спреду й вартості виходу", descZh: "Відкрити перевірки опублікованих комісій, спреду й вартості виходу" },
+    { cmd: "/alert new_listings", descEn: "Отримувати сповіщення про пари й оголошення з перевірених джерел", descZh: "Отримувати сповіщення про пари й оголошення з перевірених джерел" },
+  ],
 });
 
 
@@ -2036,6 +2078,10 @@ const MEME_TOPIC_CATEGORY_COPY = Object.freeze({
   id: "Meme coin dan pemeriksaan trading on-chain",
   vi: "Meme coin và kiểm tra giao dịch on-chain",
   it: "Meme coin e controlli di trading on-chain",
+  // l10n: needs native review
+  ur: "میم کوائنز اور آن چین ٹریڈ چیک",
+  // l10n: needs native review
+  uk: "Мемкоїни й ончейн-перевірки торгівлі",
 });
 
 function topicNativeCategory(slug, locale) {
@@ -2079,6 +2125,10 @@ const TOPIC_NAV_SHORT_COPY = Object.freeze({
   id: { "meme-coins": "Meme", derivatives: "Deriv.", "compliant-exchanges": "Fiat", "no-kyc": "Tanpa KYC" },
   vi: { "meme-coins": "Meme", derivatives: "Phái sinh", "compliant-exchanges": "Fiat", "no-kyc": "Không KYC" },
   it: { "meme-coins": "Meme", derivatives: "Deriv.", "compliant-exchanges": "Fiat", "no-kyc": "No KYC" },
+  // l10n: needs native review
+  ur: { "meme-coins": "میم", derivatives: "ڈیریویٹوز", "compliant-exchanges": "فیاٹ رسائی", "no-kyc": "بغیر KYC" },
+  // l10n: needs native review
+  uk: { "meme-coins": "Меми", derivatives: "Деривативи", "compliant-exchanges": "Фіатний доступ", "no-kyc": "Без KYC" },
 });
 
 
@@ -2098,6 +2148,10 @@ const TOPIC_NAV_FULL_COPY = Object.freeze({
   id: { "meme-coins": "Meme coin dan pemeriksaan trading on-chain", derivatives: "Derivatif dan kontrak perpetual", "compliant-exchanges": "Akses fiat dan pemeriksaan regulasi", "no-kyc": "Tanpa KYC dan trading privat" },
   vi: { "meme-coins": "Meme coin và kiểm tra giao dịch on-chain", derivatives: "Phái sinh và hợp đồng perpetual", "compliant-exchanges": "Truy cập fiat và kiểm tra quy định", "no-kyc": "Không KYC và giao dịch riêng tư" },
   it: { "meme-coins": "Meme coin e controlli di trading on-chain", derivatives: "Derivati e contratti perpetual", "compliant-exchanges": "Accesso fiat e controlli regolamentari", "no-kyc": "No KYC e trading privato" },
+  // l10n: needs native review
+  ur: { "meme-coins": "میم کوائنز اور آن چین ٹریڈ چیک", derivatives: "ڈیریویٹوز اور پرپیچوئل معاہدے", "compliant-exchanges": "فیاٹ رسائی اور ضابطہ جاتی چیک", "no-kyc": "بغیر KYC اور نجی ٹریڈنگ" },
+  // l10n: needs native review
+  uk: { "meme-coins": "Мемкоїни й ончейн-перевірки торгівлі", derivatives: "Деривативи й безстрокові контракти", "compliant-exchanges": "Фіатний доступ і регуляторні перевірки", "no-kyc": "Без KYC і приватна торгівля" },
 });
 
 function topicNavShortLabel(slug, locale) {
@@ -2416,6 +2470,17 @@ const DERIVATIVES_ROUTE_UI_COPY = {
 
 
 
+
+// l10n: needs native review
+PERP_DICTIONARY_COPY.ur = { title: "Perp DEX لاگت خانوں کی لغت", subtitle: (version) => `ورژن ${version}۔ پلیٹ فارم طریقہ کار کا موازنہ کرنے کے لیے دوبارہ استعمال ہونے والا خاکہ؛ یہ براہ راست شرحیں شائع نہیں کرتا اور قاری کے لیے پلیٹ فارم نہیں چنتا۔`, usageTitle: "اس لغت کو کیسے استعمال کریں", usageBody: "8 خانوں سے Perp DEX راستے کی فیس، فنڈنگ، ضمانت، مارجن، اوریکل اور لیکویڈیشن قواعد درج کریں، پھر Hyperliquid vs dYdX موازنہ یا پلیٹ فارم پروفائل کھولیں۔ یہ خانوں کی چیک لسٹ ہے، براہ راست شرح فیڈ، درجہ بندی یا رجسٹریشن راستہ نہیں۔", findingTitle: "حوالہ دینے کے قابل نتیجہ · 2026-09-15", findingBody: "Wave48 ڈیٹاسیٹ Hyperliquid، dYdX، GMX اور Aevo پر 24 لازمی پلیٹ فارم خانوں کو سرکاری ماخذ کے ساتھ known ریکارڈ کرتا ہے۔ پھر بھی Perp DEX لاگت جائزے کو مکمل فیس، فنڈنگ، ضمانت، مارجن، اوریکل اور لیکویڈیشن ڈھانچہ چیک کرنا ہوتا ہے، صرف ایک جامد فیس یا براہ راست فنڈنگ عدد نہیں۔", downloads: "ڈاؤن لوڈز اور ذرائع", openFields: "8 خانے اور موازنہ قواعد کھولیں", openSources: "تمام سرکاری تعریفی ذرائع دیکھیں" };
+// l10n: needs native review
+PERP_DICTIONARY_COPY.uk = { title: "Словник полів витрат Perp DEX", subtitle: (version) => `Версія ${version}. Повторно використовувана схема для порівняння механіки платформ; вона не публікує живі ставки й не обирає платформу за читача.`, usageTitle: "Як користуватися цим словником", usageBody: "Використайте 8 полів, щоб записати комісії, фінансування, заставу, маржу, оракул і правила ліквідації маршруту Perp DEX, потім відкрийте Hyperliquid vs dYdX або профілі платформ. Це перелік полів, а не жива стрічка ставок, рейтинг чи шлях реєстрації.", findingTitle: "Висновок для цитування · 2026-09-15", findingBody: "Набір Wave48 фіксує всі 24 обов’язкові поля як known з офіційним джерелом для Hyperliquid, dYdX, GMX і Aevo. Огляд витрат Perp DEX усе одно потребує повної перевірки комісій, фінансування, застави, маржі, оракула й ліквідації, а не однієї статичної комісії чи живого значення фінансування.", downloads: "Завантаження й джерела", openFields: "Відкрити 8 полів і правила", openSources: "Переглянути всі офіційні джерела визначень" };
+
+// l10n: needs native review
+DERIVATIVES_ROUTE_UI_COPY.ur = { primary: "اہم اگلا قدم", details: "چیک اور تحقیقی لنکس کھولیں", checks: "چیک", links: "مزید تحقیق", labels: { binance_vs_okx: "Binance vs OKX", bybit_vs_bitget: "Bybit vs Bitget", hyperliquid_vs_dydx: "Hyperliquid vs dYdX", rates: "لاگت کیلکولیٹر", hyperliquid_news_article: "تحقیقی خلاصہ", hyperliquid_profile: "Hyperliquid پروفائل", perp_cost_dictionary: "لاگت خانہ لغت", deribit_profile: "Deribit پروفائل", tokenized_stocks_vs_perps: "آپشنز بمقابلہ پرپس سیاق", gmx_profile: "GMX پروفائل", uniswap_wallet_checks: "Uniswap والیٹ چیک", no_kyc_boundary: "والیٹ رسائی حد" } };
+// l10n: needs native review
+DERIVATIVES_ROUTE_UI_COPY.uk = { primary: "Основний наступний крок", details: "Відкрити перевірки й дослідницькі посилання", checks: "Перевірки", links: "Додаткове дослідження", labels: { binance_vs_okx: "Binance vs OKX", bybit_vs_bitget: "Bybit vs Bitget", hyperliquid_vs_dydx: "Hyperliquid vs dYdX", rates: "Калькулятор витрат", hyperliquid_news_article: "Дослідницька довідка", hyperliquid_profile: "Профіль Hyperliquid", perp_cost_dictionary: "Словник полів витрат", deribit_profile: "Профіль Deribit", tokenized_stocks_vs_perps: "Контекст опціонів і перпів", gmx_profile: "Профіль GMX", uniswap_wallet_checks: "Перевірки гаманця Uniswap", no_kyc_boundary: "Межа доступу гаманця" } };
+
 const DERIVATIVES_QUICK_STAT_COPY = Object.freeze({
   en: {
     "Fee source": ["Fee source", "Check product, tier and order-type terms"],
@@ -2435,9 +2500,9 @@ const DERIVATIVES_QUICK_STAT_COPY = Object.freeze({
   ru: { "Fee source": ["Источник комиссий", "Проверьте продукт, уровень аккаунта и тип ордера"], Funding: ["Фандинг", "Периодичность и расчёт отличаются по площадкам"], Liquidation: ["Ликвидация", "Разделяйте маржу, оракул и maintenance rules"], "Next step": ["Следующий шаг", "Сузьте выбор через парные сравнения до регистрации"] },
   ar: { "Fee source": ["مصدر الرسوم", "تحقق من المنتج ومستوى الحساب ونوع الأمر"], Funding: ["التمويل", "الدورة وطريقة الحساب تختلفان حسب المنصة"], Liquidation: ["التصفية", "افصل بين الهامش وoracle ومتطلبات الصيانة"], "Next step": ["الخطوة التالية", "استخدم المقارنات الثنائية قبل التسجيل"] },
   // l10n: needs native review
-  ur: { "Fee source": ["فیس ماخذ", "مصنوعات، اکاؤنٹ سطح اور آرڈر قسم کی شرائط چیک کریں"], Funding: ["فنڈنگ", "وقفہ اور حساب پلیٹ فارم کے لحاظ سے بدلتا ہے"], Liquidation: ["لیکویڈیشن", "مارجن، اوریکل اور maintenance قواعد الگ دیکھیں"], "Next step": ["اگلا قدم", "رجسٹریشن سے پہلے جوڑی موازنہ استعمال کریں"] },
+  ur: { "Fee source": ["فیس ماخذ", "مصنوعات، اکاؤنٹ سطح اور آرڈر قسم کی شرائط چیک کریں"], Funding: ["فنڈنگ", "وقفہ اور حساب پلیٹ فارم کے لحاظ سے بدلتا ہے"], Liquidation: ["لیکویڈیشن", "مارجن، اوریکل اور برقرار رکھنے کے قواعد الگ دیکھیں"], "Next step": ["اگلا قدم", "رجسٹریشن سے پہلے جوڑی موازنہ استعمال کریں"] },
   // l10n: needs native review
-  uk: { "Fee source": ["Джерело комісій", "Перевірте продукт, рівень акаунта й тип ордера"], Funding: ["Фінансування", "Ритм і розрахунок відрізняються за платформами"], Liquidation: ["Ліквідація", "Окремо перевіряйте маржу, oracle і maintenance-правила"], "Next step": ["Наступний крок", "Перед реєстрацією використайте парні порівняння"] },
+  uk: { "Fee source": ["Джерело комісій", "Перевірте продукт, рівень акаунта й тип ордера"], Funding: ["Фінансування", "Ритм і розрахунок відрізняються за платформами"], Liquidation: ["Ліквідація", "Окремо перевіряйте маржу, оракул і правила підтримувальної маржі"], "Next step": ["Наступний крок", "Перед реєстрацією використайте парні порівняння"] },
   id: { "Fee source": ["Sumber biaya", "Periksa produk, tingkat akun, dan tipe order"], Funding: ["Pendanaan", "Jadwal dan perhitungan berbeda per platform"], Liquidation: ["Likuidasi", "Pisahkan margin, oracle, dan aturan maintenance"], "Next step": ["Langkah berikutnya", "Gunakan perbandingan pasangan sebelum daftar"] },
   vi: { "Fee source": ["Nguồn phí", "Kiểm tra sản phẩm, cấp tài khoản và loại lệnh"], Funding: ["Phí tài trợ", "Chu kỳ và cách tính khác nhau theo nền tảng"], Liquidation: ["Thanh lý", "Tách riêng ký quỹ, oracle và yêu cầu duy trì"], "Next step": ["Bước tiếp theo", "So sánh từng cặp trước khi đăng ký"] },
   it: { "Fee source": ["Fonte commissioni", "Verifica prodotto, livello account e tipo ordine"], Funding: ["Finanziamento", "Cadenza e calcolo variano per piattaforma"], Liquidation: ["Liquidazione", "Separa margine, oracle e requisiti di mantenimento"], "Next step": ["Passo successivo", "Usa confronti a coppie prima della registrazione"] },
@@ -2466,9 +2531,9 @@ const PERP_FIELD_LABEL_COPY = Object.freeze({
   ru: ["Торговая комиссия", "Платёж funding", "Спред и проскальзывание", "Залог и расчётный актив", "Модель маржи", "Оракул, индекс и mark price", "Ликвидация и backstop", "Перевод и сетевые расходы"],
   ar: ["رسوم التداول", "دفعة التمويل", "الفارق والانزلاق", "الضمان وأصل التسوية", "نموذج الهامش", "Oracle والمؤشر وسعر mark", "التصفية وآلية الدعم", "تكلفة التحويل والشبكة"],
   // l10n: needs native review
-  ur: ["ٹریڈنگ فیس", "فنڈنگ ادائیگی", "اسپریڈ اور سلپیج", "ضمانت اور تصفیہ اثاثہ", "مارجن ماڈل", "اوریکل، انڈیکس اور mark قیمت", "لیکویڈیشن اور backstop", "ٹرانسفر اور نیٹ ورک لاگت"],
+  ur: ["ٹریڈنگ فیس", "فنڈنگ ادائیگی", "اسپریڈ اور پھسلن", "ضمانت اور تصفیہ اثاثہ", "مارجن ماڈل", "اوریکل، انڈیکس اور مارک قیمت", "لیکویڈیشن اور حفاظتی طریقہ", "ٹرانسفر اور نیٹ ورک لاگت"],
   // l10n: needs native review
-  uk: ["Торгова комісія", "Платіж фінансування", "Спред і slippage", "Застава й актив розрахунку", "Модель маржі", "Oracle, індекс і mark price", "Ліквідація й backstop", "Вартість переказу й мережі"],
+  uk: ["Торгова комісія", "Платіж фінансування", "Спред і прослизання", "Застава й актив розрахунку", "Модель маржі", "Оракул, індекс і маркувальна ціна", "Ліквідація й страховий механізм", "Вартість переказу й мережі"],
   id: ["Biaya trading", "Pembayaran funding", "Spread dan slippage", "Kolateral dan aset penyelesaian", "Model margin", "Oracle, indeks, dan mark price", "Likuidasi dan backstop", "Biaya transfer dan jaringan"],
   vi: ["Phí giao dịch", "Khoản funding", "Spread và trượt giá", "Tài sản thế chấp và thanh toán", "Mô hình ký quỹ", "Oracle, chỉ số và giá mark", "Thanh lý và backstop", "Chi phí chuyển và mạng"],
   it: ["Commissione di trading", "Pagamento funding", "Spread e slippage", "Collaterale e asset di regolamento", "Modello di margine", "Oracle, indice e prezzo mark", "Liquidazione e backstop", "Costo di trasferimento e rete"],
@@ -2571,6 +2636,10 @@ function topicStaticUi(locale) {
   de: { category: "Themenleitfaden", updated: "Zuletzt aktualisiert", sourceTitle: "Quellen und Prüfstatus", sourceLead: "Der Plattformkontext verweist auf offizielle Quellen. Vorteile, Ranglisten und aktuelle Bedingungen werden einzeln geprüft. Geprüft", sourceBacked: "Quellenbasierter Kontext", pending: "Quellenprüfung ausstehend", painTitle: "Trader-Probleme und Bewertungskriterien", painLead: "Ohne quantitative Auswahl können Slippage, KYC-Sperren und falsche Verträge versteckte Verluste verursachen.", securityTitle: "Quantitativer Plattformvergleich", securityLead: "Wir vergleichen Tiefe, effektive Gebühren und Zugangsbedingungen nach demselben Maßstab.", action: "Aktion und Vorteile", pitfallTitle: "Praktischer Sicherheitsleitfaden", faqTitle: "Themen-FAQ", faqLead: "Klare Antworten für Handelsentscheidungen ohne unklare Marketingaussagen.", telegramTitle: "Telegram-Befehle zur Quellenprüfung", telegramBody: "Öffnen Sie mit dem Bot Prüfpfade für Gebühren, Aktivitäten und offizielle Quellen.", telegramButton: "Telegram-Bot aktivieren", matrixTitle: "Weitere Themen entdecken", matrixLead: "Sehen Sie Vergleiche für Ihr konkretes Handelsszenario.", calculate: "Handelskosten berechnen", topicFaq: "Themenfragen" },
   ru: { category: "Тематический справочник", updated: "Последнее обновление", sourceTitle: "Источники и статус проверки", sourceLead: "Контекст платформы связан с официальными источниками. Преимущества, рейтинги и текущие условия проверяются отдельно. Проверено", sourceBacked: "Контекст с источниками", pending: "Ожидает проверки источника", painTitle: "Проблемы трейдеров и критерии оценки", painLead: "Без количественного отбора проскальзывание, блокировки KYC и поддельные контракты создают скрытые потери.", securityTitle: "Количественное сравнение платформ", securityLead: "Сравниваем глубину, эффективные комиссии и условия доступа по единому критерию.", action: "Действие и преимущества", pitfallTitle: "Практическое руководство по безопасности", faqTitle: "FAQ по теме", faqLead: "Чёткие ответы для торговых решений без неоднозначного маркетинга.", telegramTitle: "Команды проверки источников в Telegram", telegramBody: "Откройте через бота пути проверки комиссий, активностей и официальных источников.", telegramButton: "Запустить Telegram-бота", matrixTitle: "Другие темы", matrixLead: "Изучите сравнения для вашего торгового сценария.", calculate: "Рассчитать торговые расходы", topicFaq: "Вопросы темы" },
   ar: { category: "دليل الموضوعات", updated: "آخر تحديث", sourceTitle: "المصادر وحالة المراجعة", sourceLead: "يرتبط سياق المنصة بالمصادر الرسمية. يجب التحقق من المزايا والتصنيفات والشروط الحالية لكل عنصر. تمت المراجعة", sourceBacked: "سياق موثق", pending: "بانتظار مراجعة المصدر", painTitle: "مشكلات المتداول ومعايير التقييم", painLead: "من دون فرز كمي قد يسبب الانزلاق وحظر KYC والعقود المزيفة خسائر خفية.", securityTitle: "مقارنة كمية للمنصات", securityLead: "نقارن العمق والرسوم الفعلية وشروط الوصول بالمعيار نفسه.", action: "الإجراء والمزايا", pitfallTitle: "دليل أمان عملي", faqTitle: "الأسئلة الشائعة للموضوع", faqLead: "إجابات واضحة لدعم قرار التداول بعيداً عن التسويق الملتبس.", telegramTitle: "أوامر مراجعة المصادر عبر Telegram", telegramBody: "افتح مسارات مراجعة الرسوم والأنشطة والمصادر الرسمية عبر الروبوت.", telegramButton: "تشغيل روبوت Telegram", matrixTitle: "استكشف موضوعات أخرى", matrixLead: "اطلع على مقارنات تناسب سيناريو التداول الخاص بك.", calculate: "احسب تكاليف التداول", topicFaq: "أسئلة الموضوع" },
+  // l10n: needs native review
+  ur: { category: "موضوع رہنما", updated: "آخری اپ ڈیٹ", sourceTitle: "ذرائع اور جائزہ حالت", sourceLead: "پلیٹ فارم سیاق سرکاری ذرائع سے جڑا ہے۔ فائدے، درجہ بندیاں اور موجودہ شرائط ہر شے کے حساب سے چیک ہونی چاہئیں۔ جائزہ شدہ", sourceBacked: "ماخذی سیاق", pending: "ماخذ جائزہ زیر التوا", painTitle: "ٹریڈر مسائل اور جانچ معیار", painLead: "عددی چھانٹی کے بغیر پھسلن، KYC رکاوٹیں اور جعلی معاہدے پوشیدہ نقصان بنا سکتے ہیں۔", securityTitle: "پلیٹ فارم کا عددی موازنہ", securityLead: "ہم گہرائی، مؤثر فیس اور رسائی شرائط کو ایک ہی معیار سے ملاتے ہیں۔", action: "عمل اور فائدے", pitfallTitle: "عملی حفاظت رہنما", faqTitle: "موضوع سوالات", faqLead: "ٹریڈنگ فیصلوں کے لیے واضح جواب، مبہم مارکیٹنگ کے بغیر۔", telegramTitle: "Telegram ماخذ جائزہ کمانڈز", telegramBody: "بوٹ سے فیس، سرگرمی اور سرکاری ذرائع کے جائزہ راستے کھولیں۔", telegramButton: "Telegram بوٹ شروع کریں", matrixTitle: "دوسرے موضوعات دیکھیں", matrixLead: "اپنے ٹریڈنگ منظرنامے کے مطابق موازنات دیکھیں۔", calculate: "ٹریڈنگ لاگت حساب کریں", topicFaq: "موضوع سوالات" },
+  // l10n: needs native review
+  uk: { category: "Тематичний гід", updated: "Останнє оновлення", sourceTitle: "Джерела й стан перевірки", sourceLead: "Контекст платформи пов’язаний з офіційними джерелами. Переваги, рейтинги й поточні умови потрібно перевіряти поелементно. Перевірено", sourceBacked: "Контекст із джерелом", pending: "Очікує перевірки джерела", painTitle: "Проблеми трейдера й критерії оцінки", painLead: "Без кількісного відбору прослизання, блокування KYC і фальшиві контракти можуть створити приховані втрати.", securityTitle: "Кількісне порівняння платформ", securityLead: "Ми порівнюємо глибину, ефективні комісії й умови доступу за тим самим критерієм.", action: "Дія й переваги", pitfallTitle: "Практичний гід безпеки", faqTitle: "Питання теми", faqLead: "Чіткі відповіді для торгових рішень без неоднозначного маркетингу.", telegramTitle: "Команди перевірки джерел у Telegram", telegramBody: "Відкрийте через бота шляхи перевірки комісій, активностей і офіційних джерел.", telegramButton: "Увімкнути Telegram-бота", matrixTitle: "Переглянути інші теми", matrixLead: "Дивіться порівняння для свого торгового сценарію.", calculate: "Розрахувати торгові витрати", topicFaq: "Питання теми" },
   id: { category: "Panduan topik", updated: "Pembaruan terakhir", sourceTitle: "Sumber dan status tinjauan", sourceLead: "Konteks platform terhubung ke sumber resmi. Manfaat, peringkat, dan kondisi saat ini diverifikasi per item. Ditinjau", sourceBacked: "Konteks berbasis sumber", pending: "Menunggu tinjauan sumber", painTitle: "Masalah trader dan kriteria evaluasi", painLead: "Tanpa penyaringan kuantitatif, slippage, penahanan KYC, dan kontrak palsu dapat menimbulkan kerugian tersembunyi.", securityTitle: "Perbandingan kuantitatif platform", securityLead: "Kami membandingkan kedalaman, biaya efektif, dan ketentuan akses dengan kriteria yang sama.", action: "Tindakan dan manfaat", pitfallTitle: "Panduan keamanan praktis", faqTitle: "FAQ topik", faqLead: "Jawaban jelas untuk keputusan trading tanpa bahasa pemasaran yang ambigu.", telegramTitle: "Perintah tinjauan sumber Telegram", telegramBody: "Buka jalur tinjauan biaya, aktivitas, dan sumber resmi lewat bot.", telegramButton: "Aktifkan bot Telegram", matrixTitle: "Jelajahi topik lain", matrixLead: "Lihat perbandingan yang sesuai dengan skenario trading Anda.", calculate: "Hitung biaya trading", topicFaq: "Pertanyaan topik" },
   vi: { category: "Hướng dẫn chủ đề", updated: "Cập nhật lần cuối", sourceTitle: "Nguồn và trạng thái rà soát", sourceLead: "Thông tin nền tảng liên kết với nguồn chính thức. Ưu đãi, xếp hạng và điều kiện hiện tại cần được kiểm tra từng mục. Đã rà soát", sourceBacked: "Thông tin có nguồn", pending: "Đang chờ rà soát nguồn", painTitle: "Vấn đề của trader và tiêu chí đánh giá", painLead: "Nếu không sàng lọc định lượng, trượt giá, treo KYC và hợp đồng giả có thể gây thiệt hại ẩn.", securityTitle: "So sánh định lượng các nền tảng", securityLead: "So sánh độ sâu, phí thực và điều kiện truy cập theo cùng một tiêu chí.", action: "Hành động và ưu đãi", pitfallTitle: "Hướng dẫn an toàn thực tế", faqTitle: "FAQ chủ đề", faqLead: "Câu trả lời rõ ràng để hỗ trợ quyết định giao dịch, tránh thông điệp tiếp thị mơ hồ.", telegramTitle: "Lệnh rà soát nguồn trên Telegram", telegramBody: "Mở đường dẫn rà soát phí, hoạt động và nguồn chính thức bằng bot.", telegramButton: "Bật bot Telegram", matrixTitle: "Khám phá chủ đề khác", matrixLead: "Xem so sánh phù hợp với kịch bản giao dịch của bạn.", calculate: "Tính chi phí giao dịch", topicFaq: "Câu hỏi chủ đề" },
   it: { category: "Guida tematica", updated: "Ultimo aggiornamento", sourceTitle: "Fonti e stato della revisione", sourceLead: "Il contesto della piattaforma rimanda a fonti ufficiali. Vantaggi, classifiche e condizioni attuali richiedono una verifica per elemento. Verificato", sourceBacked: "Contesto con fonti", pending: "Verifica della fonte in sospeso", painTitle: "Problemi dei trader e criteri di valutazione", painLead: "Senza selezione quantitativa, slippage, blocchi KYC e contratti falsi possono causare perdite nascoste.", securityTitle: "Confronto quantitativo delle piattaforme", securityLead: "Confrontiamo profondità, costi effettivi e condizioni di accesso con lo stesso criterio.", action: "Azione e vantaggi", pitfallTitle: "Guida pratica alla sicurezza", faqTitle: "FAQ sul tema", faqLead: "Risposte chiare per decidere senza messaggi di marketing ambigui.", telegramTitle: "Comandi di verifica fonti su Telegram", telegramBody: "Apri con il bot i percorsi per verificare commissioni, attività e fonti ufficiali.", telegramButton: "Attiva bot Telegram", matrixTitle: "Esplora altri temi", matrixLead: "Consulta confronti adatti al tuo scenario di trading.", calculate: "Calcola i costi di trading", topicFaq: "Domande sul tema" },
@@ -2612,6 +2681,10 @@ function topicRouteCopy(locale, slug) {
     id: { calculateCosts: "Hitung biaya trading" },
     vi: { calculateCosts: "Tính chi phí giao dịch" },
     it: { calculateCosts: "Calcola i costi di trading" },
+    // l10n: needs native review
+    ur: { calculateCosts: "ٹریڈنگ لاگت حساب کریں" },
+    // l10n: needs native review
+    uk: { calculateCosts: "Розрахувати торгові витрати" },
   }[language] || {};
   const noKyc = {
     en: {
@@ -2628,6 +2701,18 @@ function topicRouteCopy(locale, slug) {
       label: "No-KYC ilgili araştırma",
       title: "Önce cüzdan erişimi, CEX hesabı ve perp karşılaştırmasını ayırın",
       body: "No-KYC koşulları bölge, ürün, çekim ve hesap aşamasına göre değişebilir. Önce Hyperliquid ile dYdX'i karşılaştırın, sonra her platform profilini ve MEXC hesap koşullarını ayrı kontrol edin.",
+    },
+    // l10n: needs native review
+    ur: {
+      label: "بغیر KYC فیصلے کے راستے",
+      title: "طے کریں کہ راستہ والیٹ رسائی ہے، CEX اکاؤنٹ رسائی یا پرپیچوئل پلیٹ فارم خطرہ",
+      body: "بغیر KYC کوئی ایک مستقل وعدہ نہیں۔ پہلے والیٹ سے جڑے پروٹوکولز کو مرکزی اکاؤنٹ راستوں سے الگ کریں، پھر پرپیچوئل میکینکس کے لیے Hyperliquid بمقابلہ dYdX استعمال کریں اور ہر پلیٹ فارم پروفائل میں ودڈرال، خطے اور ماخذ چیک کھولیں۔",
+    },
+    // l10n: needs native review
+    uk: {
+      label: "Маршрути рішень без KYC",
+      title: "Визначте, чи маршрут стосується доступу через гаманець, акаунта CEX або ризику платформи безстрокових контрактів",
+      body: "No-KYC не є однією сталою обіцянкою. Спочатку відокремте протоколи з підключенням гаманця від централізованих акаунтних потоків, потім використайте Hyperliquid vs dYdX для механіки безстрокових контрактів і відкрийте профіль кожної платформи для перевірки виведення, регіону та джерел.",
     },
   }[language];
   return slug === "no-kyc" ? { ...shared, noKyc } : shared;
@@ -2669,6 +2754,10 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
     es: "Leer el benchmark completo →", "pt-BR": "Ler o benchmark completo →", fr: "Lire le benchmark complet →",
     de: "Vollständigen Benchmark lesen →", ru: "Открыть полный обзор →", ar: "اقرأ المقارنة الكاملة ←",
     id: "Baca benchmark lengkap →", vi: "Đọc benchmark đầy đủ →", it: "Leggi il benchmark completo →",
+    // l10n: needs native review
+    ur: "مکمل معیار پڑھیں →",
+    // l10n: needs native review
+    uk: "Читати повний бенчмарк →",
   }[String(locale || "").split("-")[0] === "pt" ? "pt-BR" : String(locale || "").split("-")[0]] || "Read Full Benchmark →";
   const telegramTopicCta = {
     ja: "Telegramボットを起動",
@@ -2683,6 +2772,10 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
     id: "Buka bot Telegram",
     vi: "Mở bot Telegram",
     it: "Apri il bot Telegram",
+    // l10n: needs native review
+    ur: "Telegram بوٹ شروع کریں",
+    // l10n: needs native review
+    uk: "Запустити Telegram-бота",
   }[locale === "pt-BR" ? "pt-BR" : String(locale || "").split("-")[0]] || "Launch Telegram Bot";
   const topicUi = {
     ja: { nav: "トピックガイド", updated: "最終更新", pending: "確認待ち", verifyBenefits: "ユーザー向け条件は公式出典の確認が必要です", verifyExecution: "実行条件は公式出典の確認が必要です", decision: "サービスのプロフィールを確認してから登録", start: "ここから開始", decisionBody: "公式ドメイン、地域条件、商品範囲、出典日を確認してください。", sourceOpen: "出典登録と確認状況を開く", painOpen: "トレーダーの課題と評価軸", securityOpen: "安全確認ガイド", faqOpen: "トピックFAQ", moreOpen: "他のトピックを見る" },
@@ -2724,7 +2817,11 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
     es: { researchContext: "Contexto de investigación", verifyAnnouncements: "Verifica los anuncios oficiales", officialSchedule: "Verifica el cuadro oficial", officialFeeTerms: "Verifica las condiciones oficiales", verifyMarket: "Verifica las condiciones actuales del mercado", regionalKyc: "Verifica las condiciones regionales y KYC" },
     fr: { researchContext: "Contexte de recherche", verifyAnnouncements: "Vérifier les annonces officielles", officialSchedule: "Vérifier le barème officiel", officialFeeTerms: "Vérifier les conditions officielles", verifyMarket: "Vérifier les conditions actuelles du marché", regionalKyc: "Vérifier les conditions régionales et KYC" },
     de: { researchContext: "Recherchekontext", verifyAnnouncements: "Offizielle Ankündigungen prüfen", officialSchedule: "Offizielle Tabelle prüfen", officialFeeTerms: "Offizielle Bedingungen prüfen", verifyMarket: "Aktuelle Marktbedingungen prüfen", regionalKyc: "Regionale und KYC-Bedingungen prüfen" },
-    ru: { researchContext: "Контекст исследования", verifyAnnouncements: "Проверьте официальные объявления", officialSchedule: "Проверьте официальную таблицу", officialFeeTerms: "Проверьте официальные условия", verifyMarket: "Проверьте текущие условия рынка", regionalKyc: "Проверьте региональные условия и KYC" }
+    ru: { researchContext: "Контекст исследования", verifyAnnouncements: "Проверьте официальные объявления", officialSchedule: "Проверьте официальную таблицу", officialFeeTerms: "Проверьте официальные условия", verifyMarket: "Проверьте текущие условия рынка", regionalKyc: "Проверьте региональные условия и KYC" },
+    // l10n: needs native review
+    ur: { researchContext: "تحقیقی سیاق", verifyAnnouncements: "سرکاری اعلانات چیک کریں", officialSchedule: "سرکاری شیڈول چیک کریں", officialFeeTerms: "سرکاری فیس شرائط چیک کریں", verifyMarket: "موجودہ مارکیٹ حالات چیک کریں", regionalKyc: "علاقائی اور KYC شرائط چیک کریں" },
+    // l10n: needs native review
+    uk: { researchContext: "Дослідницький контекст", verifyAnnouncements: "Перевірити офіційні оголошення", officialSchedule: "Перевірити офіційний графік", officialFeeTerms: "Перевірити офіційні умови комісій", verifyMarket: "Перевірити поточні ринкові умови", regionalKyc: "Перевірити регіональні умови та KYC" }
   }[locale];
   if (tableLabels) Object.assign(topicUiResolved, tableLabels);
   const verificationLabels = {
@@ -2740,6 +2837,10 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
     id: { verifyBenefits: "Ketentuan pengguna harus diverifikasi dari sumber resmi", verifyExecution: "Ketentuan eksekusi harus diverifikasi dari sumber resmi" },
     vi: { verifyBenefits: "Điều kiện người dùng cần được xác minh từ nguồn chính thức", verifyExecution: "Điều kiện thực thi cần được xác minh từ nguồn chính thức" },
     it: { verifyBenefits: "Le condizioni utente richiedono verifica su fonte ufficiale", verifyExecution: "Le condizioni di esecuzione richiedono verifica su fonte ufficiale" },
+    // l10n: needs native review
+    ur: { verifyBenefits: "صارف شرائط سرکاری ماخذ کی تصدیق مانگتی ہیں", verifyExecution: "عمل درآمد شرائط سرکاری ماخذ کی تصدیق مانگتی ہیں" },
+    // l10n: needs native review
+    uk: { verifyBenefits: "Користувацькі умови потребують перевірки за офіційним джерелом", verifyExecution: "Умови виконання потребують перевірки за офіційним джерелом" },
   }[locale];
   if (verificationLabels) Object.assign(topicUiResolved, verificationLabels);
   if (!topicUiResolved.updated) topicUiResolved.updated = staticUi.updated || (isZh ? zhCopy(isHant, "最后更新", "最後更新") : "Last Updated");
@@ -2771,6 +2872,10 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
       id: "Perbandingan platform meme coin: MEXC, Gate.io, dan Raydium",
       vi: "So sánh nền tảng meme coin: MEXC, Gate.io và Raydium",
       it: "Confronto tra piattaforme per meme coin: MEXC, Gate.io e Raydium",
+      // l10n: needs native review
+      ur: "میم کوائن پلیٹ فارم موازنہ: MEXC، Gate.io اور Raydium",
+      // l10n: needs native review
+      uk: "Порівняння платформ для мемкоїнів: MEXC, Gate.io та Raydium",
     },
     derivatives: {
       en: "Crypto perpetual platform comparison: Binance, Bybit and Hyperliquid",
@@ -2783,6 +2888,10 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
       id: "Perbandingan platform perpetual kripto: Binance, Bybit, dan Hyperliquid",
       vi: "So sánh nền tảng perpetual crypto: Binance, Bybit và Hyperliquid",
       it: "Confronto tra piattaforme perpetual crypto: Binance, Bybit e Hyperliquid",
+      // l10n: needs native review
+      ur: "کرپٹو پرپیچوئل پلیٹ فارم موازنہ: Binance، Bybit اور Hyperliquid",
+      // l10n: needs native review
+      uk: "Порівняння криптоперп-платформ: Binance, Bybit і Hyperliquid",
     },
     "compliant-exchanges": {
       en: "Regulated crypto exchange comparison for fiat access: HashKey, Kraken and OKX",
@@ -2795,6 +2904,10 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
       id: "Akses fiat dan kelayakan akun: HashKey, Kraken, dan OKX",
       vi: "Truy cập fiat và điều kiện tài khoản: HashKey, Kraken và OKX",
       it: "Accesso fiat e idoneità dell’account: HashKey, Kraken e OKX",
+      // l10n: needs native review
+      ur: "فیاٹ رسائی اور اکاؤنٹ اہلیت: HashKey، Kraken اور OKX",
+      // l10n: needs native review
+      uk: "Фіатний доступ і доступність акаунта: HashKey, Kraken та OKX",
     },
     "no-kyc": {
       en: "Crypto access without KYC: Hyperliquid, dYdX and MEXC",
@@ -2807,6 +2920,10 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
       id: "Akses kripto tanpa KYC: Hyperliquid, dYdX, dan MEXC",
       vi: "Truy cập crypto không KYC: Hyperliquid, dYdX và MEXC",
       it: "Accesso crypto senza KYC: Hyperliquid, dYdX e MEXC",
+      // l10n: needs native review
+      ur: "KYC کے بغیر کرپٹو رسائی: Hyperliquid، dYdX اور MEXC",
+      // l10n: needs native review
+      uk: "Криптодоступ без KYC: Hyperliquid, dYdX і MEXC",
     },
   }[topic.slug]?.[locale];
   const localizedTopicTitle = ({
@@ -2843,6 +2960,10 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
       id: "Bandingkan platform meme coin berdasarkan ketentuan resmi, biaya, kelayakan wilayah, dan sumber.",
       vi: "So sánh các nền tảng meme coin theo điều kiện chính thức, phí, khu vực hỗ trợ và nguồn.",
       it: "Confronta le piattaforme per meme coin usando condizioni ufficiali, commissioni, idoneità regionale e fonti.",
+      // l10n: needs native review
+      ur: "میم کوائن پلیٹ فارم کو سرکاری شرائط، فیس، علاقائی اہلیت اور ذرائع سے ملائیں۔",
+      // l10n: needs native review
+      uk: "Порівнюйте платформи для мемкоїнів за офіційними умовами, комісіями, регіональною доступністю й джерелами.",
     },
     "no-kyc": {
       ko: "지갑 연결, 계정 가입, 본인확인 가능성, 출금, 지역 제한과 리스크 경계를 Hyperliquid, dYdX, MEXC 기준으로 비교합니다.",
@@ -3037,6 +3158,10 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
     id: "Pilih rute derivatif lebih dulu",
     vi: "Chọn tuyến phái sinh trước",
     it: "Scegli prima il percorso derivati",
+    // l10n: needs native review
+    ur: "پہلے ڈیریویٹوز راستہ چنیں",
+    // l10n: needs native review
+    uk: "Спершу оберіть маршрут деривативів",
   }[localeKey] || "Choose the derivative route first";
   const derivativesDecisionBody = {
     en: "The right next step depends on account model: exchange account, wallet-connected perp, specialist options venue, or pool-based GMX route.",
@@ -3054,6 +3179,10 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
     id: "Langkah berikutnya bergantung pada model: akun CEX, perp dengan wallet, venue options spesialis, atau rute pool GMX.",
     vi: "Bước tiếp theo phụ thuộc vào mô hình: tài khoản CEX, perp qua ví, nền tảng options chuyên biệt hoặc tuyến pool GMX.",
     it: "Il passo successivo dipende dal modello: account CEX, perp via wallet, venue options specialistica o percorso GMX su pool.",
+    // l10n: needs native review
+    ur: "اگلا قدم اکاؤنٹ ماڈل پر منحصر ہے: CEX اکاؤنٹ، والیٹ سے جڑا پرپ، خصوصی آپشنز پلیٹ فارم، یا GMX پول راستہ۔",
+    // l10n: needs native review
+    uk: "Правильний наступний крок залежить від моделі акаунта: акаунт CEX, перп через гаманець, спеціалізована платформа опціонів або маршрут GMX через пул.",
   }[localeKey] || "The right next step depends on account model: exchange account, wallet-connected perp, specialist options venue, or pool-based GMX route.";
 
   return (

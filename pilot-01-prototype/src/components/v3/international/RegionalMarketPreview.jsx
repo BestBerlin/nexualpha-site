@@ -891,6 +891,10 @@ const UI_COPY = {
   vi: { payment: "Phương thức nạp tiền", accountCurrency: "Đơn vị tiền tệ tài khoản", kyc: "KYC", offer: "Trạng thái ưu đãi", conditional: "Có điều kiện", researchBoundary: "Gợi ý nghiên cứu; hãy xác minh kết quả trong quy trình tài khoản chính thức.", openDirectory: "Mở danh mục toàn cầu", questions: "Lộ trình nghiên cứu này bao quát gì", viewQuestions: "Xem ba câu hỏi nghiên cứu", hideQuestions: "Ẩn câu hỏi nghiên cứu", accountStage: "Chọn giai đoạn tài khoản", sourceStatus: "Trạng thái nguồn", sourcePending: "Gói nguồn đang chờ", pendingNote: "Khi gói nguồn đang chờ, trang này chỉ là hướng dẫn nghiên cứu và không cam kết đủ điều kiện hay lợi ích.", officialSources: "Nguồn chính thức" },
   it: { payment: "Percorso di pagamento", accountCurrency: "Valuta del conto", kyc: "KYC", offer: "Stato dell'offerta", conditional: "Condizionale", researchBoundary: "Nota di ricerca; verifica il risultato nel flusso ufficiale dell'account.", openDirectory: "Apri la directory globale", questions: "Cosa copre questo percorso di ricerca", viewQuestions: "Vedi le tre domande", hideQuestions: "Nascondi le domande", accountStage: "Scegli la fase del tuo account", sourceStatus: "Stato delle fonti", sourcePending: "Pacchetto fonti in attesa", pendingNote: "Finché il pacchetto fonti è in attesa, questa pagina resta una guida di ricerca e non promette idoneità o vantaggi.", officialSources: "Fonti ufficiali" },
   ar: { payment: "مسار الإيداع", accountCurrency: "عملة الحساب", kyc: "اعرف عميلك", offer: "حالة العرض", conditional: "مشروط", researchBoundary: "إرشاد بحثي؛ تحقق من النتيجة في مسار الحساب الرسمي.", openDirectory: "فتح الدليل العالمي", questions: "ما الذي يغطيه مسار البحث هذا", viewQuestions: "عرض أسئلة البحث الثلاثة", hideQuestions: "إخفاء أسئلة البحث", accountStage: "اختر مرحلة حسابك", sourceStatus: "حالة المصادر", sourcePending: "حزمة المصادر قيد الانتظار", pendingNote: "ما دامت حزمة المصادر قيد الانتظار، تظل هذه الصفحة دليلاً بحثياً ولا تضمن الأهلية أو المزايا.", officialSources: "المصادر الرسمية" },
+  // l10n: needs native review
+  ur: { payment: "ادائیگی راستہ", accountCurrency: "اکاؤنٹ کرنسی", kyc: "KYC", offer: "آفر حالت", conditional: "مشروط", researchBoundary: "تحقیقی نوٹ؛ نتیجہ سرکاری اکاؤنٹ عمل میں تصدیق کریں۔", openDirectory: "عالمی ڈائریکٹری کھولیں", questions: "یہ تحقیقی راستہ کیا احاطہ کرتا ہے", viewQuestions: "تین تحقیقی سوالات دیکھیں", hideQuestions: "تحقیقی سوالات چھپائیں", accountStage: "اپنا اکاؤنٹ مرحلہ چنیں", viewAccountStages: "دیگر اکاؤنٹ مراحل دیکھیں", hideAccountStages: "دیگر اکاؤنٹ مراحل چھپائیں", sourceStatus: "ماخذ حالت", sourcePending: "ماخذ پیکج زیر التوا", pendingNote: "جب تک ماخذ پیکج زیر التوا ہے، یہ صفحہ صرف تحقیقی رہنمائی ہے اور اہلیت یا فوائد کا وعدہ نہیں کرتا۔", officialSources: "سرکاری ماخذ" },
+  // l10n: needs native review
+  uk: { payment: "Маршрут оплати", accountCurrency: "Валюта акаунта", kyc: "KYC", offer: "Статус пропозиції", conditional: "Умовно", researchBoundary: "Дослідницька примітка; підтверджуйте результат в офіційному процесі акаунта.", openDirectory: "Відкрити глобальний довідник", questions: "Що охоплює цей дослідницький маршрут", viewQuestions: "Переглянути три дослідницькі запитання", hideQuestions: "Сховати дослідницькі запитання", accountStage: "Оберіть етап акаунта", viewAccountStages: "Переглянути інші етапи акаунта", hideAccountStages: "Сховати інші етапи акаунта", sourceStatus: "Статус джерел", sourcePending: "Пакет джерел очікує", pendingNote: "Поки пакет джерел очікує, ця сторінка є лише дослідницькою навігацією і не обіцяє доступність або переваги.", officialSources: "Офіційні джерела" },
 };
 
 const REGIONAL_LABELS = {
@@ -906,6 +910,10 @@ const REGIONAL_LABELS = {
   ar: { path: "مسار بحث", recorded: "مسجل في السياسة؛ الحساب الرسمي هو المرجع النهائي", verify: "تحقق في الحساب الرسمي", required: "مطلوب", unset: "غير محدد", residence: "يجب أن تتطابق الإقامة مع أهلية الحساب", rules: "تحقق من قواعد المنصة", conditional: "مشروط", noBenefit: "لا يوجد وعد بميزة ثابتة", continue: "متابعة البحث", rates: "مقارنة الرسوم", compare: "مقارنة منصتين", telegram: "المتابعة في Telegram" },
   vi: { path: "lộ trình nghiên cứu", recorded: "Đã ghi trong chính sách; tài khoản chính thức là quyết định cuối", verify: "Xác minh trong tài khoản chính thức", required: "Bắt buộc", unset: "Chưa thiết lập", residence: "Nơi cư trú phải phù hợp với điều kiện tài khoản", rules: "Kiểm tra quy định nền tảng", conditional: "Có điều kiện", noBenefit: "Không cam kết lợi ích cố định", continue: "Tiếp tục nghiên cứu", rates: "So sánh phí", compare: "So sánh hai nền tảng", telegram: "Tiếp tục trên Telegram" },
   it: { path: "percorso di ricerca", recorded: "Registrato nella policy; fa fede il conto ufficiale", verify: "Verifica nell’account ufficiale", required: "Richiesto", unset: "Non impostato", residence: "La residenza deve corrispondere ai requisiti dell’account", rules: "Controlla le regole della piattaforma", conditional: "Condizionale", noBenefit: "Nessun vantaggio fisso garantito", continue: "Continua la ricerca", rates: "Confronta le commissioni", compare: "Confronta due piattaforme", telegram: "Continua su Telegram" },
+  // l10n: needs native review
+  ur: { path: "تحقیقی راستہ", recorded: "پالیسی میں درج؛ حتمی بات اکاؤنٹ میں", verify: "سرکاری اکاؤنٹ میں تصدیق کریں", required: "درکار", unset: "ترتیب نہیں", residence: "رہائش اور اکاؤنٹ اہلیت کا ملنا ضروری ہے", rules: "پلیٹ فارم قواعد چیک کریں", conditional: "مشروط", noBenefit: "مقررہ فائدے کا وعدہ نہیں", continue: "تحقیق جاری رکھیں", rates: "فیس کا موازنہ", compare: "دو پلیٹ فارمز کا موازنہ", telegram: "Telegram پر جاری رکھیں" },
+  // l10n: needs native review
+  uk: { path: "дослідницький маршрут", recorded: "Записано в політиці; остаточно вирішує акаунт", verify: "Перевірити в офіційному акаунті", required: "Потрібно", unset: "Не налаштовано", residence: "Резиденція має відповідати доступності акаунта", rules: "Перевірте правила платформи", conditional: "Умовно", noBenefit: "Фіксована перевага не обіцяється", continue: "Продовжити дослідження", rates: "Порівняти комісії", compare: "Порівняти дві платформи", telegram: "Продовжити в Telegram" },
 };
 
 const INTERNATIONAL_ROUTE_CARDS = [
@@ -982,6 +990,8 @@ const INTERNATIONAL_ROUTE_CARD_COPY = {
       hk: ["SFC と HKD の情報源付きルート", "香港で SFC 状態、HKD 銀行入金、本人確認、住所、商品範囲を開設前に確認します。"],
       jp: ["FSA と JPY の公開ルート", "本人確認、JPY 入金、登録業者の文脈が判断材料になる場合に日本ページを使います。"],
       kr: ["FSC と KRW 口座の確認ルート", "本人確認、実名口座、KRW 入出金、商品範囲を公式情報源と口座画面で分けて確認します。"],
+
+      // l10n: needs native review
       uk: ["FCA と GBP の調査ルート", "英国居住、GBP 入金、商品範囲を公式アカウント手続きで確認する時に使います。"],
       eu: ["MiCA、EUR、SEPA の調査ルート", "国、サービス主体、EUR/SEPA 入金、商品可否を分けて確認する時に使います。"],
       br: ["BRL と Pix の深い確認リスト", "ブラジルの Pix、BRL、CPF、本人確認、費用を現物口座開設前に確認します。"],
@@ -999,6 +1009,8 @@ const INTERNATIONAL_ROUTE_CARD_COPY = {
       hk: ["SFC 및 HKD 출처 기반 경로", "홍콩 SFC 상태, HKD 은행 입금, 본인확인, 주소, 상품 범위를 계정 개설 전에 확인합니다."],
       jp: ["FSA 및 JPY 공개 경로", "본인확인, JPY 입금, 등록 사업자 맥락이 결정에 필요한 경우 일본 페이지를 사용합니다."],
       kr: ["FSC 및 KRW 계정 확인 경로", "본인확인, 실명계좌, KRW 입출금, 상품 범위를 공식 출처와 계정 화면에서 나누어 확인합니다."],
+
+      // l10n: needs native review
       uk: ["FCA 및 GBP 리서치 경로", "영국 거주, GBP 입금, 상품 범위를 공식 계정 절차에서 확인할 때 사용합니다."],
       eu: ["MiCA, EUR, SEPA 리서치 경로", "국가, 서비스 법인, EUR 또는 SEPA 입금, 상품 이용 가능 여부를 분리해 확인합니다."],
       br: ["BRL 및 Pix 심층 체크리스트", "브라질 Pix, BRL, CPF, 본인확인, 비용을 현물 계정 개설 전에 확인합니다."],
@@ -1016,6 +1028,8 @@ const INTERNATIONAL_ROUTE_CARD_COPY = {
       hk: ["SFC ve HKD kaynaklı rota", "Hesap açmadan önce SFC platform durumu, HKD banka fonlaması, kimlik, adres ve ürün kapsamını kontrol edin."],
       jp: ["FSA ve JPY indeksli rota", "Kimlik kontrolleri, JPY fonlama ve kayıtlı sağlayıcı bağlamı kararın parçası olduğunda Japonya sayfasını kullanın."],
       kr: ["FSC ve KRW hesap rotası", "Kimlik, gerçek isimli banka hesabı, KRW yatırma/çekme ve ürün kapsamını resmi kaynaklar ve hesap ekranıyla ayırın."],
+
+      // l10n: needs native review
       uk: ["FCA ve GBP araştırma yolu", "İkamet, GBP fonlama ve ürün kapsamı resmi hesap akışında kontrol edilecekse kullanın."],
       eu: ["MiCA, EUR ve SEPA araştırma yolu", "Ülke, hizmet tüzel kişisi, EUR veya SEPA fonlama ve ürün erişimi ayrıştırılacaksa kullanın."],
       br: ["BRL ve Pix derin kontrol listesi", "Brezilya rehberini Pix, BRL, CPF, KYC ve maliyet kontrolleri için kullanın."],
@@ -1033,6 +1047,8 @@ const INTERNATIONAL_ROUTE_CARD_COPY = {
       hk: ["مسار SFC وHKD موثق بالمصادر", "استخدم صفحة هونغ كونغ لفحص حالة المنصة لدى SFC وتمويل HKD البنكي والهوية والعنوان ونطاق المنتج قبل فتح مسار الحساب."],
       jp: ["مسار FSA وJPY مفهرس", "استخدم صفحة اليابان عندما تكون الهوية وتمويل JPY وسياق مزود الخدمة المسجل جزءاً من القرار."],
       kr: ["مسار FSC وحساب KRW", "افصل بين التحقق من الهوية والحساب البنكي بالاسم الحقيقي وإيداع/سحب KRW ونطاق المنتج عبر المصادر الرسمية وشاشة الحساب."],
+
+      // l10n: needs native review
       uk: ["مسار FCA وGBP البحثي", "استخدم مسار المملكة المتحدة عندما يجب فحص الإقامة وتمويل GBP ونطاق المنتج داخل مسار الحساب الرسمي."],
       eu: ["مسار MiCA وEUR وSEPA البحثي", "استخدم مسار الاتحاد الأوروبي عندما يجب فصل الدولة والكيان الخدمي وتمويل EUR أو SEPA وتوفر المنتج."],
       br: ["قائمة تحقق BRL وPix معمقة", "استخدم دليل البرازيل باللغة البرتغالية لفحص Pix وBRL وCPF وKYC والتكلفة قبل فتح حساب spot."],
@@ -1613,6 +1629,20 @@ const REGIONAL_QUICK_ACTION_COPY = Object.freeze({
     selectEyebrow: "Belum ada pasangan yang ditinjau", selectTitle: "Pilih dua kandidat dahulu", selectBody: "Buka daftar regional dan pilih platform yang ingin dibandingkan.",
     telegramEyebrow: "Perlu panduan", telegramTitle: "Lanjutkan dengan konteks", telegramBody: "Simpan konteks pasar dan produk di situs sebelum melanjutkan ke Telegram.",
   },
+  // l10n: needs native review
+  ur: {
+    aria: "علاقائی فیصلے کے اگلے قدم", directoryEyebrow: "پہلے امیدوار چنیں", directoryTitle: "پلیٹ فارم امیدوار دیکھیں", directoryBody: "کسی بھی رجسٹریشن راستے سے پہلے مارکیٹ، پروڈکٹ اور اکاؤنٹ مرحلہ ساتھ رکھیں۔",
+    compareEyebrow: "اگر آپ غیر یقینی ہیں", compareTitle: "چننے سے پہلے موازنہ کریں", compareBody: "فیس، شناخت، فنڈنگ اور پروڈکٹ دائرہ ایک ہی اسکرین پر رکھیں۔",
+    selectEyebrow: "ابھی جائزہ شدہ جوڑا نہیں", selectTitle: "پہلے دو امیدوار چنیں", selectBody: "علاقائی ڈائریکٹری کھول کر موازنہ کھولنے سے پہلے امیدوار چنیں۔",
+    telegramEyebrow: "رہنمائی چاہیے", telegramTitle: "سیاق کے ساتھ جاری رکھیں", telegramBody: "Telegram پر جانے سے پہلے مارکیٹ اور پروڈکٹ سیاق سائٹ پر محفوظ کریں۔",
+  },
+  // l10n: needs native review
+  uk: {
+    aria: "Наступні кроки регіонального рішення", directoryEyebrow: "Спершу виберіть кандидатів", directoryTitle: "Переглянути платформи-кандидати", directoryBody: "Зберігайте ринок, продукт і етап акаунта перед будь-яким маршрутом реєстрації.",
+    compareEyebrow: "Якщо вагаєтеся", compareTitle: "Порівняти перед вибором", compareBody: "Винесіть комісії, ідентифікацію, поповнення та охоплення продуктів на один екран.",
+    selectEyebrow: "Перевіреної пари ще немає", selectTitle: "Спершу виберіть двох кандидатів", selectBody: "Відкрийте регіональний довідник і виберіть кандидатів перед відкриттям порівняння.",
+    telegramEyebrow: "Потрібна навігація", telegramTitle: "Продовжити з контекстом", telegramBody: "Збережіть контекст ринку й продукту на сайті перед переходом у Telegram.",
+  },
 });
 
 export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPath = null, decisionPassport = {} }) {
@@ -1702,6 +1732,10 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
       id: "Hong Kong: periksa kelayakan akun dan produk terlebih dahulu",
       vi: "Hong Kong: hãy kiểm tra điều kiện tài khoản và sản phẩm trước",
       it: "Hong Kong: verifica prima l’idoneità dell’account e del prodotto",
+      // l10n: needs native review
+      ur: "Hong Kong: پہلے اکاؤنٹ اور پروڈکٹ اہلیت چیک کریں",
+      // l10n: needs native review
+      uk: "Гонконг: спершу перевірте доступність акаунта й продукту",
     },
     EU: {
       de: "Europäische Union: Kontobedingungen nach Land vergleichen",
@@ -1716,6 +1750,10 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
       id: "Uni Eropa: bandingkan ketentuan akun berdasarkan negara",
       vi: "Liên minh châu Âu: so sánh điều kiện tài khoản theo quốc gia",
       it: "Unione europea: confronta le condizioni dell’account per paese",
+      // l10n: needs native review
+      ur: "یورپی یونین: ملک کے حساب سے اکاؤنٹ شرائط کا موازنہ کریں",
+      // l10n: needs native review
+      uk: "Європейський Союз: порівняйте умови акаунта за країнами",
     },
     TR: {
       tr: "Türkiye: SPK, TRY ve hesap kapsamını birlikte kontrol edin",
@@ -1726,20 +1764,45 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
       id: "Inggris Raya: verifikasi domisili dan cakupan produk",
       vi: "Vương quốc Anh: xác minh nơi cư trú và phạm vi sản phẩm",
       it: "Regno Unito: verifica residenza e disponibilità dei prodotti",
+      // l10n: needs native review
+      ur: "United Kingdom: رہائش اور پروڈکٹ دائرہ چیک کریں",
+      // l10n: needs native review
+      uk: "Велика Британія: перевірте резиденцію та доступність продуктів",
     },
     OTHER: {
       ar: "مسار السوق الدولي: حدد بلدك قبل اختيار منصة",
+      // l10n: needs native review
+      ur: "بین الاقوامی مارکیٹ راستہ: پلیٹ فارم چننے سے پہلے اپنا ملک طے کریں",
+      // l10n: needs native review
+      uk: "Маршрут міжнародного ринку: визначте країну перед вибором платформи",
     },
   };
   const localizedTitle = localizedRegionalTitles[policy.targetMarket]?.[locale]
     || localizedRegionalTitles[policy.targetMarket]?.[localeKey]
     || copy.title;
+  // l10n: needs native review
   const localizedRegionalSummaries = {
-    HK: { "zh-Hans": "用于核对港币入金、身份验证和平台产品可用性的研究路径。", "zh-Hant": "用於核對港幣入金、身分驗證與平台產品可用性的研究路徑。", es: "Ruta de investigación para depósitos en HKD, identidad y acceso a productos según la plataforma.", fr: "Parcours de recherche sur les dépôts en HKD, l’identité et l’accès aux produits selon la plateforme.", de: "Recherchepfad für HKD-Einzahlungen, Identität und plattformabhängigen Produktzugang.", "pt-BR": "Rota de pesquisa para depósitos em HKD, identidade e acesso a produtos por plataforma.", ja: "HKD入金経路、本人確認、プラットフォームごとの商品利用可否を確認する調査経路です。", ko: "HKD 입금 경로, 본인확인 및 플랫폼별 상품 이용 가능 여부를 확인하는 리서치 경로입니다.", tr: "HKD fonlama yollarını, kimlik kontrollerini ve platforma göre ürün erişimini inceleyen araştırma yoludur.", ar: "مسار بحث للتحقق من طرق تمويل HKD والهوية وإتاحة المنتجات حسب المنصة.", ru: "Исследовательский путь для проверки пополнения в HKD, личности и доступа к продуктам по конкретной площадке.", id: "Jalur riset untuk rute pendanaan HKD, pemeriksaan identitas, dan akses produk sesuai platform.", vi: "Lộ trình nghiên cứu về nạp HKD, xác minh danh tính và quyền truy cập sản phẩm theo từng nền tảng.", it: "Percorso di ricerca per verificare finanziamento in HKD, identità e accesso ai prodotti secondo la piattaforma." },
-    EU: { ja: "EUR、SEPA、各国のコンプライアンス条件を確認するための調査経路です。", ko: "플랫폼 계정의 EUR, SEPA 및 국가별 규제 조건을 확인하는 리서치 경로입니다.", tr: "Platform hesaplarında EUR, SEPA ve ülkeye göre uyum koşullarını inceleyen araştırma yoludur.", "pt-BR": "Rota de pesquisa para EUR, SEPA e condições de conformidade específicas de cada país.", ar: "مسار بحث لليورو وSEPA وشروط الامتثال الخاصة بكل دولة لحسابات المنصات.", ru: "Исследовательский путь для EUR, SEPA и страновых требований к соответствию для аккаунтов площадок.", id: "Jalur riset untuk EUR, SEPA, dan persyaratan kepatuhan per negara pada akun platform.", vi: "Lộ trình nghiên cứu về EUR, SEPA và điều kiện tuân thủ theo từng quốc gia trên tài khoản nền tảng.", it: "Percorso di ricerca per EUR, SEPA e condizioni di conformità specifiche per paese sui conti delle piattaforme.", es: "Ruta de investigación sobre EUR, SEPA y las condiciones de cumplimiento de cada país para las cuentas de las plataformas.", fr: "Parcours de recherche sur l’EUR, SEPA et les conditions de conformité propres à chaque pays.", de: "Recherchepfad für EUR, SEPA und länderspezifische Compliance-Bedingungen.", pt: "Rota de pesquisa para EUR, SEPA e condições de conformidade específicas de cada país." },
-    UK: { "zh-Hans": "用于核对英镑入金、账户检查和平台产品可用性的研究路径。", "zh-Hant": "用於核對英鎊入金、帳戶檢查與平台產品可用性的研究路徑。", es: "Ruta de investigación sobre depósitos en GBP, controles de cuenta y disponibilidad de productos.", fr: "Parcours de recherche sur les dépôts en GBP, les contrôles du compte et la disponibilité des produits.", de: "Recherchepfad für GBP-Einzahlungen, Kontoprüfungen und Produktverfügbarkeit.", "pt-BR": "Rota de pesquisa para depósitos em GBP, verificações da conta e disponibilidade de produtos.", ja: "GBP入金、口座確認、プラットフォームごとの商品利用可否を確認する調査経路です。", ko: "GBP 입금, 계정 확인 및 플랫폼별 상품 이용 가능 여부를 확인하는 리서치 경로입니다.", tr: "GBP fonlamasını, hesap kontrollerini ve platform koşullarına göre ürün erişimini inceleyen araştırma yoludur.", ar: "مسار بحث للتحقق من تمويل GBP وفحوص الحساب وإتاحة المنتجات وفق شروط المنصة.", ru: "Исследовательский путь для проверки пополнения в GBP, требований к аккаунту и доступности продуктов.", id: "Jalur riset untuk pendanaan GBP, pemeriksaan akun, dan ketersediaan produk sesuai ketentuan platform.", vi: "Lộ trình nghiên cứu về nạp GBP, kiểm tra tài khoản và khả năng sử dụng sản phẩm theo điều kiện nền tảng.", it: "Percorso di ricerca per finanziamento in GBP, controlli dell’account e disponibilità dei prodotti secondo la piattaforma." }
+    HK: { "zh-Hans": "用于核对港币入金、身份验证和平台产品可用性的研究路径。", "zh-Hant": "用於核對港幣入金、身分驗證與平台產品可用性的研究路徑。", es: "Ruta de investigación para depósitos en HKD, identidad y acceso a productos según la plataforma.", fr: "Parcours de recherche sur les dépôts en HKD, l’identité et l’accès aux produits selon la plateforme.", de: "Recherchepfad für HKD-Einzahlungen, Identität und plattformabhängigen Produktzugang.", "pt-BR": "Rota de pesquisa para depósitos em HKD, identidade e acesso a produtos por plataforma.", ja: "HKD入金経路、本人確認、プラットフォームごとの商品利用可否を確認する調査経路です。", ko: "HKD 입금 경로, 본인확인 및 플랫폼별 상품 이용 가능 여부를 확인하는 리서치 경로입니다.", tr: "HKD fonlama yollarını, kimlik kontrollerini ve platforma göre ürün erişimini inceleyen araştırma yoludur.", ar: "مسار بحث للتحقق من طرق تمويل HKD والهوية وإتاحة المنتجات حسب المنصة.", ru: "Исследовательский путь для проверки пополнения в HKD, личности и доступа к продуктам по конкретной площадке.", id: "Jalur riset untuk rute pendanaan HKD, pemeriksaan identitas, dan akses produk sesuai platform.", vi: "Lộ trình nghiên cứu về nạp HKD, xác minh danh tính và quyền truy cập sản phẩm theo từng nền tảng.", it: "Percorso di ricerca per verificare finanziamento in HKD, identità e accesso ai prodotti secondo la piattaforma.",
+    // l10n: needs native review
+    ur: "HKD فنڈنگ راستوں، شناختی جانچ اور ہر پلیٹ فارم کے پروڈکٹ رسائی کو چیک کرنے کا تحقیقی راستہ۔",
+    // l10n: needs native review
+    uk: "Дослідницький маршрут для перевірки поповнення в HKD, ідентифікації та доступу до продуктів за платформою." },
+    EU: { ja: "EUR、SEPA、各国のコンプライアンス条件を確認するための調査経路です。", ko: "플랫폼 계정의 EUR, SEPA 및 국가별 규제 조건을 확인하는 리서치 경로입니다.", tr: "Platform hesaplarında EUR, SEPA ve ülkeye göre uyum koşullarını inceleyen araştırma yoludur.", "pt-BR": "Rota de pesquisa para EUR, SEPA e condições de conformidade específicas de cada país.", ar: "مسار بحث لليورو وSEPA وشروط الامتثال الخاصة بكل دولة لحسابات المنصات.", ru: "Исследовательский путь для EUR, SEPA и страновых требований к соответствию для аккаунтов площадок.", id: "Jalur riset untuk EUR, SEPA, dan persyaratan kepatuhan per negara pada akun platform.", vi: "Lộ trình nghiên cứu về EUR, SEPA và điều kiện tuân thủ theo từng quốc gia trên tài khoản nền tảng.", it: "Percorso di ricerca per EUR, SEPA e condizioni di conformità specifiche per paese sui conti delle piattaforme.", es: "Ruta de investigación sobre EUR, SEPA y las condiciones de cumplimiento de cada país para las cuentas de las plataformas.", fr: "Parcours de recherche sur l’EUR, SEPA et les conditions de conformité propres à chaque pays.", de: "Recherchepfad für EUR, SEPA und länderspezifische Compliance-Bedingungen.", pt: "Rota de pesquisa para EUR, SEPA e condições de conformidade específicas de cada país.",
+    // l10n: needs native review
+    ur: "پلیٹ فارم اکاؤنٹس کے لیے EUR، SEPA اور ملک وار تعمیل شرائط کا تحقیقی راستہ۔",
+    // l10n: needs native review
+    uk: "Дослідницький маршрут для EUR, SEPA та умов відповідності за країнами для акаунтів платформ." },
+    UK: { "zh-Hans": "用于核对英镑入金、账户检查和平台产品可用性的研究路径。", "zh-Hant": "用於核對英鎊入金、帳戶檢查與平台產品可用性的研究路徑。", es: "Ruta de investigación sobre depósitos en GBP, controles de cuenta y disponibilidad de productos.", fr: "Parcours de recherche sur les dépôts en GBP, les contrôles du compte et la disponibilité des produits.", de: "Recherchepfad für GBP-Einzahlungen, Kontoprüfungen und Produktverfügbarkeit.", "pt-BR": "Rota de pesquisa para depósitos em GBP, verificações da conta e disponibilidade de produtos.", ja: "GBP入金、口座確認、プラットフォームごとの商品利用可否を確認する調査経路です。", ko: "GBP 입금, 계정 확인 및 플랫폼별 상품 이용 가능 여부를 확인하는 리서치 경로입니다.", tr: "GBP fonlamasını, hesap kontrollerini ve platform koşullarına göre ürün erişimini inceleyen araştırma yoludur.", ar: "مسار بحث للتحقق من تمويل GBP وفحوص الحساب وإتاحة المنتجات وفق شروط المنصة.", ru: "Исследовательский путь для проверки пополнения в GBP, требований к аккаунту и доступности продуктов.", id: "Jalur riset untuk pendanaan GBP, pemeriksaan akun, dan ketersediaan produk sesuai ketentuan platform.", vi: "Lộ trình nghiên cứu về nạp GBP, kiểm tra tài khoản và khả năng sử dụng sản phẩm theo điều kiện nền tảng.", it: "Percorso di ricerca per finanziamento in GBP, controlli dell’account e disponibilità dei prodotti secondo la piattaforma.",
+    // l10n: needs native review
+    ur: "GBP فنڈنگ، اکاؤنٹ جانچ اور پلیٹ فارم شرائط کے مطابق پروڈکٹ دستیابی کا تحقیقی راستہ۔",
+    // l10n: needs native review
+    uk: "Дослідницький маршрут для поповнення в GBP, перевірок акаунта та доступності продуктів за умовами платформи." }
     ,TR: { tr: "SPK geçici listesi, tasfiye listesi, Paribu hesap doğrulaması ve TRY yatırma rehberini ayrı kaynaklar olarak kontrol eden Türkiye araştırma yolu." },
-    OTHER: { ar: "نقطة بداية محايدة للمستخدمين الذين لم يتم نشر مسار بحث خاص ببلدهم بعد." },
+    OTHER: { ar: "نقطة بداية محايدة للمستخدمين الذين لم يتم نشر مسار بحث خاص ببلدهم بعد.",
+    // l10n: needs native review
+    ur: "ان صارفین کے لیے غیر جانب دار آغاز جن کے ملک کا مخصوص تحقیقی راستہ ابھی شائع نہیں ہوا۔",
+    // l10n: needs native review
+    uk: "Нейтральна стартова точка для користувачів, для країни яких ще не опубліковано окремий дослідницький маршрут." },
   };
   const localizedRegionalWarnings = {
     EU: {
@@ -1755,6 +1818,10 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
       tr: "AB erişimi herkes için geçerli bir vaat değildir; ülke, ürün ve hesap koşullarını doğrulayın.",
       "pt-BR": "O acesso na UE não é uma promessa universal; confirme país, produto e condições da conta.",
       id: "Akses di UE bukan janji yang berlaku untuk semua; verifikasi negara, produk, dan ketentuan akun.",
+      // l10n: needs native review
+      ur: "EU رسائی ایک جیسا وعدہ نہیں؛ ملک، پروڈکٹ اور اکاؤنٹ شرائط کی تصدیق کریں۔",
+      // l10n: needs native review
+      uk: "Доступ у ЄС не є універсальною обіцянкою; підтверджуйте країну, продукт і умови акаунта.",
     },
     UK: {
       "zh-Hans": "资格、产品范围和用户条件必须在官方账户流程中确认。",
@@ -1767,6 +1834,10 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
       ko: "자격, 상품 범위 및 사용자 혜택은 공식 계정 절차에서 확인해야 합니다.",
       tr: "Uygunluk, ürün kapsamı ve kullanıcı koşulları resmi hesap akışında doğrulanmalıdır.",
       id: "Kelayakan, cakupan produk, dan manfaat pengguna harus diperiksa melalui proses akun resmi.",
+      // l10n: needs native review
+      ur: "اہلیت، پروڈکٹ دائرہ اور صارف شرائط سرکاری اکاؤنٹ عمل میں تصدیق ہونی چاہئیں۔",
+      // l10n: needs native review
+      uk: "Доступність, охоплення продуктів і умови для користувача потрібно підтвердити в офіційному процесі акаунта.",
     },
     HK: {
       "zh-Hans": "地区访问和账户条件必须在官方平台中确认。",
@@ -1779,12 +1850,20 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
       ko: "지역 접근성과 계정 조건은 공식 플랫폼에서 확인해야 합니다.",
       tr: "Bölgesel erişim ve hesap koşulları resmi platformda doğrulanmalıdır.",
       id: "Akses regional dan ketentuan akun harus diverifikasi di platform resmi.",
+      // l10n: needs native review
+      ur: "علاقائی رسائی اور اکاؤنٹ شرائط سرکاری پلیٹ فارم پر تصدیق ہونی چاہئیں۔",
+      // l10n: needs native review
+      uk: "Регіональний доступ і умови акаунта потрібно перевірити на офіційній платформі.",
     },
     TR: {
       tr: "SPK listesi ve tasfiye durumu hesap uygunluğu değildir; kimlik, TRY fonlama, ürün kapsamı ve fayda koşulları resmi hesap akışında doğrulanmalıdır.",
     },
     OTHER: {
       ar: "حدد سوقاً واضحاً قبل اعتبار أي مسار تسجيل مؤهلاً.",
+      // l10n: needs native review
+      ur: "کسی رجسٹریشن راستے کو اہل سمجھنے سے پہلے واضح مارکیٹ طے کریں۔",
+      // l10n: needs native review
+      uk: "Визначте конкретний ринок перед тим, як вважати будь-який маршрут реєстрації придатним.",
     },
   };
   const localizedRegionalQuestions = {
@@ -1796,6 +1875,10 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
       ru: ["В какой стране зарегистрирован ваш аккаунт?", "Поддерживает ли площадка нужный продукт в этой стране?", "Какие проверки пополнения и личности применяются к аккаунту?"],
       vi: ["Tài khoản của bạn cư trú ở quốc gia nào?", "Nền tảng có hỗ trợ sản phẩm bạn cần tại quốc gia đó không?", "Tài khoản của bạn cần những bước nạp tiền và xác minh danh tính nào?"],
       it: ["In quale paese risiede il tuo account?", "La piattaforma supporta il prodotto desiderato in quel paese?", "Quali controlli di finanziamento e identità valgono per il tuo account?"],
+      // l10n: needs native review
+      ur: ["آپ کا اکاؤنٹ کس ملک میں مقیم ہے؟", "کیا پلیٹ فارم اس ملک میں مطلوبہ پروڈکٹ سپورٹ کرتا ہے؟", "آپ کے اکاؤنٹ پر کون سی فنڈنگ اور شناختی جانچ لاگو ہوتی ہے؟"],
+      // l10n: needs native review
+      uk: ["У якій країні зареєстровано ваш акаунт?", "Чи підтримує платформа потрібний продукт у цій країні?", "Які перевірки поповнення й ідентифікації застосовуються до вашого акаунта?"],
     },
   };
   const localizedRegionalAnswers = {
@@ -1807,6 +1890,10 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
       ru: ["Проверьте страну резидентства аккаунта до сравнения площадок.", "Доступность продукта может зависеть от страны и обслуживающей организации.", "Проверьте требования к пополнению и личности в официальном процессе аккаунта."],
       vi: ["Hãy xác minh quốc gia cư trú của tài khoản trước khi so sánh nền tảng.", "Khả năng dùng sản phẩm có thể khác theo quốc gia và pháp nhân cung cấp dịch vụ.", "Kiểm tra yêu cầu nạp tiền và xác minh trong quy trình tài khoản chính thức."],
       it: ["Verifica il paese di residenza dell’account prima di confrontare le piattaforme.", "La disponibilità del prodotto può cambiare in base al paese e all’entità che lo offre.", "Controlla i requisiti di finanziamento e verifica nel percorso ufficiale dell’account."],
+      // l10n: needs native review
+      ur: ["پلیٹ فارمز کا موازنہ کرنے سے پہلے اکاؤنٹ کے رہائشی ملک کی تصدیق کریں۔", "پروڈکٹ دستیابی ملک اور سروس فراہم کرنے والے ادارے کے مطابق بدل سکتی ہے۔", "فنڈنگ اور شناختی تقاضے سرکاری اکاؤنٹ عمل میں دیکھیں۔"],
+      // l10n: needs native review
+      uk: ["Підтвердьте країну резиденції акаунта перед порівнянням платформ.", "Доступність продукту може залежати від країни та юридичної особи, що надає сервіс.", "Перевірте вимоги до поповнення й ідентифікації в офіційному процесі акаунта."],
     },
   };
   const genericRegionalQuestions = {
@@ -1824,6 +1911,10 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
     id: ["Apakah negara domisili dan dokumen identitas Anda diterima?", "Metode dan mata uang deposit apa yang tersedia?", "Apakah produk yang Anda perlukan tersedia di akun ini?"],
     "zh-Hans": ["你的居住国家和身份证件是否被接受？", "可以使用哪些入金方式和货币？", "你需要的产品是否在此账户中可用？"],
     "zh-Hant": ["你的居住國家與身分文件是否被接受？", "可以使用哪些入金方式與貨幣？", "你需要的產品是否可在此帳戶使用？"],
+    // l10n: needs native review
+    ur: ["کیا آپ کا رہائشی ملک اور شناختی دستاویز اس اکاؤنٹ کے لیے قبول ہیں؟", "کون سا ڈپازٹ طریقہ اور کرنسی دستیاب ہے؟", "کیا آپ کو درکار پروڈکٹ اس اکاؤنٹ میں دستیاب ہے؟"],
+    // l10n: needs native review
+    uk: ["Чи приймаються ваша країна резиденції та документ для цього акаунта?", "Який спосіб і валюта поповнення доступні?", "Чи доступний потрібний вам продукт у цьому акаунті?"],
   };
   const genericAnswerTerminator = (key) => key === "ja" || key === "zh-Hans" || key === "zh-Hant" ? "。" : ".";
   const genericRegionalAnswers = Object.fromEntries(Object.entries(genericRegionalQuestions).map(([key, questions]) => [key, questions.map((question) => question.replace(/[？?]$/, genericAnswerTerminator(key)))]));
@@ -1860,6 +1951,10 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
     id: [["new_account", "Akun pertama", "Periksa negara, produk, dan jalur dana sebelum memilih.", "Bandingkan pilihan"], ["another_platform", "Sudah memakai platform lain", "Bandingkan syarat sebelum menambah akun.", "Lihat perbedaan"], ["existing_account", "Akun tujuan sudah ada", "Verifikasi syarat saat ini melalui alur resmi.", "Periksa syarat"]],
     vi: [["new_account", "Tài khoản đầu tiên", "Kiểm tra quốc gia, sản phẩm và cách nạp trước khi chọn.", "So sánh lựa chọn"], ["another_platform", "Đang dùng nền tảng khác", "So sánh điều kiện trước khi mở thêm tài khoản.", "Xem khác biệt"], ["existing_account", "Đã có tài khoản mục tiêu", "Xác minh điều kiện hiện tại trong quy trình chính thức.", "Kiểm tra điều kiện"]],
     it: [["new_account", "Primo account", "Verifica paese, prodotto e finanziamento prima di scegliere.", "Confronta le opzioni"], ["another_platform", "Usi già un’altra piattaforma", "Confronta le condizioni prima di aggiungere un account.", "Vedi le differenze"], ["existing_account", "Account obiettivo già presente", "Verifica le condizioni attuali nel percorso ufficiale.", "Verifica le condizioni"]],
+    // l10n: needs native review
+    ur: [["new_account", "پہلا اکاؤنٹ", "چننے سے پہلے ملک، پروڈکٹ اور فنڈنگ راستہ چیک کریں۔", "اختیارات کا موازنہ"], ["another_platform", "آپ دوسری پلیٹ فارم استعمال کر رہے ہیں", "نیا اکاؤنٹ شامل کرنے سے پہلے شرائط کا موازنہ کریں۔", "فرق دیکھیں"], ["existing_account", "ہدف اکاؤنٹ موجود ہے", "موجودہ شرائط سرکاری عمل میں تصدیق کریں۔", "اکاؤنٹ شرائط چیک کریں"]],
+    // l10n: needs native review
+    uk: [["new_account", "Перший акаунт", "Перевірте країну, продукт і поповнення перед вибором.", "Порівняти варіанти"], ["another_platform", "Ви вже користуєтеся іншою платформою", "Порівняйте умови перед додаванням нового акаунта.", "Переглянути відмінності"], ["existing_account", "Цільовий акаунт уже є", "Підтвердьте поточні умови в офіційному процесі.", "Перевірити умови акаунта"]],
   };
   const decisionLanes = ["HK", "EU", "UK", "OTHER"].includes(policy.targetMarket)
     ? (localizedDecisionLanes[locale] || localizedDecisionLanes[localeKey] || copy.decisionLanes)
@@ -2022,7 +2117,7 @@ export function RegionalMarketPreview({ market = "MX", locale = "en", decisionPa
       </aside>
       {(copy.sources.length > 0 || registry.sources.length > 0) && <div className="regional-market-preview__sources"><details className="regional-market-preview__sources-disclosure"><summary><strong>{locale === "zh-Hant" ? "官方來源" : locale.startsWith("zh") ? "官方来源" : ui.officialSources}</strong><span>{sourceMeta}</span><b aria-hidden="true">＋</b></summary><div className="regional-market-preview__sources-body"><p className="regional-market-preview__source-meta" data-source-reviewed-at={INTERNATIONAL_SOURCE_REVIEWED_AT}>{sourceMeta}</p>{[...copy.sources.map(([label, href]) => ({ label, href, note: "", role: "editorial-source" })), ...registry.sources.map((item) => localizedRegionalSourceItem({ label: item.label, href: item.url, note: item.note, role: item.role }, policy.targetMarket, locale))].map((item) => <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" data-cta-kind="source" data-cta-placement="regional-official-source" data-growth-decision={`regional_source_${policy.targetMarket}`} data-growth-placement="regional-official-source" data-growth-market={policy.targetMarket} data-growth-product={directoryProduct} data-growth-campaign={campaign}><strong>{item.label}</strong>{item.note && <small>{item.note}</small>}</a>)}</div></details></div>}
   </>;
-  return <main className="v6 v2-page v3-page regional-market-preview" id="top" dir={locale === "ar" ? "rtl" : "ltr"} data-mobile-compression={mxMobileCompressionEnabled ? "mx" : undefined}>
+  return <main className="v6 v2-page v3-page regional-market-preview" id="top" dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-mobile-compression={mxMobileCompressionEnabled ? "mx" : undefined}>
     <section className="v2-shell v2-section">
       <span className="v3-independent-badge">{policy.targetMarket} · {policy.product === "unknown" ? (labels.path || "research path") : policy.product}</span>
       <h1>{localizedTitle}</h1>

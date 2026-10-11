@@ -421,7 +421,11 @@ const filterLabels = {
   it: { noKyc: "Senza KYC", por: "Prova delle riserve", fiat: "Supporto fiat", highLev: "Leva 50x+", sortLabel: "Ordina", sortDefault: "Consigliati", sortFee: "Commissioni verificate prima", sortRebate: "Vantaggio verificato prima" },
 };
 const categoryLabels = {
-  ja: ["すべてのプラットフォーム", "CEX", "DEX", "Perp DEX"], ko: ["전체 플랫폼", "CEX", "DEX", "Perp DEX"], tr: ["Tüm platformlar", "CEX", "DEX", "Perp DEX"], ru: ["Все платформы", "CEX", "DEX", "Perp DEX"], es: ["Todas las plataformas", "CEX", "DEX", "Perp DEX"], "pt-BR": ["Todas as plataformas", "CEX", "DEX", "Perp DEX"], fr: ["Toutes les plateformes", "CEX", "DEX", "Perp DEX"], de: ["Alle Plattformen", "CEX", "DEX", "Perp DEX"], ar: ["كل المنصات", "CEX", "DEX", "Perp DEX"], ur: ["تمام پلیٹ فارمز", "CEX", "DEX", "Perp DEX"], uk: ["Усі платформи", "CEX", "DEX", "Perp DEX"], id: ["Semua platform", "CEX", "DEX", "Perp DEX"], vi: ["Tất cả nền tảng", "CEX", "DEX", "Perp DEX"], it: ["Tutte le piattaforme", "CEX", "DEX", "Perp DEX"],
+  ja: ["すべてのプラットフォーム", "CEX", "DEX", "Perp DEX"], ko: ["전체 플랫폼", "CEX", "DEX", "Perp DEX"], tr: ["Tüm platformlar", "CEX", "DEX", "Perp DEX"], ru: ["Все платформы", "CEX", "DEX", "Perp DEX"], es: ["Todas las plataformas", "CEX", "DEX", "Perp DEX"], "pt-BR": ["Todas as plataformas", "CEX", "DEX", "Perp DEX"], fr: ["Toutes les plateformes", "CEX", "DEX", "Perp DEX"], de: ["Alle Plattformen", "CEX", "DEX", "Perp DEX"], ar: ["كل المنصات", "CEX", "DEX", "Perp DEX"],
+  // l10n: needs native review
+  ur: ["تمام پلیٹ فارمز", "CEX", "DEX", "Perp DEX"],
+  // l10n: needs native review
+  uk: ["Усі платформи", "CEX", "DEX", "Perp DEX"], id: ["Semua platform", "CEX", "DEX", "Perp DEX"], vi: ["Tất cả nền tảng", "CEX", "DEX", "Perp DEX"], it: ["Tutte le piattaforme", "CEX", "DEX", "Perp DEX"],
 };
 
 export function sanitizeEditorialText(value, locale) {
@@ -717,7 +721,11 @@ export function getFilters(locale) {
 
 const CHECKED_LABELS = {
   en: "Checked", "zh-Hans": "核验于", "zh-Hant": "核驗於", ja: "確認日", ko: "확인일", tr: "Kontrol", es: "Revisado", "pt-BR": "Verificado", pt: "Verificado",
-  fr: "Vérifié", de: "Geprüft", ru: "Проверено", ar: "تم التحقق", ur: "تصدیق شدہ", uk: "Перевірено", id: "Dicek", vi: "Kiểm tra", it: "Verificato",
+  fr: "Vérifié", de: "Geprüft", ru: "Проверено", ar: "تم التحقق",
+  // l10n: needs native review
+  ur: "تصدیق شدہ",
+  // l10n: needs native review
+  uk: "Перевірено", id: "Dicek", vi: "Kiểm tra", it: "Verificato",
 };
 
 export function VenueYellowPages({ venues = [], locale = "en", market, product, accountStage, funding, headingLevel = 2, compact = false }) {

@@ -33,7 +33,7 @@ export function CompareAnyPicker({ locale = "en", venues = [], initial = [], pla
       onSubmit={onSubmit}
       aria-labelledby={`${idPrefix}-title`}
       data-compare-any-placement={placement}
-      dir={locale === "ar" ? "rtl" : undefined}
+      dir={["ar", "ur"].includes(locale) ? "rtl" : undefined}
     >
       <div className="compare-any__head">
         <strong id={`${idPrefix}-title`} className="compare-any__title">{copy.title}</strong>

@@ -46,7 +46,11 @@ const chainOf = (slug) => {
   const named = parts.filter((x) => !/^multi-chain$/i.test(x));
   return (named.length ? named : parts).slice(0, 2).join(" · ");
 };
-const NET = { en: "Network", "zh-Hans": "网络", "zh-Hant": "網路", ja: "ネットワーク", ko: "네트워크", tr: "Ağ", fr: "Réseau", de: "Netzwerk", es: "Red", "pt-BR": "Rede", ru: "Сеть", ar: "الشبكة", id: "Jaringan", vi: "Mạng lưới", it: "Rete" };
+const NET = { en: "Network", "zh-Hans": "网络", "zh-Hant": "網路", ja: "ネットワーク", ko: "네트워크", tr: "Ağ", fr: "Réseau", de: "Netzwerk", es: "Red", "pt-BR": "Rede", ru: "Сеть", ar: "الشبكة", id: "Jaringan", vi: "Mạng lưới", it: "Rete",
+// l10n: needs native review
+ur: "نیٹ ورک",
+// l10n: needs native review
+uk: "Мережа" };
 const pairText = (locale, p) => `${fmt(locale, p[0])}/${fmt(locale, p[1])}%`;
 const verifiedPair = (f, key) => (f?.status === "verified" && Number.isFinite(f?.[key]?.[0]) && Number.isFinite(f?.[key]?.[1]) ? f[key] : null);
 const RTL = new Set(["ar", "he", "fa", "ur"]);

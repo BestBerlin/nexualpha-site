@@ -119,7 +119,7 @@ export function renderEmbedHtml(kind, feed, { locale = "en", theme = "dark", ori
   const { body, ok, generatedAt } = kind === "liquidations" ? liquidationsBody(feed, loc) : fundingBody(feed, loc, normalizeEmbedSymbol(symbol));
   const title = `${kind === "liquidations" ? copy.liquidations.h1 : copy.funding.h1} — NexuAlpha`;
   const html = `<!doctype html>
-<html lang="${esc(loc)}" dir="${loc === "ar" ? "rtl" : "ltr"}" data-theme="${th}">
+<html lang="${esc(loc)}" dir="${["ar", "ur"].includes(loc) ? "rtl" : "ltr"}" data-theme="${th}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

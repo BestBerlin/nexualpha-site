@@ -115,6 +115,20 @@ const localizedPairDescriptions = {
     "DEX Ethereum contro Solana",
     "Perp DEX ad alte prestazioni",
   ],
+  // l10n: needs native review
+  ur: [
+    "بڑی عالمی CEX پلیٹ فارمز کا موازنہ",
+    "Derivatives اور copy trading کا موازنہ",
+    "Ethereum DEX بمقابلہ Solana DEX",
+    "High-performance Perp DEX موازنہ",
+  ],
+  // l10n: needs native review
+  uk: [
+    "Порівняння провідних глобальних CEX",
+    "Derivatives і copy trading",
+    "Ethereum DEX проти Solana DEX",
+    "High-performance Perp DEX порівняння",
+  ],
 };
 
 export function getUi(locale) {

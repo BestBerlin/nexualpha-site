@@ -22,6 +22,10 @@ export const HOME_HERO_B = Object.freeze({
   id: { h1a: "Biaya Anda kembali,", h1b: "hingga {max}%.", sub: "Daftar di halaman resmi bursa lewat tautan undangan mitra NexuAlpha.\nKomisi kami diungkapkan, dan sebagian dari setiap biaya kembali ke Anda." },
   vi: { h1a: "Phí bạn đã trả,", h1b: "hoàn lại đến {max}%.", sub: "Đăng ký trên trang chính thức của sàn qua liên kết mời đối tác của NexuAlpha.\nHoa hồng của chúng tôi được công khai, một phần mỗi khoản phí quay về bạn." },
   ar: { h1a: "رسومك تعود إليك.", h1b: "حتى {max}%.", sub: "سجّل من الصفحة الرسمية للمنصة عبر رابط دعوة الشريك من NexuAlpha.\nعمولتنا مُفصح عنها، ويعود إليك جزء من كل رسوم تدفعها." },
+  // l10n: needs native review
+  ur: { h1a: "آپ کی فیس، واپس۔", h1b: "{max}% تک واپس۔", sub: "NexuAlpha کے پارٹنر دعوتی لنک سے ایکسچینج کے سرکاری صفحے پر رجسٹر کریں۔\nہماری کمیشن صاف ظاہر ہے، اور ہر فیس کا ایک حصہ آپ کو واپس ملتا ہے۔" },
+  // l10n: needs native review
+  uk: { h1a: "Ваші комісії повертаються.", h1b: "До {max}% назад.", sub: "Зареєструйтеся на офіційній сторінці біржі через партнерське запрошення NexuAlpha.\nНашу комісію розкрито, а частина кожної комісії повертається вам." },
 });
 
 // The variant the home hero renders with. Provided by the SSR entry (worker-assigned variant) and the browser entry

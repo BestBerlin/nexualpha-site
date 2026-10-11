@@ -18,7 +18,7 @@ function PlaneIcon() {
 export function TelegramAlertsStrip({ locale = "en", placement, className = "" }) {
   const [text, action] = telegramAlertsCopy(locale);
   return (
-    <aside className={`tg-signal-strip${className ? ` ${className}` : ""}`} dir={locale === "ar" ? "rtl" : "ltr"} data-telegram-alerts-strip={placement}>
+    <aside className={`tg-signal-strip${className ? ` ${className}` : ""}`} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-telegram-alerts-strip={placement}>
       <span className="tg-signal-strip__icon"><PlaneIcon /></span>
       <span className="tg-signal-strip__text">{text}</span>
       <a className="tg-signal-strip__btn" href={telegramAlertsUrl(locale)} target="_blank" rel="noopener" data-cta-kind="telegram" data-cta-placement={placement}>{action} →</a>

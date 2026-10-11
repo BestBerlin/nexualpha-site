@@ -214,7 +214,12 @@ export function LiveIntelligenceNews({ locale = "en" }) {
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
   const localeKey = String(locale || "en").toLowerCase() === "pt-br" ? "pt-BR" : String(locale || "en").split("-")[0];
-  const readMore = { ja: "レポート全文を読む", ko: "전체 보고서 읽기", tr: "Raporun tamamını oku", es: "Leer el informe completo", "pt-BR": "Ler o relatório completo", fr: "Lire le rapport complet", de: "Vollständigen Bericht lesen", ru: "Читать полный отчёт", ar: "اقرأ التقرير الكامل", id: "Baca laporan lengkap", vi: "Đọc báo cáo đầy đủ", it: "Leggi il rapporto completo" }[localeKey];
+  // l10n: needs native review
+  const readMore = { ja: "レポート全文を読む", ko: "전체 보고서 읽기", tr: "Raporun tamamını oku", es: "Leer el informe completo", "pt-BR": "Ler o relatório completo", fr: "Lire le rapport complet", de: "Vollständigen Bericht lesen", ru: "Читать полный отчёт", ar: "اقرأ التقرير الكامل", id: "Baca laporan lengkap", vi: "Đọc báo cáo đầy đủ", it: "Leggi il rapporto completo",
+  // l10n: needs native review
+  ur: "مکمل رپورٹ پڑھیں",
+  // l10n: needs native review
+  uk: "Читати повний звіт" }[localeKey];
   const t = { ...(isHant ? newsData["zh-Hant"] : isZh ? newsData["zh-Hans"] : newsData.en), ...(readMore ? { readMore } : {}) };
 
   const filteredItems = activeTab === "all"

@@ -93,6 +93,10 @@ export function MobileBottomNav({ locale, onSearch, brazil = false }) {
     it: { directory:"Directory", calculator:"Costi", campaigns:"Campagne", compare:"Confronta", search:"Cerca" },
     "pt-BR": { directory:"Corretoras", calculator:"Custos", campaigns:"Campanhas", compare:"Comparar", search:"Buscar" },
     "zh-Hant": { directory:"平台黃頁", calculator:"算返傭", campaigns:"活動雷達", compare:"PK對比", search:"搜尋" },
+    // l10n: needs native review
+    ur: { directory:"ڈائریکٹری", calculator:"فیس", campaigns:"مہمات", compare:"موازنہ", search:"تلاش" },
+    // l10n: needs native review
+    uk: { directory:"Довідник", calculator:"Комісії", campaigns:"Кампанії", compare:"Порівняти", search:"Пошук" },
   }[locale] || ({
     ja: { directory:"取引所一覧", calculator:"手数料", campaigns:"キャンペーン", compare:"比較", search:"検索" },
     ko: { directory:"거래소", calculator:"수수료", campaigns:"캠페인", compare:"비교", search:"검색" },
@@ -109,6 +113,10 @@ export function MobileBottomNav({ locale, onSearch, brazil = false }) {
     fr: { campaigns: "Évén.", search: "Chercher", compare: "Compar." },
     ru: { calculator: "Комиссии", campaigns: "События", compare: "Сравн." },
     tr: { calculator: "Ücret", campaigns: "Etkinlik", compare: "Kıyas" },
+    // l10n: needs native review
+    ur: { campaigns: "مہم", compare: "موازنہ" },
+    // l10n: needs native review
+    uk: { campaigns: "Акції", compare: "Порівн." },
   };
   const compactLabels = mobileNavCompactLabels[locale] || mobileNavCompactLabels[String(locale || "").split("-")[0]] || {};
   const campaignLabel = labels.campaigns || (brazil ? "Conta" : isPt ? "Campanhas" : isHant ? "活動雷達" : isZh ? "活动雷达" : "Campaigns");

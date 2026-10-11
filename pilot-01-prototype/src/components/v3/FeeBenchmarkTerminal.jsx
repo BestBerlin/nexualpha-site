@@ -241,6 +241,10 @@ const stateCopy = Object.freeze({
     spot: "Spot",
     futures: "Futures",
   },
+  // l10n: needs native review
+  ur: { sourcePending: "ماخذ جائزہ زیر التوا", commercialPending: "سرکاری چیک زیر التوا", netPending: "حساب نہیں ہوا", trendPending: "کوئی جائزہ شدہ رجحان نہیں", maker: "Maker", taker: "Taker", checked: "جائزہ شدہ", conditions: "شرائط", source: "ماخذ", spot: "اسپاٹ", futures: "فیوچرز" },
+  // l10n: needs native review
+  uk: { sourcePending: "Очікує перевірки джерела", commercialPending: "Очікує офіційної перевірки", netPending: "Не розраховано", trendPending: "Немає перевіреного тренду", maker: "Maker", taker: "Taker", checked: "перевірено", conditions: "Умови", source: "Джерело", spot: "Спот", futures: "Ф’ючерси" },
 });
 
 
@@ -262,6 +266,10 @@ const pendingGroupForms = Object.freeze({
   id: { other: "{n} platform menunggu tinjauan sumber" },
   vi: { other: "{n} nền tảng đang chờ rà soát nguồn" },
   it: { one: "{n} piattaforma con fonte in attesa di revisione", other: "{n} piattaforme con fonte in attesa di revisione" },
+  // l10n: needs native review
+  ur: { one: "{n} پلیٹ فارم ماخذ جائزے کا منتظر", other: "{n} پلیٹ فارم ماخذ جائزے کے منتظر" },
+  // l10n: needs native review
+  uk: { one: "{n} платформа очікує перевірки джерела", few: "{n} платформи очікують перевірки джерела", many: "{n} платформ очікують перевірки джерела", other: "{n} платформи очікують перевірки джерела" },
 });
 const pendingGroupCopy = Object.freeze(Object.fromEntries(Object.keys(pendingGroupForms).map((code) => [code, (n) => pluralPhrase(pendingGroupForms, n, code)])));
 
@@ -281,6 +289,10 @@ const nextStepCopy = Object.freeze({
   id: ["Perlu direktori lengkap?", "Pertahankan konteks pasar dan produk yang sama saat meninjau semua platform. Telegram menjadi dukungan setelah cek di situs.", "Lihat direktori platform →", "Dukungan Telegram ↗"],
   vi: ["Cần danh mục đầy đủ?", "Giữ cùng thị trường và sản phẩm khi xem toàn bộ nền tảng. Telegram là kênh hỗ trợ sau khi kiểm tra trên site.", "Xem danh mục nền tảng →", "Hỗ trợ Telegram ↗"],
   it: ["Serve la directory completa?", "Mantieni lo stesso mercato e prodotto mentre rivedi tutte le piattaforme. Telegram resta supporto dopo i controlli sul sito.", "Apri directory piattaforme →", "Supporto Telegram ↗"],
+  // l10n: needs native review
+  ur: ["مکمل ڈائریکٹری چاہیے؟", "تمام پلیٹ فارم دیکھتے وقت یہی مارکیٹ اور مصنوعاتی سیاق رکھیں۔ Telegram سائٹ کے اندر چیک کے بعد معاون راستہ ہے۔", "پلیٹ فارم ڈائریکٹری دیکھیں →", "Telegram مدد ↗"],
+  // l10n: needs native review
+  uk: ["Потрібен повний каталог?", "Зберігайте той самий ринок і продукт під час перегляду всіх платформ. Telegram доступний як підтримка після перевірок на сайті.", "Переглянути каталог платформ →", "Підтримка Telegram ↗"],
 });
 
 // The two explainer rows answer "can / cannot", so their labels say exactly that.
@@ -300,6 +312,10 @@ const answerLabelCopy = Object.freeze({
   id: ["Bisa menjawab", "Tidak bisa menjawab"],
   vi: ["Trả lời được", "Không trả lời được"],
   it: ["Può rispondere", "Non può rispondere"],
+  // l10n: needs native review
+  ur: ["جواب دے سکتا ہے", "جواب نہیں دے سکتا"],
+  // l10n: needs native review
+  uk: ["Може відповісти", "Не може відповісти"],
 });
 
 const answerBlockCopy = Object.freeze({
@@ -438,6 +454,10 @@ const answerBlockCopy = Object.freeze({
     compareB: "Confronta Bybit vs Bitget",
     derivatives: "Leggi i campi costo dei derivati",
   },
+  // l10n: needs native review
+  ur: { label: "پہلے جواب", title: "عوامی فیس چیک کیا بتا سکتا ہے", can: "یہ جائزہ شدہ عوامی maker/taker جدولوں سے ایک منظرنامہ اندازہ کر سکتا ہے اور اگلا پلیٹ فارم صفحہ یا موازنہ دکھا سکتا ہے۔", cannot: "یہ آپ کی آخری اکاؤنٹ فیس، علاقائی اہلیت، ڈپازٹ، KYC نتیجہ، بونس وصولی یا رجسٹریشن نسبت ثابت نہیں کرتا۔ یہ چیک سرکاری اکاؤنٹ میں رہتے ہیں۔", compareA: "Binance vs OKX موازنہ", compareB: "Bybit vs Bitget موازنہ", derivatives: "ڈیریویٹوز لاگت خانے پڑھیں" },
+  // l10n: needs native review
+  uk: { label: "Спершу відповідь", title: "Що може пояснити перевірка публічних комісій", can: "Вона може оцінити сценарій за перевіреними публічними таблицями maker/taker і показати, яку сторінку платформи або порівняння переглянути далі.", cannot: "Вона не доводить вашу остаточну комісію акаунта, регіональну доступність, депозити, результат KYC, отримання бонусу чи атрибуцію реєстрації. Це перевіряється в офіційному акаунті.", compareA: "Порівняти Binance vs OKX", compareB: "Порівняти Bybit vs Bitget", derivatives: "Читати поля витрат деривативів" },
 });
 
 function normalizeLocale(locale) {
@@ -551,6 +571,10 @@ copy.ar = { ...copy.en, eyebrow:"محطة / مقارنة الرسوم", title:"�
 copy.id = { ...copy.en, eyebrow:"TERMINAL / BENCHMARK BIAYA", title:"Perbandingan biaya yang dipublikasikan", subtitle:"Bandingkan tarif dasar spot dan futures. Manfaat hanya tampil setelah verifikasi sumber resmi.", filterAll:`${MONITOR_VENUE_COUNT} platform`, colVenue:"Platform", colCategory:"Kategori", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Manfaat", colNetTaker:"Tarif bersih", colTrend:"Tren 7 hari", colAction:"Daftar", cta:"Lihat ketentuan resmi ↗" };
 copy.vi = { ...copy.en, eyebrow:"BẢNG / SO SÁNH PHÍ", title:"So sánh phí được công bố", subtitle:"So sánh mức phí cơ bản spot và futures. Ưu đãi chỉ hiển thị sau khi xác minh nguồn chính thức.", filterAll:`${MONITOR_VENUE_COUNT} nền tảng`, colVenue:"Nền tảng", colCategory:"Loại", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Ưu đãi", colNetTaker:"Mức ròng", colTrend:"Xu hướng 7 ngày", colAction:"Đăng ký", cta:"Xem điều kiện chính thức ↗" };
 copy.it = { ...copy.en, eyebrow:"TERMINALE / BENCHMARK COMMISSIONI", title:"Confronto delle commissioni pubblicate", subtitle:"Confronta i tassi base spot e futures. I vantaggi compaiono solo dopo la verifica ufficiale.", filterAll:`${MONITOR_VENUE_COUNT} piattaforme`, colVenue:"Piattaforma", colCategory:"Categoria", colSpotTaker:"Taker spot", colFuturesTaker:"Taker futures", colRebate:"Vantaggio", colNetTaker:"Tasso netto", colTrend:"Trend 7 giorni", colAction:"Registrati", cta:"Verifica condizioni ufficiali ↗" };
+// l10n: needs native review
+copy.ur = { ...copy.en, eyebrow:"ٹرمینل / فیس معیار", title:"شائع شدہ ایکسچینج فیس معیار", subtitle:"شائع شدہ اسپاٹ اور فیوچرز بنیادی شرحوں کا موازنہ کریں۔ صارف فائدے اور خالص شرحیں صرف سرکاری ماخذ کی تصدیق کے بعد دکھتی ہیں۔", filterAll:`تمام ${MONITOR_VENUE_COUNT} پلیٹ فارم`, filterCex:"CEX", filterDex:"Perp DEX", colVenue:"ایکسچینج", colCategory:"زمرہ", colSpotTaker:"اسپاٹ Taker", colFuturesTaker:"فیوچرز Taker", colRebate:"فائدہ", colNetTaker:"خالص شرح", colTrend:"7 دن رجحان", colAction:"سرکاری راستہ", cta:"سرکاری شرائط ↗" };
+// l10n: needs native review
+copy.uk = { ...copy.en, eyebrow:"ТЕРМІНАЛ / ОРІЄНТИР КОМІСІЙ", title:"Порівняння опублікованих комісій", subtitle:"Порівнюйте опубліковані базові ставки споту й ф’ючерсів. Користувацькі переваги й чисті ставки з’являються лише після перевірки офіційного джерела.", filterAll:`Усі ${MONITOR_VENUE_COUNT} платформ`, filterCex:"CEX", filterDex:"Perp DEX", colVenue:"Біржа", colCategory:"Категорія", colSpotTaker:"Спот Taker", colFuturesTaker:"Ф’ючерси Taker", colRebate:"Перевага", colNetTaker:"Чиста ставка", colTrend:"Тренд 7 днів", colAction:"Офіційний шлях", cta:"Офіційні умови ↗" };
 
 export function FeeBenchmarkTerminal({ locale = "en", market, product: productParam, accountStage, funding }) {
   const product = productParam || "spot";
@@ -637,9 +661,13 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
     data-growth-funding={funding}
     data-growth-campaign={market ? `${String(market).toLowerCase()}-research-preview` : undefined}
     data-cta-code={row.ctaDirect && row.inviteCode ? row.inviteCode : undefined}
-  >{row.ctaDirect ? `${ctaUiCopy(locale).caption} ↗` : ({ ja: "地域条件を確認", ko: "지역 조건 확인", tr: "Bölgesel uygunluğu doğrula", es: "Verificar elegibilidad", "pt-BR": "Verificar elegibilidade", fr: "Vérifier l’éligibilité régionale", de: "Regionale Eignung prüfen", ru: "Проверить региональную доступность", ar: "تحقق من الأهلية الإقليمية", id: "Verifikasi kelayakan wilayah", vi: "Kiểm tra điều kiện khu vực", it: "Verifica idoneità regionale" }[locale] || (isZh ? "先核对地区资格" : "Verify eligibility"))}</a>;
+  >{row.ctaDirect ? `${ctaUiCopy(locale).caption} ↗` : ({ ja: "地域条件を確認", ko: "지역 조건 확인", tr: "Bölgesel uygunluğu doğrula", es: "Verificar elegibilidad", "pt-BR": "Verificar elegibilidade", fr: "Vérifier l’éligibilité régionale", de: "Regionale Eignung prüfen", ru: "Проверить региональную доступность", ar: "تحقق من الأهلية الإقليمية", id: "Verifikasi kelayakan wilayah", vi: "Kiểm tra điều kiện khu vực", it: "Verifica idoneità regionale",
+  // l10n: needs native review
+  ur: "علاقائی اہلیت چیک کریں",
+  // l10n: needs native review
+  uk: "Перевірити регіональну доступність" }[locale] || (isZh ? "先核对地区资格" : "Verify eligibility"))}</a>;
   return (
-    <section className="fee-terminal-section v2-shell" id="rate-terminal" dir={normalizedLocale === "ar" ? "rtl" : undefined}>
+    <section className="fee-terminal-section v2-shell" id="rate-terminal" dir={normalizedLocale === "ar" || normalizedLocale === "ur" ? "rtl" : undefined}>
       <div className="rt-tool rt-panel">
         <div className="fee-terminal__answer-block rt-context" role="group" aria-label={answerBlock.label}>
           <h3>{answerBlock.title}</h3>

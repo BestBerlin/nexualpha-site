@@ -63,6 +63,10 @@ export function KolLandingPage({ kolHandle = "crypto-zhang", locale = "en", mark
     de: ["Offizielle Registrierung öffnen ↗", "Zuerst offizielle Bedingungen prüfen ↗"], ru: ["Открыть официальную регистрацию ↗", "Сначала проверить официальные условия ↗"],
     ar: ["فتح التسجيل الرسمي ↗", "راجع الشروط الرسمية أولاً ↗"], id: ["Buka pendaftaran resmi ↗", "Tinjau ketentuan resmi dulu ↗"],
     vi: ["Mở đăng ký chính thức ↗", "Xem điều kiện chính thức trước ↗"], it: ["Apri la registrazione ufficiale ↗", "Controlla prima i termini ufficiali ↗"],
+    // l10n: needs native review
+    ur: ["سرکاری رجسٹریشن کھولیں ↗", "پہلے سرکاری شرائط دیکھیں ↗"],
+    // l10n: needs native review
+    uk: ["Відкрити офіційну реєстрацію ↗", "Спершу переглянути офіційні умови ↗"],
   }[localeKey] || ["Open official registration ↗", "Review official terms first ↗"];
 
   return (

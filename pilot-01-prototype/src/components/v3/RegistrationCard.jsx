@@ -25,6 +25,10 @@ const passportLabels = Object.freeze({
   es: { title: "Tus condiciones de decisión", market: "Mercado", product: "Producto", accountStage: "Etapa de cuenta", funding: "Ruta de fondos", edit: "Cambiar condiciones" },
   "pt-BR": { title: "Suas condições de decisão", market: "Mercado", product: "Produto", accountStage: "Etapa da conta", funding: "Rota de depósito", edit: "Alterar condições" },
   vi: { title: "Điều kiện quyết định", market: "Thị trường", product: "Sản phẩm", accountStage: "Giai đoạn tài khoản", funding: "Đường nạp tiền", edit: "Đổi điều kiện" },
+  // l10n: needs native review
+  ur: { title: "آپ کے فیصلے کی شرائط", market: "مارکیٹ", product: "پروڈکٹ", accountStage: "اکاؤنٹ مرحلہ", funding: "فنڈنگ راستہ", edit: "شرائط بدلیں" },
+  // l10n: needs native review
+  uk: { title: "Умови вашого рішення", market: "Ринок", product: "Продукт", accountStage: "Етап акаунта", funding: "Маршрут поповнення", edit: "Змінити умови" },
 });
 
 function passportCopy(locale) {
@@ -143,6 +147,14 @@ const copyDict = {
     preflightOfficial: "This opens the third-party official route. No referral-code path is configured for this venue.",
     preflightBlocked: "Direct signup is not recommended yet. Check regional eligibility and official terms first.",
   },
+  // l10n: needs native review
+  ur: {
+    officialDomain: "سرکاری ڈومین", antiPhishingTip: "کوئی بھی معلومات درج کرنے سے پہلے براؤزر کے ایڈریس بار میں ڈومین کو اوپر درج سرکاری ڈومین سے حرف بہ حرف ملائیں۔", referralCode: "ریفرل کوڈ", copyCode: "کوڈ کاپی کریں", copied: "کاپی ہو گیا ✓", openSignup: "سرکاری رجسٹریشن پر جائیں ↗", openApp: "سرکاری ایپ کھولیں ↗", fullUrl: "مکمل سرکاری لنک", noCodeNeeded: "براہ راست آن چین کنکشن · کوڈ درکار نہیں", routeState: "پارٹنر راستہ", routeReady: "ترتیب شدہ", routePending: "زیر التوا", benefitState: "صارف کا فائدہ", benefitVerified: "ماخذ درج ہے", benefitPending: "سرکاری رجسٹریشن صفحے پر تصدیق کریں", regionState: "علاقائی اہلیت", regionReady: "سرکاری عمل میں تصدیق کی جا سکتی ہے", regionVerify: "سرکاری عمل میں تصدیق کریں", regionBlocked: "اس علاقے کے لیے براہ راست رجسٹریشن کی سفارش نہیں", disclosureTitle: "شفاف افیلی ایٹ وضاحت: ", disclosureShort: "پارٹنر لنکس سے NexuAlpha کو پلیٹ فارم کی طرف سے کمیشن مل سکتا ہے؛ آپ کے لیے اضافی لاگت نہیں بنتی۔", disclosureBody: "NexuAlpha ایک آزاد ڈائریکٹری اور پلیٹ فارم موازنہ مرکز ہے۔ درج پارٹنر لنکس یا ریفرل کوڈز سے رجسٹر کرنے پر ہمیں پلیٹ فارم کی طرف سے کمیشن مل سکتا ہے، مگر آپ کے لیے کوئی اضافی لاگت نہیں ہوتی۔ NexuAlpha ایکسچینج نہیں، نجی کلیدیں نہیں مانگتا اور فنڈز تحویل میں نہیں رکھتا۔ رجسٹریشن اور ٹریڈز تیسرے فریق کے پلیٹ فارم پر ہی ہوتے ہیں۔", unavailable: "اس مقام کے لیے ابھی کوئی درج شدہ پارٹنر راستہ موجود نہیں۔ پہلے اوپر سرکاری ڈومین چیک کریں۔", officialRouteState: "سرکاری راستہ", openOfficial: "سرکاری راستہ کھولیں ↗", continueCompare: "موازنہ جاری رکھیں", telegramResearch: "Telegram ریسرچ بوٹ کھولیں ↗", preflightTitle: "آگے بڑھنے سے پہلے", routeDetailsTitle: "راستہ، کوڈ اور اہلیت کی تفصیل", preflightWithCode: "یہ تیسرے فریق کا رجسٹریشن صفحہ کھولتا ہے۔ جمع کرانے سے پہلے تصدیق کریں کہ ریفرل کوڈ {code} ہے؛ اگر پہلے سے درج نہیں تو اسے دستی طور پر درج کریں۔", preflightNoCode: "یہ تیسرے فریق کا رجسٹریشن صفحہ کھولتا ہے۔ جمع کرانے سے پہلے سرکاری صفحے پر علاقہ، KYC اور پروڈکٹ شرائط چیک کریں۔", preflightOfficial: "یہ تیسرے فریق کا سرکاری راستہ کھولتا ہے۔ اس مقام کے لیے ریفرل کوڈ والا راستہ ترتیب نہیں دیا گیا۔", preflightBlocked: "براہ راست رجسٹریشن ابھی تجویز نہیں۔ پہلے علاقائی اہلیت اور سرکاری شرائط چیک کریں۔"
+  },
+  // l10n: needs native review
+  uk: {
+    officialDomain: "Офіційний домен", antiPhishingTip: "Перед введенням будь-яких даних переконайтеся, що домен в адресному рядку браузера точно збігається з офіційним доменом вище.", referralCode: "Реферальний код", copyCode: "Скопіювати код", copied: "Скопійовано ✓", openSignup: "Перейти до офіційної реєстрації ↗", openApp: "Відкрити офіційний застосунок ↗", fullUrl: "Повне офіційне посилання", noCodeNeeded: "Пряме ончейн-підключення · код не потрібен", routeState: "Партнерський маршрут", routeReady: "Налаштовано", routePending: "Очікує", benefitState: "Умова для користувача", benefitVerified: "Джерело записано", benefitPending: "Підтвердьте на офіційній сторінці реєстрації", regionState: "Регіональна доступність", regionReady: "Можна підтвердити в офіційному процесі", regionVerify: "Підтвердьте в офіційному процесі", regionBlocked: "Пряма реєстрація для цього регіону не рекомендована", disclosureTitle: "Прозоре розкриття партнерства: ", disclosureShort: "Партнерські посилання можуть принести NexuAlpha комісію від платформи без додаткової вартості для вас.", disclosureBody: "NexuAlpha — незалежний довідник і центр порівняння платформ. Реєстрація через записані партнерські посилання або реферальні коди може принести нам комісію від платформи без додаткової вартості для вас. NexuAlpha не є біржею, не запитує приватні ключі й не зберігає кошти. Реєстрація та торгівля відбуваються на сторонній платформі.", unavailable: "Для цього майданчика ще немає записаного партнерського маршруту. Спершу перевірте офіційний домен вище.", officialRouteState: "Офіційний маршрут", openOfficial: "Відкрити офіційний маршрут ↗", continueCompare: "Продовжити порівняння", telegramResearch: "Відкрити дослідницького Telegram-бота ↗", preflightTitle: "Перед продовженням", routeDetailsTitle: "Маршрут, код і умови доступності", preflightWithCode: "Відкриється сторінка реєстрації третьої сторони. Перед надсиланням переконайтеся, що реферальний код — {code}; якщо його не підставлено, введіть вручну.", preflightNoCode: "Відкриється сторінка реєстрації третьої сторони. Перед надсиланням перевірте регіон, KYC та умови продукту на офіційній сторінці.", preflightOfficial: "Відкриється офіційний маршрут третьої сторони. Для цього майданчика немає маршруту з реферальним кодом.", preflightBlocked: "Пряма реєстрація поки не рекомендована. Спершу перевірте регіональну доступність і офіційні умови."
+  },
 };
 
 copyDict.ja = {
@@ -186,6 +198,20 @@ Object.assign(copyDict["zh-Hant"], {
   productChoose: "產品路徑待確認",
   stateListLabel: "合作入口、用戶權益與地區資格",
   regionalContext: (label, product) => `目前研究地區：${label} · ${product} · 最終資格以官方帳戶流程為準。`,
+});
+Object.assign(copyDict.ur, {
+  disclosureSummary: "مکمل وضاحت پڑھیں",
+  productSpot: "اسپاٹ",
+  productChoose: "پروڈکٹ راستہ تصدیق طلب",
+  stateListLabel: "پارٹنر راستہ، صارف کا فائدہ اور علاقائی اہلیت",
+  regionalContext: (label, product) => `موجودہ تحقیقی تناظر: ${label} · ${product}. حتمی اہلیت سرکاری اکاؤنٹ عمل میں تصدیق ہوتی ہے۔`,
+});
+Object.assign(copyDict.uk, {
+  disclosureSummary: "Прочитати повне розкриття",
+  productSpot: "Спот",
+  productChoose: "Маршрут продукту для підтвердження",
+  stateListLabel: "Партнерський маршрут, умови для користувача та регіональна доступність",
+  regionalContext: (label, product) => `Поточний дослідницький контекст: ${label} · ${product}. Остаточна доступність підтверджується в офіційному процесі акаунта.`,
 });
 Object.assign(copyDict.ja, {
   routeReady: "設定済み",
@@ -613,6 +639,20 @@ const registrationNextStepCopy = Object.freeze({
     noCode: "開啟官方入口，提交前確認地區、KYC 與產品條件。",
     research: "先核對官方條件；目前路徑不建議直接註冊。",
   },
+  // l10n: needs native review
+  ur: {
+    label: "اگلا قدم",
+    withCode: (code) => `پارٹنر رجسٹریشن راستہ کھولیں، پھر جمع کرانے سے پہلے سرکاری صفحے پر ریفرل کوڈ ${code} کی تصدیق کریں۔`,
+    noCode: "سرکاری راستہ کھولیں، پھر جمع کرانے سے پہلے علاقہ، KYC اور پروڈکٹ شرائط چیک کریں۔",
+    research: "پہلے سرکاری شرائط دیکھیں؛ اس راستے پر براہ راست رجسٹریشن ابھی تجویز نہیں۔",
+  },
+  // l10n: needs native review
+  uk: {
+    label: "Наступний крок",
+    withCode: (code) => `Відкрийте партнерський маршрут реєстрації, а перед надсиланням підтвердьте на офіційній сторінці реферальний код ${code}.`,
+    noCode: "Відкрийте офіційний маршрут, а перед надсиланням перевірте регіон, KYC та умови продукту.",
+    research: "Спершу перегляньте офіційні умови; пряма реєстрація для цього маршруту поки не рекомендована.",
+  },
   ja: {
     label: "次の確認",
     withCode: (code) => `提携登録ルートを開き、送信前に公式ページの紹介コードが ${code} であることを確認してください。自動入力されない場合は手入力してください。`,
@@ -716,6 +756,20 @@ const compactInviteTaskCopy = Object.freeze({
     "title": "註冊前核對",
     "body": "第三方註冊：提交前核對上方邀請碼，未預填請手動填寫。",
     "action": "前往官方註冊 ↗"
+  },
+
+  // l10n: needs native review
+  "ur": {
+    "title": "رجسٹریشن سے پہلے چیک",
+    "body": "تیسرے فریق کی رجسٹریشن: جمع کرانے سے پہلے اوپر کا کوڈ چیک کریں؛ اگر خود نہ آیا ہو تو دستی طور پر درج کریں۔",
+    "action": "سرکاری رجسٹریشن ↗"
+  },
+
+  // l10n: needs native review
+  "uk": {
+    "title": "Перевірте перед реєстрацією",
+    "body": "Реєстрація на сторонньому сайті: перед надсиланням перевірте код вище; якщо його немає, введіть вручну.",
+    "action": "Офіційна реєстрація ↗"
   },
   "ja": {
     "title": "登録前に確認",

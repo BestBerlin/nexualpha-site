@@ -19,10 +19,15 @@ const FOOTER_COPY = {
   id: ["Kalkulator biaya oleh ", "Lihat perbandingan platform ↗"],
   vi: ["Công cụ tính phí của ", "Xem so sánh nền tảng ↗"],
   it: ["Calcolatore delle commissioni di ", "Vedi i confronti tra piattaforme ↗"],
+  // l10n: needs native review
+  ur: ["فیس کیلکولیٹر از ", "پلیٹ فارم موازنہ دیکھیں ↗"],
+  // l10n: needs native review
+  uk: ["Калькулятор комісій від ", "Переглянути порівняння платформ ↗"],
 };
 
 export function EmbedCalculator({ locale = "en", market, product }) {
-  const [attribution, explore] = FOOTER_COPY[locale] || FOOTER_COPY.en;
+  const normalizedLocale = String(locale || "en").split("-")[0];
+  const [attribution, explore] = FOOTER_COPY[locale] || FOOTER_COPY[normalizedLocale] || FOOTER_COPY.en;
 
   return (
     <div className="embed-container embed-container--calculator">
@@ -37,9 +42,9 @@ export function EmbedCalculator({ locale = "en", market, product }) {
             <strong dir="ltr">NexuAlpha</strong>
           </span>
         </div>
-        <a 
-          href={`https://nexualpha.com${localizedHref("/", { locale, utm_source: "embed_widget", utm_medium: "calculator" })}`} 
-          target="_blank" 
+        <a
+          href={`https://nexualpha.com${localizedHref("/", { locale, utm_source: "embed_widget", utm_medium: "calculator" })}`}
+          target="_blank"
           rel="noopener noreferrer"
           className="embed-attribution-link"
         >

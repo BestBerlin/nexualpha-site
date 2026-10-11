@@ -21,6 +21,10 @@ export const innerR9Copy = {
   id: C("Anda", "Pendaftaran resmi", "Rute ke pendaftaran resmi", "Batang memakai satu skala untuk semua platform, 0 hingga {max}", "Biaya bulanan, USDT", "Halaman resmi", "Biaya dicek · {n}", "Belum dicek · {n}"),
   vi: C("Bạn", "Đăng ký chính thức", "Lộ trình đến trang đăng ký chính thức", "Các thanh dùng chung một thang đo cho mọi nền tảng, từ 0 đến {max}", "Chi phí hằng tháng, USDT", "Trang chính thức", "Phí đã kiểm tra · {n}", "Chưa kiểm tra · {n}"),
   it: C("Tu", "Registrazione ufficiale", "Percorso verso la registrazione ufficiale", "Le barre usano un'unica scala per tutte le piattaforme, da 0 a {max}", "Costo mensile, USDT", "Pagina ufficiale", "Commissioni verificate · {n}", "Non ancora verificato · {n}"),
+  // l10n: needs native review
+  ur: C("آپ", "سرکاری رجسٹریشن", "سرکاری رجسٹریشن تک راستہ", "ہر پلیٹ فارم کے لیے بارز ایک ہی پیمانہ استعمال کرتی ہیں، 0 سے {max}", "ماہانہ لاگت، USDT", "سرکاری صفحہ", "فیس چیک ہو چکی · {n}", "ابھی چیک نہیں ہوئی · {n}"),
+  // l10n: needs native review
+  uk: C("Ви", "Офіційна реєстрація", "Шлях до офіційної реєстрації", "Стовпчики мають одну шкалу для всіх платформ: від 0 до {max}", "Місячна вартість, USDT", "Офіційна сторінка", "Комісії перевірено · {n}", "Ще не перевірено · {n}"),
 };
 
 export const r9Text = (locale) => {

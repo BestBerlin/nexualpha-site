@@ -266,7 +266,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/data/compare-generated.js") || id.includes("/src/data/compare-pairs/") || id.includes("/src/data/compare-pair-answers.js")) return "data-compare-generated";
           if (id.includes("/src/components/compare/CompareAnyPicker") || id.includes("/src/components/compare/compare-any-picker.css")) return "shared-compare-picker";
           if (id.includes("/src/components/v6/compare-routes.js") || id.includes("/src/data/compare-slug.js")) return "shared-compare-routes";
-          if (id.includes("/src/data/compare-direct-answers.js")) return "data-compare-direct-answers";
+          if ((id.includes("/src/data/compare-direct-answers.js") || id.includes("/src/data/compare-direct-answer-drafts.js"))) return "data-compare-direct-answers";
           if (id.includes("/src/data/compare-faq-locales.js")) return "data-compare-faq-locales";
           if (id.includes("/src/data/telegram-config.js")) return "data-telegram";
           if (id.includes("/src/data/directory-context.js")) return "data-directory-context";

@@ -174,7 +174,11 @@ const tableScrollHints = {
   "tr": "Makale tablosu: yatay kaydırın veya tablo alanına odaklanıp ok tuşlarını kullanın.",
   "ru": "Таблица статьи: прокрутите по горизонтали или установите фокус на области таблицы и используйте клавиши со стрелками.",
   "ar": "جدول المقال: مرّر أفقيًا أو انقل التركيز إلى منطقة الجدول واستخدم مفاتيح الأسهم.",
+
+  // l10n: needs native review
   "ur": "مضمون کی جدول: افقی اسکرول کریں، یا جدول کے علاقے پر فوکس کر کے تیر والے بٹن استعمال کریں۔",
+
+  // l10n: needs native review
   "uk": "Таблиця статті: прокрутіть горизонтально або сфокусуйте область таблиці й використовуйте клавіші зі стрілками.",
   "id": "Tabel artikel: gulir secara horizontal atau fokuskan area tabel dan gunakan tombol panah.",
   "vi": "Bảng trong bài viết: cuộn ngang hoặc đặt tiêu điểm vào vùng bảng và dùng các phím mũi tên.",
@@ -536,7 +540,11 @@ function OwnerChecklist({ article }) {
   );
 }
 
-const sectionNavigationLabels = {"en": "Jump to section", "zh-Hans": "跳转到章节", "zh-Hant": "跳轉至章節", "ja": "セクションへ移動", "ko": "섹션으로 이동", "tr": "Bölüme git", "ar": "الانتقال إلى القسم", "ur": "سیکشن پر جائیں", "uk": "Перейти до розділу", "es": "Ir a la sección", "pt-BR": "Ir para a seção", "fr": "Aller à la section", "de": "Zum Abschnitt springen", "ru": "Перейти к разделу", "id": "Ke bagian", "vi": "Chuyển đến mục", "it": "Vai alla sezione"};
+const sectionNavigationLabels = {"en": "Jump to section", "zh-Hans": "跳转到章节", "zh-Hant": "跳轉至章節", "ja": "セクションへ移動", "ko": "섹션으로 이동", "tr": "Bölüme git", "ar": "الانتقال إلى القسم",
+// l10n: needs native review
+"ur": "سیکشن پر جائیں",
+// l10n: needs native review
+"uk": "Перейти до розділу", "es": "Ir a la sección", "pt-BR": "Ir para a seção", "fr": "Aller à la section", "de": "Zum Abschnitt springen", "ru": "Перейти к разделу", "id": "Ke bagian", "vi": "Chuyển đến mục", "it": "Vai alla sezione"};
 
 // Inline markdown in article prose: [label](href) links, **strong**, *em* and `code`, tokenized by
 // article-inline-markdown.js (shared with the Worker fallback HTML). External http(s) links open in a new tab; allowed
@@ -872,16 +880,16 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
         </header>
 
         {/* 文章正文 */}
-        <section className="news-detail__content" lang={contentLocale} dir={contentLocale === "ar" ? "rtl" : "ltr"} data-news-content-locale={contentLocale}>
+        <section className="news-detail__content" lang={contentLocale} dir={["ar", "ur"].includes(contentLocale) ? "rtl" : "ltr"} data-news-content-locale={contentLocale}>
           {showsOriginalLanguage && (
-            <aside className="news-detail__local-brief" lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+            <aside className="news-detail__local-brief" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
               <span className="news-detail__local-brief-eyebrow">{t.sourceBodyTitle}</span>
               <p>{localizedSummary}</p>
               <small>{t.sourceBodyBody}</small>
             </aside>
           )}
           {/* below 1024px the section index is a collapsed disclosure; desktop uses the sticky rail index */}
-          {sectionTargets.length >= 2 && <nav className="news-detail__section-nav" aria-label={sectionLabel} lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+          {sectionTargets.length >= 2 && <nav className="news-detail__section-nav" aria-label={sectionLabel} lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
             <details className="news-detail__section-disclosure">
               <summary><span>{sectionLabel}</span><span className="news-detail__section-count">{String(sectionTargets.length).padStart(2, "0")}</span></summary>
               <ol>
@@ -916,7 +924,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             </div>
           </details>}
           {relatedPartners && (
-            <p className="news-detail__related-partners" lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} data-news-related-partners="">
+            <p className="news-detail__related-partners" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-news-related-partners="">
               <span className="news-detail__related-partners-label">{relatedPartners.label}:</span>
               {relatedPartners.profiles.map((profile, index) => (
                 <React.Fragment key={profile.slug}>
@@ -933,7 +941,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             </p>
           )}
           {clusterLinks.length > 0 && (
-            <p className="news-detail__cluster-links" lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} data-news-cluster-links="">
+            <p className="news-detail__cluster-links" lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"} data-news-cluster-links="">
               <span className="news-detail__cluster-links-label">{articleClusterLineLabel(locale)}:</span>
               {clusterLinks.map((link, index) => (
                 <React.Fragment key={link.id}>
@@ -951,7 +959,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
                 as="h2"
                 label={t.sourcesTitle}
                 labelId="article-sources"
-                labelProps={{ tabIndex: -1, lang: t.sourcesTitle === copy.en.sourcesTitle ? "en" : locale, dir: locale === "ar" ? "rtl" : "ltr" }}
+                labelProps={{ tabIndex: -1, lang: t.sourcesTitle === copy.en.sourcesTitle ? "en" : locale, dir: ["ar", "ur"].includes(locale) ? "rtl" : "ltr" }}
                 stamp={String(article.sources.length).padStart(2, "0")}
               />
               <ol className="news-detail__footnote-list">
@@ -979,7 +987,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
           <ArticleDecisionSummary article={article} withContext={withContext} locale={locale} t={t} />
           <NewsVenueOffer venues={article.relatedVenues} locale={locale} articleSlug={article.slug} variant="rail" />
           <div className="news-detail__rail-sticky">
-            {sectionTargets.length >= 2 && <nav className="news-detail__toc" aria-label={sectionLabel} lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+            {sectionTargets.length >= 2 && <nav className="news-detail__toc" aria-label={sectionLabel} lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
               <p className="news-detail__toc-label">{sectionLabel}</p>
               <ol>
                 {sectionTargets.map((target) => <li key={target.id}><button type="button" lang={target.id === "article-sources" ? locale : contentLocale} aria-current={activeSection === target.id ? "true" : undefined} onClick={() => jumpToSection(target.id)}>{target.label}</button></li>)}

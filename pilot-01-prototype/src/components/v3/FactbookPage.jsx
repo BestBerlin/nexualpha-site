@@ -780,6 +780,10 @@ const factbookChromeLocale = {
   id: { secPorTitle: "Bukti cadangan dan informasi keuangan", foundedLabel: "Didirikan", hqLabel: "Kantor pusat", primaryLabel: "Situs resmi", secPorSub: "Periksa cadangan dan pengungkapan keuangan yang dipublikasikan dari sumber resmi.", openReserveData: "Buka semua data cadangan", openComplianceData: "Buka semua data kepatuhan", openSecurityData: "Buka semua endpoint keamanan" },
   vi: { secPorTitle: "Bằng chứng dự trữ và thông tin tài chính", foundedLabel: "Thành lập", hqLabel: "Trụ sở", primaryLabel: "Trang chính thức", secPorSub: "Kiểm tra dữ liệu dự trữ và công bố tài chính từ nguồn chính thức.", openReserveData: "Mở toàn bộ dữ liệu dự trữ", openComplianceData: "Mở toàn bộ dữ liệu tuân thủ", openSecurityData: "Mở toàn bộ điểm cuối bảo mật" },
   it: { secPorTitle: "Prova delle riserve e informazioni finanziarie", foundedLabel: "Fondazione", hqLabel: "Sede", primaryLabel: "Sito ufficiale", secPorSub: "Verifica riserve pubblicate e dati finanziari tramite fonti ufficiali.", openReserveData: "Apri tutti i dati sulle riserve", openComplianceData: "Apri tutti i dati sulla conformità", openSecurityData: "Apri tutti gli endpoint di sicurezza" },
+  // l10n: needs native review
+  ur: { secPorTitle: "ذخائر کا ثبوت اور مالی معلومات", foundedLabel: "قیام", hqLabel: "مرکزی دفتر", primaryLabel: "سرکاری سائٹ", secPorSub: "شائع شدہ ذخائر اور مالی افشا بیانات کو سرکاری ذرائع سے چیک کریں۔", openReserveData: "تمام ذخائر ڈیٹا کھولیں", openComplianceData: "تمام تعمیل ڈیٹا کھولیں", openSecurityData: "تمام سیکیورٹی اینڈ پوائنٹس کھولیں" },
+  // l10n: needs native review
+  uk: { secPorTitle: "Підтвердження резервів і фінансова інформація", foundedLabel: "Засновано", hqLabel: "Штаб-квартира", primaryLabel: "Офіційний сайт", secPorSub: "Перевіряйте опубліковані резерви й фінансові розкриття за офіційними джерелами.", openReserveData: "Відкрити всі дані резервів", openComplianceData: "Відкрити всі дані відповідності", openSecurityData: "Відкрити всі безпекові ендпоїнти" },
 };
 // These fields sit above the long fact tables and must never fall back to the
 // English benchmark copy on an otherwise localized page.
@@ -1253,7 +1257,11 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
   const feeRecordCopy = factbookFeeRecordCopy[locale] || factbookFeeRecordCopy[localeBase] || factbookFeeRecordCopy.en;
   const baseFeesCheckedOn = venueCheckedOn(slug);
   const factbookUi = {
+
+    // l10n: needs native review
     ur: { solvency: "ذخائر اور ادائیگی کی صلاحیت", regulation: "ضابطہ کاری اور KYC", endpoints: "اینڈ پوائنٹس اور اجازت فہرست", totalNote: "سرکاری شائع شدہ ڈیٹا کا کل", nativeNote: "مقامی ٹوکن نمائش", expandReserve: "تمام ذخائر ڈیٹا کھولیں", expandCompliance: "تمام تعمیلی ڈیٹا کھولیں", expandSecurity: "تمام درج اینڈ پوائنٹس کھولیں" },
+
+    // l10n: needs native review
     uk: { solvency: "Резерви й платоспроможність", regulation: "Регулювання та KYC", endpoints: "Ендпоїнти й білий список", totalNote: "Підсумок офіційно опублікованих даних", nativeNote: "Експозиція до нативного токена", expandReserve: "Відкрити всі дані резервів", expandCompliance: "Відкрити всі дані відповідності", expandSecurity: "Відкрити всі записані ендпоїнти" },
     ja: { solvency: "準備金と支払能力", regulation: "規制とKYC", endpoints: "エンドポイントとホワイトリスト", totalNote: "公式公開データの合計", nativeNote: "自社トークンへのエクスポージャー", expandReserve: "準備金データをすべて表示", expandCompliance: "コンプライアンスデータをすべて表示", expandSecurity: "セキュリティ端点をすべて表示" },
     ko: { solvency: "준비금 및 지급능력", regulation: "규제 및 KYC", endpoints: "엔드포인트 및 화이트리스트", totalNote: "공식 공개 데이터 총합", nativeNote: "자체 토큰 노출 위험", expandReserve: "전체 준비금 데이터 열기", expandCompliance: "전체 규제 데이터 열기", expandSecurity: "전체 기록된 엔드포인트 열기" },
@@ -1265,7 +1273,11 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
     ja: "ソース審査ファクトブック", ko: "출처 검토 팩트북", tr: "Kaynak inceleme bilgi kitabı",
     ar: "دليل مراجعة المصادر", "pt-BR": "Factbook de revisão de fontes", es: "Factbook de revisión de fuentes",
     fr: "Factbook de vérification des sources", de: "Quellenprüfungs-Factbook", ru: "Фактбук проверки источников",
-    id: "Factbook tinjauan sumber", vi: "Factbook rà soát nguồn", it: "Factbook di revisione delle fonti", ur: "ماخذی جائزہ فیکٹ بک", uk: "Фактбук перевірки джерел",
+    id: "Factbook tinjauan sumber", vi: "Factbook rà soát nguồn", it: "Factbook di revisione delle fonti",
+    // l10n: needs native review
+    ur: "ماخذی جائزہ فیکٹ بک",
+    // l10n: needs native review
+    uk: "Фактбук перевірки джерел",
   }[locale] || (isHant ? "來源審閱事實庫" : isZh ? "来源审阅事实库" : "Source Review Factbook");
   const publicAuditDeclaration = isZh
     ? (isHant ? "本頁面只展示可追溯的公開資料；未完成來源與時間核驗的獎勵、淨費率、儲備率和合規判斷均保持待核驗。" : "本页面只展示可追溯的公开资料；未完成来源与时间核验的奖励、净费率、储备率和合规判断均保持待核验。")

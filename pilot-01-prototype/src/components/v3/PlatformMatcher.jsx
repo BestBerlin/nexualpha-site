@@ -16,6 +16,10 @@ const compactMatcherCopy = (locale) => ({
   es: { kicker: "Selector regional avanzado", hint: "Abre para refinar residencia, producto y método de fondeo", selected: "Contexto actual" },
   "pt-BR": { kicker: "Seletor regional avançado", hint: "Abra para refinar residência, produto e forma de depósito", selected: "Contexto atual" },
   it: { kicker: "Matcher regionale avanzato", hint: "Apri per filtrare residenza, prodotto e metodo di funding", selected: "Contesto attuale" },
+  // l10n: needs native review
+  ur: { kicker: "جدید علاقائی میچر", hint: "کھول کر رہائش، پروڈکٹ اور فنڈنگ طریقے سے امیدوار محدود کریں", selected: "موجودہ سیاق" },
+  // l10n: needs native review
+  uk: { kicker: "Розширений регіональний підбір", hint: "Відкрийте, щоб уточнити резиденцію, продукт і спосіб поповнення", selected: "Поточний контекст" },
   id: { kicker: "Pencocok regional lanjutan", hint: "Buka untuk mempersempit wilayah, produk, dan metode pendanaan", selected: "Konteks saat ini" },
   vi: { kicker: "Bộ ghép khu vực nâng cao", hint: "Mở để lọc theo nơi cư trú, sản phẩm và cách nạp tiền", selected: "Ngữ cảnh hiện tại" },
   ar: { kicker: "مطابق إقليمي متقدم", hint: "افتحه لتصفية بلد الإقامة والمنتج وطريقة التمويل", selected: "السياق الحالي" },

@@ -53,11 +53,11 @@ export function ToolArticleLinks({ tool, locale = "en", initial = null }) {
   const copy = toolArticleCopy(locale);
   const headingId = `tool-articles-${String(tool).replace(/[^a-z0-9-]/gi, "-")}`;
   return (
-    <section className="nx-tool-articles v2-shell" aria-labelledby={headingId} data-tool-articles={tool} dir={locale === "ar" ? "rtl" : "ltr"}>
+    <section className="nx-tool-articles v2-shell" aria-labelledby={headingId} data-tool-articles={tool} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
       <div className="nx-tool-articles__intro">
         <h2 id={headingId}>{copy.title}</h2>
         <p>{copy.body}</p>
-        <a className="nx-tool-articles__all" href={localizedHref("/news", { locale })}>{copy.all} <span aria-hidden="true">{locale === "ar" ? "←" : "→"}</span></a>
+        <a className="nx-tool-articles__all" href={localizedHref("/news", { locale })}>{copy.all} <span aria-hidden="true">{["ar", "ur"].includes(locale) ? "←" : "→"}</span></a>
       </div>
       <ol className="nx-tool-articles__list">
         {data.items.map((item) => (
