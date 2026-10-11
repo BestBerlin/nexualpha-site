@@ -1,5 +1,6 @@
 // /liquidations — today's crypto liquidations from the market collector feed (see src/data/market-data-pages.js).
 import React from "react";
+import { SectionRule, UtcRuleStamp } from "../shared/DataRule.jsx";
 import { LIQUIDATIONS_PATH, dataPageCopy, formatUsdCompact, formatUsdFull, formatUtc, formatUtcTime, readHistory, readLiquidations } from "../../data/market-data-pages.js";
 import { DataPageHero, DataPageTail, DataUnavailable, textDirection } from "./DataPageFrame.jsx";
 import { LiquidationHistory } from "./LiquidationHistory.jsx";
@@ -45,6 +46,7 @@ export function LiquidationsPage({ locale = "en", initialFeed }) {
 
           {day ? (
             <section className="nxd-split v2-shell" data-rv="1" aria-labelledby="nxd-split-h">
+              <SectionRule stamp={<UtcRuleStamp iso={data.generatedAt} />} dateTime={data.generatedAt} />
               <h2 id="nxd-split-h">{page.split}</h2>
               <div className="nxd-bar" role="img" aria-label={`${page.longs} ${pct(day.longShare)} · ${page.shorts} ${pct(1 - day.longShare)}`} dir="ltr">
                 <span className="nxd-bar__long" style={{ width: `${Math.max(2, Math.min(98, day.longShare * 100))}%` }} />
@@ -59,6 +61,7 @@ export function LiquidationsPage({ locale = "en", initialFeed }) {
 
           {day ? (
             <section className="nxd-two v2-shell" data-rv="1">
+              <SectionRule stamp={day.topSymbols.length || null} />
               <div className="nxd-panel">
                 <h2>{page.topTitle}</h2>
                 {day.topSymbols.length ? (

@@ -2,8 +2,8 @@
 """Full-site browser sweep (QA 2026-10-11): for each URL and width, load in Chromium, scroll through the page, and
 record console errors, page errors, failed requests, horizontal overflow, elements wider than the viewport, images
 with missing alt or broken (naturalWidth 0), tap targets under 40px on mobile, visible overflow-clipped text, and
-layout shift. Writes JSON lines. Usage: qa-browser-sweep.py <urls.txt> <out.jsonl> <widths e.g. 390,1440> [limit]"""
-import asyncio, json, sys, time
+layout shift. Writes JSON lines. URL lists per template x locale: python3 scripts/qa_templates.py <base> all. Usage: qa-browser-sweep.py <urls.txt> <out.jsonl> <widths e.g. 390,1440> [limit]"""
+import asyncio, json, os, sys, time
 from playwright.async_api import async_playwright
 
 urls = [u.strip() for u in open(sys.argv[1]) if u.strip()]
@@ -11,7 +11,7 @@ out = sys.argv[2]
 widths = [int(w) for w in sys.argv[3].split(",")]
 limit = int(sys.argv[4]) if len(sys.argv) > 4 else None
 if limit: urls = urls[:limit]
-ORIGIN = "https://nexualpha.com"
+ORIGIN = os.environ.get("QA_ORIGIN", "https://nexualpha.com")  # set to a local server origin (e.g. http://127.0.0.1:8601) to sweep a build
 PROBE = """() => {
   const vw = innerWidth; const bad = []; let clipped = 0, small = 0, brokenImg = 0, noAlt = 0;
   for (const el of document.querySelectorAll('body *')) {

@@ -167,10 +167,12 @@ export function formatUtcTime(iso) {
   const d = new Date(t), p = (x) => String(x).padStart(2, "0");
   return `${p(d.getUTCHours())}:${p(d.getUTCMinutes())} UTC`;
 }
-export function formatCountdown(ms) {
-  if (!(ms > 0)) return "00:00:00";
+// seconds: false gives hh:mm (the reduced-motion clock ticks once a minute).
+export function formatCountdown(ms, { seconds = true } = {}) {
+  if (!(ms > 0)) return seconds ? "00:00:00" : "00:00";
   const s = Math.floor(ms / 1000);
-  return [Math.floor(s / 3600), Math.floor(s / 60) % 60, s % 60].map((n) => String(n).padStart(2, "0")).join(":");
+  const parts = [Math.floor(s / 3600), Math.floor(s / 60) % 60, s % 60];
+  return (seconds ? parts : parts.slice(0, 2)).map((n) => String(n).padStart(2, "0")).join(":");
 }
 
 const COPY = {

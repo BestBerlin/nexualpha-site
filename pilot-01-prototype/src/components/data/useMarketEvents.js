@@ -18,13 +18,17 @@ export function useMarketEvents(initialFeed) {
   return feed;
 }
 
+export const prefersReducedMotion = () => typeof window !== "undefined" && typeof window.matchMedia === "function"
+  && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 // Second ticker that only runs after mount, so SSR and the first client render agree (no countdown on the server).
+// With prefers-reduced-motion the clock ticks once a minute (countdowns show hh:mm), so no digits change every second.
 export function useClientNow(enabled = true) {
   const [now, setNow] = useState(null);
   useEffect(() => {
     if (!enabled) return undefined;
     setNow(Date.now());
-    const id = setInterval(() => setNow(Date.now()), 1000);
+    const id = setInterval(() => setNow(Date.now()), prefersReducedMotion() ? 60 * 1000 : 1000);
     return () => clearInterval(id);
   }, [enabled]);
   return now;

@@ -3,6 +3,7 @@
 // pages, so invite codes and links are identical and the commission disclosure sits inside the card), the FAQ and the
 // collapsed "Embed this" block (src/components/data/EmbedThisBlock.jsx).
 import React from "react";
+import { SectionRule } from "../shared/DataRule.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
 import { DATA_PAGE_SIGNUP_VENUES, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, MARKET_EVENTS_PATH, dataPageCopy, formatUtc } from "../../data/market-data-pages.js";
 import { NewsTelegramAlerts } from "../v3/news/NewsTelegramAlerts.jsx";
@@ -49,11 +50,13 @@ export function DataPageTail({ locale, page, pathname }) {
     <>
       <div className="v2-shell nxd-alerts" data-rv="1"><NewsTelegramAlerts locale={locale} /></div>
       <section className="nxd-explainer v2-shell" data-rv="1" aria-labelledby="nxd-explainer-h">
+        <SectionRule />
         <h2 id="nxd-explainer-h">{copy.common.explainer}</h2>
         {page.explainer.map((paragraph, i) => <p key={i}>{paragraph}</p>)}
       </section>
       <div className="v2-shell nxd-offer" data-rv="1"><NewsVenueOffer venues={DATA_PAGE_SIGNUP_VENUES} locale={locale} articleSlug={pathname.slice(1)} variant="inline" /></div>
       <section className="nxd-faq v2-shell" data-rv="1" aria-labelledby="nxd-faq-h">
+        <SectionRule stamp={page.faq.length || null} />
         <h2 id="nxd-faq-h">{copy.common.faq}</h2>
         {page.faq.map(([question, answer]) => (
           <article key={question} className="nxd-faq__item">

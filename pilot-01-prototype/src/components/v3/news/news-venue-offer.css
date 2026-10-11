@@ -17,6 +17,9 @@
 .news-offer__code button:hover { background: rgb(255 255 255 / 0.12); }
 .news-offer__go { flex: 1 1 180px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-block-size: 46px; padding: 0 18px; border-radius: 12px; background: var(--o-ac); color: #04130F; font-weight: 700; font-size: 15px; text-decoration: none; white-space: nowrap; transition: background-color .2s, transform .2s; }
 .news-offer__go:hover { background: #4AEBD0; }
+/* V4 contrast: the v6 inner-page link colour (ink on accent, 1.4:1) outranked the button colour on /liquidations and
+   /funding-rates; the offer button keeps its on-accent ink wherever the card is placed. */
+.news-offer .news-offer__go:not(#_):not(#_):not(#_):not(#_), .news-offer .news-offer__go:hover:not(#_):not(#_):not(#_):not(#_) { color: #04130F; }
 .news-offer__go:active { transform: translateY(1px); }
 .news-offer__go:focus-visible, .news-offer__close:focus-visible, .news-offer__code button:focus-visible { outline: 2px solid var(--o-ac); outline-offset: 2px; }
 .news-offer .news-offer__ad { margin: 0; font-size: 11.5px; line-height: 1.45; color: var(--o-ink3); }

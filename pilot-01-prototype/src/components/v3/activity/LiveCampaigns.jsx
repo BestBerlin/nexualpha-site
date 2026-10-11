@@ -3,6 +3,7 @@
 // the official campaign page and that exchange's sign-up with our invite code; the commission disclosure sits with
 // the list. Nothing is invented: no feed, no cards.
 import React, { useEffect, useMemo, useState } from "react";
+import { SectionRule } from "../../shared/DataRule.jsx";
 import { BrandMark } from "../../brand/BrandMark.jsx";
 import { publicCtaForVenue } from "../../../data/source-bound-cta.js";
 import { ownerRebateLine } from "../../../data/owner-rebate-line.js";
@@ -74,6 +75,7 @@ export function LiveCampaigns({ locale = "en", initialFeed }) {
 
   return (
     <section className="live-campaigns" aria-labelledby="live-campaigns-h">
+      <SectionRule />
       <header className="live-campaigns__head">
         <h2 id="live-campaigns-h">{t.h}</h2>
         <p>{t.sub}</p>
