@@ -4,6 +4,8 @@
 // page emits the same @id for the publisher. Facts only: no people, credentials, addresses or awards are listed.
 // To add a public profile (X, GitHub, Medium, LinkedIn), append its URL to BRAND.profiles below; nothing else changes.
 
+import { brandSlogan, sloganSentence } from "./brand-slogan.js";
+
 export const PUBLIC_ORIGIN = "https://nexualpha.com";
 export const ORGANIZATION_ID = `${PUBLIC_ORIGIN}/#organization`;
 export const WEBSITE_ID = `${PUBLIC_ORIGIN}/#website`;
@@ -151,7 +153,9 @@ export function organizationSchema(locale = "en") {
     url: BRAND.url,
     logo: logoImage(),
     image: BRAND.image,
-    description: ORGANIZATION_DESCRIPTION[code] || ORGANIZATION_DESCRIPTION.en,
+    // Owner 2026-10-11: slogan A (src/data/brand-slogan.js) is the Organization slogan and leads its description.
+    slogan: brandSlogan(code),
+    description: organizationDescription(code),
     email: BRAND.email,
     sameAs: [...BRAND_SAME_AS],
     knowsAbout: [...BRAND_KNOWS_ABOUT],
@@ -170,8 +174,10 @@ export function organizationSchema(locale = "en") {
   };
 }
 
+/** Publisher description: slogan A first, then the factual description (Organization, default WebSite description). */
 export function organizationDescription(locale = "en") {
-  return ORGANIZATION_DESCRIPTION[brandLocale(locale)] || ORGANIZATION_DESCRIPTION.en;
+  const code = brandLocale(locale);
+  return `${sloganSentence(brandSlogan(code), code)}${["zh-Hans", "zh-Hant", "ja"].includes(code) ? "" : " "}${ORGANIZATION_DESCRIPTION[code] || ORGANIZATION_DESCRIPTION.en}`;
 }
 
 export function researchDeskDescription(locale = "en") {

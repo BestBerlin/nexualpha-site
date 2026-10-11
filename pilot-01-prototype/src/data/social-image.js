@@ -14,6 +14,7 @@ export function socialImagePathForRoute(pathname, locale = "en") {
   const compare = clean.match(/^\/compare\/([a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2})$/);
   if (compare) return `/og/compare/${compare[1]}.png${suffix}`;
   if (clean === "/liquidations") return `/og/liquidations/24h.png${suffix}`;
-  if (clean === "/funding-rates" || clean === "/rates") return `/og/default/site.png${suffix}`;
+  // Home (owner 2026-10-11): the default card carries slogan A under the wordmark, localized per edition.
+  if (clean === "/" || clean === "/funding-rates" || clean === "/rates") return `/og/default/site.png${suffix}`;
   return null;
 }

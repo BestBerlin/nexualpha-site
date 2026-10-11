@@ -243,7 +243,10 @@ test("route metadata points og:image and twitter:image at the page's card by rou
   assert.equal(missing.status, 404);
   assert.equal(missing.image, undefined, "404 pages keep the brand image");
   const home = await routeMetadata(new URL("https://nexualpha.com/"), {});
-  assert.equal(home.image, undefined, "home keeps the brand image");
+  // Owner 2026-10-11 (brand slogans): the home page uses the default card, which carries slogan A under the wordmark.
+  assert.equal(home.image, "https://nexualpha.com/og/default/site.png", "home uses the slogan card");
+  const homeAr = await routeMetadata(new URL("https://nexualpha.com/ar/"), {});
+  assert.equal(homeAr.image, "https://nexualpha.com/og/default/site.png?locale=ar", "home card follows the edition locale");
   // Generic by route kind, so pages built in parallel branches pick a card up as soon as they return 200.
   assert.equal(applySocialImage({ status: 200 }, "/liquidations", "en").image, "https://nexualpha.com/og/liquidations/24h.png");
   assert.equal(applySocialImage({ status: 200 }, "/funding-rates", "ar").image, "https://nexualpha.com/og/default/site.png?locale=ar");

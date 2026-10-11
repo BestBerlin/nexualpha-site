@@ -4,6 +4,7 @@ import { tokenizedAssetPage, tokenizedAssetLocalized } from "../src/data/tokeniz
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { referralSeoFor } from "../src/data/referral-seo.js";
 import { budgetTitle, clampMetaDescription, metaDescriptionLimit } from "../src/data/meta-description.js";
+import { HOME_SEARCH_COPY } from "../src/data/home-search-copy.js";
 import { inlineMarkdownHtml } from "../src/data/article-inline-markdown.js";
 import { ONCHAIN_GUIDE_LOCALES, ONCHAIN_GUIDE_PATH, onchainGuideSchema, onchainGuideSeo } from "../src/data/onchain-guide.js";
 import { compareSeoOverrideFromDirectAnswer } from "../src/data/compare-direct-answers.js";
@@ -5779,27 +5780,8 @@ function notFoundMetadata(pathname, locale) {
   return { status: 404, title: "Page Not Found — NexuAlpha", description: "The requested page does not exist or is not published.", canonical: localizedCanonical(pathname, locale), locale, robots: "noindex,nofollow", marker: NOT_FOUND_ROUTE_MARKER };
 }
 
-// Owner 2026-10-10 (GSC: 1,770 impressions, 4 clicks, no clicks on commercial pages): the home title and description carry
-// the commercial search intent (referral code / fee rebate, OKX, Bitget, Binance; headline "up to 60%" is owner-confirmed).
-// ja/ko stay informational (no sign-up wording); ru and ar stay neutral, matching the referral-title policy in
-// src/data/referral-seo.js. Titles ≤ 65 characters; descriptions ≤ 160 (80 for zh/ja/ko). Mirror of HOME_SEARCH_COPY in src/data/seo-injection.js.
-const HOME_SEARCH_COPY = {
-  en: ["Crypto Exchange Referral Codes & Fee Rebates (2026) — NexuAlpha", "Compare OKX, Bitget and Binance fees, referral codes and rebates of up to 60% of trading fees, paid by the exchange. Partner links disclosed."],
-  "zh-Hans": ["交易所邀请码与手续费返佣：OKX、Bitget、币安对比 — NexuAlpha", "对比 OKX、Bitget、币安手续费与邀请码，返佣最高 60%，由交易所结算。官方注册入口，合作关系已披露。"],
-  "zh-Hant": ["交易所邀請碼與手續費返傭：OKX、Bitget、幣安比較 — NexuAlpha", "比較 OKX、Bitget、幣安手續費與邀請碼，返傭最高 60%，由交易所結算。官方註冊入口，合作關係已揭露。"],
-  es: ["Códigos de referido y reembolso de comisiones cripto — NexuAlpha", "Compara comisiones, códigos de referido y reembolsos de hasta el 60% en OKX, Bitget y Binance, pagados por el exchange. Enlaces de socio declarados."],
-  "pt-BR": ["Códigos de indicação e cashback de taxas cripto — NexuAlpha", "Compare taxas, códigos de indicação e cashback de até 60% das taxas na OKX, Bitget e Binance, pago pela corretora. Links oficiais; parceria informada."],
-  fr: ["Codes de parrainage et remises sur frais crypto — NexuAlpha", "Comparez frais, codes de parrainage et remises jusqu’à 60 % des frais sur OKX, Bitget et Binance, versées par la plateforme. Liens partenaires signalés."],
-  de: ["Krypto-Empfehlungscodes und Gebührenrabatte — NexuAlpha", "Gebühren, Empfehlungscodes und Rabatte von bis zu 60 % der Gebühren bei OKX, Bitget und Binance vergleichen, gezahlt von der Börse. Partnerlinks offengelegt."],
-  it: ["Codici referral e rimborso commissioni crypto — NexuAlpha", "Confronta commissioni, codici referral e rimborsi fino al 60% delle commissioni su OKX, Bitget e Binance, pagati dall’exchange. Link partner dichiarati."],
-  ja: ["暗号資産取引所の手数料と紹介コード比較（OKX・Bitget・Binance）— NexuAlpha", "OKX・Bitget・Binance の手数料と紹介コードを比較。取引手数料の最大60%が取引所から還元されます。提携関係を開示。"],
-  ko: ["암호화폐 거래소 수수료·추천코드 비교 (OKX·Bitget·Binance) — NexuAlpha", "OKX, Bitget, Binance 수수료와 추천코드를 비교합니다. 거래 수수료 최대 60%를 거래소가 돌려줍니다. 제휴 관계 공개."],
-  ru: ["Комиссии криптобирж: сравнение OKX, Bitget и Binance — NexuAlpha", "Сравнение комиссий OKX, Bitget и Binance по официальным тарифам: спот, фьючерсы, условия аккаунта и официальные ссылки. Партнёрские ссылки раскрыты."],
-  tr: ["Kripto borsası komisyon iadesi ve referans kodu — NexuAlpha", "OKX, Binance ve diğer borsaların komisyonlarını, referans kodlarını ve borsanın ödediği komisyon iadesini karşılaştırın. Ortaklık bağlantıları belirtilir."],
-  id: ["Kode referral dan rabat biaya exchange kripto — NexuAlpha", "Bandingkan biaya, kode referral, dan rabat hingga 60% biaya trading di OKX, Bitget, dan Binance, dibayar oleh exchange. Tautan resmi; kemitraan diungkapkan."],
-  vi: ["Mã giới thiệu và hoàn phí sàn giao dịch crypto — NexuAlpha", "So sánh phí, mã giới thiệu và hoàn phí đến 60% phí giao dịch tại OKX, Bitget và Binance, do sàn chi trả. Liên kết chính thức; có công bố quan hệ đối tác."],
-  ar: ["رسوم منصات العملات الرقمية: OKX وBitget وBinance — NexuAlpha", "مقارنة رسوم OKX وBitget وBinance وفق الجداول الرسمية: التداول الفوري والعقود وشروط الحساب وروابط التسجيل الرسمية. روابط الشراكة مُفصح عنها."],
-};
+// Home title/description (owner 2026-10-10 search intent + 2026-10-11 brand slogans): one table shared with the
+// Worker head and /api/route-seo, built in src/data/home-search-copy.js from src/data/brand-slogan.js.
 
 // Served meta descriptions share the snippet budget with computeRouteSeo (src/data/meta-description.js).
 export { clampMetaDescription, metaDescriptionLimit };

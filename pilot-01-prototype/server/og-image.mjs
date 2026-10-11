@@ -18,6 +18,7 @@ import { localizedNewsTitle } from "../src/data/news-feed-client.js";
 import { newsCategoryCopy } from "../src/data/news-library.js";
 import { FACTS_AS_OF, factsForVenue, feeDisplay, venueCheckedOn } from "../src/data/exchange-facts.js";
 import { partnerRebateShare } from "../src/data/partner-benefit-status.js";
+import { brandSlogan } from "../src/data/brand-slogan.js";
 export { socialImagePathForRoute } from "../src/data/social-image.js";
 
 export const OG_WIDTH = 1200;
@@ -273,9 +274,11 @@ ${textEl(locale, 72, 492, 30, largest, { weight: 600 })}
 ${textEl(locale, 72, OG_HEIGHT - 104, 20, fill(l.lowerBound, { time: ltrIsolate(time, locale) }), { color: COLOR.muted })}`);
 }
 
+// Default / home card (owner 2026-10-11): slogan A (src/data/brand-slogan.js) is the headline under the wordmark; the
+// footer line keeps the research tagline. News, venue, compare and liquidation cards are unchanged.
 export function defaultCardSvg({ locale = "en" }) {
   const l = labelsFor(locale);
-  return svgDocument(locale, `${frame(locale, { kicker: l.research })}\n${titleBlock(locale, l.tagline, { size: 56 })}`);
+  return svgDocument(locale, `${frame(locale, { kicker: l.research })}\n${titleBlock(locale, brandSlogan(locale), { size: 60 })}`);
 }
 
 // ---------- data: same sources the pages use ----------
@@ -452,7 +455,7 @@ export function createOgImageRoute({ clientRoot, buildId = "dev", cacheDir = nul
     }
     if (kind === "default") {
       if (id !== "site") return null;
-      return { svg: defaultCardSvg({ locale }), cacheKey: "site", cacheControl: CACHE_CONTROL, persist: true };
+      return { svg: defaultCardSvg({ locale }), cacheKey: "site-slogan-v1", cacheControl: CACHE_CONTROL, persist: true };
     }
     return null;
   }
