@@ -1,4 +1,4 @@
-# NexuAlpha scorecard (target ≥ 90 / 100, set 2026-10-11)
+# NexuAlpha scorecard (target ≥ 95 / 100; raised from 90 by the owner 2026-10-11)
 
 Each module is scored from measurable criteria only. A criterion counts when its evidence (command, file or live URL)
 is recorded here with a date. Weighted total = Σ(module score × weight). Baseline 2026-10-11 = 68.
@@ -34,22 +34,22 @@ is recorded here with a date. Weighted total = Σ(module score × weight). Basel
 - C1 ≥ 80% of the last 7 days' articles are hot-news topics (ledger `type`).
 - C2 12 articles/day for 5 consecutive days without a missed run.
 - C3 ≥ 1 article/day uses NexuAlpha's own data (liquidations, funding, flows) as the original angle.
-- C4 0 raw-markdown links, 0 dangling descriptions, 0 local-path links across the feed (sweep).
-- C5 Topic clusters: each top-20 query family has one main page and internal links from its articles.
+- C4 0 raw-markdown links, 0 dangling descriptions, 0 local-path links across the feed (sweep). ✅ 2026-10-11 live feed 627 articles: 0 in all six classes (`scripts/qa-content-sweep.mjs`); 7 articles repaired, backup /data/backups/nexualpha/news-feed-pre-repair-20261011.tgz
+- C5 Topic clusters: each top-20 query family has one main page and internal links from its articles. ✅ 2026-10-11 (PR #76, docs/company/topic-clusters.md; live `qa-crosslinks.mjs` failures 0). Gap: meme-coins family has 0 articles
 
 ### Data & tools
 - D1 Liquidation history ≥ 30 days and chart live.
 - D2 Funding page shows ≥ 20 symbols with < 10 min staleness for 7 days (collector log).
 - D3 Embed widget used on ≥ 1 external site OR in ≥ 3 published articles.
-- D4 Every tool page links to the related articles and vice versa (crawl check).
+- D4 Every tool page links to the related articles and vice versa (crawl check). ✅ 2026-10-11 live: 5 tools × 15 locales ≥ 3 article links; 195/195 relevant articles link back
 - D5 Calculator, compare, rates share one state model (URL params round trip test). ✅ partial 2026-10-11
 
 ### Multilingual
-- M1 0 identical-to-English UI segments on 252 locale pages except data (l10n.py).
+- M1 0 identical-to-English UI segments on 252 locale pages except data (l10n.py). ✅ 2026-10-11 (PR #76: 278 → 0 UI segments, `scripts/qa-l10n-gaps.mjs`); 110 venue research notes still English (data, separate job)
 - M2 ≥ 3 native localized articles/day across the rotation; tr, vi, id each ≥ 10 by 2026-10-25.
 - M3 Every non-English locale news index index,follow with ≥ 5 native articles.
 - M4 Native-review queue for ar/vi/id/ru strings tracked and cleared (owner or reviewer).
-- M5 Locale-specific landing for tr, vi, id (local exchanges, payment rails, regulator) live.
+- M5 Locale-specific landing for tr, vi, id (local exchanges, payment rails, regulator) live. ◐ built and sourced (PR #76), switched off (`LOCAL_MARKET_BRIEF_ENABLED=false`) pending owner decision: TR brief states Bitget Teknoloji AŞ is on the SPK liquidation list
 
 ### Telegram ecosystem
 - G1 Per-language channels zh/en/ru/tr/vi live with the channel-feed and alerts posting. ◐ 2026-10-11: channels created (@NexuAlphaRU public; TR -1003789577571 and VN -1004303684624 private for now), bot admin with post rights in all 5 (getChatMember), ALERT_CHANNELS + CHANNEL_FEED_TARGETS live. Passes when the first ru/tr/vi post lands (21:00 digest).
