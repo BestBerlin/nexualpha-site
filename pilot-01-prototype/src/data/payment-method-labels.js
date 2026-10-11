@@ -91,7 +91,7 @@ const LABELS = {
     // l10n: needs native review
     ur: "تیسرے فریق کی ادائیگی",
     // l10n: needs native review
-    uk: "Оплата через третю сторону",
+    uk: "Оплата через сторонні сервіси",
     "zh-Hans": "第三方支付", "zh-Hant": "第三方支付", ja: "第三者決済", ko: "제3자 결제", es: "Pago con terceros", "pt-BR": "Pagamento por terceiros",
     fr: "Paiement par un tiers", de: "Drittanbieter-Zahlung", it: "Pagamento tramite terzi", ru: "Сторонние платёжные сервисы",
     tr: "Üçüncü taraf ödeme", id: "Pembayaran pihak ketiga", vi: "Thanh toán bên thứ ba", ar: "دفع عبر طرف ثالث",

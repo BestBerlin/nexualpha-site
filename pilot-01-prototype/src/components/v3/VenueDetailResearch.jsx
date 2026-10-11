@@ -608,12 +608,12 @@ function VenueProofOfReserves({ venue, locale, db, officialDomain, localizedVenu
   const securityFund = db.securityFund || (isCex
     ? (isZh ? zhText(locale, "平台安全风险储备基金 ($1.0B+ SAFU 架构)", "平台安全風險儲備基金 ($1.0B+ SAFU 架構)") : ({ ja: "$1B+ SAFU / セキュリティ準備金", ko: "$1B+ SAFU / 보안 준비금", tr: "$1B+ SAFU / Güvenlik rezervi", fr: "$1B+ SAFU / réserve de sécurité", de: "$1B+ SAFU / Sicherheitsreserve", es: "$1B+ SAFU / fondo de reserva", "pt-BR": "$1B+ SAFU / reserva de segurança", ru: "$1B+ SAFU / резерв безопасности", ar: "$1B+ SAFU / احتياطي أمان", id: "$1B+ SAFU / dana cadangan keamanan", vi: "$1B+ SAFU / quỹ dự phòng an toàn", it: "$1B+ SAFU / fondo di sicurezza",
     // l10n: needs native review
-    ur: "$1B+ SAFU / security reserve",
+    ur: "$1B+ SAFU / سیکیورٹی ریزرو",
     // l10n: needs native review
     uk: "$1B+ SAFU / резерв безпеки" }[localeKey(locale)] || "$1B+ SAFU / Security Reserve Fund"))
     : (isZh ? zhText(locale, "协议安全审计 & 链上金库", "協議安全稽核 & 鏈上金庫") : ({ ja: "プロトコル監査済みオンチェーン金庫", ko: "프로토콜 감사 온체인 금고", tr: "Denetlenmiş protokol zincir üstü hazine", fr: "Trésorerie on-chain auditée", de: "Aufgezeichnete On-Chain-Protokollreserve", es: "Tesorería on-chain auditada", "pt-BR": "Tesouraria on-chain auditada", ru: "Аудированное ончейн-хранилище протокола", ar: "خزانة بروتوكول مدققة على السلسلة", id: "Perbendaharaan protokol on-chain teraudit", vi: "Kho bạc giao thức on-chain đã kiểm toán", it: "Tesoreria on-chain verificata",
     // l10n: needs native review
-    ur: "Audited protocol on-chain treasury",
+    ur: "آڈٹ شدہ آن چین پروٹوکول خزانہ",
     // l10n: needs native review
     uk: "Аудитована on-chain скарбниця протоколу" }[localeKey(locale)] || "Protocol Audited Treasury")));
   const porVerified = Boolean(db.porVerifiedAt && db.porAuditUrl);
@@ -832,9 +832,9 @@ function VenueAntiPhishingSecurity({ venue, locale, db, partner, officialDomain,
               de: "Offizielles Prüfwerkzeug öffnen ↗", ar: "فتح أداة التحقق الرسمية ↗", ru: "Открыть официальный проверщик ↗",
               id: "Buka verifikator resmi ↗", vi: "Mở công cụ xác minh chính thức ↗", it: "Apri verificatore ufficiale ↗",
               // l10n: needs native review
-              ur: "سرکاری verifier کھولیں ↗",
+              ur: "سرکاری تصدیق کنندہ کھولیں ↗",
               // l10n: needs native review
-              uk: "Відкрити офіційний verifier ↗"
+              uk: "Відкрити офіційний верифікатор ↗"
             }[locale] || "Open Official Verifier ↗")}
           </a>
         </div>

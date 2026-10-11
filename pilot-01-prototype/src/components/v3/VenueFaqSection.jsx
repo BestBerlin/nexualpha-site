@@ -281,9 +281,9 @@ function getVenueFaqs(venue, profile, locale, db, partner, market) {
         vi: `Xác minh phí spot và futures của ${name} ở đâu?`,
         it: `Dove verificare le commissioni spot e futures di ${name}?`,
         // l10n: needs native review
-        ur: `${name} کی spot اور futures فیس کہاں verify کریں؟`,
+        ur: `${name} کی spot اور futures فیس کہاں تصدیق کریں؟`,
         // l10n: needs native review
-        uk: `Де перевірити spot і futures комісії ${name}?`,
+        uk: `Де перевірити спотові та ф’ючерсні комісії ${name}?`,
       }[localeKey(locale)] || `What are ${name}'s spot & futures fees? Where can I verify user fee benefits via NexuAlpha?`),
       a: (
         <>

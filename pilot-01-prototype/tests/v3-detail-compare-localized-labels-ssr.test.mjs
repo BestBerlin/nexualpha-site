@@ -29,7 +29,7 @@ const expectedCodeLabel = {
 };
 
 const expectedOfficialFlow = {
-  ur: "سرکاری فلو میں تصدیق کریں",
+  ur: "سرکاری عمل میں تصدیق کریں", // native review 2026-10-12 (Gemini): "flow" → "عمل"
   uk: "Перевірити в офіційному процесі",
   "zh-Hans": "官方流程核验",
   "zh-Hant": "官方流程核驗",

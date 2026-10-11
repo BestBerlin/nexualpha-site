@@ -69,7 +69,7 @@ const HOME_FACTS = Object.freeze({
 
   // l10n: needs native review
   ur: "OKX، Bitget اور Binance کی فیس سرکاری جدولوں کے مطابق موازنہ کریں۔ پارٹنر لنکس ظاہر کیے گئے ہیں۔", // l10n: needs native review
-  uk: "Порівнюйте комісії OKX, Bitget і Binance за офіційними таблицями. Партнерські посилання розкриті.", // l10n: needs native review
+  uk: "Порівнюйте комісії OKX, Bitget і Binance за офіційними таблицями. Партнерські посилання вказані.", // l10n: needs native review
 });
 
 const CJK_JOIN = new Set(["zh-Hans", "zh-Hant", "ja"]);

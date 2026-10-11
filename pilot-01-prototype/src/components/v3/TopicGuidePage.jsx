@@ -2755,7 +2755,7 @@ export function TopicGuidePage({ slug = "meme-coins", locale = "en", market, pro
     de: "Vollständigen Benchmark lesen →", ru: "Открыть полный обзор →", ar: "اقرأ المقارنة الكاملة ←",
     id: "Baca benchmark lengkap →", vi: "Đọc benchmark đầy đủ →", it: "Leggi il benchmark completo →",
     // l10n: needs native review
-    ur: "مکمل معیار پڑھیں →",
+    ur: "مکمل بینچ مارک پڑھیں →",
     // l10n: needs native review
     uk: "Читати повний бенчмарк →",
   }[String(locale || "").split("-")[0] === "pt" ? "pt-BR" : String(locale || "").split("-")[0]] || "Read Full Benchmark →";

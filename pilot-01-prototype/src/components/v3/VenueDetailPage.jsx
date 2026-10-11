@@ -77,7 +77,7 @@ const officialFlowLabelByLocale = {
   ko: "공식 절차에서 확인",
   ar: "تحقق داخل المسار الرسمي",
   // l10n: needs native review
-  ur: "سرکاری فلو میں تصدیق کریں",
+  ur: "سرکاری عمل میں تصدیق کریں",
   // l10n: needs native review
   uk: "Перевірити в офіційному процесі",
   tr: "Resmî akışta doğrula",

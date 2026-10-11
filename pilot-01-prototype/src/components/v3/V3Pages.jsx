@@ -1515,9 +1515,9 @@ function HardcoreMetricMatrix({ profiles, locale, market, product, accountStage,
     vi: "So sánh phí có nguồn, dự trữ, KYC, giới hạn sản phẩm và trạng thái ưu đãi; mục chưa xác minh vẫn chờ kiểm tra.",
     it: "Confronta commissioni con fonte, riserve, KYC, limiti prodotto e vantaggi; gli elementi non verificati restano in attesa.",
     // l10n: needs native review
-    ur: "ماخذ والی فیس، ذخائر، KYC، پروڈکٹ حدیں اور صارف فائدہ حالت کا موازنہ کریں؛ غیر تصدیق شدہ چیزیں زیر التوا رہتی ہیں۔",
+    ur: "ماخذ سے منسلک فیس کے شیڈول، ذخائر کے انکشافات، KYC، پروڈکٹ کی حدود اور صارف کے فوائد کی حیثیت کا موازنہ کریں؛ غیر تصدیق شدہ معلومات زیر التوا رہتی ہیں۔",
     // l10n: needs native review
-    uk: "Порівнюйте комісії з джерелами, резерви, KYC, продуктові ліміти й статус умов для користувача; неперевірені пункти залишаються очікуваними.",
+    uk: "Порівнюйте комісії з джерелами, розкриття резервів, KYC, продуктові ліміти й статус умов для користувача; усе неперевірене позначається як «ще не перевірено».",
   };
   const matrixLeadCopy = matrixLeadByLocale[locale] || matrixLeadByLocale[localeKey(locale)] || matrixLeadByLocale.en;
   const matrixTitleCopy = locale === "zh-Hant"
