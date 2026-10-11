@@ -83,7 +83,7 @@ export const STYLESHEET_LINK_ORDER = Object.freeze([
   "route-v3-registration", "route-kol", "route-v3-wizard", "route-v3-calculators", "shared-decision-return", "route-v3-home",
   "route-factbook", "shared-decision-rail", "route-embed", "route-rates", "route-v3-social-proof", "route-market",
   "route-methodology", "route-onchain", "route-partners", "route-topic-guide", "route-v3-decision-articles", "route-activity",
-  "route-v3-research-panels", "route-v3-readiness", "route-v3-pages-strip", "route-v3-pages", "route-news-shared",
+  "route-v3-research-panels", "route-v3-readiness", "route-v3-pages-strip", "route-v3-pages", "route-v3-pages-directory", "route-news-shared",
   "route-telegram", "route-tokenized-assets", "route-international", "route-data",
   "page-home-early", "index", "page-home-mid1", "page-compare-mid1", "page-profile-mid1", "core-b", "page-home-mid2",
   "page-directory-mid2", "page-detail-mid2", "core-c", "page-home-late", "page-br-late", "page-rates-late",
@@ -244,7 +244,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/content/v3-interface-copy.js")) return "data-v3-interface-copy";
           if (id.includes("/src/components/v3/venue-yellow-pages-copy.js")) return "route-v3-pages-copy";
           if (id.includes("/src/components/v3/venue-yellow-pages-state.js")) return "route-v3-pages-state";
-          if (id.endsWith("/src/components/v3/venue-yellow-pages.css")) return "route-v3-pages";
+          // The directory stylesheet used to live inside the V3 page chunk, which made the directory statically import
+          // the whole route-v3-pages graph (QA 2026-10-11: /exchanges loaded 1 MB after idle). Own CSS-only chunk;
+          // the "route-v3-pages-" prefix keeps the Worker's per-route stylesheet allow-list unchanged.
+          if (id.endsWith("/src/components/v3/venue-yellow-pages.css")) return "route-v3-pages-directory";
           if (id.includes("/src/components/v3/VenueYellowPages")) return "route-v3-directory";
           if (id.includes("/src/components/v3/V3Pages")) return "route-v3-pages";
           return undefined;
