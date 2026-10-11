@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { sectionEyebrowAttrs } from "../../../data/section-eyebrow.js";
 import { TelegramAlertsStrip } from "../TelegramAlertsStrip.jsx";
 import { newsIndexSearchCopy } from "../../../data/news-index-search.js";
+import { newsListHeroCopy } from "../../../data/news-list-copy.js";
 import { NEWS_CATEGORY_KEYS, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, searchNewsArticles } from "../../../data/news-library.js";
 import { venueDatabase } from "../../../data/venue-database.js";
 import { exchangeUrl, hasLocalizedNewsText, loadNewsArticleSummaries, loadNewsLibraryPage, localizedNewsSummary, localizedNewsTitle, localizedValue, newsArticleUrl, normalizeNewsFeedSummaries } from "../../../data/news-feed-client.js";
@@ -19,9 +20,6 @@ const NEWS_BATCH_SIZE = 4;
 
 const copy = {
   "zh-Hans": {
-    eyebrow: "市场观察与研究",
-    title: "新闻与研究",
-    subtitle: "通过附有官方来源的分析，了解平台选择、交易成本与政策变化。",
     all: "全部文章",
     research: "深度研报",
     rates: "费率变动",
@@ -42,9 +40,6 @@ const copy = {
     showFewer: "收起文章",
   },
   "zh-Hant": {
-    eyebrow: "市場觀察與研究",
-    title: "新聞與研究",
-    subtitle: "透過附有官方來源的分析，了解平台選擇、交易成本與政策變化。",
     all: "全部文章",
     research: "深度研報",
     rates: "費率變動",
@@ -65,9 +60,6 @@ const copy = {
     showFewer: "收起文章",
   },
   en: {
-    eyebrow: "Market news & research",
-    title: "News & Research",
-    subtitle: "Explore platform choices, trading costs and policy changes through analysis linked to official sources.",
     all: "All Articles",
     research: "Deep Research",
     rates: "Fee Rates",
@@ -90,18 +82,18 @@ const copy = {
     researchIndexBody: "Browse the reviewed archive by article.",
   },
 };
-copy.ja = { ...copy.en, eyebrow:"市場ニュースとリサーチ", title: "ニュースとリサーチ", subtitle: "公式資料に基づく分析で、プラットフォーム選び、取引コスト、政策の変化を確認できます。", all: "すべての記事", research: "深掘り調査", rates: "手数料変更", compliance: "規制情報", readArticle: "記事を読む →", compareVenues: "掲載サービスを比較 →", readTime: "読了時間", verifiedSource: "公式出典を確認", partnerOffer: "関連プラットフォーム", originalLanguageNotice: "この記事は英語原文です。翻訳版は確認後に追加します。", openRegister: "公式サイトを見る ↗", emptyTitle: "公開中の記事はありません", loadingTitle: "確認済み記事を読み込み中…", showMore: "記事をもっと見る", showFewer: "記事を折りたたむ", researchDesk: "NexuAlpha調査デスク" };
-copy.ko = { ...copy.en, eyebrow:"시장 뉴스와 리서치", title: "뉴스와 리서치", subtitle: "공식 출처를 바탕으로 한 분석으로 플랫폼 선택, 거래 비용, 정책 변화를 살펴보세요.", all: "전체 기사", research: "심층 리서치", rates: "수수료 변경", compliance: "규제 동향", readArticle: "기사 읽기 →", compareVenues: "언급된 플랫폼 비교 →", readTime: "읽는 시간", verifiedSource: "공식 출처 확인", openRegister: "공식 사이트 보기 ↗", emptyTitle: "공개된 기사가 없습니다", loadingTitle: "검토된 기사 로드 중…", showMore: "더 많은 기사 보기", showFewer: "기사 접기" };
-copy.tr = { ...copy.en, eyebrow:"Piyasa haberleri ve araştırma", title: "Haberler ve araştırma", subtitle: "Resmî kaynaklara dayanan analizlerle platform seçimini, işlem maliyetlerini ve politika değişikliklerini inceleyin.", all: "Tüm yazılar", research: "Derin araştırma", rates: "Ücret değişiklikleri", compliance: "Mevzuat", readArticle: "Makaleyi oku →", compareVenues: "Bahsedilen platformları karşılaştır →", readTime: "Okuma süresi", verifiedSource: "Resmi kaynak doğrulandı", openRegister: "Resmi siteyi aç ↗", emptyTitle: "Yayınlanmış makale yok", loadingTitle: "İncelenmiş makaleler yükleniyor…", showMore: "Daha fazla makale", showFewer: "Daha az göster" };
-copy["pt-BR"] = { ...copy.en, eyebrow:"Notícias de mercado e pesquisa", title:"Notícias e pesquisa", subtitle:"Entenda a escolha de plataformas, os custos de negociação e as mudanças regulatórias com análises baseadas em fontes oficiais.", all:"Todos os artigos", research:"Pesquisa aprofundada", rates:"Alterações de taxas", compliance:"Conformidade", readArticle:"Ler artigo →", compareVenues:"Comparar plataformas citadas →", readTime:"Tempo de leitura", verifiedSource:"Fonte oficial verificada", openRegister:"Abrir site oficial ↗", emptyTitle:"Ainda não há artigos revisados", loadingTitle:"Carregando artigos revisados…", showMore:"Ver mais artigos", showFewer:"Recolher artigos" };
-copy.es = { ...copy.en, eyebrow:"Noticias de mercado e investigación", title:"Noticias e investigación", subtitle:"Explora la elección de plataformas, los costes de negociación y los cambios normativos con análisis vinculados a fuentes oficiales.", all:"Todos los artículos", research:"Investigación profunda", rates:"Cambios de tarifas", compliance:"Cumplimiento", readArticle:"Leer artículo →", compareVenues:"Comparar plataformas mencionadas →", readTime:"Tiempo de lectura", verifiedSource:"Fuente oficial verificada", openRegister:"Abrir sitio oficial ↗", emptyTitle:"Aún no hay artículos revisados", loadingTitle:"Cargando artículos revisados…", showMore:"Ver más artículos", showFewer:"Mostrar menos" };
-copy.fr = { ...copy.en, eyebrow:"Actualités du marché et recherche", title:"Actualités et recherche", subtitle:"Consultez des analyses fondées sur des sources officielles pour choisir une plateforme et comprendre les frais et les évolutions réglementaires.", all:"Tous les articles", research:"Recherche approfondie", rates:"Évolution des frais", compliance:"Conformité", readArticle:"Lire l'article →", compareVenues:"Comparer les plateformes citées →", readTime:"Temps de lecture", verifiedSource:"Source officielle vérifiée", openRegister:"Ouvrir le site officiel ↗", emptyTitle:"Aucun article vérifié pour le moment", loadingTitle:"Chargement des articles vérifiés…", showMore:"Voir plus d'articles", showFewer:"Réduire les articles" };
-copy.de = { ...copy.en, eyebrow:"Marktnachrichten und Research", title:"Nachrichten und Research", subtitle:"Analysen mit offiziellen Quellen helfen bei der Plattformwahl und beim Verständnis von Handelskosten und regulatorischen Änderungen.", all:"Alle Artikel", research:"Tiefenrecherche", rates:"Gebührenänderungen", compliance:"Compliance", readArticle:"Artikel lesen →", compareVenues:"Genannte Plattformen vergleichen →", readTime:"Lesezeit", verifiedSource:"Offizielle Quelle geprüft", openRegister:"Offizielle Website öffnen ↗", emptyTitle:"Noch keine geprüften Artikel", loadingTitle:"Geprüfte Artikel werden geladen…", showMore:"Mehr Artikel anzeigen", showFewer:"Artikel einklappen" };
-copy.ru = { ...copy.en, eyebrow:"Новости рынка и исследования", title:"Новости и исследования", subtitle:"Изучайте выбор платформ, торговые издержки и изменения регулирования с помощью анализа на основе официальных источников.", all:"Все статьи", research:"Глубокое исследование", rates:"Изменения комиссий", compliance:"Регулирование", readArticle:"Читать статью →", compareVenues:"Сравнить упомянутые площадки →", readTime:"Время чтения", verifiedSource:"Официальный источник проверен", openRegister:"Открыть официальный сайт ↗", emptyTitle:"Проверенных статей пока нет", loadingTitle:"Загрузка проверенных статей…", showMore:"Показать ещё статьи", showFewer:"Свернуть статьи" };
-copy.ar = { ...copy.en, eyebrow:"أخبار السوق والأبحاث", title:"الأخبار والأبحاث", subtitle:"اطّلع على تحليلات تستند إلى مصادر رسمية لفهم اختيار المنصات وتكاليف التداول والتغييرات التنظيمية.", all:"كل المقالات", research:"بحث معمق", rates:"تغييرات الرسوم", compliance:"الامتثال", readArticle:"قراءة المقال →", compareVenues:"مقارنة المنصات المذكورة →", readTime:"وقت القراءة", verifiedSource:"مصدر رسمي متحقق", openRegister:"فتح الموقع الرسمي ↗", emptyTitle:"لا توجد مقالات مراجعة بعد", loadingTitle:"جارٍ تحميل المقالات المراجعة…", showMore:"عرض المزيد", showFewer:"طي المقالات" };
-copy.id = { ...copy.en, eyebrow:"Berita pasar dan riset", title:"Berita dan riset", subtitle:"Pelajari pilihan platform, biaya perdagangan, dan perubahan kebijakan melalui analisis yang merujuk pada sumber resmi.", all:"Semua artikel", research:"Riset mendalam", rates:"Perubahan biaya", compliance:"Kepatuhan", readArticle:"Baca artikel →", compareVenues:"Bandingkan platform yang disebut →", readTime:"Waktu baca", verifiedSource:"Sumber resmi terverifikasi", openRegister:"Buka situs resmi ↗", emptyTitle:"Belum ada artikel yang ditinjau", loadingTitle:"Memuat artikel yang ditinjau…", showMore:"Tampilkan artikel lainnya", showFewer:"Ringkas artikel" };
-copy.vi = { ...copy.en, eyebrow:"Tin thị trường và nghiên cứu", title:"Tin tức và nghiên cứu", subtitle:"Tìm hiểu cách chọn nền tảng, chi phí giao dịch và thay đổi chính sách qua các phân tích dựa trên nguồn chính thức.", all:"Tất cả bài viết", research:"Nghiên cứu chuyên sâu", rates:"Thay đổi phí", compliance:"Tuân thủ", readArticle:"Đọc bài →", compareVenues:"So sánh nền tảng được đề cập →", readTime:"Thời gian đọc", verifiedSource:"Đã xác minh nguồn chính thức", openRegister:"Mở trang chính thức ↗", emptyTitle:"Chưa có bài viết được duyệt", loadingTitle:"Đang tải bài viết đã duyệt…", showMore:"Xem thêm bài viết", showFewer:"Thu gọn bài viết" };
-copy.it = { ...copy.en, eyebrow:"Notizie di mercato e ricerca", title:"Notizie e ricerca", subtitle:"Approfondisci la scelta delle piattaforme, i costi di negoziazione e i cambiamenti normativi con analisi basate su fonti ufficiali.", all:"Tutti gli articoli", research:"Ricerca approfondita", rates:"Variazioni delle commissioni", compliance:"Conformità", readArticle:"Leggi l'articolo →", compareVenues:"Confronta le piattaforme citate →", readTime:"Tempo di lettura", verifiedSource:"Fonte ufficiale verificata", openRegister:"Apri il sito ufficiale ↗", emptyTitle:"Nessun articolo verificato", loadingTitle:"Caricamento degli articoli verificati…", showMore:"Mostra altri articoli", showFewer:"Riduci articoli" };
+copy.ja = { ...copy.en, all: "すべての記事", research: "深掘り調査", rates: "手数料変更", compliance: "規制情報", readArticle: "記事を読む →", compareVenues: "掲載サービスを比較 →", readTime: "読了時間", verifiedSource: "公式出典を確認", partnerOffer: "関連プラットフォーム", originalLanguageNotice: "この記事は英語原文です。翻訳版は確認後に追加します。", openRegister: "公式サイトを見る ↗", emptyTitle: "公開中の記事はありません", loadingTitle: "確認済み記事を読み込み中…", showMore: "記事をもっと見る", showFewer: "記事を折りたたむ", researchDesk: "NexuAlpha調査デスク" };
+copy.ko = { ...copy.en, all: "전체 기사", research: "심층 리서치", rates: "수수료 변경", compliance: "규제 동향", readArticle: "기사 읽기 →", compareVenues: "언급된 플랫폼 비교 →", readTime: "읽는 시간", verifiedSource: "공식 출처 확인", openRegister: "공식 사이트 보기 ↗", emptyTitle: "공개된 기사가 없습니다", loadingTitle: "검토된 기사 로드 중…", showMore: "더 많은 기사 보기", showFewer: "기사 접기" };
+copy.tr = { ...copy.en, all: "Tüm yazılar", research: "Derin araştırma", rates: "Ücret değişiklikleri", compliance: "Mevzuat", readArticle: "Makaleyi oku →", compareVenues: "Bahsedilen platformları karşılaştır →", readTime: "Okuma süresi", verifiedSource: "Resmi kaynak doğrulandı", openRegister: "Resmi siteyi aç ↗", emptyTitle: "Yayınlanmış makale yok", loadingTitle: "İncelenmiş makaleler yükleniyor…", showMore: "Daha fazla makale", showFewer: "Daha az göster" };
+copy["pt-BR"] = { ...copy.en, all:"Todos os artigos", research:"Pesquisa aprofundada", rates:"Alterações de taxas", compliance:"Conformidade", readArticle:"Ler artigo →", compareVenues:"Comparar plataformas citadas →", readTime:"Tempo de leitura", verifiedSource:"Fonte oficial verificada", openRegister:"Abrir site oficial ↗", emptyTitle:"Ainda não há artigos revisados", loadingTitle:"Carregando artigos revisados…", showMore:"Ver mais artigos", showFewer:"Recolher artigos" };
+copy.es = { ...copy.en, all:"Todos los artículos", research:"Investigación profunda", rates:"Cambios de tarifas", compliance:"Cumplimiento", readArticle:"Leer artículo →", compareVenues:"Comparar plataformas mencionadas →", readTime:"Tiempo de lectura", verifiedSource:"Fuente oficial verificada", openRegister:"Abrir sitio oficial ↗", emptyTitle:"Aún no hay artículos revisados", loadingTitle:"Cargando artículos revisados…", showMore:"Ver más artículos", showFewer:"Mostrar menos" };
+copy.fr = { ...copy.en, all:"Tous les articles", research:"Recherche approfondie", rates:"Évolution des frais", compliance:"Conformité", readArticle:"Lire l'article →", compareVenues:"Comparer les plateformes citées →", readTime:"Temps de lecture", verifiedSource:"Source officielle vérifiée", openRegister:"Ouvrir le site officiel ↗", emptyTitle:"Aucun article vérifié pour le moment", loadingTitle:"Chargement des articles vérifiés…", showMore:"Voir plus d'articles", showFewer:"Réduire les articles" };
+copy.de = { ...copy.en, all:"Alle Artikel", research:"Tiefenrecherche", rates:"Gebührenänderungen", compliance:"Compliance", readArticle:"Artikel lesen →", compareVenues:"Genannte Plattformen vergleichen →", readTime:"Lesezeit", verifiedSource:"Offizielle Quelle geprüft", openRegister:"Offizielle Website öffnen ↗", emptyTitle:"Noch keine geprüften Artikel", loadingTitle:"Geprüfte Artikel werden geladen…", showMore:"Mehr Artikel anzeigen", showFewer:"Artikel einklappen" };
+copy.ru = { ...copy.en, all:"Все статьи", research:"Глубокое исследование", rates:"Изменения комиссий", compliance:"Регулирование", readArticle:"Читать статью →", compareVenues:"Сравнить упомянутые площадки →", readTime:"Время чтения", verifiedSource:"Официальный источник проверен", openRegister:"Открыть официальный сайт ↗", emptyTitle:"Проверенных статей пока нет", loadingTitle:"Загрузка проверенных статей…", showMore:"Показать ещё статьи", showFewer:"Свернуть статьи" };
+copy.ar = { ...copy.en, all:"كل المقالات", research:"بحث معمق", rates:"تغييرات الرسوم", compliance:"الامتثال", readArticle:"قراءة المقال →", compareVenues:"مقارنة المنصات المذكورة →", readTime:"وقت القراءة", verifiedSource:"مصدر رسمي متحقق", openRegister:"فتح الموقع الرسمي ↗", emptyTitle:"لا توجد مقالات مراجعة بعد", loadingTitle:"جارٍ تحميل المقالات المراجعة…", showMore:"عرض المزيد", showFewer:"طي المقالات" };
+copy.id = { ...copy.en, all:"Semua artikel", research:"Riset mendalam", rates:"Perubahan biaya", compliance:"Kepatuhan", readArticle:"Baca artikel →", compareVenues:"Bandingkan platform yang disebut →", readTime:"Waktu baca", verifiedSource:"Sumber resmi terverifikasi", openRegister:"Buka situs resmi ↗", emptyTitle:"Belum ada artikel yang ditinjau", loadingTitle:"Memuat artikel yang ditinjau…", showMore:"Tampilkan artikel lainnya", showFewer:"Ringkas artikel" };
+copy.vi = { ...copy.en, all:"Tất cả bài viết", research:"Nghiên cứu chuyên sâu", rates:"Thay đổi phí", compliance:"Tuân thủ", readArticle:"Đọc bài →", compareVenues:"So sánh nền tảng được đề cập →", readTime:"Thời gian đọc", verifiedSource:"Đã xác minh nguồn chính thức", openRegister:"Mở trang chính thức ↗", emptyTitle:"Chưa có bài viết được duyệt", loadingTitle:"Đang tải bài viết đã duyệt…", showMore:"Xem thêm bài viết", showFewer:"Thu gọn bài viết" };
+copy.it = { ...copy.en, all:"Tutti gli articoli", research:"Ricerca approfondita", rates:"Variazioni delle commissioni", compliance:"Conformità", readArticle:"Leggi l'articolo →", compareVenues:"Confronta le piattaforme citate →", readTime:"Tempo di lettura", verifiedSource:"Fonte ufficiale verificata", openRegister:"Apri il sito ufficiale ↗", emptyTitle:"Nessun articolo verificato", loadingTitle:"Caricamento degli articoli verificati…", showMore:"Mostra altri articoli", showFewer:"Riduci articoli" };
 const untranslatedNotice = {
   ko: "이 글은 영어 원문입니다. 검토 후 번역본을 추가합니다.", tr: "Bu yazı İngilizce aslıyla gösteriliyor. İnceleme sonrası çeviri eklenecek.", es: "Este artículo está en inglés original. Añadiremos la traducción tras su revisión.", "pt-BR": "Este artigo está no idioma original em inglês. A tradução será adicionada após revisão.", fr: "Cet article est dans sa langue originale anglaise. La traduction sera ajoutée après vérification.", de: "Dieser Artikel liegt im englischen Original vor. Die Übersetzung folgt nach der Prüfung.", ar: "هذا المقال باللغة الإنجليزية الأصلية. ستُضاف الترجمة بعد المراجعة.", ru: "Статья приведена на английском оригинале. Перевод будет добавлен после проверки.", id: "Artikel ini ditampilkan dalam bahasa Inggris asli. Terjemahan ditambahkan setelah peninjauan.", vi: "Bài viết đang ở bản gốc tiếng Anh. Bản dịch sẽ được thêm sau khi rà soát.", it: "Questo articolo è nella versione originale inglese. La traduzione sarà aggiunta dopo la revisione.", "zh-Hans": "本文暂以英文原文展示，审核后补充翻译。", "zh-Hant": "本文暫以英文原文展示，審閱後補充翻譯。"
 };
@@ -253,6 +245,8 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
   const isZh = locale.startsWith("zh");
   const isHant = locale === "zh-Hant" || locale === "zh-TW";
   const t = copy[locale] || copy[String(locale || "").split("-")[0]] || (isHant ? copy["zh-Hant"] : isZh ? copy["zh-Hans"] : copy.en);
+  // Heading, eyebrow and intro come from the shared module the worker also renders (SSR H1 === client H1).
+  const hero = newsListHeroCopy(locale);
   const localizeCategory = (article) => {
     const own = article.categoryName && typeof article.categoryName === "object" ? article.categoryName[locale] : null;
     if (own) return own;
@@ -349,10 +343,10 @@ export function NewsListPage({ locale = "en", market, product, initialArticles, 
       <section className="news-hero v2-shell">
         <div className="news-hero__badge">
           <span className="news-hero__pulse"></span>
-          {t.eyebrow}
+          {hero.eyebrow}
         </div>
-        <h1 className="news-hero__title">{categoryCopy ? categoryCopy.label : t.title}</h1>
-        <p className="news-hero__subtitle">{categoryCopy ? categoryCopy.intro : t.subtitle}</p>
+        <h1 className="news-hero__title">{categoryCopy ? categoryCopy.label : hero.title}</h1>
+        <p className="news-hero__subtitle">{categoryCopy ? categoryCopy.intro : hero.subtitle}</p>
         <TelegramAlertsStrip locale={locale} placement="news-list-telegram-alerts" className="tg-signal-strip--news" />
 
         <div className="news-index-controls">

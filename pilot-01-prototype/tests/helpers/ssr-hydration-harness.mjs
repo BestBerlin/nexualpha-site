@@ -1,0 +1,95 @@
+// Shared harness for the request-time SSR tests (news listings, activities): renders through the real SSR entry via
+// Vite, extracts the worker's hydration payload and hydrates the served HTML in jsdom with the same props the browser
+// would use (src/main.jsx), collecting every console.error and React recoverable error (hydration mismatches).
+import { createRequire } from "node:module";
+import { createServer as createViteServer } from "vite";
+import { JSDOM } from "jsdom";
+import { buildHydrationBootstrap } from "../../src/data/hydration-bootstrap.js";
+
+const require = createRequire(import.meta.url);
+
+export async function createSsrHarness() {
+  const vite = await createViteServer({ appType: "custom", logLevel: "error", server: { middlewareMode: true, hmr: false, ws: false } });
+  const entry = await vite.ssrLoadModule("/src/entry-server.jsx");
+  return { vite, render: entry.render, close: () => vite.close() };
+}
+
+export const SHELL_HTML = "<!doctype html><html><head><title>Shell</title></head><body><div id=\"root\"></div></body></html>";
+
+export function prerenderState(html) {
+  const payload = html.match(/<script type="application\/json" id="nexualpha-prerender-state">([\s\S]*?)<\/script>/)?.[1];
+  return payload ? JSON.parse(payload) : null;
+}
+
+export function rootInnerHtml(html) {
+  return html.match(/<div id="root">([\s\S]*?)<\/div><script type="application\/json" id="nexualpha-prerender-state">/)?.[1] ?? null;
+}
+
+export function h1Texts(html) {
+  return [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)].map((match) => decodeEntities(match[1].replace(/<[^>]+>/g, "")).trim());
+}
+
+export function decodeEntities(value) {
+  return String(value).replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&#x27;", "'").replaceAll("&#39;", "'");
+}
+
+const tick = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Hydrates the SSR document in jsdom exactly like the browser entry: same bootstrap URL, same prerender-state props.
+export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400 } = {}) {
+  const state = prerenderState(html);
+  const bootstrap = buildHydrationBootstrap({ browserUrl: pageUrl, prerenderState: state, hasServerHtml: true, clientRender: false });
+  const dom = new JSDOM(html, { url: bootstrap.initialUrl, pretendToBeVisual: true });
+  const { window } = dom;
+  const errors = [];
+  const stubs = {
+    matchMedia: () => ({ matches: false, media: "", onchange: null, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, dispatchEvent: () => false }),
+    IntersectionObserver: class { observe() {} unobserve() {} disconnect() {} takeRecords() { return []; } },
+    ResizeObserver: class { observe() {} unobserve() {} disconnect() {} },
+    scrollTo() {},
+    fetch: async () => new Response("{}", { status: 404, headers: { "content-type": "application/json" } }),
+  };
+  for (const [key, value] of Object.entries(stubs)) if (!window[key]) window[key] = value;
+  const globals = ["window", "document", "navigator", "location", "history", "localStorage", "sessionStorage", "HTMLElement", "Element", "Node", "Text", "Event", "CustomEvent", "MutationObserver", "getComputedStyle", "requestAnimationFrame", "cancelAnimationFrame", "matchMedia", "IntersectionObserver", "ResizeObserver", "scrollTo", "fetch", "CSS"];
+  const saved = new Map();
+  for (const key of globals) {
+    saved.set(key, Object.getOwnPropertyDescriptor(globalThis, key));
+    Object.defineProperty(globalThis, key, { value: window[key] ?? stubs[key], configurable: true, writable: true });
+  }
+  const originalError = console.error;
+  console.error = (...args) => { errors.push(args.map((arg) => (arg instanceof Error ? arg.message : String(arg))).join(" ")); };
+  try {
+    const React = require("react");
+    const { hydrateRoot } = require("react-dom/client");
+    const { App } = await vite.ssrLoadModule("/src/App.jsx");
+    const app = React.createElement(React.StrictMode, null, React.createElement(App, {
+      initialUrl: bootstrap.initialUrl,
+      initialLocale: undefined,
+      initialCompareSelection: ["binance", "okx"],
+      initialNewsArticles: state?.newsArticles,
+      initialNewsListing: state?.newsListing,
+      initialMarketEvents: state?.marketEvents,
+      initialOfficialAnnouncements: state?.officialAnnouncements,
+    }));
+    const root = window.document.getElementById("root");
+    const reactRoot = hydrateRoot(root, app, { onRecoverableError: (error) => errors.push(`recoverable: ${error?.message || error}`) });
+    const started = Date.now();
+    while (Date.now() - started < timeoutMs) await tick(20);
+    const text = root.textContent;
+    reactRoot.unmount();
+    // Let React flush its unmount work and effect cleanups while the DOM globals are still installed.
+    await tick(50);
+    return { errors, text, state, bootstrap };
+  } finally {
+    console.error = originalError;
+    for (const [key, descriptor] of saved) {
+      if (descriptor) Object.defineProperty(globalThis, key, descriptor);
+      else delete globalThis[key];
+    }
+    window.close();
+  }
+}
+
+export function hydrationErrors(errors) {
+  return errors.filter((message) => /hydrat|recoverable|#418|#423|#425|did not match|Minified React error/i.test(message));
+}

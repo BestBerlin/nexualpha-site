@@ -42,3 +42,12 @@
 .live-campaigns__group-toggle:not(#_):not(#_) { justify-self: start; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid rgb(255 255 255 / 0.18); background: transparent; color: #EDEEF0; font: 600 14px/1 inherit; cursor: pointer; }
 .live-campaigns__group-toggle:not(#_):not(#_):hover { border-color: rgb(255 255 255 / 0.36); }
 .live-campaigns__group-toggle:not(#_):not(#_):focus-visible { outline: 2px solid #1FE0C0; outline-offset: 2px; }
+/* Request-time SSR (2026-10-11): without a feed the section keeps the height of one three-card group so nothing below it
+   shifts when the client inserts the real cards (CLS on /activities was 0.3-0.6). */
+.live-campaigns__group--skeleton:not(#_):not(#_) { min-height: 0; }
+.live-campaigns__state--inline:not(#_):not(#_) { padding: 0 0 4px; text-align: start; border: 0; border-radius: 0; font-size: 13px; }
+.live-campaigns__card--skeleton:not(#_):not(#_) { min-height: 212px; grid-template-rows: auto auto 1fr auto; }
+.live-campaigns__skeleton-line:not(#_):not(#_) { display: block; height: 12px; border-radius: 6px; background: rgb(255 255 255 / 0.06); }
+.live-campaigns__skeleton-line--meta:not(#_):not(#_) { width: 38%; }
+.live-campaigns__skeleton-line--title:not(#_):not(#_) { height: 18px; width: 86%; }
+.live-campaigns__skeleton-line--action:not(#_):not(#_) { height: 44px; width: 60%; border-radius: 10px; align-self: end; }
