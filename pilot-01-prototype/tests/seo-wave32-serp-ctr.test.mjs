@@ -34,7 +34,7 @@ test("Wave32 news SERP overrides sharpen top-ten zero-CTR article snippets witho
     {
       path: "/news/okx-usd-to-usdc-spot-pair-migration",
       article: article("okx-usd-to-usdc-spot-pair-migration"),
-      title: /OKX USD to USDC Migration: API, Orders and Bot Checklist — NexuAlpha/,
+      title: /^OKX USD to USDC Migration \(Sept 2026\): API, Orders and Bots/,
       description: /open orders, bots, API instId and tradeQuoteCcy fields/,
       about: /OKX USD to USDC spot-pair migration/,
     },

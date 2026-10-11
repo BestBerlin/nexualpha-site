@@ -13,8 +13,8 @@ import { routeMetadata } from "../worker/index.js";
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const routePath = "/news/okx-usd-to-usdc-spot-pair-migration";
 const article = feed.articles.find((entry) => entry.slug === routePath.slice(6));
-const expectedTitle = "OKX USD to USDC Migration: API, Orders and Bot Checklist — NexuAlpha";
-const expectedDescription = "Check affected OKX USD and USDC pairs, open orders, bots, API instId and tradeQuoteCcy fields before changing a live account workflow.";
+const expectedTitle = "OKX USD to USDC Migration (Sept 2026): API, Orders and Bots"; // striking-distance title 2026-10-11 (suffix dropped by the 60-width budget)
+const expectedDescription = "OKX moved affected Crypto-USD spot pairs to Crypto-USDC in September 2026. Check open orders, bots, API instId and tradeQuoteCcy before a live change.";
 const protectedHashes = Object.freeze({
   "src/data/partner-registry.js": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
   "src/data/venue-database.js": "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52",
