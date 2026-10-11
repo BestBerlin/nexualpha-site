@@ -8,6 +8,8 @@ import { FundingBoard } from "./home7-funding.jsx";
 import { feeFact } from "../../data/exchange-facts.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatPercent } from "../../data/format-percent.js";
+import { formatFee } from "../../data/format-fee.js";
+import { appendCostScenarioQuery, buildDecisionReturnHref } from "../../data/decision-return.js";
 import { readIntelFeed } from "../../data/announcement-intel.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { CHIPS, Cta, Roll, VMIN, nameOf, toPos, toVol, usd } from "./home7-shared.jsx";
@@ -38,7 +40,6 @@ function useIntel(venues) {
 }
 
 const PERP_RE = /(futures|perp|contract|永续|合约)/i;
-const pct = (n) => `${n.toFixed(n < 0.1 ? 3 : 2).replace(/0+$/, "").replace(/\.$/, "")}%`;
 // Base fees for the market an announcement concerns, with the disclosed rebate applied. Unchecked fees stay null.
 function compareRows(venues, perp) {
   return venues.map((v) => {
@@ -71,7 +72,7 @@ function IntelSheet({ item, venues, t, locale, onClose }) {
           {rows.map((r) => (
             <li key={r.slug}>
               <div className="h7-sh-n"><BrandMark slug={r.slug} compact /><b>{r.name}</b>{r.share ? <span className="h7-bd">{t.upTo} {formatPercent(locale, Math.round(r.share * 100))}</span> : <span className="h7-bd" data-nr>{t.pending}</span>}</div>
-              <div className="h7-sh-f">{r.maker != null ? <>{t.maker} {pct(r.maker)} / {t.taker} {pct(r.taker)}{r.share ? <small>{t.shAfter} {pct(r.mk)} / {pct(r.tk)}</small> : null}</> : t.unchecked}</div>
+              <div className="h7-sh-f">{r.maker != null ? <>{t.maker} {formatFee(r.maker, locale)} / {t.taker} {formatFee(r.taker, locale)}{r.share ? <small>{t.shAfter} {formatFee(r.mk, locale)} / {formatFee(r.tk, locale)}</small> : null}</> : t.unchecked}</div>
               <Cta v={r} locale={locale} className="h7-btn h7-sm h7-sh-b" placement="home-v7-intel"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
             </li>
           ))}
@@ -160,16 +161,17 @@ export function HomeBelowFold({ t, locale, vol, setVol, mode, setMode, product, 
           </div>
           <p className="h7-vd" aria-live="polite">{!vol ? t.calcEmpty : <>{calc.best && <>{t.lowest(calc.best.name, usd(calc.best.net))}<br /></>}{calc.most && calc.most.save > 0 && t.most(calc.most.name, usd(calc.most.save))}</>}</p>
           <a className="h7-ln h7-all" href={localizedHref("/exchanges", { locale })}>{t.all}</a>
+          {vol > 0 && <a className="h7-ln h7-all h7-rates" href={buildDecisionReturnHref({ kind: "cost", locale, instrument: product === "spot" ? "spot" : "futures", order: mode, volume: vol, basis: "rebate" }) || localizedHref("/rates", { locale })}>{t.ratesGo}</a>}
         </div>
         <div className="h7-rows" ref={rowsRef}>
           <p className="h7-disc">{t.t2b}</p>
           {calc.rows.map((r, i) => (
             <div key={r.slug} ref={(e) => { rowEls.current[i] = e; }} className={`h7-xr${calc.best?.slug === r.slug ? " best" : ""}${r.share ? "" : " nr"}`}>
               <p className="h7-xn"><BrandMark slug={r.slug} compact /><b>{r.name}</b><span className="h7-bd">{r.share ? `${t.upTo} ${formatPercent(locale, Math.round(r.share * 100))}` : t.pending}</span></p>
-              <div className="h7-am">{r.net == null ? "–" : <>{r.share ? <s>{usd(r.gross)}</s> : null}<Roll value={r.net} /></>}</div>
-              <p className="h7-meta"><span>{t.rate} {r.maker != null ? `${formatPercent(locale, r.maker, { fractionDigits: 2 })} / ${formatPercent(locale, r.taker, { fractionDigits: 2 })}` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}</p>
+              <div className="h7-am">{r.net == null ? "–" : <>{r.share ? <s>{usd(r.gross)}</s> : null}<Roll value={r.net} /><small className="h7-basis" data-basis={r.share ? "rebate" : "base"}>{r.share ? t.basisNet : t.basisBase}</small></>}</div>
+              <p className="h7-meta"><span>{t.rate} {r.maker != null ? `${formatFee(r.maker, locale)} / ${formatFee(r.taker, locale)}` : t.unchecked}</span>{r.code && <span>{t.code} <code>{r.code}</code></span>}</p>
               <Cta v={r} locale={locale} className="h7-btn h7-sm" placement="home-v7-row"><span>{t.open}</span><span className="h7-sr"> {r.name}</span></Cta>
-              <a className="h7-dt" href={localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}<span className="h7-sr"> {r.name}</span></a>
+              <a className="h7-dt" href={vol > 0 ? appendCostScenarioQuery(localizedHref(`/exchanges/${r.slug}`, { locale, product: product === "spot" ? "spot" : "perpetuals" }), { instrument: product === "spot" ? "spot" : "futures", order: mode, volume: vol, basis: r.share ? "rebate" : "base" }) : localizedHref(`/exchanges/${r.slug}`, { locale })}>{t.detail}<span className="h7-sr"> {r.name}</span></a>
             </div>
           ))}
         </div>

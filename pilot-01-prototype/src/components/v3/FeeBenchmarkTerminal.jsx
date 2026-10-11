@@ -23,6 +23,9 @@ import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
 import { feePctOfRate, isoDay } from "../../data/exchange-facts.js";
 import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
+import { partnerBenefitStatus } from "../../data/partner-benefit-status.js";
+import { costBasisCopy } from "../../data/cost-decision-copy.js";
+import { h7Copy } from "../v7/home7-copy.js";
 
 // Scope and conditions are two sentences: the scope gets its own full stop ("…USDC columns. Uses…").
 const sentence = (t) => { const v = String(t || "").trim(); return !v || /[.!?。！？:：]$/.test(v) ? v : `${v}.`; };
@@ -453,8 +456,8 @@ function buildRateView(rate, locale, labels) {
     productLabel: labels[rate.product] || rate.product,
     makerRate: rate.makerRate,
     takerRate: rate.takerRate,
-    makerDisplay: feePctOfRate(rate.makerRate),
-    takerDisplay: feePctOfRate(rate.takerRate),
+    makerDisplay: feePctOfRate(rate.makerRate, locale),
+    takerDisplay: feePctOfRate(rate.takerRate, locale),
     checkedAt: isoDay(rate.checkedAt),
     sourceUrl: rate.sourceUrl,
     tier: copyForRate.tier,
@@ -555,6 +558,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
   const normalizedLocale = normalizeLocale(locale);
   const t = copy[locale] || copy[localeKey] || copy[normalizedLocale] || (isHant ? copy["zh-Hant"] : isZh ? copy["zh-Hans"] : copy.en);
   const labels = { ...(stateCopy[normalizedLocale] || stateCopy.en), unchecked: matrixCopy(locale).unchecked };
+  const basisText = costBasisCopy(locale);
 
   const rows = MONITOR_SLUGS.map((slug) => {
     const db = venueDatabase[slug] || {};
@@ -565,10 +569,14 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
     const commercialClaim = resolveCommercialClaim({ partner, venue: db });
     const cta = regionalVenueCta(slug, locale, market, product, { accountStage, funding });
     const rebatePercent = commercialClaim.status === "verified" ? commercialClaim.rebatePercent : 0;
-    const rebateDisplay = rebatePercent > 0 ? formatPercent(locale, rebatePercent) : null;
-    const productRate = product === "futures" || product === "perp" ? futuresRate : spotRate;
-    const netDisplay = rebatePercent > 0 && Number.isFinite(productRate?.takerRate)
-      ? feePctOfRate(productRate.takerRate * (1 - rebatePercent / 100))
+    // Partner venues (audit NX-02/NX-03): the share comes from the single partner benefit record and the net figure uses
+    // the home calculator's formula (base × (1 − top share)), labelled "after max rebate".
+    const partner_ = rebatePercent > 0 ? null : partnerBenefitStatus(slug);
+    const sharePct = rebatePercent > 0 ? rebatePercent : partner_?.sharePct || 0;
+    const rebateDisplay = rebatePercent > 0 ? formatPercent(locale, rebatePercent) : partner_ ? `${h7Copy(locale).upTo} ${formatPercent(locale, partner_.sharePct)}` : null;
+    const productRate = product === "futures" || product === "perp" || product === "perpetuals" ? futuresRate : spotRate;
+    const netDisplay = sharePct > 0 && Number.isFinite(productRate?.takerRate)
+      ? feePctOfRate(productRate.takerRate * (1 - sharePct / 100), locale)
       : null;
 
     return {
@@ -712,7 +720,7 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
               <th scope="col">{mx.perp}<span className="ft-th-sub">{mx.maker}</span></th>
               <th scope="col">{checkedLabel}</th>
               {hasBenefit && <th scope="col">{t.colRebate}</th>}
-              {hasBenefit && <th scope="col">{t.colNetTaker}</th>}
+              {hasBenefit && <th scope="col">{t.colNetTaker}<span className="ft-th-sub">{basisText.rebate} · {(product === "futures" || product === "perp" || product === "perpetuals") ? mx.perp : mx.spot} · {labels.taker}</span></th>}
               {hasTrend && <th scope="col">{t.colTrend}</th>}
               <th scope="col" className="ft-th-action"><span className="rt-sr">{t.colAction}</span></th>
             </tr>

@@ -47,7 +47,10 @@ test("Arabic configured partner route keeps the code visible while regional elig
   assert.match(html, /data-registration-decision-state="blocked"/);
   assert.match(html, /مسار الشراكة/);
   assert.match(html, /مهيأ/);
-  assert.match(html, /يراجع في الصفحة الرسمية|صفحة التسجيل الرسمية/);
+  // Audit NX-02 (2026-10-11): a partner venue states its share from the single benefit record, with the account-level
+  // eligibility confirmed by the exchange (previously a generic "confirm on the official page" row).
+  assert.match(html, /نسبة استرداد الشريك/);
+  assert.match(html, /تؤكد المنصة أهلية حسابك بعد التسجيل/);
   assert.match(html, /الأهلية.*الحساب الرسمي|الرسمي/);
   assert.doesNotMatch(html, /قيد الاعداد|Before you continue|This opens|Pending configuration/);
 });

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { AUDIT_DATE, FACTBOOK_REGISTRY } from "../src/data/factbook-registry.js";
 import { buildFactbookSchemas, computeRouteSeo } from "../src/data/seo-injection.js";
+import { factbookDates } from "../src/data/factbook-dates.js";
 import sitesWorker from "../worker/index.js";
 
 function datasetFrom(schemas) {
@@ -37,7 +38,9 @@ function workerSchemas(html) {
   return payload["@graph"] || payload;
 }
 
-test("Factbook visible titles and schemas use the source-review audit date as the single truth", async () => {
+// Audit NX-06 (2026-10-11, owner-approved batch): the title no longer carries a bracketed date, and the Dataset
+// dateModified is the latest real review date of the data shown (fees checked / benefit terms / dossier compiled).
+test("Factbook titles carry no stale date and schemas use the latest real review date", async () => {
   const venue = FACTBOOK_REGISTRY.binance;
   const client = computeRouteSeo({ url: "/factbook/binance" });
   const clientDataset = datasetFrom(client.schemas);
@@ -45,12 +48,14 @@ test("Factbook visible titles and schemas use the source-review audit date as th
   const workerHtml = await workerFactbookHtml("/factbook/binance");
   const workerDataset = datasetFrom(workerSchemas(workerHtml));
 
-  assert.equal(client.title, `Binance Source Review Factbook [${AUDIT_DATE}] — NexuAlpha`);
-  assert.match(workerHtml, new RegExp(`<title[^>]*>Binance Source Review Factbook \\[${AUDIT_DATE}\\] — NexuAlpha</title>`));
+  const latest = factbookDates("binance").latestReviewOn;
+  assert.ok(latest >= AUDIT_DATE);
+  assert.equal(client.title, "Binance Source Review Factbook — NexuAlpha");
+  assert.match(workerHtml, /<title[^>]*>Binance Source Review Factbook — NexuAlpha<\/title>/);
 
-  assert.equal(directDataset.dateModified, AUDIT_DATE);
-  assert.equal(clientDataset.dateModified, AUDIT_DATE);
-  assert.equal(workerDataset.dateModified, AUDIT_DATE);
+  assert.equal(directDataset.dateModified, latest);
+  assert.equal(clientDataset.dateModified, latest);
+  assert.equal(workerDataset.dateModified, latest);
 
   assert.doesNotMatch(client.title, /2026-09-15/);
   assert.doesNotMatch(workerHtml, /Binance Source Review Factbook \[2026-09-15\]/);

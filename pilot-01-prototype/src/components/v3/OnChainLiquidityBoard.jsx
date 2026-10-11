@@ -18,7 +18,7 @@ const copy = {
   "zh-Hans": {
     eyebrow: "链上指标与储备证明",
     title: "先核验链上资金流，再判断平台风险",
-    subtitle: "本页只发布能追溯到官方储备证明、区块浏览器或协议文档的链上信息；当前候选包未接入可验证实时数据，因此不展示模拟净流量、储备率或安全结论。",
+    subtitle: "本页只发布能追溯到官方储备证明、区块浏览器或协议文档的链上信息；目前没有接入经核验的实时数据，因此不展示模拟净流量、储备率或安全结论。",
     answerTitle: "这个页面现在能帮你判断什么？",
     answer: "它把链上资金流问题拆成三步：先确认官方来源，再核对钱包、合约和网络，最后再看入金、提现、储备证明和产品风险。没有可验证数据时，页面只保留核验方法，不给出安全排名。",
     checksTitle: "打开钱包或入金前先核对",
@@ -26,13 +26,13 @@ const copy = {
     sourcesTitle: "接受的来源边界",
     sources: ["官方 PoR 或储备披露页面", "区块浏览器、合约地址或协议状态页", "平台或协议的官方帮助中心与文档"],
     boundary: "不证明账户资格、资产安全、实时流动性、收益、空投或手续费优惠。最终操作必须回到官方页面确认。",
-    status: "数据状态：不可用。接入经过验证的官方或链上数据源后再发布。",
+    status: "数据状态：暂无经核验的实时数据，因此不显示数值。请按上方来源清单核对。",
     colVenue: "交易所平台", colDeposit24h: "24h 充值量", colWithdrawal24h: "24h 提现量", colNetFlow: "24h 净资金流", colPorRatio: "储备金率 (PoR)", colStatus: "安全信号", colAction: "官方入金通道", cta: "前往官方页面 ↗",
   },
   "zh-Hant": {
     eyebrow: "鏈上指標與儲備證明",
     title: "先核驗鏈上資金流，再判斷平台風險",
-    subtitle: "本頁只發布能追溯到官方儲備證明、區塊瀏覽器或協議文件的鏈上資訊；目前候選包未接入可驗證即時資料，因此不展示模擬淨流量、儲備率或安全結論。",
+    subtitle: "本頁只發布能追溯到官方儲備證明、區塊瀏覽器或協議文件的鏈上資訊；目前沒有接入經核驗的即時資料，因此不展示模擬淨流量、儲備率或安全結論。",
     answerTitle: "這個頁面現在能幫你判斷什麼？",
     answer: "它把鏈上資金流問題拆成三步：先確認官方來源，再核對錢包、合約和網路，最後再看入金、提現、儲備證明和產品風險。沒有可驗證資料時，頁面只保留核驗方法，不給出安全排名。",
     checksTitle: "打開錢包或入金前先核對",
@@ -40,7 +40,7 @@ const copy = {
     sourcesTitle: "接受的來源邊界",
     sources: ["官方 PoR 或儲備披露頁面", "區塊瀏覽器、合約地址或協議狀態頁", "平台或協議的官方說明中心與文件"],
     boundary: "不證明帳戶資格、資產安全、即時流動性、收益、空投或手續費優惠。最終操作必須回到官方頁面確認。",
-    status: "資料狀態：不可用。接入經過驗證的官方或鏈上資料源後再發布。",
+    status: "資料狀態：暫無經核驗的即時資料，因此不顯示數值。請依上方來源清單核對。",
     colVenue: "交易所平台", colDeposit24h: "24h 充值量", colWithdrawal24h: "24h 提現量", colNetFlow: "24h 淨資金流", colPorRatio: "儲備金率 (PoR)", colStatus: "安全信號", colAction: "官方入金通道", cta: "前往官方頁面 ↗",
   },
   en: {
@@ -54,7 +54,7 @@ const copy = {
     sourcesTitle: "Accepted source boundary",
     sources: [sourceLabels.officialPor, sourceLabels.explorer, sourceLabels.docs],
     boundary: "This does not prove account eligibility, asset safety, live liquidity, yield, airdrops or fee benefits. Final action must be confirmed on the official page.",
-    status: "Data status: unavailable. Publish this board only after a verified official or on-chain feed is connected.",
+    status: "Data status: no verified live feed yet, so no figures are shown. Use the source checklist above.",
     colVenue: "Exchange", colDeposit24h: "24h Inflow", colWithdrawal24h: "24h Outflow", colNetFlow: "Net Flow", colPorRatio: "Reserve Ratio", colStatus: "Security Signal", colAction: "Official Gateway", cta: "Open official page ↗",
   },
   es: {
@@ -68,7 +68,7 @@ const copy = {
     sourcesTitle: "Límite de fuentes aceptadas",
     sources: ["Página oficial de PoR o reservas", "Explorador público, contrato o estado del protocolo", "Centro de ayuda o documentación oficial"],
     boundary: "No prueba elegibilidad de cuenta, seguridad de fondos, liquidez en vivo, rendimiento, airdrops ni beneficios de comisiones. La acción final se confirma en la página oficial.",
-    status: "Estado de datos: no disponible. Publicar solo después de conectar una fuente oficial u on-chain verificable.",
+    status: "Estado de datos: aún no hay un feed verificado en vivo, por eso no se muestran cifras. Usa la lista de fuentes de arriba.",
     colVenue: "Plataforma", colDeposit24h: "Entrada 24h", colWithdrawal24h: "Salida 24h", colNetFlow: "Flujo neto", colPorRatio: "Ratio de reservas", colStatus: "Señal de seguridad", colAction: "Ruta oficial", cta: "Abrir página oficial ↗",
   },
   "pt-BR": {
@@ -82,7 +82,7 @@ const copy = {
     sourcesTitle: "Limite de fontes aceitas",
     sources: ["Página oficial de PoR ou reservas", "Explorador público, contrato ou status do protocolo", "Central de ajuda ou documentação oficial"],
     boundary: "Não comprova elegibilidade de conta, segurança dos ativos, liquidez ao vivo, rendimento, airdrop ou benefício de taxa. A ação final deve ser confirmada na página oficial.",
-    status: "Status dos dados: indisponível. Publicar somente após conectar uma fonte oficial ou on-chain verificável.",
+    status: "Status dos dados: ainda não há feed verificado ao vivo, por isso nenhum número é exibido. Use a lista de fontes acima.",
     colVenue: "Plataforma", colDeposit24h: "Entrada 24h", colWithdrawal24h: "Saída 24h", colNetFlow: "Fluxo líquido", colPorRatio: "Índice de reservas", colStatus: "Sinal de segurança", colAction: "Rota oficial", cta: "Abrir página oficial ↗",
   },
   fr: {
@@ -96,7 +96,7 @@ const copy = {
     sourcesTitle: "Limite des sources acceptées",
     sources: ["Page officielle PoR ou réserves", "Explorateur public, contrat ou état du protocole", "Aide ou documentation officielle"],
     boundary: "Ne prouve pas l’éligibilité du compte, la sécurité des actifs, la liquidité en direct, le rendement, les airdrops ou les avantages de frais. Confirmer l’action finale sur la page officielle.",
-    status: "État des données : indisponible. Publication uniquement après connexion d’une source officielle ou on-chain vérifiable.",
+    status: "État des données : pas encore de flux vérifié en direct, aucun chiffre n’est donc affiché. Utilisez la liste de sources ci-dessus.",
     colVenue: "Plateforme", colDeposit24h: "Entrées 24h", colWithdrawal24h: "Sorties 24h", colNetFlow: "Flux net", colPorRatio: "Ratio réserves", colStatus: "Signal sécurité", colAction: "Route officielle", cta: "Ouvrir la page officielle ↗",
   },
   de: {
@@ -110,7 +110,7 @@ const copy = {
     sourcesTitle: "Akzeptierte Quellen",
     sources: ["Offizielle PoR- oder Reservenseite", "Öffentlicher Explorer, Vertrag oder Protokollstatus", "Offizielle Hilfe oder Dokumentation"],
     boundary: "Belegt keine Kontoberechtigung, Asset-Sicherheit, Live-Liquidität, Rendite, Airdrops oder Gebührenvorteile. Die finale Aktion muss auf der offiziellen Seite bestätigt werden.",
-    status: "Datenstatus: nicht verfügbar. Veröffentlichung erst nach Anschluss einer verifizierbaren offiziellen oder On-chain-Quelle.",
+    status: "Datenstatus: noch kein verifizierter Live-Feed, daher werden keine Zahlen angezeigt. Nutzen Sie die Quellen-Checkliste oben.",
     colVenue: "Plattform", colDeposit24h: "24h Zufluss", colWithdrawal24h: "24h Abfluss", colNetFlow: "Nettofluss", colPorRatio: "Reservequote", colStatus: "Sicherheitssignal", colAction: "Offizieller Weg", cta: "Offizielle Seite öffnen ↗",
   },
   ja: {
@@ -124,7 +124,7 @@ const copy = {
     sourcesTitle: "採用するソースの境界",
     sources: ["公式PoRまたは準備金開示ページ", "公開エクスプローラー、コントラクト、プロトコル状態ページ", "公式ヘルプセンターまたは文書"],
     boundary: "口座利用可否、資産安全性、リアルタイム流動性、利回り、エアドロップ、手数料特典を保証しません。最終操作は公式ページで確認してください。",
-    status: "データ状態：利用できません。検証可能な公式またはオンチェーンデータ接続後に公開します。",
+    status: "データ状態：検証済みのライブデータがまだないため、数値は表示していません。上の出典チェックリストを使ってください。",
     colVenue: "取引所", colDeposit24h: "24時間入金", colWithdrawal24h: "24時間出金", colNetFlow: "純フロー", colPorRatio: "準備金比率", colStatus: "安全シグナル", colAction: "公式ルート", cta: "公式ページを開く ↗",
   },
   ko: {
@@ -138,7 +138,7 @@ const copy = {
     sourcesTitle: "허용되는 출처 범위",
     sources: ["공식 PoR 또는 준비금 공개 페이지", "공개 익스플로러, 계약 주소 또는 프로토콜 상태 페이지", "공식 도움말 센터와 문서"],
     boundary: "계정 자격, 자산 안전성, 실시간 유동성, 수익, 에어드롭 또는 수수료 혜택을 증명하지 않습니다. 최종 조치는 공식 페이지에서 확인해야 합니다.",
-    status: "데이터 상태: 사용할 수 없습니다. 검증된 공식 또는 온체인 데이터 연결 후 공개합니다.",
+    status: "데이터 상태: 검증된 실시간 데이터가 아직 없어 수치를 표시하지 않습니다. 위의 출처 체크리스트를 이용하세요.",
     colVenue: "거래소", colDeposit24h: "24시간 입금", colWithdrawal24h: "24시간 출금", colNetFlow: "순 흐름", colPorRatio: "준비금 비율", colStatus: "안전 신호", colAction: "공식 경로", cta: "공식 페이지 열기 ↗",
   },
   ar: {
@@ -152,7 +152,7 @@ const copy = {
     sourcesTitle: "حدود المصادر المقبولة",
     sources: ["صفحة رسمية لإثبات الاحتياطيات أو الإفصاح عنها", "مستكشف عام أو عقد أو حالة بروتوكول", "مركز مساعدة أو وثائق رسمية"],
     boundary: "لا يثبت أهلية الحساب أو أمان الأصول أو السيولة الحية أو العائد أو الإيردروب أو مزايا الرسوم. يجب تأكيد الإجراء النهائي على الصفحة الرسمية.",
-    status: "حالة البيانات: غير متاحة. سيتم النشر بعد ربط مصدر رسمي أو على السلسلة يمكن التحقق منه.",
+    status: "حالة البيانات: لا يوجد مصدر مباشر موثّق بعد، لذلك لا تُعرض أرقام. استخدم قائمة المصادر أعلاه.",
     colVenue: "المنصة", colDeposit24h: "دخول 24 ساعة", colWithdrawal24h: "خروج 24 ساعة", colNetFlow: "الصافي", colPorRatio: "نسبة الاحتياطي", colStatus: "إشارة أمان", colAction: "المسار الرسمي", cta: "افتح الصفحة الرسمية ↗",
   },
   tr: {
@@ -166,7 +166,7 @@ const copy = {
     sourcesTitle: "Kabul edilen kaynak sınırı",
     sources: ["Resmi PoR veya rezerv açıklama sayfası", "Herkese açık explorer, kontrat veya protokol durum sayfası", "Resmi yardım merkezi veya dokümantasyon"],
     boundary: "Hesap uygunluğu, varlık güvenliği, canlı likidite, getiri, airdrop veya ücret avantajı kanıtlamaz. Son işlem resmi sayfada doğrulanmalıdır.",
-    status: "Veri durumu: kullanılamıyor. Doğrulanmış resmî veya zincir üstü kaynak bağlandıktan sonra yayınlanır.",
+    status: "Veri durumu: henüz doğrulanmış canlı veri yok, bu yüzden rakam gösterilmiyor. Yukarıdaki kaynak listesini kullanın.",
     colVenue: "Borsa", colDeposit24h: "24s giriş", colWithdrawal24h: "24s çıkış", colNetFlow: "Net akış", colPorRatio: "Rezerv oranı", colStatus: "Güven sinyali", colAction: "Resmî yol", cta: "Resmî sayfayı aç ↗",
   },
   ru: {
@@ -180,7 +180,7 @@ const copy = {
     sourcesTitle: "Граница допустимых источников",
     sources: ["Официальная страница PoR или резервов", "Публичный обозреватель, контракт или статус протокола", "Официальная справка или документация"],
     boundary: "Не доказывает доступность аккаунта, безопасность активов, live-ликвидность, доходность, airdrop или скидки. Финальное действие подтверждается на официальной странице.",
-    status: "Состояние данных: недоступно. Публикация начнётся после подключения проверяемого официального или ончейн-источника.",
+    status: "Состояние данных: проверенного потока в реальном времени пока нет, поэтому цифры не показываются. Используйте список источников выше.",
     colVenue: "Платформа", colDeposit24h: "Приток 24ч", colWithdrawal24h: "Отток 24ч", colNetFlow: "Нетто-поток", colPorRatio: "Резервы", colStatus: "Сигнал", colAction: "Официальный путь", cta: "Открыть официальную страницу ↗",
   },
   id: {
@@ -194,7 +194,7 @@ const copy = {
     sourcesTitle: "Batas sumber yang diterima",
     sources: ["Halaman resmi PoR atau cadangan", "Explorer publik, kontrak, atau status protokol", "Pusat bantuan atau dokumentasi resmi"],
     boundary: "Tidak membuktikan kelayakan akun, keamanan aset, likuiditas live, yield, airdrop, atau manfaat biaya. Aksi final harus dikonfirmasi di halaman resmi.",
-    status: "Status data: tidak tersedia. Publikasikan setelah sumber resmi atau on-chain yang dapat diverifikasi terhubung.",
+    status: "Status data: belum ada feed langsung terverifikasi, jadi tidak ada angka yang ditampilkan. Gunakan daftar sumber di atas.",
     colVenue: "Platform", colDeposit24h: "Masuk 24j", colWithdrawal24h: "Keluar 24j", colNetFlow: "Arus neto", colPorRatio: "Rasio cadangan", colStatus: "Sinyal aman", colAction: "Rute resmi", cta: "Buka halaman resmi ↗",
   },
   vi: {
@@ -208,7 +208,7 @@ const copy = {
     sourcesTitle: "Ranh giới nguồn được chấp nhận",
     sources: ["Trang PoR hoặc dự trữ chính thức", "Explorer công khai, hợp đồng hoặc trạng thái giao thức", "Trung tâm trợ giúp hoặc tài liệu chính thức"],
     boundary: "Không chứng minh điều kiện tài khoản, an toàn tài sản, thanh khoản trực tiếp, lợi suất, airdrop hay ưu đãi phí. Hành động cuối phải xác nhận trên trang chính thức.",
-    status: "Trạng thái dữ liệu: chưa khả dụng. Chỉ công bố sau khi kết nối nguồn chính thức hoặc on-chain có thể xác minh.",
+    status: "Trạng thái dữ liệu: chưa có nguồn dữ liệu trực tiếp đã xác minh nên không hiển thị số liệu. Hãy dùng danh sách nguồn ở trên.",
     colVenue: "Nền tảng", colDeposit24h: "Nạp 24h", colWithdrawal24h: "Rút 24h", colNetFlow: "Dòng ròng", colPorRatio: "Tỷ lệ dự trữ", colStatus: "Tín hiệu", colAction: "Đường chính thức", cta: "Mở trang chính thức ↗",
   },
   it: {
@@ -222,7 +222,7 @@ const copy = {
     sourcesTitle: "Confine delle fonti accettate",
     sources: ["Pagina ufficiale PoR o riserve", "Explorer pubblico, contratto o stato del protocollo", "Centro assistenza o documentazione ufficiale"],
     boundary: "Non prova idoneità dell’account, sicurezza degli asset, liquidità live, rendimento, airdrop o vantaggi sulle commissioni. L’azione finale va confermata sulla pagina ufficiale.",
-    status: "Stato dati: non disponibile. Pubblicare solo dopo aver collegato una fonte ufficiale o on-chain verificabile.",
+    status: "Stato dati: nessun feed live verificato per ora, quindi non mostriamo cifre. Usa l’elenco delle fonti qui sopra.",
     colVenue: "Piattaforma", colDeposit24h: "Afflusso 24h", colWithdrawal24h: "Deflusso 24h", colNetFlow: "Flusso netto", colPorRatio: "Rapporto riserve", colStatus: "Segnale", colAction: "Percorso ufficiale", cta: "Apri pagina ufficiale ↗",
   },
 };

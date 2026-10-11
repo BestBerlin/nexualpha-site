@@ -13,6 +13,7 @@ import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, is
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
 import { newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
+import { factbookDates } from "../src/data/factbook-dates.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
   async fetch(request, env) {
@@ -5034,7 +5035,7 @@ function buildWorkerFactbookSchema(venue, locale, canonicalUrl) {
     description: "Platform fee, custody and access reference. Consult the page for source dates, assumptions and limitations.",
     license: NEXUALPHA_DATA_LICENSE_URL,
     url: canonicalUrl, inLanguage: locale,
-    dateModified: FACTBOOK_SOURCE_REVIEW_DATE,
+    dateModified: factbookDates(venue.slug).latestReviewOn,
     ...researchAttribution([`https://${venue.officialDomain}`]),
     creator: { "@type": "Organization", name: "NexuAlpha", url: `${PUBLIC_ORIGIN}/` },
     about: { "@type": "Organization", name: venue.name, url: `https://${venue.officialDomain}` },
@@ -6600,8 +6601,8 @@ async function routeMetadataBase(url, env, newsFeed) {
     }
 
     const title = isZh
-      ? `${venue.name} 来源审阅事实库 (Factbook) [${FACTBOOK_SOURCE_REVIEW_DATE}] — NexuAlpha`
-      : `${venue.name} ${({ "zh-Hans": "来源审阅事实库 (Factbook)", "zh-Hant": "來源審閱事實庫 (Factbook)", ja: "出典ファクトブック", ko: "출처 팩트북", tr: "Kaynak factbook", es: "Ficha de fuentes", "pt-BR": "Ficha de fontes", fr: "Fiche des sources", de: "Quellen-Factbook", ar: "سجل المصادر", ru: "Досье источников", id: "Factbook sumber", vi: "Hồ sơ nguồn", it: "Factbook delle fonti" }[requestedLocale] || "Source Review Factbook")} [${FACTBOOK_SOURCE_REVIEW_DATE}] — NexuAlpha`;
+      ? `${venue.name} 来源审阅事实库 (Factbook) — NexuAlpha`
+      : `${venue.name} ${({ "zh-Hans": "来源审阅事实库 (Factbook)", "zh-Hant": "來源審閱事實庫 (Factbook)", ja: "出典ファクトブック", ko: "출처 팩트북", tr: "Kaynak factbook", es: "Ficha de fuentes", "pt-BR": "Ficha de fontes", fr: "Fiche des sources", de: "Quellen-Factbook", ar: "سجل المصادر", ru: "Досье источников", id: "Factbook sumber", vi: "Hồ sơ nguồn", it: "Factbook delle fonti" }[requestedLocale] || "Source Review Factbook")} — NexuAlpha`;
     const factbookDescriptions = {
       "zh-Hans": `${venue.name} 来源审阅事实库：基础费率、地区资格、KYC 参考与官方域名核验。用户权益和储备数据须逐项核对来源与更新时间。`,
       "zh-Hant": `${venue.name} 來源審閱事實庫：基礎費率、地區資格、KYC 參考與官方網域核驗。用戶權益和儲備資料須逐項核對來源與更新時間。`,

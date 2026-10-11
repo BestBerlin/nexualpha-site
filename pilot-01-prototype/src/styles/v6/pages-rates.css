@@ -402,3 +402,9 @@
   #top#top#top#top#top#top.v6.r1-rates-page .cost-decision__results > article > p:not(.cost-decision__amount):not(.rt-checked) { justify-self: start; text-align: start; }
   #top#top#top#top#top#top.v6.r1-rates-page .cost-decision__results .rt-offer { margin-block-start: 8px; }
 }
+/* Audit NX-03: the cost basis sits next to every figure (base fees vs after max rebate, per month). */
+#top#top#top#top.v6.r1-rates-page .cost-decision__results .cost-decision__amount { flex-wrap: wrap; justify-content: flex-end; }
+#top#top#top#top.v6.r1-rates-page .cost-decision__results .cost-decision__amount .rt-basis { flex-basis: 100%; text-align: end; white-space: normal; font-family: var(--font-sans, inherit); letter-spacing: 0; font-size: var(--t-12); font-weight: 400; line-height: 1.35; color: var(--n10); }
+#top#top#top#top.v6.r1-rates-page .rt-verdict .rt-basis { font-size: var(--t-14); font-weight: 400; color: var(--n11); }
+#top#top#top#top.v6.r1-rates-page .rt-basis-alt { color: var(--n10); }
+#top#top#top#top.v6.r1-rates-page .rt-basis-method { display: block; margin-block-start: 4px; }

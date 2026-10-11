@@ -5,6 +5,7 @@ import { HOME_PARTNERS, HOME_PUSH, HOME_REBATE_SHARE, HOME_AUTO_SETTLE, HOME_SET
 import { publicCtaForVenue } from "./source-bound-cta.js";
 import { feeFact, FACTS_AS_OF } from "./exchange-facts.js";
 import { venueDatabase } from "./venue-database.js";
+import { partnerBenefitStatus } from "./partner-benefit-status.js";
 
 export const PARTNERS_PATH = "/intel/partners.json";
 
@@ -27,6 +28,7 @@ export function buildPartnersFeed({ generatedAt = new Date().toISOString() } = {
       share: HOME_REBATE_SHARE[slug] ?? null,
       autoSettle: HOME_AUTO_SETTLE.includes(slug),
       settle: HOME_SETTLE[slug] ?? null,
+      termsConfirmedOn: partnerBenefitStatus(slug)?.confirmedOn ?? null,
       featured: HOME_PUSH.includes(slug),
       fees: { spot: pair(slug, "spot"), perp: pair(slug, "perp") },
       profile: `https://nexualpha.com/exchanges/${slug}`,
