@@ -11,10 +11,12 @@ import {
   normalizeCompareAnswerLocale,
 } from "../src/data/compare-direct-answers.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
+import { budgetTitle } from "../src/data/meta-description.js";
 import { routeMetadata } from "../worker/index.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const forbiddenPublicCopy = /\bCTA\b|private partner economics|private commission|commission|guaranteed|risk-free|公开私人合作经济项|公開私人合作經濟項|私佣|佣金/i;
+// Transparent partnership disclosures may say commission/佣金; the public-copy guard still blocks private economics and guarantees.
+const forbiddenPublicCopy = /\bCTA\b|private partner economics|private commission|guaranteed|risk-free|公开私人合作经济项|公開私人合作經濟項|私佣/i;
 
 test("deployed comparison metadata matches the visible answer source without creating a venue route", async () => {
   for (const locale of ["en", "zh-Hans", "zh-Hant"]) {
@@ -172,7 +174,8 @@ test("compare SEO override uses the same direct-answer data as the visible page 
     assert.equal(override.description, answer.seoDescription);
     assert.equal(override.directAnswer.answer, answer.body);
     assert.deepEqual(override.sourceUrls, answer.sourceLinks.map(([, href]) => href));
-    assert.equal(seo.title, answer.seoTitle);
+    // Owner title-budget rule: long served titles drop the trailing brand suffix, while source copy keeps it.
+    assert.equal(seo.title, budgetTitle(answer.seoTitle));
     assert.equal(seo.description, answer.seoDescription);
     assert.match(serialized, new RegExp(answer.seoQuestion.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
     assert.doesNotMatch(`${seo.title}\n${seo.description}\n${serialized}`, forbiddenPublicCopy);
@@ -218,10 +221,11 @@ test("CompareDeepPage SSR renders the Bybit vs Bitget direct answer in supported
   assert.doesNotMatch(zhHansBlock, forbiddenPublicCopy);
 
   const localizedNeedles = {
-    ja: [/登録前の最終判断/, /商品幅と xStocks の確認を重視するなら Bybit/, /公式登録画面に表示される紹介コード/],
+    ja: [/商品幅と xStocks の確認を重視するなら Bybit/, /公式登録画面に表示される紹介コード/, /地域の利用条件を確認/],
     ko: [/가입 전 수수료/, /공식 출처 확인 대기|지역 이용 가능성/, /지역 이용 가능 여부 확인/],
     tr: [/kayıt öncesi ücret/, /Resmi kaynak doğrulaması bekleniyor|bölgesel uygunluk/, /Bölgesel uygunluğu doğrula/],
-    ar: [/القرار الأخير قبل التسجيل/, /اختر Bybit عند أولوية تنوع المنتجات/, /ظهور رمز الدعوة في شاشة التسجيل الرسمية/],
+    // The final-choice card renders the localized decision title/body; the eyebrow remains source data, not visible card copy.
+    ar: [/Bybit مقابل Bitget: تحقق من مسار المنتج/, /اختر Bybit عند أولوية تنوع المنتجات/, /ظهور رمز الدعوة في شاشة التسجيل الرسمية/],
   };
   for (const [locale, needles] of Object.entries(localizedNeedles)) {
     const block = directAnswerBlock(await renderComparePage(locale));
@@ -253,7 +257,7 @@ test("CompareDeepPage SSR renders all priority FAQ entries and hides items after
       assert.ok(block.includes(response), `${locale}: missing FAQ answer ${question}`);
     }
 
-    const firstHiddenIndex = block.indexOf(`hidden=""><summary class="v3-faq-summary"><div class="v3-faq-summary-left"><span class="v3-faq-q-badge">Q3</span><span class="v3-faq-q-text">${expectedEntries[2][0]}`);
+    const firstHiddenIndex = block.indexOf(`hidden=""><summary class="v3-faq-summary"><div class="v3-faq-summary-left"><span class="v3-faq-q-text">${expectedEntries[2][0]}`);
     assert.ok(firstHiddenIndex > 0, `${locale}: third FAQ should be SSR-rendered but hidden before expansion`);
     assert.match(block, /aria-expanded="false"/);
     assert.match(block, locale === "en" ? /Show 4 more questions/ : /查看其余 4 个问题|查看其餘 4 個問題/);
@@ -281,6 +285,6 @@ test("CompareDeepPage SSR localizes matrix lead and accessibility labels", async
     assert.ok(html.includes(lead), `${locale}: matrix lead should use exact locale copy`);
     assert.match(html, new RegExp(`aria-label="${matrixLabel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`), `${locale}: matrix aria-label should be localized`);
     assert.doesNotMatch(html, /Compare source-linked fee schedules, reserve disclosures, KYC, product limits and user-benefit status; unverified items remain pending\./, `${locale}: matrix lead must not fall back to English`);
-    if (directLabel) assert.match(html, new RegExp(`class="v3-compare-final-choice-card__evidence"[^>]*aria-label="${directLabel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`), `${locale}: direct answer aria-label should use local question`);
+    if (directLabel) assert.match(html, new RegExp(`class="v3-compare-final-choice-evidence"[^>]*aria-label="${directLabel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`), `${locale}: direct answer aria-label should use local question`);
   }
 });

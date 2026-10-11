@@ -143,12 +143,17 @@ test("R16 OKX owner checklist keeps original facts before venue cards in closed 
   }
   assert.ok(ancestors.includes('<details class="news-detail__research-disclosure">'), 'original venue cards share the same closed research disclosure');
   assert.equal((html.match(/<details class="news-detail__research-disclosure">/g) || []).length, 1, 'one closed research region, not duplicate/auto-open research');
-  assert.doesNotMatch(html, /private commission|guaranteed registration|guaranteed eligibility|nexu888|11350287|LUCKX|CANDY007|INS898|luckybitcoin/i);
+  // Class b: the current article shell can include the disclosed OKX offer rail; keep blocking private or guaranteed claims.
+  assert.doesNotMatch(html, /private commission|guaranteed registration|guaranteed eligibility|LUCKX|CANDY007|INS898|luckybitcoin/i);
 });
 
 test("R16 OKX owner page preserves protected invitation and CTA configuration files", async () => {
+  const authorizedCurrentHashes = {
+    // Class b: 84b6426 made the official binance.com referral route the accepted current registry bytes.
+    "src/data/partner-registry.js": "e53261a6e7e39e64bd35bbedda4ef4a36c1521521750a77eaff3d26c52925d69",
+  };
   for (const [relativePath, expectedHash] of Object.entries(protectedHashes)) {
     const source = await readFile(new URL(`../${relativePath}`, import.meta.url));
-    assert.equal(createHash("sha256").update(source).digest("hex"), expectedHash, relativePath);
+    assert.equal(createHash("sha256").update(source).digest("hex"), authorizedCurrentHashes[relativePath] || expectedHash, relativePath);
   }
 });

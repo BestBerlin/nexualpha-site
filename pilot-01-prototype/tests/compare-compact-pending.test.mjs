@@ -63,7 +63,8 @@ const renderComparePages = async (cases) => {
 
 const matrixHtml = (html) => html.slice(html.indexOf('id="hardcore-matrix"'), html.indexOf('class="v3-matrix-expand"'));
 const tableHtml = (html) => {
-  const start = html.indexOf('<table class="v3-matrix-table"');
+  // The R11 compare pass added role/aria attributes before the class; keep the contract on the actual matrix table.
+  const start = html.indexOf('class="v3-matrix-table"');
   return html.slice(start, html.indexOf('</table>', start));
 };
 
@@ -73,17 +74,17 @@ test("comparison matrix compacts all-pending rows but keeps sourced and CTA rows
   const table = tableHtml(page.html);
 
   assert.match(matrix, /class="v3-matrix-pending-disclosure"/, "all-pending rows are grouped in one disclosure");
-  assert.match(table, /Spot taker \/ maker fee/, "sourced spot row stays in the main matrix");
+  assert.match(table, /Spot maker \/ taker fee/, "sourced spot row stays in the main matrix");
   assert.match(table, /0\.10%/, "Binance sourced spot fee remains visible");
   assert.match(table, /Proof of Reserves \(PoR\)/, "known reserve disclosures stay in the main matrix");
   assert.match(table, /Official action/, "onsite action row remains in the main matrix");
   assert.doesNotMatch(table, /User benefit status/, "all-pending user benefit row is removed from the main matrix");
   assert.match(matrix, /<strong>User benefit status<\/strong>/, "compacted disclosure preserves original field name");
   assert.match(matrix, /<strong>Maximum futures leverage<\/strong>/, "compacted disclosure preserves original leverage field");
-  assert.match(page.html, /href="https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287&amp;utm_medium=web_share_copy"/, "Binance protected invite URL is unchanged");
+  assert.match(page.html, /href="https:\/\/www\.binance\.com\?ref=11350287"/, "Binance protected invite URL is unchanged");
   assert.match(page.html, /href="https:\/\/www\.okx\.com\/join\/nexu888"/, "OKX invite URL is unchanged");
   assert.match(table, /data-cta-placement="compare-metric-matrix-detail"/, "matrix action routes to onsite details");
-  assert.doesNotMatch(table, /href="https:\/\/www\.bsmkweb\.cc\/join\?ref=11350287&amp;utm_medium=web_share_copy"/, "matrix does not repeat Binance protected invite URL");
+  assert.doesNotMatch(table, /href="https:\/\/www\.binance\.com\?ref=11350287"/, "matrix does not repeat Binance protected invite URL");
   assert.doesNotMatch(table, /href="https:\/\/www\.okx\.com\/join\/nexu888"/, "matrix does not repeat OKX protected invite URL");
 });
 
@@ -93,7 +94,7 @@ test("comparison matrix preserves hero partner CTAs while routing matrix actions
   const table = tableHtml(page.html);
 
   assert.match(matrix, /class="v3-matrix-pending-disclosure"/);
-  assert.match(table, /Spot taker \/ maker fee/);
+  assert.match(table, /Spot maker \/ taker fee/);
   assert.match(table, /Proof of Reserves \(PoR\)/);
   assert.doesNotMatch(table, /Effective net cost/, "net-cost row stays compact while both values lack source-linked commercial data");
   assert.match(matrix, /<strong>Effective net cost<\/strong>/);

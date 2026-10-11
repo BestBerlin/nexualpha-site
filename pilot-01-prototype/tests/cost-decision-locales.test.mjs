@@ -4,11 +4,12 @@ import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { LOCALE_PREFIX_BY_CODE } from '../src/data/locale-routing.js';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const locales = ['en','zh-Hans','zh-Hant','es','pt-BR','fr','de','ja','ko','ar','tr','ru','id','vi','it'];
 
-test('cost decision localizes the whole rendered tool and keeps decimal input and original invitations', async () => {
+test('cost decision localizes the whole rendered tool and keeps decimal input plus tracked actions', async () => {
   const temp = await mkdtemp(path.join(root,'tests/.tmp-cost-locales-'));
   try {
     await writeFile(path.join(temp,'entry.jsx'), `
@@ -22,8 +23,17 @@ test('cost decision localizes the whole rendered tool and keeps decimal input an
     for(const locale of locales) {
       if(locale!=='en') assert.doesNotMatch(html[locale], /CALCULATE YOUR TRADING COST|What does the same trading volume cost|Monthly volume|Order type|Pending source review|Offer &amp; eligibility|Register at|USDT\/mo<\/small>/ ,locale);
       assert.match(html[locale], /step="0\.01"/,locale);
-      for(const href of ['https://www.bsmkweb.cc/join?ref=11350287&amp;utm_medium=web_share_copy','https://partner.bitget.cafe/bg/C6PRAF']) assert.ok(html[locale].includes(href),`${locale}: original invitation`);
-      assert.ok(html[locale].indexOf('cost-decision__next-actions') < html[locale].indexOf('cost-decision__inputs'), `${locale}: next actions before inputs`);
+      // Locale routes use canonical public prefixes such as zh-hans/pt-br/id-id, not raw locale codes.
+      const localePrefix = locale === 'en' ? '' : `/${LOCALE_PREFIX_BY_CODE[locale]}`;
+      const binanceOfferHref = `${localePrefix}/exchanges/binance?product=spot&amp;scenario=cost&amp;instrument=spot&amp;order=taker&amp;volume=100000&amp;basis=base#registration-path`;
+      assert.ok(html[locale].includes(`href="${binanceOfferHref}"`), `${locale}: exact onsite calculator eligibility href`);
+      assert.ok(html[locale].includes('href="https://www.binance.com?ref=11350287"'), `${locale}: exact Binance protected registration href`);
+      assert.ok(html[locale].includes('href="https://www.bybit.com/register?affiliate_id=48553"'), `${locale}: exact Bybit protected registration href`);
+      assert.ok(html[locale].includes('href="https://partner.bitget.cafe/bg/C6PRAF"'), `${locale}: exact Bitget protected registration href`);
+      assert.ok(html[locale].includes('data-cta-placement="cost-calculator-eligibility"'), `${locale}: eligibility action placement`);
+      assert.ok(html[locale].includes('data-cta-placement="cost-calculator"'), `${locale}: calculator action placement`);
+      assert.doesNotMatch(html[locale], /bsmkweb\.cc|utm_medium=web_share_copy/, `${locale}: no obsolete Binance invite route`);
+      assert.ok(html[locale].indexOf('cost-decision__inputs') < html[locale].indexOf('cost-decision__next-actions'), `${locale}: controls before follow-up strip`);
       assert.ok(html[locale].includes('cost-decision__verdict'), `${locale}: compact reviewed-cost verdict`);
     }
     assert.match(html['zh-Hant'],/交易類別/);

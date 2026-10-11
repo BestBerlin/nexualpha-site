@@ -9,6 +9,8 @@ const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const read = (name) => readFileSync(new URL('./fixtures/' + name, import.meta.url));
 const legacyHash = '6bdbbd21a9f8f4ed6ed36307fbc582fbdaf633cb673f157f6a3e97c7bd318f08';
 const manifestHash = '184ff96323b2725482b3465909ab3800c0c1a38f81b056b2b7417eb693c72250';
+// Class b: 7a2bca8 (PR #76) repaired five truncated zh-Hans summaries without changing the accepted article roster.
+const repairedFeedHash = 'b8d314ba0cbad7b3c1344e574df6f4e6b52168de581bc8f2219fe5761f74f7df';
 
 export function assertVersionedAcceptedFeed(bytes, expectedHistoricalHash) {
   assert.equal(expectedHistoricalHash, legacyHash, 'original historical feed contract remains explicit');
@@ -17,7 +19,8 @@ export function assertVersionedAcceptedFeed(bytes, expectedHistoricalHash) {
   const manifest = JSON.parse(rawManifest);
   assert.equal(manifest.historicalFeedSHA256, legacyHash);
   assert.equal(manifest.acceptedRelease, '3.0-20261005T-R130-MATERIAL');
-  assert.equal(hash(bytes), manifest.feedSHA256, 'current validation feed equals accepted released version');
+  assert.equal(manifest.feedSHA256, '961e10b507cb6a5c59507593ac3e6026b5dd62eb4be0f96a7446cfb9ba19125e', 'original published feed identity remains explicit');
+  assert.equal(hash(bytes), repairedFeedHash, 'current feed equals the exact PR #76 repaired version');
 
   const receiptBytes = read('r189-managed-publisher-receipt-20261004T204614Z.json');
   assert.equal(hash(receiptBytes), manifest.publisherReceiptSHA256);
@@ -41,6 +44,7 @@ export function assertVersionedAcceptedFeed(bytes, expectedHistoricalHash) {
   assert.deepEqual(ledger.records.map((record) => record.slug).sort(), manifest.newBatchSlugs);
   const feed = JSON.parse(bytes);
   assert.equal(feed.articles.length, manifest.articleCount);
+  assert.deepEqual(feed.articles.slice(0, manifest.newBatchSlugs.length).map((article) => article.slug).sort(), manifest.newBatchSlugs);
   for (const record of ledger.records) {
     assert.equal(record.batchId, manifest.publisherBatchId);
     assert.equal(record.event, 'READABLE_PUBLICATION_CONFIRMED');

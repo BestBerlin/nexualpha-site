@@ -159,7 +159,7 @@ const canonicalVenueDetailLines = canonicalVenueDetailSlugs.map((slug) => {
   const sourceSuffix = sourceUrls.length
     ? ` Sources: ${sourceUrls.map((url) => `[source](${url})`).join(", ")}.`
     : " Sources pending item-level review.";
-  return `- [${venue.name} venue detail](${seo.canonical}) — ${seo.title}; ${sourceSummary} Boundary: verify fees, account permissions, regional availability and campaign terms in the official account flow before acting.${sourceSuffix}`;
+  return `- [${venue.name} venue detail](${seo.canonical}) — ${venue.name} source review; ${sourceSummary} Boundary: verify fees, account permissions, regional availability and campaign terms in the official account flow before acting.${sourceSuffix}`;
 }).join("\n");
 const canonicalVenueDetails = `\n\n## Source-backed venue detail canonicals\n\nThese are existing English venue-detail pages with source-bounded summaries. They do not create new URLs, expose private partner economics, publish referral codes, or promise registration, fees, rebates, account eligibility or execution quality.\n\n${canonicalVenueDetailLines}\n`;
 

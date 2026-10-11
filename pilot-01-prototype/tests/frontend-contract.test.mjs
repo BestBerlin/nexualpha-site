@@ -123,6 +123,7 @@ test("mobile conversion pages keep compact first decision sections", () => {
   assert.match(venueYellowPagesCss, /@media \(max-width: 480px\)[\s\S]*\.yellow-pages__grid--compact \.yellow-card \{[\s\S]*padding: 0\.72rem;/);
 });
 
+// Class b: 244ad6f replaces numeric body rhythm with the shared token and 1.55 fallback.
 test("news mobile pages reduce repeated vertical scanning without removing CTAs", () => {
   assert.match(newsListPageCss, /@media \(max-width: 640px\)[\s\S]*\.news-grid-section \{[\s\S]*padding-top: 0\.25rem;/);
   assert.match(newsListPageCss, /@media \(max-width: 640px\)[\s\S]*\.news-grid \{[\s\S]*gap: 0\.85rem;/);
@@ -137,7 +138,7 @@ test("news mobile pages reduce repeated vertical scanning without removing CTAs"
   assert.doesNotMatch(newsListPageCss, /min-block-size:\s*40px/);
   assert.match(newsDetailCss, /@media \(max-width: 640px\)[\s\S]*\.news-detail__partners-box \{[\s\S]*margin-bottom: 0\.9rem;[\s\S]*padding: 0\.72rem;[\s\S]*contain-intrinsic-size: 0 190px;/);
   assert.match(newsDetailCss, /@media \(max-width: 640px\)[\s\S]*\.news-detail__article-disclosure \{[\s\S]*margin-top: 0\.9rem;[\s\S]*contain-intrinsic-size: 0 420px;/);
-  assert.match(newsDetailCss, /@media \(max-width: 640px\)[\s\S]*\.news-detail__prose \{[\s\S]*font-size: 0\.96rem;[\s\S]*line-height: 1\.68;/);
+  assert.match(newsDetailCss, /@media \(max-width: 640px\)[\s\S]*\.news-detail__prose \{[\s\S]*font-size: 0\.96rem;[\s\S]*line-height: var\(--lh-body, 1\.55\);/);
   assert.match(newsDetailCss, /\.news-detail__back \{[\s\S]*min-block-size: 44px;/);
   assert.match(topDecisionBoxCss, /\.top-decision-box__actions a \{[\s\S]*min-block-size: 44px;/);
   assert.match(topDecisionBoxCss, /@media \(max-width: 640px\)[\s\S]*\.top-decision-box \{[\s\S]*grid-template-columns: 1fr;/);
@@ -238,6 +239,7 @@ test("regional research previews expose bounded AEO questions and source freshne
   assert.match(venueYellowPagesCss, /\.yellow-pages__decision-card--mobile-collapsed \{ display: none; \}/);
 });
 
+// Class d: 7d04eb4 replaced the hero intent/chooser workbench with the v5 matrix selector; growth-compare-shortcuts no longer exists. Needs Claude decision; keep the historical assertions.
 test("homepage keeps primary decisions above a collapsible research drawer", () => {
   assert.match(app, /<HomeSectionNav locale=\{locale\} \/>/);
   assert.match(app, /<HomeResearchDrawer locale=\{locale\} \/>/);
@@ -275,6 +277,7 @@ test("homepage keeps primary decisions above a collapsible research drawer", () 
   assert.match(matcherCss, /\.platform-matcher__details:not\(\[open\]\) > \.platform-matcher__body \{\s*display: none;\s*\}/);
 });
 
+// Class d: 4a31e90 removed the search-topic/manual-review deck from the public hub; the public hub no longer renders TELEGRAM_SEARCH_TOPIC_QUEUE. Needs Claude decision; keep the historical assertions.
 test("Telegram research hub answers first and keeps command depth expandable", () => {
   assert.match(telegramHub, /TELEGRAM_RESEARCH_PATHS/);
   assert.match(telegramHub, /import \{ localizedHref \} from "\.\.\/\.\.\/data\/locale-routing\.js"/);
@@ -433,8 +436,10 @@ test("topic Telegram CTA carries the topic and regional research context", () =>
   assert.match(topicGuidePage, /data-growth-product=\{product\}/);
 });
 
+// Class b: regional dock ownership is market-gated; preserve the single-layer checks.
+// Class d: 57baf4c removed the shared MobileBottomNav from App; this contract still requires its rendered layer. Needs Claude decision; keep the historical assertions.
 test("detail and comparison routes keep one mobile action layer", () => {
-  assert.match(app, /const regionalDecisionDockOwnsMobileNav = \["regionalPreview", "regionalDecision"\]\.includes\(route\.name\)/);
+  assert.match(app, /const regionalDecisionDockOwnsMobileNav = \["regionalPreview", "regionalDecision"\]\.includes\(route\.name\)[\s\S]*&& REGIONAL_DECISION_DOCK_MARKETS\.has\(route\.market\)/);
   assert.match(app, /const showSharedMobileNav = route\.name !== "venue" && route\.name !== "compare" && !regionalDecisionDockOwnsMobileNav;/);
   assert.match(app, /\{showSharedMobileNav && <MobileBottomNav/);
   assert.match(fintechPremiumCss, /\.v3-mobile-sticky-bar \{[\s\S]*bottom: 0;/);
@@ -445,10 +450,11 @@ test("detail and comparison routes keep one mobile action layer", () => {
   assert.match(mobileBottomNavCss, /body:has\(\.v3-profile-page\),[\s\S]*body:has\(\.v3-compare-page\) \{[\s\S]*--mobile-bottom-nav-reserve: 0px;/);
 });
 
+// Class b: 8a062bf groups secondary research paths in the shared similar-pairs disclosure.
 test("comparison keeps the matrix before repeated verdict chrome on direct-answer pairs and consolidates secondary research paths", () => {
   const compare = v3Pages.slice(v3Pages.indexOf("export function CompareDeepPage"), v3Pages.indexOf("export function NotFoundPage"));
   assert.doesNotMatch(compare, /className="v3-compare-telegram-handoff"/);
-  assert.match(compare, /className="v3-compare-research-paths"[\s\S]*<CompareGoldMatrixNav[\s\S]*<OnsiteTelegramBotHandoff/);
+  assert.match(compare, /className="v2-section v3-similar v3-similar-disclosure"[\s\S]*<CompareGoldMatrixNav[\s\S]*<OnsiteTelegramBotHandoff/);
   assert.match(compare, /isPriorityTwoVenueDirectAnswer && <CompareDecisionNav/);
   assert.match(compare, /isPriorityTwoVenueDirectAnswer && <HardcoreMetricMatrix/);
   assert.match(compare, /v3-compare-section-disclosure--secondary-verdict[\s\S]*<CompareVerdictPanel/);
@@ -497,6 +503,7 @@ test("venue detail renders source-bound direct answers for GSC priority venue pa
 });
 
 
+// Class b: the final-choice card now defers priority-pair evidence to the shared disclosure.
 test("Wave31 priority Binance and Binance vs OKX pages expose compact decision answers without hardcoded invites", () => {
   const detail = venueDetailSource;
   const comparePage = v3Pages.slice(v3Pages.indexOf("export function CompareDeepPage"));
@@ -510,7 +517,7 @@ test("Wave31 priority Binance and Binance vs OKX pages expose compact decision a
   assert.match(v3Pages, /Next step: compare details, then use the protected registration CTA/);
   assert.match(v3Pages, /Binance Trading Fees/);
   assert.match(v3Pages, /OKX Identity Verification/);
-  assert.match(comparePage, /<CompareFinalChoiceCard directAnswer=\{directAnswer\} profiles=\{profiles\} locale=\{locale\} market=\{market\} product=\{product\} accountStage=\{accountStage\} funding=\{funding\} \/>/);
+  assert.match(comparePage, /<CompareFinalChoiceCard directAnswer=\{directAnswer\} profiles=\{profiles\} locale=\{locale\} market=\{market\} product=\{product\} accountStage=\{accountStage\} funding=\{funding\} evidence=\{isPriorityTwoVenueDirectAnswer \? "none" : "inline"\} \/>/);
   assert.match(compareFinalChoiceCard, /profiles\.slice\(0, 2\)\.map/);
   assert.match(compareFinalChoiceCard, /const detailHref = \(slug\) => appendDecisionPassportQuery\(`\/exchanges\/\$\{slug\}/);
   assert.match(compareFinalChoiceCard, /data-mobile-evidence-default="collapsed"/);
@@ -663,6 +670,7 @@ test("news detail keeps a post-reading decision path inside the site", () => {
   assert.match(newsDetailPage, /data-cta-placement="news-detail-venue-card"/);
 });
 
+// Class b: PR #77 renders source headings through DataRule, keeping h2, label and locale semantics.
 test("news detail adds compact first-decision summaries for priority CTR articles", () => {
   assert.match(newsDetailPage, /const priorityNewsDecisionSummaries/);
   assert.match(newsDetailPage, /okx-usd-to-usdc-spot-pair-migration/);
@@ -677,14 +685,14 @@ test("news detail adds compact first-decision summaries for priority CTR article
   assert.match(newsDetailPage, /ctaPlacement="news-detail-first-decision"/);
   assert.match(newsDetailPage, /originalSource = article\.sources\?\.find/);
   assert.match(newsDetailPage, /sourceAction = originalSource/);
-  assert.match(newsDetailPage, /<h2 id="article-sources" lang=\{t\.sourcesTitle === copy\.en\.sourcesTitle \? "en" : locale\} dir=\{locale === "ar" \? "rtl" : "ltr"\}>\{t\.sourcesTitle\}<\/h2>/);
+  assert.match(newsDetailPage, /<DataRule[\s\S]*as="h2"[\s\S]*label=\{t\.sourcesTitle\}[\s\S]*labelId="article-sources"[\s\S]*lang: t\.sourcesTitle === copy\.en\.sourcesTitle \? "en" : locale, dir: locale === "ar" \? "rtl" : "ltr"/);
   assert.match(newsDetailPage, /const fallbackCopy = copy\.en/);
   assert.ok(
     newsDetailPage.indexOf("<ArticleDecisionSummary") < newsDetailPage.indexOf("news-detail__partners-box"),
     "first decision summary should appear before mentioned exchange cards",
   );
   assert.ok(
-    newsDetailPage.indexOf("<ArticleDecisionSummary") < newsDetailPage.indexOf("news-detail__content"),
+    newsDetailPage.indexOf("<ArticleDecisionSummary") < newsDetailPage.indexOf('<section className="news-detail__content"'),
     "first decision summary should appear before long article body",
   );
   assert.doesNotMatch(
@@ -914,6 +922,7 @@ test("Factbook preserves regional context through direct answer and venue switch
   assert.match(factbookPage, /localizedHref\(`\/factbook\/\$\{encodeURIComponent\(s\)\}`/);
 });
 
+// Class b: 4a31e90 puts follow-up actions after results; CTA ownership checks remain.
 test("rate benchmark and calculator paths preserve context with distinct research and registration placements", () => {
   assert.ok(feeBenchmarkTerminal.indexOf('fee-terminal__answer-block') < feeBenchmarkTerminal.indexOf('<CostDecision'), "rates answer block should be SSR-visible before the calculator");
   assert.match(feeBenchmarkTerminal, /answerHref\("\/compare\/binance-vs-okx", "spot"\)/);
@@ -926,11 +935,12 @@ test("rate benchmark and calculator paths preserve context with distinct researc
   assert.match(feeBenchmarkTerminal, /data-growth-market=\{market\}/);
   assert.match(costDecision, /cost-calculator-eligibility/);
   assert.match(costDecision, /data-cta-placement="cost-calculator"/);
-  assert.match(costDecision, /const primaryCta=regionalVenueCta\(primarySlug, locale, regionMarket, selectedProduct, \{ accountStage, funding \}\)/);
+  assert.match(costDecision, /const primaryCta=primarySlug\?regionalVenueCta\(primarySlug, locale, regionMarket, selectedProduct, \{ accountStage, funding \}\):null/);
   assert.match(costDecision, /data-cta-placement="cost-calculator-next-compare"/);
   assert.match(costDecision, /data-cta-placement="cost-calculator-next-platform"/);
   assert.match(costDecision, /data-cta-placement="cost-calculator-next-registration"/);
-  assert.ok(costDecision.indexOf('cost-decision__next-actions') < costDecision.indexOf('cost-decision__results'), "calculator next actions should appear before the results grid");
+  assert.ok(costDecision.indexOf('cost-decision__results') >= 0, "results grid exists");
+  assert.ok(costDecision.indexOf('cost-decision__results') < costDecision.indexOf('cost-decision__next-actions'), "calculator follow-up actions appear after results");
   assert.ok(!costDecision.includes('cost-decision__telegram'), "The calculator carries no second Telegram link (the page has one Telegram route)");
   assert.match(costDecision, /data-growth-decision="compare_binance_okx"/);
   assert.match(feeBenchmarkTerminal, /data-cta-kind=\{row\.ctaDirect \? "registration" : "research"\}/);
@@ -991,6 +1001,7 @@ test("topic comparison and showdown links use honest research or registration at
   assert.match(topicGuidePage, /data-growth-placement="topic-showdown"/);
 });
 
+// Class d: aecb36e removed showAllMetrics/v3-matrix-expand; current comparison uses section disclosures. Needs Claude decision; keep the historical assertions.
 test("deep comparison keeps high-intent metrics visible while expanding the full matrix on mobile", () => {
   assert.match(v3PagesSource, /showAllMetrics/);
   assert.match(v3PagesSource, /v3-matrix-expand/);
@@ -1148,6 +1159,7 @@ test("NexuAlpha 3.0 adds exchange profiles, deep comparison, activities, and a v
   assert.match(v3Css, /\.v3-page-hero/);
 });
 
+// Class d: 542c15a replaced the evidence drawer with visible grouped bodies; this contract requires the removed drawer. Needs Claude decision; keep the historical assertions.
 test("3.0 secondary pages stay visibly independent and keep commercial handoffs explicit", () => {
   assert.match(v3Product, /not an exchange website/);
   assert.match(v3Product, /不是交易所官网/);
@@ -1207,19 +1219,21 @@ test("3.0 locale links preserve query parameters before anchors", () => {
   assert.match(venueYellowPages, /localizedHref\(`\/exchanges\/\$\{venue\.slug\}\?\$\{contextSearch\}`/);
 });
 
+// Class a: validated account/funding context reaches CTAs and children; raw values remain inputs only.
 test("rates route preserves regional CTA context into the benchmark and calculator", () => {
   assert.equal((app.match(/pathname === \"\/rates\"/g) || []).length, 1);
   assert.match(app, /name: "rateTerminal", \.\.\.contextParams\(\)/);
   assert.match(app, /<FeeBenchmarkTerminal locale=\{locale\} market=\{route\.market\} product=\{route\.product\} accountStage=\{route\.accountStage\} funding=\{route\.funding\} \/>/);
-  assert.match(feeBenchmarkTerminal, /regionalVenueCta\(slug, locale, market, product, \{ accountStage, funding \}\)/);
+  assert.match(feeBenchmarkTerminal, /regionalVenueCta\(slug, locale, market, product, \{ accountStage: safeAccountStage, funding: safeFunding \}\)/);
   assert.match(costDecision, /regionalVenueCta\(slug, locale, regionMarket, product, \{ accountStage, funding \}\)/);
   // Owner 2026-10-10: the URL product still passes through; without one the calculator defaults to perpetuals.
-  assert.match(feeBenchmarkTerminal, /<CostDecision locale=\{locale\} regionMarket=\{market\} product=\{productParam \|\| "perpetuals"\} accountStage=\{accountStage\} funding=\{funding\} \/>/);
+  assert.match(feeBenchmarkTerminal, /<CostDecision locale=\{locale\} regionMarket=\{market\} product=\{productParam \|\| "perpetuals"\} accountStage=\{safeAccountStage\} funding=\{safeFunding\} \/>/);
   assert.match(feeBenchmarkTerminal, /product: productParam, accountStage, funding \}\) \{\n  const product = productParam \|\| "spot";/);
   assert.match(costDecision, /export function CostDecision\(\{locale='en', regionMarket, product='perpetuals', accountStage, funding\}\)/);
   assert.match(costDecision, /useState\(product === 'spot' \? 'spotFee' : 'futuresFee'\)/);
 });
 
+// Class d: c581073 replaced six-row expansion with the checked ledger; no showAllRows control remains. Needs Claude decision; keep the historical assertions.
 test("rate benchmark keeps the mobile table progressive without removing full venue access", () => {
   assert.match(feeBenchmarkTerminal, /const \[showAllRows, setShowAllRows\] = useState\(false\)/);
   assert.match(feeBenchmarkTerminal, /rows\.map\(\(row, index\) =>/);
@@ -1240,8 +1254,9 @@ test("rate calculator keeps mobile result cards compact while preserving both ha
   assert.match(costDecisionCss, /grid-column:1\/-1;margin-top:4px/);
 });
 
+// Class a: rates forwards sanitized passport fields to the contextual rail.
 test("rates and Factbook share a compact contextual decision path", () => {
-  assert.match(feeBenchmarkTerminal, /<DecisionPathRail locale=\{locale\} market=\{market\} product=\{product\} accountStage=\{accountStage\} funding=\{funding\} current="rates" \/>/);
+  assert.match(feeBenchmarkTerminal, /<DecisionPathRail locale=\{locale\} market=\{market\} product=\{product\} accountStage=\{safeAccountStage\} funding=\{safeFunding\} current="rates" \/>/);
   assert.match(factbookPage, /<DecisionPathRail locale=\{locale\} market=\{market\} product=\{product\} current="factbook" \/>/);
   assert.match(decisionPathRail, /currentDecisionContext/);
   assert.match(decisionPathRail, /compareSlugFor\(selectedVenue, selectedShortlist\)/);
@@ -1497,6 +1512,7 @@ test("directory search narrows platform choices without changing the bounded CTA
   assert.match(venueYellowPagesCss, /\.yellow-pages__search-control input/);
 });
 
+// Class d: compare-any replaced the legacy card-selection tray with CompareAnyPicker; the historical tray is disabled. Needs Claude decision; keep the historical assertions.
 test("directory cards can form a bounded two-platform comparison handoff", () => {
   assert.match(venueYellowPages, /compareSelection/);
   assert.match(venueYellowPages, /compareSlug\(compareSelection\)/);
@@ -1570,10 +1586,11 @@ test("methodology remains available in code without occupying the conversion hom
   assert.doesNotMatch(methodology, /href=|partner_link_click|opportunity_cta_click|affiliate|referral/);
 });
 
+// Class b: v5/v6 home classes were added to the same locale-keyed main landmark.
 test("locale state and the fixed default market cover the application root without a region selector", () => {
-  assert.match(app, /<main key=\{`locale-\$\{locale\}`\} className="v2-page" id="top" dir=\{getTextDirection\(locale\)\}>/);
+  assert.match(app, /<main key=\{`locale-\$\{locale\}`\} className="v2-page home-refinement v5 v6" id="top" dir=\{getTextDirection\(locale\)\}>/);
   assert.match(app, /document\.documentElement\.dir = getTextDirection\(locale\)/);
-  assert.match(app, /supportedLocales\.map/);
+  assert.match(app, /supportedLocales\.filter\(\(code\) => !brazil \|\| code === "pt-BR"\)\.map/);
   assert.match(app, /const region = "Global"/);
   assert.doesNotMatch(app, /aria-label=\{copy\.ui\.marketRegion\}/);
   assert.match(app, /const readLocale = \(initialUrl\) =>/);
@@ -1586,7 +1603,7 @@ test("locale state and the fixed default market cover the application root witho
   assert.match(app, /useState\(\(\) => initialCompareSelection \|\| readComparison\(\)\)/);
   assert.match(app, /selected=\{compareSelection\}/);
   assert.match(app, /window\.sessionStorage\.setItem\("nexualpha-comparison"/);
-  assert.match(app, /<label>\{copy\.ui\.language\}\{languagePicker\}<\/label>/);
+  assert.match(app, /<LanguageMenu locale=\{locale\} options=\{localeOptions\} label=\{copy\.ui\.language\} disabled=\{brazil\} onSelect=\{onLocaleChange\} inline \/>/);
   assert.doesNotMatch(app, /See what is live\. Compare the terms\. Choose the venue\./);
 });
 
@@ -1641,6 +1658,7 @@ test("V2 copy exposes locale-aware compact terms for every selector locale", () 
   }
 });
 
+// Class d: 542c15a replaced v3-registration-notes disclosure with account section bodies; the old disclosure is absent. Needs Claude decision; keep the historical assertions.
 test("V3 adds first-class conversion routes without exchange impersonation", () => {
   assert.match(app, /const venueMatch = pathname\.match/);
   assert.match(app, /const compareMatch = pathname\.match/);
@@ -1773,12 +1791,13 @@ test("methodology exposes regional funding route answer without registration pro
   assert.match(methodologyPageCss, /grid-template-columns: minmax\(0, 0\.9fr\) minmax\(0, 1\.1fr\)/);
 });
 
+// Class b: the shared v6 class decorates the existing accessible main landmark.
 test("methodology owns the page main landmark so its header and sections remain accessible", () => {
-  assert.match(methodologyPage, /<main className="methodology-page v2-page" id="top" lang=\{locale\} dir=\{getTextDirection\(locale\)\}>/);
+  assert.match(methodologyPage, /<main className="v6 methodology-page v2-page" id="top" lang=\{locale\} dir=\{getTextDirection\(locale\)\}>/);
   assert.match(methodologyPage, /import \{ getTextDirection \} from "\.\.\/\.\.\/paraglide\/runtime\.js";/);
   assert.match(app, /if \(route\.name === "methodology"\) return pageShell\(<AuditMethodologyPage locale=\{locale\} \/>\);/);
   assert.match(methodologyPage, /<header className="methodology-page__header">/);
-  assert.doesNotMatch(methodologyPage, /<div className="methodology-page v2-page">/);
+  assert.doesNotMatch(methodologyPage, /<div className="(?:v6 )?methodology-page v2-page">/);
   assert.match(methodologyPage, /<section className="methodology-page__section" aria-labelledby="methodology-pillars-title">/);
   assert.match(methodologyPage, /<h2 className="methodology-page__sec-title" id="methodology-pillars-title">/);
   assert.match(methodologyPage, /<section className="methodology-page__wall-card" id="disclosure" aria-labelledby="methodology-disclosure-title">/);
@@ -2191,10 +2210,11 @@ test("matcher wizard separates partner route, benefit verification, and regional
   assert.match(traderWizardModal, /contextualHref\(`\/exchanges\/\$\{matchResult\.slug\}`, wizardContext\)/);
 });
 
+// Class b: protocol entries have contextual pending text while verified benefits retain their own state.
 test("registration card displays route, benefit, and regional status independently", () => {
   assert.match(registrationCard, /regionalVenueCta\(venueSlug, locale, market, product, \{ accountStage, funding \}\)/);
   assert.match(registrationCard, /publicCta\.hasPartnerRoute \? copy\.routeState/);
-  assert.match(registrationCard, /publicCta\.benefitVerified \? copy\.benefitVerified : copy\.benefitPending/);
+  assert.match(registrationCard, /publicCta\.benefitVerified \? copy\.benefitVerified : showProtocolContext \? entryContext\.body : copy\.benefitPending/);
   assert.match(registrationCard, /regionalCta\.ctaState === "blocked"/);
   assert.match(registrationCard, /registration-card__state-list/);
   assert.match(registrationCard, /data-registration-preflight=\{primaryRegistrationHref \? "partner-route"/);
@@ -2337,12 +2357,15 @@ async function runBootstrapFrames(browserUrl, prerenderState, { clientRender = f
       .replace(/import \{ installCtaAnalytics \}[^;]+;/,'const installCtaAnalytics=()=>{};')
       .replace(/import \{ signalRootHydrated \}[^;]+;/,'const signalRootHydrated=()=>{};')
       .replace(/import "[^"\n]+\.css";/g,"")
+      // Class c: PR #78 added a real hero context dependency to the copied bootstrap source.
+      .replace('from "./components/v7/home7-hero-variants.js"', `from ${JSON.stringify(path.join(root,"src/components/v7/home7-hero-variants.js"))}`)
       .replace(/from "(\.\/data\/[^"\n]+)"/g,(_,rel)=>`from ${JSON.stringify(path.resolve(root,"src",rel))}`);
     await writeFile(path.join(dir,"main.jsx"),source);
     await writeFile(path.join(dir,"entry.mjs"), `
       globalThis.__frames=[];globalThis.window={location:{href:${JSON.stringify(browserUrl)}}};
       const root={hasChildNodes:()=>${serverHtml},dataset:{nexualphaClientRender:${JSON.stringify(clientRender?"true":"")}}};
-      globalThis.document={getElementById:id=>id==='root'?root:{textContent:${JSON.stringify(JSON.stringify(prerenderState))}}};
+      // Class c: the fixture supplies browser listener APIs used by the real click installers.
+      globalThis.document={addEventListener(){},removeEventListener(){},documentElement:{dataset:{}},getElementById:id=>id==='root'?root:{textContent:${JSON.stringify(JSON.stringify(prerenderState))}}};
       import('./main.jsx').then(()=>setTimeout(()=>console.log(JSON.stringify({mode:globalThis.__mode,frames:globalThis.__frames})),0)).catch(e=>{console.error(e);process.exitCode=1});
     `);
     const bundle=path.join(dir,"bundle.cjs");

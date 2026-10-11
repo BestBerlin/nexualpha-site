@@ -85,8 +85,9 @@ test('dated artifacts preserve draft-only inventory across the scoped OKX source
  assert.equal(recorded.scope.telegramMessagesSent,0);
  assert.equal(recorded.scope.externalSubmissions,0);
  assert.equal(recorded.productionLandingReview,'pending_manual_review');
+ // Class b: 84b6426 intentionally switched Binance to its official primary referral domain.
  const partner=await readFile(new URL('../src/data/partner-registry.js',import.meta.url));
- assert.equal(createHash('sha256').update(partner).digest('hex'),'8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a');
+ assert.equal(createHash('sha256').update(partner).digest('hex'),'e53261a6e7e39e64bd35bbedda4ef4a36c1521521750a77eaff3d26c52925d69');
  const generator=await readFile(new URL('../scripts/generate-telegram-30day-review-pack.mjs',import.meta.url),'utf8');
  assert.doesNotMatch(generator,/\bfetch\s*\(|sendMessage|api\.telegram\.org|execFile|child_process/);
 });

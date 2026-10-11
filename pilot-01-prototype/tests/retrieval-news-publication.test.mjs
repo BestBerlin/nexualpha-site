@@ -22,7 +22,8 @@ const assets = (feed) => ({ fetch: async (request) => new URL(request.url).pathn
 test('all six retained research answers stay selected and client/SSR indexable within unchanged budgets', async () => {
   const selected = publication(articles);
   const selectedSlugs = new Set(articleSlugsFromPublication(selected));
-  assert.equal(policy.maxReviewedNewsArticleRoutes, 312);
+  // Class b: b4c9051 lifted the frozen reviewed-news cap; the URL budget still limits output.
+  assert.equal(policy.maxReviewedNewsArticleRoutes, 5000);
   assert.equal(policy.maxUrlsByTemplate.article, 624);
   assert.equal(selectedSlugs.size, 312);
   assert.ok(selected.urls.length <= policy.maxSitemapUrls);
@@ -65,20 +66,23 @@ test('retention protection never revives an explicitly noindex or withdrawn arti
 });
 
 
-test('new PUBLISHED feed arrivals and feed order never replace the accepted 312 article roster', async () => {
+test('new PUBLISHED feed arrivals and feed order keep reviewed publication deterministic', async () => {
   const baseline = articleSlugsFromPublication(publication(articles)).sort();
   const newArticle = { ...articles[0], slug: 'unreviewed-search-publication-arrival',
     publishedAt: '2026-10-02T00:00:00.000Z',
     seo: { ...articles[0].seo, noindex: false, canonical: 'https://nexualpha.com/news/unreviewed-search-publication-arrival' } };
   for (const feed of [[newArticle, ...articles], [...articles, newArticle], [...articles].reverse().concat(newArticle)]) {
-    assert.deepEqual(articleSlugsFromPublication(publication(feed)).sort(), baseline);
+    const current = articleSlugsFromPublication(publication(feed)).sort();
+    // Class b: b4c9051 full-reviewed-indexable mode admits new sourced published arrivals without depending on feed order.
+    assert.deepEqual(current.filter((slug) => slug !== newArticle.slug), baseline);
+    assert.ok(current.includes(newArticle.slug));
     const url = `https://nexualpha.com/news/${newArticle.slug}`;
     const client = computeRouteSeo({ url, locale: 'en', article: newArticle, newsArticles: feed });
     const ssr = await routeMetadata(new URL(url), { ASSETS: assets(feed) });
     assert.equal(client.status, 200);
     assert.equal(ssr.status, 200);
-    assert.equal(client.robots, 'noindex,follow');
-    assert.equal(ssr.robots, 'noindex,follow');
+    assert.equal(client.robots, 'index,follow');
+    assert.equal(ssr.robots, 'index,follow');
   }
 });
 
@@ -88,7 +92,8 @@ test('matching prerender fingerprint and searchPublished true never bypass revie
   const fixtures = [
     { article: accepted, expected: 'index,follow' },
     { article: accepted, snapshotArticles: [], expected: 'noindex,nofollow', status: 404 },
-    { article: { ...accepted, slug: 'unknown-manifest-article' }, expected: 'noindex,follow' },
+    // Class b: b4c9051 makes a manifest-carried, sourced, published article eligible outside the old frozen roster.
+    { article: { ...accepted, slug: 'unknown-manifest-article' }, expected: 'index,follow' },
     { article: { ...accepted, sources: [] }, expected: 'noindex,follow' },
     { article: { ...accepted, status: 'DRAFT' }, expected: 'noindex,follow' },
     { article: { ...accepted, seo: { ...accepted.seo, noindex: true } }, expected: 'noindex,follow' },

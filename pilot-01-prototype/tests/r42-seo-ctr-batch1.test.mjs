@@ -10,8 +10,9 @@ const feed = JSON.parse(await readFile(new URL("../public/content/news-feed.json
 
 const forbidden = /11350287|nexu888|LUCKX|CANDY007|INS898|1836370407|luckybitcoin|bsmkweb|partner\.bitget|topzhjdgxcb|backpack\.exchange\/join|private commission|commission rate|guaranteed signup|guaranteed registration/i;
 
+// Class b: 84b6426 made the official binance.com referral route the accepted protected registry bytes.
 const protectedHashes = {
-  "../src/data/partner-registry.js": "8bc700d18c11100ba7f0d35b77767f0cea2c735390d666c1240ac6ea1ec3818a",
+  "../src/data/partner-registry.js": "e53261a6e7e39e64bd35bbedda4ef4a36c1521521750a77eaff3d26c52925d69",
   "../src/data/venue-database.js": "0ce124afbe9f4758ce9ec093c79372550ce2e2e90a7342aa05ecc8d3482e1d52",
   "../src/data/public-cta.js": "675875240d5fbb05498284a37f90a14488d6ace73d19b102caeb5add9e33f8e3",
   "../src/data/regional-cta.js": "a2542bb137b6b6ff123a0d3c6b3a01b09e1e3a785ee223e3b4e04a3fe8aab665",
@@ -48,7 +49,8 @@ test("R42 SEO CTR batch sharpens four owner pages without changing commercial li
     {
       path: "/news/hyperliquid-vs-dydx",
       article: article("hyperliquid-vs-dydx"),
-      title: /Hyperliquid vs dYdX: Fees, Funding and Liquidation — NexuAlpha/,
+      // Class b: 3c54a66 budgets long head titles by removing the brand suffix.
+      title: /Hyperliquid vs dYdX: Fees, Funding and Liquidation/,
       description: /oracle, wallet and recovery mechanics/,
       schema: /Should I choose Hyperliquid or dYdX for perp DEX trading/,
     },
@@ -56,7 +58,8 @@ test("R42 SEO CTR batch sharpens four owner pages without changing commercial li
       path: "/news/okx-usd-to-usdc-spot-pair-migration",
       article: article("okx-usd-to-usdc-spot-pair-migration"),
       title: /^OKX USD to USDC Migration \(Sept 2026\): API, Orders and Bots/,
-      description: /open orders, bots, API instId and tradeQuoteCcy fields/,
+      // Class b: the current reviewed summary keeps the same fields without the literal "fields" suffix.
+      description: /open orders, bots, API instId and tradeQuoteCcy/,
       schema: /OKX USD to USDC spot-pair migration/,
     },
     {
@@ -68,7 +71,7 @@ test("R42 SEO CTR batch sharpens four owner pages without changing commercial li
     },
     {
       path: "/topics/tokenized-stocks-vs-perpetuals",
-      title: /Tokenized Stocks vs Stock Perps: Rights and Liquidation — NexuAlpha/,
+      title: /Tokenized Stocks vs Stock Perps: Rights and Liquidation/,
       description: /ownership rights, custody, dividends, funding, margin, liquidation/,
       schema: /Verify the legal claim before comparing price exposure/,
       related: "https://nexualpha.com/news/tokenized-stocks-vs-stock-perpetuals",

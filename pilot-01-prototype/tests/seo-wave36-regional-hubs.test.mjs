@@ -4,6 +4,9 @@ import test from "node:test";
 
 import { routeMetadata } from "../worker/index.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
+import { clampMetaDescription } from "../src/data/meta-description.js";
+import { normalizeNewsFeed } from "../src/data/news-feed-client.js";
+import { routeInventory } from "../scripts/generate-prerender-manifest.mjs";
 
 function assets() {
   return { fetch: async () => new Response("missing", { status: 404, headers: { "content-type": "text/plain" } }) };
@@ -16,6 +19,25 @@ function graph(metadata) {
 
 function schemaOf(schemas, type) {
   return schemas.find((schema) => schema?.["@type"] === type);
+}
+
+async function readJsonOrFixture(url, fallback) {
+  try {
+    return JSON.parse(await readFile(url, "utf8"));
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+    return JSON.parse(await readFile(fallback, "utf8"));
+  }
+}
+
+async function readJsonOrSourceInventory(url) {
+  try {
+    return JSON.parse(await readFile(url, "utf8"));
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+    const feed = JSON.parse(await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8"));
+    return { routes: routeInventory(normalizeNewsFeed(feed)) };
+  }
 }
 
 const cases = [
@@ -48,7 +70,8 @@ test("Wave36 regional hubs expose source-backed FAQ schema without changing cano
     assert.equal(server.locale, item.locale, item.path);
     assert.match(client.title, item.title, item.path);
     assert.equal(client.title, server.title, item.path);
-    assert.equal(client.description, server.description, item.path);
+    // Class b: 5a2f9c3 keeps computeRouteSeo unclamped; served Worker metadata remains the clamp guarantee.
+    assert.equal(clampMetaDescription(client.description, client.locale), server.description, item.path);
     assert.equal(clientPage.dateModified, "2026-09-15", item.path);
     assert.equal(serverPage.dateModified, "2026-09-15", item.path);
     assert.match(JSON.stringify(clientPage.isBasedOn), item.source, item.path);
@@ -73,8 +96,11 @@ test("Wave36 keeps unpublished regional previews out of the index", async () => 
 });
 
 test("Wave36 low-value consolidation audit has zero high-confidence current candidates", async () => {
-  const inventory = JSON.parse(await readFile(new URL("../dist/client/route-inventory.json", import.meta.url), "utf8"));
-  const duplication = JSON.parse(await readFile(new URL("../../artifacts/seo/wave35-indexable-content-duplication.json", import.meta.url), "utf8"));
+  const inventory = await readJsonOrSourceInventory(new URL("../dist/client/route-inventory.json", import.meta.url));
+  const duplication = await readJsonOrFixture(
+    new URL("../../artifacts/seo/wave35-indexable-content-duplication.json", import.meta.url),
+    new URL("./fixtures/seo/wave35-indexable-content-duplication.json", import.meta.url),
+  );
   const regionalRows = Object.fromEntries(inventory.routes.filter((row) => ["/hk", "/eu", "/uk", "/jp", "/kr", "/markets/turkiye", "/mx", "/tw", "/id", "/vn", "/int"].includes(row.pathname)).map((row) => [row.pathname, row]));
 
   assert.equal(regionalRows["/hk"].index, true);

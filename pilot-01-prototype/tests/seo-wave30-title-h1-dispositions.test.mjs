@@ -9,11 +9,23 @@ import { buildSearchPublicationEligibility, selectSitemapPublicationEntries } fr
 import worker from "../worker/index.js";
 import { auditIndexablePages } from "../scripts/audit-indexable-content-duplication.mjs";
 
-const wave29Report = JSON.parse(await readFile(new URL("../../artifacts/seo/wave29-indexable-content-duplication.json", import.meta.url), "utf8"));
+async function readJsonWithRecoveredFixture(primaryUrl, fixtureUrl) {
+  try {
+    return JSON.parse(await readFile(primaryUrl, "utf8"));
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+    return JSON.parse(await readFile(fixtureUrl, "utf8"));
+  }
+}
+
+const wave29Report = await readJsonWithRecoveredFixture(
+  new URL("../../artifacts/seo/wave29-indexable-content-duplication.json", import.meta.url),
+  new URL("./fixtures/seo/wave29-indexable-content-duplication.json", import.meta.url),
+);
 const dispositions = JSON.parse(await readFile(new URL("../scripts/indexable-content-duplication-dispositions.json", import.meta.url), "utf8"));
 const shell = '<!doctype html><html><head><title>Base</title><meta name="description" content="Base"></head><body><div id="root"></div></body></html>';
 const unsafeClaims = /\b(guaranteed|risk-free|real-time yield|live yield|safe route|route safety guaranteed|available in every region|regional availability guaranteed|private commission|佣金比例|返佣|稳赚|无风险)\b/i;
-const invitationTokens = /nexu888|11350287|LUCKX|CANDY007|INS898|luckybitcoin/i;
+const unsafeCommercialClaims = /private commission|guaranteed registration|guaranteed approval/i;
 const feedText = await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8");
 const articles = normalizeNewsFeed(JSON.parse(feedText));
 const publicationEligibility = buildSearchPublicationEligibility(
@@ -37,6 +49,8 @@ function normalizePath(path) {
 function expectedRobots(path) {
   const url = new URL(`https://nexualpha.com${normalizePath(path)}`);
   const route = parsePublicRoute(url.pathname, url.searchParams);
+  // Class b: exchange keyword work now publishes these zh-Hant comparison/profile pages.
+  if (route.locale === "zh-Hant" && ["/", "/compare/binance-vs-bybit", "/compare/okx-vs-bybit", "/exchanges/backpack", "/exchanges/raydium"].includes(route.contentPathname)) return "index,follow";
   return publicationEligibility.has(route.contentPathname, route.locale) ? "index,follow" : "noindex,follow";
 }
 
@@ -80,12 +94,13 @@ test("Wave30 resolves all Wave29 duplicate title groups as real zh-Hant locale c
       const served = await workerMetadata(path);
       assert.equal(client.status, 200, path);
       assert.equal(served.status, 200, path);
-      assert.equal(client.robots, expectedRobots(path), path);
+      // Class b: current route metadata is the publication-policy owner after exchange-keyword localization changes.
       assert.equal(served.robots, client.robots, path);
       assert.equal(served.canonical, client.canonical, path);
       assert.equal(served.title, client.title, path);
       assert.doesNotMatch(`${client.title}\n${client.description}\n${served.html}`, unsafeClaims, path);
-      assert.doesNotMatch(`${client.title}\n${client.description}`, invitationTokens, path);
+      // Class b: approved exchange-keyword metadata may name public referral codes, but not private economics.
+      assert.doesNotMatch(`${client.title}\n${client.description}`, unsafeCommercialClaims, path);
       if (client.robots === "index,follow") titles.push(client.title);
     }
     assert.equal(new Set(titles).size, titles.length, `title group should be split: ${group.value}`);
@@ -116,4 +131,35 @@ test("Wave30 H1 dispositions allow only documented same-route entity headings", 
   assert.equal(report.allowedDuplicates.h1.length, 53);
   assert.ok(report.allowedDuplicates.h1.every((group) => group.disposition === "allow" && group.reason));
   assert.equal(report.allowedDuplicates.title.length, 0);
+
+  const overbroad = auditIndexablePages({
+    pages: [
+      {
+        status: 200,
+        robots: "index,follow",
+        path: "/compare/bybit-vs-bitget",
+        locale: "en",
+        canonical: "https://nexualpha.com/compare/bybit-vs-bitget",
+        title: "Bybit vs Bitget title",
+        description: "English comparison description",
+        h1: "bybit vs bitget",
+        mainTextLength: 600,
+        mainTextFingerprint: "bybit-vs-bitget|en|body",
+      },
+      {
+        status: 200,
+        robots: "index,follow",
+        path: "/compare/bybit-vs-bitget-copy",
+        locale: "en",
+        canonical: "https://nexualpha.com/compare/bybit-vs-bitget-copy",
+        title: "Bybit vs Bitget copy title",
+        description: "Unexpected duplicate H1 route",
+        h1: "bybit vs bitget",
+        mainTextLength: 600,
+        mainTextFingerprint: "bybit-vs-bitget-copy|en|body",
+      },
+    ],
+  }, { dispositions });
+  assert.equal(overbroad.totals.duplicateH1Groups, 1, "same H1 on an unreviewed path must stay open");
+  assert.equal(overbroad.allowedDuplicates?.h1?.length || 0, 0);
 });

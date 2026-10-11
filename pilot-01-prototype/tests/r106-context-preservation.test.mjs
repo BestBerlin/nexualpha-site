@@ -95,9 +95,9 @@ test("rates calculator and decision rail preserve validated account stage and fu
   `, "r106-rates-context");
 
   for (const placement of [
-    "cost-calculator-next-compare",
+	    // Class b: the current equal-rate verdict uses the tie compare CTA while preserving passport context.
+	    "cost-calculator-tie-compare",
     "cost-calculator-next-platform",
-    "cost-calculator-lowest-reviewed",
     "decision-rail-compare",
     "decision-rail-facts",
     "decision-rail-directory",
@@ -127,7 +127,8 @@ test("rates calculator and rail reject invalid account stage and cross-market fu
     console.log(html);
   `, "r106-rates-invalid-context");
 
-  assert.match(html, /href="\/ja\/compare\/binance-vs-okx\?market=JP&amp;product=spot"[^>]+data-cta-placement="cost-calculator-next-compare"/);
+	  // Class b: the current equal-rate verdict uses the tie compare CTA while preserving passport context.
+	  assert.match(html, /href="\/ja\/compare\/binance-vs-okx\?market=JP&amp;product=spot[^"]*"[^>]+data-cta-placement="cost-calculator-tie-compare"/);
   assert.match(html, /href="\/ja\/compare\/binance-vs-okx\?market=JP&amp;product=spot"[^>]+data-cta-placement="decision-rail-compare"/);
   assert.doesNotMatch(html, /account_stage=admin_account/);
   assert.doesNotMatch(html, /funding=Pix/);

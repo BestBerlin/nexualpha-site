@@ -4,7 +4,7 @@ import test from "node:test";
 
 import worker, { routeMetadata } from "../worker/index.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
-import { AUDIT_DATE as FACTBOOK_SOURCE_REVIEW_DATE } from "../src/data/factbook-registry.js";
+import { factbookDates } from "../src/data/factbook-dates.js";
 
 function assets() {
   return { fetch: async () => new Response("missing", { status: 404, headers: { "content-type": "text/plain" } }) };
@@ -52,7 +52,8 @@ test("Wave35 client and worker expose research-desk attribution on high-value co
   const cases = [
     ["/compare/bybit-vs-bitget", "WebPage", "2026-09-22"],
     ["/topics/derivatives", "CollectionPage", "2026-09-22"],
-    ["/factbook/binance", "Dataset", FACTBOOK_SOURCE_REVIEW_DATE],
+    // Class b: factbook schema dateModified now reflects the latest fee/benefit review, not only dossier compilation.
+    ["/factbook/binance", "Dataset", factbookDates("binance").latestReviewOn],
   ];
 
   for (const [path, type, expectedDate] of cases) {

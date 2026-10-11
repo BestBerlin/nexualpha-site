@@ -22,9 +22,10 @@ test("homepage comparison choices retain real localized detail routes and brand 
 });
 
 test("editorial identity stays separate from the functional heading and controls", () => {
-  assert.match(leanHero, /className="lean-hero__badge"/);
-  assert.match(leanHero, /<h1 className="lean-hero__title">/);
-  assert.match(leanHero, /<p className="lean-hero__subtitle">/);
+  // Class b: the directory hero redesign uses hx classes and puts identity in its trust line.
+  assert.match(leanHero, /className="hx__trust-line"/);
+  assert.match(leanHero, /<h1 className="hx__title enter"/);
+  assert.match(leanHero, /<p className="hx__subtitle">/);
   assert.match(app, /<LeanHero/);
 });
 
