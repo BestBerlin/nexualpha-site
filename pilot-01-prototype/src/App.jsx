@@ -32,6 +32,7 @@ import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
+import { coinContentModulePath, parseCoinsPath } from "./data/coins-routes.js";
 import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
 import { parseBinanceOctoberPath } from "./data/binance-october-path.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
@@ -90,6 +91,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
+  "./components/coins/CoinPages.jsx",
   "./components/flash/FlashPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
 ]);
@@ -141,6 +143,8 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
+  "./components/coins/CoinPages.jsx",
+  "./data/coin-content-*.js",
   "./components/flash/FlashPages.jsx",
   "./components/campaigns/BinanceOctoberPage.jsx",
 ], { eager: true }) : {};
@@ -190,6 +194,18 @@ function readAcademyContent(locale) {
   const path = academyContentModulePath(locale);
   if (import.meta.env.SSR) return ssrDeferredPageModules[path]?.ACADEMY_CONTENT;
   return readRouteModuleExport(path, "ACADEMY_CONTENT");
+}
+// Where to buy <coin> (2026-10-12): one route chunk for /coins and /coins/<slug>; descriptions are one lazy module per locale.
+const CoinsHubPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinsHubPage");
+const CoinPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinPage");
+// Descriptions reach the server render here; in the browser the page keeps the server text (CoinPages.jsx) and loads
+// the locale module itself after a client-side navigation, so the entry carries no per-locale loaders.
+function readCoinContent(locale) {
+  return import.meta.env.SSR ? ssrDeferredPageModules[coinContentModulePath(locale)]?.COIN_DESCRIPTIONS : undefined;
+}
+function CoinsRoute({ route, locale }) {
+  if (route.name === "coinsHub") return <CoinsHubPage locale={locale} market={route.market} />;
+  return <CoinPage locale={locale} content={readCoinContent(locale)} slug={route.slug} market={route.market} />;
 }
 // Binance October campaigns page (2026-10-12): its own route chunk (route-campaign-landing).
 const BinanceOctoberPage = deferredComponent(ROUTE_MODULE_PATHS.binanceOctober, "BinanceOctoberPage");
@@ -299,7 +315,7 @@ const readComparison = () => {
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
 const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
-const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH];
+const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH, "/coins"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
   const normalized = String(pathname || "/").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
@@ -579,6 +595,10 @@ function routeState(venues, initialUrl) {
   if (academy?.kind === "hub") return { name: "academyHub", ...contextParams() };
   if (academy?.kind === "episode") return { name: "academyEpisode", slug: academy.episode.slug, ...contextParams() };
   if (academy?.kind === "missing") return { name: "notFound" };
+  const coins = parseCoinsPath(pathname);
+  if (coins?.kind === "hub") return { name: "coinsHub", ...contextParams() };
+  if (coins?.kind === "coin") return { name: "coinPage", slug: coins.slug, ...contextParams() };
+  if (coins?.kind === "missing") return { name: "notFound" };
   // Flash: same shapes as parseFlashPath (src/data/flash-path.js), inlined to keep the entry inside its budget.
   if (pathname === FLASH_PATH) return { name: "flashStream", ...contextParams() };
   const flashKey = pathname.startsWith(`${FLASH_PATH}/`) && (pathname.match(/^\/flash\/([0-9a-z]{10})(?:-[a-z0-9-]*)?$/) || [])[1];
@@ -887,6 +907,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
   if (route.name === "appDownload") return pageShell(<AppDownloadPage slug={route.slug} locale={locale} market={route.market || decisionPassport.market} contextSearch={sourceSearch} />);
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
+  if (route.name === "coinsHub" || route.name === "coinPage") return pageShell(<CoinsRoute route={route} locale={locale} />);
   if (route.name === "flashStream") return pageShell(<FlashStreamPage locale={locale} market={route.market} initial={initialFlash} />);
   if (route.name === "flashItem") return pageShell(<FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} />);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);

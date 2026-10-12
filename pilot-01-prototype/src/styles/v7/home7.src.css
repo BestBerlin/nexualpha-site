@@ -125,6 +125,17 @@
 @ .h7-academy-go{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 20px;border-radius:12px;background:var(--ac);color:var(--on-ac);font-weight:600;font-size:15px;white-space:nowrap}
 @ .h7-academy-card:hover .h7-academy-go{background:var(--ac-hi)}
 @ .h7-academy-arrow:dir(rtl){display:inline-block;transform:scaleX(-1)}
+@ .h7-coins{padding-block:clamp(32px,4vw,56px) 0}
+@ .h7-coins-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+@ .h7-coins-head h2{margin:0;font-weight:600;font-size:1.375rem;line-height:1.25;letter-spacing:-.02em;color:var(--ink)}
+@ .h7-coins-all{display:inline-flex;align-items:center;gap:6px;min-height:44px;color:var(--ac);font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap}
+@ .h7-coins-all:hover{text-decoration:underline}
+@ .h7-coins-lead{margin:4px 0 0;font-size:15px;line-height:1.6;color:var(--ink3)}
+@ .h7-coins-list{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding:0;list-style:none}
+@ .h7-coins-list a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;color:var(--ink);text-decoration:none;font-size:14px;transition:border-color 240ms var(--ease),background-color 240ms var(--ease)}
+@ .h7-coins-list a:hover{border-color:var(--line2);background:rgb(255 255 255/.04)}
+@ .h7-coins-list a:focus-visible,@ .h7-coins-all:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+@ .h7-coins-list span{font:500 12px/1 var(--mono);color:var(--ink3)}
 @media(max-width:720px){@ .h7-academy-card{grid-template-columns:64px minmax(0,1fr);padding:16px}@ .h7-academy-card img{inline-size:64px;block-size:64px}@ .h7-academy-go{grid-column:1/-1;justify-content:center}@ .h7-academy-card h2{font-size:1.125rem}}
 /* flash rail (2026-10-12): latest 5 flash items, live dot in teal, fixed row height so the client fill never shifts */
 @ .h7-flash{padding-block:clamp(28px,4vw,48px) 0}

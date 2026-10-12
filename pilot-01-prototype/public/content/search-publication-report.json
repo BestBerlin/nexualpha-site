@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-12T04:55:28.122Z",
+  "generatedAt": "2026-10-12T13:36:54.655Z",
   "version": "nexualpha-search-publication-v1",
   "publicationScope": "reviewed-indexable-routes-only",
   "publicationScopeNote": "The sitemap publishes currently indexable routes only through the shared reviewed sitemap locale policy. Historical GSC URLs are separated into redirected legacy URLs, accessible noindex URLs, and truly missing URLs instead of being reintroduced as thin sitemap entries.",
