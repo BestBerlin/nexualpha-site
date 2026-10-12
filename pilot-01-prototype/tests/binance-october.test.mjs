@@ -148,7 +148,8 @@ test("/activities/binance-october-gifts renders at request time; canonical, href
   assert.match(ru, /<meta name="robots" content="noindex,follow"/, "unwritten locale is noindex");
   assert.equal(computeRouteSeo({ url: `/zh-hans${BINANCE_OCTOBER_PATH}` }).status, 200);
   const sitemap = buildCampaignSitemap();
-  assert.equal(sitemap.count, Object.keys(BINANCE_OCTOBER_COPY).length);
+  // The campaigns sitemap is shared with other campaign pages (Bybit Stocks): count this page's entries.
+  assert.equal((sitemap.xml.match(/<loc>[^<]*\/activities\/binance-october-gifts<\/loc>/g) || []).length, Object.keys(BINANCE_OCTOBER_COPY).length);
   assert.match(sitemap.xml, /https:\/\/nexualpha\.com\/zh-hans\/activities\/binance-october-gifts/);
 });
 

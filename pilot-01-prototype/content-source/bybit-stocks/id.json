@@ -1,0 +1,256 @@
+{
+  "seoTitle": "Bybit Stocks: beli saham AS pakai USDC (kode {code})",
+  "seoTitleNeutral": "Bybit Stocks: beli saham dan ETF AS dengan USDC",
+  "seoDescription": "Beli Apple, Nvidia, Tesla dan 1,000+ saham serta ETF AS pakai USDC di Bybit. Saham asli disimpan Alpaca, mulai 5 USDC, 24 jam sehari, 5 hari seminggu.",
+  "seoDescriptionNeutral": "Cara kerja Bybit Stocks: 1,000+ saham dan ETF AS dibeli dengan USDC, saham asli disimpan Alpaca, minimum 5 USDC, trading 24 jam sehari, 5 hari seminggu.",
+  "breadcrumb": "Kampanye",
+  "kicker": "Baru di Bybit · Saham & ETF AS",
+  "h1": "Beli Apple, Nvidia, dan Tesla pakai USDC — di Bybit",
+  "sub": "Bybit kini menjual saham dan ETF AS asli — lebih dari 1,000 pilihan — dibayar langsung dari USDC di Akun Trading Terpadu kamu. Order mulai 5 USDC dan pasar buka 24 jam sehari, lima hari seminggu.",
+  "cta": "Daftar dengan kode {code}",
+  "how": "Cara kerjanya",
+  "codeLabel": "Kode undangan",
+  "copy": "Salin",
+  "copied": "Tersalin",
+  "neutralLead": "Di bawah ini: apa yang kamu miliki, cara kerja order, kapan kamu bisa trading, dan apa yang ditawarkan kampanye peluncuran.",
+  "tickersLabel": "Ticker populer",
+  "factsH": "Empat hal yang perlu kamu tahu",
+  "facts": [
+    [
+      "Saham asli, bukan token",
+      "Kamu membeli saham yang tercatat di AS. Alpaca Securities LLC (anggota FINRA/SIPC) mengeksekusi order dan menyimpan sahamnya. Bukan token, bukan CFD."
+    ],
+    [
+      "Dibayar dengan USDC",
+      "Order dibayar dan diselesaikan dalam USDC dari Akun Trading Terpadu (UTA) kamu. Tidak perlu transfer bank."
+    ],
+    [
+      "Mulai 5 USDC",
+      "Saham pecahan untuk saham yang memenuhi syarat: masukkan 5 USDC dan kamu memiliki sebagian dari satu saham."
+    ],
+    [
+      "24 jam, 5 hari",
+      "Pra-pasar, jam reguler, pasca-pasar, dan sesi malam untuk saham yang didukung, dari Minggu malam hingga Jumat malam (waktu New York)."
+    ]
+  ],
+  "stepsH": "Order saham pertamamu dalam 5 langkah",
+  "steps": [
+    [
+      "Buka akunmu",
+      "Daftar lewat tautan NexuAlpha atau masukkan kode undangan {code}, lalu selesaikan Verifikasi Identitas Lanjutan. Saham memerlukan level ini."
+    ],
+    [
+      "Simpan USDC di UTA",
+      "Deposit atau konversi ke USDC dan simpan di Akun Trading Terpadu. Order saham dibayar dari sana."
+    ],
+    [
+      "Buka TradFi → Stocks",
+      "Di aplikasi Bybit atau situs web, buka TradFi lalu pilih Stocks."
+    ],
+    [
+      "Cari ticker-nya",
+      "Ketik AAPL, NVDA, TSLA, QQQ atau salah satu dari 1,000+ simbol, lalu buka halaman trading-nya dengan grafik TradingView."
+    ],
+    [
+      "Pasang order",
+      "Pilih Market atau Limit, masukkan jumlah (mulai 5 USDC) dan konfirmasi. Sahamnya muncul di portofolio Bybit kamu."
+    ]
+  ],
+  "stepOneNeutral": [
+    "Buka akunmu",
+    "Buka akun Bybit di wilayah yang menyediakan layanan ini dan selesaikan Verifikasi Identitas Lanjutan. Saham memerlukan level lanjutan."
+  ],
+  "sessionsH": "Kapan kamu bisa trading",
+  "sessionsLead": "Waktu dalam zona New York (ET). Halaman trading mengonversinya ke waktu lokal kamu.",
+  "sessions": [
+    [
+      "Sesi malam",
+      "8:00 PM – 4:00 AM",
+      "Saham yang didukung"
+    ],
+    [
+      "Pra-pasar",
+      "4:00 AM – 9:30 AM",
+      "Order limit"
+    ],
+    [
+      "Jam reguler",
+      "9:30 AM – 4:00 PM",
+      "Semua jenis order"
+    ],
+    [
+      "Pasca-pasar",
+      "4:00 PM – 8:00 PM",
+      "Order limit"
+    ]
+  ],
+  "sessionsWeekend": "Tutup dari Jumat 8:00 PM hingga Minggu 8:00 PM ET dan pada hari libur pasar AS. Order market tereksekusi di jam reguler; di luar itu, pilih 24-Hour Trading pada order limit.",
+  "yourTime": "Waktu kamu",
+  "campaignKicker": "Kampanye peluncuran",
+  "campaignH": "Full Stocks Ahead: 150,000 USDC untuk trader saham",
+  "campaignLead": "Kampanye peluncuran Bybit berlangsung dari 12 Oktober hingga 31 Oktober 2026 (00:00 UTC). Daftar di halaman kampanye, lalu trading saham di aplikasi Bybit atau situs web.",
+  "endsIn": "Berakhir dalam",
+  "endsAt": "Berakhir 31 Okt 2026, 00:00 UTC",
+  "units": [
+    "hari",
+    "jam",
+    "mnt",
+    "dtk"
+  ],
+  "ended": "Kampanye telah berakhir.",
+  "rewards": [
+    [
+      "Hadiah trading pertama",
+      "Hadiah untuk trading saham pertamamu. Bybit menampilkan jumlahnya di halaman kampanye."
+    ],
+    [
+      "Kotak hadiah harian",
+      "Trading saham lebih dari $2,000 dalam sehari dan dapatkan kotak senilai hingga 50 USDC — setiap hari selama kampanye."
+    ],
+    [
+      "Stock Splash: 100,000 USDC",
+      "Trading saham minimal $1,000 selama kampanye dan pegang saham minimal $1,000 di akhir kampanye. Pool dibagi berdasarkan volume yang memenuhi syarat, hingga 5,000 USDC per orang."
+    ]
+  ],
+  "multipliersH": "Pengali Stock Splash",
+  "multiplierEarly": "Trading lebih awal",
+  "multiplierEarlyRows": [
+    [
+      "Hari 1–5",
+      "1.4×"
+    ],
+    [
+      "Hari 6–10",
+      "1.3×"
+    ],
+    [
+      "Hari 11–15",
+      "1.2×"
+    ],
+    [
+      "Hari 16–18",
+      "1.1×"
+    ],
+    [
+      "Hari 19–20",
+      "1.0×"
+    ]
+  ],
+  "multiplierHold": "Rata-rata kepemilikan saham harian",
+  "multiplierHoldRows": [
+    [
+      "$1,000–10,000",
+      "1.1×"
+    ],
+    [
+      "$10,000–100,000",
+      "1.2×"
+    ],
+    [
+      "Di atas $100,000",
+      "1.5×"
+    ]
+  ],
+  "whoH": "Siapa yang bisa ikut",
+  "who": "Akun utama di wilayah tempat Bybit Stocks tersedia. Akun Pro dan penduduk Dubai tidak dapat ikut serta.",
+  "officialLink": "Pengumuman Bybit",
+  "compareH": "Bybit Stocks vs saham tokenisasi vs broker tradisional",
+  "compareCols": [
+    "Bybit Stocks",
+    "Saham tokenisasi (mis. Backpack)",
+    "Broker tradisional"
+  ],
+  "compareRows": [
+    [
+      "Yang kamu miliki",
+      "Saham yang tercatat di AS",
+      "Token di Solana yang didukung saham yang disimpan di SPV, dapat ditukar 1:1",
+      "Saham di akun broker kamu"
+    ],
+    [
+      "Kustodian",
+      "Alpaca Securities LLC (anggota FINRA/SIPC)",
+      "SPV penerbit menyimpan sahamnya; kamu memegang tokennya",
+      "Broker kamu atau lembaga kliringnya"
+    ],
+    [
+      "Jam trading",
+      "24 jam, 5 hari seminggu",
+      "24/7 di Solana",
+      "Jam bursa, jam perpanjangan bervariasi"
+    ],
+    [
+      "Minimum",
+      "5 USDC",
+      "Ditentukan platform",
+      "Tergantung broker"
+    ],
+    [
+      "Biaya",
+      "Tanpa komisi; biaya layanan 0.1%, minimum 0.35 USDC per order",
+      "Biaya trading platform",
+      "Tergantung broker"
+    ],
+    [
+      "Kamu bayar dengan",
+      "USDC di UTA Bybit kamu",
+      "Kripto",
+      "Transfer bank"
+    ]
+  ],
+  "faqH": "Pertanyaan",
+  "faq": [
+    [
+      "Apakah Bybit Stocks tersedia di negaraku?",
+      "Tidak di Amerika Serikat, dan tidak di mana pun Bybit sendiri tidak tersedia (misalnya Tiongkok Daratan, Hong Kong, Singapura, dan Kanada). Bybit juga mencantumkan negara-negara EEA, India, Mauritius, dan UEA sebagai wilayah terbatas untuk Stocks, sementara Afrika Selatan masih menunggu konfirmasi. Di tempat lain, kamu memerlukan akun Bybit dengan Verifikasi Identitas Lanjutan."
+    ],
+    [
+      "Apakah aku memiliki saham asli?",
+      "Ya. Saat membeli, kamu membeli saham tercatat di AS yang disimpan oleh Alpaca Securities LLC (anggota FINRA/SIPC); Alpaca meneruskan order ke bursa seperti NYSE dan Nasdaq. Ini bukan token atau CFD, jadi tidak bisa dikirim on-chain."
+    ],
+    [
+      "Bagaimana dengan dividen?",
+      "Dividen tunai dikonversi ke USDC dan dikreditkan ke Akun Trading Terpadu kamu setelah dipotong pajak (jika ada). Dividen saham masuk sebagai saham tambahan, dan stock split menyesuaikan posisimu secara otomatis. Hak suara pemegang saham belum tersedia."
+    ],
+    [
+      "Berapa biaya satu transaksi?",
+      "Bybit tidak memungut komisi. Berlaku biaya layanan 0.1% dari nilai order, minimal 0.35 USDC per order, dan spread sudah termasuk dalam harga."
+    ],
+    [
+      "Berapa modal untuk mulai?",
+      "5 USDC. Saham yang memenuhi syarat bisa dibeli pecahan, jadi harga per saham tidak jadi masalah. Satu order bisa mencapai 1,000,000 USDC."
+    ],
+    [
+      "Bisakah aku trading malam hari atau akhir pekan?",
+      "Malam hari, bisa: saham yang didukung diperdagangkan semalam dari 8:00 PM hingga 4:00 AM ET, selain sesi pra-pasar dan pasca-pasar. Akhir pekan, tidak: trading berhenti dari Jumat 8:00 PM hingga Minggu 8:00 PM ET."
+    ]
+  ],
+  "relatedH": "Baca juga",
+  "related": [
+    [
+      "Profil exchange Bybit",
+      "Biaya, produk, dan cara mendaftar"
+    ],
+    [
+      "Apa yang sebenarnya kamu miliki dengan saham Bybit",
+      "Analisis berita kami tentang peluncurannya"
+    ],
+    [
+      "Pelajaran 7: trading spot pertamamu",
+      "Order market vs limit, langkah demi langkah"
+    ],
+    [
+      "Pelajaran 5: KYC — siapa yang menerima identitasmu",
+      "Apa saja yang diminta verifikasi identitas"
+    ]
+  ],
+  "finalH": "Saham pertamamu hanya 5 USDC lagi",
+  "finalBody": "Daftar dengan kode {code}, verifikasi, pindahkan USDC ke UTA, lalu beli.",
+  "finalNeutralH": "Baca selengkapnya",
+  "finalNeutralBody": "Analisis berita kami membahas kustodian, biaya, dan perbandingan Bybit Stocks dengan saham tokenisasi.",
+  "dealChips": [
+    "Tanpa komisi",
+    "Mulai 5 USDC",
+    "1,000+ saham & ETF"
+  ]
+}
