@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">NexuAlpha circular favicon</title>
+  <desc id="desc">A circular Nexus Alpha mark with interwoven navy and blue paths plus a turquoise rising signal.</desc>
+  <circle cx="128" cy="128" r="120" fill="#070A0E"/>
+  <path fill="#315CFF" d="M42 207V53h29l84 109V53h37v154h-31L79 98v109z"/>
+  <path fill="#0B192D" d="m77 70 25-20 100 128-27 24z"/>
+  <path fill="#315CFF" d="m57 49 26-22 115 148-26 26z"/>
+  <path fill="#1FE0C0" d="m89 184 22-22 18 17 53-70h-15l32-32 32 32h-17l-77 96-27-25-18 19z"/>
+</svg>

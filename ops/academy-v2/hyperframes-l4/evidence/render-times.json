@@ -1,0 +1,14 @@
+[
+  {
+    "format": "landscape",
+    "command": "DO_NOT_TRACK=1 DYLD_LIBRARY_PATH=/opt/homebrew/Cellar/x265/4.2/lib npx --no-install hyperframes render landscape --fps 30 --quality high --workers 2 --strict --output renders/landscape.mp4",
+    "exitCode": 0,
+    "elapsedSeconds": 80.2
+  },
+  {
+    "format": "portrait",
+    "command": "DO_NOT_TRACK=1 DYLD_LIBRARY_PATH=/opt/homebrew/Cellar/x265/4.2/lib npx --no-install hyperframes render portrait --fps 30 --quality high --workers 2 --strict --output renders/portrait.mp4",
+    "exitCode": 0,
+    "elapsedSeconds": 76
+  }
+]

@@ -1,0 +1,8 @@
+node_modules/
+.hyperframes/
+**/.hyperframes/
+**/assets/gsap.min.js
+renders/
+evidence/*-frames/
+
+.npm-cache/

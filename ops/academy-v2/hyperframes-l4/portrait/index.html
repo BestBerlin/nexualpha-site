@@ -1,0 +1,1016 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>NexuAlpha · 第 4 关 · portrait</title><style>@font-face {
+  font-family: "PingFang SC";
+  src: local("PingFang SC");
+}
+* {
+  box-sizing: border-box;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+body {
+  margin: 0;
+  background: #0b0d10;
+  color: #eef2f9;
+  font-family: Inter, "PingFang SC", sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+#academy {
+  position: relative;
+  overflow: hidden;
+  background: #0b0d10;
+}
+.ambient {
+  position: absolute;
+  inset: -120px;
+  background-image:
+    linear-gradient(#34405244 1px, transparent 1px),
+    linear-gradient(90deg, #34405244 1px, transparent 1px);
+  background-size: 120px 120px;
+  opacity: 0.24;
+}
+.depth-ring {
+  position: absolute;
+  width: 1050px;
+  height: 1050px;
+  border: 1px solid #4f7cff30;
+  border-radius: 50%;
+  right: -230px;
+  top: -130px;
+  box-shadow: 0 0 0 140px #4f7cff05;
+}
+.scene {
+  position: absolute;
+  inset: 0;
+}
+.scene-content {
+  width: 100%;
+  height: 100%;
+  padding: 145px 112px 220px;
+  display: flex;
+  gap: 90px;
+  align-items: center;
+}
+.editorial {
+  flex: 0 0 46%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.eyebrow {
+  font-size: 23px;
+  letter-spacing: 4px;
+  font-weight: 650;
+  color: #b6c0d0;
+  margin: 0;
+}
+h1 {
+  font-size: 94px;
+  line-height: 1.16;
+  letter-spacing: -4px;
+  font-weight: 700;
+  margin: 0;
+  max-width: 720px;
+}
+h2 {
+  font-size: 42px;
+  line-height: 1.4;
+  margin: 0;
+}
+p {
+  margin: 0;
+}
+.deck {
+  font-size: 36px;
+  line-height: 1.65;
+  color: #b6c0d0;
+  max-width: 690px;
+}
+.chapter-rule {
+  height: 4px;
+  width: 96px;
+  background: #4f7cff;
+}
+.lesson-label {
+  color: #b6c0d0;
+  font-size: 22px;
+  letter-spacing: 3px;
+}
+.visual {
+  flex: 1;
+  min-width: 0;
+}
+.brand-logo {
+  width: 60px;
+  height: 60px;
+}
+.topbar {
+  position: absolute;
+  top: 54px;
+  left: 112px;
+  right: 112px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 30;
+}
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 25px;
+  letter-spacing: 3px;
+}
+.edition {
+  font-size: 23px;
+  letter-spacing: 3px;
+  color: #b6c0d0;
+}
+.progress-track {
+  height: 3px;
+  position: absolute;
+  bottom: 36px;
+  left: 112px;
+  right: 112px;
+  background: #344052;
+  z-index: 30;
+}
+.progress-bar {
+  height: 100%;
+  background: #4f7cff;
+  transform-origin: left;
+}
+.intro .scene-content {
+  justify-content: center;
+  padding-bottom: 120px;
+}
+.intro-lockup {
+  display: flex;
+  gap: 88px;
+  align-items: center;
+}
+.logo-build {
+  position: relative;
+  width: 230px;
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-build .brand-logo {
+  width: 170px;
+  height: 170px;
+}
+.logo-orbit {
+  position: absolute;
+  inset: 0;
+  border: 2px solid #4f7cff;
+  border-radius: 50%;
+  border-bottom-color: transparent;
+}
+.intro h1 {
+  font-size: 112px;
+}
+.intro h1 span {
+  display: block;
+  color: #4f7cff;
+}
+.intro-topic {
+  font-size: 36px;
+  color: #b6c0d0;
+  margin-top: 30px;
+}
+.intro .eyebrow {
+  margin-bottom: 32px;
+}
+.phone-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.phone {
+  width: 390px;
+  border: 2px solid #536179;
+  border-radius: 52px;
+  background: #151b25;
+  padding: 38px 32px 26px;
+  box-shadow: 20px 30px 0 #07090d;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.phone-notch {
+  height: 9px;
+  width: 110px;
+  border-radius: 10px;
+  background: #07090d;
+  align-self: center;
+  margin-bottom: 5px;
+}
+.phone-brand {
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: #b6c0d0;
+}
+.phone h2 {
+  font-size: 32px;
+}
+.status {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ff5c5c;
+  font-size: 23px;
+  height: 35px;
+}
+.status-dot {
+  background: #ff5c5c;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.status-ready {
+  position: absolute;
+  left: 20px;
+  opacity: 0;
+}
+.phone label {
+  font-size: 20px;
+  color: #b6c0d0;
+}
+.input,
+.date-field {
+  border: 2px solid #344052;
+  padding: 18px 14px;
+  border-radius: 12px;
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  height: 68px;
+}
+.typed-letter {
+  opacity: 0;
+}
+.cursor {
+  height: 26px;
+  width: 2px;
+  background: #4f7cff;
+}
+.date-field span {
+  font-size: 18px;
+  color: #3ddc97;
+  margin-left: auto;
+}
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+}
+.toggle {
+  width: 62px;
+  height: 34px;
+  background: #344052;
+  border-radius: 20px;
+  padding: 5px;
+}
+.toggle i {
+  display: block;
+  border-radius: 50%;
+  background: #eef2f9;
+  width: 24px;
+  height: 24px;
+}
+.phone-button {
+  background: #4f7cff;
+  border-radius: 12px;
+  text-align: center;
+  padding: 18px;
+  font-size: 24px;
+  font-weight: 600;
+}
+.phone-footnote {
+  font-size: 16px;
+  color: #b6c0d0;
+  text-align: center;
+}
+.mock-note {
+  font-size: 22px;
+  color: #b6c0d0;
+}
+.checklist {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid #344052;
+  padding: 32px 0;
+}
+.check-number {
+  color: #b6c0d0;
+  font-size: 22px;
+}
+.check-copy {
+  flex: 1;
+  font-size: 36px;
+  line-height: 1.5;
+}
+.tick {
+  color: #3ddc97;
+  font-size: 42px;
+}
+.compare {
+  width: 100%;
+}
+.compare-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 22px 28px;
+  gap: 24px;
+  font-size: 30px;
+}
+.compare-head span:first-child {
+  color: #ff5c5c;
+}
+.compare-head span:last-child {
+  color: #3ddc97;
+}
+.compare-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #344052;
+  gap: 24px;
+  padding: 24px 0;
+}
+.compare-row > div {
+  padding: 0 22px;
+}
+.row-index {
+  color: #b6c0d0;
+  font-size: 18px;
+}
+.compare-row p {
+  font-size: 30px;
+  line-height: 1.45;
+  margin: 14px 0 24px;
+}
+.id-drawing {
+  position: relative;
+  width: 210px;
+  height: 115px;
+  border: 2px solid #344052;
+  border-radius: 10px;
+  padding: 24px 20px 20px 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.id-drawing i {
+  position: absolute;
+  left: 20px;
+  top: 25px;
+  width: 46px;
+  height: 60px;
+  background: #344052;
+  border-radius: 8px;
+}
+.id-drawing b {
+  height: 5px;
+  background: #536179;
+  width: 90px;
+}
+.bad {
+  border-color: #ff5c5c;
+  transform: rotate(-5deg);
+}
+.good {
+  border-color: #3ddc97;
+}
+.definition {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.kyc-letters {
+  display: flex;
+  gap: 8px;
+  font-size: 175px;
+  font-weight: 700;
+  color: #4f7cff;
+  letter-spacing: -10px;
+  line-height: 1;
+}
+.definition-en {
+  font-size: 30px;
+  color: #b6c0d0;
+}
+.definition-rule {
+  height: 1px;
+  background: #344052;
+  margin: 12px 0;
+}
+.definition > p:not(.definition-en) {
+  font-size: 32px;
+}
+.source {
+  font-size: 22px;
+  color: #b6c0d0;
+  margin-top: 22px;
+}
+.warning {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.warning-symbol {
+  color: #f8bb6a;
+  border: 2px solid #f8bb6a;
+  width: 80px;
+  height: 80px;
+  font-size: 62px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 78px;
+}
+.warning h2 {
+  font-size: 48px;
+  max-width: 660px;
+}
+.private-message {
+  padding: 26px;
+  background: #151b25;
+  border: 1px solid #344052;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.private-message span {
+  font-size: 22px;
+  color: #b6c0d0;
+}
+.private-message p {
+  font-size: 32px;
+}
+.blocked {
+  color: #ff5c5c;
+  font-size: 30px;
+}
+.warning-detail {
+  color: #f8bb6a;
+  font-size: 28px;
+  line-height: 1.55;
+}
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  position: relative;
+  padding-left: 30px;
+}
+.flow-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 75px;
+}
+.node-number {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  color: #4f7cff;
+  font-size: 28px;
+}
+.flow-node h2 {
+  font-size: 40px;
+}
+.flow-node p {
+  font-size: 26px;
+  color: #b6c0d0;
+}
+.flow-line {
+  position: absolute;
+  width: 2px;
+  left: 13px;
+  top: 25px;
+  bottom: 42px;
+  background: #344052;
+}
+.moving-dot {
+  position: absolute;
+  left: -6px;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #3ddc97;
+}
+.end-card .check-row {
+  padding: 13px 0;
+}
+.end-card .check-copy {
+  font-size: 28px;
+}
+.end-card .tick {
+  font-size: 30px;
+}
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 26px;
+}
+.qr {
+  width: 172px;
+  height: 172px;
+  background: #eef2f9;
+  border: 8px solid #eef2f9;
+}
+.cta h2 {
+  font-size: 36px;
+  margin-top: 12px;
+}
+.cta .eyebrow {
+  font-size: 17px;
+  letter-spacing: 1px;
+}
+.invite {
+  font-size: 27px;
+  margin-top: 12px;
+}
+.invite b {
+  color: #4f7cff;
+}
+.cta-url {
+  font-size: 20px;
+  color: #b6c0d0;
+  margin-top: 12px;
+}
+.disclosure {
+  font-size: 23px;
+  color: #f8bb6a;
+  margin-top: 24px;
+  line-height: 1.5;
+}
+.next-lesson {
+  font-size: 28px;
+  color: #b6c0d0;
+  margin-top: 18px;
+}
+.caption-band {
+  position: absolute;
+  left: 112px;
+  right: 112px;
+  bottom: 92px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0b0d10;
+  border-top: 1px solid #344052;
+}
+.caption-group {
+  max-width: 1600px;
+  overflow: visible;
+  position: absolute;
+  font-size: 42px;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  line-height: 1.5;
+}
+.caption-group span {
+  color: #b6c0d0;
+}
+.shutter {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  background: #4f7cff;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.portrait .scene-content {
+  padding: 220px 80px 440px;
+  flex-direction: column;
+  gap: 50px;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+.portrait .editorial {
+  flex: 0;
+  gap: 24px;
+}
+.portrait h1 {
+  font-size: 92px;
+  max-width: 920px;
+}
+.portrait .deck {
+  font-size: 36px;
+  max-width: 900px;
+}
+.portrait .lesson-label,
+.portrait .chapter-rule {
+  display: none;
+}
+.portrait .visual {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.portrait .topbar {
+  top: 100px;
+  left: 80px;
+  right: 80px;
+}
+.portrait .caption-band {
+  left: 80px;
+  right: 80px;
+  bottom: 340px;
+  height: 100px;
+}
+.portrait .progress-track {
+  left: 80px;
+  right: 80px;
+  bottom: 300px;
+}
+.portrait .phone {
+  width: 450px;
+  gap: 28px;
+  padding: 38px;
+}
+.portrait .phone-wrap {
+  width: 100%;
+}
+.portrait .phone h2 {
+  font-size: 38px;
+}
+.portrait .intro .scene-content {
+  justify-content: center;
+  padding-bottom: 400px;
+}
+.portrait .intro-lockup {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 70px;
+}
+.portrait .intro h1 {
+  font-size: 128px;
+}
+.portrait .checklist {
+  margin: auto;
+}
+.portrait .check-row {
+  padding: 36px 0;
+}
+.portrait .check-copy {
+  font-size: 42px;
+}
+.portrait .compare {
+  margin: auto;
+}
+.portrait .compare-row p {
+  font-size: 36px;
+}
+.portrait .id-drawing {
+  width: 275px;
+  height: 150px;
+  padding-top: 35px;
+}
+.portrait .id-drawing i {
+  height: 84px;
+  width: 50px;
+  top: 30px;
+}
+.portrait .compare-row {
+  padding: 34px 0;
+}
+.portrait .kyc-letters {
+  font-size: 240px;
+}
+.portrait .definition {
+  gap: 32px;
+}
+.portrait .definition h2 {
+  font-size: 58px;
+}
+.portrait .definition > p {
+  font-size: 40px;
+}
+.portrait .definition-en {
+  font-size: 38px;
+}
+.portrait .warning h2 {
+  font-size: 60px;
+}
+.portrait .warning {
+  gap: 34px;
+}
+.portrait .warning-detail {
+  font-size: 36px;
+}
+.portrait .private-message {
+  padding: 40px;
+}
+.portrait .private-message p {
+  font-size: 40px;
+}
+.portrait .flow {
+  gap: 65px;
+}
+.portrait .flow-node h2 {
+  font-size: 50px;
+}
+.portrait .flow-node p {
+  font-size: 34px;
+}
+.portrait .end-card {
+  width: 100%;
+}
+.portrait .end-card .check-row {
+  padding: 18px 0;
+}
+.portrait .end-card .check-copy {
+  font-size: 36px;
+}
+.portrait .cta {
+  margin-top: 40px;
+  gap: 36px;
+}
+.portrait .qr {
+  width: 215px;
+  height: 215px;
+}
+.portrait .cta h2 {
+  font-size: 44px;
+}
+.portrait .cta .eyebrow {
+  font-size: 22px;
+}
+.portrait .disclosure {
+  font-size: 30px;
+  margin-top: 32px;
+}
+.portrait .next-lesson {
+  font-size: 36px;
+  margin-top: 30px;
+}
+
+.caption-group {
+  max-width: 1600px;
+  overflow: visible;
+}
+.portrait .caption-group {
+  max-width: 900px;
+}
+</style></head><body><div id="academy" class="portrait" data-composition-id="academy" data-start="0" data-duration="88.20000000000002" data-width="1080" data-height="1920" data-fps="30" style="width:1080px;height:1920px"><div class="ambient" data-layout-ignore></div><div class="depth-ring" data-layout-ignore></div><div class="topbar"><div class="wordmark"><svg class="brand-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="NexuAlpha">
+  <title>NexuAlpha circular favicon</title>
+  <desc>A circular Nexus Alpha mark with interwoven navy and blue paths plus a turquoise rising signal.</desc>
+  <circle cx="128" cy="128" r="120" fill="#070A0E"/>
+  <path fill="#315CFF" d="M42 207V53h29l84 109V53h37v154h-31L79 98v109z"/>
+  <path fill="#0B192D" d="m77 70 25-20 100 128-27 24z"/>
+  <path fill="#315CFF" d="m57 49 26-22 115 148-26 26z"/>
+  <path fill="#1FE0C0" d="m89 184 22-22 18 17 53-70h-15l32-32 32 32h-17l-77 96-27-25-18 19z"/>
+</svg>
+<span>NEXUALPHA</span></div><span class="edition">新手村 / 04</span></div><section id="intro" class="scene intro"><div class="scene-content"><div class="intro-lockup"><div class="logo-build"><svg class="brand-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="NexuAlpha">
+  <title>NexuAlpha circular favicon</title>
+  <desc>A circular Nexus Alpha mark with interwoven navy and blue paths plus a turquoise rising signal.</desc>
+  <circle cx="128" cy="128" r="120" fill="#070A0E"/>
+  <path fill="#315CFF" d="M42 207V53h29l84 109V53h37v154h-31L79 98v109z"/>
+  <path fill="#0B192D" d="m77 70 25-20 100 128-27 24z"/>
+  <path fill="#315CFF" d="m57 49 26-22 115 148-26 26z"/>
+  <path fill="#1FE0C0" d="m89 184 22-22 18 17 53-70h-15l32-32 32 32h-17l-77 96-27-25-18 19z"/>
+</svg>
+<i class="logo-orbit"></i></div><div><p class="eyebrow">NEXUALPHA / ACADEMY</p><h1>新手村<span>第 4 关</span></h1><p class="intro-topic">注册 + KYC 一次过</p></div></div></div></section><section id="scene-1" class="scene" style="opacity:0"><div class="scene-content"><div class="editorial"><p class="eyebrow">FIELD GUIDE / 01</p><h1>又被拒了？</h1><p class="deck">失败原因就那几个</p><div class="chapter-rule"></div><p class="lesson-label">注册与身份核验</p></div><div class="visual"><div class="phone-wrap"><div class="phone"><div class="phone-notch"></div><p class="phone-brand">IDENTITY / DEMO</p><div class="status"><b class="status-dot"></b><span class="status-rejected">未通过</span><span class="status-ready">资料已修正</span></div><h2>核对身份信息</h2><label>姓名 · 与证件一致</label><div class="input"><span class="typed-name"><span class="typed-letter">C</span><span class="typed-letter">H</span><span class="typed-letter">E</span><span class="typed-letter">N</span><span class="typed-letter">&nbsp;</span><span class="typed-letter">L</span><span class="typed-letter">I</span><span class="typed-letter">N</span></span><i class="cursor"></i></div><label>证件有效期</label><div class="date-field">2030 / 08 / 16<span>有效</span></div><div class="toggle-row"><span>使用证件原件</span><div class="toggle"><i></i></div></div><div class="phone-button">重新提交</div><p class="phone-footnote">演示姓名 · 非个人资料</p></div><p class="mock-note">示意画面，非真实界面</p></div></div></div><div class="caption-band"><div class="caption-group" data-group="0"><span>&quot;</span><span>KYC</span><span>又</span><span>被</span><span>拒</span><span>了</span><span>，</span><span>到底</span></div><div class="caption-group" data-group="1"><span>哪里</span><span>不对</span><span>？</span></div><div class="caption-group" data-group="2"><span>&quot;</span><span>其实</span><span>大</span><span>多数</span><span>失败</span><span>，</span><span>原因</span><span>就</span></div><div class="caption-group" data-group="3"><span>那几个</span><span>。</span></div><div class="caption-group" data-group="4"><span>先讲</span><span>清楚</span><span>为什么</span><span>要</span><span>KYC</span><span>。</span></div></div></section><section id="scene-2" class="scene" style="opacity:0"><div class="scene-content"><div class="editorial"><p class="eyebrow">FIELD GUIDE / 02</p><h1>KYC 是什么</h1><p class="deck">反洗钱规则要求核实身份</p><div class="chapter-rule"></div><p class="lesson-label">注册与身份核验</p></div><div class="visual"><div class="definition"><div class="kyc-letters"><span>K</span><span>Y</span><span>C</span></div><p class="definition-en">Know Your Customer</p><h2>了解你的客户</h2><div class="definition-rule"></div><p>反洗钱规则要求</p><p>正规平台都要做</p><span class="source">来源：FATF 建议</span></div></div></div><div class="caption-band"><div class="caption-group" data-group="0"><span>KYC</span><span>的</span><span>意思</span><span>就是</span><span>&quot;</span><span>了解</span></div><div class="caption-group" data-group="1"><span>你的</span><span>客户</span><span>&quot;</span><span>。</span></div><div class="caption-group" data-group="2"><span>正规</span><span>平台</span><span>按</span><span>反</span><span>洗钱</span><span>规则</span><span>，</span></div><div class="caption-group" data-group="3"><span>必须</span><span>核实</span><span>用户</span><span>身份</span><span>。</span></div><div class="caption-group" data-group="4"><span>没有</span><span>正规</span><span>平台</span><span>能</span><span>绕</span><span>开</span><span>这</span><span>一步</span></div><div class="caption-group" data-group="5"><span>。</span></div></div></section><section id="scene-3" class="scene" style="opacity:0"><div class="scene-content"><div class="editorial"><p class="eyebrow">FIELD GUIDE / 03</p><h1>先准备好</h1><p class="deck">本人有效证件 · 年满 18 岁</p><div class="chapter-rule"></div><p class="lesson-label">注册与身份核验</p></div><div class="visual"><div class="checklist"><div class="check-row"><span class="check-number">01</span><span class="check-copy">本人有效政府证件</span><span class="tick">✓</span></div><div class="check-row"><span class="check-number">02</span><span class="check-copy">年满 18 岁</span><span class="tick">✓</span></div><div class="check-row"><span class="check-number">03</span><span class="check-copy">网络稳定</span><span class="tick">✓</span></div><div class="check-row"><span class="check-number">04</span><span class="check-copy">光线充足、镜头擦干净</span><span class="tick">✓</span></div></div></div></div><div class="caption-band"><div class="caption-group" data-group="0"><span>开始</span><span>前</span><span>先</span><span>准备</span><span>好</span><span>：</span><span>本人</span><span>有效</span></div><div class="caption-group" data-group="1"><span>的</span><span>政府</span><span>证件</span><span>，</span><span>比如</span><span>护照</span><span>或</span></div><div class="caption-group" data-group="2"><span>身份</span><span>证</span><span>。</span></div><div class="caption-group" data-group="3"><span>确认</span><span>年</span><span>满</span><span>18</span><span>岁</span><span>。</span></div><div class="caption-group" data-group="4"><span>找个</span><span>网络</span><span>稳定</span><span>、</span><span>光线</span><span>充足</span><span>的</span></div><div class="caption-group" data-group="5"><span>地方</span><span>。</span></div></div></section><section id="scene-4" class="scene" style="opacity:0"><div class="scene-content"><div class="editorial"><p class="eyebrow">FIELD GUIDE / 04</p><h1>失败原因 1–2</h1><p class="deck">证件过期 · 照片不清</p><div class="chapter-rule"></div><p class="lesson-label">注册与身份核验</p></div><div class="visual"><div class="compare"><div class="compare-head"><span>× 错误</span><span>✓ 正确</span></div><div class="compare-row"><div><span class="row-index">01</span><p>证件已过期</p><div class="id-drawing bad"><i></i><b></b><b></b></div></div><div><span class="row-index">01</span><p>在有效期内</p><div class="id-drawing good"><i></i><b></b><b></b></div></div></div><div class="compare-row"><div><span class="row-index">02</span><p>模糊、反光、缺角</p><div class="id-drawing bad"><i></i><b></b><b></b></div></div><div><span class="row-index">02</span><p>清晰完整、四角都在</p><div class="id-drawing good"><i></i><b></b><b></b></div></div></div></div></div></div><div class="caption-band"><div class="caption-group" data-group="0"><span>常见</span><span>失败</span><span>第</span><span>一种</span><span>：</span><span>证件</span><span>过期</span></div><div class="caption-group" data-group="1"><span>，</span><span>或者</span><span>平台</span><span>不</span><span>支持</span><span>这种</span><span>证件</span></div><div class="caption-group" data-group="2"><span>类型</span><span>。</span></div><div class="caption-group" data-group="3"><span>第二</span><span>种</span><span>：</span><span>照片</span><span>模糊</span><span>、</span><span>反光</span><span>、</span></div><div class="caption-group" data-group="4"><span>或者</span><span>边</span><span>角</span><span>拍得</span><span>不</span><span>完整</span><span>。</span></div></div></section><section id="scene-5" class="scene" style="opacity:0"><div class="scene-content"><div class="editorial"><p class="eyebrow">FIELD GUIDE / 05</p><h1>失败原因 3–5</h1><p class="deck">信息不符 · 截图 · 人脸</p><div class="chapter-rule"></div><p class="lesson-label">注册与身份核验</p></div><div class="visual"><div class="checklist"><div class="check-row"><span class="check-number">01</span><span class="check-copy">姓名、生日与证件一致</span><span class="tick">✓</span></div><div class="check-row"><span class="check-number">02</span><span class="check-copy">拍原件，不传截图或复印件</span><span class="tick">✓</span></div><div class="check-row"><span class="check-number">03</span><span class="check-copy">人脸完整露出，按提示操作</span><span class="tick">✓</span></div></div></div></div><div class="caption-band"><div class="caption-group" data-group="0"><span>第三</span><span>种</span><span>：</span><span>填写</span><span>的</span><span>信息</span><span>和</span><span>证件</span></div><div class="caption-group" data-group="1"><span>不一致</span><span>。</span></div><div class="caption-group" data-group="2"><span>第四</span><span>种</span><span>：</span><span>上</span><span>传</span><span>了</span><span>截</span><span>图</span><span>或</span><span>复印</span></div><div class="caption-group" data-group="3"><span>件</span><span>，</span><span>而不是</span><span>拍</span><span>原件</span><span>。</span></div><div class="caption-group" data-group="4"><span>第</span><span>五种</span><span>：</span><span>人</span><span>脸</span><span>核验</span><span>没</span><span>通过</span><span>。</span></div></div></section><section id="scene-6" class="scene" style="opacity:0"><div class="scene-content"><div class="editorial"><p class="eyebrow">FIELD GUIDE / 06</p><h1>被拒怎么办</h1><p class="deck">看原因 → 改一项 → 再提交</p><div class="chapter-rule"></div><p class="lesson-label">注册与身份核验</p></div><div class="visual"><div class="flow"><div class="flow-line"><i class="moving-dot"></i></div><div class="flow-node"><b class="node-number">01</b><h2>查看拒绝原因</h2><p>页面 / 注册邮箱</p></div><div class="flow-node"><b class="node-number">02</b><h2>只改对应那一项</h2><p>对应问题 · 一次修正</p></div><div class="flow-node"><b class="node-number">03</b><h2>重新提交</h2><p>核对后 · 再提交</p></div></div></div></div><div class="caption-band"><div class="caption-group" data-group="0"><span>被</span><span>拒</span><span>了</span><span>别</span><span>慌</span><span>，</span><span>先看</span><span>页</span><span>面</span><span>或</span></div><div class="caption-group" data-group="1"><span>邮件</span><span>里</span><span>写的</span><span>具体</span><span>原因</span><span>。</span></div><div class="caption-group" data-group="2"><span>改</span><span>好</span><span>那</span><span>一项</span><span>再</span><span>重新</span><span>提交</span><span>，</span></div><div class="caption-group" data-group="3"><span>千万</span><span>不要</span><span>反复</span><span>提交</span><span>同样</span><span>的</span></div><div class="caption-group" data-group="4"><span>资料</span><span>。</span></div></div></section><section id="scene-7" class="scene" style="opacity:0"><div class="scene-content"><div class="editorial"><p class="eyebrow">FIELD GUIDE / 07</p><h1>只在官方提交</h1><p class="deck">私信要证件照，别发</p><div class="chapter-rule"></div><p class="lesson-label">注册与身份核验</p></div><div class="visual"><div class="warning"><div class="warning-symbol">!</div><p class="eyebrow">IDENTITY IS PRIVATE</p><h2>证件只在官方 App / 官网提交</h2><div class="private-message"><span>私信 “客服”</span><p>请发一下证件照片</p><b class="blocked">× 不发送</b></div><p class="warning-detail">私信索要证件照是常见诈骗手法</p></div></div></div><div class="caption-band"><div class="caption-group" data-group="0"><span>证件</span><span>只在</span><span>官方</span><span>App</span><span>或</span><span>官</span><span>网</span></div><div class="caption-group" data-group="1"><span>里</span><span>提交</span><span>。</span></div><div class="caption-group" data-group="2"><span>任何</span><span>&quot;</span><span>客</span><span>服</span><span>&quot;</span><span>在</span><span>私信</span><span>里</span><span>要</span><span>你</span></div><div class="caption-group" data-group="3"><span>发</span><span>证件</span><span>照</span><span>，</span><span>都</span><span>绝对</span><span>别</span><span>发</span><span>。</span></div></div></section><section id="scene-8" class="scene" style="opacity:0"><div class="scene-content"><div class="editorial"><p class="eyebrow">FIELD GUIDE / 08</p><h1>准备好再提交</h1><p class="deck">下一关：先锁好账户</p><div class="chapter-rule"></div><p class="lesson-label">注册与身份核验</p></div><div class="visual"><div class="end-card"><div class="checklist"><div class="check-row"><span class="check-number">01</span><span class="check-copy">有效证件</span><span class="tick">✓</span></div><div class="check-row"><span class="check-number">02</span><span class="check-copy">拍清楚</span><span class="tick">✓</span></div><div class="check-row"><span class="check-number">03</span><span class="check-copy">信息一致</span><span class="tick">✓</span></div><div class="check-row"><span class="check-number">04</span><span class="check-copy">拍原件</span><span class="tick">✓</span></div></div><div class="cta"><img class="qr" src="assets/qr.svg" alt="OKX official registration QR"><div><p class="eyebrow">准备好证件 · 前往官网</p><h2>OKX 官网注册</h2><p class="invite">邀请码 <b>nexu888</b></p><p class="cta-url">okx.com/join/nexu888</p></div></div><p class="disclosure">合作推广链接，佣金由交易所支付</p><p class="next-lesson">下一关 → 先锁好账户</p></div></div></div><div class="caption-band"><div class="caption-group" data-group="0"><span>回顾</span><span>一下</span><span>：</span><span>有效</span><span>证件</span><span>、</span><span>拍</span></div><div class="caption-group" data-group="1"><span>清楚</span><span>、</span><span>信息</span><span>一致</span><span>、</span><span>拍</span><span>原件</span><span>。</span></div><div class="caption-group" data-group="2"><span>准备</span><span>好了</span><span>，</span><span>可以</span><span>从</span><span>官</span><span>网</span><span>注册</span></div><div class="caption-group" data-group="3"><span>。</span></div><div class="caption-group" data-group="4"><span>下</span><span>一</span><span>关</span><span>：</span><span>注册</span><span>后</span><span>第</span><span>一件事</span><span>，</span></div><div class="caption-group" data-group="5"><span>锁好</span><span>账户</span><span>。</span></div></div></section><div class="progress-track"><div class="progress-bar"></div></div><div class="shutter" data-layout-ignore></div></div><script src="assets/gsap.min.js"></script><script>const SCENES=[{"id":"scene-1","duration":9.4,"words":[{"text":"\"","start":0,"end":0.204545},{"text":"KYC","start":0.204545,"end":0.818181},{"text":"又","start":0.818181,"end":1.022726},{"text":"被","start":1.022726,"end":1.227271},{"text":"拒","start":1.227271,"end":1.431816},{"text":"了","start":1.431816,"end":1.636361},{"text":"，","start":1.636361,"end":1.840906},{"text":"到底","start":1.840906,"end":2.249997},{"text":"哪里","start":2.249997,"end":2.659088},{"text":"不对","start":2.659088,"end":3.068179},{"text":"？","start":3.068179,"end":3.272724},{"text":"\"","start":3.272724,"end":3.477269},{"text":"其实","start":3.477269,"end":3.88636},{"text":"大","start":3.88636,"end":4.090905},{"text":"多数","start":4.090905,"end":4.499996},{"text":"失败","start":4.499996,"end":4.909087},{"text":"，","start":4.909087,"end":5.113632},{"text":"原因","start":5.113632,"end":5.522723},{"text":"就","start":5.522723,"end":5.727268},{"text":"那几个","start":5.727268,"end":6.340904},{"text":"。","start":6.340904,"end":6.545449},{"text":"先讲","start":6.545449,"end":6.95454},{"text":"清楚","start":6.95454,"end":7.363631},{"text":"为什么","start":7.363631,"end":7.977267},{"text":"要","start":7.977267,"end":8.181812},{"text":"KYC","start":8.181812,"end":8.795448},{"text":"。","start":8.795448,"end":9}],"start":3,"index":0,"captions":[[{"text":"\"","start":0,"end":0.204545},{"text":"KYC","start":0.204545,"end":0.818181},{"text":"又","start":0.818181,"end":1.022726},{"text":"被","start":1.022726,"end":1.227271},{"text":"拒","start":1.227271,"end":1.431816},{"text":"了","start":1.431816,"end":1.636361},{"text":"，","start":1.636361,"end":1.840906},{"text":"到底","start":1.840906,"end":2.249997}],[{"text":"哪里","start":2.249997,"end":2.659088},{"text":"不对","start":2.659088,"end":3.068179},{"text":"？","start":3.068179,"end":3.272724}],[{"text":"\"","start":3.272724,"end":3.477269},{"text":"其实","start":3.477269,"end":3.88636},{"text":"大","start":3.88636,"end":4.090905},{"text":"多数","start":4.090905,"end":4.499996},{"text":"失败","start":4.499996,"end":4.909087},{"text":"，","start":4.909087,"end":5.113632},{"text":"原因","start":5.113632,"end":5.522723},{"text":"就","start":5.522723,"end":5.727268}],[{"text":"那几个","start":5.727268,"end":6.340904},{"text":"。","start":6.340904,"end":6.545449}],[{"text":"先讲","start":6.545449,"end":6.95454},{"text":"清楚","start":6.95454,"end":7.363631},{"text":"为什么","start":7.363631,"end":7.977267},{"text":"要","start":7.977267,"end":8.181812},{"text":"KYC","start":8.181812,"end":8.795448},{"text":"。","start":8.795448,"end":9}]]},{"id":"scene-2","duration":11.4,"words":[{"text":"KYC","start":0,"end":0.66},{"text":"的","start":0.66,"end":0.88},{"text":"意思","start":0.88,"end":1.32},{"text":"就是","start":1.32,"end":1.76},{"text":"\"","start":1.76,"end":1.98},{"text":"了解","start":1.98,"end":2.42},{"text":"你的","start":2.42,"end":2.86},{"text":"客户","start":2.86,"end":3.3},{"text":"\"","start":3.3,"end":3.52},{"text":"。","start":3.52,"end":3.74},{"text":"正规","start":3.74,"end":4.18},{"text":"平台","start":4.18,"end":4.62},{"text":"按","start":4.62,"end":4.84},{"text":"反","start":4.84,"end":5.06},{"text":"洗钱","start":5.06,"end":5.5},{"text":"规则","start":5.5,"end":5.94},{"text":"，","start":5.94,"end":6.16},{"text":"必须","start":6.16,"end":6.6},{"text":"核实","start":6.6,"end":7.04},{"text":"用户","start":7.04,"end":7.48},{"text":"身份","start":7.48,"end":7.92},{"text":"。","start":7.92,"end":8.14},{"text":"没有","start":8.14,"end":8.58},{"text":"正规","start":8.58,"end":9.02},{"text":"平台","start":9.02,"end":9.46},{"text":"能","start":9.46,"end":9.68},{"text":"绕","start":9.68,"end":9.9},{"text":"开","start":9.9,"end":10.12},{"text":"这","start":10.12,"end":10.34},{"text":"一步","start":10.34,"end":10.78},{"text":"。","start":10.78,"end":11}],"start":12.4,"index":1,"captions":[[{"text":"KYC","start":0,"end":0.66},{"text":"的","start":0.66,"end":0.88},{"text":"意思","start":0.88,"end":1.32},{"text":"就是","start":1.32,"end":1.76},{"text":"\"","start":1.76,"end":1.98},{"text":"了解","start":1.98,"end":2.42}],[{"text":"你的","start":2.42,"end":2.86},{"text":"客户","start":2.86,"end":3.3},{"text":"\"","start":3.3,"end":3.52},{"text":"。","start":3.52,"end":3.74}],[{"text":"正规","start":3.74,"end":4.18},{"text":"平台","start":4.18,"end":4.62},{"text":"按","start":4.62,"end":4.84},{"text":"反","start":4.84,"end":5.06},{"text":"洗钱","start":5.06,"end":5.5},{"text":"规则","start":5.5,"end":5.94},{"text":"，","start":5.94,"end":6.16}],[{"text":"必须","start":6.16,"end":6.6},{"text":"核实","start":6.6,"end":7.04},{"text":"用户","start":7.04,"end":7.48},{"text":"身份","start":7.48,"end":7.92},{"text":"。","start":7.92,"end":8.14}],[{"text":"没有","start":8.14,"end":8.58},{"text":"正规","start":8.58,"end":9.02},{"text":"平台","start":9.02,"end":9.46},{"text":"能","start":9.46,"end":9.68},{"text":"绕","start":9.68,"end":9.9},{"text":"开","start":9.9,"end":10.12},{"text":"这","start":10.12,"end":10.34},{"text":"一步","start":10.34,"end":10.78}],[{"text":"。","start":10.78,"end":11}]]},{"id":"scene-3","duration":10.4,"words":[{"text":"开始","start":0,"end":0.4},{"text":"前","start":0.4,"end":0.6},{"text":"先","start":0.6,"end":0.8},{"text":"准备","start":0.8,"end":1.2},{"text":"好","start":1.2,"end":1.4},{"text":"：","start":1.4,"end":1.6},{"text":"本人","start":1.6,"end":2},{"text":"有效","start":2,"end":2.4},{"text":"的","start":2.4,"end":2.6},{"text":"政府","start":2.6,"end":3},{"text":"证件","start":3,"end":3.4},{"text":"，","start":3.4,"end":3.6},{"text":"比如","start":3.6,"end":4},{"text":"护照","start":4,"end":4.4},{"text":"或","start":4.4,"end":4.6},{"text":"身份","start":4.6,"end":5},{"text":"证","start":5,"end":5.2},{"text":"。","start":5.2,"end":5.4},{"text":"确认","start":5.4,"end":5.8},{"text":"年","start":5.8,"end":6},{"text":"满","start":6,"end":6.2},{"text":"18","start":6.2,"end":6.6},{"text":"岁","start":6.6,"end":6.8},{"text":"。","start":6.8,"end":7},{"text":"找个","start":7,"end":7.4},{"text":"网络","start":7.4,"end":7.8},{"text":"稳定","start":7.8,"end":8.2},{"text":"、","start":8.2,"end":8.4},{"text":"光线","start":8.4,"end":8.8},{"text":"充足","start":8.8,"end":9.2},{"text":"的","start":9.2,"end":9.4},{"text":"地方","start":9.4,"end":9.8},{"text":"。","start":9.8,"end":10}],"start":23.8,"index":2,"captions":[[{"text":"开始","start":0,"end":0.4},{"text":"前","start":0.4,"end":0.6},{"text":"先","start":0.6,"end":0.8},{"text":"准备","start":0.8,"end":1.2},{"text":"好","start":1.2,"end":1.4},{"text":"：","start":1.4,"end":1.6},{"text":"本人","start":1.6,"end":2},{"text":"有效","start":2,"end":2.4}],[{"text":"的","start":2.4,"end":2.6},{"text":"政府","start":2.6,"end":3},{"text":"证件","start":3,"end":3.4},{"text":"，","start":3.4,"end":3.6},{"text":"比如","start":3.6,"end":4},{"text":"护照","start":4,"end":4.4},{"text":"或","start":4.4,"end":4.6}],[{"text":"身份","start":4.6,"end":5},{"text":"证","start":5,"end":5.2},{"text":"。","start":5.2,"end":5.4}],[{"text":"确认","start":5.4,"end":5.8},{"text":"年","start":5.8,"end":6},{"text":"满","start":6,"end":6.2},{"text":"18","start":6.2,"end":6.6},{"text":"岁","start":6.6,"end":6.8},{"text":"。","start":6.8,"end":7}],[{"text":"找个","start":7,"end":7.4},{"text":"网络","start":7.4,"end":7.8},{"text":"稳定","start":7.8,"end":8.2},{"text":"、","start":8.2,"end":8.4},{"text":"光线","start":8.4,"end":8.8},{"text":"充足","start":8.8,"end":9.2},{"text":"的","start":9.2,"end":9.4}],[{"text":"地方","start":9.4,"end":9.8},{"text":"。","start":9.8,"end":10}]]},{"id":"scene-4","duration":11.4,"words":[{"text":"常见","start":0,"end":0.44898},{"text":"失败","start":0.44898,"end":0.89796},{"text":"第","start":0.89796,"end":1.12245},{"text":"一种","start":1.12245,"end":1.57143},{"text":"：","start":1.57143,"end":1.79592},{"text":"证件","start":1.79592,"end":2.2449},{"text":"过期","start":2.2449,"end":2.69388},{"text":"，","start":2.69388,"end":2.91837},{"text":"或者","start":2.91837,"end":3.36735},{"text":"平台","start":3.36735,"end":3.81633},{"text":"不","start":3.81633,"end":4.04082},{"text":"支持","start":4.04082,"end":4.4898},{"text":"这种","start":4.4898,"end":4.93878},{"text":"证件","start":4.93878,"end":5.38776},{"text":"类型","start":5.38776,"end":5.83674},{"text":"。","start":5.83674,"end":6.06123},{"text":"第二","start":6.06123,"end":6.51021},{"text":"种","start":6.51021,"end":6.7347},{"text":"：","start":6.7347,"end":6.95919},{"text":"照片","start":6.95919,"end":7.40817},{"text":"模糊","start":7.40817,"end":7.85715},{"text":"、","start":7.85715,"end":8.08164},{"text":"反光","start":8.08164,"end":8.53062},{"text":"、","start":8.53062,"end":8.75511},{"text":"或者","start":8.75511,"end":9.20409},{"text":"边","start":9.20409,"end":9.42858},{"text":"角","start":9.42858,"end":9.65307},{"text":"拍得","start":9.65307,"end":10.10205},{"text":"不","start":10.10205,"end":10.32654},{"text":"完整","start":10.32654,"end":10.77552},{"text":"。","start":10.77552,"end":11}],"start":34.2,"index":3,"captions":[[{"text":"常见","start":0,"end":0.44898},{"text":"失败","start":0.44898,"end":0.89796},{"text":"第","start":0.89796,"end":1.12245},{"text":"一种","start":1.12245,"end":1.57143},{"text":"：","start":1.57143,"end":1.79592},{"text":"证件","start":1.79592,"end":2.2449},{"text":"过期","start":2.2449,"end":2.69388}],[{"text":"，","start":2.69388,"end":2.91837},{"text":"或者","start":2.91837,"end":3.36735},{"text":"平台","start":3.36735,"end":3.81633},{"text":"不","start":3.81633,"end":4.04082},{"text":"支持","start":4.04082,"end":4.4898},{"text":"这种","start":4.4898,"end":4.93878},{"text":"证件","start":4.93878,"end":5.38776}],[{"text":"类型","start":5.38776,"end":5.83674},{"text":"。","start":5.83674,"end":6.06123}],[{"text":"第二","start":6.06123,"end":6.51021},{"text":"种","start":6.51021,"end":6.7347},{"text":"：","start":6.7347,"end":6.95919},{"text":"照片","start":6.95919,"end":7.40817},{"text":"模糊","start":7.40817,"end":7.85715},{"text":"、","start":7.85715,"end":8.08164},{"text":"反光","start":8.08164,"end":8.53062},{"text":"、","start":8.53062,"end":8.75511}],[{"text":"或者","start":8.75511,"end":9.20409},{"text":"边","start":9.20409,"end":9.42858},{"text":"角","start":9.42858,"end":9.65307},{"text":"拍得","start":9.65307,"end":10.10205},{"text":"不","start":10.10205,"end":10.32654},{"text":"完整","start":10.32654,"end":10.77552},{"text":"。","start":10.77552,"end":11}]]},{"id":"scene-5","duration":12.4,"words":[{"text":"第三","start":0,"end":0.489796},{"text":"种","start":0.489796,"end":0.734694},{"text":"：","start":0.734694,"end":0.979592},{"text":"填写","start":0.979592,"end":1.469388},{"text":"的","start":1.469388,"end":1.714286},{"text":"信息","start":1.714286,"end":2.204082},{"text":"和","start":2.204082,"end":2.44898},{"text":"证件","start":2.44898,"end":2.938776},{"text":"不一致","start":2.938776,"end":3.67347},{"text":"。","start":3.67347,"end":3.918368},{"text":"第四","start":3.918368,"end":4.408164},{"text":"种","start":4.408164,"end":4.653062},{"text":"：","start":4.653062,"end":4.89796},{"text":"上","start":4.89796,"end":5.142858},{"text":"传","start":5.142858,"end":5.387756},{"text":"了","start":5.387756,"end":5.632654},{"text":"截","start":5.632654,"end":5.877552},{"text":"图","start":5.877552,"end":6.12245},{"text":"或","start":6.12245,"end":6.367348},{"text":"复印","start":6.367348,"end":6.857144},{"text":"件","start":6.857144,"end":7.102042},{"text":"，","start":7.102042,"end":7.34694},{"text":"而不是","start":7.34694,"end":8.081634},{"text":"拍","start":8.081634,"end":8.326532},{"text":"原件","start":8.326532,"end":8.816328},{"text":"。","start":8.816328,"end":9.061226},{"text":"第","start":9.061226,"end":9.306124},{"text":"五种","start":9.306124,"end":9.79592},{"text":"：","start":9.79592,"end":10.040818},{"text":"人","start":10.040818,"end":10.285716},{"text":"脸","start":10.285716,"end":10.530614},{"text":"核验","start":10.530614,"end":11.02041},{"text":"没","start":11.02041,"end":11.265308},{"text":"通过","start":11.265308,"end":11.755104},{"text":"。","start":11.755104,"end":12}],"start":45.6,"index":4,"captions":[[{"text":"第三","start":0,"end":0.489796},{"text":"种","start":0.489796,"end":0.734694},{"text":"：","start":0.734694,"end":0.979592},{"text":"填写","start":0.979592,"end":1.469388},{"text":"的","start":1.469388,"end":1.714286},{"text":"信息","start":1.714286,"end":2.204082},{"text":"和","start":2.204082,"end":2.44898},{"text":"证件","start":2.44898,"end":2.938776}],[{"text":"不一致","start":2.938776,"end":3.67347},{"text":"。","start":3.67347,"end":3.918368}],[{"text":"第四","start":3.918368,"end":4.408164},{"text":"种","start":4.408164,"end":4.653062},{"text":"：","start":4.653062,"end":4.89796},{"text":"上","start":4.89796,"end":5.142858},{"text":"传","start":5.142858,"end":5.387756},{"text":"了","start":5.387756,"end":5.632654},{"text":"截","start":5.632654,"end":5.877552},{"text":"图","start":5.877552,"end":6.12245},{"text":"或","start":6.12245,"end":6.367348},{"text":"复印","start":6.367348,"end":6.857144}],[{"text":"件","start":6.857144,"end":7.102042},{"text":"，","start":7.102042,"end":7.34694},{"text":"而不是","start":7.34694,"end":8.081634},{"text":"拍","start":8.081634,"end":8.326532},{"text":"原件","start":8.326532,"end":8.816328},{"text":"。","start":8.816328,"end":9.061226}],[{"text":"第","start":9.061226,"end":9.306124},{"text":"五种","start":9.306124,"end":9.79592},{"text":"：","start":9.79592,"end":10.040818},{"text":"人","start":10.040818,"end":10.285716},{"text":"脸","start":10.285716,"end":10.530614},{"text":"核验","start":10.530614,"end":11.02041},{"text":"没","start":11.02041,"end":11.265308},{"text":"通过","start":11.265308,"end":11.755104},{"text":"。","start":11.755104,"end":12}]]},{"id":"scene-6","duration":10.4,"words":[{"text":"被","start":0,"end":0.217391},{"text":"拒","start":0.217391,"end":0.434782},{"text":"了","start":0.434782,"end":0.652173},{"text":"别","start":0.652173,"end":0.869564},{"text":"慌","start":0.869564,"end":1.086955},{"text":"，","start":1.086955,"end":1.304346},{"text":"先看","start":1.304346,"end":1.739129},{"text":"页","start":1.739129,"end":1.95652},{"text":"面","start":1.95652,"end":2.173911},{"text":"或","start":2.173911,"end":2.391302},{"text":"邮件","start":2.391302,"end":2.826085},{"text":"里","start":2.826085,"end":3.043476},{"text":"写的","start":3.043476,"end":3.478259},{"text":"具体","start":3.478259,"end":3.913042},{"text":"原因","start":3.913042,"end":4.347825},{"text":"。","start":4.347825,"end":4.565216},{"text":"改","start":4.565216,"end":4.782607},{"text":"好","start":4.782607,"end":4.999998},{"text":"那","start":4.999998,"end":5.217389},{"text":"一项","start":5.217389,"end":5.652172},{"text":"再","start":5.652172,"end":5.869563},{"text":"重新","start":5.869563,"end":6.304346},{"text":"提交","start":6.304346,"end":6.739129},{"text":"，","start":6.739129,"end":6.95652},{"text":"千万","start":6.95652,"end":7.391303},{"text":"不要","start":7.391303,"end":7.826086},{"text":"反复","start":7.826086,"end":8.260869},{"text":"提交","start":8.260869,"end":8.695652},{"text":"同样","start":8.695652,"end":9.130435},{"text":"的","start":9.130435,"end":9.347826},{"text":"资料","start":9.347826,"end":9.782609},{"text":"。","start":9.782609,"end":10}],"start":58,"index":5,"captions":[[{"text":"被","start":0,"end":0.217391},{"text":"拒","start":0.217391,"end":0.434782},{"text":"了","start":0.434782,"end":0.652173},{"text":"别","start":0.652173,"end":0.869564},{"text":"慌","start":0.869564,"end":1.086955},{"text":"，","start":1.086955,"end":1.304346},{"text":"先看","start":1.304346,"end":1.739129},{"text":"页","start":1.739129,"end":1.95652},{"text":"面","start":1.95652,"end":2.173911},{"text":"或","start":2.173911,"end":2.391302}],[{"text":"邮件","start":2.391302,"end":2.826085},{"text":"里","start":2.826085,"end":3.043476},{"text":"写的","start":3.043476,"end":3.478259},{"text":"具体","start":3.478259,"end":3.913042},{"text":"原因","start":3.913042,"end":4.347825},{"text":"。","start":4.347825,"end":4.565216}],[{"text":"改","start":4.565216,"end":4.782607},{"text":"好","start":4.782607,"end":4.999998},{"text":"那","start":4.999998,"end":5.217389},{"text":"一项","start":5.217389,"end":5.652172},{"text":"再","start":5.652172,"end":5.869563},{"text":"重新","start":5.869563,"end":6.304346},{"text":"提交","start":6.304346,"end":6.739129},{"text":"，","start":6.739129,"end":6.95652}],[{"text":"千万","start":6.95652,"end":7.391303},{"text":"不要","start":7.391303,"end":7.826086},{"text":"反复","start":7.826086,"end":8.260869},{"text":"提交","start":8.260869,"end":8.695652},{"text":"同样","start":8.695652,"end":9.130435},{"text":"的","start":9.130435,"end":9.347826}],[{"text":"资料","start":9.347826,"end":9.782609},{"text":"。","start":9.782609,"end":10}]]},{"id":"scene-7","duration":8.4,"words":[{"text":"证件","start":0,"end":0.410256},{"text":"只在","start":0.410256,"end":0.820512},{"text":"官方","start":0.820512,"end":1.230768},{"text":"App","start":1.230768,"end":1.846153},{"text":"或","start":1.846153,"end":2.051281},{"text":"官","start":2.051281,"end":2.256409},{"text":"网","start":2.256409,"end":2.461537},{"text":"里","start":2.461537,"end":2.666665},{"text":"提交","start":2.666665,"end":3.076921},{"text":"。","start":3.076921,"end":3.282049},{"text":"任何","start":3.282049,"end":3.692305},{"text":"\"","start":3.692305,"end":3.897433},{"text":"客","start":3.897433,"end":4.102561},{"text":"服","start":4.102561,"end":4.307689},{"text":"\"","start":4.307689,"end":4.512817},{"text":"在","start":4.512817,"end":4.717945},{"text":"私信","start":4.717945,"end":5.128201},{"text":"里","start":5.128201,"end":5.333329},{"text":"要","start":5.333329,"end":5.538457},{"text":"你","start":5.538457,"end":5.743585},{"text":"发","start":5.743585,"end":5.948713},{"text":"证件","start":5.948713,"end":6.358969},{"text":"照","start":6.358969,"end":6.564097},{"text":"，","start":6.564097,"end":6.769225},{"text":"都","start":6.769225,"end":6.974353},{"text":"绝对","start":6.974353,"end":7.384609},{"text":"别","start":7.384609,"end":7.589737},{"text":"发","start":7.589737,"end":7.794865},{"text":"。","start":7.794865,"end":8}],"start":68.4,"index":6,"captions":[[{"text":"证件","start":0,"end":0.410256},{"text":"只在","start":0.410256,"end":0.820512},{"text":"官方","start":0.820512,"end":1.230768},{"text":"App","start":1.230768,"end":1.846153},{"text":"或","start":1.846153,"end":2.051281},{"text":"官","start":2.051281,"end":2.256409},{"text":"网","start":2.256409,"end":2.461537}],[{"text":"里","start":2.461537,"end":2.666665},{"text":"提交","start":2.666665,"end":3.076921},{"text":"。","start":3.076921,"end":3.282049}],[{"text":"任何","start":3.282049,"end":3.692305},{"text":"\"","start":3.692305,"end":3.897433},{"text":"客","start":3.897433,"end":4.102561},{"text":"服","start":4.102561,"end":4.307689},{"text":"\"","start":4.307689,"end":4.512817},{"text":"在","start":4.512817,"end":4.717945},{"text":"私信","start":4.717945,"end":5.128201},{"text":"里","start":5.128201,"end":5.333329},{"text":"要","start":5.333329,"end":5.538457},{"text":"你","start":5.538457,"end":5.743585}],[{"text":"发","start":5.743585,"end":5.948713},{"text":"证件","start":5.948713,"end":6.358969},{"text":"照","start":6.358969,"end":6.564097},{"text":"，","start":6.564097,"end":6.769225},{"text":"都","start":6.769225,"end":6.974353},{"text":"绝对","start":6.974353,"end":7.384609},{"text":"别","start":7.384609,"end":7.589737},{"text":"发","start":7.589737,"end":7.794865},{"text":"。","start":7.794865,"end":8}]]},{"id":"scene-8","duration":11.4,"words":[{"text":"回顾","start":0,"end":0.415094},{"text":"一下","start":0.415094,"end":0.830188},{"text":"：","start":0.830188,"end":1.037735},{"text":"有效","start":1.037735,"end":1.452829},{"text":"证件","start":1.452829,"end":1.867923},{"text":"、","start":1.867923,"end":2.07547},{"text":"拍","start":2.07547,"end":2.283017},{"text":"清楚","start":2.283017,"end":2.698111},{"text":"、","start":2.698111,"end":2.905658},{"text":"信息","start":2.905658,"end":3.320752},{"text":"一致","start":3.320752,"end":3.735846},{"text":"、","start":3.735846,"end":3.943393},{"text":"拍","start":3.943393,"end":4.15094},{"text":"原件","start":4.15094,"end":4.566034},{"text":"。","start":4.566034,"end":4.773581},{"text":"准备","start":4.773581,"end":5.188675},{"text":"好了","start":5.188675,"end":5.603769},{"text":"，","start":5.603769,"end":5.811316},{"text":"可以","start":5.811316,"end":6.22641},{"text":"从","start":6.22641,"end":6.433957},{"text":"官","start":6.433957,"end":6.641504},{"text":"网","start":6.641504,"end":6.849051},{"text":"注册","start":6.849051,"end":7.264145},{"text":"。","start":7.264145,"end":7.471692},{"text":"下","start":7.471692,"end":7.679239},{"text":"一","start":7.679239,"end":7.886786},{"text":"关","start":7.886786,"end":8.094333},{"text":"：","start":8.094333,"end":8.30188},{"text":"注册","start":8.30188,"end":8.716974},{"text":"后","start":8.716974,"end":8.924521},{"text":"第","start":8.924521,"end":9.132068},{"text":"一件事","start":9.132068,"end":9.75471},{"text":"，","start":9.75471,"end":9.962257},{"text":"锁好","start":9.962257,"end":10.377351},{"text":"账户","start":10.377351,"end":10.792445},{"text":"。","start":10.792445,"end":11}],"start":76.80000000000001,"index":7,"captions":[[{"text":"回顾","start":0,"end":0.415094},{"text":"一下","start":0.415094,"end":0.830188},{"text":"：","start":0.830188,"end":1.037735},{"text":"有效","start":1.037735,"end":1.452829},{"text":"证件","start":1.452829,"end":1.867923},{"text":"、","start":1.867923,"end":2.07547},{"text":"拍","start":2.07547,"end":2.283017}],[{"text":"清楚","start":2.283017,"end":2.698111},{"text":"、","start":2.698111,"end":2.905658},{"text":"信息","start":2.905658,"end":3.320752},{"text":"一致","start":3.320752,"end":3.735846},{"text":"、","start":3.735846,"end":3.943393},{"text":"拍","start":3.943393,"end":4.15094},{"text":"原件","start":4.15094,"end":4.566034},{"text":"。","start":4.566034,"end":4.773581}],[{"text":"准备","start":4.773581,"end":5.188675},{"text":"好了","start":5.188675,"end":5.603769},{"text":"，","start":5.603769,"end":5.811316},{"text":"可以","start":5.811316,"end":6.22641},{"text":"从","start":6.22641,"end":6.433957},{"text":"官","start":6.433957,"end":6.641504},{"text":"网","start":6.641504,"end":6.849051},{"text":"注册","start":6.849051,"end":7.264145}],[{"text":"。","start":7.264145,"end":7.471692}],[{"text":"下","start":7.471692,"end":7.679239},{"text":"一","start":7.679239,"end":7.886786},{"text":"关","start":7.886786,"end":8.094333},{"text":"：","start":8.094333,"end":8.30188},{"text":"注册","start":8.30188,"end":8.716974},{"text":"后","start":8.716974,"end":8.924521},{"text":"第","start":8.924521,"end":9.132068},{"text":"一件事","start":9.132068,"end":9.75471},{"text":"，","start":9.75471,"end":9.962257}],[{"text":"锁好","start":9.962257,"end":10.377351},{"text":"账户","start":10.377351,"end":10.792445},{"text":"。","start":10.792445,"end":11}]]}];const TOTAL=88.20000000000002;const tl = gsap.timeline({ paused: true });
+const enter = (selector, vars, time) =>
+  tl.from(selector, { ...vars, immediateRender: false }, time);
+tl.to(".ambient", { x: 75, y: 35, duration: TOTAL, ease: "none" }, 0);
+tl.to(
+  ".depth-ring",
+  { x: -40, y: 65, scale: 1.07, duration: TOTAL, ease: "sine.inOut" },
+  0,
+);
+enter(
+  ".logo-build .brand-logo",
+  { scale: 0.45, rotation: -35, duration: 0.65, ease: "back.out(1.25)" },
+  0.12,
+);
+enter(
+  ".logo-orbit",
+  { scale: 1.25, rotation: 140, opacity: 0, duration: 0.7, ease: "expo.out" },
+  0.2,
+);
+enter(
+  ".intro .eyebrow",
+  { x: 45, opacity: 0, duration: 0.5, ease: "power3.out" },
+  0.32,
+);
+enter(
+  ".intro h1",
+  { y: 60, opacity: 0, duration: 0.65, ease: "expo.out" },
+  0.48,
+);
+enter(
+  ".intro-topic",
+  { y: 25, opacity: 0, duration: 0.55, ease: "power2.out" },
+  0.7,
+);
+tl.from(".progress-bar", { scaleX: 0, duration: TOTAL, ease: "none" }, 0);
+function shutter(time) {
+  tl.set(".shutter", { transformOrigin: "left" }, time - 0.2);
+  tl.to(
+    ".shutter",
+    { scaleX: 1, duration: 0.2, ease: "power3.in" },
+    time - 0.2,
+  );
+  tl.set(".shutter", { transformOrigin: "right" }, time);
+  tl.to(".shutter", { scaleX: 0, duration: 0.2, ease: "power3.out" }, time);
+}
+SCENES.forEach((scene, i) => {
+  const prefix = `#scene-${i + 1}`;
+  const t = scene.start;
+  const d = scene.duration;
+  shutter(t);
+  tl.set(i === 0 ? "#intro" : `#scene-${i}`, { opacity: 0 }, t);
+  tl.set(prefix, { opacity: 1 }, t);
+  enter(
+    `${prefix} .eyebrow`,
+    { x: 35, opacity: 0, duration: 0.45, ease: "power3.out" },
+    t + 0.12,
+  );
+  enter(
+    `${prefix} h1`,
+    { y: 55, opacity: 0, duration: 0.6, ease: "expo.out" },
+    t + 0.2,
+  );
+  enter(
+    `${prefix} .deck`,
+    { x: 30, opacity: 0, duration: 0.5, ease: "power2.out" },
+    t + 0.34,
+  );
+  enter(
+    `${prefix} .chapter-rule`,
+    { scaleX: 0, duration: 0.5, ease: "expo.out", transformOrigin: "left" },
+    t + 0.45,
+  );
+  enter(
+    `${prefix} .lesson-label`,
+    { y: 15, opacity: 0, duration: 0.45, ease: "power3.out" },
+    t + 0.5,
+  );
+  enter(
+    `${prefix} .visual`,
+    { y: 48, scale: 0.96, opacity: 0, duration: 0.65, ease: "back.out(1.1)" },
+    t + 0.28,
+  );
+  const rows = document.querySelectorAll(prefix + " .check-row");
+  rows.forEach((row, j) => {
+    const beat = t + 1 + j * Math.min(1.2, (d - 2) / Math.max(rows.length, 1));
+    enter(row, { x: 35, opacity: 0, duration: 0.5, ease: "power3.out" }, beat);
+    enter(
+      row.querySelector(".tick"),
+      { scale: 0, rotation: -30, duration: 0.45, ease: "back.out(1.5)" },
+      beat + 0.35,
+    );
+  });
+  if (i === 0) {
+    tl.to(
+      `${prefix} .input`,
+      { borderColor: "#4f7cff", duration: 0.3 },
+      t + d * 0.18,
+    );
+    document
+      .querySelectorAll(prefix + " .typed-letter")
+      .forEach((letter, j) =>
+        tl.set(letter, { opacity: 1 }, t + d * 0.23 + j * 0.13),
+      );
+    tl.to(
+      `${prefix} .toggle`,
+      { backgroundColor: "#3ddc97", duration: 0.3 },
+      t + d * 0.43,
+    );
+    tl.to(
+      `${prefix} .toggle i`,
+      { x: 28, duration: 0.35, ease: "back.out(1.3)" },
+      t + d * 0.43,
+    );
+    tl.to(
+      `${prefix} .status-rejected`,
+      { opacity: 0, duration: 0.15 },
+      t + d * 0.58,
+    );
+    tl.to(
+      `${prefix} .status-ready`,
+      { opacity: 1, duration: 0.15 },
+      t + d * 0.58,
+    );
+    tl.to(
+      `${prefix} .status`,
+      { color: "#3ddc97", duration: 0.2 },
+      t + d * 0.58,
+    );
+    tl.to(
+      `${prefix} .status-dot`,
+      { backgroundColor: "#3ddc97", duration: 0.2 },
+      t + d * 0.58,
+    );
+    tl.to(
+      `${prefix} .phone-button`,
+      { scale: 0.96, duration: 0.15, repeat: 1, yoyo: true },
+      t + d * 0.72,
+    );
+  }
+  document
+    .querySelectorAll(prefix + " .kyc-letters span")
+    .forEach((letter, j) =>
+      enter(
+        letter,
+        { y: 80, rotation: 4, opacity: 0, duration: 0.6, ease: "expo.out" },
+        t + 0.7 + j * 0.15,
+      ),
+    );
+  document
+    .querySelectorAll(prefix + " .compare-row")
+    .forEach((row, j) =>
+      enter(
+        row,
+        { y: 30, opacity: 0, duration: 0.55, ease: "power3.out" },
+        t + 1 + j * 0.8,
+      ),
+    );
+  const nodes = document.querySelectorAll(prefix + " .flow-node");
+  nodes.forEach((node, j) =>
+    enter(
+      node,
+      { x: 40, opacity: 0, duration: 0.55, ease: "expo.out" },
+      t + 0.8 + j * 0.8,
+    ),
+  );
+  if (nodes.length)
+    tl.to(
+      `${prefix} .moving-dot`,
+      {
+        y: document.querySelector(prefix + " .flow-line").clientHeight - 14,
+        duration: d - 2,
+        ease: "power1.inOut",
+      },
+      t + 1.2,
+    );
+  if (i === 6) {
+    enter(
+      `${prefix} .blocked`,
+      {
+        scale: 0.8,
+        rotation: -4,
+        opacity: 0,
+        duration: 0.5,
+        ease: "back.out(1.4)",
+      },
+      t + d * 0.4,
+    );
+  }
+  if (i === 7) {
+    enter(
+      `${prefix} .cta`,
+      { y: 30, opacity: 0, duration: 0.6, ease: "expo.out" },
+      t + 2,
+    );
+    enter(
+      `${prefix} .next-lesson`,
+      { x: 30, opacity: 0, duration: 0.5, ease: "power3.out" },
+      t + 2.4,
+    );
+  }
+  const groups = document.querySelectorAll(prefix + " .caption-group");
+  scene.captions.forEach((words, j) => {
+    const group = groups[j];
+    const begin = t + words[0].start;
+    const end = t + words.at(-1).end;
+    tl.set(group, { opacity: 1 }, begin);
+    words.forEach((word, k) => {
+      tl.set(
+        group.children[k],
+        { color: "#eef2f9", backgroundColor: "#4f7cff" },
+        t + word.start,
+      );
+      tl.set(
+        group.children[k],
+        { color: "#eef2f9", backgroundColor: "transparent" },
+        t + word.end,
+      );
+    });
+    tl.set(group, { opacity: 0 }, end);
+  });
+});
+window.__timelines = { academy: tl };
+// Local review only; capture engine retains control when there is no ?at= parameter.
+const reviewTime = new URLSearchParams(location.search).get("at");
+if (reviewTime !== null && Number.isFinite(Number(reviewTime)))
+  tl.seek(Number(reviewTime));
+</script></body></html>

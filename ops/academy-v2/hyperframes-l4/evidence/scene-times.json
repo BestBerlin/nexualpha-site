@@ -1,0 +1,53 @@
+{
+  "duration": 88.20000000000002,
+  "scenes": [
+    {
+      "id": "scene-1",
+      "start": 3,
+      "duration": 9.4,
+      "hero": 8.64
+    },
+    {
+      "id": "scene-2",
+      "start": 12.4,
+      "duration": 11.4,
+      "hero": 19.240000000000002
+    },
+    {
+      "id": "scene-3",
+      "start": 23.8,
+      "duration": 10.4,
+      "hero": 30.04
+    },
+    {
+      "id": "scene-4",
+      "start": 34.2,
+      "duration": 11.4,
+      "hero": 41.040000000000006
+    },
+    {
+      "id": "scene-5",
+      "start": 45.6,
+      "duration": 12.4,
+      "hero": 53.04
+    },
+    {
+      "id": "scene-6",
+      "start": 58,
+      "duration": 10.4,
+      "hero": 64.24
+    },
+    {
+      "id": "scene-7",
+      "start": 68.4,
+      "duration": 8.4,
+      "hero": 73.44000000000001
+    },
+    {
+      "id": "scene-8",
+      "start": 76.80000000000001,
+      "duration": 11.4,
+      "hero": 83.64000000000001
+    }
+  ]
+}

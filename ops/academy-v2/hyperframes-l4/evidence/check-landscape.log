@@ -1,0 +1,43 @@
+◆  Checking landscape
+[INFO] [Compiler] Injected deterministic @font-face rules for 1 requested font families
+[hyperframes] browserGpuMode probe → software (probe failed (Failed to launch the browser process:  Code: null
+
+stderr:
+[1012/085952.518113:ERROR:base/power_monitor/thermal_state_observer_mac.mm:122] ThermalStateObserverMac unable to register to power notifications. Result: 9
+[1012/085952.519611:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.
+[1012/085952.520465:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.74256: Permission denied (1100)
+
+TROUBLESHOOTING: https://pptr.dev/troubleshooting
+))
+
+Lint
+  ◇ 0 errors, 0 warnings
+
+  ⚠ Browser session never ran — layout, motion, and contrast below are empty placeholders, not a clean pass.
+
+Runtime
+  ✗ check_runtime_failure: Failed to launch the browser process:  Code: null
+
+stderr:
+[1012/085952.560057:ERROR:base/power_monitor/thermal_state_observer_mac.mm:122] ThermalStateObserverMac unable to register to power notifications. Result: 9
+[1012/085952.561453:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.
+[1012/085952.561906:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.74258: Permission denied (1100)
+
+TROUBLESHOOTING: https://pptr.dev/troubleshooting
+
+    index.html [data-composition-id] t=0s
+  1 error(s), 0 warning(s), 0 info(s)
+
+Layout
+  ◇ 0 issues across 0 sample(s)
+
+Motion
+  ◇ 0 errors, 0 warnings
+
+Contrast
+  ◇ 0/0 text checks pass WCAG AA
+
+Snapshots
+  ◇ disabled
+
+◇  Check failed

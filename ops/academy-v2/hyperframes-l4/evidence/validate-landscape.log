@@ -1,0 +1,29 @@
+[hyperframes] Could not persist telemetry config: EPERM: operation not permitted, mkdir '/Users/bestberlin/.hyperframes'. Canary cohort assignment will not be stable across runs.
+
+  Hyperframes collects anonymous usage data to improve the tool.
+  File paths and composition content are never collected.
+  If you sign in to HeyGen, your account (email, or username) is linked to your usage.
+
+  Disable anytime: hyperframes telemetry disable
+
+'hyperframes validate' is deprecated and will be removed in a future release. Use 'hyperframes check' instead.
+◆  Validating landscape in headless Chrome
+[StaticGuard] Invalid HyperFrame contract: querySelector uses a template literal variable (e.g. `${compId}`). The HTML bundler's CSS parser crashes on these. Use a hardcoded string instead.; Font family used without @font-face declaration: pingfang sc. These are not in the auto-resolved font list, so the renderer cannot supply them automatically. Text will fall back to a generic font, producing incorrect typography in the video.
+[hyperframes] browserGpuMode probe → software (probe failed (Failed to launch the browser process:  Code: null
+
+stderr:
+[1012/085633.135097:ERROR:base/power_monitor/thermal_state_observer_mac.mm:122] ThermalStateObserverMac unable to register to power notifications. Result: 9
+[1012/085633.137893:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.
+[1012/085633.139368:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.72744: Permission denied (1100)
+
+TROUBLESHOOTING: https://pptr.dev/troubleshooting
+))
+✗ Failed to launch the browser process:  Code: null
+
+stderr:
+[1012/085633.178307:ERROR:base/power_monitor/thermal_state_observer_mac.mm:122] ThermalStateObserverMac unable to register to power notifications. Result: 9
+[1012/085633.179911:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.
+[1012/085633.180424:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.72746: Permission denied (1100)
+
+TROUBLESHOOTING: https://pptr.dev/troubleshooting
+
