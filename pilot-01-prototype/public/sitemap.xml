@@ -97,6 +97,10 @@
     <lastmod>2026-09-22</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/contact</loc>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/de</loc>
     <lastmod>2026-10-01</lastmod>
   </url>
@@ -2772,6 +2776,10 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/privacy</loc>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/pt-br</loc>
     <lastmod>2026-10-01</lastmod>
   </url>
@@ -2802,6 +2810,10 @@
   <url>
     <loc>https://nexualpha.com/telegram</loc>
     <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/terms</loc>
+    <lastmod>2026-10-12</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/topics</loc>
@@ -3062,6 +3074,10 @@
   <url>
     <loc>https://nexualpha.com/zh-hans/compare/uniswap-vs-jupiter</loc>
     <lastmod>2026-09-22</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/zh-hans/contact</loc>
+    <lastmod>2026-10-12</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/zh-hans/exchanges</loc>
@@ -5387,12 +5403,20 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
+    <loc>https://nexualpha.com/zh-hans/privacy</loc>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
     <loc>https://nexualpha.com/zh-hans/rates</loc>
     <lastmod>2026-10-10</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/zh-hans/telegram</loc>
     <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nexualpha.com/zh-hans/terms</loc>
+    <lastmod>2026-10-12</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/zh-hans/topics/compliant-exchanges</loc>

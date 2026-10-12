@@ -30,70 +30,70 @@ const researchTrustCopy = {
 const DATA_LICENSE_COPY = {
   en: {
     title: "NexuAlpha Data License and Source Boundary",
-    body: "Access to NexuAlpha datasets does not grant redistribution rights. NexuAlpha reserves rights in its original compilation, field definitions, normalized metadata, review notes and limitation text. Third-party source documents, names, trademarks and linked materials remain subject to their respective owners and terms. Contact contact@nexualpha.com for reuse, republication or licensing requests.",
+    body: "Access to NexuAlpha datasets does not grant redistribution rights. NexuAlpha reserves rights in its original compilation, field definitions, normalized metadata, review notes and limitation text. Third-party source documents, names, trademarks and linked materials remain subject to their respective owners and terms. Contact Bestberlin@nexualpha.com for reuse, republication or licensing requests.",
   },
   "zh-Hans": {
     title: "NexuAlpha 数据许可与来源边界",
-    body: "访问 NexuAlpha 数据集不等于获得再分发授权。NexuAlpha 对原创编排、字段定义、标准化元数据、复核说明和限制文本保留权利。第三方来源文件、名称、商标和链接材料的权利归各自权利人及其条款约束。如需复用、转载或授权，请联系 contact@nexualpha.com。",
+    body: "访问 NexuAlpha 数据集不等于获得再分发授权。NexuAlpha 对原创编排、字段定义、标准化元数据、复核说明和限制文本保留权利。第三方来源文件、名称、商标和链接材料的权利归各自权利人及其条款约束。如需复用、转载或授权，请联系 Bestberlin@nexualpha.com。",
   },
   es: {
     title: "Licencia de datos y límite de fuentes de NexuAlpha",
-    body: "Acceder a los datasets de NexuAlpha no concede derechos de redistribución. NexuAlpha conserva derechos sobre su compilación original, definiciones de campos, metadatos normalizados, notas de revisión y textos de limitación. Los documentos, nombres, marcas y materiales enlazados de terceros siguen sujetos a sus respectivos titulares y condiciones. Para reutilización, republicación o licencias, contacte a contact@nexualpha.com.",
+    body: "Acceder a los datasets de NexuAlpha no concede derechos de redistribución. NexuAlpha conserva derechos sobre su compilación original, definiciones de campos, metadatos normalizados, notas de revisión y textos de limitación. Los documentos, nombres, marcas y materiales enlazados de terceros siguen sujetos a sus respectivos titulares y condiciones. Para reutilización, republicación o licencias, contacte a Bestberlin@nexualpha.com.",
   },
   "pt-BR": {
     title: "Licença de dados e limite de fontes da NexuAlpha",
-    body: "O acesso aos datasets da NexuAlpha não concede direitos de redistribuição. A NexuAlpha preserva direitos sobre sua compilação original, definições de campos, metadados normalizados, notas de revisão e textos de limitação. Documentos, nomes, marcas e materiais vinculados de terceiros continuam sujeitos aos respectivos titulares e termos. Para reutilização, republicação ou licenciamento, contate contact@nexualpha.com.",
+    body: "O acesso aos datasets da NexuAlpha não concede direitos de redistribuição. A NexuAlpha preserva direitos sobre sua compilação original, definições de campos, metadados normalizados, notas de revisão e textos de limitação. Documentos, nomes, marcas e materiais vinculados de terceiros continuam sujeitos aos respectivos titulares e termos. Para reutilização, republicação ou licenciamento, contate Bestberlin@nexualpha.com.",
   },
   "zh-Hant": {
     title: "NexuAlpha 資料授權與來源邊界",
-    body: "存取 NexuAlpha 資料集不等於取得再散布授權。NexuAlpha 對原創編排、欄位定義、標準化中繼資料、複核說明與限制文字保留權利。第三方來源文件、名稱、商標與連結材料的權利歸各自權利人並受其條款約束。如需再利用、轉載或授權，請聯絡 contact@nexualpha.com。",
+    body: "存取 NexuAlpha 資料集不等於取得再散布授權。NexuAlpha 對原創編排、欄位定義、標準化中繼資料、複核說明與限制文字保留權利。第三方來源文件、名稱、商標與連結材料的權利歸各自權利人並受其條款約束。如需再利用、轉載或授權，請聯絡 Bestberlin@nexualpha.com。",
   },
   // l10n: needs native review (legal/compliance wording)
   ja: {
     title: "NexuAlpha データライセンスと出典の範囲",
-    body: "NexuAlpha のデータセットへのアクセスは再配布権を付与するものではありません。NexuAlpha は独自の編集物、フィールド定義、正規化されたメタデータ、確認メモ、制限事項の記述に関する権利を保持します。第三者の出典文書、名称、商標、リンク先の資料は、それぞれの権利者と利用条件に従います。再利用、再掲載、ライセンスについては contact@nexualpha.com までご連絡ください。",
+    body: "NexuAlpha のデータセットへのアクセスは再配布権を付与するものではありません。NexuAlpha は独自の編集物、フィールド定義、正規化されたメタデータ、確認メモ、制限事項の記述に関する権利を保持します。第三者の出典文書、名称、商標、リンク先の資料は、それぞれの権利者と利用条件に従います。再利用、再掲載、ライセンスについては Bestberlin@nexualpha.com までご連絡ください。",
   },
   // l10n: needs native review (legal/compliance wording)
   ko: {
     title: "NexuAlpha 데이터 라이선스와 출처 경계",
-    body: "NexuAlpha 데이터세트에 접근하는 것이 재배포 권한을 부여하지는 않습니다. NexuAlpha는 원본 편집물, 필드 정의, 정규화된 메타데이터, 검토 메모 및 제한 문구에 대한 권리를 보유합니다. 제3자 출처 문서, 명칭, 상표 및 링크된 자료는 각 권리자와 해당 약관에 따릅니다. 재사용, 재게재 또는 라이선스 요청은 contact@nexualpha.com으로 문의하세요.",
+    body: "NexuAlpha 데이터세트에 접근하는 것이 재배포 권한을 부여하지는 않습니다. NexuAlpha는 원본 편집물, 필드 정의, 정규화된 메타데이터, 검토 메모 및 제한 문구에 대한 권리를 보유합니다. 제3자 출처 문서, 명칭, 상표 및 링크된 자료는 각 권리자와 해당 약관에 따릅니다. 재사용, 재게재 또는 라이선스 요청은 Bestberlin@nexualpha.com으로 문의하세요.",
   },
   // l10n: needs native review (legal/compliance wording)
   tr: {
     title: "NexuAlpha veri lisansı ve kaynak sınırı",
-    body: "NexuAlpha veri kümelerine erişim, yeniden dağıtım hakkı vermez. NexuAlpha; özgün derlemesi, alan tanımları, normalleştirilmiş meta veriler, inceleme notları ve sınırlama metinleri üzerindeki haklarını saklı tutar. Üçüncü taraf kaynak belgeleri, adlar, markalar ve bağlantılı materyaller ilgili sahiplerine ve koşullarına tabidir. Yeniden kullanım, yeniden yayım veya lisans talepleri için contact@nexualpha.com adresine yazın.",
+    body: "NexuAlpha veri kümelerine erişim, yeniden dağıtım hakkı vermez. NexuAlpha; özgün derlemesi, alan tanımları, normalleştirilmiş meta veriler, inceleme notları ve sınırlama metinleri üzerindeki haklarını saklı tutar. Üçüncü taraf kaynak belgeleri, adlar, markalar ve bağlantılı materyaller ilgili sahiplerine ve koşullarına tabidir. Yeniden kullanım, yeniden yayım veya lisans talepleri için Bestberlin@nexualpha.com adresine yazın.",
   },
   fr: {
     title: "Licence des données NexuAlpha et périmètre des sources",
-    body: "L’accès aux jeux de données NexuAlpha ne confère aucun droit de redistribution. NexuAlpha conserve ses droits sur sa compilation originale, les définitions de champs, les métadonnées normalisées, les notes de vérification et les textes de limitation. Les documents sources, noms, marques et contenus liés de tiers restent soumis à leurs titulaires et conditions respectifs. Pour toute réutilisation, republication ou licence, écrivez à contact@nexualpha.com.",
+    body: "L’accès aux jeux de données NexuAlpha ne confère aucun droit de redistribution. NexuAlpha conserve ses droits sur sa compilation originale, les définitions de champs, les métadonnées normalisées, les notes de vérification et les textes de limitation. Les documents sources, noms, marques et contenus liés de tiers restent soumis à leurs titulaires et conditions respectifs. Pour toute réutilisation, republication ou licence, écrivez à Bestberlin@nexualpha.com.",
   },
   de: {
     title: "NexuAlpha-Datenlizenz und Quellengrenze",
-    body: "Der Zugriff auf NexuAlpha-Datensätze gewährt keine Weiterverbreitungsrechte. NexuAlpha behält sich die Rechte an seiner eigenen Zusammenstellung, den Felddefinitionen, normalisierten Metadaten, Prüfnotizen und Einschränkungstexten vor. Quelldokumente, Namen, Marken und verlinkte Materialien Dritter unterliegen weiterhin deren Inhabern und Bedingungen. Anfragen zu Wiederverwendung, Neuveröffentlichung oder Lizenzierung richten Sie an contact@nexualpha.com.",
+    body: "Der Zugriff auf NexuAlpha-Datensätze gewährt keine Weiterverbreitungsrechte. NexuAlpha behält sich die Rechte an seiner eigenen Zusammenstellung, den Felddefinitionen, normalisierten Metadaten, Prüfnotizen und Einschränkungstexten vor. Quelldokumente, Namen, Marken und verlinkte Materialien Dritter unterliegen weiterhin deren Inhabern und Bedingungen. Anfragen zu Wiederverwendung, Neuveröffentlichung oder Lizenzierung richten Sie an Bestberlin@nexualpha.com.",
   },
   it: {
     title: "Licenza dei dati NexuAlpha e confine delle fonti",
-    body: "L’accesso ai dataset NexuAlpha non concede diritti di ridistribuzione. NexuAlpha conserva i diritti sulla propria compilazione originale, sulle definizioni dei campi, sui metadati normalizzati, sulle note di verifica e sui testi di limitazione. Documenti, nomi, marchi e materiali collegati di terze parti restano soggetti ai rispettivi titolari e condizioni. Per riutilizzo, ripubblicazione o licenze scrivere a contact@nexualpha.com.",
+    body: "L’accesso ai dataset NexuAlpha non concede diritti di ridistribuzione. NexuAlpha conserva i diritti sulla propria compilazione originale, sulle definizioni dei campi, sui metadati normalizzati, sulle note di verifica e sui testi di limitazione. Documenti, nomi, marchi e materiali collegati di terze parti restano soggetti ai rispettivi titolari e condizioni. Per riutilizzo, ripubblicazione o licenze scrivere a Bestberlin@nexualpha.com.",
   },
   // l10n: needs native review (legal/compliance wording)
   ru: {
     title: "Лицензия на данные NexuAlpha и границы источников",
-    body: "Доступ к наборам данных NexuAlpha не даёт права на их распространение. NexuAlpha сохраняет права на собственную компиляцию, определения полей, нормализованные метаданные, заметки о проверке и тексты ограничений. Документы, названия, товарные знаки и материалы третьих сторон остаются собственностью их правообладателей и регулируются их условиями. По вопросам повторного использования, перепубликации или лицензирования пишите на contact@nexualpha.com.",
+    body: "Доступ к наборам данных NexuAlpha не даёт права на их распространение. NexuAlpha сохраняет права на собственную компиляцию, определения полей, нормализованные метаданные, заметки о проверке и тексты ограничений. Документы, названия, товарные знаки и материалы третьих сторон остаются собственностью их правообладателей и регулируются их условиями. По вопросам повторного использования, перепубликации или лицензирования пишите на Bestberlin@nexualpha.com.",
   },
   // l10n: needs native review (legal/compliance wording)
   id: {
     title: "Lisensi data NexuAlpha dan batas sumber",
-    body: "Akses ke dataset NexuAlpha tidak memberikan hak redistribusi. NexuAlpha mempertahankan hak atas kompilasi aslinya, definisi bidang, metadata yang dinormalisasi, catatan tinjauan, dan teks batasan. Dokumen sumber, nama, merek dagang, dan materi tertaut milik pihak ketiga tetap tunduk pada pemilik dan ketentuan masing-masing. Untuk penggunaan ulang, publikasi ulang, atau lisensi, hubungi contact@nexualpha.com.",
+    body: "Akses ke dataset NexuAlpha tidak memberikan hak redistribusi. NexuAlpha mempertahankan hak atas kompilasi aslinya, definisi bidang, metadata yang dinormalisasi, catatan tinjauan, dan teks batasan. Dokumen sumber, nama, merek dagang, dan materi tertaut milik pihak ketiga tetap tunduk pada pemilik dan ketentuan masing-masing. Untuk penggunaan ulang, publikasi ulang, atau lisensi, hubungi Bestberlin@nexualpha.com.",
   },
   // l10n: needs native review (legal/compliance wording)
   vi: {
     title: "Giấy phép dữ liệu NexuAlpha và ranh giới nguồn",
-    body: "Việc truy cập bộ dữ liệu NexuAlpha không đồng nghĩa với quyền phân phối lại. NexuAlpha giữ quyền đối với phần biên soạn gốc, định nghĩa trường, siêu dữ liệu đã chuẩn hóa, ghi chú rà soát và nội dung giới hạn. Tài liệu nguồn, tên, nhãn hiệu và tài liệu liên kết của bên thứ ba vẫn thuộc chủ sở hữu và điều khoản tương ứng. Để tái sử dụng, đăng lại hoặc cấp phép, liên hệ contact@nexualpha.com.",
+    body: "Việc truy cập bộ dữ liệu NexuAlpha không đồng nghĩa với quyền phân phối lại. NexuAlpha giữ quyền đối với phần biên soạn gốc, định nghĩa trường, siêu dữ liệu đã chuẩn hóa, ghi chú rà soát và nội dung giới hạn. Tài liệu nguồn, tên, nhãn hiệu và tài liệu liên kết của bên thứ ba vẫn thuộc chủ sở hữu và điều khoản tương ứng. Để tái sử dụng, đăng lại hoặc cấp phép, liên hệ Bestberlin@nexualpha.com.",
   },
   // l10n: needs native review (legal/compliance wording)
   ar: {
     title: "ترخيص بيانات NexuAlpha وحدود المصادر",
-    body: "لا يمنح الوصول إلى مجموعات بيانات NexuAlpha أي حق في إعادة التوزيع. تحتفظ NexuAlpha بحقوقها في التجميع الأصلي وتعريفات الحقول والبيانات الوصفية الموحدة وملاحظات المراجعة ونصوص القيود. وتبقى وثائق المصادر والأسماء والعلامات التجارية والمواد المرتبطة التابعة لأطراف ثالثة خاضعة لأصحابها وشروطهم. لطلبات إعادة الاستخدام أو إعادة النشر أو الترخيص، راسل contact@nexualpha.com.",
+    body: "لا يمنح الوصول إلى مجموعات بيانات NexuAlpha أي حق في إعادة التوزيع. تحتفظ NexuAlpha بحقوقها في التجميع الأصلي وتعريفات الحقول والبيانات الوصفية الموحدة وملاحظات المراجعة ونصوص القيود. وتبقى وثائق المصادر والأسماء والعلامات التجارية والمواد المرتبطة التابعة لأطراف ثالثة خاضعة لأصحابها وشروطهم. لطلبات إعادة الاستخدام أو إعادة النشر أو الترخيص، راسل Bestberlin@nexualpha.com.",
   },
 };
 
@@ -696,9 +696,9 @@ researchTrustCopy.ur = { label: "تحقیقی شناخت", byline: "NexuAlpha ت
 // l10n: needs native review
 researchTrustCopy.uk = { label: "Ідентичність дослідження", byline: "Опубліковано NexuAlpha Research Desk", reviewed: "Сторінку перевірено: {date}", assets: "Дослідницькі дані для завантаження", perp: "Словник полів вартості безстрокових контрактів", funding: "Матриця перевірки регіонального поповнення", json: "JSON", csv: "CSV" };
 // l10n: needs native review
-DATA_LICENSE_COPY.ur = { title: "NexuAlpha ڈیٹا لائسنس اور ذریعہ حد", body: "NexuAlpha ڈیٹاسیٹس تک رسائی دوبارہ تقسیم کا حق نہیں دیتی۔ NexuAlpha اپنی اصل ترتیب، فیلڈ تعریفوں، معمول بنائے گئے میٹا ڈیٹا، جائزہ نوٹس اور حد بندی متن پر حقوق محفوظ رکھتا ہے۔ تیسرے فریق کے ذریعہ دستاویزات، نام، ٹریڈ مارک اور منسلک مواد اپنے مالکان اور شرائط کے تابع رہتے ہیں۔ دوبارہ استعمال، دوبارہ اشاعت یا لائسنس کے لیے contact@nexualpha.com سے رابطہ کریں۔" };
+DATA_LICENSE_COPY.ur = { title: "NexuAlpha ڈیٹا لائسنس اور ذریعہ حد", body: "NexuAlpha ڈیٹاسیٹس تک رسائی دوبارہ تقسیم کا حق نہیں دیتی۔ NexuAlpha اپنی اصل ترتیب، فیلڈ تعریفوں، معمول بنائے گئے میٹا ڈیٹا، جائزہ نوٹس اور حد بندی متن پر حقوق محفوظ رکھتا ہے۔ تیسرے فریق کے ذریعہ دستاویزات، نام، ٹریڈ مارک اور منسلک مواد اپنے مالکان اور شرائط کے تابع رہتے ہیں۔ دوبارہ استعمال، دوبارہ اشاعت یا لائسنس کے لیے Bestberlin@nexualpha.com سے رابطہ کریں۔" };
 // l10n: needs native review
-DATA_LICENSE_COPY.uk = { title: "Ліцензія даних NexuAlpha і межі джерел", body: "Доступ до наборів даних NexuAlpha не надає права повторного поширення. NexuAlpha зберігає права на власну компіляцію, визначення полів, нормалізовані метадані, нотатки перевірки та тексти обмежень. Документи джерел, назви, торговельні марки й пов'язані матеріали третіх сторін лишаються під умовами їхніх власників. Для повторного використання, публікації або ліцензування пишіть на contact@nexualpha.com." };
+DATA_LICENSE_COPY.uk = { title: "Ліцензія даних NexuAlpha і межі джерел", body: "Доступ до наборів даних NexuAlpha не надає права повторного поширення. NexuAlpha зберігає права на власну компіляцію, визначення полів, нормалізовані метадані, нотатки перевірки та тексти обмежень. Документи джерел, назви, торговельні марки й пов'язані матеріали третіх сторін лишаються під умовами їхніх власників. Для повторного використання, публікації або ліцензування пишіть на Bestberlin@nexualpha.com." };
 // l10n: needs native review
 REGIONAL_FUNDING_ROUTE_COPY.ur = { ...REGIONAL_FUNDING_ROUTE_COPY.en, eyebrow: "علاقائی فنڈنگ راستہ جواب", title: "بین الاقوامی صارفین کرپٹو فنڈنگ راستے کیسے چیک کریں؟", answer: "علاقائی فنڈنگ میٹرکس سے شروع کریں، پھر رہائش، شناخت، مقامی ریل اور سرکاری اکاؤنٹ چیک کے لیے مارکیٹ صفحہ کھولیں۔ خطہ، پروڈکٹ اور فنڈنگ راستہ واضح ہونے کے بعد ہی موازنہ صفحات استعمال کریں۔ یہ میٹرکس تاریخ والی تحقیقی فہرست ہے، براہ راست فیس کوٹ، اکاؤنٹ منظوری، فنڈنگ ضمانت، صارف فائدہ وعدہ یا رجسٹریشن نتیجہ نہیں۔", routesLabel: "ذریعہ سے پشتیبانی شدہ علاقائی داخلے", datasetLabel: "مشین پڑھنے کے قابل میٹرکس", compareLabel: "پھر پلیٹ فارم راستوں کا موازنہ کریں", marketRoutes: [
   ["Hong Kong", "/hk", "SFC حیثیت، HKD فنڈنگ، شناخت اور پروڈکٹ دائرہ"],
@@ -846,8 +846,8 @@ export function MethodologyPage({ locale = "en" }) {
             <p>{dataLicense.body}</p>
           </div>
           <div className="methodology-page__feedback-actions">
-            <a href="mailto:contact@nexualpha.com?subject=NexuAlpha%20data%20license" className="button-quiet">
-              contact@nexualpha.com
+            <a href="mailto:Bestberlin@nexualpha.com?subject=NexuAlpha%20data%20license" className="button-quiet">
+              Bestberlin@nexualpha.com
             </a>
           </div>
         </section>

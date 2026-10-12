@@ -25,7 +25,7 @@ export const BRAND = Object.freeze({
   url: `${PUBLIC_ORIGIN}/`,
   logo: Object.freeze({ url: `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-round.svg`, width: 512, height: 512 }),
   image: `${PUBLIC_ORIGIN}/brand/nexualpha/nexualpha-square.png`,
-  email: "contact@nexualpha.com",
+  email: "Bestberlin@nexualpha.com",
   telegram: Object.freeze({
     channelZh: "https://t.me/NexuAlphaClub",
     channelEn: "https://t.me/NexuAlphaGlobal",

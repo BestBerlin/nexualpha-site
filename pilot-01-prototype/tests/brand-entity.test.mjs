@@ -33,7 +33,7 @@ test("brand entity facts: one Organization @id, logo ImageObject, Telegram sameA
     assert.ok(org.sameAs.includes(url), url);
   }
   assert.deepEqual(org.sameAs, [...BRAND_SAME_AS]);
-  assert.equal(org.email, "contact@nexualpha.com");
+  assert.equal(org.email, "Bestberlin@nexualpha.com");
   assert.equal(org.department["@id"], RESEARCH_DESK_ID);
   assert.equal(org.department["@type"], "Organization", "the desk is a team, never a fabricated Person");
   assert.equal(org.department.parentOrganization["@id"], ORGANIZATION_ID);
@@ -218,7 +218,7 @@ test("about, editorial-policy pages, byline and footer render localized in all 1
       assert.match(about, /commission-disclosure-line/, `${locale} about commission disclosure`);
       assert.ok(about.includes(`href="${prefix}/methodology"`), `${locale} about links methodology`);
       assert.ok(about.includes(`href="${prefix}/editorial-policy"`), `${locale} about links editorial policy`);
-      for (const url of ["https://t.me/NexuAlphaClub", "https://t.me/NexuAlphaGlobal", "https://t.me/NexuAlphaAssistantBot", "https://app.nexualpha.com/", "mailto:contact@nexualpha.com"]) assert.ok(about.includes(`href="${url}"`), `${locale} about ${url}`);
+      for (const url of ["https://t.me/NexuAlphaClub", "https://t.me/NexuAlphaGlobal", "https://t.me/NexuAlphaAssistantBot", "https://app.nexualpha.com/", "mailto:Bestberlin@nexualpha.com"]) assert.ok(about.includes(`href="${url}"`), `${locale} about ${url}`);
       assert.match(about, new RegExp(`datetime="${ENTITY_REVIEWED_AT}"`, "i"), `${locale} about reviewed date`);
       assert.ok(about.includes(`dir="${locale === "ar" ? "rtl" : "ltr"}"`), `${locale} about direction`);
       assert.doesNotMatch(about, /@type":"Person|photo|avatar/i, `${locale} about has no fabricated people`);

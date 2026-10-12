@@ -1,3 +1,4 @@
+import { isLegalPagePath, LEGAL_LOCALES } from "../src/data/legal-pages.js";
 import { selectReviewedNewsSearchSlugs } from "../src/data/reviewed-news-publication.js";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
@@ -92,6 +93,7 @@ function pickSupportedLocales(route, candidates, allLocales) {
 
 export function sitemapLocalesForRoute(route, allLocales = DEFAULT_POLICY.priorityLocales) {
   const { pathname, template } = route;
+  if (isLegalPagePath(pathname)) return route.index ? pickSupportedLocales(route, LEGAL_LOCALES, allLocales) : [];
   if (!route.index || route.alias || (route.expectedStatus ?? 200) !== 200) return [];
   if (pathname.startsWith("/br")) return ["pt-BR"];
   if (COUNTRY_ROUTE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) return supportedRouteLocales(route, allLocales);

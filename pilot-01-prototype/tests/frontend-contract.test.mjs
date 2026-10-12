@@ -2013,7 +2013,10 @@ test("CleanFooter navigation labels match their destinations in every supported 
   assert.match(cleanFooter, /href=\{brazil \? "\/br\/custos" : href\("\/embed\/calculator"\)\}>\{labels\.calculator\}/);
   assert.match(cleanFooter, /href=\{href\("\/partners"\)\}>\{labels\.embedGuide\}/);
   assert.match(cleanFooter, /href=\{href\("\/methodology#disclosure"\)\}>\{labels\.disclosure\}/);
-  assert.match(cleanFooter, /href="mailto:contact@nexualpha\.com">\{labels\.contact\}/);
+  // Public policy/contact destinations replace the former anchor and email-only navigation.
+  for (const label of ["privacy", "terms", "contact"]) {
+    assert.ok(cleanFooter.includes(`href={href("/${label}")}>{labels.${label}}`));
+  }
   assert.doesNotMatch(cleanFooter, /contact:\s*text\.detailHandoff/);
   assert.doesNotMatch(cleanFooter, /about:\s*text\.home/);
   assert.doesNotMatch(cleanFooter, />\{copy\.(?:about|editorial|calculator|embedGuide|privacy|terms|disclosure|contact)\}<\/a>/);

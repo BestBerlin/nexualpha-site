@@ -1,3 +1,4 @@
+import { isLegalPagePath, legalPageSeo } from "./legal-pages.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "./reviewed-news-publication.js";
 /** Route metadata mirrors the standalone Worker; UI-only locale fallbacks share their content canonical. */
 import { venueDatabase } from "./venue-database.js";
@@ -2038,6 +2039,9 @@ export function buildFactbookSchemas(venue, locale = "en", canonicalUrl = canoni
 
 // Same title budget as the Worker head (meta-description.js budgetTitle).
 export function computeRouteSeo(options = {}) {
+  const legalUrl = new URL(options.url || options.pathname || "/", PUBLIC_ORIGIN);
+  const legalRoute = parsePublicRoute(legalUrl.pathname, legalUrl.searchParams);
+  if (isLegalPagePath(legalRoute.contentPathname)) return legalPageSeo(legalRoute.contentPathname, options.locale || legalRoute.locale || "en");
   const seo = computeRouteSeoUnbudgeted(options);
   return seo && typeof seo.title === "string" ? { ...seo, title: budgetTitle(seo.title) } : seo;
 }

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { LEGAL_PAGE_PATHS, LEGAL_LOCALES, LEGAL_EFFECTIVE_DATE } from "../src/data/legal-pages.js";
 import { buildPartnerGeoRestrictionsFeed } from "../src/data/partner-geo-restrictions.js";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -73,6 +74,7 @@ export function routeTemplate(pathname) {
   if (BRAZIL_PAGES.some((page) => page.path === pathname)) return "brazilDecision";
   if (["/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int", "/markets/turkiye"].includes(pathname)) return "regionalPreview";
   if (["/mx/comparar", "/mx/costos", "/mx/conta", "/tw/comparar", "/tw/costos", "/tw/conta", "/hk/comparar", "/hk/costos", "/hk/conta"].includes(pathname)) return pathname.endsWith("/comparar") ? "comparison" : pathname.endsWith("/costos") ? "rateTerminal" : "exchangeDirectory";
+  if (LEGAL_PAGE_PATHS.includes(pathname)) return "legal";
   const staticTemplates = {
     "/": "home", "/exchanges": "exchangeDirectory", "/activities": "activityCenter",
     "/rates": "rateTerminal", "/onchain": "onchainBoard", "/news": "newsList",
@@ -93,7 +95,7 @@ export function routeTemplate(pathname) {
 
 export function routeInventory(newsArticles = []) {
   // /embed/calculator is an iframe widget: rendered, but noindex and never in a sitemap (audit 2026-10-11 #13).
-  const staticPaths = ["/", "/exchanges", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
+  const staticPaths = [...LEGAL_PAGE_PATHS, "/", "/exchanges", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
   const venueProfileSlugs = neutralVenueCatalog
     .map(({ slug }) => slug)
     .filter((slug) => !FACTBOOK_ONLY_LEGACY_SLUGS.has(slug));
@@ -137,6 +139,7 @@ export function routeInventory(newsArticles = []) {
     template: routeTemplate(pathname),
     index: indexable.includes(pathname),
     ...(pathname === "/" ? { locales: UI_LOCALES } : {}),
+    ...(LEGAL_PAGE_PATHS.includes(pathname) ? { locales: LEGAL_LOCALES } : {}),
     // Display locales may show a safe client-side summary, but only reviewed
     // locales are indexable. Keep the inventory honest so SEO verification,
     // canonical tags, robots and sitemap publication share one boundary.
@@ -216,6 +219,7 @@ function latestDate(values, fallback = SITE_CONTENT_REVIEW_DATE) {
 // home and news listings, venue/factbook/topic review dates from data. Shared with scripts/update-news-seo.mjs so the
 // publisher never stamps the publish date on pages that did not change. Returns null when the route has no date.
 export function routeLastmod(route, article, locale = "en", { newsArticles = [] } = {}) {
+  if (LEGAL_PAGE_PATHS.includes(route.pathname)) return LEGAL_EFFECTIVE_DATE;
   if (article) return article.updatedAt || article.publishedAt || null;
   if (route.pathname === "/" || route.template === "newsList" || route.pathname === "/news") {
     const newest = latestDate((Array.isArray(newsArticles) ? newsArticles : []).filter((item) => item?.seo?.noindex === false).map((item) => item.updatedAt || item.publishedAt), null);
