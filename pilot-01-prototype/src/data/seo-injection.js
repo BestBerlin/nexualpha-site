@@ -20,13 +20,17 @@ import { HOME_SEARCH_COPY } from "./home-search-copy.js";
 import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
 import { NEWS_HUB_SEO_EN } from "./news-list-copy.js";
 import { socialImageObject } from "./social-image.js";
-import { newsListingIndexableLocales, newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
+import { newsHumanReview, newsListingIndexableLocales, newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
 import { LOCALE_PREFIX_BY_CODE, localizedPath, parsePublicRoute } from "./locale-routing.js";
 import { noKycMetaTitle } from "./no-kyc-meta-title.js";
 import { ACADEMY_INDEX_LOCALES, parseAcademyPath } from "./academy.js";
 import { appDownloadRouteSeo } from "./app-downloads.js";
 import { parseAppDownloadPath } from "./app-download-path.js";
 import { academyRouteSeo } from "./academy-seo.js";
+import { parseCoinsPath } from "./coins-routes.js";
+import { coinsRouteSeo } from "./coins-seo.js";
+import { BINANCE_OCTOBER_INDEX_LOCALES, parseBinanceOctoberPath } from "./binance-october.js";
+import { binanceOctoberRouteSeo } from "./binance-october-seo.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
@@ -335,6 +339,10 @@ function searchPublicationLocales(pathname, options = {}) {
   // Academy (mirror of the Worker): the locales with a localized lesson.
   if (parseAppDownloadPath(pathname)?.valid) return Object.keys(LOCALE_PREFIX_BY_CODE);
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
+  // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
+  if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  // Binance October campaigns page (mirror of the Worker): its written editions.
+  if (parseBinanceOctoberPath(pathname)) return BINANCE_OCTOBER_INDEX_LOCALES;
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
   if (options.article) {
     if (!Array.isArray(options.newsArticles)) return isReviewedNewsSearchArticle(options.article) ? newsArticleSeoLocales(options.article) : [];
@@ -2073,6 +2081,7 @@ function computeRouteSeoUnbudgeted(options = {}) {
   let description = isZh ? "请求的页面不存在或未发布。" : "The requested page does not exist or is not published.";
   let status = 404;
   let robots = "noindex,nofollow";
+  let newsCanonicalOverride = null; // T10: canonical URL of the stronger article for a canonicalized duplicate
   let schemas = [];
   let ogType = "website";
   const accept = () => { status = 200; robots = "index,follow"; };
@@ -2111,6 +2120,23 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = academy.schemas;
     ogType = pathname === "/academy" ? "website" : "video.other";
     if (!academy.indexable) robots = "noindex,follow";
+  } else if (parseCoinsPath(pathname) && coinsRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+    // Where to buy <coin>: same helper as the Worker head (src/data/coins-seo.js).
+    const coins = coinsRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = coins.title;
+    description = coins.description;
+    schemas = coins.schemas;
+    ogType = "website";
+    if (!coins.indexable) robots = "noindex,follow";
+  } else if (parseBinanceOctoberPath(pathname)) {
+    // Binance October campaigns page: same helper as the Worker head (src/data/binance-october-seo.js).
+    const campaign = binanceOctoberRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale), market: url.searchParams.get("market") || undefined });
+    accept();
+    title = campaign.title;
+    description = campaign.description;
+    schemas = campaign.schemas;
+    if (!campaign.indexable) robots = "noindex,follow";
   } else if (route.name === "telegram" || pathname === "/telegram") {
     accept();
     const telegramSeo = {
@@ -2446,6 +2472,15 @@ function computeRouteSeoUnbudgeted(options = {}) {
       ? articleMetaDescription(article, articleLocale, description)
       : clampMetaDescription(description, articleLocale); // same locale argument as the Worker (metadata.locale)
     robots = article.seo?.noindex === false && isPublishedLocale ? "index,follow" : "noindex,follow";
+    // T10 (same rule as the Worker): a canonicalized duplicate is index,follow with its canonical on the stronger
+    // article's edition in the same language; an edition the stronger article lacks stays noindex,follow.
+    if (article.canonicalSlug && isPublishedLocale) {
+      const target = Array.isArray(options.newsArticles) ? options.newsArticles.find((item) => item?.slug === article.canonicalSlug) : null;
+      if (!target || newsArticleAvailableLocales(target).includes(articleLocale)) {
+        newsCanonicalOverride = canonical(`/news/${article.canonicalSlug}`, articleLocale);
+        robots = "index,follow";
+      }
+    }
     const isTokenizedTreasuryArticle = article.slug === "tokenized-treasuries-structure-access-risks";
     const tokenizedTreasuryGscFaq = isTokenizedTreasuryArticle ? tokenizedTreasuryGscFaqEntry(articleLocale) : null;
     const articleFaq = [
@@ -2462,8 +2497,12 @@ function computeRouteSeoUnbudgeted(options = {}) {
     }
     if (isTokenizedTreasuryArticle && !articleRelatedLinks.includes("/research/wave48-tokenized-treasury-rights-ops.json")) articleRelatedLinks.push("/research/wave48-tokenized-treasury-rights-ops.json");
     const articleAttribution = researchAttribution(Array.isArray(article.sources) ? article.sources.map((source) => source?.url).filter(Boolean) : []);
+    // Same as the Worker: no reviewer is claimed on an article unless a human review record exists.
+    delete articleAttribution.reviewedBy;
+    const humanReview = newsHumanReview(article);
+    if (humanReview) articleAttribution.reviewedBy = { "@type": "Person", name: humanReview.by };
     if (isTokenizedTreasuryArticle) articleAttribution.hasPart = [...articleAttribution.hasPart, wave48TokenizedTreasuryRightsOpsDatasetSchema()];
-    const articleCanonical = canonical(pathname, articleLocale);
+    const articleCanonical = newsCanonicalOverride || canonical(pathname, articleLocale);
     const owner = priorityOwnerForPath(pathname);
     schemas = [
       { ...pageSchema(articleTitle, articleCanonical, articleLocale, "NewsArticle"), headline: articleTitle, description: schemaDescription, mainEntityOfPage: { "@type": "WebPage", "@id": articleCanonical }, image: [socialImageObject(pathname, rawLocale, PUBLIC_ORIGIN)].filter(Boolean), datePublished: article.publishedAt, dateModified: article.updatedAt || article.publishedAt, ...articleAttribution, author: newsArticleAuthor(article), ...(owner ? { isPartOf: `${PUBLIC_ORIGIN}${owner.canonicalOwnerPath}`, articleSection: "Dated source trail" } : {}), ...(articleRelatedLinks.length ? { relatedLink: articleRelatedLinks.map((link) => publicRelatedUrl(link, articleLocale)) } : {}), ...(serpOverride?.question ? { about: { "@type": "Thing", name: serpOverride.question } } : {}) },
@@ -2496,7 +2535,9 @@ function computeRouteSeoUnbudgeted(options = {}) {
   const mxDecisionPath = Boolean(MX_DECISION_SEO[pathname]);
   const mxDecisionIndexable = mxDecisionPath && locale === "es";
   const brazilDeadlineRoute = Boolean(topicMatch && isBrazilDeadlineSlug(topicMatch[1]));
-  const canonicalUrl = brazilDeadlineRoute
+  const canonicalUrl = newsCanonicalOverride
+    ? newsCanonicalOverride
+    : brazilDeadlineRoute
     ? canonical(brazilDeadlinePathFor(locale), brazilDeadlineContentLocale(locale))
     : mxDecisionPath
     ? `${PUBLIC_ORIGIN}${pathname}`
@@ -2504,10 +2545,10 @@ function computeRouteSeoUnbudgeted(options = {}) {
     ? (regionalPreviewIsIndexable(route.market, locale) ? regionalPreviewCanonical : `${PUBLIC_ORIGIN}${pathname}`)
     : canonical(pathname, canonicalLocale);
   const publishedSearchLocales = searchPublicationLocales(pathname, { article: options.article, newsArticles: options.newsArticles });
-  if (status === 200 && robots === "index,follow" && !publishedSearchLocales.includes(locale)) {
+  if (status === 200 && robots === "index,follow" && !newsCanonicalOverride && !publishedSearchLocales.includes(locale)) {
     robots = "noindex,follow";
   }
-  const alternateLocales = robots !== "index,follow"
+  const alternateLocales = robots !== "index,follow" || newsCanonicalOverride
     ? []
     : brazilDeadlineRoute
     ? brazilDeadlineAlternates(canonical)

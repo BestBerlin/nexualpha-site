@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { applyNewsSearchStateToFeed } from "../src/data/news-search-state.js";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
@@ -316,7 +317,8 @@ export function buildNewsSeoFiles(feed, options = {}) {
   const origin = cleanString(options.origin) || PUBLIC_ORIGIN;
   const generatedDate = dateOnly(feed?.generatedAt, new Date().toISOString().slice(0, 10));
   const generatedAt = Number.isFinite(Date.parse(feed?.generatedAt)) ? feed.generatedAt : new Date().toISOString();
-  const articles = normalizeNewsFeed(feed);
+  // T10: thin/canonicalized articles are not search-published (src/data/news-search-state.js).
+  const articles = normalizeNewsFeed(applyNewsSearchStateToFeed(feed));
   const inventory = Array.isArray(options.inventory) ? options.inventory : routeInventory(articles);
   const policy = options.policy || loadSearchPublicationBaseline();
   const publication = selectSitemapPublicationEntries(inventory, articles, {

@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://nexualpha.com/news/address-poisoning-transfer-history-wallet-warning-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/address-poisoning-transfer-history-wallet-warning-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/address-poisoning-transfer-history-wallet-warning-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/address-poisoning-transfer-history-wallet-warning-radar" />
-    <lastmod>2026-09-22</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/api-failover-cancel-control-disclosure-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/api-failover-cancel-control-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/api-failover-cancel-control-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/api-failover-cancel-control-disclosure-radar" />
-    <lastmod>2026-09-28</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/basel-sco60-cryptoasset-exposure-standard-bank-capital-implementation-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/basel-sco60-cryptoasset-exposure-standard-bank-capital-implementation-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/basel-sco60-cryptoasset-exposure-standard-bank-capital-implementation-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/basel-sco60-cryptoasset-exposure-standard-bank-capital-implementation-map" />
-    <lastmod>2026-09-21</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/binance-ai-beta-market-insights-evidence-risk-checklist</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-ai-beta-market-insights-evidence-risk-checklist" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-ai-beta-market-insights-evidence-risk-checklist" />
@@ -43,13 +22,6 @@
     <lastmod>2026-09-15</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/binance-brev-cookie-la-qnt-usdc-spot-pair-removal-bot-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-brev-cookie-la-qnt-usdc-spot-pair-removal-bot-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-brev-cookie-la-qnt-usdc-spot-pair-removal-bot-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-brev-cookie-la-qnt-usdc-spot-pair-removal-bot-checklist" />
-    <lastmod>2026-09-17</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/binance-bstocks-collateral-vs-sec-tokenized-securities-venue-market-function-comparison</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-bstocks-collateral-vs-sec-tokenized-securities-venue-market-function-comparison" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-bstocks-collateral-vs-sec-tokenized-securities-venue-market-function-comparison" />
@@ -62,13 +34,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-bstocks-dividend-reinvestment-collateral-eligibility-rights-boundary" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-bstocks-dividend-reinvestment-collateral-eligibility-rights-boundary" />
     <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/binance-caas-kyc-subaccount-api-restrictions</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-caas-kyc-subaccount-api-restrictions" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-caas-kyc-subaccount-api-restrictions" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-caas-kyc-subaccount-api-restrictions" />
-    <lastmod>2026-09-28</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/binance-collateral-ratio-change-borrow-transfer-unimmr-liquidation-radar</loc>
@@ -92,13 +57,6 @@
     <lastmod>2026-09-20</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/binance-okx-proof-of-reserves-disclosure-audit</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-okx-proof-of-reserves-disclosure-audit" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-okx-proof-of-reserves-disclosure-audit" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-okx-proof-of-reserves-disclosure-audit" />
-    <lastmod>2026-09-15</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/binance-pay-onchain-b402-agent-payments-business-readiness</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-pay-onchain-b402-agent-payments-business-readiness" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-pay-onchain-b402-agent-payments-business-readiness" />
@@ -106,32 +64,11 @@
     <lastmod>2026-09-15</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/binance-platform-wallet-upgrade-vs-token-network-maintenance-transfer-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-platform-wallet-upgrade-vs-token-network-maintenance-transfer-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-platform-wallet-upgrade-vs-token-network-maintenance-transfer-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-platform-wallet-upgrade-vs-token-network-maintenance-transfer-controls" />
-    <lastmod>2026-09-17</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist" />
     <lastmod>2026-09-20</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/binance-selected-network-deposit-withdrawal-support-removal-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-selected-network-deposit-withdrawal-support-removal-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-selected-network-deposit-withdrawal-support-removal-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-selected-network-deposit-withdrawal-support-removal-checklist" />
-    <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/binance-september-18-margin-pair-removal-settlement-order-cancellation-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-september-18-margin-pair-removal-settlement-order-cancellation-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-september-18-margin-pair-removal-settlement-order-cancellation-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-september-18-margin-pair-removal-settlement-order-cancellation-checklist" />
-    <lastmod>2026-09-18</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/binance-september-22-system-upgrade-login-2fa-transfer-service-checklist</loc>
@@ -169,13 +106,6 @@
     <lastmod>2026-09-28</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/binance-usdp-delisting-september-24-product-deadline-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-usdp-delisting-september-24-product-deadline-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-usdp-delisting-september-24-product-deadline-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-usdp-delisting-september-24-product-deadline-checklist" />
-    <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/binance-vechain-interstellar-hardfork-deposit-withdrawal-suspension</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-vechain-interstellar-hardfork-deposit-withdrawal-suspension" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-vechain-interstellar-hardfork-deposit-withdrawal-suspension" />
@@ -183,45 +113,10 @@
     <lastmod>2026-09-14</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/binance-vechain-vet-network-upgrade-deposit-withdrawal-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-vechain-vet-network-upgrade-deposit-withdrawal-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-vechain-vet-network-upgrade-deposit-withdrawal-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-vechain-vet-network-upgrade-deposit-withdrawal-checklist" />
-    <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/binance-vs-bybit-network-upgrade-deposit-withdrawal-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-vs-bybit-network-upgrade-deposit-withdrawal-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-vs-bybit-network-upgrade-deposit-withdrawal-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-vs-bybit-network-upgrade-deposit-withdrawal-controls" />
-    <lastmod>2026-09-15</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/binance-vs-bybit-passkey-withdrawal-verification-controls</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-vs-bybit-passkey-withdrawal-verification-controls" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-vs-bybit-passkey-withdrawal-verification-controls" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-vs-bybit-passkey-withdrawal-verification-controls" />
-    <lastmod>2026-09-21</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/binance-vs-coinbase-account-statement-tax-report-export-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-vs-coinbase-account-statement-tax-report-export-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-vs-coinbase-account-statement-tax-report-export-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-vs-coinbase-account-statement-tax-report-export-controls" />
-    <lastmod>2026-09-21</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/binance-vs-coinbase-api-client-order-id-retry-reconciliation</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-vs-coinbase-api-client-order-id-retry-reconciliation" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-vs-coinbase-api-client-order-id-retry-reconciliation" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-vs-coinbase-api-client-order-id-retry-reconciliation" />
-    <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/binance-vs-kraken-api-auth-timestamp-nonce-replay-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-vs-kraken-api-auth-timestamp-nonce-replay-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-vs-kraken-api-auth-timestamp-nonce-replay-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-vs-kraken-api-auth-timestamp-nonce-replay-controls" />
     <lastmod>2026-09-21</lastmod>
   </url>
   <url>
@@ -253,13 +148,6 @@
     <lastmod>2026-09-14</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/binance-vs-okx-spot-pair-removal-order-cancellation-migration-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-vs-okx-spot-pair-removal-order-cancellation-migration-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-vs-okx-spot-pair-removal-order-cancellation-migration-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-vs-okx-spot-pair-removal-order-cancellation-migration-controls" />
-    <lastmod>2026-09-15</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/binance-vs-okx-subaccount-api-kyc-permission-controls</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-vs-okx-subaccount-api-kyc-permission-controls" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-vs-okx-subaccount-api-kyc-permission-controls" />
@@ -272,13 +160,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-vs-okx-tokenized-stock-collateral-haircut-liquidation-controls" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-vs-okx-tokenized-stock-collateral-haircut-liquidation-controls" />
     <lastmod>2026-09-15</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/binance-vs-okx-withdrawal-allowlist-address-book-lock-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-vs-okx-withdrawal-allowlist-address-book-lock-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-vs-okx-withdrawal-allowlist-address-book-lock-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-vs-okx-withdrawal-allowlist-address-book-lock-controls" />
-    <lastmod>2026-09-22</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/binance-vs-okx-withdrawal-allowlist-controls</loc>
@@ -309,13 +190,6 @@
     <lastmod>2026-09-20</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/binance-withdrawal-whitelist-vs-kraken-address-confirmation-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/binance-withdrawal-whitelist-vs-kraken-address-confirmation-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/binance-withdrawal-whitelist-vs-kraken-address-confirmation-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/binance-withdrawal-whitelist-vs-kraken-address-confirmation-controls" />
-    <lastmod>2026-09-21</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/bis-2026-stablecoin-singleness-elasticity-integrity-user-framework</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bis-2026-stablecoin-singleness-elasticity-integrity-user-framework" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bis-2026-stablecoin-singleness-elasticity-integrity-user-framework" />
@@ -323,25 +197,11 @@
     <lastmod>2026-09-14</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/bis-central-bank-money-anchor-stablecoin-tokenization-risk-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bis-central-bank-money-anchor-stablecoin-tokenization-risk-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bis-central-bank-money-anchor-stablecoin-tokenization-risk-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bis-central-bank-money-anchor-stablecoin-tokenization-risk-map" />
-    <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/bis-hidden-complexity-defi-data-measurement-risk-map</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bis-hidden-complexity-defi-data-measurement-risk-map" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bis-hidden-complexity-defi-data-measurement-risk-map" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bis-hidden-complexity-defi-data-measurement-risk-map" />
     <lastmod>2026-09-21</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/bis-onchain-activity-measurement-transaction-aggregation-smart-contract-crosschain-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bis-onchain-activity-measurement-transaction-aggregation-smart-contract-crosschain-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bis-onchain-activity-measurement-transaction-aggregation-smart-contract-crosschain-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bis-onchain-activity-measurement-transaction-aggregation-smart-contract-crosschain-radar" />
-    <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/bis-project-agora-real-value-testing-wholesale-tokenization-readiness</loc>
@@ -358,39 +218,11 @@
     <lastmod>2026-09-26</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/bis-project-mandala-compliance-proof-tokenized-payment-readiness-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bis-project-mandala-compliance-proof-tokenized-payment-readiness-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bis-project-mandala-compliance-proof-tokenized-payment-readiness-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bis-project-mandala-compliance-proof-tokenized-payment-readiness-map" />
-    <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/bis-stablecoin-reserve-spillover-vs-tokenised-deposit-trust-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bis-stablecoin-reserve-spillover-vs-tokenised-deposit-trust-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bis-stablecoin-reserve-spillover-vs-tokenised-deposit-trust-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bis-stablecoin-reserve-spillover-vs-tokenised-deposit-trust-map" />
-    <lastmod>2026-09-20</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/bis-stablecoin-tokenisation-trust-in-money-risk-map</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bis-stablecoin-tokenisation-trust-in-money-risk-map" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bis-stablecoin-tokenisation-trust-in-money-risk-map" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bis-stablecoin-tokenisation-trust-in-money-risk-map" />
     <lastmod>2026-09-22</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/bis-tokenisation-governance-central-bank-money-risk-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bis-tokenisation-governance-central-bank-money-risk-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bis-tokenisation-governance-central-bank-money-risk-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bis-tokenisation-governance-central-bank-money-risk-map" />
-    <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/bitcoin-post-quantum-readiness-custody-migration-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bitcoin-post-quantum-readiness-custody-migration-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bitcoin-post-quantum-readiness-custody-migration-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bitcoin-post-quantum-readiness-custody-migration-checklist" />
-    <lastmod>2026-09-14</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/bitcoin-post-quantum-readiness-workshop-proposals-risk-boundary</loc>
@@ -400,32 +232,11 @@
     <lastmod>2026-09-13</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/bitget-vs-kucoin-anti-phishing-withdrawal-safety-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bitget-vs-kucoin-anti-phishing-withdrawal-safety-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bitget-vs-kucoin-anti-phishing-withdrawal-safety-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bitget-vs-kucoin-anti-phishing-withdrawal-safety-controls" />
-    <lastmod>2026-09-28</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/blackrock-bstbl-brsrv-tokenized-money-market-reserve-readiness</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/blackrock-bstbl-brsrv-tokenized-money-market-reserve-readiness" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/blackrock-bstbl-brsrv-tokenized-money-market-reserve-readiness" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/blackrock-bstbl-brsrv-tokenized-money-market-reserve-readiness" />
     <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/blackrock-onchain-money-market-fund-nav-redemption-wallet-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/blackrock-onchain-money-market-fund-nav-redemption-wallet-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/blackrock-onchain-money-market-fund-nav-redemption-wallet-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/blackrock-onchain-money-market-fund-nav-redemption-wallet-controls" />
-    <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/blackrock-onchain-shares-official-register-vs-wallet-token-recordkeeping-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/blackrock-onchain-shares-official-register-vs-wallet-token-recordkeeping-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/blackrock-onchain-shares-official-register-vs-wallet-token-recordkeeping-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/blackrock-onchain-shares-official-register-vs-wallet-token-recordkeeping-map" />
-    <lastmod>2026-09-21</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/blockchain-network-upgrade-vs-exchange-wallet-maintenance-service-impact-comparison</loc>
@@ -442,25 +253,11 @@
     <lastmod>2026-09-18</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/bybit-1000xec-blast-gun-kgen-rpl-b2-risk-limit-buffer-liquidation-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bybit-1000xec-blast-gun-kgen-rpl-b2-risk-limit-buffer-liquidation-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bybit-1000xec-blast-gun-kgen-rpl-b2-risk-limit-buffer-liquidation-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bybit-1000xec-blast-gun-kgen-rpl-b2-risk-limit-buffer-liquidation-checklist" />
-    <lastmod>2026-09-17</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/bybit-anti-phishing-code-setup-message-verification-tutorial</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bybit-anti-phishing-code-setup-message-verification-tutorial" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bybit-anti-phishing-code-setup-message-verification-tutorial" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bybit-anti-phishing-code-setup-message-verification-tutorial" />
     <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/bybit-bank-triparty-usd-tbill-collateral-risk-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bybit-bank-triparty-usd-tbill-collateral-risk-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bybit-bank-triparty-usd-tbill-collateral-risk-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bybit-bank-triparty-usd-tbill-collateral-risk-map" />
-    <lastmod>2026-09-28</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/bybit-brazil-entity-migration-kyc-liquidation-fiat-conversion-deadline-checklist</loc>
@@ -496,13 +293,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bybit-september-11-perpetual-risk-limit-adjustment-checklist" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bybit-september-11-perpetual-risk-limit-adjustment-checklist" />
     <lastmod>2026-09-13</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/bybit-september-24-collateral-tier-ratio-update-loan-health-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bybit-september-24-collateral-tier-ratio-update-loan-health-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bybit-september-24-collateral-tier-ratio-update-loan-health-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bybit-september-24-collateral-tier-ratio-update-loan-health-checklist" />
-    <lastmod>2026-09-18</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/bybit-september-24-swell-sand-lunc-usdc-pair-delisting-bot-checklist</loc>
@@ -554,13 +344,6 @@
     <lastmod>2026-09-15</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/bybit-zigchain-v4-3-upgrade-deposit-withdrawal-suspension-resumption-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/bybit-zigchain-v4-3-upgrade-deposit-withdrawal-suspension-resumption-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/bybit-zigchain-v4-3-upgrade-deposit-withdrawal-suspension-resumption-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/bybit-zigchain-v4-3-upgrade-deposit-withdrawal-suspension-resumption-checklist" />
-    <lastmod>2026-09-18</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/cex-vs-dex-vs-perp-dex</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/cex-vs-dex-vs-perp-dex" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/cex-vs-dex-vs-perp-dex" />
@@ -568,25 +351,11 @@
     <lastmod>2026-09-07</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/cftc-24-7-trading-clearing-settlement-operational-readiness-framework</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/cftc-24-7-trading-clearing-settlement-operational-readiness-framework" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/cftc-24-7-trading-clearing-settlement-operational-readiness-framework" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/cftc-24-7-trading-clearing-settlement-operational-readiness-framework" />
-    <lastmod>2026-09-17</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/cftc-crypto-blockchain-faq-tokenized-customer-funds-recordkeeping</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/cftc-crypto-blockchain-faq-tokenized-customer-funds-recordkeeping" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/cftc-crypto-blockchain-faq-tokenized-customer-funds-recordkeeping" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/cftc-crypto-blockchain-faq-tokenized-customer-funds-recordkeeping" />
     <lastmod>2026-09-28</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/cftc-passive-software-no-action-position-scope-conditions-registration-boundary</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/cftc-passive-software-no-action-position-scope-conditions-registration-boundary" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/cftc-passive-software-no-action-position-scope-conditions-registration-boundary" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/cftc-passive-software-no-action-position-scope-conditions-registration-boundary" />
-    <lastmod>2026-09-18</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/cftc-passive-software-no-action-radar-control-and-custody-boundaries</loc>
@@ -601,13 +370,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/cftc-prediction-market-incentive-program-self-certification-checklist" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/cftc-prediction-market-incentive-program-self-certification-checklist" />
     <lastmod>2026-09-19</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/cftc-sec-harmonization-crypto-market-structure-operational-watch</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/cftc-sec-harmonization-crypto-market-structure-operational-watch" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/cftc-sec-harmonization-crypto-market-structure-operational-watch" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/cftc-sec-harmonization-crypto-market-structure-operational-watch" />
-    <lastmod>2026-09-21</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/cftc-self-custodial-wallet-no-action-letter-scope-user-boundary</loc>
@@ -680,13 +442,6 @@
     <lastmod>2026-09-14</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/coinbase-account-vs-coinbase-wallet-custody-recovery-boundary</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/coinbase-account-vs-coinbase-wallet-custody-recovery-boundary" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-account-vs-coinbase-wallet-custody-recovery-boundary" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/coinbase-account-vs-coinbase-wallet-custody-recovery-boundary" />
-    <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/coinbase-address-allowlist-setup-network-hold-tutorial</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/coinbase-address-allowlist-setup-network-hold-tutorial" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-address-allowlist-setup-network-hold-tutorial" />
@@ -722,13 +477,6 @@
     <lastmod>2026-09-21</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/coinbase-advanced-vs-kraken-pro-order-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/coinbase-advanced-vs-kraken-pro-order-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-advanced-vs-kraken-pro-order-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/coinbase-advanced-vs-kraken-pro-order-controls" />
-    <lastmod>2026-09-12</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/coinbase-auction-mode-new-asset-listing-phase-readiness-checklist</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/coinbase-auction-mode-new-asset-listing-phase-readiness-checklist" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-auction-mode-new-asset-listing-phase-readiness-checklist" />
@@ -757,27 +505,6 @@
     <lastmod>2026-09-13</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/coinbase-okx-self-trade-prevention-disclosure-audit</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/coinbase-okx-self-trade-prevention-disclosure-audit" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-okx-self-trade-prevention-disclosure-audit" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/coinbase-okx-self-trade-prevention-disclosure-audit" />
-    <lastmod>2026-09-12</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/coinbase-stablecore-community-bank-digital-asset-infrastructure-responsibility-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/coinbase-stablecore-community-bank-digital-asset-infrastructure-responsibility-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-stablecore-community-bank-digital-asset-infrastructure-responsibility-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/coinbase-stablecore-community-bank-digital-asset-infrastructure-responsibility-map" />
-    <lastmod>2026-09-17</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/coinbase-staked-eth-vs-lido-steth-exit-liquidity-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/coinbase-staked-eth-vs-lido-steth-exit-liquidity-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-staked-eth-vs-lido-steth-exit-liquidity-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/coinbase-staked-eth-vs-lido-steth-exit-liquidity-controls" />
-    <lastmod>2026-09-13</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/coinbase-token-bucket-vs-kraken-trading-rate-limit-counter-controls</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/coinbase-token-bucket-vs-kraken-trading-rate-limit-counter-controls" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-token-bucket-vs-kraken-trading-rate-limit-counter-controls" />
@@ -797,13 +524,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-vs-coinbase-exchange-allowlist-vault-withdrawal-controls" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/coinbase-vs-coinbase-exchange-allowlist-vault-withdrawal-controls" />
     <lastmod>2026-09-26</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/coinbase-vs-gemini-passkey-withdrawal-address-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/coinbase-vs-gemini-passkey-withdrawal-address-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-vs-gemini-passkey-withdrawal-address-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/coinbase-vs-gemini-passkey-withdrawal-address-controls" />
-    <lastmod>2026-09-28</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/coinbase-vs-kraken-recurring-buys-fees-schedule-controls</loc>
@@ -834,13 +554,6 @@
     <lastmod>2026-09-21</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/coinbase-wallet-supported-network-transition-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/coinbase-wallet-supported-network-transition-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-wallet-supported-network-transition-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/coinbase-wallet-supported-network-transition-checklist" />
-    <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/coinbase-websocket-market-data-pricing-september-15-capacity-checklist</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/coinbase-websocket-market-data-pricing-september-15-capacity-checklist" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/coinbase-websocket-market-data-pricing-september-15-capacity-checklist" />
@@ -869,13 +582,6 @@
     <lastmod>2026-09-27</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/crypto-api-key-credential-recovery-disclosure-radar-passphrase-secret-ip-allowlist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-api-key-credential-recovery-disclosure-radar-passphrase-secret-ip-allowlist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-api-key-credential-recovery-disclosure-radar-passphrase-secret-ip-allowlist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-api-key-credential-recovery-disclosure-radar-passphrase-secret-ip-allowlist" />
-    <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/crypto-collateral-alert-liquidation-disclosure-radar</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-collateral-alert-liquidation-disclosure-radar" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-collateral-alert-liquidation-disclosure-radar" />
@@ -897,32 +603,11 @@
     <lastmod>2026-09-13</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/crypto-exchange-active-session-device-revocation-disclosure-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-exchange-active-session-device-revocation-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-exchange-active-session-device-revocation-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-exchange-active-session-device-revocation-disclosure-radar" />
-    <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/crypto-exchange-anti-phishing-official-channel-verification-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-exchange-anti-phishing-official-channel-verification-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-exchange-anti-phishing-official-channel-verification-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-exchange-anti-phishing-official-channel-verification-radar" />
-    <lastmod>2026-09-21</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/crypto-exchange-api-rate-limit-disclosure-audit</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-exchange-api-rate-limit-disclosure-audit" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-exchange-api-rate-limit-disclosure-audit" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-exchange-api-rate-limit-disclosure-audit" />
     <lastmod>2026-09-13</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/crypto-exchange-api-request-timestamp-nonce-replay-protection-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-exchange-api-request-timestamp-nonce-replay-protection-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-exchange-api-request-timestamp-nonce-replay-protection-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-exchange-api-request-timestamp-nonce-replay-protection-radar" />
-    <lastmod>2026-09-14</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/crypto-exchange-api-withdrawal-address-management-permission-radar</loc>
@@ -932,32 +617,11 @@
     <lastmod>2026-09-14</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/crypto-exchange-deposit-address-tag-memo-disclosure-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-exchange-deposit-address-tag-memo-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-exchange-deposit-address-tag-memo-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-exchange-deposit-address-tag-memo-disclosure-radar" />
-    <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/crypto-exchange-market-data-schema-versioning-disclosure-radar</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-exchange-market-data-schema-versioning-disclosure-radar" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-exchange-market-data-schema-versioning-disclosure-radar" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-exchange-market-data-schema-versioning-disclosure-radar" />
     <lastmod>2026-09-20</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/crypto-exchange-network-status-deposit-withdrawal-disclosure-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-exchange-network-status-deposit-withdrawal-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-exchange-network-status-deposit-withdrawal-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-exchange-network-status-deposit-withdrawal-disclosure-radar" />
-    <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/crypto-exchange-passkey-2fa-migration-radar-sms-authenticator-security-key</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-exchange-passkey-2fa-migration-radar-sms-authenticator-security-key" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-exchange-passkey-2fa-migration-radar-sms-authenticator-security-key" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-exchange-passkey-2fa-migration-radar-sms-authenticator-security-key" />
-    <lastmod>2026-09-26</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/crypto-exchange-websocket-heartbeat-reconnect-liveness-radar</loc>
@@ -981,24 +645,10 @@
     <lastmod>2026-09-21</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/crypto-lending-collateral-tier-ratio-effective-date-account-impact-disclosure-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-lending-collateral-tier-ratio-effective-date-account-impact-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-lending-collateral-tier-ratio-effective-date-account-impact-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-lending-collateral-tier-ratio-effective-date-account-impact-disclosure-radar" />
-    <lastmod>2026-09-18</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/crypto-loan-collateral-tier-vs-collateral-ratio-borrowing-capacity-comparison</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-loan-collateral-tier-vs-collateral-ratio-borrowing-capacity-comparison" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-loan-collateral-tier-vs-collateral-ratio-borrowing-capacity-comparison" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-loan-collateral-tier-vs-collateral-ratio-borrowing-capacity-comparison" />
-    <lastmod>2026-09-18</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/crypto-margin-pair-delisting-borrow-transfer-settlement-order-cancellation-disclosure-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-margin-pair-delisting-borrow-transfer-settlement-order-cancellation-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-margin-pair-delisting-borrow-transfer-settlement-order-cancellation-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-margin-pair-delisting-borrow-transfer-settlement-order-cancellation-disclosure-radar" />
     <lastmod>2026-09-18</lastmod>
   </url>
   <url>
@@ -1014,13 +664,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-spot-listing-timeline-deposit-trading-withdrawal-disclosure-radar" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-spot-listing-timeline-deposit-trading-withdrawal-disclosure-radar" />
     <lastmod>2026-09-15</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/crypto-spot-order-price-protection-disclosure-audit</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/crypto-spot-order-price-protection-disclosure-audit" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/crypto-spot-order-price-protection-disclosure-audit" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/crypto-spot-order-price-protection-disclosure-audit" />
-    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/crypto-travel-rule-withdrawal-deposit-information-disclosure-radar</loc>
@@ -1051,13 +694,6 @@
     <lastmod>2026-09-15</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/deribit-vs-binance-crypto-options-settlement-collateral-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/deribit-vs-binance-crypto-options-settlement-collateral-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/deribit-vs-binance-crypto-options-settlement-collateral-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/deribit-vs-binance-crypto-options-settlement-collateral-controls" />
-    <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/direct-stock-brokerage-vs-tokenized-equities-vs-tradfi-perps-rights-map</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/direct-stock-brokerage-vs-tokenized-equities-vs-tradfi-perps-rights-map" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/direct-stock-brokerage-vs-tokenized-equities-vs-tradfi-perps-rights-map" />
@@ -1079,25 +715,11 @@
     <lastmod>2026-09-17</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/dtcc-collateral-appchain-vs-tokenization-service-custody-settlement-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/dtcc-collateral-appchain-vs-tokenization-service-custody-settlement-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/dtcc-collateral-appchain-vs-tokenization-service-custody-settlement-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/dtcc-collateral-appchain-vs-tokenization-service-custody-settlement-controls" />
-    <lastmod>2026-09-26</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/dtcc-digital-assets-lifecycle-governance-and-tokenization-controls</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/dtcc-digital-assets-lifecycle-governance-and-tokenization-controls" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/dtcc-digital-assets-lifecycle-governance-and-tokenization-controls" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/dtcc-digital-assets-lifecycle-governance-and-tokenization-controls" />
     <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/dtcc-dtc-tokenization-service-rights-interoperability-launch-readiness</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/dtcc-dtc-tokenization-service-rights-interoperability-launch-readiness" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/dtcc-dtc-tokenization-service-rights-interoperability-launch-readiness" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/dtcc-dtc-tokenization-service-rights-interoperability-launch-readiness" />
-    <lastmod>2026-09-14</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/dtcc-ledgerscan-vs-tokenization-service-record-reconciliation-boundary</loc>
@@ -1114,13 +736,6 @@
     <lastmod>2026-09-28</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/dtcc-stellar-tokenized-securities-multichain-lifecycle-readiness</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/dtcc-stellar-tokenized-securities-multichain-lifecycle-readiness" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/dtcc-stellar-tokenized-securities-multichain-lifecycle-readiness" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/dtcc-stellar-tokenized-securities-multichain-lifecycle-readiness" />
-    <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/dtcc-tokenization-interoperability-collateral-appchain-readiness</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/dtcc-tokenization-interoperability-collateral-appchain-readiness" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/dtcc-tokenization-interoperability-collateral-appchain-readiness" />
@@ -1133,13 +748,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/dtcc-tokenization-service-eligible-networks-wallet-registration-controls" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/dtcc-tokenization-service-eligible-networks-wallet-registration-controls" />
     <lastmod>2026-09-21</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/dtcc-tokenization-service-vs-sec-tokenized-security-rights-record-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/dtcc-tokenization-service-vs-sec-tokenized-security-rights-record-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/dtcc-tokenization-service-vs-sec-tokenized-security-rights-record-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/dtcc-tokenization-service-vs-sec-tokenized-security-rights-record-map" />
-    <lastmod>2026-09-26</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/dtcc-tokenized-assets-vs-nyse-tokenized-securities-rule-filing-rights-map</loc>
@@ -1177,31 +785,10 @@
     <lastmod>2026-09-14</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/exchange-network-upgrade-block-height-wallet-pause-resumption-evidence-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/exchange-network-upgrade-block-height-wallet-pause-resumption-evidence-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/exchange-network-upgrade-block-height-wallet-pause-resumption-evidence-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/exchange-network-upgrade-block-height-wallet-pause-resumption-evidence-radar" />
-    <lastmod>2026-09-18</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/exchange-official-channel-verification-disclosure-radar</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/exchange-official-channel-verification-disclosure-radar" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/exchange-official-channel-verification-disclosure-radar" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/exchange-official-channel-verification-disclosure-radar" />
-    <lastmod>2026-09-28</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/exchange-proof-of-reserves-liability-scope-disclosure-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/exchange-proof-of-reserves-liability-scope-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/exchange-proof-of-reserves-liability-scope-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/exchange-proof-of-reserves-liability-scope-disclosure-radar" />
-    <lastmod>2026-09-21</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/exchange-statement-ledger-tax-export-retention-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/exchange-statement-ledger-tax-export-retention-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/exchange-statement-ledger-tax-export-retention-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/exchange-statement-ledger-tax-export-retention-radar" />
     <lastmod>2026-09-28</lastmod>
   </url>
   <url>
@@ -1210,13 +797,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/exchange-subaccount-kyc-api-restriction-disclosure-radar" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/exchange-subaccount-kyc-api-restriction-disclosure-radar" />
     <lastmod>2026-09-28</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/exchange-system-upgrade-login-auth-transfer-trading-disclosure-radar</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/exchange-system-upgrade-login-auth-transfer-trading-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/exchange-system-upgrade-login-auth-transfer-trading-disclosure-radar" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/exchange-system-upgrade-login-auth-transfer-trading-disclosure-radar" />
-    <lastmod>2026-09-17</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/exchange-token-contract-swap-suspension-reopening-address-disclosure-radar</loc>
@@ -1233,24 +813,10 @@
     <lastmod>2026-09-13</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/exchange-wallet-maintenance-disclosure-radar-cutoff-scope-reopening-evidence</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/exchange-wallet-maintenance-disclosure-radar-cutoff-scope-reopening-evidence" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/exchange-wallet-maintenance-disclosure-radar-cutoff-scope-reopening-evidence" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/exchange-wallet-maintenance-disclosure-radar-cutoff-scope-reopening-evidence" />
-    <lastmod>2026-09-17</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/fatf-2026-defi-stablecoin-offshore-vasp-action-map</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/fatf-2026-defi-stablecoin-offshore-vasp-action-map" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/fatf-2026-defi-stablecoin-offshore-vasp-action-map" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/fatf-2026-defi-stablecoin-offshore-vasp-action-map" />
-    <lastmod>2026-09-27</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/fatf-2026-virtual-asset-gaps-defi-control-and-travel-rule-risk-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/fatf-2026-virtual-asset-gaps-defi-control-and-travel-rule-risk-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/fatf-2026-virtual-asset-gaps-defi-control-and-travel-rule-risk-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/fatf-2026-virtual-asset-gaps-defi-control-and-travel-rule-risk-map" />
     <lastmod>2026-09-27</lastmod>
   </url>
   <url>
@@ -1280,13 +846,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/fsb-crypto-framework-implementation-gaps-cross-border-checklist" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/fsb-crypto-framework-implementation-gaps-cross-border-checklist" />
     <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/fsb-global-stablecoin-framework-implementation-gaps-user-risk-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/fsb-global-stablecoin-framework-implementation-gaps-user-risk-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/fsb-global-stablecoin-framework-implementation-gaps-user-risk-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/fsb-global-stablecoin-framework-implementation-gaps-user-risk-map" />
-    <lastmod>2026-09-20</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/gate-vs-mexc-spot-order-types-control-boundaries</loc>
@@ -1485,13 +1044,6 @@
     <lastmod>2026-09-15</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/how-to-set-up-binance-authenticator-2fa-scenario-controls-safely</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/how-to-set-up-binance-authenticator-2fa-scenario-controls-safely" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/how-to-set-up-binance-authenticator-2fa-scenario-controls-safely" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/how-to-set-up-binance-authenticator-2fa-scenario-controls-safely" />
-    <lastmod>2026-09-21</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/how-to-set-up-bitget-passkey-anti-phishing-code-and-official-channel-check</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/how-to-set-up-bitget-passkey-anti-phishing-code-and-official-channel-check" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/how-to-set-up-bitget-passkey-anti-phishing-code-and-official-channel-check" />
@@ -1611,24 +1163,10 @@
     <lastmod>2026-09-13</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/imf-tokenization-financial-architecture-policy-risk-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/imf-tokenization-financial-architecture-policy-risk-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/imf-tokenization-financial-architecture-policy-risk-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/imf-tokenization-financial-architecture-policy-risk-map" />
-    <lastmod>2026-09-20</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/institutional-stablecoin-cash-management-governance-controls-radar</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/institutional-stablecoin-cash-management-governance-controls-radar" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/institutional-stablecoin-cash-management-governance-controls-radar" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/institutional-stablecoin-cash-management-governance-controls-radar" />
-    <lastmod>2026-09-15</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/institutional-tokenization-demand-vs-operational-readiness-gap-2026</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/institutional-tokenization-demand-vs-operational-readiness-gap-2026" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/institutional-tokenization-demand-vs-operational-readiness-gap-2026" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/institutional-tokenization-demand-vs-operational-readiness-gap-2026" />
     <lastmod>2026-09-15</lastmod>
   </url>
   <url>
@@ -1637,13 +1175,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/iosco-financial-asset-tokenization-interoperability-settlement-risks" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/iosco-financial-asset-tokenization-interoperability-settlement-risks" />
     <lastmod>2026-09-13</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/iosco-financial-asset-tokenization-settlement-asset-interoperability-risk-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/iosco-financial-asset-tokenization-settlement-asset-interoperability-risk-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/iosco-financial-asset-tokenization-settlement-asset-interoperability-risk-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/iosco-financial-asset-tokenization-settlement-asset-interoperability-risk-map" />
-    <lastmod>2026-09-26</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/iosco-tokenization-financial-assets-investor-protection-risk-map</loc>
@@ -1744,13 +1275,6 @@
     <lastmod>2026-09-20</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/kucoin-vs-mexc-trade-history-export-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/kucoin-vs-mexc-trade-history-export-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/kucoin-vs-mexc-trade-history-export-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/kucoin-vs-mexc-trade-history-export-controls" />
-    <lastmod>2026-09-13</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/kucoin-withdrawal-restriction-security-change-checklist</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/kucoin-withdrawal-restriction-security-change-checklist" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/kucoin-withdrawal-restriction-security-change-checklist" />
@@ -1793,13 +1317,6 @@
     <lastmod>2026-09-13</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/okx-api-key-expiry-ip-binding-permission-review-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/okx-api-key-expiry-ip-binding-permission-review-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-api-key-expiry-ip-binding-permission-review-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/okx-api-key-expiry-ip-binding-permission-review-checklist" />
-    <lastmod>2026-09-21</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-api-kyc-order-tagged-rate-limit-migration-checklist" />
@@ -1814,27 +1331,6 @@
     <lastmod>2026-09-21</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/okx-flockusdt-perpetual-listing-contract-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/okx-flockusdt-perpetual-listing-contract-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-flockusdt-perpetual-listing-contract-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/okx-flockusdt-perpetual-listing-contract-checklist" />
-    <lastmod>2026-09-13</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/okx-iostusd-strkusd-x-perps-launch-risk-and-availability-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/okx-iostusd-strkusd-x-perps-launch-risk-and-availability-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-iostusd-strkusd-x-perps-launch-risk-and-availability-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/okx-iostusd-strkusd-x-perps-launch-risk-and-availability-checklist" />
-    <lastmod>2026-09-17</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/okx-new-perpetual-listing-contract-risk-verification-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/okx-new-perpetual-listing-contract-risk-verification-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-new-perpetual-listing-contract-risk-verification-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/okx-new-perpetual-listing-contract-risk-verification-checklist" />
-    <lastmod>2026-09-15</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/okx-offline-mode-withdrawal-protection-window-api-c2c-pay-controls</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/okx-offline-mode-withdrawal-protection-window-api-c2c-pay-controls" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-offline-mode-withdrawal-protection-window-api-c2c-pay-controls" />
@@ -1842,25 +1338,11 @@
     <lastmod>2026-09-27</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/okx-orclusd-equity-x-perp-contract-risk-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/okx-orclusd-equity-x-perp-contract-risk-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-orclusd-equity-x-perp-contract-risk-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/okx-orclusd-equity-x-perp-contract-risk-checklist" />
-    <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/okx-order-book-checksum-deprecation-sequence-integrity-radar</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/okx-order-book-checksum-deprecation-sequence-integrity-radar" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-order-book-checksum-deprecation-sequence-integrity-radar" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/okx-order-book-checksum-deprecation-sequence-integrity-radar" />
     <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/okx-pendleusd-x-perp-launch-contract-risk-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/okx-pendleusd-x-perp-launch-contract-risk-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-pendleusd-x-perp-launch-contract-risk-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/okx-pendleusd-x-perp-launch-contract-risk-checklist" />
-    <lastmod>2026-09-15</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/okx-platform-collateralized-borrowing-limit-checklist</loc>
@@ -1884,13 +1366,6 @@
     <lastmod>2026-09-22</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/okx-usdg-rlusd-daily-rewards-balance-calculation-update-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/okx-usdg-rlusd-daily-rewards-balance-calculation-update-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-usdg-rlusd-daily-rewards-balance-calculation-update-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/okx-usdg-rlusd-daily-rewards-balance-calculation-update-checklist" />
-    <lastmod>2026-09-15</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/okx-vvv-usdt-spot-listing-preopen-price-limit-transfer-checklist</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/okx-vvv-usdt-spot-listing-preopen-price-limit-transfer-checklist" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-vvv-usdt-spot-listing-preopen-price-limit-transfer-checklist" />
@@ -1903,13 +1378,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/okx-xmeta-vs-sec-tokenized-nms-stock-rights-ownership-comparison" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/okx-xmeta-vs-sec-tokenized-nms-stock-rights-ownership-comparison" />
     <lastmod>2026-09-17</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/onchain-activity-measurement-radar-stablecoin-defi-data-assumption-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/onchain-activity-measurement-radar-stablecoin-defi-data-assumption-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/onchain-activity-measurement-radar-stablecoin-defi-data-assumption-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/onchain-activity-measurement-radar-stablecoin-defi-data-assumption-controls" />
-    <lastmod>2026-09-21</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/ondo-stocks-tokenized-equity-economic-exposure-vs-shareholder-rights</loc>
@@ -1931,13 +1399,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/order-preview-validate-amend-acknowledgement-radar-api-execution-controls" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/order-preview-validate-amend-acknowledgement-radar-api-execution-controls" />
     <lastmod>2026-09-26</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/paxos-securities-settlement-temporary-clearing-agency-registration</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/paxos-securities-settlement-temporary-clearing-agency-registration" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/paxos-securities-settlement-temporary-clearing-agency-registration" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/paxos-securities-settlement-temporary-clearing-agency-registration" />
-    <lastmod>2026-09-13</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/payment-stablecoin-margin-collateral-issuer-eligibility-custody-haircut-framework</loc>
@@ -1968,13 +1429,6 @@
     <lastmod>2026-09-18</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/sec-24-hour-equity-trading-roundtable-overnight-market-readiness</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/sec-24-hour-equity-trading-roundtable-overnight-market-readiness" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/sec-24-hour-equity-trading-roundtable-overnight-market-readiness" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/sec-24-hour-equity-trading-roundtable-overnight-market-readiness" />
-    <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/sec-24-hour-trading-operational-readiness-crypto-market-lessons</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/sec-24-hour-trading-operational-readiness-crypto-market-lessons" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/sec-24-hour-trading-operational-readiness-crypto-market-lessons" />
@@ -1987,27 +1441,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/sec-cftc-crypto-asset-interpretation-token-taxonomy-user-boundary" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/sec-cftc-crypto-asset-interpretation-token-taxonomy-user-boundary" />
     <lastmod>2026-09-15</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/sec-crypto-asset-faq-functional-decentralized-investment-contract-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/sec-crypto-asset-faq-functional-decentralized-investment-contract-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/sec-crypto-asset-faq-functional-decentralized-investment-contract-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/sec-crypto-asset-faq-functional-decentralized-investment-contract-map" />
-    <lastmod>2026-09-28</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/sec-crypto-vault-lending-strategies-securities-boundary-user-checklist</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/sec-crypto-vault-lending-strategies-securities-boundary-user-checklist" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/sec-crypto-vault-lending-strategies-securities-boundary-user-checklist" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/sec-crypto-vault-lending-strategies-securities-boundary-user-checklist" />
-    <lastmod>2026-09-15</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/sec-innovation-exemption-tokenized-nms-stock-amm-rights-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/sec-innovation-exemption-tokenized-nms-stock-amm-rights-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/sec-innovation-exemption-tokenized-nms-stock-amm-rights-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/sec-innovation-exemption-tokenized-nms-stock-amm-rights-controls" />
-    <lastmod>2026-09-20</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/sec-regulation-crypto-assets-proposal-exemptions-safe-harbor</loc>
@@ -2036,20 +1469,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/sec-tokenized-nms-stock-innovation-exemption-rights-controls-and-limits" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/sec-tokenized-nms-stock-innovation-exemption-rights-controls-and-limits" />
     <lastmod>2026-09-17</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/sec-transfer-agent-modernization-tokenized-recordkeeping-proposal</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/sec-transfer-agent-modernization-tokenized-recordkeeping-proposal" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/sec-transfer-agent-modernization-tokenized-recordkeeping-proposal" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/sec-transfer-agent-modernization-tokenized-recordkeeping-proposal" />
-    <lastmod>2026-09-13</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/sec-transfer-agent-tokenized-securities-recordkeeping-risk-map</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/sec-transfer-agent-tokenized-securities-recordkeeping-risk-map" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/sec-transfer-agent-tokenized-securities-recordkeeping-risk-map" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/sec-transfer-agent-tokenized-securities-recordkeeping-risk-map" />
-    <lastmod>2026-09-22</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/self-custody-wallet-recovery-passkey-disclosure-radar</loc>
@@ -2094,13 +1513,6 @@
     <lastmod>2026-09-15</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/tokenized-collateral-24-7-mobility-settlement-operational-readiness</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/tokenized-collateral-24-7-mobility-settlement-operational-readiness" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/tokenized-collateral-24-7-mobility-settlement-operational-readiness" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/tokenized-collateral-24-7-mobility-settlement-operational-readiness" />
-    <lastmod>2026-09-14</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/tokenized-collateral-acceptance-reuse-rehypothecation-risk-framework</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/tokenized-collateral-acceptance-reuse-rehypothecation-risk-framework" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/tokenized-collateral-acceptance-reuse-rehypothecation-risk-framework" />
@@ -2115,20 +1527,6 @@
     <lastmod>2026-09-19</lastmod>
   </url>
   <url>
-    <loc>https://nexualpha.com/news/tokenized-nms-stock-venue-disclosure-radar-issuer-rights-smart-contracts</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/tokenized-nms-stock-venue-disclosure-radar-issuer-rights-smart-contracts" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/tokenized-nms-stock-venue-disclosure-radar-issuer-rights-smart-contracts" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/tokenized-nms-stock-venue-disclosure-radar-issuer-rights-smart-contracts" />
-    <lastmod>2026-09-20</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/tokenized-securities-real-time-inventory-management-overnight-market-readiness</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/tokenized-securities-real-time-inventory-management-overnight-market-readiness" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/tokenized-securities-real-time-inventory-management-overnight-market-readiness" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/tokenized-securities-real-time-inventory-management-overnight-market-readiness" />
-    <lastmod>2026-09-18</lastmod>
-  </url>
-  <url>
     <loc>https://nexualpha.com/news/tokenized-stocks-vs-stock-perpetuals</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/tokenized-stocks-vs-stock-perpetuals" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/tokenized-stocks-vs-stock-perpetuals" />
@@ -2141,13 +1539,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/tokenized-treasuries-structure-access-risks" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/tokenized-treasuries-structure-access-risks" />
     <lastmod>2026-09-22</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/uk-us-transatlantic-taskforce-stablecoin-tokenization-market-readiness</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/uk-us-transatlantic-taskforce-stablecoin-tokenization-market-readiness" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/uk-us-transatlantic-taskforce-stablecoin-tokenization-market-readiness" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/uk-us-transatlantic-taskforce-stablecoin-tokenization-market-readiness" />
-    <lastmod>2026-09-27</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/uniswap-v3-vs-pancakeswap-v3-concentrated-liquidity-controls</loc>
@@ -2169,13 +1560,6 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/verify-official-crypto-exchange-website" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/verify-official-crypto-exchange-website" />
     <lastmod>2026-09-07</lastmod>
-  </url>
-  <url>
-    <loc>https://nexualpha.com/news/visa-vtap-tokenized-deposit-platform-bank-readiness-controls</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://nexualpha.com/news/visa-vtap-tokenized-deposit-platform-bank-readiness-controls" />
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://nexualpha.com/zh-hans/news/visa-vtap-tokenized-deposit-platform-bank-readiness-controls" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nexualpha.com/news/visa-vtap-tokenized-deposit-platform-bank-readiness-controls" />
-    <lastmod>2026-09-20</lastmod>
   </url>
   <url>
     <loc>https://nexualpha.com/news/x402-agent-payment-verification-settlement-idempotency-recovery-radar</loc>

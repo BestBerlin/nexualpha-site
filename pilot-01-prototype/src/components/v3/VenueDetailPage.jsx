@@ -39,8 +39,44 @@ import { detailUi, dexFeeCompactUi, copyFeedbackLabel, useCopyFeedback, CopyFeed
 import { VenueFaqSection } from "./VenueFaqSection.jsx";
 import { VenueKeywordSections } from "./VenueKeywordSections.jsx";
 import { BrazilDeadlineNotice } from "./BrazilDeadlineNotice.jsx";
+import { BINANCE_OCTOBER_PATH, BINANCE_OCTOBER_VENUE, binanceOctoberPromotable, binanceOctoberTeaser } from "../../data/binance-october.js";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { SectionRule } from "../shared/DataRule.jsx";
+import { POPULAR_COINS_BY_VENUE } from "../../data/coins-venue-links.generated.js";
+import "./venue-popular-coins.css";
+
+const VENUE_COINS_COPY = {
+  en: { title: "Popular coins on {venue}", all: "All coins" },
+  "zh-Hans": { title: "{venue} 上的热门币种", all: "全部币种" },
+  "zh-Hant": { title: "{venue} 上的熱門幣種", all: "全部幣種" },
+  es: { title: "Monedas populares en {venue}", all: "Todas las monedas" },
+  "pt-BR": { title: "Moedas populares na {venue}", all: "Todas as moedas" },
+  fr: { title: "Cryptos populaires sur {venue}", all: "Toutes les cryptos" },
+  de: { title: "Beliebte Coins auf {venue}", all: "Alle Coins" },
+  ja: { title: "{venue}で人気の銘柄", all: "すべての銘柄" },
+  ko: { title: "{venue} 인기 코인", all: "전체 코인" },
+  tr: { title: "{venue} üzerindeki popüler coinler", all: "Tüm coinler" },
+  vi: { title: "Coin phổ biến trên {venue}", all: "Tất cả coin" },
+  id: { title: "Koin populer di {venue}", all: "Semua koin" },
+  ru: { title: "Популярные монеты на {venue}", all: "Все монеты" },
+  ar: { title: "عملات شائعة على {venue}", all: "كل العملات" },
+  it: { title: "Monete popolari su {venue}", all: "Tutte le monete" },
+  ur: { title: "{venue} پر مقبول کوائنز", all: "تمام کوائنز" },
+  uk: { title: "Популярні монети на {venue}", all: "Усі монети" },
+};
+// Popular coins on this exchange (2026-10-12): the 20 largest coins it lists, linking our "where to buy" pages.
+function VenuePopularCoins({ slug, name, locale }) {
+  const coins = POPULAR_COINS_BY_VENUE[slug] || [];
+  if (!coins.length) return null;
+  const c = VENUE_COINS_COPY[locale] || (String(locale || "").startsWith("zh") ? VENUE_COINS_COPY["zh-Hans"] : VENUE_COINS_COPY.en);
+  return <section className="v2-section v3-venue-coins" aria-labelledby={`coins-${slug}`}>
+    <div className="section-lead"><h2 id={`coins-${slug}`}>{c.title.replace("{venue}", name)}</h2></div>
+    <ul className="v3-venue-coins__list">
+      {coins.map(([coin, coinName, symbol]) => <li key={coin}><LocalLink locale={locale} href={`/coins/${coin}`}><b>{coinName}</b><span translate="no">{symbol}</span></LocalLink></li>)}
+    </ul>
+    <p className="v3-venue-coins__all"><LocalLink locale={locale} href="/coins">{c.all} →</LocalLink></p>
+  </section>;
+}
 
 
 const invitationSummaryByLocale = {
@@ -636,6 +672,16 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
       {APP_DOWNLOAD_SLUGS.includes(profile.slug) && <LocalLink locale={locale} href={`${appDownloadPath(profile.slug)}?${contextSearch}`} className="v3-back-link">{profile.name} · {appDownloadLabel(locale)}</LocalLink>}
 
+      {/* Binance October gifts (owner 2026-10-12): banner on the Binance profile while the campaign runs. */}
+      {profile.slug === BINANCE_OCTOBER_VENUE && binanceOctoberPromotable({ locale, market }) && (() => {
+        const teaser = binanceOctoberTeaser(locale);
+        return <LocalLink locale={locale} href={`${BINANCE_OCTOBER_PATH}${market ? `?market=${encodeURIComponent(market)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="binance-october"
+          data-cta-kind="research" data-cta-platform="binance" data-cta-placement="venue-campaign-banner">
+          <span className="v3-venue-campaign-banner__tag">✦ {teaser.tag}</span>
+          <span className="v3-venue-campaign-banner__text"><b>{teaser.title}</b><span>{teaser.body}</span></span>
+          <span className="v3-venue-campaign-banner__go">{teaser.go} <span aria-hidden="true">→</span></span>
+        </LocalLink>;
+      })()}
       <div className="v3-venue-hero">
         <div className="v3-venue-identity enter" style={{ "--i": 0 }}>
           <BrandMark slug={profile.slug} priority />
@@ -798,6 +844,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     {/* 针对 SEO 关键词的 FAQ 折叠/展开模块 */}
     <VenueFaqSection venue={venue} profile={profile} locale={locale} market={market} db={db} partner={partner} />
+
+    <VenuePopularCoins slug={profile.slug} name={profile.name || venue.name} locale={locale} />
 
     <section className={`v2-section v3-activity-panel${related.length ? "" : " v3-activity-panel--empty"}`}>
       <SectionRule stamp={related.length || null} />

@@ -19,6 +19,7 @@ import { createOgImageRoute, OG_PATH_PREFIX } from './server/og-image.mjs';
 import { CTA_CLICK_PATH, clientKey, createCtaClickBeacon } from './server/cta-click.mjs';
 import { createSsrPageCache } from './server/ssr-page-cache.mjs';
 import { createEmbedRoute } from './server/embed-widgets.mjs';
+import { createFlashMemory } from './server/flash-memory.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const mimeTypes = new Map(Object.entries({
@@ -44,6 +45,16 @@ export async function createProductionServer({ env = process.env, appRoot = root
   }
   const intel = createIntelFeed(clientRoot, { enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', archiveFile: intelArchiveFile, log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const funding = createFundingFeed({ enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  // Flash market items (2026-10-12): kept next to the announcement archive (FLASH_MEMORY_FILE, default
+  // <dir of INTEL_ARCHIVE_FILE>/flash-market-items.json); without either, the Worker keeps them in memory only.
+  let flashMemoryFile = null;
+  const flashFile = env.FLASH_MEMORY_FILE || (intelArchiveFile ? path.join(path.dirname(intelArchiveFile), 'flash-market-items.json') : null);
+  if (flashFile) {
+    try { flashMemoryFile = await privateDataFile(flashFile, appRoot, clientRoot); } catch (error) {
+      console.error(`[NexuAlpha] FLASH_MEMORY_FILE unusable (${error?.message || error}); flash market items stay in memory`);
+    }
+  }
+  const flashMemory = createFlashMemory({ file: flashMemoryFile, log: (m) => console.log(`[NexuAlpha] ${m}`) });
   // /liquidations and /funding-rates SSR: the collector feed, read at most once per 60 s (MARKET_EVENTS_FILE or MARKET_EVENTS_URL).
   const marketEvents = marketEventsReaderFromEnv(env, { log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const version = suppliedWorker && !existsSync(path.join(clientRoot, 'version.json'))
@@ -197,7 +208,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else result = await collector(request);
       } else {
         const renderPage = (pageRequest) => worker.fetch(pageRequest, {
-          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
           CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
           ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });

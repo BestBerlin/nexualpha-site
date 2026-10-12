@@ -18,6 +18,45 @@ import { CampaignBriefFacts } from "../shared/CampaignBriefFacts.jsx";
 import { useCampaignBriefs } from "../shared/useCampaignBriefs.js";
 import { CHIPS, Cta, Roll, VMIN, nameOf, toPos, toVol, usd } from "./home7-shared.jsx";
 import { LocalMarketBrief } from "./home7-local-market.jsx";
+import { POPULAR_COINS } from "../../data/coins-links.generated.js";
+
+// Popular coins (2026-10-12): internal links to the "where to buy" pages of the 20 largest listed coins. Lives in the
+// below-the-fold chunk (SSR HTML stays complete) so the browser entry stays inside its budget.
+const POPULAR_COPY = {
+  en: { title: "Popular coins", lead: "Where to buy the most-traded coins, with the pairs each exchange lists.", all: "All coins" },
+  "zh-Hans": { title: "热门币种", lead: "主流币种在哪里买：每家交易所上架的交易对一目了然。", all: "全部币种" },
+  "zh-Hant": { title: "熱門幣種", lead: "主流幣種在哪裡交易：各交易所上架的交易對。", all: "全部幣種" },
+  es: { title: "Monedas populares", lead: "Dónde comprar las monedas más negociadas y qué pares ofrece cada exchange.", all: "Todas las monedas" },
+  "pt-BR": { title: "Moedas populares", lead: "Onde comprar as moedas mais negociadas e quais pares cada corretora oferece.", all: "Todas as moedas" },
+  fr: { title: "Cryptos populaires", lead: "Où acheter les cryptos les plus échangées, avec les paires de chaque plateforme.", all: "Toutes les cryptos" },
+  de: { title: "Beliebte Coins", lead: "Wo du die meistgehandelten Coins kaufst – mit den Paaren jeder Börse.", all: "Alle Coins" },
+  ja: { title: "人気の銘柄", lead: "主要銘柄をどこで買えるか、取引所ごとの取扱ペアと合わせて確認できます。", all: "すべての銘柄" },
+  ko: { title: "인기 코인", lead: "주요 코인을 어디서 살 수 있는지, 거래소별 거래쌍과 함께 확인하세요.", all: "전체 코인" },
+  tr: { title: "Popüler coinler", lead: "En çok işlem gören coinleri nereden alabileceğiniz ve her borsadaki pariteler.", all: "Tüm coinler" },
+  vi: { title: "Coin phổ biến", lead: "Mua các coin giao dịch nhiều nhất ở đâu, kèm các cặp mà từng sàn niêm yết.", all: "Tất cả coin" },
+  id: { title: "Koin populer", lead: "Tempat membeli koin yang paling banyak diperdagangkan, lengkap dengan pasangan di tiap bursa.", all: "Semua koin" },
+  ru: { title: "Популярные монеты", lead: "Где торгуются самые популярные монеты и какие пары есть на каждой бирже.", all: "Все монеты" },
+  ar: { title: "عملات شائعة", lead: "أين تُتداول العملات الأكثر نشاطاً والأزواج المتاحة في كل منصة.", all: "كل العملات" },
+  it: { title: "Monete popolari", lead: "Dove comprare le monete più scambiate, con le coppie di ogni exchange.", all: "Tutte le monete" },
+  ur: { title: "مقبول کوائنز", lead: "سب سے زیادہ ٹریڈ ہونے والے کوائنز کہاں دستیاب ہیں اور ہر ایکسچینج پر کون سے جوڑے ہیں۔", all: "تمام کوائنز" },
+  uk: { title: "Популярні монети", lead: "Де торгуються найпопулярніші монети та які пари є на кожній біржі.", all: "Усі монети" },
+};
+const popularCopy = (locale) => POPULAR_COPY[locale] || (String(locale || "").startsWith("zh") ? POPULAR_COPY["zh-Hans"] : POPULAR_COPY.en);
+function PopularCoins({ locale }) {
+  const c = popularCopy(locale);
+  return <section className="h7-in h7-coins" aria-labelledby="h7-coins-h">
+    <div className="h7-coins-head">
+      <h2 id="h7-coins-h">{c.title}</h2>
+      <a className="h7-coins-all" href={localizedHref("/coins", { locale })}>{c.all}<span aria-hidden="true" className="h7-academy-arrow">→</span></a>
+    </div>
+    <p className="h7-coins-lead">{c.lead}</p>
+    <ul className="h7-coins-list">
+      {POPULAR_COINS.map(([slug, name, symbol]) => <li key={slug}><a href={localizedHref(`/coins/${slug}`, { locale })}><b>{name}</b><span translate="no">{symbol}</span></a></li>)}
+    </ul>
+  </section>;
+}
+import { FlashRail } from "../flash/FlashRail.jsx";
+import { BINANCE_OCTOBER_PATH, binanceOctoberPromotable, binanceOctoberTeaser } from "../../data/binance-october.js";
 
 const INTEL_URL = "/intel/official-announcements.json";
 const INTEL_SHOW = ["listing", "event", "delisting", "news", "product", "security"];
@@ -122,15 +161,44 @@ function spread(items, limit, perVenue) {
   return [...picked, ...rest].slice(0, limit).sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
 }
 
+// Featured campaign (owner 2026-10-12): our Binance October gifts page is pinned above the exchange notices while the
+// campaign runs, where Binance may be promoted. It links our own page (traffic stays on NexuAlpha), not the exchange.
+function FeaturedCampaignRow({ locale, market }) {
+  if (!binanceOctoberPromotable({ locale, market })) return null;
+  const teaser = binanceOctoberTeaser(locale);
+  const href = localizedHref(BINANCE_OCTOBER_PATH, { locale, market });
+  return (
+    <li className="h7-feat" data-featured-campaign="binance-october">
+      <span className="h7-ic h7-ic-event" data-hot="true">{teaser.tag}</span>
+      <span className="h7-iv"><BrandMark slug="binance" compact />Binance</span>
+      <a className="h7-it" href={href} data-cta-kind="research" data-cta-platform="binance" data-cta-placement="home-featured-campaign">
+        {teaser.title}
+        <small className="campaign-brief-summary" dir="auto">{teaser.body}</small>
+      </a>
+      <a className="h7-iw" href={href} tabIndex={-1} aria-hidden="true">{teaser.go}</a>
+    </li>
+  );
+}
+
 function IntelBlock({ intel, t, locale, market, venues }) {
   const [open, setOpen] = useState(null);
   const now = useNow();
-  if (!intel) return null;
+  if (!intel) {
+    // Feed still loading or unavailable: the featured campaign still shows (fail closed for exchange notices only).
+    if (!binanceOctoberPromotable({ locale, market })) return null;
+    return (
+      <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
+        <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
+        <ul className="h7-il"><FeaturedCampaignRow locale={locale} market={market} /></ul>
+      </section>
+    );
+  }
   const asOf = fmtAsOf(intel.generatedAt, locale);
   return (
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
       <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
       <ul className="h7-il">
+        <FeaturedCampaignRow locale={locale} market={market} />
         {spread(intel.items, 10, 2).map((raw) => {
           const i = applyCampaignBriefs(raw, intel, locale);
           return (
@@ -169,6 +237,10 @@ export function HomeBelowFold({ t, locale, market, vol, setVol, mode, setMode, p
   const onVol = (e) => { const d = e.target.value.replace(/[^0-9]/g, ""); setVol(Math.min(Number(d) || 0, 1e8)); };
   return (
     <>
+      {/* Flash rail (2026-10-12): the latest 5 items of the 7x24 stream, first block of the deferred home section (its
+          id is the hydration target, so the chunk loads as the rail approaches). */}
+      <FlashRail locale={locale} />
+      <PopularCoins locale={locale} />
       <section className="h7-in h7-calc" id="h7-calc">
         <div>
           <h2>{t.calcH}</h2>

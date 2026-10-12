@@ -10,7 +10,9 @@ import { clientHomeHeroVariant } from "../../src/data/home-hero-experiment.js";
 const require = createRequire(import.meta.url);
 
 export async function createSsrHarness() {
-  const vite = await createViteServer({ appType: "custom", logLevel: "error", server: { middlewareMode: true, hmr: false, ws: false } });
+  // These fixtures only load SSR modules. Client dependency discovery can keep
+  // the test server alive after close() while scanning the full application.
+  const vite = await createViteServer({ optimizeDeps: { noDiscovery: true, include: [] }, appType: "custom", logLevel: "error", server: { middlewareMode: true, hmr: false, ws: false } });
   const entry = await vite.ssrLoadModule("/src/entry-server.jsx");
   return { vite, render: entry.render, close: () => vite.close() };
 }
@@ -77,6 +79,7 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
       initialMarketEvents: state?.marketEvents,
       initialOfficialAnnouncements: state?.officialAnnouncements,
       initialToolArticles: state?.toolArticles,
+      initialFlash: state?.flash,
     })), heroVariant);
     const root = window.document.getElementById("root");
     const reactRoot = hydrateRoot(root, app, { onRecoverableError: (error) => errors.push(`recoverable: ${error?.message || error}`) });

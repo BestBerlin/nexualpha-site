@@ -562,6 +562,20 @@ export function exchangeUrl(slug, locale = "en") {
   return localizedHref(`/exchanges/${encodeURIComponent(slug)}`, { locale });
 }
 
+/**
+ * A real human review record on a feed row: `humanReviewedBy` (reviewer name) and `humanReviewedAt` (ISO date).
+ * Without one, article pages say "Updated <date>" and their schema names no reviewer (AUDIT 2026-10-12).
+ */
+export function newsHumanReview(article) {
+  if (!isRecord(article)) return null;
+  const by = cleanString(article.humanReviewedBy);
+  const at = cleanString(article.humanReviewedAt);
+  if (!by || !at || !Number.isFinite(Date.parse(at))) return null;
+  return { by, at: new Date(Date.parse(at)).toISOString() };
+}
+
+const SEARCH_STATES = new Set(["noindex-thin", "canonicalized"]);
+
 export function normalizeNewsArticle(article) {
   if (!isRecord(article)) return null;
   const slug = cleanString(article.slug).toLowerCase();
@@ -597,11 +611,17 @@ export function normalizeNewsArticle(article) {
     content,
     sources,
     relatedVenues: cleanVenueSlugs(article.relatedVenues),
+    topicTags: cleanVenueSlugs(article.topicTags || article.tags),
+    ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
     availableLocales: newsArticleAvailableLocales(article),
     ...(routeProjection(article) ? { routeProjection: routeProjection(article) } : {}),
     seo: isRecord(article.seo) ? article.seo : {},
     aeo: isRecord(article.aeo) ? article.aeo : {},
     geo: isRecord(article.geo) ? article.geo : {},
+    // T10 search state set by the Worker / build overlay (src/data/news-search-state.js); review record if one exists.
+    ...(SEARCH_STATES.has(article.searchState) ? { searchState: article.searchState } : {}),
+    ...(VALID_SLUG.test(cleanString(article.canonicalSlug)) ? { canonicalSlug: cleanString(article.canonicalSlug) } : {}),
+    ...(newsHumanReview(article) ? { humanReviewedBy: newsHumanReview(article).by, humanReviewedAt: newsHumanReview(article).at } : {}),
   };
 }
 
@@ -631,6 +651,8 @@ export function normalizeNewsArticleSummary(article) {
     title,
     summary,
     relatedVenues: cleanVenueSlugs(article.relatedVenues),
+    topicTags: cleanVenueSlugs(article.topicTags || article.tags),
+    ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
     availableLocales: newsArticleSummaryAvailableLocales(article),
     ...(routeProjection(article) ? { routeProjection: routeProjection(article) } : {}),
   };
@@ -690,6 +712,8 @@ export function projectNewsArticleForLocale(article, locale = "en", { includeCon
     title: compactLocalizedRecord(article.title, locale),
     summary: compactLocalizedRecord(article.summary, locale),
     relatedVenues: Array.isArray(article.relatedVenues) ? article.relatedVenues : [],
+    topicTags: cleanVenueSlugs(article.topicTags || article.tags),
+    ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
     availableLocales: Array.isArray(article.availableLocales) ? article.availableLocales : [],
     routeProjection: {
       source: NEWS_ARTICLE_ROUTE_PROJECTION_SOURCE,
@@ -704,6 +728,10 @@ export function projectNewsArticleForLocale(article, locale = "en", { includeCon
     projected.seo = isRecord(article.seo) ? article.seo : {};
     projected.aeo = isRecord(article.aeo) ? article.aeo : {};
     projected.geo = isRecord(article.geo) ? article.geo : {};
+    if (SEARCH_STATES.has(article.searchState)) projected.searchState = article.searchState;
+    if (VALID_SLUG.test(cleanString(article.canonicalSlug))) projected.canonicalSlug = cleanString(article.canonicalSlug);
+    const review = newsHumanReview(article);
+    if (review) { projected.humanReviewedBy = review.by; projected.humanReviewedAt = review.at; }
   }
   return projected;
 }

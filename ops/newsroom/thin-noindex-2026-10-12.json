@@ -1,0 +1,3639 @@
+{
+  "version": 1,
+  "decidedAt": "2026-10-12",
+  "decision": "T10 indexation recovery (lead decision, reversible). Pages stay live at the same URL with HTTP 200; nothing is deleted or redirected.",
+  "undo": "Remove a slug from `noindex` (or a row from `canonical`), run `node scripts/generate-news-search-state.mjs` in pilot-01-prototype, deploy. The page returns to index,follow and to the sitemaps on the next request.",
+  "policy": {
+    "templateTitlePattern": "\\b(Radar|Checklist|Controls?|Map|Readiness|Boundary|Boundaries|Guardrails|Matrix|Lifecycle|Disclosure)\\b",
+    "window": {
+      "start": "2026-07-14",
+      "end": "2026-10-12",
+      "source": "GSC Search Analytics, page dimension, dataState=all, every locale URL of the slug"
+    },
+    "exclusions": [
+      "≥1 Google impression in the window",
+      "≥1 /go or site click (BaoTa /data/private/nexualpha/clicks/go-clicks.jsonl)",
+      "external backlink detected (Bing Webmaster GetLinkCounts)",
+      "hard-coded /news/<slug> link from a curated page in src/, worker/ or server/"
+    ],
+    "noindex": "robots noindex,follow (meta + head), removed from sitemap-articles-*.xml, news-sitemap.xml, hreflang alternates and llms lists",
+    "canonical": "rel=canonical to the stronger article, robots index,follow, removed from sitemaps"
+  },
+  "counts": {
+    "feedPublished": 650,
+    "templateTitles": 484,
+    "alreadyNoindex": 24,
+    "noindex": 302,
+    "canonical": 6,
+    "keptForImpressions": 153,
+    "keptForClicks": 0,
+    "keptForBacklinks": 0,
+    "keptForCuratedLinks": 5,
+    "strong": 100
+  },
+  "checks": {
+    "clickLogNewsSlugs": 0,
+    "backlinkPagesDetected": 0
+  },
+  "noindex": [
+    {
+      "slug": "aave-vs-lido-exit-path-health-factor-withdrawal-queue-controls",
+      "publishedAt": "2026-10-05T12:05:00.000Z",
+      "matched": "Controls",
+      "title": "Aave vs Lido Exit Paths: Health Factor, Withdrawal Queue and Liquidity Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "address-poisoning-transfer-history-wallet-warning-radar",
+      "publishedAt": "2026-09-22T02:44:00.289Z",
+      "matched": "Radar",
+      "title": "Address Poisoning Radar: Transfer History, Wallet Warnings and Stop Rules",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "api-effective-deadline-retry-disclosure-radar",
+      "publishedAt": "2026-10-07T02:55:00.000Z",
+      "matched": "Disclosure",
+      "title": "Crypto API Effective Deadline and Retry Replay Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "api-error-idempotency-retry-window-disclosure-radar",
+      "publishedAt": "2026-10-07T11:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Crypto Exchange API Error, Idempotency and Retry-Window Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "api-failover-cancel-control-disclosure-radar",
+      "publishedAt": "2026-09-28T18:06:00.000Z",
+      "matched": "Control",
+      "title": "API Failover and Cancel-Control Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "backpack-api-ed25519-batch-order-readiness-checklist",
+      "publishedAt": "2026-10-06T18:12:00.000Z",
+      "matched": "Readiness",
+      "title": "Backpack API ED25519 and Batch Order Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "basel-sco60-cryptoasset-exposure-standard-bank-capital-implementation-map",
+      "publishedAt": "2026-09-21T23:42:09.751Z",
+      "matched": "Map",
+      "title": "Basel SCO60 Cryptoasset Exposure Standard: Bank Capital Implementation Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-api-restrictions-permission-readback-checklist",
+      "publishedAt": "2026-10-09T03:08:00.000Z",
+      "matched": "Checklist",
+      "title": "Binance API Restrictions Permission Readback Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-brev-cookie-la-qnt-usdc-spot-pair-removal-bot-checklist",
+      "publishedAt": "2026-09-17T17:40:02.000Z",
+      "matched": "Checklist",
+      "title": "Binance BREV, COOKIE, LA and QNT USDC Pair Removal: Bot Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-caas-kyc-subaccount-api-restrictions",
+      "publishedAt": "2026-09-28T03:08:00.000Z",
+      "matched": "Map",
+      "title": "Binance CAAS KYC Subaccount API Restrictions and Travel Rule Endpoint Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-coinbase-kraken-okx-websocket-order-state-controls",
+      "publishedAt": "2026-10-04T18:08:00.000Z",
+      "matched": "Control",
+      "title": "Binance, Coinbase, Kraken and OKX WebSocket Order-State Control Comparison",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-coinbase-kraken-rest-api-authentication-control-comparison",
+      "publishedAt": "2026-10-04T12:08:00.000Z",
+      "matched": "Control",
+      "title": "Binance, Coinbase and Kraken REST API Authentication Control Comparison",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-convert-vs-kraken-instant-buy-quote-fee-spread-controls",
+      "publishedAt": "2026-10-07T23:58:00.000Z",
+      "matched": "Controls",
+      "title": "Binance Convert vs Kraken Instant Buy: Quote, Fee, Spread and Confirmation Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-kraken-okx-cancel-all-after-order-safety-controls",
+      "publishedAt": "2026-10-06T02:58:00.000Z",
+      "matched": "Controls",
+      "title": "Binance, Kraken and OKX Cancel-All-After Order Safety Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-margin-collateral-ratio-update-liquidation-readiness-checklist",
+      "publishedAt": "2026-10-01T06:12:00.000Z",
+      "matched": "Readiness",
+      "title": "Binance Margin Collateral Ratio Update Liquidation Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-margin-otoco-vs-okx-chase-trigger-order-controls",
+      "publishedAt": "2026-10-08T06:13:00.000Z",
+      "matched": "Control",
+      "title": "Binance Margin OTOCO vs OKX Chase Trigger Orders: Advanced Order-Control Boundaries",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-okx-api-timestamp-signature-replay-risk-radar",
+      "publishedAt": "2026-10-08T09:02:00.000Z",
+      "matched": "Radar",
+      "title": "Binance and OKX API Timestamp Signatures: Replay and Drift Risk Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-okx-proof-of-reserves-disclosure-audit",
+      "publishedAt": "2026-09-13T02:45:00.000Z",
+      "matched": "Disclosure",
+      "title": "Binance and OKX Proof of Reserves: A Disclosure and Verification Audit",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-okx-self-trade-prevention-reconciliation-radar",
+      "publishedAt": "2026-09-30T23:58:00.000Z",
+      "matched": "Radar",
+      "title": "Binance and OKX Self-Trade Prevention Reconciliation Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-onchainpay-b402-request-signing-verify-settle-readiness-checklist",
+      "publishedAt": "2026-10-05T06:15:00.000Z",
+      "matched": "Readiness",
+      "title": "Binance OnchainPay B402 Request Signing, Verify and Settle Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-one-step-withdrawal-whitelist-limit-control-checklist",
+      "publishedAt": "2026-10-01T03:12:00.000Z",
+      "matched": "Control",
+      "title": "Binance One-Step Withdrawal and Whitelist Limit Control Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-order-amend-keep-priority-api-readiness-checklist",
+      "publishedAt": "2026-10-08T03:04:00.000Z",
+      "matched": "Readiness",
+      "title": "Binance Order Amend Keep Priority: API Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-pay-order-query-signature-reconciliation-control-map",
+      "publishedAt": "2026-10-05T21:05:00.000Z",
+      "matched": "Control",
+      "title": "Binance Pay Order Query and Signature Reconciliation Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-pay-vs-coinbase-payment-webhook-signature-reconciliation-controls",
+      "publishedAt": "2026-10-05T06:15:00.000Z",
+      "matched": "Controls",
+      "title": "Binance Pay vs Coinbase Payment Webhook Signature and Reconciliation Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-platform-wallet-upgrade-vs-token-network-maintenance-transfer-controls",
+      "publishedAt": "2026-09-17T11:42:46.000Z",
+      "matched": "Controls",
+      "title": "Binance Platform Wallet Upgrade vs Token-Network Maintenance: Transfer Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-selected-network-deposit-withdrawal-support-removal-checklist",
+      "publishedAt": "2026-09-14T17:36:24.617Z",
+      "matched": "Checklist",
+      "title": "Binance Selected-Network Deposit and Withdrawal Support Removal: User Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-september-18-margin-pair-removal-settlement-order-cancellation-checklist",
+      "publishedAt": "2026-09-18T02:39:50.000Z",
+      "matched": "Checklist",
+      "title": "Binance September 18 Margin Pair Removal: Settlement and Order-Cancellation Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-signed-endpoint-percent-encoding-invalid-signature-migration",
+      "publishedAt": "2026-10-06T02:58:00.000Z",
+      "matched": "Checklist",
+      "title": "Binance Signed-Endpoint Percent-Encoding Migration Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-test-order-vs-okx-place-order-pretrade-validation-controls",
+      "publishedAt": "2026-10-08T03:04:00.000Z",
+      "matched": "Controls",
+      "title": "Binance Test Order vs OKX Place Order: Pre-Trade Validation Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-usdp-delisting-september-24-product-deadline-checklist",
+      "publishedAt": "2026-09-14T05:42:00.000Z",
+      "matched": "Checklist",
+      "title": "Binance USDP Delisting: Product Deadline Checklist for September 24",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-user-data-stream-api-reconnect-readiness-checklist",
+      "publishedAt": "2026-10-04T18:08:00.000Z",
+      "matched": "Readiness",
+      "title": "Binance User Data Stream Reconnect and Account-Event Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-user-data-stream-reconnect-gap-backfill-checklist",
+      "publishedAt": "2026-10-05T23:58:00.000Z",
+      "matched": "Checklist",
+      "title": "Binance User Data Stream Reconnect Gap and REST Backfill Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vechain-vet-network-upgrade-deposit-withdrawal-checklist",
+      "publishedAt": "2026-09-14T02:40:00.000Z",
+      "matched": "Checklist",
+      "title": "Binance Vechain Upgrade Support: Deposit, Withdrawal and Trading Checklist for September 16",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-bitget-api-withdrawal-ip-allowlist-control-map",
+      "publishedAt": "2026-10-01T12:08:00.000Z",
+      "matched": "Control",
+      "title": "Binance vs Bitget API Withdrawal IP Allowlist Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-bybit-network-upgrade-deposit-withdrawal-controls",
+      "publishedAt": "2026-09-15T08:42:22.000Z",
+      "matched": "Control",
+      "title": "Binance vs Bybit Network Upgrades: Deposit and Withdrawal Control Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-bybit-self-trade-prevention-prevented-match-controls",
+      "publishedAt": "2026-10-07T08:55:00.000Z",
+      "matched": "Controls",
+      "title": "Binance vs Bybit Self-Trade Prevention and Prevented-Match Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-coinbase-account-statement-tax-report-export-controls",
+      "publishedAt": "2026-09-21T17:43:04.992Z",
+      "matched": "Controls",
+      "title": "Binance vs Coinbase Account Statements: Tax Report Export Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-coinbase-api-client-order-id-retry-reconciliation",
+      "publishedAt": "2026-09-14T23:35:56.434Z",
+      "matched": "Controls",
+      "title": "Binance vs Coinbase API Client Order IDs: Retry and Reconciliation Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-coinbase-stp-vs-self-trade-prevention-controls",
+      "publishedAt": "2026-10-07T18:08:00.000Z",
+      "matched": "Controls",
+      "title": "Binance vs Coinbase Self-Trade Prevention and Order-State Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-coinbase-websocket-auth-ed25519-jwt-session-controls",
+      "publishedAt": "2026-10-09T23:58:00.000Z",
+      "matched": "Controls",
+      "title": "Binance vs Coinbase WebSocket Authentication: Ed25519 Sessions and JWT Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-kraken-api-auth-timestamp-nonce-replay-controls",
+      "publishedAt": "2026-09-21T11:52:51.503Z",
+      "matched": "Controls",
+      "title": "Binance vs Kraken API Auth: Timestamp, Nonce and Replay Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-kraken-api-permission-nonce-controls",
+      "publishedAt": "2026-10-07T02:55:00.000Z",
+      "matched": "Controls",
+      "title": "Binance vs Kraken API Permission, Nonce and IP Allowlist Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-kraken-cancel-on-disconnect-open-order-controls",
+      "publishedAt": "2026-10-04T06:14:00.000Z",
+      "matched": "Controls",
+      "title": "Binance vs Kraken Cancel-on-Disconnect and Open Order Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-okx-account-configuration-api-key-permission-controls",
+      "publishedAt": "2026-10-08T21:08:00.000Z",
+      "matched": "Controls",
+      "title": "Binance vs OKX Account Configuration and API-Key Permission Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-okx-spot-pair-removal-order-cancellation-migration-controls",
+      "publishedAt": "2026-09-15T11:39:24.000Z",
+      "matched": "Controls",
+      "title": "Binance vs OKX Spot-Pair Removals: Order Cancellation and Migration Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-okx-websocket-rate-limit-session-controls",
+      "publishedAt": "2026-10-10T05:58:00.000Z",
+      "matched": "Controls",
+      "title": "Binance vs OKX WebSocket Rate-Limit and Session Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-vs-okx-withdrawal-allowlist-address-book-lock-controls",
+      "publishedAt": "2026-09-22T05:44:42.988Z",
+      "matched": "Controls",
+      "title": "Binance vs OKX Withdrawal Allowlist, Address Book and Lock Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "binance-withdrawal-whitelist-vs-kraken-address-confirmation-controls",
+      "publishedAt": "2026-09-21T05:45:28.520Z",
+      "matched": "Control",
+      "title": "Binance Withdrawal Whitelist vs Kraken Address Confirmation: Control Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-annual-economic-report-stablecoin-tokenisation-fragmentation-map",
+      "publishedAt": "2026-10-09T11:58:00.000Z",
+      "matched": "Map",
+      "title": "BIS Annual Economic Report Stablecoin Tokenisation Fragmentation Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-central-bank-money-anchor-stablecoin-tokenization-risk-map",
+      "publishedAt": "2026-09-27T11:42:02.000Z",
+      "matched": "Map",
+      "title": "BIS Central Bank Money Anchor, Stablecoin and Tokenization Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-next-generation-monetary-system-tokenisation-readiness-map",
+      "publishedAt": "2026-10-08T09:02:00.000Z",
+      "matched": "Readiness",
+      "title": "BIS Next-Generation Monetary System: Tokenisation Readiness Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-onchain-activity-measurement-transaction-aggregation-smart-contract-crosschain-radar",
+      "publishedAt": "2026-09-17T20:40:01.000Z",
+      "matched": "Radar",
+      "title": "BIS Onchain Activity Measurement: Transaction, Smart-Contract and Crosschain Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-project-mandala-compliance-proof-tokenized-payment-readiness-map",
+      "publishedAt": "2026-09-27T08:42:15.057Z",
+      "matched": "Readiness",
+      "title": "BIS Project Mandala Compliance Proof and Tokenized Payment Readiness Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-project-pine-tokenised-monetary-operations-readiness-map",
+      "publishedAt": "2026-10-01T08:58:00.000Z",
+      "matched": "Readiness",
+      "title": "BIS Project Pine Tokenised Monetary Operations Readiness Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-stablecoin-dollarisation-tokenised-deposit-policy-risk-map",
+      "publishedAt": "2026-10-07T08:55:00.000Z",
+      "matched": "Map",
+      "title": "BIS Stablecoin Dollarisation and Tokenised-Deposit Policy Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-stablecoin-remuneration-exchange-risk-map",
+      "publishedAt": "2026-10-09T05:58:00.000Z",
+      "matched": "Map",
+      "title": "BIS Stablecoin Remuneration on Exchanges: User Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-stablecoin-reserve-spillover-vs-tokenised-deposit-trust-map",
+      "publishedAt": "2026-09-20T23:43:37.711Z",
+      "matched": "Map",
+      "title": "BIS Stablecoin Reserve Spillover vs Tokenised Deposit Trust Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-stablecoins-tokenised-deposits-trust-anchor-map",
+      "publishedAt": "2026-10-06T18:12:00.000Z",
+      "matched": "Map",
+      "title": "BIS Stablecoins and Tokenised Deposits Trust Anchor Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-tokenisation-governance-central-bank-money-risk-map",
+      "publishedAt": "2026-09-27T17:52:00.000Z",
+      "matched": "Map",
+      "title": "BIS Tokenisation Governance and Central Bank Money Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bis-unified-ledger-vs-stablecoin-two-tier-money-trust-map",
+      "publishedAt": "2026-10-08T12:02:00.000Z",
+      "matched": "Map",
+      "title": "BIS Unified Ledger vs Stablecoins: Two-Tier Money Trust Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bitcoin-post-quantum-readiness-custody-migration-checklist",
+      "publishedAt": "2026-09-14T17:36:24.617Z",
+      "matched": "Readiness",
+      "title": "Bitcoin Post-Quantum Readiness: Custody and Migration Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bitget-vs-kucoin-anti-phishing-withdrawal-safety-controls",
+      "publishedAt": "2026-09-28T12:08:00.000Z",
+      "matched": "Controls",
+      "title": "Bitget vs KuCoin Anti-Phishing and Withdrawal Safety Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bitstamp-withdrawal-whitelist-vs-kraken-global-settings-lock-control-map",
+      "publishedAt": "2026-10-01T03:12:00.000Z",
+      "matched": "Control",
+      "title": "Bitstamp Withdrawal Whitelist vs Kraken Global Settings Lock Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "blackrock-hkd-digital-liquidity-fund-tokenised-mmf-register-boundary",
+      "publishedAt": "2026-10-07T08:55:00.000Z",
+      "matched": "Boundary",
+      "title": "BlackRock HKD Digital Liquidity Fund and the Register Boundary for Tokenised MMFs",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "blackrock-onchain-money-market-fund-nav-redemption-wallet-controls",
+      "publishedAt": "2026-09-14T11:42:00.000Z",
+      "matched": "Controls",
+      "title": "BlackRock OnChain Money Market Fund Shares: NAV, Whitelists and Redemption Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "blackrock-onchain-shares-official-register-vs-wallet-token-recordkeeping-map",
+      "publishedAt": "2026-09-21T17:43:04.992Z",
+      "matched": "Map",
+      "title": "BlackRock OnChain Shares: Official Register vs Wallet Token Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-1000xec-blast-gun-kgen-rpl-b2-risk-limit-buffer-liquidation-checklist",
+      "publishedAt": "2026-09-17T20:40:01.000Z",
+      "matched": "Checklist",
+      "title": "Bybit 1000XEC, BLAST, GUN, KGEN, RPL and B2 Risk Limits: Buffer Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-bank-triparty-usd-tbill-collateral-risk-map",
+      "publishedAt": "2026-09-28T09:10:00.000Z",
+      "matched": "Map",
+      "title": "Bybit Bank Triparty USD and T-BILL Collateral Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-pre-check-order-api-risk-limit-readiness-checklist",
+      "publishedAt": "2026-10-08T03:04:00.000Z",
+      "matched": "Readiness",
+      "title": "Bybit Pre Check Order API: Risk-Limit Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-self-match-prevention-smp-type-order-history-readiness-checklist",
+      "publishedAt": "2026-10-07T08:55:00.000Z",
+      "matched": "Readiness",
+      "title": "Bybit Self Match Prevention: smpType and Order-History Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-september-24-collateral-tier-ratio-update-loan-health-checklist",
+      "publishedAt": "2026-09-18T08:39:34.000Z",
+      "matched": "Checklist",
+      "title": "Bybit September 24 Collateral-Tier Update: Loan-Health Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-smp-trade-group-order-control-readiness-checklist",
+      "publishedAt": "2026-10-08T12:02:00.000Z",
+      "matched": "Control",
+      "title": "Bybit SMP Trade Group and Order-Control Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-travel-rule-deposit-withdrawal-verification-checklist",
+      "publishedAt": "2026-10-05T12:05:00.000Z",
+      "matched": "Checklist",
+      "title": "Bybit Travel Rule Deposit and Withdrawal Verification Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-uta-account-mode-margin-mode-readiness-checklist",
+      "publishedAt": "2026-10-08T18:06:00.000Z",
+      "matched": "Readiness",
+      "title": "Bybit UTA Account Mode and Margin Mode Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-v5-api-timestamp-recv-window-rate-limit-checklist",
+      "publishedAt": "2026-10-09T17:58:00.000Z",
+      "matched": "Checklist",
+      "title": "Bybit V5 API Timestamp Recv-Window and Rate-Limit Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-vs-bitget-passkey-withdrawal-control-boundary",
+      "publishedAt": "2026-10-04T08:58:00.000Z",
+      "matched": "Control",
+      "title": "Bybit vs Bitget Passkey and Withdrawal Control Boundary",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-vs-okx-amend-cancel-acknowledgement-websocket-controls",
+      "publishedAt": "2026-10-06T11:58:00.000Z",
+      "matched": "Controls",
+      "title": "Bybit vs OKX Amend and Cancel Acknowledgement Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-vs-okx-order-book-sequence-gap-recovery-controls",
+      "publishedAt": "2026-10-05T09:05:00.000Z",
+      "matched": "Controls",
+      "title": "Bybit vs OKX Order Book Sequence and Gap Recovery Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-websocket-order-entry-batch-timestamp-readiness-checklist",
+      "publishedAt": "2026-10-06T11:58:00.000Z",
+      "matched": "Readiness",
+      "title": "Bybit WebSocket Order Entry Batch Timestamp Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "bybit-zigchain-v4-3-upgrade-deposit-withdrawal-suspension-resumption-checklist",
+      "publishedAt": "2026-09-18T05:40:00.000Z",
+      "matched": "Checklist",
+      "title": "Bybit Zigchain v4.3 Upgrade: Deposit, Withdrawal and Resumption Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "cftc-24-7-trading-clearing-settlement-operational-readiness-framework",
+      "publishedAt": "2026-09-17T11:42:46.000Z",
+      "matched": "Readiness",
+      "title": "CFTC 24/7 Trading, Clearing and Settlement: Operational-Readiness Framework",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "cftc-managed-pool-copy-trading-fraud-due-diligence-checklist",
+      "publishedAt": "2026-10-05T12:05:00.000Z",
+      "matched": "Checklist",
+      "title": "CFTC Managed-Pool Fraud and Copy-Trading Due-Diligence Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "cftc-mention-markets-event-contract-manipulation-risk-map",
+      "publishedAt": "2026-10-01T03:12:00.000Z",
+      "matched": "Map",
+      "title": "CFTC Mention Markets Event-Contract Manipulation Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "cftc-passive-software-no-action-position-scope-conditions-registration-boundary",
+      "publishedAt": "2026-09-18T08:39:34.000Z",
+      "matched": "Boundary",
+      "title": "CFTC Passive-Software No-Action Position: Scope, Conditions and Registration Boundary",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "cftc-sec-harmonization-crypto-market-structure-operational-watch",
+      "publishedAt": "2026-09-21T11:52:51.503Z",
+      "matched": "Boundary",
+      "title": "CFTC-SEC Harmonization Watch: Crypto Market Structure Operating Boundary",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "cftc-sec-tokenized-collateral-vs-tokenized-securities-boundary-map",
+      "publishedAt": "2026-10-04T21:10:00.000Z",
+      "matched": "Boundary",
+      "title": "CFTC Crypto FAQ and SEC Tokenized Securities Boundary Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "cftc-tokenized-collateral-pilot-btc-eth-usdc-guardrails-map",
+      "publishedAt": "2026-10-07T00:09:00.000Z",
+      "matched": "Guardrails",
+      "title": "CFTC Tokenized Collateral Pilot: BTC, ETH, USDC and Guardrails Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "cftc-tokenized-collateral-stablecoin-margin-readiness-checklist",
+      "publishedAt": "2026-10-06T08:58:00.000Z",
+      "matched": "Readiness",
+      "title": "CFTC Tokenized Collateral and Payment Stablecoin Margin Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "chainlink-ace-private-beta-tokenized-compliance-boundary-map",
+      "publishedAt": "2026-10-06T12:05:00.000Z",
+      "matched": "Boundary",
+      "title": "Chainlink ACE Private Beta: Tokenized Asset Compliance Boundary Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "chainlink-ccip-20-institutional-interoperability-risk-map",
+      "publishedAt": "2026-10-06T05:58:00.000Z",
+      "matched": "Map",
+      "title": "Chainlink CCIP 2.0 Institutional Interoperability Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "chainlink-ccip-cross-chain-token-standard-transfer-risk-map",
+      "publishedAt": "2026-10-04T21:10:00.000Z",
+      "matched": "Map",
+      "title": "Chainlink CCIP Cross-Chain Token Standard and Tokenized-Asset Transfer Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "chainlink-data-streams-vs-pyth-price-feeds-update-freshness-controls",
+      "publishedAt": "2026-10-09T11:58:00.000Z",
+      "matched": "Controls",
+      "title": "Chainlink Data Streams vs Pyth Price Feeds Update Freshness Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "chainlink-navlink-tokenized-fund-data-disclosure-radar",
+      "publishedAt": "2026-10-07T21:08:00.000Z",
+      "matched": "Disclosure",
+      "title": "Chainlink NAVLink and Tokenized Fund Data Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "chainlink-smartdata-circle-reserve-tokenized-asset-disclosure-map",
+      "publishedAt": "2026-10-09T00:08:00.000Z",
+      "matched": "Disclosure",
+      "title": "Chainlink SmartData and Circle Reserve Disclosure for Tokenized-Asset Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "chainlink-smartdata-tokenized-asset-feed-risk-map",
+      "publishedAt": "2026-10-07T11:58:00.000Z",
+      "matched": "Map",
+      "title": "Chainlink SmartData and Tokenized-Asset Feed Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "chainlink-smartdata-vs-dtcc-collateral-appchain-rwa-readiness-map",
+      "publishedAt": "2026-10-10T05:58:00.000Z",
+      "matched": "Readiness",
+      "title": "Chainlink SmartData vs DTCC Collateral AppChain: RWA Readiness Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "chainlink-vs-pyth-price-feed-freshness-confidence-controls",
+      "publishedAt": "2026-10-09T00:08:00.000Z",
+      "matched": "Controls",
+      "title": "Chainlink vs Pyth Price Feed Freshness and Confidence Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "circle-cctp-v2-attestation-supported-chain-transfer-risk-map",
+      "publishedAt": "2026-10-05T03:20:00.000Z",
+      "matched": "Map",
+      "title": "Circle CCTP v2 Attestation, Supported Chain and Transfer Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "circle-gateway-vs-cctp-unified-balance-transfer-boundary-map",
+      "publishedAt": "2026-10-05T12:05:00.000Z",
+      "matched": "Boundary",
+      "title": "Circle Gateway vs CCTP: Unified Balance and Burn-Mint Transfer Boundary Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "circle-mica-usdc-redemption-jurisdiction-boundary",
+      "publishedAt": "2026-10-09T00:08:00.000Z",
+      "matched": "Boundary",
+      "title": "Circle MiCA and USDC Redemption Jurisdiction Boundary",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "circle-usdc-chain-support-vs-lido-token-wrapper-asset-route-boundary",
+      "publishedAt": "2026-10-05T21:05:00.000Z",
+      "matched": "Boundary",
+      "title": "Circle USDC Chain Support vs Lido Token Wrappers: Asset Route Boundary Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "circle-usdc-mint-redemption-reserve-transparency-risk-map",
+      "publishedAt": "2026-10-08T21:08:00.000Z",
+      "matched": "Map",
+      "title": "Circle USDC Mint, Redemption and Reserve Transparency: Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "circle-usdc-vs-paxos-usdp-redemption-reserve-control-map",
+      "publishedAt": "2026-10-08T09:02:00.000Z",
+      "matched": "Control",
+      "title": "Circle USDC vs Paxos USDP: Redemption, Reserve and Issuer-Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-account-vs-coinbase-wallet-custody-recovery-boundary",
+      "publishedAt": "2026-09-27T17:52:00.000Z",
+      "matched": "Boundary",
+      "title": "Coinbase Account vs Coinbase Wallet Custody and Recovery Boundary",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-advanced-trade-create-order-auth-reconciliation-checklist",
+      "publishedAt": "2026-10-04T21:10:00.000Z",
+      "matched": "Checklist",
+      "title": "Coinbase Advanced Trade Create Order, Authentication and Reconciliation Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-advanced-trade-websocket-account-channel-checklist",
+      "publishedAt": "2026-10-10T08:58:00.000Z",
+      "matched": "Checklist",
+      "title": "Coinbase Advanced Trade WebSocket Account Channel Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-advanced-trade-websocket-vs-bybit-v5-api-replay-freshness-controls",
+      "publishedAt": "2026-10-09T17:58:00.000Z",
+      "matched": "Controls",
+      "title": "Coinbase Advanced Trade WebSocket vs Bybit V5 API Replay and Freshness Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-advanced-vs-kraken-pro-order-controls",
+      "publishedAt": "2026-09-12T23:47:00.000Z",
+      "matched": "Controls",
+      "title": "Coinbase Advanced vs Kraken Pro Order Controls: A Decision Guide",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-cushy-tokenized-credit-shareclass-risk-boundary-map",
+      "publishedAt": "2026-09-30T12:16:00.000Z",
+      "matched": "Boundary",
+      "title": "Coinbase CUSHY Tokenized Credit Shareclass Risk Boundary Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-exchange-whitelisting-vs-kraken-funding-2fa-withdrawal-control-map",
+      "publishedAt": "2026-09-30T23:58:00.000Z",
+      "matched": "Control",
+      "title": "Coinbase Exchange Whitelisting vs Kraken Funding 2FA Withdrawal Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-kraken-fix-sequence-reset-cancel-on-disconnect-controls",
+      "publishedAt": "2026-10-06T05:58:00.000Z",
+      "matched": "Controls",
+      "title": "Coinbase and Kraken FIX Sequence Reset and Cancel-on-Disconnect Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-kraken-okx-websocket-cancel-state-reconciliation-controls",
+      "publishedAt": "2026-10-05T23:58:00.000Z",
+      "matched": "Controls",
+      "title": "Coinbase, Kraken and OKX WebSocket Cancel-State Reconciliation Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-okx-self-trade-prevention-disclosure-audit",
+      "publishedAt": "2026-09-12T23:47:00.000Z",
+      "matched": "Disclosure",
+      "title": "Self-Trade Prevention on Coinbase and OKX: A Disclosure and API Audit",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-onramp-quote-order-status-fee-network-risk-checklist",
+      "publishedAt": "2026-10-05T09:05:00.000Z",
+      "matched": "Checklist",
+      "title": "Coinbase Onramp Quote, Order Status, Fee and Network Risk Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-portfolio-vs-kraken-account-balance-evidence-controls",
+      "publishedAt": "2026-10-08T12:02:00.000Z",
+      "matched": "Control",
+      "title": "Coinbase Portfolio vs Kraken Account Balance: Evidence-Control Comparison",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-stablecore-community-bank-digital-asset-infrastructure-responsibility-map",
+      "publishedAt": "2026-09-17T17:40:02.000Z",
+      "matched": "Map",
+      "title": "Coinbase and Stablecore for Community Banks: Digital-Asset Responsibility Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-staked-eth-vs-lido-steth-exit-liquidity-controls",
+      "publishedAt": "2026-09-13T23:39:00.000Z",
+      "matched": "Controls",
+      "title": "Coinbase Staked ETH vs Lido stETH: Exit Liquidity, Custody and Conversion Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-vs-bybit-private-api-auth-session-replay-controls",
+      "publishedAt": "2026-10-10T08:58:00.000Z",
+      "matched": "Controls",
+      "title": "Coinbase vs Bybit Private API Auth, Session and Replay Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-vs-gemini-passkey-withdrawal-address-controls",
+      "publishedAt": "2026-09-28T06:12:00.000Z",
+      "matched": "Controls",
+      "title": "Coinbase vs Gemini Passkey and Withdrawal Address Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-vs-kraken-order-preview-cancel-controls",
+      "publishedAt": "2026-10-06T21:21:00.000Z",
+      "matched": "Controls",
+      "title": "Coinbase Advanced Trade vs Kraken Order Preview and Cancel Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-vs-kraken-websocket-authentication-liveness-controls",
+      "publishedAt": "2026-10-08T18:06:00.000Z",
+      "matched": "Control",
+      "title": "Coinbase vs Kraken WebSocket Authentication: Liveness-Control Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-vs-kraken-websocket-authentication-reconnect-controls",
+      "publishedAt": "2026-10-04T03:12:00.000Z",
+      "matched": "Controls",
+      "title": "Coinbase vs Kraken WebSocket Authentication and Reconnect Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-vs-okx-api-cancel-deadline-controls",
+      "publishedAt": "2026-10-07T05:55:00.000Z",
+      "matched": "Controls",
+      "title": "Coinbase vs OKX API Cancel, Client Order ID and Deadline Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-vs-okx-api-key-permission-ip-allowlist-control-map",
+      "publishedAt": "2026-10-01T06:12:00.000Z",
+      "matched": "Control",
+      "title": "Coinbase vs OKX API Key Permission and IP Allowlist Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-wallet-supported-network-transition-checklist",
+      "publishedAt": "2026-09-27T17:52:00.000Z",
+      "matched": "Checklist",
+      "title": "Coinbase Wallet Supported Network Transition Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-websocket-level2-batch-channel-readiness-checklist",
+      "publishedAt": "2026-10-07T18:08:00.000Z",
+      "matched": "Readiness",
+      "title": "Coinbase WebSocket Level2 Batch Channel Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "coinbase-websocket-sequence-channel-readiness-checklist",
+      "publishedAt": "2026-10-07T11:58:00.000Z",
+      "matched": "Readiness",
+      "title": "Coinbase Exchange WebSocket Sequence and Channel Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-api-binary-protocol-json-fallback-disclosure-radar",
+      "publishedAt": "2026-10-09T20:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Crypto API Binary Protocol and JSON Fallback Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-api-key-credential-recovery-disclosure-radar-passphrase-secret-ip-allowlist",
+      "publishedAt": "2026-09-27T02:49:43.076Z",
+      "matched": "Radar",
+      "title": "Crypto API Key Credential Recovery Radar: Passphrase, Secret and IP Allowlist Disclosures",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-api-role-based-access-disclosure-radar",
+      "publishedAt": "2026-10-07T00:09:00.000Z",
+      "matched": "Disclosure",
+      "title": "Crypto API Role-Based Access Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-api-secret-storage-disclosure-radar",
+      "publishedAt": "2026-10-06T21:21:00.000Z",
+      "matched": "Disclosure",
+      "title": "Crypto API Secret Storage Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-exchange-account-security-controls-audit",
+      "publishedAt": "2026-09-10T18:05:00.000Z",
+      "matched": "Controls",
+      "title": "Crypto Exchange Account Security Controls Audit: Passkeys, Anti-Phishing Codes and Withdrawal Safeguards",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-exchange-active-session-device-revocation-disclosure-radar",
+      "publishedAt": "2026-09-27T08:42:15.057Z",
+      "matched": "Disclosure",
+      "title": "Crypto Exchange Active Session and Device Revocation Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-exchange-anti-phishing-official-channel-verification-radar",
+      "publishedAt": "2026-09-21T20:40:55.553Z",
+      "matched": "Radar",
+      "title": "Crypto Exchange Anti-Phishing Radar: Official Channel Verification Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-exchange-api-authentication-disclosure-radar",
+      "publishedAt": "2026-10-09T23:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Crypto Exchange API Authentication Disclosure Radar: Key Type, Permission and Session Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-exchange-api-key-security-controls-audit",
+      "publishedAt": "2026-09-12T17:36:42.721Z",
+      "matched": "Controls",
+      "title": "Crypto Exchange API-Key Security Controls: A Disclosure Audit",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-exchange-api-request-timestamp-nonce-replay-protection-radar",
+      "publishedAt": "2026-09-14T20:35:25.535Z",
+      "matched": "Radar",
+      "title": "Crypto Exchange API Request-Freshness Radar: Timestamps, Nonces and Replay Protection",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-exchange-client-order-id-retry-reconciliation-radar",
+      "publishedAt": "2026-10-08T12:02:00.000Z",
+      "matched": "Radar",
+      "title": "Crypto Exchange Client Order ID Retry and Reconciliation Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-exchange-deposit-address-tag-memo-disclosure-radar",
+      "publishedAt": "2026-09-27T11:42:02.000Z",
+      "matched": "Disclosure",
+      "title": "Crypto Exchange Deposit Address Tag and Memo Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-exchange-deposit-confirmation-disclosure-audit",
+      "publishedAt": "2026-09-12T20:36:39.604Z",
+      "matched": "Disclosure",
+      "title": "Crypto Exchange Deposit Confirmations: A Binance, Kraken and Coinbase Disclosure Audit",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-exchange-network-status-deposit-withdrawal-disclosure-radar",
+      "publishedAt": "2026-09-14T17:36:24.617Z",
+      "matched": "Radar",
+      "title": "Crypto Exchange Network-Status Radar: Deposit and Withdrawal Disclosure Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-exchange-passkey-2fa-migration-radar-sms-authenticator-security-key",
+      "publishedAt": "2026-09-26T23:43:14.736Z",
+      "matched": "Radar",
+      "title": "Crypto Exchange Passkey and 2FA Migration Radar: SMS, Authenticator and Security Key Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-instant-loss-protection-compliance-claim-disclosure-radar",
+      "publishedAt": "2026-10-05T12:05:00.000Z",
+      "matched": "Disclosure",
+      "title": "Crypto Instant, Loss-Protection and Compliance Claim Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-lending-collateral-tier-ratio-effective-date-account-impact-disclosure-radar",
+      "publishedAt": "2026-09-18T08:39:34.000Z",
+      "matched": "Radar",
+      "title": "Crypto Lending Collateral-Change Radar: Tiers, Ratios, Effective Dates and Account Impact",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-margin-pair-delisting-borrow-transfer-settlement-order-cancellation-disclosure-radar",
+      "publishedAt": "2026-09-18T02:39:50.000Z",
+      "matched": "Radar",
+      "title": "Crypto Margin-Pair Delisting Radar: Borrow, Transfer, Settlement and Order-Cancellation Disclosures",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-order-book-sequence-checksum-gap-recovery-disclosure-radar",
+      "publishedAt": "2026-10-10T02:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Crypto Order Book Sequence, Checksum and Gap Recovery Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-private-api-error-code-disclosure-radar",
+      "publishedAt": "2026-10-10T08:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Crypto Private API Error-Code Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-spot-order-price-protection-disclosure-audit",
+      "publishedAt": "2026-09-13T17:42:00.000Z",
+      "matched": "Boundaries",
+      "title": "Crypto Spot-Order Price Protection Audit: Binance and OKX Execution Boundaries",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "crypto-withdrawal-delay-trusted-contact-disclosure-radar",
+      "publishedAt": "2026-10-09T17:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Crypto Withdrawal Delay and Trusted Contact Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "curve-stableswap-ng-vs-uniswap-v4-pool-control-checklist",
+      "publishedAt": "2026-10-06T18:12:00.000Z",
+      "matched": "Control",
+      "title": "Curve Stableswap-NG vs Uniswap v4 Pool Control Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "custodial-vs-self-custody-crypto",
+      "publishedAt": "2026-09-08T11:55:00.000Z",
+      "matched": "Controls",
+      "title": "Custodial vs Self-Custody Crypto: Who Controls the Keys, Recovery and Trading Access?",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "deribit-heartbeat-cancel-on-disconnect-readiness-checklist",
+      "publishedAt": "2026-10-07T05:55:00.000Z",
+      "matched": "Readiness",
+      "title": "Deribit Heartbeat and Cancel-on-Disconnect Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "deribit-vs-binance-crypto-options-settlement-collateral-controls",
+      "publishedAt": "2026-09-14T05:42:00.000Z",
+      "matched": "Controls",
+      "title": "Deribit vs Binance Crypto Options: Settlement, Exercise and Collateral Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-collateral-appchain-tokenized-asset-mobility-readiness-map",
+      "publishedAt": "2026-10-01T06:12:00.000Z",
+      "matched": "Readiness",
+      "title": "DTCC Collateral AppChain Tokenized Asset Mobility Readiness Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-collateral-appchain-transfer-agent-recordkeeping-controls",
+      "publishedAt": "2026-10-10T08:58:00.000Z",
+      "matched": "Controls",
+      "title": "DTCC Collateral AppChain and Transfer-Agent Recordkeeping Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-collateral-appchain-vs-tokenization-service-custody-settlement-controls",
+      "publishedAt": "2026-09-26T20:44:49.316Z",
+      "matched": "Controls",
+      "title": "DTCC Collateral AppChain vs Tokenization Service Custody and Settlement Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-digital-assets-vs-bis-stablecoin-trust-settlement-map",
+      "publishedAt": "2026-10-07T18:08:00.000Z",
+      "matched": "Readiness",
+      "title": "DTCC Digital Assets vs BIS Stablecoin Trust: Settlement Readiness Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-dtc-tokenization-service-rights-interoperability-launch-readiness",
+      "publishedAt": "2026-09-14T05:42:00.000Z",
+      "matched": "Readiness",
+      "title": "DTCC's DTC Tokenization Service: Rights, Interoperability and October Launch Readiness",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-stellar-tokenized-securities-multichain-lifecycle-readiness",
+      "publishedAt": "2026-09-14T08:40:00.000Z",
+      "matched": "Lifecycle",
+      "title": "DTCC and Stellar Tokenized Securities: Multi-Chain Lifecycle Readiness",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-tokenization-service-faq-governance-investor-protection-map",
+      "publishedAt": "2026-10-01T12:08:00.000Z",
+      "matched": "Map",
+      "title": "DTCC Tokenization Service FAQ Governance and Investor Protection Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-tokenization-service-live-production-trades-rights-controls-map",
+      "publishedAt": "2026-10-06T11:58:00.000Z",
+      "matched": "Controls",
+      "title": "DTCC Tokenization Service Live Production Trades Rights Controls Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-tokenization-service-official-books-collateral-controls",
+      "publishedAt": "2026-10-04T08:58:00.000Z",
+      "matched": "Control",
+      "title": "DTCC Tokenization Service, Official Books and Collateral Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-tokenization-service-same-cusip-approved-network-control-map",
+      "publishedAt": "2026-09-30T23:58:00.000Z",
+      "matched": "Control",
+      "title": "DTCC Tokenization Service Same-CUSIP Approved-Network Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-tokenization-service-vs-sec-tokenized-security-rights-record-map",
+      "publishedAt": "2026-09-26T17:41:37.856Z",
+      "matched": "Map",
+      "title": "DTCC Tokenization Service vs SEC Tokenized Security Rights Record Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dtcc-tokenized-collateral-interoperability-programmability-risk-map",
+      "publishedAt": "2026-10-09T11:58:00.000Z",
+      "matched": "Map",
+      "title": "DTCC Tokenized Collateral Interoperability and Programmability Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "dydx-indexer-websocket-subaccount-readiness-checklist",
+      "publishedAt": "2026-10-06T05:58:00.000Z",
+      "matched": "Readiness",
+      "title": "dYdX Indexer WebSocket and Subaccount Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "erc3643-vs-solana-transfer-hook-tokenized-asset-control-map",
+      "publishedAt": "2026-10-07T23:58:00.000Z",
+      "matched": "Control",
+      "title": "ERC-3643 vs Solana Transfer Hook: Tokenized-Asset Transfer Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-api-changelog-signature-versioning-disclosure-radar",
+      "publishedAt": "2026-10-08T06:13:00.000Z",
+      "matched": "Radar",
+      "title": "Exchange API Changelog Radar: Signature, Versioning and Order-Semantics Disclosures",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-api-key-ip-allowlist-inactivity-expiry-disclosure-radar",
+      "publishedAt": "2026-10-01T12:08:00.000Z",
+      "matched": "Disclosure",
+      "title": "Exchange API Key IP Allowlist and Inactivity Expiry Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-api-key-permission-scope-disclosure-radar",
+      "publishedAt": "2026-10-09T03:08:00.000Z",
+      "matched": "Disclosure",
+      "title": "Exchange API Key Permission Scope Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-api-key-scope-ip-whitelist-expiry-disclosure-radar",
+      "publishedAt": "2026-10-04T21:10:00.000Z",
+      "matched": "Disclosure",
+      "title": "Exchange API Key Scope, IP Whitelist and Expiry Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-fee-schedule-change-disclosure-radar",
+      "publishedAt": "2026-10-04T12:08:00.000Z",
+      "matched": "Disclosure",
+      "title": "Exchange Fee Schedule Change Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-network-upgrade-block-height-wallet-pause-resumption-evidence-radar",
+      "publishedAt": "2026-09-18T05:40:00.000Z",
+      "matched": "Radar",
+      "title": "Exchange Network-Upgrade Radar: Block Height, Wallet Pause and Resumption Evidence",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-proof-of-reserves-liability-scope-disclosure-radar",
+      "publishedAt": "2026-09-21T11:52:51.503Z",
+      "matched": "Radar",
+      "title": "Exchange Proof-of-Reserves Radar: Liability Scope and Disclosure Gaps",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-statement-ledger-tax-export-retention-radar",
+      "publishedAt": "2026-09-28T00:12:00.000Z",
+      "matched": "Radar",
+      "title": "Exchange Statement, Ledger and Tax Export Retention Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-status-api-maintenance-disclosure-radar",
+      "publishedAt": "2026-10-06T02:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Exchange Status API and Maintenance Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-system-upgrade-login-auth-transfer-trading-disclosure-radar",
+      "publishedAt": "2026-09-17T23:41:56.000Z",
+      "matched": "Disclosure",
+      "title": "Exchange System-Upgrade Disclosure Radar: Login, Authentication, Transfers and Trading",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-trading-password-withdrawal-restriction-disclosure-radar",
+      "publishedAt": "2026-10-01T08:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Exchange Trading Password and Withdrawal Restriction Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-wallet-maintenance-disclosure-radar-cutoff-scope-reopening-evidence",
+      "publishedAt": "2026-09-17T11:42:46.000Z",
+      "matched": "Disclosure",
+      "title": "Exchange Wallet-Maintenance Disclosure Radar: Cutoff, Scope and Reopening Evidence",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "exchange-withdrawal-cooldown-disclosure-radar",
+      "publishedAt": "2026-10-04T08:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Exchange Withdrawal Cooldown Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fatf-2026-virtual-asset-gaps-defi-control-and-travel-rule-risk-map",
+      "publishedAt": "2026-09-27T05:42:55.570Z",
+      "matched": "Control",
+      "title": "FATF 2026 Virtual Asset Gaps, DeFi Control and Travel Rule Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fatf-2026-virtual-assets-travel-rule-implementation-action-map",
+      "publishedAt": "2026-10-04T03:12:00.000Z",
+      "matched": "Map",
+      "title": "FATF 2026 Virtual Assets and Travel Rule Implementation Action Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fatf-stablecoin-unhosted-wallet-control-action-map",
+      "publishedAt": "2026-10-07T02:55:00.000Z",
+      "matched": "Control",
+      "title": "FATF Stablecoin, Unhosted Wallet and Offshore VASP Control Action Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fatf-travel-rule-gaps-exchange-transfer-information-map",
+      "publishedAt": "2026-10-09T03:08:00.000Z",
+      "matched": "Map",
+      "title": "FATF Travel Rule Gaps and Exchange Transfer Information Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fix-drop-copy-sequence-reset-disclosure-radar",
+      "publishedAt": "2026-10-06T11:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "FIX Drop Copy Sequence Reset Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "franklin-benji-transfer-agent-official-record-boundary",
+      "publishedAt": "2026-09-30T21:07:00.000Z",
+      "matched": "Boundary",
+      "title": "Franklin Benji Transfer Agent Official Record Boundary",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "franklin-benji-transfer-agent-vs-chainlink-smartdata-proof-map",
+      "publishedAt": "2026-10-09T08:58:00.000Z",
+      "matched": "Map",
+      "title": "Franklin BENJI Transfer Agent vs Chainlink SmartData Proof Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fsb-2026-crypto-work-programme-implementation-gap-map",
+      "publishedAt": "2026-10-07T05:55:00.000Z",
+      "matched": "Map",
+      "title": "FSB 2026 Crypto Work Programme and Implementation Gap Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fsb-bis-cross-border-payment-crypto-stablecoin-oversight-map",
+      "publishedAt": "2026-10-04T18:08:00.000Z",
+      "matched": "Map",
+      "title": "FSB and BIS Cross-Border Payment Oversight Map for Crypto and Stablecoin Decisions",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fsb-bis-stablecoin-arrangements-implementation-risk-map",
+      "publishedAt": "2026-10-01T12:16:00.000Z",
+      "matched": "Map",
+      "title": "FSB and BIS Stablecoin Arrangements Implementation Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fsb-defi-tokenisation-data-gap-financial-stability-risk-map",
+      "publishedAt": "2026-10-05T03:20:00.000Z",
+      "matched": "Map",
+      "title": "FSB DeFi, Tokenisation and Data-Gap Financial Stability Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fsb-global-crypto-framework-bis-stablecoin-trust-oversight-map",
+      "publishedAt": "2026-10-10T02:58:00.000Z",
+      "matched": "Map",
+      "title": "FSB Global Crypto Framework and BIS Stablecoin Trust Oversight Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fsb-global-stablecoin-framework-implementation-gaps-user-risk-map",
+      "publishedAt": "2026-09-20T11:42:00.000Z",
+      "matched": "Map",
+      "title": "FSB Global Stablecoin Framework Gaps: User Risk Map for Cross-Border Crypto Activity",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "fsb-iosco-crypto-stablecoin-implementation-gap-risk-checklist",
+      "publishedAt": "2026-10-05T06:15:00.000Z",
+      "matched": "Checklist",
+      "title": "FSB-IOSCO Crypto and Stablecoin Implementation Gap Risk Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "gate-us-withdrawal-address-whitelist-verification-free-risk-checklist",
+      "publishedAt": "2026-10-01T08:58:00.000Z",
+      "matched": "Checklist",
+      "title": "Gate US Withdrawal Address Whitelist Verification-Free Risk Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "gate-withdrawal-whitelist-fund-password-readiness-checklist",
+      "publishedAt": "2026-10-04T08:58:00.000Z",
+      "matched": "Readiness",
+      "title": "Gate Withdrawal Whitelist, Fund Password and 2FA Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "gemini-api-require-heartbeat-session-cancel-readiness-checklist",
+      "publishedAt": "2026-10-07T00:09:00.000Z",
+      "matched": "Checklist",
+      "title": "Gemini API Require Heartbeat and Cancel All Session Orders Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "gemini-vs-coinbase-order-preview-cancel-session-controls",
+      "publishedAt": "2026-10-07T00:09:00.000Z",
+      "matched": "Controls",
+      "title": "Gemini vs Coinbase Order Preview and Cancel Session Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "genius-act-stablecoin-aml-sanctions-cip-implementation-map",
+      "publishedAt": "2026-10-05T12:05:00.000Z",
+      "matched": "Map",
+      "title": "GENIUS Act Stablecoin AML, Sanctions and CIP Implementation Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "genius-act-stablecoin-aml-vs-bis-tokenised-deposit-risk-map",
+      "publishedAt": "2026-10-08T18:06:00.000Z",
+      "matched": "Map",
+      "title": "GENIUS Act Stablecoin AML vs BIS Tokenised Deposit Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-add-uniswap-v3-liquidity-wallet-approval-position-controls",
+      "publishedAt": "2026-10-05T23:58:00.000Z",
+      "matched": "Controls",
+      "title": "How to Add Uniswap v3 Liquidity with Wallet Approval and Position Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-create-bitmex-account-verify-identity-withdrawal-address-controls",
+      "publishedAt": "2026-10-09T23:58:00.000Z",
+      "matched": "Controls",
+      "title": "How to Create a BitMEX Account, Verify Identity and Review Withdrawal Address Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-onboard-aave-wallet-supply-borrow-health-factor-safely",
+      "publishedAt": "2026-10-09T03:08:00.000Z",
+      "matched": "Controls",
+      "title": "How to Onboard Aave: Wallet, Supply, Borrow and Health Factor Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-onboard-gmx-wallet-account-direct-trading-safely",
+      "publishedAt": "2026-10-09T05:58:00.000Z",
+      "matched": "Checklist",
+      "title": "How to Onboard GMX: Wallet, GMX Account and Direct Trading Safety Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-onboard-raydium-liquidity-wallet-fee-and-reward-controls",
+      "publishedAt": "2026-10-05T06:15:00.000Z",
+      "matched": "Controls",
+      "title": "How to Onboard Raydium Liquidity: Wallet, Fee and Reward Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-set-up-backpack-api-key-order-controls-safely",
+      "publishedAt": "2026-10-06T18:12:00.000Z",
+      "matched": "Controls",
+      "title": "How to Set Up a Backpack API Key and Order Controls Safely",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-set-up-binance-authenticator-2fa-scenario-controls-safely",
+      "publishedAt": "2026-09-21T11:52:51.503Z",
+      "matched": "Controls",
+      "title": "How to Set Up Binance Authenticator 2FA Scenario Controls Safely",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-set-up-coinbase-vault-withdrawal-delay-and-cosigner-controls",
+      "publishedAt": "2026-10-09T17:58:00.000Z",
+      "matched": "Controls",
+      "title": "How to Set Up Coinbase Vault Withdrawal Delay and Co-Signer Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-set-up-gemini-api-key-roles-and-session-cancel-safely",
+      "publishedAt": "2026-10-07T00:09:00.000Z",
+      "matched": "Controls",
+      "title": "How to Set Up Gemini API Key Roles and Session Cancel Controls Safely",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-use-1inch-wallet-swap-slippage-and-price-impact-controls-safely",
+      "publishedAt": "2026-10-08T09:02:00.000Z",
+      "matched": "Controls",
+      "title": "How to Use 1inch: Wallet Connection, Swap, Slippage and Price-Impact Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-use-aerodrome-liquidity-pools-gauges-and-wallet-controls",
+      "publishedAt": "2026-10-06T02:58:00.000Z",
+      "matched": "Controls",
+      "title": "How to Use Aerodrome Liquidity Pools, Gauges and Wallet Controls Safely",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-use-balancer-swap-pool-join-wallet-controls-safely",
+      "publishedAt": "2026-10-07T02:55:00.000Z",
+      "matched": "Controls",
+      "title": "How to Use Balancer Swap and Pool Join Wallet Controls Safely",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-use-cow-swap-wallet-intent-order-and-surplus-controls-safely",
+      "publishedAt": "2026-10-08T09:02:00.000Z",
+      "matched": "Control",
+      "title": "How to Use CoW Swap: Wallet, Intent Order and Surplus-Control Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-use-drift-deposit-withdraw-borrow-lend-wallet-controls-safely",
+      "publishedAt": "2026-10-06T05:58:00.000Z",
+      "matched": "Controls",
+      "title": "How to Use Drift Deposits, Withdrawals and Borrow/Lend Controls Safely",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-use-gmx-wallet-account-trading-and-risk-controls-safely",
+      "publishedAt": "2026-10-06T08:58:00.000Z",
+      "matched": "Controls",
+      "title": "How to Use GMX Wallet Account Trading and Risk Controls Safely",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "how-to-use-morpho-blue-wallet-collateral-and-borrow-controls-safely",
+      "publishedAt": "2026-10-09T08:58:00.000Z",
+      "matched": "Controls",
+      "title": "How to Use Morpho Blue: Wallet, Collateral and Borrow Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "imf-tokenization-financial-architecture-policy-risk-map",
+      "publishedAt": "2026-09-20T17:48:50.058Z",
+      "matched": "Map",
+      "title": "IMF Tokenization and Financial Architecture: Policy Risk Map for Crypto Users",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "institutional-tokenization-demand-vs-operational-readiness-gap-2026",
+      "publishedAt": "2026-09-15T08:42:22.000Z",
+      "matched": "Readiness",
+      "title": "Institutional Tokenization Demand vs Operational Readiness: The 2026 Gap",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "iosco-financial-asset-tokenization-settlement-asset-interoperability-risk-map",
+      "publishedAt": "2026-09-26T23:43:14.736Z",
+      "matched": "Map",
+      "title": "IOSCO Financial Asset Tokenization Settlement Asset and Interoperability Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "iosco-tokenization-dlt-infrastructure-market-linkage-risk-map",
+      "publishedAt": "2026-10-05T06:15:00.000Z",
+      "matched": "Map",
+      "title": "IOSCO Tokenization, DLT Infrastructure and Market-Linkage Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "jpmorgan-kinexys-tokenized-deposit-money-market-settlement-risk-map",
+      "publishedAt": "2026-10-09T23:58:00.000Z",
+      "matched": "Map",
+      "title": "J.P. Morgan Kinexys Tokenized Deposits and Money Market Fund Settlement Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-account-verification-api-key-permission-update-checklist",
+      "publishedAt": "2026-10-05T21:05:00.000Z",
+      "matched": "Checklist",
+      "title": "Kraken Account Verification, Profile Updates and API Key Permission Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-add-withdrawal-addresses-api-permission-checklist",
+      "publishedAt": "2026-10-09T08:58:00.000Z",
+      "matched": "Checklist",
+      "title": "Kraken Add Withdrawal Addresses API Permission Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-api-key-creation-vs-withdrawal-address-permission-controls",
+      "publishedAt": "2026-10-09T08:58:00.000Z",
+      "matched": "Controls",
+      "title": "Kraken API Key Creation vs Withdrawal Address Permission Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-dead-man-switch-api-readiness-checklist",
+      "publishedAt": "2026-10-06T21:21:00.000Z",
+      "matched": "Readiness",
+      "title": "Kraken Dead Man's Switch API Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-earn-deallocate-status-api-readiness-checklist",
+      "publishedAt": "2026-10-06T12:05:00.000Z",
+      "matched": "Readiness",
+      "title": "Kraken Earn Deallocate Status API Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-master-key-gsl-api-key-change-disclosure-radar",
+      "publishedAt": "2026-10-05T09:05:00.000Z",
+      "matched": "Disclosure",
+      "title": "Kraken Master Key, Global Settings Lock and API Key Change Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-okx-bybit-regional-availability-decision-map",
+      "publishedAt": "2026-10-04T12:08:00.000Z",
+      "matched": "Map",
+      "title": "Kraken, OKX and Bybit Regional Availability Decision Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-rest-authentication-nonce-signature-replay-checklist",
+      "publishedAt": "2026-10-09T11:58:00.000Z",
+      "matched": "Checklist",
+      "title": "Kraken REST Authentication Nonce and Signature Replay Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-vs-coinbase-api-key-portfolio-order-reconciliation-controls",
+      "publishedAt": "2026-10-05T03:20:00.000Z",
+      "matched": "Controls",
+      "title": "Kraken vs Coinbase API Key, Portfolio and Order Reconciliation Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-vs-coinbase-websocket-heartbeat-reconnect-order-state-controls",
+      "publishedAt": "2026-10-07T11:58:00.000Z",
+      "matched": "Controls",
+      "title": "Kraken vs Coinbase WebSocket Heartbeat, Reconnect and Order-State Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-vs-okx-api-withdrawal-address-permission-control-map",
+      "publishedAt": "2026-10-01T08:58:00.000Z",
+      "matched": "Control",
+      "title": "Kraken vs OKX API Withdrawal Address Permission Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-websocket-token-deadman-switch-order-control-radar",
+      "publishedAt": "2026-10-07T21:08:00.000Z",
+      "matched": "Control",
+      "title": "Kraken WebSocket Token and Dead Man's Switch Order-Control Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kraken-websocket-v2-add-cancel-order-lifecycle-readiness-checklist",
+      "publishedAt": "2026-10-08T21:08:00.000Z",
+      "matched": "Lifecycle",
+      "title": "Kraken WebSocket v2 Add and Cancel Order Lifecycle Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "kucoin-vs-mexc-trade-history-export-controls",
+      "publishedAt": "2026-09-13T11:40:00.000Z",
+      "matched": "Controls",
+      "title": "KuCoin vs MEXC Trade-History Exports: Coverage, Limits and Reconciliation Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "mexc-api-key-ip-whitelist-permission-readiness-checklist",
+      "publishedAt": "2026-10-04T08:58:00.000Z",
+      "matched": "Readiness",
+      "title": "MEXC API Key IP Whitelist and Permission Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "oecd-carf-xml-schema-exchange-reporting-readiness-map",
+      "publishedAt": "2026-10-07T23:58:00.000Z",
+      "matched": "Readiness",
+      "title": "OECD CARF XML Schema: Exchange Reporting Readiness Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-api-domain-ip-binding-expiry-timestamp-control-checklist",
+      "publishedAt": "2026-10-05T03:20:00.000Z",
+      "matched": "Control",
+      "title": "OKX API Domain, IP Binding, Key Expiry and Timestamp Control Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-api-key-expiry-ip-binding-permission-review-checklist",
+      "publishedAt": "2026-09-21T17:43:04.992Z",
+      "matched": "Checklist",
+      "title": "OKX API Key Expiry: IP Binding and Permission Review Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-api-key-ip-allowlist-expiry-readiness-checklist",
+      "publishedAt": "2026-10-04T03:12:00.000Z",
+      "matched": "Readiness",
+      "title": "OKX API Key IP Allowlist and Expiry Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-chase-limit-trigger-order-api-readiness-checklist",
+      "publishedAt": "2026-10-08T06:13:00.000Z",
+      "matched": "Readiness",
+      "title": "OKX Chase Limit Trigger Orders: API Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-exp-time-rate-limit-readiness-checklist",
+      "publishedAt": "2026-10-07T02:55:00.000Z",
+      "matched": "Readiness",
+      "title": "OKX expTime and Rate Limit Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-flockusdt-perpetual-listing-contract-checklist",
+      "publishedAt": "2026-09-13T17:42:00.000Z",
+      "matched": "Checklist",
+      "title": "OKX FLOCKUSDT Perpetual Listing: Contract Terms, Funding and Eligibility Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-icxusdt-perpetual-delisting-settlement-checklist",
+      "publishedAt": "2026-09-12T17:36:42.721Z",
+      "matched": "Checklist",
+      "title": "OKX ICXUSDT Perpetual Delisting: Settlement Timeline and User Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-iostusd-strkusd-x-perps-launch-risk-and-availability-checklist",
+      "publishedAt": "2026-09-17T11:42:46.000Z",
+      "matched": "Checklist",
+      "title": "OKX IOSTUSD and STRKUSD X-Perps Launch: Risk and Availability Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-new-perpetual-listing-contract-risk-verification-checklist",
+      "publishedAt": "2026-09-15T08:42:22.000Z",
+      "matched": "Checklist",
+      "title": "OKX New Perpetual Listings: Contract, Index and Risk Verification Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-orclusd-equity-x-perp-contract-risk-checklist",
+      "publishedAt": "2026-09-14T23:35:56.434Z",
+      "matched": "Checklist",
+      "title": "OKX ORCLUSD Equity X-Perp: Contract and Risk Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-pendleusd-x-perp-launch-contract-risk-checklist",
+      "publishedAt": "2026-09-15T11:39:24.000Z",
+      "matched": "Checklist",
+      "title": "OKX PENDLEUSD X-Perp Launch: Contract and Risk Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-sbe-order-entry-private-data-api-migration-readiness",
+      "publishedAt": "2026-10-09T20:58:00.000Z",
+      "matched": "Readiness",
+      "title": "OKX SBE Order Entry and Private Data API Migration Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-shield-account-takeover-reimbursement-boundary-checklist",
+      "publishedAt": "2026-10-09T05:58:00.000Z",
+      "matched": "Boundary",
+      "title": "OKX Shield: Account Takeover Reimbursement Boundary Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-third-party-app-ip-whitelist-broker-api-key-checklist",
+      "publishedAt": "2026-10-01T12:08:00.000Z",
+      "matched": "Checklist",
+      "title": "OKX Third-Party App IP Whitelist API Key Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-usdg-rlusd-daily-rewards-balance-calculation-update-checklist",
+      "publishedAt": "2026-09-15T20:40:58.000Z",
+      "matched": "Checklist",
+      "title": "OKX USDG and RLUSD Daily Rewards: Balance-Calculation Update Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-vs-kraken-proof-of-reserves-disclosure-scope-checklist",
+      "publishedAt": "2026-10-01T12:16:00.000Z",
+      "matched": "Disclosure",
+      "title": "OKX vs Kraken Proof-of-Reserves Disclosure Scope Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "okx-withdrawal-address-verification-allowlist-controls",
+      "publishedAt": "2026-10-09T00:08:00.000Z",
+      "matched": "Controls",
+      "title": "OKX Withdrawal Address Verification and Allowlist Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "onchain-activity-measurement-radar-stablecoin-defi-data-assumption-controls",
+      "publishedAt": "2026-09-21T02:42:19.006Z",
+      "matched": "Radar",
+      "title": "Onchain Activity Measurement Radar: Stablecoin and DeFi Data Assumption Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "oracle-price-feed-staleness-confidence-disclosure-radar",
+      "publishedAt": "2026-10-06T08:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Oracle Price Feed Staleness and Confidence Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "paxos-securities-settlement-temporary-clearing-agency-registration",
+      "publishedAt": "2026-09-13T17:42:00.000Z",
+      "matched": "Boundaries",
+      "title": "Paxos Securities Settlement Temporary Registration: Scope, Duration and Settlement Boundaries",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "payment-api-signature-timestamp-status-disclosure-radar",
+      "publishedAt": "2026-10-05T21:05:00.000Z",
+      "matched": "Disclosure",
+      "title": "Payment API Signature, Timestamp and Status Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "permit2-vs-token-approval-revoke-control-boundary",
+      "publishedAt": "2026-10-06T12:05:00.000Z",
+      "matched": "Controls",
+      "title": "Permit2 vs Token Approval Revokes: Expiry, Allowance and Wallet Safety Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "project-pine-tokenised-collateral-liquidity-policy-map",
+      "publishedAt": "2026-10-07T11:58:00.000Z",
+      "matched": "Map",
+      "title": "Project Pine Tokenised Collateral and Liquidity Policy Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "proof-of-reserves-liability-attestation-disclosure-radar",
+      "publishedAt": "2026-10-04T18:08:00.000Z",
+      "matched": "Disclosure",
+      "title": "Proof of Reserves, Liability Attestation and Disclosure Scope Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "pyth-chainlink-oracle-freshness-confidence-disclosure-radar",
+      "publishedAt": "2026-10-08T18:06:00.000Z",
+      "matched": "Disclosure",
+      "title": "Pyth and Chainlink Oracle Freshness: Confidence and Heartbeat Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "reserve-proof-user-verification-disclosure-radar",
+      "publishedAt": "2026-10-01T12:16:00.000Z",
+      "matched": "Disclosure",
+      "title": "Reserve Proof User Verification Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-24-hour-equity-trading-roundtable-overnight-market-readiness",
+      "publishedAt": "2026-09-14T11:42:00.000Z",
+      "matched": "Readiness",
+      "title": "SEC 24-Hour Trading Roundtable: Overnight Market and Settlement Readiness",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-cftc-crypto-asset-interpretation-jurisdiction-action-map",
+      "publishedAt": "2026-10-01T06:12:00.000Z",
+      "matched": "Map",
+      "title": "SEC-CFTC Crypto-Asset Interpretation Jurisdiction Action Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-cftc-spot-crypto-registered-exchange-venue-choice-risk-map",
+      "publishedAt": "2026-10-09T23:58:00.000Z",
+      "matched": "Map",
+      "title": "SEC and CFTC Spot Crypto Registered Exchange Venue Choice Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-crypto-asset-faq-functional-decentralized-investment-contract-map",
+      "publishedAt": "2026-09-28T06:12:00.000Z",
+      "matched": "Boundary",
+      "title": "SEC Crypto Asset FAQ: Functionality, Decentralization and Investment-Contract Boundary Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-crypto-asset-faq-interpretive-release-action-map",
+      "publishedAt": "2026-09-30T23:58:00.000Z",
+      "matched": "Map",
+      "title": "SEC Crypto-Asset FAQ and Interpretive Release Action Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-crypto-custody-tokenized-security-rights-boundary-map",
+      "publishedAt": "2026-10-04T06:14:00.000Z",
+      "matched": "Boundary",
+      "title": "SEC Crypto Custody Proposal and Tokenized Security Rights Boundary Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-crypto-custody-vs-transfer-agent-recordkeeping-boundary-map",
+      "publishedAt": "2026-10-08T18:06:00.000Z",
+      "matched": "Boundary",
+      "title": "SEC Crypto Custody vs Transfer Agent Recordkeeping: Boundary Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-crypto-vault-lending-strategies-securities-boundary-user-checklist",
+      "publishedAt": "2026-09-15T08:42:22.000Z",
+      "matched": "Boundary",
+      "title": "SEC Crypto Vault and Lending Strategies: A Securities-Boundary Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-dtcc-tokenized-securities-official-record-rights-boundary",
+      "publishedAt": "2026-10-04T18:08:00.000Z",
+      "matched": "Boundary",
+      "title": "SEC and DTCC Tokenized Securities: Official Record and Rights Boundary Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-innovation-exemption-tokenized-nms-stock-amm-rights-controls",
+      "publishedAt": "2026-09-20T20:44:57.341Z",
+      "matched": "Control",
+      "title": "SEC Innovation Exemption: Tokenized NMS Stock AMM Rights and Control Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-innovation-exemption-tokenized-nms-stock-tsv-risk-map",
+      "publishedAt": "2026-10-07T21:08:00.000Z",
+      "matched": "Map",
+      "title": "SEC Innovation Exemption, Tokenized NMS Stocks and TSV Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-october-2026-crypto-custody-proposal-adviser-fund-risk-map",
+      "publishedAt": "2026-10-09T20:58:00.000Z",
+      "matched": "Map",
+      "title": "SEC October 2026 Crypto Custody Proposal Adviser and Fund Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-regulation-crypto-assets-safe-harbor-state-preemption-risk-map",
+      "publishedAt": "2026-10-10T08:58:00.000Z",
+      "matched": "Map",
+      "title": "SEC Regulation Crypto Assets Safe-Harbor and State-Preemption Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-transfer-agent-blockchain-recordkeeping-risk-map",
+      "publishedAt": "2026-09-30T21:07:00.000Z",
+      "matched": "Map",
+      "title": "SEC Transfer Agent Blockchain Recordkeeping Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-transfer-agent-modernization-tokenized-recordkeeping-proposal",
+      "publishedAt": "2026-09-13T11:40:00.000Z",
+      "matched": "Boundary",
+      "title": "SEC Transfer-Agent Modernization Proposal: Tokenized Records, Ownership and the Rulemaking Boundary",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-transfer-agent-tokenized-securities-recordkeeping-risk-map",
+      "publishedAt": "2026-09-22T05:44:42.988Z",
+      "matched": "Map",
+      "title": "SEC Transfer-Agent Proposal and Tokenized Securities Recordkeeping Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "sec-transfer-agent-tokenized-security-recordkeeping-boundary-map",
+      "publishedAt": "2026-10-05T23:58:00.000Z",
+      "matched": "Boundary",
+      "title": "SEC Transfer Agent Rules and Tokenized Security Recordkeeping Boundary Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "stablecoin-freeze-sanctions-disclosure-radar",
+      "publishedAt": "2026-10-06T18:12:00.000Z",
+      "matched": "Disclosure",
+      "title": "Stablecoin Freeze and Sanctions Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "stablecoin-multichain-native-issuance-disclosure-radar",
+      "publishedAt": "2026-10-09T11:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Stablecoin Multichain Native Issuance Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "stablecoin-payout-support-disclosure-radar",
+      "publishedAt": "2026-10-06T12:05:00.000Z",
+      "matched": "Disclosure",
+      "title": "Stablecoin Payout Support Disclosure Radar: Preview Access, Recipient Scope and Transfer Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "stablecoin-tokenization-trust-anchor-risk-map",
+      "publishedAt": "2026-10-04T12:08:00.000Z",
+      "matched": "Map",
+      "title": "Stablecoin and Tokenization Trust Anchor Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "swift-blockchain-ledger-tokenized-deposit-readiness-map",
+      "publishedAt": "2026-10-06T12:05:00.000Z",
+      "matched": "Readiness",
+      "title": "Swift Blockchain Ledger and Tokenized Deposit Readiness Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "swift-ubs-chainlink-tokenized-fund-redemption-settlement-risk-map",
+      "publishedAt": "2026-10-09T20:58:00.000Z",
+      "matched": "Map",
+      "title": "Swift UBS Chainlink Tokenized Fund Redemption Settlement Risk Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "tokenized-asset-custody-redemption-risk-checklist",
+      "publishedAt": "2026-09-10T18:20:00.000Z",
+      "matched": "Checklist",
+      "title": "Tokenized Asset Custody and Redemption: A Practical Risk Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "tokenized-asset-data-feed-quality-disclosure-radar",
+      "publishedAt": "2026-10-09T08:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Tokenized Asset Data Feed Quality Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "tokenized-collateral-24-7-mobility-settlement-operational-readiness",
+      "publishedAt": "2026-09-14T05:42:00.000Z",
+      "matched": "Readiness",
+      "title": "Tokenized Collateral and 24/7 Mobility: The Operational Readiness Checklist",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "tokenized-nms-stock-venue-disclosure-radar-issuer-rights-smart-contracts",
+      "publishedAt": "2026-09-20T20:44:57.341Z",
+      "matched": "Disclosure",
+      "title": "Tokenized NMS Stock Venue Disclosure Radar: Issuer Notice, Rights and Smart Contracts",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "tokenized-securities-real-time-inventory-management-overnight-market-readiness",
+      "publishedAt": "2026-09-18T08:39:34.000Z",
+      "matched": "Readiness",
+      "title": "Tokenized Securities and Real-Time Inventory Management: Overnight-Market Readiness",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "tokenized-security-official-record-vs-wallet-display-boundary",
+      "publishedAt": "2026-10-04T12:08:00.000Z",
+      "matched": "Boundary",
+      "title": "Tokenized Security Official Record vs Wallet Display Boundary",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "uk-us-transatlantic-taskforce-stablecoin-tokenization-market-readiness",
+      "publishedAt": "2026-09-27T08:42:15.057Z",
+      "matched": "Readiness",
+      "title": "UK-US Transatlantic Taskforce Stablecoin and Tokenization Market Readiness",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "uk-wholesale-tokenised-markets-settlement-readiness-map",
+      "publishedAt": "2026-10-07T05:55:00.000Z",
+      "matched": "Readiness",
+      "title": "UK Wholesale Tokenised Markets Settlement Readiness Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "uniswap-v4-hooks-permissioned-vs-pool-risk-disclosure-radar",
+      "publishedAt": "2026-10-07T18:08:00.000Z",
+      "matched": "Disclosure",
+      "title": "Uniswap v4 Hooks, Permissioned Logic and Pool-Risk Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "uniswap-v4-hooks-poolmanager-permissionless-liquidity-control-map",
+      "publishedAt": "2026-10-05T03:20:00.000Z",
+      "matched": "Control",
+      "title": "Uniswap v4 Hooks, PoolManager and Permissionless Liquidity Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "uniswap-v4-hooks-vs-solana-transfer-hook-integration-radar",
+      "publishedAt": "2026-10-07T23:58:00.000Z",
+      "matched": "Radar",
+      "title": "Uniswap v4 Hooks vs Solana Transfer Hook: Integration Failure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "uniswap-v4-vs-pancakeswap-infinity-hook-control-map",
+      "publishedAt": "2026-10-09T03:08:00.000Z",
+      "matched": "Control",
+      "title": "Uniswap v4 vs PancakeSwap Infinity Hook Control Map",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "visa-vtap-tokenized-deposit-platform-bank-readiness-controls",
+      "publishedAt": "2026-09-20T11:42:00.000Z",
+      "matched": "Readiness",
+      "title": "Visa VTAP Tokenized Deposit Platform: Bank Readiness and User Boundary Controls",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "wallet-transaction-simulation-warning-disclosure-radar",
+      "publishedAt": "2026-10-06T08:58:00.000Z",
+      "matched": "Disclosure",
+      "title": "Wallet Transaction Simulation Warning Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "withdrawal-address-verification-expiry-app-only-controls-radar",
+      "publishedAt": "2026-10-04T03:12:00.000Z",
+      "matched": "Controls",
+      "title": "Withdrawal Address Verification Expiry and App-Only Controls Radar",
+      "reason": "template-title-0-impressions-90d"
+    },
+    {
+      "slug": "withdrawal-whitelist-waiting-period-disclosure-radar",
+      "publishedAt": "2026-10-01T03:12:00.000Z",
+      "matched": "Disclosure",
+      "title": "Withdrawal Whitelist Waiting-Period Disclosure Radar",
+      "reason": "template-title-0-impressions-90d"
+    }
+  ],
+  "canonical": [
+    {
+      "slug": "october-10-crypto-crash-one-year-later-liquidity-leverage-liquidations",
+      "canonicalSlug": "october-10-crypto-crash-one-year-later-liquidity-leverage",
+      "reason": "Same 'October 10 crash one year later' retrospective published a day later under a new slug; the 10-10 edition has the only impression."
+    },
+    {
+      "slug": "okx-unified-tokenized-stocks-what-you-own-dividends-hours",
+      "canonicalSlug": "binance-bstocks-vs-tradfi-perps-what-you-own-hours-dividends",
+      "reason": "Tokenized-stock 'what you own' explainer, 5th repeat of the angle; consolidated into the one that earned impressions and has the most primary sources (8)."
+    },
+    {
+      "slug": "securitize-stocks-tokenized-us-equities-solana-what-you-own",
+      "canonicalSlug": "binance-bstocks-vs-tradfi-perps-what-you-own-hours-dividends",
+      "reason": "Tokenized-stock 'what you own' explainer repeat (no primary document)."
+    },
+    {
+      "slug": "imf-tokenized-us-stocks-after-hours-volatility-liquidity-what-it-means",
+      "canonicalSlug": "binance-bstocks-vs-tradfi-perps-what-you-own-hours-dividends",
+      "reason": "Tokenized-stock 'what it means for you' explainer repeat."
+    },
+    {
+      "slug": "bybit-us-stocks-etfs-usdc-alpaca-what-you-own",
+      "canonicalSlug": "binance-bstocks-vs-tradfi-perps-what-you-own-hours-dividends",
+      "reason": "Tokenized-stock 'what you own' explainer repeat (no primary document)."
+    },
+    {
+      "slug": "crypto-liquidations-overnight-longs-wiped-then-shorts-squeezed-asia-open",
+      "canonicalSlug": "crypto-liquidations-shorts-85-percent-negative-funding-bitcoin-83k",
+      "reason": "Second own-data liquidation recap for the same primary query 'crypto liquidations today' ($4.1M vs $11.9M recap with more sources)."
+    }
+  ],
+  "kept": {
+    "impressions": [
+      {
+        "slug": "bybit-v5-api-key-ip-permission-change-checklist",
+        "publishedAt": "2026-10-10T05:58:00.000Z",
+        "matched": "Checklist",
+        "impressions": 1
+      },
+      {
+        "slug": "bybit-reduce-only-vs-okx-close-position-order-controls",
+        "publishedAt": "2026-10-08T03:04:00.000Z",
+        "matched": "Control",
+        "impressions": 1
+      },
+      {
+        "slug": "bis-fsb-fast-payment-stablecoin-governance-oversight-map",
+        "publishedAt": "2026-10-05T23:58:00.000Z",
+        "matched": "Map",
+        "impressions": 1
+      },
+      {
+        "slug": "kraken-crypto-withdrawal-network-address-confirmation-checklist",
+        "publishedAt": "2026-10-01T12:16:00.000Z",
+        "matched": "Checklist",
+        "impressions": 3
+      },
+      {
+        "slug": "superstate-ustb-tokenized-treasury-recordkeeping-boundary",
+        "publishedAt": "2026-10-01T12:16:00.000Z",
+        "matched": "Boundary",
+        "impressions": 3
+      },
+      {
+        "slug": "binance-travel-rule-address-book-satoshi-test-checklist",
+        "publishedAt": "2026-09-30T21:07:00.000Z",
+        "matched": "Checklist",
+        "impressions": 7
+      },
+      {
+        "slug": "exchange-status-page-incident-disclosure-radar",
+        "publishedAt": "2026-09-30T21:07:00.000Z",
+        "matched": "Disclosure",
+        "impressions": 3
+      },
+      {
+        "slug": "coinbase-stock-trading-tokenize-platform-market-structure-readiness",
+        "publishedAt": "2026-09-30T12:16:00.000Z",
+        "matched": "Readiness",
+        "impressions": 5
+      },
+      {
+        "slug": "crypto-account-protection-reimbursement-vs-prevention-disclosure-radar",
+        "publishedAt": "2026-09-30T12:16:00.000Z",
+        "matched": "Radar",
+        "impressions": 2
+      },
+      {
+        "slug": "kraken-withdrawal-hold-deposit-method-security-action-checklist",
+        "publishedAt": "2026-09-30T12:16:00.000Z",
+        "matched": "Checklist",
+        "impressions": 6
+      },
+      {
+        "slug": "binance-cancelreplace-vs-okx-order-state-finality-controls",
+        "publishedAt": "2026-09-30T09:08:00.000Z",
+        "matched": "Controls",
+        "impressions": 2
+      },
+      {
+        "slug": "dtcc-tokenized-dtc-assets-rights-controls-readiness-map",
+        "publishedAt": "2026-09-30T09:08:00.000Z",
+        "matched": "Controls",
+        "impressions": 1
+      },
+      {
+        "slug": "exchange-order-acknowledgement-final-state-disclosure-radar",
+        "publishedAt": "2026-09-30T09:08:00.000Z",
+        "matched": "Disclosure",
+        "impressions": 2
+      },
+      {
+        "slug": "okx-websocket-orders-state-live-finality-checklist",
+        "publishedAt": "2026-09-30T09:08:00.000Z",
+        "matched": "Checklist",
+        "impressions": 9
+      },
+      {
+        "slug": "binance-spot-api-websocket-reconnect-checklist",
+        "publishedAt": "2026-09-28T18:06:00.000Z",
+        "matched": "Checklist",
+        "impressions": 7
+      },
+      {
+        "slug": "binance-vs-kraken-order-failover-cancel-controls",
+        "publishedAt": "2026-09-28T18:06:00.000Z",
+        "matched": "Control",
+        "impressions": 1
+      },
+      {
+        "slug": "dtcc-tokenization-interoperability-collateral-appchain-readiness",
+        "publishedAt": "2026-09-28T18:06:00.000Z",
+        "matched": "Readiness",
+        "impressions": 3
+      },
+      {
+        "slug": "dtcc-live-production-trades-tokenized-dtc-assets-readiness",
+        "publishedAt": "2026-09-28T12:08:00.000Z",
+        "matched": "Readiness",
+        "impressions": 2
+      },
+      {
+        "slug": "exchange-official-channel-verification-disclosure-radar",
+        "publishedAt": "2026-09-28T12:08:00.000Z",
+        "matched": "Disclosure",
+        "impressions": 1
+      },
+      {
+        "slug": "kucoin-withdrawal-restriction-security-change-checklist",
+        "publishedAt": "2026-09-28T12:08:00.000Z",
+        "matched": "Checklist",
+        "impressions": 3
+      },
+      {
+        "slug": "sec-24-hour-trading-operational-readiness-crypto-market-lessons",
+        "publishedAt": "2026-09-28T12:08:00.000Z",
+        "matched": "Readiness",
+        "impressions": 2
+      },
+      {
+        "slug": "bybit-vs-okx-platform-collateral-borrowing-limit-controls",
+        "publishedAt": "2026-09-28T09:10:00.000Z",
+        "matched": "Controls",
+        "impressions": 1
+      },
+      {
+        "slug": "crypto-collateral-alert-liquidation-disclosure-radar",
+        "publishedAt": "2026-09-28T09:10:00.000Z",
+        "matched": "Disclosure",
+        "impressions": 4
+      },
+      {
+        "slug": "okx-platform-collateralized-borrowing-limit-checklist",
+        "publishedAt": "2026-09-28T09:10:00.000Z",
+        "matched": "Checklist",
+        "impressions": 2
+      },
+      {
+        "slug": "binance-uah-fiat-trade-delisting-balance-conversion-checklist",
+        "publishedAt": "2026-09-28T06:12:00.000Z",
+        "matched": "Checklist",
+        "impressions": 1
+      },
+      {
+        "slug": "robinhood-stock-tokens-debt-security-rights-boundary-map",
+        "publishedAt": "2026-09-28T06:12:00.000Z",
+        "matched": "Boundary",
+        "impressions": 1
+      },
+      {
+        "slug": "binance-vs-okx-subaccount-api-kyc-permission-controls",
+        "publishedAt": "2026-09-28T03:08:00.000Z",
+        "matched": "Controls",
+        "impressions": 2
+      },
+      {
+        "slug": "eu-casp-sanctions-coinbase-prime-transfer-restriction-map",
+        "publishedAt": "2026-09-28T03:08:00.000Z",
+        "matched": "Map",
+        "impressions": 4
+      },
+      {
+        "slug": "exchange-subaccount-kyc-api-restriction-disclosure-radar",
+        "publishedAt": "2026-09-28T03:08:00.000Z",
+        "matched": "Disclosure",
+        "impressions": 3
+      },
+      {
+        "slug": "cftc-september-2026-blockchain-recordkeeping-industry-map",
+        "publishedAt": "2026-09-28T00:12:00.000Z",
+        "matched": "Map",
+        "impressions": 5
+      },
+      {
+        "slug": "cftc-tokenized-collateral-customer-funds-recordkeeping-checklist",
+        "publishedAt": "2026-09-28T00:12:00.000Z",
+        "matched": "Checklist",
+        "impressions": 3
+      },
+      {
+        "slug": "kraken-organizations-api-withdrawal-governance-controls",
+        "publishedAt": "2026-09-28T00:12:00.000Z",
+        "matched": "Controls",
+        "impressions": 2
+      },
+      {
+        "slug": "binance-spot-api-rate-limit-websocket-order-control-checklist",
+        "publishedAt": "2026-09-27T21:11:00.000Z",
+        "matched": "Control",
+        "impressions": 14
+      },
+      {
+        "slug": "circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map",
+        "publishedAt": "2026-09-27T21:11:00.000Z",
+        "matched": "Map",
+        "impressions": 11
+      },
+      {
+        "slug": "cross-chain-stablecoin-transfer-finality-status-disclosure-radar",
+        "publishedAt": "2026-09-27T21:11:00.000Z",
+        "matched": "Disclosure",
+        "impressions": 5
+      },
+      {
+        "slug": "fatf-2026-defi-stablecoin-offshore-vasp-action-map",
+        "publishedAt": "2026-09-27T21:11:00.000Z",
+        "matched": "Map",
+        "impressions": 1
+      },
+      {
+        "slug": "dtcc-digital-assets-lifecycle-governance-and-tokenization-controls",
+        "publishedAt": "2026-09-27T17:52:00.000Z",
+        "matched": "Lifecycle",
+        "impressions": 1
+      },
+      {
+        "slug": "self-custody-wallet-recovery-passkey-disclosure-radar",
+        "publishedAt": "2026-09-27T17:52:00.000Z",
+        "matched": "Disclosure",
+        "impressions": 2
+      },
+      {
+        "slug": "binance-wallet-api-withdrawal-permission-ip-whitelist-checklist",
+        "publishedAt": "2026-09-27T11:42:02.000Z",
+        "matched": "Checklist",
+        "impressions": 2
+      },
+      {
+        "slug": "blackrock-bstbl-brsrv-tokenized-money-market-reserve-readiness",
+        "publishedAt": "2026-09-27T11:42:02.000Z",
+        "matched": "Readiness",
+        "impressions": 5
+      },
+      {
+        "slug": "kraken-vs-gemini-withdrawal-address-approval-hold-controls",
+        "publishedAt": "2026-09-27T11:42:02.000Z",
+        "matched": "Control",
+        "impressions": 2
+      },
+      {
+        "slug": "bybit-vs-okx-api-key-ip-binding-expiry-withdraw-permission-controls",
+        "publishedAt": "2026-09-27T08:42:15.057Z",
+        "matched": "Controls",
+        "impressions": 32
+      },
+      {
+        "slug": "coinbase-advanced-trade-websocket-jwt-user-channel-reconnect-checklist",
+        "publishedAt": "2026-09-27T08:42:15.057Z",
+        "matched": "Checklist",
+        "impressions": 3
+      },
+      {
+        "slug": "binance-bstocks-dividend-reinvestment-collateral-eligibility-rights-boundary",
+        "publishedAt": "2026-09-27T05:42:55.570Z",
+        "matched": "Boundary",
+        "impressions": 6
+      },
+      {
+        "slug": "binance-vs-kraken-passkey-recovery-and-withdrawal-verification-controls",
+        "publishedAt": "2026-09-27T05:42:55.570Z",
+        "matched": "Controls",
+        "impressions": 4
+      },
+      {
+        "slug": "okx-offline-mode-withdrawal-protection-window-api-c2c-pay-controls",
+        "publishedAt": "2026-09-27T05:42:55.570Z",
+        "matched": "Controls",
+        "impressions": 6
+      },
+      {
+        "slug": "crypto-com-exchange-travel-rule-address-ownership-verification-checklist",
+        "publishedAt": "2026-09-27T02:49:43.076Z",
+        "matched": "Checklist",
+        "impressions": 1
+      },
+      {
+        "slug": "dtcc-ledgerscan-vs-tokenization-service-record-reconciliation-boundary",
+        "publishedAt": "2026-09-27T02:49:43.076Z",
+        "matched": "Boundary",
+        "impressions": 4
+      },
+      {
+        "slug": "kraken-vs-crypto-com-withdrawal-2fa-whitelist-lock-controls",
+        "publishedAt": "2026-09-27T02:49:43.076Z",
+        "matched": "Controls",
+        "impressions": 1
+      },
+      {
+        "slug": "bis-project-agora-tokenized-cross-border-payments-settlement-readiness",
+        "publishedAt": "2026-09-26T23:43:14.736Z",
+        "matched": "Readiness",
+        "impressions": 5
+      },
+      {
+        "slug": "gemini-vs-coinbase-withdrawal-protection-vault-delay-controls",
+        "publishedAt": "2026-09-26T23:43:14.736Z",
+        "matched": "Controls",
+        "impressions": 5
+      },
+      {
+        "slug": "coinbase-auction-mode-new-asset-listing-phase-readiness-checklist",
+        "publishedAt": "2026-09-26T20:44:49.316Z",
+        "matched": "Readiness",
+        "impressions": 1
+      },
+      {
+        "slug": "order-preview-validate-amend-acknowledgement-radar-api-execution-controls",
+        "publishedAt": "2026-09-26T20:44:49.316Z",
+        "matched": "Radar",
+        "impressions": 4
+      },
+      {
+        "slug": "stablecoins-vs-tokenised-deposits-bis-imf-settlement-risk-map",
+        "publishedAt": "2026-09-26T20:44:49.316Z",
+        "matched": "Map",
+        "impressions": 2
+      },
+      {
+        "slug": "binance-wallet-system-upgrade-deposit-withdrawal-pause-checklist",
+        "publishedAt": "2026-09-26T17:41:37.856Z",
+        "matched": "Checklist",
+        "impressions": 2
+      },
+      {
+        "slug": "coinbase-vs-coinbase-exchange-allowlist-vault-withdrawal-controls",
+        "publishedAt": "2026-09-26T17:41:37.856Z",
+        "matched": "Controls",
+        "impressions": 7
+      },
+      {
+        "slug": "crypto-withdrawal-hold-period-disclosure-radar-address-book-vault-allowlist",
+        "publishedAt": "2026-09-26T17:41:37.856Z",
+        "matched": "Radar",
+        "impressions": 1
+      },
+      {
+        "slug": "coinbase-advanced-trade-portfolio-api-key-scope-controls",
+        "publishedAt": "2026-09-22T05:44:42.988Z",
+        "matched": "Controls",
+        "impressions": 3
+      },
+      {
+        "slug": "bis-stablecoin-tokenisation-trust-in-money-risk-map",
+        "publishedAt": "2026-09-22T02:44:00.289Z",
+        "matched": "Map",
+        "impressions": 3
+      },
+      {
+        "slug": "kraken-vs-coinbase-passkey-security-key-recovery-controls",
+        "publishedAt": "2026-09-22T02:44:00.289Z",
+        "matched": "Controls",
+        "impressions": 1
+      },
+      {
+        "slug": "okx-usd-usdc-spot-order-book-migration-api-bot-checklist",
+        "publishedAt": "2026-09-22T02:44:00.289Z",
+        "matched": "Checklist",
+        "impressions": 12
+      },
+      {
+        "slug": "crypto-travel-rule-withdrawal-deposit-information-disclosure-radar",
+        "publishedAt": "2026-09-21T23:42:09.751Z",
+        "matched": "Radar",
+        "impressions": 2
+      },
+      {
+        "slug": "kraken-vs-coinbase-api-key-permission-ip-whitelist-controls",
+        "publishedAt": "2026-09-21T23:42:09.751Z",
+        "matched": "Controls",
+        "impressions": 6
+      },
+      {
+        "slug": "swift-tokenised-deposit-ledger-24-7-cross-border-payment-readiness",
+        "publishedAt": "2026-09-21T23:42:09.751Z",
+        "matched": "Readiness",
+        "impressions": 8
+      },
+      {
+        "slug": "binance-vs-bybit-passkey-withdrawal-verification-controls",
+        "publishedAt": "2026-09-21T20:40:55.553Z",
+        "matched": "Controls",
+        "impressions": 1
+      },
+      {
+        "slug": "coinbase-transfer-protection-time-delay-verification-threshold-checklist",
+        "publishedAt": "2026-09-21T20:40:55.553Z",
+        "matched": "Checklist",
+        "impressions": 4
+      },
+      {
+        "slug": "dtcc-tokenization-service-eligible-networks-wallet-registration-controls",
+        "publishedAt": "2026-09-21T20:40:55.553Z",
+        "matched": "Controls",
+        "impressions": 2
+      },
+      {
+        "slug": "stablecoin-reserve-attestation-frequency-disclosure-radar",
+        "publishedAt": "2026-09-21T17:43:04.992Z",
+        "matched": "Radar",
+        "impressions": 1
+      },
+      {
+        "slug": "dtcc-tokenized-assets-vs-nyse-tokenized-securities-rule-filing-rights-map",
+        "publishedAt": "2026-09-21T11:52:51.503Z",
+        "matched": "Map",
+        "impressions": 15
+      },
+      {
+        "slug": "bis-hidden-complexity-defi-data-measurement-risk-map",
+        "publishedAt": "2026-09-21T08:43:24.237Z",
+        "matched": "Map",
+        "impressions": 8
+      },
+      {
+        "slug": "bybit-v5-api-rate-limit-header-retry-budget-checklist",
+        "publishedAt": "2026-09-21T08:43:24.237Z",
+        "matched": "Checklist",
+        "impressions": 35
+      },
+      {
+        "slug": "fatf-stablecoins-unhosted-wallets-p2p-risk-mitigation-map",
+        "publishedAt": "2026-09-21T08:43:24.237Z",
+        "matched": "Map",
+        "impressions": 4
+      },
+      {
+        "slug": "okx-api-kyc-order-tagged-rate-limit-migration-checklist",
+        "publishedAt": "2026-09-21T08:43:24.237Z",
+        "matched": "Checklist",
+        "impressions": 16
+      },
+      {
+        "slug": "sec-tokenized-nms-stock-amm-exemption-conditions-risk-map",
+        "publishedAt": "2026-09-21T08:43:24.237Z",
+        "matched": "Map",
+        "impressions": 4
+      },
+      {
+        "slug": "coinbase-advanced-trade-websocket-user-feed-failover-rate-limit-checklist",
+        "publishedAt": "2026-09-21T05:45:28.520Z",
+        "matched": "Checklist",
+        "impressions": 1
+      },
+      {
+        "slug": "crypto-exchange-withdrawal-address-whitelist-disclosure-radar",
+        "publishedAt": "2026-09-21T05:45:28.520Z",
+        "matched": "Disclosure",
+        "impressions": 1
+      },
+      {
+        "slug": "hkma-project-ensemble-tokenised-deposit-settlement-sandbox-risk-map",
+        "publishedAt": "2026-09-21T05:45:28.520Z",
+        "matched": "Map",
+        "impressions": 4
+      },
+      {
+        "slug": "coinbase-vs-okx-self-trade-prevention-order-controls",
+        "publishedAt": "2026-09-21T02:42:19.006Z",
+        "matched": "Control",
+        "impressions": 2
+      },
+      {
+        "slug": "cpmi-iosco-fmi-cyber-resilience-tokenized-settlement-third-party-controls",
+        "publishedAt": "2026-09-21T02:42:19.006Z",
+        "matched": "Control",
+        "impressions": 5
+      },
+      {
+        "slug": "okx-api-upcoming-changes-websocket-amend-cancel-order-controls",
+        "publishedAt": "2026-09-21T02:42:19.006Z",
+        "matched": "Control",
+        "impressions": 24
+      },
+      {
+        "slug": "coinbase-token-bucket-vs-kraken-trading-rate-limit-counter-controls",
+        "publishedAt": "2026-09-20T23:43:37.711Z",
+        "matched": "Control",
+        "impressions": 3
+      },
+      {
+        "slug": "crypto-withdrawal-address-lifecycle-disclosure-radar-confirm-delete-hold-controls",
+        "publishedAt": "2026-09-20T23:43:37.711Z",
+        "matched": "Lifecycle",
+        "impressions": 2
+      },
+      {
+        "slug": "iosco-tokenization-financial-assets-investor-protection-risk-map",
+        "publishedAt": "2026-09-20T23:43:37.711Z",
+        "matched": "Map",
+        "impressions": 1
+      },
+      {
+        "slug": "how-to-secure-a-kraken-account-passkeys-funding-2fa-verification",
+        "publishedAt": "2026-09-20T20:44:57.341Z",
+        "matched": "Checklist",
+        "impressions": 4
+      },
+      {
+        "slug": "kraken-rest-authentication-api-signature-nonce-order-action-checklist",
+        "publishedAt": "2026-09-20T20:44:57.341Z",
+        "matched": "Checklist",
+        "impressions": 10
+      },
+      {
+        "slug": "binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+        "publishedAt": "2026-09-20T17:48:50.058Z",
+        "matched": "Control",
+        "impressions": 25
+      },
+      {
+        "slug": "circle-cctp-v2-usdc-crosschain-finality-fee-readiness-controls",
+        "publishedAt": "2026-09-20T17:48:50.058Z",
+        "matched": "Readiness",
+        "impressions": 4
+      },
+      {
+        "slug": "crypto-exchange-market-data-schema-versioning-disclosure-radar",
+        "publishedAt": "2026-09-20T17:48:50.058Z",
+        "matched": "Radar",
+        "impressions": 7
+      },
+      {
+        "slug": "kraken-websocket-token-authenticated-channel-session-reconnect-checklist",
+        "publishedAt": "2026-09-20T17:48:50.058Z",
+        "matched": "Checklist",
+        "impressions": 5
+      },
+      {
+        "slug": "binance-vs-okx-cancel-replace-amend-order-api-controls",
+        "publishedAt": "2026-09-20T11:42:00.000Z",
+        "matched": "Control",
+        "impressions": 3
+      },
+      {
+        "slug": "bis-project-agora-real-value-testing-wholesale-tokenization-readiness",
+        "publishedAt": "2026-09-20T11:42:00.000Z",
+        "matched": "Readiness",
+        "impressions": 1
+      },
+      {
+        "slug": "coinbase-advanced-trade-websocket-jwt-subscription-failover-checklist",
+        "publishedAt": "2026-09-20T11:42:00.000Z",
+        "matched": "Checklist",
+        "impressions": 2
+      },
+      {
+        "slug": "binance-websocket-stream-limits-ping-pong-reconnect-checklist",
+        "publishedAt": "2026-09-20T08:45:00.000Z",
+        "matched": "Checklist",
+        "impressions": 6
+      },
+      {
+        "slug": "crypto-exchange-websocket-sequence-checksum-gap-recovery-disclosure-radar",
+        "publishedAt": "2026-09-20T08:45:00.000Z",
+        "matched": "Disclosure",
+        "impressions": 12
+      },
+      {
+        "slug": "kraken-cancel-on-disconnect-vs-coinbase-order-policy-api-lifecycle-controls",
+        "publishedAt": "2026-09-20T08:45:00.000Z",
+        "matched": "Lifecycle",
+        "impressions": 4
+      },
+      {
+        "slug": "coinbase-vs-kraken-stock-and-etf-trading-boundary-comparison",
+        "publishedAt": "2026-09-19T23:45:00.000Z",
+        "matched": "Boundary",
+        "impressions": 3
+      },
+      {
+        "slug": "crypto-platform-stock-access-disclosure-radar-brokerage-tokenized-perp-boundaries",
+        "publishedAt": "2026-09-19T23:45:00.000Z",
+        "matched": "Disclosure",
+        "impressions": 1
+      },
+      {
+        "slug": "direct-stock-brokerage-vs-tokenized-equities-vs-tradfi-perps-rights-map",
+        "publishedAt": "2026-09-19T23:45:00.000Z",
+        "matched": "Map",
+        "impressions": 1
+      },
+      {
+        "slug": "kraken-coinbase-stock-trading-expansion-crypto-exchange-brokerage-readiness",
+        "publishedAt": "2026-09-19T23:45:00.000Z",
+        "matched": "Readiness",
+        "impressions": 2
+      },
+      {
+        "slug": "bybit-september-24-swell-sand-lunc-usdc-pair-delisting-bot-checklist",
+        "publishedAt": "2026-09-19T20:45:00.000Z",
+        "matched": "Checklist",
+        "impressions": 5
+      },
+      {
+        "slug": "bybit-tradfi-cfd-leverage-upgrade-margin-release-risk-radar",
+        "publishedAt": "2026-09-19T20:45:00.000Z",
+        "matched": "Radar",
+        "impressions": 21
+      },
+      {
+        "slug": "cftc-prediction-market-incentive-program-self-certification-checklist",
+        "publishedAt": "2026-09-19T20:45:00.000Z",
+        "matched": "Checklist",
+        "impressions": 1
+      },
+      {
+        "slug": "tokenized-nms-stock-amm-liquidity-pool-exemption-operational-checklist",
+        "publishedAt": "2026-09-19T20:45:00.000Z",
+        "matched": "Checklist",
+        "impressions": 9
+      },
+      {
+        "slug": "binance-september-22-wallet-system-upgrade-deposit-withdrawal-checklist",
+        "publishedAt": "2026-09-19T17:40:22.000Z",
+        "matched": "Checklist",
+        "impressions": 6
+      },
+      {
+        "slug": "cftc-passive-software-no-action-radar-control-and-custody-boundaries",
+        "publishedAt": "2026-09-19T17:40:22.000Z",
+        "matched": "Radar",
+        "impressions": 3
+      },
+      {
+        "slug": "gprob-rddtb-bstocks-tokenized-equity-collateral-eligibility-and-risk-boundaries",
+        "publishedAt": "2026-09-18T05:40:00.000Z",
+        "matched": "Boundaries",
+        "impressions": 2
+      },
+      {
+        "slug": "sec-24-hour-equities-trading-clearing-surveillance-resiliency-readiness-framework",
+        "publishedAt": "2026-09-18T05:40:00.000Z",
+        "matched": "Readiness",
+        "impressions": 2
+      },
+      {
+        "slug": "bstocks-tokenized-security-collateral-eligibility-index-haircut-liquidation-readiness",
+        "publishedAt": "2026-09-18T02:39:50.000Z",
+        "matched": "Readiness",
+        "impressions": 2
+      },
+      {
+        "slug": "binance-september-22-system-upgrade-login-2fa-transfer-service-checklist",
+        "publishedAt": "2026-09-17T23:41:56.000Z",
+        "matched": "Checklist",
+        "impressions": 1
+      },
+      {
+        "slug": "circle-arc-mainnet-launch-validator-usdc-finality-institutional-readiness",
+        "publishedAt": "2026-09-17T23:41:56.000Z",
+        "matched": "Readiness",
+        "impressions": 9
+      },
+      {
+        "slug": "dtc-tokenization-service-wallet-registration-lifecycle-operational-readiness",
+        "publishedAt": "2026-09-17T23:41:56.000Z",
+        "matched": "Lifecycle",
+        "impressions": 3
+      },
+      {
+        "slug": "kraken-prime-api-maintenance-vs-blockchain-funding-delay-status-controls",
+        "publishedAt": "2026-09-17T20:40:01.000Z",
+        "matched": "Controls",
+        "impressions": 1
+      },
+      {
+        "slug": "binance-collateral-ratio-change-borrow-transfer-unimmr-liquidation-radar",
+        "publishedAt": "2026-09-17T17:40:02.000Z",
+        "matched": "Radar",
+        "impressions": 3
+      },
+      {
+        "slug": "sec-tokenized-nms-stock-innovation-exemption-rights-controls-and-limits",
+        "publishedAt": "2026-09-17T17:40:02.000Z",
+        "matched": "Controls",
+        "impressions": 8
+      },
+      {
+        "slug": "usdc-on-arc-binance-okx-network-identity-and-transfer-controls",
+        "publishedAt": "2026-09-17T11:42:46.000Z",
+        "matched": "Controls",
+        "impressions": 1
+      },
+      {
+        "slug": "exchange-token-contract-swap-suspension-reopening-address-disclosure-radar",
+        "publishedAt": "2026-09-15T20:40:58.000Z",
+        "matched": "Disclosure",
+        "impressions": 5
+      },
+      {
+        "slug": "optimism-usdt0-vs-opusdte-after-binance-contract-swap-user-controls",
+        "publishedAt": "2026-09-15T20:40:58.000Z",
+        "matched": "Controls",
+        "impressions": 19
+      },
+      {
+        "slug": "cftc-self-custodial-wallet-no-action-letter-scope-user-boundary",
+        "publishedAt": "2026-09-15T17:40:19.000Z",
+        "matched": "Boundary",
+        "impressions": 1
+      },
+      {
+        "slug": "okx-vvv-usdt-spot-listing-preopen-price-limit-transfer-checklist",
+        "publishedAt": "2026-09-15T17:40:19.000Z",
+        "matched": "Checklist",
+        "impressions": 2
+      },
+      {
+        "slug": "institutional-stablecoin-cash-management-governance-controls-radar",
+        "publishedAt": "2026-09-15T11:39:24.000Z",
+        "matched": "Controls",
+        "impressions": 1
+      },
+      {
+        "slug": "sec-cftc-crypto-asset-interpretation-token-taxonomy-user-boundary",
+        "publishedAt": "2026-09-15T11:39:24.000Z",
+        "matched": "Boundary",
+        "impressions": 1
+      },
+      {
+        "slug": "tokenized-asset-disclosure-completeness-rights-custody-redemption-radar",
+        "publishedAt": "2026-09-15T08:42:22.000Z",
+        "matched": "Disclosure",
+        "impressions": 1
+      },
+      {
+        "slug": "binance-bncb-bstocks-spot-listing-redemption-eligibility-checklist",
+        "publishedAt": "2026-09-15T02:36:57.301Z",
+        "matched": "Checklist",
+        "impressions": 6
+      },
+      {
+        "slug": "binance-pay-onchain-b402-agent-payments-business-readiness",
+        "publishedAt": "2026-09-15T02:36:57.301Z",
+        "matched": "Readiness",
+        "impressions": 1
+      },
+      {
+        "slug": "binance-vs-okx-tokenized-stock-collateral-haircut-liquidation-controls",
+        "publishedAt": "2026-09-15T02:36:57.301Z",
+        "matched": "Controls",
+        "impressions": 5
+      },
+      {
+        "slug": "x402-agent-payment-verification-settlement-idempotency-recovery-radar",
+        "publishedAt": "2026-09-15T02:36:57.301Z",
+        "matched": "Radar",
+        "impressions": 2
+      },
+      {
+        "slug": "crypto-exchange-api-withdrawal-address-management-permission-radar",
+        "publishedAt": "2026-09-14T23:35:56.434Z",
+        "matched": "Radar",
+        "impressions": 2
+      },
+      {
+        "slug": "binance-vechain-interstellar-hardfork-deposit-withdrawal-suspension",
+        "publishedAt": "2026-09-14T20:35:25.535Z",
+        "matched": "Checklist",
+        "impressions": 1
+      },
+      {
+        "slug": "coinbase-vs-kraken-withdrawal-address-allowlist-hold-controls",
+        "publishedAt": "2026-09-14T20:35:25.535Z",
+        "matched": "Controls",
+        "impressions": 3
+      },
+      {
+        "slug": "franklin-benji-onchain-fund-p2p-transfer-recordkeeping-controls",
+        "publishedAt": "2026-09-14T20:35:25.535Z",
+        "matched": "Controls",
+        "impressions": 1
+      },
+      {
+        "slug": "binance-vs-okx-equity-perpetuals-market-hours-funding-risk-controls",
+        "publishedAt": "2026-09-14T17:36:24.617Z",
+        "matched": "Controls",
+        "impressions": 1
+      },
+      {
+        "slug": "dtcc-tokenized-dtc-assets-live-pilot-ownership-settlement-controls",
+        "publishedAt": "2026-09-14T17:36:24.617Z",
+        "matched": "Control",
+        "impressions": 1
+      },
+      {
+        "slug": "bybit-vs-okx-subaccounts-risk-isolation-api-controls",
+        "publishedAt": "2026-09-14T11:42:00.000Z",
+        "matched": "Controls",
+        "impressions": 14
+      },
+      {
+        "slug": "coinbase-websocket-market-data-pricing-september-15-capacity-checklist",
+        "publishedAt": "2026-09-14T11:42:00.000Z",
+        "matched": "Checklist",
+        "impressions": 8
+      },
+      {
+        "slug": "crypto-exchange-websocket-heartbeat-reconnect-liveness-radar",
+        "publishedAt": "2026-09-14T11:42:00.000Z",
+        "matched": "Radar",
+        "impressions": 3
+      },
+      {
+        "slug": "binance-ava-gns-towns-network-support-ended-transfer-checklist",
+        "publishedAt": "2026-09-14T08:40:00.000Z",
+        "matched": "Checklist",
+        "impressions": 1
+      },
+      {
+        "slug": "coinbase-vs-kraken-recurring-buys-fees-schedule-controls",
+        "publishedAt": "2026-09-14T08:40:00.000Z",
+        "matched": "Controls",
+        "impressions": 1
+      },
+      {
+        "slug": "exchange-api-clock-drift-request-expiry-controls-radar",
+        "publishedAt": "2026-09-14T08:40:00.000Z",
+        "matched": "Radar",
+        "impressions": 1
+      },
+      {
+        "slug": "jupiter-vs-raydium-solana-swap-routing-execution-controls",
+        "publishedAt": "2026-09-14T02:40:00.000Z",
+        "matched": "Controls",
+        "impressions": 6
+      },
+      {
+        "slug": "iosco-financial-asset-tokenization-interoperability-settlement-risks",
+        "publishedAt": "2026-09-13T23:39:00.000Z",
+        "matched": "Boundaries",
+        "impressions": 3
+      },
+      {
+        "slug": "kraken-vs-deribit-cancel-on-disconnect-dead-man-switch-radar",
+        "publishedAt": "2026-09-13T23:39:00.000Z",
+        "matched": "Radar",
+        "impressions": 1
+      },
+      {
+        "slug": "binance-himsb-crmb-bstocks-margin-collateral-boundaries",
+        "publishedAt": "2026-09-13T20:40:00.000Z",
+        "matched": "Boundaries",
+        "impressions": 2
+      },
+      {
+        "slug": "exchange-user-websocket-order-state-reconciliation-radar",
+        "publishedAt": "2026-09-13T20:40:00.000Z",
+        "matched": "Radar",
+        "impressions": 6
+      },
+      {
+        "slug": "franklin-onchain-fund-sec-no-action-custody-record-boundary",
+        "publishedAt": "2026-09-13T20:40:00.000Z",
+        "matched": "Boundary",
+        "impressions": 2
+      },
+      {
+        "slug": "oecd-carf-2027-crypto-reporting-implementation-readiness",
+        "publishedAt": "2026-09-13T20:40:00.000Z",
+        "matched": "Readiness",
+        "impressions": 5
+      },
+      {
+        "slug": "sec-regulation-crypto-assets-proposal-exemptions-safe-harbor",
+        "publishedAt": "2026-09-13T17:42:00.000Z",
+        "matched": "Boundary",
+        "impressions": 4
+      },
+      {
+        "slug": "uniswap-v3-vs-pancakeswap-v3-concentrated-liquidity-controls",
+        "publishedAt": "2026-09-13T17:42:00.000Z",
+        "matched": "Controls",
+        "impressions": 5
+      },
+      {
+        "slug": "binance-ai-beta-market-insights-evidence-risk-checklist",
+        "publishedAt": "2026-09-13T08:45:00.000Z",
+        "matched": "Checklist",
+        "impressions": 3
+      },
+      {
+        "slug": "crypto-exchange-api-rate-limit-disclosure-audit",
+        "publishedAt": "2026-09-13T08:45:00.000Z",
+        "matched": "Disclosure",
+        "impressions": 3
+      },
+      {
+        "slug": "nasdaq-tokenized-securities-approval-same-cusip-dtc-settlement",
+        "publishedAt": "2026-09-13T08:45:00.000Z",
+        "matched": "Boundary",
+        "impressions": 1
+      },
+      {
+        "slug": "bitcoin-post-quantum-readiness-workshop-proposals-risk-boundary",
+        "publishedAt": "2026-09-13T05:45:00.000Z",
+        "matched": "Readiness",
+        "impressions": 1
+      },
+      {
+        "slug": "bybit-vs-okx-multi-asset-collateral-controls",
+        "publishedAt": "2026-09-13T05:45:00.000Z",
+        "matched": "Control",
+        "impressions": 1
+      },
+      {
+        "slug": "bybit-odds-fixed-return-contracts-rules-risk-checklist",
+        "publishedAt": "2026-09-13T02:45:00.000Z",
+        "matched": "Checklist",
+        "impressions": 10
+      }
+    ],
+    "clicks": [],
+    "backlinks": [],
+    "curatedLink": [
+      {
+        "slug": "crypto-spot-listing-timeline-deposit-trading-withdrawal-disclosure-radar",
+        "publishedAt": "2026-09-15T17:40:19.000Z",
+        "matched": "Disclosure"
+      },
+      {
+        "slug": "gate-vs-mexc-spot-order-types-control-boundaries",
+        "publishedAt": "2026-09-13T08:45:00.000Z",
+        "matched": "Controls"
+      },
+      {
+        "slug": "bybit-vs-bitget-fees-products-risk-controls",
+        "publishedAt": "2026-09-12T17:36:42.721Z",
+        "matched": "Controls"
+      },
+      {
+        "slug": "coinbase-vs-kraken",
+        "publishedAt": "2026-09-08T23:44:42.000Z",
+        "matched": "disclosure"
+      },
+      {
+        "slug": "crypto-exchange-fee-disclosure-audit",
+        "publishedAt": "2026-09-08T23:43:40.000Z",
+        "matched": "Disclosure"
+      }
+    ]
+  },
+  "strong": [
+    {
+      "slug": "how-to-register-okx-account-verify-identity-safely",
+      "impressions": 74,
+      "clicks": 0
+    },
+    {
+      "slug": "okx-usd-to-usdc-spot-pair-migration",
+      "impressions": 68,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-set-up-kraken-global-settings-lock-safely",
+      "impressions": 53,
+      "clicks": 0
+    },
+    {
+      "slug": "hyperliquid-vs-dydx",
+      "impressions": 51,
+      "clicks": 0
+    },
+    {
+      "slug": "tokenized-treasuries-structure-access-risks",
+      "impressions": 44,
+      "clicks": 0
+    },
+    {
+      "slug": "okx-order-book-checksum-deprecation-sequence-integrity-radar",
+      "impressions": 39,
+      "clicks": 0
+    },
+    {
+      "slug": "bybit-v5-api-rate-limit-header-retry-budget-checklist",
+      "impressions": 35,
+      "clicks": 0
+    },
+    {
+      "slug": "bybit-vs-okx-api-key-ip-binding-expiry-withdraw-permission-controls",
+      "impressions": 32,
+      "clicks": 0
+    },
+    {
+      "slug": "dtc-tokenization-service-vs-sec-tokenized-securities-venue-market-function-comparison",
+      "impressions": 26,
+      "clicks": 2
+    },
+    {
+      "slug": "binance-sbe-vs-coinbase-websocket-market-data-schema-control-checklist",
+      "impressions": 25,
+      "clicks": 0
+    },
+    {
+      "slug": "okx-api-upcoming-changes-websocket-amend-cancel-order-controls",
+      "impressions": 24,
+      "clicks": 0
+    },
+    {
+      "slug": "bybit-tradfi-cfd-leverage-upgrade-margin-release-risk-radar",
+      "impressions": 21,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-create-gemini-account-verify-identity-and-set-withdrawal-protection",
+      "impressions": 21,
+      "clicks": 0
+    },
+    {
+      "slug": "optimism-usdt0-vs-opusdte-after-binance-contract-swap-user-controls",
+      "impressions": 19,
+      "clicks": 1
+    },
+    {
+      "slug": "how-to-register-bybit-account-complete-kyc-and-secure-first-login",
+      "impressions": 18,
+      "clicks": 0
+    },
+    {
+      "slug": "okx-api-kyc-order-tagged-rate-limit-migration-checklist",
+      "impressions": 16,
+      "clicks": 0
+    },
+    {
+      "slug": "cex-vs-dex-vs-perp-dex",
+      "impressions": 15,
+      "clicks": 0
+    },
+    {
+      "slug": "dtcc-tokenized-assets-vs-nyse-tokenized-securities-rule-filing-rights-map",
+      "impressions": 15,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-use-jupiter-connect-wallet-and-make-first-swap-safely",
+      "impressions": 15,
+      "clicks": 0
+    },
+    {
+      "slug": "binance-spot-api-rate-limit-websocket-order-control-checklist",
+      "impressions": 14,
+      "clicks": 0
+    },
+    {
+      "slug": "bybit-vs-okx-subaccounts-risk-isolation-api-controls",
+      "impressions": 14,
+      "clicks": 0
+    },
+    {
+      "slug": "circle-noble-usdc-cctp-v1-winddown-exit-redemption-timeline",
+      "impressions": 14,
+      "clicks": 0
+    },
+    {
+      "slug": "coinbase-address-allowlist-setup-network-hold-tutorial",
+      "impressions": 14,
+      "clicks": 0
+    },
+    {
+      "slug": "tokenized-stocks-vs-stock-perpetuals",
+      "impressions": 13,
+      "clicks": 0
+    },
+    {
+      "slug": "crypto-exchange-websocket-sequence-checksum-gap-recovery-disclosure-radar",
+      "impressions": 12,
+      "clicks": 0
+    },
+    {
+      "slug": "okx-usd-usdc-spot-order-book-migration-api-bot-checklist",
+      "impressions": 12,
+      "clicks": 0
+    },
+    {
+      "slug": "circle-cctp-v2-usdc-fast-transfer-hooks-and-finality-risk-map",
+      "impressions": 11,
+      "clicks": 0
+    },
+    {
+      "slug": "coinbase-derivatives-cash-settled-equity-and-etf-futures-filing-explained",
+      "impressions": 11,
+      "clicks": 0
+    },
+    {
+      "slug": "blockchain-network-upgrade-vs-exchange-wallet-maintenance-service-impact-comparison",
+      "impressions": 10,
+      "clicks": 0
+    },
+    {
+      "slug": "bybit-odds-fixed-return-contracts-rules-risk-checklist",
+      "impressions": 10,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-enable-robinhood-crypto-transfers-allowlisting-safely",
+      "impressions": 10,
+      "clicks": 0
+    },
+    {
+      "slug": "kraken-rest-authentication-api-signature-nonce-order-action-checklist",
+      "impressions": 10,
+      "clicks": 0
+    },
+    {
+      "slug": "bybit-brazil-entity-migration-kyc-liquidation-fiat-conversion-deadline-checklist",
+      "impressions": 9,
+      "clicks": 0
+    },
+    {
+      "slug": "circle-arc-mainnet-launch-validator-usdc-finality-institutional-readiness",
+      "impressions": 9,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-create-coinbase-account-verify-identity-securely",
+      "impressions": 9,
+      "clicks": 0
+    },
+    {
+      "slug": "okx-websocket-orders-state-live-finality-checklist",
+      "impressions": 9,
+      "clicks": 0
+    },
+    {
+      "slug": "sec-tokenized-nms-stock-innovation-exemption-five-year-conditions-comment-roadmap",
+      "impressions": 9,
+      "clicks": 0
+    },
+    {
+      "slug": "tokenized-nms-stock-amm-liquidity-pool-exemption-operational-checklist",
+      "impressions": 9,
+      "clicks": 0
+    },
+    {
+      "slug": "bis-hidden-complexity-defi-data-measurement-risk-map",
+      "impressions": 8,
+      "clicks": 1
+    },
+    {
+      "slug": "binance-local-order-book-vs-okx-checksum-depth-controls",
+      "impressions": 8,
+      "clicks": 0
+    },
+    {
+      "slug": "bybit-rpi-vs-standard-order-book-tradfi-perpetual-execution-comparison",
+      "impressions": 8,
+      "clicks": 0
+    },
+    {
+      "slug": "coinbase-websocket-market-data-pricing-september-15-capacity-checklist",
+      "impressions": 8,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-set-up-binance-anti-phishing-code",
+      "impressions": 8,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-use-uniswap-connect-wallet-and-make-first-swap-safely",
+      "impressions": 8,
+      "clicks": 0
+    },
+    {
+      "slug": "okx-anti-phishing-code-setup-email-verification-tutorial",
+      "impressions": 8,
+      "clicks": 0
+    },
+    {
+      "slug": "sec-tokenized-nms-stock-innovation-exemption-rights-controls-and-limits",
+      "impressions": 8,
+      "clicks": 0
+    },
+    {
+      "slug": "swift-tokenised-deposit-ledger-24-7-cross-border-payment-readiness",
+      "impressions": 8,
+      "clicks": 0
+    },
+    {
+      "slug": "coinbase-vs-coinbase-exchange-allowlist-vault-withdrawal-controls",
+      "impressions": 7,
+      "clicks": 1
+    },
+    {
+      "slug": "binance-spot-api-websocket-reconnect-checklist",
+      "impressions": 7,
+      "clicks": 0
+    },
+    {
+      "slug": "binance-travel-rule-address-book-satoshi-test-checklist",
+      "impressions": 7,
+      "clicks": 0
+    },
+    {
+      "slug": "crypto-exchange-market-data-schema-versioning-disclosure-radar",
+      "impressions": 7,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-set-up-okx-subaccount-api-permissions-and-ip-binding-safely",
+      "impressions": 7,
+      "clicks": 0
+    },
+    {
+      "slug": "kraken-vs-coinbase-api-key-permission-ip-whitelist-controls",
+      "impressions": 6,
+      "clicks": 1
+    },
+    {
+      "slug": "binance-bncb-bstocks-spot-listing-redemption-eligibility-checklist",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "binance-bstocks-dividend-reinvestment-collateral-eligibility-rights-boundary",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "binance-september-22-wallet-system-upgrade-deposit-withdrawal-checklist",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "binance-websocket-stream-limits-ping-pong-reconnect-checklist",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "bybit-secure-transaction-approval-primary-device-tutorial",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "bybit-september-11-perpetual-risk-limit-adjustment-checklist",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "cftc-crypto-blockchain-faq-tokenized-customer-funds-recordkeeping",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "exchange-user-websocket-order-state-reconciliation-radar",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-unlock-kraken-pro-stock-trading-and-verify-equities-eligibility",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "jupiter-vs-raydium-solana-swap-routing-execution-controls",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "kraken-withdrawal-hold-deposit-method-security-action-checklist",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "okx-offline-mode-withdrawal-protection-window-api-c2c-pay-controls",
+      "impressions": 6,
+      "clicks": 0
+    },
+    {
+      "slug": "binance-vs-okx-tokenized-stock-collateral-haircut-liquidation-controls",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "bis-project-agora-tokenized-cross-border-payments-settlement-readiness",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "blackrock-bstbl-brsrv-tokenized-money-market-reserve-readiness",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "bybit-september-24-swell-sand-lunc-usdc-pair-delisting-bot-checklist",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "cftc-september-2026-blockchain-recordkeeping-industry-map",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "coinbase-stock-trading-tokenize-platform-market-structure-readiness",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "cpmi-iosco-fmi-cyber-resilience-tokenized-settlement-third-party-controls",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "cross-chain-stablecoin-transfer-finality-status-disclosure-radar",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "esma-mica-register-how-to-check-casp-issuer-status",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "exchange-token-contract-swap-suspension-reopening-address-disclosure-radar",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "gemini-vs-coinbase-withdrawal-protection-vault-delay-controls",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-create-bitstamp-account-verify-identity-and-secure-withdrawals",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-set-up-bybit-anti-phishing-code-and-authenticity-check",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "kraken-websocket-token-authenticated-channel-session-reconnect-checklist",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "leveraged-etf-x-perp-vs-standard-equity-perpetual-stacked-leverage-risk",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "oecd-carf-2027-crypto-reporting-implementation-readiness",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "uniswap-v3-vs-pancakeswap-v3-concentrated-liquidity-controls",
+      "impressions": 5,
+      "clicks": 0
+    },
+    {
+      "slug": "dtcc-ledgerscan-vs-tokenization-service-record-reconciliation-boundary",
+      "impressions": 4,
+      "clicks": 1
+    },
+    {
+      "slug": "how-to-register-deribit-complete-kyc-and-secure-first-login",
+      "impressions": 4,
+      "clicks": 1
+    },
+    {
+      "slug": "binance-vs-kraken-passkey-recovery-and-withdrawal-verification-controls",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "circle-cctp-v2-usdc-crosschain-finality-fee-readiness-controls",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "coinbase-transfer-protection-time-delay-verification-threshold-checklist",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "crypto-collateral-alert-liquidation-disclosure-radar",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "crypto-loan-collateral-tier-vs-collateral-ratio-borrowing-capacity-comparison",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "eu-casp-sanctions-coinbase-prime-transfer-restriction-map",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "fatf-stablecoins-unhosted-wallets-p2p-risk-mitigation-map",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "hkma-project-ensemble-tokenised-deposit-settlement-sandbox-risk-map",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-enable-kraken-trading-funding-2fa-global-settings-lock-safely",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-secure-a-kraken-account-passkeys-funding-2fa-verification",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-set-up-bitstamp-2fa-and-withdrawal-whitelist-safely",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "how-to-set-up-coinbase-passkey-and-backup-method",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "kraken-cancel-on-disconnect-vs-coinbase-order-policy-api-lifecycle-controls",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "okx-xmeta-vs-sec-tokenized-nms-stock-rights-ownership-comparison",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "ondo-stocks-tokenized-equity-economic-exposure-vs-shareholder-rights",
+      "impressions": 4,
+      "clicks": 0
+    },
+    {
+      "slug": "order-preview-validate-amend-acknowledgement-radar-api-execution-controls",
+      "impressions": 4,
+      "clicks": 0
+    }
+  ]
+}

@@ -94,7 +94,9 @@ test("tool pages list matching articles newest first, search-published first, wi
   assert.equal(pair[0], "binance-okx-funding-caps", "an article naming both venues leads the pair page");
   assert.equal(toolArticleLinks("compare", [], "en"), null, "no articles: no block");
   assert.equal(toolKeyForPath("/compare/binance-vs-okx"), "compare:binance-vs-okx");
-  assert.equal(toolKeyForPath("/news"), null);
+  // T10 (2026-10-12): the /news hub lists the strongest articles (news-hub); listing sub-pages do not.
+  assert.equal(toolKeyForPath("/news"), "news-hub");
+  assert.equal(toolKeyForPath("/news/page/2"), null);
 });
 
 test("tool pages prerendered at build time (/rates, curated compare pairs) list >= 3 repository-feed articles that link back", () => {
