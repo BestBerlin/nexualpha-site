@@ -7,6 +7,8 @@ import { BrandMark } from "../brand/BrandMark.jsx";
 import { NewsVenueOffer } from "../v3/news/NewsVenueOffer.jsx";
 import { localizedHref } from "../../data/locale-routing.js";
 import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_REFRESH_MS, FLASH_TYPES, flashGoHref, flashSignupVenues, flashUiCopy } from "../../data/flash.js";
+import { TelegramTriggerCta } from "../shared/TelegramTriggerCta.jsx";
+import { chime, notifyImportant, notificationPermission, readFlashPref, requestNotifications, writeFlashPref } from "./flash-alerts.js";
 import "./flash.css";
 
 const dirOf = (locale) => (/^(ar|ur)$/.test(locale) ? "rtl" : "ltr");
@@ -41,6 +43,12 @@ function Tag({ item }) {
   return <span className="nxf-tag" data-type={item.type}>{item.typeLabel}</span>;
 }
 
+// Red "Important" marker (rule-based, src/data/flash-feed.js flashImportance); text, not colour alone, carries it.
+function ImportantMark({ item, t }) {
+  if (!item.important) return null;
+  return <span className="nxf-imp" data-importance={item.importance}><span className="nxf-imp__dot" aria-hidden="true" />{t.important}</span>;
+}
+
 function Venue({ item }) {
   if (!item.venue) return null;
   return <span className="nxf-venue"><BrandMark slug={item.venue} compact /><span>{item.venueName}</span></span>;
@@ -51,12 +59,12 @@ function Assets({ assets }) {
   return <ul className="nxf-assets" translate="no">{assets.slice(0, 6).map((asset) => <li key={asset}><bdi>{asset}</bdi></li>)}</ul>;
 }
 
-function StreamItem({ item, locale, market, now }) {
+function StreamItem({ item, locale, market, now, t }) {
   const rel = relative(item.time, now, locale);
-  return <li className="nxf-row" data-type={item.type}>
+  return <li className="nxf-row" data-type={item.type} data-important={item.important ? "true" : undefined}>
     <div className="nxf-row__time"><time dateTime={item.time}><bdi>{clock(item.time)}</bdi></time>{rel ? <span>{rel}</span> : null}</div>
     <article className="nxf-row__card">
-      <div className="nxf-row__meta"><Tag item={item} /><Venue item={item} /></div>
+      <div className="nxf-row__meta"><ImportantMark item={item} t={t} /><Tag item={item} /><Venue item={item} /></div>
       <h3 className="nxf-row__title" lang={item.lang !== locale ? item.lang : undefined} dir="auto"><a href={hrefFor(item.path, locale, market)}>{item.headline}</a></h3>
       {item.body ? <p className="nxf-row__body" lang={item.lang !== locale ? item.lang : undefined} dir="auto">{item.body}</p> : null}
       <Assets assets={item.assets} />
@@ -72,9 +80,25 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
   const [pending, setPending] = useState([]);
   const [now, setNow] = useState(null);
   const [loadingMore, setLoadingMore] = useState(false);
+  // "Important only" filter; browser notifications and a soft chime for new important items (both opt-in, only while
+  // this page is open — no service worker). Preferences live in localStorage; the buttons render on the server with
+  // fixed labels so nothing moves when the client reads them.
+  const [importantOnly, setImportantOnly] = useState(false);
+  const [notify, setNotify] = useState(false);
+  const [permission, setPermission] = useState("default");
+  const [sound, setSound] = useState(false);
   const known = useRef(new Set());
   const listRef = useRef(null);
+  const alertsRef = useRef({ notify: false, sound: false });
   known.current = new Set([...(feed?.items || []), ...pending].map((item) => item.id));
+  alertsRef.current = { notify: notify && permission === "granted", sound };
+
+  useEffect(() => {
+    const perm = notificationPermission();
+    setPermission(perm);
+    setNotify(perm === "granted" && readFlashPref("notify"));
+    setSound(readFlashPref("sound"));
+  }, []);
 
   useEffect(() => {
     if (feed) return undefined;
@@ -89,15 +113,51 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
   }, []);
   useEffect(() => {
     const refresh = async () => {
-      if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
+      // A hidden tab keeps polling only when the reader asked for notifications (that is their point).
+      if (typeof document !== "undefined" && document.visibilityState === "hidden" && !alertsRef.current.notify) return;
       const data = await fetchFlash({ locale, limit: 30 }).catch(() => null);
       if (!data?.items) return;
       const fresh = data.items.filter((item) => !known.current.has(item.id));
-      if (fresh.length) setPending((current) => [...fresh, ...current]);
+      if (!fresh.length) return;
+      setPending((current) => [...fresh, ...current]);
+      const important = fresh.filter((item) => item.important);
+      if (!important.length) return;
+      if (alertsRef.current.notify) notifyImportant(important, { label: t.important, hrefFor: (item) => hrefFor(item.path, locale, market) });
+      if (alertsRef.current.sound) chime();
     };
     const timer = setInterval(refresh, FLASH_REFRESH_MS);
     return () => clearInterval(timer);
-  }, [locale]);
+  }, [locale, market, t.important]);
+
+  const toggleNotify = async () => {
+    if (notify) { setNotify(false); writeFlashPref("notify", false); return; }
+    const perm = await requestNotifications();
+    setPermission(perm);
+    const on = perm === "granted";
+    setNotify(on);
+    writeFlashPref("notify", on);
+  };
+  const toggleSound = () => {
+    const on = !sound;
+    setSound(on);
+    writeFlashPref("sound", on);
+    if (on) chime();
+  };
+  const toggleImportant = async () => {
+    const on = !importantOnly;
+    setImportantOnly(on);
+    if (!on) return;
+    // Older important items may sit beyond the loaded page: fetch them once and merge (newest first, no duplicates).
+    const data = await fetchFlash({ locale, limit: FLASH_PAGE_SIZE, important: 1 }).catch(() => null);
+    if (!data?.items?.length) return;
+    setFeed((current) => {
+      const rows = [...(current?.items || [])];
+      const ids = new Set(rows.map((item) => item.id));
+      for (const item of data.items) if (!ids.has(item.id)) rows.push(item);
+      rows.sort((a, b) => Date.parse(b.time) - Date.parse(a.time));
+      return { ...current, items: rows };
+    });
+  };
 
   const showPending = useCallback(() => {
     setFeed((current) => ({ ...current, items: [...pending, ...(current?.items || [])] }));
@@ -116,7 +176,8 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
   };
 
   const items = feed?.items || [];
-  const visible = items.filter((item) => (!type || item.type === type) && (!venue || item.venue === venue));
+  const matches = (item) => (!type || item.type === type) && (!venue || item.venue === venue) && (!importantOnly || item.important);
+  const visible = items.filter(matches);
   const types = useMemo(() => FLASH_TYPES.filter((key) => items.some((item) => item.type === key)), [items]);
   const groups = [];
   for (const item of visible) {
@@ -124,7 +185,8 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
     if (groups[groups.length - 1]?.key !== key) groups.push({ key, items: [] });
     groups[groups.length - 1].items.push(item);
   }
-  const freshVisible = pending.filter((item) => (!type || item.type === type) && (!venue || item.venue === venue)).length;
+  const freshVisible = pending.filter(matches).length;
+  const blocked = permission === "denied" || permission === "unsupported";
 
   return <main className="nxf nxf--stream" id="top" dir={dirOf(locale)}>
     <header className="nxf-hero">
@@ -132,11 +194,24 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
         <p className="nxf-overline"><LiveDot /><span>{t.live}</span><span aria-hidden="true">·</span><span>NexuAlpha</span></p>
         <h1 className="nxf-title">{t.h1}</h1>
         <p className="nxf-lead">{t.lead}</p>
+        <TelegramTriggerCta locale={locale} placement="flash-telegram-alerts" />
+        <div className="nxf-alerts" role="group" aria-label={t.notifyHint}>
+          <button type="button" className="nxf-toggle" aria-pressed={notify} aria-describedby="nxf-alerts-hint" disabled={blocked} title={blocked ? t.notifyBlocked : t.notifyHint} onClick={toggleNotify}>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
+            <span>{t.notify}</span>
+          </button>
+          <button type="button" className="nxf-toggle" role="switch" aria-checked={sound} onClick={toggleSound}>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="M11 5 6 9H2v6h4l5 4V5z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /></svg>
+            <span>{t.sound}</span>
+          </button>
+          <span className="nxf-alerts__hint" id="nxf-alerts-hint">{blocked ? t.notifyBlocked : notify ? t.notifyOn : t.notifyHint}</span>
+        </div>
       </div>
     </header>
     <div className="nxf-toolbar">
       <div className="v2-shell">
         <div className="nxf-chips" role="group" aria-label={t.nav}>
+          <button type="button" className="nxf-chip-imp" aria-pressed={importantOnly} onClick={toggleImportant}><span className="nxf-imp__dot" aria-hidden="true" />{t.importantOnly}</button>
           <button type="button" aria-pressed={!type} onClick={() => setType(null)}>{t.all}</button>
           {types.map((key) => <button type="button" key={key} data-type={key} aria-pressed={type === key} onClick={() => setType(type === key ? null : key)}>{t.types[key]}</button>)}
         </div>
@@ -150,9 +225,9 @@ export function FlashStreamPage({ locale = "en", market, initial }) {
       {freshVisible ? <button type="button" className="nxf-pill" onClick={showPending} aria-live="polite"><LiveDot />{freshVisible} {t.fresh} · {t.showNew}</button> : null}
       {groups.length ? groups.map((group) => <div className="nxf-day" key={group.key}>
         <h2 className="nxf-day__label"><time dateTime={group.key}>{dayLabel(`${group.key}T00:00:00Z`, locale)}</time></h2>
-        <ol className="nxf-list">{group.items.map((item) => <StreamItem key={item.id} item={item} locale={locale} market={market} now={now} />)}</ol>
+        <ol className="nxf-list">{group.items.map((item) => <StreamItem key={item.id} item={item} locale={locale} market={market} now={now} t={t} />)}</ol>
       </div>) : <p className="nxf-empty">{feed ? t.empty : "…"}</p>}
-      {feed?.hasMore && !type && !venue ? <div className="nxf-more"><button type="button" className="nxf-btn" onClick={loadMore} disabled={loadingMore}>{t.loadMore}</button></div> : null}
+      {feed?.hasMore && !type && !venue && !importantOnly ? <div className="nxf-more"><button type="button" className="nxf-btn" onClick={loadMore} disabled={loadingMore}>{t.loadMore}</button></div> : null}
     </section>
   </main>;
 }
@@ -176,7 +251,7 @@ export function FlashItemPage({ locale = "en", market, itemKey, initial }) {
     <div className="v2-shell nxf-layout">
       <article className="nxf-article">
         <a className="nxf-back" href={hrefFor("/flash", locale, market)}><span aria-hidden="true" className="nxf-back__arrow">←</span>{t.back}</a>
-        <div className="nxf-article__meta"><Tag item={item} /><Venue item={item} /><time dateTime={item.time}><bdi>{stamp(item.time)}</bdi></time></div>
+        <div className="nxf-article__meta"><ImportantMark item={item} t={t} /><Tag item={item} /><Venue item={item} /><time dateTime={item.time}><bdi>{stamp(item.time)}</bdi></time></div>
         <h1 className="nxf-article__title" lang={lang} dir="auto">{item.headline}</h1>
         {item.body ? <p className="nxf-article__body" lang={lang} dir="auto">{item.body}</p> : null}
         <Assets assets={item.assets} />
@@ -192,6 +267,7 @@ export function FlashItemPage({ locale = "en", market, itemKey, initial }) {
           <NewsVenueOffer venues={offerVenues} locale={locale} market={market} variant="inline" placementPrefix="flash" articleSlug={item.key}
             linkFor={(slug) => flashGoHref(slug, item)} />
         </section> : null}
+        <TelegramTriggerCta locale={locale} placement="flash-telegram-alerts" />
         {item.links?.length ? <nav className="nxf-links" aria-label={t.related}>
           <h2>{t.related}</h2>
           <ul>{item.links.map((link) => <li key={link.href}><a href={hrefFor(link.href, locale, market)}>{link.kind === "profile" && item.venueName ? `${item.venueName} · ${t.profile}` : t[LINK_LABEL[link.kind]]}<span aria-hidden="true" className="nxf-links__arrow">→</span></a></li>)}</ul>
@@ -200,7 +276,7 @@ export function FlashItemPage({ locale = "en", market, itemKey, initial }) {
       {related.length ? <aside className="nxf-related" aria-labelledby="nxf-related-h">
         <h2 id="nxf-related-h"><LiveDot />{t.more}</h2>
         <ol>{related.map((row) => <li key={row.id}>
-          <div className="nxf-related__meta"><Tag item={row} /><time dateTime={row.time}><bdi>{stamp(row.time)}</bdi></time></div>
+          <div className="nxf-related__meta"><ImportantMark item={row} t={t} /><Tag item={row} /><time dateTime={row.time}><bdi>{stamp(row.time)}</bdi></time></div>
           <a href={hrefFor(row.path, locale, market)} lang={row.lang !== locale ? row.lang : undefined} dir="auto">{row.headline}</a>
         </li>)}</ol>
         <a className="nxf-btn nxf-btn--ghost" href={hrefFor("/flash", locale, market)}>{t.back}</a>

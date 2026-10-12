@@ -46,6 +46,7 @@ import { applyCoinOverlay, coinOverlayFromSnapshot, COINS_GENERATED_AT } from ".
 import { parseConverterPath } from "../src/data/converter-routes.js";
 import { converterRouteSeo } from "../src/data/converter-seo.js";
 import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
+import { isTickerSnapshot, spliceTickerHtml, tickerFromMarketEvents } from "../src/data/ticker.js";
 import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, renderFlashSitemap } from "../src/data/flash-feed.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
 import { binanceOctoberRouteSeo } from "../src/data/binance-october-seo.js";
@@ -3608,6 +3609,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.heroVariant === "a" || route.heroVariant === "b" ? { heroVariant: route.heroVariant } : {}),
     ...(route.toolArticles && typeof route.toolArticles === "object" ? { toolArticles: route.toolArticles } : {}),
     ...(route.flash && typeof route.flash === "object" ? { flash: route.flash } : {}),
+    ...(isTickerSnapshot(route.ticker) ? { ticker: route.ticker } : {}),
     // Coin pages rendered from a runtime coins.json: the rows that differ from the baked table (applyCoinOverlay).
     ...(route.coins && typeof route.coins === "object" && Array.isArray(route.coins.rows) ? { coins: route.coins } : {}),
     ...(route.fx && typeof route.fx === "object" ? { fx: route.fx } : {}),
@@ -4597,11 +4599,12 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     if (metadata.marker === FLASH_ROUTE_MARKER && metadata.flashPayload && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
         const flash = metadata.flashPayload;
+        const ticker = await readTickerSnapshot(env);
         const renderUrl = new URL(hydrationRenderUrl(url, pathname, publicRoute.locale));
-        const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, { flash });
+        const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, { flash, ...(ticker ? { ticker } : {}) });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxf ")) {
           metadata.flashSsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { flash }, url);
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { flash, ...(ticker ? { ticker } : {}) }, url);
         }
         console.error(`[NexuAlpha] flash SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] flash SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
@@ -4708,6 +4711,12 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   if (heroServed) {
     metadata.heroServed = heroServed;
     routePayload = { ...routePayload, heroVariant: heroServed };
+  }
+  // Live ticker bar (2026-10-13): the home page is prerendered with an empty bar; write the cached snapshot into it and
+  // ship the same snapshot as state "ticker" so the browser hydrates the identical frame.
+  if (contentPathname === "/" && typeof appHtml === "string" && appHtml.includes("nx-ticker")) {
+    const ticker = await readTickerSnapshot(env);
+    if (ticker) { appHtml = spliceTickerHtml(appHtml, ticker); routePayload = { ...routePayload, ticker }; }
   }
   return injectPrerenderedBody(html, appHtml, routeKey, routePayload, url);
 }
@@ -4927,6 +4936,18 @@ export async function renderUpdateSitemap(env = {}, url = new URL(PUBLIC_ORIGIN)
   }
   return ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...rows, "</urlset>", ""].join("\n");
 }
+// ---------------------------------------------------------------------------------------------------------- Ticker
+// Live ticker bar snapshot (2026-10-13): the Node server's 15 s Binance cache (TICKER_READ, server/ticker-feed.mjs),
+// else the market collector feed it already reads for /liquidations. Never blocks a page for long: the reader waits at
+// most ~2.5 s on a cold start and answers from cache afterwards. Null = the bar keeps its empty frame.
+async function readTickerSnapshot(env) {
+  try {
+    if (typeof env?.TICKER_READ === "function") { const snapshot = await env.TICKER_READ(); if (isTickerSnapshot(snapshot)) return snapshot; }
+    if (typeof env?.MARKET_EVENTS_READ === "function") { const snapshot = tickerFromMarketEvents(await env.MARKET_EVENTS_READ()); if (isTickerSnapshot(snapshot)) return snapshot; }
+  } catch (error) { console.error(`[NexuAlpha] ticker snapshot failed: ${error?.message || error}`); }
+  return null;
+}
+
 // ---------------------------------------------------------------------------------------------------------- Flash
 // The flash items are rebuilt at most once per 60 s per host from the feeds the server already holds (announcement
 // feed + archive, campaign briefs, the market collector's feed, the published news feed): no external call per request.
@@ -4996,7 +5017,7 @@ async function handleFlashFeedJson(request, env, url) {
     payload = flashItemPayload(items, item, locale, { now });
   } else {
     payload = flashStreamPayload(items, locale, { limit: url.searchParams.get("limit") || FLASH_PAGE_SIZE, before: url.searchParams.get("before"),
-      type: url.searchParams.get("type"), venue: url.searchParams.get("venue"), now });
+      type: url.searchParams.get("type"), venue: url.searchParams.get("venue"), important: url.searchParams.get("important") === "1", now });
   }
   return new Response(request.method === "HEAD" ? null : JSON.stringify(payload), { status: 200, headers: { ...headers, "cache-control": "public, max-age=30, stale-while-revalidate=60" } });
 }

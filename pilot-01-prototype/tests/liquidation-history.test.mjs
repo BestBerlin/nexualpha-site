@@ -173,7 +173,7 @@ test("SSR: the history section renders the chart and facts from the feed; withou
   assert.match(en, /<dt>Largest day in the window<\/dt><dd>\$41\.6M <small>2026-09-23<\/small>/);
   assert.match(en, /<time dateTime="2026-09-11T00:05:00.000Z">2026-09-11<\/time> <small>30 days of history<\/small>/);
   assert.match(en, /bar covers only the hours collected so far \(UTC\)/);
-  assert.ok(en.indexOf('id="history"') < en.indexOf("news-tg-alerts"), "history sits before the tail (alerts, explainer, sign-up card)");
+  assert.ok(en.indexOf('id="history"') < en.indexOf("nx-tgcta"), "history sits before the tail (alerts, explainer, sign-up card)");
   // RTL: copy follows the page direction, the chart stays LTR with identical numbers
   assert.match(withHistory.ar, /<main[^>]*dir="rtl"/);
   assert.match(withHistory.ar, /<div class="nxd-history__chart" dir="ltr"><svg class="nxd-chart nxd-chart--wide"[^>]*dir="ltr"/);

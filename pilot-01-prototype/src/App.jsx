@@ -6,6 +6,7 @@ import { loadSiteView } from "./data/site-data.ts";
 import { marketCommand, presentationModel, neutralVenueCatalog } from "./data/market-command";
 import { DesignSystem } from "./components/DesignSystem";
 import { SiteHeader, MobileSheet } from "./components/shell/SiteHeader.jsx";
+import { TickerBar } from "./components/ticker/TickerBar.jsx";
 import { LanguageMenu } from "./components/shell/LanguageMenu.jsx";
 import { researchRoute } from "./data/official-research-route.js";
 import { v3ShellCopy } from "./data/v3-shell-copy.js";
@@ -654,7 +655,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles, initialFlash, initialCoins, initialFx, initialTicker } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -814,8 +815,9 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
   if (route.name === "converter") return pageShell(<ConverterPage key={`${route.symbol}-${route.fiat}-${locale}`} locale={locale} symbol={route.symbol} fiat={route.fiat} market={route.market} overlay={initialCoins} fx={initialFx} />);
   if (route.name === "coinsHub" || route.name === "coinPage") return pageShell(<CoinsRoute route={route} locale={locale} overlay={initialCoins} />);
-  if (route.name === "flashStream") return pageShell(<FlashStreamPage locale={locale} market={route.market} initial={initialFlash} />);
-  if (route.name === "flashItem") return pageShell(<FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} />);
+  // Live ticker bar (2026-10-13): home and /flash only; first frame from prerender state "ticker".
+  if (route.name === "flashStream") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashStreamPage locale={locale} market={route.market} initial={initialFlash} /></>);
+  if (route.name === "flashItem") return pageShell(<><TickerBar locale={locale} initial={initialTicker} /><FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} /></>);
   if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
   if (route.name === "bybitStocks") return pageShell(<BybitStocksPage locale={locale} market={route.market} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
@@ -919,6 +921,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   const initialPair = homeSelection.get();
   return <main key={`locale-${locale}`} className="v2-page home-refinement v5 v6" id="top" dir={getTextDirection(locale)}>
     <Header initialUrl={initialUrl} copy={copy} locale={locale} onLocaleChange={changeLocale} onSearch={openSearchDialog} />
+    <TickerBar locale={locale} initial={initialTicker} />
     <HomeV7 locale={locale} market={route.market} />
     <ClosingBand locale={locale} legacy={homeSlots.closing} />
     {footer}
