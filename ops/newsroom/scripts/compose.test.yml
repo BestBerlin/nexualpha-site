@@ -1,0 +1,15 @@
+# Disposable, local-only test database. No published port or persistent volume.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: newsroom
+      POSTGRES_USER: newsroom_test
+      POSTGRES_HOST_AUTH_METHOD: trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U newsroom_test -d newsroom"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    tmpfs:
+      - /var/lib/postgresql/data
