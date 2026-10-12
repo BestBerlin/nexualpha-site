@@ -16,7 +16,7 @@ test('dedupe SQL creates one event per watchlist story, assigns items and skips 
   assert.match(sql, /^BEGIN;/);
   assert.match(sql, /INSERT INTO events/);
   assert.match(sql, /INSERT INTO event_evidence/);
-  assert.match(sql, /UPDATE raw_items SET event_id=\(SELECT id FROM target\) WHERE id IN \(1\) AND event_id IS NULL/);
+  assert.match(sql, /UPDATE raw_items SET event_id=\(SELECT id FROM target\), state='processed' WHERE id IN \(1\) AND event_id IS NULL/);
   assert.doesNotMatch(sql, /Random sports/);
 });
 

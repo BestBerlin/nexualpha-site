@@ -57,6 +57,13 @@ database write failures do not stop other sources. Unsupported/disabled sources
 do not become falsely connected. API/transport errors omit credentials, request
 URLs and response bodies.
 
+RSSHub Telegram channels that return HTTP 503 on three consecutive collector
+poll failures are marked `missing-authorization` with an explicit note and
+skipped by later collector runs until their authorization/feed path is changed.
+The counter is source health state, not individual transport retries inside one
+poll, and it resets on non-503 failures or success. Public working Telegram
+channels continue through the local RSSHub path unchanged.
+
 Rows have a 600-character excerpt limit, canonical URL, content hash, entity
 matches, known source time or null, and platform-native metrics. Market
 provenance remains in `metrics.provenance`; observation time is not a fabricated

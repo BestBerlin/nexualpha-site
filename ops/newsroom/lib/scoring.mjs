@@ -36,12 +36,17 @@ function clamp(value) {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
+function eventMarketChannel(event) {
+  return event.market_channel ?? event.marketChannel ?? event.discussion?.market_channel ?? event.discussion?.marketChannel ?? null;
+}
+
 function scoreRelevance(event, entitiesById = {}) {
   const entity = entitiesById[event.subject_entity] ?? {};
   const priorityScore = { 1: 100, 2: 70, 3: 40 }[entity.priority ?? event.entity_priority ?? event.entityPriority ?? 2] ?? 50;
   if (!SCOPED_EVENT_TYPES.has(event.event_type) || LOW_RELEVANCE_TYPES.has(event.event_type)) return 0;
-  if ((event.event_type === 'fx_macro' || event.event_type === 'politics_market') && !(event.market_channel || event.marketChannel)) return 0;
-  const typeFactor = HIGH_RELEVANCE_TYPES.has(event.event_type) ? 1 : event.market_channel || event.marketChannel ? 0.8 : 0.45;
+  const marketChannel = eventMarketChannel(event);
+  if ((event.event_type === 'fx_macro' || event.event_type === 'politics_market') && !marketChannel) return 0;
+  const typeFactor = HIGH_RELEVANCE_TYPES.has(event.event_type) ? 1 : marketChannel ? 0.8 : 0.45;
   if (event.out_of_scope || event.outOfScope) return 0;
   return clamp(priorityScore * typeFactor);
 }

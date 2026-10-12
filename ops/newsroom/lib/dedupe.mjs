@@ -10,6 +10,7 @@ import {
   sourceTier,
   trigramSimilarity,
 } from './normalization.mjs';
+import { relevanceForItem } from './relevance.mjs';
 
 export const DEFAULT_DEDUPE_CONFIG = {
   eventWindowHours: 48,
@@ -23,6 +24,10 @@ const COMPATIBLE_EVENT_TYPES = new Map([
 
 function eventTypeOf(item) {
   return item.event_type ?? item.eventType ?? item.event_type_guess ?? item.eventTypeGuess ?? 'unknown';
+}
+
+function marketChannelOf(item) {
+  return item.market_channel ?? item.marketChannel ?? item.discussion?.market_channel ?? item.discussion?.marketChannel ?? null;
 }
 
 function compatibleEventType(left, right) {
@@ -100,6 +105,7 @@ function buildEvidence(item, itemsById, duplicateOriginById) {
     published_at: sourcePublishedAt ? sourcePublishedAt.toISOString() : null,
     source_platform: sourcePlatform(item),
     source_tier: sourceTier(item),
+    source_id: item.source_id ?? item.sourceId ?? null,
     metrics: item.metrics ?? null,
     metrics_at: item.metrics_at ?? item.metricsAt ?? null,
   };
@@ -128,7 +134,7 @@ function normalizeExistingEvent(event) {
     title_internal: event.title_internal ?? event.titleInternal ?? '',
     source_published_at: event.source_published_at ?? event.sourcePublishedAt ?? event.published_at ?? event.publishedAt ?? null,
     original_links: event.original_links ?? event.originalLinks ?? [],
-    hard_keys: event.hard_keys ?? event.hardKeys ?? [],
+    hard_keys: event.hard_keys ?? event.hardKeys ?? rawItems.flatMap(extractHardKeys),
     content_hashes: event.content_hashes ?? event.contentHashes ?? rawItems.map(item => item.content_hash ?? item.contentHash).filter(Boolean),
     simhashes: event.simhashes ?? rawItems.map(item => item.simhash).filter(value => simhashValue(value) != null),
     evidence,
@@ -148,7 +154,8 @@ function discussionFromEvidence(evidence) {
       metric_growth_max: null,
       metrics_unknown: false,
     };
-    const firstForOrigin = !originSeen.has(row.origin_key);
+    const mirror = isMirrorEvidence(row);
+    const firstForOrigin = !mirror && !originSeen.has(row.origin_key);
     if (firstForOrigin) {
       originSeen.add(row.origin_key);
       byPlatform[platform].independent_posts += 1;
@@ -170,6 +177,15 @@ function discussionFromEvidence(evidence) {
   };
 }
 
+function isMirrorEvidence(row) {
+  return String(row.source_id ?? row.sourceId ?? '').startsWith('nexualpha-official');
+}
+
+function withMarketChannel(discussion, item, fallback = null) {
+  const channel = marketChannelOf(item) ?? (fallback ? marketChannelOf(fallback) : null);
+  return channel ? { ...discussion, market_channel: channel } : discussion;
+}
+
 function createEvent(item, index, watchlist, itemsById, duplicateOriginById) {
   const subjects = itemEntities(item, watchlist);
   const sourcePublishedAt = itemSourcePublishedAt(item);
@@ -187,14 +203,13 @@ function createEvent(item, index, watchlist, itemsById, duplicateOriginById) {
     content_hashes: [item.content_hash ?? item.contentHash].filter(Boolean),
     simhashes: [item.simhash].filter(value => simhashValue(value) != null),
     evidence,
-    discussion: discussionFromEvidence(evidence),
+    discussion: withMarketChannel(discussionFromEvidence(evidence), item),
     raw_items: [item],
   };
 }
 
 function shouldAttach(item, event, config, watchlist, itemsById, duplicateOriginById) {
   const itemSubjects = itemEntities(item, watchlist);
-  if (!itemSubjects.length || !commonValues(itemSubjects, event.subjects)) return false;
   if (!compatibleEventType(eventTypeOf(item), event.event_type)) return false;
   const itemOccurred = item.occurred_at ?? item.occurredAt;
   const eventOccurred = event.occurred_at ?? event.occurredAt;
@@ -203,6 +218,7 @@ function shouldAttach(item, event, config, watchlist, itemsById, duplicateOrigin
   if (timeDistanceHours(knownOccurrences ? new Date(itemOccurred) : itemPublishedAt(item), eventTime) > config.eventWindowHours) return false;
   const itemHardKeys = extractHardKeys(item);
   if (itemHardKeys.length && commonValues(itemHardKeys, event.hard_keys)) return true;
+  if (itemHardKeys.some(key => key.startsWith('exchange-action:')) && event.hard_keys?.some(key => key.startsWith('exchange-action:'))) return false;
   const itemOrigin = resolveOriginKey(item, itemsById, duplicateOriginById);
   if (itemOrigin && event.evidence?.some(row => row.origin_key === itemOrigin)) return true;
   const itemLinks = linksFor(item);
@@ -210,6 +226,7 @@ function shouldAttach(item, event, config, watchlist, itemsById, duplicateOrigin
   const contentHash = item.content_hash ?? item.contentHash;
   if (contentHash && event.content_hashes?.includes(contentHash)) return true;
   if (simhashValue(item.simhash) != null && event.simhashes?.some(value => hammingDistance(item.simhash, value) <= 3)) return true;
+  if (!itemSubjects.length || !commonValues(itemSubjects, event.subjects)) return false;
   return trigramSimilarity(item.title ?? '', event.title_internal) >= config.titleSimilarity;
 }
 
@@ -222,7 +239,7 @@ function attachItem(event, item, itemsById, duplicateOriginById) {
   event.simhashes = [...new Set([...(event.simhashes ?? []), item.simhash].filter(value => simhashValue(value) != null))];
   const sourcePublishedAt = itemSourcePublishedAt(item);
   if (sourcePublishedAt && (!event.source_published_at || sourcePublishedAt < new Date(event.source_published_at))) event.source_published_at = sourcePublishedAt.toISOString();
-  event.discussion = discussionFromEvidence(event.evidence);
+  event.discussion = withMarketChannel(discussionFromEvidence(event.evidence), item, event);
 }
 
 function parentOriginKey(item, itemsById, seen = new Set()) {
@@ -264,28 +281,44 @@ function duplicateOriginMap(items, itemsById) {
 export function mergeRawItems(items, options = {}) {
   const config = { ...DEFAULT_DEDUPE_CONFIG, ...(options.config ?? {}) };
   const watchlist = options.watchlist ?? [];
+  const keywords = options.keywords ?? [];
+  const coinUniverse = options.coinUniverse;
   const events = structuredClone(options.existingEvents ?? []).map(normalizeExistingEvent);
   const itemsById = new Map(items.map(item => [itemId(item), item]));
   const duplicateOriginById = duplicateOriginMap(items, itemsById);
   const assignments = new Map();
+  const irrelevantItems = [];
   const seenExternalIds = new Set();
   for (const item of [...items].sort((a, b) => itemPublishedAt(a) - itemPublishedAt(b))) {
     const externalId = item.external_id ?? item.externalId;
     const uniqueKey = externalId ? JSON.stringify([item.source_id ?? item.sourceId ?? '', externalId]) : item.id ? `id:${item.id}` : null;
     if (uniqueKey && seenExternalIds.has(uniqueKey)) continue;
     if (uniqueKey) seenExternalIds.add(uniqueKey);
-    let event = events.find(candidate => shouldAttach(item, candidate, config, watchlist, itemsById, duplicateOriginById));
+    const relevance = relevanceForItem(item, { watchlist, keywords, coinUniverse });
+    if (!relevance.relevant) {
+      irrelevantItems.push(item);
+      continue;
+    }
+    const itemForMerge = {
+      ...item,
+      ...(relevance.inferred_event_type && (!eventTypeOf(item) || eventTypeOf(item) === 'unknown') ? { event_type_guess: relevance.inferred_event_type } : {}),
+      ...(relevance.inferred_market_channel && !marketChannelOf(item) ? { market_channel: relevance.inferred_market_channel } : {}),
+    };
+    let event = events.find(candidate => shouldAttach(itemForMerge, candidate, config, watchlist, itemsById, duplicateOriginById));
     if (!event) {
-      event = createEvent(item, events.length, watchlist, itemsById, duplicateOriginById);
+      event = createEvent(itemForMerge, events.length, watchlist, itemsById, duplicateOriginById);
       events.push(event);
     } else {
-      attachItem(event, item, itemsById, duplicateOriginById);
+      attachItem(event, itemForMerge, itemsById, duplicateOriginById);
     }
     assignments.set(itemId(item), event.id);
   }
-  return { events, assignments };
+  return { events, assignments, irrelevantItems };
 }
 
 export function countIndependentSources(evidence = []) {
-  return new Set(evidence.map(row => row.origin_key ?? row.originKey).filter(Boolean)).size;
+  return new Set(evidence
+    .filter(row => row.is_independent !== false && !isMirrorEvidence(row))
+    .map(row => row.origin_key ?? row.originKey)
+    .filter(Boolean)).size;
 }

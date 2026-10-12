@@ -10,6 +10,8 @@ import * as legal from './legal.mjs';
 import * as market from './market.mjs';
 
 export const families = [exchange,legal,feeds,market,social];
+const RSSHUB_TELEGRAM_503_NOTE = 'RSSHub Telegram returned HTTP 503 three times; public preview is not accessible to this runtime, so manual authorization or a different source is required.';
+const RSSHUB_TELEGRAM_503_PREFIX = 'RSSHub Telegram HTTP 503 poll failure';
 // Archive-style feeds (EDGAR submissions, full RSS archives) would otherwise
 // backfill years of history on a source's first run and swamp the 48 h dedupe
 // window. Items with a known publication time older than this are not stored.
@@ -28,12 +30,49 @@ export function dryStore(directory) {
     reserve: async () => false,
   };
 }
+function isRsshubTelegram(source) {
+  return source?.platform === 'telegram' && source.access_method === 'rsshub';
+}
+
+function isRsshubTelegramMissingAuthorization(source) {
+  return isRsshubTelegram(source) && source.status === 'missing-authorization' && /RSSHub Telegram returned HTTP 503/.test(source.last_error ?? '');
+}
+
+function sourceHealthFromError(source, error, failures) {
+  const nextFailures = failures + 1;
+  if (isRsshubTelegram(source) && error instanceof CollectorError && error.message === 'HTTP 503') {
+    const previous = source.last_error?.match(/^RSSHub Telegram HTTP 503 poll failure (\d+)\/3$/)?.[1];
+    const consecutive503 = previous ? Number(previous) + 1 : 1;
+    if (consecutive503 >= 3) {
+      return {
+        status: 'missing-authorization',
+        last_error: RSSHUB_TELEGRAM_503_NOTE,
+        consecutive_failures: nextFailures,
+      };
+    }
+    return {
+      status: 'temporarily-failing',
+      last_error: `${RSSHUB_TELEGRAM_503_PREFIX} ${consecutive503}/3`,
+      consecutive_failures: nextFailures,
+    };
+  }
+  return {
+    status: error instanceof CollectorError ? error.status : 'temporarily-failing',
+    last_error: error instanceof CollectorError ? error.message : 'Collector failed (details suppressed)',
+    consecutive_failures: nextFailures,
+  };
+}
+
 export async function collect({ sources, fallbackSources=sources, entities=[], keywords=[], config={}, store, modules=families, fetchImpl, env=process.env, now=new Date(), timeoutMs=60000, retries=2, sleep } = {}) {
   const reports=[];
   const visited=new Set();
   async function one(source, fallback=false) {
     if (visited.has(source.id) || source.enabled === false) return;
     visited.add(source.id);
+    if (isRsshubTelegramMissingAuthorization(source)) {
+      reports.push({source_id:source.id,skipped:'missing-authorization',last_error:source.last_error});
+      return;
+    }
     const collector=modules.find(m=>m.supports(source));
     if(!collector) {reports.push({source_id:source.id,skipped:'no-automated-collector'});return;}
     const failures=source.consecutive_failures ?? 0;
@@ -67,7 +106,7 @@ export async function collect({ sources, fallbackSources=sources, entities=[], k
       items=[...unique.values()];
       health={status:ctx.partial?'partial':'connected',last_success_at:now.toISOString(),last_error:ctx.partial ?? null,consecutive_failures:0,at:now.toISOString()};
     } catch(error) {
-      health={status:error instanceof CollectorError ? error.status : 'temporarily-failing',last_error:error instanceof CollectorError ? error.message : 'Collector failed (details suppressed)',consecutive_failures:failures+1,at:now.toISOString()};
+      health={...sourceHealthFromError(source,error,failures),at:now.toISOString()};
     } finally {clearTimeout(timer);controller.abort();}
     try { await store.persist(source,items,health); }
     catch { reports.push({source_id:source.id,status:'temporarily-failing',count:0,last_error:'Persistence failed'}); return; }
