@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:04.080
+The loss is on the left one. Why is the right one in danger too?
+
+00:00:09.250 --> 00:00:13.941
+Cross margin shares margin across positions, within what the rules allow.
+
+00:00:13.941 --> 00:00:16.382
+Here, say one margin pool holds 1,000.
+
+00:00:16.382 --> 00:00:21.330
+Several positions may depend on it, not just on what each was first assigned.
+
+00:00:39.250 --> 00:00:42.974
+One losing position can eat the buffer other positions rely on.
+
+00:00:42.974 --> 00:00:45.634
+Profits, losses, margin held for open orders,
+
+00:00:45.634 --> 00:00:49.890
+and the value of your collateral can all affect the same account's risk.
+
+00:01:15.250 --> 00:01:19.370
+So cross margin is harder to liquidate, which makes it safer?
+
+00:01:19.670 --> 00:01:22.731
+Extra money can delay when one position hits risk handling.
+
+00:01:22.731 --> 00:01:26.000
+But it also puts more of your money on the line for the losses.
+
+00:01:46.250 --> 00:01:50.893
+Cross margin doesn't let a platform automatically use all your bank cards or personal wallets.
+
+00:01:50.893 --> 00:01:54.103
+Which accounts and collateral count depends on the product rules.
+
+00:01:54.103 --> 00:01:57.560
+Complex collateral can also come with haircuts and its own price risk.
+
+00:02:10.250 --> 00:02:14.890
+Not necessarily. It depends on the shared pool and the account rules.
+
+00:02:15.190 --> 00:02:18.320
+Look at the whole pool, not just one position's box.
+
+00:02:26.250 --> 00:02:29.803
+The price you watch hasn't hit the line, but the alarm is ringing.
+
+00:02:29.803 --> 00:02:32.010
+Next: who presses the liquidation button.
+
+00:02:32.550 --> 00:02:34.570
+Understand first, then act.

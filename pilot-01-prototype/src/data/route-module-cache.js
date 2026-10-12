@@ -1,3 +1,6 @@
+import { academyContentModulePath } from "./academy.js";
+import { parsePublicRoute } from "./locale-routing.js";
+
 const routeModuleEntries = new Map();
 
 export const ROUTE_MODULE_PATHS = Object.freeze({
@@ -47,9 +50,19 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   // Tool page -> related articles block (links-l10n lane 2026-10-11). Not preloaded: it sits in its own Suspense
   // boundary below the tool, so React keeps the server HTML until the chunk arrives and then hydrates it.
   toolArticles: "./components/shared/ToolArticleLinks.jsx",
+  // Academy hub + lesson pages (2026-10-12). Their lesson content is a second module per locale (academyContentModulePath).
+  academy: "./components/academy/AcademyPages.jsx",
 });
 
 export const DEFERRED_ROUTE_MODULE_PATHS = Object.freeze(Object.values(ROUTE_MODULE_PATHS));
+
+// Locale of a bootstrap/browser URL: ?locale= (hydration render URL) or the path prefix (/zh-hans/academy).
+function urlLocale(sourceUrl) {
+  try {
+    const url = new URL(sourceUrl || "/", "https://nexualpha.com");
+    return url.searchParams.get("locale") || parsePublicRoute(url.pathname, url.searchParams).locale || "en";
+  } catch { return "en"; }
+}
 
 export function registerRouteModuleLoaders(loaders = {}) {
   for (const [path, loader] of Object.entries(loaders)) {
@@ -120,6 +133,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "newsList") return [ROUTE_MODULE_PATHS.newsList];
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
+  if (name === "academyHub" || name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];
   if (name === "venue") return [ROUTE_MODULE_PATHS.venueDetail];
   if (["activity", "activities", "compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
   if (name === "activityUpdate") return [ROUTE_MODULE_PATHS.activityUpdate];

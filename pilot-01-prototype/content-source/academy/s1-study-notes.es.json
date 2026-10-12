@@ -1,0 +1,413 @@
+{
+  "locale": "es",
+  "episodes": {
+    "1": {
+      "takeaways": [
+        "El precio de un bitcoin no es lo que cuesta empezar.",
+        "El bitcoin se divide en decimales: si gastas 100 a 50,000, tienes 0.002 BTC.",
+        "Cada plataforma fija su propia orden mínima y sus comisiones, así que revisa ambas primero."
+      ],
+      "quiz": {
+        "q": "Un bitcoin vale 50,000 USDT. Gastas 100 USDT, sin contar comisiones. ¿Qué obtienes?",
+        "options": [
+          "Nada, necesitas una moneda entera",
+          "0.002 BTC",
+          "0.02 BTC"
+        ],
+        "answer": 1,
+        "why": "100 ÷ 50,000 = 0.002. Puedes tener una fracción de un bitcoin."
+      }
+    },
+    "2": {
+      "takeaways": [
+        "USDT es una stablecoin diseñada para mantenerse cerca de un dólar, no un depósito bancario.",
+        "Los exchanges la usan para dar precio a los activos e intercambiarlos, así que una venta suele terminar en USDT.",
+        "\"Estable\" es un objetivo de diseño: el precio puede desviarse y el reembolso tiene condiciones."
+      ],
+      "quiz": {
+        "q": "¿Qué afirmación sobre USDT es verdadera?",
+        "options": [
+          "Son los dólares de tu cuenta bancaria",
+          "Es una stablecoin, un tipo de criptoactivo",
+          "Nunca puede alejarse de un dólar"
+        ],
+        "answer": 1,
+        "why": "USDT busca seguir al dólar, pero es un criptoactivo con riesgos propios de su emisor y de las plataformas."
+      }
+    },
+    "3": {
+      "takeaways": [
+        "En una cuenta de exchange, la plataforma gestiona principalmente los activos y las claves.",
+        "En una billetera de autocustodia tú controlas las credenciales, y la responsabilidad de recuperarlas es tuya.",
+        "Antes de elegir, pregúntate quién controla el permiso para mover los activos."
+      ],
+      "quiz": {
+        "q": "Pierdes la frase de recuperación de una billetera de autocustodia estándar y no tienes otro método de recuperación. ¿Qué pasa?",
+        "options": [
+          "Soporte puede restablecerla por ti",
+          "Puedes perder el acceso para siempre",
+          "El exchange la restaura automáticamente"
+        ],
+        "answer": 1,
+        "why": "En la autocustodia tú tienes las claves. Sin la frase u otro método válido, nadie puede recuperarla por ti."
+      }
+    },
+    "4": {
+      "takeaways": [
+        "Antes que nada, comprueba que la plataforma atiende a tu país real.",
+        "Regístrate solo por la entrada oficial confirmada, con tu propio correo o teléfono.",
+        "Justo después de registrarte, activa las funciones de seguridad y guarda tus opciones de recuperación."
+      ],
+      "quiz": {
+        "q": "¿Qué debes confirmar primero, antes de registrarte?",
+        "options": [
+          "El tamaño del bono de bienvenida",
+          "Que la plataforma atiende a tu país y que la entrada es oficial",
+          "Cuántos seguidores tiene la plataforma"
+        ],
+        "answer": 1,
+        "why": "La elegibilidad y la entrada oficial van primero. Un bono nunca debería decidir dónde abres una cuenta."
+      }
+    },
+    "5": {
+      "takeaways": [
+        "El KYC confirma que eres el titular de la cuenta y ayuda a la plataforma a cumplir las normas.",
+        "Envía tu documento de identidad solo dentro del proceso oficial de verificación, nunca en un chat.",
+        "Si falla, lee el motivo, corrígelo y vuelve a intentarlo con tu identidad real."
+      ],
+      "quiz": {
+        "q": "¿Quién debería recibir tu documento de identidad?",
+        "options": [
+          "Un \"agente\" amable en un grupo de chat",
+          "Solo el proceso oficial de verificación comprobado",
+          "El chat del curso, para que otros lo revisen"
+        ],
+        "answer": 1,
+        "why": "Solo el proceso oficial. NexuAlpha nunca te pide tu documento, y un desconocido tampoco debería hacerlo."
+      }
+    },
+    "6": {
+      "takeaways": [
+        "Un depósito en moneda fiat, comprar cripto, un depósito on-chain y una transferencia interna son rutas distintas.",
+        "Los depósitos on-chain necesitan una moneda y una red compatibles; las transferencias internas se quedan en la plataforma.",
+        "Nunca le pagues a un desconocido fuera de la plataforma; primero comprueba dónde llegará el saldo."
+      ],
+      "quiz": {
+        "q": "Mueves USDT de tu cuenta de fondos a tu cuenta de trading en la misma plataforma. ¿Qué es eso?",
+        "options": [
+          "Un depósito on-chain",
+          "Una transferencia interna",
+          "Un depósito fiat"
+        ],
+        "answer": 1,
+        "why": "Solo mueve saldo entre tus propias cuentas. Normalmente no es una transferencia on-chain."
+      }
+    },
+    "7": {
+      "takeaways": [
+        "BTC/USDT significa bitcoin cotizado en USDT: pagas USDT y recibes bitcoin.",
+        "Fíjate si la casilla de la orden pide una cantidad de dinero o un número de monedas.",
+        "Después de comprar, revisa el registro de la operación: estado de ejecución, precio promedio y comisión."
+      ],
+      "quiz": {
+        "q": "Compras 0.002 BTC a 50,000 con una comisión del 0.1% cobrada aparte en USDT. ¿Cuánto gastas en total?",
+        "options": [
+          "100",
+          "100.10",
+          "110"
+        ],
+        "answer": 1,
+        "why": "100 por las monedas más 0.10 de comisión dan 100.10."
+      }
+    },
+    "8": {
+      "takeaways": [
+        "Vender por USDT te da un saldo en USDT, no dinero en tu banco.",
+        "Vender y retirar a tu banco son dos pasos separados.",
+        "Un precio más alto no es tu ganancia neta: primero resta todas las comisiones."
+      ],
+      "quiz": {
+        "q": "Vendiste tu bitcoin por USDT. ¿Dónde está el dinero ahora?",
+        "options": [
+          "En tu cuenta bancaria",
+          "Como saldo en USDT en la plataforma",
+          "Ya convertido a tu moneda local"
+        ],
+        "answer": 1,
+        "why": "Recibiste USDT. Llevar el dinero a tu banco es un paso de retiro aparte."
+      }
+    },
+    "9": {
+      "takeaways": [
+        "Antes de enviar, confirma la moneda y la red que admite el receptor.",
+        "Copia la dirección desde la página de recepción, revísala completa y agrega cualquier memo o etiqueta.",
+        "Primero envía una pequeña prueba y confirma que se acreditó."
+      ],
+      "quiz": {
+        "q": "La página de recepción pide un memo. ¿Qué haces?",
+        "options": [
+          "Lo omito, la dirección basta",
+          "Completo el memo exactamente como aparece",
+          "Uso el memo de una transferencia anterior"
+        ],
+        "answer": 1,
+        "why": "Si se requiere un memo o etiqueta, la transferencia puede no acreditarse sin él."
+      }
+    },
+    "10": {
+      "takeaways": [
+        "Enviado, en cadena y acreditado son tres estaciones distintas.",
+        "Usa el hash de la transacción en un explorador de bloques de la red correcta.",
+        "Comparte registros con el soporte oficial, nunca tu frase de recuperación, tu clave privada ni tus códigos."
+      ],
+      "quiz": {
+        "q": "Tu transferencia dice \"enviado\" pero no ha llegado. ¿Cuál es el primer paso?",
+        "options": [
+          "Enviar otra vez la misma cantidad",
+          "Buscar dónde está atascada con el registro y el hash de la transacción",
+          "Pagarle a alguien que promete recuperarla"
+        ],
+        "answer": 1,
+        "why": "Primero encuentra la estación y luego contacta el canal oficial correspondiente. No sigas enviando."
+      }
+    },
+    "11": {
+      "takeaways": [
+        "Tu frase de recuperación y tu clave privada son llaves de control, no códigos de soporte.",
+        "Los rendimientos garantizados y la presión para pagar son señales de peligro.",
+        "Nunca confirmes una firma o autorización que no entiendas."
+      ],
+      "quiz": {
+        "q": "¿Qué es seguro compartir para recibir un pago?",
+        "options": [
+          "Tu dirección pública",
+          "Tu frase de recuperación",
+          "Un código de un solo uso"
+        ],
+        "answer": 0,
+        "why": "Una dirección pública está hecha para recibir. Los secretos y los códigos entregan el control."
+      }
+    },
+    "12": {
+      "takeaways": [
+        "La meta es un flujo correcto: entrada y elegibilidad, spot, monto y comisión, y luego el registro.",
+        "Detener una transferencia poco clara también es una respuesta correcta.",
+        "Tu certificado es un registro de aprendizaje, no una licencia para invertir."
+      ],
+      "quiz": {
+        "q": "Una transferencia de práctica muestra la red equivocada. ¿Qué es lo correcto?",
+        "options": [
+          "Enviarla igual y esperar lo mejor",
+          "Detenerte y no enviarla",
+          "Cambiar a un monto mayor"
+        ],
+        "answer": 1,
+        "why": "Cuando la red, las comisiones o la identidad no están claras, detenerte importa más que terminar la tarea."
+      }
+    },
+    "13": {
+      "takeaways": [
+        "El último precio es la operación más reciente, no una oferta para cualquier tamaño.",
+        "Las órdenes más grandes pueden ejecutarse en varios niveles del libro de órdenes.",
+        "El deslizamiento y la comisión de trading son costos separados: revisa la cuenta."
+      ],
+      "quiz": {
+        "q": "La mitad de tus 0.002 BTC se ejecuta a 50,000 y la otra mitad a 50,100. ¿Cuál es tu precio promedio?",
+        "options": [
+          "50,000",
+          "50,050",
+          "50,100"
+        ],
+        "answer": 1,
+        "why": "Dos mitades iguales promedian 50,050. La comisión es un costo aparte."
+      }
+    },
+    "14": {
+      "takeaways": [
+        "Una orden de mercado se ejecuta rápido a los precios disponibles ahora; el precio final puede moverse.",
+        "Una orden límite pone un tope a tu precio, pero puede no ejecutarse.",
+        "Cancelar solo afecta la parte no ejecutada; lo que ya se ejecutó se queda."
+      ],
+      "quiz": {
+        "q": "Tu orden límite está ejecutada a la mitad y la cancelas. ¿Qué pasa?",
+        "options": [
+          "Todo se revierte",
+          "Solo se cancela la mitad no ejecutada",
+          "La mitad ejecutada se convierte en orden de mercado"
+        ],
+        "answer": 1,
+        "why": "Cancelar no puede deshacer una ejecución. Solo detiene la cantidad restante."
+      }
+    },
+    "15": {
+      "takeaways": [
+        "Una vela muestra cuatro precios de un periodo: apertura, máximo, mínimo y cierre.",
+        "Lee la temporalidad antes que la forma: cinco minutos no son un día.",
+        "Los colores cambian entre apps, y una vela es un registro, no una predicción."
+      ],
+      "quiz": {
+        "q": "Una vela de cinco minutos abre en 50,000, sube a 51,000, baja a 49,000 y cierra en 50,500. ¿Cuál es el máximo?",
+        "options": [
+          "50,500",
+          "51,000",
+          "49,000"
+        ],
+        "answer": 1,
+        "why": "La punta de la mecha superior es el precio más alto de ese periodo: 51,000."
+      }
+    },
+    "16": {
+      "takeaways": [
+        "El saldo de la cuenta, el tamaño de la posición y el riesgo planeado son tres números distintos.",
+        "Decide primero tu salida y luego dimensiona la posición.",
+        "Con un stop del 5% y un presupuesto de riesgo de 20, la posición es de unos 400."
+      ],
+      "quiz": {
+        "q": "Entrada 50,000, salida planeada 47,500 y aceptas perder 20. ¿De qué tamaño es la posición, aproximadamente?",
+        "options": [
+          "20",
+          "400",
+          "4,000"
+        ],
+        "answer": 1,
+        "why": "La salida está a un 5% de distancia, y el 5% de 400 es 20. Los costos van aparte."
+      }
+    },
+    "17": {
+      "takeaways": [
+        "Un stop-loss ejecuta tu plan de salida; no es un seguro.",
+        "Un stop de mercado sale rápido, pero puede sufrir deslizamiento en un mercado veloz.",
+        "Un stop límite pone un tope al precio, pero puede no ejecutarse en absoluto."
+      ],
+      "quiz": {
+        "q": "En una caída brusca, ¿qué le puede pasar a una orden stop límite?",
+        "options": [
+          "Siempre se ejecuta al precio de activación",
+          "Puede no ejecutarse si el precio pasa de largo",
+          "Se convierte en un seguro"
+        ],
+        "answer": 1,
+        "why": "El límite protege tu precio, así que la orden puede quedar sin ejecutar cuando el mercado se mueve rápido."
+      }
+    },
+    "18": {
+      "takeaways": [
+        "El spot cambia un activo por otro; un perpetuo es una posición en un contrato.",
+        "Una posición larga gana si el precio sube, una corta gana si baja; el lado equivocado pierde.",
+        "Los futuros son otra estructura de riesgo, no un nivel que tengas que alcanzar."
+      ],
+      "quiz": {
+        "q": "¿Una posición de futuros te da bitcoin que puedes retirar?",
+        "options": [
+          "Sí, es lo mismo que el spot",
+          "No, es un contrato que liquida ganancias y pérdidas",
+          "Solo con apalancamiento 10x"
+        ],
+        "answer": 1,
+        "why": "Un perpetuo lineal liquida las ganancias y pérdidas dentro del contrato. No es un saldo de monedas que puedas retirar."
+      }
+    },
+    "19": {
+      "takeaways": [
+        "100 de margen que controlan una posición de 1,000 es un apalancamiento de 10x.",
+        "Los movimientos de precio actúan sobre la posición, y tu margen recibe el resultado.",
+        "Con el mismo tamaño de posición, cambiar el apalancamiento cambia el margen, no las ganancias y pérdidas."
+      ],
+      "quiz": {
+        "q": "Una posición de 1,000 se mueve un 1% en tu contra, sin contar comisiones. ¿Cuánto pierdes, aproximadamente?",
+        "options": [
+          "1",
+          "10",
+          "100"
+        ],
+        "answer": 1,
+        "why": "El 1% de la posición de 1,000 es unos 10, que salen de tu margen."
+      }
+    },
+    "20": {
+      "takeaways": [
+        "El margen inicial abre una posición; el margen de mantenimiento la mantiene abierta.",
+        "El patrimonio es el margen más o menos el resultado abierto: 100 con una pérdida de 20 deja 80.",
+        "El sistema de riesgo puede intervenir antes de que tu margen llegue a cero."
+      ],
+      "quiz": {
+        "q": "El margen inicial es 100 y la posición pierde 20, sin contar comisiones. ¿Cuál es el patrimonio simplificado?",
+        "options": [
+          "100",
+          "80",
+          "120"
+        ],
+        "answer": 1,
+        "why": "100 menos la pérdida de 20 deja 80, y el colchón sigue reduciéndose si el precio se mueve más en tu contra."
+      }
+    },
+    "21": {
+      "takeaways": [
+        "El margen aislado le da a una posición su propio margen.",
+        "El margen que asignaste igual se puede perder; aislado no es un stop-loss.",
+        "Añadir margen de forma automática o manual pone más de tu dinero detrás del mismo riesgo."
+      ],
+      "quiz": {
+        "q": "Activas la adición automática de margen en una posición aislada. ¿Qué cambia?",
+        "options": [
+          "Nada, la pérdida sigue limitada a los primeros 100",
+          "Más de tu saldo puede pasar a la posición",
+          "La posición queda libre de riesgo"
+        ],
+        "answer": 1,
+        "why": "La adición automática mueve saldo disponible a la posición, así que más dinero carga con el riesgo."
+      }
+    },
+    "22": {
+      "takeaways": [
+        "El margen cruzado comparte un solo fondo de margen entre posiciones.",
+        "Una posición perdedora puede consumir el colchón del que dependen las demás.",
+        "No llega a tus tarjetas bancarias ni a tus billeteras personales."
+      ],
+      "quiz": {
+        "q": "¿El margen cruzado es automáticamente más seguro?",
+        "options": [
+          "Sí, nunca puede ser liquidado",
+          "No necesariamente, depende del fondo compartido y de las reglas",
+          "Sí, usa todas tus tarjetas bancarias"
+        ],
+        "answer": 1,
+        "why": "El margen extra puede retrasar la gestión del riesgo, pero también pone en juego más de tu dinero."
+      }
+    },
+    "23": {
+      "takeaways": [
+        "Muchos perpetuos determinan la liquidación según el precio de marca y las reglas de margen, no la última operación.",
+        "Cerca del requisito de mantenimiento, el sistema puede reducir o cerrar la posición.",
+        "Una posición cerrada no vuelve cuando el precio rebota."
+      ],
+      "quiz": {
+        "q": "Una posición apalancada fue liquidada y después el precio volvió a subir. ¿Qué pasa?",
+        "options": [
+          "La posición vuelve sola",
+          "Sigue cerrada; el camino importó",
+          "El exchange devuelve la pérdida"
+        ],
+        "answer": 1,
+        "why": "Una vez cerrada a la fuerza, la posición desaparece. Un rebote posterior solo ayuda a quien todavía mantiene la suya."
+      }
+    },
+    "24": {
+      "takeaways": [
+        "La financiación se paga entre largos y cortos; no es un cargo fijo del exchange.",
+        "Se basa en el valor de la posición: 1,000 al 0.01% es 0.10.",
+        "Decidir no operar también es una respuesta aprobada."
+      ],
+      "quiz": {
+        "q": "La tasa de financiación es positiva. ¿Quién suele pagar?",
+        "options": [
+          "Los cortos pagan a los largos",
+          "Los largos pagan a los cortos",
+          "Todos le pagan al exchange"
+        ],
+        "answer": 1,
+        "why": "Con una tasa positiva, los largos suelen pagar a los cortos. Con una tasa negativa, se invierte."
+      }
+    }
+  }
+}

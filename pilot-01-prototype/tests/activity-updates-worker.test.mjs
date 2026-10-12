@@ -281,14 +281,14 @@ test("archived activity updates resolve from the shipped archive asset when INTE
   assert.equal(prerenderState(await response.text()).officialAnnouncements.items.find((row) => row.id === archivedEvent.id).archived, true);
 });
 
-test("retired /starter links 301 to the localized Telegram hub (it never existed as a page)", async () => {
+test("retired /starter links 301 to the localized academy (新手村 is NexuAlpha Academy since 2026-10-12)", async () => {
   const env = { ASSETS: assets };
   const en = await worker.fetch(new Request("https://nexualpha.com/starter?market=JP"), env);
   assert.equal(en.status, 301);
-  assert.equal(en.headers.get("location"), "https://nexualpha.com/telegram?market=JP");
+  assert.equal(en.headers.get("location"), "https://nexualpha.com/academy?market=JP");
   const zh = await worker.fetch(new Request("https://nexualpha.com/zh-hans/starter"), env);
   assert.equal(zh.status, 301);
-  assert.equal(zh.headers.get("location"), "https://nexualpha.com/zh-hans/telegram");
+  assert.equal(zh.headers.get("location"), "https://nexualpha.com/zh-hans/academy");
 });
 
 test("/sitemap-updates.xml lists live and archived-within-180-days indexable updates only", async () => {
@@ -364,7 +364,7 @@ test('request-time update SSR and hydration retain the blocked market gate', asy
     assert.doesNotMatch(article, /data-cta-kind="registration"|data-cta-code=|40%/);
     assert.ok(article.includes(`${updatePath(delisting)}?market=JP`));
     assert.ok(article.includes('href="/activities?market=JP"'));
-    assert.ok(article.includes('href="/telegram?market=JP"'));
+    assert.ok(article.includes('href="/academy?market=JP"'), 'starter guide (新手村) keeps the market');
     const result = await hydrateInJsdom(harness.vite, html, pageUrl);
     assert.deepEqual(hydrationErrors(result.errors), []);
   } finally { await harness.close(); }

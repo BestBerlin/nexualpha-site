@@ -1,0 +1,317 @@
+{
+  "locale": "tr",
+  "episodes": {
+    "1": {
+      "takeaways": [
+        "Bir bitcoinin fiyatı, başlamanın fiyatı değildir.",
+        "Bitcoin ondalıklara bölünür: 50,000 fiyattan 100 harcarsanız 0.002 BTC'ye sahip olursunuz.",
+        "Her platform kendi minimum emir tutarını ve ücretlerini belirler, önce ikisini de kontrol edin."
+      ],
+      "quiz": {
+        "q": "Bir bitcoin 50,000 USDT. Ücretleri yok sayarak 100 USDT harcıyorsunuz. Ne alırsınız?",
+        "options": ["Hiçbir şey, tam bir coin gerekir", "0.002 BTC", "0.02 BTC"],
+        "answer": 1,
+        "why": "100 ÷ 50,000 = 0.002. Bir bitcoinin bir kısmına sahip olabilirsiniz."
+      }
+    },
+    "2": {
+      "takeaways": [
+        "USDT, bir dolara yakın kalmak üzere tasarlanmış bir stablecoin'dir; banka mevduatı değildir.",
+        "Borsalar varlıkları fiyatlamak ve takas etmek için onu kullanır, bu yüzden bir satış çoğu zaman USDT ile sonuçlanır.",
+        "\"Stabil\" bir tasarım hedefidir: fiyat sapabilir ve geri ödemenin koşulları vardır."
+      ],
+      "quiz": {
+        "q": "USDT hakkında hangi ifade doğrudur?",
+        "options": ["Banka hesabınızdaki dolarlardır", "Bir stablecoin'dir, yani bir tür kripto varlıktır", "Bir dolardan asla uzaklaşamaz"],
+        "answer": 1,
+        "why": "USDT doları takip etmeyi amaçlar, ancak kendi ihraççı ve platform riskleri olan bir kripto varlıktır."
+      }
+    },
+    "3": {
+      "takeaways": [
+        "Borsa hesabında varlıkları ve anahtarları esas olarak platform yönetir.",
+        "Kendi kendine saklama (self-custody) cüzdanında giriş bilgilerini siz kontrol edersiniz ve kurtarma sorumluluğu sizdedir.",
+        "Seçim yapmadan önce, varlıkları taşıma yetkisini kimin kontrol ettiğini sorun."
+      ],
+      "quiz": {
+        "q": "Standart bir kendi kendine saklama cüzdanının kurtarma ifadesini kaybettiniz ve başka bir kurtarma yönteminiz yok. Ne olur?",
+        "options": ["Destek ekibi sizin için sıfırlayabilir", "Erişim kalıcı olarak kaybedilebilir", "Borsa onu otomatik olarak geri yükler"],
+        "answer": 1,
+        "why": "Kendi kendine saklamada anahtarlar sizdedir. İfade veya geçerli başka bir yöntem olmadan kimse onu sizin için kurtaramaz."
+      }
+    },
+    "4": {
+      "takeaways": [
+        "Her şeyden önce platformun gerçekten yaşadığınız ülkeye hizmet verdiğini kontrol edin.",
+        "Yalnızca doğrulanmış resmi giriş üzerinden, kendi e-postanız veya telefonunuzla kaydolun.",
+        "Kayıttan hemen sonra güvenlik özelliklerini açın ve kurtarma seçeneklerinizi kaydedin."
+      ],
+      "quiz": {
+        "q": "Kaydolmadan önce ilk olarak neyi doğrulamalısınız?",
+        "options": ["Hoş geldin ödülünün büyüklüğünü", "Platformun ülkenize hizmet verdiğini ve girişin resmi olduğunu", "Platformun kaç takipçisi olduğunu"],
+        "answer": 1,
+        "why": "Uygunluk ve resmi giriş önce gelir. Bir ödül, hesabınızı nerede açacağınıza asla karar vermemelidir."
+      }
+    },
+    "5": {
+      "takeaways": [
+        "KYC, hesap sahibinin siz olduğunuzu doğrular ve platformun kurallara uymasına yardımcı olur.",
+        "Kimliğinizi yalnızca resmi doğrulama akışı içinde gönderin, asla bir sohbette değil.",
+        "Başarısız olursa nedenini okuyun, düzeltin ve gerçek kimliğinizle tekrar deneyin."
+      ],
+      "quiz": {
+        "q": "Kimliğinizi kim almalı?",
+        "options": ["Bir sohbet grubundaki yardımsever bir \"temsilci\"", "Yalnızca doğrulanmış resmi doğrulama akışı", "Başkaları kontrol edebilsin diye kurs sohbeti"],
+        "answer": 1,
+        "why": "Yalnızca resmi akış. NexuAlpha kimliğinizi asla istemez, bir yabancı da istememelidir."
+      }
+    },
+    "6": {
+      "takeaways": [
+        "İtibari para yatırma, kripto satın alma, zincir üstü yatırma ve dahili transfer farklı yollardır.",
+        "Zincir üstü yatırmalar desteklenen bir coin ve ağ gerektirir; dahili transferler platformda kalır.",
+        "Platform dışında bir yabancıya asla ödeme yapmayın; önce bakiyenin nereye düşeceğini kontrol edin."
+      ],
+      "quiz": {
+        "q": "Aynı platformda USDT'yi fonlama hesabınızdan işlem hesabınıza taşıyorsunuz. Bu nedir?",
+        "options": ["Zincir üstü yatırma", "Dahili transfer", "İtibari para yatırma"],
+        "answer": 1,
+        "why": "Yalnızca kendi hesaplarınız arasında bakiye taşır. Genellikle zincir üstü bir transfer değildir."
+      }
+    },
+    "7": {
+      "takeaways": [
+        "BTC/USDT, USDT cinsinden fiyatlanan bitcoin demektir: USDT ödersiniz, bitcoin alırsınız.",
+        "Emir kutusunun bir para tutarı mı yoksa coin adedi mi istediğini kontrol edin.",
+        "Aldıktan sonra işlem kaydını kontrol edin: gerçekleşme durumu, ortalama fiyat ve ücret."
+      ],
+      "quiz": {
+        "q": "50,000 fiyattan 0.002 BTC alıyorsunuz; 0.1% ücret USDT olarak ayrıca kesiliyor. Toplam harcama nedir?",
+        "options": ["100", "100.10", "110"],
+        "answer": 1,
+        "why": "Coinler için 100 artı 0.10 ücret, 100.10 eder."
+      }
+    },
+    "8": {
+      "takeaways": [
+        "USDT karşılığında satmak size USDT bakiyesi verir, bankanızda para değil.",
+        "Satmak ve bankanıza çekmek iki ayrı adımdır.",
+        "Daha yüksek fiyat net kazancınız değildir: önce tüm ücretleri düşün."
+      ],
+      "quiz": {
+        "q": "Bitcoininizi USDT karşılığında sattınız. Para şimdi nerede?",
+        "options": ["Banka hesabınızda", "Platformda USDT bakiyesi olarak", "Çoktan yerel para biriminize çevrildi"],
+        "answer": 1,
+        "why": "USDT aldınız. Paranın bankanıza ulaşması ayrı bir çekme adımıdır."
+      }
+    },
+    "9": {
+      "takeaways": [
+        "Göndermeden önce alıcının desteklediği coin'i ve ağı doğrulayın.",
+        "Adresi alıcı sayfasından kopyalayın, tamamını kontrol edin ve gereken memo veya tag'i ekleyin.",
+        "Önce küçük bir test gönderin ve hesaba geçtiğini doğrulayın."
+      ],
+      "quiz": {
+        "q": "Alıcı sayfası bir memo istiyor. Ne yaparsınız?",
+        "options": ["Atlarım, adres yeterli", "Memo'yu tam olarak gösterildiği gibi girerim", "Eski bir transferdeki memo'yu kullanırım"],
+        "answer": 1,
+        "why": "Memo veya tag gerekiyorsa, transfer onsuz hesaba geçmeyebilir."
+      }
+    },
+    "10": {
+      "takeaways": [
+        "Gönderildi, zincirde ve hesaba geçti üç farklı duraktır.",
+        "İşlem hash'ini doğru ağın blok gezgininde kullanın.",
+        "Kayıtları resmi destekle paylaşın; kurtarma ifadenizi, özel anahtarınızı veya kodlarınızı asla paylaşmayın."
+      ],
+      "quiz": {
+        "q": "Transferiniz \"gönderildi\" diyor ama ulaşmadı. İlk adım nedir?",
+        "options": ["Aynı tutarı tekrar göndermek", "Kaydı ve işlem hash'ini kullanarak nerede takıldığını bulmak", "Kurtarmayı vaat eden birine ödeme yapmak"],
+        "answer": 1,
+        "why": "Önce durağı bulun, sonra ilgili resmi kanala başvurun. Göndermeye devam etmeyin."
+      }
+    },
+    "11": {
+      "takeaways": [
+        "Kurtarma ifadeniz ve özel anahtarınız kontrol anahtarlarıdır, destek kodu değildir.",
+        "Garantili getiriler ve ödeme yapmanız için baskı tehlike işaretleridir.",
+        "Anlamadığınız bir imzayı veya onayı asla onaylamayın."
+      ],
+      "quiz": {
+        "q": "Ödeme alabilmek için hangisini paylaşmak güvenlidir?",
+        "options": ["Açık (public) adresiniz", "Kurtarma ifadeniz", "Tek kullanımlık bir kod"],
+        "answer": 0,
+        "why": "Açık adres, almak için yapılmıştır. Gizli bilgiler ve kodlar kontrolü başkasına verir."
+      }
+    },
+    "12": {
+      "takeaways": [
+        "Hedef doğru bir akıştır: giriş ve uygunluk, spot, tutar ve ücret, ardından kayıt.",
+        "Belirsiz bir transferi durdurmak da doğru bir cevaptır.",
+        "Sertifikanız bir öğrenme kaydıdır, yatırım ehliyeti değildir."
+      ],
+      "quiz": {
+        "q": "Bir alıştırma transferi yanlış ağı gösteriyor. Doğru hamle nedir?",
+        "options": ["Yine de gönderip umut etmek", "Durmak ve göndermemek", "Daha büyük bir tutara geçmek"],
+        "answer": 1,
+        "why": "Ağ, ücretler veya kimlik belirsiz olduğunda, durmak görevi bitirmekten daha önemlidir."
+      }
+    },
+    "13": {
+      "takeaways": [
+        "Son fiyat en son gerçekleşen işlemdir, her büyüklük için geçerli bir teklif değildir.",
+        "Daha büyük emirler emir defterinin birkaç seviyesinde gerçekleşebilir.",
+        "Kayma (slippage) ve işlem ücreti ayrı maliyetlerdir: faturayı kontrol edin."
+      ],
+      "quiz": {
+        "q": "0.002 BTC'nizin yarısı 50,000'den, diğer yarısı 50,100'den gerçekleşiyor. Ortalama fiyatınız nedir?",
+        "options": ["50,000", "50,050", "50,100"],
+        "answer": 1,
+        "why": "İki eşit yarının ortalaması 50,050'dir. Ücret bunun üzerine ayrı bir maliyettir."
+      }
+    },
+    "14": {
+      "takeaways": [
+        "Piyasa emri şu an mevcut fiyatlardan hızla gerçekleşir; nihai fiyat kayabilir.",
+        "Limit emir fiyatınıza sınır koyar, ancak gerçekleşmeyebilir.",
+        "İptal yalnızca gerçekleşmemiş kısmı etkiler; gerçekleşen kısım kalır."
+      ],
+      "quiz": {
+        "q": "Limit emrinizin yarısı gerçekleşti ve emri iptal ettiniz. Ne olur?",
+        "options": ["Her şey geri alınır", "Yalnızca gerçekleşmemiş yarı iptal edilir", "Gerçekleşen yarı piyasa emrine dönüşür"],
+        "answer": 1,
+        "why": "İptal, gerçekleşmiş bir işlemi geri saramaz. Yalnızca kalan miktarı durdurur."
+      }
+    },
+    "15": {
+      "takeaways": [
+        "Bir mum, bir dönem için dört fiyat gösterir: açılış, en yüksek, en düşük ve kapanış.",
+        "Şekilden önce zaman dilimini okuyun: beş dakika bir gün değildir.",
+        "Renkler uygulamadan uygulamaya değişir ve tek bir mum bir kayıttır, tahmin değildir."
+      ],
+      "quiz": {
+        "q": "Beş dakikalık bir mum 50,000'den açılıyor, 51,000'e çıkıyor, 49,000'e iniyor ve 50,500'den kapanıyor. En yüksek fiyat nedir?",
+        "options": ["50,500", "51,000", "49,000"],
+        "answer": 1,
+        "why": "Üst fitilin tepesi o dönemdeki en yüksek fiyattır: 51,000."
+      }
+    },
+    "16": {
+      "takeaways": [
+        "Hesap bakiyesi, pozisyon büyüklüğü ve planlanan risk üç farklı sayıdır.",
+        "Önce çıkışınıza karar verin, sonra pozisyonu boyutlandırın.",
+        "5% stop ve 20'lik risk bütçesiyle pozisyon yaklaşık 400 olur."
+      ],
+      "quiz": {
+        "q": "Giriş 50,000, planlanan çıkış 47,500 ve 20 kaybetmeyi kabul ediyorsunuz. Pozisyon yaklaşık ne kadar büyük?",
+        "options": ["20", "400", "4,000"],
+        "answer": 1,
+        "why": "Çıkış 5% uzakta ve 400'ün 5%'i 20'dir. Maliyetler bunun üzerine eklenir."
+      }
+    },
+    "17": {
+      "takeaways": [
+        "Zarar durdur (stop-loss) çıkış planınızı uygular; sigorta değildir.",
+        "Stop-market hızla çıkar ama hızlı bir piyasada kayabilir.",
+        "Stop-limit fiyatı sınırlar ama hiç gerçekleşmeyebilir."
+      ],
+      "quiz": {
+        "q": "Sert bir düşüşte bir stop-limit emre ne olabilir?",
+        "options": ["Her zaman tetik fiyatından gerçekleşir", "Fiyat hızla geçip giderse gerçekleşmeyebilir", "Sigortaya dönüşür"],
+        "answer": 1,
+        "why": "Limit fiyatınızı korur, bu yüzden piyasa hızlı hareket ettiğinde emir gerçekleşmeden kalabilir."
+      }
+    },
+    "18": {
+      "takeaways": [
+        "Spot bir varlığı başka bir varlıkla takas eder; perpetual ise bir sözleşme pozisyonudur.",
+        "Long, fiyat yükselirse kazanır; short, fiyat düşerse kazanır; yanlış taraf kaybeder.",
+        "Vadeli işlemler farklı bir risk yapısıdır, ulaşmanız gereken bir seviye değildir."
+      ],
+      "quiz": {
+        "q": "Bir vadeli işlem pozisyonu size çekebileceğiniz bitcoin verir mi?",
+        "options": ["Evet, spot ile aynıdır", "Hayır, kâr ve zararı uzlaştıran bir sözleşmedir", "Yalnızca 10x kaldıraçla"],
+        "answer": 1,
+        "why": "Doğrusal bir perpetual, kâr ve zararı sözleşme içinde uzlaştırır. Çekilebilir bir coin bakiyesi değildir."
+      }
+    },
+    "19": {
+      "takeaways": [
+        "1,000'lik bir pozisyonu kontrol eden 100 teminat, 10x kaldıraçtır.",
+        "Fiyat hareketleri pozisyona etki eder, sonucu teminatınız üstlenir.",
+        "Aynı pozisyon büyüklüğünde kaldıracı değiştirmek teminatı değiştirir, kâr/zararı değil."
+      ],
+      "quiz": {
+        "q": "1,000'lik bir pozisyon, ücretler hariç, aleyhinize 1% hareket ediyor. Yaklaşık ne kadar kaybedersiniz?",
+        "options": ["1", "10", "100"],
+        "answer": 1,
+        "why": "1,000'lik pozisyonun 1%'i yaklaşık 10'dur ve teminatınızdan düşülür."
+      }
+    },
+    "20": {
+      "takeaways": [
+        "Başlangıç teminatı pozisyonu açar; sürdürme teminatı onu açık tutar.",
+        "Özkaynak, teminat artı veya eksi açık sonuçtur: 100'den 20 düşünce 80 kalır.",
+        "Risk sistemi, teminatınız sıfıra ulaşmadan önce devreye girebilir."
+      ],
+      "quiz": {
+        "q": "Başlangıç teminatı 100 ve pozisyon, ücretler hariç, 20 zararda. Basitleştirilmiş özkaynak nedir?",
+        "options": ["100", "80", "120"],
+        "answer": 1,
+        "why": "100 eksi 20 zarar 80 bırakır ve fiyat aleyhinize gitmeye devam ederse tampon küçülmeye devam eder."
+      }
+    },
+    "21": {
+      "takeaways": [
+        "İzole teminat, tek bir pozisyona kendi teminatını verir.",
+        "Ayırdığınız teminat yine de kaybedilebilir; izole, bir zarar durdur değildir.",
+        "Otomatik ya da manuel ekleme, aynı riskin arkasına daha fazla paranızı koyar."
+      ],
+      "quiz": {
+        "q": "İzole bir pozisyon için otomatik teminat eklemeyi açıyorsunuz. Ne değişir?",
+        "options": ["Hiçbir şey, zarar ilk 100 ile sınırlı kalır", "Bakiyenizin daha fazlası pozisyona akabilir", "Pozisyon risksiz hale gelir"],
+        "answer": 1,
+        "why": "Otomatik ekleme, kullanılabilir bakiyeyi pozisyona taşır, böylece riski daha fazla para taşır."
+      }
+    },
+    "22": {
+      "takeaways": [
+        "Çapraz teminat, pozisyonlar arasında tek bir teminat havuzunu paylaşır.",
+        "Zarardaki tek bir pozisyon, diğerlerinin dayandığı tamponu tüketebilir.",
+        "Banka kartlarınıza veya kişisel cüzdanlarınıza uzanmaz."
+      ],
+      "quiz": {
+        "q": "Çapraz teminat otomatik olarak daha mı güvenlidir?",
+        "options": ["Evet, asla tasfiye edilemez", "Şart değil, paylaşılan havuza ve kurallara bağlıdır", "Evet, tüm banka kartlarınızı kullanır"],
+        "answer": 1,
+        "why": "Ek teminat risk müdahalesini geciktirebilir, ama aynı zamanda paranızın daha fazlasını riske atar."
+      }
+    },
+    "23": {
+      "takeaways": [
+        "Birçok perpetual, tasfiyeyi son işleme göre değil, işaret fiyatına (mark price) ve teminat kurallarına göre belirler.",
+        "Sürdürme gereksinimine yaklaşıldığında sistem pozisyonu küçültebilir veya kapatabilir.",
+        "Kapanan bir pozisyon, fiyat toparlandığında geri gelmez."
+      ],
+      "quiz": {
+        "q": "Kaldıraçlı bir pozisyon tasfiye edildi ve daha sonra fiyat yeniden yükseldi. Ne olur?",
+        "options": ["Pozisyon kendiliğinden geri gelir", "Kapalı kalır; izlenen yol önemliydi", "Borsa zararı iade eder"],
+        "answer": 1,
+        "why": "Zorla kapatıldıktan sonra pozisyon gitmiştir. Sonraki bir toparlanma yalnızca hâlâ pozisyonu tutana yarar."
+      }
+    },
+    "24": {
+      "takeaways": [
+        "Fonlama, long ve short'lar arasında ödenir; borsaya ödenen sabit bir ücret değildir.",
+        "Pozisyon değerine göre hesaplanır: 1,000 için 0.01% oran 0.10 eder.",
+        "İşlem yapmamayı seçmek de geçer bir cevaptır."
+      ],
+      "quiz": {
+        "q": "Fonlama oranı pozitif. Genellikle kim öder?",
+        "options": ["Short'lar long'lara öder", "Long'lar short'lara öder", "Herkes borsaya öder"],
+        "answer": 1,
+        "why": "Pozitif oranda genellikle long'lar short'lara öder. Negatif oranda durum tersine döner."
+      }
+    }
+  }
+}

@@ -13,6 +13,7 @@ import { h7Copy, h7IsFallback } from "./home7-copy.js";
 import { heroCopyFor, useHomeHeroVariant } from "./home7-hero-variants.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
+import { academyShellCopy } from "../../data/academy.js";
 import { Cta, Roll, nameOf, reduced, usd } from "./home7-shared.jsx";
 import "../../styles/v7/home7.css";
 
@@ -23,6 +24,22 @@ const ssrHomeBelowModules = import.meta.env.SSR ? import.meta.glob(["./home7-bel
 let homeBelowChunk;
 const loadHomeBelow = () => (homeBelowChunk ??= import("./home7-below.jsx"));
 const HomeBelowFold = import.meta.env.SSR ? ssrHomeBelowModules["./home7-below.jsx"].HomeBelowFold : lazy(() => loadHomeBelow().then((m) => ({ default: m.HomeBelowFold })));
+
+// Academy teaser (owner 2026-10-12): one compact row that sends newcomers to the 24-lesson course on our own site.
+function AcademyTeaser({ locale }) {
+  const a = academyShellCopy(locale);
+  return <section className="h7-in h7-academy" aria-labelledby="h7-academy-h">
+    <a className="h7-academy-card" href={localizedHref("/academy", { locale })}>
+      <img src="/brand/academy/nexubo-wave-hello.svg" alt="" width="88" height="88" loading="lazy" decoding="async" />
+      <span className="h7-academy-text">
+        <span className="h7-academy-kick">{a.brand}</span>
+        <h2 id="h7-academy-h">{a.homeTitle}</h2>
+        <span className="h7-academy-body">{a.homeBody}</span>
+      </span>
+      <span className="h7-academy-go">{a.homeCta}<span aria-hidden="true" className="h7-academy-arrow">→</span></span>
+    </a>
+  </section>;
+}
 
 // Owner (2026-10-10): show perpetual-contract fees by default; spot stays one tap away.
 function useVenues(locale, product) {
@@ -199,6 +216,8 @@ export function HomeV7({ locale, market, venues: _catalog }) {
           {t.how.map(([h, b], i) => <li key={h}><span className="h7-sn" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span><h3>{h}</h3><p>{b}</p></li>)}
         </ol>
       </section>
+
+      <AcademyTeaser locale={locale} />
 
       <DeferUntilVisible target="#h7-calc" prefetch={loadHomeBelow}>
         <HomeBelowFold t={t} locale={locale} market={market} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} />

@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:02.790
+I hit Buy. Why isn't it filling?
+
+00:00:09.250 --> 00:00:12.975
+A market order tries to fill quickly at the prices available now,
+
+00:00:12.975 --> 00:00:14.637
+but the final price can move.
+
+00:00:14.637 --> 00:00:18.705
+A limit order says 'buy no higher' or 'sell no lower' than a set price.
+
+00:00:18.705 --> 00:00:20.310
+It isn't guaranteed to fill.
+
+00:00:32.250 --> 00:00:36.870
+If you want to buy below the current price, you may have to wait. On the other hand,
+
+00:00:36.870 --> 00:00:41.050
+a limit order that already meets the other side's price can fill right away.
+
+00:00:41.050 --> 00:00:43.360
+Not every limit order has to wait in line.
+
+00:01:00.250 --> 00:01:02.520
+So does cancelling undo what I already bought?
+
+00:01:02.820 --> 00:01:07.707
+No. Cancel only affects the part that hasn't filled. What already filled stays.
+
+00:01:07.707 --> 00:01:08.820
+It doesn't rewind.
+
+00:01:24.250 --> 00:01:25.853
+Read the status before you act.
+
+00:01:25.853 --> 00:01:29.937
+Whether you're the maker or the taker depends on how the trade actually filled.
+
+00:01:29.937 --> 00:01:33.090
+Choosing 'limit' doesn't automatically get you a certain fee.
+
+00:01:43.250 --> 00:01:43.820
+No.
+
+00:01:44.120 --> 00:01:48.200
+Choosing an order type is choosing how it executes. It's not making a wish.
+
+00:01:56.250 --> 00:02:00.530
+A green candle. Does it mean the next one goes up too? Next episode.
+
+00:02:01.050 --> 00:02:03.110
+Understand first, then act.

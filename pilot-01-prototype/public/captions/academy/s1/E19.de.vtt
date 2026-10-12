@@ -1,0 +1,58 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:03.840
+Gibt mir die Plattform bei zehnfachem Hebel 900 geschenkt?
+
+00:00:09.250 --> 00:00:10.756
+Es ist kein geschenktes Geld.
+
+00:00:10.756 --> 00:00:15.066
+Vereinfacht gesagt: 100 Margin steuern 1,000 Nominalwert – das ist 10-facher Hebel.
+
+00:00:15.066 --> 00:00:17.091
+Kursänderungen wirken auf die Position,
+
+00:00:17.091 --> 00:00:19.480
+und Ihre Margin trägt den Gewinn oder Verlust.
+
+00:00:35.250 --> 00:00:38.119
+Ohne Gebühren: Läuft der Kurs 1% gegen Sie,
+
+00:00:38.119 --> 00:00:42.390
+verliert eine 1,000er-Position etwa 10 und eine 2,000er etwa 20.
+
+00:00:42.390 --> 00:00:46.660
+Ein kleiner Prozentsatz schlägt bei kleiner Margin massiv durch.
+
+00:01:07.250 --> 00:01:08.750
+Ein häufiger Denkfehler:
+
+00:01:08.750 --> 00:01:12.624
+Bleibt die Positionsgröße gleich und man ändert nur den Hebel,
+
+00:01:12.624 --> 00:01:18.560
+verdoppelt sich der monetäre GuV nicht einfach – es ändern sich Margin-Bedarf und Risikopuffer.
+
+00:01:35.250 --> 00:01:38.004
+Reale Liquidation hängt von Mindesteinschuss,
+
+00:01:38.004 --> 00:01:43.330
+Mark-Preis und Gebühren ab – 10x bedeutet keineswegs Liquidation bei exakt 10% Verlust.
+
+00:01:43.330 --> 00:01:46.390
+Nutzen Sie diese Näherung nicht im Echtgeldhandel.
+
+00:01:56.250 --> 00:01:56.760
+Nein.
+
+00:01:57.060 --> 00:02:00.430
+Vergrößert wird die Auswirkung der Position auf Ihr Kapital – nicht Ihre Treffsicherheit.
+
+00:02:11.250 --> 00:02:14.663
+Warum können Sie ausgestoppt werden, bevor die Margin null erreicht?
+
+00:02:14.663 --> 00:02:16.470
+Als Nächstes: Die unsichtbare Linie.
+
+00:02:17.050 --> 00:02:19.020
+Erst verstehen, dann handeln.

@@ -1,0 +1,317 @@
+{
+  "locale": "vi",
+  "episodes": {
+    "1": {
+      "takeaways": [
+        "Giá của một bitcoin không phải là số tiền cần để bắt đầu.",
+        "Bitcoin chia được thành số thập phân: chi 100 ở giá 50,000 thì bạn có 0.002 BTC.",
+        "Mỗi nền tảng tự đặt mức lệnh tối thiểu và phí riêng, nên hãy kiểm tra cả hai trước."
+      ],
+      "quiz": {
+        "q": "Một bitcoin có giá 50,000 USDT. Bạn chi 100 USDT, chưa tính phí. Bạn nhận được gì?",
+        "options": ["Không gì cả, bạn cần cả một đồng", "0.002 BTC", "0.02 BTC"],
+        "answer": 1,
+        "why": "100 ÷ 50,000 = 0.002. Bạn có thể sở hữu một phần của một bitcoin."
+      }
+    },
+    "2": {
+      "takeaways": [
+        "USDT là stablecoin được thiết kế để giữ giá gần một đô la, không phải tiền gửi ngân hàng.",
+        "Các sàn dùng nó để định giá và hoán đổi tài sản, nên một lệnh bán thường kết thúc bằng USDT.",
+        "\"Ổn định\" là mục tiêu thiết kế: giá có thể lệch và việc quy đổi có điều kiện."
+      ],
+      "quiz": {
+        "q": "Câu nào về USDT là đúng?",
+        "options": ["Đó là số đô la trong tài khoản ngân hàng của bạn", "Đó là một stablecoin, một loại tài sản crypto", "Nó không bao giờ có thể lệch khỏi một đô la"],
+        "answer": 1,
+        "why": "USDT nhằm bám theo đồng đô la, nhưng nó là tài sản crypto với rủi ro riêng từ đơn vị phát hành và nền tảng."
+      }
+    },
+    "3": {
+      "takeaways": [
+        "Với tài khoản trên sàn, nền tảng là bên chủ yếu quản lý tài sản và khóa.",
+        "Với ví tự lưu ký, bạn kiểm soát thông tin truy cập, và trách nhiệm khôi phục thuộc về bạn.",
+        "Trước khi chọn, hãy hỏi: ai nắm quyền di chuyển tài sản?"
+      ],
+      "quiz": {
+        "q": "Bạn làm mất cụm từ khôi phục của một ví tự lưu ký thông thường và không có cách khôi phục nào khác. Điều gì xảy ra?",
+        "options": ["Bộ phận hỗ trợ có thể đặt lại cho bạn", "Bạn có thể mất quyền truy cập vĩnh viễn", "Sàn sẽ tự động khôi phục"],
+        "answer": 1,
+        "why": "Với tự lưu ký, bạn giữ khóa. Không có cụm từ hoặc cách hợp lệ khác, không ai khôi phục được cho bạn."
+      }
+    },
+    "4": {
+      "takeaways": [
+        "Trước hết, hãy kiểm tra nền tảng có phục vụ quốc gia bạn thực sự sinh sống hay không.",
+        "Chỉ đăng ký qua lối vào chính thức đã xác nhận, bằng email hoặc số điện thoại của chính bạn.",
+        "Ngay sau khi đăng ký, hãy bật các tính năng bảo mật và lưu lại các phương án khôi phục."
+      ],
+      "quiz": {
+        "q": "Bạn nên xác nhận điều gì trước tiên, trước khi đăng ký?",
+        "options": ["Giá trị phần thưởng chào mừng", "Nền tảng phục vụ quốc gia của bạn và lối vào là chính thức", "Nền tảng có bao nhiêu người theo dõi"],
+        "answer": 1,
+        "why": "Điều kiện sử dụng và lối vào chính thức phải đến trước. Phần thưởng không bao giờ nên quyết định nơi bạn mở tài khoản."
+      }
+    },
+    "5": {
+      "takeaways": [
+        "KYC xác nhận bạn là chủ tài khoản và giúp nền tảng tuân thủ quy định.",
+        "Chỉ gửi giấy tờ tùy thân trong quy trình xác minh chính thức, không bao giờ gửi qua tin nhắn.",
+        "Nếu thất bại, hãy đọc lý do, sửa lại và thử lại bằng danh tính thật của bạn."
+      ],
+      "quiz": {
+        "q": "Ai nên nhận giấy tờ tùy thân của bạn?",
+        "options": ["Một \"nhân viên\" nhiệt tình trong nhóm chat", "Chỉ quy trình xác minh chính thức đã được kiểm chứng", "Nhóm chat của khóa học, để người khác kiểm tra giúp"],
+        "answer": 1,
+        "why": "Chỉ quy trình chính thức. NexuAlpha không bao giờ yêu cầu giấy tờ của bạn, và người lạ cũng không nên yêu cầu."
+      }
+    },
+    "6": {
+      "takeaways": [
+        "Nạp tiền pháp định, mua crypto, nạp on-chain và chuyển nội bộ là những con đường khác nhau.",
+        "Nạp on-chain cần đúng đồng coin và mạng được hỗ trợ; chuyển nội bộ thì vẫn nằm trong nền tảng.",
+        "Không bao giờ trả tiền cho người lạ bên ngoài nền tảng; hãy kiểm tra trước số dư sẽ về đâu."
+      ],
+      "quiz": {
+        "q": "Bạn chuyển USDT từ tài khoản cấp vốn sang tài khoản giao dịch trên cùng một nền tảng. Đó là gì?",
+        "options": ["Nạp on-chain", "Chuyển nội bộ", "Nạp tiền pháp định"],
+        "answer": 1,
+        "why": "Nó chỉ di chuyển số dư giữa các tài khoản của chính bạn. Thường đó không phải là giao dịch on-chain."
+      }
+    },
+    "7": {
+      "takeaways": [
+        "BTC/USDT nghĩa là bitcoin được định giá bằng USDT: bạn trả USDT và nhận bitcoin.",
+        "Kiểm tra ô đặt lệnh đang yêu cầu số tiền hay số lượng coin.",
+        "Sau khi mua, hãy xem lịch sử giao dịch: trạng thái khớp lệnh, giá trung bình và phí."
+      ],
+      "quiz": {
+        "q": "Bạn mua 0.002 BTC ở giá 50,000 với phí 0.1% trừ riêng bằng USDT. Tổng số tiền đã chi là bao nhiêu?",
+        "options": ["100", "100.10", "110"],
+        "answer": 1,
+        "why": "100 cho số coin cộng 0.10 phí thành 100.10."
+      }
+    },
+    "8": {
+      "takeaways": [
+        "Bán lấy USDT cho bạn số dư USDT, không phải tiền trong ngân hàng.",
+        "Bán và rút về ngân hàng là hai bước riêng biệt.",
+        "Giá cao hơn chưa phải lợi nhuận ròng: hãy trừ hết các khoản phí trước."
+      ],
+      "quiz": {
+        "q": "Bạn đã bán bitcoin lấy USDT. Tiền đang ở đâu?",
+        "options": ["Trong tài khoản ngân hàng của bạn", "Là số dư USDT trên nền tảng", "Đã được đổi sang tiền tệ địa phương"],
+        "answer": 1,
+        "why": "Bạn đã nhận USDT. Đưa tiền về ngân hàng là một bước rút tiền riêng."
+      }
+    },
+    "9": {
+      "takeaways": [
+        "Xác nhận đồng coin và mạng mà bên nhận hỗ trợ trước khi gửi.",
+        "Sao chép địa chỉ từ trang nhận, kiểm tra toàn bộ và thêm memo hoặc tag nếu có.",
+        "Gửi một khoản thử nhỏ trước và xác nhận đã được ghi có."
+      ],
+      "quiz": {
+        "q": "Trang nhận yêu cầu memo. Bạn làm gì?",
+        "options": ["Bỏ qua, địa chỉ là đủ", "Điền memo chính xác như hiển thị", "Dùng memo từ một lần chuyển cũ"],
+        "answer": 1,
+        "why": "Nếu memo hoặc tag là bắt buộc, giao dịch có thể không được ghi có nếu thiếu nó."
+      }
+    },
+    "10": {
+      "takeaways": [
+        "Đã gửi, đã lên chuỗi và đã ghi có là ba trạm khác nhau.",
+        "Dùng mã giao dịch (hash) trên trình khám phá khối của đúng mạng.",
+        "Chia sẻ hồ sơ với bộ phận hỗ trợ chính thức, không bao giờ chia sẻ cụm từ khôi phục, khóa riêng hay mã xác thực."
+      ],
+      "quiz": {
+        "q": "Giao dịch của bạn báo \"đã gửi\" nhưng chưa đến. Bước đầu tiên là gì?",
+        "options": ["Gửi lại cùng số tiền", "Tìm xem nó đang kẹt ở đâu bằng hồ sơ và mã giao dịch", "Trả tiền cho người hứa sẽ lấy lại giúp"],
+        "answer": 1,
+        "why": "Tìm trạm trước, rồi liên hệ kênh chính thức tương ứng. Đừng tiếp tục gửi."
+      }
+    },
+    "11": {
+      "takeaways": [
+        "Cụm từ khôi phục và khóa riêng là chìa khóa kiểm soát, không phải mã hỗ trợ.",
+        "Lợi nhuận được bảo đảm và việc bị hối thúc thanh toán là dấu hiệu nguy hiểm.",
+        "Không bao giờ xác nhận một chữ ký hay phê duyệt mà bạn không hiểu."
+      ],
+      "quiz": {
+        "q": "Thứ nào an toàn để chia sẻ khi bạn cần nhận thanh toán?",
+        "options": ["Địa chỉ công khai của bạn", "Cụm từ khôi phục của bạn", "Mã dùng một lần"],
+        "answer": 0,
+        "why": "Địa chỉ công khai được tạo ra để nhận tiền. Bí mật và mã sẽ trao quyền kiểm soát cho người khác."
+      }
+    },
+    "12": {
+      "takeaways": [
+        "Mục tiêu là một quy trình đúng: lối vào và điều kiện, giao ngay, số tiền và phí, rồi đến hồ sơ.",
+        "Dừng một giao dịch chưa rõ ràng cũng là một câu trả lời đúng.",
+        "Chứng chỉ của bạn là hồ sơ học tập, không phải giấy phép đầu tư."
+      ],
+      "quiz": {
+        "q": "Một giao dịch luyện tập hiển thị sai mạng. Cách làm đúng là gì?",
+        "options": ["Cứ gửi và hy vọng", "Dừng lại và không gửi", "Chuyển sang số tiền lớn hơn"],
+        "answer": 1,
+        "why": "Khi mạng, phí hoặc danh tính chưa rõ, dừng lại quan trọng hơn hoàn thành nhiệm vụ."
+      }
+    },
+    "13": {
+      "takeaways": [
+        "Giá cuối cùng là giao dịch gần nhất, không phải mức giá chào cho mọi khối lượng.",
+        "Lệnh lớn hơn có thể khớp qua nhiều mức của sổ lệnh.",
+        "Trượt giá và phí giao dịch là hai chi phí riêng: hãy xem kỹ hóa đơn."
+      ],
+      "quiz": {
+        "q": "Một nửa trong 0.002 BTC của bạn khớp ở 50,000 và nửa còn lại ở 50,100. Giá trung bình là bao nhiêu?",
+        "options": ["50,000", "50,050", "50,100"],
+        "answer": 1,
+        "why": "Hai nửa bằng nhau có trung bình là 50,050. Phí là chi phí riêng cộng thêm."
+      }
+    },
+    "14": {
+      "takeaways": [
+        "Lệnh thị trường khớp nhanh theo giá đang có; giá cuối cùng có thể thay đổi.",
+        "Lệnh giới hạn chặn mức giá của bạn, nhưng có thể không khớp.",
+        "Hủy lệnh chỉ ảnh hưởng đến phần chưa khớp; phần đã khớp vẫn giữ nguyên."
+      ],
+      "quiz": {
+        "q": "Lệnh giới hạn của bạn đã khớp một nửa và bạn hủy nó. Điều gì xảy ra?",
+        "options": ["Mọi thứ được đảo ngược", "Chỉ nửa chưa khớp bị hủy", "Nửa đã khớp chuyển thành lệnh thị trường"],
+        "answer": 1,
+        "why": "Hủy lệnh không thể tua lại phần đã khớp. Nó chỉ dừng phần khối lượng còn lại."
+      }
+    },
+    "15": {
+      "takeaways": [
+        "Một cây nến cho thấy bốn mức giá trong một khoảng thời gian: mở cửa, cao nhất, thấp nhất và đóng cửa.",
+        "Đọc khung thời gian trước khi nhìn hình dạng: năm phút không phải một ngày.",
+        "Màu sắc khác nhau giữa các ứng dụng, và một cây nến là bản ghi, không phải dự đoán."
+      ],
+      "quiz": {
+        "q": "Một nến năm phút mở cửa ở 50,000, lên tới 51,000, giảm xuống 49,000 và đóng cửa ở 50,500. Giá cao nhất là bao nhiêu?",
+        "options": ["50,500", "51,000", "49,000"],
+        "answer": 1,
+        "why": "Đỉnh của bóng nến trên là giá cao nhất trong khoảng thời gian đó: 51,000."
+      }
+    },
+    "16": {
+      "takeaways": [
+        "Số dư tài khoản, quy mô vị thế và rủi ro dự kiến là ba con số khác nhau.",
+        "Quyết định điểm thoát trước, rồi mới tính quy mô vị thế.",
+        "Với mức dừng lỗ 5% và ngân sách rủi ro 20, vị thế khoảng 400."
+      ],
+      "quiz": {
+        "q": "Vào lệnh ở 50,000, dự kiến thoát ở 47,500, và bạn chấp nhận lỗ 20. Vị thế khoảng bao nhiêu?",
+        "options": ["20", "400", "4,000"],
+        "answer": 1,
+        "why": "Điểm thoát cách 5%, và 5% của 400 là 20. Chi phí tính thêm bên trên."
+      }
+    },
+    "17": {
+      "takeaways": [
+        "Dừng lỗ thực thi kế hoạch thoát của bạn; nó không phải bảo hiểm.",
+        "Stop-market thoát nhanh nhưng có thể trượt giá khi thị trường biến động nhanh.",
+        "Stop-limit chặn mức giá nhưng có thể hoàn toàn không khớp."
+      ],
+      "quiz": {
+        "q": "Khi giá giảm mạnh, điều gì có thể xảy ra với lệnh stop-limit?",
+        "options": ["Luôn khớp ở giá kích hoạt", "Có thể không khớp nếu giá lao qua quá nhanh", "Nó trở thành bảo hiểm"],
+        "answer": 1,
+        "why": "Mức giới hạn bảo vệ giá của bạn, nên lệnh có thể không được khớp khi thị trường chạy nhanh."
+      }
+    },
+    "18": {
+      "takeaways": [
+        "Giao ngay là đổi tài sản này lấy tài sản khác; hợp đồng vĩnh cửu là một vị thế hợp đồng.",
+        "Long lãi nếu giá tăng, short lãi nếu giá giảm; đứng sai phía thì lỗ.",
+        "Hợp đồng tương lai là một cấu trúc rủi ro khác, không phải cấp độ bạn bắt buộc phải đạt."
+      ],
+      "quiz": {
+        "q": "Vị thế hợp đồng tương lai có cho bạn bitcoin để rút ra không?",
+        "options": ["Có, giống hệt giao ngay", "Không, đó là hợp đồng thanh toán lãi và lỗ", "Chỉ khi dùng đòn bẩy 10x"],
+        "answer": 1,
+        "why": "Hợp đồng vĩnh cửu tuyến tính thanh toán lãi và lỗ trong hợp đồng. Đó không phải số dư coin có thể rút."
+      }
+    },
+    "19": {
+      "takeaways": [
+        "Ký quỹ 100 kiểm soát vị thế 1,000 là đòn bẩy 10x.",
+        "Biến động giá tác động lên vị thế, và khoản ký quỹ của bạn gánh kết quả.",
+        "Với cùng quy mô vị thế, thay đổi đòn bẩy làm thay đổi ký quỹ, không thay đổi lãi/lỗ."
+      ],
+      "quiz": {
+        "q": "Vị thế 1,000 đi ngược hướng bạn 1%, chưa tính phí. Bạn lỗ khoảng bao nhiêu?",
+        "options": ["1", "10", "100"],
+        "answer": 1,
+        "why": "1% của vị thế 1,000 là khoảng 10, trừ vào ký quỹ của bạn."
+      }
+    },
+    "20": {
+      "takeaways": [
+        "Ký quỹ ban đầu dùng để mở vị thế; ký quỹ duy trì giữ cho vị thế còn mở.",
+        "Vốn chủ sở hữu là ký quỹ cộng hoặc trừ kết quả đang mở: 100 lỗ 20 còn 80.",
+        "Hệ thống rủi ro có thể can thiệp trước khi ký quỹ của bạn cạn về không."
+      ],
+      "quiz": {
+        "q": "Ký quỹ ban đầu là 100 và vị thế đang lỗ 20, chưa tính phí. Vốn chủ sở hữu đơn giản hóa là bao nhiêu?",
+        "options": ["100", "80", "120"],
+        "answer": 1,
+        "why": "100 trừ khoản lỗ 20 còn 80, và vùng đệm tiếp tục thu hẹp nếu giá đi tiếp ngược hướng bạn."
+      }
+    },
+    "21": {
+      "takeaways": [
+        "Ký quỹ cô lập cho mỗi vị thế một khoản ký quỹ riêng.",
+        "Khoản ký quỹ bạn đã phân bổ vẫn có thể mất; cô lập không phải là dừng lỗ.",
+        "Tự động thêm hay thêm thủ công đều đặt thêm tiền của bạn sau cùng một rủi ro."
+      ],
+      "quiz": {
+        "q": "Bạn bật tự động thêm ký quỹ cho một vị thế cô lập. Điều gì thay đổi?",
+        "options": ["Không gì cả, khoản lỗ vẫn giới hạn ở 100 ban đầu", "Thêm số dư của bạn có thể chảy vào vị thế", "Vị thế trở nên không rủi ro"],
+        "answer": 1,
+        "why": "Tự động thêm sẽ chuyển số dư khả dụng vào vị thế, nên nhiều tiền hơn gánh rủi ro."
+      }
+    },
+    "22": {
+      "takeaways": [
+        "Ký quỹ chéo dùng chung một quỹ ký quỹ cho các vị thế.",
+        "Một vị thế thua lỗ có thể ăn mòn vùng đệm mà các vị thế khác dựa vào.",
+        "Nó không chạm đến thẻ ngân hàng hay ví cá nhân của bạn."
+      ],
+      "quiz": {
+        "q": "Ký quỹ chéo có tự động an toàn hơn không?",
+        "options": ["Có, nó không bao giờ bị thanh lý", "Không hẳn, còn tùy vào quỹ chung và quy tắc", "Có, nó dùng tất cả thẻ ngân hàng của bạn"],
+        "answer": 1,
+        "why": "Ký quỹ bổ sung có thể trì hoãn việc xử lý rủi ro, nhưng cũng đặt thêm tiền của bạn vào thế rủi ro."
+      }
+    },
+    "23": {
+      "takeaways": [
+        "Nhiều hợp đồng vĩnh cửu xét thanh lý theo giá đánh dấu (mark price) và quy tắc ký quỹ, không theo giao dịch cuối cùng.",
+        "Khi gần đến mức ký quỹ duy trì, hệ thống có thể giảm hoặc đóng vị thế.",
+        "Vị thế đã đóng sẽ không quay lại khi giá phục hồi."
+      ],
+      "quiz": {
+        "q": "Một vị thế dùng đòn bẩy đã bị thanh lý, sau đó giá tăng trở lại. Điều gì xảy ra?",
+        "options": ["Vị thế tự quay lại", "Nó vẫn đóng; diễn biến giá trên đường đi mới là điều quyết định", "Sàn hoàn lại khoản lỗ"],
+        "answer": 1,
+        "why": "Một khi bị đóng cưỡng bức, vị thế đã mất. Đợt phục hồi sau đó chỉ có lợi cho người vẫn đang nắm giữ."
+      }
+    },
+    "24": {
+      "takeaways": [
+        "Phí funding được trả giữa bên long và bên short, không phải khoản phí cố định cho sàn.",
+        "Nó tính theo giá trị vị thế: 1,000 với 0.01% là 0.10.",
+        "Chọn không giao dịch cũng là một câu trả lời đạt."
+      ],
+      "quiz": {
+        "q": "Funding rate đang dương. Ai thường là bên trả?",
+        "options": ["Short trả cho long", "Long trả cho short", "Mọi người trả cho sàn"],
+        "answer": 1,
+        "why": "Khi tỷ lệ dương, bên long thường trả cho bên short. Khi tỷ lệ âm thì ngược lại."
+      }
+    }
+  }
+}

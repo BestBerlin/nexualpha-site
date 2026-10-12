@@ -1,0 +1,61 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:04.080
+Der Verlust liegt links. Warum ist dann auch die rechte Position in Gefahr?
+
+00:00:09.250 --> 00:00:13.683
+Cross Margin teilt die Margin zwischen Positionen nach den Regeln der Plattform.
+
+00:00:13.683 --> 00:00:16.010
+Angenommen, ein Margin-Pool enthält 1,000.
+
+00:00:16.010 --> 00:00:18.393
+Mehrere Positionen können darauf zugreifen,
+
+00:00:18.393 --> 00:00:21.330
+nicht nur auf ihren ursprünglich zugewiesenen Betrag.
+
+00:00:39.250 --> 00:00:41.544
+Eine Verlustposition kann den Puffer aufzehren,
+
+00:00:41.544 --> 00:00:44.472
+auf den sich andere Positionen verlassen. Gewinne, Verluste,
+
+00:00:44.472 --> 00:00:49.890
+für offene Orders reservierte Margin und der Sicherheitenwert beeinflussen alle das Gesamtrisiko dieses Kontos.
+
+00:01:15.250 --> 00:01:19.370
+Ist Cross Margin also schwerer zu liquidieren und deshalb sicherer?
+
+00:01:19.670 --> 00:01:22.875
+Zusätzliches Geld kann verzögern, wann eine Position ins Risikomanagement gerät.
+
+00:01:22.875 --> 00:01:26.000
+Aber es setzt auch mehr von Ihrem Geld aufs Spiel, um die Verluste abzufangen.
+
+00:01:46.250 --> 00:01:48.078
+Cross Margin erlaubt einer Plattform nicht,
+
+00:01:48.078 --> 00:01:50.885
+automatisch auf Ihre Bankkarten oder privaten Wallets zuzugreifen.
+
+00:01:50.885 --> 00:01:53.733
+Welche Konten und Sicherheiten zählen, bestimmen die Produktregeln.
+
+00:01:53.733 --> 00:01:57.560
+Komplexe Sicherheiten können Abschläge (Haircuts) und eigene Kursrisiken mit sich bringen.
+
+00:02:10.250 --> 00:02:14.890
+Nicht zwingend. Es hängt vom gemeinsamen Pool und den Kontoregeln ab.
+
+00:02:15.190 --> 00:02:18.320
+Betrachten Sie den gesamten Pool, nicht nur das Feld einer einzelnen Position.
+
+00:02:26.250 --> 00:02:29.911
+Der beobachtete Preis hat die Linie noch nicht berührt, aber der Alarm schlägt an.
+
+00:02:29.911 --> 00:02:32.010
+Als Nächstes: Wer drückt den Liquidationsknopf?
+
+00:02:32.550 --> 00:02:34.570
+Erst verstehen, dann handeln.

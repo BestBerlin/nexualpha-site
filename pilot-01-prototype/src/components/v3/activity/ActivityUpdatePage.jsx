@@ -65,7 +65,7 @@ export function ActivityUpdatePage({ venue, slug, locale = 'en', market, initial
       <section><SectionRule /><h2>{t.join}</h2><ol>{t.steps.map(step => <li key={step}>{step}</li>)}</ol>
         {promotable ? <CampaignJoin venue={venue} locale={locale} market={market} officialUrl={officialEntry} placement="activity-update-join" /> : officialEntry && <a href={officialEntry} target="_blank" rel="nofollow noopener noreferrer">{cta.name || venue} ↗</a>}
       </section>
-      <section><SectionRule /><h2>{t.related}</h2><ul>{related.map(row => <li key={row.id}><a href={withMarket(updateHref(row, locale), market)}>{updateHeadline(row, locale)}</a></li>)}</ul><nav aria-label={t.related}><a href={withMarket(localizedHref(`/exchanges/${venue}`, { locale }), market)}>{t.profile}</a><a href={withMarket(localizedHref('/telegram', { locale }), market)}>{t.starter}</a></nav></section>
+      <section><SectionRule /><h2>{t.related}</h2><ul>{related.map(row => <li key={row.id}><a href={withMarket(updateHref(row, locale), market)}>{updateHeadline(row, locale)}</a></li>)}</ul><nav aria-label={t.related}><a href={withMarket(localizedHref(`/exchanges/${venue}`, { locale }), market)}>{t.profile}</a><a href={withMarket(localizedHref('/academy', { locale }), market)}>{t.starter}</a></nav></section>
       <footer className="update-page__source"><a href={item.url} target="_blank" rel="nofollow noopener noreferrer">{t.original} ↗</a></footer>
     </article>
   </main>;

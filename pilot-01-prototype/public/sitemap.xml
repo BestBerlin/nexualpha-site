@@ -71,4 +71,8 @@
     <loc>https://nexualpha.com/sitemap-updates.xml</loc>
     <lastmod>2026-10-04</lastmod>
   </sitemap>
+  <sitemap>
+    <loc>https://nexualpha.com/sitemap-academy.xml</loc>
+    <lastmod>2026-10-12</lastmod>
+  </sitemap>
 </sitemapindex>

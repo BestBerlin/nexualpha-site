@@ -1,0 +1,58 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:04.062
+Mein Stop-Loss ist gesetzt – also verliere ich maximal den eingetragenen Betrag,
+
+00:00:04.062 --> 00:00:04.300
+oder?
+
+00:00:09.250 --> 00:00:14.235
+Stop-Loss führt bei Erreichen der Bedingung einen Ausstiegsplan aus – es ist keine Versicherung.
+
+00:00:14.235 --> 00:00:18.390
+Die Auslösung garantiert weder diesen Kurs noch das exakte Stoppen des Verlusts.
+
+00:00:32.250 --> 00:00:34.886
+Nach Auslösung wird als Market-Order ausgeführt,
+
+00:00:34.886 --> 00:00:38.730
+um schnell auszusteigen – doch der reale Kurs kann Slippage aufweisen,
+
+00:00:38.730 --> 00:00:41.750
+besonders bei schnellen Einbrüchen oder geringer Tiefe.
+
+00:01:00.250 --> 00:01:02.820
+Nach Auslösung wird eine Limit-Order platziert,
+
+00:01:02.820 --> 00:01:07.360
+die den Preis deckelt – doch bei raschem Durchsacken wird evtl. gar nicht verkauft.
+
+00:01:07.360 --> 00:01:10.860
+Keines ist absolut besser, es sind unterschiedliche Kompromisse.
+
+00:01:24.250 --> 00:01:27.097
+Prüfen Sie Richtung, Menge und Order-Status.
+
+00:01:27.097 --> 00:01:29.943
+Bei Futures prüfen Sie den Trigger-Preistyp,
+
+00:01:29.943 --> 00:01:33.760
+damit der Stop nicht hinter einem Liquidationsniveau liegt.
+
+00:01:43.250 --> 00:01:44.420
+Nicht garantiert.
+
+00:01:44.720 --> 00:01:46.259
+Erst wer die Grenzen versteht,
+
+00:01:46.259 --> 00:01:49.080
+nutzt Stop-Loss als echten Plan und nicht als Talisman.
+
+00:01:56.250 --> 00:02:00.835
+Beide heißen BTC. Doch eines davon gibt Ihnen vielleicht keinen einzigen Bitcoin.
+
+00:02:00.835 --> 00:02:02.590
+Als Nächstes: Spot vs. Futures.
+
+00:02:03.150 --> 00:02:05.120
+Erst verstehen, dann handeln.

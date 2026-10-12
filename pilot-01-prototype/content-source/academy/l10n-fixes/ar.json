@@ -1,0 +1,21 @@
+{
+  "Some platforms also offer trading between users. That's not another name for a bank transfer. Never pay off-platform in private, never use funds of unknown origin or third-party payments. If it's unclear, don't do it yet.": "توفر بعض المنصات التداول بين المستخدمين (P2P). هذا ليس اسماً بديلاً للتحويل البنكي. لا تدفع خارج المنصة بشكل خاص، وتجنب الأموال مجهولة المصدر.",
+  "Eleven episodes done. Is it time to deposit real money? The Season 1 finale has a surprising answer.": "انتهت إحدى عشرة حلقة. هل حان وقت إيداع أموال حقيقية؟ ختام الموسم 1 يحمل إجابة مفاجئة.",
+  "Season 2: the price on your screen isn't always the price you pay. Find out why.": "الموسم 2: السعر الظاهر على شاشتك ليس دائماً ما تدفعه في النهاية. اكتشف السبب.",
+  "Season 1 finale: you can do it, and you can choose not to": "ختام الموسم 1: يمكنك القيام بذلك، ولديك خيار عدم التداول",
+  "High 51,000. Close 50,500.": "الأعلى 51,000، والإغلاق 50,500.",
+  "'I have 1,000 and only want to risk 20. So I go all in?' Next: how much to buy.": "\"لدي 1,000، وأريد خسارة 20 فقط، فهل أشتري بكل المبلغ؟\" التالي: قرر أولاً مقدار الخسارة المحتملة.",
+  "I have 1,000 and only want to lose 20. So I just put it all in?": "لدي 1,000 وأريد خسارة 20 فقط، فهل أشتري بكل المبلغ أولاً؟",
+  "One practice sum. Entry at 50,000, planned exit at 47,500. That's 5% away. If you plan to take a 20 price loss, ignoring costs, the position is about 400.": "انظر إلى مسألة تدريبية: الدخول عند 50,000، والخروج المخطط عند 47,500، بفارق 5%. إذا كنت تخطط لتحمل خسارة قدرها 20 متجاهلاً التكاليف، فإن حجم المركز يقارب 400.",
+  "So 'lose at most 20' doesn't mean 'buy only 20'?": "إذاً 'خسارة 20 كحد أقصى' لا تعني 'شراء ما قيمته 20 فقط'؟",
+  "Right. Here a 400 position falling 5% is the 20. These are teaching numbers only.": "صحيح. هنا انخفاض مركز بقيمة 400 بنسبة 5% يعادل 20؛ وهذه معايير تعليمية فقط.",
+  "10x leverage: does the exchange hand you 900 extra? Next episode.": "عند رافعة 10 أضعاف، هل تمنحك المنصة 900 مجاناً؟ في الحلقة القادمة.",
+  "If I use ten times, does the exchange give me 900?": "عند استخدام عشرة أضعاف، هل تهديني المنصة 900؟",
+  "It's not free cash. Simply put, 100 of margin controlling a 1,000 position is 10x leverage. Price moves act on the position, and your margin takes the profit or loss.": "ليست أموالاً مجانية. بشكل مبسط، 100 من الهامش تتحكم في مركز اسمي بقيمة 1,000 تمثل رافعة 10 أضعاف. تؤثر تغيرات الأسعار على المركز بالكامل، ويتحمل هامشك الأرباح والخسائر الناتجة.",
+  "Ignoring fees, a 1% move against you loses about 10 on a 1,000 position, and about 20 on a 2,000 position. The percentage looks small, but on a small margin it can hurt.": "دون احتساب الرسوم، إذا تحرك السعر بنسبة 1% ضدك، يخسر مركز الـ 1,000 حوالي 10، ومركز الـ 2,000 حوالي 20. قد تبدو النسبة المئوية صغيرة، لكن أثرها كبير جداً على الهامش الصغير.",
+  "Say the initial margin is 100 and the position is down 20. Ignoring everything else, the equity is now 80. If the price keeps moving against you, the buffer keeps shrinking.": "لنفترض أن الهامش الأولي 100 والخسارة العائمة 20، بتجاهل البنود الأخرى، تتبقى حقوق ملكية بقيمة 80 فقط. وإذا استمر السعر في التحرك ضدك، فسيواصل هامش الأمان التآكل.",
+  "Put 100 in a box. Is the other 900 safe forever? Next: isolated margin.": "هل وضع 100 في صندوق صغير يحفظ الـ 900 الأخرى بأمان إلى الأبد؟ التالي: الهامش المعزول.",
+  "If I put 100 in isolated, the other 900 can never be touched?": "إذا وضعت 100 كهامش معزول، فهل تصبح الـ 900 الأخرى بعيدة عن اللمس إلى الأبد؟",
+  "So it helps you separate the margin of different positions. But that 100 can still be lost. Isolated margin doesn't make losses disappear, and it isn't a stop-loss order.": "يسهل ذلك فصل حدود الهامش بين المراكز المختلفة. لكن هذه الـ 100 نفسها تظل معرضة للخسارة؛ فالهامش المعزول لا يمحو الخسائر، ولا يعد أمر وقف خسارة.",
+  "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.": "لا تفترض أن الحد الأقصى للخسارة سيقتصر إلى الأبد على تلك الـ 100 الأولى لمجرد رؤية كلمة 'معزول'. تحقق دائماً من إعدادات الإضافة والرسوم وقواعد المنتج."
+}

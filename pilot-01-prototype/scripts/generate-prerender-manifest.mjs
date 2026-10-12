@@ -27,6 +27,7 @@ import { COUNTRY_ROUTE_PREFIXES, localizedPath, parsePublicRoute } from "../src/
 import { buildSearchPublicationReport, selectSitemapPublicationEntries, sitemapHreflangAlternates, sitemapLocalesForRoute } from "./sitemap-publication-policy.mjs";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { generatedCompareLocales, indexableGeneratedComparePairs } from "../src/data/compare-generated.js";
+import { academySitemapEntries } from "../src/data/academy-seo.js";
 export { sitemapLocalesForRoute };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -300,11 +301,30 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   }
   // Official update pages (live feed + archive), rendered by the Worker at request time (2026-10-12).
   indexRows.push({ loc: "https://nexualpha.com/sitemap-updates.xml", ...(options.newsSitemapLastmod ? { lastmod: new Date(Date.parse(options.newsSitemapLastmod)).toISOString().slice(0, 10) } : {}) });
+  // NexuAlpha Academy (2026-10-12): hub + 24 lessons in every locale with a localized lesson, rendered by the Worker at
+  // request time. Like sitemap-updates.xml it is its own file outside the route inventory's publication budget; its
+  // hreflang sets are the page head's (routeAlternates over ACADEMY_INDEX_LOCALES).
+  const academy = buildAcademySitemap();
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-academy.xml", lastmod: academy.lastmod });
   return {
     index: buildSitemapIndex(indexRows),
     files,
+    academy,
     publication,
   };
+}
+
+export function buildAcademySitemap() {
+  const escape = (value) => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
+  const entries = academySitemapEntries({ urlFor: (pathname, locale) => `https://nexualpha.com${localizedPath(pathname, locale)}` });
+  const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
+  for (const entry of entries) {
+    lines.push("  <url>", `    <loc>${escape(entry.loc)}</loc>`);
+    for (const alternate of entry.alternates) lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
+    lines.push(`    <lastmod>${entry.lastmod}</lastmod>`, "  </url>");
+  }
+  const lastmod = entries.map((entry) => entry.lastmod).sort().pop() || null;
+  return { xml: [...lines, "</urlset>", ""].join("\n"), count: entries.length, lastmod };
 }
 
 function latestDate(values, fallback = SITE_CONTENT_REVIEW_DATE) {
@@ -453,6 +473,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   const newsSitemap = buildNewsSitemap(newsArticles, { generatedAt: rawFeed.generatedAt });
   writeFileSync(path.join(projectRoot, "public", "sitemap.xml"), splitSitemaps.index);
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(projectRoot, "public", file), xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-academy.xml"), splitSitemaps.academy.xml);
   // Partner feed for the Telegram Mini App (one source of truth for shares, codes, links and checked fees).
   const partnersFeed = `${JSON.stringify(buildPartnersFeed())}\n`;
   for (const dir of [path.join(projectRoot, "public", "intel"), path.join(clientDir, "intel")]) { mkdirSync(dir, { recursive: true }); writeFileSync(path.join(dir, "partners.json"), partnersFeed); writeFileSync(path.join(dir, "partner-geo-restrictions.json"), `${JSON.stringify(buildPartnerGeoRestrictionsFeed(), null, 2)}\n`); }
@@ -462,6 +483,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   mkdirSync(clientContentDir, { recursive: true });
   writeFileSync(path.join(clientDir, "sitemap.xml"), splitSitemaps.index);
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(clientDir, file), xml);
+  writeFileSync(path.join(clientDir, "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(clientDir, "news-sitemap.xml"), newsSitemap);
   writeFileSync(path.join(clientContentDir, "search-publication-report.json"), `${publicationReport}\n`);
   console.log(`Prepared prerender manifest: ${Object.keys(routes).length} routes, HTML split into route assets`);

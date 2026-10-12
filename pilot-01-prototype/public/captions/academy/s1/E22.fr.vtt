@@ -1,0 +1,61 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:01.755
+La perte est sur celle de gauche.
+
+00:00:01.755 --> 00:00:04.080
+Pourquoi celle de droite est-elle aussi en danger ?
+
+00:00:09.250 --> 00:00:13.780
+La marge croisée partage la marge entre les positions, selon les règles établies.
+
+00:00:13.780 --> 00:00:16.353
+Supposons qu'un pool de marge contienne 1,000.
+
+00:00:16.353 --> 00:00:18.590
+Plusieurs positions peuvent en dépendre,
+
+00:00:18.590 --> 00:00:21.330
+pas seulement ce qui leur a été alloué au départ.
+
+00:00:39.250 --> 00:00:43.640
+Une position perdante peut grignoter la marge de sécurité dont dépendent d'autres positions.
+
+00:00:43.640 --> 00:00:44.689
+Les gains, les pertes,
+
+00:00:44.689 --> 00:00:49.890
+la marge bloquée pour les ordres ouverts et la valeur de votre collatéral affectent tous le risque du compte.
+
+00:01:15.250 --> 00:01:19.370
+Donc la marge croisée est plus difficile à liquider, ce qui la rend plus sûre ?
+
+00:01:19.670 --> 00:01:22.742
+Cet argent supplémentaire peut retarder le déclenchement de la gestion des risques.
+
+00:01:22.742 --> 00:01:26.000
+Mais il met aussi en jeu une plus grande part de votre capital pour absorber les pertes.
+
+00:01:46.250 --> 00:01:51.036
+La marge croisée ne permet pas à une plateforme d'utiliser automatiquement vos cartes bancaires ou portefeuilles personnels.
+
+00:01:51.036 --> 00:01:53.816
+Les comptes et garanties pris en compte dépendent des règles du produit.
+
+00:01:53.816 --> 00:01:57.560
+Les collatéraux complexes peuvent comporter des décotes (haircuts) et leur propre risque de prix.
+
+00:02:10.250 --> 00:02:14.890
+Pas nécessairement. Cela dépend du pool partagé et des règles du compte.
+
+00:02:15.190 --> 00:02:18.320
+Regardez l'ensemble du pool, pas seulement la case d'une seule position.
+
+00:02:26.250 --> 00:02:29.641
+Le prix que vous surveillez n'a pas touché la ligne, mais l'alarme sonne.
+
+00:02:29.641 --> 00:02:32.010
+À suivre : qui appuie sur le bouton de liquidation.
+
+00:02:32.550 --> 00:02:34.570
+Comprenez d'abord, agissez ensuite.

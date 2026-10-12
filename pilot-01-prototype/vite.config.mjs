@@ -192,6 +192,8 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           // but can be cached and fetched as separate browser chunks.
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
+          // Academy hub and lesson pages (2026-10-12); each locale's lessons stay a separate lazy chunk.
+          if (id.includes("/src/components/academy/") || id.includes("/src/data/academy-copy.js")) return "route-academy";
           if (id.includes("/src/components/v3/brand-pages/")) return "route-brand-pages";
           if (id.includes("/src/components/v3/TokenizedAssetsPage")) return "route-tokenized-assets";
           // /topics/<exchange>-alternatives shares the small topic-cluster chunk (and its route stylesheet prefix in the Worker).

@@ -1,0 +1,49 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:04.200
+If I put 100 in isolated, the other 900 can never be touched?
+
+00:00:09.250 --> 00:00:12.125
+Isolated margin means a position gets its own margin.
+
+00:00:12.125 --> 00:00:14.838
+In a simple setup, with no adding and no auto-add,
+
+00:00:14.838 --> 00:00:19.070
+this position's liquidation risk is mainly carried by the margin you assigned.
+
+00:00:32.250 --> 00:00:35.593
+So it helps you separate the margin of different positions.
+
+00:00:35.593 --> 00:00:37.350
+But that 100 can still be lost.
+
+00:00:37.350 --> 00:00:41.770
+Isolated margin doesn't make losses disappear, and it isn't a stop-loss order.
+
+00:01:00.250 --> 00:01:03.393
+Watch this switch. Some platforms offer auto-add margin.
+
+00:01:03.393 --> 00:01:07.547
+Turn it on, and your available balance can keep flowing into the position.
+
+00:01:07.547 --> 00:01:11.700
+Adding margin by hand does the same. More money ends up carrying the risk.
+
+00:01:24.250 --> 00:01:29.372
+Don't see the word 'isolated' and assume the most you can lose is always that first 100.
+
+00:01:29.372 --> 00:01:32.980
+Check the add-margin settings, the fees and the product rules.
+
+00:01:43.250 --> 00:01:43.690
+No.
+
+00:01:43.990 --> 00:01:48.920
+With isolated margin, look at the walls, and also at any pipes plugged into the box.
+
+00:01:56.250 --> 00:02:00.610
+One position leaks, and another one starts sinking. Next: cross margin.
+
+00:02:01.150 --> 00:02:03.110
+Understand first, then act.

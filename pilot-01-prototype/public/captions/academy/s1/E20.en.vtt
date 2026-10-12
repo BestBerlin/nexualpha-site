@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:03.910
+There's still money there. Why won't it let me keep waiting?
+
+00:00:09.250 --> 00:00:11.468
+You need initial margin to open a position.
+
+00:00:11.468 --> 00:00:15.130
+While it's open, you must also meet the maintenance margin requirement.
+
+00:00:15.130 --> 00:00:18.740
+What you put in at the start isn't how much buffer you'll always have.
+
+00:00:35.250 --> 00:00:38.679
+Say the initial margin is 100 and the position is down 20.
+
+00:00:38.679 --> 00:00:41.458
+Ignoring everything else, the equity is now 80.
+
+00:00:41.458 --> 00:00:45.360
+If the price keeps moving against you, the buffer keeps shrinking.
+
+00:01:07.250 --> 00:01:10.532
+When equity gets close to the platform's maintenance level,
+
+00:01:10.532 --> 00:01:13.981
+the risk system may step in. It doesn't have to wait for zero.
+
+00:01:13.981 --> 00:01:17.430
+It depends on the account type, margin mode and product rules.
+
+00:01:35.250 --> 00:01:38.760
+So if I keep adding money, I'm safe?
+
+00:01:39.060 --> 00:01:41.356
+Adding money doesn't change the price direction,
+
+00:01:41.356 --> 00:01:43.701
+and it doesn't guarantee you won't be liquidated.
+
+00:01:43.701 --> 00:01:45.710
+It can pull more money into the same risk.
+
+00:01:56.250 --> 00:02:00.900
+No. One is about opening the position. The other is about keeping it open.
+
+00:02:01.200 --> 00:02:04.460
+Check equity first, then how far it is from the warning line.
+
+00:02:11.250 --> 00:02:17.370
+Put 100 in a box. Is the other 900 safe forever? Next: isolated margin.
+
+00:02:17.950 --> 00:02:19.900
+Understand first, then act.

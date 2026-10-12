@@ -1,0 +1,58 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:04.080
+Kerugian ada di sebelah kiri. Mengapa yang di sebelah kanan juga dalam bahaya?
+
+00:00:09.250 --> 00:00:13.200
+Margin silang berbagi margin antarposisi, sesuai aturan yang berlaku.
+
+00:00:13.200 --> 00:00:16.464
+Di sini, katakanlah satu kumpulan margin menampung 1,000.
+
+00:00:16.464 --> 00:00:18.811
+Beberapa posisi dapat bergantung padanya,
+
+00:00:18.811 --> 00:00:21.330
+bukan hanya pada alokasi awal masing-masing.
+
+00:00:39.250 --> 00:00:43.253
+Satu posisi yang merugi dapat mengikis bantalan yang diandalkan posisi lain.
+
+00:00:43.253 --> 00:00:46.098
+Laba, rugi, margin yang ditahan untuk pesanan terbuka,
+
+00:00:46.098 --> 00:00:49.890
+dan nilai jaminan Anda semuanya dapat memengaruhi risiko akun yang sama.
+
+00:01:15.250 --> 00:01:19.370
+Jadi margin silang lebih sulit dilikuidasi, sehingga lebih aman?
+
+00:01:19.670 --> 00:01:22.402
+Uang ekstra bisa menunda posisi menyentuh penanganan risiko.
+
+00:01:22.402 --> 00:01:26.000
+Namun itu juga mempertaruhkan lebih banyak uang Anda untuk menanggung kerugian.
+
+00:01:46.250 --> 00:01:50.873
+Margin silang tidak memungkinkan platform menggunakan semua kartu bank atau dompet pribadi Anda secara otomatis.
+
+00:01:50.873 --> 00:01:53.639
+Akun dan jaminan mana yang diperhitungkan tergantung aturan produk.
+
+00:01:53.639 --> 00:01:57.560
+Jaminan yang kompleks juga bisa terkena potongan valuasi (haircut) dan risiko harganya sendiri.
+
+00:02:10.250 --> 00:02:14.890
+Belum tentu. Itu tergantung pada kumpulan bersama dan aturan akun.
+
+00:02:15.190 --> 00:02:18.320
+Lihat seluruh kumpulan, bukan hanya kotak satu posisi.
+
+00:02:26.250 --> 00:02:29.706
+Harga yang Anda pantau belum menyentuh garis, tapi alarm sudah berbunyi.
+
+00:02:29.706 --> 00:02:32.010
+Berikutnya: siapa yang menekan tombol likuidasi.
+
+00:02:32.550 --> 00:02:34.570
+Pahami dulu, baru bertindak.

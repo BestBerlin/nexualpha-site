@@ -1,0 +1,58 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:03.910
+Aún queda saldo, ¿por qué no me dejan seguir esperando?
+
+00:00:09.250 --> 00:00:12.334
+Abrir una posición requiere margen inicial; mientras se mantiene,
+
+00:00:12.334 --> 00:00:15.371
+también debes cumplir los requisitos de margen de mantenimiento.
+
+00:00:15.371 --> 00:00:18.740
+Cuánto pusiste al principio no equivale al colchón de riesgo posterior.
+
+00:00:35.250 --> 00:00:38.864
+Digamos que el margen inicial es 100 y la pérdida no realizada es 20;
+
+00:00:38.864 --> 00:00:42.217
+ignorando otros conceptos, el patrimonio restante es de solo 80.
+
+00:00:42.217 --> 00:00:45.360
+Si el precio sigue cayendo, tu colchón seguirá encogiéndose.
+
+00:01:07.250 --> 00:01:11.079
+Cuando el patrimonio se acerca al nivel de mantenimiento requerido por la plataforma,
+
+00:01:11.079 --> 00:01:14.502
+el sistema de riesgo puede intervenir; no esperará a que todo llegue a cero.
+
+00:01:14.502 --> 00:01:17.430
+Depende del tipo de cuenta, modo de margen y reglas del producto.
+
+00:01:35.250 --> 00:01:38.760
+¿Entonces estoy a salvo si sigo agregando dinero?
+
+00:01:39.060 --> 00:01:43.198
+Agregar fondos no cambia la dirección del precio ni garantiza evitar la liquidación.
+
+00:01:43.198 --> 00:01:45.710
+Puede que solo exponga más capital al mismo riesgo.
+
+00:01:56.250 --> 00:01:56.412
+No.
+
+00:01:56.412 --> 00:02:00.900
+Uno es la condición para abrir y el otro es el requisito para mantener la posición.
+
+00:02:01.200 --> 00:02:04.460
+Mira primero el patrimonio y luego observa a qué distancia está de la línea de advertencia.
+
+00:02:11.250 --> 00:02:15.795
+¿Poner 100 en una caja pequeña mantiene seguros para siempre los otros 900?
+
+00:02:15.795 --> 00:02:17.370
+Siguiente: margen aislado.
+
+00:02:17.950 --> 00:02:19.900
+Entiende primero, actúa después.

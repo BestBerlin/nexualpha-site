@@ -1,0 +1,61 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:03.910
+Masih ada saldo, mengapa saya tidak dibiarkan terus menunggu?
+
+00:00:09.250 --> 00:00:12.222
+Membuka posisi memerlukan margin awal; selama memegang posisi,
+
+00:00:12.222 --> 00:00:14.954
+Anda juga harus memenuhi persyaratan margin pemeliharaan.
+
+00:00:14.954 --> 00:00:18.740
+Berapa yang Anda masukkan di awal tidak sama dengan bantalan risiko seterusnya.
+
+00:00:35.250 --> 00:00:39.537
+Katakanlah margin awal adalah 100, floating loss adalah 20, mengabaikan hal lain,
+
+00:00:39.537 --> 00:00:41.125
+ekuitas yang tersisa hanya 80.
+
+00:00:41.125 --> 00:00:45.360
+Jika harga terus bergerak merugikan, bantalan yang tersedia akan terus menyusut.
+
+00:01:07.250 --> 00:01:10.506
+Ketika ekuitas mendekati tingkat pemeliharaan yang diwajibkan platform,
+
+00:01:10.506 --> 00:01:12.294
+sistem risiko dapat mengambil tindakan;
+
+00:01:12.294 --> 00:01:14.541
+tidak harus menunggu sampai semuanya menjadi nol.
+
+00:01:14.541 --> 00:01:17.430
+Itu tergantung pada jenis akun, mode margin, dan aturan produk.
+
+00:01:35.250 --> 00:01:38.760
+Jadi saya aman jika terus menambahkan uang?
+
+00:01:39.060 --> 00:01:42.980
+Menambah uang tidak mengubah arah harga dan tidak menjamin Anda terhindar dari likuidasi.
+
+00:01:42.980 --> 00:01:45.710
+Itu hanya membawa lebih banyak dana ke dalam risiko yang sama.
+
+00:01:56.250 --> 00:01:56.550
+Bukan,
+
+00:01:56.550 --> 00:02:00.900
+yang satu menyangkut kondisi pembukaan dan yang lainnya menyangkut pemeliharaan posisi.
+
+00:02:01.200 --> 00:02:04.460
+Perhatikan ekuitas dulu, lalu lihat seberapa jauh jaraknya dari garis peringatan.
+
+00:02:11.250 --> 00:02:15.374
+Menaruh 100 di kotak kecil, apakah 900 lainnya aman selamanya?
+
+00:02:15.374 --> 00:02:17.370
+Berikutnya: margin terisolasi.
+
+00:02:17.950 --> 00:02:19.900
+Pahami dulu, baru bertindak.

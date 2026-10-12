@@ -34,9 +34,16 @@ const copyFor = (locale) => COPY[locale] || (String(locale || "").startsWith("zh
 const DISMISS_KEY = "nexu.newsOffer.closed";
 const READ_DELAY_MS = 15000;
 
-function OfferBody({ slug, cta, locale, t, placement }) {
+// linkFor / nameFor (academy, 2026-10-12): send the button through our tracked /go/<slug> redirect (it records the click
+// and forwards to the registry link, code included) and show a display name (Bitget as "Bitget.com"). Without them the
+// card keeps the registry link and the site click beacon (data-cta-kind="registration").
+function OfferBody({ slug, cta, locale, t, placement, linkFor, nameFor }) {
   const [copied, setCopied] = useState(false);
-  const name = cta.name || slug;
+  const name = (nameFor && nameFor(slug, cta)) || cta.name || slug;
+  const href = linkFor ? linkFor(slug, cta) : cta.registrationUrl;
+  const tracking = linkFor
+    ? { "data-offer-link": "go", "data-cta-platform": slug, "data-cta-placement": placement }
+    : { "data-cta-kind": "registration", "data-cta-platform": slug, "data-cta-placement": placement, "data-cta-code": cta.inviteCode || undefined };
   const terms = ownerRebateLine(slug, locale, name) || t.fallback;
   const doCopy = async () => { try { await navigator.clipboard.writeText(cta.inviteCode); setCopied(true); setTimeout(() => setCopied(false), 1800); } catch { /* clipboard blocked: the code stays visible */ } };
   return (
@@ -49,8 +56,7 @@ function OfferBody({ slug, cta, locale, t, placement }) {
         {cta.inviteCode && (
           <div className="news-offer__code"><span>{t.code}</span><code translate="no">{cta.inviteCode}</code><button type="button" onClick={doCopy} aria-live="polite">{copied ? t.copied : t.copy}</button></div>
         )}
-        <a className="news-offer__go" href={cta.registrationUrl} target="_blank" rel="sponsored noopener noreferrer"
-          data-cta-kind="registration" data-cta-platform={slug} data-cta-placement={placement} data-cta-code={cta.inviteCode || undefined}>
+        <a className="news-offer__go" href={href} target="_blank" rel="sponsored noopener noreferrer" {...tracking}>
           {t.go(name)} <span aria-hidden="true">→</span>
         </a>
       </div>
@@ -59,7 +65,7 @@ function OfferBody({ slug, cta, locale, t, placement }) {
 }
 
 /** variant: "inline" (under the article), "rail" (desktop side rail), "timed" (slides in after 15 s of reading). */
-export function NewsVenueOffer({ venues, locale = "en", market, articleSlug, variant = "inline" }) {
+export function NewsVenueOffer({ venues, locale = "en", market, articleSlug, variant = "inline", placementPrefix = "news-offer", linkFor, nameFor }) {
   const t = copyFor(locale);
   const pick = pickNewsOfferVenue(venues, locale, market);
   const [shown, setShown] = useState(false);
@@ -90,12 +96,12 @@ export function NewsVenueOffer({ venues, locale = "en", market, articleSlug, var
   }, [variant, pick?.slug]);
 
   if (!pick) return null;
-  const label = t.lead(pick.cta.name || pick.slug);
-  const placement = `news-offer-${variant}-${articleSlug || "article"}`;
+  const label = t.lead((nameFor && nameFor(pick.slug, pick.cta)) || pick.cta.name || pick.slug);
+  const placement = `${placementPrefix}-${variant}-${articleSlug || "article"}`;
   if (variant !== "timed") {
     return (
       <aside className={`news-offer news-offer--${variant}`} aria-label={label} data-offer-venue={pick.slug}>
-        <OfferBody slug={pick.slug} cta={pick.cta} locale={locale} t={t} placement={placement} />
+        <OfferBody slug={pick.slug} cta={pick.cta} locale={locale} t={t} placement={placement} linkFor={linkFor} nameFor={nameFor} />
       </aside>
     );
   }
@@ -104,7 +110,7 @@ export function NewsVenueOffer({ venues, locale = "en", market, articleSlug, var
   return (
     <aside className={`news-offer news-offer--timed${shown ? " is-shown" : ""}`} aria-label={label} {...(shown ? {} : { inert: true, "aria-hidden": "true" })} data-offer-venue={pick.slug}>
       <button type="button" className="news-offer__close" onClick={close} aria-label={t.close}>×</button>
-      <OfferBody slug={pick.slug} cta={pick.cta} locale={locale} t={t} placement={placement} />
+      <OfferBody slug={pick.slug} cta={pick.cta} locale={locale} t={t} placement={placement} linkFor={linkFor} nameFor={nameFor} />
     </aside>
   );
 }

@@ -1,0 +1,58 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:03.840
+If I use ten times, does the exchange give me 900?
+
+00:00:09.250 --> 00:00:10.435
+It's not free cash.
+
+00:00:10.435 --> 00:00:14.864
+Simply put, 100 of margin controlling a 1,000 position is 10x leverage.
+
+00:00:14.864 --> 00:00:19.480
+Price moves act on the position, and your margin takes the profit or loss.
+
+00:00:35.250 --> 00:00:40.169
+Ignoring fees, a 1% move against you loses about 10 on a 1,000 position,
+
+00:00:40.169 --> 00:00:42.424
+and about 20 on a 2,000 position.
+
+00:00:42.424 --> 00:00:46.660
+The percentage looks small, but on a small margin it can hurt.
+
+00:01:07.250 --> 00:01:08.471
+Here's an easy mistake.
+
+00:01:08.471 --> 00:01:12.560
+If the position size stays the same and you only change the leverage setting,
+
+00:01:12.560 --> 00:01:15.533
+the P&amp;L in money for the same price move doesn't double.
+
+00:01:15.533 --> 00:01:18.560
+What changes is the margin required and your risk buffer.
+
+00:01:35.250 --> 00:01:40.079
+Real liquidation also involves maintenance margin, the mark price and fees.
+
+00:01:40.079 --> 00:01:43.814
+You can't say 10x always liquidates at exactly a 10% drop.
+
+00:01:43.814 --> 00:01:46.390
+Don't use this shortcut for real trades.
+
+00:01:56.250 --> 00:01:56.760
+No.
+
+00:01:57.060 --> 00:02:00.430
+It magnifies how the position hits your money, not your judgement.
+
+00:02:11.250 --> 00:02:14.710
+You still have margin left. So why can you be forced out?
+
+00:02:14.710 --> 00:02:16.470
+Next: the line you can't see.
+
+00:02:17.050 --> 00:02:19.020
+Understand first, then act.
