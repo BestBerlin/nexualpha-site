@@ -3,6 +3,7 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
+import { exportTopQuery, runDedupe, runScore, statusQuery } from '../lib/pipeline.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 export const literal = value => `'${String(value).replaceAll("'", "''")}'`;
@@ -77,7 +78,7 @@ export function runPsql(sql, env = process.env) {
   return result.stdout.trim();
 }
 export async function main(argv, execute = runPsql) {
-  if (argv.length === 0 || argv[0] === '--help') return 'newsroom: migrate | seed | events:top [--limit N] | event:show ID | review:list | shortfall:log --slot ISO --wanted N --eligible N --published N --note TEXT [--day YYYY-MM-DD] | config:get [KEY] | config:set KEY JSON\nConnection: standard PGHOST/PGPORT/PGUSER/PGDATABASE/PGPASSFILE; default database newsroom.';
+  if (argv.length === 0 || argv[0] === '--help') return 'newsroom: migrate | seed | events:top [--limit N] | event:show ID | review:list | shortfall:log --slot ISO --wanted N --eligible N --published N --note TEXT [--day YYYY-MM-DD] | config:get [KEY] | config:set KEY JSON | dedupe | score | status | export:top [--limit N]\nConnection: standard PGHOST/PGPORT/PGUSER/PGDATABASE/PGPASSFILE; default database newsroom.';
   if (['migrate', 'seed'].includes(argv[0])) {
     if (argv.length !== 1) throw new Error('Unexpected arguments');
     const dir = resolve(root, 'db', argv[0] === 'migrate' ? 'migrations' : 'seeds');
@@ -85,6 +86,19 @@ export async function main(argv, execute = runPsql) {
     if (!files.length) throw new Error('No SQL files found');
     execute(`BEGIN;\nSELECT pg_advisory_xact_lock(20261012,1);\n${files.map(name => readFileSync(resolve(dir, name), 'utf8')).join('\n')}\nCOMMIT;`);
     return `${argv[0]}: ${files.length} SQL file(s) applied`;
+  }
+  // Deployment worker commands (T6): persistence for merge/scoring plus read-only status/export views.
+  if (argv[0] === 'dedupe' || argv[0] === 'score') {
+    if (argv.length !== 1) throw new Error('Unexpected arguments');
+    return JSON.stringify(argv[0] === 'dedupe' ? runDedupe(execute) : runScore(execute));
+  }
+  if (argv[0] === 'status') {
+    if (argv.length !== 1) throw new Error('status takes no options');
+    return execute(statusQuery());
+  }
+  if (argv[0] === 'export:top') {
+    const opts = options(argv.slice(1), ['limit']);
+    return execute(exportTopQuery(integer(opts.limit ?? 50, 'limit', 1, 500)));
   }
   return execute(buildQuery(argv));
 }
