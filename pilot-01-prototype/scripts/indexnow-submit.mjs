@@ -3,6 +3,7 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { isSitemapIndex, readSitemapTree } from "./sitemap-tree.mjs";
 
 const DEFAULT_ORIGIN = "https://nexualpha.com";
 const DEFAULT_ENDPOINT = "https://api.indexnow.org/indexnow";
@@ -98,26 +99,12 @@ export function parseSitemapUrls(sitemapXml, origin = DEFAULT_ORIGIN) {
   return urls;
 }
 
-// sitemap.xml is a <sitemapindex> since #118: its <loc>s are child sitemaps, not pages. Descend into each same-origin
-// child (read via loadChild, e.g. from public/) and return only page URLs; a plain <urlset> is parsed as before.
-export function isSitemapIndex(sitemapXml) {
-  return /<sitemapindex[\s>]/.test(String(sitemapXml || ""));
-}
-
-export async function collectSitemapUrls(sitemapXml, { origin = DEFAULT_ORIGIN, loadChild, depth = 0 } = {}) {
-  if (!isSitemapIndex(sitemapXml)) return parseSitemapUrls(sitemapXml, origin);
-  if (depth > 2) throw new Error("Sitemap index nesting is too deep");
-  const seen = new Set();
-  const urls = [];
-  for (const child of parseSitemapUrls(sitemapXml, origin)) {
-    const childXml = await loadChild(child);
-    for (const href of await collectSitemapUrls(childXml, { origin, loadChild, depth: depth + 1 })) {
-      if (seen.has(href)) continue;
-      seen.add(href);
-      urls.push(href);
-    }
-  }
-  return urls;
+// sitemap.xml is a <sitemapindex> since #118: its <loc>s are child sitemaps, not pages. Read the index and its child
+// files (beside it in public/) through sitemap-tree and keep only the page URLs of each <urlset>.
+export function loadSitemapUrls(sitemapPath, origin = DEFAULT_ORIGIN) {
+  const tree = readSitemapTree(sitemapPath);
+  if (tree.missing.length) throw new Error(`Child sitemaps missing next to ${sitemapPath}: ${tree.missing.join(", ")}`);
+  return parseSitemapUrls(tree.files.filter(({ xml }) => !isSitemapIndex(xml)).map(({ xml }) => xml).join("\n"), origin);
 }
 
 export function parseChangedUrls(input) {
@@ -231,13 +218,7 @@ export async function submitIndexNowPayload({ endpoint = DEFAULT_ENDPOINT, paylo
 }
 
 export async function planIndexNowRun(options, fetchImpl = globalThis.fetch) {
-  const sitemapPath = path.resolve(projectRoot, options.sitemap);
-  const sitemapXml = await readFile(sitemapPath, "utf8");
-  // Index children are the files next to sitemap.xml (public/sitemap-*.xml, news-sitemap.xml).
-  const sitemapUrls = await collectSitemapUrls(sitemapXml, {
-    origin: options.origin,
-    loadChild: (url) => readFile(path.join(path.dirname(sitemapPath), path.basename(new URL(url).pathname)), "utf8"),
-  });
+  const sitemapUrls = loadSitemapUrls(path.resolve(projectRoot, options.sitemap), options.origin);
   const changedUrls = options.changedUrls
     ? parseChangedUrls(await readFile(path.resolve(projectRoot, options.changedUrls), "utf8"))
     : null;

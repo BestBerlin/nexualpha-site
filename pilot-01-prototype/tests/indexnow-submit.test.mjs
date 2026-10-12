@@ -1,11 +1,13 @@
 import assert from "node:assert/strict";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import test from "node:test";
 
 import {
   buildIndexNowPayload,
-  collectSitemapUrls,
   filterHttp200,
-  isSitemapIndex,
+  loadSitemapUrls,
   parseChangedUrls,
   parseSitemapUrls,
   selectIndexNowCandidates,
@@ -30,23 +32,25 @@ test("sitemap parsing keeps only same-origin canonical locations", () => {
 });
 
 test("a sitemap index is expanded into its children's page URLs, never the child sitemap URLs", async () => {
-  const index = `<?xml version="1.0" encoding="UTF-8"?>
+  const dir = await mkdtemp(path.join(os.tmpdir(), "nexu-indexnow-"));
+  try {
+    await writeFile(path.join(dir, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap><loc>https://nexualpha.com/sitemap-venues.xml</loc></sitemap>
   <sitemap><loc>https://nexualpha.com/news-sitemap.xml</loc><lastmod>2026-10-12</lastmod></sitemap>
-  <sitemap><loc>https://evil.example/sitemap.xml</loc></sitemap>
-</sitemapindex>`;
-  const children = {
-    "https://nexualpha.com/sitemap-venues.xml": `<urlset><url><loc>https://nexualpha.com/venues/okx</loc></url><url><loc>https://nexualpha.com/</loc></url></urlset>`,
-    "https://nexualpha.com/news-sitemap.xml": `<urlset><url><loc>https://nexualpha.com/news/a</loc></url><url><loc>https://nexualpha.com/</loc></url></urlset>`,
-  };
-  const loaded = [];
-  assert.equal(isSitemapIndex(index), true);
-  assert.equal(isSitemapIndex(sitemap), false);
-  const urls = await collectSitemapUrls(index, { loadChild: async (url) => { loaded.push(url); return children[url]; } });
-  assert.deepEqual(loaded, Object.keys(children));
-  assert.deepEqual(urls, ["https://nexualpha.com/venues/okx", "https://nexualpha.com/", "https://nexualpha.com/news/a"]);
-  assert.deepEqual(await collectSitemapUrls(sitemap, { loadChild: () => assert.fail("urlset has no children") }), parseSitemapUrls(sitemap));
+</sitemapindex>`, "utf8");
+    await writeFile(path.join(dir, "sitemap-venues.xml"), `<urlset><url><loc>https://nexualpha.com/venues/okx</loc></url><url><loc>https://nexualpha.com/</loc></url><url><loc>https://evil.example/x</loc></url></urlset>`, "utf8");
+    await writeFile(path.join(dir, "news-sitemap.xml"), `<urlset><url><loc>https://nexualpha.com/news/a?x=1&amp;y=2</loc></url><url><loc>https://nexualpha.com/</loc></url></urlset>`, "utf8");
+    assert.deepEqual(loadSitemapUrls(path.join(dir, "sitemap.xml")), ["https://nexualpha.com/venues/okx", "https://nexualpha.com/", "https://nexualpha.com/news/a?x=1&y=2"]);
+
+    await writeFile(path.join(dir, "plain.xml"), sitemap, "utf8");
+    assert.deepEqual(loadSitemapUrls(path.join(dir, "plain.xml")), parseSitemapUrls(sitemap));
+
+    await rm(path.join(dir, "news-sitemap.xml"));
+    assert.throws(() => loadSitemapUrls(path.join(dir, "sitemap.xml")), /Child sitemaps missing/);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
 });
 
 test("changed URL file supports JSON and line formats", () => {
