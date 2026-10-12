@@ -80,6 +80,7 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
       initialOfficialAnnouncements: state?.officialAnnouncements,
       initialToolArticles: state?.toolArticles,
       initialFlash: state?.flash,
+      initialCoins: state?.coins,
     })), heroVariant);
     const root = window.document.getElementById("root");
     const reactRoot = hydrateRoot(root, app, { onRecoverableError: (error) => errors.push(`recoverable: ${error?.message || error}`) });

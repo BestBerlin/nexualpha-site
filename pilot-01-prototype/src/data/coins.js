@@ -1,7 +1,8 @@
 // "Where to buy <coin>" model (route chunk + SSR). Rows come from coins-data.generated.js (scripts/build-coin-availability.mjs,
 // public exchange endpoints + CoinGecko); fees from exchange-facts.js; sign-up gating from the partner geo policy and the
 // partner registry (publicCtaForVenue). Links to partners always go through our tracked /go/<venue>?src=coin-<slug>.
-import { COIN_ROWS, COIN_VENUE_SLUGS, COIN_VENUE_STATUS, COINS_GENERATED_AT } from "./coins-data.generated.js";
+import { COIN_ROWS, COIN_VENUE_SLUGS, COIN_VENUE_STATUS as BAKED_VENUE_STATUS, COINS_GENERATED_AT as BAKED_GENERATED_AT } from "./coins-data.generated.js";
+import { coinRowFromSnapshotCoin, coinVenueStatusFromSnapshot, isUsableCoinSnapshot } from "./coins-snapshot.js";
 import { COIN_COPY } from "./coins-copy.js";
 import { COIN_INDEX_LOCALES, coinContentLocale, coinPath, COINS_PATH } from "./coins-routes.js";
 
@@ -13,7 +14,7 @@ import { PARTNER_RESTRICTED_COUNTRIES } from "./partner-geo-policy.generated.js"
 import { publicCtaForVenue } from "./source-bound-cta.js";
 import { ACADEMY_EPISODES } from "./academy-season1.js";
 
-export { COINS_GENERATED_AT, COIN_VENUE_SLUGS, COIN_INDEX_LOCALES, COINS_PATH, coinPath, coinContentLocale };
+export { COIN_VENUE_SLUGS, COIN_INDEX_LOCALES, COINS_PATH, coinPath, coinContentLocale };
 
 export const COIN_VENUE_NAMES = Object.freeze({ okx: "OKX", binance: "Binance", bitget: "Bitget", bybit: "Bybit", "gate-io": "Gate", mexc: "MEXC", htx: "HTX", kraken: "Kraken" });
 // Owner rule (academy, DECISIONS 2026-10-12 #3): Bitget's sign-up button names the domain.
@@ -28,8 +29,42 @@ function toCoin(row) {
   const venues = COIN_VENUE_SLUGS.filter((venue) => venueRows[venue]).map((venue) => toVenue([venue, venueRows[venue]]));
   return { id, slug, name, symbol, rank, category, networks, price, change24h, marketCap, venues };
 }
-export const COINS = Object.freeze(COIN_ROWS.map(toCoin));
-const BY_SLUG = new Map(COINS.map((coin) => [coin.slug, coin]));
+// Live bindings: the baked table (coins-data.generated.js) until applyCoinOverlay swaps in a fresher runtime snapshot.
+export let COINS = Object.freeze(COIN_ROWS.map(toCoin));
+export let COINS_GENERATED_AT = BAKED_GENERATED_AT;
+let COIN_VENUE_STATUS = BAKED_VENUE_STATUS;
+let BY_SLUG = new Map(COINS.map((coin) => [coin.slug, coin]));
+
+// Runtime refresh (2026-10-12): the BaoTa job rewrites coins.json daily (listings) and weekly (universe, prices); the
+// server reads it (COINS_FILE) and every coin page renders from it without a redeploy. The page set stays the baked one
+// (sitemap, routes and descriptions ship with the build): coins outside the baked universe are ignored and a baked coin
+// missing from the snapshot keeps its baked row. The overlay carries only rows that differ from the baked table, so the
+// hydration payload stays small; server and browser apply the same overlay before rendering.
+const BAKED_BY_SLUG = new Map(COIN_ROWS.map((row) => [row[1], row]));
+const BAKED_JSON = new Map(COIN_ROWS.map((row) => [row[1], JSON.stringify(row)]));
+let overlayCache = { key: null, overlay: null };
+/** Compact overlay { generatedAt, venueStatus, rows } from a coins.json snapshot, or null when it adds nothing. */
+export function coinOverlayFromSnapshot(snapshot) {
+  if (!isUsableCoinSnapshot(snapshot) || !(Date.parse(snapshot.generatedAt) > Date.parse(BAKED_GENERATED_AT))) return null;
+  if (overlayCache.key === snapshot.generatedAt) return overlayCache.overlay;
+  const rows = snapshot.coins.filter((coin) => BAKED_BY_SLUG.has(coin.slug)).map(coinRowFromSnapshotCoin)
+    .filter((row) => JSON.stringify(row) !== BAKED_JSON.get(row[1]));
+  const overlay = { generatedAt: snapshot.generatedAt, venueStatus: coinVenueStatusFromSnapshot(snapshot), rows };
+  overlayCache = { key: snapshot.generatedAt, overlay };
+  return overlay;
+}
+/** Swap in an overlay (idempotent; ignores malformed or older-than-baked input). Returns true when the table changed. */
+export function applyCoinOverlay(overlay) {
+  if (!overlay || typeof overlay !== "object" || !Array.isArray(overlay.rows) || overlay.generatedAt === COINS_GENERATED_AT) return false;
+  if (!(Date.parse(overlay.generatedAt) > Date.parse(BAKED_GENERATED_AT))) return false;
+  const next = new Map(BAKED_BY_SLUG);
+  for (const row of overlay.rows) if (Array.isArray(row) && row.length === 11 && BAKED_BY_SLUG.has(row[1]) && row[10] && typeof row[10] === "object") next.set(row[1], row);
+  COINS = Object.freeze([...next.values()].map(toCoin)); // baked order: the hub and related lists stay stable
+  BY_SLUG = new Map(COINS.map((coin) => [coin.slug, coin]));
+  COINS_GENERATED_AT = overlay.generatedAt;
+  COIN_VENUE_STATUS = overlay.venueStatus && typeof overlay.venueStatus === "object" ? overlay.venueStatus : BAKED_VENUE_STATUS;
+  return true;
+}
 export const coinBySlug = (slug) => BY_SLUG.get(String(slug || "").toLowerCase()) || null;
 
 export const spotVenues = (coin) => coin.venues.filter((venue) => venue.spot.length);

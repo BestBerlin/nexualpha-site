@@ -42,6 +42,7 @@ import { parseAppDownloadPath } from "../src/data/app-download-path.js";
 import { academyRouteSeo } from "../src/data/academy-seo.js";
 import { COINS_PATH, parseCoinsPath } from "../src/data/coins-routes.js";
 import { coinsRouteSeo } from "../src/data/coins-seo.js";
+import { applyCoinOverlay, coinOverlayFromSnapshot, COINS_GENERATED_AT } from "../src/data/coins.js";
 import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
 import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, renderFlashSitemap } from "../src/data/flash-feed.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
@@ -50,10 +51,26 @@ import { BYBIT_STOCKS_INDEX_LOCALES, BYBIT_STOCKS_PATH, parseBybitStocksPath } f
 import { bybitStocksRouteSeo } from "../src/data/bybit-stocks-seo.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 import { resolvePromotions, promotionCopy } from "../src/data/promotions.js";
+const COINS_PATH_PATTERN = /(?:^|\/)coins(?:\/|$)/;
+// Returns the overlay the page was rendered with (also shipped as prerender state "coins"), or null for the baked table.
+async function refreshCoinOverlay(env) {
+  if (typeof env?.COINS_SNAPSHOT_READ !== "function") return null;
+  try {
+    const overlay = coinOverlayFromSnapshot(await env.COINS_SNAPSHOT_READ());
+    applyCoinOverlay(overlay);
+    return overlay;
+  } catch (error) {
+    console.error(`[NexuAlpha] coins overlay failed: ${error?.message || error}`);
+    return null;
+  }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/api/analytics/cta") return handleAnalyticsCollector(request, env, url);
+    // Coin pages read the runtime coins.json (server COINS_FILE, refreshed on the host) before any head or body is built.
+    if (COINS_PATH_PATTERN.test(url.pathname) || (url.pathname === "/api/route-seo" && COINS_PATH_PATTERN.test(url.searchParams.get("path") || ""))) await refreshCoinOverlay(env);
     // Social cards are rendered by server.mjs (server/og-image.mjs) before the worker sees the request; a worker
     // without that renderer answers 404 instead of an HTML page, so link previews never cache a page as an image.
     if (url.pathname.startsWith("/og/")) {
@@ -3575,6 +3592,8 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.heroVariant === "a" || route.heroVariant === "b" ? { heroVariant: route.heroVariant } : {}),
     ...(route.toolArticles && typeof route.toolArticles === "object" ? { toolArticles: route.toolArticles } : {}),
     ...(route.flash && typeof route.flash === "object" ? { flash: route.flash } : {}),
+    // Coin pages rendered from a runtime coins.json: the rows that differ from the baked table (applyCoinOverlay).
+    ...(route.coins && typeof route.coins === "object" && Array.isArray(route.coins.rows) ? { coins: route.coins } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
   // Function replacer: the body is page text and may contain "$'" / "$&" replacement patterns.
@@ -4532,10 +4551,13 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     // Where to buy <coin> (hub + coin pages): rendered at request time with the component the browser hydrates.
     if (metadata.marker === COINS_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
-        const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), {});
+        // No newer runtime snapshot: an empty overlay still tells the browser this page was server-rendered (no refetch).
+        const overlay = await refreshCoinOverlay(env);
+        const coins = overlay || { generatedAt: COINS_GENERATED_AT, rows: [] };
+        const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), { coins });
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxc ")) {
-          metadata.coinsSsrMode = "runtime";
-          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+          metadata.coinsSsrMode = overlay ? "runtime-snapshot" : "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { coins }, url);
         }
         console.error(`[NexuAlpha] coins SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] coins SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
