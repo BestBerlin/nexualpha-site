@@ -1,0 +1,9 @@
+Give academy lessons an original and reusable visual companion
+
+Constraint: Keep Direction A assets isolated from application and partner data
+Confidence: medium
+Scope-risk: narrow
+Directive: Verify real browser SVG motion and responsive layout before integration
+Tested: SVG structure, mood mapping, 1600px exports, eight transparent stickers, GSAP timeline and controls in JSDOM
+Not-tested: Browser rendering blocked by sandbox; site suite stops on missing dist artifacts
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>

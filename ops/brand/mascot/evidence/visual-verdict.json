@@ -1,0 +1,12 @@
+{
+  "verdict": "reviewed-with-limitations",
+  "category_match": true,
+  "differences": [
+    "No supplied final visual reference for numerical comparison.",
+    "Browser-rendered HTML layout remains unverified due to sandbox and local-URL policy."
+  ],
+  "suggestions": [
+    "Lead browser QA at 390 / 768 / 1440 before downstream integration."
+  ],
+  "reasoning": "Dark and light vector boards inspected. Three-quarter view now narrows the far eye and turns mouth/coin. Complete silhouettes and distinct gestures are visible with no cropping. This is a vector-art review, not a browser-layout verdict."
+}
