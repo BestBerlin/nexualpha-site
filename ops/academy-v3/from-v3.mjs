@@ -2,6 +2,7 @@ import { readFile, writeFile, mkdir, copyFile } from 'node:fs/promises';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { samVoiceInstruct } from './narration-plan.mjs';
+import { applyNarrationTiming, loadTiming } from './align-narration.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_SOURCE_ROOT = join(here,'episodes/source');
@@ -352,6 +353,7 @@ export async function generateAll({
   sourceRoot = DEFAULT_SOURCE_ROOT,
   outRoot = join(here, 'episodes'),
   ids = DEFAULT_EPISODES,
+  narrationTiming = loadTiming(join(outRoot, 'narration-timing.json')),
 } = {}) {
   const written = [];
   await mkdir(join(outRoot, 'source'), { recursive: true });
@@ -360,7 +362,8 @@ export async function generateAll({
     const sourceCopy = join(outRoot, 'source', basename(sourcePath));
     if(resolve(sourcePath) !== resolve(sourceCopy)) await copyFile(sourcePath, sourceCopy);
     const source = await readJson(sourcePath);
-    const converted = convertEpisode(source, { sourcePath });
+    // Measured narration (when present) replaces estimated line timing; convertEpisode itself stays source-exact.
+    const converted = applyNarrationTiming(convertEpisode(source, { sourcePath }), narrationTiming);
     const outputPath = join(outRoot, `${id}.json`);
     await writeJson(outputPath, converted);
     written.push(sourceCopy, outputPath);

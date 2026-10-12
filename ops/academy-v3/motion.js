@@ -14,7 +14,8 @@ SCENES.forEach((s,i)=>{
     timeline.to(row,{borderColor:colors.blue,duration:.3,repeat:1,yoyo:true},at+Math.min(s.duration-1,2+j*2.5));
   });
   // Hosts gesture at the teaching layer, then react; beats continue in long shots.
-  const arm = document.querySelector(p + ' .character .rig-arm-right');
+  // Wave scenes animate the raised hand only; stacking the beat gesture on the same rig drifts it.
+  const arm = s.pose==='wave' ? null : document.querySelector(p + ' .character .rig-arm-right');
   for(let beat=at+.8;beat<at+s.duration-.8;beat+=3){
     if(arm) timeline.to(arm,{rotation:-14,transformOrigin:'20% 80%',duration:.3,repeat:1,yoyo:true,ease:'power2.inOut'},beat);
     timeline.to(p+' .cast',{y:-10,scaleY:1.02,duration:.25,repeat:1,yoyo:true},beat+.4);
@@ -28,6 +29,8 @@ SCENES.forEach((s,i)=>{
     timeline.from(card.querySelector('.rejection'),{scale:1.4,opacity:0,duration:.3,immediateRender:false},at+.6+j*2.5);
     timeline.set(card.querySelector('.rejection'),{visibility:'hidden'},at+3+j*2.5);
     timeline.set(card.querySelector('.correction'),{visibility:'visible'},at+3+j*2.5);
+    // A child set to 'visible' overrides its hidden scene, so hide the stamp again when the scene ends.
+    timeline.set(card.querySelector('.correction'),{visibility:'hidden'},at+s.duration);
     timeline.from(card.querySelector('.correction'),{scale:1.4,duration:.3,immediateRender:false},at+3+j*2.5);
   });
   const connector=document.querySelector(p+' .match-connector');
@@ -47,7 +50,7 @@ SCENES.forEach((s,i)=>{
   // Repeated blink and small antenna pulse add deterministic life at 2.5s beats.
   for(let beat=at+1.6;beat<at+s.duration-.5;beat+=2.5){
     const eyes = document.querySelectorAll(p + ' .rig-eyes');
-    if(eyes.length) timeline.to(eyes,{scaleY:.1,duration:.09,repeat:1,yoyo:true},beat);
+    if(eyes.length) timeline.to(eyes,{scaleY:.1,transformOrigin:'50% 50%',duration:.09,repeat:1,yoyo:true},beat);
     if(lamp) timeline.to(lamp,{opacity:.5,duration:.2,repeat:1,yoyo:true},beat+.2);
   }
   for(const line of s.lines){
@@ -56,11 +59,11 @@ SCENES.forEach((s,i)=>{
     const span=line.end-line.start, cycles=Math.max(1,Math.floor(span/.4));
     timeline.to(character,{y:-5,duration:span/(cycles*2),repeat:cycles*2-1,yoyo:true,ease:'sine.inOut'},at+line.start);
     const mouth = character.querySelector('.rig-mouth');
-    if(mouth) timeline.to(mouth,{scaleY:1.55,duration:span/(cycles*2),repeat:cycles*2-1,yoyo:true,ease:'sine.inOut'},at+line.start);
+    if(mouth) timeline.to(mouth,{scaleY:1.55,transformOrigin:'50% 30%',duration:span/(cycles*2),repeat:cycles*2-1,yoyo:true,ease:'sine.inOut'},at+line.start);
   }
   if(s.pose==='wave'){
-    const arm=document.querySelector(p + ' .nexubo .rig-arm-right');
-    if(arm) timeline.to(arm,{rotation:16,transformOrigin:'20% 80%',duration:.3,repeat:7,yoyo:true},at+.5);
+    const hand=document.querySelector(p + ' .nexubo .rig-arm-left');
+    if(hand) timeline.to(hand,{rotation:-14,transformOrigin:'85% 90%',duration:.3,repeat:7,yoyo:true,ease:'sine.inOut'},at+.5);
   }
   if(s.ding){
     if(lampPaint.length) timeline.set(lampPaint,{fill:colors.red},at+.6);

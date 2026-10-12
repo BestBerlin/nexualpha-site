@@ -6,7 +6,7 @@ import {createRequire} from 'node:module';
 const require=createRequire(new URL('../../pilot-01-prototype/package.json',import.meta.url));
 const {JSDOM}=require('jsdom');
 const gsap=readFileSync(new URL('./node_modules/gsap/dist/gsap.min.js',import.meta.url),'utf8');
-for(const [ep,locale,total] of [['E05','en',130],['E09','en',154],['E21','en',124],['E05','zh-Hans',130]]){
+for(const [ep,locale,total] of [['E05','en',135],['E09','en',155],['E21','en',124.9],['E05','zh-Hans',135]]){
  test(`${ep}/${locale}: build isolated outputs and preserve all scene narration`,()=>{
   const r=spawnSync(process.execPath,['build.mjs',`episodes/${ep}.json`,locale],{cwd:new URL('.',import.meta.url),encoding:'utf8'});
   assert.equal(r.status,0,r.stderr);

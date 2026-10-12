@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "generated_by": "ops/academy-v3/align-narration.mjs measure",
+  "trim_filter": "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.04,areverse,silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.08,areverse",
+  "lines": {
+    "e05-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "It wants my ID. And this guy says he can do it for me?",
+      "source_seconds": 3.36,
+      "trimmed_seconds": 3.241
+    },
+    "e05-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Identity checks are usually there to confirm you are the account owner and to meet the rules. Make sure it's the official flow first. Don't hand your ID or codes to an 'agent' in a chat group.",
+      "source_seconds": 10.48,
+      "trimmed_seconds": 10.122
+    },
+    "e05-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Usually you enter your real details, upload a supported valid ID, then follow the prompts for a photo or face check. Whether you need proof of address, and which IDs are accepted, depends on your region and platform.",
+      "source_seconds": 11.6,
+      "trimmed_seconds": 11.31
+    },
+    "e05-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "If it fails, read the reason first. Is the ID expired? Is there glare? Does the name match? Fix it as instructed. Never try again with a fake identity.",
+      "source_seconds": 9.68,
+      "trimmed_seconds": 9.294
+    },
+    "e05-05-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "Once I'm done, can I trade right away?",
+      "source_seconds": 2.32,
+      "trimmed_seconds": 2.233
+    },
+    "e05-05-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "Not guaranteed. The result, the products you can use and whether you can deposit all depend on the official notice. And this academy never collects your real ID.",
+      "source_seconds": 9.36,
+      "trimmed_seconds": 8.959
+    },
+    "e05-06-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Who gets your ID? Only the verified official flow. Not us, and not a stranger.",
+      "source_seconds": 5.52,
+      "trimmed_seconds": 5.301
+    },
+    "e05-07-conversion-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Ready to verify? Start only on the official site. Our OKX partner link takes you straight there, with code nexu888 for a fee rebate. We never ask for your ID.",
+      "source_seconds": 10.72,
+      "trimmed_seconds": 10.484
+    },
+    "e05-08-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Deposit, buy, transfer: three buttons that all look the same. Next: which one to press.",
+      "source_seconds": 5.2,
+      "trimmed_seconds": 5.028
+    },
+    "e05-09-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.32,
+      "trimmed_seconds": 2.026
+    },
+    "e09-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "This network is cheaper. Why not just switch?",
+      "source_seconds": 3.76,
+      "trimmed_seconds": 3.61
+    },
+    "e09-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "First confirm which asset and network the receiver supports. Then think about fees. If the two ends don't match, don't send just because it's cheaper. Even USDT can live on different networks.",
+      "source_seconds": 10.72,
+      "trimmed_seconds": 10.472
+    },
+    "e09-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "For now, think of the network as the route and the address as the destination. But two addresses can look alike and still not work on the same network. Always check that the receiving platform supports this chain and this asset.",
+      "source_seconds": 13.04,
+      "trimmed_seconds": 12.715
+    },
+    "e09-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Copy the address from the receiving page, then check all of it. If a memo or tag is required, fill it in. Confirm the minimum deposit, the withdrawal fee and the amount that will arrive. Don't judge an address by its first and last few characters.",
+      "source_seconds": 14,
+      "trimmed_seconds": 13.821
+    },
+    "e09-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Send a small test that meets the minimum, and confirm it was actually credited. For a bigger transfer, check everything again. Don't blindly reuse old records. For self-custody transfers, have the network fee ready too.",
+      "source_seconds": 12.56,
+      "trimmed_seconds": 12.45
+    },
+    "e09-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "No.",
+      "source_seconds": 0.72,
+      "trimmed_seconds": 0.611
+    },
+    "e09-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "One more check before sending beats looking for help after a mistake.",
+      "source_seconds": 3.6,
+      "trimmed_seconds": 3.33
+    },
+    "e09-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "It says 'success', but nothing arrived. Don't send it again. Next: where to look.",
+      "source_seconds": 5.12,
+      "trimmed_seconds": 4.854
+    },
+    "e09-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.24,
+      "trimmed_seconds": 1.931
+    },
+    "e21-00-problem-l01-sam": {
+      "speaker": "sam",
+      "text": "If I put 100 in isolated, the other 900 can never be touched?",
+      "source_seconds": 4.08,
+      "trimmed_seconds": 3.949
+    },
+    "e21-02-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Isolated margin means a position gets its own margin. In a simple setup, with no adding and no auto-add, this position's liquidation risk is mainly carried by the margin you assigned.",
+      "source_seconds": 10.32,
+      "trimmed_seconds": 9.816
+    },
+    "e21-03-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "So it helps you separate the margin of different positions. But that 100 can still be lost. Isolated margin doesn't make losses disappear, and it isn't a stop-loss order.",
+      "source_seconds": 9.84,
+      "trimmed_seconds": 9.515
+    },
+    "e21-04-lesson-l01-nexubo": {
+      "speaker": "nexubo",
+      "text": "Watch this switch. Some platforms offer auto-add margin. Turn it on, and your available balance can keep flowing into the position. Adding margin by hand does the same. More money ends up carrying the risk.",
+      "source_seconds": 11.68,
+      "trimmed_seconds": 11.45
+    },
+    "e21-05-lesson-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.",
+      "source_seconds": 9.04,
+      "trimmed_seconds": 8.733
+    },
+    "e21-06-lesson-l01-sam": {
+      "speaker": "sam",
+      "text": "No.",
+      "source_seconds": 0.48,
+      "trimmed_seconds": 0.435
+    },
+    "e21-06-lesson-l02-nexubo": {
+      "speaker": "nexubo",
+      "text": "With isolated margin, look at the walls, and also at any pipes plugged into the box.",
+      "source_seconds": 5.36,
+      "trimmed_seconds": 4.93
+    },
+    "e21-07-hook-l01-narrator": {
+      "speaker": "narrator",
+      "text": "One position leaks, and another one starts sinking. Next: cross margin.",
+      "source_seconds": 4.56,
+      "trimmed_seconds": 4.363
+    },
+    "e21-08-close-l01-narrator": {
+      "speaker": "narrator",
+      "text": "Understand first, then act.",
+      "source_seconds": 2.16,
+      "trimmed_seconds": 1.962
+    }
+  }
+}

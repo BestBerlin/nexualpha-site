@@ -1,8 +1,8 @@
 {
   "locale": "en",
   "format": "landscape",
-  "duration": 124,
-  "captionTiming": "includes estimated words",
+  "duration": 124.9,
+  "captionTiming": "supplied words",
   "destination": null,
   "scenes": [
     {
@@ -58,15 +58,15 @@
       "id": "scene-7",
       "kind": "hook",
       "start": 116,
-      "duration": 4,
-      "hero": 118.4
+      "duration": 4.9,
+      "hero": 118.94
     },
     {
       "id": "scene-8",
       "kind": "close",
-      "start": 120,
+      "start": 120.9,
       "duration": 4,
-      "hero": 122.4
+      "hero": 123.30000000000001
     }
   ]
 }

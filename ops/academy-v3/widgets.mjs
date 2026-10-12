@@ -162,7 +162,7 @@ export function setBackdrop(name, locale = "en") {
 }
 
 const RENDER = {
-  idSamples: (spec, copy) => `<div class="id-samples">${(spec.labels ?? []).map(label=>`<div class="sample-id"><div class="id-portrait"></div><div class="id-lines">SAMPLE ID<br><span>— — —</span></div><div class="rejection">✗ ${esc(label)}</div><div class="correction">✓ ${esc(copy.complete)}</div></div>`).join('')}</div><small>${esc(spec.note ?? (copy.note+' · SAMPLE'))}</small>`,
+  idSamples: (spec, copy) => `<div class="id-samples">${(spec.labels ?? []).map(label=>`<div class="sample-id"><div class="id-portrait"></div><div class="id-lines">SAMPLE ID<br><span>— — —</span></div><div class="rejection">✗ ${esc(label)}</div><div class="correction"><span class="mark mark--ok" aria-hidden="true">✓</span></div></div>`).join('')}</div><small>${esc(spec.note ?? (copy.note+' · SAMPLE'))}</small>`,
   transferMatch: (spec, copy) => `<div class="transfer-match"><div class="transfer-end"><h2>${esc(spec.sender)}</h2><p>${esc(copy.asset)} · <b>${esc(spec.coin)}</b></p><p>${esc(copy.network)} · <b>${esc(spec.network)}</b></p></div><div class="match-connector">✓</div><div class="transfer-end"><h2>${esc(spec.receiver)}</h2><p>${esc(copy.asset)} · <b>${esc(spec.coin)}</b></p><p>${esc(copy.network)} · <b>${esc(spec.network)}</b></p></div></div><small>${esc(spec.note ?? '')}</small>`,
   marginFlow: (spec, copy) => `<div class="margin-flow"><div class="box">${esc(copy.available)}<b>${esc(spec.balance)}</b></div><div class="pipe"><i></i></div><div class="box">${esc(copy.isolated)}<b>${esc(spec.margin)}</b></div></div><div class="auto-toggle" data-auto-add="${Boolean(spec.autoAdd)}">${esc(copy.autoAdd)} · ${esc(spec.autoAdd ? copy.on : copy.off)}</div>${spec.autoAdd ? `<div class="risk-total">${esc(copy.moneyAtRisk)} · <b data-risk-initial="${esc(spec.margin)}">${esc(spec.margin)} + …</b></div>` : ''}<p>${esc(spec.label ?? '')}</p><small>${esc(spec.note ?? '')}</small>`,
   priceBoard: (spec, copy) => {
@@ -241,14 +241,14 @@ const RENDER = {
     ], "margin-summary")}${positionRows.join("")}</div>`]);
   },
   checklist: (spec, copy) => panel(copy.checklist, asArray(spec.items).map((item) => rowBlock([
-    chip(item.done ? copy.complete : copy.pending),
+    mark(item.done),
     cell(copy.step, item.label ?? item),
   ]))),
   identity: (spec, copy) => panel(copy.identity, [
     ...asArray(spec.steps).map((step) => rowBlock([cell(copy.step, step.label ?? step), cell(copy.status, step.status)])),
     rowBlock([cell(copy.photos, spec.photos ? copy.complete : copy.notProvided), cell(copy.note, spec.fictionalNote)]),
   ]),
-  warning: (spec, copy) => panel(copy.warning, [rowBlock([chip(copy.warning), cell(copy.note, spec.message)])]),
+  warning: (spec, copy) => panel(copy.warning, [rowBlock([`<span class="mark mark--warn" aria-hidden="true">!</span>`, cell(copy.note, spec.message)])]),
 };
 
 function panel(label, rows) {
@@ -261,6 +261,11 @@ function rowBlock(cells, className = "") {
 
 function cell(label, value) {
   return `<div class="field"><span>${esc(label)}</span><b>${esc(value ?? "—")}</b></div>`;
+}
+
+// Owner review 2026-10-12: text badges ("Complete"/"Pending") read like a status log — lessons use ✓ / ✗ marks.
+function mark(ok) {
+  return `<span class="mark ${ok ? "mark--ok" : "mark--no"}" aria-hidden="true">${ok ? "✓" : "✗"}</span>`;
 }
 
 function chip(value) {

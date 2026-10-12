@@ -1,6 +1,6 @@
 # Academy v3 sample episodes
 
-Internal E05 / E09 / E21 samples from the merged v3 scripts. No site changes, publication, registry edits, installs or model downloads. The original `sample-e05.json` remains a legacy 120-second kit fixture; the new `episodes/E05.json` is 130 seconds with the supplied conversion card. E09 is 154 seconds; E21 is 124 seconds.
+Internal E05 / E09 / E21 samples from the merged v3 scripts. No site changes, publication, registry edits, installs or model downloads. The original `sample-e05.json` remains a legacy 120-second kit fixture; the new `episodes/E05.json` is 135 seconds with the supplied conversion card. E09 is 155 seconds; E21 is 124.9 seconds (source targets 130/154/124 s; cards grew to fit measured narration).
 
 ## Build and review
 
@@ -21,6 +21,8 @@ Eight compositions: E05/E09/E21 English, plus E05 Simplified Chinese on-screen t
 ```sh
 bash narrate.sh --plan-only
 bash narrate.sh
+node align-narration.mjs measure   # trims wavs, writes episodes/narration-timing.json
+node from-v3.mjs                   # regenerates episodes/*.json with measured line/word timing
 export HYPERFRAMES_BROWSER_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 bash build-samples.sh --render
 ```
@@ -88,3 +90,15 @@ Optional `title` labels any widget. For production, keep one primary widget per 
 CSS uses primitive/semantic/component tokens. Portrait rearranges teaching above characters and reserves 300px at the bottom; it does not crop landscape. All text and figures are editable DOM/SVG. Logical CSS properties and explicit `direction` make layout RTL-ready; only en/zh-Hans have reviewed UI strings here, and no Arabic/RTL production validation is claimed. Characters are guides at the side/below the teaching layer, never over the data.
 
 The kit reuses the existing mascot as required and creates Sam locally without third-party character images. System fonts use local fallbacks (no font download); the lead must confirm intended fonts and commercial asset/audio licensing before final production. The deprecated `visual-verdict` skill explicitly says not to invoke it; manual Chrome review and saved geometry evidence were used without activating an unavailable OMX runtime.
+
+## Narration alignment and mux
+
+`episodes/narration-timing.json` holds the measured (edge-trimmed) duration of every generated line. `from-v3.mjs` applies it through `align-narration.mjs`: lines start 0.25 s into their scene with 0.3 s between lines and 0.25 s tail, scenes only grow (0.1 s steps, frame-aligned), word timings are spread proportionally inside each measured line, and each line records `narration: {id, atempo, seconds}`. Fixed windows (problem 6 s, hook 3..5 s, close 4..6 s, conversion 4..10 s) tighten padding to 0.15 s and then use atempo (≤1.08; ≤1.12 is recorded in `narration_alignment.compromises`; beyond that the build fails). `convertEpisode()` itself stays source-exact.
+
+```sh
+bash render.sh en episodes/E05.json        # silent masters (likewise E09/E21 en, E05 zh-Hans)
+node mux-narration.mjs E05 E09 E21          # one -16 LUFS track per episode -> renders/final/<EP>-<locale>-<format>.mp4
+node final-contact-sheets.mjs               # renders/final/contact-*.jpg, one frame per scene midpoint
+```
+
+The zh-Hans E05 variant carries the English narration under Simplified Chinese captions; no Mandarin voice was generated.

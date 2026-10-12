@@ -9,8 +9,8 @@
     "zh-Hans": "转账之前，这几项一个也别猜"
   },
   "direction": "ltr",
-  "status": "V3_SOURCE_CONVERTED_SILENT_DEMO",
-  "timing_note": "Converted from education/v3 source JSON. Shot-local line timings are deterministic estimates until real narration alignment is written back.",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
   "narration": {
     "mode": "CLONE",
     "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
@@ -49,9 +49,105 @@
             "en": "This network is cheaper. Why not just switch?",
             "zh-Hans": "这个网络更便宜，随便换它不就好了？"
           },
-          "start": 0.4,
-          "end": 5.7,
-          "source_who": "Sam"
+          "start": 0.25,
+          "end": 3.86,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e09-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 3.61
+          },
+          "words": {
+            "en": [
+              {
+                "text": "This ",
+                "start": 0.25,
+                "end": 0.63
+              },
+              {
+                "text": "network ",
+                "start": 0.63,
+                "end": 1.295
+              },
+              {
+                "text": "is ",
+                "start": 1.295,
+                "end": 1.485
+              },
+              {
+                "text": "cheaper. ",
+                "start": 1.485,
+                "end": 2.245
+              },
+              {
+                "text": "Why ",
+                "start": 2.245,
+                "end": 2.53
+              },
+              {
+                "text": "not ",
+                "start": 2.53,
+                "end": 2.815
+              },
+              {
+                "text": "just ",
+                "start": 2.815,
+                "end": 3.195
+              },
+              {
+                "text": "switch?",
+                "start": 3.195,
+                "end": 3.86
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "这个",
+                "start": 0.25,
+                "end": 0.675
+              },
+              {
+                "text": "网络",
+                "start": 0.675,
+                "end": 1.099
+              },
+              {
+                "text": "更",
+                "start": 1.099,
+                "end": 1.312
+              },
+              {
+                "text": "便宜，",
+                "start": 1.312,
+                "end": 1.949
+              },
+              {
+                "text": "随便",
+                "start": 1.949,
+                "end": 2.374
+              },
+              {
+                "text": "换",
+                "start": 2.374,
+                "end": 2.586
+              },
+              {
+                "text": "它",
+                "start": 2.586,
+                "end": 2.798
+              },
+              {
+                "text": "不就",
+                "start": 2.798,
+                "end": 3.223
+              },
+              {
+                "text": "好了？",
+                "start": 3.223,
+                "end": 3.86
+              }
+            ]
+          }
         }
       ],
       "widgets": [
@@ -101,9 +197,345 @@
             "en": "First confirm which asset and network the receiver supports. Then think about fees. If the two ends don't match, don't send just because it's cheaper. Even USDT can live on different networks.",
             "zh-Hans": "先确认收款方支持哪种资产和网络，再选择费用。两端不匹配，不能因为便宜就发送。同叫泰达币，也可能在不同网络上。"
           },
-          "start": 0.4,
-          "end": 29.7,
-          "source_who": "Nexubo"
+          "start": 0.25,
+          "end": 10.722,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e09-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 10.472
+          },
+          "words": {
+            "en": [
+              {
+                "text": "First ",
+                "start": 0.25,
+                "end": 0.575
+              },
+              {
+                "text": "confirm ",
+                "start": 0.575,
+                "end": 1.031
+              },
+              {
+                "text": "which ",
+                "start": 1.031,
+                "end": 1.356
+              },
+              {
+                "text": "asset ",
+                "start": 1.356,
+                "end": 1.681
+              },
+              {
+                "text": "and ",
+                "start": 1.681,
+                "end": 1.876
+              },
+              {
+                "text": "network ",
+                "start": 1.876,
+                "end": 2.331
+              },
+              {
+                "text": "the ",
+                "start": 2.331,
+                "end": 2.527
+              },
+              {
+                "text": "receiver ",
+                "start": 2.527,
+                "end": 3.047
+              },
+              {
+                "text": "supports. ",
+                "start": 3.047,
+                "end": 3.632
+              },
+              {
+                "text": "Then ",
+                "start": 3.632,
+                "end": 3.892
+              },
+              {
+                "text": "think ",
+                "start": 3.892,
+                "end": 4.218
+              },
+              {
+                "text": "about ",
+                "start": 4.218,
+                "end": 4.543
+              },
+              {
+                "text": "fees. ",
+                "start": 4.543,
+                "end": 4.868
+              },
+              {
+                "text": "If ",
+                "start": 4.868,
+                "end": 4.998
+              },
+              {
+                "text": "the ",
+                "start": 4.998,
+                "end": 5.193
+              },
+              {
+                "text": "two ",
+                "start": 5.193,
+                "end": 5.388
+              },
+              {
+                "text": "ends ",
+                "start": 5.388,
+                "end": 5.649
+              },
+              {
+                "text": "don't ",
+                "start": 5.649,
+                "end": 5.974
+              },
+              {
+                "text": "match, ",
+                "start": 5.974,
+                "end": 6.364
+              },
+              {
+                "text": "don't ",
+                "start": 6.364,
+                "end": 6.689
+              },
+              {
+                "text": "send ",
+                "start": 6.689,
+                "end": 6.949
+              },
+              {
+                "text": "just ",
+                "start": 6.949,
+                "end": 7.21
+              },
+              {
+                "text": "because ",
+                "start": 7.21,
+                "end": 7.665
+              },
+              {
+                "text": "it's ",
+                "start": 7.665,
+                "end": 7.925
+              },
+              {
+                "text": "cheaper. ",
+                "start": 7.925,
+                "end": 8.445
+              },
+              {
+                "text": "Even ",
+                "start": 8.445,
+                "end": 8.706
+              },
+              {
+                "text": "USDT ",
+                "start": 8.706,
+                "end": 8.966
+              },
+              {
+                "text": "can ",
+                "start": 8.966,
+                "end": 9.161
+              },
+              {
+                "text": "live ",
+                "start": 9.161,
+                "end": 9.421
+              },
+              {
+                "text": "on ",
+                "start": 9.421,
+                "end": 9.551
+              },
+              {
+                "text": "different ",
+                "start": 9.551,
+                "end": 10.137
+              },
+              {
+                "text": "networks.",
+                "start": 10.137,
+                "end": 10.722
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "先",
+                "start": 0.25,
+                "end": 0.444
+              },
+              {
+                "text": "确认",
+                "start": 0.444,
+                "end": 0.832
+              },
+              {
+                "text": "收款",
+                "start": 0.832,
+                "end": 1.22
+              },
+              {
+                "text": "方",
+                "start": 1.22,
+                "end": 1.414
+              },
+              {
+                "text": "支持",
+                "start": 1.414,
+                "end": 1.801
+              },
+              {
+                "text": "哪",
+                "start": 1.801,
+                "end": 1.995
+              },
+              {
+                "text": "种",
+                "start": 1.995,
+                "end": 2.189
+              },
+              {
+                "text": "资产",
+                "start": 2.189,
+                "end": 2.577
+              },
+              {
+                "text": "和",
+                "start": 2.577,
+                "end": 2.771
+              },
+              {
+                "text": "网络，",
+                "start": 2.771,
+                "end": 3.353
+              },
+              {
+                "text": "再",
+                "start": 3.353,
+                "end": 3.547
+              },
+              {
+                "text": "选择",
+                "start": 3.547,
+                "end": 3.935
+              },
+              {
+                "text": "费用。",
+                "start": 3.935,
+                "end": 4.516
+              },
+              {
+                "text": "两",
+                "start": 4.516,
+                "end": 4.71
+              },
+              {
+                "text": "端",
+                "start": 4.71,
+                "end": 4.904
+              },
+              {
+                "text": "不",
+                "start": 4.904,
+                "end": 5.098
+              },
+              {
+                "text": "匹配，",
+                "start": 5.098,
+                "end": 5.68
+              },
+              {
+                "text": "不能",
+                "start": 5.68,
+                "end": 6.068
+              },
+              {
+                "text": "因为",
+                "start": 6.068,
+                "end": 6.456
+              },
+              {
+                "text": "便宜",
+                "start": 6.456,
+                "end": 6.843
+              },
+              {
+                "text": "就",
+                "start": 6.843,
+                "end": 7.037
+              },
+              {
+                "text": "发送。",
+                "start": 7.037,
+                "end": 7.619
+              },
+              {
+                "text": "同",
+                "start": 7.619,
+                "end": 7.813
+              },
+              {
+                "text": "叫",
+                "start": 7.813,
+                "end": 8.007
+              },
+              {
+                "text": "泰",
+                "start": 8.007,
+                "end": 8.201
+              },
+              {
+                "text": "达",
+                "start": 8.201,
+                "end": 8.395
+              },
+              {
+                "text": "币，",
+                "start": 8.395,
+                "end": 8.783
+              },
+              {
+                "text": "也",
+                "start": 8.783,
+                "end": 8.977
+              },
+              {
+                "text": "可能",
+                "start": 8.977,
+                "end": 9.365
+              },
+              {
+                "text": "在",
+                "start": 9.365,
+                "end": 9.558
+              },
+              {
+                "text": "不同",
+                "start": 9.558,
+                "end": 9.946
+              },
+              {
+                "text": "网络",
+                "start": 9.946,
+                "end": 10.334
+              },
+              {
+                "text": "上。",
+                "start": 10.334,
+                "end": 10.722
+              }
+            ]
+          }
         }
       ],
       "widgets": [
@@ -171,9 +603,395 @@
             "en": "For now, think of the network as the route and the address as the destination. But two addresses can look alike and still not work on the same network. Always check that the receiving platform supports this chain and this asset.",
             "zh-Hans": "你可以暂时把网络想成路线，把地址想成目的地，但地址看起来一样，也不代表网络兼容。必须查看接收平台对这条链和这项资产的支持。"
           },
-          "start": 0.4,
-          "end": 35.7,
-          "source_who": "Narrator"
+          "start": 0.25,
+          "end": 12.965,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e09-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 12.715
+          },
+          "words": {
+            "en": [
+              {
+                "text": "For ",
+                "start": 0.25,
+                "end": 0.453
+              },
+              {
+                "text": "now, ",
+                "start": 0.453,
+                "end": 0.723
+              },
+              {
+                "text": "think ",
+                "start": 0.723,
+                "end": 1.062
+              },
+              {
+                "text": "of ",
+                "start": 1.062,
+                "end": 1.197
+              },
+              {
+                "text": "the ",
+                "start": 1.197,
+                "end": 1.4
+              },
+              {
+                "text": "network ",
+                "start": 1.4,
+                "end": 1.873
+              },
+              {
+                "text": "as ",
+                "start": 1.873,
+                "end": 2.008
+              },
+              {
+                "text": "the ",
+                "start": 2.008,
+                "end": 2.211
+              },
+              {
+                "text": "route ",
+                "start": 2.211,
+                "end": 2.55
+              },
+              {
+                "text": "and ",
+                "start": 2.55,
+                "end": 2.752
+              },
+              {
+                "text": "the ",
+                "start": 2.752,
+                "end": 2.955
+              },
+              {
+                "text": "address ",
+                "start": 2.955,
+                "end": 3.429
+              },
+              {
+                "text": "as ",
+                "start": 3.429,
+                "end": 3.564
+              },
+              {
+                "text": "the ",
+                "start": 3.564,
+                "end": 3.767
+              },
+              {
+                "text": "destination. ",
+                "start": 3.767,
+                "end": 4.579
+              },
+              {
+                "text": "But ",
+                "start": 4.579,
+                "end": 4.781
+              },
+              {
+                "text": "two ",
+                "start": 4.781,
+                "end": 4.984
+              },
+              {
+                "text": "addresses ",
+                "start": 4.984,
+                "end": 5.593
+              },
+              {
+                "text": "can ",
+                "start": 5.593,
+                "end": 5.796
+              },
+              {
+                "text": "look ",
+                "start": 5.796,
+                "end": 6.066
+              },
+              {
+                "text": "alike ",
+                "start": 6.066,
+                "end": 6.405
+              },
+              {
+                "text": "and ",
+                "start": 6.405,
+                "end": 6.608
+              },
+              {
+                "text": "still ",
+                "start": 6.608,
+                "end": 6.946
+              },
+              {
+                "text": "not ",
+                "start": 6.946,
+                "end": 7.149
+              },
+              {
+                "text": "work ",
+                "start": 7.149,
+                "end": 7.419
+              },
+              {
+                "text": "on ",
+                "start": 7.419,
+                "end": 7.554
+              },
+              {
+                "text": "the ",
+                "start": 7.554,
+                "end": 7.757
+              },
+              {
+                "text": "same ",
+                "start": 7.757,
+                "end": 8.028
+              },
+              {
+                "text": "network. ",
+                "start": 8.028,
+                "end": 8.569
+              },
+              {
+                "text": "Always ",
+                "start": 8.569,
+                "end": 8.975
+              },
+              {
+                "text": "check ",
+                "start": 8.975,
+                "end": 9.313
+              },
+              {
+                "text": "that ",
+                "start": 9.313,
+                "end": 9.583
+              },
+              {
+                "text": "the ",
+                "start": 9.583,
+                "end": 9.786
+              },
+              {
+                "text": "receiving ",
+                "start": 9.786,
+                "end": 10.395
+              },
+              {
+                "text": "platform ",
+                "start": 10.395,
+                "end": 10.936
+              },
+              {
+                "text": "supports ",
+                "start": 10.936,
+                "end": 11.477
+              },
+              {
+                "text": "this ",
+                "start": 11.477,
+                "end": 11.748
+              },
+              {
+                "text": "chain ",
+                "start": 11.748,
+                "end": 12.086
+              },
+              {
+                "text": "and ",
+                "start": 12.086,
+                "end": 12.289
+              },
+              {
+                "text": "this ",
+                "start": 12.289,
+                "end": 12.559
+              },
+              {
+                "text": "asset.",
+                "start": 12.559,
+                "end": 12.965
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "你",
+                "start": 0.25,
+                "end": 0.458
+              },
+              {
+                "text": "可以",
+                "start": 0.458,
+                "end": 0.875
+              },
+              {
+                "text": "暂时",
+                "start": 0.875,
+                "end": 1.292
+              },
+              {
+                "text": "把",
+                "start": 1.292,
+                "end": 1.501
+              },
+              {
+                "text": "网络",
+                "start": 1.501,
+                "end": 1.918
+              },
+              {
+                "text": "想",
+                "start": 1.918,
+                "end": 2.126
+              },
+              {
+                "text": "成",
+                "start": 2.126,
+                "end": 2.334
+              },
+              {
+                "text": "路线，",
+                "start": 2.334,
+                "end": 2.96
+              },
+              {
+                "text": "把",
+                "start": 2.96,
+                "end": 3.168
+              },
+              {
+                "text": "地址",
+                "start": 3.168,
+                "end": 3.585
+              },
+              {
+                "text": "想",
+                "start": 3.585,
+                "end": 3.794
+              },
+              {
+                "text": "成",
+                "start": 3.794,
+                "end": 4.002
+              },
+              {
+                "text": "目的地，",
+                "start": 4.002,
+                "end": 4.836
+              },
+              {
+                "text": "但",
+                "start": 4.836,
+                "end": 5.044
+              },
+              {
+                "text": "地址",
+                "start": 5.044,
+                "end": 5.461
+              },
+              {
+                "text": "看起来",
+                "start": 5.461,
+                "end": 6.086
+              },
+              {
+                "text": "一样，",
+                "start": 6.086,
+                "end": 6.712
+              },
+              {
+                "text": "也不",
+                "start": 6.712,
+                "end": 7.129
+              },
+              {
+                "text": "代表",
+                "start": 7.129,
+                "end": 7.545
+              },
+              {
+                "text": "网络",
+                "start": 7.545,
+                "end": 7.962
+              },
+              {
+                "text": "兼容。",
+                "start": 7.962,
+                "end": 8.588
+              },
+              {
+                "text": "必须",
+                "start": 8.588,
+                "end": 9.005
+              },
+              {
+                "text": "查看",
+                "start": 9.005,
+                "end": 9.421
+              },
+              {
+                "text": "接收",
+                "start": 9.421,
+                "end": 9.838
+              },
+              {
+                "text": "平台",
+                "start": 9.838,
+                "end": 10.255
+              },
+              {
+                "text": "对",
+                "start": 10.255,
+                "end": 10.464
+              },
+              {
+                "text": "这",
+                "start": 10.464,
+                "end": 10.672
+              },
+              {
+                "text": "条",
+                "start": 10.672,
+                "end": 10.881
+              },
+              {
+                "text": "链",
+                "start": 10.881,
+                "end": 11.089
+              },
+              {
+                "text": "和",
+                "start": 11.089,
+                "end": 11.297
+              },
+              {
+                "text": "这项",
+                "start": 11.297,
+                "end": 11.714
+              },
+              {
+                "text": "资产",
+                "start": 11.714,
+                "end": 12.131
+              },
+              {
+                "text": "的",
+                "start": 12.131,
+                "end": 12.34
+              },
+              {
+                "text": "支持。",
+                "start": 12.34,
+                "end": 12.965
+              }
+            ]
+          }
         }
       ],
       "widgets": [
@@ -246,9 +1064,425 @@
             "en": "Copy the address from the receiving page, then check all of it. If a memo or tag is required, fill it in. Confirm the minimum deposit, the withdrawal fee and the amount that will arrive. Don't judge an address by its first and last few characters.",
             "zh-Hans": "从收款页面复制地址，再核对完整内容。若要求备注或标签，也要填写。确认最低充值、提币费用和到账金额；不要只靠地址前后几个字符判断。"
           },
-          "start": 0.4,
-          "end": 30.7,
-          "source_who": "Nexubo"
+          "start": 0.25,
+          "end": 14.071,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e09-04-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 13.821
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Copy ",
+                "start": 0.25,
+                "end": 0.524
+              },
+              {
+                "text": "the ",
+                "start": 0.524,
+                "end": 0.729
+              },
+              {
+                "text": "address ",
+                "start": 0.729,
+                "end": 1.208
+              },
+              {
+                "text": "from ",
+                "start": 1.208,
+                "end": 1.482
+              },
+              {
+                "text": "the ",
+                "start": 1.482,
+                "end": 1.687
+              },
+              {
+                "text": "receiving ",
+                "start": 1.687,
+                "end": 2.303
+              },
+              {
+                "text": "page, ",
+                "start": 2.303,
+                "end": 2.645
+              },
+              {
+                "text": "then ",
+                "start": 2.645,
+                "end": 2.918
+              },
+              {
+                "text": "check ",
+                "start": 2.918,
+                "end": 3.261
+              },
+              {
+                "text": "all ",
+                "start": 3.261,
+                "end": 3.466
+              },
+              {
+                "text": "of ",
+                "start": 3.466,
+                "end": 3.603
+              },
+              {
+                "text": "it. ",
+                "start": 3.603,
+                "end": 3.808
+              },
+              {
+                "text": "If ",
+                "start": 3.808,
+                "end": 3.945
+              },
+              {
+                "text": "a ",
+                "start": 3.945,
+                "end": 4.013
+              },
+              {
+                "text": "memo ",
+                "start": 4.013,
+                "end": 4.287
+              },
+              {
+                "text": "or ",
+                "start": 4.287,
+                "end": 4.424
+              },
+              {
+                "text": "tag ",
+                "start": 4.424,
+                "end": 4.629
+              },
+              {
+                "text": "is ",
+                "start": 4.629,
+                "end": 4.766
+              },
+              {
+                "text": "required, ",
+                "start": 4.766,
+                "end": 5.382
+              },
+              {
+                "text": "fill ",
+                "start": 5.382,
+                "end": 5.655
+              },
+              {
+                "text": "it ",
+                "start": 5.655,
+                "end": 5.792
+              },
+              {
+                "text": "in. ",
+                "start": 5.792,
+                "end": 5.997
+              },
+              {
+                "text": "Confirm ",
+                "start": 5.997,
+                "end": 6.476
+              },
+              {
+                "text": "the ",
+                "start": 6.476,
+                "end": 6.682
+              },
+              {
+                "text": "minimum ",
+                "start": 6.682,
+                "end": 7.161
+              },
+              {
+                "text": "deposit, ",
+                "start": 7.161,
+                "end": 7.708
+              },
+              {
+                "text": "the ",
+                "start": 7.708,
+                "end": 7.913
+              },
+              {
+                "text": "withdrawal ",
+                "start": 7.913,
+                "end": 8.597
+              },
+              {
+                "text": "fee ",
+                "start": 8.597,
+                "end": 8.803
+              },
+              {
+                "text": "and ",
+                "start": 8.803,
+                "end": 9.008
+              },
+              {
+                "text": "the ",
+                "start": 9.008,
+                "end": 9.213
+              },
+              {
+                "text": "amount ",
+                "start": 9.213,
+                "end": 9.624
+              },
+              {
+                "text": "that ",
+                "start": 9.624,
+                "end": 9.897
+              },
+              {
+                "text": "will ",
+                "start": 9.897,
+                "end": 10.171
+              },
+              {
+                "text": "arrive. ",
+                "start": 10.171,
+                "end": 10.65
+              },
+              {
+                "text": "Don't ",
+                "start": 10.65,
+                "end": 10.992
+              },
+              {
+                "text": "judge ",
+                "start": 10.992,
+                "end": 11.334
+              },
+              {
+                "text": "an ",
+                "start": 11.334,
+                "end": 11.471
+              },
+              {
+                "text": "address ",
+                "start": 11.471,
+                "end": 11.95
+              },
+              {
+                "text": "by ",
+                "start": 11.95,
+                "end": 12.087
+              },
+              {
+                "text": "its ",
+                "start": 12.087,
+                "end": 12.292
+              },
+              {
+                "text": "first ",
+                "start": 12.292,
+                "end": 12.634
+              },
+              {
+                "text": "and ",
+                "start": 12.634,
+                "end": 12.839
+              },
+              {
+                "text": "last ",
+                "start": 12.839,
+                "end": 13.113
+              },
+              {
+                "text": "few ",
+                "start": 13.113,
+                "end": 13.318
+              },
+              {
+                "text": "characters.",
+                "start": 13.318,
+                "end": 14.071
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "从",
+                "start": 0.25,
+                "end": 0.466
+              },
+              {
+                "text": "收款",
+                "start": 0.466,
+                "end": 0.898
+              },
+              {
+                "text": "页",
+                "start": 0.898,
+                "end": 1.114
+              },
+              {
+                "text": "面",
+                "start": 1.114,
+                "end": 1.33
+              },
+              {
+                "text": "复制",
+                "start": 1.33,
+                "end": 1.762
+              },
+              {
+                "text": "地址，",
+                "start": 1.762,
+                "end": 2.41
+              },
+              {
+                "text": "再",
+                "start": 2.41,
+                "end": 2.625
+              },
+              {
+                "text": "核对",
+                "start": 2.625,
+                "end": 3.057
+              },
+              {
+                "text": "完整",
+                "start": 3.057,
+                "end": 3.489
+              },
+              {
+                "text": "内容。",
+                "start": 3.489,
+                "end": 4.137
+              },
+              {
+                "text": "若",
+                "start": 4.137,
+                "end": 4.353
+              },
+              {
+                "text": "要求",
+                "start": 4.353,
+                "end": 4.785
+              },
+              {
+                "text": "备注",
+                "start": 4.785,
+                "end": 5.217
+              },
+              {
+                "text": "或",
+                "start": 5.217,
+                "end": 5.433
+              },
+              {
+                "text": "标签，",
+                "start": 5.433,
+                "end": 6.081
+              },
+              {
+                "text": "也要",
+                "start": 6.081,
+                "end": 6.513
+              },
+              {
+                "text": "填写。",
+                "start": 6.513,
+                "end": 7.161
+              },
+              {
+                "text": "确认",
+                "start": 7.161,
+                "end": 7.592
+              },
+              {
+                "text": "最低",
+                "start": 7.592,
+                "end": 8.024
+              },
+              {
+                "text": "充",
+                "start": 8.024,
+                "end": 8.24
+              },
+              {
+                "text": "值、",
+                "start": 8.24,
+                "end": 8.672
+              },
+              {
+                "text": "提",
+                "start": 8.672,
+                "end": 8.888
+              },
+              {
+                "text": "币",
+                "start": 8.888,
+                "end": 9.104
+              },
+              {
+                "text": "费用",
+                "start": 9.104,
+                "end": 9.536
+              },
+              {
+                "text": "和",
+                "start": 9.536,
+                "end": 9.752
+              },
+              {
+                "text": "到",
+                "start": 9.752,
+                "end": 9.968
+              },
+              {
+                "text": "账",
+                "start": 9.968,
+                "end": 10.184
+              },
+              {
+                "text": "金额；",
+                "start": 10.184,
+                "end": 10.832
+              },
+              {
+                "text": "不要",
+                "start": 10.832,
+                "end": 11.264
+              },
+              {
+                "text": "只靠",
+                "start": 11.264,
+                "end": 11.696
+              },
+              {
+                "text": "地址",
+                "start": 11.696,
+                "end": 12.127
+              },
+              {
+                "text": "前后",
+                "start": 12.127,
+                "end": 12.559
+              },
+              {
+                "text": "几个",
+                "start": 12.559,
+                "end": 12.991
+              },
+              {
+                "text": "字符",
+                "start": 12.991,
+                "end": 13.423
+              },
+              {
+                "text": "判断。",
+                "start": 13.423,
+                "end": 14.071
+              }
+            ]
+          }
         }
       ],
       "widgets": [
@@ -359,9 +1593,405 @@
             "en": "Send a small test that meets the minimum, and confirm it was actually credited. For a bigger transfer, check everything again. Don't blindly reuse old records. For self-custody transfers, have the network fee ready too.",
             "zh-Hans": "先做一笔满足最低条件的小额测试，并确认接收方实际入账。后续大额仍要重新核对，不能盲目复用历史记录。自托管转账还要准备相应网络手续费。"
           },
-          "start": 0.4,
-          "end": 23.7,
-          "source_who": "Narrator"
+          "start": 0.25,
+          "end": 12.7,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e09-05-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 12.45
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Send ",
+                "start": 0.25,
+                "end": 0.519
+              },
+              {
+                "text": "a ",
+                "start": 0.519,
+                "end": 0.586
+              },
+              {
+                "text": "small ",
+                "start": 0.586,
+                "end": 0.923
+              },
+              {
+                "text": "test ",
+                "start": 0.923,
+                "end": 1.192
+              },
+              {
+                "text": "that ",
+                "start": 1.192,
+                "end": 1.461
+              },
+              {
+                "text": "meets ",
+                "start": 1.461,
+                "end": 1.798
+              },
+              {
+                "text": "the ",
+                "start": 1.798,
+                "end": 2
+              },
+              {
+                "text": "minimum, ",
+                "start": 2,
+                "end": 2.538
+              },
+              {
+                "text": "and ",
+                "start": 2.538,
+                "end": 2.74
+              },
+              {
+                "text": "confirm ",
+                "start": 2.74,
+                "end": 3.211
+              },
+              {
+                "text": "it ",
+                "start": 3.211,
+                "end": 3.346
+              },
+              {
+                "text": "was ",
+                "start": 3.346,
+                "end": 3.548
+              },
+              {
+                "text": "actually ",
+                "start": 3.548,
+                "end": 4.086
+              },
+              {
+                "text": "credited. ",
+                "start": 4.086,
+                "end": 4.692
+              },
+              {
+                "text": "For ",
+                "start": 4.692,
+                "end": 4.894
+              },
+              {
+                "text": "a ",
+                "start": 4.894,
+                "end": 4.961
+              },
+              {
+                "text": "bigger ",
+                "start": 4.961,
+                "end": 5.365
+              },
+              {
+                "text": "transfer, ",
+                "start": 5.365,
+                "end": 5.97
+              },
+              {
+                "text": "check ",
+                "start": 5.97,
+                "end": 6.307
+              },
+              {
+                "text": "everything ",
+                "start": 6.307,
+                "end": 6.98
+              },
+              {
+                "text": "again. ",
+                "start": 6.98,
+                "end": 7.384
+              },
+              {
+                "text": "Don't ",
+                "start": 7.384,
+                "end": 7.72
+              },
+              {
+                "text": "blindly ",
+                "start": 7.72,
+                "end": 8.191
+              },
+              {
+                "text": "reuse ",
+                "start": 8.191,
+                "end": 8.528
+              },
+              {
+                "text": "old ",
+                "start": 8.528,
+                "end": 8.729
+              },
+              {
+                "text": "records. ",
+                "start": 8.729,
+                "end": 9.268
+              },
+              {
+                "text": "For ",
+                "start": 9.268,
+                "end": 9.47
+              },
+              {
+                "text": "self-",
+                "start": 9.47,
+                "end": 9.806
+              },
+              {
+                "text": "custody ",
+                "start": 9.806,
+                "end": 10.277
+              },
+              {
+                "text": "transfers, ",
+                "start": 10.277,
+                "end": 10.95
+              },
+              {
+                "text": "have ",
+                "start": 10.95,
+                "end": 11.219
+              },
+              {
+                "text": "the ",
+                "start": 11.219,
+                "end": 11.421
+              },
+              {
+                "text": "network ",
+                "start": 11.421,
+                "end": 11.892
+              },
+              {
+                "text": "fee ",
+                "start": 11.892,
+                "end": 12.094
+              },
+              {
+                "text": "ready ",
+                "start": 12.094,
+                "end": 12.431
+              },
+              {
+                "text": "too.",
+                "start": 12.431,
+                "end": 12.7
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "先",
+                "start": 0.25,
+                "end": 0.439
+              },
+              {
+                "text": "做",
+                "start": 0.439,
+                "end": 0.627
+              },
+              {
+                "text": "一",
+                "start": 0.627,
+                "end": 0.816
+              },
+              {
+                "text": "笔",
+                "start": 0.816,
+                "end": 1.005
+              },
+              {
+                "text": "满足",
+                "start": 1.005,
+                "end": 1.382
+              },
+              {
+                "text": "最低",
+                "start": 1.382,
+                "end": 1.759
+              },
+              {
+                "text": "条件",
+                "start": 1.759,
+                "end": 2.136
+              },
+              {
+                "text": "的",
+                "start": 2.136,
+                "end": 2.325
+              },
+              {
+                "text": "小",
+                "start": 2.325,
+                "end": 2.514
+              },
+              {
+                "text": "额",
+                "start": 2.514,
+                "end": 2.702
+              },
+              {
+                "text": "测试，",
+                "start": 2.702,
+                "end": 3.268
+              },
+              {
+                "text": "并",
+                "start": 3.268,
+                "end": 3.457
+              },
+              {
+                "text": "确认",
+                "start": 3.457,
+                "end": 3.834
+              },
+              {
+                "text": "接收",
+                "start": 3.834,
+                "end": 4.211
+              },
+              {
+                "text": "方",
+                "start": 4.211,
+                "end": 4.4
+              },
+              {
+                "text": "实际",
+                "start": 4.4,
+                "end": 4.777
+              },
+              {
+                "text": "入",
+                "start": 4.777,
+                "end": 4.966
+              },
+              {
+                "text": "账。",
+                "start": 4.966,
+                "end": 5.343
+              },
+              {
+                "text": "后",
+                "start": 5.343,
+                "end": 5.532
+              },
+              {
+                "text": "续",
+                "start": 5.532,
+                "end": 5.72
+              },
+              {
+                "text": "大",
+                "start": 5.72,
+                "end": 5.909
+              },
+              {
+                "text": "额",
+                "start": 5.909,
+                "end": 6.098
+              },
+              {
+                "text": "仍要",
+                "start": 6.098,
+                "end": 6.475
+              },
+              {
+                "text": "重新",
+                "start": 6.475,
+                "end": 6.852
+              },
+              {
+                "text": "核对，",
+                "start": 6.852,
+                "end": 7.418
+              },
+              {
+                "text": "不能",
+                "start": 7.418,
+                "end": 7.795
+              },
+              {
+                "text": "盲目",
+                "start": 7.795,
+                "end": 8.173
+              },
+              {
+                "text": "复",
+                "start": 8.173,
+                "end": 8.361
+              },
+              {
+                "text": "用",
+                "start": 8.361,
+                "end": 8.55
+              },
+              {
+                "text": "历史",
+                "start": 8.55,
+                "end": 8.927
+              },
+              {
+                "text": "记录。",
+                "start": 8.927,
+                "end": 9.493
+              },
+              {
+                "text": "自",
+                "start": 9.493,
+                "end": 9.682
+              },
+              {
+                "text": "托管",
+                "start": 9.682,
+                "end": 10.059
+              },
+              {
+                "text": "转账",
+                "start": 10.059,
+                "end": 10.436
+              },
+              {
+                "text": "还",
+                "start": 10.436,
+                "end": 10.625
+              },
+              {
+                "text": "要",
+                "start": 10.625,
+                "end": 10.814
+              },
+              {
+                "text": "准备",
+                "start": 10.814,
+                "end": 11.191
+              },
+              {
+                "text": "相应",
+                "start": 11.191,
+                "end": 11.568
+              },
+              {
+                "text": "网络",
+                "start": 11.568,
+                "end": 11.945
+              },
+              {
+                "text": "手续",
+                "start": 11.945,
+                "end": 12.323
+              },
+              {
+                "text": "费。",
+                "start": 12.323,
+                "end": 12.7
+              }
+            ]
+          }
         }
       ],
       "widgets": [
@@ -425,9 +2055,30 @@
             "en": "No.",
             "zh-Hans": "不能。"
           },
-          "start": 0.4,
-          "end": 1.356,
-          "source_who": "Sam"
+          "start": 0.25,
+          "end": 0.861,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e09-06-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 0.611
+          },
+          "words": {
+            "en": [
+              {
+                "text": "No.",
+                "start": 0.25,
+                "end": 0.861
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不能。",
+                "start": 0.25,
+                "end": 0.861
+              }
+            ]
+          }
         },
         {
           "speaker": "nexubo",
@@ -435,9 +2086,145 @@
             "en": "One more check before sending beats looking for help after a mistake.",
             "zh-Hans": "转账前多核对一次，比转错后找人补救更重要。"
           },
-          "start": 1.656,
-          "end": 15.7,
-          "source_who": "Nexubo"
+          "start": 1.161,
+          "end": 4.491,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e09-06-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 3.33
+          },
+          "words": {
+            "en": [
+              {
+                "text": "One ",
+                "start": 1.161,
+                "end": 1.333
+              },
+              {
+                "text": "more ",
+                "start": 1.333,
+                "end": 1.563
+              },
+              {
+                "text": "check ",
+                "start": 1.563,
+                "end": 1.85
+              },
+              {
+                "text": "before ",
+                "start": 1.85,
+                "end": 2.194
+              },
+              {
+                "text": "sending ",
+                "start": 2.194,
+                "end": 2.596
+              },
+              {
+                "text": "beats ",
+                "start": 2.596,
+                "end": 2.883
+              },
+              {
+                "text": "looking ",
+                "start": 2.883,
+                "end": 3.285
+              },
+              {
+                "text": "for ",
+                "start": 3.285,
+                "end": 3.458
+              },
+              {
+                "text": "help ",
+                "start": 3.458,
+                "end": 3.687
+              },
+              {
+                "text": "after ",
+                "start": 3.687,
+                "end": 3.974
+              },
+              {
+                "text": "a ",
+                "start": 3.974,
+                "end": 4.032
+              },
+              {
+                "text": "mistake.",
+                "start": 4.032,
+                "end": 4.491
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "转账",
+                "start": 1.161,
+                "end": 1.478
+              },
+              {
+                "text": "前",
+                "start": 1.478,
+                "end": 1.637
+              },
+              {
+                "text": "多",
+                "start": 1.637,
+                "end": 1.795
+              },
+              {
+                "text": "核对",
+                "start": 1.795,
+                "end": 2.112
+              },
+              {
+                "text": "一次，",
+                "start": 2.112,
+                "end": 2.588
+              },
+              {
+                "text": "比",
+                "start": 2.588,
+                "end": 2.747
+              },
+              {
+                "text": "转",
+                "start": 2.747,
+                "end": 2.905
+              },
+              {
+                "text": "错",
+                "start": 2.905,
+                "end": 3.064
+              },
+              {
+                "text": "后",
+                "start": 3.064,
+                "end": 3.222
+              },
+              {
+                "text": "找人",
+                "start": 3.222,
+                "end": 3.54
+              },
+              {
+                "text": "补救",
+                "start": 3.54,
+                "end": 3.857
+              },
+              {
+                "text": "更",
+                "start": 3.857,
+                "end": 4.015
+              },
+              {
+                "text": "重要。",
+                "start": 4.015,
+                "end": 4.491
+              }
+            ]
+          }
         }
       ],
       "widgets": [
@@ -463,7 +2250,7 @@
   ],
   "conversion_card": null,
   "end_hook": {
-    "duration": 4,
+    "duration": 5,
     "pose": "point",
     "text": {
       "en": "It says 'success', but nothing arrived. Don't send it again. Next: where to look.",
@@ -476,9 +2263,165 @@
           "en": "It says 'success', but nothing arrived. Don't send it again. Next: where to look.",
           "zh-Hans": "显示成功却没到账？先别再转。下一集：该查哪里。"
         },
-        "start": 0.4,
-        "end": 3.7,
-        "source_who": "Narrator"
+        "start": 0.15,
+        "end": 4.849,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e09-07-hook-l01-narrator",
+          "atempo": 1.033,
+          "seconds": 4.699
+        },
+        "words": {
+          "en": [
+            {
+              "text": "It ",
+              "start": 0.15,
+              "end": 0.288
+            },
+            {
+              "text": "says '",
+              "start": 0.288,
+              "end": 0.634
+            },
+            {
+              "text": "success', ",
+              "start": 0.634,
+              "end": 1.256
+            },
+            {
+              "text": "but ",
+              "start": 1.256,
+              "end": 1.463
+            },
+            {
+              "text": "nothing ",
+              "start": 1.463,
+              "end": 1.947
+            },
+            {
+              "text": "arrived. ",
+              "start": 1.947,
+              "end": 2.5
+            },
+            {
+              "text": "Don't ",
+              "start": 2.5,
+              "end": 2.845
+            },
+            {
+              "text": "send ",
+              "start": 2.845,
+              "end": 3.121
+            },
+            {
+              "text": "it ",
+              "start": 3.121,
+              "end": 3.26
+            },
+            {
+              "text": "again. ",
+              "start": 3.26,
+              "end": 3.674
+            },
+            {
+              "text": "Next: ",
+              "start": 3.674,
+              "end": 4.02
+            },
+            {
+              "text": "where ",
+              "start": 4.02,
+              "end": 4.365
+            },
+            {
+              "text": "to ",
+              "start": 4.365,
+              "end": 4.503
+            },
+            {
+              "text": "look.",
+              "start": 4.503,
+              "end": 4.849
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "显示",
+              "start": 0.15,
+              "end": 0.559
+            },
+            {
+              "text": "成功",
+              "start": 0.559,
+              "end": 0.967
+            },
+            {
+              "text": "却",
+              "start": 0.967,
+              "end": 1.172
+            },
+            {
+              "text": "没",
+              "start": 1.172,
+              "end": 1.376
+            },
+            {
+              "text": "到",
+              "start": 1.376,
+              "end": 1.58
+            },
+            {
+              "text": "账？",
+              "start": 1.58,
+              "end": 1.989
+            },
+            {
+              "text": "先",
+              "start": 1.989,
+              "end": 2.193
+            },
+            {
+              "text": "别再",
+              "start": 2.193,
+              "end": 2.602
+            },
+            {
+              "text": "转。",
+              "start": 2.602,
+              "end": 3.01
+            },
+            {
+              "text": "下",
+              "start": 3.01,
+              "end": 3.215
+            },
+            {
+              "text": "一",
+              "start": 3.215,
+              "end": 3.419
+            },
+            {
+              "text": "集：",
+              "start": 3.419,
+              "end": 3.827
+            },
+            {
+              "text": "该",
+              "start": 3.827,
+              "end": 4.032
+            },
+            {
+              "text": "查",
+              "start": 4.032,
+              "end": 4.236
+            },
+            {
+              "text": "哪里。",
+              "start": 4.236,
+              "end": 4.849
+            }
+          ]
+        }
       }
     ],
     "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
@@ -493,9 +2436,60 @@
         "en": "Understand first, then act.",
         "zh-Hans": "先看懂，再动手。"
       },
-      "start": 0.4,
-      "end": 3.7,
-      "source_who": "Narrator"
+      "start": 0.25,
+      "end": 2.181,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e09-08-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 1.931
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.055
+          },
+          {
+            "text": "first, ",
+            "start": 1.055,
+            "end": 1.537
+          },
+          {
+            "text": "then ",
+            "start": 1.537,
+            "end": 1.859
+          },
+          {
+            "text": "act.",
+            "start": 1.859,
+            "end": 2.181
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.491
+          },
+          {
+            "text": "看懂，",
+            "start": 0.491,
+            "end": 1.216
+          },
+          {
+            "text": "再",
+            "start": 1.216,
+            "end": 1.457
+          },
+          {
+            "text": "动手。",
+            "start": 1.457,
+            "end": 2.181
+          }
+        ]
+      }
     }
   ],
   "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
@@ -572,5 +2566,14 @@
     "required_contract_extensions": [
       "widget type transfer-match {coin, network, note}"
     ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.12,
+    "compromises": []
   }
 }
