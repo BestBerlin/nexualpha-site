@@ -12,6 +12,7 @@ import { createErrorMonitor, safeRequestId } from './server/error-monitor.mjs';
 import { resolveAssetPath } from './server/asset-path.mjs';
 import { createNewsSsrRenderer } from './server/news-ssr.mjs';
 import { createIntelFeed, INTEL_ARCHIVE_PATH, INTEL_PATH } from './server/intel-feed.mjs';
+import { createFundingMatrixReader } from './server/funding-matrix.mjs';
 import { createFundingFeed, FUNDING_PATH } from './server/funding-feed.mjs';
 import { createFxFeed, FX_JSON_PATH } from './server/fx-feed.mjs';
 import { createGoRedirect } from './server/go-redirect.mjs';
@@ -47,6 +48,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
     }
   }
   const intel = createIntelFeed(clientRoot, { enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', archiveFile: intelArchiveFile, log: (m) => console.log(`[NexuAlpha] ${m}`) });
+  const fundingMatrix = createFundingMatrixReader({ enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off' });
   const funding = createFundingFeed({ enabled: !suppliedWorker && env.INTEL_REFRESH !== 'off', log: (m) => console.log(`[NexuAlpha] ${m}`) });
   const fx = createFxFeed({
     enabled: env.FX_REFRESH !== 'off' && (!suppliedWorker || env.FX_REFRESH === 'on'),
@@ -228,7 +230,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
         else result = await collector(request);
       } else {
         const renderPage = (pageRequest) => worker.fetch(pageRequest, {
-          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
+          ASSETS: assets, NEWS_SSR_RENDER: renderNews, MARKET_EVENTS_READ: marketEvents.read, FUNDING_MATRIX_READ: fundingMatrix.read, INTEL_READ: intel.read, INTEL_ARCHIVE_READ: intel.readArchive, FLASH_MEMORY: flashMemory, COINS_SNAPSHOT_READ: coinsSnapshot.enabled ? coinsSnapshot.read : undefined, FX_SNAPSHOT_READ: fx.read, TICKER_READ: ticker.read, CORE_API_ORIGIN: env.CORE_API_ORIGIN, CORE_API_BASE_URL: env.CORE_API_BASE_URL,
           CTA_ANALYTICS_ORIGIN: env.CTA_ANALYTICS_ORIGIN,
           ...(heroForce ? { HOME_HERO_EXPERIMENT_FORCE: heroForce } : {}),
         });

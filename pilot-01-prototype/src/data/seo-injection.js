@@ -1,3 +1,4 @@
+import { fundingMatrixSeo } from "./funding-matrix-seo.js";
 import { isLegalPagePath, legalPageSeo } from "./legal-pages.js";
 import { isReviewedNewsSearchArticle, selectReviewedNewsSearchSlugs } from "./reviewed-news-publication.js";
 /** Route metadata mirrors the standalone Worker; UI-only locale fallbacks share their content canonical. */
@@ -289,7 +290,7 @@ const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/ra
 // visible text under 20% per locale), so every locale edition is published to search, not only en/zh/ja/ko/tr.
 // /methodology and /telegram stay on the short list (still partly English), as do the venue profiles below whose
 // localized editions are still 25%+ English.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates", ...BRAND_PAGE_PATHS]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", "/liquidations", "/funding-rates", "/funding-rates/matrix", ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -2285,6 +2286,10 @@ function computeRouteSeoUnbudgeted(options = {}) {
       "@context": "https://schema.org", "@type": "FAQPage",
       mainEntity: mxFaq.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })),
     }];
+  } else if (pathname === "/funding-rates/matrix") {
+    accept();
+    const matrix = fundingMatrixSeo(locale);
+    title = matrix.title; description = matrix.description; schemas = matrix.schema;
   } else if (STATIC_COPY[pathname]) {
     accept();
     const staticPageCopy = STATIC_PAGE_COPY_LOCALIZED[pathname]?.[rawLocale] || STATIC_PAGE_COPY_LOCALIZED[pathname]?.[locale];

@@ -22,6 +22,7 @@ import { brazilDeadlineAlternates, brazilDeadlineContentLocale, brazilDeadlineIn
 import { brazilDeadlineContent, brazilDeadlineSchemas } from "../src/data/brazil-vasp-deadline.js";
 import { appendFragmentContextParams, FRAGMENT_CONTEXT_KEYS } from "../src/data/locale-routing.js";
 import { sanitizeBrAttributionFromSearch } from "../src/data/tracking-attribution.js";
+import { fundingMatrixSeo } from "../src/data/funding-matrix-seo.js";
 import { DATA_PAGE_PATHS, compactMarketEvents, dataPageMeta, dataPageSchemas, isDataPagePath, readHistory } from "../src/data/market-data-pages.js";
 import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "../src/data/brand-entity.js";
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
@@ -104,6 +105,12 @@ export default {
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
+    if (url.pathname === "/intel/funding-matrix.json" && ["GET", "HEAD"].includes(request.method)) {
+      let feed = null;
+      try { feed = typeof env.FUNDING_MATRIX_READ === "function" ? await env.FUNDING_MATRIX_READ() : null; } catch { /* unavailable */ }
+      return new Response(request.method === "HEAD" ? null : JSON.stringify(feed || {}), { status: feed ? 200 : 503,
+        headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-content-type-options": "nosniff" } });
+    }
     if ((url.pathname === FLASH_FEED_URL || url.pathname === FLASH_FEED_LEGACY_URL) && ["GET", "HEAD"].includes(request.method)) return handleFlashFeedJson(request, env, url);
     if (url.pathname === FLASH_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleFlashSitemap(request, env, url);
     if (["/news-library-sitemap.xml", "/locale-sitemap.xml"].includes(url.pathname) && ["GET", "HEAD"].includes(request.method)) {
@@ -2625,6 +2632,7 @@ const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
   "/embed/calculator": ["route-embed-", "route-international-"],
   // Data pages: own chunk plus the shared news chrome they reuse (Telegram alerts line, sign-up card).
   "/liquidations": ["route-data-", "route-news-"],
+  "/funding-rates/matrix": ["route-funding-matrix-", "route-data-"],
   "/funding-rates": ["route-data-", "route-news-"],
   // Brand pages (/about, /editorial-policy): own chunk.
   "/privacy": ["route-brand-pages-"],
@@ -2661,14 +2669,14 @@ const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter(
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
 const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/flash", "/coins", "/convert", "/glossary"]);
-const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
+const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, "/funding-rates/matrix", ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
 // Hand-written pairs; the list lives in src/data/compare-generated.js so the app, seo-injection and worker agree.
 const CURATED_COMPARISONS = new Set(CURATED_COMPARISON_SLUGS);
 const SEARCH_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 // Owner 2026-10-10 (search growth): mirror of src/data/seo-injection.js — fully translated pages publish all 15 locales.
-const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
+const SEARCH_ALL_LOCALE_STATIC_PATHS = new Set(["/exchanges", "/compare", "/activities", "/rates", "/onchain", ...DATA_PAGE_PATHS, "/funding-rates/matrix", ...BRAND_PAGE_PATHS]);
 const SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS = new Set(["hyperliquid", "htx", "hashkey", "uniswap", "aevo", "jupiter"]);
 const SEARCH_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
 const SEARCH_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -3606,6 +3614,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     // Listing payloads are summary rows for one page ("/news" projection: no content, sources or seo), never article bodies.
     ...(Array.isArray(route.newsArticles) ? { newsArticles: initialNewsArticlesForRoute(route.newsListing ? "/news" : pathname, route.newsArticles, locale, { preserveSsrContent: true }) } : {}),
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
+    ...(route.fundingMatrix && typeof route.fundingMatrix === "object" ? { fundingMatrix: route.fundingMatrix } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
     ...(route.activityContext && typeof route.activityContext === "object" ? { activityContext: route.activityContext } : {}),
     ...(route.appDownloadContext && typeof route.appDownloadContext === "object" ? { appDownloadContext: route.appDownloadContext } : {}),
@@ -4530,6 +4539,17 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     }
     // Data pages are rendered at request time from the collector feed (60 s server cache in server/market-events-feed.mjs).
     // Without a renderer (assets-only hosts) the client renders them; without a feed the page shows its unavailable state.
+    if (pathname === "/funding-rates/matrix" && typeof env?.NEWS_SSR_RENDER === "function") {
+      let fundingMatrix = null;
+      try { fundingMatrix = typeof env.FUNDING_MATRIX_READ === "function" ? await env.FUNDING_MATRIX_READ() : null; } catch { /* unavailable */ }
+      try {
+        const appHtml = await env.NEWS_SSR_RENDER(url.href, { fundingMatrix });
+        if (typeof appHtml === "string" && appHtml.includes('data-testid="funding-matrix-page"')) {
+          metadata.dataSsrMode = fundingMatrix ? "runtime" : "runtime-no-feed";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { fundingMatrix }, url);
+        }
+      } catch { /* portable assets-only fallback */ }
+    }
     if (isDataPagePath(pathname) && typeof env?.NEWS_SSR_RENDER === "function") {
       let marketEvents = null;
       try { marketEvents = typeof env?.MARKET_EVENTS_READ === "function" ? compactMarketEvents(await env.MARKET_EVENTS_READ()) : null; } catch { marketEvents = null; }
@@ -4663,6 +4683,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
   };
   if (typeof env?.NEWS_SSR_RENDER === "function") {
     const contentPath = parsePublicRoute(url.pathname, url.searchParams).contentPathname;
+    if (contentPath === "/funding-rates/matrix") return fallback();
     // Listing pages never come from the build-time manifest: the feed is published after the build.
     const listing = metadata.marker === NEWS_ROUTE_MARKER ? parseNewsListingPath(contentPath) : null;
     if (listing && !listing.invalid && !listing.redirect) return fallback();
@@ -4909,7 +4930,7 @@ async function handleNewsSearchJson(env, url) {
 // publisher and only carried en, zh-Hans and a few ja/ko/tr pages, so the translated exchange, rates, compare and
 // activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
 // non-canonical URL; cached for an hour.
-const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS];
+const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, "/funding-rates/matrix", ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS];
 let localeSitemapCache = null;
 export async function renderLocaleSitemap(env = {}) {
   // Generated pairs: only the indexable ones (both venues with reviewed fee rows and at least one partner); their
@@ -7771,6 +7792,11 @@ async function routeMetadataBase(url, env, newsFeed) {
 
   // Public data pages (owner 2026-10-10): titles, descriptions and Dataset/FAQ/Breadcrumb JSON-LD come from one
   // shared copy table; every UI locale is indexable and self-canonical.
+  if (canonicalPath === "/funding-rates/matrix") {
+    const meta = fundingMatrixSeo(locale);
+    return { status: 200, ...meta, canonical: localizedCanonical(canonicalPath, locale), locale,
+      robots: "index,follow", marker: STATIC_ROUTE_MARKER, alternates: routeAlternates(canonicalPath) };
+  }
   if (isDataPagePath(canonicalPath)) {
     const meta = dataPageMeta(canonicalPath, locale);
     // Dataset temporalCoverage starts at the liquidation history's first snapshot when the feed carries one (2026-10-11).
@@ -8270,6 +8296,7 @@ async function appHtmlResponse(response, url, env, forceHtml = false, request = 
   // Iframe widgets carry noindex in the header too, as the server-rendered /embed/liquidations widgets do (SEO audit
   // 2026-10-11 #13); HEAD already mirrors metadata.robots above.
   if (/^\/embed(?:\/|$)/.test(url.pathname)) headers.set("x-robots-tag", metadata.robots || "noindex,follow");
+  if (parsePublicRoute(url.pathname, url.searchParams).contentPathname === "/funding-rates/matrix") headers.set("cache-control", "no-store");
   headers.delete("content-length");
   return withHomeHeroHeaders(htmlSecurityResponse(new Response(html, {
     status: metadata.status,
