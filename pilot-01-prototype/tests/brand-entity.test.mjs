@@ -136,7 +136,8 @@ test("home, article and data pages emit the same Organization @id and Research D
   assert.equal(newsArticle.author.parentOrganization["@id"], ORGANIZATION_ID);
   assert.equal(newsArticle.publisher["@id"], ORGANIZATION_ID);
   assert.equal(newsArticle.publisher.logo["@type"], "ImageObject");
-  assert.equal(newsArticle.reviewedBy["@id"], RESEARCH_DESK_ID);
+  // AUDIT 2026-10-12: automated articles claim no reviewer (a reviewer appears only with a human review record).
+  assert.equal(newsArticle.reviewedBy, undefined);
   // every node round-trips as JSON without undefined holes
   for (const graph of [home, graphOf(articleMeta)]) {
     for (const node of graph) {

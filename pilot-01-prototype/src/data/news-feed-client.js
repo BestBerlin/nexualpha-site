@@ -562,6 +562,20 @@ export function exchangeUrl(slug, locale = "en") {
   return localizedHref(`/exchanges/${encodeURIComponent(slug)}`, { locale });
 }
 
+/**
+ * A real human review record on a feed row: `humanReviewedBy` (reviewer name) and `humanReviewedAt` (ISO date).
+ * Without one, article pages say "Updated <date>" and their schema names no reviewer (AUDIT 2026-10-12).
+ */
+export function newsHumanReview(article) {
+  if (!isRecord(article)) return null;
+  const by = cleanString(article.humanReviewedBy);
+  const at = cleanString(article.humanReviewedAt);
+  if (!by || !at || !Number.isFinite(Date.parse(at))) return null;
+  return { by, at: new Date(Date.parse(at)).toISOString() };
+}
+
+const SEARCH_STATES = new Set(["noindex-thin", "canonicalized"]);
+
 export function normalizeNewsArticle(article) {
   if (!isRecord(article)) return null;
   const slug = cleanString(article.slug).toLowerCase();
@@ -602,6 +616,10 @@ export function normalizeNewsArticle(article) {
     seo: isRecord(article.seo) ? article.seo : {},
     aeo: isRecord(article.aeo) ? article.aeo : {},
     geo: isRecord(article.geo) ? article.geo : {},
+    // T10 search state set by the Worker / build overlay (src/data/news-search-state.js); review record if one exists.
+    ...(SEARCH_STATES.has(article.searchState) ? { searchState: article.searchState } : {}),
+    ...(VALID_SLUG.test(cleanString(article.canonicalSlug)) ? { canonicalSlug: cleanString(article.canonicalSlug) } : {}),
+    ...(newsHumanReview(article) ? { humanReviewedBy: newsHumanReview(article).by, humanReviewedAt: newsHumanReview(article).at } : {}),
   };
 }
 
@@ -704,6 +722,10 @@ export function projectNewsArticleForLocale(article, locale = "en", { includeCon
     projected.seo = isRecord(article.seo) ? article.seo : {};
     projected.aeo = isRecord(article.aeo) ? article.aeo : {};
     projected.geo = isRecord(article.geo) ? article.geo : {};
+    if (SEARCH_STATES.has(article.searchState)) projected.searchState = article.searchState;
+    if (VALID_SLUG.test(cleanString(article.canonicalSlug))) projected.canonicalSlug = cleanString(article.canonicalSlug);
+    const review = newsHumanReview(article);
+    if (review) { projected.humanReviewedBy = review.by; projected.humanReviewedAt = review.at; }
   }
   return projected;
 }
