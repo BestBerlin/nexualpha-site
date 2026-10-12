@@ -5,7 +5,7 @@
   "Most trades are priced in USDT. But is USDT really a dollar? Next episode.": "대부분의 거래는 USDT로 가격이 매겨집니다. 하지만 USDT는 정말 달러일까요? 다음 화에서 확인하세요.",
   "One bitcoin costs that much. Can I still buy some?": "비트코인 한 개가 그렇게 비싼데, 조금만 살 수도 있나요?",
   "No. USDT, or Tether, is a stablecoin. It's designed to stay close to one dollar. But it isn't the dollars in your bank account, and it isn't risk-free cash.": "아닙니다. USDT(테더)는 스테이블코인입니다. 한 달러에 가깝게 유지되도록 설계되었지만, 은행 계좌의 달러도 아니고 무위험 현금도 아닙니다.",
-  "This one has a huge reward. I'll just go in here?": "인터넷에 '거래소'를 검색했더니 비슷한 링크가 여러 개 나와요. 어느 게 진짜죠?",
+  "This one has a huge reward. I'll just go in here?": "이곳 혜택이 엄청 큰데, 그냥 여기로 들어가면 될까요?",
   "Do it now: turn on two-factor login. Then come back. Next, someone in a chat offers to 'do your KYC for you'.": "지금 바로 이중 인증을 켜세요. 다음 화: 채팅방에서 'KYC를 대신 통과해 주겠다'는 사람이 나타납니다.",
   "Some platforms also offer trading between users. That's not another name for a bank transfer. Never pay off-platform in private, never use funds of unknown origin or third-party payments. If it's unclear, don't do it yet.": "일부 플랫폼은 사용자 간 거래(P2P)도 지원하지만, 이는 일반 은행 송금과 다릅니다. 플랫폼 외부에서 개인 간 송금하지 말고, 출처 불명의 자금이나 제3자 대리 결제를 쓰지 마세요.",
   "Your first practice isn't about guessing up or down. It's about checking these five things. And when you're done, it's fine to not make a real trade yet.": "첫 모의 연습은 상승과 하락을 맞히는 게 아니라 이 다섯 가지를 꼼꼼히 확인하는 것입니다. 끝나고 나서 당장 실전 거래를 하지 않아도 괜찮습니다.",
@@ -20,7 +20,16 @@
   "Twenty.": "이십입니다.",
   "If I use ten times, does the exchange give me 900?": "열 배로 설정하면 거래소가 900을 그냥 주는 건가요?",
   "You still have margin left. So why can you be forced out? Next: the line you can't see.": "증거금이 바닥나기 전에 강제 종료될 수 있는 이유는? 다음 화: 보이지 않는 경계선.",
-  "When equity gets close to the platform's maintenance level, the risk system may step in. It doesn't have to wait for zero. It depends on the account type, margin mode and product rules.": "순자산이 거래소가 요구하는 유지 수준에 근접하면 리스크 관리 시스템이 개입할 수 있으며, 잔고가 완전히 제로가 될 때까지 기다리지 않습니다. 구체적인 사항은 계정 종류, 마진 모드, 상품 규칙에 따릅니다.",
+  "When equity gets close to the platform's maintenance level, the risk system may step in. It doesn't have to wait for zero. It depends on the account type, margin mode and product rules.": "순자산이 플랫폼의 유지 수준에 가까워지면 리스크 시스템이 개입할 수 있습니다. 0이 될 때까지 기다릴 필요가 없죠. 계정 유형, 마진 모드, 상품 규칙에 따라 다릅니다.",
   "Why you can be closed out before your margin hits zero": "증거금이 제로가 되기 전에 강제 종료될 수 있는 이유는?",
-  "The interval and the rate can change by pair, platform and market. Don't remember it as 'every contract, every eight hours, forever'. And don't treat receiving funding as risk-free income.": "정산 주기와 요율은 페어, 거래소, 시장 상황에 따라 달라집니다. '모든 계약이 여덟 시간마다 영원히 똑같다'고 외우지 마세요. 펀딩비를 받는 것을 무위험 수익으로 여겨서도 안 됩니다."
+  "The interval and the rate can change by pair, platform and market. Don't remember it as 'every contract, every eight hours, forever'. And don't treat receiving funding as risk-free income.": "정산 주기와 요율은 페어, 거래소, 시장 상황에 따라 달라집니다. '모든 계약이 여덟 시간마다 영원히 똑같다'고 외우지 마세요. 펀딩비를 받는 것을 무위험 수익으로 여겨서도 안 됩니다.",
+  "Don't let a reward decide. First check: is this allowed where you live? Does the platform accept your real country of residence? Which company provides the service? Then look at fees, deposits and withdrawal rules.": "보상만 보고 결정하지 마세요. 먼저 확인할 것은: 내가 사는 곳에서 허용되는지, 플랫폼이 실제 거주 국가를 지원하는지, 어떤 회사가 서비스를 제공하는지입니다. 그 다음 수수료와 입출금 규정을 살펴보세요.",
+  "There's still money there. Why won't it let me keep waiting?": "아직 잔고가 남아 있는데 왜 계속 기다리게 놔두지 않나요?",
+  "You need initial margin to open a position. While it's open, you must also meet the maintenance margin requirement. What you put in at the start isn't how much buffer you'll always have.": "포지션을 열 때는 개시 증거금이 필요합니다. 포지션이 열려 있는 동안에는 유지 증거금 요건도 충족해야 하죠. 처음에 넣은 금액이 앞으로도 계속 똑같은 버퍼가 되어주진 않습니다.",
+  "Say the initial margin is 100 and the position is down 20. Ignoring everything else, the equity is now 80. If the price keeps moving against you, the buffer keeps shrinking.": "개시 증거금이 100이고 포지션 손실이 20이라고 해보죠. 다른 조건을 제외하면 순자산은 이제 80입니다. 가격이 계속 불리하게 움직이면 버퍼는 계속 줄어듭니다.",
+  "So if I keep adding money, I'm safe?": "그럼 돈을 계속 추가하면 안전한가요?",
+  "Adding money doesn't change the price direction, and it doesn't guarantee you won't be liquidated. It can pull more money into the same risk.": "돈을 추가한다고 해서 가격 방향이 바뀌진 않으며, 청산당하지 않는다고 보장하지도 않습니다. 오히려 더 많은 자금을 동일한 위험으로 끌어들일 수 있죠.",
+  "Check equity first, then how far it is from the warning line.": "먼저 순자산을 확인한 다음, 경고선에서 얼마나 떨어져 있는지 확인하세요.",
+  "Understand first, then act.": "먼저 이해하고, 그다음에 행동하세요.",
+  "That's a passing result too. Finishing the course doesn't mean you can make money. Understand first, then act.": "그것 역시 훌륭한 합격입니다. 코스를 마쳤다고 해서 돈을 벌 수 있다는 뜻은 아닙니다. 먼저 이해하고, 그다음에 행동하세요."
 }

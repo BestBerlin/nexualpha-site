@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { applyNewsSearchStateToFeed, newsStrengthRank } from "../src/data/news-search-state.js";
 import { LEGAL_PAGE_PATHS, LEGAL_LOCALES, LEGAL_EFFECTIVE_DATE } from "../src/data/legal-pages.js";
 import { buildPartnerGeoRestrictionsFeed } from "../src/data/partner-geo-restrictions.js";
 import { createHash } from "node:crypto";
@@ -30,6 +31,7 @@ import { generatedCompareLocales, indexableGeneratedComparePairs } from "../src/
 import { appDownloadSitemapEntries } from "../src/data/app-downloads.js";
 import { academySitemapEntries } from "../src/data/academy-seo.js";
 import { coinsSitemapEntries } from "../src/data/coins-seo.js";
+import { binanceOctoberSitemapEntries } from "../src/data/binance-october-seo.js";
 export { sitemapLocalesForRoute };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -317,18 +319,27 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   // Flash items of the last 7 days (2026-10-12), rendered by the Worker on request from the live feeds; it changes every
   // few minutes, so the index carries no build-time lastmod (each <url> in the file has its own).
   indexRows.push({ loc: "https://nexualpha.com/sitemap-flash.xml" });
+  // Campaign landing pages (2026-10-12: /activities/binance-october-gifts), rendered by the Worker at request time;
+  // hreflang sets are the page head's.
+  const campaigns = buildCampaignSitemap();
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-campaigns.xml", lastmod: campaigns.lastmod });
   return {
     index: buildSitemapIndex(indexRows),
     files,
     academy,
     coins,
     apps,
+    campaigns,
     publication,
   };
 }
 
 export function buildAppsSitemap() {
   return buildDownloadOrAcademySitemap(appDownloadSitemapEntries);
+}
+
+export function buildCampaignSitemap() {
+  return buildDownloadOrAcademySitemap(binanceOctoberSitemapEntries);
 }
 
 export function buildAcademySitemap() {
@@ -445,7 +456,8 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
     ({ render } = await import(pathToFileURL(ssrEntry).href));
   }
   const feedText = readFileSync(path.join(projectRoot, "public", "content", "news-feed.json"), "utf8");
-  const rawFeed = JSON.parse(feedText);
+  // T10: same search state as the Worker applies to the live feed (src/data/news-search-state.js).
+  const rawFeed = applyNewsSearchStateToFeed(JSON.parse(feedText));
   const newsArticles = normalizeNewsFeed(rawFeed);
   const newsArticleSummaries = normalizeNewsFeedSummaries(rawFeed);
   const newsFeedFingerprint = createHash("sha256").update(feedText).digest("hex");
@@ -468,7 +480,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
       // Tool pages (/rates, curated compare pairs, /activities without a live feed) list their related articles from the
       // build feed; the Worker renders the request-time tool routes from the live feed (links-l10n lane, scorecard D4).
       const toolKey = toolKeyForPath(pathname);
-      const toolArticles = toolKey ? toolArticleLinks(toolKey, newsArticles, locale) || undefined : undefined;
+      const toolArticles = toolKey ? toolArticleLinks(toolKey, newsArticles, locale, { rank: newsStrengthRank }) || undefined : undefined;
       const html = stripReactResourceHints(await render(url, { newsArticles: initialArticles, toolArticles }));
       if (!/<h1\b/i.test(html)) throw new Error(`Missing prerender H1: ${url}`);
       const asset = `/prerender/${locale}/${pathname === "/" ? "home" : pathname.slice(1)}.json`;
@@ -511,6 +523,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(projectRoot, "public", "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-coins.xml"), splitSitemaps.coins.xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-apps.xml"), splitSitemaps.apps.xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-campaigns.xml"), splitSitemaps.campaigns.xml);
   // Partner feed for the Telegram Mini App (one source of truth for shares, codes, links and checked fees).
   const partnersFeed = `${JSON.stringify(buildPartnersFeed())}\n`;
   for (const dir of [path.join(projectRoot, "public", "intel"), path.join(clientDir, "intel")]) { mkdirSync(dir, { recursive: true }); writeFileSync(path.join(dir, "partners.json"), partnersFeed); writeFileSync(path.join(dir, "partner-geo-restrictions.json"), `${JSON.stringify(buildPartnerGeoRestrictionsFeed(), null, 2)}\n`); }
@@ -523,6 +536,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(clientDir, "sitemap-academy.xml"), splitSitemaps.academy.xml);
   writeFileSync(path.join(clientDir, "sitemap-coins.xml"), splitSitemaps.coins.xml);
   writeFileSync(path.join(clientDir, "sitemap-apps.xml"), splitSitemaps.apps.xml);
+  writeFileSync(path.join(clientDir, "sitemap-campaigns.xml"), splitSitemaps.campaigns.xml);
   writeFileSync(path.join(clientDir, "news-sitemap.xml"), newsSitemap);
   writeFileSync(path.join(clientContentDir, "search-publication-report.json"), `${publicationReport}\n`);
   console.log(`Prepared prerender manifest: ${Object.keys(routes).length} routes, HTML split into route assets`);

@@ -56,6 +56,7 @@ function PopularCoins({ locale }) {
   </section>;
 }
 import { FlashRail } from "../flash/FlashRail.jsx";
+import { BINANCE_OCTOBER_PATH, binanceOctoberPromotable, binanceOctoberTeaser } from "../../data/binance-october.js";
 
 const INTEL_URL = "/intel/official-announcements.json";
 const INTEL_SHOW = ["listing", "event", "delisting", "news", "product", "security"];
@@ -160,15 +161,44 @@ function spread(items, limit, perVenue) {
   return [...picked, ...rest].slice(0, limit).sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
 }
 
+// Featured campaign (owner 2026-10-12): our Binance October gifts page is pinned above the exchange notices while the
+// campaign runs, where Binance may be promoted. It links our own page (traffic stays on NexuAlpha), not the exchange.
+function FeaturedCampaignRow({ locale, market }) {
+  if (!binanceOctoberPromotable({ locale, market })) return null;
+  const teaser = binanceOctoberTeaser(locale);
+  const href = localizedHref(BINANCE_OCTOBER_PATH, { locale, market });
+  return (
+    <li className="h7-feat" data-featured-campaign="binance-october">
+      <span className="h7-ic h7-ic-event" data-hot="true">{teaser.tag}</span>
+      <span className="h7-iv"><BrandMark slug="binance" compact />Binance</span>
+      <a className="h7-it" href={href} data-cta-kind="research" data-cta-platform="binance" data-cta-placement="home-featured-campaign">
+        {teaser.title}
+        <small className="campaign-brief-summary" dir="auto">{teaser.body}</small>
+      </a>
+      <a className="h7-iw" href={href} tabIndex={-1} aria-hidden="true">{teaser.go}</a>
+    </li>
+  );
+}
+
 function IntelBlock({ intel, t, locale, market, venues }) {
   const [open, setOpen] = useState(null);
   const now = useNow();
-  if (!intel) return null;
+  if (!intel) {
+    // Feed still loading or unavailable: the featured campaign still shows (fail closed for exchange notices only).
+    if (!binanceOctoberPromotable({ locale, market })) return null;
+    return (
+      <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
+        <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
+        <ul className="h7-il"><FeaturedCampaignRow locale={locale} market={market} /></ul>
+      </section>
+    );
+  }
   const asOf = fmtAsOf(intel.generatedAt, locale);
   return (
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
       <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
       <ul className="h7-il">
+        <FeaturedCampaignRow locale={locale} market={market} />
         {spread(intel.items, 10, 2).map((raw) => {
           const i = applyCampaignBriefs(raw, intel, locale);
           return (
