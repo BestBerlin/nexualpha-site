@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // NexuAlpha channel feed (owner 2026-10-10): posts NEW official exchange announcements from nexualpha.com to the
-// Telegram channels, each with the exchange's sign-up route (invite code) and the commission disclosure.
+// Telegram channels, each with the exchange's sign-up route (invite code).
 // Separate from the community bot runtime; uses the same bot token from the private env file. Idempotent: a state
 // file records every posted id; the first run only records the current items (no backlog flood). Max 5 posts a run.
 //   node channel-feed.mjs            post new items
@@ -44,7 +44,6 @@ const COPY = {
     terms: (p) => [p.share != null ? `最高返佣 ${Math.round(p.share * 100)}%` : null, p.autoSettle ? "官方自动结算" : null, p.settle === "hourly" ? "每小时到账" : p.settle === "daily" ? "每天到账" : null, p.inviteCode ? `邀请码 ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `通过 NexuAlpha 注册 ${n}：`,
     official: "查看官方公告", signUp: (n) => `注册 ${n} 拿返佣`, more: "费率对比",
-    disclosure: "合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。",
     time: (iso) => new Date(iso).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) + "（北京时间）",
   },
   en: {
@@ -52,7 +51,6 @@ const COPY = {
     terms: (p) => [p.share != null ? `up to ${Math.round(p.share * 100)}% back` : null, p.autoSettle ? "settled by the exchange" : null, p.settle === "hourly" ? "paid hourly" : p.settle === "daily" ? "paid daily" : null, p.inviteCode ? `code ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Sign up on ${n} via NexuAlpha: `,
     official: "Official notice", signUp: (n) => `Sign up on ${n}`, more: "Compare fees",
-    disclosure: "Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you.",
     time: (iso) => new Date(iso).toUTCString().replace(/:\d\d GMT$/, " UTC"),
   },
   // ru/tr/vi channels (2026-10-11): same facts, local wording; time in UTC with the local date format.
@@ -61,7 +59,6 @@ const COPY = {
     terms: (p) => [p.share != null ? `до ${Math.round(p.share * 100)}% возврата` : null, p.autoSettle ? "начисляет биржа" : null, p.settle === "hourly" ? "выплата каждый час" : p.settle === "daily" ? "выплата ежедневно" : null, p.inviteCode ? `код ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Регистрация на ${n} через NexuAlpha: `,
     official: "Официальное объявление", signUp: (n) => `Регистрация на ${n}`, more: "Сравнить комиссии",
-    disclosure: "Партнёрские ссылки могут приносить NexuAlpha комиссию от биржи без дополнительных затрат для вас.",
     time: (iso) => new Date(iso).toLocaleString("ru-RU", { timeZone: "UTC", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " UTC",
   },
   tr: {
@@ -69,7 +66,6 @@ const COPY = {
     terms: (p) => [p.share != null ? `en fazla %${Math.round(p.share * 100)} iade` : null, p.autoSettle ? "borsa tarafından ödenir" : null, p.settle === "hourly" ? "saatlik ödeme" : p.settle === "daily" ? "günlük ödeme" : null, p.inviteCode ? `kod ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `NexuAlpha üzerinden ${n} kaydı: `,
     official: "Resmî duyuru", signUp: (n) => `${n} hesabı aç`, more: "Komisyonları karşılaştır",
-    disclosure: "Ortaklık bağlantıları, size ek maliyet olmadan NexuAlpha'ya borsa tarafından ödenen komisyon kazandırabilir.",
     time: (iso) => new Date(iso).toLocaleString("tr-TR", { timeZone: "UTC", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) + " UTC",
   },
   vi: {
@@ -77,7 +73,6 @@ const COPY = {
     terms: (p) => [p.share != null ? `hoàn tới ${Math.round(p.share * 100)}%` : null, p.autoSettle ? "sàn tự động thanh toán" : null, p.settle === "hourly" ? "trả mỗi giờ" : p.settle === "daily" ? "trả mỗi ngày" : null, p.inviteCode ? `mã ${p.inviteCode}` : null].filter(Boolean).join(" · "),
     via: (n) => `Đăng ký ${n} qua NexuAlpha: `,
     official: "Thông báo chính thức", signUp: (n) => `Đăng ký ${n}`, more: "So sánh phí",
-    disclosure: "Liên kết đối tác có thể mang lại hoa hồng do sàn trả cho NexuAlpha, bạn không mất thêm chi phí.",
     time: (iso) => new Date(iso).toLocaleString("vi-VN", { timeZone: "UTC", day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit" }) + " UTC",
   },
 };
@@ -105,7 +100,6 @@ export function buildMessage(item, partnerIn, lang) {
   if (partner) {
     const terms = c.terms(partner);
     if (terms) lines.push("", `${esc(c.via(name))}${esc(terms)}`);
-    lines.push(`<i>${esc(c.disclosure)}</i>`);
   }
   const row1 = [{ text: c.official, url: `${SITE}${LOCALE_PATH[lang] ?? ""}${updatePath(item)}` }];
   // tracked redirect (2026-10-10): lands on the same registration URL, attributes the click to this channel

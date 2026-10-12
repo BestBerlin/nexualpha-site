@@ -11,7 +11,7 @@ for (const lang of ARTICLE_LANGS) test(`article message ${lang}`, () => {
   assert.ok(m.text.includes(copy[lang][0]));
   assert.equal(e.summary, copy[lang][1].split(lang === 'zh' ? '。' : '.')[0] + (lang === 'zh' ? '。' : '.'));
   assert.ok(m.text.includes(`?src=tg-article-${lang}`));
-  assert.ok(m.text.includes('<i>'));
+  assert.ok(!m.text.includes('<i>'));
 });
 test('editions fail closed, declared availability wins, HTML escaped', () => {
   const a = article('test-item', 0, ['en']);

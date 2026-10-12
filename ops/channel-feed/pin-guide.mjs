@@ -95,8 +95,6 @@ export function buildGuideMessage(lang) {
     "",
     esc(copy.compare),
     links,
-    "",
-    T(lang).listingDisclosure,
   ].join("\n");
 }
 

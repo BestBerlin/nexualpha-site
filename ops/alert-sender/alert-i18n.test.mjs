@@ -64,7 +64,7 @@ for (const lang of NEW_LANGS) {
   const e = EXPECT[lang];
   const path = LOCALE_PATH[lang];
 
-  test(`${lang}: event alerts carry the heading, numbers, lower-bound disclaimer and locale backlink`, () => {
+  test(`${lang}: event alerts carry the heading, numbers, locale backlink, no footer`, () => {
     const spike = eventMessage({ type: "liquidation-spike" }, mk, lang);
     noLeaks(spike, `${lang} liquidation-spike`);
     assert.match(spike, new RegExp(`^<b>${e.head.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}</b>\n`));
@@ -72,28 +72,26 @@ for (const lang of NEW_LANGS) {
     assert.ok(spike.includes(`BTC ${fmt.num(lang, 100000)}`), `${lang} BTC price is locale-formatted`);
     assert.ok(plain(spike).includes(e.pct), `${lang} formats -2.1% as ${e.pct}`);
     assert.ok(spike.includes("BTCUSDT"), "largest liquidation line present");
-    assert.ok(spike.includes(e.disclosure) && spike.includes(e.lowerBound), `${lang} event disclosure keeps the Binance + OKX lower-bound clause`);
-    assert.ok(spike.includes("Binance + OKX") || spike.includes("Binance и OKX"), `${lang} names both exchanges`);
-    assert.ok(spike.endsWith("</i>"), "disclosure is the last line");
-    const link = `<a href="https://nexualpha.com${path}/liquidations?src=tg-alert">${e.readMore}</a>\n\n<i>`;
-    assert.ok(spike.includes(link), `${lang} backlink precedes the disclosure: ${spike}`);
+    assert.ok(!spike.includes(e.disclosure) && !spike.includes("<i>"), `${lang} event alert carries no commission/data footer (owner 2026-10-12)`);
+    const link = `<a href="https://nexualpha.com${path}/liquidations?src=tg-alert">${e.readMore}</a>`;
+    assert.ok(spike.endsWith(link), `${lang} backlink is the last line: ${spike}`);
     assert.ok(eventMessage({ type: "both-sides-liquidated" }, mk, lang).startsWith(`<b>${e.both}</b>`));
     assert.ok(eventMessage({ type: "sharp-move" }, mk, lang).startsWith(`<b>${e.move}</b>`));
-    // the same disclosure wording in all three event types
+    // all three event types end on the same backlink
     const tail = (t) => eventMessage({ type: t }, mk, lang).split("\n\n").pop();
     assert.equal(tail("both-sides-liquidated"), tail("liquidation-spike"));
     assert.equal(tail("sharp-move"), tail("liquidation-spike"));
   });
 
-  test(`${lang}: daily digest has the sections, disclosure, locale article links and tg-digest-${lang} buttons`, () => {
+  test(`${lang}: daily digest has the sections, no footer, locale article links and tg-digest-${lang} buttons`, () => {
     const d = digestMessage(mk, partners, articles, campaigns, lang);
     noLeaks(d.text, `${lang} digest`);
     assert.ok(d.text.startsWith(`<b>🗞 ${e.digest}</b>\n\n`), d.text.split("\n")[0]);
     assert.ok(d.text.includes(`<b>${e.today}</b>`), "today-on-NexuAlpha header");
     assert.ok(d.text.includes(`<b>${e.campaigns}</b>`), "exchange campaigns header");
     assert.ok(d.text.includes("OKX: <a href=\"https://www.okx.com/help/campaign-1\">"), "campaign keeps the official URL");
-    assert.ok(d.text.includes(e.disclosure) && d.text.includes(e.lowerBound), "digest disclosure with lower-bound clause");
-    assert.ok(d.text.includes(`<a href="https://nexualpha.com${path}/news?src=tg-digest">${e.readMore}</a>\n\n<i>`), "digest backlink");
+    assert.ok(!d.text.includes(e.disclosure) && !d.text.includes("<i>"), "digest carries no footer");
+    assert.ok(d.text.endsWith(`<a href="https://nexualpha.com${path}/news?src=tg-digest">${e.readMore}</a>`), "digest backlink");
     assert.ok(d.text.includes(`DOGE ${fmt.pct(lang, 12.3, true)}`), "movers are signed and locale-formatted");
     assert.ok(d.text.includes(`BTC ${fmt.num(lang, 100000)}  ${fmt.pct(lang, -4.5, true)}`), "majors row");
     // article 2 has no edition in this language -> English URL and title; article 1 only in ru/tr
@@ -111,12 +109,12 @@ for (const lang of NEW_LANGS) {
     for (const b of d.buttons.flat()) noLeaks(b.text, `${lang} button`);
   });
 
-  test(`${lang}: listing and campaign DMs name the category and venue, drop the data clause, keep /go buttons`, () => {
+  test(`${lang}: listing and campaign DMs name the category and venue, no footer, keep /go buttons`, () => {
     const m = listingMessage(listingItem, partners[0], lang);
     noLeaks(m.text, `${lang} listing`);
     assert.ok(m.text.startsWith(`<b>[${e.listing} · OKX] </b>OKX lists ABC (ABC/USDT) for spot trading\n\n`), m.text.split("\n")[0]);
     assert.ok(m.text.includes(`<a href="https://nexualpha.com${path}/activities?src=tg-listing">${e.readMore}</a>`), "listing backlink");
-    assert.ok(m.text.includes(e.disclosure) && !m.text.includes(e.lowerBound), "listing disclosure without the market-data clause");
+    assert.ok(!m.text.includes(e.disclosure) && !m.text.includes("<i>"), "listing carries no footer");
     assert.deepEqual(m.buttons[0].map((b) => b.text), [e.notice, e.signUp]);
     assert.deepEqual(m.buttons[0].map((b) => b.url), ["https://www.okx.com/help/abc", `https://nexualpha.com/go/okx?src=tg-dm-listing-${lang}`]);
     const c = listingMessage(campaignItem, partners[1], lang);
