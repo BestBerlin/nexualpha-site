@@ -53,3 +53,4 @@ Sitemap: https://nexualpha.com/news-sitemap.xml
 Sitemap: https://nexualpha.com/sitemap-updates.xml
 Sitemap: https://nexualpha.com/sitemap-academy.xml
 Sitemap: https://nexualpha.com/sitemap-coins.xml
+Sitemap: https://nexualpha.com/sitemap-flash.xml

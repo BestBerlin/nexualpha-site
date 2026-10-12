@@ -83,4 +83,7 @@
     <loc>https://nexualpha.com/sitemap-coins.xml</loc>
     <lastmod>2026-10-12</lastmod>
   </sitemap>
+  <sitemap>
+    <loc>https://nexualpha.com/sitemap-flash.xml</loc>
+  </sitemap>
 </sitemapindex>
