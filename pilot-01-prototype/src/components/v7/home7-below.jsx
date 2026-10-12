@@ -18,6 +18,7 @@ import { CampaignBriefFacts } from "../shared/CampaignBriefFacts.jsx";
 import { useCampaignBriefs } from "../shared/useCampaignBriefs.js";
 import { CHIPS, Cta, Roll, VMIN, nameOf, toPos, toVol, usd } from "./home7-shared.jsx";
 import { LocalMarketBrief } from "./home7-local-market.jsx";
+import { FlashRail } from "../flash/FlashRail.jsx";
 
 const INTEL_URL = "/intel/official-announcements.json";
 const INTEL_SHOW = ["listing", "event", "delisting", "news", "product", "security"];
@@ -169,6 +170,9 @@ export function HomeBelowFold({ t, locale, market, vol, setVol, mode, setMode, p
   const onVol = (e) => { const d = e.target.value.replace(/[^0-9]/g, ""); setVol(Math.min(Number(d) || 0, 1e8)); };
   return (
     <>
+      {/* Flash rail (2026-10-12): the latest 5 items of the 7x24 stream, first block of the deferred home section (its
+          id is the hydration target, so the chunk loads as the rail approaches). */}
+      <FlashRail locale={locale} />
       <section className="h7-in h7-calc" id="h7-calc">
         <div>
           <h2>{t.calcH}</h2>
