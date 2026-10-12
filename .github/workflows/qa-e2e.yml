@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       run_id:
-        description: Build run id whose release-package to test (empty = newest successful Build on main)
+        description: Build run id whose release package (Actions cache) to test (empty = newest successful Build on main)
         required: false
 
 permissions:
@@ -62,16 +62,16 @@ jobs:
           fi
           echo "id=$id" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/download-artifact@v4
+      # build.yml saves the package to the Actions cache under its run id (main builds only).
+      - uses: actions/cache/restore@v4
         with:
-          name: release-package
-          run-id: ${{ steps.run.outputs.id }}
-          github-token: ${{ github.token }}
-          path: pkgdl
+          key: release-package-${{ steps.run.outputs.id }}
+          path: nexualpha-ui-*.tgz*
+          fail-on-cache-miss: true
 
       - name: Unpack
         run: |
-          mkdir -p pkg && tar -xzf pkgdl/nexualpha-ui-*.tgz -C pkg
+          mkdir -p pkg && tar -xzf nexualpha-ui-*.tgz -C pkg
           node -e "console.log('buildId', require('./pkg/dist/client/version.json').buildId)"
 
       - name: CTA invariants (blocking)
@@ -93,12 +93,14 @@ jobs:
           for f in qa-cta.md qa-scan.md; do [ -f "$f" ] && head -c 60000 "$f" >> "$GITHUB_STEP_SUMMARY"; done
           if [ "${{ steps.scan.outcome }}" = failure ]; then echo "::warning::Layout scan found regressions/defects (non-blocking). See summary."; fi
 
+      # The reports are already in the step summary above; a full artifact storage quota must not fail QA.
       - uses: actions/upload-artifact@v4
         if: always()
+        continue-on-error: true
         with:
           name: qa-e2e-report
           path: |
             qa-cta.md
             qa-scan.md
             qa-scan.json
-          retention-days: 3
+          retention-days: 1

@@ -37,9 +37,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v4
+      # Saved by build.yml in this same run (see the note there on why it is a cache, not an artifact).
+      - uses: actions/cache/restore@v4
         with:
-          name: release-package
+          key: release-package-${{ github.run_id }}
+          path: nexualpha-ui-*.tgz*
+          fail-on-cache-miss: true
 
       - name: SSH setup
         env:
