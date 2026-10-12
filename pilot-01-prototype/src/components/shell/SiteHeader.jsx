@@ -135,9 +135,7 @@ export function MobileSheet({ copy, nav, homeHref, navState, onClose, onSearch, 
       </ul>
     </nav>
     <div className="nx-sheet__tools">
-      <button type="button" className="nx-search nx-search--block" onClick={() => onSearch()}>
-        <SearchIcon /><span className="nx-search__label">{copy.hero.search}</span>
-      </button>
+      {/* Owner 2026-10-12: search removed from the phone menu too, matching the desktop header. */}
       {languageMenu}
     </div>
   </dialog>;
