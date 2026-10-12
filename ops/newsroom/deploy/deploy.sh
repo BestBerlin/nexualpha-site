@@ -18,6 +18,7 @@ tar --no-xattrs -C "$WATCHLIST_DIR" -czf - watchlist.json keywords.json \
   | "$NEWSROOM_SSH" "set -e; mkdir -p $ROOT/watchlist && tar -xzf - -C $ROOT/watchlist"
 
 "$NEWSROOM_SSH" "set -euo pipefail; cd $ROOT
+bash releases/$REL/deploy/backup.sh --dry-run
 ln -sfn releases/$REL app
 cp app/deploy/compose.yml compose.yml
 mkdir -p /data/agent/state/newsroom

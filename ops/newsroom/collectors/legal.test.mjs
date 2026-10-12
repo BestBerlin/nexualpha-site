@@ -101,11 +101,32 @@ test('EDGAR full-text uses POST JSON with SEC contact UA', async () => {
   );
   assert.equal(calls[0].options.method, 'POST');
   assert.equal(calls[0].options.headers['User-Agent'], 'NexuAlpha newsroom ops@nexualpha.com');
-  assert.match(calls[0].options.body, /digital asset/);
-  assert.match(calls[0].options.body, /2026-10-10/);
+  const body = JSON.parse(calls[0].options.body);
+  assert.match(body.q, /digital asset/);
+  assert.equal(body.startdt, '2026-10-10');
+  assert.deepEqual(body.forms, ['8-K', '10-Q', '10-K', 'S-1', '13F']);
   assert.equal(items[0].external_id, 'edgar-fts:0001193125-26-123456');
   assert.equal(items[0].event_type_guess, 'crypto_treasury_company');
   assert.equal(items[0].metrics.search_score, 8.1);
+  assert.equal(items[0].metrics.form, '8-K');
+  assert.equal(items[0].body_excerpt, 'Item 8.01 Other Events - digital asset treasury update');
+  assert.deepEqual(items.map(item => item.external_id), ['edgar-fts:0001193125-26-123456']);
+});
+
+test('EDGAR full-text drops disallowed forms before raw item creation', async () => {
+  const items = await poll(
+    source('sec-edgar-full-text', 'https://efts.sec.gov/LATEST/search-index'),
+    null,
+    {
+      now,
+      entities: [],
+      keywords: [{ term: 'digital asset', event_type: 'crypto_treasury_company', status: 'active' }],
+      async request() {
+        return jsonFixture('edgar-full-text.json');
+      },
+    },
+  );
+  assert.deepEqual(items.map(item => item.external_id), ['edgar-fts:0001193125-26-123456']);
 });
 
 test('EDGAR submissions discovers CIKs from official company_tickers exact name or ticker matches', async () => {
@@ -128,6 +149,7 @@ test('EDGAR submissions discovers CIKs from official company_tickers exact name 
   assert.equal(items[0].external_id, 'edgar-submission:0000320193-26-000001');
   assert.equal(items[0].metrics.cik, '320193');
   assert.match(items[0].url, /Archives\/edgar\/data\/320193\/000032019326000001/);
+  assert.equal(items.length, 1);
 });
 
 test('EDGAR submissions marks partial on no CIKs and keeps other companies when one request fails', async () => {
