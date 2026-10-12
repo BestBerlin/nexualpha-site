@@ -1,4 +1,5 @@
 import { CollectorError, plain } from './common.mjs';
+import { parseFeed } from './feeds.mjs';
 
 const MAX_FUTURE_SKEW_MS = 60 * 60 * 1000;
 
@@ -35,11 +36,19 @@ const BITGET_TYPES = Object.freeze({
   security: null,
 });
 
+const KUCOIN_TYPES = Object.freeze({
+  'new-listings': 'listing',
+  delistings: 'delisting',
+  'latest-announcements': null,
+});
+
 const EXCHANGE_SOURCES = Object.freeze(new Set([
   'binance-announcements',
   'okx-announcements',
   'bybit-announcements',
   'bitget-announcements',
+  'kucoin-announcements',
+  'kraken-announcements',
   'kraken-status',
   'nexualpha-official-announcements',
 ]));
@@ -49,6 +58,8 @@ const ENDPOINTS = Object.freeze({
   'okx-announcements': { host: 'www.okx.com', path: '/api/v5/support/announcements' },
   'bybit-announcements': { host: 'api.bybit.com', path: '/v5/announcements/index' },
   'bitget-announcements': { host: 'api.bitget.com', path: '/api/v2/public/annoucements' },
+  'kucoin-announcements': { host: 'api.kucoin.com', path: '/api/ua/v2/market/announcement' },
+  'kraken-announcements': { host: 'blog.kraken.com', path: '/category/product/asset-listings/feed' },
   'kraken-status': { host: 'status.kraken.com', path: '/api/v2/incidents.json' },
   'nexualpha-official-announcements': { host: 'nexualpha.com', path: '/intel/official-announcements.json' },
 });
@@ -67,6 +78,8 @@ export async function poll(source, since = null, ctx = {}) {
   else if (source.id === 'okx-announcements') items = await pollOkx(source, request, nowMs);
   else if (source.id === 'bybit-announcements') items = await pollBybit(source, request, nowMs);
   else if (source.id === 'bitget-announcements') items = await pollBitget(source, request, nowMs);
+  else if (source.id === 'kucoin-announcements') items = await pollKucoin(source, request, nowMs);
+  else if (source.id === 'kraken-announcements') items = mapKrakenAnnouncements(await request(source.url, { format: 'text' }), source, nowMs);
   else if (source.id === 'kraken-status') items = mapKraken(await request(source.url), source, nowMs);
   else if (source.id === 'nexualpha-official-announcements') items = mapMirror(await request(source.url), source, nowMs);
   else throw new CollectorError(`Unsupported exchange source: ${source.id}`);
@@ -108,6 +121,19 @@ async function pollBitget(source, request, nowMs) {
   const out = [];
   for (const annType of ['coin_listings', 'trading_competitions_promotions', 'latest_news', 'product_updates', 'security', 'symbol_delisting']) {
     out.push(...mapBitget(await request(urlWithParams(source.url, { language: 'en_US', annType, limit: '10' })), source, nowMs));
+  }
+  return out;
+}
+
+async function pollKucoin(source, request, nowMs) {
+  const out = [];
+  for (const type of ['latest-announcements', 'new-listings', 'delistings']) {
+    out.push(...mapKucoin(await request(urlWithParams(source.url, {
+      language: 'en_US',
+      type,
+      pageNumber: '1',
+      pageSize: '50',
+    })), source, nowMs));
   }
   return out;
 }
@@ -175,6 +201,34 @@ function mapBitget(payload, source, nowMs) {
       event_type_guess: exchangeEventType(category, row?.annTitle),
     }, source);
   }).filter(Boolean);
+}
+
+function mapKucoin(payload, source, nowMs) {
+  const rows = payload?.code === '200000' ? payload?.data?.list : null;
+  if (!Array.isArray(rows)) throw new CollectorError(`${source.id} malformed payload`);
+  return rows.map(row => {
+    const types = Array.isArray(row?.type) ? row.type : [];
+    const category = types.map(type => KUCOIN_TYPES[type]).find(Boolean) ?? null;
+    return buildItem({
+      external_id: row?.id ? `kucoin:${row.id}` : null,
+      url: officialUrl(row?.url, 'www.kucoin.com'),
+      title: row?.title,
+      body_excerpt: category ?? row?.description,
+      published_at: timestamp(row?.releaseTime, nowMs),
+      event_type_guess: exchangeEventType(category, row?.title),
+    }, source);
+  }).filter(Boolean);
+}
+
+function mapKrakenAnnouncements(xml, source, nowMs) {
+  return parseFeed(xml).map(row => buildItem({
+    external_id: row?.guid ? `kraken-blog:${row.guid}` : (row?.external_id ? `kraken-blog:${row.external_id}` : null),
+    url: officialUrl(row?.url, 'blog.kraken.com'),
+    title: row?.title,
+    body_excerpt: 'listing',
+    published_at: timestamp(row?.published_at, nowMs),
+    event_type_guess: exchangeEventType('listing', row?.title),
+  }, source)).filter(Boolean);
 }
 
 function mapKraken(payload, source, nowMs) {

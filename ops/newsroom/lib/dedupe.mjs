@@ -8,9 +8,9 @@ import {
   originKey,
   sourcePlatform,
   sourceTier,
-  trigramSimilarity,
 } from './normalization.mjs';
 import { relevanceForItem } from './relevance.mjs';
+import { storyFacts, conflictingFacts, factsMatch, titleSimilarity } from './facts.mjs';
 
 export const DEFAULT_DEDUPE_CONFIG = {
   eventWindowHours: 48,
@@ -100,11 +100,14 @@ function buildEvidence(item, itemsById, duplicateOriginById) {
     kind: item.evidence_kind ?? item.evidenceKind ?? defaultEvidenceKind(item),
     is_independent: true,
     origin_key: resolveOriginKey(item, itemsById, duplicateOriginById),
+    title: item.title ?? null,
+    facts: storyFacts(item),
     excerpt: excerpt == null ? null : String(excerpt).slice(0, 600),
     author_account: item.author_account ?? item.authorAccount ?? null,
     published_at: sourcePublishedAt ? sourcePublishedAt.toISOString() : null,
     source_platform: sourcePlatform(item),
     source_tier: sourceTier(item),
+    verified_official: item.verified_official === true || item.source?.verified_official === true,
     source_id: item.source_id ?? item.sourceId ?? null,
     metrics: item.metrics ?? null,
     metrics_at: item.metrics_at ?? item.metricsAt ?? null,
@@ -145,6 +148,7 @@ function normalizeExistingEvent(event) {
 
 function discussionFromEvidence(evidence) {
   const originSeen = new Set();
+  const publisherSeen = new Set();
   const byPlatform = {};
   for (const row of evidence) {
     const platform = row.source_platform;
@@ -155,9 +159,14 @@ function discussionFromEvidence(evidence) {
       metrics_unknown: false,
     };
     const mirror = isMirrorEvidence(row);
-    const firstForOrigin = !mirror && !originSeen.has(row.origin_key);
+    let publisher = null;
+    if (['media', 'google_news', 'exchange'].includes(platform)) {
+      try { publisher = new URL(row.url).hostname.replace(/^www\./, ''); } catch { publisher = row.source_id; }
+    }
+    const firstForOrigin = !mirror && !originSeen.has(row.origin_key) && (!publisher || !publisherSeen.has(publisher));
     if (firstForOrigin) {
       originSeen.add(row.origin_key);
+      if (publisher) publisherSeen.add(publisher);
       byPlatform[platform].independent_posts += 1;
       byPlatform[platform].origin_keys.push(row.origin_key);
     }
@@ -211,26 +220,32 @@ function createEvent(item, index, watchlist, itemsById, duplicateOriginById) {
 function shouldAttach(item, event, config, watchlist, itemsById, duplicateOriginById) {
   const itemSubjects = itemEntities(item, watchlist);
   if (!compatibleEventType(eventTypeOf(item), event.event_type)) return false;
+  if (itemSubjects.length && event.subjects?.length && !commonValues(itemSubjects, event.subjects)) return false;
   const itemOccurred = item.occurred_at ?? item.occurredAt;
   const eventOccurred = event.occurred_at ?? event.occurredAt;
   const knownOccurrences = itemOccurred && eventOccurred && Number.isFinite(Date.parse(itemOccurred)) && Number.isFinite(Date.parse(eventOccurred));
   const eventTime = knownOccurrences ? new Date(eventOccurred) : event.source_published_at ? new Date(event.source_published_at) : itemPublishedAt(event.raw_items?.[0] ?? event);
   if (timeDistanceHours(knownOccurrences ? new Date(itemOccurred) : itemPublishedAt(item), eventTime) > config.eventWindowHours) return false;
+  const itemFacts = storyFacts(item, watchlist);
+  const capturedItems = event.raw_items?.length ? event.raw_items : [{ ...event, title: event.title_internal }];
+  if (capturedItems.some(row => conflictingFacts(itemFacts, storyFacts(row, watchlist)))) return false;
   const itemHardKeys = extractHardKeys(item);
-  if (itemHardKeys.length && commonValues(itemHardKeys, event.hard_keys)) return true;
-  if (itemHardKeys.some(key => key.startsWith('exchange-action:')) && event.hard_keys?.some(key => key.startsWith('exchange-action:'))) return false;
+  if (itemHardKeys.length && commonValues(itemHardKeys, event.hard_keys)) return 'shared_hard_key';
+
   const itemOrigin = resolveOriginKey(item, itemsById, duplicateOriginById);
-  if (itemOrigin && event.evidence?.some(row => row.origin_key === itemOrigin)) return true;
+  if (itemOrigin && event.evidence?.some(row => row.origin_key === itemOrigin)) return 'shared_origin';
   const itemLinks = linksFor(item);
-  if (itemLinks.length && commonValues(itemLinks, event.original_links)) return true;
+  if (itemLinks.length && commonValues(itemLinks, event.original_links)) return 'shared_link';
   const contentHash = item.content_hash ?? item.contentHash;
-  if (contentHash && event.content_hashes?.includes(contentHash)) return true;
-  if (simhashValue(item.simhash) != null && event.simhashes?.some(value => hammingDistance(item.simhash, value) <= 3)) return true;
+  if (contentHash && event.content_hashes?.includes(contentHash)) return 'content_hash';
+  if (simhashValue(item.simhash) != null && event.simhashes?.some(value => hammingDistance(item.simhash, value) <= 3)) return 'simhash';
   if (!itemSubjects.length || !commonValues(itemSubjects, event.subjects)) return false;
-  return trigramSimilarity(item.title ?? '', event.title_internal) >= config.titleSimilarity;
+  if (capturedItems.some(row => factsMatch(itemFacts, storyFacts(row, watchlist)))) return 'shared_key_facts';
+  return titleSimilarity(item.title ?? '', event.title_internal) >= config.titleSimilarity ? 'fuzzy_title' : false;
 }
 
-function attachItem(event, item, itemsById, duplicateOriginById) {
+function attachItem(event, item, itemsById, duplicateOriginById, method) {
+  const provenance = [...(event.discussion?.merge_provenance ?? []), { raw_item_id: item.id ?? null, source_id: item.source_id ?? null, matched_event_title: event.title_internal, method, facts: storyFacts(item) }];
   event.raw_items.push(item);
   event.evidence.push(buildEvidence(item, itemsById, duplicateOriginById));
   event.original_links = [...new Set([...event.original_links, ...linksFor(item)])];
@@ -239,7 +254,7 @@ function attachItem(event, item, itemsById, duplicateOriginById) {
   event.simhashes = [...new Set([...(event.simhashes ?? []), item.simhash].filter(value => simhashValue(value) != null))];
   const sourcePublishedAt = itemSourcePublishedAt(item);
   if (sourcePublishedAt && (!event.source_published_at || sourcePublishedAt < new Date(event.source_published_at))) event.source_published_at = sourcePublishedAt.toISOString();
-  event.discussion = withMarketChannel(discussionFromEvidence(event.evidence), item, event);
+  event.discussion = { ...withMarketChannel(discussionFromEvidence(event.evidence), item, event), merge_provenance: provenance };
 }
 
 function parentOriginKey(item, itemsById, seen = new Set()) {
@@ -299,17 +314,21 @@ export function mergeRawItems(items, options = {}) {
       irrelevantItems.push(item);
       continue;
     }
+    const action = storyFacts(item, watchlist).action;
+    const inferredAction = { withdrawal_resume: 'withdrawal_halt', price_rise: 'price_move', price_fall: 'price_move' }[action] ?? action;
     const itemForMerge = {
       ...item,
+      ...(eventTypeOf(item) === 'unknown' && inferredAction !== 'unknown' ? { event_type_guess: inferredAction } : {}),
       ...(relevance.inferred_event_type && (!eventTypeOf(item) || eventTypeOf(item) === 'unknown') ? { event_type_guess: relevance.inferred_event_type } : {}),
       ...(relevance.inferred_market_channel && !marketChannelOf(item) ? { market_channel: relevance.inferred_market_channel } : {}),
     };
-    let event = events.find(candidate => shouldAttach(itemForMerge, candidate, config, watchlist, itemsById, duplicateOriginById));
+    let method;
+    let event = events.find(candidate => (method = shouldAttach(itemForMerge, candidate, config, watchlist, itemsById, duplicateOriginById)));
     if (!event) {
       event = createEvent(itemForMerge, events.length, watchlist, itemsById, duplicateOriginById);
       events.push(event);
     } else {
-      attachItem(event, itemForMerge, itemsById, duplicateOriginById);
+      attachItem(event, itemForMerge, itemsById, duplicateOriginById, method);
     }
     assignments.set(itemId(item), event.id);
   }

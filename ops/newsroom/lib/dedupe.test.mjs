@@ -197,9 +197,32 @@ test('recorded SEC regulator feed rows stay irrelevant without crypto context', 
   assert.deepEqual(result.irrelevantItems.map(item => item.id).sort(), [980, 981]);
 });
 
+test('relevance gate rejects out-of-scope EDGAR structured-note forms', () => {
+  const structuredNote = { id: 990, source_id: 'sec-edgar-full-text', platform: 'edgar', title: '497K Bitcoin structured notes update', body_excerpt: 'bitcoin buffered structured notes', published_at: '2026-10-12T10:00:00Z', event_type_guess: 'crypto_treasury_company', metrics: { form: '497K' } };
+  const holdings = { ...structuredNote, id: 991, title: '13F-HR Bitcoin treasury fund holdings', metrics: { form: '13F-HR' } };
+  assert.equal(relevanceForItem(structuredNote).relevant, false);
+  assert.equal(relevanceForItem(holdings).relevant, true);
+  const merged = mergeRawItems([structuredNote, holdings]);
+  assert.equal(merged.events.length, 1);
+  assert.deepEqual(merged.irrelevantItems.map(item => item.id), [990]);
+});
+
+test('EDGAR relevance requires explicit allowed form and crypto or legal company scope', () => {
+  const allowedButUnrelated = { id: 992, source_id: 'sec-edgar-full-text', platform: 'edgar', title: '10-Q Industrial issuer earnings rise as oil revenue jumps', body_excerpt: 'Oil revenue increased 8% and dollar costs fell.', published_at: '2026-10-12T10:00:00Z', metrics: { form: '10-Q' } };
+  const disallowedAuthoritativeForm = { id: 993, source_id: 'sec-edgar-full-text', platform: 'edgar', title: '424B2 Bitcoin note filed under 8-K root', body_excerpt: 'bitcoin structured note', published_at: '2026-10-12T10:00:00Z', metrics: { form: '424B2' } };
+  const watchlistCompany = { ...allowedButUnrelated, id: 994, title: '10-Q Example Bitcoin Treasury earnings', body_excerpt: 'Quarterly filing update.', metrics: { form: '10-Q', cik: '320193' } };
+  assert.equal(relevanceForItem(allowedButUnrelated).relevant, false);
+  assert.equal(relevanceForItem(disallowedAuthoritativeForm).relevant, false);
+  assert.equal(relevanceForItem(watchlistCompany).relevant, true);
+  const merged = mergeRawItems([allowedButUnrelated, disallowedAuthoritativeForm, watchlistCompany]);
+  assert.equal(merged.events.length, 1);
+  assert.deepEqual(merged.irrelevantItems.map(item => item.id).sort(), [992, 993]);
+});
+
 test('coin universe accepts explicit three-letter uppercase symbols without generic collisions', () => {
   assert.equal(relevanceForItem({ title: 'SUI jumps 12% after exchange listing' }, { coinUniverse: [{ id: 'sui', name: 'Sui', symbol: 'SUI' }] }).relevant, true);
   assert.equal(relevanceForItem({ title: 'ONE analyst opens new coverage' }, { coinUniverse: [{ id: 'harmony', name: 'Harmony', symbol: 'ONE' }] }).relevant, false);
+  assert.equal(relevanceForItem({ title: 'KuCoin lists ABC with USDT trading pair' }).relevant, true);
 });
 
 test('owner cross-asset moves infer event type and market channel without a collector guess', () => {

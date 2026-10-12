@@ -3,12 +3,12 @@
   "name": "Example Bitcoin Treasury Inc.",
   "filings": {
     "recent": {
-      "accessionNumber": ["0000320193-26-000001"],
-      "filingDate": ["2026-10-12"],
-      "form": ["8-K"],
-      "primaryDocument": ["ebtc-20261012.htm"],
-      "primaryDocDescription": ["Digital asset treasury update"],
-      "items": ["8.01"]
+      "accessionNumber": ["0000320193-26-000001", "0000320193-26-000002", "0000320193-26-000003"],
+      "filingDate": ["2026-10-12", "2026-10-12", "2026-10-12"],
+      "form": ["8-K", "6-K", "497K"],
+      "primaryDocument": ["ebtc-20261012.htm", "foreign-report.htm", "structured-note.htm"],
+      "primaryDocDescription": ["Digital asset treasury update", "Foreign issuer report", "Bitcoin structured note summary"],
+      "items": ["8.01", "", ""]
     }
   }
 }
