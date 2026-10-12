@@ -52,8 +52,9 @@ test("pt-BR referral titles lead with 'código de convite' and keep 'indicação
   }
 });
 
-test("tr / vi / id target profiles carry the native referral long tail with disclosure and official citations", () => {
+test("tr / vi / id target profiles carry the native referral long tail and official citations, with no in-answer disclosure", () => {
   const phrase = { tr: /referans kodu/i, vi: /mã giới thiệu/i, id: /kode referral/i };
+  // Owner rule 2026-10-12: commission disclosure lives only in the footer and legal pages, not in FAQ answers.
   const disclosure = { tr: /Açıklama: .*komisyon/, vi: /Công bố: .*hoa hồng/, id: /Pengungkapan: .*komisi/ };
   const officialHost = /(^|\.)(okx\.com|bitget\.com|binance\.com|bybit\.com|spk\.gov\.tr|ojk\.go\.id)$/;
   for (const [locale, slugs] of Object.entries(PARTNER_VENUE_FAQ_LOCAL_TARGETS)) {
@@ -66,7 +67,7 @@ test("tr / vi / id target profiles carry the native referral long tail with disc
       assert.ok(faq.entries.filter((e) => phrase[locale].test(e.question)).length >= 2, `${slug}/${locale}`);
       for (const e of faq.entries) {
         assert.doesNotMatch(e.question + e.answer, /\{code\}|\{name\}|\{disclosure\}|\{cadence\}/, `${slug}/${locale}: placeholder`);
-        if (e.answer.includes(codeOf(slug))) assert.match(e.answer, disclosure[locale], `${slug}/${locale}: code without disclosure`);
+        assert.doesNotMatch(e.answer, disclosure[locale], `${slug}/${locale}: no commission disclosure inside the answer`);
         assert.doesNotMatch(e.answer, /%\s?\d|\d\s?%/, `${slug}/${locale}: no rebate percentage inside the FAQ`);
         for (const href of e.citations) assert.match(new URL(href).host, officialHost, `${slug}/${locale}: ${href}`);
       }
@@ -98,7 +99,7 @@ test("Hyperliquid FAQ answers referral code and funded account without a rebate 
   const referral = faq.entries.find((e) => /referral code give/i.test(e.question));
   assert.match(referral.answer, /4% discount on your fees for your first \$25M/);
   assert.ok(referral.answer.includes(codeOf("hyperliquid")));
-  assert.match(referral.answer, /Disclosure: .*commission/);
+  assert.doesNotMatch(referral.answer, /Disclosure: .*commission/, "owner rule 2026-10-12: no disclosure inside FAQ answers");
   assert.match(referral.answer, /publishes no rebate share/);
   for (const href of faq.entries.flatMap((e) => e.citations)) assert.equal(new URL(href).host, "hyperliquid.gitbook.io");
   for (const locale of ["tr", "ru", "ar", "zh-Hant"]) assert.equal(partnerVenueFaqFor("hyperliquid", locale), null, locale);
@@ -166,7 +167,7 @@ test("profiles render the keyword sections: Hyperliquid fee tiers + referral + f
     if (referral) {
       const block = section.match(/data-keyword-block="referral"[\s\S]*?<\/div>/)[0];
       assert.ok(block.includes(`<code translate="no">${codeOf("hyperliquid")}</code>`), `hyperliquid/${locale}: feed code`);
-      assert.match(block, /commission-disclosure-line/, `hyperliquid/${locale}: disclosure next to the code`);
+      assert.doesNotMatch(block, /commission-disclosure-line|data-disclosure-placement=/, `hyperliquid/${locale}: no disclosure line next to the code`);
     } else {
       assert.ok(!section.includes(codeOf("hyperliquid")), `hyperliquid/${locale}: neutral section shows no code`);
     }
@@ -185,7 +186,7 @@ test("profiles render the keyword sections: Hyperliquid fee tiers + referral + f
   assert.match(h1(pages["bybit:id"]), /^Kode referral Bybit 48553 dan biaya \(\d{4}\)$/);
   assert.match(h1(pages["binance:pt-BR"]), /^Código de convite Binance 11350287, taxas e cashback \(\d{4}\)$/);
 
-  // /topics/bybit-alternatives: one row per venue from the facts file, codes from the feed, disclosure above the table.
+  // /topics/bybit-alternatives: one row per venue from the facts file, codes from the feed, no in-page disclosure line.
   const page = venueAlternativePage("bybit-alternatives");
   for (const locale of ALL_LOCALES) {
     const html = pages[`bybit-alternatives:${locale}`];
@@ -198,9 +199,7 @@ test("profiles render the keyword sections: Hyperliquid fee tiers + referral + f
       const shown = rowHtml[index].includes(`<code translate="no">${row.code}</code>`);
       if (row.code) assert.equal(shown, referralTitleAllowed(row.slug, locale), `${locale}: ${row.slug} code policy`);
     });
-    if (/<code translate="no">/.test(html)) {
-      assert.ok(html.indexOf("commission-disclosure-line") < html.indexOf("<table"), `${locale}: disclosure above the table`);
-    }
+    assert.doesNotMatch(html, /commission-disclosure-line|data-disclosure-placement=/, `${locale}: no disclosure line above the table`);
     assert.doesNotMatch(text(html), /\b(best|top|#1|ranked|winner)\b/i, `${locale}: no ranking words`);
   }
   assert.equal(venueAlternativeRows(page, "en").find((r) => r.slug === "okx").spot, feeDisplay("okx", "spot", "en"));

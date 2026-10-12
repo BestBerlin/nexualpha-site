@@ -178,7 +178,7 @@ async function renderPages(feedJson) {
   }
 }
 
-test("SSR renders the fixture numbers, the disclosure-bearing sign-up card and the Telegram line; no feed renders the unavailable state", async () => {
+test("SSR renders the fixture numbers, the sign-up card (no in-card disclosure) and the Telegram line; no feed renders the unavailable state", async () => {
   const withFeed = await renderPages(JSON.stringify(sampleFeed));
   const en = withFeed.en.liquidations;
   assert.match(en, /<h1>Crypto liquidations today<\/h1>/);
@@ -187,10 +187,13 @@ test("SSR renders the fixture numbers, the disclosure-bearing sign-up card and t
   assert.ok(en.includes("$1,452,978"), "largest single liquidation");
   assert.ok(en.includes("2026-10-10 14:58 UTC"), "generatedAt in UTC");
   assert.match(en, /<th scope="row" translate="no">SOL<\/th><td translate="no">OKX<\/td>/);
-  assert.match(en, /lower bound, not the whole market/);
+  // The explainer keeps the coverage limit as real content; the hero source line carries no caveat suffix (owner 2026-10-12).
+  assert.match(en, /lower bound for two exchanges, not the whole market/);
+  assert.match(en, /Binance USDT-M force-order stream \+ OKX liquidation orders</);
+  assert.doesNotMatch(en, /liquidation orders · lower bound/);
   assert.match(en, /t\.me\/NexuAlphaAssistantBot\?start=alerts/, "Telegram alerts line");
   assert.match(en, /class="news-offer news-offer--inline"/, "partner sign-up card");
-  assert.match(en, /commission-disclosure-line/, "commission disclosure inside the card");
+  assert.doesNotMatch(en, /commission-disclosure-line|data-disclosure-placement=/, "owner rule 2026-10-12: no commission disclosure inside the card");
   assert.match(en, /data-offer-venue="(okx|bitget|binance)"/);
   assert.ok(!en.includes("data-unavailable"));
   const fr = withFeed.en.funding;

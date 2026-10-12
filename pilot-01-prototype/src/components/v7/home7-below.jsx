@@ -84,7 +84,7 @@ function IntelSheet({ item, venues, t, locale, market, onClose }) {
           ))}
         </ul>
         <a className="h7-ln" href={updateHref(item, locale, { market })}>{t.shSrc}</a>
-        <p className="h7-sh-note">{t.t2b} {t.shNote}</p>
+        <p className="h7-sh-note">{t.shNote}</p>
       </div>
     </dialog>
   );
@@ -185,7 +185,6 @@ export function HomeBelowFold({ t, locale, market, vol, setVol, mode, setMode, p
           {vol > 0 && <a className="h7-ln h7-all h7-rates" href={buildDecisionReturnHref({ kind: "cost", locale, instrument: product === "spot" ? "spot" : "futures", order: mode, volume: vol, basis: "rebate" }) || localizedHref("/rates", { locale })}>{t.ratesGo}</a>}
         </div>
         <div className="h7-rows" ref={rowsRef}>
-          <p className="h7-disc">{t.t2b}</p>
           {calc.rows.map((r, i) => (
             <div key={r.slug} ref={(e) => { rowEls.current[i] = e; }} className={`h7-xr${calc.best?.slug === r.slug ? " best" : ""}${r.share ? "" : " nr"}`}>
               <p className="h7-xn"><BrandMark slug={r.slug} compact /><b>{r.name}</b><span className="h7-bd">{r.share ? `${t.upTo} ${formatPercent(locale, Math.round(r.share * 100))}` : t.pending}</span></p>

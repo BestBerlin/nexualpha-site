@@ -175,7 +175,8 @@ test("fee benchmark preserves source-bound CTA destinations and progressive full
       assert.equal(action.closest(".ft-pending"), null, `${slug}: checked venue is not hidden with pending venues`);
     }
     const block = table.closest(".fee-terminal__table-block");
-    assert.ok(block.querySelector('[data-disclosure-placement="rates-benchmark"]')?.textContent.trim(), "ledger actions share a visible commission disclosure");
+    assert.ok(block, "ledger actions sit in the table block");
+    assert.equal(block.querySelector("[data-disclosure-placement]"), null, "owner rule 2026-10-12: no commission disclosure inside the ledger block");
   } finally {
     dom.window.close();
   }

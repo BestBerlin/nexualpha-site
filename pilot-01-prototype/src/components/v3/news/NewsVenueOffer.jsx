@@ -1,12 +1,11 @@
 // News → sign-up (owner 2026-10-10): a reader of an exchange's news sees that exchange's sign-up with our invite code.
 // Owner placement: under the article, in the side rail on desktop, and (where there is no rail, i.e. phones and
 // tablets) a light card that slides in after 15 seconds of reading (never an interstitial; one tap closes it for the session; skipped while the inline card is on screen).
-// Only venues with a real invite route are offered; the commission disclosure is inside every card.
+// Only venues with a real invite route are offered; the commission disclosure lives in the footer only.
 import React, { useEffect, useRef, useState } from "react";
 import { pickNewsOfferVenue } from "../../../data/news-offer.js";
 import { ownerRebateLine } from "../../../data/owner-rebate-line.js";
 import { BrandMark } from "../../brand/BrandMark.jsx";
-import { CommissionDisclosureLine } from "../CommissionDisclosureLine.jsx";
 import "./news-venue-offer.css";
 
 const COPY = {
@@ -55,7 +54,6 @@ function OfferBody({ slug, cta, locale, t, placement }) {
           {t.go(name)} <span aria-hidden="true">→</span>
         </a>
       </div>
-      <CommissionDisclosureLine locale={locale} className="news-offer__ad" placement={placement} />
     </>
   );
 }

@@ -162,7 +162,6 @@
 #top.v3-compare-page .v3-compare-hero-actions__label { display: grid; gap: 2px; min-inline-size: 0; line-height: 1.25; }
 #top.v3-compare-page .v3-compare-hero-actions__label strong { font-weight: 600; overflow-wrap: anywhere; }
 #top.v3-compare-page .v3-compare-hero-actions__label small { font: 500 11.5px/1.3 "Geist Mono V5", ui-monospace, monospace; opacity: .8; }
-#top.v3-compare-page .v3-compare-hero-actions__disclosure { margin: 0; font-size: 12.5px; }
 @media (max-width: 560px) { #top.v3-compare-page .v3-compare-hero-actions__row { grid-template-columns: minmax(0, 1fr); } }
 
 /* "Copy link to continue later" is a text link now, below the ledger, not the first button on the page. */
@@ -220,15 +219,6 @@
   transition: color .18s ease, background-size .28s var(--r1-ease);
 }
 #top.v3-compare-page .v3-compare-decision-nav__links a:hover { color: var(--ink); background-size: 100% 1px; }
-#top.v3-compare-page .v3-relationship-note {
-  margin: 0;
-  padding-block: 16px 20px;
-  border: 0;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: var(--lh-body, 1.55);
-  max-inline-size: 60rem;
-}
 /* Some locales render the index as a direct child of main, outside the hero shell. */
 #top.v3-compare-page > .v3-compare-decision-nav { inline-size: var(--r1-shell); margin-inline: auto; margin-block: 0; }
 @media (max-width: 760px) {

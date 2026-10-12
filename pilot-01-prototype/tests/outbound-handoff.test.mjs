@@ -150,7 +150,7 @@ test("handoffCopy provides local strings for every supported selector locale", (
   }
 });
 
-test("RegistrationCard (OutboundHandoff) provides complete link, copyable code, anti-phishing domain and transparent disclosure", () => {
+test("RegistrationCard (OutboundHandoff) provides complete link, copyable code, anti-phishing domain, and no in-card disclosure (footer only)", () => {
   assert.match(component, /getPartner\(venueSlug\)/);
   assert.match(component, /publicCtaForVenue/);
   assert.match(component, /visiblePartner\.officialDomain/);
@@ -158,8 +158,8 @@ test("RegistrationCard (OutboundHandoff) provides complete link, copyable code, 
   assert.match(component, /visiblePartner\.inviteCode/);
   assert.match(component, /Raw partner/);
   assert.match(component, /handleCopy/);
-  assert.match(component, /copy\.disclosureTitle/);
-  assert.match(component, /copy\.disclosureBody/);
+  // Owner rule 2026-10-12: commission disclosure lives in the footer and legal pages only.
+  assert.doesNotMatch(component, /copy\.disclosure(Title|Short|Body|Summary)|registration-card__(inline-)?disclosure/);
   assert.match(component, /rel="sponsored noopener noreferrer"/);
   assert.match(component, /target="_blank"/);
   assert.match(component, /id="registration-path"/);

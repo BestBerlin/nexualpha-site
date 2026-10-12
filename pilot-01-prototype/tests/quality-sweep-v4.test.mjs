@@ -30,9 +30,10 @@ test("V4 contrast fixes: offer button keeps on-accent ink, muted notes and summa
   assert.ok(contrast("#04130F", "#1FE0C0") >= 4.5);
 
   const telegram = await read("src/components/v3/telegram-bot-hub.css");
-  assert.match(telegram, /\.tg-signal-hero__note \{[^}]*color: #9097a0;/);
+  // The hero data note was removed (owner rule 2026-10-12: no caveat fine print under page blocks).
+  assert.doesNotMatch(telegram, /\.tg-signal-hero__note\b/);
   assert.match(telegram, /\.tg-signal-sample__label small \{[^}]*color: #9097a0;/);
-  assert.ok(!/\.tg-signal-hero__note \{[^}]*#6b7280/.test(telegram), "#6b7280 on the canvas is 4.14:1");
+  assert.ok(!/\.tg-signal-sample__label small \{[^}]*#6b7280/.test(telegram), "#6b7280 on the canvas is 4.14:1");
   assert.ok(contrast("#9097A0", "#07080A") >= 4.5);
 
   const system = await read("src/styles/v6/system.css");

@@ -13,9 +13,9 @@
     }
 }
 /* v5/home.css */
-html:lang(zh) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
-html:lang(ja) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
-html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .registration-card__disclosure b, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail) {
+html:lang(zh) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
+html:lang(ja) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail),
+html:lang(ko) #top.v5 :is(.hx__title, .hx__link, .hx-intent button, .hx-route__who strong, .registration-card__primary-btn, .registration-card__preflight strong, .hx-row__who b, .crossroads__title, .crossroads__versus, .yellow-pages__title, .yellow-card__name, .yellow-card__btn-register, .yellow-card__btn-detail) {
   font-weight: 600;
   letter-spacing: -0.01em;
 }

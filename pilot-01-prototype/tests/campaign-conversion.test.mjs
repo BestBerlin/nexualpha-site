@@ -14,7 +14,8 @@ test('join blocks use gated routes, omit unknown rebates, and keep neutral local
   assert.match(en, /data-cta-placement="activities-live-campaign"/);
   assert.match(en, /code .* included/);
   assert.match(en, /40%/);
-  assert.match(en, /Partner link, commission disclosed/);
+  // Owner rule 2026-10-12: the join block carries no commission or terms fine print (footer + legal pages only).
+  assert.doesNotMatch(en, /commission disclosed|official page|<small>|data-disclosure-placement=/);
   assert.match(render({ venue: 'okx', locale: 'zh-Hans' }), /参加条件/);
   assert.doesNotMatch(render({ venue: 'bybit', locale: 'en' }), /fees back/);
   for (const locale of ['ru', 'ar', 'zh-Hant', 'ur', 'uk', 'zh-TW', 'zh-HK', 'ru-RU', 'ar-SA']) assert.doesNotMatch(render({ venue: 'okx', locale }), /data-cta-code=|40%/);

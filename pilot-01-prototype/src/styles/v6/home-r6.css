@@ -102,7 +102,7 @@
   #top.v6 .rf-card .rf-card__chk { order: 4; }
   #top.v6 .rf-card .registration-card__head { order: 5; }
   #top.v6 .rf-card .registration-card__mobile-route-details { order: 6; }
-  #top.v6 .rf-card .registration-card__disclosure { order: 7; }
+
   #top.v6 .rf-card .registration-card__head, #top.v6 .rf-card .rf-facts { padding-block-start: var(--s-3); border-block-start: 1px solid var(--line); }
   /* no-JS / first paint: the active intent already points down into the venue strip */
   #top.v6 .rf-grid:not([data-live]) .rf-intent[aria-checked="true"] .rf-port::after { content: ""; position: absolute; inset-block-start: 100%; inset-inline-start: 50%; inline-size: 2px; block-size: var(--s-3); margin-inline-start: -1px; background: var(--accent); }
@@ -231,7 +231,7 @@
   #top.v6 .v6-close__index .crawl-priority-links__group a:not(#_):not(#_) { grid-column: 1; line-height: var(--lh-body, 1.55); padding-block: var(--s-1); min-block-size: 44px; }
 }
 /* CJK legacy weight bumps (html:lang(..) #top.v5 ...) stay on the 600 step */
-html #top.v6.home-refinement .rf-card :is(.registration-card__preflight strong, .registration-card__primary-btn, .registration-card__disclosure b) { font-weight: 600; }
+html #top.v6.home-refinement .rf-card :is(.registration-card__preflight strong, .registration-card__primary-btn) { font-weight: 600; }
 /* phone: the source-notes strip follows the hero decision instead of sitting above the headline */
 @media (max-width: 37.5rem) {
   #top.v6.home-refinement section.rf { display: flex; flex-direction: column; }

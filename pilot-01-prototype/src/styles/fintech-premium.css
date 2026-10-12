@@ -657,10 +657,6 @@ body {
   white-space: nowrap;
 }
 
-.v3-mobile-sticky-bar__disclosure {
-  display: none;
-}
-
 @media (max-width: 780px) {
   .v3-mobile-sticky-bar__inner {
     display: grid;
@@ -706,22 +702,6 @@ body {
     box-sizing: border-box;
     padding-block: 4px;
     overflow: hidden;
-  }
-  .v3-mobile-sticky-bar .v3-mobile-sticky-bar__disclosure:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
-    display: block;
-    grid-column: 1 / -1;
-    justify-self: start;
-    font-size: 12px;
-    line-height: 16px;
-    padding-block: 4px;
-    color: var(--ink-2, #B0B4BA);
-    text-decoration: underline;
-    text-decoration-color: rgb(255 255 255 / .22);
-    text-underline-offset: 2px;
-    white-space: nowrap;
-    max-inline-size: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   .v3-mobile-sticky-bar__code,
   .v3-mobile-sticky-bar__perk,
@@ -1288,8 +1268,7 @@ body {
 }
 
 .v3-compare-page .v3-page-hero h1,
-.v3-compare-page .v3-page-hero p,
-.v3-compare-page .v3-page-hero .v3-relationship-note {
+.v3-compare-page .v3-page-hero p{
   max-inline-size: 100%;
   min-width: 0;
 }
@@ -1344,32 +1323,3 @@ body {
   }
 }
 
-/* Compare sticky bar: commission disclosure link under the venue columns (rule 8, design-unified-v8.md). */
-.v3-compare-sticky-bar .v3-compare-sticky-bar__disclosure:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
-  display: block;
-  inline-size: fit-content;
-  margin-inline: auto;
-  padding-block: 4px;
-  font-size: 12px;
-  line-height: 16px;
-  color: var(--ink-2, #B0B4BA);
-  text-decoration: underline;
-  text-decoration-color: rgb(255 255 255 / .22);
-  text-underline-offset: 2px;
-}
-.v3-compare-page .v3-compare-disclosure { margin-block: 0 16px; }
-
-/* Acceptance item 4: sticky-bar disclosure links reach a 44px target; code chip and button step down 48 -> 44 to offset. */
-@media (max-width: 780px) {
-  .v3-mobile-sticky-bar .v3-mobile-sticky-bar__disclosure:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
-  .v3-compare-sticky-bar .v3-compare-sticky-bar__disclosure:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
-    display: flex; align-items: center; min-block-size: 44px; padding-block: 0; line-height: 16px;
-  }
-  .v3-mobile-sticky-bar .v3-mobile-sticky-bar__code:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_),
-  .v3-mobile-sticky-bar .v3-mobile-sticky-bar__btn:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) {
-    block-size: 44px; min-block-size: 44px;
-  }
-}
-
-/* Rule 8: one-line commission sentence directly under the registration action. */
-.registration-card .registration-card__inline-disclosure:not(#_):not(#_):not(#_):not(#_):not(#_):not(#_):not(#_) { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: var(--ink-3, #9097A0); max-inline-size: none; }

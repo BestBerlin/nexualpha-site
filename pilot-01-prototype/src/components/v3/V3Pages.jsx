@@ -34,8 +34,6 @@ import { CompareAnyPicker } from "../compare/CompareAnyPicker.jsx";
 import { CompareHeroActions, CompareFinalChoiceCard, CompareFinalChoiceEvidence } from "./CompareFinalChoiceCard.jsx";
 import { compareFaqBadge, compareFaqEntries, compareFaqText, compareStickyAria } from "../../data/compare-faq-locales.js";
 import { TelegramReturnBanner } from "./TelegramReturnBanner.jsx";
-import { footerDisclosureLabel } from "./CleanFooter.jsx";
-import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 import { formatPercent } from "../../data/format-percent.js";
 import "./crossroads-compare.css";
 import "./growth-conversion.css";
@@ -2134,7 +2132,6 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
         <details id="compare-versus-card" className="v3-compare-support-disclosure" open={!directAnswer || profiles.length > 2}>
           <summary>{compareStatDisclosureByLocale[textLocaleKey(locale)] || compareStatDisclosureByLocale.en}<span aria-hidden="true">＋</span></summary>
           {isPriorityTwoVenueDirectAnswer && comparisonContext}
-        <CommissionDisclosureLine locale={locale} className="v3-compare-disclosure" placement="compare-versus" />
         <div className="v3-versus-card v3-versus-card--supporting" style={profiles.length >= 3 ? { gridTemplateColumns: `repeat(${profiles.length}, 1fr)` } : undefined}>
           {profiles.slice(0, 3).map((p, idx) => {
             const pDb = publicCompareDb(venueDatabase[p.slug] || {});
@@ -2296,15 +2293,6 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
           );
         })}
       </div>
-      <LocalLink
-        locale={locale}
-        href="/methodology#disclosure"
-        className="v3-compare-sticky-bar__disclosure"
-        tabIndex={stickyCtaActive ? undefined : -1}
-        data-disclosure-placement="compare-sticky"
-      >
-        {footerDisclosureLabel(locale)}
-      </LocalLink>
     </div>
 
     <section className="v3-page-hero v2-shell" id="compare-hero">
@@ -2377,7 +2365,6 @@ export function CompareDeepPage({ copy, locale, selected, venues, updates = [], 
         {/* 双雄/三强对决 Versus PK 卡片（左右对齐、各自独立归属条款与来源） */}
 
 
-        <p className="v3-relationship-note">{text.relationship}</p>
       </div>
     </section>
 
@@ -2669,7 +2656,6 @@ export function NotFoundPage({ locale }) {
         <span className="v3-independent-badge">{text.independent}</span>
         <h1>404</h1>
         <p>{text.activityNotFound}</p>
-        <p className="v3-relationship-note">{text.relationship}</p>
       </div>
     </section>
   </main>;

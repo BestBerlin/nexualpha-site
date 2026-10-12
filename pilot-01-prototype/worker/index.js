@@ -2513,13 +2513,10 @@ const HOME_ROUTE_MARKER = "NEXUALPHA_HOME_ROUTE_V1";
 const STATIC_ROUTE_MARKER = "NEXUALPHA_STATIC_ROUTE_V1";
 const NOT_FOUND_ROUTE_MARKER = "NEXUALPHA_NOT_FOUND_ROUTE_V1";
 const SHARED_ROUTE_STYLE_PREFIXES = Object.freeze(["index-", "core-", "shared-decision-rail-", "shared-decision-return-"]);
-// Compare pages render the commission disclosure line under the hero sign-up buttons in SSR (QA #12): its stylesheet
-// (route-news-commission chunk) is linked with the page, not injected at hydration (CLS 0.02-0.05 at 390).
-const COMPARE_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "route-v3-pages-", "route-news-commission-"]);
-// The exchange directory renders the matrix disclosure line and the "compare any two" picker in SSR. Both stylesheets
-// used to arrive with their chunks at hydration: the picker row grew 50 -> 205 px (CLS 0.13 at 390) and the matrix
-// disclosure switched to its sticky 12 px style. Linked up front, the first paint already has the hydrated look.
-const DIRECTORY_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "page-directory-", "route-v3-pages-", "route-news-commission-", "shared-compare-picker-"]);
+const COMPARE_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "route-v3-pages-"]);
+// The exchange directory renders the "compare any two" picker in SSR. Its stylesheet used to arrive with its chunk at
+// hydration: the picker row grew 50 -> 205 px (CLS 0.13 at 390). Linked up front, the first paint already has the hydrated look.
+const DIRECTORY_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "page-directory-", "route-v3-pages-", "shared-compare-picker-"]);
 const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [HOME_ROUTE_MARKER]: ["page-home-", "route-v3-home-", "route-v3-wizard-", "route-v3-pages-", "route-v3-registration-", "route-v3-calculators-", "route-v3-campaigns-", "route-v3-social-proof-", "route-international-", "route-rates-", "route-activity-", "route-onchain-", "route-telegram-", "route-market-"],
   [EXCHANGES_ROUTE_MARKER]: DIRECTORY_PAGE_STYLE_PREFIXES,
@@ -2542,7 +2539,7 @@ const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
   // Data pages: own chunk plus the shared news chrome they reuse (Telegram alerts line, sign-up card).
   "/liquidations": ["route-data-", "route-news-"],
   "/funding-rates": ["route-data-", "route-news-"],
-  // Brand pages (/about, /editorial-policy): own chunk; the commission disclosure line styles ship with the shared layers.
+  // Brand pages (/about, /editorial-policy): own chunk.
   "/privacy": ["route-brand-pages-"],
   "/terms": ["route-brand-pages-"],
   "/contact": ["route-brand-pages-"],

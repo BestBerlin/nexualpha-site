@@ -23,7 +23,6 @@ import { directoryContextSearch } from "../../data/directory-context.js";
 import { appendDecisionPassportQuery, readDecisionPassport } from "../../data/decision-passport.js";
 import { OnsiteTelegramBotHandoff } from "./OnsiteTelegramBotHandoff.jsx";
 import { feePctOfRate, isoDay } from "../../data/exchange-facts.js";
-import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 import { partnerBenefitStatus } from "../../data/partner-benefit-status.js";
 import { costBasisCopy } from "../../data/cost-decision-copy.js";
 import { h7Copy } from "../v7/home7-copy.js";
@@ -748,7 +747,6 @@ export function FeeBenchmarkTerminal({ locale = "en", market, product: productPa
       </header>
 
       <div className="fee-terminal__table-block">
-      <CommissionDisclosureLine locale={locale} className="fee-terminal__disclosure" placement="rates-benchmark" />
       <div className="fee-terminal__table-wrapper ft" tabIndex={0}>
         <table className="fee-terminal__table ft-table" id="rate-terminal-table" data-cols={colCount}>
           <thead>

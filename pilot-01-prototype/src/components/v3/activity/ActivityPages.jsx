@@ -58,7 +58,6 @@ export function ActivityDetailPage({ copy, locale, market, product, update: cand
         <span className="v3-independent-badge">{text.independent}</span>
         <h1>{update?.title || text.activityDetail}</h1>
         <p>{update ? text.verifiedOnly : text.activityNotFound}</p>
-        <p className="v3-relationship-note">{text.relationship}</p>
       </div>
       {profile && <DecisionBrief
         text={text}

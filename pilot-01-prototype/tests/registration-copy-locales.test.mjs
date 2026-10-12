@@ -39,10 +39,6 @@ const stateAndDisclosureKeys = [
   "regionReady",
   "regionVerify",
   "regionBlocked",
-  "disclosureTitle",
-  "disclosureShort",
-  "disclosureBody",
-  "disclosureSummary",
   "unavailable",
 ];
 const requiredKeys = [...routeAndPreflightKeys, ...stateAndDisclosureKeys];
@@ -51,7 +47,7 @@ function plain(value) {
   return String(value || "").replace(/[\s:：。.!！?؟]+/g, "").toLowerCase();
 }
 
-test("RegistrationCard priority route, state and disclosure copy is localized for every supported locale", () => {
+test("RegistrationCard priority route and state copy is localized for every supported locale", () => {
   for (const locale of locales) {
     assert.ok(copyDict[locale], `${locale} copy exists`);
     for (const key of requiredKeys) {
@@ -59,8 +55,8 @@ test("RegistrationCard priority route, state and disclosure copy is localized fo
       assert.ok(copyDict[locale][key].trim(), `${locale}.${key} has text`);
     }
     assert.match(copyDict[locale].preflightWithCode, /\{code\}/, `${locale}.preflightWithCode preserves referral-code placeholder`);
-    assert.notEqual(plain(copyDict[locale].disclosureTitle), plain(copyDict[locale].disclosureShort), `${locale} disclosure title and short text must not repeat`);
-    assert.notEqual(plain(copyDict[locale].disclosureShort), plain(copyDict[locale].disclosureBody), `${locale} disclosure short and body must not repeat`);
+    // Owner rule 2026-10-12: the card carries no commission disclosure copy (footer + legal pages only).
+    for (const key of ["disclosureTitle", "disclosureShort", "disclosureBody", "disclosureSummary"]) assert.equal(copyDict[locale][key], undefined, `${locale}.${key} removed`);
   }
 
   for (const locale of locales.filter((value) => value !== "en")) {

@@ -29,7 +29,6 @@ import { buildRegistrationDecisionState } from "./registration-decision-state.js
 import { ctaUiCopy, trackCodeCopy } from "../../data/cta-ui-copy.js";
 import { VenueReadinessChecklist } from "./VenueReadinessChecklist.jsx";
 import { TelegramReturnBanner } from "./TelegramReturnBanner.jsx";
-import { footerDisclosureLabel } from "./CleanFooter.jsx";
 import { formatPercent } from "../../data/format-percent.js";
 import { referralSeoFor, referralSharePercent } from "../../data/referral-seo.js";
 import { showFewerPlatforms, showMorePlatforms } from "../../data/plural-copy.js";
@@ -768,7 +767,6 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
           {similar[0] && <LocalLink locale={locale} href={`/compare/${compareSlug([profile.slug, similar[0].slug])}?${contextSearch}`} className="button-quiet">{text.viewCompare}</LocalLink>}
           <LocalLink locale={locale} href={`/exchanges/${profile.slug}?${contextSearch}#registration-checklist`} className="button-quiet v3-profile-registration-review-link">{text.registrationPrepCta}</LocalLink>
         </div>
-        <p className="v3-relationship-note">{text.relationship}</p>
 
         </div>
 
@@ -877,15 +875,6 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
             {registrationReviewLabel}
           </LocalLink>
         )}
-        <LocalLink
-          locale={locale}
-          href="/methodology#disclosure"
-          className="v3-mobile-sticky-bar__disclosure"
-          tabIndex={mobileStickyActive ? undefined : -1}
-          data-disclosure-placement="venue-mobile-sticky"
-        >
-          {footerDisclosureLabel(locale)}
-        </LocalLink>
       </div>
     </aside>
   </main>;

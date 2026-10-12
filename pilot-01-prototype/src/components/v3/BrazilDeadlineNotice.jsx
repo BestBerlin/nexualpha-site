@@ -1,6 +1,6 @@
 // Short Brazil BCB deadline notice on /pt-br/exchanges and on /pt-br/exchanges/<slug> for the exchanges in the status
 // table (owner plan 2026-10-12). Renders nothing in other locales or for venues the table does not cover.
-// No partner link here: the notice only points to the topic page, which carries the disclosure next to any CTA.
+// No partner link here: the notice only points to the topic page, which carries the sign-up routes.
 import { brazilDeadlineNotice } from "../../data/brazil-vasp-status.js";
 
 export function BrazilDeadlineNotice({ locale = "en", slug = null, placement = "directory" }) {

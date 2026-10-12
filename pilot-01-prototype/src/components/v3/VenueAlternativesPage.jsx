@@ -1,6 +1,6 @@
 // /topics/<exchange>-alternatives (owner exchange keyword plan 2026-10-11). Data and copy: src/data/venue-alternatives.js.
-// Fees come from exchange-facts.js, codes from the partner feed; the table states it is not a ranking and the
-// commission disclosure sits directly above it. Codes are hidden where the referral-title policy keeps a locale neutral.
+// Fees come from exchange-facts.js, codes from the partner feed; the table states it is not a ranking.
+// Codes are hidden where the referral-title policy keeps a locale neutral.
 import { localizedHref } from "../../data/locale-routing.js";
 import { referralTitleAllowed } from "../../data/referral-seo.js";
 import { sectionEyebrowAttrs } from "../../data/section-eyebrow.js";
@@ -11,7 +11,6 @@ import {
   venueAlternativesContent,
   venueAlternativesCopy,
 } from "../../data/venue-alternatives.js";
-import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 import "./venue-alternatives-page.css";
 
 export function VenueAlternativesPage({ slug = "bybit-alternatives", locale = "en" }) {
@@ -22,7 +21,6 @@ export function VenueAlternativesPage({ slug = "bybit-alternatives", locale = "e
   const rows = venueAlternativeRows(page, locale);
   const href = (path) => localizedHref(path, { locale });
   const codeShown = (row) => Boolean(row.code && referralTitleAllowed(row.slug, locale));
-  const anyCode = rows.some(codeShown);
   const sourceRows = rows.filter((row) => row.source);
 
   return (
@@ -35,7 +33,6 @@ export function VenueAlternativesPage({ slug = "bybit-alternatives", locale = "e
 
       <section className="venue-alternatives-section v2-shell" aria-label={content.h1}>
         <p className="venue-alternatives-not-ranking">{copy.notRanking}</p>
-        {anyCode ? <CommissionDisclosureLine locale={locale} placement="venue-alternatives-table" /> : null}
         <div className="venue-alternatives-table-wrap" role="region" aria-label={content.h1} tabIndex={0}>
           <table className="venue-alternatives-table">
             <thead><tr>{copy.cols.map((col) => <th key={col} scope="col">{col}</th>)}</tr></thead>

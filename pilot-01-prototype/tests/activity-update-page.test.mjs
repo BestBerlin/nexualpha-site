@@ -41,5 +41,8 @@ test('neutral locales and blocked markets have no commercial CTA inside update a
  }
  const html = harness.render(`https://nexualpha.com${updatePath(items[1])}`,{officialAnnouncements:{items}});
  assert.match(html,/data-cta-placement="activity-update-join"/);
- assert.match(html,/Partner link, commission disclosed/);
+ // Owner rule 2026-10-12: no commission fine print in page sections; the footer carries the disclosure.
+ assert.doesNotMatch(html.split('<footer')[0],/Partner link, commission disclosed|data-disclosure-placement=/);
+ assert.match(html,/class="clean-footer__statement"/);
+ assert.match(html,/href="[^"]*\/methodology#disclosure"/);
 });
