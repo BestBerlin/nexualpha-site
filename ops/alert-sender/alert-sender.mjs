@@ -97,8 +97,7 @@ async function sendPoll(tok, chat, poll) {
 // ---------- texts ----------
 // One table per language. zh and en reproduce the original wording byte for byte (fixtures/zh-en-baseline.json pins
 // them); ru/tr/vi/id/es/pt were written as natural copy, informational tone, no referral solicitation (ru especially).
-// `head` and the digest/listing labels are plain text; `disclosure` is the full line (with the Binance+OKX lower-bound
-// clause) and `listingDisclosure` the one without the data clause, because listing DMs carry no market numbers.
+// `head` and the digest/listing labels are plain text. Owner 2026-10-12: no commission/data footer on channel messages.
 const TEXTS = {
   zh: {
     head: { "liquidation-spike": "💥 爆仓激增", "both-sides-liquidated": "⚔️ 多空双杀", "sharp-move": "⚡ 急涨急跌" },
@@ -110,9 +109,7 @@ const TEXTS = {
     todayOn: "<b>今日文章</b>", campaigns: "<b>交易所活动</b>", cat: { listing: "上币", event: "活动" },
     listingHead: (cat, name) => `【${cat}｜${name}】`, officialNotice: "官方公告",
     signUp: (name) => `注册 ${name}（返佣）`, signUpListing: (name) => `注册 ${name}`, getAlerts: "🔔 订阅告警", fundingRates: "📊 资金费率", readMore: "查看详情 →",
-    disclosure: "<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>",
     // unchanged from the original sender, whose strip pattern never matched the zh text: zh listing DMs keep the data clause
-    listingDisclosure: "<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>",
   },
   en: {
     head: { "liquidation-spike": "💥 Liquidation spike", "both-sides-liquidated": "⚔️ Longs and shorts both liquidated", "sharp-move": "⚡ Sharp move" },
@@ -124,8 +121,6 @@ const TEXTS = {
     todayOn: "<b>Today on NexuAlpha</b>", campaigns: "<b>Exchange campaigns</b>", cat: { listing: "Listing", event: "Campaign" },
     listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Official notice",
     signUp: (name) => `Sign up on ${name}`, signUpListing: (name) => `Sign up on ${name}`, getAlerts: "🔔 Get alerts", fundingRates: "📊 Funding rates", readMore: "Read more →",
-    disclosure: "<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Binance + OKX public data, a lower bound. Not investment advice.</i>",
-    listingDisclosure: "<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Not investment advice.</i>",
   },
   ru: {
     head: { "liquidation-spike": "💥 Всплеск ликвидаций", "both-sides-liquidated": "⚔️ Ликвидированы и лонги, и шорты", "sharp-move": "⚡ Резкое движение" },
@@ -137,8 +132,6 @@ const TEXTS = {
     todayOn: "<b>Сегодня на NexuAlpha</b>", campaigns: "<b>Акции бирж</b>", cat: { listing: "Листинг", event: "Акция" },
     listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Официальное объявление",
     signUp: (name) => `Регистрация на ${name}`, signUpListing: (name) => `Регистрация на ${name}`, getAlerts: "🔔 Получать оповещения", fundingRates: "📊 Ставки финансирования", readMore: "Подробнее →",
-    disclosure: "<i>Партнёрские ссылки могут приносить NexuAlpha комиссию, которую выплачивает биржа; для вас это ничего не стоит. Открытые данные Binance и OKX, нижняя оценка. Не является инвестиционной рекомендацией.</i>",
-    listingDisclosure: "<i>Партнёрские ссылки могут приносить NexuAlpha комиссию, которую выплачивает биржа; для вас это ничего не стоит. Не является инвестиционной рекомендацией.</i>",
   },
   tr: {
     head: { "liquidation-spike": "💥 Likidasyon patlaması", "both-sides-liquidated": "⚔️ Long ve short pozisyonlar birlikte likide edildi", "sharp-move": "⚡ Sert hareket" },
@@ -150,8 +143,6 @@ const TEXTS = {
     todayOn: "<b>Bugün NexuAlpha'da</b>", campaigns: "<b>Borsa kampanyaları</b>", cat: { listing: "Listeleme", event: "Kampanya" },
     listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Resmi duyuru",
     signUp: (name) => `${name} hesabı aç`, signUpListing: (name) => `${name} hesabı aç`, getAlerts: "🔔 Uyarı al", fundingRates: "📊 Fonlama oranları", readMore: "Devamını oku →",
-    disclosure: "<i>Partner bağlantıları NexuAlpha'ya borsa tarafından ödenen bir komisyon kazandırabilir; size ek maliyeti yoktur. Binance + OKX açık verileri, alt sınırdır. Yatırım tavsiyesi değildir.</i>",
-    listingDisclosure: "<i>Partner bağlantıları NexuAlpha'ya borsa tarafından ödenen bir komisyon kazandırabilir; size ek maliyeti yoktur. Yatırım tavsiyesi değildir.</i>",
   },
   vi: {
     head: { "liquidation-spike": "💥 Thanh lý tăng vọt", "both-sides-liquidated": "⚔️ Cả long và short đều bị thanh lý", "sharp-move": "⚡ Biến động mạnh" },
@@ -163,8 +154,6 @@ const TEXTS = {
     todayOn: "<b>Hôm nay trên NexuAlpha</b>", campaigns: "<b>Sự kiện sàn giao dịch</b>", cat: { listing: "Niêm yết", event: "Sự kiện" },
     listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Thông báo chính thức",
     signUp: (name) => `Đăng ký ${name}`, signUpListing: (name) => `Đăng ký ${name}`, getAlerts: "🔔 Nhận cảnh báo", fundingRates: "📊 Phí funding", readMore: "Xem chi tiết →",
-    disclosure: "<i>Liên kết đối tác có thể mang lại cho NexuAlpha hoa hồng do sàn giao dịch chi trả, bạn không mất thêm chi phí. Dữ liệu công khai của Binance + OKX, là mức tối thiểu. Không phải lời khuyên đầu tư.</i>",
-    listingDisclosure: "<i>Liên kết đối tác có thể mang lại cho NexuAlpha hoa hồng do sàn giao dịch chi trả, bạn không mất thêm chi phí. Không phải lời khuyên đầu tư.</i>",
   },
   id: {
     head: { "liquidation-spike": "💥 Lonjakan likuidasi", "both-sides-liquidated": "⚔️ Long dan short sama-sama terlikuidasi", "sharp-move": "⚡ Pergerakan tajam" },
@@ -176,8 +165,6 @@ const TEXTS = {
     todayOn: "<b>Hari ini di NexuAlpha</b>", campaigns: "<b>Kampanye bursa</b>", cat: { listing: "Listing", event: "Kampanye" },
     listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Pengumuman resmi",
     signUp: (name) => `Daftar di ${name}`, signUpListing: (name) => `Daftar di ${name}`, getAlerts: "🔔 Dapatkan notifikasi", fundingRates: "📊 Funding rate", readMore: "Baca selengkapnya →",
-    disclosure: "<i>Tautan partner dapat memberi NexuAlpha komisi yang dibayar oleh bursa, tanpa biaya tambahan bagi Anda. Data publik Binance + OKX, batas bawah. Bukan saran investasi.</i>",
-    listingDisclosure: "<i>Tautan partner dapat memberi NexuAlpha komisi yang dibayar oleh bursa, tanpa biaya tambahan bagi Anda. Bukan saran investasi.</i>",
   },
   es: {
     head: { "liquidation-spike": "💥 Pico de liquidaciones", "both-sides-liquidated": "⚔️ Largos y cortos liquidados a la vez", "sharp-move": "⚡ Movimiento brusco" },
@@ -189,8 +176,6 @@ const TEXTS = {
     todayOn: "<b>Hoy en NexuAlpha</b>", campaigns: "<b>Campañas de exchanges</b>", cat: { listing: "Listado", event: "Campaña" },
     listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Aviso oficial",
     signUp: (name) => `Regístrate en ${name}`, signUpListing: (name) => `Regístrate en ${name}`, getAlerts: "🔔 Recibir alertas", fundingRates: "📊 Tasas de financiación", readMore: "Leer más →",
-    disclosure: "<i>Los enlaces de partners pueden generar a NexuAlpha una comisión pagada por el exchange, sin coste adicional para ti. Datos públicos de Binance + OKX, un mínimo estimado. No es asesoramiento de inversión.</i>",
-    listingDisclosure: "<i>Los enlaces de partners pueden generar a NexuAlpha una comisión pagada por el exchange, sin coste adicional para ti. No es asesoramiento de inversión.</i>",
   },
   pt: {
     head: { "liquidation-spike": "💥 Pico de liquidações", "both-sides-liquidated": "⚔️ Longs e shorts liquidados ao mesmo tempo", "sharp-move": "⚡ Movimento brusco" },
@@ -202,8 +187,6 @@ const TEXTS = {
     todayOn: "<b>Hoje na NexuAlpha</b>", campaigns: "<b>Campanhas das corretoras</b>", cat: { listing: "Listagem", event: "Campanha" },
     listingHead: (cat, name) => `[${cat} · ${name}] `, officialNotice: "Aviso oficial",
     signUp: (name) => `Cadastre-se na ${name}`, signUpListing: (name) => `Cadastre-se na ${name}`, getAlerts: "🔔 Receber alertas", fundingRates: "📊 Taxas de funding", readMore: "Saiba mais →",
-    disclosure: "<i>Links de parceiros podem render à NexuAlpha uma comissão paga pela corretora, sem custo extra para você. Dados públicos da Binance + OKX, uma estimativa mínima. Não é recomendação de investimento.</i>",
-    listingDisclosure: "<i>Links de parceiros podem render à NexuAlpha uma comissão paga pela corretora, sem custo extra para você. Não é recomendação de investimento.</i>",
   },
 };
 export const T = (lang) => TEXTS[lang] || TEXTS.en;
@@ -237,7 +220,7 @@ export function eventMessage(ev, mk, lang) {
   if (btc) lines.push(t.major("BTC", fmt.num(lang, btc.price), fmt.pct(lang, btc.change1hPct), fmt.pct(lang, btc.change24hPct)));
   if (eth) lines.push(t.major("ETH", fmt.num(lang, eth.price), fmt.pct(lang, eth.change1hPct), fmt.pct(lang, eth.change24hPct)));
   if (L.h1.largest) lines.push(t.largest(esc(L.h1.largest.symbol), L.h1.largest.side, fmt.usd(lang, L.h1.largest.usd)));
-  lines.push("", t.advice, "", readMore(lang, BACKLINK_PATH[ev.type] || "/liquidations", "tg-alert"), "", t.disclosure);
+  lines.push("", t.advice, "", readMore(lang, BACKLINK_PATH[ev.type] || "/liquidations", "tg-alert"));
   return lines.join("\n");
 }
 
@@ -266,14 +249,14 @@ export function digestMessage(mk, partners, articles, campaigns, lang) {
     lines.push("", t.campaigns);
     for (const c of campaigns.slice(0, 3)) lines.push(`• ${esc(c.venue.toUpperCase())}: <a href="${c.url}">${esc(c.title.slice(0, 90))}</a>`);
   }
-  lines.push("", readMore(lang, BACKLINK_PATH.digest, "tg-digest"), "", t.disclosure);
+  lines.push("", readMore(lang, BACKLINK_PATH.digest, "tg-digest"));
   return { text: lines.join("\n"), buttons: partnerButtons(partners, lang, `tg-digest-${lang}`) };
 }
 
 export function listingMessage(item, partner, lang) {
   const t = T(lang);
   const cat = t.cat[item.category] || item.category;
-  const text = [`<b>${t.listingHead(cat, esc(partner.name))}</b>${esc(item.title)}`, "", readMore(lang, BACKLINK_PATH.listing, "tg-listing"), "", t.listingDisclosure].join("\n");
+  const text = [`<b>${t.listingHead(cat, esc(partner.name))}</b>${esc(item.title)}`, "", readMore(lang, BACKLINK_PATH.listing, "tg-listing")].join("\n");
   return { text, buttons: [[{ text: t.officialNotice, url: item.url }, { text: t.signUpListing(partner.name), url: go(partner.slug, `tg-dm-listing-${lang}`) }]] };
 }
 
@@ -311,7 +294,6 @@ async function cycle(tok) {
       market: mk,
       partners,
       dryRun: DRY,
-      disclosureFor: (lang) => T(lang).disclosure,
       buttonsFor: (lang, src) => partnerButtons(partners, lang, src),
       sendMessage: async (chat, text, buttons) => {
         const r = await send(tok, chat, text, buttons);

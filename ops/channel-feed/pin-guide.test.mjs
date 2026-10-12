@@ -30,14 +30,14 @@ const callsFetch = (responses) => {
   return fetchImpl;
 };
 
-test("guide messages are localized, disclosed, and route exchange links through comparison pages", () => {
+test("guide messages are localized, footer-free, and route exchange links through comparison pages", () => {
   for (const lang of GUIDE_LANGS) {
     const text = buildGuideMessage(lang);
     assert.match(text, /<b>.+<\/b>/, `${lang} has a title`);
     assert.match(text, /NexuAlpha/, `${lang} names NexuAlpha`);
     assert.doesNotMatch(text, /\/go\/|[?&]ref=|inviteCode|NEXUALPHA[0-9]/i, `${lang} has no hardcoded referral route or code`);
     assert.match(text, new RegExp(`https://nexualpha\\.com${lang === "zh" ? "/zh-hans" : lang === "en" ? "" : `/${lang}`}/exchanges/okx\\?src=tg-guide-${lang}`));
-    assert.match(text, /<i>.*<\/i>$/s, `${lang} ends with listing disclosure`);
+    assert.doesNotMatch(text, /NexuAlpha 带来|commission|комисси|komisyon|hoa hồng|komisi|comisi|comiss/i, `${lang} carries no commission footer`);
   }
   assert.match(buildGuideMessage("en"), /invite code is an exchange attribution method/);
   assert.match(buildGuideMessage("zh"), /邀请码只是交易所注册归因方式/);

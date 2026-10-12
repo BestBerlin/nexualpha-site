@@ -1,12 +1,12 @@
 {
   "zh": {
     "events": {
-      "liquidation-spike": "<b>💥 爆仓激增</b>\n1 小时爆仓：多 120.0M / 空 30.0M 美元\n24 小时爆仓：多 900.0M / 空 400.0M 美元\nBTC 100,000（1h -2.1%，24h -4.5%）\nETH 3,000（1h -3%，24h -6%）\n最大单笔：BTCUSDT 多单 5.0M 美元\n\n降低杠杆、确认强平价，行情剧烈时资金费率也会跳变。\n\n<a href=\"https://nexualpha.com/zh-hans/liquidations?src=tg-alert\">查看详情 →</a>\n\n<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>",
-      "both-sides-liquidated": "<b>⚔️ 多空双杀</b>\n1 小时爆仓：多 120.0M / 空 30.0M 美元\n24 小时爆仓：多 900.0M / 空 400.0M 美元\nBTC 100,000（1h -2.1%，24h -4.5%）\nETH 3,000（1h -3%，24h -6%）\n最大单笔：BTCUSDT 多单 5.0M 美元\n\n降低杠杆、确认强平价，行情剧烈时资金费率也会跳变。\n\n<a href=\"https://nexualpha.com/zh-hans/liquidations?src=tg-alert\">查看详情 →</a>\n\n<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>",
-      "sharp-move": "<b>⚡ 急涨急跌</b>\n1 小时爆仓：多 120.0M / 空 30.0M 美元\n24 小时爆仓：多 900.0M / 空 400.0M 美元\nBTC 100,000（1h -2.1%，24h -4.5%）\nETH 3,000（1h -3%，24h -6%）\n最大单笔：BTCUSDT 多单 5.0M 美元\n\n降低杠杆、确认强平价，行情剧烈时资金费率也会跳变。\n\n<a href=\"https://nexualpha.com/zh-hans/liquidations?src=tg-alert\">查看详情 →</a>\n\n<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>"
+      "liquidation-spike": "<b>💥 爆仓激增</b>\n1 小时爆仓：多 120.0M / 空 30.0M 美元\n24 小时爆仓：多 900.0M / 空 400.0M 美元\nBTC 100,000（1h -2.1%，24h -4.5%）\nETH 3,000（1h -3%，24h -6%）\n最大单笔：BTCUSDT 多单 5.0M 美元\n\n降低杠杆、确认强平价，行情剧烈时资金费率也会跳变。\n\n<a href=\"https://nexualpha.com/zh-hans/liquidations?src=tg-alert\">查看详情 →</a>",
+      "both-sides-liquidated": "<b>⚔️ 多空双杀</b>\n1 小时爆仓：多 120.0M / 空 30.0M 美元\n24 小时爆仓：多 900.0M / 空 400.0M 美元\nBTC 100,000（1h -2.1%，24h -4.5%）\nETH 3,000（1h -3%，24h -6%）\n最大单笔：BTCUSDT 多单 5.0M 美元\n\n降低杠杆、确认强平价，行情剧烈时资金费率也会跳变。\n\n<a href=\"https://nexualpha.com/zh-hans/liquidations?src=tg-alert\">查看详情 →</a>",
+      "sharp-move": "<b>⚡ 急涨急跌</b>\n1 小时爆仓：多 120.0M / 空 30.0M 美元\n24 小时爆仓：多 900.0M / 空 400.0M 美元\nBTC 100,000（1h -2.1%，24h -4.5%）\nETH 3,000（1h -3%，24h -6%）\n最大单笔：BTCUSDT 多单 5.0M 美元\n\n降低杠杆、确认强平价，行情剧烈时资金费率也会跳变。\n\n<a href=\"https://nexualpha.com/zh-hans/liquidations?src=tg-alert\">查看详情 →</a>"
     },
     "digest": {
-      "text": "<b>🗞 NexuAlpha 每日市场简报</b>\n\nBTC 100,000  -4.5%\nETH 3,000  -6%\nSOL 150.5  +2.5%\n\n24h 爆仓（下限）：多 900.0M / 空 400.0M 美元\n异动：DOGE +12.3% · XRP -8.7%\n\n<b>今日文章</b>\n• <a href=\"https://nexualpha.com/zh-hans/news/btc-liquidations-weekly\">BTC 爆仓周报</a>\n• <a href=\"https://nexualpha.com/zh-hans/news/funding-rates-explained\">资金费率详解</a>\n\n<b>交易所活动</b>\n• OKX: <a href=\"https://www.okx.com/help/campaign-1\">OKX trading campaign: share 100,000 USDT</a>\n\n<a href=\"https://nexualpha.com/zh-hans/news?src=tg-digest\">查看详情 →</a>\n\n<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>",
+      "text": "<b>🗞 NexuAlpha 每日市场简报</b>\n\nBTC 100,000  -4.5%\nETH 3,000  -6%\nSOL 150.5  +2.5%\n\n24h 爆仓（下限）：多 900.0M / 空 400.0M 美元\n异动：DOGE +12.3% · XRP -8.7%\n\n<b>今日文章</b>\n• <a href=\"https://nexualpha.com/zh-hans/news/btc-liquidations-weekly\">BTC 爆仓周报</a>\n• <a href=\"https://nexualpha.com/zh-hans/news/funding-rates-explained\">资金费率详解</a>\n\n<b>交易所活动</b>\n• OKX: <a href=\"https://www.okx.com/help/campaign-1\">OKX trading campaign: share 100,000 USDT</a>\n\n<a href=\"https://nexualpha.com/zh-hans/news?src=tg-digest\">查看详情 →</a>",
       "buttons": [
         [
           {
@@ -31,7 +31,7 @@
       ]
     },
     "listing": {
-      "text": "<b>【上币｜OKX】</b>OKX lists ABC (ABC/USDT) for spot trading\n\n<a href=\"https://nexualpha.com/zh-hans/activities?src=tg-listing\">查看详情 →</a>\n\n<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>",
+      "text": "<b>【上币｜OKX】</b>OKX lists ABC (ABC/USDT) for spot trading\n\n<a href=\"https://nexualpha.com/zh-hans/activities?src=tg-listing\">查看详情 →</a>",
       "buttons": [
         [
           {
@@ -46,7 +46,7 @@
       ]
     },
     "campaign": {
-      "text": "<b>【活动｜Bitget】</b>Bitget launchpool: stake BGB &amp; earn XYZ\n\n<a href=\"https://nexualpha.com/zh-hans/activities?src=tg-listing\">查看详情 →</a>\n\n<i>合作链接可能为 NexuAlpha 带来交易所支付的佣金，不增加你的交易成本。数据为 Binance、OKX 公开数据下限估计，不构成投资建议。</i>",
+      "text": "<b>【活动｜Bitget】</b>Bitget launchpool: stake BGB &amp; earn XYZ\n\n<a href=\"https://nexualpha.com/zh-hans/activities?src=tg-listing\">查看详情 →</a>",
       "buttons": [
         [
           {
@@ -64,12 +64,12 @@
   },
   "en": {
     "events": {
-      "liquidation-spike": "<b>💥 Liquidation spike</b>\n1h liquidations: long 120.0M / short 30.0M USD\n24h liquidations: long 900.0M / short 400.0M USD\nBTC 100,000 (1h -2.1%, 24h -4.5%)\nETH 3,000 (1h -3%, 24h -6%)\nLargest: BTCUSDT long 5.0M USD\n\nLower leverage, check your liquidation price; funding rates jump in moves like this.\n\n<a href=\"https://nexualpha.com/liquidations?src=tg-alert\">Read more →</a>\n\n<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Binance + OKX public data, a lower bound. Not investment advice.</i>",
-      "both-sides-liquidated": "<b>⚔️ Longs and shorts both liquidated</b>\n1h liquidations: long 120.0M / short 30.0M USD\n24h liquidations: long 900.0M / short 400.0M USD\nBTC 100,000 (1h -2.1%, 24h -4.5%)\nETH 3,000 (1h -3%, 24h -6%)\nLargest: BTCUSDT long 5.0M USD\n\nLower leverage, check your liquidation price; funding rates jump in moves like this.\n\n<a href=\"https://nexualpha.com/liquidations?src=tg-alert\">Read more →</a>\n\n<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Binance + OKX public data, a lower bound. Not investment advice.</i>",
-      "sharp-move": "<b>⚡ Sharp move</b>\n1h liquidations: long 120.0M / short 30.0M USD\n24h liquidations: long 900.0M / short 400.0M USD\nBTC 100,000 (1h -2.1%, 24h -4.5%)\nETH 3,000 (1h -3%, 24h -6%)\nLargest: BTCUSDT long 5.0M USD\n\nLower leverage, check your liquidation price; funding rates jump in moves like this.\n\n<a href=\"https://nexualpha.com/liquidations?src=tg-alert\">Read more →</a>\n\n<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Binance + OKX public data, a lower bound. Not investment advice.</i>"
+      "liquidation-spike": "<b>💥 Liquidation spike</b>\n1h liquidations: long 120.0M / short 30.0M USD\n24h liquidations: long 900.0M / short 400.0M USD\nBTC 100,000 (1h -2.1%, 24h -4.5%)\nETH 3,000 (1h -3%, 24h -6%)\nLargest: BTCUSDT long 5.0M USD\n\nLower leverage, check your liquidation price; funding rates jump in moves like this.\n\n<a href=\"https://nexualpha.com/liquidations?src=tg-alert\">Read more →</a>",
+      "both-sides-liquidated": "<b>⚔️ Longs and shorts both liquidated</b>\n1h liquidations: long 120.0M / short 30.0M USD\n24h liquidations: long 900.0M / short 400.0M USD\nBTC 100,000 (1h -2.1%, 24h -4.5%)\nETH 3,000 (1h -3%, 24h -6%)\nLargest: BTCUSDT long 5.0M USD\n\nLower leverage, check your liquidation price; funding rates jump in moves like this.\n\n<a href=\"https://nexualpha.com/liquidations?src=tg-alert\">Read more →</a>",
+      "sharp-move": "<b>⚡ Sharp move</b>\n1h liquidations: long 120.0M / short 30.0M USD\n24h liquidations: long 900.0M / short 400.0M USD\nBTC 100,000 (1h -2.1%, 24h -4.5%)\nETH 3,000 (1h -3%, 24h -6%)\nLargest: BTCUSDT long 5.0M USD\n\nLower leverage, check your liquidation price; funding rates jump in moves like this.\n\n<a href=\"https://nexualpha.com/liquidations?src=tg-alert\">Read more →</a>"
     },
     "digest": {
-      "text": "<b>🗞 NexuAlpha daily brief</b>\n\nBTC 100,000  -4.5%\nETH 3,000  -6%\nSOL 150.5  +2.5%\n\n24h liquidations (lower bound): long 900.0M / short 400.0M USD\nMovers: DOGE +12.3% · XRP -8.7%\n\n<b>Today on NexuAlpha</b>\n• <a href=\"https://nexualpha.com/news/btc-liquidations-weekly\">BTC liquidations weekly</a>\n• <a href=\"https://nexualpha.com/news/funding-rates-explained\">Funding rates explained</a>\n\n<b>Exchange campaigns</b>\n• OKX: <a href=\"https://www.okx.com/help/campaign-1\">OKX trading campaign: share 100,000 USDT</a>\n\n<a href=\"https://nexualpha.com/news?src=tg-digest\">Read more →</a>\n\n<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Binance + OKX public data, a lower bound. Not investment advice.</i>",
+      "text": "<b>🗞 NexuAlpha daily brief</b>\n\nBTC 100,000  -4.5%\nETH 3,000  -6%\nSOL 150.5  +2.5%\n\n24h liquidations (lower bound): long 900.0M / short 400.0M USD\nMovers: DOGE +12.3% · XRP -8.7%\n\n<b>Today on NexuAlpha</b>\n• <a href=\"https://nexualpha.com/news/btc-liquidations-weekly\">BTC liquidations weekly</a>\n• <a href=\"https://nexualpha.com/news/funding-rates-explained\">Funding rates explained</a>\n\n<b>Exchange campaigns</b>\n• OKX: <a href=\"https://www.okx.com/help/campaign-1\">OKX trading campaign: share 100,000 USDT</a>\n\n<a href=\"https://nexualpha.com/news?src=tg-digest\">Read more →</a>",
       "buttons": [
         [
           {
@@ -94,7 +94,7 @@
       ]
     },
     "listing": {
-      "text": "<b>[Listing · OKX] </b>OKX lists ABC (ABC/USDT) for spot trading\n\n<a href=\"https://nexualpha.com/activities?src=tg-listing\">Read more →</a>\n\n<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Not investment advice.</i>",
+      "text": "<b>[Listing · OKX] </b>OKX lists ABC (ABC/USDT) for spot trading\n\n<a href=\"https://nexualpha.com/activities?src=tg-listing\">Read more →</a>",
       "buttons": [
         [
           {
@@ -109,7 +109,7 @@
       ]
     },
     "campaign": {
-      "text": "<b>[Campaign · Bitget] </b>Bitget launchpool: stake BGB &amp; earn XYZ\n\n<a href=\"https://nexualpha.com/activities?src=tg-listing\">Read more →</a>\n\n<i>Partner links may earn NexuAlpha a commission paid by the exchange, at no extra cost to you. Not investment advice.</i>",
+      "text": "<b>[Campaign · Bitget] </b>Bitget launchpool: stake BGB &amp; earn XYZ\n\n<a href=\"https://nexualpha.com/activities?src=tg-listing\">Read more →</a>",
       "buttons": [
         [
           {
