@@ -13,6 +13,8 @@ const TRACKING_PARAMS = new Set([
   'ref_src',
 ]);
 
+const ANNOUNCEMENT_SYMBOL_STOPWORDS = new Set(['NEW', 'SPOT', 'PERP', 'PAIR', 'PAIRS', 'TRADING', 'MARKET', 'MARKETS', 'TOKEN', 'TOKENS']);
+
 export function canonicalizeUrl(value) {
   if (!value) return null;
   try {
@@ -87,7 +89,45 @@ export function extractHardKeys(item) {
   for (const match of text.matchAll(/\b\d{10}-\d{2}-\d{6}\b/g)) keys.add(`sec:${match[0]}`);
   for (const match of text.matchAll(/\b(?:case|docket)\s*(?:no\.?|#)?\s*([0-9][a-z0-9:-]{4,})\b/gi)) keys.add(`docket:${match[1].toLowerCase()}`);
   if (item.official_notice_id || item.officialNoticeId) keys.add(`notice:${item.official_notice_id ?? item.officialNoticeId}`);
+  const announcement = exchangeAnnouncementKey(item);
+  if (announcement) keys.add(announcement);
   return [...keys].sort();
+}
+
+function exchangeAnnouncementKey(item) {
+  const eventType = item.event_type_guess ?? item.eventTypeGuess ?? item.event_type ?? item.eventType;
+  if (!['listing', 'delisting'].includes(eventType)) return null;
+  const text = normalizeText([
+    item.title,
+    item.body_excerpt,
+    item.bodyExcerpt,
+    item.metrics?.venue,
+    item.metrics?.provenance?.venue,
+  ].filter(Boolean).join(' '));
+  const venue = ['binance', 'okx', 'bybit', 'bitget', 'kraken', 'coinbase', 'gate', 'mexc', 'htx']
+    .find(name => text.includes(name) || String(item.source_id ?? item.sourceId ?? '').toLowerCase().includes(name));
+  const symbol = extractAnnouncementSymbol([item.metrics?.symbol, item.metrics?.provenance?.symbol, item.title, item.body_excerpt, item.bodyExcerpt].filter(Boolean).join(' '));
+  const published = itemSourcePublishedAt(item);
+  const date = published ? published.toISOString().slice(0, 10) : null;
+  if (!venue || !symbol || !date) return null;
+  return `exchange-action:${venue}:${symbol}:${eventType}:${date}`;
+}
+
+function extractAnnouncementSymbol(value) {
+  const text = String(value ?? '');
+  for (const pattern of [
+    /\b(?:lists?|listing|delists?|delisting)\s+(?:of\s+)?(?:[A-Z][A-Za-z0-9 .-]{1,80}\s+)?\(([A-Z0-9]{2,12})\)/i,
+    /\b(?:lists?|listing|delists?|delisting)\s+([A-Z0-9]{2,12})\b/i,
+    /\b([A-Z0-9]{2,12})(?:USDT|USDC|USD)\b/,
+    /\b([A-Z0-9]{2,12})\s+(?:spot|perp|perpetual|trading pair|pairs?)\b/i,
+  ]) {
+    const match = text.match(pattern);
+    if (match) {
+      const symbol = match[1].toUpperCase();
+      if (!ANNOUNCEMENT_SYMBOL_STOPWORDS.has(symbol)) return symbol;
+    }
+  }
+  return null;
 }
 
 export function sourcePlatform(item) {
@@ -135,6 +175,8 @@ export function itemEntities(item, watchlist = []) {
 }
 
 export function originKey(item) {
+  const mirrorKey = mirrorOriginKey(item);
+  if (mirrorKey) return mirrorKey;
   if (item.origin_key || item.originKey) return String(item.origin_key ?? item.originKey);
   if (item.origin_item_id || item.originItemId) return `origin-item:${item.origin_item_id ?? item.originItemId}`;
   const referenced = item.referenced_tweet_id ?? item.referencedTweetId ?? item.referenced_tweets?.[0]?.id ?? item.referencedTweets?.[0]?.id;
@@ -156,6 +198,16 @@ export function originKey(item) {
   }
   if (item.content_hash || item.contentHash) return `hash:${item.content_hash ?? item.contentHash}`;
   return `${item.source_id ?? item.sourceId ?? sourcePlatform(item)}:${item.external_id ?? item.externalId ?? item.id ?? 'unknown'}`;
+}
+
+function mirrorOriginKey(item) {
+  const sourceId = String(item.source_id ?? item.sourceId ?? '');
+  if (!sourceId.startsWith('nexualpha-official')) return null;
+  const exchangeAction = extractHardKeys(item).find(key => key.startsWith('exchange-action:'));
+  if (exchangeAction) return exchangeAction;
+  const canonical = canonicalizeUrl(item.canonical_url ?? item.canonicalUrl ?? item.url);
+  if (canonical) return `url:${canonical}`;
+  return null;
 }
 
 export function commonValues(left = [], right = []) {

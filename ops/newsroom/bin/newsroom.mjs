@@ -6,7 +6,7 @@ import { resolve } from 'node:path';
 import { databaseStore } from '../collectors/store.mjs';
 import { runCollect } from '../collectors/runner.mjs';
 import { loadSeeds } from '../collectors/seeds.mjs';
-import { exportTopQuery, runDedupe, runScore, statusQuery } from '../lib/pipeline.mjs';
+import { exportTopQuery, runDedupe, runScore, runVerify, statusQuery } from '../lib/pipeline.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 export const literal = value => `'${String(value).replaceAll("'", "''")}'`;
@@ -81,7 +81,7 @@ export function runPsql(sql, env = process.env) {
   return result.stdout.trim();
 }
 export async function main(argv, execute = runPsql) {
-  if (argv.length === 0 || argv[0] === '--help') return 'newsroom: migrate | seed | seed:watchlist [--watchlist PATH --keywords PATH] | collect (--source ID | --all) [--dry-run DIRECTORY] [--timeout-ms N] | events:top [--limit N] | event:show ID | review:list | shortfall:log --slot ISO --wanted N --eligible N --published N --note TEXT [--day YYYY-MM-DD] | config:get [KEY] | config:set KEY JSON | dedupe | score | status | export:top [--limit N]\nConnection: standard PGHOST/PGPORT/PGUSER/PGDATABASE/PGPASSFILE; default database newsroom.';
+  if (argv.length === 0 || argv[0] === '--help') return 'newsroom: migrate | seed | seed:watchlist [--watchlist PATH --keywords PATH] | collect (--source ID | --all) [--dry-run DIRECTORY] [--timeout-ms N] | events:top [--limit N] | event:show ID | review:list | shortfall:log --slot ISO --wanted N --eligible N --published N --note TEXT [--day YYYY-MM-DD] | config:get [KEY] | config:set KEY JSON | dedupe | score | verify | status | export:top [--limit N]\nConnection: standard PGHOST/PGPORT/PGUSER/PGDATABASE/PGPASSFILE; default database newsroom.';
   if (argv[0] === 'collect') return JSON.stringify(await runCollect(argv.slice(1),databaseStore(execute,literal)),null,2);
   if (argv[0] === 'seed:watchlist') {
     const opts=options(argv.slice(1),['watchlist','keywords']);
@@ -98,9 +98,9 @@ export async function main(argv, execute = runPsql) {
     return `${argv[0]}: ${files.length} SQL file(s) applied`;
   }
   // Deployment worker commands (T6): persistence for merge/scoring plus read-only status/export views.
-  if (argv[0] === 'dedupe' || argv[0] === 'score') {
+  if (['dedupe', 'score', 'verify'].includes(argv[0])) {
     if (argv.length !== 1) throw new Error('Unexpected arguments');
-    return JSON.stringify(argv[0] === 'dedupe' ? runDedupe(execute) : runScore(execute));
+    return JSON.stringify(argv[0] === 'dedupe' ? runDedupe(execute) : argv[0] === 'score' ? runScore(execute) : runVerify(execute));
   }
   if (argv[0] === 'status') {
     if (argv.length !== 1) throw new Error('status takes no options');
