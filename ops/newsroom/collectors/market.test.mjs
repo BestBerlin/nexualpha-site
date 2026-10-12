@@ -142,3 +142,13 @@ test('since filters snapshots and malformed responses fail closed', async () => 
     error => error instanceof CollectorError && /Malformed Hyperliquid info/.test(error.message),
   );
 });
+
+test('DefiLlama hacks live shape: unordered array, unix dates, empty source falls back to the hacks page', async () => {
+  const live = [
+    { date: 1528588800, name: 'Coinrail', amount: 37200000, source: '' },
+    { date: Math.floor(Date.parse('2026-10-11T00:00:00Z') / 1000), name: 'RecentSwap', amount: 5000000, source: '' },
+  ];
+  const items = await poll(sources.hacks, null, { now, request: requestFrom({ [sources.hacks.url]: live }) });
+  assert.equal(items[0].title, 'RecentSwap exploit recorded by DefiLlama');
+  assert.equal(items[0].url, 'https://defillama.com/hacks');
+});

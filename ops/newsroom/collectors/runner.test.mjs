@@ -73,3 +73,9 @@ test('collect options reject ambiguous selections and dry-run never reads Postgr
  const reports=await runCollect(['--source','x-api-v2','--dry-run',dir],new Proxy({}, {get:()=>assert.fail('DB accessed')}),{fetchImpl:async()=>assert.fail('network accessed')});assert.equal(reports[0].status,'partial');
  }finally{rmSync(dir,{recursive:true,force:true});}
 });
+test('first-run archives are not backfilled: items published more than seven days ago are dropped',async()=>{
+ const store=memory();
+ const old={...row,external_id:'old',published_at:'2019-01-01T00:00:00Z'};const undated={...row,external_id:'undated',published_at:null};
+ const reports=await collect({sources:[{id:'archive'}],store,now,modules:[{supports:()=>true,poll:async()=>[row,old,undated]}]});
+ assert.equal(reports[0].count,2);assert.deepEqual(store.writes[0].items.map(i=>i.external_id).sort(),['1','undated']);
+});

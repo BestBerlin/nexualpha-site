@@ -470,7 +470,7 @@
     "id": "sec-litigation",
     "platform": "regulator",
     "name": "SEC litigation releases RSS",
-    "url": "https://www.sec.gov/rss/litigation/litreleases.xml",
+    "url": "https://www.sec.gov/enforcement-litigation/litigation-releases/rss",
     "topics": [
       "litigation",
       "enforcement"
@@ -582,7 +582,7 @@
     "id": "japan-fsa-rss",
     "platform": "regulator",
     "name": "Japan FSA English news RSS",
-    "url": "https://www.fsa.go.jp/en/news/fsaEnNewsList_rss2.xml",
+    "url": "https://www.fsa.go.jp/fsaEnNewsList_rss2.xml",
     "topics": [
       "regulation"
     ],
