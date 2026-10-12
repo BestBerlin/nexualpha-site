@@ -21,7 +21,8 @@ import { nextDecisionBridgeCopy } from "../../../data/next-decision-bridge.js";
 import { NextDecisionBridge } from "../NextDecisionBridge.jsx";
 import { OnsiteTelegramBotHandoff } from "../OnsiteTelegramBotHandoff.jsx";
 import { TopDecisionBox } from "../TopDecisionBox.jsx";
-import { NewsVenueOffer } from "./NewsVenueOffer.jsx";
+import { SponsoredSlot } from "../../shared/SponsoredSlot.jsx";
+import { resolvePromotions } from "../../../data/promotions.js";
 import { NewsTelegramAlerts } from "./NewsTelegramAlerts.jsx";
 import { createPartnerAutolinker, relatedPartnerLinks } from "./partner-autolink.js";
 import { articleClusterLineLabel, articleClusterLinks } from "../../../data/topic-clusters.js";
@@ -837,7 +838,14 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
   const marketAssets = detectArticleAssets({ title: `${title}\n${localizedNewsTitle(article, "en")}`, summary: `${localizedSummary}\n${localizedNewsSummary(article, "en")}`, body: stripArticleEmbedDirectives(content) });
   const categoryLabel = localizedValue(article.categoryName, locale);
   const categoryHref = isNewsCategory(article.category) ? withContext(newsListingPath({ category: article.category })) : null;
+  const promotions = resolvePromotions({ topicTags: [...(article.topicTags || article.tags || []), article.cta?.topic].filter(Boolean), venue: article.cta?.venue || article.relatedVenues, coin: article.cta?.coin, locale, market });
+  const inlineIndex = Math.ceil((leadBlocks.length + deepBlocks.length) / 3);
+  const inlineSlot = promotions.some(p => p.kind !== "tool") ? <SponsoredSlot promotions={promotions} variant="inline" locale={locale} market={market} /> : null;
   const deepNodes = deepBlocks.map((paragraph, index) => renderMarkdownBlock(paragraph, index + leadBlockCount, t, partnerLinker, locale));
+  if (inlineSlot) {
+    if (inlineIndex <= leadBlockCount) leadNodes.splice(inlineIndex, 0, <React.Fragment key="promotion-inline">{inlineSlot}</React.Fragment>);
+    else deepNodes.splice(inlineIndex - leadBlockCount, 0, <React.Fragment key="promotion-inline">{inlineSlot}</React.Fragment>);
+  }
   const relatedPartners = relatedPartnerLinks({ locale, slugs: partnerLinker.mentionedSlugs() });
   // Topic hubs & tools (links-l10n lane 2026-10-11, scorecard C5/D4): the main page of every query family this article
   // belongs to and the data tools on its subject, from the mapping in src/data/topic-clusters.js.
@@ -960,7 +968,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             </p>
           )}
           <NewsTelegramAlerts locale={locale} />
-          <NewsVenueOffer venues={article.relatedVenues} locale={locale} market={market} articleSlug={article.slug} variant="inline" />
+          <SponsoredSlot promotions={promotions} locale={locale} market={market} variant="end" />
           {article.sources.length > 0 && (
             <section className="news-detail__prose news-detail__sources news-detail__footnotes" aria-labelledby="article-sources">
               <DataRule
@@ -993,7 +1001,6 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
             on screen: desktop pins it to the second grid column, below 1024px CSS order puts it after the lead section. */}
         <div className="news-detail__rail">
           <ArticleDecisionSummary article={article} withContext={withContext} locale={locale} t={t} />
-          <NewsVenueOffer venues={article.relatedVenues} locale={locale} market={market} articleSlug={article.slug} variant="rail" />
           <div className="news-detail__rail-sticky">
             {sectionTargets.length >= 2 && <nav className="news-detail__toc" aria-label={sectionLabel} lang={locale} dir={["ar", "ur"].includes(locale) ? "rtl" : "ltr"}>
               <p className="news-detail__toc-label">{sectionLabel}</p>
@@ -1001,6 +1008,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
                 {sectionTargets.map((target) => <li key={target.id}><button type="button" lang={target.id === "article-sources" ? locale : contentLocale} aria-current={activeSection === target.id ? "true" : undefined} onClick={() => jumpToSection(target.id)}>{target.label}</button></li>)}
               </ol>
             </nav>}
+            <SponsoredSlot promotions={promotions} locale={locale} market={market} variant="sidebar" />
             <ArticleMarketContext assets={marketAssets} locale={locale} />
           </div>
         </div>
@@ -1064,7 +1072,7 @@ export function NewsDetailPage({ slug, locale = "en", market, product, initialAr
 
         <RelatedResearch links={relatedLinks} relatedArticles={relatedNewsArticles(article, articles)} locale={locale} t={t} withContext={withContext} article={article} />
 
-        <NewsVenueOffer venues={article.relatedVenues} locale={locale} market={market} articleSlug={article.slug} variant="timed" />
+
 
         {article.relatedVenues && article.relatedVenues.length > 0 && (
           <NextDecisionBridge
