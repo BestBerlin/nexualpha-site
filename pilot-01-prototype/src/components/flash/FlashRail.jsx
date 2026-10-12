@@ -1,13 +1,13 @@
 // Home rail (2026-10-12): the latest 5 flash items, refreshed every 60 s, linking into /flash on our own site.
 // The home page is prerendered, so the server ships the frame with five fixed-height placeholder rows (no layout shift)
-// and the browser fills them from /content/flash.json once the rail approaches the viewport. HomeV7 loads this module
+// and the browser fills them from /api/flash.json once the rail approaches the viewport. HomeV7 loads this module
 // as its own chunk when the rail scrolls near (DeferUntilVisible), so it stays out of the entry. Styles: home7.src.css.
 import React, { useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
 import { FLASH_PATH } from "../../data/flash-path.js";
 
 // Same values as FLASH_FEED_URL / FLASH_REFRESH_MS in flash.js (not imported: that module carries the page strings).
-const FLASH_FEED_URL = "/content/flash.json";
+const FLASH_FEED_URL = "/api/flash.json";
 const FLASH_REFRESH_MS = 60 * 1000;
 
 // Rail strings (this module is its own lazy chunk on the home page).

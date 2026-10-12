@@ -329,7 +329,7 @@ test("stream payload and JSON feed: important=1 keeps only important items", asy
   const payload = flashStreamPayload(IMP, "en", { important: true, now: NOW });
   assert.ok(payload.items.length >= 4);
   assert.ok(payload.items.every((row) => row.important === true));
-  const response = await worker.fetch(new Request("https://nexualpha.com/content/flash.json?locale=en&important=1"), env());
+  const response = await worker.fetch(new Request("https://nexualpha.com/api/flash.json?locale=en&important=1"), env());
   const data = await response.json();
   assert.equal(response.status, 200);
   assert.ok(data.items.every((row) => row.important === true), "worker honours important=1");
@@ -390,4 +390,16 @@ test("flash alerts module: preferences survive blocked storage, notifications ne
     assert.equal(last.options.tag, "nexualpha-flash-c");
     assert.equal(last.title, "Important: y");
   } finally { delete globalThis.Notification; }
+});
+
+test("the browser reads the flash JSON from /api/ (nginx serves /content/ statically); the old path still answers", async () => {
+  const { FLASH_FEED_URL } = await import("../src/data/flash.js");
+  assert.equal(FLASH_FEED_URL, "/api/flash.json");
+  const rail = await readFile(new URL("../src/components/flash/FlashRail.jsx", import.meta.url), "utf8");
+  assert.match(rail, /const FLASH_FEED_URL = "\/api\/flash\.json";/);
+  for (const path of ["/api/flash.json?locale=en&limit=3", "/content/flash.json?locale=en&limit=3"]) {
+    const response = await worker.fetch(new Request(`https://nexualpha.com${path}`), env());
+    assert.equal(response.status, 200, path);
+    assert.equal((await response.json()).items.length, 3, path);
+  }
 });

@@ -45,7 +45,7 @@ import { coinsRouteSeo } from "../src/data/coins-seo.js";
 import { applyCoinOverlay, coinOverlayFromSnapshot, COINS_GENERATED_AT } from "../src/data/coins.js";
 import { parseConverterPath } from "../src/data/converter-routes.js";
 import { converterRouteSeo } from "../src/data/converter-seo.js";
-import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
+import { FLASH_FEED_LEGACY_URL, FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
 import { isTickerSnapshot, spliceTickerHtml, tickerFromMarketEvents } from "../src/data/ticker.js";
 import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, renderFlashSitemap } from "../src/data/flash-feed.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
@@ -102,7 +102,7 @@ export default {
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
-    if (url.pathname === FLASH_FEED_URL && ["GET", "HEAD"].includes(request.method)) return handleFlashFeedJson(request, env, url);
+    if ((url.pathname === FLASH_FEED_URL || url.pathname === FLASH_FEED_LEGACY_URL) && ["GET", "HEAD"].includes(request.method)) return handleFlashFeedJson(request, env, url);
     if (url.pathname === FLASH_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleFlashSitemap(request, env, url);
     if (["/news-library-sitemap.xml", "/locale-sitemap.xml"].includes(url.pathname) && ["GET", "HEAD"].includes(request.method)) {
       return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
