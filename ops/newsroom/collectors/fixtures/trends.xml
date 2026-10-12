@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Google Trends</title>
+    <item>
+      <title>Binance withdrawals suspended</title>
+      <link>https://trends.google.com/trends/explore?q=Binance</link>
+      <guid>trend-1</guid>
+      <pubDate>Mon, 12 Oct 2026 08:00:00 GMT</pubDate>
+      <description>Search interest for Binance withdrawals suspended.</description>
+    </item>
+    <item>
+      <title>Celebrity cooking show</title>
+      <link>https://trends.google.com/trends/explore?q=cooking</link>
+      <guid>trend-2</guid>
+      <pubDate>Mon, 12 Oct 2026 08:00:00 GMT</pubDate>
+      <description>Unrelated trend.</description>
+    </item>
+  </channel>
+</rss>

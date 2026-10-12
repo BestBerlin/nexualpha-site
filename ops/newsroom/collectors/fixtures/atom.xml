@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Fixture Atom</title>
+  <entry>
+    <id>tag:example.com,2026:atom-1</id>
+    <title>OKX lists a new spot trading pair</title>
+    <link href="https://example.com/atom/okx-listing?ref=rss" rel="alternate" />
+    <updated>2026-10-12T11:00:00Z</updated>
+    <author><name>News Desk</name></author>
+    <summary>OKX announced a new listing window for spot traders.</summary>
+  </entry>
+</feed>

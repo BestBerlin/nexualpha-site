@@ -1,0 +1,18 @@
+{
+  "hits": {
+    "hits": [
+      {
+        "_id": "0001193125-26-123456",
+        "_score": 8.1,
+        "_source": {
+          "adsh": "0001193125-26-123456",
+          "ciks": ["320193"],
+          "form": "8-K",
+          "company_name": "Example Bitcoin Treasury Inc.",
+          "file_date": "2026-10-12",
+          "items": "Item 8.01 Other Events - digital asset treasury update"
+        }
+      }
+    ]
+  }
+}

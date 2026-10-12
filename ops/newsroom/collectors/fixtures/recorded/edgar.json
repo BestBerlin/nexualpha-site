@@ -1,0 +1,90 @@
+{
+  "hits": {
+    "hits": [
+      {
+        "_index": "edgar_file",
+        "_id": "0001104659-26-115002:tm2627244d7_497k.htm",
+        "_score": 13.01027,
+        "_source": {
+          "ciks": [
+            "0001579881"
+          ],
+          "period_ending": null,
+          "file_num": [
+            "333-191151"
+          ],
+          "display_names": [
+            "Calamos ETF Trust  (CIK 0001579881)"
+          ],
+          "xsl": null,
+          "sequence": 1,
+          "root_forms": [
+            "497K"
+          ],
+          "file_date": "2026-10-09",
+          "biz_states": [
+            "IL"
+          ],
+          "sics": [],
+          "form": "497K",
+          "adsh": "0001104659-26-115002",
+          "film_num": [
+            "261452613"
+          ],
+          "biz_locations": [
+            "Naperville, IL"
+          ],
+          "file_type": "497K",
+          "ma_i_individual": null,
+          "file_description": "497K",
+          "inc_states": [
+            "DE"
+          ],
+          "items": []
+        }
+      },
+      {
+        "_index": "edgar_file",
+        "_id": "0001104659-26-115009:tm2627244d10_497k.htm",
+        "_score": 13.006602,
+        "_source": {
+          "ciks": [
+            "0001579881"
+          ],
+          "period_ending": null,
+          "file_num": [
+            "333-191151"
+          ],
+          "display_names": [
+            "Calamos ETF Trust  (CIK 0001579881)"
+          ],
+          "xsl": null,
+          "sequence": 1,
+          "root_forms": [
+            "497K"
+          ],
+          "file_date": "2026-10-09",
+          "biz_states": [
+            "IL"
+          ],
+          "sics": [],
+          "form": "497K",
+          "adsh": "0001104659-26-115009",
+          "film_num": [
+            "261452623"
+          ],
+          "biz_locations": [
+            "Naperville, IL"
+          ],
+          "file_type": "497K",
+          "ma_i_individual": null,
+          "file_description": "497K",
+          "inc_states": [
+            "DE"
+          ],
+          "items": []
+        }
+      }
+    ]
+  }
+}

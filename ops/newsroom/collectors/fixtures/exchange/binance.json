@@ -1,0 +1,22 @@
+{
+  "code": "000000",
+  "data": {
+    "catalogs": [
+      {
+        "catalogId": 48,
+        "articles": [
+          {
+            "code": "a1a7996170f246da90ea49f199a61bcd",
+            "title": "Binance Will List ABC",
+            "releaseDate": 1791810000000
+          },
+          {
+            "code": "bad-code",
+            "title": "Ignored",
+            "releaseDate": 1791810000000
+          }
+        ]
+      }
+    ]
+  }
+}

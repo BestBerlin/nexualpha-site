@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Google News</title>
+    <item>
+      <title>Binance withdrawal halt draws regulator attention</title>
+      <link>https://news.example.com/binance-withdrawal</link>
+      <guid>gn-1</guid>
+      <pubDate>Mon, 12 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Coverage of a withdrawal halt involving Binance.</description>
+      <source url="https://news.example.com">Example News</source>
+    </item>
+  </channel>
+</rss>

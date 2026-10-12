@@ -1,0 +1,19 @@
+{
+  "retCode": 0,
+  "result": {
+    "list": [
+      {
+        "title": "New Listing: ABC",
+        "type": { "key": "new_crypto" },
+        "url": "https://announcements.bybit.com/en-US/article/abc/",
+        "dateTimestamp": 1791806400000
+      },
+      {
+        "title": "Foreign host",
+        "type": { "key": "new_crypto" },
+        "url": "https://bybit.evil.example/en-US/article/nope/",
+        "dateTimestamp": 1791806400000
+      }
+    ]
+  }
+}

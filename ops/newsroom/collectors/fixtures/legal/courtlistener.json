@@ -1,0 +1,14 @@
+{
+  "count": 1,
+  "results": [
+    {
+      "id": 42,
+      "caseName": "SEC v. Example Exchange",
+      "absolute_url": "/docket/42/sec-v-example-exchange/",
+      "dateFiled": "2026-10-11",
+      "docketNumber": "1:26-cv-00042",
+      "court": "nysd",
+      "snippet": "Complaint mentioning digital asset trading."
+    }
+  ]
+}

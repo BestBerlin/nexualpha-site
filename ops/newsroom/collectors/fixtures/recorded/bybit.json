@@ -1,0 +1,43 @@
+{
+  "retCode": 0,
+  "retMsg": "OK",
+  "result": {
+    "list": [
+      {
+        "title": "Bybit Expands Beyond Crypto With Direct Access to U.S. Stocks & ETFs",
+        "description": "Disclaimer: This is a general announcement. Products and services referred here may not be available in your region. Terms and Conditions apply.",
+        "type": {
+          "key": "latest_activities",
+          "title": "Latest Campaigns"
+        },
+        "tags": [
+          "Latest Updates"
+        ],
+        "url": "https://announcements.bybit.com/en-US/article/bybit-expands-beyond-crypto-with-direct-access-to-u-s-stocks-etfs--art55453cbc5bf2/",
+        "dateTimestamp": 1791763200000,
+        "startDateTimestamp": 1791763200000,
+        "endDateTimestamp": 1793404800000,
+        "publishTime": 1791797660000
+      },
+      {
+        "title": "Make Your Move: One passport, six products, 100,000 USDT giveaway.",
+        "description": "Bybit is launching the \"Make Your Move: 100K USDT Giveaway\", an event where you can explore our ecosystem, collect stamps, discover new products, and share a massive 100,000 USDT prize pool.",
+        "type": {
+          "key": "latest_bybit_news",
+          "title": "Latest Bybit News"
+        },
+        "tags": [
+          "USDT"
+        ],
+        "url": "https://announcements.bybit.com/en-US/article/make-your-move-one-passport-six-products-100-000-usdt-giveaway--arte99868e80ef3/",
+        "dateTimestamp": 1790812800000,
+        "startDateTimestamp": 1790812800000,
+        "endDateTimestamp": 1792022400000,
+        "publishTime": 1791539104000
+      }
+    ],
+    "total": 8979
+  },
+  "retExtInfo": {},
+  "time": 1791808664308
+}

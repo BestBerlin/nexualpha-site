@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>Fixture Media</title>
+    <item>
+      <title><![CDATA[Binance pauses withdrawals after bridge exploit report]]></title>
+      <link>https://example.com/story?utm_source=rss&amp;id=1</link>
+      <guid isPermaLink="false">fixture-1</guid>
+      <pubDate>Mon, 12 Oct 2026 10:00:00 GMT</pubDate>
+      <dc:creator>Ana Reporter</dc:creator>
+      <description><![CDATA[<p>Binance said withdrawals were paused while engineers investigated the bridge exploit.</p>]]></description>
+      <media:content url="https://example.com/image.jpg" medium="image" />
+    </item>
+  </channel>
+</rss>

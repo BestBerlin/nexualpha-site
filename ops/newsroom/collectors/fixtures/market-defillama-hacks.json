@@ -1,0 +1,16 @@
+{
+  "hacks": [
+    {
+      "name": "ExampleSwap",
+      "date": "2026-10-11",
+      "amount": 12500000,
+      "source": "https://rekt.news/example-swap"
+    },
+    {
+      "name": "TinyLoss",
+      "date": "2026-10-10",
+      "amount": 12000,
+      "source": "https://example.com/tiny"
+    }
+  ]
+}

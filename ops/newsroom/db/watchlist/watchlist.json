@@ -1,0 +1,3935 @@
+[
+  {
+    "type": "exchange",
+    "name": "Binance",
+    "current_role": "Exchange",
+    "org": "Binance Holdings Ltd.",
+    "official_site": "https://www.binance.com",
+    "accounts": {
+      "x": "@binance",
+      "announcements_x": "@BinanceHelpDesk",
+      "telegram": "https://t.me/binanceexchange",
+      "youtube": "https://www.youtube.com/@BinanceYoutube"
+    },
+    "verification": [
+      "https://www.binance.com/en/official-verification",
+      "https://www.binance.com/en/community",
+      "https://www.binance.com/en/support/announcement"
+    ],
+    "topics": [
+      "spot",
+      "futures",
+      "options",
+      "earn",
+      "web3_wallet",
+      "bnb_chain",
+      "listing",
+      "launchpool",
+      "regulations"
+    ],
+    "languages": [
+      "en",
+      "zh-CN",
+      "zh-TW",
+      "ja",
+      "ko",
+      "es",
+      "pt",
+      "tr",
+      "ru",
+      "vi",
+      "id",
+      "fr",
+      "de"
+    ],
+    "priority": 1,
+    "notes": "全球交易量第一大 CEX。现任 CEO 为 Richard Teng（2023年11月接替辞职的创始人 CZ）；联合创始人为何一（Yi He，兼任 Binance Labs 负责人及 CMO）；创始人/前 CEO 为赵长鹏（Changpeng Zhao / CZ）。冒充风险极高：大量假冒上币经理（Listing Agents）、虚假空投钓鱼链接及假客服 Telegram 群，必须使用官方 Verify 工具核实。"
+  },
+  {
+    "type": "exchange",
+    "name": "OKX",
+    "current_role": "Exchange",
+    "org": "OKX Technology Company Limited / Aux Cayes FinTech Co. Ltd.",
+    "official_site": "https://www.okx.com",
+    "accounts": {
+      "x": "@okx",
+      "announcements_x": "@OKXHelpDesk",
+      "telegram": "https://t.me/OKXOfficial_English",
+      "youtube": "https://www.youtube.com/@OKX"
+    },
+    "verification": [
+      "https://www.okx.com/support-center/channel-verification",
+      "https://www.okx.com/help/section/announcements"
+    ],
+    "topics": [
+      "spot",
+      "futures",
+      "options",
+      "web3_wallet",
+      "x_layer",
+      "defi",
+      "proof_of_reserves",
+      "listing"
+    ],
+    "languages": [
+      "en",
+      "zh-CN",
+      "zh-TW",
+      "tr",
+      "es",
+      "pt",
+      "ru",
+      "vi",
+      "id",
+      "fr",
+      "de"
+    ],
+    "priority": 1,
+    "notes": "原名 OKEx，于 2022 年 1 月正式更名为 OKX。创始人兼现任 CEO 为徐明星（Star Xu / Mingxing Xu，早年创办 Okcoin）；CMO 为 Haider Rafique；前总裁方宏（Hong Fang）已离任转任 BitGo。主打 Web3 钱包及二层网络 X Layer。冒充风险高：常见假冒 OKX 钱包升级钓鱼网站、假 Telegram 空投群及伪造上币 BD。"
+  },
+  {
+    "type": "exchange",
+    "name": "Bitget",
+    "current_role": "Exchange",
+    "org": "Bitget Limited",
+    "official_site": "https://www.bitget.com",
+    "accounts": {
+      "x": "@bitgetglobal",
+      "announcements_x": "@bitgetglobal",
+      "telegram": "https://t.me/bitget_official",
+      "youtube": "https://www.youtube.com/@BitgetOfficial"
+    },
+    "verification": [
+      "https://www.bitget.com/official-verification",
+      "https://www.bitget.com/support/sections/360000034631"
+    ],
+    "topics": [
+      "spot",
+      "futures",
+      "copy_trading",
+      "bgb",
+      "launchpool",
+      "bitget_wallet",
+      "listing"
+    ],
+    "languages": [
+      "en",
+      "zh-CN",
+      "zh-TW",
+      "ja",
+      "ko",
+      "es",
+      "pt",
+      "tr",
+      "ru",
+      "vi",
+      "id",
+      "fr",
+      "de"
+    ],
+    "priority": 1,
+    "notes": "全球排名前列的衍生品与跟单交易平台。现任 CEO 为 Gracy Chen（@GracyBitget，2022年任董事总经理，2024年5月升任 CEO）；前任 CEO 为 Sandra Lou。旗下拥有 Bitget Wallet（原 BitKeep）。冒充风险高：常见假冒带单老师、虚假跟单策略分成诈骗群以及伪造 OTC 商家。"
+  },
+  {
+    "type": "exchange",
+    "name": "Bybit",
+    "current_role": "Exchange",
+    "org": "Bybit Fintech Limited",
+    "official_site": "https://www.bybit.com",
+    "accounts": {
+      "x": "@Bybit_Official",
+      "announcements_x": "@Bybit_Official",
+      "telegram": "https://t.me/BybitEnglish",
+      "youtube": "https://www.youtube.com/@Bybit"
+    },
+    "verification": [
+      "https://www.bybit.com/en/help-center/article/authenticity-check",
+      "https://announcements.bybit.com"
+    ],
+    "topics": [
+      "spot",
+      "derivatives",
+      "options",
+      "copy_trading",
+      "mantle_ecosystem",
+      "mnt",
+      "web3",
+      "listing",
+      "launchpad"
+    ],
+    "languages": [
+      "en",
+      "zh-CN",
+      "zh-TW",
+      "ja",
+      "es",
+      "pt",
+      "tr",
+      "ru",
+      "vi",
+      "id",
+      "de",
+      "fr"
+    ],
+    "priority": 1,
+    "notes": "全球顶尖衍生品与现货交易所，总部设立于阿联酋迪拜。联合创始人兼现任 CEO 为周必胜（Ben Zhou，自 2018 年创立以来持续担任 CEO）；联合创始人/核心高管包括 Latica Chou 等。深度支持 Mantle 生态（MNT）。冒充风险高：虚假 VIP 客服私聊、虚假 Telegram P2P 担保群及仿冒钓鱼域名。"
+  },
+  {
+    "type": "exchange",
+    "name": "Coinbase",
+    "current_role": "Exchange",
+    "org": "Coinbase Global, Inc. (Nasdaq: COIN)",
+    "official_site": "https://www.coinbase.com",
+    "accounts": {
+      "x": "@coinbase",
+      "announcements_x": "@CoinbaseAssets",
+      "telegram": "None (Coinbase explicitly operates NO official Telegram support channels)",
+      "youtube": "https://www.youtube.com/@coinbase"
+    },
+    "verification": [
+      "https://help.coinbase.com/en/coinbase/other-topics/other/is-coinbase-present-on-social-media",
+      "https://www.coinbase.com/blog",
+      "https://investor.coinbase.com"
+    ],
+    "topics": [
+      "spot",
+      "institutions",
+      "etf_custody",
+      "base_l2",
+      "usdc",
+      "derivatives",
+      "compliance",
+      "policy"
+    ],
+    "languages": [
+      "en",
+      "es",
+      "de",
+      "fr",
+      "ja",
+      "pt",
+      "it"
+    ],
+    "priority": 1,
+    "notes": "美国第一大合规上市加密交易所，美国大部分现货 BTC/ETH ETF 的核心托管行。联合创始人兼现任 CEO 为 Brian Armstrong；总裁兼 COO 为 Emilie Choi；CFO 为 Alesia Haas；首席法务官为 Paul Grewal；联合创始人兼董事为 Fred Ehrsam（前总裁，Paradigm 创始人）。上币公告由 @CoinbaseAssets 官方发布。重要安全提示：Coinbase 官方明确声明不提供任何 Telegram 或 WhatsApp 官方支持，任何电报群内的 Coinbase 客服皆为钓鱼骗局。"
+  },
+  {
+    "type": "exchange",
+    "name": "Kraken",
+    "current_role": "Exchange",
+    "org": "Payward, Inc.",
+    "official_site": "https://www.kraken.com",
+    "accounts": {
+      "x": "@krakenfx",
+      "announcements_x": "@krakenlistings",
+      "telegram": "None (Kraken operates NO official Telegram customer support channels)",
+      "youtube": "https://www.youtube.com/@krakenfx"
+    },
+    "verification": [
+      "https://support.kraken.com/hc/en-us/articles/how-to-follow-kraken-on-social-media",
+      "https://blog.kraken.com"
+    ],
+    "topics": [
+      "spot",
+      "margin",
+      "futures",
+      "pro_trading",
+      "ink_l2",
+      "custody",
+      "proof_of_reserves"
+    ],
+    "languages": [
+      "en",
+      "es",
+      "de",
+      "fr",
+      "it",
+      "pt",
+      "ja",
+      "zh-CN"
+    ],
+    "priority": 1,
+    "notes": "历史悠久的欧美合规主力交易所（2011年创立）。现行管理层采取联合 CEO（Co-CEO）架构：Dave Ripley（2023年4月自 Jesse Powell 手中接任 CEO，2024年10月转为 Co-CEO）与 Arjun Sethi（Tribe Capital 联合创始人，2024年10月起被任命为 Co-CEO）；创始人 Jesse Powell 现任董事会主席。正筹备推出 Ink L2 网络。重要提示：Kraken 官方声明绝不使用 Telegram 或 WhatsApp 提供客户服务，需警惕仿冒客服及假冒上币团队。"
+  },
+  {
+    "type": "exchange",
+    "name": "Gate.io",
+    "current_role": "Exchange",
+    "org": "Gate Technology Inc. / Gate Group",
+    "official_site": "https://www.gate.io",
+    "accounts": {
+      "x": "@gate_io",
+      "announcements_x": "@Gateio_Support",
+      "telegram": "https://t.me/gateio_en",
+      "youtube": "https://www.youtube.com/@GateioExchange"
+    },
+    "verification": [
+      "https://www.gate.io/official-verify",
+      "https://www.gate.io/announcements"
+    ],
+    "topics": [
+      "spot",
+      "futures",
+      "altcoins",
+      "startup_launchpad",
+      "gt_token",
+      "gatechain",
+      "proof_of_reserves"
+    ],
+    "languages": [
+      "en",
+      "zh-CN",
+      "zh-TW",
+      "ja",
+      "ko",
+      "tr",
+      "es",
+      "pt",
+      "ru",
+      "vi",
+      "id",
+      "fr",
+      "de"
+    ],
+    "priority": 2,
+    "notes": "原名比特儿（Bter.com，创办于2013年），2017年监管整顿后全面重塑更名为 Gate.io（亦启用 gate.com）。创始人兼现任 CEO 为韩林博士（Dr. Lin Han）。以长尾山寨币种及 Startup 申购发行闻名。冒充风险高：常见假冒 Startup 免费空投链接、伪造客服验证页面与假冒官方上币上所收费中介。"
+  },
+  {
+    "type": "exchange",
+    "name": "MEXC",
+    "current_role": "Exchange",
+    "org": "MEXC Global Ltd.",
+    "official_site": "https://www.mexc.com",
+    "accounts": {
+      "x": "@MEXC_Official",
+      "announcements_x": "@MEXC_Official",
+      "telegram": "https://t.me/MEXCEnglish",
+      "youtube": "https://www.youtube.com/@MEXCofficial"
+    },
+    "verification": [
+      "https://www.mexc.com/official-verify",
+      "https://www.mexc.com/support/announcements"
+    ],
+    "topics": [
+      "spot",
+      "futures",
+      "zero_fee_trading",
+      "meme_coins",
+      "kickstarter",
+      "mx_token",
+      "high_leverage"
+    ],
+    "languages": [
+      "en",
+      "zh-CN",
+      "zh-TW",
+      "ja",
+      "ko",
+      "tr",
+      "es",
+      "pt",
+      "ru",
+      "vi",
+      "id",
+      "de"
+    ],
+    "priority": 2,
+    "notes": "前身为 MXC（抹茶），2021年品牌升级为 MEXC Global。现任 CEO 为 Vugar Usi Zade（曾任 COO，后晋升为 CEO；曾有 Bitget 高管经历）；前早期高管 John Chen 已于 2022 年离职，官方在 2023 年底曾公开澄清官方不存在以 CEO 个人名义运营的推特账号。主打极速上线 Meme 币、微市值代币及现货零费率。冒充风险极高：大量假冒上币中介通过电报私信索要 listing fee，常见虚假带单跟单社群。"
+  },
+  {
+    "type": "exchange",
+    "name": "HTX",
+    "current_role": "Exchange",
+    "org": "HTX / Huobi Global (backed by About Capital Management)",
+    "official_site": "https://www.htx.com",
+    "accounts": {
+      "x": "@HTX_Global",
+      "announcements_x": "@HTX_Global",
+      "telegram": "https://t.me/HTX_Global",
+      "youtube": "https://www.youtube.com/@HTXGlobal"
+    },
+    "verification": [
+      "https://www.htx.com/official-verify",
+      "https://www.htx.com/support/en-us/announcements"
+    ],
+    "topics": [
+      "spot",
+      "futures",
+      "tron_ecosystem",
+      "htx_dao",
+      "usdd",
+      "earn",
+      "listing"
+    ],
+    "languages": [
+      "en",
+      "zh-CN",
+      "zh-TW",
+      "ru",
+      "tr",
+      "vi",
+      "pt",
+      "es",
+      "ko",
+      "ja"
+    ],
+    "priority": 2,
+    "notes": "前身为火币（Huobi，2013年由李林创办）。2022年10月百域资本（About Capital）收购李林所持多数股权，孙宇晨（Justin Sun）入驻并担任全球顾问委员会成员及实际代言人；2023年9月十周年之际正式改名为 HTX（H 代表 Huobi，T 代表 TRON，X 代表 Exchange）。品牌更名历史多，存在大量冒充 Huobi/HTX 历史老域名、假冒孙宇晨助理及假冒 HTX DAO 空投的钓鱼欺诈风险。"
+  },
+  {
+    "type": "exchange",
+    "name": "KuCoin",
+    "current_role": "Exchange",
+    "org": "Mek Global Limited / PhoenixFin Pte. Ltd.",
+    "official_site": "https://www.kucoin.com",
+    "accounts": {
+      "x": "@kucoincom",
+      "announcements_x": "@KuCoinUpdates",
+      "telegram": "https://t.me/KuCoin_Exchange",
+      "youtube": "https://www.youtube.com/@KuCoinExchange"
+    },
+    "verification": [
+      "https://www.kucoin.com/cert",
+      "https://www.kucoin.com/announcement"
+    ],
+    "topics": [
+      "spot",
+      "futures",
+      "trading_bot",
+      "kcs",
+      "gem_listings",
+      "spotlight",
+      "proof_of_reserves"
+    ],
+    "languages": [
+      "en",
+      "zh-CN",
+      "zh-TW",
+      "tr",
+      "es",
+      "pt",
+      "ru",
+      "vi",
+      "id",
+      "ko",
+      "ja",
+      "de",
+      "fr"
+    ],
+    "priority": 2,
+    "notes": "被称为'全民的交易所'（The People's Exchange）。现任 CEO 为 BC Wong（此前曾任首席合规/法务负责人，为强化全球合规接任 CEO）；联合创始人兼前 CEO 为吕康（Johnny Lyu，2020至2024年间担任 CEO）；早期创始人为 Michael Gan（甘纯）及 Eric Don。冒充风险高：常见伪造上币团队、假冒 KuCoin Cert 验真钓鱼页面以及仿冒 P2P 仲裁客服。"
+  },
+  {
+    "type": "exchange",
+    "name": "Backpack",
+    "current_role": "Exchange",
+    "org": "Trek Labs Ltd FZE / Coral Community Inc.",
+    "official_site": "https://backpack.exchange",
+    "accounts": {
+      "x": "@Backpack",
+      "announcements_x": "@BackpackHelp",
+      "telegram": "https://t.me/thebackpackgroupchat",
+      "youtube": "None (official video presence on X/Discord)"
+    },
+    "verification": [
+      "https://support.backpack.exchange",
+      "https://docs.backpack.exchange",
+      "https://backpack.exchange"
+    ],
+    "topics": [
+      "spot",
+      "derivatives",
+      "solana_ecosystem",
+      "backpack_wallet",
+      "mad_lads",
+      "dubai_vara",
+      "proof_of_reserves"
+    ],
+    "languages": [
+      "en",
+      "zh-CN",
+      "zh-TW",
+      "es",
+      "ja",
+      "ko",
+      "ru"
+    ],
+    "priority": 2,
+    "notes": "受迪拜 VARA 监管合规许可的加密交易所。由 Solana 核心开发团队 Coral 及 Mad Lads 社区孵化。创始人兼 CEO 为 Armani Ferrante（@armaniferrante，Anchor 框架创作者）；联合创始人为 Tristan Yver（@sorryyver）；前联合创始人/法务 Can Sun（前 FTX 总法律顾问）早期参与设立 Trek Labs 后已退出。冒充风险高：网络上存在大量针对 Mad Lads 社区及 Backpack 空投资格的假冒钱包插件及授权钓鱼（Wallet Drainer）网站。"
+  },
+  {
+    "type": "exchange",
+    "name": "Hyperliquid",
+    "current_role": "Exchange",
+    "org": "Hyperliquid Labs / Hyper Foundation (Chameleon Labs)",
+    "official_site": "https://hyperliquid.xyz",
+    "accounts": {
+      "x": "@HyperliquidX",
+      "announcements_x": "@HyperFND",
+      "telegram": "None (Hyperliquid operates strictly via Discord and X; no official Telegram trading chat)",
+      "youtube": "None (content shared on X and community podcasts)"
+    },
+    "verification": [
+      "https://hyperliquid.gitbook.io/hyperliquid-docs",
+      "https://docs.hyperliquid.xyz",
+      "https://app.hyperliquid.xyz"
+    ],
+    "topics": [
+      "perp_dex",
+      "l1_appchain",
+      "orderbook",
+      "hype_token",
+      "hip_1_tokens",
+      "builder_codes",
+      "vaults",
+      "native_evm"
+    ],
+    "languages": [
+      "en",
+      "zh-CN",
+      "ja",
+      "ko"
+    ],
+    "priority": 1,
+    "notes": "链上订单薄永续合约 DEX 龙头，拥有独立高性能 L1 共识引擎（HyperBFT）与原生 EVM。团队完全自融无 VC 股权投资。核心创始人兼贡献者为 Jeff Yan（@chameleon_jeff，哈佛数学与计算机双学位、前 HRT 量化交易员）与 iliensinc。基金会 X 账号为 @HyperFND。重要安全提示：Hyperliquid 官方未开设任何官方 Telegram 交流或客服群，主要交流在 Discord（discord.gg/hyperliquid）；需高度警惕伪造 HYPE 空投领取代币的恶意钓鱼网站与假 Telegram 群。"
+  },
+  {
+    "type": "exchange",
+    "name": "Upbit",
+    "current_role": "Exchange",
+    "org": "Dunamu Inc.",
+    "official_site": "https://upbit.com",
+    "accounts": {
+      "x": "@Official_Upbit",
+      "announcements_x": "@Official_Upbit",
+      "telegram": "None (Upbit explicitly does NOT operate official Telegram chatrooms or trading signal channels)",
+      "youtube": "https://www.youtube.com/@upbit_official"
+    },
+    "verification": [
+      "https://upbit.com/service_center/notice",
+      "https://www.dunamu.com"
+    ],
+    "topics": [
+      "spot",
+      "krw_market",
+      "krw_pairs",
+      "korea_premium",
+      "fiu_compliance",
+      "staking",
+      "travel_rule",
+      "listing_announcements"
+    ],
+    "languages": [
+      "ko",
+      "en"
+    ],
+    "priority": 1,
+    "notes": "韩国第一大合规法币加密交易所（占据韩国市场逾 70% 份额），运营母公司为 Dunamu Inc.。现任 CEO 为吴庆锡（Oh Kyung-suk，2025年6月接替因健康原因提前卸任的李锡佑 Lee Sirgoo）；创始人兼董事会主席为宋致亨（Song Chi-hyung）；前任 CEO 李锡佑曾于 2017 至 2025 年长期执掌 Dunamu。Upbit 上币公告对全球山寨币行情具备极强的即时拉盘效应（'Upbit 上币效应'）。重要提示：Upbit 严格遵守韩国监管，官方绝不在 Telegram 或 KakaoTalk 开设任何带单荐股群，需严防声称有'内部上币老鼠仓'的电报杀猪盘。"
+  },
+  {
+    "type": "exchange",
+    "name": "Bithumb",
+    "current_role": "Exchange",
+    "org": "Bithumb Korea Co., Ltd.",
+    "official_site": "https://www.bithumb.com",
+    "accounts": {
+      "x": "@BithumbOfficial",
+      "announcements_x": "@BithumbOfficial",
+      "telegram": "None (Bithumb operates NO official Telegram trading or customer support channels)",
+      "youtube": "https://www.youtube.com/@Bithumb_Official"
+    },
+    "verification": [
+      "https://feed.bithumb.com/notice",
+      "https://www.bithumb.com"
+    ],
+    "topics": [
+      "spot",
+      "krw_pairs",
+      "zero_fee_events",
+      "korea_market",
+      "ipo_plans",
+      "travel_rule",
+      "listing_announcements"
+    ],
+    "languages": [
+      "ko",
+      "en"
+    ],
+    "priority": 2,
+    "notes": "韩国第二大加密货币交易所，Upbit 的主要本土竞争对手。现任 CEO 为李载元（Lee Jae-won，2022年就任并获连任；2026年8月卸任母公司 Bithumb Holdings 代表理事一职以全力专注 Bithumb 交易所业务，控股公司 CEO 由金基范接任以推动 IPO）；早期创始人及控股股东为前理事会议长李政勋（Lee Jung-hoon）。常发起免手续费活动争夺交易量。冒充风险：韩国本地常见伪造 Bithumb 验证码短信（Smishing）以及 KakaoTalk/Telegram 虚假理财指导骗局。"
+  },
+  {
+    "type": "exchange",
+    "name": "Robinhood Crypto",
+    "current_role": "Exchange",
+    "org": "Robinhood Crypto, LLC / Robinhood Markets, Inc. (Nasdaq: HOOD)",
+    "official_site": "https://crypto.robinhood.com",
+    "accounts": {
+      "x": "@RobinhoodCrypto",
+      "announcements_x": "@RobinhoodCrypto",
+      "telegram": "None (Robinhood strictly maintains NO Telegram groups or customer support channels)",
+      "youtube": "https://www.youtube.com/@robinhood"
+    },
+    "verification": [
+      "https://newsroom.aboutrobinhood.com",
+      "https://robinhood.com/us/en/support/articles/social-media/",
+      "https://robinhood.com/us/en/about/crypto/"
+    ],
+    "topics": [
+      "retail_crypto",
+      "us_crypto",
+      "eu_crypto",
+      "staking",
+      "crypto_transfers",
+      "robinhood_connect",
+      "bitstamp_acquisition",
+      "sec_compliance"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "美股互联网券商巨头 Robinhood（Nasdaq: HOOD）旗下专属加密资产实体。业务负责人（SVP & General Manager of Crypto）为 Johann Kerbrat（@JohannKerbrat）；母公司 Robinhood Markets 联合创始人兼 CEO 为 Vlad Tenev；联合创始人 Baiju Bhatt 已于 2024 年卸任高管职务。已通过收购老牌交易所 Bitstamp 加速全球化及机构业务布局。重要安全提示：Robinhood 绝不通过 Telegram、WhatsApp 等社交通讯软件提供客服服务，必须警惕假冒投资理财、追讨资金与虚假 Robinhood 空投骗局。"
+  },
+  {
+    "type": "regulator",
+    "name": "U.S. Securities and Exchange Commission (SEC)",
+    "current_role": "Primary US federal securities regulatory agency supervising securities markets, crypto asset securities enforcement, and exchange-traded product (ETP) registrations",
+    "org": "U.S. Securities and Exchange Commission",
+    "official_site": "https://www.sec.gov",
+    "accounts": {
+      "x": "@SECGov",
+      "linkedin": "https://www.linkedin.com/company/us-securities-and-exchange-commission",
+      "youtube": "https://www.youtube.com/user/SECViews"
+    },
+    "verification": [
+      "https://www.sec.gov/rss",
+      "https://www.sec.gov/newsroom/press-releases",
+      "https://www.sec.gov"
+    ],
+    "topics": [
+      "securities",
+      "spot-etf",
+      "crypto-enforcement",
+      "litigation",
+      "wells-notice",
+      "investor-protection"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Extreme market sensitivity. Historic January 2024 SIM-swap breach of official @SECGov handle led to premature fake ETF approval tweet. High risk of copycat/impersonator accounts circulating fake enforcement or approval notices.",
+    "newsroom_url": "https://www.sec.gov/newsroom/press-releases",
+    "rss_url": "https://www.sec.gov/news/pressreleases.rss",
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "regulator",
+    "name": "Commodity Futures Trading Commission (CFTC)",
+    "current_role": "Primary US federal derivatives regulator exercising regulatory oversight over digital asset commodities, futures, swaps, and fraud/manipulation enforcement",
+    "org": "Commodity Futures Trading Commission",
+    "official_site": "https://www.cftc.gov",
+    "accounts": {
+      "x": "@CFTC",
+      "linkedin": "https://www.linkedin.com/company/commodity-futures-trading-commission",
+      "youtube": "https://www.youtube.com/user/CFTC"
+    },
+    "verification": [
+      "https://www.cftc.gov/RSS/index.htm",
+      "https://www.cftc.gov/PressRoom/PressReleases"
+    ],
+    "topics": [
+      "derivatives",
+      "futures",
+      "commodities",
+      "enforcement",
+      "market-manipulation",
+      "fraud"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Dedicated enforcement RSS: https://www.cftc.gov/RSS/RSSENF/rssenf.xml. Enforces Commodity Exchange Act against unregistered derivatives and offshore platforms (e.g., Binance, BitMEX, KuCoin). Active jurisdictional disputes with SEC regarding digital asset commodity classification.",
+    "newsroom_url": "https://www.cftc.gov/PressRoom/PressReleases",
+    "rss_url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml",
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "regulator",
+    "name": "U.S. Department of Justice (DOJ)",
+    "current_role": "Federal law enforcement agency prosecuting federal criminal offenses, money laundering, sanctions evasion, and darknet illicit finance via the National Cryptocurrency Enforcement Team (NCET)",
+    "org": "U.S. Department of Justice",
+    "official_site": "https://www.justice.gov",
+    "accounts": {
+      "x": "@TheJusticeDept",
+      "linkedin": "https://www.linkedin.com/company/us-department-of-justice",
+      "youtube": "https://www.youtube.com/user/TheJusticeDepartment"
+    },
+    "verification": [
+      "https://www.justice.gov/news",
+      "https://www.justice.gov/opa"
+    ],
+    "topics": [
+      "criminal-enforcement",
+      "money-laundering",
+      "sanctions-evasion",
+      "crypto-seizures",
+      "fraud",
+      "ncet"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Enforcement actions handled by NCET, Criminal Division, and key US Attorney Offices (SDNY, EDNY). Press releases frequently announce major criminal indictments, multi-billion-dollar forfeitures, and international takedowns.",
+    "newsroom_url": "https://www.justice.gov/news",
+    "rss_url": "https://www.justice.gov/news/rss?type=press_release&m=1",
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "regulator",
+    "name": "Office of Foreign Assets Control (OFAC)",
+    "current_role": "US Department of the Treasury agency administering economic and trade sanctions, publishing SDN designations targeting malicious crypto addresses, mixers, and facilitating services",
+    "org": "U.S. Department of the Treasury",
+    "official_site": "https://ofac.treasury.gov",
+    "accounts": {
+      "x": "@USTreasury",
+      "linkedin": "https://www.linkedin.com/company/u.s.-department-of-the-treasury"
+    },
+    "verification": [
+      "https://ofac.treasury.gov/recent-actions",
+      "https://home.treasury.gov/news/press-releases"
+    ],
+    "topics": [
+      "sanctions",
+      "sdn-list",
+      "crypto-blacklists",
+      "mixers",
+      "illicit-finance",
+      "national-security"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "NOTE: OFAC officially retired its standalone RSS feed on January 31, 2025; updates are published directly to ofac.treasury.gov/recent-actions and via GovDelivery email service. Vital for real-time on-chain screening of blacklisted wallet addresses.",
+    "newsroom_url": "https://ofac.treasury.gov/recent-actions",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "regulator",
+    "name": "Financial Conduct Authority (FCA)",
+    "current_role": "UK financial conduct and prudential regulator supervising cryptoasset AML/CFT registration, financial promotions regime, and consumer risk warnings",
+    "org": "Financial Conduct Authority",
+    "official_site": "https://www.fca.org.uk",
+    "accounts": {
+      "x": "@TheFCA",
+      "linkedin": "https://www.linkedin.com/company/financial-conduct-authority",
+      "youtube": "https://www.youtube.com/user/FCATV"
+    },
+    "verification": [
+      "https://www.fca.org.uk/about/how-we-communicate-with-you/social-media",
+      "https://www.fca.org.uk/news"
+    ],
+    "topics": [
+      "uk-regulation",
+      "financial-promotions",
+      "aml-registration",
+      "unauthorised-firms",
+      "consumer-warning"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Strict financial promotion regime (FG24/1) imposes criminal liability for unauthorized crypto marketing to UK residents. Maintains an active Warning List of unauthorized crypto firms.",
+    "newsroom_url": "https://www.fca.org.uk/news",
+    "rss_url": "https://www.fca.org.uk/news/rss.xml",
+    "jurisdiction": "United Kingdom"
+  },
+  {
+    "type": "regulator",
+    "name": "Monetary Authority of Singapore (MAS)",
+    "current_role": "Singapore central bank and integrated financial supervisor licensing Digital Payment Token (DPT) service providers under the Payment Services Act and regulating asset tokenization / stablecoins",
+    "org": "Monetary Authority of Singapore",
+    "official_site": "https://www.mas.gov.sg",
+    "accounts": {
+      "x": "@MAS_sg",
+      "linkedin": "https://www.linkedin.com/company/monetary-authority-of-singapore",
+      "youtube": "https://www.youtube.com/user/MASSingapore"
+    },
+    "verification": [
+      "https://www.mas.gov.sg",
+      "https://www.mas.gov.sg/news/media-releases"
+    ],
+    "topics": [
+      "singapore-regulation",
+      "dpt-license",
+      "payment-services-act",
+      "stablecoins",
+      "project-guardian",
+      "tokenization"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "MAS does not provide an active public RSS feed; announcements are published directly on mas.gov.sg/news/media-releases and distributed via email notifications. Leads institutional tokenization initiatives via Project Guardian.",
+    "newsroom_url": "https://www.mas.gov.sg/news/media-releases",
+    "rss_url": null,
+    "jurisdiction": "Singapore"
+  },
+  {
+    "type": "regulator",
+    "name": "Securities and Futures Commission (SFC Hong Kong)",
+    "current_role": "Hong Kong statutory securities regulator administering the Virtual Asset Trading Platform (VATP) licensing regime under AMLO, authorizing spot crypto ETFs, and issuing investor alerts",
+    "org": "Securities and Futures Commission",
+    "official_site": "https://www.sfc.hk",
+    "accounts": {
+      "facebook": "https://www.facebook.com/sfchkofficial",
+      "linkedin": "https://www.linkedin.com/company/securities-and-futures-commission",
+      "youtube": "https://www.youtube.com/@sfchkofficial"
+    },
+    "verification": [
+      "https://www.sfc.hk/en/RSS-Feeds",
+      "https://www.sfc.hk/en/News-and-announcements/News"
+    ],
+    "topics": [
+      "hong-kong",
+      "vatp-licensing",
+      "spot-crypto-etf",
+      "suspicious-platforms",
+      "amlo",
+      "virtual-assets"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Traditional Chinese RSS available at https://www.sfc.hk/TC/RSS-Feeds. SFC does not maintain an official X (Twitter) account; primary social channels are LinkedIn, YouTube, Facebook, WeChat, and Xiaohongshu (Rednote). Maintains Alert List of suspicious virtual asset trading platforms.",
+    "newsroom_url": "https://www.sfc.hk/en/News-and-announcements/News",
+    "rss_url": "https://www.sfc.hk/en/RSS-Feeds/Press-releases",
+    "jurisdiction": "Hong Kong"
+  },
+  {
+    "type": "regulator",
+    "name": "European Securities and Markets Authority (ESMA)",
+    "current_role": "European Union financial markets authority overseeing implementation of the Markets in Crypto-Assets (MiCA) regulation, drafting technical standards, and maintaining the central CASP register",
+    "org": "European Securities and Markets Authority",
+    "official_site": "https://www.esma.europa.eu",
+    "accounts": {
+      "x": "@ESMAComms",
+      "linkedin": "https://www.linkedin.com/company/esma",
+      "youtube": "https://www.youtube.com/channel/UCf5w9t9eWc1rM3i6QW4hM3A"
+    },
+    "verification": [
+      "https://www.esma.europa.eu/press-news/esma-news",
+      "https://www.esma.europa.eu"
+    ],
+    "topics": [
+      "eu-regulation",
+      "mica",
+      "casp-register",
+      "technical-standards",
+      "market-abuse",
+      "investor-protection"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Coordinating body for MiCA across all 27 EU member state National Competent Authorities (NCAs). Replaced RSS with modern categorized Newsroom portal and newsletter service.",
+    "newsroom_url": "https://www.esma.europa.eu/press-news/esma-news",
+    "rss_url": null,
+    "jurisdiction": "European Union"
+  },
+  {
+    "type": "regulator",
+    "name": "Federal Financial Supervisory Authority (BaFin)",
+    "current_role": "German federal integrated financial supervisor administering crypto custody business licensing under the German Banking Act (KWG) and supervising German MiCA implementation",
+    "org": "Bundesanstalt für Finanzdienstleistungsaufsicht",
+    "official_site": "https://www.bafin.de",
+    "accounts": {
+      "linkedin": "https://www.linkedin.com/company/bafin",
+      "instagram": "@bafin_de",
+      "mastodon": "@bafin@social.bund.de"
+    },
+    "verification": [
+      "https://www.bafin.de/EN/Service/RSS/rss_node.html",
+      "https://www.bafin.de/DE/service/rss/rss_node.html"
+    ],
+    "topics": [
+      "germany",
+      "kwg-licensing",
+      "crypto-custody",
+      "mica-transition",
+      "supervisory-measures",
+      "unauthorized-platforms"
+    ],
+    "languages": [
+      "de",
+      "en"
+    ],
+    "priority": 2,
+    "notes": "CRITICAL IMPERSONATION ALERT: BaFin does NOT operate an official X (Twitter) account and has issued formal consumer alerts against fraudulent accounts falsely using its name on Twitter. Supervision RSS: https://www.bafin.de/DE/service/rss/_function/RSS_Aufsicht.xml?nn=150166.",
+    "newsroom_url": "https://www.bafin.de/EN/Press/PressReleases/press_releases_node.html",
+    "rss_url": "https://www.bafin.de/DE/service/rss/_function/RSS_Presse.xml?nn=150166",
+    "jurisdiction": "Germany"
+  },
+  {
+    "type": "regulator",
+    "name": "Financial Services Agency of Japan (JFSA / 金融庁)",
+    "current_role": "Japanese government agency supervising Crypto-Asset Exchange Service Providers (CAESP) under the Payment Services Act and stablecoin issuance under the revised Electronic Payment Instruments regime",
+    "org": "Financial Services Agency",
+    "official_site": "https://www.fsa.go.jp",
+    "accounts": {
+      "x": "@fsa_JAPAN",
+      "x_en": "@JFSA_en",
+      "x_scam_alert": "@fsa_attention",
+      "youtube": "https://www.youtube.com/user/fsaChannel"
+    },
+    "verification": [
+      "https://www.fsa.go.jp/sns_account.html",
+      "https://www.fsa.go.jp/en/news/index.html"
+    ],
+    "topics": [
+      "japan-regulation",
+      "caesp",
+      "payment-services-act",
+      "stablecoin-framework",
+      "fsa-warning",
+      "asset-segregation"
+    ],
+    "languages": [
+      "ja",
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Japanese language RSS: https://www.fsa.go.jp/fsaNewsList_rss2.xml. Enforces strict cold wallet and segregated custody requirements that protected users during FTX Japan. Issues formal warning letters to unregistered overseas exchanges soliciting Japanese residents.",
+    "newsroom_url": "https://www.fsa.go.jp/en/news/index.html",
+    "rss_url": "https://www.fsa.go.jp/fsaEnNewsList_rss2.xml",
+    "jurisdiction": "Japan"
+  },
+  {
+    "type": "regulator",
+    "name": "Capital Markets Board of Turkey (SPK / Sermaye Piyasası Kurulu)",
+    "current_role": "Turkish capital markets regulator vested with comprehensive licensing, operational, and custody oversight over Crypto Asset Service Providers (KVHS) under Law No. 7518",
+    "org": "Sermaye Piyasası Kurulu",
+    "official_site": "https://spk.gov.tr",
+    "accounts": {
+      "x": "@spkgovtr",
+      "linkedin": "https://www.linkedin.com/company/sermaye-piyasas%C4%B1-kurulu"
+    },
+    "verification": [
+      "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar",
+      "https://spk.gov.tr/kurumlar/kripto-varlik-hizmet-saglayicilar/faaliyette-bulunanlar-listesi"
+    ],
+    "topics": [
+      "turkey-regulation",
+      "kvhs-licensing",
+      "law-7518",
+      "spk-bulletin",
+      "kripto-varlik",
+      "exchange-compliance"
+    ],
+    "languages": [
+      "tr",
+      "en"
+    ],
+    "priority": 2,
+    "notes": "Milestone regulatory expansion: In July 2024, Turkey enacted Law No. 7518 amending Capital Markets Law No. 6362, bringing all crypto asset service providers under direct SPK licensing. Publishes the official 'Faaliyette Bulunanlar Listesi' (List of operating platforms undergoing licensing).",
+    "newsroom_url": "https://spk.gov.tr/bultenler",
+    "rss_url": null,
+    "jurisdiction": "Turkey"
+  },
+  {
+    "type": "regulator",
+    "name": "Otoritas Jasa Keuangan (OJK Indonesia)",
+    "current_role": "Indonesian financial services authority possessing primary statutory authority over digital financial assets and crypto asset trading following the completion of supervisory transfer from Bappebti",
+    "org": "Otoritas Jasa Keuangan",
+    "official_site": "https://www.ojk.go.id",
+    "accounts": {
+      "x": "@ojkindonesia",
+      "instagram": "@ojkindonesia",
+      "youtube": "https://www.youtube.com/c/OJKIndonesia",
+      "linkedin": "https://www.linkedin.com/company/ojk-储备-jasa-keuangan"
+    },
+    "verification": [
+      "https://www.ojk.go.id",
+      "https://www.ojk.go.id/id/berita-dan-kegiatan/siaran-pers"
+    ],
+    "topics": [
+      "indonesia-regulation",
+      "ojk-supervision",
+      "p2sk-law",
+      "pojk-27-2024",
+      "pojk-23-2025",
+      "digital-financial-assets"
+    ],
+    "languages": [
+      "id",
+      "en"
+    ],
+    "priority": 2,
+    "notes": "MAJOR REGULATORY HANDOVER: Pursuant to the P2SK Law (Law No. 4/2023) and PP No. 49/2024, supervisory authority over crypto assets formally transferred from Bappebti to OJK on January 10, 2025. Regulated under POJK No. 27/2024 and amended under POJK No. 23/2025.",
+    "newsroom_url": "https://www.ojk.go.id/id/berita-dan-kegiatan/siaran-pers",
+    "rss_url": null,
+    "jurisdiction": "Indonesia"
+  },
+  {
+    "type": "regulator",
+    "name": "Badan Pengawas Perdagangan Berjangka Komoditi (Bappebti Indonesia)",
+    "current_role": "Indonesian Commodity Futures Trading Regulatory Agency under Ministry of Trade; established initial regulatory foundation and national crypto bourse (CFX) prior to Jan 2025 OJK handover",
+    "org": "Badan Pengawas Perdagangan Berjangka Komoditi",
+    "official_site": "https://bappebti.go.id",
+    "accounts": {
+      "instagram": "@bappebti",
+      "facebook": "https://www.facebook.com/Badan-Pengawas-Perdagangan-Berjangka-Komoditi-Bappebti-111197924409390"
+    },
+    "verification": [
+      "https://bappebti.go.id"
+    ],
+    "topics": [
+      "indonesia",
+      "commodity-futures",
+      "cfx-bourse",
+      "pfak-registry",
+      "regulatory-handover"
+    ],
+    "languages": [
+      "id"
+    ],
+    "priority": 2,
+    "notes": "Historically regulated Indonesian crypto assets as tradeable commodities from 2018 through January 10, 2025. Established national crypto exchange CFX (PT Bursa Komoditi Nusantara). Successfully transitioned regulatory jurisdiction to OJK in January 2025.",
+    "newsroom_url": "https://bappebti.go.id/siaran_pers",
+    "rss_url": null,
+    "jurisdiction": "Indonesia"
+  },
+  {
+    "type": "regulator",
+    "name": "Comissão de Valores Mobiliários (CVM Brazil)",
+    "current_role": "Brazilian Securities and Exchange Commission regulating crypto asset securities, tokenized assets (Parecer de Orientação 40), and spot crypto ETFs listed on B3",
+    "org": "Comissão de Valores Mobiliários",
+    "official_site": "https://www.gov.br/cvm",
+    "accounts": {
+      "x": "@cvmgovbr",
+      "linkedin": "https://www.linkedin.com/company/cvm",
+      "youtube": "https://www.youtube.com/user/cvmgovbr"
+    },
+    "verification": [
+      "https://www.gov.br/cvm",
+      "https://conteudo.cvm.gov.br"
+    ],
+    "topics": [
+      "brazil-regulation",
+      "crypto-etf",
+      "tokenized-securities",
+      "cvm-resolutions",
+      "regulatory-sandbox",
+      "parecer-40"
+    ],
+    "languages": [
+      "pt",
+      "en"
+    ],
+    "priority": 2,
+    "notes": "Legislation RSS: https://conteudo.cvm.gov.br/feed/legislacao.xml. Division of authority: CVM regulates crypto securities, tokenized investment vehicles, and spot crypto ETFs (including early global approvals for Solana, Bitcoin, and Ethereum ETFs), while Banco Central do Brasil (BCB) regulates VASPs and payment tokens under Law 14.478/2022.",
+    "newsroom_url": "https://www.gov.br/cvm/pt-br/assuntos/noticias",
+    "rss_url": "https://conteudo.cvm.gov.br/feed/decisoes.xml",
+    "jurisdiction": "Brazil"
+  },
+  {
+    "type": "regulator",
+    "name": "Virtual Assets Regulatory Authority (VARA Dubai)",
+    "current_role": "World's first dedicated independent virtual assets regulator, governing VASP licensing, market conduct, and AML compliance across the Emirate of Dubai (excluding DIFC)",
+    "org": "Virtual Assets Regulatory Authority",
+    "official_site": "https://www.vara.ae",
+    "accounts": {
+      "x": "@varadubai",
+      "linkedin": "https://www.linkedin.com/company/varadubai/"
+    },
+    "verification": [
+      "https://www.vara.ae",
+      "https://rulebooks.vara.ae/"
+    ],
+    "topics": [
+      "dubai-regulation",
+      "vasp-license",
+      "vara-rulebook",
+      "middle-east-crypto",
+      "marketing-regulations",
+      "virtual-assets"
+    ],
+    "languages": [
+      "en",
+      "ar"
+    ],
+    "priority": 1,
+    "notes": "Established under Dubai Law No. 4 of 2022. Enforces Virtual Assets and Related Activities Regulations 2023 covering advisory, broker-dealer, custody, exchange, lending, and transfer/settlement services. Issues high-visibility enforcement fines and cease orders against unlicensed foreign operators targeting UAE residents.",
+    "newsroom_url": "https://www.vara.ae",
+    "rss_url": null,
+    "jurisdiction": "United Arab Emirates (Dubai)"
+  },
+  {
+    "type": "institution",
+    "name": "BlackRock",
+    "current_role": "World's largest asset manager ($11T+ AUM); issuer of iShares Bitcoin Trust (IBIT), iShares Ethereum Trust (ETHA), and tokenized liquidity fund BUIDL",
+    "org": "BlackRock, Inc.",
+    "official_site": "https://www.blackrock.com",
+    "accounts": {
+      "x": "@BlackRock",
+      "linkedin": "https://www.linkedin.com/company/blackrock",
+      "youtube": "https://www.youtube.com/user/blackrock"
+    },
+    "verification": [
+      "https://www.blackrock.com",
+      "https://www.blackrock.com/corporate/newsroom"
+    ],
+    "topics": [
+      "asset-management",
+      "ibit",
+      "etha",
+      "buidl",
+      "spot-etf",
+      "rwa-tokenization",
+      "institutional-inflows"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "IBIT became the fastest ETF to reach $10B and $30B AUM in market history. BUIDL tokenized fund operates on Ethereum, Aptos, Arbitrum, Avalanche, Optimism, and Polygon. Key leadership: Larry Fink (Chairman & CEO), Robert Mitchnick (Head of Digital Assets).",
+    "newsroom_url": "https://www.blackrock.com/corporate/newsroom/press-releases",
+    "rss_url": "https://investors.blackrock.com/news-and-events/press-releases/",
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "Fidelity Investments (Fidelity Digital Assets)",
+    "current_role": "Major multinational financial services corporation; issuer of Fidelity Wise Origin Bitcoin Fund (FBTC) and Fidelity Ethereum Fund (FETH); self-custody provider for digital assets",
+    "org": "FMR LLC (Fidelity Investments)",
+    "official_site": "https://www.fidelity.com",
+    "accounts": {
+      "x": "@DigitalAssets",
+      "x_corporate": "@Fidelity",
+      "linkedin": "https://www.linkedin.com/company/fidelity-digital-assets",
+      "youtube": "https://www.youtube.com/user/FidelityInvestments"
+    },
+    "verification": [
+      "https://www.fidelity.com/newsroom/social-media",
+      "https://www.fidelitydigitalassets.com/newsroom"
+    ],
+    "topics": [
+      "institutional-custody",
+      "fbtc",
+      "feth",
+      "spot-etf",
+      "execution-services",
+      "digital-assets"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Distinct from competitors, Fidelity custody its own underlying ETF crypto collateral in-house via state-chartered Fidelity Digital Asset Services, LLC, rather than relying on third-party custodians.",
+    "newsroom_url": "https://www.fidelitydigitalassets.com/newsroom",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "Bitwise Asset Management",
+    "current_role": "Specialist crypto asset management firm; issuer of Bitwise Bitcoin ETF (BITB), Bitwise Ethereum ETF (ETHW), crypto index funds, and European crypto ETCs",
+    "org": "Bitwise Asset Management, Inc.",
+    "official_site": "https://bitwiseinvestments.com",
+    "accounts": {
+      "x": "@BitwiseInvest",
+      "linkedin": "https://www.linkedin.com/company/bitwise-asset-management",
+      "youtube": "https://www.youtube.com/@bitwiseinvest"
+    },
+    "verification": [
+      "https://bitwiseinvestments.com",
+      "https://bitwiseinvestments.com/crypto-market-insights"
+    ],
+    "topics": [
+      "crypto-asset-management",
+      "bitb",
+      "ethw",
+      "crypto-indexes",
+      "etf-transparency",
+      "proof-of-reserves"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "First US spot Bitcoin ETF sponsor to publish its wallet addresses publicly on-chain. Key leadership: Hunter Horsley (CEO, @HunterHorsley), Matt Hougan (CIO, @Matt_Hougan). Expanded European presence through acquisition of London-based ETC Group.",
+    "newsroom_url": "https://bitwiseinvestments.com/press-releases",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "21Shares",
+    "current_role": "Pioneering crypto ETP issuer; co-sponsor of ARK 21Shares Bitcoin ETF (ARKB) and Ethereum ETF (CETH) in the US; market leader in European physical crypto ETPs",
+    "org": "21Shares AG",
+    "official_site": "https://21shares.com",
+    "accounts": {
+      "x": "@21shares",
+      "x_us": "@21shares_us",
+      "linkedin": "https://www.linkedin.com/company/21shares",
+      "youtube": "https://www.youtube.com/@21shares"
+    },
+    "verification": [
+      "https://21shares.com"
+    ],
+    "topics": [
+      "crypto-etp",
+      "arkb",
+      "ceth",
+      "etp-issuance",
+      "crypto-research",
+      "institutional-products"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Key leadership: Hany Rashwan (Co-Founder), Ophelia Snyder (Co-Founder & President). Operates proprietary Onyx technology platform for issuance. Longstanding partnership with Cathie Wood's ARK Investment Management.",
+    "newsroom_url": "https://21shares.com/press",
+    "rss_url": null,
+    "jurisdiction": "Switzerland / United States"
+  },
+  {
+    "type": "institution",
+    "name": "VanEck",
+    "current_role": "Global asset management firm; issuer of VanEck Bitcoin Trust (HODL) and VanEck Ethereum ETF (ETHV); first institutional applicant for US spot Solana and Avalanche ETFs",
+    "org": "Van Eck Associates Corporation",
+    "official_site": "https://www.vaneck.com",
+    "accounts": {
+      "x": "@VanEck_US",
+      "linkedin": "https://www.linkedin.com/company/vaneck",
+      "youtube": "https://www.youtube.com/user/VanEckETFs"
+    },
+    "verification": [
+      "https://www.vaneck.com"
+    ],
+    "topics": [
+      "hodl-etf",
+      "ethv-etf",
+      "solana-etf-filing",
+      "digital-assets-research",
+      "crypto-indices"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Key leadership: Jan van Eck (CEO, @janvaneck3), Matthew Sigel (Head of Digital Assets Research, @matthew_sigel). Consistently acts as first-mover in regulatory filings for new crypto underlying assets (e.g., filed first US spot Solana ETF in June 2024).",
+    "newsroom_url": "https://www.vaneck.com/us/en/insights/",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "Grayscale Investments",
+    "current_role": "World's largest digital currency asset manager; issuer of Grayscale Bitcoin Trust (GBTC), Bitcoin Mini Trust (BTC), Ethereum Trust (ETHE), and institutional single-asset/basket trusts",
+    "org": "Grayscale Investments, LLC (subsidiary of Digital Currency Group)",
+    "official_site": "https://grayscale.com",
+    "accounts": {
+      "x": "@Grayscale",
+      "linkedin": "https://www.linkedin.com/company/grayscale-investments",
+      "youtube": "https://www.youtube.com/c/GrayscaleInvestments"
+    },
+    "verification": [
+      "https://grayscale.com/social-media-disclosure/",
+      "https://grayscale.com"
+    ],
+    "topics": [
+      "gbtc",
+      "ethe",
+      "mini-trusts",
+      "crypto-asset-management",
+      "dcg",
+      "institutional-holdings"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "LEADERSHIP TRANSITION: Peter Mintzberg officially assumed the role of CEO in August 2024, succeeding Michael Sonnenshein. Grayscale's landmark August 2023 legal victory against the SEC in the DC Circuit Court compelled the SEC to approve all spot Bitcoin ETFs.",
+    "newsroom_url": "https://grayscale.com/press-releases/",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "MicroStrategy (Strategy)",
+    "current_role": "World's largest corporate holder of Bitcoin (>400,000+ BTC); operating as a Bitcoin Treasury Company using debt/equity capital markets alongside enterprise business analytics software",
+    "org": "Strategy Inc. (MicroStrategy Incorporated)",
+    "official_site": "https://www.strategy.com",
+    "accounts": {
+      "x": "@MicroStrategy",
+      "linkedin": "https://www.linkedin.com/company/microstrategy",
+      "youtube": "https://www.youtube.com/user/MicroStrategy"
+    },
+    "verification": [
+      "https://www.microstrategy.com",
+      "https://www.strategy.com",
+      "https://www.microstrategy.com/investor-relations"
+    ],
+    "topics": [
+      "bitcoin-treasury",
+      "corporate-btc-holding",
+      "convertible-debt",
+      "michael-saylor",
+      "mstr",
+      "strategy"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "BRAND UPDATE: Active corporate branding as Strategy (strategy.com). Key leadership: Michael Saylor (Co-founder & Executive Chairman, @saylor), Phong Le (President & CEO since August 2022). Regular Form 8-K purchase disclosures serve as major crypto market price catalysts.",
+    "newsroom_url": "https://www.microstrategy.com/press",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "Tesla",
+    "current_role": "Electric vehicle and clean energy multinational holding substantial Bitcoin reserves (~9,720+ BTC) on balance sheet; accepts Dogecoin for selected merchandise",
+    "org": "Tesla, Inc.",
+    "official_site": "https://www.tesla.com",
+    "accounts": {
+      "x": "@Tesla",
+      "linkedin": "https://www.linkedin.com/company/tesla-motors",
+      "youtube": "https://www.youtube.com/tesla"
+    },
+    "verification": [
+      "https://ir.tesla.com",
+      "https://www.tesla.com"
+    ],
+    "topics": [
+      "corporate-treasury",
+      "dogecoin-payments",
+      "elon-musk",
+      "btc-reserves",
+      "quarterly-earnings"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "CEO Elon Musk (@elonmusk) holds massive personal social influence over crypto market sentiment. Tesla's quarterly earnings balance sheet releases and on-chain wallet transactions (tracked by Arkham) are scrutinized by algorithmic trading desks.",
+    "newsroom_url": "https://ir.tesla.com/press-releases",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "JPMorgan Chase (Kinexys by J.P. Morgan / Onyx)",
+    "current_role": "Largest US bank; operator of enterprise permissioned blockchain platform Kinexys (formerly Onyx), Kinexys Digital Payments (formerly JPM Coin System), and tokenized collateral networks",
+    "org": "JPMorgan Chase & Co.",
+    "official_site": "https://www.jpmorgan.com/kinexys",
+    "accounts": {
+      "x": "@jpmorgan",
+      "linkedin": "https://www.linkedin.com/company/j-p-morgan",
+      "youtube": "https://www.youtube.com/user/jpmorgan"
+    },
+    "verification": [
+      "https://www.jpmorgan.com/kinexys",
+      "https://www.jpmorganchase.com"
+    ],
+    "topics": [
+      "kinexys",
+      "jpm-coin",
+      "tokenized-deposits",
+      "institutional-settlement",
+      "blockchain-fx",
+      "wholesale-payments"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 2,
+    "notes": "MAJOR REBRAND: In November 2024, J.P. Morgan rebranded 'Onyx by J.P. Morgan' to 'Kinexys by J.P. Morgan', renaming JPM Coin System to Kinexys Digital Payments and launching on-chain FX. Key leadership: Umar Farooq (Co-head of J.P. Morgan Payments). Historical transaction volume exceeded $1.5T.",
+    "newsroom_url": "https://www.jpmorganchase.com/newsroom",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "Standard Chartered (Zodia Custody & Zodia Markets)",
+    "current_role": "Global systemically important bank offering institutional digital asset custody (Zodia Custody), OTC brokerage (Zodia Markets) via SC Ventures, and operating a bank spot crypto trading desk in London",
+    "org": "Standard Chartered PLC",
+    "official_site": "https://www.sc.com",
+    "accounts": {
+      "x": "@StanChart",
+      "x_custody": "@ZodiaCustody",
+      "linkedin": "https://www.linkedin.com/company/standard-chartered-bank",
+      "linkedin_custody": "https://www.linkedin.com/company/zodia-custody"
+    },
+    "verification": [
+      "https://www.sc.com",
+      "https://zodia-custody.com",
+      "https://zodiamarkets.com"
+    ],
+    "topics": [
+      "institutional-custody",
+      "zodia-custody",
+      "zodia-markets",
+      "sc-ventures",
+      "bank-crypto-desk",
+      "macro-crypto-research"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 2,
+    "notes": "One of the most aggressive Tier-1 global banks in digital assets. Zodia Custody is backed by Standard Chartered, Northern Trust, and SBI Holdings. Head of Crypto Research Geoff Kendrick publishes influential macro price research models for BTC and ETH.",
+    "newsroom_url": "https://www.sc.com/en/media/press-releases/",
+    "rss_url": null,
+    "jurisdiction": "United Kingdom"
+  },
+  {
+    "type": "institution",
+    "name": "BNY (The Bank of New York Mellon)",
+    "current_role": "World's largest custodian bank (~$50T AUC); provider of institutional digital asset custody in the US and Europe under MiCA; fund administrator for major spot Bitcoin and Ethereum ETFs",
+    "org": "The Bank of New York Mellon Corporation",
+    "official_site": "https://www.bny.com",
+    "accounts": {
+      "x": "@BNYMellon",
+      "linkedin": "https://www.linkedin.com/company/bny",
+      "youtube": "https://www.youtube.com/user/bnymellon"
+    },
+    "verification": [
+      "https://www.bny.com",
+      "https://www.bny.com/corporate/global/en/newsroom.html"
+    ],
+    "topics": [
+      "digital-asset-custody",
+      "etf-administration",
+      "mica-custody",
+      "g-sib",
+      "tokenization",
+      "institutional-safekeeping"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 2,
+    "notes": "MASTER BRAND REBRAND: Rebranded corporate name to BNY in June 2024. In late 2024/2026, expanded digital asset custody to institutional clients in Europe under MiCA via BNY Mellon SA/NV. Serves as fund accountant and administrator for multiple US spot Bitcoin ETFs.",
+    "newsroom_url": "https://www.bny.com/corporate/global/en/newsroom.html",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "Jump Crypto",
+    "current_role": "Algorithmic cryptocurrency market maker and Web3 builder division of Jump Trading Group; lead developer of Firedancer high-performance independent Solana validator client",
+    "org": "Jump Trading Group",
+    "official_site": "https://jumpcrypto.com",
+    "accounts": {
+      "x": "@JumpCryptoHQ",
+      "linkedin": "https://www.linkedin.com/company/jump-trading-group",
+      "youtube": "https://www.youtube.com/@jumpcrypto"
+    },
+    "verification": [
+      "https://jumpcrypto.com"
+    ],
+    "topics": [
+      "market-making",
+      "firedancer",
+      "solana-validator",
+      "liquidity-provision",
+      "high-frequency-trading",
+      "defi-infrastructure"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "LEADERSHIP UPDATE: Former President Kanav Kariya (@KanavKariya) stepped down in June 2024 amid CFTC scrutiny. Key project: Firedancer (ground-up C++ validator client for Solana intended to eliminate single-client failure risk).",
+    "newsroom_url": "https://jumpcrypto.com/writing",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "Wintermute",
+    "current_role": "Global algorithmic crypto market maker and liquidity provider across major centralized exchanges, decentralized protocols (Bebop), and OTC trading desks; web3 venture investor",
+    "org": "Wintermute Trading Ltd",
+    "official_site": "https://www.wintermute.com",
+    "accounts": {
+      "x": "@wintermute_t",
+      "linkedin": "https://www.linkedin.com/company/wintermute-trading"
+    },
+    "verification": [
+      "https://www.wintermute.com"
+    ],
+    "topics": [
+      "market-making",
+      "otc-trading",
+      "defi-liquidity",
+      "algorithmic-trading",
+      "wintermute-ventures",
+      "bebop"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Key leadership: Evgeny Gaevoy (Founder & CEO, @EvgenyGaevoy). Wintermute's labeled hot wallet addresses represent among the highest daily transactional volume in DeFi, actively monitored by Arkham, Lookonchain, and Nansen.",
+    "newsroom_url": "https://www.wintermute.com",
+    "rss_url": null,
+    "jurisdiction": "United Kingdom / Singapore"
+  },
+  {
+    "type": "institution",
+    "name": "DWF Labs",
+    "current_role": "High-frequency cryptocurrency market maker and multi-stage Web3 investment firm active in spot/derivatives liquidity provision, token warrants, and exchange listing liquidity",
+    "org": "DWF Labs (Digital Wave Finance)",
+    "official_site": "https://www.dwf-labs.com",
+    "accounts": {
+      "x": "@DWFLabs",
+      "linkedin": "https://www.linkedin.com/company/dwf-labs"
+    },
+    "verification": [
+      "https://www.dwf-labs.com"
+    ],
+    "topics": [
+      "market-making",
+      "web3-investments",
+      "otc-liquidity",
+      "token-warrants",
+      "altcoin-liquidity"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 2,
+    "notes": "Key leadership: Andrei Grachev (Managing Partner, @ag_dwf). DWF Labs wallet interactions and transfers frequently trigger speculative volatility on altcoin pairs; closely watched by on-chain tracking bots.",
+    "newsroom_url": "https://www.dwf-labs.com",
+    "rss_url": null,
+    "jurisdiction": "Switzerland / Singapore / UAE"
+  },
+  {
+    "type": "institution",
+    "name": "Coinbase Custody",
+    "current_role": "NYSDFS-regulated limited-purpose trust company safeguarding digital assets for institutional clients and serving as primary custodian for over 80% of US spot Bitcoin & Ethereum ETFs",
+    "org": "Coinbase Custody Trust Company, LLC (subsidiary of Coinbase Global, Inc.)",
+    "official_site": "https://www.coinbase.com/prime/custody",
+    "accounts": {
+      "x": "@CoinbaseInsto",
+      "x_corporate": "@coinbase",
+      "x_assets": "@CoinbaseAssets",
+      "linkedin": "https://www.linkedin.com/company/coinbase",
+      "youtube": "https://www.youtube.com/c/coinbase"
+    },
+    "verification": [
+      "https://www.coinbase.com/prime",
+      "https://custody.coinbase.com"
+    ],
+    "topics": [
+      "institutional-custody",
+      "etf-custodian",
+      "cold-storage",
+      "coinbase-prime",
+      "segregated-vaults",
+      "proof-of-reserves"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Extreme market concentration: Custodian for BlackRock (IBIT), Grayscale (GBTC/BTC), Bitwise (BITB), Ark 21Shares (ARKB), Invesco Galaxy (BTCO), Franklin Templeton (EZBC), and Valkyrie (BRRR). Key leadership: Brian Armstrong (CEO, @brian_armstrong), Alesia Haas (CFO).",
+    "newsroom_url": "https://www.coinbase.com/blog",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "BitGo",
+    "current_role": "Institutional digital asset custodian, multi-sig security developer, and regulated trust company; primary custodian for Wrapped Bitcoin (WBTC) and Hashdex Bitcoin ETF",
+    "org": "BitGo Holdings, Inc. / BitGo Trust Company, Inc.",
+    "official_site": "https://www.bitgo.com",
+    "accounts": {
+      "x": "@BitGo",
+      "linkedin": "https://www.linkedin.com/company/bitgo",
+      "youtube": "https://www.youtube.com/c/BitGo"
+    },
+    "verification": [
+      "https://www.bitgo.com",
+      "https://blog.bitgo.com"
+    ],
+    "topics": [
+      "qualified-custody",
+      "multisig",
+      "wbtc",
+      "institutional-wallets",
+      "cold-storage",
+      "trust-company"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Key leadership: Mike Belshe (Co-founder & CEO, @MikeBelshe). BitGo's August 2024 announcement shifting WBTC custody to a joint venture with BiT Global sparked intense DeFi governance discussions regarding collateral risk management across MakerDAO/Sky and Aave.",
+    "newsroom_url": "https://blog.bitgo.com",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "institution",
+    "name": "Fireblocks",
+    "current_role": "Enterprise digital asset MPC custody infrastructure provider; secures digital asset transactions, treasury, and tokenization rails for over 2,000 financial institutions and web3 platforms",
+    "org": "Fireblocks Inc.",
+    "official_site": "https://www.fireblocks.com",
+    "accounts": {
+      "x": "@FireblocksHQ",
+      "linkedin": "https://www.linkedin.com/company/fireblocks",
+      "youtube": "https://www.youtube.com/c/Fireblocks"
+    },
+    "verification": [
+      "https://www.fireblocks.com",
+      "https://www.fireblocks.com/press/"
+    ],
+    "topics": [
+      "mpc-custody",
+      "digital-asset-infrastructure",
+      "institutional-treasury",
+      "tokenization",
+      "stablecoin-issuance",
+      "fireblocks-network"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Key leadership: Michael Shaulov (Co-founder & CEO, @mshaulov), Idan Ofrat (Co-founder & CPO). Provides the core Multi-Party Computation (MPC) infrastructure powering institutional custody for BNY, Zodia Custody, Revolut, and BNP Paribas.",
+    "newsroom_url": "https://www.fireblocks.com/press/",
+    "rss_url": null,
+    "jurisdiction": "United States / Israel"
+  },
+  {
+    "type": "institution",
+    "name": "Anchorage Digital",
+    "current_role": "First federally chartered crypto bank in the United States (Anchorage Digital Bank National Association); provides OCC-regulated qualified custody, staking, settlement, and prime brokerage",
+    "org": "Anchor Labs, Inc. (Anchorage Digital)",
+    "official_site": "https://www.anchorage.com",
+    "accounts": {
+      "x": "@Anchorage",
+      "linkedin": "https://www.linkedin.com/company/anchorage-digital",
+      "youtube": "https://www.youtube.com/@anchoragedigital"
+    },
+    "verification": [
+      "https://www.anchorage.com",
+      "https://www.anchorage.com/news"
+    ],
+    "topics": [
+      "federally-chartered-bank",
+      "occ-regulated",
+      "qualified-custody",
+      "institutional-staking",
+      "etf-custodian",
+      "settlement-network"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Holds a National Bank Charter from the US Office of the Comptroller of the Currency (OCC). Serves as custodian for 21Shares Core Ethereum ETF (CETH) and institutional client collateral. Key leadership: Nathan McCauley (Co-founder & CEO, @mccauley), Diogo Mónica (Co-founder & President, @diogomonica).",
+    "newsroom_url": "https://www.anchorage.com/news",
+    "rss_url": null,
+    "jurisdiction": "United States"
+  },
+  {
+    "type": "onchain_source",
+    "name": "Whale Alert",
+    "current_role": "Large blockchain transaction & whale tracking service",
+    "org": "Whale Alert B.V.",
+    "official_site": "https://whale-alert.io",
+    "accounts": {
+      "x": "@whale_alert",
+      "telegram": "https://t.me/whale_alert_io"
+    },
+    "verification": [
+      "https://whale-alert.io",
+      "https://twitter.com/whale_alert",
+      "https://developer.whale-alert.io"
+    ],
+    "topics": [
+      "whale_transfer",
+      "stablecoin_mint_burn",
+      "exchange_inflow_outflow",
+      "large_transfers"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Telegram 和 X 上存在大量仿冒 @whale_alert 的钓鱼与骗局账号，仅信任通过官方网站校验的唯一蓝色认证推特账号。",
+    "api_access": {
+      "free_tier": "无永久免费 API Key，提供入门开发者版 7 天免费试用；官方推特 @whale_alert 及 Telegram 公开频道提供大额转账实时广播",
+      "commercial_terms": "个人开发者版（Alerts API）$29.95/月仅限个人非商业用途；企业版（Enterprise API）$699/月及 Enterprise Big Data（定制报价）允许商业化集成与高频数据订阅",
+      "rate_limits": "个人版最高 100 alerts/小时；企业版 500 requests/分钟且最高 10,000 alerts/小时；Big Data 版 1,000+ requests/分钟",
+      "attribution_required": "强制要求。商业与公开引用大额报警数据或链上归属推断数据时必须注明 Whale Alert"
+    }
+  },
+  {
+    "type": "onchain_source",
+    "name": "Arkham Intelligence",
+    "current_role": "Blockchain intelligence & entity attribution platform",
+    "org": "Arkham Intelligence Inc.",
+    "official_site": "https://platform.arkhamintelligence.com",
+    "accounts": {
+      "x": "@ArkhamIntel",
+      "telegram": "https://t.me/arkhamintel",
+      "youtube": "https://www.youtube.com/@ArkhamIntel"
+    },
+    "verification": [
+      "https://platform.arkhamintelligence.com",
+      "https://www.arkhamintelligence.com",
+      "https://twitter.com/ArkhamIntel",
+      "https://arkm.com/api"
+    ],
+    "topics": [
+      "entity_attribution",
+      "government_wallets",
+      "exchange_reserves",
+      "etf_wallets",
+      "whale_tracking",
+      "hacker_tracing"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "实体优先（Entity-First）链上情报领头羊，精准监控美国/德国/英国政府查扣比特币地址、贝莱德等 ETF 托管地址及主流交易所冷钱包。CEO 为 Miguel Morel。",
+    "api_access": {
+      "free_tier": "网页控制台（platform.arkhamintelligence.com）支持注册用户免费查询；API 提供 30 天试用期与基于积分（Credit-based）的申请试用",
+      "commercial_terms": "采用 SaaS 积分与用量超额计费模式，商业客户、量化机构及自动化 Agent 需签署官方 API 协议并按用量结算；超额用量按每 15 天或设定限额开具账单",
+      "rate_limits": "依据订阅等级与具体 Endpoint 复杂度执行限频，超出返回 HTTP 429 Too Many Requests，需配置指数退避重试",
+      "attribution_required": "强制要求。在快讯或研究报告中引用实体标签（Entity labels）与追踪图表时必须署名 Arkham"
+    }
+  },
+  {
+    "type": "onchain_source",
+    "name": "Lookonchain",
+    "current_role": "On-chain smart money & whale tracking research team",
+    "org": "Lookonchain",
+    "official_site": "https://lookonchain.com",
+    "accounts": {
+      "x": "@lookonchain"
+    },
+    "verification": [
+      "https://lookonchain.com",
+      "https://twitter.com/lookonchain"
+    ],
+    "topics": [
+      "smart_money",
+      "whale_accumulation",
+      "insider_trading",
+      "exchange_deposits",
+      "meme_token_sniping"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "加密新闻室首选的突发链上异常事件发现源之一，擅长捕捉内幕交易、巨鲸建仓/抛售与波段高胜率地址。推特存在高仿号，须严格核验 handle。",
+    "api_access": {
+      "free_tier": "无标准化公开 REST API 文档端点；主要通过官方 X 账号 @lookonchain 与官方网页看板发布即时聪明钱/巨鲸动向",
+      "commercial_terms": "商业合作、定制数据报警机器人需通过商务联系与推特官方通道咨询",
+      "rate_limits": "社交推特数据流无调用限制；网页浏览受 Cloudflare 防护",
+      "attribution_required": "强制要求。加密快讯与媒体引用其挖掘的链上交易线索时须标明 Lookonchain"
+    }
+  },
+  {
+    "type": "onchain_source",
+    "name": "Etherscan",
+    "current_role": "Primary Ethereum blockchain explorer and data infrastructure provider",
+    "org": "Etherscan Information Technology (Blockscan)",
+    "official_site": "https://etherscan.io",
+    "accounts": {
+      "x": "@etherscan"
+    },
+    "verification": [
+      "https://etherscan.io",
+      "https://twitter.com/etherscan",
+      "https://docs.etherscan.io"
+    ],
+    "topics": [
+      "contract_verification",
+      "token_transfers",
+      "gas_tracker",
+      "block_production",
+      "address_balance",
+      "transaction_trace"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "EVM 生态不可替代的基础设施与真相来源。创始人/CEO 为 Matthew Tan。旗下 Blockscan 统一支持 Arbitrum, Optimism, Base, Polygon 等多链浏览器 API。",
+    "api_access": {
+      "free_tier": "Free Tier：免费提供 3 calls/秒速率限制，每日最高 100,000 次请求，覆盖以太坊主网及主要 EVM 链基础端点（合约源码与 ABI 始终支持）",
+      "commercial_terms": "Lite（$49/月，5次/秒）、Standard（$199/月，10次/秒）、Advanced（$299/月，20次/秒，正式允许商业应用）、Professional（$399/月，30次/秒）、Pro Plus（$899/月，包含地址元数据）、Dedicated（定制企业级 SLA）",
+      "rate_limits": "每秒 3 到 30 次请求不等，日限额 100,000 到 1,500,000+ 次。禁止将原始数据作为竞品数据库转售",
+      "attribution_required": "免费层强制要求：前端或展示界面必须醒目标注并链接 'Powered by Etherscan.io APIs'；Advanced 以上商业付费版可豁免公开展现"
+    }
+  },
+  {
+    "type": "onchain_source",
+    "name": "Glassnode",
+    "current_role": "Institutional-grade on-chain market intelligence and financial metrics platform",
+    "org": "Glassnode Technologies AG",
+    "official_site": "https://glassnode.com",
+    "accounts": {
+      "x": "@glassnode",
+      "youtube": "https://www.youtube.com/@Glassnode"
+    },
+    "verification": [
+      "https://glassnode.com",
+      "https://studio.glassnode.com",
+      "https://twitter.com/glassnode",
+      "https://docs.glassnode.com"
+    ],
+    "topics": [
+      "mvrv_ratio",
+      "sopr",
+      "exchange_netflows",
+      "miner_reserves",
+      "nupl",
+      "realized_cap",
+      "hodler_behavior"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "总部位于瑞士，机构级宏观链上数据权威（代表性周报《The Week On-Chain》）。由 Jan Happel 与 Yann Allemann 联合创立。",
+    "api_access": {
+      "free_tier": "无永久免费程序化 API。Studio 网页版提供基础图表查阅；Advanced 订阅提供 Light API（仅限 14 天历史数据、日级别粒度、50 calls/天）",
+      "commercial_terms": "Professional Plan（$799+/月）解锁完整高精度 API（15+年历史数据、10分钟级高频粒度、实体调整指标及批量 Bulk Endpoints）；机构客户支持 Snowflake / BigQuery / Parquet 专有数据共享通道",
+      "rate_limits": "标准指标请求上限 600 requests/分钟；元数据端点 1,200 requests/分钟（不扣除数据积分）；超出返回 HTTP 429",
+      "attribution_required": "强制要求。研报、快讯或新闻中引用其链上宏观模型及图表时必须署名 Glassnode"
+    }
+  },
+  {
+    "type": "onchain_source",
+    "name": "CryptoQuant",
+    "current_role": "On-chain analytics and exchange reserve/market flow data provider",
+    "org": "Team Blackbird Inc.",
+    "official_site": "https://cryptoquant.com",
+    "accounts": {
+      "x": "@cryptoquant_com"
+    },
+    "verification": [
+      "https://cryptoquant.com",
+      "https://twitter.com/cryptoquant_com",
+      "https://docs.cryptoquant.com"
+    ],
+    "topics": [
+      "exchange_reserves",
+      "miner_outflows",
+      "whale_dump_ratio",
+      "stablecoin_inflows",
+      "derivative_open_interest",
+      "funding_rates"
+    ],
+    "languages": [
+      "en",
+      "ko"
+    ],
+    "priority": 1,
+    "notes": "CEO 为 Ki Young Ju。在交易所储备金枯竭/激增、矿工投降预警、稳定币流入规模以及韩国泡菜溢价等关键拐点分析上具备极高号召力。",
+    "api_access": {
+      "free_tier": "Basic (Free) 方案：每月提供 10,000 积分，限速 10 requests/分钟，提供 30 天历史行情数据",
+      "commercial_terms": "Advanced（$39/月，60次/分，30万积分）、Professional（$199/月，120次/分，50万积分，开通全套链上指标）、Premium（$799/月，800次/分，无限积分，全历史数据）及企业级 API",
+      "rate_limits": "10 到 800 requests/分钟。每月积分按返回的数据行数扣除，超额返回 402/429 错误状态码",
+      "attribution_required": "强制要求。媒体与分析文章引用其交易所储备量、矿工流动指标时必须标明 CryptoQuant"
+    }
+  },
+  {
+    "type": "onchain_source",
+    "name": "Coinglass",
+    "current_role": "Futures, derivatives, ETF, and liquidation data aggregation platform",
+    "org": "Coinglass (formerly Bybt)",
+    "official_site": "https://www.coinglass.com",
+    "accounts": {
+      "x": "@coinglass_com",
+      "telegram": "https://t.me/coinglass_org"
+    },
+    "verification": [
+      "https://www.coinglass.com",
+      "https://twitter.com/coinglass_com",
+      "https://open-api-v4.coinglass.com"
+    ],
+    "topics": [
+      "liquidation_heatmap",
+      "open_interest",
+      "funding_rates",
+      "long_short_ratio",
+      "bitcoin_etf_flows",
+      "grayscale_holdings"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "全市场清算热力图与爆仓汇总（1小时/4小时/24小时多空爆仓金额）最核心的数据源，兼顾跨交易所资金费率与现货 ETF 申赎追踪。",
+    "api_access": {
+      "free_tier": "Web 端看板完全免费；Open-API V4 不设永久免费开发者 API Key",
+      "commercial_terms": "Hobbyist（$29/月，个人用途）、Startup（$79/月，个人用途）、Standard（$299/月，支持商业应用，150+端点）、Professional（$699/月，商业高频，160+端点）及定制企业版",
+      "rate_limits": "Hobbyist: 30次/分；Startup: 80次/分；Standard: 300次/分；Professional: 1,200次/分。通过 CG-API-KEY 请求头鉴权",
+      "attribution_required": "强制要求。商业产品与新闻引用清算地图或未平仓合约数据时必须明确标注来源 Coinglass，严禁直接转售原始数据流"
+    }
+  },
+  {
+    "type": "onchain_source",
+    "name": "DefiLlama",
+    "current_role": "Open DeFi TVL, multi-chain protocol revenue, and stablecoin metrics platform",
+    "org": "Llama Corp",
+    "official_site": "https://defillama.com",
+    "accounts": {
+      "x": "@DefiLlama"
+    },
+    "verification": [
+      "https://defillama.com",
+      "https://twitter.com/DefiLlama",
+      "https://defillama.com/docs/api",
+      "https://github.com/DefiLlama"
+    ],
+    "topics": [
+      "defi_tvl",
+      "protocol_revenue",
+      "dex_volumes",
+      "stablecoin_market_cap",
+      "token_unlocks",
+      "chain_inflows",
+      "hacks_treasury"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "DeFi 领域公信力最高的中立开源数据聚合商。核心团队成员（如 0xngmi）保持开源去中心化运营风格，被全球财经媒体无条件采信。",
+    "api_access": {
+      "free_tier": "完全免费的公开开放 API（https://api.llama.fi），无需 API Key 和登录鉴权。包含协议 TVL、公链 TVL、DEX 成交量、协议费用、稳定币市值等 31+ 核心端点",
+      "commercial_terms": "Pro API（https://pro-api.llama.fi）面向高吞吐量商业客户与重度数据用户，解锁代币解锁（Unlocks）、跨链桥流向等高级端点",
+      "rate_limits": "免费 API 采取宽容的公平使用机制（无硬性限制，但过度爬取会触发 IP 临时节流）；Pro API 标准版限额 1,000 requests/分钟 及 100万次调用/月",
+      "attribution_required": "强烈倡导与默认要求。引用数据需注明 'DefiLlama'（首字母 D 与 L 大写），代码与计算口径在 GitHub 开源"
+    }
+  },
+  {
+    "type": "onchain_source",
+    "name": "Nansen",
+    "current_role": "Wallet labeling, Smart Money tracking, and on-chain profiler platform",
+    "org": "Nansen AI Pte. Ltd.",
+    "official_site": "https://www.nansen.ai",
+    "accounts": {
+      "x": "@nansen_ai",
+      "youtube": "https://www.youtube.com/@Nansen_ai"
+    },
+    "verification": [
+      "https://www.nansen.ai",
+      "https://twitter.com/nansen_ai",
+      "https://docs.nansen.ai"
+    ],
+    "topics": [
+      "smart_money_holdings",
+      "wallet_profiler",
+      "token_god_mode",
+      "nft_analytics",
+      "exchange_balances",
+      "smart_money_dex_trades"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "总部位于新加坡。核心优势在于经过数年机器学习与链上验证沉淀的上亿个钱包分类标签（Smart Dex Trader, Fund, Heavy DEX Trader, Whale 等）。CEO 为 Alex Svanevik。",
+    "api_access": {
+      "free_tier": "Free Plan（$0/月）：赠送 100 初始积分，每日自动补充 10 积分。速率限制 15 requests/秒、300 requests/分钟",
+      "commercial_terms": "Pro Plan（$49/月，2,000 起始积分）；支持基于 x402 协议的 AI Agent 按次 USDC 链上微支付（约 $0.01/次）；机构版提供完整 Wallet Profiler 商业集成",
+      "rate_limits": "免费版 15次/秒与300次/分；Pro 版 75次/秒与1,500次/分；特定密集端点（如合约永续追踪）严格限制为 5次/分钟",
+      "attribution_required": "强制要求。商业协议明确禁止将 Nansen 标记地址和数据以原始数据库形式转售，公开引用需标注 Nansen"
+    }
+  },
+  {
+    "type": "person",
+    "name": "Richard Teng",
+    "current_role": "Chief Executive Officer (CEO)",
+    "org": "Binance",
+    "official_site": "https://www.binance.com",
+    "accounts": {
+      "x": "@_RichardTeng",
+      "linkedin": "https://www.linkedin.com/in/richardteng"
+    },
+    "verification": [
+      "https://www.binance.com/en/blog/leadership/meet-our-ceo-richard-teng-6484897214902123519",
+      "https://x.com/_RichardTeng"
+    ],
+    "topics": [
+      "crypto regulation",
+      "compliance",
+      "Binance operations",
+      "market trends"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Succeeded Changpeng Zhao (CZ) as Binance CEO in November 2023. Former CEO of Abu Dhabi Global Market (ADGM) FSRA and Chief Regulatory Officer of SGX."
+  },
+  {
+    "type": "person",
+    "name": "Changpeng Zhao (CZ)",
+    "current_role": "Co-founder & Major Shareholder (Former CEO)",
+    "org": "Binance / Giggle Academy",
+    "official_site": "https://www.binance.com",
+    "accounts": {
+      "x": "@cz_binance"
+    },
+    "verification": [
+      "https://x.com/cz_binance",
+      "https://www.binance.com/en/blog/from-cz/czs-letter-to-the-binance-community-8176882069273410761"
+    ],
+    "topics": [
+      "crypto",
+      "blockchain",
+      "Giggle Academy",
+      "AI",
+      "education",
+      "market reflections"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Stepped down as Binance CEO in Nov 2023 following DOJ settlement; completed 4-month US sentence in Sept 2024. Launched Giggle Academy. High impersonation risk on X and Telegram."
+  },
+  {
+    "type": "person",
+    "name": "Yi He (何一)",
+    "current_role": "Co-founder, Head of Binance Labs & Customer Service",
+    "org": "Binance",
+    "official_site": "https://www.binance.com",
+    "accounts": {
+      "x": "@heyibinance",
+      "weibo": "https://weibo.com/u/1908234674"
+    },
+    "verification": [
+      "https://www.binance.com/en/blog/leadership/building-with-purpose-a-conversation-with-he-yi-421499824684903522",
+      "https://x.com/heyibinance"
+    ],
+    "topics": [
+      "Binance customer service",
+      "Binance Labs",
+      "exchange listings",
+      "anti-FUD",
+      "ecosystem investments"
+    ],
+    "languages": [
+      "zh",
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Official X handle is strictly @heyibinance. Beware: @heyibenfire and similar variants are fake/impersonator accounts. Primary Chinese-speaking executive voice of Binance."
+  },
+  {
+    "type": "person",
+    "name": "Brian Armstrong",
+    "current_role": "Co-founder & Chief Executive Officer (CEO)",
+    "org": "Coinbase",
+    "official_site": "https://www.coinbase.com",
+    "accounts": {
+      "x": "@brian_armstrong",
+      "farcaster": "https://warpcast.com/barmstrong"
+    },
+    "verification": [
+      "https://www.coinbase.com/about",
+      "https://x.com/brian_armstrong"
+    ],
+    "topics": [
+      "Coinbase products",
+      "crypto policy",
+      "Stand With Crypto",
+      "Base",
+      "economic freedom"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-founded Coinbase in 2012. Key architect of US crypto legislative mobilization (Stand With Crypto 501(c)(4) advocacy organization)."
+  },
+  {
+    "type": "person",
+    "name": "Emilie Choi",
+    "current_role": "President & Chief Operating Officer (COO)",
+    "org": "Coinbase",
+    "official_site": "https://www.coinbase.com",
+    "accounts": {
+      "x": "@emiliemc",
+      "linkedin": "https://www.linkedin.com/in/emiliechoi"
+    },
+    "verification": [
+      "https://www.coinbase.com/about",
+      "https://x.com/emiliemc"
+    ],
+    "topics": [
+      "Coinbase business operations",
+      "M&A",
+      "crypto venture",
+      "corporate strategy"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Official X handle is @emiliemc (not @emiliechoi). Oversees Coinbase day-to-day operations, business units, and venture portfolio."
+  },
+  {
+    "type": "person",
+    "name": "Paul Grewal",
+    "current_role": "Chief Legal Officer (CLO)",
+    "org": "Coinbase",
+    "official_site": "https://www.coinbase.com",
+    "accounts": {
+      "x": "@iampaulgrewal",
+      "linkedin": "https://www.linkedin.com/in/iampaulgrewal"
+    },
+    "verification": [
+      "https://www.coinbase.com/about",
+      "https://x.com/iampaulgrewal"
+    ],
+    "topics": [
+      "crypto litigation",
+      "SEC enforcement actions",
+      "regulatory filings",
+      "crypto legal policy"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Former US Magistrate Judge; leads Coinbase's ongoing legal defense against the SEC and APA rulemaking petitions."
+  },
+  {
+    "type": "person",
+    "name": "Dave Ripley",
+    "current_role": "Chief Executive Officer (CEO)",
+    "org": "Kraken (Payward, Inc.)",
+    "official_site": "https://www.kraken.com",
+    "accounts": {
+      "x": "@DavidLRipley",
+      "linkedin": "https://www.linkedin.com/in/davidlripley"
+    },
+    "verification": [
+      "https://www.kraken.com/about",
+      "https://x.com/DavidLRipley"
+    ],
+    "topics": [
+      "Kraken expansion",
+      "crypto regulation",
+      "derivatives",
+      "exchange security"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Took over as Kraken CEO in April 2023 succeeding Jesse Powell. Previously served as Kraken's Chief Operating Officer (COO)."
+  },
+  {
+    "type": "person",
+    "name": "Jesse Powell",
+    "current_role": "Co-founder & Chairman of the Board (Former CEO)",
+    "org": "Kraken (Payward, Inc.)",
+    "official_site": "https://www.kraken.com",
+    "accounts": {
+      "x": "@jespow"
+    },
+    "verification": [
+      "https://www.kraken.com/about",
+      "https://x.com/jespow"
+    ],
+    "topics": [
+      "libertarianism",
+      "Bitcoin",
+      "crypto privacy",
+      "free speech",
+      "political donations"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-founder of Kraken; stepped down as CEO in 2023 to serve as Chairman. Major pro-crypto political donor and outspoken free speech advocate."
+  },
+  {
+    "type": "person",
+    "name": "Star Xu (徐明星)",
+    "current_role": "Founder & Chief Executive Officer (CEO)",
+    "org": "OKX / OKG (OK Group)",
+    "official_site": "https://www.okx.com",
+    "accounts": {
+      "x": "@star_okx",
+      "weibo": "https://weibo.com/u/1785501724"
+    },
+    "verification": [
+      "https://x.com/star_okx",
+      "https://www.okx.com/help/section/announcements"
+    ],
+    "topics": [
+      "OKX exchange",
+      "X Layer",
+      "Web3 wallet",
+      "infrastructure",
+      "compliance"
+    ],
+    "languages": [
+      "zh",
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Founder of OKX and OKG. Directly addresses security audits, proof-of-reserves, and technical upgrades on X."
+  },
+  {
+    "type": "person",
+    "name": "Haider Rafique",
+    "current_role": "Chief Marketing Officer (CMO)",
+    "org": "OKX",
+    "official_site": "https://www.okx.com",
+    "accounts": {
+      "x": "@Haider"
+    },
+    "verification": [
+      "https://x.com/Haider",
+      "https://www.okx.com/about"
+    ],
+    "topics": [
+      "brand marketing",
+      "sponsorships (Man City, McLaren)",
+      "Web3 marketing",
+      "retail adoption"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 2,
+    "notes": "Leads global brand positioning, sport sponsorships, and advertising campaigns for OKX."
+  },
+  {
+    "type": "person",
+    "name": "Hong Fang (方宏)",
+    "current_role": "President",
+    "org": "OKX",
+    "official_site": "https://www.okx.com",
+    "accounts": {
+      "x": "@hfangca",
+      "linkedin": "https://www.linkedin.com/in/hong-fang-ca"
+    },
+    "verification": [
+      "https://x.com/hfangca",
+      "https://www.okx.com/about"
+    ],
+    "topics": [
+      "OKX global growth",
+      "corporate governance",
+      "institutional crypto",
+      "stablecoins"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Former Goldman Sachs banker and former CEO of OKCoin; appointed President of OKX in early 2023. Oversees international licensing and governance."
+  },
+  {
+    "type": "person",
+    "name": "Ben Zhou",
+    "current_role": "Co-founder & Chief Executive Officer (CEO)",
+    "org": "Bybit",
+    "official_site": "https://www.bybit.com",
+    "accounts": {
+      "x": "@benbybit"
+    },
+    "verification": [
+      "https://www.bybit.com/en/about-us",
+      "https://x.com/benbybit"
+    ],
+    "topics": [
+      "crypto derivatives",
+      "Bybit operations",
+      "Proof of Reserves",
+      "regulatory compliance"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Co-founded Bybit in 2018. Former forex broker executive at XM. Active on X answering user queries and outlining platform roadmap."
+  },
+  {
+    "type": "person",
+    "name": "Gracy Chen",
+    "current_role": "Chief Executive Officer (CEO)",
+    "org": "Bitget",
+    "official_site": "https://www.bitget.com",
+    "accounts": {
+      "x": "@GracyBitget",
+      "linkedin": "https://www.linkedin.com/in/gracy-chen"
+    },
+    "verification": [
+      "https://www.bitget.com/about",
+      "https://x.com/GracyBitget"
+    ],
+    "topics": [
+      "Bitget growth",
+      "crypto copy trading",
+      "women in Web3",
+      "Bitget Wallet"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Promoted to CEO of Bitget in May 2024 after serving as Managing Director since 2022. Frequently represents Bitget at global forums."
+  },
+  {
+    "type": "person",
+    "name": "Justin Sun (孙宇晨)",
+    "current_role": "Global Advisory Board Member (HTX); Founder (TRON)",
+    "org": "HTX (formerly Huobi) / TRON DAO",
+    "official_site": "https://www.htx.com",
+    "accounts": {
+      "x": "@justinsuntron"
+    },
+    "verification": [
+      "https://x.com/justinsuntron",
+      "https://www.htx.com/en-us/about"
+    ],
+    "topics": [
+      "TRON ecosystem",
+      "USDD",
+      "HTX operations",
+      "crypto acquisitions",
+      "Poloniex"
+    ],
+    "languages": [
+      "zh",
+      "en"
+    ],
+    "priority": 1,
+    "notes": "De facto leader of HTX and TRON ecosystem. Prime Minister of Liberland. Posts generate heavy market volatility; extreme impersonation risk on X and TG."
+  },
+  {
+    "type": "person",
+    "name": "BC Wong",
+    "current_role": "Chief Executive Officer (CEO)",
+    "org": "KuCoin",
+    "official_site": "https://www.kucoin.com",
+    "accounts": {
+      "x": "unverified - official communications released via @kucoincom"
+    },
+    "verification": [
+      "https://www.kucoin.com/about-us",
+      "https://www.prnewswire.com/news-releases/kucoin-appoints-bc-wong-as-ceo-to-lead-global-compliance-and-strategic-expansion-302300000.html"
+    ],
+    "topics": [
+      "KuCoin 5.0",
+      "global compliance",
+      "institutional trust",
+      "exchange security"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Succeeded Johnny Lyu as KuCoin CEO (promoted from Chief Legal Officer). Prioritizes global licensing and compliance. Announcements released via official @kucoincom."
+  },
+  {
+    "type": "person",
+    "name": "Johnny Lyu",
+    "current_role": "Co-founder (Former CEO)",
+    "org": "KuCoin",
+    "official_site": "https://www.kucoin.com",
+    "accounts": {
+      "x": "@lyu_johnny"
+    },
+    "verification": [
+      "https://www.kucoin.com/about-us",
+      "https://x.com/lyu_johnny"
+    ],
+    "topics": [
+      "KuCoin community",
+      "KCS",
+      "security updates",
+      "crypto industry growth"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Co-founder and former long-time CEO of KuCoin (2020–2024). Remains prominent community spokesperson on X under @lyu_johnny."
+  },
+  {
+    "type": "person",
+    "name": "Jeff Yan",
+    "current_role": "Co-founder",
+    "org": "Hyperliquid Labs / Hyperliquid",
+    "official_site": "https://hyperliquid.xyz",
+    "accounts": {
+      "x": "@chameleon_jeff"
+    },
+    "verification": [
+      "https://x.com/chameleon_jeff",
+      "https://hyperfoundation.org"
+    ],
+    "topics": [
+      "Hyperliquid L1",
+      "Perp DEX",
+      "HYPE tokenomics",
+      "EVM on Hyperliquid",
+      "DeFi"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-founder of Hyperliquid and Chameleon Trading. Former Hudson River Trading (HRT) quant and Harvard math graduate. The sole non-pseudonymous core leader of Hyperliquid."
+  },
+  {
+    "type": "person",
+    "name": "Armani Ferrante",
+    "current_role": "Founder & Chief Executive Officer (CEO)",
+    "org": "Backpack / Coral (Mad Lads)",
+    "official_site": "https://backpack.exchange",
+    "accounts": {
+      "x": "@armaniferrante"
+    },
+    "verification": [
+      "https://x.com/armaniferrante",
+      "https://backpack.exchange/about"
+    ],
+    "topics": [
+      "Backpack Exchange",
+      "Solana",
+      "xNFTs",
+      "Mad Lads",
+      "crypto custody"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Former Alameda and Oasis engineer; built the Anchor framework for Solana smart contracts. Founder of regulated Backpack exchange and wallet ecosystem."
+  },
+  {
+    "type": "person",
+    "name": "Song Chi-hyung (송치형)",
+    "current_role": "Chairman of the Board & Founder",
+    "org": "Dunamu Inc. (Operator of Upbit)",
+    "official_site": "https://www.dunamu.com",
+    "accounts": {
+      "x": "unverified - no public personal X account; corporate announcements via @upbitglobal"
+    },
+    "verification": [
+      "https://www.dunamu.com/en/about/leaders",
+      "https://www.forbes.com/profile/song-chi-hyung/"
+    ],
+    "topics": [
+      "Upbit",
+      "Dunamu corporate governance",
+      "South Korea crypto regulations",
+      "fintech"
+    ],
+    "languages": [
+      "ko",
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Founder and Chairman of Dunamu (operator of Upbit, South Korea's largest crypto exchange). Does not maintain a public personal X account. All personal handles are unverified/impersonators."
+  },
+  {
+    "type": "person",
+    "name": "Lee Sirgoo (이석우)",
+    "current_role": "Chief Executive Officer (CEO)",
+    "org": "Dunamu Inc. (Operator of Upbit)",
+    "official_site": "https://www.dunamu.com",
+    "accounts": {
+      "x": "unverified - no public personal X account; corporate announcements via @upbitglobal"
+    },
+    "verification": [
+      "https://www.dunamu.com/en/about/leaders"
+    ],
+    "topics": [
+      "Upbit regulatory compliance",
+      "FIU anti-money laundering",
+      "Korean crypto markets"
+    ],
+    "languages": [
+      "ko",
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Former Co-CEO of Kakao; CEO of Dunamu since 2017. Represents Upbit in parliamentary hearings and industry association conferences. No personal public X account."
+  },
+  {
+    "type": "person",
+    "name": "Lee Jae-won (이재원)",
+    "current_role": "Chief Executive Officer (CEO)",
+    "org": "Bithumb Korea",
+    "official_site": "https://www.bithumb.com",
+    "accounts": {
+      "x": "unverified - no public personal X account; announcements via @BithumbOfficial"
+    },
+    "verification": [
+      "https://www.bithumb.com",
+      "https://m.bithumb.com/customer_support/notice"
+    ],
+    "topics": [
+      "Bithumb exchange operations",
+      "IPO preparations",
+      "zero-fee promotions",
+      "compliance"
+    ],
+    "languages": [
+      "ko",
+      "en"
+    ],
+    "priority": 1,
+    "notes": "CEO of Bithumb Korea. Does not maintain a public personal social media profile; all corporate and regulatory statements come via Bithumb press office."
+  },
+  {
+    "type": "person",
+    "name": "Vlad Tenev",
+    "current_role": "Co-founder & Chief Executive Officer (CEO)",
+    "org": "Robinhood Markets, Inc.",
+    "official_site": "https://robinhood.com",
+    "accounts": {
+      "x": "@vladtenev"
+    },
+    "verification": [
+      "https://x.com/vladtenev",
+      "https://investors.robinhood.com/governance/board-of-directors/default.aspx"
+    ],
+    "topics": [
+      "Robinhood crypto expansion",
+      "retail trading",
+      "tokenization",
+      "SEC Wells notices"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-founder and CEO of Robinhood. Heavily involved in expanding crypto trading, acquiring Bitstamp, and launching international operations."
+  },
+  {
+    "type": "person",
+    "name": "Johann Kerbrat",
+    "current_role": "Senior Vice President & General Manager of Crypto",
+    "org": "Robinhood Crypto",
+    "official_site": "https://robinhood.com/crypto",
+    "accounts": {
+      "x": "@JohannKerbrat",
+      "linkedin": "https://www.linkedin.com/in/johannkerbrat"
+    },
+    "verification": [
+      "https://x.com/JohannKerbrat"
+    ],
+    "topics": [
+      "Robinhood Crypto product features",
+      "token listings",
+      "staking",
+      "international expansion"
+    ],
+    "languages": [
+      "en",
+      "fr"
+    ],
+    "priority": 1,
+    "notes": "General Manager and head of Robinhood Crypto division. Former Uber and Airbnb engineering executive. X handle is @JohannKerbrat."
+  },
+  {
+    "type": "person",
+    "name": "Arthur Hayes",
+    "current_role": "Chief Investment Officer (CIO), Maelstrom; Co-founder (Former CEO), BitMEX",
+    "org": "Maelstrom / BitMEX",
+    "official_site": "https://cryptohayes.substack.com",
+    "accounts": {
+      "x": "@CryptoHayes",
+      "substack": "https://cryptohayes.substack.com"
+    },
+    "verification": [
+      "https://x.com/CryptoHayes",
+      "https://cryptohayes.substack.com"
+    ],
+    "topics": [
+      "macroeconomics",
+      "Federal Reserve liquidity",
+      "Bitcoin price cycles",
+      "altcoin rotation"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-founder and former CEO of BitMEX. Author of widely followed crypto macro essays on Substack. Chief Investment Officer of family office Maelstrom."
+  },
+  {
+    "type": "person",
+    "name": "Kris Marszalek",
+    "current_role": "Co-founder & Chief Executive Officer (CEO)",
+    "org": "Crypto.com",
+    "official_site": "https://crypto.com",
+    "accounts": {
+      "x": "@kris"
+    },
+    "verification": [
+      "https://crypto.com/about",
+      "https://x.com/kris"
+    ],
+    "topics": [
+      "Crypto.com exchange",
+      "Cronos chain",
+      "regulatory licenses",
+      "SEC lawsuit filings"
+    ],
+    "languages": [
+      "en",
+      "pl"
+    ],
+    "priority": 1,
+    "notes": "CEO and co-founder of Crypto.com. Led company's landmark lawsuit against the SEC in October 2024 following receipt of a Wells notice."
+  },
+  {
+    "type": "person",
+    "name": "Michael Saylor",
+    "current_role": "Founder & Executive Chairman",
+    "org": "Strategy (formerly MicroStrategy)",
+    "official_site": "https://www.microstrategy.com",
+    "accounts": {
+      "x": "@saylor"
+    },
+    "verification": [
+      "https://x.com/saylor",
+      "https://www.microstrategy.com/about-us/executive-team"
+    ],
+    "topics": [
+      "Bitcoin treasury strategy",
+      "convertible debt notes",
+      "BTC standard",
+      "BTC macro"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Executive Chairman of Strategy (MSTR), the largest corporate holder of Bitcoin (>400k BTC). Massive market impact per tweet. High impersonation risk."
+  },
+  {
+    "type": "person",
+    "name": "Marc Andreessen",
+    "current_role": "Co-founder & General Partner",
+    "org": "Andreessen Horowitz (a16z)",
+    "official_site": "https://a16z.com",
+    "accounts": {
+      "x": "@pmarca",
+      "farcaster": "https://warpcast.com/pmarca"
+    },
+    "verification": [
+      "https://a16z.com/author/marc-andreessen/",
+      "https://x.com/pmarca"
+    ],
+    "topics": [
+      "techno-optimism",
+      "AI",
+      "crypto accelerationism",
+      "tech policy"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-founder of a16z. Influential voice in Silicon Valley technology politics and crypto venture investments."
+  },
+  {
+    "type": "person",
+    "name": "Chris Dixon",
+    "current_role": "Founder & Managing Partner",
+    "org": "a16z crypto",
+    "official_site": "https://a16zcrypto.com",
+    "accounts": {
+      "x": "@cdixon",
+      "farcaster": "https://warpcast.com/cdixon"
+    },
+    "verification": [
+      "https://a16zcrypto.com/author/chris-dixon/",
+      "https://x.com/cdixon"
+    ],
+    "topics": [
+      "web3",
+      "read write own",
+      "open source networks",
+      "crypto venture capital"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Founder and lead of a16z crypto ($7B+ AUM). Author of 'Read Write Own: Building the Next Era of the Internet'."
+  },
+  {
+    "type": "person",
+    "name": "Matt Huang",
+    "current_role": "Co-founder & Managing Partner",
+    "org": "Paradigm",
+    "official_site": "https://www.paradigm.xyz",
+    "accounts": {
+      "x": "@matthuang"
+    },
+    "verification": [
+      "https://www.paradigm.xyz/team/matt-huang",
+      "https://x.com/matthuang"
+    ],
+    "topics": [
+      "crypto research",
+      "protocol venture",
+      "MEV",
+      "crypto frontiers",
+      "Ethereum"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-founded Paradigm in 2018 with Fred Ehrsam. Former partner at Sequoia Capital."
+  },
+  {
+    "type": "person",
+    "name": "Fred Ehrsam",
+    "current_role": "Co-founder & General Partner (Paradigm); Co-founder (Coinbase)",
+    "org": "Paradigm",
+    "official_site": "https://www.paradigm.xyz",
+    "accounts": {
+      "x": "@FEhrsam"
+    },
+    "verification": [
+      "https://www.paradigm.xyz/team/fred-ehrsam",
+      "https://x.com/FEhrsam"
+    ],
+    "topics": [
+      "crypto investing",
+      "crypto gaming",
+      "autonomous worlds",
+      "Coinbase legacy"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-founded Coinbase in 2012, later co-founded Paradigm in 2018. Transitioned from Managing Partner to General Partner in late 2023."
+  },
+  {
+    "type": "person",
+    "name": "Mike Novogratz",
+    "current_role": "Founder & Chief Executive Officer (CEO)",
+    "org": "Galaxy Digital",
+    "official_site": "https://www.galaxy.com",
+    "accounts": {
+      "x": "@novogratz"
+    },
+    "verification": [
+      "https://www.galaxy.com/leadership/mike-novogratz",
+      "https://x.com/novogratz"
+    ],
+    "topics": [
+      "macro crypto",
+      "Bitcoin ETFs",
+      "Galaxy Digital asset management",
+      "institutional flows"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Former Fortress and Goldman Sachs partner. Frequent TV macro commentator on CNBC and Bloomberg."
+  },
+  {
+    "type": "person",
+    "name": "Dan Morehead",
+    "current_role": "Founder & Managing Partner",
+    "org": "Pantera Capital",
+    "official_site": "https://panteracapital.com",
+    "accounts": {
+      "x": "@dan_pantera"
+    },
+    "verification": [
+      "https://panteracapital.com/team/dan-morehead/",
+      "https://x.com/dan_pantera"
+    ],
+    "topics": [
+      "Pantera blockchain letter",
+      "Bitcoin cycles",
+      "early-stage token funds",
+      "macro crypto"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Founded Pantera Capital in 2003 (launched first US cryptocurrency fund in 2013). Authors monthly Pantera Blockchain Letter."
+  },
+  {
+    "type": "person",
+    "name": "Chris Burniske",
+    "current_role": "Partner",
+    "org": "Placeholder VC",
+    "official_site": "https://www.placeholder.vc",
+    "accounts": {
+      "x": "@cburniske"
+    },
+    "verification": [
+      "https://www.placeholder.vc/team",
+      "https://x.com/cburniske"
+    ],
+    "topics": [
+      "crypto market cycles",
+      "Solana vs Ethereum",
+      "DePIN",
+      "token economics"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-founder of Placeholder; former crypto lead at ARK Invest. Co-author of 'Cryptoassets: The Innovative Investor\\'s Guide'."
+  },
+  {
+    "type": "person",
+    "name": "Kyle Davies",
+    "current_role": "Co-founder (Three Arrows Capital - liquidated; OX.FUN)",
+    "org": "Former Three Arrows Capital (3AC) / OX.FUN",
+    "official_site": "https://ox.fun",
+    "accounts": {
+      "x": "@KyleLDavies"
+    },
+    "verification": [
+      "https://x.com/KyleLDavies"
+    ],
+    "topics": [
+      "crypto trading",
+      "3AC controversy",
+      "OX.FUN",
+      "provocative commentary"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 2,
+    "notes": "Co-founder of collapsed hedge fund Three Arrows Capital (liquidated in 2022). Subject of international court subpoenas and sanctions."
+  },
+  {
+    "type": "person",
+    "name": "Su Zhu (朱溯)",
+    "current_role": "Co-founder (Three Arrows Capital - liquidated; OX.FUN)",
+    "org": "Former Three Arrows Capital (3AC) / OX.FUN",
+    "official_site": "https://ox.fun",
+    "accounts": {
+      "x": "@zhusu"
+    },
+    "verification": [
+      "https://x.com/zhusu"
+    ],
+    "topics": [
+      "crypto market commentary",
+      "OX.FUN",
+      "trading philosophy",
+      "cycle theories"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 2,
+    "notes": "Co-founder of collapsed 3AC. Arrested in Singapore in late 2023, served four-month sentence and resumed public commentary."
+  },
+  {
+    "type": "person",
+    "name": "Meltem Demirors",
+    "current_role": "General Partner (Crucible Capital); Former CSO (CoinShares)",
+    "org": "Crucible Capital",
+    "official_site": "https://meltemdemirors.com",
+    "accounts": {
+      "x": "@Melt_Dem"
+    },
+    "verification": [
+      "https://x.com/Melt_Dem",
+      "https://meltemdemirors.com"
+    ],
+    "topics": [
+      "crypto investing",
+      "mining",
+      "DeFi culture",
+      "macro economics"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Former Chief Strategy Officer of CoinShares (stepped down in early 2024); founded early-stage fund Crucible Capital."
+  },
+  {
+    "type": "person",
+    "name": "Vitalik Buterin",
+    "current_role": "Co-founder & Chief Scientist",
+    "org": "Ethereum Foundation",
+    "official_site": "https://vitalik.eth.limo",
+    "accounts": {
+      "x": "@VitalikButerin",
+      "farcaster": "https://warpcast.com/vitalik.eth"
+    },
+    "verification": [
+      "https://vitalik.eth.limo",
+      "https://x.com/VitalikButerin"
+    ],
+    "topics": [
+      "Ethereum roadmap",
+      "protocol upgrades",
+      "ZK proofs",
+      "L2 scaling",
+      "governance",
+      "longevity"
+    ],
+    "languages": [
+      "en",
+      "ru",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Co-founder of Ethereum. Publishes deep technical essays at vitalik.eth.limo. Fundamental authority on blockchain decentralization and scaling."
+  },
+  {
+    "type": "person",
+    "name": "Anatoly Yakovenko",
+    "current_role": "Co-founder & Chief Executive Officer (CEO)",
+    "org": "Solana Labs",
+    "official_site": "https://solana.com",
+    "accounts": {
+      "x": "@aeyakovenko"
+    },
+    "verification": [
+      "https://solana.com",
+      "https://x.com/aeyakovenko"
+    ],
+    "topics": [
+      "Solana L1",
+      "high throughput computing",
+      "Firedancer",
+      "mobile web3",
+      "DePIN"
+    ],
+    "languages": [
+      "en",
+      "ru"
+    ],
+    "priority": 1,
+    "notes": "Creator of Proof of History and co-founder of Solana. Active on X debating execution sharding vs monolithic performance."
+  },
+  {
+    "type": "person",
+    "name": "Hayden Adams",
+    "current_role": "Founder & Chief Executive Officer (CEO)",
+    "org": "Uniswap Labs",
+    "official_site": "https://uniswap.org",
+    "accounts": {
+      "x": "@haydenzadams"
+    },
+    "verification": [
+      "https://uniswap.org",
+      "https://x.com/haydenzadams"
+    ],
+    "topics": [
+      "Uniswap v4",
+      "Unichain",
+      "DEX protocols",
+      "SEC regulatory pushback",
+      "DeFi"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Inventor of Uniswap AMM protocol. Led Uniswap Labs response against SEC Wells notice and launched Unichain L2."
+  },
+  {
+    "type": "person",
+    "name": "Stani Kulechov",
+    "current_role": "Founder & Chief Executive Officer (CEO)",
+    "org": "Avara (formerly Aave Companies)",
+    "official_site": "https://avara.xyz",
+    "accounts": {
+      "x": "@StaniKulechov",
+      "farcaster": "https://warpcast.com/stani"
+    },
+    "verification": [
+      "https://avara.xyz",
+      "https://x.com/StaniKulechov"
+    ],
+    "topics": [
+      "Aave lending protocol",
+      "GHO stablecoin",
+      "Lens Protocol",
+      "Family wallet",
+      "DeFi"
+    ],
+    "languages": [
+      "en",
+      "fi"
+    ],
+    "priority": 1,
+    "notes": "Created ETHLend/Aave protocol; rebranded parent entity to Avara. Key innovator in decentralized credit and social protocols."
+  },
+  {
+    "type": "person",
+    "name": "Brian Quintenz",
+    "current_role": "Head of Policy",
+    "org": "a16z crypto",
+    "official_site": "https://a16zcrypto.com",
+    "accounts": {
+      "x": "@BrianQuintenz"
+    },
+    "verification": [
+      "https://a16zcrypto.com/author/brian-quintenz/",
+      "https://x.com/BrianQuintenz"
+    ],
+    "topics": [
+      "crypto policy",
+      "SEC/CFTC jurisdictional line",
+      "market structure bills",
+      "FIT21"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Former CFTC Commissioner (2017–2021). Leading legislative and policy strategist for a16z crypto."
+  },
+  {
+    "type": "person",
+    "name": "Robbie Mitchnick",
+    "current_role": "Head of Digital Assets",
+    "org": "BlackRock",
+    "official_site": "https://www.blackrock.com",
+    "accounts": {
+      "x": "unverified - no public personal X account; official updates via @BlackRock",
+      "linkedin": "https://www.linkedin.com/in/robert-mitchnick"
+    },
+    "verification": [
+      "https://www.blackrock.com",
+      "https://www.linkedin.com/in/robert-mitchnick"
+    ],
+    "topics": [
+      "IBIT (iShares Bitcoin Trust)",
+      "ETHA (iShares Ethereum Trust)",
+      "BUIDL tokenized fund",
+      "institutional adoption"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Heads digital asset strategy at BlackRock. Regularly appears on Bloomberg, CNBC, and official BlackRock podcasts. Personal X accounts under his name are unverified."
+  },
+  {
+    "type": "person",
+    "name": "Matt Hougan",
+    "current_role": "Chief Investment Officer (CIO)",
+    "org": "Bitwise Asset Management",
+    "official_site": "https://bitwiseinvestments.com",
+    "accounts": {
+      "x": "@Matt_Hougan"
+    },
+    "verification": [
+      "https://bitwiseinvestments.com/leadership",
+      "https://x.com/Matt_Hougan"
+    ],
+    "topics": [
+      "BITB ETF",
+      "ETHW ETF",
+      "crypto index funds",
+      "institutional investment thesis",
+      "Bitcoin cycles"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Chief Investment Officer of Bitwise. Former CEO of ETF.com. Authors weekly crypto research memos widely read by registered investment advisors (RIAs)."
+  },
+  {
+    "type": "person",
+    "name": "Hunter Horsley",
+    "current_role": "Co-founder & Chief Executive Officer (CEO)",
+    "org": "Bitwise Asset Management",
+    "official_site": "https://bitwiseinvestments.com",
+    "accounts": {
+      "x": "@HHorsley"
+    },
+    "verification": [
+      "https://bitwiseinvestments.com/leadership",
+      "https://x.com/HHorsley"
+    ],
+    "topics": [
+      "Bitwise ETF assets",
+      "BITB inflows",
+      "crypto wealth management",
+      "RIA adoption"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-founded Bitwise in 2017. Regularly publishes daily fund updates and institutional inflows into BITB."
+  },
+  {
+    "type": "person",
+    "name": "Jan van Eck",
+    "current_role": "Chief Executive Officer (CEO)",
+    "org": "VanEck Associates Corporation",
+    "official_site": "https://www.vaneck.com",
+    "accounts": {
+      "x": "@JanvanEck3"
+    },
+    "verification": [
+      "https://www.vaneck.com/us/en/leadership/",
+      "https://x.com/JanvanEck3"
+    ],
+    "topics": [
+      "HODL ETF",
+      "gold vs bitcoin",
+      "global macro",
+      "emerging markets"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "CEO of VanEck (first US mutual fund to launch a gold equity fund in 1968, early Bitcoin ETF filer). Active commentator on macro finance."
+  },
+  {
+    "type": "person",
+    "name": "Matthew Sigel",
+    "current_role": "Head of Digital Assets Research",
+    "org": "VanEck",
+    "official_site": "https://www.vaneck.com",
+    "accounts": {
+      "x": "@matthew_sigel"
+    },
+    "verification": [
+      "https://www.vaneck.com/us/en/blogs/digital-assets/",
+      "https://x.com/matthew_sigel"
+    ],
+    "topics": [
+      "Solana ETF filings",
+      "Bitcoin valuation models",
+      "stablecoin economics",
+      "crypto regulatory updates"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Pioneered VanEck's spot Solana ETF (VSOL) filing and spot altcoin ETF research. High frequency analytical posts on X."
+  },
+  {
+    "type": "person",
+    "name": "Eric Balchunas",
+    "current_role": "Senior ETF Analyst",
+    "org": "Bloomberg Intelligence",
+    "official_site": "https://www.bloomberg.com/professional/product/bloomberg-intelligence/",
+    "accounts": {
+      "x": "@EricBalchunas"
+    },
+    "verification": [
+      "https://x.com/EricBalchunas",
+      "https://www.bloomberg.com/authors/ARQWq0D4n7Q/eric-balchunas"
+    ],
+    "topics": [
+      "crypto ETF flows",
+      "SEC approval odds",
+      "ETF fee wars",
+      "fund volume rankings",
+      "Trillions podcast"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Senior ETF Analyst at Bloomberg Intelligence. Widely considered the leading real-time authority on US crypto ETF flows and approval odds."
+  },
+  {
+    "type": "person",
+    "name": "James Seyffart",
+    "current_role": "Research Analyst, ETFs & Digital Assets",
+    "org": "Bloomberg Intelligence",
+    "official_site": "https://www.bloomberg.com/professional/product/bloomberg-intelligence/",
+    "accounts": {
+      "x": "@JSeyff"
+    },
+    "verification": [
+      "https://x.com/JSeyff",
+      "https://www.bloomberg.com/authors/ASiL0UffZ40/james-seyffart"
+    ],
+    "topics": [
+      "spot crypto ETFs",
+      "S-1 & 19b-4 SEC filings",
+      "options on ETFs",
+      "crypto derivatives"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-covers crypto ETF beat with Eric Balchunas at Bloomberg Intelligence. Specializes in granular regulatory filing analysis."
+  },
+  {
+    "type": "person",
+    "name": "Paolo Ardoino",
+    "current_role": "Chief Executive Officer (CEO), Tether; Chief Technology Officer (CTO), Bitfinex",
+    "org": "Tether Operations Limited / Bitfinex",
+    "official_site": "https://tether.to",
+    "accounts": {
+      "x": "@paoloardoino"
+    },
+    "verification": [
+      "https://tether.to/en/management/",
+      "https://x.com/paoloardoino"
+    ],
+    "topics": [
+      "USDT market cap",
+      "Tether quarterly attestations",
+      "US Treasuries reserves",
+      "Bitcoin mining",
+      "AI/Holepunch"
+    ],
+    "languages": [
+      "en",
+      "it"
+    ],
+    "priority": 1,
+    "notes": "Became Tether CEO in December 2023 while retaining CTO role at Bitfinex. The primary public voice for Tether's $130B+ USDT reserves."
+  },
+  {
+    "type": "person",
+    "name": "Giancarlo Devasini",
+    "current_role": "Chief Financial Officer (CFO) & Co-owner",
+    "org": "Tether / Bitfinex (iFinex Inc.)",
+    "official_site": "https://tether.to",
+    "accounts": {
+      "x": "unverified - no public personal X account; corporate updates via @Tether_to"
+    },
+    "verification": [
+      "https://tether.to",
+      "https://www.forbes.com/profile/giancarlo-devasini/"
+    ],
+    "topics": [
+      "Tether treasury management",
+      "banking relationships",
+      "Cantor Fitzgerald custody"
+    ],
+    "languages": [
+      "it",
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Chief Financial Officer and largest shareholder of Tether and Bitfinex. Keeps an extremely low profile; does not have an active public X or LinkedIn account. Statements are issued via corporate announcements and CEO Paolo Ardoino. Beware of impersonation accounts."
+  },
+  {
+    "type": "person",
+    "name": "Jeremy Allaire",
+    "current_role": "Co-founder, Chairman & Chief Executive Officer (CEO)",
+    "org": "Circle Internet Financial",
+    "official_site": "https://www.circle.com",
+    "accounts": {
+      "x": "@jerallaire",
+      "linkedin": "https://www.linkedin.com/in/jeremyallaire"
+    },
+    "verification": [
+      "https://www.circle.com/en/leadership",
+      "https://x.com/jerallaire"
+    ],
+    "topics": [
+      "USDC reserves",
+      "stablecoin legislation",
+      "Circle IPO",
+      "CCTP protocol"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Co-founded Circle in 2013. Frequent congressional witness on payment stablecoins and dollar competitiveness."
+  },
+  {
+    "type": "person",
+    "name": "Gary Gensler",
+    "current_role": "Former Chair (stepped down January 20, 2025)",
+    "org": "U.S. Securities and Exchange Commission (SEC)",
+    "official_site": "https://www.sec.gov",
+    "accounts": {
+      "x": "@GaryGensler"
+    },
+    "verification": [
+      "https://x.com/GaryGensler",
+      "https://www.sec.gov/about/commissioners/gary-gensler"
+    ],
+    "topics": [
+      "securities law",
+      "crypto enforcement",
+      "investor protection",
+      "MIT blockchain lectures"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Served as SEC Chair from April 2021 to January 20, 2025. Oversaw enforcement actions against Binance, Coinbase, Kraken, Ripple, and Consensys."
+  },
+  {
+    "type": "person",
+    "name": "Paul Atkins",
+    "current_role": "Chair (Confirmed April 2025)",
+    "org": "U.S. Securities and Exchange Commission (SEC)",
+    "official_site": "https://www.sec.gov",
+    "accounts": {
+      "x": "@SECPaulSAtkins",
+      "agency_x": "@SECGov"
+    },
+    "verification": [
+      "https://www.sec.gov",
+      "https://x.com/SECPaulSAtkins"
+    ],
+    "topics": [
+      "SEC regulatory pivot",
+      "clear crypto guidelines",
+      "capital formation",
+      "deregulation"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Former SEC Commissioner (2002–2008) and CEO of Patomak Global Partners. Confirmed in 2025 as SEC Chair to replace Gary Gensler."
+  },
+  {
+    "type": "person",
+    "name": "Hester Peirce",
+    "current_role": "Commissioner",
+    "org": "U.S. Securities and Exchange Commission (SEC)",
+    "official_site": "https://www.sec.gov",
+    "accounts": {
+      "x": "@HesterPeirce"
+    },
+    "verification": [
+      "https://www.sec.gov/about/commissioners/hester-peirce",
+      "https://x.com/HesterPeirce"
+    ],
+    "topics": [
+      "crypto safe harbor",
+      "regulatory clarity",
+      "SEC dissents",
+      "innovation"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "SEC Commissioner nicknamed 'Crypto Mom'. Champion of token safe harbor proposal and vocal critic of regulation-by-enforcement."
+  },
+  {
+    "type": "person",
+    "name": "Mark Uyeda",
+    "current_role": "Commissioner (Former Acting Chair Jan-Apr 2025)",
+    "org": "U.S. Securities and Exchange Commission (SEC)",
+    "official_site": "https://www.sec.gov",
+    "accounts": {
+      "x": "unverified - no personal public X account; official statements via @SECGov"
+    },
+    "verification": [
+      "https://www.sec.gov/about/commissioners/mark-uyeda"
+    ],
+    "topics": [
+      "SEC rulemaking reform",
+      "crypto regulatory burden",
+      "administrative law"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "SEC Commissioner sworn in June 2022; served as Acting SEC Chair in early 2025 prior to Paul Atkins' Senate confirmation. Does not maintain a personal verified X handle."
+  },
+  {
+    "type": "person",
+    "name": "Caroline Crenshaw",
+    "current_role": "Commissioner",
+    "org": "U.S. Securities and Exchange Commission (SEC)",
+    "official_site": "https://www.sec.gov",
+    "accounts": {
+      "x": "unverified - no personal public X account; official statements via @SECGov"
+    },
+    "verification": [
+      "https://www.sec.gov/about/commissioners/caroline-crenshaw"
+    ],
+    "topics": [
+      "investor protection",
+      "dissent on spot Bitcoin ETFs",
+      "crypto compliance"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 2,
+    "notes": "SEC Commissioner sworn in August 2020. Consistently voted against approving spot crypto ETFs, citing fraud and manipulation risks in underlying spot markets. No personal X handle."
+  },
+  {
+    "type": "person",
+    "name": "Rostin Behnam",
+    "current_role": "Former Chairman (stepped down January/February 2025)",
+    "org": "U.S. Commodity Futures Trading Commission (CFTC)",
+    "official_site": "https://www.cftc.gov",
+    "accounts": {
+      "x": "unverified - former official communications via @CFTC"
+    },
+    "verification": [
+      "https://www.cftc.gov/About/Commissioners/RostinBehnam/index.htm"
+    ],
+    "topics": [
+      "CFTC jurisdiction over crypto commodities",
+      "Bitcoin & Ether futures",
+      "market integrity"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Chaired the CFTC from 2021 through early 2025. Advocated for expanded CFTC authority over non-security digital asset spot markets."
+  },
+  {
+    "type": "person",
+    "name": "Caroline Pham",
+    "current_role": "Acting Chair / Commissioner",
+    "org": "U.S. Commodity Futures Trading Commission (CFTC)",
+    "official_site": "https://www.cftc.gov",
+    "accounts": {
+      "x": "@CarolineDPham"
+    },
+    "verification": [
+      "https://www.cftc.gov/About/Commissioners/CarolineDPham/index.htm",
+      "https://x.com/CarolineDPham"
+    ],
+    "topics": [
+      "CFTC digital asset regulatory sandboxes",
+      "tokenized collateral",
+      "international coordination"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "CFTC Commissioner since April 2022; named Acting Chair following Behnam's resignation in January 2025. Proactive proponent of regulatory sandboxes for digital assets."
+  },
+  {
+    "type": "person",
+    "name": "Summer Mersinger",
+    "current_role": "Former CFTC Commissioner (departed 2025; CEO of Blockchain Association)",
+    "org": "Blockchain Association (former CFTC)",
+    "official_site": "https://theblockchainassociation.org",
+    "accounts": {
+      "x": "unverified personal handle; statements via @BlockchainAssoc"
+    },
+    "verification": [
+      "https://theblockchainassociation.org",
+      "https://www.cftc.gov"
+    ],
+    "topics": [
+      "crypto trade association policy",
+      "DeFi regulation dissents",
+      "GENIUS Act",
+      "stablecoin legislation"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Former CFTC Commissioner known for strong dissents against enforcement actions targeting DeFi protocols. Left CFTC in 2025 to become CEO of the Blockchain Association."
+  },
+  {
+    "type": "person",
+    "name": "Jerome Powell",
+    "current_role": "Chair of the Board of Governors",
+    "org": "Federal Reserve System",
+    "official_site": "https://www.federalreserve.gov",
+    "accounts": {
+      "x": "unverified - Federal Reserve does not provide personal accounts; official updates via @federalreserve"
+    },
+    "verification": [
+      "https://www.federalreserve.gov/aboutthefed/bios/board/powell.htm"
+    ],
+    "topics": [
+      "monetary policy",
+      "interest rates",
+      "CBDC research",
+      "custody banks and crypto guidance"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Chair of the Federal Reserve. FOMC press conferences and interest rate decisions directly dictate global macro crypto liquidity. Fed policy on payment stablecoins and banking access is pivotal."
+  },
+  {
+    "type": "person",
+    "name": "Janet Yellen",
+    "current_role": "Former U.S. Secretary of the Treasury (term ended January 20, 2025)",
+    "org": "U.S. Department of the Treasury",
+    "official_site": "https://home.treasury.gov",
+    "accounts": {
+      "x": "@JanetYellen",
+      "former_official_x": "@SecYellen"
+    },
+    "verification": [
+      "https://home.treasury.gov",
+      "https://x.com/JanetYellen"
+    ],
+    "topics": [
+      "FSOC financial stability",
+      "crypto sanctions compliance",
+      "stablecoin oversight"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 2,
+    "notes": "78th US Treasury Secretary (2021–2025). Led Financial Stability Oversight Council (FSOC) reports calling for comprehensive crypto legislation."
+  },
+  {
+    "type": "person",
+    "name": "Scott Bessent",
+    "current_role": "U.S. Secretary of the Treasury (Assumed office January 2025)",
+    "org": "U.S. Department of the Treasury",
+    "official_site": "https://home.treasury.gov",
+    "accounts": {
+      "x": "@SecBessent",
+      "agency_x": "@USTreasury"
+    },
+    "verification": [
+      "https://home.treasury.gov"
+    ],
+    "topics": [
+      "US Treasury debt issuance",
+      "dollar dominance via stablecoins",
+      "crypto-friendly economic policy"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "79th US Treasury Secretary (assumed office Jan 2025). Macro hedge fund manager (Key Square Group) supportive of dollar-backed stablecoins to expand US Treasury bill demand."
+  },
+  {
+    "type": "person",
+    "name": "Cynthia Lummis",
+    "current_role": "U.S. Senator (Wyoming)",
+    "org": "United States Senate",
+    "official_site": "https://www.lummis.senate.gov",
+    "accounts": {
+      "x": "@SenLummis",
+      "personal_x": "@CynthiaMLummis"
+    },
+    "verification": [
+      "https://www.lummis.senate.gov",
+      "https://x.com/SenLummis"
+    ],
+    "topics": [
+      "Strategic Bitcoin Reserve Act",
+      "Lummis-Gillibrand Responsible Financial Innovation Act",
+      "Bitcoin rights"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Known as the 'Bitcoin Senator'. Introduced the BITCOIN Act to establish a 1-million-BTC US Strategic Bitcoin Reserve."
+  },
+  {
+    "type": "person",
+    "name": "Patrick McHenry",
+    "current_role": "Former U.S. Representative (Retired January 2025; Former Chair, House Financial Services Committee)",
+    "org": "Former U.S. House of Representatives",
+    "official_site": "https://mchenry.house.gov",
+    "accounts": {
+      "x": "@PatrickMcHenry"
+    },
+    "verification": [
+      "https://x.com/PatrickMcHenry"
+    ],
+    "topics": [
+      "FIT21 (Financial Innovation and Technology for the 21st Century Act)",
+      "stablecoin legislation",
+      "capital formation"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 2,
+    "notes": "Former Chair of House Financial Services Committee. Principal architect of the bipartisan FIT21 crypto regulatory framework. Retired from Congress in January 2025."
+  },
+  {
+    "type": "person",
+    "name": "French Hill",
+    "current_role": "U.S. Representative (AR-02); Chairman of the House Financial Services Committee (119th Congress)",
+    "org": "United States House of Representatives",
+    "official_site": "https://hill.house.gov",
+    "accounts": {
+      "x": "@RepFrenchHill",
+      "personal_x": "@FrenchHill"
+    },
+    "verification": [
+      "https://hill.house.gov",
+      "https://x.com/RepFrenchHill"
+    ],
+    "topics": [
+      "digital assets market structure",
+      "crypto oversight",
+      "payment stablecoins",
+      "SEC/CFTC jurisdictional boundaries"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Succeeded Patrick McHenry as Chairman of the House Financial Services Committee in January 2025. Former Chair of the Subcommittee on Digital Assets, Financial Technology, and Inclusion."
+  },
+  {
+    "type": "person",
+    "name": "David Sacks",
+    "current_role": "White House A.I. and Cryptocurrency Czar",
+    "org": "Executive Office of the President of the United States",
+    "official_site": "https://whitehouse.gov",
+    "accounts": {
+      "x": "@DavidSacks"
+    },
+    "verification": [
+      "https://x.com/DavidSacks"
+    ],
+    "topics": [
+      "White House crypto framework",
+      "AI policy",
+      "regulatory deregulation",
+      "Presidential advisory council on crypto"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Named by President Trump to coordinate federal AI and cryptocurrency policy across the executive branch. Craft Ventures general partner and All-In Podcast co-host."
+  },
+  {
+    "type": "person",
+    "name": "Eddie Yue (余伟文)",
+    "current_role": "Chief Executive",
+    "org": "Hong Kong Monetary Authority (HKMA)",
+    "official_site": "https://www.hkma.gov.hk",
+    "accounts": {
+      "x": "unverified - HKMA warns against fake personal accounts; official updates via HKMA portal"
+    },
+    "verification": [
+      "https://www.hkma.gov.hk/eng/about-us/governance/executive-committee/eddie-yue/"
+    ],
+    "topics": [
+      "stablecoin issuer sandbox",
+      "Project Ensemble (tokenized deposits/CBDC)",
+      "HK Web3 ecosystem"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Chief Executive of the HKMA. Spearheading Hong Kong's fiat-referenced stablecoin licensing regime. HKMA has issued specific alerts warning of scammers creating fake personal accounts under his name."
+  },
+  {
+    "type": "person",
+    "name": "Julia Leung (梁凤仪)",
+    "current_role": "Chief Executive Officer (CEO)",
+    "org": "Securities and Futures Commission (SFC Hong Kong)",
+    "official_site": "https://www.sfc.hk",
+    "accounts": {
+      "x": "unverified - no personal public X account; official updates via SFC press office"
+    },
+    "verification": [
+      "https://www.sfc.hk/en/About-the-SFC/Organisation/Our-people/Julia-Leung"
+    ],
+    "topics": [
+      "VATF virtual asset trading platform licensing",
+      "spot crypto ETF approval in HK",
+      "investor protection"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "CEO of Hong Kong SFC since January 2023. Oversees VATP exchange licensing framework and authorized Asia's first spot BTC and ETH ETFs in HK."
+  },
+  {
+    "type": "person",
+    "name": "Chia Der Jiun (谢啇真)",
+    "current_role": "Managing Director",
+    "org": "Monetary Authority of Singapore (MAS)",
+    "official_site": "https://www.mas.gov.sg",
+    "accounts": {
+      "x": "unverified - official updates via @MAS_sg"
+    },
+    "verification": [
+      "https://www.mas.gov.sg/who-we-are/management-team/chia-der-jiun"
+    ],
+    "topics": [
+      "Project Guardian (tokenized financial assets)",
+      "Payment Services Act DPT licensing",
+      "stablecoin regulatory framework"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Assumed office as Managing Director of MAS in January 2024 succeeding Ravi Menon. Leads Singapore's asset tokenization initiatives."
+  },
+  {
+    "type": "person",
+    "name": "ZachXBT",
+    "current_role": "Independent On-Chain Investigator",
+    "org": "Independent",
+    "official_site": "https://t.me/investigationsbyzachxbt",
+    "accounts": {
+      "x": "@zachxbt",
+      "telegram": "https://t.me/investigationsbyzachxbt"
+    },
+    "verification": [
+      "https://x.com/zachxbt",
+      "https://t.me/investigationsbyzachxbt"
+    ],
+    "topics": [
+      "crypto scams",
+      "rug pulls",
+      "hacks & exploits",
+      "phishing drains",
+      "state-sponsored actors (Lazarus Group)"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Premier independent on-chain detective. Widely credited with uncovering hundreds of millions in thefts. Multiple fake/phishing accounts exist on X and TG pretending to be him; never conducts paid promotions or recovery services."
+  },
+  {
+    "type": "person",
+    "name": "Willy Woo",
+    "current_role": "Independent On-Chain Analyst & Managing Partner, CMCC Crest",
+    "org": "Woobull / CMCC Crest",
+    "official_site": "https://woobull.com",
+    "accounts": {
+      "x": "@woonomic"
+    },
+    "verification": [
+      "https://woobull.com",
+      "https://x.com/woonomic"
+    ],
+    "topics": [
+      "Bitcoin on-chain metrics",
+      "NVT ratio",
+      "macro cycle tops/bottoms",
+      "liquidation cascades"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Pioneer of Bitcoin on-chain analysis since 2014; coined Network Value to Transactions (NVT) ratio. Over 1M followers on X."
+  },
+  {
+    "type": "person",
+    "name": "Ki Young Ju (주기영)",
+    "current_role": "Founder & Chief Executive Officer (CEO)",
+    "org": "CryptoQuant",
+    "official_site": "https://cryptoquant.com",
+    "accounts": {
+      "x": "@ki_young_ju"
+    },
+    "verification": [
+      "https://cryptoquant.com",
+      "https://x.com/ki_young_ju"
+    ],
+    "topics": [
+      "exchange reserves",
+      "miner flows",
+      "Bitcoin whale accumulation",
+      "ETF demand dynamics",
+      "stablecoin liquidity"
+    ],
+    "languages": [
+      "en",
+      "ko"
+    ],
+    "priority": 1,
+    "notes": "Founder of major on-chain analytics platform CryptoQuant. Highly cited by mainstream media (Bloomberg, Forbes, Reuters) for real-time exchange flow signals."
+  },
+  {
+    "type": "person",
+    "name": "James Check (Checkmate)",
+    "current_role": "Lead On-Chain Analyst & Co-founder, Checkonchain (Former Lead Analyst, Glassnode)",
+    "org": "Checkonchain (formerly Glassnode)",
+    "official_site": "https://checkonchain.com",
+    "accounts": {
+      "x": "@_Checkmatey_",
+      "youtube": "https://www.youtube.com/@Checkonchain"
+    },
+    "verification": [
+      "https://checkonchain.com",
+      "https://x.com/_Checkmatey_"
+    ],
+    "topics": [
+      "Bitcoin market supply dynamics",
+      "short/long-term holder cost basis",
+      "URPD distributions",
+      "Glassnode on-chain metrics"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 1,
+    "notes": "Lead analyst behind Glassnode's 'The Week On-Chain' reports for years before co-founding Checkonchain. High authority on Bitcoin cohort behavior."
+  },
+  {
+    "type": "person",
+    "name": "Ali Martinez",
+    "current_role": "Chief Technical & On-Chain Analyst",
+    "org": "Independent / FXStreet & BeInCrypto Contributor",
+    "official_site": "https://x.com/ali_charts",
+    "accounts": {
+      "x": "@ali_charts"
+    },
+    "verification": [
+      "https://x.com/ali_charts"
+    ],
+    "topics": [
+      "TD Sequential indicators",
+      "MVRV ratios",
+      "whale transaction count",
+      "Santiment & Glassnode signals"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "priority": 1,
+    "notes": "High-volume intraday and multi-day chart and on-chain analyst. Constantly cited across crypto media for short-to-medium-term price inflection alerts."
+  },
+  {
+    "type": "person",
+    "name": "EmberCN (余烬)",
+    "current_role": "Lead On-Chain Data Analyst",
+    "org": "Independent",
+    "official_site": "https://x.com/EmberCN",
+    "accounts": {
+      "x": "@EmberCN"
+    },
+    "verification": [
+      "https://x.com/EmberCN"
+    ],
+    "topics": [
+      "whale wallet tracking",
+      "institutional holdings",
+      "Ethereum Foundation sales",
+      "liquidations",
+      "Binance/OKX deposit alerts"
+    ],
+    "languages": [
+      "zh",
+      "en"
+    ],
+    "priority": 1,
+    "notes": "The most widely referenced Chinese-language on-chain analyst. Focuses on forensic wallet clustering, large-scale whale profits/losses, and smart money movements."
+  },
+  {
+    "type": "person",
+    "name": "Lookonchain",
+    "current_role": "On-Chain Analytics Team",
+    "org": "Lookonchain",
+    "official_site": "https://x.com/lookonchain",
+    "accounts": {
+      "x": "@lookonchain"
+    },
+    "verification": [
+      "https://x.com/lookonchain"
+    ],
+    "topics": [
+      "SmartMoney trades",
+      "whale accumulation",
+      "insider meme coin buying",
+      "ETF daily inflow/outflow tallies"
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "priority": 1,
+    "notes": "Team-operated on-chain tracking brand with over 500k followers. Tracks whale wallets, DEX trades, and institutional movements in real time."
+  },
+  {
+    "type": "person",
+    "name": "DefiSquared",
+    "current_role": "Independent DeFi & On-Chain Derivatives Analyst",
+    "org": "Independent",
+    "official_site": "https://x.com/DefiSquared",
+    "accounts": {
+      "x": "@DefiSquared"
+    },
+    "verification": [
+      "https://x.com/DefiSquared"
+    ],
+    "topics": [
+      "token unlock manipulation",
+      "FDV vs circulating supply",
+      "Ethena (USDe) mechanics",
+      "Worldcoin analysis"
+    ],
+    "languages": [
+      "en"
+    ],
+    "priority": 2,
+    "notes": "Top Bybit leaderboard trader and on-chain researcher famous for deep investigative threads into deceptive tokenomics and market manipulation."
+  }
+]

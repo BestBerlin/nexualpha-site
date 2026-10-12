@@ -3,6 +3,9 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
+import { databaseStore } from '../collectors/store.mjs';
+import { runCollect } from '../collectors/runner.mjs';
+import { loadSeeds } from '../collectors/seeds.mjs';
 import { exportTopQuery, runDedupe, runScore, statusQuery } from '../lib/pipeline.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -78,7 +81,14 @@ export function runPsql(sql, env = process.env) {
   return result.stdout.trim();
 }
 export async function main(argv, execute = runPsql) {
-  if (argv.length === 0 || argv[0] === '--help') return 'newsroom: migrate | seed | events:top [--limit N] | event:show ID | review:list | shortfall:log --slot ISO --wanted N --eligible N --published N --note TEXT [--day YYYY-MM-DD] | config:get [KEY] | config:set KEY JSON | dedupe | score | status | export:top [--limit N]\nConnection: standard PGHOST/PGPORT/PGUSER/PGDATABASE/PGPASSFILE; default database newsroom.';
+  if (argv.length === 0 || argv[0] === '--help') return 'newsroom: migrate | seed | seed:watchlist [--watchlist PATH --keywords PATH] | collect (--source ID | --all) [--dry-run DIRECTORY] [--timeout-ms N] | events:top [--limit N] | event:show ID | review:list | shortfall:log --slot ISO --wanted N --eligible N --published N --note TEXT [--day YYYY-MM-DD] | config:get [KEY] | config:set KEY JSON | dedupe | score | status | export:top [--limit N]\nConnection: standard PGHOST/PGPORT/PGUSER/PGDATABASE/PGPASSFILE; default database newsroom.';
+  if (argv[0] === 'collect') return JSON.stringify(await runCollect(argv.slice(1),databaseStore(execute,literal)),null,2);
+  if (argv[0] === 'seed:watchlist') {
+    const opts=options(argv.slice(1),['watchlist','keywords']);
+    const seeds=loadSeeds(opts.watchlist,opts.keywords);
+    databaseStore(execute,literal).seed(seeds);
+    return `seed:watchlist: ${seeds.entities.length} entities, ${seeds.keywords.length} keywords imported`;
+  }
   if (['migrate', 'seed'].includes(argv[0])) {
     if (argv.length !== 1) throw new Error('Unexpected arguments');
     const dir = resolve(root, 'db', argv[0] === 'migrate' ? 'migrations' : 'seeds');

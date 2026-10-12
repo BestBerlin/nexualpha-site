@@ -87,3 +87,9 @@ normalization are deterministic starting heuristics where the design leaves
 numeric mappings open; review score explanations before tuning. Unknown values
 remain visible as unknown. Editorial ranking and credibility are independent;
 ranking never substitutes for verification gates or publish eligibility.
+
+## Collector extension
+
+The T2 collector CLI, bundled watchlist loader, source-family coverage,
+credential contract, quotas, dry-run behavior and fixture tests are documented
+in [collectors/README.md](collectors/README.md).

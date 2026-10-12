@@ -1,0 +1,39 @@
+{
+  "count": 1725,
+  "results": [
+    {
+      "docket_id": 66801867,
+      "docket_absolute_url": "/docket/66801867/lee-v-binance/",
+      "caseName": "Lee v. Binance",
+      "dateFiled": "2022-05-02",
+      "docketNumber": "22-972",
+      "court": "Court of Appeals for the Second Circuit",
+      "suitNature": "3850 STATUTES-Secur Comm Exchange",
+      "meta": {
+        "timestamp": "2025-03-02T01:06:30.760716Z",
+        "date_created": "2023-02-09T22:17:10.250587Z",
+        "score": {
+          "bm25": 234.19049
+        },
+        "more_docs": true
+      }
+    },
+    {
+      "docket_id": 69919688,
+      "docket_absolute_url": "/docket/69919688/shankar-ps-v-binance/",
+      "caseName": "Shankar (PS) v. Binance",
+      "dateFiled": "2025-04-18",
+      "docketNumber": "1:25-cv-01249",
+      "court": "District Court, D. Colorado",
+      "suitNature": "375 Other Statutes: False Claims Act",
+      "meta": {
+        "timestamp": "2025-06-11T07:27:13.962907Z",
+        "date_created": "2025-04-21T17:00:47.396540Z",
+        "score": {
+          "bm25": 230.38452
+        },
+        "more_docs": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "code": "00000",
+  "data": [
+    {
+      "annId": "1001",
+      "annTitle": "Bitget Lists XYZ",
+      "annType": "coin_listings",
+      "annUrl": "https://www.bitget.com/en/support/articles/1001",
+      "cTime": "1791802800000"
+    },
+    {
+      "annId": "1002",
+      "annTitle": "Bad host",
+      "annType": "coin_listings",
+      "annUrl": "https://evil.example/1002",
+      "cTime": "1791802800000"
+    }
+  ]
+}

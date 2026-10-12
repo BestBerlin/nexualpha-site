@@ -1,0 +1,27 @@
+{
+  "code": "00000",
+  "msg": "success",
+  "requestTime": 1791808664988,
+  "data": [
+    {
+      "annId": "12560603897118",
+      "annDesc": "maintenance_system_updates",
+      "annTitle": "Announcement on resuming NEAR network withdrawal service",
+      "annType": "maintenance_system_updates",
+      "annSubType": "asset_maintenance",
+      "language": "en_US",
+      "annUrl": "https://www.bitget.com/en/support/articles/12560603897118",
+      "cTime": "1791803513000"
+    },
+    {
+      "annId": "12560603897114",
+      "annDesc": "maintenance_system_updates",
+      "annTitle": "Bitget announcement on suspending AXS - Binance Smart Chain deposit service",
+      "annType": "maintenance_system_updates",
+      "annSubType": "asset_maintenance",
+      "language": "en_US",
+      "annUrl": "https://www.bitget.com/en/support/articles/12560603897114",
+      "cTime": "1791799325136"
+    }
+  ]
+}
