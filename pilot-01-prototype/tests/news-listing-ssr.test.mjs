@@ -4,6 +4,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import worker from "../worker/index.js";
+import { newsArticleUrl } from "../src/data/news-feed-client.js";
 import { newsCategoryCopy, NEWS_PAGE_SIZE } from "../src/data/news-library.js";
 import { newsListHeroCopy, NEWS_LIST_COPY_LOCALES } from "../src/data/news-list-copy.js";
 import { createSsrHarness, SHELL_HTML, prerenderState, rootInnerHtml, h1Texts, hydrateInJsdom, hydrationErrors } from "./helpers/ssr-hydration-harness.mjs";
@@ -46,7 +47,13 @@ test.before(async () => { harness = await createSsrHarness(); });
 test.after(async () => { await harness?.close(); });
 
 const fetchPage = (pathname, env) => worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), env);
-const newsLinks = (html) => new Set([...html.matchAll(/href="(?:https:\/\/nexualpha\.com)?(?:\/[a-z]{2}(?:-[A-Za-z]+)?)?\/news\/([a-z0-9-]+)"/g)].map((match) => match[1]));
+const escapeRegExp = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const newsCards = (html) => new Set([...html.matchAll(/data-news-(?:lead|row)="([a-z0-9-]+)"/g)].map((match) => match[1]));
+const newsCardBlock = (html, slug) => {
+  const lead = html.match(new RegExp(String.raw`<article[^>]*data-news-lead="${escapeRegExp(slug)}"[\s\S]*?</article>`));
+  if (lead) return lead[0];
+  return html.match(new RegExp(String.raw`<li[^>]*data-news-row="${escapeRegExp(slug)}"[\s\S]*?</li>`))?.[0] || "";
+};
 
 const cases = [
   { path: "/news", locale: "en", page: 1, category: null },
@@ -73,10 +80,11 @@ test("listing routes are server-rendered by NewsListPage: one H1 equal to the cl
     assert.match(html, /<input[^>]*id="news-index-query"[^>]*type="search"/, `${path}: search box`);
     assert.match(html, /<nav class="news-tabs news-category-nav"/, `${path}: category chips`);
     assert.match(html, /data-telegram-alerts-strip="news-list-telegram-alerts"/, `${path}: alerts strip`);
-    const links = newsLinks(html);
+    const cards = newsCards(html);
     const expectedRows = category ? articles.filter((article) => article.category === category).length : Math.min(NEWS_PAGE_SIZE, articles.length - (page - 1) * NEWS_PAGE_SIZE);
-    if (page === 1 && !category) assert.ok(links.size >= 20, `${path}: ${links.size} article links on page 1`);
-    assert.equal(links.size, expectedRows, `${path}: every row of the page is linked`);
+    if (page === 1 && !category) assert.ok(cards.size >= 20, `${path}: ${cards.size} article cards on page 1`);
+    assert.equal(cards.size, expectedRows, `${path}: every row of the page is rendered as a card`);
+    assert.doesNotMatch(html, /href="\/news\/[a-z0-9-]+\?locale=/, `${path}: no query-locale article hrefs`);
     assert.match(html, new RegExp(`data-news-page="${page}"`), `${path}: page attribute`);
     assert.match(html, new RegExp(`data-news-category="${category || "all"}"`), `${path}: category attribute`);
     const state = prerenderState(html);
@@ -86,6 +94,12 @@ test("listing routes are server-rendered by NewsListPage: one H1 equal to the cl
     assert.equal(state.newsArticles.length, expectedRows, `${path}: summary rows for this page only`);
     assert.deepEqual(state.newsListing, { category, page, total: category ? expectedRows : articles.length, totalPages: category ? 1 : Math.ceil(articles.length / NEWS_PAGE_SIZE), libraryTotal: articles.length, counts: state.newsListing.counts });
     for (const row of state.newsArticles) {
+      const expectedHref = newsArticleUrl(row.slug, locale, row);
+      const card = newsCardBlock(html, row.slug);
+      assert.ok(card, `${path}: ${row.slug} has a bounded rendered card`);
+      assert.match(card, new RegExp(`href="${escapeRegExp(expectedHref)}"`), `${path}: ${row.slug} links to its canonical listing target`);
+      if (locale !== "en" && expectedHref === `/${locale.toLowerCase()}/news`) assert.ok(!row.availableLocales?.includes(locale), `${path}: ${row.slug} falls back to locale news home only without a native edition`);
+      if (row.availableLocales?.includes(locale)) assert.ok(expectedHref.endsWith(`/news/${row.slug}`), `${path}: ${row.slug} keeps its native article link`);
       assert.equal(row.content, undefined, `${path}: list hydration is summary-only`);
       assert.equal(row.sources, undefined, `${path}: list hydration carries no sources`);
       assert.equal(row.seo, undefined, `${path}: list hydration carries no seo block`);

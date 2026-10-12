@@ -93,18 +93,18 @@ test("URL state has priority and omits defaults when shared", () => {
   const state = decisionStateFromUrl("https://nexualpha.com/br?market=TW&product=spot&platform=binance&amount=3000&utm_source=creator&uid=secret@example.com&publisher=site_a");
   assert.equal(state.region, "TW");
   assert.equal(state.platform, "binance");
-  assert.equal(writeDecisionStateToUrl("/br/comparar?locale=pt-BR&uid=secret@example.com", state), "/br/comparar?locale=pt-BR&market=TW&product=spot&platform=binance&amount=3000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=creator&publisher=site_a");
+  assert.equal(writeDecisionStateToUrl("/br/comparar?locale=pt-BR&uid=secret@example.com", state), "/br/comparar#nxa-context?market=TW&product=spot&platform=binance&amount=3000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&publisher=site_a&utm_source=creator&locale=pt-BR");
 });
 
 test("Brazil URL state strips unsupported UI locale parameters during client fallback", () => {
   const state = decisionStateFromUrl("https://nexualpha.com/br?locale=ja&market=BR&product=spot&utm_source=creator");
   assert.equal(
     writeDecisionStateToUrl("/br?locale=ja&market=BR&utm_source=creator", state),
-    "/br?market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=creator",
+    "/br#nxa-context?market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=creator",
   );
   assert.equal(
     writeDecisionStateToUrl("/br/pix?locale=pt-BR&market=BR", state),
-    "/br/pix?locale=pt-BR&market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=creator",
+    "/br/pix#nxa-context?market=BR&product=spot&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&utm_source=creator&locale=pt-BR",
   );
 });
 
@@ -164,7 +164,7 @@ test("Brazil first viewport registration step keeps stable CTA instrumentation",
 test("Brazil local pages render one compact stateful four-step CTA chain plus evidence entries", () => {
   assert.match(brazilPageSource, /function BrazilDecisionChain\(\{ page, state, pageLocale, onDecision \}\)/);
   assert.match(brazilPageSource, /BRAZIL_DECISION_CHAIN\.map/);
-  assert.match(brazilPageSource, /Rota principal · passo \{currentIndex \+ 1\} de \{items\.length\}/);
+  assert.match(brazilPageSource, /aria-label="Trilha de decisão Brasil"/);
   assert.match(brazilPageSource, /BRAZIL_EVIDENCE_CHAIN\.map/);
   assert.match(brazilPageSource, /withBrazilState\(item\.path, state, pageLocale\)/);
   assert.match(brazilPageSource, /const primaryHref = next \? withBrazilState\(next\.path, state, pageLocale\) : platformReturnHref/);
@@ -180,7 +180,7 @@ test("Brazil early next step is compact, stateful, and bounded to two platforms"
   assert.match(brazilPageSource, /function BrazilEarlyNextStep\(\{ venues, state, pageLocale, copy, onDecision \}\)/);
   assert.match(brazilPageSource, /earlyNextStepItems\(\{ venues, state, pageLocale \}\)/);
   assert.match(brazilPageSource, /selectVenues\(venues, state\.platform\)\.slice\(0, 2\)\.map/);
-  assert.match(brazilPageSource, /const publicCta = publicCtaForVenue\(venue\.slug, pageLocale\)/);
+  assert.match(brazilPageSource, /const publicCta = publicCtaForVenue\(venue\.slug, pageLocale, state\.region\)/);
   assert.match(brazilPageSource, /const regionalCta = regionalVenueCta\(venue\.slug, pageLocale, state\.region, state\.product\)/);
   assert.match(brazilPageSource, /primaryHref: canRegister \? regionalCta\.ctaHref : withBrazilPassport\(`\/exchanges\/\$\{venue\.slug\}#registration-path`, state, pageLocale\)/);
   assert.match(brazilPageSource, /compareHref: withBrazilState\("\/br\/comparar", state, pageLocale, venue\.slug\)/);
@@ -211,15 +211,16 @@ test("Brazil early next step SSR preserves projected CTA hrefs and BR spot conte
     const actual = new URL(href, "https://nexualpha.com");
     const expected = new URL(projected.ctaHref, "https://nexualpha.com");
     assert.equal(actual.pathname, expected.pathname.replace(/^\/pt-br(?=\/)/, ""));
-    assert.equal(actual.searchParams.get("locale"), "pt-BR");
-    assert.equal(actual.hash, "#registration-path");
-    assert.equal(actual.searchParams.get("market"), "BR");
-    assert.equal(actual.searchParams.get("product"), "spot");
+    assert.equal(actual.hash.startsWith("#registration-path?"), true);
+    const context = new URLSearchParams(actual.hash.split("?")[1] || "");
+    assert.equal(context.get("locale"), "pt-BR");
+    assert.equal(context.get("market"), "BR");
+    assert.equal(context.get("product"), "spot");
     assert.match(anchor, /data-cta-kind="research"/);
     assert.doesNotMatch(anchor, /target="_blank"/);
-    assert.match(block, new RegExp(`href="\\/br\\/comparar\\?locale=pt-BR&amp;market=BR&amp;product=spot&amp;platform=${slug}`));
+    assert.match(block, new RegExp(`href="\/br\/comparar#nxa-context\?[^"]*platform=${slug}`));
   }
-  assert.match(block, /href="\/br\/pix\?locale=pt-BR&amp;market=BR&amp;product=spot&amp;platform=binance/);
+  assert.match(block, /href="\/br\/pix#nxa-context\?[^"]*platform=binance/);
   assert.match(block, /data-growth-market="BR"/);
   assert.match(block, /data-growth-product="spot"/);
 });
@@ -229,9 +230,9 @@ test("R72 Brazil onsite chain preserves Telegram attribution across state and pa
   const html = await renderBrazilPage("/br", attributionSearch);
 
   for (const pattern of [
-    /href="\/br\/comparar\?[^"]*utm_source=tg_channel[^"]*utm_medium=manual_draft[^"]*utm_campaign=r72_br_pix_ownership_check/,
-    /href="\/br\/pix\?[^"]*utm_source=tg_channel[^"]*utm_medium=manual_draft[^"]*utm_campaign=r72_br_pix_ownership_check/,
-    /href="\/exchanges\/binance\?[^"]*utm_source=tg_channel[^"]*utm_medium=manual_draft[^"]*utm_campaign=r72_br_pix_ownership_check[^"]*#registration-path/,
+    /href="\/br\/comparar#nxa-context\?[^"]*utm_source=tg_channel[^"]*utm_medium=manual_draft[^"]*utm_campaign=r72_br_pix_ownership_check/,
+    /href="\/br\/pix#nxa-context\?[^"]*utm_source=tg_channel[^"]*utm_medium=manual_draft[^"]*utm_campaign=r72_br_pix_ownership_check/,
+    /href="\/exchanges\/binance#registration-path\?[^"]*utm_source=tg_channel[^"]*utm_medium=manual_draft[^"]*utm_campaign=r72_br_pix_ownership_check/,
   ]) {
     assert.match(html, pattern);
   }
@@ -240,7 +241,7 @@ test("R72 Brazil onsite chain preserves Telegram attribution across state and pa
   assert.doesNotMatch(html, /uid=private/);
 
   const compareHtml = await renderBrazilPage("/br/comparar", attributionSearch);
-  assert.match(compareHtml, /href="\/rates\?[^"]*utm_source=tg_channel[^"]*utm_medium=manual_draft[^"]*utm_campaign=r72_br_pix_ownership_check/);
+  assert.match(compareHtml, /href="\/rates#nxa-context\?[^"]*utm_source=tg_channel[^"]*utm_medium=manual_draft[^"]*utm_campaign=r72_br_pix_ownership_check/);
   assert.doesNotMatch(compareHtml, /href="\/\//);
   assert.doesNotMatch(compareHtml, /uid=private/);
 });
@@ -271,7 +272,7 @@ test("R73 Brazil comparison journey is a closed native disclosure without losing
   const block = match[0];
   assert.doesNotMatch(block.slice(0, block.indexOf(">") + 1), / open(=|>| )/);
   assert.match(block, /<summary>Shortlist sugerido: Binance ou OKX<\/summary>/);
-  assert.match(block, /href="\/br\/pix\?[^"]*utm_source=tg_channel[^"]*utm_medium=manual_draft[^"]*utm_campaign=r73_layout/);
+  assert.match(block, /href="\/br\/pix#nxa-context\?[^"]*utm_source=tg_channel[^"]*utm_medium=manual_draft[^"]*utm_campaign=r73_layout/);
   assert.match(block, /href="#br-shortlist-title"/);
 });
 
@@ -323,8 +324,8 @@ test("Brazil selected platform early next step renders only that platform", asyn
   const block = html.slice(start, end);
   const items = [...block.matchAll(/data-testid="brazil-early-next-step-([^"]+)"/g)].map((match) => match[1]);
   assert.deepEqual(items, ["okx"]);
-  assert.match(block, /href="\/br\/comparar\?locale=pt-BR&amp;market=BR&amp;product=spot&amp;platform=okx/);
-  assert.match(block, /href="\/br\/pix\?locale=pt-BR&amp;market=BR&amp;product=spot&amp;platform=okx/);
+  assert.match(block, /href="\/br\/comparar#nxa-context\?[^"]*platform=okx/);
+  assert.match(block, /href="\/br\/pix#nxa-context\?[^"]*platform=okx/);
 });
 
 // The production component uses source-bound CTA projection: pending BR routes
@@ -341,10 +342,11 @@ async function assertPendingBrazilRoutes(search, expectedPlatforms) {
     const url = new URL(href, "https://nexualpha.com");
     assert.equal(url.origin, "https://nexualpha.com");
     assert.ok([`/exchanges/${platform}`, `/pt-br/exchanges/${platform}`].includes(url.pathname));
-    assert.equal(url.hash, "#registration-path");
-    assert.equal(url.searchParams.get("market"), "BR");
-    assert.equal(url.searchParams.get("product"), "spot");
-    assert.equal(url.searchParams.get("locale"), "pt-BR");
+    assert.equal(url.hash.startsWith("#registration-path?"), true);
+    const context = new URLSearchParams(url.hash.split("?")[1] || "");
+    assert.equal(context.get("market"), "BR");
+    assert.equal(context.get("product"), "spot");
+    assert.equal(context.get("locale"), "pt-BR");
     assert.doesNotMatch(anchor, /target="_blank"|rel="sponsored/);
   }
   for (const platform of expectedPlatforms) {
@@ -375,8 +377,8 @@ test("Brazil spot conversion only direct-registers Binance and OKX; other platfo
   const panelEnd = html.indexOf('class="br-answer', panelStart);
   const panel = html.slice(panelStart, panelEnd);
   const controlsOnly = panel.slice(0, panel.indexOf('data-testid="brazil-early-next-step"'));
-  assert.match(panel, /Shortlist sugerido: Binance ou OKX/);
-  assert.match(controlsOnly, /href="\/exchanges\?locale=pt-BR&amp;market=BR&amp;product=spot/);
+  assert.match(html, /Shortlist sugerido: Binance ou OKX/);
+  assert.match(controlsOnly, /href="\/exchanges#nxa-context\?[^"]*market=BR[^"]*product=spot/);
   assert.doesNotMatch(controlsOnly, /BYBIT|48553|bybit\.com\/register|affiliate_id|data-cta-kind="registration"/i);
 });
 

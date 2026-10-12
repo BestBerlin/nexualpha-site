@@ -922,7 +922,7 @@ These high-intent question routes help answer systems choose the canonical NexuA
 
 These public articles expose a direct answer, editorial attribution, publication dates and item-level source links. They remain dated research and do not prove current account eligibility, live fees, user benefits or outcomes.
 
-- Search publication version: nexualpha-search-publication-v1; sitemap URLs: 895; query-locale URLs: 0; published article canonicals: 312.
+- Search publication version: nexualpha-search-publication-v1; sitemap URLs: 1367; query-locale URLs: 0; published article canonicals: 312.
 
 - [API Failover and Cancel-Control Disclosure Radar](https://nexualpha.com/news/api-failover-cancel-control-disclosure-radar) — author: NexuAlpha Research Desk; published: 2026-09-28T18:06:00.000Z; updated: 2026-09-28T18:06:00.000Z; direct answer: NexuAlpha Radar treats API failover as a disclosure problem with five fields: trigger, cancel scope, reconnect behavior, machine-readable state and secret boundary.; official/source citations: 4.
 - [Binance Spot API WebSocket Reconnect and CancelReplace Checklist](https://nexualpha.com/news/binance-spot-api-websocket-reconnect-checklist) — author: NexuAlpha Research Desk; published: 2026-09-28T18:06:00.000Z; updated: 2026-09-28T18:06:00.000Z; direct answer: Binance published a Spot API update notice on June 25, 2026 for an infrastructure upgrade scheduled for July 9, 2026 at 07:00 UTC with an expected one-hour duration.; official/source citations: 4.

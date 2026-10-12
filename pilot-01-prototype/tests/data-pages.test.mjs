@@ -6,6 +6,7 @@ import { access, mkdtemp, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import worker, { renderLocaleSitemap, routeMetadata } from "../worker/index.js";
+import { budgetTitle, metaDescriptionLimit, titleBudgetForLocale } from "../src/data/meta-description.js";
 import { localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
 import {
   DATA_PAGE_LOCALES, DATA_PAGE_PATHS, FUNDING_RATES_PATH, LIQUIDATIONS_PATH, compactMarketEvents, dataPageCopy, dataPageMeta, dataPageSchemas,
@@ -32,9 +33,10 @@ test("both data pages have route metadata in all 17 locales: review-gated, self-
       assert.equal(meta.robots, ["ur", "uk"].includes(locale) ? "noindex,follow" : "index,follow", loc);
       assert.equal(meta.canonical, loc, loc);
       assert.equal(meta.locale, locale, loc);
-      assert.equal(meta.title, dataPageMeta(pathname, locale).title);
-      assert.ok(meta.title.length <= 72, `${loc} title ${meta.title.length}`);
-      assert.ok(meta.description.length <= (CJK.has(locale) ? 80 : 160), `${loc} description ${meta.description.length}`);
+      assert.equal(meta.title, budgetTitle(dataPageMeta(pathname, locale).title, titleBudgetForLocale(locale)));
+      assert.ok(meta.title.length <= titleBudgetForLocale(locale), `${loc} title ${meta.title.length}`);
+      assert.ok(meta.description.length <= metaDescriptionLimit(locale, meta.description), `${loc} description ${meta.description.length}`);
+      if (dataPageMeta(pathname, locale).description.length < 110) assert.ok(meta.description.length >= 120, `${loc} description ${meta.description.length}`);
       assert.equal(meta.alternates.length, ["ur", "uk"].includes(locale) ? 0 : 16, loc);
       if (["ur", "uk"].includes(locale)) continue;
       assert.ok(meta.alternates.some((a) => a.hreflang === "x-default" && a.href === `https://nexualpha.com${pathname}`), loc);

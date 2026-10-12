@@ -1,9 +1,10 @@
-// Owner 2026-10-10 (GSC CTR work): home title/description carry the commercial search intent in all 15 locales, and no
-// route ships a meta description beyond the snippet budget (160 characters; 80 for zh/ja/ko).
+// Owner 2026-10-12 (crawl budget/CTR work): home title/description carry the commercial search intent in all 15
+// locales, and route meta descriptions share the 160-character ceiling while short generated descriptions are expanded.
 import test from "node:test";
 import assert from "node:assert/strict";
 import { routeMetadata, clampMetaDescription, metaDescriptionLimit } from "../worker/index.js";
 import { computeRouteSeo, HOME_SEARCH_COPY } from "../src/data/seo-injection.js";
+import { articleMetaDescription, budgetTitle, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
 import { localizedPath } from "../src/data/locale-routing.js";
 
 const LOCALES = ["en", "zh-Hans", "zh-Hant", "es", "pt-BR", "fr", "de", "it", "ja", "ko", "ru", "tr", "id", "vi", "ar"];
@@ -11,9 +12,10 @@ const ROUTES = ["/", "/exchanges", "/exchanges/okx", "/exchanges/bitget", "/exch
 const env = { ASSETS: { fetch: async () => new Response("missing", { status: 404 }) } };
 const TRAILING_FRAGMENT = /[\s,;:，、；：\-–—(（]$/u;
 
-test("meta description limit is 80 for zh/ja/ko and 160 elsewhere", () => {
-  for (const locale of ["zh-Hans", "zh-Hant", "ja", "ko"]) assert.equal(metaDescriptionLimit(locale), 80, locale);
-  for (const locale of ["en", "tr", "ru", "ar", "pt-BR", "vi"]) assert.equal(metaDescriptionLimit(locale), 160, locale);
+test("meta description limit is 160 across locales", () => {
+  for (const locale of ["zh-Hans", "zh-Hant", "ja", "ko", "en", "tr", "ru", "ar", "pt-BR", "vi"]) {
+    assert.equal(metaDescriptionLimit(locale), 160, locale);
+  }
 });
 
 test("clampMetaDescription cuts at a word or punctuation boundary without a trailing fragment", () => {
@@ -32,8 +34,8 @@ test("clampMetaDescription cuts at a word or punctuation boundary without a trai
   assert.equal(clampMetaDescription(sentence, "en"), "First sentence ends here.");
   const cjk = "第一句说明手续费与邀请码的核验方式。" + "第二句很长没有标点".repeat(12);
   const cjkClamped = clampMetaDescription(cjk, "zh-Hans");
-  assert.ok(cjkClamped.length <= 80, `cjk length ${cjkClamped.length}`);
-  assert.equal(cjkClamped, "第一句说明手续费与邀请码的核验方式。");
+  assert.ok(cjkClamped.length <= 160, `cjk length ${cjkClamped.length}`);
+  assert.ok(cjkClamped.startsWith("第一句说明手续费与邀请码的核验方式。"));
   assert.equal(clampMetaDescription("  spaced   out  ", "en"), "spaced out");
 });
 
@@ -72,15 +74,36 @@ test("home title carries the commercial search intent per locale and stays withi
     const metadata = await routeMetadata(new URL(`https://nexualpha.com${localizedPath("/", locale)}`), env);
     assert.ok(metadata.title.length <= 65, `${locale}: ${metadata.title.length} chars`);
     for (const pattern of expectations[locale]) assert.match(metadata.title, pattern, `${locale} title`);
-    assert.match(metadata.title, /NexuAlpha/, `${locale} brand`);
+    if (!["zh-Hans", "zh-Hant", "ja", "ko"].includes(locale)) assert.match(metadata.title, /NexuAlpha/, `${locale} brand`);
     // ja/ko keep an informational tone; ru/ar stay neutral like the referral-title policy
     if (["ja", "ko"].includes(locale)) assert.doesNotMatch(`${metadata.title} ${metadata.description}`, /登録して|会員登録|가입하세요|회원가입/);
     if (["ru", "ar"].includes(locale)) assert.doesNotMatch(metadata.title, /реферальн|промокод|إحالة/i);
     if (locale !== "ru" && locale !== "ar" && locale !== "tr") assert.match(metadata.description, /60\s?%/, `${locale} keeps the owner-confirmed "up to 60%" headline`);
     // the Worker mirror and the client router share one copy table
     const client = computeRouteSeo({ url: `https://nexualpha.com${localizedPath("/", locale)}`, locale });
-    assert.equal(metadata.title, HOME_SEARCH_COPY[locale][0], `${locale} worker title`);
-    assert.equal(client.title, HOME_SEARCH_COPY[locale][0], `${locale} client title`);
-    assert.equal(client.description, HOME_SEARCH_COPY[locale][1], `${locale} client description`);
+    assert.equal(metadata.title, budgetTitle(HOME_SEARCH_COPY[locale][0], titleBudgetForLocale(locale)), `${locale} worker title`);
+    assert.equal(client.title, budgetTitle(HOME_SEARCH_COPY[locale][0], titleBudgetForLocale(locale)), `${locale} client title`);
+    assert.equal(client.description, routeMetaDescription(client.title, HOME_SEARCH_COPY[locale][1], locale), `${locale} client description`);
   }
+});
+
+test("article meta descriptions expand short or boilerplate snippets from article-owned text", () => {
+  const article = {
+    title: { en: "API failover cancel control disclosure radar", "zh-Hans": "API 故障切换与撤单控制披露雷达" },
+    summary: {
+      en: "The safest version of this article is the one that stays boring and exact. API failover, cancel paths, venue controls and disclosure fields are checked separately before automation is trusted.",
+      "zh-Hans": "本文最有价值的地方是克制。API 故障切换、撤单路径、场馆控制与披露字段应拆开核验，不能把自动化可用性写成安全承诺。核验清单将公开事实与未知项分开，列出账户权限、错误恢复、订单状态及官方来源的检查顺序，帮助读者在启用自动化前逐项确认控制边界，避免把单次成功请求当作持续可用性的证据。",
+    },
+    content: {
+      en: "## Practical Takeaway\n\nAPI failover, cancel paths, venue controls and disclosure fields are checked separately before automation is trusted.",
+      "zh-Hans": "## 实用结论\n\nAPI 故障切换、撤单路径、场馆控制与披露字段应拆开核验，不能把自动化可用性写成安全承诺。核验清单将公开事实与未知项分开，列出账户权限、错误恢复、订单状态及官方来源的检查顺序，帮助读者在启用自动化前逐项确认控制边界，避免把单次成功请求当作持续可用性的证据。",
+    },
+  };
+  const preserved = "A hand-authored source description that already has enough detail to explain fees, account controls, source limits and next checks before a user acts.";
+  assert.equal(articleMetaDescription(article, "en", preserved), preserved);
+  const en = articleMetaDescription(article, "en", "Too short.");
+  assert.ok(en.length >= 120 && en.length <= 160, en);
+  const zh = articleMetaDescription(article, "zh-Hans", "本文最有价值的地方是克制。");
+  assert.ok(zh.length >= 120 && zh.length <= 160, zh);
+  assert.doesNotMatch(zh, /本文最有价值的地方是克制/);
 });

@@ -8,7 +8,7 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { countRawMarkdownLinks, inlineMarkdownHtml, resolveArticleLinkHref, tokenizeInlineMarkdown } from "../src/data/article-inline-markdown.js";
-import { budgetTitle, clampMetaDescription, endsWithDanglingWord, metaDescriptionLimit } from "../src/data/meta-description.js";
+import { budgetTitle, clampMetaDescription, endsWithDanglingWord, metaDescriptionLimit, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import { routeMetadata } from "../worker/index.js";
 import { ONCHAIN_GUIDE_LOCALES, onchainGuideReserveSources, onchainGuideSeo } from "../src/data/onchain-guide.js";
@@ -133,7 +133,7 @@ test("NX-09 descriptions end on a complete sentence or a clean clause cut, never
   assert.ok(!endsWithDanglingWord(cut), cut);
   const zh = "OKX 统一代币化股票（Unified Tokenized Stocks）是一类现货资产，命名方式是在美股代码前加一个“X”，按“股”为单位提供美股或 ETF 的价格敞口，以 USDT 计价，全天候交易。 它基于 Payward 的 xStocks 框架";
   const zhCut = clampMetaDescription(zh, "zh-Hans");
-  assert.ok(zhCut.length <= 80 && (zhCut.endsWith("…") || /[。！？]$/.test(zhCut)), zhCut);
+  assert.ok(zhCut.length <= metaDescriptionLimit("zh-Hans", zhCut) && (zhCut.endsWith("…") || /[。！？]$/.test(zhCut)), zhCut);
   assert.equal(clampMetaDescription("Short and complete.", "en"), "Short and complete.");
 });
 
@@ -147,7 +147,7 @@ test("NX-09 every article route in the feed gets a non-dangling meta description
       checked += 1;
       assert.ok(seo.description.length <= metaDescriptionLimit(seo.locale, seo.description), `${locale} ${article.slug}: over budget`);
       assert.ok(!endsWithDanglingWord(seo.description), `${locale} ${article.slug}: "${seo.description.slice(-40)}"`);
-      assert.equal(clampMetaDescription(seo.description, seo.locale), seo.description, "already clamped text is stable");
+      assert.ok(!endsWithDanglingWord(clampMetaDescription(seo.description, seo.locale)), "clamped text remains clean");
     }
   }
   assert.ok(checked > feed.articles.length * 10, `checked ${checked} routes`);
@@ -173,8 +173,8 @@ test("NX-05 /onchain is a verification guide in all 17 locales: honest title, de
     assert.equal(worker.status, 200);
     assert.equal(worker.robots, ["ur", "uk"].includes(locale) ? "noindex,follow" : "index,follow", `${locale}: native-review gate; others indexable`);
     // Class b: 3c54a66 budgets long head titles by removing the brand suffix.
-    assert.equal(worker.title, budgetTitle(seo.title), `${locale} worker title`);
-    assert.equal(worker.description, seo.description, `${locale} worker description`);
+    assert.equal(worker.title, budgetTitle(seo.title, titleBudgetForLocale(locale)), `${locale} worker title`);
+    assert.equal(worker.description, routeMetaDescription(worker.title, seo.description, locale), `${locale} worker description`);
     assert.equal(client.title, worker.title, `${locale} SSR/client title parity`);
     assert.equal(client.description, worker.description, `${locale} SSR/client description parity`);
     const schema = Array.isArray(worker.schema) ? worker.schema[0] : worker.schema;

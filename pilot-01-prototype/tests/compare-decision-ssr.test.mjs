@@ -90,8 +90,8 @@ test("Bybit vs Bitget compare renders reviewed editorial differences and no lega
     assert.match(finalCard, /href="https:\/\/www\.bybit\.com\/register\?affiliate_id=48553"[\s\S]*data-cta-kind="registration"[\s\S]*data-cta-platform="bybit"/);
     assert.match(finalCard, /href="https:\/\/partner\.bitget\.cafe\/bg\/C6PRAF"[\s\S]*data-cta-kind="registration"[\s\S]*data-cta-platform="bitget"/);
     assert.match(finalCard, /data-cta-placement="compare-final-choice-detail"/);
-    assert.match(finalCard, /href="\/exchanges\/bybit\?market=unknown&amp;product=unknown#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="bybit"/);
-    assert.match(finalCard, /href="\/exchanges\/bitget\?market=unknown&amp;product=unknown#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="bitget"/);
+    assert.match(finalCard, /href="\/exchanges\/bybit#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="bybit"/);
+    assert.match(finalCard, /href="\/exchanges\/bitget#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="bitget"/);
     assert.match(finalCard, /Bybit vs Bitget: choose by product route/);
     assert.match(finalCard, new RegExp(`class="v3-compare-final-choice-evidence"[^>]*aria-label="${directAnswer.seoQuestion.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
     assert.doesNotMatch(html, /<details class="v3-versus-stats-disclosure" open/);
@@ -158,8 +158,8 @@ test("Binance vs OKX compare renders reviewed editorial differences without comm
     assert.match(finalCard, /data-cta-placement="compare-final-choice-registration"/);
     assert.match(finalCard, /href="https:\/\/www\.binance\.com\?ref=11350287"[\s\S]*data-cta-kind="registration"[\s\S]*data-cta-platform="binance"/);
     assert.match(finalCard, /href="https:\/\/www\.okx\.com\/join\/nexu888"[\s\S]*data-cta-kind="registration"[\s\S]*data-cta-platform="okx"/);
-    assert.match(finalCard, /href="\/exchanges\/binance\?market=unknown&amp;product=unknown#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="binance"/);
-    assert.match(finalCard, /href="\/exchanges\/okx\?market=unknown&amp;product=unknown#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="okx"/);
+    assert.match(finalCard, /href="\/exchanges\/binance#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="binance"/);
+    assert.match(finalCard, /href="\/exchanges\/okx#registration-path"[\s\S]*data-cta-kind="research"[\s\S]*data-cta-platform="okx"/);
     assert.match(finalCard, /Binance vs OKX: compare fees, product scope, KYC and Web3 access before choosing/);
     assert.doesNotMatch(html, /Verify public products, regional eligibility and official fees first/);
   } finally {

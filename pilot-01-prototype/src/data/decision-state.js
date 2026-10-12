@@ -2,6 +2,7 @@ export const DECISION_STATE_VERSION = 1;
 export const DECISION_STORAGE_KEY = "nexualpha:brazil-decision:v1";
 
 import { sanitizeDecisionAccountStage, sanitizeDecisionFunding } from "./decision-passport.js";
+import { appendFragmentContextParams } from "./locale-routing.js";
 import { applySafeAttributionToSearchParams, sanitizeTrackingMedium, sanitizeTrackingValue } from "./tracking-attribution.js";
 
 export const decisionStateSchema = {
@@ -86,8 +87,21 @@ export function normalizeDecisionState(value = {}) {
   };
 }
 
-export function decisionStateFromSearch(search = "", fallback = defaultDecisionState) {
+function decisionStateParamsFromSearchAndHash(search = "", hash = "") {
   const params = new URLSearchParams(search);
+  const rawHash = String(hash || "");
+  const fragmentQuery = rawHash.includes("?") ? rawHash.split("?").slice(1).join("?") : "";
+  if (fragmentQuery) {
+    const fragmentParams = new URLSearchParams(fragmentQuery);
+    for (const [, paramName] of Object.entries(PARAMS)) {
+      if (!params.has(paramName) && fragmentParams.has(paramName)) params.set(paramName, fragmentParams.get(paramName));
+    }
+  }
+  return params;
+}
+
+export function decisionStateFromSearch(search = "", fallback = defaultDecisionState) {
+  const params = decisionStateParamsFromSearchAndHash(search);
   const next = { ...fallback };
   for (const key of stateKeys) {
     const value = params.get(PARAMS[key]);
@@ -105,25 +119,39 @@ export function decisionStateFromSearch(search = "", fallback = defaultDecisionS
 export function decisionStateFromUrl(input, fallback = defaultDecisionState) {
   try {
     const url = input instanceof URL ? input : new URL(String(input), "https://nexualpha.com");
-    return decisionStateFromSearch(url.search, fallback);
+    const params = decisionStateParamsFromSearchAndHash(url.search, url.hash);
+    return decisionStateFromSearch(params.toString(), fallback);
   } catch {
     return normalizeDecisionState(fallback);
+  }
+}
+
+export function hasDecisionStateUrl(input) {
+  try {
+    const url = input instanceof URL ? input : new URL(String(input), "https://nexualpha.com");
+    const params = decisionStateParamsFromSearchAndHash(url.search, url.hash);
+    return ["market", "product", "platform", "amount", "spot_fee_bps", "deposit_fee_pct", "deposit_fixed_brl", "utm_source", "utm_medium", "utm_campaign", "publisher", "account_stage", "funding"].some((key) => params.has(key));
+  } catch {
+    return false;
   }
 }
 
 export function writeDecisionStateToUrl(input, state) {
   const sourceUrl = input instanceof URL ? input : new URL(String(input || "/br"), "https://nexualpha.com");
   const url = new URL(sourceUrl.pathname || "/br", "https://nexualpha.com");
-  const locale = sourceUrl.searchParams.get("locale");
-  const isBrazilPath = /^\/br(?:\/|$)/i.test(url.pathname);
-  if (SAFE_LOCALES.has(locale) && locale !== "en" && (!isBrazilPath || locale === "pt-BR")) url.searchParams.set("locale", locale);
+  const locale = sourceUrl.searchParams.get("locale") || decisionStateParamsFromSearchAndHash(sourceUrl.search, sourceUrl.hash).get("locale");
   const normalized = normalizeDecisionState(state);
+  const params = {};
+  const isBrazilPath = /^\/br(?:\/|$)/i.test(url.pathname);
+  if (SAFE_LOCALES.has(locale) && locale !== "en" && (!isBrazilPath || locale === "pt-BR")) params.locale = locale;
   for (const key of stateKeys) {
     const value = normalized[key];
-    if (value !== "") url.searchParams.set(PARAMS[key], String(value));
+    if (value !== "") params[PARAMS[key]] = String(value);
   }
-  applySafeAttributionToSearchParams(url.searchParams, normalized);
-  return `${url.pathname}${url.search}${url.hash}`;
+  const attribution = new URLSearchParams();
+  applySafeAttributionToSearchParams(attribution, normalized);
+  for (const [key, value] of attribution) params[key] = value;
+  return appendFragmentContextParams(`${url.pathname}${sourceUrl.hash || ""}`, params);
 }
 
 export function hasDecisionStateSearch(search = "") {

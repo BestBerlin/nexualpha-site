@@ -18,6 +18,14 @@ import { readFileSync } from 'node:fs';
 
 const projectRoot = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 
+function combinedParams(url) {
+  const params = new URLSearchParams(url.search);
+  const hash = String(url.hash || "");
+  const hashQuery = hash.includes("?") ? hash.slice(hash.indexOf("?") + 1) : "";
+  for (const [key, value] of new URLSearchParams(hashQuery)) if (!params.has(key)) params.set(key, value);
+  return params;
+}
+
 async function renderRegionalMarketPreview(props) {
   const tempDir = await mkdtemp(path.join(projectRoot, 'tests/.tmp-regional-preview-'));
   try {
@@ -778,39 +786,41 @@ test('regional preview renders one page-level boundary instead of repeating gene
 test('regional directory CTA preserves market, product, locale, and source context', () => {
   const href = regionalDirectoryHref({ market: 'MX', locale: 'es', funding: 'SPEI' });
   const parsed = new URL(`https://nexualpha.com${href}`);
-  assert.equal(parsed.pathname, '/exchanges');
-  assert.equal(parsed.searchParams.get('market'), 'MX');
-  assert.equal(parsed.searchParams.get('product'), 'spot');
-  assert.equal(parsed.searchParams.get('locale'), 'es');
-  assert.equal(parsed.searchParams.get('utm_source'), 'regional_preview');
-  assert.equal(parsed.searchParams.get('utm_campaign'), 'mx-research-preview');
-  assert.equal(parsed.searchParams.get('funding'), 'SPEI');
+  assert.equal(parsed.pathname, '/es/exchanges');
+  const params = combinedParams(parsed);
+  assert.equal(params.get('market'), 'MX');
+  assert.equal(params.get('product'), 'spot');
+  assert.equal(params.get('utm_source'), 'regional_preview');
+  assert.equal(params.get('utm_campaign'), 'mx-research-preview');
+  assert.equal(params.get('funding'), 'SPEI');
 });
 
 test('traditional Chinese preview keeps its locale in the CTA handoff', () => {
   const parsed = new URL(`https://nexualpha.com${regionalDirectoryHref({ market: 'TW', locale: 'zh-Hant' })}`);
-  assert.equal(parsed.searchParams.get('market'), 'TW');
-  assert.equal(parsed.searchParams.get('locale'), 'zh-Hant');
+  const params = combinedParams(parsed);
+  assert.equal(params.get('market'), 'TW');
+  assert.equal(parsed.pathname.startsWith('/zh-hant/'), true);
 });
 
 test('regional account-stage CTAs preserve the selected decision lane', () => {
   for (const stage of ['new_account', 'another_platform', 'existing_account']) {
     const parsed = new URL(`https://nexualpha.com${regionalDirectoryHref({ market: 'MX', locale: 'es', stage })}`);
-    assert.equal(parsed.searchParams.get('account_stage'), stage);
-    assert.equal(parsed.searchParams.get('market'), 'MX');
-    assert.equal(parsed.searchParams.get('product'), 'spot');
+    const params = combinedParams(parsed);
+    assert.equal(params.get('account_stage'), stage);
+    assert.equal(params.get('market'), 'MX');
+    assert.equal(params.get('product'), 'spot');
   }
 });
 
 test('regional research tools preserve market context into rates and comparison paths', () => {
   for (const path of ['/rates', '/compare/binance-vs-okx']) {
     const parsed = new URL(`https://nexualpha.com${regionalToolHref({ path, market: 'EU', locale: 'de', product: 'spot', funding: 'SEPA' })}`);
-    assert.equal(parsed.pathname, path);
-    assert.equal(parsed.searchParams.get('market'), 'EU');
-    assert.equal(parsed.searchParams.get('product'), 'spot');
-    assert.equal(parsed.searchParams.get('locale'), 'de');
-    assert.equal(parsed.searchParams.get('utm_source'), 'regional_preview');
-    assert.equal(parsed.searchParams.get('funding'), 'SEPA');
+    assert.equal(parsed.pathname, path === '/rates' ? '/de/rates' : `/de${path}`);
+    const params = combinedParams(parsed);
+    assert.equal(params.get('market'), 'EU');
+    assert.equal(params.get('product'), 'spot');
+    assert.equal(params.get('utm_source'), 'regional_preview');
+    assert.equal(params.get('funding'), 'SEPA');
   }
 });
 
@@ -883,9 +893,9 @@ test('Japan Korea Türkiye and Indonesia shortlists localize decision controls w
 
     for (const candidate of shortlist.candidates.filter((item) => item.directHref)) {
       const href = new URL(`https://nexualpha.com${candidate.directHref}`);
-      assert.equal(href.searchParams.get('locale'), locale);
-      assert.equal(href.searchParams.get('market'), market);
-      assert.equal(href.searchParams.get('account_stage'), 'new_account');
+      const params = combinedParams(href);
+      assert.equal(params.get('market'), market);
+      assert.equal(params.get('account_stage'), 'new_account');
     }
   }
 });
@@ -954,9 +964,9 @@ test('Mexico Spanish and Hong Kong Traditional Chinese shortlists do not fall ba
 
     for (const candidate of shortlist.candidates.filter((item) => item.directHref)) {
       const href = new URL(`https://nexualpha.com${candidate.directHref}`);
-      assert.equal(href.searchParams.get('locale'), locale);
-      assert.equal(href.searchParams.get('market'), market);
-      assert.equal(href.searchParams.get('account_stage'), 'new_account');
+      const params = combinedParams(href);
+      assert.equal(params.get('market'), market);
+      assert.equal(params.get('account_stage'), 'new_account');
     }
   }
 });
@@ -1098,12 +1108,12 @@ test('regional shortlist handoffs preserve the reviewed decision passport', () =
     accountStage: 'new_account',
   });
   const compare = new URL(`https://nexualpha.com${br.compareHref}`);
-  assert.equal(compare.pathname, '/compare/binance-vs-okx');
-  assert.equal(compare.searchParams.get('market'), 'BR');
-  assert.equal(compare.searchParams.get('product'), 'spot');
-  assert.equal(compare.searchParams.get('account_stage'), 'new_account');
-  assert.equal(compare.searchParams.get('funding'), 'Pix');
-  assert.equal(compare.searchParams.get('locale'), 'pt-BR');
+  assert.equal(compare.pathname, '/pt-br/compare/binance-vs-okx');
+  const compareParams = combinedParams(compare);
+  assert.equal(compareParams.get('market'), 'BR');
+  assert.equal(compareParams.get('product'), 'spot');
+  assert.equal(compareParams.get('account_stage'), 'new_account');
+  assert.equal(compareParams.get('funding'), 'Pix');
   assert.equal(br.funding, 'Pix');
 
   const hk = buildRegionalShortlist({
@@ -1119,9 +1129,9 @@ test('regional shortlist handoffs preserve the reviewed decision passport', () =
   assert.match(hkHandoff.searchParams.get('start'), /m_HK/);
   assert.match(hkHandoff.searchParams.get('start'), /t_spot/);
   assert.notEqual(hk.compareHref.split('?')[0], '/compare/binance-vs-okx');
-  assert.equal(new URL(`https://nexualpha.com${hk.compareHref}`).searchParams.get('funding'), '帳戶顯示時才可使用的 eDDA');
+  assert.equal(combinedParams(new URL(`https://nexualpha.com${hk.compareHref}`)).get('funding'), '帳戶顯示時才可使用的 eDDA');
   for (const candidate of hk.candidates.filter((item) => item.directHref)) {
-    assert.equal(new URL(`https://nexualpha.com${candidate.directHref}`).searchParams.get('funding'), '帳戶顯示時才可使用的 eDDA');
+    assert.equal(combinedParams(new URL(`https://nexualpha.com${candidate.directHref}`)).get('funding'), '帳戶顯示時才可使用的 eDDA');
   }
 });
 
@@ -1195,7 +1205,7 @@ test('contextual internal hrefs omit unknown sentinel context while preserving e
   );
   assert.equal(
     contextualHref('/compare/binance-vs-okx', { locale: 'en', market: 'BR', product: 'spot', account_stage: 'ready', utm_source: 'home' }),
-    '/compare/binance-vs-okx?account_stage=ready&utm_source=home&market=BR&product=spot',
+    '/compare/binance-vs-okx#nxa-context?market=BR&product=spot&account_stage=ready&utm_source=home',
   );
 });
 

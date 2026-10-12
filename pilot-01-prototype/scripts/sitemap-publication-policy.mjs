@@ -13,6 +13,7 @@ const defaultBaselinePath = path.join(root, "config", "search-publication-baseli
 export const SEARCH_PUBLICATION_VERSION = "nexualpha-search-publication-v1";
 const SITEMAP_CORE_STATIC_PATHS = new Set(["/", "/exchanges", "/activities", "/rates", "/onchain", "/methodology", "/telegram"]);
 const SITEMAP_SECONDARY_STATIC_PATHS = new Set(["/partners"]);
+const SITEMAP_TOOL_STATIC_PATHS = new Set(["/liquidations", "/funding-rates", "/about", "/editorial-policy"]);
 const SITEMAP_PRIORITY_VENUES = new Set(["binance", "okx", "bybit", "bitget", "backpack", "coinbase", "kraken", "hyperliquid", "uniswap"]);
 const SITEMAP_REVIEWED_TRILINGUAL_VENUES = new Set(["drift", "deribit"]);
 const SITEMAP_PRIORITY_FACTBOOK = new Set(["binance", "okx", "bybit", "bitget", "coinbase", "kraken", "hyperliquid", "uniswap"]);
@@ -105,27 +106,32 @@ export function sitemapLocalesForRoute(route, allLocales = DEFAULT_POLICY.priori
   if (template === "regionalPreview") return supportedRouteLocales(route, allLocales);
   if (!isLocalePathEligible(pathname)) return pickSupportedLocales(route, ["en"], allLocales);
   if (SITEMAP_CORE_STATIC_PATHS.has(pathname)) {
-    return pathname === "/"
-      ? supportedRouteLocales(route, allLocales)
+    return ["/", "/exchanges", "/activities", "/rates", "/onchain"].includes(pathname)
+      ? pickSupportedLocales(route, allLocales, allLocales)
       : pickSupportedLocales(route, ["en", "zh-Hans", "ja", "ko", "tr"], allLocales);
   }
+  if (SITEMAP_TOOL_STATIC_PATHS.has(pathname)) return supportedRouteLocales(route, allLocales);
   if (SITEMAP_SECONDARY_STATIC_PATHS.has(pathname)) return pickSupportedLocales(route, ["en", "zh-Hans"], allLocales);
   if (template === "venue") {
     const slug = pathSlug(pathname, "/exchanges/");
+    // Mirror Worker searchPublicationLocales: every active venue edition is sitemap-eligible in all 15 indexable
+    // locales unless the Worker explicitly excludes that venue from all-locale publication.
     if (SITEMAP_REVIEWED_TRILINGUAL_VENUES.has(slug)) return pickSupportedLocales(route, ["en", "zh-Hans", "zh-Hant"], allLocales);
-    const base = SITEMAP_PRIORITY_VENUES.has(slug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"];
-    return pickSupportedLocales(route, [...base, ...(SITEMAP_KEYWORD_VENUE_LOCALES[slug] || [])], allLocales);
+    if (!SITEMAP_LOCALE_EXCLUDED_VENUES.has(slug)) return pickSupportedLocales(route, allLocales, allLocales);
+    return pickSupportedLocales(route, SITEMAP_PRIORITY_VENUES.has(slug) ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"], allLocales);
   }
   if (template === "factbook") {
     const slug = pathSlug(pathname, "/factbook/");
     return pickSupportedLocales(route, SITEMAP_PRIORITY_FACTBOOK.has(slug) ? ["en", "zh-Hans"] : ["en"], allLocales);
   }
+  if (template === "comparisonHub") return pickSupportedLocales(route, allLocales, allLocales);
   if (template === "comparison") {
     const slug = pathSlug(pathname, "/compare/");
+    if (route.generatedComparison) return pickSupportedLocales(route, route.locales || ["en"], allLocales);
     // Mirrors the Worker: pairs with a venue in SEARCH_ALL_LOCALE_VENUE_EXCLUSIONS are noindex outside en/zh-Hans, so the
     // sitemap must not list their ja/ko/tr URLs (QA 2026-10-11 found 6 sitemap URLs served as noindex).
     const wide = SITEMAP_PRIORITY_COMPARISONS.has(slug) && !slug.split("-vs-").some((v) => SITEMAP_LOCALE_EXCLUDED_VENUES.has(v));
-    return pickSupportedLocales(route, wide ? ["en", "zh-Hans", "ja", "ko", "tr"] : ["en", "zh-Hans"], allLocales);
+    return pickSupportedLocales(route, wide ? allLocales : ["en", "zh-Hans"], allLocales);
   }
   if (template === "topic") {
     // A topic edition that owns its locales (Brazil BCB deadline page: English slug in en, Portuguese slug in pt-BR).
@@ -382,7 +388,7 @@ export function assertSitemapPublicationBudget(publication) {
   const { stats } = publication;
   const issues = [];
   if (stats.totalUrls < stats.minSitemapUrls) issues.push(`sitemap has ${stats.totalUrls} URLs, below ${stats.minSitemapUrls}`);
-  if (stats.totalUrls > stats.maxSitemapUrls) issues.push(`sitemap has ${stats.totalUrls} URLs, above ${stats.maxSitemapUrls}`);
+  if (stats.publicationMode !== "full-reviewed-indexable" && stats.totalUrls > stats.maxSitemapUrls) issues.push(`sitemap has ${stats.totalUrls} URLs, above ${stats.maxSitemapUrls}`);
   if (stats.queryLocaleUrls > stats.maxQueryLocaleUrls) issues.push(`sitemap has ${stats.queryLocaleUrls} query-locale URLs, above ${stats.maxQueryLocaleUrls}`);
   if (Number(stats.routesByTemplate?.article || 0) > Number(stats.maxReviewedNewsArticleRoutes || 0)) {
     issues.push(`sitemap publishes ${stats.routesByTemplate.article} reviewed news article routes, above ${stats.maxReviewedNewsArticleRoutes}`);

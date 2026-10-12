@@ -9,6 +9,7 @@ import {
   isLocalePathEligible,
   legacyLocaleRedirect,
   localizedHref,
+  localizedLanguageHref,
   localizedPath,
   parsePublicRoute,
 } from "../src/data/locale-routing.js";
@@ -49,7 +50,19 @@ test("supported UI locales use path URLs for eligible global routes", () => {
   assert.equal(localizedPath("/rates", "pt-BR"), "/pt-br/rates");
   assert.equal(localizedPath("/rates", "id"), "/id-id/rates");
   assert.equal(localizedPath("/exchanges/binance", "en"), "/exchanges/binance");
+  assert.equal(localizedPath("/br", "pt-BR"), "/br");
+  assert.equal(localizedPath("/mx", "es"), "/mx");
+  assert.equal(localizedPath("/mx", "en"), "/mx?locale=en");
   assert.equal(localizedPath("/embed/calculator", "ja"), "/embed/calculator?locale=ja");
+  assert.equal(localizedHref("/embed/calculator", { locale: "ja" }), "/embed/calculator#nxa-context?locale=ja");
+  assert.equal(localizedHref("/embed/calculator#fees", { locale: "ko" }), "/embed/calculator#fees?locale=ko");
+  assert.equal(localizedHref("/mx", { locale: "en" }), "/mx#nxa-context?locale=en");
+  assert.equal(localizedHref("/mx", { locale: "en", preserveQuery: true }), "/mx?locale=en");
+  assert.equal(localizedLanguageHref("/br", { locale: "pt-BR" }), "/br");
+  assert.equal(localizedLanguageHref("/mx", { locale: "es" }), "/mx");
+  assert.equal(localizedLanguageHref("/mx", { locale: "ja" }), "/ja");
+  assert.equal(localizedHref("https://partner.bitget.cafe/bg/C6PRAF", { locale: "fr" }), "https://partner.bitget.cafe/bg/C6PRAF");
+  assert.equal(localizedHref("/exchanges?locale=en&market=BR", { locale: "fr" }), "/fr/exchanges#nxa-context?market=BR");
 });
 
 test("legacy Japanese, Korean, Arabic, Turkish and default-English query URLs redirect while preserving allowed context", () => {
@@ -176,12 +189,18 @@ test("Japanese path routes are limited to eligible global content", () => {
   assert.equal(parsePublicRoute("/ja/br", new URLSearchParams()).contentPathname, "/ja/br");
 });
 
-test("localizedHref switches between path locales without carrying locale query aliases", () => {
-  assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "ko" }), "/ko/exchanges/binance?market=JP#registration-path");
-  assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "ar" }), "/ar/exchanges/binance?market=JP#registration-path");
-  assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "tr" }), "/tr/exchanges/binance?market=JP#registration-path");
-  assert.equal(localizedHref("/ko/exchanges/binance?market=KR#registration-path", { locale: "fr" }), "/fr/exchanges/binance?market=KR#registration-path");
-  assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "en" }), "/exchanges/binance?market=JP#registration-path");
-  assert.equal(localizedHref("/exchanges/binance?market=JP#registration-path", { locale: "ja" }), "/ja/exchanges/binance?market=JP#registration-path");
-  assert.equal(localizedHref("/markets/turkiye?market=TR", { locale: "tr" }), "/tr/markets/turkiye?market=TR");
+test("localizedHref switches between path locales without carrying locale aliases or state params", () => {
+  assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "ko" }), "/ko/exchanges/binance#registration-path?market=JP");
+  assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "ar" }), "/ar/exchanges/binance#registration-path?market=JP");
+  assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "tr" }), "/tr/exchanges/binance#registration-path?market=JP");
+  assert.equal(localizedHref("/ko/exchanges/binance?market=KR#registration-path", { locale: "fr" }), "/fr/exchanges/binance#registration-path?market=KR");
+  assert.equal(localizedHref("/ja/exchanges/binance?market=JP#registration-path", { locale: "en" }), "/exchanges/binance#registration-path?market=JP");
+  assert.equal(localizedHref("/exchanges/binance?market=JP#registration-path", { locale: "ja" }), "/ja/exchanges/binance#registration-path?market=JP");
+  assert.equal(localizedHref("/markets/turkiye?market=TR", { locale: "tr" }), "/tr/markets/turkiye#nxa-context?market=TR");
+  assert.equal(localizedHref("/compare/okx-vs-binance?market=BR&product=spot", { locale: "tr" }), "/tr/compare/binance-vs-okx#nxa-context?market=BR&product=spot");
+  assert.equal(localizedHref("/compare/mexc-vs-gate-io?utm_source=gsc", { locale: "en" }), "/compare/gate-io-vs-mexc#nxa-context?utm_source=gsc");
+  assert.equal(
+    localizedHref("/ja/exchanges/binance?locale=ja&market=JP&utm_source=telegram#registration-path", { locale: "en", preserveQuery: true }),
+    "/exchanges/binance?market=JP&utm_source=telegram#registration-path",
+  );
 });

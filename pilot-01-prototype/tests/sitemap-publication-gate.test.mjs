@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { routeMetadata } from "../worker/index.js";
+import { renderLocaleSitemap, routeMetadata } from "../worker/index.js";
 import {
   INDEXABLE_LOCALES,
+  buildSplitSitemaps,
   buildSitemap,
   routeInventory,
 } from "../scripts/generate-prerender-manifest.mjs";
@@ -18,13 +19,39 @@ import {
   sitemapUrl,
 } from "../scripts/sitemap-publication-policy.mjs";
 import { newsArticleAvailableLocales, normalizeNewsFeed } from "../src/data/news-feed-client.js";
+import { indexableGeneratedComparePairs } from "../src/data/compare-generated.js";
 
 const feedText = await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8");
+const brazilMetadataText = await readFile(new URL("../public/content/brazil-metadata.json", import.meta.url), "utf8");
 const articles = normalizeNewsFeed(JSON.parse(feedText));
 const inventory = routeInventory(articles);
 const policy = loadSearchPublicationBaseline();
 const publication = selectSitemapPublicationEntries(inventory, articles, {
   policy,
+  allLocales: INDEXABLE_LOCALES,
+});
+const legacyHistoricalIndexedUrlDispositions = [
+  ...Array.from({ length: 4 }, (_, index) => ({
+    url: `https://nexualpha.com/legacy-redirect-${index + 1}`,
+    disposition: "redirected_legacy",
+    target: publication.urls[index]?.loc || "https://nexualpha.com/",
+  })),
+  ...Array.from({ length: 7 }, (_, index) => ({
+    url: `https://nexualpha.com/legacy-noindex-${index + 1}`,
+    disposition: "accessible_noindex",
+  })),
+  ...Array.from({ length: 8 }, (_, index) => ({
+    url: `https://nexualpha.com/legacy-missing-${index + 1}`,
+    disposition: "truly_missing",
+  })),
+];
+const legacyPolicy = {
+  ...policy,
+  protectedIndexedUrls: publication.urls.slice(0, 62).map((entry) => entry.loc),
+  historicalIndexedUrlDispositions: legacyHistoricalIndexedUrlDispositions,
+};
+const legacyPublication = selectSitemapPublicationEntries(inventory, articles, {
+  policy: legacyPolicy,
   allLocales: INDEXABLE_LOCALES,
 });
 const newsEnv = {
@@ -33,6 +60,14 @@ const newsEnv = {
       const pathname = new URL(request.url).pathname;
       if (pathname === "/content/news-feed.json") {
         return new Response(feedText, { headers: { "content-type": "application/json" } });
+      }
+      if (pathname === "/content/brazil-metadata.json") {
+        return new Response(brazilMetadataText, { headers: { "content-type": "application/json" } });
+      }
+      if (pathname === "/index.html") {
+        return new Response("<!doctype html><html><head><title>NexuAlpha</title></head><body><div id=\"root\"></div></body></html>", {
+          headers: { "content-type": "text/html; charset=utf-8" },
+        });
       }
       return new Response("missing", { status: 404 });
     },
@@ -52,10 +87,15 @@ function sitemapUrlBlock(xml, loc) {
 test("sitemap publication gate stays inside reviewed locale and URL budgets", () => {
   assert.deepEqual(assertSitemapPublicationBudget(publication), []);
   assert.ok(publication.stats.totalUrls >= policy.minSitemapUrls);
-  assert.ok(publication.stats.totalUrls <= policy.maxSitemapUrls);
+  assert.equal(publication.stats.publicationMode, "full-reviewed-indexable");
+  assert.ok(publication.stats.totalUrls > policy.maxSitemapUrls, "full-reviewed indexable mode is no longer capped by the old cautious max");
   assert.equal(publication.stats.queryLocaleUrls, 0);
   assert.equal(publication.stats.routesByTemplate.article, 312);
   assert.equal(publication.stats.urlsByTemplate.article, 624);
+  assert.equal(publication.stats.routesByTemplate.comparison, 48);
+  assert.equal(publication.stats.urlsByTemplate.comparison, 234);
+  assert.equal(publication.stats.urlsByTemplate.venue, 258);
+  assert.equal(publication.stats.urlsByTemplate.home, 15);
   assert.ok(publication.stats.urlsByTemplate.factbook <= policy.maxUrlsByTemplate.factbook);
   assert.ok(publication.stats.lowDifferentiationUrlCount <= policy.maxLowDifferentiationUrls);
   assert.equal(
@@ -73,12 +113,18 @@ test("full reviewed publication cannot bypass the cautious sitemap locale policy
   }
 
   const locs = new Set(publication.urls.map((entry) => entry.loc));
-  const constrainedLocales = ["es", "pt-BR", "fr", "de", "ar", "ru", "id", "vi", "it"];
-  for (const locale of constrainedLocales) {
-    assert.ok(!locs.has(sitemapUrl("/exchanges/binance", locale)), locale);
-    assert.ok(!locs.has(sitemapUrl("/compare/binance-vs-okx", locale)), locale);
+  const constrainedTopicLocales = ["es", "fr", "de", "ar", "ru", "it"];
+  for (const locale of constrainedTopicLocales) {
     assert.ok(!locs.has(sitemapUrl("/topics/no-kyc", locale)), locale);
   }
+  for (const locale of INDEXABLE_LOCALES) {
+    assert.ok(locs.has(sitemapUrl("/exchanges/binance", locale)), `binance ${locale}`);
+    assert.ok(locs.has(sitemapUrl("/compare/binance-vs-okx", locale)), `compare ${locale}`);
+  }
+  for (const locale of ["en", "zh-Hans", "zh-Hant"]) assert.ok(locs.has(sitemapUrl("/exchanges/drift", locale)), `drift ${locale}`);
+  assert.ok(!locs.has(sitemapUrl("/exchanges/drift", "es")), "drift es");
+  for (const locale of ["en", "zh-Hans", "ja", "ko", "tr"]) assert.ok(locs.has(sitemapUrl("/exchanges/hyperliquid", locale)), `hyperliquid ${locale}`);
+  assert.ok(!locs.has(sitemapUrl("/exchanges/hyperliquid", "es")), "hyperliquid es");
   for (const locale of ["ja", "ko", "tr"]) {
     assert.ok(locs.has(sitemapUrl("/exchanges/binance", locale)), locale);
     assert.ok(locs.has(sitemapUrl("/compare/binance-vs-okx", locale)), locale);
@@ -89,8 +135,6 @@ test("full reviewed publication cannot bypass the cautious sitemap locale policy
 test("sitemap alternates contain only locales admitted by the publication gate", () => {
   const sitemap = buildSitemap(inventory, articles, { policy });
   const excluded = [
-    "https://nexualpha.com/de/compare/binance-vs-okx",
-    "https://nexualpha.com/es/exchanges/binance",
     "https://nexualpha.com/ar/topics/derivatives",
   ];
 
@@ -103,25 +147,71 @@ test("sitemap alternates contain only locales admitted by the publication gate",
     const block = sitemapUrlBlock(sitemap, `https://nexualpha.com${pathname}`);
     assert.ok(block, pathname);
     const alternates = [...block.matchAll(/hreflang="([^"]+)"/g)].map((match) => match[1]);
-    assert.deepEqual(new Set(alternates), new Set(["en", "zh-Hans", "ja", "ko", "tr", "x-default"]), pathname);
-    assert.equal(alternates.length, 6, pathname);
+    assert.deepEqual(alternates, [], pathname);
+  }
+});
+
+test("sitemap index splits indexable canonical routes by template", async () => {
+  const split = buildSplitSitemaps(inventory, articles, { policy, newsSitemapLastmod: "2026-10-12T00:00:00Z" });
+  const files = new Set(split.files.keys());
+
+  assert.match(split.index, /<sitemapindex xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
+  for (const file of [
+    "sitemap-locales.xml",
+    "sitemap-venues.xml",
+    "sitemap-compare.xml",
+    "sitemap-topics-tools.xml",
+    ...INDEXABLE_LOCALES.map((locale) => `sitemap-articles-${locale.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.xml`),
+  ]) {
+    assert.ok(files.has(file), file);
+    assert.match(split.index, new RegExp(`<loc>https://nexualpha\\.com/${file}</loc>`), file);
+  }
+  assert.match(split.index, /<loc>https:\/\/nexualpha\.com\/news-sitemap\.xml<\/loc>/);
+
+  const compareLocs = locsFromSitemap(split.files.get("sitemap-compare.xml").xml);
+  assert.equal(compareLocs.length, 234);
+  assert.equal(compareLocs.filter((loc) => /\/compare\//.test(new URL(loc).pathname)).length, 234);
+  assert.equal(new Set(compareLocs).size, compareLocs.length);
+  for (const pair of indexableGeneratedComparePairs()) {
+    assert.ok(compareLocs.includes(`https://nexualpha.com/compare/${pair}`), pair);
+    assert.ok(compareLocs.includes(`https://nexualpha.com/zh-hans/compare/${pair}`), `${pair} zh-Hans`);
+    assert.ok(compareLocs.includes(`https://nexualpha.com/zh-hant/compare/${pair}`), `${pair} zh-Hant`);
+  }
+
+  const allLocs = [...split.files.values()].flatMap(({ xml }) => locsFromSitemap(xml));
+  assert.equal(allLocs.length, publication.urls.length);
+  assert.deepEqual(new Set(allLocs), new Set(publication.urls.map((entry) => entry.loc)));
+  assert.ok(!allLocs.some((loc) => /\/news\/(?:page\/\d+|category\/)/.test(new URL(loc).pathname)));
+  for (const forbidden of ["/embed/calculator", "/es/news", "/pt-br/news", "/ru/news"]) {
+    assert.ok(!allLocs.some((loc) => new URL(loc).pathname === forbidden), forbidden);
+  }
+
+  const legacyLocaleLocs = locsFromSitemap(await renderLocaleSitemap({}));
+  const missingFromSplit = legacyLocaleLocs.filter((loc) => !allLocs.includes(loc));
+  assert.deepEqual(missingFromSplit, [], "split sitemap children must preserve the old locale sitemap indexable URL union");
+
+  for (const loc of allLocs) {
+    const metadata = await routeMetadata(new URL(loc), newsEnv);
+    assert.equal(metadata.status, 200, loc);
+    assert.equal(metadata.robots, "index,follow", loc);
+    assert.equal(metadata.canonical, loc, loc);
   }
 });
 
 test("current GSC indexed baseline is fully classified", () => {
   const classified =
-    publication.stats.protectedPublishedCount
-    + publication.stats.excludedIndexedNoindex.length
-    + publication.stats.excludedIndexedMissing.length
-    + publication.stats.excludedIndexedBudget.length;
-  const report = buildSearchPublicationReport(publication);
+    legacyPublication.stats.protectedPublishedCount
+    + legacyPublication.stats.excludedIndexedNoindex.length
+    + legacyPublication.stats.excludedIndexedMissing.length
+    + legacyPublication.stats.excludedIndexedBudget.length;
+  const report = buildSearchPublicationReport(legacyPublication);
 
-  assert.equal(policy.protectedIndexedUrls.length, 62);
-  assert.equal(publication.stats.protectedPublishedCount, 62);
-  assert.equal(publication.stats.excludedIndexedNoindex.length, 0);
-  assert.equal(publication.stats.excludedIndexedMissing.length, 0);
-  assert.equal(publication.stats.excludedIndexedBudget.length, 0);
-  assert.equal(classified, policy.protectedIndexedUrls.length);
+  assert.equal(legacyPolicy.protectedIndexedUrls.length, 62);
+  assert.equal(legacyPublication.stats.protectedPublishedCount, 62);
+  assert.equal(legacyPublication.stats.excludedIndexedNoindex.length, 0);
+  assert.equal(legacyPublication.stats.excludedIndexedMissing.length, 0);
+  assert.equal(legacyPublication.stats.excludedIndexedBudget.length, 0);
+  assert.equal(classified, legacyPolicy.protectedIndexedUrls.length);
   assert.deepEqual(report.historicalIndexedCounts, {
     redirectedLegacy: 4,
     accessibleNoindex: 7,
@@ -298,19 +388,19 @@ test("news route-locale metadata follows the final sitemap article budget", asyn
 });
 
 test("publication report explains the reviewed indexable sitemap scope", () => {
-  const report = buildSearchPublicationReport(publication);
+  const report = buildSearchPublicationReport(legacyPublication);
   assert.equal(report.publicationScope, "reviewed-indexable-routes-only");
   assert.match(report.publicationScopeNote, /redirected legacy URLs/);
   assert.match(report.publicationScopeNote, /accessible noindex URLs/);
   assert.match(report.publicationScopeNote, /truly missing URLs/);
-  assert.equal(report.maxReviewedNewsArticleRoutes, policy.maxReviewedNewsArticleRoutes);
-  assert.deepEqual(report.maxUrlsByTemplate, policy.maxUrlsByTemplate);
-  assert.equal(report.urlsByTemplate.article, publication.stats.urlsByTemplate.article);
-  assert.equal(report.lowDifferentiationUrlCount, publication.stats.lowDifferentiationUrlCount);
+  assert.equal(report.maxReviewedNewsArticleRoutes, legacyPolicy.maxReviewedNewsArticleRoutes);
+  assert.deepEqual(report.maxUrlsByTemplate, legacyPolicy.maxUrlsByTemplate);
+  assert.equal(report.urlsByTemplate.article, legacyPublication.stats.urlsByTemplate.article);
+  assert.equal(report.lowDifferentiationUrlCount, legacyPublication.stats.lowDifferentiationUrlCount);
   assert.deepEqual(report.excludedCounts, {
-    indexedNoindex: publication.stats.excludedIndexedNoindex.length,
-    indexedMissing: publication.stats.excludedIndexedMissing.length,
-    indexedBudget: publication.stats.excludedIndexedBudget.length,
+    indexedNoindex: legacyPublication.stats.excludedIndexedNoindex.length,
+    indexedMissing: legacyPublication.stats.excludedIndexedMissing.length,
+    indexedBudget: legacyPublication.stats.excludedIndexedBudget.length,
     redirectedLegacy: 4,
     accessibleNoindex: 7,
     trulyMissing: 8,
@@ -322,7 +412,7 @@ test("route-locale eligibility is the single source for indexable hreflang candi
   const eligibility = buildSearchPublicationEligibility(publication);
 
   assert.equal(eligibility.has("/exchanges/binance", "ja"), true);
-  assert.equal(eligibility.has("/exchanges/binance", "es"), false);
+  assert.equal(eligibility.has("/exchanges/binance", "es"), true);
   assert.equal(eligibility.has("/topics", "en"), true);
   assert.equal(eligibility.has("/topics", "ja"), false);
   assert.equal(eligibility.has("/mx", "es"), true);

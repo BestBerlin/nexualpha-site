@@ -89,7 +89,7 @@ test("tool pages list matching articles newest first, search-published first, wi
   const native = tr.items.find((item) => item.slug === "tr-native-leverage");
   assert.deepEqual([native.href, native.title, native.lang], ["/tr/news/tr-native-leverage", "Türkiye'de kaldıraç sınırları", "tr"]);
   const english = tr.items.find((item) => item.slug === "liquidation-cascade-review");
-  assert.deepEqual([english.href, english.title, english.lang], ["/news/liquidation-cascade-review?locale=tr", "October liquidation cascade one year later", "en"], "no generic placeholder title");
+  assert.deepEqual([english.href, english.title, english.lang], ["/tr/news", "October liquidation cascade one year later", "en"], "no generic placeholder title and no query-locale article URL");
   const pair = toolArticles("compare:binance-vs-okx", feedArticles).map((row) => row.slug);
   assert.equal(pair[0], "binance-okx-funding-caps", "an article naming both venues leads the pair page");
   assert.equal(toolArticleLinks("compare", [], "en"), null, "no articles: no block");
@@ -163,6 +163,21 @@ test("data pages render the related-articles block at request time from the live
   const ar = await (await fetchPage("/ar/funding-rates", env)).text();
   assert.match(ar, /data-tool-articles="funding-rates" dir="rtl"/, "Arabic block is RTL");
   assert.match(ar, /أبحاث ذات صلة/, "Arabic heading");
+});
+
+test("runtime compare pages render tool article links through the shared producer without query-locale article URLs", async () => {
+  const env = { ASSETS: assets, MARKET_EVENTS_READ: async () => null, NEWS_SSR_RENDER: (href, options) => harness.render(href, options) };
+  const html = await (await fetchPage("/zh-hant/compare", env)).text();
+  assert.match(html, /data-tool-articles="compare"/, "compare hub renders the related research block");
+  assert.doesNotMatch(html, /href="\/news\/[a-z0-9-]+\?locale=zh-Hant"/);
+  assert.doesNotMatch(html, /\/news\/[a-z0-9-]+\?locale=zh-Hant/);
+  assert.match(html, /href="\/zh-hant\/news"/);
+  const state = prerenderState(html);
+  assert.ok(state?.toolArticles?.items?.length >= 1, "tool article payload is present for hydration");
+  assert.ok(state.toolArticles.items.every((item) => !/\/news\/[a-z0-9-]+\?locale=/.test(item.href)), "hydration payload has no query-locale article hrefs");
+  const replay = await harness.render("https://nexualpha.com/compare?locale=zh-Hant", { toolArticles: state.toolArticles });
+  assert.match(replay, /data-tool-articles="compare"/, "hydration props reproduce the compare block");
+  assert.doesNotMatch(replay, /\/news\/[a-z0-9-]+\?locale=zh-Hant/);
 });
 
 test("hydrateRoot in jsdom reports no mismatch on tool pages carrying the block", async () => {

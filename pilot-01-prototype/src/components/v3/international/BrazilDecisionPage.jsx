@@ -8,12 +8,13 @@ import { buildTelegramWebsiteFunnelContext } from "../../../data/telegram-config
 import { OnsiteTelegramBotHandoff } from "../OnsiteTelegramBotHandoff.jsx";
 import { BrandMark } from "../../brand/BrandMark.jsx";
 import { brazilControlsCopyExtra } from "../../../data/brazil-controls-copy.js";
+import { appendFragmentContextParams } from "../../../data/locale-routing.js";
 import {
   costEstimate,
   browserSessionStorage,
   decisionStateFromUrl,
   defaultDecisionState,
-  hasDecisionStateSearch,
+  hasDecisionStateUrl,
   loadDecisionState,
   normalizeDecisionState,
   saveDecisionState,
@@ -379,22 +380,6 @@ function BrazilNextSteps({ steps = [], state, pageLocale, onDecision }) {
   );
 }
 
-function stateSearch(state, platform = state.platform) {
-  const params = new URLSearchParams();
-  params.set("locale", BRAZIL_PAGE_LOCALE);
-  params.set("market", state.region);
-  params.set("product", state.product);
-  if (platform) params.set("platform", platform);
-  params.set("amount", String(state.amount));
-  params.set("spot_fee_bps", String(state.spotFeeBps));
-  params.set("deposit_fee_pct", String(state.depositFeePercent));
-  params.set("deposit_fixed_brl", String(state.depositFixedBrl));
-  if (state.accountStage) params.set("account_stage", state.accountStage);
-  if (state.funding) params.set("funding", state.funding);
-  applyBrazilAttribution(params, state);
-  return params.toString();
-}
-
 function applyBrazilAttribution(params, state) {
   for (const [key, value] of [
     ["utm_source", state.source],
@@ -410,36 +395,39 @@ function withBrazilPassport(href, state, pageLocale = BRAZIL_PAGE_LOCALE) {
   if (!href || typeof href !== "string" || !href.startsWith("/")) return href;
   const [pathAndSearch, rawHash = ""] = href.split("#");
   const target = new URL(pathAndSearch, "https://nexualpha.com");
-  target.searchParams.set("locale", pageLocale);
-  target.searchParams.set("market", state.region);
-  target.searchParams.set("product", state.product);
-  if (state.accountStage) target.searchParams.set("account_stage", state.accountStage);
-  if (state.funding) target.searchParams.set("funding", state.funding);
-  applyBrazilAttribution(target.searchParams, state);
-  return `${target.pathname}${target.search}${rawHash ? `#${rawHash}` : ""}`;
+  const params = {
+    locale: pageLocale,
+    market: state.region,
+    product: state.product,
+  };
+  if (state.accountStage) params.account_stage = state.accountStage;
+  if (state.funding) params.funding = state.funding;
+  const attribution = new URLSearchParams();
+  applyBrazilAttribution(attribution, state);
+  for (const [key, value] of attribution) params[key] = value;
+  return appendFragmentContextParams(`${target.pathname}${rawHash ? `#${rawHash}` : ""}`, params);
 }
 
 function withBrazilState(href, state, pageLocale = BRAZIL_PAGE_LOCALE, platform = state.platform) {
   if (!href || typeof href !== "string" || !href.startsWith("/br")) return href;
   const [pathAndSearch, rawHash = ""] = href.split("#");
-  const [path, rawSearch = ""] = pathAndSearch.split("?");
-  const params = new URLSearchParams(rawSearch);
-  params.set("locale", pageLocale);
-  params.set("market", state.region);
-  params.set("product", state.product);
-  if (platform) params.set("platform", platform);
-  else params.delete("platform");
-  params.set("amount", String(state.amount));
-  params.set("spot_fee_bps", String(state.spotFeeBps));
-  params.set("deposit_fee_pct", String(state.depositFeePercent));
-  params.set("deposit_fixed_brl", String(state.depositFixedBrl));
-  if (state.accountStage) params.set("account_stage", state.accountStage);
-  else params.delete("account_stage");
-  if (state.funding) params.set("funding", state.funding);
-  else params.delete("funding");
-  applyBrazilAttribution(params, state);
-  const search = params.toString();
-  return `${path}${search ? `?${search}` : ""}${rawHash ? `#${rawHash}` : ""}`;
+  const target = new URL(pathAndSearch, "https://nexualpha.com");
+  const params = {
+    locale: pageLocale,
+    market: state.region,
+    product: state.product,
+    amount: String(state.amount),
+    spot_fee_bps: String(state.spotFeeBps),
+    deposit_fee_pct: String(state.depositFeePercent),
+    deposit_fixed_brl: String(state.depositFixedBrl),
+  };
+  if (platform) params.platform = platform;
+  if (state.accountStage) params.account_stage = state.accountStage;
+  if (state.funding) params.funding = state.funding;
+  const attribution = new URLSearchParams();
+  applyBrazilAttribution(attribution, state);
+  for (const [key, value] of attribution) params[key] = value;
+  return appendFragmentContextParams(`${target.pathname}${rawHash ? `#${rawHash}` : ""}`, params);
 }
 
 function BrazilDecisionChain({ page, state, pageLocale, onDecision }) {
@@ -516,9 +504,9 @@ function BrazilDecisionPath({ state, selectedVenues, mainRegistrationUrl, mainRe
   const selectedVenue = selectedVenues.find((venue) => venue.slug === state.platform);
   const firstVenue = selectedVenues[0];
   const shortlistNames = selectedVenues.map((venue) => venue.name).join(" ou ");
-  const decisionSearch = stateSearch(state, selectedVenue?.slug || firstVenue?.slug || "");
-  const pixHref = `/br/pix?${decisionSearch}`;
-  const eligibilityHref = `/br/kyc-cpf?${decisionSearch}`;
+  const selectedPlatform = selectedVenue?.slug || firstVenue?.slug || "";
+  const pixHref = withBrazilState("/br/pix", state, BRAZIL_PAGE_LOCALE, selectedPlatform);
+  const eligibilityHref = withBrazilState("/br/kyc-cpf", state, BRAZIL_PAGE_LOCALE, selectedPlatform);
   const finalHref = !state.platform
     ? "#br-shortlist-title"
     : canRegister
@@ -781,7 +769,7 @@ export function BrazilDecisionPage({ pathname = "/br", initialUrl, locale = "pt-
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
     // Match prerender on the first frame; then restore real whitelisted campaign state.
-    const saved = hasDecisionStateSearch(window.location.search)
+    const saved = hasDecisionStateUrl(window.location.href)
       ? decisionStateFromUrl(window.location.href)
       : loadDecisionState(browserSessionStorage(window), state);
     if (JSON.stringify(saved) !== JSON.stringify(state)) setState(saved);

@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 
 import worker, { renderLocaleSitemap, routeMetadata } from "../worker/index.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
-import { budgetTitle } from "../src/data/meta-description.js";
+import { budgetTitle, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
 import { compareDirectAnswerFor } from "../src/data/compare-direct-answers.js";
 import { comparePairAnswerSlugs, comparePairAnswers, COMPARE_PAIR_LOCALES } from "../src/data/compare-pair-answers.js";
 import { isPartnerPromotableIn } from "../src/data/partner-geo-restrictions.js";
@@ -49,7 +49,7 @@ test("the four market-plan pairs are registered everywhere a curated comparison 
     for (const key of ["en", "zh-Hans", "zh-Hant"]) {
       assert.ok(card.title[key] && card.tagline[key], `${pair} ${key} card copy`);
     }
-    assert.deepEqual(sitemapLocalesForRoute({ pathname: `/compare/${pair}`, template: "comparison", index: true }, LOCALES).sort(), ["en", "ja", "ko", "tr", "zh-Hans"].sort());
+    assert.deepEqual(sitemapLocalesForRoute({ pathname: `/compare/${pair}`, template: "comparison", index: true }, LOCALES).sort(), [...LOCALES].sort());
     assert.ok(venueDatabase[left] && venueDatabase[right], `${pair} venues exist in venue data`);
   }
 });
@@ -107,8 +107,8 @@ test("Worker route metadata publishes the four pairs in all 15 locales with cano
       assert.ok(faq?.mainEntity?.length >= 4, `${label} FAQPage`);
       assert.equal(faq.mainEntity[0].name, expected.seoQuestion, `${label} direct answer question`);
       // Owner title-budget rule: served metadata may drop the trailing brand suffix while source copy keeps it.
-      assert.equal(meta.title, budgetTitle(expected.seoTitle), `${label} title`);
-      assert.equal(meta.description, expected.seoDescription, `${label} description`);
+      assert.equal(meta.title, budgetTitle(expected.seoTitle, titleBudgetForLocale(locale)), `${label} title`);
+      assert.equal(meta.description, routeMetaDescription(meta.title, expected.seoDescription, locale), `${label} description`);
       // The SSR metadata path reads the same source.
       const client = computeRouteSeo({ url: `${loc}`, locale });
       assert.equal(client.title, meta.title, `${label} SSR title parity`);

@@ -252,6 +252,7 @@ export function buildTelegramReturnContext(input = {}) {
   const resumeParams = Object.fromEntries(buildAnonymousDecisionResumeQuery(anonymousResume?.state));
   const href = localizedHref(object.path, {
     locale: context.locale,
+    preserveQuery: true,
     ...publicContextParams(context),
     ...resumeParams,
     ...paramsFor(context),

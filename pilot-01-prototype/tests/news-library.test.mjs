@@ -198,15 +198,15 @@ test("related selection is deterministic: shared platforms first, then newest in
   assert.equal(paginateNews(pool, { category: "guide" }).total, 10);
 });
 
-test("news library sitemap lists every archive page in en and zh-Hans", async () => {
+test("news library sitemap helper lists archives while the legacy public endpoint redirects to the sitemap index", async () => {
   const xml = renderNewsLibrarySitemap(articles.filter((article) => article.status === "PUBLISHED"));
   for (const loc of ["https://nexualpha.com/news", "https://nexualpha.com/news/page/3", "https://nexualpha.com/zh-hans/news/page/2", "https://nexualpha.com/news/category/rwa", "https://nexualpha.com/zh-hans/news/category/exchange-update"]) {
     assert.match(xml, new RegExp(`<loc>${loc.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}</loc>`));
   }
   assert.equal((xml.match(/<url>/g) || []).length, 2 * (3 + 6));
   const response = await worker.fetch(new Request("https://nexualpha.com/news-library-sitemap.xml"), env);
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get("content-type"), /xml/);
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get("location"), "https://nexualpha.com/sitemap.xml");
 });
 
 test("React news pages render the same pagination, category links and related research", async () => {

@@ -2219,8 +2219,7 @@ function topicLocaleKey(locale) {
 }
 
 function localizedRouteHref(href, context) {
-  const [path, hash] = String(href || "").split("#");
-  return `${localizedHref(path || "/", context)}${hash ? `#${hash}` : ""}`;
+  return localizedHref(href || "/", context);
 }
 
 function traditionalizePerpDictionaryText(value) {

@@ -10,9 +10,8 @@ function Chevron() {
 }
 
 /**
- * Custom listbox language switcher. Options are buttons/list items (not links) so the
- * page's link set and hreflang output are untouched; selection calls onSelect(code),
- * which performs the same full locale navigation the old <select> did.
+ * Listbox language switcher with crawlable anchors. Keyboard selection calls
+ * onSelect(code); ordinary and modified anchor clicks retain native navigation.
  * Keyboard: ArrowDown/ArrowUp/Enter/Space open; arrows, Home, End, typeahead move;
  * Enter/Space select; Escape closes and restores focus; Tab closes.
  */
@@ -100,9 +99,12 @@ export function LanguageMenu({ locale, options, label, disabled = false, onSelec
       aria-activedescendant={open ? `${uid}-o${active}` : undefined} onKeyDown={onListKeyDown}>
       {options.map((option, index) => <li key={option.code} id={`${uid}-o${index}`} role="option" lang={option.code} data-index={index}
         aria-selected={option.code === locale} data-active={open && index === active ? "true" : undefined}
-        onPointerMove={() => open && index !== active && setActive(index)} onClick={() => choose(index)}>
+        onPointerMove={() => open && index !== active && setActive(index)}>
+        <a className="nx-lang__opt" href={option.href} hrefLang={option.code} lang={option.code} tabIndex={-1}
+          aria-current={option.code === locale ? "true" : undefined} onClick={() => setOpen(false)}>
         <span className="nx-lang__opt-name">{option.label}</span>
         <span className="nx-lang__opt-code" aria-hidden="true">{option.code}</span>
+        </a>
       </li>)}
     </ul>
   </div>;

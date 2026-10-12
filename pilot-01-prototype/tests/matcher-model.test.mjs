@@ -119,7 +119,7 @@ test("regional context with no reviewed venue does not fall back to a generic gl
     assert.doesNotMatch(model.comparisonHref, /binance-vs-coinbase/);
     assert.equal(model.comparisonHref, "");
     assert.equal(model.regional.compareHref, "");
-    assert.match(model.regional.verifyHref, /^\/(?:ja\/|ko\/)?exchanges\?/);
+    assert.match(model.regional.verifyHref, /^\/(?:ja\/|ko\/)?exchanges#nxa-context\?/);
   }
 });
 
@@ -148,7 +148,7 @@ test("regional candidates are reviewed, sorted, scored and gated before compare"
   assert.deepEqual(model.regional.candidates.map((candidate) => candidate.slug), ["binance", "okx"]);
   assert.deepEqual(model.comparisonSlugs, ["binance", "okx"]);
   assert.equal(model.canCompare, true);
-  assert.match(model.comparisonHref, /\/compare\/binance-vs-okx\?/);
+  assert.match(model.comparisonHref, /\/compare\/binance-vs-okx#nxa-context\?/);
   assert.match(model.comparisonHref, /market=BR/);
   assert.match(model.comparisonHref, /kyc=avoid_kyc/);
   assert.match(model.comparisonHref, /usage_frequency=daily/);

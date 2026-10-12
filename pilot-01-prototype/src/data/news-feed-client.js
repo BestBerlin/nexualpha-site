@@ -550,11 +550,10 @@ export function resolveNewsContentLocale(requestedLocale = "en", articleOrLocale
 
 export function newsArticleUrl(slug, locale = "en", article = null) {
   const pathname = `/news/${encodeURIComponent(slug)}`;
-  // English and Simplified Chinese editions always have a canonical path route. Another locale gets its path route
-  // (/tr/news/:slug) only when the article carries that edition; otherwise the display locale keeps the query form so
-  // it resolves to the same English SSR article instead of a thin localized URL.
+  // Internal article anchors must stay canonical for crawlers: link to the locale article only when that edition exists;
+  // otherwise send readers to the locale news home instead of creating /news/<slug>?locale=<locale> variants.
   if (locale !== "en" && locale !== "zh-Hans" && !hasNewsArticleLocale(article, locale)) {
-    return `${pathname}?locale=${encodeURIComponent(locale)}`;
+    return localizedHref("/news", { locale });
   }
   return localizedHref(pathname, { locale });
 }

@@ -104,7 +104,7 @@ test('calculator SSR defaults stay stable while exposing return-copy controls', 
   assert.doesNotMatch(fees, /bleed-verdict__numbers/);
   assert.doesNotMatch(fees, /bleed-seats-counter/);
   assert.equal((fees.match(/User benefit pending official verification/g) || []).length, 1);
-  assert.match(feesRegional, /href="\/exchanges\/okx\?market=BR&amp;product=spot&amp;utm_source=regional_preview&amp;utm_campaign=br-research-preview#registration-path"/);
+  assert.match(feesRegional, /href="\/exchanges\/okx#registration-path\?market=BR&amp;product=spot&amp;utm_source=regional_preview&amp;utm_campaign=br-research-preview"/);
   assert.match(feesRegional, /data-cta-kind="research"/);
   assert.doesNotMatch(feesRegional, /href="https:\/\/www\.okx\.com\/join\/nexu888"/);
   assert.match(feesRegional, /data-growth-market="BR"/);

@@ -1,3 +1,5 @@
+import { canonicalComparePairSlug, parseComparePair } from "./compare-slug.js";
+
 export const LOCALE_PREFIX_BY_CODE = Object.freeze({
   en: "",
   "zh-Hans": "zh-hans",
@@ -109,6 +111,34 @@ const PRESERVED_REDIRECT_PARAMS = new Set([
   "msclkid",
 ]);
 
+export const FRAGMENT_CONTEXT_KEYS = Object.freeze({
+  market: "market",
+  product: "product",
+  platform: "platform",
+  amount: "amount",
+  spot_fee_bps: "spot_fee_bps",
+  deposit_fee_pct: "deposit_fee_pct",
+  deposit_fixed_brl: "deposit_fixed_brl",
+  account_stage: "account_stage",
+  accountStage: "account_stage",
+  funding: "funding",
+  basis: "basis",
+  instrument: "instrument",
+  order: "order",
+  publisher: "publisher",
+  scenario: "scenario",
+  utm_source: "utm_source",
+  utm_medium: "utm_medium",
+  utm_campaign: "utm_campaign",
+  venue: "venue",
+  volume: "volume",
+  locale: "locale",
+  kyc: "kyc",
+  usage_frequency: "usage_frequency",
+  usage_scale: "usage_scale",
+  return: "return",
+});
+
 function normalizePathname(pathname = "/") {
   const value = String(pathname || "/").split("#")[0].split("?")[0];
   if (!value || value === "/") return "/";
@@ -156,6 +186,38 @@ function appendLocaleQuery(pathname, locale) {
   if (!locale) return pathname;
   const separator = pathname.includes("?") ? "&" : "?";
   return `${pathname}${separator}locale=${encodeURIComponent(locale)}`;
+}
+
+function canonicalContextValue(value) {
+  if (value === undefined || value === null) return undefined;
+  const normalized = String(value).trim();
+  if (!normalized || normalized.toLowerCase() === "unknown") return undefined;
+  return normalized;
+}
+
+export function appendFragmentContextParams(href, context = {}) {
+  const params = new URLSearchParams();
+  for (const [inputKey, outputKey] of Object.entries(FRAGMENT_CONTEXT_KEYS)) {
+    const value = canonicalContextValue(context[inputKey]);
+    if (value) params.set(outputKey, value);
+  }
+  const serialized = params.toString();
+  if (!serialized) return href;
+  const [base, rawHash = ""] = String(href || "/").split("#");
+  if (!rawHash) return `${base}#nxa-context?${serialized}`;
+  const [target, existing = ""] = rawHash.split("?");
+  const next = new URLSearchParams(existing);
+  for (const [key, value] of params) next.set(key, value);
+  return `${base}#${target || "nxa-context"}?${next.toString()}`;
+}
+
+function canonicalContentPathname(pathname) {
+  const normalized = normalizePathname(pathname);
+  const compareMatch = normalized.match(/^\/compare\/([^/]+)$/);
+  if (!compareMatch) return normalized;
+  const slugs = parseComparePair(compareMatch[1]);
+  if (!slugs || slugs.length !== 2) return normalized;
+  return `/compare/${canonicalComparePairSlug(slugs)}`;
 }
 
 export function isLocalePathEligible(pathname) {
@@ -232,14 +294,9 @@ export function parsePublicRoute(pathname, searchParams) {
 export function localizedPath(pathname, locale = "en") {
   const normalized = normalizePathname(pathname);
   if (!isSupportedLocale(locale)) return normalized;
+  const countryPrefix = countryPrefixForPath(normalized);
+  if (countryPrefix) return locale === (COUNTRY_LOCALE_BY_PREFIX[countryPrefix] || "en") ? normalized : appendLocaleQuery(normalized, locale);
   if (locale === "en") {
-    const countryPrefix = countryPrefixForPath(normalized);
-    // Non-English regional defaults need an explicit English query; removing
-    // it here would make the next hydration/refresh restore the market locale.
-    // Brazil retains its original Portuguese route authority.
-    if (countryPrefix && countryPrefix !== "/br" && COUNTRY_LOCALE_BY_PREFIX[countryPrefix] !== "en") {
-      return appendLocaleQuery(normalized, "en");
-    }
     return normalized;
   }
   if (!isLocalePathEligible(normalized)) return appendLocaleQuery(normalized, locale);
@@ -250,17 +307,50 @@ export function localizedPath(pathname, locale = "en") {
 }
 
 export function localizedHref(href, { locale = "en", ...extra } = {}) {
-  const parsed = new URL(String(href || "/"), "https://nexualpha.com");
+  const rawHref = String(href || "/");
+  const parsed = new URL(rawHref, "https://nexualpha.com");
+  if (parsed.origin !== "https://nexualpha.com") return rawHref;
   const publicRoute = parsePublicRoute(parsed.pathname, parsed.searchParams);
   const targetLocale = normalizeLinkLocale(locale);
-  const target = new URL(localizedPath(publicRoute.contentPathname, targetLocale), "https://nexualpha.com");
-  const params = new URLSearchParams(parsed.searchParams);
-  params.delete("locale");
-  Object.entries(extra).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "") params.set(key, String(value));
-  });
-  for (const [key, value] of params) target.searchParams.append(key, value);
-  return `${target.pathname}${target.search}${parsed.hash}`;
+  const target = new URL(localizedPath(canonicalContentPathname(publicRoute.contentPathname), targetLocale), "https://nexualpha.com");
+  const fragmentContext = {};
+  if (extra.preserveQuery) {
+    const params = new URLSearchParams(parsed.searchParams);
+    params.delete("locale");
+    Object.entries(extra).forEach(([key, value]) => {
+      if (key === "preserveQuery") return;
+      if (value !== undefined && value !== null && value !== "") params.set(key, String(value));
+    });
+    for (const [key, value] of params) target.searchParams.append(key, value);
+  } else if (target.searchParams.has("locale")) {
+    const displayLocale = target.searchParams.get("locale");
+    target.searchParams.delete("locale");
+    if (displayLocale) fragmentContext.locale = displayLocale;
+  }
+  if (!extra.preserveQuery) {
+    for (const [key, value] of parsed.searchParams) {
+      if (key === "locale") continue;
+      if (Object.prototype.hasOwnProperty.call(FRAGMENT_CONTEXT_KEYS, key) && !(key in fragmentContext)) fragmentContext[key] = value;
+    }
+    for (const key of Object.keys(FRAGMENT_CONTEXT_KEYS)) {
+      if (key in extra) fragmentContext[key] = extra[key];
+    }
+  }
+  return appendFragmentContextParams(`${target.pathname}${target.search}${parsed.hash}`, fragmentContext);
+}
+
+export function localizedLanguageHref(href, { locale = "en" } = {}) {
+  const parsed = new URL(String(href || "/"), "https://nexualpha.com");
+  const route = parsePublicRoute(parsed.pathname, parsed.searchParams);
+  if (route.isCountryRoute) {
+    const prefix = countryPrefixForPath(route.contentPathname);
+    const nativeLocale = COUNTRY_LOCALE_BY_PREFIX[prefix] || "en";
+    if (normalizeLinkLocale(locale) !== nativeLocale) return localizedHref("/", { locale });
+  }
+  const context = Object.fromEntries(Object.keys(FRAGMENT_CONTEXT_KEYS)
+    .filter((key) => key !== "locale" && parsed.searchParams.has(key))
+    .map((key) => [key, parsed.searchParams.get(key)]));
+  return localizedHref(href, { locale, ...context });
 }
 
 function preservedRedirectSearch(searchParams) {

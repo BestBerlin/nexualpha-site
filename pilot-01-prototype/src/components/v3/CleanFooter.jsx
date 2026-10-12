@@ -2,6 +2,7 @@ import { NexuAlphaWordmark } from "../brand/NexuAlphaWordmark";
 import { v3ShellCopy } from "../../data/v3-shell-copy.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { dataPageCopy } from "../../data/market-data-pages-nav.js";
+import { localeManifest, supportedLocales } from "../../content/locale-manifest";
 import { brandSlogan } from "../../data/brand-slogan.js";
 
 const copyDict = {
@@ -485,6 +486,10 @@ export function CleanFooter({ locale = "en", brazil = false }) {
             <li><a href={href("/contact")}>{labels.contact}</a></li>
           </ul>
         </nav>
+
+        <div className="nx-ftr__list nx-ftr__list--inline nx-ftr__locales"><ul>
+          {supportedLocales.filter((code) => !["ur", "uk"].includes(code)).map((code) => <li key={code}><a href={localizedHref("/", { locale: code })} hrefLang={code} lang={code} aria-current={code === locale ? "true" : undefined}>{localeManifest[code].language}</a></li>)}
+        </ul></div>
 
         {/* Statement and risk disclaimer stay in the page (SSR, find-in-page, #policy links) but fold to one line. */}
         <details className="clean-footer__policies nx-ftr__policies nx-ftr__fold" id="nx-ftr-policy-details">

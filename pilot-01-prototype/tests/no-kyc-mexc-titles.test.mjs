@@ -10,7 +10,8 @@ import { TOPIC_GUIDES } from "../src/data/topic-guides-data.js";
 import { topicHubItems } from "../src/data/collection-hubs.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
 import worker, { routeMetadata, routeSeoPayload } from "../worker/index.js";
-import { budgetTitle } from "../src/data/meta-description.js";
+import { budgetTitle, titleBudgetForLocale } from "../src/data/meta-description.js";
+import { noKycMetaTitle } from "../src/data/no-kyc-meta-title.js";
 
 // Class b: MEXC requires identity verification under its User Agreement. The approved
 // title change contrasts wallet self-custody with a KYC exchange, preserving /topics/no-kyc.
@@ -37,14 +38,16 @@ for (const locale of locales) {
     assert.deepEqual([...dom.window.document.querySelectorAll("h1")].map(node => node.textContent), [expected]);
     dom.window.close();
     const hub = topicHubItems(locale).find(item => item.slug === "no-kyc");
-    assert.equal(budgetTitle(hub.title), expected);
+    assert.equal(hub.title.replace(/ — NexuAlpha$/, ""), expected);
     assert.equal(hub.href, "/topics/no-kyc");
     const seo = computeRouteSeo({ pathname, locale });
     const meta = await routeMetadata(new URL(`https://nexualpha.com${pathname}`), {});
     const payload = routeSeoPayload(meta, new URL(`https://nexualpha.com${pathname}`));
+    const expectedMetaTitle = noKycMetaTitle(locale);
+    assert.ok(expectedMetaTitle.length <= titleBudgetForLocale(locale), `${locale}: compact meta title length`);
     for (const title of [seo.title, meta.title, payload.title]) {
-      assert.equal(title, budgetTitle(`${expected} — NexuAlpha`));
-      assert.ok(title.includes("MEXC") && title.includes("Hyperliquid") && title.includes("dYdX"));
+      assert.equal(title, expectedMetaTitle);
+      assert.ok(title.includes("MEXC") && title.includes("Hyperliquid") && title.includes("dYdX") && (/KYC|实名|實名/.test(title)));
     }
     // Exercise actual HTML head injection, rather than inferring it from metadata tables.
     const response = await worker.fetch(new Request(`https://nexualpha.com${pathname}`, { headers: { accept: "text/html" } }), {
@@ -52,7 +55,7 @@ for (const locale of locales) {
     });
     assert.equal(response.status, 200);
     const html = new JSDOM(await response.text());
-    assert.equal(html.window.document.title, budgetTitle(`${expected} — NexuAlpha`));
+    assert.equal(html.window.document.title, noKycMetaTitle(locale));
     assert.equal(html.window.document.querySelector('meta[property="og:title"]').content, html.window.document.title);
     html.window.close();
   });

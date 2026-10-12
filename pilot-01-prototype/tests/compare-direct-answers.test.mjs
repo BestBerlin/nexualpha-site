@@ -11,7 +11,7 @@ import {
   normalizeCompareAnswerLocale,
 } from "../src/data/compare-direct-answers.js";
 import { computeRouteSeo } from "../src/data/seo-injection.js";
-import { budgetTitle } from "../src/data/meta-description.js";
+import { budgetTitle, routeMetaDescription, titleBudgetForLocale } from "../src/data/meta-description.js";
 import { routeMetadata } from "../worker/index.js";
 
 const projectRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
@@ -175,8 +175,8 @@ test("compare SEO override uses the same direct-answer data as the visible page 
     assert.equal(override.directAnswer.answer, answer.body);
     assert.deepEqual(override.sourceUrls, answer.sourceLinks.map(([, href]) => href));
     // Owner title-budget rule: long served titles drop the trailing brand suffix, while source copy keeps it.
-    assert.equal(seo.title, budgetTitle(answer.seoTitle));
-    assert.equal(seo.description, answer.seoDescription);
+    assert.equal(seo.title, budgetTitle(answer.seoTitle, titleBudgetForLocale(locale)));
+    assert.equal(seo.description, routeMetaDescription(seo.title, answer.seoDescription, locale));
     assert.match(serialized, new RegExp(answer.seoQuestion.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
     assert.doesNotMatch(`${seo.title}\n${seo.description}\n${serialized}`, forbiddenPublicCopy);
   }

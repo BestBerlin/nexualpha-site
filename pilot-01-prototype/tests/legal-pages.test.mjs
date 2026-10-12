@@ -8,8 +8,8 @@ import worker, { routeMetadata, renderLocaleSitemap } from '../worker/index.js';
 import { computeRouteSeo } from '../src/data/seo-injection.js';
 import { LEGAL_PAGE_PATHS, LEGAL_LOCALES, LEGAL_COPY, legalPageSeo } from '../src/data/legal-pages.js';
 import { localizedPath } from '../src/data/locale-routing.js';
-import { routeInventory } from '../scripts/generate-prerender-manifest.mjs';
-import { sitemapLocalesForRoute, sitemapHreflangAlternates } from '../scripts/sitemap-publication-policy.mjs';
+import { buildSplitSitemaps, routeInventory } from '../scripts/generate-prerender-manifest.mjs';
+import { loadSearchPublicationBaseline, sitemapLocalesForRoute, sitemapHreflangAlternates } from '../scripts/sitemap-publication-policy.mjs';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const origin = 'https://nexualpha.com';
 
@@ -58,9 +58,10 @@ test('legal SSR through worker: 200, headings, canonical, hreflang, footer and e
 });
 
 test('legal sitemap source, generated inventory and runtime sitemap include only the two published editions', async () => {
-  const xml = await readFile(path.join(root, 'public/sitemap.xml'), 'utf8');
-  const runtime = await renderLocaleSitemap({});
   const inventory = routeInventory([]);
+  const split = buildSplitSitemaps(inventory, [], { policy: loadSearchPublicationBaseline() });
+  const splitLocs = new Set([...split.files.values()].flatMap(({ xml }) => [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1])));
+  const runtime = await renderLocaleSitemap({});
   for (const pathname of LEGAL_PAGE_PATHS) {
     const route = inventory.find((r) => r.pathname === pathname);
     assert.ok(route?.index, pathname);
@@ -69,7 +70,7 @@ test('legal sitemap source, generated inventory and runtime sitemap include only
     assert.deepEqual(sitemapHreflangAlternates(pathname), []);
     for (const locale of LEGAL_LOCALES) {
       const loc = `<loc>${origin}${localizedPath(pathname, locale)}</loc>`;
-      assert.ok(xml.includes(loc), loc); assert.ok(runtime.includes(loc), loc);
+      assert.ok(splitLocs.has(`${origin}${localizedPath(pathname, locale)}`), loc); assert.ok(runtime.includes(loc), loc);
     }
     assert.ok(!runtime.includes(`<loc>${origin}/ar${pathname}</loc>`));
   }

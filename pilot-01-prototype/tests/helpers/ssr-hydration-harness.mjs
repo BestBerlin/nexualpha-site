@@ -37,10 +37,10 @@ export function decodeEntities(value) {
 const tick = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Hydrates the SSR document in jsdom exactly like the browser entry: same bootstrap URL, same prerender-state props.
-export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, inspect = null } = {}) {
+export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, inspect = null, browserUrlAsWindowUrl = false, fixedNow = null } = {}) {
   const state = prerenderState(html);
   const bootstrap = buildHydrationBootstrap({ browserUrl: pageUrl, prerenderState: state, hasServerHtml: true, clientRender: false });
-  const dom = new JSDOM(html, { url: bootstrap.initialUrl, pretendToBeVisual: true });
+  const dom = new JSDOM(html, { url: browserUrlAsWindowUrl ? pageUrl : bootstrap.initialUrl, pretendToBeVisual: true });
   const { window } = dom;
   const errors = [];
   const stubs = {
@@ -58,6 +58,8 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
     Object.defineProperty(globalThis, key, { value: window[key] ?? stubs[key], configurable: true, writable: true });
   }
   const originalError = console.error;
+  const originalDateNow = Date.now;
+  if (fixedNow !== null) Date.now = () => fixedNow;
   console.error = (...args) => { errors.push(args.map((arg) => (arg instanceof Error ? arg.message : String(arg))).join(" ")); };
   try {
     const React = require("react");
@@ -78,8 +80,8 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
     })), heroVariant);
     const root = window.document.getElementById("root");
     const reactRoot = hydrateRoot(root, app, { onRecoverableError: (error) => errors.push(`recoverable: ${error?.message || error}`) });
-    const started = Date.now();
-    while (Date.now() - started < timeoutMs) await tick(20);
+    const started = originalDateNow();
+    while (originalDateNow() - started < timeoutMs) await tick(20);
     const text = root.textContent;
     // Optional: read the hydrated DOM (e.g. markup of one block) before unmounting.
     const inspected = typeof inspect === "function" ? inspect(window) : undefined;
@@ -88,6 +90,7 @@ export async function hydrateInJsdom(vite, html, pageUrl, { timeoutMs = 400, ins
     await tick(50);
     return { errors, text, state, bootstrap, inspected };
   } finally {
+    Date.now = originalDateNow;
     console.error = originalError;
     for (const [key, descriptor] of saved) {
       if (descriptor) Object.defineProperty(globalThis, key, descriptor);

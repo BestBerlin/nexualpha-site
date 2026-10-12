@@ -59,8 +59,8 @@ export function calculateBleedScenario({ db = {}, type = "futures", volume = 0, 
 const SELECTABLE_VENUES = ["binance", "okx", "bybit", "bitget", "gate-io", "kucoin", "mexc"];
 const VOL_TIERS = [5000, 20000, 50000, 100000, 300000, 500000, 1000000];
 
-export function restoreBleedAnalyzerState(search = "") {
-  const state = readDecisionReturnState(search);
+export function restoreBleedAnalyzerState(search = "", hash = "") {
+  const state = readDecisionReturnState(search, hash);
   if (!state || state.kind !== "fees") return null;
   const selectedSlug = SELECTABLE_VENUES.includes(state.venue) ? state.venue : null;
   const volIndex = VOL_TIERS.indexOf(state.volume);
@@ -141,7 +141,7 @@ export function TradingBleedAnalyzer({ locale = "en", headingLevel = 2, market, 
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const restored = restoreBleedAnalyzerState(window.location.search);
+    const restored = restoreBleedAnalyzerState(window.location.search, window.location.hash);
     if (!restored) return;
     setSelectedSlug(restored.selectedSlug);
     setType(restored.type);

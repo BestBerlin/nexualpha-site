@@ -55,7 +55,7 @@ test("BR decision state preserves passport context through the local funnel URLs
 
   assert.equal(
     writeDecisionStateToUrl("/br/comparar?locale=pt-BR", state),
-    "/br/comparar?locale=pt-BR&market=BR&product=spot&platform=binance&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&account_stage=new_account&funding=Pix",
+    "/br/comparar#nxa-context?market=BR&product=spot&platform=binance&amount=1000&spot_fee_bps=10&deposit_fee_pct=0&deposit_fixed_brl=0&account_stage=new_account&funding=Pix&locale=pt-BR",
   );
 
   const brHtml = await renderComponent(`
@@ -70,7 +70,7 @@ test("BR decision state preserves passport context through the local funnel URLs
     }));
     console.log(html);
   `);
-  assert.match(brHtml, /href="\/br\/comparar\?locale=pt-BR&amp;market=BR&amp;product=spot&amp;platform=binance&amp;amount=1000&amp;spot_fee_bps=10&amp;deposit_fee_pct=0&amp;deposit_fixed_brl=0&amp;account_stage=new_account&amp;funding=Pix/);
+  assert.match(brHtml, /href="\/br\/comparar#nxa-context\?[^"]*platform=binance[^"]*amount=1000[^"]*account_stage=new_account[^"]*funding=Pix/);
 
   const compareHtml = await renderComponent(`
     import React from "react";
@@ -84,7 +84,7 @@ test("BR decision state preserves passport context through the local funnel URLs
     }));
     console.log(html);
   `);
-  assert.match(compareHtml, /href="\/rates\?locale=pt-BR&amp;market=BR&amp;product=spot&amp;account_stage=new_account&amp;funding=Pix"/);
+  assert.match(compareHtml, /href="\/rates#nxa-context\?[^"]*market=BR[^"]*product=spot[^"]*account_stage=new_account[^"]*funding=Pix[^"]*locale=pt-BR/);
 
   const ratesHtml = await renderComponent(`
     import React from "react";
@@ -99,7 +99,7 @@ test("BR decision state preserves passport context through the local funnel URLs
     }));
     console.log(html);
   `);
-  assert.match(ratesHtml, /href="\/exchanges\/binance\?[^"]*market=BR[^"]*product=spot[^"]*account_stage=new_account[^"]*funding=Pix[^"]*locale=pt-BR[^"]*#registration-path"/);
+  assert.match(ratesHtml, /href="\/pt-br\/exchanges\/binance#registration-path\?[^"]*market=BR[^"]*product=spot[^"]*account_stage=new_account[^"]*funding=Pix/);
   assert.match(ratesHtml, /data-cta-placement="rate-benchmark-detail"[^>]*data-growth-account-stage="new_account"[^>]*data-growth-funding="Pix"/);
 });
 

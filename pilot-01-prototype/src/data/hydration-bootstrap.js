@@ -1,6 +1,7 @@
 // Use the exact public prerender URL for the first React pass. Browser context
 // is captured by the entrypoint before child effects and restored after mount.
-import { applySafeAttributionToSearchParams, sanitizeTrackingMedium, sanitizeTrackingValue } from "./tracking-attribution.js";
+import { appendFragmentContextParams } from "./locale-routing.js";
+import { sanitizeTrackingMedium, sanitizeTrackingValue } from "./tracking-attribution.js";
 
 function validBrAttributionPayload(value) {
   if (!value || typeof value !== "object") return null;
@@ -27,9 +28,22 @@ export function buildHydrationBootstrap({ browserUrl, prerenderState, hasServerH
       }
     }
     if (/^\/br(?:\/|$)/i.test(pathname)) {
-      applySafeAttributionToSearchParams(url.searchParams, validBrAttributionPayload(prerenderState.brAttribution));
+      const attribution = validBrAttributionPayload(prerenderState.brAttribution);
+      if (attribution) {
+        const context = {
+          utm_source: attribution.source,
+          utm_medium: attribution.medium,
+          utm_campaign: attribution.campaign,
+          locale: url.searchParams.get("locale") || prerenderState.locale || "pt-BR",
+        };
+        url.search = "";
+        initialUrl = new URL(appendFragmentContextParams(url.pathname, context), url).href;
+      } else {
+        initialUrl = url.href;
+      }
+    } else {
+      initialUrl = url.href;
     }
-    initialUrl = url.href;
   }
   return { hydrate, initialUrl, browserUrl };
 }

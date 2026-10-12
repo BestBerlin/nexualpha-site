@@ -3,7 +3,7 @@ import {
   costEstimate,
   browserSessionStorage,
   decisionStateFromUrl,
-  hasDecisionStateSearch,
+  hasDecisionStateUrl,
   loadDecisionState,
   normalizeDecisionState,
   saveDecisionState,
@@ -29,7 +29,7 @@ export function BrazilCostEmbed({ initialUrl, locale = "pt-BR" }) {
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
-    if (hasDecisionStateSearch(window.location.search)) return undefined;
+    if (hasDecisionStateUrl(window.location.href)) return undefined;
     const saved = normalizeDecisionState({ ...loadDecisionState(browserSessionStorage(window), state), region: "BR", product: "spot" });
     if (JSON.stringify(saved) !== JSON.stringify(state)) setState(saved);
     return undefined;

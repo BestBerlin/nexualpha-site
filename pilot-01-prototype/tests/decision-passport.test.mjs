@@ -36,10 +36,10 @@ test("decision passport drops unknown and cross-market funding values", () => {
   });
 });
 
-test("decision passport appends controlled fields before a hash", () => {
+test("decision passport appends controlled fields inside the fragment after a hash target", () => {
   assert.equal(
     appendDecisionPassportQuery("/exchanges/bitflyer#registration-path", { market: "JP", product: "spot", accountStage: "new_account", funding: "JPY deposit" }),
-    "/exchanges/bitflyer?market=JP&product=spot&account_stage=new_account&funding=JPY+deposit#registration-path",
+    "/exchanges/bitflyer#registration-path?market=JP&product=spot&account_stage=new_account&funding=JPY+deposit",
   );
 });
 
@@ -47,10 +47,12 @@ test("regional shortlist carries the reviewed passport into compare and venue ha
   const shortlist = buildRegionalShortlist({ market: "MX", locale: "es", product: "spot", funding: "SPEI", accountStage: "another_platform" });
   for (const href of [shortlist.compareHref, ...shortlist.candidates.map((candidate) => candidate.directHref).filter(Boolean)]) {
     const parsed = new URL(href, "https://nexualpha.com");
-    assert.equal(parsed.searchParams.get("market"), "MX");
-    assert.equal(parsed.searchParams.get("product"), "spot");
-    assert.equal(parsed.searchParams.get("account_stage"), "another_platform");
-    assert.equal(parsed.searchParams.get("funding"), "SPEI");
+    const params = new URLSearchParams(parsed.hash.split("?")[1] || "");
+    assert.equal(parsed.search, "");
+    assert.equal(params.get("market"), "MX");
+    assert.equal(params.get("product"), "spot");
+    assert.equal(params.get("account_stage"), "another_platform");
+    assert.equal(params.get("funding"), "SPEI");
   }
 });
 

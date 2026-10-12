@@ -15,6 +15,8 @@ import { toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js"
 import { VENUE_ALTERNATIVE_PAGES, VENUE_ALTERNATIVES_INDEX_LOCALES, VENUE_ALTERNATIVES_REVIEWED_AT } from "../src/data/venue-alternatives.js";
 import { BRAZIL_DEADLINE_PATH_EN, BRAZIL_DEADLINE_PATH_PT, brazilDeadlineIndexLocales, isBrazilDeadlineSlug } from "../src/data/brazil-vasp-deadline-slugs.js";
 import { BRAZIL_DEADLINE_REVIEWED_AT } from "../src/data/brazil-vasp-status.js";
+import { BRAND_PAGE_PATHS } from "../src/data/brand-entity.js";
+import { DATA_PAGE_PATHS } from "../src/data/market-data-pages.js";
 import { NEWS_DISPLAY_LOCALES, newsListingIndexableLocales, newsListingPublishedLocales, newsSitemapLanguage, normalizeNewsFeed, normalizeNewsFeedSummaries, newsArticleAvailableLocales, newsArticleSeoLocales, projectNewsFeedForRoute } from "../src/data/news-feed-client.js";
 import { BRAZIL_PAGES, BRAZIL_SOURCES } from "../src/data/brazil-market.js";
 import { getBrazilSeo } from "../src/data/brazil-seo.js";
@@ -24,6 +26,7 @@ import { FACTS_AS_OF } from "../src/data/exchange-facts.js";
 import { COUNTRY_ROUTE_PREFIXES, localizedPath, parsePublicRoute } from "../src/data/locale-routing.js";
 import { buildSearchPublicationReport, selectSitemapPublicationEntries, sitemapHreflangAlternates, sitemapLocalesForRoute } from "./sitemap-publication-policy.mjs";
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
+import { generatedCompareLocales, indexableGeneratedComparePairs } from "../src/data/compare-generated.js";
 export { sitemapLocalesForRoute };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -72,11 +75,13 @@ function pathSlug(pathname, prefix) {
 
 export function routeTemplate(pathname) {
   if (BRAZIL_PAGES.some((page) => page.path === pathname)) return "brazilDecision";
+  if (DATA_PAGE_PATHS.includes(pathname)) return "dataTool";
+  if (BRAND_PAGE_PATHS.includes(pathname)) return "brandPage";
   if (["/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int", "/markets/turkiye"].includes(pathname)) return "regionalPreview";
   if (["/mx/comparar", "/mx/costos", "/mx/conta", "/tw/comparar", "/tw/costos", "/tw/conta", "/hk/comparar", "/hk/costos", "/hk/conta"].includes(pathname)) return pathname.endsWith("/comparar") ? "comparison" : pathname.endsWith("/costos") ? "rateTerminal" : "exchangeDirectory";
   if (LEGAL_PAGE_PATHS.includes(pathname)) return "legal";
   const staticTemplates = {
-    "/": "home", "/exchanges": "exchangeDirectory", "/activities": "activityCenter",
+    "/": "home", "/exchanges": "exchangeDirectory", "/compare": "comparisonHub", "/activities": "activityCenter",
     "/rates": "rateTerminal", "/onchain": "onchainBoard", "/news": "newsList",
     "/methodology": "methodology", "/embed/calculator": "embedCalculator", "/partners": "partnerEmbedGuide", "/telegram": "telegram",
     "/index.html": "home", "/topics": "topicCollection", "/factbook": "factbookCollection", "/partners/embed-guide": "partnerEmbedGuide",
@@ -95,7 +100,7 @@ export function routeTemplate(pathname) {
 
 export function routeInventory(newsArticles = []) {
   // /embed/calculator is an iframe widget: rendered, but noindex and never in a sitemap (audit 2026-10-11 #13).
-  const staticPaths = [...LEGAL_PAGE_PATHS, "/", "/exchanges", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
+  const staticPaths = [...LEGAL_PAGE_PATHS, ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, "/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/news", "/methodology", "/partners", "/telegram"];
   const venueProfileSlugs = neutralVenueCatalog
     .map(({ slug }) => slug)
     .filter((slug) => !FACTBOOK_ONLY_LEGACY_SLUGS.has(slug));
@@ -122,6 +127,7 @@ export function routeInventory(newsArticles = []) {
     BRAZIL_DEADLINE_PATH_EN,
     BRAZIL_DEADLINE_PATH_PT,
     ...CURATED_COMPARISONS.map((pair) => `/compare/${pair}`),
+    ...indexableGeneratedComparePairs().map((pair) => `/compare/${pair}`),
     ...newsArticles.filter((article) => article.seo?.noindex === false).map((article) => `/news/${article.slug}`),
   ];
   const nonindexed = [
@@ -148,6 +154,7 @@ export function routeInventory(newsArticles = []) {
     // Search locales need >= NEWS_LISTING_MIN_NATIVE_ARTICLES native editions (audit 2026-10-11 #4); every published
     // listing edition is still prerendered.
     ...(pathname === "/news" ? { locales: newsListingIndexableLocales(newsArticles), prerenderLocales: newsListingPublishedLocales(newsArticles) } : {}),
+    ...(DATA_PAGE_PATHS.includes(pathname) || BRAND_PAGE_PATHS.includes(pathname) ? { locales: INDEXABLE_LOCALES } : {}),
     ...(["/topics", "/factbook"].includes(pathname) ? { locales: ["en"] } : {}),
     ...(pathname.startsWith("/news/") ? { locales: newsArticleAvailableLocales(newsArticles.find((article) => pathname === `/news/${article.slug}`)) } : {}),
     ...(COUNTRY_OWNER_LOCALES[pathname] ? { locales: COUNTRY_OWNER_LOCALES[pathname] } : {}),
@@ -161,6 +168,7 @@ export function routeInventory(newsArticles = []) {
     // Brazil BCB deadline topic: one edition per slug (English slug in en, Portuguese slug in pt-BR); the sitemap lists
     // exactly those editions (ownLocales).
     ...([BRAZIL_DEADLINE_PATH_EN, BRAZIL_DEADLINE_PATH_PT].includes(pathname) ? { locales: brazilDeadlineIndexLocales(pathname), ownLocales: true } : {}),
+    ...(pathname.startsWith("/compare/") && indexableGeneratedComparePairs().includes(pathSlug(pathname, "/compare/")) ? { locales: generatedCompareLocales(pathSlug(pathname, "/compare/")), generatedComparison: true } : {}),
   })).concat(BRAZIL_PAGES.map(({ path: pathname }) => ({ pathname, level: pathname === '/br' ? 2 : 3,
     template: 'brazilDecision', index: true, locales: ['pt-BR'] })));
 }
@@ -192,7 +200,7 @@ export function buildSitemap(inventory, newsArticles, options = {}) {
   const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
   for (const { route, loc, locale } of publication.urls) {
     const article = newsArticles.find((article) => route.pathname === `/news/${article.slug}`);
-    const date = routeLastmod(route, article, locale, { newsArticles }) || options.buildDate || new Date().toISOString();
+    const date = routeLastmod(route, article, locale, { newsArticles });
     // hreflang comes from the same helpers as the page head (audit 2026-10-11 #1): news routes carry their indexable
     // editions; every other route's alternates live on the page and in /locale-sitemap.xml (worker routeMetadata), so
     // this file never states a second, smaller set for the same <loc>.
@@ -205,6 +213,96 @@ export function buildSitemap(inventory, newsArticles, options = {}) {
     lines.push("  </url>");
   }
   return [...lines, "</urlset>", ""].join("\n");
+}
+
+function sitemapFileForEntry({ route, locale }) {
+  const template = route?.template || "unknown";
+  if (template === "article") return `sitemap-articles-${String(locale || "en").toLowerCase().replace(/[^a-z0-9]+/g, "-")}.xml`;
+  if (template === "venue" || template === "factbook") return "sitemap-venues.xml";
+  if (template === "comparison" && String(route?.pathname || "").startsWith("/compare/")) return "sitemap-compare.xml";
+  if (["topic", "topicCollection", "factbookCollection", "rateTerminal", "onchainBoard", "dataTool", "methodology", "partnerEmbedGuide"].includes(template)) return "sitemap-topics-tools.xml";
+  return "sitemap-locales.xml";
+}
+
+function sitemapEntryLastmod(entry, newsArticles, options = {}) {
+  const article = newsArticles.find((article) => entry.route.pathname === `/news/${article.slug}`);
+  return routeLastmod(entry.route, article, entry.locale, { newsArticles }) || null;
+}
+
+function buildUrlset(entries, newsArticles, options = {}) {
+  const escape = (value) => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
+  const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
+  for (const entry of entries) {
+    const article = newsArticles.find((article) => entry.route.pathname === `/news/${article.slug}`);
+    const date = sitemapEntryLastmod(entry, newsArticles, options);
+    lines.push("  <url>", `    <loc>${escape(entry.loc)}</loc>`);
+    for (const alternate of sitemapHreflangAlternates(entry.route.pathname, { article, newsArticles })) {
+      lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
+    }
+    if (date && Number.isFinite(Date.parse(date))) lines.push(`    <lastmod>${new Date(date).toISOString().slice(0, 10)}</lastmod>`);
+    lines.push("  </url>");
+  }
+  return [...lines, "</urlset>", ""].join("\n");
+}
+
+function newestEntryDate(entries, newsArticles, options = {}) {
+  const dates = entries
+    .map((entry) => Date.parse(sitemapEntryLastmod(entry, newsArticles, options)))
+    .filter(Number.isFinite)
+    .sort((a, b) => b - a);
+  return dates.length ? new Date(dates[0]).toISOString().slice(0, 10) : null;
+}
+
+function buildSitemapIndex(rows) {
+  const escape = (value) => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
+  const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'];
+  for (const row of rows) {
+    lines.push("  <sitemap>", `    <loc>${escape(row.loc)}</loc>`, ...(row.lastmod ? [`    <lastmod>${escape(row.lastmod)}</lastmod>`] : []), "  </sitemap>");
+  }
+  return [...lines, "</sitemapindex>", ""].join("\n");
+}
+
+export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
+  const publication = selectSitemapPublicationEntries(inventory, newsArticles, {
+    ...options,
+    allLocales: INDEXABLE_LOCALES,
+  });
+  const groups = new Map();
+  for (const entry of publication.urls) {
+    const file = sitemapFileForEntry(entry);
+    if (!groups.has(file)) groups.set(file, []);
+    groups.get(file).push(entry);
+  }
+  // Runtime article sitemaps are rendered from the mounted live feed, so the index must advertise every search locale
+  // even when the build-time feed currently has no reviewed article in that locale yet.
+  for (const locale of INDEXABLE_LOCALES) {
+    const file = `sitemap-articles-${String(locale).toLowerCase().replace(/[^a-z0-9]+/g, "-")}.xml`;
+    if (!groups.has(file)) groups.set(file, []);
+  }
+  const files = new Map(
+    [...groups.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([file, entries]) => [file, {
+        xml: buildUrlset(entries, newsArticles, options),
+        count: entries.length,
+        lastmod: newestEntryDate(entries, newsArticles, options),
+      }]),
+  );
+  const indexRows = [...files.entries()].map(([file, info]) => ({
+    loc: `https://nexualpha.com/${file}`,
+    lastmod: info.lastmod,
+  }));
+  if (options.newsSitemapLastmod) {
+    indexRows.push({
+      loc: "https://nexualpha.com/news-sitemap.xml",
+      lastmod: new Date(Date.parse(options.newsSitemapLastmod)).toISOString().slice(0, 10),
+    });
+  }
+  return {
+    index: buildSitemapIndex(indexRows),
+    files,
+    publication,
+  };
 }
 
 function latestDate(values, fallback = SITE_CONTENT_REVIEW_DATE) {
@@ -349,9 +447,10 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
     generatedAt: new Date().toISOString(),
     ...buildSearchPublicationReport(publication),
   }, null, 2);
-  const sitemap = buildSitemap(inventory, newsArticles);
+  const splitSitemaps = buildSplitSitemaps(inventory, newsArticles, { newsSitemapLastmod: rawFeed.generatedAt });
   const newsSitemap = buildNewsSitemap(newsArticles, { generatedAt: rawFeed.generatedAt });
-  writeFileSync(path.join(projectRoot, "public", "sitemap.xml"), sitemap);
+  writeFileSync(path.join(projectRoot, "public", "sitemap.xml"), splitSitemaps.index);
+  for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(projectRoot, "public", file), xml);
   // Partner feed for the Telegram Mini App (one source of truth for shares, codes, links and checked fees).
   const partnersFeed = `${JSON.stringify(buildPartnersFeed())}\n`;
   for (const dir of [path.join(projectRoot, "public", "intel"), path.join(clientDir, "intel")]) { mkdirSync(dir, { recursive: true }); writeFileSync(path.join(dir, "partners.json"), partnersFeed); writeFileSync(path.join(dir, "partner-geo-restrictions.json"), `${JSON.stringify(buildPartnerGeoRestrictionsFeed(), null, 2)}\n`); }
@@ -359,7 +458,8 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(projectRoot, "public", "content", "search-publication-report.json"), `${publicationReport}\n`);
   const clientContentDir = path.join(clientDir, "content");
   mkdirSync(clientContentDir, { recursive: true });
-  writeFileSync(path.join(clientDir, "sitemap.xml"), sitemap);
+  writeFileSync(path.join(clientDir, "sitemap.xml"), splitSitemaps.index);
+  for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(clientDir, file), xml);
   writeFileSync(path.join(clientDir, "news-sitemap.xml"), newsSitemap);
   writeFileSync(path.join(clientContentDir, "search-publication-report.json"), `${publicationReport}\n`);
   console.log(`Prepared prerender manifest: ${Object.keys(routes).length} routes, HTML split into route assets`);
