@@ -4,6 +4,7 @@ import path from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import {MARKET_URL, FUNDING_URL, validateData, buildPackage} from './builders.mjs';
 import {renderShort, renderContactSheet} from './render.mjs';
+import {STRINGS} from './strings.mjs';
 
 export function parseArgs(args) {
   const options = {voice: false, out: path.join(path.dirname(fileURLToPath(import.meta.url)), 'samples')};
@@ -16,7 +17,7 @@ export function parseArgs(args) {
       options[arg.slice(2)] = value;
     } else throw new Error(`Unknown argument: ${arg}`);
   }
-  if (!['zh-Hans', 'en'].includes(options.lang)) throw new Error('Usage: make-short.mjs --lang zh-Hans|en [--voice] [--out DIR]');
+  if (!STRINGS[options.lang]) throw new Error('Usage: make-short.mjs --lang LOCALE [--voice] [--out DIR]');
   return options;
 }
 async function getJson(url) {
@@ -42,7 +43,7 @@ export async function main(args = process.argv.slice(2)) {
       await renderContactSheet(result.videoPath, path.join(stage, 'contact-sheet.png'));
       render.contactSheet = 'contact-sheet.png';
     }
-    for (const key of ['videoPath', 'audioPath']) if (render[key]) render[key] = path.relative(stage, render[key]);
+    for (const key of ['videoPath', 'audioPath', 'posterPath', 'srtPath']) if (render[key]) render[key] = path.relative(stage, render[key]);
     if (render.framePaths) render.framePaths = render.framePaths.map(file => path.relative(stage, file));
     const metadata = {...meta, render, slides};
     await writeFile(path.join(stage, 'meta.json'), `${JSON.stringify(metadata,null,2)}\n`);
