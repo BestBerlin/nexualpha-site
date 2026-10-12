@@ -77,6 +77,7 @@ const GLOBAL_ROUTE_PREFIXES = Object.freeze([
   "/news",
   "/markets",
   "/academy",
+  "/flash",
 ]);
 
 const GLOBAL_EXACT_ROUTES = new Set([

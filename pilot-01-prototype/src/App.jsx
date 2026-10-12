@@ -30,7 +30,9 @@ import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/l
 import { parseNewsListingPath } from "./data/news-library.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
+import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
+import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
 import { syncRouteSeo } from "./data/route-seo-client.js";
 import {
@@ -84,8 +86,10 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/data/FundingRatesPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
   "./components/academy/AcademyPages.jsx",
+  "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
+  "./components/flash/FlashPages.jsx",
 ]);
 
 if (!import.meta.env.SSR) registerRouteModuleLoaders(deferredPageModules);
@@ -132,8 +136,10 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/data/FundingRatesPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
   "./components/academy/AcademyPages.jsx",
+  "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
+  "./components/flash/FlashPages.jsx",
 ], { eager: true }) : {};
 
 function deferredComponent(path, exportName) {
@@ -174,6 +180,7 @@ const FundingRatesPage = deferredComponent("./components/data/FundingRatesPage.j
 const NewsDetailPage = deferredComponent("./components/v3/news/NewsDetailPage.jsx", "NewsDetailPage");
 const ToolArticleLinks = deferredComponent("./components/shared/ToolArticleLinks.jsx", "ToolArticleLinks");
 // Academy (2026-10-12): one route chunk for the hub and lesson pages; lesson content is one lazy module per locale.
+const AppDownloadPage = deferredComponent(ROUTE_MODULE_PATHS.appDownload, "AppDownloadPage");
 const AcademyHubPage = deferredComponent(ROUTE_MODULE_PATHS.academy, "AcademyHubPage");
 const AcademyEpisodePage = deferredComponent(ROUTE_MODULE_PATHS.academy, "AcademyEpisodePage");
 function readAcademyContent(locale) {
@@ -186,6 +193,9 @@ function AcademyRoute({ route, locale }) {
   if (route.name === "academyHub") return <AcademyHubPage locale={locale} content={content} market={route.market} />;
   return <AcademyEpisodePage locale={locale} content={content} slug={route.slug} market={route.market} />;
 }
+// Flash (2026-10-12): the 7x24 stream and item pages share one route chunk (route-flash).
+const FlashStreamPage = deferredComponent(ROUTE_MODULE_PATHS.flash, "FlashStreamPage");
+const FlashItemPage = deferredComponent(ROUTE_MODULE_PATHS.flash, "FlashItemPage");
 // Tool key of a route (mirror of toolKeyForRoute in src/data/topic-clusters.js, kept here so the mapping stays off the
 // browser entry; tests/crosslinks.test.mjs pins that both agree).
 // T10 (2026-10-12): the /news hub, exchange profiles and topic hubs list their strongest related articles too.
@@ -284,7 +294,7 @@ const readComparison = () => {
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
 const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
-const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy"];
+const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", FLASH_PATH];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
   const normalized = String(pathname || "/").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
@@ -558,10 +568,17 @@ function routeState(venues, initialUrl) {
   if (pathname === "/embed/calculator") return { name: "embedCalculator" };
   if (pathname === "/partners" || pathname === "/partners/embed-guide") return { name: "partners" };
   if (pathname === "/telegram") return { name: "telegram" };
+  const appDownload = parseAppDownloadPath(pathname);
+  if (appDownload) return appDownload.valid ? { name: "appDownload", slug: appDownload.slug, ...contextParams() } : { name: "notFound" };
   const academy = parseAcademyPath(pathname);
   if (academy?.kind === "hub") return { name: "academyHub", ...contextParams() };
   if (academy?.kind === "episode") return { name: "academyEpisode", slug: academy.episode.slug, ...contextParams() };
   if (academy?.kind === "missing") return { name: "notFound" };
+  // Flash: same shapes as parseFlashPath (src/data/flash-path.js), inlined to keep the entry inside its budget.
+  if (pathname === FLASH_PATH) return { name: "flashStream", ...contextParams() };
+  const flashKey = pathname.startsWith(`${FLASH_PATH}/`) && (pathname.match(/^\/flash\/([0-9a-z]{10})(?:-[a-z0-9-]*)?$/) || [])[1];
+  if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
+  if (pathname.startsWith(`${FLASH_PATH}/`)) return { name: "notFound" };
   if (pathname === LIQUIDATIONS_PATH) return { name: "liquidations" };
   if (pathname === FUNDING_RATES_PATH) return { name: "fundingRates" };
   if (pathname === "/topics") return { name: "topicCollection", ...contextParams() };
@@ -675,6 +692,8 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
         ur: "مارکیٹ کی خبریں",
         // l10n: needs native review
         uk: "Новини ринку", ar: "أخبار السوق" }[locale] || "Market news"), withLocale(locale, "/news")],
+    // Flash (2026-10-12): the 7x24 stream sits first under "More" (the five primary items stay as the owner set them).
+    [flashNavLabel(locale), withLocale(locale, FLASH_PATH)],
     [locale === "zh-Hant" || locale === "zh-TW" ? "賽道選型" : locale.startsWith("zh") ? "赛道选型" : ({ ja: "トピックガイド", ko: "주제 가이드", tr: "Konu Rehberleri", ru: "Тематические гиды", de: "Themen-Guides", fr: "Guides thématiques", es: "Guías temáticas", "pt-BR": "Guias temáticos", it: "Guide tematiche", id: "Panduan topik", vi: "Hướng dẫn chủ đề",
         // l10n: needs native review
         ur: "موضوعاتی رہنما",
@@ -704,7 +723,7 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
   </>;
 }
 
-export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles } = {}) {
+export function App({ initialUrl, initialLocale, initialCompareSelection, initialNewsArticles, initialNewsListing, initialMarketEvents, initialOfficialAnnouncements, initialToolArticles, initialFlash } = {}) {
   const [locale, setLocale] = useState(() => initialLocale || readLocale(initialUrl));
   const region = "Global";
   const [siteView, setSiteView] = useState(null);
@@ -860,7 +879,10 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "editorialPolicy") return pageShell(<EditorialPolicyPage locale={locale} />);
   if (route.name === "partners") return pageShell(<PartnerEmbedGuide locale={locale} />);
   if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
+  if (route.name === "appDownload") return pageShell(<AppDownloadPage slug={route.slug} locale={locale} market={route.market || decisionPassport.market} contextSearch={sourceSearch} />);
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
+  if (route.name === "flashStream") return pageShell(<FlashStreamPage locale={locale} market={route.market} initial={initialFlash} />);
+  if (route.name === "flashItem") return pageShell(<FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);
@@ -895,7 +917,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "newsList") return pageShell(<NewsListPage locale={locale} market={route.market} product={route.product} category={route.category} page={route.page} initialArticles={initialNewsArticles} listing={initialNewsListing} />);
   if (route.name === "newsDetail") return pageShell(<NewsDetailPage slug={route.slug} locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} />);
   if (route.name === "venue" && !routedVenue) return pageShell(<NotFoundPage locale={locale} />);
-  if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} researchComponent={VenueDetailResearch} prefetchResearch={prefetchVenueResearch} />);
+  if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market || (decisionPassport.market !== "unknown" ? decisionPassport.market : undefined)} product={route.product} accountStage={route.accountStage} funding={route.funding} researchComponent={VenueDetailResearch} prefetchResearch={prefetchVenueResearch} />);
   if (route.name === "compareHub") return pageShell(<CompareHubPage locale={locale} venues={command.venueCatalog} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });
   if (route.name === "compare" && selectedFromRoute.length < 2) return pageShell(<NotFoundPage locale={locale} />);
   if (route.name === "compare" && selectedFromRoute.length >= 2) return pageShell(<CompareDeepPage copy={copy} locale={locale} selected={selectedFromRoute} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });

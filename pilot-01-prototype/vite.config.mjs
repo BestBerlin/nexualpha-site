@@ -193,7 +193,10 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
           // Academy hub and lesson pages (2026-10-12); each locale's lessons stay a separate lazy chunk.
+          if (id.includes("/src/components/apps/") || id.includes("/src/data/app-download-copy.js")) return "route-apps";
           if (id.includes("/src/components/academy/") || id.includes("/src/data/academy-copy.js")) return "route-academy";
+          // Flash stream + item pages (2026-10-12). The home rail (FlashRail.jsx) stays with the home page.
+          if (id.includes("/src/components/flash/FlashPages") || id.includes("/src/components/flash/flash.css") || id.includes("/src/data/flash.js")) return "route-flash";
           if (id.includes("/src/components/v3/brand-pages/")) return "route-brand-pages";
           if (id.includes("/src/components/v3/TokenizedAssetsPage")) return "route-tokenized-assets";
           // /topics/<exchange>-alternatives shares the small topic-cluster chunk (and its route stylesheet prefix in the Worker).

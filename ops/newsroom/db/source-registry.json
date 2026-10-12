@@ -1,0 +1,1277 @@
+[
+  {
+    "id": "x-api-v2",
+    "platform": "x",
+    "name": "X API v2 recent search and usage",
+    "url": "https://api.x.com/2/tweets/search/recent",
+    "topics": [
+      "social",
+      "original-statements"
+    ],
+    "access_method": "api",
+    "role": "lead",
+    "tier": 3,
+    "status": "connected",
+    "poll_seconds": 600,
+    "cost_note": "Pay-per-use reads; proposed newsroom cap is 1500 posts/day pending owner approval.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 1",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "x-owner-chrome-session",
+    "platform": "x",
+    "name": "X owner Chrome read-only fallback",
+    "url": "https://x.com/",
+    "topics": [
+      "social",
+      "fallback"
+    ],
+    "access_method": "html",
+    "role": "lead",
+    "tier": 3,
+    "status": "partial",
+    "poll_seconds": 3600,
+    "cost_note": "Owner Chrome session only; 5 of last runs skipped it.",
+    "verified_via": "SOURCES.md row 1",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "youtube-data-api",
+    "platform": "youtube",
+    "name": "YouTube Data API v3 videos and search",
+    "url": "https://www.googleapis.com/youtube/v3/videos",
+    "topics": [
+      "video",
+      "social"
+    ],
+    "access_method": "api",
+    "role": "lead",
+    "tier": 3,
+    "status": "connected",
+    "poll_seconds": 1800,
+    "quota_per_day": 2000,
+    "cost_note": "10k units/day shared with channel ops; newsroom budget capped at 2000 units/day.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 2",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "youtube-captions",
+    "platform": "youtube",
+    "name": "YouTube captions and public timedtext",
+    "url": "https://www.googleapis.com/youtube/v3/captions",
+    "topics": [
+      "video",
+      "transcripts"
+    ],
+    "access_method": "api",
+    "role": "lead",
+    "tier": 3,
+    "status": "missing-authorization",
+    "poll_seconds": 86400,
+    "cost_note": "captions.list returned insufficient scopes; public timedtext empty and disallowed by robots.",
+    "verified_via": "SOURCES.md row 2b",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "google-trends-us",
+    "platform": "google_trends",
+    "name": "Google Trends RSS US",
+    "url": "https://trends.google.com/trending/rss?geo=US",
+    "topics": [
+      "trends",
+      "heat"
+    ],
+    "access_method": "rss",
+    "role": "data",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 1800,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 3",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "google-trends-gb",
+    "platform": "google_trends",
+    "name": "Google Trends RSS GB",
+    "url": "https://trends.google.com/trending/rss?geo=GB",
+    "topics": [
+      "trends",
+      "heat"
+    ],
+    "access_method": "rss",
+    "role": "data",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 1800,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 3",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "google-trends-tr",
+    "platform": "google_trends",
+    "name": "Google Trends RSS TR",
+    "url": "https://trends.google.com/trending/rss?geo=TR",
+    "topics": [
+      "trends",
+      "heat"
+    ],
+    "access_method": "rss",
+    "role": "data",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 1800,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 3",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "google-trends-vn",
+    "platform": "google_trends",
+    "name": "Google Trends RSS VN",
+    "url": "https://trends.google.com/trending/rss?geo=VN",
+    "topics": [
+      "trends",
+      "heat"
+    ],
+    "access_method": "rss",
+    "role": "data",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 1800,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 3",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "google-trends-br",
+    "platform": "google_trends",
+    "name": "Google Trends RSS BR",
+    "url": "https://trends.google.com/trending/rss?geo=BR",
+    "topics": [
+      "trends",
+      "heat"
+    ],
+    "access_method": "rss",
+    "role": "data",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 1800,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 3",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "google-trends-id",
+    "platform": "google_trends",
+    "name": "Google Trends RSS ID",
+    "url": "https://trends.google.com/trending/rss?geo=ID",
+    "topics": [
+      "trends",
+      "heat"
+    ],
+    "access_method": "rss",
+    "role": "data",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 1800,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 3",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "google-news-crypto",
+    "platform": "google_news",
+    "name": "Google News RSS crypto queries",
+    "url": "https://news.google.com/rss/search?q=crypto%20when:1d",
+    "topics": [
+      "news",
+      "cross-source-spread"
+    ],
+    "access_method": "rss",
+    "role": "lead",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 600,
+    "cost_note": "Free RSS; poll at most every 10 minutes per query.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 3b",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "weibo-public",
+    "platform": "weibo",
+    "name": "Weibo public hot/search endpoints",
+    "url": "https://m.weibo.cn/",
+    "topics": [
+      "social",
+      "china"
+    ],
+    "access_method": "public_json",
+    "role": "lead",
+    "tier": 3,
+    "status": "missing-authorization",
+    "poll_seconds": 3600,
+    "cost_note": "Visitor-system page, ajax 403, robots disallow, RSSHub needs visitor cookies.",
+    "verified_via": "SOURCES.md row 4",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "google-news-crypto"
+  },
+  {
+    "id": "instagram-public",
+    "platform": "instagram",
+    "name": "Instagram public profile/oEmbed/RSSHub",
+    "url": "https://www.instagram.com/",
+    "topics": [
+      "social"
+    ],
+    "access_method": "html",
+    "role": "lead",
+    "tier": 3,
+    "status": "missing-authorization",
+    "poll_seconds": 3600,
+    "cost_note": "401 require_login, Graph token missing, RSS disabled.",
+    "verified_via": "SOURCES.md row 5",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "google-news-crypto"
+  },
+  {
+    "id": "tiktok-public",
+    "platform": "tiktok",
+    "name": "TikTok oEmbed, Research API and RSSHub",
+    "url": "https://www.tiktok.com/",
+    "topics": [
+      "social"
+    ],
+    "access_method": "html",
+    "role": "lead",
+    "tier": 3,
+    "status": "missing-authorization",
+    "poll_seconds": 3600,
+    "cost_note": "oEmbed unstable, Research API unauthorized, robots mostly disallow, RSSHub needs Playwright.",
+    "verified_via": "SOURCES.md row 6",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "google-news-crypto"
+  },
+  {
+    "id": "binance-announcements",
+    "platform": "exchange",
+    "name": "Binance public announcements API",
+    "url": "https://www.binance.com/bapi/composite/v1/public/cms/article/list/query",
+    "topics": [
+      "exchange-announcements"
+    ],
+    "access_method": "public_json",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 180,
+    "cost_note": "Free public JSON.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 7a",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "okx-announcements",
+    "platform": "exchange",
+    "name": "OKX support announcements API",
+    "url": "https://www.okx.com/api/v5/support/announcements",
+    "topics": [
+      "exchange-announcements"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 180,
+    "cost_note": "Free official API.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 7b",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "bybit-announcements",
+    "platform": "exchange",
+    "name": "Bybit announcements API",
+    "url": "https://api.bybit.com/v5/announcements/index",
+    "topics": [
+      "exchange-announcements"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 180,
+    "cost_note": "Free official API; HTML site had TLS reset during probe.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 7c",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "bitget-announcements",
+    "platform": "exchange",
+    "name": "Bitget announcements API",
+    "url": "https://api.bitget.com/api/v2/public/annoucements",
+    "topics": [
+      "exchange-announcements"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 180,
+    "cost_note": "Free official API.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 7d",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "coinbase-status",
+    "platform": "exchange",
+    "name": "Coinbase status RSS",
+    "url": "https://status.coinbase.com/history.rss",
+    "topics": [
+      "exchange-status"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "partial",
+    "poll_seconds": 300,
+    "cost_note": "Status RSS connected; blog RSS blocked by Cloudflare challenge.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 7e",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "x-api-v2"
+  },
+  {
+    "id": "kraken-status",
+    "platform": "exchange",
+    "name": "Kraken status incidents API",
+    "url": "https://status.kraken.com/api/v2/incidents.json",
+    "topics": [
+      "exchange-status"
+    ],
+    "access_method": "public_json",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free Statuspage JSON.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 7f",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "nexualpha-official-announcements",
+    "platform": "exchange",
+    "name": "NexuAlpha official announcements mirror",
+    "url": "https://nexualpha.com/intel/official-announcements.json",
+    "topics": [
+      "exchange-announcements",
+      "own-feed"
+    ],
+    "access_method": "public_json",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 180,
+    "cost_note": "Own mirror with 237 items across 6 venues.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 7g",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "ethereum-blog",
+    "platform": "project",
+    "name": "Ethereum Foundation blog RSS",
+    "url": "https://blog.ethereum.org/feed.xml",
+    "topics": [
+      "project-announcements"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "partial",
+    "poll_seconds": 900,
+    "cost_note": "Project blog group partial; Ethereum feed connected, newest 2026-10-05.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 8",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "x-api-v2"
+  },
+  {
+    "id": "solana-news",
+    "platform": "project",
+    "name": "Solana news RSS",
+    "url": "https://solana.com/news/rss.xml",
+    "topics": [
+      "project-announcements"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "partial",
+    "poll_seconds": 900,
+    "cost_note": "Project blog group partial; Solana feed connected, newest 2026-10-08.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 8",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "x-api-v2"
+  },
+  {
+    "id": "hyperliquid-medium-dropped",
+    "platform": "project",
+    "name": "Hyperliquid Medium RSS (dropped stale)",
+    "url": "https://medium.com/feed/@hyperliquid",
+    "topics": [
+      "project-announcements"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "partial",
+    "poll_seconds": 86400,
+    "cost_note": "Dropped from active polling because the feed is stale at January 2024.",
+    "enabled": false,
+    "verified_via": "SOURCES.md row 8",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "hyperliquid-info"
+  },
+  {
+    "id": "sec-press",
+    "platform": "regulator",
+    "name": "SEC press releases RSS",
+    "url": "https://www.sec.gov/news/pressreleases.rss",
+    "topics": [
+      "regulation",
+      "enforcement"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 600,
+    "cost_note": "Use contact UA NexuAlpha newsroom ops@nexualpha.com; <=10 req/s.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 9a",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "sec-litigation",
+    "platform": "regulator",
+    "name": "SEC litigation releases RSS",
+    "url": "https://www.sec.gov/rss/litigation/litreleases.xml",
+    "topics": [
+      "litigation",
+      "enforcement"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 600,
+    "cost_note": "Use contact UA NexuAlpha newsroom ops@nexualpha.com; <=10 req/s.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 9a",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "cftc-rss",
+    "platform": "regulator",
+    "name": "CFTC RSS general press releases",
+    "url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml",
+    "topics": [
+      "regulation",
+      "enforcement"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 600,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 9b",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "fca-news",
+    "platform": "regulator",
+    "name": "FCA news RSS",
+    "url": "https://www.fca.org.uk/news/rss.xml",
+    "topics": [
+      "regulation"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "temporarily-failing",
+    "poll_seconds": 1800,
+    "cost_note": "403 plus maintenance page during probe; fallback Google News site:fca.org.uk.",
+    "verified_via": "SOURCES.md row 9c",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "google-news-crypto"
+  },
+  {
+    "id": "mas-search",
+    "platform": "regulator",
+    "name": "MAS site search API",
+    "url": "https://www.mas.gov.sg/api/search",
+    "topics": [
+      "regulation"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "partial",
+    "poll_seconds": 1800,
+    "cost_note": "200 with 0 results due to wrong query parameter; /rss 404.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 9d",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "google-news-crypto"
+  },
+  {
+    "id": "esma-rss",
+    "platform": "regulator",
+    "name": "ESMA RSS",
+    "url": "https://www.esma.europa.eu/rss.xml",
+    "topics": [
+      "regulation"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 600,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 9e",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "hk-sfc-news",
+    "platform": "regulator",
+    "name": "Hong Kong SFC news HTML",
+    "url": "https://www.sfc.hk/en/News-and-announcements/News",
+    "topics": [
+      "regulation"
+    ],
+    "access_method": "html",
+    "role": "verification",
+    "tier": 1,
+    "status": "partial",
+    "poll_seconds": 1800,
+    "cost_note": "Tried URL returns HTML, not RSS; official RSS still to find.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 9f",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "google-news-crypto"
+  },
+  {
+    "id": "japan-fsa-rss",
+    "platform": "regulator",
+    "name": "Japan FSA English news RSS",
+    "url": "https://www.fsa.go.jp/en/news/fsaEnNewsList_rss2.xml",
+    "topics": [
+      "regulation"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 600,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 9g",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "ofac-recent-actions",
+    "platform": "regulator",
+    "name": "OFAC recent actions HTML",
+    "url": "https://ofac.treasury.gov/recent-actions",
+    "topics": [
+      "sanctions",
+      "regulation"
+    ],
+    "access_method": "html",
+    "role": "verification",
+    "tier": 1,
+    "status": "partial",
+    "poll_seconds": 1800,
+    "cost_note": "RSS 403/404; HTML page 200, Treasury email list fallback.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 9h",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "google-news-crypto"
+  },
+  {
+    "id": "fed-press-all",
+    "platform": "regulator",
+    "name": "Federal Reserve press all RSS",
+    "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+    "topics": [
+      "macro",
+      "rates"
+    ],
+    "access_method": "rss",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 600,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 9i",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "courtlistener-search",
+    "platform": "court",
+    "name": "CourtListener RECAP search REST v4",
+    "url": "https://www.courtlistener.com/api/rest/v4/search/",
+    "topics": [
+      "court-records",
+      "filings"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 1800,
+    "cost_note": "Anonymous use is rate-limited; free token recommended.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 10",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "pacer",
+    "platform": "court",
+    "name": "PACER paid login",
+    "url": "https://pacer.uscourts.gov/",
+    "topics": [
+      "court-records"
+    ],
+    "access_method": "html",
+    "role": "verification",
+    "tier": 1,
+    "status": "missing-authorization",
+    "poll_seconds": 86400,
+    "cost_note": "Paid login and per-page fees; not attempted.",
+    "verified_via": "SOURCES.md row 10b",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "courtlistener-search"
+  },
+  {
+    "id": "sec-edgar-full-text",
+    "platform": "edgar",
+    "name": "SEC EDGAR full-text search",
+    "url": "https://efts.sec.gov/LATEST/search-index",
+    "topics": [
+      "filings",
+      "listed-companies"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 900,
+    "cost_note": "Use contact UA; <=10 req/s.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 11",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "sec-edgar-submissions",
+    "platform": "edgar",
+    "name": "SEC EDGAR submissions JSON",
+    "url": "https://data.sec.gov/submissions/",
+    "topics": [
+      "filings",
+      "listed-companies"
+    ],
+    "access_method": "public_json",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 900,
+    "cost_note": "Use contact UA; <=10 req/s.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 11",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "etherscan-v2",
+    "platform": "onchain",
+    "name": "Etherscan v2 API",
+    "url": "https://api.etherscan.io/v2/api",
+    "topics": [
+      "onchain",
+      "address-labels"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "missing-authorization",
+    "poll_seconds": 300,
+    "cost_note": "Free key missing; probe returned Missing/Invalid API Key.",
+    "verified_via": "SOURCES.md row 12a",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "blockchair-bitcoin-stats"
+  },
+  {
+    "id": "whale-alert-api",
+    "platform": "onchain",
+    "name": "Whale Alert API",
+    "url": "https://api.whale-alert.io/v1/transactions",
+    "topics": [
+      "whale-transfers"
+    ],
+    "access_method": "api",
+    "role": "lead",
+    "tier": 2,
+    "status": "partial",
+    "poll_seconds": 900,
+    "cost_note": "Homepage only; API is paid. Whale Alert X posts are lead-only fallback.",
+    "verified_via": "SOURCES.md row 12b",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "x-api-v2"
+  },
+  {
+    "id": "arkham-transport",
+    "platform": "onchain",
+    "name": "Arkham public transport probe",
+    "url": "https://api.arkm.com/",
+    "topics": [
+      "onchain",
+      "address-labels"
+    ],
+    "access_method": "html",
+    "role": "lead",
+    "tier": 2,
+    "status": "temporarily-failing",
+    "poll_seconds": 1800,
+    "cost_note": "TLS error on three attempts; keep separate from API authorization state.",
+    "verified_via": "SOURCES.md row 12c",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "blockchair-bitcoin-stats"
+  },
+  {
+    "id": "arkham-api-application",
+    "platform": "onchain",
+    "name": "Arkham API application access",
+    "url": "https://intel.arkm.com/",
+    "topics": [
+      "onchain",
+      "address-labels"
+    ],
+    "access_method": "api",
+    "role": "lead",
+    "tier": 2,
+    "status": "missing-authorization",
+    "poll_seconds": 86400,
+    "cost_note": "API requires an application; address labels must carry source and confidence.",
+    "verified_via": "SOURCES.md row 12c",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "arkham-transport"
+  },
+  {
+    "id": "mempool-space",
+    "platform": "onchain",
+    "name": "mempool.space REST",
+    "url": "https://mempool.space/api/blocks/tip/height",
+    "topics": [
+      "bitcoin",
+      "fees"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free public REST.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 12d",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "blockchair-bitcoin-stats",
+    "platform": "onchain",
+    "name": "Blockchair Bitcoin stats",
+    "url": "https://api.blockchair.com/bitcoin/stats",
+    "topics": [
+      "bitcoin",
+      "onchain"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 900,
+    "cost_note": "Free daily cap.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 12e",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "defillama-protocols",
+    "platform": "onchain",
+    "name": "DefiLlama protocols",
+    "url": "https://api.llama.fi/protocols",
+    "topics": [
+      "tvl",
+      "defi"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free public API.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 12f",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "defillama-stablecoins",
+    "platform": "onchain",
+    "name": "DefiLlama stablecoins",
+    "url": "https://stablecoins.llama.fi/stablecoins",
+    "topics": [
+      "stablecoins",
+      "depegs"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free public API.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 12f",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "hyperliquid-info",
+    "platform": "onchain",
+    "name": "Hyperliquid POST /info official API",
+    "url": "https://api.hyperliquid.xyz/info",
+    "topics": [
+      "perps",
+      "open-interest"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free official API; separate from dropped Medium feed.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 12g",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "coinglass-v4",
+    "platform": "market",
+    "name": "Coinglass v4 API",
+    "url": "https://open-api-v4.coinglass.com/",
+    "topics": [
+      "liquidations",
+      "funding"
+    ],
+    "access_method": "api",
+    "role": "data",
+    "tier": 2,
+    "status": "missing-authorization",
+    "poll_seconds": 300,
+    "cost_note": "Paid API key missing; use exchange public APIs plus market-collector.",
+    "verified_via": "SOURCES.md row 12h",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "nexualpha-market-events"
+  },
+  {
+    "id": "binance-futures-24hr",
+    "platform": "market",
+    "name": "Binance futures 24h ticker",
+    "url": "https://fapi.binance.com/fapi/v1/ticker/24hr",
+    "topics": [
+      "perps",
+      "price",
+      "funding"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Public endpoint not geo-blocked from Mac during probe.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 12i",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "cointelegraph-rss",
+    "platform": "media",
+    "name": "Cointelegraph RSS",
+    "url": "https://cointelegraph.com/rss",
+    "topics": [
+      "crypto-media"
+    ],
+    "access_method": "rss",
+    "role": "lead",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 13a",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "decrypt-rss",
+    "platform": "media",
+    "name": "Decrypt RSS",
+    "url": "https://decrypt.co/feed",
+    "topics": [
+      "crypto-media"
+    ],
+    "access_method": "rss",
+    "role": "lead",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 13a",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "the-block-rss",
+    "platform": "media",
+    "name": "The Block RSS",
+    "url": "https://www.theblock.co/rss.xml",
+    "topics": [
+      "crypto-media"
+    ],
+    "access_method": "rss",
+    "role": "lead",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 13a",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "coindesk-rss",
+    "platform": "media",
+    "name": "CoinDesk RSS",
+    "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+    "topics": [
+      "crypto-media"
+    ],
+    "access_method": "rss",
+    "role": "lead",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 13a",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "reuters-crypto",
+    "platform": "media",
+    "name": "Reuters crypto feed/search",
+    "url": "https://www.reuters.com/",
+    "topics": [
+      "wire",
+      "finance"
+    ],
+    "access_method": "rss",
+    "role": "lead",
+    "tier": 2,
+    "status": "missing-authorization",
+    "poll_seconds": 900,
+    "cost_note": "No public RSS found; 404. Use Google News query fallback.",
+    "verified_via": "SOURCES.md row 13b",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "google-news-crypto"
+  },
+  {
+    "id": "bloomberg-markets-rss",
+    "platform": "media",
+    "name": "Bloomberg markets RSS headlines",
+    "url": "https://feeds.bloomberg.com/markets/news.rss",
+    "topics": [
+      "wire",
+      "finance"
+    ],
+    "access_method": "rss",
+    "role": "lead",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 900,
+    "cost_note": "Headlines and links only.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 13b",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "panews-rss",
+    "platform": "media",
+    "name": "PANews RSS",
+    "url": "https://www.panewslab.com/rss/index.xml",
+    "topics": [
+      "china-media"
+    ],
+    "access_method": "rss",
+    "role": "lead",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 13c",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "odaily-newsflash-rss",
+    "platform": "media",
+    "name": "Odaily newsflash RSS",
+    "url": "https://www.odaily.news/rss/newsflash",
+    "topics": [
+      "china-media"
+    ],
+    "access_method": "rss",
+    "role": "lead",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Free RSS.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 13c",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "blockbeats-api",
+    "platform": "media",
+    "name": "BlockBeats API",
+    "url": "https://api.theblockbeats.news/",
+    "topics": [
+      "china-media"
+    ],
+    "access_method": "api",
+    "role": "lead",
+    "tier": 2,
+    "status": "partial",
+    "poll_seconds": 300,
+    "cost_note": "Probe returned data: [].",
+    "verified_via": "SOURCES.md row 13c",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "google-news-crypto"
+  },
+  {
+    "id": "wublockchain-preview",
+    "platform": "media",
+    "name": "WuBlockchain t.me preview",
+    "url": "https://t.me/s/wublockchainenglish",
+    "topics": [
+      "china-media",
+      "telegram"
+    ],
+    "access_method": "html",
+    "role": "lead",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Public t.me preview returned posts.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 13c",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "telegram-nexualphaclub-preview",
+    "platform": "telegram",
+    "name": "Telegram public preview NexuAlphaClub",
+    "url": "https://t.me/s/NexuAlphaClub",
+    "topics": [
+      "telegram",
+      "own-channel"
+    ],
+    "access_method": "html",
+    "role": "lead",
+    "tier": 3,
+    "status": "connected",
+    "poll_seconds": 180,
+    "cost_note": "Public preview returned 20 posts.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 14",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "rsshub-telegram-wublockchainenglish",
+    "platform": "telegram",
+    "name": "RSSHub Telegram channel wublockchainenglish",
+    "url": "http://127.0.0.1:1200/telegram/channel/wublockchainenglish",
+    "topics": [
+      "telegram",
+      "china-media"
+    ],
+    "access_method": "rsshub",
+    "role": "lead",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 180,
+    "cost_note": "BaoTa RSSHub returned RSS; should bind to 127.0.0.1.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 14",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "tiingo-fx-crypto",
+    "platform": "fx",
+    "name": "Tiingo FX and crypto API",
+    "url": "https://api.tiingo.com/tiingo/fx/top",
+    "topics": [
+      "fx",
+      "cross-asset"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 2,
+    "status": "connected",
+    "poll_seconds": 3600,
+    "cost_note": "Free-tier hourly/daily caps; credential file tiingo.env.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 15a",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "fred-csv-dgs10",
+    "platform": "fx",
+    "name": "FRED public CSV DGS10",
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10",
+    "topics": [
+      "rates",
+      "macro"
+    ],
+    "access_method": "csv",
+    "role": "verification",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 86400,
+    "cost_note": "Public CSV connected; HTTP/1.1 only during probe.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 15b",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "fred-api",
+    "platform": "fx",
+    "name": "FRED API key-gated endpoint",
+    "url": "https://api.stlouisfed.org/fred/series/observations",
+    "topics": [
+      "rates",
+      "macro"
+    ],
+    "access_method": "api",
+    "role": "verification",
+    "tier": 1,
+    "status": "missing-authorization",
+    "poll_seconds": 86400,
+    "cost_note": "Free API key needed; keep separate from connected CSV.",
+    "verified_via": "SOURCES.md row 15b",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "fred-csv-dgs10"
+  },
+  {
+    "id": "stooq-csv",
+    "platform": "fx",
+    "name": "Stooq CSV",
+    "url": "https://stooq.com/q/d/l/",
+    "topics": [
+      "cross-asset"
+    ],
+    "access_method": "csv",
+    "role": "verification",
+    "tier": 2,
+    "status": "temporarily-failing",
+    "poll_seconds": 3600,
+    "cost_note": "JS bot check not bypassed; Tiingo fallback.",
+    "verified_via": "SOURCES.md row 15c",
+    "verified_at": "2026-10-12",
+    "fallback_source_id": "tiingo-fx-crypto"
+  },
+  {
+    "id": "nexualpha-market-events",
+    "platform": "market",
+    "name": "NexuAlpha market-events feed",
+    "url": "https://nexualpha.com/intel/market-events.json",
+    "topics": [
+      "own-feed",
+      "liquidations",
+      "funding",
+      "headlines"
+    ],
+    "access_method": "public_json",
+    "role": "data",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 300,
+    "cost_note": "Own market-collector JSON; liquidation data must retain lower-bound, venue and window labels.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 16a",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "nexualpha-partners",
+    "platform": "market",
+    "name": "NexuAlpha partners feed",
+    "url": "https://nexualpha.com/intel/partners.json",
+    "topics": [
+      "partners",
+      "promotions"
+    ],
+    "access_method": "public_json",
+    "role": "data",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 3600,
+    "cost_note": "Own partner registry, 10 venues, fees as of 2026-10-10.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 16b",
+    "verified_at": "2026-10-12"
+  },
+  {
+    "id": "keyword-csvs",
+    "platform": "media",
+    "name": "NexuAlpha keyword CSV files",
+    "url": "file:///Volumes/致态2TB/nx-agents/keywords/keywords-*.csv",
+    "topics": [
+      "search-intent",
+      "keywords"
+    ],
+    "access_method": "file",
+    "role": "data",
+    "tier": 1,
+    "status": "connected",
+    "poll_seconds": 86400,
+    "cost_note": "Nine locale files for the search-intent lane.",
+    "verified_official": true,
+    "verified_via": "SOURCES.md row 17",
+    "verified_at": "2026-10-12"
+  }
+]

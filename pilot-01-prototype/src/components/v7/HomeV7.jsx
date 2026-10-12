@@ -210,6 +210,7 @@ export function HomeV7({ locale, market, venues: _catalog }) {
 
       <div className="h7-trust"><div>{t.t1}<span>{t.t1b}</span></div><div>{t.t2}<span>{t.t2b}</span></div><div>{t.t3}<span>{t.t3b}</span></div></div>
 
+
       <section className="h7-in h7-how" aria-labelledby="h7-how-h">
         <h2 id="h7-how-h">{t.howH}</h2>
         <ol className="h7-steps">
@@ -219,7 +220,7 @@ export function HomeV7({ locale, market, venues: _catalog }) {
 
       <AcademyTeaser locale={locale} />
 
-      <DeferUntilVisible target="#h7-calc" prefetch={loadHomeBelow}>
+      <DeferUntilVisible target="#h7-flash" prefetch={loadHomeBelow}>
         <HomeBelowFold t={t} locale={locale} market={market} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} />
       </DeferUntilVisible>
       <div className="h7-in h7-foot">{replaceMaxPercent(t.foot(FACTS_AS_OF), locale, HOME_REBATE_MAX_PCT).split(/(?<=[。．.])\s*(?=\S)/u).map((x) => <p key={x}>{x}</p>)}</div>

@@ -37,7 +37,11 @@ import { repairNewsArticle } from "../src/data/news-content-repair.js";
 import { applyNewsSearchState, newsCanonicalTargetSlug, newsStrengthRank } from "../src/data/news-search-state.js";
 import { NEWS_HUB_TOOL_KEY, articleClusterLineLabel, articleClusterLinks, isRelatedArticlesToolKey, toolArticleLinks, toolKeyForPath } from "../src/data/topic-clusters.js";
 import { ACADEMY_INDEX_LOCALES, ACADEMY_PATH, parseAcademyPath } from "../src/data/academy.js";
+import { appDownloadRouteSeo } from "../src/data/app-downloads.js";
+import { parseAppDownloadPath } from "../src/data/app-download-path.js";
 import { academyRouteSeo } from "../src/data/academy-seo.js";
+import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
+import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, renderFlashSitemap } from "../src/data/flash-feed.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
   async fetch(request, env) {
@@ -55,9 +59,12 @@ export default {
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/sitemap.xml" && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
-    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
+    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
+    // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
+    if (url.pathname === FLASH_FEED_URL && ["GET", "HEAD"].includes(request.method)) return handleFlashFeedJson(request, env, url);
+    if (url.pathname === FLASH_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleFlashSitemap(request, env, url);
     if (["/news-library-sitemap.xml", "/locale-sitemap.xml"].includes(url.pathname) && ["GET", "HEAD"].includes(request.method)) {
       return Response.redirect(`${PUBLIC_ORIGIN}/sitemap.xml`, 301);
     }
@@ -2529,7 +2536,9 @@ const FACTBOOK_SOURCE_REVIEW_DATE = "2026-09-08";
 const HOME_ROUTE_MARKER = "NEXUALPHA_HOME_ROUTE_V1";
 const STATIC_ROUTE_MARKER = "NEXUALPHA_STATIC_ROUTE_V1";
 const NOT_FOUND_ROUTE_MARKER = "NEXUALPHA_NOT_FOUND_ROUTE_V1";
+const APP_DOWNLOAD_ROUTE_MARKER = "NEXUALPHA_APP_DOWNLOAD_ROUTE_V1";
 const ACADEMY_ROUTE_MARKER = "NEXUALPHA_ACADEMY_ROUTE_V1";
+const FLASH_ROUTE_MARKER = "NEXUALPHA_FLASH_ROUTE_V1";
 // /starter (新手村) is the academy since 2026-10-12; it briefly pointed at the Telegram hub.
 const RETIRED_PAGE_REDIRECTS = Object.freeze({ "/starter": ACADEMY_PATH });
 const SHARED_ROUTE_STYLE_PREFIXES = Object.freeze(["index-", "core-", "shared-decision-rail-", "shared-decision-return-"]);
@@ -2548,8 +2557,11 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [FACTBOOK_ROUTE_MARKER]: ["page-factbook-", "page-detail-", "route-factbook-", "route-activity-"],
   [NEWS_ROUTE_MARKER]: ["route-news-", "route-activity-"],
   [ARTICLE_ROUTE_MARKER]: ["route-news-"],
+  [APP_DOWNLOAD_ROUTE_MARKER]: ["route-apps-"],
   // Academy hub and lessons: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
   [ACADEMY_ROUTE_MARKER]: ["route-academy-", "route-news-"],
+  // Flash stream and items: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
+  [FLASH_ROUTE_MARKER]: ["route-flash-", "route-news-"],
 });
 const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
   "/methodology": ["route-methodology-"],
@@ -2595,7 +2607,7 @@ const LOCALE_CODE_BY_PREFIX = Object.freeze(Object.fromEntries(Object.entries(LO
 const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"));
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
-const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy"]);
+const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/flash"]);
 const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
@@ -3543,10 +3555,12 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.newsListing && typeof route.newsListing === "object" ? { newsListing: route.newsListing } : {}),
     ...(route.marketEvents && typeof route.marketEvents === "object" ? { marketEvents: route.marketEvents } : {}),
     ...(route.activityContext && typeof route.activityContext === "object" ? { activityContext: route.activityContext } : {}),
+    ...(route.appDownloadContext && typeof route.appDownloadContext === "object" ? { appDownloadContext: route.appDownloadContext } : {}),
     ...(route.officialAnnouncements && typeof route.officialAnnouncements === "object" ? { officialAnnouncements: route.officialAnnouncements } : {}),
     // Home hero copy experiment (X5): the variant this HTML was rendered with; the browser hydrates the same one.
     ...(route.heroVariant === "a" || route.heroVariant === "b" ? { heroVariant: route.heroVariant } : {}),
     ...(route.toolArticles && typeof route.toolArticles === "object" ? { toolArticles: route.toolArticles } : {}),
+    ...(route.flash && typeof route.flash === "object" ? { flash: route.flash } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
   // Function replacer: the body is page text and may contain "$'" / "$&" replacement patterns.
@@ -4344,7 +4358,7 @@ async function renderActivityUpdateAtRequestTime(html, metadata, url, env) {
 // 0.3-0.9 at 390, nothing for no-JS readers). Render the same component with the same props and the same bootstrap URL
 // the browser hydrates (content pathname + explicit locale); the shell is served only when the renderer throws or
 // returns no page (both logged). `accept` names the markup that proves the renderer produced the client's page.
-async function renderRouteAtRequestTime(html, metadata, url, env, { accept, label, preserveContext = false }) {
+async function renderRouteAtRequestTime(html, metadata, url, env, { accept, label, preserveContext = false, hydrationData = {} }) {
   if (typeof env?.NEWS_SSR_RENDER !== "function") return null;
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   const pathname = publicRoute.contentPathname;
@@ -4358,7 +4372,7 @@ async function renderRouteAtRequestTime(html, metadata, url, env, { accept, labe
     const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, {});
     if (typeof appHtml === "string" && accept(appHtml)) {
       metadata.fallbackSsrMode = "runtime";
-      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, {}, url);
+      return injectPrerenderedBody(html, appHtml, `${pathname}|${locale}`, hydrationData, url);
     }
     console.error(`[NexuAlpha] ${label} SSR returned no page body for ${pathname} (${locale}); serving the app shell`);
   } catch (error) {
@@ -4432,6 +4446,12 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
       } catch { /* fall through to the client-rendered shell */ }
     }
+    if (metadata.marker === APP_DOWNLOAD_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      const rendered = await renderRouteAtRequestTime(html, metadata, url, env, {
+        accept: (appHtml) => appHtml.includes('class="nx-app-download '), label: "app-download", preserveContext: true, hydrationData: { appDownloadContext: activityRequestContext(url) },
+      });
+      if (rendered) return rendered;
+    }
     // Academy hub and lessons: static copy rendered at request time with the component the browser hydrates (full
     // transcript, takeaways and exercise in the HTML for crawlers and no-JS readers).
     if (metadata.marker === ACADEMY_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
@@ -4443,6 +4463,20 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
         console.error(`[NexuAlpha] academy SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] academy SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
+    }
+    // Flash stream and item pages: the payload resolved for the head (metadata.flashPayload) is rendered with the
+    // component the browser hydrates and shipped as prerender state "flash".
+    if (metadata.marker === FLASH_ROUTE_MARKER && metadata.flashPayload && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const flash = metadata.flashPayload;
+        const renderUrl = new URL(hydrationRenderUrl(url, pathname, publicRoute.locale));
+        const appHtml = await env.NEWS_SSR_RENDER(renderUrl.href, { flash });
+        if (typeof appHtml === "string" && appHtml.includes("class=\"nxf ")) {
+          metadata.flashSsrMode = "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { flash }, url);
+        }
+        console.error(`[NexuAlpha] flash SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
+      } catch (error) { console.error(`[NexuAlpha] flash SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
     }
     // Brand pages (/about, /editorial-policy) are static copy: render them at request time with the same renderer so
     // crawlers and no-JS readers get the full entity page instead of an empty #root.
@@ -4472,6 +4506,8 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     // Listing pages never come from the build-time manifest: the feed is published after the build.
     const listing = metadata.marker === NEWS_ROUTE_MARKER ? parseNewsListingPath(contentPath) : null;
     if (listing && !listing.invalid && !listing.redirect) return fallback();
+    // App pages always carry their own market-aware hydration payload, including when a country changes policy.
+    if (metadata.marker === APP_DOWNLOAD_ROUTE_MARKER) return fallback();
     // /activities: campaigns come from the live announcement feed, so the body is rendered per request when the feed is
     // readable; without a feed the prerendered page (fixed-height campaign placeholder) is served as before.
     if (contentPath === "/activities" && metadata.marker === ACTIVITIES_ROUTE_MARKER) {
@@ -4750,6 +4786,92 @@ export async function renderUpdateSitemap(env = {}, url = new URL(PUBLIC_ORIGIN)
   }
   return ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', ...rows, "</urlset>", ""].join("\n");
 }
+// ---------------------------------------------------------------------------------------------------------- Flash
+// The flash items are rebuilt at most once per 60 s per host from the feeds the server already holds (announcement
+// feed + archive, campaign briefs, the market collector's feed, the published news feed): no external call per request.
+// Market items only exist in the snapshot they were seen in, so the first sighting is kept in memory and, when the
+// server passes FLASH_MEMORY (server/flash-memory.mjs), on disk across restarts.
+const FLASH_TTL_MS = 60 * 1000;
+const flashCaches = new WeakMap();
+const flashCacheKey = (env) => (env?.ASSETS && typeof env.ASSETS === "object" ? env.ASSETS : flashCaches);
+const flashNow = (env) => (Number.isFinite(Number(env?.FLASH_NOW)) ? Number(env.FLASH_NOW) : Date.now());
+
+async function readJsonAsset(env, url, path) {
+  if (!env?.ASSETS) return null;
+  try {
+    const response = await env.ASSETS.fetch(new Request(new URL(path, url), { headers: { accept: "application/json" } }));
+    return response.ok ? await response.json() : null;
+  } catch { return null; }
+}
+
+async function readFlashSources(env, url) {
+  const announcements = await (async () => {
+    if (typeof env?.INTEL_READ === "function") { try { const feed = await env.INTEL_READ(); if (feed) return feed; } catch { /* asset seed below */ } }
+    return readJsonAsset(env, url, "/intel/official-announcements.json");
+  })();
+  const market = await (async () => {
+    if (typeof env?.MARKET_EVENTS_READ === "function") { try { return await env.MARKET_EVENTS_READ(); } catch { return null; } }
+    return readJsonAsset(env, url, "/intel/market-events.json");
+  })();
+  const [archive, briefs, newsFeed] = await Promise.all([readActivityUpdateArchive(env, url), readCampaignBriefs(env, url), loadNewsFeed(env, url)]);
+  return { announcements, archive, briefs, market, news: newsFeed?.articles || [] };
+}
+
+async function readFlashItems(env, url) {
+  const key = flashCacheKey(env);
+  let cache = flashCaches.get(key);
+  if (!cache) { cache = { at: 0, items: null, pending: null, memory: null }; flashCaches.set(key, cache); }
+  const now = flashNow(env);
+  if (cache.items && Date.now() - cache.at < FLASH_TTL_MS) return cache.items;
+  if (cache.pending) return cache.pending;
+  cache.pending = (async () => {
+    if (!cache.memory) {
+      cache.memory = [];
+      try { if (typeof env?.FLASH_MEMORY?.load === "function") cache.memory = (await env.FLASH_MEMORY.load()) || []; } catch { cache.memory = []; }
+    }
+    const sources = await readFlashSources(env, url);
+    const { items, marketItems } = buildFlashItems({ ...sources, remembered: cache.memory, now });
+    const changed = marketItems.length !== cache.memory.length || marketItems[0]?.id !== cache.memory[0]?.id;
+    cache.memory = marketItems;
+    if (changed && typeof env?.FLASH_MEMORY?.save === "function") Promise.resolve(env.FLASH_MEMORY.save(marketItems)).catch(() => {});
+    cache.items = items;
+    cache.at = Date.now();
+    return items;
+  })().finally(() => { cache.pending = null; });
+  return cache.pending;
+}
+
+async function handleFlashFeedJson(request, env, url) {
+  const headers = { "content-type": "application/json; charset=utf-8", "x-content-type-options": "nosniff", "x-robots-tag": "noindex" };
+  const locale = UI_LOCALES.has(url.searchParams.get("locale")) ? url.searchParams.get("locale") : "en";
+  let items = [];
+  try { items = await readFlashItems(env, url); } catch (error) { console.error(`[NexuAlpha] flash feed failed: ${error?.message || error}`); }
+  const now = flashNow(env);
+  const key = url.searchParams.get("key");
+  let payload;
+  if (key) {
+    const item = /^[0-9a-z]{10}$/.test(key) ? findFlashItem(items, key) : null;
+    if (!item) return new Response(JSON.stringify({ item: null }), { status: 404, headers: { ...headers, "cache-control": "public, max-age=30" } });
+    payload = flashItemPayload(items, item, locale, { now });
+  } else {
+    payload = flashStreamPayload(items, locale, { limit: url.searchParams.get("limit") || FLASH_PAGE_SIZE, before: url.searchParams.get("before"),
+      type: url.searchParams.get("type"), venue: url.searchParams.get("venue"), now });
+  }
+  return new Response(request.method === "HEAD" ? null : JSON.stringify(payload), { status: 200, headers: { ...headers, "cache-control": "public, max-age=30, stale-while-revalidate=60" } });
+}
+
+const flashSitemapCaches = new WeakMap();
+async function handleFlashSitemap(request, env, url) {
+  const key = flashCacheKey(env);
+  let cached = flashSitemapCaches.get(key);
+  if (!cached || Date.now() - cached.at > 600e3) {
+    const items = await readFlashItems(env, url).catch(() => []);
+    cached = { at: Date.now(), xml: renderFlashSitemap(items, { now: flashNow(env), urlFor: (path, locale) => localizedCanonical(path, locale), alternates: (path, locales) => routeAlternates(path, locales) }) };
+    flashSitemapCaches.set(key, cached);
+  }
+  return new Response(request.method === "HEAD" ? null : cached.xml, { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=600" } });
+}
+
 let updateSitemapCache = null;
 async function handleUpdateSitemap(request, env, url) {
   if (!updateSitemapCache || Date.now() - updateSitemapCache.at > 600e3) updateSitemapCache = { at: Date.now(), xml: await renderUpdateSitemap(env, url) };
@@ -6161,8 +6283,12 @@ function searchPublicationLocales(pathname, options = {}) {
   }[pathname];
   if (regionalLocales) return regionalLocales;
   if (pathname === "/topics" || pathname === "/factbook") return ["en"];
+  if (parseAppDownloadPath(pathname)?.valid) return Object.keys(LOCALE_PREFIX_BY_CODE);
   // Academy hub and lessons: the locales with a localized lesson (src/data/academy.js).
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
+  // Flash: the stream in every templated locale; an item page carries its own locale set (metadata.flashIndexLocales).
+  if (parseFlashPath(pathname)?.kind === "stream") return FLASH_INDEX_LOCALES;
+  if (parseFlashPath(pathname)?.kind === "item") return options.flashIndexLocales || FLASH_INDEX_LOCALES;
   // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
@@ -6214,6 +6340,12 @@ function applySearchPublicationEligibility(metadata, pathname, locale, options =
   if (!metadata || metadata.status !== 200) return metadata;
   // T10 canonicalized duplicate: index,follow + cross-article canonical, outside the search-published set by design.
   if (metadata.newsCanonicalTarget) { metadata.alternates = []; return metadata; }
+  // Flash items: indexable editions are the item's localized ones within 30 days (src/data/flash-feed.js).
+  if (Array.isArray(metadata.flashIndexLocales)) {
+    if (metadata.robots === "index,follow" && !metadata.flashIndexLocales.includes(locale)) metadata.robots = "noindex,follow";
+    metadata.alternates = metadata.robots === "index,follow" ? routeAlternates(pathname, metadata.flashIndexLocales) : [];
+    return metadata;
+  }
   const publishedLocales = searchPublicationLocales(pathname, options);
   if (metadata.robots === "index,follow" && !publishedLocales.includes(locale)) {
     metadata.robots = "noindex,follow";
@@ -7463,8 +7595,58 @@ async function routeMetadataBase(url, env, newsFeed) {
       alternates: routeAlternates(canonicalPath), schema: dataPageSchemas(canonicalPath, locale, { origin: PUBLIC_ORIGIN, history }),
     };
   }
-  // NexuAlpha Academy (2026-10-12): Course on the hub, VideoObject + LearningResource on every lesson, from
-  // src/data/academy-seo.js (same helper as seo-injection.js). Locales without a localized lesson are noindex,follow.
+  // App downloads share their localized head and schema with the client.
+  const appSeo = appDownloadRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) });
+  if (appSeo) {
+    if (appSeo.status !== 200) return notFoundMetadata(canonicalPath, requestedLocale);
+    return {
+      status: 200, title: appSeo.title, description: appSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: "index,follow", marker: APP_DOWNLOAD_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, Object.keys(LOCALE_PREFIX_BY_CODE)), schema: appSeo.schemas,
+    };
+  }
+  // Flash (2026-10-12): /flash is a LiveBlogPosting of the latest items; /flash/<key>-<slug> is one NewsArticle. Items
+  // come from feeds we already publish (src/data/flash-feed.js). An item stays a 200 page; after 30 days, in locales
+  // without its own text, and for news items (the article is the search page) it is noindex,follow. Unknown keys 301
+  // to the stream; an outdated slug 301s to the item's current path.
+  const flashRoute = parseFlashPath(canonicalPath);
+  if (flashRoute) {
+    if (flashRoute.kind === "missing") return notFoundMetadata(canonicalPath, locale);
+    const now = flashNow(env);
+    const items = await readFlashItems(env, url);
+    const urlFor = (path) => localizedCanonical(path, requestedLocale);
+    if (flashRoute.kind === "stream") {
+      const payload = flashStreamPayload(items, requestedLocale, { limit: FLASH_PAGE_SIZE, now });
+      const seo = flashStreamSeo(payload, requestedLocale, { urlFor });
+      return {
+        status: 200, title: seo.title, description: seo.description, canonical: urlFor(FLASH_PATH), locale: requestedLocale,
+        robots: FLASH_INDEX_LOCALES.includes(requestedLocale) ? "index,follow" : "noindex,follow", marker: FLASH_ROUTE_MARKER,
+        alternates: routeAlternates(FLASH_PATH, FLASH_INDEX_LOCALES), schema: seo.schemas, flashPayload: { kind: "stream", ...payload },
+      };
+    }
+    const item = findFlashItem(items, flashRoute.key);
+    const keep = (target) => { const market = url.searchParams.get("market"); if (market) target.searchParams.set("market", market); return target; };
+    if (!item) {
+      const target = keep(new URL(localizedCanonical(FLASH_PATH, requestedLocale)));
+      return { status: 301, redirect: target.href, title: "", description: "", canonical: target.href, locale, robots: "noindex,follow", marker: NOT_FOUND_ROUTE_MARKER };
+    }
+    const itemPath = flashItemPath(item);
+    if (canonicalPath !== itemPath) {
+      const target = keep(new URL(localizedCanonical(itemPath, requestedLocale)));
+      return { status: 301, redirect: target.href, title: "", description: "", canonical: target.href, locale, robots: "noindex,follow", marker: NOT_FOUND_ROUTE_MARKER };
+    }
+    const payload = flashItemPayload(items, item, requestedLocale, { now });
+    const seo = flashItemSeo(payload.item, requestedLocale, { urlFor });
+    const indexLocales = flashItemIndexLocales(item, { now });
+    return {
+      status: 200, title: seo.title, description: seo.description, canonical: urlFor(itemPath), locale: requestedLocale,
+      robots: payload.item.indexable ? "index,follow" : "noindex,follow", marker: FLASH_ROUTE_MARKER,
+      alternates: indexLocales.length ? routeAlternates(itemPath, indexLocales) : [], schema: seo.schemas,
+      flashPayload: { kind: "item", ...payload }, flashIndexLocales: indexLocales,
+    };
+  }
+  // Academy hub and lessons share the client SEO helper; only localized lesson editions are indexable.
   const academySeo = academyRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale) });
   if (academySeo) {
     if (academySeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
@@ -7939,10 +8121,12 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === "/") return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[HOME_ROUTE_MARKER]];
   if (pathname === "/exchanges") return [...SHARED_ROUTE_STYLE_PREFIXES, ...DIRECTORY_PAGE_STYLE_PREFIXES];
   if (pathname === "/compare") return [...SHARED_ROUTE_STYLE_PREFIXES, ...COMPARE_PAGE_STYLE_PREFIXES, "shared-compare-picker-"];
+  if (parseAppDownloadPath(pathname)?.valid) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-apps-"];
   if (pathname.startsWith("/exchanges/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"];
   if (pathname.startsWith("/compare/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...COMPARE_PAGE_STYLE_PREFIXES];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   if (pathname === ACADEMY_PATH || pathname.startsWith(`${ACADEMY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[ACADEMY_ROUTE_MARKER]];
+  if (pathname === FLASH_PATH || pathname.startsWith(`${FLASH_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[FLASH_ROUTE_MARKER]];
   // The list route renders the Telegram alerts strip (route-v3-pages-strip chunk) in SSR; keep its stylesheet so the
   // strip is styled at first paint instead of when its JS chunk injects the CSS.
   if (pathname === "/news" || parseNewsListingPath(pathname)) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-news-", "route-v3-pages-strip-"];

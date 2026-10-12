@@ -1,0 +1,28 @@
+# Newsroom event-pool runtime (T6). Separate compose project so the Telegram stack is never recreated by it.
+#   docker compose -p nexualpha-newsroom -f /data/agent/srv/stacks/crypto-telegram-ops/newsroom/compose.yml up -d --build
+# Rollback: docker compose -p nexualpha-newsroom -f .../newsroom/compose.yml stop newsroom-collector
+services:
+  newsroom-collector:
+    build: { context: ./app/deploy, dockerfile: Dockerfile }
+    image: nexualpha-newsroom:local
+    network_mode: host            # reaches Postgres 127.0.0.1:14320 and RSSHub 127.0.0.1:1200; listens on nothing
+    restart: unless-stopped
+    env_file: [/data/private/nexualpha/newsroom/newsroom.env]
+    environment:
+      NEWSROOM_OUT: /out
+      NEWSROOM_STATE: /state
+      RSSHUB_BASE: http://127.0.0.1:1200
+    volumes:
+      - ./app:/srv/newsroom/app:ro
+      - ./watchlist:/srv/newsroom/watchlist:ro
+      - /data/private/nexualpha/newsroom:/out
+      - /data/agent/state/newsroom:/state
+    logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+    mem_limit: 384m
+    security_opt: [no-new-privileges:true]
+    healthcheck:
+      test: ["CMD-SHELL", "test $$(( $$(date +%s) - $$(stat -c %Y /state/heartbeat) )) -lt 900"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 120s

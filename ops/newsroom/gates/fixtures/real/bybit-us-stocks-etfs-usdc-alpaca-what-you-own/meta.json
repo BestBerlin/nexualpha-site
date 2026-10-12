@@ -1,0 +1,50 @@
+{
+  "slug": "bybit-us-stocks-etfs-usdc-alpaca-what-you-own",
+  "batchId": "20261012T1635",
+  "contentType": "rwa_explainer",
+  "pillar": "rwa_and_tokenized_assets",
+  "stage": "awareness",
+  "titles": {
+    "en": "Bybit Now Sells Real U.S. Stocks and ETFs for USDC: What You Own, Who Holds It and What It Costs (12 October 2026)",
+    "zh-Hans": "Bybit 开放用 USDC 买美股和 ETF：你买到的是什么、股票由谁托管、成本在哪里（2026 年 10 月 12 日）"
+  },
+  "primaryQuery": "bybit stocks trading",
+  "entities": ["Bybit", "Bybit Stocks", "Alpaca Securities", "Infra Capital Limited", "USDC", "U.S. stocks", "ETFs", "tokenized stocks", "TradFi perpetuals", "FINRA", "SIPC"],
+  "internalLinks": [
+    "/exchanges/bybit",
+    "/funding-rates",
+    "/topics/tokenized-stocks-vs-perpetuals",
+    "/news/binance-bstocks-vs-tradfi-perps-what-you-own-hours-dividends",
+    "/news/okx-unified-tokenized-stocks-what-you-own-dividends-hours",
+    "/news/securitize-stocks-tokenized-us-equities-solana-what-you-own",
+    "/news/imf-tokenized-us-stocks-after-hours-volatility-liquidity-what-it-means"
+  ],
+  "sources": [
+    {"id": "bybit-prnewswire", "url": "https://www.prnewswire.com/news-releases/bybit-supports-stocks-trading-giving-eligible-global-users-access-to-1-000-us-stocks-and-etfs-302905392.html", "publisher": "Bybit via PR Newswire", "title": "Bybit Supports Stocks Trading, Giving Eligible Global Users Access to 1,000+ U.S. Stocks and ETFs", "publishedAt": "2026-10-12T07:30:00Z", "primary": true, "role": "1,000+ U.S. stocks and ETFs (AAPL, NVDA, TSLA, MU, QQQ) for USDC; eligible KYC users in permitted jurisdictions; economic interest in underlying; routed via Bybit brokerage, executed/cleared/custodied by Alpaca; fractional shares; dividends USD->USDC to UTA; stock dividends and splits; 24/5 incl. pre/after-hours; zero commission; voting later; Infra Capital Limited introducing broker FSC Mauritius GB23202169; Alpaca Securities LLC FINRA/SIPC; quotes from Ben Zhou and Yoshi Yokokawa; Bybit already offers MT5, tokenized equities, TradFi perps"},
+    {"id": "bybit-announcement-feed", "url": "https://api.bybit.com/v5/announcements/index?locale=en-US", "publisher": "Bybit", "title": "Bybit announcement feed entry: Bybit Expands Beyond Crypto With Direct Access to U.S. Stocks & ETFs", "publishedAt": "2026-10-12T07:00:00Z", "primary": true, "role": "title, publish time 07:00 UTC, type Latest Campaigns, window 12-31 Oct 2026, regional-availability disclaimer; article URL announcements.bybit.com/en-US/article/...art55453cbc5bf2 (not reachable from our servers)"},
+    {"id": "nexualpha-official-announcements", "url": "https://nexualpha.com/intel/official-announcements.json", "publisher": "NexuAlpha", "title": "Official exchange announcements feed", "publishedAt": "2026-10-12T08:00:05Z", "primary": false, "role": "Bybit TradFi Perpetual listings on 9 Oct 2026 (VKTXUSDT, BMNUUSDT, MPUSDT, UMCUSDT, BWETUSDT, USDEXUSDT)"},
+    {"id": "nexualpha-partners", "url": "https://nexualpha.com/intel/partners.json", "publisher": "NexuAlpha", "title": "Partner feed: invite codes", "primary": false, "role": "Bybit code 48553, no confirmed rebate share"}
+  ],
+  "claims": [
+    {"id": "c1", "text": "Bybit launched trading in 1,000+ U.S. stocks and ETFs for eligible KYC users, paid in USDC, on 12 October 2026.", "sourceIds": ["bybit-prnewswire", "bybit-announcement-feed"], "risk": "low"},
+    {"id": "c2", "text": "Orders are executed, cleared and custodied by Alpaca Securities LLC, a FINRA/SIPC member; the introducing broker is Infra Capital Limited, regulated by the FSC Mauritius (GB23202169).", "sourceIds": ["bybit-prnewswire"], "risk": "low"},
+    {"id": "c3", "text": "Zero commission, 24/5 trading including pre-market and after-hours, fractional shares, dividends in USDC, voting rights later.", "sourceIds": ["bybit-prnewswire"], "risk": "low"},
+    {"id": "c4", "text": "Bybit listed TradFi perpetuals as recently as 9 October 2026.", "sourceIds": ["nexualpha-official-announcements"], "risk": "low"},
+    {"id": "c5", "text": "Bybit sign-up code 48553.", "sourceIds": ["nexualpha-partners"], "risk": "low"}
+  ],
+  "seo": {
+    "title": "Bybit Stocks: Buy U.S. Stocks and ETFs With USDC, Explained",
+    "description": "Bybit launched trading in 1,000+ U.S. stocks and ETFs for USDC on 12 October 2026, custodied by Alpaca Securities; here is what you own, the zero-commission terms and what to check."
+  },
+  "aeo": {
+    "directAnswer": "Since 12 October 2026 eligible Bybit users who completed KYC can buy more than 1,000 U.S. stocks and ETFs with USDC. Unlike tokenized stocks or TradFi perpetuals, the product gives an economic interest in the underlying shares, which are executed, cleared and held in custody by Alpaca Securities (FINRA/SIPC member) through Mauritius-regulated introducing broker Infra Capital; trading is commission-free and runs 24/5, dividends are paid in USDC and voting rights come later.",
+    "questions": [
+      "Can I buy real U.S. stocks on Bybit?",
+      "Who holds Bybit stock positions?",
+      "Does Bybit charge commission on stocks?",
+      "Do Bybit stocks pay dividends?"
+    ]
+  },
+  "geo": {"knownUnknowns": ["list of eligible jurisdictions", "USDC/USD conversion cost", "U.S. dividend withholding treatment", "SIPC coverage for non-U.S. clients via an introducing broker", "terms of the campaign running to 31 October"]},
+  "imageBrief": "A USDC coin flowing into a row of U.S. stock tickers (AAPL, NVDA, TSLA, QQQ) with a small custody vault labelled 'custodian' underneath; dark NexuAlpha palette."
+}
