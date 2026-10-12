@@ -198,8 +198,13 @@ const FlashStreamPage = deferredComponent(ROUTE_MODULE_PATHS.flash, "FlashStream
 const FlashItemPage = deferredComponent(ROUTE_MODULE_PATHS.flash, "FlashItemPage");
 // Tool key of a route (mirror of toolKeyForRoute in src/data/topic-clusters.js, kept here so the mapping stays off the
 // browser entry; tests/crosslinks.test.mjs pins that both agree).
+// T10 (2026-10-12): the /news hub, exchange profiles and topic hubs list their strongest related articles too.
+const TOPIC_TOOL_KEYS = { "tokenized-treasuries": "topic:tokenized-treasuries", "tokenized-stocks-vs-perpetuals": "topic:tokenized-stocks", "meme-coins": "topic:meme-coins", derivatives: "topic:derivatives", "brazil-crypto-exchange-deadline-2026": "topic:brazil-vasp-deadline" };
 const toolKeyOf = (route) => ({ liquidations: "liquidations", fundingRates: "funding-rates", rateTerminal: "rates", compareHub: "compare", activities: "activities" })[route?.name]
-  || (route?.name === "compare" && Array.isArray(route.slugs) && route.slugs.length >= 2 ? `compare:${route.slugs.join("-vs-")}` : null);
+  || (route?.name === "compare" && Array.isArray(route.slugs) && route.slugs.length >= 2 ? `compare:${route.slugs.join("-vs-")}` : null)
+  || (route?.name === "newsList" && !route.category && (!route.page || Number(route.page) === 1) ? "news-hub" : null)
+  || (route?.name === "venue" && typeof route.slug === "string" && route.slug ? `venue:${route.slug}` : null)
+  || ((route?.name === "topic" || route?.name === "tokenizedAssets") && TOPIC_TOOL_KEYS[route.slug] ? TOPIC_TOOL_KEYS[route.slug] : null);
 const LeanHero = deferredComponent("./components/v3/LeanHero.jsx", "LeanHero");
 const RebateTickerBar = deferredComponent("./components/v3/RebateTickerBar.jsx", "RebateTickerBar");
 const CampaignRadar = deferredComponent("./components/v3/CampaignRadar.jsx", "CampaignRadar");
@@ -854,7 +859,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   // Locale changes must remount the complete route subtree. Several legacy
   // sections keep derived copy in child state; reusing those nodes can leave
   // an English body below a translated header after a client-side switch.
-  const toolKey = toolKeyOf(route);
+  const toolKey = route.name === "venue" && !routedVenue ? null : toolKeyOf(route);
   const pageShell = (content, { deferContent = true, crawlScope = null } = {}) => <React.Fragment key={`locale-${locale}`}><Header initialUrl={initialUrl} copy={copy} locale={locale} brazil={route.name === "brazil"} onLocaleChange={changeLocale} onSearch={openSearchDialog} />{deferContent ? <DeferredBoundary scope="page-content">{content}</DeferredBoundary> : <ScopedContent scope="page-content" defer={false}>{content}</ScopedContent>}{toolKey ? <React.Suspense fallback={null}><ToolArticleLinks tool={toolKey} locale={locale} initial={initialToolArticles} /></React.Suspense> : null}{crawlScope ? <CrawlPriorityLinks locale={locale} scope={crawlScope} /> : null}{footer}{searchDialog}</React.Fragment>;
 
   const adjustSelection = () => document.querySelector("#exchanges")?.scrollIntoView({ behavior: typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });

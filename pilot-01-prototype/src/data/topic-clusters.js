@@ -202,9 +202,27 @@ export function articleClusterLineLabel(locale = "en") {
 const time = (article) => { const value = Date.parse(article?.publishedAt); return Number.isFinite(value) ? value : 0; };
 const indexable = (article) => article?.seo?.noindex === false;
 
+// T10 internal linking (2026-10-12): besides the tool pages, the /news hub ("news-hub"), every exchange profile
+// ("venue:<slug>") and every topic hub with a cluster ("topic:<id>") list related articles, strongest first.
+export const NEWS_HUB_TOOL_KEY = "news-hub";
+export const NEWS_HUB_ARTICLE_LIMIT = 24;
+const TOPIC_KEY_BY_PATH = new Map(TOPIC_CLUSTERS.filter((cluster) => cluster.kind === "topic").map((cluster) => [cluster.path, `topic:${cluster.id}`]));
+
+/** True for tool keys the related-articles block and /api/news/tool-articles accept. */
+export function isRelatedArticlesToolKey(toolKey) {
+  const key = String(toolKey || "");
+  if (key === NEWS_HUB_TOOL_KEY || TOOL_CLUSTER_IDS.includes(key)) return true;
+  if (/^compare:[a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2}$/.test(key)) return true;
+  if (/^venue:[a-z0-9][a-z0-9-]{0,40}$/.test(key)) return true;
+  return key.startsWith("topic:") && TOPIC_CLUSTERS.some((cluster) => cluster.kind === "topic" && `topic:${cluster.id}` === key);
+}
+
 /** Tool key for an app route (null for routes that are not tools). Compare pairs carry their venues. */
 export function toolKeyForRoute(route) {
   const name = route?.name;
+  if (name === "newsList" && !route.category && (!route.page || Number(route.page) === 1)) return NEWS_HUB_TOOL_KEY;
+  if (name === "venue" && typeof route.slug === "string" && route.slug) return `venue:${route.slug}`;
+  if ((name === "topic" || name === "tokenizedAssets") && TOPIC_KEY_BY_PATH.has(`/topics/${route.slug}`)) return TOPIC_KEY_BY_PATH.get(`/topics/${route.slug}`);
   if (name === "liquidations") return "liquidations";
   if (name === "fundingRates") return "funding-rates";
   if (name === "rateTerminal") return "rates";
@@ -222,6 +240,10 @@ export function toolKeyForPath(pathname) {
   if (path === "/rates") return "rates";
   if (path === "/compare") return "compare";
   if (path === "/activities") return "activities";
+  if (path === "/news") return NEWS_HUB_TOOL_KEY;
+  const venueMatch = path.match(/^\/exchanges\/([a-z0-9][a-z0-9-]{0,40})$/);
+  if (venueMatch) return `venue:${venueMatch[1]}`;
+  if (TOPIC_KEY_BY_PATH.has(path)) return TOPIC_KEY_BY_PATH.get(path);
   const pairMatch = path.match(/^\/compare\/([a-z0-9-]+(?:-vs-[a-z0-9-]+){1,2})$/);
   return pairMatch ? `compare:${pairMatch[1]}` : null;
 }
@@ -229,23 +251,42 @@ export function toolKeyForPath(pathname) {
 export const TOOL_ARTICLE_LIMIT = 6;
 const TOOL_ARTICLE_MINIMUM = 3;
 
-/** Articles a tool page lists: matching articles, newest first, search-published ones first when there are enough. */
-export function toolArticles(toolKey, articles, { limit = TOOL_ARTICLE_LIMIT } = {}) {
+/**
+ * Articles a tool page lists: matching articles, search-published ones first when there are enough. `rank(slug)` (server
+ * only: src/data/news-search-state.js newsStrengthRank) puts the articles with the most Google impressions first so crawl
+ * budget flows to them (T10); without it the order is newest first.
+ */
+export function toolArticles(toolKey, articles, { limit, rank = null } = {}) {
   const rows = (Array.isArray(articles) ? articles : []).filter((article) => article?.slug && (!article.status || article.status === "PUBLISHED"));
+  const strength = (article) => (typeof rank === "function" ? rank(article.slug) : Number.POSITIVE_INFINITY);
+  const byStrength = (left, right) => {
+    const a = strength(left), b = strength(right);
+    return a === b ? 0 : a < b ? -1 : 1;
+  };
   let pool;
-  if (String(toolKey).startsWith("compare:")) {
+  if (toolKey === NEWS_HUB_TOOL_KEY) {
+    // The hub lists the strongest articles only (the paginated library below it already lists the newest).
+    pool = rows.filter((article) => Number.isFinite(strength(article))).sort(byStrength);
+    limit = limit ?? NEWS_HUB_ARTICLE_LIMIT;
+  } else if (String(toolKey).startsWith("venue:")) {
+    const slug = String(toolKey).slice(6);
+    const name = NAME(slug.replace(/-io$/, ".io").replace(/-com$/, ".com").replace(/-/g, " "));
+    pool = rows.filter((article) => (Array.isArray(article.relatedVenues) && article.relatedVenues.includes(slug)) || name.test(articleText(article).title))
+      .sort((left, right) => byStrength(left, right) || time(right) - time(left));
+  } else if (String(toolKey).startsWith("compare:")) {
     // A comparison pair lists articles that name both venues, then articles that name either, then the compare cluster.
     const slugs = String(toolKey).slice(8).split("-vs-");
     const mentions = (article) => slugs.filter((slug) => (Array.isArray(article.relatedVenues) && article.relatedVenues.includes(slug))
       || NAME(slug.replace(/-io$/, ".io")).test(articleText(article).title)).length;
     const scored = rows.map((article) => [mentions(article), article]).filter(([score]) => score > 0);
-    scored.sort((left, right) => right[0] - left[0] || time(right[1]) - time(left[1]));
+    scored.sort((left, right) => right[0] - left[0] || byStrength(left[1], right[1]) || time(right[1]) - time(left[1]));
     pool = scored.map(([, article]) => article);
   } else {
-    const cluster = topicCluster(toolKey);
+    const cluster = topicCluster(String(toolKey).replace(/^topic:/, ""));
     if (!cluster) return [];
-    pool = rows.filter((article) => articleMatchesCluster(article, cluster)).sort((left, right) => time(right) - time(left));
+    pool = rows.filter((article) => articleMatchesCluster(article, cluster)).sort((left, right) => byStrength(left, right) || time(right) - time(left));
   }
+  limit = limit ?? TOOL_ARTICLE_LIMIT;
   const published = pool.filter(indexable);
   const ordered = published.length >= Math.min(limit, TOOL_ARTICLE_MINIMUM) ? [...published, ...pool.filter((article) => !indexable(article))] : pool;
   return ordered.slice(0, limit);

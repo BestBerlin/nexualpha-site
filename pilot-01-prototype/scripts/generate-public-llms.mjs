@@ -1,4 +1,5 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { applyNewsSearchStateToFeed } from "../src/data/news-search-state.js";
 import { pathToFileURL } from "node:url";
 import { FACTBOOK_REGISTRY, FACTBOOK_SLUGS, AUDIT_DATE, generateLlmMarkdown } from "../src/data/factbook-registry.js";
 import { INTERNATIONAL_SOURCE_REVIEWED_AT, internationalSourceRegistry } from "../src/data/international-source-registry.js";
@@ -36,7 +37,7 @@ const REGIONAL_FUNDING_MATRIX_LIMITATIONS = "The matrix is a dated research chec
 const WAVE48_ASSET_LIMITATIONS = "These assets are dated source-review snapshots, not live rates, live yield, trading recommendations, legal advice, account eligibility decisions, registration outcomes, ownership guarantees or referral routes.";
 const WAVE56_PERP_DEX_FINDING = "Finding: across Hyperliquid, dYdX, GMX and Aevo, all 24 required venue-field records are source-backed as known, but Perp DEX cost review still requires the full fee, funding, collateral, margin, oracle and liquidation stack rather than a single static fee or live funding quote.";
 const WAVE57_TOKENIZED_TREASURY_FINDING = "Finding: the reviewed tokenized Treasury matrix covers five products across four distinct product types; compare issuer/legal wrapper, recordkeeper, custody, redemption, eligibility jurisdiction and yield basis before comparing yield, token addresses or venue access.";
-const allNewsArticles = normalizeNewsFeed(JSON.parse(await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8")));
+const allNewsArticles = normalizeNewsFeed(applyNewsSearchStateToFeed(JSON.parse(await readFile(new URL("../public/content/news-feed.json", import.meta.url), "utf8"))));
 const newsPublication = selectSitemapPublicationEntries(routeInventory(allNewsArticles), allNewsArticles, {
   policy: loadSearchPublicationBaseline(),
   allLocales: INDEXABLE_LOCALES,

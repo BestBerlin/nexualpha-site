@@ -11,7 +11,7 @@ import { estimateReadMinutes, formatReadTime, newsReadTimeFor } from "../../../d
 import React, { useEffect, useRef, useState } from "react";
 import { getNewsArticleBySlug } from "../../../data/news-articles-data.js";
 import { venueDatabase } from "../../../data/venue-database.js";
-import { OKX_USD_USDC_OWNER_CHECKLIST, loadNewsArticleBySlug, localizedNewsSummary, localizedNewsTitle, localizedValue, newsArticleUrl, resolveNewsContentLocale } from "../../../data/news-feed-client.js";
+import { OKX_USD_USDC_OWNER_CHECKLIST, loadNewsArticleBySlug, localizedNewsSummary, newsHumanReview, localizedNewsTitle, localizedValue, newsArticleUrl, resolveNewsContentLocale } from "../../../data/news-feed-client.js";
 import { isNewsCategory, newsCategoryCopy, newsLibraryCopy, newsListingPath, relatedNewsArticles } from "../../../data/news-library.js";
 import { contextualHref } from "../../../data/contextual-href.js";
 import { validComparison } from "../../../data/browser-state.js";
@@ -647,37 +647,45 @@ function renderMarkdownBlock(block, index, t, linker = null, locale = "en") {
   return <p key={index}>{renderInline(block, linker, locale)}</p>;
 }
 
-// Article byline (E-E-A-T): "By NexuAlpha Research Desk · Reviewed <date> · Editorial policy". The author links to the
-// Research Desk section on /about and the policy link to /editorial-policy; a non-desk author is shown without a link.
+// Article byline (E-E-A-T): "By NexuAlpha Research Desk · Updated <date> · Editorial policy". "Reviewed <date>" is shown
+// only when the feed row carries a real human review record (humanReviewedBy + humanReviewedAt); automated articles
+// never claim a review (AUDIT 2026-10-12). The author links to the Research Desk section on /about and the policy link
+// to /editorial-policy; a non-desk author is shown without a link.
 const BYLINE_COPY = {
-  en: { by: "By", reviewed: "Reviewed", policy: "Editorial policy" },
-  "zh-Hans": { by: "作者", reviewed: "复核于", policy: "编辑政策" },
-  "zh-Hant": { by: "作者", reviewed: "複核於", policy: "編輯政策" },
-  es: { by: "Por", reviewed: "Revisado", policy: "Política editorial" },
-  "pt-BR": { by: "Por", reviewed: "Revisado em", policy: "Política editorial" },
-  fr: { by: "Par", reviewed: "Relu le", policy: "Politique éditoriale" },
-  de: { by: "Von", reviewed: "Geprüft am", policy: "Redaktionelle Richtlinie" },
-  it: { by: "Di", reviewed: "Verificato il", policy: "Politica editoriale" },
-  ja: { by: "著者", reviewed: "確認日", policy: "編集ポリシー" },
-  ko: { by: "작성", reviewed: "검토일", policy: "편집 정책" },
-  ru: { by: "Автор", reviewed: "Проверено", policy: "Редакционная политика" },
-  tr: { by: "Yazar", reviewed: "İncelendi", policy: "Editoryal politika" },
-  id: { by: "Oleh", reviewed: "Ditinjau", policy: "Kebijakan editorial" },
-  vi: { by: "Bởi", reviewed: "Rà soát", policy: "Chính sách biên tập" },
-  ar: { by: "بقلم", reviewed: "تمت المراجعة", policy: "السياسة التحريرية" },
+  en: { by: "By", updated: "Updated", reviewed: "Reviewed", policy: "Editorial policy" },
+  "zh-Hans": { by: "作者", updated: "更新于", reviewed: "复核于", policy: "编辑政策" },
+  "zh-Hant": { by: "作者", updated: "更新於", reviewed: "複核於", policy: "編輯政策" },
+  es: { by: "Por", updated: "Actualizado", reviewed: "Revisado", policy: "Política editorial" },
+  "pt-BR": { by: "Por", updated: "Atualizado em", reviewed: "Revisado em", policy: "Política editorial" },
+  fr: { by: "Par", updated: "Mis à jour le", reviewed: "Relu le", policy: "Politique éditoriale" },
+  de: { by: "Von", updated: "Aktualisiert am", reviewed: "Geprüft am", policy: "Redaktionelle Richtlinie" },
+  it: { by: "Di", updated: "Aggiornato il", reviewed: "Verificato il", policy: "Politica editoriale" },
+  ja: { by: "著者", updated: "更新日", reviewed: "確認日", policy: "編集ポリシー" },
+  ko: { by: "작성", updated: "업데이트", reviewed: "검토일", policy: "편집 정책" },
+  ru: { by: "Автор", updated: "Обновлено", reviewed: "Проверено", policy: "Редакционная политика" },
+  tr: { by: "Yazar", updated: "Güncellendi", reviewed: "İncelendi", policy: "Editoryal politika" },
+  id: { by: "Oleh", updated: "Diperbarui", reviewed: "Ditinjau", policy: "Kebijakan editorial" },
+  vi: { by: "Bởi", updated: "Cập nhật", reviewed: "Rà soát", policy: "Chính sách biên tập" },
+  ar: { by: "بقلم", updated: "تم التحديث", reviewed: "تمت المراجعة", policy: "السياسة التحريرية" },
   // l10n: needs native review
-  ur: { by: "از طرف", reviewed: "جائزہ", policy: "ادارتی پالیسی" },
+  ur: { by: "از طرف", updated: "تازہ کاری", reviewed: "جائزہ", policy: "ادارتی پالیسی" },
   // l10n: needs native review
-  uk: { by: "Автор", reviewed: "Переглянуто", policy: "Редакційна політика" },
+  uk: { by: "Автор", updated: "Оновлено", reviewed: "Переглянуто", policy: "Редакційна політика" },
 };
+
+export function articleBylineDate(article) {
+  const review = newsHumanReview(article);
+  const value = review ? review.at : article?.updatedAt || article?.publishedAt;
+  const date = value && Number.isFinite(Date.parse(value)) ? new Date(value) : null;
+  return date ? { kind: review ? "reviewed" : "updated", date, reviewer: review?.by || null } : null;
+}
 
 export function ArticleByline({ article, locale = "en" }) {
   const code = brandLocale(locale);
   const copy = BYLINE_COPY[code] || BYLINE_COPY.en;
   const author = String(article?.author || "").trim() || RESEARCH_DESK_NAME;
   const isDesk = author === RESEARCH_DESK_NAME;
-  const reviewedAt = article?.updatedAt || article?.publishedAt;
-  const reviewedDate = reviewedAt && Number.isFinite(Date.parse(reviewedAt)) ? new Date(reviewedAt) : null;
+  const stamp = articleBylineDate(article);
   return (
     <div className="news-detail__author-bar news-detail__byline" data-testid="article-byline">
       <span className="news-detail__byline-author">
@@ -685,9 +693,9 @@ export function ArticleByline({ article, locale = "en" }) {
           ? <a href={localizedHref(RESEARCH_DESK_ANCHOR, { locale: code })} rel="author"><strong>{author}</strong></a>
           : <strong>{author}</strong>}
       </span>
-      {reviewedDate ? <>
+      {stamp ? <>
         <span aria-hidden="true"> · </span>
-        <span className="news-detail__byline-reviewed">{copy.reviewed} <time dateTime={reviewedDate.toISOString().slice(0, 10)}>{reviewedDate.toLocaleDateString(code, { timeZone: "UTC" })}</time></span>
+        <span className={`news-detail__byline-${stamp.kind}`}>{copy[stamp.kind]} <time dateTime={stamp.date.toISOString().slice(0, 10)}>{stamp.date.toLocaleDateString(code, { timeZone: "UTC" })}</time></span>
       </> : null}
       <span aria-hidden="true"> · </span>
       <a className="news-detail__byline-policy" href={localizedHref(EDITORIAL_POLICY_PATH, { locale: code })}>{copy.policy}</a>
