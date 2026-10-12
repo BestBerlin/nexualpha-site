@@ -25,12 +25,6 @@ let homeBelowChunk;
 const loadHomeBelow = () => (homeBelowChunk ??= import("./home7-below.jsx"));
 const HomeBelowFold = import.meta.env.SSR ? ssrHomeBelowModules["./home7-below.jsx"].HomeBelowFold : lazy(() => loadHomeBelow().then((m) => ({ default: m.HomeBelowFold })));
 
-// Flash rail (2026-10-12): server-rendered inline, its chunk loads when the rail scrolls near (keeps the entry budget).
-const ssrFlashRailModules = import.meta.env.SSR ? import.meta.glob(["../flash/FlashRail.jsx"], { eager: true }) : {};
-let flashRailChunk;
-const loadFlashRail = () => (flashRailChunk ??= import("../flash/FlashRail.jsx"));
-const FlashRail = import.meta.env.SSR ? ssrFlashRailModules["../flash/FlashRail.jsx"].FlashRail : lazy(() => loadFlashRail().then((m) => ({ default: m.FlashRail })));
-
 // Academy teaser (owner 2026-10-12): one compact row that sends newcomers to the 24-lesson course on our own site.
 function AcademyTeaser({ locale }) {
   const a = academyShellCopy(locale);
@@ -216,10 +210,6 @@ export function HomeV7({ locale, market, venues: _catalog }) {
 
       <div className="h7-trust"><div>{t.t1}<span>{t.t1b}</span></div><div>{t.t2}<span>{t.t2b}</span></div><div>{t.t3}<span>{t.t3b}</span></div></div>
 
-      {/* Flash rail (2026-10-12): the latest 5 items of the 7x24 stream, so returning readers see what changed. */}
-      <DeferUntilVisible target="#h7-flash" prefetch={loadFlashRail} rootMargin="600px 0px">
-        <FlashRail locale={locale} />
-      </DeferUntilVisible>
 
       <section className="h7-in h7-how" aria-labelledby="h7-how-h">
         <h2 id="h7-how-h">{t.howH}</h2>
@@ -230,7 +220,7 @@ export function HomeV7({ locale, market, venues: _catalog }) {
 
       <AcademyTeaser locale={locale} />
 
-      <DeferUntilVisible target="#h7-calc" prefetch={loadHomeBelow}>
+      <DeferUntilVisible target="#h7-flash" prefetch={loadHomeBelow}>
         <HomeBelowFold t={t} locale={locale} market={market} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} />
       </DeferUntilVisible>
       <div className="h7-in h7-foot">{replaceMaxPercent(t.foot(FACTS_AS_OF), locale, HOME_REBATE_MAX_PCT).split(/(?<=[。．.])\s*(?=\S)/u).map((x) => <p key={x}>{x}</p>)}</div>

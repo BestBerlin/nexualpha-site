@@ -6,6 +6,15 @@ import { isPartnerPromotableIn } from "./partner-geo-policy.js";
 export * from "./flash-path.js";
 import { FLASH_PATH } from "./flash-path.js";
 
+export const FLASH_FEED_URL = "/content/flash.json";
+export const FLASH_SITEMAP_PATH = "/sitemap-flash.xml";
+export const FLASH_TYPES = Object.freeze(["listing", "delisting", "campaign", "liquidation-spike", "sharp-move", "funding-extreme", "news"]);
+// Items older than this stay reachable (200) but are served noindex,follow.
+export const FLASH_INDEX_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+export const FLASH_SITEMAP_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
+export const FLASH_REFRESH_MS = 60 * 1000;
+export const FLASH_PAGE_SIZE = 40;
+
 // Item keys and paths (server and route chunk only; the browser entry needs just the path parser).
 const KEY_LENGTH = 10;
 function fnv(value) {

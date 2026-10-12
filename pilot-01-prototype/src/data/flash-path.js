@@ -1,14 +1,6 @@
-// NexuAlpha Flash (/flash, 2026-10-12): paths, keys and the header label. Tiny on purpose: App.jsx (browser entry)
-// imports it for routing and the nav; the UI strings live in flash.js inside the route chunk.
+// NexuAlpha Flash (/flash, 2026-10-12): the path parser and the header label, nothing else. App.jsx (browser entry)
+// imports it, and the home entry budget is nearly exhausted; constants and UI strings live in flash.js (route chunk).
 export const FLASH_PATH = "/flash";
-export const FLASH_FEED_URL = "/content/flash.json";
-export const FLASH_SITEMAP_PATH = "/sitemap-flash.xml";
-export const FLASH_TYPES = Object.freeze(["listing", "delisting", "campaign", "liquidation-spike", "sharp-move", "funding-extreme", "news"]);
-// Items older than this stay reachable (200) but are served noindex,follow.
-export const FLASH_INDEX_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
-export const FLASH_SITEMAP_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
-export const FLASH_REFRESH_MS = 60 * 1000;
-export const FLASH_PAGE_SIZE = 40;
 /** { kind: "stream" } | { kind: "item", key, segment } | { kind: "missing" } for /flash paths, null elsewhere. */
 export function parseFlashPath(pathname) {
   const path = String(pathname || "").split(/[?#]/)[0].replace(/\/+$/, "") || "/";

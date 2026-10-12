@@ -32,7 +32,7 @@ import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
-import { FLASH_PATH, flashNavLabel, parseFlashPath } from "./data/flash-path.js";
+import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
 import { syncRouteSeo } from "./data/route-seo-client.js";
 import {
@@ -569,10 +569,11 @@ function routeState(venues, initialUrl) {
   if (academy?.kind === "hub") return { name: "academyHub", ...contextParams() };
   if (academy?.kind === "episode") return { name: "academyEpisode", slug: academy.episode.slug, ...contextParams() };
   if (academy?.kind === "missing") return { name: "notFound" };
-  const flash = parseFlashPath(pathname);
-  if (flash?.kind === "stream") return { name: "flashStream", ...contextParams() };
-  if (flash?.kind === "item") return { name: "flashItem", key: flash.key, ...contextParams() };
-  if (flash?.kind === "missing") return { name: "notFound" };
+  // Flash: same shapes as parseFlashPath (src/data/flash-path.js), inlined to keep the entry inside its budget.
+  if (pathname === FLASH_PATH) return { name: "flashStream", ...contextParams() };
+  const flashKey = pathname.startsWith(`${FLASH_PATH}/`) && (pathname.match(/^\/flash\/([0-9a-z]{10})(?:-[a-z0-9-]*)?$/) || [])[1];
+  if (flashKey) return { name: "flashItem", key: flashKey, ...contextParams() };
+  if (pathname.startsWith(`${FLASH_PATH}/`)) return { name: "notFound" };
   if (pathname === LIQUIDATIONS_PATH) return { name: "liquidations" };
   if (pathname === FUNDING_RATES_PATH) return { name: "fundingRates" };
   if (pathname === "/topics") return { name: "topicCollection", ...contextParams() };

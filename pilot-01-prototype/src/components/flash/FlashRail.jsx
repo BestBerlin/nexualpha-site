@@ -4,7 +4,11 @@
 // as its own chunk when the rail scrolls near (DeferUntilVisible), so it stays out of the entry. Styles: home7.src.css.
 import React, { useEffect, useRef, useState } from "react";
 import { localizedHref } from "../../data/locale-routing.js";
-import { FLASH_FEED_URL, FLASH_PATH, FLASH_REFRESH_MS } from "../../data/flash-path.js";
+import { FLASH_PATH } from "../../data/flash-path.js";
+
+// Same values as FLASH_FEED_URL / FLASH_REFRESH_MS in flash.js (not imported: that module carries the page strings).
+const FLASH_FEED_URL = "/content/flash.json";
+const FLASH_REFRESH_MS = 60 * 1000;
 
 // Rail strings (this module is its own lazy chunk on the home page).
 const RAIL = {

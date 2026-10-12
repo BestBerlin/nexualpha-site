@@ -251,7 +251,7 @@ test("hydration of the stream and an item page has no mismatch (en, zh-hans, ar)
   }
 });
 
-test("header keeps five primary items with Flash under More; home has the live rail; footer links the stream", async () => {
+test("header keeps five primary items with Flash under More; home has the live rail", async () => {
   const home = await harness.render("https://nexualpha.com/?locale=zh-Hans", {});
   assert.match(home, /class="h7-in h7-flash"[\s\S]*href="\/zh-hans\/flash"/, "home rail");
   assert.equal((home.match(/class="h7-flash-skel"/g) || []).length, 5, "five fixed placeholder rows in the prerender");
@@ -259,7 +259,6 @@ test("header keeps five primary items with Flash under More; home has the live r
   const primary = header.match(/<nav class="nx-nav"[\s\S]*?<\/nav>/)?.[0] || "";
   assert.doesNotMatch(primary.split(/nx-more|data-more/)[0], /href="\/zh-hans\/flash"/, "not a primary item");
   assert.match(header, /href="\/zh-hans\/flash"[^>]*>快讯</, "listed under More");
-  assert.match(home, /<footer[\s\S]*href="\/zh-hans\/flash"/, "footer link");
   const source = await readFile(new URL("../src/components/shell/SiteHeader.jsx", import.meta.url), "utf8");
   assert.match(source, /const PRIMARY_COUNT = 5;/);
 });

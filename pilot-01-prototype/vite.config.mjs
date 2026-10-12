@@ -196,7 +196,6 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/apps/") || id.includes("/src/data/app-download-copy.js")) return "route-apps";
           if (id.includes("/src/components/academy/") || id.includes("/src/data/academy-copy.js")) return "route-academy";
           // Flash stream + item pages (2026-10-12). The home rail (FlashRail.jsx) stays with the home page.
-          if (id.includes("/src/components/flash/FlashRail")) return "home-flash-rail";
           if (id.includes("/src/components/flash/FlashPages") || id.includes("/src/components/flash/flash.css") || id.includes("/src/data/flash.js")) return "route-flash";
           if (id.includes("/src/components/v3/brand-pages/")) return "route-brand-pages";
           if (id.includes("/src/components/v3/TokenizedAssetsPage")) return "route-tokenized-assets";

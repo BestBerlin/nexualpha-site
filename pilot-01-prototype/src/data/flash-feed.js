@@ -4,8 +4,7 @@
 // per-locale templates. Numbers and tickers are formatted once, the same way in every language; free text is never
 // machine-translated (announcement titles are quoted as the official source, campaign briefs and news use the
 // localized text they were published with). No external calls happen here.
-import { FLASH_INDEX_WINDOW_MS, FLASH_PATH, FLASH_TYPES } from "./flash-path.js";
-import { flashItemPath, flashKey, flashSlug } from "./flash.js";
+import { FLASH_INDEX_WINDOW_MS, FLASH_PATH, FLASH_TYPES, flashItemPath, flashKey, flashSlug } from "./flash.js";
 import { updatePath } from "./activity-update-path.js";
 import { flashUiCopy } from "./flash.js";
 import { budgetTitle, titleBudgetForLocale } from "./meta-description.js";
