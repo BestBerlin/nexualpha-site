@@ -42,6 +42,8 @@ import { parseAppDownloadPath } from "../src/data/app-download-path.js";
 import { academyRouteSeo } from "../src/data/academy-seo.js";
 import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
 import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, renderFlashSitemap } from "../src/data/flash-feed.js";
+import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
+import { binanceOctoberRouteSeo } from "../src/data/binance-october-seo.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 export default {
   async fetch(request, env) {
@@ -59,7 +61,7 @@ export default {
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/sitemap.xml" && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
-    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
+    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
@@ -2539,6 +2541,7 @@ const NOT_FOUND_ROUTE_MARKER = "NEXUALPHA_NOT_FOUND_ROUTE_V1";
 const APP_DOWNLOAD_ROUTE_MARKER = "NEXUALPHA_APP_DOWNLOAD_ROUTE_V1";
 const ACADEMY_ROUTE_MARKER = "NEXUALPHA_ACADEMY_ROUTE_V1";
 const FLASH_ROUTE_MARKER = "NEXUALPHA_FLASH_ROUTE_V1";
+const CAMPAIGN_LANDING_ROUTE_MARKER = "NEXUALPHA_CAMPAIGN_LANDING_ROUTE_V1";
 // /starter (新手村) is the academy since 2026-10-12; it briefly pointed at the Telegram hub.
 const RETIRED_PAGE_REDIRECTS = Object.freeze({ "/starter": ACADEMY_PATH });
 const SHARED_ROUTE_STYLE_PREFIXES = Object.freeze(["index-", "core-", "shared-decision-rail-", "shared-decision-return-"]);
@@ -2562,6 +2565,8 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [ACADEMY_ROUTE_MARKER]: ["route-academy-", "route-news-"],
   // Flash stream and items: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
   [FLASH_ROUTE_MARKER]: ["route-flash-", "route-news-"],
+  // Campaign landing pages (/activities/binance-october-gifts): own chunk only.
+  [CAMPAIGN_LANDING_ROUTE_MARKER]: ["route-campaign-landing-"],
 });
 const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
   "/methodology": ["route-methodology-"],
@@ -4478,6 +4483,18 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         console.error(`[NexuAlpha] flash SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] flash SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
     }
+    // Campaign landing pages (/activities/binance-october-gifts): every section in the HTML, rendered with the hydrated component.
+    if (metadata.marker === CAMPAIGN_LANDING_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        // activityRenderUrl keeps ?market= (a compliance gate: no sign-up in restricted markets).
+        const appHtml = await env.NEWS_SSR_RENDER(activityRenderUrl(url, pathname, publicRoute.locale), {});
+        if (typeof appHtml === "string" && appHtml.includes("class=\"nxbg ")) {
+          metadata.campaignSsrMode = "runtime";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, {}, url);
+        }
+        console.error(`[NexuAlpha] campaign SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
+      } catch (error) { console.error(`[NexuAlpha] campaign SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
+    }
     // Brand pages (/about, /editorial-policy) are static copy: render them at request time with the same renderer so
     // crawlers and no-JS readers get the full entity page instead of an empty #root.
     if ((isBrandPagePath(pathname) || isLegalPagePath(pathname)) && typeof env?.NEWS_SSR_RENDER === "function") {
@@ -6289,6 +6306,8 @@ function searchPublicationLocales(pathname, options = {}) {
   // Flash: the stream in every templated locale; an item page carries its own locale set (metadata.flashIndexLocales).
   if (parseFlashPath(pathname)?.kind === "stream") return FLASH_INDEX_LOCALES;
   if (parseFlashPath(pathname)?.kind === "item") return options.flashIndexLocales || FLASH_INDEX_LOCALES;
+  // Binance October campaigns page: its written editions (src/data/binance-october.js).
+  if (parseBinanceOctoberPath(pathname)) return BINANCE_OCTOBER_INDEX_LOCALES;
   // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
@@ -7658,6 +7677,17 @@ async function routeMetadataBase(url, env, newsFeed) {
       ...(academySeo.image ? { image: academySeo.image } : {}),
     };
   }
+  // Binance October campaigns page (2026-10-12): WebPage + FAQPage + BreadcrumbList from src/data/binance-october-seo.js
+  // (same helper as seo-injection.js). Must run before the runtime /activities/<id> lookup below. Unwritten locales: noindex.
+  const binanceOctoberSeo = binanceOctoberRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined });
+  if (binanceOctoberSeo) {
+    return {
+      status: 200, title: binanceOctoberSeo.title, description: binanceOctoberSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: binanceOctoberSeo.indexable ? "index,follow" : "noindex,follow", marker: CAMPAIGN_LANDING_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, BINANCE_OCTOBER_INDEX_LOCALES), schema: binanceOctoberSeo.schemas,
+    };
+  }
   // Brand pages (/about, /editorial-policy): titles, descriptions and AboutPage/WebPage JSON-LD come from
   // src/data/brand-entity.js; every UI locale is indexable and self-canonical.
   if (isBrandPagePath(canonicalPath)) {
@@ -8124,6 +8154,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (parseAppDownloadPath(pathname)?.valid) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-apps-"];
   if (pathname.startsWith("/exchanges/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "page-profile-", "page-detail-", "route-v3-pages-", "route-v3-registration-", "route-v3-readiness-", "route-activity-"];
   if (pathname.startsWith("/compare/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...COMPARE_PAGE_STYLE_PREFIXES];
+  if (pathname === BINANCE_OCTOBER_PATH) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[CAMPAIGN_LANDING_ROUTE_MARKER]];
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   if (pathname === ACADEMY_PATH || pathname.startsWith(`${ACADEMY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[ACADEMY_ROUTE_MARKER]];
   if (pathname === FLASH_PATH || pathname.startsWith(`${FLASH_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[FLASH_ROUTE_MARKER]];

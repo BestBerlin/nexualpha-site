@@ -33,6 +33,7 @@ import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/mark
 import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
 import { FLASH_PATH, flashNavLabel } from "./data/flash-path.js";
+import { parseBinanceOctoberPath } from "./data/binance-october-path.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
 import { syncRouteSeo } from "./data/route-seo-client.js";
 import {
@@ -90,6 +91,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
   "./components/flash/FlashPages.jsx",
+  "./components/campaigns/BinanceOctoberPage.jsx",
 ]);
 
 if (!import.meta.env.SSR) registerRouteModuleLoaders(deferredPageModules);
@@ -140,6 +142,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
   "./components/flash/FlashPages.jsx",
+  "./components/campaigns/BinanceOctoberPage.jsx",
 ], { eager: true }) : {};
 
 function deferredComponent(path, exportName) {
@@ -188,6 +191,8 @@ function readAcademyContent(locale) {
   if (import.meta.env.SSR) return ssrDeferredPageModules[path]?.ACADEMY_CONTENT;
   return readRouteModuleExport(path, "ACADEMY_CONTENT");
 }
+// Binance October campaigns page (2026-10-12): its own route chunk (route-campaign-landing).
+const BinanceOctoberPage = deferredComponent(ROUTE_MODULE_PATHS.binanceOctober, "BinanceOctoberPage");
 function AcademyRoute({ route, locale }) {
   const content = readAcademyContent(locale);
   if (route.name === "academyHub") return <AcademyHubPage locale={locale} content={content} market={route.market} />;
@@ -608,6 +613,7 @@ function routeState(venues, initialUrl) {
   }
   const officialResearch = researchRoute(pathname, venues);
   if (officialResearch) return { ...officialResearch, ...contextParams() };
+  if (parseBinanceOctoberPath(pathname)) return { name: "binanceOctober", ...contextParams() };
   const updateMatch = pathname.match(/^\/activities\/updates\/([a-z0-9-]+)\/([a-z0-9-]+)$/);
   if (updateMatch) return { name: "activityUpdate", venue: updateMatch[1], slug: updateMatch[2], ...contextParams() };
   const activityMatch = pathname.match(/^\/activities\/([^/]+)$/);
@@ -883,6 +889,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
   if (route.name === "flashStream") return pageShell(<FlashStreamPage locale={locale} market={route.market} initial={initialFlash} />);
   if (route.name === "flashItem") return pageShell(<FlashItemPage locale={locale} market={route.market} itemKey={route.key} initial={initialFlash} />);
+  if (route.name === "binanceOctober") return pageShell(<BinanceOctoberPage locale={locale} market={route.market} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);

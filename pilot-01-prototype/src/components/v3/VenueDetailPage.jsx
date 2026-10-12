@@ -39,6 +39,7 @@ import { detailUi, dexFeeCompactUi, copyFeedbackLabel, useCopyFeedback, CopyFeed
 import { VenueFaqSection } from "./VenueFaqSection.jsx";
 import { VenueKeywordSections } from "./VenueKeywordSections.jsx";
 import { BrazilDeadlineNotice } from "./BrazilDeadlineNotice.jsx";
+import { BINANCE_OCTOBER_PATH, BINANCE_OCTOBER_VENUE, binanceOctoberPromotable, binanceOctoberTeaser } from "../../data/binance-october.js";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { SectionRule } from "../shared/DataRule.jsx";
 
@@ -636,6 +637,16 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
       {APP_DOWNLOAD_SLUGS.includes(profile.slug) && <LocalLink locale={locale} href={`${appDownloadPath(profile.slug)}?${contextSearch}`} className="v3-back-link">{profile.name} · {appDownloadLabel(locale)}</LocalLink>}
 
+      {/* Binance October gifts (owner 2026-10-12): banner on the Binance profile while the campaign runs. */}
+      {profile.slug === BINANCE_OCTOBER_VENUE && binanceOctoberPromotable({ locale, market }) && (() => {
+        const teaser = binanceOctoberTeaser(locale);
+        return <LocalLink locale={locale} href={`${BINANCE_OCTOBER_PATH}${market ? `?market=${encodeURIComponent(market)}` : ""}`} className="v3-venue-campaign-banner" data-featured-campaign="binance-october"
+          data-cta-kind="research" data-cta-platform="binance" data-cta-placement="venue-campaign-banner">
+          <span className="v3-venue-campaign-banner__tag">✦ {teaser.tag}</span>
+          <span className="v3-venue-campaign-banner__text"><b>{teaser.title}</b><span>{teaser.body}</span></span>
+          <span className="v3-venue-campaign-banner__go">{teaser.go} <span aria-hidden="true">→</span></span>
+        </LocalLink>;
+      })()}
       <div className="v3-venue-hero">
         <div className="v3-venue-identity enter" style={{ "--i": 0 }}>
           <BrandMark slug={profile.slug} priority />

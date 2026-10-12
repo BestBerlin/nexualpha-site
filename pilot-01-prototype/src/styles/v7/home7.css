@@ -174,6 +174,10 @@
 .h7:not(#_):not(#_) .h7-it{grid-area:x;display:block;padding-block:10px;color:var(--ink);font-size:16px;line-height:1.5;overflow-wrap:anywhere;transition:color 140ms}
 .h7:not(#_):not(#_) .h7-it:hover{color:#fff;text-decoration:underline;text-decoration-color:var(--ac);text-underline-offset:4px}
 .h7:not(#_):not(#_) .h7-il time{grid-area:t;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums;text-align:end}
+.h7:not(#_):not(#_) .h7-il li.h7-feat{margin-block:10px 6px;border:1px solid rgb(245 197 66/.38);background:radial-gradient(70% 140% at 100% 0%,rgb(245 197 66/.10),transparent 70%),rgb(255 255 255/.02)}
+.h7:not(#_):not(#_) .h7-il li.h7-feat:hover{background:radial-gradient(70% 140% at 100% 0%,rgb(245 197 66/.14),transparent 70%),var(--sf)}
+.h7:not(#_):not(#_) .h7-feat .h7-it{font-weight:600}
+.h7:not(#_):not(#_) .h7-feat .h7-iw{color:#ffe27a;text-decoration-color:rgb(245 197 66/.5)}
 .h7:not(#_):not(#_) .h7-iw{grid-area:b;display:inline-flex;align-items:center;justify-content:flex-end;gap:6px;min-height:44px;padding:0;font-weight:500;font-size:12px;line-height:1;color:var(--ink2);background:transparent;border:0;cursor:pointer;white-space:nowrap;text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:4px;transition:color 140ms,text-decoration-color 140ms}
 .h7:not(#_):not(#_) .h7-iw:hover{color:var(--ink);text-decoration-color:var(--ac)}
 .h7:not(#_):not(#_) .h7-ia{margin:16px 0 0;font-size:12px;color:var(--ink3)}
