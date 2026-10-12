@@ -12,7 +12,10 @@ import { formatFee } from "../../data/format-fee.js";
 import { appendCostScenarioQuery, buildDecisionReturnHref } from "../../data/decision-return.js";
 import { updateHref } from "../../data/activity-update.js";
 import { readIntelFeed } from "../../data/announcement-intel.js";
+import { applyCampaignBriefs } from "../../data/campaign-briefs.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
+import { CampaignBriefFacts } from "../shared/CampaignBriefFacts.jsx";
+import { useCampaignBriefs } from "../shared/useCampaignBriefs.js";
 import { CHIPS, Cta, Roll, VMIN, nameOf, toPos, toVol, usd } from "./home7-shared.jsx";
 import { LocalMarketBrief } from "./home7-local-market.jsx";
 
@@ -54,7 +57,7 @@ function compareRows(venues, perp) {
 
 function IntelSheet({ item, venues, t, locale, market, onClose }) {
   const ref = useRef(null);
-  const perp = PERP_RE.test(item.title);
+  const perp = PERP_RE.test(item.rawTitle || item.title);
   useEffect(() => {
     const d = ref.current;
     const opener = document.activeElement;
@@ -69,6 +72,7 @@ function IntelSheet({ item, venues, t, locale, market, onClose }) {
         <button type="button" className="h7-sh-x" onClick={() => ref.current.close()} aria-label={t.shClose}>×</button>
         <h3 id="h7-sh-t" className="h7-sh-h">{t.shH}</h3>
         <p className="h7-sh-ev"><span className={`h7-ic h7-ic-${item.category}`}>{t.inCat[item.category]}</span> {item.title}</p>
+        <CampaignBriefFacts brief={item.brief} locale={locale} />
         <p className="h7-sh-sub">{perp ? t.shPerp : t.shSpot}</p>
         <ul className="h7-sh-l">
           {rows.map((r) => (
@@ -127,15 +131,24 @@ function IntelBlock({ intel, t, locale, market, venues }) {
     <section className="h7-in h7-intel" id="h7-intel" aria-label={t.inH}>
       <div className="h7-ih"><div><span className="h7-live"><i aria-hidden="true" />{LIVE[locale] || "Live"}</span><h2>{t.inH}</h2></div>{t.inSub ? <p>{t.inSub}</p> : null}</div>
       <ul className="h7-il">
-        {spread(intel.items, 10, 2).map((i) => (
+        {spread(intel.items, 10, 2).map((raw) => {
+          const i = applyCampaignBriefs(raw, intel, locale);
+          return (
           <li key={i.id}>
             <span className={`h7-ic h7-ic-${i.category}`} data-hot={i.category === "event" ? "true" : undefined}>{t.inCat[i.category]}</span>
             <span className="h7-iv"><BrandMark slug={i.venue} compact />{nameOf(i.venue)}</span>
-            <a className="h7-it" href={updateHref(i, locale, { market })}>{i.title}<span className="h7-sr"> ({t.inOpen})</span></a>
+            <a className="h7-it" href={updateHref(i, locale, { market })}>
+              {i.title}
+              {i.brief && i.summary ? <small className="campaign-brief-summary" dir="auto">{i.summary}</small> : null}
+              
+              <CampaignBriefFacts brief={i.brief} locale={locale} />
+              <span className="h7-sr"> ({t.inOpen})</span>
+            </a>
             <time dateTime={i.publishedAt}>{timeAgo(now - Date.parse(i.publishedAt), locale)}</time>
             <button type="button" className="h7-iw" aria-haspopup="dialog" onClick={() => setOpen(i)}>{t.inBtn}</button>
           </li>
-        ))}
+          );
+        })}
       </ul>
       <p className="h7-ia">{t.inAsOf(asOf)}</p>
       {open && <IntelSheet item={open} venues={venues} t={t} locale={locale} market={market} onClose={() => setOpen(null)} />}
@@ -145,7 +158,8 @@ function IntelBlock({ intel, t, locale, market, venues }) {
 
 function IntelSection({ t, locale, market, venues }) {
   const intel = useIntel(venues);
-  return <IntelBlock intel={intel} t={t} locale={locale} market={market} venues={venues} />;
+  const briefFeed = useCampaignBriefs(intel && typeof intel === "object" ? intel : { items: [] });
+  return <IntelBlock intel={intel && typeof intel === "object" ? briefFeed : intel} t={t} locale={locale} market={market} venues={venues} />;
 }
 
 // Everything under the trust row. State for the calculator lives in HomeV7 (the hero ledger reads the same volume,

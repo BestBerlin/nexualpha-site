@@ -1,3 +1,4 @@
+import { campaignBrief, localizedBriefText } from './campaign-briefs.js';
 import { readIntelFeed } from './announcement-intel.js';
 import { localizedHref } from './locale-routing.js';
 import { OFFICIAL_EXCHANGE_ACTIVITIES } from './generated-official-activities.js';
@@ -21,7 +22,7 @@ export function normalizeUpdateItem(item) {
 }
 export function updateItems(feed) {
   const candidates = [...(Array.isArray(feed?.items) ? feed.items : []), ...OFFICIAL_EXCHANGE_ACTIVITIES, ...OWNER_CAMPAIGNS].map(normalizeUpdateItem);
-  return [...new Map(readIntelFeed({ items: candidates }).map(item => [updatePath(item), item])).values()].sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
+  return [...new Map(readIntelFeed({ items: candidates }).map(item => [updatePath(item), item])).values()].sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt)).map(item => ({ ...item, brief: campaignBrief(item, feed) }));
 }
 export function findUpdate(feed, venue, slug) {
   return updateItems(feed).find(item => updatePath(item) === `/activities/updates/${venue}/${slug}`) || null;
@@ -33,6 +34,8 @@ const categories = {
 export function updateCategory(item, locale = 'en') { return (categories[locale] || categories.en)[({ listing: 0, event: 1, campaign: 1, delisting: 2 })[item.category] ?? 3]; }
 const listVerbs = { 'zh-Hans': '将上线', 'zh-Hant': '將上線', es: 'listará', 'pt-BR': 'vai listar', vi: 'sẽ niêm yết', id: 'akan melisting', tr: 'listeleyecek', ru: 'добавит в листинг', ar: 'ستدرج', fr: 'listera', de: 'listet', it: 'quoterà', ja: 'が上場予定：', ko: '상장 예정:', ur: 'لسٹ کرے گا', uk: 'додасть до лістингу' };
 export function updateHeadline(item, locale = 'en') {
+  const headline = localizedBriefText(item.brief?.headline, locale);
+  if (headline) return headline;
   const candidate = item.headlines?.[locale] || (item.title && typeof item.title === 'object' ? item.title[locale] || item.title.en : item.title);
   const title = typeof candidate === 'string' ? candidate : typeof item.title === 'string' ? item.title : '';
   const match = title.match(/^(Binance|OKX|Bitget|Bybit|KuCoin|Kraken) Will List (.+)$/i);
