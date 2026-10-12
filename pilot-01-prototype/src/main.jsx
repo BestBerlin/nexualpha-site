@@ -78,6 +78,7 @@ function HydrationBootstrap() {
       initialToolArticles={prerenderState?.toolArticles}
       initialFlash={prerenderState?.flash}
       initialCoins={prerenderState?.coins}
+      initialFx={prerenderState?.fx}
     />
     {initialUrl === bootstrap.browserUrl && <ClientHydrationSignal />}
   </>;

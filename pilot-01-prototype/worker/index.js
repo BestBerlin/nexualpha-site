@@ -43,6 +43,8 @@ import { academyRouteSeo } from "../src/data/academy-seo.js";
 import { COINS_PATH, parseCoinsPath } from "../src/data/coins-routes.js";
 import { coinsRouteSeo } from "../src/data/coins-seo.js";
 import { applyCoinOverlay, coinOverlayFromSnapshot, COINS_GENERATED_AT } from "../src/data/coins.js";
+import { parseConverterPath } from "../src/data/converter-routes.js";
+import { converterRouteSeo } from "../src/data/converter-seo.js";
 import { FLASH_FEED_URL, FLASH_PAGE_SIZE, FLASH_PATH, FLASH_SITEMAP_PATH, flashItemPath, parseFlashPath } from "../src/data/flash.js";
 import { FLASH_INDEX_LOCALES, buildFlashItems, findFlashItem, flashItemIndexLocales, flashItemPayload, flashItemSeo, flashStreamPayload, flashStreamSeo, renderFlashSitemap } from "../src/data/flash-feed.js";
 import { BINANCE_OCTOBER_INDEX_LOCALES, BINANCE_OCTOBER_PATH, parseBinanceOctoberPath } from "../src/data/binance-october.js";
@@ -52,6 +54,7 @@ import { bybitStocksRouteSeo } from "../src/data/bybit-stocks-seo.js";
 import { NEWS_CATEGORY_KEYS, NEWS_PAGE_SIZE, NEWS_SEARCH_MAX_LIMIT, isNewsCategory, newsCategoryCopy, newsCategoryCounts, newsLibraryCopy, newsListingPath, newsPaginationItems, paginateNews, parseNewsListingPath, relatedNewsArticles, searchNewsArticles, sortNewsForLocale } from "../src/data/news-library.js";
 import { resolvePromotions, promotionCopy } from "../src/data/promotions.js";
 const COINS_PATH_PATTERN = /(?:^|\/)coins(?:\/|$)/;
+const CONVERTER_PATH_PATTERN = /(?:^|\/)convert(?:\/|$)/;
 // Returns the overlay the page was rendered with (also shipped as prerender state "coins"), or null for the baked table.
 async function refreshCoinOverlay(env) {
   if (typeof env?.COINS_SNAPSHOT_READ !== "function") return null;
@@ -65,12 +68,23 @@ async function refreshCoinOverlay(env) {
   }
 }
 
+async function refreshFxSnapshot(env) {
+  if (typeof env?.FX_SNAPSHOT_READ !== "function") return null;
+  try {
+    const snapshot = await env.FX_SNAPSHOT_READ();
+    return snapshot && typeof snapshot === "object" ? snapshot : null;
+  } catch (error) {
+    console.error(`[NexuAlpha] FX snapshot failed: ${error?.message || error}`);
+    return null;
+  }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/api/analytics/cta") return handleAnalyticsCollector(request, env, url);
     // Coin pages read the runtime coins.json (server COINS_FILE, refreshed on the host) before any head or body is built.
-    if (COINS_PATH_PATTERN.test(url.pathname) || (url.pathname === "/api/route-seo" && COINS_PATH_PATTERN.test(url.searchParams.get("path") || ""))) await refreshCoinOverlay(env);
+    if (COINS_PATH_PATTERN.test(url.pathname) || CONVERTER_PATH_PATTERN.test(url.pathname) || (url.pathname === "/api/route-seo" && (COINS_PATH_PATTERN.test(url.searchParams.get("path") || "") || CONVERTER_PATH_PATTERN.test(url.searchParams.get("path") || "")))) await refreshCoinOverlay(env);
     // Social cards are rendered by server.mjs (server/og-image.mjs) before the worker sees the request; a worker
     // without that renderer answers 404 instead of an HTML page, so link previews never cache a page as an image.
     if (url.pathname.startsWith("/og/")) {
@@ -83,7 +97,7 @@ export default {
     if (url.pathname === "/content/news-feed.json" && request.method === "GET") return handlePublicNewsSummaryFeed(request, env, url);
     if (url.pathname === "/sitemap.xml" && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (/^\/sitemap-articles-[a-z0-9-]+\.xml$/.test(url.pathname) && request.method === "GET" && env?.ASSETS) return handleArticleSitemap(env, url);
-    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns|coins)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
+    if (/^\/sitemap-(?:locales|venues|compare|topics-tools|academy|apps|campaigns|coins|convert)\.xml$/.test(url.pathname) && ["GET", "HEAD"].includes(request.method) && env?.ASSETS) return env.ASSETS.fetch(request);
     if (url.pathname === "/news-sitemap.xml" && request.method === "GET" && env?.ASSETS) return handleLiveNewsSitemap(env, url);
     if (url.pathname === UPDATE_SITEMAP_PATH && ["GET", "HEAD"].includes(request.method)) return handleUpdateSitemap(request, env, url);
     // Flash (2026-10-12): the stream JSON for client refreshes / the home rail, and the 7-day flash sitemap.
@@ -2563,6 +2577,7 @@ const NOT_FOUND_ROUTE_MARKER = "NEXUALPHA_NOT_FOUND_ROUTE_V1";
 const APP_DOWNLOAD_ROUTE_MARKER = "NEXUALPHA_APP_DOWNLOAD_ROUTE_V1";
 const ACADEMY_ROUTE_MARKER = "NEXUALPHA_ACADEMY_ROUTE_V1";
 const COINS_ROUTE_MARKER = "NEXUALPHA_COINS_ROUTE_V1";
+const CONVERTER_ROUTE_MARKER = "NEXUALPHA_CONVERTER_ROUTE_V1";
 const FLASH_ROUTE_MARKER = "NEXUALPHA_FLASH_ROUTE_V1";
 const CAMPAIGN_LANDING_ROUTE_MARKER = "NEXUALPHA_CAMPAIGN_LANDING_ROUTE_V1";
 // /starter (新手村) is the academy since 2026-10-12; it briefly pointed at the Telegram hub.
@@ -2588,6 +2603,7 @@ const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [ACADEMY_ROUTE_MARKER]: ["route-academy-", "route-news-"],
   // Where to buy <coin>: own chunk only.
   [COINS_ROUTE_MARKER]: ["route-coins-"],
+  [CONVERTER_ROUTE_MARKER]: ["route-converter-"],
   // Flash stream and items: own chunk plus the news chunk that carries the sign-up card (NewsVenueOffer).
   [FLASH_ROUTE_MARKER]: ["route-flash-", "route-news-"],
   // Campaign landing pages (/activities/binance-october-gifts): own chunk only.
@@ -2638,7 +2654,7 @@ const LOCALE_CODE_BY_PREFIX = Object.freeze(Object.fromEntries(Object.entries(LO
 const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter((locale) => locale !== "en"));
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
-const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/flash", "/coins"]);
+const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy", "/flash", "/coins", "/convert"]);
 const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
@@ -3594,6 +3610,7 @@ function injectPrerenderedBody(html, appHtml, routeKey, route, url) {
     ...(route.flash && typeof route.flash === "object" ? { flash: route.flash } : {}),
     // Coin pages rendered from a runtime coins.json: the rows that differ from the baked table (applyCoinOverlay).
     ...(route.coins && typeof route.coins === "object" && Array.isArray(route.coins.rows) ? { coins: route.coins } : {}),
+    ...(route.fx && typeof route.fx === "object" ? { fx: route.fx } : {}),
   });
   const body = `<div id="root">${brProjection.html}</div><script type="application/json" id="nexualpha-prerender-state">${payload}</script>`;
   // Function replacer: the body is page text and may contain "$'" / "$&" replacement patterns.
@@ -4561,6 +4578,19 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
         }
         console.error(`[NexuAlpha] coins SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
       } catch (error) { console.error(`[NexuAlpha] coins SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
+    }
+    if (metadata.marker === CONVERTER_ROUTE_MARKER && typeof env?.NEWS_SSR_RENDER === "function") {
+      try {
+        const overlay = await refreshCoinOverlay(env);
+        const coins = overlay || { generatedAt: COINS_GENERATED_AT, rows: [] };
+        const fx = metadata.converterFx || await refreshFxSnapshot(env);
+        const appHtml = await env.NEWS_SSR_RENDER(hydrationRenderUrl(url, pathname, publicRoute.locale), { coins, fx });
+        if (typeof appHtml === "string" && appHtml.includes("class=\"nxconvert")) {
+          metadata.converterSsrMode = fx ? "runtime" : "runtime-no-fx";
+          return injectPrerenderedBody(html, appHtml, `${pathname}|${publicRoute.locale}`, { coins, fx }, url);
+        }
+        console.error(`[NexuAlpha] converter SSR returned no page body for ${pathname} (${publicRoute.locale}); serving the app shell`);
+      } catch (error) { console.error(`[NexuAlpha] converter SSR failed for ${pathname} (${publicRoute.locale}): ${error?.message || error}`); }
     }
     // Flash stream and item pages: the payload resolved for the head (metadata.flashPayload) is rendered with the
     // component the browser hydrates and shipped as prerender state "flash".
@@ -6399,6 +6429,7 @@ function searchPublicationLocales(pathname, options = {}) {
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
   // Where to buy <coin>: per-coin index locales (listed on a covered exchange and described in that language).
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
+  if (parseConverterPath(pathname) && parseConverterPath(pathname).kind !== "missing") return converterRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   // Flash: the stream in every templated locale; an item page carries its own locale set (metadata.flashIndexLocales).
   if (parseFlashPath(pathname)?.kind === "stream") return FLASH_INDEX_LOCALES;
   if (parseFlashPath(pathname)?.kind === "item") return options.flashIndexLocales || FLASH_INDEX_LOCALES;
@@ -7788,6 +7819,18 @@ async function routeMetadataBase(url, env, newsFeed) {
       alternates: routeAlternates(canonicalPath, coinsSeo.alternatesLocales), schema: coinsSeo.schemas,
     };
   }
+  const converterFx = parseConverterPath(canonicalPath)?.kind === "pair" ? await refreshFxSnapshot(env) : null;
+  const converterSeo = converterRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined, fx: converterFx });
+  if (converterSeo) {
+    if (converterSeo.status !== 200) return notFoundMetadata(canonicalPath, locale);
+    return {
+      status: 200, title: converterSeo.title, description: converterSeo.description,
+      canonical: localizedCanonical(canonicalPath, requestedLocale), locale: requestedLocale,
+      robots: converterSeo.indexable ? "index,follow" : "noindex,follow", marker: CONVERTER_ROUTE_MARKER,
+      alternates: routeAlternates(canonicalPath, converterSeo.alternatesLocales), schema: converterSeo.schemas,
+      ...(converterFx ? { converterFx } : {}),
+    };
+  }
   // Binance October campaigns page (2026-10-12): WebPage + FAQPage + BreadcrumbList from src/data/binance-october-seo.js
   // (same helper as seo-injection.js). Must run before the runtime /activities/<id> lookup below. Unwritten locales: noindex.
   const binanceOctoberSeo = binanceOctoberRouteSeo(canonicalPath, requestedLocale, { urlFor: (path) => localizedCanonical(path, requestedLocale), market: url.searchParams.get("market") || undefined });
@@ -8282,6 +8325,7 @@ function routeStylePrefixesForPath(url, metadata) {
   if (pathname === "/activities" || pathname.startsWith("/activities/")) return [...SHARED_ROUTE_STYLE_PREFIXES, "route-activity-"];
   if (pathname === ACADEMY_PATH || pathname.startsWith(`${ACADEMY_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[ACADEMY_ROUTE_MARKER]];
   if (pathname === COINS_PATH || pathname.startsWith(`${COINS_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[COINS_ROUTE_MARKER]];
+  if (pathname === "/convert" || pathname.startsWith("/convert/")) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[CONVERTER_ROUTE_MARKER]];
   if (pathname === FLASH_PATH || pathname.startsWith(`${FLASH_PATH}/`)) return [...SHARED_ROUTE_STYLE_PREFIXES, ...ROUTE_STYLE_PREFIXES_BY_MARKER[FLASH_ROUTE_MARKER]];
   // The list route renders the Telegram alerts strip (route-v3-pages-strip chunk) in SSR; keep its stylesheet so the
   // strip is styled at first paint instead of when its JS chunk injects the CSS.

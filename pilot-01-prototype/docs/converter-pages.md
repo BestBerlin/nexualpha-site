@@ -1,0 +1,11 @@
+# Crypto to fiat converter
+
+`/convert/<symbol>-to-<fiat>` is a lazy route available under every supported locale prefix. The route universe is fixed to the 30 highest-ranked coins in the release's coin table and these fiat codes: USD, EUR, BRL, TRY, IDR, VND, MXN, JPY, KRW, CNY, GBP, INR. Runtime coin snapshots update prices and listings without changing that universe.
+
+Both amount fields are editable. The quick table and conversions use the same unit price. USD uses the coin's USD reference price; other currencies multiply it by the server-cached USD FX rate from `/intel/fx.json`. The server carries its coin and FX snapshots into the hydration state. After mount, the page reuses the coin page's public exchange ticker approach and requests the FX feed. Missing rates produce an unavailable state rather than guessed values. Crypto and FX timestamps are shown separately; the 24h change refers to the USD coin quote.
+
+Index eligibility requires a covered listing and a relevant localized fiat market: USD/EUR in en/es/fr/de, BRL in pt-BR, TRY in tr, IDR in id, VND in vi, MXN in es, JPY in ja, KRW in ko, CNY in zh-Hans, and GBP in en. INR has no indexed India edition in the current locale inventory and remains noindex. Other pair/locale combinations render with noindex,follow. `sitemap-convert.xml` includes only eligible editions and their eligible hreflang alternates.
+
+The buying steps link to the coin's buying guide and academy lesson E07. Fiat notes identify the payment method to check. A fiat spot pair is labeled separately from deposit support. Existing regional funding research supplies conditional BRL guidance for Binance/OKX and MXN guidance for Binance; other fiat routes use a generic checklist. Referral buttons appear only for a covered spot listing with a funding guide and an allowed existing partner CTA. They use `/go/<venue>?src=convert-<symbol>-<fiat>` and inherit the coin-page geo and neutral-locale gates. Official guidance does not establish availability for an individual account.
+
+See [FX feed](fx-feed.md) for source, refresh and fallback behavior. Tests cover route boundaries, arithmetic, localized copy, index eligibility, referral attribution, server rendering/hydration, sitemap publication and FX failure behavior.
