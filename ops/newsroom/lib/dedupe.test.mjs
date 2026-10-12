@@ -287,3 +287,19 @@ test('generic listing headlines do not invent a symbol hard key', () => {
   ]);
   assert.deepEqual(events[0].hard_keys, []);
 });
+
+test('media reports of one story without a watchlist entity cluster on shared amount and distinctive words', () => {
+  const base = { platform: 'media', tier: 2, lang: 'en', body_excerpt: 'Crypto industry report.' };
+  const items = [
+    { ...base, id: 9101, source_id: 'decrypt', url: 'https://decrypt.co/a', title: 'New York AG secures up to $35 million from former Celsius CEO Alex Mashinsky', published_at: '2026-10-12T10:00:00Z', fetched_at: '2026-10-12T10:05:00Z' },
+    { ...base, id: 9102, source_id: 'theblock', url: 'https://www.theblock.co/b', title: 'New York permanently bars Celsius founder Mashinsky in $35M fraud settlement', event_type_guess: 'lawsuit', published_at: '2026-10-12T12:00:00Z', fetched_at: '2026-10-12T12:05:00Z' },
+    { ...base, id: 9103, source_id: 'cointelegraph', url: 'https://cointelegraph.com/c', title: 'Ledger Probes Potential Theft of $87M in User Funds Tied to Crypto Wallet Reseller', published_at: '2026-10-12T12:00:00Z', fetched_at: '2026-10-12T12:05:00Z' },
+    { ...base, id: 9104, source_id: 'theblock', url: 'https://www.theblock.co/d', title: 'Ledger investigates wallet drains involving CryptoBilis buyers; estimate tops $86 million in losses', published_at: '2026-10-12T12:30:00Z', fetched_at: '2026-10-12T12:35:00Z' },
+  ];
+  const { events } = mergeRawItems(items, { watchlist: [], keywords: [{ term: 'crypto', lang: 'en', status: 'active' }, { term: 'Celsius', lang: 'en', status: 'active' }, { term: 'Ledger', lang: 'en', status: 'active' }] });
+  const celsius = events.find(event => event.raw_items.some(item => item.id === 9101));
+  assert.deepEqual(celsius.raw_items.map(item => item.id).sort(), [9101, 9102]);
+  assert.equal(celsius.discussion.merge_provenance.at(-1).method, 'narrative_facts');
+  // Different reported amounts stay separate until a human or a primary source reconciles them.
+  assert.notEqual(events.find(event => event.raw_items.some(item => item.id === 9103)), events.find(event => event.raw_items.some(item => item.id === 9104)));
+});

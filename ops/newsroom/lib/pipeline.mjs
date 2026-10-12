@@ -34,7 +34,7 @@ export function loadDedupeInputs(execute, { windowHours = 48, limit = 3000 } = {
         FROM event_evidence v LEFT JOIN raw_items r ON r.id=v.raw_item_id LEFT JOIN sources s ON s.id=r.source_id
         WHERE v.event_id=e.id), '[]'::jsonb) AS evidence,
       coalesce((SELECT jsonb_agg(jsonb_build_object('id', r.id, 'content_hash', r.content_hash, 'simhash', r.simhash::text,
-        'published_at', r.published_at, 'fetched_at', r.fetched_at, 'title', r.title, 'body_excerpt', r.body_excerpt, 'source_id', r.source_id, 'entities', r.entities, 'event_type_guess', r.event_type_guess, 'url', r.url, 'canonical_url', r.canonical_url)) FROM raw_items r WHERE r.event_id=e.id), '[]'::jsonb) AS raw_items
+        'published_at', r.published_at, 'fetched_at', r.fetched_at, 'title', r.title, 'body_excerpt', r.body_excerpt, 'source_id', r.source_id, 'entities', r.entities, 'event_type_guess', r.event_type_guess, 'url', r.url, 'canonical_url', r.canonical_url, 'platform', s2.platform, 'tier', s2.tier)) FROM raw_items r LEFT JOIN sources s2 ON s2.id=r.source_id WHERE r.event_id=e.id), '[]'::jsonb) AS raw_items
     FROM events e WHERE e.state NOT IN ('rejected','expired') AND e.last_update_at > now() - interval '${Number(windowHours)} hours'`)));
   return { watchlist, keywords, items, existingEvents };
 }
