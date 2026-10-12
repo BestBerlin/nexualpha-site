@@ -16,13 +16,14 @@ const wait = () => new Promise((r) => setTimeout(r, 50));
 
 test("go redirect sends the exact partner registration URL and records one anonymous click", async () => {
   const { handle, eventFile } = await setup();
-  const res = await handle(new Request("https://nexualpha.com/go/okx?src=tg-channel-zh", { headers: { "user-agent": "Mozilla/5.0", referer: "https://t.me/NexuAlphaClub" } }));
+  const res = await handle(new Request("https://nexualpha.com/go/okx?src=tg-channel-zh", { headers: { "user-agent": "Mozilla/5.0", referer: "https://nexualpha.com/zh-hans/exchanges/okx?utm_source=tg" } }));
   assert.equal(res.status, 302);
   assert.equal(res.headers.get("location"), "https://www.okx.com/join/nexu888");
   assert.match(res.headers.get("x-robots-tag"), /noindex/);
   await wait();
   const rows = (await readFile(eventFile, "utf8")).trim().split("\n").map((l) => JSON.parse(l));
-  assert.deepEqual(rows, [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", src: "tg-channel-zh", ref: "t.me" }]);
+  assert.deepEqual(rows, [{ t: "2026-10-10T12:00:00.000Z", partner: "okx", src: "tg-channel-zh", ref: "nexualpha.com", path: "/zh-hans/exchanges/okx", locale: "zh-Hans" }]);
+  assert.doesNotMatch(JSON.stringify(rows[0]), /utm_source|Mozilla|203\.0\.113/, "click rows keep only sanitized metadata");
 });
 
 test("go redirect rejects unknown or unsafe partners, sanitizes src and does not count crawlers", async () => {
