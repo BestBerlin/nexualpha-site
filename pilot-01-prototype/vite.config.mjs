@@ -193,6 +193,7 @@ export default defineConfig(({ isSsrBuild = false }) => ({
           if (id.includes("/src/components/data/")) return "route-data";
           if (id.includes("/src/components/v3/MethodologyPage")) return "route-methodology";
           // Academy hub and lesson pages (2026-10-12); each locale's lessons stay a separate lazy chunk.
+          if (id.includes("/src/components/apps/") || id.includes("/src/data/app-download-copy.js")) return "route-apps";
           if (id.includes("/src/components/academy/") || id.includes("/src/data/academy-copy.js")) return "route-academy";
           // Where to buy <coin> (2026-10-12): pages, model, copy and the coin table; each locale's descriptions stay lazy.
           if (id.includes("/src/components/coins/") || /\/src\/data\/(?:coins\.js|coins-copy\.js|coins-data\.generated\.js)/.test(id)) return "route-coins";

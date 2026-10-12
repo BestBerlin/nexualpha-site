@@ -30,6 +30,7 @@ import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/l
 import { parseNewsListingPath } from "./data/news-library.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
+import { parseAppDownloadPath } from "./data/app-download-path.js";
 import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
 import { coinContentModulePath, parseCoinsPath } from "./data/coins-routes.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
@@ -85,6 +86,7 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/data/FundingRatesPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
   "./components/academy/AcademyPages.jsx",
+  "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
   "./components/coins/CoinPages.jsx",
@@ -135,6 +137,7 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/data/FundingRatesPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
   "./components/academy/AcademyPages.jsx",
+  "./components/apps/AppDownloadPage.jsx",
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
   "./components/coins/CoinPages.jsx",
@@ -179,6 +182,7 @@ const FundingRatesPage = deferredComponent("./components/data/FundingRatesPage.j
 const NewsDetailPage = deferredComponent("./components/v3/news/NewsDetailPage.jsx", "NewsDetailPage");
 const ToolArticleLinks = deferredComponent("./components/shared/ToolArticleLinks.jsx", "ToolArticleLinks");
 // Academy (2026-10-12): one route chunk for the hub and lesson pages; lesson content is one lazy module per locale.
+const AppDownloadPage = deferredComponent(ROUTE_MODULE_PATHS.appDownload, "AppDownloadPage");
 const AcademyHubPage = deferredComponent(ROUTE_MODULE_PATHS.academy, "AcademyHubPage");
 const AcademyEpisodePage = deferredComponent(ROUTE_MODULE_PATHS.academy, "AcademyEpisodePage");
 function readAcademyContent(locale) {
@@ -570,6 +574,8 @@ function routeState(venues, initialUrl) {
   if (pathname === "/embed/calculator") return { name: "embedCalculator" };
   if (pathname === "/partners" || pathname === "/partners/embed-guide") return { name: "partners" };
   if (pathname === "/telegram") return { name: "telegram" };
+  const appDownload = parseAppDownloadPath(pathname);
+  if (appDownload) return appDownload.valid ? { name: "appDownload", slug: appDownload.slug, ...contextParams() } : { name: "notFound" };
   const academy = parseAcademyPath(pathname);
   if (academy?.kind === "hub") return { name: "academyHub", ...contextParams() };
   if (academy?.kind === "episode") return { name: "academyEpisode", slug: academy.episode.slug, ...contextParams() };
@@ -876,6 +882,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "editorialPolicy") return pageShell(<EditorialPolicyPage locale={locale} />);
   if (route.name === "partners") return pageShell(<PartnerEmbedGuide locale={locale} />);
   if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
+  if (route.name === "appDownload") return pageShell(<AppDownloadPage slug={route.slug} locale={locale} market={route.market || decisionPassport.market} contextSearch={sourceSearch} />);
   if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
   if (route.name === "coinsHub" || route.name === "coinPage") return pageShell(<CoinsRoute route={route} locale={locale} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
@@ -912,7 +919,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "newsList") return pageShell(<NewsListPage locale={locale} market={route.market} product={route.product} category={route.category} page={route.page} initialArticles={initialNewsArticles} listing={initialNewsListing} />);
   if (route.name === "newsDetail") return pageShell(<NewsDetailPage slug={route.slug} locale={locale} market={route.market} product={route.product} initialArticles={initialNewsArticles} />);
   if (route.name === "venue" && !routedVenue) return pageShell(<NotFoundPage locale={locale} />);
-  if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} researchComponent={VenueDetailResearch} prefetchResearch={prefetchVenueResearch} />);
+  if (route.name === "venue" && routedVenue) return pageShell(<VenueDetailPage copy={copy} locale={locale} venue={routedVenue} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market || (decisionPassport.market !== "unknown" ? decisionPassport.market : undefined)} product={route.product} accountStage={route.accountStage} funding={route.funding} researchComponent={VenueDetailResearch} prefetchResearch={prefetchVenueResearch} />);
   if (route.name === "compareHub") return pageShell(<CompareHubPage locale={locale} venues={command.venueCatalog} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });
   if (route.name === "compare" && selectedFromRoute.length < 2) return pageShell(<NotFoundPage locale={locale} />);
   if (route.name === "compare" && selectedFromRoute.length >= 2) return pageShell(<CompareDeepPage copy={copy} locale={locale} selected={selectedFromRoute} venues={command.venueCatalog} updates={model.officialUpdates ?? []} market={route.market} product={route.product} accountStage={route.accountStage} funding={route.funding} />, { crawlScope: "compare" });

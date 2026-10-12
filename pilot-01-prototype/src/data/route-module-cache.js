@@ -55,6 +55,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   academy: "./components/academy/AcademyPages.jsx",
   // Where to buy <coin> (2026-10-12): hub + coin pages; descriptions are a second module per locale (coinContentModulePath).
   coins: "./components/coins/CoinPages.jsx",
+  appDownload: "./components/apps/AppDownloadPage.jsx",
 });
 
 export const DEFERRED_ROUTE_MODULE_PATHS = Object.freeze(Object.values(ROUTE_MODULE_PATHS));
@@ -139,6 +140,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "academyHub" || name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];
   if (name === "coinsHub") return [ROUTE_MODULE_PATHS.coins];
   if (name === "coinPage") return [ROUTE_MODULE_PATHS.coins, coinContentModulePath(urlLocale(sourceUrl))];
+  if (name === "appDownload") return [ROUTE_MODULE_PATHS.appDownload];
   if (name === "venue") return [ROUTE_MODULE_PATHS.venueDetail];
   if (["activity", "activities", "compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
   if (name === "activityUpdate") return [ROUTE_MODULE_PATHS.activityUpdate];

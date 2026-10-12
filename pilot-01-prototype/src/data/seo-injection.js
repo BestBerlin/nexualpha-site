@@ -21,9 +21,11 @@ import { onchainGuideSchema, onchainGuideSeo } from "./onchain-guide.js";
 import { NEWS_HUB_SEO_EN } from "./news-list-copy.js";
 import { socialImageObject } from "./social-image.js";
 import { newsListingIndexableLocales, newsListingPublishedLocales, newsArticleAvailableLocales, newsArticleSeoLocales, newsArticleExtraFaqEntries, newsArticleFaqEntries, resolveNewsContentLocale, localizedNewsTitle, localizedNewsSummary } from "./news-feed-client.js";
-import { localizedPath, parsePublicRoute } from "./locale-routing.js";
+import { LOCALE_PREFIX_BY_CODE, localizedPath, parsePublicRoute } from "./locale-routing.js";
 import { noKycMetaTitle } from "./no-kyc-meta-title.js";
 import { ACADEMY_INDEX_LOCALES, parseAcademyPath } from "./academy.js";
+import { appDownloadRouteSeo } from "./app-downloads.js";
+import { parseAppDownloadPath } from "./app-download-path.js";
 import { academyRouteSeo } from "./academy-seo.js";
 import { parseCoinsPath } from "./coins-routes.js";
 import { coinsRouteSeo } from "./coins-seo.js";
@@ -333,6 +335,7 @@ function searchPublicationLocales(pathname, options = {}) {
   // /embed/* are iframe widgets: noindex,follow (meta + X-Robots-Tag) and in no sitemap (SEO audit 2026-10-11 #13).
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
   // Academy (mirror of the Worker): the locales with a localized lesson.
+  if (parseAppDownloadPath(pathname)?.valid) return Object.keys(LOCALE_PREFIX_BY_CODE);
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
   // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
   if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
@@ -2099,6 +2102,10 @@ function computeRouteSeoUnbudgeted(options = {}) {
       description = brazilSeo.description;
       schemas = brazilSeo.schemas;
     }
+  } else if (parseAppDownloadPath(pathname)?.valid) {
+    const app = appDownloadRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = app.title; description = app.description; schemas = app.schemas;
   } else if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") {
     // NexuAlpha Academy: same helper as the Worker head (src/data/academy-seo.js).
     const academy = academyRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });

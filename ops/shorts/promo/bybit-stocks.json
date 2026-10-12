@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "id": "bybit-stocks",
+  "source": "Bybit official partner announcement (US stocks & ETFs with USDC). Facts only; no added claims.",
+  "qr": "https://nexualpha.com/activities/bybit-stocks?src=short",
+  "url": "nexualpha.com/activities/bybit-stocks",
+  "code": "48553",
+  "tickers": ["AAPL", "NVDA", "TSLA", "QQQ"],
+  "narration_locale": "en",
+  "lead_in": 0.3,
+  "scenes": [
+    { "id": "hook", "duration": 3.0, "pose": "rest", "expression": "surprised", "antenna": "amber",
+      "narration": "Buy Apple with USDC?" },
+    { "id": "product", "duration": 6.0, "pose": "point", "expression": "happy", "antenna": "blue",
+      "narration": "Bybit now lets you trade over a thousand US stocks and ETFs, with USDC." },
+    { "id": "facts", "duration": 7.2, "pose": "thumbs-up", "expression": "happy", "antenna": "green",
+      "narration": "Zero commission. Start from just five USDC. And trade nearly twenty-four hours, five days a week." },
+    { "id": "shares", "duration": 4.0, "pose": "hold-phone", "expression": "celebrating", "antenna": "green",
+      "narration": "They're real shares, so dividends and splits are included." },
+    { "id": "cta", "duration": 9.8, "pose": "wave", "expression": "happy", "antenna": "blue",
+      "narration": "Sign up on Bybit with code four, eight, five, five, three. Scan the code or visit nexualpha.com." }
+  ],
+  "copy": {
+    "en": {
+      "hook": "Buy Apple with USDC?",
+      "lead": "Bybit now lets you trade", "count": "1,000+", "what": "US stocks & ETFs", "tail": "with USDC",
+      "facts": ["Zero commission", "From 5 USDC", "Nearly 24h, 5 days a week"],
+      "real": "Real shares", "real_sub": "Dividends & splits included",
+      "cta": "Sign up on Bybit with code"
+    },
+    "es": {
+      "hook": "¿Comprar Apple con USDC?",
+      "lead": "Bybit ahora te permite operar", "count": "1.000+", "what": "acciones y ETF de EE. UU.", "tail": "con USDC",
+      "facts": ["Cero comisiones", "Desde 5 USDC", "Casi 24 h, 5 días a la semana"],
+      "real": "Acciones reales", "real_sub": "Dividendos y splits incluidos",
+      "cta": "Regístrate en Bybit con el código"
+    },
+    "pt-BR": {
+      "hook": "Comprar Apple com USDC?",
+      "lead": "A Bybit agora permite negociar", "count": "1.000+", "what": "ações e ETFs dos EUA", "tail": "com USDC",
+      "facts": ["Zero comissão", "A partir de 5 USDC", "Quase 24h, 5 dias por semana"],
+      "real": "Ações reais", "real_sub": "Dividendos e desdobramentos incluídos",
+      "cta": "Cadastre-se na Bybit com o código"
+    },
+    "tr": {
+      "hook": "USDC ile Apple almak mı?",
+      "lead": "Bybit'te artık USDC ile", "count": "1.000+", "what": "ABD hissesi ve ETF", "tail": "alıp satabilirsiniz",
+      "facts": ["Sıfır komisyon", "5 USDC ile başla", "Haftada 5 gün, neredeyse 24 saat"],
+      "real": "Gerçek hisseler", "real_sub": "Temettü ve bölünmeler dahil",
+      "cta": "Bybit'e bu kodla kaydol"
+    },
+    "vi": {
+      "hook": "Mua Apple bằng USDC?",
+      "lead": "Bybit giờ cho phép giao dịch", "count": "1.000+", "what": "cổ phiếu và ETF Mỹ", "tail": "bằng USDC",
+      "facts": ["Phí hoa hồng 0", "Chỉ từ 5 USDC", "Gần 24 giờ, 5 ngày/tuần"],
+      "real": "Cổ phiếu thật", "real_sub": "Có cổ tức và chia tách cổ phiếu",
+      "cta": "Đăng ký Bybit với mã"
+    },
+    "id": {
+      "hook": "Beli Apple pakai USDC?",
+      "lead": "Bybit kini memungkinkan Anda trading", "count": "1.000+", "what": "saham & ETF AS", "tail": "dengan USDC",
+      "facts": ["Tanpa komisi", "Mulai dari 5 USDC", "Hampir 24 jam, 5 hari seminggu"],
+      "real": "Saham sungguhan", "real_sub": "Termasuk dividen & stock split",
+      "cta": "Daftar di Bybit dengan kode"
+    }
+  }
+}

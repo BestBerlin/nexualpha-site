@@ -1,0 +1,14 @@
+{
+  "event": {
+    "subject_entity": "binance",
+    "subjects": ["binance"],
+    "event_type": "withdrawal_halt",
+    "title_internal": "Binance official notice pauses ABC withdrawals",
+    "source_published_at": "2026-10-12T10:00:00Z",
+    "discussion": { "independent_sources": 1, "platforms_with_independent_items": 1, "by_platform": { "exchange": { "independent_posts": 1, "metric_growth_max": null, "metrics_unknown": true } } },
+    "evidence": [
+      { "kind": "official_notice", "origin_key": "notice:binance-abc-withdrawal-halt", "source_tier": 1 }
+    ],
+    "impact_score": 80
+  }
+}
