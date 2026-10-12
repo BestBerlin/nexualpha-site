@@ -98,13 +98,11 @@ jobs:
           cd .. && sha256sum "nexualpha-ui-${{ steps.id.outputs.release }}.tgz" | tee "nexualpha-ui-${{ steps.id.outputs.release }}.tgz.sha256"
           ls -la nexualpha-ui-*
 
-      # Only main (QA e2e) and deploy / manual runs use the package. Branch builds skip the ~42 MB upload, which had
-      # filled the Actions artifact storage quota and blocked every upload, deploys included.
-      - uses: actions/upload-artifact@v4
+      # The package travels to deploy (same run) and QA e2e (keyed by this run id) through the Actions cache, not
+      # artifacts: artifact storage hit the account quota on 2026-10-12 and blocked every upload, deploys included.
+      # Branch builds are never deployed or QA-tested, so they save nothing.
+      - uses: actions/cache/save@v4
         if: github.event_name != 'push' || github.ref == 'refs/heads/main'
         with:
-          name: release-package
-          path: |
-            nexualpha-ui-${{ steps.id.outputs.release }}.tgz
-            nexualpha-ui-${{ steps.id.outputs.release }}.tgz.sha256
-          retention-days: 1
+          key: release-package-${{ github.run_id }}
+          path: nexualpha-ui-*.tgz*
