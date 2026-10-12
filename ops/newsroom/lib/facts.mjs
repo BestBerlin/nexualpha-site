@@ -23,19 +23,38 @@ const actions = [
   ['bankruptcy_filing', /\bbankrupt\w*|破产|破產/iu],
 ];
 const same = (a, b) => a.length === b.length && a.every(value => b.includes(value));
-export function storyFacts(item, watchlist = []) {
+// Compiled once: storyFacts runs for every (item, candidate event) pair during dedupe.
+const coinPatterns = coins.map(coin => {
+  const symbol = coin.symbol.toUpperCase();
+  if (tickerStop.has(symbol.toLowerCase()) || acronymStop.has(symbol.toLowerCase())) return null;
+  return {
+    symbol,
+    symbolRe: new RegExp(`(?:^|[^A-Za-z0-9])\\$?${symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:$|[^A-Za-z0-9])`),
+    nameRe: coin.name.length >= 5 ? new RegExp(`\\b${coin.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i') : null,
+  };
+}).filter(Boolean);
+const venueRes = venues.map(venue => [venue, new RegExp(`\\b${venue}\\b`, 'i')]);
+const NO_WATCHLIST = Object.freeze([]);
+const factsCache = new WeakMap();
+// Facts are a pure function of the item object and watchlist; cache per (object, watchlist).
+export function storyFacts(item, watchlist = NO_WATCHLIST) {
+  let byWatchlist = factsCache.get(item);
+  if (!byWatchlist) factsCache.set(item, (byWatchlist = new Map()));
+  if (byWatchlist.has(watchlist)) return byWatchlist.get(watchlist);
+  const facts = computeStoryFacts(item, watchlist);
+  byWatchlist.set(watchlist, facts);
+  return facts;
+}
+function computeStoryFacts(item, watchlist) {
   const title = item.title ?? item.title_internal ?? '';
   const text = [title, item.excerpt, item.body_excerpt, item.bodyExcerpt].filter(Boolean).join(' ').normalize('NFKC');
   const normalized = normalizeText(text);
   const entities = itemEntities({ ...item, title: text }, watchlist);
-  for (const venue of venues) if (new RegExp(`\\b${venue}\\b`, 'i').test(text) && !entities.includes(venue)) entities.push(venue);
+  for (const [venue, re] of venueRes) if (re.test(text) && !entities.includes(venue)) entities.push(venue);
   for (const [venue, re] of venueAliases) if (re.test(text) && !entities.includes(venue)) entities.push(venue);
   const tickers = new Set();
-  for (const coin of coins) {
-    const symbol = coin.symbol.toUpperCase();
-    if (tickerStop.has(symbol.toLowerCase()) || acronymStop.has(symbol.toLowerCase())) continue;
-    if (new RegExp(`(?:^|[^A-Za-z0-9])\\$?${symbol}(?:$|[^A-Za-z0-9])`).test(text)
-      || (coin.name.length >= 5 && new RegExp(`\\b${coin.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(text))) tickers.add(symbol);
+  for (const { symbol, symbolRe, nameRe } of coinPatterns) {
+    if (symbolRe.test(text) || (nameRe && nameRe.test(text))) tickers.add(symbol);
   }
   for (const match of text.matchAll(/\(([A-Z][A-Z0-9]{1,11})\)|\$([A-Z][A-Z0-9]{1,11})\b|\b([A-Z][A-Z0-9]{1,11})(?:USDT|USDC|USD)\b/g)) {
     const symbol = match[1] ?? match[2] ?? match[3];
@@ -89,4 +108,22 @@ export function factsMatch(left, right) {
   if (conflictingFacts(left, right) || !commonValues(left.entities, right.entities) || left.action === 'unknown' || actionFamily(left.action) !== actionFamily(right.action)) return false;
   // Cross-language attachment needs a captured discriminator beyond entity/action.
   return ['tickers', 'amounts', 'dates'].some(key => left[key].length && same(left[key], right[key]));
+}
+
+// Words too common in crypto headlines to identify a story on their own.
+const genericWords = new Set('crypto cryptocurrency bitcoin ethereum market markets price prices says said could would after over into from with this that than more most amid as at by is are be its it their they report reports traders trader investors week today daily first year years million billion new news update analysis why how what when will can may just'.split(' '));
+const majorTickers = new Set(['BTC', 'ETH', 'USDT', 'USDC']);
+function distinctiveWords(title) {
+  return new Set(normalizeText(title).split(' ').filter(word => word.length >= 4 && !stop.has(word) && !genericWords.has(word) && !/^\d/.test(word)));
+}
+export function narrativeStoryMatch(leftTitle, rightTitle, left, right) {
+  if (conflictingFacts(left, right)) return false;
+  const a = distinctiveWords(leftTitle);
+  const b = distinctiveWords(rightTitle);
+  const sharedWords = [...a].filter(word => b.has(word)).length;
+  const similarity = titleSimilarity(leftTitle, rightTitle);
+  const sharedAmount = left.amounts.some(value => !value.endsWith('%') && right.amounts.includes(value));
+  const sharedTicker = left.tickers.some(value => !majorTickers.has(value) && right.tickers.includes(value));
+  if ((sharedAmount || sharedTicker) && sharedWords >= 2 && similarity >= 0.2) return true;
+  return sharedWords >= 3 && similarity >= 0.35;
 }
