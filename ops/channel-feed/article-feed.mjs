@@ -18,7 +18,7 @@ export function articleEdition(article, lang) {
 }
 
 export function articleMessage(edition, lang) {
-  return { text: `<b>${esc(edition.title)}</b>\n\n${esc(edition.summary)}\n\n<a href="${esc(edition.url)}">${T(lang).readMore}</a>\n\n${T(lang).listingDisclosure}` };
+  return { text: `<b>${esc(edition.title)}</b>\n\n${esc(edition.summary)}\n\n<a href="${esc(edition.url)}">${T(lang).readMore}</a>` };
 }
 
 // Persist each successful chat delivery before advancing. A new chat establishes its own baseline.

@@ -79,7 +79,8 @@ const sourceLines = Object.entries(internationalSourceRegistry).flatMap(([market
 // exchange research with disclosed partner links and invite codes. The old text called the site a "neutral directory"
 // and said referral codes were omitted, the opposite of what the venue pages say.
 const SITE_SUMMARY = `${brandSlogan("en").replace(/[.。]\s*$/, "")}: NexuAlpha is independent crypto exchange research that checks trading fees, official domains and sign-up routes against each exchange's own sources, with disclosed partner links and invite codes.`;
-// Same sentence as the site's registration-card and footer disclosure (src/components/v3/RegistrationCard.jsx disclosureShort).
+// Machine-readable commission disclosure. On the site itself the disclosure lives only in the footer and the legal pages
+// (/methodology#disclosure, owner rule 2026-10-12), never inside page sections.
 const COMMISSION_DISCLOSURE = "Partner links may earn NexuAlpha a platform-paid commission at no extra cost to you.";
 const partnersFeed = buildPartnersFeed();
 const percent = (share) => `${Math.round(Number(share) * 100)}%`;

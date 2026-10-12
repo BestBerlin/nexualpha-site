@@ -11,7 +11,6 @@ import { matrixCopy } from "./exchange-matrix-copy.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
 import { priorityVenueAnswerFor } from "../../data/priority-venue-answers.js";
 import { partnerVenueFaqFor } from "../../data/partner-venue-faq.js";
-import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 
 const localeKey = (locale) => {
   const value = String(locale || "");
@@ -167,7 +166,7 @@ function getVenueFaqs(venue, profile, locale, db, partner, market) {
       {
         q: enQ(`Which official ${name} sources has NexuAlpha marked?`) || `${name}: ${localized.sourceIntake || review}`,
         // Answer with what is marked (the official domain), never the internal review state (SEO audit 2026-10-11 #6).
-        a: <p><strong>{localized.sourceIntake || official}：<code>{officialDomain}</code></strong>。{source}。{localized.relationship || verify}。</p>,
+        a: <p><strong>{localized.sourceIntake || official}：<code>{officialDomain}</code></strong>。{source}。{verify}。</p>,
       },
       {
         q: enQ(`How is a ${name} account accessed?`) || `${name}: ${localized.accessModel || verify}`,
@@ -175,7 +174,7 @@ function getVenueFaqs(venue, profile, locale, db, partner, market) {
       },
       {
         q: enQ(`What is the official ${name} domain?`) || `${name}: ${localized.officialDomain || official}`,
-        a: <p><strong>{official}：<code>{officialDomain}</code></strong>。{localized.relationship || verify}。</p>,
+        a: <p><strong>{official}：<code>{officialDomain}</code></strong>。{verify}。</p>,
       },
       ];
     })();
@@ -465,7 +464,6 @@ export function VenueFaqSection({ venue, profile, locale, market, db = {}, partn
             </button>
           )}
         </div>
-        {partnerFaqEntries.some((entry) => entry.showsInviteCode) ? <CommissionDisclosureLine locale={locale} placement="venue-faq" /> : null}
       </div>
     </section>
   );

@@ -949,15 +949,6 @@
   }
 }
 .v3-profile-page .v3-profile-reading-overview > .v3-profile-primary-actions { padding-block-start: 0; }
-.v3-profile-page .v3-profile-reading-overview > .v3-relationship-note {
-  max-width: 80ch;
-  margin-block: 16px 0;
-  padding: 0;
-  border: 0;
-  font-size: 0.8125rem;
-  color: var(--muted);
-}
-.v3-profile-page .v3-profile-reading-overview > .v3-relationship-note + .v3-hero-actions { margin-block-start: 16px; }
 
 /* Account checkpoint card: deliberate surface, unmistakable official signup. */
 .v3-profile-page .v3-profile-main-registration .registration-card {

@@ -594,7 +594,7 @@ function getUi(locale) {
     const category = text.platformType || text.independent || "Crypto platforms";
     const metrics = [
       { label: text.platformType, val: text.resultVenues?.(directoryStats.total) || String(directoryStats.total), sub: directoryCountCopy.en.metricSub, highlight: "blue", href: "#exchanges" },
-      { label: text.accessModel, val: text.noOfficial || "—", sub: text.relationship, highlight: "green", href: "#policy" },
+      { label: text.accessModel, val: text.noOfficial || "—", sub: text.researchScope, highlight: "green", href: "#policy" },
       { label: text.officialDomain, val: text.sourceState, sub: text.researchScope, highlight: "purple", href: "/exchanges" },
       { label: text.partnerState, val: text.notConfigured, sub: text.ctaLocked, highlight: "gold", href: "#bleed-analyzer" },
     ];
@@ -602,7 +602,7 @@ function getUi(locale) {
       ...uiText.en,
       badge: text.independent || uiText.en.badge,
       title: homeHeroH1(locale),
-      subtitle: text.compareIntro || text.relationship || uiText.en.subtitle,
+      subtitle: text.compareIntro || uiText.en.subtitle,
       explore: text.backToDirectory || uiText.en.explore,
       compare: text.viewCompare || uiText.en.compare,
       wizardBtn: text.funnelTitle || uiText.en.wizardBtn,

@@ -1,0 +1,3320 @@
+[
+  {
+    "episode": "E05",
+    "locale": "en",
+    "format": "landscape",
+    "scenes": [
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 825.9562072753906,
+              "height": 655.5,
+              "left": 72,
+              "right": 722,
+              "top": 170.45620727539062,
+              "width": 650,
+              "x": 72,
+              "y": 170.45620727539062
+            },
+            "type": "character sam"
+          }
+        ],
+        "classes": "scene shot framing-close-up focus-sam antenna-amber",
+        "id": "scene-0",
+        "teaching": {
+          "bottom": 710.375,
+          "height": 415.7578125,
+          "left": 762,
+          "right": 1848,
+          "top": 294.6171875,
+          "width": 1086,
+          "x": 762,
+          "y": 294.6171875
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene open framing-wide focus-nexubo antenna-blue brand-card",
+        "id": "scene-1",
+        "teaching": {
+          "bottom": 718.6796875,
+          "height": 432.359375,
+          "left": 692,
+          "right": 1848,
+          "top": 286.3203125,
+          "width": 1156,
+          "x": 692,
+          "y": 286.3203125
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 790.6179046630859,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 205.1179046630859,
+              "width": 580,
+              "x": 72,
+              "y": 205.1179046630859
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-red",
+        "id": "scene-2",
+        "teaching": {
+          "bottom": 699.375,
+          "height": 393.7578125,
+          "left": 692,
+          "right": 1848,
+          "top": 305.6171875,
+          "width": 1156,
+          "x": 692,
+          "y": 305.6171875
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 857.75,
+              "height": 205.5,
+              "left": 42,
+              "right": 242,
+              "top": 652.25,
+              "width": 200,
+              "x": 42,
+              "y": 652.25
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-blue",
+        "id": "scene-3",
+        "teaching": {
+          "bottom": 731.671875,
+          "height": 458.3515625,
+          "left": 252,
+          "right": 1848,
+          "top": 273.3203125,
+          "width": 1596,
+          "x": 252,
+          "y": 273.3203125
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 852.788330078125,
+              "height": 205.5,
+              "left": 42,
+              "right": 242,
+              "top": 647.288330078125,
+              "width": 200,
+              "x": 42,
+              "y": 647.288330078125
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-amber",
+        "id": "scene-4",
+        "teaching": {
+          "bottom": 756.875,
+          "height": 508.7578125,
+          "left": 252,
+          "right": 1848,
+          "top": 248.1171875,
+          "width": 1596,
+          "x": 252,
+          "y": 248.1171875
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-blue",
+        "id": "scene-5",
+        "teaching": {
+          "bottom": 699.375,
+          "height": 393.7578125,
+          "left": 692,
+          "right": 1848,
+          "top": 305.6171875,
+          "width": 1156,
+          "x": 692,
+          "y": 305.6171875
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-green",
+        "id": "scene-6",
+        "teaching": {
+          "bottom": 699.375,
+          "height": 393.7578125,
+          "left": 692,
+          "right": 1848,
+          "top": 305.6171875,
+          "width": 1156,
+          "x": 692,
+          "y": 305.6171875
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0,
+              "x": 0,
+              "y": 0
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene conversion framing-wide focus-nexubo antenna-green",
+        "id": "scene-7",
+        "teaching": {
+          "bottom": 845.3203125,
+          "height": 685.6484375,
+          "left": 72,
+          "right": 1848,
+          "top": 159.671875,
+          "width": 1776,
+          "x": 72,
+          "y": 159.671875
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 830.25,
+              "height": 655.5,
+              "left": 72,
+              "right": 722,
+              "top": 174.75,
+              "width": 650,
+              "x": 72,
+              "y": 174.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene hook framing-close-up focus-nexubo antenna-amber",
+        "id": "scene-8",
+        "teaching": {
+          "bottom": 657.1171875,
+          "height": 309.2421875,
+          "left": 762,
+          "right": 1848,
+          "top": 347.875,
+          "width": 1086,
+          "x": 762,
+          "y": 347.875
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene close framing-wide focus-nexubo antenna-green brand-card",
+        "id": "scene-9",
+        "teaching": {
+          "bottom": 741.8203125,
+          "height": 478.6484375,
+          "left": 692,
+          "right": 1848,
+          "top": 263.171875,
+          "width": 1156,
+          "x": 692,
+          "y": 263.171875
+        },
+        "uiFonts": []
+      }
+    ]
+  },
+  {
+    "episode": "E05",
+    "locale": "en",
+    "format": "portrait",
+    "scenes": [
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1518.9718017578125,
+              "height": 955.5,
+              "left": 73,
+              "right": 1023,
+              "top": 563.4718017578125,
+              "width": 950,
+              "x": 73,
+              "y": 563.4718017578125
+            },
+            "type": "character sam"
+          }
+        ],
+        "classes": "scene shot framing-close-up focus-sam antenna-amber",
+        "id": "scene-0",
+        "teaching": {
+          "bottom": 649.515625,
+          "height": 409.515625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1400.2109375,
+              "height": 655.5,
+              "left": 215,
+              "right": 865,
+              "top": 744.7109375,
+              "width": 650,
+              "x": 215,
+              "y": 744.7109375
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene open framing-wide focus-nexubo antenna-blue brand-card",
+        "id": "scene-1",
+        "teaching": {
+          "bottom": 796.4609375,
+          "height": 418.9296875,
+          "left": 60,
+          "right": 1020,
+          "top": 377.53125,
+          "width": 960,
+          "x": 60,
+          "y": 377.53125
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1440.633544921875,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 585.133544921875,
+              "width": 850,
+              "x": 115,
+              "y": 585.133544921875
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-red",
+        "id": "scene-2",
+        "teaching": {
+          "bottom": 631.515625,
+          "height": 391.515625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1497.75,
+              "height": 235.5,
+              "left": 25,
+              "right": 255,
+              "top": 1262.25,
+              "width": 230,
+              "x": 25,
+              "y": 1262.25
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-blue",
+        "id": "scene-3",
+        "teaching": {
+          "bottom": 1008.0546875,
+          "height": 456.109375,
+          "left": 60,
+          "right": 1020,
+          "top": 551.9453125,
+          "width": 960,
+          "x": 60,
+          "y": 551.9453125
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1492.788330078125,
+              "height": 235.5,
+              "left": 25,
+              "right": 255,
+              "top": 1257.288330078125,
+              "width": 230,
+              "x": 25,
+              "y": 1257.288330078125
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-amber",
+        "id": "scene-4",
+        "teaching": {
+          "bottom": 1166.6640625,
+          "height": 773.328125,
+          "left": 60,
+          "right": 1020,
+          "top": 393.3359375,
+          "width": 960,
+          "x": 60,
+          "y": 393.3359375
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1445.265625,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 589.765625,
+              "width": 850,
+              "x": 115,
+              "y": 589.765625
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-blue",
+        "id": "scene-5",
+        "teaching": {
+          "bottom": 631.515625,
+          "height": 391.515625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1445.265625,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 589.765625,
+              "width": 850,
+              "x": 115,
+              "y": 589.765625
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-green",
+        "id": "scene-6",
+        "teaching": {
+          "bottom": 631.515625,
+          "height": 391.515625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0,
+              "x": 0,
+              "y": 0
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene conversion framing-wide focus-nexubo antenna-green",
+        "id": "scene-7",
+        "teaching": {
+          "bottom": 1251.6875,
+          "height": 783.3828125,
+          "left": 60,
+          "right": 1020,
+          "top": 468.3046875,
+          "width": 960,
+          "x": 60,
+          "y": 468.3046875
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1359.5625,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 504.0625,
+              "width": 850,
+              "x": 115,
+              "y": 504.0625
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene hook framing-close-up focus-nexubo antenna-amber",
+        "id": "scene-8",
+        "teaching": {
+          "bottom": 535.8125,
+          "height": 295.8125,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1424.5859375,
+              "height": 655.5,
+              "left": 215,
+              "right": 865,
+              "top": 769.0859375,
+              "width": 650,
+              "x": 215,
+              "y": 769.0859375
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene close framing-wide focus-nexubo antenna-green brand-card",
+        "id": "scene-9",
+        "teaching": {
+          "bottom": 820.8359375,
+          "height": 467.671875,
+          "left": 60,
+          "right": 1020,
+          "top": 353.1640625,
+          "width": 960,
+          "x": 60,
+          "y": 353.1640625
+        },
+        "uiFonts": []
+      }
+    ]
+  },
+  {
+    "episode": "E09",
+    "locale": "en",
+    "format": "landscape",
+    "scenes": [
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 788,
+              "height": 265.5,
+              "left": 452,
+              "right": 712,
+              "top": 522.5,
+              "width": 260,
+              "x": 452,
+              "y": 522.5
+            },
+            "type": "character nexubo"
+          },
+          {
+            "box": {
+              "bottom": 825.9562072753906,
+              "height": 655.5,
+              "left": 72,
+              "right": 722,
+              "top": 170.45620727539062,
+              "width": 650,
+              "x": 72,
+              "y": 170.45620727539062
+            },
+            "type": "character sam"
+          }
+        ],
+        "classes": "scene shot framing-close-up focus-sam antenna-red",
+        "id": "scene-0",
+        "teaching": {
+          "bottom": 710.375,
+          "height": 415.7578125,
+          "left": 762,
+          "right": 1848,
+          "top": 294.6171875,
+          "width": 1086,
+          "x": 762,
+          "y": 294.6171875
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene open framing-wide focus-nexubo antenna-blue brand-card",
+        "id": "scene-1",
+        "teaching": {
+          "bottom": 718.6796875,
+          "height": 432.359375,
+          "left": 692,
+          "right": 1848,
+          "top": 286.3203125,
+          "width": 1156,
+          "x": 692,
+          "y": 286.3203125
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 852.774169921875,
+              "height": 205.5,
+              "left": 42,
+              "right": 242,
+              "top": 647.274169921875,
+              "width": 200,
+              "x": 42,
+              "y": 647.274169921875
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-blue",
+        "id": "scene-2",
+        "teaching": {
+          "bottom": 764.875,
+          "height": 524.7578125,
+          "left": 252,
+          "right": 1848,
+          "top": 240.1171875,
+          "width": 1596,
+          "x": 252,
+          "y": 240.1171875
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-blue",
+        "id": "scene-3",
+        "teaching": {
+          "bottom": 699.375,
+          "height": 393.7578125,
+          "left": 692,
+          "right": 1848,
+          "top": 305.6171875,
+          "width": 1156,
+          "x": 692,
+          "y": 305.6171875
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 852.9515991210938,
+              "height": 205.5,
+              "left": 42,
+              "right": 242,
+              "top": 647.4515991210938,
+              "width": 200,
+              "x": 42,
+              "y": 647.4515991210938
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-amber",
+        "id": "scene-4",
+        "teaching": {
+          "bottom": 869.7265625,
+          "height": 719.7265625,
+          "left": 252,
+          "right": 1848,
+          "top": 150,
+          "width": 1596,
+          "x": 252,
+          "y": 150
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px",
+          "34px",
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-blue",
+        "id": "scene-5",
+        "teaching": {
+          "bottom": 667.078125,
+          "height": 329.1640625,
+          "left": 692,
+          "right": 1848,
+          "top": 337.9140625,
+          "width": 1156,
+          "x": 692,
+          "y": 337.9140625
+        },
+        "uiFonts": [
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 791.2872009277344,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 205.7872009277344,
+              "width": 580,
+              "x": 72,
+              "y": 205.7872009277344
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-green",
+        "id": "scene-6",
+        "teaching": {
+          "bottom": 710.375,
+          "height": 415.7578125,
+          "left": 692,
+          "right": 1848,
+          "top": 294.6171875,
+          "width": 1156,
+          "x": 692,
+          "y": 294.6171875
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 830.25,
+              "height": 655.5,
+              "left": 72,
+              "right": 722,
+              "top": 174.75,
+              "width": 650,
+              "x": 72,
+              "y": 174.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene hook framing-close-up focus-nexubo antenna-amber",
+        "id": "scene-7",
+        "teaching": {
+          "bottom": 657.1171875,
+          "height": 309.2421875,
+          "left": 762,
+          "right": 1848,
+          "top": 347.875,
+          "width": 1086,
+          "x": 762,
+          "y": 347.875
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene close framing-wide focus-nexubo antenna-green brand-card",
+        "id": "scene-8",
+        "teaching": {
+          "bottom": 741.8203125,
+          "height": 478.6484375,
+          "left": 692,
+          "right": 1848,
+          "top": 263.171875,
+          "width": 1156,
+          "x": 692,
+          "y": 263.171875
+        },
+        "uiFonts": []
+      }
+    ]
+  },
+  {
+    "episode": "E09",
+    "locale": "en",
+    "format": "portrait",
+    "scenes": [
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1441.015625,
+              "height": 325.5,
+              "left": 710,
+              "right": 1030,
+              "top": 1115.515625,
+              "width": 320,
+              "x": 710,
+              "y": 1115.515625
+            },
+            "type": "character nexubo"
+          },
+          {
+            "box": {
+              "bottom": 1518.9718017578125,
+              "height": 955.5,
+              "left": 73,
+              "right": 1023,
+              "top": 563.4718017578125,
+              "width": 950,
+              "x": 73,
+              "y": 563.4718017578125
+            },
+            "type": "character sam"
+          }
+        ],
+        "classes": "scene shot framing-close-up focus-sam antenna-red",
+        "id": "scene-0",
+        "teaching": {
+          "bottom": 649.515625,
+          "height": 409.515625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1400.2109375,
+              "height": 655.5,
+              "left": 215,
+              "right": 865,
+              "top": 744.7109375,
+              "width": 650,
+              "x": 215,
+              "y": 744.7109375
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene open framing-wide focus-nexubo antenna-blue brand-card",
+        "id": "scene-1",
+        "teaching": {
+          "bottom": 796.4609375,
+          "height": 418.9296875,
+          "left": 60,
+          "right": 1020,
+          "top": 377.53125,
+          "width": 960,
+          "x": 60,
+          "y": 377.53125
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1492.774169921875,
+              "height": 235.5,
+              "left": 25,
+              "right": 255,
+              "top": 1257.274169921875,
+              "width": 230,
+              "x": 25,
+              "y": 1257.274169921875
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-blue",
+        "id": "scene-2",
+        "teaching": {
+          "bottom": 1224.25,
+          "height": 888.5,
+          "left": 60,
+          "right": 1020,
+          "top": 335.75,
+          "width": 960,
+          "x": 60,
+          "y": 335.75
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1445.265625,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 589.765625,
+              "width": 850,
+              "x": 115,
+              "y": 589.765625
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-blue",
+        "id": "scene-3",
+        "teaching": {
+          "bottom": 631.515625,
+          "height": 391.515625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1492.95166015625,
+              "height": 235.5,
+              "left": 25,
+              "right": 255,
+              "top": 1257.45166015625,
+              "width": 230,
+              "x": 25,
+              "y": 1257.45166015625
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-amber",
+        "id": "scene-4",
+        "teaching": {
+          "bottom": 1138.7421875,
+          "height": 717.484375,
+          "left": 60,
+          "right": 1020,
+          "top": 421.2578125,
+          "width": 960,
+          "x": 60,
+          "y": 421.2578125
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px",
+          "34px",
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1380.671875,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 525.171875,
+              "width": 850,
+              "x": 115,
+              "y": 525.171875
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-blue",
+        "id": "scene-5",
+        "teaching": {
+          "bottom": 566.921875,
+          "height": 326.921875,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1459.3028564453125,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 603.8028564453125,
+              "width": 850,
+              "x": 115,
+              "y": 603.8028564453125
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-green",
+        "id": "scene-6",
+        "teaching": {
+          "bottom": 649.515625,
+          "height": 409.515625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1359.5625,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 504.0625,
+              "width": 850,
+              "x": 115,
+              "y": 504.0625
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene hook framing-close-up focus-nexubo antenna-amber",
+        "id": "scene-7",
+        "teaching": {
+          "bottom": 535.8125,
+          "height": 295.8125,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1424.5859375,
+              "height": 655.5,
+              "left": 215,
+              "right": 865,
+              "top": 769.0859375,
+              "width": 650,
+              "x": 215,
+              "y": 769.0859375
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene close framing-wide focus-nexubo antenna-green brand-card",
+        "id": "scene-8",
+        "teaching": {
+          "bottom": 820.8359375,
+          "height": 467.671875,
+          "left": 60,
+          "right": 1020,
+          "top": 353.1640625,
+          "width": 960,
+          "x": 60,
+          "y": 353.1640625
+        },
+        "uiFonts": []
+      }
+    ]
+  },
+  {
+    "episode": "E21",
+    "locale": "en",
+    "format": "landscape",
+    "scenes": [
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 825.9562072753906,
+              "height": 655.5,
+              "left": 72,
+              "right": 722,
+              "top": 170.45620727539062,
+              "width": 650,
+              "x": 72,
+              "y": 170.45620727539062
+            },
+            "type": "character sam"
+          }
+        ],
+        "classes": "scene shot framing-close-up focus-sam antenna-amber",
+        "id": "scene-0",
+        "teaching": {
+          "bottom": 751.4765625,
+          "height": 497.953125,
+          "left": 762,
+          "right": 1848,
+          "top": 253.5234375,
+          "width": 1086,
+          "x": 762,
+          "y": 253.5234375
+        },
+        "uiFonts": [
+          "48px",
+          "48px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene open framing-wide focus-nexubo antenna-blue brand-card",
+        "id": "scene-1",
+        "teaching": {
+          "bottom": 718.6796875,
+          "height": 432.359375,
+          "left": 692,
+          "right": 1848,
+          "top": 286.3203125,
+          "width": 1156,
+          "x": 692,
+          "y": 286.3203125
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 790.6179046630859,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 205.1179046630859,
+              "width": 580,
+              "x": 72,
+              "y": 205.1179046630859
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-blue",
+        "id": "scene-2",
+        "teaching": {
+          "bottom": 751.4765625,
+          "height": 497.953125,
+          "left": 692,
+          "right": 1848,
+          "top": 253.5234375,
+          "width": 1156,
+          "x": 692,
+          "y": 253.5234375
+        },
+        "uiFonts": [
+          "48px",
+          "48px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 785.25,
+              "height": 565.5,
+              "left": 72,
+              "right": 632,
+              "top": 219.75,
+              "width": 560,
+              "x": 72,
+              "y": 219.75
+            },
+            "type": "character sam"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-sam antenna-amber",
+        "id": "scene-3",
+        "teaching": {
+          "bottom": 751.4765625,
+          "height": 497.953125,
+          "left": 692,
+          "right": 1848,
+          "top": 253.5234375,
+          "width": 1156,
+          "x": 692,
+          "y": 253.5234375
+        },
+        "uiFonts": [
+          "48px",
+          "48px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 852.788330078125,
+              "height": 205.5,
+              "left": 42,
+              "right": 242,
+              "top": 647.288330078125,
+              "width": 200,
+              "x": 42,
+              "y": 647.288330078125
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-red",
+        "id": "scene-4",
+        "teaching": {
+          "bottom": 779.4765625,
+          "height": 553.953125,
+          "left": 252,
+          "right": 1848,
+          "top": 225.5234375,
+          "width": 1596,
+          "x": 252,
+          "y": 225.5234375
+        },
+        "uiFonts": [
+          "48px",
+          "48px",
+          "40px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 857.75,
+              "height": 205.5,
+              "left": 42,
+              "right": 242,
+              "top": 652.25,
+              "width": 200,
+              "x": 42,
+              "y": 652.25
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-amber",
+        "id": "scene-5",
+        "teaching": {
+          "bottom": 731.671875,
+          "height": 458.3515625,
+          "left": 252,
+          "right": 1848,
+          "top": 273.3203125,
+          "width": 1596,
+          "x": 252,
+          "y": 273.3203125
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 853.3858642578125,
+              "height": 205.49993896484375,
+              "left": 42,
+              "right": 242,
+              "top": 647.8859252929688,
+              "width": 200,
+              "x": 42,
+              "y": 647.8859252929688
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-green",
+        "id": "scene-6",
+        "teaching": {
+          "bottom": 779.4765625,
+          "height": 553.953125,
+          "left": 252,
+          "right": 1848,
+          "top": 225.5234375,
+          "width": 1596,
+          "x": 252,
+          "y": 225.5234375
+        },
+        "uiFonts": [
+          "48px",
+          "48px",
+          "40px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 830.25,
+              "height": 655.5,
+              "left": 72,
+              "right": 722,
+              "top": 174.75,
+              "width": 650,
+              "x": 72,
+              "y": 174.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene hook framing-close-up focus-nexubo antenna-amber",
+        "id": "scene-7",
+        "teaching": {
+          "bottom": 620.1640625,
+          "height": 235.328125,
+          "left": 762,
+          "right": 1848,
+          "top": 384.8359375,
+          "width": 1086,
+          "x": 762,
+          "y": 384.8359375
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene close framing-wide focus-nexubo antenna-green brand-card",
+        "id": "scene-8",
+        "teaching": {
+          "bottom": 741.8203125,
+          "height": 478.6484375,
+          "left": 692,
+          "right": 1848,
+          "top": 263.171875,
+          "width": 1156,
+          "x": 692,
+          "y": 263.171875
+        },
+        "uiFonts": []
+      }
+    ]
+  },
+  {
+    "episode": "E21",
+    "locale": "en",
+    "format": "portrait",
+    "scenes": [
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1598.3702392578125,
+              "height": 955.5,
+              "left": 73,
+              "right": 1023,
+              "top": 642.8702392578125,
+              "width": 950,
+              "x": 73,
+              "y": 642.8702392578125
+            },
+            "type": "character sam"
+          }
+        ],
+        "classes": "scene shot framing-close-up focus-sam antenna-amber",
+        "id": "scene-0",
+        "teaching": {
+          "bottom": 728.9140625,
+          "height": 488.9140625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "48px",
+          "48px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1400.2109375,
+              "height": 655.5,
+              "left": 215,
+              "right": 865,
+              "top": 744.7109375,
+              "width": 650,
+              "x": 215,
+              "y": 744.7109375
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene open framing-wide focus-nexubo antenna-blue brand-card",
+        "id": "scene-1",
+        "teaching": {
+          "bottom": 796.4609375,
+          "height": 418.9296875,
+          "left": 60,
+          "right": 1020,
+          "top": 377.53125,
+          "width": 960,
+          "x": 60,
+          "y": 377.53125
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1538.031982421875,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 682.531982421875,
+              "width": 850,
+              "x": 115,
+              "y": 682.531982421875
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-blue",
+        "id": "scene-2",
+        "teaching": {
+          "bottom": 728.9140625,
+          "height": 488.9140625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "48px",
+          "48px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1542.6640625,
+              "height": 855.5,
+              "left": 123,
+              "right": 973,
+              "top": 687.1640625,
+              "width": 850,
+              "x": 123,
+              "y": 687.1640625
+            },
+            "type": "character sam"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-sam antenna-amber",
+        "id": "scene-3",
+        "teaching": {
+          "bottom": 728.9140625,
+          "height": 488.9140625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "48px",
+          "48px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1492.788330078125,
+              "height": 235.5,
+              "left": 25,
+              "right": 255,
+              "top": 1257.288330078125,
+              "width": 230,
+              "x": 25,
+              "y": 1257.288330078125
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-red",
+        "id": "scene-4",
+        "teaching": {
+          "bottom": 1052.453125,
+          "height": 544.9140625,
+          "left": 60,
+          "right": 1020,
+          "top": 507.5390625,
+          "width": 960,
+          "x": 60,
+          "y": 507.5390625
+        },
+        "uiFonts": [
+          "48px",
+          "48px",
+          "40px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1497.75,
+              "height": 235.5,
+              "left": 25,
+              "right": 255,
+              "top": 1262.25,
+              "width": 230,
+              "x": 25,
+              "y": 1262.25
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-amber",
+        "id": "scene-5",
+        "teaching": {
+          "bottom": 1008.0546875,
+          "height": 456.109375,
+          "left": 60,
+          "right": 1020,
+          "top": 551.9453125,
+          "width": 960,
+          "x": 60,
+          "y": 551.9453125
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1493.3858642578125,
+              "height": 235.5,
+              "left": 25,
+              "right": 255,
+              "top": 1257.8858642578125,
+              "width": 230,
+              "x": 25,
+              "y": 1257.8858642578125
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-green",
+        "id": "scene-6",
+        "teaching": {
+          "bottom": 1052.453125,
+          "height": 544.9140625,
+          "left": 60,
+          "right": 1020,
+          "top": 507.5390625,
+          "width": 960,
+          "x": 60,
+          "y": 507.5390625
+        },
+        "uiFonts": [
+          "48px",
+          "48px",
+          "40px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1359.5625,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 504.0625,
+              "width": 850,
+              "x": 115,
+              "y": 504.0625
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene hook framing-close-up focus-nexubo antenna-amber",
+        "id": "scene-7",
+        "teaching": {
+          "bottom": 535.8125,
+          "height": 295.8125,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1424.5859375,
+              "height": 655.5,
+              "left": 215,
+              "right": 865,
+              "top": 769.0859375,
+              "width": 650,
+              "x": 215,
+              "y": 769.0859375
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene close framing-wide focus-nexubo antenna-green brand-card",
+        "id": "scene-8",
+        "teaching": {
+          "bottom": 820.8359375,
+          "height": 467.671875,
+          "left": 60,
+          "right": 1020,
+          "top": 353.1640625,
+          "width": 960,
+          "x": 60,
+          "y": 353.1640625
+        },
+        "uiFonts": []
+      }
+    ]
+  },
+  {
+    "episode": "E05",
+    "locale": "zh-Hans",
+    "format": "landscape",
+    "scenes": [
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 825.9562072753906,
+              "height": 655.5,
+              "left": 72,
+              "right": 722,
+              "top": 170.45620727539062,
+              "width": 650,
+              "x": 72,
+              "y": 170.45620727539062
+            },
+            "type": "character sam"
+          }
+        ],
+        "classes": "scene shot framing-close-up focus-sam antenna-amber",
+        "id": "scene-0",
+        "teaching": {
+          "bottom": 710.375,
+          "height": 415.7578125,
+          "left": 762,
+          "right": 1848,
+          "top": 294.6171875,
+          "width": 1086,
+          "x": 762,
+          "y": 294.6171875
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene open framing-wide focus-nexubo antenna-blue brand-card",
+        "id": "scene-1",
+        "teaching": {
+          "bottom": 686.203125,
+          "height": 367.40625,
+          "left": 692,
+          "right": 1848,
+          "top": 318.796875,
+          "width": 1156,
+          "x": 692,
+          "y": 318.796875
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 790.6179046630859,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 205.1179046630859,
+              "width": 580,
+              "x": 72,
+              "y": 205.1179046630859
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-red",
+        "id": "scene-2",
+        "teaching": {
+          "bottom": 699.375,
+          "height": 393.7578125,
+          "left": 692,
+          "right": 1848,
+          "top": 305.6171875,
+          "width": 1156,
+          "x": 692,
+          "y": 305.6171875
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 857.75,
+              "height": 205.5,
+              "left": 42,
+              "right": 242,
+              "top": 652.25,
+              "width": 200,
+              "x": 42,
+              "y": 652.25
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-blue",
+        "id": "scene-3",
+        "teaching": {
+          "bottom": 731.671875,
+          "height": 458.3515625,
+          "left": 252,
+          "right": 1848,
+          "top": 273.3203125,
+          "width": 1596,
+          "x": 252,
+          "y": 273.3203125
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 852.788330078125,
+              "height": 205.5,
+              "left": 42,
+              "right": 242,
+              "top": 647.288330078125,
+              "width": 200,
+              "x": 42,
+              "y": 647.288330078125
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-amber",
+        "id": "scene-4",
+        "teaching": {
+          "bottom": 756.875,
+          "height": 508.7578125,
+          "left": 252,
+          "right": 1848,
+          "top": 248.1171875,
+          "width": 1596,
+          "x": 252,
+          "y": 248.1171875
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-blue",
+        "id": "scene-5",
+        "teaching": {
+          "bottom": 699.375,
+          "height": 393.7578125,
+          "left": 692,
+          "right": 1848,
+          "top": 305.6171875,
+          "width": 1156,
+          "x": 692,
+          "y": 305.6171875
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-green",
+        "id": "scene-6",
+        "teaching": {
+          "bottom": 699.375,
+          "height": 393.7578125,
+          "left": 692,
+          "right": 1848,
+          "top": 305.6171875,
+          "width": 1156,
+          "x": 692,
+          "y": 305.6171875
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0,
+              "x": 0,
+              "y": 0
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene conversion framing-wide focus-nexubo antenna-green",
+        "id": "scene-7",
+        "teaching": {
+          "bottom": 845.3203125,
+          "height": 685.6484375,
+          "left": 72,
+          "right": 1848,
+          "top": 159.671875,
+          "width": 1776,
+          "x": 72,
+          "y": 159.671875
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 830.25,
+              "height": 655.5,
+              "left": 72,
+              "right": 722,
+              "top": 174.75,
+              "width": 650,
+              "x": 72,
+              "y": 174.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene hook framing-close-up focus-nexubo antenna-amber",
+        "id": "scene-8",
+        "teaching": {
+          "bottom": 620.1640625,
+          "height": 235.328125,
+          "left": 762,
+          "right": 1848,
+          "top": 384.8359375,
+          "width": 1086,
+          "x": 762,
+          "y": 384.8359375
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1005,
+          "height": 100,
+          "left": 90,
+          "right": 1830,
+          "top": 905,
+          "width": 1740,
+          "x": 90,
+          "y": 905
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 795.25,
+              "height": 585.5,
+              "left": 72,
+              "right": 652,
+              "top": 209.75,
+              "width": 580,
+              "x": 72,
+              "y": 209.75
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene close framing-wide focus-nexubo antenna-green brand-card",
+        "id": "scene-9",
+        "teaching": {
+          "bottom": 741.8203125,
+          "height": 478.6484375,
+          "left": 692,
+          "right": 1848,
+          "top": 263.171875,
+          "width": 1156,
+          "x": 692,
+          "y": 263.171875
+        },
+        "uiFonts": []
+      }
+    ]
+  },
+  {
+    "episode": "E05",
+    "locale": "zh-Hans",
+    "format": "portrait",
+    "scenes": [
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1518.9718017578125,
+              "height": 955.5,
+              "left": 73,
+              "right": 1023,
+              "top": 563.4718017578125,
+              "width": 950,
+              "x": 73,
+              "y": 563.4718017578125
+            },
+            "type": "character sam"
+          }
+        ],
+        "classes": "scene shot framing-close-up focus-sam antenna-amber",
+        "id": "scene-0",
+        "teaching": {
+          "bottom": 649.515625,
+          "height": 409.515625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1369.9765625,
+              "height": 655.5,
+              "left": 215,
+              "right": 865,
+              "top": 714.4765625,
+              "width": 650,
+              "x": 215,
+              "y": 714.4765625
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene open framing-wide focus-nexubo antenna-blue brand-card",
+        "id": "scene-1",
+        "teaching": {
+          "bottom": 766.2265625,
+          "height": 358.453125,
+          "left": 60,
+          "right": 1020,
+          "top": 407.7734375,
+          "width": 960,
+          "x": 60,
+          "y": 407.7734375
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1440.633544921875,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 585.133544921875,
+              "width": 850,
+              "x": 115,
+              "y": 585.133544921875
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-red",
+        "id": "scene-2",
+        "teaching": {
+          "bottom": 631.515625,
+          "height": 391.515625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1497.75,
+              "height": 235.5,
+              "left": 25,
+              "right": 255,
+              "top": 1262.25,
+              "width": 230,
+              "x": 25,
+              "y": 1262.25
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-blue",
+        "id": "scene-3",
+        "teaching": {
+          "bottom": 1008.0546875,
+          "height": 456.109375,
+          "left": 60,
+          "right": 1020,
+          "top": 551.9453125,
+          "width": 960,
+          "x": 60,
+          "y": 551.9453125
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1492.788330078125,
+              "height": 235.5,
+              "left": 25,
+              "right": 255,
+              "top": 1257.288330078125,
+              "width": 230,
+              "x": 25,
+              "y": 1257.288330078125
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-detail focus-nexubo antenna-amber",
+        "id": "scene-4",
+        "teaching": {
+          "bottom": 1166.6640625,
+          "height": 773.328125,
+          "left": 60,
+          "right": 1020,
+          "top": 393.3359375,
+          "width": 960,
+          "x": 60,
+          "y": 393.3359375
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1445.265625,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 589.765625,
+              "width": 850,
+              "x": 115,
+              "y": 589.765625
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-blue",
+        "id": "scene-5",
+        "teaching": {
+          "bottom": 631.515625,
+          "height": 391.515625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1445.265625,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 589.765625,
+              "width": 850,
+              "x": 115,
+              "y": 589.765625
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene shot framing-wide focus-nexubo antenna-green",
+        "id": "scene-6",
+        "teaching": {
+          "bottom": 631.515625,
+          "height": 391.515625,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": [
+          "34px",
+          "34px",
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0,
+              "x": 0,
+              "y": 0
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene conversion framing-wide focus-nexubo antenna-green",
+        "id": "scene-7",
+        "teaching": {
+          "bottom": 1227.890625,
+          "height": 735.7890625,
+          "left": 60,
+          "right": 1020,
+          "top": 492.1015625,
+          "width": 960,
+          "x": 60,
+          "y": 492.1015625
+        },
+        "uiFonts": [
+          "34px"
+        ]
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1290.125,
+              "height": 855.5,
+              "left": 115,
+              "right": 965,
+              "top": 434.625,
+              "width": 850,
+              "x": 115,
+              "y": 434.625
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene hook framing-close-up focus-nexubo antenna-amber",
+        "id": "scene-8",
+        "teaching": {
+          "bottom": 466.375,
+          "height": 226.375,
+          "left": 60,
+          "right": 1020,
+          "top": 240,
+          "width": 960,
+          "x": 60,
+          "y": 240
+        },
+        "uiFonts": []
+      },
+      {
+        "caption": {
+          "bottom": 1620,
+          "height": 138,
+          "left": 60,
+          "right": 1020,
+          "top": 1482,
+          "width": 960,
+          "x": 60,
+          "y": 1482
+        },
+        "characters": [
+          {
+            "box": {
+              "bottom": 1424.5859375,
+              "height": 655.5,
+              "left": 215,
+              "right": 865,
+              "top": 769.0859375,
+              "width": 650,
+              "x": 215,
+              "y": 769.0859375
+            },
+            "type": "character nexubo"
+          }
+        ],
+        "classes": "scene close framing-wide focus-nexubo antenna-green brand-card",
+        "id": "scene-9",
+        "teaching": {
+          "bottom": 820.8359375,
+          "height": 467.671875,
+          "left": 60,
+          "right": 1020,
+          "top": 353.1640625,
+          "width": 960,
+          "x": 60,
+          "y": 353.1640625
+        },
+        "uiFonts": []
+      }
+    ]
+  }
+]

@@ -27,6 +27,7 @@ import { BRAND_PAGE_PATHS, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageMeta, br
 import { NEWS_HUB_SEO_EN, newsListHeroCopy } from "../src/data/news-list-copy.js";
 import { readIntelFeed } from "../src/data/announcement-intel.js";
 import { isUpdateNoindex, normalizeUpdateItem, updateCategory, updateHeadline, updateItems, updatePath } from "../src/data/activity-update.js";
+import { attachCampaignBriefs, CAMPAIGN_BRIEFS_URL, campaignBriefItems, localizedBriefText } from "../src/data/campaign-briefs.js";
 import { visibleOfficialUpdates } from "../src/components/official-updates/official-updates-model.js";
 import { factbookDates } from "../src/data/factbook-dates.js";
 import { assignHomeHeroVariant, homeHeroSetCookie } from "../src/data/home-hero-experiment.js";
@@ -59,6 +60,14 @@ export default {
     if (url.pathname === "/api/news/search" && request.method === "GET" && env?.ASSETS) return handleNewsSearchJson(env, url);
     if (url.pathname === "/api/news/tool-articles" && request.method === "GET" && env?.ASSETS) return handleToolArticlesJson(env, url);
     if (url.pathname === "/content/news-feed-summary.json" && request.method === "GET" && env?.ASSETS) {
+      const response = await env.ASSETS.fetch(request);
+      if (!response.ok) return response;
+      const headers = new Headers(response.headers);
+      headers.set("cache-control", "public, max-age=300");
+      headers.set("content-type", "application/json; charset=utf-8");
+      return new Response(response.body, { status: response.status, headers });
+    }
+    if (url.pathname === CAMPAIGN_BRIEFS_URL && request.method === "GET" && env?.ASSETS) {
       const response = await env.ASSETS.fetch(request);
       if (!response.ok) return response;
       const headers = new Headers(response.headers);
@@ -2504,13 +2513,10 @@ const HOME_ROUTE_MARKER = "NEXUALPHA_HOME_ROUTE_V1";
 const STATIC_ROUTE_MARKER = "NEXUALPHA_STATIC_ROUTE_V1";
 const NOT_FOUND_ROUTE_MARKER = "NEXUALPHA_NOT_FOUND_ROUTE_V1";
 const SHARED_ROUTE_STYLE_PREFIXES = Object.freeze(["index-", "core-", "shared-decision-rail-", "shared-decision-return-"]);
-// Compare pages render the commission disclosure line under the hero sign-up buttons in SSR (QA #12): its stylesheet
-// (route-news-commission chunk) is linked with the page, not injected at hydration (CLS 0.02-0.05 at 390).
-const COMPARE_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "route-v3-pages-", "route-news-commission-"]);
-// The exchange directory renders the matrix disclosure line and the "compare any two" picker in SSR. Both stylesheets
-// used to arrive with their chunks at hydration: the picker row grew 50 -> 205 px (CLS 0.13 at 390) and the matrix
-// disclosure switched to its sticky 12 px style. Linked up front, the first paint already has the hydrated look.
-const DIRECTORY_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "page-directory-", "route-v3-pages-", "route-news-commission-", "shared-compare-picker-"]);
+const COMPARE_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "route-v3-pages-"]);
+// The exchange directory renders the "compare any two" picker in SSR. Its stylesheet used to arrive with its chunk at
+// hydration: the picker row grew 50 -> 205 px (CLS 0.13 at 390). Linked up front, the first paint already has the hydrated look.
+const DIRECTORY_PAGE_STYLE_PREFIXES = Object.freeze(["page-compare-", "page-directory-", "route-v3-pages-", "shared-compare-picker-"]);
 const ROUTE_STYLE_PREFIXES_BY_MARKER = Object.freeze({
   [HOME_ROUTE_MARKER]: ["page-home-", "route-v3-home-", "route-v3-wizard-", "route-v3-pages-", "route-v3-registration-", "route-v3-calculators-", "route-v3-campaigns-", "route-v3-social-proof-", "route-international-", "route-rates-", "route-activity-", "route-onchain-", "route-telegram-", "route-market-"],
   [EXCHANGES_ROUTE_MARKER]: DIRECTORY_PAGE_STYLE_PREFIXES,
@@ -2533,7 +2539,7 @@ const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
   // Data pages: own chunk plus the shared news chrome they reuse (Telegram alerts line, sign-up card).
   "/liquidations": ["route-data-", "route-news-"],
   "/funding-rates": ["route-data-", "route-news-"],
-  // Brand pages (/about, /editorial-policy): own chunk; the commission disclosure line styles ship with the shared layers.
+  // Brand pages (/about, /editorial-policy): own chunk.
   "/privacy": ["route-brand-pages-"],
   "/terms": ["route-brand-pages-"],
   "/contact": ["route-brand-pages-"],
@@ -4108,12 +4114,36 @@ async function renderNewsListingAtRequestTime(html, metadata, url, env, publicRo
 // Campaign rows for the /activities SSR and its hydration payload: official "event" announcements of the last 30 days
 // (the same filter LiveCampaigns applies), only the fields the cards render. Nothing is invented: no feed, no rows.
 const LIVE_CAMPAIGN_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+function compactCampaignBrief(brief) {
+  if (!brief || typeof brief !== "object") return null;
+  return {
+    id: String(brief.id || ""),
+    ...(typeof brief.updated === "string" ? { updated: brief.updated } : {}),
+    ...(brief.headline && typeof brief.headline === "object" ? { headline: brief.headline } : {}),
+    ...(brief.summary && typeof brief.summary === "object" ? { summary: brief.summary } : {}),
+    ...(Array.isArray(brief.key_facts) ? { key_facts: brief.key_facts } : {}),
+    ...(brief.who_can_join && typeof brief.who_can_join === "object" ? { who_can_join: brief.who_can_join } : {}),
+    ...(typeof brief.deadline === "string" || brief.deadline === null ? { deadline: brief.deadline } : {}),
+    ...(brief.reward_text && typeof brief.reward_text === "object" ? { reward_text: brief.reward_text } : {}),
+    ...(typeof brief.source_checked === "string" ? { source_checked: brief.source_checked } : {}),
+  };
+}
+
+function attachBriefToCompactItem(item, feed) {
+  const brief = compactCampaignBrief(feed?.campaignBriefs?.find((row) => row?.id === String(item.id || item.url || "")));
+  return brief ? { ...item, brief } : item;
+}
+
 export function compactOfficialAnnouncements(feed, now = Date.now()) {
   if (!feed || typeof feed !== "object" || !Array.isArray(feed.items)) return null;
   const items = readIntelFeed(feed, { now })
     .filter((item) => item.category === "event" && now - Date.parse(item.publishedAt) < LIVE_CAMPAIGN_WINDOW_MS)
-    .map(({ id, venue, category, title, summary, url, publishedAt }) => ({ id, venue, category, title, ...(typeof summary === "string" && summary ? { summary } : {}), url, publishedAt }));
-  return { generatedAt: typeof feed.generatedAt === "string" ? feed.generatedAt : null, items };
+    .map(({ id, venue, category, title, summary, url, publishedAt }) => attachBriefToCompactItem({ id, venue, category, title, ...(typeof summary === "string" && summary ? { summary } : {}), url, publishedAt }, feed));
+  return {
+    generatedAt: typeof feed.generatedAt === "string" ? feed.generatedAt : null,
+    items,
+    ...(Array.isArray(feed.campaignBriefs) ? { campaignBriefs: campaignBriefItems(feed.campaignBriefs).map(compactCampaignBrief).filter(Boolean) } : {}),
+  };
 }
 
 function compactActivityUpdateItems(feed) {
@@ -4124,8 +4154,12 @@ function compactActivityUpdateItems(feed) {
     ...(typeof startAt === "string" ? { startAt } : {}),
     ...(typeof endAt === "string" ? { endAt } : {}),
     ...(typeof expiresAt === "string" ? { expiresAt } : {}),
-  }));
-  return { generatedAt: typeof feed.generatedAt === "string" ? feed.generatedAt : null, items };
+  })).map((item) => attachBriefToCompactItem(item, feed));
+  return {
+    generatedAt: typeof feed.generatedAt === "string" ? feed.generatedAt : null,
+    items,
+    ...(Array.isArray(feed.campaignBriefs) ? { campaignBriefs: campaignBriefItems(feed.campaignBriefs).map(compactCampaignBrief).filter(Boolean) } : {}),
+  };
 }
 
 function findActivityUpdate(feed, venue, slug) {
@@ -4158,20 +4192,33 @@ async function readOfficialUpdatesForActivityFeed(env, url) {
   }
 }
 
+async function readCampaignBriefs(env, url) {
+  if (!env?.ASSETS) return [];
+  try {
+    const response = await env.ASSETS.fetch(new Request(new URL(CAMPAIGN_BRIEFS_URL, url), { headers: { accept: "application/json" } }));
+    if (!response.ok) return [];
+    return campaignBriefItems(await response.json());
+  } catch {
+    return [];
+  }
+}
+
 async function readActivityUpdateFeed(env, url) {
   const officialRows = await readOfficialUpdatesForActivityFeed(env, url);
+  const campaignBriefs = await readCampaignBriefs(env, url);
+  const attachBriefs = (feed) => attachCampaignBriefs(mergeActivityUpdateFeeds(feed, officialRows), campaignBriefs);
   if (typeof env?.INTEL_READ === "function") {
     try {
       const feed = await env.INTEL_READ();
-      if (feed) return mergeActivityUpdateFeeds(feed, officialRows);
+      if (feed) return attachBriefs(feed);
     } catch {
       // Local Sites preview may not wire INTEL_READ; fall through to the built asset seed.
     }
   }
-  if (!env?.ASSETS) return mergeActivityUpdateFeeds(null, officialRows);
+  if (!env?.ASSETS) return attachBriefs(null);
   const response = await env.ASSETS.fetch(new Request(new URL("/intel/official-announcements.json", url), { headers: { accept: "application/json" } }));
-  if (!response.ok) return mergeActivityUpdateFeeds(null, officialRows);
-  return mergeActivityUpdateFeeds(await response.json(), officialRows);
+  if (!response.ok) return attachBriefs(null);
+  return attachBriefs(await response.json());
 }
 
 function parseActivityUpdatePath(pathname) {
@@ -4188,7 +4235,10 @@ async function renderActivitiesAtRequestTime(html, metadata, url, env) {
   if (typeof env?.NEWS_SSR_RENDER !== "function" || typeof env?.INTEL_READ !== "function") return null;
   const publicRoute = parsePublicRoute(url.pathname, url.searchParams);
   let officialAnnouncements = null;
-  try { officialAnnouncements = compactOfficialAnnouncements(await env.INTEL_READ()); } catch (error) {
+  try {
+    const feed = attachCampaignBriefs(await env.INTEL_READ(), await readCampaignBriefs(env, url));
+    officialAnnouncements = compactOfficialAnnouncements(feed);
+  } catch (error) {
     console.error(`[NexuAlpha] activities SSR could not read the announcement feed: ${error?.message || error}`);
   }
   if (!officialAnnouncements) return null;
@@ -5482,6 +5532,8 @@ function venueDisplayName(slug) {
 }
 
 function activityUpdateDescription(item, locale) {
+  const briefSummary = localizedBriefText(item?.brief?.summary, locale);
+  if (briefSummary) return clampMetaDescription(briefSummary, locale);
   const venueName = venueDisplayName(item.venue);
   const headline = updateHeadline(item, locale) || item.title;
   const category = updateCategory(item, locale);
@@ -5525,17 +5577,15 @@ function buildWorkerActivityUpdateSchema(item, locale, canonicalUrl) {
       citation: item.url,
     },
   ];
-  const startDate = Number.isFinite(Date.parse(item.startAt)) ? new Date(item.startAt).toISOString() : null;
-  const endDate = Number.isFinite(Date.parse(item.endAt || item.expiresAt)) ? new Date(item.endAt || item.expiresAt).toISOString() : null;
-  if (item.category === "event" && (startDate || endDate)) {
+  const deadline = Number.isFinite(Date.parse(item?.brief?.deadline)) ? new Date(item.brief.deadline).toISOString() : null;
+  if (item.category === "event" && deadline) {
     schemas.push({
       "@type": "Event",
       name: headline,
       description,
       url: canonicalUrl,
       inLanguage: locale,
-      ...(startDate ? { startDate } : {}),
-      ...(endDate ? { endDate } : {}),
+      endDate: deadline,
       eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
       eventStatus: "https://schema.org/EventScheduled",
       organizer: { "@type": "Organization", name: venueDisplayName(item.venue) },
@@ -7552,16 +7602,17 @@ async function routeMetadataBase(url, env, newsFeed) {
         const venueName = venueDisplayName(update.venue);
         const canonical = localizedCanonical(updatePath(update), locale);
         const indexable = ["listing", "event"].includes(update.category) && !isUpdateNoindex(update);
+        const title = budgetTitle(`${venueName} ${category}: ${headline} | NexuAlpha`, titleBudgetForLocale(requestedLocale));
         return {
           status: 200,
-          title: `${venueName} ${category}: ${headline} | NexuAlpha`,
+          title,
           description: activityUpdateDescription(update, requestedLocale),
           canonical,
           locale,
           robots: indexable ? "index,follow" : "noindex,follow",
           marker: ACTIVITY_UPDATE_ROUTE_MARKER,
           alternates: routeAlternates(updatePath(update)),
-          schema: buildWorkerActivityUpdateSchema(update, schemaLocale, canonical),
+          schema: buildWorkerActivityUpdateSchema(update, requestedLocale, canonical),
           activityUpdateFeed: compact,
         };
       }

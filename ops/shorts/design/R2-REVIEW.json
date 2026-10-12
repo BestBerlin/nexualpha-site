@@ -1,0 +1,35 @@
+{
+  "iteration": 3,
+  "verdict": "pass",
+  "scope": "BRIEF revision 2",
+  "evidence": [
+    "ops/shorts/samples/v3-r2/2026-10-12/en/portrait/contact-sheet.png",
+    "ops/shorts/samples/v3-r2/2026-10-12/en/square/contact-sheet.png",
+    "ops/shorts/samples/v3-r2/2026-10-12/vi/portrait/contact-sheet.png",
+    "ops/shorts/samples/v3-r2/2026-10-12/vi/square/contact-sheet.png",
+    "ops/shorts/samples/v3-r2/2026-10-12/ar/portrait/contact-sheet.png",
+    "ops/shorts/samples/v3-r2/2026-10-12/ar/square/contact-sheet.png"
+  ],
+  "observations": [
+    "Visually inspected all six final encoded contact sheets (30 scenes): no fine print, clipped text or figure/host overlap",
+    "Canonical surprised, thinking, pointing and waving poses render with scene-specific expressions",
+    "Measured painted host widths approximately41-44% portrait and29-34% square; portrait host fills the lower half",
+    "Narration/captions are the trader explanation rather than the headline; final card has domain and one CTA",
+    "Arabic RTL text retains LTR numerical tokens"
+  ],
+  "tests": {
+    "command": "node --test ops/shorts/*.test.mjs",
+    "passed": 21,
+    "failed": 0
+  },
+  "outputVerification": {
+    "command": "node ops/shorts/verify-output.mjs ops/shorts/samples/v3-r2/2026-10-12",
+    "videos": 6,
+    "result": "PASS: H264/AAC,30fps,30s; portrait1080x1920/square1080x1080; posters,contact sheets,SRT,metadata"
+  },
+  "sourceGeneratedAt": "2026-10-12T05:03:19.288Z",
+  "limits": [
+    "Caption-only samples; optional English clone narration not rendered",
+    "Native translation review pending"
+  ]
+}

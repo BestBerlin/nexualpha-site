@@ -246,8 +246,7 @@
   border-bottom: 0;
 }
 
-.growth-selected-route .registration-card__regional-context,
-.growth-selected-route .registration-card__disclosure {
+.growth-selected-route .registration-card__regional-context {
   display: none;
 }
 

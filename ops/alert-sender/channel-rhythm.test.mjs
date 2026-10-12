@@ -57,7 +57,7 @@ test("weekly poll payloads are native non-anonymous polls", () => {
   };
   for (const [lang, options] of Object.entries(expected)) {
     const poll = weeklyPollPayload(lang);
-    assert.equal(poll.is_anonymous, false);
+    assert.equal(poll.is_anonymous, true);
     assert.deepEqual(poll.options, options.map((text) => ({ text })));
   }
   assert.equal(weeklyPollPayload("en").question, "This week BTC: up / down / sideways");
@@ -131,7 +131,7 @@ test("weekly poll uses sendPoll and marks the Monday noon slot", async () => {
   await runChannelRhythm(opts);
   await runChannelRhythm(opts);
   assert.equal(polls[0][0], "@en");
-  assert.equal(polls[0][1].is_anonymous, false);
+  assert.equal(polls[0][1].is_anonymous, true);
   assert.deepEqual(polls[0][1].options, [{ text: "Up" }, { text: "Down" }, { text: "Sideways" }]);
   assert.equal(polls.length, 1);
   assert.equal(state.channelRhythm.weeklyPoll["en:@en"], "2026-10-12:12");

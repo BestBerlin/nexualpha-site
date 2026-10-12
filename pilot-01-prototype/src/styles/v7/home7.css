@@ -63,7 +63,6 @@
 .h7:not(#_):not(#_) .h7-cc:hover{background:rgb(31 224 192/.16)}
 .h7:not(#_):not(#_) .h7-cc.done{box-shadow:0 0 0 6px rgb(31 224 192/0),0 0 0 0 rgb(31 224 192/.5);animation:h7ring .7s var(--ease)}
 @keyframes h7ring{from{box-shadow:0 0 0 0 rgb(31 224 192/.5)}to{box-shadow:0 0 0 12px rgb(31 224 192/0)}}
-.h7:not(#_):not(#_) .h7-lg-disclosure{margin:10px 2px 0;font-size:12px;line-height:1.5;color:var(--ink3)}
 .h7:not(#_):not(#_) h1 .h7-h1n{font-style:normal;background:var(--glow);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--ac)}
 .h7:not(#_):not(#_) .h7-lg-tabs{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:4px;padding:4px;margin:0 0 20px;border-radius:12px;background:rgb(255 255 255/.03);border:1px solid var(--line)}
 .h7:not(#_):not(#_) .h7-lg-tabs button{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 8px;border:0;border-radius:9px;background:transparent;color:var(--ink2);font-weight:600;font-size:16px;cursor:pointer;white-space:nowrap;transition:background-color .2s,color .2s}
@@ -161,8 +160,6 @@
 .h7:not(#_):not(#_) .h7-vd{margin:24px 0 0;font-size:16px;line-height:1.65;color:var(--ink2);min-height:3.3em}
 .h7:not(#_):not(#_) .h7-all{margin-top:16px}
 .h7:not(#_):not(#_) .h7-rows{border-top:1px solid var(--line2)}
-.h7:not(#_):not(#_) .h7-disc{position:sticky;top:56px;z-index:3;background:rgb(7 8 10/.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:flex;align-items:center;gap:8px;margin:0;padding:12px 0;font-size:12px;line-height:1.5;color:var(--ink3);border-bottom:1px solid var(--line)}
-.h7:not(#_):not(#_) .h7-disc::before{content:"i";flex:none;display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;border:1px solid var(--line2);font:600 10px/1 var(--mono);color:var(--ink2)}
 .h7:not(#_):not(#_) .h7-xr{display:grid;grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"n am go" "m am go";gap:8px 24px;align-items:center;padding:24px 12px;margin-inline:-12px;border-bottom:1px solid var(--line);border-radius:8px;transition:background-color 140ms}
 .h7:not(#_):not(#_) .h7-xn{grid-area:n;display:flex;align-items:center;gap:10px;margin:0;min-width:0}
 .h7:not(#_):not(#_) .h7-xn b{font-weight:600;font-size:1.25rem;line-height:1.2;letter-spacing:-.02em;color:var(--ink);white-space:nowrap}

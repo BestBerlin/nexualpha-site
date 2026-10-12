@@ -196,7 +196,7 @@ test("NX-02 /factbook/okx states the partner share with its basis instead of a b
   assert.match(okx, /Partner rebate share Up to 40% — partner terms confirmed 2026-10-10; your account's eligibility is confirmed by the exchange after sign-up/);
   assert.doesNotMatch(okx, /User benefit status pending/i);
   assert.match(okx, /product scope, region, account tier and stacking with exchange promotions/);
-  assert.match(out.okx, /data-disclosure-placement="factbook-activation"/, "code + share keep the commission disclosure");
+  assert.doesNotMatch(out.okx, /data-disclosure-placement=/, "owner rule 2026-10-12: no commission disclosure beside the activation CTA");
   assert.match(text(out.kraken), /User benefit status pending/i);
   assert.match(text(out.de), /Partner-Rückvergütungsanteil/);
   // NX-06 visible dates

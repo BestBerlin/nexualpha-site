@@ -177,7 +177,7 @@ test("every user-visible template exists in all 17 locales without placeholders 
   }
 });
 
-test("SSR: generated pair renders one H1, both partner CTAs beside the disclosure, the provenance note and related links; non-partner pair has no sign-up CTA", async () => {
+test("SSR: generated pair renders one H1, both partner CTAs without in-section disclosure, the provenance note and related links; non-partner pair has no sign-up CTA", async () => {
   const tempDir = await mkdtemp(path.join(projectRoot, "tests/.tmp-compare-any-"));
   try {
     const entryPath = path.join(tempDir, "entry.mjs");
@@ -213,7 +213,8 @@ test("SSR: generated pair renders one H1, both partner CTAs beside the disclosur
     const hero = out.partner.slice(out.partner.indexOf('id="compare-versus-card"'), out.partner.indexOf('id="compare-final-choice"') > 0 ? out.partner.length : undefined);
     assert.equal(count(hero, /data-cta-placement="compare-hero-versus"/g), 2, "two sign-up routes in the versus card");
     assert.equal(count(hero, /data-cta-kind="registration"[^>]*data-cta-placement="compare-hero-versus"|data-cta-placement="compare-hero-versus"[^>]*data-cta-kind="registration"/g), 2);
-    assert.ok(hero.includes("commission-disclosure-line"), "disclosure sits in the same block as the sign-up routes");
+    // Owner rule 2026-10-12: commission disclosure lives in the footer and legal pages only.
+    for (const [key, markup] of Object.entries(out)) assert.ok(!markup.includes("commission-disclosure-line") && !markup.includes("data-disclosure-placement="), `${key}: no in-section commission disclosure`);
     assert.match(out.partner, /data-compare-related="generated"/);
     assert.ok(out.partner.includes("/compare/binance-vs-kraken") && out.partner.includes("/compare/gate-io-vs-mexc"), "links curated pairs sharing a venue");
     assert.ok(out.partner.includes("/exchanges/gate-io") && out.partner.includes("/exchanges/kraken"), "links both venue profiles");

@@ -1,0 +1,2342 @@
+{
+  "version": 1,
+  "production_id": "E21",
+  "episode": 21,
+  "season": 2,
+  "slug": "isolated-margin",
+  "title": {
+    "en": "Isolated margin: putting one trade in its own box",
+    "zh-Hans": "逐仓：把这笔交易装进独立小盒子"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S2 · E21' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第2季 · 第21集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "problem",
+      "duration": 6,
+      "set": "trading-desk",
+      "visual_en": "On the desk: a small box holding 100 and a remaining balance of 900. Sam tapes a divider between them.",
+      "visual_zh": "桌上一只100的小盒子和900的剩余余额，小白拿胶带把两者隔开。",
+      "onscreen_text_en": "Box 100",
+      "onscreen_text_zh-Hans": "小盒子 100",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "confused"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "If I put 100 in isolated, the other 900 can never be touched?",
+            "zh-Hans": "放一百做逐仓，另外九百就永远碰不到了？"
+          },
+          "start": 0.25,
+          "end": 4.199,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e21-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 3.949
+          },
+          "words": {
+            "en": [
+              {
+                "text": "If ",
+                "start": 0.25,
+                "end": 0.411
+              },
+              {
+                "text": "I ",
+                "start": 0.411,
+                "end": 0.492
+              },
+              {
+                "text": "put ",
+                "start": 0.492,
+                "end": 0.734
+              },
+              {
+                "text": "100 ",
+                "start": 0.734,
+                "end": 0.975
+              },
+              {
+                "text": "in ",
+                "start": 0.975,
+                "end": 1.137
+              },
+              {
+                "text": "isolated, ",
+                "start": 1.137,
+                "end": 1.862
+              },
+              {
+                "text": "the ",
+                "start": 1.862,
+                "end": 2.104
+              },
+              {
+                "text": "other ",
+                "start": 2.104,
+                "end": 2.507
+              },
+              {
+                "text": "900 ",
+                "start": 2.507,
+                "end": 2.748
+              },
+              {
+                "text": "can ",
+                "start": 2.748,
+                "end": 2.99
+              },
+              {
+                "text": "never ",
+                "start": 2.99,
+                "end": 3.393
+              },
+              {
+                "text": "be ",
+                "start": 3.393,
+                "end": 3.554
+              },
+              {
+                "text": "touched?",
+                "start": 3.554,
+                "end": 4.199
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "放",
+                "start": 0.25,
+                "end": 0.458
+              },
+              {
+                "text": "一百",
+                "start": 0.458,
+                "end": 0.874
+              },
+              {
+                "text": "做",
+                "start": 0.874,
+                "end": 1.081
+              },
+              {
+                "text": "逐",
+                "start": 1.081,
+                "end": 1.289
+              },
+              {
+                "text": "仓，",
+                "start": 1.289,
+                "end": 1.705
+              },
+              {
+                "text": "另外",
+                "start": 1.705,
+                "end": 2.121
+              },
+              {
+                "text": "九百",
+                "start": 2.121,
+                "end": 2.536
+              },
+              {
+                "text": "就",
+                "start": 2.536,
+                "end": 2.744
+              },
+              {
+                "text": "永远",
+                "start": 2.744,
+                "end": 3.16
+              },
+              {
+                "text": "碰",
+                "start": 3.16,
+                "end": 3.368
+              },
+              {
+                "text": "不到",
+                "start": 3.368,
+                "end": 3.783
+              },
+              {
+                "text": "了？",
+                "start": 3.783,
+                "end": 4.199
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "margin-flow",
+          "balance": 900,
+          "margin": 100,
+          "autoAdd": false,
+          "label": {
+            "en": "Box 100 · Balance 900",
+            "zh-Hans": "小盒子 100 · 余额 900"
+          },
+          "note": {
+            "en": "Teaching model",
+            "zh-Hans": "教学模型"
+          }
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "桌上一只100的小盒子和900的剩余余额，小白拿胶带把两者隔开。",
+      "source_onscreen_text": {
+        "en": [
+          "Box 100",
+          "Balance 900"
+        ],
+        "zh-Hans": [
+          "小盒子 100",
+          "余额 900"
+        ]
+      }
+    },
+    {
+      "id": "own-margin",
+      "duration": 23,
+      "set": "trading-desk",
+      "visual_en": "Nexubo keeps the divider but peels off the word 'forever'; the box is labelled with a specific position.",
+      "visual_zh": "小纳保留隔板，却把“永远”字样拿走；盒子标具体仓位。",
+      "onscreen_text_en": "Isolated = own margin",
+      "onscreen_text_zh-Hans": "逐仓 = 单独保证金",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Isolated margin means a position gets its own margin. In a simple setup, with no adding and no auto-add, this position's liquidation risk is mainly carried by the margin you assigned.",
+            "zh-Hans": "逐仓的核心，是给仓位单独分配保证金。在不追加、不启用自动追加等简化条件下，这个仓位的强平风险主要由分配的保证金承担。"
+          },
+          "start": 0.25,
+          "end": 10.066,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e21-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 9.816
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Isolated ",
+                "start": 0.25,
+                "end": 0.763
+              },
+              {
+                "text": "margin ",
+                "start": 0.763,
+                "end": 1.148
+              },
+              {
+                "text": "means ",
+                "start": 1.148,
+                "end": 1.469
+              },
+              {
+                "text": "a ",
+                "start": 1.469,
+                "end": 1.533
+              },
+              {
+                "text": "position ",
+                "start": 1.533,
+                "end": 2.046
+              },
+              {
+                "text": "gets ",
+                "start": 2.046,
+                "end": 2.303
+              },
+              {
+                "text": "its ",
+                "start": 2.303,
+                "end": 2.495
+              },
+              {
+                "text": "own ",
+                "start": 2.495,
+                "end": 2.688
+              },
+              {
+                "text": "margin. ",
+                "start": 2.688,
+                "end": 3.137
+              },
+              {
+                "text": "In ",
+                "start": 3.137,
+                "end": 3.265
+              },
+              {
+                "text": "a ",
+                "start": 3.265,
+                "end": 3.33
+              },
+              {
+                "text": "simple ",
+                "start": 3.33,
+                "end": 3.714
+              },
+              {
+                "text": "setup, ",
+                "start": 3.714,
+                "end": 4.099
+              },
+              {
+                "text": "with ",
+                "start": 4.099,
+                "end": 4.356
+              },
+              {
+                "text": "no ",
+                "start": 4.356,
+                "end": 4.484
+              },
+              {
+                "text": "adding ",
+                "start": 4.484,
+                "end": 4.869
+              },
+              {
+                "text": "and ",
+                "start": 4.869,
+                "end": 5.062
+              },
+              {
+                "text": "no ",
+                "start": 5.062,
+                "end": 5.19
+              },
+              {
+                "text": "auto-",
+                "start": 5.19,
+                "end": 5.511
+              },
+              {
+                "text": "add, ",
+                "start": 5.511,
+                "end": 5.767
+              },
+              {
+                "text": "this ",
+                "start": 5.767,
+                "end": 6.024
+              },
+              {
+                "text": "position's ",
+                "start": 6.024,
+                "end": 6.666
+              },
+              {
+                "text": "liquidation ",
+                "start": 6.666,
+                "end": 7.371
+              },
+              {
+                "text": "risk ",
+                "start": 7.371,
+                "end": 7.628
+              },
+              {
+                "text": "is ",
+                "start": 7.628,
+                "end": 7.756
+              },
+              {
+                "text": "mainly ",
+                "start": 7.756,
+                "end": 8.141
+              },
+              {
+                "text": "carried ",
+                "start": 8.141,
+                "end": 8.59
+              },
+              {
+                "text": "by ",
+                "start": 8.59,
+                "end": 8.719
+              },
+              {
+                "text": "the ",
+                "start": 8.719,
+                "end": 8.911
+              },
+              {
+                "text": "margin ",
+                "start": 8.911,
+                "end": 9.296
+              },
+              {
+                "text": "you ",
+                "start": 9.296,
+                "end": 9.489
+              },
+              {
+                "text": "assigned.",
+                "start": 9.489,
+                "end": 10.066
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "逐",
+                "start": 0.25,
+                "end": 0.419
+              },
+              {
+                "text": "仓",
+                "start": 0.419,
+                "end": 0.588
+              },
+              {
+                "text": "的",
+                "start": 0.588,
+                "end": 0.758
+              },
+              {
+                "text": "核心，",
+                "start": 0.758,
+                "end": 1.265
+              },
+              {
+                "text": "是",
+                "start": 1.265,
+                "end": 1.435
+              },
+              {
+                "text": "给",
+                "start": 1.435,
+                "end": 1.604
+              },
+              {
+                "text": "仓",
+                "start": 1.604,
+                "end": 1.773
+              },
+              {
+                "text": "位",
+                "start": 1.773,
+                "end": 1.942
+              },
+              {
+                "text": "单独",
+                "start": 1.942,
+                "end": 2.281
+              },
+              {
+                "text": "分配",
+                "start": 2.281,
+                "end": 2.619
+              },
+              {
+                "text": "保证",
+                "start": 2.619,
+                "end": 2.958
+              },
+              {
+                "text": "金。",
+                "start": 2.958,
+                "end": 3.296
+              },
+              {
+                "text": "在",
+                "start": 3.296,
+                "end": 3.466
+              },
+              {
+                "text": "不",
+                "start": 3.466,
+                "end": 3.635
+              },
+              {
+                "text": "追加、",
+                "start": 3.635,
+                "end": 4.143
+              },
+              {
+                "text": "不",
+                "start": 4.143,
+                "end": 4.312
+              },
+              {
+                "text": "启用",
+                "start": 4.312,
+                "end": 4.65
+              },
+              {
+                "text": "自动",
+                "start": 4.65,
+                "end": 4.989
+              },
+              {
+                "text": "追加",
+                "start": 4.989,
+                "end": 5.327
+              },
+              {
+                "text": "等",
+                "start": 5.327,
+                "end": 5.496
+              },
+              {
+                "text": "简化",
+                "start": 5.496,
+                "end": 5.835
+              },
+              {
+                "text": "条件下，",
+                "start": 5.835,
+                "end": 6.512
+              },
+              {
+                "text": "这个",
+                "start": 6.512,
+                "end": 6.85
+              },
+              {
+                "text": "仓",
+                "start": 6.85,
+                "end": 7.02
+              },
+              {
+                "text": "位",
+                "start": 7.02,
+                "end": 7.189
+              },
+              {
+                "text": "的",
+                "start": 7.189,
+                "end": 7.358
+              },
+              {
+                "text": "强",
+                "start": 7.358,
+                "end": 7.527
+              },
+              {
+                "text": "平",
+                "start": 7.527,
+                "end": 7.697
+              },
+              {
+                "text": "风险",
+                "start": 7.697,
+                "end": 8.035
+              },
+              {
+                "text": "主要",
+                "start": 8.035,
+                "end": 8.374
+              },
+              {
+                "text": "由",
+                "start": 8.374,
+                "end": 8.543
+              },
+              {
+                "text": "分配",
+                "start": 8.543,
+                "end": 8.881
+              },
+              {
+                "text": "的",
+                "start": 8.881,
+                "end": 9.051
+              },
+              {
+                "text": "保证",
+                "start": 9.051,
+                "end": 9.389
+              },
+              {
+                "text": "金",
+                "start": 9.389,
+                "end": 9.558
+              },
+              {
+                "text": "承担。",
+                "start": 9.558,
+                "end": 10.066
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "margin-flow",
+          "balance": 900,
+          "margin": 100,
+          "autoAdd": false,
+          "label": {
+            "en": "Isolated = own margin",
+            "zh-Hans": "逐仓 = 单独保证金"
+          },
+          "note": {
+            "en": "\"Forever\" removed",
+            "zh-Hans": "去掉“永远”"
+          }
+        }
+      ],
+      "source_tc": "00:09-00:32",
+      "source_visual_zh": "小纳保留隔板，却把“永远”字样拿走；盒子标具体仓位。",
+      "source_onscreen_text": {
+        "en": [
+          "Isolated = own margin",
+          "\"forever\" ✗"
+        ],
+        "zh-Hans": [
+          "逐仓 = 单独保证金",
+          "“永远” ✗"
+        ]
+      }
+    },
+    {
+      "id": "box-risk",
+      "duration": 28,
+      "set": "trading-desk",
+      "visual_en": "A loss only lowers the box's equity; the other balance doesn't automatically become this position's margin.",
+      "visual_zh": "仓位亏损只降低小盒子的权益；其他示意余额不自动变成该仓位保证金。",
+      "onscreen_text_en": "100 can still be lost",
+      "onscreen_text_zh-Hans": "这100仍可能亏损",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "wide",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "So it helps you separate the margin of different positions. But that 100 can still be lost. Isolated margin doesn't make losses disappear, and it isn't a stop-loss order.",
+            "zh-Hans": "所以它便于区分不同仓位的保证金范围。但这一百本身仍可能损失，逐仓不是让亏损消失，也不是止损订单。"
+          },
+          "start": 0.25,
+          "end": 9.765,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e21-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 9.515
+          },
+          "words": {
+            "en": [
+              {
+                "text": "So ",
+                "start": 0.25,
+                "end": 0.384
+              },
+              {
+                "text": "it ",
+                "start": 0.384,
+                "end": 0.518
+              },
+              {
+                "text": "helps ",
+                "start": 0.518,
+                "end": 0.853
+              },
+              {
+                "text": "you ",
+                "start": 0.853,
+                "end": 1.054
+              },
+              {
+                "text": "separate ",
+                "start": 1.054,
+                "end": 1.59
+              },
+              {
+                "text": "the ",
+                "start": 1.59,
+                "end": 1.791
+              },
+              {
+                "text": "margin ",
+                "start": 1.791,
+                "end": 2.193
+              },
+              {
+                "text": "of ",
+                "start": 2.193,
+                "end": 2.327
+              },
+              {
+                "text": "different ",
+                "start": 2.327,
+                "end": 2.93
+              },
+              {
+                "text": "positions. ",
+                "start": 2.93,
+                "end": 3.6
+              },
+              {
+                "text": "But ",
+                "start": 3.6,
+                "end": 3.801
+              },
+              {
+                "text": "that ",
+                "start": 3.801,
+                "end": 4.069
+              },
+              {
+                "text": "100 ",
+                "start": 4.069,
+                "end": 4.27
+              },
+              {
+                "text": "can ",
+                "start": 4.27,
+                "end": 4.471
+              },
+              {
+                "text": "still ",
+                "start": 4.471,
+                "end": 4.806
+              },
+              {
+                "text": "be ",
+                "start": 4.806,
+                "end": 4.94
+              },
+              {
+                "text": "lost. ",
+                "start": 4.94,
+                "end": 5.276
+              },
+              {
+                "text": "Isolated ",
+                "start": 5.276,
+                "end": 5.812
+              },
+              {
+                "text": "margin ",
+                "start": 5.812,
+                "end": 6.214
+              },
+              {
+                "text": "doesn't ",
+                "start": 6.214,
+                "end": 6.683
+              },
+              {
+                "text": "make ",
+                "start": 6.683,
+                "end": 6.951
+              },
+              {
+                "text": "losses ",
+                "start": 6.951,
+                "end": 7.353
+              },
+              {
+                "text": "disappear, ",
+                "start": 7.353,
+                "end": 8.023
+              },
+              {
+                "text": "and ",
+                "start": 8.023,
+                "end": 8.224
+              },
+              {
+                "text": "it ",
+                "start": 8.224,
+                "end": 8.358
+              },
+              {
+                "text": "isn't ",
+                "start": 8.358,
+                "end": 8.693
+              },
+              {
+                "text": "a ",
+                "start": 8.693,
+                "end": 8.76
+              },
+              {
+                "text": "stop-",
+                "start": 8.76,
+                "end": 9.095
+              },
+              {
+                "text": "loss ",
+                "start": 9.095,
+                "end": 9.363
+              },
+              {
+                "text": "order.",
+                "start": 9.363,
+                "end": 9.765
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "所以",
+                "start": 0.25,
+                "end": 0.646
+              },
+              {
+                "text": "它",
+                "start": 0.646,
+                "end": 0.845
+              },
+              {
+                "text": "便于",
+                "start": 0.845,
+                "end": 1.241
+              },
+              {
+                "text": "区分",
+                "start": 1.241,
+                "end": 1.638
+              },
+              {
+                "text": "不同",
+                "start": 1.638,
+                "end": 2.034
+              },
+              {
+                "text": "仓",
+                "start": 2.034,
+                "end": 2.232
+              },
+              {
+                "text": "位",
+                "start": 2.232,
+                "end": 2.431
+              },
+              {
+                "text": "的",
+                "start": 2.431,
+                "end": 2.629
+              },
+              {
+                "text": "保证",
+                "start": 2.629,
+                "end": 3.025
+              },
+              {
+                "text": "金",
+                "start": 3.025,
+                "end": 3.223
+              },
+              {
+                "text": "范围。",
+                "start": 3.223,
+                "end": 3.818
+              },
+              {
+                "text": "但",
+                "start": 3.818,
+                "end": 4.016
+              },
+              {
+                "text": "这",
+                "start": 4.016,
+                "end": 4.215
+              },
+              {
+                "text": "一百",
+                "start": 4.215,
+                "end": 4.611
+              },
+              {
+                "text": "本身",
+                "start": 4.611,
+                "end": 5.008
+              },
+              {
+                "text": "仍",
+                "start": 5.008,
+                "end": 5.206
+              },
+              {
+                "text": "可能",
+                "start": 5.206,
+                "end": 5.602
+              },
+              {
+                "text": "损失，",
+                "start": 5.602,
+                "end": 6.197
+              },
+              {
+                "text": "逐",
+                "start": 6.197,
+                "end": 6.395
+              },
+              {
+                "text": "仓",
+                "start": 6.395,
+                "end": 6.593
+              },
+              {
+                "text": "不是",
+                "start": 6.593,
+                "end": 6.99
+              },
+              {
+                "text": "让",
+                "start": 6.99,
+                "end": 7.188
+              },
+              {
+                "text": "亏损",
+                "start": 7.188,
+                "end": 7.584
+              },
+              {
+                "text": "消失，",
+                "start": 7.584,
+                "end": 8.179
+              },
+              {
+                "text": "也不是",
+                "start": 8.179,
+                "end": 8.774
+              },
+              {
+                "text": "止",
+                "start": 8.774,
+                "end": 8.972
+              },
+              {
+                "text": "损",
+                "start": 8.972,
+                "end": 9.17
+              },
+              {
+                "text": "订单。",
+                "start": 9.17,
+                "end": 9.765
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "margin-flow",
+          "balance": 900,
+          "margin": 100,
+          "autoAdd": false,
+          "label": {
+            "en": "100 can still be lost",
+            "zh-Hans": "这100仍可能亏损"
+          },
+          "note": {
+            "en": "Isolated is not a stop-loss",
+            "zh-Hans": "逐仓不是止损"
+          }
+        }
+      ],
+      "source_tc": "00:32-01:00",
+      "source_visual_zh": "仓位亏损只降低小盒子的权益；其他示意余额不自动变成该仓位保证金。",
+      "source_onscreen_text": {
+        "en": [
+          "100 can still be lost",
+          "Isolated ≠ stop-loss"
+        ],
+        "zh-Hans": [
+          "这100仍可能亏损",
+          "逐仓 ≠ 止损"
+        ]
+      }
+    },
+    {
+      "id": "auto-add-on",
+      "duration": 24,
+      "set": "trading-desk",
+      "visual_en": "An 'Auto-add margin' toggle switches on; a pipe carries extra balance into the box; the total money-at-risk number rises. Antenna red with a ding, red chip 'Auto-add moves more money in'.",
+      "visual_zh": "自动追加开关打开，一条管道把额外余额送进小盒子；总风险资金数字增加。天线红灯“叮”，红色警示条“自动追加会接入更多资金”。",
+      "onscreen_text_en": "Auto-add margin: ON",
+      "onscreen_text_zh-Hans": "自动追加：开",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "surprised"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Watch this switch. Some platforms offer auto-add margin. Turn it on, and your available balance can keep flowing into the position. Adding margin by hand does the same. More money ends up carrying the risk.",
+            "zh-Hans": "注意这个开关：有的平台提供自动追加保证金。打开后，可用余额可能继续流入仓位。手动追加也一样，会让更多资金参与承担风险。"
+          },
+          "start": 0.25,
+          "end": 11.7,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e21-04-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 11.45
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Watch ",
+                "start": 0.25,
+                "end": 0.583
+              },
+              {
+                "text": "this ",
+                "start": 0.583,
+                "end": 0.849
+              },
+              {
+                "text": "switch. ",
+                "start": 0.849,
+                "end": 1.315
+              },
+              {
+                "text": "Some ",
+                "start": 1.315,
+                "end": 1.581
+              },
+              {
+                "text": "platforms ",
+                "start": 1.581,
+                "end": 2.181
+              },
+              {
+                "text": "offer ",
+                "start": 2.181,
+                "end": 2.513
+              },
+              {
+                "text": "auto-",
+                "start": 2.513,
+                "end": 2.846
+              },
+              {
+                "text": "add ",
+                "start": 2.846,
+                "end": 3.046
+              },
+              {
+                "text": "margin. ",
+                "start": 3.046,
+                "end": 3.512
+              },
+              {
+                "text": "Turn ",
+                "start": 3.512,
+                "end": 3.778
+              },
+              {
+                "text": "it ",
+                "start": 3.778,
+                "end": 3.911
+              },
+              {
+                "text": "on, ",
+                "start": 3.911,
+                "end": 4.111
+              },
+              {
+                "text": "and ",
+                "start": 4.111,
+                "end": 4.311
+              },
+              {
+                "text": "your ",
+                "start": 4.311,
+                "end": 4.577
+              },
+              {
+                "text": "available ",
+                "start": 4.577,
+                "end": 5.176
+              },
+              {
+                "text": "balance ",
+                "start": 5.176,
+                "end": 5.642
+              },
+              {
+                "text": "can ",
+                "start": 5.642,
+                "end": 5.842
+              },
+              {
+                "text": "keep ",
+                "start": 5.842,
+                "end": 6.108
+              },
+              {
+                "text": "flowing ",
+                "start": 6.108,
+                "end": 6.574
+              },
+              {
+                "text": "into ",
+                "start": 6.574,
+                "end": 6.84
+              },
+              {
+                "text": "the ",
+                "start": 6.84,
+                "end": 7.04
+              },
+              {
+                "text": "position. ",
+                "start": 7.04,
+                "end": 7.639
+              },
+              {
+                "text": "Adding ",
+                "start": 7.639,
+                "end": 8.039
+              },
+              {
+                "text": "margin ",
+                "start": 8.039,
+                "end": 8.438
+              },
+              {
+                "text": "by ",
+                "start": 8.438,
+                "end": 8.571
+              },
+              {
+                "text": "hand ",
+                "start": 8.571,
+                "end": 8.838
+              },
+              {
+                "text": "does ",
+                "start": 8.838,
+                "end": 9.104
+              },
+              {
+                "text": "the ",
+                "start": 9.104,
+                "end": 9.303
+              },
+              {
+                "text": "same. ",
+                "start": 9.303,
+                "end": 9.636
+              },
+              {
+                "text": "More ",
+                "start": 9.636,
+                "end": 9.903
+              },
+              {
+                "text": "money ",
+                "start": 9.903,
+                "end": 10.235
+              },
+              {
+                "text": "ends ",
+                "start": 10.235,
+                "end": 10.502
+              },
+              {
+                "text": "up ",
+                "start": 10.502,
+                "end": 10.635
+              },
+              {
+                "text": "carrying ",
+                "start": 10.635,
+                "end": 11.167
+              },
+              {
+                "text": "the ",
+                "start": 11.167,
+                "end": 11.367
+              },
+              {
+                "text": "risk.",
+                "start": 11.367,
+                "end": 11.7
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "注意",
+                "start": 0.25,
+                "end": 0.638
+              },
+              {
+                "text": "这个",
+                "start": 0.638,
+                "end": 1.026
+              },
+              {
+                "text": "开关：",
+                "start": 1.026,
+                "end": 1.608
+              },
+              {
+                "text": "有",
+                "start": 1.608,
+                "end": 1.803
+              },
+              {
+                "text": "的",
+                "start": 1.803,
+                "end": 1.997
+              },
+              {
+                "text": "平台",
+                "start": 1.997,
+                "end": 2.385
+              },
+              {
+                "text": "提供",
+                "start": 2.385,
+                "end": 2.773
+              },
+              {
+                "text": "自动",
+                "start": 2.773,
+                "end": 3.161
+              },
+              {
+                "text": "追加",
+                "start": 3.161,
+                "end": 3.549
+              },
+              {
+                "text": "保证",
+                "start": 3.549,
+                "end": 3.937
+              },
+              {
+                "text": "金。",
+                "start": 3.937,
+                "end": 4.325
+              },
+              {
+                "text": "打开",
+                "start": 4.325,
+                "end": 4.714
+              },
+              {
+                "text": "后，",
+                "start": 4.714,
+                "end": 5.102
+              },
+              {
+                "text": "可用",
+                "start": 5.102,
+                "end": 5.49
+              },
+              {
+                "text": "余",
+                "start": 5.49,
+                "end": 5.684
+              },
+              {
+                "text": "额",
+                "start": 5.684,
+                "end": 5.878
+              },
+              {
+                "text": "可能",
+                "start": 5.878,
+                "end": 6.266
+              },
+              {
+                "text": "继续",
+                "start": 6.266,
+                "end": 6.654
+              },
+              {
+                "text": "流入",
+                "start": 6.654,
+                "end": 7.042
+              },
+              {
+                "text": "仓",
+                "start": 7.042,
+                "end": 7.236
+              },
+              {
+                "text": "位。",
+                "start": 7.236,
+                "end": 7.625
+              },
+              {
+                "text": "手",
+                "start": 7.625,
+                "end": 7.819
+              },
+              {
+                "text": "动",
+                "start": 7.819,
+                "end": 8.013
+              },
+              {
+                "text": "追加",
+                "start": 8.013,
+                "end": 8.401
+              },
+              {
+                "text": "也",
+                "start": 8.401,
+                "end": 8.595
+              },
+              {
+                "text": "一样，",
+                "start": 8.595,
+                "end": 9.177
+              },
+              {
+                "text": "会",
+                "start": 9.177,
+                "end": 9.371
+              },
+              {
+                "text": "让",
+                "start": 9.371,
+                "end": 9.565
+              },
+              {
+                "text": "更多",
+                "start": 9.565,
+                "end": 9.953
+              },
+              {
+                "text": "资金",
+                "start": 9.953,
+                "end": 10.342
+              },
+              {
+                "text": "参与",
+                "start": 10.342,
+                "end": 10.73
+              },
+              {
+                "text": "承担",
+                "start": 10.73,
+                "end": 11.118
+              },
+              {
+                "text": "风险。",
+                "start": 11.118,
+                "end": 11.7
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "margin-flow",
+          "balance": 900,
+          "margin": 100,
+          "autoAdd": true,
+          "label": {
+            "en": "Auto-add margin: ON · 100 → more",
+            "zh-Hans": "自动追加：开 · 100 → 更多"
+          },
+          "note": {
+            "en": "Teaching model · not exchange rules",
+            "zh-Hans": "教学模型 · 非交易所规则"
+          }
+        }
+      ],
+      "source_tc": "01:00-01:24",
+      "source_visual_zh": "自动追加开关打开，一条管道把额外余额送进小盒子；总风险资金数字增加。天线红灯“叮”，红色警示条“自动追加会接入更多资金”。",
+      "source_onscreen_text": {
+        "en": [
+          "Auto-add margin: ON",
+          "Money at risk ↑",
+          "Auto-add moves more money in"
+        ],
+        "zh-Hans": [
+          "自动追加：开",
+          "风险资金 ↑",
+          "自动追加会接入更多资金"
+        ]
+      }
+    },
+    {
+      "id": "settings-check",
+      "duration": 19,
+      "set": "trading-desk",
+      "visual_en": "Sam checks four items: margin mode, auto-add switch, how fees are deducted, total amount committed. Not judging by button colour.",
+      "visual_zh": "小白核对模式、追加开关、费用扣取、可投入总额四项，不按按钮颜色判断。",
+      "onscreen_text_en": "Mode",
+      "onscreen_text_zh-Hans": "模式",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "hold-phone",
+        "expression": "neutral"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.",
+            "zh-Hans": "别只看“逐仓”两个字就假定最大损失永远等于最初那一百。具体还要核对追加设置、费用和产品规则。"
+          },
+          "start": 0.25,
+          "end": 8.983,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e21-05-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 8.733
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Don't ",
+                "start": 0.25,
+                "end": 0.599
+              },
+              {
+                "text": "see ",
+                "start": 0.599,
+                "end": 0.809
+              },
+              {
+                "text": "the ",
+                "start": 0.809,
+                "end": 1.019
+              },
+              {
+                "text": "word '",
+                "start": 1.019,
+                "end": 1.368
+              },
+              {
+                "text": "isolated' ",
+                "start": 1.368,
+                "end": 1.997
+              },
+              {
+                "text": "and ",
+                "start": 1.997,
+                "end": 2.206
+              },
+              {
+                "text": "assume ",
+                "start": 2.206,
+                "end": 2.625
+              },
+              {
+                "text": "the ",
+                "start": 2.625,
+                "end": 2.835
+              },
+              {
+                "text": "most ",
+                "start": 2.835,
+                "end": 3.114
+              },
+              {
+                "text": "you ",
+                "start": 3.114,
+                "end": 3.324
+              },
+              {
+                "text": "can ",
+                "start": 3.324,
+                "end": 3.534
+              },
+              {
+                "text": "lose ",
+                "start": 3.534,
+                "end": 3.813
+              },
+              {
+                "text": "is ",
+                "start": 3.813,
+                "end": 3.953
+              },
+              {
+                "text": "always ",
+                "start": 3.953,
+                "end": 4.372
+              },
+              {
+                "text": "that ",
+                "start": 4.372,
+                "end": 4.651
+              },
+              {
+                "text": "first ",
+                "start": 4.651,
+                "end": 5.001
+              },
+              {
+                "text": "100. ",
+                "start": 5.001,
+                "end": 5.28
+              },
+              {
+                "text": "Check ",
+                "start": 5.28,
+                "end": 5.63
+              },
+              {
+                "text": "the ",
+                "start": 5.63,
+                "end": 5.839
+              },
+              {
+                "text": "add-",
+                "start": 5.839,
+                "end": 6.119
+              },
+              {
+                "text": "margin ",
+                "start": 6.119,
+                "end": 6.538
+              },
+              {
+                "text": "settings, ",
+                "start": 6.538,
+                "end": 7.167
+              },
+              {
+                "text": "the ",
+                "start": 7.167,
+                "end": 7.376
+              },
+              {
+                "text": "fees ",
+                "start": 7.376,
+                "end": 7.656
+              },
+              {
+                "text": "and ",
+                "start": 7.656,
+                "end": 7.865
+              },
+              {
+                "text": "the ",
+                "start": 7.865,
+                "end": 8.075
+              },
+              {
+                "text": "product ",
+                "start": 8.075,
+                "end": 8.564
+              },
+              {
+                "text": "rules.",
+                "start": 8.564,
+                "end": 8.983
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "别",
+                "start": 0.25,
+                "end": 0.44
+              },
+              {
+                "text": "只看“",
+                "start": 0.44,
+                "end": 1.009
+              },
+              {
+                "text": "逐",
+                "start": 1.009,
+                "end": 1.199
+              },
+              {
+                "text": "仓”",
+                "start": 1.199,
+                "end": 1.579
+              },
+              {
+                "text": "两",
+                "start": 1.579,
+                "end": 1.769
+              },
+              {
+                "text": "个",
+                "start": 1.769,
+                "end": 1.959
+              },
+              {
+                "text": "字",
+                "start": 1.959,
+                "end": 2.148
+              },
+              {
+                "text": "就",
+                "start": 2.148,
+                "end": 2.338
+              },
+              {
+                "text": "假定",
+                "start": 2.338,
+                "end": 2.718
+              },
+              {
+                "text": "最大",
+                "start": 2.718,
+                "end": 3.098
+              },
+              {
+                "text": "损失",
+                "start": 3.098,
+                "end": 3.477
+              },
+              {
+                "text": "永远",
+                "start": 3.477,
+                "end": 3.857
+              },
+              {
+                "text": "等于",
+                "start": 3.857,
+                "end": 4.237
+              },
+              {
+                "text": "最初",
+                "start": 4.237,
+                "end": 4.617
+              },
+              {
+                "text": "那",
+                "start": 4.617,
+                "end": 4.806
+              },
+              {
+                "text": "一百。",
+                "start": 4.806,
+                "end": 5.376
+              },
+              {
+                "text": "具体",
+                "start": 5.376,
+                "end": 5.756
+              },
+              {
+                "text": "还",
+                "start": 5.756,
+                "end": 5.945
+              },
+              {
+                "text": "要",
+                "start": 5.945,
+                "end": 6.135
+              },
+              {
+                "text": "核对",
+                "start": 6.135,
+                "end": 6.515
+              },
+              {
+                "text": "追加",
+                "start": 6.515,
+                "end": 6.895
+              },
+              {
+                "text": "设置、",
+                "start": 6.895,
+                "end": 7.464
+              },
+              {
+                "text": "费用",
+                "start": 7.464,
+                "end": 7.844
+              },
+              {
+                "text": "和",
+                "start": 7.844,
+                "end": 8.034
+              },
+              {
+                "text": "产品",
+                "start": 8.034,
+                "end": 8.413
+              },
+              {
+                "text": "规则。",
+                "start": 8.413,
+                "end": 8.983
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Mode",
+                "zh-Hans": "模式"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Auto-add",
+                "zh-Hans": "自动追加"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Fee deduction",
+                "zh-Hans": "费用扣取"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Total committed",
+                "zh-Hans": "可投入总额"
+              },
+              "done": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:24-01:43",
+      "source_visual_zh": "小白核对模式、追加开关、费用扣取、可投入总额四项，不按按钮颜色判断。",
+      "source_onscreen_text": {
+        "en": [
+          "Mode",
+          "Auto-add",
+          "Fee deduction",
+          "Total committed"
+        ],
+        "zh-Hans": [
+          "模式",
+          "自动追加",
+          "费用扣取",
+          "可投入总额"
+        ]
+      }
+    },
+    {
+      "id": "auto-add-answer",
+      "duration": 13,
+      "set": "trading-desk",
+      "visual_en": "Question card: 'Isolated with auto-add on. Can you still say you'll only ever use the first 100?'",
+      "visual_zh": "题目：逐仓开启自动追加，还能说绝对只用最初100吗？",
+      "onscreen_text_en": "Isolated + auto-add = only 100?  NO",
+      "onscreen_text_zh-Hans": "逐仓 + 自动追加 = 只用100？ 不能",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "No.",
+            "zh-Hans": "不能。"
+          },
+          "start": 0.25,
+          "end": 0.685,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e21-06-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 0.435
+          },
+          "words": {
+            "en": [
+              {
+                "text": "No.",
+                "start": 0.25,
+                "end": 0.685
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不能。",
+                "start": 0.25,
+                "end": 0.685
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "With isolated margin, look at the walls, and also at any pipes plugged into the box.",
+            "zh-Hans": "逐仓看隔离范围，也要看有没有额外接进来的管道。"
+          },
+          "start": 0.985,
+          "end": 5.915,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e21-06-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 4.93
+          },
+          "words": {
+            "en": [
+              {
+                "text": "With ",
+                "start": 0.985,
+                "end": 1.271
+              },
+              {
+                "text": "isolated ",
+                "start": 1.271,
+                "end": 1.842
+              },
+              {
+                "text": "margin, ",
+                "start": 1.842,
+                "end": 2.343
+              },
+              {
+                "text": "look ",
+                "start": 2.343,
+                "end": 2.628
+              },
+              {
+                "text": "at ",
+                "start": 2.628,
+                "end": 2.771
+              },
+              {
+                "text": "the ",
+                "start": 2.771,
+                "end": 2.986
+              },
+              {
+                "text": "walls, ",
+                "start": 2.986,
+                "end": 3.414
+              },
+              {
+                "text": "and ",
+                "start": 3.414,
+                "end": 3.629
+              },
+              {
+                "text": "also ",
+                "start": 3.629,
+                "end": 3.914
+              },
+              {
+                "text": "at ",
+                "start": 3.914,
+                "end": 4.057
+              },
+              {
+                "text": "any ",
+                "start": 4.057,
+                "end": 4.272
+              },
+              {
+                "text": "pipes ",
+                "start": 4.272,
+                "end": 4.629
+              },
+              {
+                "text": "plugged ",
+                "start": 4.629,
+                "end": 5.129
+              },
+              {
+                "text": "into ",
+                "start": 5.129,
+                "end": 5.415
+              },
+              {
+                "text": "the ",
+                "start": 5.415,
+                "end": 5.629
+              },
+              {
+                "text": "box.",
+                "start": 5.629,
+                "end": 5.915
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "逐",
+                "start": 0.985,
+                "end": 1.199
+              },
+              {
+                "text": "仓",
+                "start": 1.199,
+                "end": 1.414
+              },
+              {
+                "text": "看",
+                "start": 1.414,
+                "end": 1.628
+              },
+              {
+                "text": "隔离",
+                "start": 1.628,
+                "end": 2.057
+              },
+              {
+                "text": "范围，",
+                "start": 2.057,
+                "end": 2.7
+              },
+              {
+                "text": "也要",
+                "start": 2.7,
+                "end": 3.128
+              },
+              {
+                "text": "看",
+                "start": 3.128,
+                "end": 3.343
+              },
+              {
+                "text": "有",
+                "start": 3.343,
+                "end": 3.557
+              },
+              {
+                "text": "没有",
+                "start": 3.557,
+                "end": 3.986
+              },
+              {
+                "text": "额外",
+                "start": 3.986,
+                "end": 4.415
+              },
+              {
+                "text": "接",
+                "start": 4.415,
+                "end": 4.629
+              },
+              {
+                "text": "进来",
+                "start": 4.629,
+                "end": 5.058
+              },
+              {
+                "text": "的",
+                "start": 5.058,
+                "end": 5.272
+              },
+              {
+                "text": "管道。",
+                "start": 5.272,
+                "end": 5.915
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "margin-flow",
+          "balance": 900,
+          "margin": 100,
+          "autoAdd": true,
+          "label": {
+            "en": "Isolated + auto-add = only 100?",
+            "zh-Hans": "逐仓 + 自动追加 = 只用100？"
+          },
+          "note": {
+            "en": "No",
+            "zh-Hans": "不能"
+          }
+        }
+      ],
+      "source_tc": "01:43-01:56",
+      "source_visual_zh": "题目：逐仓开启自动追加，还能说绝对只用最初100吗？",
+      "source_onscreen_text": {
+        "en": [
+          "Isolated + auto-add = only 100?  NO"
+        ],
+        "zh-Hans": [
+          "逐仓 + 自动追加 = 只用100？ 不能"
+        ]
+      }
+    }
+  ],
+  "conversion_card": null,
+  "end_hook": {
+    "duration": 4.9,
+    "pose": "point",
+    "text": {
+      "en": "One position leaks, and another one starts sinking. Next: cross margin.",
+      "zh-Hans": "一个仓位漏水，另一个也开始下沉。下一集：全仓。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "One position leaks, and another one starts sinking. Next: cross margin.",
+          "zh-Hans": "一个仓位漏水，另一个也开始下沉。下一集：全仓。"
+        },
+        "start": 0.25,
+        "end": 4.613,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e21-07-hook-l01-narrator",
+          "atempo": 1,
+          "seconds": 4.363
+        },
+        "words": {
+          "en": [
+            {
+              "text": "One ",
+              "start": 0.25,
+              "end": 0.465
+            },
+            {
+              "text": "position ",
+              "start": 0.465,
+              "end": 1.037
+            },
+            {
+              "text": "leaks, ",
+              "start": 1.037,
+              "end": 1.466
+            },
+            {
+              "text": "and ",
+              "start": 1.466,
+              "end": 1.68
+            },
+            {
+              "text": "another ",
+              "start": 1.68,
+              "end": 2.181
+            },
+            {
+              "text": "one ",
+              "start": 2.181,
+              "end": 2.396
+            },
+            {
+              "text": "starts ",
+              "start": 2.396,
+              "end": 2.825
+            },
+            {
+              "text": "sinking. ",
+              "start": 2.825,
+              "end": 3.397
+            },
+            {
+              "text": "Next: ",
+              "start": 3.397,
+              "end": 3.755
+            },
+            {
+              "text": "cross ",
+              "start": 3.755,
+              "end": 4.112
+            },
+            {
+              "text": "margin.",
+              "start": 4.112,
+              "end": 4.613
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "一个",
+              "start": 0.25,
+              "end": 0.629
+            },
+            {
+              "text": "仓",
+              "start": 0.629,
+              "end": 0.819
+            },
+            {
+              "text": "位",
+              "start": 0.819,
+              "end": 1.009
+            },
+            {
+              "text": "漏水，",
+              "start": 1.009,
+              "end": 1.578
+            },
+            {
+              "text": "另",
+              "start": 1.578,
+              "end": 1.768
+            },
+            {
+              "text": "一个",
+              "start": 1.768,
+              "end": 2.147
+            },
+            {
+              "text": "也",
+              "start": 2.147,
+              "end": 2.337
+            },
+            {
+              "text": "开始",
+              "start": 2.337,
+              "end": 2.716
+            },
+            {
+              "text": "下沉。",
+              "start": 2.716,
+              "end": 3.285
+            },
+            {
+              "text": "下",
+              "start": 3.285,
+              "end": 3.475
+            },
+            {
+              "text": "一",
+              "start": 3.475,
+              "end": 3.665
+            },
+            {
+              "text": "集：",
+              "start": 3.665,
+              "end": 4.044
+            },
+            {
+              "text": "全",
+              "start": 4.044,
+              "end": 4.234
+            },
+            {
+              "text": "仓。",
+              "start": 4.234,
+              "end": 4.613
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "01:56-02:00"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.212,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e21-08-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 1.962
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.068
+          },
+          {
+            "text": "first, ",
+            "start": 1.068,
+            "end": 1.558
+          },
+          {
+            "text": "then ",
+            "start": 1.558,
+            "end": 1.885
+          },
+          {
+            "text": "act.",
+            "start": 1.885,
+            "end": 2.212
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.495
+          },
+          {
+            "text": "看懂，",
+            "start": 0.495,
+            "end": 1.231
+          },
+          {
+            "text": "再",
+            "start": 1.231,
+            "end": 1.476
+          },
+          {
+            "text": "动手。",
+            "start": 1.476,
+            "end": 2.212
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-codex-academy-v3-samples/ops/academy-v3/episodes/source/E21.json",
+    "original_slug": "isolated-margin",
+    "goal": {
+      "en": "Understand per-position margin isolation, and how adding margin can increase the money at risk.",
+      "zh-Hans": "理解单仓保证金隔离及追加保证金可能扩大风险资金。"
+    },
+    "duration_target_s": 124,
+    "page_cta": {
+      "kind": "none",
+      "partner": null,
+      "line_en": "Find the auto-add switch in the margin risk simulator below and watch the money at risk change.",
+      "line_zh": "在下方保证金风险模拟器里找到自动追加开关，观察风险资金如何变化。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": null
+    },
+    "exercise": {
+      "task_en": "Find the auto-add margin switch in the practice settings, and explain why it changes the money carrying the risk.",
+      "task_zh": "在模拟设置中找出自动追加开关，并解释它为何改变参与承担风险的资金。",
+      "answer_en": "Automatic or manual adding increases the margin committed. You can't promise unconditionally to lose only the initial amount.",
+      "answer_zh": "自动或手动追加会增加投入的保证金；不能无条件承诺只损失初始金额。"
+    },
+    "red_lines": [
+      "The small box is an analogy, not every platform's calculation model ｜ 小盒子是类比，不是所有平台的计算模型",
+      "Never show an unverified default switch state ｜ 不展示未经核验的默认开关状态",
+      "Futures examples are USDT-margined linear perpetuals only; never mix in coin-margined, options or delivery formulas ｜ 合约示例限USDT计价线性永续，不混入币本位、期权和交割合约公式",
+      "Futures episode: no conversion card, no partner name, no invite code, no 'open position' button; page CTA = none ｜ 合约集：不放转化卡、不出现合作平台名和邀请码、不画“开仓”按钮；网页CTA为none",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S24",
+      "S25"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:32",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:32-01:00",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:00-01:24",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:24-01:43",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:43-01:56",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:56-02:00",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:00-02:04",
+        "kind": "close"
+      }
+    ],
+    "required_contract_extensions": [
+      "widget type margin-flow {balance, margin, autoAdd, label, note}"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.12,
+    "compromises": []
+  }
+}

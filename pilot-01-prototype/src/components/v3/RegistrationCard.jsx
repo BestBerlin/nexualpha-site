@@ -62,9 +62,6 @@ const copyDict = {
     regionReady: "可进入官方流程确认",
     regionVerify: "需在官方流程确认",
     regionBlocked: "当前地区不建议直达注册",
-    disclosureTitle: "透明合作与返佣披露：",
-    disclosureShort: "合作链接可能为 NexuAlpha 带来平台方佣金，不增加用户交易成本。",
-    disclosureBody: "NexuAlpha 是一家独立的加密平台黄页与比较导航。通过本站展示的专属链接或邀请码注册，本站可能会获得交易返佣，该费用由平台方承担，绝不会增加您的任何交易手续费。NexuAlpha 不代办开户、不触碰用户私钥、不托管任何资产，所有开户与交易行为均在第三方平台官方网站独立完成。",
     unavailable: "该平台当前未配置可核验的官方合作链接，请先核对上方官方主域名。",
     officialRouteState: "官方入口",
     openOfficial: "打开官方入口 ↗",
@@ -97,9 +94,6 @@ const copyDict = {
     regionReady: "可進入官方流程確認",
     regionVerify: "需在官方流程確認",
     regionBlocked: "目前地區不建議直達註冊",
-    disclosureTitle: "透明合作與返傭披露：",
-    disclosureShort: "合作連結可能為 NexuAlpha 帶來平台方傭金，不增加用戶交易成本。",
-    disclosureBody: "NexuAlpha 是一家獨立的加密平台黃頁與比較導航。透過本站展示的專屬連結或邀請碼註冊，本站可能會獲得交易返傭，該費用由平台方承擔，絕不會增加您的任何交易手續費。NexuAlpha 不代辦開戶、不觸碰用戶私鑰、不託管任何資產，所有開戶與交易行為均在第三方平台官方網站獨立完成。",
     unavailable: "該平台目前未配置可核驗的官方合作連結，請先核對上方官方主網域。",
     officialRouteState: "官方入口",
     openOfficial: "打開官方入口 ↗",
@@ -132,9 +126,6 @@ const copyDict = {
     regionReady: "Available to confirm in official flow",
     regionVerify: "Confirm in official flow",
     regionBlocked: "Direct signup is not recommended for this region",
-    disclosureTitle: "Transparent affiliate disclosure: ",
-    disclosureShort: "Partner links may earn NexuAlpha a platform-paid commission at no extra cost to you.",
-    disclosureBody: "NexuAlpha is an independent directory and platform comparison hub. Registering via recorded partner links or referral codes may earn us a platform-paid commission at no extra cost to you. NexuAlpha is not an exchange, never solicits private keys, and does not custody funds. All registration and trades occur strictly on the third-party platform.",
     unavailable: "No recorded partner route is configured for this venue yet. Check the official domain above first.",
     officialRouteState: "Official route",
     openOfficial: "Open official route ↗",
@@ -149,21 +140,21 @@ const copyDict = {
   },
   // l10n: needs native review
   ur: {
-    officialDomain: "سرکاری ڈومین", antiPhishingTip: "کوئی بھی معلومات درج کرنے سے پہلے براؤزر کے ایڈریس بار میں ڈومین کو اوپر درج سرکاری ڈومین سے حرف بہ حرف ملائیں۔", referralCode: "ریفرل کوڈ", copyCode: "کوڈ کاپی کریں", copied: "کاپی ہو گیا ✓", openSignup: "سرکاری رجسٹریشن پر جائیں ↗", openApp: "سرکاری ایپ کھولیں ↗", fullUrl: "مکمل سرکاری لنک", noCodeNeeded: "براہ راست آن چین کنکشن · کوڈ درکار نہیں", routeState: "پارٹنر راستہ", routeReady: "ترتیب شدہ", routePending: "زیر التوا", benefitState: "صارف کا فائدہ", benefitVerified: "ماخذ درج ہے", benefitPending: "سرکاری رجسٹریشن صفحے پر تصدیق کریں", regionState: "علاقائی اہلیت", regionReady: "سرکاری عمل میں تصدیق کی جا سکتی ہے", regionVerify: "سرکاری عمل میں تصدیق کریں", regionBlocked: "اس علاقے کے لیے براہ راست رجسٹریشن کی سفارش نہیں", disclosureTitle: "شفاف افیلی ایٹ وضاحت: ", disclosureShort: "پارٹنر لنکس سے NexuAlpha کو پلیٹ فارم کی طرف سے کمیشن مل سکتا ہے؛ آپ کے لیے اضافی لاگت نہیں بنتی۔", disclosureBody: "NexuAlpha ایک آزاد ڈائریکٹری اور پلیٹ فارم موازنہ مرکز ہے۔ درج پارٹنر لنکس یا ریفرل کوڈز سے رجسٹر کرنے پر ہمیں پلیٹ فارم کی طرف سے کمیشن مل سکتا ہے، مگر آپ کے لیے کوئی اضافی لاگت نہیں ہوتی۔ NexuAlpha ایکسچینج نہیں، نجی کلیدیں نہیں مانگتا اور فنڈز تحویل میں نہیں رکھتا۔ رجسٹریشن اور ٹریڈز تیسرے فریق کے پلیٹ فارم پر ہی ہوتے ہیں۔", unavailable: "اس مقام کے لیے ابھی کوئی درج شدہ پارٹنر راستہ موجود نہیں۔ پہلے اوپر سرکاری ڈومین چیک کریں۔", officialRouteState: "سرکاری راستہ", openOfficial: "سرکاری راستہ کھولیں ↗", continueCompare: "موازنہ جاری رکھیں", telegramResearch: "Telegram ریسرچ بوٹ کھولیں ↗", preflightTitle: "آگے بڑھنے سے پہلے", routeDetailsTitle: "راستہ، کوڈ اور اہلیت کی تفصیل", preflightWithCode: "یہ تیسرے فریق کا رجسٹریشن صفحہ کھولتا ہے۔ جمع کرانے سے پہلے تصدیق کریں کہ ریفرل کوڈ {code} ہے؛ اگر پہلے سے درج نہیں تو اسے دستی طور پر درج کریں۔", preflightNoCode: "یہ تیسرے فریق کا رجسٹریشن صفحہ کھولتا ہے۔ جمع کرانے سے پہلے سرکاری صفحے پر علاقہ، KYC اور پروڈکٹ شرائط چیک کریں۔", preflightOfficial: "یہ تیسرے فریق کا سرکاری راستہ کھولتا ہے۔ اس مقام کے لیے ریفرل کوڈ والا راستہ ترتیب نہیں دیا گیا۔", preflightBlocked: "براہ راست رجسٹریشن ابھی تجویز نہیں۔ پہلے علاقائی اہلیت اور سرکاری شرائط چیک کریں۔"
+    officialDomain: "سرکاری ڈومین", antiPhishingTip: "کوئی بھی معلومات درج کرنے سے پہلے براؤزر کے ایڈریس بار میں ڈومین کو اوپر درج سرکاری ڈومین سے حرف بہ حرف ملائیں۔", referralCode: "ریفرل کوڈ", copyCode: "کوڈ کاپی کریں", copied: "کاپی ہو گیا ✓", openSignup: "سرکاری رجسٹریشن پر جائیں ↗", openApp: "سرکاری ایپ کھولیں ↗", fullUrl: "مکمل سرکاری لنک", noCodeNeeded: "براہ راست آن چین کنکشن · کوڈ درکار نہیں", routeState: "پارٹنر راستہ", routeReady: "ترتیب شدہ", routePending: "زیر التوا", benefitState: "صارف کا فائدہ", benefitVerified: "ماخذ درج ہے", benefitPending: "سرکاری رجسٹریشن صفحے پر تصدیق کریں", regionState: "علاقائی اہلیت", regionReady: "سرکاری عمل میں تصدیق کی جا سکتی ہے", regionVerify: "سرکاری عمل میں تصدیق کریں", regionBlocked: "اس علاقے کے لیے براہ راست رجسٹریشن کی سفارش نہیں",    unavailable: "اس مقام کے لیے ابھی کوئی درج شدہ پارٹنر راستہ موجود نہیں۔ پہلے اوپر سرکاری ڈومین چیک کریں۔", officialRouteState: "سرکاری راستہ", openOfficial: "سرکاری راستہ کھولیں ↗", continueCompare: "موازنہ جاری رکھیں", telegramResearch: "Telegram ریسرچ بوٹ کھولیں ↗", preflightTitle: "آگے بڑھنے سے پہلے", routeDetailsTitle: "راستہ، کوڈ اور اہلیت کی تفصیل", preflightWithCode: "یہ تیسرے فریق کا رجسٹریشن صفحہ کھولتا ہے۔ جمع کرانے سے پہلے تصدیق کریں کہ ریفرل کوڈ {code} ہے؛ اگر پہلے سے درج نہیں تو اسے دستی طور پر درج کریں۔", preflightNoCode: "یہ تیسرے فریق کا رجسٹریشن صفحہ کھولتا ہے۔ جمع کرانے سے پہلے سرکاری صفحے پر علاقہ، KYC اور پروڈکٹ شرائط چیک کریں۔", preflightOfficial: "یہ تیسرے فریق کا سرکاری راستہ کھولتا ہے۔ اس مقام کے لیے ریفرل کوڈ والا راستہ ترتیب نہیں دیا گیا۔", preflightBlocked: "براہ راست رجسٹریشن ابھی تجویز نہیں۔ پہلے علاقائی اہلیت اور سرکاری شرائط چیک کریں۔"
   },
   // l10n: needs native review
   uk: {
-    officialDomain: "Офіційний домен", antiPhishingTip: "Перед введенням будь-яких даних переконайтеся, що домен в адресному рядку браузера точно збігається з офіційним доменом вище.", referralCode: "Реферальний код", copyCode: "Скопіювати код", copied: "Скопійовано ✓", openSignup: "Перейти до офіційної реєстрації ↗", openApp: "Відкрити офіційний застосунок ↗", fullUrl: "Повне офіційне посилання", noCodeNeeded: "Пряме ончейн-підключення · код не потрібен", routeState: "Партнерський маршрут", routeReady: "Налаштовано", routePending: "Очікує", benefitState: "Умова для користувача", benefitVerified: "Джерело записано", benefitPending: "Підтвердьте на офіційній сторінці реєстрації", regionState: "Регіональна доступність", regionReady: "Можна підтвердити в офіційному процесі", regionVerify: "Підтвердьте в офіційному процесі", regionBlocked: "Пряма реєстрація для цього регіону не рекомендована", disclosureTitle: "Прозоре розкриття партнерства: ", disclosureShort: "Партнерські посилання можуть принести NexuAlpha комісію від платформи без додаткової вартості для вас.", disclosureBody: "NexuAlpha — незалежний довідник і центр порівняння платформ. Реєстрація через записані партнерські посилання або реферальні коди може принести нам комісію від платформи без додаткової вартості для вас. NexuAlpha не є біржею, не запитує приватні ключі й не зберігає кошти. Реєстрація та торгівля відбуваються на сторонній платформі.", unavailable: "Для цього майданчика ще немає записаного партнерського маршруту. Спершу перевірте офіційний домен вище.", officialRouteState: "Офіційний маршрут", openOfficial: "Відкрити офіційний маршрут ↗", continueCompare: "Продовжити порівняння", telegramResearch: "Відкрити дослідницького Telegram-бота ↗", preflightTitle: "Перед продовженням", routeDetailsTitle: "Маршрут, код і умови доступності", preflightWithCode: "Відкриється сторінка реєстрації третьої сторони. Перед надсиланням переконайтеся, що реферальний код — {code}; якщо його не підставлено, введіть вручну.", preflightNoCode: "Відкриється сторінка реєстрації третьої сторони. Перед надсиланням перевірте регіон, KYC та умови продукту на офіційній сторінці.", preflightOfficial: "Відкриється офіційний маршрут третьої сторони. Для цього майданчика немає маршруту з реферальним кодом.", preflightBlocked: "Пряма реєстрація поки не рекомендована. Спершу перевірте регіональну доступність і офіційні умови."
+    officialDomain: "Офіційний домен", antiPhishingTip: "Перед введенням будь-яких даних переконайтеся, що домен в адресному рядку браузера точно збігається з офіційним доменом вище.", referralCode: "Реферальний код", copyCode: "Скопіювати код", copied: "Скопійовано ✓", openSignup: "Перейти до офіційної реєстрації ↗", openApp: "Відкрити офіційний застосунок ↗", fullUrl: "Повне офіційне посилання", noCodeNeeded: "Пряме ончейн-підключення · код не потрібен", routeState: "Партнерський маршрут", routeReady: "Налаштовано", routePending: "Очікує", benefitState: "Умова для користувача", benefitVerified: "Джерело записано", benefitPending: "Підтвердьте на офіційній сторінці реєстрації", regionState: "Регіональна доступність", regionReady: "Можна підтвердити в офіційному процесі", regionVerify: "Підтвердьте в офіційному процесі", regionBlocked: "Пряма реєстрація для цього регіону не рекомендована",    unavailable: "Для цього майданчика ще немає записаного партнерського маршруту. Спершу перевірте офіційний домен вище.", officialRouteState: "Офіційний маршрут", openOfficial: "Відкрити офіційний маршрут ↗", continueCompare: "Продовжити порівняння", telegramResearch: "Відкрити дослідницького Telegram-бота ↗", preflightTitle: "Перед продовженням", routeDetailsTitle: "Маршрут, код і умови доступності", preflightWithCode: "Відкриється сторінка реєстрації третьої сторони. Перед надсиланням переконайтеся, що реферальний код — {code}; якщо його не підставлено, введіть вручну.", preflightNoCode: "Відкриється сторінка реєстрації третьої сторони. Перед надсиланням перевірте регіон, KYC та умови продукту на офіційній сторінці.", preflightOfficial: "Відкриється офіційний маршрут третьої сторони. Для цього майданчика немає маршруту з реферальним кодом.", preflightBlocked: "Пряма реєстрація поки не рекомендована. Спершу перевірте регіональну доступність і офіційні умови."
   },
 };
 
 copyDict.ja = {
   ...copyDict.en,
-  officialDomain: "公式ドメイン", antiPhishingTip: "認証情報を入力する前に、ブラウザのドメインが上記の公式ドメインと完全に一致することを確認してください。", referralCode: "紹介コード", copyCode: "コードをコピー", copied: "コピーしました ✓", openSignup: "公式登録ページへ ↗", openApp: "公式アプリを開く ↗", fullUrl: "公式リンク全体", noCodeNeeded: "オンチェーンウォレット接続 · コード不要", routeState: "パートナー導線", routeReady: "設定済み", routePending: "確認待ち", benefitState: "ユーザー向け条件", benefitVerified: "確認済み", benefitPending: "公式登録ページで確認してください", regionState: "地域適用", regionReady: "公式フローで確認可能", regionVerify: "公式フローで確認してください", regionBlocked: "この地域では直接登録を推奨しません", disclosureTitle: "アフィリエイト開示：", disclosureShort: "パートナーリンクにより、追加費用なしでNexuAlphaがプラットフォーム報酬を受け取る場合があります。", disclosureBody: "NexuAlphaは独立した比較・案内サイトです。登録と取引は必ず第三者プラットフォームの公式サイトで行われます。", unavailable: "このサービスには確認済みのパートナー導線がありません。まず上記の公式ドメインを確認してください。"
+  officialDomain: "公式ドメイン", antiPhishingTip: "認証情報を入力する前に、ブラウザのドメインが上記の公式ドメインと完全に一致することを確認してください。", referralCode: "紹介コード", copyCode: "コードをコピー", copied: "コピーしました ✓", openSignup: "公式登録ページへ ↗", openApp: "公式アプリを開く ↗", fullUrl: "公式リンク全体", noCodeNeeded: "オンチェーンウォレット接続 · コード不要", routeState: "パートナー導線", routeReady: "設定済み", routePending: "確認待ち", benefitState: "ユーザー向け条件", benefitVerified: "確認済み", benefitPending: "公式登録ページで確認してください", regionState: "地域適用", regionReady: "公式フローで確認可能", regionVerify: "公式フローで確認してください", regionBlocked: "この地域では直接登録を推奨しません",    unavailable: "このサービスには確認済みのパートナー導線がありません。まず上記の公式ドメインを確認してください。"
 };
 copyDict.ko = {
   ...copyDict.en,
-  officialDomain: "공식 도메인", antiPhishingTip: "자격 증명을 입력하기 전에 브라우저의 도메인이 위 공식 도메인과 정확히 일치하는지 확인하세요.", referralCode: "추천 코드", copyCode: "코드 복사", copied: "복사됨 ✓", openSignup: "공식 가입 페이지로 이동 ↗", openApp: "공식 앱 열기 ↗", fullUrl: "공식 링크 전체", noCodeNeeded: "온체인 지갑 연결 · 코드 불필요", routeState: "파트너 경로", routeReady: "설정됨", routePending: "확인 대기", benefitState: "사용자 혜택", benefitVerified: "확인됨", benefitPending: "공식 가입 페이지에서 확인", regionState: "지역 이용 자격", regionReady: "공식 절차에서 확인 가능", regionVerify: "공식 절차에서 확인", regionBlocked: "이 지역에서는 직접 가입을 권장하지 않습니다", disclosureTitle: "제휴 공개: ", disclosureShort: "파트너 링크를 통해 추가 비용 없이 NexuAlpha가 플랫폼 수수료를 받을 수 있습니다.", disclosureBody: "NexuAlpha는 독립적인 비교·안내 사이트입니다. 가입과 거래는 제3자 플랫폼의 공식 사이트에서만 진행됩니다.", unavailable: "아직 확인된 파트너 경로가 없습니다. 먼저 위 공식 도메인을 확인하세요."
+  officialDomain: "공식 도메인", antiPhishingTip: "자격 증명을 입력하기 전에 브라우저의 도메인이 위 공식 도메인과 정확히 일치하는지 확인하세요.", referralCode: "추천 코드", copyCode: "코드 복사", copied: "복사됨 ✓", openSignup: "공식 가입 페이지로 이동 ↗", openApp: "공식 앱 열기 ↗", fullUrl: "공식 링크 전체", noCodeNeeded: "온체인 지갑 연결 · 코드 불필요", routeState: "파트너 경로", routeReady: "설정됨", routePending: "확인 대기", benefitState: "사용자 혜택", benefitVerified: "확인됨", benefitPending: "공식 가입 페이지에서 확인", regionState: "지역 이용 자격", regionReady: "공식 절차에서 확인 가능", regionVerify: "공식 절차에서 확인", regionBlocked: "이 지역에서는 직접 가입을 권장하지 않습니다",    unavailable: "아직 확인된 파트너 경로가 없습니다. 먼저 위 공식 도메인을 확인하세요."
 };
 copyDict.es = { ...copyDict.en, officialDomain: "Dominio oficial", referralCode: "Código de referido", copyCode: "Copiar código", copied: "Copiado ✓", openSignup: "Ir al registro oficial ↗", openApp: "Abrir aplicación oficial ↗", fullUrl: "Enlace oficial completo", noCodeNeeded: "Conexión on-chain directa · Sin código" };
 copyDict["pt-BR"] = { ...copyDict.en, officialDomain: "Domínio oficial", referralCode: "Código de indicação", copyCode: "Copiar código", copied: "Copiado ✓", openSignup: "Ir para o cadastro oficial ↗", openApp: "Abrir aplicativo oficial ↗", fullUrl: "Link oficial completo", noCodeNeeded: "Conexão on-chain direta · Sem código" };
@@ -176,38 +167,33 @@ copyDict.vi = { ...copyDict.en, officialDomain: "Tên miền chính thức", ref
 copyDict.it = { ...copyDict.en, officialDomain: "Dominio ufficiale", referralCode: "Codice referral", copyCode: "Copia codice", copied: "Copiato ✓", openSignup: "Apri la registrazione ufficiale ↗", openApp: "Apri l’app ufficiale ↗", fullUrl: "Link ufficiale completo", noCodeNeeded: "Connessione on-chain diretta · Nessun codice" };
 copyDict.tr = {
   ...copyDict.en,
-  officialDomain: "Resmi alan adı", antiPhishingTip: "Kimlik bilgilerinizi girmeden önce tarayıcıdaki alan adının yukarıdaki resmi alan adıyla tamamen aynı olduğunu doğrulayın.", referralCode: "Referans kodu", copyCode: "Kodu kopyala", copied: "Kopyalandı ✓", openSignup: "Resmi kayıt sayfasına git ↗", openApp: "Resmi uygulamayı aç ↗", fullUrl: "Resmi bağlantının tamamı", noCodeNeeded: "On-chain cüzdan bağlantısı · Kod gerekmez", routeState: "Ortak yönlendirmesi", routeReady: "Yapılandırıldı", routePending: "Beklemede", benefitState: "Kullanıcı avantajı", benefitVerified: "Doğrulandı", benefitPending: "Resmi kayıt sayfasından doğrulayın", regionState: "Bölgesel uygunluk", regionReady: "Resmi akışta doğrulanabilir", regionVerify: "Resmi akışta doğrulayın", regionBlocked: "Bu bölge için doğrudan kayıt önerilmez", disclosureTitle: "Şeffaf ortaklık açıklaması: ", disclosureShort: "Ortak bağlantılar, size ek ücret yansıtmadan NexuAlpha için platform komisyonu oluşturabilir.", disclosureBody: "NexuAlpha bağımsız bir karşılaştırma ve yönlendirme sitesidir. Kayıt ve işlemler yalnızca üçüncü taraf platformun resmi sitesinde gerçekleşir.", unavailable: "Bu platform için henüz doğrulanmış ortak yönlendirmesi yok. Önce yukarıdaki resmi alan adını kontrol edin."
+  officialDomain: "Resmi alan adı", antiPhishingTip: "Kimlik bilgilerinizi girmeden önce tarayıcıdaki alan adının yukarıdaki resmi alan adıyla tamamen aynı olduğunu doğrulayın.", referralCode: "Referans kodu", copyCode: "Kodu kopyala", copied: "Kopyalandı ✓", openSignup: "Resmi kayıt sayfasına git ↗", openApp: "Resmi uygulamayı aç ↗", fullUrl: "Resmi bağlantının tamamı", noCodeNeeded: "On-chain cüzdan bağlantısı · Kod gerekmez", routeState: "Ortak yönlendirmesi", routeReady: "Yapılandırıldı", routePending: "Beklemede", benefitState: "Kullanıcı avantajı", benefitVerified: "Doğrulandı", benefitPending: "Resmi kayıt sayfasından doğrulayın", regionState: "Bölgesel uygunluk", regionReady: "Resmi akışta doğrulanabilir", regionVerify: "Resmi akışta doğrulayın", regionBlocked: "Bu bölge için doğrudan kayıt önerilmez",    unavailable: "Bu platform için henüz doğrulanmış ortak yönlendirmesi yok. Önce yukarıdaki resmi alan adını kontrol edin."
 };
 Object.assign(copyDict.en, {
-  disclosureSummary: "Read full disclosure",
   productSpot: "Spot",
   productChoose: "Product path to confirm",
   stateListLabel: "Partner route, user benefit and regional eligibility",
   regionalContext: (label, product) => `Current research context: ${label} · ${product}. Final eligibility is confirmed in the official account flow.`,
 });
 Object.assign(copyDict["zh-Hans"], {
-  disclosureSummary: "查看完整披露",
   productSpot: "现货",
   productChoose: "产品路径待确认",
   stateListLabel: "合作入口、用户权益与地区资格",
   regionalContext: (label, product) => `当前研究地区：${label} · ${product} · 最终资格以官方账户流程为准。`,
 });
 Object.assign(copyDict["zh-Hant"], {
-  disclosureSummary: "查看完整披露",
   productSpot: "現貨",
   productChoose: "產品路徑待確認",
   stateListLabel: "合作入口、用戶權益與地區資格",
   regionalContext: (label, product) => `目前研究地區：${label} · ${product} · 最終資格以官方帳戶流程為準。`,
 });
 Object.assign(copyDict.ur, {
-  disclosureSummary: "مکمل وضاحت پڑھیں",
   productSpot: "اسپاٹ",
   productChoose: "پروڈکٹ راستہ تصدیق طلب",
   stateListLabel: "پارٹنر راستہ، صارف کا فائدہ اور علاقائی اہلیت",
   regionalContext: (label, product) => `موجودہ تحقیقی تناظر: ${label} · ${product}. حتمی اہلیت سرکاری اکاؤنٹ عمل میں تصدیق ہوتی ہے۔`,
 });
 Object.assign(copyDict.uk, {
-  disclosureSummary: "Прочитати повне розкриття",
   productSpot: "Спот",
   productChoose: "Маршрут продукту для підтвердження",
   stateListLabel: "Партнерський маршрут, умови для користувача та регіональна доступність",
@@ -224,7 +210,6 @@ Object.assign(copyDict.ja, {
   openOfficial: "公式ルートを開く ↗",
   continueCompare: "比較を続ける",
   telegramResearch: "Telegram 調査Botを開く ↗",
-  disclosureSummary: "完全な開示を読む",
   productSpot: "現物",
   productChoose: "商品ルートを確認",
   stateListLabel: "パートナー導線、ユーザー向け条件、地域適用",
@@ -247,7 +232,6 @@ Object.assign(copyDict.ko, {
   openOfficial: "공식 경로 열기 ↗",
   continueCompare: "플랫폼 비교 계속",
   telegramResearch: "Telegram 리서치 Bot 열기 ↗",
-  disclosureSummary: "전체 공개 읽기",
   productSpot: "현물",
   productChoose: "상품 경로 확인",
   stateListLabel: "파트너 경로, 사용자 조건, 지역 자격",
@@ -271,10 +255,6 @@ Object.assign(copyDict.es, {
   regionReady: "Se puede confirmar en el flujo oficial de cuenta",
   regionVerify: "Confirma en el flujo oficial",
   regionBlocked: "No se recomienda el registro directo para esta región",
-  disclosureTitle: "Divulgación transparente de afiliación: ",
-  disclosureShort: "Los enlaces de socio pueden generar para NexuAlpha una comisión pagada por la plataforma sin coste adicional para ti.",
-  disclosureBody: "NexuAlpha es un directorio independiente y centro de comparación de plataformas cripto. Al registrarte mediante enlaces o códigos de socio registrados, la plataforma puede pagarnos una comisión sin añadir coste para ti. NexuAlpha no es un exchange, no solicita claves privadas y no custodia fondos; el registro y las operaciones ocurren en la plataforma de terceros.",
-  disclosureSummary: "Leer la divulgación completa",
   unavailable: "Esta plataforma aún no tiene una ruta de socio registrada. Comprueba primero el dominio oficial indicado arriba.",
   officialRouteState: "Ruta oficial",
   openOfficial: "Abrir ruta oficial ↗",
@@ -303,10 +283,6 @@ Object.assign(copyDict["pt-BR"], {
   regionReady: "Pode ser confirmada no fluxo oficial da conta",
   regionVerify: "Confirme no fluxo oficial",
   regionBlocked: "O cadastro direto não é recomendado para esta região",
-  disclosureTitle: "Divulgação transparente de afiliado: ",
-  disclosureShort: "Links de parceiro podem gerar para a NexuAlpha uma comissão paga pela plataforma, sem custo adicional para você.",
-  disclosureBody: "A NexuAlpha é um diretório independente e hub de comparação de plataformas cripto. Ao se cadastrar por links ou códigos de parceiro registrados, a plataforma pode nos pagar uma comissão sem custo adicional para você. A NexuAlpha não é exchange, não solicita chaves privadas e não custodia fundos; cadastro e operações ocorrem na plataforma de terceiro.",
-  disclosureSummary: "Ler a divulgação completa",
   unavailable: "Esta plataforma ainda não tem uma rota de parceiro registrada. Confira primeiro o domínio oficial acima.",
   officialRouteState: "Rota oficial",
   openOfficial: "Abrir rota oficial ↗",
@@ -335,10 +311,6 @@ Object.assign(copyDict.fr, {
   regionReady: "À confirmer dans le parcours officiel du compte",
   regionVerify: "À confirmer dans le parcours officiel",
   regionBlocked: "L’inscription directe n’est pas recommandée pour cette région",
-  disclosureTitle: "Divulgation transparente d’affiliation : ",
-  disclosureShort: "Les liens partenaires peuvent rapporter à NexuAlpha une commission payée par la plateforme, sans coût supplémentaire pour vous.",
-  disclosureBody: "NexuAlpha est un annuaire indépendant et un hub de comparaison de plateformes crypto. Une inscription via des liens ou codes partenaires enregistrés peut nous rapporter une commission payée par la plateforme, sans coût supplémentaire pour vous. NexuAlpha n’est pas une bourse, ne demande jamais de clés privées et ne conserve pas de fonds ; l’inscription et les opérations ont lieu sur la plateforme tierce.",
-  disclosureSummary: "Lire la divulgation complète",
   unavailable: "Aucune route partenaire enregistrée n’est encore configurée pour cette plateforme. Vérifiez d’abord le domaine officiel ci-dessus.",
   officialRouteState: "Route officielle",
   openOfficial: "Ouvrir la route officielle ↗",
@@ -367,10 +339,6 @@ Object.assign(copyDict.de, {
   regionReady: "Im offiziellen Kontoweg prüfbar",
   regionVerify: "Im offiziellen Weg prüfen",
   regionBlocked: "Direkte Registrierung wird für diese Region nicht empfohlen",
-  disclosureTitle: "Transparente Affiliate-Offenlegung: ",
-  disclosureShort: "Partnerlinks können NexuAlpha eine von der Plattform gezahlte Provision einbringen, ohne zusätzliche Kosten für Sie.",
-  disclosureBody: "NexuAlpha ist ein unabhängiges Krypto-Plattform-Verzeichnis und Vergleichsangebot. Eine Registrierung über erfasste Partnerlinks oder Empfehlungscodes kann uns eine von der Plattform gezahlte Provision einbringen, ohne zusätzliche Kosten für Sie. NexuAlpha ist keine Börse, fragt nie nach privaten Schlüsseln und verwahrt keine Gelder; Registrierung und Handel erfolgen auf der Drittplattform.",
-  disclosureSummary: "Vollständige Offenlegung lesen",
   unavailable: "Für diese Plattform ist noch keine erfasste Partnerroute konfiguriert. Prüfen Sie zuerst die oben genannte offizielle Domain.",
   officialRouteState: "Offizieller Weg",
   openOfficial: "Offiziellen Weg öffnen ↗",
@@ -399,10 +367,6 @@ Object.assign(copyDict.ar, {
   regionReady: "يمكن تأكيدها في مسار الحساب الرسمي",
   regionVerify: "تحقق في المسار الرسمي",
   regionBlocked: "لا نوصي بالتسجيل المباشر لهذه المنطقة",
-  disclosureTitle: "إفصاح شفاف عن الشراكة: ",
-  disclosureShort: "قد تمنح روابط الشراكة NexuAlpha عمولة تدفعها المنصة من دون تكلفة إضافية عليك.",
-  disclosureBody: "NexuAlpha دليل مستقل ومركز مقارنة لمنصات العملات الرقمية. التسجيل عبر روابط أو رموز شراكة مسجلة قد يمنحنا عمولة تدفعها المنصة من دون تكلفة إضافية عليك. NexuAlpha ليست منصة تداول، ولا تطلب المفاتيح الخاصة، ولا تحتفظ بالأموال؛ التسجيل والتداول يتمان على منصة الطرف الثالث.",
-  disclosureSummary: "قراءة الإفصاح الكامل",
   unavailable: "لا يوجد مسار شراكة مسجل لهذه المنصة بعد. تحقق أولاً من النطاق الرسمي أعلاه.",
   officialRouteState: "المسار الرسمي",
   openOfficial: "فتح المسار الرسمي ↗",
@@ -431,10 +395,6 @@ Object.assign(copyDict.ru, {
   regionReady: "Можно подтвердить в официальном аккаунтном процессе",
   regionVerify: "Проверьте в официальном процессе",
   regionBlocked: "Прямая регистрация для этого региона не рекомендуется",
-  disclosureTitle: "Прозрачное раскрытие партнёрства: ",
-  disclosureShort: "Партнёрские ссылки могут принести NexuAlpha комиссию от платформы без дополнительных расходов для вас.",
-  disclosureBody: "NexuAlpha — независимый каталог и центр сравнения криптоплатформ. Регистрация по зафиксированным партнёрским ссылкам или кодам может принести нам комиссию от платформы без дополнительных расходов для вас. NexuAlpha не является биржей, не запрашивает приватные ключи и не хранит средства; регистрация и сделки происходят на сторонней платформе.",
-  disclosureSummary: "Прочитать полное раскрытие",
   unavailable: "Для этой платформы пока нет зафиксированного партнёрского маршрута. Сначала проверьте официальный домен выше.",
   officialRouteState: "Официальный маршрут",
   openOfficial: "Открыть официальный маршрут ↗",
@@ -463,10 +423,6 @@ Object.assign(copyDict.id, {
   regionReady: "Dapat dikonfirmasi dalam alur akun resmi",
   regionVerify: "Konfirmasi dalam alur resmi",
   regionBlocked: "Pendaftaran langsung tidak disarankan untuk wilayah ini",
-  disclosureTitle: "Pengungkapan afiliasi transparan: ",
-  disclosureShort: "Tautan partner dapat memberi NexuAlpha komisi yang dibayar platform tanpa biaya tambahan untuk Anda.",
-  disclosureBody: "NexuAlpha adalah direktori independen dan pusat perbandingan platform kripto. Pendaftaran melalui tautan atau kode partner tercatat dapat memberi kami komisi yang dibayar platform tanpa biaya tambahan untuk Anda. NexuAlpha bukan bursa, tidak meminta kunci privat, dan tidak menyimpan dana; pendaftaran dan transaksi berlangsung di platform pihak ketiga.",
-  disclosureSummary: "Baca pengungkapan lengkap",
   unavailable: "Belum ada rute partner tercatat untuk platform ini. Periksa dulu domain resmi di atas.",
   officialRouteState: "Rute resmi",
   openOfficial: "Buka rute resmi ↗",
@@ -495,10 +451,6 @@ Object.assign(copyDict.vi, {
   regionReady: "Có thể xác nhận trong luồng tài khoản chính thức",
   regionVerify: "Xác nhận trong luồng chính thức",
   regionBlocked: "Không khuyến nghị đăng ký trực tiếp cho khu vực này",
-  disclosureTitle: "Công bố liên kết minh bạch: ",
-  disclosureShort: "Liên kết đối tác có thể mang lại cho NexuAlpha hoa hồng do nền tảng trả, không phát sinh chi phí thêm cho bạn.",
-  disclosureBody: "NexuAlpha là danh bạ độc lập và trung tâm so sánh nền tảng crypto. Việc đăng ký qua liên kết hoặc mã đối tác đã ghi nhận có thể mang lại cho chúng tôi hoa hồng do nền tảng trả, không phát sinh chi phí thêm cho bạn. NexuAlpha không phải sàn giao dịch, không yêu cầu khóa riêng tư và không lưu ký tài sản; đăng ký và giao dịch diễn ra trên nền tảng bên thứ ba.",
-  disclosureSummary: "Đọc công bố đầy đủ",
   unavailable: "Nền tảng này chưa có đường dẫn đối tác đã ghi nhận. Hãy kiểm tra tên miền chính thức ở trên trước.",
   officialRouteState: "Đường dẫn chính thức",
   openOfficial: "Mở đường dẫn chính thức ↗",
@@ -527,10 +479,6 @@ Object.assign(copyDict.it, {
   regionReady: "Confermabile nel flusso ufficiale dell’account",
   regionVerify: "Conferma nel flusso ufficiale",
   regionBlocked: "La registrazione diretta non è consigliata per questa regione",
-  disclosureTitle: "Informativa trasparente di affiliazione: ",
-  disclosureShort: "I link partner possono far ricevere a NexuAlpha una commissione pagata dalla piattaforma, senza costi aggiuntivi per te.",
-  disclosureBody: "NexuAlpha è una directory indipendente e un hub di confronto di piattaforme crypto. La registrazione tramite link o codici partner registrati può farci ricevere una commissione pagata dalla piattaforma, senza costi aggiuntivi per te. NexuAlpha non è un exchange, non richiede chiavi private e non custodisce fondi; registrazione e operazioni avvengono sulla piattaforma terza.",
-  disclosureSummary: "Leggi l’informativa completa",
   unavailable: "Per questa piattaforma non è ancora configurato un percorso partner registrato. Controlla prima il dominio ufficiale sopra.",
   officialRouteState: "Percorso ufficiale",
   openOfficial: "Apri percorso ufficiale ↗",
@@ -562,7 +510,6 @@ Object.assign(copyDict.tr, {
   openOfficial: "Resmi rotayı aç ↗",
   continueCompare: "Karşılaştırmaya devam et",
   telegramResearch: "Telegram araştırma asistanını aç ↗",
-  disclosureSummary: "Açıklamanın tamamını oku",
   productSpot: "Spot",
   productChoose: "Ürün yolu kontrol edilecek",
   stateListLabel: "Partner rotası, kullanıcı koşulları ve bölgesel uygunluk",
@@ -600,24 +547,13 @@ function registrationRuntimeCopy(locale, baseCopy) {
     regionReady: inheritedEnglish("regionReady") ? text.registrationPrepCta : baseCopy.regionReady,
     regionVerify: inheritedEnglish("regionVerify") ? text.verifyBefore : baseCopy.regionVerify,
     regionBlocked: inheritedEnglish("regionBlocked") ? text.notConfigured : baseCopy.regionBlocked,
-    disclosureTitle: inheritedEnglish("disclosureTitle") ? `${text.relationship} ` : baseCopy.disclosureTitle,
-    disclosureShort: inheritedEnglish("disclosureShort") ? text.relationship : baseCopy.disclosureShort,
-    disclosureBody: inheritedEnglish("disclosureBody") ? `${text.relationship} ${text.noOfficial}` : baseCopy.disclosureBody,
     unavailable: inheritedEnglish("unavailable") ? text.notConfigured : baseCopy.unavailable,
     productSpot: baseCopy.productSpot || text.productFamily,
     productChoose: baseCopy.productChoose || text.productFamily,
     regionalContext: baseCopy.regionalContext || ((label, product) => `${text.researchScope}: ${label} · ${product}. ${text.verifyBefore}.`),
     stateListLabel: baseCopy.stateListLabel || `${text.partnerState} · ${text.verifyBefore}`,
-    disclosureSummary: baseCopy.disclosureSummary || text.openDetail,
     routeDetailsTitle: baseCopy.routeDetailsTitle || text.openDetail,
   };
-}
-
-// Shared, already-localized short disclosure (same strings as .registration-card__disclosure),
-// exported so list views with sponsored CTAs can show it next to their first CTA.
-export function registrationDisclosureCopy(locale) {
-  const resolved = registrationRuntimeCopy(locale, getCopy(locale));
-  return { title: resolved.disclosureTitle, short: resolved.disclosureShort };
 }
 
 const registrationNextStepCopy = Object.freeze({
@@ -1110,8 +1046,6 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
         {compact && <div className="registration-card__action-group">
           {preflight}
           {primaryAction}
-          {/* Rule 8: the commission sentence sits directly under the sponsored action, so both share every viewport. */}
-          {publicCta.hasPartnerRoute && <p className="registration-card__inline-disclosure" data-disclosure-placement="registration-card-cta">{copy.disclosureShort}</p>}
         </div>}
 
         {/* 可展开的条件说明；紧凑卡片的主操作始终可见 */}
@@ -1146,7 +1080,6 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
                 <p><span>{copy.regionState}</span><b>{regionStateText}</b></p>
               </div>
               {!compact && <>{preflight}{primaryAction}</>}
-              {!compact && publicCta.hasPartnerRoute && <p className="registration-card__inline-disclosure" data-disclosure-placement="registration-card-cta">{copy.disclosureShort}</p>}
 
               {(visiblePartner.registrationUrl || officialRouteUrl) && (
                 <div className="registration-card__url-row">
@@ -1171,15 +1104,6 @@ export function RegistrationCard({ venueSlug, fallbackDomain, locale = "en", mar
         </details>
 	      </div>
 
-      {/* 透明合规与返佣披露 */}
-      <div className="registration-card__disclosure">
-        <b>{copy.disclosureTitle}</b>
-        <span>{copy.disclosureShort}</span>
-        <details className="registration-card__disclosure-details">
-          <summary>{copy.disclosureSummary || (locale.startsWith("zh") ? "查看完整披露" : "Read full disclosure")}</summary>
-          <p>{copy.disclosureBody}</p>
-        </details>
-      </div>
     </div>
   );
 }

@@ -336,4 +336,3 @@
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-act-badge--partner dd { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-act-badge--partner .act-note { font-size: var(--t-14); color: var(--n11); }
 #factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-act-badge--partner small.act-note { flex-basis: 100%; }
-#factbook-root#factbook-root#factbook-root#factbook-root.v6.factbook-page .factbook-activation-disclosure { margin-block-start: var(--s-2, 8px); }

@@ -8,7 +8,6 @@ import { decisionForVenue } from "../../data/venue-decision-content.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { appendDecisionPassportQuery } from "../../data/decision-passport.js";
 import { getLocalizedVenueName } from "../../utils/venue-name-helper.js";
-import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 import { ctaUiCopy, fillCta } from "../../data/cta-ui-copy.js";
 
 // One date format site-wide: "September 22, 2026" in a review label reads "2026-09-22".
@@ -158,7 +157,7 @@ function choiceContext({ profiles, locale, market, product, accountStage, fundin
 
 // Mobile-first screen of /compare/{a}-vs-{b} (owner 2026-10-10): the H1, the one-line verdict already used by the
 // final-choice card, and the two official sign-up routes. Same choiceContext as the card below, so the CTA guard sees
-// identical hrefs and codes; the commission disclosure sits in the same viewport.
+// identical hrefs and codes.
 export function CompareHeroActions({ directAnswer, profiles, locale, market, product, accountStage, funding }) {
   if (!profiles || profiles.length !== 2) return null;
   const verdict = sanitizePublicText(directAnswer?.decisionCard?.title) || sanitizePublicText(directAnswer?.title) || null;
@@ -193,7 +192,6 @@ export function CompareHeroActions({ directAnswer, profiles, locale, market, pro
           </a>
         ))}
       </div>
-      <CommissionDisclosureLine locale={locale} className="v3-compare-hero-actions__disclosure" placement="compare-hero-signup" />
     </div>
   );
 }
@@ -213,7 +211,6 @@ export function CompareFinalChoiceCard({ directAnswer, profiles, locale, market,
         <p>{directAnswer.body}</p>
       </div>
 
-      <CommissionDisclosureLine locale={locale} className="v3-compare-final-choice-card__disclosure" placement="compare-final-choice" />
       <div className="v3-compare-final-choice-card__grid">
         {ctas.map(({ profile, access, cta, decision }) => {
           const pick = card.picks?.[profile.slug] || {};

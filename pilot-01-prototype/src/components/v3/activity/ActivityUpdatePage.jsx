@@ -1,3 +1,6 @@
+import { useCampaignBriefs } from '../../shared/useCampaignBriefs.js';
+import { CampaignBriefFacts } from '../../shared/CampaignBriefFacts.jsx';
+import { localizedBriefText } from '../../../data/campaign-briefs.js';
 import React, { useEffect, useState } from 'react';
 import { BrandMark } from '../../brand/BrandMark.jsx';
 import { SectionRule } from '../../shared/DataRule.jsx';
@@ -26,7 +29,8 @@ export function ActivityUpdatePage({ venue, slug, locale = 'en', market, initial
     fetch('/intel/official-announcements.json', { signal: controller.signal }).then(r => r.ok ? r.json() : null).then(data => { if (data) setFeed(data); }).catch(() => {});
     return () => controller.abort();
   }, [initialFeed]);
-  const item = findUpdate(feed, venue, slug);
+  const briefFeed = useCampaignBriefs(feed);
+  const item = findUpdate(briefFeed, venue, slug);
   const t = updateCopy(locale);
   if (!item) return <main className="update-page"><h1>{t.missing}</h1><a href={withMarket(localizedHref('/activities', { locale }), market)}>{updateCategory({ category: 'event' }, locale)}</a></main>;
   const cta = publicCtaForVenue(venue, locale, market);
@@ -34,15 +38,16 @@ export function ActivityUpdatePage({ venue, slug, locale = 'en', market, initial
   const neutral = /^(ru|ar|ur|uk)(-|$)|^zh-(Hant|TW|HK)(-|$)/i.test(locale);
   const promotable = !neutral && regional.ctaState !== 'blocked' && isPartnerPromotableIn(venue, { locale, market });
   const officialEntry = cta.officialDomain ? `https://${cta.officialDomain}` : null;
-  const related = updateItems(feed).filter(row => row.venue === venue && row.id !== item.id).slice(0, 5);
+  const related = updateItems(briefFeed).filter(row => row.venue === venue && row.id !== item.id).slice(0, 5);
   return <main className="update-page" id="top" dir={/^(ar|ur)$/.test(locale) ? 'rtl' : undefined}>
     <article>
       <header className="update-page__header">
         <a href={withMarket(localizedHref('/activities', { locale }), market)}>{updateCategory({ category: 'event' }, locale)} ←</a>
         <div className="update-page__meta"><BrandMark slug={venue} compact /><b>{cta.name || venue}</b><span>{updateCategory(item, locale)}</span><time dateTime={item.publishedAt}><bdi>{new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeZone: 'UTC' }).format(new Date(item.publishedAt))}</bdi></time></div>
         <h1 dir="auto">{updateHeadline(item, locale)}</h1>
+        <CampaignBriefFacts brief={item.brief} locale={locale} />
       </header>
-      <section><SectionRule /><h2>{t.means}</h2><p>{t[item.category] || t.news}</p></section>
+      <section><SectionRule /><h2>{t.means}</h2><p>{localizedBriefText(item.brief?.summary, locale) || t[item.category] || t.news}</p></section>
       <section><SectionRule /><h2>{t.join}</h2><ol>{t.steps.map(step => <li key={step}>{step}</li>)}</ol>
         {promotable ? <CampaignJoin venue={venue} locale={locale} market={market} officialUrl={officialEntry} placement="activity-update-join" /> : officialEntry && <a href={officialEntry} target="_blank" rel="nofollow noopener noreferrer">{cta.name || venue} ↗</a>}
       </section>

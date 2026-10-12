@@ -4,7 +4,6 @@ import { neutralVenueCatalog } from "../../data/market-command.js";
 import { localizedHref } from "../../data/locale-routing.js";
 import { formatPercent } from "../../data/format-percent.js";
 import { factbookDates, factbookDatesCopy } from "../../data/factbook-dates.js";
-import { CommissionDisclosureLine } from "./CommissionDisclosureLine.jsx";
 import { partnerBenefitParts } from "../../data/owner-rebate-line.js";
 import { publicCtaForVenue } from "../../data/source-bound-cta.js";
 import { bleedCopyFeedback } from "../../data/trading-bleed-copy.js";
@@ -1951,7 +1950,6 @@ export function FactbookPage({ slug = "binance", locale = "en", market, product 
                   >
                     {activationCta.benefitVerified ? t.activateBtn : t.signupButton}
                   </a>
-                  <CommissionDisclosureLine locale={locale} className="factbook-activation-disclosure" placement="factbook-activation" />
                 </div>
               </div>
             </section>

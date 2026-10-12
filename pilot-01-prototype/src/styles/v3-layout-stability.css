@@ -1452,7 +1452,6 @@ img {
 .v3-compare-page .v3-back-link { min-block-size:44px; margin-block-end:0; font-family:var(--font-body); }
 .v3-compare-page .decision-return-link { margin-block:0.25rem; }
 .v3-compare-page .v3-page-hero p { font-size:15px; }
-.v3-compare-page .v3-page-hero .v3-relationship-note { font-size:12px; }
 .v3-compare-name-alias { white-space:nowrap; }
 .v3-compare-support-disclosure { min-inline-size:0; }
 .v3-compare-support-disclosure > summary {

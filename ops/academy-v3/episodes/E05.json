@@ -1,0 +1,2826 @@
+{
+  "version": 1,
+  "production_id": "E05",
+  "episode": 5,
+  "season": 1,
+  "slug": "kyc-who-gets-your-id",
+  "title": {
+    "en": "How does KYC work, and who should get your ID?",
+    "zh-Hans": "KYC怎么做？证件应该交给谁？"
+  },
+  "direction": "ltr",
+  "status": "V3_SOURCE_NARRATION_ALIGNED",
+  "timing_note": "Line and word timings are aligned to measured narration wavs (episodes/narration-timing.json); words are spread proportionally within each measured line. On-screen zh-Hans captions follow the English narration timing.",
+  "narration": {
+    "mode": "CLONE",
+    "command_template": "python -m mlx_audio.tts.generate --model mlx-community/Qwen3-TTS-12Hz-1.7B-Base-8bit --lang_code en --ref_audio /Volumes/致态2TB/nx-agents/education/v2/voice-en-master-reference.wav --ref_text \"Your KYC got rejected again? Don't worry. Most rejections come down to just a few simple mistakes. Let's fix them together.\" --text \"<line>\" --output_path <dir> --file_prefix <name>",
+    "english_voice_instruct": "a cheerful young American woman in her twenties, warm and energetic, clear diction, friendly YouTube tutorial host",
+    "sam_voice_design_instruct": "a friendly adult American man new to crypto, natural and conversational, clear diction, curious but not cartoonish",
+    "sam_voice_note": "Task-specific brief requests Sam lines with this distinct VoiceDesign model; this overrides the older global owner note that male voice was not used."
+  },
+  "open_lines": [],
+  "open_visual_en": "Brand open (3 s): official NexuAlpha logo mark + wordmark (imported SVG, never redrawn, proportions locked) eases in centre-left; series title, 'S1 · E05' and the episode title slide in beside it; fixed short brand sting. Nexubo pops up from the bottom edge with a squash-and-stretch landing, antenna blue.",
+  "open_visual_zh": "品牌片头（3秒）：正式标志图形＋文字标（导入原始SVG，不重画、不变比例）淡入；旁边显示系列名、“第1季 · 第05集”与本集标题；固定短音效。小纳从画面下沿弹出落地，天线蓝灯。",
+  "shots": [
+    {
+      "id": "problem",
+      "duration": 6,
+      "set": "study-desk",
+      "visual_en": "Sam sees an ID upload page; at the same time a chat window pops up: 'I can pass KYC for you.'",
+      "visual_zh": "小白看到证件上传页面；聊天窗口同时有人自称可以代过认证。",
+      "onscreen_text_en": "Chat: \"I can pass KYC for you\"",
+      "onscreen_text_zh-Hans": "聊天：“我能帮你代过认证”",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "worried"
+      },
+      "framing": "close-up",
+      "focus": "sam",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "It wants my ID. And this guy says he can do it for me?",
+            "zh-Hans": "它要我的证件，旁边这个人说能帮我代办？"
+          },
+          "start": 0.25,
+          "end": 3.491,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e05-00-problem-l01-sam",
+            "atempo": 1,
+            "seconds": 3.241
+          },
+          "words": {
+            "en": [
+              {
+                "text": "It ",
+                "start": 0.25,
+                "end": 0.408
+              },
+              {
+                "text": "wants ",
+                "start": 0.408,
+                "end": 0.803
+              },
+              {
+                "text": "my ",
+                "start": 0.803,
+                "end": 0.961
+              },
+              {
+                "text": "ID. ",
+                "start": 0.961,
+                "end": 1.199
+              },
+              {
+                "text": "And ",
+                "start": 1.199,
+                "end": 1.436
+              },
+              {
+                "text": "this ",
+                "start": 1.436,
+                "end": 1.752
+              },
+              {
+                "text": "guy ",
+                "start": 1.752,
+                "end": 1.989
+              },
+              {
+                "text": "says ",
+                "start": 1.989,
+                "end": 2.305
+              },
+              {
+                "text": "he ",
+                "start": 2.305,
+                "end": 2.463
+              },
+              {
+                "text": "can ",
+                "start": 2.463,
+                "end": 2.701
+              },
+              {
+                "text": "do ",
+                "start": 2.701,
+                "end": 2.859
+              },
+              {
+                "text": "it ",
+                "start": 2.859,
+                "end": 3.017
+              },
+              {
+                "text": "for ",
+                "start": 3.017,
+                "end": 3.254
+              },
+              {
+                "text": "me?",
+                "start": 3.254,
+                "end": 3.491
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "它",
+                "start": 0.25,
+                "end": 0.421
+              },
+              {
+                "text": "要",
+                "start": 0.421,
+                "end": 0.591
+              },
+              {
+                "text": "我的",
+                "start": 0.591,
+                "end": 0.932
+              },
+              {
+                "text": "证件，",
+                "start": 0.932,
+                "end": 1.444
+              },
+              {
+                "text": "旁边",
+                "start": 1.444,
+                "end": 1.785
+              },
+              {
+                "text": "这个",
+                "start": 1.785,
+                "end": 2.126
+              },
+              {
+                "text": "人",
+                "start": 2.126,
+                "end": 2.297
+              },
+              {
+                "text": "说",
+                "start": 2.297,
+                "end": 2.468
+              },
+              {
+                "text": "能",
+                "start": 2.468,
+                "end": 2.638
+              },
+              {
+                "text": "帮",
+                "start": 2.638,
+                "end": 2.809
+              },
+              {
+                "text": "我",
+                "start": 2.809,
+                "end": 2.979
+              },
+              {
+                "text": "代办？",
+                "start": 2.979,
+                "end": 3.491
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "warning",
+          "message": {
+            "en": "Chat: \"I can pass KYC for you\"",
+            "zh-Hans": "聊天：“我能帮你代过认证”"
+          }
+        }
+      ],
+      "source_tc": "00:00-00:06",
+      "source_visual_zh": "小白看到证件上传页面；聊天窗口同时有人自称可以代过认证。",
+      "source_onscreen_text": {
+        "en": [
+          "Chat: \"I can pass KYC for you\""
+        ],
+        "zh-Hans": [
+          "聊天：“我能帮你代过认证”"
+        ]
+      }
+    },
+    {
+      "id": "official-flow",
+      "duration": 23,
+      "set": "study-desk",
+      "visual_en": "Nexubo closes the private chat with a ding (antenna red, chip 'Never send ID in chat'); camera zooms to the official domain and the official verification entry, antenna turns blue.",
+      "visual_zh": "小纳关闭私人聊天（天线红灯“叮”一声，红色警示条“不在聊天里发证件”），画面放大官网域名与官方认证入口，天线转蓝。",
+      "onscreen_text_en": "Never send ID in chat",
+      "onscreen_text_zh-Hans": "不在聊天里发证件",
+      "antenna": "red",
+      "ding": true,
+      "nexubo": {
+        "pose": "shield",
+        "expression": "warning"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "confused"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Identity checks are usually there to confirm you are the account owner and to meet the rules. Make sure it's the official flow first. Don't hand your ID or codes to an 'agent' in a chat group.",
+            "zh-Hans": "身份认证通常用来核实账户本人、满足合规要求。先确认是官方流程，不要把证件、验证码交给聊天群里的代办。"
+          },
+          "start": 0.25,
+          "end": 10.372,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e05-02-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 10.122
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Identity ",
+                "start": 0.25,
+                "end": 0.769
+              },
+              {
+                "text": "checks ",
+                "start": 0.769,
+                "end": 1.158
+              },
+              {
+                "text": "are ",
+                "start": 1.158,
+                "end": 1.353
+              },
+              {
+                "text": "usually ",
+                "start": 1.353,
+                "end": 1.807
+              },
+              {
+                "text": "there ",
+                "start": 1.807,
+                "end": 2.132
+              },
+              {
+                "text": "to ",
+                "start": 2.132,
+                "end": 2.261
+              },
+              {
+                "text": "confirm ",
+                "start": 2.261,
+                "end": 2.716
+              },
+              {
+                "text": "you ",
+                "start": 2.716,
+                "end": 2.91
+              },
+              {
+                "text": "are ",
+                "start": 2.91,
+                "end": 3.105
+              },
+              {
+                "text": "the ",
+                "start": 3.105,
+                "end": 3.3
+              },
+              {
+                "text": "account ",
+                "start": 3.3,
+                "end": 3.754
+              },
+              {
+                "text": "owner ",
+                "start": 3.754,
+                "end": 4.078
+              },
+              {
+                "text": "and ",
+                "start": 4.078,
+                "end": 4.273
+              },
+              {
+                "text": "to ",
+                "start": 4.273,
+                "end": 4.403
+              },
+              {
+                "text": "meet ",
+                "start": 4.403,
+                "end": 4.662
+              },
+              {
+                "text": "the ",
+                "start": 4.662,
+                "end": 4.857
+              },
+              {
+                "text": "rules. ",
+                "start": 4.857,
+                "end": 5.246
+              },
+              {
+                "text": "Make ",
+                "start": 5.246,
+                "end": 5.506
+              },
+              {
+                "text": "sure ",
+                "start": 5.506,
+                "end": 5.765
+              },
+              {
+                "text": "it's ",
+                "start": 5.765,
+                "end": 6.025
+              },
+              {
+                "text": "the ",
+                "start": 6.025,
+                "end": 6.219
+              },
+              {
+                "text": "official ",
+                "start": 6.219,
+                "end": 6.738
+              },
+              {
+                "text": "flow ",
+                "start": 6.738,
+                "end": 6.998
+              },
+              {
+                "text": "first. ",
+                "start": 6.998,
+                "end": 7.387
+              },
+              {
+                "text": "Don't ",
+                "start": 7.387,
+                "end": 7.712
+              },
+              {
+                "text": "hand ",
+                "start": 7.712,
+                "end": 7.971
+              },
+              {
+                "text": "your ",
+                "start": 7.971,
+                "end": 8.231
+              },
+              {
+                "text": "ID ",
+                "start": 8.231,
+                "end": 8.361
+              },
+              {
+                "text": "or ",
+                "start": 8.361,
+                "end": 8.49
+              },
+              {
+                "text": "codes ",
+                "start": 8.49,
+                "end": 8.815
+              },
+              {
+                "text": "to ",
+                "start": 8.815,
+                "end": 8.945
+              },
+              {
+                "text": "an '",
+                "start": 8.945,
+                "end": 9.139
+              },
+              {
+                "text": "agent' ",
+                "start": 9.139,
+                "end": 9.529
+              },
+              {
+                "text": "in ",
+                "start": 9.529,
+                "end": 9.658
+              },
+              {
+                "text": "a ",
+                "start": 9.658,
+                "end": 9.723
+              },
+              {
+                "text": "chat ",
+                "start": 9.723,
+                "end": 9.983
+              },
+              {
+                "text": "group.",
+                "start": 9.983,
+                "end": 10.372
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "身份",
+                "start": 0.25,
+                "end": 0.655
+              },
+              {
+                "text": "认证",
+                "start": 0.655,
+                "end": 1.06
+              },
+              {
+                "text": "通常",
+                "start": 1.06,
+                "end": 1.465
+              },
+              {
+                "text": "用",
+                "start": 1.465,
+                "end": 1.667
+              },
+              {
+                "text": "来",
+                "start": 1.667,
+                "end": 1.87
+              },
+              {
+                "text": "核实",
+                "start": 1.87,
+                "end": 2.274
+              },
+              {
+                "text": "账户",
+                "start": 2.274,
+                "end": 2.679
+              },
+              {
+                "text": "本人、",
+                "start": 2.679,
+                "end": 3.287
+              },
+              {
+                "text": "满足",
+                "start": 3.287,
+                "end": 3.691
+              },
+              {
+                "text": "合",
+                "start": 3.691,
+                "end": 3.894
+              },
+              {
+                "text": "规",
+                "start": 3.894,
+                "end": 4.096
+              },
+              {
+                "text": "要求。",
+                "start": 4.096,
+                "end": 4.704
+              },
+              {
+                "text": "先",
+                "start": 4.704,
+                "end": 4.906
+              },
+              {
+                "text": "确认",
+                "start": 4.906,
+                "end": 5.311
+              },
+              {
+                "text": "是",
+                "start": 5.311,
+                "end": 5.513
+              },
+              {
+                "text": "官方",
+                "start": 5.513,
+                "end": 5.918
+              },
+              {
+                "text": "流程，",
+                "start": 5.918,
+                "end": 6.526
+              },
+              {
+                "text": "不要",
+                "start": 6.526,
+                "end": 6.931
+              },
+              {
+                "text": "把",
+                "start": 6.931,
+                "end": 7.133
+              },
+              {
+                "text": "证件、",
+                "start": 7.133,
+                "end": 7.74
+              },
+              {
+                "text": "验证",
+                "start": 7.74,
+                "end": 8.145
+              },
+              {
+                "text": "码",
+                "start": 8.145,
+                "end": 8.348
+              },
+              {
+                "text": "交给",
+                "start": 8.348,
+                "end": 8.752
+              },
+              {
+                "text": "聊天",
+                "start": 8.752,
+                "end": 9.157
+              },
+              {
+                "text": "群",
+                "start": 9.157,
+                "end": 9.36
+              },
+              {
+                "text": "里",
+                "start": 9.36,
+                "end": 9.562
+              },
+              {
+                "text": "的",
+                "start": 9.562,
+                "end": 9.765
+              },
+              {
+                "text": "代办。",
+                "start": 9.765,
+                "end": 10.372
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Official domain",
+                "zh-Hans": "官方域名"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Official verification entry",
+                "zh-Hans": "官方认证入口"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "No chat agents",
+                "zh-Hans": "不找私信代办"
+              },
+              "done": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:09-00:32",
+      "source_visual_zh": "小纳关闭私人聊天（天线红灯“叮”一声，红色警示条“不在聊天里发证件”），画面放大官网域名与官方认证入口，天线转蓝。",
+      "source_onscreen_text": {
+        "en": [
+          "Never send ID in chat",
+          "Official domain ✓"
+        ],
+        "zh-Hans": [
+          "不在聊天里发证件",
+          "官方域名 ✓"
+        ]
+      }
+    },
+    {
+      "id": "kyc-steps",
+      "duration": 28,
+      "set": "study-desk",
+      "visual_en": "Mock flow: real residence and name → valid ID → photo as instructed. Every ID shown is an obviously fictional sample marked SAMPLE.",
+      "visual_zh": "模拟流程：真实居住地和姓名→有效证件→按要求拍摄；所有证件为明显虚构样张。",
+      "onscreen_text_en": "1 Real details",
+      "onscreen_text_zh-Hans": "1 真实信息",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "hold-phone",
+        "expression": "neutral"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Usually you enter your real details, upload a supported valid ID, then follow the prompts for a photo or face check. Whether you need proof of address, and which IDs are accepted, depends on your region and platform.",
+            "zh-Hans": "一般先填真实信息，再提交支持的有效证件，按提示完成照片或本人验证。是否需要地址证明、接受什么证件，都取决于地区和平台。"
+          },
+          "start": 0.25,
+          "end": 11.56,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e05-03-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 11.31
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Usually ",
+                "start": 0.25,
+                "end": 0.692
+              },
+              {
+                "text": "you ",
+                "start": 0.692,
+                "end": 0.882
+              },
+              {
+                "text": "enter ",
+                "start": 0.882,
+                "end": 1.198
+              },
+              {
+                "text": "your ",
+                "start": 1.198,
+                "end": 1.451
+              },
+              {
+                "text": "real ",
+                "start": 1.451,
+                "end": 1.703
+              },
+              {
+                "text": "details, ",
+                "start": 1.703,
+                "end": 2.209
+              },
+              {
+                "text": "upload ",
+                "start": 2.209,
+                "end": 2.588
+              },
+              {
+                "text": "a ",
+                "start": 2.588,
+                "end": 2.651
+              },
+              {
+                "text": "supported ",
+                "start": 2.651,
+                "end": 3.22
+              },
+              {
+                "text": "valid ",
+                "start": 3.22,
+                "end": 3.536
+              },
+              {
+                "text": "ID, ",
+                "start": 3.536,
+                "end": 3.725
+              },
+              {
+                "text": "then ",
+                "start": 3.725,
+                "end": 3.978
+              },
+              {
+                "text": "follow ",
+                "start": 3.978,
+                "end": 4.357
+              },
+              {
+                "text": "the ",
+                "start": 4.357,
+                "end": 4.547
+              },
+              {
+                "text": "prompts ",
+                "start": 4.547,
+                "end": 4.989
+              },
+              {
+                "text": "for ",
+                "start": 4.989,
+                "end": 5.178
+              },
+              {
+                "text": "a ",
+                "start": 5.178,
+                "end": 5.242
+              },
+              {
+                "text": "photo ",
+                "start": 5.242,
+                "end": 5.557
+              },
+              {
+                "text": "or ",
+                "start": 5.557,
+                "end": 5.684
+              },
+              {
+                "text": "face ",
+                "start": 5.684,
+                "end": 5.937
+              },
+              {
+                "text": "check. ",
+                "start": 5.937,
+                "end": 6.316
+              },
+              {
+                "text": "Whether ",
+                "start": 6.316,
+                "end": 6.758
+              },
+              {
+                "text": "you ",
+                "start": 6.758,
+                "end": 6.948
+              },
+              {
+                "text": "need ",
+                "start": 6.948,
+                "end": 7.2
+              },
+              {
+                "text": "proof ",
+                "start": 7.2,
+                "end": 7.516
+              },
+              {
+                "text": "of ",
+                "start": 7.516,
+                "end": 7.643
+              },
+              {
+                "text": "address, ",
+                "start": 7.643,
+                "end": 8.148
+              },
+              {
+                "text": "and ",
+                "start": 8.148,
+                "end": 8.338
+              },
+              {
+                "text": "which ",
+                "start": 8.338,
+                "end": 8.654
+              },
+              {
+                "text": "IDs ",
+                "start": 8.654,
+                "end": 8.843
+              },
+              {
+                "text": "are ",
+                "start": 8.843,
+                "end": 9.033
+              },
+              {
+                "text": "accepted, ",
+                "start": 9.033,
+                "end": 9.601
+              },
+              {
+                "text": "depends ",
+                "start": 9.601,
+                "end": 10.044
+              },
+              {
+                "text": "on ",
+                "start": 10.044,
+                "end": 10.17
+              },
+              {
+                "text": "your ",
+                "start": 10.17,
+                "end": 10.423
+              },
+              {
+                "text": "region ",
+                "start": 10.423,
+                "end": 10.802
+              },
+              {
+                "text": "and ",
+                "start": 10.802,
+                "end": 10.991
+              },
+              {
+                "text": "platform.",
+                "start": 10.991,
+                "end": 11.56
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "一般",
+                "start": 0.25,
+                "end": 0.633
+              },
+              {
+                "text": "先",
+                "start": 0.633,
+                "end": 0.825
+              },
+              {
+                "text": "填",
+                "start": 0.825,
+                "end": 1.017
+              },
+              {
+                "text": "真实",
+                "start": 1.017,
+                "end": 1.4
+              },
+              {
+                "text": "信息，",
+                "start": 1.4,
+                "end": 1.975
+              },
+              {
+                "text": "再",
+                "start": 1.975,
+                "end": 2.167
+              },
+              {
+                "text": "提交",
+                "start": 2.167,
+                "end": 2.55
+              },
+              {
+                "text": "支持",
+                "start": 2.55,
+                "end": 2.934
+              },
+              {
+                "text": "的",
+                "start": 2.934,
+                "end": 3.125
+              },
+              {
+                "text": "有效",
+                "start": 3.125,
+                "end": 3.509
+              },
+              {
+                "text": "证件，",
+                "start": 3.509,
+                "end": 4.084
+              },
+              {
+                "text": "按",
+                "start": 4.084,
+                "end": 4.276
+              },
+              {
+                "text": "提示",
+                "start": 4.276,
+                "end": 4.659
+              },
+              {
+                "text": "完成",
+                "start": 4.659,
+                "end": 5.042
+              },
+              {
+                "text": "照片",
+                "start": 5.042,
+                "end": 5.426
+              },
+              {
+                "text": "或",
+                "start": 5.426,
+                "end": 5.617
+              },
+              {
+                "text": "本人",
+                "start": 5.617,
+                "end": 6.001
+              },
+              {
+                "text": "验证。",
+                "start": 6.001,
+                "end": 6.576
+              },
+              {
+                "text": "是否",
+                "start": 6.576,
+                "end": 6.959
+              },
+              {
+                "text": "需要",
+                "start": 6.959,
+                "end": 7.343
+              },
+              {
+                "text": "地址",
+                "start": 7.343,
+                "end": 7.726
+              },
+              {
+                "text": "证明、",
+                "start": 7.726,
+                "end": 8.301
+              },
+              {
+                "text": "接受",
+                "start": 8.301,
+                "end": 8.685
+              },
+              {
+                "text": "什么",
+                "start": 8.685,
+                "end": 9.068
+              },
+              {
+                "text": "证件，",
+                "start": 9.068,
+                "end": 9.643
+              },
+              {
+                "text": "都",
+                "start": 9.643,
+                "end": 9.835
+              },
+              {
+                "text": "取决",
+                "start": 9.835,
+                "end": 10.218
+              },
+              {
+                "text": "于",
+                "start": 10.218,
+                "end": 10.41
+              },
+              {
+                "text": "地区",
+                "start": 10.41,
+                "end": 10.793
+              },
+              {
+                "text": "和",
+                "start": 10.793,
+                "end": 10.985
+              },
+              {
+                "text": "平台。",
+                "start": 10.985,
+                "end": 11.56
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Real details",
+                "zh-Hans": "真实信息"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Valid ID",
+                "zh-Hans": "有效证件"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Photo / face check",
+                "zh-Hans": "照片／本人验证"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "SAMPLE ID · fictional",
+                "zh-Hans": "样张 · 虚构"
+              },
+              "done": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "00:32-01:00",
+      "source_visual_zh": "模拟流程：真实居住地和姓名→有效证件→按要求拍摄；所有证件为明显虚构样张。",
+      "source_onscreen_text": {
+        "en": [
+          "1 Real details",
+          "2 Valid ID",
+          "3 Photo / face check",
+          "SAMPLE ID · fictional"
+        ],
+        "zh-Hans": [
+          "1 真实信息",
+          "2 有效证件",
+          "3 照片／本人验证",
+          "样张 · 虚构"
+        ]
+      }
+    },
+    {
+      "id": "fix-rejection",
+      "duration": 24,
+      "set": "study-desk",
+      "visual_en": "Three failed samples (glare, cropped, expired) each get a red X, then morph into a clear, complete, valid example with a green check.",
+      "visual_zh": "反光、裁切、过期三张失败样张变成清晰、完整、有效的示意图。",
+      "onscreen_text_en": "Glare ✗",
+      "onscreen_text_zh-Hans": "反光 ✗",
+      "antenna": "amber",
+      "ding": false,
+      "nexubo": {
+        "pose": "point",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "rest",
+        "expression": "confused"
+      },
+      "framing": "detail",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "If it fails, read the reason first. Is the ID expired? Is there glare? Does the name match? Fix it as instructed. Never try again with a fake identity.",
+            "zh-Hans": "失败时先看原因：证件是否过期、画面是否反光、姓名是否一致。按提示补正，不要换一个虚假的身份去尝试。"
+          },
+          "start": 0.25,
+          "end": 9.544,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e05-04-lesson-l01-nexubo",
+            "atempo": 1,
+            "seconds": 9.294
+          },
+          "words": {
+            "en": [
+              {
+                "text": "If ",
+                "start": 0.25,
+                "end": 0.401
+              },
+              {
+                "text": "it ",
+                "start": 0.401,
+                "end": 0.552
+              },
+              {
+                "text": "fails, ",
+                "start": 0.552,
+                "end": 1.006
+              },
+              {
+                "text": "read ",
+                "start": 1.006,
+                "end": 1.308
+              },
+              {
+                "text": "the ",
+                "start": 1.308,
+                "end": 1.535
+              },
+              {
+                "text": "reason ",
+                "start": 1.535,
+                "end": 1.988
+              },
+              {
+                "text": "first. ",
+                "start": 1.988,
+                "end": 2.441
+              },
+              {
+                "text": "Is ",
+                "start": 2.441,
+                "end": 2.592
+              },
+              {
+                "text": "the ",
+                "start": 2.592,
+                "end": 2.819
+              },
+              {
+                "text": "ID ",
+                "start": 2.819,
+                "end": 2.97
+              },
+              {
+                "text": "expired? ",
+                "start": 2.97,
+                "end": 3.575
+              },
+              {
+                "text": "Is ",
+                "start": 3.575,
+                "end": 3.726
+              },
+              {
+                "text": "there ",
+                "start": 3.726,
+                "end": 4.104
+              },
+              {
+                "text": "glare? ",
+                "start": 4.104,
+                "end": 4.557
+              },
+              {
+                "text": "Does ",
+                "start": 4.557,
+                "end": 4.859
+              },
+              {
+                "text": "the ",
+                "start": 4.859,
+                "end": 5.086
+              },
+              {
+                "text": "name ",
+                "start": 5.086,
+                "end": 5.388
+              },
+              {
+                "text": "match? ",
+                "start": 5.388,
+                "end": 5.842
+              },
+              {
+                "text": "Fix ",
+                "start": 5.842,
+                "end": 6.068
+              },
+              {
+                "text": "it ",
+                "start": 6.068,
+                "end": 6.219
+              },
+              {
+                "text": "as ",
+                "start": 6.219,
+                "end": 6.37
+              },
+              {
+                "text": "instructed. ",
+                "start": 6.37,
+                "end": 7.202
+              },
+              {
+                "text": "Never ",
+                "start": 7.202,
+                "end": 7.579
+              },
+              {
+                "text": "try ",
+                "start": 7.579,
+                "end": 7.806
+              },
+              {
+                "text": "again ",
+                "start": 7.806,
+                "end": 8.184
+              },
+              {
+                "text": "with ",
+                "start": 8.184,
+                "end": 8.486
+              },
+              {
+                "text": "a ",
+                "start": 8.486,
+                "end": 8.562
+              },
+              {
+                "text": "fake ",
+                "start": 8.562,
+                "end": 8.864
+              },
+              {
+                "text": "identity.",
+                "start": 8.864,
+                "end": 9.544
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "失败",
+                "start": 0.25,
+                "end": 0.629
+              },
+              {
+                "text": "时",
+                "start": 0.629,
+                "end": 0.819
+              },
+              {
+                "text": "先看",
+                "start": 0.819,
+                "end": 1.198
+              },
+              {
+                "text": "原因：",
+                "start": 1.198,
+                "end": 1.767
+              },
+              {
+                "text": "证件",
+                "start": 1.767,
+                "end": 2.147
+              },
+              {
+                "text": "是否",
+                "start": 2.147,
+                "end": 2.526
+              },
+              {
+                "text": "过期、",
+                "start": 2.526,
+                "end": 3.095
+              },
+              {
+                "text": "画面",
+                "start": 3.095,
+                "end": 3.474
+              },
+              {
+                "text": "是否",
+                "start": 3.474,
+                "end": 3.854
+              },
+              {
+                "text": "反光、",
+                "start": 3.854,
+                "end": 4.423
+              },
+              {
+                "text": "姓名",
+                "start": 4.423,
+                "end": 4.802
+              },
+              {
+                "text": "是否",
+                "start": 4.802,
+                "end": 5.182
+              },
+              {
+                "text": "一致。",
+                "start": 5.182,
+                "end": 5.751
+              },
+              {
+                "text": "按",
+                "start": 5.751,
+                "end": 5.94
+              },
+              {
+                "text": "提示",
+                "start": 5.94,
+                "end": 6.32
+              },
+              {
+                "text": "补",
+                "start": 6.32,
+                "end": 6.509
+              },
+              {
+                "text": "正，",
+                "start": 6.509,
+                "end": 6.889
+              },
+              {
+                "text": "不要",
+                "start": 6.889,
+                "end": 7.268
+              },
+              {
+                "text": "换",
+                "start": 7.268,
+                "end": 7.458
+              },
+              {
+                "text": "一个",
+                "start": 7.458,
+                "end": 7.837
+              },
+              {
+                "text": "虚假",
+                "start": 7.837,
+                "end": 8.216
+              },
+              {
+                "text": "的",
+                "start": 8.216,
+                "end": 8.406
+              },
+              {
+                "text": "身份",
+                "start": 8.406,
+                "end": 8.785
+              },
+              {
+                "text": "去",
+                "start": 8.785,
+                "end": 8.975
+              },
+              {
+                "text": "尝试。",
+                "start": 8.975,
+                "end": 9.544
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "id-samples",
+          "labels": [
+            {
+              "en": "Glare",
+              "zh-Hans": "反光"
+            },
+            {
+              "en": "Cropped",
+              "zh-Hans": "裁切"
+            },
+            {
+              "en": "Expired",
+              "zh-Hans": "过期"
+            }
+          ],
+          "note": {
+            "en": "SAMPLE ID · rejection → clean state",
+            "zh-Hans": "样张 · 拒绝状态 → 清晰状态"
+          }
+        }
+      ],
+      "source_tc": "01:00-01:24",
+      "source_visual_zh": "反光、裁切、过期三张失败样张变成清晰、完整、有效的示意图。",
+      "source_onscreen_text": {
+        "en": [
+          "Glare ✗",
+          "Cropped ✗",
+          "Expired ✗",
+          "Clear · complete · valid ✓"
+        ],
+        "zh-Hans": [
+          "反光 ✗",
+          "裁切 ✗",
+          "过期 ✗",
+          "清晰 · 完整 · 有效 ✓"
+        ]
+      }
+    },
+    {
+      "id": "review-status",
+      "duration": 19,
+      "set": "study-desk",
+      "visual_en": "Status stays 'Under review'; an official help link sits beside it. No countdown, no 'approved in X minutes' promise.",
+      "visual_zh": "“审核中”状态保持；旁边是官方帮助入口，不出现倒计时通过承诺。",
+      "onscreen_text_en": "Under review",
+      "onscreen_text_zh-Hans": "审核中",
+      "antenna": "blue",
+      "ding": false,
+      "nexubo": {
+        "pose": "hold-phone",
+        "expression": "thinking"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "neutral"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "sam",
+          "text": {
+            "en": "Once I'm done, can I trade right away?",
+            "zh-Hans": "做完是不是马上能交易？"
+          },
+          "start": 0.25,
+          "end": 2.483,
+          "source_who": "Sam",
+          "narration": {
+            "id": "e05-05-lesson-l01-sam",
+            "atempo": 1,
+            "seconds": 2.233
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Once ",
+                "start": 0.25,
+                "end": 0.538
+              },
+              {
+                "text": "I'm ",
+                "start": 0.538,
+                "end": 0.754
+              },
+              {
+                "text": "done, ",
+                "start": 0.754,
+                "end": 1.114
+              },
+              {
+                "text": "can ",
+                "start": 1.114,
+                "end": 1.33
+              },
+              {
+                "text": "I ",
+                "start": 1.33,
+                "end": 1.403
+              },
+              {
+                "text": "trade ",
+                "start": 1.403,
+                "end": 1.763
+              },
+              {
+                "text": "right ",
+                "start": 1.763,
+                "end": 2.123
+              },
+              {
+                "text": "away?",
+                "start": 2.123,
+                "end": 2.483
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "做完",
+                "start": 0.25,
+                "end": 0.656
+              },
+              {
+                "text": "是不是",
+                "start": 0.656,
+                "end": 1.265
+              },
+              {
+                "text": "马上",
+                "start": 1.265,
+                "end": 1.671
+              },
+              {
+                "text": "能",
+                "start": 1.671,
+                "end": 1.874
+              },
+              {
+                "text": "交易？",
+                "start": 1.874,
+                "end": 2.483
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "nexubo",
+          "text": {
+            "en": "Not guaranteed. The result, the products you can use and whether you can deposit all depend on the official notice. And this academy never collects your real ID.",
+            "zh-Hans": "不保证。审核结果、可用产品和入金资格都要看官方通知。这个学院也不收集你的真实证件。"
+          },
+          "start": 2.783,
+          "end": 11.742,
+          "source_who": "Nexubo",
+          "narration": {
+            "id": "e05-05-lesson-l02-nexubo",
+            "atempo": 1,
+            "seconds": 8.959
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Not ",
+                "start": 2.783,
+                "end": 2.984
+              },
+              {
+                "text": "guaranteed. ",
+                "start": 2.984,
+                "end": 3.719
+              },
+              {
+                "text": "The ",
+                "start": 3.719,
+                "end": 3.92
+              },
+              {
+                "text": "result, ",
+                "start": 3.92,
+                "end": 4.388
+              },
+              {
+                "text": "the ",
+                "start": 4.388,
+                "end": 4.588
+              },
+              {
+                "text": "products ",
+                "start": 4.588,
+                "end": 5.123
+              },
+              {
+                "text": "you ",
+                "start": 5.123,
+                "end": 5.324
+              },
+              {
+                "text": "can ",
+                "start": 5.324,
+                "end": 5.524
+              },
+              {
+                "text": "use ",
+                "start": 5.524,
+                "end": 5.725
+              },
+              {
+                "text": "and ",
+                "start": 5.725,
+                "end": 5.925
+              },
+              {
+                "text": "whether ",
+                "start": 5.925,
+                "end": 6.393
+              },
+              {
+                "text": "you ",
+                "start": 6.393,
+                "end": 6.594
+              },
+              {
+                "text": "can ",
+                "start": 6.594,
+                "end": 6.794
+              },
+              {
+                "text": "deposit ",
+                "start": 6.794,
+                "end": 7.263
+              },
+              {
+                "text": "all ",
+                "start": 7.263,
+                "end": 7.463
+              },
+              {
+                "text": "depend ",
+                "start": 7.463,
+                "end": 7.864
+              },
+              {
+                "text": "on ",
+                "start": 7.864,
+                "end": 7.998
+              },
+              {
+                "text": "the ",
+                "start": 7.998,
+                "end": 8.199
+              },
+              {
+                "text": "official ",
+                "start": 8.199,
+                "end": 8.733
+              },
+              {
+                "text": "notice. ",
+                "start": 8.733,
+                "end": 9.201
+              },
+              {
+                "text": "And ",
+                "start": 9.201,
+                "end": 9.402
+              },
+              {
+                "text": "this ",
+                "start": 9.402,
+                "end": 9.669
+              },
+              {
+                "text": "academy ",
+                "start": 9.669,
+                "end": 10.137
+              },
+              {
+                "text": "never ",
+                "start": 10.137,
+                "end": 10.472
+              },
+              {
+                "text": "collects ",
+                "start": 10.472,
+                "end": 11.007
+              },
+              {
+                "text": "your ",
+                "start": 11.007,
+                "end": 11.274
+              },
+              {
+                "text": "real ",
+                "start": 11.274,
+                "end": 11.541
+              },
+              {
+                "text": "ID.",
+                "start": 11.541,
+                "end": 11.742
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "不",
+                "start": 2.783,
+                "end": 3.002
+              },
+              {
+                "text": "保证。",
+                "start": 3.002,
+                "end": 3.657
+              },
+              {
+                "text": "审核",
+                "start": 3.657,
+                "end": 4.094
+              },
+              {
+                "text": "结果、",
+                "start": 4.094,
+                "end": 4.75
+              },
+              {
+                "text": "可用",
+                "start": 4.75,
+                "end": 5.187
+              },
+              {
+                "text": "产品",
+                "start": 5.187,
+                "end": 5.624
+              },
+              {
+                "text": "和",
+                "start": 5.624,
+                "end": 5.842
+              },
+              {
+                "text": "入金",
+                "start": 5.842,
+                "end": 6.279
+              },
+              {
+                "text": "资格",
+                "start": 6.279,
+                "end": 6.716
+              },
+              {
+                "text": "都要",
+                "start": 6.716,
+                "end": 7.153
+              },
+              {
+                "text": "看",
+                "start": 7.153,
+                "end": 7.372
+              },
+              {
+                "text": "官方",
+                "start": 7.372,
+                "end": 7.809
+              },
+              {
+                "text": "通知。",
+                "start": 7.809,
+                "end": 8.464
+              },
+              {
+                "text": "这个",
+                "start": 8.464,
+                "end": 8.901
+              },
+              {
+                "text": "学院",
+                "start": 8.901,
+                "end": 9.338
+              },
+              {
+                "text": "也不",
+                "start": 9.338,
+                "end": 9.775
+              },
+              {
+                "text": "收集",
+                "start": 9.775,
+                "end": 10.212
+              },
+              {
+                "text": "你的",
+                "start": 10.212,
+                "end": 10.649
+              },
+              {
+                "text": "真实",
+                "start": 10.649,
+                "end": 11.086
+              },
+              {
+                "text": "证件。",
+                "start": 11.086,
+                "end": 11.742
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Under review",
+                "zh-Hans": "审核中"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Official help",
+                "zh-Hans": "官方帮助"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "No countdown promise",
+                "zh-Hans": "不承诺审核时限"
+              },
+              "done": true
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:24-01:43",
+      "source_visual_zh": "“审核中”状态保持；旁边是官方帮助入口，不出现倒计时通过承诺。",
+      "source_onscreen_text": {
+        "en": [
+          "Under review",
+          "Official help"
+        ],
+        "zh-Hans": [
+          "审核中",
+          "官方帮助"
+        ]
+      }
+    },
+    {
+      "id": "official-only",
+      "duration": 13,
+      "set": "study-desk",
+      "visual_en": "Multiple choice: official verification page / private 'agent' / post your ID in the course chat. Only the first turns green.",
+      "visual_zh": "选择题：官网认证入口／私信代办／把证件发到课程聊天区。",
+      "onscreen_text_en": "Official verification page ✓",
+      "onscreen_text_zh-Hans": "官网认证入口 ✓",
+      "antenna": "green",
+      "ding": false,
+      "nexubo": {
+        "pose": "thumbs-up",
+        "expression": "happy"
+      },
+      "sam": {
+        "pose": "point",
+        "expression": "happy"
+      },
+      "framing": "wide",
+      "focus": "nexubo",
+      "lines": [
+        {
+          "speaker": "narrator",
+          "text": {
+            "en": "Who gets your ID? Only the verified official flow. Not us, and not a stranger.",
+            "zh-Hans": "证件交给谁？只按核验后的官方流程提交，不交给我们，也不交给陌生人。"
+          },
+          "start": 0.25,
+          "end": 5.551,
+          "source_who": "Narrator",
+          "narration": {
+            "id": "e05-06-lesson-l01-narrator",
+            "atempo": 1,
+            "seconds": 5.301
+          },
+          "words": {
+            "en": [
+              {
+                "text": "Who ",
+                "start": 0.25,
+                "end": 0.498
+              },
+              {
+                "text": "gets ",
+                "start": 0.498,
+                "end": 0.83
+              },
+              {
+                "text": "your ",
+                "start": 0.83,
+                "end": 1.161
+              },
+              {
+                "text": "ID? ",
+                "start": 1.161,
+                "end": 1.41
+              },
+              {
+                "text": "Only ",
+                "start": 1.41,
+                "end": 1.741
+              },
+              {
+                "text": "the ",
+                "start": 1.741,
+                "end": 1.989
+              },
+              {
+                "text": "verified ",
+                "start": 1.989,
+                "end": 2.652
+              },
+              {
+                "text": "official ",
+                "start": 2.652,
+                "end": 3.315
+              },
+              {
+                "text": "flow. ",
+                "start": 3.315,
+                "end": 3.729
+              },
+              {
+                "text": "Not ",
+                "start": 3.729,
+                "end": 3.977
+              },
+              {
+                "text": "us, ",
+                "start": 3.977,
+                "end": 4.226
+              },
+              {
+                "text": "and ",
+                "start": 4.226,
+                "end": 4.474
+              },
+              {
+                "text": "not ",
+                "start": 4.474,
+                "end": 4.723
+              },
+              {
+                "text": "a ",
+                "start": 4.723,
+                "end": 4.806
+              },
+              {
+                "text": "stranger.",
+                "start": 4.806,
+                "end": 5.551
+              }
+            ],
+            "zh-Hans": [
+              {
+                "text": "证件",
+                "start": 0.25,
+                "end": 0.571
+              },
+              {
+                "text": "交给",
+                "start": 0.571,
+                "end": 0.893
+              },
+              {
+                "text": "谁？",
+                "start": 0.893,
+                "end": 1.214
+              },
+              {
+                "text": "只",
+                "start": 1.214,
+                "end": 1.374
+              },
+              {
+                "text": "按",
+                "start": 1.374,
+                "end": 1.535
+              },
+              {
+                "text": "核验",
+                "start": 1.535,
+                "end": 1.856
+              },
+              {
+                "text": "后",
+                "start": 1.856,
+                "end": 2.017
+              },
+              {
+                "text": "的",
+                "start": 2.017,
+                "end": 2.178
+              },
+              {
+                "text": "官方",
+                "start": 2.178,
+                "end": 2.499
+              },
+              {
+                "text": "流程",
+                "start": 2.499,
+                "end": 2.82
+              },
+              {
+                "text": "提交，",
+                "start": 2.82,
+                "end": 3.302
+              },
+              {
+                "text": "不",
+                "start": 3.302,
+                "end": 3.463
+              },
+              {
+                "text": "交给",
+                "start": 3.463,
+                "end": 3.784
+              },
+              {
+                "text": "我们，",
+                "start": 3.784,
+                "end": 4.266
+              },
+              {
+                "text": "也不",
+                "start": 4.266,
+                "end": 4.587
+              },
+              {
+                "text": "交给",
+                "start": 4.587,
+                "end": 4.908
+              },
+              {
+                "text": "陌生人。",
+                "start": 4.908,
+                "end": 5.551
+              }
+            ]
+          }
+        }
+      ],
+      "widgets": [
+        {
+          "type": "checklist",
+          "items": [
+            {
+              "label": {
+                "en": "Official verification page",
+                "zh-Hans": "官网认证入口"
+              },
+              "done": true
+            },
+            {
+              "label": {
+                "en": "Private 'agent'",
+                "zh-Hans": "私信代办"
+              },
+              "done": false
+            },
+            {
+              "label": {
+                "en": "Course chat upload",
+                "zh-Hans": "课程聊天区上传"
+              },
+              "done": false
+            }
+          ]
+        }
+      ],
+      "source_tc": "01:43-01:56",
+      "source_visual_zh": "选择题：官网认证入口／私信代办／把证件发到课程聊天区。",
+      "source_onscreen_text": {
+        "en": [
+          "Official verification page ✓",
+          "Private 'agent' ✗",
+          "Course chat ✗"
+        ],
+        "zh-Hans": [
+          "官网认证入口 ✓",
+          "私信代办 ✗",
+          "课程聊天区 ✗"
+        ]
+      }
+    }
+  ],
+  "conversion_card": {
+    "duration": 10,
+    "partner_name": {
+      "en": "OKX",
+      "zh-Hans": "OKX"
+    },
+    "code": {
+      "en": "Code nexu888",
+      "zh-Hans": "邀请码 nexu888"
+    },
+    "rebate_line": {
+      "en": "Ready to verify? Start only on the official site. Our OKX partner link takes you straight there, with code nexu888 for a fee rebate. We never ask for your ID.",
+      "zh-Hans": "准备好认证了？只在官网开始。我们的 OKX 合作链接直达官网，邀请码 nexu888 可享手续费返还。我们从不索取你的证件。"
+    },
+    "disclosure": {
+      "en": "Partner link · the exchange pays our commission",
+      "zh-Hans": "合作推广链接 · 佣金由交易所支付"
+    },
+    "availability": {
+      "en": "Availability depends on your country or region",
+      "zh-Hans": "是否可用取决于你所在的国家或地区"
+    },
+    "url": "nexualpha.com/go/okx",
+    "lines": [
+      {
+        "speaker": "nexubo",
+        "text": {
+          "en": "Ready to verify? Start only on the official site. Our OKX partner link takes you straight there, with code nexu888 for a fee rebate. We never ask for your ID.",
+          "zh-Hans": "准备好认证了？只在官网开始。我们的 OKX 合作链接直达官网，邀请码 nexu888 可享手续费返还。我们从不索取你的证件。"
+        },
+        "start": 0.15,
+        "end": 9.848,
+        "source_who": "Nexubo",
+        "narration": {
+          "id": "e05-07-conversion-l01-nexubo",
+          "atempo": 1.081,
+          "seconds": 9.698
+        },
+        "words": {
+          "en": [
+            {
+              "text": "Ready ",
+              "start": 0.15,
+              "end": 0.526
+            },
+            {
+              "text": "to ",
+              "start": 0.526,
+              "end": 0.676
+            },
+            {
+              "text": "verify? ",
+              "start": 0.676,
+              "end": 1.202
+            },
+            {
+              "text": "Start ",
+              "start": 1.202,
+              "end": 1.578
+            },
+            {
+              "text": "only ",
+              "start": 1.578,
+              "end": 1.879
+            },
+            {
+              "text": "on ",
+              "start": 1.879,
+              "end": 2.029
+            },
+            {
+              "text": "the ",
+              "start": 2.029,
+              "end": 2.255
+            },
+            {
+              "text": "official ",
+              "start": 2.255,
+              "end": 2.856
+            },
+            {
+              "text": "site. ",
+              "start": 2.856,
+              "end": 3.232
+            },
+            {
+              "text": "Our ",
+              "start": 3.232,
+              "end": 3.458
+            },
+            {
+              "text": "OKX ",
+              "start": 3.458,
+              "end": 3.683
+            },
+            {
+              "text": "partner ",
+              "start": 3.683,
+              "end": 4.21
+            },
+            {
+              "text": "link ",
+              "start": 4.21,
+              "end": 4.51
+            },
+            {
+              "text": "takes ",
+              "start": 4.51,
+              "end": 4.886
+            },
+            {
+              "text": "you ",
+              "start": 4.886,
+              "end": 5.112
+            },
+            {
+              "text": "straight ",
+              "start": 5.112,
+              "end": 5.713
+            },
+            {
+              "text": "there, ",
+              "start": 5.713,
+              "end": 6.164
+            },
+            {
+              "text": "with ",
+              "start": 6.164,
+              "end": 6.465
+            },
+            {
+              "text": "code ",
+              "start": 6.465,
+              "end": 6.766
+            },
+            {
+              "text": "nexu888 ",
+              "start": 6.766,
+              "end": 7.292
+            },
+            {
+              "text": "for ",
+              "start": 7.292,
+              "end": 7.517
+            },
+            {
+              "text": "a ",
+              "start": 7.517,
+              "end": 7.593
+            },
+            {
+              "text": "fee ",
+              "start": 7.593,
+              "end": 7.818
+            },
+            {
+              "text": "rebate. ",
+              "start": 7.818,
+              "end": 8.344
+            },
+            {
+              "text": "We ",
+              "start": 8.344,
+              "end": 8.495
+            },
+            {
+              "text": "never ",
+              "start": 8.495,
+              "end": 8.871
+            },
+            {
+              "text": "ask ",
+              "start": 8.871,
+              "end": 9.096
+            },
+            {
+              "text": "for ",
+              "start": 9.096,
+              "end": 9.322
+            },
+            {
+              "text": "your ",
+              "start": 9.322,
+              "end": 9.622
+            },
+            {
+              "text": "ID.",
+              "start": 9.622,
+              "end": 9.848
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "准备",
+              "start": 0.15,
+              "end": 0.484
+            },
+            {
+              "text": "好",
+              "start": 0.484,
+              "end": 0.652
+            },
+            {
+              "text": "认证",
+              "start": 0.652,
+              "end": 0.986
+            },
+            {
+              "text": "了？",
+              "start": 0.986,
+              "end": 1.32
+            },
+            {
+              "text": "只在",
+              "start": 1.32,
+              "end": 1.655
+            },
+            {
+              "text": "官",
+              "start": 1.655,
+              "end": 1.822
+            },
+            {
+              "text": "网",
+              "start": 1.822,
+              "end": 1.989
+            },
+            {
+              "text": "开始。",
+              "start": 1.989,
+              "end": 2.491
+            },
+            {
+              "text": "我们",
+              "start": 2.491,
+              "end": 2.825
+            },
+            {
+              "text": "的 ",
+              "start": 2.825,
+              "end": 2.993
+            },
+            {
+              "text": "OKX ",
+              "start": 2.993,
+              "end": 3.494
+            },
+            {
+              "text": "合作",
+              "start": 3.494,
+              "end": 3.829
+            },
+            {
+              "text": "链",
+              "start": 3.829,
+              "end": 3.996
+            },
+            {
+              "text": "接",
+              "start": 3.996,
+              "end": 4.163
+            },
+            {
+              "text": "直达",
+              "start": 4.163,
+              "end": 4.497
+            },
+            {
+              "text": "官",
+              "start": 4.497,
+              "end": 4.665
+            },
+            {
+              "text": "网，",
+              "start": 4.665,
+              "end": 4.999
+            },
+            {
+              "text": "邀请",
+              "start": 4.999,
+              "end": 5.333
+            },
+            {
+              "text": "码 ",
+              "start": 5.333,
+              "end": 5.501
+            },
+            {
+              "text": "nexu888 ",
+              "start": 5.501,
+              "end": 6.671
+            },
+            {
+              "text": "可",
+              "start": 6.671,
+              "end": 6.838
+            },
+            {
+              "text": "享",
+              "start": 6.838,
+              "end": 7.005
+            },
+            {
+              "text": "手续",
+              "start": 7.005,
+              "end": 7.34
+            },
+            {
+              "text": "费",
+              "start": 7.34,
+              "end": 7.507
+            },
+            {
+              "text": "返",
+              "start": 7.507,
+              "end": 7.674
+            },
+            {
+              "text": "还。",
+              "start": 7.674,
+              "end": 8.009
+            },
+            {
+              "text": "我们",
+              "start": 8.009,
+              "end": 8.343
+            },
+            {
+              "text": "从不",
+              "start": 8.343,
+              "end": 8.678
+            },
+            {
+              "text": "索取",
+              "start": 8.678,
+              "end": 9.012
+            },
+            {
+              "text": "你的",
+              "start": 9.012,
+              "end": 9.346
+            },
+            {
+              "text": "证件。",
+              "start": 9.346,
+              "end": 9.848
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "Conversion card (6 s): clean NexuAlpha card slides in from the right; text only (exchange name as text, no exchange logo artwork, no fake clickable button, no QR to an unverified page). Disclosure line sits on the card itself, at least 70% of subtitle size. No reward amount, no percentage, no date. Nexubo beside the card, thumbs-up, antenna green. For restricted locales swap to the restricted_variant (official-site link only).",
+    "visual_zh": "转化卡（6秒）：NexuAlpha卡片从右侧滑入；只用文字写交易所名称，不放交易所标志图，不画假按钮，不放未核验二维码。披露语印在卡片上，字号不小于字幕的70%。不出现奖励金额、百分比和日期。小纳在旁点赞，天线绿灯。受限语种改用 restricted_variant（只给官网链接）。",
+    "source_tc": "01:56-02:02",
+    "source_partner": "okx",
+    "source_partners": [
+      "okx"
+    ],
+    "source_codes": {
+      "okx": "nexu888"
+    },
+    "restricted_locales": [
+      "ru",
+      "ar",
+      "zh-Hant",
+      "ur",
+      "uk",
+      "vi",
+      "ja",
+      "ko"
+    ],
+    "restricted_variant": {
+      "line_en": "Ready to verify? Start only on the official site. Check the address on NexuAlpha first. We never ask for your ID.",
+      "line_zh": "准备好认证了？只在官网开始，先在 NexuAlpha 核对网址。我们从不索取你的证件。",
+      "url": "nexualpha.com/compare",
+      "note": "No invite code, no rebate wording, no disclosure needed because no partner link is shown."
+    }
+  },
+  "end_hook": {
+    "duration": 5,
+    "pose": "point",
+    "text": {
+      "en": "Deposit, buy, transfer: three buttons that all look the same. Next: which one to press.",
+      "zh-Hans": "充值、买币、划转，三个按钮长得都像。下一集：到底该按哪个。"
+    },
+    "lines": [
+      {
+        "speaker": "narrator",
+        "text": {
+          "en": "Deposit, buy, transfer: three buttons that all look the same. Next: which one to press.",
+          "zh-Hans": "充值、买币、划转，三个按钮长得都像。下一集：到底该按哪个。"
+        },
+        "start": 0.15,
+        "end": 4.849,
+        "source_who": "Narrator",
+        "narration": {
+          "id": "e05-08-hook-l01-narrator",
+          "atempo": 1.07,
+          "seconds": 4.699
+        },
+        "words": {
+          "en": [
+            {
+              "text": "Deposit, ",
+              "start": 0.15,
+              "end": 0.665
+            },
+            {
+              "text": "buy, ",
+              "start": 0.665,
+              "end": 0.922
+            },
+            {
+              "text": "transfer: ",
+              "start": 0.922,
+              "end": 1.502
+            },
+            {
+              "text": "three ",
+              "start": 1.502,
+              "end": 1.824
+            },
+            {
+              "text": "buttons ",
+              "start": 1.824,
+              "end": 2.274
+            },
+            {
+              "text": "that ",
+              "start": 2.274,
+              "end": 2.532
+            },
+            {
+              "text": "all ",
+              "start": 2.532,
+              "end": 2.725
+            },
+            {
+              "text": "look ",
+              "start": 2.725,
+              "end": 2.982
+            },
+            {
+              "text": "the ",
+              "start": 2.982,
+              "end": 3.175
+            },
+            {
+              "text": "same. ",
+              "start": 3.175,
+              "end": 3.497
+            },
+            {
+              "text": "Next: ",
+              "start": 3.497,
+              "end": 3.819
+            },
+            {
+              "text": "which ",
+              "start": 3.819,
+              "end": 4.141
+            },
+            {
+              "text": "one ",
+              "start": 4.141,
+              "end": 4.334
+            },
+            {
+              "text": "to ",
+              "start": 4.334,
+              "end": 4.463
+            },
+            {
+              "text": "press.",
+              "start": 4.463,
+              "end": 4.849
+            }
+          ],
+          "zh-Hans": [
+            {
+              "text": "充",
+              "start": 0.15,
+              "end": 0.312
+            },
+            {
+              "text": "值、",
+              "start": 0.312,
+              "end": 0.636
+            },
+            {
+              "text": "买",
+              "start": 0.636,
+              "end": 0.798
+            },
+            {
+              "text": "币、",
+              "start": 0.798,
+              "end": 1.122
+            },
+            {
+              "text": "划",
+              "start": 1.122,
+              "end": 1.284
+            },
+            {
+              "text": "转，",
+              "start": 1.284,
+              "end": 1.608
+            },
+            {
+              "text": "三",
+              "start": 1.608,
+              "end": 1.77
+            },
+            {
+              "text": "个",
+              "start": 1.77,
+              "end": 1.932
+            },
+            {
+              "text": "按钮",
+              "start": 1.932,
+              "end": 2.256
+            },
+            {
+              "text": "长得",
+              "start": 2.256,
+              "end": 2.581
+            },
+            {
+              "text": "都像。",
+              "start": 2.581,
+              "end": 3.067
+            },
+            {
+              "text": "下",
+              "start": 3.067,
+              "end": 3.229
+            },
+            {
+              "text": "一",
+              "start": 3.229,
+              "end": 3.391
+            },
+            {
+              "text": "集：",
+              "start": 3.391,
+              "end": 3.715
+            },
+            {
+              "text": "到底",
+              "start": 3.715,
+              "end": 4.039
+            },
+            {
+              "text": "该",
+              "start": 4.039,
+              "end": 4.201
+            },
+            {
+              "text": "按",
+              "start": 4.201,
+              "end": 4.363
+            },
+            {
+              "text": "哪个。",
+              "start": 4.363,
+              "end": 4.849
+            }
+          ]
+        }
+      }
+    ],
+    "visual_en": "End hook (4 s): quick teaser of the next problem — a single striking image from the next episode's opening, frozen on the moment of doubt; Sam reacts, Nexubo's antenna blinks amber. Text card with the hook line.",
+    "visual_zh": "片尾钩子（4秒）：下一集开场矛盾的一个定格画面，停在“犯疑问”的瞬间；小白反应，小纳天线琥珀灯闪。字卡显示钩子台词。",
+    "source_tc": "02:02-02:06"
+  },
+  "close_duration": 4,
+  "close_lines": [
+    {
+      "speaker": "narrator",
+      "text": {
+        "en": "Understand first, then act.",
+        "zh-Hans": "先看懂，再动手。"
+      },
+      "start": 0.25,
+      "end": 2.276,
+      "source_who": "Narrator",
+      "narration": {
+        "id": "e05-09-close-l01-narrator",
+        "atempo": 1,
+        "seconds": 2.026
+      },
+      "words": {
+        "en": [
+          {
+            "text": "Understand ",
+            "start": 0.25,
+            "end": 1.094
+          },
+          {
+            "text": "first, ",
+            "start": 1.094,
+            "end": 1.601
+          },
+          {
+            "text": "then ",
+            "start": 1.601,
+            "end": 1.938
+          },
+          {
+            "text": "act.",
+            "start": 1.938,
+            "end": 2.276
+          }
+        ],
+        "zh-Hans": [
+          {
+            "text": "先",
+            "start": 0.25,
+            "end": 0.503
+          },
+          {
+            "text": "看懂，",
+            "start": 0.503,
+            "end": 1.263
+          },
+          {
+            "text": "再",
+            "start": 1.263,
+            "end": 1.516
+          },
+          {
+            "text": "动手。",
+            "start": 1.516,
+            "end": 2.276
+          }
+        ]
+      }
+    }
+  ],
+  "close_visual_en": "Branded close (4 s): logo mark + wordmark lockup, series name, tagline 'Understand first, then act.', small slogan line 'One verified gateway to the world's exchanges', 'nexualpha.com' as plain text (the clickable entry lives on the web page). Nexubo waves, antenna green.",
+  "close_visual_zh": "品牌片尾（4秒）：标志图形＋文字标、系列名、“先看懂，再动手。”、小号品牌标语“全球交易所，一个官方入口”；“nexualpha.com”为识别文字（可点击入口在网页）。小纳挥手，天线绿灯。",
+  "source_metadata": {
+    "source_path": "/Volumes/致态2TB/nx-wt-codex-academy-v3-samples/ops/academy-v3/episodes/source/E05.json",
+    "original_slug": "kyc-who-gets-your-id",
+    "goal": {
+      "en": "Understand the general purpose and flow of identity verification, and submit only through a verified official channel.",
+      "zh-Hans": "理解身份认证的一般目的和流程，知道只向核验后的官方渠道提交。"
+    },
+    "duration_target_s": 130,
+    "page_cta": {
+      "kind": "signup",
+      "partner": "okx",
+      "line_en": "Verify only on the official site. Open OKX through our partner link (code nexu888). We never collect your ID.",
+      "line_zh": "只在官网认证。通过我们的 OKX 合作链接进入（邀请码 nexu888）。我们不收集你的证件。",
+      "placement": "directly beside / under the video player; never gates the lesson",
+      "url": "nexualpha.com/go/okx",
+      "codes": {
+        "okx": "nexu888"
+      },
+      "disclosure_en": "Partner link · the exchange pays our commission",
+      "disclosure_zh": "合作推广链接 · 佣金由交易所支付",
+      "restricted_locales": [
+        "ru",
+        "ar",
+        "zh-Hant",
+        "ur",
+        "uk",
+        "vi",
+        "ja",
+        "ko"
+      ],
+      "restricted_behavior": "show neutral 'official site' link only (exchange profile page), no code, no rebate wording"
+    },
+    "exercise": {
+      "task_en": "Put the verification steps in order using fictional details. Uploading a real ID to the course is not allowed.",
+      "task_zh": "用虚构信息排列认证步骤；课程禁止上传真实证件。",
+      "answer_en": "Verify the entry → submit your real details as your region requires → wait and check the result.",
+      "answer_zh": "核验入口→按本地区要求提交真实本人资料→等待并核对结果。"
+    },
+    "red_lines": [
+      "Never promise review times or that 'everything unlocks after KYC' ｜ 不承诺审核时限或“认证后所有功能开放”",
+      "No tutorial for bypassing verification ｜ 不做绕过认证教程",
+      "All IDs on screen are obviously fictional samples ｜ 画面证件全部为明显虚构样张",
+      "Conversion card: no reward amounts, percentages or dates in the video; disclosure on the card; restricted locales (ru/ar/zh-Hant/ur/uk/vi/ja/ko) get the neutral official-site variant ｜ 转化卡不写奖励金额、百分比、日期；卡片上必须有披露语；受限语种只给官网中性链接",
+      "Logo mark + wordmark top-left on every shot, official SVG only ｜ 每个镜头左上角都有正式标志图形＋文字标，只用原始SVG"
+    ],
+    "sources": [
+      "S11",
+      "S12"
+    ],
+    "explicit_scene_kinds": [
+      {
+        "tc": "00:00-00:06",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:06-00:09",
+        "kind": "open"
+      },
+      {
+        "tc": "00:09-00:32",
+        "kind": "shot"
+      },
+      {
+        "tc": "00:32-01:00",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:00-01:24",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:24-01:43",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:43-01:56",
+        "kind": "shot"
+      },
+      {
+        "tc": "01:56-02:02",
+        "kind": "conversion"
+      },
+      {
+        "tc": "02:02-02:06",
+        "kind": "hook"
+      },
+      {
+        "tc": "02:06-02:10",
+        "kind": "close"
+      }
+    ],
+    "required_contract_extensions": [
+      "widget type id-samples {labels, note}"
+    ]
+  },
+  "narration_alignment": {
+    "lead": 0.25,
+    "gap": 0.3,
+    "tail": 0.25,
+    "tightened_padding": 0.15,
+    "atempo_normal_max": 1.08,
+    "atempo_compromise_max": 1.12,
+    "compromises": [
+      "E05/conversion: contract max 10s with atempo 1.081"
+    ]
+  }
+}

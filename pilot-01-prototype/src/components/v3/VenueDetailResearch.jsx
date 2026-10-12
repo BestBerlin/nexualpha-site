@@ -884,8 +884,8 @@ function VenueTelegramMonitorSection({ venue, locale, market, product, rebatePer
           </h3>
           <p className="v3-tg-desc">
             {isZh
-              ? zhText(locale, `接入 NexuAlpha 官方 @${TELEGRAM_CONFIG.botUsername}，查看带来源标记的费率研究、官方链接与账户条件；市场数据和用户权益以官方页面为准。`, `接入 NexuAlpha 官方 @${TELEGRAM_CONFIG.botUsername}，查看帶來源標記的費率研究、官方連結與帳戶條件；市場資料和用戶權益以官方頁面為準。`)
-              : (telegramUi.desc ? telegramUi.desc.replace("{b}", TELEGRAM_CONFIG.botUsername) : `Connect via official @${TELEGRAM_CONFIG.botUsername} for source-labelled fee research, official links and account conditions; verify live terms with the platform.`)}
+              ? zhText(locale, `接入 NexuAlpha 官方 @${TELEGRAM_CONFIG.botUsername}，查看带来源标记的费率研究、官方链接与账户条件。`, `接入 NexuAlpha 官方 @${TELEGRAM_CONFIG.botUsername}，查看帶來源標記的費率研究、官方連結與帳戶條件。`)
+              : (telegramUi.desc ? telegramUi.desc.replace("{b}", TELEGRAM_CONFIG.botUsername) : `Connect via official @${TELEGRAM_CONFIG.botUsername} for source-labelled fee research, official links and account conditions.`)}
           </p>
           <div className="v3-tg-features">
             <span className="v3-tg-feat-item">✓ {isZh ? zhText(locale, "带来源的费率与产品条款研究", "帶來源的費率與產品條款研究") : (telegramUi.research || "Source-labelled fee and product research")}</span>

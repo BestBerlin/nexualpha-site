@@ -1155,7 +1155,9 @@ test("3.0 secondary pages stay visibly independent and keep commercial handoffs 
   assert.match(v3Pages, /data-cta-kind=\{/);
   assert.match(v3Pages, /"registration"/);
   assert.match(v3Pages, /rel=\{[^}]*sponsored noopener noreferrer/);
-  assert.match(v3Pages, /text\.relationship/);
+  assert.match(v3Pages, /v3-independent-badge/);
+  // Owner rule 2026-10-12: the commission relationship sentence lives in the footer and legal pages, not in page heroes.
+  assert.doesNotMatch(v3Pages, /v3-relationship-note|text\.relationship/);
   assert.match(venuePage, /className="v3-profile-sources-group"/);
   assert.match(venueResearch, /v3-profile-research-chapter/);
   assert.match(venueResearch, /v3-profile-evidence-block/);

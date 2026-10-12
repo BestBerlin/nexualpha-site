@@ -212,11 +212,13 @@ test("about, editorial-policy pages, byline and footer render localized in all 1
       const t = ABOUT_COPY[locale];
       const e = EDITORIAL_POLICY_COPY[locale];
       assert.ok(t && e, `${locale} has native copy`);
-      // about: h1, sections, research desk anchor, disclosure, methodology + policy links, Telegram routes, reviewed date
+      // about: h1, sections, research desk anchor, funding body, methodology + policy links, Telegram routes, reviewed date
       assert.match(about, new RegExp(`<h1>${escapeHtml(t.h1)}</h1>`), `${locale} about h1`);
       for (const id of ["publisher", "funding", "verification", "research-desk", "contact"]) assert.match(about, new RegExp(`id="${id}"`), `${locale} about #${id}`);
       assert.ok(about.includes(escapeHtml(t.deskAi)), `${locale} about AI-assistance sentence`);
-      assert.match(about, /commission-disclosure-line/, `${locale} about commission disclosure`);
+      // Owner rule 2026-10-12: the funding section's own body text explains the model; no extra disclosure widget.
+      assert.ok(about.includes(escapeHtml(t.fundingBody)), `${locale} about funding body`);
+      assert.doesNotMatch(about, /commission-disclosure-line|data-disclosure-placement=/, `${locale} about has no in-section disclosure line`);
       assert.ok(about.includes(`href="${prefix}/methodology"`), `${locale} about links methodology`);
       assert.ok(about.includes(`href="${prefix}/editorial-policy"`), `${locale} about links editorial policy`);
       for (const url of ["https://t.me/NexuAlphaClub", "https://t.me/NexuAlphaGlobal", "https://t.me/NexuAlphaAssistantBot", "https://app.nexualpha.com/", "mailto:Bestberlin@nexualpha.com"]) assert.ok(about.includes(`href="${url}"`), `${locale} about ${url}`);

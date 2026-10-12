@@ -14,7 +14,6 @@ const COPY = {
       (value) => ` — plus up to ${value}% of your trading fees back.`,
     ),
     button: (name) => `Register on ${name} & join →`,
-    fine: (name) => `Rules, rewards and eligibility are set by ${name}'s official page; some campaigns are new-user or region-limited. Partner link, commission disclosed.`,
   },
   "zh-Hans": {
     month: "本月活动",
@@ -28,7 +27,6 @@ const COPY = {
       "。",
     ),
     button: (name) => `注册 ${name}，参加活动 →`,
-    fine: (name) => `活动规则、奖励与参与资格以 ${name} 官方页面为准；部分活动仅限新用户或特定地区。合作推广链接，佣金已披露。`,
   },
   "zh-Hant": {
     month: "本月活動",
@@ -37,7 +35,6 @@ const COPY = {
     official: "開啟官方活動頁面",
     body: (name) => `參加條件：需要先有 ${name} 帳戶。可透過下方官方入口建立帳戶，註冊後再到官方活動頁面確認能否報名。`,
     button: (name) => `前往 ${name} 官方帳戶入口 →`,
-    fine: (name) => `活動規則、獎勵與參與資格以 ${name} 官方頁面為準；部分活動僅限新用戶或特定地區。`,
   },
   ja: {
     month: "今月のキャンペーン",
@@ -46,7 +43,6 @@ const COPY = {
     official: "公式キャンペーンページを開く",
     body: (name, code, share) => withShare(`${name} のアカウントが必要です。未登録の場合は、下の公式リンクから登録してください（コード ${code} 入り）。登録後にキャンペーンへ参加できます`, share, (value) => `。さらに取引手数料の最大 ${value}% が戻る場合があります。`),
     button: (name) => `${name} に登録して参加 →`,
-    fine: (name) => `ルール、報酬、参加資格は ${name} の公式ページが基準です。一部のキャンペーンは新規ユーザーまたは対象地域限定です。パートナーリンクで、コミッションは開示済みです。`,
   },
   ko: {
     month: "이번 달 캠페인",
@@ -55,7 +51,6 @@ const COPY = {
     official: "공식 캠페인 페이지 열기",
     body: (name, code, share) => withShare(`${name} 계정이 있어야 참여할 수 있습니다. 처음이라면 아래 공식 링크로 가입하세요(코드 ${code} 포함). 가입 후 캠페인에 참여할 수 있습니다`, share, (value) => `. 거래 수수료도 최대 ${value}%까지 돌려받을 수 있습니다.`),
     button: (name) => `${name} 가입 후 참여 →`,
-    fine: (name) => `규칙, 보상, 자격은 ${name} 공식 페이지가 기준입니다. 일부 캠페인은 신규 사용자 또는 특정 지역으로 제한됩니다. 파트너 링크이며 커미션은 공개되어 있습니다.`,
   },
   tr: {
     month: "Bu ayın kampanyaları",
@@ -64,7 +59,6 @@ const COPY = {
     official: "Resmî kampanya sayfasını aç",
     body: (name, code, share) => withShare(`Katılmak için bir ${name} hesabınız gerekir. Yeniyseniz aşağıdaki resmî bağlantıdan kaydolun (kod ${code} dahil); ardından kampanyaya girebilirsiniz`, share, (value) => ` ve işlem ücretlerinizin en fazla %${value} kadarı geri dönebilir.`),
     button: (name) => `${name} üzerinde kaydol ve katıl →`,
-    fine: (name) => `Kurallar, ödüller ve uygunluk ${name} resmî sayfasında belirlenir; bazı kampanyalar yeni kullanıcı veya belirli bölgelerle sınırlıdır. Partner bağlantısı, komisyon açıklanmıştır.`,
   },
   es: {
     month: "Campañas de este mes",
@@ -73,7 +67,6 @@ const COPY = {
     official: "Abrir página oficial de la campaña",
     body: (name, code, share) => withShare(`Para participar necesitas una cuenta de ${name}. Si eres nuevo, regístrate con el enlace oficial de abajo (código ${code} incluido) y podrás entrar en la campaña`, share, (value) => `, además de recuperar hasta el ${value}% de tus comisiones de trading.`),
     button: (name) => `Regístrate en ${name} y participa →`,
-    fine: (name) => `Las reglas, recompensas y elegibilidad las fija la página oficial de ${name}; algunas campañas son solo para usuarios nuevos o regiones concretas. Enlace de socio, comisión divulgada.`,
   },
   "pt-BR": {
     month: "Campanhas deste mês",
@@ -82,7 +75,6 @@ const COPY = {
     official: "Abrir página oficial da campanha",
     body: (name, code, share) => withShare(`Para participar, você precisa de uma conta na ${name}. Novo por aqui? Cadastre-se pelo link oficial abaixo (código ${code} incluído) e depois entre na campanha`, share, (value) => `, além de receber de volta até ${value}% das suas taxas de trading.`),
     button: (name) => `Cadastrar na ${name} e participar →`,
-    fine: (name) => `Regras, recompensas e elegibilidade são definidas pela página oficial da ${name}; algumas campanhas são para novos usuários ou regiões específicas. Link de parceiro, comissão divulgada.`,
   },
   fr: {
     month: "Campagnes du mois",
@@ -91,7 +83,6 @@ const COPY = {
     official: "Ouvrir la page officielle de la campagne",
     body: (name, code, share) => withShare(`Pour participer, vous devez avoir un compte ${name}. Nouveau ? Inscrivez-vous via le lien officiel ci-dessous (code ${code} inclus), puis vous pourrez rejoindre la campagne`, share, (value) => `, avec jusqu’à ${value}% de vos frais de trading reversés.`),
     button: (name) => `S’inscrire sur ${name} et participer →`,
-    fine: (name) => `Les règles, récompenses et critères d’éligibilité sont fixés par la page officielle de ${name}; certaines campagnes sont limitées aux nouveaux utilisateurs ou à certaines régions. Lien partenaire, commission divulguée.`,
   },
   de: {
     month: "Kampagnen dieses Monats",
@@ -100,7 +91,6 @@ const COPY = {
     official: "Offizielle Kampagnenseite öffnen",
     body: (name, code, share) => withShare(`Zur Teilnahme benötigen Sie ein ${name}-Konto. Neu hier? Registrieren Sie sich über den offiziellen Link unten (Code ${code} enthalten), danach können Sie an der Kampagne teilnehmen`, share, (value) => ` und bis zu ${value}% Ihrer Trading-Gebühren zurückerhalten.`),
     button: (name) => `Bei ${name} registrieren und teilnehmen →`,
-    fine: (name) => `Regeln, Prämien und Berechtigung legt die offizielle Seite von ${name} fest; manche Kampagnen gelten nur für Neukunden oder bestimmte Regionen. Partnerlink, Provision offengelegt.`,
   },
   ru: {
     month: "Кампании этого месяца",
@@ -109,7 +99,6 @@ const COPY = {
     official: "Открыть официальную страницу кампании",
     body: (name) => `Для участия нужен аккаунт ${name}. Откройте официальный путь ниже, затем проверьте условия участия на странице кампании.`,
     button: (name) => `Открыть путь к аккаунту ${name} →`,
-    fine: (name) => `Правила, награды и право на участие определяются официальной страницей ${name}; часть кампаний доступна только новым пользователям или отдельным регионам.`,
   },
   ar: {
     month: "حملات هذا الشهر",
@@ -118,7 +107,6 @@ const COPY = {
     official: "فتح صفحة الحملة الرسمية",
     body: (name) => `للمشاركة تحتاج إلى حساب في ${name}. افتح المسار الرسمي أدناه، ثم راجع أهلية المشاركة في صفحة الحملة الرسمية.`,
     button: (name) => `فتح مسار حساب ${name} →`,
-    fine: (name) => `تحدد صفحة ${name} الرسمية القواعد والمكافآت والأهلية؛ قد تقتصر بعض الحملات على مستخدمين جدد أو مناطق محددة.`,
   },
   id: {
     month: "Kampanye bulan ini",
@@ -127,7 +115,6 @@ const COPY = {
     official: "Buka halaman kampanye resmi",
     body: (name, code, share) => withShare(`Untuk ikut, Anda perlu akun ${name}. Baru di sini? Daftar melalui tautan resmi di bawah (kode ${code} sudah disertakan), lalu Anda bisa mengikuti kampanye`, share, (value) => `, plus hingga ${value}% biaya trading kembali.`),
     button: (name) => `Daftar di ${name} dan ikut →`,
-    fine: (name) => `Aturan, hadiah, dan kelayakan ditentukan oleh halaman resmi ${name}; beberapa kampanye hanya untuk pengguna baru atau wilayah tertentu. Tautan mitra, komisi diungkapkan.`,
   },
   vi: {
     month: "Chiến dịch tháng này",
@@ -136,7 +123,6 @@ const COPY = {
     official: "Mở trang chiến dịch chính thức",
     body: (name, code, share) => withShare(`Để tham gia, bạn cần có tài khoản ${name}. Nếu chưa có, hãy đăng ký qua liên kết chính thức bên dưới (đã kèm mã ${code}), sau đó bạn có thể tham gia chiến dịch`, share, (value) => ` và nhận lại tối đa ${value}% phí giao dịch.`),
     button: (name) => `Đăng ký ${name} và tham gia →`,
-    fine: (name) => `Quy tắc, phần thưởng và điều kiện do trang chính thức của ${name} quy định; một số chiến dịch chỉ dành cho người dùng mới hoặc khu vực cụ thể. Liên kết đối tác, hoa hồng đã công bố.`,
   },
   it: {
     month: "Campagne di questo mese",
@@ -145,7 +131,6 @@ const COPY = {
     official: "Apri la pagina ufficiale della campagna",
     body: (name, code, share) => withShare(`Per partecipare ti serve un account ${name}. Sei nuovo? Registrati dal link ufficiale qui sotto (codice ${code} incluso) e potrai entrare nella campagna`, share, (value) => `, oltre a ricevere indietro fino al ${value}% delle commissioni di trading.`),
     button: (name) => `Registrati su ${name} e partecipa →`,
-    fine: (name) => `Regole, premi e idoneità sono stabiliti dalla pagina ufficiale di ${name}; alcune campagne sono riservate a nuovi utenti o regioni specifiche. Link partner, commissione dichiarata.`,
   },
   ur: {
     month: "اس ماہ کی مہمات",
@@ -154,7 +139,6 @@ const COPY = {
     official: "سرکاری مہم کا صفحہ کھولیں",
     body: (name) => `شامل ہونے کے لیے ${name} اکاؤنٹ درکار ہے۔ نیچے سرکاری راستہ کھولیں، پھر مہم کے سرکاری صفحے پر اہلیت دیکھیں۔`,
     button: (name) => `${name} اکاؤنٹ کا راستہ کھولیں →`,
-    fine: (name) => `قواعد، انعامات اور اہلیت ${name} کے سرکاری صفحے کے مطابق ہیں؛ کچھ مہمات صرف نئے صارفین یا مخصوص علاقوں کے لیے ہو سکتی ہیں۔`,
   },
   uk: {
     month: "Кампанії цього місяця",
@@ -163,7 +147,6 @@ const COPY = {
     official: "Відкрити офіційну сторінку кампанії",
     body: (name) => `Для участі потрібен акаунт ${name}. Відкрийте офіційний шлях нижче, а потім перевірте право на участь на сторінці кампанії.`,
     button: (name) => `Відкрити шлях до акаунта ${name} →`,
-    fine: (name) => `Правила, винагороди та право на участь визначає офіційна сторінка ${name}; деякі кампанії доступні лише новим користувачам або окремим регіонам.`,
   },
 };
 

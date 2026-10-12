@@ -16,12 +16,12 @@ test("site backlinks are locale-prefixed and tagged with a src", () => {
   assert.deepEqual(BACKLINK_PATH, { "liquidation-spike": "/liquidations", "both-sides-liquidated": "/liquidations", "sharp-move": "/liquidations", listing: "/activities", digest: "/news" });
 });
 
-test("liquidation and sharp-move alerts link to /liquidations before the disclosure, in both languages", () => {
+test("liquidation and sharp-move alerts link to /liquidations as the last line, in both languages", () => {
   for (const type of ["liquidation-spike", "both-sides-liquidated", "sharp-move"]) {
     const zh = eventMessage({ type }, mk, "zh");
     const en = eventMessage({ type }, mk, "en");
-    assert.match(zh, /<a href="https:\/\/nexualpha\.com\/zh-hans\/liquidations\?src=tg-alert">查看详情 →<\/a>\n\n<i>合作链接/);
-    assert.match(en, /<a href="https:\/\/nexualpha\.com\/liquidations\?src=tg-alert">Read more →<\/a>\n\n<i>Partner links/);
+    assert.match(zh, /<a href="https:\/\/nexualpha\.com\/zh-hans\/liquidations\?src=tg-alert">查看详情 →<\/a>$/);
+    assert.match(en, /<a href="https:\/\/nexualpha\.com\/liquidations\?src=tg-alert">Read more →<\/a>$/);
   }
   assert.match(eventMessage({ type: "liquidation-spike" }, mk, "zh"), /^<b>💥 爆仓激增<\/b>\n1 小时爆仓：多 120\.0M \/ 空 30\.0M 美元/);
 });
@@ -29,7 +29,7 @@ test("liquidation and sharp-move alerts link to /liquidations before the disclos
 test("digest links to /news and keeps the partner /go buttons with their tg-digest sources", () => {
   const d = digestMessage(mk, partners, [{ slug: "a1", title: { en: "Hello", "zh-Hans": "你好" }, publishedAt: "2026-10-11T00:00:00Z" }], [], "zh");
   assert.match(d.text, /<a href="https:\/\/nexualpha\.com\/zh-hans\/news\/a1">你好<\/a>/);
-  assert.match(d.text, /<a href="https:\/\/nexualpha\.com\/zh-hans\/news\?src=tg-digest">查看详情 →<\/a>\n\n<i>合作链接/);
+  assert.match(d.text, /<a href="https:\/\/nexualpha\.com\/zh-hans\/news\?src=tg-digest">查看详情 →<\/a>$/);
   assert.deepEqual(d.buttons[0].map((b) => b.url), ["https://nexualpha.com/go/okx?src=tg-digest-zh", "https://nexualpha.com/go/bitget?src=tg-digest-zh"]);
   const en = digestMessage(mk, partners, [], [], "en");
   assert.match(en.text, /<a href="https:\/\/nexualpha\.com\/news\?src=tg-digest">Read more →<\/a>/);

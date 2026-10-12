@@ -142,7 +142,8 @@ export function morningSnapshotMessage(market, lang, { disclosure = "" } = {}) {
 
 export function weeklyPollPayload(lang) {
   const t = TEXT[lang] || TEXT.en;
-  return { question: t.pollQuestion, options: t.pollOptions.map((text) => ({ text })), is_anonymous: false };
+  // Telegram rejects non-anonymous polls in channels ("non-anonymous polls can't be sent to channel chats").
+  return { question: t.pollQuestion, options: t.pollOptions.map((text) => ({ text })), is_anonymous: true };
 }
 
 function validObject(value) {

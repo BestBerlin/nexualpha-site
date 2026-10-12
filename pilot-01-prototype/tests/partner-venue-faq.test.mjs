@@ -69,7 +69,7 @@ test("every localized partner answer cites the exchange's own help pages", () =>
   }
 });
 
-test("invite codes come from the partner feed and always travel with the commission disclosure", () => {
+test("invite codes come from the partner feed; answers carry no commission disclosure (owner rule 2026-10-12)", () => {
   const disclosure = { "pt-BR": /Transparência: .* comissão/, es: /Transparencia: .* comisión/, fr: /Transparence : .* commission/ };
   for (const slug of PARTNER_VENUE_FAQ_SLUGS) {
     const partner = REFERRAL_PARTNERS.find((p) => p.slug === slug);
@@ -79,8 +79,8 @@ test("invite codes come from the partner feed and always travel with the commiss
         assert.ok(!/\{code\}|\{name\}|\{disclosure\}/.test(entry.answer + entry.question), `${slug}/${locale}: unfilled placeholder`);
         if (partner?.inviteCode && entry.answer.includes(partner.inviteCode)) {
           assert.ok(entry.showsInviteCode, `${slug}/${locale}: code shown outside a partner-code entry`);
-          assert.match(entry.answer, disclosure[locale], `${slug}/${locale}: code without disclosure`);
         }
+        assert.doesNotMatch(entry.answer, disclosure[locale], `${slug}/${locale}: commission disclosure inside the answer`);
         assert.ok(!/\b\d{1,2}\s?%\s*(de )?(cashback|reembolso|remise|rebate)/i.test(entry.answer), `${slug}/${locale}: rebate share in FAQ`);
       }
     }
@@ -114,7 +114,7 @@ test("neutral locales get no partner FAQ; tr / vi / id only for the owner's targ
   }
 });
 
-test("visible profile FAQ renders the same localized questions and answers as the schema, with the disclosure line", () => {
+test("visible profile FAQ renders the same localized questions and answers as the schema, without an in-section disclosure line", () => {
   const dir = mkdtempSync(path.join(root, "tests/.tmp-partner-faq-"));
   try {
     const entry = path.join(dir, "entry.jsx");
@@ -143,7 +143,7 @@ test("visible profile FAQ renders the same localized questions and answers as th
         assert.ok(html.includes(escape(e.answer)), `${key} answer missing from visible FAQ: ${e.question}`);
         for (const href of e.citations) assert.ok(html.includes(escape(href)), `${key} source link missing: ${href}`);
       }
-      if (faq.showsInviteCode) assert.match(html, /commission-disclosure-line/, `${key} shows a partner code without the disclosure line`);
+      assert.doesNotMatch(html, /commission-disclosure-line|data-disclosure-placement=/, `${key}: no disclosure line in the FAQ section`);
       if (faq.mode === "replace") assert.ok(!GENERIC_ENGLISH.test(html), `${key} visible FAQ still English`);
     }
   } finally {
