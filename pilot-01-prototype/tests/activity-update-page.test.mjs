@@ -37,7 +37,7 @@ test('neutral locales and blocked markets have no commercial CTA inside update a
   assert.ok(article);
   assert.doesNotMatch(article,/data-cta-code=|data-cta-kind="registration"|40%|sponsored/);
   assert.match(article,/href="https:\/\/www.okx.com"/);
-  if(context.market) assert.ok(article.includes(updateHref(items[0],context.locale,{market:context.market})), 'related updates retain the market gate');
+  if(context.market) assert.ok(article.includes(`${updateHref(items[0],context.locale)}?market=${context.market}`), 'related updates retain the market gate');
  }
  const html = harness.render(`https://nexualpha.com${updatePath(items[1])}`,{officialAnnouncements:{items}});
  assert.match(html,/data-cta-placement="activity-update-join"/);
