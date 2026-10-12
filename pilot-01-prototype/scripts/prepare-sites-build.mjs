@@ -12,7 +12,9 @@ const publication = path.join(root, "src", "data", "reviewed-news-publication.js
 const attribution = path.join(root, "src", "data", "tracking-attribution.js");
 // NexuAlpha Academy (2026-10-12): the Worker head imports the episode index, the SEO helper and every locale's lessons.
 const academyData = ["academy.js", "academy-season1.js", "academy-seo.js", "academy-copy.js", "academy-content-all.js",
-  "academy-content-en.js", "academy-content-zh-hans.js", "academy-content-zh-hant.js", "academy-content-es.js", "academy-content-pt-br.js", "academy-content-fr.js", "academy-content-de.js", "academy-content-ja.js", "academy-content-ko.js", "academy-content-ru.js", "academy-content-tr.js", "academy-content-id.js", "academy-content-vi.js", "academy-content-ar.js"];
+  "academy-content-en.js", "academy-content-zh-hans.js", "academy-content-zh-hant.js", "academy-content-es.js", "academy-content-pt-br.js", "academy-content-fr.js", "academy-content-de.js", "academy-content-ja.js", "academy-content-ko.js", "academy-content-ru.js", "academy-content-tr.js", "academy-content-id.js", "academy-content-vi.js", "academy-content-ar.js",
+  // Binance October campaigns page (2026-10-12): the Worker head imports its route, SEO helper and copy.
+  "binance-october.js", "binance-october-path.js", "binance-october-seo.js", "binance-october-copy.js", "binance-october-tournament-copy.js"];
 // App pages use the existing source-bound CTA projection; ship its transitive public data dependencies.
 const appCtaData = ["source-bound-cta.js", "public-cta.js", "commercial-claims.js", "regional-cta.js", "directory-context.js", "market-policy.js", "regional-eligibility-evidence.js", "decision-passport.js", "regional-funding-verification-matrix.js", "contextual-href.js", "regional-shortlist.js", "regional-directory.js", "telegram-start-payload.js"];
 // Flash (2026-10-12): the Worker builds the flash feed, its head and sitemap from these.
