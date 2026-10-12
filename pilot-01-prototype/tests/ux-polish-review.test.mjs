@@ -68,7 +68,7 @@ test("mobile article shows the first section before the generic guidance rail", 
   // The guidance block and the venue offer (with its disclosure) are still rendered.
   const page = read("src/components/v3/news/NewsDetailPage.jsx");
   assert.match(page, /<ArticleDecisionSummary /);
-  assert.match(page, /<NewsVenueOffer [^>]*variant="rail" \/>/);
+  assert.match(page, /<SponsoredSlot [^>]*variant="sidebar" \/>/);
 });
 
 test("home hero no longer says partner node in any locale", () => {

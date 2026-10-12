@@ -597,6 +597,8 @@ export function normalizeNewsArticle(article) {
     content,
     sources,
     relatedVenues: cleanVenueSlugs(article.relatedVenues),
+    topicTags: cleanVenueSlugs(article.topicTags || article.tags),
+    ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
     availableLocales: newsArticleAvailableLocales(article),
     ...(routeProjection(article) ? { routeProjection: routeProjection(article) } : {}),
     seo: isRecord(article.seo) ? article.seo : {},
@@ -631,6 +633,8 @@ export function normalizeNewsArticleSummary(article) {
     title,
     summary,
     relatedVenues: cleanVenueSlugs(article.relatedVenues),
+    topicTags: cleanVenueSlugs(article.topicTags || article.tags),
+    ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
     availableLocales: newsArticleSummaryAvailableLocales(article),
     ...(routeProjection(article) ? { routeProjection: routeProjection(article) } : {}),
   };
@@ -690,6 +694,8 @@ export function projectNewsArticleForLocale(article, locale = "en", { includeCon
     title: compactLocalizedRecord(article.title, locale),
     summary: compactLocalizedRecord(article.summary, locale),
     relatedVenues: Array.isArray(article.relatedVenues) ? article.relatedVenues : [],
+    topicTags: cleanVenueSlugs(article.topicTags || article.tags),
+    ...(isRecord(article.cta) ? { cta: { venue: cleanString(article.cta.venue), topic: cleanString(article.cta.topic), coin: cleanString(article.cta.coin) } } : {}),
     availableLocales: Array.isArray(article.availableLocales) ? article.availableLocales : [],
     routeProjection: {
       source: NEWS_ARTICLE_ROUTE_PROJECTION_SOURCE,
