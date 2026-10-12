@@ -1,0 +1,61 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:02.790
+Ich habe auf Kaufen geklickt. Warum wird es nicht ausgeführt?
+
+00:00:09.250 --> 00:00:12.850
+Market-Orders zielen auf sofortige Ausführung zu aktuellen Kursen ab,
+
+00:00:12.850 --> 00:00:14.571
+aber der Endpreis kann abweichen.
+
+00:00:14.571 --> 00:00:19.006
+Limit-Orders legen Höchstpreise für den Kauf oder Mindestpreise für den Verkauf fest,
+
+00:00:19.006 --> 00:00:20.310
+ohne Ausführungsgarantie.
+
+00:00:32.250 --> 00:00:35.205
+Wer unter dem aktuellen Kurs kaufen will, muss warten.
+
+00:00:35.205 --> 00:00:38.763
+Trifft eine Limit-Order jedoch direkt auf passende Gegenangebote,
+
+00:00:38.763 --> 00:00:43.360
+kann sie sofort ausgeführt werden – nicht jede Limit-Order muss im Orderbuch warten.
+
+00:01:00.250 --> 00:01:02.520
+Macht das Stornieren einer Order auch das rückgängig, was ich gerade gekauft habe?
+
+00:01:02.820 --> 00:01:05.705
+Nein. Ein Storno betrifft nur den noch nicht ausgeführten Teil;
+
+00:01:05.705 --> 00:01:08.820
+bereits getätigte Transaktionen lassen sich nicht rückgängig machen.
+
+00:01:24.250 --> 00:01:26.374
+Prüfen Sie den Status vor der Aktion.
+
+00:01:26.374 --> 00:01:29.703
+Ob Sie Maker oder Taker sind, hängt von der Ausführung ab;
+
+00:01:29.703 --> 00:01:33.090
+eine Limit-Order garantiert keinen bestimmten Gebührensatz.
+
+00:01:43.250 --> 00:01:43.820
+Nein.
+
+00:01:44.120 --> 00:01:45.452
+Einen Order-Typ wählen bedeutet,
+
+00:01:45.452 --> 00:01:48.200
+eine Ausführungsmethode zu wählen – keinen Wunschzettel abzugeben.
+
+00:01:56.250 --> 00:01:59.336
+Bedeutet eine grüne Kerze, dass die nächste auch steigen wird?
+
+00:01:59.336 --> 00:02:00.530
+In der nächsten Episode.
+
+00:02:01.050 --> 00:02:03.110
+Erst verstehen, dann handeln.

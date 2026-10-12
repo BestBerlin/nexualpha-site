@@ -1,0 +1,317 @@
+{
+  "locale": "en",
+  "episodes": {
+    "1": {
+      "takeaways": [
+        "The price of one bitcoin is not the price of getting started.",
+        "Bitcoin divides into decimals: spend 100 at 50,000 and you hold 0.002 BTC.",
+        "Each platform sets its own minimum order and fees, so check both first."
+      ],
+      "quiz": {
+        "q": "One bitcoin is 50,000 USDT. You spend 100 USDT, ignoring fees. What do you get?",
+        "options": ["Nothing, you need a whole coin", "0.002 BTC", "0.02 BTC"],
+        "answer": 1,
+        "why": "100 ÷ 50,000 = 0.002. You can hold a fraction of one bitcoin."
+      }
+    },
+    "2": {
+      "takeaways": [
+        "USDT is a stablecoin designed to stay close to one dollar, not a bank deposit.",
+        "Exchanges use it to price and swap assets, so a sale often ends in USDT.",
+        "\"Stable\" is a design goal: the price can drift and redemption has conditions."
+      ],
+      "quiz": {
+        "q": "Which statement about USDT is true?",
+        "options": ["It is the dollars in your bank account", "It is a stablecoin, a type of crypto asset", "It can never move away from one dollar"],
+        "answer": 1,
+        "why": "USDT aims to track the dollar, but it is a crypto asset with its own issuer and platform risks."
+      }
+    },
+    "3": {
+      "takeaways": [
+        "On an exchange account, the platform mainly manages the assets and keys.",
+        "In a self-custody wallet you control the credentials, and the recovery duty is yours.",
+        "Ask who controls the permission to move the assets before you choose."
+      ],
+      "quiz": {
+        "q": "You lose the recovery phrase of a standard self-custody wallet and have no other recovery method. What happens?",
+        "options": ["Support can reset it for you", "Access may be lost for good", "The exchange restores it automatically"],
+        "answer": 1,
+        "why": "With self-custody you hold the keys. Without the phrase or another valid method, nobody can recover it for you."
+      }
+    },
+    "4": {
+      "takeaways": [
+        "Check that the platform serves your real country before anything else.",
+        "Sign up only through the confirmed official entry, with your own email or phone.",
+        "Right after sign-up, turn on security features and save your recovery options."
+      ],
+      "quiz": {
+        "q": "What should you confirm first, before signing up?",
+        "options": ["The size of the welcome reward", "That the platform serves your country and the entry is official", "How many followers the platform has"],
+        "answer": 1,
+        "why": "Eligibility and the official entry come first. A reward should never decide where you open an account."
+      }
+    },
+    "5": {
+      "takeaways": [
+        "KYC confirms you are the account owner and helps the platform meet the rules.",
+        "Submit your ID only inside the official verification flow, never in a chat.",
+        "If it fails, read the reason, fix it and try again with your real identity."
+      ],
+      "quiz": {
+        "q": "Who should receive your ID?",
+        "options": ["A helpful \"agent\" in a chat group", "Only the verified official verification flow", "The course chat, so others can check it"],
+        "answer": 1,
+        "why": "Only the official flow. NexuAlpha never asks for your ID, and neither should a stranger."
+      }
+    },
+    "6": {
+      "takeaways": [
+        "A fiat deposit, buying crypto, an on-chain deposit and an internal transfer are different routes.",
+        "On-chain deposits need a supported coin and network; internal transfers stay on the platform.",
+        "Never pay a stranger off-platform; check where the balance will land first."
+      ],
+      "quiz": {
+        "q": "You move USDT from your funding account to your trading account on the same platform. What is that?",
+        "options": ["An on-chain deposit", "An internal transfer", "A fiat deposit"],
+        "answer": 1,
+        "why": "It only moves balance between your own accounts. It is usually not an on-chain transfer."
+      }
+    },
+    "7": {
+      "takeaways": [
+        "BTC/USDT means bitcoin priced in USDT: you pay USDT and receive bitcoin.",
+        "Check whether the order box wants an amount of money or a number of coins.",
+        "After you buy, check the trade record: fill status, average price and fee."
+      ],
+      "quiz": {
+        "q": "You buy 0.002 BTC at 50,000 with a 0.1% fee taken separately in USDT. What is the total spent?",
+        "options": ["100", "100.10", "110"],
+        "answer": 1,
+        "why": "100 for the coins plus a 0.10 fee makes 100.10."
+      }
+    },
+    "8": {
+      "takeaways": [
+        "Selling for USDT gives you a USDT balance, not money in your bank.",
+        "Selling and withdrawing to your bank are two separate steps.",
+        "A higher price is not your net gain: subtract every fee first."
+      ],
+      "quiz": {
+        "q": "You sold your bitcoin for USDT. Where is the money now?",
+        "options": ["In your bank account", "As a USDT balance on the platform", "Already converted to your local currency"],
+        "answer": 1,
+        "why": "You received USDT. Getting money to your bank is a separate withdrawal step."
+      }
+    },
+    "9": {
+      "takeaways": [
+        "Confirm the coin and the network the receiver supports before you send.",
+        "Copy the address from the receiving page, check all of it and add any memo or tag.",
+        "Send a small test first and confirm it was credited."
+      ],
+      "quiz": {
+        "q": "The receiving page asks for a memo. What do you do?",
+        "options": ["Skip it, the address is enough", "Fill in the memo exactly as shown", "Use the memo from an old transfer"],
+        "answer": 1,
+        "why": "If a memo or tag is required, the transfer may not be credited without it."
+      }
+    },
+    "10": {
+      "takeaways": [
+        "Submitted, on-chain and credited are three different stations.",
+        "Use the transaction hash on a block explorer for the right network.",
+        "Share records with official support, never your recovery phrase, private key or codes."
+      ],
+      "quiz": {
+        "q": "Your transfer says \"sent\" but has not arrived. What is the first step?",
+        "options": ["Send the same amount again", "Find where it is stuck using the record and transaction hash", "Pay someone who promises to recover it"],
+        "answer": 1,
+        "why": "Find the station first, then contact the matching official channel. Do not keep sending."
+      }
+    },
+    "11": {
+      "takeaways": [
+        "Your recovery phrase and private key are control keys, not support codes.",
+        "Guaranteed returns and pressure to pay are danger signs.",
+        "Never confirm a signature or approval you do not understand."
+      ],
+      "quiz": {
+        "q": "Which one is safe to share so you can receive a payment?",
+        "options": ["Your public address", "Your recovery phrase", "A one-time code"],
+        "answer": 0,
+        "why": "A public address is made for receiving. Secrets and codes give control away."
+      }
+    },
+    "12": {
+      "takeaways": [
+        "A correct flow is the goal: entry and eligibility, spot, amount and fee, then the record.",
+        "Stopping an unclear transfer is a correct answer too.",
+        "Your certificate is a learning record, not a licence to invest."
+      ],
+      "quiz": {
+        "q": "A practice transfer shows the wrong network. What is the right move?",
+        "options": ["Send it anyway and hope", "Stop and do not send", "Switch to a bigger amount"],
+        "answer": 1,
+        "why": "When the network, fees or identity are unclear, stopping matters more than finishing the task."
+      }
+    },
+    "13": {
+      "takeaways": [
+        "The last price is the most recent trade, not an offer for any size.",
+        "Larger orders can fill across several levels of the order book.",
+        "Slippage and the trading fee are separate costs: check the bill."
+      ],
+      "quiz": {
+        "q": "Half of your 0.002 BTC fills at 50,000 and the other half at 50,100. What is your average price?",
+        "options": ["50,000", "50,050", "50,100"],
+        "answer": 1,
+        "why": "Two equal halves average to 50,050. The fee is a separate cost on top."
+      }
+    },
+    "14": {
+      "takeaways": [
+        "A market order fills fast at the prices available now; the final price can move.",
+        "A limit order caps your price, but it may not fill.",
+        "Cancel only affects the unfilled part; what already filled stays."
+      ],
+      "quiz": {
+        "q": "Your limit order is half filled and you cancel it. What happens?",
+        "options": ["Everything is reversed", "Only the unfilled half is cancelled", "The filled half turns into a market order"],
+        "answer": 1,
+        "why": "A cancel cannot rewind a fill. It only stops the remaining quantity."
+      }
+    },
+    "15": {
+      "takeaways": [
+        "One candle shows four prices for one period: open, high, low and close.",
+        "Read the time frame before the shape: five minutes is not a day.",
+        "Colours differ between apps, and one candle is a record, not a prediction."
+      ],
+      "quiz": {
+        "q": "A five-minute candle opens at 50,000, reaches 51,000, dips to 49,000 and closes at 50,500. What is the high?",
+        "options": ["50,500", "51,000", "49,000"],
+        "answer": 1,
+        "why": "The top of the upper wick is the highest price in that period: 51,000."
+      }
+    },
+    "16": {
+      "takeaways": [
+        "Account balance, position size and planned risk are three different numbers.",
+        "Decide your exit first, then size the position.",
+        "With a 5% stop and a 20 risk budget, the position is about 400."
+      ],
+      "quiz": {
+        "q": "Entry 50,000, planned exit 47,500, and you accept losing 20. About how big is the position?",
+        "options": ["20", "400", "4,000"],
+        "answer": 1,
+        "why": "The exit is 5% away, and 5% of 400 is 20. Costs come on top."
+      }
+    },
+    "17": {
+      "takeaways": [
+        "A stop-loss runs your exit plan; it is not insurance.",
+        "A stop-market exits fast but can slip in a fast market.",
+        "A stop-limit caps the price but may not fill at all."
+      ],
+      "quiz": {
+        "q": "In a sharp drop, what can happen to a stop-limit order?",
+        "options": ["It always fills at the trigger price", "It may not fill if the price races past", "It turns into insurance"],
+        "answer": 1,
+        "why": "The limit protects your price, so the order can stay unfilled when the market moves fast."
+      }
+    },
+    "18": {
+      "takeaways": [
+        "Spot swaps one asset for another; a perpetual is a contract position.",
+        "Long gains if the price rises, short gains if it falls; the wrong side loses.",
+        "Futures are a different risk structure, not a level you must reach."
+      ],
+      "quiz": {
+        "q": "Does a futures position give you bitcoin you can withdraw?",
+        "options": ["Yes, it is the same as spot", "No, it is a contract that settles profit and loss", "Only with 10x leverage"],
+        "answer": 1,
+        "why": "A linear perpetual settles profit and loss in the contract. It is not a withdrawable coin balance."
+      }
+    },
+    "19": {
+      "takeaways": [
+        "100 of margin controlling a 1,000 position is 10x leverage.",
+        "Price moves act on the position, and your margin takes the result.",
+        "With the same position size, changing leverage changes the margin, not the P&L."
+      ],
+      "quiz": {
+        "q": "A 1,000 position moves 1% against you, ignoring fees. About how much do you lose?",
+        "options": ["1", "10", "100"],
+        "answer": 1,
+        "why": "1% of the 1,000 position is about 10, taken from your margin."
+      }
+    },
+    "20": {
+      "takeaways": [
+        "Initial margin opens a position; maintenance margin keeps it open.",
+        "Equity is margin plus or minus the open result: 100 down 20 leaves 80.",
+        "The risk system can step in before your margin reaches zero."
+      ],
+      "quiz": {
+        "q": "Initial margin is 100 and the position is down 20, ignoring fees. What is the simplified equity?",
+        "options": ["100", "80", "120"],
+        "answer": 1,
+        "why": "100 minus the 20 loss leaves 80, and the buffer keeps shrinking if the price moves further against you."
+      }
+    },
+    "21": {
+      "takeaways": [
+        "Isolated margin gives one position its own margin.",
+        "The margin you assigned can still be lost; isolated is not a stop-loss.",
+        "Auto-add or manual adding puts more of your money behind the same risk."
+      ],
+      "quiz": {
+        "q": "You turn on auto-add margin for an isolated position. What changes?",
+        "options": ["Nothing, the loss stays capped at the first 100", "More of your balance can flow into the position", "The position becomes risk-free"],
+        "answer": 1,
+        "why": "Auto-add moves available balance into the position, so more money carries the risk."
+      }
+    },
+    "22": {
+      "takeaways": [
+        "Cross margin shares one margin pool across positions.",
+        "One losing position can eat the buffer the others rely on.",
+        "It does not reach your bank cards or personal wallets."
+      ],
+      "quiz": {
+        "q": "Is cross margin automatically safer?",
+        "options": ["Yes, it can never be liquidated", "Not necessarily, it depends on the shared pool and the rules", "Yes, it uses all your bank cards"],
+        "answer": 1,
+        "why": "Extra margin can delay risk handling, but it also puts more of your money on the line."
+      }
+    },
+    "23": {
+      "takeaways": [
+        "Many perpetuals judge liquidation by the mark price and margin rules, not the last trade.",
+        "Near the maintenance requirement, the system can reduce or close the position.",
+        "A closed position does not come back when the price rebounds."
+      ],
+      "quiz": {
+        "q": "A leveraged position was liquidated, and later the price went back up. What happens?",
+        "options": ["The position comes back on its own", "It stays closed; the path mattered", "The exchange refunds the loss"],
+        "answer": 1,
+        "why": "Once force-closed, the position is gone. A later rebound only helps someone still holding."
+      }
+    },
+    "24": {
+      "takeaways": [
+        "Funding is paid between longs and shorts, not a fixed charge to the exchange.",
+        "It is based on the position value: 1,000 at 0.01% is 0.10.",
+        "Choosing not to trade is a passing answer too."
+      ],
+      "quiz": {
+        "q": "The funding rate is positive. Who usually pays?",
+        "options": ["Shorts pay longs", "Longs pay shorts", "Everyone pays the exchange"],
+        "answer": 1,
+        "why": "With a positive rate, longs usually pay shorts. With a negative rate it flips."
+      }
+    }
+  }
+}

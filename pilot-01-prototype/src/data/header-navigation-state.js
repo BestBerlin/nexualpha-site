@@ -17,7 +17,7 @@ export function headerNavigationState(href, currentUrl) {
       : targetPath === '/exchanges' ? '/exchanges'
       : targetPath === '/compare' || targetPath.startsWith('/compare/') ? '/compare'
       : targetPath === '/topics/meme-coins' ? '/topics'
-      : ['/news', '/activities', '/telegram'].includes(targetPath) ? targetPath : null;
+      : ['/news', '/activities', '/telegram', '/academy'].includes(targetPath) ? targetPath : null;
     return section && (currentPath === section || currentPath.startsWith(`${section}/`)) ? { active: true } : {};
   } catch {
     return {};

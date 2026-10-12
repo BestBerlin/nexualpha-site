@@ -1,0 +1,58 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:05.000
+The price I'm watching hasn't got there. Why is the alarm going off?
+
+00:00:09.250 --> 00:00:13.298
+The last traded price isn't always the price used to judge liquidation.
+
+00:00:13.298 --> 00:00:16.947
+Many perpetuals assess risk using a mark price and margin rules.
+
+00:00:16.947 --> 00:00:19.570
+Check which rules your platform actually uses.
+
+00:00:35.250 --> 00:00:39.114
+When the price moves against the position, losses eat into equity.
+
+00:00:39.114 --> 00:00:42.802
+Near the maintenance requirement, the system may cancel orders,
+
+00:00:42.802 --> 00:00:47.310
+reduce the position or force-close it. It won't necessarily wait for your OK.
+
+00:01:07.250 --> 00:01:10.871
+Liquidation usually means this forced-close risk event,
+
+00:01:10.871 --> 00:01:13.043
+not your phone's button breaking.
+
+00:01:13.043 --> 00:01:17.980
+The real trigger depends on fees, maintenance margin, margin mode and more.
+
+00:01:17.980 --> 00:01:20.350
+10x doesn't mean exactly a 10% drop.
+
+00:01:35.250 --> 00:01:39.160
+It went back up later. Can I just wait for it to come back?
+
+00:01:39.460 --> 00:01:41.914
+A closed position doesn't come back on its own.
+
+00:01:41.914 --> 00:01:47.450
+A drop and then a rise can end very differently for a leveraged position and for plain spot you just held.
+
+00:01:56.250 --> 00:01:57.430
+Not guaranteed.
+
+00:01:57.730 --> 00:02:01.370
+It's not just the destination. It's whether you can survive the path.
+
+00:02:11.250 --> 00:02:15.212
+Price barely moved, and you didn't close, but your balance dropped.
+
+00:02:15.212 --> 00:02:16.750
+The final episode is next.
+
+00:02:17.350 --> 00:02:19.390
+Understand first, then act.

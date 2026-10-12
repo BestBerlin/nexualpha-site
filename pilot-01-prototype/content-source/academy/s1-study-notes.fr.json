@@ -1,0 +1,413 @@
+{
+  "locale": "fr",
+  "episodes": {
+    "1": {
+      "takeaways": [
+        "Le prix d'un bitcoin n'est pas le prix pour commencer.",
+        "Le bitcoin se divise en décimales : dépensez 100 à 50,000 et vous détenez 0.002 BTC.",
+        "Chaque plateforme fixe son propre ordre minimum et ses frais : vérifiez les deux d'abord."
+      ],
+      "quiz": {
+        "q": "Un bitcoin vaut 50,000 USDT. Vous dépensez 100 USDT, hors frais. Qu'obtenez-vous ?",
+        "options": [
+          "Rien, il faut un bitcoin entier",
+          "0.002 BTC",
+          "0.02 BTC"
+        ],
+        "answer": 1,
+        "why": "100 ÷ 50,000 = 0.002. Vous pouvez détenir une fraction de bitcoin."
+      }
+    },
+    "2": {
+      "takeaways": [
+        "L'USDT est un stablecoin conçu pour rester proche d'un dollar, pas un dépôt bancaire.",
+        "Les plateformes l'utilisent pour fixer le prix des actifs et les échanger, donc une vente se termine souvent en USDT.",
+        "« Stable » est un objectif de conception : le prix peut s'écarter et le remboursement a des conditions."
+      ],
+      "quiz": {
+        "q": "Quelle affirmation sur l'USDT est vraie ?",
+        "options": [
+          "Ce sont les dollars de votre compte bancaire",
+          "C'est un stablecoin, un type de crypto-actif",
+          "Il ne peut jamais s'éloigner d'un dollar"
+        ],
+        "answer": 1,
+        "why": "L'USDT vise à suivre le dollar, mais c'est un crypto-actif avec ses propres risques liés à l'émetteur et aux plateformes."
+      }
+    },
+    "3": {
+      "takeaways": [
+        "Sur un compte de plateforme, c'est surtout la plateforme qui gère les actifs et les clés.",
+        "Avec un portefeuille en auto-garde, vous contrôlez les identifiants, et la récupération relève de vous.",
+        "Avant de choisir, demandez-vous qui contrôle le droit de déplacer les actifs."
+      ],
+      "quiz": {
+        "q": "Vous perdez la phrase de récupération d'un portefeuille en auto-garde classique et n'avez aucun autre moyen de récupération. Que se passe-t-il ?",
+        "options": [
+          "Le support peut la réinitialiser pour vous",
+          "L'accès peut être perdu définitivement",
+          "La plateforme la restaure automatiquement"
+        ],
+        "answer": 1,
+        "why": "En auto-garde, c'est vous qui détenez les clés. Sans la phrase ou un autre moyen valide, personne ne peut la récupérer à votre place."
+      }
+    },
+    "4": {
+      "takeaways": [
+        "Vérifiez avant tout que la plateforme est disponible dans votre pays réel.",
+        "Inscrivez-vous uniquement via l'accès officiel confirmé, avec votre propre e-mail ou téléphone.",
+        "Juste après l'inscription, activez les fonctions de sécurité et conservez vos options de récupération."
+      ],
+      "quiz": {
+        "q": "Que devez-vous confirmer en premier, avant de vous inscrire ?",
+        "options": [
+          "Le montant de la prime de bienvenue",
+          "Que la plateforme est disponible dans votre pays et que l'accès est officiel",
+          "Le nombre d'abonnés de la plateforme"
+        ],
+        "answer": 1,
+        "why": "L'éligibilité et l'accès officiel passent en premier. Une prime ne devrait jamais décider où vous ouvrez un compte."
+      }
+    },
+    "5": {
+      "takeaways": [
+        "Le KYC confirme que vous êtes le titulaire du compte et aide la plateforme à respecter les règles.",
+        "Ne transmettez votre pièce d'identité que dans le parcours de vérification officiel, jamais dans une discussion.",
+        "En cas d'échec, lisez le motif, corrigez et réessayez avec votre véritable identité."
+      ],
+      "quiz": {
+        "q": "Qui doit recevoir votre pièce d'identité ?",
+        "options": [
+          "Un « agent » serviable dans un groupe de discussion",
+          "Uniquement le parcours de vérification officiel confirmé",
+          "La discussion du cours, pour que d'autres la vérifient"
+        ],
+        "answer": 1,
+        "why": "Uniquement le parcours officiel. NexuAlpha ne demande jamais votre pièce d'identité, et un inconnu non plus ne devrait pas le faire."
+      }
+    },
+    "6": {
+      "takeaways": [
+        "Un dépôt en monnaie fiat, un achat de crypto, un dépôt on-chain et un transfert interne sont des circuits différents.",
+        "Un dépôt on-chain exige une crypto et un réseau pris en charge ; un transfert interne reste sur la plateforme.",
+        "Ne payez jamais un inconnu hors de la plateforme ; vérifiez d'abord où le solde arrivera."
+      ],
+      "quiz": {
+        "q": "Vous déplacez des USDT de votre compte de financement vers votre compte de trading sur la même plateforme. De quoi s'agit-il ?",
+        "options": [
+          "Un dépôt on-chain",
+          "Un transfert interne",
+          "Un dépôt en monnaie fiat"
+        ],
+        "answer": 1,
+        "why": "Cela ne fait que déplacer un solde entre vos propres comptes. Ce n'est généralement pas un transfert on-chain."
+      }
+    },
+    "7": {
+      "takeaways": [
+        "BTC/USDT signifie le bitcoin coté en USDT : vous payez en USDT et recevez du bitcoin.",
+        "Vérifiez si le champ de l'ordre attend un montant d'argent ou une quantité de bitcoins.",
+        "Après l'achat, consultez l'historique : statut d'exécution, prix moyen et frais."
+      ],
+      "quiz": {
+        "q": "Vous achetez 0.002 BTC à 50,000 avec des frais de 0.1% prélevés à part en USDT. Quel est le total dépensé ?",
+        "options": [
+          "100",
+          "100.10",
+          "110"
+        ],
+        "answer": 1,
+        "why": "100 pour les bitcoins plus 0.10 de frais, soit 100.10."
+      }
+    },
+    "8": {
+      "takeaways": [
+        "Vendre contre de l'USDT vous donne un solde en USDT, pas de l'argent sur votre compte bancaire.",
+        "Vendre et retirer vers votre banque sont deux étapes distinctes.",
+        "Un prix plus élevé n'est pas votre gain net : soustrayez d'abord tous les frais."
+      ],
+      "quiz": {
+        "q": "Vous avez vendu votre bitcoin contre de l'USDT. Où est l'argent maintenant ?",
+        "options": [
+          "Sur votre compte bancaire",
+          "Sous forme de solde USDT sur la plateforme",
+          "Déjà converti dans votre monnaie locale"
+        ],
+        "answer": 1,
+        "why": "Vous avez reçu de l'USDT. Faire arriver l'argent sur votre compte bancaire est une étape de retrait à part."
+      }
+    },
+    "9": {
+      "takeaways": [
+        "Avant d'envoyer, confirmez la crypto et le réseau que le destinataire accepte.",
+        "Copiez l'adresse depuis la page de réception, vérifiez-la en entier et ajoutez tout mémo ou tag.",
+        "Envoyez d'abord un petit test et vérifiez qu'il a bien été crédité."
+      ],
+      "quiz": {
+        "q": "La page de réception demande un mémo. Que faites-vous ?",
+        "options": [
+          "Je l'ignore, l'adresse suffit",
+          "Je saisis le mémo exactement comme indiqué",
+          "Je reprends le mémo d'un ancien transfert"
+        ],
+        "answer": 1,
+        "why": "Si un mémo ou un tag est requis, le transfert risque de ne pas être crédité sans lui."
+      }
+    },
+    "10": {
+      "takeaways": [
+        "Soumis, sur la blockchain et crédité sont trois étapes différentes.",
+        "Utilisez le hash de la transaction dans un explorateur de blocs du bon réseau.",
+        "Transmettez l'historique au support officiel, jamais votre phrase de récupération, votre clé privée ni vos codes."
+      ],
+      "quiz": {
+        "q": "Votre transfert indique « envoyé » mais n'est pas arrivé. Quelle est la première étape ?",
+        "options": [
+          "Renvoyer le même montant",
+          "Trouver où il bloque grâce à l'historique et au hash de la transaction",
+          "Payer quelqu'un qui promet de le récupérer"
+        ],
+        "answer": 1,
+        "why": "Trouvez d'abord l'étape, puis contactez le canal officiel correspondant. N'envoyez pas davantage."
+      }
+    },
+    "11": {
+      "takeaways": [
+        "Votre phrase de récupération et votre clé privée sont des clés de contrôle, pas des codes pour le support.",
+        "Les rendements garantis et la pression pour payer sont des signaux d'alerte.",
+        "Ne confirmez jamais une signature ou une autorisation que vous ne comprenez pas."
+      ],
+      "quiz": {
+        "q": "Que pouvez-vous partager sans risque pour recevoir un paiement ?",
+        "options": [
+          "Votre adresse publique",
+          "Votre phrase de récupération",
+          "Un code à usage unique"
+        ],
+        "answer": 0,
+        "why": "Une adresse publique est faite pour recevoir. Les secrets et les codes cèdent le contrôle."
+      }
+    },
+    "12": {
+      "takeaways": [
+        "L'objectif est un parcours correct : accès et éligibilité, spot, montant et frais, puis l'historique.",
+        "Arrêter un transfert peu clair est aussi une bonne réponse.",
+        "Votre certificat atteste d'un apprentissage, ce n'est pas une autorisation d'investir."
+      ],
+      "quiz": {
+        "q": "Un transfert d'entraînement affiche le mauvais réseau. Que faut-il faire ?",
+        "options": [
+          "L'envoyer quand même en espérant",
+          "S'arrêter et ne pas l'envoyer",
+          "Passer à un montant plus élevé"
+        ],
+        "answer": 1,
+        "why": "Quand le réseau, les frais ou l'identité ne sont pas clairs, s'arrêter compte plus que terminer la tâche."
+      }
+    },
+    "13": {
+      "takeaways": [
+        "Le dernier prix est celui de la transaction la plus récente, pas une offre valable pour n'importe quelle taille.",
+        "Les ordres plus importants peuvent s'exécuter sur plusieurs niveaux du carnet d'ordres.",
+        "Le slippage et les frais de trading sont des coûts distincts : vérifiez la note."
+      ],
+      "quiz": {
+        "q": "La moitié de vos 0.002 BTC s'exécute à 50,000 et l'autre moitié à 50,100. Quel est votre prix moyen ?",
+        "options": [
+          "50,000",
+          "50,050",
+          "50,100"
+        ],
+        "answer": 1,
+        "why": "Deux moitiés égales donnent une moyenne de 50,050. Les frais s'ajoutent à part."
+      }
+    },
+    "14": {
+      "takeaways": [
+        "Un ordre au marché s'exécute vite aux prix disponibles maintenant ; le prix final peut bouger.",
+        "Un ordre à cours limité plafonne votre prix, mais il peut ne pas être exécuté.",
+        "Annuler ne concerne que la partie non exécutée ; ce qui est déjà exécuté reste acquis."
+      ],
+      "quiz": {
+        "q": "Votre ordre à cours limité est exécuté à moitié et vous l'annulez. Que se passe-t-il ?",
+        "options": [
+          "Tout est annulé",
+          "Seule la moitié non exécutée est annulée",
+          "La moitié exécutée devient un ordre au marché"
+        ],
+        "answer": 1,
+        "why": "Une annulation ne peut pas défaire une exécution. Elle arrête seulement la quantité restante."
+      }
+    },
+    "15": {
+      "takeaways": [
+        "Une bougie montre quatre prix sur une période : ouverture, plus haut, plus bas et clôture.",
+        "Lisez l'unité de temps avant la forme : cinq minutes, ce n'est pas une journée.",
+        "Les couleurs varient selon les applis, et une bougie est un relevé, pas une prédiction."
+      ],
+      "quiz": {
+        "q": "Une bougie de cinq minutes ouvre à 50,000, monte à 51,000, descend à 49,000 et clôture à 50,500. Quel est le plus haut ?",
+        "options": [
+          "50,500",
+          "51,000",
+          "49,000"
+        ],
+        "answer": 1,
+        "why": "Le sommet de la mèche supérieure est le prix le plus haut de la période : 51,000."
+      }
+    },
+    "16": {
+      "takeaways": [
+        "Le solde du compte, la taille de la position et le risque prévu sont trois chiffres différents.",
+        "Décidez d'abord de votre sortie, puis dimensionnez la position.",
+        "Avec un stop à 5% et un budget de risque de 20, la position est d'environ 400."
+      ],
+      "quiz": {
+        "q": "Entrée à 50,000, sortie prévue à 47,500, et vous acceptez de perdre 20. Quelle est la taille approximative de la position ?",
+        "options": [
+          "20",
+          "400",
+          "4,000"
+        ],
+        "answer": 1,
+        "why": "La sortie est à 5%, et 5% de 400 font 20. Les frais s'ajoutent."
+      }
+    },
+    "17": {
+      "takeaways": [
+        "Un stop-loss exécute votre plan de sortie ; ce n'est pas une assurance.",
+        "Un stop au marché sort rapidement, mais peut subir du slippage dans un marché rapide.",
+        "Un stop limite plafonne le prix, mais peut ne pas être exécuté du tout."
+      ],
+      "quiz": {
+        "q": "Lors d'une chute brutale, que peut-il arriver à un ordre stop limite ?",
+        "options": [
+          "Il s'exécute toujours au prix de déclenchement",
+          "Il peut ne pas s'exécuter si le prix passe trop vite",
+          "Il devient une assurance"
+        ],
+        "answer": 1,
+        "why": "La limite protège votre prix, donc l'ordre peut rester non exécuté quand le marché va vite."
+      }
+    },
+    "18": {
+      "takeaways": [
+        "Le spot échange un actif contre un autre ; un perpétuel est une position sur contrat.",
+        "Une position longue gagne si le prix monte, une position courte gagne s'il baisse ; le mauvais côté perd.",
+        "Les contrats à terme sont une autre structure de risque, pas un niveau à atteindre."
+      ],
+      "quiz": {
+        "q": "Une position sur contrats à terme vous donne-t-elle du bitcoin que vous pouvez retirer ?",
+        "options": [
+          "Oui, c'est la même chose que le spot",
+          "Non, c'est un contrat qui règle les gains et les pertes",
+          "Seulement avec un levier 10x"
+        ],
+        "answer": 1,
+        "why": "Un perpétuel linéaire règle les gains et les pertes dans le contrat. Ce n'est pas un solde de bitcoins retirable."
+      }
+    },
+    "19": {
+      "takeaways": [
+        "100 de marge contrôlant une position de 1,000, c'est un levier de 10x.",
+        "Les mouvements de prix s'appliquent à la position, et votre marge en subit le résultat.",
+        "À taille de position égale, changer le levier change la marge, pas les gains et pertes."
+      ],
+      "quiz": {
+        "q": "Une position de 1,000 évolue de 1% contre vous, hors frais. Combien perdez-vous environ ?",
+        "options": [
+          "1",
+          "10",
+          "100"
+        ],
+        "answer": 1,
+        "why": "1% de la position de 1,000 fait environ 10, prélevés sur votre marge."
+      }
+    },
+    "20": {
+      "takeaways": [
+        "La marge initiale ouvre une position ; la marge de maintien la garde ouverte.",
+        "La valeur nette est la marge plus ou moins le résultat latent : 100 avec une perte de 20, il reste 80.",
+        "Le système de gestion des risques peut intervenir avant que votre marge n'atteigne zéro."
+      ],
+      "quiz": {
+        "q": "La marge initiale est de 100 et la position perd 20, hors frais. Quelle est la valeur nette simplifiée ?",
+        "options": [
+          "100",
+          "80",
+          "120"
+        ],
+        "answer": 1,
+        "why": "100 moins la perte de 20 laisse 80, et la réserve continue de fondre si le prix va encore contre vous."
+      }
+    },
+    "21": {
+      "takeaways": [
+        "La marge isolée attribue à une position sa propre marge.",
+        "La marge que vous avez attribuée peut quand même être perdue ; isolée ne veut pas dire stop-loss.",
+        "L'ajout automatique ou manuel engage davantage de votre argent sur le même risque."
+      ],
+      "quiz": {
+        "q": "Vous activez l'ajout automatique de marge sur une position isolée. Qu'est-ce qui change ?",
+        "options": [
+          "Rien, la perte reste plafonnée aux 100 initiaux",
+          "Une plus grande part de votre solde peut aller dans la position",
+          "La position devient sans risque"
+        ],
+        "answer": 1,
+        "why": "L'ajout automatique transfère du solde disponible vers la position, donc plus d'argent porte le risque."
+      }
+    },
+    "22": {
+      "takeaways": [
+        "La marge croisée partage une seule réserve de marge entre les positions.",
+        "Une position perdante peut absorber la réserve dont dépendent les autres.",
+        "Elle ne touche ni vos cartes bancaires ni vos portefeuilles personnels."
+      ],
+      "quiz": {
+        "q": "La marge croisée est-elle automatiquement plus sûre ?",
+        "options": [
+          "Oui, elle ne peut jamais être liquidée",
+          "Pas forcément, cela dépend de la réserve commune et des règles",
+          "Oui, elle utilise toutes vos cartes bancaires"
+        ],
+        "answer": 1,
+        "why": "Une marge supplémentaire peut retarder l'intervention du système, mais elle expose aussi davantage de votre argent."
+      }
+    },
+    "23": {
+      "takeaways": [
+        "De nombreux perpétuels évaluent la liquidation selon le prix de référence et les règles de marge, pas selon la dernière transaction.",
+        "Près de l'exigence de maintien, le système peut réduire ou clôturer la position.",
+        "Une position clôturée ne revient pas quand le prix rebondit."
+      ],
+      "quiz": {
+        "q": "Une position à effet de levier a été liquidée, puis le prix est remonté. Que se passe-t-il ?",
+        "options": [
+          "La position revient d'elle-même",
+          "Elle reste clôturée ; le chemin parcouru comptait",
+          "La plateforme rembourse la perte"
+        ],
+        "answer": 1,
+        "why": "Une fois clôturée de force, la position n'existe plus. Un rebond ultérieur n'aide que ceux qui sont encore positionnés."
+      }
+    },
+    "24": {
+      "takeaways": [
+        "Le financement se paie entre positions longues et courtes, ce n'est pas un frais fixe versé à la plateforme.",
+        "Il se calcule sur la valeur de la position : 1,000 à 0.01%, cela fait 0.10.",
+        "Choisir de ne pas trader est aussi une réponse valable."
+      ],
+      "quiz": {
+        "q": "Le taux de financement est positif. Qui paie en général ?",
+        "options": [
+          "Les courts paient les longs",
+          "Les longs paient les courts",
+          "Tout le monde paie la plateforme"
+        ],
+        "answer": 1,
+        "why": "Avec un taux positif, les longs paient en général les courts. Avec un taux négatif, c'est l'inverse."
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:03.910
+Il reste du solde, pourquoi m'empêcher d'attendre ?
+
+00:00:09.250 --> 00:00:12.875
+Ouvrir une position requiert une marge initiale ; en cours de trade,
+
+00:00:12.875 --> 00:00:15.275
+il faut aussi respecter la marge de maintien.
+
+00:00:15.275 --> 00:00:18.740
+Ce que vous avez mis au départ n'assure pas un coussin permanent.
+
+00:00:35.250 --> 00:00:39.931
+Supposons 100 de marge initiale et 20 de perte latente : hors autres frais,
+
+00:00:39.931 --> 00:00:42.177
+vos capitaux ne sont plus que de 80.
+
+00:00:42.177 --> 00:00:45.360
+Si le cours s'enfonce, votre coussin fond d'autant.
+
+00:01:07.250 --> 00:01:10.195
+Quand les capitaux approchent du seuil de maintien exigé,
+
+00:01:10.195 --> 00:01:13.658
+le système de risque intervient ; il n'attend pas d'atteindre zéro.
+
+00:01:13.658 --> 00:01:17.430
+Cela dépend du type de compte, du mode de marge et des règles du produit.
+
+00:01:35.250 --> 00:01:38.760
+Suis-je en sécurité si je rajoute constamment des fonds ?
+
+00:01:39.060 --> 00:01:42.754
+Rajouter de l'argent ne change pas le cours et n'exclut pas la liquidation.
+
+00:01:42.754 --> 00:01:45.710
+Cela peut juste exposer davantage de capital au même risque.
+
+00:01:56.250 --> 00:02:00.900
+Non, l'un concerne l'ouverture et l'autre les exigences de maintien de position.
+
+00:02:01.200 --> 00:02:04.460
+Regardez d'abord vos capitaux, puis leur distance par rapport au seuil d'alerte.
+
+00:02:11.250 --> 00:02:15.824
+Mettre 100 dans une boîte protège-t-il les 900 restants pour toujours ?
+
+00:02:15.824 --> 00:02:17.370
+À suivre : marge isolée.
+
+00:02:17.950 --> 00:02:19.900
+Comprenez d'abord, agissez ensuite.

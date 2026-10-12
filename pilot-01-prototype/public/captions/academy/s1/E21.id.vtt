@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:02.137
+Jika saya menaruh 100 di margin terisolasi,
+
+00:00:02.137 --> 00:00:04.200
+apakah 900 lainnya tidak akan pernah tersentuh?
+
+00:00:09.250 --> 00:00:13.169
+Inti dari margin terisolasi adalah mengalokasikan margin secara terpisah ke posisi.
+
+00:00:13.169 --> 00:00:15.907
+Tanpa menambah dana atau mengaktifkan penambahan otomatis,
+
+00:00:15.907 --> 00:00:19.070
+risiko likuidasi terutama ditanggung oleh margin yang dialokasikan.
+
+00:00:32.250 --> 00:00:35.634
+Ini memudahkan memisahkan ruang lingkup margin antarposisi.
+
+00:00:35.634 --> 00:00:40.107
+Namun 100 ini tetap bisa hilang; margin terisolasi tidak melenyapkan kerugian,
+
+00:00:40.107 --> 00:00:41.770
+juga bukan pesanan stop-loss.
+
+00:01:00.250 --> 00:01:04.571
+Perhatikan sakelar ini: beberapa platform menawarkan penambahan margin otomatis.
+
+00:01:04.571 --> 00:01:08.243
+Saat diaktifkan, saldo yang tersedia dapat terus mengalir ke posisi.
+
+00:01:08.243 --> 00:01:11.700
+Menambah secara manual pun sama, memperbesar dana yang berisiko.
+
+00:01:24.250 --> 00:01:30.035
+Jangan hanya melihat kata 'terisolasi' lalu berasumsi kerugian maksimal selamanya sama dengan 100 pertama itu.
+
+00:01:30.035 --> 00:01:32.980
+Periksa pengaturan penambahan, biaya, dan aturan produk.
+
+00:01:43.250 --> 00:01:43.690
+Tidak bisa.
+
+00:01:43.990 --> 00:01:46.356
+Margin terisolasi bergantung pada batas isolasi,
+
+00:01:46.356 --> 00:01:48.920
+tetapi juga apakah ada pipa tambahan yang terhubung.
+
+00:01:56.250 --> 00:02:00.610
+Satu posisi bocor, posisi lainnya juga mulai tenggelam. Berikutnya: margin silang.
+
+00:02:01.150 --> 00:02:03.110
+Pahami dulu, baru bertindak.

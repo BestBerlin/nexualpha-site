@@ -1,0 +1,67 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:04.840
+Bir saniye önce bu fiyattaydı. Faturam neden farklı çıktı?
+
+00:00:09.250 --> 00:00:12.449
+Ekrandaki son fiyat en son gerçekleşen işlemin kaydıdır,
+
+00:00:12.449 --> 00:00:14.620
+sınırsız miktarda bir teklif değildir.
+
+00:00:14.620 --> 00:00:18.390
+Şu an insanların ne kadar alıp satmak istediği emir defterindedir.
+
+00:00:32.250 --> 00:00:36.894
+0. 002 bitcoin aldığını düşün. İlk kademede sadece yarısı var.
+
+00:00:36.894 --> 00:00:40.039
+Diğer yarısı daha yüksek fiyattan eşleşir.
+
+00:00:40.039 --> 00:00:43.260
+Birlikte ortalama 50,000 değil 50,050 olur.
+
+00:01:00.250 --> 00:01:04.180
+Kayma (slippage), beklediğin fiyat ile aldığın fiyat arasındaki farktır.
+
+00:01:04.180 --> 00:01:07.400
+Her zaman aleyhine olmaz. Komisyon ise ayrı bir maliyettir.
+
+00:01:07.400 --> 00:01:10.020
+Bunları 'sıfır komisyon' sloganında birleştirme.
+
+00:01:24.250 --> 00:01:25.004
+Büyük emirler,
+
+00:01:25.004 --> 00:01:29.365
+sığ derinlik veya hızlı piyasalar sonucun beklentinden sapma olasılığını artırır.
+
+00:01:29.365 --> 00:01:33.780
+Emir vermeden önce tutara ve derinliğe, sonrasında ise gerçekleşen ortalamaya bak.
+
+00:01:43.250 --> 00:01:43.740
+Hayır.
+
+00:01:44.040 --> 00:01:46.010
+Ancak faturayı gördüğünde işlemin netleşir.
+
+00:01:46.010 --> 00:01:47.980
+Sadece ekrandaki en büyük sayıya odaklanma.
+
+00:01:56.250 --> 00:01:59.126
+Komisyonlar gerçekten düşürebileceğin bir maliyettir.
+
+00:01:59.126 --> 00:02:04.823
+NexuAlpha'da ücretleri karşılaştır ve komisyon iadesi almak için kodumuzla partner bağlantısından kaydol.
+
+00:02:04.823 --> 00:02:06.180
+Düşük maliyet, aynı risk.
+
+00:02:06.750 --> 00:02:09.825
+Alış emri verdin ama hiçbir şey olmuyor. Sistem mi bozuldu?
+
+00:02:09.825 --> 00:02:11.910
+Gelecek bölümde: Piyasa, limit ve iptal.
+
+00:02:12.450 --> 00:02:14.430
+Önce anla, sonra harekete geç.

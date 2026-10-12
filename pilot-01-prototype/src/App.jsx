@@ -30,6 +30,7 @@ import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/l
 import { parseNewsListingPath } from "./data/news-library.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
+import { academyContentModulePath, academyShellCopy, parseAcademyPath } from "./data/academy.js";
 import { signalInteractionReady } from "./data/hydration-readiness.js";
 import { syncRouteSeo } from "./data/route-seo-client.js";
 import {
@@ -82,6 +83,9 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./components/data/LiquidationsPage.jsx",
   "./components/data/FundingRatesPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
+  "./components/academy/AcademyPages.jsx",
+  "./data/academy-content-*.js",
+  "!./data/academy-content-all.js",
 ]);
 
 if (!import.meta.env.SSR) registerRouteModuleLoaders(deferredPageModules);
@@ -127,6 +131,9 @@ const ssrDeferredPageModules = import.meta.env.SSR ? import.meta.glob([
   "./components/data/LiquidationsPage.jsx",
   "./components/data/FundingRatesPage.jsx",
   "./components/shared/ToolArticleLinks.jsx",
+  "./components/academy/AcademyPages.jsx",
+  "./data/academy-content-*.js",
+  "!./data/academy-content-all.js",
 ], { eager: true }) : {};
 
 function deferredComponent(path, exportName) {
@@ -166,6 +173,19 @@ const LiquidationsPage = deferredComponent("./components/data/LiquidationsPage.j
 const FundingRatesPage = deferredComponent("./components/data/FundingRatesPage.jsx", "FundingRatesPage");
 const NewsDetailPage = deferredComponent("./components/v3/news/NewsDetailPage.jsx", "NewsDetailPage");
 const ToolArticleLinks = deferredComponent("./components/shared/ToolArticleLinks.jsx", "ToolArticleLinks");
+// Academy (2026-10-12): one route chunk for the hub and lesson pages; lesson content is one lazy module per locale.
+const AcademyHubPage = deferredComponent(ROUTE_MODULE_PATHS.academy, "AcademyHubPage");
+const AcademyEpisodePage = deferredComponent(ROUTE_MODULE_PATHS.academy, "AcademyEpisodePage");
+function readAcademyContent(locale) {
+  const path = academyContentModulePath(locale);
+  if (import.meta.env.SSR) return ssrDeferredPageModules[path]?.ACADEMY_CONTENT;
+  return readRouteModuleExport(path, "ACADEMY_CONTENT");
+}
+function AcademyRoute({ route, locale }) {
+  const content = readAcademyContent(locale);
+  if (route.name === "academyHub") return <AcademyHubPage locale={locale} content={content} market={route.market} />;
+  return <AcademyEpisodePage locale={locale} content={content} slug={route.slug} market={route.market} />;
+}
 // Tool key of a route (mirror of toolKeyForRoute in src/data/topic-clusters.js, kept here so the mapping stays off the
 // browser entry; tests/crosslinks.test.mjs pins that both agree).
 const toolKeyOf = (route) => ({ liquidations: "liquidations", fundingRates: "funding-rates", rateTerminal: "rates", compareHub: "compare", activities: "activities" })[route?.name]
@@ -259,7 +279,7 @@ const readComparison = () => {
 const withLocale = (locale, href) => localizedHref(href, { locale });
 
 const GENERIC_ENGLISH_DEFAULT_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/partners", "/telegram", LIQUIDATIONS_PATH, FUNDING_RATES_PATH]);
-const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets"];
+const GENERIC_ENGLISH_DEFAULT_PREFIXES = ["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets", "/academy"];
 
 const isGenericEnglishDefaultRoute = (pathname = "/") => {
   const normalized = String(pathname || "/").split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
@@ -533,6 +553,10 @@ function routeState(venues, initialUrl) {
   if (pathname === "/embed/calculator") return { name: "embedCalculator" };
   if (pathname === "/partners" || pathname === "/partners/embed-guide") return { name: "partners" };
   if (pathname === "/telegram") return { name: "telegram" };
+  const academy = parseAcademyPath(pathname);
+  if (academy?.kind === "hub") return { name: "academyHub", ...contextParams() };
+  if (academy?.kind === "episode") return { name: "academyEpisode", slug: academy.episode.slug, ...contextParams() };
+  if (academy?.kind === "missing") return { name: "notFound" };
   if (pathname === LIQUIDATIONS_PATH) return { name: "liquidations" };
   if (pathname === FUNDING_RATES_PATH) return { name: "fundingRates" };
   if (pathname === "/topics") return { name: "topicCollection", ...contextParams() };
@@ -638,6 +662,8 @@ function Header({ copy, locale, onLocaleChange, onSearch, brazil = false, initia
     // not anchors on the home page (the home page has no #exchanges / #compare section any more).
     [copy.nav.exchanges, withLocale(locale, "/exchanges")],
     [copy.nav.compare, withLocale(locale, "/compare")], // compare hub: any-two picker + popular pairs (audit 4.6)
+    // Academy (owner 2026-10-12): the 24-lesson beginner course is a primary destination.
+    [academyShellCopy(locale).nav, withLocale(locale, "/academy")],
     [text.activities, withLocale(locale, "/activities")],
     [locale === "zh-Hant" || locale === "zh-TW" ? "新聞與研究" : locale.startsWith("zh") ? "新闻与研究" : ({ ja: "マーケットニュース", ko: "시장 뉴스", tr: "Piyasa Haberleri", ru: "Новости рынка", de: "Marktnachrichten", fr: "Actualités du marché", es: "Noticias del mercado", "pt-BR": "Notícias do mercado", it: "Notizie di mercato", id: "Berita pasar", vi: "Tin thị trường",
         // l10n: needs native review
@@ -829,6 +855,7 @@ export function App({ initialUrl, initialLocale, initialCompareSelection, initia
   if (route.name === "editorialPolicy") return pageShell(<EditorialPolicyPage locale={locale} />);
   if (route.name === "partners") return pageShell(<PartnerEmbedGuide locale={locale} />);
   if (route.name === "telegram") return pageShell(<main className="v6 v2-page v3-page r1-telegram-page" id="top" dir={getTextDirection(locale)} {...sectionEyebrowAttrs(locale, "telegram")}><TelegramBotHub locale={locale} headingLevel={1} /></main>);
+  if (route.name === "academyHub" || route.name === "academyEpisode") return pageShell(<AcademyRoute route={route} locale={locale} />);
   if (route.name === "liquidations") return pageShell(<LiquidationsPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "fundingRates") return pageShell(<FundingRatesPage locale={locale} initialFeed={initialMarketEvents} />, { deferContent: false });
   if (route.name === "topicCollection") return pageShell(<CollectionHubPage kind="topics" locale={locale} />);

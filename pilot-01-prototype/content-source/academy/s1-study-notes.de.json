@@ -1,0 +1,413 @@
+{
+  "locale": "de",
+  "episodes": {
+    "1": {
+      "takeaways": [
+        "Der Preis eines ganzen Bitcoins ist nicht der Preis für den Einstieg.",
+        "Bitcoin lässt sich in Dezimalstellen teilen: Wer 100 bei 50,000 ausgibt, hält 0.002 BTC.",
+        "Jede Plattform legt eigene Mindestorders und Gebühren fest – prüfe also zuerst beides."
+      ],
+      "quiz": {
+        "q": "Ein Bitcoin kostet 50,000 USDT. Du gibst 100 USDT aus, ohne Gebühren. Was bekommst du?",
+        "options": [
+          "Nichts, du brauchst einen ganzen Coin",
+          "0.002 BTC",
+          "0.02 BTC"
+        ],
+        "answer": 1,
+        "why": "100 ÷ 50,000 = 0.002. Du kannst einen Bruchteil eines Bitcoins halten."
+      }
+    },
+    "2": {
+      "takeaways": [
+        "USDT ist ein Stablecoin, der nahe bei einem Dollar bleiben soll – kein Bankguthaben.",
+        "Börsen nutzen ihn, um Assets zu bepreisen und zu tauschen, deshalb endet ein Verkauf oft in USDT.",
+        "„Stabil“ ist ein Designziel: Der Kurs kann abweichen, und die Rücknahme ist an Bedingungen geknüpft."
+      ],
+      "quiz": {
+        "q": "Welche Aussage über USDT stimmt?",
+        "options": [
+          "Es sind die Dollar auf deinem Bankkonto",
+          "Es ist ein Stablecoin, also ein Krypto-Asset",
+          "Er kann sich nie von einem Dollar entfernen"
+        ],
+        "answer": 1,
+        "why": "USDT soll dem Dollar folgen, ist aber ein Krypto-Asset mit eigenen Risiken beim Emittenten und bei den Plattformen."
+      }
+    },
+    "3": {
+      "takeaways": [
+        "Bei einem Börsenkonto verwaltet vor allem die Plattform die Assets und die Schlüssel.",
+        "Bei einer Self-Custody-Wallet kontrollierst du die Zugangsdaten – und die Wiederherstellung liegt bei dir.",
+        "Frag vor der Wahl, wer die Berechtigung hat, die Assets zu bewegen."
+      ],
+      "quiz": {
+        "q": "Du verlierst die Recovery-Phrase einer normalen Self-Custody-Wallet und hast keine andere Wiederherstellungsmethode. Was passiert?",
+        "options": [
+          "Der Support kann sie für dich zurücksetzen",
+          "Der Zugang kann für immer verloren sein",
+          "Die Börse stellt sie automatisch wieder her"
+        ],
+        "answer": 1,
+        "why": "Bei Self-Custody hältst du die Schlüssel. Ohne die Phrase oder eine andere gültige Methode kann niemand sie für dich wiederherstellen."
+      }
+    },
+    "4": {
+      "takeaways": [
+        "Prüfe zuallererst, ob die Plattform in deinem tatsächlichen Land verfügbar ist.",
+        "Registriere dich nur über den bestätigten offiziellen Zugang, mit deiner eigenen E-Mail oder Telefonnummer.",
+        "Aktiviere direkt nach der Registrierung die Sicherheitsfunktionen und sichere deine Wiederherstellungsoptionen."
+      ],
+      "quiz": {
+        "q": "Was solltest du vor der Registrierung zuerst bestätigen?",
+        "options": [
+          "Wie hoch der Willkommensbonus ist",
+          "Dass die Plattform dein Land bedient und der Zugang offiziell ist",
+          "Wie viele Follower die Plattform hat"
+        ],
+        "answer": 1,
+        "why": "Zulassung und offizieller Zugang kommen zuerst. Ein Bonus sollte nie entscheiden, wo du ein Konto eröffnest."
+      }
+    },
+    "5": {
+      "takeaways": [
+        "KYC bestätigt, dass du der Kontoinhaber bist, und hilft der Plattform, die Regeln einzuhalten.",
+        "Reiche deinen Ausweis nur im offiziellen Verifizierungsablauf ein, niemals in einem Chat.",
+        "Wenn es fehlschlägt: Grund lesen, korrigieren und mit deiner echten Identität erneut versuchen."
+      ],
+      "quiz": {
+        "q": "Wer sollte deinen Ausweis erhalten?",
+        "options": [
+          "Ein hilfsbereiter „Agent“ in einer Chatgruppe",
+          "Nur der bestätigte offizielle Verifizierungsablauf",
+          "Der Kurs-Chat, damit andere ihn prüfen"
+        ],
+        "answer": 1,
+        "why": "Nur der offizielle Ablauf. NexuAlpha fragt nie nach deinem Ausweis – und ein Fremder sollte das auch nicht."
+      }
+    },
+    "6": {
+      "takeaways": [
+        "Eine Fiat-Einzahlung, ein Krypto-Kauf, eine On-Chain-Einzahlung und ein interner Transfer sind verschiedene Wege.",
+        "On-Chain-Einzahlungen brauchen einen unterstützten Coin und ein unterstütztes Netzwerk; interne Transfers bleiben auf der Plattform.",
+        "Bezahle nie einen Fremden außerhalb der Plattform; prüfe zuerst, wo das Guthaben ankommt."
+      ],
+      "quiz": {
+        "q": "Du verschiebst USDT von deinem Funding-Konto auf dein Trading-Konto bei derselben Plattform. Was ist das?",
+        "options": [
+          "Eine On-Chain-Einzahlung",
+          "Ein interner Transfer",
+          "Eine Fiat-Einzahlung"
+        ],
+        "answer": 1,
+        "why": "Es verschiebt nur Guthaben zwischen deinen eigenen Konten. Meist ist das keine On-Chain-Überweisung."
+      }
+    },
+    "7": {
+      "takeaways": [
+        "BTC/USDT bedeutet Bitcoin in USDT bepreist: Du zahlst USDT und bekommst Bitcoin.",
+        "Prüfe, ob das Orderfeld einen Geldbetrag oder eine Anzahl Coins erwartet.",
+        "Prüfe nach dem Kauf den Handelsverlauf: Ausführungsstatus, Durchschnittspreis und Gebühr."
+      ],
+      "quiz": {
+        "q": "Du kaufst 0.002 BTC bei 50,000, mit 0.1% Gebühr, die separat in USDT abgezogen wird. Wie viel gibst du insgesamt aus?",
+        "options": [
+          "100",
+          "100.10",
+          "110"
+        ],
+        "answer": 1,
+        "why": "100 für die Coins plus 0.10 Gebühr ergibt 100.10."
+      }
+    },
+    "8": {
+      "takeaways": [
+        "Ein Verkauf gegen USDT ergibt ein USDT-Guthaben, kein Geld auf deiner Bank.",
+        "Verkaufen und auf dein Bankkonto auszahlen sind zwei getrennte Schritte.",
+        "Ein höherer Preis ist nicht dein Nettogewinn: Zieh zuerst alle Gebühren ab."
+      ],
+      "quiz": {
+        "q": "Du hast deinen Bitcoin gegen USDT verkauft. Wo ist das Geld jetzt?",
+        "options": [
+          "Auf deinem Bankkonto",
+          "Als USDT-Guthaben auf der Plattform",
+          "Schon in deine Landeswährung umgerechnet"
+        ],
+        "answer": 1,
+        "why": "Du hast USDT erhalten. Das Geld auf dein Bankkonto zu bringen, ist ein separater Auszahlungsschritt."
+      }
+    },
+    "9": {
+      "takeaways": [
+        "Bestätige vor dem Senden den Coin und das Netzwerk, die der Empfänger unterstützt.",
+        "Kopiere die Adresse von der Empfangsseite, prüfe sie vollständig und gib jedes Memo oder Tag an.",
+        "Sende zuerst einen kleinen Test und bestätige, dass er gutgeschrieben wurde."
+      ],
+      "quiz": {
+        "q": "Die Empfangsseite verlangt ein Memo. Was tust du?",
+        "options": [
+          "Weglassen, die Adresse reicht",
+          "Das Memo genau wie angezeigt eintragen",
+          "Das Memo einer alten Überweisung nehmen"
+        ],
+        "answer": 1,
+        "why": "Wenn ein Memo oder Tag erforderlich ist, wird die Überweisung ohne es möglicherweise nicht gutgeschrieben."
+      }
+    },
+    "10": {
+      "takeaways": [
+        "Eingereicht, on-chain und gutgeschrieben sind drei verschiedene Stationen.",
+        "Nutze den Transaktions-Hash in einem Block-Explorer für das richtige Netzwerk.",
+        "Teile Belege mit dem offiziellen Support, niemals deine Recovery-Phrase, deinen Private Key oder Codes."
+      ],
+      "quiz": {
+        "q": "Deine Überweisung zeigt „gesendet“, ist aber nicht angekommen. Was ist der erste Schritt?",
+        "options": [
+          "Den gleichen Betrag noch einmal senden",
+          "Mit Verlauf und Transaktions-Hash herausfinden, wo sie hängt",
+          "Jemanden bezahlen, der verspricht, sie zurückzuholen"
+        ],
+        "answer": 1,
+        "why": "Finde zuerst die Station, dann kontaktiere den passenden offiziellen Kanal. Sende nicht weiter."
+      }
+    },
+    "11": {
+      "takeaways": [
+        "Recovery-Phrase und Private Key sind Kontrollschlüssel, keine Support-Codes.",
+        "Garantierte Renditen und Zahlungsdruck sind Warnsignale.",
+        "Bestätige nie eine Signatur oder Freigabe, die du nicht verstehst."
+      ],
+      "quiz": {
+        "q": "Was kannst du gefahrlos teilen, um eine Zahlung zu empfangen?",
+        "options": [
+          "Deine öffentliche Adresse",
+          "Deine Recovery-Phrase",
+          "Einen Einmalcode"
+        ],
+        "answer": 0,
+        "why": "Eine öffentliche Adresse ist zum Empfangen da. Geheimnisse und Codes geben die Kontrolle ab."
+      }
+    },
+    "12": {
+      "takeaways": [
+        "Ziel ist ein korrekter Ablauf: Zugang und Zulassung, Spot, Betrag und Gebühr, dann der Beleg.",
+        "Eine unklare Überweisung zu stoppen, ist ebenfalls eine richtige Antwort.",
+        "Dein Zertifikat ist ein Lernnachweis, keine Lizenz zum Investieren."
+      ],
+      "quiz": {
+        "q": "Eine Übungsüberweisung zeigt das falsche Netzwerk. Was ist richtig?",
+        "options": [
+          "Trotzdem senden und hoffen",
+          "Anhalten und nicht senden",
+          "Auf einen größeren Betrag wechseln"
+        ],
+        "answer": 1,
+        "why": "Wenn Netzwerk, Gebühren oder Identität unklar sind, ist Anhalten wichtiger, als die Aufgabe abzuschließen."
+      }
+    },
+    "13": {
+      "takeaways": [
+        "Der letzte Preis ist der jüngste Trade, kein Angebot für jede beliebige Menge.",
+        "Größere Orders können über mehrere Stufen des Orderbuchs ausgeführt werden.",
+        "Slippage und Handelsgebühr sind getrennte Kosten: Prüfe die Abrechnung."
+      ],
+      "quiz": {
+        "q": "Die Hälfte deiner 0.002 BTC wird bei 50,000 ausgeführt, die andere Hälfte bei 50,100. Wie hoch ist dein Durchschnittspreis?",
+        "options": [
+          "50,000",
+          "50,050",
+          "50,100"
+        ],
+        "answer": 1,
+        "why": "Zwei gleiche Hälften ergeben im Schnitt 50,050. Die Gebühr kommt separat dazu."
+      }
+    },
+    "14": {
+      "takeaways": [
+        "Eine Market-Order wird schnell zu den aktuell verfügbaren Preisen ausgeführt; der Endpreis kann sich verschieben.",
+        "Eine Limit-Order begrenzt deinen Preis, wird aber möglicherweise nicht ausgeführt.",
+        "Stornieren betrifft nur den nicht ausgeführten Teil; was schon ausgeführt ist, bleibt."
+      ],
+      "quiz": {
+        "q": "Deine Limit-Order ist zur Hälfte ausgeführt, und du stornierst sie. Was passiert?",
+        "options": [
+          "Alles wird rückgängig gemacht",
+          "Nur die nicht ausgeführte Hälfte wird storniert",
+          "Die ausgeführte Hälfte wird zur Market-Order"
+        ],
+        "answer": 1,
+        "why": "Eine Stornierung kann eine Ausführung nicht zurückdrehen. Sie stoppt nur die Restmenge."
+      }
+    },
+    "15": {
+      "takeaways": [
+        "Eine Kerze zeigt vier Preise für einen Zeitraum: Eröffnung, Hoch, Tief und Schluss.",
+        "Lies den Zeitrahmen vor der Form: Fünf Minuten sind kein Tag.",
+        "Die Farben unterscheiden sich je nach App, und eine Kerze ist eine Aufzeichnung, keine Vorhersage."
+      ],
+      "quiz": {
+        "q": "Eine Fünf-Minuten-Kerze eröffnet bei 50,000, steigt auf 51,000, fällt auf 49,000 und schließt bei 50,500. Was ist das Hoch?",
+        "options": [
+          "50,500",
+          "51,000",
+          "49,000"
+        ],
+        "answer": 1,
+        "why": "Die Spitze des oberen Dochts ist der höchste Preis in diesem Zeitraum: 51,000."
+      }
+    },
+    "16": {
+      "takeaways": [
+        "Kontostand, Positionsgröße und geplantes Risiko sind drei verschiedene Zahlen.",
+        "Lege zuerst deinen Ausstieg fest, dann die Positionsgröße.",
+        "Mit 5% Stop und einem Risikobudget von 20 liegt die Position bei etwa 400."
+      ],
+      "quiz": {
+        "q": "Einstieg 50,000, geplanter Ausstieg 47,500, und du akzeptierst einen Verlust von 20. Wie groß ist die Position ungefähr?",
+        "options": [
+          "20",
+          "400",
+          "4,000"
+        ],
+        "answer": 1,
+        "why": "Der Ausstieg liegt 5% entfernt, und 5% von 400 sind 20. Kosten kommen noch dazu."
+      }
+    },
+    "17": {
+      "takeaways": [
+        "Ein Stop-Loss setzt deinen Ausstiegsplan um; er ist keine Versicherung.",
+        "Ein Stop-Market steigt schnell aus, kann in einem schnellen Markt aber Slippage haben.",
+        "Ein Stop-Limit begrenzt den Preis, wird aber möglicherweise gar nicht ausgeführt."
+      ],
+      "quiz": {
+        "q": "Was kann bei einem starken Einbruch mit einer Stop-Limit-Order passieren?",
+        "options": [
+          "Sie wird immer zum Auslösepreis ausgeführt",
+          "Sie wird eventuell nicht ausgeführt, wenn der Preis vorbeirast",
+          "Sie wird zur Versicherung"
+        ],
+        "answer": 1,
+        "why": "Das Limit schützt deinen Preis, deshalb kann die Order unausgeführt bleiben, wenn sich der Markt schnell bewegt."
+      }
+    },
+    "18": {
+      "takeaways": [
+        "Spot tauscht ein Asset gegen ein anderes; ein Perpetual ist eine Kontraktposition.",
+        "Long gewinnt, wenn der Preis steigt, Short gewinnt, wenn er fällt; die falsche Seite verliert.",
+        "Futures sind eine andere Risikostruktur, keine Stufe, die du erreichen musst."
+      ],
+      "quiz": {
+        "q": "Gibt dir eine Futures-Position Bitcoin, den du auszahlen kannst?",
+        "options": [
+          "Ja, das ist dasselbe wie Spot",
+          "Nein, es ist ein Kontrakt, der Gewinn und Verlust abrechnet",
+          "Nur mit 10x Hebel"
+        ],
+        "answer": 1,
+        "why": "Ein linearer Perpetual rechnet Gewinn und Verlust im Kontrakt ab. Das ist kein auszahlbares Coin-Guthaben."
+      }
+    },
+    "19": {
+      "takeaways": [
+        "100 Margin, die eine Position von 1,000 steuern, entsprechen 10x Hebel.",
+        "Preisbewegungen wirken auf die Position, und deine Margin trägt das Ergebnis.",
+        "Bei gleicher Positionsgröße ändert ein anderer Hebel die Margin, nicht Gewinn und Verlust."
+      ],
+      "quiz": {
+        "q": "Eine Position von 1,000 bewegt sich ohne Gebühren um 1% gegen dich. Wie viel verlierst du ungefähr?",
+        "options": [
+          "1",
+          "10",
+          "100"
+        ],
+        "answer": 1,
+        "why": "1% der Position von 1,000 sind etwa 10, die von deiner Margin abgehen."
+      }
+    },
+    "20": {
+      "takeaways": [
+        "Die Initial Margin eröffnet eine Position; die Maintenance Margin hält sie offen.",
+        "Das Eigenkapital ist die Margin plus oder minus das offene Ergebnis: 100 mit 20 im Minus ergibt 80.",
+        "Das Risikosystem kann eingreifen, bevor deine Margin null erreicht."
+      ],
+      "quiz": {
+        "q": "Die Initial Margin beträgt 100, und die Position liegt ohne Gebühren 20 im Minus. Wie hoch ist das vereinfachte Eigenkapital?",
+        "options": [
+          "100",
+          "80",
+          "120"
+        ],
+        "answer": 1,
+        "why": "100 minus 20 Verlust ergibt 80, und der Puffer schrumpft weiter, wenn sich der Preis weiter gegen dich bewegt."
+      }
+    },
+    "21": {
+      "takeaways": [
+        "Isolated Margin gibt einer Position ihre eigene Margin.",
+        "Die zugewiesene Margin kann trotzdem verloren gehen; isoliert ist kein Stop-Loss.",
+        "Automatisches oder manuelles Nachschießen setzt mehr von deinem Geld auf dasselbe Risiko."
+      ],
+      "quiz": {
+        "q": "Du aktivierst das automatische Nachschießen von Margin für eine isolierte Position. Was ändert sich?",
+        "options": [
+          "Nichts, der Verlust bleibt auf die ersten 100 begrenzt",
+          "Mehr von deinem Guthaben kann in die Position fließen",
+          "Die Position wird risikofrei"
+        ],
+        "answer": 1,
+        "why": "Automatisches Nachschießen verschiebt verfügbares Guthaben in die Position, sodass mehr Geld das Risiko trägt."
+      }
+    },
+    "22": {
+      "takeaways": [
+        "Cross Margin teilt einen gemeinsamen Margin-Pool zwischen den Positionen.",
+        "Eine Verlustposition kann den Puffer aufzehren, auf den die anderen angewiesen sind.",
+        "Sie greift nicht auf deine Bankkarten oder privaten Wallets zu."
+      ],
+      "quiz": {
+        "q": "Ist Cross Margin automatisch sicherer?",
+        "options": [
+          "Ja, sie kann nie liquidiert werden",
+          "Nicht unbedingt, es hängt vom gemeinsamen Pool und den Regeln ab",
+          "Ja, sie nutzt alle deine Bankkarten"
+        ],
+        "answer": 1,
+        "why": "Zusätzliche Margin kann das Eingreifen des Risikosystems hinauszögern, setzt aber auch mehr von deinem Geld aufs Spiel."
+      }
+    },
+    "23": {
+      "takeaways": [
+        "Viele Perpetuals bemessen die Liquidation am Mark-Preis und an den Margin-Regeln, nicht am letzten Trade.",
+        "Nahe der Maintenance-Anforderung kann das System die Position verkleinern oder schließen.",
+        "Eine geschlossene Position kommt nicht zurück, wenn der Preis wieder steigt."
+      ],
+      "quiz": {
+        "q": "Eine gehebelte Position wurde liquidiert, und später stieg der Preis wieder. Was passiert?",
+        "options": [
+          "Die Position kommt von selbst zurück",
+          "Sie bleibt geschlossen; der Weg war entscheidend",
+          "Die Börse erstattet den Verlust"
+        ],
+        "answer": 1,
+        "why": "Einmal zwangsgeschlossen, ist die Position weg. Eine spätere Erholung hilft nur dem, der noch investiert ist."
+      }
+    },
+    "24": {
+      "takeaways": [
+        "Funding wird zwischen Longs und Shorts gezahlt, es ist keine feste Gebühr an die Börse.",
+        "Es richtet sich nach dem Positionswert: 1,000 bei 0.01% sind 0.10.",
+        "Sich gegen das Traden zu entscheiden, ist ebenfalls eine bestandene Antwort."
+      ],
+      "quiz": {
+        "q": "Die Funding Rate ist positiv. Wer zahlt in der Regel?",
+        "options": [
+          "Shorts zahlen an Longs",
+          "Longs zahlen an Shorts",
+          "Alle zahlen an die Börse"
+        ],
+        "answer": 1,
+        "why": "Bei positiver Rate zahlen Longs in der Regel an Shorts. Bei negativer Rate ist es umgekehrt."
+      }
+    }
+  }
+}

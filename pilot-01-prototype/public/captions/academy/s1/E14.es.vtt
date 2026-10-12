@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:02.790
+Pulsé comprar. ¿Por qué no se ejecuta?
+
+00:00:09.250 --> 00:00:13.527
+Las órdenes de mercado priorizan completarse rápido a los precios disponibles actuales,
+
+00:00:13.527 --> 00:00:15.198
+pero el precio final puede variar.
+
+00:00:15.198 --> 00:00:18.934
+Las órdenes límite fijan un precio máximo para comprar o mínimo para vender,
+
+00:00:18.934 --> 00:00:20.310
+sin garantizar la ejecución.
+
+00:00:32.250 --> 00:00:35.743
+Para comprar por debajo del precio actual, puede que tengas que esperar.
+
+00:00:35.743 --> 00:00:39.527
+Por el contrario, si una orden límite ya coincide con las ofertas del mercado,
+
+00:00:39.527 --> 00:00:43.360
+puede ejecutarse de inmediato; no todas las órdenes límite se quedan esperando.
+
+00:01:00.250 --> 00:01:02.520
+¿Cancelar una orden revierte lo que acabo de comprar?
+
+00:01:02.820 --> 00:01:05.702
+No. Cancelar solo afecta a la parte no ejecutada;
+
+00:01:05.702 --> 00:01:08.820
+las operaciones ya realizadas no se pueden rebobinar.
+
+00:01:24.250 --> 00:01:26.475
+Comprueba el estado antes de actuar.
+
+00:01:26.475 --> 00:01:29.814
+Ser maker o taker depende de cómo se ejecuta la orden;
+
+00:01:29.814 --> 00:01:33.090
+elegir una orden límite no garantiza una tarifa fija.
+
+00:01:43.250 --> 00:01:43.820
+No.
+
+00:01:44.120 --> 00:01:48.200
+Elegir una orden es elegir un método de ejecución, no pedir un deseo.
+
+00:01:56.250 --> 00:02:00.530
+¿Una vela verde significa que la siguiente también subirá? En el próximo episodio.
+
+00:02:01.050 --> 00:02:03.110
+Entiende primero, actúa después.

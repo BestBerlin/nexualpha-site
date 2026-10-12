@@ -26,6 +26,8 @@ const mimeTypes = new Map(Object.entries({
   '.json': 'application/json; charset=utf-8', '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8',
   '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.webp': 'image/webp',
   '.ico': 'image/x-icon', '.woff': 'font/woff', '.woff2': 'font/woff2', '.ttf': 'font/ttf',
+  // Academy subtitle tracks (/captions/academy/s1/*.vtt): <track> needs text/vtt.
+  '.vtt': 'text/vtt; charset=utf-8',
 }));
 
 export async function createProductionServer({ env = process.env, appRoot = root, worker: suppliedWorker, experimentRegistry } = {}) {
@@ -111,7 +113,7 @@ export async function createProductionServer({ env = process.env, appRoot = root
       const immutableAsset = (/[/\\]assets[/\\]/.test(file) && /-[A-Za-z0-9_-]{8,}\.(js|css)$/.test(file))
         || (/[/\\]brand[/\\]/.test(file) && /-v\d+\.(?:avif|gif|jpe?g|png|webp)$/i.test(file));
       const cache = immutableAsset
-        ? 'public, max-age=31536000, immutable' : /\.(woff2?|ttf|png|webp|jpe?g|svg|ico)$/.test(file) ? 'public, max-age=86400' : 'no-cache';
+        ? 'public, max-age=31536000, immutable' : /\.(woff2?|ttf|png|webp|jpe?g|svg|ico|vtt)$/.test(file) ? 'public, max-age=86400' : 'no-cache';
       return new Response(request.method === 'HEAD' ? null : createReadStream(file), { headers: {
         'content-type': mimeTypes.get(path.extname(file)) || 'application/octet-stream', 'cache-control': cache, 'x-content-type-options': 'nosniff',
       } });

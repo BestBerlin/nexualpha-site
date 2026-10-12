@@ -1,0 +1,317 @@
+{
+  "locale": "id",
+  "episodes": {
+    "1": {
+      "takeaways": [
+        "Harga satu bitcoin bukanlah harga untuk mulai.",
+        "Bitcoin bisa dibagi menjadi desimal: belanjakan 100 di harga 50,000 dan Anda memegang 0.002 BTC.",
+        "Setiap platform menetapkan minimum order dan biayanya sendiri, jadi periksa keduanya dulu."
+      ],
+      "quiz": {
+        "q": "Satu bitcoin seharga 50,000 USDT. Anda membelanjakan 100 USDT, tanpa menghitung biaya. Apa yang Anda dapat?",
+        "options": ["Tidak ada, Anda butuh satu koin utuh", "0.002 BTC", "0.02 BTC"],
+        "answer": 1,
+        "why": "100 ÷ 50,000 = 0.002. Anda bisa memegang sebagian dari satu bitcoin."
+      }
+    },
+    "2": {
+      "takeaways": [
+        "USDT adalah stablecoin yang dirancang agar tetap dekat dengan satu dolar, bukan simpanan bank.",
+        "Bursa memakainya untuk memberi harga dan menukar aset, jadi penjualan sering berakhir dalam USDT.",
+        "\"Stabil\" adalah tujuan desain: harganya bisa bergeser dan penukarannya punya syarat."
+      ],
+      "quiz": {
+        "q": "Pernyataan mana tentang USDT yang benar?",
+        "options": ["Itu adalah dolar di rekening bank Anda", "Itu adalah stablecoin, salah satu jenis aset kripto", "Nilainya tidak pernah bisa menjauh dari satu dolar"],
+        "answer": 1,
+        "why": "USDT berusaha mengikuti dolar, tetapi tetap aset kripto dengan risiko penerbit dan platformnya sendiri."
+      }
+    },
+    "3": {
+      "takeaways": [
+        "Di akun bursa, platformlah yang terutama mengelola aset dan kuncinya.",
+        "Di dompet kustodi mandiri, Anda yang mengendalikan kredensial, dan tanggung jawab pemulihan ada pada Anda.",
+        "Sebelum memilih, tanyakan siapa yang memegang izin untuk memindahkan aset."
+      ],
+      "quiz": {
+        "q": "Anda kehilangan frasa pemulihan dompet kustodi mandiri standar dan tidak punya cara pemulihan lain. Apa yang terjadi?",
+        "options": ["Tim dukungan bisa meresetnya untuk Anda", "Akses bisa hilang selamanya", "Bursa memulihkannya secara otomatis"],
+        "answer": 1,
+        "why": "Dengan kustodi mandiri, Anda yang memegang kunci. Tanpa frasa atau cara sah lainnya, tidak ada yang bisa memulihkannya untuk Anda."
+      }
+    },
+    "4": {
+      "takeaways": [
+        "Sebelum hal lain, pastikan platform melayani negara tempat Anda benar-benar tinggal.",
+        "Daftar hanya melalui pintu masuk resmi yang sudah dikonfirmasi, dengan email atau nomor telepon Anda sendiri.",
+        "Segera setelah mendaftar, aktifkan fitur keamanan dan simpan opsi pemulihan Anda."
+      ],
+      "quiz": {
+        "q": "Apa yang harus Anda pastikan lebih dulu sebelum mendaftar?",
+        "options": ["Besarnya hadiah sambutan", "Bahwa platform melayani negara Anda dan pintu masuknya resmi", "Berapa banyak pengikut platform tersebut"],
+        "answer": 1,
+        "why": "Kelayakan dan pintu masuk resmi datang lebih dulu. Hadiah tidak boleh menentukan di mana Anda membuka akun."
+      }
+    },
+    "5": {
+      "takeaways": [
+        "KYC memastikan bahwa Anda pemilik akun dan membantu platform memenuhi aturan.",
+        "Kirim identitas Anda hanya di dalam alur verifikasi resmi, jangan pernah lewat chat.",
+        "Jika gagal, baca alasannya, perbaiki, lalu coba lagi dengan identitas asli Anda."
+      ],
+      "quiz": {
+        "q": "Siapa yang boleh menerima identitas Anda?",
+        "options": ["\"Agen\" yang ramah di grup chat", "Hanya alur verifikasi resmi yang sudah terverifikasi", "Chat kursus, supaya orang lain bisa memeriksanya"],
+        "answer": 1,
+        "why": "Hanya alur resmi. NexuAlpha tidak pernah meminta identitas Anda, dan orang asing pun tidak seharusnya meminta."
+      }
+    },
+    "6": {
+      "takeaways": [
+        "Deposit fiat, membeli kripto, deposit on-chain, dan transfer internal adalah jalur yang berbeda.",
+        "Deposit on-chain memerlukan koin dan jaringan yang didukung; transfer internal tetap di dalam platform.",
+        "Jangan pernah membayar orang asing di luar platform; periksa dulu ke mana saldo akan masuk."
+      ],
+      "quiz": {
+        "q": "Anda memindahkan USDT dari akun pendanaan ke akun trading di platform yang sama. Itu disebut apa?",
+        "options": ["Deposit on-chain", "Transfer internal", "Deposit fiat"],
+        "answer": 1,
+        "why": "Itu hanya memindahkan saldo antar akun Anda sendiri. Biasanya bukan transfer on-chain."
+      }
+    },
+    "7": {
+      "takeaways": [
+        "BTC/USDT berarti bitcoin yang dihargai dalam USDT: Anda membayar USDT dan menerima bitcoin.",
+        "Periksa apakah kolom order meminta jumlah uang atau jumlah koin.",
+        "Setelah membeli, periksa catatan transaksi: status eksekusi, harga rata-rata, dan biaya."
+      ],
+      "quiz": {
+        "q": "Anda membeli 0.002 BTC di harga 50,000 dengan biaya 0.1% yang dipotong terpisah dalam USDT. Berapa total yang dibelanjakan?",
+        "options": ["100", "100.10", "110"],
+        "answer": 1,
+        "why": "100 untuk koinnya ditambah biaya 0.10 menjadi 100.10."
+      }
+    },
+    "8": {
+      "takeaways": [
+        "Menjual ke USDT memberi Anda saldo USDT, bukan uang di bank Anda.",
+        "Menjual dan menarik ke bank adalah dua langkah terpisah.",
+        "Harga yang lebih tinggi bukan keuntungan bersih Anda: kurangi semua biaya dulu."
+      ],
+      "quiz": {
+        "q": "Anda menjual bitcoin ke USDT. Di mana uangnya sekarang?",
+        "options": ["Di rekening bank Anda", "Sebagai saldo USDT di platform", "Sudah dikonversi ke mata uang lokal Anda"],
+        "answer": 1,
+        "why": "Anda menerima USDT. Memindahkan uang ke bank adalah langkah penarikan yang terpisah."
+      }
+    },
+    "9": {
+      "takeaways": [
+        "Pastikan koin dan jaringan yang didukung penerima sebelum Anda mengirim.",
+        "Salin alamat dari halaman penerimaan, periksa seluruhnya, dan tambahkan memo atau tag jika ada.",
+        "Kirim tes kecil dulu dan pastikan sudah masuk ke saldo."
+      ],
+      "quiz": {
+        "q": "Halaman penerimaan meminta memo. Apa yang Anda lakukan?",
+        "options": ["Lewati saja, alamat sudah cukup", "Isi memo persis seperti yang ditampilkan", "Pakai memo dari transfer lama"],
+        "answer": 1,
+        "why": "Jika memo atau tag diwajibkan, transfer bisa tidak masuk ke saldo tanpanya."
+      }
+    },
+    "10": {
+      "takeaways": [
+        "Terkirim, on-chain, dan masuk ke saldo adalah tiga pos yang berbeda.",
+        "Gunakan hash transaksi di block explorer untuk jaringan yang benar.",
+        "Bagikan catatan kepada dukungan resmi, jangan pernah frasa pemulihan, kunci privat, atau kode Anda."
+      ],
+      "quiz": {
+        "q": "Transfer Anda berstatus \"terkirim\" tetapi belum tiba. Apa langkah pertama?",
+        "options": ["Kirim jumlah yang sama lagi", "Cari di mana transfer tertahan menggunakan catatan dan hash transaksi", "Bayar orang yang berjanji bisa memulihkannya"],
+        "answer": 1,
+        "why": "Temukan posnya dulu, lalu hubungi saluran resmi yang sesuai. Jangan terus mengirim."
+      }
+    },
+    "11": {
+      "takeaways": [
+        "Frasa pemulihan dan kunci privat Anda adalah kunci kendali, bukan kode dukungan.",
+        "Imbal hasil yang dijamin dan desakan untuk membayar adalah tanda bahaya.",
+        "Jangan pernah mengonfirmasi tanda tangan atau persetujuan yang tidak Anda pahami."
+      ],
+      "quiz": {
+        "q": "Mana yang aman dibagikan agar Anda bisa menerima pembayaran?",
+        "options": ["Alamat publik Anda", "Frasa pemulihan Anda", "Kode sekali pakai"],
+        "answer": 0,
+        "why": "Alamat publik dibuat untuk menerima. Rahasia dan kode memberikan kendali kepada orang lain."
+      }
+    },
+    "12": {
+      "takeaways": [
+        "Tujuannya adalah alur yang benar: pintu masuk dan kelayakan, spot, jumlah dan biaya, lalu catatan.",
+        "Menghentikan transfer yang tidak jelas juga merupakan jawaban yang benar.",
+        "Sertifikat Anda adalah catatan belajar, bukan izin untuk berinvestasi."
+      ],
+      "quiz": {
+        "q": "Transfer latihan menunjukkan jaringan yang salah. Apa langkah yang tepat?",
+        "options": ["Tetap kirim dan berharap", "Berhenti dan jangan kirim", "Ganti ke jumlah yang lebih besar"],
+        "answer": 1,
+        "why": "Saat jaringan, biaya, atau identitas tidak jelas, berhenti lebih penting daripada menyelesaikan tugas."
+      }
+    },
+    "13": {
+      "takeaways": [
+        "Harga terakhir adalah transaksi terbaru, bukan penawaran untuk ukuran berapa pun.",
+        "Order yang lebih besar bisa tereksekusi di beberapa level order book.",
+        "Slippage dan biaya trading adalah biaya terpisah: periksa tagihannya."
+      ],
+      "quiz": {
+        "q": "Separuh dari 0.002 BTC Anda tereksekusi di 50,000 dan separuh lainnya di 50,100. Berapa harga rata-rata Anda?",
+        "options": ["50,000", "50,050", "50,100"],
+        "answer": 1,
+        "why": "Dua bagian yang sama besar rata-ratanya 50,050. Biaya adalah biaya terpisah di atasnya."
+      }
+    },
+    "14": {
+      "takeaways": [
+        "Market order tereksekusi cepat di harga yang tersedia saat ini; harga akhirnya bisa bergeser.",
+        "Limit order membatasi harga Anda, tetapi mungkin tidak tereksekusi.",
+        "Pembatalan hanya memengaruhi bagian yang belum tereksekusi; yang sudah tereksekusi tetap."
+      ],
+      "quiz": {
+        "q": "Limit order Anda baru tereksekusi separuh dan Anda membatalkannya. Apa yang terjadi?",
+        "options": ["Semuanya dibatalkan kembali", "Hanya separuh yang belum tereksekusi yang dibatalkan", "Separuh yang tereksekusi berubah menjadi market order"],
+        "answer": 1,
+        "why": "Pembatalan tidak bisa memutar balik eksekusi. Itu hanya menghentikan sisa jumlahnya."
+      }
+    },
+    "15": {
+      "takeaways": [
+        "Satu candle menunjukkan empat harga untuk satu periode: pembukaan, tertinggi, terendah, dan penutupan.",
+        "Baca time frame sebelum bentuknya: lima menit bukan satu hari.",
+        "Warna berbeda antar aplikasi, dan satu candle adalah catatan, bukan prediksi."
+      ],
+      "quiz": {
+        "q": "Candle lima menit dibuka di 50,000, naik ke 51,000, turun ke 49,000, dan ditutup di 50,500. Berapa harga tertingginya?",
+        "options": ["50,500", "51,000", "49,000"],
+        "answer": 1,
+        "why": "Puncak sumbu atas adalah harga tertinggi pada periode itu: 51,000."
+      }
+    },
+    "16": {
+      "takeaways": [
+        "Saldo akun, ukuran posisi, dan risiko yang direncanakan adalah tiga angka yang berbeda.",
+        "Tentukan titik keluar dulu, baru tentukan ukuran posisi.",
+        "Dengan stop 5% dan anggaran risiko 20, posisinya sekitar 400."
+      ],
+      "quiz": {
+        "q": "Masuk di 50,000, rencana keluar di 47,500, dan Anda siap rugi 20. Kira-kira seberapa besar posisinya?",
+        "options": ["20", "400", "4,000"],
+        "answer": 1,
+        "why": "Titik keluar berjarak 5%, dan 5% dari 400 adalah 20. Biaya dihitung di atasnya."
+      }
+    },
+    "17": {
+      "takeaways": [
+        "Stop-loss menjalankan rencana keluar Anda; itu bukan asuransi.",
+        "Stop-market keluar dengan cepat tetapi bisa tergelincir di pasar yang bergerak cepat.",
+        "Stop-limit membatasi harga tetapi mungkin sama sekali tidak tereksekusi."
+      ],
+      "quiz": {
+        "q": "Saat harga anjlok tajam, apa yang bisa terjadi pada order stop-limit?",
+        "options": ["Selalu tereksekusi di harga pemicu", "Bisa tidak tereksekusi jika harga melesat melewatinya", "Berubah menjadi asuransi"],
+        "answer": 1,
+        "why": "Limit melindungi harga Anda, sehingga order bisa tetap tidak tereksekusi saat pasar bergerak cepat."
+      }
+    },
+    "18": {
+      "takeaways": [
+        "Spot menukar satu aset dengan aset lain; perpetual adalah posisi kontrak.",
+        "Long untung jika harga naik, short untung jika harga turun; sisi yang salah rugi.",
+        "Futures adalah struktur risiko yang berbeda, bukan level yang harus Anda capai."
+      ],
+      "quiz": {
+        "q": "Apakah posisi futures memberi Anda bitcoin yang bisa ditarik?",
+        "options": ["Ya, sama seperti spot", "Tidak, itu kontrak yang menyelesaikan untung dan rugi", "Hanya dengan leverage 10x"],
+        "answer": 1,
+        "why": "Perpetual linear menyelesaikan untung dan rugi di dalam kontrak. Itu bukan saldo koin yang bisa ditarik."
+      }
+    },
+    "19": {
+      "takeaways": [
+        "Margin 100 yang mengendalikan posisi 1,000 berarti leverage 10x.",
+        "Pergerakan harga berlaku pada posisi, dan margin Anda yang menanggung hasilnya.",
+        "Dengan ukuran posisi yang sama, mengubah leverage mengubah margin, bukan P&L."
+      ],
+      "quiz": {
+        "q": "Posisi 1,000 bergerak 1% melawan Anda, tanpa menghitung biaya. Kira-kira berapa kerugian Anda?",
+        "options": ["1", "10", "100"],
+        "answer": 1,
+        "why": "1% dari posisi 1,000 kira-kira 10, diambil dari margin Anda."
+      }
+    },
+    "20": {
+      "takeaways": [
+        "Margin awal membuka posisi; margin pemeliharaan menjaganya tetap terbuka.",
+        "Ekuitas adalah margin ditambah atau dikurangi hasil yang masih berjalan: 100 turun 20 menyisakan 80.",
+        "Sistem risiko bisa turun tangan sebelum margin Anda mencapai nol."
+      ],
+      "quiz": {
+        "q": "Margin awal 100 dan posisi rugi 20, tanpa menghitung biaya. Berapa ekuitas yang disederhanakan?",
+        "options": ["100", "80", "120"],
+        "answer": 1,
+        "why": "100 dikurangi kerugian 20 menyisakan 80, dan bantalannya terus menyusut jika harga bergerak makin melawan Anda."
+      }
+    },
+    "21": {
+      "takeaways": [
+        "Margin isolated memberi satu posisi margin tersendiri.",
+        "Margin yang Anda alokasikan tetap bisa hilang; isolated bukan stop-loss.",
+        "Tambah otomatis atau manual menaruh lebih banyak uang Anda di belakang risiko yang sama."
+      ],
+      "quiz": {
+        "q": "Anda mengaktifkan tambah margin otomatis untuk posisi isolated. Apa yang berubah?",
+        "options": ["Tidak ada, kerugian tetap terbatas pada 100 pertama", "Lebih banyak saldo Anda bisa mengalir ke posisi", "Posisi menjadi bebas risiko"],
+        "answer": 1,
+        "why": "Tambah otomatis memindahkan saldo yang tersedia ke posisi, sehingga lebih banyak uang menanggung risikonya."
+      }
+    },
+    "22": {
+      "takeaways": [
+        "Margin cross berbagi satu kumpulan margin untuk semua posisi.",
+        "Satu posisi yang merugi bisa menghabiskan bantalan yang diandalkan posisi lain.",
+        "Itu tidak menjangkau kartu bank atau dompet pribadi Anda."
+      ],
+      "quiz": {
+        "q": "Apakah margin cross otomatis lebih aman?",
+        "options": ["Ya, tidak pernah bisa dilikuidasi", "Belum tentu, tergantung kumpulan margin bersama dan aturannya", "Ya, memakai semua kartu bank Anda"],
+        "answer": 1,
+        "why": "Margin tambahan bisa menunda penanganan risiko, tetapi juga mempertaruhkan lebih banyak uang Anda."
+      }
+    },
+    "23": {
+      "takeaways": [
+        "Banyak perpetual menentukan likuidasi berdasarkan mark price dan aturan margin, bukan transaksi terakhir.",
+        "Mendekati batas margin pemeliharaan, sistem bisa mengurangi atau menutup posisi.",
+        "Posisi yang sudah ditutup tidak kembali saat harga memantul."
+      ],
+      "quiz": {
+        "q": "Posisi dengan leverage terlikuidasi, lalu harga naik kembali. Apa yang terjadi?",
+        "options": ["Posisi kembali dengan sendirinya", "Tetap tertutup; jalurnya yang menentukan", "Bursa mengembalikan kerugiannya"],
+        "answer": 1,
+        "why": "Setelah ditutup paksa, posisi itu hilang. Pantulan harga setelahnya hanya membantu yang masih memegang posisi."
+      }
+    },
+    "24": {
+      "takeaways": [
+        "Funding dibayar antara posisi long dan short, bukan biaya tetap ke bursa.",
+        "Funding dihitung dari nilai posisi: 1,000 dengan 0.01% adalah 0.10.",
+        "Memilih untuk tidak trading juga jawaban yang lulus."
+      ],
+      "quiz": {
+        "q": "Funding rate positif. Siapa yang biasanya membayar?",
+        "options": ["Short membayar long", "Long membayar short", "Semua orang membayar bursa"],
+        "answer": 1,
+        "why": "Dengan rate positif, long biasanya membayar short. Dengan rate negatif, arahnya berbalik."
+      }
+    }
+  }
+}

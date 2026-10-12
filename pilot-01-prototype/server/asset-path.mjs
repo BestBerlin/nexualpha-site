@@ -13,6 +13,7 @@ const contentTypes = new Map([
   [".svg", "image/svg+xml"],
   [".webp", "image/webp"],
   [".woff2", "font/woff2"],
+  [".vtt", "text/vtt; charset=utf-8"],
 ]);
 
 export function contentTypeForAssetPath(filePath) {

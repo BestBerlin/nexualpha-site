@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:04.200
+Si pongo 100 en margen aislado, ¿los otros 900 quedan intocables para siempre?
+
+00:00:09.250 --> 00:00:13.199
+El núcleo del margen aislado es asignar margen por separado a la posición.
+
+00:00:13.199 --> 00:00:15.441
+Sin añadir fondos ni activar auto-adición,
+
+00:00:15.441 --> 00:00:19.070
+el riesgo de liquidación lo asume principalmente el margen asignado.
+
+00:00:32.250 --> 00:00:35.404
+Ayuda a definir el límite de margen de cada operación.
+
+00:00:35.404 --> 00:00:37.156
+Pero esos 100 pueden perderse;
+
+00:00:37.156 --> 00:00:41.770
+el margen aislado no hace desaparecer las pérdidas ni reemplaza a un stop-loss.
+
+00:01:00.250 --> 00:01:04.404
+Ojo con este ajuste: algunas plataformas ofrecen adición automática de margen.
+
+00:01:04.404 --> 00:01:08.345
+Al activarla, el saldo disponible puede seguir fluyendo hacia la posición.
+
+00:01:08.345 --> 00:01:11.700
+Añadir manualmente hace lo mismo: expone más capital al riesgo.
+
+00:01:24.250 --> 00:01:29.597
+No asumas que la pérdida máxima se limita para siempre a esos primeros 100 solo por ver 'aislado'.
+
+00:01:29.597 --> 00:01:32.980
+Revisa las opciones de adición, tarifas y reglas del producto.
+
+00:01:43.250 --> 00:01:43.690
+No se puede.
+
+00:01:43.990 --> 00:01:46.455
+El margen aislado mira la frontera del aislamiento,
+
+00:01:46.455 --> 00:01:48.920
+pero también si hay canales adicionales conectados.
+
+00:01:56.250 --> 00:01:59.322
+Una fuga en una posición y la otra también empieza a hundirse.
+
+00:01:59.322 --> 00:02:00.610
+Siguiente: margen cruzado.
+
+00:02:01.150 --> 00:02:03.110
+Entiende primero, actúa después.

@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:04.300
+Mon stop-loss est placé, je ne peux donc perdre que le montant saisi, n'est-ce pas ?
+
+00:00:09.250 --> 00:00:12.846
+Le stop-loss applique un plan de sortie quand la condition est atteinte,
+
+00:00:12.846 --> 00:00:14.195
+ce n'est pas une assurance.
+
+00:00:14.195 --> 00:00:18.390
+Le déclenchement ne garantit pas l'exécution à ce prix ni l'arrêt précis des pertes.
+
+00:00:32.250 --> 00:00:35.835
+Une fois déclenché, il s'exécute au marché pour sortir vite,
+
+00:00:35.835 --> 00:00:37.687
+mais le prix réel peut glisser.
+
+00:00:37.687 --> 00:00:41.750
+Sur des mouvements vifs ou un carnet creux, l'écart peut être grand.
+
+00:01:00.250 --> 00:01:04.177
+Une fois déclenché, il place un ordre limite pour encadrer le prix,
+
+00:01:04.177 --> 00:01:07.577
+mais risque de ne pas être exécuté si le cours chute vite.
+
+00:01:07.577 --> 00:01:10.860
+Aucun n'est parfait : ce sont des arbitrages différents.
+
+00:01:24.250 --> 00:01:28.446
+Vérifiez direction, quantité et statut après paramétrage. Sur les contrats,
+
+00:01:28.446 --> 00:01:33.760
+contrôlez le type de cours déclencheur pour éviter de placer un stop au-delà de la liquidation.
+
+00:01:43.250 --> 00:01:44.420
+Ce n'est pas garanti.
+
+00:01:44.720 --> 00:01:48.111
+Comprendre les limites permet d'utiliser le stop-loss comme un plan d'action,
+
+00:01:48.111 --> 00:01:49.080
+pas comme un talisman.
+
+00:01:56.250 --> 00:02:00.496
+Tous deux affichent BTC. Mais l'un pourrait ne vous donner aucun bitcoin.
+
+00:02:00.496 --> 00:02:02.590
+À suivre : spot vs contrats à terme.
+
+00:02:03.150 --> 00:02:05.120
+Comprenez d'abord, agissez ensuite.

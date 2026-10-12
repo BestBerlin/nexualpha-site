@@ -1,0 +1,58 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:02.790
+J'ai cliqué sur acheter. Pourquoi ce n'est pas exécuté ?
+
+00:00:09.250 --> 00:00:13.157
+Les ordres au marché visent une exécution rapide aux cours disponibles,
+
+00:00:13.157 --> 00:00:14.863
+mais le prix final peut varier.
+
+00:00:14.863 --> 00:00:18.879
+Les ordres limites fixent un plafond à l'achat ou un plancher à la vente,
+
+00:00:18.879 --> 00:00:20.310
+sans garantir l'exécution.
+
+00:00:32.250 --> 00:00:35.493
+Pour acheter sous le cours actuel, il faut souvent patienter.
+
+00:00:35.493 --> 00:00:38.842
+À l'inverse, si un ordre limite croise immédiatement le carnet,
+
+00:00:38.842 --> 00:00:40.702
+il peut être exécuté sur-le-champ ;
+
+00:00:40.702 --> 00:00:43.360
+tous les ordres limites ne restent pas en attente.
+
+00:01:00.250 --> 00:01:02.520
+Est-ce qu'annuler l'ordre annule aussi ce que je viens d'acheter ?
+
+00:01:02.820 --> 00:01:05.717
+Non. L'annulation ne concerne que la part non exécutée ;
+
+00:01:05.717 --> 00:01:08.820
+les transactions déjà conclues ne peuvent pas être annulées.
+
+00:01:24.250 --> 00:01:28.894
+Vérifiez le statut avant d'agir. Être maker ou taker dépend de l'exécution réelle ;
+
+00:01:28.894 --> 00:01:33.090
+choisir un ordre limite ne garantit pas automatiquement des frais de maker.
+
+00:01:43.250 --> 00:01:43.820
+Non.
+
+00:01:44.120 --> 00:01:48.200
+Choisir un ordre, c'est choisir un mode d'exécution, pas faire un vœu.
+
+00:01:56.250 --> 00:01:59.328
+Une bougie verte signifie-t-elle que la suivante montera aussi ?
+
+00:01:59.328 --> 00:02:00.530
+Dans le prochain épisode.
+
+00:02:01.050 --> 00:02:03.110
+Comprenez d'abord, agissez ensuite.

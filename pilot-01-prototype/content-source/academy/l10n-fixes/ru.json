@@ -1,0 +1,17 @@
+{
+  "Some platforms also offer trading between users. That's not another name for a bank transfer. Never pay off-platform in private, never use funds of unknown origin or third-party payments. If it's unclear, don't do it yet.": "Некоторые платформы предлагают торговлю между пользователями (P2P). Это не просто банковский перевод. Никогда не платите вне платформы и не используйте средства сомнительного происхождения.",
+  "Eleven episodes done. Is it time to deposit real money? The Season 1 finale has a surprising answer.": "Одиннадцать серий позади. Пора вносить реальные деньги? В финале сезона 1 вас ждёт неожиданный ответ.",
+  "Season 1 finale: you can do it, and you can choose not to": "Финал сезона 1: вы можете это сделать, и вы можете отказаться от сделки",
+  "One candle records four prices for one period: open, high, low and close. This is made-up five-minute data. It's not a promise about the next five minutes.": "Свеча фиксирует четыре цены за период: открытие, максимум, минимум и закрытие. Это условные пять минут торгов, а не гарантия того, что произойдёт в следующие пять минут.",
+  "High 51,000. Close 50,500.": "Максимум 51,000, закрытие 50,500.",
+  "'I have 1,000 and only want to risk 20. So I go all in?' Next: how much to buy.": "«У меня есть 1,000, готов рискнуть 20 — купить на всё?» Далее: сначала реши, сколько готов потерять.",
+  "I have 1,000 and only want to lose 20. So I just put it all in?": "У меня есть 1,000, я готов потерять 20 — значит, сначала покупаем на всё?",
+  "So 'lose at most 20' doesn't mean 'buy only 20'?": "То есть «рискнуть 20» не означает «купить всего на 20»?",
+  "10x leverage: does the exchange hand you 900 extra? Next episode.": "При плече 10x биржа дарит вам 900 сверху? В следующей серии.",
+  "If I use ten times, does the exchange give me 900?": "При десятикратном плече биржа просто дарит мне 900 сверху?",
+  "Put 100 in a box. Is the other 900 safe forever? Next: isolated margin.": "Если спрятать 100 в коробочку, остальные 900 будут в безопасности навсегда? В следующей серии: изолированная маржа.",
+  "If I put 100 in isolated, the other 900 can never be touched?": "Если закинуть 100 в изолированную маржу, остальные 900 никогда не тронут?",
+  "So it helps you separate the margin of different positions. But that 100 can still be lost. Isolated margin doesn't make losses disappear, and it isn't a stop-loss order.": "Она помогает очертить границу риска по конкретной сделке. Но эти 100 всё равно можно потерять: изоляция не отменяет убытки и не заменяет стоп-лосс.",
+  "Don't see the word 'isolated' and assume the most you can lose is always that first 100. Check the add-margin settings, the fees and the product rules.": "Не думайте, что слово «изолированная» гарантирует потерю строго первоначальных 100. Обязательно проверяйте параметры автодолива, комиссии и правила продукта.",
+  "The interval and the rate can change by pair, platform and market. Don't remember it as 'every contract, every eight hours, forever'. And don't treat receiving funding as risk-free income.": "Интервал и ставка могут меняться в зависимости от пары, платформы и ситуации на рынке. Не запоминайте это как 'каждый контракт, каждые восемь часов, всегда'. И не считайте получение фандинга безрисковым доходом."
+}
