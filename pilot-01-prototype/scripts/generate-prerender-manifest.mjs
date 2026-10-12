@@ -309,6 +309,9 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   indexRows.push({ loc: "https://nexualpha.com/sitemap-apps.xml", lastmod: apps.lastmod });
   const academy = buildAcademySitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-academy.xml", lastmod: academy.lastmod });
+  // Flash items of the last 7 days (2026-10-12), rendered by the Worker on request from the live feeds; it changes every
+  // few minutes, so the index carries no build-time lastmod (each <url> in the file has its own).
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-flash.xml" });
   return {
     index: buildSitemapIndex(indexRows),
     files,
