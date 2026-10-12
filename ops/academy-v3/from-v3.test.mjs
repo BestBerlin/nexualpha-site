@@ -7,6 +7,7 @@ import { convertEpisode, sceneKind, parseTc } from './from-v3.mjs';
 import { validateEpisode, schedule } from './contract.mjs';
 import { ALL_EPISODES } from './season.mjs';
 import { isFinePrint } from './fine-print.mjs';
+import { EPISODE_CONFIG } from './episode-config.mjs';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 const sourceRoot = root+'episodes/source';
@@ -77,7 +78,8 @@ test('E09 and E21 convert all dialogue and preserve full on-screen source text i
         en: sourceShot.onscreen_text_en,
         'zh-Hans': sourceShot.onscreen_text_zh,
       });
-      assert.equal(shot.onscreen_text_en, sourceShot.onscreen_text_en[0]);
+      const configured = EPISODE_CONFIG[Number(id.slice(1))].shots[index].heading;
+      assert.equal(shot.onscreen_text_en, configured?.en ?? sourceShot.onscreen_text_en[0]);
     }
   }
 });

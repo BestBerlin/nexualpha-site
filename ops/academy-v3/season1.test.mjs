@@ -44,17 +44,19 @@ for (const ep of ALL_EPISODES) test(`${ep}: season build, timeline and owner rul
       assert.match(card.textContent, /Code /);
       assert.equal(card.querySelectorAll('.disclosure').length, 0);
     }
+    // jsdom keeps a literal 'inherit'; resolve it the way the browser does.
+    const vis = (el) => { let v = w.getComputedStyle(el).visibility; while (v === 'inherit' && el.parentElement) { el = el.parentElement; v = w.getComputedStyle(el).visibility; } return v; };
     const quiz = w.document.querySelector('.quiz');
     if (quiz) {
       const scene = quiz.closest('.scene'); const s = timeline.scenes.find((x) => x.id === scene.id);
       const verdict = quiz.querySelector('.quiz-verdict'), mark = quiz.querySelector('.quiz-mark');
       w.academySeek(s.start + 0.3);
-      if (verdict) assert.equal(w.getComputedStyle(verdict).visibility, 'hidden', 'verdict hidden before the answer');
-      if (mark) assert.equal(w.getComputedStyle(mark).visibility, 'hidden');
+      if (verdict) assert.equal(vis(verdict), 'hidden', 'verdict hidden before the answer');
+      if (mark) assert.equal(vis(mark), 'hidden');
       w.academySeek(s.start + s.duration - 0.3);
-      if (verdict) assert.equal(w.getComputedStyle(verdict).visibility, 'visible', 'verdict shown after the answer');
+      if (verdict) assert.equal(vis(verdict), 'visible', 'verdict shown after the answer');
       w.academySeek(s.start + s.duration + 0.5);
-      if (verdict) assert.equal(w.getComputedStyle(verdict).visibility, 'hidden', 'verdict does not leak into later scenes');
+      if (verdict) assert.equal(vis(verdict), 'hidden', 'verdict does not leak into later scenes');
     }
     dom.window.close();
   }

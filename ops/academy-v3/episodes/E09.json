@@ -1036,8 +1036,8 @@
       "set": "transfer-station",
       "visual_en": "Full checklist lights up item by item: coin, network, full address, Memo/Tag if required, minimum deposit, estimated arrival.",
       "visual_zh": "完整核对表：币种、网络、完整地址、如需的Memo/Tag、最低充值、预计到账；依次点亮。",
-      "onscreen_text_en": "Coin",
-      "onscreen_text_zh-Hans": "币种",
+      "onscreen_text_en": "Don't guess any of these",
+      "onscreen_text_zh-Hans": "这些都别靠猜",
       "antenna": "amber",
       "ding": false,
       "nexubo": {

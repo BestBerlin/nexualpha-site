@@ -1,0 +1,79 @@
+{
+  "locale": "en",
+  "format": "landscape",
+  "duration": 182.4,
+  "captionTiming": "supplied words",
+  "destination": "https://nexualpha.com/starter/funding-fees-final?src=academy-video",
+  "scenes": [
+    {
+      "id": "scene-0",
+      "kind": "shot",
+      "start": 0,
+      "duration": 6,
+      "hero": 3
+    },
+    {
+      "id": "scene-1",
+      "kind": "open",
+      "start": 6,
+      "duration": 3,
+      "hero": 7.8
+    },
+    {
+      "id": "scene-2",
+      "kind": "shot",
+      "start": 9,
+      "duration": 33,
+      "hero": 12
+    },
+    {
+      "id": "scene-3",
+      "kind": "shot",
+      "start": 42,
+      "duration": 41,
+      "hero": 45
+    },
+    {
+      "id": "scene-4",
+      "kind": "shot",
+      "start": 83,
+      "duration": 34,
+      "hero": 86
+    },
+    {
+      "id": "scene-5",
+      "kind": "shot",
+      "start": 117,
+      "duration": 27,
+      "hero": 120
+    },
+    {
+      "id": "scene-6",
+      "kind": "shot",
+      "start": 144,
+      "duration": 17,
+      "hero": 147
+    },
+    {
+      "id": "scene-7",
+      "kind": "conversion",
+      "start": 161,
+      "duration": 11.5,
+      "hero": 164
+    },
+    {
+      "id": "scene-8",
+      "kind": "hook",
+      "start": 172.5,
+      "duration": 5.9,
+      "hero": 175.5
+    },
+    {
+      "id": "scene-9",
+      "kind": "close",
+      "start": 178.4,
+      "duration": 4,
+      "hero": 180.8
+    }
+  ]
+}

@@ -1410,8 +1410,8 @@
       "set": "trading-desk",
       "visual_en": "Sam checks four items: margin mode, auto-add switch, how fees are deducted, total amount committed. Not judging by button colour.",
       "visual_zh": "小白核对模式、追加开关、费用扣取、可投入总额四项，不按按钮颜色判断。",
-      "onscreen_text_en": "Mode",
-      "onscreen_text_zh-Hans": "模式",
+      "onscreen_text_en": "Check the settings",
+      "onscreen_text_zh-Hans": "检查设置",
       "antenna": "amber",
       "ding": false,
       "nexubo": {

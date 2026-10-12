@@ -1,0 +1,72 @@
+{
+  "locale": "en",
+  "format": "portrait",
+  "duration": 156.3,
+  "captionTiming": "supplied words",
+  "destination": null,
+  "scenes": [
+    {
+      "id": "scene-0",
+      "kind": "shot",
+      "start": 0,
+      "duration": 6,
+      "hero": 3
+    },
+    {
+      "id": "scene-1",
+      "kind": "open",
+      "start": 6,
+      "duration": 3,
+      "hero": 7.8
+    },
+    {
+      "id": "scene-2",
+      "kind": "shot",
+      "start": 9,
+      "duration": 30,
+      "hero": 12
+    },
+    {
+      "id": "scene-3",
+      "kind": "shot",
+      "start": 39,
+      "duration": 36,
+      "hero": 42
+    },
+    {
+      "id": "scene-4",
+      "kind": "shot",
+      "start": 75,
+      "duration": 31,
+      "hero": 78
+    },
+    {
+      "id": "scene-5",
+      "kind": "shot",
+      "start": 106,
+      "duration": 24,
+      "hero": 109
+    },
+    {
+      "id": "scene-6",
+      "kind": "shot",
+      "start": 130,
+      "duration": 16,
+      "hero": 133
+    },
+    {
+      "id": "scene-7",
+      "kind": "hook",
+      "start": 146,
+      "duration": 6.3,
+      "hero": 149
+    },
+    {
+      "id": "scene-8",
+      "kind": "close",
+      "start": 152.3,
+      "duration": 4,
+      "hero": 154.70000000000002
+    }
+  ]
+}

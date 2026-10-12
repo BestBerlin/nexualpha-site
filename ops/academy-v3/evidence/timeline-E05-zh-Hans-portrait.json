@@ -1,7 +1,7 @@
 {
   "locale": "zh-Hans",
   "format": "portrait",
-  "duration": 135,
+  "duration": 136.6,
   "captionTiming": "supplied words",
   "destination": "https://nexualpha.com/starter/kyc-who-gets-your-id?src=academy-video",
   "scenes": [
@@ -58,22 +58,22 @@
       "id": "scene-7",
       "kind": "conversion",
       "start": 116,
-      "duration": 10,
+      "duration": 11,
       "hero": 119
     },
     {
       "id": "scene-8",
       "kind": "hook",
-      "start": 126,
-      "duration": 5,
-      "hero": 129
+      "start": 127,
+      "duration": 5.6,
+      "hero": 130
     },
     {
       "id": "scene-9",
       "kind": "close",
-      "start": 131,
+      "start": 132.6,
       "duration": 4,
-      "hero": 133.4
+      "hero": 135
     }
   ]
 }
