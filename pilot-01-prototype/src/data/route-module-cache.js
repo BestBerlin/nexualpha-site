@@ -1,4 +1,5 @@
 import { academyContentModulePath } from "./academy.js";
+import { coinContentModulePath } from "./coins-routes.js";
 import { parsePublicRoute } from "./locale-routing.js";
 
 const routeModuleEntries = new Map();
@@ -52,6 +53,8 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   toolArticles: "./components/shared/ToolArticleLinks.jsx",
   // Academy hub + lesson pages (2026-10-12). Their lesson content is a second module per locale (academyContentModulePath).
   academy: "./components/academy/AcademyPages.jsx",
+  // Where to buy <coin> (2026-10-12): hub + coin pages; descriptions are a second module per locale (coinContentModulePath).
+  coins: "./components/coins/CoinPages.jsx",
 });
 
 export const DEFERRED_ROUTE_MODULE_PATHS = Object.freeze(Object.values(ROUTE_MODULE_PATHS));
@@ -134,6 +137,8 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
   if (name === "academyHub" || name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];
+  if (name === "coinsHub") return [ROUTE_MODULE_PATHS.coins];
+  if (name === "coinPage") return [ROUTE_MODULE_PATHS.coins, coinContentModulePath(urlLocale(sourceUrl))];
   if (name === "venue") return [ROUTE_MODULE_PATHS.venueDetail];
   if (["activity", "activities", "compare", "compareHub", "notFound"].includes(name)) return [ROUTE_MODULE_PATHS.v3Pages];
   if (name === "activityUpdate") return [ROUTE_MODULE_PATHS.activityUpdate];

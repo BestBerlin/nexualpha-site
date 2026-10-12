@@ -14,6 +14,8 @@ import { heroCopyFor, useHomeHeroVariant } from "./home7-hero-variants.js";
 import { BrandMark } from "../brand/BrandMark.jsx";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { academyShellCopy } from "../../data/academy.js";
+import { coinShellCopy } from "../../data/coins-routes.js";
+import { POPULAR_COINS } from "../../data/coins-links.generated.js";
 import { Cta, Roll, nameOf, reduced, usd } from "./home7-shared.jsx";
 import "../../styles/v7/home7.css";
 
@@ -38,6 +40,21 @@ function AcademyTeaser({ locale }) {
       </span>
       <span className="h7-academy-go">{a.homeCta}<span aria-hidden="true" className="h7-academy-arrow">→</span></span>
     </a>
+  </section>;
+}
+
+// Popular coins (2026-10-12): internal links to the "where to buy" pages of the 20 largest listed coins.
+function PopularCoins({ locale }) {
+  const c = coinShellCopy(locale);
+  return <section className="h7-in h7-coins" aria-labelledby="h7-coins-h">
+    <div className="h7-coins-head">
+      <h2 id="h7-coins-h">{c.popular}</h2>
+      <a className="h7-coins-all" href={localizedHref("/coins", { locale })}>{c.all}<span aria-hidden="true" className="h7-academy-arrow">→</span></a>
+    </div>
+    <p className="h7-coins-lead">{c.popularLead}</p>
+    <ul className="h7-coins-list">
+      {POPULAR_COINS.map(([slug, name, symbol]) => <li key={slug}><a href={localizedHref(`/coins/${slug}`, { locale })}><b>{name}</b><span translate="no">{symbol}</span></a></li>)}
+    </ul>
   </section>;
 }
 
@@ -218,6 +235,8 @@ export function HomeV7({ locale, market, venues: _catalog }) {
       </section>
 
       <AcademyTeaser locale={locale} />
+
+      <PopularCoins locale={locale} />
 
       <DeferUntilVisible target="#h7-calc" prefetch={loadHomeBelow}>
         <HomeBelowFold t={t} locale={locale} market={market} vol={vol} setVol={setVol} mode={mode} setMode={setMode} product={product} setProduct={setProduct} calc={calc} priced={priced} />

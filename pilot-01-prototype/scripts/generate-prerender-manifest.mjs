@@ -28,6 +28,7 @@ import { buildSearchPublicationReport, selectSitemapPublicationEntries, sitemapH
 import { buildPartnersFeed } from "../src/data/partners-feed.js";
 import { generatedCompareLocales, indexableGeneratedComparePairs } from "../src/data/compare-generated.js";
 import { academySitemapEntries } from "../src/data/academy-seo.js";
+import { coinsSitemapEntries } from "../src/data/coins-seo.js";
 export { sitemapLocalesForRoute };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -306,10 +307,15 @@ export function buildSplitSitemaps(inventory, newsArticles, options = {}) {
   // hreflang sets are the page head's (routeAlternates over ACADEMY_INDEX_LOCALES).
   const academy = buildAcademySitemap();
   indexRows.push({ loc: "https://nexualpha.com/sitemap-academy.xml", lastmod: academy.lastmod });
+  // Where to buy <coin> (2026-10-12): /coins and every coin page in its indexable locales (listed on a covered exchange
+  // and described in that language), rendered by the Worker at request time; hreflang sets match the page head.
+  const coins = buildCoinsSitemap();
+  indexRows.push({ loc: "https://nexualpha.com/sitemap-coins.xml", lastmod: coins.lastmod });
   return {
     index: buildSitemapIndex(indexRows),
     files,
     academy,
+    coins,
     publication,
   };
 }
@@ -324,6 +330,20 @@ export function buildAcademySitemap() {
     lines.push(`    <lastmod>${entry.lastmod}</lastmod>`, "  </url>");
   }
   const lastmod = entries.map((entry) => entry.lastmod).sort().pop() || null;
+  return { xml: [...lines, "</urlset>", ""].join("\n"), count: entries.length, lastmod };
+}
+
+export function buildCoinsSitemap() {
+  const escape = (value) => String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
+  const entries = coinsSitemapEntries({ urlFor: (pathname, locale) => `https://nexualpha.com${localizedPath(pathname, locale)}` });
+  const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'];
+  for (const entry of entries) {
+    lines.push("  <url>", `    <loc>${escape(entry.loc)}</loc>`);
+    for (const alternate of entry.alternates) lines.push(`    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escape(alternate.href)}" />`);
+    if (entry.lastmod) lines.push(`    <lastmod>${entry.lastmod}</lastmod>`);
+    lines.push("  </url>");
+  }
+  const lastmod = entries.map((entry) => entry.lastmod).filter(Boolean).sort().pop() || null;
   return { xml: [...lines, "</urlset>", ""].join("\n"), count: entries.length, lastmod };
 }
 
@@ -474,6 +494,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(projectRoot, "public", "sitemap.xml"), splitSitemaps.index);
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(projectRoot, "public", file), xml);
   writeFileSync(path.join(projectRoot, "public", "sitemap-academy.xml"), splitSitemaps.academy.xml);
+  writeFileSync(path.join(projectRoot, "public", "sitemap-coins.xml"), splitSitemaps.coins.xml);
   // Partner feed for the Telegram Mini App (one source of truth for shares, codes, links and checked fees).
   const partnersFeed = `${JSON.stringify(buildPartnersFeed())}\n`;
   for (const dir of [path.join(projectRoot, "public", "intel"), path.join(clientDir, "intel")]) { mkdirSync(dir, { recursive: true }); writeFileSync(path.join(dir, "partners.json"), partnersFeed); writeFileSync(path.join(dir, "partner-geo-restrictions.json"), `${JSON.stringify(buildPartnerGeoRestrictionsFeed(), null, 2)}\n`); }
@@ -484,6 +505,7 @@ export async function generatePrerenderManifest({ projectRoot = root, render } =
   writeFileSync(path.join(clientDir, "sitemap.xml"), splitSitemaps.index);
   for (const [file, { xml }] of splitSitemaps.files) writeFileSync(path.join(clientDir, file), xml);
   writeFileSync(path.join(clientDir, "sitemap-academy.xml"), splitSitemaps.academy.xml);
+  writeFileSync(path.join(clientDir, "sitemap-coins.xml"), splitSitemaps.coins.xml);
   writeFileSync(path.join(clientDir, "news-sitemap.xml"), newsSitemap);
   writeFileSync(path.join(clientContentDir, "search-publication-report.json"), `${publicationReport}\n`);
   console.log(`Prepared prerender manifest: ${Object.keys(routes).length} routes, HTML split into route assets`);

@@ -40,6 +40,23 @@ import { VenueKeywordSections } from "./VenueKeywordSections.jsx";
 import { BrazilDeadlineNotice } from "./BrazilDeadlineNotice.jsx";
 import { DeferUntilVisible } from "../shared/DeferUntilVisible.jsx";
 import { SectionRule } from "../shared/DataRule.jsx";
+import { coinShellCopy } from "../../data/coins-routes.js";
+import { POPULAR_COINS_BY_VENUE } from "../../data/coins-venue-links.generated.js";
+import "./venue-popular-coins.css";
+
+// Popular coins on this exchange (2026-10-12): the 20 largest coins it lists, linking our "where to buy" pages.
+function VenuePopularCoins({ slug, name, locale }) {
+  const coins = POPULAR_COINS_BY_VENUE[slug] || [];
+  if (!coins.length) return null;
+  const c = coinShellCopy(locale);
+  return <section className="v2-section v3-venue-coins" aria-labelledby={`coins-${slug}`}>
+    <div className="section-lead"><h2 id={`coins-${slug}`}>{c.venueTitle.replace("{venue}", name)}</h2></div>
+    <ul className="v3-venue-coins__list">
+      {coins.map(([coin, coinName, symbol]) => <li key={coin}><LocalLink locale={locale} href={`/coins/${coin}`}><b>{coinName}</b><span translate="no">{symbol}</span></LocalLink></li>)}
+    </ul>
+    <p className="v3-venue-coins__all"><LocalLink locale={locale} href="/coins">{c.all} →</LocalLink></p>
+  </section>;
+}
 
 
 const invitationSummaryByLocale = {
@@ -795,6 +812,8 @@ export function VenueDetailPage({ copy, locale, venue, venues, updates, market, 
 
     {/* 针对 SEO 关键词的 FAQ 折叠/展开模块 */}
     <VenueFaqSection venue={venue} profile={profile} locale={locale} market={market} db={db} partner={partner} />
+
+    <VenuePopularCoins slug={profile.slug} name={profile.name || venue.name} locale={locale} />
 
     <section className={`v2-section v3-activity-panel${related.length ? "" : " v3-activity-panel--empty"}`}>
       <SectionRule stamp={related.length || null} />

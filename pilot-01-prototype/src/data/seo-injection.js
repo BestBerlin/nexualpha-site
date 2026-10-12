@@ -25,6 +25,8 @@ import { localizedPath, parsePublicRoute } from "./locale-routing.js";
 import { noKycMetaTitle } from "./no-kyc-meta-title.js";
 import { ACADEMY_INDEX_LOCALES, parseAcademyPath } from "./academy.js";
 import { academyRouteSeo } from "./academy-seo.js";
+import { parseCoinsPath } from "./coins-routes.js";
+import { coinsRouteSeo } from "./coins-seo.js";
 import { ABOUT_PATH, BRAND_PAGE_PATHS, BRAND_PAGE_SEO, EDITORIAL_POLICY_PATH, NEXUALPHA_PUBLISHER, RESEARCH_DESK, brandPageSchemas, isBrandPagePath, organizationSchema, websiteSchema } from "./brand-entity.js";
 import { aeoQuestionText } from "./aeo-question-registry.js";
 import { compareSeoOverrideFromDirectAnswer } from "./compare-direct-answers.js";
@@ -332,6 +334,8 @@ function searchPublicationLocales(pathname, options = {}) {
   if (pathname === "/embed" || pathname.startsWith("/embed/")) return [];
   // Academy (mirror of the Worker): the locales with a localized lesson.
   if (parseAcademyPath(pathname) && parseAcademyPath(pathname).kind !== "missing") return ACADEMY_INDEX_LOCALES;
+  // Where to buy <coin> (mirror of the Worker): the coin's indexable editions.
+  if (parseCoinsPath(pathname) && parseCoinsPath(pathname).kind !== "missing") return coinsRouteSeo(pathname, "en", { urlFor: (path) => path })?.alternatesLocales || [];
   if (pathname === "/news") return newsListingIndexableLocales(options.newsArticles);
   if (options.article) {
     if (!Array.isArray(options.newsArticles)) return isReviewedNewsSearchArticle(options.article) ? newsArticleSeoLocales(options.article) : [];
@@ -2104,6 +2108,15 @@ function computeRouteSeoUnbudgeted(options = {}) {
     schemas = academy.schemas;
     ogType = pathname === "/academy" ? "website" : "video.other";
     if (!academy.indexable) robots = "noindex,follow";
+  } else if (parseCoinsPath(pathname) && coinsRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) })?.status === 200) {
+    // Where to buy <coin>: same helper as the Worker head (src/data/coins-seo.js).
+    const coins = coinsRouteSeo(pathname, locale, { urlFor: (path) => canonical(path, locale) });
+    accept();
+    title = coins.title;
+    description = coins.description;
+    schemas = coins.schemas;
+    ogType = "website";
+    if (!coins.indexable) robots = "noindex,follow";
   } else if (route.name === "telegram" || pathname === "/telegram") {
     accept();
     const telegramSeo = {
