@@ -1,0 +1,23 @@
+{
+  "event": {
+    "subject_entity": "okx",
+    "subjects": ["okx"],
+    "event_type": "listing",
+    "title_internal": "What OKX listing ABC changes for traders",
+    "main_question": "What does the OKX ABC listing change for traders?",
+    "source_published_at": "2026-10-12T09:00:00Z",
+    "discussion": { "independent_sources": 2, "platforms_with_independent_items": 2, "by_platform": {} },
+    "evidence": [
+      { "kind": "official_notice", "origin_key": "notice:okx-abc", "source_tier": 1 }
+    ]
+  },
+  "articles": [
+    {
+      "slug": "okx-abc-listing-traders",
+      "subject_entity": "okx",
+      "event_type": "listing",
+      "main_question": "What does the OKX ABC listing change for traders?",
+      "published_at": "2026-10-08T09:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+build/
+renders/
+*.mp4
+*.wav
