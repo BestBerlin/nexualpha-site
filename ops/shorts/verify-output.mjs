@@ -4,7 +4,7 @@ import {execFileSync} from 'node:child_process';
 import {readFile,readdir} from 'node:fs/promises';
 import path from 'node:path';
 import {buildSrt} from './render.mjs';
-import {PLATFORM_KEYS,localePath} from './strings.mjs';
+import {PLATFORM_KEYS} from './strings.mjs';
 const root=process.argv[2];
 if(!root) throw new Error('Usage: node ops/shorts/verify-output.mjs DAILY_DIRECTORY');
 const source=JSON.parse(await readFile(path.join(root,'source.json'),'utf8'));
@@ -15,8 +15,10 @@ for(const entry of await readdir(root,{withFileTypes:true})) {
   const meta=JSON.parse(await readFile(path.join(dir,'meta.json'),'utf8'));
   assert.equal(meta.generatedAt,source.market.generatedAt);
   assert.equal(meta.dataMode,source.dataMode);
+  const prefix={en:'',es:'/es','pt-BR':'/pt-br',vi:'/vi',id:'/id-id',tr:'/tr',ru:'/ru','zh-Hans':'/zh-hans',ar:'/ar'}[lang];
+  assert.notEqual(prefix,undefined,'Unknown locale');
   for(const platform of PLATFORM_KEYS) {
-    assert.equal(meta.platforms[platform].cta.url,`https://nexualpha.com/${localePath(lang)}/liquidations?src=${platform}-short`);
+    assert.equal(meta.platforms[platform].cta.url,`https://nexualpha.com${prefix}/liquidations?src=${platform}-short`);
     assert.doesNotMatch(meta.platforms[platform].description,/\b(?:ref|invite|partner|code)=/i);
   }
   for(const [format,expectedHeight] of [['portrait',1920],['square',1080]]) {

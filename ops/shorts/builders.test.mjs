@@ -42,7 +42,8 @@ test('5-slide global package preserves numbers, lower bound and snapshot scope',
       assert.ok(entry.description.includes(entry.cta.url));
       assert.ok(entry.description.includes(STRINGS[lang].copy.disclaimer));
       assert.ok(entry.cta.url.endsWith(`/liquidations?src=${platform}-short`));
-      assert.ok(entry.cta.url.startsWith(`https://nexualpha.com/${lang.toLowerCase()}/`));
+      const prefix={en:'',es:'/es','pt-BR':'/pt-br',vi:'/vi',id:'/id-id',tr:'/tr',ru:'/ru','zh-Hans':'/zh-hans',ar:'/ar'}[lang];
+      assert.equal(entry.cta.url,`https://nexualpha.com${prefix}/liquidations?src=${platform}-short`);
       assert.doesNotMatch(entry.cta.url,/code=|ref=|partner|invite/i);
       assert.ok(entry.hashtags.length>=5 && entry.hashtags.length<=8);
     }

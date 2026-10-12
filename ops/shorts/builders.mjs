@@ -4,7 +4,7 @@ import {
   RTL_LOCALES,
   SUPPORTED_LOCALES,
   getShortsStrings,
-  localePath,
+  liquidationsPath,
 } from './strings.mjs';
 
 export const MARKET_URL = 'https://nexualpha.com/intel/market-events.json';
@@ -115,7 +115,7 @@ function callStrings(strings, group, key, values) {
   return typeof entry === 'function' ? entry(values) : entry;
 }
 function platformUrl(locale, platform) {
-  return `https://nexualpha.com/${localePath(locale)}/liquidations?src=${platform}-short`;
+  return `https://nexualpha.com${liquidationsPath(locale)}?src=${platform}-short`;
 }
 function platformMeta(strings, values, locale, platform) {
   const entry = strings.meta[platform];

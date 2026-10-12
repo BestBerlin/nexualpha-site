@@ -1,3 +1,5 @@
+import {localizedPath} from '../../pilot-01-prototype/src/data/locale-routing.js';
+
 export const SUPPORTED_LOCALES = ['en', 'es', 'pt-BR', 'vi', 'id', 'tr', 'ru', 'zh-Hans', 'ar'];
 export const RTL_LOCALES = ['ar'];
 export const PLATFORM_KEYS = ['youtube', 'tiktok', 'x', 'telegram'];
@@ -5,7 +7,7 @@ export const PLATFORM_KEYS = ['youtube', 'tiktok', 'x', 'telegram'];
 // Nexubo turns the antenna red only when 24h covered liquidations reach $100M.
 export const LIQUIDATION_REACTION_THRESHOLD_USD = 100_000_000;
 
-export const localePath = locale => locale.toLowerCase();
+export const liquidationsPath = locale => localizedPath('/liquidations', locale);
 
 const makeMeta = ({title, description, hashtags, ctaLabel}) => ({
   youtube: {title, description, hashtags, ctaLabel},

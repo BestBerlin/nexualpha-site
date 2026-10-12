@@ -4,10 +4,10 @@ Run from this worktree with Node 20+, existing `@resvg/resvg-js`, and installed 
 
 ```sh
 ./ops/shorts/make-daily.sh
-./ops/shorts/make-daily.sh --locales en,vi --out ops/shorts/samples/v3-review
+./ops/shorts/make-daily.sh --locales en,vi --out ops/shorts/samples/v3-final
 ./ops/shorts/make-daily.sh --locales ar --out ops/shorts/samples/rtl-review
 node --test ops/shorts/*.test.mjs
-node ops/shorts/verify-output.mjs ops/shorts/samples/v3-review/2026-10-12
+node ops/shorts/verify-output.mjs ops/shorts/samples/v3-final/2026-10-12
 ```
 
 The default locales are en, es, pt-BR, vi, id, tr, ru and zh-Hans; Arabic is available explicitly for RTL review. All copy comes from `strings.mjs`. Captions retain complete sentences and wrap visually; decimal points do not split sentences. English is the master. Native review of translations remains a release responsibility.
@@ -16,7 +16,7 @@ One command fetches the public market feed once (and the funding fallback once i
 
 Output: `<out>/<UTC-feed-date>/<locale>/meta.json`, `portrait/{short.mp4,poster.png,captions.srt}` and `square/{short.mp4,poster.png,captions.srt}`. Videos are 1080×1920 / 1080×1080, H.264/AAC at 30 fps, nominally 30 seconds. Existing packages are preserved; use another output root for another take. Failed staged renders are removed; nothing uploads automatically. Generated samples remain ignored.
 
-Metadata contains localized title/description/hashtags and CTA per platform (`youtube`, `tiktok`, `x`, `telegram`). Links point to the locale's liquidation page with `?src=<platform>-short`; no partner codes or referral links appear. Long/short liquidation totals are covered-venue lower bounds; funding is a raw per-settlement-interval snapshot, not normalized returns or 24-hour extremes.
+Metadata contains localized title/description/hashtags and CTA per platform (`youtube`, `tiktok`, `x`, `telegram`). Links use the site's canonical locale routing (English `/liquidations`, Indonesian `/id-id/liquidations`) and point to the locale's liquidation page with `?src=<platform>-short`; no partner codes or referral links appear. Long/short liquidation totals are covered-venue lower bounds; funding is a raw per-settlement-interval snapshot, not normalized returns or 24-hour extremes.
 
 Nexubo reuses the existing point-right mascot rig alongside the giant numbers. Its antenna is red when covered 24h liquidations reach $100M and green below that editorial animation threshold. Green is an animation state, not a market safety claim. Funding sign retains its own red/green meaning. The top-left mark and NexuAlpha wordmark persist. Number sizing uses actual glyph measurement and reduces font size without horizontal scaling. Portrait content stays within x=64..920 / y=48..1500, reserving room for Shorts controls; square is independently composed within x=64..1016 / y=48..1016.
 
