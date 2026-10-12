@@ -1,0 +1,20 @@
+'hyperframes inspect' is deprecated and will be removed in a future release. Use 'hyperframes check' instead.
+◆  Inspecting layout for portrait (15 timeline samples)
+[hyperframes] browserGpuMode probe → software (probe failed (Failed to launch the browser process:  Code: null
+
+stderr:
+[1012/085951.353177:ERROR:base/power_monitor/thermal_state_observer_mac.mm:122] ThermalStateObserverMac unable to register to power notifications. Result: 9
+[1012/085951.375759:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.
+[1012/085951.389193:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.74242: Permission denied (1100)
+
+TROUBLESHOOTING: https://pptr.dev/troubleshooting
+))
+✗ Inspect failed: Failed to launch the browser process:  Code: null
+
+stderr:
+[1012/085951.429393:ERROR:base/power_monitor/thermal_state_observer_mac.mm:122] ThermalStateObserverMac unable to register to power notifications. Result: 9
+[1012/085951.431371:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.
+[1012/085951.432441:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.74246: Permission denied (1100)
+
+TROUBLESHOOTING: https://pptr.dev/troubleshooting
+

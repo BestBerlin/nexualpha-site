@@ -1,0 +1,52 @@
+{
+  "status": "SOURCE_READY_RENDER_AND_COMMIT_BLOCKED",
+  "build": {
+    "command": "npm run build",
+    "exitCode": 0,
+    "durationSeconds": 88.2,
+    "fps": 30,
+    "frames": 2646
+  },
+  "tests": {
+    "command": "npm test",
+    "exitCode": 0,
+    "passed": 11,
+    "failed": 0
+  },
+  "lint": {
+    "landscape": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "portrait": {
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "visualReview": {
+    "method": "existing Chrome via computer-use; local file HTML contact sheets",
+    "landscape": "nine hero frames exported to one-page PDF; PNG inspected",
+    "portrait": "nine hero frames reviewed across page scroll; exported to two-page PDF",
+    "encodedVideo": false
+  },
+  "notVerified": [
+    "Full motion playback",
+    "Headless layout and contrast audit",
+    "MP4 masters and render throughput",
+    "Narration WAV integration",
+    "Current partner approval and region eligibility"
+  ],
+  "blockers": [
+    "Default render: EPERM creating /Users/bestberlin/.cache/hyperframes",
+    "Cached-browser render: uv_os_setpriority returned EPERM",
+    "check/inspect/snapshot: Chrome MachPortRendezvousServer permission denied (1100)"
+  ],
+  "recovery": "Run the documented local CLI commands in an execution environment that permits the existing Chrome capture process, then probe both masters and extract --video contact sheets.",
+  "commit": {
+    "created": false,
+    "branch": "codex/hyperframes-pilot",
+    "command": "git add ops/academy-v2/hyperframes-l4",
+    "exitCode": 128,
+    "error": "Unable to create common worktree index.lock: Operation not permitted"
+  }
+}

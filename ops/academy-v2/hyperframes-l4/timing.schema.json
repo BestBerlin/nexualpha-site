@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexualpha.local/schemas/hyperframes-l4-timing.schema.json",
+  "title": "NexuAlpha Academy Hyperframes Level 4 local scene timing",
+  "description": "Editable timing.json for copied script.json scenes. The canonical roundtrip shape uses duration and words; seconds is accepted as an authoring alias for duration before the loader rounds to 30fps frames.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "fps", "introDuration", "scenes"],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "fps": {
+      "const": 30
+    },
+    "introDuration": {
+      "const": 3
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "anyOf": [{ "required": ["duration"] }, { "required": ["seconds"] }],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^scene-[1-9][0-9]*$",
+            "description": "Exact generated scene id matching the 1-based scene order in script.json."
+          },
+          "duration": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Canonical local scene duration in seconds. The loader requires this to be at least the scene min_s and rounded to a 30fps frame boundary after normalization."
+          },
+          "seconds": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Authoring alias for duration in seconds. If duration is also present, both values must match."
+          },
+          "words": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Optional preserved per-word timeline. Omit to let the loader estimate words from voice_zh, ending before the 0.4s caption-free tail.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["text", "start", "end"],
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "start": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "end": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "meta": {
+    "level": 4,
+    "slug": "signup-and-kyc",
+    "title_zh": "注册 + KYC 一次过",
+    "title_en": "Sign-up & KYC, first try",
+    "hook_zh": "KYC 总是被拒，到底哪里不对？",
+    "cta": {
+      "kind": "signup",
+      "partner": "okx",
+      "line_zh": "准备好证件，从 OKX 官网注册，邀请码 nexu888。这是合作推广链接，佣金由交易所支付。任何正规平台都要求完成实名认证。",
+      "line_en": "Have your ID ready and sign up on OKX's official site with invite code nexu888. This is a partner link; the exchange pays the commission. Every regulated platform requires identity verification."
+    },
+    "next_slug": "lock-your-account",
+    "sources": [
+      "https://www.okx.com/help/individual-identity-verification-eligibility-review-time-and-supported",
+      "https://www.okx.com/help/section/faq-account-security-and-verification",
+      "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html",
+      "https://nexualpha.com/intel/partners.json"
+    ],
+    "sensitive": false,
+    "review_notes": "KYC 失败原因全部取自 OKX 官方帮助中心（证件过期/不支持、图片模糊不完整、信息不一致、人脸核验失败、年龄或地区限制、身份已被其他账户使用；不接受复印件、截图）。邀请码 nexu888 与注册链接 https://www.okx.com/join/nexu888 来自 partners.json。脚本不提返佣比例，比例放在第 9 关。年满 18 岁为 OKX 页面要求。"
+  },
+  "scenes": [
+    {
+      "voice_zh": "\"KYC 又被拒了，到底哪里不对？\"其实大多数失败，原因就那几个。先讲清楚为什么要 KYC。",
+      "voice_en": "\"My KYC got rejected again. What's wrong?\" Most failures come down to a few reasons. First, why KYC exists at all.",
+      "title": "又被拒了？",
+      "sub": "失败原因就那几个",
+      "visual": {
+        "type": "phone-mock",
+        "params": {
+          "screen": "交易所 App · 身份认证",
+          "status": "未通过",
+          "note": "示意画面，非真实界面"
+        }
+      },
+      "min_s": 9
+    },
+    {
+      "voice_zh": "KYC 的意思就是\"了解你的客户\"。正规平台按反洗钱规则，必须核实用户身份。没有正规平台能绕开这一步。",
+      "voice_en": "KYC means \"know your customer\". Under anti-money-laundering rules, regulated platforms must verify who you are. No regulated platform skips this step.",
+      "title": "KYC 是什么",
+      "sub": "反洗钱规则要求核实身份",
+      "visual": {
+        "type": "definition",
+        "params": {
+          "term": "KYC",
+          "lines": [
+            "Know Your Customer",
+            "反洗钱规则要求",
+            "正规平台都要做"
+          ],
+          "source": "FATF 建议"
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "开始前先准备好：本人有效的政府证件，比如护照或身份证。确认年满 18 岁。找个网络稳定、光线充足的地方。",
+      "voice_en": "Before you start, have your own valid government ID, such as a passport or national ID. Be 18 or older. Use a stable connection and good lighting.",
+      "title": "先准备好",
+      "sub": "本人有效证件 · 年满 18 岁",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "本人有效政府证件",
+            "年满 18 岁",
+            "网络稳定",
+            "光线充足、镜头擦干净"
+          ]
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "常见失败第一种：证件过期，或者平台不支持这种证件类型。第二种：照片模糊、反光、或者边角拍得不完整。",
+      "voice_en": "Common failure one: the ID is expired or not a supported type. Common failure two: the photo is blurry, has glare, or is cut off.",
+      "title": "失败原因 1–2",
+      "sub": "证件过期 · 照片不清",
+      "visual": {
+        "type": "compare-table",
+        "params": {
+          "columns": [
+            "错误",
+            "正确"
+          ],
+          "rows": [
+            [
+              "证件已过期",
+              "在有效期内"
+            ],
+            [
+              "模糊、反光、缺角",
+              "清晰完整、四角都在"
+            ]
+          ]
+        }
+      },
+      "min_s": 11
+    },
+    {
+      "voice_zh": "第三种：填写的信息和证件不一致。第四种：上传了截图或复印件，而不是拍原件。第五种：人脸核验没通过。",
+      "voice_en": "Failure three: what you typed doesn't match the ID. Failure four: uploading a screenshot or photocopy instead of the original. Failure five: the face check didn't pass.",
+      "title": "失败原因 3–5",
+      "sub": "信息不符 · 截图 · 人脸",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "姓名、生日与证件一致",
+            "拍原件，不传截图或复印件",
+            "人脸完整露出，按提示操作"
+          ],
+          "style": "fix"
+        }
+      },
+      "min_s": 12
+    },
+    {
+      "voice_zh": "被拒了别慌，先看页面或邮件里写的具体原因。改好那一项再重新提交，千万不要反复提交同样的资料。",
+      "voice_en": "If you're rejected, read the exact reason on the page or in your email. Fix that one item, then resubmit. Don't keep sending the same files.",
+      "title": "被拒怎么办",
+      "sub": "看原因 → 改一项 → 再提交",
+      "visual": {
+        "type": "flow",
+        "params": {
+          "nodes": [
+            "查看拒绝原因",
+            "只改对应那一项",
+            "重新提交"
+          ]
+        }
+      },
+      "min_s": 10
+    },
+    {
+      "voice_zh": "证件只在官方 App 或官网里提交。任何\"客服\"在私信里要你发证件照，都绝对别发。",
+      "voice_en": "Submit your ID only inside the official app or website. If any \"support agent\" asks for ID photos by private message, don't send them.",
+      "title": "只在官方提交",
+      "sub": "私信要证件照，别发",
+      "visual": {
+        "type": "warning-card",
+        "params": {
+          "level": "warn",
+          "text": "证件只在官方 App / 官网提交",
+          "detail": "私信索要证件照是常见诈骗手法"
+        }
+      },
+      "min_s": 8
+    },
+    {
+      "voice_zh": "回顾一下：有效证件、拍清楚、信息一致、拍原件。准备好了，可以从官网注册。下一关：注册后第一件事，锁好账户。",
+      "voice_en": "Recap: valid ID, clear photo, matching details, original document. When you're ready, sign up on the official site. Next: lock down your account first.",
+      "title": "准备好再提交",
+      "sub": "下一关：先锁好账户",
+      "visual": {
+        "type": "checklist",
+        "params": {
+          "items": [
+            "有效证件",
+            "拍清楚",
+            "信息一致",
+            "拍原件"
+          ],
+          "cta_card": {
+            "partner": "OKX",
+            "code": "nexu888",
+            "disclosure": "合作推广链接，佣金由交易所支付"
+          },
+          "next": "lock-your-account"
+        }
+      },
+      "min_s": 11
+    }
+  ],
+  "page": {
+    "summary_zh": "KYC（了解你的客户）是正规交易所按反洗钱规则必须做的身份核验，没有正规平台能绕开。大多数失败集中在几个原因：证件过期或不受支持、照片模糊不完整、填写信息与证件不一致、上传截图或复印件、人脸核验未通过。被拒后先看具体原因，改正那一项再提交。证件只在官方 App 或官网提交，不要发给私信里的\"客服\"。",
+    "checklist_zh": [
+      "证件是本人的、在有效期内",
+      "年满 18 岁",
+      "拍原件，不用截图或复印件",
+      "照片清晰、四角完整、没有反光",
+      "填写的姓名和生日与证件一致",
+      "只在官方 App 或官网提交"
+    ],
+    "quiz": [
+      {
+        "q": "为什么正规交易所都要求 KYC？",
+        "options": [
+          "反洗钱规则要求核实身份",
+          "为了推销产品",
+          "可以跳过，不重要"
+        ],
+        "answer": "反洗钱规则要求核实身份",
+        "why": "KYC 源自国际反洗钱标准，正规平台都必须执行。"
+      },
+      {
+        "q": "下面哪种上传方式容易被拒？",
+        "options": [
+          "上传证件截图",
+          "拍证件原件",
+          "光线充足下拍摄"
+        ],
+        "answer": "上传证件截图",
+        "why": "OKX 帮助中心写明截图和复印件通常不被接受。"
+      },
+      {
+        "q": "KYC 被拒后，最好的做法是？",
+        "options": [
+          "看清原因，只改那一项再提交",
+          "同样的资料反复提交",
+          "把证件发给私信客服"
+        ],
+        "answer": "看清原因，只改那一项再提交",
+        "why": "反复提交同样资料不会通过；私信索要证件照是常见诈骗。"
+      }
+    ],
+    "faq": [
+      {
+        "q": "KYC 认证失败怎么办？",
+        "a": "先在认证页面或注册邮箱里查看具体原因，常见的是证件过期、照片不清、信息不一致、上传截图、人脸核验失败。改正后重新提交。"
+      },
+      {
+        "q": "交身份证给交易所安全吗？",
+        "a": "KYC 是法规要求。只在官方 App 或官网提交证件，确认域名正确；不要把证件照发给任何私信联系你的人。"
+      },
+      {
+        "q": "可以不做 KYC 吗？",
+        "a": "我们只介绍正规流程。正规交易所都要求完成身份认证，NexuAlpha 不提供绕过实名的渠道。"
+      }
+    ]
+  }
+}

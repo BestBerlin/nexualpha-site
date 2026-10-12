@@ -1,0 +1,17 @@
+{
+  "name": "nexualpha-hyperframes-l4",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test timing.test.mjs build.test.mjs",
+    "render": "node render.mjs",
+    "contact-sheets": "node contact-sheets.mjs",
+    "mux": "node mux.mjs"
+  },
+  "dependencies": {
+    "gsap": "3.15.0",
+    "hyperframes": "0.8.149",
+    "qrcode": "1.5.4"
+  }
+}
