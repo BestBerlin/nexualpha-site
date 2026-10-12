@@ -22,12 +22,12 @@ import { TOPIC_SLUGS } from "./data/topic-slugs.js";
 import { TOKENIZED_ASSET_SLUGS } from "./data/tokenized-asset-slugs.js";
 import { VENUE_ALTERNATIVE_SLUGS } from "./data/venue-alternative-slugs.js";
 import { BRAZIL_DEADLINE_SLUGS } from "./data/brazil-vasp-deadline-slugs.js";
-import { getBrazilPage } from "./data/brazil-market.js";
+import { isBrazilPagePath } from "./data/brazil-page-paths.js";
 import { trackGrowthDecision } from "./data/cta-analytics.js";
 import { decisionContextSearchFromUrl, readDecisionPassport } from "./data/decision-passport.js";
 import { resolveMarketLocale } from "./data/market-policy.js";
 import { localizedHref, localizedLanguageHref, parsePublicRoute } from "./data/locale-routing.js";
-import { parseNewsListingPath } from "./data/news-library.js";
+import { parseNewsListingPath } from "./data/news-listing-path.js";
 import { sectionEyebrowAttrs } from "./data/section-eyebrow.js";
 import { FUNDING_RATES_PATH, LIQUIDATIONS_PATH, dataPageCopy } from "./data/market-data-pages-nav.js";
 import { parseAppDownloadPath } from "./data/app-download-path.js";
@@ -302,7 +302,7 @@ const readLocale = (initialUrl) => {
   // Brazil decision routes are original pt-BR pages. Letting an arbitrary UI
   // locale override them creates a mixed-language page and can even apply RTL
   // to Portuguese content, so the route language owns the interface here.
-  if (getBrazilPage(publicRoute.contentPathname || sourceUrl.pathname)) return "pt-BR";
+  if (isBrazilPagePath(publicRoute.contentPathname || sourceUrl.pathname)) return "pt-BR";
   if (publicRoute.localeSource === "path") return publicRoute.locale;
   const normalized = normalizeRequestedLocale(requested);
   if (normalized) return normalized;
@@ -434,7 +434,7 @@ function routeState(venues, initialUrl) {
   const publicRoute = parsePublicRoute(sourceUrl.pathname, sourceUrl.searchParams);
   const pathname = publicRoute.contentPathname;
   const search = sourceUrl.search;
-  if (getBrazilPage(pathname)) return { name: "brazil", pathname };
+  if (isBrazilPagePath(pathname)) return { name: "brazil", pathname };
   // Market-specific decision routes reuse the audited global tools while
   // preserving the user's market and locale context.
   const regionalDecisionPath = pathname.match(/^\/(mx|tw|hk)\/(comparar|costos|conta)$/);

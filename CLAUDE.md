@@ -30,7 +30,7 @@ On every new session, first read `docs/company/SCORECARD.md` (owner target ≥ 9
 - The article publisher (`AEO Crypto Factory/scripts/nexualpha-content-publish.mjs`) imports site scripts from the old
   checkout `/Users/bestberlin/Documents/ChatGPT/Crypto聚合/pilot-01-prototype`, not this repo: after changing
   `scripts/update-news-seo.mjs`, `import-nexualpha-content.mjs`, `sitemap-publication-policy.mjs`,
-  `generate-prerender-manifest.mjs`, `src/data/news-feed-client.js` or `news-library.js`, copy them there.
+  `generate-prerender-manifest.mjs`, `src/data/news-feed-client.js`, `news-library.js` or `news-listing-path.js` (news-library imports it), copy them there.
 - Data pages `/liquidations` and `/funding-rates` (15 locales) render from the market feed mounted at
   `MARKET_EVENTS_FILE` (host `/data/agent/state/market/market-events.json`, written by `ops/market-collector`).
   Sign-up click attribution: Telegram traffic via `/go/<partner>?src=`, site buttons via the `/api/cta-click` beacon
@@ -38,7 +38,9 @@ On every new session, first read `docs/company/SCORECARD.md` (owner target ≥ 9
 - Client bundle rule (PR #59): `App.jsx`'s SSR-only `import.meta.glob` is stripped from client builds by a vite
   transform; never add eager globs reachable from the browser entry. `scripts/verify-build-budget.mjs --strict`
   fails the build if the entry's static closure exceeds 350 KB gzip. Below-the-fold home modules hydrate through
-  `DeferUntilVisible` (SSR HTML stays complete). `/exchanges` HTML is cached 60 s server-side (`x-nexualpha-ssr-cache`).
+  `DeferUntilVisible` (SSR HTML stays complete). The router (App.jsx) imports only small path helpers (`news-listing-path.js`,
+  `brazil-page-paths.js`, `coins-routes.js`…), never a content/data library: anything it imports statically lands in
+  `core-shared` with every export other routes use (news-library + feed client and brazil-market cost 40 KB gzip). `/exchanges` HTML is cached 60 s server-side (`x-nexualpha-ssr-cache`).
   Route SEO (seo-payload lane): `src/data/seo-injection.js` is Node/SSR-only (the client vite build throws if it is
   reached); the browser keeps the SSR head and, only after a client-side route change, fetches
   `/api/route-seo?path=…` (worker `routeSeoPayload`, same helpers as the SSR head) via `src/data/route-seo-client.js`.
