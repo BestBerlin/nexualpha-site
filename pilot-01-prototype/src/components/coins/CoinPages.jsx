@@ -23,6 +23,29 @@ const hrefFor = (path, locale, market) => {
 };
 const LTR = ({ children }) => <bdi dir="ltr">{children}</bdi>;
 
+// Our coin description. The server passes the locale's descriptions (content); the hydrating browser reuses the text the
+// server rendered (same string, so no mismatch) and, after a client-side navigation, loads the locale module lazily.
+const DESCRIPTION_MODULES = import.meta.env.SSR ? {} : import.meta.glob("../../data/coin-content-*.js");
+function useDescription(coin, locale, content) {
+  const id = coin?.id;
+  const [text, setText] = useState(() => {
+    if (!id) return null;
+    if (content) return content[id] || null;
+    if (typeof document === "undefined") return null;
+    return document.querySelector(`[data-coin-desc="${id}"]`)?.textContent || null;
+  });
+  const [loadedFor, setLoadedFor] = useState(id);
+  useEffect(() => {
+    if (!id || content) return undefined;
+    if (loadedFor === id && text) return undefined;
+    let cancelled = false;
+    const load = DESCRIPTION_MODULES[`../../data/coin-content-${coinContentLocale(locale).toLowerCase()}.js`];
+    if (load) load().then((module) => { if (!cancelled) { setText(module.COIN_DESCRIPTIONS?.[id] || null); setLoadedFor(id); } }).catch(() => {});
+    return () => { cancelled = true; };
+  }, [id, locale]);
+  return loadedFor === id || content ? text : null;
+}
+
 // Letter mark tinted from the symbol (no third-party logo hotlinking).
 function CoinMark({ coin, size = 44 }) {
   let hash = 0;
@@ -191,8 +214,8 @@ export function CoinPage({ locale = "en", content, slug, market }) {
   const t = coinCopy(locale);
   const coin = coinBySlug(slug);
   const live = useLivePrice(coin);
+  const own = useDescription(coin, locale, content);
   if (!coin) return <main className="nxc nxc--missing" id="top" dir={dirOf(locale)}><div className="nxc-shell"><h1>404</h1><p><a href={hrefFor("/coins", locale, market)}>{t.allCoins}</a></p></div></main>;
-  const own = content?.[coin.id];
   const description = own || null;
   const descriptionLang = own && coinContentLocale(locale) !== locale ? coinContentLocale(locale) : undefined;
   const vars = { coin: coin.name, symbol: coin.symbol, year: COIN_YEAR };
@@ -229,7 +252,7 @@ export function CoinPage({ locale = "en", content, slug, market }) {
 
       <section className="nxc-sec nxc-about" aria-labelledby="nxc-about-h">
         <h2 id="nxc-about-h">{fill(t.aboutTitle, vars)}</h2>
-        {description ? <p className="nxc-about__text" lang={descriptionLang}>{description}</p> : null}
+        {description ? <p className="nxc-about__text" lang={descriptionLang} data-coin-desc={coin.id}>{description}</p> : null}
         <dl className="nxc-facts">
           <div><dt>{t.factCategory}</dt><dd>{t.categories[coin.category] || t.categories.other}</dd></div>
           <div><dt>{t.factRank}</dt><dd><LTR>#{coin.rank}</LTR></dd></div>

@@ -91,7 +91,6 @@ const deferredPageModules = import.meta.env.SSR ? {} : import.meta.glob([
   "./data/academy-content-*.js",
   "!./data/academy-content-all.js",
   "./components/coins/CoinPages.jsx",
-  "./data/coin-content-*.js",
   "./components/flash/FlashPages.jsx",
 ]);
 
@@ -196,10 +195,10 @@ function readAcademyContent(locale) {
 // Where to buy <coin> (2026-10-12): one route chunk for /coins and /coins/<slug>; descriptions are one lazy module per locale.
 const CoinsHubPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinsHubPage");
 const CoinPage = deferredComponent(ROUTE_MODULE_PATHS.coins, "CoinPage");
+// Descriptions reach the server render here; in the browser the page keeps the server text (CoinPages.jsx) and loads
+// the locale module itself after a client-side navigation, so the entry carries no per-locale loaders.
 function readCoinContent(locale) {
-  const path = coinContentModulePath(locale);
-  if (import.meta.env.SSR) return ssrDeferredPageModules[path]?.COIN_DESCRIPTIONS;
-  return readRouteModuleExport(path, "COIN_DESCRIPTIONS");
+  return import.meta.env.SSR ? ssrDeferredPageModules[coinContentModulePath(locale)]?.COIN_DESCRIPTIONS : undefined;
 }
 function CoinsRoute({ route, locale }) {
   if (route.name === "coinsHub") return <CoinsHubPage locale={locale} market={route.market} />;

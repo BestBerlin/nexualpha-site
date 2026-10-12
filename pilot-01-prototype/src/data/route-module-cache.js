@@ -1,5 +1,4 @@
 import { academyContentModulePath } from "./academy.js";
-import { coinContentModulePath } from "./coins-routes.js";
 import { parsePublicRoute } from "./locale-routing.js";
 
 const routeModuleEntries = new Map();
@@ -53,7 +52,7 @@ export const ROUTE_MODULE_PATHS = Object.freeze({
   toolArticles: "./components/shared/ToolArticleLinks.jsx",
   // Academy hub + lesson pages (2026-10-12). Their lesson content is a second module per locale (academyContentModulePath).
   academy: "./components/academy/AcademyPages.jsx",
-  // Where to buy <coin> (2026-10-12): hub + coin pages; descriptions are a second module per locale (coinContentModulePath).
+  // Where to buy <coin> (2026-10-12): hub + coin pages; the page loads its locale's descriptions itself (CoinPages.jsx).
   coins: "./components/coins/CoinPages.jsx",
   appDownload: "./components/apps/AppDownloadPage.jsx",
   // Flash stream + item pages (2026-10-12).
@@ -140,8 +139,7 @@ export function modulePathsForRoute(route, sourceUrl = "") {
   if (name === "liquidations") return [ROUTE_MODULE_PATHS.liquidations];
   if (name === "fundingRates") return [ROUTE_MODULE_PATHS.fundingRates];
   if (name === "academyHub" || name === "academyEpisode") return [ROUTE_MODULE_PATHS.academy, academyContentModulePath(urlLocale(sourceUrl))];
-  if (name === "coinsHub") return [ROUTE_MODULE_PATHS.coins];
-  if (name === "coinPage") return [ROUTE_MODULE_PATHS.coins, coinContentModulePath(urlLocale(sourceUrl))];
+  if (name === "coinsHub" || name === "coinPage") return [ROUTE_MODULE_PATHS.coins];
   if (name === "appDownload") return [ROUTE_MODULE_PATHS.appDownload];
   if (name === "flashStream" || name === "flashItem") return [ROUTE_MODULE_PATHS.flash];
   if (name === "venue") return [ROUTE_MODULE_PATHS.venueDetail];
