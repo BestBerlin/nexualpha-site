@@ -1,3 +1,4 @@
+import { LEGAL_PAGE_PATHS, isLegalPagePath, legalPageSeo } from "../src/data/legal-pages.js";
 import { isPartnerPromotableIn } from "../src/data/partner-geo-policy.js";
 import { PARTNER_RESTRICTED_COUNTRIES, PARTNER_RESTRICTED_SCOPES } from "../src/data/partner-geo-policy.generated.js";
 import { hreflangAlternates, localizedNewsTitle, localizedNewsSummary, newsListingIndexableLocales, newsListingPublishedLocales } from "../src/data/news-feed-client.js";
@@ -2523,6 +2524,9 @@ const ROUTE_STYLE_PREFIXES_BY_PATH = Object.freeze({
   "/liquidations": ["route-data-", "route-news-"],
   "/funding-rates": ["route-data-", "route-news-"],
   // Brand pages (/about, /editorial-policy): own chunk; the commission disclosure line styles ship with the shared layers.
+  "/privacy": ["route-brand-pages-"],
+  "/terms": ["route-brand-pages-"],
+  "/contact": ["route-brand-pages-"],
   "/about": ["route-brand-pages-"],
   "/editorial-policy": ["route-brand-pages-"],
 });
@@ -2554,7 +2558,7 @@ const MIGRATED_PATH_LOCALES = new Set(Object.keys(LOCALE_PREFIX_BY_CODE).filter(
 const COUNTRY_ROUTE_PREFIXES = Object.freeze(["/br", "/mx", "/tw", "/id", "/vn", "/hk", "/eu", "/uk", "/us", "/jp", "/kr", "/sg", "/int"]);
 const COUNTRY_LOCALE_BY_PREFIX = Object.freeze({ "/br": "pt-BR", "/mx": "es", "/tw": "zh-Hant", "/id": "id", "/vn": "vi", "/hk": "zh-Hant", "/eu": "en", "/uk": "en", "/us": "en", "/jp": "ja", "/kr": "ko", "/sg": "en", "/int": "en" });
 const GLOBAL_ROUTE_PREFIXES = Object.freeze(["/exchanges", "/compare", "/topics", "/factbook", "/activities", "/news", "/markets"]);
-const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS]);
+const GLOBAL_EXACT_ROUTES = new Set(["/", "/rates", "/onchain", "/methodology", "/partners", "/telegram", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS]);
 const NON_LOCALIZED_PREFIXES = Object.freeze(["/api", "/assets", "/brand", "/content", "/ref"]);
 const PRESERVED_REDIRECT_PARAMS = new Set(["market", "product", "account_stage", "funding", "publisher", "gclid", "fbclid", "msclkid"]);
 // Hand-written pairs; the list lives in src/data/compare-generated.js so the app, seo-injection and worker agree.
@@ -4180,7 +4184,7 @@ async function injectPrerenderedRoute(html, metadata, url, env) {
     }
     // Brand pages (/about, /editorial-policy) are static copy: render them at request time with the same renderer so
     // crawlers and no-JS readers get the full entity page instead of an empty #root.
-    if (isBrandPagePath(pathname) && typeof env?.NEWS_SSR_RENDER === "function") {
+    if ((isBrandPagePath(pathname) || isLegalPagePath(pathname)) && typeof env?.NEWS_SSR_RENDER === "function") {
       try {
         const appHtml = await env.NEWS_SSR_RENDER(url.href, {});
         if (typeof appHtml === "string" && appHtml.includes("class=\"nxb-hero")) {
@@ -4436,7 +4440,7 @@ async function handleNewsSearchJson(env, url) {
 // publisher and only carried en, zh-Hans and a few ja/ko/tr pages, so the translated exchange, rates, compare and
 // activity pages were missing from every sitemap. Built from routeMetadata so it can never list a noindex or
 // non-canonical URL; cached for an hour.
-const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS];
+const LOCALE_SITEMAP_STATIC = ["/", "/exchanges", "/compare", "/activities", "/rates", "/onchain", "/methodology", "/telegram", "/partners", "/topics", "/factbook", ...DATA_PAGE_PATHS, ...BRAND_PAGE_PATHS, ...LEGAL_PAGE_PATHS];
 let localeSitemapCache = null;
 export async function renderLocaleSitemap(env = {}) {
   // Generated pairs: only the indexable ones (both venues with reviewed fee rows and at least one partner); their
@@ -5872,6 +5876,8 @@ function notFoundMetadata(pathname, locale) {
 export { clampMetaDescription, metaDescriptionLimit };
 
 export async function routeMetadata(url, env) {
+  const route = parsePublicRoute(url.pathname, url.searchParams);
+  if (isLegalPagePath(route.contentPathname)) return { ...legalPageSeo(route.contentPathname, route.locale), marker: STATIC_ROUTE_MARKER };
   const metadata = await resolveRouteMetadata(url, env);
   if (metadata && typeof metadata.description === "string") {
     metadata.description = clampMetaDescription(metadata.description, metadata.locale);

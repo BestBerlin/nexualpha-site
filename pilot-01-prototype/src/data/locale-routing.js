@@ -83,6 +83,7 @@ const GLOBAL_EXACT_ROUTES = new Set([
   "/methodology",
   "/about",
   "/editorial-policy",
+  "/privacy", "/terms", "/contact",
   "/partners",
   "/telegram",
   "/liquidations",

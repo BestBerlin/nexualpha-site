@@ -449,13 +449,6 @@ export function footerDisclosureLabel(locale) {
   return getFooterLabels(locale).disclosure;
 }
 
-const POLICY_ANCHOR = "#nx-ftr-policy-details";
-// Privacy / terms links open the folded policy panel in place instead of jumping to another route.
-function openPolicy() {
-  const panel = typeof document !== "undefined" ? document.getElementById("nx-ftr-policy-details") : null;
-  if (panel) panel.open = true;
-}
-
 export function CleanFooter({ locale = "en", brazil = false }) {
   const copy = getCopy(locale);
   const labels = getFooterLabels(locale);
@@ -487,9 +480,9 @@ export function CleanFooter({ locale = "en", brazil = false }) {
             <li><a href={href("/methodology")}>{labels.methodology}</a></li>
             <li><a href={href("/partners")}>{labels.embedGuide}</a></li>
             <li><a href={href("/methodology#disclosure")}>{labels.disclosure}</a></li>
-            <li><a href={POLICY_ANCHOR} onClick={openPolicy}>{labels.privacy}</a></li>
-            <li><a href={POLICY_ANCHOR} onClick={openPolicy}>{labels.terms}</a></li>
-            <li><a href="mailto:contact@nexualpha.com">{labels.contact}</a></li>
+            <li><a href={href("/privacy")}>{labels.privacy}</a></li>
+            <li><a href={href("/terms")}>{labels.terms}</a></li>
+            <li><a href={href("/contact")}>{labels.contact}</a></li>
           </ul>
         </nav>
 

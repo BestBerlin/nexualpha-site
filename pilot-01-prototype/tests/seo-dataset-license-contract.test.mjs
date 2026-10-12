@@ -48,7 +48,7 @@ function assets() {
         return Response.json({
           routes: {
             "/methodology|en": {
-              html: "<main><section id=\"data-license\"><h3>NexuAlpha Data License and Source Boundary</h3><p>Access to NexuAlpha datasets does not grant redistribution rights. Contact contact@nexualpha.com for reuse, republication or licensing requests.</p></section></main>",
+              html: "<main><section id=\"data-license\"><h3>NexuAlpha Data License and Source Boundary</h3><p>Access to NexuAlpha datasets does not grant redistribution rights. Contact Bestberlin@nexualpha.com for reuse, republication or licensing requests.</p></section></main>",
             },
           },
         });
