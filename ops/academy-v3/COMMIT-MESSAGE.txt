@@ -1,0 +1,10 @@
+Keep academy episodes consistent through a reusable animation kit
+
+Constraint: Reuse existing HyperFrames and GSAP dependencies without downloads
+Rejected: Per-episode generated characters and baked financial values | unstable brand and teaching data
+Confidence: high
+Scope-risk: narrow
+Directive: Replace estimated word timing and silent SFX before narrated production
+Tested: 22 node tests; four HyperFrames lint passes; 36 Chrome geometry samples
+Not-tested: MP4 capture blocked by sandbox process-priority restrictions; Arabic production layout
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>

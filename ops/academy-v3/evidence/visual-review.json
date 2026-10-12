@@ -1,0 +1,18 @@
+{
+  "status": "HTML_SAMPLES_REVIEWED",
+  "samples": 36,
+  "locales": [
+    "en",
+    "zh-Hans"
+  ],
+  "formats": [
+    "landscape",
+    "portrait"
+  ],
+  "viewportNotes": "Native full composition sizes; contact sheets are scaled previews, not MP4 captures",
+  "measuredOverlapCount": 0,
+  "localeMismatchCount": 0,
+  "encodedVideoStatus": "BLOCKED_BEFORE_CAPTURE",
+  "renderBlocker": "uv_os_setpriority returned EPERM (operation not permitted)",
+  "reviewedGallery": "30 static component/set/character specimens; not a timeline or narrated production master"
+}

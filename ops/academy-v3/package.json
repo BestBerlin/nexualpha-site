@@ -1,0 +1,12 @@
+{
+  "name": "nexualpha-academy-v3-kit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test *.test.mjs",
+    "render": "bash render.sh",
+    "contacts": "node contact-sheets.mjs"
+  },
+  "dependencies": { "gsap": "3.15.0", "hyperframes": "0.8.149", "qrcode": "1.5.4" }
+}
