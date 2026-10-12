@@ -1,0 +1,29 @@
+[
+  {
+    "universe": [
+      { "name": "BTC" },
+      { "name": "ETH" },
+      { "name": "HYPE" }
+    ]
+  },
+  [
+    {
+      "markPx": "62000",
+      "openInterest": "1200",
+      "funding": "0.00012",
+      "dayNtlVlm": "2400000000"
+    },
+    {
+      "markPx": "3400",
+      "openInterest": "18000",
+      "funding": "-0.00072",
+      "dayNtlVlm": "900000000"
+    },
+    {
+      "markPx": "35",
+      "openInterest": "800000",
+      "funding": "0.00081",
+      "dayNtlVlm": "500000000"
+    }
+  ]
+]

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Bloomberg Markets</title>
+    <item>
+      <title>Crypto Stocks Rally as Bitcoin Rebounds</title>
+      <link>https://www.bloomberg.com/news/articles/2026-10-12/crypto-stocks-rally</link>
+      <guid>bbg-1</guid>
+      <pubDate>Mon, 12 Oct 2026 09:30:00 GMT</pubDate>
+      <description>Subscriber-only summary that must not be stored by the collector.</description>
+    </item>
+    <item>
+      <title>Oil Slips as Wheat Futures Rise Before Fed Speech</title>
+      <link>https://www.bloomberg.com/news/articles/2026-10-12/oil-wheat-fed</link>
+      <guid>bbg-2</guid>
+      <pubDate>Mon, 12 Oct 2026 09:35:00 GMT</pubDate>
+      <description>Subscriber-only broad-market summary that should be filtered out.</description>
+    </item>
+  </channel>
+</rss>

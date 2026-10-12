@@ -1,0 +1,12 @@
+[
+  {
+    "symbol": "BTCUSDT",
+    "lastFundingRate": "0.00061",
+    "nextFundingTime": 1791648000000
+  },
+  {
+    "symbol": "ETHUSDT",
+    "lastFundingRate": "-0.00004",
+    "nextFundingTime": 1791648000000
+  }
+]

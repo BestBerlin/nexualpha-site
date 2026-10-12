@@ -1,0 +1,10 @@
+{
+  "tipHeight": 971094,
+  "fees": {
+    "fastestFee": 142,
+    "halfHourFee": 118,
+    "hourFee": 76,
+    "economyFee": 24,
+    "minimumFee": 9
+  }
+}

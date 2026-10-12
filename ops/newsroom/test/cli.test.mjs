@@ -54,3 +54,14 @@ test('migrate and seed submit atomic serialized batches and reject unexpected op
     await assert.rejects(main([command, '--bad'], () => assert.fail('unexpected DB access')));
   }
 });
+test('seed:watchlist imports the bundled verified snapshot atomically without approving a budget', async () => {
+  const calls=[];
+  const result=await main(['seed:watchlist'],sql=>{calls.push(sql);return '';});
+  assert.match(result,/133 entities, 711 keywords/);
+  assert.equal(calls.length,1);
+  assert.match(calls[0],/^BEGIN;/);
+  assert.match(calls[0],/ON CONFLICT\(term,lang\) DO NOTHING/);
+  assert.match(calls[0],/'x_daily_read_budget','0'/);
+  assert.match(calls[0],/defillama-hacks/);
+  assert.match(calls[0],/COMMIT;$/);
+});

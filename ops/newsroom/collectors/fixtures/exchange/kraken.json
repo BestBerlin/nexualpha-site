@@ -1,0 +1,12 @@
+{
+  "incidents": [
+    {
+      "id": "inc-1",
+      "name": "Funding maintenance",
+      "status": "monitoring",
+      "impact": "minor",
+      "created_at": "2026-10-12T09:00:00Z",
+      "shortlink": "https://status.kraken.com/incidents/inc-1"
+    }
+  ]
+}

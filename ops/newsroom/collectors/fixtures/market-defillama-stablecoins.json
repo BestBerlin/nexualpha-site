@@ -1,0 +1,34 @@
+{
+  "peggedAssets": [
+    {
+      "id": "tether",
+      "symbol": "USDT",
+      "price": 0.9989,
+      "circulating": { "peggedUSD": 173000000000 },
+      "circulatingPrevDay": { "peggedUSD": 172600000000 }
+    },
+    {
+      "id": "test-usd",
+      "symbol": "TESTUSD",
+      "price": 0.972,
+      "circulating": { "peggedUSD": 92000000 },
+      "circulatingPrevDay": { "peggedUSD": 100000000 }
+    },
+    {
+      "id": "flow-usd",
+      "pegType": "peggedUSD",
+      "symbol": "FLOWUSD",
+      "price": 1.002,
+      "circulating": { "peggedUSD": 1025000000 },
+      "circulatingPrevDay": { "peggedUSD": 1000000000 }
+    },
+    {
+      "id": "euro-stable",
+      "pegType": "peggedEUR",
+      "symbol": "EURS",
+      "price": 0.91,
+      "circulating": { "peggedUSD": 200000000 },
+      "circulatingPrevDay": { "peggedUSD": 180000000 }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "cik": "0000320193",
+  "name": "Example Bitcoin Treasury Inc.",
+  "filings": {
+    "recent": {
+      "accessionNumber": ["0000320193-26-000001"],
+      "filingDate": ["2026-10-12"],
+      "form": ["8-K"],
+      "primaryDocument": ["ebtc-20261012.htm"],
+      "primaryDocDescription": ["Digital asset treasury update"],
+      "items": ["8.01"]
+    }
+  }
+}

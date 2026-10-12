@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-10-10T14:58:12.739Z",
+  "liquidations": {
+    "source": "Binance USDT-M force-order stream (at most one order per symbol per second) plus OKX liquidation orders for BTC/ETH/SOL/XRP/DOGE; a lower bound, not the whole market",
+    "coverageSince": "2026-10-10T09:11:50.250Z",
+    "h1": {
+      "longUsd": 14691,
+      "shortUsd": 3329977,
+      "totalUsd": 3344668,
+      "orders": 250,
+      "topSymbols": [
+        { "symbol": "OKX:SOLUSDT", "usd": 2017955 },
+        { "symbol": "OKX:ETHUSDT", "usd": 1102157 }
+      ],
+      "largest": {
+        "symbol": "OKX:SOLUSDT",
+        "side": "short",
+        "usd": 1452978,
+        "at": "2026-10-10T14:29:53.025Z"
+      }
+    },
+    "h24": {
+      "longUsd": 1233574,
+      "shortUsd": 4880561,
+      "totalUsd": 6114135,
+      "orders": 683,
+      "topSymbols": [
+        { "symbol": "OKX:SOLUSDT", "usd": 2680936 },
+        { "symbol": "OKX:ETHUSDT", "usd": 1659099 }
+      ],
+      "largest": {
+        "symbol": "OKX:SOLUSDT",
+        "side": "short",
+        "usd": 1452978,
+        "at": "2026-10-10T14:29:53.025Z"
+      }
+    }
+  },
+  "funding": {
+    "generatedAt": "2026-10-10T14:58:12.739Z",
+    "rows": [
+      {
+        "symbol": "BTC",
+        "binanceRate": 0.0000326,
+        "binanceNextAt": "2026-10-10T16:00:00.000Z",
+        "okxRate": 0.0000183440742622,
+        "okxNextAt": "2026-10-10T16:00:00.000Z"
+      },
+      {
+        "symbol": "SOL",
+        "binanceRate": -0.00082,
+        "binanceNextAt": "2026-10-10T16:00:00.000Z",
+        "okxRate": null,
+        "okxNextAt": null
+      }
+    ]
+  },
+  "events": [
+    {
+      "type": "top-mover",
+      "severity": "medium",
+      "text": "LUMIAUSDT 38.25% in 24h on 158M USD volume"
+    }
+  ]
+}
