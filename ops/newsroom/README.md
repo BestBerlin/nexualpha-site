@@ -1,8 +1,9 @@
-# Newsroom event pool (T1 + T3)
+# Newsroom event pool and writer bridge
 
-Local implementation of the 2026-10-12 newsroom design, scoped to the queue
-`newsroom-pool/BRIEF.md`. No collector, deployment, claim/publish workflow, gate,
-watchlist verification or promotion activation is performed by this change.
+Local implementation of the 2026-10-12 newsroom design. The writer bridge below
+adds claims, package gates and shadow review to the existing pool. Repository
+implementation does not deploy collectors, publish content, verify watchlist
+accounts or activate promotions.
 
 ## Database and CLI
 
@@ -144,3 +145,95 @@ notes preserve the distinction between reachable feeds and unavailable ones.
 For a deployment performance check, time a pipeline with the real database and
 backlog after migration. Local pure tests do not prove the <30-second production
 pipeline target; database/container validation requires PostgreSQL/Docker.
+
+## Writer bridge (T8, local/shadow only)
+
+Migration `093_writer_bridge.sql` adds `articles.published_url`. Run the migration
+in the intended environment before using `complete`; this branch does not deploy
+or change production. No new dependencies, schedules or publishers are installed.
+
+```sh
+node ops/newsroom/bin/newsroom.mjs claim --limit 2 --writer writer-v2
+node ops/newsroom/bin/newsroom.mjs release 123 --writer writer-v2
+node ops/newsroom/bin/newsroom.mjs complete 123 --writer writer-v2 --article example-story --url https://nexualpha.com/news/example-story
+```
+
+`claim` returns a JSON array, including score explanation, captured evidence
+URLs/excerpts, watchlist entities, suggested format/angle, CTA hints and related
+articles. It shares `export:top`'s publish-eligibility filter, orders official
+priority then score/date/ID, and uses row locks with `SKIP LOCKED` in one
+transaction. Claims expire after 90 minutes; the next claim transaction reclaims
+expired leases. Fewer rows than requested (including zero) writes a shortfall in
+the same transaction, with `published=0`; never invent replacement topics.
+Concurrent locked leads may therefore produce a shortfall for that writer.
+
+Use `--history summary.json` to override the local site's
+`pilot-01-prototype/public/content/news-feed-summary.json`. The default is
+optional when running standalone; an explicitly requested missing or malformed
+history fails before claiming. `--locale` and `--market` supply promotion resolver
+context. Hints use the existing promotions resolver and never emit invite codes;
+they are review suggestions, not authorization for a commercial link. Risk and
+regulatory stories keep neutral tools/topic links. Rendering must resolve
+promotions again for each reader and the current time.
+
+`release` only resets a claimed event. `complete` atomically inserts the article
+and links the claimed, unexpired event; a duplicate slug rolls back the event
+update. Both return `[]` when the state/owner guard fails. Include `--writer` to
+avoid acting on another writer's lease (the bare-ID forms are operator-compatible).
+Completion is a writer-supplied publication receipt, not a gate bypass or proof
+of readability/indexability/indexing; `articles.states` and `gate_result` remain
+unset. Call it only after the existing publisher has succeeded; continue existing
+live verification and measurement separately. This bridge does not enforce the
+publisher's daily cap or launch a writer scheduler.
+
+The writer must freshly retrieve key sources, supply bilingual Markdown and
+authored `claims` mapped to evidence IDs, inspect package gates, and use the
+existing managed publisher only after a `pass`. The package helper does not
+perform research, infer claims from prose, or publish. Review envelopes go to
+the explicit `--queue` directory or the T4 default within the package. The output directory must not already exist, which
+prevents stale locale files from surviving a later run. See its `--event`,
+`--articles` / repeated `--article locale:path`, `--out`, `--history`,
+`--ledger`, `--reviews`, `--queue`, and `--now` options:
+
+```sh
+node ops/newsroom/writer/package-from-event.mjs --event event.json --article en:article.en.md --article zh-Hans:article.zh-Hans.md --out ops/newsroom/writer/local-package --history history.json --ledger ledger.jsonl
+```
+
+Package metadata contains the event ID, writer-supplied titles, locale-specific
+subjects when provided, and the evidence fields captured on the event. Unknown
+evidence confidence, independence and excerpt fields stay unknown; the helper
+does not fill them with optimistic defaults. `article.<locale>.md`,
+`meta.json`, `evidence.json`, optional `claims.json`, and `sources.md` use the
+existing staging contract. T4 outcomes retain `pass` / `fail` / `needs-review`
+with exit codes 0 / 1 / 2 by invoking `ops/newsroom/gates/check-package.mjs`.
+Missing claims create the gate's explicit legacy review path; unsupported
+locales, missing provenance or incomplete history remain review/fail outcomes.
+Existing staging/publisher files outside this repository are read-only examples.
+
+Shadow review lasts an explicit seven-day window. Run once per desired slot
+(e.g. hourly at :35) with a stable start timestamp and writer ID. The helper
+claims leads, saves titles/angles/CTAs for review, and attempts to release every
+claim even if writing the plan fails. It never builds an article or calls the publisher.
+No scheduler is installed and no actual week of observations is claimed here.
+
+```sh
+node ops/newsroom/writer/shadow-run.mjs --start 2026-10-13T00:00:00+08:00 --writer shadow-v2 --limit 2
+```
+
+The default output filename includes the run timestamp to retain observations.
+Use `--out path.json` for an explicit plan destination. Release errors are
+reported after all release attempts; a failed release is not reported as success.
+
+Fixture validation (offline):
+
+```sh
+node --test ops/newsroom/writer/*.test.mjs
+node --test ops/newsroom/**/*.test.mjs
+bash -n ops/newsroom/scripts/test-postgres.sh
+bash ops/newsroom/scripts/test-postgres.sh
+```
+
+The last command needs Docker and runs migration/lifecycle/concurrent-claim
+checks in its disposable PostgreSQL 16 container, including
+`scripts/writer-smoke.mjs`. SQL-construction fixtures alone do not prove database
+execution or concurrent locking. Never run that smoke script against production.

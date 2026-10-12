@@ -149,6 +149,17 @@ export function statusQuery() {
 );`;
 }
 
+// Shared by the read-only export and atomic writer claim.
+export function publishEligibilitySql() {
+  return `e.state IN ('new','candidate') AND e.verification_status IN ('verified-primary','corroborated')
+    AND e.verified_at >= e.last_update_at
+    AND s.scored_at >= e.last_update_at
+    AND s.editorial_score >= coalesce(
+      (SELECT coalesce((value->>'publish')::numeric,(value->>'publish_editorial_score_min')::numeric) FROM newsroom_config WHERE key='scoring_thresholds'),
+      (SELECT coalesce((value->>'publish')::numeric,(value->>'publish_editorial_score_min')::numeric) FROM newsroom_config WHERE key='thresholds'),55)
+    AND NOT EXISTS (SELECT 1 FROM review_queue q WHERE q.event_id=e.id AND q.resolved_at IS NULL)`;
+}
+
 export function exportTopQuery(limit = 50) {
   const n = Number(limit);
   if (!Number.isInteger(n) || n < 1 || n > 500) throw new Error('Invalid limit');
@@ -168,13 +179,7 @@ FROM (
           'source_id', r.source_id, 'source_tier', so.tier, 'source_status', so.status) ORDER BY v.id)
         FROM event_evidence v LEFT JOIN raw_items r ON r.id=v.raw_item_id LEFT JOIN sources so ON so.id=r.source_id WHERE v.event_id=e.id), '[]'::jsonb)) AS doc
   FROM events e JOIN LATERAL (SELECT * FROM event_scores WHERE event_id=e.id ORDER BY scored_at DESC LIMIT 1) s ON true
-  WHERE e.state IN ('new','candidate') AND e.verification_status IN ('verified-primary','corroborated')
-    AND e.verified_at >= e.last_update_at
-    AND s.scored_at >= e.last_update_at
-    AND s.editorial_score >= coalesce(
-      (SELECT coalesce((value->>'publish')::numeric,(value->>'publish_editorial_score_min')::numeric) FROM newsroom_config WHERE key='scoring_thresholds'),
-      (SELECT coalesce((value->>'publish')::numeric,(value->>'publish_editorial_score_min')::numeric) FROM newsroom_config WHERE key='thresholds'),55)
-    AND NOT EXISTS (SELECT 1 FROM review_queue q WHERE q.event_id=e.id AND q.resolved_at IS NULL)
+  WHERE ${publishEligibilitySql()}
   ORDER BY rank LIMIT ${n}
 ) x;`;
 }

@@ -7,6 +7,8 @@ import { databaseStore } from '../collectors/store.mjs';
 import { runCollect } from '../collectors/runner.mjs';
 import { loadSeeds } from '../collectors/seeds.mjs';
 import { exportTopQuery, runDedupe, runScore, runVerify, statusQuery } from '../lib/pipeline.mjs';
+import { claimQuery, releaseQuery, completeQuery } from '../writer/queries.mjs';
+import { enrichEvent } from '../writer/event-plan.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 export const literal = value => `'${String(value).replaceAll("'", "''")}'`;
@@ -28,6 +30,22 @@ const changedRows = query => `WITH result AS (${query}) SELECT coalesce(jsonb_ag
 const rows = query => `SELECT coalesce(jsonb_agg(to_jsonb(result)), '[]'::jsonb) FROM (${query}) result;`;
 export function buildQuery(argv) {
   const [command, ...args] = argv;
+  if (command === 'claim') {
+    const opts = options(args, ['limit', 'writer', 'history', 'locale', 'market']);
+    if (!opts.writer?.trim() || opts.writer.length > 200) throw new Error('claim requires --writer (1–200 characters)');
+    return claimQuery(integer(opts.limit ?? 2, 'limit', 1, 500), opts.writer);
+  }
+  if (command === 'release' || command === 'complete') {
+    const id = integer(args[0], 'event id', 1, Number.MAX_SAFE_INTEGER);
+    const opts = options(args.slice(1), command === 'release' ? ['writer'] : ['writer', 'article', 'url']);
+    if ('writer' in opts && !opts.writer.trim()) throw new Error('Invalid writer');
+    if (command === 'release') return releaseQuery(id, opts.writer);
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(opts.article ?? '')) throw new Error('complete requires --article slug');
+    let url;
+    try { url = new URL(opts.url); } catch { throw new Error('complete requires --url HTTP(S) URL'); }
+    if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password) throw new Error('Invalid article URL');
+    return completeQuery(id, opts);
+  }
   if (command === 'events:top') {
     const opts = options(args, ['limit']);
     const limit = integer(opts.limit ?? 10, 'limit', 1, 1000);
@@ -81,8 +99,26 @@ export function runPsql(sql, env = process.env) {
   return result.stdout.trim();
 }
 export async function main(argv, execute = runPsql) {
-  if (argv.length === 0 || argv[0] === '--help') return 'newsroom: migrate | seed | seed:watchlist [--watchlist PATH --keywords PATH] | collect (--source ID | --all) [--dry-run DIRECTORY] [--timeout-ms N] | events:top [--limit N] | event:show ID | review:list | shortfall:log --slot ISO --wanted N --eligible N --published N --note TEXT [--day YYYY-MM-DD] | config:get [KEY] | config:set KEY JSON | dedupe | score | verify | status | export:top [--limit N]\nConnection: standard PGHOST/PGPORT/PGUSER/PGDATABASE/PGPASSFILE; default database newsroom.';
+  if (argv.length === 0 || argv[0] === '--help') return 'newsroom: migrate | seed | seed:watchlist [--watchlist PATH --keywords PATH] | collect (--source ID | --all) [--dry-run DIRECTORY] [--timeout-ms N] | claim --limit N --writer ID [--history PATH --locale LOCALE --market MARKET] | release ID [--writer ID] | complete ID --article SLUG --url URL [--writer ID] | events:top [--limit N] | event:show ID | review:list | shortfall:log --slot ISO --wanted N --eligible N --published N --note TEXT [--day YYYY-MM-DD] | config:get [KEY] | config:set KEY JSON | dedupe | score | verify | status | export:top [--limit N]\nConnection: standard PGHOST/PGPORT/PGUSER/PGDATABASE/PGPASSFILE; default database newsroom.';
   if (argv[0] === 'collect') return JSON.stringify(await runCollect(argv.slice(1),databaseStore(execute,literal)),null,2);
+  if (argv[0] === 'claim') {
+    const query = buildQuery(argv);
+    const opts = options(argv.slice(1), ['limit', 'writer', 'history', 'locale', 'market']);
+    let history = [];
+    const historyPath = opts.history ?? resolve(root, '../../pilot-01-prototype/public/content/news-feed-summary.json');
+    try {
+      const summary = JSON.parse(readFileSync(historyPath, 'utf8'));
+      history = Array.isArray(summary) ? summary : summary.articles;
+      if (!Array.isArray(history)) throw new Error('History must be an array or {articles:[]}');
+    } catch (error) { if (error.code !== 'ENOENT' || opts.history) throw error; }
+    const claimed = JSON.parse(execute(query));
+    try {
+      return JSON.stringify(claimed.map(event => enrichEvent(event, { history, locale: opts.locale ?? 'en', market: opts.market })), null, 2);
+    } catch (error) {
+      for (const event of claimed) execute(releaseQuery(integer(event.id, 'event id', 1, Number.MAX_SAFE_INTEGER), opts.writer));
+      throw error;
+    }
+  }
   if (argv[0] === 'seed:watchlist') {
     const opts=options(argv.slice(1),['watchlist','keywords']);
     const seeds=loadSeeds(opts.watchlist,opts.keywords);
