@@ -1,0 +1,3016 @@
+
+> pilot-01-prototype@3.0.0 test
+> npm run test:whole-site
+
+
+> pilot-01-prototype@3.0.0 test:whole-site
+> npm run typecheck && npm run test:sites && node --test tests/r42-home-short-path.test.mjs tests/r42-seo-ctr-batch1.test.mjs tests/r41-id-decision-depth.test.mjs tests/analytics-event-contract.test.mjs tests/r21-id-source-route-seo.test.mjs tests/r20-tw-source-policy-funding.test.mjs tests/r20-tw-route-seo.test.mjs tests/r19-us-source-policy-aeo.test.mjs tests/r19-us-route-seo.test.mjs tests/r18-eu-market-decision.test.mjs tests/r18-uk-market-decision.test.mjs tests/r18-regional-decision-depth.test.mjs tests/r17-next-decision-bridge.test.mjs tests/r16-okx-owner-page.test.mjs tests/telegram-context-return.test.mjs tests/news-feed.test.mjs tests/remediation-seo-source-recovery.test.mjs tests/seo-whole-site.test.mjs tests/seo-route-boundaries.test.mjs tests/seo-link-guard.test.mjs tests/seo-wave28-metadata-localization.test.mjs tests/seo-wave29-description-dedup.test.mjs tests/seo-wave30-title-h1-dispositions.test.mjs tests/seo-wave32-serp-ctr.test.mjs tests/seo-wave33-exact-query-intent.test.mjs tests/seo-wave34-serp-intent.test.mjs tests/seo-wave35-ai-citation-trust.test.mjs tests/seo-wave36-regional-hubs.test.mjs tests/seo-wave37-regional-dataset-discovery.test.mjs tests/seo-wave41-ai-visibility.test.mjs tests/retrieval-news-publication.test.mjs tests/seo-wave42-gmx-title.test.mjs tests/seo-wave46-search-growth.test.mjs tests/wave35-ai-citation-baseline.test.mjs tests/wave36-regional-aeo-compact.test.mjs tests/regional-funding-verification-matrix.test.mjs tests/citation-assets-discovery.test.mjs tests/wave30-integration-repair.test.mjs tests/cta-collector.test.mjs tests/error-monitor.test.mjs tests/bluegreen-release-contract.test.mjs tests/cta-transport-guard.test.mjs tests/r93-uniswap-affiliate-answer.test.mjs tests/r93-uniswap-retrieval-parity.test.mjs tests/r94-preflight-bounded.test.mjs tests/r94-telegram-archive-preservation.test.mjs tests/r94-gsc-observed-owner.test.mjs tests/r95-telegram-review-index.test.mjs tests/r95-tokenized-schema-owner.test.mjs tests/r95-compliant-funding-boundary.test.mjs tests/r95-compliant-topic-ssr.test.mjs tests/r95-standalone-worker-package.test.mjs tests/r95-compliant-retrieval-parity.test.mjs tests/r96-compliant-hant-owner.test.mjs tests/r96-compliant-hant-render.test.mjs tests/r96-cta-failure-recovery.test.mjs tests/r97-hant-summary-owner.test.mjs tests/r97-hant-render-parity.test.mjs tests/r98-topic-truth-boundary.test.mjs tests/r99-meme-negative-risk.test.mjs tests/r100-topic-faq-contract.test.mjs tests/r101-hyperliquid-fee-scenario.test.mjs tests/r101-hyperliquid-seo-preserve.test.mjs tests/r102-treasury-evidence-checklist.test.mjs tests/r102-treasury-seo-preserve.test.mjs tests/verify-product-copy-browser.test.mjs tests/prerender-route-inventory.test.mjs tests/nginx-traffic-baseline.test.mjs tests/traffic-404-audit.test.mjs tests/weekly-growth-ops.test.mjs tests/gsc-weekly-intake.test.mjs tests/indexable-content-duplication.test.mjs tests/clean-footer-locales-ssr.test.mjs tests/hyperliquid-tier0-answer.test.mjs tests/telegram-30day-review-queue.test.mjs tests/r64-okx-historical-window.test.mjs tests/r64-news-related-labels.test.mjs tests/r104-regional-context-preservation.test.mjs tests/r104-fee-registration-context.test.mjs tests/r104-regional-bridge-context.test.mjs tests/r105-explicit-english-locale.test.mjs tests/r106-country-english-routing.test.mjs tests/r106-context-preservation.test.mjs tests/r106-mx-native-copy.test.mjs tests/r106-mx-worker-english-ssr.test.mjs tests/r106-mx-display-seo.test.mjs tests/r107-mobile-regional-disclosure.test.mjs tests/r108-uniswap-short-checklist.test.mjs tests/r108-treasury-news-handoff.test.mjs tests/r110-route-module-cache.test.mjs tests/r110-hydration-contract.test.mjs
+
+
+> pilot-01-prototype@3.0.0 typecheck
+> tsc -p tsconfig.json
+
+
+> pilot-01-prototype@3.0.0 test:sites
+> node --test tests/legal-pages.test.mjs tests/no-kyc-mexc-titles.test.mjs tests/campaign-conversion.test.mjs tests/campaign-intel-refresh.test.mjs ../ops/x-poster/x-poster.test.mjs tests/partner-geo-restrictions.test.mjs tests/locales-ur-uk.test.mjs tests/brazil-deadline-topic.test.mjs tests/seo-audit-fixes-2026-10-11.test.mjs tests/brand-slogan.test.mjs tests/exchange-keywords.test.mjs tests/striking-distance.test.mjs tests/tg-src-attribution.test.mjs tests/home-hero-experiment.test.mjs tests/article-embeds.test.mjs tests/quality-sweep-v4.test.mjs tests/crosslinks.test.mjs tests/content-sweep.test.mjs tests/local-market-brief.test.mjs tests/arabic-font-preload.test.mjs tests/editorial-templates.test.mjs tests/mobile-lab.test.mjs tests/critical-css.test.mjs tests/compare-cls.test.mjs tests/news-detail-copy-l10n.test.mjs tests/title-budget.test.mjs tests/venue-graph.test.mjs tests/audit-data-2026-10-11.test.mjs tests/factbook-date-truth.test.mjs tests/audit-content.test.mjs tests/fallback-locale-ssr.test.mjs tests/l10n-gaps.test.mjs tests/news-listing-ssr.test.mjs tests/activities-ssr.test.mjs tests/route-seo-payload.test.mjs tests/compare-any.test.mjs tests/perf-core-bundle.test.mjs tests/perf-ssr-page-cache.test.mjs tests/brand-entity.test.mjs tests/aeo-monitor.test.mjs tests/embed-widgets.test.mjs tests/liquidation-history.test.mjs tests/market-history.test.mjs tests/seo-onpage-metadata-length.test.mjs tests/seo-onpage-venue-h1.test.mjs tests/seo-onpage-news-autolink.test.mjs tests/compare-pairs-market-plan.test.mjs tests/data-pages.test.mjs tests/market-collector-funding.test.mjs tests/news-locales.test.mjs tests/visual-conversion.test.mjs tests/og-image.test.mjs tests/cta-click-beacon.test.mjs tests/partner-venue-faq.test.mjs tests/locale-sitemap.test.mjs tests/server-build-imports.test.mjs tests/news-library.test.mjs tests/news-telegram-alerts.test.mjs tests/ux-polish-review.test.mjs tests/go-redirect.test.mjs tests/news-article-endpoint.test.mjs tests/live-news-sitemap.test.mjs tests/referral-seo.test.mjs tests/owner-campaigns.test.mjs tests/partners-feed.test.mjs tests/announcement-sources.test.mjs tests/news-offer-and-placeholders.test.mjs tests/funding-rates.test.mjs tests/search-engine-verification.test.mjs tests/owner-rebate-line.test.mjs tests/fee-not-offered.test.mjs tests/news-feed-cache.test.mjs tests/sites-worker.test.mjs tests/local-sites-preview.test.mjs tests/prerender-contract.test.mjs tests/deferred-hydration-bootstrap-node.test.mjs tests/frontend-contract.test.mjs tests/shared-core-adapter.test.mjs tests/official-updates-model.test.mjs tests/market-intelligence-view.test.mjs tests/venue-catalog.test.mjs tests/finder-behavior.test.mjs tests/activity-copy.test.mjs tests/build-data-safety.test.mjs tests/v3-copy-locales.test.mjs tests/browser-state.test.mjs tests/locale-routing.test.mjs tests/exchange-research.test.mjs tests/venue-fee-summary.test.mjs tests/reviewed-fee-copy.test.mjs tests/reviewed-fee-presentation-ssr.test.mjs tests/venue-decision-content.test.mjs tests/venue-detail-decision-ssr.test.mjs tests/registration-card-ssr.test.mjs tests/registration-decision-state.test.mjs tests/registration-copy-locales.test.mjs tests/v3-detail-compare-localized-labels-ssr.test.mjs tests/venue-faq-ssr.test.mjs tests/compare-decision-ssr.test.mjs tests/detail-composition.test.mjs tests/matcher-model.test.mjs tests/cjk-typography.test.mjs tests/home-copy.test.mjs tests/brand-editorial.test.mjs tests/core-data-flow.test.mjs tests/data-status-copy.test.mjs tests/outbound-handoff.test.mjs tests/telegram-ecosystem.test.mjs tests/telegram-protocol-replay.test.mjs tests/factbook-geo.test.mjs tests/agentic-tools.test.mjs tests/public-cta.test.mjs tests/public-copy-sanitizer.test.mjs tests/topic-source-registry.test.mjs tests/international-source-registry.test.mjs tests/international-source-refresh.test.mjs tests/regional-eligibility-evidence.test.mjs tests/regional-preview.test.mjs tests/aeo-question-registry.test.mjs tests/growth-context.test.mjs tests/decision-passport.test.mjs tests/operational-health.test.mjs tests/experiment-registry.test.mjs tests/growth-report.test.mjs tests/onchain-body-localization.test.mjs tests/priority-venue-answers.test.mjs tests/priority-venue-seo.test.mjs tests/compare-compact-pending.test.mjs tests/derivatives-decision-routes.test.mjs tests/decision-return.test.mjs tests/decision-return-calculators.test.mjs tests/i18n-return-entry.test.mjs tests/cost-decision-locales.test.mjs tests/fee-benchmark-reviewed.test.mjs tests/compare-direct-answers.test.mjs tests/compare-faq-locales.test.mjs tests/worker-compare-faq-schema.test.mjs tests/week2-mobile-shortpath-contract.test.mjs tests/r74-br-cold-attribution.test.mjs tests/r76-pix-recipient.test.mjs
+
+{"baselineArticles":0,"dryRun":true}
+✔ OAuth HMAC-SHA1 matches current X documentation test vector (2.767125ms)
+✔ weighted v3 ranges, NFC, emoji sequences, URLs and bare domains (13.342417ms)
+✔ truncation preserves graphemes, word boundaries, URLs and weighted caps (14.669708ms)
+✔ long article uses mapped facts, hook, watch, two hashtags, and no URLs or partner facts (32.945958ms)
+✔ partner disclosure stays last even when truncated; prohibited copy rejected (32.594459ms)
+✔ canonical article link preserved under 280 and numbers retained in market/daily (10.784334ms)
+✔ English edition validation, dedup and configuration bounds (0.883584ms)
+✔ first run records baseline without posts, subsequent cycle never floods backlog (5.973834ms)
+✔ dry run prints eligible posts with lengths/classes and never mutates or sends (7.057042ms)
+✔ UTC budgets hard-stop across restarts and reset at midnight (52.111041ms)
+✔ idempotency, hourly articles, rolling 3h event throttle and once-daily link priority (7.366083ms)
+✔ stale/future markets never produce market or daily posts; only high supported events (9.097625ms)
+✔ reservation precedes send; timeout and any 4xx are not retried on next cycles (17.252166ms)
+✔ only length-specific 403 permits one short new payload, charging both attempts (4.693917ms)
+✔ persist failure prevents request; corrupt state fails closed (1.060916ms)
+✔ X client guards identity, JSON body, specific fallback detection, and HTTP errors (51.129417ms)
+✔ env parser never executes shell; CLI lock, corrupt-state and dry-run integration (7.371542ms)
+✔ main uses one clock snapshot across eligibility and execution at 13:00 (4.546709ms)
+✔ daily link groups timestamps by UTC day rather than written offset date (1.138542ms)
+✔ [paraglide-js] Compilation complete (locale-modules)
+✔ compactOfficialAnnouncements keeps official event rows of the last 30 days with card fields only (11355.218208ms)
+✔ /activities is rendered at request time from the announcement feed: campaign cards, join links and disclosure in the SSR HTML (223.412375ms)
+✔ hydrateRoot in jsdom reports no hydration mismatch on /activities for tr, ar, zh-Hans, en and vi (2831.749125ms)
+✔ without a readable feed the prerendered page is served and the component renders a fixed-height placeholder (21.047833ms)
+✔ activity center copy covers every supported locale and required key (4.825125ms)
+✔ activity center uses neutral product titles, not official-site labels (0.29625ms)
+✔ activity center no longer exposes internal project or CTA setup language (0.206125ms)
+✔ non-English locales do not reuse English fallback for required activity controls (0.162958ms)
+✔ unknown locale falls back explicitly to English copy (0.0575ms)
+✔ question set is fixed: 20 questions, unique ids and queries, six display languages, 10 localized (6.119ms)
+✔ SERP query list is 20 English + 10 local, all distinct (0.16325ms)
+✔ DuckDuckGo parser reads a real result page and finds no nexualpha.com entry (3.00725ms)
+✔ DuckDuckGo parser ranks nexualpha.com and skips ads; a challenge page is reported as blocked (0.447125ms)
+✔ Brave parser reads a real result page in display order (5.874458ms)
+✔ fetchSerp records a blocked status on HTTP 429 without throwing (8.516708ms)
+✔ GSC matching: exact rows, token variants, top page; Bing stats use the same matcher (0.690709ms)
+✔ manual template covers every engine x question with the agreed fields (0.496459ms)
+✔ ISO week helpers follow Asia/Shanghai calendar dates (0.273916ms)
+✔ report merges serp + gsc + manual and shows week-on-week deltas (2.5795ms)
+✔ report without previous week or manual data labels the baseline instead of inventing deltas (0.323333ms)
+✔ AEO question registry contains unique, bounded international targets (2.457041ms)
+✔ high-intent AEO visibility baseline records unverifiable citation status conservatively (5.32425ms)
+✔ GSC comparison question wave deepens Bybit vs Bitget without signup claims (0.446708ms)
+✔ AEO question registry covers the first international market wave (0.370958ms)
+✔ Singapore research wave keeps source-linked questions on the source-backed route (0.341833ms)
+✔ localized EU and UK wave keeps official-source and route boundaries (0.353ms)
+✔ Turkish research wave keeps official-source and eligibility boundaries (0.270458ms)
+✔ Turkey SPK publication map stays aligned with the registry and Schema question (30.109958ms)
+✔ protocol question wave deepens GSC targets without promotion claims (1.205208ms)
+✔ Wave12 Korean and Turkish AEO entries cover the 12 high-intent localized pages (0.580291ms)
+✔ article question wave maps GSC topics to canonical sources without conversion claims (0.2575ms)
+✔ Worker topic source copy contains no unsafe absolute marketing claims (12.447208ms)
+✔ agent manifest is a tool directory and does not self-declare as OpenAPI (7.986333ms)
+✔ agent API /api/v1/agent/lowest-fee returns source-bound published fee scenarios with CORS (108.794834ms)
+✔ agent API /api/v1/agent/verify-domain reports registry matches without security guarantees (0.642ms)
+✔ agent API /api/v1/agent/por-status fails closed instead of certifying reserves (20.121417ms)
+✔ OKX, Binance and KuCoin payloads normalize with category and official link (5.20225ms)
+✔ RSS items parse; Kraken asset listings are listings; future dates are dropped (0.409167ms)
+✔ Arabic pages preload the Arabic font once, right after the Geist preloads (123.802667ms)
+✔ non-Arabic pages do not preload the Arabic font (2.975791ms)
+✔ the Arabic face uses font-display optional so a late arrival never reflows the page (0.483708ms)
+✔ [paraglide-js] Compilation complete (locale-modules)
+✔ directive parsing: known widgets and aliases, symbols for funding, unknown = nothing, prose untouched (10544.135375ms)
+✔ model: widget heights, tool links and copy in all 17 locales (1.731334ms)
+✔ isolate + strip: a directive glued to prose becomes its own paragraph; plain-text surfaces drop it (0.120542ms)
+✔ article SSR renders the embeds (en) and hydrates without mismatch (688.171041ms)
+✔ article SSR renders the embeds (ar) and hydrates without mismatch (567.667125ms)
+✔ worker fallback article HTML (no SSR renderer) emits the same embed blocks (5.272125ms)
+✔ funding widget ?symbol= lists that row first and highlights it (1.434208ms)
+✔ content importer passes the directive through unchanged (14.592667ms)
+✔ NX-10 tokenizer links allowed internal paths and https URLs in every inline context (2.060625ms)
+✔ NX-10 the worker fallback article HTML uses the shared tokenizer (1239.791959ms)
+✔ NX-10 SSR article: no raw Markdown link survives in paragraphs, lists, tables, quotes, bold, italics or parentheses (1.131375ms)
+✔ NX-09 descriptions end on a complete sentence or a clean clause cut, never on a dangling word (1.360416ms)
+✔ NX-09 every article route in the feed gets a non-dangling meta description within budget, matching the Worker clamp (1886.986917ms)
+✔ NX-05 /onchain is a verification guide in all 17 locales: honest title, description, schema and status (28.34275ms)
+✔ NX-05 /onchain body: guide H1, plain 'not published' status, official report links and the not-a-guarantee note (0.754875ms)
+✔ NX-07 generic payment labels are localized in all 17 locales; brands stay as recorded (0.319792ms)
+✔ NX-07 eligibility lists never repeat an entry in any locale or venue (1.152958ms)
+✔ NX-07 platform counts use CLDR plural rules (0.91325ms)
+✔ NX-01 formatter keeps the reviewed precision (max 3 decimals) and aligns two-decimal figures (1.155666ms)
+✔ NX-01 formatter is locale-aware via Intl (fr/de/es/ru '0,055 %', tr '%0,055', ar keeps Latin digits) (1.011083ms)
+✔ NX-01 exchange-facts formatters delegate to the shared formatter (English output unchanged) (0.243917ms)
+✔ NX-01 every displayed fee times the scenario volume reproduces the displayed cost (0.171917ms)
+✔ NX-01 no fee call site rounds to two fixed decimals or prints its own percent (51.416334ms)
+✔ NX-01 home calculator rows print the exact rate next to a reproducible yearly figure (272.584834ms)
+✔ NX-02 partner benefit status is derived from home-rebate-tiers (no new numbers) (0.949666ms)
+✔ NX-02 benefit wording exists in all 15 locales and the factbook line matches the audit wording (0.516166ms)
+✔ NX-02 home, factbook, registration card, /rates and the OG card read the single record (28.423417ms)
+✔ NX-02 /factbook/okx states the partner share with its basis instead of a bare pending; non-partners stay pending (464.228291ms)
+✔ NX-03 cost basis labels exist in 15 locales on home and /rates (0.386083ms)
+✔ NX-03 /rates shows base and after-rebate figures with the home formula and labels each figure (350.863792ms)
+✔ NX-03 same inputs give the same ranking on home (per year) and /rates (per month, after max rebate) (0.418458ms)
+✔ NX-03 scenario params round-trip home → /rates → venue/compare (260.136458ms)
+✔ NX-06 factbook dates are layered and dateModified is the latest real review date (1.614ms)
+✔ NX-06 factbook <title> carries no bracketed stale date (1.406417ms)
+✔ NX-08 home research modules render without editorial/dev instructions in every locale (960.638ms)
+✔ NX-08 the partner/commercial copy sources contain none of the banned internal phrases (30.937791ms)
+✔ 5.4 the Verified first toggle explains what is verified in 15 locales (10.191041ms)
+✔ NexuAlpha logo reserves dimensions and never uses an artwork crop (3.918833ms)
+✔ homepage comparison choices retain real localized detail routes and brand marks (0.115792ms)
+✔ editorial identity stays separate from the functional heading and controls (0.112167ms)
+✔ brand artwork is local, lightweight and separate from trusted exchange marks (0.961833ms)
+✔ social and touch artwork use purpose-sized local assets (4.435208ms)
+✔ primary hover keeps normal white text above AA contrast (0.968625ms)
+✔ brand entity facts: one Organization @id, logo ImageObject, Telegram sameAs, Research Desk department, no people (1.952542ms)
+✔ /about and /editorial-policy route metadata in all 15 locales: indexable, self-canonical, length-bounded, 16 hreflang, entity JSON-LD (12.15075ms)
+✔ home, article and data pages emit the same Organization @id and Research Desk author (1838.722584ms)
+✔ worker serves /about and /editorial-policy in every locale with the static-route marker and renders the brand page body when a renderer exists (28.36325ms)
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+✔ about, editorial-policy pages, byline and footer render localized in all 15 locales (SSR) and link the entity routes (618.842584ms)
+✔ server build ships brand-entity.js and the brand pages have their own style chunk allow-listed (7.116917ms)
+✔ both slogans exist in all 17 locales and slogan B carries no typed percentage (17.020584ms)
+✔ slogan B's share follows HOME_REBATE_MAX_PCT through formatPercent (0.224875ms)
+✔ Organization JSON-LD carries slogan A in every locale, identical in the Worker head and computeRouteSeo (7.009ms)
+✔ home title and description match across the SSR head, /api/route-seo and computeRouteSeo in 17 locales (204.065792ms)
+✔ home title fits the 60-wide budget with the brand, and slogan A sits in the title or leads the description (6.53925ms)
+✔ footer renders slogan A under the brand mark in en, zh-Hans and ar (301.680042ms)
+✔ default and home social cards carry slogan A; article cards are unchanged (7.38925ms)
+✔ the default card's inlined brand mark matches public/brand/nexualpha/nexualpha-round.svg (7.463542ms)
+✔ llms.txt and llms-small.txt lead with slogan A (9.66175ms)
+✔ status rows: only allowed statuses, official sources with dates, unknown reads 'Não confirmado' (1.506792ms)
+✔ article: pt-BR and en carry the full text with 5-7 FAQs and dated sources; chrome exists in 15 locales (0.305875ms)
+✔ page renders in all 15 locales: one h1, one row per exchange, no partner link for unconfirmed or leaving rows (482.223833ms)
+✔ SEO: one indexable edition per slug in both runtimes, cross-slug hreflang, canonical to the edition of the language (15.439375ms)
+✔ topic cluster: Brazil regulation articles and queries reach the edition of the reader's language (2.641583ms)
+✔ exchanges notice: pt-BR only, links the Portuguese edition, names the exchange's status (269.275875ms)
+✔ MEXC KYC copy: identity verification is required, no numeric no-KYC limit anywhere outside articles (6.850084ms)
+✔ blocked storage cannot prevent initial page rendering (2.537208ms)
+✔ stale saved selection cannot consume invisible comparison slots (0.850042ms)
+✔ comparison must retain exactly two or three distinct known venues (0.112292ms)
+✔ rendered hash target scrolls by ID safely, including encoded IDs (0.101583ms)
+✔ lazy route hash is retried when page content is ready and cleanup stops work (1.253583ms)
+✔ build-time activity generation fails closed without an official feed adapter (1.296167ms)
+✔ [paraglide-js] Compilation complete (locale-modules)
+✔ join blocks use gated routes, omit unknown rebates, and keep neutral locales (10804.51725ms)
+✔ monthly strip caps six events newest first and respects timezone boundaries (4.484042ms)
+✔ live campaign cards and monthly strip preserve official facts and explicit market gates (8.55275ms)
+✔ campaign copy is complete in every locale and unknown shares never create fee claims (3.09525ms)
+✔ campaign intel sources request broader official windows (4.936125ms)
+✔ bitget trading competitions normalize as event intel (0.090584ms)
+✔ buildFeed keeps per-venue fallback items and merges up to 240 (0.749125ms)
+✔ createIntelFeed refreshes on a five-minute default interval (46.072ms)
+✔ active V3 CSS defines distinct Simplified and Traditional Chinese system stacks (2.648792ms)
+✔ Chinese typography reduces heavy display weight and restores readable CJK rhythm (1.462917ms)
+✔ homepage hero h1 declarations have a single active CSS owner (0.530417ms)
+✔ CJK contract is documented without changing the Latin brand typography contract (0.082416ms)
+﹣ live CJK DOM typography and mobile CTA height match the active CSS selectors (0.040166ms) # set CJK_BROWSER=1 against a built preview to run DOM assertions
+[compare-any] indexable generated pairs: 34 of 196
+[compare-any] generated pair URLs in locale sitemap: 102
+✔ canonical slug: curated order wins, otherwise alphabetical; three-venue selections untouched (0.857ms)
+✔ a generated pair resolves in all 17 locales with templated copy and the shared index policy (64.0575ms)
+✔ the reverse slug 301s to the canonical pair and keeps attribution params (83.191167ms)
+✔ index policy matrix: both reviewed AND at least one partner -> index; otherwise noindex,follow (1.257292ms)
+✔ noindex pairs still render (200) and never carry hreflang alternates (6.281ms)
+✔ the locale sitemap lists only indexable generated pairs, en plus the locales with localized facts (335.358583ms)
+✔ GET /compare?a=&b= normalizes to the canonical pair (302) and invalid picks return to the hub (0.609ms)
+✔ generated pairs and the hub are server-rendered at request time when the renderer is available (10.33175ms)
+✔ every user-visible template exists in all 17 locales without placeholders left behind (0.387458ms)
+✔ SSR: generated pair renders one H1, both partner CTAs beside the disclosure, the provenance note and related links; non-partner pair has no sign-up CTA (806.309166ms)
+✔ worker ships every data module compare-generated.js pulls in (1.760375ms)
+▲ [WARNING] Duplicate key "zh-Hant" in object literal [duplicate-object-key]
+
+    <stdin>:2859:4:
+      2859 │     "zh-Hant": ["香港加密平台帳戶核對：SFC、HKD、eD...
+           ╵     ~~~~~~~~~
+
+  The original key "zh-Hant" is here:
+
+    <stdin>:2857:4:
+      2857 │     "zh-Hant": ["香港加密平台帳戶核對：SFC、HKD、eD...
+           ╵     ~~~~~~~~~
+
+✔ the stylesheets of lazily loaded compare components keep their chunk names (1.714708ms)
+✔ [paraglide-js] Compilation complete (locale-modules)
+✔ every lazily styled component in the SSR markup has its stylesheet linked on that route (10540.968417ms)
+✔ compare hero actions: SSR markup and hydrated markup are identical (no layout change at hydration) (2133.530959ms)
+﹣ built HTML for compare and directory routes keeps the disclosure and picker stylesheets (0.300375ms) # run npm run build first
+✔ comparison matrix compacts all-pending rows but keeps sourced and CTA rows visible (423.70275ms)
+✔ comparison matrix preserves hero partner CTAs while routing matrix actions onsite for Bybit vs Bitget (588.810542ms)
+✔ comparison helper labels and pending disclosure avoid English fallback all 17 locales (1124.841166ms)
+✔ Bybit vs Bitget compare renders reviewed editorial differences and no legacy fee bullet (748.828ms)
+✔ Binance vs OKX compare renders reviewed editorial differences without commercial unlock (531.983958ms)
+✔ deployed comparison metadata matches the visible answer source without creating a venue route (51.177875ms)
+✔ compare direct answer is independent from venue priority answers and supports exact content locales (20.318417ms)
+✔ R36 priority comparison direct answers have deep localized AEO coverage (1.562333ms)
+✔ compare SEO override uses the same direct-answer data as the visible page source (8.847583ms)
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+✔ CompareDeepPage SSR renders the Bybit vs Bitget direct answer in supported locales (4020.737709ms)
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+✔ CompareDeepPage SSR renders all priority FAQ entries and hides items after the first two (1623.58025ms)
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+✔ CompareDeepPage SSR localizes matrix lead and accessibility labels (1775.510417ms)
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+✔ compare FAQ, sticky aria and badge stay aligned for support-owner and generic compare locales (10798.36225ms)
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+✔ Bybit vs Bitget priority FAQ is visible and matches schema for en and Chinese locales (1720.978333ms)
+✔ the four market-plan pairs are registered everywhere a curated comparison must appear (9.32075ms)
+✔ every pair carries natural copy in all 17 locales without invented figures or referral solicitation (2.852292ms)
+✔ Worker route metadata publishes the four pairs in all 15 locales with canonical, hreflang and locale FAQ (59.137833ms)
+✔ existing curated pairs keep their metadata and the reverse slugs redirect to the canonical order (41.822791ms)
+✔ locale sitemap lists the four pairs for every locale with matching hreflang rows (233.277875ms)
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:321:
+      58 │ ...� ٹائپ نہ کریں۔", heroGo: "اکاؤنٹ کھولیں...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:54:4:
+      54 │     heroGo: "اکاؤنٹ کھولیں، ریبیٹ حاصل کر�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:58:473:
+      58 │ ...دعوتی کوڈ شامل", dockGo: "سائن اپ", lgAd: "پ...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:54:72:
+      54 │ ...ں، ریبیٹ حاصل کریں", dockGo: "رجسٹر کریں",
+         ╵                         ~~~~~~
+
+▲ [WARNING] Duplicate key "heroGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:408:
+      83 │ ...�и не потрібно.", heroGo: "Відкрити раху...
+         ╵                      ~~~~~~
+
+  The original key "heroGo" is here:
+
+    src/components/v7/home7-copy.js:79:4:
+      79 │     heroGo: "Відкрити акаунт і отримати р�...
+         ╵     ~~~~~~
+
+▲ [WARNING] Duplicate key "dockGo" in object literal [duplicate-object-key]
+
+    src/components/v7/home7-copy.js:83:582:
+      83 │ ...�ння вбудовано", dockGo: "Реєстрація", lg...
+         ╵                     ~~~~~~
+
+  The original key "dockGo" is here:
+
+    src/components/v7/home7-copy.js:79:78:
+      79 │ ...�римати ребейт", dockGo: "Зареєструват�...
+         ╵                     ~~~~~~
+
+✔ SSR renders both venue sign-up routes beside the commission disclosure for the new pairs (2498.016459ms)
+✔ a truncated summary is completed from the same body, never invented (2.121625ms)
+✔ plain-text fields lose Markdown markers; local filesystem link targets become their label (0.259292ms)
+✔ the client normalizers never show Markdown markers in titles or summaries (3.103875ms)
+✔ the Worker serves repaired articles from an unrepaired feed (fallback body and article JSON) (122.683792ms)
+✔ the content sweep finds nothing in the repository feed (906.14275ms)
+✔ empty opportunities do not discard connected venue data or call commercial resolution (1.59725ms)
+✔ a genuinely unavailable backend stays unavailable, not a successful local mock (0.127875ms)
+✔ required feeds with unavailable envelopes stay unavailable, not connected (0.101416ms)
+✔ fixture, unreviewed and expired updates cannot appear through a connected empty-opportunity feed (0.210458ms)
+✔ cost decision localizes the whole rendered tool and keeps decimal input plus tracked actions (369.273959ms)
+✔ selectors are widened to every interaction state before matching, never narrowed (4.324333ms)
+✔ extraction keeps matching rules in cascade order, their at-rule wrappers, fonts and referenced keyframes (130.192792ms)
+✔ a selector list Chrome may reject as a whole is kept as written (37.093459ms)
+✔ the Worker inlines the critical CSS and defers the same stylesheets in the same order (29.940959ms)
+✔ the Worker keeps blocking links when the build's sheet list does not match the page (fail safe) (23.218834ms)
+✔ the build step runs after the prerender and before the Sites bundle; the Worker serves it on home routes only (23.933ms)
+﹣ built critical CSS covers exactly the stylesheets the Worker links on the home route (0.057625ms) # run npm run build first
+✔ [paraglide-js] Compilation complete (locale-modules)
+✔ every cluster has a main page, a label in all 17 locales and an article rule; tools are the five data/tool pages (14832.446667ms)
+✔ GSC queries map to their family: pairs and exchanges own their queries, generic intent goes to tools and hubs (6.852625ms)
+✔ tool pages list matching articles newest first, search-published first, with localized links and honest titles (41.306792ms)
+✔ tool pages prerendered at build time (/rates, curated compare pairs) list >= 3 repository-feed articles that link back (17.905666ms)
+✔ every article's cluster line fits the link limit, so no matching family is dropped (18.429959ms)
+✔ App's tool key mirror agrees with the mapping and the block hydrates in its own boundary (4.5735ms)
+✔ data pages render the related-articles block at request time from the live feed and hydrate with it (424.233042ms)
+✔ hydrateRoot in jsdom reports no mismatch on tool pages carrying the block (1807.625833ms)
+✔ GET /api/news/tool-articles serves the same list for client-side route changes and rejects unknown tools (15.066458ms)
+✔ articles carry the Topic hubs & tools line in the React page and in the Worker fallback body (101.937875ms)
+✔ cta-click beacon appends one anonymous site click to the shared click file (167.332042ms)
+✔ cta-click beacon rejects unknown partners, bad sources, long paths, oversized or non-JSON bodies and wrong methods (153.807167ms)
+✔ cta-click beacon ignores crawlers and rate-limits per client in memory (278.728375ms)
+✔ rate limiter is a fixed window that forgets clients after the window (0.991667ms)
+✔ production server routes POST /api/cta-click and writes to CLICK_EVENT_FILE without disturbing /go (108.706333ms)
+✔ client payload reads the shared registration attributes and reports placement as src (1.031583ms)
+✔ [paraglide-js] Compilation complete (locale-modules)
+✔ SSR pages carry data-cta-kind/platform/placement on every partner sign-up link (13007.699209ms)
+✔ both data pages have route metadata in all 17 locales: review-gated, self-canonical, length-bounded, full hreflang (13.253792ms)
+✔ locale prefixes apply to the data pages (0.58175ms)
+✔ structured data: Dataset points at the JSON feed, FAQPage carries every visible question, breadcrumb is two steps (2.407416ms)
+✔ worker head carries the data-page schema, canonical and hreflang for a localized request (94.764833ms)
+✔ locale sitemap lists both data pages in 15 reviewed locales and excludes the two drafts (306.108ms)
+✔ feed readers normalize the collector document and refuse to invent numbers (0.814791ms)
+✔ SSR renders the fixture numbers, the disclosure-bearing sign-up card and the Telegram line; no feed renders the unavailable state (1025.348917ms)
+✔ worker SSRs the data pages through the renderer with the 60-second feed and embeds the compact feed for hydration (8.367417ms)
+✔ navigation and footer link to the data pages and the build ships the shared data module (1.127416ms)
+✔ server feed reader caches for 60 seconds and keeps the last good feed through a failed read (3.659459ms)
+✔ all supported locales expose complete non-empty data status copy (4.428375ms)
+✔ empty and stale states reuse the unavailable copy, not a connected claim (0.228916ms)
+✔ ready, loading, error, and mock labels remain semantically distinct (0.263458ms)
+✔ unknown locales fall back to English data status copy (1.637333ms)
+✔ decision passport round-trips a reviewed Japan signup context (4.313541ms)
+✔ decision passport drops unknown and cross-market funding values (0.140209ms)
+✔ decision passport appends controlled fields before a hash (0.220417ms)
+✔ regional shortlist carries the reviewed passport into compare and venue handoffs (1.077667ms)
+✔ comparison and venue directory context preserve the reviewed passport (0.148167ms)
+✔ anonymous decision resume snapshot stores only whitelisted public decision fields (0.376292ms)
+✔ anonymous decision resume storage fails closed for tampered protected material (0.266958ms)
+✔ calculator restore helpers accept only their own scenario kind (149.2935ms)
+✔ calculator SSR defaults stay stable while exposing return-copy controls (259.070542ms)
+✔ TradingBleedAnalyzer SSR has native visible copy across all supported locales (421.295708ms)
+✔ calculator source wires safe return hrefs and preserves protected third-party hrefs (16.909375ms)
+✔ embed calculator uses compact shell without changing standalone analyzer CSS scope (12.647667ms)
+✔ comparison links retain chosen order and public context without copying tracking or private fields (4.495833ms)
+✔ fee scenarios round trip through the existing embedded calculator in every locale (2.150125ms)
+✔ cost scenarios preserve zero, decimals, product and order without preserving a quoted result (0.277542ms)
+✔ invalid or duplicate inputs cannot become a saved scenario (0.102667ms)
+✔ return controls have explicit copy, error recovery and accurate Bot wording in all UI locales (14.715125ms)
+✔ restorable tool URLs retain the original canonical page rather than generating indexable variants (11.2535ms)
+✔ deferred hydration starts the app on idle after browser load without waiting for a user gesture (37.615625ms)
+✔ deferred hydration replays scoped form intent only after the target subtree is ready (35.376166ms)
+✔ deferred hydration preserves native details final open state when target becomes ready before the timer (12.384083ms)
+✔ deferred hydration preserves the latest native details state before target ready (27.585459ms)
+✔ deferred hydration lets a newer ready details action cancel an older pending details restore (6.556375ms)
+✔ deferred hydration cleans up and does not replay when the target scope never becomes ready (17.8645ms)
+✔ deferred hydration swallows failed preload imports and never replays failed intents (15.848916ms)
+✔ deferred hydration repositions text-only buttons after real worker template serialization (4.237375ms)
+✔ deferred hydration preserves the last safe input value for the target scope (9.445ms)
+✔ deferred hydration relocates React useId inputs by label and restores after same-frame controlled reset (10.722333ms)
+✔ deferred hydration wakes React-style value tracking when hydration kept the typed DOM value (11.460333ms)
+✔ deferred hydration wakes React-style value tracking for cleared numeric inputs (7.497875ms)
+✔ deferred hydration lets a newer ready input beat an older pending restore (16.521625ms)
+✔ deferred hydration does not read or replay password inputs (26.612416ms)
+✔ deferred hydration times out a never-settling import without replaying (37.776458ms)
+✔ deferred hydration does not attach a ready listener when import resolves after timeout (48.715792ms)
+✔ deferred hydration keeps unnamed connected input intents separate with weak fallback keys (5.139167ms)
+✔ deferred hydration can relocate safe inputs by aria-label (6.850708ms)
+✔ deferred hydration ignores unsupported email input fields (2.856375ms)
+✔ R118 passive import waits for first contentful paint, then loads once on idle (4.323ms)
+✔ R118 already-painted SSR starts passive hydration without requiring another paint (5.478583ms)
+✔ R118 user gesture still starts loading immediately while paint is pending (3.809959ms)
+✔ R118 missing paint event has a bounded passive hydration fallback (4.389ms)
+✔ R118 paint observer failure keeps passive hydration usable without leaking timers (3.9585ms)
+✔ R118 unsupported paint observation remains bounded when animation frames are suspended (5.016ms)
+✔ R118 failing paint observation remains bounded when animation frames are suspended (6.965917ms)
+✔ retained native details open state synchronizes hydrated toggle listener exactly once (27.110625ms)
+✔ retained native details closed state synchronizes hydrated toggle listener exactly once (30.202042ms)
+✔ changed details restoration uses its native toggle without duplicate synchronization (9.147166ms)
+✔ derivatives guide defines four source-bound decision routes without referral links (1.886ms)
+✔ derivatives SSR renders the four next-step routes and preserves the dictionary anchor (309.090333ms)
+✔ derivatives SSR keeps Chinese and non-English route copy localized (1806.637625ms)
+✔ Traditional Chinese topic SSR does not fall back to Simplified Chinese copy (958.997833ms)
+✔ all supported locales have rendered route body and dictionary body (5055.57525ms)
+✔ derivatives task does not modify protected invitation registry (0.745458ms)
+✔ profile separates locale prose from the preserved platform identity (1.696625ms)
+✔ profile alternatives are informative rows with individual comparison links (0.288958ms)
+✔ missing approved activity does not allocate a promotional empty panel (0.184666ms)
+✔ shared secondary headings and domain labels use one readable axis (0.5215ms)
+✔ research dates use the shared ISO date contract and full source labels remain accessible (0.148709ms)
+✔ DEX mechanism cards and CEX sourced fee summaries keep distinct presentations (0.499792ms)
+✔ non-CEX details add comparison and Telegram research paths without changing registration links (0.165542ms)
+✔ mobile sticky identity labels do not present non-partner domains as invite codes (0.228084ms)
+✔ DEX compact copy is localized for every supported UI locale (0.397125ms)
+✔ venue route and evidence labels reuse the localized detail and DEX dictionaries (0.156792ms)
+✔ venue detail consolidates repeated cost modules without hiding them from SSR (0.818208ms)
+✔ venue detail moves protected invite and registration action into the hero decision area (1.2265ms)
+✔ Hyperliquid and Uniswap direct answers cover on-chain cost and production-boundary queries (0.448875ms)
+✔ venue detail high-intent controls cannot render English fallbacks for supported locales (0.492375ms)
+✔ registration handoff owns localized route, region, disclosure and context copy (0.226083ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ copy for the new blocks exists in all 17 locales (6680.764ms)
+✔ day groups are UTC days in feed order; Today / Yesterday only with a reader clock (0.286791ms)
+✔ market context: assets come from the article text, figures only from the feed (0.99225ms)
+✔ article SSR: lead answer block, section index (rail + mobile disclosure), footnotes, figures, empty market slot (33.897167ms)
+✔ article route hydrates without mismatch (worker request-time SSR + jsdom hydrateRoot) (676.044583ms)
+✔ news index SSR: a lead story, then day groups with every other row (9.715791ms)
+✔ topics hub: editorial index, localized headings (en, ar), one card link per record, hydration parity (503.273833ms)
+✔ factbook hub: editorial index, localized headings (en, ar), one card link per record, hydration parity (534.447ms)
+✔ liquidations embed shows the page's numbers, no script, footer attribution link with ?src=embed-liquidations (4.26425ms)
+✔ funding embed lists the top rows with signed rates; a missing feed renders the unavailable copy, never zeros (0.691917ms)
+✔ the injector script inserts a responsive iframe after its own tag and honours data-locale / data-theme (0.417666ms)
+✔ route: iframe-friendly headers (no X-Frame-Options, frame-ancestors *), noindex, 5-minute public cache; unknown embeds fall through (9.590834ms)
+✔ production server serves the embeds from MARKET_EVENTS_FILE ahead of the worker and leaves /embed/calculator to it (131.222083ms)
+✔ snippets shown on the pages match the routes; embeds stay out of the locale sitemap; the beacon honours ?src=embed-* (168.295834ms)
+✔ Turkish referral allow-list matches SPK's operating list (01 Oct 2026) and the owner's tr targets (2.569ms)
+✔ pt-BR referral titles lead with 'código de convite' and keep 'indicação' (0.265084ms)
+✔ tr / vi / id target profiles carry the native referral long tail with disclosure and official citations (1.3305ms)
+✔ localized referral FAQ schema is identical in client SSR and Worker, in the page language (14.005833ms)
+✔ Hyperliquid FAQ answers referral code and funded account without a rebate share (0.209209ms)
+✔ Backpack FAQ (en, fr) restates Backpack's own pages and never calls it SEC-approved (0.438ms)
+✔ profiles render the keyword sections: Hyperliquid fee tiers + referral + funded account, Backpack tokenized stocks (1208.675416ms)
+✔ /topics/bybit-alternatives is indexable in English in both runtimes, in the inventory and the sitemap (41.834292ms)
+✔ exchange research covers every V3 venue slug with no extras (1.566917ms)
+✔ exchange research has source-backed multilingual facts (1.348ms)
+✔ researchForVenue flattens localized strings and reports fallback locale (0.159291ms)
+✔ source-backed comparison axes stay explicit while taxonomy context remains ungrouped (0.128708ms)
+✔ official source URLs are concrete and unique per venue source list (0.266291ms)
+✔ only intentional taxonomy labels may remain outside comparison axes (0.0935ms)
+✔ Hyperliquid and Uniswap expose source-limited pre-trade checklists (0.848ms)
+✔ Jupiter and Aerodrome expose source-limited route and incentive checklists (0.256958ms)
+✔ registered onsite experiments retain approved status and first-party outcomes (3.2795ms)
+✔ Brazil comparison candidate has an activation gate but cannot activate traffic (0.505ms)
+✔ registry validates first-party outcome boundaries (0.270375ms)
+✔ international account-stage experiment measures onsite decisions, not registrations (0.070875ms)
+✔ home and Bitget next-step experiment targets visible-without-click queues without partner outcome claims (1.0125ms)
+✔ partner Telegram context experiment measures handoff quality without claiming partner-side conversions (0.135417ms)
+✔ designed experiments cannot accept traffic or contaminate production events (0.196042ms)
+✔ active experiments require an exact registered route, market and variant (0.081792ms)
+✔ Factbook titles carry no stale date and schemas use the latest real review date (67.81775ms)
+✔ factbook-registry contains all 24 venues with complete GEO facts and 10 VIP tiers (2.391708ms)
+✔ Factbook refreshes source-bound public fields when the locale changes (8.194375ms)
+✔ Factbook keeps HTX partner route visible without claiming unverified user benefits (3.864709ms)
+✔ Factbook-only legacy venues keep direct-answer CTA on the factbook path (1.984709ms)
+✔ seo-injection Factbook schema describes the dataset without inventing FAQ claims (2.142542ms)
+✔ public llms files expose a comprehensive, source-bounded AI knowledge graph (63.755083ms)
+✔ public/sitemap.xml includes all 24 English factbook URLs without forcing duplicate zh-Hans factbooks (17.438875ms)
+✔ worker serves factbook route SSR with marker, Schema.org Dataset, and locale support (70.580292ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ locale fallback editions are server-rendered with the client component: main landmark, one H1, links, minimal payload (5800.317792ms)
+✔ metadata policy is unchanged: noindex,follow, canonical to the owner edition, no hreflang (100.629708ms)
+✔ the served HTML hydrates in jsdom without hydration errors (2189.419291ms)
+✔ the 404 page is server-rendered (NotFoundPage) and stays 404 noindex,nofollow (1483.039834ms)
+✔ a renderer failure is logged and falls back to the shell; hosts without a renderer keep the shell (6.646917ms)
+✔ fee benchmark uses reviewed spot records and localized reviewed copy (686.168292ms)
+✔ fee benchmark localizes next-step and pending states across priority locales (419.663542ms)
+✔ fee benchmark progressive ledger controls are localized for every supported locale (1190.308792ms)
+✔ fee benchmark preserves source-bound CTA destinations and progressive full venue access (292.351875ms)
+✔ rates route exposes answer-first conversion bridge through source-bound CTA routes (236.89325ms)
+✔ dYdX spot is not offered while its perp fee stays checked (24.919458ms)
+✔ unknown fees stay unchecked, not 'none' or zero (0.348ms)
+✔ every locale has its own not-offered label (4.190417ms)
+✔ closed search does not reference an unmounted listbox (0.918125ms)
+✔ labelled discovery controls expose an accessible group role (1.124208ms)
+✔ finder builds only actionable destinations and keeps locale in every href (2.009917ms)
+✔ empty query returns useful suggestions before typed search results (1.135ms)
+✔ typed search matches venue names, categories, domains, and comparison pairs (4.537709ms)
+✔ default component-style result index keeps all venue detail pages searchable (2.721083ms)
+✔ no result stays an honest empty result set (1.7035ms)
+✔ Chinese brand aliases find the existing profile without renaming official brands (16.139417ms)
+✔ locale helper places query parameters before anchors (0.1345ms)
+✔ research keywords and localized facts find real profiles without fabricated markets (2.083041ms)
+✔ finder serves high-intent regional and product routes with safe context only (1.686583ms)
+✔ signup and invitation intent stays on internal registration-path anchors (1.994167ms)
+✔ finder analytics payload never includes raw query, codes, or external links (1.192583ms)
+✔ mobile conversion pages keep compact first decision sections (5.467833ms)
+✔ news mobile pages reduce repeated vertical scanning without removing CTAs (5.233875ms)
+✔ V2 uses a conversion-led finder, venue directory, and comparison hierarchy (0.418291ms)
+✔ international comparison cards do not reuse English pair descriptions (0.394917ms)
+✔ hydration restores an explicit browser locale after matching the server first pass (0.338458ms)
+✔ directory route keeps non-directory surfaces out of the browser app shell (0.879792ms)
+✔ Traditional Chinese keeps its dedicated homepage copy (0.091083ms)
+✔ regional research previews expose bounded AEO questions and source freshness (0.318292ms)
+✔ homepage keeps primary decisions above a collapsible research drawer (0.758834ms)
+✔ Telegram research hub answers first and keeps command depth expandable (3.552208ms)
+✔ rate and Telegram routes expose a localized SSR heading (0.332375ms)
+✔ venue Telegram handoff preserves market context and records distinct placements (1.34675ms)
+✔ Wave23 onsite Bot handoff is visible on priority pages without registration links (0.81075ms)
+✔ Telegram return banner restores only current venue and compare context (0.983125ms)
+✔ activity and news cards keep a measured next step after the content (0.085916ms)
+✔ topic Telegram CTA carries the topic and regional research context (0.345083ms)
+✔ detail and comparison routes keep one mobile action layer (0.421875ms)
+✔ comparison keeps the matrix before repeated verdict chrome on direct-answer pairs and consolidates secondary research paths (0.780875ms)
+✔ venue detail exposes a compact decision strip before the long research sections (0.262042ms)
+✔ venue detail mobile decision cards collapse into compact full-width rows (0.742042ms)
+✔ venue detail renders source-bound direct answers for GSC priority venue pages (1.826708ms)
+✔ Wave31 priority Binance and Binance vs OKX pages expose compact decision answers without hardcoded invites (2.342ms)
+✔ comparison snapshot prioritizes pair, eligibility, and next step (0.615959ms)
+✔ Factbook exposes a source-bound direct answer and a venue decision handoff (0.465709ms)
+✔ regional market previews always disclose source-pack state (0.474416ms)
+✔ international regional previews provide localized controls beyond the five primary locales (1.124458ms)
+✔ regional locale tags preserve pt-BR detail labels instead of collapsing to pt (0.127ms)
+✔ regional previews keep official-source evidence behind an explicit compact disclosure (0.237ms)
+✔ homepage directory cards use progressive disclosure for repeated detail fields (0.05ms)
+✔ ticker source notes have a single static accessible presentation (0.135959ms)
+✔ homepage source notes use native disclosure without removing source links (0.5685ms)
+✔ topic guide CTAs use the public projection and disclose verified referral links (0.328625ms)
+✔ topic guide puts a profile-first decision rail before long research blocks (0.41475ms)
+✔ topic guide keeps the secondary topic matrix behind a mobile disclosure (0.21575ms)
+✔ no-KYC topic keeps access intent while routing Hyperliquid latest-news intent to news paths (0.756625ms)
+✔ news detail keeps a post-reading decision path inside the site (0.109834ms)
+✔ news detail adds compact first-decision summaries for priority CTR articles (0.77675ms)
+✔ tokenized Treasury news detail surfaces a source-bound first answer without invite links (852.824875ms)
+✔ news detail keeps mentioned venue context compact on mobile (1.064416ms)
+✔ news detail keeps the lead decision visible and puts the long analysis behind a mobile disclosure (0.454083ms)
+✔ activity detail surfaces source-bound profile actions before the long matrix (0.360208ms)
+✔ official research preserves regional context through its profile and comparison handoffs (0.735167ms)
+✔ activity reward research uses a responsive card grid without removing source actions (0.181042ms)
+✔ deep comparison actions preserve bounded growth attribution (0.423292ms)
+✔ venue detail mobile CTA density keeps one primary route plus compact support blocks (0.3265ms)
+✔ deep comparison exposes a compact decision jump rail without removing evidence (1.093416ms)
+✔ deep comparison classifies unresolved regional exits as research (0.577083ms)
+✔ deep comparison verdict detail links preserve regional context and placement attribution (0.120291ms)
+✔ Factbook preserves regional context through direct answer and venue switching (0.139958ms)
+✔ rate benchmark and calculator paths preserve context with distinct research and registration placements (1.697667ms)
+✔ regional account-stage cards use mobile progressive disclosure without removing CTAs (0.234459ms)
+✔ news cards provide a direct comparison handoff when two venues are mentioned (0.081625ms)
+✔ news list uses summary data and progressive batch rendering instead of hidden full-card DOM (0.40375ms)
+✔ activity cards provide direct venue-profile handoffs alongside research sources (0.098583ms)
+✔ topic comparison and showdown links use honest research or registration attribution (0.205458ms)
+✔ deep comparison keeps high-intent metrics visible with pending metrics disclosed on mobile (1.908167ms)
+✔ deep comparison snapshot cards use a compact, bounded mobile grid (0.14175ms)
+✔ fee calculator fails closed when partner benefits are not source-reviewed (0.184708ms)
+✔ homepage fee analyzer describes a base-rate scenario and uses the source-bound regional CTA projection (0.121333ms)
+✔ campaign radar uses the public CTA projection for activity handoffs (0.082708ms)
+✔ illustrative conversion paths are visibly and semantically separated from live user proof (0.056458ms)
+✔ hero telemetry does not claim an unverified live whitelist or interception service (0.128167ms)
+✔ topic guide keeps all quantitative quick stats pending without item-level evidence (0.155625ms)
+✔ NexuAlpha is the visible site identity without assuming a logo asset or public domain URL (0.504375ms)
+✔ homepage Telegram CTA preserves locale and regional context (0.162875ms)
+✔ Japanese homepage gives the JP AEO page a compact internal entry (0.092875ms)
+✔ homepage moves from the hero into venue comparison before the directory (0.227834ms)
+✔ NexuAlpha 3.0 adds exchange profiles, deep comparison, activities, and a visible conversion path (0.326542ms)
+✔ 3.0 secondary pages stay visibly independent and keep commercial handoffs explicit (1.35725ms)
+✔ venue FAQ stays neutral until a dated source review is present (0.547916ms)
+✔ factbook keeps the rate matrix visible while lower-priority research sections are responsive disclosures (0.935583ms)
+✔ factbook keeps the high-intent fee tiers visible while making the full matrix expandable on mobile (0.223875ms)
+✔ factbook keeps the mobile source header compact without removing the decision card (0.07925ms)
+✔ factbook decision and activation paths expose bounded growth attribution (0.109333ms)
+✔ 3.0 locale links preserve query parameters before anchors (0.170333ms)
+✔ rates route preserves regional CTA context into the benchmark and calculator (0.13025ms)
+✔ rate benchmark keeps the mobile table progressive without removing full venue access (0.18575ms)
+✔ rate calculator keeps mobile result cards compact while preserving both handoffs (0.0585ms)
+✔ rates and Factbook share a compact contextual decision path (0.175959ms)
+✔ News and Activities expose the same contextual decision path before long content (0.059834ms)
+✔ decision path rail owns localized labels for every supported locale (0.443625ms)
+✔ partner guide keeps the embed builder visible while collapsing repeated value cards on mobile (0.050042ms)
+✔ international market preview routes keep the shared research path (0.4535ms)
+✔ homepage CTA hierarchy keeps registration as the primary selected-platform action (0.298166ms)
+✔ directory card registration labels clarify partner signup without changing link ownership (0.130542ms)
+✔ crypto sentiment remains source-bound and collapses instead of showing an unavailable homepage block (0.285333ms)
+✔ platform summaries remain readable instead of being cut to a mobile line budget (0.614625ms)
+✔ command finder has keyboard navigation, unique result IDs, and honest recovery copy (0.092583ms)
+✔ command finder searches venue catalog destinations including OKX (0.048709ms)
+✔ feature opportunity fails closed and labels neutral preview data (0.099792ms)
+✔ fixture and unavailable opportunities are absent from the homepage (0.10375ms)
+✔ compare and market routes have working stateful controls (0.173083ms)
+✔ deep comparison versus cards use localized labels and CTA copy (0.262916ms)
+✔ deep comparison decision guide and FAQ use the active pair locale copy (0.25025ms)
+✔ venue explorer now reads like a card-based directory instead of a plain table (0.053125ms)
+✔ directory keeps the mobile first decision set short while preserving explicit expansion (0.152542ms)
+✔ full exchange directory uses compact expandable rows without changing homepage compact cards (0.775667ms)
+✔ mobile long pages defer offscreen repeated modules without removing content (5.45725ms)
+✔ directory search narrows platform choices without changing the bounded CTA cards (0.335458ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ directory cards can form a bounded two-platform comparison handoff (3109.138833ms)
+✔ directory URL state restores only shareable research controls (0.398584ms)
+✔ venue identity consumes recorded local assets before the neutral fallback (0.053708ms)
+✔ neutral venue directory remains visible across locales without a capability claim (0.085792ms)
+✔ official update surface is traceable and closed when nothing is approved (0.115834ms)
+✔ methodology remains available in code without occupying the conversion homepage (0.128167ms)
+✔ locale state and the fixed default market cover the application root without a region selector (0.217417ms)
+✔ hero note cannot become a vertical spacer and detail content is not duplicated (0.286ms)
+✔ dark-market tokens, responsive grid, and reduced-motion handling are explicit (0.122375ms)
+✔ component-state catalog is isolated to a development-only route (0.04525ms)
+✔ local interaction notifications do not write a third-party analytics queue (0.082459ms)
+✔ market rail rotates at a readable cadence, pauses, drags, and respects reduced motion (0.032166ms)
+✔ content visibility is not gated by a viewport animation threshold (0.101417ms)
+✔ V2 copy exposes locale-aware compact terms for every selector locale (0.575834ms)
+✔ V3 adds first-class conversion routes without exchange impersonation (5.257ms)
+✔ venue directory locale copy uses directory semantics and registration-link labels (6.0865ms)
+✔ hero registration CTA names a registration link without claiming the partner route is the official domain (0.225916ms)
+✔ priority locale visible copy avoids internal operations vocabulary (0.145875ms)
+✔ V3 research panels stay source-bound and comparison-native (0.152417ms)
+✔ methodology copy keeps reserve and update claims source-gated (3.37575ms)
+✔ Wave35 methodology exposes localized research identity and reusable citation assets (0.4085ms)
+✔ methodology exposes regional funding route answer without registration promises (0.399625ms)
+✔ methodology owns the page main landmark so its header and sections remain accessible (0.333417ms)
+✔ comparison winner labels stay closed without pair-specific source review (0.144083ms)
+✔ comparison decision cards use neutral candidate labels (0.233ms)
+✔ public venue decision copy has an editorial gate separate from commercial claim status (3.016709ms)
+✔ venue detail CTA uses the source-bound public projection while preserving approved invite codes (0.293458ms)
+✔ SearchDialog handles native Escape, focus trap, and restoration (0.096166ms)
+✔ TraderWizardModal uses accessible modal behavior and condition-based CTA context (0.447625ms)
+✔ TraderWizardModal localizes step guidance instead of leaking English into non-English flows (0.207834ms)
+✔ Brazil venue cards use progressive disclosure for repeated decision criteria (0.084ms)
+✔ Brazil comparison page puts a three-question decision rail before the shortlist (0.102375ms)
+✔ Vite build identity is defined in build config and CleanFooter provides clean policy navigation without diagnostic console (0.114ms)
+✔ CleanFooter navigation labels match their destinations in every supported locale (0.580875ms)
+✔ CleanFooter preserves locale-specific footer semantics instead of status words (0.100208ms)
+✔ Vite keeps editorial, regional, and source dictionaries in cacheable chunks (0.123083ms)
+✔ yellow pages URL state stays outside the strict V3 pages route chunk (0.083458ms)
+✔ SSR build keeps eager route loading separate from client lazy chunks (0.162917ms)
+✔ Vite does not force CTA projection into a separate manual chunk from route components (0.177708ms)
+✔ build script enforces the measured app and V3 route budgets (0.040958ms)
+✔ V3 source intake covers every visible venue with parseable HTTPS official hubs (5.634875ms)
+✔ activity center stays compact, source-bound, and fail-closed (1.835958ms)
+✔ official research keeps the decision summary visible while collapsing deep reward facts (0.233125ms)
+✔ venue fee matrix keeps mobile evidence dense without removing the table (0.288167ms)
+✔ venue FAQ keeps the first decision questions visible and expands the remainder (1.286541ms)
+✔ focus and touch stability layer is loaded for the V3 surface (0.650167ms)
+✔ KOL landing routes unresolved partner terms through research first (1.424917ms)
+✔ campaign radar does not classify unverified partner terms as registration (0.912667ms)
+✔ fee bleed analyzer routes unresolved benefits through research first (0.098583ms)
+✔ Brazil decision CTAs require a verified public claim before registration (0.155458ms)
+✔ Brazil decision renders AEO answers inside the collapsed evidence area (0.080334ms)
+✔ Brazil AEO answer tables are mobile-safe without horizontal scrolling (0.642291ms)
+✔ Brazil unsupported locale fallback is visible in client-only previews (0.202708ms)
+✔ fee rebate calculator keeps unresolved benefits in the research path (0.070959ms)
+✔ homepage decision panel keeps unverified partner terms in the research path (0.19775ms)
+✔ matcher wizard separates partner route, benefit verification, and regional eligibility (0.138333ms)
+✔ registration card displays route, benefit, and regional status independently (0.233916ms)
+✔ comparison decision fallback never invents fee, leverage or benefit defaults (0.418875ms)
+✔ comparison fee surfaces never publish unverified default rates or net-cost winners (2.181541ms)
+✔ single venue FAQ uses the actual localized platform name instead of comparison placeholders (0.131333ms)
+✔ mobile navigation owns localized labels for the first international wave (0.563292ms)
+✔ bootstrap matches neutral SSR first, then restores the captured decision URL despite child effects (178.771458ms)
+✔ bootstrap forces explicit SSR English before restoring Japanese query locale (120.659375ms)
+✔ bootstrap fallback and explicit client-render keep the full browser URL from their first pass (290.111833ms)
+✔ two-pass bootstrap preserves all 15 locale venue/comparison contexts and neutral tracking routes (3.028ms)
+✔ captured BR widget URL switches from generic neutral embed and restores amount, platform and fee inputs (427.725583ms)
+✔ each exchange payload normalizes to rate, interval and next funding time (3.795916ms)
+✔ missing or absurd values are dropped, never turned into 0 (0.09675ms)
+✔ table compares venues by annualised rate; hourly and 8-hourly are comparable (0.164583ms)
+✔ a failing venue keeps its last good rows for at most two hours (0.288792ms)
+✔ go redirect sends the exact partner registration URL and records one anonymous click (106.977042ms)
+✔ go redirect rejects unknown or unsafe partners, sanitizes src and does not count crawlers (59.352166ms)
+✔ growth context keeps only controlled market product and public channel slugs (3.757167ms)
+✔ growth query propagation excludes personal and raw click identifiers (0.42175ms)
+✔ growth context preserves only the controlled account-stage lane (0.122625ms)
+✔ growth context preserves only a reviewed market-matched funding route (0.11625ms)
+✔ international intent products retain distinct labels (0.282292ms)
+✔ keeps Telegram outbound handoffs separate from explicit Telegram return aliases (14.915041ms)
+✔ keeps the headline referral metric unique by session and platform while retaining page attribution (0.801625ms)
+✔ summarizes the private funnel without inventing registrations (2.353375ms)
+✔ first-party funnel stages distinguish recorded zero from missing partner outcomes and missing input (31.163583ms)
+✔ keeps funding routes distinct in funnel dimensions and markdown (29.586292ms)
+✔ experiment readouts keep first-party signals separate from partner outcomes (1.221959ms)
+✔ data quality flags referral clicks when CTA visibility is not observed (0.549292ms)
+✔ builds privacy-safe CTA drop-off queues without session ids or raw query strings (1.949042ms)
+✔ derives the onsite CTA journey from first-party events only (1.467625ms)
+✔ experiment readiness requires configured variants and treats paused experiments as not analyzed (0.339167ms)
+✔ bucket summaries use the same dedupe sets as totals (0.319333ms)
+✔ entry summaries aggregate by stable source campaign publisher key (3.246667ms)
+✔ page-view dedupe keeps account-stage changes distinct (0.833958ms)
+✔ writes private JSON and Markdown reports from valid rows only (36.684167ms)
+✔ week-over-week compares the previous equal UTC window without partner outcomes (12.998792ms)
+✔ production report uses UTC start-inclusive/end-exclusive selection and excludes smoke (44.150041ms)
+✔ production report includes rotated private CTA archives beside an empty active file (11.915667ms)
+✔ missing input means unknown counts while an empty selection only means no recorded events (28.104375ms)
+✔ marks the private CTA report ready only after minimum first-party sessions (10.200667ms)
+✔ mixed collector metadata preserves all valid old and new events and selected release counts (14.766167ms)
+✔ invalid stored release metadata stays unknown without inventing provenance; missing source stays unknown (9.903083ms)
+✔ home copy exposes complete research labels for every locale (1.275459ms)
+✔ home hero H1 is unique and concise for every homepage locale (0.119709ms)
+✔ home copy has fixed brand slogan and research label for core locales (1.037208ms)
+✔ Korean and Turkish home research labels are localized for high-intent entry points (0.247292ms)
+✔ home copy falls back to English for new fields (0.117084ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ registry: home_hero_copy_v1 is running (owner approved 2026-10-11), valid, on the 17 localized home routes (7958.553625ms)
+✔ variant B copy: 17 locales, headline keeps {max}%, no new numbers, differs from A (1.020917ms)
+✔ assignment: flag off (or kill switch) = inactive for everyone, no cookie (0.340625ms)
+✔ assignment: stable cookie, 50/50 draw, crawlers always A without a cookie (76.982291ms)
+✔ browser: hydrates the server's variant on a home page, uses the cookie elsewhere only while enabled (0.114875ms)
+✔ worker, kill switch off: home HTML and headers are unchanged (A, public cache, no cookie, no variant state) (58.166667ms)
+✔ worker, experiment running: B visitors get the B prerender, private + Vary: Cookie, crawlers get A (348.932208ms)
+✔ SSR markup equals hydrated markup for variant A (en, ar) (1950.32ms)
+✔ SSR markup equals hydrated markup for variant B (en, ar) (1249.499333ms)
+✔ /go/<partner> and the site beacon record experiment + variant while it runs, nothing extra when off (69.968875ms)
+✔ v2 analytics events on home routes carry the variant (collector-valid) and growth-report splits by it (2.189042ms)
+✔ Telegram return rail routes to actual onsite tools in every supported locale (849.602084ms)
+✔ return rail and derivative dictionary avoid English fallback labels outside English (830.55275ms)
+✔ international source registry has refreshable official HTTPS records (0.932458ms)
+✔ international research previews expose official, reviewed source records (2.087209ms)
+✔ international source registry fails closed for an unselected market (0.781875ms)
+✔ home campaign radar renders localized UI copy and research text for every locale (242.54025ms)
+✔ home sentiment panel copy is complete for every locale, including the Chinese eyebrow (0.894584ms)
+✔ telegram hub command summary is localized wherever the command deck renders (113.995459ms)
+✔ methodology page renders the funding-route answer, data license and shell in every locale with Intl dates (49.490667ms)
+✔ compare decision lead is localized for every locale (15.216459ms)
+✔ compare versus block shows the localized campaign conditions instead of zh-Hans or forced English (40.977333ms)
+✔ partner embed guide copy exists for every locale (0.360083ms)
+✔ format-date renders ISO stamps per locale in UTC and tolerates unknown input (0.592458ms)
+✔ legal metadata: six indexable URLs and English canonical for other locales (55.399667ms)
+✔ legal SSR through worker: 200, headings, canonical, hreflang, footer and external contacts (212.66325ms)
+✔ legal sitemap source, generated inventory and runtime sitemap include only the two published editions (159.565542ms)
+✔ readHistory normalizes the collector block, sorts days and flags the collecting state below two days (3.11325ms)
+✔ chart model: every bar and label is finite and inside the viewBox, longs sit on the baseline with shorts stacked (0.831167ms)
+✔ facts in words exist in all 15 locales and name the numbers; near-average is ±5 % (1.523791ms)
+✔ SSR: the history section renders the chart and facts from the feed; without history it is absent; one day shows the collecting state (981.556667ms)
+✔ Dataset temporalCoverage starts at the earlier of launch day and the history's first snapshot; the worker passes the feed's history (42.462625ms)
+✔ live news sitemap lists only search-published articles from the last two days (2.565917ms)
+✔ worker serves /news-sitemap.xml from the mounted feed (59.796042ms)
+✔ briefs exist for tr, vi and id only, each tied to its market (1.405041ms)
+✔ every source URL is in a source-bound register or is a regulator's official site (0.166625ms)
+✔ no partner exchange is called available while the eligibility register has no row for the market (0.649916ms)
+✔ factbook and topic hub records are written in the page language in every UI locale (11.468375ms)
+✔ the home local-market section is on (owner approved 2026-10-11) (0.176167ms)
+✔ local Sites preview asset resolver rejects malformed and escaping paths (53.657916ms)
+✔ local Sites preview keeps production-origin redirects inside the candidate origin (1.217625ms)
+✔ local Sites preview serves llms text assets as UTF-8 plain text (0.565167ms)
+✔ locale prefix contract is explicit and migrates every prefixed UI locale to path URLs (1.461625ms)
+✔ global routes are eligible while country, embed and technical routes are excluded (0.272041ms)
+✔ supported UI locales use path URLs for eligible global routes (0.160792ms)
+✔ legacy Japanese, Korean, Arabic, Turkish and default-English query URLs redirect while preserving allowed context (0.844458ms)
+✔ path locale parsing has priority over conflicting query locale for future rollout (0.129167ms)
+✔ country directory takes precedence over the Indonesian locale prefix collision (2.708875ms)
+✔ Vietnam country directory defaults to Vietnamese without becoming a locale prefix (0.376542ms)
+✔ Japanese path routes are limited to eligible global content (0.3465ms)
+✔ localizedHref switches between path locales without carrying locale query aliases (0.661834ms)
+✔ locale sitemap lists only indexable, self-canonical pages and covers the translated locales (211.506375ms)
+✔ draft MEXC comparisons and topic summaries require identity verification (9.786208ms)
+✔ 17 UI locales use collision-free, round-trip public routes (1.296167ms)
+✔ native-review locales are noindex and absent from sitemap and hreflang clusters (248.417208ms)
+✔ Urdu shell is RTL with the local Arabic fallback; Ukrainian is LTR (56.543959ms)
+✔ Ukrainian and Urdu counts use their own plural forms (0.581791ms)
+✔ new locales keep partner metadata neutral pending regulator review (1.901916ms)
+✔ draft comparison answers preserve complete structures, source routes and numeric facts (3.756042ms)
+✔ draft campaign explanations preserve numerical facts and shared FAQ coverage (10.236209ms)
+✔ new home copy defines every English UI key without inheriting English controls (3.441041ms)
+✔ collector picks the top USDT perpetuals by Binance quote volume and skips stablecoin pairs (1.897583ms)
+✔ Binance premiumIndex rows normalize to one rate per base symbol with ISO next funding time (4.426125ms)
+✔ OKX funding-rate response normalizes to the current-period rate and settlement time (3.872125ms)
+✔ OKX instrument ids drop Binance's 1000x multiplier prefix (0.153166ms)
+✔ funding rows keep a symbol when at least one venue answered and never invent the other venue (0.235875ms)
+✔ importing the collector does not start the stream or the 5-minute loop (1.900792ms)
+✔ a snapshot carries the three window totals, the 24h split, largest order, top five symbols and the BTC/ETH funding average (2.745417ms)
+✔ JSON-lines parsing skips torn or foreign lines and the file helpers round-trip (0.261125ms)
+✔ appendHourlySnapshot dedupes per UTC hour, prunes 90 days through a temp file and otherwise appends one line (6.942916ms)
+✔ summarizeHistory: 24 hourly points, daily totals summed per UTC day with the current day partial, records and average (13.199791ms)
+✔ the collector entrypoint wires the history file and summary without blocking the live feed (0.834083ms)
+✔ sentiment cannot crash formatting or present future or expired data (0.845458ms)
+✔ sentiment classification is localized and refresh cancels obsolete reads (0.323625ms)
+✔ market view starts unavailable without inventing prices or volumes (0.723459ms)
+✔ market view keeps only source-bound known assets and venue slugs (1.18ms)
+✔ malformed or unattributed available payloads collapse to unavailable (0.125792ms)
+✔ matcher copy covers every supported locale without reusing the English object (1.941334ms)
+✔ matcher builds three intent routes with category-bound shortlists (3.812042ms)
+✔ compare selection intentionally picks the first two venues for the chosen intent (0.153167ms)
+✔ given intent choice is not overwritten by selected prop category (0.198875ms)
+✔ component has no prop-identity effect that resets chosen intent (0.115791ms)
+✔ links keep locale in app route query strings and fail closed without two venues (0.150291ms)
+✔ matcher can add regional decision context without leaking commercial invite material (2.66925ms)
+✔ regional context with no reviewed venue does not fall back to a generic global pair (0.45325ms)
+✔ matcher decision passport uses conservative tier defaults and sanitizes invalid values (0.092458ms)
+✔ regional candidates are reviewed, sorted, scored and gated before compare (9.78025ms)
+✔ paused source context is excluded from matcher candidates (1.822209ms)
+✔ component exposes regional controls and onsite research placement (0.112417ms)
+✔ conditions match the Lighthouse mobile profile the scorecard names (2.3385ms)
+✔ TBT counts only the part of each long task beyond 50 ms inside [FCP, load + 5 s] (0.141334ms)
+✔ CLS is the largest session window of shifts without recent input (0.140042ms)
+✔ median of runs ignores missing values; run summaries take the median of each metric (0.143792ms)
+✔ metrics derive FCP, LCP, TBT and CLS from what the page observed (0.126834ms)
+✔ report tables print medians and before -> after pairs (0.197125ms)
+✔ article endpoint returns one full article plus summaries of linked articles only (75.726334ms)
+✔ client loader uses the article endpoint and falls back to the full feed (3458.432125ms)
+✔ fr, de, it, ru, id and vi carry every article UI string, none of them in English (2.930292ms)
+✔ locales that only missed the not-found / loading strings get them (0.199792ms)
+✔ merge fills only the strings a locale still inherits from English (0.159125ms)
+✔ uncertain translations are marked for native review (0.230208ms)
+✔ an unchanged feed is parsed once; a published change is served on the next request (125.332334ms)
+✔ the sha file is the publish marker: a rewrite is served once its sha is published (9.098042ms)
+✔ without a sha file a changed feed text is served at once (14.592375ms)
+✔ listing paths parse to canonical pages and reject unknown categories (2.998292ms)
+✔ /news renders 24 newest articles with crawlable next-page links and a self canonical (118.018833ms)
+✔ paginated pages are self-canonical, indexable and link both directions (26.304875ms)
+✔ category archives render a localized H1, intro, filtered list and canonical (8.753916ms)
+✔ /api/news/search searches the whole library and returns compact rows (6.199333ms)
+✔ article pages server-render 4-6 related articles from the same category and shared platforms (13.564166ms)
+✔ related selection is deterministic: shared platforms first, then newest in the same category (0.218083ms)
+✔ news library sitemap lists every archive page in en and zh-Hans (1.4035ms)
+✔ React news pages render the same pagination, category links and related research (440.364917ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ listing routes are server-rendered by NewsListPage: one H1 equal to the client heading, 24 cards, search and chips (7798.905167ms)
+✔ the hydration payload reproduces the SSR body byte for byte (renderToString round trip) (143.994625ms)
+✔ hydrateRoot in jsdom reports no hydration mismatch for /news, /ru/news, /news/page/2 and /news/category/guide (2212.66975ms)
+✔ the shared hero copy covers all 17 locales and the fallback template uses it when the renderer is unavailable (3.491125ms)
+✔ a renderer that throws is logged and the listing falls back to the hand-written template with summary-only state (2.076667ms)
+✔ feed schema: editions may use any of the 15 locale keys and stay compatible with en + zh-Hans articles (31.381416ms)
+✔ article links use the locale path only for articles that carry that edition (12.637084ms)
+✔ worker route metadata indexes /tr/news/<slug> for an article with a tr body and keeps noindex without it (72.690791ms)
+✔ worker HTML for a localized edition carries the native body, lang attribute and metadata (21.146209ms)
+✔ locale news index is indexable once it has 5 native articles and lists native articles first (20.606875ms)
+✔ live news sitemap and news-library sitemap include localized URLs with xhtml alternates (1.099708ms)
+✔ published news sitemap generator emits localized article URLs with the right news:language (10.527459ms)
+✔ /api/news/article/<slug> accepts ?locale= and ships the requested edition plus English (1.806334ms)
+✔ client SEO mirror indexes a localized edition and keeps the English-only rule for the others (2.69025ms)
+✔ importer accepts an optional article.tr.md edition and rejects a thin one (61.320791ms)
+✔ placeholder codes (NEXU_*) are not offered as invite codes (1.651458ms)
+✔ owner invite routes are untouched (0.234959ms)
+✔ news offer picks the first mentioned venue with a real invite route (0.195875ms)
+✔ article page renders the Telegram alerts deep link in all 17 locales (3.597041ms)
+✔ en: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (213.456916ms)
+✔ zh-Hans: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (86.39375ms)
+✔ zh-Hant: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (126.139458ms)
+✔ es: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (132.608458ms)
+✔ pt-BR: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (76.0275ms)
+✔ fr: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (73.917417ms)
+✔ de: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (47.358167ms)
+✔ it: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (49.997875ms)
+✔ ja: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (43.54975ms)
+✔ ko: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (84.336ms)
+✔ ru: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (131.474541ms)
+✔ tr: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (55.260292ms)
+✔ id: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (37.395875ms)
+✔ vi: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (50.925625ms)
+✔ ar: no-KYC H1, hub and metadata explicitly contrast self-custody with KYC MEXC (82.822708ms)
+✔ source topic title fields preserve the KYC contrast and the original slug (0.109833ms)
+✔ only current public-approved official updates can reach the detail surface (2.793291ms)
+✔ already-filtered public official update view-models remain visible (0.1295ms)
+✔ malformed official update inputs fail closed without throwing (0.077625ms)
+✔ every card kind renders a 1200x630 PNG with public cache headers (3898.348333ms)
+✔ unknown ids, kinds and malformed paths answer 404 without rendering (92.521125ms)
+✔ rendered cards are cached in memory and on disk under the build id (1263.4575ms)
+✔ cards print page facts but never invite codes, and RTL titles are right-aligned (22.606542ms)
+✔ a missing liquidation feed renders an 'updating' card and a missing renderer falls back to the brand image (389.811958ms)
+✔ wrapText keeps three lines with an ellipsis and formatUsdCompact rounds like the page (39.386292ms)
+✔ route metadata points og:image and twitter:image at the page's card by route kind (37.543583ms)
+✔ the production server serves /og cards before the worker and keeps HEAD/trailing-slash behaviour (668.28975ms)
+✔ onchain page exposes useful localized body copy for all priority locales (2.385875ms)
+✔ onchain localized body avoids English fallback and invented live data claims (0.874ms)
+✔ onchain body remains compact and readable (0.384583ms)
+✔ operational health summary keeps readiness dependency evidence bounded (1.758709ms)
+✔ operational health preserves an expected Core API fallback reason (0.393875ms)
+✔ operational report requires collector readiness only when explicitly requested (0.105042ms)
+✔ buildOfferLookupPath requires an explicit country declaration without locale inference (1.474375ms)
+✔ countryOptionsForLocale exposes the ISO region set with localized labels and no initial default (25.2695ms)
+✔ buildHandoffPayload emits the exact POST contract keys (1.017708ms)
+✔ validateOfferPayload requires the backend numeric offerVersion contract (0.414333ms)
+✔ createHandoffIdempotencyKey falls back to getRandomValues when randomUUID is unavailable (0.235417ms)
+✔ validateSafeDestination accepts only HTTPS URLs on the looked-up official host (0.295417ms)
+✔ validateHandoffResponse rejects navigation claims that are not eligible no-navigation handoffs (0.099166ms)
+✔ offerIdentity changes when country or offer version changes so consent and retry keys reset (0.088667ms)
+✔ handoffCopy provides local strings for every supported selector locale (0.210667ms)
+✔ RegistrationCard (OutboundHandoff) provides complete link, copyable code, anti-phishing domain and transparent disclosure (0.434667ms)
+✔ detail-page registration handoff supports a compact repeated decision point (0.196792ms)
+✔ RegistrationCard mobile handoff copy can shrink and wrap across localized labels (0.3275ms)
+✔ OutboundHandoff keeps the detail card full width and uses scalable hit-area sizing (0.137042ms)
+✔ VenueDetailPage mounts one registration-path handoff and removes static pending partner state (0.254625ms)
+✔ owner campaign list is well-formed and filters by dates (0.69575ms)
+✔ every declared share appears on the profile line with its percentage and cadence (2.790042ms)
+✔ undeclared venues get no rebate line (0.114583ms)
+✔ the headline maximum is the highest declared share (0.0795ms)
+✔ the line renders in every home locale without placeholders (0.451208ms)
+✔ restrictions snapshot carries provenance and unverified entries (4.835833ms)
+✔ all documented countries block public and regional actions and referral titles (5.885958ms)
+✔ locale and country mapping distinguishes multi-country languages and UK from Ukrainian (0.221625ms)
+✔ news offers carry their article market and skip restricted destinations (0.233333ms)
+✔ Turkey retains five promoted partners and Brazil and English remain ungated (0.116583ms)
+✔ SSR venue and registration cards hide gated codes and destinations while retaining neutral facts (3548.442125ms)
+✔ Worker and SSR metadata hide gated codes including partner FAQ schema (122.372166ms)
+✖ served Worker HTML preserves explicit country context instead of using unscoped prerender codes (1.067042ms)
+✔ pt-BR, es and fr partner profiles publish FAQPage schema in the page language, identical in client and Worker SSR (23.073125ms)
+✔ every localized partner answer cites the exchange's own help pages (3.575458ms)
+✔ invite codes come from the partner feed and always travel with the commission disclosure (2.331458ms)
+✔ en and zh-Hans OKX/Bitget profiles add the exchange-vs-Web3-wallet answer in both runtimes (4.547167ms)
+✔ neutral locales get no partner FAQ; tr / vi / id only for the owner's target exchanges (2.420417ms)
+✔ visible profile FAQ renders the same localized questions and answers as the schema, with the disclosure line (767.00925ms)
+✔ partner feed lists real invite routes with owner shares and cadence (4.7785ms)
+✔ client builds drop the SSR-only eager globs while the SSR branch keeps them (2.808125ms)
+✔ App.jsx, HomeV7 and ClosingBand keep the SSR eager glob pattern the client plugin strips (18.240625ms)
+✔ route-matching slug lists mirror their data sources (2.081375ms)
+✔ data-page navigation projection matches the full copy module for every locale (0.42625ms)
+✔ Telegram deep links and official research helpers are re-exported unchanged (0.802208ms)
+✔ the shell no longer imports the heavy data modules directly (4.192292ms)
+✔ stylesheets are re-linked in the historical cascade order (2.14675ms)
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ DeferUntilVisible renders its children inside a Suspense boundary on the server (1337.344042ms)
+✔ SSR home keeps the scroll-deferred sections' text for crawlers and no-JS readers (6511.149417ms)
+✔ SSR directory and news list still render through the deferred route modules (76.009834ms)
+✔ directory path matcher covers the plain and locale-prefixed directory only (2.686584ms)
+✔ cache key is pathname plus the sorted query, so locale and filters separate entries (70.873833ms)
+✔ session-specific requests bypass the cache (169.390417ms)
+✔ miss renders and stores, hit serves the stored body without rendering again (11.056ms)
+✔ entries expire after the TTL and are rendered again (1.775584ms)
+✔ locale prefix, locale query and filter query each get their own entry (2.863791ms)
+✔ never caches non-200 or non-HTML responses, and never caches other routes (0.69075ms)
+✔ requests with a cookie or authorization header bypass the cache in both directions (0.299417ms)
+✔ HEAD requests are served from the cache but never populate it (0.206333ms)
+✔ a changed feed fingerprint invalidates cached HTML before the TTL (0.307541ms)
+✔ the cache is bounded: the oldest entry is evicted past maxEntries (2.564041ms)
+node:internal/fs/promises:1281
+  return new FileHandle(await PromisePrototypeThen(
+                        ^
+
+Error: ENOENT: no such file or directory, open '/Volumes/致态2TB/nx-wt-codex-mascot-a/pilot-01-prototype/dist/client/index.html'
+    at async open (node:internal/fs/promises:1281:25)
+    at async readFile (node:internal/fs/promises:1929:14)
+    at async file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-mascot-a/pilot-01-prototype/tests/prerender-contract.test.mjs:15:19 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Volumes/致态2TB/nx-wt-codex-mascot-a/pilot-01-prototype/dist/client/index.html'
+}
+
+Node.js v26.0.0
+✖ tests/prerender-contract.test.mjs (501.830583ms)
+✔ priority venue answers expose exact supported locales only (3.040667ms)
+✔ priority venue answers are complete, concise and source-backed (4.498959ms)
+✔ venue-specific search intent boundaries are visible (3.8945ms)
+✔ Chinese answers do not silently reuse the English answer (0.167708ms)
+✔ SEO merge consumes the same visible FAQ and sources (0.230875ms)
+✔ priority answer Worker projection stays synchronized with the source used by the UI (284.92125ms)
+✔ sitemap content dates change only for the reviewed priority language variants (21.298875ms)
+✔ all twelve reviewed detail variants share visible questions, cited answers and canonical metadata (22.923583ms)
+✔ priority FAQs exist in server HTML while remaining questions are initially collapsed (1057.501583ms)
+✔ public copy removes unverified ranking, execution and commercial superlatives (3.816208ms)
+✔ nested public records are sanitized without changing their shape (0.933291ms)
+✔ Chinese topic copy removes promotional superlatives and unverified benefit language (2.462583ms)
+✔ Chinese rebate wording is sanitized across futures research dimensions (0.303792ms)
+✔ Chinese venue cards do not publish absolute safety, ranking, or fee claims (0.391375ms)
+✔ public CTA keeps official destination but hides unverified partner economics (69.643792ms)
+✔ public CTA preserves Bitget attribution parameters on the signup route (59.411292ms)
+✔ public CTA exposes configured invite codes without verifying private benefit economics (0.255833ms)
+✔ public CTA pairs the displayed code with the primary registration route (0.114458ms)
+✔ topic CTA projection keeps partner route separate from unverified benefit economics (0.127917ms)
+✔ V4 contrast fixes: offer button keeps on-accent ink, muted notes and summary hints stay >= 4.5:1 (9.301291ms)
+✔ V4 focus: the home calculator input shows a 2px accent underline on focus; inputs that drop the outline restyle a ring (6.417041ms)
+✔ V5 reduced motion: global duration clamp and per-minute countdowns (12.431417ms)
+✔ V3 data rule: section rules on venue, compare, activities and data pages; numbered by CSS counter (22.025542ms)
+✔ V3 SectionRule markup: decorative, label from the counter, UTC stamp drops its date on phones (255.814542ms)
+✔ sweep scripts: axe + focus walk and reduced-motion sweep cover every template and parse (173.278292ms)
+✔ R74 worker BR projected hrefs match first React hydration hrefs for /br (799.764333ms)
+✔ R74 worker BR projected hrefs match first React hydration hrefs for /br/pix (646.325792ms)
+✔ R74 worker BR projected hrefs match first React hydration hrefs for /br/custos (686.524209ms)
+✔ R74 worker BR projected hrefs match first React hydration hrefs for /br/comparar (485.083167ms)
+✔ R74 preserves decision-state first-value and per-field attribution sanitization (653.325542ms)
+✔ R74 isolates A/B/clean attribution with one shared prerender manifest (344.799834ms)
+✔ R74 tracked BR shell fetch strips conditional validators and serves projected HTML body (238.371167ms)
+✔ R74 invalid tracked BR queries still bypass conditional 304 and stay private (370.929125ms)
+✔ R74 conditional stripping does not affect non-BR pages or non-HTML assets (282.079667ms)
+✔ R76 keeps Pix recipient copy inside the existing /br/pix FAQ and source boundary (1.968166ms)
+✔ R76 emits the recipient FAQ through Brazil SEO schema and SSR (414.841083ms)
+✔ R76 isolated llms output mirrors the visible FAQ and recipient question inventory (1776.8785ms)
+✔ R76 does not modify commercial registries or referral-bearing data (6.274167ms)
+✔ generated referral partners match the partner feed (38.768375ms)
+✔ referral titles carry the real invite code and owner share in every locale (10.6315ms)
+✔ regulated locales keep neutral titles; Turkish referral titles only for SPK-listed exchanges (0.912459ms)
+✔ real venue records fail closed without a dated product-specific eligibility record (1.768417ms)
+✔ eligibility evidence requires sources, timestamps, and a future expiry (1.002542ms)
+✔ caller-provided research rows retain discovery classification without becoming production eligibility (0.152625ms)
+✔ regional research previews have usable metadata without becoming indexable offers (5.040042ms)
+✔ Indonesia preview graduates into a source-backed Indonesian owner page (0.348209ms)
+✔ Taiwan preview graduates into a source-backed Traditional Chinese owner page (0.147125ms)
+✔ Vietnam remains a Vietnamese noindex research preview without direct CTA claims (3.931792ms)
+✔ JP KR TR regional shortlist market options localize labels while preserving stable values (0.209625ms)
+✔ Mexico preview graduates into a source-backed Spanish indexable AEO market page (0.323416ms)
+✔ Japan preview graduates into a source-backed indexable AEO market page (0.240291ms)
+✔ Singapore preview adds a source-backed indexable research path (0.289458ms)
+✔ indexed regional FAQ schema and visible question slots use canonical tracked AEO question strings (1.448917ms)
+✔ Mexico regional component maps Banxico CNBV and MXN SPEI checks to compact onsite CTAs (5.014208ms)
+✔ Taiwan regional component maps FSC TWD bank checks to compact Traditional Chinese CTAs (1.409125ms)
+✔ Singapore regional component shows official-source limits and related onsite paths without becoming an offer (4.752541ms)
+✔ Korea regional component exposes source boundaries and onsite next steps without becoming an offer (1.011792ms)
+✔ Turkey regional component exposes source boundaries and onsite next steps without becoming an offer (2.145167ms)
+✔ Singapore source map and related paths stay compact on mobile (1.040083ms)
+✔ Indonesia regional component maps OJK Bappebti and IDR checks to compact onsite CTAs (0.849541ms)
+✔ Vietnam regional component stays fail-closed as noindex research preview (0.663792ms)
+✔ Hong Kong regional component maps SFC HKD funding and account checks and graduates the Traditional Chinese route (2.131083ms)
+✔ EU and UK regional pages graduate only their English source-backed canonicals (4.469375ms)
+✔ EU and UK localized variants stay out of the index until native copy is complete (0.257667ms)
+✔ Türkiye preview graduates into a Turkish source-backed SPK research path (1.417375ms)
+✔ Korea preview graduates into a Korean source-backed AEO market page (0.451917ms)
+✔ Korea regional page adds a localized onchain and KRW decision module without English fallback (1.030042ms)
+✔ Türkiye market page only indexes the Turkish localized route (0.105542ms)
+✔ international preview routes unlisted country traffic to sourced market paths without a US thin page (7.007792ms)
+✔ regional research cards keep question, answer, and next step in a readable vertical flow (0.439917ms)
+✔ Japan regional component exposes a direct answer for AI and search extraction (0.625041ms)
+✔ Japan regional component maps official sources to compact onsite research CTAs (0.795833ms)
+✔ regional preview turns source registry and gate data into concrete next steps (0.1875ms)
+✔ Korean and Turkish regional next steps read like local signup checks, not English placeholders (0.180667ms)
+✔ Japan Korea and Türkiye expose native four-step pre-signup checks with source boundaries (1.630834ms)
+✔ Mexico Hong Kong and Singapore expose source-bounded pre-signup checks without commercial promises (4.036417ms)
+✔ regional preview renders one page-level boundary instead of repeating generic prompts per card (2.398875ms)
+✔ regional directory CTA preserves market, product, locale, and source context (0.362583ms)
+✔ traditional Chinese preview keeps its locale in the CTA handoff (0.463083ms)
+✔ regional account-stage CTAs preserve the selected decision lane (0.569125ms)
+✔ regional research tools preserve market context into rates and comparison paths (1.5165ms)
+✔ regional shortlist uses reviewed matrix states and keeps stop-review platforms without direct CTA (1.214084ms)
+✔ Japan Korea Türkiye and Indonesia shortlists localize decision controls without changing handoff destinations (0.591042ms)
+✔ Indonesia regional visible question set avoids English fallback labels and Chinese punctuation (0.79925ms)
+✔ Mexico Spanish and Hong Kong Traditional Chinese shortlists do not fall back to English controls (0.482209ms)
+✔ remaining supported regional shortlist locales avoid English fallback controls (0.563291ms)
+✔ regional preview localizes owner-market funding option labels without changing option values (0.745042ms)
+✔ Indonesia funding and source display copy localizes visible English without changing raw values (3.211709ms)
+✔ Indonesia regional shortlist funding card renders localized source label in visible HTML (463.845167ms)
+✔ Japan Korea and Türkiye deep regional source surfaces avoid English fallback labels (931.5185ms)
+✔ Hong Kong Traditional Chinese related research paths avoid English fallback while preserving handoff types (0.783917ms)
+✔ regional preview shell uses localized shortlist option helpers for ja ko tr (0.91975ms)
+✔ regional shortlist handoffs preserve the reviewed decision passport (1.180709ms)
+✔ regional preview component derives compare and Telegram handoffs from selected shortlist state (1.861333ms)
+✔ directory context keeps explicit market and product state without falling back to generic venues (0.78625ms)
+✔ directory context survives detail and comparison handoffs (0.149791ms)
+✔ default English directory handoffs do not create redundant locale variants (0.103166ms)
+✔ contextual internal hrefs omit unknown sentinel context while preserving explicit context (0.458833ms)
+✔ regional decision set uses only the source-linked regional shortlist (0.27075ms)
+✔ regional CTA state requires a recorded match before direct outbound registration (0.049041ms)
+✔ regional mobile flow moves primary CTA ahead of evidence packs (463.1025ms)
+✔ regional proof checks remain in DOM but collapse behind a keyboard accessible details summary (1.159ms)
+✔ regional mobile compression keeps repeated modules collapsed or single-column without horizontal overflow (1.782458ms)
+✔ explicit regional product paths choose a focused default directory category (0.088958ms)
+✔ Japanese research question cards answer their own registry question without positional drift (218.681458ms)
+✔ registry-backed regional question answers retain regulation, identity and funding alignment (930.263166ms)
+✔ MX Spanish and shared BR Portuguese funding matrix text keeps research boundaries localized (574.973417ms)
+✔ Arabic configured partner route keeps the code visible while regional eligibility stays blocked (357.26825ms)
+✔ Turkish official fallback renders source route without sponsored registration copy (384.586167ms)
+✔ Japanese research-first state keeps unavailable route distinct from configured partner routes (233.001875ms)
+✔ protected partner code remains visible while an unverified regional route stays onsite (387.197542ms)
+✔ configured partner route with unverified regional eligibility does not claim the route is missing (223.471375ms)
+✔ Bitget registration card shows the next-step code confirmation before handoff (211.955584ms)
+✔ reviewed decision passport remains visible before an onsite regional verification step (253.08775ms)
+✔ decision passport drops a cross-market funding route before the CTA (447.592667ms)
+✔ compact partner card keeps its sole attributed CTA and referral copy outside collapsed conditions (347.96875ms)
+✔ full partner card preserves its expanded detailed handoff (587.132ms)
+✔ compact official-only and unavailable cards retain their guarded primary state outside conditions (608.6885ms)
+✔ RegistrationCard priority route, state and disclosure copy is localized for every supported locale (4.410417ms)
+✔ RegistrationCard route and benefit state copy preserves configured versus pending semantics (0.435167ms)
+✔ RegistrationCard localized copy keeps official route and regional eligibility boundaries (0.277042ms)
+✔ RegistrationCard localized preflight copy does not mutate outbound href or invite-code fields (0.240791ms)
+✔ registration decision state marks a fully verified partner route available (1.579917ms)
+✔ registration decision state preserves protected hrefs while requiring first-page verification (0.122333ms)
+✔ registration decision state blocks external jumps for blocked regions (0.078083ms)
+✔ registration decision state treats official source routes as verify-first (0.054291ms)
+✔ reviewedFeeCopy returns native text for every supported locale and all reviewed fee records (11.698791ms)
+✔ reviewedFeeCopy does not fall back to English for non-English locales (0.312834ms)
+✔ reviewedFeeCopy keeps the three reviewed scopes distinct (0.329875ms)
+✔ reviewedFeeCopy returns neutral native copy for unknown tier and scope (0.196083ms)
+✔ reviewedFeeCopy resolves regional locale aliases without changing supported primary locale keys (0.097834ms)
+✔ all core locale profiles show reviewed fee scope and preserve invitations; unknown rates stay absent (2228.42275ms)
+✔ /api/route-seo returns the same head the SSR page renders for every representative route and locale (705.099291ms)
+✔ /api/route-seo honours an explicit locale, the 404 head is noindex, and off-site paths are refused (1.8585ms)
+✔ client injector keeps the server head on first load and applies the fetched head only after navigation (1.554084ms)
+✔ without a server marker the injector fetches on the first pass; a missing article gets the 404 head locally (0.819917ms)
+✔ the browser graph no longer imports seo-injection.js; the SSR/worker side keeps computeRouteSeo (56.991584ms)
+﹣ no client chunk carries the seo-injection route tables (0.15375ms) # dist/client/assets missing: run the production build first
+✔ verification files exist in public/ and the worker serves them from assets (47.859583ms)
+✔ other .html paths keep page routing (unknown page stays 404) (7.340625ms)
+✔ #1 every sitemap entry that carries hreflang matches the page head; other routes carry none in sitemap.xml (1679.889583ms)
+✔ #1 the build sitemap uses the same helpers, and carried-over entries lose stale hreflang sets (1161.05525ms)
+✔ #1 hreflangAlternates is the page head shape: one link per edition plus x-default on the first (0.101292ms)
+✔ #2 NewsArticle JSON-LD carries the article's 1200x630 social card in the worker head and the SSR head (3.244334ms)
+✔ #3 sitemap lastmod is each route's own content date, not the publish/build date (1121.489709ms)
+✔ #4 a locale news listing is indexable only with >= 5 native editions (1447.087167ms)
+✔ #5 #7 the article's short answer is the first content after the byline; read time is the shown edition's own (153.087208ms)
+✔ #6 home and venue SSR render no placeholder or internal workflow copy (319.831583ms)
+✔ #6 empty article headings are dropped, headings with sub-sections kept (0.325875ms)
+✔ #7 read time per edition: words/230 for space-separated scripts, Han/Kana characters/450 for CJK (1.465417ms)
+✔ #8 every crawler-specific robots group repeats the * group's Disallow lines (1.377083ms)
+✔ #9 /embed/* is noindex in the meta tag and the X-Robots-Tag header, and not in the route inventory index (3.678667ms)
+✔ #10 llms*.txt describe the site accurately: slogan-led summary, partner codes with disclosure, no code names (532.829792ms)
+✔ Turkish percent dative follows the spoken number: %40'a, %25'e, %50'ye (0.402167ms)
+✔ meta description limit is 80 for zh/ja/ko and 160 elsewhere (0.757708ms)
+✔ clampMetaDescription cuts at a word or punctuation boundary without a trailing fragment (1.310958ms)
+✔ route metadata stays within the description budget for every locale and commercial route (241.492917ms)
+✔ home title carries the commercial search intent per locale and stays within 65 characters (9.512584ms)
+✔ partner mention targets come from the registry and match whole names only (2.896042ms)
+✔ only the first plain-text mention of each partner is linked; elements pass through untouched (1.032875ms)
+✔ mentions in headings are observed but never linked; links use the locale path (0.667083ms)
+✔ related line appears from two partner mentions with a curated comparison and policy-aware labels in all locales (1.0365ms)
+✔ server-rendered article links the first partner mention, skips headings/code/links and adds the related line (2380.785167ms)
+✔ exchange H1 carries fees + referral code + rebate where allowed, fees + profile elsewhere, as a single H1 (1898.918458ms)
+✔ Turkish rebate shares render with the percent sign first (1190.926875ms)
+✔ every src/data module the worker imports (transitively) is shipped with the server build (37.95825ms)
+✔ Shared Core adapter uses the existing SDK and all required v1 endpoints (1.539041ms)
+✔ production cannot silently select mock data (0.156709ms)
+✔ site data keeps no durable browser cache and fails closed when Core is unavailable (0.237083ms)
+✔ the React surface clears failed data and delegates commercial eligibility to the view model (0.638083ms)
+✔ Core venue and listing envelopes retain a closed neutral discovery fallback (0.920583ms)
+✔ serves existing static assets without a fallback (69.219291ms)
+✔ serves static brand and hashed build assets with production cache headers (3.231875ms)
+✔ serves llms text assets with a UTF-8 plain text content type (1.142291ms)
+✔ does not assign text/plain to missing txt assets (0.165625ms)
+✔ renders the app shell with a real 404 status for an unknown app route (4.163917ms)
+✔ HTML asset responses preserve existing CSP while adding frame protection (25.180333ms)
+✔ HTML asset responses remove edge-owned security headers and keep app-owned headers (5.506084ms)
+✔ referral and campaign HTML routes are private and not shared cached (2.470958ms)
+✔ stateful market and calculator HTML routes are private and not shared cached (1.464833ms)
+✔ news summary feed never falls back to the full article feed when parsing fails (0.318083ms)
+✔ home route structured data uses NexuAlpha Telegram identities (3.84625ms)
+✔ Singapore regional worker metadata keeps answer-first checks and onsite CTA order (1.792708ms)
+✔ HTML asset responses keep an existing frame-ancestors directive (0.395125ms)
+✔ only the valid calculator widget permits HTTP and HTTPS framing, including fallback and HEAD responses (1.052041ms)
+✔ ordinary pages, KOL overrides and invalid widget paths retain same-origin frame protection (48.027458ms)
+✔ a failed widget HTML asset and non-HTML responses do not receive public framing permission (0.553292ms)
+✔ falls back to index.html for direct app-route requests without an Accept header (1.59425ms)
+✔ redirects redundant English locale URLs to their parameter-free canonical (1.636416ms)
+✔ redirects common sitemap index aliases to the canonical sitemap (0.867166ms)
+✔ falls back to index.html for migrated Japanese path routes (1.253917ms)
+✔ does not turn missing static files into the app shell without an Accept header (0.111834ms)
+✔ does not turn missing API or write requests into the app shell (0.132125ms)
+✔ v1 API routes fail closed when Shared Core is not configured (0.915ms)
+✔ CTA analytics endpoint fails closed when the production collector is not configured (0.139875ms)
+✔ CTA analytics endpoint only accepts POST (0.054291ms)
+✔ CTA analytics endpoint proxies to the configured collector (0.172583ms)
+✔ v1 API routes return structured unavailable JSON when Shared Core fetch fails (0.249209ms)
+✔ public handoff API routes return 503 when Shared Core is not configured (0.796333ms)
+✔ public handoff API proxy preserves Origin, JSON content type, and the exact request body (0.709666ms)
+✔ public handoff API proxy passes upstream no-offer and not-configured responses without fake success (0.183333ms)
+✔ worker refuses internal operator API paths before upstream proxying (0.172792ms)
+✔ v1 API routes proxy configured Shared Core success without rewriting the payload (0.225125ms)
+✔ v1 API proxy accepts a base URL that already includes the API prefix (0.213542ms)
+✖ emits the files required by Sites packaging (8.497458ms)
+✔ striking rows: position 4–30 and at least 3 impressions, both bounds inclusive (1.122708ms)
+✔ closeness to the top 10 is 1 near the top and falls linearly to page three (0.149625ms)
+✔ rows group by page with impression-weighted position, best position and ranked queries (0.984083ms)
+✔ markdown table escapes pipes and the merged ranking keeps pages from either window (0.277ms)
+✔ /news hub: exchange-news title, description and H1 in the Worker head and the SSR head (363.388542ms)
+✔ Deribit: fees-first title within budget, H1 names fees, Worker and client agree (2.23625ms)
+✔ Backpack: fees-first referral title keeps the partner-feed code and fits 60 characters (0.541709ms)
+✔ /topics/no-kyc answers 'does hyperliquid require kyc' from existing data with an official source (2.407667ms)
+✔ TELEGRAM_CONFIG retains official verified handles and web preview (2.429208ms)
+✔ Telegram manual review policy keeps onsite-first anonymous measurement boundaries (1.06725ms)
+✔ Telegram growth operating system defines 90-day channel group bot execution without external sends (0.623292ms)
+✔ Telegram event contract preserves conversion attribution boundaries (0.19525ms)
+✔ Telegram operating rules forbid raw referral material and require opt-in alerts (0.423958ms)
+✔ Week1 Telegram retention loop maps Bot entry to onsite return without acting for users (0.655458ms)
+✔ Week1 Telegram return review keeps subscription and return metrics anonymous (0.06975ms)
+✔ Week1 Telegram manual acceptance artifacts are local-only and protect invite material (0.912166ms)
+✔ Telegram SEO AEO GEO backlog turns community demand into owned-page work (0.117541ms)
+✔ cleanTelegramStartPayload enforces Telegram protocol limits (letters, digits, _, -, max 64 chars) (0.095916ms)
+✔ Telegram start payload preserves market locale and product when campaign text is long (0.106625ms)
+✔ Telegram start payload bounds hostile metadata and keeps long actions collision-resistant (0.12925ms)
+✔ getTelegramDeepLink correctly routes parameterized actions (0.130625ms)
+✔ Telegram hub Bot payloads retain market locale product and campaign context (0.076625ms)
+✔ website to Telegram funnel context matches Bot candidate return-link protocol (17.7945ms)
+✔ website Telegram funnel compresses long metadata while keeping Bot-parsed critical fields (0.303209ms)
+✔ TELEGRAM_COMMANDS covers all four instant commands with multilingual support (0.094791ms)
+✔ TELEGRAM_RESEARCH_PATHS keeps public hub routes answer-first and onsite-only (0.120375ms)
+✔ TELEGRAM_WAVE7_SEARCH_TOPICS maps the three target queries to onsite-first review routes (0.092958ms)
+✔ TELEGRAM_WAVE8_SEARCH_TOPICS adds Aerodrome, Jupiter and no-KYC onsite-first routes (0.058834ms)
+✔ TELEGRAM_WAVE9_SEARCH_TOPICS adds RWA, OKX migration and perp-platform onsite-first routes (0.107541ms)
+✔ TELEGRAM_WAVE10_SEARCH_TOPICS adds Korea and Turkey onsite-first regional routes (0.106667ms)
+✔ TELEGRAM_WAVE11_SEARCH_TOPICS adds DeFi, operations, Brazil, Korea and Türkiye routes (0.110958ms)
+✔ TELEGRAM_WAVE13_SEARCH_TOPICS adds non-duplicated tokenized-assets, Korea and Türkiye drafts (0.167583ms)
+✔ TELEGRAM_WAVE25_SEARCH_TOPICS adds citation-asset distribution drafts (0.115125ms)
+✔ TELEGRAM_WAVE26_SEARCH_TOPICS adds the regional funding matrix rollout draft (0.062ms)
+✔ TELEGRAM_WAVE27_SEARCH_TOPICS adds Aerodrome/Jupiter and JP/MX funding drafts (0.125666ms)
+✔ TELEGRAM_WAVE28_SEARCH_TOPICS adds localized on-chain route drafts (0.06875ms)
+✔ TELEGRAM_WAVE29_SEARCH_TOPICS adds French and German GSC-demand drafts (0.13325ms)
+✔ TELEGRAM_WAVE30_SEARCH_TOPICS deepens French Hyperliquid and German Uniswap drafts (0.149709ms)
+✔ TELEGRAM_WAVE31_SEARCH_TOPICS adds multilingual Binance fee, KYC and source-boundary drafts (0.237916ms)
+✔ TELEGRAM_WAVE32_SEARCH_TOPICS adds dated news-source drafts for GSC zero-click pages (0.217208ms)
+✔ TELEGRAM_WAVE33_SEARCH_TOPICS adds boundary drafts for Hyperliquid, Uniswap and tokenized Treasuries (0.191167ms)
+✔ TELEGRAM_WAVE34_SEARCH_TOPICS adds product, perpetual-risk and dated-news boundary drafts (0.241083ms)
+✔ TELEGRAM_WAVE35_SEARCH_TOPICS adds AI-citation readability drafts (0.280375ms)
+✔ TELEGRAM_WAVE36_SEARCH_TOPICS adds indexable regional return-path drafts (1.495334ms)
+✔ TELEGRAM_WAVE37_SEARCH_TOPICS adds funding data-asset boundary drafts (0.899416ms)
+✔ TELEGRAM_WAVE38_SEARCH_TOPICS adds local-language funding-matrix drafts for priority markets (0.387833ms)
+✔ TELEGRAM_WAVE39_SEARCH_TOPICS adds the minimal non-duplicated priority canonical review bundle (0.147459ms)
+✔ TELEGRAM_WAVE57_SEARCH_TOPICS routes the latest five articles into onsite-first manual review (0.114833ms)
+✔ TELEGRAM_WAVE58_SEARCH_TOPICS adds a non-duplicated priority ecosystem review set (0.122209ms)
+✔ TELEGRAM_WAVE20_SEARCH_TOPIC_ROUTES maps high-intent topics to real onsite canonical routes (3.838833ms)
+✔ TELEGRAM_WAVE21_GSC_QUERY_ROUTES maps visible GSC queries without duplicating Wave20 routes (75.146708ms)
+✔ TELEGRAM_WAVE22_ONSITE_BOT_HANDOFFS closes onsite canonical pages back to Bot without raw exchange links (0.278875ms)
+✔ escapeMarkdownV2 safely escapes Telegram MarkdownV2 reserved characters (0.06ms)
+✔ generateTelegramBroadcasts prepares the high-intent Telegram growth pack honestly (66.021666ms)
+✔ validateTelegramBroadcastSystem enforces dedupe, classification and raw-link safety (41.837875ms)
+✔ writeTelegramBroadcastFeed keeps generated feed draft-only and NexuAlpha-first (61.654416ms)
+✔ non-English Telegram backlinks pin landing-page language independent of previous browser locale (12.208833ms)
+✔ buildTelegramPublishQueue produces a 7-day regional manual-review queue (15.725667ms)
+✔ manual publish pack renderers keep copyable outputs draft-only and onsite-first (29.650542ms)
+✔ writeTelegramManualPublishPack writes operator artifacts without sending Telegram messages (109.948625ms)
+✔ Telegram protocol replay covers local choice, stop and delete state transitions only (8.94825ms)
+✔ Telegram protocol replay keeps invitation material and private outcomes out of evidence (4.982041ms)
+✔ Telegram protocol replay writer emits local JSON and markdown evidence (14.731125ms)
+✔ ?src= from our Telegram links becomes the first-touch source; utm_source still wins; junk is ignored (3.936416ms)
+✔ budgetTitle keeps short titles and drops the suffix from long ones (0.784292ms)
+✔ Worker head and computeRouteSeo apply the same title budget (14.168209ms)
+✔ every topic platform has a visible source-review record (0.747625ms)
+✔ header Exchanges and Compare point at real pages, not home anchors (1.1395ms)
+✔ header active state follows the directory, profiles and every comparison page (2.772333ms)
+✔ Telegram header entry is an outline control, not a filled brand-blue pill (1.841208ms)
+✔ filled cyan buttons keep dark ink against higher-specificity white rules (0.270375ms)
+✔ hidden home sign-up dock is inert (React 19 boolean), not just aria-hidden (0.155792ms)
+✔ mobile article shows the first section before the generic guidance rail (3.952ms)
+✔ home hero no longer says partner node in any locale (1.0185ms)
+✔ comparison page uses plain words for the numbers block and unchecked items (1.268125ms)
+✔ commercial disclosures describe existing partner links, not a future launch (1.359583ms)
+✔ es comparison and detail UI cannot inherit English defaults (0.893209ms)
+✔ pt-BR comparison and detail UI cannot inherit English defaults (0.586833ms)
+✔ fr comparison and detail UI cannot inherit English defaults (0.41125ms)
+✔ de comparison and detail UI cannot inherit English defaults (0.268167ms)
+✔ ja comparison and detail UI cannot inherit English defaults (0.152833ms)
+✔ ko comparison and detail UI cannot inherit English defaults (0.141167ms)
+✔ ar comparison and detail UI cannot inherit English defaults (0.158875ms)
+✔ tr comparison and detail UI cannot inherit English defaults (0.161417ms)
+✔ ru comparison and detail UI cannot inherit English defaults (0.669667ms)
+✔ id comparison and detail UI cannot inherit English defaults (2.594458ms)
+✔ vi comparison and detail UI cannot inherit English defaults (1.809166ms)
+✔ it comparison and detail UI cannot inherit English defaults (0.211917ms)
+✔ ur comparison and detail UI cannot inherit English defaults (0.162458ms)
+✔ uk comparison and detail UI cannot inherit English defaults (0.771708ms)
+✔ every locale explicitly owns the full product copy schema, except the shared brand version (7.208416ms)
+✔ NexuAlpha 3.0 copy covers the required locale fields and category structure (4.034792ms)
+✔ Turkish product copy keeps native diacritics in high-intent controls (0.143208ms)
+✔ Korean and Turkish interface copy does not leak generic English wallet or perpetual labels (2.482333ms)
+✔ Korean and Turkish high-intent CTA copy speaks in local signup decisions (0.217541ms)
+✔ Japanese, Korean, and Turkish registration copy verifies official signup conditions without stale launch states (0.121417ms)
+✔ No-KYC topic localizes the Korean and Turkish decision rail copy (62.020166ms)
+✔ 3.0 localized profiles preserve English platform brand names and keep CTA closed (0.835208ms)
+✔ priority venue profiles have original decision content without enabling CTA (5.424125ms)
+✔ v3 detail and comparison labels are localized in server-rendered 17-locale pages (1095.64575ms)
+✔ partial Core coverage never removes the neutral directory (3.789708ms)
+✔ neutral discovery catalog stays aligned with the visible venue database (0.60525ms)
+✔ empty and malformed responses preserve identities without inventing evidence (2.674708ms)
+✔ all 21 research profiles have three distinct source-traceable decision notes (5.687417ms)
+✔ 17 UI languages explicitly retain English content provenance for untranslated notes (0.397667ms)
+✔ five core platforms have reviewed editorial decisions in all 17 UI locales (0.874291ms)
+✔ DEX and perpetual decisions preserve mechanism differences and evidence limits (0.494208ms)
+✔ mounted comparison uses the shared decision fields and explicit language provenance (10.919208ms)
+✔ research gaps stay unresolved and cannot become negative venue capabilities (1.681083ms)
+✔ MEXC restriction stays bounded to the read PAIR Innovation Zone notice and preserves source time (0.24025ms)
+✔ Hyperliquid and Uniswap decisions cite the new pre-trade checklist facts (0.912584ms)
+✔ Jupiter and Aerodrome decisions cite route, fee, token and network checklist facts (0.421166ms)
+✔ core venue detail first screen renders reviewed decisions across all UI locales (1338.765041ms)
+✔ Japanese Bitget venue FAQ renders actual venue questions instead of comparison placeholders (337.381291ms)
+✔ an unchecked base rate never becomes an invented VIP schedule (2.250916ms)
+✔ ad hoc venue-database rates stay rejected while reviewed fixtures keep exact base rows (0.376042ms)
+✔ missing numbers do not become zero and invalid source/date cannot verify numbers (0.070709ms)
+✔ only explicit fee research sources appear and duplicate source URLs are combined (0.081208ms)
+✔ reviewed official spot base rates are keyed by venue slug and include display scope fields (1.549ms)
+✔ conditional or unreadable venues remain unknown unless a separate sourced rate is provided (0.093875ms)
+✔ compact fee guidance has native copy in every supported locale (0.184291ms)
+✔ the venue route preloads its own module; compare, activities and 404 keep the V3 pages module (6.423958ms)
+✔ vite config pins the venue graph: shared helpers, CSS-only route-v3-pages-* chunks and the preload helper (2.626334ms)
+✔ the Worker keeps linking the venue page's stylesheets (all route-v3-pages-* chunks on /exchanges/<slug>) (3.042583ms)
+﹣ built entry: the venue route's preload list excludes the compare, activity and topic-guide graphs (0.133084ms) # run after `npm run build`
+ℹ [paraglide-js] Compilation skipped — inputs unchanged (locale-modules)
+✔ DeferUntilVisible interactionOnly renders the server HTML and opens only on interaction or an open <details> (2162.723167ms)
+✔ SSR venue and home pages hydrate without mismatches in en, it and ar (4376.040958ms)
+✔ section eyebrow names the section in all 17 locales and the CSS reads it from main (13.428125ms)
+✔ alerts strip reuses the article alerts copy and sits under the home hero, below the venue registration card and at the top of the news list (287.591625ms)
+✔ Telegram page leads with the alerts product: sample message, four topics, Open the bot, channels and Mini App, all 17 locales (304.894708ms)
+✔ compare page first screen: H1, the existing verdict, both official sign-up routes with the same hrefs and codes as the final-choice card, disclosure alongside, copy link demoted (395.827709ms)
+✔ activities: campaigns and the reviewed feed are grouped by exchange, three visible per group, every item kept in the HTML (233.421875ms)
+✔ venue detail mobile contract keeps the registration path before long evidence blocks (824.442791ms)
+✔ English compare page mobile contract presents final choice before dense matrices (290.058125ms)
+✔ localized compare pages keep dense research collapsed before the matrix (306.053459ms)
+✔ rates page mobile contract answers first and limits the first table payload (208.704667ms)
+✔ mobile disclosure controls keep keyboard and touch affordances in CSS (0.957458ms)
+✔ Worker compare JSON-LD matches the visible support-owner or generic FAQ for every supported locale (175.825083ms)
+✔ Worker priority Bybit vs Bitget JSON-LD keeps complete source-backed FAQ for reviewed locales (15.682875ms)
+✔ Worker R36 priority comparison JSON-LD matches direct-answer FAQ in expanded locales (27.883125ms)
+✔ Worker curated comparison JSON-LD uses the same FAQ source as the client (4.712666ms)
+ℹ tests 1137
+ℹ suites 0
+ℹ pass 1129
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 5
+ℹ todo 0
+ℹ duration_ms 33590.049958
+
+✖ failing tests:
+
+test at tests/partner-geo-restrictions.test.mjs:112:1
+✖ served Worker HTML preserves explicit country context instead of using unscoped prerender codes (1.067042ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Volumes/致态2TB/nx-wt-codex-mascot-a/pilot-01-prototype/dist/news-ssr/entry-server.js' imported from /Volumes/致态2TB/nx-wt-codex-mascot-a/pilot-01-prototype/tests/partner-geo-restrictions.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:861:10)
+      at defaultResolve (node:internal/modules/esm/resolve:988:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:700:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:717:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:749:52)
+      at #resolve (node:internal/modules/esm/loader:682:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:602:35)
+      at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:631:32)
+      at TracingChannel.tracePromise (node:diagnostics_channel:363:22) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-mascot-a/pilot-01-prototype/dist/news-ssr/entry-server.js'
+  }
+
+test at tests/prerender-contract.test.mjs:1:1
+✖ tests/prerender-contract.test.mjs (501.830583ms)
+  'test failed'
+
+test at tests/sites-worker.test.mjs:762:1
+✖ emits the files required by Sites packaging (8.497458ms)
+  Error: ENOENT: no such file or directory, access '/Volumes/致态2TB/nx-wt-codex-mascot-a/pilot-01-prototype/dist/client/index.html'
+      at async access (node:internal/fs/promises:1248:10)
+      at async TestContext.<anonymous> (file:///Volumes/%E8%87%B4%E6%80%812TB/nx-wt-codex-mascot-a/pilot-01-prototype/tests/sites-worker.test.mjs:763:3)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'access',
+    path: '/Volumes/致态2TB/nx-wt-codex-mascot-a/pilot-01-prototype/dist/client/index.html'
+  }

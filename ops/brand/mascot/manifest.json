@@ -1,0 +1,155 @@
+{
+  "palette": {
+    "blue": "#4f7cff",
+    "shade": "#3658c5",
+    "highlight": "#86a5ff",
+    "mint": "#3ddc97",
+    "coral": "#ff7a59",
+    "amber": "#f8bb6a",
+    "red": "#ed5969",
+    "ink": "#0b0d10",
+    "gold": "#ffd875",
+    "cream": "#fff6db",
+    "white": "#ffffff"
+  },
+  "assets": [
+    {
+      "file": "model-front",
+      "category": "Model sheet",
+      "label": "Front",
+      "mood": "neutral",
+      "pose": "rest",
+      "view": "front"
+    },
+    {
+      "file": "model-three-quarter",
+      "category": "Model sheet",
+      "label": "Three Quarter",
+      "mood": "neutral",
+      "pose": "rest",
+      "view": "three-quarter"
+    },
+    {
+      "file": "model-side",
+      "category": "Model sheet",
+      "label": "Side",
+      "mood": "neutral",
+      "pose": "rest",
+      "view": "side"
+    },
+    {
+      "file": "model-back",
+      "category": "Model sheet",
+      "label": "Back",
+      "mood": "neutral",
+      "pose": "rest",
+      "view": "back"
+    },
+    {
+      "file": "expression-happy",
+      "category": "Expressions",
+      "label": "Happy",
+      "mood": "happy",
+      "pose": "rest",
+      "view": "front"
+    },
+    {
+      "file": "expression-thinking",
+      "category": "Expressions",
+      "label": "Thinking",
+      "mood": "thinking",
+      "pose": "rest",
+      "view": "front"
+    },
+    {
+      "file": "expression-surprised",
+      "category": "Expressions",
+      "label": "Surprised",
+      "mood": "surprised",
+      "pose": "rest",
+      "view": "front"
+    },
+    {
+      "file": "expression-warning",
+      "category": "Expressions",
+      "label": "Warning",
+      "mood": "warning",
+      "pose": "rest",
+      "view": "front"
+    },
+    {
+      "file": "expression-celebrating",
+      "category": "Expressions",
+      "label": "Celebrating",
+      "mood": "celebrating",
+      "pose": "rest",
+      "view": "front"
+    },
+    {
+      "file": "expression-confused",
+      "category": "Expressions",
+      "label": "Confused",
+      "mood": "confused",
+      "pose": "rest",
+      "view": "front"
+    },
+    {
+      "file": "pose-wave-hello",
+      "category": "Poses",
+      "label": "Wave Hello",
+      "mood": "happy",
+      "pose": "wave",
+      "view": "front"
+    },
+    {
+      "file": "pose-point-right",
+      "category": "Poses",
+      "label": "Point Right",
+      "mood": "neutral",
+      "pose": "point",
+      "view": "front"
+    },
+    {
+      "file": "pose-hold-phone",
+      "category": "Poses",
+      "label": "Hold Phone",
+      "mood": "neutral",
+      "pose": "phone",
+      "view": "front"
+    },
+    {
+      "file": "pose-hold-shield",
+      "category": "Poses",
+      "label": "Hold Shield",
+      "mood": "neutral",
+      "pose": "shield",
+      "view": "front"
+    },
+    {
+      "file": "pose-thumbs-up",
+      "category": "Poses",
+      "label": "Thumbs Up",
+      "mood": "happy",
+      "pose": "thumbs-up",
+      "view": "front"
+    },
+    {
+      "file": "pose-facepalm",
+      "category": "Poses",
+      "label": "Facepalm",
+      "mood": "confused",
+      "pose": "facepalm",
+      "view": "front"
+    }
+  ],
+  "stickers": [
+    "expression-happy",
+    "expression-thinking",
+    "expression-surprised",
+    "expression-warning",
+    "expression-celebrating",
+    "expression-confused",
+    "pose-wave-hello",
+    "pose-thumbs-up"
+  ]
+}
